@@ -46,7 +46,15 @@
 		"no-nested-ternary": "off",
 		"no-implicit-any-catch": "off",
 		"import/extensions": "off",
-		"import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.test.*", "**/*.spec.*"]}],
+		"import/no-extraneous-dependencies": [
+			"error",
+			{
+				"devDependencies": [
+					"**/*.test.*",
+					"**/*.spec.*"
+				]
+			}
+		],
 		"quotes": [
 			"error",
 			"single",
