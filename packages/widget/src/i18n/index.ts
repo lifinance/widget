@@ -8,12 +8,15 @@ export const resources = {
   },
 } as const;
 
-i18n.use(initReactI18next).init({
-  lng: 'en',
-  fallbackLng: 'en',
-  lowerCaseLng: true,
-  interpolation: {
-    escapeValue: false,
-  },
-  resources,
-});
+export function configureReactI18next() {
+  i18n.use(initReactI18next).init({
+    lng: 'en',
+    fallbackLng: 'en',
+    lowerCaseLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+    resources,
+  });
+}
+

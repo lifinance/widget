@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    // "baseUrl": "./packages",
+    "baseUrl": ".",
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -23,9 +23,11 @@
     "types": [
       "react/next",
       "react-dom/next"
-    ]
+    ],
+    "paths": {
+      "@lifinance/widget": ["./packages/widget/src"],
+      "@lifinance/widget/*": ["./packages/widget/src/*"],
+    },
   },
-  "paths": {
-    "@lifinance/widget": ["./packages/widget/src"],
-  },
+  "exclude": ["**/.*/", "**/build", "node_modules", "**/react-scripts/*"]
 }

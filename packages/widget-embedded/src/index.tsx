@@ -2,7 +2,6 @@ import { LiFiWidget } from '@lifinance/widget';
 import { unstable_ClassNameGenerator as ClassNameGenerator } from '@mui/material/utils';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './i18n';
 import './index.css';
 import { reportWebVitals } from './reportWebVitals';
 

@@ -2,6 +2,8 @@
   "name": "@lifinance/widget",
   "version": "0.1.0",
   "private": true,
+  "sideEffects": false,
+  "module": "src/index.ts",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

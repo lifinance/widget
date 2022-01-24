@@ -1,5 +1,6 @@
 {
   "packages": [
+    "libs/*",
     "packages/*"
   ],
   "version": "independent",
