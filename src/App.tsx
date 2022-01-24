@@ -1,10 +1,16 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import './App.css';
 import { SwapPage } from './pages/SwapPage';
 
 const theme = createTheme({
   palette: {
+    primary: {
+      main: '#3F49E1',
+      light: '#ACBEFF'
+    },
+    secondary: {
+      main: '#F5B5FF'
+    }
   },
 });
 
