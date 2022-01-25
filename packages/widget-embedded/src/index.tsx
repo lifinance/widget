@@ -1,11 +1,8 @@
 import { LiFiWidget } from '@lifinance/widget';
-import { unstable_ClassNameGenerator as ClassNameGenerator } from '@mui/material/utils';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import { reportWebVitals } from './reportWebVitals';
-
-ClassNameGenerator.configure((componentName) => componentName.replace('Mui', ''));
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
