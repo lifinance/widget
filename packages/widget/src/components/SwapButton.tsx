@@ -1,4 +1,4 @@
-import Button from '@mui/material/Button';
+import { Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 export const SwapButton = styled(Button)({

@@ -101,6 +101,12 @@ const defaultAliases = {
   '@lifinance/widget/*': '@lifinance/widget/src/*',
 };
 
+// Tree shake MUI in development
+const muiDevImport = [
+  ["import", { libraryName: '@mui/material', libraryDirectory: '', camel2DashComponentName: false }, 'core'],
+  ["import", { libraryName: '@mui/icons-material', libraryDirectory: '', camel2DashComponentName: false }, 'icons'],
+];
+
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
 module.exports = function (webpackEnv) {
@@ -471,6 +477,7 @@ module.exports = function (webpackEnv) {
                   isEnvDevelopment &&
                   shouldUseReactRefresh &&
                   require.resolve('react-refresh/babel'),
+                  ...(isEnvDevelopment && muiDevImport || [])
                 ].filter(Boolean),
                 // This is a feature of `babel-loader` for webpack (not Babel itself).
                 // It enables caching results in ./node_modules/.cache/babel-loader/

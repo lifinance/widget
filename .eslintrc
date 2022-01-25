@@ -23,7 +23,7 @@
 		"react"
 	],
 	"rules": {
-		"arrow-body-style": "warn",
+		"arrow-body-style": "off",
 		"import/no-unresolved": 0,
 		"import/prefer-default-export": "off",
 		"import/no-default-export": "error",
@@ -36,9 +36,10 @@
 				]
 			}
 		],
-		"react/jsx-props-no-spreading": "warn",
+		"react/jsx-props-no-spreading": "off",
 		"react/jsx-one-expression-per-line": "off",
 		"react/require-default-props": "off",
+    "react/function-component-definition": "off",
 		"no-restricted-syntax": "off",
 		"no-continue": "off",
 		"no-nested-ternary": "off",

@@ -33,6 +33,7 @@
     "@svgr/webpack": "^6.2.0",
     "babel-jest": "^27.4.2",
     "babel-loader": "^8.2.3",
+    "babel-plugin-import": "^1.13.3",
     "babel-plugin-named-asset-import": "^0.3.8",
     "babel-preset-react-app": "^10.0.1",
     "bfj": "^7.0.2",

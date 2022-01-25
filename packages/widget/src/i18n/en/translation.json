@@ -1,6 +1,14 @@
 {
   "swap": {
-    "header": "Swap",
+    "header": {
+      "walletConnected": "Connected: {{walletAddress}}",
+      "walletNotConnected": "Wallet is not connected.",
+      "title": "Swap"
+    },
+    "form": {
+      "from": "I'd like to swap",
+      "to": "And receive to"
+    },
     "button": "Swap"
   }
 }
