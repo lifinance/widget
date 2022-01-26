@@ -4,10 +4,10 @@ import { alpha, styled } from '@mui/material/styles';
 
 export const SwapInput = styled(InputBase)(({ theme }) => ({
   borderRadius: '0 0 8px 8px',
-  backgroundColor: theme.palette.mode === 'light' ? '#fff' : '#2b2b2b',
+  backgroundColor: theme.palette.mode === 'light' ? theme.palette.common.white : theme.palette.grey[900],
   borderWidth: '1px 2px 2px 2px',
   borderStyle: 'solid',
-  borderColor: '#E3E7E9',
+  borderColor: theme.palette.grey[300],
   paddingRight: '14px',
   transition: theme.transitions.create([
     'border-color',

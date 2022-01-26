@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 
 const HeaderAppBar = styled(AppBar)(({ theme }) => ({
-  backgroundColor: theme.palette.appBar.main,
+  backgroundColor: theme.palette.common.black,
 }));
 
 const HeaderToolbar = styled(Toolbar)({
@@ -30,7 +30,7 @@ export const WalletHeader: React.FC = () => {
         noWrap
         align="right"
         sx={{ flexGrow: 1 }}
-        color="appBarText.secondary"
+        color="grey.500"
       >
         {t(`swap.header.walletConnected`, { walletAddress: '0000000000' })}
       </Typography>

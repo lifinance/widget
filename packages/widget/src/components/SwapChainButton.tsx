@@ -3,12 +3,12 @@ import { buttonClasses } from '@mui/material/Button';
 import { alpha, styled } from '@mui/material/styles';
 
 export const SwapChainButton = styled(Button)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'light' ? '#fff' : '#2b2b2b',
+  backgroundColor: theme.palette.mode === 'light' ? theme.palette.common.white : theme.palette.grey[900],
   color: theme.palette.text.primary,
   borderRadius: '8px 8px 0 0',
   borderWidth: '2px 2px 1px 2px',
   borderStyle: 'solid',
-  borderColor: '#E3E7E9',
+  borderColor: theme.palette.grey[300],
   paddingRight: 14,
   textTransform: 'none',
   marginBottom: -1,
@@ -22,8 +22,8 @@ export const SwapChainButton = styled(Button)(({ theme }) => ({
     backgroundColor: `${alpha(theme.palette.primary.main, 0.02)}`,
   },
   '&:hover': {
-    backgroundColor: theme.palette.mode === 'light' ? '#fff' : '#2b2b2b',
-    borderColor: '#E3E7E9',
+    backgroundColor: theme.palette.mode === 'light' ? theme.palette.common.white : theme.palette.grey[900],
+    borderColor: theme.palette.grey[300],
     borderWidth: '2px 2px 1px 2px',
     boxShadow: 'none',
   },

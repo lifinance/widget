@@ -10,7 +10,9 @@
       "to": "And receive to",
       "max": "Max",
       "maxAmount": "({{value, number(minimumFractionDigits: 2)}})",
-      "price": "\u2248 {{value, currency(currency: USD)}}"
+      "price": "\u2248 {{value, currency(currency: USD)}}",
+      "sendToRecipient": "Send to recipient",
+      "routePriority": "Route priority"
     },
     "button": "Swap"
   }

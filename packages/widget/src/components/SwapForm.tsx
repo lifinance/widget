@@ -1,14 +1,15 @@
-import { KeyboardArrowDown as KeyboardArrowDownIcon, SwapVert as SwapVertIcon } from '@mui/icons-material';
+import { HelpOutline as HelpOutlineIcon, KeyboardArrowDown as KeyboardArrowDownIcon, SwapVert as SwapVertIcon } from '@mui/icons-material';
 import { Box, FormControl, Typography } from '@mui/material';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { SwapChainButton } from './SwapChainButton';
 import { SwapInput } from './SwapInput';
 import { SwapFromInputAdornment, SwapToInputAdornment } from './SwapInputAdornment';
+import { Switch } from './Switch';
 
 export const SwapForm: React.FC = () => {
-  const { register, reset, handleSubmit, getValues, formState: { isSubmitting } } = useFormContext();
   const { t } = useTranslation();
+  const { register, reset, handleSubmit, getValues, formState: { isSubmitting } } = useFormContext();
 
   return (
     <Box>
@@ -70,6 +71,23 @@ export const SwapForm: React.FC = () => {
           />
           {/* <FormHelperText id="swap-to-helper-text">Text</FormHelperText> */}
         </FormControl>
+      </Box>
+      <Box my={3} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Box sx={{ display: 'flex' }}>
+          <HelpOutlineIcon sx={{ color: 'grey.500' }} />
+          <Typography ml={2} variant="subtitle1" color="text.primary" sx={{ alignSelf: 'end' }}>
+            {t(`swap.form.sendToRecipient`)}
+          </Typography>
+        </Box>
+        <Switch />
+      </Box>
+      <Box my={3} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Box sx={{ display: 'flex' }}>
+          <HelpOutlineIcon sx={{ color: 'grey.500' }} />
+          <Typography ml={2} variant="subtitle1" color="text.primary" sx={{ alignSelf: 'end' }}>
+            {t(`swap.form.routePriority`)}
+          </Typography>
+        </Box>
       </Box>
     </Box>
   );
