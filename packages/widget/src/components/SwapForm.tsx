@@ -1,7 +1,9 @@
 import { HelpOutline as HelpOutlineIcon, KeyboardArrowDown as KeyboardArrowDownIcon, SwapVert as SwapVertIcon } from '@mui/icons-material';
-import { Box, FormControl, Typography } from '@mui/material';
+import { Box, FormControl, MenuItem, Typography } from '@mui/material';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { Select } from './Select';
+import { SendToRecipientForm } from './SendToRecipientForm';
 import { SwapChainButton } from './SwapChainButton';
 import { SwapInput } from './SwapInput';
 import { SwapFromInputAdornment, SwapToInputAdornment } from './SwapInputAdornment';
@@ -17,15 +19,21 @@ export const SwapForm: React.FC = () => {
         {t(`swap.form.from`)}
       </Typography>
       <Box my={1}>
-        <SwapChainButton fullWidth disableElevation disableRipple variant="outlined" endIcon={<KeyboardArrowDownIcon />}>
+        <SwapChainButton
+          variant="outlined"
+          endIcon={<KeyboardArrowDownIcon />}
+          disabled={isSubmitting}
+          disableElevation
+          disableRipple
+          fullWidth
+        >
           MATIC on ETH
         </SwapChainButton>
-        <FormControl variant="standard" fullWidth>
+        <FormControl variant="standard" fullWidth disabled={isSubmitting}>
           <SwapInput
             type="number"
             size="small"
             defaultValue={0}
-            disabled={isSubmitting}
             autoComplete="off"
             endAdornment={(<SwapFromInputAdornment maxAmount={98700.30} price={1300.00} />)}
             aria-describedby=""
@@ -48,15 +56,21 @@ export const SwapForm: React.FC = () => {
         <SwapVertIcon sx={{ alignSelf: 'center', padding: '0 16px' }} />
       </Box>
       <Box my={1}>
-        <SwapChainButton fullWidth disableElevation disableRipple variant="outlined" endIcon={<KeyboardArrowDownIcon />}>
+        <SwapChainButton
+          variant="outlined"
+          endIcon={<KeyboardArrowDownIcon />}
+          disabled={isSubmitting}
+          disableElevation
+          disableRipple
+          fullWidth
+        >
           MATIC on ETH
         </SwapChainButton>
-        <FormControl variant="standard" fullWidth>
+        <FormControl variant="standard" fullWidth disabled={isSubmitting}>
           <SwapInput
             type="number"
             size="small"
             defaultValue={0}
-            disabled={isSubmitting}
             autoComplete="off"
             endAdornment={(<SwapToInputAdornment price={1300.00} />)}
             aria-describedby=""
@@ -72,22 +86,35 @@ export const SwapForm: React.FC = () => {
           {/* <FormHelperText id="swap-to-helper-text">Text</FormHelperText> */}
         </FormControl>
       </Box>
-      <Box my={3} sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Box sx={{ display: 'flex' }}>
+      <Box mt={3} mb={2} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <HelpOutlineIcon sx={{ color: 'grey.500' }} />
           <Typography ml={2} variant="subtitle1" color="text.primary" sx={{ alignSelf: 'end' }}>
             {t(`swap.form.sendToRecipient`)}
           </Typography>
         </Box>
-        <Switch />
+        <Switch {...register('isSendToRecipient')} />
       </Box>
-      <Box my={3} sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Box sx={{ display: 'flex' }}>
+      <SendToRecipientForm />
+      <Box my={2} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <HelpOutlineIcon sx={{ color: 'grey.500' }} />
           <Typography ml={2} variant="subtitle1" color="text.primary" sx={{ alignSelf: 'end' }}>
-            {t(`swap.form.routePriority`)}
+            {t(`swap.form.routePriority.title`)}
           </Typography>
         </Box>
+        <FormControl sx={{ width: '50%' }}>
+          <Select
+            defaultValue={1}
+            inputProps={{
+              'aria-label': '',
+              ...register('routePriority'),
+            }}
+            MenuProps={{ elevation: 2 }}
+          >
+            <MenuItem value={1}>{t(`swap.form.routePriority.recommended`)}</MenuItem>
+          </Select>
+        </FormControl>
       </Box>
     </Box>
   );

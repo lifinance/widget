@@ -12,7 +12,12 @@
       "maxAmount": "({{value, number(minimumFractionDigits: 2)}})",
       "price": "\u2248 {{value, currency(currency: USD)}}",
       "sendToRecipient": "Send to recipient",
-      "routePriority": "Route priority"
+      "routePriority": {
+        "title": "Route priority",
+        "recommended": "Recommended"
+      },
+      "recipientsAddress": "Recipient's {{chain}} address",
+      "correctnessConfirmation": "I confirm the address above is correct"
     },
     "button": "Swap"
   }

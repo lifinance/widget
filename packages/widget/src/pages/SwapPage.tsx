@@ -23,16 +23,16 @@ export function SwapPage() {
     <MainContainer maxWidth="sm" disableGutters>
       <WalletHeader />
       <MainHeader />
-      <FormContainer maxWidth="sm">
-        <SwapFormProvider>
+      <SwapFormProvider>
+        <FormContainer maxWidth="sm">
           <SwapForm />
-        </SwapFormProvider>
-      </FormContainer>
-      <Box>
-        <SwapButton variant="contained" disableElevation fullWidth>
-          {t(`swap.button`)}
-        </SwapButton>
-      </Box>
+        </FormContainer>
+        <Box>
+          <SwapButton variant="contained" disableElevation fullWidth>
+            {t(`swap.button`)}
+          </SwapButton>
+        </Box>
+      </SwapFormProvider>
     </MainContainer>
   );
 }
