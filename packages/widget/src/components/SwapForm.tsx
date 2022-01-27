@@ -7,6 +7,7 @@ import { SendToRecipientForm } from './SendToRecipientForm';
 import { SwapChainButton } from './SwapChainButton';
 import { SwapInput } from './SwapInput';
 import { SwapFromInputAdornment, SwapToInputAdornment } from './SwapInputAdornment';
+import { SwapStepper } from './SwapStepper';
 import { Switch } from './Switch';
 
 export const SwapForm: React.FC = () => {
@@ -116,6 +117,7 @@ export const SwapForm: React.FC = () => {
           </Select>
         </FormControl>
       </Box>
+      <SwapStepper />
     </Box>
   );
 };
