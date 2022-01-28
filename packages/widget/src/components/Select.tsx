@@ -4,7 +4,10 @@ import { outlinedInputClasses } from '@mui/material/OutlinedInput';
 import { alpha, styled } from '@mui/material/styles';
 
 export const Select = styled(MuiSelect)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'light' ? theme.palette.common.white : theme.palette.grey[900],
+  backgroundColor:
+    theme.palette.mode === 'light'
+      ? theme.palette.common.white
+      : theme.palette.grey[900],
   borderRadius: 8,
   borderWidth: 2,
   borderStyle: 'solid',

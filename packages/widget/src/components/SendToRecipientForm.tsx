@@ -5,7 +5,10 @@ import { Input } from './Input';
 
 export const SendToRecipientForm: React.FC = () => {
   const { t } = useTranslation();
-  const { register, formState: { isSubmitting } } = useFormContext();
+  const {
+    register,
+    formState: { isSubmitting },
+  } = useFormContext();
   const sendToRecipientChecked = useWatch({
     name: 'isSendToRecipient',
     defaultValue: false,

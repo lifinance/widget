@@ -7,9 +7,5 @@ const defaultValues = {
 
 export const SwapFormProvider: React.FC = ({ children }) => {
   const methods = useForm({ defaultValues });
-  return (
-    <FormProvider {...methods}>
-      {children}
-    </FormProvider>
-  );
+  return <FormProvider {...methods}>{children}</FormProvider>;
 };

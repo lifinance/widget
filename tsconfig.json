@@ -25,9 +25,18 @@
       "react-dom/next"
     ],
     "paths": {
-      "@lifinance/widget": ["./packages/widget/src"],
-      "@lifinance/widget/*": ["./packages/widget/src/*"],
-    },
+      "@lifinance/widget": [
+        "./packages/widget/src"
+      ],
+      "@lifinance/widget/*": [
+        "./packages/widget/src/*"
+      ]
+    }
   },
-  "exclude": ["**/.*/", "**/build", "node_modules", "**/react-scripts/*"]
+  "exclude": [
+    "**/.*/",
+    "**/build",
+    "node_modules",
+    "**/react-scripts/*"
+  ]
 }

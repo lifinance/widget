@@ -15,9 +15,7 @@ const HeaderToolbar = styled(Toolbar)({
 
 export const Header: React.FC = ({ children }) => (
   <HeaderAppBar position="relative" elevation={0}>
-    <HeaderToolbar>
-      {children}
-    </HeaderToolbar>
+    <HeaderToolbar>{children}</HeaderToolbar>
   </HeaderAppBar>
 );
 
@@ -42,11 +40,7 @@ export const MainHeader: React.FC = () => {
   const { t } = useTranslation();
   return (
     <Header>
-      <Typography
-        variant="h6"
-        noWrap
-        sx={{ flexGrow: 1 }}
-      >
+      <Typography variant="h6" noWrap sx={{ flexGrow: 1 }}>
         {t(`swap.header.title`)}
       </Typography>
       <IconButton size="large" aria-label="settings" color="inherit" edge="end">

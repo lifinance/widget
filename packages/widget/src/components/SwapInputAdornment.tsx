@@ -17,7 +17,10 @@ const SwapMaxInputAdornment = styled(Typography)({
   },
 });
 
-export const SwapFromInputAdornment: React.FC<{ maxAmount: number; price: number; }> = ({ maxAmount, price }) => {
+export const SwapFromInputAdornment: React.FC<{
+  maxAmount: number;
+  price: number;
+}> = ({ maxAmount, price }) => {
   const { t } = useTranslation();
   return (
     <InputAdornment position="end">
@@ -34,7 +37,9 @@ export const SwapFromInputAdornment: React.FC<{ maxAmount: number; price: number
   );
 };
 
-export const SwapToInputAdornment: React.FC<{ price: number; }> = ({ price }) => {
+export const SwapToInputAdornment: React.FC<{ price: number }> = ({
+  price,
+}) => {
   const { t } = useTranslation();
   return (
     <InputAdornment position="end">

@@ -1,31 +1,4 @@
 {
-  "compilerOptions": {
-    "baseUrl": ".",
-    "allowJs": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
-    "jsx": "react-jsx",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "module": "esnext",
-    "moduleResolution": "node",
-    "noEmit": true,
-    "noFallthroughCasesInSwitch": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "target": "es5",
-    "types": [
-      "react/next",
-      "react-dom/next"
-    ]
-  },
-  "include": [
-    "src"
-  ]
+  "extends": "../../tsconfig",
+  "include": ["src/**/*"]
 }

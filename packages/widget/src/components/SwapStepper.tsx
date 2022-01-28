@@ -1,14 +1,17 @@
 import { Step, Stepper } from '@mui/material';
 import Stack from '@mui/material/Stack';
-import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
+import StepConnector, {
+  stepConnectorClasses,
+} from '@mui/material/StepConnector';
 import StepLabel, { stepLabelClasses } from '@mui/material/StepLabel';
 import { styled } from '@mui/material/styles';
 
 const SwapStep = styled(Step)(({ theme }) => ({
   [`&:nth-of-type(2) .${stepConnectorClasses.root}.${stepConnectorClasses.completed} .${stepConnectorClasses.line},
-  &:last-of-type .${stepConnectorClasses.root}.${stepConnectorClasses.completed} .${stepConnectorClasses.line}`]: {
-    borderColor: theme.palette.common.black,
-  },
+  &:last-of-type .${stepConnectorClasses.root}.${stepConnectorClasses.completed} .${stepConnectorClasses.line}`]:
+    {
+      borderColor: theme.palette.common.black,
+    },
   [`&:nth-of-type(2) .${stepLabelClasses.iconContainer}>div,
   &:nth-last-of-type(2) .${stepLabelClasses.iconContainer}>div`]: {
     backgroundColor: theme.palette.primary.main,
@@ -64,7 +67,11 @@ const steps = ['CAKE', 'Anyswap', 'Solana', 'AAVE'];
 export function SwapStepper() {
   return (
     <Stack sx={{ width: '100%' }} spacing={4}>
-      <Stepper alternativeLabel activeStep={steps.length} connector={<SwapStepConnector />}>
+      <Stepper
+        alternativeLabel
+        activeStep={steps.length}
+        connector={<SwapStepConnector />}
+      >
         {steps.map((label) => (
           <SwapStep key={label}>
             <SwapStepLabel

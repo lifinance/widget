@@ -28,7 +28,10 @@ export const Switch = styled(MuiSwitch)(({ theme }) => ({
       borderColor: theme.palette.common.white,
     },
     [`&.${switchClasses.disabled} .${switchClasses.thumb}`]: {
-      color: theme.palette.mode === 'light' ? theme.palette.grey[100] : theme.palette.grey[600],
+      color:
+        theme.palette.mode === 'light'
+          ? theme.palette.grey[100]
+          : theme.palette.grey[600],
     },
     [`&.${switchClasses.disabled} + .${switchClasses.track}`]: {
       opacity: theme.palette.mode === 'light' ? 0.7 : 0.3,
@@ -41,7 +44,10 @@ export const Switch = styled(MuiSwitch)(({ theme }) => ({
   },
   [`& .${switchClasses.track}`]: {
     borderRadius: 24 / 2,
-    backgroundColor: theme.palette.mode === 'light' ? theme.palette.grey[400] : theme.palette.grey[900],
+    backgroundColor:
+      theme.palette.mode === 'light'
+        ? theme.palette.grey[400]
+        : theme.palette.grey[900],
     opacity: 1,
     transition: theme.transitions.create(['background-color'], {
       duration: theme.transitions.duration.standard,
