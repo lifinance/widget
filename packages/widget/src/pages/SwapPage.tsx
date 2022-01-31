@@ -14,6 +14,7 @@ const MainContainer = styled(Container)({
 
 const FormContainer = styled(Container)(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
+  display: 'flex',
   flexGrow: 1,
 }));
 

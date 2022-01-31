@@ -28,7 +28,7 @@ export const SwapForm: React.FC = () => {
   } = useFormContext();
 
   return (
-    <Box>
+    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <Typography variant="subtitle1" color="text.secondary" mt={3}>
         {t(`swap.form.from`)}
       </Typography>
@@ -165,7 +165,72 @@ export const SwapForm: React.FC = () => {
           </Select>
         </FormControl>
       </Box>
-      <SwapStepper />
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          flex: 1,
+          justifyContent: 'flex-end',
+        }}
+      >
+        <SwapStepper
+          steps={[
+            { label: 'CAKE', sublabel: 'on BSC' },
+            { label: 'Anyswap', sublabel: 'bridge' },
+            { label: 'Solana', sublabel: 'bridge' },
+            { label: 'AAVE', sublabel: 'on Polygon' },
+          ]}
+        />
+        <Box
+          mt={3}
+          mb={1}
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <Typography
+            variant="subtitle1"
+            color="text.secondary"
+            sx={{ alignSelf: 'end' }}
+          >
+            {t(`swap.form.gas`)}
+          </Typography>
+          <Typography
+            ml={2}
+            variant="subtitle1"
+            color="text.primary"
+            sx={{ alignSelf: 'end' }}
+          >
+            {t(`swap.form.price`, { value: 20 })}
+          </Typography>
+        </Box>
+        <Box
+          mb={2}
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <Typography
+            variant="subtitle1"
+            color="text.secondary"
+            sx={{ alignSelf: 'end' }}
+          >
+            {t(`swap.form.waitingTime`)}
+          </Typography>
+          <Typography
+            ml={2}
+            variant="subtitle1"
+            color="text.primary"
+            sx={{ alignSelf: 'end' }}
+          >
+            20 min
+          </Typography>
+        </Box>
+      </Box>
     </Box>
   );
 };

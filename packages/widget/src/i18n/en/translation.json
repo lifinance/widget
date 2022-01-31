@@ -17,7 +17,9 @@
         "recommended": "Recommended"
       },
       "recipientsAddress": "Recipient's {{chain}} address",
-      "correctnessConfirmation": "I confirm the address above is correct"
+      "correctnessConfirmation": "I confirm the address above is correct",
+      "gas": "Gas:",
+      "waitingTime": "Waiting time:"
     },
     "button": "Swap"
   }
