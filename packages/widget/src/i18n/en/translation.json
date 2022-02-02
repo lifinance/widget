@@ -1,0 +1,26 @@
+{
+  "swap": {
+    "header": {
+      "walletConnected": "Connected: {{walletAddress}}",
+      "walletNotConnected": "Wallet is not connected.",
+      "title": "Swap"
+    },
+    "form": {
+      "from": "I'd like to swap",
+      "to": "And receive to",
+      "max": "Max",
+      "maxAmount": "({{value, number(minimumFractionDigits: 2)}})",
+      "price": "\u2248 {{value, currency(currency: USD)}}",
+      "sendToRecipient": "Send to recipient",
+      "routePriority": {
+        "title": "Route priority",
+        "recommended": "Recommended"
+      },
+      "recipientsAddress": "Recipient's {{chain}} address",
+      "correctnessConfirmation": "I confirm that the address above is correct",
+      "gas": "Gas:",
+      "waitingTime": "Waiting time:"
+    },
+    "button": "Swap"
+  }
+}
