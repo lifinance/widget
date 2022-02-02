@@ -4,17 +4,12 @@
   "private": true,
   "sideEffects": false,
   "module": "src/index.ts",
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
+  "scripts": {},
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@mui/icons-material": "^5.3.1",
-    "@mui/material": "^5.3.0",
+    "@mui/material": "^5.4.0",
     "i18next": "^21.6.10",
     "react": "^18.0.0-rc.0",
     "react-dom": "^18.0.0-rc.0",
