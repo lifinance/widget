@@ -3,7 +3,10 @@
     "header": {
       "walletConnected": "Connected: {{walletAddress}}",
       "walletNotConnected": "Wallet is not connected.",
-      "title": "Swap"
+      "swap": "Swap",
+      "settings": "Settings",
+      "iWouldLikeToSwap": "I'd like to swap",
+      "processIsOn": "Process is on..."
     },
     "form": {
       "from": "I'd like to swap",
