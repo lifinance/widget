@@ -96,7 +96,7 @@ const SwapStep = styled(Step, {
 
 const SwapStepConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
-    top: 49,
+    top: 50,
   },
   [`&.${stepConnectorClasses.active}`]: {
     [`& .${stepConnectorClasses.line}`]: {
@@ -110,7 +110,7 @@ const SwapStepConnector = styled(StepConnector)(({ theme }) => ({
   },
   [`& .${stepConnectorClasses.line}`]: {
     borderColor: theme.palette.common.black,
-    borderTopWidth: 3,
+    borderTopWidth: 1,
     borderRadius: 1,
   },
 }));
