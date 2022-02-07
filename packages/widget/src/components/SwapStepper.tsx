@@ -122,6 +122,9 @@ const SwapStepLabel = styled(StepLabel)(({ theme }) => ({
   [`& .${stepLabelClasses.label}.${stepLabelClasses.alternativeLabel}`]: {
     margin: 0,
   },
+  [`& .${stepLabelClasses.labelContainer}`]: {
+    height: 40,
+  },
   [`& .SwapStepLabel-optional`]: {
     textAlign: 'center',
     fontSize: '0.875rem',

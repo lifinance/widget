@@ -7,7 +7,7 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
 } from '@mui/material';
 import {
   forwardRef,
@@ -15,7 +15,7 @@ import {
   useCallback,
   useEffect,
   useImperativeHandle,
-  useState
+  useState,
 } from 'react';
 import { useMatch, useNavigate } from 'react-router-dom';
 import { routes } from '../utils/routes';
@@ -70,7 +70,7 @@ export const SelectTokenDrawer = forwardRef<
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
-          <ListItemText primary={'Test'} />
+          <ListItemText primary="Test" />
         </ListItem>
       </List>
       <Divider />
@@ -79,7 +79,7 @@ export const SelectTokenDrawer = forwardRef<
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
-          <ListItemText primary={'Test'} />
+          <ListItemText primary="Test" />
         </ListItem>
       </List>
     </Box>

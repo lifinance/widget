@@ -28,11 +28,12 @@ export const SendToRecipientForm: React.FC = () => {
           required
         />
       </FormControl>
-      <Box my={1}>
+      <Box mt={0.5} mb={1}>
         <FormControlLabel
           control={<Checkbox required {...register('isAddressConfirmed')} />}
           label={t(`swap.form.correctnessConfirmation`) as string}
           disabled={isSubmitting}
+          componentsProps={{ typography: { variant: 'body2' } }}
         />
       </Box>
     </Box>

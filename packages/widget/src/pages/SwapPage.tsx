@@ -1,14 +1,14 @@
 import {
   HelpOutline as HelpOutlineIcon,
   KeyboardArrowDown as KeyboardArrowDownIcon,
-  SwapVert as SwapVertIcon
+  SwapVert as SwapVertIcon,
 } from '@mui/icons-material';
 import {
   Box,
   Container,
   FormControl,
   MenuItem,
-  Typography
+  Typography,
 } from '@mui/material';
 import { styled } from '@mui/system';
 import { useRef } from 'react';
@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next';
 import { Select } from '../components/Select';
 import {
   SelectTokenDrawer,
-  SelectTokenDrawerBase
+  SelectTokenDrawerBase,
 } from '../components/SelectTokenDrawer';
 import { SendToRecipientForm } from '../components/SendToRecipientForm';
 import { SwapButton } from '../components/SwapButton';
@@ -25,7 +25,7 @@ import { SwapChainButton } from '../components/SwapChainButton';
 import { SwapInput } from '../components/SwapInput';
 import {
   SwapFromInputAdornment,
-  SwapToInputAdornment
+  SwapToInputAdornment,
 } from '../components/SwapInputAdornment';
 import { SwapStepper } from '../components/SwapStepper';
 import { Switch } from '../components/Switch';
@@ -64,10 +64,10 @@ export const SwapPage: React.FC = () => {
   return (
     <FormContainer maxWidth="sm" disableGutters>
       <FormBox ref={containerRef}>
-        <Typography variant="subtitle1" color="text.secondary" mt={3}>
+        <Typography variant="subtitle1" color="text.secondary" mt={2} mb={0.5}>
           {t(`swap.form.from`)}
         </Typography>
-        <Box my={1}>
+        <Box>
           <SwapChainButton
             variant="outlined"
             endIcon={<KeyboardArrowDownIcon />}
@@ -103,6 +103,7 @@ export const SwapPage: React.FC = () => {
         </Box>
         <Box
           sx={{ display: 'flex', justifyContent: 'space-between', height: 40 }}
+          my={0.5}
         >
           <Typography
             variant="subtitle1"
@@ -113,7 +114,7 @@ export const SwapPage: React.FC = () => {
           </Typography>
           <SwapVertIcon sx={{ alignSelf: 'center', padding: '0 16px' }} />
         </Box>
-        <Box my={1}>
+        <Box>
           <SwapChainButton
             variant="outlined"
             endIcon={<KeyboardArrowDownIcon />}
@@ -168,7 +169,7 @@ export const SwapPage: React.FC = () => {
         </Box>
         <SendToRecipientForm />
         <Box
-          my={2}
+          mb={2}
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
@@ -218,8 +219,7 @@ export const SwapPage: React.FC = () => {
             ]}
           />
           <Box
-            mt={3}
-            mb={1}
+            mt={2}
             sx={{
               display: 'flex',
               justifyContent: 'space-between',
