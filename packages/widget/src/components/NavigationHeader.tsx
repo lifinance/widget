@@ -51,7 +51,7 @@ export const NavigationHeader: React.FC = () => {
           <ArrowBackIcon />
         </IconButton>
       </Collapse>
-      <Typography variant="h6" noWrap sx={{ flexGrow: 1 }}>
+      <Typography variant="h5" noWrap sx={{ flexGrow: 1, fontWeight: 'bold' }}>
         {handleHeaderTitle()}
       </Typography>
       {location.pathname === '/' && (

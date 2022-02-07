@@ -5,14 +5,16 @@ const HeaderAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.common.black,
 }));
 
-const HeaderToolbar = styled(Toolbar)({
+const HeaderToolbar = styled(Toolbar, {
+  shouldForwardProp: (prop) => prop !== 'height',
+})<{ height?: number }>(({ height }) => ({
   '@media all': {
-    minHeight: 48,
+    minHeight: height ?? 52,
   },
-});
+}));
 
-export const Header: React.FC = ({ children }) => (
+export const Header: React.FC<{ height?: number }> = ({ children, height }) => (
   <HeaderAppBar position="relative" elevation={0}>
-    <HeaderToolbar>{children}</HeaderToolbar>
+    <HeaderToolbar height={height}>{children}</HeaderToolbar>
   </HeaderAppBar>
 );
