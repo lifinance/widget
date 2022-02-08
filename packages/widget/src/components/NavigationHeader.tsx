@@ -26,11 +26,11 @@ export const NavigationHeader: React.FC = () => {
   const handleHeaderTitle = () => {
     switch (location.pathname) {
       case routes.settings:
-        return t(`swap.header.settings`);
+        return t(`header.settings`);
       case routes.selectToken:
-        return t(`swap.header.iWouldLikeToSwap`);
+        return t(`header.iWouldLikeToSwap`);
       default:
-        return t(`swap.header.swap`);
+        return t(`header.swap`);
     }
   };
 

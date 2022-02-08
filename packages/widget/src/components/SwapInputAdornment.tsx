@@ -28,7 +28,10 @@ export const SwapFromInputAdornment: React.FC<{
         {t(`swap.form.max`)}
       </SwapMaxInputAdornment>
       <Typography variant="body2" color="text.secondary">
-        {t(`swap.form.maxAmount`, { value: maxAmount })}
+        {t(`swap.form.maxAmount`, {
+          value: maxAmount,
+          minimumFractionDigits: 5,
+        })}
       </Typography>
       <SwapInputAdornment variant="body2" color="text.secondary">
         {t(`swap.form.price`, { value: price })}

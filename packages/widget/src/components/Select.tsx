@@ -1,5 +1,6 @@
 import { Select as MuiSelect } from '@mui/material';
 import { inputBaseClasses } from '@mui/material/InputBase';
+import { listItemIconClasses } from '@mui/material/ListItemIcon';
 import { outlinedInputClasses } from '@mui/material/OutlinedInput';
 import { alpha, styled } from '@mui/material/styles';
 
@@ -19,6 +20,11 @@ export const Select = styled(MuiSelect)(({ theme }) => ({
   ]),
   [`& .${inputBaseClasses.input}`]: {
     padding: '8.5px 14px',
+    display: 'flex',
+    alignItems: 'center',
+  },
+  [`& .${listItemIconClasses.root}`]: {
+    minWidth: 38,
   },
   [`& .${outlinedInputClasses.notchedOutline}`]: {
     display: 'none',

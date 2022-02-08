@@ -86,7 +86,10 @@ export const SwapPage: React.FC = () => {
               defaultValue={0}
               autoComplete="off"
               endAdornment={
-                <SwapFromInputAdornment maxAmount={98700.3} price={1300.0} />
+                <SwapFromInputAdornment
+                  maxAmount={98700.34021}
+                  price={1300.0}
+                />
               }
               aria-describedby=""
               inputProps={{

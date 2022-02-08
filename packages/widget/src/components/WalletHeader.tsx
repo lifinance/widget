@@ -14,7 +14,7 @@ export const WalletHeader: React.FC = () => {
         color="grey.500"
         mt={2}
       >
-        {t(`swap.header.walletConnected`, { walletAddress: '0000000000' })}
+        {t(`header.walletConnected`, { walletAddress: '0000000000' })}
       </Typography>
     </Header>
   );

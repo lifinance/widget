@@ -1,18 +1,18 @@
 {
+  "header": {
+    "walletConnected": "Connected: {{walletAddress}}",
+    "walletNotConnected": "Wallet is not connected.",
+    "swap": "Swap",
+    "settings": "Settings",
+    "iWouldLikeToSwap": "I'd like to swap",
+    "processIsOn": "Process is on..."
+  },
   "swap": {
-    "header": {
-      "walletConnected": "Connected: {{walletAddress}}",
-      "walletNotConnected": "Wallet is not connected.",
-      "swap": "Swap",
-      "settings": "Settings",
-      "iWouldLikeToSwap": "I'd like to swap",
-      "processIsOn": "Process is on..."
-    },
     "form": {
       "from": "I'd like to swap",
       "to": "And receive to",
       "max": "Max",
-      "maxAmount": "({{value, number(minimumFractionDigits: 2)}})",
+      "maxAmount": "({{value, number}})",
       "price": "\u2248 {{value, currency(currency: USD)}}",
       "sendToRecipient": "Send to recipient",
       "routePriority": {
@@ -22,7 +22,12 @@
       "recipientsAddress": "Recipient's {{chain}} address",
       "correctnessConfirmation": "I confirm that the address above is correct",
       "gas": "Gas:",
-      "waitingTime": "Waiting time:"
+      "waitingTime": "Waiting time:",
+      "tokenSearch": "Search your token",
+      "selectChain": "Select Chain",
+      "selectToken": "Select Token",
+      "myTokens": "My tokens",
+      "allTokens": "All tokens"
     },
     "button": "Swap"
   }
