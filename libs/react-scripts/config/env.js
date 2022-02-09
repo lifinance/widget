@@ -40,7 +40,7 @@ const dotenvFiles = [
 // https://github.com/motdotla/dotenv-expand
 dotenvFiles.forEach((dotenvFile) => {
   if (fs.existsSync(dotenvFile)) {
-    require('dotenv-expand')(
+    require('dotenv-expand').expand(
       require('dotenv').config({
         path: dotenvFile,
       }),
@@ -64,9 +64,9 @@ process.env.NODE_PATH = (process.env.NODE_PATH || '')
   .map((folder) => path.resolve(appDirectory, folder))
   .join(path.delimiter);
 
-// Grab NODE_ENV and REACT_APP_* environment variables and prepare them to be
+// Grab NODE_ENV and LIFI_* environment variables and prepare them to be
 // injected into the application via DefinePlugin in webpack configuration.
-const REACT_APP = /^REACT_APP_/i;
+const REACT_APP = /^LIFI_/i;
 
 function getClientEnvironment(publicUrl) {
   const raw = Object.keys(process.env)
