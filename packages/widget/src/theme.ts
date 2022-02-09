@@ -26,6 +26,9 @@ export const theme = createTheme({
       primary: '#000',
       secondary: '#52575b',
     },
+    success: {
+      main: '#0AA65B',
+    },
     grey: {
       100: '#F4F5F6',
       200: '#EFF1F2',

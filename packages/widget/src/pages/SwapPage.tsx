@@ -65,7 +65,7 @@ export const SwapPage: React.FC = () => {
     <FormContainer maxWidth="sm" disableGutters>
       <FormBox ref={containerRef}>
         <Typography variant="subtitle1" color="text.secondary" mt={2} mb={0.5}>
-          {t(`swap.form.from`)}
+          {t(`swap.from`)}
         </Typography>
         <Box>
           <SwapChainButton
@@ -113,7 +113,7 @@ export const SwapPage: React.FC = () => {
             color="text.secondary"
             sx={{ alignSelf: 'end' }}
           >
-            {t(`swap.form.to`)}
+            {t(`swap.to`)}
           </Typography>
           <SwapVertIcon sx={{ alignSelf: 'center', padding: '0 16px' }} />
         </Box>
@@ -165,7 +165,7 @@ export const SwapPage: React.FC = () => {
               color="text.primary"
               sx={{ alignSelf: 'end' }}
             >
-              {t(`swap.form.sendToRecipient`)}
+              {t(`swap.sendToRecipient`)}
             </Typography>
           </Box>
           <Switch {...register('isSendToRecipient')} />
@@ -187,7 +187,7 @@ export const SwapPage: React.FC = () => {
               color="text.primary"
               sx={{ alignSelf: 'end' }}
             >
-              {t(`swap.form.routePriority.title`)}
+              {t(`swap.routePriority.title`)}
             </Typography>
           </Box>
           <FormControl sx={{ width: '50%' }}>
@@ -200,7 +200,7 @@ export const SwapPage: React.FC = () => {
               MenuProps={{ elevation: 2 }}
             >
               <MenuItem value={1}>
-                {t(`swap.form.routePriority.recommended`)}
+                {t(`swap.routePriority.recommended`)}
               </MenuItem>
             </Select>
           </FormControl>
@@ -234,7 +234,7 @@ export const SwapPage: React.FC = () => {
               color="text.secondary"
               sx={{ alignSelf: 'end' }}
             >
-              {t(`swap.form.gas`)}
+              {t(`swap.gas`)}
             </Typography>
             <Typography
               ml={2}
@@ -242,7 +242,7 @@ export const SwapPage: React.FC = () => {
               color="text.primary"
               sx={{ alignSelf: 'end' }}
             >
-              {t(`swap.form.price`, { value: 20 })}
+              {t(`swap.price`, { value: 20 })}
             </Typography>
           </Box>
           <Box
@@ -258,7 +258,7 @@ export const SwapPage: React.FC = () => {
               color="text.secondary"
               sx={{ alignSelf: 'end' }}
             >
-              {t(`swap.form.waitingTime`)}
+              {t(`swap.waitingTime`)}
             </Typography>
             <Typography
               ml={2}
@@ -271,9 +271,7 @@ export const SwapPage: React.FC = () => {
           </Box>
         </Box>
       </FormBox>
-      <SwapButton variant="contained" disableElevation fullWidth>
-        {t(`swap.button`)}
-      </SwapButton>
+      <SwapButton />
       <SelectTokenDrawer containerRef={containerRef} ref={drawerRef} />
     </FormContainer>
   );
