@@ -23,7 +23,7 @@ export const SendToRecipientForm: React.FC = () => {
       <FormControl variant="standard" fullWidth disabled={isSubmitting}>
         <Input
           size="small"
-          placeholder={t(`swap.form.recipientsAddress`, { chain: 'ETH' })}
+          placeholder={t(`swap.recipientsAddress`, { chain: 'ETH' })}
           inputProps={{ ...register('recipientsAddress') }}
           required
         />
@@ -31,7 +31,7 @@ export const SendToRecipientForm: React.FC = () => {
       <Box mt={0.5} mb={1}>
         <FormControlLabel
           control={<Checkbox required {...register('isAddressConfirmed')} />}
-          label={t(`swap.form.correctnessConfirmation`) as string}
+          label={t(`swap.correctnessConfirmation`) as string}
           disabled={isSubmitting}
           componentsProps={{ typography: { variant: 'body2' } }}
         />

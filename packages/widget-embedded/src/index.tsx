@@ -1,4 +1,4 @@
-import { LiFiWidget } from '@lifinance/widget';
+import { LiFiWidget, WidgetConfig } from '@lifinance/widget';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
@@ -10,9 +10,13 @@ if (!rootElement) {
 }
 const root = ReactDOM.createRoot(rootElement);
 
+const config: WidgetConfig = {
+  enabledChains: process.env.LIFI_ENABLED_CHAINS_JSON!,
+};
+
 root.render(
   <React.StrictMode>
-    <LiFiWidget />
+    <LiFiWidget config={config} />
   </React.StrictMode>,
 );
 

@@ -2,33 +2,33 @@
   "header": {
     "walletConnected": "Connected: {{walletAddress}}",
     "walletNotConnected": "Wallet is not connected.",
+    "disconnect": "Disconnect",
     "swap": "Swap",
     "settings": "Settings",
     "iWouldLikeToSwap": "I'd like to swap",
     "processIsOn": "Process is on..."
   },
   "swap": {
-    "form": {
-      "from": "I'd like to swap",
-      "to": "And receive to",
-      "max": "Max",
-      "maxAmount": "({{value, number}})",
-      "price": "\u2248 {{value, currency(currency: USD)}}",
-      "sendToRecipient": "Send to recipient",
-      "routePriority": {
-        "title": "Route priority",
-        "recommended": "Recommended"
-      },
-      "recipientsAddress": "Recipient's {{chain}} address",
-      "correctnessConfirmation": "I confirm that the address above is correct",
-      "gas": "Gas:",
-      "waitingTime": "Waiting time:",
-      "tokenSearch": "Search your token",
-      "selectChain": "Select Chain",
-      "selectToken": "Select Token",
-      "myTokens": "My tokens",
-      "allTokens": "All tokens"
+    "from": "I'd like to swap",
+    "to": "And receive to",
+    "max": "Max",
+    "maxAmount": "({{value, number}})",
+    "price": "\u2248 {{value, currency(currency: USD)}}",
+    "sendToRecipient": "Send to recipient",
+    "routePriority": {
+      "title": "Route priority",
+      "recommended": "Recommended"
     },
-    "button": "Swap"
+    "recipientsAddress": "Recipient's {{chain}} address",
+    "correctnessConfirmation": "I confirm that the address above is correct",
+    "gas": "Gas:",
+    "waitingTime": "Waiting time:",
+    "tokenSearch": "Search your token",
+    "selectChain": "Select Chain",
+    "selectToken": "Select Token",
+    "myTokens": "My tokens",
+    "allTokens": "All tokens",
+    "submit": "Swap",
+    "connectWallet": "Connect wallet"
   }
 }

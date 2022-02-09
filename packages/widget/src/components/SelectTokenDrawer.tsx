@@ -32,6 +32,7 @@ import {
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useMatch, useNavigate } from 'react-router-dom';
+import { useWidget } from '../providers/WidgetProvider';
 import { routes } from '../utils/routes';
 import { Input } from './Input';
 import { Select } from './Select';
@@ -85,6 +86,7 @@ export const SelectTokenDrawer = forwardRef<
   const [open, setOpen] = useState(false);
   const homeMatch = useMatch(routes.home);
   const { register } = useFormContext();
+  const { supportedChains } = useWidget();
 
   const openDrawer = useCallback(() => {
     navigate(routes.selectToken, { replace: true });
@@ -141,7 +143,7 @@ export const SelectTokenDrawer = forwardRef<
           <FormControl variant="standard" fullWidth>
             <Input
               size="small"
-              placeholder={t(`swap.form.tokenSearch`)}
+              placeholder={t(`swap.tokenSearch`)}
               endAdornment={
                 <InputAdornment position="end">
                   <SearchIcon />
@@ -158,26 +160,30 @@ export const SelectTokenDrawer = forwardRef<
             sx={{ fontWeight: 500 }}
             mb={1}
           >
-            {t(`swap.form.selectChain`)}
+            {t(`swap.selectChain`)}
           </Typography>
           <FormControl fullWidth>
             <Select
-              defaultValue={1}
+              defaultValue="eth"
               inputProps={{
                 'aria-label': '',
               }}
               MenuProps={{ elevation: 2 }}
             >
-              <MenuItem value={1}>
-                <ListItemIcon>
-                  <Avatar
-                    alt="Ethereum"
-                    src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png"
-                    sx={{ width: 24, height: 24 }}
-                  />
-                </ListItemIcon>
-                Ethereum
-              </MenuItem>
+              {supportedChains.map((chain) => (
+                <MenuItem key={chain.key} value={chain.key}>
+                  <ListItemIcon>
+                    <Avatar
+                      src={chain.logoURI}
+                      alt={chain.key}
+                      sx={{ width: 24, height: 24 }}
+                    >
+                      {chain.name[0]}
+                    </Avatar>
+                  </ListItemIcon>
+                  {chain.name}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
           <Box
@@ -189,7 +195,7 @@ export const SelectTokenDrawer = forwardRef<
             }}
           >
             <Typography variant="subtitle1" noWrap sx={{ fontWeight: 500 }}>
-              {t(`swap.form.selectToken`)}
+              {t(`swap.selectToken`)}
             </Typography>
             <FormControl>
               <TokenFilterSelect
@@ -199,8 +205,8 @@ export const SelectTokenDrawer = forwardRef<
                 }}
                 MenuProps={{ elevation: 2, MenuListProps: { dense: true } }}
               >
-                <MenuItem value={0}>{t(`swap.form.myTokens`)}</MenuItem>
-                <MenuItem value={1}>{t(`swap.form.allTokens`)}</MenuItem>
+                <MenuItem value={0}>{t(`swap.myTokens`)}</MenuItem>
+                <MenuItem value={1}>{t(`swap.allTokens`)}</MenuItem>
               </TokenFilterSelect>
             </FormControl>
           </Box>
