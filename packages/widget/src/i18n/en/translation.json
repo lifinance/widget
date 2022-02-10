@@ -26,6 +26,7 @@
     "tokenSearch": "Search your token",
     "selectChain": "Select Chain",
     "selectToken": "Select Token",
+    "selectChainAndToken": "Select chain and token",
     "myTokens": "My tokens",
     "allTokens": "All tokens",
     "submit": "Swap",

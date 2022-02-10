@@ -1,4 +1,5 @@
 import { FormProvider, useForm } from 'react-hook-form';
+import { useWidget } from './WidgetProvider';
 
 const defaultValues = {
   fromAmount: null,
@@ -6,6 +7,16 @@ const defaultValues = {
 };
 
 export const SwapFormProvider: React.FC = ({ children }) => {
-  const methods = useForm({ defaultValues });
+  const { fromChain, fromToken, fromAmount, toChain, toToken } = useWidget();
+  const methods = useForm({
+    defaultValues: {
+      ...defaultValues,
+      fromChain,
+      fromToken,
+      fromAmount,
+      toChain,
+      toToken,
+    },
+  });
   return <FormProvider {...methods}>{children}</FormProvider>;
 };

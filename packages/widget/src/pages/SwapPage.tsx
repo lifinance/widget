@@ -1,6 +1,5 @@
 import {
   HelpOutline as HelpOutlineIcon,
-  KeyboardArrowDown as KeyboardArrowDownIcon,
   SwapVert as SwapVertIcon,
 } from '@mui/icons-material';
 import {
@@ -49,17 +48,11 @@ export const SwapPage: React.FC = () => {
   const { t } = useTranslation();
   const {
     register,
-    reset,
-    handleSubmit,
-    getValues,
     formState: { isSubmitting },
   } = useFormContext();
-  const drawerRef = useRef<SelectTokenDrawerBase>(null);
+  const fromDrawerRef = useRef<SelectTokenDrawerBase>(null);
+  const toDrawerRef = useRef<SelectTokenDrawerBase>(null);
   const containerRef = useRef<Element>(null);
-
-  const openDrawer = () => {
-    drawerRef.current?.openDrawer();
-  };
 
   return (
     <FormContainer maxWidth="sm" disableGutters>
@@ -69,16 +62,9 @@ export const SwapPage: React.FC = () => {
         </Typography>
         <Box>
           <SwapChainButton
-            variant="outlined"
-            endIcon={<KeyboardArrowDownIcon />}
-            onClick={openDrawer}
-            disabled={isSubmitting}
-            disableElevation
-            disableRipple
-            fullWidth
-          >
-            MATIC on ETH
-          </SwapChainButton>
+            onClick={fromDrawerRef.current?.openDrawer}
+            type="from"
+          />
           <FormControl variant="standard" disabled={isSubmitting} fullWidth>
             <SwapInput
               type="number"
@@ -119,15 +105,9 @@ export const SwapPage: React.FC = () => {
         </Box>
         <Box>
           <SwapChainButton
-            variant="outlined"
-            endIcon={<KeyboardArrowDownIcon />}
-            disabled={isSubmitting}
-            disableElevation
-            disableRipple
-            fullWidth
-          >
-            MATIC on ETH
-          </SwapChainButton>
+            onClick={toDrawerRef.current?.openDrawer}
+            type="to"
+          />
           <FormControl variant="standard" fullWidth disabled={isSubmitting}>
             <SwapInput
               type="number"
@@ -194,7 +174,7 @@ export const SwapPage: React.FC = () => {
             <Select
               defaultValue={1}
               inputProps={{
-                'aria-label': '',
+                'aria-label': 'route-priority',
                 ...register('routePriority'),
               }}
               MenuProps={{ elevation: 2 }}
@@ -272,7 +252,16 @@ export const SwapPage: React.FC = () => {
         </Box>
       </FormBox>
       <SwapButton />
-      <SelectTokenDrawer containerRef={containerRef} ref={drawerRef} />
+      <SelectTokenDrawer
+        containerRef={containerRef}
+        ref={fromDrawerRef}
+        formType="from"
+      />
+      <SelectTokenDrawer
+        containerRef={containerRef}
+        ref={toDrawerRef}
+        formType="to"
+      />
     </FormContainer>
   );
 };

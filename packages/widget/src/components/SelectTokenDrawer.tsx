@@ -40,6 +40,7 @@ import { Select } from './Select';
 export type SelectTokenDrawerProps = DrawerProps & {
   tokens?: string[];
   containerRef: RefObject<Element>;
+  formType: 'from' | 'to';
 };
 
 export interface SelectTokenDrawerBase {
@@ -80,13 +81,14 @@ export const TokenFilterSelect = styled(MuiSelect)(({ theme }) => ({
 export const SelectTokenDrawer = forwardRef<
   SelectTokenDrawerBase,
   SelectTokenDrawerProps
->(({ tokens, containerRef }, ref) => {
+>(({ containerRef, tokens, formType }, ref) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
+  const { supportedChains, fromChain, toChain } = useWidget();
   const homeMatch = useMatch(routes.home);
+  const [open, setOpen] = useState(false);
   const { register } = useFormContext();
-  const { supportedChains } = useWidget();
+  const defaultChainValue = formType === 'from' ? fromChain : toChain;
 
   const openDrawer = useCallback(() => {
     navigate(routes.selectToken, { replace: true });
@@ -121,7 +123,8 @@ export const SelectTokenDrawer = forwardRef<
       onClose={closeDrawer}
       ModalProps={{
         sx: { position: 'absolute' },
-        // keepMounted: true,
+        disablePortal: true,
+        keepMounted: true,
       }}
       PaperProps={{
         sx: {
@@ -164,9 +167,10 @@ export const SelectTokenDrawer = forwardRef<
           </Typography>
           <FormControl fullWidth>
             <Select
-              defaultValue="eth"
+              defaultValue={defaultChainValue ?? 'eth'}
               inputProps={{
                 'aria-label': '',
+                ...register(`${formType}Chain`),
               }}
               MenuProps={{ elevation: 2 }}
             >

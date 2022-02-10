@@ -2753,25 +2753,25 @@
     npmlog "^4.1.2"
     write-file-atomic "^3.0.3"
 
-"@lifinance/sdk@^0.4.4":
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/@lifinance/sdk/-/sdk-0.4.4.tgz#8edd48a0e7fd914e37fe19ad10771da68c49dd16"
-  integrity sha512-JCizex5t6eOUd5Vf0xTD6Jd5K0RFttp1V0NIOQjE9xB/x7aVjv0tGahJsjC4UtuPG8hMuPdG1DmXDaGL0Q06pw==
+"@lifinance/sdk@^0.4.5":
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/@lifinance/sdk/-/sdk-0.4.5.tgz#41a67f4d3bcc56068faf7fc77908e9083c88c87a"
+  integrity sha512-jbxlWqdcIbZOteOY4uBKjt4ZsFvXefRxZssK/gxYR2cefBjv1dfH5h9UUdder1eoYIIQIAn+1hT2Z3QLCpnEHQ==
   dependencies:
     "@connext/nxtp-sdk" "^0.1.8"
     "@ethersproject/abi" "^5.5.0"
     "@ethersproject/contracts" "^5.4.0"
-    "@lifinance/types" "0.10.0"
+    "@lifinance/types" "0.10.1"
     axios "^0.25.0"
     bignumber.js "^9.0.1"
     bridge-sdk "^2.13.0"
     eth-rpc-errors "^4.0.3"
     ethers "^5.5.2"
 
-"@lifinance/types@0.10.0":
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/@lifinance/types/-/types-0.10.0.tgz#79317373a9f070bc363caa8b8bd44c9758b6463b"
-  integrity sha512-f2p78lcX62jHQzM9kEOmenUTX2yg9LDIr7ofNdmSyhxHN2u7g0zigfZJrs5II1FTWNL9lItgN0Tt/PF6PeYV7A==
+"@lifinance/types@0.10.1":
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/@lifinance/types/-/types-0.10.1.tgz#14236b3d28095dae57d0c930d4d9bfb1aa4132e3"
+  integrity sha512-26aF0AK7ViuNBr8Uu53ToD43YcO2J+qLNpL+hcWjmDxFjt9Zv0bvgp9DQn4mbIzYS9mRdmrnkr1iLS0HMc8WMA==
   dependencies:
     ethers "^5.4.7"
 
@@ -3575,7 +3575,7 @@
   resolved "https://registry.yarnpkg.com/@types/minimist/-/minimist-1.2.2.tgz#ee771e2ba4b3dc5b372935d549fd9617bf345b8c"
   integrity sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==
 
-"@types/node@*", "@types/node@^17.0.16":
+"@types/node@*":
   version "17.0.16"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.16.tgz#e3733f46797b9df9e853ca9f719c8a6f7b84cd26"
   integrity sha512-ydLaGVfQOQ6hI1xK2A5nVh8bl0OGoIfYMxPWHqqYe9bTkWCfqiVvZoh2I/QF2sNSkZzZyROBoTefIEI+PB6iIA==
@@ -3589,6 +3589,11 @@
   version "12.20.43"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.20.43.tgz#6cf47894da4a4748c62fccf720ba269e1b1ff5a4"
   integrity sha512-HCfJdaYqJX3BCzeihgZrD7b85Cu05OC/GVJ4kEYIflwUs4jbnUlLLWoq7hw1LBcdvUyehO+gr6P5JQ895/2ZfA==
+
+"@types/node@^17.0.17":
+  version "17.0.17"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.17.tgz#a8ddf6e0c2341718d74ee3dc413a13a042c45a0c"
+  integrity sha512-e8PUNQy1HgJGV3iU/Bp2+D/DXh3PYeyli8LgIwsQcs1Ar1LoaWHSIT6Rw+H2rNJmiq6SNWiDytfx8+gYj7wDHw==
 
 "@types/node@^8.0.0":
   version "8.10.66"

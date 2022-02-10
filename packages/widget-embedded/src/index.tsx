@@ -12,6 +12,8 @@ const root = ReactDOM.createRoot(rootElement);
 
 const config: WidgetConfig = {
   enabledChains: process.env.LIFI_ENABLED_CHAINS_JSON!,
+  fromChain: 'pol',
+  // toChain: 'okt',
 };
 
 root.render(
