@@ -1,10 +1,10 @@
-import { ChainKey, CoinKey } from '@lifinance/sdk';
+import { ChainKey } from '@lifinance/sdk';
 
 export interface WidgetConfig {
   enabledChains: string;
   fromChain?: `${ChainKey}` | number;
-  fromToken?: `${CoinKey}`;
+  fromToken?: string;
   fromAmount?: number;
   toChain?: `${ChainKey}` | number;
-  toToken?: `${CoinKey}`;
+  toToken?: string;
 }

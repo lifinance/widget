@@ -1,10 +1,4 @@
-import {
-  Chain,
-  ChainKey,
-  CoinKey,
-  getChainById,
-  getChainByKey,
-} from '@lifinance/sdk';
+import { Chain, ChainKey, getChainById, getChainByKey } from '@lifinance/sdk';
 import { createContext, useContext, useMemo } from 'react';
 import { WidgetConfig } from '../types';
 
@@ -15,10 +9,10 @@ const stub = (): never => {
 interface WidgetContext {
   supportedChains: Chain[];
   fromChain?: ChainKey;
-  fromToken?: `${CoinKey}`;
+  fromToken?: string;
   fromAmount?: number;
-  toChain?: `${ChainKey}`;
-  toToken?: `${CoinKey}`;
+  toChain?: ChainKey;
+  toToken?: string;
 }
 
 interface WidgetProviderProps {
@@ -30,6 +24,8 @@ const initialContext: WidgetContext = {
 };
 
 const WidgetContext = createContext<WidgetContext>(initialContext);
+
+export const useWidgetConfig = (): WidgetContext => useContext(WidgetContext);
 
 export const WidgetProvider: React.FC<WidgetProviderProps> = ({
   children,
@@ -66,5 +62,3 @@ export const WidgetProvider: React.FC<WidgetProviderProps> = ({
     <WidgetContext.Provider value={value}>{children}</WidgetContext.Provider>
   );
 };
-
-export const useWidget = (): WidgetContext => useContext(WidgetContext);

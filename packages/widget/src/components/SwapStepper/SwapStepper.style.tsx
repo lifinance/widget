@@ -1,19 +1,11 @@
-import { Step, StepIconProps, Stepper } from '@mui/material';
-import Stack from '@mui/material/Stack';
+import { Step } from '@mui/material';
 import StepConnector, {
   stepConnectorClasses,
 } from '@mui/material/StepConnector';
 import StepLabel, { stepLabelClasses } from '@mui/material/StepLabel';
 import { styled } from '@mui/material/styles';
 
-export interface SwapStepperProps {
-  steps: Array<{
-    label: string;
-    sublabel: string;
-  }>;
-}
-
-const SwapStep = styled(Step, {
+export const SwapStep = styled(Step, {
   shouldForwardProp: (prop) => prop !== 'stepperLength',
 })<{ stepperLength: number }>(({ theme, stepperLength }) => ({
   paddingRight: 0,
@@ -94,7 +86,7 @@ const SwapStep = styled(Step, {
   }),
 }));
 
-const SwapStepConnector = styled(StepConnector)(({ theme }) => ({
+export const SwapStepConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
     top: 50,
   },
@@ -115,7 +107,7 @@ const SwapStepConnector = styled(StepConnector)(({ theme }) => ({
   },
 }));
 
-const SwapStepLabel = styled(StepLabel)(({ theme }) => ({
+export const SwapStepLabel = styled(StepLabel)(({ theme }) => ({
   [`&.${stepLabelClasses.alternativeLabel}`]: {
     flexDirection: 'column-reverse',
   },
@@ -131,44 +123,10 @@ const SwapStepLabel = styled(StepLabel)(({ theme }) => ({
   },
 }));
 
-const SwapStepIcon = styled('div')(({ theme }) => ({
+export const SwapStepIcon = styled('div')(({ theme }) => ({
   margin: '4px 0',
   width: 13,
   height: 13,
   backgroundColor: theme.palette.common.black,
   zIndex: 1,
 }));
-
-function StepIcon(props: StepIconProps) {
-  return <SwapStepIcon />;
-}
-
-export function SwapStepper({ steps }: SwapStepperProps) {
-  if (process.env.NODE_ENV === 'development') {
-    if (steps.length < 2) {
-      console.error('SwapStepper must have more than 2 steps.');
-    }
-  }
-  return (
-    <Stack sx={{ width: '100%' }} spacing={4}>
-      <Stepper
-        alternativeLabel
-        activeStep={steps.length}
-        connector={<SwapStepConnector />}
-      >
-        {steps.map((step) => (
-          <SwapStep key={step.label} stepperLength={steps.length}>
-            <SwapStepLabel
-              StepIconComponent={StepIcon}
-              optional={
-                <div className="SwapStepLabel-optional">{step.sublabel}</div>
-              }
-            >
-              {step.label}
-            </SwapStepLabel>
-          </SwapStep>
-        ))}
-      </Stepper>
-    </Stack>
-  );
-}
