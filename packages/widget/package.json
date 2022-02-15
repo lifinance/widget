@@ -28,7 +28,7 @@
     "react-dom": "^18.0.0-rc.0",
     "react-hook-form": "^7.27.0",
     "react-i18next": "^11.15.4",
-    "react-query": "^3.34.14",
+    "react-query": "^3.34.15",
     "react-resize-detector": "^7.0.0",
     "react-router-dom": "^6.2.1",
     "react-virtual": "^2.10.4"

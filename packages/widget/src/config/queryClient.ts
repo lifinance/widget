@@ -12,6 +12,7 @@ export const queryClient = new QueryClient({
       refetchOnReconnect: true,
       refetchOnMount: true,
       retryOnMount: true,
+      // suspense: true,
       onError: (error) => {
         //
       },

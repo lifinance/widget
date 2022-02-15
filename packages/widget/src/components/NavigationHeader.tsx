@@ -28,7 +28,7 @@ export const NavigationHeader: React.FC = () => {
       case routes.settings:
         return t(`header.settings`);
       case routes.selectToken:
-        return t(`header.iWouldLikeToSwap`);
+        return t(`header.wouldLikeToSwap`);
       default:
         return t(`header.swap`);
     }

@@ -8,8 +8,11 @@ import {
 } from '../hooks/connectorHooks';
 import { Header } from './Header';
 
-export const WalletTypography = styled(Typography)(({ theme }) => ({
+export const WalletTypography = styled(Typography, {
+  shouldForwardProp: (prop) => prop !== 'connected',
+})<{ connected?: boolean }>(({ theme, connected }) => ({
   transition: theme.transitions.create(['color']),
+  pointerEvents: connected ? 'auto' : 'none',
   '&:hover': {
     color: theme.palette.grey[200],
     cursor: 'pointer',
@@ -53,6 +56,7 @@ export const WalletHeader: React.FC = () => {
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
           onClick={handleClick}
+          connected={Boolean(walletAddress)}
         >
           {walletAddress
             ? t(`header.walletConnected`, { walletAddress })

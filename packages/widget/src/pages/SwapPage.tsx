@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 import { styled } from '@mui/system';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Select } from '../components/Select';
@@ -28,6 +28,7 @@ import {
 } from '../components/SwapInputAdornment';
 import { SwapStepper } from '../components/SwapStepper';
 import { Switch } from '../components/Switch';
+import { SwapFormDirection, SwapFormKey } from '../providers/SwapFormProvider';
 
 const FormContainer = styled(Container)({
   display: 'flex',
@@ -50,9 +51,16 @@ export const SwapPage: React.FC = () => {
     register,
     formState: { isSubmitting },
   } = useFormContext();
-  const fromDrawerRef = useRef<SelectTokenDrawerBase>(null);
-  const toDrawerRef = useRef<SelectTokenDrawerBase>(null);
+  const drawerRef = useRef<SelectTokenDrawerBase>(null);
   const containerRef = useRef<Element>(null);
+
+  const handleChainButton = (type: SwapFormDirection) =>
+    drawerRef.current?.openDrawer(type);
+
+  useEffect(() => {
+    register(SwapFormKey.FromToken);
+    register(SwapFormKey.ToToken);
+  }, [register]);
 
   return (
     <FormContainer maxWidth="sm" disableGutters>
@@ -61,10 +69,7 @@ export const SwapPage: React.FC = () => {
           {t(`swap.from`)}
         </Typography>
         <Box>
-          <SwapChainButton
-            onClick={fromDrawerRef.current?.openDrawer}
-            type="from"
-          />
+          <SwapChainButton onClick={handleChainButton} type="from" />
           <FormControl variant="standard" disabled={isSubmitting} fullWidth>
             <SwapInput
               type="number"
@@ -83,7 +88,7 @@ export const SwapPage: React.FC = () => {
                 step: 1e-18,
                 'aria-label': '',
                 inputMode: 'numeric',
-                ...register('fromAmount', { required: true }),
+                ...register(SwapFormKey.FromAmount, { required: true }),
               }}
               required
             />
@@ -104,10 +109,7 @@ export const SwapPage: React.FC = () => {
           <SwapVertIcon sx={{ alignSelf: 'center', padding: '0 16px' }} />
         </Box>
         <Box>
-          <SwapChainButton
-            onClick={toDrawerRef.current?.openDrawer}
-            type="to"
-          />
+          <SwapChainButton onClick={handleChainButton} type="to" />
           <FormControl variant="standard" fullWidth disabled={isSubmitting}>
             <SwapInput
               type="number"
@@ -121,7 +123,7 @@ export const SwapPage: React.FC = () => {
                 step: 1e-18,
                 'aria-label': '',
                 inputMode: 'numeric',
-                ...register('toAmount', { required: true }),
+                ...register(SwapFormKey.ToAmount, { required: true }),
               }}
               required
             />
@@ -148,7 +150,7 @@ export const SwapPage: React.FC = () => {
               {t(`swap.sendToRecipient`)}
             </Typography>
           </Box>
-          <Switch {...register('isSendToRecipient')} />
+          <Switch {...register(SwapFormKey.IsSendToRecipient)} />
         </Box>
         <SendToRecipientForm />
         <Box
@@ -173,11 +175,8 @@ export const SwapPage: React.FC = () => {
           <FormControl sx={{ width: '50%' }}>
             <Select
               defaultValue={1}
-              inputProps={{
-                'aria-label': 'route-priority',
-                ...register('routePriority'),
-              }}
               MenuProps={{ elevation: 2 }}
+              inputProps={{ ...register(SwapFormKey.RoutePriority) }}
             >
               <MenuItem value={1}>
                 {t(`swap.routePriority.recommended`)}
@@ -252,16 +251,7 @@ export const SwapPage: React.FC = () => {
         </Box>
       </FormBox>
       <SwapButton />
-      <SelectTokenDrawer
-        containerRef={containerRef}
-        ref={fromDrawerRef}
-        formType="from"
-      />
-      <SelectTokenDrawer
-        containerRef={containerRef}
-        ref={toDrawerRef}
-        formType="to"
-      />
+      <SelectTokenDrawer containerRef={containerRef} ref={drawerRef} />
     </FormContainer>
   );
 };

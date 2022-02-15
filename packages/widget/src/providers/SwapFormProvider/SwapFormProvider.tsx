@@ -1,23 +1,18 @@
-import { ChainKey } from '@lifinance/sdk';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useWidgetConfig } from './WidgetProvider';
-
-export type SwapFormValues = {
-  fromChain: ChainKey;
-  fromToken: string;
-  fromAmount: number;
-  toChain: ChainKey;
-  toToken: string;
-};
+import { useWidgetConfig } from '../WidgetProvider';
+import { SwapFormKey, SwapFormValues } from './types';
 
 const defaultValues = {
-  fromAmount: null,
-  toAmount: null,
+  [SwapFormKey.FromSearchTokensFilter]: '',
+  [SwapFormKey.ToSearchTokensFilter]: '',
+  [SwapFormKey.FromAmount]: 0,
+  [SwapFormKey.ToAmount]: 0,
 };
 
 export const SwapFormProvider: React.FC = ({ children }) => {
   const { fromChain, fromToken, fromAmount, toChain, toToken } =
     useWidgetConfig();
+
   const methods = useForm<SwapFormValues>({
     defaultValues: {
       ...defaultValues,
@@ -28,5 +23,6 @@ export const SwapFormProvider: React.FC = ({ children }) => {
       toToken,
     },
   });
+
   return <FormProvider {...methods}>{children}</FormProvider>;
 };

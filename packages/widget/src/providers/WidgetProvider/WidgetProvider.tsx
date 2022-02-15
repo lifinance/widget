@@ -1,37 +1,25 @@
-import { Chain, ChainKey, getChainById, getChainByKey } from '@lifinance/sdk';
+import { ChainKey, getChainById, getChainByKey } from '@lifinance/sdk';
 import { createContext, useContext, useMemo } from 'react';
-import { WidgetConfig } from '../types';
+import type { WidgetContextProps, WidgetProviderProps } from './types';
 
 const stub = (): never => {
   throw new Error('You forgot to wrap your component in <WidgetProvider>.');
 };
 
-interface WidgetContext {
-  supportedChains: Chain[];
-  fromChain?: ChainKey;
-  fromToken?: string;
-  fromAmount?: number;
-  toChain?: ChainKey;
-  toToken?: string;
-}
-
-interface WidgetProviderProps {
-  config: WidgetConfig;
-}
-
-const initialContext: WidgetContext = {
+const initialContext: WidgetContextProps = {
   supportedChains: [],
 };
 
-const WidgetContext = createContext<WidgetContext>(initialContext);
+const WidgetContext = createContext<WidgetContextProps>(initialContext);
 
-export const useWidgetConfig = (): WidgetContext => useContext(WidgetContext);
+export const useWidgetConfig = (): WidgetContextProps =>
+  useContext(WidgetContext);
 
 export const WidgetProvider: React.FC<WidgetProviderProps> = ({
   children,
   config: { enabledChains, fromChain, fromToken, fromAmount, toChain, toToken },
 }) => {
-  const value = useMemo((): WidgetContext => {
+  const value = useMemo((): WidgetContextProps => {
     try {
       const chainIds = JSON.parse(enabledChains);
       return {
@@ -41,7 +29,7 @@ export const WidgetProvider: React.FC<WidgetProviderProps> = ({
             ? getChainById(fromChain).key
             : typeof fromChain === 'string'
             ? getChainByKey(fromChain as ChainKey).key
-            : undefined,
+            : ChainKey.ETH,
         fromToken,
         fromAmount,
         toChain:
@@ -49,7 +37,7 @@ export const WidgetProvider: React.FC<WidgetProviderProps> = ({
             ? getChainById(toChain).key
             : typeof toChain === 'string'
             ? getChainByKey(toChain as ChainKey).key
-            : undefined,
+            : ChainKey.ETH,
         toToken,
       };
     } catch (e) {
