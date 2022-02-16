@@ -1,11 +1,13 @@
 import { Avatar, FormControl, ListItemIcon, MenuItem } from '@mui/material';
 import { useFormContext } from 'react-hook-form';
-import { SwapFormKey } from '../../providers/SwapFormProvider';
+import {
+  SwapFormKey,
+  SwapFormTypeProps,
+} from '../../providers/SwapFormProvider';
 import { useWidgetConfig } from '../../providers/WidgetProvider';
 import { Select } from '../Select';
-import { FormTypeProps } from './types';
 
-export const ChainSelect = ({ formType }: FormTypeProps) => {
+export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
   const { register } = useFormContext();
   const { supportedChains, fromChain, toChain } = useWidgetConfig();
 

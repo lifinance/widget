@@ -1,27 +1,13 @@
-import {
-  Box,
-  Divider,
-  Drawer,
-  FormControl,
-  MenuItem,
-  Typography,
-} from '@mui/material';
-import {
-  forwardRef,
-  useCallback,
-  useEffect,
-  useImperativeHandle,
-  useState,
-} from 'react';
+import { Box, Divider, FormControl, MenuItem, Typography } from '@mui/material';
+import { forwardRef, MutableRefObject, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useResizeDetector } from 'react-resize-detector';
-import { useMatch, useNavigate } from 'react-router-dom';
 import {
   SwapFormDirection,
   SwapFormKey,
 } from '../../providers/SwapFormProvider';
-import { routes } from '../../utils/routes';
+import { ContainerDrawer } from '../ContainerDrawer';
 import { TokenList } from '../TokenList';
 import { ChainSelect } from './ChainSelect';
 import { SearchTokenInput } from './SearchTokenInput';
@@ -37,72 +23,24 @@ export const SelectTokenDrawer = forwardRef<
   SelectTokenDrawerProps
 >(({ containerRef }, ref) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const homeMatch = useMatch(routes.home);
-  const [open, setOpen] = useState(false);
   const [formType, setFormType] = useState<SwapFormDirection>('from');
   const { register } = useFormContext();
-
-  const openDrawer = useCallback(
-    (type) => {
-      navigate(routes.selectToken, { replace: true });
-      setFormType(type);
-      setOpen(true);
-    },
-    [navigate],
-  );
-
-  const closeDrawer = useCallback(() => {
-    setOpen(false);
-    navigate(routes.home, { replace: true });
-  }, [navigate]);
-
-  useImperativeHandle(
-    ref,
-    () => ({
-      openDrawer,
-      closeDrawer,
-    }),
-    [closeDrawer, openDrawer],
-  );
-
-  useEffect(() => {
-    if (homeMatch && open) {
-      setOpen(false);
-    }
-  }, [homeMatch, open]);
 
   const { height: drawerHeight, ref: drawerRef } =
     useResizeDetector<HTMLDivElement | null>();
   const { height: drawerHeaderHeight, ref: drawerHeaderRef } =
     useResizeDetector<HTMLDivElement | null>();
 
+  const closeDrawer = (ref as MutableRefObject<SelectTokenDrawerBase | null>)
+    .current?.closeDrawer;
+
   return (
-    <Drawer
-      container={containerRef.current}
-      ref={drawerRef}
-      anchor="right"
-      open={open}
-      onClose={closeDrawer}
-      ModalProps={{
-        sx: { position: 'absolute' },
-        disablePortal: true,
-        keepMounted: true,
-      }}
-      PaperProps={{
-        sx: {
-          position: 'absolute',
-          width: '85%',
-        },
-      }}
-      BackdropProps={{
-        sx: {
-          position: 'absolute',
-          backgroundColor: 'rgba(0,0,0,0.12)',
-          backdropFilter: 'blur(3px)',
-        },
-      }}
-      SlideProps={{ container: containerRef.current }}
+    <ContainerDrawer
+      containerRef={containerRef}
+      elementRef={drawerRef}
+      ref={ref}
+      onOpen={setFormType}
+      route="selectToken"
     >
       <Box role="presentation">
         <TokenList
@@ -159,6 +97,6 @@ export const SelectTokenDrawer = forwardRef<
           </Box>
         </TokenList>
       </Box>
-    </Drawer>
+    </ContainerDrawer>
   );
 });

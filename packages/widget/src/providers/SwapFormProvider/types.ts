@@ -32,3 +32,7 @@ export const SwapFormKeyHelper = {
   getSearchTokensFilterKey: (type: SwapFormDirection) =>
     `${type}SearchTokensFilter`,
 };
+
+export interface SwapFormTypeProps {
+  formType: SwapFormDirection;
+}
