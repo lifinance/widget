@@ -7,21 +7,25 @@ import {
   useState,
 } from 'react';
 import { useMatch, useNavigate } from 'react-router-dom';
+import { ElementId } from '../../utils/elements';
 import { routes } from '../../utils/routes';
 import { ContainerDrawerBase, ContainerDrawerProps } from './types';
 
 export const ContainerDrawer = forwardRef<
   ContainerDrawerBase,
   ContainerDrawerProps
->(({ containerRef, elementRef, onOpen, route, children }, ref) => {
+>(({ elementRef, onOpen, route, children }, ref) => {
   const navigate = useNavigate();
   const homeMatch = useMatch(routes.home);
   const [open, setOpen] = useState(false);
+  const [containerElement, setContainerElement] = useState(() =>
+    document.getElementById(ElementId.SwapContent),
+  );
 
   const openDrawer = useCallback(
     (args) => {
       navigate(routes[route], { replace: true });
-      onOpen(args);
+      onOpen?.(args);
       setOpen(true);
     },
     [navigate, onOpen, route],
@@ -47,9 +51,15 @@ export const ContainerDrawer = forwardRef<
     }
   }, [homeMatch, open]);
 
+  useEffect(() => {
+    if (!containerElement) {
+      setContainerElement(document.getElementById(ElementId.SwapContent));
+    }
+  }, [containerElement]);
+
   return (
     <Drawer
-      container={containerRef.current}
+      container={containerElement}
       ref={elementRef}
       anchor="right"
       open={open}
@@ -72,7 +82,7 @@ export const ContainerDrawer = forwardRef<
           backdropFilter: 'blur(3px)',
         },
       }}
-      SlideProps={{ container: containerRef.current }}
+      SlideProps={{ container: containerElement }}
     >
       {children}
     </Drawer>

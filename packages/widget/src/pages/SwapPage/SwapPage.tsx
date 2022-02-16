@@ -2,57 +2,41 @@ import {
   HelpOutline as HelpOutlineIcon,
   SwapVert as SwapVertIcon,
 } from '@mui/icons-material';
-import {
-  Box,
-  Container,
-  FormControl,
-  MenuItem,
-  Typography,
-} from '@mui/material';
-import { styled } from '@mui/system';
+import { Box, FormControl, MenuItem, Typography } from '@mui/material';
 import { useEffect, useRef } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Select } from '../components/Select';
+import { Select } from '../../components/Select';
 import {
   SelectTokenDrawer,
   SelectTokenDrawerBase,
-} from '../components/SelectTokenDrawer';
-import { SendToRecipientForm } from '../components/SendToRecipientForm';
-import { SwapButton } from '../components/SwapButton';
-import { SwapChainButton } from '../components/SwapChainButton';
-import { SwapInput } from '../components/SwapInput';
+} from '../../components/SelectTokenDrawer';
+import { SendToRecipientForm } from '../../components/SendToRecipientForm';
+import { SettingsDrawer } from '../../components/SettingsDrawer';
+import { SwapButton } from '../../components/SwapButton';
+import { SwapChainButton } from '../../components/SwapChainButton';
+import { SwapInput } from '../../components/SwapInput';
 import {
   SwapFromInputAdornment,
   SwapToInputAdornment,
-} from '../components/SwapInputAdornment';
-import { SwapStepper } from '../components/SwapStepper';
-import { Switch } from '../components/Switch';
-import { SwapFormDirection, SwapFormKey } from '../providers/SwapFormProvider';
+} from '../../components/SwapInputAdornment';
+import { SwapStepper } from '../../components/SwapStepper';
+import { Switch } from '../../components/Switch';
+import {
+  SwapFormDirection,
+  SwapFormKey,
+} from '../../providers/SwapFormProvider';
+import { ElementId } from '../../utils/elements';
+import { FormBox, FormContainer } from './SwapPage.style';
+import { SwapPageProps } from './types';
 
-const FormContainer = styled(Container)({
-  display: 'flex',
-  flexDirection: 'column',
-  flexGrow: 1,
-  position: 'relative',
-});
-
-const FormBox = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  flex: 1,
-  paddingLeft: theme.spacing(3),
-  paddingRight: theme.spacing(3),
-}));
-
-export const SwapPage: React.FC = () => {
+export const SwapPage: React.FC<SwapPageProps> = ({ settingsRef }) => {
   const { t } = useTranslation();
   const {
     register,
     formState: { isSubmitting },
   } = useFormContext();
   const drawerRef = useRef<SelectTokenDrawerBase>(null);
-  const containerRef = useRef<Element>(null);
 
   const handleChainButton = (type: SwapFormDirection) =>
     drawerRef.current?.openDrawer(type);
@@ -64,7 +48,7 @@ export const SwapPage: React.FC = () => {
 
   return (
     <FormContainer maxWidth="sm" disableGutters>
-      <FormBox ref={containerRef}>
+      <FormBox id={ElementId.SwapContent}>
         <Typography variant="subtitle1" color="text.secondary" mt={2} mb={0.5}>
           {t(`swap.from`)}
         </Typography>
@@ -251,7 +235,8 @@ export const SwapPage: React.FC = () => {
         </Box>
       </FormBox>
       <SwapButton />
-      <SelectTokenDrawer containerRef={containerRef} ref={drawerRef} />
+      <SelectTokenDrawer ref={drawerRef} />
+      <SettingsDrawer ref={settingsRef} />
     </FormContainer>
   );
 };

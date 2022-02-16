@@ -5,18 +5,21 @@ import {
 import { Collapse, IconButton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { routes } from '../utils/routes';
-import { Header } from './Header';
+import { NavigationHeaderProps } from '.';
+import { routes } from '../../utils/routes';
+import { Header } from '../Header';
 
 const routesWithBack = [routes.settings, routes.selectToken];
 
-export const NavigationHeader: React.FC = () => {
+export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
+  settingsRef,
+}) => {
   const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
 
   const handleSettings = () => {
-    navigate(routes.settings, { replace: true });
+    settingsRef.current?.openDrawer();
   };
 
   const handleBack = () => {
