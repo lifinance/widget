@@ -142,6 +142,7 @@ export const TokenList: React.FC<TokenListProps> = ({
               size={item.size}
               start={item.start}
               token={token}
+              isBalancesLoading={isBalancesLoading}
             />
           );
         })}
