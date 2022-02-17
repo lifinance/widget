@@ -1,13 +1,22 @@
 import { HelpOutline as HelpOutlineIcon } from '@mui/icons-material';
-import { Box, FormControl, MenuItem, Typography } from '@mui/material';
+import {
+  Box,
+  Chip,
+  FormControl,
+  MenuItem,
+  Skeleton,
+  Typography,
+} from '@mui/material';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useExchanges } from '../../hooks/useExchanges';
 import { SwapFormKey } from '../../providers/SwapFormProvider';
-import { Select } from '../Select';
+import { MultiSelect } from '../Select';
 
 export const EnabledExchangesSelect: React.FC = () => {
   const { t } = useTranslation();
   const { register } = useFormContext();
+  const exchanges = useExchanges();
 
   return (
     <Box mt={3}>
@@ -22,15 +31,37 @@ export const EnabledExchangesSelect: React.FC = () => {
           {t(`settings.enabledExchanges`)}
         </Typography>
       </Box>
-      <FormControl fullWidth>
-        <Select
-          defaultValue={1}
-          MenuProps={{ elevation: 2 }}
-          inputProps={{ ...register(SwapFormKey.EnabledExchanges) }}
-        >
-          <MenuItem value={1}>{t(`swap.routePriority.recommended`)}</MenuItem>
-        </Select>
-      </FormControl>
+      {exchanges.length > 0 ? (
+        <FormControl fullWidth>
+          <MultiSelect
+            multiple
+            placeholder={t(`settings.selectEnabledExchanges`)}
+            defaultValue={exchanges}
+            MenuProps={{ elevation: 2 }}
+            inputProps={{ ...register(SwapFormKey.EnabledExchanges) }}
+            renderValue={(selected) => (
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                {(selected as string[]).map((value) => (
+                  <Chip key={value} label={value} />
+                ))}
+              </Box>
+            )}
+          >
+            {exchanges.map((exchange) => (
+              <MenuItem key={exchange} value={exchange}>
+                {exchange}
+              </MenuItem>
+            ))}
+          </MultiSelect>
+        </FormControl>
+      ) : (
+        <Skeleton
+          variant="rectangular"
+          width="100%"
+          height={44}
+          sx={{ borderRadius: '8px' }}
+        />
+      )}
     </Box>
   );
 };

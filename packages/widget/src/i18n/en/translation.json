@@ -46,7 +46,9 @@
     "advancedPreferences": "Advanced preferences",
     "bridgePrioritization": "Bridge prioritization",
     "enabledBridges": "Enabled bridges",
+    "selectEnabledBridges": "Select enabled bridges",
     "enabledExchanges": "Enabled exchanges",
+    "selectEnabledExchanges": "Select enabled exchanges",
     "resetToDefault": "Reset to default"
   }
 }

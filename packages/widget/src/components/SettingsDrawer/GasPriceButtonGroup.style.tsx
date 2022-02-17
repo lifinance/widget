@@ -13,7 +13,6 @@ export const Button = styled(MuiButton)(({ theme }) => ({
   border: `2px solid rgba(19, 60, 76, 0.12)`,
   [`&.${buttonClasses.outlined}`]: {
     color: theme.palette.text.secondary,
-    fontWeight: 400,
   },
   [`&:hover`]: {
     border: 2,

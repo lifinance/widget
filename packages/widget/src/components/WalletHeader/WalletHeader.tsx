@@ -1,23 +1,12 @@
-import { Box, Menu, MenuItem, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Box, Menu, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   usePriorityAccount,
   usePriorityConnector,
-} from '../hooks/connectorHooks';
-import { Header } from './Header';
-
-export const WalletTypography = styled(Typography, {
-  shouldForwardProp: (prop) => prop !== 'connected',
-})<{ connected?: boolean }>(({ theme, connected }) => ({
-  transition: theme.transitions.create(['color']),
-  pointerEvents: connected ? 'auto' : 'none',
-  '&:hover': {
-    color: theme.palette.grey[200],
-    cursor: 'pointer',
-  },
-}));
+} from '../../hooks/connectorHooks';
+import { Header } from '../Header';
+import { WalletTypography } from './WalletHeader.style';
 
 export const WalletHeader: React.FC = () => {
   const { t } = useTranslation();

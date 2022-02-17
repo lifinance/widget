@@ -34,3 +34,9 @@ export const Select = styled(MuiSelect)(({ theme }) => ({
     borderColor: theme.palette.primary.main,
   },
 }));
+
+export const MultiSelect = styled(Select)(({ theme }) => ({
+  [`& .${inputBaseClasses.input}`]: {
+    padding: '4px 14px',
+  },
+}));
