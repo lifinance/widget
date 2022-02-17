@@ -5,7 +5,7 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { defaultRangeExtractor, useVirtual } from 'react-virtual';
 import { usePriorityAccount } from '../../hooks/connectorHooks';
-import { useTokens } from '../../hooks/useToken';
+import { useTokens } from '../../hooks/useTokens';
 import {
   SwapFormKey,
   SwapFormKeyHelper,
