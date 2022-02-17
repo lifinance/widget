@@ -11,7 +11,7 @@ import { TokenListItemBaseProps, TokenListItemProps } from './types';
 
 export const MemoizedTokenListItem: React.FC<TokenListItemProps> = memo(
   ({ onClick, size, start, token, isBalancesLoading }) => {
-    const handleClick = () => onClick?.(token.symbol);
+    const handleClick = () => onClick?.(token.address);
     return (
       <TokenListItem
         secondaryAction={

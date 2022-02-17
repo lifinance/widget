@@ -95,8 +95,8 @@ export const TokenList: React.FC<TokenListProps> = ({
   });
 
   const handleTokenClick = useCallback(
-    (token: string) => {
-      setValue(SwapFormKeyHelper.getTokenKey(formType), token);
+    (tokenAddress: string) => {
+      setValue(SwapFormKeyHelper.getTokenKey(formType), tokenAddress);
       onClick?.();
     },
     [formType, onClick, setValue],

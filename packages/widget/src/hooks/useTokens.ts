@@ -68,8 +68,8 @@ export const useTokens = (selectedChain: ChainKey) => {
     isLoading: isBalancesLoading,
     refetch,
   } = useQuery(
-    ['tokens', account, selectedChain],
-    async ({ queryKey: [_, account, chainKey] }) => {
+    ['tokens', selectedChain, account],
+    async ({ queryKey: [_, chainKey, account] }) => {
       if (!account || !possibilities) {
         return [];
       }

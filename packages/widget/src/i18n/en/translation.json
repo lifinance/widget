@@ -12,8 +12,8 @@
     "from": "I'd like to swap",
     "to": "And receive to",
     "max": "Max",
-    "maxAmount": "({{value, number}})",
-    "price": "\u2248 {{value, currency(currency: USD)}}",
+    "maxAmount": "({{amount}})",
+    "price": "\u2248 {{price, currency(currency: USD)}}",
     "sendToRecipient": "Send to recipient",
     "routePriority": {
       "title": "Route priority",

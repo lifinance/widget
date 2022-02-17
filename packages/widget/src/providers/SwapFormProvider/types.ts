@@ -33,10 +33,10 @@ export enum SwapFormKey {
 export type SwapFormDirection = 'from' | 'to';
 
 export const SwapFormKeyHelper = {
-  getChainKey: (type: SwapFormDirection) => `${type}Chain`,
-  getTokenKey: (type: SwapFormDirection) => `${type}Token`,
-  getSearchTokensFilterKey: (type: SwapFormDirection) =>
-    `${type}SearchTokensFilter`,
+  getChainKey: (formType: SwapFormDirection) => `${formType}Chain`,
+  getTokenKey: (formType: SwapFormDirection) => `${formType}Token`,
+  getSearchTokensFilterKey: (formType: SwapFormDirection) =>
+    `${formType}SearchTokensFilter`,
 };
 
 export interface SwapFormTypeProps {

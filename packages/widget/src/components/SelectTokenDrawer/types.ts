@@ -1,7 +1,7 @@
 import { SwapFormDirection } from '../../providers/SwapFormProvider';
 
 export interface SelectTokenDrawerBase {
-  openDrawer(type: SwapFormDirection): void;
+  openDrawer(formType: SwapFormDirection): void;
   closeDrawer(): void;
 }
 

@@ -10,6 +10,6 @@ export type ContainerDrawerProps = DrawerProps & {
 };
 
 export interface ContainerDrawerBase {
-  openDrawer(type: SwapFormDirection): void;
+  openDrawer(formType: SwapFormDirection): void;
   closeDrawer(): void;
 }

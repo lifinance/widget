@@ -1,6 +1,8 @@
-import { SwapFormDirection } from '../../providers/SwapFormProvider';
+import {
+  SwapFormDirection,
+  SwapFormTypeProps,
+} from '../../providers/SwapFormProvider';
 
-export interface SwapChainButtonProps {
-  onClick?(type: SwapFormDirection): void;
-  type: SwapFormDirection;
+export interface SwapChainButtonProps extends SwapFormTypeProps {
+  onClick?(formType: SwapFormDirection): void;
 }

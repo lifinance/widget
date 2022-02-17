@@ -1,6 +1,6 @@
-import { getChainByKey } from '@lifinance/sdk';
+import { useToken } from '@lifinance/widget/hooks/useToken';
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material';
-import { useFormContext, useWatch } from 'react-hook-form';
+import { useFormState, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { SwapFormKeyHelper } from '../../providers/SwapFormProvider';
 import { Button } from './SwapChainButton.style';
@@ -8,32 +8,31 @@ import { SwapChainButtonProps } from './types';
 
 export const SwapChainButton: React.FC<SwapChainButtonProps> = ({
   onClick,
-  type,
+  formType,
 }) => {
   const { t } = useTranslation();
-  const {
-    register,
-    formState: { isSubmitting },
-  } = useFormContext();
-  const [chain, token] = useWatch({
+  const { isSubmitting } = useFormState();
+  const [chainKey, tokenAddress] = useWatch({
     name: [
-      SwapFormKeyHelper.getChainKey(type),
-      SwapFormKeyHelper.getTokenKey(type),
+      SwapFormKeyHelper.getChainKey(formType),
+      SwapFormKeyHelper.getTokenKey(formType),
     ],
   });
+
+  const { chain, token } = useToken(chainKey, tokenAddress);
 
   return (
     <Button
       variant="outlined"
       endIcon={<KeyboardArrowDownIcon />}
-      onClick={() => onClick?.(type)}
+      onClick={() => onClick?.(formType)}
       disabled={isSubmitting}
       disableElevation
       disableRipple
       fullWidth
     >
       {chain && token
-        ? `${token} on ${getChainByKey(chain).name}`
+        ? `${token.symbol} on ${chain.name}`
         : t(`swap.selectChainAndToken`)}
     </Button>
   );

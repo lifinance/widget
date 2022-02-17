@@ -16,10 +16,7 @@ import { SettingsDrawer } from '../../components/SettingsDrawer';
 import { SwapButton } from '../../components/SwapButton';
 import { SwapChainButton } from '../../components/SwapChainButton';
 import { SwapInput } from '../../components/SwapInput';
-import {
-  SwapFromInputAdornment,
-  SwapToInputAdornment,
-} from '../../components/SwapInputAdornment';
+import { SwapInputAdornment } from '../../components/SwapInputAdornment';
 import { SwapStepper } from '../../components/SwapStepper';
 import { Switch } from '../../components/Switch';
 import {
@@ -38,8 +35,8 @@ export const SwapPage: React.FC<SwapPageProps> = ({ settingsRef }) => {
   } = useFormContext();
   const drawerRef = useRef<SelectTokenDrawerBase>(null);
 
-  const handleChainButton = (type: SwapFormDirection) =>
-    drawerRef.current?.openDrawer(type);
+  const handleChainButton = (formType: SwapFormDirection) =>
+    drawerRef.current?.openDrawer(formType);
 
   useEffect(() => {
     register(SwapFormKey.FromToken);
@@ -53,19 +50,14 @@ export const SwapPage: React.FC<SwapPageProps> = ({ settingsRef }) => {
           {t(`swap.from`)}
         </Typography>
         <Box>
-          <SwapChainButton onClick={handleChainButton} type="from" />
+          <SwapChainButton onClick={handleChainButton} formType="from" />
           <FormControl variant="standard" disabled={isSubmitting} fullWidth>
             <SwapInput
               type="number"
               size="small"
               defaultValue={0}
               autoComplete="off"
-              endAdornment={
-                <SwapFromInputAdornment
-                  maxAmount={98700.34021}
-                  price={1300.0}
-                />
-              }
+              endAdornment={<SwapInputAdornment formType="from" />}
               aria-describedby=""
               inputProps={{
                 min: 0,
@@ -93,14 +85,14 @@ export const SwapPage: React.FC<SwapPageProps> = ({ settingsRef }) => {
           <SwapVertIcon sx={{ alignSelf: 'center', padding: '0 16px' }} />
         </Box>
         <Box>
-          <SwapChainButton onClick={handleChainButton} type="to" />
+          <SwapChainButton onClick={handleChainButton} formType="to" />
           <FormControl variant="standard" fullWidth disabled={isSubmitting}>
             <SwapInput
               type="number"
               size="small"
               defaultValue={0}
               autoComplete="off"
-              endAdornment={<SwapToInputAdornment price={1300.0} />}
+              endAdornment={<SwapInputAdornment formType="to" />}
               aria-describedby=""
               inputProps={{
                 min: 0,
