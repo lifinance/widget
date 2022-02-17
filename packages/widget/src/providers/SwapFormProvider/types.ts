@@ -9,15 +9,21 @@ export type SwapFormValues = {
 };
 
 export enum SwapFormKey {
+  BridgePrioritization = 'bridgePrioritization',
+  EnabledBridges = 'enabledBridges',
+  EnabledExchanges = 'enabledExchanges',
   FromAmount = 'fromAmount',
   FromChain = 'fromChain',
   FromSearchTokensFilter = 'fromSearchTokensFilter',
   FromToken = 'fromToken',
+  GasPrice = 'gasPrice',
   IsAddressConfirmed = 'isAddressConfirmed',
   IsSendToRecipient = 'isSendToRecipient',
   MyTokensFilter = 'myTokensFilter',
   RecipientsAddress = 'recipientsAddress',
   RoutePriority = 'routePriority',
+  Slippage = 'slippage',
+  SwapRoute = 'swapRoute',
   ToAmount = 'toAmount',
   ToChain = 'toChain',
   ToSearchTokensFilter = 'toSearchTokensFilter',

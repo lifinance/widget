@@ -126,10 +126,10 @@ export const SwapPage: React.FC<SwapPageProps> = ({ settingsRef }) => {
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <HelpOutlineIcon sx={{ color: 'grey.500' }} />
             <Typography
-              ml={2}
+              lineHeight="normal"
               variant="subtitle1"
               color="text.primary"
-              sx={{ alignSelf: 'end' }}
+              ml={1}
             >
               {t(`swap.sendToRecipient`)}
             </Typography>
@@ -148,10 +148,10 @@ export const SwapPage: React.FC<SwapPageProps> = ({ settingsRef }) => {
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <HelpOutlineIcon sx={{ color: 'grey.500' }} />
             <Typography
-              ml={2}
+              lineHeight="normal"
               variant="subtitle1"
               color="text.primary"
-              sx={{ alignSelf: 'end' }}
+              ml={1}
             >
               {t(`swap.routePriority.title`)}
             </Typography>

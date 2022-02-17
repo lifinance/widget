@@ -7,6 +7,7 @@ const defaultValues = {
   [SwapFormKey.ToSearchTokensFilter]: '',
   [SwapFormKey.FromAmount]: 0,
   [SwapFormKey.ToAmount]: 0,
+  [SwapFormKey.Slippage]: '0.5',
 };
 
 export const SwapFormProvider: React.FC = ({ children }) => {

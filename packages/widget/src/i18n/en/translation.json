@@ -33,5 +33,20 @@
     "connectWallet": "Connect wallet",
     "couldntFindTokens": "We couldn't find your tokens on this chain or you don't have any.",
     "walletNotConnected": "Please, connect your wallet."
+  },
+  "settings": {
+    "route": "Route",
+    "slippage": "Slippage",
+    "gasPrice": {
+      "title": "Gas price",
+      "slow": "Slow",
+      "normal": "Normal",
+      "fast": "Fast"
+    },
+    "advancedPreferences": "Advanced preferences",
+    "bridgePrioritization": "Bridge prioritization",
+    "enabledBridges": "Enabled bridges",
+    "enabledExchanges": "Enabled exchanges",
+    "resetToDefault": "Reset to default"
   }
 }

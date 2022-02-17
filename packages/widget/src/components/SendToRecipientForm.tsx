@@ -1,5 +1,5 @@
 import { Box, Checkbox, FormControl, FormControlLabel } from '@mui/material';
-import { useFormContext, useWatch } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { SwapFormKey } from '../providers/SwapFormProvider';
 import { Input } from './Input';
@@ -8,13 +8,11 @@ export const SendToRecipientForm: React.FC = () => {
   const { t } = useTranslation();
   const {
     register,
+    watch,
     formState: { isSubmitting },
   } = useFormContext();
-  const sendToRecipientChecked = useWatch({
-    name: SwapFormKey.IsSendToRecipient,
-  });
 
-  if (!sendToRecipientChecked) {
+  if (!watch(SwapFormKey.IsSendToRecipient)) {
     return null;
   }
 
