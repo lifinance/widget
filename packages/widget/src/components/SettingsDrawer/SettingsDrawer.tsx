@@ -12,10 +12,10 @@ import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { SwapFormKey } from '../../providers/SwapFormProvider';
 import { ContainerDrawer } from '../ContainerDrawer';
-import { Input } from '../Input';
 import { Select } from '../Select';
 import { AdvancedPreferences } from './AdvancedPreferences';
 import { GasPriceButtonGroup } from './GasPriceButtonGroup';
+import { SlippageInput } from './SlippageInput';
 import { SettingsDrawerBase } from './types';
 
 export const SettingsDrawer = forwardRef<SettingsDrawerBase, DrawerProps>(
@@ -63,14 +63,7 @@ export const SettingsDrawer = forwardRef<SettingsDrawerBase, DrawerProps>(
                     {t(`settings.slippage`)}
                   </Typography>
                 </Box>
-                <FormControl fullWidth>
-                  <Input
-                    size="small"
-                    placeholder={t(`settings.slippage`)}
-                    required
-                    inputProps={{ ...register(SwapFormKey.Slippage) }}
-                  />
-                </FormControl>
+                <SlippageInput />
               </Box>
               <GasPriceButtonGroup />
             </Box>
