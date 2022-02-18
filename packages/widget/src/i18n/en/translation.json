@@ -15,10 +15,6 @@
     "maxAmount": "({{amount}})",
     "price": "\u2248 {{price, currency(currency: USD)}}",
     "sendToRecipient": "Send to recipient",
-    "routePriority": {
-      "title": "Route priority",
-      "recommended": "Recommended"
-    },
     "recipientsAddress": "Recipient's {{chain}} address",
     "correctnessConfirmation": "I confirm that the address above is correct",
     "gas": "Gas:",
@@ -35,7 +31,10 @@
     "walletNotConnected": "Please, connect your wallet."
   },
   "settings": {
-    "route": "Route",
+    "routePriority": {
+      "title": "Route priority",
+      "recommended": "Recommended"
+    },
     "slippage": "Slippage",
     "gasPrice": {
       "title": "Gas price",

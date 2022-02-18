@@ -145,7 +145,7 @@ export const SwapPage: React.FC<SwapPageProps> = ({ settingsRef }) => {
               color="text.primary"
               ml={1}
             >
-              {t(`swap.routePriority.title`)}
+              {t(`settings.routePriority.title`)}
             </Typography>
           </Box>
           <FormControl sx={{ width: '50%' }}>
@@ -155,7 +155,7 @@ export const SwapPage: React.FC<SwapPageProps> = ({ settingsRef }) => {
               inputProps={{ ...register(SwapFormKey.RoutePriority) }}
             >
               <MenuItem value={1}>
-                {t(`swap.routePriority.recommended`)}
+                {t(`settings.routePriority.recommended`)}
               </MenuItem>
             </Select>
           </FormControl>

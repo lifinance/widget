@@ -35,7 +35,7 @@ export const SettingsDrawer = forwardRef<SettingsDrawerBase, DrawerProps>(
                 lineHeight="normal"
                 ml={1}
               >
-                {t(`settings.route`)}
+                {t(`settings.routePriority.title`)}
               </Typography>
             </Box>
             <FormControl fullWidth>
@@ -45,7 +45,7 @@ export const SettingsDrawer = forwardRef<SettingsDrawerBase, DrawerProps>(
                 inputProps={{ ...register(SwapFormKey.SwapRoute) }}
               >
                 <MenuItem value={1}>
-                  {t(`swap.routePriority.recommended`)}
+                  {t(`settings.routePriority.recommended`)}
                 </MenuItem>
               </Select>
             </FormControl>

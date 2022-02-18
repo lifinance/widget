@@ -68,7 +68,7 @@ export const AdvancedPreferences = () => {
               }}
             >
               <MenuItem value={1}>
-                {t(`swap.routePriority.recommended`)}
+                {t(`settings.routePriority.recommended`)}
               </MenuItem>
             </Select>
           </FormControl>
