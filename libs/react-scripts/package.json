@@ -28,7 +28,7 @@
   },
   "types": "./lib/react-app.d.ts",
   "dependencies": {
-    "@babel/core": "^7.17.4",
+    "@babel/core": "^7.17.5",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@svgr/webpack": "^6.2.1",
     "babel-jest": "^27.5.0",
@@ -76,7 +76,7 @@
     "style-loader": "^3.3.1",
     "tailwindcss": "^3.0.23",
     "terser-webpack-plugin": "^5.3.1",
-    "webpack": "^5.69.0",
+    "webpack": "^5.69.1",
     "webpack-dev-server": "^4.7.4",
     "webpack-manifest-plugin": "^4.0.2",
     "workbox-webpack-plugin": "^6.4.1"
