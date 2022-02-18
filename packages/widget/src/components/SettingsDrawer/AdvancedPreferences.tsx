@@ -1,10 +1,7 @@
-import { HelpOutline as HelpOutlineIcon } from '@mui/icons-material';
-import { Box, FormControl, MenuItem, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { SwapFormKey } from '../../providers/SwapFormProvider';
-import { Select } from '../Select';
 import { Switch } from '../Switch';
 import { EnabledBridgesSelect } from './EnabledBridgesSelect';
 import { EnabledExchangesSelect } from './EnabledExchangesSelect';
@@ -48,7 +45,7 @@ export const AdvancedPreferences = () => {
       </Box>
       {advancedPreferences && (
         <Box mt={3} mb={1}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }} mb={1}>
+          {/* <Box sx={{ display: 'flex', alignItems: 'center' }} mb={1}>
             <HelpOutlineIcon sx={{ color: 'grey.500' }} />
             <Typography
               variant="subtitle1"
@@ -71,7 +68,7 @@ export const AdvancedPreferences = () => {
                 {t(`settings.routePriority.recommended`)}
               </MenuItem>
             </Select>
-          </FormControl>
+          </FormControl> */}
           <EnabledBridgesSelect />
           <EnabledExchangesSelect />
         </Box>
