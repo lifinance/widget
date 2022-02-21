@@ -6,8 +6,8 @@
   "module": "src/index.ts",
   "scripts": {},
   "dependencies": {
-    "@emotion/react": "^11.7.1",
-    "@emotion/styled": "^11.6.0",
+    "@emotion/react": "^11.8.1",
+    "@emotion/styled": "^11.8.1",
     "@ethersproject/providers": "^5.5.3",
     "@lifinance/sdk": "^0.4.5",
     "@mui/icons-material": "^5.4.2",
@@ -26,9 +26,9 @@
     "i18next": "^21.6.11",
     "react": "^18.0.0-rc.0",
     "react-dom": "^18.0.0-rc.0",
-    "react-hook-form": "^7.27.0",
+    "react-hook-form": "^7.27.1",
     "react-i18next": "^11.15.4",
-    "react-query": "^3.34.15",
+    "react-query": "^3.34.16",
     "react-resize-detector": "^7.0.0",
     "react-router-dom": "^6.2.1",
     "react-virtual": "^2.10.4"
