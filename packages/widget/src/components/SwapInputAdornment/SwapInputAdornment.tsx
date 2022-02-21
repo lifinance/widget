@@ -1,5 +1,4 @@
 import { InputAdornment, Skeleton, Typography } from '@mui/material';
-import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -31,10 +30,8 @@ export const SwapInputAdornment: React.FC<SwapFormTypeProps> = ({
 
   const amount = useMemo(
     () =>
-      token
-        ? formatTokenAmount(token, new BigNumber(tokenWithBalance?.amount ?? 0))
-        : null,
-    [token, tokenWithBalance?.amount],
+      tokenWithBalance ? formatTokenAmount(tokenWithBalance.amount) : null,
+    [tokenWithBalance],
   );
 
   return (

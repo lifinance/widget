@@ -20,9 +20,8 @@ export const AdvancedPreferences = () => {
   };
 
   return (
-    <Box px={3}>
+    <Box p={3}>
       <Box
-        mt={3}
         sx={{
           display: 'flex',
           justifyContent: 'space-between',

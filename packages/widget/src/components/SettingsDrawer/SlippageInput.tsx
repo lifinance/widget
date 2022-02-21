@@ -1,3 +1,4 @@
+import { formatSlippage } from '@lifinance/widget/utils/format';
 import { FormControl, InputAdornment } from '@mui/material';
 import { ChangeEvent, useEffect, useRef } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
@@ -21,18 +22,10 @@ export const SlippageInput = () => {
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { value } = event.target;
-    const parsedValue = parseFloat(value);
+    console.log(formatSlippage(value, defaultValue.current));
     setValue(
       SwapFormKey.Slippage,
-      `${
-        isNaN(parsedValue)
-          ? defaultValue.current
-          : parsedValue > 100
-          ? 100
-          : parsedValue < 0
-          ? Math.abs(parsedValue)
-          : value
-      }`,
+      formatSlippage(value, defaultValue.current, true),
     );
   };
 
@@ -40,19 +33,8 @@ export const SlippageInput = () => {
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { value } = event.target;
-    const parsedValue = parseFloat(value);
-    setValue(
-      SwapFormKey.Slippage,
-      `${
-        isNaN(parsedValue)
-          ? defaultValue.current
-          : parsedValue > 100
-          ? 100
-          : parsedValue < 0
-          ? Math.abs(parsedValue)
-          : parsedValue
-      }`,
-    );
+    console.log(formatSlippage(value, defaultValue.current));
+    setValue(SwapFormKey.Slippage, formatSlippage(value, defaultValue.current));
   };
 
   return (
@@ -63,10 +45,7 @@ export const SlippageInput = () => {
         endAdornment={<InputAdornment position="end">%</InputAdornment>}
         autoComplete="off"
         inputProps={{
-          type: 'number',
-          inputMode: 'numeric',
-          min: 0,
-          step: 0.1,
+          inputMode: 'decimal',
         }}
         onChange={handleChange}
         onBlur={handleBlur}

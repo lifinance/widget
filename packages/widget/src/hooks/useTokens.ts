@@ -4,7 +4,6 @@ import Lifi, {
   Token,
   TokenAmount,
 } from '@lifinance/sdk';
-import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 import { useQuery } from 'react-query';
 import { useWidgetConfig } from '../providers/WidgetProvider';
@@ -30,8 +29,7 @@ export const useTokens = (selectedChain: ChainKey) => {
             tokenAmountList[chain.key] = [];
           }
           (token as TokenAmount).amount = formatTokenAmount(
-            token,
-            new BigNumber((token as TokenAmount).amount ?? 0),
+            (token as TokenAmount).amount,
           );
           tokenAmountList[chain.key].push({ amount: '0', ...token });
           return tokenAmountList;

@@ -27,6 +27,7 @@ export const SearchTokenInput = ({ formType }: SwapFormTypeProps) => {
             </InputAdornment>
           }
           inputProps={{
+            inputMode: 'search',
             ...register(SwapFormKey.FromSearchTokensFilter),
           }}
           autoComplete="off"
