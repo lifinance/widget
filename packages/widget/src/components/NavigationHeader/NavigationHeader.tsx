@@ -9,7 +9,7 @@ import { NavigationHeaderProps } from '.';
 import { routes } from '../../utils/routes';
 import { Header } from '../Header';
 
-const routesWithBack = [routes.settings, routes.selectToken];
+const routesWithBack = [routes.settings, routes.fromToken, routes.toToken];
 
 export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
   settingsRef,
@@ -30,8 +30,10 @@ export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
     switch (location.pathname) {
       case routes.settings:
         return t(`header.settings`);
-      case routes.selectToken:
-        return t(`header.wouldLikeToSwap`);
+      case routes.fromToken:
+        return t(`swap.from`);
+      case routes.toToken:
+        return t(`swap.to`);
       default:
         return t(`header.swap`);
     }

@@ -1,5 +1,8 @@
 export const routes = {
   home: '/',
   settings: '/settings',
-  selectToken: '/select-token',
+  fromToken: '/select-from-token',
+  toToken: '/select-to-token',
 };
+
+export type RouteType = keyof typeof routes;

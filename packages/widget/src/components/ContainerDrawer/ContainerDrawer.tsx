@@ -7,8 +7,9 @@ import {
   useState,
 } from 'react';
 import { useMatch, useNavigate } from 'react-router-dom';
+import { SwapFormDirection } from '../../providers/SwapFormProvider';
 import { ElementId } from '../../utils/elements';
-import { routes } from '../../utils/routes';
+import { routes, RouteType } from '../../utils/routes';
 import { ContainerDrawerBase, ContainerDrawerProps } from './types';
 
 export const ContainerDrawer = forwardRef<
@@ -23,9 +24,12 @@ export const ContainerDrawer = forwardRef<
   );
 
   const openDrawer = useCallback(
-    (args) => {
-      navigate(routes[route], { replace: true });
-      onOpen?.(args);
+    (formType?: SwapFormDirection, routeKey?: RouteType) => {
+      const to = routeKey ? routes[routeKey] : route ? routes[route] : null;
+      if (to) {
+        navigate(to, { replace: true });
+      }
+      onOpen?.(formType);
       setOpen(true);
     },
     [navigate, onOpen, route],

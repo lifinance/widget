@@ -42,7 +42,8 @@ export const App: React.FC<AppProps> = ({ config }) => {
                     path={routes.home}
                     element={<SwapPage settingsRef={settingsRef} />}
                   >
-                    <Route path={routes.selectToken} element={null} />
+                    <Route path={routes.fromToken} element={null} />
+                    <Route path={routes.toToken} element={null} />
                     <Route path={routes.settings} element={null} />
                   </Route>
                 </Routes>
