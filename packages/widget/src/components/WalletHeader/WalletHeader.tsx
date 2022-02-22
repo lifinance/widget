@@ -1,3 +1,4 @@
+import { useWalletInterface } from '@lifinance/widget/services/walletInterface';
 import { Box, Menu, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -17,6 +18,7 @@ export const WalletHeader: React.FC = () => {
   const walletAddress = account
     ? `${account.substring(0, 7)}...${account.substring(account.length - 7)}`
     : null;
+  const { disconnect } = useWalletInterface();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setMenuAnchor(event.currentTarget);
@@ -27,7 +29,7 @@ export const WalletHeader: React.FC = () => {
   };
 
   const handleDisconnect = () => {
-    connector.deactivate();
+    disconnect();
     handleClose();
   };
 

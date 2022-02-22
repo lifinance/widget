@@ -6,41 +6,52 @@ import {
   switchChain,
   switchChainAndAddToken,
 } from './browserWallets';
+import {
+  usePriorityAccount,
+  usePriorityConnector,
+  usePriorityIsActivating,
+  usePriorityIsActive,
+} from '../hooks/connectorHooks';
 
-class WalletInterface {
-  signer: JsonRpcSigner | undefined;
+export const useWalletInterface = () => {
+  const config = useWidgetConfig();
+  const connector = usePriorityConnector();
 
-  config = useWidgetConfig();
-
-  connect = async () => {
-    // TODO: call user given Hook
-    // or
-    // TODO: call Lifi WalletManagement
+  const connect = async () => {
+    if (!config.useLiFiWalletManagement) {
+      connector.activate();
+    }
   };
 
-  disconnect = async (address: string) => {
-    // TODO: call user given Hook
-    // or
-    // TODO: call Lifi WalletManagement
+  const disconnect = async () => {
+    if (!config.useLiFiWalletManagement) {
+      connector.deactivate();
+    }
   };
 
   // only for injected Wallets
-  switchChain = async (chainId: number) => {
-    if (this.config.useLiFiWalletManagement) {
+  const switchChain = async (chainId: number) => {
+    if (!config.useLiFiWalletManagement) {
       await switchChain(chainId);
     }
   };
 
-  addChain = async (chainId: number) => {
-    if (this.config.useLiFiWalletManagement) {
+  const addChain = async (chainId: number) => {
+    if (!config.useLiFiWalletManagement) {
       await addChain(chainId);
     }
   };
 
-  addToken = async (chainId: number, token: Token) => {
-    if (this.config.useLiFiWalletManagement) {
+  const addToken = async (chainId: number, token: Token) => {
+    if (!config.useLiFiWalletManagement) {
       await switchChainAndAddToken(chainId, token);
     }
   };
-}
-export {};
+  return {
+    connect,
+    disconnect,
+    switchChain,
+    addChain,
+    addToken,
+  };
+};

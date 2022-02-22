@@ -7,6 +7,7 @@ import {
   usePriorityIsActivating,
   usePriorityIsActive,
 } from '../hooks/connectorHooks';
+import { useWalletInterface } from '../services/walletInterface';
 
 export const Button = styled(LoadingButton)({
   textTransform: 'none',
@@ -20,6 +21,7 @@ export const SwapButton = () => {
   const isActive = usePriorityIsActive();
   const isActivating = usePriorityIsActivating();
   const account = usePriorityAccount();
+  const { connect } = useWalletInterface();
 
   return (
     <Button
@@ -27,7 +29,7 @@ export const SwapButton = () => {
       disableElevation
       fullWidth
       color={isActive ? 'primary' : 'success'}
-      onClick={isActive ? undefined : async () => connector.activate()}
+      onClick={isActive ? undefined : async () => connect()}
       loading={isActivating}
     >
       {isActive ? t(`swap.submit`) : t(`swap.connectWallet`)}
