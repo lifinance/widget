@@ -3,6 +3,10 @@ import {
   hooks as metaMaskHooks,
   metaMask,
 } from '../services/connectors/metaMask';
+import {
+  hooks as walletConnectHooks,
+  walletConnect,
+} from '../services/connectors/walletConnect';
 
 export const {
   useSelectedChainId,
@@ -27,8 +31,8 @@ export const {
   usePriorityENSName,
   usePriorityWeb3React,
 } = getPriorityConnector(
-  [metaMask, metaMaskHooks],
-  // [walletConnect, walletConnectHooks],
+  // [metaMask, metaMaskHooks],
+  [walletConnect, walletConnectHooks],
   // [walletLink, walletLinkHooks],
   // [network, networkHooks],
 );

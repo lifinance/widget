@@ -1,4 +1,3 @@
-import { JsonRpcSigner } from '@ethersproject/providers';
 import { useWidgetConfig } from '../providers/WidgetProvider';
 import { Token } from '../types';
 import {
@@ -6,12 +5,7 @@ import {
   switchChain,
   switchChainAndAddToken,
 } from './browserWallets';
-import {
-  usePriorityAccount,
-  usePriorityConnector,
-  usePriorityIsActivating,
-  usePriorityIsActive,
-} from '../hooks/connectorHooks';
+import { usePriorityConnector } from '../hooks/connectorHooks';
 
 export const useWalletInterface = () => {
   const config = useWidgetConfig();
