@@ -6,7 +6,7 @@ import {
   SwapFormKeyHelper,
   SwapFormTypeProps,
 } from '../../providers/SwapFormProvider';
-import { formatAmount, formatTokenAmount } from '../../utils/format';
+import { formatAmount } from '../../utils/format';
 import { SwapInputAdornment } from '../SwapInputAdornment';
 import { Input } from './SwapInput.style';
 
@@ -25,7 +25,6 @@ export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
   useEffect(() => {
     register(amountKey, { required: true });
   }, [amountKey, register]);
-  console.log(formatTokenAmount('5'));
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,

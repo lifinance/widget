@@ -7,7 +7,7 @@ export const useTokenBalance = (chainKey: ChainKey, tokenAddress: string) => {
   const account = usePriorityAccount();
   const { token } = useToken(chainKey, tokenAddress);
 
-  const { data: tokenWithBalance, isFetching } = useQuery(
+  const { data: tokenWithBalance, isLoading } = useQuery(
     ['token', token?.symbol, account],
     async ({ queryKey: [_, tokenSymbol, account] }) => {
       if (!account || !token) {
@@ -27,6 +27,6 @@ export const useTokenBalance = (chainKey: ChainKey, tokenAddress: string) => {
   return {
     token,
     tokenWithBalance,
-    isFetching,
+    isLoading,
   };
 };

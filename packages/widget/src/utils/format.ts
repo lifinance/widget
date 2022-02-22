@@ -1,3 +1,15 @@
+import Big from 'big.js';
+
+// JavaScript numbers use exponential notation for positive exponents of 21 and above.
+Big.PE = 21;
+// JavaScript numbers use exponential notation for negative exponents of -7 and below. We need more.
+Big.NE = -21;
+
+/**
+ * Format token amount to at least 4 decimals.
+ * @param amount amount to format.
+ * @returns formatted amount.
+ */
 export const formatTokenAmount = (amount: string = '0') => {
   const parsedAmount = parseFloat(amount);
   if (parsedAmount === 0 || isNaN(Number(amount))) {
@@ -6,15 +18,13 @@ export const formatTokenAmount = (amount: string = '0') => {
 
   let decimalPlaces = 3;
   const absAmount = Math.abs(parsedAmount);
-  while (
-    absAmount < 0.1 ** decimalPlaces ||
-    // to avoid showing greater than actual amount after round up
-    parseFloat(parsedAmount.toFixed(decimalPlaces + 1)) > parsedAmount
-  ) {
+  while (absAmount < 1 / 10 ** decimalPlaces) {
     decimalPlaces++;
   }
 
-  return parsedAmount.toFixed(decimalPlaces + 1);
+  return Big(
+    parseFloat(Big(parsedAmount).toFixed(decimalPlaces + 1, 0)),
+  ).toString();
 };
 
 export const formatSlippage = (
@@ -44,7 +54,6 @@ export const formatSlippage = (
   return parsedSlippage.toString();
 };
 
-// TODO: improve exp handling
 export const formatAmount = (
   amount: string = '',
   returnInitial: boolean = false,
@@ -65,5 +74,5 @@ export const formatAmount = (
   if (returnInitial) {
     return amount;
   }
-  return parsedAmount.toString();
+  return Big(parsedAmount).toString();
 };

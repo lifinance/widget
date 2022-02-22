@@ -22,7 +22,6 @@ export const SlippageInput = () => {
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { value } = event.target;
-    console.log(formatSlippage(value, defaultValue.current));
     setValue(
       SwapFormKey.Slippage,
       formatSlippage(value, defaultValue.current, true),
@@ -33,7 +32,6 @@ export const SlippageInput = () => {
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { value } = event.target;
-    console.log(formatSlippage(value, defaultValue.current));
     setValue(SwapFormKey.Slippage, formatSlippage(value, defaultValue.current));
   };
 
