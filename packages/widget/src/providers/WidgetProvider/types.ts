@@ -8,6 +8,7 @@ export interface WidgetContextProps {
   supportedChains: Chain[];
   toChain?: ChainKey;
   toToken?: string;
+  useLiFiWalletManagement?: boolean;
 }
 
 export interface WidgetProviderProps {
