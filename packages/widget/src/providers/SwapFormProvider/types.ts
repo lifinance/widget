@@ -1,5 +1,3 @@
-import { ChainKey } from '@lifinance/sdk';
-
 export enum SwapFormKey {
   BridgePrioritization = 'bridgePrioritization',
   EnabledBridges = 'enabledBridges',
@@ -26,7 +24,7 @@ export type SwapFormValues = {
   [SwapFormKey.EnabledBridges]: string[];
   [SwapFormKey.EnabledExchanges]: string[];
   [SwapFormKey.FromAmount]: string;
-  [SwapFormKey.FromChain]: ChainKey;
+  [SwapFormKey.FromChain]: number;
   [SwapFormKey.FromSearchTokensFilter]: string;
   [SwapFormKey.FromToken]: string;
   [SwapFormKey.GasPrice]: string;
@@ -37,7 +35,7 @@ export type SwapFormValues = {
   [SwapFormKey.RoutePriority]: string;
   [SwapFormKey.Slippage]: string;
   [SwapFormKey.ToAmount]: string;
-  [SwapFormKey.ToChain]: ChainKey;
+  [SwapFormKey.ToChain]: number;
   [SwapFormKey.ToSearchTokensFilter]: string;
   [SwapFormKey.ToToken]: string;
 };

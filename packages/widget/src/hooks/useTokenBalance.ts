@@ -1,11 +1,11 @@
-import Lifi, { ChainKey } from '@lifinance/sdk';
+import Lifi from '@lifinance/sdk';
 import { useQuery } from 'react-query';
 import { usePriorityAccount } from './connectorHooks';
 import { useToken } from './useToken';
 
-export const useTokenBalance = (chainKey: ChainKey, tokenAddress: string) => {
+export const useTokenBalance = (chainId: number, tokenAddress: string) => {
   const account = usePriorityAccount();
-  const { token } = useToken(chainKey, tokenAddress);
+  const { token } = useToken(chainId, tokenAddress);
 
   const { data: tokenWithBalance, isLoading } = useQuery(
     ['token', token?.symbol, account],

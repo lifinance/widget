@@ -18,14 +18,14 @@ export const SwapInputAdornment: React.FC<SwapFormTypeProps> = ({
 }) => {
   const { t } = useTranslation();
   const { setValue } = useFormContext();
-  const [chainKey, tokenAddress] = useWatch({
+  const [chainId, tokenAddress] = useWatch({
     name: [
       SwapFormKeyHelper.getChainKey(formType),
       SwapFormKeyHelper.getTokenKey(formType),
     ],
   });
   const { token, tokenWithBalance, isLoading } = useTokenBalance(
-    chainKey,
+    chainId,
     tokenAddress,
   );
 

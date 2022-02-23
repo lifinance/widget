@@ -32,7 +32,7 @@ export const TokenList: React.FC<TokenListProps> = ({
   const { t } = useTranslation();
   const account = usePriorityAccount();
   const { setValue } = useFormContext();
-  const [selectedChain, myTokensFilter] = useWatch({
+  const [selectedChainId, myTokensFilter] = useWatch({
     name: [SwapFormKeyHelper.getChainKey(formType), SwapFormKey.MyTokensFilter],
   });
   const [fromSearchTokensFilter, toSearchTokensFilter]: string[] =
@@ -44,7 +44,7 @@ export const TokenList: React.FC<TokenListProps> = ({
     formType === 'from' ? fromSearchTokensFilter : toSearchTokensFilter;
 
   const { tokens, tokensWithBalance, isLoading, isBalancesLoading } =
-    useTokens(selectedChain);
+    useTokens(selectedChainId);
 
   const filteredChainTokens =
     myTokensFilter === TokenFilterType.My ? tokensWithBalance : tokens;
@@ -52,7 +52,7 @@ export const TokenList: React.FC<TokenListProps> = ({
     myTokensFilter === TokenFilterType.My ? isBalancesLoading : isLoading;
 
   const chainTokens = useMemo(() => {
-    let chainTokens = filteredChainTokens?.[selectedChain] ?? [];
+    let chainTokens = filteredChainTokens?.[selectedChainId] ?? [];
     const searchFilter = debouncedSearchTokensFilter?.toUpperCase() ?? '';
     chainTokens = isFilteredChainTokensLoading
       ? [tokenAmountMock, ...createTokenAmountSkeletons()]
@@ -72,7 +72,7 @@ export const TokenList: React.FC<TokenListProps> = ({
     debouncedSearchTokensFilter,
     filteredChainTokens,
     isFilteredChainTokensLoading,
-    selectedChain,
+    selectedChainId,
   ]);
 
   const parentRef = useRef<HTMLUListElement | null>(null);

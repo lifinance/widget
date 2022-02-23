@@ -17,7 +17,7 @@ import { Select } from '../Select';
 export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
   const { setValue } = useFormContext();
   const { supportedChains, fromChain, toChain } = useWidgetConfig();
-  const [fromChainKey, toChainKey] = useWatch({
+  const [fromChainId, toChainId] = useWatch({
     name: [SwapFormKey.FromChain, SwapFormKey.ToChain],
   });
 
@@ -28,7 +28,7 @@ export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
   };
 
   const menuItems = supportedChains.map((chain) => (
-    <MenuItem key={chain.key} value={chain.key}>
+    <MenuItem key={chain.key} value={chain.id}>
       <ListItemIcon>
         <Avatar
           src={chain.logoURI}
@@ -51,7 +51,7 @@ export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
         <Select
           MenuProps={{ elevation: 2 }}
           defaultValue={fromChain}
-          value={fromChainKey}
+          value={fromChainId}
           onChange={handleChain}
         >
           {menuItems}
@@ -64,7 +64,7 @@ export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
         <Select
           MenuProps={{ elevation: 2 }}
           defaultValue={toChain}
-          value={toChainKey}
+          value={toChainId}
           onChange={handleChain}
         >
           {menuItems}

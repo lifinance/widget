@@ -1,12 +1,12 @@
-import { Chain, ChainKey } from '@lifinance/sdk';
+import { Chain } from '@lifinance/sdk';
 import { WidgetConfig } from '../../types';
 
 export interface WidgetContextProps {
   fromAmount?: number;
-  fromChain?: ChainKey;
+  fromChain?: number;
   fromToken?: string;
   supportedChains: Chain[];
-  toChain?: ChainKey;
+  toChain?: number;
   toToken?: string;
 }
 
