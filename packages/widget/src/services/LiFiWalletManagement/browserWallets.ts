@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { getChainById, prefixChainId, Token } from '../types';
+import { getChainById, prefixChainId, Token } from '../../types';
 
 export const switchChain = async (chainId: number) => {
   const { ethereum } = window as any;
