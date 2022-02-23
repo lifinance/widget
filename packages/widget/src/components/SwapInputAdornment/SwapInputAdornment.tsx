@@ -56,6 +56,10 @@ export const SwapInputAdornment: React.FC<SwapFormTypeProps> = ({
                 variant="body2"
                 color="text.primary"
                 onClick={handleMax}
+                role="button"
+                sx={{
+                  userSelect: 'none',
+                }}
               >
                 {t(`swap.max`)}
               </SwapMaxAmountTypography>
