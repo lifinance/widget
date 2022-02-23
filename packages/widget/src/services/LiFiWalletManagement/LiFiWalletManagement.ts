@@ -1,3 +1,6 @@
+import { useCallback, useEffect, useState } from 'react';
+import { Signer } from 'ethers';
+
 import {
   usePriorityConnector,
   usePriorityProvider,
@@ -12,34 +15,35 @@ export enum SupportedWalletProviders {
 export const useLifiWalletManagement = () => {
   const priorityConnector = usePriorityConnector();
   const priorityProvider = usePriorityProvider();
+  const [signer, setSigner] = useState<Signer>();
 
-  const eagerConnect = async () => {
-    await priorityConnector.activate();
-  };
+  const connect = useCallback(
+    async (walletProvider?: SupportedWalletProviders) => {
+      switch (walletProvider) {
+        case SupportedWalletProviders.MetaMask:
+          await metaMask.activate();
+          break;
+        case SupportedWalletProviders.WalletConnect:
+          await walletConnect.activate();
+          break;
+        default:
+          await priorityConnector.activate();
+      }
+    },
+    [priorityConnector],
+  );
 
-  const connectSpecificWalletProvider = async (
-    walletProvider: SupportedWalletProviders,
-  ) => {
-    switch (walletProvider) {
-      case SupportedWalletProviders.MetaMask:
-        await metaMask.activate();
-        break;
-      case SupportedWalletProviders.WalletConnect:
-        await walletConnect.activate();
-        break;
-      default:
-        throw Error('Unsupported Wallet Provider');
-    }
-  };
-
-  const disconnect = async () => {
+  const disconnect = useCallback(async () => {
     await priorityConnector.deactivate();
-  };
+  }, [priorityConnector]);
+
+  useEffect(() => {
+    setSigner(priorityProvider?.getSigner());
+  }, [priorityProvider]);
 
   return {
-    eagerConnect,
-    connectSpecificWalletProvider,
+    connect,
     disconnect,
-    signer: priorityProvider?.getSigner(),
+    signer,
   };
 };

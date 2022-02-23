@@ -8,8 +8,8 @@ import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 import { useQuery } from 'react-query';
 import { useWidgetConfig } from '../providers/WidgetProvider';
+import { useWalletInterface } from '../services/walletInterface';
 import { formatTokenAmount } from '../utils/format';
-import { usePriorityAccount } from './connectorHooks';
 import { useSwapPossibilities } from './useSwapPossibilities';
 
 interface TokenAmountList {
@@ -18,7 +18,7 @@ interface TokenAmountList {
 
 export const useTokens = (selectedChain: ChainKey) => {
   const { supportedChains } = useWidgetConfig();
-  const account = usePriorityAccount();
+  const { accountInformation } = useWalletInterface();
   const { data: possibilities, isLoading } = useSwapPossibilities();
 
   const formatTokens = useCallback(
@@ -68,7 +68,7 @@ export const useTokens = (selectedChain: ChainKey) => {
     isLoading: isBalancesLoading,
     refetch,
   } = useQuery(
-    ['tokens', selectedChain, account],
+    ['tokens', selectedChain, accountInformation.account],
     async ({ queryKey: [_, chainKey, account] }) => {
       if (!account || !possibilities) {
         return [];
@@ -86,7 +86,7 @@ export const useTokens = (selectedChain: ChainKey) => {
       return formatedTokens;
     },
     {
-      enabled: Boolean(account) && Boolean(possibilities),
+      enabled: Boolean(accountInformation.account) && Boolean(possibilities),
       refetchIntervalInBackground: true,
       refetchInterval: 60_000,
       staleTime: 60_000,

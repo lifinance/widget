@@ -22,7 +22,7 @@ export const useWalletInterface = () => {
   const config = useWidgetConfig();
   const LiFiWalletManagement = useLifiWalletManagement();
   const [accountInformation, setAccountInformation] =
-    useState<AccountInformation>();
+    useState<AccountInformation>({});
 
   const connect = async (walletProvider?: SupportedWalletProviders) => {
     if (!config.useLiFiWalletManagement) {
@@ -30,16 +30,12 @@ export const useWalletInterface = () => {
       return;
     }
 
-    if (walletProvider) {
-      await LiFiWalletManagement.connectSpecificWalletProvider(walletProvider);
-    } else {
-      await LiFiWalletManagement.eagerConnect();
-    }
+    await LiFiWalletManagement.connect(walletProvider);
   };
 
   const disconnect = async () => {
     if (!config.useLiFiWalletManagement) {
-      // TODO
+      setAccountInformation({});
     }
     await LiFiWalletManagement.disconnect();
   };
@@ -66,6 +62,7 @@ export const useWalletInterface = () => {
   useEffect(() => {
     const updateAccountInfo = async () => {
       if (config.useLiFiWalletManagement) {
+        console.log(LiFiWalletManagement.signer);
         setAccountInformation(
           await extractAccountInformationFromSigner(
             LiFiWalletManagement.signer,
@@ -74,7 +71,7 @@ export const useWalletInterface = () => {
       }
     };
     updateAccountInfo();
-  }, [LiFiWalletManagement.signer]);
+  }, [LiFiWalletManagement.signer, config.useLiFiWalletManagement]);
   return {
     connect,
     disconnect,
@@ -85,10 +82,8 @@ export const useWalletInterface = () => {
   };
 };
 
-const extractAccountInformationFromSigner = async (signer?: Signer) => {
-  return {
-    account: (await signer?.getAddress()) || undefined,
-    isActive: !!signer,
-    signer,
-  };
-};
+const extractAccountInformationFromSigner = async (signer?: Signer) => ({
+  account: (await signer?.getAddress()) || undefined,
+  isActive: (signer && !!(await signer.getAddress()) === null) || !!signer,
+  signer,
+});
