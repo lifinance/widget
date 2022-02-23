@@ -31,7 +31,7 @@ export const {
   usePriorityENSName,
   usePriorityWeb3React,
 } = getPriorityConnector(
-  // [metaMask, metaMaskHooks],
+  [metaMask, metaMaskHooks],
   [walletConnect, walletConnectHooks],
   // [walletLink, walletLinkHooks],
   // [network, networkHooks],
