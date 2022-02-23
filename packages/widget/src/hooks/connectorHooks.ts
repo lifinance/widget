@@ -2,11 +2,11 @@ import { getPriorityConnector } from '@web3-react/core';
 import {
   hooks as metaMaskHooks,
   metaMask,
-} from '../services/connectors/metaMask';
+} from '../services/LiFiWalletManagement/connectors/metaMask';
 import {
   hooks as walletConnectHooks,
   walletConnect,
-} from '../services/connectors/walletConnect';
+} from '../services/LiFiWalletManagement/connectors/walletConnect';
 
 export const {
   useSelectedChainId,
