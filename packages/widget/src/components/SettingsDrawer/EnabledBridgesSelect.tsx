@@ -31,7 +31,7 @@ export const EnabledBridgesSelect: React.FC = () => {
           {t(`settings.enabledBridges`)}
         </Typography>
       </Box>
-      {bridges.length > 0 ? (
+      {bridges.length ? (
         <FormControl fullWidth>
           <MultiSelect
             multiple

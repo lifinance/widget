@@ -43,8 +43,13 @@ export const TokenList: React.FC<TokenListProps> = ({
   const debouncedSearchTokensFilter =
     formType === 'from' ? fromSearchTokensFilter : toSearchTokensFilter;
 
-  const { tokens, tokensWithBalance, isLoading, isBalancesLoading } =
-    useTokens(selectedChainId);
+  const {
+    tokens,
+    tokensWithBalance,
+    isLoading,
+    isBalancesLoading,
+    isBalancesFetching,
+  } = useTokens(selectedChainId);
 
   const filteredChainTokens =
     myTokensFilter === TokenFilterType.My ? tokensWithBalance : tokens;
@@ -55,7 +60,8 @@ export const TokenList: React.FC<TokenListProps> = ({
     let chainTokens = filteredChainTokens?.[selectedChainId] ?? [];
     const searchFilter = debouncedSearchTokensFilter?.toUpperCase() ?? '';
     chainTokens = isFilteredChainTokensLoading
-      ? [tokenAmountMock, ...createTokenAmountSkeletons()]
+      ? // tokenAmountMock is used as a first token to create sticky header for virtual list
+        [tokenAmountMock, ...createTokenAmountSkeletons()]
       : [
           tokenAmountMock,
           ...(debouncedSearchTokensFilter

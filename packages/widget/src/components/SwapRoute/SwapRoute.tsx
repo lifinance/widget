@@ -1,9 +1,12 @@
 import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { useSwapRoutes } from '../../hooks/useSwapRoutes';
 import { SwapStepper } from '../SwapStepper';
 
 export const SwapRoute: React.FC = () => {
   const { t } = useTranslation();
+  const { routes, isFetching, isFetched } = useSwapRoutes();
+
   return (
     <Box py={2}>
       <SwapStepper

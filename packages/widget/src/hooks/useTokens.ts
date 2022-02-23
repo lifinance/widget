@@ -1,4 +1,4 @@
-import Lifi, { getChainById, Token, TokenAmount } from '@lifinance/sdk';
+import LiFi, { getChainById, Token, TokenAmount } from '@lifinance/sdk';
 import { useCallback, useMemo } from 'react';
 import { useQuery } from 'react-query';
 import { useWidgetConfig } from '../providers/WidgetProvider';
@@ -59,6 +59,7 @@ export const useTokens = (selectedChainId: number) => {
   const {
     data: tokensWithBalance,
     isLoading: isBalancesLoading,
+    isFetching: isBalancesFetching,
     refetch,
   } = useQuery(
     ['tokens', selectedChainId, account],
@@ -66,7 +67,7 @@ export const useTokens = (selectedChainId: number) => {
       if (!account || !possibilities) {
         return [];
       }
-      const tokenBalances = await Lifi.getTokenBalances(
+      const tokenBalances = await LiFi.getTokenBalances(
         account as string,
         tokens[chainId as number],
       );
@@ -89,6 +90,7 @@ export const useTokens = (selectedChainId: number) => {
     tokensWithBalance: tokensWithBalance?.[1],
     isLoading,
     isBalancesLoading: isLoading || isBalancesLoading,
+    isBalancesFetching,
     updateBalances: refetch,
   };
 };

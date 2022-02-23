@@ -1,4 +1,4 @@
-import Lifi from '@lifinance/sdk';
+import LiFi from '@lifinance/sdk';
 import { useQuery } from 'react-query';
 import { usePriorityAccount } from './connectorHooks';
 import { useToken } from './useToken';
@@ -13,7 +13,7 @@ export const useTokenBalance = (chainId: number, tokenAddress: string) => {
       if (!account || !token) {
         return null;
       }
-      const tokenBalance = await Lifi.getTokenBalance(account, token);
+      const tokenBalance = await LiFi.getTokenBalance(account, token);
       return tokenBalance;
     },
     {
