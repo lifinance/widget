@@ -1,17 +1,32 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Signer } from 'ethers';
 
-import {
-  usePriorityConnector,
-  usePriorityProvider,
-} from '../../hooks/connectorHooks';
+import { usePriorityConnector, usePriorityProvider } from './connectorHooks';
 import { metaMask } from './connectors/metaMask';
 import { walletConnect } from './connectors/walletConnect';
+import metamaskIcon from './walletIcons/metaMask.svg';
+import walletConnectIcon from './walletIcons/walletConnect.svg';
 
 export enum SupportedWalletProviders {
   MetaMask,
   WalletConnect,
 }
+
+export const supportedWalletInfos: {
+  [key in SupportedWalletProviders]: {
+    name: string;
+    icon: string;
+  };
+} = {
+  [SupportedWalletProviders.MetaMask]: {
+    name: 'MetaMask',
+    icon: metamaskIcon,
+  },
+  [SupportedWalletProviders.WalletConnect]: {
+    name: 'WalletConnect',
+    icon: walletConnectIcon,
+  },
+};
 export const useLifiWalletManagement = () => {
   const priorityConnector = usePriorityConnector();
   const priorityProvider = usePriorityProvider();

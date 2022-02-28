@@ -25,6 +25,7 @@ export const WidgetProvider: React.FC<WidgetProviderProps> = ({
     toChain,
     toToken,
     useLiFiWalletManagement,
+    walletCallbacks,
   },
 }) => {
   const value = useMemo((): WidgetContextProps => {
@@ -47,7 +48,8 @@ export const WidgetProvider: React.FC<WidgetProviderProps> = ({
             ? getChainByKey(toChain as ChainKey).key
             : ChainKey.ETH,
         toToken,
-        useLiFiWalletManagement,
+        useLiFiWalletManagement: useLiFiWalletManagement || true,
+        walletCallbacks,
       };
     } catch (e) {
       return {
@@ -62,6 +64,7 @@ export const WidgetProvider: React.FC<WidgetProviderProps> = ({
     toChain,
     toToken,
     useLiFiWalletManagement,
+    walletCallbacks,
   ]);
   return (
     <WidgetContext.Provider value={value}>{children}</WidgetContext.Provider>
