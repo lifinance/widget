@@ -9,9 +9,9 @@ import {
 } from '@mui/material';
 import { useResizeDetector } from 'react-resize-detector';
 import {
-  supportedWalletInfos,
-  SupportedWalletProviders,
-} from '@lifinance/widget/services/LiFiWalletManagement/LiFiWalletManagement';
+  supportedWallets,
+  Wallet,
+} from '@lifinance/widget/services/LiFiWalletManagement/wallets';
 import { useWalletInterface } from '@lifinance/widget/services/walletInterface';
 import { SelectWalletDrawerBase } from './types';
 import { ContainerDrawer } from '../ContainerDrawer';
@@ -30,8 +30,8 @@ export const SelectWalletDrawer = forwardRef<
   const closeDrawer = (ref as MutableRefObject<SelectWalletDrawerBase | null>)
     .current?.closeDrawer;
 
-  const handleConnect = async (walletProvider: SupportedWalletProviders) => {
-    await connect(walletProvider);
+  const handleConnect = async (wallet: Wallet) => {
+    await connect(wallet);
     if (closeDrawer) {
       closeDrawer();
     }
@@ -41,21 +41,17 @@ export const SelectWalletDrawer = forwardRef<
     <ContainerDrawer elementRef={drawerRef} ref={ref} route="selectWallet">
       <Box role="presentation">
         <List>
-          {Object.entries(supportedWalletInfos).map((walletInfo) => {
+          {supportedWallets.map((wallet: Wallet) => {
             return (
               <WalletListItem
-                key={walletInfo[0]}
-                onClick={() =>
-                  handleConnect(
-                    walletInfo[0] as unknown as SupportedWalletProviders,
-                  )
-                }
+                key={wallet.name}
+                onClick={() => handleConnect(wallet)}
               >
                 <WalletListItemButton>
                   <ListItemAvatar>
-                    <Avatar src={walletInfo[1].icon} alt={walletInfo[1].name} />
+                    <Avatar src={wallet.icon} alt={wallet.name} />
                   </ListItemAvatar>
-                  <ListItemText primary={walletInfo[1].name} />
+                  <ListItemText primary={wallet.name} />
                 </WalletListItemButton>
               </WalletListItem>
             );

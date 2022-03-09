@@ -2,20 +2,19 @@ import { Signer } from 'ethers';
 import { useEffect, useState } from 'react';
 import { useWidgetConfig } from '../providers/WidgetProvider';
 import { Token } from '../types';
-import {
-  SupportedWalletProviders,
-  useLifiWalletManagement,
-} from './LiFiWalletManagement/LiFiWalletManagement';
+import { useLifiWalletManagement } from './LiFiWalletManagement/LiFiWalletManagement';
 import {
   addChain as walletAddChain,
   switchChain as walletSwitchChain,
   switchChainAndAddToken,
 } from './LiFiWalletManagement/browserWallets';
+import { Wallet } from './LiFiWalletManagement/wallets';
 
 export interface AccountInformation {
   account?: string;
   isActive?: boolean;
   signer?: Signer;
+  chainId?: number;
 }
 
 export const useWalletInterface = () => {
@@ -24,13 +23,13 @@ export const useWalletInterface = () => {
   const [accountInformation, setAccountInformation] =
     useState<AccountInformation>({});
 
-  const connect = async (walletProvider?: SupportedWalletProviders) => {
+  const connect = async (wallet?: Wallet) => {
     if (!config.useLiFiWalletManagement) {
       // TODO
       return;
     }
 
-    await LiFiWalletManagement.connect(walletProvider);
+    await LiFiWalletManagement.connect(wallet);
   };
 
   const disconnect = async () => {
@@ -62,12 +61,11 @@ export const useWalletInterface = () => {
   useEffect(() => {
     const updateAccountInfo = async () => {
       if (config.useLiFiWalletManagement) {
-        console.log(LiFiWalletManagement.signer);
-        setAccountInformation(
-          await extractAccountInformationFromSigner(
-            LiFiWalletManagement.signer,
-          ),
+        const info = await extractAccountInformationFromSigner(
+          LiFiWalletManagement.signer,
         );
+
+        setAccountInformation(info);
       }
     };
     updateAccountInfo();
@@ -86,4 +84,5 @@ const extractAccountInformationFromSigner = async (signer?: Signer) => ({
   account: (await signer?.getAddress()) || undefined,
   isActive: (signer && !!(await signer.getAddress()) === null) || !!signer,
   signer,
+  chainId: (await signer?.getChainId()) || undefined,
 });

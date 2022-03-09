@@ -2,7 +2,8 @@ import { LoadingButton } from '@mui/lab';
 import { styled } from '@mui/material/styles';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SupportedWalletProviders } from '../services/LiFiWalletManagement/LiFiWalletManagement';
+import { ChainKey, getChainByKey } from '..';
+import { useWidgetConfig } from '../providers/WidgetProvider';
 import { useWalletInterface } from '../services/walletInterface';
 import { SelectWalletDrawer } from './SelectWalletDrawer/SelectWalletDrawer';
 import { SelectWalletDrawerBase } from './SelectWalletDrawer/types';
@@ -16,6 +17,7 @@ export const Button = styled(LoadingButton)({
 export const SwapButton = () => {
   const { t } = useTranslation();
   const { accountInformation } = useWalletInterface();
+  const config = useWidgetConfig();
 
   const drawerRef = useRef<SelectWalletDrawerBase>(null);
 
@@ -27,7 +29,7 @@ export const SwapButton = () => {
         variant="contained"
         disableElevation
         fullWidth
-        color={accountInformation.isActive ? 'primary' : 'success'}
+        color={accountInformation.isActive ? 'primary' : 'error'}
         // onClick={accountInformation.isActive ? undefined : async () => connect()}
         onClick={
           accountInformation.isActive
@@ -37,7 +39,10 @@ export const SwapButton = () => {
         // loading={isActivating}
       >
         {accountInformation.isActive
-          ? t(`swap.submit`)
+          ? getChainByKey(config.fromChain || ChainKey.ETH).id ===
+            accountInformation.chainId
+            ? t(`swap.submit`)
+            : t(`swap.switchChain`)
           : t(`swap.connectWallet`)}
       </Button>
       <SelectWalletDrawer ref={drawerRef} />
