@@ -33,11 +33,6 @@ export const useLifiWalletManagement = () => {
 
   useEffect(() => {
     setSigner(priorityProvider?.getSigner());
-
-    // const test = async () => {
-    //   console.log(await priorityProvider?.getNetwork());
-    // };
-    // test();
   }, [priorityProvider]);
 
   // useEffect(() => {
