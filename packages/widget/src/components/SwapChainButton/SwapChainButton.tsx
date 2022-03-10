@@ -12,14 +12,14 @@ export const SwapChainButton: React.FC<SwapChainButtonProps> = ({
 }) => {
   const { t } = useTranslation();
   const { isSubmitting } = useFormState();
-  const [chainKey, tokenAddress] = useWatch({
+  const [chainId, tokenAddress] = useWatch({
     name: [
       SwapFormKeyHelper.getChainKey(formType),
       SwapFormKeyHelper.getTokenKey(formType),
     ],
   });
 
-  const { chain, token } = useToken(chainKey, tokenAddress);
+  const { chain, token } = useToken(chainId, tokenAddress);
 
   return (
     <Button

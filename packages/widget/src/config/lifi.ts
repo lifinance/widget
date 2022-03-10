@@ -1,8 +1,8 @@
-import Lifi from '@lifinance/sdk';
+import LiFi from '@lifinance/sdk';
 import { env } from './env';
 import { getRpcs } from './rpcs';
 
-Lifi.setConfig({
+LiFi.setConfig({
   apiUrl: env.LIFI_API_URL,
   rpcs: getRpcs(),
   defaultRouteOptions: {

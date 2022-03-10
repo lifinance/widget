@@ -1,10 +1,4 @@
-import Lifi, {
-  ChainKey,
-  getChainById,
-  Token,
-  TokenAmount,
-} from '@lifinance/sdk';
-import BigNumber from 'bignumber.js';
+import LiFi, { getChainById, Token, TokenAmount } from '@lifinance/sdk';
 import { useCallback, useMemo } from 'react';
 import { useQuery } from 'react-query';
 import { useWidgetConfig } from '../providers/WidgetProvider';
@@ -13,10 +7,10 @@ import { formatTokenAmount } from '../utils/format';
 import { useSwapPossibilities } from './useSwapPossibilities';
 
 interface TokenAmountList {
-  [ChainKey: string]: Array<TokenAmount>;
+  [chainId: number]: Array<TokenAmount>;
 }
 
-export const useTokens = (selectedChain: ChainKey) => {
+export const useTokens = (selectedChainId: number) => {
   const { supportedChains } = useWidgetConfig();
   const { accountInformation } = useWalletInterface();
   const { data: possibilities, isLoading } = useSwapPossibilities();
@@ -26,14 +20,13 @@ export const useTokens = (selectedChain: ChainKey) => {
       const tokenAmountList: TokenAmountList = tokens.reduce<TokenAmountList>(
         (tokenAmountList, token) => {
           const chain = getChainById(token.chainId);
-          if (!tokenAmountList[chain.key]) {
-            tokenAmountList[chain.key] = [];
+          if (!tokenAmountList[chain.id]) {
+            tokenAmountList[chain.id] = [];
           }
           (token as TokenAmount).amount = formatTokenAmount(
-            token,
-            new BigNumber((token as TokenAmount).amount ?? 0),
+            (token as TokenAmount).amount,
           );
-          tokenAmountList[chain.key].push({ amount: '0', ...token });
+          tokenAmountList[chain.id].push({ amount: '0', ...token });
           return tokenAmountList;
         },
         {},
@@ -42,9 +35,9 @@ export const useTokens = (selectedChain: ChainKey) => {
         Array<TokenAmountList>
       >(
         (tokens, chain) => {
-          if (tokenAmountList[chain.key]) {
-            tokens[0][chain.key] = tokenAmountList[chain.key];
-            tokens[1][chain.key] = tokenAmountList[chain.key].filter(
+          if (tokenAmountList[chain.id]) {
+            tokens[0][chain.id] = tokenAmountList[chain.id];
+            tokens[1][chain.id] = tokenAmountList[chain.id].filter(
               (token) => token.amount !== '0',
             );
           }
@@ -66,22 +59,21 @@ export const useTokens = (selectedChain: ChainKey) => {
   const {
     data: tokensWithBalance,
     isLoading: isBalancesLoading,
+    isFetching: isBalancesFetching,
     refetch,
   } = useQuery(
-    ['tokens', selectedChain, accountInformation.account],
-    async ({ queryKey: [_, chainKey, account] }) => {
+    ['tokens', selectedChainId, accountInformation.account],
+    async ({ queryKey: [_, chainId, account] }) => {
       if (!account || !possibilities) {
         return [];
       }
-      const tokenBalances = await Lifi.getTokenBalances(
-        account,
-        tokens[chainKey as ChainKey],
+      const tokenBalances = await LiFi.getTokenBalances(
+        account as string,
+        tokens[chainId as number],
       );
 
       const formatedTokens = formatTokens(
-        tokenBalances.length === 0
-          ? tokens[chainKey as ChainKey]
-          : tokenBalances,
+        tokenBalances.length === 0 ? tokens[chainId as number] : tokenBalances,
       );
       return formatedTokens;
     },
@@ -98,6 +90,7 @@ export const useTokens = (selectedChain: ChainKey) => {
     tokensWithBalance: tokensWithBalance?.[1],
     isLoading,
     isBalancesLoading: isLoading || isBalancesLoading,
+    isBalancesFetching,
     updateBalances: refetch,
   };
 };

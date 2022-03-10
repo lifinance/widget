@@ -31,7 +31,7 @@ export const EnabledExchangesSelect: React.FC = () => {
           {t(`settings.enabledExchanges`)}
         </Typography>
       </Box>
-      {exchanges.length > 0 ? (
+      {exchanges.length ? (
         <FormControl fullWidth>
           <MultiSelect
             multiple

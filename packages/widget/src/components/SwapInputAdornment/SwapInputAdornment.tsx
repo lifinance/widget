@@ -1,7 +1,6 @@
 import { InputAdornment, Skeleton, Typography } from '@mui/material';
-import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
-import { useWatch } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useTokenBalance } from '../../hooks/useTokenBalance';
 import {
@@ -18,28 +17,31 @@ export const SwapInputAdornment: React.FC<SwapFormTypeProps> = ({
   formType,
 }) => {
   const { t } = useTranslation();
-  const [chainKey, tokenAddress] = useWatch({
+  const { setValue } = useFormContext();
+  const [chainId, tokenAddress] = useWatch({
     name: [
       SwapFormKeyHelper.getChainKey(formType),
       SwapFormKeyHelper.getTokenKey(formType),
     ],
   });
-  const { token, tokenWithBalance, isFetching } = useTokenBalance(
-    chainKey,
+  const { token, tokenWithBalance, isLoading } = useTokenBalance(
+    chainId,
     tokenAddress,
   );
 
   const amount = useMemo(
     () =>
-      token
-        ? formatTokenAmount(token, new BigNumber(tokenWithBalance?.amount ?? 0))
-        : null,
-    [token, tokenWithBalance?.amount],
+      tokenWithBalance ? formatTokenAmount(tokenWithBalance.amount) : null,
+    [tokenWithBalance],
   );
+
+  const handleMax = () => {
+    setValue(SwapFormKeyHelper.getAmountKey(formType), amount);
+  };
 
   return (
     <InputAdornment position="end">
-      {isFetching ? (
+      {isLoading ? (
         <Skeleton
           variant="rectangular"
           width={formType === 'from' ? 160 : 96}
@@ -50,10 +52,22 @@ export const SwapInputAdornment: React.FC<SwapFormTypeProps> = ({
         <>
           {formType === 'from' && token && amount ? (
             <>
-              <SwapMaxAmountTypography variant="body2" color="text.primary">
+              <SwapMaxAmountTypography
+                variant="body2"
+                color="text.primary"
+                onClick={handleMax}
+                role="button"
+                sx={{
+                  userSelect: 'none',
+                }}
+              >
                 {t(`swap.max`)}
               </SwapMaxAmountTypography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                data-amount={tokenWithBalance?.amount}
+              >
                 {t(`swap.maxAmount`, {
                   amount,
                 })}

@@ -3,11 +3,11 @@ import { useWidgetConfig } from '../WidgetProvider';
 import { SwapFormKey, SwapFormValues } from './types';
 
 const defaultValues = {
-  [SwapFormKey.FromAmount]: 0,
+  [SwapFormKey.FromAmount]: '',
   [SwapFormKey.FromSearchTokensFilter]: '',
   [SwapFormKey.GasPrice]: 'normal',
   [SwapFormKey.Slippage]: '3',
-  [SwapFormKey.ToAmount]: 0,
+  [SwapFormKey.ToAmount]: '',
   [SwapFormKey.ToSearchTokensFilter]: '',
 };
 
@@ -20,7 +20,7 @@ export const SwapFormProvider: React.FC = ({ children }) => {
       ...defaultValues,
       fromChain,
       fromToken,
-      fromAmount,
+      fromAmount: fromAmount?.toPrecision() ?? defaultValues.fromAmount,
       toChain,
       toToken,
     },

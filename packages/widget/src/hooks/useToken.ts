@@ -1,17 +1,17 @@
-import { ChainKey, getChainByKey } from '@lifinance/sdk';
+import { getChainById } from '@lifinance/sdk';
 import { useMemo } from 'react';
 import { useSwapPossibilities } from './useSwapPossibilities';
 
-export const useToken = (chainKey: ChainKey, tokenAddress: string) => {
+export const useToken = (chainId: number, tokenAddress: string) => {
   const { data: possibilities, isLoading } = useSwapPossibilities();
 
   const [chain, token] = useMemo(() => {
-    const chain = getChainByKey(chainKey);
+    const chain = getChainById(chainId);
     const token = possibilities?.tokens.find(
       (token) => token.address === tokenAddress && token.chainId === chain.id,
     );
     return [chain, token];
-  }, [chainKey, possibilities?.tokens, tokenAddress]);
+  }, [chainId, possibilities?.tokens, tokenAddress]);
 
   return {
     chain,

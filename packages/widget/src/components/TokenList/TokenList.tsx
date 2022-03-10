@@ -32,7 +32,7 @@ export const TokenList: React.FC<TokenListProps> = ({
   const { t } = useTranslation();
   const { accountInformation } = useWalletInterface();
   const { setValue } = useFormContext();
-  const [selectedChain, myTokensFilter] = useWatch({
+  const [selectedChainId, myTokensFilter] = useWatch({
     name: [SwapFormKeyHelper.getChainKey(formType), SwapFormKey.MyTokensFilter],
   });
   const [fromSearchTokensFilter, toSearchTokensFilter]: string[] =
@@ -43,8 +43,13 @@ export const TokenList: React.FC<TokenListProps> = ({
   const debouncedSearchTokensFilter =
     formType === 'from' ? fromSearchTokensFilter : toSearchTokensFilter;
 
-  const { tokens, tokensWithBalance, isLoading, isBalancesLoading } =
-    useTokens(selectedChain);
+  const {
+    tokens,
+    tokensWithBalance,
+    isLoading,
+    isBalancesLoading,
+    isBalancesFetching,
+  } = useTokens(selectedChainId);
 
   const filteredChainTokens =
     myTokensFilter === TokenFilterType.My ? tokensWithBalance : tokens;
@@ -52,10 +57,11 @@ export const TokenList: React.FC<TokenListProps> = ({
     myTokensFilter === TokenFilterType.My ? isBalancesLoading : isLoading;
 
   const chainTokens = useMemo(() => {
-    let chainTokens = filteredChainTokens?.[selectedChain] ?? [];
+    let chainTokens = filteredChainTokens?.[selectedChainId] ?? [];
     const searchFilter = debouncedSearchTokensFilter?.toUpperCase() ?? '';
     chainTokens = isFilteredChainTokensLoading
-      ? [tokenAmountMock, ...createTokenAmountSkeletons()]
+      ? // tokenAmountMock is used as a first token to create sticky header for virtual list
+        [tokenAmountMock, ...createTokenAmountSkeletons()]
       : [
           tokenAmountMock,
           ...(debouncedSearchTokensFilter
@@ -72,7 +78,7 @@ export const TokenList: React.FC<TokenListProps> = ({
     debouncedSearchTokensFilter,
     filteredChainTokens,
     isFilteredChainTokensLoading,
-    selectedChain,
+    selectedChainId,
   ]);
 
   const parentRef = useRef<HTMLUListElement | null>(null);

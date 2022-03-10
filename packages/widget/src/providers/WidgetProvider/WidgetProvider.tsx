@@ -1,4 +1,4 @@
-import { ChainKey, getChainById, getChainByKey } from '@lifinance/sdk';
+import { ChainId, ChainKey, getChainById, getChainByKey } from '@lifinance/sdk';
 import { createContext, useContext, useMemo } from 'react';
 import type { WidgetContextProps, WidgetProviderProps } from './types';
 
@@ -35,18 +35,18 @@ export const WidgetProvider: React.FC<WidgetProviderProps> = ({
         supportedChains: chainIds.map(getChainById),
         fromChain:
           typeof fromChain === 'number'
-            ? getChainById(fromChain).key
+            ? fromChain
             : typeof fromChain === 'string'
-            ? getChainByKey(fromChain as ChainKey).key
-            : ChainKey.ETH,
+            ? getChainByKey(fromChain as ChainKey).id
+            : ChainId.ETH,
         fromToken,
         fromAmount,
         toChain:
           typeof toChain === 'number'
-            ? getChainById(toChain).key
+            ? toChain
             : typeof toChain === 'string'
-            ? getChainByKey(toChain as ChainKey).key
-            : ChainKey.ETH,
+            ? getChainByKey(toChain as ChainKey).id
+            : ChainId.ETH,
         toToken,
         useLiFiWalletManagement: useLiFiWalletManagement || true,
         walletCallbacks,

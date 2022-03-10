@@ -2,7 +2,7 @@ import { LoadingButton } from '@mui/lab';
 import { styled } from '@mui/material/styles';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ChainKey, getChainByKey } from '..';
+import { ChainId, getChainById } from '..';
 import { useWidgetConfig } from '../providers/WidgetProvider';
 import { useWalletInterface } from '../services/walletInterface';
 import { SelectWalletDrawer } from './SelectWalletDrawer/SelectWalletDrawer';
@@ -39,7 +39,7 @@ export const SwapButton = () => {
         // loading={isActivating}
       >
         {accountInformation.isActive
-          ? getChainByKey(config.fromChain || ChainKey.ETH).id ===
+          ? getChainById(config.fromChain || ChainId.ETH).id ===
             accountInformation.chainId
             ? t(`swap.submit`)
             : t(`swap.switchChain`)

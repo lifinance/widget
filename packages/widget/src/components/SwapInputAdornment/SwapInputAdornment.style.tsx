@@ -10,7 +10,7 @@ export const SwapPriceTypography = styled(Typography)(({ theme }) => ({
 
 export const SwapMaxAmountTypography = styled(Typography)({
   textDecoration: 'underline',
-  marginRight: 8,
+  padding: '4px 8px 4px 0',
   '&:hover': {
     cursor: 'pointer',
   },

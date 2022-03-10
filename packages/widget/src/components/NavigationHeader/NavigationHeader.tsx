@@ -11,7 +11,8 @@ import { Header } from '../Header';
 
 const routesWithBack = [
   routes.settings,
-  routes.selectToken,
+  routes.fromToken,
+  routes.toToken,
   routes.selectWallet,
 ];
 
@@ -34,8 +35,10 @@ export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
     switch (location.pathname) {
       case routes.settings:
         return t(`header.settings`);
-      case routes.selectToken:
-        return t(`header.wouldLikeToSwap`);
+      case routes.fromToken:
+        return t(`swap.from`);
+      case routes.toToken:
+        return t(`swap.to`);
       case routes.selectWallet:
         return t(`header.selectWallet`);
       default:

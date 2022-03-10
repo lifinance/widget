@@ -6,7 +6,7 @@ import {
   MenuItem,
   Typography,
 } from '@mui/material';
-import { forwardRef, MutableRefObject, useState } from 'react';
+import { forwardRef, MutableRefObject, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useResizeDetector } from 'react-resize-detector';
@@ -35,13 +35,13 @@ export const SelectTokenDrawer = forwardRef<SelectTokenDrawerBase, DrawerProps>(
     const closeDrawer = (ref as MutableRefObject<SelectTokenDrawerBase | null>)
       .current?.closeDrawer;
 
+    useEffect(() => {
+      register(SwapFormKey.FromToken);
+      register(SwapFormKey.ToToken);
+    }, [register]);
+
     return (
-      <ContainerDrawer
-        elementRef={drawerRef}
-        ref={ref}
-        onOpen={setFormType}
-        route="selectToken"
-      >
+      <ContainerDrawer elementRef={drawerRef} ref={ref} onOpen={setFormType}>
         <Box role="presentation">
           <TokenList
             height={drawerHeight ?? 0}

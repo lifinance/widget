@@ -1,18 +1,34 @@
-import { Avatar, FormControl, ListItemIcon, MenuItem } from '@mui/material';
-import { useFormContext } from 'react-hook-form';
+import {
+  Avatar,
+  FormControl,
+  ListItemIcon,
+  MenuItem,
+  SelectChangeEvent,
+} from '@mui/material';
+import { useFormContext, useWatch } from 'react-hook-form';
 import {
   SwapFormKey,
+  SwapFormKeyHelper,
   SwapFormTypeProps,
 } from '../../providers/SwapFormProvider';
 import { useWidgetConfig } from '../../providers/WidgetProvider';
 import { Select } from '../Select';
 
 export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
-  const { register } = useFormContext();
+  const { setValue } = useFormContext();
   const { supportedChains, fromChain, toChain } = useWidgetConfig();
+  const [fromChainId, toChainId] = useWatch({
+    name: [SwapFormKey.FromChain, SwapFormKey.ToChain],
+  });
+
+  const handleChain = (event: SelectChangeEvent<unknown>) => {
+    setValue(SwapFormKeyHelper.getChainKey(formType), event.target.value);
+    setValue(SwapFormKeyHelper.getTokenKey(formType), '');
+    setValue(SwapFormKeyHelper.getAmountKey(formType), '');
+  };
 
   const menuItems = supportedChains.map((chain) => (
-    <MenuItem key={chain.key} value={chain.key}>
+    <MenuItem key={chain.key} value={chain.id}>
       <ListItemIcon>
         <Avatar
           src={chain.logoURI}
@@ -35,9 +51,8 @@ export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
         <Select
           MenuProps={{ elevation: 2 }}
           defaultValue={fromChain}
-          inputProps={{
-            ...register(SwapFormKey.FromChain),
-          }}
+          value={fromChainId}
+          onChange={handleChain}
         >
           {menuItems}
         </Select>
@@ -49,10 +64,8 @@ export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
         <Select
           MenuProps={{ elevation: 2 }}
           defaultValue={toChain}
-          inputProps={{
-            ...register(SwapFormKey.ToChain),
-          }}
-          hidden={formType === 'to'}
+          value={toChainId}
+          onChange={handleChain}
         >
           {menuItems}
         </Select>

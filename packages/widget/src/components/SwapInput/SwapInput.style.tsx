@@ -1,7 +1,7 @@
 import { styled } from '@mui/material/styles';
-import { Input } from './Input';
+import { Input as InputBase } from '../Input';
 
-export const SwapInput = styled(Input)({
+export const Input = styled(InputBase)({
   borderRadius: '0 0 8px 8px',
   borderWidth: '1px 2px 2px 2px',
   '& input[type="number"]::-webkit-outer-spin-button, & input[type="number"]::-webkit-inner-spin-button':
