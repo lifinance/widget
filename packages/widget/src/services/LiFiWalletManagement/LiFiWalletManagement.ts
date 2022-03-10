@@ -1,17 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Signer } from 'ethers';
 
-import {
-  usePriorityConnector,
-  usePriorityProvider,
-  usePriorityWeb3React,
-} from './connectorHooks';
-import { metaMask } from './connectors/metaMask';
-import { walletConnect } from './connectors/walletConnect';
-import metamaskIcon from './walletIcons/metaMask.svg';
-import walletConnectIcon from './walletIcons/walletConnect.svg';
-import mathWalletIcon from './walletIcons/mathWallet.svg';
-import { eip1193 } from './connectors/eip1193';
+import { usePriorityConnector, usePriorityProvider } from './connectorHooks';
 import { Wallet } from './wallets';
 
 export const useLifiWalletManagement = () => {
@@ -24,7 +14,7 @@ export const useLifiWalletManagement = () => {
       if (!wallet) {
         await priorityConnector.activate();
       } else {
-        wallet.connector.activate();
+        await wallet.connector.activate();
       }
     },
     [priorityConnector],
@@ -35,7 +25,7 @@ export const useLifiWalletManagement = () => {
       if (!wallet) {
         await priorityConnector.deactivate();
       } else {
-        wallet.connector.deactivate();
+        await wallet.connector.deactivate();
       }
     },
     [priorityConnector],

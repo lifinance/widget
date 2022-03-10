@@ -1,4 +1,4 @@
-import { ListItem, ListItemButton } from '@mui/material';
+import { ListItem, ListItemButton, Typography } from '@mui/material';
 import { listItemSecondaryActionClasses } from '@mui/material/ListItemSecondaryAction';
 import { styled } from '@mui/material/styles';
 
@@ -16,4 +16,8 @@ export const WalletListItem = styled(ListItem)({
   [`& .${listItemSecondaryActionClasses.root}`]: {
     right: 24,
   },
+});
+
+export const WalletIdentityPopoverContent = styled(Typography)({
+  maxWidth: 400,
 });
