@@ -1,9 +1,10 @@
 import { LoadingButton } from '@mui/lab';
 import { styled } from '@mui/material/styles';
 import { useRef } from 'react';
+import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { ChainId, getChainById } from '..';
-import { useWidgetConfig } from '../providers/WidgetProvider';
+import { SwapFormKeyHelper } from '../providers/SwapFormProvider';
 import { useWalletInterface } from '../services/walletInterface';
 import { SelectWalletDrawer } from './SelectWalletDrawer/SelectWalletDrawer';
 import { SelectWalletDrawerBase } from './SelectWalletDrawer/types';
@@ -17,7 +18,12 @@ export const Button = styled(LoadingButton)({
 export const SwapButton = () => {
   const { t } = useTranslation();
   const { accountInformation, switchChain } = useWalletInterface();
-  const config = useWidgetConfig();
+  const [chainId] = useWatch({
+    name: [
+      SwapFormKeyHelper.getChainKey('from'),
+      SwapFormKeyHelper.getTokenKey('from'),
+    ],
+  });
 
   const drawerRef = useRef<SelectWalletDrawerBase>(null);
 
@@ -27,10 +33,9 @@ export const SwapButton = () => {
     if (!accountInformation.isActive) {
       openWalletDrawer();
     } else if (
-      getChainById(config.fromChain || ChainId.ETH).id !==
-      accountInformation.chainId
+      getChainById(chainId || ChainId.ETH).id !== accountInformation.chainId
     ) {
-      await switchChain(config.fromChain!);
+      await switchChain(chainId!);
     }
   };
 
@@ -45,7 +50,7 @@ export const SwapButton = () => {
         // loading={isActivating}
       >
         {accountInformation.isActive
-          ? getChainById(config.fromChain || ChainId.ETH).id ===
+          ? getChainById(chainId || ChainId.ETH).id ===
             accountInformation.chainId
             ? t(`swap.submit`)
             : t(`swap.switchChain`)
