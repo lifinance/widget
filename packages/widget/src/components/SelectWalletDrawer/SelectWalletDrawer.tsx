@@ -4,9 +4,9 @@ import {
   Box,
   DrawerProps,
   List,
+  Popover,
   ListItemAvatar,
   ListItemText,
-  Popover,
 } from '@mui/material';
 import { useResizeDetector } from 'react-resize-detector';
 import {
