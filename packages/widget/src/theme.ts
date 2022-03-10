@@ -39,16 +39,16 @@ export const theme = createTheme({
       700: '#57595C',
     },
   },
-  components: {
-    MuiPopover: {
-      styleOverrides: {
-        paper: {
-          border: '1px black solid',
-          borderLeft: 'none',
-          borderRadius: 0,
-          boxShadow: '5px 5px 0px 0px #000000 !important',
-        },
-      },
-    },
-  },
+  // components: {
+  //   MuiPopover: {
+  //     styleOverrides: {
+  //       paper: {
+  //         border: '1px black solid',
+  //         borderLeft: 'none',
+  //         borderRadius: 0,
+  //         boxShadow: '5px 5px 0px 0px #000000 !important',
+  //       },
+  //     },
+  //   },
+  // },
 });
