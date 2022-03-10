@@ -16,12 +16,23 @@ export const Button = styled(LoadingButton)({
 
 export const SwapButton = () => {
   const { t } = useTranslation();
-  const { accountInformation } = useWalletInterface();
+  const { accountInformation, switchChain } = useWalletInterface();
   const config = useWidgetConfig();
 
   const drawerRef = useRef<SelectWalletDrawerBase>(null);
 
   const openWalletDrawer = () => drawerRef.current?.openDrawer();
+
+  const handleSwapButtonClick = async () => {
+    if (!accountInformation.isActive) {
+      openWalletDrawer();
+    } else if (
+      getChainById(config.fromChain || ChainId.ETH).id !==
+      accountInformation.chainId
+    ) {
+      await switchChain(config.fromChain!);
+    }
+  };
 
   return (
     <>
@@ -30,12 +41,7 @@ export const SwapButton = () => {
         disableElevation
         fullWidth
         color={accountInformation.isActive ? 'primary' : 'error'}
-        // onClick={accountInformation.isActive ? undefined : async () => connect()}
-        onClick={
-          accountInformation.isActive
-            ? undefined
-            : async () => openWalletDrawer()
-        }
+        onClick={handleSwapButtonClick}
         // loading={isActivating}
       >
         {accountInformation.isActive

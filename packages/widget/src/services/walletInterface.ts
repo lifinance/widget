@@ -41,19 +41,19 @@ export const useWalletInterface = () => {
 
   // only for injected Wallets
   const switchChain = async (chainId: number) => {
-    if (!config.useLiFiWalletManagement) {
+    if (config.useLiFiWalletManagement) {
       await walletSwitchChain(chainId);
     }
   };
 
   const addChain = async (chainId: number) => {
-    if (!config.useLiFiWalletManagement) {
+    if (config.useLiFiWalletManagement) {
       await walletAddChain(chainId);
     }
   };
 
   const addToken = async (chainId: number, token: Token) => {
-    if (!config.useLiFiWalletManagement) {
+    if (config.useLiFiWalletManagement) {
       await switchChainAndAddToken(chainId, token);
     }
   };
