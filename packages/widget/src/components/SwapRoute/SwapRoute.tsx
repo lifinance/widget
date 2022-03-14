@@ -1,5 +1,4 @@
 import { getChainById, Route, StepType } from '@lifinance/sdk';
-import { WaitIcon } from '@lifinance/widget/icons/waitIcon';
 import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useSwapRoutes } from '../../hooks/useSwapRoutes';
@@ -9,7 +8,7 @@ import { AnimatedWaitIcon } from './SwapRoute.style';
 const parsedStepTypes: {
   [K in StepType]: string;
 } = {
-  lifi: 'Li.Fi Bridge',
+  lifi: 'Li.Fi Bridge via',
   cross: 'Bridge',
   swap: 'Dex',
 };
