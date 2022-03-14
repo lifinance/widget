@@ -1,4 +1,4 @@
-import metamask from './metamask.svg';
+import metamask from './metaMask.svg';
 import alphawallet from './alphawallet.svg';
 import atoken from './atoken.svg';
 import binance from './binance.svg';
