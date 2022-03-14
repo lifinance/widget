@@ -17,7 +17,16 @@ export const useWidgetConfig = (): WidgetContextProps =>
 
 export const WidgetProvider: React.FC<WidgetProviderProps> = ({
   children,
-  config: { enabledChains, fromChain, fromToken, fromAmount, toChain, toToken },
+  config: {
+    enabledChains,
+    fromChain,
+    fromToken,
+    fromAmount,
+    toChain,
+    toToken,
+    useLiFiWalletManagement,
+    walletCallbacks,
+  },
 }) => {
   const value = useMemo((): WidgetContextProps => {
     try {
@@ -39,13 +48,24 @@ export const WidgetProvider: React.FC<WidgetProviderProps> = ({
             ? getChainByKey(toChain as ChainKey).id
             : ChainId.ETH,
         toToken,
+        useLiFiWalletManagement: useLiFiWalletManagement || true,
+        walletCallbacks,
       };
     } catch (e) {
       return {
         supportedChains: [],
       };
     }
-  }, [enabledChains, fromAmount, fromChain, fromToken, toChain, toToken]);
+  }, [
+    enabledChains,
+    fromAmount,
+    fromChain,
+    fromToken,
+    toChain,
+    toToken,
+    useLiFiWalletManagement,
+    walletCallbacks,
+  ]);
   return (
     <WidgetContext.Provider value={value}>{children}</WidgetContext.Provider>
   );

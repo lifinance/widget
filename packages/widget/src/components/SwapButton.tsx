@@ -1,12 +1,13 @@
 import { LoadingButton } from '@mui/lab';
 import { styled } from '@mui/material/styles';
+import { useRef } from 'react';
+import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import {
-  usePriorityAccount,
-  usePriorityConnector,
-  usePriorityIsActivating,
-  usePriorityIsActive,
-} from '../hooks/connectorHooks';
+import { ChainId, getChainById } from '..';
+import { SwapFormKeyHelper } from '../providers/SwapFormProvider';
+import { useWalletInterface } from '../services/walletInterface';
+import { SelectWalletDrawer } from './SelectWalletDrawer/SelectWalletDrawer';
+import { SelectWalletDrawerBase } from './SelectWalletDrawer/types';
 
 export const Button = styled(LoadingButton)({
   textTransform: 'none',
@@ -16,21 +17,46 @@ export const Button = styled(LoadingButton)({
 
 export const SwapButton = () => {
   const { t } = useTranslation();
-  const connector = usePriorityConnector();
-  const isActive = usePriorityIsActive();
-  const isActivating = usePriorityIsActivating();
-  const account = usePriorityAccount();
+  const { accountInformation, switchChain } = useWalletInterface();
+  const [chainId] = useWatch({
+    name: [
+      SwapFormKeyHelper.getChainKey('from'),
+      SwapFormKeyHelper.getTokenKey('from'),
+    ],
+  });
+
+  const drawerRef = useRef<SelectWalletDrawerBase>(null);
+
+  const openWalletDrawer = () => drawerRef.current?.openDrawer();
+
+  const handleSwapButtonClick = async () => {
+    if (!accountInformation.isActive) {
+      openWalletDrawer();
+    } else if (
+      getChainById(chainId || ChainId.ETH).id !== accountInformation.chainId
+    ) {
+      await switchChain(chainId!);
+    }
+  };
 
   return (
-    <Button
-      variant="contained"
-      disableElevation
-      fullWidth
-      color={isActive ? 'primary' : 'success'}
-      onClick={isActive ? undefined : async () => connector.activate()}
-      loading={isActivating}
-    >
-      {isActive ? t(`swap.submit`) : t(`swap.connectWallet`)}
-    </Button>
+    <>
+      <Button
+        variant="contained"
+        disableElevation
+        fullWidth
+        color={accountInformation.isActive ? 'primary' : 'error'}
+        onClick={handleSwapButtonClick}
+        // loading={isActivating}
+      >
+        {accountInformation.isActive
+          ? getChainById(chainId || ChainId.ETH).id ===
+            accountInformation.chainId
+            ? t(`swap.submit`)
+            : t(`swap.switchChain`)
+          : t(`swap.connectWallet`)}
+      </Button>
+      <SelectWalletDrawer ref={drawerRef} />
+    </>
   );
 };

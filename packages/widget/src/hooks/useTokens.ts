@@ -2,8 +2,8 @@ import LiFi, { getChainById, Token, TokenAmount } from '@lifinance/sdk';
 import { useCallback, useMemo } from 'react';
 import { useQuery } from 'react-query';
 import { useWidgetConfig } from '../providers/WidgetProvider';
+import { useWalletInterface } from '../services/walletInterface';
 import { formatTokenAmount } from '../utils/format';
-import { usePriorityAccount } from './connectorHooks';
 import { useSwapPossibilities } from './useSwapPossibilities';
 
 interface TokenAmountList {
@@ -12,7 +12,7 @@ interface TokenAmountList {
 
 export const useTokens = (selectedChainId: number) => {
   const { supportedChains } = useWidgetConfig();
-  const account = usePriorityAccount();
+  const { accountInformation } = useWalletInterface();
   const { data: possibilities, isLoading } = useSwapPossibilities();
 
   const formatTokens = useCallback(
@@ -62,7 +62,7 @@ export const useTokens = (selectedChainId: number) => {
     isFetching: isBalancesFetching,
     refetch,
   } = useQuery(
-    ['tokens', selectedChainId, account],
+    ['tokens', selectedChainId, accountInformation.account],
     async ({ queryKey: [_, chainId, account] }) => {
       if (!account || !possibilities) {
         return [];
@@ -78,7 +78,7 @@ export const useTokens = (selectedChainId: number) => {
       return formatedTokens;
     },
     {
-      enabled: Boolean(account) && Boolean(possibilities),
+      enabled: Boolean(accountInformation.account) && Boolean(possibilities),
       refetchIntervalInBackground: true,
       refetchInterval: 60_000,
       staleTime: 60_000,

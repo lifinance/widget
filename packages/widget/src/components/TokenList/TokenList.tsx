@@ -1,10 +1,10 @@
 import { useDebouncedWatch } from '@lifinance/widget/hooks/useDebouncedWatch';
+import { useWalletInterface } from '@lifinance/widget/services/walletInterface';
 import { Box, List, Typography } from '@mui/material';
 import { useCallback, useMemo, useRef } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { defaultRangeExtractor, useVirtual } from 'react-virtual';
-import { usePriorityAccount } from '../../hooks/connectorHooks';
 import { useTokens } from '../../hooks/useTokens';
 import {
   SwapFormKey,
@@ -30,7 +30,7 @@ export const TokenList: React.FC<TokenListProps> = ({
   onClick,
 }) => {
   const { t } = useTranslation();
-  const account = usePriorityAccount();
+  const { accountInformation } = useWalletInterface();
   const { setValue } = useFormContext();
   const [selectedChainId, myTokensFilter] = useWatch({
     name: [SwapFormKeyHelper.getChainKey(formType), SwapFormKey.MyTokensFilter],
@@ -153,12 +153,12 @@ export const TokenList: React.FC<TokenListProps> = ({
           );
         })}
       </List>
-      {virtualItems.length <= 1 && account ? (
+      {virtualItems.length <= 1 && accountInformation.account ? (
         <Typography variant="body1" align="center" py={2} px={3}>
           {t('swap.couldntFindTokens')}
         </Typography>
       ) : null}
-      {!account ? (
+      {!accountInformation.account ? (
         <Typography variant="body1" align="center" py={2} px={3}>
           {t('swap.walletNotConnected')}
         </Typography>

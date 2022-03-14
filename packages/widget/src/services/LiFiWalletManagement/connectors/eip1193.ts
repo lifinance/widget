@@ -1,8 +1,9 @@
 import { Eip1193Bridge } from '@ethersproject/experimental';
 import { JsonRpcProvider } from '@ethersproject/providers';
+import { supportedChains } from '@lifinance/widget/types';
 import { initializeConnector } from '@web3-react/core';
 import { EIP1193 } from '@web3-react/eip1193';
-import { URLS } from '../chains';
+import { providers } from 'ethers';
 
 class Eip1193BridgeWithoutAccounts extends Eip1193Bridge {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -15,14 +16,20 @@ class Eip1193BridgeWithoutAccounts extends Eip1193Bridge {
     return super.request(request);
   }
 }
+const { ethereum } = window as any;
+const currentProvider = new providers.Web3Provider(ethereum);
+console.log(ethereum);
+console.log(currentProvider);
 
-const ethersProvider = new JsonRpcProvider(URLS[1][0], 1);
+// const chainId = (await currentProvider.getNetwork()).chainId;
+// const currentChain;
+
 const eip1193Provider = new Eip1193BridgeWithoutAccounts(
-  ethersProvider.getSigner(),
-  ethersProvider,
+  currentProvider.getSigner(),
+  currentProvider,
 );
 
 export const [eip1193, hooks] = initializeConnector<EIP1193>(
-  (actions) => new EIP1193(actions, eip1193Provider),
-  [1],
+  (actions) => new EIP1193(actions, eip1193Provider, true), // TODO: eagerConnect set to true. Only do so when useLifiWalletManagement is set to true
+  supportedChains.map((chain) => chain.id),
 );

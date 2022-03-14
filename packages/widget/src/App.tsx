@@ -45,6 +45,7 @@ export const App: React.FC<AppProps> = ({ config }) => {
                     <Route path={routes.fromToken} element={null} />
                     <Route path={routes.toToken} element={null} />
                     <Route path={routes.settings} element={null} />
+                    <Route path={routes.selectWallet} element={null} />
                   </Route>
                 </Routes>
               </SwapFormProvider>

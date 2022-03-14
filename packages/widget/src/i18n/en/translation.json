@@ -5,7 +5,9 @@
     "disconnect": "Disconnect",
     "swap": "Swap",
     "settings": "Settings",
-    "processIsOn": "Process is on..."
+    "wouldLikeToSwap": "I'd like to swap",
+    "processIsOn": "Process is on...",
+    "selectWallet": "Select your wallet"
   },
   "swap": {
     "from": "I'd like to swap",
@@ -27,6 +29,7 @@
     "allTokens": "All tokens",
     "submit": "Swap",
     "connectWallet": "Connect wallet",
+    "switchChain": "Switch chain",
     "couldntFindTokens": "We couldn't find your tokens on this chain or you don't have any.",
     "walletNotConnected": "Please, connect your wallet."
   },

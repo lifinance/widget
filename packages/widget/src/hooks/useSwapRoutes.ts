@@ -2,11 +2,12 @@ import LiFi from '@lifinance/sdk';
 import { useWatch } from 'react-hook-form';
 import { useQuery } from 'react-query';
 import { SwapFormKey } from '../providers/SwapFormProvider';
-import { usePriorityAccount } from './connectorHooks';
+import { useWalletInterface } from '../services/walletInterface';
+// import { usePriorityAccount } from './connectorHooks';
 import { useToken } from './useToken';
 
 export const useSwapRoutes = () => {
-  const account = usePriorityAccount();
+  const { accountInformation } = useWalletInterface();
   const [
     fromChainId,
     fromTokenAddress,
@@ -34,7 +35,7 @@ export const useSwapRoutes = () => {
   const { data, isFetching, isFetched } = useQuery(
     [
       'routes',
-      account,
+      accountInformation.account,
       fromChainId,
       fromTokenAddress,
       fromTokenAmount,
@@ -82,7 +83,7 @@ export const useSwapRoutes = () => {
     },
     {
       enabled:
-        Boolean(account) &&
+        Boolean(accountInformation.account) &&
         !isNaN(fromChainId) &&
         !isNaN(toChainId) &&
         Boolean(fromTokenAddress) &&

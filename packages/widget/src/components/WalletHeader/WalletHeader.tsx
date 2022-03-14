@@ -1,21 +1,23 @@
+import { useWalletInterface } from '@lifinance/widget/services/walletInterface';
 import { Box, Menu, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  usePriorityAccount,
-  usePriorityConnector,
-} from '../../hooks/connectorHooks';
+
 import { Header } from '../Header';
 import { WalletTypography } from './WalletHeader.style';
 
 export const WalletHeader: React.FC = () => {
   const { t } = useTranslation();
+  const { accountInformation, disconnect } = useWalletInterface();
   const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
   const open = Boolean(menuAnchor);
-  const connector = usePriorityConnector();
-  const account = usePriorityAccount();
-  const walletAddress = account
-    ? `${account.substring(0, 7)}...${account.substring(account.length - 7)}`
+  const walletAddress = accountInformation.account
+    ? `${accountInformation.account.substring(
+        0,
+        7,
+      )}...${accountInformation.account.substring(
+        accountInformation.account.length - 7,
+      )}`
     : null;
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -27,8 +29,13 @@ export const WalletHeader: React.FC = () => {
   };
 
   const handleDisconnect = () => {
-    connector.deactivate();
+    console.log('disconnect');
+
+    disconnect();
     handleClose();
+    setTimeout(() => {
+      console.log(accountInformation);
+    }, 1000);
   };
 
   return (

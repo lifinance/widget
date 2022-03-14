@@ -1,4 +1,5 @@
 import { Chain } from '@lifinance/sdk';
+import { Signer } from 'ethers';
 import { WidgetConfig } from '../../types';
 
 export interface WidgetContextProps {
@@ -8,6 +9,14 @@ export interface WidgetContextProps {
   supportedChains: Chain[];
   toChain?: number;
   toToken?: string;
+  useLiFiWalletManagement?: boolean;
+  walletCallbacks?: {
+    connect: { (): Signer };
+    disconnect: { (): void };
+    provideSigner: { (): Signer };
+    switchChain: { (): Signer };
+    addToken: { (): void };
+  };
 }
 
 export interface WidgetProviderProps {
