@@ -94,6 +94,7 @@ export const useSwapRoutes = () => {
       refetchIntervalInBackground: true,
       refetchInterval: 60_000,
       staleTime: 60_000,
+      cacheTime: 60_000,
     },
   );
 

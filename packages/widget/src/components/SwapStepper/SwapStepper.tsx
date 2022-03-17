@@ -26,7 +26,10 @@ export function SwapStepper({ steps }: SwapStepperProps) {
         connector={<SwapStepConnector />}
       >
         {steps.map((step) => (
-          <SwapStep key={step.label} stepperLength={steps.length}>
+          <SwapStep
+            key={step.label + Math.random()}
+            stepperLength={steps.length}
+          >
             <SwapStepLabel
               StepIconComponent={StepIcon}
               optional={
