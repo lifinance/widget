@@ -9,6 +9,7 @@ import { SettingsDrawerBase } from './components/SettingsDrawer';
 import { WalletHeader } from './components/WalletHeader';
 import { queryClient } from './config/queryClient';
 import { SwapPage } from './pages/SwapPage';
+import { TransactionPage } from './pages/TransactionPage';
 import { SwapFormProvider } from './providers/SwapFormProvider';
 import { WidgetProvider } from './providers/WidgetProvider';
 import { theme } from './theme';
@@ -47,6 +48,10 @@ export const App: React.FC<AppProps> = ({ config }) => {
                     <Route path={routes.settings} element={null} />
                     <Route path={routes.selectWallet} element={null} />
                   </Route>
+                  <Route
+                    path={routes.transaction}
+                    element={<TransactionPage />}
+                  />
                 </Routes>
               </SwapFormProvider>
             </WidgetProvider>

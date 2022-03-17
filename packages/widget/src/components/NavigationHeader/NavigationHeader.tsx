@@ -41,6 +41,8 @@ export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
         return t(`swap.to`);
       case routes.selectWallet:
         return t(`header.selectWallet`);
+      case routes.transaction:
+        return t(`header.processIsOn`);
       default:
         return t(`header.swap`);
     }

@@ -2,12 +2,14 @@ import { LoadingButton } from '@mui/lab';
 import { styled } from '@mui/material/styles';
 import { useRef } from 'react';
 import { useWatch } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ChainId, getChainById } from '..';
 import { SwapFormKeyHelper } from '../providers/SwapFormProvider';
 import { useWalletInterface } from '../services/walletInterface';
 import { SelectWalletDrawer } from './SelectWalletDrawer/SelectWalletDrawer';
 import { SelectWalletDrawerBase } from './SelectWalletDrawer/types';
+import { routes } from '../utils/routes';
 
 export const Button = styled(LoadingButton)({
   textTransform: 'none',
@@ -16,6 +18,7 @@ export const Button = styled(LoadingButton)({
 });
 
 export const SwapButton = () => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const { accountInformation, switchChain } = useWalletInterface();
   const [chainId] = useWatch({
@@ -36,6 +39,8 @@ export const SwapButton = () => {
       getChainById(chainId || ChainId.ETH).id !== accountInformation.chainId
     ) {
       await switchChain(chainId!);
+    } else {
+      navigate(routes.transaction, { replace: true });
     }
   };
 

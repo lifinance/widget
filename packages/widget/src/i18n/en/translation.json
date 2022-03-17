@@ -33,6 +33,31 @@
     "couldntFindTokens": "We couldn't find your tokens on this chain or you don't have any.",
     "walletNotConnected": "Please, connect your wallet."
   },
+  "transaction": {
+    "waitingTime": "Overall estimated waiting time",
+    "statusHeader": {
+      "paused": "Paused",
+      "errorPrompt": "Interrupted"
+    },
+    "statusSubText": {
+      "paused": "Sign the transaction to continue",
+      "errorPrompt": "Try again or get in touch with support"
+    },
+    "signPrompt": "Sign transaction",
+    "errorPrompt": "Interrupted",
+    "txDetails": "Details",
+    "footer": {
+      "emailForm": {
+        "informText": "Don’t worry, if you close your tab. We will notify you about next steps via email or browser pushes.",
+        "submitBtn": "Notify me",
+        "inputPlaceholder": "Your email"
+      },
+      "error": {
+        "tryAgain": "Try again",
+        "support": "Support"
+      }
+    }
+  },
   "settings": {
     "routePriority": {
       "title": "Route priority",
