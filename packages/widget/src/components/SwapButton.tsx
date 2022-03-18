@@ -10,6 +10,7 @@ import { useWalletInterface } from '../services/walletInterface';
 import { SelectWalletDrawer } from './SelectWalletDrawer/SelectWalletDrawer';
 import { SelectWalletDrawerBase } from './SelectWalletDrawer/types';
 import { routes } from '../utils/routes';
+import { useSwapRoutes } from '../hooks/useSwapRoutes';
 
 export const Button = styled(LoadingButton)({
   textTransform: 'none',
@@ -20,6 +21,7 @@ export const Button = styled(LoadingButton)({
 export const SwapButton = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { routes: swapRoutes } = useSwapRoutes();
   const { accountInformation, switchChain } = useWalletInterface();
   const [chainId] = useWatch({
     name: [
@@ -40,7 +42,10 @@ export const SwapButton = () => {
     ) {
       await switchChain(chainId!);
     } else {
-      navigate(routes.transaction, { replace: true });
+      navigate(routes.transaction, {
+        replace: true,
+        state: swapRoutes![0],
+      });
     }
   };
 

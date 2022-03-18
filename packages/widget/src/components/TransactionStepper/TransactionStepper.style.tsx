@@ -8,7 +8,7 @@ import { StepIconProps, Theme } from '@mui/material';
 import { SignIcon } from '@lifinance/widget/components/TransactionStepper/icons/signIcon';
 import { TickIcon } from './icons/tickIcon';
 
-const MIN_STEPPER_LINE_HEIGHT = 128;
+const MIN_STEPPER_LINE_HEIGHT = 104;
 
 interface StepperIconBubbleOptions {
   active?: boolean;

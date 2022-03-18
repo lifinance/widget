@@ -1,18 +1,16 @@
 import { Divider, Button, Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useSwapRoutes } from '@lifinance/widget/hooks/useSwapRoutes';
-import { useEffect, useState } from 'react';
-import { Route } from '@lifinance/sdk';
 import { TransactionStepper } from '../../components/TransactionStepper';
 import { EmailInput } from '../../components/EmailInput';
+import { TransactionPageProps } from './types';
 
 import {
   TransactionBox,
   TransactionContainer,
+  GrowableTransactionBox,
   TransactionFooter,
 } from './TransactionPage.style';
-
-import { testRoutes } from './testRouteData';
 
 const EmailNotificationFooter = () => {
   const { t } = useTranslation();
@@ -47,14 +45,9 @@ const ErrorFooter = () => {
   );
 };
 
-export const TransactionPage = () => {
+export const TransactionPage: React.FC<TransactionPageProps> = ({ route }) => {
   const { t } = useTranslation();
-  // const { routes } = useSwapRoutes();
-  const [route, setRoute] = useState<Route>(testRoutes.routes[0]);
-
-  // useEffect(() => {
-  //   setRoute(testRoutes.routes[0]);
-  // }, []);
+  const { routes } = useSwapRoutes();
 
   return (
     <TransactionContainer maxWidth="sm" disableGutters>
@@ -73,9 +66,9 @@ export const TransactionPage = () => {
         </Typography>
         <Divider light />
       </TransactionBox>
-      <TransactionBox mt={4} ml={3}>
-        <TransactionStepper route={route} />
-      </TransactionBox>
+      <GrowableTransactionBox pt={4} pl={3}>
+        {!!routes && <TransactionStepper route={routes[0]} />}
+      </GrowableTransactionBox>
 
       <TransactionFooter maxWidth="sm" py={3}>
         <EmailNotificationFooter />
