@@ -80,32 +80,6 @@ const renderStep = (
         {isWaiting ? waitingText : undefined}
       </LabelContent>
     </TransactionStep>,
-
-    <TransactionStep key={`${step.id}_action`}>
-      <RouteStepLabel action active={isSigning} error={isFailed}>
-        <LabelContent active={isSigning}>
-          {isSigning ? SignButton : details}
-        </LabelContent>
-      </RouteStepLabel>
-    </TransactionStep>,
-    <TransactionStep key={`${step.id}_wait`}>
-      <LabelContent active={isWaiting}>
-        {isWaiting ? waitingText : undefined}
-      </LabelContent>
-    </TransactionStep>,
-
-    <TransactionStep key={`${step.id}_action`}>
-      <RouteStepLabel action active={isSigning} error={isFailed}>
-        <LabelContent active={isSigning}>
-          {isSigning ? SignButton : details}
-        </LabelContent>
-      </RouteStepLabel>
-    </TransactionStep>,
-    <TransactionStep key={`${step.id}_wait`}>
-      <LabelContent active={isWaiting}>
-        {isWaiting ? waitingText : undefined}
-      </LabelContent>
-    </TransactionStep>,
   ];
 };
 
