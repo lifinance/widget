@@ -1,6 +1,6 @@
 import { LiFiWidget, WidgetConfig } from '@lifinance/widget';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import './index.css';
 import { reportWebVitals } from './reportWebVitals';
 
@@ -8,7 +8,7 @@ const rootElement = document.getElementById('root');
 if (!rootElement) {
   throw new Error('Failed to find the root element.');
 }
-const root = ReactDOM.createRoot(rootElement);
+const root = createRoot(rootElement);
 
 const config: WidgetConfig = {
   enabledChains: process.env.LIFI_ENABLED_CHAINS_JSON!,
