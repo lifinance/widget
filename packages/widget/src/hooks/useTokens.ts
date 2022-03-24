@@ -12,7 +12,7 @@ interface TokenAmountList {
 
 export const useTokens = (selectedChainId: number) => {
   const { supportedChains } = useWidgetConfig();
-  const { accountInformation } = useWalletInterface();
+  const { account } = useWalletInterface();
   const { data: possibilities, isLoading } = useSwapPossibilities();
 
   const formatTokens = useCallback(
@@ -62,7 +62,7 @@ export const useTokens = (selectedChainId: number) => {
     isFetching: isBalancesFetching,
     refetch,
   } = useQuery(
-    ['tokens', selectedChainId, accountInformation.account],
+    ['tokens', selectedChainId, account.address],
     async ({ queryKey: [_, chainId, account] }) => {
       if (!account || !possibilities) {
         return [];
@@ -78,7 +78,7 @@ export const useTokens = (selectedChainId: number) => {
       return formatedTokens;
     },
     {
-      enabled: Boolean(accountInformation.account) && Boolean(possibilities),
+      enabled: Boolean(account.address) && Boolean(possibilities),
       refetchIntervalInBackground: true,
       refetchInterval: 60_000,
       staleTime: 60_000,

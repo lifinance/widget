@@ -2,16 +2,16 @@ import { Signer } from 'ethers';
 import { useEffect, useState } from 'react';
 import { useWidgetConfig } from '../providers/WidgetProvider';
 import { Token } from '../types';
-import { useLifiWalletManagement } from './LiFiWalletManagement/LiFiWalletManagement';
 import {
   addChain as walletAddChain,
   switchChain as walletSwitchChain,
   switchChainAndAddToken,
 } from './LiFiWalletManagement/browserWallets';
+import { useLifiWalletManagement } from './LiFiWalletManagement/LiFiWalletManagement';
 import { Wallet } from './LiFiWalletManagement/wallets';
 
-export interface AccountInformation {
-  account?: string;
+export interface WalletAccount {
+  address?: string;
   isActive?: boolean;
   signer?: Signer;
   chainId?: number;
@@ -20,8 +20,7 @@ export interface AccountInformation {
 export const useWalletInterface = () => {
   const config = useWidgetConfig();
   const LiFiWalletManagement = useLifiWalletManagement();
-  const [accountInformation, setAccountInformation] =
-    useState<AccountInformation>({});
+  const [account, setAccount] = useState<WalletAccount>({});
 
   const connect = async (wallet?: Wallet) => {
     if (!config.useLiFiWalletManagement) {
@@ -34,12 +33,12 @@ export const useWalletInterface = () => {
 
   const disconnect = async () => {
     if (!config.useLiFiWalletManagement) {
-      setAccountInformation({});
+      setAccount({});
     }
     await LiFiWalletManagement.disconnect();
   };
 
-  // only for injected Wallets
+  // only for injected wallets
   const switchChain = async (chainId: number) => {
     if (config.useLiFiWalletManagement) {
       await walletSwitchChain(chainId);
@@ -57,18 +56,19 @@ export const useWalletInterface = () => {
       await switchChainAndAddToken(chainId, token);
     }
   };
-  // keep account Information up to date
+
+  // keep account information up to date
   useEffect(() => {
-    const updateAccountInfo = async () => {
+    const updateAccount = async () => {
       if (config.useLiFiWalletManagement) {
-        const info = await extractAccountInformationFromSigner(
+        const info = await extractAccountFromSigner(
           LiFiWalletManagement.signer,
         );
 
-        setAccountInformation(info);
+        setAccount(info);
       }
     };
-    updateAccountInfo();
+    updateAccount();
   }, [LiFiWalletManagement.signer, config.useLiFiWalletManagement]);
   return {
     connect,
@@ -76,12 +76,12 @@ export const useWalletInterface = () => {
     switchChain,
     addChain,
     addToken,
-    accountInformation,
+    account,
   };
 };
 
-const extractAccountInformationFromSigner = async (signer?: Signer) => ({
-  account: (await signer?.getAddress()) || undefined,
+const extractAccountFromSigner = async (signer?: Signer) => ({
+  address: (await signer?.getAddress()) || undefined,
   isActive: (signer && !!(await signer.getAddress()) === null) || !!signer,
   signer,
   chainId: (await signer?.getChainId()) || undefined,

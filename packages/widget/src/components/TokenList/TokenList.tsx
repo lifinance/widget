@@ -30,7 +30,7 @@ export const TokenList: React.FC<TokenListProps> = ({
   onClick,
 }) => {
   const { t } = useTranslation();
-  const { accountInformation } = useWalletInterface();
+  const { account } = useWalletInterface();
   const { setValue } = useFormContext();
   const [selectedChainId, myTokensFilter] = useWatch({
     name: [SwapFormKeyHelper.getChainKey(formType), SwapFormKey.MyTokensFilter],
@@ -153,12 +153,12 @@ export const TokenList: React.FC<TokenListProps> = ({
           );
         })}
       </List>
-      {virtualItems.length <= 1 && accountInformation.account ? (
+      {virtualItems.length <= 1 && account.isActive ? (
         <Typography variant="body1" align="center" py={2} px={3}>
           {t('swap.couldntFindTokens')}
         </Typography>
       ) : null}
-      {!accountInformation.account ? (
+      {!account.isActive ? (
         <Typography variant="body1" align="center" py={2} px={3}>
           {t('swap.walletNotConnected')}
         </Typography>

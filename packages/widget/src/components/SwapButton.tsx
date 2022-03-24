@@ -2,15 +2,15 @@ import { LoadingButton } from '@mui/lab';
 import { styled } from '@mui/material/styles';
 import { useRef } from 'react';
 import { useWatch } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { ChainId, getChainById } from '..';
+import { useSwapRoutes } from '../hooks/useSwapRoutes';
 import { SwapFormKeyHelper } from '../providers/SwapFormProvider';
 import { useWalletInterface } from '../services/walletInterface';
+import { routes } from '../utils/routes';
 import { SelectWalletDrawer } from './SelectWalletDrawer/SelectWalletDrawer';
 import { SelectWalletDrawerBase } from './SelectWalletDrawer/types';
-import { routes } from '../utils/routes';
-import { useSwapRoutes } from '../hooks/useSwapRoutes';
 
 export const Button = styled(LoadingButton)({
   textTransform: 'none',
@@ -22,7 +22,7 @@ export const SwapButton = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { routes: swapRoutes } = useSwapRoutes();
-  const { accountInformation, switchChain } = useWalletInterface();
+  const { account, switchChain } = useWalletInterface();
   const [chainId] = useWatch({
     name: [
       SwapFormKeyHelper.getChainKey('from'),
@@ -35,11 +35,9 @@ export const SwapButton = () => {
   const openWalletDrawer = () => drawerRef.current?.openDrawer();
 
   const handleSwapButtonClick = async () => {
-    if (!accountInformation.isActive) {
+    if (!account.isActive) {
       openWalletDrawer();
-    } else if (
-      getChainById(chainId || ChainId.ETH).id !== accountInformation.chainId
-    ) {
+    } else if (getChainById(chainId || ChainId.ETH).id !== account.chainId) {
       await switchChain(chainId!);
     } else {
       navigate(routes.transaction, {
@@ -55,13 +53,12 @@ export const SwapButton = () => {
         variant="contained"
         disableElevation
         fullWidth
-        color={accountInformation.isActive ? 'primary' : 'error'}
+        color={account.isActive ? 'primary' : 'success'}
         onClick={handleSwapButtonClick}
         // loading={isActivating}
       >
-        {accountInformation.isActive
-          ? getChainById(chainId || ChainId.ETH).id ===
-            accountInformation.chainId
+        {account.isActive
+          ? getChainById(chainId || ChainId.ETH).id === account.chainId
             ? t(`swap.submit`)
             : t(`swap.switchChain`)
           : t(`swap.connectWallet`)}

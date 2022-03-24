@@ -7,7 +7,7 @@ import { useWalletInterface } from '../services/walletInterface';
 import { useToken } from './useToken';
 
 export const useSwapRoutes = () => {
-  const { accountInformation } = useWalletInterface();
+  const { account } = useWalletInterface();
   const [
     fromChainId,
     fromTokenAddress,
@@ -35,7 +35,7 @@ export const useSwapRoutes = () => {
   const { data, isFetching, isFetched } = useQuery(
     [
       'routes',
-      accountInformation.account,
+      account.address,
       fromChainId,
       fromTokenAddress,
       fromTokenAmount,
@@ -48,7 +48,7 @@ export const useSwapRoutes = () => {
     async ({
       queryKey: [
         _,
-        account,
+        address,
         fromChainId,
         fromTokenAddress,
         fromTokenAmount,
@@ -68,8 +68,8 @@ export const useSwapRoutes = () => {
         fromTokenAddress,
         toChainId,
         toTokenAddress,
-        fromAddress: account,
-        toAddress: account,
+        fromAddress: address,
+        toAddress: address,
         options: {
           slippage: slippage / 100,
           bridges: {
@@ -83,7 +83,7 @@ export const useSwapRoutes = () => {
     },
     {
       enabled:
-        Boolean(accountInformation.account) &&
+        Boolean(account.address) &&
         !isNaN(fromChainId) &&
         !isNaN(toChainId) &&
         Boolean(fromTokenAddress) &&
@@ -94,6 +94,7 @@ export const useSwapRoutes = () => {
       refetchIntervalInBackground: true,
       refetchInterval: 60_000,
       staleTime: 60_000,
+      // TODO: probably should be removed
       cacheTime: 60_000,
     },
   );

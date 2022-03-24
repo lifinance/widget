@@ -133,6 +133,6 @@ export const SwapRoute: React.FC = () => {
     return renderRoutesLoading();
   }
 
-  // eslint-disable-next-line react/jsx-no-useless-fragment
-  return <></>;
+  // TODO: remove after upgrading to react 18 types.
+  return null;
 };
