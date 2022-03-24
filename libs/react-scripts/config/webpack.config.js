@@ -667,8 +667,8 @@ module.exports = function (webpackEnv) {
       // Work around for Buffer is undefined:
       // https://github.com/webpack/changelog-v5/issues/10
       new webpack.ProvidePlugin({
-        process: "process/browser.js",
-        Buffer: ["buffer", "Buffer"],
+        process: "process/browser",
+        buffer: "buffer",
       }),
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
