@@ -1,9 +1,4 @@
 import {
-  supportedWallets,
-  Wallet,
-} from '@lifinance/widget/services/LiFiWalletManagement/wallets';
-import { useWalletInterface } from '@lifinance/widget/services/walletInterface';
-import {
   Avatar,
   Box,
   DrawerProps,
@@ -14,6 +9,11 @@ import {
 } from '@mui/material';
 import { forwardRef, MutableRefObject, useState } from 'react';
 import { useResizeDetector } from 'react-resize-detector';
+import { useWalletInterface } from '../../services/walletInterface';
+import {
+  supportedWallets,
+  Wallet,
+} from '../../services/LiFiWalletManagement/wallets';
 import { ContainerDrawer } from '../ContainerDrawer';
 import {
   WalletIdentityPopoverContent,

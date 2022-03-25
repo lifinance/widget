@@ -1,11 +1,11 @@
+import { StepIconProps, Theme } from '@mui/material';
+import Step from '@mui/material/Step';
 import StepConnector, {
   stepConnectorClasses,
 } from '@mui/material/StepConnector';
-import Step, { stepClasses } from '@mui/material/Step';
 import StepLabel, { stepLabelClasses } from '@mui/material/StepLabel';
 import { styled } from '@mui/system';
-import { StepIconProps, Theme } from '@mui/material';
-import { SignIcon } from '@lifinance/widget/components/TransactionStepper/icons/signIcon';
+import { SignIcon } from './icons/signIcon';
 import { TickIcon } from './icons/tickIcon';
 
 const MIN_STEPPER_LINE_HEIGHT = 104;

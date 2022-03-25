@@ -1,9 +1,9 @@
-import { formatSlippage } from '@lifinance/widget/utils/format';
 import { FormControl, InputAdornment } from '@mui/material';
 import { ChangeEvent, useEffect, useRef } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { SwapFormKey } from '../../providers/SwapFormProvider';
+import { formatSlippage } from '../../utils/format';
 import { Input } from '../Input';
 
 export const SlippageInput = () => {

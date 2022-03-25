@@ -1,5 +1,5 @@
-import { WaitIcon } from '@lifinance/widget/icons/waitIcon';
 import { keyframes, styled } from '@mui/material/styles';
+import { WaitIcon } from '../../icons/waitIcon';
 
 const rotationAnimation = keyframes`
     0% {

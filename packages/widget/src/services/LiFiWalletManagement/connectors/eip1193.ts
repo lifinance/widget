@@ -1,8 +1,8 @@
 import { Eip1193Bridge } from '@ethersproject/experimental';
-import { supportedChains } from '@lifinance/widget/types';
 import { initializeConnector } from '@web3-react/core';
 import { EIP1193 } from '@web3-react/eip1193';
 import { providers } from 'ethers';
+import { supportedChains } from '../../../types';
 
 class Eip1193BridgeWithoutAccounts extends Eip1193Bridge {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

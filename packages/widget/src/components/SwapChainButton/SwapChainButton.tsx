@@ -1,7 +1,7 @@
-import { useToken } from '@lifinance/widget/hooks/useToken';
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material';
 import { useFormState, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useToken } from '../../hooks/useToken';
 import { SwapFormKeyHelper } from '../../providers/SwapFormProvider';
 import { Button } from './SwapChainButton.style';
 import { SwapChainButtonProps } from './types';

@@ -1,15 +1,15 @@
-import { useDebouncedWatch } from '@lifinance/widget/hooks/useDebouncedWatch';
-import { useWalletInterface } from '@lifinance/widget/services/walletInterface';
 import { Box, List, Typography } from '@mui/material';
 import { useCallback, useMemo, useRef } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { defaultRangeExtractor, useVirtual } from 'react-virtual';
+import { useDebouncedWatch } from '../../hooks/useDebouncedWatch';
 import { useTokens } from '../../hooks/useTokens';
 import {
   SwapFormKey,
   SwapFormKeyHelper,
 } from '../../providers/SwapFormProvider';
+import { useWalletInterface } from '../../services/walletInterface';
 import { TokenFilterType } from '../SelectTokenDrawer';
 import {
   MemoizedTokenListItem,

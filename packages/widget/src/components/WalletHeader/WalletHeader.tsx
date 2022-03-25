@@ -1,7 +1,7 @@
-import { useWalletInterface } from '@lifinance/widget/services/walletInterface';
 import { Box, Menu, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useWalletInterface } from '../../services/walletInterface';
 import { Header } from '../Header';
 import { WalletTypography } from './WalletHeader.style';
 
