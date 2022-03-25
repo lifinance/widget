@@ -1,6 +1,8 @@
-import { useSwapRoutes } from '@lifinance/widget/hooks/useSwapRoutes';
+import { Route } from '@lifinance/sdk';
 import { Box, Button, Divider, Typography } from '@mui/material';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import { EmailInput } from '../../components/EmailInput';
 import { TransactionStepper } from '../../components/TransactionStepper';
 import {
@@ -44,9 +46,11 @@ const ErrorFooter = () => {
   );
 };
 
-export const TransactionPage: React.FC<TransactionPageProps> = ({ route }) => {
+export const TransactionPage: React.FC<TransactionPageProps> = () => {
   const { t } = useTranslation();
-  const { routes } = useSwapRoutes();
+  const { state } = useLocation();
+  const [route] = useState<Route>(state as Route);
+  console.log('Route from location state', route);
 
   return (
     <TransactionContainer maxWidth="sm" disableGutters>
@@ -66,7 +70,7 @@ export const TransactionPage: React.FC<TransactionPageProps> = ({ route }) => {
         <Divider light />
       </TransactionBox>
       <GrowableTransactionBox pt={4} pl={3}>
-        {!!routes && <TransactionStepper route={routes[0]} />}
+        {!!route && <TransactionStepper route={route} />}
       </GrowableTransactionBox>
 
       <TransactionFooter maxWidth="sm" py={3}>
