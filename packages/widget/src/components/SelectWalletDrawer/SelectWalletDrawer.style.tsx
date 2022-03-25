@@ -11,6 +11,7 @@ export const WalletListItemButton = styled(ListItemButton)({
 });
 
 export const WalletListItem = styled(ListItem)({
+  height: '60px',
   width: '100%',
   padding: 12,
   [`& .${listItemSecondaryActionClasses.root}`]: {
