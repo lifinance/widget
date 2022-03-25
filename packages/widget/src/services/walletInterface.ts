@@ -19,40 +19,40 @@ export interface WalletAccount {
 
 export const useWalletInterface = () => {
   const config = useWidgetConfig();
-  const LiFiWalletManagement = useLifiWalletManagement();
+  const walletManagement = useLifiWalletManagement();
   const [account, setAccount] = useState<WalletAccount>({});
 
   const connect = async (wallet?: Wallet) => {
-    if (!config.useLiFiWalletManagement) {
+    if (!config.useInternalWalletManagement) {
       // TODO
       return;
     }
 
-    await LiFiWalletManagement.connect(wallet);
+    await walletManagement.connect(wallet);
   };
 
   const disconnect = async () => {
-    if (!config.useLiFiWalletManagement) {
+    if (!config.useInternalWalletManagement) {
       setAccount({});
     }
-    await LiFiWalletManagement.disconnect();
+    await walletManagement.disconnect();
   };
 
   // only for injected wallets
   const switchChain = async (chainId: number) => {
-    if (config.useLiFiWalletManagement) {
+    if (config.useInternalWalletManagement) {
       await walletSwitchChain(chainId);
     }
   };
 
   const addChain = async (chainId: number) => {
-    if (config.useLiFiWalletManagement) {
+    if (config.useInternalWalletManagement) {
       await walletAddChain(chainId);
     }
   };
 
   const addToken = async (chainId: number, token: Token) => {
-    if (config.useLiFiWalletManagement) {
+    if (config.useInternalWalletManagement) {
       await switchChainAndAddToken(chainId, token);
     }
   };
@@ -60,16 +60,15 @@ export const useWalletInterface = () => {
   // keep account information up to date
   useEffect(() => {
     const updateAccount = async () => {
-      if (config.useLiFiWalletManagement) {
-        const info = await extractAccountFromSigner(
-          LiFiWalletManagement.signer,
-        );
+      if (config.useInternalWalletManagement) {
+        const account = await extractAccountFromSigner(walletManagement.signer);
 
-        setAccount(info);
+        setAccount(account);
       }
     };
     updateAccount();
-  }, [LiFiWalletManagement.signer, config.useLiFiWalletManagement]);
+  }, [walletManagement.signer, config.useInternalWalletManagement]);
+
   return {
     connect,
     disconnect,

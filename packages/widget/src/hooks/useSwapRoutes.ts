@@ -61,6 +61,7 @@ export const useSwapRoutes = () => {
     }) => {
       return LiFi.getRoutes({
         fromChainId,
+        // TODO: simplify
         fromAmount: (
           Number(fromTokenAmount) *
           10 ** (token?.decimals ?? 0)

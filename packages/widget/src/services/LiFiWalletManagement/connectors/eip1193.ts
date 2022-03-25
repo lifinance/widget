@@ -1,5 +1,4 @@
 import { Eip1193Bridge } from '@ethersproject/experimental';
-import { JsonRpcProvider } from '@ethersproject/providers';
 import { supportedChains } from '@lifinance/widget/types';
 import { initializeConnector } from '@web3-react/core';
 import { EIP1193 } from '@web3-react/eip1193';
@@ -11,15 +10,14 @@ class Eip1193BridgeWithoutAccounts extends Eip1193Bridge {
     if (
       request.method === 'eth_requestAccounts' ||
       request.method === 'eth_accounts'
-    )
+    ) {
       return Promise.resolve([]);
+    }
     return super.request(request);
   }
 }
 const { ethereum } = window as any;
 const currentProvider = new providers.Web3Provider(ethereum);
-console.log(ethereum);
-console.log(currentProvider);
 
 // const chainId = (await currentProvider.getNetwork()).chainId;
 // const currentChain;
@@ -30,6 +28,6 @@ const eip1193Provider = new Eip1193BridgeWithoutAccounts(
 );
 
 export const [eip1193, hooks] = initializeConnector<EIP1193>(
-  (actions) => new EIP1193(actions, eip1193Provider, true), // TODO: eagerConnect set to true. Only do so when useLifiWalletManagement is set to true
+  (actions) => new EIP1193(actions, eip1193Provider, true), // TODO: eagerConnect set to true. Only do so when useInternalWalletManagement is set to true
   supportedChains.map((chain) => chain.id),
 );

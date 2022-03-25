@@ -1,16 +1,15 @@
-import { Divider, Button, Box, Typography } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import { useSwapRoutes } from '@lifinance/widget/hooks/useSwapRoutes';
-import { TransactionStepper } from '../../components/TransactionStepper';
+import { Box, Button, Divider, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { EmailInput } from '../../components/EmailInput';
-import { TransactionPageProps } from './types';
-
+import { TransactionStepper } from '../../components/TransactionStepper';
 import {
+  GrowableTransactionBox,
   TransactionBox,
   TransactionContainer,
-  GrowableTransactionBox,
   TransactionFooter,
 } from './TransactionPage.style';
+import { TransactionPageProps } from './types';
 
 const EmailNotificationFooter = () => {
   const { t } = useTranslation();
@@ -71,7 +70,7 @@ export const TransactionPage: React.FC<TransactionPageProps> = ({ route }) => {
       </GrowableTransactionBox>
 
       <TransactionFooter maxWidth="sm" py={3}>
-        <EmailNotificationFooter />
+        {/* <EmailNotificationFooter /> */}
         {/* <ErrorFooter /> */}
       </TransactionFooter>
     </TransactionContainer>

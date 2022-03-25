@@ -8,7 +8,7 @@ export interface WidgetConfig {
   fromAmount?: number;
   toChain?: `${ChainKey}` | number;
   toToken?: string;
-  useLiFiWalletManagement?: boolean;
+  useInternalWalletManagement?: boolean;
   walletCallbacks?: {
     connect: { (): Signer };
     disconnect: { (): void };

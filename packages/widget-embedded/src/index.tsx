@@ -14,7 +14,7 @@ const config: WidgetConfig = {
   enabledChains: process.env.LIFI_ENABLED_CHAINS_JSON!,
   fromChain: 'pol',
   // toChain: 'okt',
-  useLiFiWalletManagement: true,
+  useInternalWalletManagement: true,
 };
 
 root.render(

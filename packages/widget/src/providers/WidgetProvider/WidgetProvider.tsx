@@ -24,7 +24,7 @@ export const WidgetProvider: React.FC<WidgetProviderProps> = ({
     fromAmount,
     toChain,
     toToken,
-    useLiFiWalletManagement,
+    useInternalWalletManagement,
     walletCallbacks,
   },
 }) => {
@@ -48,7 +48,7 @@ export const WidgetProvider: React.FC<WidgetProviderProps> = ({
             ? getChainByKey(toChain as ChainKey).id
             : ChainId.ETH,
         toToken,
-        useLiFiWalletManagement: useLiFiWalletManagement || true,
+        useInternalWalletManagement: useInternalWalletManagement || true,
         walletCallbacks,
       };
     } catch (e) {
@@ -63,7 +63,7 @@ export const WidgetProvider: React.FC<WidgetProviderProps> = ({
     fromToken,
     toChain,
     toToken,
-    useLiFiWalletManagement,
+    useInternalWalletManagement,
     walletCallbacks,
   ]);
   return (

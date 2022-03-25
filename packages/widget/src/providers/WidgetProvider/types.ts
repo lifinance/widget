@@ -9,7 +9,7 @@ export interface WidgetContextProps {
   supportedChains: Chain[];
   toChain?: number;
   toToken?: string;
-  useLiFiWalletManagement?: boolean;
+  useInternalWalletManagement?: boolean;
   walletCallbacks?: {
     connect: { (): Signer };
     disconnect: { (): void };

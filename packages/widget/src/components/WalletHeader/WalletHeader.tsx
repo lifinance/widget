@@ -15,7 +15,7 @@ export const WalletHeader: React.FC = () => {
         account.address.length - 7,
       )}`
     : null;
-
+  console.log(account);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setMenuAnchor(event.currentTarget);
   };
@@ -29,9 +29,6 @@ export const WalletHeader: React.FC = () => {
 
     disconnect();
     handleClose();
-    setTimeout(() => {
-      console.log(account);
-    }, 1000);
   };
 
   return (

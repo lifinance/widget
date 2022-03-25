@@ -1,26 +1,26 @@
-import { forwardRef, MutableRefObject, useState } from 'react';
-import {
-  Avatar,
-  Box,
-  DrawerProps,
-  List,
-  Popover,
-  ListItemAvatar,
-  ListItemText,
-} from '@mui/material';
-import { useResizeDetector } from 'react-resize-detector';
 import {
   supportedWallets,
   Wallet,
 } from '@lifinance/widget/services/LiFiWalletManagement/wallets';
 import { useWalletInterface } from '@lifinance/widget/services/walletInterface';
-import { SelectWalletDrawerBase } from './types';
+import {
+  Avatar,
+  Box,
+  DrawerProps,
+  List,
+  ListItemAvatar,
+  ListItemText,
+  Popover,
+} from '@mui/material';
+import { forwardRef, MutableRefObject, useState } from 'react';
+import { useResizeDetector } from 'react-resize-detector';
 import { ContainerDrawer } from '../ContainerDrawer';
 import {
+  WalletIdentityPopoverContent,
   WalletListItem,
   WalletListItemButton,
-  WalletIdentityPopoverContent,
 } from './SelectWalletDrawer.style';
+import { SelectWalletDrawerBase } from './types';
 
 export const SelectWalletDrawer = forwardRef<
   SelectWalletDrawerBase,
@@ -56,9 +56,7 @@ export const SelectWalletDrawer = forwardRef<
       return;
     }
     await connect(wallet);
-    if (closeDrawer) {
-      closeDrawer();
-    }
+    closeDrawer?.();
   };
 
   const popoverId = showWalletIdentityModal?.show
