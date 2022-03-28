@@ -14,10 +14,7 @@ import { SwapFormKey } from '../../providers/SwapFormProvider';
 
 export const SendToRecipientForm: React.FC = () => {
   const { t } = useTranslation();
-  const {
-    register,
-    formState: { isSubmitting },
-  } = useFormContext();
+  const { register } = useFormContext();
 
   const sendToRecipientChecked = useWatch({
     name: SwapFormKey.IsSendToRecipient,
@@ -48,7 +45,7 @@ export const SendToRecipientForm: React.FC = () => {
       </Box>
       {sendToRecipientChecked ? (
         <>
-          <FormControl variant="standard" fullWidth disabled={isSubmitting}>
+          <FormControl variant="standard" fullWidth>
             <Input
               size="small"
               placeholder={t(`swap.recipientsAddress`, { chain: 'ETH' })}
@@ -65,7 +62,6 @@ export const SendToRecipientForm: React.FC = () => {
                 />
               }
               label={t(`swap.addressConfirmation`) as string}
-              disabled={isSubmitting}
               componentsProps={{ typography: { variant: 'body2' } }}
             />
           </Box>

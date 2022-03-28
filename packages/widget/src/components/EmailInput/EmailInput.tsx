@@ -1,14 +1,7 @@
 import { Button, FormControl } from '@mui/material';
 import { Box } from '@mui/system';
-import { ChangeEvent, useEffect } from 'react';
-import { useFormContext, useWatch } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import {
-  SwapFormKeyHelper,
-  SwapFormTypeProps,
-} from '../../providers/SwapFormProvider';
-import { formatAmount } from '../../utils/format';
-import { SwapInputAdornment } from '../SwapInputAdornment';
 import { Input } from './EmailInput.style';
 
 const InputEndAdornment = () => {
@@ -17,11 +10,7 @@ const InputEndAdornment = () => {
 
 export const EmailInput = () => {
   const { t } = useTranslation();
-  const {
-    register,
-    setValue,
-    formState: { isSubmitting },
-  } = useFormContext();
+  const { register, setValue } = useFormContext();
   // const amountKey = SwapFormKeyHelper.getAmountKey(formType);
   // const value = useWatch({
   //   name: amountKey,
@@ -54,7 +43,7 @@ export const EmailInput = () => {
         '& > :not(style)': { m: 1, width: '25ch' },
       }}
     >
-      <FormControl disabled={isSubmitting}>
+      <FormControl>
         <Input
           autoComplete="off"
           placeholder={t(`transaction.footer.emailForm.inputPlaceholder`)}

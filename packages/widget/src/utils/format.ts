@@ -76,3 +76,13 @@ export const formatAmount = (
   }
   return Big(parsedAmount).toString();
 };
+
+export const formatTokenPrice = (amount?: string, price?: string) => {
+  if (!amount || !price) {
+    return 0;
+  }
+  if (isNaN(Number(amount)) || isNaN(Number(price))) {
+    return 0;
+  }
+  return parseFloat(amount) * parseFloat(price);
+};

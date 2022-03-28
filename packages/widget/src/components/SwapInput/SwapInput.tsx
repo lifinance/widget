@@ -12,11 +12,7 @@ import { Input } from './SwapInput.style';
 
 export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
   const { t } = useTranslation();
-  const {
-    register,
-    setValue,
-    formState: { isSubmitting },
-  } = useFormContext();
+  const { register, setValue } = useFormContext();
   const amountKey = SwapFormKeyHelper.getAmountKey(formType);
   const value = useWatch({
     name: amountKey,
@@ -41,11 +37,11 @@ export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
   };
 
   return (
-    <FormControl disabled={isSubmitting} fullWidth>
+    <FormControl disabled={formType === 'to'} fullWidth>
       <Input
         size="small"
         autoComplete="off"
-        placeholder={t(`swap.enterAmount`)}
+        placeholder={formType === 'from' ? t(`swap.enterAmount`) : '0'}
         endAdornment={<SwapInputAdornment formType={formType} />}
         inputProps={{
           inputMode: 'decimal',

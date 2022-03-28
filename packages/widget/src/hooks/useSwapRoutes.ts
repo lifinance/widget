@@ -1,17 +1,20 @@
 import LiFi from '@lifinance/sdk';
-import { useWatch } from 'react-hook-form';
+import { useEffect } from 'react';
+import { useFormContext, useWatch } from 'react-hook-form';
 import { useQuery } from 'react-query';
-import { SwapFormKey } from '../providers/SwapFormProvider';
+import { SwapFormKey, SwapFormKeyHelper } from '../providers/SwapFormProvider';
 import { useWalletInterface } from '../services/walletInterface';
+import { formatTokenAmount } from '../utils/format';
+import { useDebouncedWatch } from './useDebouncedWatch';
 // import { usePriorityAccount } from './connectorHooks';
 import { useToken } from './useToken';
 
 export const useSwapRoutes = () => {
   const { account } = useWalletInterface();
+  const { setValue } = useFormContext();
   const [
     fromChainId,
     fromTokenAddress,
-    fromTokenAmount,
     toChainId,
     toTokenAddress,
     slippage,
@@ -21,7 +24,6 @@ export const useSwapRoutes = () => {
     name: [
       SwapFormKey.FromChain,
       SwapFormKey.FromToken,
-      SwapFormKey.FromAmount,
       SwapFormKey.ToChain,
       SwapFormKey.ToToken,
       SwapFormKey.Slippage,
@@ -29,9 +31,8 @@ export const useSwapRoutes = () => {
       SwapFormKey.EnabledExchanges,
     ],
   });
-
+  const [fromTokenAmount] = useDebouncedWatch([SwapFormKey.FromAmount], 500);
   const { token } = useToken(fromChainId, fromTokenAddress);
-
   const { data, isFetching, isFetched } = useQuery(
     [
       'routes',
@@ -94,11 +95,25 @@ export const useSwapRoutes = () => {
         !isNaN(slippage),
       refetchIntervalInBackground: true,
       refetchInterval: 60_000,
-      staleTime: 60_000,
+      staleTime: 5_000,
       // TODO: probably should be removed
-      cacheTime: 60_000,
+      cacheTime: 5_000,
     },
   );
+
+  useEffect(() => {
+    const route = data?.routes[0];
+    if (route) {
+      setValue(
+        SwapFormKeyHelper.getAmountKey('to'),
+        formatTokenAmount(
+          (Number(route.toAmount) / 10 ** route.toToken.decimals).toString(),
+        ),
+      );
+    } else {
+      setValue(SwapFormKeyHelper.getAmountKey('to'), '');
+    }
+  }, [data?.routes, setValue]);
 
   return {
     routes: data?.routes,

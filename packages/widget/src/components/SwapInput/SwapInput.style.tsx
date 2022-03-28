@@ -1,3 +1,4 @@
+import { inputBaseClasses } from '@mui/material/InputBase';
 import { styled } from '@mui/material/styles';
 import { Input as InputBase } from '../Input';
 
@@ -11,5 +12,11 @@ export const Input = styled(InputBase)({
     },
   '& input[type="number"]': {
     MozAppearance: 'textfield',
+  },
+  [`&.${inputBaseClasses.disabled}`]: {
+    color: 'inherit',
+  },
+  [`& .${inputBaseClasses.input}.${inputBaseClasses.disabled}`]: {
+    WebkitTextFillColor: 'unset',
   },
 });

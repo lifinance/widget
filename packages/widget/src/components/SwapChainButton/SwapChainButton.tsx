@@ -1,5 +1,5 @@
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material';
-import { useFormState, useWatch } from 'react-hook-form';
+import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useToken } from '../../hooks/useToken';
 import { SwapFormKeyHelper } from '../../providers/SwapFormProvider';
@@ -11,7 +11,6 @@ export const SwapChainButton: React.FC<SwapChainButtonProps> = ({
   formType,
 }) => {
   const { t } = useTranslation();
-  const { isSubmitting } = useFormState();
   const [chainId, tokenAddress] = useWatch({
     name: [
       SwapFormKeyHelper.getChainKey(formType),
@@ -26,7 +25,6 @@ export const SwapChainButton: React.FC<SwapChainButtonProps> = ({
       variant="outlined"
       endIcon={<KeyboardArrowDownIcon />}
       onClick={() => onClick?.(formType)}
-      disabled={isSubmitting}
       disableElevation
       disableRipple
       fullWidth

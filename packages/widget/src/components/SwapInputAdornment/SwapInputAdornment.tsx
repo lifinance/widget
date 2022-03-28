@@ -7,7 +7,7 @@ import {
   SwapFormKeyHelper,
   SwapFormTypeProps,
 } from '../../providers/SwapFormProvider';
-import { formatTokenAmount } from '../../utils/format';
+import { formatTokenAmount, formatTokenPrice } from '../../utils/format';
 import {
   SwapMaxAmountTypography,
   SwapPriceTypography,
@@ -38,6 +38,7 @@ export const SwapInputAdornment: React.FC<SwapFormTypeProps> = ({
   const handleMax = () => {
     setValue(SwapFormKeyHelper.getAmountKey(formType), amount);
   };
+  console.log(tokenWithBalance);
 
   return (
     <InputAdornment position="end">
@@ -81,7 +82,7 @@ export const SwapInputAdornment: React.FC<SwapFormTypeProps> = ({
   );
 };
 
-export const SwapPrice: React.FC<SwapFormTypeProps & { price?: string }> = ({
+const SwapPrice: React.FC<SwapFormTypeProps & { price?: string }> = ({
   formType,
   price,
 }) => {
@@ -93,13 +94,7 @@ export const SwapPrice: React.FC<SwapFormTypeProps & { price?: string }> = ({
   return (
     <SwapPriceTypography variant="body2" color="text.secondary">
       {t(`swap.price`, {
-        price:
-          Boolean(value) &&
-          Boolean(price) &&
-          !isNaN(value) &&
-          !isNaN(price as any)
-            ? parseFloat(value) * parseFloat(price!)
-            : 0,
+        price: formatTokenPrice(value, price),
       })}
     </SwapPriceTypography>
   );
