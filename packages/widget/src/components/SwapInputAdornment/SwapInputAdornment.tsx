@@ -74,11 +74,33 @@ export const SwapInputAdornment: React.FC<SwapFormTypeProps> = ({
               </Typography>
             </>
           ) : null}
-          <SwapPriceTypography variant="body2" color="text.secondary">
-            {t(`swap.price`, { price: tokenWithBalance?.priceUSD ?? 0 })}
-          </SwapPriceTypography>
+          <SwapPrice price={tokenWithBalance?.priceUSD} formType={formType} />
         </>
       )}
     </InputAdornment>
+  );
+};
+
+export const SwapPrice: React.FC<SwapFormTypeProps & { price?: string }> = ({
+  formType,
+  price,
+}) => {
+  const { t } = useTranslation();
+  const value = useWatch({
+    name: SwapFormKeyHelper.getAmountKey(formType),
+  });
+
+  return (
+    <SwapPriceTypography variant="body2" color="text.secondary">
+      {t(`swap.price`, {
+        price:
+          Boolean(value) &&
+          Boolean(price) &&
+          !isNaN(value) &&
+          !isNaN(price as any)
+            ? parseFloat(value) * parseFloat(price!)
+            : 0,
+      })}
+    </SwapPriceTypography>
   );
 };

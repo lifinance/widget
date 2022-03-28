@@ -31,7 +31,8 @@
     "connectWallet": "Connect wallet",
     "switchChain": "Switch chain",
     "couldntFindTokens": "We couldn't find your tokens on this chain or you don't have any.",
-    "walletNotConnected": "Please, connect your wallet."
+    "walletNotConnected": "Please, connect your wallet.",
+    "requestingRoutes": "Requesting routes..."
   },
   "transaction": {
     "waitingTime": "Overall estimated waiting time",

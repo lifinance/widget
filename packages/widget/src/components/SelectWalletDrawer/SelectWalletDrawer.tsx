@@ -9,11 +9,11 @@ import {
 } from '@mui/material';
 import { forwardRef, MutableRefObject, useState } from 'react';
 import { useResizeDetector } from 'react-resize-detector';
-import { useWalletInterface } from '../../services/walletInterface';
 import {
   supportedWallets,
   Wallet,
 } from '../../services/LiFiWalletManagement/wallets';
+import { useWalletInterface } from '../../services/walletInterface';
 import { ContainerDrawer } from '../ContainerDrawer';
 import {
   WalletIdentityPopoverContent,
@@ -99,8 +99,8 @@ export const SelectWalletDrawer = forwardRef<
         }}
       >
         <WalletIdentityPopoverContent sx={{ p: 2 }}>
-          Please make sure that only the {showWalletIdentityModal.wallet?.name}{' '}
-          browser extension is active before choosing this wallet
+          {`Please make sure that only the ${showWalletIdentityModal.wallet?.name}
+          browser extension is active before choosing this wallet.`}
         </WalletIdentityPopoverContent>
       </Popover>
     </ContainerDrawer>

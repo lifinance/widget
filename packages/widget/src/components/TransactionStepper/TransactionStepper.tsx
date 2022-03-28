@@ -3,10 +3,10 @@ import { Box, Button, Stepper, Typography } from '@mui/material';
 import { useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import {
-  TransactionStepperConnector,
+  DoneStepperIcon,
   TransactionStep,
   TransactionStepLabel,
-  DoneStepperIcon,
+  TransactionStepperConnector,
 } from './TransactionStepper.style';
 import { Props, TransactionStepperProps } from './types';
 
@@ -62,8 +62,9 @@ const renderStep = (
 
   const waitingText = (
     <Typography>
-      4:34 / {(step.estimate.executionDuration / 60).toFixed(0)} •{' '}
-      {capitalizeFirstLetter(step.tool)}
+      {`4:34 / ${(step.estimate.executionDuration / 60).toFixed(
+        0,
+      )} • ${capitalizeFirstLetter(step.tool)}`}
     </Typography>
   );
 
@@ -99,12 +100,11 @@ export const TransactionStepper: React.FC<TransactionStepperProps> = ({
       {route.steps.map((step, index) => renderStep(step, index, t))}
       <TransactionStep key={route.steps.length}>
         <TransactionStepLabel StepIconComponent={DoneStepperIcon}>
-          {(
+          {`${(
             route.steps
               .map((step) => step.estimate.executionDuration)
               .reduce((cumulated, x) => cumulated + x) / 60
-          ).toFixed(1)}{' '}
-          min
+          ).toFixed(1)} min`}
         </TransactionStepLabel>
       </TransactionStep>
     </Stepper>

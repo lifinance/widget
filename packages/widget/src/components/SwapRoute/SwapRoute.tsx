@@ -30,8 +30,7 @@ export const SwapRoute: React.FC = () => {
       >
         <AnimatedWaitIcon />
         <Typography variant="subtitle1" color="text.primary">
-          {' '}
-          Requesting Routes ...
+          {t('swap.requestingRoutes')}
         </Typography>
       </Box>
     );
@@ -112,12 +111,11 @@ export const SwapRoute: React.FC = () => {
           color="text.primary"
           sx={{ alignSelf: 'end' }}
         >
-          {(
+          {`${(
             route.steps
               .map((step) => step.estimate.executionDuration)
               .reduce((cumulated, x) => cumulated + x) / 60
-          ).toFixed(1)}{' '}
-          min
+          ).toFixed(1)} min`}
         </Typography>
       </Box>
     </Box>
