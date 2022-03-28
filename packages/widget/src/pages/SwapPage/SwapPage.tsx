@@ -7,6 +7,10 @@ import {
   SelectTokenDrawer,
   SelectTokenDrawerBase,
 } from '../../components/SelectTokenDrawer';
+import {
+  SelectWalletDrawer,
+  SelectWalletDrawerBase,
+} from '../../components/SelectWalletDrawer';
 import { SettingsDrawer } from '../../components/SettingsDrawer';
 import { SwapButton } from '../../components/SwapButton';
 import { SwapChainButton } from '../../components/SwapChainButton';
@@ -23,10 +27,11 @@ import { SwapPageProps } from './types';
 
 export const SwapPage: React.FC<SwapPageProps> = ({ settingsRef }) => {
   const { t } = useTranslation();
-  const drawerRef = useRef<SelectTokenDrawerBase>(null);
+  const selectTokenDrawerRef = useRef<SelectTokenDrawerBase>(null);
+  const selectWalletDrawerRef = useRef<SelectWalletDrawerBase>(null);
 
   const handleChainButton = (formType: SwapFormDirection) =>
-    drawerRef.current?.openDrawer(
+    selectTokenDrawerRef.current?.openDrawer(
       formType,
       SwapFormKeyHelper.getTokenKey(formType),
     );
@@ -69,8 +74,9 @@ export const SwapPage: React.FC<SwapPageProps> = ({ settingsRef }) => {
           <SwapRoute />
         </Box>
       </FormBox>
-      <SwapButton />
-      <SelectTokenDrawer ref={drawerRef} />
+      <SwapButton drawerRef={selectWalletDrawerRef} />
+      <SelectWalletDrawer ref={selectWalletDrawerRef} />
+      <SelectTokenDrawer ref={selectTokenDrawerRef} />
       <SettingsDrawer ref={settingsRef} />
     </FormContainer>
   );
