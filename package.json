@@ -8,7 +8,8 @@
     "packages/*"
   ],
   "scripts": {
-    "start": "lerna run --parallel start"
+    "start": "lerna run --parallel start",
+    "build": "lerna run --parallel build"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.3",
