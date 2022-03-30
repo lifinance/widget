@@ -7,6 +7,7 @@ export const [metaMask, hooks] = initializeConnector<MetaMask>(
 
 /*
 Known issues:
+issue: metamask uninitialized
 https://github.com/MetaMask/metamask-extension/issues/9407
-
+https://github.com/MetaMask/metamask-extension/issues/13465
 */
