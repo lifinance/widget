@@ -16,7 +16,6 @@ const parsedStepTypes: {
 export const SwapRoute: React.FC = () => {
   const { t } = useTranslation();
   const { routes, isFetching, isFetched } = useSwapRoutes();
-  console.log(routes);
   const renderRoutesLoading = () => {
     return (
       <Box

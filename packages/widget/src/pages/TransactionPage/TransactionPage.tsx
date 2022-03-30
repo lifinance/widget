@@ -50,7 +50,6 @@ export const TransactionPage: React.FC<TransactionPageProps> = () => {
   const { t } = useTranslation();
   const { state } = useLocation();
   const [route] = useState<Route>(state as Route);
-  console.log('Route from location state', route);
 
   return (
     <TransactionContainer maxWidth="sm" disableGutters>

@@ -38,7 +38,6 @@ export const SwapInputAdornment: React.FC<SwapFormTypeProps> = ({
   const handleMax = () => {
     setValue(SwapFormKeyHelper.getAmountKey(formType), amount);
   };
-  console.log(tokenWithBalance);
 
   return (
     <InputAdornment position="end">
