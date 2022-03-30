@@ -16,7 +16,7 @@ export const {
   useSelectedProvider,
   useSelectedENSNames,
   useSelectedENSName,
-  useSelectedWeb3React,
+  useSelectedStore,
   usePriorityConnector,
   usePriorityChainId,
   usePriorityAccounts,
@@ -27,10 +27,10 @@ export const {
   usePriorityProvider,
   usePriorityENSNames,
   usePriorityENSName,
-  usePriorityWeb3React,
+  usePriorityStore,
 } = getPriorityConnector(
+  [metaMask, metaMaskHooks], // needs to be on top!
   [eip1193, eip1193Hooks],
-  [metaMask, metaMaskHooks],
   [walletConnect, walletConnectHooks],
   // [walletLink, walletLinkHooks],
   // [network, networkHooks],
