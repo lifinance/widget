@@ -1,29 +1,12 @@
-const isSupported = () => {
-  try {
-    const itemBackup = localStorage.getItem('');
-    localStorage.removeItem('');
-    if (itemBackup === null) localStorage.removeItem('');
-    else localStorage.setItem('', itemBackup);
-    return true;
-  } catch (e) {
-    return false;
-  }
-};
-
 const storeWallets = (wallets: Array<string>) => {
-  if (isSupported()) {
-    const lowerCaseWallets = wallets.map((address) => address.toLowerCase());
-    localStorage.setItem(
-      'wallets',
-      JSON.stringify(Array.from(new Set(lowerCaseWallets))),
-    );
-  }
+  const lowerCaseWallets = wallets.map((address) => address.toLowerCase());
+  localStorage.setItem(
+    'wallets',
+    JSON.stringify(Array.from(new Set(lowerCaseWallets))),
+  );
 };
 
 const readWallets = (): Array<string> => {
-  if (!isSupported()) {
-    return [];
-  }
   const walletsString = localStorage.getItem('wallets');
   if (walletsString) {
     try {
@@ -37,19 +20,14 @@ const readWallets = (): Array<string> => {
 };
 
 const storeDeactivatedWallets = (wallets: string[]) => {
-  if (isSupported()) {
-    const lowerCaseWallets = wallets.map((address) => address.toLowerCase());
-    localStorage.setItem(
-      'deactivatedWallets',
-      JSON.stringify(Array.from(new Set(lowerCaseWallets))),
-    );
-  }
+  const lowerCaseWallets = wallets.map((address) => address.toLowerCase());
+  localStorage.setItem(
+    'deactivatedWallets',
+    JSON.stringify(Array.from(new Set(lowerCaseWallets))),
+  );
 };
 
 const readDeactivatedWallets = (): Array<string> => {
-  if (!isSupported()) {
-    return [];
-  }
   const walletsString = localStorage.getItem('deactivatedWallets');
   if (walletsString) {
     try {
