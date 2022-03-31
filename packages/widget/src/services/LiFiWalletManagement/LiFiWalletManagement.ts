@@ -68,25 +68,24 @@ export const useLifiWalletManagement = () => {
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { ethereum } = window as any;
-    if (ethereum && ethereum.on) {
-      const handleConnect = async () => {
-        await priorityConnector.activate();
-      };
-      const handleChainChanged = async (chainId: string | number) => {
-        await priorityConnector.activate();
-      };
+    const handleConnect = async () => {
+      await priorityConnector.activate();
+    };
+    const handleChainChanged = async (chainId: string | number) => {
+      await priorityConnector.activate();
+    };
 
-      ethereum.on('connect', handleConnect);
-      ethereum.on('chainChanged', handleChainChanged);
+    ethereum?.on('connect', handleConnect);
+    ethereum?.on('chainChanged', handleChainChanged);
 
-      return () => {
-        if (ethereum.removeListener) {
-          ethereum.removeListener('connect', handleConnect);
-          ethereum.removeListener('chainChanged', handleChainChanged);
-        }
-      };
-    }
+    return () => {
+      if (ethereum.removeListener) {
+        ethereum?.removeListener('connect', handleConnect);
+        ethereum?.removeListener('chainChanged', handleChainChanged);
+      }
+    };
   }, []);
+
   return {
     connect,
     disconnect,
