@@ -40,8 +40,6 @@ export const useLifiWalletManagement = () => {
       const currentlySelectedUserAddress = (window as any).ethereum
         .selectedAddress;
 
-      console.log(currentlySelectedUserAddress);
-
       removeFromActiveWallets(currentlySelectedUserAddress);
       addToDeactivatedWallets(currentlySelectedUserAddress);
       if (!wallet) {
@@ -62,7 +60,6 @@ export const useLifiWalletManagement = () => {
       .selectedAddress;
 
     if (!isWalletDeactivated(currentlySelectedUserAddress)) {
-      console.log('trying to connect eagerly');
       priorityConnector?.connectEagerly!();
     }
   }, []);
@@ -70,27 +67,22 @@ export const useLifiWalletManagement = () => {
   // eslint-disable-next-line consistent-return
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { ethereum } = window as any; // TODO: Fix typing
+    const { ethereum } = window as any;
     if (ethereum && ethereum.on) {
       const handleConnect = async () => {
-        console.log("Handling 'connect' event");
-
         await priorityConnector.activate();
       };
       const handleChainChanged = async (chainId: string | number) => {
-        console.log("Handling 'chainChanged' event with payload", chainId);
         await priorityConnector.activate();
       };
 
       ethereum.on('connect', handleConnect);
       ethereum.on('chainChanged', handleChainChanged);
-      // ethereum.on('accountsChanged', handleAccountsChanged);
 
       return () => {
         if (ethereum.removeListener) {
           ethereum.removeListener('connect', handleConnect);
           ethereum.removeListener('chainChanged', handleChainChanged);
-          // ethereum.removeListener('accountsChanged', handleAccountsChanged);
         }
       };
     }
