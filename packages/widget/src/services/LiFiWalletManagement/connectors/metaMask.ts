@@ -10,4 +10,7 @@ Known issues:
 issue: metamask uninitialized
 https://github.com/MetaMask/metamask-extension/issues/9407
 https://github.com/MetaMask/metamask-extension/issues/13465
+
+issue: unexpected updating of eth_accounts
+Issue stems from web3React. Issue does not impact performance or functionality
 */
