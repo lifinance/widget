@@ -5,6 +5,7 @@ import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { ChainId, getChainById } from '..';
+import { useHasSufficientBalance } from '../hooks/useHasSufficientBalance';
 import { useSwapRoutes } from '../hooks/useSwapRoutes';
 import { SwapFormKeyHelper } from '../providers/SwapFormProvider';
 import { useWalletInterface } from '../services/walletInterface';
@@ -23,6 +24,11 @@ export const SwapButton: React.FC<{
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { routes: swapRoutes } = useSwapRoutes();
+  const {
+    hasGasBalanceOnStartChain,
+    hasGasOnCrossChain,
+    hasSufficientBalance,
+  } = useHasSufficientBalance(swapRoutes?.[0]);
   const { account, switchChain } = useWalletInterface();
   const [chainId] = useWatch({
     name: [SwapFormKeyHelper.getChainKey('from')],

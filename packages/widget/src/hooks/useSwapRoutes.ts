@@ -6,7 +6,6 @@ import { SwapFormKey, SwapFormKeyHelper } from '../providers/SwapFormProvider';
 import { useWalletInterface } from '../services/walletInterface';
 import { formatTokenAmount } from '../utils/format';
 import { useDebouncedWatch } from './useDebouncedWatch';
-// import { usePriorityAccount } from './connectorHooks';
 import { useToken } from './useToken';
 
 export const useSwapRoutes = () => {

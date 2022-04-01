@@ -12,7 +12,7 @@ const root = createRoot(rootElement);
 
 const config: WidgetConfig = {
   enabledChains: process.env.LIFI_ENABLED_CHAINS_JSON!,
-  fromChain: 'pol',
+  fromChain: 'eth',
   // toChain: 'okt',
   useInternalWalletManagement: true,
 };
