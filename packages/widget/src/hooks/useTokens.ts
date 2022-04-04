@@ -13,7 +13,7 @@ interface TokenAmountList {
 export const useTokens = (selectedChainId: number) => {
   const { supportedChains } = useWidgetConfig();
   const { account } = useWalletInterface();
-  const { data: possibilities, isLoading } = useSwapPossibilities();
+  const { data: possibilities, isLoading } = useSwapPossibilities('tokens');
 
   const formatTokens = useCallback(
     (tokens: Token[] = []) => {

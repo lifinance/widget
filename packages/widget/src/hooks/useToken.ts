@@ -3,11 +3,11 @@ import { useMemo } from 'react';
 import { useSwapPossibilities } from './useSwapPossibilities';
 
 export const useToken = (chainId: number, tokenAddress: string) => {
-  const { data: possibilities, isLoading } = useSwapPossibilities();
+  const { data: possibilities, isLoading } = useSwapPossibilities('tokens');
 
   const [chain, token] = useMemo(() => {
     const chain = getChainById(chainId);
-    const token = possibilities?.tokens.find(
+    const token = possibilities?.tokens?.find(
       (token) => token.address === tokenAddress && token.chainId === chain.id,
     );
     return [chain, token];
