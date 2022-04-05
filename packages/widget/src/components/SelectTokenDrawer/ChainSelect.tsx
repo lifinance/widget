@@ -4,6 +4,7 @@ import {
   ListItemIcon,
   MenuItem,
   SelectChangeEvent,
+  Skeleton,
 } from '@mui/material';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useChains } from '../../hooks/useChains';
@@ -18,7 +19,7 @@ import { Select } from '../Select';
 export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
   const { setValue } = useFormContext();
   const { fromChain, toChain } = useWidgetConfig();
-  const { chains } = useChains();
+  const { chains, isLoading } = useChains();
   const [fromChainId, toChainId] = useWatch({
     name: [SwapFormKey.FromChain, SwapFormKey.ToChain],
   });
@@ -44,7 +45,7 @@ export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
     </MenuItem>
   ));
 
-  return (
+  return !isLoading ? (
     <>
       <FormControl
         fullWidth
@@ -73,5 +74,12 @@ export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
         </Select>
       </FormControl>
     </>
+  ) : (
+    <Skeleton
+      variant="rectangular"
+      width="100%"
+      height={45}
+      sx={{ borderRadius: '8px' }}
+    />
   );
 };

@@ -5,7 +5,7 @@ import { useWidgetConfig } from '../providers/WidgetProvider';
 
 export const useChains = () => {
   const { enabledChains } = useWidgetConfig();
-  const { data, isLoading } = useQuery(['chains'], async () => {
+  const { data, ...other } = useQuery(['chains'], async () => {
     const possibilities = await LiFi.getPossibilities({ include: ['chains'] });
     return possibilities?.chains?.filter((chain) =>
       enabledChains.includes(chain.id),
@@ -23,5 +23,5 @@ export const useChains = () => {
     [data],
   );
 
-  return { chains: data, isLoading, getChainById };
+  return { chains: data, getChainById, ...other };
 };
