@@ -6,6 +6,7 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import { useFormContext, useWatch } from 'react-hook-form';
+import { useChains } from '../../hooks/useChains';
 import {
   SwapFormKey,
   SwapFormKeyHelper,
@@ -16,7 +17,8 @@ import { Select } from '../Select';
 
 export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
   const { setValue } = useFormContext();
-  const { supportedChains, fromChain, toChain } = useWidgetConfig();
+  const { fromChain, toChain } = useWidgetConfig();
+  const { chains } = useChains();
   const [fromChainId, toChainId] = useWatch({
     name: [SwapFormKey.FromChain, SwapFormKey.ToChain],
   });
@@ -27,7 +29,7 @@ export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
     setValue(SwapFormKeyHelper.getAmountKey(formType), '');
   };
 
-  const menuItems = supportedChains.map((chain) => (
+  const menuItems = chains?.map((chain) => (
     <MenuItem key={chain.key} value={chain.id}>
       <ListItemIcon>
         <Avatar

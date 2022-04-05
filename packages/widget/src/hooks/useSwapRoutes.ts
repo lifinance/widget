@@ -5,9 +5,7 @@ import { useQuery } from 'react-query';
 import { SwapFormKey, SwapFormKeyHelper } from '../providers/SwapFormProvider';
 import { useWalletInterface } from '../services/walletInterface';
 import { formatTokenAmount } from '../utils/format';
-import { useDebouncedWatch } from './useDebouncedWatch';
-// import { usePriorityAccount } from './connectorHooks';
-import { useToken } from './useToken';
+import { useDebouncedWatch, useToken } from '.';
 
 export const useSwapRoutes = () => {
   const { account } = useWalletInterface();

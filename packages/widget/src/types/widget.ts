@@ -2,7 +2,7 @@ import { ChainKey } from '@lifinance/sdk';
 import { Signer } from 'ethers';
 
 export interface WidgetConfig {
-  enabledChains: string;
+  enabledChains: number[];
   fromChain?: `${ChainKey}` | number;
   fromToken?: string;
   fromAmount?: number;

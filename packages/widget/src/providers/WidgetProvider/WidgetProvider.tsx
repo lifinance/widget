@@ -1,4 +1,4 @@
-import { ChainId, ChainKey, getChainById, getChainByKey } from '@lifinance/sdk';
+import { ChainId, ChainKey, getChainByKey } from '@lifinance/sdk';
 import { createContext, useContext, useMemo } from 'react';
 import type { WidgetContextProps, WidgetProviderProps } from './types';
 
@@ -7,7 +7,7 @@ const stub = (): never => {
 };
 
 const initialContext: WidgetContextProps = {
-  supportedChains: [],
+  enabledChains: [],
 };
 
 const WidgetContext = createContext<WidgetContextProps>(initialContext);
@@ -29,32 +29,32 @@ export const WidgetProvider: React.FC<WidgetProviderProps> = ({
   },
 }) => {
   const value = useMemo((): WidgetContextProps => {
+    const config = {
+      enabledChains,
+      fromToken,
+      fromAmount,
+      toToken,
+      useInternalWalletManagement: useInternalWalletManagement || true,
+      walletCallbacks,
+    };
     try {
-      const chainIds = JSON.parse(enabledChains);
       return {
-        supportedChains: chainIds.map(getChainById),
+        ...config,
         fromChain:
           typeof fromChain === 'number'
             ? fromChain
             : typeof fromChain === 'string'
             ? getChainByKey(fromChain as ChainKey).id
             : ChainId.ETH,
-        fromToken,
-        fromAmount,
         toChain:
           typeof toChain === 'number'
             ? toChain
             : typeof toChain === 'string'
             ? getChainByKey(toChain as ChainKey).id
             : ChainId.ETH,
-        toToken,
-        useInternalWalletManagement: useInternalWalletManagement || true,
-        walletCallbacks,
       };
     } catch (e) {
-      return {
-        supportedChains: [],
-      };
+      return config;
     }
   }, [
     enabledChains,

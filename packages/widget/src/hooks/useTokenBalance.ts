@@ -8,8 +8,8 @@ export const useTokenBalance = (chainId: number, tokenAddress: string) => {
   const { token } = useToken(chainId, tokenAddress);
 
   const { data: tokenWithBalance, isLoading } = useQuery(
-    ['token', token?.symbol, account.address],
-    async ({ queryKey: [_, tokenSymbol, address] }) => {
+    ['token', tokenAddress, account.address],
+    async ({ queryKey: [_, __, address] }) => {
       if (!address || !token) {
         return null;
       }
