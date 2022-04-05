@@ -1,7 +1,7 @@
 import { Box, Menu, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useWalletInterface } from '../../services/walletInterface';
+import { useWalletInterface } from '../../hooks';
 import { Header } from '../Header';
 import { WalletTypography } from './WalletHeader.style';
 

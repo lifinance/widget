@@ -1,9 +1,9 @@
 import LiFi, { Token, TokenAmount } from '@lifinance/sdk';
 import { useCallback, useMemo } from 'react';
 import { useQuery } from 'react-query';
-import { useWalletInterface } from '../services/walletInterface';
 import { formatTokenAmount } from '../utils/format';
 import { useChains } from './useChains';
+import { useWalletInterface } from './useWalletInterface';
 
 interface TokenAmountList {
   [chainId: number]: Array<TokenAmount>;

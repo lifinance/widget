@@ -7,13 +7,19 @@ import {
   ListItemText,
   Popover,
 } from '@mui/material';
-import { forwardRef, MutableRefObject, useState } from 'react';
+import {
+  forwardRef,
+  MutableRefObject,
+  useCallback,
+  useMemo,
+  useState,
+} from 'react';
 import { useResizeDetector } from 'react-resize-detector';
+import { useWalletInterface } from '../../hooks';
 import {
   supportedWallets,
   Wallet,
 } from '../../services/LiFiWalletManagement/wallets';
-import { useWalletInterface } from '../../services/walletInterface';
 import { ContainerDrawer } from '../ContainerDrawer';
 import {
   WalletIdentityPopoverContent,
@@ -43,46 +49,53 @@ export const SelectWalletDrawer = forwardRef<
     });
   };
 
-  const handleConnect = async (event: any, wallet: Wallet) => {
-    const identityCheckPassed = wallet.checkProviderIdentity({
-      provider: window.ethereum,
-    });
-    if (!identityCheckPassed) {
-      setShowWalletIdentityModal({
-        show: true,
-        wallet,
-        anchor: event.currentTarget,
+  const handleConnect = useCallback(
+    async (event: any, wallet: Wallet) => {
+      const identityCheckPassed = wallet.checkProviderIdentity({
+        provider: window.ethereum,
       });
-      return;
-    }
-    await connect(wallet);
-    closeDrawer?.();
-  };
+      if (!identityCheckPassed) {
+        setShowWalletIdentityModal({
+          show: true,
+          wallet,
+          anchor: event.currentTarget,
+        });
+        return;
+      }
+      closeDrawer?.();
+      await connect(wallet);
+    },
+    [closeDrawer, connect],
+  );
 
   const popoverId = showWalletIdentityModal?.show
     ? 'identity-popover'
     : undefined;
 
+  const wallets = useMemo(
+    () =>
+      supportedWallets.map((wallet: Wallet) => {
+        return (
+          <WalletListItem
+            key={wallet.name}
+            onClick={(event) => handleConnect(event, wallet)}
+          >
+            <WalletListItemButton>
+              <ListItemAvatar>
+                <Avatar src={wallet.icon} alt={wallet.name} />
+              </ListItemAvatar>
+              <ListItemText primary={wallet.name} />
+            </WalletListItemButton>
+          </WalletListItem>
+        );
+      }),
+    [handleConnect],
+  );
+
   return (
     <ContainerDrawer elementRef={drawerRef} ref={ref} route="selectWallet">
       <Box role="presentation">
-        <List>
-          {supportedWallets.map((wallet: Wallet) => {
-            return (
-              <WalletListItem
-                key={wallet.name}
-                onClick={(event) => handleConnect(event, wallet)}
-              >
-                <WalletListItemButton>
-                  <ListItemAvatar>
-                    <Avatar src={wallet.icon} alt={wallet.name} />
-                  </ListItemAvatar>
-                  <ListItemText primary={wallet.name} />
-                </WalletListItemButton>
-              </WalletListItem>
-            );
-          })}
-        </List>
+        <List>{wallets}</List>
       </Box>
       <Popover
         id={popoverId}

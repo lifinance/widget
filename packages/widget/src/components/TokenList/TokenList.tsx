@@ -5,11 +5,11 @@ import { useTranslation } from 'react-i18next';
 import { defaultRangeExtractor, useVirtual } from 'react-virtual';
 import { useDebouncedWatch } from '../../hooks/useDebouncedWatch';
 import { useTokens } from '../../hooks/useTokens';
+import { useWalletInterface } from '../../hooks/useWalletInterface';
 import {
   SwapFormKey,
   SwapFormKeyHelper,
 } from '../../providers/SwapFormProvider';
-import { useWalletInterface } from '../../services/walletInterface';
 import { TokenFilterType } from '../SelectTokenDrawer';
 import {
   MemoizedTokenListItem,

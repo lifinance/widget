@@ -1,7 +1,7 @@
 import LiFi from '@lifinance/sdk';
 import { useQuery } from 'react-query';
-import { useWalletInterface } from '../services/walletInterface';
 import { useToken } from './useToken';
+import { useWalletInterface } from './useWalletInterface';
 
 export const useTokenBalance = (chainId: number, tokenAddress: string) => {
   const { account } = useWalletInterface();

@@ -2,10 +2,10 @@ import LiFi from '@lifinance/sdk';
 import { useEffect } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useQuery } from 'react-query';
-import { SwapFormKey, SwapFormKeyHelper } from '../providers/SwapFormProvider';
-import { useWalletInterface } from '../services/walletInterface';
-import { formatTokenAmount } from '../utils/format';
 import { useDebouncedWatch, useToken } from '.';
+import { SwapFormKey, SwapFormKeyHelper } from '../providers/SwapFormProvider';
+import { formatTokenAmount } from '../utils/format';
+import { useWalletInterface } from './useWalletInterface';
 
 export const useSwapRoutes = () => {
   const { account } = useWalletInterface();

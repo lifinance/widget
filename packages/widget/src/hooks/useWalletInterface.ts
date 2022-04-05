@@ -1,14 +1,14 @@
 import { Token } from '@lifinance/sdk';
 import { Signer } from 'ethers';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useWidgetConfig } from '../providers/WidgetProvider';
 import {
   addChain as walletAddChain,
   switchChain as walletSwitchChain,
   switchChainAndAddToken,
-} from './LiFiWalletManagement/browserWallets';
-import { useLifiWalletManagement } from './LiFiWalletManagement/LiFiWalletManagement';
-import { Wallet } from './LiFiWalletManagement/wallets';
+} from '../services/LiFiWalletManagement/browserWallets';
+import { useLifiWalletManagement } from '../services/LiFiWalletManagement/LiFiWalletManagement';
+import { Wallet } from '../services/LiFiWalletManagement/wallets';
 
 export interface WalletAccount {
   address?: string;
@@ -19,24 +19,30 @@ export interface WalletAccount {
 
 export const useWalletInterface = () => {
   const config = useWidgetConfig();
-  const walletManagement = useLifiWalletManagement();
+  const {
+    connect: walletManagementConnect,
+    disconnect: walletManagementDisconnect,
+    signer,
+  } = useLifiWalletManagement();
   const [account, setAccount] = useState<WalletAccount>({});
 
-  const connect = async (wallet?: Wallet) => {
-    if (!config.useInternalWalletManagement) {
-      // TODO
-      return;
-    }
+  const connect = useCallback(
+    async (wallet?: Wallet) => {
+      if (!config.useInternalWalletManagement) {
+        // TODO
+        return;
+      }
+      await walletManagementConnect(wallet);
+    },
+    [config.useInternalWalletManagement, walletManagementConnect],
+  );
 
-    await walletManagement.connect(wallet);
-  };
-
-  const disconnect = async () => {
+  const disconnect = useCallback(async () => {
     if (!config.useInternalWalletManagement) {
       setAccount({});
     }
-    await walletManagement.disconnect();
-  };
+    await walletManagementDisconnect();
+  }, [config.useInternalWalletManagement, walletManagementDisconnect]);
 
   // only for injected wallets
   const switchChain = async (chainId: number) => {
@@ -61,13 +67,13 @@ export const useWalletInterface = () => {
   useEffect(() => {
     const updateAccount = async () => {
       if (config.useInternalWalletManagement) {
-        const account = await extractAccountFromSigner(walletManagement.signer);
+        const account = await extractAccountFromSigner(signer);
 
         setAccount(account);
       }
     };
     updateAccount();
-  }, [walletManagement.signer, config.useInternalWalletManagement]);
+  }, [signer, config.useInternalWalletManagement]);
 
   return {
     connect,

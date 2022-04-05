@@ -5,9 +5,13 @@ import { RefObject } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useChains, useHasSufficientBalance, useSwapRoutes } from '../hooks';
+import {
+  useChains,
+  useHasSufficientBalance,
+  useSwapRoutes,
+  useWalletInterface,
+} from '../hooks';
 import { SwapFormKeyHelper } from '../providers/SwapFormProvider';
-import { useWalletInterface } from '../services/walletInterface';
 import { routes } from '../utils/routes';
 import { SelectWalletDrawerBase } from './SelectWalletDrawer';
 
