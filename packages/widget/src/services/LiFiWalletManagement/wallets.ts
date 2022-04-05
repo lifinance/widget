@@ -1,6 +1,6 @@
 import { Connector } from '@web3-react/types';
-import { walletIcons } from './walletIcons';
 import { metaMask } from './connectors/metaMask';
+import { walletIcons } from './walletIcons';
 // import { walletConnect } from './connectors/walletConnect';
 
 export interface Wallet {

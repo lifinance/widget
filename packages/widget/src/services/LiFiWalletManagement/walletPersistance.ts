@@ -40,7 +40,7 @@ const readDeactivatedWallets = (): Array<string> => {
   }
 };
 
-const removeFromActiveWallets = (address: string | null | undefined) => {
+const removeFromActiveWallets = (address?: string | null) => {
   if (!address) return;
   const lowerCaseAddress = address.toLowerCase();
   const wallets = readWallets();
@@ -50,7 +50,7 @@ const removeFromActiveWallets = (address: string | null | undefined) => {
   storeWallets(filteredWallets);
 };
 
-const addToDeactivatedWallets = (address: string | null | undefined) => {
+const addToDeactivatedWallets = (address?: string | null) => {
   if (!address) return;
   const lowerCaseAddress = address.toLowerCase();
   const deactivatedWallets = readDeactivatedWallets();
@@ -58,7 +58,7 @@ const addToDeactivatedWallets = (address: string | null | undefined) => {
   storeDeactivatedWallets(deactivatedWallets);
 };
 
-const addToActiveWallets = (address: string | null | undefined) => {
+const addToActiveWallets = (address?: string | null) => {
   if (!address) return;
   const lowerCaseAddress = address.toLowerCase();
   const activeWallets = readWallets();
@@ -66,7 +66,7 @@ const addToActiveWallets = (address: string | null | undefined) => {
   storeWallets(activeWallets);
 };
 
-const removeFromDeactivatedWallets = (address: string | null | undefined) => {
+const removeFromDeactivatedWallets = (address?: string | null) => {
   if (!address) return;
   const lowerCaseAddress = address.toLowerCase();
   const deactivatedWallets = readDeactivatedWallets();
@@ -76,7 +76,7 @@ const removeFromDeactivatedWallets = (address: string | null | undefined) => {
   storeDeactivatedWallets(deactivatedWalletsWithoutAccount);
 };
 
-const isWalletDeactivated = (address: string | null | undefined): boolean => {
+const isWalletDeactivated = (address?: string | null): boolean => {
   if (!address) return false;
   const lowerCaseAddress = address.toLowerCase();
   const deactivatedWallets = readDeactivatedWallets();

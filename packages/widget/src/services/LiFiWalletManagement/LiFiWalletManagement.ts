@@ -1,8 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
 import { Signer } from 'ethers';
-
+import { useCallback, useEffect, useState } from 'react';
 import { usePriorityConnector, usePriorityProvider } from './connectorHooks';
-import { Wallet } from './wallets';
 import {
   addToActiveWallets,
   addToDeactivatedWallets,
@@ -10,6 +8,7 @@ import {
   removeFromActiveWallets,
   removeFromDeactivatedWallets,
 } from './walletPersistance';
+import { Wallet } from './wallets';
 
 export const useLifiWalletManagement = () => {
   const priorityConnector = usePriorityConnector();
@@ -62,7 +61,7 @@ export const useLifiWalletManagement = () => {
     if (!isWalletDeactivated(currentlySelectedUserAddress)) {
       priorityConnector?.connectEagerly!();
     }
-  }, []);
+  }, [priorityConnector?.connectEagerly]);
 
   // eslint-disable-next-line consistent-return
   useEffect(() => {
@@ -84,7 +83,7 @@ export const useLifiWalletManagement = () => {
         ethereum?.removeListener('chainChanged', handleChainChanged);
       }
     };
-  }, []);
+  }, [priorityConnector]);
 
   return {
     connect,
