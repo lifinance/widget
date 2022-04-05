@@ -1,5 +1,5 @@
 import { Box, List, Typography } from '@mui/material';
-import { useCallback, useMemo, useRef } from 'react';
+import { useCallback, useMemo, useRef, useTransition } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { defaultRangeExtractor, useVirtual } from 'react-virtual';
@@ -30,6 +30,7 @@ export const TokenList: React.FC<TokenListProps> = ({
   onClick,
 }) => {
   const { t } = useTranslation();
+  const [, startTransition] = useTransition();
   const { account } = useWalletInterface();
   const { setValue } = useFormContext();
   const [selectedChainId, myTokensFilter] = useWatch({
@@ -102,8 +103,10 @@ export const TokenList: React.FC<TokenListProps> = ({
 
   const handleTokenClick = useCallback(
     (tokenAddress: string) => {
-      setValue(SwapFormKeyHelper.getTokenKey(formType), tokenAddress);
       onClick?.();
+      startTransition(() => {
+        setValue(SwapFormKeyHelper.getTokenKey(formType), tokenAddress);
+      });
     },
     [formType, onClick, setValue],
   );
