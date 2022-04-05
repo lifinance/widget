@@ -28,6 +28,6 @@ const eip1193Provider = new Eip1193BridgeWithoutAccounts(
 );
 
 export const [eip1193, hooks] = initializeConnector<EIP1193>(
-  (actions) => new EIP1193(actions, eip1193Provider, true), // TODO: eagerConnect set to true. Only do so when useInternalWalletManagement is set to true
+  (actions) => new EIP1193(actions, eip1193Provider, false),
   supportedChains.map((chain) => chain.id),
 );

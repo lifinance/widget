@@ -17,7 +17,6 @@ export const SwapRoute: React.FC = () => {
   const { t } = useTranslation();
   const { getChainById } = useChains();
   const { routes, isFetching, isFetched } = useSwapRoutes();
-
   const renderRoutesLoading = () => {
     return (
       <Box
