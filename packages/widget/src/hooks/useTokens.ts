@@ -1,25 +1,32 @@
-import LiFi, { getChainById, Token, TokenAmount } from '@lifinance/sdk';
+import LiFi, { Token, TokenAmount } from '@lifinance/sdk';
 import { useCallback, useMemo } from 'react';
 import { useQuery } from 'react-query';
-import { useWidgetConfig } from '../providers/WidgetProvider';
 import { useWalletInterface } from '../services/walletInterface';
 import { formatTokenAmount } from '../utils/format';
-import { useSwapPossibilities } from './useSwapPossibilities';
+import { useChains } from './useChains';
 
 interface TokenAmountList {
   [chainId: number]: Array<TokenAmount>;
 }
 
 export const useTokens = (selectedChainId: number) => {
-  const { supportedChains } = useWidgetConfig();
   const { account } = useWalletInterface();
-  const { data: possibilities, isLoading } = useSwapPossibilities('tokens');
+  const { chains, isLoading: isChainsLoading, getChainById } = useChains();
+  const { data, isLoading } = useQuery(['tokens'], () =>
+    LiFi.getPossibilities({ include: ['tokens'] }),
+  );
 
   const formatTokens = useCallback(
     (tokens: Token[] = []) => {
+      if (!chains) {
+        return [];
+      }
       const tokenAmountList: TokenAmountList = tokens.reduce<TokenAmountList>(
         (tokenAmountList, token) => {
           const chain = getChainById(token.chainId);
+          if (!chain) {
+            return tokenAmountList;
+          }
           if (!tokenAmountList[chain.id]) {
             tokenAmountList[chain.id] = [];
           }
@@ -31,9 +38,7 @@ export const useTokens = (selectedChainId: number) => {
         },
         {},
       );
-      const filteredTokenAmountList = supportedChains.reduce<
-        Array<TokenAmountList>
-      >(
+      const filteredTokenAmountList = chains.reduce<Array<TokenAmountList>>(
         (tokens, chain) => {
           if (tokenAmountList[chain.id]) {
             tokens[0][chain.id] = tokenAmountList[chain.id];
@@ -48,12 +53,12 @@ export const useTokens = (selectedChainId: number) => {
 
       return filteredTokenAmountList;
     },
-    [supportedChains],
+    [chains, getChainById],
   );
 
   const [tokens] = useMemo(
-    () => formatTokens(possibilities?.tokens),
-    [formatTokens, possibilities?.tokens],
+    () => formatTokens(data?.tokens),
+    [formatTokens, data?.tokens],
   );
 
   const {
@@ -64,7 +69,7 @@ export const useTokens = (selectedChainId: number) => {
   } = useQuery(
     ['tokens', selectedChainId, account.address],
     async ({ queryKey: [_, chainId, account] }) => {
-      if (!account || !possibilities) {
+      if (!account || !data) {
         return [];
       }
       const tokenBalances = await LiFi.getTokenBalances(
@@ -78,7 +83,7 @@ export const useTokens = (selectedChainId: number) => {
       return formatedTokens;
     },
     {
-      enabled: Boolean(account.address) && Boolean(possibilities),
+      enabled: Boolean(account.address) && Boolean(data) && Boolean(chains),
       refetchIntervalInBackground: true,
       refetchInterval: 60_000,
       staleTime: 60_000,
@@ -88,8 +93,8 @@ export const useTokens = (selectedChainId: number) => {
   return {
     tokens: tokensWithBalance?.[0] ?? tokens,
     tokensWithBalance: tokensWithBalance?.[1],
-    isLoading,
-    isBalancesLoading: isLoading || isBalancesLoading,
+    isLoading: isLoading || isChainsLoading,
+    isBalancesLoading: isLoading || isChainsLoading || isBalancesLoading,
     isBalancesFetching,
     updateBalances: refetch,
   };

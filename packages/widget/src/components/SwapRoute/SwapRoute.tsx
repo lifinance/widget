@@ -1,7 +1,7 @@
-import { getChainById, Route, StepType } from '@lifinance/sdk';
+import { Route, StepType } from '@lifinance/sdk';
 import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useSwapRoutes } from '../../hooks/useSwapRoutes';
+import { useChains, useSwapRoutes } from '../../hooks';
 import { SwapStepper } from '../SwapStepper';
 import { AnimatedWaitIcon } from './SwapRoute.style';
 
@@ -15,6 +15,7 @@ const parsedStepTypes: {
 
 export const SwapRoute: React.FC = () => {
   const { t } = useTranslation();
+  const { getChainById } = useChains();
   const { routes, isFetching, isFetched } = useSwapRoutes();
 
   const renderRoutesLoading = () => {
@@ -56,14 +57,14 @@ export const SwapRoute: React.FC = () => {
         steps={[
           {
             label: route.fromToken.symbol,
-            sublabel: getChainById(route.fromChainId).name,
+            sublabel: getChainById(route.fromChainId)!.name,
           },
           ...route.steps.map((step) => {
             return { label: parsedStepTypes[step.type], sublabel: step.tool };
           }),
           {
             label: route.toToken.symbol,
-            sublabel: getChainById(route.toChainId).name,
+            sublabel: getChainById(route.toChainId)!.name,
           },
         ]}
       />

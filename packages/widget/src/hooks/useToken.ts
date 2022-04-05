@@ -1,20 +1,20 @@
-import { getChainById } from '@lifinance/sdk';
+import LiFi from '@lifinance/sdk';
 import { useMemo } from 'react';
-import { useSwapPossibilities } from './useSwapPossibilities';
+import { useQuery } from 'react-query';
 
 export const useToken = (chainId: number, tokenAddress: string) => {
-  const { data: possibilities, isLoading } = useSwapPossibilities('tokens');
+  const { data, isLoading } = useQuery(['tokens'], () =>
+    LiFi.getPossibilities({ include: ['tokens'] }),
+  );
 
-  const [chain, token] = useMemo(() => {
-    const chain = getChainById(chainId);
-    const token = possibilities?.tokens?.find(
-      (token) => token.address === tokenAddress && token.chainId === chain.id,
+  const token = useMemo(() => {
+    const token = data?.tokens?.find(
+      (token) => token.address === tokenAddress && token.chainId === chainId,
     );
-    return [chain, token];
-  }, [chainId, possibilities?.tokens, tokenAddress]);
+    return token;
+  }, [chainId, data?.tokens, tokenAddress]);
 
   return {
-    chain,
     token,
     isLoading,
   };

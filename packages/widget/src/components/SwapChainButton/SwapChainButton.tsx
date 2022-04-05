@@ -1,7 +1,7 @@
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useToken } from '../../hooks/useToken';
+import { useChain, useToken } from '../../hooks';
 import { SwapFormKeyHelper } from '../../providers/SwapFormProvider';
 import { Button } from './SwapChainButton.style';
 import { SwapChainButtonProps } from './types';
@@ -17,8 +17,8 @@ export const SwapChainButton: React.FC<SwapChainButtonProps> = ({
       SwapFormKeyHelper.getTokenKey(formType),
     ],
   });
-
-  const { chain, token } = useToken(chainId, tokenAddress);
+  const { chain } = useChain(chainId);
+  const { token } = useToken(chainId, tokenAddress);
 
   return (
     <Button

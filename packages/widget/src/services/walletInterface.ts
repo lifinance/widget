@@ -1,7 +1,7 @@
+import { Token } from '@lifinance/sdk';
 import { Signer } from 'ethers';
 import { useEffect, useState } from 'react';
 import { useWidgetConfig } from '../providers/WidgetProvider';
-import { Token } from '../types';
 import {
   addChain as walletAddChain,
   switchChain as walletSwitchChain,

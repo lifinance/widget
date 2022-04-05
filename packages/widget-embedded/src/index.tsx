@@ -11,7 +11,7 @@ if (!rootElement) {
 const root = createRoot(rootElement);
 
 const config: WidgetConfig = {
-  enabledChains: process.env.LIFI_ENABLED_CHAINS_JSON!,
+  enabledChains: JSON.parse(process.env.LIFI_ENABLED_CHAINS_JSON!),
   fromChain: 'eth',
   // toChain: 'okt',
   useInternalWalletManagement: true,
