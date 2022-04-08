@@ -303,7 +303,6 @@ export const supportedWallets = [
   coinbase,
   detected,
   trust,
-  //   opera,
   status,
   alphawallet,
   atoken,

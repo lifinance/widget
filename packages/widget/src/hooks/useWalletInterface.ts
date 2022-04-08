@@ -1,14 +1,14 @@
 import { Token } from '@lifinance/sdk';
 import { Signer } from 'ethers';
 import { useCallback, useEffect, useState } from 'react';
-import { useWidgetConfig } from '../providers/WidgetProvider';
 import {
+  useLifiWalletManagement,
+  Wallet,
   addChain as walletAddChain,
   switchChain as walletSwitchChain,
   switchChainAndAddToken,
-} from '../services/LiFiWalletManagement/browserWallets';
-import { useLifiWalletManagement } from '../services/LiFiWalletManagement/LiFiWalletManagement';
-import { Wallet } from '../services/LiFiWalletManagement/wallets';
+} from '@lifinance/wallet-management';
+import { useWidgetConfig } from '../providers/WidgetProvider';
 
 export interface WalletAccount {
   address?: string;
