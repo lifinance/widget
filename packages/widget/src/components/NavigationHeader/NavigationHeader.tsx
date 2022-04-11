@@ -14,6 +14,7 @@ const routesWithBack = [
   routes.fromToken,
   routes.toToken,
   routes.selectWallet,
+  routes.transaction,
 ];
 
 export const NavigationHeader: React.FC<NavigationHeaderProps> = ({

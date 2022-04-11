@@ -1,17 +1,48 @@
-import { Route } from '@lifinance/sdk';
+import { useSwapExecutionContext } from '@lifinance/widget/providers/SwapExecutionProvider';
 import { Box, Button, Divider, Typography } from '@mui/material';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
 import { EmailInput } from '../../components/EmailInput';
 import { TransactionStepper } from '../../components/TransactionStepper';
 import {
   GrowableTransactionBox,
   TransactionBox,
   TransactionContainer,
-  TransactionFooter,
+  TransactionFooter
 } from './TransactionPage.style';
 import { TransactionPageProps } from './types';
+
+export const TransactionPage: React.FC<TransactionPageProps> = () => {
+  const { t } = useTranslation();
+  const { route } = useSwapExecutionContext();
+
+  return (
+    <TransactionContainer maxWidth="sm" disableGutters>
+      <TransactionBox>
+        <Typography
+          variant="h4"
+          noWrap
+          sx={{ flexGrow: 1, fontWeight: 'bold' }}
+          mt={3}
+          mb={1}
+        >
+          {t(`transaction.statusHeader.paused`)}
+        </Typography>
+        <Typography variant="body2" pb={3}>
+          {t(`transaction.statusSubText.paused`)}
+        </Typography>
+        <Divider light />
+      </TransactionBox>
+      <GrowableTransactionBox pt={4} pl={3}>
+        {route ? <TransactionStepper route={route} /> : null}
+      </GrowableTransactionBox>
+
+      <TransactionFooter maxWidth="sm" py={3}>
+        {/* <EmailNotificationFooter /> */}
+        {/* <ErrorFooter /> */}
+      </TransactionFooter>
+    </TransactionContainer>
+  );
+};
 
 const EmailNotificationFooter = () => {
   const { t } = useTranslation();
@@ -43,39 +74,5 @@ const ErrorFooter = () => {
         {t(`transaction.footer.error.support`)}
       </Button>
     </Box>
-  );
-};
-
-export const TransactionPage: React.FC<TransactionPageProps> = () => {
-  const { t } = useTranslation();
-  const { state } = useLocation();
-  const [route] = useState<Route>(state as Route);
-
-  return (
-    <TransactionContainer maxWidth="sm" disableGutters>
-      <TransactionBox>
-        <Typography
-          variant="h4"
-          noWrap
-          sx={{ flexGrow: 1, fontWeight: 'bold' }}
-          mt={3}
-          mb={1}
-        >
-          {t(`transaction.statusHeader.paused`)}
-        </Typography>
-        <Typography variant="body2" pb={3}>
-          {t(`transaction.statusSubText.paused`)}
-        </Typography>
-        <Divider light />
-      </TransactionBox>
-      <GrowableTransactionBox pt={4} pl={3}>
-        {!!route && <TransactionStepper route={route} />}
-      </GrowableTransactionBox>
-
-      <TransactionFooter maxWidth="sm" py={3}>
-        {/* <EmailNotificationFooter /> */}
-        {/* <ErrorFooter /> */}
-      </TransactionFooter>
-    </TransactionContainer>
   );
 };

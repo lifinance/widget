@@ -9,8 +9,9 @@ import {
   useChains,
   useHasSufficientBalance,
   useSwapRoutes,
-  useWalletInterface,
+  useWalletInterface
 } from '../hooks';
+import { useSwapExecutionContext } from '../providers/SwapExecutionProvider';
 import { SwapFormKeyHelper } from '../providers/SwapFormProvider';
 import { routes } from '../utils/routes';
 import { SelectWalletDrawerBase } from './SelectWalletDrawer';
@@ -27,13 +28,14 @@ export const SwapButton: React.FC<{
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { getChainById } = useChains();
+  const { account, switchChain } = useWalletInterface();
+  const { executeRoute } = useSwapExecutionContext();
   const { routes: swapRoutes } = useSwapRoutes();
   const {
     hasGasBalanceOnStartChain,
     hasGasOnCrossChain,
     hasSufficientBalance,
   } = useHasSufficientBalance(swapRoutes?.[0]);
-  const { account, switchChain } = useWalletInterface();
   const [chainId] = useWatch({
     name: [SwapFormKeyHelper.getChainKey('from')],
   });
@@ -46,12 +48,18 @@ export const SwapButton: React.FC<{
     } else if (getChainById(chainId || ChainId.ETH)?.id !== account.chainId) {
       await switchChain(chainId!);
     } else if (swapRoutes?.length) {
+      executeRoute(swapRoutes[0]);
       navigate(routes.transaction, {
         replace: true,
-        state: swapRoutes[0],
       });
     }
   };
+
+  // useEffect(() => {
+  //   console.log('hasSufficientBalance', hasSufficientBalance);
+  //   console.log('hasGasBalanceOnStartChain', hasGasBalanceOnStartChain);
+  //   console.log('hasGasOnCrossChain', hasGasOnCrossChain);
+  // }, [hasGasBalanceOnStartChain, hasGasOnCrossChain, hasSufficientBalance]);
 
   return (
     <Button

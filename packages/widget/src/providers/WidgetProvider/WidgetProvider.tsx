@@ -15,7 +15,7 @@ const WidgetContext = createContext<WidgetContextProps>(initialContext);
 export const useWidgetConfig = (): WidgetContextProps =>
   useContext(WidgetContext);
 
-export const WidgetProvider: React.FC<WidgetProviderProps> = ({
+export const WidgetProvider: React.FC<React.PropsWithChildren<WidgetProviderProps>> = ({
   children,
   config: {
     enabledChains,

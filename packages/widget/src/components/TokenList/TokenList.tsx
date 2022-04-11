@@ -1,28 +1,28 @@
 import { Box, List, Typography } from '@mui/material';
-import { useCallback, useMemo, useRef, useTransition } from 'react';
+import { FC, PropsWithChildren, useCallback, useMemo, useRef, useTransition } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { defaultRangeExtractor, useVirtual } from 'react-virtual';
+import { defaultRangeExtractor, Range, useVirtual } from 'react-virtual';
 import { useDebouncedWatch } from '../../hooks/useDebouncedWatch';
 import { useTokens } from '../../hooks/useTokens';
 import { useWalletInterface } from '../../hooks/useWalletInterface';
 import {
   SwapFormKey,
-  SwapFormKeyHelper,
+  SwapFormKeyHelper
 } from '../../providers/SwapFormProvider';
 import { TokenFilterType } from '../SelectTokenDrawer';
 import {
   MemoizedTokenListItem,
-  MemoizedTokenListItemSkeleton,
+  MemoizedTokenListItemSkeleton
 } from './TokenListItem';
 import { TokenListProps } from './types';
 import {
   createTokenAmountSkeletons,
   skeletonKey,
-  tokenAmountMock,
+  tokenAmountMock
 } from './utils';
 
-export const TokenList: React.FC<TokenListProps> = ({
+export const TokenList: FC<PropsWithChildren<TokenListProps>> = ({
   children,
   formType,
   headerHeight,
@@ -89,11 +89,11 @@ export const TokenList: React.FC<TokenListProps> = ({
     parentRef,
     overscan: 5,
     estimateSize: useCallback(
-      (index) => (index === 0 ? headerHeight : 60),
+      (index: number) => (index === 0 ? headerHeight : 60),
       [headerHeight],
     ),
     keyExtractor: (index) => chainTokens[index].address ?? index,
-    rangeExtractor: useCallback((range) => {
+    rangeExtractor: useCallback((range: Range) => {
       if (range.size === 0) {
         return [];
       }

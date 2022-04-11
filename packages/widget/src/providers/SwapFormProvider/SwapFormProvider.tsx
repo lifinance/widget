@@ -11,7 +11,7 @@ const defaultValues = {
   [SwapFormKey.ToSearchTokensFilter]: '',
 };
 
-export const SwapFormProvider: React.FC = ({ children }) => {
+export const SwapFormProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
   const { fromChain, fromToken, fromAmount, toChain, toToken } =
     useWidgetConfig();
 

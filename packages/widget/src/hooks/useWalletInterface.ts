@@ -47,8 +47,10 @@ export const useWalletInterface = () => {
   // only for injected wallets
   const switchChain = async (chainId: number) => {
     if (config.useInternalWalletManagement) {
-      await walletSwitchChain(chainId);
+      return walletSwitchChain(chainId);
     }
+    // TODO
+    return false;
   };
 
   const addChain = async (chainId: number) => {
