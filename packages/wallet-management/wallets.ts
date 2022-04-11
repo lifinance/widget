@@ -121,20 +121,6 @@ const trust: Wallet = {
   platforms: ['mobile'],
 };
 
-// const opera: Wallet = {
-//   name: 'Opera',
-//   checkProviderIdentity: ({ device }) => device.browser.name === 'Opera',
-//   icon: async () => (await import('./walletIcons/opera.svg')).default,
-//   connector: async () => ({
-//     provider: createEIP1193Provider(window.ethereum, {
-//       eth_requestAccounts: async ({ baseRequest }) =>
-//         baseRequest({ method: 'eth_accounts' }),
-//       eth_selectAccounts: UNSUPPORTED_METHOD,
-//     }),
-//   }),
-//   platforms: ['all'],
-// };
-
 const status: Wallet = {
   name: 'Status',
   checkProviderIdentity: ({ provider }) =>
@@ -317,7 +303,6 @@ export const supportedWallets = [
   coinbase,
   detected,
   trust,
-  //   opera,
   status,
   alphawallet,
   atoken,

@@ -15,11 +15,8 @@ import {
   useState,
 } from 'react';
 import { useResizeDetector } from 'react-resize-detector';
+import { supportedWallets, Wallet } from '@lifinance/wallet-management';
 import { useWalletInterface } from '../../hooks';
-import {
-  supportedWallets,
-  Wallet,
-} from '../../services/LiFiWalletManagement/wallets';
 import { ContainerDrawer } from '../ContainerDrawer';
 import {
   WalletIdentityPopoverContent,
