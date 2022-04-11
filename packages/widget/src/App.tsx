@@ -22,7 +22,8 @@ const MainContainer = styled(Container)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   overflowX: 'clip',
-  marginRight: 0
+  marginRight: 0,
+  maxWidth: 480
 }));
 
 interface AppProps {
@@ -37,7 +38,7 @@ export const App: React.FC<AppProps> = ({ config }) => {
     <ThemeProvider theme={theme}>
       <QueryProvider client={queryClient}>
         <MemoryRouter>
-          <MainContainer maxWidth="sm" disableGutters>
+          <MainContainer disableGutters>
             <WidgetProvider config={config}>
               <SwapFormProvider>
                 <WalletHeader />
