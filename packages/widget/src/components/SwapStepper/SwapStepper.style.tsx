@@ -1,6 +1,6 @@
 import { Step } from '@mui/material';
 import StepConnector, {
-  stepConnectorClasses,
+  stepConnectorClasses
 } from '@mui/material/StepConnector';
 import StepLabel, { stepLabelClasses } from '@mui/material/StepLabel';
 import { styled } from '@mui/material/styles';
@@ -103,7 +103,7 @@ export const SwapStepConnector = styled(StepConnector)(({ theme }) => ({
   [`& .${stepConnectorClasses.line}`]: {
     borderColor: theme.palette.common.black,
     borderTopWidth: 1,
-    borderRadius: 1,
+    borderRadius: theme.shape.borderRadius,
   },
 }));
 
@@ -124,7 +124,7 @@ export const SwapStepLabel = styled(StepLabel)(({ theme }) => ({
 }));
 
 export const SwapStepIcon = styled('div')(({ theme }) => ({
-  margin: '4px 0',
+  margin: theme.spacing(0.5, 0),
   width: 13,
   height: 13,
   backgroundColor: theme.palette.common.black,

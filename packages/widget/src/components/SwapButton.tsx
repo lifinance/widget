@@ -16,11 +16,12 @@ import { SwapFormKeyHelper } from '../providers/SwapFormProvider';
 import { routes } from '../utils/routes';
 import { SelectWalletDrawerBase } from './SelectWalletDrawer';
 
-export const Button = styled(LoadingButton)({
+export const Button = styled(LoadingButton)(({ theme }) => ({
   textTransform: 'none',
-  borderRadius: 0,
-  padding: '12px 16px',
-});
+  borderRadius: theme.shape.borderRadius,
+  padding: theme.spacing(1.25, 2),
+  fontSize: '1rem'
+}));
 
 export const SwapButton: React.FC<{
   drawerRef: RefObject<SelectWalletDrawerBase>;

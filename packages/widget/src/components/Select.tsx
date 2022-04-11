@@ -9,7 +9,7 @@ export const Select = styled(MuiSelect)(({ theme }) => ({
     theme.palette.mode === 'light'
       ? theme.palette.common.white
       : theme.palette.grey[900],
-  borderRadius: 8,
+  borderRadius: theme.shape.borderRadius,
   borderWidth: 2,
   borderStyle: 'solid',
   borderColor: theme.palette.grey[300],
@@ -19,7 +19,7 @@ export const Select = styled(MuiSelect)(({ theme }) => ({
     'box-shadow',
   ]),
   [`& .${inputBaseClasses.input}`]: {
-    padding: '8.5px 14px',
+    padding: theme.spacing(1.0625, 1.75),
     display: 'flex',
     alignItems: 'center',
   },
@@ -37,6 +37,6 @@ export const Select = styled(MuiSelect)(({ theme }) => ({
 
 export const MultiSelect = styled(Select)(({ theme }) => ({
   [`& .${inputBaseClasses.input}`]: {
-    padding: '4px 14px',
+    padding: theme.spacing(0.5, 1.75),
   },
 }));

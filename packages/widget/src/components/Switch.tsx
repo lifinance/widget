@@ -8,7 +8,7 @@ export const Switch = styled(MuiSwitch)(({ theme }) => ({
   padding: 0,
   [`& .${switchClasses.switchBase}`]: {
     padding: 0,
-    margin: 2,
+    margin: theme.spacing(0.25),
     transitionDuration: theme.transitions.duration.standard,
     [`&.${switchClasses.checked}`]: {
       transform: 'translateX(18px)',

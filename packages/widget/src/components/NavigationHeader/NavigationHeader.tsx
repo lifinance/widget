@@ -1,6 +1,6 @@
 import {
   ArrowBack as ArrowBackIcon,
-  Tune as TuneIcon,
+  Settings as SettingsIcon
 } from '@mui/icons-material';
 import { Collapse, IconButton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -66,7 +66,7 @@ export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
           <ArrowBackIcon />
         </IconButton>
       </Collapse>
-      <Typography variant="h5" noWrap sx={{ flexGrow: 1, fontWeight: 'bold' }}>
+      <Typography variant="h5" color="black" sx={{ flexGrow: 1, fontWeight: 'bold' }} noWrap>
         {handleHeaderTitle()}
       </Typography>
       {location.pathname === '/' && (
@@ -77,7 +77,7 @@ export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
           edge="end"
           onClick={handleSettings}
         >
-          <TuneIcon />
+          <SettingsIcon />
         </IconButton>
       )}
     </Header>

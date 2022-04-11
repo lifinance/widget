@@ -3,7 +3,9 @@ import { styled } from '@mui/material/styles';
 import { FC, PropsWithChildren } from 'react';
 
 const HeaderAppBar = styled(AppBar)(({ theme }) => ({
-  backgroundColor: theme.palette.common.black,
+  backgroundColor: theme.palette.common.white,
+  color: theme.palette.common.black,
+  zIndex: 1250
 }));
 
 const HeaderToolbar = styled(Toolbar, {

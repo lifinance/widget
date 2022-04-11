@@ -1,20 +1,31 @@
 import { Button as MuiButton } from '@mui/material';
 import { buttonClasses } from '@mui/material/Button';
 import { alpha, styled } from '@mui/material/styles';
+import { SwapFormDirection } from '../../providers/SwapFormProvider';
 
-export const Button = styled(MuiButton)(({ theme }) => ({
+export const Button = styled(MuiButton, {
+  shouldForwardProp: (prop) => prop !== 'formType',
+})<{ formType: SwapFormDirection }>(({ theme, formType }) => ({
   backgroundColor:
     theme.palette.mode === 'light'
       ? theme.palette.common.white
       : theme.palette.grey[900],
   color: theme.palette.text.primary,
-  borderRadius: '8px 8px 0 0',
-  borderWidth: '2px 2px 1px 2px',
+  // borderRadius:
+  //   formType === 'from'
+  //     ? `${theme.shape.borderRadius}px ${theme.shape.borderRadius}px 0 0`
+  //     : theme.shape.borderRadius,
+  borderRadius:
+    formType === 'from'
+      ? `${theme.shape.borderRadius}px ${theme.shape.borderRadius}px 0 0`
+      : `${theme.shape.borderRadius}px ${theme.shape.borderRadius}px 0 0`,
+  borderWidth: formType === 'from' ? '2px 2px 1px 2px' : '2px 2px 1px 2px',
+  //borderWidth: formType === 'from' ? '2px 2px 1px 2px' : '2px',
   borderStyle: 'solid',
   borderColor: theme.palette.grey[300],
-  paddingRight: 14,
+  paddingRight: theme.spacing(1.75),
   textTransform: 'none',
-  marginBottom: -1,
+  marginBottom: theme.spacing(-0.125),
   height: '42px',
   [`& .${buttonClasses.endIcon}`]: {
     color: theme.palette.text.secondary,
@@ -30,7 +41,7 @@ export const Button = styled(MuiButton)(({ theme }) => ({
         ? theme.palette.common.white
         : theme.palette.grey[900],
     borderColor: theme.palette.grey[300],
-    borderWidth: '2px 2px 1px 2px',
+    borderWidth: formType === 'from' ? '2px 2px 1px 2px' : '2px 2px 1px 2px',
     boxShadow: 'none',
   },
   '&:focus': {

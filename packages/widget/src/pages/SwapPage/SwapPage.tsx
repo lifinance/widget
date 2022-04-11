@@ -2,14 +2,13 @@ import { SwapVert as SwapVertIcon } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { RoutePrioritySelect } from '../../components/RoutePrioritySelect';
 import {
   SelectTokenDrawer,
-  SelectTokenDrawerBase,
+  SelectTokenDrawerBase
 } from '../../components/SelectTokenDrawer';
 import {
   SelectWalletDrawer,
-  SelectWalletDrawerBase,
+  SelectWalletDrawerBase
 } from '../../components/SelectWalletDrawer';
 import { SettingsDrawer } from '../../components/SettingsDrawer';
 import { SwapButton } from '../../components/SwapButton';
@@ -18,7 +17,7 @@ import { SwapInput } from '../../components/SwapInput';
 import { SwapRoute } from '../../components/SwapRoute';
 import {
   SwapFormDirection,
-  SwapFormKeyHelper,
+  SwapFormKeyHelper
 } from '../../providers/SwapFormProvider';
 import { ElementId } from '../../utils/elements';
 import { SendToRecipientForm } from './SendToRecipientForm';
@@ -62,19 +61,12 @@ export const SwapPage: React.FC<SwapPageProps> = ({ settingsRef }) => {
           <SwapInput formType="to" />
         </Box>
         <SendToRecipientForm />
-        <RoutePrioritySelect />
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            flex: 1,
-            justifyContent: 'flex-end',
-          }}
-        >
-          <SwapRoute />
-        </Box>
+        {/* <RoutePrioritySelect /> */}
+        <SwapRoute />
       </FormBox>
-      <SwapButton drawerRef={selectWalletDrawerRef} />
+      <Box px={3} pt={1} pb={3}>
+        <SwapButton drawerRef={selectWalletDrawerRef} />
+      </Box>
       <SelectWalletDrawer ref={selectWalletDrawerRef} />
       <SelectTokenDrawer ref={selectTokenDrawerRef} />
       <SettingsDrawer ref={settingsRef} />

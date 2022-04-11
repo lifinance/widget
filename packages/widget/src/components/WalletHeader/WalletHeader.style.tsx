@@ -7,7 +7,7 @@ export const WalletTypography = styled(Typography, {
   transition: theme.transitions.create(['color']),
   pointerEvents: connected ? 'auto' : 'none',
   '&:hover': {
-    color: theme.palette.grey[200],
+    color: theme.palette.grey[700],
     cursor: 'pointer',
   },
 }));

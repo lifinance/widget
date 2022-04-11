@@ -25,6 +25,7 @@ export const SwapChainButton: React.FC<SwapChainButtonProps> = ({
       variant="outlined"
       endIcon={<KeyboardArrowDownIcon />}
       onClick={() => onClick?.(formType)}
+      formType={formType}
       disableElevation
       disableRipple
       fullWidth

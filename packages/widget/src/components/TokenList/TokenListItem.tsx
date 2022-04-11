@@ -3,7 +3,7 @@ import {
   ListItemAvatar,
   ListItemText,
   Skeleton,
-  Typography,
+  Typography
 } from '@mui/material';
 import { memo } from 'react';
 import { TokenListItem, TokenListItemButton } from './TokenList.style';
@@ -59,7 +59,7 @@ export const MemoizedTokenListItemSkeleton: React.FC<
           variant="circular"
           width={40}
           height={40}
-          sx={{ marginLeft: '12px', marginRight: '16px' }}
+          sx={{ marginLeft: 1.5, marginRight: 2 }}
         />
       </ListItemAvatar>
       <ListItemText

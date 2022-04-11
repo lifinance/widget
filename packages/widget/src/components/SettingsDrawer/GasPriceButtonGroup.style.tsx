@@ -1,6 +1,6 @@
 import {
   Button as MuiButton,
-  ButtonGroup as MuiButtonGroup,
+  ButtonGroup as MuiButtonGroup
 } from '@mui/material';
 import { buttonClasses } from '@mui/material/Button';
 import { buttonGroupClasses } from '@mui/material/ButtonGroup';
@@ -8,8 +8,8 @@ import { styled } from '@mui/material/styles';
 
 export const Button = styled(MuiButton)(({ theme }) => ({
   textTransform: 'none',
-  borderRadius: 8,
-  padding: '7px 21px',
+  borderRadius: theme.shape.borderRadius,
+  padding: theme.spacing(0.875, 2.625),
   border: `2px solid rgba(19, 60, 76, 0.12)`,
   [`&.${buttonClasses.outlined}`]: {
     color: theme.palette.text.secondary,
@@ -32,6 +32,6 @@ export const ButtonGroup = styled(MuiButtonGroup)(({ theme }) => ({
       borderRightColor: theme.palette.primary.main,
     },
   [`&  .${buttonGroupClasses.grouped}:not(:first-of-type)`]: {
-    marginLeft: '-2px',
+    marginLeft: theme.spacing(-0.25),
   },
 }));

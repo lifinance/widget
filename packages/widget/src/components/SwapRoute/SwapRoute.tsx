@@ -51,7 +51,15 @@ export const SwapRoute: React.FC = () => {
   };
 
   const renderRouteDisplay = (route: Route) => (
-    <Box py={2}>
+    <Box
+      py={2}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        flex: 1,
+        justifyContent: 'flex-end',
+      }}
+    >
       <SwapStepper
         steps={[
           {

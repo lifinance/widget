@@ -11,7 +11,7 @@ export const FormContainer = styled(Container)({
 export const FormBox = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  flex: 1,
+  // flex: 1,
   paddingLeft: theme.spacing(3),
   paddingRight: theme.spacing(3),
 }));

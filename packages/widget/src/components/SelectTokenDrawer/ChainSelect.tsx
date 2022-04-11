@@ -4,14 +4,14 @@ import {
   ListItemIcon,
   MenuItem,
   SelectChangeEvent,
-  Skeleton,
+  Skeleton
 } from '@mui/material';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useChains } from '../../hooks/useChains';
 import {
   SwapFormKey,
   SwapFormKeyHelper,
-  SwapFormTypeProps,
+  SwapFormTypeProps
 } from '../../providers/SwapFormProvider';
 import { useWidgetConfig } from '../../providers/WidgetProvider';
 import { Select } from '../Select';
@@ -79,7 +79,7 @@ export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
       variant="rectangular"
       width="100%"
       height={45}
-      sx={{ borderRadius: '8px' }}
+      sx={{ borderRadius: 1 }}
     />
   );
 };

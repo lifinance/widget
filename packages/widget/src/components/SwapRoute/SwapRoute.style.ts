@@ -13,8 +13,8 @@ const rotationAnimation = keyframes`
     }
 `;
 
-export const AnimatedWaitIcon = styled(WaitIcon)(() => ({
-  margin: 12,
+export const AnimatedWaitIcon = styled(WaitIcon)(({ theme }) => ({
+  margin: theme.spacing(1.5),
   transform: 'rotate(0)',
   animation: `${rotationAnimation} 3s infinite cubic-bezier(0.645, 0.045, 0.355, 1.000)`,
 }));

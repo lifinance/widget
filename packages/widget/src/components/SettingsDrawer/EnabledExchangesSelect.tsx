@@ -5,7 +5,7 @@ import {
   FormControl,
   MenuItem,
   Skeleton,
-  Typography,
+  Typography
 } from '@mui/material';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -59,7 +59,7 @@ export const EnabledExchangesSelect: React.FC = () => {
           variant="rectangular"
           width="100%"
           height={44}
-          sx={{ borderRadius: '8px' }}
+          sx={{ borderRadius: 1 }}
         />
       )}
     </Box>

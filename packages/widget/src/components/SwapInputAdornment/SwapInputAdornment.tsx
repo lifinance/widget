@@ -5,12 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { useTokenBalance } from '../../hooks/useTokenBalance';
 import {
   SwapFormKeyHelper,
-  SwapFormTypeProps,
+  SwapFormTypeProps
 } from '../../providers/SwapFormProvider';
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format';
 import {
   SwapMaxAmountTypography,
-  SwapPriceTypography,
+  SwapPriceTypography
 } from './SwapInputAdornment.style';
 
 export const SwapInputAdornment: React.FC<SwapFormTypeProps> = ({
@@ -46,7 +46,7 @@ export const SwapInputAdornment: React.FC<SwapFormTypeProps> = ({
           variant="rectangular"
           width={formType === 'from' ? 160 : 96}
           height={20}
-          sx={{ borderRadius: '6px' }}
+          sx={{ borderRadius: 1 }}
         />
       ) : (
         <>

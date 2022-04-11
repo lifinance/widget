@@ -17,7 +17,7 @@ import { theme } from './theme';
 import { routes } from './utils/routes';
 
 const MainContainer = styled(Container)(({ theme }) => ({
-  backgroundColor: theme.palette.background.default,
+  backgroundColor: theme.palette.common.white,
   height: '100%',
   display: 'flex',
   flexDirection: 'column',

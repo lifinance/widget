@@ -9,13 +9,13 @@ export const TokenFilterSelect = styled(MuiSelect)(({ theme }) => ({
     theme.palette.mode === 'light'
       ? theme.palette.grey[100]
       : theme.palette.grey[900],
-  borderRadius: 8,
+  borderRadius: theme.shape.borderRadius,
   border: 'none',
   '&:focus': {
     outline: 'none',
   },
   [`& .${inputBaseClasses.input}`]: {
-    padding: '4px 12px',
+    padding: theme.spacing(0.5, 1.5),
     display: 'flex',
     alignItems: 'center',
   },

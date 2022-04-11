@@ -39,6 +39,9 @@ export const theme = createTheme({
       700: '#57595C',
     },
   },
+  shape: {
+    borderRadius: 6
+  }
   // components: {
   //   MuiPopover: {
   //     styleOverrides: {

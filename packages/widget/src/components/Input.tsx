@@ -7,18 +7,18 @@ export const Input = styled(InputBase)(({ theme }) => ({
     theme.palette.mode === 'light'
       ? theme.palette.common.white
       : theme.palette.grey[900],
-  borderRadius: 8,
+  borderRadius: theme.shape.borderRadius,
   borderWidth: 2,
   borderStyle: 'solid',
   borderColor: theme.palette.grey[300],
-  paddingRight: '14px',
+  paddingRight: theme.spacing(1.75),
   transition: theme.transitions.create([
     'border-color',
     'background-color',
     'box-shadow',
   ]),
   [`& .${inputBaseClasses.input}`]: {
-    padding: '8.5px 0 8.5px 14px',
+    padding: theme.spacing(1.0625, 0, 1.0625, 1.75),
   },
   [`&.${inputBaseClasses.focused}`]: {
     boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,

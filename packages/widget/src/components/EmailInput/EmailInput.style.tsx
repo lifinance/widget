@@ -1,9 +1,9 @@
 import { styled } from '@mui/material/styles';
 import { Input as InputBase } from '../Input';
 
-export const Input = styled(InputBase)({
+export const Input = styled(InputBase)(({ theme }) => ({
   border: '1px solid #E4E7E9',
-  borderRadius: '4px',
+  borderRadius: theme.shape.borderRadius,
   '& input[type="number"]::-webkit-outer-spin-button, & input[type="number"]::-webkit-inner-spin-button':
     {
       WebkitAppearance: 'none',
@@ -12,4 +12,4 @@ export const Input = styled(InputBase)({
   '& input[type="number"]': {
     MozAppearance: 'textfield',
   },
-});
+}));

@@ -35,7 +35,7 @@ export const WalletHeader: React.FC = () => {
           variant="body2"
           noWrap
           align="right"
-          color="grey.500"
+          color="black"
           mt={2}
           id="wallet"
           aria-controls={open ? 'wallet-menu' : undefined}
@@ -54,8 +54,10 @@ export const WalletHeader: React.FC = () => {
         anchorEl={menuAnchor}
         open={open}
         onClose={handleClose}
+        elevation={2}
         MenuListProps={{
           'aria-labelledby': 'wallet-menu',
+          dense: true,
         }}
         anchorReference="anchorEl"
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
