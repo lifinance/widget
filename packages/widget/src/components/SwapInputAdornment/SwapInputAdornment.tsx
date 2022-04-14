@@ -5,12 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { useTokenBalance } from '../../hooks/useTokenBalance';
 import {
   SwapFormKeyHelper,
-  SwapFormTypeProps
+  SwapFormTypeProps,
 } from '../../providers/SwapFormProvider';
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format';
 import {
   SwapMaxAmountTypography,
-  SwapPriceTypography
+  SwapPriceTypography,
 } from './SwapInputAdornment.style';
 
 export const SwapInputAdornment: React.FC<SwapFormTypeProps> = ({
@@ -92,8 +92,8 @@ const SwapPrice: React.FC<SwapFormTypeProps & { price?: string }> = ({
 
   return (
     <SwapPriceTypography variant="body2" color="text.secondary">
-      {t(`swap.price`, {
-        price: formatTokenPrice(value, price),
+      {t(`swap.approximateCurrency`, {
+        value: formatTokenPrice(value, price),
       })}
     </SwapPriceTypography>
   );

@@ -20,7 +20,6 @@ import {
   SwapFormKeyHelper,
 } from '../../providers/SwapFormProvider';
 import { ElementId } from '../../utils/elements';
-import { SendToRecipientForm } from './SendToRecipientForm';
 import { FormBox, FormContainer } from './SwapPage.style';
 import { SwapPageProps } from './types';
 
@@ -56,15 +55,15 @@ export const SwapPage: React.FC<SwapPageProps> = ({ settingsRef }) => {
           </Typography>
           <SwapVertIcon sx={{ alignSelf: 'center', padding: '0 16px' }} />
         </Box>
-        <Box mb={3}>
+        <Box pb={3}>
           <SwapChainButton onClick={handleChainButton} formType="to" />
           <SwapInput formType="to" />
         </Box>
-        <SendToRecipientForm />
+        {/* <SendToRecipientForm /> */}
         {/* <RoutePrioritySelect /> */}
         <SwapRoute />
       </FormBox>
-      <Box px={3} pt={1} pb={3}>
+      <Box px={3} pb={3}>
         <SwapButton drawerRef={selectWalletDrawerRef} />
       </Box>
       <SelectWalletDrawer ref={selectWalletDrawerRef} />

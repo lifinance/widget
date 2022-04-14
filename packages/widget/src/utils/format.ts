@@ -10,9 +10,16 @@ Big.NE = -21;
  * @param amount amount to format.
  * @returns formatted amount.
  */
-export const formatTokenAmount = (amount: string = '0') => {
-  const parsedAmount = parseFloat(amount);
-  if (parsedAmount === 0 || isNaN(Number(amount))) {
+export const formatTokenAmount = (
+  amount: string = '0',
+  decimals: number = 0,
+) => {
+  let shiftedAmount = amount;
+  if (decimals) {
+    shiftedAmount = (Number(amount) / 10 ** decimals).toString();
+  }
+  const parsedAmount = parseFloat(shiftedAmount);
+  if (parsedAmount === 0 || isNaN(Number(shiftedAmount))) {
     return '0';
   }
 
