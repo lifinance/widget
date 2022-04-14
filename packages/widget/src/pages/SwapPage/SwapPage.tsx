@@ -4,11 +4,11 @@ import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   SelectTokenDrawer,
-  SelectTokenDrawerBase
+  SelectTokenDrawerBase,
 } from '../../components/SelectTokenDrawer';
 import {
   SelectWalletDrawer,
-  SelectWalletDrawerBase
+  SelectWalletDrawerBase,
 } from '../../components/SelectWalletDrawer';
 import { SettingsDrawer } from '../../components/SettingsDrawer';
 import { SwapButton } from '../../components/SwapButton';
@@ -17,7 +17,7 @@ import { SwapInput } from '../../components/SwapInput';
 import { SwapRoute } from '../../components/SwapRoute';
 import {
   SwapFormDirection,
-  SwapFormKeyHelper
+  SwapFormKeyHelper,
 } from '../../providers/SwapFormProvider';
 import { ElementId } from '../../utils/elements';
 import { SendToRecipientForm } from './SendToRecipientForm';
@@ -36,8 +36,8 @@ export const SwapPage: React.FC<SwapPageProps> = ({ settingsRef }) => {
     );
 
   return (
-    <FormContainer maxWidth="sm" disableGutters>
-      <FormBox id={ElementId.SwapContent}>
+    <FormContainer id={ElementId.SwapContent} disableGutters>
+      <FormBox>
         <Typography variant="subtitle1" color="text.secondary" mt={2} mb={0.5}>
           {t(`swap.from`)}
         </Typography>

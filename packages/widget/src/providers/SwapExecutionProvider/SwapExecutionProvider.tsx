@@ -1,16 +1,17 @@
-import LiFi, { Route } from '@lifinance/sdk';
+import { Route } from '@lifinance/sdk';
 import {
   createContext,
   useCallback,
   useContext,
   useMemo,
-  useState
+  useState,
 } from 'react';
 import { useMutation } from 'react-query';
 import { useWalletInterface } from '../../hooks';
+import { LiFi } from '../../lifi';
 import type {
   SwapExecutionContextProps,
-  SwapExecutionProviderProps
+  SwapExecutionProviderProps,
 } from './types';
 
 const stub = (): never => {
@@ -26,9 +27,9 @@ const SwapExecutionContext = createContext<SwapExecutionContextProps>({
 export const useSwapExecutionContext = (): SwapExecutionContextProps =>
   useContext(SwapExecutionContext);
 
-export const SwapExecutionProvider: React.FC<React.PropsWithChildren<SwapExecutionProviderProps>> = ({
-  children,
-}) => {
+export const SwapExecutionProvider: React.FC<
+  React.PropsWithChildren<SwapExecutionProviderProps>
+> = ({ children }) => {
   const [executionRoute, setExecutionRoute] = useState<Route>();
   const { account, switchChain } = useWalletInterface();
   const { mutateAsync: executeRoute, isLoading } = useMutation<

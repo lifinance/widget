@@ -4,6 +4,7 @@ import {
   useCallback,
   useEffect,
   useImperativeHandle,
+  useLayoutEffect,
   useState,
 } from 'react';
 import { useMatch, useNavigate } from 'react-router-dom';
@@ -22,6 +23,10 @@ export const ContainerDrawer = forwardRef<
   const [containerElement, setContainerElement] = useState(() =>
     document.getElementById(ElementId.SwapContent),
   );
+  const [scrollableContainerElement, setScrollableContainerElement] = useState(
+    () => document.getElementById(ElementId.ScrollableContainer),
+  );
+  console.log(elementRef);
 
   const openDrawer = useCallback(
     (formType?: SwapFormDirection, routeKey?: RouteType) => {
@@ -30,15 +35,17 @@ export const ContainerDrawer = forwardRef<
         navigate(to, { replace: true });
       }
       onOpen?.(formType);
+      scrollableContainerElement!.style.overflowY = 'hidden';
       setOpen(true);
     },
-    [navigate, onOpen, route],
+    [navigate, onOpen, route, scrollableContainerElement],
   );
 
   const closeDrawer = useCallback(() => {
+    scrollableContainerElement!.style.overflowY = 'scroll';
     setOpen(false);
     navigate(routes.home, { replace: true });
-  }, [navigate]);
+  }, [navigate, scrollableContainerElement]);
 
   useImperativeHandle(
     ref,
@@ -49,17 +56,25 @@ export const ContainerDrawer = forwardRef<
     [closeDrawer, openDrawer],
   );
 
+  useLayoutEffect(() => {
+    if (!containerElement) {
+      setContainerElement(document.getElementById(ElementId.SwapContent));
+    }
+  }, [containerElement]);
+
+  useLayoutEffect(() => {
+    if (!scrollableContainerElement) {
+      setScrollableContainerElement(
+        document.getElementById(ElementId.ScrollableContainer),
+      );
+    }
+  }, [scrollableContainerElement]);
+
   useEffect(() => {
     if (homeMatch && open) {
       setOpen(false);
     }
   }, [homeMatch, open]);
-
-  useEffect(() => {
-    if (!containerElement) {
-      setContainerElement(document.getElementById(ElementId.SwapContent));
-    }
-  }, [containerElement]);
 
   return (
     <Drawer
@@ -69,7 +84,11 @@ export const ContainerDrawer = forwardRef<
       open={open}
       onClose={closeDrawer}
       ModalProps={{
-        sx: { position: 'absolute' },
+        sx: {
+          position: 'absolute',
+          // 92px is a height of header
+          height: 'calc(100vh - 92px)',
+        },
         disablePortal: true,
         keepMounted: true,
       }}

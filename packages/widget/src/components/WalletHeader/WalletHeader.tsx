@@ -36,7 +36,7 @@ export const WalletHeader: React.FC = () => {
           noWrap
           align="right"
           color="black"
-          mt={2}
+          pt={2}
           id="wallet"
           aria-controls={open ? 'wallet-menu' : undefined}
           aria-haspopup="true"
