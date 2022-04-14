@@ -1,6 +1,6 @@
-import LiFi from '@lifinance/sdk';
 import { useMemo } from 'react';
 import { useQuery } from 'react-query';
+import { LiFi } from '../lifi';
 
 export const useExchanges = () => {
   const { data } = useQuery(['exchanges'], () =>

@@ -1,8 +1,8 @@
-import LiFi from '@lifinance/sdk';
 import { useEffect } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useQuery } from 'react-query';
 import { useDebouncedWatch, useToken } from '.';
+import { LiFi } from '../lifi';
 import { SwapFormKey, SwapFormKeyHelper } from '../providers/SwapFormProvider';
 import { formatTokenAmount } from '../utils/format';
 import { useWalletInterface } from './useWalletInterface';
@@ -104,9 +104,7 @@ export const useSwapRoutes = () => {
     if (route) {
       setValue(
         SwapFormKeyHelper.getAmountKey('to'),
-        formatTokenAmount(
-          (Number(route.toAmount) / 10 ** route.toToken.decimals).toString(),
-        ),
+        formatTokenAmount(route.toAmount, route.toToken.decimals),
       );
     } else {
       setValue(SwapFormKeyHelper.getAmountKey('to'), '');
