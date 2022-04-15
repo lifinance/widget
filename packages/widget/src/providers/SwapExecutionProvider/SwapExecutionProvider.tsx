@@ -7,8 +7,8 @@ import {
   useState,
 } from 'react';
 import { useMutation } from 'react-query';
-import { useWalletInterface } from '../../hooks';
 import { LiFi } from '../../lifi';
+import { useWallet } from '../WalletProvider';
 import type {
   SwapExecutionContextProps,
   SwapExecutionProviderProps,
@@ -31,7 +31,7 @@ export const SwapExecutionProvider: React.FC<
   React.PropsWithChildren<SwapExecutionProviderProps>
 > = ({ children }) => {
   const [executionRoute, setExecutionRoute] = useState<Route>();
-  const { account, switchChain } = useWalletInterface();
+  const { account, switchChain } = useWallet();
   const { mutateAsync: executeRoute, isLoading } = useMutation<
     Route,
     unknown,

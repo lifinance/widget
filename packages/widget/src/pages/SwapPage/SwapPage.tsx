@@ -1,38 +1,20 @@
 import { SwapVert as SwapVertIcon } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
-import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  SelectTokenDrawer,
-  SelectTokenDrawerBase,
-} from '../../components/SelectTokenDrawer';
-import {
-  SelectWalletDrawer,
-  SelectWalletDrawerBase,
-} from '../../components/SelectWalletDrawer';
-import { SettingsDrawer } from '../../components/SettingsDrawer';
 import { SwapButton } from '../../components/SwapButton';
 import { SwapChainButton } from '../../components/SwapChainButton';
 import { SwapInput } from '../../components/SwapInput';
 import { SwapRoute } from '../../components/SwapRoute';
-import {
-  SwapFormDirection,
-  SwapFormKeyHelper,
-} from '../../providers/SwapFormProvider';
+import { SwapFormDirection } from '../../providers/SwapFormProvider';
 import { ElementId } from '../../utils/elements';
 import { FormBox, FormContainer } from './SwapPage.style';
-import { SwapPageProps } from './types';
 
-export const SwapPage: React.FC<SwapPageProps> = ({ settingsRef }) => {
+export const SwapPage: React.FC = () => {
   const { t } = useTranslation();
-  const selectTokenDrawerRef = useRef<SelectTokenDrawerBase>(null);
-  const selectWalletDrawerRef = useRef<SelectWalletDrawerBase>(null);
 
-  const handleChainButton = (formType: SwapFormDirection) =>
-    selectTokenDrawerRef.current?.openDrawer(
-      formType,
-      SwapFormKeyHelper.getTokenKey(formType),
-    );
+  const handleChainButton = (formType: SwapFormDirection) => {
+    //
+  };
 
   return (
     <FormContainer id={ElementId.SwapContent} disableGutters>
@@ -64,11 +46,11 @@ export const SwapPage: React.FC<SwapPageProps> = ({ settingsRef }) => {
         <SwapRoute />
       </FormBox>
       <Box px={3} pb={3}>
-        <SwapButton drawerRef={selectWalletDrawerRef} />
+        <SwapButton />
       </Box>
-      <SelectWalletDrawer ref={selectWalletDrawerRef} />
+      {/* <SelectWalletDrawer ref={selectWalletDrawerRef} />
       <SelectTokenDrawer ref={selectTokenDrawerRef} />
-      <SettingsDrawer ref={settingsRef} />
+      <SettingsDrawer ref={settingsRef} /> */}
     </FormContainer>
   );
 };

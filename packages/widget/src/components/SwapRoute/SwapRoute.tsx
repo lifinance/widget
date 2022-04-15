@@ -174,5 +174,15 @@ export const SwapRoute: React.FC = () => {
   }
 
   // TODO: remove after upgrading to react 18 types.
+  // return (
+  //   <Stack direction="row" sx={{ padding: '0 0 24px' }} spacing={2}>
+  //     <Skeleton
+  //       variant="rectangular"
+  //       width={200}
+  //       height={300}
+  //       sx={{ borderRadius: 1 }}
+  //     />
+  //   </Stack>
+  // );
   return null;
 };

@@ -4,11 +4,11 @@ import { useQuery } from 'react-query';
 import { useDebouncedWatch, useToken } from '.';
 import { LiFi } from '../lifi';
 import { SwapFormKey, SwapFormKeyHelper } from '../providers/SwapFormProvider';
+import { useWallet } from '../providers/WalletProvider';
 import { formatTokenAmount } from '../utils/format';
-import { useWalletInterface } from './useWalletInterface';
 
 export const useSwapRoutes = () => {
-  const { account } = useWalletInterface();
+  const { account } = useWallet();
   const { setValue } = useFormContext();
   const [
     fromChainId,

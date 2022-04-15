@@ -5,18 +5,18 @@ import {
   FormControl,
   MenuItem,
   Skeleton,
-  Typography
+  Typography,
 } from '@mui/material';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useBridges } from '../../hooks/useBridges';
+import { MultiSelect } from '../../components/Select';
+import { useExchanges } from '../../hooks/useExchanges';
 import { SwapFormKey } from '../../providers/SwapFormProvider';
-import { MultiSelect } from '../Select';
 
-export const EnabledBridgesSelect: React.FC = () => {
+export const EnabledExchangesSelect: React.FC = () => {
   const { t } = useTranslation();
   const { register } = useFormContext();
-  const bridges = useBridges();
+  const exchanges = useExchanges();
 
   return (
     <Box mt={3}>
@@ -28,17 +28,17 @@ export const EnabledBridgesSelect: React.FC = () => {
           lineHeight="normal"
           ml={1}
         >
-          {t(`settings.enabledBridges`)}
+          {t(`settings.enabledExchanges`)}
         </Typography>
       </Box>
-      {bridges.length ? (
+      {exchanges.length ? (
         <FormControl fullWidth>
           <MultiSelect
             multiple
-            placeholder={t(`settings.selectEnabledBridges`)}
-            defaultValue={bridges}
+            placeholder={t(`settings.selectEnabledExchanges`)}
+            defaultValue={exchanges}
             MenuProps={{ elevation: 2 }}
-            inputProps={{ ...register(SwapFormKey.EnabledBridges) }}
+            inputProps={{ ...register(SwapFormKey.EnabledExchanges) }}
             renderValue={(selected) => (
               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                 {(selected as string[]).map((value) => (
@@ -47,9 +47,9 @@ export const EnabledBridgesSelect: React.FC = () => {
               </Box>
             )}
           >
-            {bridges.map((bridge) => (
-              <MenuItem key={bridge} value={bridge}>
-                {bridge}
+            {exchanges.map((exchange) => (
+              <MenuItem key={exchange} value={exchange}>
+                {exchange}
               </MenuItem>
             ))}
           </MultiSelect>

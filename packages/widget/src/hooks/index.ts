@@ -8,4 +8,3 @@ export * from './useSwapRoutes';
 export * from './useToken';
 export * from './useTokenBalance';
 export * from './useTokens';
-export * from './useWalletInterface';

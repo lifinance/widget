@@ -1,6 +1,7 @@
-import { Box, Container as MuiContainer } from '@mui/material';
+import { Box, BoxProps, Container as MuiContainer } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, RefObject, useLayoutEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { ElementId } from '../utils/elements';
 
 const Container = styled(MuiContainer)(({ theme }) => ({
@@ -19,24 +20,41 @@ const RelativeContainer = styled(Box)(({ theme }) => ({
   position: 'relative',
   width: '480px',
   background: theme.palette.common.white,
+  overflow: 'auto',
 }));
 
 const ScrollableContainer = styled(Box)({
-  position: 'fixed',
+  // position: 'fixed',
   overflowY: 'scroll',
   height: '100%',
+  flex: 1,
 });
 
-export const MainContainer: React.FC<PropsWithChildren<{}>> = ({
+export const MainContainer: React.FC<PropsWithChildren<BoxProps>> = ({
   children,
+  sx,
 }) => {
+  const ref = useRef<HTMLElement>(null);
   return (
-    <RelativeContainer>
-      <ScrollableContainer id={ElementId.ScrollableContainer}>
-        <Container maxWidth={false} disableGutters>
-          {children}
-        </Container>
-      </ScrollableContainer>
-    </RelativeContainer>
+    <>
+      <RelativeContainer sx={sx}>
+        <ScrollableContainer id={ElementId.ScrollableContainer} ref={ref}>
+          <Container maxWidth={false} disableGutters>
+            {children}
+          </Container>
+        </ScrollableContainer>
+      </RelativeContainer>
+      <ScrollToLocation elementRef={ref} />
+    </>
   );
+};
+
+export const ScrollToLocation: React.FC<{
+  elementRef: RefObject<HTMLElement>;
+}> = ({ elementRef }) => {
+  const { pathname } = useLocation();
+  useLayoutEffect(() => {
+    elementRef.current?.scrollTo(0, 0);
+  }, [elementRef, pathname]);
+  return null;
 };

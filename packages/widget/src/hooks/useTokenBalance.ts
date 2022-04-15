@@ -1,10 +1,10 @@
 import { useQuery } from 'react-query';
 import { LiFi } from '../lifi';
+import { useWallet } from '../providers/WalletProvider';
 import { useToken } from './useToken';
-import { useWalletInterface } from './useWalletInterface';
 
 export const useTokenBalance = (chainId: number, tokenAddress: string) => {
-  const { account } = useWalletInterface();
+  const { account } = useWallet();
   const { token } = useToken(chainId, tokenAddress);
 
   const { data: tokenWithBalance, isLoading } = useQuery(

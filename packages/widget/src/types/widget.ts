@@ -1,5 +1,6 @@
 import { ChainKey } from '@lifinance/sdk';
 import { Signer } from 'ethers';
+import { CSSProperties } from 'react';
 
 export interface WidgetConfig {
   enabledChains: number[];
@@ -16,4 +17,5 @@ export interface WidgetConfig {
     switchChain: { (): Signer };
     addToken: { (): void };
   };
+  containerStyle?: CSSProperties;
 }

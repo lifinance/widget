@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Switch } from '../Switch';
+import { Switch } from '../../components/Switch';
 import { EnabledBridgesSelect } from './EnabledBridgesSelect';
 import { EnabledExchangesSelect } from './EnabledExchangesSelect';
 

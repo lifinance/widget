@@ -1,35 +1,27 @@
 import { ChainId } from '@lifinance/sdk';
 import { LoadingButton } from '@mui/lab';
 import { styled } from '@mui/material/styles';
-import { RefObject } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import {
-  useChains,
-  useHasSufficientBalance,
-  useSwapRoutes,
-  useWalletInterface
-} from '../hooks';
+import { useChains, useHasSufficientBalance, useSwapRoutes } from '../hooks';
 import { useSwapExecutionContext } from '../providers/SwapExecutionProvider';
 import { SwapFormKeyHelper } from '../providers/SwapFormProvider';
+import { useWallet } from '../providers/WalletProvider';
 import { routes } from '../utils/routes';
-import { SelectWalletDrawerBase } from './SelectWalletDrawer';
 
 export const Button = styled(LoadingButton)(({ theme }) => ({
   textTransform: 'none',
   borderRadius: theme.shape.borderRadius,
   padding: theme.spacing(1.25, 2),
-  fontSize: '1rem'
+  fontSize: '1rem',
 }));
 
-export const SwapButton: React.FC<{
-  drawerRef: RefObject<SelectWalletDrawerBase>;
-}> = ({ drawerRef }) => {
+export const SwapButton: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { getChainById } = useChains();
-  const { account, switchChain } = useWalletInterface();
+  const { account, switchChain } = useWallet();
   const { executeRoute } = useSwapExecutionContext();
   const { routes: swapRoutes } = useSwapRoutes();
   const {
@@ -41,11 +33,9 @@ export const SwapButton: React.FC<{
     name: [SwapFormKeyHelper.getChainKey('from')],
   });
 
-  const openWalletDrawer = () => drawerRef.current?.openDrawer();
-
   const handleSwapButtonClick = async () => {
     if (!account.isActive) {
-      openWalletDrawer();
+      navigate(routes.selectWallet);
     } else if (getChainById(chainId || ChainId.ETH)?.id !== account.chainId) {
       await switchChain(chainId!);
     } else if (swapRoutes?.length) {

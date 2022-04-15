@@ -1,17 +1,20 @@
 import { ThemeProvider } from '@mui/material/styles';
-import { FC, PropsWithChildren, useRef } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import { QueryClientProvider, QueryClientProviderProps } from 'react-query';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { WidgetConfig } from '.';
 import { MainContainer } from './components/MainContainer';
 import { NavigationHeader } from './components/NavigationHeader';
-import { SettingsDrawerBase } from './components/SettingsDrawer';
 import { WalletHeader } from './components/WalletHeader';
 import { queryClient } from './config/queryClient';
+import { SelectTokenPage } from './pages/SelectTokenPage';
+import { SelectWalletPage } from './pages/SelectWalletPage';
+import { SettingsPage } from './pages/SettingsPage';
 import { SwapPage } from './pages/SwapPage';
 import { TransactionPage } from './pages/TransactionPage';
 import { SwapExecutionProvider } from './providers/SwapExecutionProvider';
 import { SwapFormProvider } from './providers/SwapFormProvider';
+import { WalletProvider } from './providers/WalletProvider';
 import { WidgetProvider } from './providers/WidgetProvider';
 import { theme } from './theme';
 import { routes } from './utils/routes';
@@ -25,34 +28,43 @@ const QueryProvider = QueryClientProvider as FC<
 >;
 
 export const App: React.FC<AppProps> = ({ config }) => {
-  const settingsRef = useRef<SettingsDrawerBase>(null);
   return (
     <ThemeProvider theme={theme}>
       <QueryProvider client={queryClient}>
         <MemoryRouter>
-          <MainContainer>
+          <MainContainer sx={config.containerStyle}>
             <WidgetProvider config={config}>
-              <SwapFormProvider>
-                <WalletHeader />
-                <NavigationHeader settingsRef={settingsRef} />
-                <SwapExecutionProvider>
-                  <Routes>
-                    <Route
-                      path={routes.home}
-                      element={<SwapPage settingsRef={settingsRef} />}
-                    >
-                      <Route path={routes.fromToken} element={null} />
-                      <Route path={routes.toToken} element={null} />
-                      <Route path={routes.settings} element={null} />
-                      <Route path={routes.selectWallet} element={null} />
-                    </Route>
-                    <Route
-                      path={routes.transaction}
-                      element={<TransactionPage />}
-                    />
-                  </Routes>
-                </SwapExecutionProvider>
-              </SwapFormProvider>
+              <WalletProvider>
+                <SwapFormProvider>
+                  <WalletHeader />
+                  <NavigationHeader />
+                  <SwapExecutionProvider>
+                    <Routes>
+                      <Route path={routes.home} element={<SwapPage />} />
+                      <Route
+                        path={routes.fromToken}
+                        element={<SelectTokenPage formType="from" />}
+                      />
+                      <Route
+                        path={routes.toToken}
+                        element={<SelectTokenPage formType="to" />}
+                      />
+                      <Route
+                        path={routes.settings}
+                        element={<SettingsPage />}
+                      />
+                      <Route
+                        path={routes.selectWallet}
+                        element={<SelectWalletPage />}
+                      />
+                      <Route
+                        path={routes.transaction}
+                        element={<TransactionPage />}
+                      />
+                    </Routes>
+                  </SwapExecutionProvider>
+                </SwapFormProvider>
+              </WalletProvider>
             </WidgetProvider>
           </MainContainer>
         </MemoryRouter>

@@ -1,8 +1,11 @@
-import { ListItem, ListItemButton } from '@mui/material';
+import {
+  ListItem as MuiListItem,
+  ListItemButton as MuiListItemButton,
+} from '@mui/material';
 import { listItemSecondaryActionClasses } from '@mui/material/ListItemSecondaryAction';
 import { styled } from '@mui/material/styles';
 
-export const TokenListItemButton = styled(ListItemButton)(({ theme }) => ({
+export const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   paddingLeft: theme.spacing(1.5),
   '&:hover': {
@@ -10,7 +13,7 @@ export const TokenListItemButton = styled(ListItemButton)(({ theme }) => ({
   },
 }));
 
-export const TokenListItem = styled(ListItem)(({ theme }) => ({
+export const ListItem = styled(MuiListItem)(({ theme }) => ({
   position: 'absolute',
   top: 0,
   left: 0,

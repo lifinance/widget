@@ -4,17 +4,17 @@ import {
   ListItemIcon,
   MenuItem,
   SelectChangeEvent,
-  Skeleton
+  Skeleton,
 } from '@mui/material';
 import { useFormContext, useWatch } from 'react-hook-form';
+import { Select } from '../../components/Select';
 import { useChains } from '../../hooks/useChains';
 import {
   SwapFormKey,
   SwapFormKeyHelper,
-  SwapFormTypeProps
+  SwapFormTypeProps,
 } from '../../providers/SwapFormProvider';
 import { useWidgetConfig } from '../../providers/WidgetProvider';
-import { Select } from '../Select';
 
 export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
   const { setValue } = useFormContext();

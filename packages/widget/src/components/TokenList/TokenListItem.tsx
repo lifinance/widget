@@ -3,17 +3,17 @@ import {
   ListItemAvatar,
   ListItemText,
   Skeleton,
-  Typography
+  Typography,
 } from '@mui/material';
 import { memo } from 'react';
-import { TokenListItem, TokenListItemButton } from './TokenList.style';
+import { ListItem, ListItemButton } from './TokenList.style';
 import { TokenListItemBaseProps, TokenListItemProps } from './types';
 
-export const MemoizedTokenListItem: React.FC<TokenListItemProps> = memo(
+export const TokenListItem: React.FC<TokenListItemProps> = memo(
   ({ onClick, size, start, token, isBalancesLoading }) => {
     const handleClick = () => onClick?.(token.address);
     return (
-      <TokenListItem
+      <ListItem
         secondaryAction={
           isBalancesLoading ? (
             <Skeleton variant="text" width={50} height={24} />
@@ -29,24 +29,25 @@ export const MemoizedTokenListItem: React.FC<TokenListItemProps> = memo(
           transform: `translateY(${start}px)`,
         }}
       >
-        <TokenListItemButton dense onClick={handleClick}>
+        <ListItemButton onClick={handleClick} dense disableRipple>
           <ListItemAvatar>
             <Avatar src={token.logoURI} alt={token.symbol}>
               {token.symbol[0]}
             </Avatar>
           </ListItemAvatar>
           <ListItemText primary={token.symbol} secondary={token.name} />
-        </TokenListItemButton>
-      </TokenListItem>
+        </ListItemButton>
+      </ListItem>
     );
   },
 );
 
-export const MemoizedTokenListItemSkeleton: React.FC<
-  TokenListItemBaseProps
-> = ({ size, start }) => {
+export const TokenListItemSkeleton: React.FC<TokenListItemBaseProps> = ({
+  size,
+  start,
+}) => {
   return (
-    <TokenListItem
+    <ListItem
       secondaryAction={<Skeleton variant="text" width={60} height={24} />}
       disablePadding
       style={{
@@ -66,6 +67,6 @@ export const MemoizedTokenListItemSkeleton: React.FC<
         primary={<Skeleton variant="text" width={32} height={20} />}
         secondary={<Skeleton variant="text" width={128} height={20} />}
       />
-    </TokenListItem>
+    </ListItem>
   );
 };

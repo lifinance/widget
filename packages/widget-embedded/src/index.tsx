@@ -15,6 +15,15 @@ const config: WidgetConfig = {
   fromChain: 'eth',
   // toChain: 'okt',
   useInternalWalletManagement: true,
+  containerStyle: {
+    width: 480,
+    height: 640,
+    border: '1px solid rgb(234, 234, 234)',
+    borderRadius: '16px',
+    display: 'flex',
+    maxWidth: '480px',
+    flex: 1,
+  },
 };
 
 root.render(
@@ -22,25 +31,12 @@ root.render(
     <div
       style={{
         display: 'flex',
-        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
       }}
     >
-      <div
-        style={{
-          padding: 16,
-        }}
-      >
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum.
-      </div>
-      <div>
-        <LiFiWidget config={config} />
-      </div>
+      <LiFiWidget config={config} />
     </div>
   </React.StrictMode>,
 );

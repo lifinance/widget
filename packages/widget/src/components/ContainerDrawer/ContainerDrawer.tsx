@@ -26,7 +26,6 @@ export const ContainerDrawer = forwardRef<
   const [scrollableContainerElement, setScrollableContainerElement] = useState(
     () => document.getElementById(ElementId.ScrollableContainer),
   );
-  console.log(elementRef);
 
   const openDrawer = useCallback(
     (formType?: SwapFormDirection, routeKey?: RouteType) => {

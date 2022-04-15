@@ -1,44 +1,29 @@
+import { supportedWallets, Wallet } from '@lifinance/wallet-management';
 import {
   Avatar,
-  Box,
-  DrawerProps,
+  Container,
   List,
   ListItemAvatar,
   ListItemText,
   Popover,
 } from '@mui/material';
-import {
-  forwardRef,
-  MutableRefObject,
-  useCallback,
-  useMemo,
-  useState,
-} from 'react';
-import { useResizeDetector } from 'react-resize-detector';
-import { supportedWallets, Wallet } from '@lifinance/wallet-management';
-import { useWalletInterface } from '../../hooks';
-import { ContainerDrawer } from '../ContainerDrawer';
+import { useCallback, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useWallet } from '../../providers/WalletProvider';
 import {
   WalletIdentityPopoverContent,
   WalletListItem,
   WalletListItemButton,
-} from './SelectWalletDrawer.style';
-import { SelectWalletDrawerBase } from './types';
+} from './SelectWalletPage.style';
 
-export const SelectWalletDrawer = forwardRef<
-  SelectWalletDrawerBase,
-  DrawerProps
->((_, ref) => {
-  const { ref: drawerRef } = useResizeDetector<HTMLDivElement | null>();
-  const { connect } = useWalletInterface();
+export const SelectWalletPage = () => {
+  const navigate = useNavigate();
+  const { connect } = useWallet();
   const [showWalletIdentityModal, setShowWalletIdentityModal] = useState<{
     show: boolean;
     wallet?: Wallet;
     anchor?: Element;
   }>({ show: false });
-
-  const closeDrawer = (ref as MutableRefObject<SelectWalletDrawerBase | null>)
-    .current?.closeDrawer;
 
   const closeWalletPopover = () => {
     setShowWalletIdentityModal({
@@ -59,10 +44,10 @@ export const SelectWalletDrawer = forwardRef<
         });
         return;
       }
-      closeDrawer?.();
+      navigate(-1);
       await connect(wallet);
     },
-    [closeDrawer, connect],
+    [connect, navigate],
   );
 
   const popoverId = showWalletIdentityModal?.show
@@ -90,10 +75,10 @@ export const SelectWalletDrawer = forwardRef<
   );
 
   return (
-    <ContainerDrawer elementRef={drawerRef} ref={ref} route="selectWallet">
-      <Box role="presentation">
-        <List>{wallets}</List>
-      </Box>
+    <Container disableGutters>
+      <List sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+        {wallets}
+      </List>
       <Popover
         id={popoverId}
         open={showWalletIdentityModal!.show}
@@ -113,6 +98,6 @@ export const SelectWalletDrawer = forwardRef<
           browser extension is active before choosing this wallet.`}
         </WalletIdentityPopoverContent>
       </Popover>
-    </ContainerDrawer>
+    </Container>
   );
-});
+};

@@ -1,11 +1,10 @@
 import {
   ArrowBack as ArrowBackIcon,
-  Settings as SettingsIcon
+  Settings as SettingsIcon,
 } from '@mui/icons-material';
-import { Collapse, IconButton, Typography } from '@mui/material';
+import { Box, Collapse, IconButton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { NavigationHeaderProps } from '.';
 import { routes } from '../../utils/routes';
 import { Header } from '../Header';
 
@@ -17,23 +16,21 @@ const routesWithBack = [
   routes.transaction,
 ];
 
-export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
-  settingsRef,
-}) => {
+export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
-  const location = useLocation();
+  const { pathname } = useLocation();
   const navigate = useNavigate();
 
   const handleSettings = () => {
-    settingsRef.current?.openDrawer();
+    navigate(routes.settings);
   };
 
   const handleBack = () => {
-    navigate(routes.home, { replace: true });
+    navigate(-1);
   };
 
   const handleHeaderTitle = () => {
-    switch (location.pathname) {
+    switch (pathname) {
       case routes.settings:
         return t(`header.settings`);
       case routes.fromToken:
@@ -54,7 +51,7 @@ export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
       <Collapse
         collapsedSize={0}
         orientation="horizontal"
-        in={routesWithBack.includes(location.pathname)}
+        in={routesWithBack.includes(pathname)}
       >
         <IconButton
           size="large"
@@ -66,10 +63,17 @@ export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
           <ArrowBackIcon />
         </IconButton>
       </Collapse>
-      <Typography variant="h5" color="black" sx={{ flexGrow: 1, fontWeight: 'bold' }} noWrap>
+      <Typography
+        color="black"
+        fontSize={pathname === '/' ? 32 : 24}
+        align={pathname === '/' ? 'left' : 'center'}
+        fontWeight="bold"
+        flex={1}
+        noWrap
+      >
         {handleHeaderTitle()}
       </Typography>
-      {location.pathname === '/' && (
+      {pathname === '/' ? (
         <IconButton
           size="large"
           aria-label="settings"
@@ -79,6 +83,8 @@ export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
         >
           <SettingsIcon />
         </IconButton>
+      ) : (
+        <Box width={36} height={48} />
       )}
     </Header>
   );

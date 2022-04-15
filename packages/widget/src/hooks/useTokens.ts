@@ -2,16 +2,16 @@ import { Token, TokenAmount } from '@lifinance/sdk';
 import { useCallback, useMemo } from 'react';
 import { useQuery } from 'react-query';
 import { LiFi } from '../lifi';
+import { useWallet } from '../providers/WalletProvider';
 import { formatTokenAmount } from '../utils/format';
 import { useChains } from './useChains';
-import { useWalletInterface } from './useWalletInterface';
 
 interface TokenAmountList {
   [chainId: number]: Array<TokenAmount>;
 }
 
 export const useTokens = (selectedChainId: number) => {
-  const { account } = useWalletInterface();
+  const { account } = useWallet();
   const { chains, isLoading: isChainsLoading, getChainById } = useChains();
   const { data, isLoading } = useQuery(['tokens'], () =>
     LiFi.getPossibilities({ include: ['tokens'] }),

@@ -1,25 +1,29 @@
 import { Box, List, Typography } from '@mui/material';
-import { FC, PropsWithChildren, useCallback, useMemo, useRef, useTransition } from 'react';
+import {
+  FC,
+  PropsWithChildren,
+  useCallback,
+  useMemo,
+  useRef,
+  useTransition,
+} from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { defaultRangeExtractor, Range, useVirtual } from 'react-virtual';
 import { useDebouncedWatch } from '../../hooks/useDebouncedWatch';
 import { useTokens } from '../../hooks/useTokens';
-import { useWalletInterface } from '../../hooks/useWalletInterface';
+import { TokenFilterType } from '../../pages/SelectTokenPage';
 import {
   SwapFormKey,
-  SwapFormKeyHelper
+  SwapFormKeyHelper,
 } from '../../providers/SwapFormProvider';
-import { TokenFilterType } from '../SelectTokenDrawer';
-import {
-  MemoizedTokenListItem,
-  MemoizedTokenListItemSkeleton
-} from './TokenListItem';
+import { useWallet } from '../../providers/WalletProvider';
+import { TokenListItem, TokenListItemSkeleton } from './TokenListItem';
 import { TokenListProps } from './types';
 import {
   createTokenAmountSkeletons,
   skeletonKey,
-  tokenAmountMock
+  tokenAmountMock,
 } from './utils';
 
 export const TokenList: FC<PropsWithChildren<TokenListProps>> = ({
@@ -31,7 +35,7 @@ export const TokenList: FC<PropsWithChildren<TokenListProps>> = ({
 }) => {
   const { t } = useTranslation();
   const [, startTransition] = useTransition();
-  const { account } = useWalletInterface();
+  const { account } = useWallet();
   const { setValue } = useFormContext();
   const [selectedChainId, myTokensFilter] = useWatch({
     name: [SwapFormKeyHelper.getChainKey(formType), SwapFormKey.MyTokensFilter],
@@ -87,7 +91,7 @@ export const TokenList: FC<PropsWithChildren<TokenListProps>> = ({
   const { virtualItems, totalSize } = useVirtual({
     size: chainTokens.length,
     parentRef,
-    overscan: 5,
+    overscan: 3,
     estimateSize: useCallback(
       (index: number) => (index === 0 ? headerHeight : 60),
       [headerHeight],
@@ -137,7 +141,7 @@ export const TokenList: FC<PropsWithChildren<TokenListProps>> = ({
           const token = chainTokens[item.index];
           if (token.name.includes(skeletonKey)) {
             return (
-              <MemoizedTokenListItemSkeleton
+              <TokenListItemSkeleton
                 key={item.key}
                 size={item.size}
                 start={item.start}
@@ -145,7 +149,7 @@ export const TokenList: FC<PropsWithChildren<TokenListProps>> = ({
             );
           }
           return (
-            <MemoizedTokenListItem
+            <TokenListItem
               key={item.key}
               onClick={handleTokenClick}
               size={item.size}
