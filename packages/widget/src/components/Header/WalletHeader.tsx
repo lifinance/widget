@@ -19,7 +19,7 @@ export const WalletHeader: React.FC = () => {
     : null;
 
   return (
-    <HeaderContainer pt={1}>
+    <HeaderContainer pt={1.5}>
       {walletAddress ? (
         <>
           <Box

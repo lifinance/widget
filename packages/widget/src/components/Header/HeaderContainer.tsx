@@ -1,5 +1,5 @@
 import { FC, PropsWithChildren } from 'react';
-import { HeaderAppBar, HeaderToolbar } from './Header.style';
+import { HeaderAppBar, HeaderToolbar } from './HeaderContainer.style';
 
 export const HeaderContainer: FC<PropsWithChildren<{ pt?: number }>> = ({
   children,
