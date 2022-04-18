@@ -9,9 +9,13 @@ export const SwapPriceTypography = styled(Typography)(({ theme }) => ({
 }));
 
 export const SwapMaxAmountTypography = styled(Typography)(({ theme }) => ({
-  textDecoration: 'underline',
-  padding: theme.spacing(0.5, 1, 0.5, 0),
+  fontSize: 24,
+  fontWeight: 'bold',
+  color: theme.palette.grey[600],
+  transition: theme.transitions.create(['color']),
+  padding: theme.spacing(0.5, 0),
   '&:hover': {
     cursor: 'pointer',
+    color: theme.palette.text.primary,
   },
 }));

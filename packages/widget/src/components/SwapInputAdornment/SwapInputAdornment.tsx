@@ -1,4 +1,4 @@
-import { InputAdornment, Skeleton, Typography } from '@mui/material';
+import { InputAdornment, Skeleton } from '@mui/material';
 import { useMemo } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -44,37 +44,27 @@ export const SwapInputAdornment: React.FC<SwapFormTypeProps> = ({
       {isLoading ? (
         <Skeleton
           variant="rectangular"
-          width={formType === 'from' ? 160 : 96}
-          height={20}
+          width={100}
+          height={24}
           sx={{ borderRadius: 1 }}
         />
       ) : (
         <>
           {formType === 'from' && token && amount ? (
-            <>
-              <SwapMaxAmountTypography
-                variant="body2"
-                color="text.primary"
-                onClick={handleMax}
-                role="button"
-                sx={{
-                  userSelect: 'none',
-                }}
-              >
-                {t(`swap.max`)}
-              </SwapMaxAmountTypography>
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                data-amount={tokenWithBalance?.amount}
-              >
-                {t(`swap.maxAmount`, {
-                  amount,
-                })}
-              </Typography>
-            </>
+            <SwapMaxAmountTypography
+              onClick={handleMax}
+              role="button"
+              sx={{
+                userSelect: 'none',
+              }}
+              data-amount={tokenWithBalance?.amount}
+            >
+              {t(`swap.maxAmount`, {
+                amount,
+              })}
+            </SwapMaxAmountTypography>
           ) : null}
-          <SwapPrice price={tokenWithBalance?.priceUSD} formType={formType} />
+          {/* <SwapPrice price={tokenWithBalance?.priceUSD} formType={formType} /> */}
         </>
       )}
     </InputAdornment>

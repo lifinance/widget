@@ -1,4 +1,4 @@
-import { FormControl } from '@mui/material';
+import { FormControl, Typography } from '@mui/material';
 import { ChangeEvent, useEffect } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -37,11 +37,14 @@ export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
   };
 
   return (
-    <FormControl disabled={formType === 'to'} fullWidth>
+    <FormControl fullWidth>
+      <Typography variant="body2" fontWeight="bold" pl={2}>
+        {t('swap.amount')}
+      </Typography>
       <Input
         size="small"
         autoComplete="off"
-        placeholder={formType === 'from' ? t(`swap.enterAmount`) : '0'}
+        placeholder="0"
         endAdornment={<SwapInputAdornment formType={formType} />}
         inputProps={{
           inputMode: 'decimal',

@@ -1,10 +1,14 @@
+import { InputBase } from '@mui/material';
 import { inputBaseClasses } from '@mui/material/InputBase';
 import { styled } from '@mui/material/styles';
-import { Input as InputBase } from '../Input';
 
 export const Input = styled(InputBase)(({ theme }) => ({
-  borderRadius: `0 0 ${theme.shape.borderRadius}px ${theme.shape.borderRadius}px`,
-  borderWidth: '1px 2px 2px 2px',
+  fontSize: 24,
+  fontWeight: 'bold',
+  paddingRight: theme.spacing(2),
+  [`& .${inputBaseClasses.input}`]: {
+    padding: theme.spacing(1.0625, 0, 1.0625, 2),
+  },
   '& input[type="number"]::-webkit-outer-spin-button, & input[type="number"]::-webkit-inner-spin-button':
     {
       WebkitAppearance: 'none',
