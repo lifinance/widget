@@ -1,5 +1,6 @@
 export enum ElementId {
-  ScrollableContainer = 'scrollable-container',
-  SwapContent = 'swap-content',
-  TransactionContent = 'transaction-content',
+  ScrollableContainer = 'widget-scrollable-container',
+  Header = 'widget-header',
+  SwapContent = 'widget-swap-content',
+  TransactionContent = 'widget-transaction-content',
 }

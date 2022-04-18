@@ -6,7 +6,7 @@ import { Box, Collapse, IconButton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { routes } from '../../utils/routes';
-import { Header } from '../Header';
+import { HeaderContainer } from './HeaderContainer';
 
 const routesWithBack = [
   routes.settings,
@@ -47,7 +47,7 @@ export const NavigationHeader: React.FC = () => {
   };
 
   return (
-    <Header>
+    <HeaderContainer>
       <Collapse
         collapsedSize={0}
         orientation="horizontal"
@@ -86,6 +86,6 @@ export const NavigationHeader: React.FC = () => {
       ) : (
         <Box width={36} height={48} />
       )}
-    </Header>
+    </HeaderContainer>
   );
 };

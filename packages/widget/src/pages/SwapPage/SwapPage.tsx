@@ -31,7 +31,7 @@ export const SwapPage: React.FC = () => {
           <Typography
             variant="subtitle1"
             color="text.secondary"
-            sx={{ alignSelf: 'end' }}
+            alignSelf="end"
           >
             {t(`swap.to`)}
           </Typography>

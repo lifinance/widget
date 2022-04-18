@@ -6,15 +6,16 @@ import {
   MenuItem,
   Typography,
 } from '@mui/material';
-import { FC, useEffect, useLayoutEffect, useRef } from 'react';
+import { FC, useEffect, useLayoutEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useResizeDetector } from 'react-resize-detector';
 import { useNavigate } from 'react-router-dom';
 import { TokenList } from '../../components/TokenList';
+import { useContentHeight } from '../../hooks';
 import {
   SwapFormDirection,
   SwapFormKey,
+  SwapFormKeyHelper,
 } from '../../providers/SwapFormProvider';
 import { ElementId } from '../../utils/elements';
 import { ChainSelect } from './ChainSelect';
@@ -28,25 +29,18 @@ export const SelectTokenPage: FC<{ formType: SwapFormDirection }> = ({
   const { t } = useTranslation();
   const { register } = useFormContext();
   const navigate = useNavigate();
-  const scrollableContainerRef = useRef<number>();
-
-  const { height: containerHeight, ref: containerRef } =
-    useResizeDetector<HTMLDivElement | null>();
-  const { height: headerHeight, ref: headerRef } =
-    useResizeDetector<HTMLDivElement | null>();
+  const contentHeight = useContentHeight();
 
   const handleTokenClick = () => {
     navigate(-1);
   };
 
   useEffect(() => {
-    register(SwapFormKey.FromToken);
-    register(SwapFormKey.ToToken);
-  }, [register]);
+    register(SwapFormKeyHelper.getTokenKey(formType));
+  }, [formType, register]);
 
   useLayoutEffect(() => {
     const element = document.getElementById(ElementId.ScrollableContainer);
-    scrollableContainerRef.current = element?.getBoundingClientRect().height;
     if (element) {
       element.style.overflowY = 'hidden';
     }
@@ -58,26 +52,21 @@ export const SelectTokenPage: FC<{ formType: SwapFormDirection }> = ({
   }, []);
 
   return (
-    <Container ref={containerRef} disableGutters>
+    <Container disableGutters>
       <Box role="presentation">
         <TokenList
-          height={(scrollableContainerRef.current ?? 0) - 92}
-          headerHeight={261 ?? 0}
+          height={contentHeight}
+          headerHeight={261}
           onClick={handleTokenClick}
           formType={formType}
         >
-          <Box ref={headerRef}>
+          <Box>
             <Box p={3}>
               <SearchTokenInput formType={formType} />
             </Box>
             <Divider light />
             <Box mt={3} mx={3}>
-              <Typography
-                variant="subtitle1"
-                noWrap
-                sx={{ fontWeight: 500 }}
-                mb={1}
-              >
+              <Typography variant="subtitle1" noWrap fontWeight="500" mb={1}>
                 {t(`swap.selectChain`)}
               </Typography>
               <ChainSelect formType={formType} />
@@ -90,7 +79,7 @@ export const SelectTokenPage: FC<{ formType: SwapFormDirection }> = ({
                   alignItems: 'center',
                 }}
               >
-                <Typography variant="subtitle1" noWrap sx={{ fontWeight: 500 }}>
+                <Typography variant="subtitle1" fontWeight="500" noWrap>
                   {t(`swap.selectToken`)}
                 </Typography>
                 <FormControl>

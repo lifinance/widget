@@ -1,6 +1,7 @@
 export * from './useBridges';
 export * from './useChain';
 export * from './useChains';
+export * from './useContentHeight';
 export * from './useDebouncedWatch';
 export * from './useExchanges';
 export * from './useHasSufficientBalance';

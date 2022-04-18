@@ -7,7 +7,7 @@ import {
   GrowableTransactionBox,
   TransactionBox,
   TransactionContainer,
-  TransactionFooter
+  TransactionFooter,
 } from './TransactionPage.style';
 import { TransactionPageProps } from './types';
 
@@ -20,10 +20,11 @@ export const TransactionPage: React.FC<TransactionPageProps> = () => {
       <TransactionBox>
         <Typography
           variant="h4"
-          noWrap
-          sx={{ flexGrow: 1, fontWeight: 'bold' }}
+          flexGrow={1}
+          fontWeight="bold"
           mt={3}
           mb={1}
+          noWrap
         >
           {t(`transaction.statusHeader.paused`)}
         </Typography>

@@ -7,7 +7,11 @@ export const useTokenBalance = (chainId: number, tokenAddress: string) => {
   const { account } = useWallet();
   const { token } = useToken(chainId, tokenAddress);
 
-  const { data: tokenWithBalance, isLoading } = useQuery(
+  const {
+    data: tokenWithBalance,
+    isLoading,
+    isFetching,
+  } = useQuery(
     ['token', tokenAddress, account.address],
     async ({ queryKey: [_, __, address] }) => {
       if (!address || !token) {
@@ -28,6 +32,6 @@ export const useTokenBalance = (chainId: number, tokenAddress: string) => {
   return {
     token,
     tokenWithBalance,
-    isLoading,
+    isLoading: isLoading && isFetching,
   };
 };

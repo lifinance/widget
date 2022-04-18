@@ -58,11 +58,7 @@ export const SwapRoute: React.FC = () => {
   const renderNoRoutes = () => {
     return (
       <Box sx={{ py: 8, width: '100%' }}>
-        <Typography
-          variant="subtitle1"
-          color="text.primary"
-          sx={{ textAlign: 'center' }}
-        >
+        <Typography variant="subtitle1" color="text.primary">
           No Routes
         </Typography>
       </Box>

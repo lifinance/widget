@@ -13,7 +13,7 @@ interface TokenAmountList {
 export const useTokens = (selectedChainId: number) => {
   const { account } = useWallet();
   const { chains, isLoading: isChainsLoading, getChainById } = useChains();
-  const { data, isLoading } = useQuery(['tokens'], () =>
+  const { data, isLoading, isFetching } = useQuery(['tokens'], () =>
     LiFi.getPossibilities({ include: ['tokens'] }),
   );
 
@@ -94,8 +94,9 @@ export const useTokens = (selectedChainId: number) => {
   return {
     tokens: tokensWithBalance?.[0] ?? tokens,
     tokensWithBalance: tokensWithBalance?.[1],
-    isLoading: isLoading || isChainsLoading,
-    isBalancesLoading: isLoading || isChainsLoading || isBalancesLoading,
+    isLoading: (isLoading && isFetching) || isChainsLoading,
+    isBalancesLoading:
+      (isLoading && isFetching) || isChainsLoading || isBalancesLoading,
     isBalancesFetching,
     updateBalances: refetch,
   };

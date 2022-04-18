@@ -3,9 +3,8 @@ import { FC, PropsWithChildren } from 'react';
 import { QueryClientProvider, QueryClientProviderProps } from 'react-query';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { WidgetConfig } from '.';
+import { Header } from './components/Header';
 import { MainContainer } from './components/MainContainer';
-import { NavigationHeader } from './components/NavigationHeader';
-import { WalletHeader } from './components/WalletHeader';
 import { queryClient } from './config/queryClient';
 import { SelectTokenPage } from './pages/SelectTokenPage';
 import { SelectWalletPage } from './pages/SelectWalletPage';
@@ -36,8 +35,7 @@ export const App: React.FC<AppProps> = ({ config }) => {
             <WidgetProvider config={config}>
               <WalletProvider>
                 <SwapFormProvider>
-                  <WalletHeader />
-                  <NavigationHeader />
+                  <Header />
                   <SwapExecutionProvider>
                     <Routes>
                       <Route path={routes.home} element={<SwapPage />} />

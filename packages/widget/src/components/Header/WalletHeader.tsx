@@ -2,8 +2,8 @@ import { Box, Menu, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useWallet } from '../../providers/WalletProvider';
-import { Header } from '../Header';
-import { WalletTypography } from './WalletHeader.style';
+import { WalletTypography } from './Header.style';
+import { HeaderContainer } from './HeaderContainer';
 
 export const WalletHeader: React.FC = () => {
   const { t } = useTranslation();
@@ -29,7 +29,7 @@ export const WalletHeader: React.FC = () => {
   };
 
   return (
-    <Header height={40}>
+    <HeaderContainer height={40}>
       <Box sx={{ display: 'flex', flex: 1, justifyContent: 'flex-end' }}>
         <WalletTypography
           variant="body2"
@@ -66,6 +66,6 @@ export const WalletHeader: React.FC = () => {
           {t(`header.disconnect`)}
         </MenuItem>
       </Menu>
-    </Header>
+    </HeaderContainer>
   );
 };

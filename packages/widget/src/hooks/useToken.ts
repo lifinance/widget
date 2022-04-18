@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import { LiFi } from '../lifi';
 
 export const useToken = (chainId: number, tokenAddress: string) => {
-  const { data, isLoading } = useQuery(['tokens'], () =>
+  const { data, isLoading, isFetching } = useQuery(['tokens'], () =>
     LiFi.getPossibilities({ include: ['tokens'] }),
   );
 
@@ -16,6 +16,6 @@ export const useToken = (chainId: number, tokenAddress: string) => {
 
   return {
     token,
-    isLoading,
+    isLoading: isLoading && isFetching,
   };
 };
