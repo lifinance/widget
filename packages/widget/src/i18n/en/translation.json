@@ -1,8 +1,7 @@
 {
   "header": {
-    "walletConnected": "Connected: {{walletAddress}}",
-    "walletNotConnected": "Wallet is not connected.",
-    "disconnect": "Disconnect",
+    "walletConnected": "Wallet connected",
+    "connectWallet": "Connect wallet",
     "swap": "Swap",
     "settings": "Settings",
     "wouldLikeToSwap": "I'd like to swap",

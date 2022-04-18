@@ -2,7 +2,7 @@ import {
   ArrowBack as ArrowBackIcon,
   Settings as SettingsIcon,
 } from '@mui/icons-material';
-import { Box, Collapse, IconButton, Typography } from '@mui/material';
+import { Box, IconButton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { routes } from '../../utils/routes';
@@ -48,11 +48,12 @@ export const NavigationHeader: React.FC = () => {
 
   return (
     <HeaderContainer>
-      <Collapse
+      {/* <Collapse
         collapsedSize={0}
         orientation="horizontal"
         in={routesWithBack.includes(pathname)}
-      >
+      > */}
+      {routesWithBack.includes(pathname) ? (
         <IconButton
           size="large"
           aria-label="settings"
@@ -62,7 +63,8 @@ export const NavigationHeader: React.FC = () => {
         >
           <ArrowBackIcon />
         </IconButton>
-      </Collapse>
+      ) : null}
+      {/* </Collapse> */}
       <Typography
         color="black"
         fontSize={pathname === '/' ? 32 : 24}
