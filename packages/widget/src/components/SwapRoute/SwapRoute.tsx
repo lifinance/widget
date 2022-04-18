@@ -142,6 +142,10 @@ export const SwapRoute: React.FC = () => {
     //     </Typography>
     //   </Box>
     // </Box>
+    // <Box>
+    //   <Typography variant="body2" fontWeight="bold" pl={2} pt={2}>
+    //     {t('swap.routes')}
+    //   </Typography>
     <Stack direction="row" sx={{ padding: '0 0 24px' }} spacing={2}>
       <SwapRouteCard
         width={200}
@@ -157,6 +161,7 @@ export const SwapRoute: React.FC = () => {
         active
       />
     </Stack>
+    /* </Box> */
   );
 
   if (routes && routes.length > 0) {

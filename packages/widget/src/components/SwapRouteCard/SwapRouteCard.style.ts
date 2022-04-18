@@ -4,16 +4,13 @@ import { styled } from '@mui/material/styles';
 export const Card = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'active',
 })<{ active?: boolean }>(({ theme, active }) => ({
+  backgroundColor: theme.palette.common.white,
   padding: theme.spacing(2),
   border: `2px solid ${
     active ? theme.palette.primary.main : theme.palette.grey[200]
   }`,
   borderRadius: theme.shape.borderRadius,
   boxSizing: 'border-box',
-  // maxWidth: '50%',
-  // flexBasis: '50%',
-  // flexGrow: 0,
-  // flexShrink: 0,
 }));
 
 export const Label = styled(Box, {

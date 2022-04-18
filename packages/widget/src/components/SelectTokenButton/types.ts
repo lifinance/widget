@@ -3,6 +3,6 @@ import {
   SwapFormTypeProps,
 } from '../../providers/SwapFormProvider';
 
-export interface SwapChainButtonProps extends SwapFormTypeProps {
+export interface SelectTokenButtonProps extends SwapFormTypeProps {
   onClick?(formType: SwapFormDirection): void;
 }

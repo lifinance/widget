@@ -5,7 +5,6 @@ import { useLocation } from 'react-router-dom';
 import { ElementId } from '../utils/elements';
 
 const Container = styled(MuiContainer)(({ theme }) => ({
-  backgroundColor: theme.palette.common.white,
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
