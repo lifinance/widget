@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { ElementId } from '../utils/elements';
 
 const Container = styled(MuiContainer)(({ theme }) => ({
-  height: '100%',
+  // height: '100%',
   display: 'flex',
   flexDirection: 'column',
   overflowX: 'clip',

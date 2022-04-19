@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useWallet } from '../../providers/WalletProvider';
 import { routes } from '../../utils/routes';
-import { HeaderContainer } from './HeaderContainer';
+import { HeaderAppBar } from './Header.style';
 
 export const WalletHeader: React.FC = () => {
   const { t } = useTranslation();
@@ -19,7 +19,7 @@ export const WalletHeader: React.FC = () => {
     : null;
 
   return (
-    <HeaderContainer pt={1.5}>
+    <HeaderAppBar elevation={0} pt={1.5}>
       {walletAddress ? (
         <>
           <Box
@@ -67,7 +67,7 @@ export const WalletHeader: React.FC = () => {
           <ConnectButton />
         </>
       )}
-    </HeaderContainer>
+    </HeaderAppBar>
   );
 };
 

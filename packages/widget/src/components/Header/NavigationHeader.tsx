@@ -6,13 +6,14 @@ import { Box, IconButton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { routes } from '../../utils/routes';
-import { HeaderContainer } from './HeaderContainer';
+import { HeaderAppBar } from './Header.style';
 
-const routesWithBack = [
+const backButtonRoutes = [
+  routes.selectWallet,
   routes.settings,
   routes.fromToken,
   routes.toToken,
-  routes.selectWallet,
+  routes.swapRoutes,
   routes.transaction,
 ];
 
@@ -31,14 +32,16 @@ export const NavigationHeader: React.FC = () => {
 
   const handleHeaderTitle = () => {
     switch (pathname) {
+      case routes.selectWallet:
+        return t(`header.selectWallet`);
       case routes.settings:
         return t(`header.settings`);
       case routes.fromToken:
         return t(`header.from`);
       case routes.toToken:
         return t(`header.to`);
-      case routes.selectWallet:
-        return t(`header.selectWallet`);
+      case routes.swapRoutes:
+        return t(`swap.routes`);
       case routes.transaction:
         return t(`header.processIsOn`);
       default:
@@ -47,13 +50,13 @@ export const NavigationHeader: React.FC = () => {
   };
 
   return (
-    <HeaderContainer>
+    <HeaderAppBar elevation={0}>
       {/* <Collapse
         collapsedSize={0}
         orientation="horizontal"
         in={routesWithBack.includes(pathname)}
       > */}
-      {routesWithBack.includes(pathname) ? (
+      {backButtonRoutes.includes(pathname) ? (
         <IconButton
           size="large"
           aria-label="settings"
@@ -88,6 +91,6 @@ export const NavigationHeader: React.FC = () => {
       ) : (
         <Box width={36} height={48} />
       )}
-    </HeaderContainer>
+    </HeaderAppBar>
   );
 };
