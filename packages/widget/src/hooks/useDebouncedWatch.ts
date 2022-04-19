@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 
 export const useDebouncedWatch = (name: any, delay: number) => {
-  const [debouncedValue, setDebouncedValue] = useState([]);
   const watchedValue = useWatch({
     name,
   });
+  const [debouncedValue, setDebouncedValue] = useState(watchedValue);
 
   useEffect(() => {
     const handler = setTimeout(() => setDebouncedValue(watchedValue), delay);
