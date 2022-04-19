@@ -5,4 +5,5 @@ export interface SwapRouteCardProps {
   gas: string;
   type: 'recommended' | 'fastest' | 'cheapest';
   active?: boolean;
+  blur?: boolean;
 }

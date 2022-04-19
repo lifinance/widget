@@ -15,10 +15,3 @@ export const FormBox = styled(Box)(({ theme }) => ({
   paddingLeft: theme.spacing(3),
   paddingRight: theme.spacing(3),
 }));
-
-export const FormCard = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.common.white,
-  border: `1px solid ${theme.palette.grey[300]}`,
-  borderRadius: (theme.shape.borderRadius as number) * 2,
-  overflow: 'hidden',
-}));

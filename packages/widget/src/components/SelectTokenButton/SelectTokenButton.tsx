@@ -4,14 +4,16 @@ import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useChain, useToken } from '../../hooks';
-import { SwapFormKeyHelper } from '../../providers/SwapFormProvider';
+import {
+  SwapFormKeyHelper,
+  SwapFormTypeProps,
+} from '../../providers/SwapFormProvider';
 import { routes } from '../../utils/routes';
+import { CardContainer } from '../CardContainer';
 import { SwapInput } from '../SwapInput';
 import { Card } from './SelectTokenButton.style';
-import { SelectTokenButtonProps } from './types';
 
-export const SelectTokenButton: React.FC<SelectTokenButtonProps> = ({
-  onClick,
+export const SelectTokenButton: React.FC<SwapFormTypeProps> = ({
   formType,
 }) => {
   const { t } = useTranslation();
@@ -32,9 +34,9 @@ export const SelectTokenButton: React.FC<SelectTokenButtonProps> = ({
   const isSelected = chain && token;
 
   return (
-    <>
+    <CardContainer>
       <Card onClick={handleClick} elevation={0}>
-        <Typography variant="body2" fontWeight="bold" pt={2} pl={2}>
+        <Typography variant="body2" fontWeight="bold" pt={2} px={2}>
           {t(`swap.${formType}`)}
         </Typography>
         <CardHeader
@@ -61,6 +63,6 @@ export const SelectTokenButton: React.FC<SelectTokenButtonProps> = ({
       {isSelected && formType === 'from' ? (
         <SwapInput formType={formType} />
       ) : null}
-    </>
+    </CardContainer>
   );
 };

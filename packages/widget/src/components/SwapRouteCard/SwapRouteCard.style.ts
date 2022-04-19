@@ -2,8 +2,8 @@ import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 export const Card = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'active',
-})<{ active?: boolean }>(({ theme, active }) => ({
+  shouldForwardProp: (prop) => prop !== 'active' && prop !== 'blur',
+})<{ active?: boolean; blur?: boolean }>(({ theme, active, blur }) => ({
   backgroundColor: theme.palette.common.white,
   padding: theme.spacing(2),
   border: `2px solid ${
@@ -11,6 +11,13 @@ export const Card = styled(Box, {
   }`,
   borderRadius: theme.shape.borderRadius,
   boxSizing: 'border-box',
+  userSelect: blur ? 'none' : 'auto',
+  '&:hover': {
+    cursor: blur ? 'pointer' : 'default',
+  },
+  '& > div': {
+    filter: blur ? 'blur(4px)' : 'none',
+  },
 }));
 
 export const Label = styled(Box, {
@@ -29,4 +36,5 @@ export const Label = styled(Box, {
   letterSpacing: '0.05rem',
   textTransform: 'uppercase',
   display: 'inline-flex',
+  userSelect: 'none',
 }));

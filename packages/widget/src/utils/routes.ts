@@ -1,9 +1,10 @@
 export const routes = {
   home: '/',
+  selectWallet: '/select-wallet',
   settings: '/settings',
   fromToken: '/select-from-token',
   toToken: '/select-to-token',
-  selectWallet: '/select-wallet',
+  swapRoutes: '/swap-routes',
   transaction: '/transaction',
 };
 
