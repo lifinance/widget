@@ -1,6 +1,6 @@
 import { HelpOutline as HelpOutlineIcon } from '@mui/icons-material';
 import { Box, FormControl, InputAdornment, Typography } from '@mui/material';
-import { ChangeEvent, useEffect, useRef } from 'react';
+import { ChangeEvent, useRef } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Input } from '../../components/Input';
@@ -9,15 +9,11 @@ import { formatSlippage } from '../../utils/format';
 
 export const SlippageInput = () => {
   const { t } = useTranslation();
-  const { register, setValue } = useFormContext();
+  const { setValue } = useFormContext();
   const value = useWatch({
     name: SwapFormKey.Slippage,
   });
   const defaultValue = useRef(value);
-
-  useEffect(() => {
-    register(SwapFormKey.Slippage);
-  }, [register]);
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,

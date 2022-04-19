@@ -1,6 +1,5 @@
 import { HelpOutline as HelpOutlineIcon } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
-import { useEffect } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { SwapFormKey } from '../../providers/SwapFormProvider';
@@ -8,7 +7,7 @@ import { Button, ButtonGroup } from './GasPriceButtonGroup.style';
 
 export const GasPriceButtonGroup = () => {
   const { t } = useTranslation();
-  const { register, setValue } = useFormContext();
+  const { setValue } = useFormContext();
 
   const value = useWatch({
     name: SwapFormKey.GasPrice,
@@ -17,10 +16,6 @@ export const GasPriceButtonGroup = () => {
   const handleChange = (newValue: 'slow' | 'normal' | 'fast') => {
     setValue(SwapFormKey.GasPrice, newValue);
   };
-
-  useEffect(() => {
-    register(SwapFormKey.GasPrice);
-  }, [register]);
 
   return (
     <Box>

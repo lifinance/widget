@@ -1,6 +1,6 @@
 import {
   Button as MuiButton,
-  ButtonGroup as MuiButtonGroup
+  ButtonGroup as MuiButtonGroup,
 } from '@mui/material';
 import { buttonClasses } from '@mui/material/Button';
 import { buttonGroupClasses } from '@mui/material/ButtonGroup';

@@ -1,5 +1,5 @@
 import { FormControl, Typography } from '@mui/material';
-import { ChangeEvent, useEffect } from 'react';
+import { ChangeEvent } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import {
@@ -12,15 +12,11 @@ import { Input } from './SwapInput.style';
 
 export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
   const { t } = useTranslation();
-  const { register, setValue } = useFormContext();
+  const { setValue } = useFormContext();
   const amountKey = SwapFormKeyHelper.getAmountKey(formType);
   const value = useWatch({
     name: amountKey,
   });
-
-  useEffect(() => {
-    register(amountKey, { required: true });
-  }, [amountKey, register]);
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -38,7 +34,7 @@ export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
 
   return (
     <FormControl fullWidth>
-      <Typography variant="body2" fontWeight="bold" pl={2}>
+      <Typography variant="body2" fontWeight="bold" px={2}>
         {t('swap.amount')}
       </Typography>
       <Input

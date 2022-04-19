@@ -6,7 +6,7 @@ import {
   MenuItem,
   Typography,
 } from '@mui/material';
-import { FC, useEffect, useLayoutEffect } from 'react';
+import { FC, useLayoutEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +15,6 @@ import { useContentHeight } from '../../hooks';
 import {
   SwapFormDirection,
   SwapFormKey,
-  SwapFormKeyHelper,
 } from '../../providers/SwapFormProvider';
 import { ElementId } from '../../utils/elements';
 import { ChainSelect } from './ChainSelect';
@@ -34,10 +33,6 @@ export const SelectTokenPage: FC<{ formType: SwapFormDirection }> = ({
   const handleTokenClick = () => {
     navigate(-1);
   };
-
-  useEffect(() => {
-    register(SwapFormKeyHelper.getTokenKey(formType));
-  }, [formType, register]);
 
   useLayoutEffect(() => {
     const element = document.getElementById(ElementId.ScrollableContainer);

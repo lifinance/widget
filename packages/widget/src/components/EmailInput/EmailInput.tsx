@@ -16,10 +16,6 @@ export const EmailInput = () => {
   //   name: amountKey,
   // });
 
-  // useEffect(() => {
-  //   register(amountKey, { required: true });
-  // }, [amountKey, register]);
-
   // const handleChange = (
   //   event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   // ) => {
