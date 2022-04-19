@@ -1,15 +1,12 @@
-import { useEffect } from 'react';
-import { useFormContext, useWatch } from 'react-hook-form';
+import { useWatch } from 'react-hook-form';
 import { useQuery } from 'react-query';
 import { useDebouncedWatch, useToken } from '.';
 import { LiFi } from '../lifi';
-import { SwapFormKey, SwapFormKeyHelper } from '../providers/SwapFormProvider';
+import { SwapFormKey } from '../providers/SwapFormProvider';
 import { useWallet } from '../providers/WalletProvider';
-import { formatTokenAmount } from '../utils/format';
 
 export const useSwapRoutes = () => {
   const { account } = useWallet();
-  const { setValue } = useFormContext();
   const [
     fromChainId,
     fromTokenAddress,
@@ -31,7 +28,17 @@ export const useSwapRoutes = () => {
   });
   const [fromTokenAmount] = useDebouncedWatch([SwapFormKey.FromAmount], 500);
   const { token } = useToken(fromChainId, fromTokenAddress);
-  const { data, isFetching, isFetched } = useQuery(
+  const isEnabled =
+    Boolean(account.address) &&
+    !isNaN(fromChainId) &&
+    !isNaN(toChainId) &&
+    Boolean(fromTokenAddress) &&
+    Boolean(toTokenAddress) &&
+    Boolean(fromTokenAmount) &&
+    !isNaN(fromTokenAmount) &&
+    !isNaN(slippage);
+
+  const { data, isFetched, isLoading, status, fetchStatus } = useQuery(
     [
       'routes',
       account.address,
@@ -82,38 +89,20 @@ export const useSwapRoutes = () => {
       });
     },
     {
-      enabled:
-        Boolean(account.address) &&
-        !isNaN(fromChainId) &&
-        !isNaN(toChainId) &&
-        Boolean(fromTokenAddress) &&
-        Boolean(toTokenAddress) &&
-        Boolean(fromTokenAmount) &&
-        !isNaN(fromTokenAmount) &&
-        !isNaN(slippage),
+      enabled: isEnabled,
       refetchIntervalInBackground: true,
       refetchInterval: 60_000,
-      staleTime: 5_000,
+      staleTime: 30_000,
       // TODO: probably should be removed
-      cacheTime: 5_000,
+      cacheTime: 30_000,
     },
   );
 
-  useEffect(() => {
-    const route = data?.routes[0];
-    if (route) {
-      setValue(
-        SwapFormKeyHelper.getAmountKey('to'),
-        formatTokenAmount(route.toAmount, route.toToken.decimals),
-      );
-    } else {
-      setValue(SwapFormKeyHelper.getAmountKey('to'), '');
-    }
-  }, [data?.routes, setValue]);
-
   return {
     routes: data?.routes,
-    isFetching,
+    isLoading: isEnabled && isLoading,
     isFetched,
+    status,
+    fetchStatus,
   };
 };

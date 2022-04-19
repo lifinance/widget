@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { formatTokenAmount } from '@lifinance/widget/utils/format';
 import { BoxProps, Skeleton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -11,13 +12,13 @@ import { Stack } from './SwapRoutes.style';
 export const SwapRoutes: React.FC<BoxProps> = ({ mb }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { routes: swapRoutes, isFetching, isFetched } = useSwapRoutes();
+  const { routes: swapRoutes, isLoading } = useSwapRoutes();
 
   const handleCardClick = () => {
     navigate(routes.swapRoutes);
   };
 
-  if (!swapRoutes?.length && !isFetched && !isFetching) {
+  if (!swapRoutes?.length && !isLoading) {
     return null;
   }
 
@@ -27,9 +28,10 @@ export const SwapRoutes: React.FC<BoxProps> = ({ mb }) => {
         {t('swap.routes')}
       </Typography>
       <Stack direction="row" spacing={2}>
-        {!swapRoutes?.length && isFetching
-          ? Array.from({ length: 2 }).map(() => (
+        {isLoading
+          ? Array.from({ length: 2 }).map((_, index) => (
               <Skeleton
+                key={index}
                 variant="rectangular"
                 width="75%"
                 height={195}
@@ -40,6 +42,7 @@ export const SwapRoutes: React.FC<BoxProps> = ({ mb }) => {
               ?.slice(0, 2)
               .map((route, index) => (
                 <SwapRouteCard
+                  key={route.id}
                   onClick={index !== 0 ? handleCardClick : undefined}
                   minWidth="75%"
                   amount={formatTokenAmount(
