@@ -16,7 +16,7 @@ export const Card = styled(Box, {
     cursor: blur ? 'pointer' : 'default',
   },
   '& > div': {
-    filter: blur ? 'blur(4px)' : 'none',
+    filter: blur ? 'blur(3px)' : 'none',
   },
 }));
 

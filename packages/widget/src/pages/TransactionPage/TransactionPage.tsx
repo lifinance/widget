@@ -1,8 +1,8 @@
-import { useSwapExecutionContext } from '@lifinance/widget/providers/SwapExecutionProvider';
 import { Box, Button, Divider, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { EmailInput } from '../../components/EmailInput';
 import { TransactionStepper } from '../../components/TransactionStepper';
+import { useSwapExecutionContext } from '../../providers/SwapExecutionProvider';
 import {
   GrowableTransactionBox,
   TransactionBox,

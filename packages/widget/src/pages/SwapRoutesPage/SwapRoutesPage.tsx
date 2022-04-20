@@ -1,9 +1,9 @@
 /* eslint-disable react/no-array-index-key */
-import { formatTokenAmount } from '@lifinance/widget/utils/format';
 import { BoxProps, Skeleton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { SwapRouteCard } from '../../components/SwapRouteCard';
 import { useSwapRoutes } from '../../hooks';
+import { formatTokenAmount } from '../../utils/format';
 import { Stack } from './SwapRoutesPage.style';
 
 export const SwapRoutesPage: React.FC<BoxProps> = ({ mb }) => {
