@@ -1,6 +1,7 @@
 import metamask from './metaMask.svg';
 import alphawallet from './alphawallet.svg';
 import atoken from './atoken.svg';
+import blockwallet from './blockwallet.svg';
 import binance from './binance.svg';
 import bitpie from './bitpie.svg';
 import blankwallet from './blankwallet.svg';
@@ -31,6 +32,7 @@ export const walletIcons = {
   mathwallet,
   alphawallet,
   atoken,
+  blockwallet,
   binance,
   bitpie,
   blankwallet,

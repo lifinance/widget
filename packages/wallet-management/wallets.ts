@@ -17,6 +17,7 @@ export interface Wallet {
 enum ProviderIdentityFlag {
   AlphaWallet = 'isAlphaWallet',
   AToken = 'isAToken',
+  BlockWallet = 'isBlockWallet',
   Binance = 'bbcSignTx',
   Bitpie = 'isBitpie',
   BlankWallet = 'isBlank',
@@ -72,6 +73,16 @@ const mathWallet: Wallet = {
   connector: metaMask,
 
   platforms: ['all'],
+};
+
+const blockWallet: Wallet = {
+  name: 'BlockWallet',
+  checkProviderIdentity: ({ provider }) =>
+    !!provider && !!provider[ProviderIdentityFlag.BlockWallet],
+  icon: walletIcons.blockwallet,
+  connector: metaMask,
+
+  platforms: ['desktop'],
 };
 
 const binance: Wallet = {
@@ -306,6 +317,7 @@ export const supportedWallets = [
   status,
   alphawallet,
   atoken,
+  blockWallet,
   bitpie,
   blankwallet,
   brave,
