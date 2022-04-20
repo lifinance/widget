@@ -23,12 +23,15 @@ export const SwapButton: React.FC = () => {
   const { getChainById } = useChains();
   const { account, switchChain } = useWallet();
   const { executeRoute } = useSwapExecutionContext();
+
   const { routes: swapRoutes } = useSwapRoutes();
+
   const {
     hasGasBalanceOnStartChain,
     hasGasOnCrossChain,
     hasSufficientBalance,
   } = useHasSufficientBalance(swapRoutes?.[0]);
+
   const [chainId] = useWatch({
     name: [SwapFormKeyHelper.getChainKey('from')],
   });

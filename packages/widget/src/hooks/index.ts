@@ -8,4 +8,5 @@ export * from './useHasSufficientBalance';
 export * from './useSwapRoutes';
 export * from './useToken';
 export * from './useTokenBalance';
+export * from './useTokenBalances';
 export * from './useTokens';

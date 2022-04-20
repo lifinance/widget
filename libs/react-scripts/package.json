@@ -32,7 +32,7 @@
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
     "@svgr/webpack": "^6.2.1",
     "babel-jest": "^27.5.0",
-    "babel-loader": "^8.2.4",
+    "babel-loader": "^8.2.5",
     "babel-plugin-import": "^1.13.5",
     "babel-plugin-named-asset-import": "^0.3.8",
     "babel-preset-react-app": "^10.0.1",

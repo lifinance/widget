@@ -1,10 +1,10 @@
+import { TokenAmount } from '@lifinance/sdk';
 import { Box, List, Typography } from '@mui/material';
 import { FC, PropsWithChildren, useCallback, useMemo, useRef } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { defaultRangeExtractor, Range, useVirtual } from 'react-virtual';
-import { useDebouncedWatch } from '../../hooks/useDebouncedWatch';
-import { useTokens } from '../../hooks/useTokens';
+import { useDebouncedWatch, useTokenBalances } from '../../hooks';
 import { TokenFilterType } from '../../pages/SelectTokenPage';
 import {
   SwapFormKey,
@@ -46,16 +46,16 @@ export const TokenList: FC<PropsWithChildren<TokenListProps>> = ({
     isLoading,
     isBalancesLoading,
     isBalancesFetching,
-  } = useTokens(selectedChainId);
-
-  const filteredChainTokens =
-    myTokensFilter === TokenFilterType.My ? tokensWithBalance : tokens;
-  const isFilteredChainTokensLoading =
-    myTokensFilter === TokenFilterType.My ? isBalancesLoading : isLoading;
+  } = useTokenBalances(selectedChainId);
 
   const chainTokens = useMemo(() => {
-    let chainTokens = filteredChainTokens?.[selectedChainId] ?? [];
+    let chainTokens =
+      (myTokensFilter === TokenFilterType.My
+        ? tokensWithBalance?.filter((token) => token.amount !== '0')
+        : tokens) ?? [];
     const searchFilter = debouncedSearchTokensFilter?.toUpperCase() ?? '';
+    const isFilteredChainTokensLoading =
+      myTokensFilter === TokenFilterType.My ? isBalancesLoading : isLoading;
     chainTokens = isFilteredChainTokensLoading
       ? // tokenAmountMock is used as a first token to create sticky header for virtual list
         [tokenAmountMock, ...createTokenAmountSkeletons()]
@@ -73,9 +73,11 @@ export const TokenList: FC<PropsWithChildren<TokenListProps>> = ({
     return chainTokens;
   }, [
     debouncedSearchTokensFilter,
-    filteredChainTokens,
-    isFilteredChainTokensLoading,
-    selectedChainId,
+    isBalancesLoading,
+    isLoading,
+    myTokensFilter,
+    tokens,
+    tokensWithBalance,
   ]);
 
   const parentRef = useRef<HTMLUListElement | null>(null);
@@ -128,7 +130,7 @@ export const TokenList: FC<PropsWithChildren<TokenListProps>> = ({
               </Box>
             );
           }
-          const token = chainTokens[item.index];
+          const token = chainTokens[item.index] as TokenAmount;
           if (token.name.includes(skeletonKey)) {
             return (
               <TokenListItemSkeleton

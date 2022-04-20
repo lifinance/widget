@@ -19,7 +19,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
             <Skeleton variant="text" width={50} height={24} />
           ) : (
             <Typography variant="body1" noWrap>
-              {token.amount}
+              {token.amount ?? '0'}
             </Typography>
           )
         }

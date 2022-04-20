@@ -3,7 +3,7 @@ import Big from 'big.js';
 import { useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 import { SwapFormKeyHelper } from '../providers/SwapFormProvider';
-import { useTokens } from './useTokens';
+import { useTokenBalances } from './useTokenBalances';
 
 export const useHasSufficientBalance = (route?: Route) => {
   const [fromChainId, toChainId] = useWatch({
@@ -13,8 +13,9 @@ export const useHasSufficientBalance = (route?: Route) => {
     ],
   });
   const lastStep = route?.steps.at(-1);
-  const { tokensWithBalance: fromChainTokenBalances } = useTokens(fromChainId);
-  const { tokensWithBalance: toChainTokenBalances } = useTokens(
+  const { tokensWithBalance: fromChainTokenBalances } =
+    useTokenBalances(fromChainId);
+  const { tokensWithBalance: toChainTokenBalances } = useTokenBalances(
     lastStep?.action.fromChainId ?? toChainId,
   );
 
@@ -24,15 +25,15 @@ export const useHasSufficientBalance = (route?: Route) => {
       return true;
     }
     const balance = Big(
-      fromChainTokenBalances?.[route.fromChainId].find(
-        (t) => t.address === token.address,
-      )?.amount ?? 0,
+      fromChainTokenBalances?.find((t) => t.address === token.address)
+        ?.amount ?? 0,
     );
     const requiredAmount = route.steps
       .filter((step) => step.action.fromChainId === route.fromChainId)
-      .map((step) => step.estimate.gasCosts?.[0].amount)
-      .map((amount) => Big(amount || 0))
-      .reduce((a, b) => a.plus(b), Big(0))
+      .reduce(
+        (big, step) => big.plus(Big(step.estimate.gasCosts?.[0].amount || 0)),
+        Big(0),
+      )
       .div(10 ** token.decimals);
     return balance.gt(0) && balance.gte(requiredAmount);
   }, [fromChainTokenBalances, route]);
@@ -43,9 +44,8 @@ export const useHasSufficientBalance = (route?: Route) => {
       return true;
     }
     const balance = Big(
-      toChainTokenBalances?.[lastStep.action.fromChainId].find(
-        (t) => t.address === token.address,
-      )?.amount ?? 0,
+      toChainTokenBalances?.find((t) => t.address === token.address)?.amount ??
+        0,
     );
     const gasEstimate = lastStep.estimate.gasCosts?.[0].amount;
     const requiredAmount = Big(gasEstimate || 0).div(
@@ -58,13 +58,10 @@ export const useHasSufficientBalance = (route?: Route) => {
     if (!route) {
       return true;
     }
-
     const balance = Big(
-      fromChainTokenBalances?.[route.fromChainId].find(
-        (t) => t.address === route.fromToken.address,
-      )?.amount ?? 0,
+      fromChainTokenBalances?.find((t) => t.address === route.fromToken.address)
+        ?.amount ?? 0,
     );
-
     return Big(route.fromAmount)
       .div(10 ** (route.fromToken.decimals ?? 0))
       .lte(balance);
