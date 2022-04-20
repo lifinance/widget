@@ -58,7 +58,7 @@ export const NavigationHeader: React.FC = () => {
       > */}
       {backButtonRoutes.includes(pathname) ? (
         <IconButton
-          size="large"
+          size="medium"
           aria-label="settings"
           color="inherit"
           edge="start"
@@ -80,7 +80,7 @@ export const NavigationHeader: React.FC = () => {
       </Typography>
       {pathname === '/' ? (
         <IconButton
-          size="large"
+          size="medium"
           aria-label="settings"
           color="inherit"
           edge="end"

@@ -91,7 +91,7 @@ export const useSwapRoutes = () => {
     {
       enabled: isEnabled,
       refetchIntervalInBackground: true,
-      refetchInterval: 60_000,
+      refetchInterval: 30_000,
       staleTime: 30_000,
       // TODO: probably should be removed
       cacheTime: 30_000,

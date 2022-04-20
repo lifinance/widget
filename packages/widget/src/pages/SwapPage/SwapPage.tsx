@@ -1,5 +1,5 @@
-import { SwapVert as SwapVertIcon } from '@mui/icons-material';
 import { Box } from '@mui/material';
+import { ReverseTokensButton } from '../../components/ReverseTokensButton';
 import { SelectTokenButton } from '../../components/SelectTokenButton';
 import { SwapButton } from '../../components/SwapButton';
 import { SwapRoutes } from '../../components/SwapRoutes';
@@ -15,7 +15,7 @@ export const SwapPage: React.FC = () => {
           sx={{ display: 'flex', justifyContent: 'center', height: 40 }}
           py={0.5}
         >
-          <SwapVertIcon sx={{ alignSelf: 'center', padding: '0 16px' }} />
+          <ReverseTokensButton />
         </Box>
         <Box mb={3}>
           <SelectTokenButton formType="to" />

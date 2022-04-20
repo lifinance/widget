@@ -43,7 +43,7 @@ export const WalletHeader: React.FC = () => {
             </Typography>
           </Box>
           <IconButton
-            size="large"
+            size="medium"
             aria-label="disconnect"
             color="inherit"
             edge="end"
@@ -79,7 +79,7 @@ const ConnectButton = () => {
   };
   return (
     <IconButton
-      size="large"
+      size="medium"
       aria-label="disconnect"
       color="inherit"
       edge="end"
