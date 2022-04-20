@@ -4,14 +4,14 @@ import { SwapFormKey, SwapFormValues } from './types';
 
 const defaultValues = {
   [SwapFormKey.FromAmount]: '',
-  [SwapFormKey.FromSearchTokensFilter]: '',
   [SwapFormKey.GasPrice]: 'normal',
   [SwapFormKey.Slippage]: '3',
-  [SwapFormKey.ToAmount]: '',
-  [SwapFormKey.ToSearchTokensFilter]: '',
+  [SwapFormKey.SearchTokensFilter]: '',
 };
 
-export const SwapFormProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
+export const SwapFormProvider: React.FC<React.PropsWithChildren<{}>> = ({
+  children,
+}) => {
   const { fromChain, fromToken, fromAmount, toChain, toToken } =
     useWidgetConfig();
 

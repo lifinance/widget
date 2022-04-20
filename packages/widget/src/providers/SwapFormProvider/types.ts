@@ -4,18 +4,15 @@ export enum SwapFormKey {
   EnabledExchanges = 'enabledExchanges',
   FromAmount = 'fromAmount',
   FromChain = 'fromChain',
-  FromSearchTokensFilter = 'fromSearchTokensFilter',
   FromToken = 'fromToken',
   GasPrice = 'gasPrice',
   IsAddressConfirmed = 'isAddressConfirmed',
   IsSendToRecipient = 'isSendToRecipient',
-  MyTokensFilter = 'myTokensFilter',
   RecipientsAddress = 'recipientsAddress',
   RoutePriority = 'routePriority',
+  SearchTokensFilter = 'searchTokensFilter',
   Slippage = 'slippage',
-  ToAmount = 'toAmount',
   ToChain = 'toChain',
-  ToSearchTokensFilter = 'toSearchTokensFilter',
   ToToken = 'toToken',
 }
 
@@ -25,18 +22,15 @@ export type SwapFormValues = {
   [SwapFormKey.EnabledExchanges]: string[];
   [SwapFormKey.FromAmount]: string;
   [SwapFormKey.FromChain]: number;
-  [SwapFormKey.FromSearchTokensFilter]: string;
   [SwapFormKey.FromToken]: string;
   [SwapFormKey.GasPrice]: string;
   [SwapFormKey.IsAddressConfirmed]: boolean;
   [SwapFormKey.IsSendToRecipient]: boolean;
-  [SwapFormKey.MyTokensFilter]: number;
   [SwapFormKey.RecipientsAddress]: string;
   [SwapFormKey.RoutePriority]: string;
+  [SwapFormKey.SearchTokensFilter]: string;
   [SwapFormKey.Slippage]: string;
-  [SwapFormKey.ToAmount]: string;
   [SwapFormKey.ToChain]: number;
-  [SwapFormKey.ToSearchTokensFilter]: string;
   [SwapFormKey.ToToken]: string;
 };
 

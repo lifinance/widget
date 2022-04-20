@@ -1,18 +1,15 @@
 import { useMemo } from 'react';
-import { useQuery } from 'react-query';
-import { LiFi } from '../lifi';
+import { useTokens } from './useTokens';
 
 export const useToken = (chainId: number, tokenAddress: string) => {
-  const { data, isLoading, isFetching } = useQuery(['tokens'], () =>
-    LiFi.getPossibilities({ include: ['tokens'] }),
-  );
+  const { tokens, isLoading, isFetching } = useTokens(chainId);
 
   const token = useMemo(() => {
-    const token = data?.tokens?.find(
+    const token = tokens?.find(
       (token) => token.address === tokenAddress && token.chainId === chainId,
     );
     return token;
-  }, [chainId, data?.tokens, tokenAddress]);
+  }, [chainId, tokenAddress, tokens]);
 
   return {
     token,

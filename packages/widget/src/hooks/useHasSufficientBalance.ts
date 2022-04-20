@@ -13,9 +13,8 @@ export const useHasSufficientBalance = (route?: Route) => {
     ],
   });
   const lastStep = route?.steps.at(-1);
-  const { tokensWithBalance: fromChainTokenBalances } =
-    useTokenBalances(fromChainId);
-  const { tokensWithBalance: toChainTokenBalances } = useTokenBalances(
+  const { tokens: fromChainTokenBalances } = useTokenBalances(fromChainId);
+  const { tokens: toChainTokenBalances } = useTokenBalances(
     lastStep?.action.fromChainId ?? toChainId,
   );
 

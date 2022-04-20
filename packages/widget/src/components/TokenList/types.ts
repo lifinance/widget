@@ -3,7 +3,6 @@ import { SwapFormDirection } from '../../providers/SwapFormProvider';
 
 export interface TokenListProps {
   formType: SwapFormDirection;
-  headerHeight: number;
   height: number;
   onClick?(): void;
 }
@@ -15,6 +14,6 @@ export interface TokenListItemBaseProps {
 }
 
 export interface TokenListItemProps extends TokenListItemBaseProps {
-  isBalancesLoading: boolean;
+  showBalance?: boolean;
   token: TokenAmount;
 }

@@ -10,18 +10,16 @@ import { ListItem, ListItemButton } from './TokenList.style';
 import { TokenListItemBaseProps, TokenListItemProps } from './types';
 
 export const TokenListItem: React.FC<TokenListItemProps> = memo(
-  ({ onClick, size, start, token, isBalancesLoading }) => {
+  ({ onClick, size, start, token, showBalance }) => {
     const handleClick = () => onClick?.(token.address);
     return (
       <ListItem
         secondaryAction={
-          isBalancesLoading ? (
-            <Skeleton variant="text" width={50} height={24} />
-          ) : (
+          showBalance ? (
             <Typography variant="body1" noWrap>
               {token.amount ?? '0'}
             </Typography>
-          )
+          ) : null
         }
         disablePadding
         style={{

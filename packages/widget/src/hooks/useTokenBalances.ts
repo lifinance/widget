@@ -29,14 +29,16 @@ export const useTokenBalances = (selectedChainId: number) => {
         account as string,
         tokens,
       );
-
       const formatedTokens = (
         tokenBalances.length === 0 ? (tokens as TokenAmount[]) : tokenBalances
       ).map((token) => {
         token.amount = formatTokenAmount(token.amount);
         return token;
       });
-      return formatedTokens;
+      return [
+        ...formatedTokens.filter((token) => token.amount !== '0'),
+        ...formatedTokens.filter((token) => token.amount === '0'),
+      ];
     },
     {
       enabled: isBalancesLoadingEnabled,
@@ -47,14 +49,12 @@ export const useTokenBalances = (selectedChainId: number) => {
   );
 
   return {
-    tokens: tokensWithBalance ?? tokens,
-    tokensWithBalance,
-    isLoading: (isLoading && isFetching) || isChainsLoading,
-    isBalancesLoading:
+    tokens: tokensWithBalance ?? (tokens as TokenAmount[]),
+    isLoading:
+      (isBalancesLoading && isBalancesLoadingEnabled) ||
       (isLoading && isFetching) ||
-      isChainsLoading ||
-      (isBalancesLoading && isBalancesLoadingEnabled),
-    isBalancesFetching,
+      isChainsLoading,
+    isFetching: isBalancesFetching,
     updateBalances: refetch,
   };
 };

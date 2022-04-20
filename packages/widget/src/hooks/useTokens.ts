@@ -9,6 +9,7 @@ export const useTokens = (selectedChainId: number) => {
   } = useQuery(['tokens', selectedChainId], async () => {
     const data = await LiFi.getPossibilities({ include: ['tokens'] });
     return data.tokens?.filter((token) => token.chainId === selectedChainId);
+    // .sort((a, b) => (a.symbol > b.symbol ? 1 : -1));
   });
   return {
     tokens,
