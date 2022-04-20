@@ -62,6 +62,9 @@ export const useTokens = (selectedChainId: number) => {
     [formatTokens, data?.tokens],
   );
 
+  const isBalancesLoadingEnabled =
+    Boolean(account.address) && Boolean(data) && Boolean(chains);
+
   const {
     data: tokensWithBalance,
     isLoading: isBalancesLoading,
@@ -84,7 +87,7 @@ export const useTokens = (selectedChainId: number) => {
       return formatedTokens;
     },
     {
-      enabled: Boolean(account.address) && Boolean(data) && Boolean(chains),
+      enabled: isBalancesLoadingEnabled,
       refetchIntervalInBackground: true,
       refetchInterval: 60_000,
       staleTime: 60_000,
@@ -96,7 +99,9 @@ export const useTokens = (selectedChainId: number) => {
     tokensWithBalance: tokensWithBalance?.[1],
     isLoading: (isLoading && isFetching) || isChainsLoading,
     isBalancesLoading:
-      (isLoading && isFetching) || isChainsLoading || isBalancesLoading,
+      (isLoading && isFetching) ||
+      isChainsLoading ||
+      (isBalancesLoading && isBalancesLoadingEnabled),
     isBalancesFetching,
     updateBalances: refetch,
   };
