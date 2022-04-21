@@ -49,7 +49,6 @@ export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
         <Select
           labelId="label"
           MenuProps={{ elevation: 2 }}
-          inputProps={{ notched: false }}
           defaultValue={formType === 'from' ? fromChain : toChain}
           value={chainId}
           onChange={handleChain}
