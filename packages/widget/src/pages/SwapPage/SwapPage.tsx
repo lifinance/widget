@@ -2,6 +2,7 @@ import { Box } from '@mui/material';
 import { ReverseTokensButton } from '../../components/ReverseTokensButton';
 import { SelectTokenButton } from '../../components/SelectTokenButton';
 import { SwapButton } from '../../components/SwapButton';
+import { SwapInput } from '../../components/SwapInput';
 import { SwapRoutes } from '../../components/SwapRoutes';
 import { ElementId } from '../../utils/elements';
 import { FormBox, FormContainer } from './SwapPage.style';
@@ -20,8 +21,9 @@ export const SwapPage: React.FC = () => {
         <Box mb={3}>
           <SelectTokenButton formType="to" />
         </Box>
-        {/* <SendToRecipientForm /> */}
-        {/* <RoutePrioritySelect /> */}
+        <Box mb={3}>
+          <SwapInput formType="from" />
+        </Box>
         <SwapRoutes mb={3} />
       </FormBox>
       <Box px={3} pb={3}>

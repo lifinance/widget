@@ -1,4 +1,4 @@
-import { Box, Container, Divider, Typography } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import { FC, useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -34,31 +34,14 @@ export const SelectTokenPage: FC<{ formType: SwapFormDirection }> = ({
 
   return (
     <Container disableGutters>
-      <Box p={3}>
-        <SearchTokenInput />
-      </Box>
-      <Divider light />
-      <Box mt={3} mx={3}>
-        <Typography variant="subtitle1" noWrap fontWeight="500" mb={1}>
-          {t(`swap.selectChain`)}
-        </Typography>
+      <Box py={1} px={3}>
         <ChainSelect formType={formType} />
-        <Box
-          mt={3}
-          pb={1}
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <Typography variant="subtitle1" fontWeight="500" noWrap>
-            {t(`swap.selectToken`)}
-          </Typography>
+        <Box mt={2}>
+          <SearchTokenInput />
         </Box>
       </Box>
       <TokenList
-        height={contentHeight - 258}
+        height={contentHeight - 208}
         onClick={handleTokenClick}
         formType={formType}
       />

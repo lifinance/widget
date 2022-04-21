@@ -1,10 +1,11 @@
 import { Search as SearchIcon } from '@mui/icons-material';
-import { FormControl, InputAdornment } from '@mui/material';
+import { FormControl, InputAdornment, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Input } from '../../components/Input';
+import { CardContainer } from '../../components/CardContainer';
 import { SwapFormKey } from '../../providers/SwapFormProvider';
+import { Input } from './SearchTokenInput.style';
 
 export const SearchTokenInput = () => {
   const { t } = useTranslation();
@@ -18,22 +19,33 @@ export const SearchTokenInput = () => {
   );
 
   return (
-    <FormControl fullWidth>
-      <Input
-        size="small"
-        placeholder={t(`swap.tokenSearch`)}
-        defaultValue=""
-        endAdornment={
-          <InputAdornment position="end">
-            <SearchIcon />
-          </InputAdornment>
-        }
-        inputProps={{
-          inputMode: 'search',
-          ...register(SwapFormKey.SearchTokensFilter),
-        }}
-        autoComplete="off"
-      />
-    </FormControl>
+    <CardContainer>
+      <Typography
+        variant="body2"
+        fontWeight="bold"
+        lineHeight={1}
+        px={2}
+        pt={2}
+      >
+        {t(`swap.selectToken`)}
+      </Typography>
+      <FormControl fullWidth>
+        <Input
+          size="small"
+          placeholder={t(`swap.tokenSearch`)}
+          defaultValue=""
+          endAdornment={
+            <InputAdornment position="end">
+              <SearchIcon />
+            </InputAdornment>
+          }
+          inputProps={{
+            inputMode: 'search',
+            ...register(SwapFormKey.SearchTokensFilter),
+          }}
+          autoComplete="off"
+        />
+      </FormControl>
+    </CardContainer>
   );
 };

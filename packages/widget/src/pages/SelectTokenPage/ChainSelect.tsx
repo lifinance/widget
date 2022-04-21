@@ -1,3 +1,4 @@
+import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material';
 import {
   Avatar,
   FormControl,
@@ -5,23 +6,26 @@ import {
   MenuItem,
   SelectChangeEvent,
   Skeleton,
+  Typography,
 } from '@mui/material';
 import { useFormContext, useWatch } from 'react-hook-form';
-import { Select } from '../../components/Select';
+import { useTranslation } from 'react-i18next';
+import { CardContainer } from '../../components/CardContainer';
 import { useChains } from '../../hooks/useChains';
 import {
-  SwapFormKey,
   SwapFormKeyHelper,
   SwapFormTypeProps,
 } from '../../providers/SwapFormProvider';
 import { useWidgetConfig } from '../../providers/WidgetProvider';
+import { Select } from './ChainSelect.style';
 
 export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
+  const { t } = useTranslation();
   const { setValue } = useFormContext();
   const { fromChain, toChain } = useWidgetConfig();
   const { chains, isLoading } = useChains();
-  const [fromChainId, toChainId] = useWatch({
-    name: [SwapFormKey.FromChain, SwapFormKey.ToChain],
+  const [chainId] = useWatch({
+    name: [SwapFormKeyHelper.getChainKey(formType)],
   });
 
   const handleChain = (event: SelectChangeEvent<unknown>) => {
@@ -30,56 +34,50 @@ export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
     setValue(SwapFormKeyHelper.getAmountKey(formType), '');
   };
 
-  const menuItems = chains?.map((chain) => (
-    <MenuItem key={chain.key} value={chain.id}>
-      <ListItemIcon>
-        <Avatar
-          src={chain.logoURI}
-          alt={chain.key}
-          sx={{ width: 24, height: 24 }}
-        >
-          {chain.name[0]}
-        </Avatar>
-      </ListItemIcon>
-      {chain.name}
-    </MenuItem>
-  ));
-
   return !isLoading ? (
-    <>
-      <FormControl
-        fullWidth
-        sx={{ display: formType === 'from' ? 'inline-flex' : 'none' }}
+    <CardContainer>
+      <Typography
+        variant="body2"
+        fontWeight="bold"
+        lineHeight={1}
+        px={2}
+        pt={2}
       >
+        {t(`swap.selectChain`)}
+      </Typography>
+      <FormControl fullWidth>
         <Select
+          labelId="label"
           MenuProps={{ elevation: 2 }}
-          defaultValue={fromChain}
-          value={fromChainId}
+          inputProps={{ notched: false }}
+          defaultValue={formType === 'from' ? fromChain : toChain}
+          value={chainId}
           onChange={handleChain}
+          IconComponent={KeyboardArrowDownIcon}
         >
-          {menuItems}
+          {chains?.map((chain) => (
+            <MenuItem key={chain.key} value={chain.id}>
+              <ListItemIcon>
+                <Avatar
+                  src={chain.logoURI}
+                  alt={chain.key}
+                  sx={{ width: 24, height: 24 }}
+                >
+                  {chain.name[0]}
+                </Avatar>
+              </ListItemIcon>
+              {chain.name}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
-      <FormControl
-        fullWidth
-        sx={{ display: formType === 'to' ? 'inline-flex' : 'none' }}
-      >
-        <Select
-          MenuProps={{ elevation: 2 }}
-          defaultValue={toChain}
-          value={toChainId}
-          onChange={handleChain}
-        >
-          {menuItems}
-        </Select>
-      </FormControl>
-    </>
+    </CardContainer>
   ) : (
     <Skeleton
       variant="rectangular"
       width="100%"
-      height={45}
-      sx={{ borderRadius: 1 }}
+      height={89}
+      sx={{ borderRadius: 1.5 }}
     />
   );
 };
