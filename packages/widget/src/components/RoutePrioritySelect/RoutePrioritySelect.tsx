@@ -27,7 +27,7 @@ export const RoutePrioritySelect: React.FC<{ fullWidth?: boolean }> = ({
         <Typography
           lineHeight="normal"
           variant="subtitle1"
-          color="text.primary"
+          color="text.secondary"
           ml={1}
         >
           {t(`settings.routePriority.title`)}
