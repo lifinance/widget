@@ -7,7 +7,7 @@ import { SlippageInput } from './SlippageInput';
 export const SettingsPage = () => {
   return (
     <Container disableGutters>
-      <Box px={3} pt={2} pb={3}>
+      <Box px={3} pt={1} pb={3}>
         <RoutePrioritySelect fullWidth />
         <Box sx={{ display: 'flex', alignItems: 'center' }} mt={3}>
           <Box pr={2}>

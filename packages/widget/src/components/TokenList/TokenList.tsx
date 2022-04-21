@@ -54,7 +54,7 @@ export const TokenList: FC<TokenListProps> = ({
     size: chainTokens.length,
     parentRef,
     overscan: 3,
-    paddingEnd: 8,
+    paddingEnd: 12,
     estimateSize: useCallback(() => 60, []),
     keyExtractor: (index) => chainTokens[index].address ?? index,
   });
