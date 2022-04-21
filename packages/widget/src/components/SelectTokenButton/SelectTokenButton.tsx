@@ -1,5 +1,5 @@
 import { KeyboardArrowRight as KeyboardArrowRightIcon } from '@mui/icons-material';
-import { Avatar, CardHeader, Typography } from '@mui/material';
+import { Avatar, Typography } from '@mui/material';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -10,8 +10,7 @@ import {
 } from '../../providers/SwapFormProvider';
 import { routes } from '../../utils/routes';
 import { CardContainer } from '../CardContainer';
-import { SwapInput } from '../SwapInput';
-import { Card } from './SelectTokenButton.style';
+import { Card, CardHeader } from './SelectTokenButton.style';
 
 export const SelectTokenButton: React.FC<SwapFormTypeProps> = ({
   formType,
@@ -31,12 +30,18 @@ export const SelectTokenButton: React.FC<SwapFormTypeProps> = ({
     navigate(formType === 'from' ? routes.fromToken : routes.toToken);
   };
 
-  const isSelected = chain && token;
+  const isSelected = !!(chain && token);
 
   return (
     <CardContainer>
       <Card onClick={handleClick} elevation={0}>
-        <Typography variant="body2" fontWeight="bold" pt={2} px={2}>
+        <Typography
+          variant="body2"
+          fontWeight="bold"
+          lineHeight={1}
+          pt={2}
+          px={2}
+        >
           {t(`swap.${formType}`)}
         </Typography>
         <CardHeader
@@ -50,19 +55,12 @@ export const SelectTokenButton: React.FC<SwapFormTypeProps> = ({
           action={<KeyboardArrowRightIcon />}
           title={isSelected ? token.symbol : t(`swap.selectChainAndToken`)}
           subheader={isSelected ? `on ${chain.name}` : null}
-          titleTypographyProps={
-            !isSelected
-              ? {
-                  variant: 'body1',
-                  color: isSelected ? 'text.primary' : 'text.secondary',
-                }
-              : undefined
-          }
+          selected={isSelected}
         />
       </Card>
-      {isSelected && formType === 'from' ? (
+      {/* {isSelected && formType === 'from' ? (
         <SwapInput formType={formType} />
-      ) : null}
+      ) : null} */}
     </CardContainer>
   );
 };
