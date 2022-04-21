@@ -1,12 +1,14 @@
-import { FormControl, Typography } from '@mui/material';
+import { Avatar, FormControl, Typography } from '@mui/material';
 import { ChangeEvent } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useChain, useToken } from '../../hooks';
 import {
   SwapFormKeyHelper,
   SwapFormTypeProps,
 } from '../../providers/SwapFormProvider';
 import { formatAmount } from '../../utils/format';
+import { CardContainer } from '../CardContainer';
 import { SwapInputAdornment } from '../SwapInputAdornment';
 import { Input } from './SwapInput.style';
 
@@ -14,9 +16,17 @@ export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
   const { t } = useTranslation();
   const { setValue } = useFormContext();
   const amountKey = SwapFormKeyHelper.getAmountKey(formType);
-  const value = useWatch({
-    name: amountKey,
+  const [amount, chainId, tokenAddress] = useWatch({
+    name: [
+      amountKey,
+      SwapFormKeyHelper.getChainKey(formType),
+      SwapFormKeyHelper.getTokenKey(formType),
+    ],
   });
+
+  const { chain } = useChain(chainId);
+  const { token } = useToken(chainId, tokenAddress);
+  const isSelected = !!(chain && token);
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -33,25 +43,44 @@ export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
   };
 
   return (
-    <FormControl fullWidth>
-      <Typography variant="body2" fontWeight="bold" px={2}>
+    <CardContainer>
+      <Typography
+        variant="body2"
+        fontWeight="bold"
+        lineHeight={1}
+        px={2}
+        pt={2}
+      >
         {t('swap.amount')}
       </Typography>
-      <Input
-        size="small"
-        autoComplete="off"
-        placeholder="0"
-        endAdornment={<SwapInputAdornment formType={formType} />}
-        inputProps={{
-          inputMode: 'decimal',
-        }}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        value={value}
-        name={amountKey}
-        required
-      />
-      {/* <FormHelperText id="swap-from-helper-text">Text</FormHelperText> */}
-    </FormControl>
+      <FormControl fullWidth>
+        <Input
+          size="small"
+          autoComplete="off"
+          placeholder="0"
+          startAdornment={
+            isSelected ? (
+              <Avatar
+                src={token.logoURI}
+                alt={token.symbol}
+                sx={{ width: 32, height: 32, marginLeft: 2 }}
+              >
+                {token.symbol[0]}
+              </Avatar>
+            ) : null
+          }
+          endAdornment={<SwapInputAdornment formType={formType} />}
+          inputProps={{
+            inputMode: 'decimal',
+          }}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={amount}
+          name={amountKey}
+          required
+        />
+        {/* <FormHelperText id="swap-from-helper-text">Text</FormHelperText> */}
+      </FormControl>
+    </CardContainer>
   );
 };
