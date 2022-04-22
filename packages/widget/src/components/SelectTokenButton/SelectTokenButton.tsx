@@ -9,8 +9,8 @@ import {
   SwapFormTypeProps,
 } from '../../providers/SwapFormProvider';
 import { routes } from '../../utils/routes';
-import { CardContainer } from '../CardContainer';
-import { Card, CardHeader } from './SelectTokenButton.style';
+import { CardContainer } from '../Card/CardContainer';
+import { Card, SelectTokenCardHeader } from './SelectTokenButton.style';
 
 export const SelectTokenButton: React.FC<SwapFormTypeProps> = ({
   formType,
@@ -44,7 +44,7 @@ export const SelectTokenButton: React.FC<SwapFormTypeProps> = ({
         >
           {t(`swap.${formType}`)}
         </Typography>
-        <CardHeader
+        <SelectTokenCardHeader
           avatar={
             isSelected ? (
               <Avatar src={token.logoURI} alt={token.symbol}>

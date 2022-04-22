@@ -7,9 +7,10 @@ import { styled } from '@mui/material/styles';
 
 export const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
-  paddingLeft: theme.spacing(1.5),
+  paddingLeft: theme.spacing(2),
+  height: 64,
   '&:hover': {
-    backgroundColor: 'rgba(0, 0, 0, 0.02)',
+    backgroundColor: 'rgba(0, 0, 0, 0.04)',
   },
 }));
 
@@ -18,8 +19,8 @@ export const ListItem = styled(MuiListItem)(({ theme }) => ({
   top: 0,
   left: 0,
   width: '100%',
-  padding: theme.spacing(1.5),
+  padding: theme.spacing(0.5, 3),
   [`& .${listItemSecondaryActionClasses.root}`]: {
-    right: theme.spacing(3),
+    right: theme.spacing(5),
   },
 }));

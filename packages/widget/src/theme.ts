@@ -40,8 +40,40 @@ export const theme = createTheme({
     },
   },
   shape: {
-    borderRadius: 6
-  }
+    borderRadius: 6,
+  },
+  components: {
+    MuiAvatar: {
+      styleOverrides: {
+        root: {
+          height: 32,
+          width: 32,
+        },
+      },
+    },
+    MuiListItemAvatar: {
+      styleOverrides: {
+        root: {
+          minWidth: 48,
+        },
+      },
+    },
+    MuiListItemText: {
+      styleOverrides: {
+        primary: ({ theme }) => ({
+          fontWeight: '500',
+          fontSize: '1.125rem',
+          lineHeight: '1.2778',
+          color: theme.palette.text.primary,
+        }),
+        secondary: ({ theme }) => ({
+          fontWeight: '400',
+          fontSize: '0.75rem',
+          color: theme.palette.text.secondary,
+        }),
+      },
+    },
+  },
   // components: {
   //   MuiPopover: {
   //     styleOverrides: {

@@ -56,13 +56,13 @@ export const TokenListItemSkeleton: React.FC<TokenListItemBaseProps> = ({
       <ListItemAvatar>
         <Skeleton
           variant="circular"
-          width={40}
-          height={40}
-          sx={{ marginLeft: 1.5, marginRight: 2 }}
+          width={32}
+          height={32}
+          sx={{ marginLeft: 2, marginRight: 2 }}
         />
       </ListItemAvatar>
       <ListItemText
-        primary={<Skeleton variant="text" width={32} height={20} />}
+        primary={<Skeleton variant="text" width={48} height={20} />}
         secondary={<Skeleton variant="text" width={128} height={20} />}
       />
     </ListItem>

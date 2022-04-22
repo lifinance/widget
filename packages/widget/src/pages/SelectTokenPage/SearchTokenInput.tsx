@@ -1,9 +1,9 @@
 import { Search as SearchIcon } from '@mui/icons-material';
-import { FormControl, InputAdornment, Typography } from '@mui/material';
+import { FormControl, InputAdornment } from '@mui/material';
 import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { CardContainer } from '../../components/CardContainer';
+import { CardContainer } from '../../components/Card';
 import { SwapFormKey } from '../../providers/SwapFormProvider';
 import { Input } from './SearchTokenInput.style';
 
@@ -20,15 +20,6 @@ export const SearchTokenInput = () => {
 
   return (
     <CardContainer>
-      <Typography
-        variant="body2"
-        fontWeight="bold"
-        lineHeight={1}
-        px={2}
-        pt={2}
-      >
-        {t(`swap.selectToken`)}
-      </Typography>
       <FormControl fullWidth>
         <Input
           size="small"

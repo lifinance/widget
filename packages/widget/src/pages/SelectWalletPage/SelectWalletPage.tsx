@@ -7,12 +7,11 @@ import {
   ListItemText,
   Popover,
 } from '@mui/material';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useWallet } from '../../providers/WalletProvider';
 import {
   WalletIdentityPopoverContent,
-  WalletListItem,
   WalletListItemButton,
 } from './SelectWalletPage.style';
 
@@ -54,30 +53,28 @@ export const SelectWalletPage = () => {
     ? 'identity-popover'
     : undefined;
 
-  const wallets = useMemo(
-    () =>
-      supportedWallets.map((wallet: Wallet) => {
-        return (
-          <WalletListItem
-            key={wallet.name}
-            onClick={(event) => handleConnect(event, wallet)}
-          >
-            <WalletListItemButton>
-              <ListItemAvatar>
-                <Avatar src={wallet.icon} alt={wallet.name} />
-              </ListItemAvatar>
-              <ListItemText primary={wallet.name} />
-            </WalletListItemButton>
-          </WalletListItem>
-        );
-      }),
-    [handleConnect],
-  );
-
   return (
     <Container disableGutters>
-      <List sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-        {wallets}
+      <List
+        sx={{
+          paddingLeft: 2,
+          paddingRight: 2,
+        }}
+      >
+        {supportedWallets.map((wallet: Wallet) => (
+          <WalletListItemButton
+            key={wallet.name}
+            onClick={(event) => handleConnect(event, wallet)}
+            disableRipple
+          >
+            <ListItemAvatar>
+              <Avatar src={wallet.icon} alt={wallet.name}>
+                {wallet.name[0]}
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={wallet.name} />
+          </WalletListItemButton>
+        ))}
       </List>
       <Popover
         id={popoverId}

@@ -2,7 +2,7 @@ import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material'
 import {
   Avatar,
   FormControl,
-  ListItemIcon,
+  ListItemAvatar,
   MenuItem,
   SelectChangeEvent,
   Skeleton,
@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { CardContainer } from '../../components/CardContainer';
+import { CardContainer } from '../../components/Card';
 import { useChains } from '../../hooks/useChains';
 import {
   SwapFormKeyHelper,
@@ -56,15 +56,11 @@ export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
         >
           {chains?.map((chain) => (
             <MenuItem key={chain.key} value={chain.id}>
-              <ListItemIcon>
-                <Avatar
-                  src={chain.logoURI}
-                  alt={chain.key}
-                  sx={{ width: 24, height: 24 }}
-                >
+              <ListItemAvatar>
+                <Avatar src={chain.logoURI} alt={chain.key}>
                   {chain.name[0]}
                 </Avatar>
-              </ListItemIcon>
+              </ListItemAvatar>
               {chain.name}
             </MenuItem>
           ))}

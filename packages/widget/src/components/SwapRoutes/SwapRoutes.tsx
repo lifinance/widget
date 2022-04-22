@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSwapRoutes } from '../../hooks';
 import { formatTokenAmount } from '../../utils/format';
 import { routes } from '../../utils/routes';
-import { CardContainer } from '../CardContainer';
+import { CardContainer } from '../Card';
 import { SwapRouteCard } from '../SwapRouteCard';
 import { Stack } from './SwapRoutes.style';
 

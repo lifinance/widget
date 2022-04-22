@@ -8,7 +8,7 @@ import {
   SwapFormTypeProps,
 } from '../../providers/SwapFormProvider';
 import { formatAmount } from '../../utils/format';
-import { CardContainer } from '../CardContainer';
+import { CardContainer } from '../Card';
 import { SwapInputAdornment } from '../SwapInputAdornment';
 import { Input } from './SwapInput.style';
 
@@ -63,7 +63,7 @@ export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
               <Avatar
                 src={token.logoURI}
                 alt={token.symbol}
-                sx={{ width: 32, height: 32, marginLeft: 2 }}
+                sx={{ marginLeft: 2 }}
               >
                 {token.symbol[0]}
               </Avatar>

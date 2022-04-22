@@ -34,14 +34,14 @@ export const SelectTokenPage: FC<{ formType: SwapFormDirection }> = ({
 
   return (
     <Container disableGutters>
-      <Box py={1} px={3}>
+      <Box pt={1} pb={2} px={3}>
         <ChainSelect formType={formType} />
         <Box mt={2}>
           <SearchTokenInput />
         </Box>
       </Box>
       <TokenList
-        height={contentHeight - 208}
+        height={contentHeight - 184}
         onClick={handleTokenClick}
         formType={formType}
       />
