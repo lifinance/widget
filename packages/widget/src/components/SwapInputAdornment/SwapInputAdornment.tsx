@@ -41,32 +41,30 @@ export const SwapInputAdornment: React.FC<SwapFormTypeProps> = ({
 
   return (
     <InputAdornment position="end">
-      {isLoading ? (
-        <Skeleton
-          variant="rectangular"
-          width={100}
-          height={24}
-          sx={{ borderRadius: 1 }}
-        />
-      ) : (
-        <>
-          {formType === 'from' && token && amount ? (
-            <SwapMaxAmountTypography
-              onClick={handleMax}
-              role="button"
-              sx={{
-                userSelect: 'none',
-              }}
-              data-amount={tokenWithBalance?.amount}
-            >
-              {t(`swap.maxAmount`, {
-                amount,
-              })}
-            </SwapMaxAmountTypography>
-          ) : null}
-          {/* <SwapPrice price={tokenWithBalance?.priceUSD} formType={formType} /> */}
-        </>
-      )}
+      {
+        isLoading ? (
+          <Skeleton
+            variant="rectangular"
+            width={96}
+            height={24}
+            sx={{ borderRadius: 1 }}
+          />
+        ) : formType === 'from' && token && amount ? (
+          <SwapMaxAmountTypography
+            onClick={handleMax}
+            role="button"
+            sx={{
+              userSelect: 'none',
+            }}
+            data-amount={tokenWithBalance?.amount}
+          >
+            {t(`swap.maxAmount`, {
+              amount,
+            })}
+          </SwapMaxAmountTypography>
+        ) : null
+        /* <SwapPrice price={tokenWithBalance?.priceUSD} formType={formType} /> */
+      }
     </InputAdornment>
   );
 };
