@@ -42,32 +42,10 @@ export const AdvancedPreferences = () => {
       </Box>
       {advancedPreferences && (
         <Box mt={3} mb={1}>
-          {/* <Box sx={{ display: 'flex', alignItems: 'center' }} mb={1}>
-            <HelpOutlineIcon sx={{ color: 'grey.500' }} />
-            <Typography
-              variant="subtitle1"
-              color="text.secondary"
-              lineHeight="normal"
-              ml={1}
-            >
-              {t(`settings.bridgePrioritization`)}
-            </Typography>
-          </Box>
-          <FormControl fullWidth>
-            <Select
-              defaultValue={1}
-              MenuProps={{ elevation: 2 }}
-              inputProps={{
-                ...register(SwapFormKey.BridgePrioritization),
-              }}
-            >
-              <MenuItem value={1}>
-                {t(`settings.routePriority.recommended`)}
-              </MenuItem>
-            </Select>
-          </FormControl> */}
           <EnabledBridgesSelect />
-          <EnabledExchangesSelect />
+          <Box mt={2}>
+            <EnabledExchangesSelect />
+          </Box>
         </Box>
       )}
     </Box>

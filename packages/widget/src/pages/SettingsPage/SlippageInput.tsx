@@ -1,8 +1,8 @@
-import { HelpOutline as HelpOutlineIcon } from '@mui/icons-material';
-import { Box, FormControl, InputAdornment, Typography } from '@mui/material';
+import { FormControl, InputAdornment } from '@mui/material';
 import { ChangeEvent, useRef } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { CardContainer, CardTitle } from '../../components/Card';
 import { Input } from '../../components/Input';
 import { SwapFormKey } from '../../providers/SwapFormProvider';
 import { formatSlippage } from '../../utils/format';
@@ -33,17 +33,8 @@ export const SlippageInput = () => {
   };
 
   return (
-    <>
-      <Box sx={{ display: 'flex', alignItems: 'center' }} mb={1}>
-        <HelpOutlineIcon sx={{ color: 'grey.500', paddingRight: 1 }} />
-        <Typography
-          variant="subtitle1"
-          color="text.secondary"
-          lineHeight="normal"
-        >
-          {t(`settings.slippage`)}
-        </Typography>
-      </Box>
+    <CardContainer>
+      <CardTitle>{t(`settings.slippage`)}</CardTitle>
       <FormControl fullWidth>
         <Input
           size="small"
@@ -59,6 +50,6 @@ export const SlippageInput = () => {
           name={SwapFormKey.Slippage}
         />
       </FormControl>
-    </>
+    </CardContainer>
   );
 };

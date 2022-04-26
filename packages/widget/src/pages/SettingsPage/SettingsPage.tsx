@@ -1,22 +1,21 @@
-import { Box, Container, Divider } from '@mui/material';
-import { RoutePrioritySelect } from '../../components/RoutePrioritySelect';
+import { Box, Container } from '@mui/material';
 import { AdvancedPreferences } from './AdvancedPreferences';
-import { GasPriceButtonGroup } from './GasPriceButtonGroup';
+import { GasPriceSelect } from './GasPriceSelect';
+import { RoutePrioritySelect } from './RoutePrioritySelect';
 import { SlippageInput } from './SlippageInput';
 
 export const SettingsPage = () => {
   return (
     <Container disableGutters>
-      <Box px={3} pt={1} pb={3}>
-        <RoutePrioritySelect fullWidth />
-        <Box sx={{ display: 'flex', alignItems: 'center' }} mt={3}>
+      <Box px={3} pt={1}>
+        <RoutePrioritySelect />
+        <Box sx={{ display: 'flex', alignItems: 'center' }} mt={2}>
           <Box pr={2}>
             <SlippageInput />
           </Box>
-          <GasPriceButtonGroup />
+          <GasPriceSelect />
         </Box>
       </Box>
-      <Divider light />
       <AdvancedPreferences />
     </Container>
   );
