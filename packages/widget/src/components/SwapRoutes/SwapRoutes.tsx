@@ -1,12 +1,12 @@
 /* eslint-disable react/no-array-index-key */
 import { KeyboardArrowRight as KeyboardArrowRightIcon } from '@mui/icons-material';
-import { Box, BoxProps, IconButton, Skeleton, Typography } from '@mui/material';
+import { Box, BoxProps, IconButton, Skeleton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useSwapRoutes } from '../../hooks';
 import { formatTokenAmount } from '../../utils/format';
 import { routes } from '../../utils/routes';
-import { CardContainer } from '../Card';
+import { CardContainer, CardTitle } from '../Card';
 import { SwapRouteCard } from '../SwapRouteCard';
 import { Stack } from './SwapRoutes.style';
 
@@ -25,9 +25,7 @@ export const SwapRoutes: React.FC<BoxProps> = ({ mb }) => {
 
   return (
     <CardContainer mb={mb}>
-      <Typography variant="body2" fontWeight="bold" pl={2} pt={2}>
-        {t('swap.routes')}
-      </Typography>
+      <CardTitle>{t('swap.routes')}</CardTitle>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <Stack direction="row" spacing={2}>
           {isLoading

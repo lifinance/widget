@@ -6,18 +6,17 @@ import {
   MenuItem,
   SelectChangeEvent,
   Skeleton,
-  Typography,
 } from '@mui/material';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { CardContainer } from '../../components/Card';
+import { CardContainer, CardTitle } from '../../components/Card';
+import { Select } from '../../components/Select';
 import { useChains } from '../../hooks/useChains';
 import {
   SwapFormKeyHelper,
   SwapFormTypeProps,
 } from '../../providers/SwapFormProvider';
 import { useWidgetConfig } from '../../providers/WidgetProvider';
-import { Select } from './ChainSelect.style';
 
 export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
   const { t } = useTranslation();
@@ -36,15 +35,7 @@ export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
 
   return !isLoading ? (
     <CardContainer>
-      <Typography
-        variant="body2"
-        fontWeight="bold"
-        lineHeight={1}
-        px={2}
-        pt={2}
-      >
-        {t(`swap.selectChain`)}
-      </Typography>
+      <CardTitle>{t(`swap.selectChain`)}</CardTitle>
       <FormControl fullWidth>
         <Select
           labelId="label"

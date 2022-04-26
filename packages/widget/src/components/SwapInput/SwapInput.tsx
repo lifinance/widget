@@ -1,4 +1,4 @@
-import { Avatar, FormControl, Typography } from '@mui/material';
+import { Avatar, FormControl } from '@mui/material';
 import { ChangeEvent } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +8,7 @@ import {
   SwapFormTypeProps,
 } from '../../providers/SwapFormProvider';
 import { formatAmount } from '../../utils/format';
-import { CardContainer } from '../Card';
+import { CardContainer, CardTitle } from '../Card';
 import { SwapInputAdornment } from '../SwapInputAdornment';
 import { Input } from './SwapInput.style';
 
@@ -44,15 +44,7 @@ export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
 
   return (
     <CardContainer>
-      <Typography
-        variant="body2"
-        fontWeight="bold"
-        lineHeight={1}
-        px={2}
-        pt={2}
-      >
-        {t('swap.amount')}
-      </Typography>
+      <CardTitle>{t('swap.amount')}</CardTitle>
       <FormControl fullWidth>
         <Input
           size="small"

@@ -1,9 +1,10 @@
 import { Box } from '@mui/material';
-import { styled } from '@mui/system';
+import { styled } from '@mui/material/styles';
 
 export const CardContainer = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.common.white,
   border: `1px solid ${theme.palette.grey[300]}`,
   borderRadius: (theme.shape.borderRadius as number) * 2,
   overflow: 'hidden',
+  flex: 1,
 }));

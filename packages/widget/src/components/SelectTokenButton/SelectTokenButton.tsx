@@ -1,5 +1,5 @@
 import { KeyboardArrowRight as KeyboardArrowRightIcon } from '@mui/icons-material';
-import { Avatar, Typography } from '@mui/material';
+import { Avatar } from '@mui/material';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +9,7 @@ import {
   SwapFormTypeProps,
 } from '../../providers/SwapFormProvider';
 import { routes } from '../../utils/routes';
+import { CardTitle } from '../Card';
 import { CardContainer } from '../Card/CardContainer';
 import { Card, SelectTokenCardHeader } from './SelectTokenButton.style';
 
@@ -35,15 +36,7 @@ export const SelectTokenButton: React.FC<SwapFormTypeProps> = ({
   return (
     <CardContainer>
       <Card onClick={handleClick} elevation={0}>
-        <Typography
-          variant="body2"
-          fontWeight="bold"
-          lineHeight={1}
-          pt={2}
-          px={2}
-        >
-          {t(`swap.${formType}`)}
-        </Typography>
+        <CardTitle>{t(`swap.${formType}`)}</CardTitle>
         <SelectTokenCardHeader
           avatar={
             isSelected ? (
