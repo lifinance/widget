@@ -43,9 +43,7 @@ export const SwapButton: React.FC = () => {
       await switchChain(chainId!);
     } else if (swapRoutes?.length) {
       executeRoute(swapRoutes[0]);
-      navigate(routes.transaction, {
-        replace: true,
-      });
+      navigate(routes.swapping);
     }
   };
 
