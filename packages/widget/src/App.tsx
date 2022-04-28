@@ -10,8 +10,8 @@ import { SelectTokenPage } from './pages/SelectTokenPage';
 import { SelectWalletPage } from './pages/SelectWalletPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { SwapPage } from './pages/SwapPage';
+import { SwappingPage } from './pages/SwappingPage';
 import { SwapRoutesPage } from './pages/SwapRoutesPage';
-import { TransactionPage } from './pages/TransactionPage';
 import { SwapExecutionProvider } from './providers/SwapExecutionProvider';
 import { SwapFormProvider } from './providers/SwapFormProvider';
 import { WalletProvider } from './providers/WalletProvider';
@@ -61,8 +61,8 @@ export const App: React.FC<AppProps> = ({ config }) => {
                         element={<SwapRoutesPage />}
                       />
                       <Route
-                        path={routes.transaction}
-                        element={<TransactionPage />}
+                        path={routes.swapping}
+                        element={<SwappingPage />}
                       />
                     </Routes>
                   </SwapExecutionProvider>

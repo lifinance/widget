@@ -2,13 +2,13 @@
   "header": {
     "walletConnected": "Wallet connected",
     "connectWallet": "Connect wallet",
+    "selectWallet": "Select your wallet",
     "swap": "Swap",
     "from": "Swap from",
     "to": "Swap to",
     "settings": "Settings",
-    "wouldLikeToSwap": "I'd like to swap",
-    "processIsOn": "Process is on...",
-    "selectWallet": "Select your wallet"
+    "routes": "Routes",
+    "swapping": "Swapping"
   },
   "swap": {
     "from": "From",

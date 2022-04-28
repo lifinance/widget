@@ -14,7 +14,7 @@ const backButtonRoutes = [
   routes.fromToken,
   routes.toToken,
   routes.swapRoutes,
-  routes.transaction,
+  routes.swapping,
 ];
 
 export const NavigationHeader: React.FC = () => {
@@ -41,9 +41,9 @@ export const NavigationHeader: React.FC = () => {
       case routes.toToken:
         return t(`header.to`);
       case routes.swapRoutes:
-        return t(`swap.routes`);
-      case routes.transaction:
-        return t(`header.processIsOn`);
+        return t(`header.routes`);
+      case routes.swapping:
+        return t(`header.swapping`);
       default:
         return t(`header.swap`);
     }
