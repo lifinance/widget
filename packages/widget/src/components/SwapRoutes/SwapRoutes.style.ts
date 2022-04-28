@@ -5,7 +5,6 @@ export const Stack = styled(MuiStack)(({ theme }) => ({
   alignItems: 'stretch',
   display: 'flex',
   flex: 1,
-  flexDirection: 'row',
   flexWrap: 'nowrap',
   overflow: 'hidden',
   padding: theme.spacing(2),

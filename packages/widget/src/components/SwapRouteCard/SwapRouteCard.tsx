@@ -28,7 +28,6 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
         <Box
           sx={{
             display: 'flex',
-            flexDirection: 'row',
             justifyContent: 'space-between',
           }}
         >
@@ -44,7 +43,7 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
             <Typography fontSize={18} fontWeight="500">
               ~{time}
             </Typography>
-            <Typography fontSize={12} color="text.secondary">
+            <Typography fontSize={12} color="text.secondary" textAlign="end">
               {t(`swap.minutes`)}
             </Typography>
           </Box>
