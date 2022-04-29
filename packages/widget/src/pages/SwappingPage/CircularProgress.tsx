@@ -5,12 +5,9 @@ import {
   PriorityHigh as PriorityHighIcon,
 } from '@mui/icons-material';
 import { Box, CircularProgress as MuiCircularProgress } from '@mui/material';
-import { CircularProgressProps } from '@mui/material/CircularProgress';
+import { CircularProgress as CircularProgressStyled } from './CircularProgress.style';
 
-export function CircularProgress({
-  status,
-  ...props
-}: { status: Status } & CircularProgressProps) {
+export function CircularProgress({ status }: { status: Status }) {
   return (
     <Box
       sx={{
@@ -26,20 +23,11 @@ export function CircularProgress({
             theme.palette.grey[theme.palette.mode === 'light' ? 300 : 800],
         }}
         size={32}
-        thickness={5}
+        thickness={4}
         value={100}
-        {...props}
       />
       {status === 'PENDING' ? (
-        <MuiCircularProgress
-          color="primary"
-          sx={{
-            position: 'absolute',
-            left: 0,
-          }}
-          size={32}
-          thickness={5}
-        />
+        <CircularProgressStyled color="primary" size={32} thickness={4} />
       ) : null}
       {status === 'ACTION_REQUIRED' ? (
         <PriorityHighIcon
