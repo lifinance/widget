@@ -12,18 +12,18 @@ export const Select = styled(MuiSelect, {
     theme.palette.mode === 'light'
       ? theme.palette.common.white
       : theme.palette.grey[900],
-  [`& .${inputBaseClasses.input}`]: {
+  [`.${inputBaseClasses.input}`]: {
     padding: dense ? theme.spacing(1.625, 2, 1.5, 2) : theme.spacing(2),
     display: 'flex',
     alignItems: 'center',
   },
-  [`& .${selectClasses.icon}`]: {
+  [`.${selectClasses.icon}`]: {
     right: 10,
   },
-  [`& .${listItemIconClasses.root}`]: {
+  [`.${listItemIconClasses.root}`]: {
     minWidth: 38,
   },
-  [`& .${outlinedInputClasses.notchedOutline}`]: {
+  [`.${outlinedInputClasses.notchedOutline}`]: {
     display: 'none',
   },
 }));

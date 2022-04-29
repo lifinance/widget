@@ -20,7 +20,7 @@ export const ListItem = styled(MuiListItem)(({ theme }) => ({
   left: 0,
   width: '100%',
   padding: theme.spacing(0.5, 3),
-  [`& .${listItemSecondaryActionClasses.root}`]: {
+  [`.${listItemSecondaryActionClasses.root}`]: {
     right: theme.spacing(5),
   },
 }));

@@ -8,7 +8,7 @@ export const Input = styled(InputBase)(({ theme }) => ({
       ? theme.palette.common.white
       : theme.palette.grey[900],
   paddingRight: theme.spacing(2),
-  [`& .${inputBaseClasses.input}`]: {
+  [`.${inputBaseClasses.input}`]: {
     padding: theme.spacing(1.5, 1, 1.5, 2),
     height: '1.5em',
   },

@@ -13,7 +13,7 @@ export const Card = styled(MuiCard)(({ theme }) => ({
 export const SelectTokenCardHeader = styled(CardHeader, {
   shouldForwardProp: (prop) => prop !== 'selected',
 })<{ selected?: boolean }>(({ theme, selected }) => ({
-  [`& .${cardHeaderClasses.title}`]: {
+  [`.${cardHeaderClasses.title}`]: {
     color: selected ? theme.palette.text.primary : theme.palette.text.secondary,
   },
 }));

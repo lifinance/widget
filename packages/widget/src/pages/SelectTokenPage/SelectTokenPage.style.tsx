@@ -14,15 +14,15 @@ export const TokenFilterSelect = styled(MuiSelect)(({ theme }) => ({
   '&:focus': {
     outline: 'none',
   },
-  [`& .${inputBaseClasses.input}`]: {
+  [`.${inputBaseClasses.input}`]: {
     padding: theme.spacing(0.5, 1.5),
     display: 'flex',
     alignItems: 'center',
   },
-  [`& .${listItemIconClasses.root}`]: {
+  [`.${listItemIconClasses.root}`]: {
     minWidth: 38,
   },
-  [`& .${outlinedInputClasses.notchedOutline}`]: {
+  [`.${outlinedInputClasses.notchedOutline}`]: {
     display: 'none',
   },
 }));

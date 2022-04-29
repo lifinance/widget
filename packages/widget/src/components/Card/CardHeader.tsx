@@ -4,17 +4,17 @@ import { styled } from '@mui/material/styles';
 
 export const CardHeader = styled(MuiCardHeader)(({ theme }) => ({
   height: '32px',
-  [`& .${cardHeaderClasses.action}`]: {
+  [`.${cardHeaderClasses.action}`]: {
     marginTop: -2,
     alignSelf: 'center',
   },
-  [`& .${cardHeaderClasses.title}`]: {
+  [`.${cardHeaderClasses.title}`]: {
     fontWeight: '500',
     fontSize: '1.125rem',
     lineHeight: '1.2778',
     color: theme.palette.text.primary,
   },
-  [`& .${cardHeaderClasses.subheader}`]: {
+  [`.${cardHeaderClasses.subheader}`]: {
     fontWeight: '400',
     fontSize: '0.75rem',
     color: theme.palette.text.secondary,

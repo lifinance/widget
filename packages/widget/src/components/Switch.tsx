@@ -6,7 +6,7 @@ export const Switch = styled(MuiSwitch)(({ theme }) => ({
   width: 42,
   height: 24,
   padding: 0,
-  [`& .${switchClasses.switchBase}`]: {
+  [`.${switchClasses.switchBase}`]: {
     padding: 0,
     margin: theme.spacing(0.25),
     transitionDuration: theme.transitions.duration.standard,
@@ -37,12 +37,12 @@ export const Switch = styled(MuiSwitch)(({ theme }) => ({
       opacity: theme.palette.mode === 'light' ? 0.7 : 0.3,
     },
   },
-  [`& .${switchClasses.thumb}`]: {
+  [`.${switchClasses.thumb}`]: {
     boxSizing: 'border-box',
     width: 20,
     height: 20,
   },
-  [`& .${switchClasses.track}`]: {
+  [`.${switchClasses.track}`]: {
     borderRadius: 24 / 2,
     backgroundColor:
       theme.palette.mode === 'light'

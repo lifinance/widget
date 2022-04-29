@@ -6,7 +6,7 @@ export const Input = styled(InputBase)(({ theme }) => ({
   fontSize: 24,
   fontWeight: 'bold',
   padding: theme.spacing(2, 2, 2, 0),
-  [`& .${inputBaseClasses.input}`]: {
+  [`.${inputBaseClasses.input}`]: {
     height: 32,
     padding: theme.spacing(0, 0, 0, 2),
   },
@@ -21,7 +21,7 @@ export const Input = styled(InputBase)(({ theme }) => ({
   [`&.${inputBaseClasses.disabled}`]: {
     color: 'inherit',
   },
-  [`& .${inputBaseClasses.input}.${inputBaseClasses.disabled}`]: {
+  [`.${inputBaseClasses.input}.${inputBaseClasses.disabled}`]: {
     WebkitTextFillColor: 'unset',
   },
 }));

@@ -13,7 +13,7 @@ export const WalletListItemButton = styled(ListItemButton)(({ theme }) => ({
 
 export const WalletListItem = styled(ListItem)(({ theme }) => ({
   padding: theme.spacing(1.5),
-  [`& .${listItemSecondaryActionClasses.root}`]: {
+  [`.${listItemSecondaryActionClasses.root}`]: {
     right: theme.spacing(3),
   },
 }));
