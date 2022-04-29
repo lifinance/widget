@@ -52,12 +52,16 @@ export const SwapExecutionProvider: React.FC<
         setExecutionRoute(route);
       },
       onError: (error, route, context) => {
-        console.warn('Execution failed!', route);
+        console.warn('Execution failed!', JSON.parse(JSON.stringify(route)));
         console.error(error);
         // Notification.showNotification(NotificationType.SwapExecution_ERROR);
       },
       onSuccess: (route, initialRoute, context) => {
-        console.log('Executed successfully!', route);
+        console.log(
+          'Executed successfully!',
+          JSON.parse(JSON.stringify(route)),
+        );
+        setExecutionRoute({ ...route });
         // setFinalTokenAmount(await getFinalBalance(web3.account!, route));
         // setSwapDoneAt(Date.now());
         // Notification.showNotification(NotificationType.TRANSACTION_SUCCESSFULL);
@@ -69,7 +73,8 @@ export const SwapExecutionProvider: React.FC<
   );
 
   const updateCallback = useCallback(async (updatedRoute: Route) => {
-    setExecutionRoute(updatedRoute);
+    console.log('updatedRoute', JSON.parse(JSON.stringify(updatedRoute)));
+    setExecutionRoute({ ...updatedRoute });
   }, []);
 
   const switchChainHook = useCallback(
