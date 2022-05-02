@@ -1,43 +1,71 @@
 import { Step } from '@lifinance/sdk';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useTimer } from 'react-timer-hook';
 
-export const StepTimer: React.FC<{ step: Step }> = ({ step }) => {
-  const [expiryTimestamp] = useState(
-    () => new Date(Date.now() + step.estimate.executionDuration * 1000),
+const getExpiryTimestamp = (step: Step) =>
+  new Date(
+    (step.execution?.process[0]?.startedAt ?? Date.now()) +
+      step.estimate.executionDuration * 1000,
   );
+
+export const StepTimer: React.FC<{ step: Step }> = ({ step }) => {
+  const { t } = useTranslation();
   const [isExpired, setExpired] = useState(false);
-  const {
-    seconds,
-    minutes,
-    hours,
-    days,
-    isRunning,
-    start,
-    pause,
-    resume,
-    restart,
-  } = useTimer({
+  const [isExecutionStarted, setExecutionStarted] = useState(!!step.execution);
+  const [expiryTimestamp] = useState(() => getExpiryTimestamp(step));
+  const { seconds, minutes, isRunning, pause, resume, restart } = useTimer({
+    autoStart: false,
     expiryTimestamp,
     onExpire: () => setExpired(true),
   });
 
   useEffect(() => {
-    if (isExpired) {
+    if (isExpired || !step.execution) {
       return;
     }
-    const isActionRequired = step.execution?.process.some(
+    if (!isExecutionStarted) {
+      setExecutionStarted(true);
+      restart(getExpiryTimestamp(step));
+    }
+    const shouldBePaused = step.execution.process.some(
       (process) =>
         process.status === 'ACTION_REQUIRED' ||
-        process.status === 'CHAIN_SWITCH_REQUIRED',
+        process.status === 'CHAIN_SWITCH_REQUIRED' ||
+        process.status === 'FAILED',
     );
-    if (isRunning && isActionRequired) {
+    if (isRunning && shouldBePaused) {
       pause();
-    } else if (!isRunning && !isActionRequired) {
+    } else if (!isRunning && !shouldBePaused) {
       resume();
     }
-  }, [expiryTimestamp, isExpired, isRunning, pause, resume, step]);
+  }, [
+    expiryTimestamp,
+    isExecutionStarted,
+    isExpired,
+    isRunning,
+    pause,
+    restart,
+    resume,
+    step,
+  ]);
 
-  // eslint-disable-next-line react/jsx-no-useless-fragment
-  return <>{`${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`}</>;
+  if (!isExecutionStarted) {
+    return (
+      <>
+        {t('swapping.estimatedTime', {
+          value: (step.estimate.executionDuration / 60).toFixed(0),
+        })}
+      </>
+    );
+  }
+  if (step.execution?.status === 'DONE') {
+    return <>{t('swapping.done')}</>;
+  }
+  return isExpired ? (
+    <>{t('swapping.networkIsBusy')}</>
+  ) : (
+    // eslint-disable-next-line react/jsx-no-useless-fragment
+    <>{`${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`}</>
+  );
 };

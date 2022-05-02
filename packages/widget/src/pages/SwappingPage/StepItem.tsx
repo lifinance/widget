@@ -23,71 +23,63 @@ export const StepItem: React.FC<{
           flex: 1,
         }}
       >
-        <CardTitle flex={1}>Swap</CardTitle>
+        <CardTitle flex={1}>{t('swapping.swap')}</CardTitle>
         <CardTitle>
           <StepTimer step={step} />
         </CardTitle>
       </Box>
-      {fromToken ? (
-        <Box
-          px={2}
-          pt={2}
-          pb={1}
-          sx={{ display: 'flex', alignItems: 'center' }}
-        >
-          <Avatar
-            src={fromToken.logoURI}
-            alt={fromToken.symbol}
-            sx={{ marginRight: 2 }}
-          >
-            {fromToken.symbol[0]}
-          </Avatar>
-          <Typography fontSize={24} fontWeight="700" lineHeight={1.333334}>
-            {formatTokenAmount(fromToken.amount, fromToken.decimals)}
-          </Typography>
-          <Typography
-            fontSize={18}
-            fontWeight="500"
-            alignSelf="flex-end"
-            color="text.secondary"
-            mx={1}
-          >
-            {fromToken.symbol}
-          </Typography>
-        </Box>
-      ) : null}
-      <ToolItem step={step} />
-      {step.execution?.process.map((process, index) => (
-        <ExecutionItem key={index} process={process} />
-      ))}
-      {toToken ? (
-        <Box
-          px={2}
-          pt={1}
-          pb={2}
-          sx={{ display: 'flex', alignItems: 'center' }}
-        >
-          <Avatar
-            src={toToken.logoURI}
-            alt={toToken.symbol}
-            sx={{ marginRight: 2 }}
-          >
-            {toToken.symbol[0]}
-          </Avatar>
-          <Typography fontSize={24} fontWeight="700" lineHeight={1.333334}>
-            {formatTokenAmount(toToken.amount, toToken.decimals)}
-          </Typography>
-          <Typography
-            fontSize={18}
-            fontWeight="500"
-            alignSelf="flex-end"
-            color="text.secondary"
-            mx={1}
-          >
-            {toToken.symbol}
-          </Typography>
-        </Box>
-      ) : null}
+      <Box py={1}>
+        {fromToken ? (
+          <Box px={2} py={1} sx={{ display: 'flex', alignItems: 'center' }}>
+            <Avatar
+              src={fromToken.logoURI}
+              alt={fromToken.symbol}
+              sx={{ marginRight: 2 }}
+            >
+              {fromToken.symbol[0]}
+            </Avatar>
+            <Typography fontSize={24} fontWeight="700" lineHeight={1.333334}>
+              {formatTokenAmount(fromToken.amount, fromToken.decimals)}
+            </Typography>
+            <Typography
+              fontSize={18}
+              fontWeight="500"
+              alignSelf="flex-end"
+              color="text.secondary"
+              mx={1}
+            >
+              {fromToken.symbol}
+            </Typography>
+          </Box>
+        ) : null}
+        <ToolItem step={step} />
+        {step.execution?.process.map((process, index) => (
+          <ExecutionItem key={index} process={process} />
+        ))}
+        {toToken ? (
+          <Box px={2} py={1} sx={{ display: 'flex', alignItems: 'center' }}>
+            <Avatar
+              src={toToken.logoURI}
+              alt={toToken.symbol}
+              sx={{ marginRight: 2 }}
+            >
+              {toToken.symbol[0]}
+            </Avatar>
+            <Typography fontSize={24} fontWeight="700" lineHeight={1.333334}>
+              {formatTokenAmount(toToken.amount, toToken.decimals)}
+            </Typography>
+            <Typography
+              fontSize={18}
+              fontWeight="500"
+              alignSelf="flex-end"
+              color="text.secondary"
+              mx={1}
+            >
+              {toToken.symbol}
+            </Typography>
+          </Box>
+        ) : null}
+      </Box>
     </CardContainer>
   );
 };

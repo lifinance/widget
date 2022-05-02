@@ -32,11 +32,7 @@ export const SwapExecutionProvider: React.FC<
 > = ({ children }) => {
   const [executionRoute, setExecutionRoute] = useState<Route>();
   const { account, switchChain } = useWallet();
-  const { mutateAsync: executeRoute, isLoading } = useMutation<
-    Route,
-    unknown,
-    Route
-  >(
+  const { mutateAsync: executeRoute } = useMutation<Route, unknown, Route>(
     (route) => {
       if (!account.signer) {
         throw Error('Account signer was not found.');
@@ -49,11 +45,11 @@ export const SwapExecutionProvider: React.FC<
     },
     {
       onMutate: (route) => {
-        setExecutionRoute(route);
+        setExecutionRoute(JSON.parse(JSON.stringify(route)));
       },
       onError: (error, route, context) => {
         console.warn('Execution failed!', JSON.parse(JSON.stringify(route)));
-        console.error(error);
+        setExecutionRoute(JSON.parse(JSON.stringify(route)));
         // Notification.showNotification(NotificationType.SwapExecution_ERROR);
       },
       onSuccess: (route, initialRoute, context) => {
@@ -61,7 +57,7 @@ export const SwapExecutionProvider: React.FC<
           'Executed successfully!',
           JSON.parse(JSON.stringify(route)),
         );
-        setExecutionRoute({ ...route });
+        setExecutionRoute(JSON.parse(JSON.stringify(route)));
         // setFinalTokenAmount(await getFinalBalance(web3.account!, route));
         // setSwapDoneAt(Date.now());
         // Notification.showNotification(NotificationType.TRANSACTION_SUCCESSFULL);
@@ -74,7 +70,7 @@ export const SwapExecutionProvider: React.FC<
 
   const updateCallback = useCallback(async (updatedRoute: Route) => {
     console.log('updatedRoute', JSON.parse(JSON.stringify(updatedRoute)));
-    setExecutionRoute({ ...updatedRoute });
+    setExecutionRoute(JSON.parse(JSON.stringify(updatedRoute)));
   }, []);
 
   const switchChainHook = useCallback(

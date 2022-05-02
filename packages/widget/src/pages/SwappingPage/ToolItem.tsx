@@ -8,8 +8,6 @@ import { formatTokenAmount } from '../../utils/format';
 export const ToolItem: React.FC<{
   step: Step;
 }> = ({ step }) => {
-  const { t } = useTranslation();
-
   return (
     <Box px={2} py={1}>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -64,9 +62,11 @@ export const CrossChainDetails: React.FC<{
 
   return (
     <Typography fontSize={12} fontWeight="500" color="text.secondary">
-      {`${getChainById(step.action.fromChainId)?.name} to ${
-        getChainById(step.action.toChainId)?.name
-      } via ${step.tool}`}
+      {t('swapping.crossChainDetails', {
+        from: getChainById(step.action.fromChainId)?.name,
+        to: getChainById(step.action.toChainId)?.name,
+        via: step.tool,
+      })}
     </Typography>
   );
 };

@@ -8,7 +8,7 @@ const circleAnimation = keyframes({
     transform: 'rotate(0)',
   },
   '50%': {
-    strokeDashoffset: 64,
+    strokeDashoffset: 56,
     transform: 'rotate(45deg)',
   },
   '100%': {

@@ -35,30 +35,13 @@
     "couldntFindTokens": "We couldn't find tokens on this chain or you don't have any.",
     "requestingRoutes": "Requesting routes..."
   },
-  "transaction": {
-    "waitingTime": "Overall estimated waiting time",
-    "statusHeader": {
-      "paused": "Paused",
-      "errorPrompt": "Interrupted"
-    },
-    "statusSubText": {
-      "paused": "Sign the transaction to continue",
-      "errorPrompt": "Try again or get in touch with support"
-    },
-    "signPrompt": "Sign transaction",
-    "errorPrompt": "Interrupted",
-    "txDetails": "Details",
-    "footer": {
-      "emailForm": {
-        "informText": "Don't worry, if you close your tab. We will notify you about next steps via email or browser pushes.",
-        "submitBtn": "Notify me",
-        "inputPlaceholder": "Your email"
-      },
-      "error": {
-        "tryAgain": "Try again",
-        "support": "Support"
-      }
-    }
+  "swapping": {
+    "swap": "Swap",
+    "estimatedTime": "~{{value}} min." ,
+    "done": "Done",
+    "networkIsBusy": "Network is busy...",
+    "crossChainDetails": "{{from}} to {{to}} via {{via}}",
+    "transactionDetails": "Transaction Details"
   },
   "settings": {
     "routePriority": {
