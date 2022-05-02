@@ -23,11 +23,11 @@ export function CircularProgress({ status }: { status: Status }) {
             theme.palette.grey[theme.palette.mode === 'light' ? 300 : 800],
         }}
         size={32}
-        thickness={4}
+        thickness={3}
         value={100}
       />
       {status === 'PENDING' ? (
-        <CircularProgressStyled color="primary" size={32} thickness={4} />
+        <CircularProgressStyled color="primary" size={32} thickness={3} />
       ) : null}
       {status === 'ACTION_REQUIRED' ? (
         <PriorityHighIcon

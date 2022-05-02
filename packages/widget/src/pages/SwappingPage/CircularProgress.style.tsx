@@ -4,15 +4,15 @@ import { keyframes, styled } from '@mui/material/styles';
 
 const circleAnimation = keyframes({
   '0%': {
-    strokeDashoffset: 126,
+    strokeDashoffset: 129,
     transform: 'rotate(0)',
   },
   '50%': {
-    strokeDashoffset: 42,
+    strokeDashoffset: 64,
     transform: 'rotate(45deg)',
   },
   '100%': {
-    strokeDashoffset: 126,
+    strokeDashoffset: 129,
     transform: 'rotate(360deg)',
   },
 });
@@ -25,8 +25,8 @@ export const CircularProgress = styled(MuiCircularProgress)(({ theme }) => ({
     animationDuration: '2s',
     animationTimingFunction: 'linear',
     animationName: circleAnimation,
-    strokeDasharray: 126,
-    strokeDashoffset: 126,
+    strokeDasharray: 129,
+    strokeDashoffset: 129,
     strokeLinecap: 'round',
     transformOrigin: '100% 100%',
   },
