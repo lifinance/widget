@@ -1,6 +1,6 @@
 import { TokenAmount } from '@lifinance/sdk';
 import { Box, List, Typography } from '@mui/material';
-import { FC, useCallback, useMemo, useRef } from 'react';
+import { FC, useCallback, useEffect, useMemo, useRef } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useVirtual } from 'react-virtual';
@@ -50,7 +50,7 @@ export const TokenList: FC<TokenListProps> = ({
 
   const parentRef = useRef<HTMLUListElement | null>(null);
 
-  const { virtualItems, totalSize } = useVirtual({
+  const { virtualItems, totalSize, scrollToIndex } = useVirtual({
     size: chainTokens.length,
     parentRef,
     overscan: 3,
@@ -58,6 +58,10 @@ export const TokenList: FC<TokenListProps> = ({
     estimateSize: useCallback(() => 64, []),
     keyExtractor: (index) => chainTokens[index].address ?? index,
   });
+
+  useEffect(() => {
+    scrollToIndex(0);
+  }, [scrollToIndex, selectedChainId]);
 
   const handleTokenClick = useCallback(
     (tokenAddress: string) => {
