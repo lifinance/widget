@@ -6,6 +6,7 @@ import { CardContainer, CardTitle } from '../../components/Card';
 import { formatTokenAmount } from '../../utils/format';
 import { ExecutionItem } from './ExecutionItem';
 import { StepTimer } from './StepTimer';
+import { ToolItem } from './ToolItem';
 
 export const StepItem: React.FC<{
   step: Step;
@@ -24,11 +25,7 @@ export const StepItem: React.FC<{
       >
         <CardTitle flex={1}>Swap</CardTitle>
         <CardTitle>
-          <StepTimer
-            expiryTimestamp={
-              new Date(Date.now() + step.estimate.executionDuration * 1000)
-            }
-          />
+          <StepTimer step={step} />
         </CardTitle>
       </Box>
       {fromToken ? (
@@ -59,6 +56,7 @@ export const StepItem: React.FC<{
           </Typography>
         </Box>
       ) : null}
+      <ToolItem step={step} />
       {step.execution?.process.map((process, index) => (
         <ExecutionItem key={index} process={process} />
       ))}
