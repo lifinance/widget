@@ -14,7 +14,7 @@ export const SwappingPage: React.FC = () => {
       {route?.steps.map((step, index, steps) => (
         <Fragment key={step.id}>
           <StepItem
-            step={step}
+            step={{ ...step }}
             fromToken={
               index === 0
                 ? { ...route.fromToken, amount: route.fromAmount }
