@@ -1,11 +1,14 @@
 import { Status } from '@lifinance/sdk';
 import {
-  Close as CloseIcon,
   Done as DoneIcon,
-  PriorityHigh as PriorityHighIcon,
+  Info as InfoIcon,
+  Warning as WarningIcon,
 } from '@mui/icons-material';
-import { Box, CircularProgress as MuiCircularProgress } from '@mui/material';
-import { CircularProgress as CircularProgressStyled } from './CircularProgress.style';
+import { Box } from '@mui/material';
+import {
+  CircularProgress as CircularProgressStyled,
+  CircularProgressPending,
+} from './CircularProgress.style';
 
 export function CircularProgress({ status }: { status: Status }) {
   return (
@@ -16,22 +19,19 @@ export function CircularProgress({ status }: { status: Status }) {
         placeItems: 'center',
       }}
     >
-      <MuiCircularProgress
+      <CircularProgressStyled
         variant="determinate"
-        sx={{
-          color: (theme) =>
-            theme.palette.grey[theme.palette.mode === 'light' ? 300 : 800],
-        }}
+        status={status}
         size={32}
         thickness={3}
         value={100}
       />
       {status === 'PENDING' ? (
-        <CircularProgressStyled color="primary" size={32} thickness={3} />
+        <CircularProgressPending color="primary" size={32} thickness={3} />
       ) : null}
       {status === 'ACTION_REQUIRED' ? (
-        <PriorityHighIcon
-          color="warning"
+        <InfoIcon
+          color="primary"
           sx={{
             position: 'absolute',
             fontSize: '1rem',
@@ -48,7 +48,7 @@ export function CircularProgress({ status }: { status: Status }) {
         />
       ) : null}
       {status === 'FAILED' ? (
-        <CloseIcon
+        <WarningIcon
           color="error"
           sx={{
             position: 'absolute',
