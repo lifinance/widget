@@ -2,6 +2,7 @@ import { Process } from '@lifinance/sdk';
 import { Box, Link, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { CircularProgress } from './CircularProgress';
+import { getProcessMessage } from './utils';
 
 export const ExecutionItem: React.FC<{
   process: Process;
@@ -12,7 +13,9 @@ export const ExecutionItem: React.FC<{
     <Box px={2} py={1}>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <CircularProgress status={process.status} />
-        <Typography ml={2}>{process.message}</Typography>
+        <Typography ml={2}>
+          {getProcessMessage(process.type, process.status)}
+        </Typography>
       </Box>
       {process.txLink ? (
         <Box ml={6}>

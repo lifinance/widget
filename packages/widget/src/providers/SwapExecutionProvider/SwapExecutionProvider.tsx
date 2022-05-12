@@ -49,7 +49,7 @@ export const SwapExecutionProvider: React.FC<
       },
       onError: (error, route, context) => {
         console.warn('Execution failed!', JSON.parse(JSON.stringify(route)));
-        setExecutionRoute(JSON.parse(JSON.stringify(route)));
+        // setExecutionRoute(JSON.parse(JSON.stringify(route)));
         // Notification.showNotification(NotificationType.SwapExecution_ERROR);
       },
       onSuccess: (route, initialRoute, context) => {

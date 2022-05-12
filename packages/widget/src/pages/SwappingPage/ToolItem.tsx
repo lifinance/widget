@@ -6,16 +6,13 @@ import { useChains } from '../../hooks';
 import { formatTokenAmount } from '../../utils/format';
 
 export const ToolItem: React.FC<{
-  step: Step;
+  step: any;
 }> = ({ step }) => {
   return (
     <Box px={2} py={1}>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Avatar
-          // src={tool.logoURI}
-          alt={step.tool}
-        >
-          {step.tool[0]}
+        <Avatar src={step.toolDetails.logoURI} alt={step.toolDetails.name}>
+          {step.toolDetails.name[0]}
         </Avatar>
         <Typography
           ml={2}
@@ -23,7 +20,7 @@ export const ToolItem: React.FC<{
           fontWeight="500"
           textTransform="capitalize"
         >
-          {step.tool}
+          {step.toolDetails.name}
         </Typography>
       </Box>
       <Box ml={6}>

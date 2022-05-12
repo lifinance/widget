@@ -26,7 +26,7 @@ export function CircularProgress({ status }: { status: Status }) {
         thickness={3}
         value={100}
       />
-      {status === 'PENDING' ? (
+      {status === 'STARTED' || status === 'PENDING' ? (
         <CircularProgressPending color="primary" size={32} thickness={3} />
       ) : null}
       {status === 'ACTION_REQUIRED' ? (
