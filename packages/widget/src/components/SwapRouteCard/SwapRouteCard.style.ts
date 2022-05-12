@@ -6,8 +6,8 @@ export const Card = styled(Box, {
 })<{ active?: boolean; blur?: boolean }>(({ theme, active, blur }) => ({
   backgroundColor: theme.palette.common.white,
   padding: theme.spacing(2),
-  border: `2px solid ${
-    active ? theme.palette.primary.main : theme.palette.grey[200]
+  border: `1px solid ${
+    active ? theme.palette.common.black : theme.palette.grey[300]
   }`,
   borderRadius: theme.shape.borderRadius,
   boxSizing: 'border-box',
