@@ -20,8 +20,10 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
+      "> 1%",
+      "last 2 versions",
       "not dead",
+      "not IE > 0",
       "not op_mini all"
     ],
     "development": [

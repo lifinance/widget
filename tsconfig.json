@@ -15,7 +15,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "es5",
+    "target": "ES6",
     "types": ["react/next", "react-dom/next"],
     "paths": {
       "@lifinance/widget": ["./packages/widget/src"],
