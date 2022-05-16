@@ -1,3 +1,4 @@
+import { TokenAmount } from '@lifinance/sdk';
 import { useQuery } from 'react-query';
 import { LiFi } from '../lifi';
 import { useWallet } from '../providers/WalletProvider';
@@ -30,8 +31,7 @@ export const useTokenBalance = (chainId: number, tokenAddress: string) => {
   );
 
   return {
-    token,
-    tokenWithBalance,
+    token: tokenWithBalance ?? (token as TokenAmount | undefined),
     isLoading: isLoading && isFetching,
   };
 };

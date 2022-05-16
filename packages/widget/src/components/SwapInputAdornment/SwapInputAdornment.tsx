@@ -24,15 +24,11 @@ export const SwapInputAdornment: React.FC<SwapFormTypeProps> = ({
       SwapFormKeyHelper.getTokenKey(formType),
     ],
   });
-  const { token, tokenWithBalance, isLoading } = useTokenBalance(
-    chainId,
-    tokenAddress,
-  );
+  const { token, isLoading } = useTokenBalance(chainId, tokenAddress);
 
   const amount = useMemo(
-    () =>
-      tokenWithBalance ? formatTokenAmount(tokenWithBalance.amount) : null,
-    [tokenWithBalance],
+    () => (token?.amount ? formatTokenAmount(token.amount) : null),
+    [token],
   );
 
   const handleMax = () => {
@@ -49,14 +45,14 @@ export const SwapInputAdornment: React.FC<SwapFormTypeProps> = ({
             height={24}
             sx={{ borderRadius: 1 }}
           />
-        ) : formType === 'from' && token && amount ? (
+        ) : formType === 'from' && token?.amount ? (
           <SwapMaxAmountTypography
             onClick={handleMax}
             role="button"
             sx={{
               userSelect: 'none',
             }}
-            data-amount={tokenWithBalance?.amount}
+            data-amount={token?.amount}
           >
             {t(`swap.maxAmount`, {
               amount,

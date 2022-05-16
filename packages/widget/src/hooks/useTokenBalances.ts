@@ -49,7 +49,7 @@ export const useTokenBalances = (selectedChainId: number) => {
   );
 
   return {
-    tokens: tokensWithBalance ?? (tokens as TokenAmount[]),
+    tokens: tokensWithBalance ?? (tokens as TokenAmount[] | undefined),
     isLoading:
       (isBalancesLoading && isBalancesLoadingEnabled) ||
       (isLoading && isFetching) ||
