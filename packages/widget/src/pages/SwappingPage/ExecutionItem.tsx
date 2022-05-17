@@ -1,8 +1,10 @@
 import { Process, Step } from '@lifinance/sdk';
-import { useChains } from '@lifinance/widget/hooks';
+import { Link as LinkIcon } from '@mui/icons-material';
 import { Box, Link, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { useChains } from '../../hooks';
 import { CircularProgress } from './CircularProgress';
+import { LinkButton } from './ExecutionItem.style';
 import { getProcessMessage } from './utils';
 
 export const ExecutionItem: React.FC<{
@@ -17,33 +19,46 @@ export const ExecutionItem: React.FC<{
       <Box
         sx={{
           display: 'flex',
-          alignItems: process.error ? 'flex-start' : 'center',
+          alignItems: 'center',
         }}
       >
         <CircularProgress status={process.status} />
-        <Box ml={2}>
-          <Typography fontWeight={process.error ? 700 : 500}>
-            {title}
-          </Typography>
-          {message ? (
-            <Typography fontSize={14} fontWeight={500} color="text.secondary">
-              {message}
-            </Typography>
-          ) : null}
-        </Box>
-      </Box>
-      {process.txLink ? (
-        <Box ml={6}>
-          <Link
-            href={process.txLink}
-            variant="body2"
-            underline="none"
-            target="_blank"
-            rel="nofollow noreferrer"
+        <Typography ml={2} fontWeight={process.error ? 700 : 500}>
+          {title}
+        </Typography>
+        {process.txLink ? (
+          <Box
+            ml={2}
+            sx={{
+              display: 'flex',
+              flex: 1,
+              justifyContent: 'flex-end',
+            }}
           >
-            {t('swapping.transactionDetails')}
-          </Link>
-        </Box>
+            <LinkButton
+              size="small"
+              aria-label="settings"
+              color="inherit"
+              edge="end"
+              LinkComponent={Link}
+              href={process.txLink}
+              target="_blank"
+              rel="nofollow noreferrer"
+            >
+              <LinkIcon />
+            </LinkButton>
+          </Box>
+        ) : null}
+      </Box>
+      {message ? (
+        <Typography
+          ml={6}
+          fontSize={14}
+          fontWeight={500}
+          color="text.secondary"
+        >
+          {message}
+        </Typography>
       ) : null}
     </Box>
   );
