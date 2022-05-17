@@ -34,7 +34,7 @@ export const SwapRoutes: React.FC<BoxProps> = ({ mb }) => {
                   key={index}
                   variant="rectangular"
                   width="75%"
-                  height={195}
+                  height={193}
                   sx={{ borderRadius: 1, minWidth: '75%' }}
                 />
               ))

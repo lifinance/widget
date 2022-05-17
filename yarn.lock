@@ -2798,10 +2798,10 @@
     npmlog "^4.1.2"
     write-file-atomic "^3.0.3"
 
-"@lifinance/sdk@^1.0.0-beta.5":
-  version "1.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/@lifinance/sdk/-/sdk-1.0.0-beta.5.tgz#6e760cafc01c998fb4ac2b8ab44a96c8b2c33018"
-  integrity sha512-31nmci/yfMcCYJ97F0K3Di1MM7v54WU4yV85DnqmMI8qTsjA9MtrKq8XpQyeJTt94QrUaUBaHUZWkibvQlFeKA==
+"@lifinance/sdk@^1.0.0-beta.6":
+  version "1.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@lifinance/sdk/-/sdk-1.0.0-beta.6.tgz#4966c7ee257e2a169421baa96152db93d74ae727"
+  integrity sha512-gp1Gnas1Ri9ul+bomz30yl6UhjL/3XXLs7IQ0+KlaZNmzZ3RHvKRoqJNTf5qE/kdyKBPs/S/QCPczNXTwr0nmA==
   dependencies:
     "@ethersproject/abi" "^5.6.2"
     "@ethersproject/contracts" "^5.6.1"

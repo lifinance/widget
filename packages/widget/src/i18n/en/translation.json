@@ -37,11 +37,53 @@
   },
   "swapping": {
     "swap": "Swap",
-    "estimatedTime": "~{{value}} min." ,
+    "estimatedTime": "~{{value}} min.",
     "done": "Done",
     "networkIsBusy": "Network is busy...",
     "crossChainDetails": "{{from}} to {{to}} via {{via}}",
-    "transactionDetails": "Transaction Details"
+    "transactionDetails": "Transaction Details",
+    "process": {
+      "tokenAllowance": {
+        "started": "Setting token allowance.",
+        "pending": "Waiting for token allowance approval.",
+        "done": "Token allowance approved."
+      },
+      "switchChain": {
+        "pending": "Chain switch required.",
+        "done": "Chain switched successfully."
+      },
+      "swap": {
+        "started": "Preparing swap.",
+        "actionRequired": "Please sign the transaction.",
+        "pending": "Swapping.",
+        "done": "Swap completed."
+      },
+      "crossChain": {
+        "started": "Preparing transaction.",
+        "actionRequired": "Please sign the transaction.",
+        "pending": "Waiting for transaction.",
+        "done": "Transaction approved."
+      },
+      "receivingChain": {
+        "pending": "Waiting for receiving chain.",
+        "done": "Funds received."
+      }
+    },
+    "error": {
+      "title": {
+        "chainSwitch": "Chain switch required.",
+        "transactionFailed": "Transaction has failed.",
+        "transactionUnderpriced": "Transaction is underpriced.",
+        "transactionUnprepared": "Unable to prepare transaction.",
+        "unknown": "Something went wrong.",
+        "userRejectedSignatureRequest": "Signature required."
+      },
+      "message": {
+        "signatureRequired": "Your signature is required to complete the transaction. {{amount}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
+        "transactionFailed": "Please check the block explorer for more information.",
+        "transactionNotSent": "Transaction was not sent, your funds are still in your wallet ({{amount}} {{tokenSymbol}} on {{chainName}})."
+      }
+    }
   },
   "settings": {
     "routePriority": {

@@ -54,7 +54,7 @@ export const StepItem: React.FC<{
         ) : null}
         <ToolItem step={step} />
         {step.execution?.process.map((process, index) => (
-          <ExecutionItem key={index} process={process} />
+          <ExecutionItem key={index} step={step} process={process} />
         ))}
         {toToken ? (
           <Box px={2} py={1} sx={{ display: 'flex', alignItems: 'center' }}>
