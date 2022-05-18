@@ -15,8 +15,12 @@ export const StepItem: React.FC<{
 }> = ({ step, fromToken, toToken }) => {
   const { t } = useTranslation();
 
+  const stepHasError = step.execution?.process.some(
+    (process) => process.status === 'FAILED',
+  );
+
   return (
-    <CardContainer>
+    <CardContainer isError={stepHasError}>
       <Box
         sx={{
           display: 'flex',
