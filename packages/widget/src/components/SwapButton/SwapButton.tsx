@@ -60,7 +60,13 @@ export const SwapButton: React.FC = () => {
   };
 
   return (
-    <ButtonTooltip title={t(`swap.insufficientGasOnDestinationChainTooltip`)}>
+    <ButtonTooltip
+      title={
+        !hasGasOnCrossChain
+          ? t(`swap.insufficientGasOnDestinationChainTooltip`)
+          : undefined
+      }
+    >
       <Button
         variant="contained"
         disableElevation
