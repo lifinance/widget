@@ -27,13 +27,14 @@
     "selectChain": "Chain",
     "selectToken": "Token",
     "selectChainAndToken": "Select chain and token",
-    "myTokens": "My tokens",
-    "allTokens": "All tokens",
     "submit": "Swap",
     "connectWallet": "Connect wallet",
     "switchChain": "Switch chain",
     "couldntFindTokens": "We couldn't find tokens on this chain or you don't have any.",
-    "requestingRoutes": "Requesting routes..."
+    "insufficientFunds": "Insufficient funds",
+    "insufficientGasOnStartChain": "Insufficient gas on start chain",
+    "insufficientGasOnDestinationChain": "Insufficient gas on destination chain",
+    "insufficientGasOnDestinationChainTooltip": "The selected route requires a swap on the chain you are transferring to. You need to have gas on that chain to pay for the transaction there."
   },
   "swapping": {
     "swap": "Swap",

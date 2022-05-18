@@ -16,7 +16,7 @@
     "@mui/lab": "^5.0.0-alpha.82",
     "@mui/material": "^5.8.0",
     "big.js": "^6.1.1",
-    "i18next": "^21.8.2",
+    "i18next": "^21.8.3",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-hook-form": "^7.31.1",
