@@ -1,15 +1,15 @@
-import { Box, BoxProps, Typography } from '@mui/material';
+import { Avatar, Box, BoxProps, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { formatTokenAmount } from '../../utils/format';
+import { StepActions } from '../StepActions';
 import { Card, Label } from './SwapRouteCard.style';
 import { SwapRouteCardProps } from './types';
 
 export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
-  amount,
-  token,
-  time,
-  gas,
+  route,
+  index,
   active,
-  type,
+  dense,
   ...other
 }) => {
   const { t } = useTranslation();
@@ -17,14 +17,33 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
     <Card active={active} {...other}>
       <Box>
         <Label active={active} mb={2}>
-          {type}
+          ROUTE {index + 1}
         </Label>
-        <Typography fontSize={32} fontWeight="bold" lineHeight="normal">
-          {amount}
-        </Typography>
-        <Typography fontSize={14} mb={2} color="text.secondary">
-          {token}
-        </Typography>
+        <Box
+          sx={{
+            display: 'flex',
+          }}
+          mb={2}
+        >
+          <Avatar
+            src={route.toToken.logoURI}
+            alt={route.toToken.symbol}
+            sx={{ marginRight: 2, paddingY: 0.375 }}
+          >
+            {route.toToken.symbol[0]}
+          </Avatar>
+          <Box>
+            <Typography fontSize={32} fontWeight="bold" lineHeight="normal">
+              {formatTokenAmount(route.toAmount, route.toToken.decimals)}
+            </Typography>
+            <Typography fontSize={14} color="text.secondary">
+              {route.toToken.symbol}
+            </Typography>
+          </Box>
+        </Box>
+        {!dense
+          ? route.steps.map((step) => <StepActions step={step} mb={2} />)
+          : null}
         <Box
           sx={{
             display: 'flex',
@@ -33,7 +52,7 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
         >
           <Box>
             <Typography fontSize={18} fontWeight="500">
-              {gas}
+              {t(`swap.currency`, { value: route.gasCostUSD })}
             </Typography>
             <Typography fontSize={12} color="text.secondary">
               {t(`swap.gas`)}
@@ -41,7 +60,12 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
           </Box>
           <Box>
             <Typography fontSize={18} fontWeight="500">
-              ~{time}
+              ~
+              {(
+                route.steps
+                  .map((step) => step.estimate.executionDuration)
+                  .reduce((cumulated, x) => cumulated + x) / 60
+              ).toFixed(0)}
             </Typography>
             <Typography fontSize={12} color="text.secondary" textAlign="end">
               {t(`swap.minutes`)}

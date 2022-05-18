@@ -3,7 +3,6 @@ import { BoxProps, Skeleton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { SwapRouteCard } from '../../components/SwapRouteCard';
 import { useSwapRoutes } from '../../hooks';
-import { formatTokenAmount } from '../../utils/format';
 import { Stack } from './SwapRoutesPage.style';
 
 export const SwapRoutesPage: React.FC<BoxProps> = ({ mb }) => {
@@ -30,15 +29,8 @@ export const SwapRoutesPage: React.FC<BoxProps> = ({ mb }) => {
         : routes?.map((route, index) => (
             <SwapRouteCard
               key={route.id}
-              amount={formatTokenAmount(route.toAmount, route.toToken.decimals)}
-              token={route.toToken.name}
-              gas={t(`swap.currency`, { value: route.gasCostUSD })}
-              time={(
-                route.steps
-                  .map((step) => step.estimate.executionDuration)
-                  .reduce((cumulated, x) => cumulated + x) / 60
-              ).toFixed(0)}
-              type="recommended"
+              route={route}
+              index={index}
               active={index === 0}
             />
           ))}

@@ -1,10 +1,9 @@
 /* eslint-disable react/no-array-index-key */
-import { KeyboardArrowRight as KeyboardArrowRightIcon } from '@mui/icons-material';
-import { Box, BoxProps, IconButton, Skeleton } from '@mui/material';
+import { Box, BoxProps, Skeleton } from '@mui/material';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useSwapRoutes } from '../../hooks';
-import { formatTokenAmount } from '../../utils/format';
 import { routes } from '../../utils/routes';
 import { CardContainer, CardTitle } from '../Card';
 import { SwapRouteCard } from '../SwapRouteCard';
@@ -15,9 +14,9 @@ export const SwapRoutes: React.FC<BoxProps> = ({ mb }) => {
   const navigate = useNavigate();
   const { routes: swapRoutes, isLoading } = useSwapRoutes();
 
-  const handleCardClick = () => {
+  const handleCardClick = useCallback(() => {
     navigate(routes.swapRoutes);
-  };
+  }, [navigate]);
 
   if (!swapRoutes?.length && !isLoading) {
     return null;
@@ -44,25 +43,16 @@ export const SwapRoutes: React.FC<BoxProps> = ({ mb }) => {
                   <SwapRouteCard
                     key={route.id}
                     onClick={index !== 0 ? handleCardClick : undefined}
-                    minWidth="75%"
-                    amount={formatTokenAmount(
-                      route.toAmount,
-                      route.toToken.decimals,
-                    )}
-                    token={route.toToken.name}
-                    gas={t(`swap.currency`, { value: route.gasCostUSD })}
-                    time={(
-                      route.steps
-                        .map((step) => step.estimate.executionDuration)
-                        .reduce((cumulated, x) => cumulated + x) / 60
-                    ).toFixed(0)}
-                    type={index === 0 ? 'recommended' : 'fastest'}
+                    minWidth="80%"
+                    route={route}
+                    index={index}
                     active={index === 0}
                     blur={index !== 0}
+                    dense
                   />
                 ))}
         </Stack>
-        <Box p={1}>
+        {/* <Box p={1}>
           <IconButton
             onClick={handleCardClick}
             size="medium"
@@ -71,7 +61,7 @@ export const SwapRoutes: React.FC<BoxProps> = ({ mb }) => {
           >
             <KeyboardArrowRightIcon />
           </IconButton>
-        </Box>
+        </Box> */}
       </Box>
     </CardContainer>
   );

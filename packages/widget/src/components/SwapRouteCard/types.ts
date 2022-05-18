@@ -1,9 +1,9 @@
+import { Route } from '@lifinance/sdk';
+
 export interface SwapRouteCardProps {
-  amount: string | number;
-  token: string;
-  time: string;
-  gas: string;
-  type: 'recommended' | 'fastest' | 'cheapest';
+  route: Route;
+  index: number;
+  dense?: boolean;
   active?: boolean;
   blur?: boolean;
 }

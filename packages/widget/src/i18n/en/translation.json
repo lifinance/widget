@@ -41,7 +41,8 @@
     "estimatedTime": "~{{value}} min.",
     "done": "Done",
     "networkIsBusy": "Network is busy...",
-    "crossChainDetails": "{{from}} to {{to}} via {{via}}",
+    "crossStepDetails": "Bridge {{from}} to {{to}} via {{tool}}",
+    "swapStepDetails": "Swap on {{value}}",
     "transactionDetails": "Transaction Details",
     "process": {
       "tokenAllowance": {

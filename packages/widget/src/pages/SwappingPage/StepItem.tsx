@@ -3,10 +3,10 @@ import { Step, TokenAmount } from '@lifinance/sdk';
 import { Avatar, Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { CardContainer, CardTitle } from '../../components/Card';
+import { StepActions } from '../../components/StepActions';
 import { formatTokenAmount } from '../../utils/format';
 import { ExecutionItem } from './ExecutionItem';
 import { StepTimer } from './StepTimer';
-import { ToolItem } from './ToolItem';
 
 export const StepItem: React.FC<{
   step: Step;
@@ -56,7 +56,7 @@ export const StepItem: React.FC<{
             </Typography>
           </Box>
         ) : null}
-        <ToolItem step={step} />
+        <StepActions step={step} px={2} py={1} dense />
         {step.execution?.process.map((process, index) => (
           <ExecutionItem key={index} step={step} process={process} />
         ))}
