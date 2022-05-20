@@ -47,6 +47,7 @@ enum ProviderIdentityFlag {
 const metamask: Wallet = {
   name: 'MetaMask',
   checkProviderIdentity: ({ provider }) =>
+    // Removed for now to allow all kinds of injected wallets to connect using the metamask button as fallback
     // !!provider && !!provider[ProviderIdentityFlag.MetaMask],
     true,
   icon: walletIcons.metamask,
