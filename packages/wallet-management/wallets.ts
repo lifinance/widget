@@ -47,7 +47,8 @@ enum ProviderIdentityFlag {
 const metamask: Wallet = {
   name: 'MetaMask',
   checkProviderIdentity: ({ provider }) =>
-    !!provider && !!provider[ProviderIdentityFlag.MetaMask],
+    // !!provider && !!provider[ProviderIdentityFlag.MetaMask],
+    true,
   icon: walletIcons.metamask,
   connector: metaMask,
   platforms: ['all'],
