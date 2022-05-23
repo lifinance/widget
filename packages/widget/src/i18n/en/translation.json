@@ -10,6 +10,17 @@
     "routes": "Routes",
     "swapping": "Swapping"
   },
+  "button": {
+    "swap": "Swap",
+    "connectWallet": "Connect wallet",
+    "switchChain": "Switch chain",
+    "startSwap": "Start the swap",
+    "restartSwap": "Restart the swap",
+    "done": "Done",
+    "okay": "Okay",
+    "seeDetails": "See details",
+    "tryAgain": "Try again"
+  },
   "swap": {
     "from": "From",
     "to": "To",
@@ -27,9 +38,6 @@
     "selectChain": "Chain",
     "selectToken": "Token",
     "selectChainAndToken": "Select chain and token",
-    "submit": "Swap",
-    "connectWallet": "Connect wallet",
-    "switchChain": "Switch chain",
     "couldntFindTokens": "We couldn't find tokens on this chain or you don't have any.",
     "insufficientFunds": "Insufficient funds",
     "insufficientGasOnStartChain": "Insufficient gas on start chain",
@@ -43,7 +51,29 @@
     "networkIsBusy": "Network is busy...",
     "crossStepDetails": "Bridge {{from}} to {{to}} via {{tool}}",
     "swapStepDetails": "Swap on {{value}}",
-    "transactionDetails": "Transaction Details",
+    "success": {
+      "title": {
+        "fundsReceived": "Funds received"
+      },
+      "message": {
+        "fundsReceived": "You now have {{amount}} {{tokenSymbol}} in your wallet on {{chainName}} chain."
+      }
+    },
+    "error": {
+      "title": {
+        "chainSwitch": "Chain switch required.",
+        "transactionFailed": "Transaction has failed.",
+        "transactionUnderpriced": "Transaction is underpriced.",
+        "transactionUnprepared": "Unable to prepare transaction.",
+        "unknown": "Something went wrong.",
+        "userRejectedSignatureRequest": "Signature required."
+      },
+      "message": {
+        "signatureRequired": "Your signature is required to complete the transaction. {{amount}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
+        "transactionFailed": "Please check the block explorer for more information.",
+        "transactionNotSent": "Transaction was not sent, your funds are still in your wallet ({{amount}} {{tokenSymbol}} on {{chainName}})."
+      }
+    },
     "process": {
       "tokenAllowance": {
         "started": "Setting token allowance.",
@@ -69,21 +99,6 @@
       "receivingChain": {
         "pending": "Waiting for receiving chain.",
         "done": "Funds received."
-      }
-    },
-    "error": {
-      "title": {
-        "chainSwitch": "Chain switch required.",
-        "transactionFailed": "Transaction has failed.",
-        "transactionUnderpriced": "Transaction is underpriced.",
-        "transactionUnprepared": "Unable to prepare transaction.",
-        "unknown": "Something went wrong.",
-        "userRejectedSignatureRequest": "Signature required."
-      },
-      "message": {
-        "signatureRequired": "Your signature is required to complete the transaction. {{amount}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
-        "transactionFailed": "Please check the block explorer for more information.",
-        "transactionNotSent": "Transaction was not sent, your funds are still in your wallet ({{amount}} {{tokenSymbol}} on {{chainName}})."
       }
     }
   },
