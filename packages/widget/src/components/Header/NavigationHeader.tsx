@@ -2,10 +2,11 @@ import {
   ArrowBack as ArrowBackIcon,
   Settings as SettingsIcon,
 } from '@mui/icons-material';
-import { Box, IconButton, Typography } from '@mui/material';
+import { IconButton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { routes } from '../../utils/routes';
+import { SwapRoutesUpdateProgress } from '../SwapRoutes/SwapRoutesUpdateProgress';
 import { HeaderAppBar } from './Header.style';
 
 const backButtonRoutes = [
@@ -14,7 +15,7 @@ const backButtonRoutes = [
   routes.fromToken,
   routes.toToken,
   routes.swapRoutes,
-  routes.swapping,
+  routes.swap,
 ];
 
 export const NavigationHeader: React.FC = () => {
@@ -42,8 +43,8 @@ export const NavigationHeader: React.FC = () => {
         return t(`header.to`);
       case routes.swapRoutes:
         return t(`header.routes`);
-      case routes.swapping:
-        return t(`header.swapping`);
+      case routes.swap:
+        return t(`header.swap`);
       default:
         return t(`header.swap`);
     }
@@ -78,7 +79,27 @@ export const NavigationHeader: React.FC = () => {
       >
         {handleHeaderTitle()}
       </Typography>
-      {pathname === '/' ? (
+      <Routes>
+        <Route
+          path={routes.home}
+          element={
+            <IconButton
+              size="medium"
+              aria-label="settings"
+              color="inherit"
+              edge="end"
+              onClick={handleSettings}
+            >
+              <SettingsIcon />
+            </IconButton>
+          }
+        />
+        <Route
+          path={routes.swapRoutes}
+          element={<SwapRoutesUpdateProgress />}
+        />
+      </Routes>
+      {/* {pathname === '/' ? (
         <IconButton
           size="medium"
           aria-label="settings"
@@ -90,7 +111,7 @@ export const NavigationHeader: React.FC = () => {
         </IconButton>
       ) : (
         <Box width={36} height={48} />
-      )}
+      )} */}
     </HeaderAppBar>
   );
 };
