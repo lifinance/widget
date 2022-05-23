@@ -29,7 +29,7 @@ export const StepActions: React.FC<StepActionsProps> = ({
     step.type === 'cross' || step.type === 'lifi'
       ? CrossStepDetailsLabel
       : SwapStepDetailsLabel;
-  const isFullView = !dense && (step as LifiStep).includedSteps?.length;
+  const isFullView = !dense && (step as LifiStep).includedSteps?.length > 1;
   return (
     <Box {...other}>
       <Box

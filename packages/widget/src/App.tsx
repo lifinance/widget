@@ -12,7 +12,6 @@ import { SettingsPage } from './pages/SettingsPage';
 import { SwapPage } from './pages/SwapPage';
 import { SwappingPage } from './pages/SwappingPage';
 import { SwapRoutesPage } from './pages/SwapRoutesPage';
-import { SwapExecutionProvider } from './providers/SwapExecutionProvider';
 import { SwapFormProvider } from './providers/SwapFormProvider';
 import { WalletProvider } from './providers/WalletProvider';
 import { WidgetProvider } from './providers/WidgetProvider';
@@ -37,35 +36,27 @@ export const App: React.FC<AppProps> = ({ config }) => {
               <WalletProvider>
                 <SwapFormProvider>
                   <Header />
-                  <SwapExecutionProvider>
-                    <Routes>
-                      <Route path={routes.home} element={<SwapPage />} />
-                      <Route
-                        path={routes.selectWallet}
-                        element={<SelectWalletPage />}
-                      />
-                      <Route
-                        path={routes.settings}
-                        element={<SettingsPage />}
-                      />
-                      <Route
-                        path={routes.fromToken}
-                        element={<SelectTokenPage formType="from" />}
-                      />
-                      <Route
-                        path={routes.toToken}
-                        element={<SelectTokenPage formType="to" />}
-                      />
-                      <Route
-                        path={routes.swapRoutes}
-                        element={<SwapRoutesPage />}
-                      />
-                      <Route
-                        path={routes.swapping}
-                        element={<SwappingPage />}
-                      />
-                    </Routes>
-                  </SwapExecutionProvider>
+                  <Routes>
+                    <Route path={routes.home} element={<SwapPage />} />
+                    <Route
+                      path={routes.selectWallet}
+                      element={<SelectWalletPage />}
+                    />
+                    <Route path={routes.settings} element={<SettingsPage />} />
+                    <Route
+                      path={routes.fromToken}
+                      element={<SelectTokenPage formType="from" />}
+                    />
+                    <Route
+                      path={routes.toToken}
+                      element={<SelectTokenPage formType="to" />}
+                    />
+                    <Route
+                      path={routes.swapRoutes}
+                      element={<SwapRoutesPage />}
+                    />
+                    <Route path={routes.swap} element={<SwappingPage />} />
+                  </Routes>
                 </SwapFormProvider>
               </WalletProvider>
             </WidgetProvider>

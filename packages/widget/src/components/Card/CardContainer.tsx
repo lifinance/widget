@@ -10,4 +10,5 @@ export const CardContainer = styled(Box, {
   borderRadius: (theme.shape.borderRadius as number) * 2,
   overflow: 'hidden',
   flex: 1,
+  position: 'relative',
 }));

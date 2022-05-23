@@ -5,7 +5,7 @@ export const routes = {
   fromToken: '/select-from-token',
   toToken: '/select-to-token',
   swapRoutes: '/swap-routes',
-  swapping: '/swapping',
+  swap: '/swap',
 };
 
 export type RouteType = keyof typeof routes;

@@ -1,12 +1,12 @@
 /* eslint-disable react/no-array-index-key */
 import { Step, TokenAmount } from '@lifinance/sdk';
-import { Avatar, Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { CardContainer, CardTitle } from '../../components/Card';
 import { StepActions } from '../../components/StepActions';
-import { formatTokenAmount } from '../../utils/format';
 import { ExecutionItem } from './ExecutionItem';
 import { StepTimer } from './StepTimer';
+import { StepToken } from './StepToken';
 
 export const StepItem: React.FC<{
   step: Step;
@@ -33,56 +33,12 @@ export const StepItem: React.FC<{
         </CardTitle>
       </Box>
       <Box py={1}>
-        {fromToken ? (
-          <Box px={2} py={1} sx={{ display: 'flex', alignItems: 'center' }}>
-            <Avatar
-              src={fromToken.logoURI}
-              alt={fromToken.symbol}
-              sx={{ marginRight: 2 }}
-            >
-              {fromToken.symbol[0]}
-            </Avatar>
-            <Typography fontSize={24} fontWeight="700" lineHeight={1.333334}>
-              {formatTokenAmount(fromToken.amount, fromToken.decimals)}
-            </Typography>
-            <Typography
-              fontSize={18}
-              fontWeight="500"
-              alignSelf="flex-end"
-              color="text.secondary"
-              mx={1}
-            >
-              {fromToken.symbol}
-            </Typography>
-          </Box>
-        ) : null}
+        {fromToken ? <StepToken token={fromToken} px={2} py={1} /> : null}
         <StepActions step={step} px={2} py={1} dense />
         {step.execution?.process.map((process, index) => (
           <ExecutionItem key={index} step={step} process={process} />
         ))}
-        {toToken ? (
-          <Box px={2} py={1} sx={{ display: 'flex', alignItems: 'center' }}>
-            <Avatar
-              src={toToken.logoURI}
-              alt={toToken.symbol}
-              sx={{ marginRight: 2 }}
-            >
-              {toToken.symbol[0]}
-            </Avatar>
-            <Typography fontSize={24} fontWeight="700" lineHeight={1.333334}>
-              {formatTokenAmount(toToken.amount, toToken.decimals)}
-            </Typography>
-            <Typography
-              fontSize={18}
-              fontWeight="500"
-              alignSelf="flex-end"
-              color="text.secondary"
-              mx={1}
-            >
-              {toToken.symbol}
-            </Typography>
-          </Box>
-        ) : null}
+        {toToken ? <StepToken token={toToken} px={2} py={1} /> : null}
       </Box>
     </CardContainer>
   );

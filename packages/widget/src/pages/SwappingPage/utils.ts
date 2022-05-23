@@ -60,7 +60,7 @@ export function getProcessMessage(
   title?: string;
   message?: string;
 } {
-  if (process.error) {
+  if (process.error && process.status === 'FAILED') {
     const getTransactionNotSentMessage = () =>
       t(`swapping.error.message.transactionNotSent`, {
         amount: formatTokenAmount(
