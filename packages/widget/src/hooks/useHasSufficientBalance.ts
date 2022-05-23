@@ -1,11 +1,13 @@
-import { isSwapStep, Route } from '@lifinance/sdk';
+import { isSwapStep } from '@lifinance/sdk';
 import Big from 'big.js';
 import { useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 import { SwapFormKeyHelper } from '../providers/SwapFormProvider';
+import { useCurrentRoute } from './useRouteExecution';
 import { useTokenBalances } from './useTokenBalances';
 
-export const useHasSufficientBalance = (route?: Route) => {
+export const useHasSufficientBalance = () => {
+  const [route] = useCurrentRoute();
   const [fromChainId, toChainId] = useWatch({
     name: [
       SwapFormKeyHelper.getChainKey('from'),

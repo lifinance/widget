@@ -2,16 +2,14 @@ import { InputAdornment, Skeleton } from '@mui/material';
 import { useMemo } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useTokenBalance } from '../../hooks/useTokenBalance';
+import { useTokenBalance } from '../../hooks';
 import {
   SwapFormKeyHelper,
   SwapFormTypeProps,
 } from '../../providers/SwapFormProvider';
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format';
-import {
-  SwapMaxAmountTypography,
-  SwapPriceTypography,
-} from './SwapInputAdornment.style';
+import { PriceTypography } from '../PriceTypography';
+import { SwapMaxAmountTypography } from './SwapInputAdornment.style';
 
 export const SwapInputAdornment: React.FC<SwapFormTypeProps> = ({
   formType,
@@ -75,10 +73,10 @@ const SwapPrice: React.FC<SwapFormTypeProps & { price?: string }> = ({
   });
 
   return (
-    <SwapPriceTypography variant="body2" color="text.secondary">
+    <PriceTypography variant="body2" color="text.secondary">
       {t(`swap.approximateCurrency`, {
         value: formatTokenPrice(value, price),
       })}
-    </SwapPriceTypography>
+    </PriceTypography>
   );
 };

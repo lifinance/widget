@@ -5,6 +5,7 @@ export * from './useContentHeight';
 export * from './useDebouncedWatch';
 export * from './useExchanges';
 export * from './useHasSufficientBalance';
+export * from './useRouteExecution';
 export * from './useSwapRoutes';
 export * from './useToken';
 export * from './useTokenBalance';

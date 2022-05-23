@@ -1,5 +1,5 @@
 export const env = {
-  LIFI_API_URL: 'https://developkub.li.finance/v1/', // 'https://li.quest/v1/',
+  LIFI_API_URL: 'https://li.quest/v1/', // 'https://developkub.li.finance/v1/',
 
   // RPC - Mainnet (overwrites)
   LIFI_RPC_URL_MAINNET:

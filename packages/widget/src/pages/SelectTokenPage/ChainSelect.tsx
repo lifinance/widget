@@ -11,7 +11,7 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { CardContainer, CardTitle } from '../../components/Card';
 import { Select } from '../../components/Select';
-import { useChains } from '../../hooks/useChains';
+import { useChains } from '../../hooks';
 import {
   SwapFormKeyHelper,
   SwapFormTypeProps,

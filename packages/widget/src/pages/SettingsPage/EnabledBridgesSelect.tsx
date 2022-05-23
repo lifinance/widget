@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { CardContainer, CardTitle } from '../../components/Card';
 import { Select } from '../../components/Select';
-import { useBridges } from '../../hooks/useBridges';
+import { useBridges } from '../../hooks';
 import { SwapFormKey } from '../../providers/SwapFormProvider';
 
 export const EnabledBridgesSelect: React.FC = () => {

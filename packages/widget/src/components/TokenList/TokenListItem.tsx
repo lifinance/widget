@@ -1,24 +1,39 @@
 import {
   Avatar,
+  Box,
   ListItemAvatar,
   ListItemText,
   Skeleton,
   Typography,
 } from '@mui/material';
 import { memo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { formatTokenPrice } from '../../utils/format';
+import { PriceTypography } from '../PriceTypography';
 import { ListItem, ListItemButton } from './TokenList.style';
 import { TokenListItemBaseProps, TokenListItemProps } from './types';
 
 export const TokenListItem: React.FC<TokenListItemProps> = memo(
   ({ onClick, size, start, token, showBalance }) => {
+    const { t } = useTranslation();
     const handleClick = () => onClick?.(token.address);
+    const tokenPrice = formatTokenPrice(token.amount, token.priceUSD);
     return (
       <ListItem
         secondaryAction={
           showBalance ? (
-            <Typography variant="body1" noWrap>
-              {token.amount ?? '0'}
-            </Typography>
+            <Box sx={{ textAlign: 'right' }}>
+              <Typography variant="body1" noWrap>
+                {token.amount ?? '0'}
+              </Typography>
+              {tokenPrice ? (
+                <PriceTypography noWrap data-price={token.priceUSD}>
+                  {t(`swap.currency`, {
+                    value: tokenPrice,
+                  })}
+                </PriceTypography>
+              ) : null}
+            </Box>
           ) : null
         }
         disablePadding

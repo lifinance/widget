@@ -3,8 +3,8 @@ import { useQuery } from 'react-query';
 import { LiFi } from '../lifi';
 
 export const useExchanges = () => {
-  const { data } = useQuery(['exchanges'], () =>
-    LiFi.getPossibilities({ include: ['exchanges'] }),
+  const { data } = useQuery(['exchanges'], ({ signal }) =>
+    LiFi.getPossibilities({ include: ['exchanges'] }, { signal }),
   );
   const exchanges = useMemo(() => {
     const exchanges = data?.exchanges

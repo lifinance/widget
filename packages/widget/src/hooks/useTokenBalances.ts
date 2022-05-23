@@ -36,7 +36,13 @@ export const useTokenBalances = (selectedChainId: number) => {
         return token;
       });
       return [
-        ...formatedTokens.filter((token) => token.amount !== '0'),
+        ...formatedTokens
+          .filter((token) => token.amount !== '0')
+          .sort(
+            (a, b) =>
+              parseFloat(b.amount ?? '0') * parseFloat(b.priceUSD ?? '0') -
+              parseFloat(a.amount ?? '0') * parseFloat(a.priceUSD ?? '0'),
+          ),
         ...formatedTokens.filter((token) => token.amount === '0'),
       ];
     },
