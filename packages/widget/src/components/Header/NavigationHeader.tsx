@@ -81,6 +81,10 @@ export const NavigationHeader: React.FC = () => {
       </Typography>
       <Routes>
         <Route
+          path={routes.swapRoutes}
+          element={<SwapRoutesUpdateProgress />}
+        />
+        <Route
           path={routes.home}
           element={
             <IconButton
@@ -94,10 +98,7 @@ export const NavigationHeader: React.FC = () => {
             </IconButton>
           }
         />
-        <Route
-          path={routes.swapRoutes}
-          element={<SwapRoutesUpdateProgress />}
-        />
+        <Route path="/:empty" element={null} />
       </Routes>
       {/* {pathname === '/' ? (
         <IconButton
