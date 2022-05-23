@@ -23,15 +23,20 @@ export const ProgressToNextUpdate: React.FC<
   useEffect(() => {
     const id = setInterval(() => {
       const time = calculateTime(updatedAt, timeToUpdate);
-      if (time >= 100) {
-        setValue(0);
-        clearInterval(id);
-        return;
-      }
       setValue(calculateTime(updatedAt, timeToUpdate));
-    }, 500);
+      if (time >= 100) {
+        clearInterval(id);
+      }
+    }, 1000);
     return () => clearInterval(id);
   }, [timeToUpdate, updatedAt]);
+
+  useEffect(() => {
+    if (isLoading) {
+      setValue(0);
+    }
+  }, [isLoading]);
+
   return (
     <Box
       sx={{

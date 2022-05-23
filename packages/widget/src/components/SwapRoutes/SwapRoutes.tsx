@@ -7,21 +7,15 @@ import { useNavigate } from 'react-router-dom';
 import { useCurrentRoute, useSwapRoutes } from '../../hooks';
 import { routes } from '../../utils/routes';
 import { CardContainer, CardTitle } from '../Card';
-import { ProgressToNextUpdate } from '../ProgressToNextUpdate';
 import { SwapRouteCard } from '../SwapRouteCard';
 import { Stack } from './SwapRoutes.style';
+import { SwapRoutesUpdateProgress } from './SwapRoutesUpdateProgress';
 
 export const SwapRoutes: React.FC<BoxProps> = ({ mb }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [currentRoute] = useCurrentRoute();
-  const {
-    routes: swapRoutes,
-    isLoading,
-    isFetching,
-    dataUpdatedAt,
-    refetchTime,
-  } = useSwapRoutes();
+  const { routes: swapRoutes, isLoading, isFetching } = useSwapRoutes();
 
   const handleCardClick = useCallback(() => {
     navigate(routes.swapRoutes);
@@ -34,10 +28,7 @@ export const SwapRoutes: React.FC<BoxProps> = ({ mb }) => {
   return (
     <CardContainer mb={mb}>
       <CardTitle>{t('swap.routes')}</CardTitle>
-      <ProgressToNextUpdate
-        updatedAt={dataUpdatedAt}
-        timeToUpdate={refetchTime}
-        isLoading={isLoading || isFetching}
+      <SwapRoutesUpdateProgress
         sx={{
           position: 'absolute',
           top: 16,
