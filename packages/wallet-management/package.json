@@ -7,7 +7,7 @@
   "scripts": {},
   "dependencies": {
     "@ethersproject/experimental": "^5.6.1",
-    "@ethersproject/providers": "^5.6.6",
+    "@ethersproject/providers": "^5.6.7",
     "@walletconnect/ethereum-provider": "^1.7.8",
     "@web3-react/coinbase-wallet": "^8.0.25-beta.0",
     "@web3-react/core": "^8.0.22-beta.0",
