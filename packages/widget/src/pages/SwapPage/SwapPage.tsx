@@ -4,12 +4,11 @@ import { SelectTokenButton } from '../../components/SelectTokenButton';
 import { SwapButton } from '../../components/SwapButton';
 import { SwapInput } from '../../components/SwapInput';
 import { SwapRoutes } from '../../components/SwapRoutes';
-import { ElementId } from '../../utils/elements';
 import { FormBox, FormContainer } from './SwapPage.style';
 
 export const SwapPage: React.FC = () => {
   return (
-    <FormContainer id={ElementId.SwapContent} disableGutters>
+    <FormContainer disableGutters>
       <FormBox>
         <SelectTokenButton formType="from" />
         <Box

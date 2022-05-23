@@ -1,24 +1,36 @@
+import { Check as CheckIcon } from '@mui/icons-material';
 import { Avatar, Box, BoxProps, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { formatTokenAmount } from '../../utils/format';
 import { StepActions } from '../StepActions';
-import { Card, Label } from './SwapRouteCard.style';
+import { Card, Check, Label } from './SwapRouteCard.style';
 import { SwapRouteCardProps } from './types';
 
 export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
   route,
-  index,
   active,
   dense,
   ...other
 }) => {
   const { t } = useTranslation();
   return (
-    <Card active={active} {...other}>
+    <Card active={active} dense={dense} {...other}>
       <Box>
-        <Label active={active} mb={2}>
-          ROUTE {index + 1}
-        </Label>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+          mb={2}
+        >
+          <Label>COMMON</Label>
+          {active ? (
+            <Check>
+              <CheckIcon fontSize="inherit" />
+            </Check>
+          ) : null}
+        </Box>
         <Box
           sx={{
             display: 'flex',
@@ -28,7 +40,7 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
           <Avatar
             src={route.toToken.logoURI}
             alt={route.toToken.symbol}
-            sx={{ marginRight: 2, paddingY: 0.375 }}
+            sx={{ marginRight: 2, marginY: 0.375 }}
           >
             {route.toToken.symbol[0]}
           </Avatar>
@@ -42,7 +54,9 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
           </Box>
         </Box>
         {!dense
-          ? route.steps.map((step) => <StepActions step={step} mb={2} />)
+          ? route.steps.map((step) => (
+              <StepActions key={step.id} step={step} mb={2} />
+            ))
           : null}
         <Box
           sx={{

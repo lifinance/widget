@@ -2,23 +2,26 @@ import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 export const Card = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'active' && prop !== 'blur',
-})<{ active?: boolean; blur?: boolean }>(({ theme, active, blur }) => ({
-  backgroundColor: theme.palette.common.white,
-  padding: theme.spacing(2),
-  border: `1px solid ${
-    active ? theme.palette.common.black : theme.palette.grey[300]
-  }`,
-  borderRadius: theme.shape.borderRadius,
-  boxSizing: 'border-box',
-  userSelect: blur ? 'none' : 'auto',
-  '&:hover': {
-    cursor: blur ? 'pointer' : 'default',
-  },
-  '& > div': {
-    filter: blur ? 'blur(3px)' : 'none',
-  },
-}));
+  shouldForwardProp: (prop) =>
+    !['dense', 'active', 'blur'].includes(prop as string),
+})<{ active?: boolean; blur?: boolean; dense?: boolean }>(
+  ({ theme, active, blur, dense }) => ({
+    backgroundColor: theme.palette.common.white,
+    padding: theme.spacing(2),
+    border: `1px solid ${
+      active ? theme.palette.common.black : theme.palette.grey[300]
+    }`,
+    borderRadius: theme.shape.borderRadius,
+    boxSizing: 'border-box',
+    userSelect: blur ? 'none' : 'auto',
+    '&:hover': {
+      cursor: blur || !dense ? 'pointer' : 'default',
+    },
+    '& > div': {
+      filter: blur ? 'blur(3px)' : 'none',
+    },
+  }),
+);
 
 export const Label = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'active',
@@ -37,4 +40,15 @@ export const Label = styled(Box, {
   textTransform: 'uppercase',
   display: 'inline-flex',
   userSelect: 'none',
+}));
+
+export const Check = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
+  borderRadius: '50%',
+  color: theme.palette.common.white,
+  width: 24,
+  height: 24,
+  display: 'grid',
+  placeItems: 'center',
+  fontSize: '1rem',
 }));

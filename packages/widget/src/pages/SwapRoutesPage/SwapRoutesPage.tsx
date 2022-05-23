@@ -1,28 +1,35 @@
 /* eslint-disable react/no-array-index-key */
+import { Route } from '@lifinance/sdk';
 import { BoxProps, Skeleton } from '@mui/material';
-import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { SwapRouteCard } from '../../components/SwapRouteCard';
-import { useSwapRoutes } from '../../hooks';
+import { useCurrentRoute, useSwapRoutes } from '../../hooks';
 import { Stack } from './SwapRoutesPage.style';
 
-export const SwapRoutesPage: React.FC<BoxProps> = ({ mb }) => {
-  const { t } = useTranslation();
-  const { routes, isLoading } = useSwapRoutes();
+export const SwapRoutesPage: React.FC<BoxProps> = () => {
+  const navigate = useNavigate();
+  const { routes, isLoading, isFetching } = useSwapRoutes();
+  const [currentRoute, setCurrentRoute] = useCurrentRoute();
 
-  if (!routes?.length && !isLoading) {
+  if (!routes?.length && !isLoading && !isFetching) {
     // TODO: make no routes message
     return null;
   }
 
+  const handleRouteClick = (route: Route) => {
+    setCurrentRoute(route);
+    navigate(-1);
+  };
+
   return (
     <Stack direction="column" spacing={2}>
-      {isLoading
+      {isLoading || isFetching
         ? Array.from({ length: 3 }).map((_, index) => (
             <Skeleton
               key={index}
               variant="rectangular"
               width="100%"
-              height={195}
+              height={196}
               sx={{ borderRadius: 1 }}
             />
           ))
@@ -30,8 +37,8 @@ export const SwapRoutesPage: React.FC<BoxProps> = ({ mb }) => {
             <SwapRouteCard
               key={route.id}
               route={route}
-              index={index}
-              active={index === 0}
+              active={currentRoute?.id === route.id}
+              onClick={() => handleRouteClick(route)}
             />
           ))}
     </Stack>

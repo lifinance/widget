@@ -2,8 +2,13 @@ import { ChainId } from '@lifinance/sdk';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useChains, useHasSufficientBalance, useSwapRoutes } from '../../hooks';
-import { useSwapExecutionContext } from '../../providers/SwapExecutionProvider';
+import {
+  useChains,
+  useCurrentRoute,
+  useHasSufficientBalance,
+  useSetExecutionRoute,
+  useSwapRoutes,
+} from '../../hooks';
 import { SwapFormKeyHelper } from '../../providers/SwapFormProvider';
 import { useWallet } from '../../providers/WalletProvider';
 import { routes } from '../../utils/routes';
@@ -15,35 +20,42 @@ export const SwapButton: React.FC = () => {
   const { t } = useTranslation();
   const { getChainById } = useChains();
   const { account, switchChain } = useWallet();
-  const { executeRoute } = useSwapExecutionContext();
+  const [currentRoute] = useCurrentRoute();
+  const setExecutionRoute = useSetExecutionRoute();
 
-  const { routes: swapRoutes, isLoading } = useSwapRoutes();
+  const { routes: swapRoutes, isLoading, isFetching } = useSwapRoutes();
 
   const {
     hasGasBalanceOnStartChain,
     hasGasOnCrossChain,
     hasSufficientBalance,
-  } = useHasSufficientBalance(swapRoutes?.[0]);
+  } = useHasSufficientBalance();
 
   const [chainId] = useWatch({
     name: [SwapFormKeyHelper.getChainKey('from')],
   });
+  const isCurrentChainMatch =
+    getChainById(chainId || ChainId.ETH)?.id === account.chainId;
 
   const handleSwapButtonClick = async () => {
     if (!account.isActive) {
       navigate(routes.selectWallet);
-    } else if (getChainById(chainId || ChainId.ETH)?.id !== account.chainId) {
+    } else if (!isCurrentChainMatch) {
       await switchChain(chainId!);
-    } else if (swapRoutes?.length) {
-      executeRoute(swapRoutes[0]);
-      navigate(routes.swapping);
+      // check that the current route exists in the up to date route list
+    } else if (
+      currentRoute &&
+      swapRoutes?.some((route) => route.id === currentRoute.id)
+    ) {
+      setExecutionRoute(currentRoute);
+      navigate(routes.swap, { state: { routeId: currentRoute.id } });
     }
   };
 
   const getButtonText = () => {
     if (account.isActive) {
-      if (getChainById(chainId || ChainId.ETH)?.id !== account.chainId) {
-        return t(`swap.switchChain`);
+      if (!isCurrentChainMatch) {
+        return t(`button.switchChain`);
       }
       if (!hasSufficientBalance) {
         return t(`swap.insufficientFunds`);
@@ -54,9 +66,9 @@ export const SwapButton: React.FC = () => {
       if (!hasGasOnCrossChain) {
         return t(`swap.insufficientGasOnDestinationChain`);
       }
-      return t(`swap.submit`);
+      return t(`button.swap`);
     }
-    return t(`swap.connectWallet`);
+    return t(`button.connectWallet`);
   };
 
   return (
@@ -73,11 +85,14 @@ export const SwapButton: React.FC = () => {
         fullWidth
         color={account.isActive ? 'primary' : 'success'}
         onClick={handleSwapButtonClick}
-        loading={isLoading}
+        // loading={isLoading || isFetching}
         disabled={
-          !hasSufficientBalance ||
-          !hasGasBalanceOnStartChain ||
-          !hasGasOnCrossChain
+          (!hasSufficientBalance ||
+            !hasGasBalanceOnStartChain ||
+            !hasGasOnCrossChain ||
+            isLoading ||
+            isFetching) &&
+          isCurrentChainMatch
         }
       >
         {getButtonText()}

@@ -1,11 +1,19 @@
+import { useRouteExecution } from '@lifinance/widget/hooks';
 import { Fragment } from 'react';
-import { useSwapExecutionContext } from '../../providers/SwapExecutionProvider';
+import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
+import { StatusBottomSheet } from './StatusBottomSheet';
 import { StepDivider } from './StepDivider';
 import { StepItem } from './StepItem';
-import { Container } from './SwappingPage.style';
+import { Button, Container } from './SwappingPage.style';
 
 export const SwappingPage: React.FC = () => {
-  const { route } = useSwapExecutionContext();
+  const { t } = useTranslation();
+  const { state }: any = useLocation();
+  const { route, status, executeRoute, restartRoute } = useRouteExecution(
+    state.routeId as string,
+  );
+
   return (
     <Container>
       {route?.steps.map((step, index, steps) => (
@@ -28,6 +36,27 @@ export const SwappingPage: React.FC = () => {
           ) : null}
         </Fragment>
       ))}
+      {status === 'idle' ? (
+        <Button
+          variant="contained"
+          disableElevation
+          fullWidth
+          onClick={executeRoute}
+        >
+          {t('button.startSwap')}
+        </Button>
+      ) : null}
+      {status === 'error' ? (
+        <Button
+          variant="contained"
+          disableElevation
+          fullWidth
+          onClick={restartRoute}
+        >
+          {t('button.restartSwap')}
+        </Button>
+      ) : null}
+      <StatusBottomSheet status={status} route={route} />
     </Container>
   );
 };
