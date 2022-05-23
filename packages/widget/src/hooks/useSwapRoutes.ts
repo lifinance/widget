@@ -7,7 +7,7 @@ import { SwapFormKey } from '../providers/SwapFormProvider';
 import { useWallet } from '../providers/WalletProvider';
 import { useCurrentRoute } from './useRouteExecution';
 
-const refetchTime = 30_000;
+const refetchTime = 60_000;
 
 export const useSwapRoutes = () => {
   const { account } = useWallet();
@@ -43,11 +43,23 @@ export const useSwapRoutes = () => {
     !isNaN(fromTokenAmount) &&
     !isNaN(slippage);
 
-  const { data, isLoading, isFetching, dataUpdatedAt, status, fetchStatus } =
-    useQuery(
-      [
-        'routes',
-        account.address,
+  const { data, isLoading, isFetching, dataUpdatedAt } = useQuery(
+    [
+      'routes',
+      account.address,
+      fromChainId,
+      fromTokenAddress,
+      fromTokenAmount,
+      toChainId,
+      toTokenAddress,
+      slippage,
+      enabledBridges,
+      enabledExchanges,
+    ],
+    async ({
+      queryKey: [
+        _,
+        address,
         fromChainId,
         fromTokenAddress,
         fromTokenAmount,
@@ -57,56 +69,43 @@ export const useSwapRoutes = () => {
         enabledBridges,
         enabledExchanges,
       ],
-      async ({
-        queryKey: [
-          _,
-          address,
+      signal,
+    }) => {
+      return LiFi.getRoutes(
+        {
           fromChainId,
+          // TODO: simplify
+          fromAmount: (
+            Number(fromTokenAmount) *
+            10 ** (token?.decimals ?? 0)
+          ).toFixed(0), // new BigNumber(depositAmount).shiftedBy(fromToken.decimals).toFixed(0),
           fromTokenAddress,
-          fromTokenAmount,
           toChainId,
           toTokenAddress,
-          slippage,
-          enabledBridges,
-          enabledExchanges,
-        ],
-        signal,
-      }) => {
-        return LiFi.getRoutes(
-          {
-            fromChainId,
-            // TODO: simplify
-            fromAmount: (
-              Number(fromTokenAmount) *
-              10 ** (token?.decimals ?? 0)
-            ).toFixed(0), // new BigNumber(depositAmount).shiftedBy(fromToken.decimals).toFixed(0),
-            fromTokenAddress,
-            toChainId,
-            toTokenAddress,
-            fromAddress: address,
-            toAddress: address,
-            options: {
-              slippage: slippage / 100,
-              bridges: {
-                allow: enabledBridges,
-              },
-              exchanges: {
-                allow: enabledExchanges,
-              },
+          fromAddress: address,
+          toAddress: address,
+          options: {
+            slippage: slippage / 100,
+            bridges: {
+              allow: enabledBridges,
+            },
+            exchanges: {
+              allow: enabledExchanges,
             },
           },
-          { signal },
-        );
-      },
-      {
-        enabled: isEnabled,
-        refetchIntervalInBackground: true,
-        refetchInterval: refetchTime,
-        staleTime: refetchTime,
-        // TODO: probably should be removed
-        cacheTime: refetchTime,
-      },
-    );
+        },
+        { signal },
+      );
+    },
+    {
+      enabled: isEnabled,
+      refetchIntervalInBackground: true,
+      refetchInterval: refetchTime,
+      staleTime: refetchTime,
+      // TODO: probably should be removed
+      cacheTime: refetchTime,
+    },
+  );
 
   useEffect(() => {
     // check that the current route is selected from existing routes
