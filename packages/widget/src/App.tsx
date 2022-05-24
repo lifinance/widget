@@ -3,8 +3,8 @@ import { FC, PropsWithChildren } from 'react';
 import { QueryClientProvider, QueryClientProviderProps } from 'react-query';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { WidgetConfig } from '.';
+import { AppContainer } from './components/AppContainer';
 import { Header } from './components/Header';
-import { MainContainer } from './components/MainContainer';
 import { queryClient } from './config/queryClient';
 import { SelectTokenPage } from './pages/SelectTokenPage';
 import { SelectWalletPage } from './pages/SelectWalletPage';
@@ -31,7 +31,7 @@ export const App: React.FC<AppProps> = ({ config }) => {
     <ThemeProvider theme={theme}>
       <QueryProvider client={queryClient}>
         <MemoryRouter>
-          <MainContainer sx={config.containerStyle}>
+          <AppContainer sx={config.containerStyle}>
             <WidgetProvider config={config}>
               <WalletProvider>
                 <SwapFormProvider>
@@ -60,7 +60,7 @@ export const App: React.FC<AppProps> = ({ config }) => {
                 </SwapFormProvider>
               </WalletProvider>
             </WidgetProvider>
-          </MainContainer>
+          </AppContainer>
         </MemoryRouter>
       </QueryProvider>
     </ThemeProvider>

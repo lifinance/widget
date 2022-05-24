@@ -9,6 +9,5 @@ export const CardContainer = styled(Box, {
   borderColor: isError ? theme.palette.error.main : theme.palette.grey[300],
   borderRadius: (theme.shape.borderRadius as number) * 2,
   overflow: 'hidden',
-  flex: 1,
   position: 'relative',
 }));

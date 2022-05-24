@@ -24,7 +24,7 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
           }}
           mb={2}
         >
-          <Label>COMMON</Label>
+          <Label>GENERAL</Label>
           {active ? (
             <Check>
               <CheckIcon fontSize="inherit" />

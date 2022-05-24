@@ -3,10 +3,12 @@ import { styled } from '@mui/material/styles';
 import { PropsWithChildren, RefObject, useLayoutEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { ElementId } from '../utils/elements';
+import { PoweredBy } from './PoweredBy';
 
 const Container = styled(MuiContainer)(({ theme }) => ({
   // height: '100%',
   display: 'flex',
+  flex: 1,
   flexDirection: 'column',
   overflowX: 'clip',
   marginRight: 0,
@@ -27,9 +29,10 @@ const ScrollableContainer = styled(Box)({
   overflowY: 'scroll',
   height: '100%',
   flex: 1,
+  display: 'flex',
 });
 
-export const MainContainer: React.FC<PropsWithChildren<BoxProps>> = ({
+export const AppContainer: React.FC<PropsWithChildren<BoxProps>> = ({
   children,
   sx,
 }) => {
@@ -40,6 +43,7 @@ export const MainContainer: React.FC<PropsWithChildren<BoxProps>> = ({
         <ScrollableContainer id={ElementId.ScrollableContainer} ref={ref}>
           <Container maxWidth={false} disableGutters>
             {children}
+            <PoweredBy />
           </Container>
         </ScrollableContainer>
       </RelativeContainer>
