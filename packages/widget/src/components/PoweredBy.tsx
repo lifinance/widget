@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Link, Typography } from '@mui/material';
 import { ReactComponent as LiFiFullLogo } from '../icons/LiFiLogoFull.svg';
 
 export const PoweredBy: React.FC = () => {
@@ -14,17 +14,20 @@ export const PoweredBy: React.FC = () => {
         flex: 1,
       }}
     >
-      <Box
+      <Link
         sx={{
           display: 'flex',
           alignItems: 'center',
         }}
+        href="https://li.fi"
+        target="_blank"
+        underline="none"
       >
         <Typography color="text.secondary" fontSize={12} px={0.5}>
           Powered by
         </Typography>
         <LiFiFullLogo style={{ height: 16, width: 42 }} />
-      </Box>
+      </Link>
     </Box>
   );
 };
