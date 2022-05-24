@@ -22,7 +22,10 @@ export const SwapInputAdornment: React.FC<SwapFormTypeProps> = ({
       SwapFormKeyHelper.getTokenKey(formType),
     ],
   });
-  const { token, isLoading } = useTokenBalance(chainId, tokenAddress);
+  const { token, isLoading, isFetching } = useTokenBalance(
+    chainId,
+    tokenAddress,
+  );
 
   const amount = useMemo(
     () => (token?.amount ? formatTokenAmount(token.amount) : null),
@@ -36,7 +39,7 @@ export const SwapInputAdornment: React.FC<SwapFormTypeProps> = ({
   return (
     <InputAdornment position="end">
       {
-        isLoading ? (
+        isLoading && isFetching ? (
           <Skeleton
             variant="rectangular"
             width={96}
