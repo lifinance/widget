@@ -3,22 +3,28 @@ import { Route } from '@lifinance/sdk';
 import { BoxProps, Skeleton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { SwapRouteCard } from '../../components/SwapRouteCard';
-import { useCurrentRoute, useSwapRoutes } from '../../hooks';
+import {
+  useCurrentRoute,
+  useSetExecutableRoute,
+  useSwapRoutes,
+} from '../../hooks';
+import { routes } from '../../utils/routes';
 import { Stack } from './SwapRoutesPage.style';
 
 export const SwapRoutesPage: React.FC<BoxProps> = () => {
   const navigate = useNavigate();
-  const { routes, isLoading, isFetching } = useSwapRoutes();
-  const [currentRoute, setCurrentRoute] = useCurrentRoute();
+  const { routes: swapRoutes, isLoading, isFetching } = useSwapRoutes();
+  const [currentRoute] = useCurrentRoute();
+  const setExecutableRoute = useSetExecutableRoute();
 
-  if (!routes?.length && !isLoading && !isFetching) {
+  if (!swapRoutes?.length && !isLoading && !isFetching) {
     // TODO: make no routes message
     return null;
   }
 
   const handleRouteClick = (route: Route) => {
-    setCurrentRoute(route);
-    navigate(-1);
+    setExecutableRoute(route);
+    navigate(routes.swap, { state: { routeId: route.id } });
   };
 
   return (
@@ -33,7 +39,7 @@ export const SwapRoutesPage: React.FC<BoxProps> = () => {
               sx={{ borderRadius: 1 }}
             />
           ))
-        : routes?.map((route, index) => (
+        : swapRoutes?.map((route, index) => (
             <SwapRouteCard
               key={route.id}
               route={route}

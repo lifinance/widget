@@ -1,17 +1,14 @@
-import { Box, Container } from '@mui/material';
-import { styled } from '@mui/system';
+import { Button as MuiButton, Container as MuiContainer } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
-export const FormContainer = styled(Container)({
-  display: 'flex',
-  flexDirection: 'column',
-  flexGrow: 1,
-  position: 'relative',
-});
+export const Container = styled(MuiContainer)(({ theme }) => ({
+  padding: theme.spacing(1, 3, 3, 3),
+}));
 
-export const FormBox = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  paddingTop: theme.spacing(2),
-  paddingLeft: theme.spacing(3),
-  paddingRight: theme.spacing(3),
+export const Button = styled(MuiButton)(({ theme }) => ({
+  textTransform: 'none',
+  borderRadius: theme.shape.borderRadius,
+  padding: theme.spacing(1.25, 2),
+  fontSize: '1rem',
+  marginTop: theme.spacing(2),
 }));

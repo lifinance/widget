@@ -6,11 +6,11 @@ import { WidgetConfig } from '.';
 import { AppContainer } from './components/AppContainer';
 import { Header } from './components/Header';
 import { queryClient } from './config/queryClient';
+import { MainPage } from './pages/MainPage';
 import { SelectTokenPage } from './pages/SelectTokenPage';
 import { SelectWalletPage } from './pages/SelectWalletPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { SwapPage } from './pages/SwapPage';
-import { SwappingPage } from './pages/SwappingPage';
 import { SwapRoutesPage } from './pages/SwapRoutesPage';
 import { SwapFormProvider } from './providers/SwapFormProvider';
 import { WalletProvider } from './providers/WalletProvider';
@@ -37,7 +37,7 @@ export const App: React.FC<AppProps> = ({ config }) => {
                 <SwapFormProvider>
                   <Header />
                   <Routes>
-                    <Route path={routes.home} element={<SwapPage />} />
+                    <Route path={routes.home} element={<MainPage />} />
                     <Route
                       path={routes.selectWallet}
                       element={<SelectWalletPage />}
@@ -55,7 +55,7 @@ export const App: React.FC<AppProps> = ({ config }) => {
                       path={routes.swapRoutes}
                       element={<SwapRoutesPage />}
                     />
-                    <Route path={routes.swap} element={<SwappingPage />} />
+                    <Route path={routes.swap} element={<SwapPage />} />
                   </Routes>
                 </SwapFormProvider>
               </WalletProvider>

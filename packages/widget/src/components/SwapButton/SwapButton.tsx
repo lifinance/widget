@@ -6,7 +6,7 @@ import {
   useChains,
   useCurrentRoute,
   useHasSufficientBalance,
-  useSetExecutionRoute,
+  useSetExecutableRoute,
   useSwapRoutes,
 } from '../../hooks';
 import { SwapFormKeyHelper } from '../../providers/SwapFormProvider';
@@ -21,7 +21,7 @@ export const SwapButton: React.FC = () => {
   const { getChainById } = useChains();
   const { account, switchChain } = useWallet();
   const [currentRoute] = useCurrentRoute();
-  const setExecutionRoute = useSetExecutionRoute();
+  const setExecutableRoute = useSetExecutableRoute();
 
   const { routes: swapRoutes, isLoading, isFetching } = useSwapRoutes();
 
@@ -47,7 +47,7 @@ export const SwapButton: React.FC = () => {
       currentRoute &&
       swapRoutes?.some((route) => route.id === currentRoute.id)
     ) {
-      setExecutionRoute(currentRoute);
+      setExecutableRoute(currentRoute);
       navigate(routes.swap, { state: { routeId: currentRoute.id } });
     }
   };

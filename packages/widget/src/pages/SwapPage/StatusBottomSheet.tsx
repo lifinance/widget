@@ -17,7 +17,7 @@ import {
   iconStyles,
 } from './StatusBottomSheet.style';
 import { StepToken } from './StepToken';
-import { Button } from './SwappingPage.style';
+import { Button } from './SwapPage.style';
 import { getProcessMessage } from './utils';
 
 export const StatusBottomSheet: React.FC<RouteExecution> = ({
@@ -112,7 +112,9 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
             />
           ) : null}
         </IconContainer>
-        <Typography pt={1}>{message}</Typography>
+        <Typography pt={2} pb={1}>
+          {message}
+        </Typography>
         <Button
           variant="contained"
           disableElevation

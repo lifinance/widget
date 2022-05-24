@@ -60,7 +60,7 @@ export const StepTimer: React.FC<{ step: Step }> = ({ step }) => {
     );
   }
   if (step.execution?.status === 'DONE') {
-    return <>{t('swapping.done')}</>;
+    return null;
   }
   return isExpired ? (
     <>{t('swapping.networkIsBusy')}</>
