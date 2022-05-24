@@ -1,5 +1,4 @@
 import { InputAdornment, Skeleton } from '@mui/material';
-import { useMemo } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useTokenBalance } from '../../hooks';
@@ -7,7 +6,7 @@ import {
   SwapFormKeyHelper,
   SwapFormTypeProps,
 } from '../../providers/SwapFormProvider';
-import { formatTokenAmount, formatTokenPrice } from '../../utils/format';
+import { formatTokenPrice } from '../../utils/format';
 import { PriceTypography } from '../PriceTypography';
 import { SwapMaxAmountTypography } from './SwapInputAdornment.style';
 
@@ -27,13 +26,8 @@ export const SwapInputAdornment: React.FC<SwapFormTypeProps> = ({
     tokenAddress,
   );
 
-  const amount = useMemo(
-    () => (token?.amount ? formatTokenAmount(token.amount) : null),
-    [token],
-  );
-
   const handleMax = () => {
-    setValue(SwapFormKeyHelper.getAmountKey(formType), amount);
+    setValue(SwapFormKeyHelper.getAmountKey(formType), token?.amount ?? '');
   };
 
   return (
@@ -56,7 +50,7 @@ export const SwapInputAdornment: React.FC<SwapFormTypeProps> = ({
             data-amount={token?.amount}
           >
             {t(`swap.maxAmount`, {
-              amount,
+              amount: token?.amount,
             })}
           </SwapMaxAmountTypography>
         ) : null

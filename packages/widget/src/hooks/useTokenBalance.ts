@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import { LiFi } from '../lifi';
 import { useWallet } from '../providers/WalletProvider';
+import { formatTokenAmount } from '../utils/format';
 import { useToken } from './useToken';
 
 export const useTokenBalance = (chainId: number, tokenAddress: string) => {
@@ -22,7 +23,10 @@ export const useTokenBalance = (chainId: number, tokenAddress: string) => {
         return null;
       }
       const tokenBalance = await LiFi.getTokenBalance(address as string, token);
-      return tokenBalance;
+      return {
+        ...tokenBalance,
+        amount: formatTokenAmount(tokenBalance?.amount),
+      };
     },
     {
       enabled: Boolean(account.address) && Boolean(token),
