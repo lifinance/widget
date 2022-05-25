@@ -44,8 +44,8 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
     switch (status) {
       case 'success':
         return {
-          title: t('swapping.success.title.fundsReceived'),
-          message: t('swapping.success.message.fundsReceived', {
+          title: t('swap.success.title.fundsReceived'),
+          message: t('swap.success.message.fundsReceived', {
             amount: token?.amount,
             tokenSymbol: token?.symbol,
             chainName: getChainById(route.toChainId)?.name,

@@ -122,7 +122,7 @@ export const CrossStepDetailsLabel: React.FC<
       color="text.secondary"
       {...other}
     >
-      {t('swapping.crossStepDetails', {
+      {t('swap.crossStepDetails', {
         from: getChainById(step.action.fromChainId)?.name,
         to: getChainById(step.action.toChainId)?.name,
         tool: step.toolDetails.name,
@@ -142,7 +142,7 @@ export const SwapStepDetailsLabel: React.FC<
       color="text.secondary"
       {...other}
     >
-      {t('swapping.swapStepDetails', {
+      {t('swap.swapStepDetails', {
         value: step.toolDetails.name,
       })}
     </Typography>

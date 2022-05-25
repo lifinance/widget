@@ -24,29 +24,29 @@ const processMessages: Record<
   Partial<Record<Status, (t: TFunction<'translation', undefined>) => string>>
 > = {
   TOKEN_ALLOWANCE: {
-    STARTED: (t) => t(`swapping.process.tokenAllowance.started`),
-    PENDING: (t) => t(`swapping.process.tokenAllowance.pending`),
-    DONE: (t) => t(`swapping.process.tokenAllowance.done`),
+    STARTED: (t) => t(`swap.process.tokenAllowance.started`),
+    PENDING: (t) => t(`swap.process.tokenAllowance.pending`),
+    DONE: (t) => t(`swap.process.tokenAllowance.done`),
   },
   SWITCH_CHAIN: {
-    PENDING: (t) => t(`swapping.process.switchChain.pending`),
-    DONE: (t) => t(`swapping.process.switchChain.done`),
+    PENDING: (t) => t(`swap.process.switchChain.pending`),
+    DONE: (t) => t(`swap.process.switchChain.done`),
   },
   SWAP: {
-    STARTED: (t) => t(`swapping.process.swap.started`),
-    ACTION_REQUIRED: (t) => t(`swapping.process.swap.actionRequired`),
-    PENDING: (t) => t(`swapping.process.swap.pending`),
-    DONE: (t) => t(`swapping.process.swap.done`),
+    STARTED: (t) => t(`swap.process.swap.started`),
+    ACTION_REQUIRED: (t) => t(`swap.process.swap.actionRequired`),
+    PENDING: (t) => t(`swap.process.swap.pending`),
+    DONE: (t) => t(`swap.process.swap.done`),
   },
   CROSS_CHAIN: {
-    STARTED: (t) => t(`swapping.process.crossChain.started`),
-    ACTION_REQUIRED: (t) => t(`swapping.process.crossChain.actionRequired`),
-    PENDING: (t) => t(`swapping.process.crossChain.pending`),
-    DONE: (t) => t(`swapping.process.crossChain.done`),
+    STARTED: (t) => t(`swap.process.crossChain.started`),
+    ACTION_REQUIRED: (t) => t(`swap.process.crossChain.actionRequired`),
+    PENDING: (t) => t(`swap.process.crossChain.pending`),
+    DONE: (t) => t(`swap.process.crossChain.done`),
   },
   RECEIVING_CHAIN: {
-    PENDING: (t) => t(`swapping.process.receivingChain.pending`),
-    DONE: (t) => t(`swapping.process.receivingChain.done`),
+    PENDING: (t) => t(`swap.process.receivingChain.pending`),
+    DONE: (t) => t(`swap.process.receivingChain.done`),
   },
   TRANSACTION: {},
 };
@@ -62,7 +62,7 @@ export function getProcessMessage(
 } {
   if (process.error && process.status === 'FAILED') {
     const getTransactionNotSentMessage = () =>
-      t(`swapping.error.message.transactionNotSent`, {
+      t(`swap.error.message.transactionNotSent`, {
         amount: formatTokenAmount(
           step.action.fromAmount,
           step.action.fromToken.decimals,
@@ -74,24 +74,24 @@ export function getProcessMessage(
     let message: string = '';
     switch (process.error.code) {
       case LifiErrorCode.ChainSwitchError:
-        title = t(`swapping.error.title.chainSwitch`);
+        title = t(`swap.error.title.chainSwitch`);
         message = getTransactionNotSentMessage();
         break;
       case LifiErrorCode.TransactionFailed:
-        title = t(`swapping.error.title.transactionFailed`);
-        message = t(`swapping.error.message.transactionFailed`);
+        title = t(`swap.error.title.transactionFailed`);
+        message = t(`swap.error.message.transactionFailed`);
         break;
       case LifiErrorCode.TransactionUnderpriced:
-        title = t(`swapping.error.title.transactionUnderpriced`);
+        title = t(`swap.error.title.transactionUnderpriced`);
         message = getTransactionNotSentMessage();
         break;
       case LifiErrorCode.TransactionUnprepared:
-        title = t(`swapping.error.title.transactionUnprepared`);
+        title = t(`swap.error.title.transactionUnprepared`);
         message = getTransactionNotSentMessage();
         break;
       case MetaMaskProviderErrorCode.userRejectedRequest:
-        title = t(`swapping.error.title.userRejectedSignatureRequest`);
-        message = t(`swapping.error.message.signatureRequired`, {
+        title = t(`swap.error.title.userRejectedSignatureRequest`);
+        message = t(`swap.error.message.signatureRequired`, {
           amount: formatTokenAmount(
             step.action.fromAmount,
             step.action.fromToken.decimals,
@@ -101,9 +101,9 @@ export function getProcessMessage(
         });
         break;
       default:
-        title = t(`swapping.error.title.unknown`);
+        title = t(`swap.error.title.unknown`);
         if (process.txLink) {
-          message = t(`swapping.error.message.transactionFailed`);
+          message = t(`swap.error.message.transactionFailed`);
         }
         break;
     }

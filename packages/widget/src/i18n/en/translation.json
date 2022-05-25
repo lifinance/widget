@@ -7,8 +7,7 @@
     "from": "Swap from",
     "to": "Swap to",
     "settings": "Settings",
-    "routes": "Routes",
-    "swapping": "Swapping"
+    "routes": "Routes"
   },
   "button": {
     "swap": "Swap",
@@ -33,7 +32,7 @@
     "recipientsAddress": "Recipient's {{chain}} address",
     "addressConfirmation": "I confirm that the address above is correct",
     "gas": "gas fee",
-    "minutes": "mins",
+    "minutes": "minutes",
     "tokenSearch": "Search your token",
     "selectChain": "Chain",
     "selectToken": "Token",
@@ -42,12 +41,11 @@
     "insufficientFunds": "Insufficient funds",
     "insufficientGasOnStartChain": "Insufficient gas on start chain",
     "insufficientGasOnDestinationChain": "Insufficient gas on destination chain",
-    "insufficientGasOnDestinationChainTooltip": "The selected route requires a swap on the chain you are transferring to. You need to have gas on that chain to pay for the transaction there."
-  },
-  "swapping": {
-    "swap": "Swap",
+    "insufficientGasOnDestinationChainTooltip": "The selected route requires a swap on the chain you are transferring to. You need to have gas on that chain to pay for the transaction there.",
+    "stepSwap": "Swap",
+    "stepBridge": "Bridge",
+    "stepSwapAndBridge": "SwapAndBridge",
     "estimatedTime": "~{{value}} min.",
-    "done": "Done",
     "networkIsBusy": "Network is busy...",
     "crossStepDetails": "Bridge {{from}} to {{to}} via {{tool}}",
     "swapStepDetails": "Swap on {{value}}",

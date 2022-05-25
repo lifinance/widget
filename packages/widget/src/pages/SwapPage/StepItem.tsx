@@ -19,6 +19,19 @@ export const StepItem: React.FC<{
     (process) => process.status === 'FAILED',
   );
 
+  const getCardTitle = () => {
+    switch (step.type) {
+      case 'lifi':
+        return t('swap.stepSwapAndBridge');
+      case 'swap':
+        return t('swap.stepSwap');
+      case 'cross':
+        return t('swap.stepBridge');
+      default:
+        return t('swap.stepSwap');
+    }
+  };
+
   return (
     <CardContainer isError={stepHasError}>
       <Box
@@ -27,7 +40,7 @@ export const StepItem: React.FC<{
           flex: 1,
         }}
       >
-        <CardTitle flex={1}>{t('swapping.swap')}</CardTitle>
+        <CardTitle flex={1}>{getCardTitle()}</CardTitle>
         <CardTitle>
           <StepTimer step={step} />
         </CardTitle>

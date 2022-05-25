@@ -53,7 +53,7 @@ export const StepTimer: React.FC<{ step: Step }> = ({ step }) => {
   if (!isExecutionStarted) {
     return (
       <>
-        {t('swapping.estimatedTime', {
+        {t('swap.estimatedTime', {
           value: (step.estimate.executionDuration / 60).toFixed(0),
         })}
       </>
@@ -63,7 +63,7 @@ export const StepTimer: React.FC<{ step: Step }> = ({ step }) => {
     return null;
   }
   return isExpired ? (
-    <>{t('swapping.networkIsBusy')}</>
+    <>{t('swap.networkIsBusy')}</>
   ) : (
     // eslint-disable-next-line react/jsx-no-useless-fragment
     <>{`${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`}</>
