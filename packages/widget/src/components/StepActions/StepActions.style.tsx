@@ -27,15 +27,15 @@ export const StepConnector = styled(MuiStepConnector)(({ theme }) => ({
 export const StepLabel = styled(MuiStepLabel)(({ theme }) => ({
   padding: 0,
   [`.${stepLabelClasses.iconContainer}`]: {
-    paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(3),
+    paddingLeft: theme.spacing(1.25),
+    paddingRight: theme.spacing(3.25),
   },
 }));
 
 export const StepContent = styled(MuiStepContent)(({ theme }) => ({
   borderLeft: `2px solid ${theme.palette.grey[300]}`,
   marginLeft: theme.spacing(1.875),
-  paddingLeft: theme.spacing(3.9375),
+  paddingLeft: theme.spacing(3.875),
   [`&.${stepContentClasses.last}`]: {
     borderLeft: 'none',
     paddingLeft: theme.spacing(4.1875),

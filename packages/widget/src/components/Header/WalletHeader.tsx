@@ -37,7 +37,7 @@ export const WalletHeader: React.FC = () => {
               variant="body2"
               align="right"
               color="black"
-              fontWeight="bold"
+              fontWeight="600"
             >
               {walletAddress}
             </Typography>
@@ -58,7 +58,7 @@ export const WalletHeader: React.FC = () => {
             variant="body2"
             align="right"
             color="black"
-            fontWeight="bold"
+            fontWeight="600"
             flex={1}
             mr={0.5}
           >

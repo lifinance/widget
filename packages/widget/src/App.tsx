@@ -1,3 +1,4 @@
+import { ScopedCssBaseline } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import { FC, PropsWithChildren } from 'react';
 import { QueryClientProvider, QueryClientProviderProps } from 'react-query';
@@ -31,36 +32,41 @@ export const App: React.FC<AppProps> = ({ config }) => {
     <ThemeProvider theme={theme}>
       <QueryProvider client={queryClient}>
         <MemoryRouter>
-          <AppContainer sx={config.containerStyle}>
-            <WidgetProvider config={config}>
-              <WalletProvider>
-                <SwapFormProvider>
-                  <Header />
-                  <Routes>
-                    <Route path={routes.home} element={<MainPage />} />
-                    <Route
-                      path={routes.selectWallet}
-                      element={<SelectWalletPage />}
-                    />
-                    <Route path={routes.settings} element={<SettingsPage />} />
-                    <Route
-                      path={routes.fromToken}
-                      element={<SelectTokenPage formType="from" />}
-                    />
-                    <Route
-                      path={routes.toToken}
-                      element={<SelectTokenPage formType="to" />}
-                    />
-                    <Route
-                      path={routes.swapRoutes}
-                      element={<SwapRoutesPage />}
-                    />
-                    <Route path={routes.swap} element={<SwapPage />} />
-                  </Routes>
-                </SwapFormProvider>
-              </WalletProvider>
-            </WidgetProvider>
-          </AppContainer>
+          <WidgetProvider config={config}>
+            <WalletProvider>
+              <SwapFormProvider>
+                <ScopedCssBaseline enableColorScheme>
+                  <AppContainer sx={config.containerStyle}>
+                    <Header />
+                    <Routes>
+                      <Route path={routes.home} element={<MainPage />} />
+                      <Route
+                        path={routes.selectWallet}
+                        element={<SelectWalletPage />}
+                      />
+                      <Route
+                        path={routes.settings}
+                        element={<SettingsPage />}
+                      />
+                      <Route
+                        path={routes.fromToken}
+                        element={<SelectTokenPage formType="from" />}
+                      />
+                      <Route
+                        path={routes.toToken}
+                        element={<SelectTokenPage formType="to" />}
+                      />
+                      <Route
+                        path={routes.swapRoutes}
+                        element={<SwapRoutesPage />}
+                      />
+                      <Route path={routes.swap} element={<SwapPage />} />
+                    </Routes>
+                  </AppContainer>
+                </ScopedCssBaseline>
+              </SwapFormProvider>
+            </WalletProvider>
+          </WidgetProvider>
         </MemoryRouter>
       </QueryProvider>
     </ThemeProvider>

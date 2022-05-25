@@ -13,10 +13,7 @@ export const MainPage: React.FC = () => {
       <FormBox>
         <SwapInProgress mb={3} />
         <SelectTokenButton formType="from" />
-        <Box
-          sx={{ display: 'flex', justifyContent: 'center', height: 40 }}
-          py={0.5}
-        >
+        <Box sx={{ display: 'flex', justifyContent: 'center' }} py={0.5}>
           <ReverseTokensButton />
         </Box>
         <Box mb={3}>
@@ -27,7 +24,7 @@ export const MainPage: React.FC = () => {
         </Box>
         <SwapRoutes mb={3} />
       </FormBox>
-      <Box px={3} pb={3}>
+      <Box px={3} pb={1}>
         <SwapButton />
       </Box>
     </FormContainer>

@@ -10,7 +10,25 @@ import { createTheme } from '@mui/material/styles';
 //   }
 // }
 
+declare module '@mui/material/styles' {
+  interface TypographyVariants {
+    '@supports (font-variation-settings: normal)': React.CSSProperties;
+  }
+  interface TypographyVariantsOptions {
+    '@supports (font-variation-settings: normal)'?: React.CSSProperties;
+  }
+}
+
+declare module '@mui/material/Typography' {
+  interface TypographyPropsVariantOverrides {
+    '@supports (font-variation-settings: normal)': true;
+  }
+}
+
 export const theme = createTheme({
+  typography: {
+    fontFamily: 'Inter var, Inter, sans-serif',
+  },
   palette: {
     primary: {
       main: '#3F49E1',
@@ -20,7 +38,7 @@ export const theme = createTheme({
       main: '#F5B5FF',
     },
     background: {
-      default: '#FBFCFC',
+      default: '#F4F5F6',
     },
     text: {
       primary: '#000',
@@ -43,6 +61,16 @@ export const theme = createTheme({
     borderRadius: 6,
   },
   components: {
+    MuiScopedCssBaseline: {
+      styleOverrides: {
+        root: {
+          fontFamily: 'Inter, sans-serif',
+          '@supports (font-variation-settings: normal)': {
+            fontFamily: 'Inter var, sans-serif',
+          },
+        },
+      },
+    },
     MuiAvatar: {
       styleOverrides: {
         root: {

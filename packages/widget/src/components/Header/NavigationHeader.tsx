@@ -73,7 +73,7 @@ export const NavigationHeader: React.FC = () => {
         color="black"
         fontSize={pathname === '/' ? 32 : 24}
         align={pathname === '/' ? 'left' : 'center'}
-        fontWeight="bold"
+        fontWeight="700"
         flex={1}
         noWrap
       >

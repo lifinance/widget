@@ -4,7 +4,6 @@ import {
   Container,
   List,
   ListItemAvatar,
-  ListItemText,
   Popover,
 } from '@mui/material';
 import { useCallback, useState } from 'react';
@@ -13,6 +12,7 @@ import { useWallet } from '../../providers/WalletProvider';
 import {
   WalletIdentityPopoverContent,
   WalletListItemButton,
+  WalletListItemText,
 } from './SelectWalletPage.style';
 
 export const SelectWalletPage = () => {
@@ -72,7 +72,7 @@ export const SelectWalletPage = () => {
                 {wallet.name[0]}
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={wallet.name} />
+            <WalletListItemText primary={wallet.name} />
           </WalletListItemButton>
         ))}
       </List>

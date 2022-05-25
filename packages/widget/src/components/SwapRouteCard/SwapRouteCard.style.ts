@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 export const Card = styled(Box, {
@@ -23,7 +23,7 @@ export const Card = styled(Box, {
   }),
 );
 
-export const Label = styled(Box, {
+export const Label = styled(Typography, {
   shouldForwardProp: (prop) => prop !== 'active',
 })<{ active?: boolean }>(({ theme, active }) => ({
   backgroundColor: active
@@ -35,7 +35,9 @@ export const Label = styled(Box, {
   color: active ? theme.palette.common.white : theme.palette.common.black,
   padding: theme.spacing(0.5, 0.75),
   fontSize: 12,
+  lineHeight: 1.2,
   fontWeight: '600',
+  height: 24,
   letterSpacing: '0.05rem',
   textTransform: 'uppercase',
   display: 'inline-flex',

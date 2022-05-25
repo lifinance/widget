@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 
 export const Input = styled(InputBase)(({ theme }) => ({
   fontSize: 24,
-  fontWeight: 'bold',
+  fontWeight: 700,
   padding: theme.spacing(2, 2, 2, 0),
   [`.${inputBaseClasses.input}`]: {
     height: 32,

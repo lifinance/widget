@@ -45,7 +45,7 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
             {route.toToken.symbol[0]}
           </Avatar>
           <Box>
-            <Typography fontSize={32} fontWeight="bold" lineHeight="normal">
+            <Typography fontSize={32} fontWeight="700" lineHeight="normal">
               {formatTokenAmount(route.toAmount, route.toToken.decimals)}
             </Typography>
             <Typography fontSize={14} color="text.secondary">
@@ -73,7 +73,12 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
             </Typography>
           </Box>
           <Box>
-            <Typography fontSize={18} fontWeight="500">
+            <Typography
+              fontSize={18}
+              fontWeight="500"
+              display="flex"
+              justifyContent="flex-end"
+            >
               ~
               {(
                 route.steps
