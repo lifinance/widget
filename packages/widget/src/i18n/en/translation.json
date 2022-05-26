@@ -18,7 +18,10 @@
     "done": "Done",
     "okay": "Okay",
     "seeDetails": "See details",
-    "tryAgain": "Try again"
+    "tryAgain": "Try again",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
   },
   "swap": {
     "from": "From",

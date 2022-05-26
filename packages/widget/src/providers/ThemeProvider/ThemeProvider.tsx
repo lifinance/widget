@@ -1,47 +1,26 @@
 import { PaletteMode, useMediaQuery } from '@mui/material';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { createColorSchemeTheme } from '../../config/theme';
-import type { ThemeContextProps } from './types';
-
-const stub = (): never => {
-  throw new Error('You forgot to wrap your component in <ThemeProvider>.');
-};
-
-const initialContext: ThemeContextProps = {
-  toggleColorScheme: stub,
-};
-
-const ThemeContext = createContext<ThemeContextProps>(initialContext);
-
-export const useColorScheme = (): ThemeContextProps => useContext(ThemeContext);
+import { useEffect, useMemo, useState } from 'react';
+import { createTheme } from '../../config/theme';
+import { useAppearance } from '../../hooks';
 
 export const ThemeProvider: React.FC<React.PropsWithChildren<{}>> = ({
   children,
 }) => {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const [appearance] = useAppearance();
   const [mode, setMode] = useState<PaletteMode>(
-    prefersDarkMode ? 'dark' : 'light',
-  );
-  const context = useMemo(
-    () => ({
-      toggleColorScheme: () => {
-        setMode((prevMode: PaletteMode) =>
-          prevMode === 'light' ? 'dark' : 'light',
-        );
-      },
-    }),
-    [],
+    appearance === 'system' ? (prefersDarkMode ? 'dark' : 'light') : appearance,
   );
 
   useEffect(() => {
-    setMode(prefersDarkMode ? 'dark' : 'light');
-  }, [prefersDarkMode]);
+    if (appearance === 'system') {
+      setMode(prefersDarkMode ? 'dark' : 'light');
+    } else {
+      setMode(appearance);
+    }
+  }, [appearance, prefersDarkMode]);
 
-  const theme = useMemo(() => createColorSchemeTheme(mode), [mode]);
-  return (
-    <ThemeContext.Provider value={context}>
-      <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>
-    </ThemeContext.Provider>
-  );
+  const theme = useMemo(() => createTheme(mode), [mode]);
+  return <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>;
 };

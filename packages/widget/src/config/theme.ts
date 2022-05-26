@@ -1,5 +1,5 @@
 import { PaletteMode } from '@mui/material';
-import { createTheme } from '@mui/material/styles';
+import { createTheme as createMuiTheme } from '@mui/material/styles';
 
 // https://mui.com/customization/palette/
 // declare module '@mui/material/styles' {
@@ -26,8 +26,8 @@ declare module '@mui/material/Typography' {
   }
 }
 
-export const createColorSchemeTheme = (mode: PaletteMode) =>
-  createTheme({
+export const createTheme = (mode: PaletteMode) =>
+  createMuiTheme({
     typography: {
       fontFamily: 'Inter var, Inter, sans-serif',
     },
