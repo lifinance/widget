@@ -22,7 +22,7 @@
     "react-dom": "^18.1.0",
     "react-hook-form": "^7.31.2",
     "react-i18next": "^11.16.9",
-    "react-query": "^4.0.0-beta.13",
+    "react-query": "^4.0.0-beta.15",
     "react-resize-detector": "^7.1.1",
     "react-router-dom": "^6.3.0",
     "react-timer-hook": "^3.0.5",
