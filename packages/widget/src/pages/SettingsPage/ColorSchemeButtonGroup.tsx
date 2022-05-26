@@ -34,7 +34,7 @@ export const ColorSchemeButtonGroup: React.FC = () => {
       </ToggleButton>
       <ToggleButton value="system">
         <Brightness4Icon sx={{ marginRight: 1 }} />
-        {t('button.system')}
+        {t('button.auto')}
       </ToggleButton>
     </ToggleButtonGroup>
   );
