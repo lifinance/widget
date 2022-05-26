@@ -4,13 +4,14 @@ import {
 } from '@mui/material';
 import { listItemSecondaryActionClasses } from '@mui/material/ListItemSecondaryAction';
 import { styled } from '@mui/material/styles';
+import { getContrastAlphaColor } from '../../utils/colors';
 
 export const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   paddingLeft: theme.spacing(2),
   height: 64,
   '&:hover': {
-    backgroundColor: 'rgba(0, 0, 0, 0.04)',
+    backgroundColor: getContrastAlphaColor(theme, '4%'),
   },
 }));
 

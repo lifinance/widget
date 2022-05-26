@@ -23,7 +23,6 @@ export const ReverseTokensButton: React.FC = () => {
       onClick={handleClick}
       size="small"
       aria-label="swap-destinations"
-      color="inherit"
     >
       <SwapVertIcon />
     </IconButton>

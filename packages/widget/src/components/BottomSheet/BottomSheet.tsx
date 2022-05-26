@@ -65,13 +65,14 @@ export const BottomSheet = forwardRef<BottomSheetBase, BottomSheetProps>(
             borderTopLeftRadius: (theme.shape.borderRadius as number) * 2,
             borderTopRightRadius: (theme.shape.borderRadius as number) * 2,
           }),
+          // elevation: 5,
         }}
         BackdropProps={{
-          sx: {
+          sx: (theme) => ({
             position: 'absolute',
-            backgroundColor: 'rgba(0,0,0,0.48)',
+            backgroundColor: 'rgb(0 0 0 / 48%)',
             backdropFilter: 'blur(3px)',
-          },
+          }),
         }}
         SlideProps={{
           container: containerElement,

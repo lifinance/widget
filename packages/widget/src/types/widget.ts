@@ -18,4 +18,5 @@ export interface WidgetConfig {
     addToken: { (): void };
   };
   containerStyle?: CSSProperties;
+  baselineStyle?: CSSProperties;
 }

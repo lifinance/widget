@@ -61,7 +61,6 @@ export const NavigationHeader: React.FC = () => {
         <IconButton
           size="medium"
           aria-label="settings"
-          color="inherit"
           edge="start"
           onClick={handleBack}
         >
@@ -70,7 +69,6 @@ export const NavigationHeader: React.FC = () => {
       ) : null}
       {/* </Collapse> */}
       <Typography
-        color="black"
         fontSize={pathname === '/' ? 32 : 24}
         align={pathname === '/' ? 'left' : 'center'}
         fontWeight="700"
@@ -90,7 +88,6 @@ export const NavigationHeader: React.FC = () => {
             <IconButton
               size="medium"
               aria-label="settings"
-              color="inherit"
               edge="end"
               onClick={handleSettings}
             >
@@ -104,7 +101,6 @@ export const NavigationHeader: React.FC = () => {
         <IconButton
           size="medium"
           aria-label="settings"
-          color="inherit"
           edge="end"
           onClick={handleSettings}
         >

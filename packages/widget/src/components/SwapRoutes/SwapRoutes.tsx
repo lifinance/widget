@@ -59,7 +59,6 @@ export const SwapRoutes: React.FC<BoxProps> = ({ mb }) => {
             onClick={handleCardClick}
             size="medium"
             aria-label="swap-routes"
-            color="inherit"
           >
             <KeyboardArrowRightIcon />
           </IconButton>

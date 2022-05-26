@@ -1,5 +1,5 @@
 import { Box, Link, Typography } from '@mui/material';
-import { ReactComponent as LiFiFullLogo } from '../icons/LiFiLogoFull.svg';
+import { LiFiLogo } from './LiFiLogo';
 
 export const PoweredBy: React.FC = () => {
   return (
@@ -26,7 +26,7 @@ export const PoweredBy: React.FC = () => {
         <Typography color="text.secondary" fontSize={12} px={0.5}>
           Powered by
         </Typography>
-        <LiFiFullLogo style={{ height: 16, width: 42 }} />
+        <LiFiLogo variant="full" style={{ height: 16, width: 42 }} />
       </Link>
     </Box>
   );

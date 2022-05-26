@@ -10,8 +10,8 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useChains } from '../../hooks';
-import LiFiLogo from '../../icons/LiFiLogo.svg';
 import { formatTokenAmount } from '../../utils/format';
+import { LiFiLogo } from '../LiFiLogo';
 import {
   StepConnector,
   StepContent,
@@ -38,10 +38,10 @@ export const StepActions: React.FC<StepActionsProps> = ({
       >
         <Avatar
           variant={step.type === 'lifi' ? 'square' : 'circular'}
-          src={step.type === 'lifi' ? LiFiLogo : step.toolDetails.logoURI}
+          src={step.type !== 'lifi' ? step.toolDetails.logoURI : undefined}
           alt={step.toolDetails.name}
         >
-          {step.toolDetails.name[0]}
+          {step.type === 'lifi' ? <LiFiLogo /> : step.toolDetails.name[0]}
         </Avatar>
         <Typography
           ml={2}

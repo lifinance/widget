@@ -1,5 +1,5 @@
 import { LiFiWidget, WidgetConfig } from '@lifinance/widget';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import { reportWebVitals } from './reportWebVitals';
@@ -10,7 +10,7 @@ if (!rootElement) {
 }
 const root = createRoot(rootElement);
 
-const config: WidgetConfig = {
+const widgetConfig: WidgetConfig = {
   enabledChains: JSON.parse(process.env.LIFI_ENABLED_CHAINS_JSON!),
   fromChain: 'pol',
   toChain: 'bsc',
@@ -20,16 +20,42 @@ const config: WidgetConfig = {
   containerStyle: {
     width: 480,
     height: 640,
-    border: '1px solid rgb(234, 234, 234)',
+    border: `1px solid ${
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'rgb(66, 66, 66)'
+        : 'rgb(234, 234, 234)'
+    }`,
     borderRadius: '16px',
     display: 'flex',
     maxWidth: '480px',
     flex: 1,
   },
+  baselineStyle: {
+    borderRadius: '16px',
+  },
 };
 
-root.render(
-  <React.StrictMode>
+const App = () => {
+  const [config, setConfig] = useState(widgetConfig);
+  useEffect(() => {
+    const eventHadler = (event: MediaQueryListEvent) => {
+      setConfig((config) => ({
+        ...config,
+        containerStyle: {
+          ...config.containerStyle,
+          border: `1px solid ${
+            event.matches ? 'rgb(66, 66, 66)' : 'rgb(234, 234, 234)'
+          }`,
+        },
+      }));
+    };
+    const matchMedia = window.matchMedia('(prefers-color-scheme: dark)');
+    matchMedia.addEventListener('change', eventHadler);
+    return () => {
+      matchMedia.removeEventListener('change', eventHadler);
+    };
+  }, [config]);
+  return (
     <div
       style={{
         display: 'flex',
@@ -40,6 +66,12 @@ root.render(
     >
       <LiFiWidget config={config} />
     </div>
+  );
+};
+
+root.render(
+  <React.StrictMode>
+    <App />
   </React.StrictMode>,
 );
 

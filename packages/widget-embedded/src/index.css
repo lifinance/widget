@@ -4,3 +4,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #F4F5F6;
 }
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #000;
+  }
+}

@@ -30,22 +30,16 @@ export const WalletHeader: React.FC = () => {
             }}
             mr={0.5}
           >
-            <Typography variant="caption" align="right" color="black">
+            <Typography variant="caption" align="right">
               {t(`header.walletConnected`)}
             </Typography>
-            <Typography
-              variant="body2"
-              align="right"
-              color="black"
-              fontWeight="600"
-            >
+            <Typography variant="body2" align="right" fontWeight="600">
               {walletAddress}
             </Typography>
           </Box>
           <IconButton
             size="medium"
             aria-label="disconnect"
-            color="inherit"
             edge="end"
             onClick={disconnect}
           >
@@ -57,7 +51,6 @@ export const WalletHeader: React.FC = () => {
           <Typography
             variant="body2"
             align="right"
-            color="black"
             fontWeight="600"
             flex={1}
             mr={0.5}
@@ -81,7 +74,6 @@ const ConnectButton = () => {
     <IconButton
       size="medium"
       aria-label="disconnect"
-      color="inherit"
       edge="end"
       onClick={pathname !== routes.selectWallet ? connect : undefined}
     >

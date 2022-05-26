@@ -55,7 +55,10 @@ export const ProgressToNextUpdate: React.FC<
         color="info"
         sx={(theme) => ({
           position: 'absolute',
-          color: theme.palette.grey[300],
+          color:
+            theme.palette.mode === 'light'
+              ? theme.palette.grey[300]
+              : theme.palette.grey[700],
         })}
       />
       <CircularProgress

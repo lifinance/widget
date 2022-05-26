@@ -1,4 +1,9 @@
-import { Box, BoxProps, Container as MuiContainer } from '@mui/material';
+import {
+  Box,
+  BoxProps,
+  Container as MuiContainer,
+  ScopedCssBaseline,
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { PropsWithChildren, RefObject, useLayoutEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -20,7 +25,7 @@ const Container = styled(MuiContainer)(({ theme }) => ({
 const RelativeContainer = styled(Box)(({ theme }) => ({
   position: 'relative',
   width: '480px',
-  background: theme.palette.common.white,
+  background: theme.palette.background.default,
   overflow: 'auto',
 }));
 
@@ -35,10 +40,11 @@ const ScrollableContainer = styled(Box)({
 export const AppContainer: React.FC<PropsWithChildren<BoxProps>> = ({
   children,
   sx,
+  style,
 }) => {
   const ref = useRef<HTMLElement>(null);
   return (
-    <>
+    <ScopedCssBaseline enableColorScheme style={style}>
       <RelativeContainer sx={sx}>
         <ScrollableContainer id={ElementId.ScrollableContainer} ref={ref}>
           <Container maxWidth={false} disableGutters>
@@ -48,7 +54,7 @@ export const AppContainer: React.FC<PropsWithChildren<BoxProps>> = ({
         </ScrollableContainer>
       </RelativeContainer>
       <ScrollToLocation elementRef={ref} />
-    </>
+    </ScopedCssBaseline>
   );
 };
 

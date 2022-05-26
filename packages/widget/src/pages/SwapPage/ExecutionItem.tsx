@@ -38,7 +38,6 @@ export const ExecutionItem: React.FC<{
             <LinkButton
               size="small"
               aria-label="settings"
-              color="inherit"
               edge="end"
               LinkComponent={Link}
               href={process.txLink}

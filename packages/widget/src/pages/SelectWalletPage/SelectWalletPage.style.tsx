@@ -7,13 +7,14 @@ import {
 import { listItemSecondaryActionClasses } from '@mui/material/ListItemSecondaryAction';
 import { listItemTextClasses } from '@mui/material/ListItemText';
 import { styled } from '@mui/material/styles';
+import { getContrastAlphaColor } from '../../utils/colors';
 
 export const WalletListItemButton = styled(ListItemButton)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   paddingLeft: theme.spacing(1.5),
   height: 64,
   '&:hover': {
-    backgroundColor: 'rgba(0, 0, 0, 0.04)',
+    backgroundColor: getContrastAlphaColor(theme, '4%'),
   },
 }));
 

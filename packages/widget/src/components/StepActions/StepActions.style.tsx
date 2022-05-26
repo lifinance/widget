@@ -12,7 +12,11 @@ export const StepIcon = styled('span')(({ theme }) => ({
   width: 12,
   height: 12,
   borderRadius: '50%',
-  border: `2px solid ${theme.palette.grey[300]}`,
+  border: `2px solid ${
+    theme.palette.mode === 'light'
+      ? theme.palette.grey[300]
+      : theme.palette.grey[800]
+  }`,
 }));
 
 export const StepConnector = styled(MuiStepConnector)(({ theme }) => ({
@@ -20,7 +24,10 @@ export const StepConnector = styled(MuiStepConnector)(({ theme }) => ({
   [`.${stepConnectorClasses.line}`]: {
     minHeight: 8,
     borderLeftWidth: 2,
-    borderColor: theme.palette.grey[300],
+    borderColor:
+      theme.palette.mode === 'light'
+        ? theme.palette.grey[300]
+        : theme.palette.grey[800],
   },
 }));
 
@@ -33,7 +40,11 @@ export const StepLabel = styled(MuiStepLabel)(({ theme }) => ({
 }));
 
 export const StepContent = styled(MuiStepContent)(({ theme }) => ({
-  borderLeft: `2px solid ${theme.palette.grey[300]}`,
+  borderLeft: `2px solid ${
+    theme.palette.mode === 'light'
+      ? theme.palette.grey[300]
+      : theme.palette.grey[800]
+  }`,
   marginLeft: theme.spacing(1.875),
   paddingLeft: theme.spacing(3.875),
   [`&.${stepContentClasses.last}`]: {

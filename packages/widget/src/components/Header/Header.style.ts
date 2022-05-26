@@ -4,8 +4,8 @@ import { styled } from '@mui/material/styles';
 export const HeaderAppBar = styled(AppBar, {
   shouldForwardProp: (prop) => prop !== 'pt',
 })<{ pt?: number }>(({ theme, pt }) => ({
-  backgroundColor: 'transparent',
-  color: theme.palette.common.black,
+  backgroundColor: theme.palette.background.default,
+  color: theme.palette.text.primary,
   flexDirection: 'row',
   alignItems: 'center',
   position: 'relative',
@@ -16,7 +16,7 @@ export const HeaderAppBar = styled(AppBar, {
 export const Container = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'sticky',
 })<{ sticky?: boolean }>(({ theme, sticky }) => ({
-  backgroundColor: sticky ? theme.palette.common.white : 'transparent',
+  backgroundColor: theme.palette.background.default,
   position: sticky ? 'sticky' : 'relative',
   top: 0,
   zIndex: 1200,
