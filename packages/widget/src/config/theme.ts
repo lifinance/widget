@@ -92,6 +92,7 @@ export const createColorSchemeTheme = (mode: PaletteMode) =>
       MuiAvatar: {
         styleOverrides: {
           root: {
+            backgroundColor: '#fff',
             height: 32,
             width: 32,
           },
