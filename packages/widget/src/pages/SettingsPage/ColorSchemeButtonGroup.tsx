@@ -1,7 +1,7 @@
 import {
+  Brightness4 as Brightness4Icon,
   DarkMode as DarkModeIcon,
   LightMode as LightModeIcon,
-  SettingsBrightness as SettingsBrightnessIcon,
 } from '@mui/icons-material';
 import { ToggleButtonGroup } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -28,13 +28,13 @@ export const ColorSchemeButtonGroup: React.FC = () => {
         <LightModeIcon sx={{ marginRight: 1 }} />
         {t('button.light')}
       </ToggleButton>
-      <ToggleButton value="system">
-        <SettingsBrightnessIcon sx={{ marginRight: 1 }} />
-        {t('button.system')}
-      </ToggleButton>
       <ToggleButton value="dark">
         <DarkModeIcon sx={{ marginRight: 1 }} />
         {t('button.dark')}
+      </ToggleButton>
+      <ToggleButton value="system">
+        <Brightness4Icon sx={{ marginRight: 1 }} />
+        {t('button.system')}
       </ToggleButton>
     </ToggleButtonGroup>
   );
