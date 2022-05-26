@@ -10,7 +10,10 @@ export const ToggleButton = styled(MuiToggleButton)(({ theme }) => ({
       ? theme.palette.grey[300]
       : theme.palette.grey[800],
   [`&.${toggleButtonClasses.selected}`]: {
-    color: theme.palette.primary.main,
+    color:
+      theme.palette.mode === 'light'
+        ? theme.palette.primary.main
+        : theme.palette.primary.light,
     borderColor: 'currentColor !important',
   },
 }));

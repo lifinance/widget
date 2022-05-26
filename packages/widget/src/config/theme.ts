@@ -1,5 +1,5 @@
 import { PaletteMode } from '@mui/material';
-import { createTheme as createMuiTheme } from '@mui/material/styles';
+import { alpha, createTheme as createMuiTheme } from '@mui/material/styles';
 
 // https://mui.com/customization/palette/
 // declare module '@mui/material/styles' {
@@ -85,6 +85,22 @@ export const createTheme = (mode: PaletteMode) =>
             fontFamily: 'Inter, sans-serif',
             '@supports (font-variation-settings: normal)': {
               fontFamily: 'Inter var, sans-serif',
+            },
+          },
+        },
+      },
+      MuiButton: {
+        styleOverrides: {
+          outlined: {
+            color: mode === 'light' ? '#3F49E1' : '#ACBEFF',
+            borderColor:
+              mode === 'light' ? alpha('#3F49E1', 0.5) : alpha('#ACBEFF', 0.5),
+            '&:hover': {
+              backgroundColor:
+                mode === 'light'
+                  ? alpha('#3F49E1', 0.08)
+                  : alpha('#ACBEFF', 0.08),
+              borderColor: mode === 'light' ? '#3F49E1' : '#ACBEFF',
             },
           },
         },
