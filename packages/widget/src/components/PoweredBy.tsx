@@ -22,6 +22,7 @@ export const PoweredBy: React.FC = () => {
         href="https://li.fi"
         target="_blank"
         underline="none"
+        color="text.primary"
       >
         <Typography color="text.secondary" fontSize={12} px={0.5}>
           Powered by

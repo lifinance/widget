@@ -1,4 +1,5 @@
 import {
+  Avatar,
   StepConnector as MuiStepConnector,
   StepContent as MuiStepContent,
   StepLabel as MuiStepLabel,
@@ -51,4 +52,11 @@ export const StepContent = styled(MuiStepContent)(({ theme }) => ({
     borderLeft: 'none',
     paddingLeft: theme.spacing(4.1875),
   },
+}));
+
+export const StepAvatar = styled(Avatar)(({ theme, variant }) => ({
+  color:
+    variant === 'square' ? theme.palette.text.primary : theme.palette.grey[900],
+  backgroundColor:
+    variant === 'square' ? 'transparent' : theme.palette.background.paper,
 }));

@@ -1,7 +1,6 @@
 import { LifiStep, Step } from '@lifinance/sdk';
 import { ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
 import {
-  Avatar,
   Box,
   Step as MuiStep,
   Stepper,
@@ -13,6 +12,7 @@ import { useChains } from '../../hooks';
 import { formatTokenAmount } from '../../utils/format';
 import { LiFiLogo } from '../LiFiLogo';
 import {
+  StepAvatar,
   StepConnector,
   StepContent,
   StepIcon,
@@ -36,13 +36,13 @@ export const StepActions: React.FC<StepActionsProps> = ({
         sx={{ display: 'flex', alignItems: 'center' }}
         mb={isFullView ? 1 : 0}
       >
-        <Avatar
+        <StepAvatar
           variant={step.type === 'lifi' ? 'square' : 'circular'}
           src={step.type !== 'lifi' ? step.toolDetails.logoURI : undefined}
           alt={step.toolDetails.name}
         >
           {step.type === 'lifi' ? <LiFiLogo /> : step.toolDetails.name[0]}
-        </Avatar>
+        </StepAvatar>
         <Typography
           ml={2}
           fontSize={18}
