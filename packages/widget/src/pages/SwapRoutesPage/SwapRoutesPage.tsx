@@ -24,7 +24,7 @@ export const SwapRoutesPage: React.FC<BoxProps> = () => {
 
   const handleRouteClick = (route: Route) => {
     setExecutableRoute(route);
-    navigate(routes.swap, { state: { routeId: route.id } });
+    navigate(routes.swap, { state: { routeId: route.id }, replace: true });
   };
 
   return (

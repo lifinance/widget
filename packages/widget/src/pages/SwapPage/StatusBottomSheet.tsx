@@ -34,10 +34,19 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   );
   const { setValue } = useFormContext();
 
-  const handleDone = () => {
+  const clearFromAmount = () => {
     refetchBalance(route.fromChainId, route.fromToken.address);
     setValue(SwapFormKey.FromAmount, '');
+  };
+
+  const handleDone = () => {
+    clearFromAmount();
     navigate(-1);
+  };
+
+  const handleClose = () => {
+    clearFromAmount();
+    ref.current?.closeDrawer();
   };
 
   const { title, message } = useMemo(() => {
@@ -119,7 +128,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
           variant="contained"
           disableElevation
           fullWidth
-          onClick={status === 'success' ? handleDone : ref.current?.closeDrawer}
+          onClick={status === 'success' ? handleDone : handleClose}
         >
           {status === 'idle' ? t('button.okay') : null}
           {status === 'success' ? t('button.done') : null}
@@ -130,7 +139,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
             variant="outlined"
             disableElevation
             fullWidth
-            onClick={ref.current?.closeDrawer}
+            onClick={handleClose}
           >
             {t('button.seeDetails')}
           </Button>
