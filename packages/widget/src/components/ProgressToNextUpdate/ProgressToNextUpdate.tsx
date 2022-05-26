@@ -65,9 +65,13 @@ export const ProgressToNextUpdate: React.FC<
         variant={isLoading ? 'indeterminate' : 'determinate'}
         size={24}
         value={value}
-        sx={{
+        sx={(theme) => ({
           opacity: value === 100 && !isLoading ? 0.5 : 1,
-        }}
+          color:
+            theme.palette.mode === 'light'
+              ? theme.palette.primary.main
+              : theme.palette.primary.light,
+        })}
       />
     </Box>
   );

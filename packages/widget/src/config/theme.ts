@@ -89,19 +89,18 @@ export const createTheme = (mode: PaletteMode) =>
           },
         },
       },
-      MuiAvatar: {
-        styleOverrides: {
-          root: {
-            backgroundColor: '#fff',
-            height: 32,
-            width: 32,
-          },
-        },
-      },
       MuiIconButton: {
         styleOverrides: {
           root: {
             color: 'inherit',
+          },
+        },
+      },
+      MuiAvatar: {
+        styleOverrides: {
+          root: {
+            height: 32,
+            width: 32,
           },
         },
       },

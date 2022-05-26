@@ -39,6 +39,10 @@ export const CircularProgress = styled(MuiCircularProgress, {
 
 export const CircularProgressPending = styled(MuiCircularProgress)(
   ({ theme }) => ({
+    color:
+      theme.palette.mode === 'light'
+        ? theme.palette.primary.main
+        : theme.palette.primary.light,
     animationDuration: '3s',
     position: 'absolute',
     left: 0,

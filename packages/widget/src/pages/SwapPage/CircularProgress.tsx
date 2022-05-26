@@ -27,7 +27,7 @@ export function CircularProgress({ status }: { status: Status }) {
         value={100}
       />
       {status === 'STARTED' || status === 'PENDING' ? (
-        <CircularProgressPending color="primary" size={32} thickness={3} />
+        <CircularProgressPending size={32} thickness={3} />
       ) : null}
       {status === 'ACTION_REQUIRED' ? (
         <InfoIcon
