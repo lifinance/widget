@@ -1,4 +1,4 @@
-import { Skeleton } from '@mui/material';
+import { FormHelperText, Skeleton } from '@mui/material';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useTokenBalance } from '../../hooks';
@@ -8,7 +8,6 @@ import {
 } from '../../providers/SwapFormProvider';
 import { formatTokenPrice } from '../../utils/format';
 import { PriceTypography } from '../PriceTypography';
-import { FormHelperText } from './FormPriceHelperText.style';
 
 export const FormPriceHelperText: React.FC<
   SwapFormTypeProps & { selected: boolean }
@@ -30,7 +29,10 @@ export const FormPriceHelperText: React.FC<
   const maxAmountTokenPrice = formatTokenPrice(token?.amount, token?.priceUSD);
 
   return (
-    <FormHelperText>
+    <FormHelperText
+      component="div"
+      sx={{ display: 'flex', justifyContent: 'space-between', margin: 0 }}
+    >
       <PriceTypography
         color={fromAmountTokenPrice ? 'text.secondary' : 'grey.600'}
         marginLeft={selected ? 8 : 2}
