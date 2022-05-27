@@ -15,7 +15,7 @@ export const ProgressToNextUpdate: React.FC<
     timeToUpdate: number;
     isLoading?: boolean;
   } & BoxProps
-> = ({ updatedAt, timeToUpdate, isLoading, ...other }) => {
+> = ({ updatedAt, timeToUpdate, isLoading, sx }) => {
   const [value, setValue] = useState(() =>
     calculateTime(updatedAt, timeToUpdate),
   );
@@ -45,8 +45,8 @@ export const ProgressToNextUpdate: React.FC<
         placeItems: 'center',
         width: 24,
         height: 24,
+        ...sx,
       }}
-      {...other}
     >
       <CircularProgress
         variant="determinate"

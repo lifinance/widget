@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import { BoxProps } from '@mui/material';
+import { Box, BoxProps } from '@mui/material';
 import { useSwapRoutes } from '../../hooks';
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate';
 
@@ -7,7 +7,7 @@ export const SwapRoutesUpdateProgress: React.FC<BoxProps> = (props) => {
   const { isLoading, isFetching, dataUpdatedAt, refetchTime } = useSwapRoutes();
 
   if (isLoading) {
-    return null;
+    return <Box width={24} height={24} />;
   }
 
   return (

@@ -29,7 +29,7 @@ export const SwapInProgress: React.FC<BoxProps> = (props) => {
 
   return (
     <Card {...props}>
-      <CardTitle>Swaps in progress</CardTitle>
+      <CardTitle>{t('swap.inProgress')}</CardTitle>
       <Stack spacing={2} py={2}>
         {executingRoutes.map(({ route, status }) => (
           <RouteCard
