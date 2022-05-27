@@ -45,7 +45,6 @@ export const BottomSheet = forwardRef<BottomSheetBase, BottomSheetProps>(
             position: 'absolute',
             overflow: 'hidden',
           },
-          // disablePortal: true,
           keepMounted: true,
         }}
         PaperProps={{
@@ -55,14 +54,13 @@ export const BottomSheet = forwardRef<BottomSheetBase, BottomSheetProps>(
             borderTopLeftRadius: (theme.shape.borderRadius as number) * 2,
             borderTopRightRadius: (theme.shape.borderRadius as number) * 2,
           }),
-          // elevation: 5,
         }}
         BackdropProps={{
-          sx: (theme) => ({
+          sx: {
             position: 'absolute',
             backgroundColor: 'rgb(0 0 0 / 48%)',
             backdropFilter: 'blur(3px)',
-          }),
+          },
         }}
         SlideProps={{
           container: containerElement,

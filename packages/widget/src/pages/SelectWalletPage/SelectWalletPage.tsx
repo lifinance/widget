@@ -94,11 +94,11 @@ export const SelectWalletPage = () => {
           }),
         }}
         BackdropProps={{
-          sx: (theme) => ({
+          sx: {
             position: 'absolute',
             backgroundColor: 'rgb(0 0 0 / 48%)',
             backdropFilter: 'blur(3px)',
-          }),
+          },
         }}
       >
         <DialogContent>
