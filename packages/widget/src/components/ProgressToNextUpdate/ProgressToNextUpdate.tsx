@@ -52,13 +52,12 @@ export const ProgressToNextUpdate: React.FC<
         variant="determinate"
         size={24}
         value={100}
-        color="info"
         sx={(theme) => ({
           position: 'absolute',
           color:
             theme.palette.mode === 'light'
               ? theme.palette.grey[300]
-              : theme.palette.grey[700],
+              : theme.palette.grey[800],
         })}
       />
       <CircularProgress

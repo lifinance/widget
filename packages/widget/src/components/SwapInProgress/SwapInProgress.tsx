@@ -2,14 +2,14 @@ import {
   ArrowForward as ArrowForwardIcon,
   KeyboardArrowRight as KeyboardArrowRightIcon,
 } from '@mui/icons-material';
-import { Avatar, AvatarGroup, Box, BoxProps, Stack } from '@mui/material';
+import { AvatarGroup, Box, BoxProps, Stack } from '@mui/material';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useExecutingRoutes } from '../../hooks';
 import { routes } from '../../utils/routes';
 import { CardTitle } from '../Card';
-import { Card, RouteCard } from './SwapInProgress.style';
+import { Card, RouteAvatar, RouteCard } from './SwapInProgress.style';
 
 export const SwapInProgress: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation();
@@ -37,15 +37,18 @@ export const SwapInProgress: React.FC<BoxProps> = (props) => {
             onClick={() => handleCardClick(route.id)}
             avatar={
               <AvatarGroup total={2}>
-                <Avatar
+                <RouteAvatar
                   src={route.fromToken.logoURI}
                   alt={route.fromToken.symbol}
                 >
                   {route.fromToken.symbol[0]}
-                </Avatar>
-                <Avatar src={route.toToken.logoURI} alt={route.toToken.symbol}>
+                </RouteAvatar>
+                <RouteAvatar
+                  src={route.toToken.logoURI}
+                  alt={route.toToken.symbol}
+                >
                   {route.toToken.symbol[0]}
-                </Avatar>
+                </RouteAvatar>
               </AvatarGroup>
             }
             action={<KeyboardArrowRightIcon />}
