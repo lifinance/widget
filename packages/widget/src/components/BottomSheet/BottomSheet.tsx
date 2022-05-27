@@ -3,20 +3,17 @@ import {
   forwardRef,
   useCallback,
   useImperativeHandle,
-  useLayoutEffect,
   useRef,
   useState,
 } from 'react';
-import { ElementId } from '../../utils/elements';
+import { useScrollableContainer } from '../../hooks';
 import { BottomSheetBase, BottomSheetProps } from './types';
 
 export const BottomSheet = forwardRef<BottomSheetBase, BottomSheetProps>(
   ({ elementRef, children, open }, ref) => {
     const openRef = useRef(open);
     const [drawerOpen, setDrawerOpen] = useState(open);
-    const [containerElement, setContainerElement] = useState(() =>
-      document.getElementById(ElementId.ScrollableContainer),
-    );
+    const containerElement = useScrollableContainer();
 
     const openDrawer = useCallback(() => {
       setDrawerOpen(true);
@@ -35,14 +32,6 @@ export const BottomSheet = forwardRef<BottomSheetBase, BottomSheetProps>(
       }),
       [closeDrawer, openDrawer],
     );
-
-    useLayoutEffect(() => {
-      if (!containerElement) {
-        setContainerElement(
-          document.getElementById(ElementId.ScrollableContainer),
-        );
-      }
-    }, [containerElement]);
 
     return (
       <Drawer

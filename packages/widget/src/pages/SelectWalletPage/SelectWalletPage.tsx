@@ -1,31 +1,37 @@
 import { supportedWallets, Wallet } from '@lifinance/wallet-management';
 import {
   Avatar,
+  Button,
   Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
   List,
   ListItemAvatar,
-  Popover,
 } from '@mui/material';
 import { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { useScrollableContainer } from '../../hooks';
 import { useWallet } from '../../providers/WalletProvider';
 import {
-  WalletIdentityPopoverContent,
   WalletListItemButton,
   WalletListItemText,
 } from './SelectWalletPage.style';
 
 export const SelectWalletPage = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { connect } = useWallet();
-  const [showWalletIdentityModal, setShowWalletIdentityModal] = useState<{
+  const containerElement = useScrollableContainer();
+  const [walletIdentity, setWalletIdentity] = useState<{
     show: boolean;
     wallet?: Wallet;
-    anchor?: Element;
   }>({ show: false });
 
-  const closeWalletPopover = () => {
-    setShowWalletIdentityModal({
+  const closeDialog = () => {
+    setWalletIdentity({
       show: false,
     });
   };
@@ -36,10 +42,9 @@ export const SelectWalletPage = () => {
         provider: window.ethereum,
       });
       if (!identityCheckPassed) {
-        setShowWalletIdentityModal({
+        setWalletIdentity({
           show: true,
           wallet,
-          anchor: event.currentTarget,
         });
         return;
       }
@@ -48,10 +53,6 @@ export const SelectWalletPage = () => {
     },
     [connect, navigate],
   );
-
-  const popoverId = showWalletIdentityModal?.show
-    ? 'identity-popover'
-    : undefined;
 
   return (
     <Container disableGutters>
@@ -76,25 +77,43 @@ export const SelectWalletPage = () => {
           </WalletListItemButton>
         ))}
       </List>
-      <Popover
-        id={popoverId}
-        open={showWalletIdentityModal!.show}
-        anchorEl={showWalletIdentityModal!.anchor}
-        onClose={closeWalletPopover}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
+      <Dialog
+        open={walletIdentity.show}
+        onClose={closeDialog}
+        container={containerElement}
+        sx={{
+          position: 'absolute',
+          overflow: 'hidden',
         }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
+        PaperProps={{
+          sx: (theme) => ({
+            position: 'absolute',
+            backgroundImage: 'none',
+            borderTopLeftRadius: (theme.shape.borderRadius as number) * 2,
+            borderTopRightRadius: (theme.shape.borderRadius as number) * 2,
+          }),
+        }}
+        BackdropProps={{
+          sx: (theme) => ({
+            position: 'absolute',
+            backgroundColor: 'rgb(0 0 0 / 48%)',
+            backdropFilter: 'blur(3px)',
+          }),
         }}
       >
-        <WalletIdentityPopoverContent sx={{ p: 2 }}>
-          {`Please make sure that only the ${showWalletIdentityModal.wallet?.name}
-          browser extension is active before choosing this wallet.`}
-        </WalletIdentityPopoverContent>
-      </Popover>
+        <DialogContent>
+          <DialogContentText>
+            {t('wallet.extensionNotFound', {
+              name: walletIdentity.wallet?.name,
+            })}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeDialog} autoFocus>
+            {t('button.ok')}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 };

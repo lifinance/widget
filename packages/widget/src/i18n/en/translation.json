@@ -21,7 +21,8 @@
     "tryAgain": "Try again",
     "light": "Light",
     "dark": "Dark",
-    "auto": "Auto"
+    "auto": "Auto",
+    "ok": "Ok"
   },
   "swap": {
     "from": "From",
@@ -122,5 +123,8 @@
     "enabledExchanges": "Enabled exchanges",
     "selectEnabledExchanges": "Select enabled exchanges",
     "resetToDefault": "Reset to default"
+  },
+  "wallet": {
+    "extensionNotFound": "Please make sure that only the {{name}} browser extension is active before choosing this wallet."
   }
 }

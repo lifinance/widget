@@ -6,6 +6,7 @@ export * from './useDebouncedWatch';
 export * from './useExchanges';
 export * from './useHasSufficientBalance';
 export * from './useRouteExecution';
+export * from './useScrollableContainer';
 export * from './useSettings';
 export * from './useSwapRoutes';
 export * from './useToken';
