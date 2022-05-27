@@ -9,7 +9,10 @@ import { stepContentClasses } from '@mui/material/StepContent';
 import { stepLabelClasses } from '@mui/material/StepLabel';
 import { styled } from '@mui/material/styles';
 
-export const StepIcon = styled('span')(({ theme }) => ({
+export const StepIcon = styled('span', {
+  shouldForwardProp: (prop) =>
+    !['active', 'completed', 'error'].includes(prop as string),
+})(({ theme }) => ({
   width: 12,
   height: 12,
   borderRadius: '50%',
@@ -20,7 +23,10 @@ export const StepIcon = styled('span')(({ theme }) => ({
   }`,
 }));
 
-export const StepConnector = styled(MuiStepConnector)(({ theme }) => ({
+export const StepConnector = styled(MuiStepConnector, {
+  shouldForwardProp: (prop) =>
+    !['active', 'completed', 'error'].includes(prop as string),
+})(({ theme }) => ({
   marginLeft: theme.spacing(1.875),
   [`.${stepConnectorClasses.line}`]: {
     minHeight: 8,
@@ -32,7 +38,10 @@ export const StepConnector = styled(MuiStepConnector)(({ theme }) => ({
   },
 }));
 
-export const StepLabel = styled(MuiStepLabel)(({ theme }) => ({
+export const StepLabel = styled(MuiStepLabel, {
+  shouldForwardProp: (prop) =>
+    !['active', 'completed', 'error'].includes(prop as string),
+})(({ theme }) => ({
   padding: 0,
   [`.${stepLabelClasses.iconContainer}`]: {
     paddingLeft: theme.spacing(1.25),
@@ -40,7 +49,10 @@ export const StepLabel = styled(MuiStepLabel)(({ theme }) => ({
   },
 }));
 
-export const StepContent = styled(MuiStepContent)(({ theme }) => ({
+export const StepContent = styled(MuiStepContent, {
+  shouldForwardProp: (prop) =>
+    !['active', 'completed', 'error'].includes(prop as string),
+})(({ theme }) => ({
   borderLeft: `2px solid ${
     theme.palette.mode === 'light'
       ? theme.palette.grey[300]
@@ -57,4 +69,5 @@ export const StepContent = styled(MuiStepContent)(({ theme }) => ({
 export const StepAvatar = styled(Avatar)(({ theme, variant }) => ({
   color:
     variant === 'square' ? theme.palette.text.primary : theme.palette.grey[900],
+  backgroundColor: 'transparent',
 }));

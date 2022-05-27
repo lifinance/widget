@@ -1,12 +1,6 @@
 import { LifiStep, Step } from '@lifinance/sdk';
 import { ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
-import {
-  Box,
-  Step as MuiStep,
-  Stepper,
-  Typography,
-  TypographyProps,
-} from '@mui/material';
+import { Box, Step as MuiStep, Stepper, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useChains } from '../../hooks';
 import { formatTokenAmount } from '../../utils/format';
@@ -72,19 +66,16 @@ export const StepActions: React.FC<StepActionsProps> = ({
           ))}
         </Stepper>
       ) : (
-        <>
-          <StepDetailsLabel ml={6} step={step} />
-          <StepDetailsContent ml={6} step={step} />
-        </>
+        <Box ml={6}>
+          <StepDetailsLabel step={step} />
+          <StepDetailsContent step={step} />
+        </Box>
       )}
     </Box>
   );
 };
 
-export const StepDetailsContent: React.FC<{ step: Step } & TypographyProps> = ({
-  step,
-  ...other
-}) => {
+export const StepDetailsContent: React.FC<{ step: Step }> = ({ step }) => {
   return (
     <Typography
       fontSize={12}
@@ -92,7 +83,6 @@ export const StepDetailsContent: React.FC<{ step: Step } & TypographyProps> = ({
       color="text.secondary"
       alignItems="center"
       display="flex"
-      {...other}
     >
       {formatTokenAmount(
         step.estimate.fromAmount,
@@ -109,19 +99,12 @@ export const StepDetailsContent: React.FC<{ step: Step } & TypographyProps> = ({
   );
 };
 
-export const CrossStepDetailsLabel: React.FC<
-  { step: Step } & TypographyProps
-> = ({ step, ...other }) => {
+export const CrossStepDetailsLabel: React.FC<{ step: Step }> = ({ step }) => {
   const { t } = useTranslation();
   const { getChainById } = useChains();
 
   return (
-    <Typography
-      fontSize={12}
-      fontWeight="500"
-      color="text.secondary"
-      {...other}
-    >
+    <Typography fontSize={12} fontWeight="500" color="text.secondary">
       {t('swap.crossStepDetails', {
         from: getChainById(step.action.fromChainId)?.name,
         to: getChainById(step.action.toChainId)?.name,
@@ -131,17 +114,10 @@ export const CrossStepDetailsLabel: React.FC<
   );
 };
 
-export const SwapStepDetailsLabel: React.FC<
-  { step: Step } & TypographyProps
-> = ({ step, ...other }) => {
+export const SwapStepDetailsLabel: React.FC<{ step: Step }> = ({ step }) => {
   const { t } = useTranslation();
   return (
-    <Typography
-      fontSize={12}
-      fontWeight="500"
-      color="text.secondary"
-      {...other}
-    >
+    <Typography fontSize={12} fontWeight="500" color="text.secondary">
       {t('swap.swapStepDetails', {
         value: step.toolDetails.name,
       })}
