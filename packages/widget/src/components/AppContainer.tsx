@@ -31,7 +31,7 @@ const RelativeContainer = styled(Box)(({ theme }) => ({
 
 const ScrollableContainer = styled(Box)({
   // position: 'fixed',
-  overflowY: 'scroll',
+  overflowY: 'auto',
   height: '100%',
   flex: 1,
   display: 'flex',

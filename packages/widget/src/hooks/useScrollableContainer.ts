@@ -16,3 +16,17 @@ export const useScrollableContainer = () => {
 
   return containerElement;
 };
+
+export const useScrollableOverflowHidden = () => {
+  useLayoutEffect(() => {
+    const element = document.getElementById(ElementId.ScrollableContainer);
+    if (element) {
+      element.style.overflowY = 'hidden';
+    }
+    return () => {
+      if (element) {
+        element.style.overflowY = 'auto';
+      }
+    };
+  }, []);
+};
