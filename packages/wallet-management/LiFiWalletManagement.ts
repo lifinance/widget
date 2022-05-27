@@ -17,8 +17,8 @@ export const useLifiWalletManagement = () => {
 
   const connect = useCallback(
     async (wallet?: Wallet) => {
-      const currentlySelectedUserAddress = (window as any).ethereum
-        .selectedAddress;
+      const currentlySelectedUserAddress = (window as any)?.ethereum
+        ?.selectedAddress;
       try {
         if (!wallet) {
           await priorityConnector.activate();
@@ -37,7 +37,7 @@ export const useLifiWalletManagement = () => {
   const disconnect = useCallback(
     async (wallet?: Wallet) => {
       const currentlySelectedUserAddress = (window as any).ethereum
-        .selectedAddress;
+        ?.selectedAddress;
 
       removeFromActiveWallets(currentlySelectedUserAddress);
       addToDeactivatedWallets(currentlySelectedUserAddress);
@@ -56,7 +56,7 @@ export const useLifiWalletManagement = () => {
 
   useEffect(() => {
     const currentlySelectedUserAddress = (window as any).ethereum
-      .selectedAddress;
+      ?.selectedAddress;
 
     if (!isWalletDeactivated(currentlySelectedUserAddress)) {
       priorityConnector?.connectEagerly!();
@@ -78,9 +78,9 @@ export const useLifiWalletManagement = () => {
     ethereum?.on('chainChanged', handleChainChanged);
 
     return () => {
-      if (ethereum.removeListener) {
-        ethereum?.removeListener('connect', handleConnect);
-        ethereum?.removeListener('chainChanged', handleChainChanged);
+      if (ethereum?.removeListener) {
+        ethereum.removeListener('connect', handleConnect);
+        ethereum.removeListener('chainChanged', handleChainChanged);
       }
     };
   }, [priorityConnector]);
