@@ -1,4 +1,4 @@
-import { Avatar, FormControl } from '@mui/material';
+import { Avatar } from '@mui/material';
 import { ChangeEvent } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -9,8 +9,9 @@ import {
 } from '../../providers/SwapFormProvider';
 import { formatAmount } from '../../utils/format';
 import { CardContainer, CardTitle } from '../Card';
-import { SwapInputAdornment } from '../SwapInputAdornment';
-import { Input } from './SwapInput.style';
+import { FormPriceHelperText } from './FormPriceHelperText';
+import { FormControl, Input } from './SwapInput.style';
+import { SwapInputAdornment } from './SwapInputAdornment';
 
 export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
   const { t } = useTranslation();
@@ -71,7 +72,7 @@ export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
           name={amountKey}
           required
         />
-        {/* <FormHelperText id="swap-from-helper-text">Text</FormHelperText> */}
+        <FormPriceHelperText selected={isSelected} formType={formType} />
       </FormControl>
     </CardContainer>
   );

@@ -27,7 +27,10 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
                 {token.amount ?? '0'}
               </Typography>
               {tokenPrice ? (
-                <PriceTypography noWrap data-price={token.priceUSD}>
+                <PriceTypography
+                  color="text.secondary"
+                  data-price={token.priceUSD}
+                >
                   {t(`swap.currency`, {
                     value: tokenPrice,
                   })}

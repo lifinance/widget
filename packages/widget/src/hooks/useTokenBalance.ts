@@ -24,6 +24,7 @@ export const useTokenBalance = (chainId: number, tokenAddress: string) => {
       }
       const tokenBalance = await LiFi.getTokenBalance(address as string, token);
       return {
+        ...token,
         ...tokenBalance,
         amount: formatTokenAmount(tokenBalance?.amount),
       };
