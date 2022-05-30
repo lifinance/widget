@@ -14,7 +14,7 @@ export const SettingsPage = () => {
         </Box>
         <RoutePrioritySelect />
         <Box sx={{ display: 'flex', alignItems: 'center' }} mt={2}>
-          <Box pr={2}>
+          <Box pr={2} flex={1}>
             <SlippageInput />
           </Box>
           <GasPriceSelect />

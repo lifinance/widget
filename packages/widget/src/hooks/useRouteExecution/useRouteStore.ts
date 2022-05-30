@@ -73,6 +73,14 @@ export const useRouteStore = create<RouteExecutionStore>()(
             state.routes[routeId].status = 'loading';
           }),
         ),
+      removeRoute: (routeId: string) =>
+        set(
+          produce((state: RouteExecutionStore) => {
+            if (state.routes[routeId]) {
+              delete state.routes[routeId];
+            }
+          }),
+        ),
     }),
     {
       name: 'li.fi-widget-executable-routes',

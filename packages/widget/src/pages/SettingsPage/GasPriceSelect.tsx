@@ -11,7 +11,7 @@ export const GasPriceSelect = () => {
   const { register } = useFormContext();
 
   return (
-    <CardContainer sx={{ flex: 1 }}>
+    <CardContainer flex={1}>
       <CardTitle>{t(`settings.gasPrice.title`)}</CardTitle>
       <FormControl fullWidth>
         <Select

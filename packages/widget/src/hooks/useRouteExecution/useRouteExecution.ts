@@ -9,8 +9,8 @@ import { useRouteStore } from './useRouteStore';
 
 export const useRouteExecution = (routeId: string) => {
   const { route, status } = useRouteStore((state) => state.routes[routeId]);
-  const [updateRoute, restartRoute] = useRouteStore(
-    (state) => [state.updateRoute, state.restartRoute],
+  const [updateRoute, restartRoute, removeRoute] = useRouteStore(
+    (state) => [state.updateRoute, state.restartRoute, state.removeRoute],
     shallow,
   );
   const { account, switchChain } = useWallet();
@@ -123,6 +123,11 @@ export const useRouteExecution = (routeId: string) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resumeRoute, routeId]);
 
+  const removeRouteMutation = useCallback(() => {
+    removeRoute(routeId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [routeId]);
+
   useEffect(() => {
     // check if route is eligible for automatic resuming
     const isDone = route.steps.every(
@@ -142,6 +147,7 @@ export const useRouteExecution = (routeId: string) => {
   return {
     executeRoute,
     restartRoute: restartRouteMutation,
+    removeRoute: removeRouteMutation,
     route,
     status,
   };
