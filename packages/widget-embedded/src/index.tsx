@@ -1,6 +1,7 @@
 import { LiFiWidget, LiFiWidgetDrawer, WidgetConfig } from '@lifinance/widget';
 import {
   Box,
+  Checkbox,
   CssBaseline,
   FormControl,
   FormControlLabel,
@@ -51,17 +52,19 @@ const App = () => {
   const [drawer, setDrawer] = useState(false);
   const [primary, setPrimaryColor] = useState('#3F49E1');
   const [config, setConfig] = useState(widgetConfig);
-  const [darkMode, setDarkMode] = useState(false);
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const [darkMode, setDarkMode] = useState(prefersDarkMode);
+  const [systemColor, setSystemColor] = useState(true);
   const [theme, setTheme] = useState(() =>
     createTheme({
       palette: {
-        mode: darkMode || prefersDarkMode ? 'dark' : 'light',
+        mode: (systemColor && prefersDarkMode) || darkMode ? 'dark' : 'light',
         primary: {
           main: '#3F49E1',
         },
         background: {
-          default: darkMode || prefersDarkMode ? '#000' : '#F4F5F6',
+          default:
+            (systemColor && prefersDarkMode) || darkMode ? '#000' : '#F4F5F6',
         },
       },
     }),
@@ -76,7 +79,7 @@ const App = () => {
             containerStyle: {
               ...widgetConfig.containerStyle,
               border: `1px solid ${
-                darkMode || prefersDarkMode
+                (systemColor && prefersDarkMode) || darkMode
                   ? 'rgb(66, 66, 66)'
                   : 'rgb(234, 234, 234)'
               }`,
@@ -88,23 +91,24 @@ const App = () => {
         },
       },
     }));
-  }, [darkMode, drawer, prefersDarkMode, primary]);
+  }, [darkMode, drawer, prefersDarkMode, primary, systemColor]);
 
   useEffect(() => {
     setTheme(
       createTheme({
         palette: {
-          mode: darkMode || prefersDarkMode ? 'dark' : 'light',
+          mode: (systemColor && prefersDarkMode) || darkMode ? 'dark' : 'light',
           primary: {
             main: '#3F49E1',
           },
           background: {
-            default: darkMode || prefersDarkMode ? '#000' : '#F4F5F6',
+            default:
+              (systemColor && prefersDarkMode) || darkMode ? '#000' : '#F4F5F6',
           },
         },
       }),
     );
-  }, [darkMode, prefersDarkMode]);
+  }, [darkMode, prefersDarkMode, systemColor]);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -116,11 +120,16 @@ const App = () => {
         }}
       >
         <Box
-          sx={{ display: 'flex', justifyContent: 'space-between', padding: 2 }}
+          pt={2}
+          px={2}
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
         >
           <FormControl component="fieldset" variant="standard">
             <FormLabel component="legend">Widget view</FormLabel>
-            <FormGroup>
+            <FormGroup sx={{ flexDirection: 'row', flexWrap: 'wrap' }}>
               <FormControlLabel
                 control={
                   <Switch
@@ -132,7 +141,17 @@ const App = () => {
               />
               <FormControlLabel
                 control={
+                  <Checkbox
+                    checked={systemColor}
+                    onChange={() => setSystemColor((system) => !system)}
+                  />
+                }
+                label="Auto theme"
+              />
+              <FormControlLabel
+                control={
                   <Switch
+                    disabled={systemColor}
                     checked={darkMode}
                     onChange={() => setDarkMode((dark) => !dark)}
                   />
