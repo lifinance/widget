@@ -81,6 +81,15 @@ export const createTheme = (mode: PaletteMode) =>
     shape: {
       borderRadius: 6,
     },
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 392,
+        md: 900,
+        lg: 1200,
+        xl: 1536,
+      },
+    },
     components: {
       MuiScopedCssBaseline: {
         styleOverrides: {

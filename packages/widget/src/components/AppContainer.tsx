@@ -1,16 +1,11 @@
-import {
-  Box,
-  BoxProps,
-  Container as MuiContainer,
-  ScopedCssBaseline,
-} from '@mui/material';
+import { Box, BoxProps, ScopedCssBaseline } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { PropsWithChildren, RefObject, useLayoutEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { ElementId } from '../utils/elements';
 import { PoweredBy } from './PoweredBy';
 
-const Container = styled(MuiContainer)(({ theme }) => ({
+const CssBaselineContainer = styled(ScopedCssBaseline)(({ theme }) => ({
   // height: '100%',
   display: 'flex',
   flex: 1,
@@ -18,13 +13,13 @@ const Container = styled(MuiContainer)(({ theme }) => ({
   overflowX: 'clip',
   marginRight: 0,
   [theme.breakpoints.up('xs')]: {
-    maxWidth: 480,
+    maxWidth: 392,
   },
 }));
 
 const RelativeContainer = styled(Box)(({ theme }) => ({
   position: 'relative',
-  width: '480px',
+  width: 392,
   background: theme.palette.background.default,
   overflow: 'auto',
 }));
@@ -40,21 +35,18 @@ const ScrollableContainer = styled(Box)({
 export const AppContainer: React.FC<PropsWithChildren<BoxProps>> = ({
   children,
   sx,
-  style,
 }) => {
   const ref = useRef<HTMLElement>(null);
   return (
-    <ScopedCssBaseline enableColorScheme style={style}>
-      <RelativeContainer sx={sx}>
-        <ScrollableContainer id={ElementId.ScrollableContainer} ref={ref}>
-          <Container maxWidth={false} disableGutters>
-            {children}
-            <PoweredBy />
-          </Container>
-        </ScrollableContainer>
-      </RelativeContainer>
+    <RelativeContainer sx={sx}>
+      <ScrollableContainer id={ElementId.ScrollableContainer} ref={ref}>
+        <CssBaselineContainer enableColorScheme>
+          {children}
+          <PoweredBy />
+        </CssBaselineContainer>
+      </ScrollableContainer>
       <ScrollToLocation elementRef={ref} />
-    </ScopedCssBaseline>
+    </RelativeContainer>
   );
 };
 

@@ -11,7 +11,7 @@ import { SwapRouteCard } from '../SwapRouteCard';
 import { Stack } from './SwapRoutes.style';
 import { SwapRoutesUpdateProgress } from './SwapRoutesUpdateProgress';
 
-export const SwapRoutes: React.FC<BoxProps> = ({ mb }) => {
+export const SwapRoutes: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [currentRoute] = useCurrentRoute();
@@ -26,7 +26,7 @@ export const SwapRoutes: React.FC<BoxProps> = ({ mb }) => {
   }
 
   return (
-    <CardContainer mb={mb}>
+    <CardContainer {...props}>
       <CardTitle>{t('swap.routes')}</CardTitle>
       <SwapRoutesUpdateProgress
         sx={{
