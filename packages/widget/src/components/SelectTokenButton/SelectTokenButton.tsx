@@ -35,8 +35,6 @@ export const SelectTokenButton: React.FC<
 
   const isSelected = !!(chain && token);
 
-  console.log(chainId, tokenAddress, isChainLoading, isTokenLoading);
-
   return (
     <CardContainer flex={1}>
       <Card onClick={handleClick} elevation={0}>
