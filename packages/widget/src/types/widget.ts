@@ -1,4 +1,5 @@
 import { ChainKey } from '@lifinance/sdk';
+import { PaletteOptions } from '@mui/material';
 import { Signer } from 'ethers';
 import { CSSProperties } from 'react';
 
@@ -18,5 +19,5 @@ export interface WidgetConfig {
     addToken: { (): void };
   };
   containerStyle?: CSSProperties;
-  baselineStyle?: CSSProperties;
+  paletteOptions?: PaletteOptions;
 }

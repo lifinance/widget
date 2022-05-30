@@ -1,7 +1,8 @@
-import { Box, BoxProps, ScopedCssBaseline } from '@mui/material';
+import { Box, ScopedCssBaseline } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { PropsWithChildren, RefObject, useLayoutEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useWidgetConfig } from '../providers/WidgetProvider';
 import { ElementId } from '../utils/elements';
 import { PoweredBy } from './PoweredBy';
 
@@ -22,6 +23,7 @@ const RelativeContainer = styled(Box)(({ theme }) => ({
   width: 392,
   background: theme.palette.background.default,
   overflow: 'auto',
+  flex: 1,
 }));
 
 const ScrollableContainer = styled(Box)({
@@ -32,13 +34,11 @@ const ScrollableContainer = styled(Box)({
   display: 'flex',
 });
 
-export const AppContainer: React.FC<PropsWithChildren<BoxProps>> = ({
-  children,
-  sx,
-}) => {
+export const AppContainer: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   const ref = useRef<HTMLElement>(null);
+  const { containerStyle } = useWidgetConfig();
   return (
-    <RelativeContainer sx={sx}>
+    <RelativeContainer sx={containerStyle}>
       <ScrollableContainer id={ElementId.ScrollableContainer} ref={ref}>
         <CssBaselineContainer enableColorScheme>
           {children}

@@ -23,7 +23,9 @@
     "light": "Light",
     "dark": "Dark",
     "auto": "Auto",
-    "ok": "Ok"
+    "ok": "Ok",
+    "hide": "Hide",
+    "lifiSwap": "LI.FI Swap"
   },
   "swap": {
     "from": "From",

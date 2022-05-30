@@ -1,4 +1,6 @@
+import { PaletteOptions } from '@mui/material';
 import { Signer } from 'ethers';
+import { CSSProperties } from 'react';
 import { WidgetConfig } from '../../types';
 
 export interface WidgetContextProps {
@@ -16,6 +18,8 @@ export interface WidgetContextProps {
     switchChain: { (): Signer };
     addToken: { (): void };
   };
+  containerStyle?: CSSProperties;
+  paletteOptions?: PaletteOptions;
 }
 
 export interface WidgetProviderProps {

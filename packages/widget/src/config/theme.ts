@@ -1,4 +1,8 @@
-import { PaletteMode } from '@mui/material';
+import {
+  PaletteMode,
+  PaletteOptions,
+  SimplePaletteColorOptions,
+} from '@mui/material';
 import {
   alpha,
   createTheme as createMuiTheme,
@@ -47,16 +51,34 @@ const palette = {
   },
 };
 
-export const createTheme = (mode: PaletteMode) =>
+export const createTheme = (
+  mode: PaletteMode,
+  paletteOptions: PaletteOptions = {},
+) =>
   createMuiTheme({
     typography: {
       fontFamily: 'Inter var, Inter, sans-serif',
     },
     palette: {
       mode,
+      ...palette,
+      primary: {
+        main:
+          (paletteOptions?.primary as SimplePaletteColorOptions)?.main ??
+          palette.primary.main,
+        light: lighten(
+          (paletteOptions?.primary as SimplePaletteColorOptions)?.main ??
+            palette.primary.main,
+          0.5,
+        ),
+        dark: darken(
+          (paletteOptions?.primary as SimplePaletteColorOptions)?.main ??
+            palette.primary.main,
+          0.2,
+        ),
+      },
       ...(mode === 'light'
         ? {
-            ...palette,
             text: {
               primary: '#000',
               secondary: '#52575b',
@@ -72,7 +94,6 @@ export const createTheme = (mode: PaletteMode) =>
             },
           }
         : {
-            ...palette,
             background: {
               paper: '#212121',
             },

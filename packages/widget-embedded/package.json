@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@lifinance/widget": "^0.1.0",
+    "@mui/icons-material": "^5.8.0",
+    "@mui/lab": "^5.0.0-alpha.83",
+    "@mui/material": "^5.8.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-scripts": "5.0.0",

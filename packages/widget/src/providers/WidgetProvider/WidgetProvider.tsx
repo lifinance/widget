@@ -28,6 +28,7 @@ export const WidgetProvider: React.FC<
     toToken,
     useInternalWalletManagement,
     walletCallbacks,
+    ...other
   },
 }) => {
   const value = useMemo((): WidgetContextProps => {
@@ -38,6 +39,7 @@ export const WidgetProvider: React.FC<
       toToken,
       useInternalWalletManagement: useInternalWalletManagement || true,
       walletCallbacks,
+      ...other,
     };
     try {
       return {
@@ -63,6 +65,7 @@ export const WidgetProvider: React.FC<
     fromAmount,
     fromChain,
     fromToken,
+    other,
     toChain,
     toToken,
     useInternalWalletManagement,
