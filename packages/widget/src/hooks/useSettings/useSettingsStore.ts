@@ -2,12 +2,13 @@ import produce from 'immer';
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
 import shallow from 'zustand/shallow';
-import { Appearance, SettingsStore } from './types';
+import { Appearance } from '../../types';
+import { SettingsStore } from './types';
 
 export const useSettingsStore = create<SettingsStore>()(
   persist(
     (set) => ({
-      appearance: 'system',
+      appearance: 'auto',
       setAppearance: (appearance: Appearance) =>
         set(
           produce((state: SettingsStore) => {

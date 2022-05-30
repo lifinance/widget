@@ -1,6 +1,4 @@
-import { PaletteMode } from '@mui/material';
-
-export type Appearance = PaletteMode | 'system';
+import { Appearance } from '../../types';
 
 export interface SettingsStore {
   appearance: Appearance;

@@ -17,28 +17,9 @@ export const useWidgetConfig = (): WidgetContextProps =>
 
 export const WidgetProvider: React.FC<
   React.PropsWithChildren<WidgetProviderProps>
-> = ({
-  children,
-  config: {
-    enabledChains,
-    fromChain,
-    fromToken,
-    fromAmount,
-    toChain,
-    toToken,
-    useInternalWalletManagement,
-    walletCallbacks,
-    ...other
-  },
-}) => {
+> = ({ children, config: { fromChain, toChain, ...other } }) => {
   const value = useMemo((): WidgetContextProps => {
     const config = {
-      enabledChains,
-      fromToken,
-      fromAmount,
-      toToken,
-      useInternalWalletManagement: useInternalWalletManagement || true,
-      walletCallbacks,
       ...other,
     };
     try {
@@ -58,19 +39,10 @@ export const WidgetProvider: React.FC<
             : ChainId.ETH,
       };
     } catch (e) {
+      console.warn(e);
       return config;
     }
-  }, [
-    enabledChains,
-    fromAmount,
-    fromChain,
-    fromToken,
-    other,
-    toChain,
-    toToken,
-    useInternalWalletManagement,
-    walletCallbacks,
-  ]);
+  }, [fromChain, other, toChain]);
   return (
     <WidgetContext.Provider value={value}>{children}</WidgetContext.Provider>
   );

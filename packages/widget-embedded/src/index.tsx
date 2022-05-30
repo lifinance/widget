@@ -29,7 +29,7 @@ const widgetDrawerConfig: WidgetConfig = {
   toChain: 'bsc',
   // fromToken: '0x0000000000000000000000000000000000000000',
   // toToken: '0xcc42724c6683b7e57334c4e856f4c9965ed682bd',
-  useInternalWalletManagement: true,
+  // disableColorSchemes: true,
 };
 
 const widgetConfig: WidgetConfig = {
@@ -76,6 +76,7 @@ const App = () => {
         ? widgetDrawerConfig
         : {
             ...widgetConfig,
+            appearance: systemColor ? 'auto' : darkMode ? 'dark' : 'light',
             containerStyle: {
               ...widgetConfig.containerStyle,
               border: `1px solid ${
@@ -108,7 +109,11 @@ const App = () => {
         },
       }),
     );
+    if (systemColor) {
+      setDarkMode(systemColor && prefersDarkMode);
+    }
   }, [darkMode, prefersDarkMode, systemColor]);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

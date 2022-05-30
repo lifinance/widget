@@ -48,62 +48,62 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
 
   const connect = useCallback(
     async (wallet?: Wallet) => {
-      if (!config.useInternalWalletManagement) {
+      if (config.disableInternalWalletManagement) {
         // TODO
         return;
       }
       await walletManagementConnect(wallet);
     },
-    [config.useInternalWalletManagement, walletManagementConnect],
+    [config.disableInternalWalletManagement, walletManagementConnect],
   );
 
   const disconnect = useCallback(async () => {
-    if (!config.useInternalWalletManagement) {
+    if (config.disableInternalWalletManagement) {
       setAccount({});
     }
     await walletManagementDisconnect();
-  }, [config.useInternalWalletManagement, walletManagementDisconnect]);
+  }, [config.disableInternalWalletManagement, walletManagementDisconnect]);
 
   // only for injected wallets
   const switchChain = useCallback(
     async (chainId: number) => {
-      if (config.useInternalWalletManagement) {
-        return walletSwitchChain(chainId);
+      if (config.disableInternalWalletManagement) {
+        // TODO
+        return false;
       }
-      // TODO
-      return false;
+      return walletSwitchChain(chainId);
     },
-    [config.useInternalWalletManagement],
+    [config.disableInternalWalletManagement],
   );
 
   const addChain = useCallback(
     async (chainId: number) => {
-      if (config.useInternalWalletManagement) {
+      if (!config.disableInternalWalletManagement) {
         await walletAddChain(chainId);
       }
     },
-    [config.useInternalWalletManagement],
+    [config.disableInternalWalletManagement],
   );
 
   const addToken = useCallback(
     async (chainId: number, token: Token) => {
-      if (config.useInternalWalletManagement) {
+      if (!config.disableInternalWalletManagement) {
         await switchChainAndAddToken(chainId, token);
       }
     },
-    [config.useInternalWalletManagement],
+    [config.disableInternalWalletManagement],
   );
 
   // keep account information up to date
   useEffect(() => {
     const updateAccount = async () => {
-      if (config.useInternalWalletManagement) {
+      if (!config.disableInternalWalletManagement) {
         const account = await extractAccountFromSigner(signer);
         setAccount(account);
       }
     };
     updateAccount();
-  }, [signer, config.useInternalWalletManagement]);
+  }, [signer, config.disableInternalWalletManagement]);
 
   const value = useMemo(
     () => ({

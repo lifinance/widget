@@ -1,16 +1,17 @@
 import { ChainKey } from '@lifinance/sdk';
-import { PaletteOptions } from '@mui/material';
+import { PaletteMode, PaletteOptions } from '@mui/material';
 import { Signer } from 'ethers';
 import { CSSProperties } from 'react';
 
+export type Appearance = PaletteMode | 'auto';
 export interface WidgetConfig {
-  enabledChains: number[];
+  fromAmount?: number;
   fromChain?: `${ChainKey}` | number;
   fromToken?: string;
-  fromAmount?: number;
   toChain?: `${ChainKey}` | number;
   toToken?: string;
-  useInternalWalletManagement?: boolean;
+  enabledChains: number[];
+  disableInternalWalletManagement?: boolean;
   walletCallbacks?: {
     connect: { (): Signer };
     disconnect: { (): void };
@@ -20,4 +21,6 @@ export interface WidgetConfig {
   };
   containerStyle?: CSSProperties;
   paletteOptions?: PaletteOptions;
+  appearance?: Appearance;
+  disableAppearance?: boolean;
 }

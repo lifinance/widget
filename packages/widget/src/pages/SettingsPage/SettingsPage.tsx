@@ -9,9 +9,7 @@ export const SettingsPage = () => {
   return (
     <Container disableGutters>
       <Box px={3} pt={1}>
-        <Box pb={2}>
-          <ColorSchemeButtonGroup />
-        </Box>
+        <ColorSchemeButtonGroup />
         <RoutePrioritySelect />
         <Box sx={{ display: 'flex', alignItems: 'center' }} mt={2}>
           <Box pr={2} flex={1}>

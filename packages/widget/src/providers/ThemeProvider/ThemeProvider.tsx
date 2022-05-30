@@ -8,20 +8,31 @@ import { useWidgetConfig } from '../WidgetProvider';
 export const ThemeProvider: React.FC<React.PropsWithChildren<{}>> = ({
   children,
 }) => {
-  const { paletteOptions } = useWidgetConfig();
+  const { appearance: colorSchemeMode, paletteOptions } = useWidgetConfig();
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-  const [appearance] = useAppearance();
+  const [appearance, setAppearance] = useAppearance();
   const [mode, setMode] = useState<PaletteMode>(
-    appearance === 'system' ? (prefersDarkMode ? 'dark' : 'light') : appearance,
+    colorSchemeMode ?? appearance === 'auto'
+      ? prefersDarkMode
+        ? 'dark'
+        : 'light'
+      : appearance,
   );
 
   useEffect(() => {
-    if (appearance === 'system') {
+    if (appearance === 'auto') {
       setMode(prefersDarkMode ? 'dark' : 'light');
     } else {
       setMode(appearance);
     }
   }, [appearance, prefersDarkMode]);
+
+  useEffect(() => {
+    if (colorSchemeMode) {
+      setAppearance(colorSchemeMode);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [colorSchemeMode]);
 
   const theme = useMemo(
     () => createTheme(mode, paletteOptions),
