@@ -4,6 +4,7 @@ import {
   CssBaseline,
   FormControl,
   FormControlLabel,
+  FormGroup,
   FormLabel,
   Switch,
   TextField,
@@ -50,13 +51,17 @@ const App = () => {
   const [drawer, setDrawer] = useState(false);
   const [primary, setPrimaryColor] = useState('#3F49E1');
   const [config, setConfig] = useState(widgetConfig);
+  const [darkMode, setDarkMode] = useState(false);
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const [theme, setTheme] = useState(() =>
     createTheme({
       palette: {
-        mode: prefersDarkMode ? 'dark' : 'light',
+        mode: darkMode || prefersDarkMode ? 'dark' : 'light',
         primary: {
           main: '#3F49E1',
+        },
+        background: {
+          default: darkMode || prefersDarkMode ? '#000' : '#F4F5F6',
         },
       },
     }),
@@ -71,7 +76,9 @@ const App = () => {
             containerStyle: {
               ...widgetConfig.containerStyle,
               border: `1px solid ${
-                prefersDarkMode ? 'rgb(66, 66, 66)' : 'rgb(234, 234, 234)'
+                darkMode || prefersDarkMode
+                  ? 'rgb(66, 66, 66)'
+                  : 'rgb(234, 234, 234)'
               }`,
             },
           }),
@@ -81,20 +88,23 @@ const App = () => {
         },
       },
     }));
-  }, [drawer, prefersDarkMode, primary]);
+  }, [darkMode, drawer, prefersDarkMode, primary]);
 
   useEffect(() => {
     setTheme(
       createTheme({
         palette: {
-          mode: prefersDarkMode ? 'dark' : 'light',
+          mode: darkMode || prefersDarkMode ? 'dark' : 'light',
           primary: {
             main: '#3F49E1',
+          },
+          background: {
+            default: darkMode || prefersDarkMode ? '#000' : '#F4F5F6',
           },
         },
       }),
     );
-  }, [prefersDarkMode]);
+  }, [darkMode, prefersDarkMode]);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -105,18 +115,31 @@ const App = () => {
           flexDirection: 'column',
         }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', padding: 2 }}>
+        <Box
+          sx={{ display: 'flex', justifyContent: 'space-between', padding: 2 }}
+        >
           <FormControl component="fieldset" variant="standard">
             <FormLabel component="legend">Widget view</FormLabel>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={drawer}
-                  onChange={() => setDrawer((drawer) => !drawer)}
-                />
-              }
-              label="Enable drawer"
-            />
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={drawer}
+                    onChange={() => setDrawer((drawer) => !drawer)}
+                  />
+                }
+                label="Enable drawer"
+              />
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={darkMode}
+                    onChange={() => setDarkMode((dark) => !dark)}
+                  />
+                }
+                label="Dark theme"
+              />
+            </FormGroup>
           </FormControl>
           <TextField
             value={primary}
