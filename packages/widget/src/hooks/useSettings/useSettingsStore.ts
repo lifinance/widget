@@ -18,7 +18,13 @@ export const useSettingsStore = create<SettingsStore>()(
     }),
     {
       name: 'li.fi-widget-settings',
-      // partialize: (state) => ({ }),
+      version: 1,
+      migrate: (persistedState: any, version) => {
+        if (version === 0 && persistedState.appearance === 'system') {
+          persistedState.appearance = 'auto';
+        }
+        return persistedState as SettingsStore;
+      },
     },
   ),
 );
