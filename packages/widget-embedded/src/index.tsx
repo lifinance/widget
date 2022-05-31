@@ -3,10 +3,8 @@ import {
   Box,
   Checkbox,
   CssBaseline,
-  FormControl,
+  Drawer,
   FormControlLabel,
-  FormGroup,
-  FormLabel,
   Slider,
   Switch,
   TextField,
@@ -165,25 +163,24 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Box
-        sx={{
-          height: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        <Box
-          pt={2}
-          px={2}
+      <Box sx={{ display: 'flex' }}>
+        <CssBaseline />
+        <Drawer
           sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
+            width: 320,
+            '& .MuiDrawer-paper': {
+              width: 320,
+              boxSizing: 'border-box',
+            },
           }}
+          variant="permanent"
+          anchor="left"
         >
-          <FormControl component="fieldset" variant="standard">
-            <FormLabel component="legend">Widget view</FormLabel>
-            <FormGroup sx={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+          <Box p={2} flex={1}>
+            <Typography mb={2} variant="h6">
+              Widget Customization
+            </Typography>
+            <Box px={1} flex={1}>
               <FormControlLabel
                 control={
                   <Switch
@@ -193,6 +190,8 @@ const App = () => {
                 }
                 label="Enable drawer"
               />
+            </Box>
+            <Box p={1} flex={1}>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -200,7 +199,7 @@ const App = () => {
                     onChange={() => setSystemColor((system) => !system)}
                   />
                 }
-                label="Auto theme"
+                label="Auto"
               />
               <FormControlLabel
                 control={
@@ -212,82 +211,70 @@ const App = () => {
                 }
                 label="Dark theme"
               />
-              <Box px={1}>
-                <Typography gutterBottom>Border Radius</Typography>
-                <Slider
-                  valueLabelDisplay="auto"
-                  components={{
-                    ValueLabel: ValueLabelComponent,
-                  }}
-                  max={32}
-                  value={borderRadius}
-                  onChange={(_, value) => setBorderRadius(value as number)}
-                  sx={{ width: 160 }}
-                />
-              </Box>
-              <Box px={1}>
-                <Typography gutterBottom>Border Radius Secondary</Typography>
-                <Slider
-                  valueLabelDisplay="auto"
-                  components={{
-                    ValueLabel: ValueLabelComponent,
-                  }}
-                  max={32}
-                  value={borderRadiusSecondary}
-                  onChange={(_, value) =>
-                    setBorderRadiusSecondary(value as number)
-                  }
-                  sx={{ width: 160 }}
-                />
-              </Box>
-              <Box px={1}>
-                <TextField
-                  value={fontFamily}
-                  label="Font Family"
-                  helperText="Should be loaded separately or supported by OS"
-                  size="small"
-                  InputProps={{
-                    sx: {
-                      width: 300,
-                    },
-                  }}
-                  onChange={(event) => setFontFamily(event.target.value)}
-                />
-              </Box>
-              <Box px={1}>
-                <TextField
-                  value={primary}
-                  label="Main Color"
-                  type="color"
-                  size="small"
-                  InputProps={{
-                    sx: {
-                      width: 128,
-                    },
-                  }}
-                  onChange={(event) => setPrimaryColor(event.target.value)}
-                />
-              </Box>
-              <Box px={1}>
-                <TextField
-                  value={secondary}
-                  label="Secondary Color"
-                  type="color"
-                  size="small"
-                  InputProps={{
-                    sx: {
-                      width: 128,
-                    },
-                  }}
-                  onChange={(event) => setSecondaryColor(event.target.value)}
-                />
-              </Box>
-            </FormGroup>
-          </FormControl>
-        </Box>
-
+            </Box>
+            <Box px={1} pt={1} flex={1}>
+              <Typography gutterBottom>Border Radius</Typography>
+              <Slider
+                valueLabelDisplay="auto"
+                components={{
+                  ValueLabel: ValueLabelComponent,
+                }}
+                max={32}
+                value={borderRadius}
+                onChange={(_, value) => setBorderRadius(value as number)}
+                sx={{ width: '100%' }}
+              />
+            </Box>
+            <Box p={1} flex={1}>
+              <Typography gutterBottom>Border Radius Secondary</Typography>
+              <Slider
+                valueLabelDisplay="auto"
+                components={{
+                  ValueLabel: ValueLabelComponent,
+                }}
+                max={32}
+                value={borderRadiusSecondary}
+                onChange={(_, value) =>
+                  setBorderRadiusSecondary(value as number)
+                }
+                sx={{ width: '100%' }}
+              />
+            </Box>
+            <Box p={1}>
+              <TextField
+                value={fontFamily}
+                label="Font Family"
+                helperText="Should be loaded apart or has OS support"
+                size="small"
+                onChange={(event) => setFontFamily(event.target.value)}
+                fullWidth
+              />
+            </Box>
+            <Box py={2} px={1}>
+              <TextField
+                value={primary}
+                label="Main Color"
+                type="color"
+                size="small"
+                onChange={(event) => setPrimaryColor(event.target.value)}
+                fullWidth
+              />
+            </Box>
+            <Box py={2} px={1}>
+              <TextField
+                value={secondary}
+                label="Secondary Color"
+                type="color"
+                size="small"
+                onChange={(event) => setSecondaryColor(event.target.value)}
+                fullWidth
+              />
+            </Box>
+          </Box>
+        </Drawer>
         <Box
           sx={{
+            height: '100vh',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
