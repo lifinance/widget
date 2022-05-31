@@ -1,5 +1,6 @@
 import { ChainKey } from '@lifinance/sdk';
 import { PaletteMode, PaletteOptions, Shape } from '@mui/material';
+import { TypographyOptions } from '@mui/material/styles/createTypography';
 import { Signer } from 'ethers';
 import { CSSProperties } from 'react';
 
@@ -7,6 +8,7 @@ export type Appearance = PaletteMode | 'auto';
 export type ThemeConfig = {
   palette?: PaletteOptions;
   shape?: Shape;
+  typography?: TypographyOptions;
 };
 
 export interface WidgetConfig {

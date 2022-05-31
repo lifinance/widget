@@ -69,6 +69,7 @@ const App = () => {
   const [drawer, setDrawer] = useState(false);
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const [config, setConfig] = useState(widgetConfig);
+  const [fontFamily, setFontFamily] = useState('Inter var, Inter, sans-serif');
   const [borderRadius, setBorderRadius] = useState(12);
   const [borderRadiusSecondary, setBorderRadiusSecondary] = useState(6);
   const [primary, setPrimaryColor] = useState('#3F49E1');
@@ -115,6 +116,9 @@ const App = () => {
           borderRadius,
           borderRadiusSecondary,
         },
+        typography: {
+          fontFamily,
+        },
       },
     }));
   }, [
@@ -122,6 +126,7 @@ const App = () => {
     borderRadiusSecondary,
     darkMode,
     drawer,
+    fontFamily,
     prefersDarkMode,
     primary,
     systemColor,
@@ -224,19 +229,36 @@ const App = () => {
                   sx={{ width: 160 }}
                 />
               </Box>
+              <Box px={1}>
+                <TextField
+                  value={fontFamily}
+                  label="Font Family"
+                  helperText="Should be loaded separately or supported by OS"
+                  size="small"
+                  InputProps={{
+                    sx: {
+                      width: 300,
+                    },
+                  }}
+                  onChange={(event) => setFontFamily(event.target.value)}
+                />
+              </Box>
+              <Box px={1}>
+                <TextField
+                  value={primary}
+                  label="Main Color"
+                  type="color"
+                  size="small"
+                  InputProps={{
+                    sx: {
+                      width: 96,
+                    },
+                  }}
+                  onChange={(event) => setPrimaryColor(event.target.value)}
+                />
+              </Box>
             </FormGroup>
           </FormControl>
-          <TextField
-            value={primary}
-            type="color"
-            size="small"
-            InputProps={{
-              sx: {
-                width: 64,
-              },
-            }}
-            onChange={(event) => setPrimaryColor(event.target.value)}
-          />
         </Box>
 
         <Box

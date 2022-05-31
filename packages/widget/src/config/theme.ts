@@ -62,6 +62,7 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) =>
   createMuiTheme({
     typography: {
       fontFamily: 'Inter var, Inter, sans-serif',
+      ...theme.typography,
     },
     palette: {
       mode,
@@ -122,8 +123,10 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) =>
         styleOverrides: {
           root: {
             fontFamily: 'Inter, sans-serif',
+            ...theme.typography,
             '@supports (font-variation-settings: normal)': {
               fontFamily: 'Inter var, sans-serif',
+              ...theme.typography,
             },
           },
         },
