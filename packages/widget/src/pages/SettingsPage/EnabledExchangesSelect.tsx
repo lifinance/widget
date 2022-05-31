@@ -44,7 +44,7 @@ export const EnabledExchangesSelect: React.FC = () => {
       variant="rectangular"
       width="100%"
       height={206}
-      sx={{ borderRadius: 2 }}
+      sx={{ borderRadius: 1 }}
     />
   );
 };

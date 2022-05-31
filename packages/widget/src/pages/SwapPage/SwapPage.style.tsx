@@ -7,7 +7,7 @@ export const Container = styled(MuiContainer)(({ theme }) => ({
 
 export const Button = styled(MuiButton)(({ theme }) => ({
   textTransform: 'none',
-  borderRadius: theme.shape.borderRadius,
+  borderRadius: theme.shape.borderRadiusSecondary,
   padding: theme.spacing(1.25, 2),
   fontSize: '1rem',
   marginTop: theme.spacing(2),

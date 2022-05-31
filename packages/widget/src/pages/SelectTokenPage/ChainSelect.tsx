@@ -63,7 +63,7 @@ export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
       variant="rectangular"
       width="100%"
       height={89}
-      sx={{ borderRadius: 1.5 }}
+      sx={{ borderRadius: 1 }}
     />
   );
 };

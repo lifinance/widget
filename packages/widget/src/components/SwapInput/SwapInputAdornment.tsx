@@ -35,7 +35,7 @@ export const SwapInputAdornment: React.FC<SwapFormTypeProps> = ({
           variant="rectangular"
           width={96}
           height={24}
-          sx={{ borderRadius: 1 }}
+          sx={{ borderRadius: 0.5 }}
         />
       ) : formType === 'from' && token?.amount ? (
         <SwapMaxAmountTypography

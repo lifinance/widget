@@ -10,7 +10,7 @@ import { styled } from '@mui/material/styles';
 import { getContrastAlphaColor } from '../../utils/colors';
 
 export const WalletListItemButton = styled(ListItemButton)(({ theme }) => ({
-  borderRadius: theme.shape.borderRadius,
+  borderRadius: theme.shape.borderRadiusSecondary,
   paddingLeft: theme.spacing(1.5),
   height: 64,
   '&:hover': {

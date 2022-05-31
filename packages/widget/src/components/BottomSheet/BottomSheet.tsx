@@ -51,8 +51,8 @@ export const BottomSheet = forwardRef<BottomSheetBase, BottomSheetProps>(
           sx: (theme) => ({
             position: 'absolute',
             backgroundImage: 'none',
-            borderTopLeftRadius: (theme.shape.borderRadius as number) * 2,
-            borderTopRightRadius: (theme.shape.borderRadius as number) * 2,
+            borderTopLeftRadius: theme.shape.borderRadius,
+            borderTopRightRadius: theme.shape.borderRadius,
           }),
         }}
         BackdropProps={{

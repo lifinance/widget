@@ -4,7 +4,7 @@ import { toggleButtonClasses } from '@mui/material/ToggleButton';
 
 export const ToggleButton = styled(MuiToggleButton)(({ theme }) => ({
   textTransform: 'none',
-  borderRadius: (theme.shape.borderRadius as number) * 2,
+  borderRadius: theme.shape.borderRadius,
   borderColor:
     theme.palette.mode === 'light'
       ? theme.palette.grey[300]

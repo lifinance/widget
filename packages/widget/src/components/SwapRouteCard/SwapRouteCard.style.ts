@@ -17,7 +17,9 @@ export const Card = styled(Box, {
         ? theme.palette.grey[300]
         : theme.palette.grey[800]
     }`,
-    borderRadius: theme.shape.borderRadius,
+    borderRadius: dense
+      ? theme.shape.borderRadiusSecondary
+      : theme.shape.borderRadius,
     boxSizing: 'border-box',
     userSelect: blur ? 'none' : 'auto',
     '&:hover': {
@@ -41,7 +43,7 @@ export const Label = styled(Typography, {
     : theme.palette.mode === 'light'
     ? theme.palette.common.black
     : theme.palette.grey[300],
-  borderRadius: 4,
+  borderRadius: theme.shape.borderRadius / 2,
   color: active
     ? theme.palette.common.white
     : theme.palette.mode === 'light'

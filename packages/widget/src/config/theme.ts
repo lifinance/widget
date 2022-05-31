@@ -1,14 +1,11 @@
-import {
-  PaletteMode,
-  PaletteOptions,
-  SimplePaletteColorOptions,
-} from '@mui/material';
+import { PaletteMode, SimplePaletteColorOptions } from '@mui/material';
 import {
   alpha,
   createTheme as createMuiTheme,
   darken,
   lighten,
 } from '@mui/material/styles';
+import { ThemeConfig } from '../types';
 
 // https://mui.com/customization/palette/
 // declare module '@mui/material/styles' {
@@ -26,6 +23,16 @@ declare module '@mui/material/styles' {
   }
   interface TypographyVariantsOptions {
     '@supports (font-variation-settings: normal)'?: React.CSSProperties;
+  }
+  interface Shape {
+    borderRadius: number;
+    borderRadiusSecondary: number;
+  }
+  interface Theme {
+    shape: Shape;
+  }
+  interface ThemeOptions {
+    shape?: Partial<Shape>;
   }
 }
 
@@ -51,10 +58,7 @@ const palette = {
   },
 };
 
-export const createTheme = (
-  mode: PaletteMode,
-  paletteOptions: PaletteOptions = {},
-) =>
+export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) =>
   createMuiTheme({
     typography: {
       fontFamily: 'Inter var, Inter, sans-serif',
@@ -64,15 +68,15 @@ export const createTheme = (
       ...palette,
       primary: {
         main:
-          (paletteOptions?.primary as SimplePaletteColorOptions)?.main ??
+          (theme.palette?.primary as SimplePaletteColorOptions)?.main ??
           palette.primary.main,
         light: lighten(
-          (paletteOptions?.primary as SimplePaletteColorOptions)?.main ??
+          (theme.palette?.primary as SimplePaletteColorOptions)?.main ??
             palette.primary.main,
           0.5,
         ),
         dark: darken(
-          (paletteOptions?.primary as SimplePaletteColorOptions)?.main ??
+          (theme.palette?.primary as SimplePaletteColorOptions)?.main ??
             palette.primary.main,
           0.2,
         ),
@@ -100,7 +104,9 @@ export const createTheme = (
           }),
     },
     shape: {
-      borderRadius: 6,
+      borderRadius: 12,
+      borderRadiusSecondary: 6,
+      ...theme.shape,
     },
     breakpoints: {
       values: {

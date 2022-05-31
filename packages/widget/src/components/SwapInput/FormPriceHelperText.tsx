@@ -47,7 +47,7 @@ export const FormPriceHelperText: React.FC<
           variant="text"
           width={48}
           height={16}
-          sx={{ borderRadius: 0.5 }}
+          sx={{ borderRadius: 0.25 }}
         />
       ) : maxAmountTokenPrice ? (
         <PriceTypography color="text.secondary" lineHeight={1.3334}>

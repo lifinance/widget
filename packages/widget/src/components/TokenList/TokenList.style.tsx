@@ -7,7 +7,7 @@ import { styled } from '@mui/material/styles';
 import { getContrastAlphaColor } from '../../utils/colors';
 
 export const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
-  borderRadius: theme.shape.borderRadius,
+  borderRadius: theme.shape.borderRadiusSecondary,
   paddingLeft: theme.spacing(2),
   height: 64,
   '&:hover': {

@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import { KeyboardArrowRight as KeyboardArrowRightIcon } from '@mui/icons-material';
-import { Box, BoxProps, IconButton, Skeleton } from '@mui/material';
+import { Box, BoxProps, IconButton, Skeleton, Theme } from '@mui/material';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -41,8 +41,12 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
             <Skeleton
               variant="rectangular"
               width="100%"
-              height={193}
-              sx={{ borderRadius: 1, minWidth: '100%' }}
+              height={194}
+              sx={(theme: Theme) => ({
+                borderRadius:
+                  theme.shape.borderRadiusSecondary / theme.shape.borderRadius,
+                minWidth: '100%',
+              })}
             />
           ) : (
             <SwapRouteCard

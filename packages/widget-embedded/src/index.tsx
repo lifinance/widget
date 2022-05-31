@@ -7,8 +7,11 @@ import {
   FormControlLabel,
   FormGroup,
   FormLabel,
+  Slider,
   Switch,
   TextField,
+  Tooltip,
+  Typography,
   useMediaQuery,
 } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -16,6 +19,20 @@ import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import { reportWebVitals } from './reportWebVitals';
+
+function ValueLabelComponent({
+  children,
+  value,
+}: {
+  children: React.ReactElement;
+  value: number;
+}) {
+  return (
+    <Tooltip enterTouchDelay={0} placement="top" title={value}>
+      {children}
+    </Tooltip>
+  );
+}
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -50,9 +67,11 @@ const widgetConfig: WidgetConfig = {
 
 const App = () => {
   const [drawer, setDrawer] = useState(false);
-  const [primary, setPrimaryColor] = useState('#3F49E1');
-  const [config, setConfig] = useState(widgetConfig);
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const [config, setConfig] = useState(widgetConfig);
+  const [borderRadius, setBorderRadius] = useState(12);
+  const [borderRadiusSecondary, setBorderRadiusSecondary] = useState(6);
+  const [primary, setPrimaryColor] = useState('#3F49E1');
   const [darkMode, setDarkMode] = useState(prefersDarkMode);
   const [systemColor, setSystemColor] = useState(true);
   const [theme, setTheme] = useState(() =>
@@ -86,13 +105,27 @@ const App = () => {
               }`,
             },
           }),
-      paletteOptions: {
-        primary: {
-          main: primary,
+      theme: {
+        palette: {
+          primary: {
+            main: primary,
+          },
+        },
+        shape: {
+          borderRadius,
+          borderRadiusSecondary,
         },
       },
     }));
-  }, [darkMode, drawer, prefersDarkMode, primary, systemColor]);
+  }, [
+    borderRadius,
+    borderRadiusSecondary,
+    darkMode,
+    drawer,
+    prefersDarkMode,
+    primary,
+    systemColor,
+  ]);
 
   useEffect(() => {
     setTheme(
@@ -100,7 +133,7 @@ const App = () => {
         palette: {
           mode: (systemColor && prefersDarkMode) || darkMode ? 'dark' : 'light',
           primary: {
-            main: '#3F49E1',
+            main: primary,
           },
           background: {
             default:
@@ -112,7 +145,7 @@ const App = () => {
     if (systemColor) {
       setDarkMode(systemColor && prefersDarkMode);
     }
-  }, [darkMode, prefersDarkMode, systemColor]);
+  }, [darkMode, prefersDarkMode, primary, systemColor]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -163,6 +196,34 @@ const App = () => {
                 }
                 label="Dark theme"
               />
+              <Box px={1}>
+                <Typography gutterBottom>Border Radius</Typography>
+                <Slider
+                  valueLabelDisplay="auto"
+                  components={{
+                    ValueLabel: ValueLabelComponent,
+                  }}
+                  max={32}
+                  value={borderRadius}
+                  onChange={(_, value) => setBorderRadius(value as number)}
+                  sx={{ width: 160 }}
+                />
+              </Box>
+              <Box px={1}>
+                <Typography gutterBottom>Border Radius Secondary</Typography>
+                <Slider
+                  valueLabelDisplay="auto"
+                  components={{
+                    ValueLabel: ValueLabelComponent,
+                  }}
+                  max={32}
+                  value={borderRadiusSecondary}
+                  onChange={(_, value) =>
+                    setBorderRadiusSecondary(value as number)
+                  }
+                  sx={{ width: 160 }}
+                />
+              </Box>
             </FormGroup>
           </FormControl>
           <TextField

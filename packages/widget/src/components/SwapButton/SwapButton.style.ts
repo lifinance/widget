@@ -6,7 +6,7 @@ import { getContrastAlphaColor } from '../../utils/colors';
 
 export const Button = styled(LoadingButton)(({ theme }) => ({
   textTransform: 'none',
-  borderRadius: theme.shape.borderRadius,
+  borderRadius: theme.shape.borderRadiusSecondary,
   padding: theme.spacing(1.25, 2),
   fontSize: '1rem',
   [`&.${buttonClasses.disabled}`]: {

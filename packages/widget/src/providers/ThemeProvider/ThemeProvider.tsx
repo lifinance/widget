@@ -8,7 +8,7 @@ import { useWidgetConfig } from '../WidgetProvider';
 export const ThemeProvider: React.FC<React.PropsWithChildren<{}>> = ({
   children,
 }) => {
-  const { appearance: colorSchemeMode, paletteOptions } = useWidgetConfig();
+  const { appearance: colorSchemeMode, theme: themeConfig } = useWidgetConfig();
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const [appearance, setAppearance] = useAppearance();
   const [mode, setMode] = useState<PaletteMode>(
@@ -35,8 +35,8 @@ export const ThemeProvider: React.FC<React.PropsWithChildren<{}>> = ({
   }, [colorSchemeMode]);
 
   const theme = useMemo(
-    () => createTheme(mode, paletteOptions),
-    [mode, paletteOptions],
+    () => createTheme(mode, themeConfig),
+    [mode, themeConfig],
   );
   return <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>;
 };

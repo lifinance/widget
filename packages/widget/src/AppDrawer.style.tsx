@@ -13,7 +13,7 @@ export const DrawerButton = styled(Button, {
       ? theme.palette.common.white
       : theme.palette.common.black,
   alignItems: 'center',
-  borderRadius: `${theme.shape.borderRadius}px 0 0 ${theme.shape.borderRadius}px`,
+  borderRadius: `${theme.shape.borderRadiusSecondary}px 0 0 ${theme.shape.borderRadiusSecondary}px`,
   display: 'flex',
   flexDirection: 'column',
   height: 148,
@@ -38,7 +38,7 @@ export const DrawerButton = styled(Button, {
 }));
 
 export const DrawerButtonTypography = styled(Typography)(({ theme }) => ({
-  borderRadius: `0 ${theme.shape.borderRadius}px ${theme.shape.borderRadius}px 0`,
+  borderRadius: `0 ${theme.shape.borderRadiusSecondary}px ${theme.shape.borderRadiusSecondary}px 0`,
   background:
     theme.palette.mode === 'light'
       ? theme.palette.common.black

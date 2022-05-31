@@ -7,7 +7,7 @@ export const SwapRoutesUpdateProgress: React.FC<BoxProps> = (props) => {
   const { isLoading, isFetching, dataUpdatedAt, refetchTime } = useSwapRoutes();
 
   if (isLoading) {
-    return <Box width={24} height={24} />;
+    return <Box width={24} height={24} {...props} />;
   }
 
   return (

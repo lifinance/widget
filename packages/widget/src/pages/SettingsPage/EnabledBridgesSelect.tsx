@@ -44,7 +44,7 @@ export const EnabledBridgesSelect: React.FC = () => {
       variant="rectangular"
       width="100%"
       height={134}
-      sx={{ borderRadius: 2 }}
+      sx={{ borderRadius: 1 }}
     />
   );
 };

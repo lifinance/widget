@@ -1,9 +1,14 @@
 import { ChainKey } from '@lifinance/sdk';
-import { PaletteMode, PaletteOptions } from '@mui/material';
+import { PaletteMode, PaletteOptions, Shape } from '@mui/material';
 import { Signer } from 'ethers';
 import { CSSProperties } from 'react';
 
 export type Appearance = PaletteMode | 'auto';
+export type ThemeConfig = {
+  palette?: PaletteOptions;
+  shape?: Shape;
+};
+
 export interface WidgetConfig {
   fromAmount?: number;
   fromChain?: `${ChainKey}` | number;
@@ -20,7 +25,7 @@ export interface WidgetConfig {
     addToken: { (): void };
   };
   containerStyle?: CSSProperties;
-  paletteOptions?: PaletteOptions;
+  theme?: ThemeConfig;
   appearance?: Appearance;
   disableAppearance?: boolean;
 }

@@ -11,7 +11,7 @@ export const CardContainer = styled(Box, {
     : theme.palette.mode === 'light'
     ? theme.palette.grey[300]
     : theme.palette.grey[800],
-  borderRadius: (theme.shape.borderRadius as number) * 2,
+  borderRadius: theme.shape.borderRadius,
   overflow: 'hidden',
   position: 'relative',
 }));
