@@ -4,9 +4,9 @@ import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { CardContainer, CardTitle } from '../../components/Card';
 import { StepActions } from '../../components/StepActions';
+import { StepToken } from '../../components/StepToken';
 import { ExecutionItem } from './ExecutionItem';
 import { StepTimer } from './StepTimer';
-import { StepToken } from './StepToken';
 
 export const StepItem: React.FC<{
   step: Step;

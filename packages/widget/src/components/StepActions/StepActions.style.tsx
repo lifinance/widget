@@ -40,12 +40,15 @@ export const StepConnector = styled(MuiStepConnector, {
 
 export const StepLabel = styled(MuiStepLabel, {
   shouldForwardProp: (prop) =>
-    !['active', 'completed', 'error'].includes(prop as string),
+    !['active', 'completed', 'error', 'disabled'].includes(prop as string),
 })(({ theme }) => ({
   padding: 0,
   [`.${stepLabelClasses.iconContainer}`]: {
     paddingLeft: theme.spacing(1.25),
     paddingRight: theme.spacing(3.25),
+  },
+  [`&.${stepLabelClasses.disabled}`]: {
+    cursor: 'inherit',
   },
 }));
 

@@ -9,6 +9,7 @@ import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { BottomSheet, BottomSheetBase } from '../../components/BottomSheet';
+import { StepToken } from '../../components/StepToken';
 import { RouteExecution, useChains, useTokenBalance } from '../../hooks';
 import { SwapFormKey } from '../../providers/SwapFormProvider';
 import {
@@ -16,7 +17,6 @@ import {
   IconContainer,
   iconStyles,
 } from './StatusBottomSheet.style';
-import { StepToken } from './StepToken';
 import { Button } from './SwapPage.style';
 import { getProcessMessage } from './utils';
 

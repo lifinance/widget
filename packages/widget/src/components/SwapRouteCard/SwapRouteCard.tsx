@@ -1,8 +1,8 @@
 import { Check as CheckIcon } from '@mui/icons-material';
-import { Avatar, Box, BoxProps, Typography } from '@mui/material';
+import { Box, BoxProps, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { formatTokenAmount } from '../../utils/format';
 import { StepActions } from '../StepActions';
+import { StepToken } from '../StepToken';
 import { Card, Check, Label } from './SwapRouteCard.style';
 import { SwapRouteCardProps } from './types';
 
@@ -37,21 +37,7 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
           }}
           mb={2}
         >
-          <Avatar
-            src={route.toToken.logoURI}
-            alt={route.toToken.symbol}
-            sx={{ marginRight: 2, marginY: 0.375 }}
-          >
-            {route.toToken.symbol[0]}
-          </Avatar>
-          <Box>
-            <Typography fontSize={32} fontWeight="700" lineHeight="normal">
-              {formatTokenAmount(route.toAmount, route.toToken.decimals)}
-            </Typography>
-            <Typography fontSize={14} color="text.secondary">
-              {route.toToken.symbol}
-            </Typography>
-          </Box>
+          <StepToken token={{ ...route.toToken, amount: route.toAmount }} />
         </Box>
         {!dense
           ? route.steps.map((step) => (

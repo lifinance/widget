@@ -177,7 +177,7 @@ const App = () => {
           anchor="left"
         >
           <Box p={2} flex={1}>
-            <Typography mb={2} variant="h6">
+            <Typography px={1} mb={2} variant="h6">
               Widget Customization
             </Typography>
             <Box px={1} flex={1}>
@@ -188,7 +188,7 @@ const App = () => {
                     onChange={() => setDrawer((drawer) => !drawer)}
                   />
                 }
-                label="Enable drawer"
+                label="Enable drawer view"
               />
             </Box>
             <Box p={1} flex={1}>

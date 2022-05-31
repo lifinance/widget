@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { darken, styled } from '@mui/material/styles';
 
 export const Card = styled(Box, {
   shouldForwardProp: (prop) =>
@@ -24,10 +24,18 @@ export const Card = styled(Box, {
     userSelect: blur ? 'none' : 'auto',
     '&:hover': {
       cursor: blur || !dense ? 'pointer' : 'default',
+      backgroundColor:
+        blur || !dense
+          ? darken(theme.palette.background.paper, 0.02)
+          : theme.palette.background.paper,
     },
     '& > div': {
       filter: blur ? 'blur(3px)' : 'none',
     },
+    transition: theme.transitions.create(['background-color'], {
+      duration: theme.transitions.duration.enteringScreen,
+      easing: theme.transitions.easing.easeOut,
+    }),
   }),
 );
 
