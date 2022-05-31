@@ -4,7 +4,12 @@
   "private": true,
   "sideEffects": false,
   "module": "src/index.ts",
-  "scripts": {},
+  "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test"
+  },
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",

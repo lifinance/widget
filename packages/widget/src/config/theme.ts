@@ -50,7 +50,7 @@ const palette = {
   },
   secondary: {
     main: '#F5B5FF',
-    light: lighten('#F5B5FF', 0.2),
+    light: lighten('#F5B5FF', 0.5),
     dark: darken('#F5B5FF', 0.2),
   },
   success: {
@@ -79,6 +79,21 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) =>
         dark: darken(
           (theme.palette?.primary as SimplePaletteColorOptions)?.main ??
             palette.primary.main,
+          0.2,
+        ),
+      },
+      secondary: {
+        main:
+          (theme.palette?.secondary as SimplePaletteColorOptions)?.main ??
+          palette.secondary.main,
+        light: lighten(
+          (theme.palette?.secondary as SimplePaletteColorOptions)?.main ??
+            palette.secondary.main,
+          0.5,
+        ),
+        dark: darken(
+          (theme.palette?.secondary as SimplePaletteColorOptions)?.main ??
+            palette.secondary.main,
           0.2,
         ),
       },

@@ -73,6 +73,7 @@ const App = () => {
   const [borderRadius, setBorderRadius] = useState(12);
   const [borderRadiusSecondary, setBorderRadiusSecondary] = useState(6);
   const [primary, setPrimaryColor] = useState('#3F49E1');
+  const [secondary, setSecondaryColor] = useState('#F5B5FF');
   const [darkMode, setDarkMode] = useState(prefersDarkMode);
   const [systemColor, setSystemColor] = useState(true);
   const [theme, setTheme] = useState(() =>
@@ -81,6 +82,9 @@ const App = () => {
         mode: (systemColor && prefersDarkMode) || darkMode ? 'dark' : 'light',
         primary: {
           main: '#3F49E1',
+        },
+        secondary: {
+          main: '#F5B5FF',
         },
         background: {
           default:
@@ -111,6 +115,9 @@ const App = () => {
           primary: {
             main: primary,
           },
+          secondary: {
+            main: secondary,
+          },
         },
         shape: {
           borderRadius,
@@ -129,6 +136,7 @@ const App = () => {
     fontFamily,
     prefersDarkMode,
     primary,
+    secondary,
     systemColor,
   ]);
 
@@ -140,6 +148,9 @@ const App = () => {
           primary: {
             main: primary,
           },
+          secondary: {
+            main: secondary,
+          },
           background: {
             default:
               (systemColor && prefersDarkMode) || darkMode ? '#000' : '#F4F5F6',
@@ -150,7 +161,7 @@ const App = () => {
     if (systemColor) {
       setDarkMode(systemColor && prefersDarkMode);
     }
-  }, [darkMode, prefersDarkMode, primary, systemColor]);
+  }, [darkMode, prefersDarkMode, primary, secondary, systemColor]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -251,10 +262,24 @@ const App = () => {
                   size="small"
                   InputProps={{
                     sx: {
-                      width: 96,
+                      width: 128,
                     },
                   }}
                   onChange={(event) => setPrimaryColor(event.target.value)}
+                />
+              </Box>
+              <Box px={1}>
+                <TextField
+                  value={secondary}
+                  label="Secondary Color"
+                  type="color"
+                  size="small"
+                  InputProps={{
+                    sx: {
+                      width: 128,
+                    },
+                  }}
+                  onChange={(event) => setSecondaryColor(event.target.value)}
                 />
               </Box>
             </FormGroup>
