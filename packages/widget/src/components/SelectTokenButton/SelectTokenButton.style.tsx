@@ -23,14 +23,14 @@ export const SelectTokenCardHeader = styled(CardHeader, {
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
       overflow: 'hidden',
-      width: compact ? 92 : 224,
+      width: compact ? 92 : 272,
       fontWeight: selected ? 500 : 400,
     },
     [`.${cardHeaderClasses.subheader}`]: {
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
       overflow: 'hidden',
-      width: compact ? 92 : 224,
+      width: compact ? 92 : 272,
     },
   }),
 );

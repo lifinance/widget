@@ -11,5 +11,6 @@ export const Input = styled(InputBase)(({ theme }) => ({
   [`.${inputBaseClasses.input}`]: {
     padding: theme.spacing(1.5, 1, 1.5, 2),
     height: '2.875em',
+    boxSizing: 'inherit',
   },
 }));
