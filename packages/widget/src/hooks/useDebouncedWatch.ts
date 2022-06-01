@@ -10,10 +10,17 @@ export const useDebouncedWatch = (name: any, delay: number) => {
 
   useEffect(() => {
     if (isMounted.current) {
-      const handler = setTimeout(() => {
-        setDebouncedValue(watchedValue);
-      }, delay);
-      return () => clearTimeout(handler);
+      const hasWatchedValue = Array.isArray(watchedValue)
+        ? watchedValue.some((value) => value)
+        : watchedValue;
+      if (hasWatchedValue) {
+        const handler = setTimeout(() => {
+          setDebouncedValue(watchedValue);
+        }, delay);
+        return () => clearTimeout(handler);
+      }
+      setDebouncedValue(watchedValue);
+      return undefined;
     }
     isMounted.current = true;
     return undefined;
