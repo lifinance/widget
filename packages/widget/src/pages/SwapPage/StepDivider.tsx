@@ -1,10 +1,10 @@
-import { ArrowDownward as ArrowDownwardIcon } from '@mui/icons-material';
+import { Divider } from '@mui/material';
 import { Container } from './StepDivider.style';
 
 export const StepDivider: React.FC = () => {
   return (
     <Container>
-      <ArrowDownwardIcon />
+      <Divider orientation="vertical" flexItem />
     </Container>
   );
 };
