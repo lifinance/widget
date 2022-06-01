@@ -41,7 +41,7 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
             <Skeleton
               variant="rectangular"
               width="100%"
-              height={167}
+              height={181}
               sx={(theme: Theme) => ({
                 borderRadius:
                   theme.shape.borderRadiusSecondary / theme.shape.borderRadius,
