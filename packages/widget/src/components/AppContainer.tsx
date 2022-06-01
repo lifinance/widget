@@ -1,4 +1,4 @@
-import { Box, ScopedCssBaseline } from '@mui/material';
+import { Box, Container, ScopedCssBaseline } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { PropsWithChildren, RefObject, useLayoutEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -34,6 +34,14 @@ const ScrollableContainer = styled(Box)({
   display: 'flex',
 });
 
+const FlexContainer = styled(Container)({
+  display: 'flex',
+  flexBasis: 'auto',
+  flexDirection: 'column',
+  flexShrink: 0,
+  flexGrow: 1,
+});
+
 export const AppContainer: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   const ref = useRef<HTMLElement>(null);
   const { containerStyle } = useWidgetConfig();
@@ -41,8 +49,10 @@ export const AppContainer: React.FC<PropsWithChildren<{}>> = ({ children }) => {
     <RelativeContainer sx={containerStyle}>
       <ScrollableContainer id={ElementId.ScrollableContainer} ref={ref}>
         <CssBaselineContainer enableColorScheme>
-          {children}
-          <PoweredBy />
+          <FlexContainer disableGutters>
+            {children}
+            <PoweredBy />
+          </FlexContainer>
         </CssBaselineContainer>
       </ScrollableContainer>
       <ScrollToLocation elementRef={ref} />
