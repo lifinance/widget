@@ -10,7 +10,7 @@
     "@emotion/styled": "^11.8.1",
     "@ethersproject/experimental": "^5.6.2",
     "@ethersproject/providers": "^5.6.8",
-    "@lifinance/sdk": "^1.0.0-beta.6",
+    "@lifinance/sdk": "^1.0.0-beta.8",
     "@lifinance/wallet-management": "0.1.0",
     "@mui/icons-material": "^5.8.2",
     "@mui/lab": "^5.0.0-alpha.84",

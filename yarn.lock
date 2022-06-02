@@ -2656,25 +2656,25 @@
     npmlog "^4.1.2"
     write-file-atomic "^3.0.3"
 
-"@lifinance/sdk@^1.0.0-beta.6":
-  version "1.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@lifinance/sdk/-/sdk-1.0.0-beta.6.tgz#4966c7ee257e2a169421baa96152db93d74ae727"
-  integrity sha512-gp1Gnas1Ri9ul+bomz30yl6UhjL/3XXLs7IQ0+KlaZNmzZ3RHvKRoqJNTf5qE/kdyKBPs/S/QCPczNXTwr0nmA==
+"@lifinance/sdk@^1.0.0-beta.8":
+  version "1.0.0-beta.8"
+  resolved "https://registry.yarnpkg.com/@lifinance/sdk/-/sdk-1.0.0-beta.8.tgz#8d793f9bf6ea6c6c3fbce54d4fbbcda82e96c7d1"
+  integrity sha512-k3NErEHyk7o3YTUzQd0pRFhQcjL78bkJENZhmwBF26XtWW8G/H0LVelFyJB8i4aF9v4YGhwl7SQmGsQ/qhvZ3A==
   dependencies:
     "@ethersproject/abi" "^5.6.2"
     "@ethersproject/contracts" "^5.6.1"
-    "@lifinance/types" "^0.14.0"
+    "@lifinance/types" "^0.14.7"
     axios "^0.27.2"
     bignumber.js "^9.0.1"
     eth-rpc-errors "^4.0.3"
     ethers "^5.6.6"
 
-"@lifinance/types@^0.14.0":
-  version "0.14.6"
-  resolved "https://registry.yarnpkg.com/@lifinance/types/-/types-0.14.6.tgz#e012b0ddd0e615ee4249f3e46fd0b1e0464732d7"
-  integrity sha512-kspks0P4boEpxj1cWGQ6rzDPgSnzIafTjU9/VdEKbGFD2mgMAEQKuMottf9/pdWgZIEpU+HROCI8nU4Pee5wRQ==
+"@lifinance/types@^0.14.7":
+  version "0.14.7"
+  resolved "https://registry.yarnpkg.com/@lifinance/types/-/types-0.14.7.tgz#7301db5748d992f03dfea08161ce64bdc9f58736"
+  integrity sha512-L18Nf4lI5lMdRoTYQ6TbfjUrlVDEMlszlGqjyiHKbDRezqj+HL5gupjkxNEZzHQZBSS96vLT2TBbqdgjDbfviA==
   dependencies:
-    ethers "^5.6.5"
+    ethers "^5.6.6"
 
 "@metamask/detect-provider@^1.2.0":
   version "1.2.0"
@@ -6846,7 +6846,7 @@ eth-rpc-errors@^4.0.3:
   dependencies:
     fast-safe-stringify "^2.0.6"
 
-ethers@^5.6.5, ethers@^5.6.6, ethers@^5.6.8:
+ethers@^5.6.6, ethers@^5.6.8:
   version "5.6.8"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.6.8.tgz#d36b816b4896341a80a8bbd2a44e8cb6e9b98dd4"
   integrity sha512-YxIGaltAOdvBFPZwIkyHnXbW40f1r8mHUgapW6dxkO+6t7H6wY8POUn0Kbxrd/N7I4hHxyi7YCddMAH/wmho2w==
@@ -12389,7 +12389,7 @@ terminal-link@^2.0.0:
     ansi-escapes "^4.2.1"
     supports-hyperlinks "^2.0.0"
 
-terser-webpack-plugin@^5.1.3, terser-webpack-plugin@^5.3.1:
+terser-webpack-plugin@^5.1.3:
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/terser-webpack-plugin/-/terser-webpack-plugin-5.3.1.tgz#0320dcc270ad5372c1e8993fabbd927929773e54"
   integrity sha512-GvlZdT6wPQKbDNW/GDQzZFg/j4vKU96yl2q6mcUkzKOgW4gwf1Z8cZToUCrz31XHlPWH8MVb1r2tFtdDtTGJ7g==
@@ -12398,6 +12398,17 @@ terser-webpack-plugin@^5.1.3, terser-webpack-plugin@^5.3.1:
     schema-utils "^3.1.1"
     serialize-javascript "^6.0.0"
     source-map "^0.6.1"
+    terser "^5.7.2"
+
+terser-webpack-plugin@^5.3.3:
+  version "5.3.3"
+  resolved "https://registry.yarnpkg.com/terser-webpack-plugin/-/terser-webpack-plugin-5.3.3.tgz#8033db876dd5875487213e87c627bca323e5ed90"
+  integrity sha512-Fx60G5HNYknNTNQnzQ1VePRuu89ZVYWfjRAeT5rITuCY/1b08s49e5kSQwHDirKZWuoKOBRFS98EUUoZ9kLEwQ==
+  dependencies:
+    "@jridgewell/trace-mapping" "^0.3.7"
+    jest-worker "^27.4.5"
+    schema-utils "^3.1.1"
+    serialize-javascript "^6.0.0"
     terser "^5.7.2"
 
 terser@^5.0.0, terser@^5.10.0, terser@^5.7.2:
