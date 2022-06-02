@@ -43,7 +43,7 @@ export const useSwapRoutes = () => {
     !isNaN(fromTokenAmount) &&
     !isNaN(slippage);
 
-  const { data, isLoading, isFetching, dataUpdatedAt } = useQuery(
+  const { data, isLoading, isFetching, dataUpdatedAt, refetch } = useQuery(
     [
       'routes',
       account.address,
@@ -125,5 +125,6 @@ export const useSwapRoutes = () => {
     isFetching,
     dataUpdatedAt,
     refetchTime,
+    refetch,
   };
 };

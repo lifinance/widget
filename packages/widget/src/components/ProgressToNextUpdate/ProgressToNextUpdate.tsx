@@ -1,12 +1,19 @@
-import { Box, BoxProps, CircularProgress } from '@mui/material';
+import {
+  Box,
+  CircularProgress,
+  IconButton,
+  IconButtonProps,
+  Tooltip,
+} from '@mui/material';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const calculateTime = (updatedAt: number, timeToUpdate: number) => {
   if (updatedAt === 0) {
     return 0;
   }
   const progress = ((Date.now() - updatedAt) / timeToUpdate) * 100;
-  return progress >= 100 ? 100 : progress;
+  return Math.min(100, progress);
 };
 
 export const ProgressToNextUpdate: React.FC<
@@ -14,8 +21,9 @@ export const ProgressToNextUpdate: React.FC<
     updatedAt: number;
     timeToUpdate: number;
     isLoading?: boolean;
-  } & BoxProps
-> = ({ updatedAt, timeToUpdate, isLoading, sx }) => {
+  } & IconButtonProps
+> = ({ updatedAt, timeToUpdate, isLoading, onClick, sx }) => {
+  const { t } = useTranslation();
   const [value, setValue] = useState(() =>
     calculateTime(updatedAt, timeToUpdate),
   );
@@ -38,40 +46,50 @@ export const ProgressToNextUpdate: React.FC<
   }, [isLoading]);
 
   return (
-    <Box
-      sx={{
-        display: 'grid',
-        position: 'relative',
-        placeItems: 'center',
-        width: 24,
-        height: 24,
-        ...sx,
-      }}
-    >
-      <CircularProgress
-        variant="determinate"
-        size={24}
-        value={100}
-        sx={(theme) => ({
-          position: 'absolute',
-          color:
-            theme.palette.mode === 'light'
-              ? theme.palette.grey[300]
-              : theme.palette.grey[800],
+    <IconButton onClick={onClick} sx={sx} disabled={isLoading}>
+      <Tooltip
+        title={t('tooltip.progressToNextUpdate', {
+          value: Math.round((timeToUpdate - (Date.now() - updatedAt)) / 1000),
         })}
-      />
-      <CircularProgress
-        variant={isLoading ? 'indeterminate' : 'determinate'}
-        size={24}
-        value={value}
-        sx={(theme) => ({
-          opacity: value === 100 && !isLoading ? 0.5 : 1,
-          color:
-            theme.palette.mode === 'light'
-              ? theme.palette.primary.main
-              : theme.palette.primary.light,
-        })}
-      />
-    </Box>
+        placement="top"
+        enterDelay={250}
+        arrow
+      >
+        <Box
+          sx={{
+            display: 'grid',
+            position: 'relative',
+            placeItems: 'center',
+            width: 24,
+            height: 24,
+          }}
+        >
+          <CircularProgress
+            variant="determinate"
+            size={24}
+            value={100}
+            sx={(theme) => ({
+              position: 'absolute',
+              color:
+                theme.palette.mode === 'light'
+                  ? theme.palette.grey[300]
+                  : theme.palette.grey[800],
+            })}
+          />
+          <CircularProgress
+            variant={isLoading ? 'indeterminate' : 'determinate'}
+            size={24}
+            value={value}
+            sx={(theme) => ({
+              opacity: value === 100 && !isLoading ? 0.5 : 1,
+              color:
+                theme.palette.mode === 'light'
+                  ? theme.palette.primary.main
+                  : theme.palette.primary.light,
+            })}
+          />
+        </Box>
+      </Tooltip>
+    </IconButton>
   );
 };

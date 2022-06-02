@@ -75,14 +75,11 @@ export const NavigationHeader: React.FC = () => {
         <Route
           path={routes.swapRoutes}
           element={
-            <IconButton
+            <SwapRoutesUpdateProgress
               size="medium"
               edge="end"
               sx={{ marginRight: -1 }}
-              disabled
-            >
-              <SwapRoutesUpdateProgress />
-            </IconButton>
+            />
           }
         />
         <Route

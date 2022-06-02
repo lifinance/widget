@@ -25,6 +25,7 @@
     "auto": "Auto",
     "ok": "Ok",
     "hide": "Hide",
+    "max": "max",
     "lifiSwap": "LI.FI Swap"
   },
   "swap": {
@@ -130,5 +131,8 @@
   },
   "wallet": {
     "extensionNotFound": "Please make sure that only the {{name}} browser extension is active before choosing this wallet."
+  },
+  "tooltip": {
+    "progressToNextUpdate": "Displayed data will auto-refresh after {{value}} seconds. Click this circle to update manually."
   }
 }

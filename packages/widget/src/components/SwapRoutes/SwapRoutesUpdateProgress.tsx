@@ -1,13 +1,17 @@
 /* eslint-disable react/no-array-index-key */
-import { Box, BoxProps } from '@mui/material';
+import { Box, IconButtonProps } from '@mui/material';
 import { useSwapRoutes } from '../../hooks';
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate';
 
-export const SwapRoutesUpdateProgress: React.FC<BoxProps> = (props) => {
-  const { isLoading, isFetching, dataUpdatedAt, refetchTime } = useSwapRoutes();
+export const SwapRoutesUpdateProgress: React.FC<IconButtonProps> = ({
+  sx,
+  ...other
+}) => {
+  const { isLoading, isFetching, dataUpdatedAt, refetchTime, refetch } =
+    useSwapRoutes();
 
   if (isLoading) {
-    return <Box width={24} height={24} {...props} />;
+    return <Box width={24} height={24} sx={sx} />;
   }
 
   return (
@@ -15,7 +19,9 @@ export const SwapRoutesUpdateProgress: React.FC<BoxProps> = (props) => {
       updatedAt={dataUpdatedAt}
       timeToUpdate={refetchTime}
       isLoading={isFetching}
-      {...props}
+      onClick={() => refetch()}
+      sx={sx}
+      {...other}
     />
   );
 };
