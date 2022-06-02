@@ -1,3 +1,4 @@
+import { useTheme } from '@mui/material/styles';
 import {
   PropsWithChildren,
   useCallback,
@@ -26,6 +27,7 @@ export const TextFitter: React.FC<PropsWithChildren<TextFitterProps>> = ({
   cropBottom,
   onFit,
 }) => {
+  const theme = useTheme();
   const textRef = useRef<SVGTextElement>(null);
   const [viewBox, setViewBox] = useState<Partial<DOMRect>>(initialState);
   const [textRect, setTextRect] = useState<Partial<DOMRect>>(initialState);
@@ -70,6 +72,7 @@ export const TextFitter: React.FC<PropsWithChildren<TextFitterProps>> = ({
           : height
       }
       preserveAspectRatio={preserveAspectRatio}
+      fill={theme.palette.text.primary}
     >
       <text x={0} y={0} style={textStyle} ref={textRef}>
         {children}

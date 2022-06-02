@@ -31,8 +31,8 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
       <SwapRoutesUpdateProgress
         sx={{
           position: 'absolute',
-          top: 16,
-          right: 16,
+          top: 8,
+          right: 8,
         }}
       />
       <Box sx={{ display: 'flex', alignItems: 'center' }}>

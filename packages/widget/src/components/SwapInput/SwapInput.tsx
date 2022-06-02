@@ -1,5 +1,5 @@
 import { Avatar } from '@mui/material';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useLayoutEffect, useRef } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useChain, useToken } from '../../hooks';
@@ -8,14 +8,22 @@ import {
   SwapFormTypeProps,
 } from '../../providers/SwapFormProvider';
 import { formatAmount } from '../../utils/format';
+import { fitInputText } from '../../utils/input';
 import { CardContainer, CardTitle } from '../Card';
 import { FormPriceHelperText } from './FormPriceHelperText';
-import { FormControl, Input } from './SwapInput.style';
+import {
+  FormControl,
+  Input,
+  maxInputFontSize,
+  minInputFontSize,
+} from './SwapInput.style';
 import { SwapInputAdornment } from './SwapInputAdornment';
 
 export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
   const { t } = useTranslation();
   const { setValue } = useFormContext();
+  const ref = useRef<HTMLInputElement>(null);
+
   const amountKey = SwapFormKeyHelper.getAmountKey(formType);
   const [amount, chainId, tokenAddress] = useWatch({
     name: [
@@ -43,11 +51,20 @@ export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
     setValue(amountKey, formatAmount(value));
   };
 
+  useLayoutEffect(() => {
+    fitInputText(
+      maxInputFontSize,
+      minInputFontSize,
+      ref.current as HTMLElement,
+    );
+  }, [amount]);
+
   return (
     <CardContainer>
       <CardTitle>{t('swap.amount')}</CardTitle>
       <FormControl fullWidth>
         <Input
+          inputRef={ref}
           size="small"
           autoComplete="off"
           placeholder="0"

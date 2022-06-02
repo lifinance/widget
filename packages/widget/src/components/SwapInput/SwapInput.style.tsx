@@ -2,6 +2,9 @@ import { FormControl as MuiFormControl, InputBase } from '@mui/material';
 import { inputBaseClasses } from '@mui/material/InputBase';
 import { styled } from '@mui/material/styles';
 
+export const maxInputFontSize = 24;
+export const minInputFontSize = 14;
+
 export const FormControl = styled(MuiFormControl)(({ theme }) => ({
   padding: theme.spacing(1.5, 2, 1.5, 0),
 }));

@@ -31,14 +31,10 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
             </Check>
           ) : null}
         </Box>
-        <Box
-          sx={{
-            display: 'flex',
-          }}
+        <StepToken
+          token={{ ...route.toToken, amount: route.toAmount }}
           mb={2}
-        >
-          <StepToken token={{ ...route.toToken, amount: route.toAmount }} />
-        </Box>
+        />
         {!dense
           ? route.steps.map((step) => (
               <StepActions key={step.id} step={step} mb={2} />

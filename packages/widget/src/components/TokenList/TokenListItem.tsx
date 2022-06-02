@@ -9,7 +9,6 @@ import {
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatTokenPrice } from '../../utils/format';
-import { PriceTypography } from '../PriceTypography';
 import { ListItem, ListItemButton } from './TokenList.style';
 import { TokenListItemBaseProps, TokenListItemProps } from './types';
 
@@ -20,25 +19,6 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
     const tokenPrice = formatTokenPrice(token.amount, token.priceUSD);
     return (
       <ListItem
-        secondaryAction={
-          showBalance ? (
-            <Box sx={{ textAlign: 'right' }}>
-              <Typography variant="body1" noWrap>
-                {token.amount ?? '0'}
-              </Typography>
-              {tokenPrice ? (
-                <PriceTypography
-                  color="text.secondary"
-                  data-price={token.priceUSD}
-                >
-                  {t(`swap.currency`, {
-                    value: tokenPrice,
-                  })}
-                </PriceTypography>
-              ) : null}
-            </Box>
-          ) : null
-        }
         disablePadding
         style={{
           height: `${size}px`,
@@ -52,6 +32,25 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
             </Avatar>
           </ListItemAvatar>
           <ListItemText primary={token.symbol} secondary={token.name} />
+          {showBalance ? (
+            <Box sx={{ textAlign: 'right' }}>
+              <Typography variant="body1" noWrap>
+                {token.amount ?? '0'}
+              </Typography>
+              {tokenPrice ? (
+                <Typography
+                  fontWeight={400}
+                  fontSize={12}
+                  color="text.secondary"
+                  data-price={token.priceUSD}
+                >
+                  {t(`swap.currency`, {
+                    value: tokenPrice,
+                  })}
+                </Typography>
+              ) : null}
+            </Box>
+          ) : null}
         </ListItemButton>
       </ListItem>
     );

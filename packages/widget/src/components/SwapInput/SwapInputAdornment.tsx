@@ -6,11 +6,9 @@ import {
   SwapFormKeyHelper,
   SwapFormTypeProps,
 } from '../../providers/SwapFormProvider';
-import { SwapMaxAmountTypography } from './SwapInputAdornment.style';
+import { Button } from './SwapInputAdornment.style';
 
-export const SwapInputAdornment: React.FC<SwapFormTypeProps> = ({
-  formType,
-}) => {
+export const SwapInputAdornment = ({ formType }: SwapFormTypeProps) => {
   const { t } = useTranslation();
   const { setValue } = useFormContext();
   const [chainId, tokenAddress] = useWatch({
@@ -33,23 +31,14 @@ export const SwapInputAdornment: React.FC<SwapFormTypeProps> = ({
       {isLoading && isFetching ? (
         <Skeleton
           variant="rectangular"
-          width={96}
-          height={24}
+          width={46}
+          height={20}
           sx={{ borderRadius: 0.5 }}
         />
       ) : formType === 'from' && token?.amount ? (
-        <SwapMaxAmountTypography
-          onClick={handleMax}
-          role="button"
-          sx={{
-            userSelect: 'none',
-          }}
-          data-amount={token?.amount}
-        >
-          {t(`swap.maxAmount`, {
-            amount: token?.amount,
-          })}
-        </SwapMaxAmountTypography>
+        <Button onClick={handleMax} variant="outlined">
+          {t('button.max')}
+        </Button>
       ) : null}
     </InputAdornment>
   );

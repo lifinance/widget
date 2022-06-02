@@ -66,6 +66,7 @@ export const TokenList: FC<TokenListProps> = ({
   const handleTokenClick = useCallback(
     (tokenAddress: string) => {
       setValue(SwapFormKeyHelper.getTokenKey(formType), tokenAddress);
+      setValue(SwapFormKeyHelper.getAmountKey(formType), '');
       onClick?.();
     },
     [formType, onClick, setValue],

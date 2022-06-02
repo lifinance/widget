@@ -9,7 +9,7 @@ export const StepToken: React.FC<{ token: TokenAmount } & BoxProps> = ({
   ...other
 }) => {
   return (
-    <Box flex={1} height={46} {...other}>
+    <Box flex={1} {...other}>
       <Box display="flex" flex={1}>
         <Avatar src={token.logoURI} alt={token.symbol} sx={{ marginRight: 2 }}>
           {token.symbol[0]}

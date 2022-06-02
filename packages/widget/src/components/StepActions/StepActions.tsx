@@ -78,7 +78,7 @@ export const StepActions: React.FC<StepActionsProps> = ({
 export const StepDetailsContent: React.FC<{ step: Step }> = ({ step }) => {
   return (
     <Typography
-      fontSize={14}
+      fontSize={12}
       fontWeight="500"
       color="text.secondary"
       alignItems="center"
@@ -89,7 +89,7 @@ export const StepDetailsContent: React.FC<{ step: Step }> = ({ step }) => {
         step.action.fromToken.decimals,
       )}{' '}
       {step.action.fromToken.symbol}
-      <ArrowForwardIcon sx={{ fontSize: '.75rem', paddingX: 0.5 }} />
+      <ArrowForwardIcon sx={{ fontSize: 18, paddingX: 0.5 }} />
       {formatTokenAmount(
         step.estimate.toAmount,
         step.action.toToken.decimals,
@@ -104,7 +104,7 @@ export const CrossStepDetailsLabel: React.FC<{ step: Step }> = ({ step }) => {
   const { getChainById } = useChains();
 
   return (
-    <Typography fontSize={14} fontWeight="500" color="text.secondary">
+    <Typography fontSize={12} fontWeight="500" color="text.secondary">
       {t('swap.crossStepDetails', {
         from: getChainById(step.action.fromChainId)?.name,
         to: getChainById(step.action.toChainId)?.name,
@@ -117,7 +117,7 @@ export const CrossStepDetailsLabel: React.FC<{ step: Step }> = ({ step }) => {
 export const SwapStepDetailsLabel: React.FC<{ step: Step }> = ({ step }) => {
   const { t } = useTranslation();
   return (
-    <Typography fontSize={14} fontWeight="500" color="text.secondary">
+    <Typography fontSize={12} fontWeight="500" color="text.secondary">
       {t('swap.swapStepDetails', {
         value: step.toolDetails.name,
       })}

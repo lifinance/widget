@@ -1,15 +1,26 @@
-import { Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Button as MuiButton } from '@mui/material';
+import { lighten, styled } from '@mui/material/styles';
 
-export const SwapMaxAmountTypography = styled(Typography)(({ theme }) => ({
-  fontSize: 24,
-  fontWeight: '700',
-  lineHeight: 1.3334,
+export const Button = styled(MuiButton)(({ theme }) => ({
+  textTransform: 'none',
+  borderRadius: theme.shape.borderRadiusSecondary,
+  borderColor:
+    theme.palette.mode === 'light'
+      ? theme.palette.grey[300]
+      : theme.palette.grey[800],
   color: theme.palette.text.secondary,
-  transition: theme.transitions.create(['color']),
-  // padding: theme.spacing(0.5, 0),
+  padding: theme.spacing(0.125, 1, 0.375, 1),
+  lineHeight: 1,
+  fontSize: '0.875rem',
+  minWidth: 'unset',
   '&:hover': {
-    cursor: 'pointer',
-    color: theme.palette.text.primary,
+    color:
+      theme.palette.mode === 'light'
+        ? theme.palette.primary.main
+        : theme.palette.text.primary,
+    borderColor:
+      theme.palette.mode === 'light'
+        ? lighten(theme.palette.primary.main, 0.5)
+        : theme.palette.text.secondary,
   },
 }));
