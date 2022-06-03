@@ -1,4 +1,10 @@
 {
   "extends": "../../tsconfig",
+  "compilerOptions": {
+    "paths": {
+      "@lifi/widget": ["./packages/widget/src"],
+      "@lifi/widget/*": ["./packages/widget/src/*"]
+    }
+  },
   "include": ["src/**/*"]
 }

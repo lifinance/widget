@@ -1,7 +1,7 @@
-import { useRouteExecution } from '@lifinance/widget/hooks';
 import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useRouteExecution } from '../../hooks';
 import { StatusBottomSheet } from './StatusBottomSheet';
 import { StepDivider } from './StepDivider';
 import { StepItem } from './StepItem';

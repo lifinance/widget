@@ -1,4 +1,9 @@
 {
   "extends": "../../tsconfig",
-  "include": ["src/**/*"]
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "outDir": "dist",
+  },
+  "include": ["src/**/*"],
 }

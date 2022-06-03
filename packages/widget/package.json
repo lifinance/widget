@@ -1,28 +1,60 @@
 {
-  "name": "@lifinance/widget",
-  "version": "0.1.0",
+  "name": "@lifi/widget",
+  "version": "1.0.0",
   "private": true,
   "sideEffects": false,
   "module": "src/index.ts",
-  "scripts": {},
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "watch": "tsc -w -p ./tsconfig.json",
+    "build": "tsc -p .",
+    "pre-commit": "lint-staged",
+    "lint": "eslint --ext .tsx --ext .ts ./src",
+    "lint:fix": "eslint --ext .tsx --ext .ts ./src --fix",
+    "prettier:fix": "prettier --write ./src/.",
+    "release": "standard-version"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "yarn run lint:fix",
+      "yarn run prettier:fix"
+    ]
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Eugene Chybisov <eugene@li.finance>",
+  "license": "UNLICENSED",
+  "homepage": "https://github.com/lifinance/widget",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/lifinance/widget.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lifinance/widget/issues"
+  },
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@ethersproject/experimental": "^5.6.2",
     "@ethersproject/providers": "^5.6.8",
+    "@lifi/wallet-management": "1.0.0",
     "@lifinance/sdk": "^1.0.0-beta.8",
-    "@lifinance/wallet-management": "0.1.0",
     "@mui/icons-material": "^5.8.2",
     "@mui/lab": "^5.0.0-alpha.84",
     "@mui/material": "^5.8.2",
     "big.js": "^6.1.1",
-    "i18next": "^21.8.5",
+    "i18next": "^21.8.7",
     "immer": "^9.0.14",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-hook-form": "^7.31.3",
-    "react-i18next": "^11.16.9",
-    "react-query": "^4.0.0-beta.19",
+    "react-i18next": "^11.16.10",
+    "react-query": "^4.0.0-beta.20",
     "react-resize-detector": "^7.1.1",
     "react-router-dom": "^6.3.0",
     "react-timer-hook": "^3.0.5",
@@ -31,19 +63,5 @@
   },
   "eslintConfig": {
     "extends": "../../.eslintrc"
-  },
-  "browserslist": {
-    "production": [
-      "> 1%",
-      "last 2 versions",
-      "not dead",
-      "not IE > 0",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   }
 }

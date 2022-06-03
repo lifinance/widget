@@ -97,8 +97,8 @@ const hasJsxRuntime = (() => {
 })();
 
 const defaultAliases = {
-  '@lifinance/widget': '@lifinance/widget/src',
-  '@lifinance/widget/*': '@lifinance/widget/src/*',
+  '@lifi/widget': '@lifi/widget/src',
+  '@lifi/widget/*': '@lifi/widget/src/*',
 };
 
 // Tree shake MUI in development

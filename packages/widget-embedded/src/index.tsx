@@ -1,4 +1,4 @@
-import { LiFiWidget, LiFiWidgetDrawer, WidgetConfig } from '@lifinance/widget';
+import { LiFiWidget, LiFiWidgetDrawer, WidgetConfig } from '@lifi/widget';
 import {
   Box,
   Checkbox,
@@ -93,7 +93,7 @@ const App = () => {
   );
 
   useEffect(() => {
-    setConfig((config) => ({
+    setConfig(() => ({
       ...(drawer
         ? widgetDrawerConfig
         : {

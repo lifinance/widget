@@ -1,4 +1,4 @@
-import { supportedWallets, Wallet } from '@lifinance/wallet-management';
+import { supportedWallets, Wallet } from '@lifi/wallet-management';
 import {
   Avatar,
   Button,

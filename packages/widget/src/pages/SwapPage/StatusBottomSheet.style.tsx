@@ -1,6 +1,6 @@
-import { RouteExecutionStatus } from '@lifinance/widget/hooks';
 import { Box, Theme } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { RouteExecutionStatus } from '../../hooks';
 
 const getStatusColor = (status: RouteExecutionStatus, theme: Theme) => {
   switch (status) {

@@ -1,5 +1,5 @@
+import { Wallet } from '@lifi/wallet-management';
 import { Token } from '@lifinance/sdk';
-import { Wallet } from '@lifinance/wallet-management';
 import { Signer } from 'ethers';
 
 export interface WalletContextProps {

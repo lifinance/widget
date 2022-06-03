@@ -1,8 +1,8 @@
-import { SwapFormKey } from '@lifinance/widget/providers/SwapFormProvider';
 import { Box, BoxProps, Theme, useMediaQuery } from '@mui/material';
 import { useWatch } from 'react-hook-form';
 import { ReverseTokensButton } from '../components/ReverseTokensButton';
 import { SelectTokenButton } from '../components/SelectTokenButton';
+import { SwapFormKey } from '../providers/SwapFormProvider';
 
 export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
   const prefersNarrowView = useMediaQuery((theme: Theme) =>
