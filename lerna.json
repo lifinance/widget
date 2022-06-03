@@ -1,7 +1,23 @@
 {
   "npmClient": "yarn",
-  "packages": ["libs/*", "packages/*"],
-  "ignoreChanges": ["libs/**", "packages/widget-embedded/**"],
+  "packages": [
+    "libs/*",
+    "packages/*"
+  ],
+  "ignoreChanges": [
+    "**/libs/**",
+    "**/packages/widget-embedded/**",
+    "**/*.md"
+  ],
+  "command": {
+    "version": {
+      "ignore": [
+        "**/libs/**",
+        "**/packages/widget-embedded/**",
+        "**/*.md"
+      ]
+    }
+  },
   "useWorkspaces": true,
   "version": "independent"
 }
