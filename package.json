@@ -1,6 +1,5 @@
 {
   "version": "1.0.0",
-  "main": "index.js",
   "private": true,
   "sideEffects": false,
   "workspaces": [
@@ -9,7 +8,10 @@
   ],
   "scripts": {
     "start": "lerna run --parallel start",
-    "build": "lerna run --parallel build"
+    "build": "lerna run --parallel build",
+    "release": "lerna run --parallel release",
+    "release:build": "lerna run --parallel build --no-private",
+    "release:publish": "lerna run --parallel publish --no-private"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.4",
@@ -34,6 +36,7 @@
     "eslint-plugin-react-hooks": "^4.5.0",
     "lerna": "^5.0.0",
     "prettier": "^2.6.2",
+    "standard-version": "^9.5.0",
     "typescript": "^4.7.2"
   }
 }
