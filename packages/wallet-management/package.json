@@ -1,9 +1,8 @@
 {
   "name": "@lifi/wallet-management",
   "version": "1.0.0",
-  "private": true,
   "sideEffects": false,
-  "module": "./index.ts",
+  "module": "./src/index.ts",
   "scripts": {},
   "dependencies": {
     "@ethersproject/experimental": "^5.6.2",

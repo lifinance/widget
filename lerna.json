@@ -5,15 +5,11 @@
     "packages/*"
   ],
   "ignoreChanges": [
-    "**/libs/**",
-    "**/packages/widget-embedded/**",
     "**/*.md"
   ],
   "command": {
     "version": {
       "ignore": [
-        "**/libs/**",
-        "**/packages/widget-embedded/**",
         "**/*.md"
       ]
     }

@@ -1,7 +1,6 @@
 {
   "name": "@lifi/widget",
   "version": "1.0.0",
-  "private": true,
   "sideEffects": false,
   "module": "src/index.ts",
   "main": "./dist/index.js",
