@@ -11,6 +11,8 @@ async function createModulePackages({ from, to }) {
     .sync('*/index.{js,ts,tsx}', { cwd: from })
     .map(path.dirname);
 
+  console.log(directoryPackages);
+
   await Promise.all(
     directoryPackages.map(async (directoryPackage) => {
       const packageJsonPath = path.join(to, directoryPackage, 'package.json');
@@ -115,7 +117,7 @@ async function run() {
     // TypeScript
     await typescriptCopy({ from: srcPath, to: buildPath });
 
-    await createModulePackages({ from: srcPath, to: buildPath });
+    // await createModulePackages({ from: srcPath, to: buildPath });
   } catch (err) {
     console.error(err);
     process.exit(1);
