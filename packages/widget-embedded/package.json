@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-embedded",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
@@ -24,7 +24,7 @@
   "author": "Eugene Chybisov <eugene@li.finance>",
   "license": "UNLICENSED",
   "dependencies": {
-    "@lifi/widget": "^1.0.0",
+    "@lifi/widget": "^1.0.1",
     "@mui/icons-material": "^5.8.2",
     "@mui/lab": "^5.0.0-alpha.84",
     "@mui/material": "^5.8.2",

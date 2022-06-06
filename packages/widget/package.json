@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "LI.FI Widget for cross-chain bridging and swapping. It will drive your multi-chain strategy and attract new users from everywhere.",
   "sideEffects": false,
   "main": "./src/index.ts",
@@ -50,7 +50,7 @@
     "@emotion/styled": "^11.8.1",
     "@ethersproject/experimental": "^5.6.2",
     "@ethersproject/providers": "^5.6.8",
-    "@lifi/wallet-management": "^1.0.0",
+    "@lifi/wallet-management": "^1.0.1",
     "@lifinance/sdk": "^1.0.0-beta.8",
     "@mui/icons-material": "^5.8.2",
     "@mui/lab": "^5.0.0-alpha.84",
