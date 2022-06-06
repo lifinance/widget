@@ -24,7 +24,6 @@
     "access": "public"
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
-  "license": "UNLICENSED",
   "homepage": "https://github.com/lifinance/widget",
   "repository": {
     "type": "git",

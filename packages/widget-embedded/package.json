@@ -22,7 +22,6 @@
     "access": "public"
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
-  "license": "UNLICENSED",
   "dependencies": {
     "@lifi/widget": "^1.0.1",
     "@mui/icons-material": "^5.8.2",
