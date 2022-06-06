@@ -16,5 +16,6 @@
   },
   "changelogPreset": "conventionalcommits",
   "useWorkspaces": true,
-  "version": "independent"
+  "version": "independent",
+  "granularPathspec": false
 }

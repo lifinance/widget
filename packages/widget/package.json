@@ -2,15 +2,15 @@
   "name": "@lifi/widget",
   "version": "0.1.0",
   "sideEffects": false,
-  "main": "./src/index.ts",
+  "module": "./src/index.ts",
   "scripts": {
     "watch": "tsc -w -p ./tsconfig.json",
-    "build": "tsc -p .",
+    "build": "tsc -p . && yarn build:copy-files",
+    "build:copy-files": "node ../../scripts/copy-files.js",
     "pre-commit": "lint-staged",
     "lint": "eslint --ext .tsx --ext .ts ./src",
     "lint:fix": "eslint --ext .tsx --ext .ts ./src --fix",
-    "prettier:fix": "prettier --write ./src/.",
-    "release": "standard-version"
+    "prettier:fix": "prettier --write ./src/."
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}": [
@@ -41,14 +41,14 @@
     "@mui/icons-material": "^5.8.2",
     "@mui/lab": "^5.0.0-alpha.84",
     "@mui/material": "^5.8.2",
-    "big.js": "^6.1.1",
+    "big.js": "^6.2.0",
     "i18next": "^21.8.7",
     "immer": "^9.0.14",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-hook-form": "^7.31.3",
     "react-i18next": "^11.16.10",
-    "react-query": "^4.0.0-beta.20",
+    "react-query": "^4.0.0-beta.23",
     "react-resize-detector": "^7.1.1",
     "react-router-dom": "^6.3.0",
     "react-timer-hook": "^3.0.5",
