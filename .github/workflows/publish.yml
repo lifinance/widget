@@ -37,7 +37,7 @@ jobs:
       - name: Build
         run: yarn build
       - name: Publish to npm
-        run: yarn publish
+        run: yarn release:publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Setup .npmrc file to publish to GitHub Packages
@@ -48,6 +48,6 @@ jobs:
           scope: '@lifi'
       - run: npm run addscope
       - name: Publish to GitHub Packages
-        run: yarn publish
+        run: yarn release:publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

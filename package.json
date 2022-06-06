@@ -13,7 +13,7 @@
     "release:version": "lerna version --conventional-commits --no-private --amend --no-git-tag-version --no-changelog --yes",
     "release:commit": "git add . && git commit -m \"chore(release): publish v$npm_package_version\"",
     "release:build": "lerna run --parallel build --no-private",
-    "publish": "lerna publish from-package --dist-tag latest --contents build --yes"
+    "release:publish": "lerna publish from-package --dist-tag latest --contents build --yes"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.4",
