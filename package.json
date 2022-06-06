@@ -9,8 +9,10 @@
   "scripts": {
     "start": "lerna run --parallel start",
     "build": "lerna run --parallel build",
-    "release": "yarn release:version && yarn standard-version && yarn release:commit",
-    "release:version": "lerna version --conventional-commits --no-private --amend --no-git-tag-version --no-changelog --yes",
+    "release": "yarn release:version:before && yarn release:version && yarn release:version:after && yarn standard-version && yarn release:commit",
+    "release:version": "lerna version --no-changelog --no-push --no-git-tag-version",
+    "release:version:before": "node scripts/version before",
+    "release:version:after": "node scripts/version after",
     "release:commit": "git add . && git commit -m \"chore(release): publish v$npm_package_version\"",
     "release:build": "lerna run --parallel build --no-private",
     "release:publish": "lerna publish from-package --dist-tag latest --contents build --no-verify-access --yes"

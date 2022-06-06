@@ -1,6 +1,7 @@
 {
   "name": "@lifi/widget",
   "version": "1.0.0",
+  "description": "LI.FI Widget for cross-chain bridging and swapping. It will drive your multi-chain strategy and attract new users from everywhere.",
   "sideEffects": false,
   "main": "./src/index.ts",
   "module": "./src/index.ts",
@@ -32,6 +33,18 @@
   "bugs": {
     "url": "https://github.com/lifinance/widget/issues"
   },
+  "keywords": [
+    "widget",
+    "lifi-widget",
+    "bridge",
+    "swap",
+    "cross-chain",
+    "multi-chain",
+    "metamask",
+    "ethereum",
+    "web3",
+    "lifi"
+  ],
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",

@@ -6,6 +6,15 @@ const packagePath = process.cwd();
 const buildPath = path.join(packagePath, './build');
 const srcPath = path.join(packagePath, './src');
 
+async function includeFileInBuild(file) {
+  const sourcePath = path.resolve(packagePath, file);
+  const targetPath = path.resolve(buildPath, path.basename(file));
+  if (fse.existsSync(sourcePath)) {
+    await fse.copy(sourcePath, targetPath);
+  }
+  console.log(`Copied ${sourcePath} to ${targetPath}`);
+}
+
 async function createModulePackages({ from, to }) {
   const directoryPackages = glob
     .sync('*/index.{js,ts,tsx}', { cwd: from })
@@ -113,6 +122,12 @@ async function createPackageFile() {
 async function run() {
   try {
     await createPackageFile();
+
+    await Promise.all(
+      ['./README.md', './CHANGELOG.md', '../../LICENSE.md'].map((file) =>
+        includeFileInBuild(file),
+      ),
+    );
 
     // TypeScript
     await typescriptCopy({ from: srcPath, to: buildPath });

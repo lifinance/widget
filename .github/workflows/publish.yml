@@ -35,7 +35,7 @@ jobs:
       - name: Install modules
         run: yarn install
       - name: Build
-        run: yarn build
+        run: yarn release:build
       - name: Publish to npm
         run: yarn release:publish
         env:
@@ -46,7 +46,6 @@ jobs:
           node-version: 14
           registry-url: 'https://npm.pkg.github.com'
           scope: '@lifi'
-      - run: npm run addscope
       - name: Publish to GitHub Packages
         run: yarn release:publish
         env:

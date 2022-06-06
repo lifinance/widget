@@ -1,6 +1,7 @@
 {
   "name": "@lifi/wallet-management",
   "version": "1.0.0",
+  "description": "LI.FI Wallet Management solution.",
   "sideEffects": false,
   "main": "./src/index.ts",
   "module": "./src/index.ts",
@@ -32,6 +33,19 @@
   "bugs": {
     "url": "https://github.com/lifinance/wallet-management/issues"
   },
+  "keywords": [
+    "wallet",
+    "wallet-management",
+    "metamask",
+    "wallet-connect",
+    "coinbase",
+    "eip1193",
+    "ethereum",
+    "ENS",
+    "web3",
+    "blockchain",
+    "lifi"
+  ],
   "dependencies": {
     "@ethersproject/experimental": "^5.6.2",
     "@ethersproject/providers": "^5.6.8",
