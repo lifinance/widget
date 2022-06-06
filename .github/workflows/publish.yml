@@ -40,13 +40,3 @@ jobs:
         run: yarn release:publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Setup .npmrc file to publish to GitHub Packages
-        uses: actions/setup-node@v3
-        with:
-          node-version: 14
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@lifi'
-      - name: Publish to GitHub Packages
-        run: yarn release:publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
