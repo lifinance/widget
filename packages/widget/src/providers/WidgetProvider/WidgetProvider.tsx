@@ -29,14 +29,16 @@ export const WidgetProvider: React.FC<
           typeof fromChain === 'number'
             ? fromChain
             : typeof fromChain === 'string'
-            ? getChainByKey(fromChain as ChainKey).id
+            ? getChainByKey(fromChain.toLowerCase() as ChainKey).id
             : ChainId.ETH,
         toChain:
           typeof toChain === 'number'
             ? toChain
             : typeof toChain === 'string'
-            ? getChainByKey(toChain as ChainKey).id
+            ? getChainByKey(toChain.toLowerCase() as ChainKey).id
             : ChainId.ETH,
+        fromToken: config.fromToken?.toLowerCase(),
+        toToken: config.toToken?.toLowerCase(),
       };
     } catch (e) {
       console.warn(e);
