@@ -8,13 +8,13 @@ import {
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const calculateTime = (updatedAt: number, timeToUpdate: number) => {
-  if (updatedAt === 0) {
-    return 0;
-  }
-  const progress = ((Date.now() - updatedAt) / timeToUpdate) * 100;
-  return Math.min(100, progress);
-};
+const getProgressValue = (updatedAt: number, timeToUpdate: number) =>
+  updatedAt
+    ? Math.min(100, ((Date.now() - updatedAt) / timeToUpdate) * 100)
+    : 0;
+
+const getSecondsToUpdate = (updatedAt: number, timeToUpdate: number) =>
+  Math.max(Math.round((timeToUpdate - (Date.now() - updatedAt)) / 1000), 0);
 
 export const ProgressToNextUpdate: React.FC<
   {
@@ -25,13 +25,14 @@ export const ProgressToNextUpdate: React.FC<
 > = ({ updatedAt, timeToUpdate, isLoading, onClick, sx }) => {
   const { t } = useTranslation();
   const [value, setValue] = useState(() =>
-    calculateTime(updatedAt, timeToUpdate),
+    getProgressValue(updatedAt, timeToUpdate),
   );
 
   useEffect(() => {
+    setValue(getProgressValue(updatedAt, timeToUpdate));
     const id = setInterval(() => {
-      const time = calculateTime(updatedAt, timeToUpdate);
-      setValue(calculateTime(updatedAt, timeToUpdate));
+      const time = getProgressValue(updatedAt, timeToUpdate);
+      setValue(time);
       if (time >= 100) {
         clearInterval(id);
       }
@@ -49,7 +50,7 @@ export const ProgressToNextUpdate: React.FC<
     <IconButton onClick={onClick} sx={sx} disabled={isLoading}>
       <Tooltip
         title={t('tooltip.progressToNextUpdate', {
-          value: Math.round((timeToUpdate - (Date.now() - updatedAt)) / 1000),
+          value: getSecondsToUpdate(updatedAt, timeToUpdate),
         })}
         placement="top"
         enterDelay={250}

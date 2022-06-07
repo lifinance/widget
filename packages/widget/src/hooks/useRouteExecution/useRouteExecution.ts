@@ -8,12 +8,12 @@ import { deepClone } from '../../utils/deepClone';
 import { useRouteStore } from './useRouteStore';
 
 export const useRouteExecution = (routeId: string) => {
+  const { account, switchChain } = useWallet();
   const { route, status } = useRouteStore((state) => state.routes[routeId]);
   const [updateRoute, restartRoute, removeRoute] = useRouteStore(
     (state) => [state.updateRoute, state.restartRoute, state.removeRoute],
     shallow,
   );
-  const { account, switchChain } = useWallet();
 
   const updateCallback = (updatedRoute: Route) => {
     console.log('Route updated.', updatedRoute);
@@ -119,9 +119,9 @@ export const useRouteExecution = (routeId: string) => {
 
   const restartRouteMutation = useCallback(() => {
     restartRoute(routeId);
-    resumeRoute(useRouteStore.getState().routes[routeId].route);
+    resumeRoute(route);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resumeRoute, routeId]);
+  }, [resumeRoute, route, routeId]);
 
   const removeRouteMutation = useCallback(() => {
     removeRoute(routeId);

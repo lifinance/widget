@@ -6,19 +6,24 @@ export const useDebouncedWatch = (name: any, delay: number) => {
     name,
   });
   const [debouncedValue, setDebouncedValue] = useState(watchedValue);
+  const debouncedValueRef = useRef<any>();
   const isMounted = useRef(false);
 
   useEffect(() => {
     if (isMounted.current) {
       const hasWatchedValue = Array.isArray(watchedValue)
         ? watchedValue.some((value) => value)
-        : watchedValue;
-      if (hasWatchedValue) {
+        : Boolean(watchedValue);
+      const hasDebouncedValue = Array.isArray(debouncedValueRef.current)
+        ? debouncedValueRef.current.some((value) => value)
+        : Boolean(debouncedValueRef.current);
+      if (hasWatchedValue && hasDebouncedValue) {
         const handler = setTimeout(() => {
           setDebouncedValue(watchedValue);
         }, delay);
         return () => clearTimeout(handler);
       }
+      debouncedValueRef.current = watchedValue;
       setDebouncedValue(watchedValue);
       return undefined;
     }
