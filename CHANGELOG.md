@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.3](https://github.com/lifinance/lifi-widget/compare/v1.1.2...v1.1.3) (2022-06-08)
+
+
+### Bug Fixes
+
+* usage inside nested routers ([0cc9835](https://github.com/lifinance/lifi-widget/commit/0cc98354825b2b579cf82ed4a7dd5b466adc307d))
+
 ### [1.1.2](https://github.com/lifinance/lifi-widget/compare/v1.1.1...v1.1.2) (2022-06-08)
 
 
