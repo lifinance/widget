@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/lifinance/lifi-widget/compare/v1.1.0...v1.1.1) (2022-06-08)
+
+
+### Bug Fixes
+
+* enable all default chains ([0215034](https://github.com/lifinance/lifi-widget/commit/02150348eccf563853d03c4f07968c7a0faa97be))
+
 ## [1.1.0](https://github.com/lifinance/lifi-widget/compare/v1.0.1...v1.1.0) (2022-06-08)
 
 
