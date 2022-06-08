@@ -298,7 +298,7 @@ root.render(
     {true ? (
       <BrowserRouter>
         <Routes>
-          <Route path="/home/*" element={<App />} />
+          <Route path="/*" element={<App />} />
         </Routes>
       </BrowserRouter>
     ) : (
