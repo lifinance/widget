@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useWatch } from 'react-hook-form';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { useDebouncedWatch, useToken } from '.';
 import { LiFi } from '../lifi';
 import { SwapFormKey } from '../providers/SwapFormProvider';
@@ -11,6 +11,7 @@ const refetchTime = 60_000;
 
 export const useSwapRoutes = () => {
   const { account } = useWallet();
+  const queryClient = useQueryClient();
   const [currentRoute, setCurrentRoute] = useCurrentRoute();
   const [
     fromChainId,
@@ -20,6 +21,7 @@ export const useSwapRoutes = () => {
     slippage,
     enabledBridges,
     enabledExchanges,
+    routePriority,
   ] = useWatch({
     name: [
       SwapFormKey.FromChain,
@@ -29,6 +31,7 @@ export const useSwapRoutes = () => {
       SwapFormKey.Slippage,
       SwapFormKey.EnabledBridges,
       SwapFormKey.EnabledExchanges,
+      SwapFormKey.RoutePriority,
     ],
   });
   const [fromTokenAmount] = useDebouncedWatch([SwapFormKey.FromAmount], 500);
@@ -42,20 +45,29 @@ export const useSwapRoutes = () => {
     Boolean(fromTokenAmount) &&
     !isNaN(fromTokenAmount) &&
     !isNaN(slippage);
-
+  const queryKey = [
+    'routes',
+    account.address,
+    fromChainId,
+    fromTokenAddress,
+    fromTokenAmount,
+    toChainId,
+    toTokenAddress,
+    slippage,
+    enabledBridges,
+    enabledExchanges,
+    routePriority,
+  ];
+  const previousDataUpdatedAt =
+    queryClient.getQueryState(queryKey)?.dataUpdatedAt;
+  const refetchInterval = previousDataUpdatedAt
+    ? Math.min(
+        Math.abs(refetchTime - (Date.now() - previousDataUpdatedAt)),
+        refetchTime,
+      )
+    : refetchTime;
   const { data, isLoading, isFetching, dataUpdatedAt, refetch } = useQuery(
-    [
-      'routes',
-      account.address,
-      fromChainId,
-      fromTokenAddress,
-      fromTokenAmount,
-      toChainId,
-      toTokenAddress,
-      slippage,
-      enabledBridges,
-      enabledExchanges,
-    ],
+    queryKey,
     async ({
       queryKey: [
         _,
@@ -68,6 +80,7 @@ export const useSwapRoutes = () => {
         slippage,
         enabledBridges,
         enabledExchanges,
+        routePriority,
       ],
       signal,
     }) => {
@@ -92,6 +105,7 @@ export const useSwapRoutes = () => {
             exchanges: {
               allow: enabledExchanges,
             },
+            order: routePriority,
           },
         },
         { signal },
@@ -100,7 +114,8 @@ export const useSwapRoutes = () => {
     {
       enabled: isEnabled,
       refetchIntervalInBackground: true,
-      refetchInterval: refetchTime,
+      refetchInterval,
+      staleTime: refetchTime,
       cacheTime: refetchTime,
     },
   );
