@@ -6,5 +6,5 @@ export interface WidgetContextProps extends WidgetConfig {
 }
 
 export interface WidgetProviderProps {
-  config: WidgetConfig;
+  config?: WidgetConfig;
 }

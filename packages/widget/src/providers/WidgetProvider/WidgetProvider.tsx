@@ -17,11 +17,11 @@ export const useWidgetConfig = (): WidgetContextProps =>
 
 export const WidgetProvider: React.FC<
   React.PropsWithChildren<WidgetProviderProps>
-> = ({ children, config: { fromChain, toChain, ...other } }) => {
+> = ({
+  children,
+  config: { fromChain, fromToken, toChain, toToken, ...config } = {},
+}) => {
   const value = useMemo((): WidgetContextProps => {
-    const config = {
-      ...other,
-    };
     try {
       return {
         ...config,
@@ -37,14 +37,14 @@ export const WidgetProvider: React.FC<
             : typeof toChain === 'string'
             ? getChainByKey(toChain.toLowerCase() as ChainKey).id
             : ChainId.ETH,
-        fromToken: config.fromToken?.toLowerCase(),
-        toToken: config.toToken?.toLowerCase(),
+        fromToken: fromToken?.toLowerCase(),
+        toToken: toToken?.toLowerCase(),
       };
     } catch (e) {
       console.warn(e);
       return config;
     }
-  }, [fromChain, other, toChain]);
+  }, [config, fromChain, fromToken, toChain, toToken]);
   return (
     <WidgetContext.Provider value={value}>{children}</WidgetContext.Provider>
   );

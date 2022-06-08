@@ -9,7 +9,7 @@ import { WalletProvider } from './providers/WalletProvider';
 import { WidgetProvider } from './providers/WidgetProvider';
 
 export interface AppProps {
-  config: WidgetConfig;
+  config?: WidgetConfig;
 }
 
 const QueryProvider = QueryClientProvider as FC<

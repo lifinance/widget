@@ -19,7 +19,7 @@ import { WidgetConfig } from './types';
 
 export type AppDrawerProps = DrawerProps & {
   elementRef?: RefObject<HTMLDivElement>;
-  config: WidgetConfig;
+  config?: WidgetConfig;
 };
 
 export interface AppDrawerBase {
