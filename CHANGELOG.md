@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/lifinance/lifi-widget/compare/v1.0.1...v1.1.0) (2022-06-08)
+
+
+### Features
+
+* add route priority badges (tags) to route cards ([31e18ea](https://github.com/lifinance/lifi-widget/commit/31e18ea092e7fe48cac290623d3bfaec81b23174))
+
+
+### Bug Fixes
+
+* auto calculate header hight ([80b317e](https://github.com/lifinance/lifi-widget/commit/80b317ec842c4e1816a1c048530b6f062cc23ea9))
+* disable selection of the same tokens ([9fb33e9](https://github.com/lifinance/lifi-widget/commit/9fb33e98c1525e5e22a9b969bca45f4c6261067d))
+* remove delay when pressing the max button ([70a1691](https://github.com/lifinance/lifi-widget/commit/70a16916f93083c0e4667089851bc0d800fcdf88))
+* routes are not always refreshed correctly after time was elapsed ([67058c6](https://github.com/lifinance/lifi-widget/commit/67058c68217d8df413c7a7f8a85ef42afe32bff0))
+
 ### [1.0.1](https://github.com/lifinance/lifi-widget/compare/v1.0.0...v1.0.1) (2022-06-06)
 
 ## 1.0.0 (2022-06-06)
