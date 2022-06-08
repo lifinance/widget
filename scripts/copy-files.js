@@ -130,7 +130,7 @@ async function run() {
     );
 
     // TypeScript
-    await typescriptCopy({ from: srcPath, to: buildPath });
+    // await typescriptCopy({ from: srcPath, to: buildPath });
 
     // await createModulePackages({ from: srcPath, to: buildPath });
   } catch (err) {
