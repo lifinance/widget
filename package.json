@@ -10,7 +10,7 @@
     "start": "lerna run --parallel start",
     "build": "lerna run --parallel build",
     "release": "yarn release:version:before && yarn release:version && yarn release:version:after && yarn standard-version && yarn release:commit",
-    "release:version": "lerna version --no-changelog --no-push --no-git-tag-version",
+    "release:version": "lerna version --no-changelog --no-push --no-git-tag-version --no-private",
     "release:version:before": "node scripts/version before",
     "release:version:after": "node scripts/version after",
     "release:commit": "git add . && git commit -m \"chore(release): publish v$npm_package_version\"",
