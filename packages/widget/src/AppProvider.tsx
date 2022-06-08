@@ -1,6 +1,8 @@
-import { FC, PropsWithChildren } from 'react';
+/* eslint-disable camelcase */
+/* eslint-disable react/jsx-pascal-case */
+import { FC, Fragment, PropsWithChildren } from 'react';
 import { QueryClientProvider, QueryClientProviderProps } from 'react-query';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, useInRouterContext } from 'react-router-dom';
 import { WidgetConfig } from '.';
 import { queryClient } from './config/queryClient';
 import { SwapFormProvider } from './providers/SwapFormProvider';
@@ -20,15 +22,17 @@ export const AppProvider: React.FC<PropsWithChildren<AppProps>> = ({
   children,
   config,
 }) => {
+  const inRouterContext = useInRouterContext();
+  const Router = inRouterContext ? Fragment : MemoryRouter;
   return (
     <WidgetProvider config={config}>
       <ThemeProvider>
         <QueryProvider client={queryClient}>
-          <MemoryRouter>
+          <Router>
             <WalletProvider>
               <SwapFormProvider>{children}</SwapFormProvider>
             </WalletProvider>
-          </MemoryRouter>
+          </Router>
         </QueryProvider>
       </ThemeProvider>
     </WidgetProvider>

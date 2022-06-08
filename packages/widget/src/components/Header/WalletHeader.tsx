@@ -75,7 +75,7 @@ const ConnectButton = () => {
       size="medium"
       aria-label="disconnect"
       edge="end"
-      onClick={pathname !== routes.selectWallet ? connect : undefined}
+      onClick={!pathname.includes(routes.selectWallet) ? connect : undefined}
     >
       <AccountBalanceWalletIcon />
     </IconButton>

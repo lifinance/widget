@@ -17,7 +17,7 @@ const HeaderContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
   return (
     <Container
       id={ElementId.Header}
-      sticky={stickyHeaderRoutes.includes(pathname)}
+      sticky={stickyHeaderRoutes.some((route) => pathname.includes(route))}
     >
       {children}
     </Container>

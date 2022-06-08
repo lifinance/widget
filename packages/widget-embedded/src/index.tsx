@@ -1,3 +1,4 @@
+/* eslint-disable no-constant-condition */
 import { LiFiWidget, LiFiWidgetDrawer, WidgetConfig } from '@lifi/widget';
 import {
   Box,
@@ -15,6 +16,7 @@ import {
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './index.css';
 import { reportWebVitals } from './reportWebVitals';
 
@@ -293,7 +295,15 @@ const App = () => {
 
 root.render(
   <React.StrictMode>
-    <App />
+    {true ? (
+      <BrowserRouter>
+        <Routes>
+          <Route path="/home/*" element={<App />} />
+        </Routes>
+      </BrowserRouter>
+    ) : (
+      <App />
+    )}
   </React.StrictMode>,
 );
 
