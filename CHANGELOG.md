@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.2](https://github.com/lifinance/lifi-widget/compare/v1.1.1...v1.1.2) (2022-06-08)
+
+
+### Bug Fixes
+
+* build with fonts and icons ([9d2f598](https://github.com/lifinance/lifi-widget/commit/9d2f598a6682982d99c64f60e11a665d27060dc5))
+* make config optional ([ea14369](https://github.com/lifinance/lifi-widget/commit/ea14369e3462c04517d3fc05f93af86b908499f0))
+
 ### [1.1.1](https://github.com/lifinance/lifi-widget/compare/v1.1.0...v1.1.1) (2022-06-08)
 
 
