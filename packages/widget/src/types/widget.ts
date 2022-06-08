@@ -17,7 +17,7 @@ export interface WidgetConfig {
   fromToken?: string;
   toChain?: `${ChainKey}` | number;
   toToken?: string;
-  enabledChains: number[];
+  disabledChains?: number[];
   disableInternalWalletManagement?: boolean;
   walletCallbacks?: {
     connect: { (): Signer };

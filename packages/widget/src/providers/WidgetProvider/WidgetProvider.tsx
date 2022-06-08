@@ -7,7 +7,7 @@ const stub = (): never => {
 };
 
 const initialContext: WidgetContextProps = {
-  enabledChains: [],
+  disabledChains: [],
 };
 
 const WidgetContext = createContext<WidgetContextProps>(initialContext);

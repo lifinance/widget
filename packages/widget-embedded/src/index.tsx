@@ -39,7 +39,6 @@ if (!rootElement) {
 const root = createRoot(rootElement);
 
 const widgetDrawerConfig: WidgetConfig = {
-  enabledChains: JSON.parse(process.env.LIFI_ENABLED_CHAINS_JSON!),
   fromChain: 'pol',
   toChain: 'bsc',
   // fromToken: '0x0000000000000000000000000000000000000000',
