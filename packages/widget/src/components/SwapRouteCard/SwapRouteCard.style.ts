@@ -57,9 +57,9 @@ export const Label = styled(Typography, {
     : theme.palette.mode === 'light'
     ? theme.palette.common.black
     : theme.palette.grey[300],
-  padding: theme.spacing(0.5, 0.75),
+  padding: theme.spacing(0.75),
   fontSize: 12,
-  lineHeight: 1.2,
+  lineHeight: 1,
   fontWeight: '600',
   height: 24,
   letterSpacing: '0.05rem',

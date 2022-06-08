@@ -1,3 +1,5 @@
+import { Order } from '@lifinance/sdk';
+
 export enum SwapFormKey {
   BridgePrioritization = 'bridgePrioritization',
   EnabledBridges = 'enabledBridges',
@@ -27,7 +29,7 @@ export type SwapFormValues = {
   [SwapFormKey.IsAddressConfirmed]: boolean;
   [SwapFormKey.IsSendToRecipient]: boolean;
   [SwapFormKey.RecipientsAddress]: string;
-  [SwapFormKey.RoutePriority]: string;
+  [SwapFormKey.RoutePriority]: Order;
   [SwapFormKey.SearchTokensFilter]: string;
   [SwapFormKey.Slippage]: string;
   [SwapFormKey.ToChain]: number;

@@ -13,6 +13,9 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
   ...other
 }) => {
   const { t } = useTranslation();
+  const label = route.tags?.length
+    ? t(`swap.tags.${route.tags[0].toLowerCase()}` as any).toUpperCase()
+    : t(`swap.tags.general`).toUpperCase();
   return (
     <Card active={active} dense={dense} {...other}>
       <Box>
@@ -24,7 +27,7 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
           }}
           mb={2}
         >
-          <Label>GENERAL</Label>
+          <Label>{label}</Label>
           {active ? (
             <Check>
               <CheckIcon fontSize="inherit" />

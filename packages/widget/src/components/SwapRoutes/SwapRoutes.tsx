@@ -49,13 +49,7 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
               })}
             />
           ) : (
-            <SwapRouteCard
-              key={currentRoute.id}
-              minWidth="100%"
-              route={currentRoute}
-              active
-              dense
-            />
+            <SwapRouteCard minWidth="100%" route={currentRoute} active dense />
           )}
         </Stack>
         <Box py={1} pr={1}>

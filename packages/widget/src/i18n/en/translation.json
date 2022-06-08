@@ -58,6 +58,13 @@
     "networkIsBusy": "Network is busy...",
     "crossStepDetails": "Bridge {{from}} to {{to}} via {{tool}}",
     "swapStepDetails": "Swap on {{value}}",
+    "tags": {
+      "recommended": "Recommended",
+      "fastest": "Fast",
+      "cheapest": "Cheap",
+      "safest": "Safe",
+      "general": "General"
+    },
     "success": {
       "title": {
         "fundsReceived": "Funds received"
@@ -110,10 +117,7 @@
     }
   },
   "settings": {
-    "routePriority": {
-      "title": "Route priority",
-      "recommended": "Recommended"
-    },
+    "routePriority": "Route priority",
     "slippage": "Slippage",
     "gasPrice": {
       "title": "Gas price",

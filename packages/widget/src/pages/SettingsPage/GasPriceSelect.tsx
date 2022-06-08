@@ -4,7 +4,10 @@ import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { CardContainer, CardTitle } from '../../components/Card';
 import { Select } from '../../components/Select';
-import { SwapFormKey } from '../../providers/SwapFormProvider';
+import {
+  formDefaultValues,
+  SwapFormKey,
+} from '../../providers/SwapFormProvider';
 
 export const GasPriceSelect = () => {
   const { t } = useTranslation();
@@ -15,7 +18,7 @@ export const GasPriceSelect = () => {
       <CardTitle>{t(`settings.gasPrice.title`)}</CardTitle>
       <FormControl fullWidth>
         <Select
-          defaultValue="normal"
+          defaultValue={formDefaultValues.gasPrice}
           MenuProps={{ elevation: 2 }}
           inputProps={{ ...register(SwapFormKey.GasPrice) }}
           IconComponent={KeyboardArrowDownIcon}

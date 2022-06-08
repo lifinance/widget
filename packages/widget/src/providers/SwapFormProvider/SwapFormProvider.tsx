@@ -1,12 +1,14 @@
+import { Order } from '@lifinance/sdk';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useWidgetConfig } from '../WidgetProvider';
 import { SwapFormKey, SwapFormValues } from './types';
 
-const defaultValues = {
+export const formDefaultValues = {
   [SwapFormKey.FromAmount]: '',
   [SwapFormKey.GasPrice]: 'normal',
   [SwapFormKey.Slippage]: '3',
   [SwapFormKey.SearchTokensFilter]: '',
+  [SwapFormKey.RoutePriority]: 'RECOMMENDED' as Order,
 };
 
 export const SwapFormProvider: React.FC<React.PropsWithChildren<{}>> = ({
@@ -17,10 +19,10 @@ export const SwapFormProvider: React.FC<React.PropsWithChildren<{}>> = ({
 
   const methods = useForm<SwapFormValues>({
     defaultValues: {
-      ...defaultValues,
+      ...formDefaultValues,
       fromChain,
       fromToken,
-      fromAmount: fromAmount?.toPrecision() ?? defaultValues.fromAmount,
+      fromAmount: fromAmount?.toPrecision() ?? formDefaultValues.fromAmount,
       toChain,
       toToken,
     },
