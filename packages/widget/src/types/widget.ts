@@ -11,23 +11,54 @@ export type ThemeConfig = {
   typography?: TypographyOptions;
 };
 
-export interface WidgetConfig {
+export interface WidgetWalletCallbacks {
+  connect(): Signer;
+  disconnect(): void;
+  provideSigner(): Signer;
+  switchChain(): Signer;
+  addToken(): void;
+}
+
+interface WidgetConfigBase {
   fromAmount?: number;
-  fromChain?: `${ChainKey}` | number;
-  fromToken?: string;
-  toChain?: `${ChainKey}` | number;
-  toToken?: string;
   disabledChains?: number[];
-  disableInternalWalletManagement?: boolean;
-  walletCallbacks?: {
-    connect: { (): Signer };
-    disconnect: { (): void };
-    provideSigner: { (): Signer };
-    switchChain: { (): Signer };
-    addToken: { (): void };
-  };
   containerStyle?: CSSProperties;
   theme?: ThemeConfig;
   appearance?: Appearance;
   disableAppearance?: boolean;
 }
+
+type WidgetFromTokenConfig =
+  | {
+      fromChain: `${ChainKey}` | number;
+      fromToken?: string;
+    }
+  | {
+      fromChain?: never;
+      fromToken?: never;
+    };
+
+type WidgetToTokenConfig =
+  | {
+      toChain: `${ChainKey}` | number;
+      toToken?: string;
+    }
+  | {
+      toChain?: never;
+      toToken?: never;
+    };
+
+type WidgetWalletManagementConfig =
+  | {
+      disableInternalWalletManagement: true;
+      walletCallbacks: WidgetWalletCallbacks;
+    }
+  | {
+      disableInternalWalletManagement?: false;
+      walletCallbacks?: never;
+    };
+
+export type WidgetConfig = WidgetConfigBase &
+  WidgetFromTokenConfig &
+  WidgetToTokenConfig &
+  WidgetWalletManagementConfig;
