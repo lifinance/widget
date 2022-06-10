@@ -28,6 +28,7 @@ export interface SettingsState {
 export interface SettingsStore extends SettingsState {
   setValue: ValueSetter<SettingsState>;
   setValues: ValuesSetter<SettingsState>;
+  initializeTools(toolType: SettingsToolType, tools: string[]): void;
   setTools(
     toolType: SettingsToolType,
     tools: string[],

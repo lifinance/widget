@@ -24,7 +24,7 @@ export const EnabledBridgesSelect: React.FC = () => {
           placeholder={t(`settings.selectEnabledBridges`)}
           MenuProps={{ elevation: 2 }}
           IconComponent={KeyboardArrowDownIcon}
-          value={enabledBridges}
+          value={enabledBridges ?? []}
           onChange={(event) => {
             if (tools?.bridges) {
               setTools(
@@ -44,7 +44,7 @@ export const EnabledBridgesSelect: React.FC = () => {
         >
           {tools?.bridges?.map((bridge) => (
             <MenuItem key={bridge.key} value={bridge.key}>
-              {bridge.name}
+              {bridge.key}
             </MenuItem>
           ))}
         </Select>

@@ -24,15 +24,46 @@ export const useSettingsStore = create<SettingsStore>()(
             }
           }
         }),
+      initializeTools: (toolType, tools) =>
+        set((state: SettingsState) => {
+          if (!tools.length) {
+            return;
+          }
+          if (state[`_enabled${toolType}`]) {
+            state[`_enabled${toolType}`] = tools
+              .filter(
+                (tool) =>
+                  !Object.prototype.hasOwnProperty.call(
+                    state._enabledBridges,
+                    tool,
+                  ),
+              )
+              .reduce((values, tool) => {
+                values[tool] = true;
+                return values;
+              }, state[`_enabled${toolType}`] as Record<string, boolean>);
+          } else {
+            state[`_enabled${toolType}`] = tools.reduce((values, tool) => {
+              values[tool] = true;
+              return values;
+            }, {} as Record<string, boolean>);
+          }
+          state[`enabled${toolType}`] = Object.entries(
+            state[`_enabled${toolType}`]!,
+          )
+            .filter(([_, value]) => value)
+            .map(([key]) => key);
+        }),
       setTools: (toolType, tools, availableTools) =>
         set((state: SettingsState) => {
           state[`enabled${toolType}`] = tools;
-          state[`_enabled${toolType}`] = availableTools.reduce<
-            Record<string, boolean>
-          >((values, tool) => {
-            values[tool.key] = tools.includes(tool.key);
-            return values;
-          }, {});
+          state[`_enabled${toolType}`] = availableTools.reduce(
+            (values, tool) => {
+              values[tool.key] = tools.includes(tool.key);
+              return values;
+            },
+            {} as Record<string, boolean>,
+          );
         }),
     })),
     {

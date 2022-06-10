@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import { AppProps, AppProvider } from './AppProvider';
 import { AppContainer } from './components/AppContainer';
 import { Header } from './components/Header';
+import { Initializer } from './components/Initializer';
 import { MainPage } from './pages/MainPage';
 import { SelectTokenPage } from './pages/SelectTokenPage';
 import { SelectWalletPage } from './pages/SelectWalletPage';
@@ -41,6 +42,7 @@ export const AppDefault = () => {
         />
         <Route path={routes.swap} element={<SwapPage />} />
       </Routes>
+      <Initializer />
     </AppContainer>
   );
 };

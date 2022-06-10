@@ -22,7 +22,7 @@ export const EnabledExchangesSelect: React.FC = () => {
         <Select
           multiple
           placeholder={t(`settings.selectEnabledExchanges`)}
-          value={enabledExchanges}
+          value={enabledExchanges ?? []}
           onChange={(event) => {
             if (tools?.exchanges) {
               setTools(
@@ -44,7 +44,7 @@ export const EnabledExchangesSelect: React.FC = () => {
         >
           {tools?.exchanges.map((exchange) => (
             <MenuItem key={exchange.key} value={exchange.key}>
-              {exchange.name}
+              {exchange.key}
             </MenuItem>
           ))}
         </Select>
