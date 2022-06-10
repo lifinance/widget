@@ -41,7 +41,7 @@ export const StepItem: React.FC<{
         }}
       >
         <CardTitle flex={1}>{getCardTitle()}</CardTitle>
-        <CardTitle>
+        <CardTitle sx={{ fontWeight: 500 }}>
           <StepTimer step={step} />
         </CardTitle>
       </Box>

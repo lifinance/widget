@@ -23,7 +23,7 @@ export const ExecutionItem: React.FC<{
         }}
       >
         <CircularProgress status={process.status} />
-        <Typography ml={2} fontWeight={process.error ? 700 : 500}>
+        <Typography ml={2} fontSize={14} fontWeight={process.error ? 600 : 400}>
           {title}
         </Typography>
         {process.txLink ? (

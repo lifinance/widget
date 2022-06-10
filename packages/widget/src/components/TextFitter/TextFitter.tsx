@@ -30,7 +30,7 @@ export const TextFitter: React.FC<PropsWithChildren<TextFitterProps>> = ({
   const theme = useTheme();
   const textRef = useRef<SVGTextElement>(null);
   const [viewBox, setViewBox] = useState<Partial<DOMRect>>(initialState);
-  const [textRect, setTextRect] = useState<Partial<DOMRect>>(initialState);
+  // const [textRect, setTextRect] = useState<Partial<DOMRect>>(initialState);
 
   const calculateBox = useCallback(() => {
     if (!textRef.current) {
@@ -45,7 +45,7 @@ export const TextFitter: React.FC<PropsWithChildren<TextFitterProps>> = ({
       box.height -= box.height * cropBottom;
     }
     setViewBox(box);
-    setTextRect(textRef.current.getBoundingClientRect());
+    // setTextRect(textRef.current.getBoundingClientRect());
     onFit?.();
   }, [cropBottom, cropTop, onFit]);
 
@@ -66,11 +66,12 @@ export const TextFitter: React.FC<PropsWithChildren<TextFitterProps>> = ({
       style={svgStyle}
       viewBox={`${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`}
       width={width}
-      height={
-        textRect.height && maxHeight && textRect.height >= maxHeight
-          ? maxHeight
-          : height
-      }
+      height={height}
+      // height={
+      //   textRect.height && maxHeight && textRect.height >= maxHeight
+      //     ? maxHeight
+      //     : height
+      // }
       preserveAspectRatio={preserveAspectRatio}
       fill={theme.palette.text.primary}
     >

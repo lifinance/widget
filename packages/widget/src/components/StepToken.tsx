@@ -15,7 +15,7 @@ export const StepToken: React.FC<{ token: TokenAmount } & BoxProps> = ({
           {token.symbol[0]}
         </Avatar>
         <TextFitter
-          maxHeight={32}
+          height={32}
           textStyle={{
             fontWeight: 700,
           }}

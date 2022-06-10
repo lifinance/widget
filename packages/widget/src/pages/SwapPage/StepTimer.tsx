@@ -59,7 +59,10 @@ export const StepTimer: React.FC<{ step: Step }> = ({ step }) => {
       </>
     );
   }
-  if (step.execution?.status === 'DONE') {
+  if (
+    step.execution?.status === 'DONE' ||
+    step.execution?.status === 'FAILED'
+  ) {
     return null;
   }
   return isExpired ? (
