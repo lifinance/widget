@@ -35,6 +35,10 @@ export const AppDefault = () => {
           element={<SelectTokenPage formType="to" />}
         />
         <Route path={routes.swapRoutes} element={<SwapRoutesPage />} />
+        <Route
+          path={`${routes.swapRoutes}/${routes.swap}`}
+          element={<SwapPage />}
+        />
         <Route path={routes.swap} element={<SwapPage />} />
       </Routes>
     </AppContainer>

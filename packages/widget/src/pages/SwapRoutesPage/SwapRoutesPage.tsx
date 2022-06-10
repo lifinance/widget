@@ -3,11 +3,8 @@ import { Route } from '@lifinance/sdk';
 import { BoxProps, Skeleton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { SwapRouteCard } from '../../components/SwapRouteCard';
-import {
-  useCurrentRoute,
-  useSetExecutableRoute,
-  useSwapRoutes,
-} from '../../hooks';
+import { useSwapRoutes } from '../../hooks';
+import { useCurrentRoute, useSetExecutableRoute } from '../../stores';
 import { routes } from '../../utils/routes';
 import { Stack } from './SwapRoutesPage.style';
 

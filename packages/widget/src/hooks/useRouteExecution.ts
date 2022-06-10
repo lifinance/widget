@@ -2,14 +2,16 @@ import { Route } from '@lifinance/sdk';
 import { useCallback, useEffect } from 'react';
 import { useMutation } from 'react-query';
 import shallow from 'zustand/shallow';
-import { LiFi } from '../../lifi';
-import { useWallet } from '../../providers/WalletProvider';
-import { deepClone } from '../../utils/deepClone';
-import { useRouteStore } from './useRouteStore';
+import { LiFi } from '../lifi';
+import { useWallet } from '../providers/WalletProvider';
+import { useRouteStore } from '../stores';
+import { deepClone } from '../utils/deepClone';
 
 export const useRouteExecution = (routeId: string) => {
   const { account, switchChain } = useWallet();
-  const { route, status } = useRouteStore((state) => state.routes[routeId]);
+  const { route, status } = useRouteStore(
+    (state) => state.routes[routeId] ?? {},
+  );
   const [updateRoute, restartRoute, removeRoute] = useRouteStore(
     (state) => [state.updateRoute, state.restartRoute, state.removeRoute],
     shallow,

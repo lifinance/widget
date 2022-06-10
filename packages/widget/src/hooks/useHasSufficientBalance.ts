@@ -3,7 +3,7 @@ import Big from 'big.js';
 import { useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 import { SwapFormKeyHelper } from '../providers/SwapFormProvider';
-import { useCurrentRoute } from './useRouteExecution';
+import { useCurrentRoute } from '../stores';
 import { useTokenBalances } from './useTokenBalances';
 
 export const useHasSufficientBalance = () => {

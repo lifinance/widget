@@ -38,13 +38,13 @@ export const formatSlippage = (
   slippage: string = '',
   defaultValue: string = '',
   returnInitial: boolean = false,
-) => {
+): string => {
   if (!slippage) {
     return slippage;
   }
   const parsedSlippage = parseFloat(slippage);
   if (isNaN(Number(slippage)) && !isNaN(parsedSlippage)) {
-    return parsedSlippage;
+    return parsedSlippage.toString();
   }
   if (isNaN(parsedSlippage)) {
     return defaultValue;

@@ -6,7 +6,7 @@ import { AvatarGroup, Box, BoxProps, Stack } from '@mui/material';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useExecutingRoutes } from '../../hooks';
+import { useExecutingRoutes } from '../../stores';
 import { routes } from '../../utils/routes';
 import { CardTitle } from '../Card';
 import { Card, RouteAvatar, RouteCard } from './SwapInProgress.style';

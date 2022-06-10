@@ -1,6 +1,6 @@
 import { Box, Theme } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { RouteExecutionStatus } from '../../hooks';
+import { RouteExecutionStatus } from '../../stores';
 
 const getStatusColor = (status: RouteExecutionStatus, theme: Theme) => {
   switch (status) {

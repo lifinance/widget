@@ -2,15 +2,10 @@ import { ChainId } from '@lifinance/sdk';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import {
-  useChains,
-  useCurrentRoute,
-  useHasSufficientBalance,
-  useSetExecutableRoute,
-  useSwapRoutes,
-} from '../../hooks';
+import { useChains, useHasSufficientBalance, useSwapRoutes } from '../../hooks';
 import { SwapFormKeyHelper } from '../../providers/SwapFormProvider';
 import { useWallet } from '../../providers/WalletProvider';
+import { useCurrentRoute, useSetExecutableRoute } from '../../stores';
 import { routes } from '../../utils/routes';
 import { ButtonTooltip } from './ButtonTooltip';
 import { Button } from './SwapButton.style';
@@ -48,7 +43,9 @@ export const SwapButton: React.FC = () => {
       swapRoutes?.some((route) => route.id === currentRoute.id)
     ) {
       setExecutableRoute(currentRoute);
-      navigate(routes.swap, { state: { routeId: currentRoute.id } });
+      navigate(routes.swap, {
+        state: { routeId: currentRoute.id },
+      });
     }
   };
 

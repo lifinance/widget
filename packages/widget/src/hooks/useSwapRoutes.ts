@@ -5,7 +5,7 @@ import { useDebouncedWatch, useToken } from '.';
 import { LiFi } from '../lifi';
 import { SwapFormKey } from '../providers/SwapFormProvider';
 import { useWallet } from '../providers/WalletProvider';
-import { useCurrentRoute } from './useRouteExecution';
+import { useCurrentRoute, useSettings } from '../stores';
 
 const refetchTime = 60_000;
 
@@ -13,25 +13,19 @@ export const useSwapRoutes = () => {
   const { account } = useWallet();
   const queryClient = useQueryClient();
   const [currentRoute, setCurrentRoute] = useCurrentRoute();
-  const [
-    fromChainId,
-    fromTokenAddress,
-    toChainId,
-    toTokenAddress,
-    slippage,
-    enabledBridges,
-    enabledExchanges,
-    routePriority,
-  ] = useWatch({
+  const { slippage, enabledBridges, enabledExchanges, routePriority } =
+    useSettings([
+      'slippage',
+      'routePriority',
+      'enabledBridges',
+      'enabledExchanges',
+    ]);
+  const [fromChainId, fromTokenAddress, toChainId, toTokenAddress] = useWatch({
     name: [
       SwapFormKey.FromChain,
       SwapFormKey.FromToken,
       SwapFormKey.ToChain,
       SwapFormKey.ToToken,
-      SwapFormKey.Slippage,
-      SwapFormKey.EnabledBridges,
-      SwapFormKey.EnabledExchanges,
-      SwapFormKey.RoutePriority,
     ],
   });
   const [fromTokenAmount] = useDebouncedWatch([SwapFormKey.FromAmount], 500);
@@ -44,7 +38,7 @@ export const useSwapRoutes = () => {
     Boolean(toTokenAddress) &&
     Boolean(fromTokenAmount) &&
     !isNaN(fromTokenAmount) &&
-    !isNaN(slippage);
+    !Number.isNaN(slippage);
   const queryKey = [
     'routes',
     account.address,

@@ -1,20 +1,21 @@
 import { Box, Typography } from '@mui/material';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Switch } from '../../components/Switch';
+import { useSetSettings, useSettings } from '../../stores';
 import { EnabledBridgesSelect } from './EnabledBridgesSelect';
 import { EnabledExchangesSelect } from './EnabledExchangesSelect';
 
 export const AdvancedPreferences = () => {
   const { t } = useTranslation();
-  const [advancedPreferences, setAdvancedPreferences] =
-    useState<boolean>(false);
+  const [setValue] = useSetSettings();
+  const { advancedPreferences } = useSettings(['advancedPreferences']);
 
   const handleAdvancedPreferences = (
     _: ChangeEvent<HTMLInputElement>,
     checked: boolean,
   ) => {
-    setAdvancedPreferences(checked);
+    setValue('advancedPreferences', checked);
   };
 
   return (
@@ -36,7 +37,7 @@ export const AdvancedPreferences = () => {
           </Typography>
         </Box>
         <Switch
-          value={advancedPreferences}
+          checked={advancedPreferences}
           onChange={handleAdvancedPreferences}
         />
       </Box>

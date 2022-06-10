@@ -2,7 +2,7 @@ import { PaletteMode, useMediaQuery } from '@mui/material';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import { useEffect, useMemo, useState } from 'react';
 import { createTheme } from '../../config/theme';
-import { useAppearance } from '../../hooks';
+import { useAppearance } from '../../stores';
 import { useWidgetConfig } from '../WidgetProvider';
 
 export const ThemeProvider: React.FC<React.PropsWithChildren<{}>> = ({

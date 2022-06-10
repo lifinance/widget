@@ -5,8 +5,8 @@ import {
 } from '@mui/icons-material';
 import { Box, ToggleButtonGroup } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useAppearance } from '../../hooks';
 import { useWidgetConfig } from '../../providers/WidgetProvider';
+import { useAppearance } from '../../stores';
 import { ToggleButton } from './ColorSchemeButtonGroup.style';
 
 export const ColorSchemeButtonGroup: React.FC = () => {

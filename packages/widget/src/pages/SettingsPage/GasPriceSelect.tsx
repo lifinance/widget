@@ -1,26 +1,25 @@
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material';
 import { FormControl, MenuItem } from '@mui/material';
-import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { CardContainer, CardTitle } from '../../components/Card';
 import { Select } from '../../components/Select';
-import {
-  formDefaultValues,
-  SwapFormKey,
-} from '../../providers/SwapFormProvider';
+import { useSetSettings, useSettings } from '../../stores';
 
 export const GasPriceSelect = () => {
   const { t } = useTranslation();
-  const { register } = useFormContext();
+  const [setValue] = useSetSettings();
+  const { gasPrice } = useSettings(['gasPrice']);
 
   return (
     <CardContainer flex={1}>
       <CardTitle>{t(`settings.gasPrice.title`)}</CardTitle>
       <FormControl fullWidth>
         <Select
-          defaultValue={formDefaultValues.gasPrice}
           MenuProps={{ elevation: 2 }}
-          inputProps={{ ...register(SwapFormKey.GasPrice) }}
+          value={gasPrice}
+          onChange={(event) =>
+            setValue('gasPrice', event.target.value as string)
+          }
           IconComponent={KeyboardArrowDownIcon}
           dense
         >

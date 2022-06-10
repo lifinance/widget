@@ -10,8 +10,9 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { BottomSheet, BottomSheetBase } from '../../components/BottomSheet';
 import { StepToken } from '../../components/StepToken';
-import { RouteExecution, useChains, useTokenBalance } from '../../hooks';
+import { useChains, useTokenBalance } from '../../hooks';
 import { SwapFormKey } from '../../providers/SwapFormProvider';
+import { RouteExecution } from '../../stores';
 import {
   IconCircle,
   IconContainer,
