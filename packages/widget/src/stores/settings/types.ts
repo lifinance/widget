@@ -19,10 +19,10 @@ export interface SettingsState {
   routePriority: Order;
   slippage: string;
   gasPrice: string;
-  enabledBridges: string[];
-  _enabledBridges: Record<string, boolean>;
-  enabledExchanges: string[];
-  _enabledExchanges: Record<string, boolean>;
+  enabledBridges?: string[];
+  _enabledBridges?: Record<string, boolean>;
+  enabledExchanges?: string[];
+  _enabledExchanges?: Record<string, boolean>;
 }
 
 export interface SettingsStore extends SettingsState {

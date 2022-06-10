@@ -10,14 +10,14 @@ export const useTools = () => {
     {
       onSuccess(data) {
         const state = useSettingsStore.getState();
-        if (!state.enabledBridges.length) {
+        if (!state.enabledBridges?.length) {
           setTools(
             'Bridges',
             data.bridges.map((bridge) => bridge.key),
             data.bridges,
           );
         }
-        if (!state.enabledExchanges.length) {
+        if (!state.enabledExchanges?.length) {
           setTools(
             'Exchanges',
             data.exchanges.map((exchange) => exchange.key),

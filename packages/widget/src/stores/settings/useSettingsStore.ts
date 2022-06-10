@@ -12,10 +12,6 @@ export const useSettingsStore = create<SettingsStore>()(
       gasPrice: 'normal',
       routePriority: 'RECOMMENDED',
       slippage: '3',
-      enabledBridges: [],
-      enabledExchanges: [],
-      _enabledBridges: {},
-      _enabledExchanges: {},
       setValue: (key, value) =>
         set((state: SettingsState) => {
           state[key] = value;
