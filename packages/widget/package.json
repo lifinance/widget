@@ -47,8 +47,8 @@
     "lifi"
   ],
   "dependencies": {
-    "@emotion/react": "^11.9.0",
-    "@emotion/styled": "^11.8.1",
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
     "@ethersproject/experimental": "^5.6.2",
     "@ethersproject/providers": "^5.6.8",
     "@lifi/wallet-management": "^1.0.2",
