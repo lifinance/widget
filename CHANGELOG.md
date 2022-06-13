@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/lifinance/lifi-widget/compare/v1.1.3...v1.2.0) (2022-06-13)
+
+
+### Features
+
+* save settings to localStorage ([ee4a9d1](https://github.com/lifinance/lifi-widget/commit/ee4a9d1ca96cfa26388641b137123a2a2c8d2b2d))
+
+
+### Bug Fixes
+
+* always initialize tools ([2d2be1a](https://github.com/lifinance/lifi-widget/commit/2d2be1a0842f5dae1784424efed53a578898cc6a))
+* font size in some circumstances ([35ac8c8](https://github.com/lifinance/lifi-widget/commit/35ac8c8f7edf348651d947433e577e1cdeabe021))
+* make tools optional on first load ([4b8ab69](https://github.com/lifinance/lifi-widget/commit/4b8ab6971fdebed6995b209544cede7bfc4d967d))
+* remove home route ([2085bc6](https://github.com/lifinance/lifi-widget/commit/2085bc67decaa60cd94047ec035c9947a872a3c1))
+* restrict variations of config usage ([5ec0fcc](https://github.com/lifinance/lifi-widget/commit/5ec0fcc4576eefa6f38175287f1ff00bd86ad551))
+
 ### [1.1.3](https://github.com/lifinance/lifi-widget/compare/v1.1.2...v1.1.3) (2022-06-08)
 
 
