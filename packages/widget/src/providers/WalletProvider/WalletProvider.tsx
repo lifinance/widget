@@ -49,49 +49,61 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   const connect = useCallback(
     async (wallet?: Wallet) => {
       if (config.disableInternalWalletManagement) {
-        // TODO
+        console.log('using custom hook');
+        await config.walletCallbacks.connect();
         return;
       }
       await walletManagementConnect(wallet);
     },
-    [config.disableInternalWalletManagement, walletManagementConnect],
+    [
+      config.disableInternalWalletManagement,
+      config.walletCallbacks,
+      walletManagementConnect,
+    ],
   );
 
   const disconnect = useCallback(async () => {
     if (config.disableInternalWalletManagement) {
+      await config.walletCallbacks.disconnect();
       setAccount({});
+      return;
     }
     await walletManagementDisconnect();
-  }, [config.disableInternalWalletManagement, walletManagementDisconnect]);
+  }, [
+    config.disableInternalWalletManagement,
+    config.walletCallbacks,
+    walletManagementDisconnect,
+  ]);
 
   // only for injected wallets
   const switchChain = useCallback(
     async (chainId: number) => {
       if (config.disableInternalWalletManagement) {
-        // TODO
-        return false;
+        return config.walletCallbacks.switchChain(chainId);
       }
       return walletSwitchChain(chainId);
     },
-    [config.disableInternalWalletManagement],
+    [config.disableInternalWalletManagement, config.walletCallbacks],
   );
 
   const addChain = useCallback(
     async (chainId: number) => {
-      if (!config.disableInternalWalletManagement) {
-        await walletAddChain(chainId);
+      if (config.disableInternalWalletManagement) {
+        return false;
       }
+      return walletAddChain(chainId);
     },
     [config.disableInternalWalletManagement],
   );
 
   const addToken = useCallback(
     async (chainId: number, token: Token) => {
-      if (!config.disableInternalWalletManagement) {
-        await switchChainAndAddToken(chainId, token);
+      if (config.disableInternalWalletManagement) {
+        return config.walletCallbacks.addToken(token.address, chainId);
       }
+      return switchChainAndAddToken(chainId, token);
     },
-    [config.disableInternalWalletManagement],
+    [config.disableInternalWalletManagement, config.walletCallbacks],
   );
 
   // keep account information up to date

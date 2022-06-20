@@ -4,7 +4,7 @@ import { Signer } from 'ethers';
 
 export interface WalletContextProps {
   account: WalletAccount;
-  addChain(chainId: number): Promise<void>;
+  addChain(chainId: number): Promise<boolean>;
   addToken(chainId: number, token: Token): Promise<void>;
   disconnect(): void;
   switchChain(chainId: number): Promise<boolean>;

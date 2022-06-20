@@ -12,11 +12,11 @@ export type ThemeConfig = {
 };
 
 export interface WidgetWalletCallbacks {
-  connect(): Signer;
-  disconnect(): void;
-  provideSigner(): Signer;
-  switchChain(): Signer;
-  addToken(): void;
+  connect(): Promise<Signer>;
+  disconnect(): Promise<void>;
+  provideSigner(): Promise<Signer>;
+  switchChain(reqChainId: number): Promise<boolean>;
+  addToken(tokenAddress: string, chainId: number): Promise<void>;
 }
 
 interface WidgetConfigBase {

@@ -38,6 +38,7 @@ export const SelectWalletPage = () => {
 
   const handleConnect = useCallback(
     async (event: any, wallet: Wallet) => {
+      console.log('handle connect');
       const { ethereum } = window as any;
       const identityCheckPassed = wallet.checkProviderIdentity({
         provider: ethereum,
