@@ -1,4 +1,5 @@
 import { supportedWallets, Wallet } from '@lifi/wallet-management';
+import { useWidgetConfig } from '@lifi/widget/providers/WidgetProvider';
 import {
   Avatar,
   Button,
@@ -22,6 +23,8 @@ import {
 
 export const SelectWalletPage = () => {
   const { t } = useTranslation();
+  const config = useWidgetConfig();
+
   const navigate = useNavigate();
   const { connect } = useWallet();
   const containerElement = useScrollableContainer();
@@ -38,7 +41,10 @@ export const SelectWalletPage = () => {
 
   const handleConnect = useCallback(
     async (event: any, wallet: Wallet) => {
-      console.log('handle connect');
+      if (config.disableInternalWalletManagement) {
+        await config.walletCallbacks.connect();
+        navigate(-1);
+      }
       const { ethereum } = window as any;
       const identityCheckPassed = wallet.checkProviderIdentity({
         provider: ethereum,
@@ -53,7 +59,12 @@ export const SelectWalletPage = () => {
       navigate(-1);
       await connect(wallet);
     },
-    [connect, navigate],
+    [
+      config.disableInternalWalletManagement,
+      config.walletCallbacks,
+      connect,
+      navigate,
+    ],
   );
 
   return (

@@ -49,7 +49,6 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   const connect = useCallback(
     async (wallet?: Wallet) => {
       if (config.disableInternalWalletManagement) {
-        console.log('using custom hook');
         await config.walletCallbacks.connect();
         return;
       }
@@ -89,11 +88,11 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   const addChain = useCallback(
     async (chainId: number) => {
       if (config.disableInternalWalletManagement) {
-        return false;
+        return config.walletCallbacks.addChain(chainId);
       }
       return walletAddChain(chainId);
     },
-    [config.disableInternalWalletManagement],
+    [config.disableInternalWalletManagement, config.walletCallbacks],
   );
 
   const addToken = useCallback(

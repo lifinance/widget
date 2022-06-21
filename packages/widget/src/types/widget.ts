@@ -17,6 +17,7 @@ export interface WidgetWalletCallbacks {
   provideSigner(): Promise<Signer>;
   switchChain(reqChainId: number): Promise<boolean>;
   addToken(tokenAddress: string, chainId: number): Promise<void>;
+  addChain(chainId: number): Promise<boolean>;
 }
 
 interface WidgetConfigBase {
