@@ -49,7 +49,9 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   const connect = useCallback(
     async (wallet?: Wallet) => {
       if (config.disableInternalWalletManagement) {
-        await config.walletCallbacks.connect();
+        const signer = await config.walletCallbacks.connect();
+        const account = await extractAccountFromSigner(signer);
+        setAccount(account);
         return;
       }
       await walletManagementConnect(wallet);
@@ -78,7 +80,9 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   const switchChain = useCallback(
     async (chainId: number) => {
       if (config.disableInternalWalletManagement) {
-        return config.walletCallbacks.switchChain(chainId);
+        const signer = await config.walletCallbacks.switchChain(chainId);
+        const account = await extractAccountFromSigner(signer);
+        setAccount(account);
       }
       return walletSwitchChain(chainId);
     },
@@ -105,6 +109,14 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
     [config.disableInternalWalletManagement, config.walletCallbacks],
   );
 
+  const attemptEagerConnect = useCallback(async () => {
+    if (config.disableInternalWalletManagement) {
+      const signer = await config.walletCallbacks.provideSigner();
+      const account = await extractAccountFromSigner(signer);
+      setAccount(account);
+    }
+  }, [config.disableInternalWalletManagement, config.walletCallbacks]);
+
   // keep account information up to date
   useEffect(() => {
     const updateAccount = async () => {
@@ -123,9 +135,18 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
       switchChain,
       addChain,
       addToken,
+      attemptEagerConnect,
       account,
     }),
-    [account, addChain, addToken, connect, disconnect, switchChain],
+    [
+      account,
+      addChain,
+      addToken,
+      connect,
+      disconnect,
+      switchChain,
+      attemptEagerConnect,
+    ],
   );
 
   return (

@@ -45,6 +45,7 @@ export const WidgetProvider: React.FC<
       return config;
     }
   }, [config, fromChain, fromToken, toChain, toToken]);
+
   return (
     <WidgetContext.Provider value={value}>{children}</WidgetContext.Provider>
   );
