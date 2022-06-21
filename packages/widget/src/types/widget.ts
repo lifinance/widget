@@ -14,7 +14,7 @@ export type ThemeConfig = {
 export interface WidgetWalletCallbacks {
   connect(): Promise<Signer>;
   disconnect(): Promise<void>;
-  provideSigner(): Promise<Signer>;
+  provideSigner(): Promise<Signer | undefined>;
   switchChain(reqChainId: number): Promise<Signer>;
   addToken(tokenAddress: string, chainId: number): Promise<void>;
   addChain(chainId: number): Promise<boolean>;
