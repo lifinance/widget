@@ -15,16 +15,16 @@ import {
 } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import React, { useEffect, useState } from 'react';
-import { ethers } from 'ethers';
+// import { ethers } from 'ethers';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './index.css';
-import {
-  addChain,
-  switchChain,
-  switchChainAndAddToken,
-} from '@lifi/wallet-management';
-import { Token } from '@lifinance/sdk';
+// import {
+//   addChain,
+//   switchChain,
+//   switchChainAndAddToken,
+// } from '@lifi/wallet-management';
+// import { Token } from '@lifinance/sdk';
 import { reportWebVitals } from './reportWebVitals';
 
 function ValueLabelComponent({
@@ -47,44 +47,44 @@ if (!rootElement) {
 }
 const root = createRoot(rootElement);
 
-const provider = new ethers.providers.Web3Provider(
-  (window as any).ethereum,
-  'any',
-);
+// const provider = new ethers.providers.Web3Provider(
+//   (window as any).ethereum,
+//   'any',
+// );
 
-const walletCallbacks = {
-  connect: async () => {
-    await provider.send('eth_requestAccounts', []);
-    const signer = provider.getSigner();
-    const address = await signer.getAddress();
-    localStorage.setItem('demoEagerConnect', address);
-    return signer;
-  },
-  disconnect: async () => {
-    localStorage.removeItem('demoEagerConnect');
-  },
-  provideSigner: async () => {
-    const eagerAddress = localStorage.getItem('demoEagerConnect');
-    if (
-      (window as any).ethereum &&
-      (window as any).ethereum.selectedAddress.toLowerCase() ===
-        eagerAddress?.toLowerCase()
-    ) {
-      return provider.getSigner();
-    }
-    return undefined;
-  },
-  switchChain: async (reqChainId: number) => {
-    await switchChain(reqChainId);
-    return provider.getSigner();
-  },
-  addToken: async (token: Token, chainId: number) => {
-    await switchChainAndAddToken(chainId, token);
-  },
-  addChain: async (chainId: number) => {
-    return addChain(chainId);
-  },
-};
+// const walletCallbacks = {
+//   connect: async () => {
+//     await provider.send('eth_requestAccounts', []);
+//     const signer = provider.getSigner();
+//     const address = await signer.getAddress();
+//     localStorage.setItem('demoEagerConnect', address);
+//     return signer;
+//   },
+//   disconnect: async () => {
+//     localStorage.removeItem('demoEagerConnect');
+//   },
+//   provideSigner: async () => {
+//     const eagerAddress = localStorage.getItem('demoEagerConnect');
+//     if (
+//       (window as any).ethereum &&
+//       (window as any).ethereum.selectedAddress.toLowerCase() ===
+//         eagerAddress?.toLowerCase()
+//     ) {
+//       return provider.getSigner();
+//     }
+//     return undefined;
+//   },
+//   switchChain: async (reqChainId: number) => {
+//     await switchChain(reqChainId);
+//     return provider.getSigner();
+//   },
+//   addToken: async (token: Token, chainId: number) => {
+//     await switchChainAndAddToken(chainId, token);
+//   },
+//   addChain: async (chainId: number) => {
+//     return addChain(chainId);
+//   },
+// };
 
 const widgetDrawerConfig: WidgetConfig = {
   fromChain: 'pol',
@@ -121,8 +121,7 @@ const App = () => {
   const [primary, setPrimaryColor] = useState('#3F49E1');
   const [secondary, setSecondaryColor] = useState('#F5B5FF');
   const [darkMode, setDarkMode] = useState(prefersDarkMode);
-  const [disableInternalWalletManagement, setDisableInternalWalletManagement] =
-    useState(false);
+
   const [systemColor, setSystemColor] = useState(true);
   const [theme, setTheme] = useState(() =>
     createTheme({
