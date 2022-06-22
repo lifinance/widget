@@ -6,6 +6,7 @@ import { Box, IconButton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useWallet } from '../../providers/WalletProvider';
+import { useWidgetConfig } from '../../providers/WidgetProvider';
 import { routes } from '../../utils/routes';
 import { HeaderAppBar } from './Header.style';
 
@@ -66,8 +67,14 @@ export const WalletHeader: React.FC = () => {
 
 const ConnectButton = () => {
   const { pathname } = useLocation();
+  const config = useWidgetConfig();
+  const { connect: walletConnect } = useWallet();
   const navigate = useNavigate();
-  const connect = () => {
+  const connect = async () => {
+    if (config.disableInternalWalletManagement) {
+      await walletConnect();
+      return;
+    }
     navigate(routes.selectWallet);
   };
   return (

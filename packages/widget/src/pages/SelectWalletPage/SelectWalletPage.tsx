@@ -22,6 +22,7 @@ import {
 
 export const SelectWalletPage = () => {
   const { t } = useTranslation();
+
   const navigate = useNavigate();
   const { connect } = useWallet();
   const containerElement = useScrollableContainer();
