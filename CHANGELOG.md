@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/lifinance/lifi-widget/compare/v1.2.0...v1.3.0) (2022-06-22)
+
+
+### Features
+
+* add external wallet management functionality ([#9](https://github.com/lifinance/lifi-widget/issues/9)) ([459589b](https://github.com/lifinance/lifi-widget/commit/459589b161ad5e440f3f7c0cfa6a2685af7ef5d1))
+
+
+### Bug Fixes
+
+* build errors ([161f503](https://github.com/lifinance/lifi-widget/commit/161f5032af804e6f3a098a2bc4dd9ce2dbbe1ca5))
+
 ## [1.2.0](https://github.com/lifinance/lifi-widget/compare/v1.1.3...v1.2.0) (2022-06-13)
 
 
