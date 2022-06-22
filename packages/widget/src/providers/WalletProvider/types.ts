@@ -9,6 +9,7 @@ export interface WalletContextProps {
   disconnect(): void;
   switchChain(chainId: number): Promise<boolean>;
   connect(wallet?: Wallet | undefined): Promise<void>;
+  attemptEagerConnect(): Promise<void>;
 }
 
 export interface WalletAccount {

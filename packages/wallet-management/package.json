@@ -24,7 +24,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "author": "Eugene Chybisov <eugene@li.finance>",
+  "author": "Adrian Weniger <adrian@li.finance>",
   "homepage": "https://github.com/lifinance/wallet-management",
   "repository": {
     "type": "git",

@@ -30,6 +30,7 @@ const initialContext: WalletContextProps = {
   switchChain: stub,
   addChain: stub,
   addToken: stub,
+  attemptEagerConnect: stub,
   account: {},
 };
 
@@ -102,7 +103,7 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   const addToken = useCallback(
     async (chainId: number, token: Token) => {
       if (config.disableInternalWalletManagement) {
-        return config.walletCallbacks.addToken(token.address, chainId);
+        return config.walletCallbacks.addToken(token, chainId);
       }
       return switchChainAndAddToken(chainId, token);
     },
@@ -113,7 +114,8 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
     if (config.disableInternalWalletManagement) {
       const signer = await config.walletCallbacks.provideSigner();
       const account = await extractAccountFromSigner(signer);
-      setAccount(account);
+      console.log(account);
+      setAccount((oldAccount) => ({ ...account }));
     }
   }, [config.disableInternalWalletManagement, config.walletCallbacks]);
 

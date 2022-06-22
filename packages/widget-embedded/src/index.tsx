@@ -19,6 +19,12 @@ import { ethers } from 'ethers';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './index.css';
+import {
+  addChain,
+  switchChain,
+  switchChainAndAddToken,
+} from '@lifi/wallet-management';
+import { Token } from '@lifinance/sdk';
 import { reportWebVitals } from './reportWebVitals';
 
 function ValueLabelComponent({
@@ -41,54 +47,54 @@ if (!rootElement) {
 }
 const root = createRoot(rootElement);
 
-const widgetDrawerConfig: WidgetConfig = {
-  fromChain: 'pol',
-  toChain: 'bsc',
-  // fromToken: '0x0000000000000000000000000000000000000000',
-  // toToken: '0xcc42724c6683b7e57334c4e856f4c9965ed682bd',
-  // disableColorSchemes: true,
-};
-
 const provider = new ethers.providers.Web3Provider(
   (window as any).ethereum,
   'any',
 );
-const signer = provider.getSigner();
-console.log(signer);
-console.log(signer.getAddress());
-const walletConfig = {
-  disableInternalWalletManagement: true,
-  walletCallbacks: {
-    connect: async () => {
-      await provider.send('eth_requestAccounts', []);
-      const signer = provider.getSigner();
-      const address = await signer.getAddress();
-      localStorage.setItem('demoEagerConnect', address);
-      return signer;
-    },
-    disconnect: async () => {
-      localStorage.removeItem('demoEagerConnect');
-    },
-    provideSigner: async () => {
-      const eagerAddress = localStorage.getItem('demoEagerConnect');
-      if (
-        (window as any).ethereum &&
-        (window as any).ethereum.selectedAddress === eagerAddress
-      ) {
-        return provider.getSigner();
-      }
-      return undefined;
-    },
-    switchChain: async (reqChainId: number) => {
+
+const walletCallbacks = {
+  connect: async () => {
+    await provider.send('eth_requestAccounts', []);
+    const signer = provider.getSigner();
+    const address = await signer.getAddress();
+    localStorage.setItem('demoEagerConnect', address);
+    return signer;
+  },
+  disconnect: async () => {
+    localStorage.removeItem('demoEagerConnect');
+  },
+  provideSigner: async () => {
+    const eagerAddress = localStorage.getItem('demoEagerConnect');
+    if (
+      (window as any).ethereum &&
+      (window as any).ethereum.selectedAddress.toLowerCase() ===
+        eagerAddress?.toLowerCase()
+    ) {
       return provider.getSigner();
-    },
-    addToken: async (tokenAddress: string, chainId: number) => {},
-    addChain: async (chainId: number) => {
-      return true;
-    },
+    }
+    return undefined;
+  },
+  switchChain: async (reqChainId: number) => {
+    await switchChain(reqChainId);
+    return provider.getSigner();
+  },
+  addToken: async (token: Token, chainId: number) => {
+    await switchChainAndAddToken(chainId, token);
+  },
+  addChain: async (chainId: number) => {
+    return addChain(chainId);
   },
 };
 
+const widgetDrawerConfig: WidgetConfig = {
+  fromChain: 'pol',
+  toChain: 'bsc',
+  disableInternalWalletManagement: true,
+  walletCallbacks,
+  // fromToken: '0x0000000000000000000000000000000000000000',
+  // toToken: '0xcc42724c6683b7e57334c4e856f4c9965ed682bd',
+  // disableColorSchemes: true,
+};
 const widgetConfig: WidgetConfig = {
   ...widgetDrawerConfig,
   containerStyle: {
@@ -103,8 +109,6 @@ const widgetConfig: WidgetConfig = {
     display: 'flex',
     maxWidth: 392,
   },
-  walletCallbacks: walletConfig.walletCallbacks,
-  disableInternalWalletManagement: true,
 };
 
 const App = () => {
@@ -117,6 +121,8 @@ const App = () => {
   const [primary, setPrimaryColor] = useState('#3F49E1');
   const [secondary, setSecondaryColor] = useState('#F5B5FF');
   const [darkMode, setDarkMode] = useState(prefersDarkMode);
+  const [disableInternalWalletManagement, setDisableInternalWalletManagement] =
+    useState(false);
   const [systemColor, setSystemColor] = useState(true);
   const [theme, setTheme] = useState(() =>
     createTheme({
@@ -152,8 +158,6 @@ const App = () => {
               }`,
             },
           }),
-      disableInternalWalletManagement: true,
-      walletCallbacks: walletConfig.walletCallbacks,
       theme: {
         palette: {
           primary: {

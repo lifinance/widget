@@ -1,4 +1,4 @@
-import { ChainKey } from '@lifinance/sdk';
+import { ChainKey, Token } from '@lifinance/sdk';
 import { PaletteMode, PaletteOptions, Shape } from '@mui/material';
 import { TypographyOptions } from '@mui/material/styles/createTypography';
 import { Signer } from 'ethers';
@@ -16,7 +16,7 @@ export interface WidgetWalletCallbacks {
   disconnect(): Promise<void>;
   provideSigner(): Promise<Signer | undefined>;
   switchChain(reqChainId: number): Promise<Signer>;
-  addToken(tokenAddress: string, chainId: number): Promise<void>;
+  addToken(token: Token, chainId: number): Promise<void>;
   addChain(chainId: number): Promise<boolean>;
 }
 
