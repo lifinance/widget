@@ -36,7 +36,7 @@ export const SwapButton: React.FC = () => {
 
   const handleSwapButtonClick = async () => {
     if (!account.isActive) {
-      if (config.disableInternalWalletManagement) {
+      if (config.walletManagement) {
         await walletConnect();
       } else {
         navigate(routes.selectWallet);

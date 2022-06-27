@@ -90,8 +90,6 @@ const root = createRoot(rootElement);
 const widgetDrawerConfig: WidgetConfig = {
   fromChain: 'pol',
   toChain: 'bsc',
-  // disableInternalWalletManagement: true,
-  // externalWalletManagementSettings: walletCallbacks,
   // fromToken: '0x0000000000000000000000000000000000000000',
   // toToken: '0xcc42724c6683b7e57334c4e856f4c9965ed682bd',
   // disableColorSchemes: true,
@@ -146,7 +144,7 @@ const App = () => {
   );
 
   // useEffect(() => {
-  //   const walletManagement = config.externalWalletManagementSettings;
+  //   const walletManagement = config.walletManagement;
   //   walletManagement.signer = signer;
   //   setConfig((config) => ({ ...config, ...walletManagement }));
   // }, [signer]);

@@ -11,10 +11,10 @@ export type ThemeConfig = {
   typography?: TypographyOptions;
 };
 
-export interface WidgetWalletCallbacks {
+export interface WidgetWalletManagement {
   connect(): Promise<Signer>;
   disconnect(): Promise<void>;
-  provideSigner(): Promise<Signer | undefined>;
+  getSigner(): Promise<Signer | undefined>;
   switchChain(reqChainId: number): Promise<Signer>;
   addToken(token: Token, chainId: number): Promise<void>;
   addChain(chainId: number): Promise<boolean>;
@@ -28,6 +28,7 @@ interface WidgetConfigBase {
   theme?: ThemeConfig;
   appearance?: Appearance;
   disableAppearance?: boolean;
+  walletManagement?: WidgetWalletManagement;
 }
 
 type WidgetFromTokenConfig =
@@ -50,17 +51,6 @@ type WidgetToTokenConfig =
       toToken?: never;
     };
 
-type WidgetWalletManagementConfig =
-  | {
-      disableInternalWalletManagement: true;
-      externalWalletManagementSettings: WidgetWalletCallbacks;
-    }
-  | {
-      disableInternalWalletManagement?: false;
-      externalWalletManagementSettings?: never;
-    };
-
 export type WidgetConfig = WidgetConfigBase &
   WidgetFromTokenConfig &
-  WidgetToTokenConfig &
-  WidgetWalletManagementConfig;
+  WidgetToTokenConfig;
