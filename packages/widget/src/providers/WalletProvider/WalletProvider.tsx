@@ -47,21 +47,6 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   } = useLifiWalletManagement();
   const [account, setAccount] = useState<WalletAccount>({});
 
-  useEffect(() => {
-    console.log(
-      'WalletProvider: signer changed.',
-      config.walletManagement?.signer,
-    );
-    const updateSigner = async () => {
-      const account = await extractAccountFromSigner(
-        config.walletManagement?.signer,
-      );
-      setAccount(account);
-      console.log('WalletProvider: signer changed account.', account);
-    };
-    updateSigner();
-  }, [config.walletManagement?.signer]);
-
   const connect = useCallback(
     async (wallet?: Wallet) => {
       if (config.walletManagement) {
@@ -132,7 +117,12 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   // keep account information up to date
   useEffect(() => {
     const updateAccount = async () => {
-      if (!config.walletManagement) {
+      if (config.walletManagement) {
+        const account = await extractAccountFromSigner(
+          config.walletManagement.signer,
+        );
+        setAccount(account);
+      } else {
         const account = await extractAccountFromSigner(signer);
         setAccount(account);
       }
