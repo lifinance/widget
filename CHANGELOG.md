@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/lifinance/lifi-widget/compare/v1.3.2...v1.4.0) (2022-06-27)
+
+
+### Features
+
+* hide internal wallet UI if walletManagement is provided ([68dd45f](https://github.com/lifinance/lifi-widget/commit/68dd45fbd5712cf5348c3a1bd53bc4d7c1684c50))
+
 ### [1.3.2](https://github.com/lifinance/lifi-widget/compare/v1.3.1...v1.3.2) (2022-06-27)
 
 
