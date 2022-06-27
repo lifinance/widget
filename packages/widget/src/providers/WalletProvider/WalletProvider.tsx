@@ -47,10 +47,25 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   } = useLifiWalletManagement();
   const [account, setAccount] = useState<WalletAccount>({});
 
+  useEffect(() => {
+    console.log(
+      'walletProvider: signer changed',
+      config.externalWalletManagementSettings?.signer,
+    );
+    const updateSigner = async () => {
+      const account = await extractAccountFromSigner(
+        config.externalWalletManagementSettings?.signer,
+      );
+      setAccount(account);
+      console.log('walletProvider: signer changed account', account);
+    };
+    updateSigner();
+  }, [config.externalWalletManagementSettings?.signer]);
+
   const connect = useCallback(
     async (wallet?: Wallet) => {
       if (config.disableInternalWalletManagement) {
-        const signer = await config.walletCallbacks.connect();
+        const signer = await config.externalWalletManagementSettings.connect();
         const account = await extractAccountFromSigner(signer);
         setAccount(account);
         return;
@@ -59,21 +74,21 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
     },
     [
       config.disableInternalWalletManagement,
-      config.walletCallbacks,
+      config.externalWalletManagementSettings,
       walletManagementConnect,
     ],
   );
 
   const disconnect = useCallback(async () => {
     if (config.disableInternalWalletManagement) {
-      await config.walletCallbacks.disconnect();
+      await config.externalWalletManagementSettings.disconnect();
       setAccount({});
       return;
     }
     await walletManagementDisconnect();
   }, [
     config.disableInternalWalletManagement,
-    config.walletCallbacks,
+    config.externalWalletManagementSettings,
     walletManagementDisconnect,
   ]);
 
@@ -81,43 +96,60 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   const switchChain = useCallback(
     async (chainId: number) => {
       if (config.disableInternalWalletManagement) {
-        const signer = await config.walletCallbacks.switchChain(chainId);
+        const signer =
+          await config.externalWalletManagementSettings.switchChain(chainId);
         const account = await extractAccountFromSigner(signer);
         setAccount(account);
       }
       return walletSwitchChain(chainId);
     },
-    [config.disableInternalWalletManagement, config.walletCallbacks],
+    [
+      config.disableInternalWalletManagement,
+      config.externalWalletManagementSettings,
+    ],
   );
 
   const addChain = useCallback(
     async (chainId: number) => {
       if (config.disableInternalWalletManagement) {
-        return config.walletCallbacks.addChain(chainId);
+        return config.externalWalletManagementSettings.addChain(chainId);
       }
       return walletAddChain(chainId);
     },
-    [config.disableInternalWalletManagement, config.walletCallbacks],
+    [
+      config.disableInternalWalletManagement,
+      config.externalWalletManagementSettings,
+    ],
   );
 
   const addToken = useCallback(
     async (chainId: number, token: Token) => {
       if (config.disableInternalWalletManagement) {
-        return config.walletCallbacks.addToken(token, chainId);
+        return config.externalWalletManagementSettings.addToken(token, chainId);
       }
       return switchChainAndAddToken(chainId, token);
     },
-    [config.disableInternalWalletManagement, config.walletCallbacks],
+    [
+      config.disableInternalWalletManagement,
+      config.externalWalletManagementSettings,
+    ],
   );
 
   const attemptEagerConnect = useCallback(async () => {
     if (config.disableInternalWalletManagement) {
-      const signer = await config.walletCallbacks.provideSigner();
-      const account = await extractAccountFromSigner(signer);
-      console.log(account);
-      setAccount((oldAccount) => ({ ...account }));
+      try {
+        const signer =
+          await config.externalWalletManagementSettings.provideSigner();
+        const account = await extractAccountFromSigner(signer);
+        setAccount(() => ({ ...account }));
+      } catch (e) {
+        console.warn('attempted eagerconnect', e);
+      }
     }
-  }, [config.disableInternalWalletManagement, config.walletCallbacks]);
+  }, [
+    config.disableInternalWalletManagement,
+    config.externalWalletManagementSettings,
+  ]);
 
   // keep account information up to date
   useEffect(() => {
