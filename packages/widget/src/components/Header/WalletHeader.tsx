@@ -20,7 +20,7 @@ export const WalletHeader: React.FC = () => {
     : null;
 
   return (
-    <HeaderAppBar elevation={0} pt={1.5}>
+    <HeaderAppBar elevation={0}>
       {walletAddress ? (
         <>
           <Box
@@ -71,7 +71,7 @@ const ConnectButton = () => {
   const { connect: walletConnect } = useWallet();
   const navigate = useNavigate();
   const connect = async () => {
-    if (config.disableInternalWalletManagement) {
+    if (config.walletManagement) {
       await walletConnect();
       return;
     }

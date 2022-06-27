@@ -1,3 +1,4 @@
+import { useWidgetConfig } from '@lifi/widget/providers/WidgetProvider';
 import { FC, PropsWithChildren } from 'react';
 import { useLocation } from 'react-router-dom';
 import { ElementId } from '../../utils/elements';
@@ -24,9 +25,12 @@ const HeaderContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
   );
 };
 
-export const Header: FC = () => (
-  <HeaderContainer>
-    <WalletHeader />
-    <NavigationHeader />
-  </HeaderContainer>
-);
+export const Header: FC = () => {
+  const { walletManagement } = useWidgetConfig();
+  return (
+    <HeaderContainer>
+      {!walletManagement ? <WalletHeader /> : null}
+      <NavigationHeader />
+    </HeaderContainer>
+  );
+};

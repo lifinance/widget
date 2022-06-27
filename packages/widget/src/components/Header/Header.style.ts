@@ -1,16 +1,17 @@
 import { AppBar, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-export const HeaderAppBar = styled(AppBar, {
-  shouldForwardProp: (prop) => prop !== 'pt',
-})<{ pt?: number }>(({ theme, pt }) => ({
+export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
   color: theme.palette.text.primary,
   flexDirection: 'row',
   alignItems: 'center',
   position: 'relative',
   minHeight: 48,
-  padding: theme.spacing(pt ?? 0, 3, 0, 3),
+  padding: theme.spacing(0, 3, 0, 3),
+  '&:first-of-type': {
+    paddingTop: theme.spacing(1.5),
+  },
 }));
 
 export const Container = styled(Box, {
