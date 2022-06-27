@@ -1,3 +1,4 @@
+import { useWidgetConfig } from '@lifi/widget/providers/WidgetProvider';
 import { ChainId } from '@lifinance/sdk';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -14,6 +15,8 @@ export const SwapButton: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { getChainById } = useChains();
+  const config = useWidgetConfig();
+  const { connect: walletConnect } = useWallet();
   const { account, switchChain } = useWallet();
   const [currentRoute] = useCurrentRoute();
   const setExecutableRoute = useSetExecutableRoute();
@@ -34,7 +37,11 @@ export const SwapButton: React.FC = () => {
 
   const handleSwapButtonClick = async () => {
     if (!account.isActive) {
-      navigate(routes.selectWallet);
+      if (config.disableInternalWalletManagement) {
+        await walletConnect();
+      } else {
+        navigate(routes.selectWallet);
+      }
     } else if (!isCurrentChainMatch) {
       await switchChain(chainId!);
       // check that the current route exists in the up to date route list
