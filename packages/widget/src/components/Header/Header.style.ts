@@ -9,7 +9,7 @@ export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
   position: 'relative',
   minHeight: 48,
   padding: theme.spacing(0, 3, 0, 3),
-  '&:first-of-type': {
+  ':first-of-type': {
     paddingTop: theme.spacing(1.5),
   },
 }));

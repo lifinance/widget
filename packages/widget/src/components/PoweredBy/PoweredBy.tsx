@@ -1,5 +1,6 @@
-import { Box, Link, Typography } from '@mui/material';
-import { LiFiLogo } from './LiFiLogo';
+import { Box, Typography } from '@mui/material';
+import { LiFiLogo } from '../LiFiLogo';
+import { Link } from './PoweredBy.style';
 
 export const PoweredBy: React.FC = () => {
   return (
@@ -15,10 +16,6 @@ export const PoweredBy: React.FC = () => {
       }}
     >
       <Link
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-        }}
         href="https://li.fi"
         target="_blank"
         underline="none"

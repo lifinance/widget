@@ -7,5 +7,5 @@ export const LiFiLogo: React.FC<{
   style?: CSSProperties;
 }> = ({ variant = 'icon', style }) => {
   const Component = variant === 'icon' ? LiFiIconLogo : LiFiFullLogo;
-  return <Component style={style} fill="currentColor" />;
+  return <Component style={style} fill="currentColor" color="currentColor" />;
 };

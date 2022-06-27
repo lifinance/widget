@@ -1,0 +1,1 @@
+export { PoweredBy } from './PoweredBy';
