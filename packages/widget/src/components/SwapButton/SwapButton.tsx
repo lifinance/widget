@@ -1,4 +1,3 @@
-import { useWidgetConfig } from '@lifi/widget/providers/WidgetProvider';
 import { ChainId } from '@lifinance/sdk';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -6,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useChains, useHasSufficientBalance, useSwapRoutes } from '../../hooks';
 import { SwapFormKeyHelper } from '../../providers/SwapFormProvider';
 import { useWallet } from '../../providers/WalletProvider';
+import { useWidgetConfig } from '../../providers/WidgetProvider';
 import { useCurrentRoute, useSetExecutableRoute } from '../../stores';
 import { routes } from '../../utils/routes';
 import { ButtonTooltip } from './ButtonTooltip';
@@ -16,8 +16,7 @@ export const SwapButton: React.FC = () => {
   const { t } = useTranslation();
   const { getChainById } = useChains();
   const config = useWidgetConfig();
-  const { connect: walletConnect } = useWallet();
-  const { account, switchChain } = useWallet();
+  const { account, switchChain, connect: walletConnect } = useWallet();
   const [currentRoute] = useCurrentRoute();
   const setExecutableRoute = useSetExecutableRoute();
 
