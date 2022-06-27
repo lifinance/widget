@@ -2,6 +2,7 @@
 import { LiFiWidget, LiFiWidgetDrawer, WidgetConfig } from '@lifi/widget';
 import {
   Box,
+  // Button,
   Checkbox,
   CssBaseline,
   Drawer,
@@ -15,7 +16,7 @@ import {
 } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import React, { useEffect, useState } from 'react';
-// import { ethers } from 'ethers';
+// import { ethers, Signer } from 'ethers';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './index.css';
@@ -90,7 +91,7 @@ const widgetDrawerConfig: WidgetConfig = {
   fromChain: 'pol',
   toChain: 'bsc',
   // disableInternalWalletManagement: true,
-  // walletCallbacks,
+  // externalWalletManagementSettings: walletCallbacks,
   // fromToken: '0x0000000000000000000000000000000000000000',
   // toToken: '0xcc42724c6683b7e57334c4e856f4c9965ed682bd',
   // disableColorSchemes: true,
@@ -121,6 +122,9 @@ const App = () => {
   const [primary, setPrimaryColor] = useState('#3F49E1');
   const [secondary, setSecondaryColor] = useState('#F5B5FF');
   const [darkMode, setDarkMode] = useState(prefersDarkMode);
+  // const [signer, setSigner] = useState<Signer | undefined>(
+  //   provider.getSigner(),
+  // );
 
   const [systemColor, setSystemColor] = useState(true);
   const [theme, setTheme] = useState(() =>
@@ -140,6 +144,12 @@ const App = () => {
       },
     }),
   );
+
+  // useEffect(() => {
+  //   const walletManagement = config.externalWalletManagementSettings;
+  //   walletManagement.signer = signer;
+  //   setConfig((config) => ({ ...config, ...walletManagement }));
+  // }, [signer]);
 
   useEffect(() => {
     setConfig(() => ({
@@ -239,6 +249,32 @@ const App = () => {
                 }
                 label="Enable drawer view"
               />
+            </Box>
+            <Box>
+              {/* <Button
+                onClick={() => {
+                  walletCallbacks.connect();
+                  setSigner(provider.getSigner());
+                }}
+              >
+                Connect
+              </Button>
+              <Button
+                onClick={() => {
+                  walletCallbacks.disconnect();
+                  setSigner(undefined);
+                }}
+              >
+                Disconnect
+              </Button>
+              <Button
+                onClick={async () => {
+                  await walletCallbacks.switchChain(1);
+                  setSigner(provider.getSigner());
+                }}
+              >
+                Switch Chain To ETH
+              </Button> */}
             </Box>
             <Box p={1} flex={1}>
               <FormControlLabel

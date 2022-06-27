@@ -18,6 +18,7 @@ export interface WidgetWalletCallbacks {
   switchChain(reqChainId: number): Promise<Signer>;
   addToken(token: Token, chainId: number): Promise<void>;
   addChain(chainId: number): Promise<boolean>;
+  signer?: Signer;
 }
 
 interface WidgetConfigBase {
@@ -52,11 +53,11 @@ type WidgetToTokenConfig =
 type WidgetWalletManagementConfig =
   | {
       disableInternalWalletManagement: true;
-      walletCallbacks: WidgetWalletCallbacks;
+      externalWalletManagementSettings: WidgetWalletCallbacks;
     }
   | {
       disableInternalWalletManagement?: false;
-      walletCallbacks?: never;
+      externalWalletManagementSettings?: never;
     };
 
 export type WidgetConfig = WidgetConfigBase &
