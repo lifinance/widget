@@ -68,10 +68,16 @@ export const TokenList: FC<TokenListProps> = ({
       setValue(SwapFormKeyHelper.getTokenKey(formType), tokenAddress);
       setValue(SwapFormKeyHelper.getAmountKey(formType), '');
       const oppositeFormType = formType === 'from' ? 'to' : 'from';
-      const [selectedOppositeToken] = getValues([
-        SwapFormKeyHelper.getTokenKey(oppositeFormType),
-      ]);
-      if (selectedOppositeToken === tokenAddress) {
+      const [selectedOppositeToken, selectedOppositeChain, selectedChain] =
+        getValues([
+          SwapFormKeyHelper.getTokenKey(oppositeFormType),
+          SwapFormKeyHelper.getChainKey(oppositeFormType),
+          SwapFormKeyHelper.getChainKey(formType),
+        ]);
+      if (
+        selectedOppositeToken === tokenAddress &&
+        selectedOppositeChain === selectedChain
+      ) {
         setValue(SwapFormKeyHelper.getTokenKey(oppositeFormType), '');
       }
       onClick?.();
