@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/lifinance/widget/compare/v1.4.0...v1.5.0) (2022-07-01)
+
+
+### Features
+
+* add crash reports and diagnostic data collection ([276f624](https://github.com/lifinance/widget/commit/276f62450441999dd5fb789ac7b256cf181df84b))
+
+
+### Bug Fixes
+
+* can't select tokens with the same address ([60e6b44](https://github.com/lifinance/widget/commit/60e6b446ce6142c5b6e742f973d4206abf963d34))
+* PoweredBy hover color ([e6b75d1](https://github.com/lifinance/widget/commit/e6b75d14ca97173858f70cf1b85e2bc03c25d56f))
+
 ## [1.4.0](https://github.com/lifinance/lifi-widget/compare/v1.3.2...v1.4.0) (2022-06-27)
 
 
