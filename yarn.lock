@@ -3353,6 +3353,79 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.1.3.tgz#6801033be7ff87a6b7cadaf5b337c9f366a3c4b0"
   integrity sha512-WiBSI6JBIhC6LRIsB2Kwh8DsGTlbBU+mLRxJmAe3LjHTdkDpwIbEOZgoXBbZilk/vlfjK8i6nKRAvIRn1XaIMw==
 
+"@sentry/browser@7.4.0":
+  version "7.4.0"
+  resolved "https://registry.yarnpkg.com/@sentry/browser/-/browser-7.4.0.tgz#3f4a644c6ab45cee26f89fd6623df8ea92b76700"
+  integrity sha512-mnr3WEgL6Rm1NBQiYS+1NIvw3aRnLQRNqhp2bWSyVJ6lewfdHbP94v/cesM+//puj+oSkSpIV97Vs7YWDT61tA==
+  dependencies:
+    "@sentry/core" "7.4.0"
+    "@sentry/types" "7.4.0"
+    "@sentry/utils" "7.4.0"
+    tslib "^1.9.3"
+
+"@sentry/core@7.4.0":
+  version "7.4.0"
+  resolved "https://registry.yarnpkg.com/@sentry/core/-/core-7.4.0.tgz#42711c46cc8d5a06333da71f76b5cc2442136048"
+  integrity sha512-JOqbw57DwDeAnWTzXzMkT/2/LLNxtPIPInLyZThduk300Zs/le4+HDw45F4tJIPEmf+QFdKiZmKh5M/2PrqDNg==
+  dependencies:
+    "@sentry/hub" "7.4.0"
+    "@sentry/types" "7.4.0"
+    "@sentry/utils" "7.4.0"
+    tslib "^1.9.3"
+
+"@sentry/hub@7.4.0":
+  version "7.4.0"
+  resolved "https://registry.yarnpkg.com/@sentry/hub/-/hub-7.4.0.tgz#1b3340d5a0fd99a89b60811e96be178128f7d0f7"
+  integrity sha512-7th3MNVxjWiuG8fhzgtxhcLqGSXVUE86NuaRAzUFOzyA/ruXbq2wLb3ulvJsfX+JeiSjkVlCo+Xz21POvZ/vkA==
+  dependencies:
+    "@sentry/types" "7.4.0"
+    "@sentry/utils" "7.4.0"
+    tslib "^1.9.3"
+
+"@sentry/integrations@^7.4.0":
+  version "7.4.0"
+  resolved "https://registry.yarnpkg.com/@sentry/integrations/-/integrations-7.4.0.tgz#f10a4f27da6751cd19e505f0a978a7e7a1cf2030"
+  integrity sha512-uRPmvNFMqQnakCKZF9leaJUrzhcw2ofNlqDvvZ0RbJ0iSer6oq9F5JpMJOHcGivuVyWY76ljtoGg/63pWw5wLg==
+  dependencies:
+    "@sentry/types" "7.4.0"
+    "@sentry/utils" "7.4.0"
+    localforage "^1.8.1"
+    tslib "^1.9.3"
+
+"@sentry/react@^7.4.0":
+  version "7.4.0"
+  resolved "https://registry.yarnpkg.com/@sentry/react/-/react-7.4.0.tgz#ed255ea6c11f2dab3e2b3b10e4ad09da82e6e251"
+  integrity sha512-59eYrezWtGzuLF132rVzLUas5EmNXL4cQE7peyInfpyDlEapCoec7Ml8mGBKssDLtOLwMVqlSzFNGOHxhr33cQ==
+  dependencies:
+    "@sentry/browser" "7.4.0"
+    "@sentry/types" "7.4.0"
+    "@sentry/utils" "7.4.0"
+    hoist-non-react-statics "^3.3.2"
+    tslib "^1.9.3"
+
+"@sentry/tracing@^7.4.0":
+  version "7.4.0"
+  resolved "https://registry.yarnpkg.com/@sentry/tracing/-/tracing-7.4.0.tgz#6ab667151a90acac4e96746e1acdb4049a732bc1"
+  integrity sha512-zRywOpm012P1pTQYvXtDpYrxtzOvKTjz1vyKxhqb+UOMu95A+llMkFfmZMeWn2OZNr0xg6zsLlGPnoFIiJNz9w==
+  dependencies:
+    "@sentry/hub" "7.4.0"
+    "@sentry/types" "7.4.0"
+    "@sentry/utils" "7.4.0"
+    tslib "^1.9.3"
+
+"@sentry/types@7.4.0":
+  version "7.4.0"
+  resolved "https://registry.yarnpkg.com/@sentry/types/-/types-7.4.0.tgz#b03523ced07da56506ccea18b46b5e6904802292"
+  integrity sha512-vBg7tldxWgBWAtslm8dy3PNpaB206pUObjTYLG3cF69h1gAbWGpZ99lZ6wDsvrEHi+1S9RTIZMHaxJiTRmO/7A==
+
+"@sentry/utils@7.4.0":
+  version "7.4.0"
+  resolved "https://registry.yarnpkg.com/@sentry/utils/-/utils-7.4.0.tgz#1e967f439f179ae9d09c25c3a0ed5946d9c9e0d6"
+  integrity sha512-5vaEBjnKkEv1kTyTtgAjCmMzD8whB6ojNrswULgyTynRHjd1bGi3BPOOLpBjjzb2nWJwvSMOxBpTHFdRqGIZ7Q==
+  dependencies:
+    "@sentry/types" "7.4.0"
+    tslib "^1.9.3"
+
 "@sinclair/typebox@^0.23.3":
   version "0.23.5"
   resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.23.5.tgz#93f7b9f4e3285a7a9ade7557d9a8d36809cbc47d"
@@ -5815,10 +5888,10 @@ confusing-browser-globals@^1.0.10, confusing-browser-globals@^1.0.11:
   resolved "https://registry.yarnpkg.com/confusing-browser-globals/-/confusing-browser-globals-1.0.11.tgz#ae40e9b57cdd3915408a2805ebd3a5585608dc81"
   integrity sha512-JsPKdmh8ZkmnHxDk55FZ1TqVLvEQTvoByJZRN9jzI0UjxK/QgAmsphz7PGtqgPieQZ/CQcHWXCR7ATDNhGe+YA==
 
-connect-history-api-fallback@^1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/connect-history-api-fallback/-/connect-history-api-fallback-1.6.0.tgz#8b32089359308d111115d81cad3fceab888f97bc"
-  integrity sha512-e54B99q/OUoH64zYYRf3HBP5z24G38h5D3qXu23JGRoigpX5Ss4r9ZnDk3g0Z8uQC2x2lPaJ+UlWBc1ZWBWdLg==
+connect-history-api-fallback@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/connect-history-api-fallback/-/connect-history-api-fallback-2.0.0.tgz#647264845251a0daf25b97ce87834cace0f5f1c8"
+  integrity sha512-U73+6lQFmfiNPrYbXqr6kZ1i1wiRqXnp2nhMsINseWXO8lDau0LGEffJ8kQi4EjLZympVgRdvqjAgiZ1tgzDDA==
 
 console-control-strings@^1.1.0:
   version "1.1.0"
@@ -7004,10 +7077,10 @@ eslint-plugin-jsx-a11y@^6.5.1, eslint-plugin-jsx-a11y@^6.6.0:
     minimatch "^3.1.2"
     semver "^6.3.0"
 
-eslint-plugin-prettier@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-prettier/-/eslint-plugin-prettier-4.1.0.tgz#1cd4b3fadf3b3cdb30b1874b55e7f93f85eb43ad"
-  integrity sha512-A3AXIEfTnq3D5qDFjWJdQ9c4BLhw/TqhSR+6+SVaoPJBAWciFEuJiNQh275OnjRrAi7yssZzuWBRw66VG2g6UA==
+eslint-plugin-prettier@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-prettier/-/eslint-plugin-prettier-4.2.1.tgz#651cbb88b1dab98bfd42f017a12fa6b2d993f94b"
+  integrity sha512-f/0rXLXUt0oFYs8ra4w49wYZBG5GKZpAYsJSm6rnYL5uVDjd+zowwMwVZHnAjf4edNrKpCDYfXDgmRE/Ak7QyQ==
   dependencies:
     prettier-linter-helpers "^1.0.0"
 
@@ -7942,7 +8015,7 @@ hmac-drbg@^1.0.1:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
 
-hoist-non-react-statics@^3.3.1:
+hoist-non-react-statics@^3.3.1, hoist-non-react-statics@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
   integrity sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==
@@ -8189,6 +8262,11 @@ ignore@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.0.tgz#6d3bac8fa7fe0d45d9f9be7bac2fc279577e345a"
   integrity sha512-CmxgYGiEPCLhfLnpPp1MoRmifwEIOgjcHXxOBjv7mY96c+eWScsOP9c112ZyLdWHi0FxHjI+4uVhKYp/gcdRmQ==
+
+immediate@~3.0.5:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/immediate/-/immediate-3.0.6.tgz#9db1dbd0faf8de6fbe0f5dd5e56bb606280de69b"
+  integrity sha512-XXOFtyqDjNDAQxVfYxuF7g9Il/IbWmmlQg2MYKOH8ExIT1qg6xc4zyS3HaEEATgs1btfzxq15ciUiY7gjSXRGQ==
 
 immer@^9.0.15, immer@^9.0.7:
   version "9.0.15"
@@ -9216,6 +9294,13 @@ libnpmpublish@^4.0.0:
     semver "^7.1.3"
     ssri "^8.0.1"
 
+lie@3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/lie/-/lie-3.1.1.tgz#9a436b2cc7746ca59de7a41fa469b3efb76bd87e"
+  integrity sha512-RiNhHysUjhrDQntfYSfY4MU24coXXdEOgw9WGcKHNeEwffDYbF//u87M1EWaMGzuFoSbqW0C9C6lEEhDOAswfw==
+  dependencies:
+    immediate "~3.0.5"
+
 lilconfig@^2.0.3, lilconfig@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/lilconfig/-/lilconfig-2.0.5.tgz#19e57fd06ccc3848fd1891655b5a447092225b25"
@@ -9264,6 +9349,13 @@ loader-utils@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-3.2.0.tgz#bcecc51a7898bee7473d4bc6b845b23af8304d4f"
   integrity sha512-HVl9ZqccQihZ7JM85dco1MvO9G+ONvxoGa9rkhzFsneGLKSUg1gJf9bWzhRhcvm2qChhWpebQhP44qxjKIUCaQ==
+
+localforage@^1.8.1:
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/localforage/-/localforage-1.10.0.tgz#5c465dc5f62b2807c3a84c0c6a1b1b3212781dd4"
+  integrity sha512-14/H1aX7hzBBmmh7sGPd+AOMkkIrHM3Z1PAyGgZigA1H1p5O5ANnMyWzvpAETtG68/dC4pC0ncy3+PPGzXZHPg==
+  dependencies:
+    lie "3.1.1"
 
 locate-path@^2.0.0:
   version "2.0.0"
@@ -11427,15 +11519,15 @@ react-error-overlay@^6.0.11:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.11.tgz#92835de5841c5cf08ba00ddd2d677b6d17ff9adb"
   integrity sha512-/6UZ2qgEyH2aqzYZgQPxEnz33NJ2gNsnHA2o5+o4wW9bLM/JYQitNP9xPhsXwC08hMMovfGe/8retsdDsczPRg==
 
-react-hook-form@^7.33.0:
-  version "7.33.0"
-  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.33.0.tgz#44a87ddd630f00ebeb0f15aa978f69ca74b8a77b"
-  integrity sha512-h8XoeUHQs1Snx1s/sSvM+eVTSKkWQt8TcrbL+3/Rt5gugxpy4ueL5ZZkubffyNpUyyTz0qM0kwOi2c+JgGTjLA==
+react-hook-form@^7.33.1:
+  version "7.33.1"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.33.1.tgz#8c4410e3420788d3b804d62cc4c142915c2e46d0"
+  integrity sha512-ydTfTxEJdvgjCZBj5DDXRc58oTEfnFupEwwTAQ9FSKzykEJkX+3CiAkGtAMiZG7IPWHuzgT6AOBfogiKhUvKgg==
 
-react-i18next@^11.17.3:
-  version "11.17.3"
-  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-11.17.3.tgz#eff742f162f1a413056fb510e8b830d42c8c020d"
-  integrity sha512-rIrLl5cLDoHdXFWdjKurRpatA3MPC9j3yTZidv0GmJEea5+XGXl42p7NupA1dmghoLGOXllShNUobgPYtgEcRA==
+react-i18next@^11.17.4:
+  version "11.17.4"
+  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-11.17.4.tgz#fe72ac0ccacc73ae0a00fed503eb3dd3f73016c1"
+  integrity sha512-LswEIl8KNDTP4Wk3c22XDstbR++Vc4BZyNwvGFGaYbYDjdDLkHDLwrgd7DN28f8jufFHaYhQvCG5YWLxFhRt/g==
   dependencies:
     "@babel/runtime" "^7.14.5"
     html-escaper "^2.0.2"
@@ -12970,7 +13062,7 @@ tsconfig-paths@^3.14.1:
     minimist "^1.2.6"
     strip-bom "^3.0.0"
 
-tslib@^1.8.1, tslib@^1.9.0:
+tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
@@ -13312,10 +13404,10 @@ webpack-dev-middleware@^5.3.1:
     range-parser "^1.2.1"
     schema-utils "^4.0.0"
 
-webpack-dev-server@^4.9.2:
-  version "4.9.2"
-  resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-4.9.2.tgz#c188db28c7bff12f87deda2a5595679ebbc3c9bc"
-  integrity sha512-H95Ns95dP24ZsEzO6G9iT+PNw4Q7ltll1GfJHV4fKphuHWgKFzGHWi4alTlTnpk1SPPk41X+l2RB7rLfIhnB9Q==
+webpack-dev-server@^4.9.3:
+  version "4.9.3"
+  resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-4.9.3.tgz#2360a5d6d532acb5410a668417ad549ee3b8a3c9"
+  integrity sha512-3qp/eoboZG5/6QgiZ3llN8TUzkSpYg1Ko9khWX1h40MIEUNS2mDoIa8aXsPfskER+GbTvs/IJZ1QTBBhhuetSw==
   dependencies:
     "@types/bonjour" "^3.5.9"
     "@types/connect-history-api-fallback" "^1.3.5"
@@ -13329,7 +13421,7 @@ webpack-dev-server@^4.9.2:
     chokidar "^3.5.3"
     colorette "^2.0.10"
     compression "^1.7.4"
-    connect-history-api-fallback "^1.6.0"
+    connect-history-api-fallback "^2.0.0"
     default-gateway "^6.0.3"
     express "^4.17.3"
     graceful-fs "^4.2.6"
