@@ -93,6 +93,7 @@ const widgetDrawerConfig: WidgetConfig = {
   // fromToken: '0x0000000000000000000000000000000000000000',
   // toToken: '0xcc42724c6683b7e57334c4e856f4c9965ed682bd',
   // disableColorSchemes: true,
+  disableTelemetry: true,
 };
 const widgetConfig: WidgetConfig = {
   ...widgetDrawerConfig,

@@ -28,6 +28,7 @@ interface WidgetConfigBase {
   theme?: ThemeConfig;
   appearance?: Appearance;
   disableAppearance?: boolean;
+  disableTelemetry?: boolean;
   walletManagement?: WidgetWalletManagement;
 }
 

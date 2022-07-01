@@ -6,6 +6,7 @@ export * from './useHasSufficientBalance';
 export * from './useRouteExecution';
 export * from './useScrollableContainer';
 export * from './useSwapRoutes';
+export * from './useTelemetry';
 export * from './useToken';
 export * from './useTokenBalance';
 export * from './useTokenBalances';

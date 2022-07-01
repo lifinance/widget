@@ -24,6 +24,10 @@ export const SwapRoutesPage: React.FC<BoxProps> = () => {
     navigate(routes.swap, { state: { routeId: route.id }, replace: true });
   };
 
+  // A route for this transaction does not exist yet possibly due to liquidity issues or because the amount of tokens you are sending is below the bridge minimum amount.
+  // Please try again later or change the tokens you intend to swap.
+  // If the problem persists, come to our Discord and leave a message in the support channel.
+
   return (
     <Stack direction="column" spacing={2}>
       {isLoading || isFetching

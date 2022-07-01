@@ -5,6 +5,7 @@ import { QueryClientProvider, QueryClientProviderProps } from 'react-query';
 import { MemoryRouter, useInRouterContext } from 'react-router-dom';
 import { WidgetConfig } from '.';
 import { queryClient } from './config/queryClient';
+import { useTelemetry } from './hooks';
 import { SwapFormProvider } from './providers/SwapFormProvider';
 import { ThemeProvider } from './providers/ThemeProvider';
 import { WalletProvider } from './providers/WalletProvider';
@@ -22,6 +23,7 @@ export const AppProvider: React.FC<PropsWithChildren<AppProps>> = ({
   children,
   config,
 }) => {
+  useTelemetry(config?.disableTelemetry);
   const inRouterContext = useInRouterContext();
   const Router = inRouterContext ? Fragment : MemoryRouter;
   return (
