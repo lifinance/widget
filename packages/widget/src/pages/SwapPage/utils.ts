@@ -89,6 +89,10 @@ export function getProcessMessage(
         title = t(`swap.error.title.transactionUnprepared`);
         message = getTransactionNotSentMessage();
         break;
+      case LifiErrorCode.SlippageError:
+        title = t(`swap.error.title.slippageTooLarge`);
+        message = t(`swap.error.message.slippageTooLarge`);
+        break;
       case MetaMaskProviderErrorCode.userRejectedRequest:
         title = t(`swap.error.title.userRejectedSignatureRequest`);
         message = t(`swap.error.message.signatureRequired`, {
