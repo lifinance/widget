@@ -28,7 +28,7 @@ export const useSwapRoutes = () => {
       SwapFormKey.ToToken,
     ],
   });
-  const [fromTokenAmount] = useDebouncedWatch([SwapFormKey.FromAmount], 500);
+  const [fromTokenAmount] = useDebouncedWatch([SwapFormKey.FromAmount], 250);
   const { token } = useToken(fromChainId, fromTokenAddress);
   const isEnabled =
     Boolean(account.address) &&

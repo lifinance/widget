@@ -46,10 +46,6 @@
     "selectChainAndToken": "Select chain and token",
     "inProgress": "In progress",
     "couldntFindTokens": "We couldn't find tokens on this chain or you don't have any.",
-    "insufficientFunds": "Insufficient funds",
-    "insufficientGasOnStartChain": "Insufficient gas on start chain",
-    "insufficientGasOnDestinationChain": "Insufficient gas on destination chain",
-    "insufficientGasOnDestinationChainTooltip": "The selected route requires a swap on the chain you are transferring to. You need to have gas on that chain to pay for the transaction there.",
     "stepSwap": "Swap",
     "stepBridge": "Bridge",
     "stepSwapAndBridge": "Swap and bridge",
@@ -70,6 +66,18 @@
       },
       "message": {
         "fundsReceived": "You now have {{amount}} {{tokenSymbol}} in your wallet on {{chainName}} chain."
+      }
+    },
+    "warning": {
+      "title": {
+        "insufficientFunds": "Insufficient funds",
+        "insufficientGasOnStartChain": "Insufficient gas on start chain",
+        "insufficientGasOnDestinationChain": "Insufficient gas on destination chain"
+      },
+      "message": {
+        "insufficientFunds": "You don't have enough funds in this account.",
+        "insufficientGasOnStartChain": "The selected route requires a swap on the chain you are transferring from. You need to have gas on that chain to pay for the transaction there.",
+        "insufficientGasOnDestinationChain": "The selected route requires a swap on the chain you are transferring to. You need to have gas on that chain to pay for the transaction there."
       }
     },
     "error": {

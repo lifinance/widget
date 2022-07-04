@@ -8,7 +8,6 @@ import { useWallet } from '../../providers/WalletProvider';
 import { useWidgetConfig } from '../../providers/WidgetProvider';
 import { useCurrentRoute, useSetExecutableRoute } from '../../stores';
 import { routes } from '../../utils/routes';
-import { ButtonTooltip } from './ButtonTooltip';
 import { Button } from './SwapButton.style';
 
 export const SwapButton: React.FC = () => {
@@ -60,46 +59,29 @@ export const SwapButton: React.FC = () => {
       if (!isCurrentChainMatch) {
         return t(`button.switchChain`);
       }
-      if (!hasSufficientBalance) {
-        return t(`swap.insufficientFunds`);
-      }
-      if (!hasGasBalanceOnStartChain) {
-        return t(`swap.insufficientGasOnStartChain`);
-      }
-      if (!hasGasOnCrossChain) {
-        return t(`swap.insufficientGasOnDestinationChain`);
-      }
       return t(`button.swap`);
     }
     return t(`button.connectWallet`);
   };
 
   return (
-    <ButtonTooltip
-      title={
-        !hasGasOnCrossChain
-          ? t(`swap.insufficientGasOnDestinationChainTooltip`)
-          : undefined
+    <Button
+      variant="contained"
+      disableElevation
+      fullWidth
+      color={account.isActive ? 'primary' : 'success'}
+      onClick={handleSwapButtonClick}
+      // loading={isLoading || isFetching}
+      disabled={
+        (!hasSufficientBalance ||
+          !hasGasBalanceOnStartChain ||
+          !hasGasOnCrossChain ||
+          isLoading ||
+          isFetching) &&
+        isCurrentChainMatch
       }
     >
-      <Button
-        variant="contained"
-        disableElevation
-        fullWidth
-        color={account.isActive ? 'primary' : 'success'}
-        onClick={handleSwapButtonClick}
-        // loading={isLoading || isFetching}
-        disabled={
-          (!hasSufficientBalance ||
-            !hasGasBalanceOnStartChain ||
-            !hasGasOnCrossChain ||
-            isLoading ||
-            isFetching) &&
-          isCurrentChainMatch
-        }
-      >
-        {getButtonText()}
-      </Button>
-    </ButtonTooltip>
+      {getButtonText()}
+    </Button>
   );
 };
