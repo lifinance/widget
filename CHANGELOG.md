@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/lifinance/widget/compare/v1.5.0...v1.6.0) (2022-07-05)
+
+
+### Features
+
+* add insufficient gas and funds messages ([c016e15](https://github.com/lifinance/widget/commit/c016e15979246db85b81101ada11e3a88326990a))
+* add slippage too large error ([17b0780](https://github.com/lifinance/widget/commit/17b0780a6399771728eb6e7ca8a360364428d781))
+
+
+### Bug Fixes
+
+* handle replaced transaction ([2a0674d](https://github.com/lifinance/widget/commit/2a0674dec5230a00bea97d27e5c0d8686ceb866f))
+* sometimes account signer is not found after page refresh ([054648e](https://github.com/lifinance/widget/commit/054648e2c86aeafcb6f1a77e3708f865b82c869b))
+
 ## [1.5.0](https://github.com/lifinance/widget/compare/v1.4.0...v1.5.0) (2022-07-01)
 
 
