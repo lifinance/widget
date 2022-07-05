@@ -1,5 +1,5 @@
 import { Route } from '@lifinance/sdk';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useMutation } from 'react-query';
 import shallow from 'zustand/shallow';
 import { LiFi } from '../lifi';
@@ -9,6 +9,7 @@ import { deepClone } from '../utils/deepClone';
 
 export const useRouteExecution = (routeId: string) => {
   const { account, switchChain } = useWallet();
+  const resumedAfterMount = useRef(false);
   const { route, status } = useRouteStore(
     (state) => state.routes[routeId] ?? {},
   );
@@ -139,12 +140,19 @@ export const useRouteExecution = (routeId: string) => {
       (step) => step.execution?.status === 'FAILED',
     );
     const alreadyStarted = route.steps.some((step) => step.execution);
-    if (!isDone && !isFailed && alreadyStarted) {
+    if (
+      !isDone &&
+      !isFailed &&
+      alreadyStarted &&
+      account.signer &&
+      !resumedAfterMount.current
+    ) {
+      resumedAfterMount.current = true;
       resumeRoute();
     }
     return () => LiFi.moveExecutionToBackground(route);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [account.signer]);
 
   return {
     executeRoute,
