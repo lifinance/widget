@@ -53,7 +53,7 @@
     "@ethersproject/experimental": "^5.6.3",
     "@ethersproject/providers": "^5.6.8",
     "@lifi/wallet-management": "^1.0.4",
-    "@lifinance/sdk": "^1.0.0-beta.12",
+    "@lifinance/sdk": "^1.0.0-beta.13",
     "@mui/icons-material": "^5.8.4",
     "@mui/lab": "^5.0.0-alpha.89",
     "@mui/material": "^5.8.7",
