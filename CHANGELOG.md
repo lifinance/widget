@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.1](https://github.com/lifinance/widget/compare/v1.6.0...v1.6.1) (2022-07-06)
+
+
+### Bug Fixes
+
+* fix styles for mobile ([c3930ca](https://github.com/lifinance/widget/commit/c3930cabfcbad2624a8b933c535869d9694da035))
+* **Safari:** top border radius and right scrollbar are hidden by overlapping element ([ff4f2a6](https://github.com/lifinance/widget/commit/ff4f2a62ef9da00eed067fe28899e83e0ed22eec))
+* show only if amount is present ([fa5c590](https://github.com/lifinance/widget/commit/fa5c5907024d3af2cef0d3bcc9b4e51db632c441))
+
 ## [1.6.0](https://github.com/lifinance/widget/compare/v1.5.0...v1.6.0) (2022-07-05)
 
 
