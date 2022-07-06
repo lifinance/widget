@@ -54,7 +54,7 @@ export const FormPriceHelperText: React.FC<
           height={16}
           sx={{ borderRadius: 0.25 }}
         />
-      ) : token ? (
+      ) : token?.amount ? (
         <Typography
           fontWeight={400}
           fontSize={12}
