@@ -32,6 +32,7 @@ const ScrollableContainer = styled(Box)({
   height: '100%',
   flex: 1,
   display: 'flex',
+  zIndex: 0,
 });
 
 const FlexContainer = styled(Container)({
