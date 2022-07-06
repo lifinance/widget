@@ -340,6 +340,7 @@ const App = () => {
                 label="Main Color"
                 type="color"
                 size="small"
+                inputProps={{ sx: { cursor: 'pointer' } }}
                 onChange={(event) => setPrimaryColor(event.target.value)}
                 fullWidth
               />
@@ -350,6 +351,7 @@ const App = () => {
                 label="Secondary Color"
                 type="color"
                 size="small"
+                inputProps={{ sx: { cursor: 'pointer' } }}
                 onChange={(event) => setSecondaryColor(event.target.value)}
                 fullWidth
               />
