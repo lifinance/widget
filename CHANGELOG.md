@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/lifinance/widget/compare/v1.6.1...v1.7.0) (2022-07-06)
+
+
+### Features
+
+* deactivate metamask provider check ([#8](https://github.com/lifinance/widget/issues/8)) ([d34eba3](https://github.com/lifinance/widget/commit/d34eba3869a34f1c92a2019eafac4a87b57e4c84))
+
+
+### Bug Fixes
+
+* **Safari:** overlapping issue ([f2590e2](https://github.com/lifinance/widget/commit/f2590e24f0b19865f3315c47bee1a949f332f2e0))
+
 ### [1.6.1](https://github.com/lifinance/widget/compare/v1.6.0...v1.6.1) (2022-07-06)
 
 
