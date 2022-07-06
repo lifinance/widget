@@ -20,10 +20,13 @@ const CssBaselineContainer = styled(ScopedCssBaseline)(({ theme }) => ({
 
 const RelativeContainer = styled(Box)(({ theme }) => ({
   position: 'relative',
-  width: 392,
+  width: '100%',
+  minWidth: 375,
+  maxWidth: 392,
   background: theme.palette.background.default,
   overflow: 'auto',
   flex: 1,
+  boxSizing: 'content-box',
 }));
 
 const ScrollableContainer = styled(Box)({
