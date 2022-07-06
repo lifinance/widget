@@ -47,7 +47,7 @@ export const Switch = styled(MuiSwitch)(({ theme }) => ({
     backgroundColor:
       theme.palette.mode === 'light'
         ? theme.palette.grey[400]
-        : theme.palette.grey[900],
+        : theme.palette.grey[800],
     opacity: 1,
     transition: theme.transitions.create(['background-color'], {
       duration: theme.transitions.duration.standard,

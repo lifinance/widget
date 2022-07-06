@@ -4,10 +4,14 @@ import { styled } from '@mui/material/styles';
 export const CardContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'isError',
 })<{ isError?: boolean }>(({ theme, isError }) => ({
-  backgroundColor: theme.palette.common.white,
+  backgroundColor: theme.palette.background.paper,
   border: `1px solid`,
-  borderColor: isError ? theme.palette.error.main : theme.palette.grey[300],
-  borderRadius: (theme.shape.borderRadius as number) * 2,
+  borderColor: isError
+    ? theme.palette.error.main
+    : theme.palette.mode === 'light'
+    ? theme.palette.grey[300]
+    : theme.palette.grey[800],
+  borderRadius: theme.shape.borderRadius,
   overflow: 'hidden',
-  flex: 1,
+  position: 'relative',
 }));

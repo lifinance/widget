@@ -6,6 +6,7 @@ import { Box, IconButton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useWallet } from '../../providers/WalletProvider';
+import { useWidgetConfig } from '../../providers/WidgetProvider';
 import { routes } from '../../utils/routes';
 import { HeaderAppBar } from './Header.style';
 
@@ -19,7 +20,7 @@ export const WalletHeader: React.FC = () => {
     : null;
 
   return (
-    <HeaderAppBar elevation={0} pt={1.5}>
+    <HeaderAppBar elevation={0}>
       {walletAddress ? (
         <>
           <Box
@@ -30,22 +31,16 @@ export const WalletHeader: React.FC = () => {
             }}
             mr={0.5}
           >
-            <Typography variant="caption" align="right" color="black">
+            <Typography variant="caption" align="right">
               {t(`header.walletConnected`)}
             </Typography>
-            <Typography
-              variant="body2"
-              align="right"
-              color="black"
-              fontWeight="bold"
-            >
+            <Typography variant="body2" align="right" fontWeight="600">
               {walletAddress}
             </Typography>
           </Box>
           <IconButton
             size="medium"
             aria-label="disconnect"
-            color="inherit"
             edge="end"
             onClick={disconnect}
           >
@@ -57,8 +52,7 @@ export const WalletHeader: React.FC = () => {
           <Typography
             variant="body2"
             align="right"
-            color="black"
-            fontWeight="bold"
+            fontWeight="600"
             flex={1}
             mr={0.5}
           >
@@ -73,17 +67,22 @@ export const WalletHeader: React.FC = () => {
 
 const ConnectButton = () => {
   const { pathname } = useLocation();
+  const config = useWidgetConfig();
+  const { connect: walletConnect } = useWallet();
   const navigate = useNavigate();
-  const connect = () => {
+  const connect = async () => {
+    if (config.walletManagement) {
+      await walletConnect();
+      return;
+    }
     navigate(routes.selectWallet);
   };
   return (
     <IconButton
       size="medium"
       aria-label="disconnect"
-      color="inherit"
       edge="end"
-      onClick={pathname !== routes.selectWallet ? connect : undefined}
+      onClick={!pathname.includes(routes.selectWallet) ? connect : undefined}
     >
       <AccountBalanceWalletIcon />
     </IconButton>

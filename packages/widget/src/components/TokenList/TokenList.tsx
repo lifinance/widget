@@ -21,7 +21,7 @@ export const TokenList: FC<TokenListProps> = ({
 }) => {
   const { t } = useTranslation();
   const { account } = useWallet();
-  const { setValue } = useFormContext();
+  const { setValue, getValues } = useFormContext();
   const [selectedChainId] = useWatch({
     name: [SwapFormKeyHelper.getChainKey(formType)],
   });
@@ -30,7 +30,7 @@ export const TokenList: FC<TokenListProps> = ({
     250,
   );
 
-  const { tokens, isLoading, isFetching } = useTokenBalances(selectedChainId);
+  const { tokens, isLoading } = useTokenBalances(selectedChainId);
 
   const chainTokens = useMemo(() => {
     let chainTokens = tokens ?? [];
@@ -66,9 +66,23 @@ export const TokenList: FC<TokenListProps> = ({
   const handleTokenClick = useCallback(
     (tokenAddress: string) => {
       setValue(SwapFormKeyHelper.getTokenKey(formType), tokenAddress);
+      setValue(SwapFormKeyHelper.getAmountKey(formType), '');
+      const oppositeFormType = formType === 'from' ? 'to' : 'from';
+      const [selectedOppositeToken, selectedOppositeChain, selectedChain] =
+        getValues([
+          SwapFormKeyHelper.getTokenKey(oppositeFormType),
+          SwapFormKeyHelper.getChainKey(oppositeFormType),
+          SwapFormKeyHelper.getChainKey(formType),
+        ]);
+      if (
+        selectedOppositeToken === tokenAddress &&
+        selectedOppositeChain === selectedChain
+      ) {
+        setValue(SwapFormKeyHelper.getTokenKey(oppositeFormType), '');
+      }
       onClick?.();
     },
-    [formType, onClick, setValue],
+    [formType, getValues, onClick, setValue],
   );
 
   return (

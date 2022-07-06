@@ -1,48 +1,47 @@
-import { Avatar, Box, BoxProps, Typography } from '@mui/material';
+import { Check as CheckIcon } from '@mui/icons-material';
+import { Box, BoxProps, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { formatTokenAmount } from '../../utils/format';
 import { StepActions } from '../StepActions';
-import { Card, Label } from './SwapRouteCard.style';
+import { StepToken } from '../StepToken';
+import { Card, Check, Label } from './SwapRouteCard.style';
 import { SwapRouteCardProps } from './types';
 
 export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
   route,
-  index,
   active,
   dense,
   ...other
 }) => {
   const { t } = useTranslation();
+  const label = route.tags?.length
+    ? t(`swap.tags.${route.tags[0].toLowerCase()}` as any).toUpperCase()
+    : t(`swap.tags.general`).toUpperCase();
   return (
-    <Card active={active} {...other}>
+    <Card active={active} dense={dense} {...other}>
       <Box>
-        <Label active={active} mb={2}>
-          ROUTE {index + 1}
-        </Label>
         <Box
           sx={{
             display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
           }}
           mb={2}
         >
-          <Avatar
-            src={route.toToken.logoURI}
-            alt={route.toToken.symbol}
-            sx={{ marginRight: 2, paddingY: 0.375 }}
-          >
-            {route.toToken.symbol[0]}
-          </Avatar>
-          <Box>
-            <Typography fontSize={32} fontWeight="bold" lineHeight="normal">
-              {formatTokenAmount(route.toAmount, route.toToken.decimals)}
-            </Typography>
-            <Typography fontSize={14} color="text.secondary">
-              {route.toToken.symbol}
-            </Typography>
-          </Box>
+          <Label>{label}</Label>
+          {active ? (
+            <Check>
+              <CheckIcon fontSize="inherit" />
+            </Check>
+          ) : null}
         </Box>
+        <StepToken
+          token={{ ...route.toToken, amount: route.toAmount }}
+          mb={2}
+        />
         {!dense
-          ? route.steps.map((step) => <StepActions step={step} mb={2} />)
+          ? route.steps.map((step) => (
+              <StepActions key={step.id} step={step} mb={2} />
+            ))
           : null}
         <Box
           sx={{
@@ -59,7 +58,12 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
             </Typography>
           </Box>
           <Box>
-            <Typography fontSize={18} fontWeight="500">
+            <Typography
+              fontSize={18}
+              fontWeight="500"
+              display="flex"
+              justifyContent="flex-end"
+            >
               ~
               {(
                 route.steps

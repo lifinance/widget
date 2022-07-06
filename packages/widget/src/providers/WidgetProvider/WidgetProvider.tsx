@@ -7,7 +7,7 @@ const stub = (): never => {
 };
 
 const initialContext: WidgetContextProps = {
-  enabledChains: [],
+  disabledChains: [],
 };
 
 const WidgetContext = createContext<WidgetContextProps>(initialContext);
@@ -19,26 +19,9 @@ export const WidgetProvider: React.FC<
   React.PropsWithChildren<WidgetProviderProps>
 > = ({
   children,
-  config: {
-    enabledChains,
-    fromChain,
-    fromToken,
-    fromAmount,
-    toChain,
-    toToken,
-    useInternalWalletManagement,
-    walletCallbacks,
-  },
+  config: { fromChain, fromToken, toChain, toToken, ...config } = {},
 }) => {
   const value = useMemo((): WidgetContextProps => {
-    const config = {
-      enabledChains,
-      fromToken,
-      fromAmount,
-      toToken,
-      useInternalWalletManagement: useInternalWalletManagement || true,
-      walletCallbacks,
-    };
     try {
       return {
         ...config,
@@ -46,28 +29,23 @@ export const WidgetProvider: React.FC<
           typeof fromChain === 'number'
             ? fromChain
             : typeof fromChain === 'string'
-            ? getChainByKey(fromChain as ChainKey).id
+            ? getChainByKey(fromChain.toLowerCase() as ChainKey).id
             : ChainId.ETH,
         toChain:
           typeof toChain === 'number'
             ? toChain
             : typeof toChain === 'string'
-            ? getChainByKey(toChain as ChainKey).id
+            ? getChainByKey(toChain.toLowerCase() as ChainKey).id
             : ChainId.ETH,
+        fromToken: fromToken?.toLowerCase(),
+        toToken: toToken?.toLowerCase(),
       };
     } catch (e) {
+      console.warn(e);
       return config;
     }
-  }, [
-    enabledChains,
-    fromAmount,
-    fromChain,
-    fromToken,
-    toChain,
-    toToken,
-    useInternalWalletManagement,
-    walletCallbacks,
-  ]);
+  }, [config, fromChain, fromToken, toChain, toToken]);
+
   return (
     <WidgetContext.Provider value={value}>{children}</WidgetContext.Provider>
   );

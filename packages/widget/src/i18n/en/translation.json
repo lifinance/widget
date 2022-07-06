@@ -7,8 +7,26 @@
     "from": "Swap from",
     "to": "Swap to",
     "settings": "Settings",
-    "routes": "Routes",
-    "swapping": "Swapping"
+    "routes": "You get"
+  },
+  "button": {
+    "swap": "Swap",
+    "connectWallet": "Connect wallet",
+    "switchChain": "Switch chain",
+    "startSwap": "Start the swap",
+    "restartSwap": "Restart swap",
+    "removeSwap": "Remove swap",
+    "done": "Done",
+    "okay": "Okay",
+    "seeDetails": "See details",
+    "tryAgain": "Try again",
+    "light": "Light",
+    "dark": "Dark",
+    "auto": "Auto",
+    "ok": "Ok",
+    "hide": "Hide",
+    "max": "max",
+    "lifiSwap": "LI.FI Swap"
   },
   "swap": {
     "from": "From",
@@ -19,31 +37,66 @@
     "approximateCurrency": "\u2248 {{value, currency(currency: USD)}}",
     "currency": "{{value, currency(currency: USD)}}",
     "sendToRecipient": "Send to recipient",
-    "recipientsAddress": "Recipient's {{chain}} address",
     "addressConfirmation": "I confirm that the address above is correct",
     "gas": "gas fee",
-    "minutes": "mins",
+    "minutes": "minutes",
     "tokenSearch": "Search your token",
     "selectChain": "Chain",
     "selectToken": "Token",
     "selectChainAndToken": "Select chain and token",
-    "submit": "Swap",
-    "connectWallet": "Connect wallet",
-    "switchChain": "Switch chain",
+    "inProgress": "In progress",
     "couldntFindTokens": "We couldn't find tokens on this chain or you don't have any.",
-    "insufficientFunds": "Insufficient funds",
-    "insufficientGasOnStartChain": "Insufficient gas on start chain",
-    "insufficientGasOnDestinationChain": "Insufficient gas on destination chain",
-    "insufficientGasOnDestinationChainTooltip": "The selected route requires a swap on the chain you are transferring to. You need to have gas on that chain to pay for the transaction there."
-  },
-  "swapping": {
-    "swap": "Swap",
+    "stepSwap": "Swap",
+    "stepBridge": "Bridge",
+    "stepSwapAndBridge": "Swap and bridge",
     "estimatedTime": "~{{value}} min.",
-    "done": "Done",
     "networkIsBusy": "Network is busy...",
     "crossStepDetails": "Bridge {{from}} to {{to}} via {{tool}}",
     "swapStepDetails": "Swap on {{value}}",
-    "transactionDetails": "Transaction Details",
+    "tags": {
+      "recommended": "Recommended",
+      "fastest": "Fast",
+      "cheapest": "Cheap",
+      "safest": "Safe",
+      "general": "General"
+    },
+    "success": {
+      "title": {
+        "fundsReceived": "Funds received"
+      },
+      "message": {
+        "fundsReceived": "You now have {{amount}} {{tokenSymbol}} in your wallet on {{chainName}} chain."
+      }
+    },
+    "warning": {
+      "title": {
+        "insufficientFunds": "Insufficient funds",
+        "insufficientGasOnStartChain": "Insufficient gas on start chain",
+        "insufficientGasOnDestinationChain": "Insufficient gas on destination chain"
+      },
+      "message": {
+        "insufficientFunds": "You don't have enough funds in this account.",
+        "insufficientGasOnStartChain": "The selected route requires a swap on the chain you are transferring from. You need to have gas on that chain to pay for the transaction there.",
+        "insufficientGasOnDestinationChain": "The selected route requires a swap on the chain you are transferring to. You need to have gas on that chain to pay for the transaction there."
+      }
+    },
+    "error": {
+      "title": {
+        "chainSwitch": "Chain switch required.",
+        "transactionFailed": "Transaction has failed.",
+        "transactionUnderpriced": "Transaction is underpriced.",
+        "transactionUnprepared": "Unable to prepare transaction.",
+        "unknown": "Something went wrong.",
+        "userRejectedSignatureRequest": "Signature required.",
+        "slippageTooLarge": "Slippage too large."
+      },
+      "message": {
+        "signatureRequired": "Your signature is required to complete the transaction. {{amount}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
+        "transactionFailed": "Please check the block explorer for more information.",
+        "transactionNotSent": "Transaction was not sent, your funds are still in your wallet ({{amount}} {{tokenSymbol}} on {{chainName}}).",
+        "slippageTooLarge": "The slippage is larger than the defined threshold. Please request a new route to get a fresh quote."
+      }
+    },
     "process": {
       "tokenAllowance": {
         "started": "Setting token allowance.",
@@ -70,28 +123,10 @@
         "pending": "Waiting for receiving chain.",
         "done": "Funds received."
       }
-    },
-    "error": {
-      "title": {
-        "chainSwitch": "Chain switch required.",
-        "transactionFailed": "Transaction has failed.",
-        "transactionUnderpriced": "Transaction is underpriced.",
-        "transactionUnprepared": "Unable to prepare transaction.",
-        "unknown": "Something went wrong.",
-        "userRejectedSignatureRequest": "Signature required."
-      },
-      "message": {
-        "signatureRequired": "Your signature is required to complete the transaction. {{amount}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
-        "transactionFailed": "Please check the block explorer for more information.",
-        "transactionNotSent": "Transaction was not sent, your funds are still in your wallet ({{amount}} {{tokenSymbol}} on {{chainName}})."
-      }
     }
   },
   "settings": {
-    "routePriority": {
-      "title": "Route priority",
-      "recommended": "Recommended"
-    },
+    "routePriority": "Route priority",
     "slippage": "Slippage",
     "gasPrice": {
       "title": "Gas price",
@@ -100,11 +135,16 @@
       "fast": "Fast"
     },
     "advancedPreferences": "Advanced preferences",
-    "bridgePrioritization": "Bridge prioritization",
     "enabledBridges": "Enabled bridges",
     "selectEnabledBridges": "Select enabled bridges",
     "enabledExchanges": "Enabled exchanges",
     "selectEnabledExchanges": "Select enabled exchanges",
     "resetToDefault": "Reset to default"
+  },
+  "wallet": {
+    "extensionNotFound": "Please make sure that only the {{name}} browser extension is active before choosing this wallet."
+  },
+  "tooltip": {
+    "progressToNextUpdate": "Displayed data will auto-refresh after {{value}} seconds. Click this circle to update manually."
   }
 }

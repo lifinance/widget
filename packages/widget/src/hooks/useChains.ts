@@ -4,10 +4,10 @@ import { LiFi } from '../lifi';
 import { useWidgetConfig } from '../providers/WidgetProvider';
 
 export const useChains = () => {
-  const { enabledChains } = useWidgetConfig();
+  const { disabledChains } = useWidgetConfig();
   const { data, ...other } = useQuery(['chains'], async () => {
     const chains = await LiFi.getChains();
-    return chains.filter((chain) => enabledChains.includes(chain.id));
+    return chains.filter((chain) => !disabledChains?.includes(chain.id));
   });
 
   const getChainById = useCallback(

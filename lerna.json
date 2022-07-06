@@ -1,6 +1,20 @@
 {
-  "packages": ["libs/*", "packages/*"],
-  "version": "independent",
   "npmClient": "yarn",
-  "useWorkspaces": true
+  "packages": [
+    "libs/*",
+    "packages/*"
+  ],
+  "ignoreChanges": [
+    "**/*.md"
+  ],
+  "command": {
+    "version": {
+      "ignore": [
+        "**/*.md"
+      ]
+    }
+  },
+  "changelogPreset": "conventionalcommits",
+  "useWorkspaces": true,
+  "version": "independent"
 }

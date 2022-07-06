@@ -1,47 +1,80 @@
 {
-  "name": "@lifinance/widget",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@lifi/widget",
+  "version": "1.6.1",
+  "description": "LI.FI Widget for cross-chain bridging and swapping. It will drive your multi-chain strategy and attract new users from everywhere.",
   "sideEffects": false,
-  "module": "src/index.ts",
-  "scripts": {},
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "scripts": {
+    "watch": "tsc -w -p ./tsconfig.json",
+    "build": "tsc --build --clean && yarn build:version && tsc --build && yarn build:copy-files",
+    "build:copy-files": "node ../../scripts/copy-files.js",
+    "build:version": "node ../../scripts/version.js",
+    "postbuild": "cpy 'src/**/*' '!src/**/*.ts*' build",
+    "pre-commit": "lint-staged",
+    "lint": "eslint --ext .tsx --ext .ts ./src",
+    "lint:fix": "eslint --ext .tsx --ext .ts ./src --fix",
+    "prettier:fix": "prettier --write ./src/."
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "yarn run lint:fix",
+      "yarn run prettier:fix"
+    ]
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Eugene Chybisov <eugene@li.finance>",
+  "homepage": "https://github.com/lifinance/widget",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/lifinance/widget.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lifinance/widget/issues"
+  },
+  "license": "MIT",
+  "keywords": [
+    "widget",
+    "lifi-widget",
+    "bridge",
+    "swap",
+    "cross-chain",
+    "multi-chain",
+    "metamask",
+    "ethereum",
+    "web3",
+    "lifi"
+  ],
   "dependencies": {
-    "@emotion/react": "^11.9.0",
-    "@emotion/styled": "^11.8.1",
-    "@ethersproject/experimental": "^5.6.1",
-    "@ethersproject/providers": "^5.6.6",
-    "@lifinance/sdk": "^1.0.0-beta.6",
-    "@lifinance/wallet-management": "0.1.0",
-    "@mui/icons-material": "^5.8.0",
-    "@mui/lab": "^5.0.0-alpha.82",
-    "@mui/material": "^5.8.0",
-    "big.js": "^6.1.1",
-    "i18next": "^21.8.3",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
-    "react-hook-form": "^7.31.1",
-    "react-i18next": "^11.16.9",
-    "react-query": "^4.0.0-beta.12",
-    "react-resize-detector": "^7.0.0",
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
+    "@ethersproject/experimental": "^5.6.3",
+    "@ethersproject/providers": "^5.6.8",
+    "@lifi/wallet-management": "^1.0.4",
+    "@lifinance/sdk": "^1.0.0-beta.14",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/lab": "^5.0.0-alpha.89",
+    "@mui/material": "^5.8.7",
+    "@sentry/integrations": "^7.5.1",
+    "@sentry/react": "^7.5.1",
+    "@sentry/tracing": "^7.5.1",
+    "big.js": "^6.2.0",
+    "i18next": "^21.8.13",
+    "immer": "^9.0.15",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.33.1",
+    "react-i18next": "^11.18.0",
+    "react-query": "^4.0.0-beta.23",
+    "react-resize-detector": "^7.1.2",
     "react-router-dom": "^6.3.0",
     "react-timer-hook": "^3.0.5",
-    "react-virtual": "^2.10.4"
+    "react-virtual": "^2.10.4",
+    "zustand": "^4.0.0-rc.1"
   },
   "eslintConfig": {
     "extends": "../../.eslintrc"
-  },
-  "browserslist": {
-    "production": [
-      "> 1%",
-      "last 2 versions",
-      "not dead",
-      "not IE > 0",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   }
 }

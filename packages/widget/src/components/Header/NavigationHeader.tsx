@@ -4,8 +4,9 @@ import {
 } from '@mui/icons-material';
 import { Box, IconButton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { routes } from '../../utils/routes';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { routes, routesValues } from '../../utils/routes';
+import { SwapRoutesUpdateProgress } from '../SwapRoutes/SwapRoutesUpdateProgress';
 import { HeaderAppBar } from './Header.style';
 
 const backButtonRoutes = [
@@ -14,12 +15,14 @@ const backButtonRoutes = [
   routes.fromToken,
   routes.toToken,
   routes.swapRoutes,
-  routes.swapping,
+  routes.swap,
 ];
 
 export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
+  const path = pathname.substring(pathname.lastIndexOf('/') + 1);
+  const hasPath = routesValues.includes(path);
   const navigate = useNavigate();
 
   const handleSettings = () => {
@@ -31,7 +34,7 @@ export const NavigationHeader: React.FC = () => {
   };
 
   const handleHeaderTitle = () => {
-    switch (pathname) {
+    switch (path) {
       case routes.selectWallet:
         return t(`header.selectWallet`);
       case routes.settings:
@@ -42,8 +45,8 @@ export const NavigationHeader: React.FC = () => {
         return t(`header.to`);
       case routes.swapRoutes:
         return t(`header.routes`);
-      case routes.swapping:
-        return t(`header.swapping`);
+      case routes.swap:
+        return t(`header.swap`);
       default:
         return t(`header.swap`);
     }
@@ -51,46 +54,51 @@ export const NavigationHeader: React.FC = () => {
 
   return (
     <HeaderAppBar elevation={0}>
-      {/* <Collapse
-        collapsedSize={0}
-        orientation="horizontal"
-        in={routesWithBack.includes(pathname)}
-      > */}
-      {backButtonRoutes.includes(pathname) ? (
+      {backButtonRoutes.includes(path) ? (
         <IconButton
           size="medium"
           aria-label="settings"
-          color="inherit"
           edge="start"
           onClick={handleBack}
         >
           <ArrowBackIcon />
         </IconButton>
       ) : null}
-      {/* </Collapse> */}
       <Typography
-        color="black"
-        fontSize={pathname === '/' ? 32 : 24}
-        align={pathname === '/' ? 'left' : 'center'}
-        fontWeight="bold"
+        fontSize={hasPath ? 24 : 32}
+        align={hasPath ? 'center' : 'left'}
+        fontWeight="700"
         flex={1}
         noWrap
       >
         {handleHeaderTitle()}
       </Typography>
-      {pathname === '/' ? (
-        <IconButton
-          size="medium"
-          aria-label="settings"
-          color="inherit"
-          edge="end"
-          onClick={handleSettings}
-        >
-          <SettingsIcon />
-        </IconButton>
-      ) : (
-        <Box width={36} height={48} />
-      )}
+      <Routes>
+        <Route
+          path={routes.swapRoutes}
+          element={
+            <SwapRoutesUpdateProgress
+              size="medium"
+              edge="end"
+              sx={{ marginRight: -1 }}
+            />
+          }
+        />
+        <Route
+          path={routes.home}
+          element={
+            <IconButton
+              size="medium"
+              aria-label="settings"
+              edge="end"
+              onClick={handleSettings}
+            >
+              <SettingsIcon />
+            </IconButton>
+          }
+        />
+        <Route path="/:empty" element={<Box width={28} height={48} />} />
+      </Routes>
     </HeaderAppBar>
   );
 };

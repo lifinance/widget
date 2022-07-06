@@ -1,13 +1,55 @@
 {
-  "name": "@lifinance/wallet-management",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@lifi/wallet-management",
+  "version": "1.0.4",
+  "description": "LI.FI Wallet Management solution.",
   "sideEffects": false,
-  "module": "./index.ts",
-  "scripts": {},
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "scripts": {
+    "watch": "tsc -w -p ./tsconfig.json",
+    "build": "tsc --build --clean && tsc --build && yarn build:copy-files",
+    "build:copy-files": "node ../../scripts/copy-files.js",
+    "postbuild": "cpy 'src/**/*' '!src/**/*.ts*' build",
+    "pre-commit": "lint-staged",
+    "lint": "eslint --ext .tsx --ext .ts ./src",
+    "lint:fix": "eslint --ext .tsx --ext .ts ./src --fix",
+    "prettier:fix": "prettier --write ./src/."
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "yarn run lint:fix",
+      "yarn run prettier:fix"
+    ]
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Adrian Weniger <adrian@li.finance>",
+  "homepage": "https://github.com/lifinance/wallet-management",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/lifinance/wallet-management.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lifinance/wallet-management/issues"
+  },
+  "license": "MIT",
+  "keywords": [
+    "wallet",
+    "wallet-management",
+    "metamask",
+    "wallet-connect",
+    "coinbase",
+    "eip1193",
+    "ethereum",
+    "ENS",
+    "web3",
+    "blockchain",
+    "lifi"
+  ],
   "dependencies": {
-    "@ethersproject/experimental": "^5.6.1",
-    "@ethersproject/providers": "^5.6.6",
+    "@ethersproject/experimental": "^5.6.3",
+    "@ethersproject/providers": "^5.6.8",
     "@walletconnect/ethereum-provider": "^1.7.8",
     "@web3-react/coinbase-wallet": "^8.0.25-beta.0",
     "@web3-react/core": "^8.0.22-beta.0",
@@ -18,21 +60,9 @@
     "@web3-react/types": "^8.0.11-beta.0",
     "@web3-react/url": "^8.0.16-beta.0",
     "@web3-react/walletconnect": "^8.0.25-beta.0",
-    "react": "^18.1.0"
+    "react": "^18.2.0"
   },
   "eslintConfig": {
     "extends": "../../.eslintrc"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   }
 }

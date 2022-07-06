@@ -1,77 +1,55 @@
-import { ThemeProvider } from '@mui/material/styles';
-import { FC, PropsWithChildren } from 'react';
-import { QueryClientProvider, QueryClientProviderProps } from 'react-query';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { WidgetConfig } from '.';
+import { useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { AppProps, AppProvider } from './AppProvider';
+import { AppContainer } from './components/AppContainer';
 import { Header } from './components/Header';
-import { MainContainer } from './components/MainContainer';
-import { queryClient } from './config/queryClient';
+import { Initializer } from './components/Initializer';
+import { MainPage } from './pages/MainPage';
 import { SelectTokenPage } from './pages/SelectTokenPage';
 import { SelectWalletPage } from './pages/SelectWalletPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { SwapPage } from './pages/SwapPage';
-import { SwappingPage } from './pages/SwappingPage';
 import { SwapRoutesPage } from './pages/SwapRoutesPage';
-import { SwapExecutionProvider } from './providers/SwapExecutionProvider';
-import { SwapFormProvider } from './providers/SwapFormProvider';
-import { WalletProvider } from './providers/WalletProvider';
-import { WidgetProvider } from './providers/WidgetProvider';
-import { theme } from './theme';
+import { useWallet } from './providers/WalletProvider';
 import { routes } from './utils/routes';
-
-interface AppProps {
-  config: WidgetConfig;
-}
-
-const QueryProvider = QueryClientProvider as FC<
-  PropsWithChildren<QueryClientProviderProps>
->;
 
 export const App: React.FC<AppProps> = ({ config }) => {
   return (
-    <ThemeProvider theme={theme}>
-      <QueryProvider client={queryClient}>
-        <MemoryRouter>
-          <MainContainer sx={config.containerStyle}>
-            <WidgetProvider config={config}>
-              <WalletProvider>
-                <SwapFormProvider>
-                  <Header />
-                  <SwapExecutionProvider>
-                    <Routes>
-                      <Route path={routes.home} element={<SwapPage />} />
-                      <Route
-                        path={routes.selectWallet}
-                        element={<SelectWalletPage />}
-                      />
-                      <Route
-                        path={routes.settings}
-                        element={<SettingsPage />}
-                      />
-                      <Route
-                        path={routes.fromToken}
-                        element={<SelectTokenPage formType="from" />}
-                      />
-                      <Route
-                        path={routes.toToken}
-                        element={<SelectTokenPage formType="to" />}
-                      />
-                      <Route
-                        path={routes.swapRoutes}
-                        element={<SwapRoutesPage />}
-                      />
-                      <Route
-                        path={routes.swapping}
-                        element={<SwappingPage />}
-                      />
-                    </Routes>
-                  </SwapExecutionProvider>
-                </SwapFormProvider>
-              </WalletProvider>
-            </WidgetProvider>
-          </MainContainer>
-        </MemoryRouter>
-      </QueryProvider>
-    </ThemeProvider>
+    <AppProvider config={config}>
+      <AppDefault />
+    </AppProvider>
+  );
+};
+
+export const AppDefault = () => {
+  const { attemptEagerConnect } = useWallet();
+  useEffect(() => {
+    attemptEagerConnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  return (
+    <AppContainer>
+      <Header />
+      <Routes>
+        <Route path={routes.home} element={<MainPage />} />
+        <Route path={routes.selectWallet} element={<SelectWalletPage />} />
+        <Route path={routes.settings} element={<SettingsPage />} />
+        <Route
+          path={routes.fromToken}
+          element={<SelectTokenPage formType="from" />}
+        />
+        <Route
+          path={routes.toToken}
+          element={<SelectTokenPage formType="to" />}
+        />
+        <Route path={routes.swapRoutes} element={<SwapRoutesPage />} />
+        <Route
+          path={`${routes.swapRoutes}/${routes.swap}`}
+          element={<SwapPage />}
+        />
+        <Route path={routes.swap} element={<SwapPage />} />
+      </Routes>
+      <Initializer />
+    </AppContainer>
   );
 };

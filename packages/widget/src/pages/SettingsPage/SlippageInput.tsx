@@ -1,35 +1,25 @@
 import { FormControl, InputAdornment } from '@mui/material';
-import { ChangeEvent, useRef } from 'react';
-import { useFormContext, useWatch } from 'react-hook-form';
+import { ChangeEventHandler, FocusEventHandler, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CardContainer, CardTitle } from '../../components/Card';
 import { Input } from '../../components/Input';
-import { SwapFormKey } from '../../providers/SwapFormProvider';
+import { useSetSettings, useSettings } from '../../stores';
 import { formatSlippage } from '../../utils/format';
 
 export const SlippageInput = () => {
   const { t } = useTranslation();
-  const { setValue } = useFormContext();
-  const value = useWatch({
-    name: SwapFormKey.Slippage,
-  });
-  const defaultValue = useRef(value);
+  const [setValue] = useSetSettings();
+  const { slippage } = useSettings(['slippage']);
+  const defaultValue = useRef(slippage);
 
-  const handleChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     const { value } = event.target;
-    setValue(
-      SwapFormKey.Slippage,
-      formatSlippage(value, defaultValue.current, true),
-    );
+    setValue('slippage', formatSlippage(value, defaultValue.current, true));
   };
 
-  const handleBlur = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleBlur: FocusEventHandler<HTMLInputElement> = (event) => {
     const { value } = event.target;
-    setValue(SwapFormKey.Slippage, formatSlippage(value, defaultValue.current));
+    setValue('slippage', formatSlippage(value, defaultValue.current));
   };
 
   return (
@@ -46,8 +36,7 @@ export const SlippageInput = () => {
           }}
           onChange={handleChange}
           onBlur={handleBlur}
-          value={value}
-          name={SwapFormKey.Slippage}
+          value={slippage}
         />
       </FormControl>
     </CardContainer>

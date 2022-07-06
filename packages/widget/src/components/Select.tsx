@@ -11,7 +11,7 @@ export const Select = styled(MuiSelect, {
   backgroundColor:
     theme.palette.mode === 'light'
       ? theme.palette.common.white
-      : theme.palette.grey[900],
+      : theme.palette.background.paper,
   [`.${inputBaseClasses.input}`]: {
     padding: dense ? theme.spacing(1.625, 2, 1.5, 2) : theme.spacing(2),
     display: 'flex',

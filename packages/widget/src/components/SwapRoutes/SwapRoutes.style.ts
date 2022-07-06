@@ -7,5 +7,4 @@ export const Stack = styled(MuiStack)(({ theme }) => ({
   flex: 1,
   flexWrap: 'nowrap',
   overflow: 'hidden',
-  padding: theme.spacing(2),
 }));
