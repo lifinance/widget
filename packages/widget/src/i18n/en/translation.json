@@ -145,6 +145,10 @@
     "extensionNotFound": "Please make sure that only the {{name}} browser extension is active before choosing this wallet."
   },
   "tooltip": {
+    "notFound": {
+      "title": "Sorry 🥲",
+      "text": "We couldn't find this page."
+    },
     "progressToNextUpdate": "Displayed data will auto-refresh after {{value}} seconds. Click this circle to update manually."
   }
 }

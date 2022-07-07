@@ -4,6 +4,7 @@ import { AppProps, AppProvider } from './AppProvider';
 import { AppContainer } from './components/AppContainer';
 import { Header } from './components/Header';
 import { Initializer } from './components/Initializer';
+import { NotFound } from './components/NotFound';
 import { MainPage } from './pages/MainPage';
 import { SelectTokenPage } from './pages/SelectTokenPage';
 import { SelectWalletPage } from './pages/SelectWalletPage';
@@ -48,6 +49,7 @@ export const AppDefault = () => {
           element={<SwapPage />}
         />
         <Route path={routes.swap} element={<SwapPage />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Initializer />
     </AppContainer>
