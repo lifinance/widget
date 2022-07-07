@@ -97,7 +97,7 @@ export const NavigationHeader: React.FC = () => {
             </IconButton>
           }
         />
-        <Route path="/:empty" element={<Box width={28} height={48} />} />
+        <Route path="*" element={<Box width={28} height={48} />} />
       </Routes>
     </HeaderAppBar>
   );
