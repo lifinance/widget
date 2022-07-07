@@ -100,7 +100,7 @@
     "process": {
       "tokenAllowance": {
         "started": "Setting token allowance.",
-        "pending": "Waiting for token allowance approval.",
+        "pending": "Waiting for token allowance.",
         "done": "Token allowance approved."
       },
       "switchChain": {
