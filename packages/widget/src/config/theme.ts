@@ -56,6 +56,15 @@ const palette = {
   success: {
     main: '#0AA65B',
   },
+  warning: {
+    main: '#FFE668',
+  },
+  error: {
+    main: '#E5452F',
+  },
+  info: {
+    main: '#297EFF',
+  },
 };
 
 export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) =>
