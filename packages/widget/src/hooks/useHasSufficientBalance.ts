@@ -2,51 +2,63 @@ import { isSwapStep } from '@lifinance/sdk';
 import Big from 'big.js';
 import { useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
-import { SwapFormKeyHelper } from '../providers/SwapFormProvider';
+import { useDebouncedWatch } from '.';
+import { SwapFormKey, SwapFormKeyHelper } from '../providers/SwapFormProvider';
 import { useCurrentRoute } from '../stores';
 import { useTokenBalances } from './useTokenBalances';
 
 export const useHasSufficientBalance = () => {
   const [route] = useCurrentRoute();
-  const [fromChainId, toChainId] = useWatch({
+  const [fromChainId, toChainId, fromToken] = useWatch({
     name: [
       SwapFormKeyHelper.getChainKey('from'),
       SwapFormKeyHelper.getChainKey('to'),
+      SwapFormKey.FromToken,
     ],
   });
+  const fromAmount = useDebouncedWatch(SwapFormKey.FromAmount, 250);
   const lastStep = route?.steps.at(-1);
   const { tokens: fromChainTokenBalances } = useTokenBalances(fromChainId);
   const { tokens: toChainTokenBalances } = useTokenBalances(
     lastStep?.action.fromChainId ?? toChainId,
   );
 
-  const hasGasBalanceOnStartChain = useMemo(() => {
-    const token = route?.steps[0].estimate.gasCosts?.[0].token;
-    if (!token) {
+  const hasGasOnStartChain = useMemo(() => {
+    const gasToken = route?.steps[0].estimate.gasCosts?.[0].token;
+    if (!gasToken) {
       return true;
     }
-    const balance = Big(
-      fromChainTokenBalances?.find((t) => t.address === token.address)
+    const gasTokenBalance = Big(
+      fromChainTokenBalances?.find((t) => t.address === gasToken.address)
         ?.amount ?? 0,
     );
-    const requiredAmount = route.steps
+
+    let requiredAmount = route.steps
       .filter((step) => step.action.fromChainId === route.fromChainId)
       .reduce(
         (big, step) => big.plus(Big(step.estimate.gasCosts?.[0].amount || 0)),
         Big(0),
       )
-      .div(10 ** token.decimals);
-    return balance.gt(0) && balance.gte(requiredAmount);
+      .div(10 ** gasToken.decimals);
+    if (route.fromToken.address === gasToken.address) {
+      const tokenBalance = Big(
+        fromChainTokenBalances?.find(
+          (t) => t.address === route.fromToken.address,
+        )?.amount ?? 0,
+      );
+      requiredAmount = requiredAmount.plus(tokenBalance);
+    }
+    return gasTokenBalance.gt(0) && gasTokenBalance.gte(requiredAmount);
   }, [fromChainTokenBalances, route]);
 
   const hasGasOnCrossChain = useMemo(() => {
-    const token = lastStep?.estimate.gasCosts?.[0].token;
-    if (!token || !isSwapStep(lastStep)) {
+    const gasToken = lastStep?.estimate.gasCosts?.[0].token;
+    if (!gasToken || !isSwapStep(lastStep)) {
       return true;
     }
     const balance = Big(
-      toChainTokenBalances?.find((t) => t.address === token.address)?.amount ??
-        0,
+      toChainTokenBalances?.find((t) => t.address === gasToken.address)
+        ?.amount ?? 0,
     );
     const gasEstimate = lastStep.estimate.gasCosts?.[0].amount;
     const requiredAmount = Big(gasEstimate || 0).div(
@@ -56,20 +68,17 @@ export const useHasSufficientBalance = () => {
   }, [lastStep, toChainTokenBalances]);
 
   const hasSufficientBalance = useMemo(() => {
-    if (!route) {
+    if (!fromToken || !fromAmount) {
       return true;
     }
     const balance = Big(
-      fromChainTokenBalances?.find((t) => t.address === route.fromToken.address)
-        ?.amount ?? 0,
+      fromChainTokenBalances?.find((t) => t.address === fromToken)?.amount ?? 0,
     );
-    return Big(route.fromAmount)
-      .div(10 ** (route.fromToken.decimals ?? 0))
-      .lte(balance);
-  }, [fromChainTokenBalances, route]);
+    return Big(fromAmount).lte(balance);
+  }, [fromAmount, fromChainTokenBalances, fromToken]);
 
   return {
-    hasGasBalanceOnStartChain,
+    hasGasOnStartChain,
     hasGasOnCrossChain,
     hasSufficientBalance,
   };

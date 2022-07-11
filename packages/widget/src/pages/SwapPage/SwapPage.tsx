@@ -12,11 +12,8 @@ export const SwapPage: React.FC = () => {
   const { t } = useTranslation();
   const { state }: any = useLocation();
   const navigate = useNavigate();
-  const {
-    hasGasBalanceOnStartChain,
-    hasGasOnCrossChain,
-    hasSufficientBalance,
-  } = useHasSufficientBalance();
+  const { hasGasOnStartChain, hasGasOnCrossChain, hasSufficientBalance } =
+    useHasSufficientBalance();
   const { route, status, executeRoute, restartRoute, removeRoute } =
     useRouteExecution(state.routeId as string);
 
@@ -26,7 +23,7 @@ export const SwapPage: React.FC = () => {
   };
 
   const isDisabled =
-    !hasSufficientBalance || !hasGasBalanceOnStartChain || !hasGasOnCrossChain;
+    !hasSufficientBalance || !hasGasOnStartChain || !hasGasOnCrossChain;
 
   return (
     <Container>

@@ -21,11 +21,8 @@ export const SwapButton: React.FC = () => {
 
   const { routes: swapRoutes, isLoading, isFetching } = useSwapRoutes();
 
-  const {
-    hasGasBalanceOnStartChain,
-    hasGasOnCrossChain,
-    hasSufficientBalance,
-  } = useHasSufficientBalance();
+  const { hasGasOnStartChain, hasGasOnCrossChain, hasSufficientBalance } =
+    useHasSufficientBalance();
 
   const [chainId] = useWatch({
     name: [SwapFormKeyHelper.getChainKey('from')],
@@ -74,7 +71,7 @@ export const SwapButton: React.FC = () => {
       // loading={isLoading || isFetching}
       disabled={
         (!hasSufficientBalance ||
-          !hasGasBalanceOnStartChain ||
+          !hasGasOnStartChain ||
           !hasGasOnCrossChain ||
           isLoading ||
           isFetching) &&

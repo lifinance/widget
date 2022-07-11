@@ -7,13 +7,10 @@ import { MessageCard } from './InsufficientGasOrFundsMessage.style';
 
 export const InsufficientGasOrFundsMessage: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation();
-  const {
-    hasGasBalanceOnStartChain,
-    hasGasOnCrossChain,
-    hasSufficientBalance,
-  } = useHasSufficientBalance();
+  const { hasGasOnStartChain, hasGasOnCrossChain, hasSufficientBalance } =
+    useHasSufficientBalance();
 
-  if (hasSufficientBalance && hasGasBalanceOnStartChain && hasGasOnCrossChain) {
+  if (hasSufficientBalance && hasGasOnStartChain && hasGasOnCrossChain) {
     return null;
   }
 
@@ -22,7 +19,7 @@ export const InsufficientGasOrFundsMessage: React.FC<BoxProps> = (props) => {
   if (!hasSufficientBalance) {
     message = t(`swap.warning.message.insufficientFunds`);
   }
-  if (!hasGasBalanceOnStartChain) {
+  if (!hasGasOnStartChain) {
     title = t(`swap.warning.title.insufficientGas`);
     message = t(`swap.warning.message.insufficientGasOnStartChain`);
   }
