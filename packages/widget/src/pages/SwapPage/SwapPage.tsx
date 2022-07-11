@@ -1,7 +1,8 @@
 import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useRouteExecution } from '../../hooks';
+import { InsufficientGasOrFundsMessage } from '../../components/InsufficientGasOrFundsMessage';
+import { useHasSufficientBalance, useRouteExecution } from '../../hooks';
 import { StatusBottomSheet } from './StatusBottomSheet';
 import { StepDivider } from './StepDivider';
 import { StepItem } from './StepItem';
@@ -11,6 +12,11 @@ export const SwapPage: React.FC = () => {
   const { t } = useTranslation();
   const { state }: any = useLocation();
   const navigate = useNavigate();
+  const {
+    hasGasBalanceOnStartChain,
+    hasGasOnCrossChain,
+    hasSufficientBalance,
+  } = useHasSufficientBalance();
   const { route, status, executeRoute, restartRoute, removeRoute } =
     useRouteExecution(state.routeId as string);
 
@@ -18,6 +24,9 @@ export const SwapPage: React.FC = () => {
     removeRoute();
     navigate(-1);
   };
+
+  const isDisabled =
+    !hasSufficientBalance || !hasGasBalanceOnStartChain || !hasGasOnCrossChain;
 
   return (
     <Container>
@@ -41,12 +50,14 @@ export const SwapPage: React.FC = () => {
           ) : null}
         </Fragment>
       ))}
+      <InsufficientGasOrFundsMessage mt={2} />
       {status === 'idle' ? (
         <Button
           variant="contained"
           disableElevation
           fullWidth
           onClick={executeRoute}
+          disabled={isDisabled}
         >
           {t('button.startSwap')}
         </Button>
@@ -58,6 +69,7 @@ export const SwapPage: React.FC = () => {
             disableElevation
             fullWidth
             onClick={restartRoute}
+            disabled={isDisabled}
           >
             {t('button.restartSwap')}
           </Button>
@@ -66,6 +78,7 @@ export const SwapPage: React.FC = () => {
             disableElevation
             fullWidth
             onClick={handleRemoveRoute}
+            disabled={isDisabled}
           >
             {t('button.removeSwap')}
           </Button>

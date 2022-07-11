@@ -156,8 +156,8 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) =>
         },
       },
       MuiButton: {
-        styleOverrides:
-          mode === 'dark'
+        styleOverrides: {
+          ...(mode === 'dark'
             ? {
                 outlined: {
                   color: palette.primary.light,
@@ -175,7 +175,16 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) =>
                   },
                 },
               }
-            : undefined,
+            : {}),
+          root: {
+            '&.Mui-disabled': {
+              color:
+                mode === 'light'
+                  ? 'rgb(0 0 0 / 70%)'
+                  : 'rgb(255 255 255 / 70%)',
+            },
+          },
+        },
       },
       MuiIconButton: {
         styleOverrides: {
