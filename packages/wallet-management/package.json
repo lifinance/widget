@@ -33,7 +33,7 @@
   "bugs": {
     "url": "https://github.com/lifinance/wallet-management/issues"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "keywords": [
     "wallet",
     "wallet-management",
