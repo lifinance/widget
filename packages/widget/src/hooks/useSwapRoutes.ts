@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useQuery, useQueryClient } from 'react-query';
 import { useDebouncedWatch, useToken } from '.';
@@ -78,6 +77,11 @@ export const useSwapRoutes = () => {
       ],
       signal,
     }) => {
+      if (signal) {
+        signal.onabort = () => {
+          setCurrentRoute();
+        };
+      }
       return LiFi.getRoutes(
         {
           fromChainId,
@@ -106,6 +110,10 @@ export const useSwapRoutes = () => {
       );
     },
     {
+      onSettled(data) {
+        const recommendedRoute = data?.routes[0];
+        setCurrentRoute(recommendedRoute);
+      },
       enabled: isEnabled,
       refetchIntervalInBackground: true,
       refetchInterval,
@@ -114,17 +122,17 @@ export const useSwapRoutes = () => {
     },
   );
 
-  useEffect(() => {
-    // check that the current route is selected from existing routes
-    const isCurrentRouteInSet = data?.routes.some(
-      (route) => route.id === currentRoute?.id,
-    );
-    const recommendedRoute = data?.routes[0];
-    // we don't want to set the current route again if it's already selected from existing routes
-    if (!isCurrentRouteInSet && recommendedRoute) {
-      setCurrentRoute(recommendedRoute);
-    }
-  }, [currentRoute?.id, data?.routes, setCurrentRoute]);
+  // useEffect(() => {
+  //   // check that the current route is selected from existing routes
+  //   const isCurrentRouteInSet = data?.routes.some(
+  //     (route) => route.id === currentRoute?.id,
+  //   );
+  //   const recommendedRoute = data?.routes[0];
+  //   // we don't want to set the current route again if it's already selected from existing routes
+  //   if (!isCurrentRouteInSet && recommendedRoute) {
+  //     setCurrentRoute(recommendedRoute);
+  //   }
+  // }, [currentRoute?.id, data?.routes, setCurrentRoute]);
 
   return {
     routes: data?.routes,
