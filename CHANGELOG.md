@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://github.com/lifinance/widget/compare/v1.7.0...v1.8.0) (2022-07-12)
+
+
+### Features
+
+* add page not found message ([2c1b381](https://github.com/lifinance/widget/commit/2c1b38157dd45930b64f4da992568182137af992))
+* show insufficient gas error messages on swap page ([0152fd1](https://github.com/lifinance/widget/commit/0152fd1ea9dd663f859d1b35526842bfe79b8161))
+
+
+### Bug Fixes
+
+* check gas sufficiency for chain native tokens ([9deea31](https://github.com/lifinance/widget/commit/9deea31758d81d5b34018326d41a7cc337f18a45))
+* current route is not always updated ([ebd11cc](https://github.com/lifinance/widget/commit/ebd11cce12dc3e551e4d40880f3ff2df2e7ebde5))
+* current route is not always updated ([d291348](https://github.com/lifinance/widget/commit/d2913482f6876b8ec36e8b195fcbfa3144d4e50f))
+* insert empty box to center the header ([674bf90](https://github.com/lifinance/widget/commit/674bf903f7b41162df4de6bb3d87a344354befd4))
+* make cursor pointer ([54f32ff](https://github.com/lifinance/widget/commit/54f32ff85959c291f1995f1782f4451c6998d53d))
+* update insufficient gas error messages look ([3172f9a](https://github.com/lifinance/widget/commit/3172f9aa20c680e0b54ea777651cebacd43d18e1))
+* warning message colors ([19652bf](https://github.com/lifinance/widget/commit/19652bffd31e5ca2b18b888aac34214258a1bd1d))
+* wording for token allowance ([a81a9c7](https://github.com/lifinance/widget/commit/a81a9c7df768bb70285d300e12091be96c7ebe01))
+
 ## [1.7.0](https://github.com/lifinance/widget/compare/v1.6.1...v1.7.0) (2022-07-06)
 
 
