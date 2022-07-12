@@ -1,6 +1,6 @@
-import { useWidgetConfig } from '@lifi/widget/providers/WidgetProvider';
 import { FC, PropsWithChildren } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useWidgetConfig } from '../../providers/WidgetProvider';
 import { ElementId } from '../../utils/elements';
 import { routes } from '../../utils/routes';
 import { Container } from './Header.style';
