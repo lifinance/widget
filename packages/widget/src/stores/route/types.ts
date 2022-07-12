@@ -1,4 +1,4 @@
-import { Route } from '@lifinance/sdk';
+import { Route } from '@lifi/sdk';
 
 export interface RouteExecutionStore {
   currentRoute?: Route;

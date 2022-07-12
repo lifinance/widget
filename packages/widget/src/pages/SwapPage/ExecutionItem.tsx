@@ -1,4 +1,4 @@
-import { Process, Step } from '@lifinance/sdk';
+import { Process, Step } from '@lifi/sdk';
 import { Link as LinkIcon } from '@mui/icons-material';
 import { Box, Link, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';

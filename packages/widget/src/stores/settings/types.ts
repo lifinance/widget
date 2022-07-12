@@ -1,4 +1,4 @@
-import { Bridge, Exchange, Order } from '@lifinance/sdk';
+import { Bridge, Exchange, Order } from '@lifi/sdk';
 import { Appearance } from '../../types';
 
 export type ValueSetter<S> = <K extends keyof S>(

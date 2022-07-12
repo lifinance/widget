@@ -1,4 +1,4 @@
-import { TokenAmount } from '@lifinance/sdk';
+import { TokenAmount } from '@lifi/sdk';
 
 export const tokenAmountMock: TokenAmount = {
   address: '-1x0',

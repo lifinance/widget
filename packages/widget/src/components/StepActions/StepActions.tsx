@@ -1,4 +1,4 @@
-import { LifiStep, Step } from '@lifinance/sdk';
+import { LifiStep, Step } from '@lifi/sdk';
 import { ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
 import { Box, Step as MuiStep, Stepper, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';

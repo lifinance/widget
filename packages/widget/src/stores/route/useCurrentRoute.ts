@@ -1,4 +1,4 @@
-import { Route } from '@lifinance/sdk';
+import { Route } from '@lifi/sdk';
 import shallow from 'zustand/shallow';
 import { useRouteStore } from './useRouteStore';
 

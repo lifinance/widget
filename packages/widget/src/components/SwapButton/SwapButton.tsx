@@ -1,4 +1,4 @@
-import { ChainId } from '@lifinance/sdk';
+import { ChainId } from '@lifi/sdk';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';

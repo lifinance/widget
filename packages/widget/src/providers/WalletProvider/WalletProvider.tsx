@@ -1,3 +1,4 @@
+import { Token } from '@lifi/sdk';
 import {
   addChain as walletAddChain,
   switchChain as walletSwitchChain,
@@ -5,7 +6,6 @@ import {
   useLifiWalletManagement,
   Wallet,
 } from '@lifi/wallet-management';
-import { Token } from '@lifinance/sdk';
 import { Signer } from 'ethers';
 import {
   createContext,

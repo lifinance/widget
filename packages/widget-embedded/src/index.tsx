@@ -25,7 +25,7 @@ import './index.css';
 //   switchChain,
 //   switchChainAndAddToken,
 // } from '@lifi/wallet-management';
-// import { Token } from '@lifinance/sdk';
+// import { Token } from '@lifi/sdk';
 import { reportWebVitals } from './reportWebVitals';
 
 function ValueLabelComponent({

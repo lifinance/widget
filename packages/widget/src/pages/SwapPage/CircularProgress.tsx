@@ -1,4 +1,4 @@
-import { Status } from '@lifinance/sdk';
+import { Status } from '@lifi/sdk';
 import {
   Done as DoneIcon,
   Info as InfoIcon,

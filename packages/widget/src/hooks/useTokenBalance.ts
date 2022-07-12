@@ -1,4 +1,4 @@
-import { TokenAmount } from '@lifinance/sdk';
+import { TokenAmount } from '@lifi/sdk';
 import { useCallback } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import { LiFi } from '../lifi';

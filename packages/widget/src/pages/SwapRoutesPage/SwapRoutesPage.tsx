@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import { Route } from '@lifinance/sdk';
+import { Route } from '@lifi/sdk';
 import { BoxProps, Skeleton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { SwapRouteCard } from '../../components/SwapRouteCard';

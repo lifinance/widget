@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import { TokenAmount } from '@lifinance/sdk';
+import { TokenAmount } from '@lifi/sdk';
 import { Avatar, Box, BoxProps, Typography } from '@mui/material';
 import { formatTokenAmount } from '../utils/format';
 import { TextFitter } from './TextFitter';

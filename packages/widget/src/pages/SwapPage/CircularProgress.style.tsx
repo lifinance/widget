@@ -1,4 +1,4 @@
-import { Status } from '@lifinance/sdk';
+import { Status } from '@lifi/sdk';
 import { CircularProgress as MuiCircularProgress, Theme } from '@mui/material';
 import { circularProgressClasses } from '@mui/material/CircularProgress';
 import { keyframes, styled } from '@mui/material/styles';

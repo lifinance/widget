@@ -1,4 +1,4 @@
-import { ChainId, ChainKey, getChainByKey } from '@lifinance/sdk';
+import { ChainId, ChainKey, getChainByKey } from '@lifi/sdk';
 import { createContext, useContext, useMemo } from 'react';
 import type { WidgetContextProps, WidgetProviderProps } from './types';
 

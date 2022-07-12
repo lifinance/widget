@@ -1,4 +1,4 @@
-import { supportedChains } from '@lifinance/sdk';
+import { supportedChains } from '@lifi/sdk';
 import { initializeConnector } from '@web3-react/core';
 import { WalletConnect } from '@web3-react/walletconnect';
 

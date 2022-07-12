@@ -1,4 +1,4 @@
-import { ChainKey, Token } from '@lifinance/sdk';
+import { ChainKey, Token } from '@lifi/sdk';
 import { PaletteMode, PaletteOptions, Shape } from '@mui/material';
 import { TypographyOptions } from '@mui/material/styles/createTypography';
 import { Signer } from 'ethers';

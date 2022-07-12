@@ -1,4 +1,4 @@
-import { TokenAmount } from '@lifinance/sdk';
+import { TokenAmount } from '@lifi/sdk';
 import { Box, List, Typography } from '@mui/material';
 import { FC, useCallback, useEffect, useMemo, useRef } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';

@@ -1,4 +1,4 @@
-import { Route } from '@lifinance/sdk';
+import { Route } from '@lifi/sdk';
 import { useCallback, useEffect, useRef } from 'react';
 import { useMutation } from 'react-query';
 import shallow from 'zustand/shallow';

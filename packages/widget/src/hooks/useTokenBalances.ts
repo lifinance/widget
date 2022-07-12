@@ -1,4 +1,4 @@
-import { TokenAmount } from '@lifinance/sdk';
+import { TokenAmount } from '@lifi/sdk';
 import { useQuery } from 'react-query';
 import { LiFi } from '../lifi';
 import { useWallet } from '../providers/WalletProvider';

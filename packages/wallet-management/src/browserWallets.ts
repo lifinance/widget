@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { getChainById, prefixChainId, Token } from '@lifinance/sdk';
+import { getChainById, prefixChainId, Token } from '@lifi/sdk';
 
 export const switchChain = async (chainId: number) => {
   const { ethereum } = window as any;

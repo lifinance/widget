@@ -1,5 +1,5 @@
 import { Eip1193Bridge } from '@ethersproject/experimental';
-import { supportedChains } from '@lifinance/sdk';
+import { supportedChains } from '@lifi/sdk';
 import { initializeConnector } from '@web3-react/core';
 import { EIP1193 } from '@web3-react/eip1193';
 import { Empty, EMPTY } from '@web3-react/empty';

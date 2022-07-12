@@ -1,4 +1,4 @@
-import { Step } from '@lifinance/sdk';
+import { Step } from '@lifi/sdk';
 import { BoxProps } from '@mui/material';
 
 export interface StepActionsProps extends BoxProps {

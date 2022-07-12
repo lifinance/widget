@@ -6,7 +6,7 @@ import {
   ProcessType,
   Status,
   Step,
-} from '@lifinance/sdk';
+} from '@lifi/sdk';
 import { TFunction } from 'react-i18next';
 import { formatTokenAmount } from '../../utils/format';
 
