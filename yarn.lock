@@ -2837,6 +2837,19 @@
     npmlog "^6.0.2"
     write-file-atomic "^3.0.3"
 
+"@lifinance/sdk@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@lifinance/sdk/-/sdk-1.0.0.tgz#c0f8dc667239608c1602ef705895b0f09a726a6f"
+  integrity sha512-VQwZ8K/xXtG4Gm0DPGhiF+YGRKPC75q1y0EM64eNrIiMgqTHTEiwaA0RaB++3/+P+khNWidShSSelncIw5piTQ==
+  dependencies:
+    "@ethersproject/abi" "^5.6.4"
+    "@ethersproject/contracts" "^5.6.2"
+    "@lifinance/types" "^0.14.16"
+    axios "^0.27.2"
+    bignumber.js "^9.0.1"
+    eth-rpc-errors "^4.0.3"
+    ethers "^5.6.9"
+
 "@lifinance/sdk@^1.0.0-beta.14":
   version "1.0.0-beta.14"
   resolved "https://registry.yarnpkg.com/@lifinance/sdk/-/sdk-1.0.0-beta.14.tgz#e2f90af4cb51d57f934b7c2807a6e3a100b49ae5"
