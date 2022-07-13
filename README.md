@@ -1,30 +1,91 @@
-# lifi-widget
+<div align="center">
 
-Li.Fi Swap Widget
+[![license](https://img.shields.io/badge/license-Apache%202-blue)](/LICENSE.md)
+[![npm latest package](https://img.shields.io/npm/v/@lifi/widget/latest.svg)](https://www.npmjs.com/package/@lifi/widget)
+[![npm downloads](https://img.shields.io/npm/dm/@lifi/widget.svg)](https://www.npmjs.com/package/@lifi/widget)
+[![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/lifinance/widget.svg)](https://isitmaintained.com/project/lifinance/widget)
+[![Follow on Twitter](https://img.shields.io/twitter/follow/lifiprotocol.svg?label=follow+LI.FI)](https://twitter.com/lifiprotocol)
 
-## Available Scripts
+</div>
 
-In the project directory, you can run:
+<h1 align="center">LI.FI Widget</h1>
 
-### `yarn start`
+This repository contains LI.FI Widget and supporting libraries.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- [_LI.FI Widget_](https://li.fi/widget/) for cross-chain bridging and swapping. It will drive your multi-chain strategy and attract new users from everywhere.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- [_LI.FI Wallet Management_](https://www.npmjs.com/package/@lifi/wallet-management) is our library of hooks that can help you gain complete control over your app's wallet management.
 
-### `yarn test`
+## Installation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### LI.FI Widget
 
-### `yarn build`
+LI.FI Widget is available as an [npm package](https://www.npmjs.com/package/@lifi/widget).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**npm:**
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```sh
+npm install @lifi/widget
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+**yarn:**
+
+```sh
+yarn add @lifi/widget
+```
+
+### LI.FI Wallet Management
+
+LI.FI Wallet Management is available as an [npm package](https://www.npmjs.com/package/@lifi/wallet-management).
+
+**npm:**
+
+```sh
+npm install @lifi/wallet-management
+```
+
+**yarn:**
+
+```sh
+yarn add @lifi/wallet-management
+```
+
+## Getting started with LI.FI Widget
+
+Here is an example of a basic app using LI.FI Widget:
+
+```jsx
+import { LiFiWidget, WidgetConfig } from '@lifi/widget';
+import { useMemo } from 'react';
+
+export const WidgetPage = () => {
+  const widgetConfig: WidgetConfig = useMemo(() => {
+    return {
+      containerStyle: {
+        border: `1px solid ${
+          window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'rgb(66, 66, 66)'
+            : 'rgb(234, 234, 234)'
+        }`,
+        borderRadius: '16px',
+        display: 'flex',
+      },
+    };
+  }, []);
+
+  return <LiFiWidget config={widgetConfig} />;
+};
+```
+
+## Documentation
+
+- [LI.FI Documentation](https://docs.li.fi)
+
+## Changelog
+
+The [changelog](/CHANGELOG.md) is regularly updated to reflect what's changed in each new release.
+
+## License
+
+This project is licensed under the terms of the
+[Apache-2.0](/LICENSE.md).
