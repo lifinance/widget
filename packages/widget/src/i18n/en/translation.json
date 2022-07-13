@@ -68,14 +68,22 @@
         "fundsReceived": "You now have {{amount}} {{tokenSymbol}} in your wallet on {{chainName}} chain."
       }
     },
+    "info": {
+      "title": {
+        "routeNotFound": "No routes available"
+      },
+      "message": {
+        "routeNotFound": "Try another \"from\" and \"to\" token combination."
+      }
+    },
     "warning": {
       "title": {
         "insufficientGas": "Insufficient gas"
       },
       "message": {
-        "insufficientFunds": "You don't have enough funds for this transaction on the start “from” chain.",
-        "insufficientGasOnStartChain": "You need to have enough gas to pay for this transaction on the start “from” chain.",
-        "insufficientGasOnDestinationChain": "You need to have enough gas to pay for this transaction on the destination “to” chain."
+        "insufficientFunds": "You don't have enough funds for this transaction on the start \"from\" chain.",
+        "insufficientGasOnStartChain": "You need to have enough gas to pay for this transaction on the start \"from\" chain.",
+        "insufficientGasOnDestinationChain": "You need to have enough gas to pay for this transaction on the destination \"to\" chain."
       }
     },
     "error": {

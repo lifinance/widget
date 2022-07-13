@@ -1,4 +1,3 @@
-/* eslint-disable no-constant-condition */
 import { LiFiWidget, LiFiWidgetDrawer, WidgetConfig } from '@lifi/widget';
 import {
   Box,
@@ -380,15 +379,11 @@ const App = () => {
 
 root.render(
   <React.StrictMode>
-    {true ? (
-      <BrowserRouter>
-        <Routes>
-          <Route path="/*" element={<App />} />
-        </Routes>
-      </BrowserRouter>
-    ) : (
-      <App />
-    )}
+    <BrowserRouter>
+      <Routes>
+        <Route path="*" element={<App />} />
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>,
 );
 
