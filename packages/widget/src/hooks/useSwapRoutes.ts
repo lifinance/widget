@@ -1,3 +1,4 @@
+import Big from 'big.js';
 import { useEffect } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useQuery, useQueryClient } from 'react-query';
@@ -60,59 +61,58 @@ export const useSwapRoutes = () => {
         refetchTime,
       )
     : refetchTime;
-  const { data, isLoading, isFetching, dataUpdatedAt, refetch } = useQuery(
-    queryKey,
-    async ({
-      queryKey: [
-        _,
-        address,
-        fromChainId,
-        fromTokenAddress,
-        fromTokenAmount,
-        toChainId,
-        toTokenAddress,
-        slippage,
-        enabledBridges,
-        enabledExchanges,
-        routePriority,
-      ],
-      signal,
-    }) => {
-      return LiFi.getRoutes(
-        {
+  const { data, isLoading, isFetching, isFetched, dataUpdatedAt, refetch } =
+    useQuery(
+      queryKey,
+      async ({
+        queryKey: [
+          _,
+          address,
           fromChainId,
-          // TODO: simplify
-          fromAmount: (
-            Number(fromTokenAmount) *
-            10 ** (token?.decimals ?? 0)
-          ).toFixed(0), // new BigNumber(depositAmount).shiftedBy(fromToken.decimals).toFixed(0),
           fromTokenAddress,
+          fromTokenAmount,
           toChainId,
           toTokenAddress,
-          fromAddress: address,
-          toAddress: address,
-          options: {
-            slippage: slippage / 100,
-            bridges: {
-              allow: enabledBridges,
+          slippage,
+          enabledBridges,
+          enabledExchanges,
+          routePriority,
+        ],
+        signal,
+      }) => {
+        return LiFi.getRoutes(
+          {
+            fromChainId,
+            fromAmount: Big(
+              Number(fromTokenAmount) * 10 ** (token?.decimals ?? 0),
+            ).toString(),
+            fromTokenAddress,
+            toChainId,
+            toTokenAddress,
+            fromAddress: address,
+            toAddress: address,
+            options: {
+              slippage: slippage / 100,
+              bridges: {
+                allow: enabledBridges,
+              },
+              exchanges: {
+                allow: enabledExchanges,
+              },
+              order: routePriority,
             },
-            exchanges: {
-              allow: enabledExchanges,
-            },
-            order: routePriority,
           },
-        },
-        { signal },
-      );
-    },
-    {
-      enabled: isEnabled,
-      refetchIntervalInBackground: true,
-      refetchInterval,
-      staleTime: refetchTime,
-      cacheTime: refetchTime,
-    },
-  );
+          { signal },
+        );
+      },
+      {
+        enabled: isEnabled,
+        refetchIntervalInBackground: true,
+        refetchInterval,
+        staleTime: refetchTime,
+        cacheTime: refetchTime,
+      },
+    );
 
   useEffect(() => {
     // check that the current route is selected from existing routes
@@ -130,6 +130,7 @@ export const useSwapRoutes = () => {
     routes: data?.routes,
     isLoading: isEnabled && isLoading,
     isFetching,
+    isFetched,
     dataUpdatedAt,
     refetchTime,
     refetch,

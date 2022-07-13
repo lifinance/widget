@@ -1,9 +1,9 @@
 import Big from 'big.js';
 
-// JavaScript numbers use exponential notation for positive exponents of 21 and above.
-Big.PE = 21;
+// JavaScript numbers use exponential notation for positive exponents of 21 and above. We need more.
+Big.PE = 42;
 // JavaScript numbers use exponential notation for negative exponents of -7 and below. We need more.
-Big.NE = -21;
+Big.NE = -42;
 
 /**
  * Format token amount to at least 4 decimals.
