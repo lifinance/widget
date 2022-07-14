@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.0](https://github.com/lifinance/widget/compare/v1.8.1...v1.9.0) (2022-07-14)
+
+
+### Features
+
+* add no routes available message ([797db9c](https://github.com/lifinance/widget/commit/797db9c05d0870e837eb70ee2b6861e80cfd94cc))
+
+
+### Bug Fixes
+
+* shifting of big amount ([065ee86](https://github.com/lifinance/widget/commit/065ee861b5cac542a193bebdb6f29a862239c99b))
+
 ### [1.8.1](https://github.com/lifinance/widget/compare/v1.8.0...v1.8.1) (2022-07-12)
 
 
