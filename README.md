@@ -77,6 +77,10 @@ export const WidgetPage = () => {
 };
 ```
 
+## Examples
+
+Visit our [playground](https://testing.li.finance) to see how you can customize your [LI.FI Widget](https://www.npmjs.com/package/@lifi/widget) experience.
+
 ## Documentation
 
 - [LI.FI Documentation](https://docs.li.fi)
