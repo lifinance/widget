@@ -124,7 +124,7 @@ async function run() {
     await createPackageFile();
 
     await Promise.all(
-      ['./README.md', './CHANGELOG.md', '../../LICENSE.md'].map((file) =>
+      ['../../README.md', './CHANGELOG.md', '../../LICENSE.md'].map((file) =>
         includeFileInBuild(file),
       ),
     );
