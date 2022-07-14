@@ -83,7 +83,7 @@ Visit our [playground](https://testing.li.finance) to see how you can customize 
 
 ## Documentation
 
-- [LI.FI Documentation](https://docs.li.fi)
+[LI.FI Documentation](https://docs.li.fi)
 
 ## Changelog
 
