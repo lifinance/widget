@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.0](https://github.com/lifinance/widget/compare/v1.9.0...v1.10.0) (2022-07-15)
+
+
+### Features
+
+* add and always include integrator option ([9e57ee3](https://github.com/lifinance/widget/commit/9e57ee32e27e23c44519a815608a25a46b257b1b))
+
+
+### Bug Fixes
+
+* better handle gas check with disconnected wallet ([432ebf4](https://github.com/lifinance/widget/commit/432ebf431d6c8c3357eec931d3bef244c611404b))
+* handle disconnected wallet and switch chain on the swap page ([08ceb08](https://github.com/lifinance/widget/commit/08ceb08ae920d28f5894ac4aaf25ac47127a68b1))
+* show routes with disconnected wallet ([f875f4e](https://github.com/lifinance/widget/commit/f875f4e07416d114156d98a69bd6960ee70f65b6))
+* use default readme across packages ([db69a26](https://github.com/lifinance/widget/commit/db69a261816cd4b7e28ce2dcd2b8f7f6d499bbdf))
+
 ## [1.9.0](https://github.com/lifinance/widget/compare/v1.8.1...v1.9.0) (2022-07-14)
 
 
