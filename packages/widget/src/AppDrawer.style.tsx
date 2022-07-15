@@ -1,9 +1,35 @@
 import { Button, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
+const getButtonTransformWidth = (
+  drawerWidth?: number | string,
+  drawerMaxWidth?: number | string,
+) => {
+  if (typeof drawerWidth === 'number') {
+    return `${drawerWidth}px`;
+  }
+  if (typeof drawerWidth === 'string' && !drawerWidth.includes('%')) {
+    return drawerWidth;
+  }
+  if (typeof drawerMaxWidth === 'number') {
+    return `${drawerMaxWidth}px`;
+  }
+  if (typeof drawerMaxWidth === 'string' && !drawerMaxWidth.includes('%')) {
+    return drawerMaxWidth;
+  }
+  return '392px';
+};
+
 export const DrawerButton = styled(Button, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})<{ open?: boolean }>(({ theme, open }) => ({
+  shouldForwardProp: (prop) =>
+    !['open', 'drawerProps'].includes(prop as string),
+})<{
+  open?: boolean;
+  drawerProps?: {
+    width?: number | string;
+    maxWidth?: number | string;
+  };
+}>(({ theme, open, drawerProps }) => ({
   background:
     theme.palette.mode === 'light'
       ? theme.palette.common.black
@@ -23,7 +49,11 @@ export const DrawerButton = styled(Button, {
   position: 'absolute',
   right: 0,
   top: 'calc(50% - 74px)',
-  transform: `translate3d(calc(${open ? '392px' : '0px'} * -1), 0, 0)`,
+  transform: `translate3d(calc(${
+    open
+      ? getButtonTransformWidth(drawerProps?.width, drawerProps?.maxWidth)
+      : '0px'
+  } * -1), 0, 0)`,
   transition: theme.transitions.create(['transform'], {
     duration: theme.transitions.duration.enteringScreen,
     easing: theme.transitions.easing.easeOut,

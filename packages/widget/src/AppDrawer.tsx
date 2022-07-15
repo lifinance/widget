@@ -64,6 +64,7 @@ export const AppDrawer = forwardRef<AppDrawerBase, AppDrawerProps>(
           variant="contained"
           onClick={toggleDrawer}
           open={drawerOpen}
+          drawerProps={config?.containerStyle}
           disableElevation
         >
           {drawerOpen ? <KeyboardArrowRightIcon /> : <KeyboardArrowLeftIcon />}
@@ -80,6 +81,13 @@ export const AppDrawer = forwardRef<AppDrawerBase, AppDrawerProps>(
             sx: {
               backgroundColor: 'rgb(0 0 0 / 48%)',
               backdropFilter: 'blur(3px)',
+            },
+          }}
+          PaperProps={{
+            sx: {
+              width: config?.containerStyle?.width ?? '100%',
+              minWidth: config?.containerStyle?.minWidth ?? 375,
+              maxWidth: config?.containerStyle?.maxWidth ?? 392,
             },
           }}
           keepMounted
