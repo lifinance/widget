@@ -4,10 +4,12 @@ import { useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useDebouncedWatch } from '.';
 import { SwapFormKey, SwapFormKeyHelper } from '../providers/SwapFormProvider';
+import { useWallet } from '../providers/WalletProvider';
 import { useCurrentRoute } from '../stores';
 import { useTokenBalances } from './useTokenBalances';
 
 export const useHasSufficientBalance = () => {
+  const { account } = useWallet();
   const [route] = useCurrentRoute();
   const [fromChainId, toChainId, fromToken] = useWatch({
     name: [
@@ -25,7 +27,7 @@ export const useHasSufficientBalance = () => {
 
   const hasGasOnStartChain = useMemo(() => {
     const gasToken = route?.steps[0].estimate.gasCosts?.[0].token;
-    if (!gasToken) {
+    if (!account.isActive || !gasToken) {
       return true;
     }
     const gasTokenBalance = Big(
@@ -49,11 +51,17 @@ export const useHasSufficientBalance = () => {
       requiredAmount = requiredAmount.plus(tokenBalance);
     }
     return gasTokenBalance.gt(0) && gasTokenBalance.gte(requiredAmount);
-  }, [fromChainTokenBalances, route]);
+  }, [
+    account.isActive,
+    fromChainTokenBalances,
+    route?.fromChainId,
+    route?.fromToken.address,
+    route?.steps,
+  ]);
 
   const hasGasOnCrossChain = useMemo(() => {
     const gasToken = lastStep?.estimate.gasCosts?.[0].token;
-    if (!gasToken || !isSwapStep(lastStep)) {
+    if (!account.isActive || !gasToken || !isSwapStep(lastStep)) {
       return true;
     }
     const balance = Big(
@@ -65,17 +73,17 @@ export const useHasSufficientBalance = () => {
       10 ** (lastStep.estimate.gasCosts?.[0].token.decimals ?? 0),
     );
     return balance.gt(0) && balance.gte(requiredAmount);
-  }, [lastStep, toChainTokenBalances]);
+  }, [account.isActive, lastStep, toChainTokenBalances]);
 
   const hasSufficientBalance = useMemo(() => {
-    if (!fromToken || !fromAmount) {
+    if (!account.isActive || !fromToken || !fromAmount) {
       return true;
     }
     const balance = Big(
       fromChainTokenBalances?.find((t) => t.address === fromToken)?.amount ?? 0,
     );
     return Big(fromAmount).lte(balance);
-  }, [fromAmount, fromChainTokenBalances, fromToken]);
+  }, [account.isActive, fromAmount, fromChainTokenBalances, fromToken]);
 
   return {
     hasGasOnStartChain,
