@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.10.1](https://github.com/lifinance/widget/compare/v1.10.0...v1.10.1) (2022-07-15)
+
+
+### Bug Fixes
+
+* propagate width props to drawer mode ([8d36f1c](https://github.com/lifinance/widget/commit/8d36f1c5db9186f507d996c4bea7a40b85dd1567))
+* show correct step details label ([931a67d](https://github.com/lifinance/widget/commit/931a67dcfdefadaf9c41a98b8e42bde12c7cedc8))
+
 ## [1.10.0](https://github.com/lifinance/widget/compare/v1.9.0...v1.10.0) (2022-07-15)
 
 
