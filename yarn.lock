@@ -2673,23 +2673,23 @@
     npmlog "^6.0.2"
     write-file-atomic "^3.0.3"
 
-"@lifi/sdk@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@lifi/sdk/-/sdk-1.0.1.tgz#0872fca512993f24e9c87abee6710b536c923be1"
-  integrity sha512-XGlPtiKQZ/ZNYF4v5HzhrOiv3oj4vAeJBn+51zJbDQW3iPE5ZXQgl6lbRRMXbvchomakV8o8le02vDajIe9whQ==
+"@lifi/sdk@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@lifi/sdk/-/sdk-1.0.2.tgz#c03e8d011dc153c12f970ae666c0696d6bc3fee0"
+  integrity sha512-EFl/qNnS9ZrrYLbQpsg9djaHpr6mobcyd4k6IjvqpeMU/Rn+sYgNA7OywRNFdYQ6aGnh+V4XyBpxEbmJkyLmRg==
   dependencies:
     "@ethersproject/abi" "^5.6.4"
     "@ethersproject/contracts" "^5.6.2"
-    "@lifi/types" "^1.0.0"
+    "@lifi/types" "^1.1.0"
     axios "^0.27.2"
     bignumber.js "^9.0.1"
     eth-rpc-errors "^4.0.3"
     ethers "^5.6.9"
 
-"@lifi/types@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@lifi/types/-/types-1.0.0.tgz#600392079439be7b5d3fb2d84bcce0b4b5f42054"
-  integrity sha512-Sxsar8aw0wsxCTynR/BF/NK9P8Yo/iqHEXoV4LUpFd5ZdK1HREKS1J2aIizqD9U8350lBeESuPBxPKYKRtVvHw==
+"@lifi/types@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@lifi/types/-/types-1.1.0.tgz#5a3ab3617a26df3216a10b17a13ec3556525396b"
+  integrity sha512-ZmZFJ72+bv+vw+dSmQbhmM0sJAyhhYX9ksf2p5PlslPoeQvrhOMj/npUgt2JZz2XuVcx1dPpWrA6NPWFU/wgQQ==
   dependencies:
     ethers "^5.6.9"
 
@@ -3411,10 +3411,10 @@
     "@testing-library/dom" "^8.5.0"
     "@types/react-dom" "^18.0.0"
 
-"@testing-library/user-event@^14.2.1":
-  version "14.2.1"
-  resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-14.2.1.tgz#8c5ff2d004544bb2220e1d864f7267fe7eb6c556"
-  integrity sha512-HOr1QiODrq+0j9lKU5i10y9TbhxMBMRMGimNx10asdmau9cb8Xb1Vyg0GvTwyIL2ziQyh2kAloOtAQFBQVuecA==
+"@testing-library/user-event@^14.2.5":
+  version "14.2.5"
+  resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-14.2.5.tgz#a27a16ee7f915c22c62b9c065d743248ee79dcb6"
+  integrity sha512-xcSw47H8JidxQPAqPlHp4l51EYJx+2TlHgYBW9i+noNlgUMMrhgtefnrWcpZ1k9ep6SMhJVyx3N7F4tIKTuJ9w==
 
 "@tootallnate/once@1":
   version "1.1.2"
