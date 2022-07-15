@@ -2,24 +2,24 @@ import { ChainId } from '@lifi/sdk';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useChains, useHasSufficientBalance, useSwapRoutes } from '../../hooks';
+import { useChains, useHasSufficientBalance } from '../../hooks';
 import { SwapFormKeyHelper } from '../../providers/SwapFormProvider';
 import { useWallet } from '../../providers/WalletProvider';
 import { useWidgetConfig } from '../../providers/WidgetProvider';
-import { useCurrentRoute, useSetExecutableRoute } from '../../stores';
 import { routes } from '../../utils/routes';
 import { Button } from './SwapButton.style';
+import { SwapButtonProps } from './types';
 
-export const SwapButton: React.FC = () => {
+export const SwapButton: React.FC<SwapButtonProps> = ({
+  onClick,
+  text,
+  loading,
+}) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { getChainById } = useChains();
   const config = useWidgetConfig();
   const { account, switchChain, connect: walletConnect } = useWallet();
-  const [currentRoute] = useCurrentRoute();
-  const setExecutableRoute = useSetExecutableRoute();
-
-  const { routes: swapRoutes, isLoading, isFetching } = useSwapRoutes();
 
   const { hasGasOnStartChain, hasGasOnCrossChain, hasSufficientBalance } =
     useHasSufficientBalance();
@@ -40,14 +40,8 @@ export const SwapButton: React.FC = () => {
     } else if (!isCurrentChainMatch) {
       await switchChain(chainId!);
       // check that the current route exists in the up to date route list
-    } else if (
-      currentRoute &&
-      swapRoutes?.some((route) => route.id === currentRoute.id)
-    ) {
-      setExecutableRoute(currentRoute);
-      navigate(routes.swap, {
-        state: { routeId: currentRoute.id },
-      });
+    } else {
+      onClick?.();
     }
   };
 
@@ -56,7 +50,7 @@ export const SwapButton: React.FC = () => {
       if (!isCurrentChainMatch) {
         return t(`button.switchChain`);
       }
-      return t(`button.swap`);
+      return text || t(`button.swap`);
     }
     return t(`button.connectWallet`);
   };
@@ -73,8 +67,7 @@ export const SwapButton: React.FC = () => {
         (!hasSufficientBalance ||
           !hasGasOnStartChain ||
           !hasGasOnCrossChain ||
-          isLoading ||
-          isFetching) &&
+          loading) &&
         isCurrentChainMatch
       }
     >

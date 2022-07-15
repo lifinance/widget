@@ -34,6 +34,10 @@ export const AppDefault = () => {
       <Routes>
         <Route path={routes.home} element={<MainPage />} />
         <Route path={routes.selectWallet} element={<SelectWalletPage />} />
+        <Route
+          path={`${routes.swapRoutes}/${routes.swap}/${routes.selectWallet}`}
+          element={<SelectWalletPage />}
+        />
         <Route path={routes.settings} element={<SettingsPage />} />
         <Route
           path={routes.fromToken}

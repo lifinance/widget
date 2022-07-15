@@ -1,8 +1,10 @@
+import { Box } from '@mui/material';
 import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { InsufficientGasOrFundsMessage } from '../../components/InsufficientGasOrFundsMessage';
-import { useHasSufficientBalance, useRouteExecution } from '../../hooks';
+import { SwapButton } from '../../components/SwapButton';
+import { useRouteExecution } from '../../hooks';
 import { StatusBottomSheet } from './StatusBottomSheet';
 import { StepDivider } from './StepDivider';
 import { StepItem } from './StepItem';
@@ -12,8 +14,6 @@ export const SwapPage: React.FC = () => {
   const { t } = useTranslation();
   const { state }: any = useLocation();
   const navigate = useNavigate();
-  const { hasGasOnStartChain, hasGasOnCrossChain, hasSufficientBalance } =
-    useHasSufficientBalance();
   const { route, status, executeRoute, restartRoute, removeRoute } =
     useRouteExecution(state.routeId as string);
 
@@ -22,8 +22,24 @@ export const SwapPage: React.FC = () => {
     navigate(-1);
   };
 
-  const isDisabled =
-    !hasSufficientBalance || !hasGasOnStartChain || !hasGasOnCrossChain;
+  const handleSwapClick = () => {
+    if (status === 'idle') {
+      executeRoute();
+    }
+    if (status === 'error') {
+      restartRoute();
+    }
+  };
+
+  // eslint-disable-next-line consistent-return
+  const getSwapButtonText = () => {
+    if (status === 'idle') {
+      return t('button.startSwap');
+    }
+    if (status === 'error') {
+      return t('button.restartSwap');
+    }
+  };
 
   return (
     <Container>
@@ -48,38 +64,20 @@ export const SwapPage: React.FC = () => {
         </Fragment>
       ))}
       <InsufficientGasOrFundsMessage mt={2} />
-      {status === 'idle' ? (
-        <Button
-          variant="contained"
-          disableElevation
-          fullWidth
-          onClick={executeRoute}
-          disabled={isDisabled}
-        >
-          {t('button.startSwap')}
-        </Button>
+      {status === 'idle' || status === 'error' ? (
+        <Box mt={2}>
+          <SwapButton onClick={handleSwapClick} text={getSwapButtonText()} />
+        </Box>
       ) : null}
       {status === 'error' ? (
-        <>
-          <Button
-            variant="contained"
-            disableElevation
-            fullWidth
-            onClick={restartRoute}
-            disabled={isDisabled}
-          >
-            {t('button.restartSwap')}
-          </Button>
-          <Button
-            variant="outlined"
-            disableElevation
-            fullWidth
-            onClick={handleRemoveRoute}
-            disabled={isDisabled}
-          >
-            {t('button.removeSwap')}
-          </Button>
-        </>
+        <Button
+          variant="outlined"
+          disableElevation
+          fullWidth
+          onClick={handleRemoveRoute}
+        >
+          {t('button.removeSwap')}
+        </Button>
       ) : null}
       <StatusBottomSheet status={status} route={route} />
     </Container>
