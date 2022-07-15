@@ -2,7 +2,7 @@ import { Route } from '@lifi/sdk';
 import { useCallback, useEffect, useRef } from 'react';
 import { useMutation } from 'react-query';
 import shallow from 'zustand/shallow';
-import { LiFi } from '../lifi';
+import { LiFi } from '../config/lifi';
 import { useWallet } from '../providers/WalletProvider';
 import { useRouteStore } from '../stores';
 import { deepClone } from '../utils/deepClone';

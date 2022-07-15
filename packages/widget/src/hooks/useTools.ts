@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { useQuery } from 'react-query';
-import { LiFi } from '../lifi';
+import { LiFi } from '../config/lifi';
 import { useSettingsStore } from '../stores';
 
 export const useTools = () => {

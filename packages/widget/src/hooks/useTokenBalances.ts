@@ -1,6 +1,6 @@
 import { TokenAmount } from '@lifi/sdk';
 import { useQuery } from 'react-query';
-import { LiFi } from '../lifi';
+import { LiFi } from '../config/lifi';
 import { useWallet } from '../providers/WalletProvider';
 import { formatTokenAmount } from '../utils/format';
 import { useChains } from './useChains';

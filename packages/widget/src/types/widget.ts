@@ -30,6 +30,7 @@ interface WidgetConfigBase {
   disableAppearance?: boolean;
   disableTelemetry?: boolean;
   walletManagement?: WidgetWalletManagement;
+  integrator?: string;
 }
 
 type WidgetFromTokenConfig =

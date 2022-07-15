@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useQuery } from 'react-query';
-import { LiFi } from '../lifi';
+import { LiFi } from '../config/lifi';
 import { useWidgetConfig } from '../providers/WidgetProvider';
 
 export const useChains = () => {

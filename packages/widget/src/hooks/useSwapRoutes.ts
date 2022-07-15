@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useQuery, useQueryClient } from 'react-query';
 import { useDebouncedWatch, useToken } from '.';
-import { LiFi } from '../lifi';
+import { LiFi } from '../config/lifi';
 import { SwapFormKey } from '../providers/SwapFormProvider';
 import { useWallet } from '../providers/WalletProvider';
 import { useCurrentRoute, useSettings } from '../stores';

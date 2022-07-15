@@ -72,7 +72,7 @@ export const useRouteStore = create<RouteExecutionStore>()(
         }),
     })),
     {
-      name: 'li.fi-widget-executable-routes',
+      name: 'li.fi-widget-routes',
       partialize: (state) => ({ routes: state.routes }),
     },
   ),

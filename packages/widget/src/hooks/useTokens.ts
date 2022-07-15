@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { LiFi } from '../lifi';
+import { LiFi } from '../config/lifi';
 
 export const useTokens = (selectedChainId: number) => {
   const {

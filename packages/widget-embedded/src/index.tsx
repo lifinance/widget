@@ -93,6 +93,7 @@ const widgetDrawerConfig: WidgetConfig = {
   // toToken: '0xcc42724c6683b7e57334c4e856f4c9965ed682bd',
   // disableColorSchemes: true,
   disableTelemetry: true,
+  integrator: 'li.fi-playground',
 };
 const widgetConfig: WidgetConfig = {
   ...widgetDrawerConfig,
