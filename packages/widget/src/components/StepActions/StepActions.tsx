@@ -57,7 +57,11 @@ export const StepActions: React.FC<StepActionsProps> = ({
           {(step as LifiStep).includedSteps.map((step) => (
             <MuiStep key={step.id} expanded>
               <StepLabel StepIconComponent={StepIcon}>
-                <StepDetailsLabel step={step} />
+                {step.type === 'cross' || step.type === 'lifi' ? (
+                  <CrossStepDetailsLabel step={step} />
+                ) : (
+                  <SwapStepDetailsLabel step={step} />
+                )}
               </StepLabel>
               <StepContent>
                 <StepDetailsContent step={step} />
@@ -102,7 +106,6 @@ export const StepDetailsContent: React.FC<{ step: Step }> = ({ step }) => {
 export const CrossStepDetailsLabel: React.FC<{ step: Step }> = ({ step }) => {
   const { t } = useTranslation();
   const { getChainById } = useChains();
-
   return (
     <Typography fontSize={12} fontWeight="500" color="text.secondary">
       {t('swap.crossStepDetails', {
@@ -116,10 +119,12 @@ export const CrossStepDetailsLabel: React.FC<{ step: Step }> = ({ step }) => {
 
 export const SwapStepDetailsLabel: React.FC<{ step: Step }> = ({ step }) => {
   const { t } = useTranslation();
+  const { getChainById } = useChains();
   return (
     <Typography fontSize={12} fontWeight="500" color="text.secondary">
       {t('swap.swapStepDetails', {
-        value: step.toolDetails.name,
+        chain: getChainById(step.action.fromChainId)?.name,
+        tool: step.toolDetails.name,
       })}
     </Typography>
   );

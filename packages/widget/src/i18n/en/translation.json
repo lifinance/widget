@@ -52,7 +52,7 @@
     "estimatedTime": "~{{value}} min.",
     "networkIsBusy": "Network is busy...",
     "crossStepDetails": "Bridge {{from}} to {{to}} via {{tool}}",
-    "swapStepDetails": "Swap on {{value}}",
+    "swapStepDetails": "Swap on {{chain}} via {{tool}}",
     "tags": {
       "recommended": "Recommended",
       "fastest": "Fast",
