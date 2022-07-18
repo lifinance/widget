@@ -37,8 +37,8 @@ export const useSwapRoutes = () => {
     !isNaN(toChainId) &&
     Boolean(fromTokenAddress) &&
     Boolean(toTokenAddress) &&
-    Boolean(fromTokenAmount) &&
     !isNaN(fromTokenAmount) &&
+    Number(fromTokenAmount) > 0 &&
     !Number.isNaN(slippage);
   const queryKey = [
     'routes',
