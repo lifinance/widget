@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.10.3](https://github.com/lifinance/widget/compare/v1.10.2...v1.10.3) (2022-07-18)
+
+
+### Bug Fixes
+
+* disable sentry if widget is not mounted ([cccb78d](https://github.com/lifinance/widget/commit/cccb78dce42d95cdc2c58bf249418d4087cdbcee))
+
 ### [1.10.2](https://github.com/lifinance/widget/compare/v1.10.1...v1.10.2) (2022-07-18)
 
 
