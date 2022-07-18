@@ -3,7 +3,7 @@ import { ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
 import { Box, Step as MuiStep, Stepper, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useChains } from '../../hooks';
-import { formatTokenAmount } from '../../utils/format';
+import { formatTokenAmount } from '../../utils';
 import { LiFiLogo } from '../LiFiLogo';
 import {
   StepAvatar,
@@ -95,7 +95,7 @@ export const StepDetailsContent: React.FC<{ step: Step }> = ({ step }) => {
       {step.action.fromToken.symbol}
       <ArrowForwardIcon sx={{ fontSize: 18, paddingX: 0.5 }} />
       {formatTokenAmount(
-        step.estimate.toAmount,
+        step.execution?.toAmount ?? step.estimate.toAmount,
         step.action.toToken.decimals,
       )}{' '}
       {step.action.toToken.symbol}

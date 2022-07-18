@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import { LiFi } from '../config/lifi';
 import { useWallet } from '../providers/WalletProvider';
-import { formatTokenAmount } from '../utils/format';
+import { formatTokenAmount } from '../utils';
 import { useToken } from './useToken';
 
 export const useTokenBalance = (chainId: number, tokenAddress: string) => {
@@ -32,9 +32,9 @@ export const useTokenBalance = (chainId: number, tokenAddress: string) => {
     {
       enabled: Boolean(account.address) && Boolean(token),
       refetchIntervalInBackground: true,
-      refetchInterval: 60_000,
-      staleTime: 60_000,
-      cacheTime: 60_000,
+      refetchInterval: 30_000,
+      staleTime: 30_000,
+      cacheTime: 30_000,
     },
   );
 

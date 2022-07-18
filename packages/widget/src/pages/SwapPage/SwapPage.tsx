@@ -15,7 +15,7 @@ export const SwapPage: React.FC = () => {
   const { state }: any = useLocation();
   const navigate = useNavigate();
   const { route, status, executeRoute, restartRoute, removeRoute } =
-    useRouteExecution(state.routeId as string);
+    useRouteExecution(state?.routeId);
 
   const handleRemoveRoute = () => {
     removeRoute();
@@ -49,12 +49,15 @@ export const SwapPage: React.FC = () => {
             step={step}
             fromToken={
               index === 0
-                ? { ...route.fromToken, amount: route.fromAmount }
+                ? { ...step.action.fromToken, amount: step.action.fromAmount }
                 : undefined
             }
             toToken={
               index === steps.length - 1
-                ? { ...route.toToken, amount: route.toAmount }
+                ? {
+                    ...step.action.toToken,
+                    amount: step.execution?.toAmount ?? step.estimate.toAmount,
+                  }
                 : undefined
             }
           />

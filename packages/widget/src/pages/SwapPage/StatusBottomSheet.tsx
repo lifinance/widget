@@ -117,7 +117,13 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
           </Typography>
           {status === 'success' ? (
             <StepToken
-              token={{ ...route.toToken, amount: route.toAmount }}
+              token={{
+                ...route.toToken,
+                amount:
+                  route.steps.at(-1)?.execution?.toAmount ??
+                  route.steps.at(-1)?.estimate.toAmount ??
+                  route.toAmount,
+              }}
               py={1}
             />
           ) : null}
