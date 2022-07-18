@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.10.2](https://github.com/lifinance/widget/compare/v1.10.1...v1.10.2) (2022-07-18)
+
+
+### Bug Fixes
+
+* don't show routes with 0 fromAmount ([e2a4473](https://github.com/lifinance/widget/commit/e2a44731d454ee4be1475583b47478808c61f00e))
+* insufficient gas message ([0b24868](https://github.com/lifinance/widget/commit/0b24868a8110f313b5e2d09014ada80846c6aafd))
+* NaN when no gas cost is provided ([2adea9a](https://github.com/lifinance/widget/commit/2adea9a80833a220e0227119c8a41b988cf88ae4))
+* too many re-renders ([c68c558](https://github.com/lifinance/widget/commit/c68c558d579a3d6e58ba5d88209c67da39f64c4e))
+
 ### [1.10.1](https://github.com/lifinance/widget/compare/v1.10.0...v1.10.1) (2022-07-15)
 
 
