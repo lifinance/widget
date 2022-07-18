@@ -120,11 +120,12 @@ export const useSwapRoutes = () => {
       (route) => route.id === currentRoute?.id,
     );
     const recommendedRoute = data?.routes[0];
-    // we don't want to set the current route again if it's already selected from existing routes
-    if (!isCurrentRouteInSet && currentRoute !== recommendedRoute) {
+    // we don't want to set the current route again on mount if it's already selected from existing routes
+    if (!isCurrentRouteInSet) {
       setCurrentRoute(recommendedRoute);
     }
-  }, [currentRoute, data?.routes, setCurrentRoute]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data?.routes, setCurrentRoute]);
 
   return {
     routes: data?.routes,
