@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.10.4](https://github.com/lifinance/widget/compare/v1.10.3...v1.10.4) (2022-07-18)
+
+
+### Bug Fixes
+
+* networkChanged is deprecated ([d901074](https://github.com/lifinance/widget/commit/d9010748196d74669c67b151f679951a7db9de2d))
+* show correct final toAmount ([4a64558](https://github.com/lifinance/widget/commit/4a645580f42fc9841676aa2a68c2d7f2a49f6116))
+* show warning only in production build ([4e34b3b](https://github.com/lifinance/widget/commit/4e34b3b715ae6e2470c2f2d9c2a2fbc977f26566))
+
 ### [1.10.3](https://github.com/lifinance/widget/compare/v1.10.2...v1.10.3) (2022-07-18)
 
 
