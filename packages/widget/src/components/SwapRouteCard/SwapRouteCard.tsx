@@ -51,7 +51,7 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
         >
           <Box>
             <Typography fontSize={18} fontWeight="500">
-              {t(`swap.currency`, { value: route.gasCostUSD })}
+              {t(`swap.currency`, { value: route.gasCostUSD ?? 0 })}
             </Typography>
             <Typography fontSize={12} color="text.secondary">
               {t(`swap.gas`)}
