@@ -14,7 +14,7 @@ export const initSentry = (enabled?: boolean) => {
     ],
     sampleRate: 1,
     tracesSampleRate: 0.2,
-    enabled: enabled && process.env.NODE_ENV === 'production',
+    enabled,
     environment: process.env.NODE_ENV,
     release: version,
   });
