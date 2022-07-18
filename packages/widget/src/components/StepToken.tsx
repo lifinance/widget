@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import { TokenAmount } from '@lifi/sdk';
 import { Avatar, Box, BoxProps, Typography } from '@mui/material';
-import { formatTokenAmount } from '../utils/format';
+import { formatTokenAmount } from '../utils';
 import { TextFitter } from './TextFitter';
 
 export const StepToken: React.FC<{ token: TokenAmount } & BoxProps> = ({

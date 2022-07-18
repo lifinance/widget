@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import { PropsWithChildren, RefObject, useLayoutEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useWidgetConfig } from '../providers/WidgetProvider';
-import { ElementId } from '../utils/elements';
+import { ElementId } from '../utils';
 import { PoweredBy } from './PoweredBy';
 
 const CssBaselineContainer = styled(ScopedCssBaseline)(({ theme }) => ({

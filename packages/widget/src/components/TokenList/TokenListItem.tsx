@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { formatTokenPrice } from '../../utils/format';
+import { formatTokenPrice } from '../../utils';
 import { ListItem, ListItemButton } from './TokenList.style';
 import { TokenListItemBaseProps, TokenListItemProps } from './types';
 

@@ -1,4 +1,4 @@
-export const routes = {
+export const navigationRoutes = {
   home: '/',
   selectWallet: 'select-wallet',
   settings: 'settings',
@@ -8,6 +8,6 @@ export const routes = {
   swap: 'swap',
 };
 
-export const routesValues = Object.values(routes);
+export const navigationRoutesValues = Object.values(navigationRoutes);
 
-export type RouteType = keyof typeof routes;
+export type NavigationRouteType = keyof typeof navigationRoutes;

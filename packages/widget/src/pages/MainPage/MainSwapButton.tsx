@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { SwapButton } from '../../components/SwapButton';
 import { useSwapRoutes } from '../../hooks';
 import { useCurrentRoute, useSetExecutableRoute } from '../../stores';
-import { routes } from '../../utils/routes';
+import { navigationRoutes } from '../../utils';
 
 export const MainSwapButton: React.FC = () => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ export const MainSwapButton: React.FC = () => {
       swapRoutes?.some((route) => route.id === currentRoute.id)
     ) {
       setExecutableRoute(currentRoute);
-      navigate(routes.swap, {
+      navigate(navigationRoutes.swap, {
         state: { routeId: currentRoute.id },
       });
     }

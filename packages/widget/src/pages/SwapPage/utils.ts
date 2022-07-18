@@ -8,7 +8,7 @@ import {
   Step,
 } from '@lifi/sdk';
 import { TFunction } from 'react-i18next';
-import { formatTokenAmount } from '../../utils/format';
+import { formatTokenAmount } from '../../utils';
 
 const formatProcessMessage = (
   initialMessage: string,

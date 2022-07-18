@@ -5,14 +5,12 @@ import shallow from 'zustand/shallow';
 import { LiFi } from '../config/lifi';
 import { useWallet } from '../providers/WalletProvider';
 import { useRouteStore } from '../stores';
-import { deepClone } from '../utils/deepClone';
+import { deepClone } from '../utils';
 
 export const useRouteExecution = (routeId: string) => {
   const { account, switchChain } = useWallet();
   const resumedAfterMount = useRef(false);
-  const { route, status } = useRouteStore(
-    (state) => state.routes[routeId] ?? {},
-  );
+  const { route, status } = useRouteStore((state) => state.routes[routeId]);
   const [updateRoute, restartRoute, removeRoute] = useRouteStore(
     (state) => [state.updateRoute, state.restartRoute, state.removeRoute],
     shallow,

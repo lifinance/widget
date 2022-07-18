@@ -10,7 +10,7 @@ import {
 } from '../../components/SwapRouteCard';
 import { useSwapRoutes } from '../../hooks';
 import { useCurrentRoute, useSetExecutableRoute } from '../../stores';
-import { routes } from '../../utils/routes';
+import { navigationRoutes } from '../../utils';
 import { Stack } from './SwapRoutesPage.style';
 
 export const SwapRoutesPage: React.FC<BoxProps> = () => {
@@ -26,12 +26,15 @@ export const SwapRoutesPage: React.FC<BoxProps> = () => {
 
   const handleRouteClick = (route: Route) => {
     setExecutableRoute(route);
-    navigate(routes.swap, { state: { routeId: route.id }, replace: true });
+    navigate(navigationRoutes.swap, {
+      state: { routeId: route.id },
+      replace: true,
+    });
   };
 
   useEffect(() => {
     if (!swapRoutes?.length && !isLoading && !isFetching) {
-      navigate(routes.home);
+      navigate(navigationRoutes.home);
     }
     // redirect to the home page if no routes are found on page reload
     // eslint-disable-next-line react-hooks/exhaustive-deps

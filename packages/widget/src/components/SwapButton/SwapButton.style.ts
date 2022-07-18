@@ -1,7 +1,7 @@
 import { LoadingButton } from '@mui/lab';
 import { loadingButtonClasses } from '@mui/lab/LoadingButton';
 import { styled } from '@mui/material/styles';
-import { getContrastAlphaColor } from '../../utils/colors';
+import { getContrastAlphaColor } from '../../utils';
 
 export const Button = styled(LoadingButton)(({ theme }) => ({
   textTransform: 'none',

@@ -6,7 +6,7 @@ import {
   SwapFormKeyHelper,
   SwapFormTypeProps,
 } from '../../providers/SwapFormProvider';
-import { formatTokenPrice } from '../../utils/format';
+import { formatTokenPrice } from '../../utils';
 
 export const FormPriceHelperText: React.FC<
   SwapFormTypeProps & { selected: boolean }

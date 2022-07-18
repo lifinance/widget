@@ -12,7 +12,7 @@ import { SettingsPage } from './pages/SettingsPage';
 import { SwapPage } from './pages/SwapPage';
 import { SwapRoutesPage } from './pages/SwapRoutesPage';
 import { useWallet } from './providers/WalletProvider';
-import { routes } from './utils/routes';
+import { navigationRoutes } from './utils';
 
 export const App: React.FC<AppProps> = ({ config }) => {
   return (
@@ -32,27 +32,33 @@ export const AppDefault = () => {
     <AppContainer>
       <Header />
       <Routes>
-        <Route path={routes.home} element={<MainPage />} />
-        <Route path={routes.selectWallet} element={<SelectWalletPage />} />
+        <Route path={navigationRoutes.home} element={<MainPage />} />
         <Route
-          path={`${routes.swapRoutes}/${routes.swap}/${routes.selectWallet}`}
+          path={navigationRoutes.selectWallet}
           element={<SelectWalletPage />}
         />
-        <Route path={routes.settings} element={<SettingsPage />} />
         <Route
-          path={routes.fromToken}
+          path={`${navigationRoutes.swapRoutes}/${navigationRoutes.swap}/${navigationRoutes.selectWallet}`}
+          element={<SelectWalletPage />}
+        />
+        <Route path={navigationRoutes.settings} element={<SettingsPage />} />
+        <Route
+          path={navigationRoutes.fromToken}
           element={<SelectTokenPage formType="from" />}
         />
         <Route
-          path={routes.toToken}
+          path={navigationRoutes.toToken}
           element={<SelectTokenPage formType="to" />}
         />
-        <Route path={routes.swapRoutes} element={<SwapRoutesPage />} />
         <Route
-          path={`${routes.swapRoutes}/${routes.swap}`}
+          path={navigationRoutes.swapRoutes}
+          element={<SwapRoutesPage />}
+        />
+        <Route
+          path={`${navigationRoutes.swapRoutes}/${navigationRoutes.swap}`}
           element={<SwapPage />}
         />
-        <Route path={routes.swap} element={<SwapPage />} />
+        <Route path={navigationRoutes.swap} element={<SwapPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Initializer />

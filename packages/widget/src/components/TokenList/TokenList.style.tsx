@@ -4,7 +4,7 @@ import {
 } from '@mui/material';
 import { listItemSecondaryActionClasses } from '@mui/material/ListItemSecondaryAction';
 import { styled } from '@mui/material/styles';
-import { getContrastAlphaColor } from '../../utils/colors';
+import { getContrastAlphaColor } from '../../utils';
 
 export const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
   borderRadius: theme.shape.borderRadiusSecondary,

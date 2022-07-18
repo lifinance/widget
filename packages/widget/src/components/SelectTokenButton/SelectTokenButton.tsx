@@ -8,7 +8,7 @@ import {
   SwapFormKeyHelper,
   SwapFormTypeProps,
 } from '../../providers/SwapFormProvider';
-import { routes } from '../../utils/routes';
+import { navigationRoutes } from '../../utils';
 import { CardTitle } from '../Card';
 import { CardContainer } from '../Card/CardContainer';
 import { Card, SelectTokenCardHeader } from './SelectTokenButton.style';
@@ -30,7 +30,11 @@ export const SelectTokenButton: React.FC<
   const { token, isLoading: isTokenLoading } = useToken(chainId, tokenAddress);
 
   const handleClick = () => {
-    navigate(formType === 'from' ? routes.fromToken : routes.toToken);
+    navigate(
+      formType === 'from'
+        ? navigationRoutes.fromToken
+        : navigationRoutes.toToken,
+    );
   };
 
   const isSelected = !!(chain && token);

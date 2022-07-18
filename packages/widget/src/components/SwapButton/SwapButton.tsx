@@ -6,7 +6,7 @@ import { useChains, useHasSufficientBalance } from '../../hooks';
 import { SwapFormKeyHelper } from '../../providers/SwapFormProvider';
 import { useWallet } from '../../providers/WalletProvider';
 import { useWidgetConfig } from '../../providers/WidgetProvider';
-import { routes } from '../../utils/routes';
+import { navigationRoutes } from '../../utils';
 import { Button } from './SwapButton.style';
 import { SwapButtonProps } from './types';
 
@@ -35,7 +35,7 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
       if (config.walletManagement) {
         await walletConnect();
       } else {
-        navigate(routes.selectWallet);
+        navigate(navigationRoutes.selectWallet);
       }
     } else if (!isCurrentChainMatch) {
       await switchChain(chainId!);

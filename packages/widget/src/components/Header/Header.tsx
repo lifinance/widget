@@ -1,16 +1,15 @@
 import { FC, PropsWithChildren } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useWidgetConfig } from '../../providers/WidgetProvider';
-import { ElementId } from '../../utils/elements';
-import { routes } from '../../utils/routes';
+import { ElementId, navigationRoutes } from '../../utils';
 import { Container } from './Header.style';
 import { NavigationHeader } from './NavigationHeader';
 import { WalletHeader } from './WalletHeader';
 
 const stickyHeaderRoutes = [
-  routes.selectWallet,
-  routes.settings,
-  routes.swapRoutes,
+  navigationRoutes.selectWallet,
+  navigationRoutes.settings,
+  navigationRoutes.swapRoutes,
 ];
 
 const HeaderContainer: FC<PropsWithChildren<{}>> = ({ children }) => {

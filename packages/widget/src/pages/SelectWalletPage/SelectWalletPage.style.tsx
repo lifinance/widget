@@ -7,7 +7,7 @@ import {
 import { listItemSecondaryActionClasses } from '@mui/material/ListItemSecondaryAction';
 import { listItemTextClasses } from '@mui/material/ListItemText';
 import { styled } from '@mui/material/styles';
-import { getContrastAlphaColor } from '../../utils/colors';
+import { getContrastAlphaColor } from '../../utils';
 
 export const WalletListItemButton = styled(ListItemButton)(({ theme }) => ({
   borderRadius: theme.shape.borderRadiusSecondary,

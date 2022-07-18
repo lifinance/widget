@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { CardContainer, CardTitle } from '../../components/Card';
 import { Input } from '../../components/Input';
 import { useSetSettings, useSettings } from '../../stores';
-import { formatSlippage } from '../../utils/format';
+import { formatSlippage } from '../../utils';
 
 export const SlippageInput = () => {
   const { t } = useTranslation();

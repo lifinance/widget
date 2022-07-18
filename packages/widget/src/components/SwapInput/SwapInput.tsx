@@ -7,8 +7,7 @@ import {
   SwapFormKeyHelper,
   SwapFormTypeProps,
 } from '../../providers/SwapFormProvider';
-import { formatAmount } from '../../utils/format';
-import { fitInputText } from '../../utils/input';
+import { fitInputText, formatAmount } from '../../utils';
 import { CardContainer, CardTitle } from '../Card';
 import { FormPriceHelperText } from './FormPriceHelperText';
 import {

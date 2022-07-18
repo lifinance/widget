@@ -5,28 +5,28 @@ import {
 import { Box, IconButton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import { routes, routesValues } from '../../utils/routes';
+import { navigationRoutes, navigationRoutesValues } from '../../utils';
 import { SwapRoutesUpdateProgress } from '../SwapRoutes/SwapRoutesUpdateProgress';
 import { HeaderAppBar } from './Header.style';
 
 const backButtonRoutes = [
-  routes.selectWallet,
-  routes.settings,
-  routes.fromToken,
-  routes.toToken,
-  routes.swapRoutes,
-  routes.swap,
+  navigationRoutes.selectWallet,
+  navigationRoutes.settings,
+  navigationRoutes.fromToken,
+  navigationRoutes.toToken,
+  navigationRoutes.swapRoutes,
+  navigationRoutes.swap,
 ];
 
 export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
   const path = pathname.substring(pathname.lastIndexOf('/') + 1);
-  const hasPath = routesValues.includes(path);
+  const hasPath = navigationRoutesValues.includes(path);
   const navigate = useNavigate();
 
   const handleSettings = () => {
-    navigate(routes.settings);
+    navigate(navigationRoutes.settings);
   };
 
   const handleBack = () => {
@@ -35,17 +35,17 @@ export const NavigationHeader: React.FC = () => {
 
   const handleHeaderTitle = () => {
     switch (path) {
-      case routes.selectWallet:
+      case navigationRoutes.selectWallet:
         return t(`header.selectWallet`);
-      case routes.settings:
+      case navigationRoutes.settings:
         return t(`header.settings`);
-      case routes.fromToken:
+      case navigationRoutes.fromToken:
         return t(`header.from`);
-      case routes.toToken:
+      case navigationRoutes.toToken:
         return t(`header.to`);
-      case routes.swapRoutes:
+      case navigationRoutes.swapRoutes:
         return t(`header.routes`);
-      case routes.swap:
+      case navigationRoutes.swap:
         return t(`header.swap`);
       default:
         return t(`header.swap`);
@@ -75,7 +75,7 @@ export const NavigationHeader: React.FC = () => {
       </Typography>
       <Routes>
         <Route
-          path={routes.swapRoutes}
+          path={navigationRoutes.swapRoutes}
           element={
             <SwapRoutesUpdateProgress
               size="medium"
@@ -85,7 +85,7 @@ export const NavigationHeader: React.FC = () => {
           }
         />
         <Route
-          path={routes.home}
+          path={navigationRoutes.home}
           element={
             <IconButton
               size="medium"

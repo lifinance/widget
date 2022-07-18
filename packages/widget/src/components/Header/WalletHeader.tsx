@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useWallet } from '../../providers/WalletProvider';
 import { useWidgetConfig } from '../../providers/WidgetProvider';
-import { routes } from '../../utils/routes';
+import { navigationRoutes } from '../../utils';
 import { HeaderAppBar } from './Header.style';
 
 export const WalletHeader: React.FC = () => {
@@ -75,14 +75,16 @@ const ConnectButton = () => {
       await walletConnect();
       return;
     }
-    navigate(routes.selectWallet);
+    navigate(navigationRoutes.selectWallet);
   };
   return (
     <IconButton
       size="medium"
       aria-label="disconnect"
       edge="end"
-      onClick={!pathname.includes(routes.selectWallet) ? connect : undefined}
+      onClick={
+        !pathname.includes(navigationRoutes.selectWallet) ? connect : undefined
+      }
     >
       <AccountBalanceWalletIcon />
     </IconButton>

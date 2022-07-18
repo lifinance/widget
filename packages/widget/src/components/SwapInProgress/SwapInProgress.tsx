@@ -7,7 +7,7 @@ import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useExecutingRoutes } from '../../stores';
-import { routes } from '../../utils/routes';
+import { navigationRoutes } from '../../utils';
 import { CardTitle } from '../Card';
 import { Card, RouteAvatar, RouteCard } from './SwapInProgress.style';
 
@@ -18,7 +18,7 @@ export const SwapInProgress: React.FC<BoxProps> = (props) => {
 
   const handleCardClick = useCallback(
     (routeId: string) => {
-      navigate(routes.swap, { state: { routeId } });
+      navigate(navigationRoutes.swap, { state: { routeId } });
     },
     [navigate],
   );

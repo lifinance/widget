@@ -1,5 +1,5 @@
 import { useLayoutEffect, useState } from 'react';
-import { ElementId } from '../utils/elements';
+import { ElementId } from '../utils';
 
 export const useScrollableContainer = () => {
   const [containerElement, setContainerElement] = useState(() =>

@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useSwapRoutes } from '../../hooks';
 import { useCurrentRoute } from '../../stores';
-import { routes } from '../../utils/routes';
+import { navigationRoutes } from '../../utils';
 import { CardContainer, CardTitle } from '../Card';
 import {
   SwapRouteCard,
@@ -28,7 +28,7 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
   } = useSwapRoutes();
 
   const handleCardClick = useCallback(() => {
-    navigate(routes.swapRoutes);
+    navigate(navigationRoutes.swapRoutes);
   }, [navigate]);
 
   if (!swapRoutes?.length && !isLoading && !isFetching && !isFetched) {
