@@ -66,7 +66,7 @@ export const switchChainAndAddToken = async (chainId: number, token: Token) => {
 
   if (chainIdPrefixed !== ethereum.chainId) {
     await switchChain(chainId);
-    ethereum.once('networkChanged', async (id: string) => {
+    ethereum.once('chainChanged', async (id: string) => {
       if (parseInt(id, 10) === chainId) {
         await addToken(token);
       }
