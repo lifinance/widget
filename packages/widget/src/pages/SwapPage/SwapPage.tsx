@@ -63,7 +63,7 @@ export const SwapPage: React.FC = () => {
           ) : null}
         </Fragment>
       ))}
-      <InsufficientGasOrFundsMessage mt={2} />
+      {status === 'idle' ? <InsufficientGasOrFundsMessage mt={2} /> : null}
       {status === 'idle' || status === 'error' ? (
         <Box mt={2}>
           <SwapButton onClick={handleSwapClick} text={getSwapButtonText()} />

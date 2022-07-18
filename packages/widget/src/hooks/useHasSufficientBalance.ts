@@ -27,7 +27,7 @@ export const useHasSufficientBalance = () => {
 
   const hasGasOnStartChain = useMemo(() => {
     const gasToken = route?.steps[0].estimate.gasCosts?.[0].token;
-    if (!account.isActive || !gasToken) {
+    if (!account.isActive || !gasToken || !fromAmount) {
       return true;
     }
     const gasTokenBalance = Big(
@@ -43,16 +43,12 @@ export const useHasSufficientBalance = () => {
       )
       .div(10 ** gasToken.decimals);
     if (route.fromToken.address === gasToken.address) {
-      const tokenBalance = Big(
-        fromChainTokenBalances?.find(
-          (t) => t.address === route.fromToken.address,
-        )?.amount ?? 0,
-      );
-      requiredAmount = requiredAmount.plus(tokenBalance);
+      requiredAmount = requiredAmount.plus(Big(fromAmount));
     }
     return gasTokenBalance.gt(0) && gasTokenBalance.gte(requiredAmount);
   }, [
     account.isActive,
+    fromAmount,
     fromChainTokenBalances,
     route?.fromChainId,
     route?.fromToken.address,
