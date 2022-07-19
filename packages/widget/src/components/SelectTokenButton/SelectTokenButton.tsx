@@ -1,5 +1,5 @@
 import { KeyboardArrowRight as KeyboardArrowRightIcon } from '@mui/icons-material';
-import { Avatar, Skeleton } from '@mui/material';
+import { Skeleton } from '@mui/material';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +11,7 @@ import {
 import { navigationRoutes } from '../../utils';
 import { CardTitle } from '../Card';
 import { CardContainer } from '../Card/CardContainer';
+import { TokenAvatar } from '../TokenAvatar';
 import { Card, SelectTokenCardHeader } from './SelectTokenButton.style';
 
 export const SelectTokenButton: React.FC<
@@ -52,13 +53,7 @@ export const SelectTokenButton: React.FC<
           />
         ) : (
           <SelectTokenCardHeader
-            avatar={
-              isSelected ? (
-                <Avatar src={token.logoURI} alt={token.symbol}>
-                  {token.symbol[0]}
-                </Avatar>
-              ) : null
-            }
+            avatar={isSelected ? <TokenAvatar token={token} /> : null}
             action={!compact ? <KeyboardArrowRightIcon /> : null}
             title={isSelected ? token.symbol : t(`swap.selectChainAndToken`)}
             subheader={isSelected ? `on ${chain.name}` : null}

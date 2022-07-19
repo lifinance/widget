@@ -1,4 +1,3 @@
-import { Avatar } from '@mui/material';
 import { ChangeEvent, useLayoutEffect, useRef } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +8,7 @@ import {
 } from '../../providers/SwapFormProvider';
 import { fitInputText, formatAmount } from '../../utils';
 import { CardContainer, CardTitle } from '../Card';
+import { TokenAvatar } from '../TokenAvatar';
 import { FormPriceHelperText } from './FormPriceHelperText';
 import {
   FormControl,
@@ -69,13 +69,7 @@ export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
           placeholder="0"
           startAdornment={
             isSelected ? (
-              <Avatar
-                src={token.logoURI}
-                alt={token.symbol}
-                sx={{ marginLeft: 2 }}
-              >
-                {token.symbol[0]}
-              </Avatar>
+              <TokenAvatar token={token} sx={{ marginLeft: 2 }} />
             ) : null
           }
           endAdornment={<SwapInputAdornment formType={formType} />}

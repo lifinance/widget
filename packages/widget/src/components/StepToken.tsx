@@ -1,8 +1,9 @@
 /* eslint-disable react/no-array-index-key */
 import { TokenAmount } from '@lifi/sdk';
-import { Avatar, Box, BoxProps, Typography } from '@mui/material';
+import { Box, BoxProps, Typography } from '@mui/material';
 import { formatTokenAmount } from '../utils';
 import { TextFitter } from './TextFitter';
+import { TokenAvatar } from './TokenAvatar';
 
 export const StepToken: React.FC<{ token: TokenAmount } & BoxProps> = ({
   token,
@@ -11,9 +12,7 @@ export const StepToken: React.FC<{ token: TokenAmount } & BoxProps> = ({
   return (
     <Box flex={1} {...other}>
       <Box display="flex" flex={1}>
-        <Avatar src={token.logoURI} alt={token.symbol} sx={{ marginRight: 2 }}>
-          {token.symbol[0]}
-        </Avatar>
+        <TokenAvatar token={token} sx={{ marginRight: 2 }} />
         <TextFitter
           height={32}
           textStyle={{
