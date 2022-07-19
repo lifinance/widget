@@ -1,6 +1,6 @@
 import { TokenAmount } from '@lifi/sdk';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback } from 'react';
-import { useQuery, useQueryClient } from 'react-query';
 import { LiFi } from '../config/lifi';
 import { useWallet } from '../providers/WalletProvider';
 import { formatTokenAmount } from '../utils';

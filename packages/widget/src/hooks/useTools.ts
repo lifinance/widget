@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { LiFi } from '../config/lifi';
 import { useSettingsStore } from '../stores';
 

@@ -1,5 +1,5 @@
 import { TokenAmount } from '@lifi/sdk';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { LiFi } from '../config/lifi';
 import { useWallet } from '../providers/WalletProvider';
 import { formatTokenAmount } from '../utils';

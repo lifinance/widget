@@ -1,7 +1,7 @@
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Big from 'big.js';
 import { useEffect } from 'react';
 import { useWatch } from 'react-hook-form';
-import { useQuery, useQueryClient } from 'react-query';
 import { useDebouncedWatch, useToken } from '.';
 import { LiFi } from '../config/lifi';
 import { SwapFormKey } from '../providers/SwapFormProvider';

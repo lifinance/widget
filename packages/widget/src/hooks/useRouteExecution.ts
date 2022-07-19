@@ -1,6 +1,6 @@
 import { Route } from '@lifi/sdk';
+import { useMutation } from '@tanstack/react-query';
 import { useCallback, useEffect, useRef } from 'react';
-import { useMutation } from 'react-query';
 import shallow from 'zustand/shallow';
 import { LiFi } from '../config/lifi';
 import { useWallet } from '../providers/WalletProvider';

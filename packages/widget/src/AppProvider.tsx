@@ -1,7 +1,10 @@
 /* eslint-disable camelcase */
 /* eslint-disable react/jsx-pascal-case */
+import {
+  QueryClientProvider,
+  QueryClientProviderProps,
+} from '@tanstack/react-query';
 import { FC, Fragment, PropsWithChildren } from 'react';
-import { QueryClientProvider, QueryClientProviderProps } from 'react-query';
 import { MemoryRouter, useInRouterContext } from 'react-router-dom';
 import { WidgetConfig } from '.';
 import { queryClient } from './config/queryClient';

@@ -1,5 +1,5 @@
+import { useQuery } from '@tanstack/react-query';
 import { useCallback } from 'react';
-import { useQuery } from 'react-query';
 import { LiFi } from '../config/lifi';
 import { useWidgetConfig } from '../providers/WidgetProvider';
 
