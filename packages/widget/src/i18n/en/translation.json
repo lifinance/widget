@@ -10,10 +10,10 @@
     "routes": "You get"
   },
   "button": {
-    "swap": "Swap",
     "connectWallet": "Connect wallet",
     "switchChain": "Switch chain",
-    "startSwap": "Start the swap",
+    "reviewSwap": "Review swap",
+    "startSwap": "Start swap",
     "restartSwap": "Restart swap",
     "removeSwap": "Remove swap",
     "done": "Done",
@@ -51,7 +51,7 @@
     "stepSwapAndBridge": "Swap and bridge",
     "estimatedTime": "~{{value}} min.",
     "networkIsBusy": "Network is busy...",
-    "crossStepDetails": "Bridge {{from}} to {{to}} via {{tool}}",
+    "crossStepDetails": "Bridge from {{from}} to {{to}} via {{tool}}",
     "swapStepDetails": "Swap on {{chain}} via {{tool}}",
     "tags": {
       "recommended": "Recommended",

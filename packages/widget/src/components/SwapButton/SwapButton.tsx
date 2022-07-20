@@ -50,7 +50,7 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
       if (!isCurrentChainMatch) {
         return t(`button.switchChain`);
       }
-      return text || t(`button.swap`);
+      return text || t(`button.reviewSwap`);
     }
     return t(`button.connectWallet`);
   };
