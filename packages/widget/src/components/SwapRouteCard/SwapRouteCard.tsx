@@ -17,7 +17,7 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
     ? t(`swap.tags.${route.tags[0].toLowerCase()}` as any).toUpperCase()
     : t(`swap.tags.general`).toUpperCase();
   return (
-    <Card active={active} dense={dense} {...other}>
+    <Card dense={dense} {...other}>
       <Box>
         <Box
           sx={{
