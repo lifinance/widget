@@ -3332,10 +3332,10 @@
   resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.0.3.tgz#21347676c45b73aec3ed0107613e5b963bc86fa5"
   integrity sha512-Z0harJHTf051ICqyqy1BE/3B1BGKAyKD6di4x/BW2HfAkNS3c3RoLV3eZMLwcw1A+sRay634ZfBqlWJafizZog==
 
-"@tanstack/react-query@^4.0.5":
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-4.0.5.tgz#4597ac03394ddfa6ad8b5e1beb6282468623d398"
-  integrity sha512-tIggVlhoFevVpY/LkZroPmrERFHN8tw4aZLtgwSArzHmMJ03WQcaNvbbHy6GERidXtaMdUz+IeQryrE7cO7WPQ==
+"@tanstack/react-query@^4.0.10":
+  version "4.0.10"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-4.0.10.tgz#92c71a2632c06450d848d4964959bd216cde03c0"
+  integrity sha512-Wn5QhZUE5wvr6rGClV7KeQIUsdTmYR9mgmMZen7DSRWauHW2UTynFg3Kkf6pw+XlxxOLsyLWwz/Q6q1lSpM3TQ==
   dependencies:
     "@tanstack/query-core" "^4.0.0-beta.1"
     "@types/use-sync-external-store" "^0.0.3"
@@ -13536,9 +13536,9 @@ zustand@^4.0.0-beta.2:
   dependencies:
     use-sync-external-store "1.2.0"
 
-zustand@^4.0.0-rc.3:
-  version "4.0.0-rc.3"
-  resolved "https://registry.yarnpkg.com/zustand/-/zustand-4.0.0-rc.3.tgz#690fef2c91b106bd6376452cba2b1533267747f9"
-  integrity sha512-vc7TKQJC6T8lx5EupnuUTWXahuRLYjrK9oWLvY+u65ZkLDjocgxDGMrl5VBuxyjXCXyJ3kquN3l/Y2yUj5ZDEg==
+zustand@^4.0.0-rc.4:
+  version "4.0.0-rc.4"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-4.0.0-rc.4.tgz#ed0e0f1fa3e1c7d0d9021739d862d88048d845da"
+  integrity sha512-BP35Rq40GBTKKtYyjLuZogzXGh289xqO8U8ivGIK43nRqURD2dEEImkUci1/jWRUz7J1OPJkUZuNySCho801gQ==
   dependencies:
     use-sync-external-store "1.2.0"

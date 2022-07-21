@@ -118,12 +118,12 @@ export const useGasSufficiency = (route?: Route) => {
 
   const insufficientFunds = useMemo(() => {
     if (!account.isActive || !fromToken || !fromAmount) {
-      return true;
+      return false;
     }
     const balance = Big(
       fromChainTokenBalances?.find((t) => t.address === fromToken)?.amount ?? 0,
     );
-    return Big(fromAmount).lte(balance);
+    return Big(fromAmount).gte(balance);
   }, [account.isActive, fromAmount, fromChainTokenBalances, fromToken]);
 
   return {

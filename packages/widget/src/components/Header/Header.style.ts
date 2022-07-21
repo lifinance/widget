@@ -7,10 +7,11 @@ export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
   flexDirection: 'row',
   alignItems: 'center',
   position: 'relative',
-  minHeight: 48,
+  minHeight: 40,
   padding: theme.spacing(0, 3, 0, 3),
   ':first-of-type': {
     paddingTop: theme.spacing(1.5),
+    paddingBottom: theme.spacing(0.5),
   },
 }));
 

@@ -46,6 +46,8 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
     }
   };
 
+  console.log(insufficientFunds, insufficientGas);
+
   const getButtonText = () => {
     if (account.isActive) {
       if (!isCurrentChainMatch) {

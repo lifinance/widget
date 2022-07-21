@@ -9,8 +9,8 @@ import { SwapRoutes } from './SwapRoutes';
 export const MainPage: React.FC = () => {
   return (
     <FormContainer disableGutters>
-      <SwapInProgress mx={3} mt={2} mb={1} />
-      <SelectChainAndToken mt={2} mx={3} mb={3} />
+      <SwapInProgress mx={3} mt={1} mb={2} />
+      <SelectChainAndToken mt={1} mx={3} mb={3} />
       <Box mx={3} mb={3}>
         <SwapInput formType="from" />
       </Box>

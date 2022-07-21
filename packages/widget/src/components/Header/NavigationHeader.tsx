@@ -65,7 +65,7 @@ export const NavigationHeader: React.FC = () => {
         </IconButton>
       ) : null}
       <Typography
-        fontSize={hasPath ? 24 : 32}
+        fontSize={hasPath ? 18 : 24}
         align={hasPath ? 'center' : 'left'}
         fontWeight="700"
         flex={1}
@@ -97,7 +97,7 @@ export const NavigationHeader: React.FC = () => {
             </IconButton>
           }
         />
-        <Route path="*" element={<Box width={28} height={48} />} />
+        <Route path="*" element={<Box width={28} height={40} />} />
       </Routes>
     </HeaderAppBar>
   );

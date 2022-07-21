@@ -22,8 +22,7 @@ export const GasSufficiencyMessage: React.FC<{ route?: Route } & BoxProps> = ({
   let message;
   if (insufficientFunds) {
     message = t(`swap.warning.message.insufficientFunds`);
-  }
-  if (insufficientGas.length) {
+  } else if (insufficientGas.length) {
     title = t(`swap.warning.title.insufficientGas`);
     message = t(`swap.warning.message.insufficientGas`);
   }
@@ -40,12 +39,12 @@ export const GasSufficiencyMessage: React.FC<{ route?: Route } & BoxProps> = ({
         <Typography
           variant="body2"
           px={2}
-          pb={insufficientGas.length ? 0 : 2}
+          pb={!insufficientFunds && insufficientGas.length ? 0 : 2}
           pt={title ? 1 : 2}
         >
           {message}
         </Typography>
-        {insufficientGas.length
+        {!insufficientFunds && insufficientGas.length
           ? insufficientGas.map((item, index) => (
               <Typography
                 key={index}
