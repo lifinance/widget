@@ -1,5 +1,5 @@
 import {
-  AccountBalanceWallet as AccountBalanceWalletIcon,
+  AccountBalanceWalletOutlined as AccountBalanceWalletIcon,
   Logout as LogoutIcon,
 } from '@mui/icons-material';
 import { Box, IconButton, Typography } from '@mui/material';

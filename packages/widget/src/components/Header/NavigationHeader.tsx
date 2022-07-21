@@ -1,6 +1,6 @@
 import {
   ArrowBack as ArrowBackIcon,
-  Settings as SettingsIcon,
+  SettingsOutlined as SettingsIcon,
 } from '@mui/icons-material';
 import { Box, IconButton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';

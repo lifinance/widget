@@ -1,4 +1,4 @@
-import { Warning as WarningIcon } from '@mui/icons-material';
+import { WarningAmber as WarningIcon } from '@mui/icons-material';
 import { Box, BoxProps, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useGasSufficiency } from '../../hooks';
