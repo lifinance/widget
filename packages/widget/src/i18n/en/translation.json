@@ -83,7 +83,7 @@
       },
       "message": {
         "insufficientFunds": "You don't have enough funds to execute the swap.",
-        "insufficientGas": "To execute the swap, you need to top up your wallet with at least:"
+        "insufficientGas": "You need to add at least:"
       }
     },
     "error": {
