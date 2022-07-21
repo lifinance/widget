@@ -14,10 +14,9 @@ export type ThemeConfig = {
 export interface WidgetWalletManagement {
   connect(): Promise<Signer>;
   disconnect(): Promise<void>;
-  getSigner(): Promise<Signer | undefined>;
-  switchChain(reqChainId: number): Promise<Signer>;
-  addToken(token: Token, chainId: number): Promise<void>;
-  addChain(chainId: number): Promise<boolean>;
+  switchChain?(chainId: number): Promise<Signer>;
+  addToken?(token: Token, chainId: number): Promise<void>;
+  addChain?(chainId: number): Promise<boolean>;
   signer?: Signer;
 }
 

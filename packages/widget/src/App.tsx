@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { AppProps, AppProvider } from './AppProvider';
 import { AppContainer } from './components/AppContainer';
@@ -11,7 +10,6 @@ import { SelectWalletPage } from './pages/SelectWalletPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { SwapPage } from './pages/SwapPage';
 import { SwapRoutesPage } from './pages/SwapRoutesPage';
-import { useWallet } from './providers/WalletProvider';
 import { navigationRoutes } from './utils';
 
 export const App: React.FC<AppProps> = ({ config }) => {
@@ -23,11 +21,6 @@ export const App: React.FC<AppProps> = ({ config }) => {
 };
 
 export const AppDefault = () => {
-  const { attemptEagerConnect } = useWallet();
-  useEffect(() => {
-    attemptEagerConnect();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   return (
     <AppContainer>
       <Header />

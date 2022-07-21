@@ -30,7 +30,6 @@ const initialContext: WalletContextProps = {
   switchChain: stub,
   addChain: stub,
   addToken: stub,
-  attemptEagerConnect: stub,
   account: {},
 };
 
@@ -72,7 +71,7 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   // only for injected wallets
   const switchChain = useCallback(
     async (chainId: number) => {
-      if (config.walletManagement) {
+      if (config.walletManagement?.switchChain) {
         const signer = await config.walletManagement.switchChain(chainId);
         const account = await extractAccountFromSigner(signer);
         setAccount(account);
@@ -84,7 +83,7 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
 
   const addChain = useCallback(
     async (chainId: number) => {
-      if (config.walletManagement) {
+      if (config.walletManagement?.addChain) {
         return config.walletManagement.addChain(chainId);
       }
       return walletAddChain(chainId);
@@ -94,25 +93,13 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
 
   const addToken = useCallback(
     async (chainId: number, token: Token) => {
-      if (config.walletManagement) {
+      if (config.walletManagement?.addToken) {
         return config.walletManagement.addToken(token, chainId);
       }
       return switchChainAndAddToken(chainId, token);
     },
     [config.walletManagement],
   );
-
-  const attemptEagerConnect = useCallback(async () => {
-    if (config.walletManagement) {
-      try {
-        const signer = await config.walletManagement.getSigner();
-        const account = await extractAccountFromSigner(signer);
-        setAccount(() => ({ ...account }));
-      } catch (e) {
-        console.warn('WalletProvider: attempted eager connect.', e);
-      }
-    }
-  }, [config.walletManagement]);
 
   // keep account information up to date
   useEffect(() => {
@@ -137,18 +124,9 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
       switchChain,
       addChain,
       addToken,
-      attemptEagerConnect,
       account,
     }),
-    [
-      account,
-      addChain,
-      addToken,
-      connect,
-      disconnect,
-      switchChain,
-      attemptEagerConnect,
-    ],
+    [account, addChain, addToken, connect, disconnect, switchChain],
   );
 
   return (
