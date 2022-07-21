@@ -9,7 +9,7 @@ import { useSettingsStore } from '../../stores';
 
 export const EnabledExchangesSelect: React.FC = () => {
   const { t } = useTranslation();
-  const tools = useTools();
+  const { tools, formattedTools } = useTools();
   const [enabledExchanges, setTools] = useSettingsStore(
     (state) => [state.enabledExchanges, state.setTools],
     shallow,
@@ -37,7 +37,10 @@ export const EnabledExchangesSelect: React.FC = () => {
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {(selected as string[]).map((value) => (
-                <Chip key={value} label={value} />
+                <Chip
+                  key={value}
+                  label={formattedTools?.exchanges[value]?.name ?? value}
+                />
               ))}
             </Box>
           )}

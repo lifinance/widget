@@ -9,7 +9,7 @@ import { useSettingsStore } from '../../stores';
 
 export const EnabledBridgesSelect: React.FC = () => {
   const { t } = useTranslation();
-  const tools = useTools();
+  const { tools, formattedTools } = useTools();
   const [enabledBridges, setTools] = useSettingsStore(
     (state) => [state.enabledBridges, state.setTools],
     shallow,
@@ -37,14 +37,17 @@ export const EnabledBridgesSelect: React.FC = () => {
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {(selected as string[]).map((value) => (
-                <Chip key={value} label={value} />
+                <Chip
+                  key={value}
+                  label={formattedTools?.bridges[value]?.name ?? value}
+                />
               ))}
             </Box>
           )}
         >
           {tools?.bridges?.map((bridge) => (
             <MenuItem key={bridge.key} value={bridge.key}>
-              {bridge.key}
+              {bridge.name}
             </MenuItem>
           ))}
         </Select>
