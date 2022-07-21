@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { InsufficientGasOrFundsMessage } from '../../components/InsufficientGasOrFundsMessage';
+import { GasSufficiencyMessage } from '../../components/GasSufficiencyMessage';
 import { SwapButton } from '../../components/SwapButton';
 import { useRouteExecution } from '../../hooks';
 import { StatusBottomSheet } from './StatusBottomSheet';
@@ -66,7 +66,7 @@ export const SwapPage: React.FC = () => {
           ) : null}
         </Fragment>
       ))}
-      {status === 'idle' ? <InsufficientGasOrFundsMessage mt={2} /> : null}
+      {status === 'idle' ? <GasSufficiencyMessage mt={2} /> : null}
       {status === 'idle' || status === 'error' ? (
         <Box mt={2}>
           <SwapButton onClick={handleSwapClick} text={getSwapButtonText()} />

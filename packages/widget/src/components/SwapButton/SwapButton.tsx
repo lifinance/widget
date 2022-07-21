@@ -2,7 +2,7 @@ import { ChainId } from '@lifi/sdk';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useChains, useHasSufficientBalance } from '../../hooks';
+import { useChains, useGasSufficiency } from '../../hooks';
 import { SwapFormKeyHelper } from '../../providers/SwapFormProvider';
 import { useWallet } from '../../providers/WalletProvider';
 import { useWidgetConfig } from '../../providers/WidgetProvider';
@@ -21,8 +21,7 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
   const config = useWidgetConfig();
   const { account, switchChain, connect: walletConnect } = useWallet();
 
-  const { hasGasOnStartChain, hasGasOnCrossChain, hasSufficientBalance } =
-    useHasSufficientBalance();
+  const { insufficientFunds, insufficientGas } = useGasSufficiency();
 
   const [chainId] = useWatch({
     name: [SwapFormKeyHelper.getChainKey('from')],
@@ -64,10 +63,7 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
       onClick={handleSwapButtonClick}
       // loading={isLoading || isFetching}
       disabled={
-        (!hasSufficientBalance ||
-          !hasGasOnStartChain ||
-          !hasGasOnCrossChain ||
-          loading) &&
+        (insufficientFunds || !!insufficientGas.length || loading) &&
         isCurrentChainMatch
       }
     >

@@ -53,6 +53,7 @@
     "networkIsBusy": "Network is busy...",
     "crossStepDetails": "Bridge from {{from}} to {{to}} via {{tool}}",
     "swapStepDetails": "Swap on {{chain}} via {{tool}}",
+    "gasAmount": "{{amount}} {{tokenSymbol}} on {{chainName}}",
     "tags": {
       "recommended": "Recommended",
       "fastest": "Fast",
@@ -73,7 +74,7 @@
         "routeNotFound": "No routes available"
       },
       "message": {
-        "routeNotFound": "Try another \"from\" and \"to\" token combination."
+        "routeNotFound": "Try another token combination."
       }
     },
     "warning": {
@@ -81,9 +82,8 @@
         "insufficientGas": "Insufficient gas"
       },
       "message": {
-        "insufficientFunds": "You don't have enough funds for this transaction on the start \"from\" chain.",
-        "insufficientGasOnStartChain": "You need to have enough gas to pay for this transaction on the start \"from\" chain.",
-        "insufficientGasOnDestinationChain": "You need to have enough gas to pay for this transaction on the destination \"to\" chain."
+        "insufficientFunds": "You don't have enough funds to execute the swap.",
+        "insufficientGas": "To execute the swap, you need to top up your wallet with at least:"
       }
     },
     "error": {

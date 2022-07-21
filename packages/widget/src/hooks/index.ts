@@ -2,7 +2,7 @@ export * from './useChain';
 export * from './useChains';
 export * from './useContentHeight';
 export * from './useDebouncedWatch';
-export * from './useHasSufficientBalance';
+export * from './useGasSufficiency';
 export * from './useRouteExecution';
 export * from './useScrollableContainer';
 export * from './useSwapRoutes';

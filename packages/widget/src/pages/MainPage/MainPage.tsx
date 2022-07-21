@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { InsufficientGasOrFundsMessage } from '../../components/InsufficientGasOrFundsMessage';
+import { GasSufficiencyMessage } from '../../components/GasSufficiencyMessage';
 import { SelectChainAndToken } from '../../components/SelectChainAndToken';
 import { SwapInProgress } from '../../components/SwapInProgress';
 import { SwapInput } from '../../components/SwapInput';
@@ -16,7 +16,7 @@ export const MainPage: React.FC = () => {
         <SwapInput formType="from" />
       </Box>
       <SwapRoutes mx={3} mb={3} />
-      <InsufficientGasOrFundsMessage mx={3} mb={3} />
+      <GasSufficiencyMessage mx={3} mb={3} />
       <Box mx={3} mb={1}>
         <MainSwapButton />
       </Box>

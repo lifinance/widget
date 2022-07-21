@@ -9,4 +9,5 @@ export const MessageCard = styled(Box)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   position: 'relative',
   display: 'flex',
+  whiteSpace: 'pre-line',
 }));
