@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { Bridge, Exchange } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useMemo } from 'react';
 import { LiFi } from '../config/lifi';
 import { useSettingsStore } from '../stores';
 
@@ -12,7 +12,6 @@ interface FormattedTools {
 }
 
 export const useTools = () => {
-  const [formattedTools, setFormattedTools] = useState<FormattedTools>();
   const initializeTools = useSettingsStore((state) => state.initializeTools);
   const { data } = useQuery(
     ['tools'],
@@ -27,18 +26,22 @@ export const useTools = () => {
           'Exchanges',
           data.exchanges.map((exchange) => exchange.key),
         );
-        setFormattedTools({
-          bridges: data.bridges.reduce((bridges, bridge) => {
-            bridges[bridge.key] = bridge;
-            return bridges;
-          }, {} as FormattedTool<Bridge, 'key' | 'name' | 'logoURI'>),
-          exchanges: data.exchanges.reduce((exchanges, exchange) => {
-            exchanges[exchange.key] = exchange;
-            return exchanges;
-          }, {} as FormattedTool<Exchange, 'key' | 'name' | 'logoURI'>),
-        });
       },
     },
+  );
+
+  const formattedTools = useMemo(
+    () => ({
+      bridges: data?.bridges.reduce((bridges, bridge) => {
+        bridges[bridge.key] = bridge;
+        return bridges;
+      }, {} as FormattedTool<Bridge, 'key' | 'name' | 'logoURI'>),
+      exchanges: data?.exchanges.reduce((exchanges, exchange) => {
+        exchanges[exchange.key] = exchange;
+        return exchanges;
+      }, {} as FormattedTool<Exchange, 'key' | 'name' | 'logoURI'>),
+    }),
+    [data?.bridges, data?.exchanges],
   );
 
   return { tools: data, formattedTools };

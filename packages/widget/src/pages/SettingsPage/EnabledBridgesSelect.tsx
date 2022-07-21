@@ -39,7 +39,7 @@ export const EnabledBridgesSelect: React.FC = () => {
               {(selected as string[]).map((value) => (
                 <Chip
                   key={value}
-                  label={formattedTools?.bridges[value]?.name ?? value}
+                  label={formattedTools.bridges?.[value]?.name ?? value}
                 />
               ))}
             </Box>

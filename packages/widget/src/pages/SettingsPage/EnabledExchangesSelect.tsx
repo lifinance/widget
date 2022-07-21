@@ -39,7 +39,7 @@ export const EnabledExchangesSelect: React.FC = () => {
               {(selected as string[]).map((value) => (
                 <Chip
                   key={value}
-                  label={formattedTools?.exchanges[value]?.name ?? value}
+                  label={formattedTools.exchanges?.[value]?.name ?? value}
                 />
               ))}
             </Box>
