@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { Route } from '@lifi/sdk';
 import { WarningAmber as WarningIcon } from '@mui/icons-material';
 import { Box, BoxProps, Typography } from '@mui/material';
@@ -47,6 +48,7 @@ export const GasSufficiencyMessage: React.FC<{ route?: Route } & BoxProps> = ({
         {insufficientGas.length
           ? insufficientGas.map((item, index) => (
               <Typography
+                key={index}
                 variant="body2"
                 px={2}
                 pb={insufficientGas.length - 1 === index ? 2 : 0}
