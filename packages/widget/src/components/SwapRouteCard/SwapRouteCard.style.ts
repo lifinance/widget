@@ -34,14 +34,18 @@ export const Card = styled(Box, {
   }),
 );
 
-export const Label = styled(Typography)(({ theme }) => ({
+export const Label = styled(Typography, {
+  shouldForwardProp: (prop) => prop !== 'active',
+})<{ active?: boolean }>(({ theme, active }) => ({
+  backgroundColor: active ? theme.palette.primary.main : 'transparent',
   border: '1px solid',
-  borderColor:
-    theme.palette.mode === 'light'
-      ? theme.palette.grey[500]
-      : theme.palette.grey[600],
+  borderColor: active
+    ? theme.palette.primary.main
+    : theme.palette.mode === 'light'
+    ? theme.palette.grey[500]
+    : theme.palette.grey[600],
   borderRadius: theme.shape.borderRadius / 2,
-  color: theme.palette.text.secondary,
+  color: active ? theme.palette.common.white : theme.palette.text.secondary,
   padding: theme.spacing(0.75),
   fontSize: 12,
   lineHeight: 1,
@@ -51,15 +55,4 @@ export const Label = styled(Typography)(({ theme }) => ({
   textTransform: 'uppercase',
   display: 'inline-flex',
   userSelect: 'none',
-}));
-
-export const Check = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.main,
-  borderRadius: '50%',
-  color: theme.palette.common.white,
-  width: 24,
-  height: 24,
-  display: 'grid',
-  placeItems: 'center',
-  fontSize: '1rem',
 }));

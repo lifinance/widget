@@ -6,7 +6,7 @@ import { Box, IconButton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { navigationRoutes, navigationRoutesValues } from '../../utils';
-import { SwapRoutesUpdateProgress } from '../SwapRoutes/SwapRoutesUpdateProgress';
+import { SwapRoutesUpdateProgress } from '../ProgressToNextUpdate';
 import { HeaderAppBar } from './Header.style';
 
 const backButtonRoutes = [

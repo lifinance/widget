@@ -1,19 +1,17 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Big from 'big.js';
-import { useEffect } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useDebouncedWatch, useToken } from '.';
 import { LiFi } from '../config/lifi';
 import { SwapFormKey } from '../providers/SwapFormProvider';
 import { useWallet } from '../providers/WalletProvider';
-import { useCurrentRoute, useSettings } from '../stores';
+import { useSettings } from '../stores';
 
 const refetchTime = 60_000;
 
 export const useSwapRoutes = () => {
   const { account } = useWallet();
   const queryClient = useQueryClient();
-  const [currentRoute, setCurrentRoute] = useCurrentRoute();
   const { slippage, enabledBridges, enabledExchanges, routePriority } =
     useSettings([
       'slippage',
@@ -113,19 +111,6 @@ export const useSwapRoutes = () => {
         cacheTime: refetchTime,
       },
     );
-
-  useEffect(() => {
-    // check that the current route is selected from existing routes
-    const isCurrentRouteInSet = data?.routes.some(
-      (route) => route.id === currentRoute?.id,
-    );
-    const recommendedRoute = data?.routes[0];
-    // we don't want to set the current route again on mount if it's already selected from existing routes
-    if (!isCurrentRouteInSet) {
-      setCurrentRoute(recommendedRoute);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data?.routes, setCurrentRoute]);
 
   return {
     routes: data?.routes,

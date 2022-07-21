@@ -8,10 +8,6 @@ export const useRouteStore = create<RouteExecutionStore>()(
   persist(
     immer((set) => ({
       routes: {},
-      setCurrentRoute: (route?: Route) =>
-        set((state: RouteExecutionStore) => {
-          state.currentRoute = route;
-        }),
       setExecutableRoute: (route: Route) =>
         set((state: RouteExecutionStore) => {
           if (!state.routes[route.id]) {
@@ -23,7 +19,6 @@ export const useRouteStore = create<RouteExecutionStore>()(
               route,
               status: 'idle',
             };
-            state.currentRoute = route;
           }
         }),
       updateRoute: (route: Route) =>

@@ -1,11 +1,10 @@
-import { EVMChain, Token } from '@lifi/sdk';
+import { EVMChain, Route, Token } from '@lifi/sdk';
 import Big from 'big.js';
 import { useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useChains, useDebouncedWatch } from '.';
 import { SwapFormKey, SwapFormKeyHelper } from '../providers/SwapFormProvider';
 import { useWallet } from '../providers/WalletProvider';
-import { useCurrentRoute } from '../stores';
 import { useTokenBalances } from './useTokenBalances';
 
 interface GasSufficiency {
@@ -17,9 +16,8 @@ interface GasSufficiency {
   chain?: EVMChain;
 }
 
-export const useGasSufficiency = () => {
+export const useGasSufficiency = (route?: Route) => {
   const { account } = useWallet();
-  const [route] = useCurrentRoute();
   const [fromChainId, toChainId, fromToken]: [number, number, string] =
     useWatch({
       name: [

@@ -12,6 +12,7 @@ import { SwapButtonProps } from './types';
 
 export const SwapButton: React.FC<SwapButtonProps> = ({
   onClick,
+  currentRoute,
   text,
   loading,
 }) => {
@@ -21,7 +22,8 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
   const config = useWidgetConfig();
   const { account, switchChain, connect: walletConnect } = useWallet();
 
-  const { insufficientFunds, insufficientGas } = useGasSufficiency();
+  const { insufficientFunds, insufficientGas } =
+    useGasSufficiency(currentRoute);
 
   const [chainId] = useWatch({
     name: [SwapFormKeyHelper.getChainKey('from')],

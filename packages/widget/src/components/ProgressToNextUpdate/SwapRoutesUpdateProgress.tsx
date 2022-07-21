@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import { IconButtonProps } from '@mui/material';
+import { ProgressToNextUpdate } from '.';
 import { useSwapRoutes } from '../../hooks';
-import { ProgressToNextUpdate } from '../ProgressToNextUpdate';
 
 export const SwapRoutesUpdateProgress: React.FC<IconButtonProps> = ({
   sx,

@@ -1,3 +1,4 @@
+import { Route } from '@lifi/sdk';
 import { WarningAmber as WarningIcon } from '@mui/icons-material';
 import { Box, BoxProps, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -5,9 +6,12 @@ import { useGasSufficiency } from '../../hooks';
 import { CardTitle } from '../Card';
 import { MessageCard } from './GasSufficiencyMessage.style';
 
-export const GasSufficiencyMessage: React.FC<BoxProps> = (props) => {
+export const GasSufficiencyMessage: React.FC<{ route?: Route } & BoxProps> = ({
+  route,
+  ...props
+}) => {
   const { t } = useTranslation();
-  const { insufficientFunds, insufficientGas } = useGasSufficiency();
+  const { insufficientFunds, insufficientGas } = useGasSufficiency(route);
 
   if (!insufficientFunds || !insufficientGas.length) {
     return null;

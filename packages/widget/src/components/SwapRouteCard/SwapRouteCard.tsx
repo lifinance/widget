@@ -1,9 +1,8 @@
-import { Check as CheckIcon } from '@mui/icons-material';
 import { Box, BoxProps, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { StepActions } from '../StepActions';
 import { StepToken } from '../StepToken';
-import { Card, Check, Label } from './SwapRouteCard.style';
+import { Card, Label } from './SwapRouteCard.style';
 import { SwapRouteCardProps } from './types';
 
 export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
@@ -27,12 +26,7 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
           }}
           mb={2}
         >
-          <Label>{label}</Label>
-          {active ? (
-            <Check>
-              <CheckIcon fontSize="inherit" />
-            </Check>
-          ) : null}
+          <Label active={active}>{label}</Label>
         </Box>
         <StepToken
           token={{ ...route.toToken, amount: route.toAmount }}

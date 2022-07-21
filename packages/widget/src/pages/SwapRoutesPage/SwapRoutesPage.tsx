@@ -9,7 +9,7 @@ import {
   SwapRouteNotFoundCard,
 } from '../../components/SwapRouteCard';
 import { useSwapRoutes } from '../../hooks';
-import { useCurrentRoute, useSetExecutableRoute } from '../../stores';
+import { useSetExecutableRoute } from '../../stores';
 import { navigationRoutes } from '../../utils';
 import { Stack } from './SwapRoutesPage.style';
 
@@ -21,14 +21,12 @@ export const SwapRoutesPage: React.FC<BoxProps> = () => {
     isFetching,
     isFetched,
   } = useSwapRoutes();
-  const [currentRoute] = useCurrentRoute();
   const setExecutableRoute = useSetExecutableRoute();
 
   const handleRouteClick = (route: Route) => {
     setExecutableRoute(route);
     navigate(navigationRoutes.swap, {
       state: { routeId: route.id },
-      replace: true,
     });
   };
 
@@ -55,7 +53,6 @@ export const SwapRoutesPage: React.FC<BoxProps> = () => {
           <SwapRouteCard
             key={route.id}
             route={route}
-            active={currentRoute?.id === route.id}
             onClick={() => handleRouteClick(route)}
           />
         ))

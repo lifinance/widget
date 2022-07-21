@@ -1,9 +1,7 @@
 import { Route } from '@lifi/sdk';
 
 export interface RouteExecutionStore {
-  currentRoute?: Route;
   routes: Record<string, RouteExecution>;
-  setCurrentRoute: (route?: Route) => void;
   setExecutableRoute: (route: Route) => void;
   updateRoute: (route: Route) => void;
   restartRoute: (routeId: string) => void;
