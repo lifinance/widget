@@ -6,10 +6,10 @@ import { SwapRouteCardSkeletonProps } from './types';
 
 export const SwapRouteNotFoundCard: React.FC<
   SwapRouteCardSkeletonProps & BoxProps
-> = ({ active, dense, ...other }) => {
+> = ({ dense, ...other }) => {
   const { t } = useTranslation();
   return (
-    <Card active={active} dense={dense} {...other}>
+    <Card dense={dense} {...other}>
       <Box
         sx={{
           display: 'flex',
