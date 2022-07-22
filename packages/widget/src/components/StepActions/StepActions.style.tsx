@@ -44,8 +44,8 @@ export const StepLabel = styled(MuiStepLabel, {
 })(({ theme }) => ({
   padding: 0,
   [`.${stepLabelClasses.iconContainer}`]: {
-    paddingLeft: theme.spacing(1.25),
-    paddingRight: theme.spacing(3.25),
+    paddingLeft: theme.spacing(0.75),
+    paddingRight: theme.spacing(2.75),
   },
   [`&.${stepLabelClasses.disabled}`]: {
     cursor: 'inherit',

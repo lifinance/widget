@@ -1,15 +1,21 @@
 import { LifiStep, Step } from '@lifi/sdk';
 import { ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
-import { Box, Step as MuiStep, Stepper, Typography } from '@mui/material';
+import {
+  Box,
+  Step as MuiStep,
+  StepIconProps,
+  Stepper,
+  Typography,
+} from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useChains } from '../../hooks';
+import { ReactComponent as LiFiToolLogo } from '../../icons/LiFiToolLogo.svg';
 import { formatTokenAmount } from '../../utils';
-import { LiFiLogo } from '../LiFiLogo';
+import { SmallAvatar } from '../SmallAvatar';
 import {
   StepAvatar,
   StepConnector,
   StepContent,
-  StepIcon,
   StepLabel,
 } from './StepActions.style';
 import { StepActionsProps } from './types';
@@ -24,18 +30,36 @@ export const StepActions: React.FC<StepActionsProps> = ({
       ? CrossStepDetailsLabel
       : SwapStepDetailsLabel;
   const isFullView = !dense && (step as LifiStep).includedSteps?.length > 1;
+
+  // eslint-disable-next-line react/no-unstable-nested-components
+  const StepIconComponent = ({ icon }: StepIconProps) => {
+    const tool = (step as LifiStep).includedSteps?.[Number(icon) - 1];
+
+    return tool ? (
+      <SmallAvatar
+        src={tool.toolDetails.logoURI}
+        alt={tool.toolDetails.name}
+        sx={{
+          boxSizing: 'content-box',
+        }}
+      >
+        {tool.toolDetails.name[0]}
+      </SmallAvatar>
+    ) : null;
+  };
+
   return (
     <Box {...other}>
       <Box
         sx={{ display: 'flex', alignItems: 'center' }}
-        mb={isFullView ? 1 : 0}
+        mb={isFullView ? 1.5 : 0}
       >
         <StepAvatar
           variant={step.type === 'lifi' ? 'square' : 'circular'}
           src={step.type !== 'lifi' ? step.toolDetails.logoURI : undefined}
           alt={step.toolDetails.name}
         >
-          {step.type === 'lifi' ? <LiFiLogo /> : step.toolDetails.name[0]}
+          {step.type === 'lifi' ? <LiFiToolLogo /> : step.toolDetails.name[0]}
         </StepAvatar>
         <Typography
           ml={2}
@@ -56,7 +80,7 @@ export const StepActions: React.FC<StepActionsProps> = ({
         >
           {(step as LifiStep).includedSteps.map((step) => (
             <MuiStep key={step.id} expanded>
-              <StepLabel StepIconComponent={StepIcon}>
+              <StepLabel StepIconComponent={StepIconComponent}>
                 {step.type === 'cross' || step.type === 'lifi' ? (
                   <CrossStepDetailsLabel step={step} />
                 ) : (

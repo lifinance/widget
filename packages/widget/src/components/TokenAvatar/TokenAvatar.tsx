@@ -1,7 +1,7 @@
 import { Token } from '@lifi/sdk';
 import { Avatar, Badge, SxProps, Theme } from '@mui/material';
 import { useChain } from '../../hooks';
-import { SmallAvatar } from './TokenAvatar.style';
+import { SmallAvatar } from '../SmallAvatar';
 
 export const TokenAvatar: React.FC<{
   token: Token;

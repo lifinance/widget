@@ -4,7 +4,7 @@ import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { CardContainer, CardTitle } from '../../components/Card';
 import { StepActions } from '../../components/StepActions';
-import { StepToken } from '../../components/StepToken';
+import { Token } from '../../components/Token';
 import { ExecutionItem } from './ExecutionItem';
 import { StepTimer } from './StepTimer';
 
@@ -46,12 +46,12 @@ export const StepItem: React.FC<{
         </CardTitle>
       </Box>
       <Box py={1}>
-        {fromToken ? <StepToken token={fromToken} px={2} py={1} /> : null}
+        {fromToken ? <Token token={fromToken} px={2} py={1} /> : null}
         <StepActions step={step} px={2} py={1} dense />
         {step.execution?.process.map((process, index) => (
           <ExecutionItem key={index} step={step} process={process} />
         ))}
-        {toToken ? <StepToken token={toToken} px={2} py={1} /> : null}
+        {toToken ? <Token token={toToken} px={2} py={1} /> : null}
       </Box>
     </CardContainer>
   );

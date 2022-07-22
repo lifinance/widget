@@ -1,14 +1,18 @@
 /* eslint-disable react/no-array-index-key */
 import { TokenAmount } from '@lifi/sdk';
 import { Box, BoxProps, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import { useChains } from '../hooks';
 import { formatTokenAmount } from '../utils';
 import { TextFitter } from './TextFitter';
 import { TokenAvatar } from './TokenAvatar';
 
-export const StepToken: React.FC<{ token: TokenAmount } & BoxProps> = ({
+export const Token: React.FC<{ token: TokenAmount } & BoxProps> = ({
   token,
   ...other
 }) => {
+  const { t } = useTranslation();
+  const { getChainById } = useChains();
   return (
     <Box flex={1} {...other}>
       <Box display="flex" flex={1}>
@@ -23,14 +27,16 @@ export const StepToken: React.FC<{ token: TokenAmount } & BoxProps> = ({
         </TextFitter>
       </Box>
       <Typography
-        fontSize={14}
+        fontSize={12}
         lineHeight={1}
         fontWeight="500"
         color="text.secondary"
-        mr={1}
         ml={6}
       >
-        {token.symbol}
+        {t(`swap.tokenOnChain`, {
+          tokenSymbol: token.symbol,
+          chainName: getChainById(token.chainId)?.name,
+        })}
       </Typography>
     </Box>
   );

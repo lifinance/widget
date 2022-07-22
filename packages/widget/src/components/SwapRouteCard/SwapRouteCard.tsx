@@ -1,7 +1,7 @@
 import { Box, BoxProps, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { StepActions } from '../StepActions';
-import { StepToken } from '../StepToken';
+import { Token } from '../Token';
 import { Card, Label } from './SwapRouteCard.style';
 import { SwapRouteCardProps } from './types';
 
@@ -28,10 +28,7 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
         >
           <Label active={active}>{label}</Label>
         </Box>
-        <StepToken
-          token={{ ...route.toToken, amount: route.toAmount }}
-          mb={2}
-        />
+        <Token token={{ ...route.toToken, amount: route.toAmount }} mb={2} />
         {!dense
           ? route.steps.map((step) => (
               <StepActions key={step.id} step={step} mb={2} />
