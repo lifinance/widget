@@ -7,7 +7,8 @@
     "from": "Swap from",
     "to": "Swap to",
     "settings": "Settings",
-    "routes": "You get"
+    "routes": "You get",
+    "swapHistory": "Swap history"
   },
   "button": {
     "connectWallet": "Connect wallet",
@@ -53,7 +54,8 @@
     "networkIsBusy": "Network is busy...",
     "crossStepDetails": "Bridge from {{from}} to {{to}} via {{tool}}",
     "swapStepDetails": "Swap on {{chain}} via {{tool}}",
-    "gasAmount": "{{amount}} {{tokenSymbol}} on {{chainName}}",
+    "tokenOnChain": "{{tokenSymbol}} on {{chainName}}",
+    "tokenOnChainAmount": "{{amount}} {{tokenSymbol}} on {{chainName}}",
     "tags": {
       "recommended": "Recommended",
       "fastest": "Fast",

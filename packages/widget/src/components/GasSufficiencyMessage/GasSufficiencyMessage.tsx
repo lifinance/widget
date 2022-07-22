@@ -53,7 +53,7 @@ export const GasSufficiencyMessage: React.FC<{ route?: Route } & BoxProps> = ({
                 pb={insufficientGas.length - 1 === index ? 2 : 0}
                 pt={0.5}
               >
-                {t(`swap.gasAmount`, {
+                {t(`swap.tokenOnChainAmount`, {
                   amount: item.insufficientAmount?.toString(),
                   tokenSymbol: item.token.symbol,
                   chainName: item.chain?.name,

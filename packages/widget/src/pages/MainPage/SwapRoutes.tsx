@@ -73,19 +73,19 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
               <SwapRouteNotFoundCard minWidth="100%" dense />
             ) : isLoading || isFetching || !currentRoute ? (
               <>
-                <SwapRouteCardSkeleton minWidth="75%" dense />
-                <SwapRouteCardSkeleton minWidth="75%" dense />
+                <SwapRouteCardSkeleton minWidth="80%" dense />
+                <SwapRouteCardSkeleton minWidth="80%" dense />
               </>
             ) : (
               <>
                 <SwapRouteCard
-                  minWidth={routes.length > 1 ? '75%' : '100%'}
+                  minWidth={routes.length > 1 ? '80%' : '100%'}
                   route={currentRoute}
                   active
                   dense
                 />
                 {routes.length > 1 ? (
-                  <SwapRouteCard minWidth="75%" route={routes[1]} dense />
+                  <SwapRouteCard minWidth="80%" route={routes[1]} dense />
                 ) : null}
               </>
             )}

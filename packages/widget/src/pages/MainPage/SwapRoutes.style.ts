@@ -7,6 +7,10 @@ export const Stack = styled(MuiStack)(({ theme }) => ({
   flex: 1,
   flexWrap: 'nowrap',
   overflow: 'hidden',
-  borderRight: `solid ${theme.palette.grey[300]}`,
+  borderRight: `solid ${
+    theme.palette.mode === 'light'
+      ? theme.palette.grey[300]
+      : theme.palette.grey[800]
+  }`,
   width: 'calc(100% - 48px)',
 }));

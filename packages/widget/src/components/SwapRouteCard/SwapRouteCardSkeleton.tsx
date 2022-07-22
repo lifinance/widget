@@ -26,7 +26,12 @@ export const SwapRouteCardSkeleton: React.FC<
           <Skeleton variant="text" width={96} height={32} />
         </Box>
         <Box ml={6}>
-          <Skeleton variant="text" width={56} height={22} />
+          <Skeleton
+            variant="rectangular"
+            width={56}
+            height={12}
+            sx={{ borderRadius: 0.5 }}
+          />
         </Box>
       </Box>
       <Box
@@ -36,8 +41,8 @@ export const SwapRouteCardSkeleton: React.FC<
         }}
       >
         <Box>
-          <Skeleton variant="text" width={56} height={22} />
-          <Skeleton variant="text" width={52} height={15} />
+          <Skeleton variant="text" width={56} height={27} />
+          <Skeleton variant="text" width={52} height={18} />
         </Box>
         <Box
           sx={{
@@ -46,8 +51,8 @@ export const SwapRouteCardSkeleton: React.FC<
             flexDirection: 'column',
           }}
         >
-          <Skeleton variant="text" width={40} height={22} />
-          <Skeleton variant="text" width={48} height={15} />
+          <Skeleton variant="text" width={40} height={27} />
+          <Skeleton variant="text" width={48} height={18} />
         </Box>
       </Box>
     </Card>

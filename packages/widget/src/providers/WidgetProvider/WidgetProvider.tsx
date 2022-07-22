@@ -1,6 +1,6 @@
 import { ChainId, ChainKey, getChainByKey } from '@lifi/sdk';
-import { updateLiFiConfig } from '@lifi/widget/config/lifi';
 import { createContext, useContext, useEffect, useMemo } from 'react';
+import { updateLiFiConfig } from '../../config/lifi';
 import type { WidgetContextProps, WidgetProviderProps } from './types';
 
 const stub = (): never => {
