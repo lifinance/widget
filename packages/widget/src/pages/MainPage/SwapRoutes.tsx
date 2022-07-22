@@ -58,32 +58,51 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
             }}
           />
         ) : null}
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Stack direction="row" py={2} pl={2} pr={routeNotFound ? 2 : 1}>
+        <Box sx={{ display: 'flex' }}>
+          <Stack
+            direction="row"
+            spacing={2}
+            my={2}
+            ml={2}
+            mr={routeNotFound ? 2 : 1}
+            sx={{
+              borderWidth: isFetching || (routes && routes.length > 1) ? 1 : 0,
+            }}
+          >
             {routeNotFound ? (
               <SwapRouteNotFoundCard minWidth="100%" dense />
             ) : isLoading || isFetching || !currentRoute ? (
-              <SwapRouteCardSkeleton minWidth="100%" active dense />
+              <>
+                <SwapRouteCardSkeleton minWidth="75%" dense />
+                <SwapRouteCardSkeleton minWidth="75%" dense />
+              </>
             ) : (
-              <SwapRouteCard
-                minWidth="100%"
-                route={currentRoute}
-                active
-                dense
-              />
+              <>
+                <SwapRouteCard
+                  minWidth={routes.length > 1 ? '75%' : '100%'}
+                  route={currentRoute}
+                  active
+                  dense
+                />
+                {routes.length > 1 ? (
+                  <SwapRouteCard minWidth="75%" route={routes[1]} dense />
+                ) : null}
+              </>
             )}
           </Stack>
-          {!routeNotFound ? (
-            <Box py={1} pr={1}>
-              <IconButton
-                onClick={handleCardClick}
-                size="medium"
-                aria-label="swap-routes"
-              >
-                <KeyboardArrowRightIcon />
-              </IconButton>
-            </Box>
-          ) : null}
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {!routeNotFound ? (
+              <Box py={1} pr={1}>
+                <IconButton
+                  onClick={handleCardClick}
+                  size="medium"
+                  aria-label="swap-routes"
+                >
+                  <KeyboardArrowRightIcon />
+                </IconButton>
+              </Box>
+            ) : null}
+          </Box>
         </Box>
       </CardContainer>
       {!isFetching ? (

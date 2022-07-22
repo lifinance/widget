@@ -9,6 +9,5 @@ export interface SwapRouteCardProps {
 
 export interface SwapRouteCardSkeletonProps {
   dense?: boolean;
-  active?: boolean;
   blur?: boolean;
 }

@@ -4,24 +4,15 @@ import { SwapRouteCardSkeletonProps } from './types';
 
 export const SwapRouteCardSkeleton: React.FC<
   SwapRouteCardSkeletonProps & BoxProps
-> = ({ active, dense, ...other }) => {
+> = ({ dense, ...other }) => {
   return (
     <Card dense={dense} {...other}>
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Skeleton
-          variant="rectangular"
-          width={120}
-          height={24}
-          sx={{ borderRadius: 0.5 }}
-        />
-        {active ? <Skeleton variant="circular" width={24} height={24} /> : null}
-      </Box>
+      <Skeleton
+        variant="rectangular"
+        width={120}
+        height={24}
+        sx={{ borderRadius: 0.5 }}
+      />
       <Box my={2}>
         <Box
           sx={{
