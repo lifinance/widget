@@ -30,7 +30,8 @@ export const TokenList: FC<TokenListProps> = ({
     250,
   );
 
-  const { tokens, isLoading } = useTokenBalances(selectedChainId);
+  const { tokens, isLoading, isBalanceLoading } =
+    useTokenBalances(selectedChainId);
 
   const chainTokens = useMemo(() => {
     let chainTokens = tokens ?? [];
@@ -111,6 +112,7 @@ export const TokenList: FC<TokenListProps> = ({
               size={item.size}
               start={item.start}
               token={token}
+              isBalanceLoading={isBalanceLoading}
               showBalance={account.isActive}
             />
           );

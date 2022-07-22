@@ -9,15 +9,14 @@ import { useTokens } from './useTokens';
 export const useTokenBalances = (selectedChainId: number) => {
   const { account } = useWallet();
   const { chains, isLoading: isChainsLoading } = useChains();
-  const { tokens, isLoading, isFetching } = useTokens(selectedChainId);
+  const { tokens, isLoading } = useTokens(selectedChainId);
 
-  const isBalancesLoadingEnabled =
+  const isBalanceLoadingEnabled =
     Boolean(account.address) && Boolean(tokens) && Boolean(chains);
 
   const {
     data: tokensWithBalance,
-    isLoading: isBalancesLoading,
-    isFetching: isBalancesFetching,
+    isLoading: isBalanceLoading,
     refetch,
   } = useQuery(
     ['token-balances', selectedChainId, account.address],
@@ -47,7 +46,7 @@ export const useTokenBalances = (selectedChainId: number) => {
       ];
     },
     {
-      enabled: isBalancesLoadingEnabled,
+      enabled: isBalanceLoadingEnabled,
       refetchIntervalInBackground: true,
       refetchInterval: 60_000,
       staleTime: 60_000,
@@ -56,11 +55,8 @@ export const useTokenBalances = (selectedChainId: number) => {
 
   return {
     tokens: tokensWithBalance ?? (tokens as TokenAmount[] | undefined),
-    isLoading:
-      (isBalancesLoading && isBalancesLoadingEnabled) ||
-      (isLoading && isFetching) ||
-      isChainsLoading,
-    isFetching: isBalancesFetching,
+    isLoading: isLoading || isChainsLoading,
+    isBalanceLoading: isBalanceLoading && isBalanceLoadingEnabled,
     updateBalances: refetch,
   };
 };

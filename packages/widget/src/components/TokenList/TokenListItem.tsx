@@ -13,7 +13,7 @@ import { ListItem, ListItemButton } from './TokenList.style';
 import { TokenListItemBaseProps, TokenListItemProps } from './types';
 
 export const TokenListItem: React.FC<TokenListItemProps> = memo(
-  ({ onClick, size, start, token, showBalance }) => {
+  ({ onClick, size, start, token, showBalance, isBalanceLoading }) => {
     const { t } = useTranslation();
     const handleClick = () => onClick?.(token.address);
     const tokenPrice = formatTokenPrice(token.amount, token.priceUSD);
@@ -33,23 +33,29 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
           </ListItemAvatar>
           <ListItemText primary={token.symbol} secondary={token.name} />
           {showBalance ? (
-            <Box sx={{ textAlign: 'right' }}>
-              <Typography variant="body1" noWrap>
-                {token.amount ?? '0'}
-              </Typography>
-              {tokenPrice ? (
-                <Typography
-                  fontWeight={400}
-                  fontSize={12}
-                  color="text.secondary"
-                  data-price={token.priceUSD}
-                >
-                  {t(`swap.currency`, {
-                    value: tokenPrice,
-                  })}
-                </Typography>
-              ) : null}
-            </Box>
+            isBalanceLoading ? (
+              <TokenAmountSkeleton />
+            ) : (
+              <Box sx={{ textAlign: 'right' }}>
+                {Number(token.amount) ? (
+                  <Typography variant="body1" noWrap>
+                    {token.amount}
+                  </Typography>
+                ) : null}
+                {tokenPrice ? (
+                  <Typography
+                    fontWeight={400}
+                    fontSize={12}
+                    color="text.secondary"
+                    data-price={token.priceUSD}
+                  >
+                    {t(`swap.currency`, {
+                      value: tokenPrice,
+                    })}
+                  </Typography>
+                ) : null}
+              </Box>
+            )
           ) : null}
         </ListItemButton>
       </ListItem>
@@ -63,7 +69,7 @@ export const TokenListItemSkeleton: React.FC<TokenListItemBaseProps> = ({
 }) => {
   return (
     <ListItem
-      secondaryAction={<Skeleton variant="text" width={60} height={24} />}
+      secondaryAction={<TokenAmountSkeleton />}
       disablePadding
       style={{
         height: `${size}px`,
@@ -80,8 +86,23 @@ export const TokenListItemSkeleton: React.FC<TokenListItemBaseProps> = ({
       </ListItemAvatar>
       <ListItemText
         primary={<Skeleton variant="text" width={48} height={20} />}
-        secondary={<Skeleton variant="text" width={128} height={20} />}
+        secondary={<Skeleton variant="text" width={96} height={20} />}
       />
     </ListItem>
+  );
+};
+
+export const TokenAmountSkeleton: React.FC = () => {
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-end',
+      }}
+    >
+      <Skeleton variant="text" width={56} height={24} />
+      <Skeleton variant="text" width={48} height={18} />
+    </Box>
   );
 };

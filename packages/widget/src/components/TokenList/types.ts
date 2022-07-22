@@ -16,4 +16,5 @@ export interface TokenListItemBaseProps {
 export interface TokenListItemProps extends TokenListItemBaseProps {
   showBalance?: boolean;
   token: TokenAmount;
+  isBalanceLoading?: boolean;
 }
