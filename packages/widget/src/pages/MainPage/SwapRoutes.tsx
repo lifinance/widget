@@ -32,7 +32,6 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
   const handleCardClick = useCallback(() => {
     navigate(navigationRoutes.swapRoutes);
   }, [navigate]);
-
   const currentRoute = routes?.[0];
 
   if (!currentRoute && !isLoading && !isFetching && !isFetched) {
@@ -45,19 +44,17 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
     <>
       <CardContainer {...props}>
         <CardTitle>{t('swap.routes')}</CardTitle>
-        {!routeNotFound ? (
-          <ProgressToNextUpdate
-            updatedAt={dataUpdatedAt}
-            timeToUpdate={refetchTime}
-            isLoading={isFetching}
-            onClick={() => refetch()}
-            sx={{
-              position: 'absolute',
-              top: 8,
-              right: 8,
-            }}
-          />
-        ) : null}
+        <ProgressToNextUpdate
+          updatedAt={dataUpdatedAt}
+          timeToUpdate={refetchTime}
+          isLoading={isFetching}
+          onClick={() => refetch()}
+          sx={{
+            position: 'absolute',
+            top: 8,
+            right: 8,
+          }}
+        />
         <Box sx={{ display: 'flex' }}>
           <Stack
             direction="row"
@@ -66,7 +63,10 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
             ml={2}
             mr={routeNotFound ? 2 : 1}
             sx={{
-              borderWidth: isFetching || (routes && routes.length > 1) ? 1 : 0,
+              borderWidth:
+                !routeNotFound && (isFetching || (routes && routes.length > 1))
+                  ? 1
+                  : 0,
             }}
           >
             {routeNotFound ? (
