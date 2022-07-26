@@ -3,7 +3,7 @@ import {
   Info as InfoIcon,
   Warning as WarningIcon,
 } from '@mui/icons-material';
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { useEffect, useMemo, useRef } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -18,7 +18,6 @@ import {
   IconContainer,
   iconStyles,
 } from './StatusBottomSheet.style';
-import { Button } from './SwapPage.style';
 import { getProcessMessage } from './utils';
 
 export const StatusBottomSheet: React.FC<RouteExecution> = ({
@@ -131,25 +130,23 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
         <Typography pt={2} pb={1}>
           {message}
         </Typography>
-        <Button
-          variant="contained"
-          disableElevation
-          fullWidth
-          onClick={status === 'success' ? handleDone : handleClose}
-        >
-          {status === 'idle' ? t('button.okay') : null}
-          {status === 'success' ? t('button.done') : null}
-          {status === 'error' ? t('button.tryAgain') : null}
-        </Button>
-        {status === 'success' ? (
+        <Box mt={2}>
           <Button
-            variant="outlined"
-            disableElevation
+            variant="contained"
             fullWidth
-            onClick={handleClose}
+            onClick={status === 'success' ? handleDone : handleClose}
           >
-            {t('button.seeDetails')}
+            {status === 'idle' ? t('button.okay') : null}
+            {status === 'success' ? t('button.done') : null}
+            {status === 'error' ? t('button.tryAgain') : null}
           </Button>
+        </Box>
+        {status === 'success' ? (
+          <Box mt={2}>
+            <Button variant="outlined" fullWidth onClick={handleClose}>
+              {t('button.seeDetails')}
+            </Button>
+          </Box>
         ) : null}
       </Box>
     </BottomSheet>

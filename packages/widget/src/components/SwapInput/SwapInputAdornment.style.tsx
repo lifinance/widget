@@ -2,8 +2,6 @@ import { Button as MuiButton } from '@mui/material';
 import { lighten, styled } from '@mui/material/styles';
 
 export const Button = styled(MuiButton)(({ theme }) => ({
-  textTransform: 'none',
-  borderRadius: theme.shape.borderRadiusSecondary,
   borderColor:
     theme.palette.mode === 'light'
       ? theme.palette.grey[300]

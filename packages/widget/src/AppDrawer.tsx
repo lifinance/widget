@@ -65,7 +65,6 @@ export const AppDrawer = forwardRef<AppDrawerBase, AppDrawerProps>(
           onClick={toggleDrawer}
           open={drawerOpen}
           drawerProps={config?.containerStyle}
-          disableElevation
         >
           {drawerOpen ? <KeyboardArrowRightIcon /> : <KeyboardArrowLeftIcon />}
           <DrawerButtonTypography>

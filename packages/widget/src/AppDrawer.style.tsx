@@ -80,7 +80,6 @@ export const DrawerButtonTypography = styled(Typography)(({ theme }) => ({
   cursor: 'pointer',
   display: 'flex',
   flexDirection: 'row',
-  fontSize: '18px',
   padding: theme.spacing(1),
   position: 'relative',
   textTransform: 'none',

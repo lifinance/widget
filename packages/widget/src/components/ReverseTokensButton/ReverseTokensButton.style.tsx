@@ -1,5 +1,5 @@
 import { IconButton as MuiIconButton } from '@mui/material';
-import { darken, styled } from '@mui/material/styles';
+import { darken, lighten, styled } from '@mui/material/styles';
 
 export const IconButton = styled(MuiIconButton)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -11,6 +11,9 @@ export const IconButton = styled(MuiIconButton)(({ theme }) => ({
   zIndex: 1200,
   padding: theme.spacing(0.5),
   '&:hover': {
-    backgroundColor: darken(theme.palette.background.paper, 0.04),
+    backgroundColor:
+      theme.palette.mode === 'light'
+        ? darken(theme.palette.background.paper, 0.02)
+        : lighten(theme.palette.background.paper, 0.02),
   },
 }));

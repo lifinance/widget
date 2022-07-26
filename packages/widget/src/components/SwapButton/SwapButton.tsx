@@ -59,8 +59,6 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
   return (
     <Button
       variant="contained"
-      disableElevation
-      fullWidth
       color={account.isActive ? 'primary' : 'success'}
       onClick={handleSwapButtonClick}
       // loading={isLoading || isFetching}
@@ -68,6 +66,7 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
         (insufficientFunds || !!insufficientGas.length || loading) &&
         isCurrentChainMatch
       }
+      fullWidth
     >
       {getButtonText()}
     </Button>

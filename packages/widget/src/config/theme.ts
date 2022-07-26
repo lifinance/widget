@@ -1,4 +1,5 @@
 import { PaletteMode, SimplePaletteColorOptions } from '@mui/material';
+import { dialogActionsClasses } from '@mui/material/DialogActions';
 import {
   alpha,
   createTheme as createMuiTheme,
@@ -156,6 +157,9 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) =>
         },
       },
       MuiButton: {
+        defaultProps: {
+          disableElevation: true,
+        },
         styleOverrides: {
           ...(mode === 'dark'
             ? {
@@ -177,11 +181,20 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) =>
               }
             : {}),
           root: {
+            borderRadius: theme.shape?.borderRadiusSecondary,
+            textTransform: 'none',
+            fontSize: '1rem',
+            padding: '10px 16px',
+            [`.${dialogActionsClasses.root} &`]: {
+              padding: '6px 12px',
+            },
             '&.Mui-disabled': {
               color:
                 mode === 'light'
                   ? 'rgb(0 0 0 / 70%)'
                   : 'rgb(255 255 255 / 70%)',
+              cursor: 'not-allowed',
+              pointerEvents: 'auto',
             },
           },
         },
