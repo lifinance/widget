@@ -4,7 +4,6 @@ import { PropsWithChildren, RefObject, useLayoutEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useWidgetConfig } from '../providers/WidgetProvider';
 import { ElementId } from '../utils';
-import { PoweredBy } from './PoweredBy';
 
 const CssBaselineContainer = styled(ScopedCssBaseline)(({ theme }) => ({
   // height: '100%',
@@ -13,9 +12,7 @@ const CssBaselineContainer = styled(ScopedCssBaseline)(({ theme }) => ({
   flexDirection: 'column',
   overflowX: 'clip',
   marginRight: 0,
-  [theme.breakpoints.up('xs')]: {
-    maxWidth: 392,
-  },
+  width: '100%',
 }));
 
 const RelativeContainer = styled(Box)(({ theme }) => ({
@@ -38,7 +35,7 @@ const ScrollableContainer = styled(Box)({
   display: 'flex',
 });
 
-const FlexContainer = styled(Container)({
+export const FlexContainer = styled(Container)({
   display: 'flex',
   flexBasis: 'auto',
   flexDirection: 'column',
@@ -53,10 +50,7 @@ export const AppContainer: React.FC<PropsWithChildren<{}>> = ({ children }) => {
     <RelativeContainer sx={containerStyle}>
       <ScrollableContainer id={ElementId.ScrollableContainer} ref={ref}>
         <CssBaselineContainer enableColorScheme>
-          <FlexContainer disableGutters>
-            {children}
-            <PoweredBy />
-          </FlexContainer>
+          <FlexContainer disableGutters>{children}</FlexContainer>
         </CssBaselineContainer>
       </ScrollableContainer>
       <ScrollToLocation elementRef={ref} />

@@ -27,19 +27,23 @@ export const AppProvider: React.FC<PropsWithChildren<AppProps>> = ({
   config,
 }) => {
   useTelemetry(config?.disableTelemetry);
-  const inRouterContext = useInRouterContext();
-  const Router = inRouterContext ? Fragment : MemoryRouter;
   return (
     <WidgetProvider config={config}>
       <ThemeProvider>
         <QueryProvider client={queryClient}>
-          <Router>
-            <WalletProvider>
-              <SwapFormProvider>{children}</SwapFormProvider>
-            </WalletProvider>
-          </Router>
+          <WalletProvider>
+            <SwapFormProvider>
+              <AppRouter>{children}</AppRouter>
+            </SwapFormProvider>
+          </WalletProvider>
         </QueryProvider>
       </ThemeProvider>
     </WidgetProvider>
   );
+};
+
+export const AppRouter: React.FC<PropsWithChildren<{}>> = ({ children }) => {
+  const inRouterContext = useInRouterContext();
+  const Router = inRouterContext ? Fragment : MemoryRouter;
+  return <Router>{children}</Router>;
 };
