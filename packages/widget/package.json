@@ -55,8 +55,8 @@
     "@lifi/sdk": "^1.0.2",
     "@lifi/wallet-management": "^1.1.2",
     "@mui/icons-material": "^5.8.4",
-    "@mui/lab": "^5.0.0-alpha.91",
-    "@mui/material": "^5.9.1",
+    "@mui/lab": "^5.0.0-alpha.92",
+    "@mui/material": "^5.9.2",
     "@sentry/integrations": "^7.7.0",
     "@sentry/react": "^7.7.0",
     "@sentry/tracing": "^7.7.0",
@@ -72,7 +72,7 @@
     "react-router-dom": "^6.3.0",
     "react-timer-hook": "^3.0.5",
     "react-virtual": "^2.10.4",
-    "zustand": "^4.0.0-rc.4"
+    "zustand": "^4.0.0"
   },
   "eslintConfig": {
     "extends": "../../.eslintrc"
