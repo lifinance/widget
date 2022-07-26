@@ -8,7 +8,8 @@
     "to": "Swap to",
     "settings": "Settings",
     "routes": "You get",
-    "swapHistory": "Swap history"
+    "swapHistory": "Swap history",
+    "swapDetails": "Swap details"
   },
   "button": {
     "connectWallet": "Connect wallet",
@@ -25,8 +26,11 @@
     "dark": "Dark",
     "auto": "Auto",
     "ok": "Ok",
+    "cancel": "Cancel",
+    "delete": "Delete",
     "hide": "Hide",
     "max": "max",
+    "contactSupport": "Contact support",
     "lifiSwap": "LI.FI Swap"
   },
   "swap": {
@@ -56,6 +60,7 @@
     "swapStepDetails": "Swap on {{chain}} via {{tool}}",
     "tokenOnChain": "{{tokenSymbol}} on {{chainName}}",
     "tokenOnChainAmount": "{{amount}} {{tokenSymbol}} on {{chainName}}",
+    "routeId": "Route ID",
     "tags": {
       "recommended": "Recommended",
       "fastest": "Fast",
@@ -81,11 +86,13 @@
     },
     "warning": {
       "title": {
-        "insufficientGas": "Insufficient gas"
+        "insufficientGas": "Insufficient gas",
+        "deleteSwap": "Delete this swap?"
       },
       "message": {
         "insufficientFunds": "You don't have enough funds to execute the swap.",
-        "insufficientGas": "You need to add at least:"
+        "insufficientGas": "You need to add at least:",
+        "deleteSwap": "Swap history is only stored locally and can't be recovered if you delete it."
       }
     },
     "error": {

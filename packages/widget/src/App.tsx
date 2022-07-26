@@ -1,13 +1,16 @@
 import { Route, Routes } from 'react-router-dom';
 import { AppProps, AppProvider } from './AppProvider';
-import { AppContainer } from './components/AppContainer';
+import { AppContainer, FlexContainer } from './components/AppContainer';
 import { Header } from './components/Header';
 import { Initializer } from './components/Initializer';
 import { NotFound } from './components/NotFound';
+import { PoweredBy } from './components/PoweredBy';
 import { MainPage } from './pages/MainPage';
 import { SelectTokenPage } from './pages/SelectTokenPage';
 import { SelectWalletPage } from './pages/SelectWalletPage';
 import { SettingsPage } from './pages/SettingsPage';
+import { SwapDetailsPage } from './pages/SwapDetailsPage';
+import { SwapHistoryPage } from './pages/SwapHistoryPage';
 import { SwapPage } from './pages/SwapPage';
 import { SwapRoutesPage } from './pages/SwapRoutesPage';
 import { navigationRoutes } from './utils';
@@ -24,36 +27,39 @@ export const AppDefault = () => {
   return (
     <AppContainer>
       <Header />
-      <Routes>
-        <Route path={navigationRoutes.home} element={<MainPage />} />
-        <Route
-          path={navigationRoutes.selectWallet}
-          element={<SelectWalletPage />}
-        />
-        <Route
-          path={`${navigationRoutes.swapRoutes}/${navigationRoutes.swap}/${navigationRoutes.selectWallet}`}
-          element={<SelectWalletPage />}
-        />
-        <Route path={navigationRoutes.settings} element={<SettingsPage />} />
-        <Route
-          path={navigationRoutes.fromToken}
-          element={<SelectTokenPage formType="from" />}
-        />
-        <Route
-          path={navigationRoutes.toToken}
-          element={<SelectTokenPage formType="to" />}
-        />
-        <Route
-          path={navigationRoutes.swapRoutes}
-          element={<SwapRoutesPage />}
-        />
-        <Route
-          path={`${navigationRoutes.swapRoutes}/${navigationRoutes.swap}`}
-          element={<SwapPage />}
-        />
-        <Route path={navigationRoutes.swap} element={<SwapPage />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <FlexContainer disableGutters>
+        <Routes>
+          <Route path={navigationRoutes.home} element={<MainPage />} />
+          <Route
+            path={navigationRoutes.selectWallet}
+            element={<SelectWalletPage />}
+          />
+          <Route path={navigationRoutes.settings} element={<SettingsPage />} />
+          <Route
+            path={navigationRoutes.swapHistory}
+            element={<SwapHistoryPage />}
+          />
+          <Route
+            path={navigationRoutes.swapDetails}
+            element={<SwapDetailsPage />}
+          />
+          <Route
+            path={navigationRoutes.fromToken}
+            element={<SelectTokenPage formType="from" />}
+          />
+          <Route
+            path={navigationRoutes.toToken}
+            element={<SelectTokenPage formType="to" />}
+          />
+          <Route
+            path={navigationRoutes.swapRoutes}
+            element={<SwapRoutesPage />}
+          />
+          <Route path={navigationRoutes.swap} element={<SwapPage />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </FlexContainer>
+      <PoweredBy />
       <Initializer />
     </AppContainer>
   );
