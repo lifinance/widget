@@ -4,10 +4,10 @@ import { Box, Link, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useChains } from '../../hooks';
 import { CircularProgress } from './CircularProgress';
-import { LinkButton } from './ExecutionItem.style';
+import { LinkButton } from './StepProcess.style';
 import { getProcessMessage } from './utils';
 
-export const ExecutionItem: React.FC<{
+export const StepProcess: React.FC<{
   step: Step;
   process: Process;
 }> = ({ step, process }) => {

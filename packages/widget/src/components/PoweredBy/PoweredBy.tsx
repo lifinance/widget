@@ -12,7 +12,6 @@ export const PoweredBy: React.FC = () => {
         display: 'flex',
         alignItems: 'flex-end',
         justifyContent: 'flex-end',
-        flex: 1,
       }}
     >
       <Link

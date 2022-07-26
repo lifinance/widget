@@ -1,15 +1,15 @@
 /* eslint-disable react/no-array-index-key */
-import { Step, TokenAmount } from '@lifi/sdk';
+import { Step as StepType, TokenAmount } from '@lifi/sdk';
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { CardContainer, CardTitle } from '../../components/Card';
+import { Card, CardTitle } from '../../components/Card';
 import { StepActions } from '../../components/StepActions';
 import { Token } from '../../components/Token';
-import { ExecutionItem } from './ExecutionItem';
+import { StepProcess } from './StepProcess';
 import { StepTimer } from './StepTimer';
 
-export const StepItem: React.FC<{
-  step: Step;
+export const Step: React.FC<{
+  step: StepType;
   fromToken?: TokenAmount;
   toToken?: TokenAmount;
 }> = ({ step, fromToken, toToken }) => {
@@ -33,7 +33,7 @@ export const StepItem: React.FC<{
   };
 
   return (
-    <CardContainer isError={stepHasError}>
+    <Card variant={stepHasError ? 'error' : 'default'}>
       <Box
         sx={{
           display: 'flex',
@@ -49,10 +49,10 @@ export const StepItem: React.FC<{
         {fromToken ? <Token token={fromToken} px={2} py={1} /> : null}
         <StepActions step={step} px={2} py={1} dense />
         {step.execution?.process.map((process, index) => (
-          <ExecutionItem key={index} step={step} process={process} />
+          <StepProcess key={index} step={step} process={process} />
         ))}
         {toToken ? <Token token={toToken} px={2} py={1} /> : null}
       </Box>
-    </CardContainer>
+    </Card>
   );
 };
