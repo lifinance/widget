@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.11.0](https://github.com/lifinance/widget/compare/v1.10.4...v1.11.0) (2022-07-26)
+
+
+### Features
+
+* add chain icons to token avatars ([5cb5343](https://github.com/lifinance/widget/commit/5cb534348e6c3679c96e0a61487d189ca874fa0b))
+* add swap history ([00f6fd7](https://github.com/lifinance/widget/commit/00f6fd78303a686eb8afa5e148333f7f3d094984))
+* add tools icons to swap details ([5b652d7](https://github.com/lifinance/widget/commit/5b652d719348a47df0dfe2279cb4ede688f8f3b4))
+* connect executing routes to wallet address ([37a736b](https://github.com/lifinance/widget/commit/37a736b39a665f50ea83a980f5edae388568360c))
+
+
+### Bug Fixes
+
+* add keys ([e381f06](https://github.com/lifinance/widget/commit/e381f06d0ecbb1e30e9b1bb8fc52eca6ff904f48))
+* disable when no routes found ([9ee7c3a](https://github.com/lifinance/widget/commit/9ee7c3a471d7dba003a4bf40f1ddb18746076fe1))
+* improve gas sufficiency handling ([164501c](https://github.com/lifinance/widget/commit/164501c600454f4bdd499dc02fb6655475ef9127))
+* lower font in headers ([66fc7d9](https://github.com/lifinance/widget/commit/66fc7d9bd7ca1b9a7d118c138b239843e974bb3f))
+* make formattedTools persistent ([8fde026](https://github.com/lifinance/widget/commit/8fde026f07bddf7cecf9941592258a3f1a726884))
+* make icons outlined ([91495a9](https://github.com/lifinance/widget/commit/91495a93102ffc748d3829a894ba8f617d3168c1))
+* minor layout issues ([adad66a](https://github.com/lifinance/widget/commit/adad66aa601734a9e46969bacfbe0ba736900254))
+* remove attemptEagerConnect ([61506cf](https://github.com/lifinance/widget/commit/61506cf1ae93d93e50f6f0a765cf105e34078d84))
+* remove border if no routes found ([99d3355](https://github.com/lifinance/widget/commit/99d33551dde50fd307dac527f4f15b6f8555ece9))
+* reverse chain and token if only one selected ([43462cd](https://github.com/lifinance/widget/commit/43462cda58a5ff51c38cd502d59107f7413157bf))
+* show more than one route on the main page ([bd7c8dd](https://github.com/lifinance/widget/commit/bd7c8dd1fd97cc71824e665f4ef26b1c1e48d5f7))
+* show swap routes progress during initial loading ([911a5c5](https://github.com/lifinance/widget/commit/911a5c5432dd6cd3336b2d36fd41c00d310403dd))
+* show tool names in settings ([297fa96](https://github.com/lifinance/widget/commit/297fa9691d44334603ec8e9f18b37a6665c191b1))
+* swap button wording ([66879a6](https://github.com/lifinance/widget/commit/66879a6ca3e06da7dd92bdc33ec97fc8e1989014))
+* title ([fc21139](https://github.com/lifinance/widget/commit/fc2113962b9a8830d925698e0c7fc2289feb7534))
+
 ### [1.10.4](https://github.com/lifinance/widget/compare/v1.10.3...v1.10.4) (2022-07-18)
 
 
