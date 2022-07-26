@@ -3,7 +3,6 @@ import {
   Avatar,
   Button,
   Container,
-  Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
@@ -13,7 +12,7 @@ import {
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useScrollableContainer } from '../../hooks';
+import { Dialog } from '../../components/Dialog';
 import { useWallet } from '../../providers/WalletProvider';
 import {
   WalletListItemButton,
@@ -25,16 +24,16 @@ export const SelectWalletPage = () => {
 
   const navigate = useNavigate();
   const { connect } = useWallet();
-  const containerElement = useScrollableContainer();
   const [walletIdentity, setWalletIdentity] = useState<{
     show: boolean;
     wallet?: Wallet;
   }>({ show: false });
 
   const closeDialog = () => {
-    setWalletIdentity({
+    setWalletIdentity((state) => ({
+      ...state,
       show: false,
-    });
+    }));
   };
 
   const handleConnect = useCallback(
@@ -79,30 +78,7 @@ export const SelectWalletPage = () => {
           </WalletListItemButton>
         ))}
       </List>
-      <Dialog
-        open={walletIdentity.show}
-        onClose={closeDialog}
-        container={containerElement}
-        sx={{
-          position: 'absolute',
-          overflow: 'hidden',
-        }}
-        PaperProps={{
-          sx: (theme) => ({
-            position: 'absolute',
-            backgroundImage: 'none',
-            borderTopLeftRadius: theme.shape.borderRadius,
-            borderTopRightRadius: theme.shape.borderRadius,
-          }),
-        }}
-        BackdropProps={{
-          sx: {
-            position: 'absolute',
-            backgroundColor: 'rgb(0 0 0 / 48%)',
-            backdropFilter: 'blur(3px)',
-          },
-        }}
-      >
+      <Dialog open={walletIdentity.show} onClose={closeDialog}>
         <DialogContent>
           <DialogContentText>
             {t('wallet.extensionNotFound', {
