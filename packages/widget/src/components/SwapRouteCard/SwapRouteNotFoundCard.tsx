@@ -1,7 +1,7 @@
 import { Route as RouteIcon } from '@mui/icons-material';
 import { Box, BoxProps, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { Card } from './SwapRouteCard.style';
+import { Card } from '../Card';
 import { SwapRouteCardSkeletonProps } from './types';
 
 export const SwapRouteNotFoundCard: React.FC<
@@ -9,7 +9,7 @@ export const SwapRouteNotFoundCard: React.FC<
 > = ({ dense, ...other }) => {
   const { t } = useTranslation();
   return (
-    <Card dense={dense} {...other}>
+    <Card dense={dense} indented {...other}>
       <Box
         sx={{
           display: 'flex',

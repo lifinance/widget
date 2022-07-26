@@ -9,10 +9,9 @@ import {
   SwapFormTypeProps,
 } from '../../providers/SwapFormProvider';
 import { navigationRoutes } from '../../utils';
-import { CardTitle } from '../Card';
-import { CardContainer } from '../Card/CardContainer';
+import { Card, CardTitle } from '../Card';
 import { TokenAvatar } from '../TokenAvatar';
-import { Card, SelectTokenCardHeader } from './SelectTokenButton.style';
+import { SelectTokenCardHeader } from './SelectTokenButton.style';
 
 export const SelectTokenButton: React.FC<
   SwapFormTypeProps & {
@@ -41,27 +40,25 @@ export const SelectTokenButton: React.FC<
   const isSelected = !!(chain && token);
 
   return (
-    <CardContainer flex={1}>
-      <Card onClick={handleClick} elevation={0}>
-        <CardTitle>{t(`swap.${formType}`)}</CardTitle>
-        {chainId && tokenAddress && (isChainLoading || isTokenLoading) ? (
-          <SelectTokenCardHeader
-            avatar={<Skeleton variant="circular" width={32} height={32} />}
-            title={<Skeleton variant="text" width={64} height={24} />}
-            subheader={<Skeleton variant="text" width={64} height={16} />}
-            compact={compact}
-          />
-        ) : (
-          <SelectTokenCardHeader
-            avatar={isSelected ? <TokenAvatar token={token} /> : null}
-            action={!compact ? <KeyboardArrowRightIcon /> : null}
-            title={isSelected ? token.symbol : t(`swap.selectChainAndToken`)}
-            subheader={isSelected ? `on ${chain.name}` : null}
-            selected={isSelected}
-            compact={compact}
-          />
-        )}
-      </Card>
-    </CardContainer>
+    <Card flex={1} onClick={handleClick}>
+      <CardTitle>{t(`swap.${formType}`)}</CardTitle>
+      {chainId && tokenAddress && (isChainLoading || isTokenLoading) ? (
+        <SelectTokenCardHeader
+          avatar={<Skeleton variant="circular" width={32} height={32} />}
+          title={<Skeleton variant="text" width={64} height={24} />}
+          subheader={<Skeleton variant="text" width={64} height={16} />}
+          compact={compact}
+        />
+      ) : (
+        <SelectTokenCardHeader
+          avatar={isSelected ? <TokenAvatar token={token} /> : null}
+          action={!compact ? <KeyboardArrowRightIcon /> : null}
+          title={isSelected ? token.symbol : t(`swap.selectChainAndToken`)}
+          subheader={isSelected ? `on ${chain.name}` : null}
+          selected={isSelected}
+          compact={compact}
+        />
+      )}
+    </Card>
   );
 };

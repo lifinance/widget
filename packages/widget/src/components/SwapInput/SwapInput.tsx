@@ -7,7 +7,7 @@ import {
   SwapFormTypeProps,
 } from '../../providers/SwapFormProvider';
 import { fitInputText, formatAmount } from '../../utils';
-import { CardContainer, CardTitle } from '../Card';
+import { Card, CardTitle } from '../Card';
 import { TokenAvatar } from '../TokenAvatar';
 import { FormPriceHelperText } from './FormPriceHelperText';
 import {
@@ -59,7 +59,7 @@ export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
   }, [amount]);
 
   return (
-    <CardContainer>
+    <Card>
       <CardTitle>{t('swap.amount')}</CardTitle>
       <FormControl fullWidth>
         <Input
@@ -84,6 +84,6 @@ export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
         />
         <FormPriceHelperText selected={isSelected} formType={formType} />
       </FormControl>
-    </CardContainer>
+    </Card>
   );
 };

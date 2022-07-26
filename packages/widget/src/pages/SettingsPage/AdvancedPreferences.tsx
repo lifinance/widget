@@ -19,7 +19,7 @@ export const AdvancedPreferences = () => {
   };
 
   return (
-    <Box p={3}>
+    <Box px={3} pt={3}>
       <Box
         sx={{
           display: 'flex',

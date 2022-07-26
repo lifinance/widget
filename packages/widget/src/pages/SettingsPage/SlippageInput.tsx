@@ -1,7 +1,7 @@
 import { FormControl, InputAdornment } from '@mui/material';
 import { ChangeEventHandler, FocusEventHandler, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CardContainer, CardTitle } from '../../components/Card';
+import { Card, CardTitle } from '../../components/Card';
 import { Input } from '../../components/Input';
 import { useSetSettings, useSettings } from '../../stores';
 import { formatSlippage } from '../../utils';
@@ -23,7 +23,7 @@ export const SlippageInput = () => {
   };
 
   return (
-    <CardContainer>
+    <Card>
       <CardTitle>{t(`settings.slippage`)}</CardTitle>
       <FormControl fullWidth>
         <Input
@@ -39,6 +39,6 @@ export const SlippageInput = () => {
           value={slippage}
         />
       </FormControl>
-    </CardContainer>
+    </Card>
   );
 };

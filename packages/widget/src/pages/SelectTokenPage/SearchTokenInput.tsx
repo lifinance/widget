@@ -3,7 +3,7 @@ import { FormControl, InputAdornment } from '@mui/material';
 import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { CardContainer } from '../../components/Card';
+import { Card } from '../../components/Card';
 import { SwapFormKey } from '../../providers/SwapFormProvider';
 import { Input } from './SearchTokenInput.style';
 
@@ -19,7 +19,7 @@ export const SearchTokenInput = () => {
   );
 
   return (
-    <CardContainer>
+    <Card>
       <FormControl fullWidth>
         <Input
           size="small"
@@ -37,6 +37,6 @@ export const SearchTokenInput = () => {
           autoComplete="off"
         />
       </FormControl>
-    </CardContainer>
+    </Card>
   );
 };

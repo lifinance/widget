@@ -1,38 +1,5 @@
-import { Box, Typography } from '@mui/material';
-import { darken, styled } from '@mui/material/styles';
-
-export const Card = styled(Box, {
-  shouldForwardProp: (prop) => !['dense', 'blur'].includes(prop as string),
-})<{ active?: boolean; blur?: boolean; dense?: boolean }>(
-  ({ theme, blur, dense }) => ({
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(2),
-    border: `1px solid ${
-      theme.palette.mode === 'light'
-        ? theme.palette.grey[300]
-        : theme.palette.grey[800]
-    }`,
-    borderRadius: dense
-      ? theme.shape.borderRadiusSecondary
-      : theme.shape.borderRadius,
-    boxSizing: 'border-box',
-    userSelect: blur ? 'none' : 'auto',
-    '&:hover': {
-      cursor: blur || !dense ? 'pointer' : 'default',
-      backgroundColor:
-        blur || !dense
-          ? darken(theme.palette.background.paper, 0.02)
-          : theme.palette.background.paper,
-    },
-    '& > div': {
-      filter: blur ? 'blur(3px)' : 'none',
-    },
-    transition: theme.transitions.create(['background-color'], {
-      duration: theme.transitions.duration.enteringScreen,
-      easing: theme.transitions.easing.easeOut,
-    }),
-  }),
-);
+import { Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 export const Label = styled(Typography, {
   shouldForwardProp: (prop) => prop !== 'active',
@@ -44,7 +11,7 @@ export const Label = styled(Typography, {
     : theme.palette.mode === 'light'
     ? theme.palette.grey[500]
     : theme.palette.grey[600],
-  borderRadius: theme.shape.borderRadius / 2,
+  borderRadius: theme.shape.borderRadiusSecondary,
   color: active ? theme.palette.common.white : theme.palette.text.secondary,
   padding: theme.spacing(0.75),
   fontSize: 12,

@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { CardContainer, CardTitle } from '../../components/Card';
+import { Card, CardTitle } from '../../components/Card';
 import { Select } from '../../components/Select';
 import { useChains } from '../../hooks';
 import {
@@ -34,7 +34,7 @@ export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
   };
 
   return !isLoading ? (
-    <CardContainer>
+    <Card>
       <CardTitle>{t(`swap.selectChain`)}</CardTitle>
       <FormControl fullWidth>
         <Select
@@ -57,7 +57,7 @@ export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
           ))}
         </Select>
       </FormControl>
-    </CardContainer>
+    </Card>
   ) : (
     <Skeleton
       variant="rectangular"

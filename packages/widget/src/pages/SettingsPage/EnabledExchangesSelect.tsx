@@ -2,7 +2,7 @@ import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material'
 import { Box, Chip, FormControl, MenuItem, Skeleton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import shallow from 'zustand/shallow';
-import { CardContainer, CardTitle } from '../../components/Card';
+import { Card, CardTitle } from '../../components/Card';
 import { Select } from '../../components/Select';
 import { useTools } from '../../hooks';
 import { useSettingsStore } from '../../stores';
@@ -16,7 +16,7 @@ export const EnabledExchangesSelect: React.FC = () => {
   );
 
   return tools?.exchanges.length ? (
-    <CardContainer>
+    <Card>
       <CardTitle>{t(`settings.enabledExchanges`)}</CardTitle>
       <FormControl fullWidth>
         <Select
@@ -52,7 +52,7 @@ export const EnabledExchangesSelect: React.FC = () => {
           ))}
         </Select>
       </FormControl>
-    </CardContainer>
+    </Card>
   ) : (
     <Skeleton
       variant="rectangular"

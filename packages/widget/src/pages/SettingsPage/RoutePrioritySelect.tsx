@@ -2,7 +2,7 @@ import { Order, Orders } from '@lifi/sdk';
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material';
 import { FormControl, MenuItem } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { CardContainer, CardTitle } from '../../components/Card';
+import { Card, CardTitle } from '../../components/Card';
 import { Select } from '../../components/Select';
 import { useSetSettings, useSettings } from '../../stores';
 
@@ -12,7 +12,7 @@ export const RoutePrioritySelect: React.FC = () => {
   const { routePriority } = useSettings(['routePriority']);
 
   return (
-    <CardContainer>
+    <Card>
       <CardTitle>{t(`settings.routePriority`)}</CardTitle>
       <FormControl fullWidth>
         <Select
@@ -31,6 +31,6 @@ export const RoutePrioritySelect: React.FC = () => {
           ))}
         </Select>
       </FormControl>
-    </CardContainer>
+    </Card>
   );
 };

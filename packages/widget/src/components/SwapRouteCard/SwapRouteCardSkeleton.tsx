@@ -1,12 +1,12 @@
 import { Box, BoxProps, Skeleton } from '@mui/material';
-import { Card } from './SwapRouteCard.style';
+import { Card } from '../Card';
 import { SwapRouteCardSkeletonProps } from './types';
 
 export const SwapRouteCardSkeleton: React.FC<
   SwapRouteCardSkeletonProps & BoxProps
 > = ({ dense, ...other }) => {
   return (
-    <Card dense={dense} {...other}>
+    <Card dense={dense} indented {...other}>
       <Skeleton
         variant="rectangular"
         width={120}
@@ -27,9 +27,9 @@ export const SwapRouteCardSkeleton: React.FC<
         </Box>
         <Box ml={6}>
           <Skeleton
-            variant="rectangular"
-            width={56}
-            height={12}
+            variant="text"
+            width={102}
+            height={16}
             sx={{ borderRadius: 0.5 }}
           />
         </Box>

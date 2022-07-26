@@ -4,7 +4,7 @@ import { Box, BoxProps, IconButton } from '@mui/material';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { CardContainer, CardTitle } from '../../components/Card';
+import { Card, CardTitle } from '../../components/Card';
 import { GasSufficiencyMessage } from '../../components/GasSufficiencyMessage';
 import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate';
 import {
@@ -32,6 +32,7 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
   const handleCardClick = useCallback(() => {
     navigate(navigationRoutes.swapRoutes);
   }, [navigate]);
+
   const currentRoute = routes?.[0];
 
   if (!currentRoute && !isLoading && !isFetching && !isFetched) {
@@ -42,7 +43,7 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
 
   return (
     <>
-      <CardContainer {...props}>
+      <Card {...props}>
         <CardTitle>{t('swap.routes')}</CardTitle>
         <ProgressToNextUpdate
           updatedAt={dataUpdatedAt}
@@ -104,7 +105,7 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
             ) : null}
           </Box>
         </Box>
-      </CardContainer>
+      </Card>
       {!isFetching ? (
         <GasSufficiencyMessage route={currentRoute} {...props} />
       ) : null}
