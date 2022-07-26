@@ -1,11 +1,11 @@
 import { Route } from '@lifi/sdk';
 
 export interface RouteExecutionStore {
-  routes: Record<string, RouteExecution>;
+  routes: Partial<Record<string, RouteExecution>>;
   setExecutableRoute: (route: Route) => void;
   updateRoute: (route: Route) => void;
   restartRoute: (routeId: string) => void;
-  removeRoute: (routeId: string) => void;
+  deleteRoute: (routeId: string) => void;
 }
 
 export type RouteExecutionStatus = 'error' | 'idle' | 'loading' | 'success';

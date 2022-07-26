@@ -1,25 +1,25 @@
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { GasSufficiencyMessage } from '../../components/GasSufficiencyMessage';
+import { Step } from '../../components/Step';
+import { StepDivider } from '../../components/StepDivider';
 import { SwapButton } from '../../components/SwapButton';
 import { useRouteExecution } from '../../hooks';
 import { StatusBottomSheet } from './StatusBottomSheet';
-import { StepDivider } from './StepDivider';
-import { StepItem } from './StepItem';
-import { Button, Container } from './SwapPage.style';
+import { Container } from './SwapPage.style';
 
 export const SwapPage: React.FC = () => {
   const { t } = useTranslation();
   const { state }: any = useLocation();
   const navigate = useNavigate();
-  const { route, status, executeRoute, restartRoute, removeRoute } =
+  const { route, status, executeRoute, restartRoute, deleteRoute } =
     useRouteExecution(state?.routeId);
 
   const handleRemoveRoute = () => {
-    removeRoute();
     navigate(-1);
+    deleteRoute();
   };
 
   const handleSwapClick = () => {
@@ -45,7 +45,7 @@ export const SwapPage: React.FC = () => {
     <Container>
       {route?.steps.map((step, index, steps) => (
         <Fragment key={step.id}>
-          <StepItem
+          <Step
             step={step}
             fromToken={
               index === 0
@@ -75,16 +75,15 @@ export const SwapPage: React.FC = () => {
         </Box>
       ) : null}
       {status === 'error' ? (
-        <Button
-          variant="outlined"
-          disableElevation
-          fullWidth
-          onClick={handleRemoveRoute}
-        >
-          {t('button.removeSwap')}
-        </Button>
+        <Box mt={2}>
+          <Button variant="outlined" onClick={handleRemoveRoute} fullWidth>
+            {t('button.removeSwap')}
+          </Button>
+        </Box>
       ) : null}
-      <StatusBottomSheet status={status} route={route} />
+      {route && status ? (
+        <StatusBottomSheet status={status} route={route} />
+      ) : null}
     </Container>
   );
 };

@@ -10,9 +10,9 @@ import { deepClone } from '../utils';
 export const useRouteExecution = (routeId: string) => {
   const { account, switchChain } = useWallet();
   const resumedAfterMount = useRef(false);
-  const { route, status } = useRouteStore((state) => state.routes[routeId]);
-  const [updateRoute, restartRoute, removeRoute] = useRouteStore(
-    (state) => [state.updateRoute, state.restartRoute, state.removeRoute],
+  const routeExecution = useRouteStore((state) => state.routes[routeId]);
+  const [updateRoute, restartRoute, deleteRoute] = useRouteStore(
+    (state) => [state.updateRoute, state.restartRoute, state.deleteRoute],
     shallow,
   );
 
@@ -42,10 +42,10 @@ export const useRouteExecution = (routeId: string) => {
       if (!account.signer) {
         throw Error('Account signer not found.');
       }
-      if (!route) {
+      if (!routeExecution?.route) {
         throw Error('Execution route not found.');
       }
-      return LiFi.executeRoute(account.signer, route, {
+      return LiFi.executeRoute(account.signer, routeExecution.route, {
         updateCallback,
         switchChainHook,
         infiniteApproval: false,
@@ -69,14 +69,18 @@ export const useRouteExecution = (routeId: string) => {
       if (!account.signer) {
         throw Error('Account signer not found.');
       }
-      if (!route) {
+      if (!routeExecution?.route) {
         throw Error('Execution route not found.');
       }
-      return LiFi.resumeRoute(account.signer, resumedRoute ?? route, {
-        updateCallback,
-        switchChainHook,
-        infiniteApproval: false,
-      });
+      return LiFi.resumeRoute(
+        account.signer,
+        resumedRoute ?? routeExecution.route,
+        {
+          updateCallback,
+          switchChainHook,
+          infiniteApproval: false,
+        },
+      );
     },
     {
       onMutate: () => {
@@ -120,24 +124,26 @@ export const useRouteExecution = (routeId: string) => {
 
   const restartRouteMutation = useCallback(() => {
     restartRoute(routeId);
-    resumeRoute(route);
+    resumeRoute(routeExecution?.route);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resumeRoute, route, routeId]);
+  }, [resumeRoute, routeExecution?.route, routeId]);
 
-  const removeRouteMutation = useCallback(() => {
-    removeRoute(routeId);
+  const deleteRouteMutation = useCallback(() => {
+    deleteRoute(routeId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [routeId]);
 
   useEffect(() => {
     // check if route is eligible for automatic resuming
-    const isDone = route.steps.every(
+    const isDone = routeExecution?.route.steps.every(
       (step) => step.execution?.status === 'DONE',
     );
-    const isFailed = route.steps.some(
+    const isFailed = routeExecution?.route.steps.some(
       (step) => step.execution?.status === 'FAILED',
     );
-    const alreadyStarted = route.steps.some((step) => step.execution);
+    const alreadyStarted = routeExecution?.route.steps.some(
+      (step) => step.execution,
+    );
     if (
       !isDone &&
       !isFailed &&
@@ -148,15 +154,19 @@ export const useRouteExecution = (routeId: string) => {
       resumedAfterMount.current = true;
       resumeRoute();
     }
-    return () => LiFi.moveExecutionToBackground(route);
+    return () => {
+      if (routeExecution?.route) {
+        LiFi.moveExecutionToBackground(routeExecution.route);
+      }
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account.signer]);
 
   return {
     executeRoute,
     restartRoute: restartRouteMutation,
-    removeRoute: removeRouteMutation,
-    route,
-    status,
+    deleteRoute: deleteRouteMutation,
+    route: routeExecution?.route,
+    status: routeExecution?.status,
   };
 };

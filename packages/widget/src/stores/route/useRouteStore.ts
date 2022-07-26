@@ -13,7 +13,7 @@ export const useRouteStore = create<RouteExecutionStore>()(
           if (!state.routes[route.id]) {
             // clean previous idle routes that were not executed
             Object.keys(state.routes)
-              .filter((routeId) => state.routes[routeId].status === 'idle')
+              .filter((routeId) => state.routes[routeId]?.status === 'idle')
               .forEach((routeId) => delete state.routes[routeId]);
             state.routes[route.id] = {
               route,
@@ -23,29 +23,31 @@ export const useRouteStore = create<RouteExecutionStore>()(
         }),
       updateRoute: (route: Route) =>
         set((state: RouteExecutionStore) => {
-          state.routes[route.id].route = route;
-          const isFailed = route.steps.some(
-            (step) => step.execution?.status === 'FAILED',
-          );
-          if (isFailed) {
-            state.routes[route.id].status = 'error';
-            return;
-          }
-          const isDone = route.steps.every(
-            (step) => step.execution?.status === 'DONE',
-          );
-          if (isDone) {
-            state.routes[route.id].status = 'success';
-            return;
-          }
-          const isLoading = route.steps.some((step) => step.execution);
-          if (isLoading) {
-            state.routes[route.id].status = 'loading';
+          if (state.routes[route.id]) {
+            state.routes[route.id]!.route = route;
+            const isFailed = route.steps.some(
+              (step) => step.execution?.status === 'FAILED',
+            );
+            if (isFailed) {
+              state.routes[route.id]!.status = 'error';
+              return;
+            }
+            const isDone = route.steps.every(
+              (step) => step.execution?.status === 'DONE',
+            );
+            if (isDone) {
+              state.routes[route.id]!.status = 'success';
+              return;
+            }
+            const isLoading = route.steps.some((step) => step.execution);
+            if (isLoading) {
+              state.routes[route.id]!.status = 'loading';
+            }
           }
         }),
       restartRoute: (routeId: string) =>
         set((state: RouteExecutionStore) => {
-          state.routes[routeId].route.steps.forEach((step) => {
+          state.routes[routeId]?.route.steps.forEach((step) => {
             const stepHasFailed = step.execution?.status === 'FAILED';
             // check if the step has been cancelled which is a "failed" state
             const stepHasBeenCancelled = step.execution?.process.some(
@@ -57,13 +59,13 @@ export const useRouteStore = create<RouteExecutionStore>()(
               step.execution.process.pop();
             }
           });
-          state.routes[routeId].status = 'loading';
+          state.routes[routeId]!.status = 'loading';
         }),
-      removeRoute: (routeId: string) =>
+      deleteRoute: (routeId: string) =>
         set((state: RouteExecutionStore) => {
-          // TODO: handle immediate removal
-          // delete state.routes[routeId];
-          state.routes[routeId].status = 'idle';
+          if (state.routes[routeId]) {
+            delete state.routes[routeId];
+          }
         }),
     })),
     {

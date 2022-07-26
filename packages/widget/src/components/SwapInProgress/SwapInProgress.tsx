@@ -6,16 +6,18 @@ import { Box, BoxProps, Stack } from '@mui/material';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { useWallet } from '../../providers/WalletProvider';
 import { useExecutingRoutes } from '../../stores';
 import { navigationRoutes } from '../../utils';
 import { CardTitle } from '../Card';
 import { TokenAvatar, TokenAvatarGroup } from '../TokenAvatar';
-import { Card, RouteCard } from './SwapInProgress.style';
+import { ProgressCard, RouteCard } from './SwapInProgress.style';
 
 export const SwapInProgress: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const executingRoutes = useExecutingRoutes();
+  const { account } = useWallet();
+  const executingRoutes = useExecutingRoutes(account.address);
 
   const handleCardClick = useCallback(
     (routeId: string) => {
@@ -29,7 +31,7 @@ export const SwapInProgress: React.FC<BoxProps> = (props) => {
   }
 
   return (
-    <Card {...props}>
+    <ProgressCard {...props}>
       <CardTitle>{t('swap.inProgress')}</CardTitle>
       <Stack spacing={2} py={2}>
         {executingRoutes.map(({ route, status }) => (
@@ -53,6 +55,6 @@ export const SwapInProgress: React.FC<BoxProps> = (props) => {
           />
         ))}
       </Stack>
-    </Card>
+    </ProgressCard>
   );
 };
