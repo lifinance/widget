@@ -3,6 +3,8 @@ import { Route } from '@lifi/sdk';
 import { BoxProps } from '@mui/material';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSetHeaderAction } from '../../components/Header';
+import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate';
 import {
   SwapRouteCard,
   SwapRouteCardSkeleton,
@@ -15,11 +17,15 @@ import { Stack } from './SwapRoutesPage.style';
 
 export const SwapRoutesPage: React.FC<BoxProps> = () => {
   const navigate = useNavigate();
+  const setHeaderAction = useSetHeaderAction();
   const {
     routes: swapRoutes,
     isLoading,
     isFetching,
     isFetched,
+    dataUpdatedAt,
+    refetchTime,
+    refetch,
   } = useSwapRoutes();
   const setExecutableRoute = useSetExecutableRoute();
 
@@ -38,15 +44,30 @@ export const SwapRoutesPage: React.FC<BoxProps> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    return setHeaderAction(
+      navigationRoutes.swapRoutes,
+      <ProgressToNextUpdate
+        updatedAt={dataUpdatedAt}
+        timeToUpdate={refetchTime}
+        isLoading={isFetching}
+        onClick={() => refetch()}
+        sx={{ marginRight: -1 }}
+        size="medium"
+        edge="end"
+      />,
+    );
+  }, [dataUpdatedAt, isFetching, refetch, refetchTime, setHeaderAction]);
+
   const routeNotFound = !swapRoutes?.length && isFetched;
 
   return (
     <Stack direction="column" spacing={2}>
       {routeNotFound ? (
-        <SwapRouteNotFoundCard minWidth="100%" dense />
+        <SwapRouteNotFoundCard dense />
       ) : isLoading || isFetching ? (
         Array.from({ length: 3 }).map((_, index) => (
-          <SwapRouteCardSkeleton key={index} minWidth="100%" dense />
+          <SwapRouteCardSkeleton key={index} dense />
         ))
       ) : (
         swapRoutes?.map((route, index) => (

@@ -22,7 +22,7 @@ export const ProgressToNextUpdate: React.FC<
     timeToUpdate: number;
     isLoading?: boolean;
   } & IconButtonProps
-> = ({ updatedAt, timeToUpdate, isLoading, onClick, sx }) => {
+> = ({ updatedAt, timeToUpdate, isLoading, onClick, ...other }) => {
   const { t } = useTranslation();
   const [value, setValue] = useState(() =>
     getProgressValue(updatedAt, timeToUpdate),
@@ -47,7 +47,7 @@ export const ProgressToNextUpdate: React.FC<
   }, [isLoading]);
 
   return (
-    <IconButton onClick={onClick} sx={sx} disabled={isLoading}>
+    <IconButton onClick={onClick} disabled={isLoading} {...other}>
       <Tooltip
         title={t('tooltip.progressToNextUpdate', {
           value: getSecondsToUpdate(updatedAt, timeToUpdate),

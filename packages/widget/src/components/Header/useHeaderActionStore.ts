@@ -1,0 +1,26 @@
+/* eslint-disable no-underscore-dangle */
+import create from 'zustand';
+import { immer } from 'zustand/middleware/immer';
+import { HeaderActionState, HeaderActionStore } from './types';
+
+export const useHeaderActionStore = create<HeaderActionStore>()(
+  immer((set, get) => ({
+    setAction: (path, element) => {
+      set((state: HeaderActionState) => {
+        state.path = path;
+        state.element = element;
+      });
+      return get().removeAction;
+    },
+    removeAction: () => {
+      set((state: HeaderActionState) => {
+        state.path = null;
+        state.element = null;
+      });
+    },
+  })),
+);
+
+export const useSetHeaderAction = () => {
+  return useHeaderActionStore((state) => state.setAction);
+};
