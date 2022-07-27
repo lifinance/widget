@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.11.3](https://github.com/lifinance/widget/compare/v1.11.2...v1.11.3) (2022-07-27)
+
+
+### Bug Fixes
+
+* add hover state for disabled button ([917560c](https://github.com/lifinance/widget/commit/917560c64b17856a83fc811401821b933425986c))
+* add missing currentRoute ([ac9df1e](https://github.com/lifinance/widget/commit/ac9df1e08d70e64da0055068856ee2dc6643dd6c))
+
 ### [1.11.2](https://github.com/lifinance/widget/compare/v1.11.1...v1.11.2) (2022-07-27)
 
 
