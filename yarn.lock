@@ -13232,10 +13232,10 @@ wcwidth@^1.0.0, wcwidth@^1.0.1:
   dependencies:
     defaults "^1.0.3"
 
-web-vitals@^2.1.4:
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/web-vitals/-/web-vitals-2.1.4.tgz#76563175a475a5e835264d373704f9dde718290c"
-  integrity sha512-sVWcwhU5mX6crfI5Vd2dC4qchyTqxV8URinzt25XqVh+bHEPGH4C3NPrNionCP7Obx59wrYEbNlw4Z8sjALzZg==
+web-vitals@^3.0.0-rc.0:
+  version "3.0.0-rc.0"
+  resolved "https://registry.yarnpkg.com/web-vitals/-/web-vitals-3.0.0-rc.0.tgz#7cc659576f1659a5257338efc23960ac8183a633"
+  integrity sha512-GHS5aiK2r9oQ8V0xf4avZU2dzCTP3osAWa/9jBzxzrvHKPu0IxuuntNWpg1E4Ytu8HAj2lZM+7qj+SjsaL2ZHA==
 
 webidl-conversions@^3.0.0:
   version "3.0.1"
