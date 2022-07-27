@@ -4,8 +4,10 @@ import {
   alpha,
   createTheme as createMuiTheme,
   darken,
+  getContrastRatio,
   lighten,
 } from '@mui/material/styles';
+import { dark, light } from '@mui/material/styles/createPalette';
 import { ThemeConfig } from '../types';
 
 // https://mui.com/customization/palette/
@@ -66,6 +68,11 @@ const palette = {
   info: {
     main: '#297EFF',
   },
+};
+
+const shape = {
+  borderRadius: 12,
+  borderRadiusSecondary: 6,
 };
 
 export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) =>
@@ -130,8 +137,7 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) =>
           }),
     },
     shape: {
-      borderRadius: 12,
-      borderRadiusSecondary: 6,
+      ...shape,
       ...theme.shape,
     },
     breakpoints: {
@@ -181,7 +187,8 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) =>
               }
             : {}),
           root: {
-            borderRadius: theme.shape?.borderRadiusSecondary,
+            borderRadius:
+              theme.shape?.borderRadiusSecondary ?? shape.borderRadiusSecondary,
             textTransform: 'none',
             fontSize: '1rem',
             padding: '10px 16px',
@@ -197,12 +204,23 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) =>
               pointerEvents: 'auto',
             },
           },
+          contained: {
+            '&:hover': {
+              color:
+                getContrastRatio(palette.primary.main, dark.text.primary) >= 3
+                  ? dark.text.primary
+                  : light.text.primary,
+            },
+          },
         },
       },
       MuiIconButton: {
         styleOverrides: {
           root: {
             color: 'inherit',
+            '&:hover': {
+              color: 'inherit',
+            },
           },
         },
       },
