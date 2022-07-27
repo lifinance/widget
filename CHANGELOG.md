@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.11.4](https://github.com/lifinance/widget/compare/v1.11.3...v1.11.4) (2022-07-27)
+
+
+### Bug Fixes
+
+* add missing translations ([8fc5cbe](https://github.com/lifinance/widget/commit/8fc5cbe3748450e250ddd23ffe34e881f8f1f9d6))
+* show skeletons while loading after not found routes state ([3960544](https://github.com/lifinance/widget/commit/3960544bb7a9daeda038388bf37f94361c2c302f))
+
 ### [1.11.3](https://github.com/lifinance/widget/compare/v1.11.2...v1.11.3) (2022-07-27)
 
 
