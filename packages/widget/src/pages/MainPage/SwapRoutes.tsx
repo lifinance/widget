@@ -106,9 +106,10 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
           </Box>
         </Box>
       </Card>
-      {!isFetching ? (
-        <GasSufficiencyMessage route={currentRoute} {...props} />
-      ) : null}
+      <GasSufficiencyMessage
+        route={!isFetching ? currentRoute : undefined}
+        {...props}
+      />
     </>
   );
 };

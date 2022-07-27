@@ -14,18 +14,10 @@ export const GasSufficiencyMessage: React.FC<{ route?: Route } & BoxProps> = ({
   const { t } = useTranslation();
   const { insufficientFunds, insufficientGas } = useGasSufficiency(route);
 
-  if (!insufficientFunds || !insufficientGas.length) {
+  if (!insufficientFunds && !insufficientGas.length) {
     return null;
   }
 
-  let title;
-  let message;
-  if (insufficientFunds) {
-    message = t(`swap.warning.message.insufficientFunds`);
-  } else if (insufficientGas.length) {
-    title = t(`swap.warning.title.insufficientGas`);
-    message = t(`swap.warning.message.insufficientGas`);
-  }
   return (
     <MessageCard {...props}>
       <WarningIcon
@@ -35,16 +27,27 @@ export const GasSufficiencyMessage: React.FC<{ route?: Route } & BoxProps> = ({
         }}
       />
       <Box>
-        {title ? <CardTitle>{title}</CardTitle> : null}
-        <Typography
-          variant="body2"
-          px={2}
-          pb={!insufficientFunds && insufficientGas.length ? 0 : 2}
-          pt={title ? 1 : 2}
-        >
-          {message}
-        </Typography>
-        {!insufficientFunds && insufficientGas.length
+        {insufficientGas.length ? (
+          <CardTitle>{t(`swap.warning.title.insufficientGas`)}</CardTitle>
+        ) : null}
+        {insufficientFunds ? (
+          <Typography
+            variant="body2"
+            px={2}
+            pb={insufficientGas.length ? 0 : 2}
+            pt={insufficientGas.length ? 1 : 2}
+          >
+            {insufficientFunds
+              ? t(`swap.warning.message.insufficientFunds`)
+              : null}
+          </Typography>
+        ) : null}
+        {insufficientGas.length ? (
+          <Typography variant="body2" px={2} pt={1}>
+            {t(`swap.warning.message.insufficientGas`)}
+          </Typography>
+        ) : null}
+        {insufficientGas.length
           ? insufficientGas.map((item, index) => (
               <Typography
                 key={index}

@@ -123,7 +123,7 @@ export const useGasSufficiency = (route?: Route) => {
     const balance = Big(
       fromChainTokenBalances?.find((t) => t.address === fromToken)?.amount ?? 0,
     );
-    return Big(fromAmount).gte(balance);
+    return Big(fromAmount).gt(balance);
   }, [account.isActive, fromAmount, fromChainTokenBalances, fromToken]);
 
   return {
