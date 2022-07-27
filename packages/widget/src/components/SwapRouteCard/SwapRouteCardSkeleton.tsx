@@ -41,8 +41,8 @@ export const SwapRouteCardSkeleton: React.FC<
         }}
       >
         <Box>
-          <Skeleton variant="text" width={56} height={27} />
-          <Skeleton variant="text" width={52} height={18} />
+          <Skeleton variant="text" width={56} height={20} />
+          <Skeleton variant="text" width={52} height={16} />
         </Box>
         <Box
           sx={{
@@ -51,8 +51,8 @@ export const SwapRouteCardSkeleton: React.FC<
             flexDirection: 'column',
           }}
         >
-          <Skeleton variant="text" width={40} height={27} />
-          <Skeleton variant="text" width={48} height={18} />
+          <Skeleton variant="text" width={40} height={20} />
+          <Skeleton variant="text" width={48} height={16} />
         </Box>
       </Box>
     </Card>

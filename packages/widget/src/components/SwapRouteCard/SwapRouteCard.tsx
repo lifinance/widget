@@ -41,10 +41,15 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
         }}
       >
         <Box>
-          <Typography fontSize={18} fontWeight="500">
+          <Typography fontSize={18} fontWeight="500" lineHeight={1} pt={0.25}>
             {t(`swap.currency`, { value: route.gasCostUSD ?? 0 })}
           </Typography>
-          <Typography fontSize={12} color="text.secondary">
+          <Typography
+            fontSize={12}
+            color="text.secondary"
+            lineHeight={1}
+            mt={0.5}
+          >
             {t(`swap.gas`)}
           </Typography>
         </Box>
@@ -54,6 +59,8 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
             fontWeight="500"
             display="flex"
             justifyContent="flex-end"
+            lineHeight={1}
+            pt={0.25}
           >
             ~
             {(
@@ -62,7 +69,13 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
                 .reduce((cumulated, x) => cumulated + x) / 60
             ).toFixed(0)}
           </Typography>
-          <Typography fontSize={12} color="text.secondary" textAlign="end">
+          <Typography
+            fontSize={12}
+            color="text.secondary"
+            textAlign="end"
+            lineHeight={1}
+            mt={0.5}
+          >
             {t(`swap.minutes`)}
           </Typography>
         </Box>
