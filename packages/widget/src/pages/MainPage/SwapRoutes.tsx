@@ -39,14 +39,14 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
     return null;
   }
 
-  const routeNotFound = !currentRoute && isFetched;
+  const routeNotFound = !currentRoute && !isLoading && !isFetching;
 
   return (
     <>
       <Card {...props}>
         <CardTitle>{t('swap.routes')}</CardTitle>
         <ProgressToNextUpdate
-          updatedAt={dataUpdatedAt}
+          updatedAt={dataUpdatedAt || new Date().getTime()}
           timeToUpdate={refetchTime}
           isLoading={isFetching}
           onClick={() => refetch()}
@@ -70,13 +70,13 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
                   : 0,
             }}
           >
-            {routeNotFound ? (
-              <SwapRouteNotFoundCard minWidth="100%" dense />
-            ) : isLoading || isFetching || !currentRoute ? (
+            {isLoading || isFetching ? (
               <>
                 <SwapRouteCardSkeleton minWidth="80%" dense />
                 <SwapRouteCardSkeleton minWidth="80%" dense />
               </>
+            ) : !currentRoute ? (
+              <SwapRouteNotFoundCard minWidth="100%" dense />
             ) : (
               <>
                 <SwapRouteCard
