@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.11.1](https://github.com/lifinance/widget/compare/v1.11.0...v1.11.1) (2022-07-27)
+
+
+### Bug Fixes
+
+* gas message is not shown in some cases ([52fcfaf](https://github.com/lifinance/widget/commit/52fcfaf541b619b7af51b7593347e8a83577f99c))
+* header action is not shown in some cases ([d5840e8](https://github.com/lifinance/widget/commit/d5840e8259a1fb0cf936e62b22c86cf8343fb797))
+* missing routes ([c8ee71d](https://github.com/lifinance/widget/commit/c8ee71d6c6d6768028a0c69bc23704827fb3f90d))
+
 ## [1.11.0](https://github.com/lifinance/widget/compare/v1.10.4...v1.11.0) (2022-07-26)
 
 
