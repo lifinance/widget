@@ -21,7 +21,7 @@ export const SwapInProgress: React.FC<BoxProps> = (props) => {
 
   const handleCardClick = useCallback(
     (routeId: string) => {
-      navigate(navigationRoutes.swap, { state: { routeId } });
+      navigate(navigationRoutes.swapExecution, { state: { routeId } });
     },
     [navigate],
   );

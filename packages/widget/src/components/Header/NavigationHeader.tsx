@@ -7,7 +7,7 @@ import { Box, IconButton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { useWallet } from '../../providers/WalletProvider';
-import { navigationRoutes } from '../../utils';
+import { navigationRoutes, navigationRoutesValues } from '../../utils';
 import { HeaderAppBar } from './Header.style';
 import { useHeaderActionStore } from './useHeaderActionStore';
 
@@ -18,23 +18,25 @@ const backButtonRoutes = [
   navigationRoutes.fromToken,
   navigationRoutes.toToken,
   navigationRoutes.swapRoutes,
-  navigationRoutes.swap,
+  navigationRoutes.swapExecution,
   navigationRoutes.swapDetails,
 ];
 
 export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
-  const { pathname } = useLocation();
   const navigate = useNavigate();
   const { account } = useWallet();
   const { path: actionPath, element } = useHeaderActionStore();
+  const { pathname } = useLocation();
+  const path = pathname.substring(pathname.lastIndexOf('/') + 1);
+  const hasPath = navigationRoutesValues.includes(path);
 
   const handleBack = () => {
     navigate(-1);
   };
 
   const handleHeaderTitle = () => {
-    switch (pathname) {
+    switch (path) {
       case navigationRoutes.selectWallet:
         return t(`header.selectWallet`);
       case navigationRoutes.settings:
@@ -47,7 +49,7 @@ export const NavigationHeader: React.FC = () => {
         return t(`header.to`);
       case navigationRoutes.swapRoutes:
         return t(`header.routes`);
-      case navigationRoutes.swap:
+      case navigationRoutes.swapExecution:
         return t(`header.swap`);
       case navigationRoutes.swapDetails:
         return t(`header.swapDetails`);
@@ -58,7 +60,7 @@ export const NavigationHeader: React.FC = () => {
 
   return (
     <HeaderAppBar elevation={0}>
-      {backButtonRoutes.includes(pathname) ? (
+      {backButtonRoutes.includes(path) ? (
         <IconButton
           size="medium"
           aria-label="settings"
@@ -69,8 +71,8 @@ export const NavigationHeader: React.FC = () => {
         </IconButton>
       ) : null}
       <Typography
-        fontSize={pathname === '/' ? 24 : 18}
-        align={pathname === '/' ? 'left' : 'center'}
+        fontSize={hasPath ? 18 : 24}
+        align={hasPath ? 'center' : 'left'}
         fontWeight="700"
         flex={1}
         noWrap
@@ -79,7 +81,7 @@ export const NavigationHeader: React.FC = () => {
       </Typography>
       <Routes>
         <Route
-          path={navigationRoutes.home}
+          index
           element={
             <>
               {account.isActive ? (

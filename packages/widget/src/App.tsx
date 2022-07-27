@@ -29,20 +29,20 @@ export const AppDefault = () => {
       <Header />
       <FlexContainer disableGutters>
         <Routes>
-          <Route path={navigationRoutes.home} element={<MainPage />} />
+          <Route index element={<MainPage />} />
           <Route
             path={navigationRoutes.selectWallet}
             element={<SelectWalletPage />}
           />
+          <Route
+            path={`${navigationRoutes.swapExecution}/${navigationRoutes.selectWallet}`}
+            element={<SelectWalletPage />}
+          />
+          <Route
+            path={`${navigationRoutes.swapRoutes}/${navigationRoutes.swapExecution}/${navigationRoutes.selectWallet}`}
+            element={<SelectWalletPage />}
+          />
           <Route path={navigationRoutes.settings} element={<SettingsPage />} />
-          <Route
-            path={navigationRoutes.swapHistory}
-            element={<SwapHistoryPage />}
-          />
-          <Route
-            path={navigationRoutes.swapDetails}
-            element={<SwapDetailsPage />}
-          />
           <Route
             path={navigationRoutes.fromToken}
             element={<SelectTokenPage formType="from" />}
@@ -52,10 +52,22 @@ export const AppDefault = () => {
             element={<SelectTokenPage formType="to" />}
           />
           <Route
+            path={navigationRoutes.swapHistory}
+            element={<SwapHistoryPage />}
+          />
+          <Route
+            path={`${navigationRoutes.swapHistory}/${navigationRoutes.swapDetails}`}
+            element={<SwapDetailsPage />}
+          />
+          <Route
             path={navigationRoutes.swapRoutes}
             element={<SwapRoutesPage />}
           />
-          <Route path={navigationRoutes.swap} element={<SwapPage />} />
+          <Route path={navigationRoutes.swapExecution} element={<SwapPage />} />
+          <Route
+            path={`${navigationRoutes.swapRoutes}/${navigationRoutes.swapExecution}`}
+            element={<SwapPage />}
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </FlexContainer>

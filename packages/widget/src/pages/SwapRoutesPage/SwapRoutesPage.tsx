@@ -2,7 +2,7 @@
 import { Route } from '@lifi/sdk';
 import { BoxProps } from '@mui/material';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useSetHeaderAction } from '../../components/Header';
 import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate';
 import {
@@ -17,6 +17,7 @@ import { Stack } from './SwapRoutesPage.style';
 
 export const SwapRoutesPage: React.FC<BoxProps> = () => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const setHeaderAction = useSetHeaderAction();
   const {
     routes: swapRoutes,
@@ -31,14 +32,14 @@ export const SwapRoutesPage: React.FC<BoxProps> = () => {
 
   const handleRouteClick = (route: Route) => {
     setExecutableRoute(route);
-    navigate(navigationRoutes.swap, {
+    navigate(navigationRoutes.swapExecution, {
       state: { routeId: route.id },
     });
   };
 
   useEffect(() => {
     if (!swapRoutes?.length && !isLoading && !isFetching) {
-      navigate(navigationRoutes.home);
+      navigate(pathname.substring(0, pathname.lastIndexOf('/')));
     }
     // redirect to the home page if no routes are found on page reload
     // eslint-disable-next-line react-hooks/exhaustive-deps

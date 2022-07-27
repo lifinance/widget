@@ -15,7 +15,7 @@ export const MainSwapButton: React.FC = () => {
   const handleClick = async () => {
     if (currentRoute) {
       setExecutableRoute(currentRoute);
-      navigate(navigationRoutes.swap, {
+      navigate(navigationRoutes.swapExecution, {
         state: { routeId: currentRoute.id },
       });
     }
