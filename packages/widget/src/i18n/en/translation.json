@@ -14,6 +14,7 @@
   "button": {
     "connectWallet": "Connect wallet",
     "switchChain": "Switch chain",
+    "swap": "Swap",
     "reviewSwap": "Review swap",
     "startSwap": "Start swap",
     "restartSwap": "Restart swap",
@@ -78,10 +79,12 @@
     },
     "info": {
       "title": {
-        "routeNotFound": "No routes available"
+        "routeNotFound": "No routes available",
+        "emptySwapHistory": "No recent swaps"
       },
       "message": {
-        "routeNotFound": "Try another token combination."
+        "routeNotFound": "Try another token combination.",
+        "emptySwapHistory": "Swap history is only stored locally and will be deleted if you clear your browser data."
       }
     },
     "warning": {

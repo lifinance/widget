@@ -18,7 +18,7 @@ export const SwapHistoryEmpty: React.FC = () => {
         <HistoryIcon fontSize="inherit" />
       </Typography>
       <Typography fontSize={18} fontWeight={700}>
-        No recent swaps
+        {t('swap.info.title.emptySwapHistory')}
       </Typography>
       <Typography
         fontSize={14}
@@ -26,8 +26,7 @@ export const SwapHistoryEmpty: React.FC = () => {
         textAlign="center"
         mt={2}
       >
-        Swap history is only stored locally and will be deleted if you clear
-        your browser data.
+        {t('swap.info.message.emptySwapHistory')}
       </Typography>
     </Container>
   );
