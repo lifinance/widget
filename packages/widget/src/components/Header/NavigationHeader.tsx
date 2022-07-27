@@ -26,7 +26,7 @@ export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { account } = useWallet();
-  const { path: actionPath, element } = useHeaderActionStore();
+  const { element } = useHeaderActionStore();
   const { pathname } = useLocation();
   const path = pathname.substring(pathname.lastIndexOf('/') + 1);
   const hasPath = navigationRoutesValues.includes(path);
@@ -81,7 +81,7 @@ export const NavigationHeader: React.FC = () => {
       </Typography>
       <Routes>
         <Route
-          index
+          path={navigationRoutes.home}
           element={
             <>
               {account.isActive ? (
@@ -105,10 +105,7 @@ export const NavigationHeader: React.FC = () => {
             </>
           }
         />
-        <Route
-          path={actionPath ?? '*'}
-          element={element || <Box width={28} height={40} />}
-        />
+        <Route path="*" element={element || <Box width={28} height={40} />} />
       </Routes>
     </HeaderAppBar>
   );

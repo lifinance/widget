@@ -47,7 +47,6 @@ export const SwapRoutesPage: React.FC<BoxProps> = () => {
 
   useEffect(() => {
     return setHeaderAction(
-      navigationRoutes.swapRoutes,
       <ProgressToNextUpdate
         updatedAt={dataUpdatedAt}
         timeToUpdate={refetchTime}
@@ -65,10 +64,10 @@ export const SwapRoutesPage: React.FC<BoxProps> = () => {
   return (
     <Stack direction="column" spacing={2}>
       {routeNotFound ? (
-        <SwapRouteNotFoundCard dense />
+        <SwapRouteNotFoundCard />
       ) : isLoading || isFetching ? (
         Array.from({ length: 3 }).map((_, index) => (
-          <SwapRouteCardSkeleton key={index} dense />
+          <SwapRouteCardSkeleton key={index} />
         ))
       ) : (
         swapRoutes?.map((route, index) => (

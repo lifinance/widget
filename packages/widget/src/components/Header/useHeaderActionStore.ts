@@ -5,16 +5,14 @@ import { HeaderActionState, HeaderActionStore } from './types';
 
 export const useHeaderActionStore = create<HeaderActionStore>()(
   immer((set, get) => ({
-    setAction: (path, element) => {
+    setAction: (element) => {
       set((state: HeaderActionState) => {
-        state.path = path;
         state.element = element;
       });
       return get().removeAction;
     },
     removeAction: () => {
       set((state: HeaderActionState) => {
-        state.path = null;
         state.element = null;
       });
     },

@@ -22,7 +22,6 @@ import { useSetHeaderAction } from '../../components/Header';
 import { Step } from '../../components/Step';
 import { StepDivider } from '../../components/StepDivider';
 import { useRouteStore } from '../../stores';
-import { navigationRoutes } from '../../utils';
 import { Container } from './SwapDetailsPage.style';
 
 export const SwapDetailsPage: React.FC = () => {
@@ -53,7 +52,6 @@ export const SwapDetailsPage: React.FC = () => {
 
   useEffect(() => {
     return setHeaderAction(
-      navigationRoutes.swapDetails,
       <IconButton
         size="medium"
         aria-label="settings"
