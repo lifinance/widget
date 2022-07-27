@@ -51,6 +51,9 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
       if (!isCurrentChainMatch) {
         return t(`button.switchChain`);
       }
+      if (!currentRoute) {
+        return t(`button.swap`);
+      }
       return text || t(`button.reviewSwap`);
     }
     return t(`button.connectWallet`);
@@ -64,6 +67,7 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
       // loading={isLoading || isFetching}
       disabled={
         (insufficientFunds || !!insufficientGas.length || loading) &&
+        currentRoute &&
         isCurrentChainMatch
       }
       fullWidth
