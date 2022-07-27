@@ -195,7 +195,7 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) =>
             [`.${dialogActionsClasses.root} &`]: {
               padding: '6px 12px',
             },
-            '&.Mui-disabled': {
+            '&.Mui-disabled, &.Mui-disabled:hover': {
               color:
                 mode === 'light'
                   ? 'rgb(0 0 0 / 70%)'
