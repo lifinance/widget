@@ -71,7 +71,11 @@ export const SwapPage: React.FC = () => {
       ) : null}
       {status === 'idle' || status === 'error' ? (
         <Box mt={2}>
-          <SwapButton onClick={handleSwapClick} text={getSwapButtonText()} />
+          <SwapButton
+            text={getSwapButtonText()}
+            onClick={handleSwapClick}
+            currentRoute={route}
+          />
         </Box>
       ) : null}
       {status === 'error' ? (
