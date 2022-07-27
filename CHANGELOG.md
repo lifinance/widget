@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.11.2](https://github.com/lifinance/widget/compare/v1.11.1...v1.11.2) (2022-07-27)
+
+
+### Bug Fixes
+
+* shape and color theme inconsistency ([2701476](https://github.com/lifinance/widget/commit/2701476eb1e6610366d1e748f3f16c170f465c0b))
+
 ### [1.11.1](https://github.com/lifinance/widget/compare/v1.11.0...v1.11.1) (2022-07-27)
 
 
