@@ -164,7 +164,7 @@
   },
   "tooltip": {
     "notFound": {
-      "title": "Sorry 🥲",
+      "title": "404",
       "text": "We couldn't find this page."
     },
     "progressToNextUpdate": "Displayed data will auto-refresh after {{value}} seconds. Click this circle to update manually."
