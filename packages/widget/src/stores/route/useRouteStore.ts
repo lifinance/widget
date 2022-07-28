@@ -67,6 +67,10 @@ export const useRouteStore = create<RouteExecutionStore>()(
             delete state.routes[routeId];
           }
         }),
+      deleteRoutes: () =>
+        set((state: RouteExecutionStore) => {
+          state.routes = {};
+        }),
     })),
     {
       name: 'li.fi-widget-routes',

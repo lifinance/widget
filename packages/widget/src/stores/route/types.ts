@@ -6,6 +6,7 @@ export interface RouteExecutionStore {
   updateRoute: (route: Route) => void;
   restartRoute: (routeId: string) => void;
   deleteRoute: (routeId: string) => void;
+  deleteRoutes: () => void;
 }
 
 export type RouteExecutionStatus = 'error' | 'idle' | 'loading' | 'success';

@@ -90,7 +90,8 @@
     "warning": {
       "title": {
         "insufficientGas": "Insufficient gas",
-        "deleteSwap": "Delete this swap?"
+        "deleteSwap": "Delete this swap?",
+        "deleteSwapHistory": "Delete swap history?"
       },
       "message": {
         "insufficientFunds": "You don't have enough funds to execute the swap.",
