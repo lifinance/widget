@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.12.0](https://github.com/lifinance/widget/compare/v1.11.4...v1.12.0) (2022-07-28)
+
+
+### Features
+
+* add delete swap history button ([91f6642](https://github.com/lifinance/widget/commit/91f6642d43c5174b693e5c58b8a11a1404ddf7ab))
+
 ### [1.11.4](https://github.com/lifinance/widget/compare/v1.11.3...v1.11.4) (2022-07-27)
 
 
