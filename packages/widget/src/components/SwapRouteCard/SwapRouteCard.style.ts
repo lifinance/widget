@@ -1,3 +1,4 @@
+import { getContrastTextColor } from '@lifi/widget/utils';
 import { Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
@@ -12,7 +13,9 @@ export const Label = styled(Typography, {
     ? theme.palette.grey[500]
     : theme.palette.grey[600],
   borderRadius: theme.shape.borderRadiusSecondary,
-  color: active ? theme.palette.common.white : theme.palette.text.secondary,
+  color: active
+    ? getContrastTextColor(theme, theme.palette.primary.main)
+    : theme.palette.text.secondary,
   padding: theme.spacing(0.75),
   fontSize: 12,
   lineHeight: 1,

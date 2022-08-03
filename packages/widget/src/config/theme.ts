@@ -75,8 +75,21 @@ const shape = {
   borderRadiusSecondary: 6,
 };
 
-export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) =>
-  createMuiTheme({
+export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
+  const primaryMainColor =
+    (theme.palette?.primary as SimplePaletteColorOptions)?.main ??
+    palette.primary.main;
+  const primaryLightColor = lighten(
+    (theme.palette?.primary as SimplePaletteColorOptions)?.main ??
+      palette.primary.main,
+    0.5,
+  );
+  const primaryDarkColor = darken(
+    (theme.palette?.primary as SimplePaletteColorOptions)?.main ??
+      palette.primary.main,
+    0.2,
+  );
+  return createMuiTheme({
     typography: {
       fontFamily: 'Inter var, Inter, sans-serif',
       ...theme.typography,
@@ -85,19 +98,9 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) =>
       mode,
       ...palette,
       primary: {
-        main:
-          (theme.palette?.primary as SimplePaletteColorOptions)?.main ??
-          palette.primary.main,
-        light: lighten(
-          (theme.palette?.primary as SimplePaletteColorOptions)?.main ??
-            palette.primary.main,
-          0.5,
-        ),
-        dark: darken(
-          (theme.palette?.primary as SimplePaletteColorOptions)?.main ??
-            palette.primary.main,
-          0.2,
-        ),
+        main: primaryMainColor,
+        light: primaryLightColor,
+        dark: primaryDarkColor,
       },
       secondary: {
         main:
@@ -170,18 +173,18 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) =>
           ...(mode === 'dark'
             ? {
                 outlined: {
-                  color: palette.primary.light,
-                  borderColor: palette.primary.light,
+                  color: primaryLightColor,
+                  borderColor: primaryLightColor,
                   '&:hover': {
-                    backgroundColor: alpha(palette.primary.light, 0.08),
-                    borderColor: palette.primary.light,
+                    backgroundColor: alpha(primaryLightColor, 0.08),
+                    borderColor: primaryLightColor,
                   },
                 },
                 text: {
-                  color: palette.primary.light,
+                  color: primaryLightColor,
                   '&:hover': {
-                    backgroundColor: alpha(palette.primary.light, 0.08),
-                    borderColor: palette.primary.light,
+                    backgroundColor: alpha(primaryLightColor, 0.08),
+                    borderColor: primaryLightColor,
                   },
                 },
               }
@@ -207,7 +210,7 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) =>
           contained: {
             '&:hover': {
               color:
-                getContrastRatio(palette.primary.main, dark.text.primary) >= 3
+                getContrastRatio(dark.text.primary, primaryMainColor) >= 3
                   ? dark.text.primary
                   : light.text.primary,
             },
@@ -256,3 +259,4 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) =>
       },
     },
   });
+};
