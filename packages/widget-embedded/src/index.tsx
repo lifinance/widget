@@ -87,14 +87,16 @@ const root = createRoot(rootElement);
 // };
 
 const widgetDrawerConfig: WidgetConfig = {
-  fromChain: 'pol',
-  toChain: 'bsc',
-  // fromToken: '0x0000000000000000000000000000000000000000',
-  // toToken: '0xcc42724c6683b7e57334c4e856f4c9965ed682bd',
+  // fromChain: 137,
+  // toChain: 10,
+  // fromToken: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
+  // toToken: '0x7f5c764cbc14f9669b88837ca1490cca17c31607',
+  // fromAmount: 10,
   // disableColorSchemes: true,
   disableTelemetry: true,
   integrator: 'li.fi-playground',
 };
+
 const widgetConfig: WidgetConfig = {
   ...widgetDrawerConfig,
   containerStyle: {
