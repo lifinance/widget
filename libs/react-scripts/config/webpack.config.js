@@ -239,6 +239,9 @@ module.exports = function (webpackEnv) {
     target: ['browserslist'],
     // Webpack noise constrained to errors and warnings
     // stats: 'errors-warnings',
+    // stats: {
+    //   errorDetails: true
+    // },
     mode: isEnvProduction ? 'production' : isEnvDevelopment && 'development',
     // Stop compilation early in production
     bail: isEnvProduction,
@@ -670,10 +673,10 @@ module.exports = function (webpackEnv) {
     plugins: [
       // Work around for Buffer is undefined:
       // https://github.com/webpack/changelog-v5/issues/10
-      new webpack.ProvidePlugin({
-        process: "process/browser",
-        buffer: "buffer",
-      }),
+      // new webpack.ProvidePlugin({
+      //   process: "process/browser",
+      //   buffer: "buffer",
+      // }),
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(
