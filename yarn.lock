@@ -2711,10 +2711,10 @@
     npmlog "^6.0.2"
     write-file-atomic "^4.0.1"
 
-"@lifi/sdk@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@lifi/sdk/-/sdk-1.1.0.tgz#0fd0986d498c2334f7206e5c7215d12cdddbbeff"
-  integrity sha512-YJorBSE+vTz9+fMdso9saMmgs288pPhkUB5kdB1yvyRfWep1/a1HNJT7zfDIeSgfC4YKGNFZadATqlW3wsiRYQ==
+"@lifi/sdk@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@lifi/sdk/-/sdk-1.1.1.tgz#ff31d6ec98d9855a8197a0601726aacddacd1307"
+  integrity sha512-1YaMA3p0Pp1OiaV5LM9C/OX87ub2N69hVb4ZiocdkupgDrtU/k7vmm4kX6mEhPVcXV2abM/X+/z5Cyf2VlhXbA==
   dependencies:
     "@ethersproject/abi" "^5.6.4"
     "@ethersproject/contracts" "^5.6.2"
