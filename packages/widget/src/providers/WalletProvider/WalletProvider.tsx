@@ -3,7 +3,7 @@ import {
   addChain as walletAddChain,
   switchChain as walletSwitchChain,
   switchChainAndAddToken,
-  useLifiWalletManagement,
+  useLiFiWalletManagement,
   Wallet,
 } from '@lifi/wallet-management';
 import { Signer } from 'ethers';
@@ -17,7 +17,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { useWidgetConfig } from '../WidgetProvider';
+import { WidgetWalletManagement } from '../../types';
 import type { WalletAccount, WalletContextProps } from './types';
 
 const stub = (): never => {
@@ -37,85 +37,81 @@ const WalletContext = createContext<WalletContextProps>(initialContext);
 
 export const useWallet = (): WalletContextProps => useContext(WalletContext);
 
-export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
-  const config = useWidgetConfig();
+export const WalletProvider: FC<
+  PropsWithChildren<{ walletManagement?: WidgetWalletManagement }>
+> = ({ children, walletManagement }) => {
   const {
     connect: walletManagementConnect,
     disconnect: walletManagementDisconnect,
     signer,
-  } = useLifiWalletManagement();
+  } = useLiFiWalletManagement();
   const [account, setAccount] = useState<WalletAccount>({});
 
   const connect = useCallback(
     async (wallet?: Wallet) => {
-      if (config.walletManagement) {
-        const signer = await config.walletManagement.connect();
+      if (walletManagement) {
+        const signer = await walletManagement.connect();
         const account = await extractAccountFromSigner(signer);
         setAccount(account);
         return;
       }
       await walletManagementConnect(wallet);
     },
-    [config.walletManagement, walletManagementConnect],
+    [walletManagement, walletManagementConnect],
   );
 
   const disconnect = useCallback(async () => {
-    if (config.walletManagement) {
-      await config.walletManagement.disconnect();
+    if (walletManagement) {
+      await walletManagement.disconnect();
       setAccount({});
       return;
     }
     await walletManagementDisconnect();
-  }, [config.walletManagement, walletManagementDisconnect]);
+  }, [walletManagement, walletManagementDisconnect]);
 
   // only for injected wallets
   const switchChain = useCallback(
     async (chainId: number) => {
-      if (config.walletManagement?.switchChain) {
-        const signer = await config.walletManagement.switchChain(chainId);
+      if (walletManagement?.switchChain) {
+        const signer = await walletManagement.switchChain(chainId);
         const account = await extractAccountFromSigner(signer);
         setAccount(account);
       }
       return walletSwitchChain(chainId);
     },
-    [config.walletManagement],
+    [walletManagement],
   );
 
   const addChain = useCallback(
     async (chainId: number) => {
-      if (config.walletManagement?.addChain) {
-        return config.walletManagement.addChain(chainId);
+      if (walletManagement?.addChain) {
+        return walletManagement.addChain(chainId);
       }
       return walletAddChain(chainId);
     },
-    [config.walletManagement],
+    [walletManagement],
   );
 
   const addToken = useCallback(
     async (chainId: number, token: Token) => {
-      if (config.walletManagement?.addToken) {
-        return config.walletManagement.addToken(token, chainId);
+      if (walletManagement?.addToken) {
+        return walletManagement.addToken(token, chainId);
       }
       return switchChainAndAddToken(chainId, token);
     },
-    [config.walletManagement],
+    [walletManagement],
   );
 
   // keep account information up to date
   useEffect(() => {
     const updateAccount = async () => {
-      if (config.walletManagement) {
-        const account = await extractAccountFromSigner(
-          config.walletManagement.signer,
-        );
-        setAccount(account);
-      } else {
-        const account = await extractAccountFromSigner(signer);
-        setAccount(account);
-      }
+      const account = await extractAccountFromSigner(
+        walletManagement?.signer ?? signer,
+      );
+      setAccount(account);
     };
     updateAccount();
-  }, [signer, config.walletManagement]);
+  }, [signer, walletManagement]);
 
   const value = useMemo(
     () => ({

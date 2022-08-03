@@ -26,19 +26,20 @@ export const AppProvider: React.FC<PropsWithChildren<AppProps>> = ({
   children,
   config,
 }) => {
-  useTelemetry(config?.disableTelemetry);
   return (
-    <WidgetProvider config={config}>
-      <ThemeProvider>
-        <QueryProvider client={queryClient}>
-          <WalletProvider>
-            <SwapFormProvider>
-              <AppRouter>{children}</AppRouter>
-            </SwapFormProvider>
-          </WalletProvider>
-        </QueryProvider>
-      </ThemeProvider>
-    </WidgetProvider>
+    <QueryProvider client={queryClient}>
+      <TelemetryProvider disabled={config?.disableTelemetry}>
+        <WalletProvider walletManagement={config?.walletManagement}>
+          <WidgetProvider config={config}>
+            <ThemeProvider>
+              <SwapFormProvider>
+                <AppRouter>{children}</AppRouter>
+              </SwapFormProvider>
+            </ThemeProvider>
+          </WidgetProvider>
+        </WalletProvider>
+      </TelemetryProvider>
+    </QueryProvider>
   );
 };
 
@@ -46,4 +47,12 @@ export const AppRouter: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   const inRouterContext = useInRouterContext();
   const Router = inRouterContext ? Fragment : MemoryRouter;
   return <Router>{children}</Router>;
+};
+
+export const TelemetryProvider: React.FC<{
+  children: React.ReactElement<any, any> | null;
+  disabled?: boolean;
+}> = ({ children, disabled }) => {
+  useTelemetry(disabled);
+  return children;
 };

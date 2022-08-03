@@ -1,6 +1,7 @@
 import { ChainId, ChainKey, getChainByKey } from '@lifi/sdk';
 import { createContext, useContext, useEffect, useMemo } from 'react';
 import { updateLiFiConfig } from '../../config/lifi';
+import { useWallet } from '../WalletProvider';
 import type { WidgetContextProps, WidgetProviderProps } from './types';
 
 const stub = (): never => {
@@ -29,6 +30,7 @@ export const WidgetProvider: React.FC<
     ...config
   } = {},
 }) => {
+  const { account } = useWallet();
   const value = useMemo((): WidgetContextProps => {
     try {
       return {
@@ -38,7 +40,7 @@ export const WidgetProvider: React.FC<
             ? fromChain
             : typeof fromChain === 'string'
             ? getChainByKey(fromChain.toLowerCase() as ChainKey).id
-            : ChainId.ETH,
+            : account.chainId ?? ChainId.ETH,
         toChain:
           typeof toChain === 'number'
             ? toChain
@@ -47,12 +49,12 @@ export const WidgetProvider: React.FC<
             : ChainId.ETH,
         fromToken: fromToken?.toLowerCase(),
         toToken: toToken?.toLowerCase(),
-      };
+      } as WidgetContextProps;
     } catch (e) {
       console.warn(e);
       return config;
     }
-  }, [config, fromChain, fromToken, toChain, toToken]);
+  }, [account.chainId, config, fromChain, fromToken, toChain, toToken]);
 
   useEffect(() => {
     updateLiFiConfig({

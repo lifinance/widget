@@ -10,7 +10,7 @@ import {
 } from './walletPersistance';
 import { Wallet } from './wallets';
 
-export const useLifiWalletManagement = () => {
+export const useLiFiWalletManagement = () => {
   const priorityConnector = usePriorityConnector();
   const priorityProvider = usePriorityProvider();
   const [signer, setSigner] = useState<Signer>();
