@@ -22,7 +22,10 @@ export const Step: React.FC<{
   const getCardTitle = () => {
     switch (step.type) {
       case 'lifi':
-        return t('swap.stepSwapAndBridge');
+        if (step.includedSteps.some((step) => step.type === 'cross')) {
+          return t('swap.stepSwapAndBridge');
+        }
+        return t('swap.stepSwap');
       case 'swap':
         return t('swap.stepSwap');
       case 'cross':

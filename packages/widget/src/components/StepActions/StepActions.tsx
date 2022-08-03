@@ -26,7 +26,9 @@ export const StepActions: React.FC<StepActionsProps> = ({
   ...other
 }) => {
   const StepDetailsLabel =
-    step.type === 'cross' || step.type === 'lifi'
+    step.type === 'cross' ||
+    (step.type === 'lifi' &&
+      step.includedSteps.some((step) => step.type === 'cross'))
       ? CrossStepDetailsLabel
       : SwapStepDetailsLabel;
   const isFullView = !dense && (step as LifiStep).includedSteps?.length > 1;
@@ -55,7 +57,7 @@ export const StepActions: React.FC<StepActionsProps> = ({
         mb={isFullView ? 1.5 : 0}
       >
         <StepAvatar
-          variant={step.type === 'lifi' ? 'square' : 'circular'}
+          variant="circular"
           src={step.type !== 'lifi' ? step.toolDetails.logoURI : undefined}
           alt={step.toolDetails.name}
         >
