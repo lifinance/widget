@@ -33,7 +33,7 @@ export const useSwapRoutes = () => {
     // Boolean(account.address) &&
     !isNaN(fromChainId) &&
     !isNaN(toChainId) &&
-    Boolean(fromTokenAddress) &&
+    Boolean(token?.address) &&
     Boolean(toTokenAddress) &&
     !isNaN(fromTokenAmount) &&
     Number(fromTokenAmount) > 0 &&
@@ -42,7 +42,7 @@ export const useSwapRoutes = () => {
     'routes',
     account.address,
     fromChainId,
-    fromTokenAddress,
+    token?.address,
     fromTokenAmount,
     toChainId,
     toTokenAddress,
