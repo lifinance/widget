@@ -6,7 +6,7 @@ import { CSSProperties } from 'react';
 
 export type Appearance = PaletteMode | 'auto';
 export type ThemeConfig = {
-  palette?: PaletteOptions;
+  palette?: Pick<PaletteOptions, 'primary' | 'secondary'>;
   shape?: Shape;
   typography?: TypographyOptions;
 };
