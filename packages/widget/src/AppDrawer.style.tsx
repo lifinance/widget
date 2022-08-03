@@ -55,8 +55,12 @@ export const DrawerButton = styled(Button, {
       : '0px'
   } * -1), 0, 0)`,
   transition: theme.transitions.create(['transform'], {
-    duration: theme.transitions.duration.enteringScreen,
-    easing: theme.transitions.easing.easeOut,
+    duration: open
+      ? theme.transitions.duration.enteringScreen
+      : theme.transitions.duration.leavingScreen,
+    easing: open
+      ? theme.transitions.easing.easeOut
+      : theme.transitions.easing.sharp,
   }),
   zIndex: 1500,
   '&:hover': {
