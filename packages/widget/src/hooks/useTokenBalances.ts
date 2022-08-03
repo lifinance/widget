@@ -17,6 +17,7 @@ export const useTokenBalances = (selectedChainId: number) => {
   const {
     data: tokensWithBalance,
     isLoading: isBalanceLoading,
+    isFetched: isBalanceFetched,
     refetch,
   } = useQuery(
     ['token-balances', selectedChainId, account.address],
@@ -57,6 +58,7 @@ export const useTokenBalances = (selectedChainId: number) => {
     tokens: tokensWithBalance ?? (tokens as TokenAmount[] | undefined),
     isLoading: isLoading || isChainsLoading,
     isBalanceLoading: isBalanceLoading && isBalanceLoadingEnabled,
+    isBalanceFetched,
     updateBalances: refetch,
   };
 };
