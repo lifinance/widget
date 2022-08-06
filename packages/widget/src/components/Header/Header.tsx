@@ -10,6 +10,7 @@ const stickyHeaderRoutes = [
   navigationRoutes.selectWallet,
   navigationRoutes.settings,
   navigationRoutes.swapRoutes,
+  navigationRoutes.swapExecution,
   navigationRoutes.swapHistory,
   navigationRoutes.swapDetails,
 ];
