@@ -26,14 +26,22 @@ export const useGasSufficiency = (route?: Route) => {
         SwapFormKey.FromToken,
       ],
     });
+
   const fromAmount = useDebouncedWatch(SwapFormKey.FromAmount, 250);
-  const { tokens: fromChainTokenBalances, isBalanceFetched } =
-    useTokenBalances(fromChainId);
-  const { tokens: toChainTokenBalances } = useTokenBalances(toChainId);
   const { getChainById } = useChains();
+  const { tokensWithBalance: fromChainTokenBalances } =
+    useTokenBalances(fromChainId);
+  const { tokensWithBalance: toChainTokenBalances } =
+    useTokenBalances(toChainId);
 
   const insufficientGas = useMemo(() => {
-    if (!account.isActive || !route || !fromAmount) {
+    if (
+      !account.isActive ||
+      !route ||
+      !fromAmount ||
+      !fromChainTokenBalances ||
+      !toChainTokenBalances
+    ) {
       return [];
     }
 
@@ -118,20 +126,19 @@ export const useGasSufficiency = (route?: Route) => {
   ]);
 
   const insufficientFunds = useMemo(() => {
-    if (!account.isActive || !fromToken || !fromAmount || !isBalanceFetched) {
+    if (
+      !account.isActive ||
+      !fromToken ||
+      !fromAmount ||
+      !fromChainTokenBalances
+    ) {
       return false;
     }
     const balance = Big(
       fromChainTokenBalances?.find((t) => t.address === fromToken)?.amount ?? 0,
     );
     return Big(fromAmount).gt(balance);
-  }, [
-    account.isActive,
-    fromAmount,
-    fromChainTokenBalances,
-    fromToken,
-    isBalanceFetched,
-  ]);
+  }, [account.isActive, fromAmount, fromChainTokenBalances, fromToken]);
 
   return {
     insufficientGas,

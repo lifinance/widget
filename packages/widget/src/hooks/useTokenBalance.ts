@@ -17,7 +17,7 @@ export const useTokenBalance = (chainId: number, tokenAddress: string) => {
     isFetching,
     refetch,
   } = useQuery(
-    ['token', account.address, chainId, tokenAddress],
+    ['token-balance', account.address, chainId, tokenAddress],
     async ({ queryKey: [, address] }) => {
       if (!address || !token) {
         return null;
