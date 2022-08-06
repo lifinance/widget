@@ -76,6 +76,7 @@ export const WalletProvider: FC<
         const signer = await walletManagement.switchChain(chainId);
         const account = await extractAccountFromSigner(signer);
         setAccount(account);
+        return true;
       }
       return walletSwitchChain(chainId);
     },
@@ -130,7 +131,7 @@ export const WalletProvider: FC<
   );
 };
 
-const extractAccountFromSigner = async (signer?: Signer) => ({
+export const extractAccountFromSigner = async (signer?: Signer) => ({
   address: (await signer?.getAddress()) || undefined,
   isActive: (signer && !!(await signer.getAddress()) === null) || !!signer,
   signer,

@@ -47,18 +47,6 @@ export const useRouteStore = create<RouteExecutionStore>()(
         }),
       restartRoute: (routeId: string) =>
         set((state: RouteExecutionStore) => {
-          state.routes[routeId]?.route.steps.forEach((step) => {
-            const stepHasFailed = step.execution?.status === 'FAILED';
-            // check if the step has been cancelled which is a "failed" state
-            const stepHasBeenCancelled = step.execution?.process.some(
-              (process) => process.status === 'CANCELLED',
-            );
-            if (step.execution && (stepHasFailed || stepHasBeenCancelled)) {
-              step.execution.status = 'RESUME';
-              // remove last (failed) process
-              step.execution.process.pop();
-            }
-          });
           state.routes[routeId]!.status = 'loading';
         }),
       deleteRoute: (routeId: string) =>

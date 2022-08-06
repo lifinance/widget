@@ -17,25 +17,24 @@ export const useRouteExecution = (routeId: string) => {
   );
 
   const updateCallback = (updatedRoute: Route) => {
-    console.log('Route updated.', updatedRoute);
-    updateRoute(deepClone(updatedRoute));
+    const clonedUpdatedRoute = deepClone(updatedRoute);
+    console.log('Route updated.', clonedUpdatedRoute);
+    updateRoute(clonedUpdatedRoute);
   };
 
-  const switchChainHook = useCallback(
-    async (requiredChainId: number) => {
-      if (!account.isActive || !account.signer) {
-        return account.signer;
-      }
-      if ((await account.signer.getChainId()) !== requiredChainId) {
-        const switched = await switchChain(requiredChainId);
-        if (!switched) {
-          throw new Error('Chain was not switched.');
-        }
-      }
+  const switchChainHook = async (requiredChainId: number) => {
+    if (!account.isActive || !account.signer) {
       return account.signer;
-    },
-    [account.isActive, account.signer, switchChain],
-  );
+    }
+    const currentChainId = await account.signer.getChainId();
+    if (currentChainId !== requiredChainId) {
+      const switched = await switchChain(requiredChainId);
+      if (!switched) {
+        throw new Error('Chain was not switched.');
+      }
+    }
+    return account.signer;
+  };
 
   const executeRouteMutation = useMutation(
     () => {
@@ -133,34 +132,31 @@ export const useRouteExecution = (routeId: string) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [routeId]);
 
+  // Resume route execution after page reload
   useEffect(() => {
-    // check if route is eligible for automatic resuming
-    const isDone = routeExecution?.route.steps.every(
-      (step) => step.execution?.status === 'DONE',
-    );
-    const isFailed = routeExecution?.route.steps.some(
-      (step) => step.execution?.status === 'FAILED',
-    );
-    const alreadyStarted = routeExecution?.route.steps.some(
-      (step) => step.execution,
-    );
+    // Check if route is eligible for automatic resuming
     if (
-      !isDone &&
-      !isFailed &&
-      alreadyStarted &&
-      account.signer &&
+      isActiveRoute(routeExecution?.route) &&
+      account.isActive &&
       !resumedAfterMount.current
     ) {
       resumedAfterMount.current = true;
       resumeRoute();
     }
-    return () => {
-      if (routeExecution?.route) {
-        LiFi.moveExecutionToBackground(routeExecution.route);
-      }
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account.signer]);
+  }, [account.isActive]);
+
+  useEffect(() => {
+    return () => {
+      const route = useRouteStore.getState().routes[routeId]?.route;
+      if (!route || !isActiveRoute(route)) {
+        return;
+      }
+      LiFi.moveExecutionToBackground(route);
+      console.log('Move route execution to background.', routeId);
+      resumedAfterMount.current = false;
+    };
+  }, [routeId]);
 
   return {
     executeRoute,
@@ -169,4 +165,18 @@ export const useRouteExecution = (routeId: string) => {
     route: routeExecution?.route,
     status: routeExecution?.status,
   };
+};
+
+const isActiveRoute = (route?: Route) => {
+  if (!route) {
+    return false;
+  }
+  const allDone = route.steps.every(
+    (step) => step.execution?.status === 'DONE',
+  );
+  const isFailed = route.steps.some(
+    (step) => step.execution?.status === 'FAILED',
+  );
+  const alreadyStarted = route.steps.some((step) => step.execution);
+  return !allDone && !isFailed && alreadyStarted;
 };
