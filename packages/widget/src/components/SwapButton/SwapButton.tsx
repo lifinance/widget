@@ -28,8 +28,12 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
   const [chainId] = useWatch({
     name: [SwapFormKeyHelper.getChainKey('from')],
   });
-  const isCurrentChainMatch =
-    getChainById(chainId || ChainId.ETH)?.id === account.chainId;
+
+  // Allow switching chain only if execution is not started
+  const switchChainAllowed =
+    getChainById(chainId || ChainId.ETH)?.id !== account.chainId &&
+    currentRoute &&
+    !currentRoute.steps.some((step) => step.execution);
 
   const handleSwapButtonClick = async () => {
     if (!account.isActive) {
@@ -38,7 +42,7 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
       } else {
         navigate(navigationRoutes.selectWallet);
       }
-    } else if (!isCurrentChainMatch) {
+    } else if (switchChainAllowed) {
       await switchChain(chainId!);
       // check that the current route exists in the up to date route list
     } else {
@@ -48,7 +52,7 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
 
   const getButtonText = () => {
     if (account.isActive) {
-      if (!isCurrentChainMatch) {
+      if (switchChainAllowed) {
         return t(`button.switchChain`);
       }
       if (!currentRoute) {
@@ -68,7 +72,7 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
       disabled={
         (insufficientFunds || !!insufficientGas.length || loading) &&
         currentRoute &&
-        isCurrentChainMatch
+        !switchChainAllowed
       }
       fullWidth
     >
