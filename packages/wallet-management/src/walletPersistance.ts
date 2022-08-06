@@ -1,13 +1,13 @@
 const storeWallets = (wallets: Array<string>) => {
   const lowerCaseWallets = wallets.map((address) => address.toLowerCase());
   localStorage.setItem(
-    'wallets',
+    'li.fi-wallets',
     JSON.stringify(Array.from(new Set(lowerCaseWallets))),
   );
 };
 
 const readWallets = (): Array<string> => {
-  const walletsString = localStorage.getItem('wallets');
+  const walletsString = localStorage.getItem('li.fi-wallets');
   if (walletsString) {
     try {
       return JSON.parse(walletsString);
@@ -22,13 +22,13 @@ const readWallets = (): Array<string> => {
 const storeDeactivatedWallets = (wallets: string[]) => {
   const lowerCaseWallets = wallets.map((address) => address.toLowerCase());
   localStorage.setItem(
-    'deactivatedWallets',
+    'li.fi-deactivated-wallets',
     JSON.stringify(Array.from(new Set(lowerCaseWallets))),
   );
 };
 
 const readDeactivatedWallets = (): Array<string> => {
-  const walletsString = localStorage.getItem('deactivatedWallets');
+  const walletsString = localStorage.getItem('li.fi-deactivated-wallets');
   if (walletsString) {
     try {
       return JSON.parse(walletsString);

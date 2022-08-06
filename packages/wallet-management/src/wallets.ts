@@ -1,7 +1,6 @@
 import { Connector } from '@web3-react/types';
 import { metaMask } from './connectors/metaMask';
 import { walletIcons } from './walletIcons';
-// import { walletConnect } from './connectors/walletConnect';
 
 export interface Wallet {
   name: string;
@@ -69,7 +68,6 @@ const brave: Wallet = {
 const mathWallet: Wallet = {
   name: 'MathWallet',
   checkProviderIdentity: ({ provider }) =>
-    // eslint-disable-next-line no-underscore-dangle
     !!provider && !!provider[ProviderIdentityFlag.MathWallet],
   icon: walletIcons.mathwallet,
   connector: metaMask,

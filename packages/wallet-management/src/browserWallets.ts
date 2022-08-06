@@ -1,24 +1,31 @@
-/* eslint-disable no-console */
+/* eslint-disable radix */
 import { getChainById, prefixChainId, Token } from '@lifi/sdk';
 
-export const switchChain = async (chainId: number) => {
-  const { ethereum } = window as any;
-  if (typeof ethereum === 'undefined') return false;
+export const switchChain = async (chainId: number): Promise<boolean> => {
+  return new Promise((resolve, reject) => {
+    const { ethereum } = window as any;
+    if (!ethereum) resolve(false);
 
-  try {
-    await ethereum.request({
-      method: 'wallet_switchEthereumChain',
-      params: [{ chainId: getChainById(chainId).metamask?.chainId }],
-    });
-    return true;
-  } catch (error: any) {
-    // const ERROR_CODE_UNKNOWN_CHAIN = 4902
-    const ERROR_CODE_USER_REJECTED = 4001;
-    if (error.code !== ERROR_CODE_USER_REJECTED) {
-      return addChain(chainId);
+    try {
+      ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: getChainById(chainId).metamask?.chainId }],
+      });
+      ethereum.once('chainChanged', (id: string) => {
+        if (parseInt(id) === chainId) {
+          resolve(true);
+        }
+      });
+    } catch (error: any) {
+      // const ERROR_CODE_UNKNOWN_CHAIN = 4902
+      const ERROR_CODE_USER_REJECTED = 4001;
+      if (error.code !== ERROR_CODE_USER_REJECTED) {
+        addChain(chainId).then((result) => resolve(result));
+      } else {
+        resolve(false);
+      }
     }
-  }
-  return false;
+  });
 };
 
 export const addChain = async (chainId: number) => {

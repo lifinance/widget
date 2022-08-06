@@ -1,5 +1,4 @@
 import { Eip1193Bridge } from '@ethersproject/experimental';
-import { supportedChains } from '@lifi/sdk';
 import { initializeConnector } from '@web3-react/core';
 import { EIP1193 } from '@web3-react/eip1193';
 import { Empty, EMPTY } from '@web3-react/empty';
@@ -27,8 +26,14 @@ const eip1193Provider = currentProvider
     )
   : null;
 
-export const [eip1193, hooks] = initializeConnector<EIP1193 | Empty>(
+export const [eip1193, hooks, store] = initializeConnector<EIP1193 | Empty>(
   (actions) =>
-    eip1193Provider ? new EIP1193(actions, eip1193Provider, false) : EMPTY,
-  supportedChains.map((chain) => chain.id),
+    eip1193Provider
+      ? new EIP1193({
+          actions,
+          provider: eip1193Provider,
+          onError: (error) => console.warn(error),
+        })
+      : EMPTY,
+  // supportedChains.map((chain) => chain.id),
 );

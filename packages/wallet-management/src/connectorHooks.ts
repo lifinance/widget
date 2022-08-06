@@ -7,27 +7,25 @@ import {
 } from './connectors/walletConnect';
 
 export const {
+  useSelectedStore,
   useSelectedChainId,
   useSelectedAccounts,
   useSelectedIsActivating,
-  useSelectedError,
   useSelectedAccount,
   useSelectedIsActive,
   useSelectedProvider,
   useSelectedENSNames,
   useSelectedENSName,
-  useSelectedStore,
   usePriorityConnector,
+  usePriorityStore,
   usePriorityChainId,
   usePriorityAccounts,
   usePriorityIsActivating,
-  usePriorityError,
   usePriorityAccount,
   usePriorityIsActive,
   usePriorityProvider,
   usePriorityENSNames,
   usePriorityENSName,
-  usePriorityStore,
 } = getPriorityConnector(
   [metaMask, metaMaskHooks], // needs to be on top!
   [eip1193, eip1193Hooks],

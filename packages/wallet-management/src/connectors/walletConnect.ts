@@ -4,11 +4,14 @@ import { WalletConnect } from '@web3-react/walletconnect';
 
 export const [walletConnect, hooks] = initializeConnector<WalletConnect>(
   (actions) =>
-    new WalletConnect(actions, {
-      rpc: Object.fromEntries(
-        supportedChains.map((chain) => {
-          return [chain.id, chain.metamask.rpcUrls[0] || ''];
-        }),
-      ),
+    new WalletConnect({
+      actions,
+      options: {
+        rpc: Object.fromEntries(
+          supportedChains.map((chain) => {
+            return [chain.id, chain.metamask.rpcUrls[0] || ''];
+          }),
+        ),
+      },
     }),
 );

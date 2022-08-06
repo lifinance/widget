@@ -12,39 +12,40 @@ import { Wallet } from './wallets';
 
 export const useLiFiWalletManagement = () => {
   const priorityConnector = usePriorityConnector();
-  const priorityProvider = usePriorityProvider();
+  // "any" because of https://github.com/ethers-io/ethers.js/issues/866
+  const priorityProvider = usePriorityProvider('any');
   const [signer, setSigner] = useState<Signer>();
 
   const connect = useCallback(
     async (wallet?: Wallet) => {
-      const currentlySelectedUserAddress = (window as any)?.ethereum
-        ?.selectedAddress;
+      const selectedAddress = (window as any)?.ethereum?.selectedAddress;
       try {
-        if (!wallet) {
-          await priorityConnector.activate();
-        } else {
+        if (wallet) {
           await wallet.connector.activate();
+        } else {
+          await priorityConnector.activate();
         }
       } catch (e) {
         console.log(e);
       }
-      removeFromDeactivatedWallets(currentlySelectedUserAddress);
-      addToActiveWallets(currentlySelectedUserAddress);
+      removeFromDeactivatedWallets(selectedAddress);
+      addToActiveWallets(selectedAddress);
     },
     [priorityConnector],
   );
 
   const disconnect = useCallback(
     async (wallet?: Wallet) => {
-      const currentlySelectedUserAddress = (window as any).ethereum
-        ?.selectedAddress;
-
-      removeFromActiveWallets(currentlySelectedUserAddress);
-      addToDeactivatedWallets(currentlySelectedUserAddress);
-      if (!wallet) {
-        await priorityConnector.deactivate();
+      const selectedAddress = (window as any).ethereum?.selectedAddress;
+      removeFromActiveWallets(selectedAddress);
+      addToDeactivatedWallets(selectedAddress);
+      if (wallet) {
+        await wallet.connector.deactivate?.();
+      } else if (priorityConnector.deactivate) {
+        await priorityConnector.deactivate?.();
       } else {
-        await wallet.connector.deactivate();
+        await priorityConnector.resetState();
+        setSigner(undefined);
       }
     },
     [priorityConnector],
@@ -55,17 +56,13 @@ export const useLiFiWalletManagement = () => {
   }, [priorityProvider]);
 
   useEffect(() => {
-    const currentlySelectedUserAddress = (window as any).ethereum
-      ?.selectedAddress;
-
-    if (!isWalletDeactivated(currentlySelectedUserAddress)) {
+    const selectedAddress = (window as any).ethereum?.selectedAddress;
+    if (!isWalletDeactivated(selectedAddress)) {
       priorityConnector?.connectEagerly!();
     }
   }, [priorityConnector?.connectEagerly]);
 
-  // eslint-disable-next-line consistent-return
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { ethereum } = window as any;
     const handleConnect = async () => {
       await priorityConnector.activate();
