@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.12.1](https://github.com/lifinance/widget/compare/v1.12.0...v1.12.1) (2022-08-06)
+
+
+### Bug Fixes
+
+* fromTokenAmount prevents showing routes on initial load ([ffcd4fd](https://github.com/lifinance/widget/commit/ffcd4fd83c6399ca605d1e89703d827e56349858))
+* gas sufficiency message appears after reloading while executing the route ([e281787](https://github.com/lifinance/widget/commit/e2817875f48efb3e1d896dc2e92c81c15603a7c6))
+* remove resuming route after switching chain ([7e3be5c](https://github.com/lifinance/widget/commit/7e3be5c02d7a4b55660e0ae7d9f00659dbbf7fc6))
+* switch chain only if route exists ([cf3c7d6](https://github.com/lifinance/widget/commit/cf3c7d6c763ab8f9de89339e6c330bb458e5f4bc))
+* sync drawer animation with button ([858c3b5](https://github.com/lifinance/widget/commit/858c3b58979d92d34016d6f5fb3425d40e4205f0))
+* underlying network changed error ([fa1ebee](https://github.com/lifinance/widget/commit/fa1ebeed7617bd6025f3a6213192aad1e559c25b))
+* wait for balances to load before showing warning ([58ae002](https://github.com/lifinance/widget/commit/58ae00274be9d1879cf479e038ab3c5c9d99c813))
+
 ## [1.12.0](https://github.com/lifinance/widget/compare/v1.11.4...v1.12.0) (2022-07-28)
 
 
