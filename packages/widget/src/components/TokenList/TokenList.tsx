@@ -1,18 +1,18 @@
 import { TokenAmount } from '@lifi/sdk';
-import { Box, List, Typography } from '@mui/material';
-import { FC, useCallback, useEffect, useMemo, useRef } from 'react';
+import { useTokenSearch } from '@lifi/widget/hooks/useTokenSearch';
+import { Box, Typography } from '@mui/material';
+import { FC, useCallback, useMemo, useRef, useState } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useVirtual } from 'react-virtual';
 import { useDebouncedWatch, useTokenBalances } from '../../hooks';
 import {
   SwapFormKey,
   SwapFormKeyHelper,
 } from '../../providers/SwapFormProvider';
 import { useWallet } from '../../providers/WalletProvider';
-import { TokenListItem, TokenListItemSkeleton } from './TokenListItem';
 import { TokenListProps } from './types';
-import { createTokenAmountSkeletons, skeletonKey } from './utils';
+import { createTokenAmountSkeletons } from './utils';
+import { VirtualizedTokenList } from './VirtualizedTokenList';
 
 export const TokenList: FC<TokenListProps> = ({
   formType,
@@ -20,8 +20,10 @@ export const TokenList: FC<TokenListProps> = ({
   onClick,
 }) => {
   const { t } = useTranslation();
+  const parentRef = useRef<HTMLUListElement | null>(null);
   const { account } = useWallet();
   const { setValue, getValues } = useFormContext();
+  const [tokenSkeletons] = useState(createTokenAmountSkeletons);
   const [selectedChainId] = useWatch({
     name: [SwapFormKeyHelper.getChainKey(formType)],
   });
@@ -37,14 +39,10 @@ export const TokenList: FC<TokenListProps> = ({
     isBalanceLoading,
   } = useTokenBalances(selectedChainId);
 
-  const tokens = tokensWithBalance ?? tokensWithoutBalance;
-
-  const chainTokens = useMemo(() => {
-    let chainTokens = tokens ?? [];
+  const filteredTokens = useMemo(() => {
+    let chainTokens = tokensWithBalance ?? tokensWithoutBalance ?? [];
     const searchFilter = searchTokensFilter?.toUpperCase() ?? '';
-    chainTokens = isLoading
-      ? createTokenAmountSkeletons()
-      : searchTokensFilter
+    chainTokens = searchTokensFilter
       ? chainTokens.filter(
           (token) =>
             token.name.toUpperCase().includes(searchFilter) ||
@@ -53,22 +51,21 @@ export const TokenList: FC<TokenListProps> = ({
         )
       : chainTokens;
     return chainTokens;
-  }, [isLoading, searchTokensFilter, tokens]);
+  }, [searchTokensFilter, tokensWithBalance, tokensWithoutBalance]);
 
-  const parentRef = useRef<HTMLUListElement | null>(null);
+  const tokenSearchEnabled = !filteredTokens.length && !isLoading;
 
-  const { virtualItems, totalSize, scrollToIndex } = useVirtual({
-    size: chainTokens.length,
-    parentRef,
-    overscan: 3,
-    paddingEnd: 12,
-    estimateSize: useCallback(() => 64, []),
-    keyExtractor: (index) => chainTokens[index].address ?? index,
-  });
+  const { token: searchedToken, isLoading: isSearchedTokenLoading } =
+    useTokenSearch(searchTokensFilter, selectedChainId, tokenSearchEnabled);
 
-  useEffect(() => {
-    scrollToIndex(0);
-  }, [scrollToIndex, selectedChainId]);
+  const tokens =
+    isLoading || (tokenSearchEnabled && isSearchedTokenLoading)
+      ? tokenSkeletons
+      : filteredTokens.length
+      ? filteredTokens
+      : searchedToken
+      ? [searchedToken]
+      : filteredTokens;
 
   const handleTokenClick = useCallback(
     (tokenAddress: string) => {
@@ -94,36 +91,19 @@ export const TokenList: FC<TokenListProps> = ({
 
   return (
     <Box ref={parentRef} style={{ height, overflow: 'auto' }}>
-      {!virtualItems.length ? (
+      {!tokens.length ? (
         <Typography variant="body1" align="center" py={2} px={3}>
           {t('swap.couldntFindTokens')}
         </Typography>
       ) : null}
-      <List style={{ height: totalSize }} disablePadding>
-        {virtualItems.map((item) => {
-          const token = chainTokens[item.index] as TokenAmount;
-          if (token.name.includes(skeletonKey)) {
-            return (
-              <TokenListItemSkeleton
-                key={item.key}
-                size={item.size}
-                start={item.start}
-              />
-            );
-          }
-          return (
-            <TokenListItem
-              key={item.key}
-              onClick={handleTokenClick}
-              size={item.size}
-              start={item.start}
-              token={token}
-              isBalanceLoading={isBalanceLoading}
-              showBalance={account.isActive}
-            />
-          );
-        })}
-      </List>
+      <VirtualizedTokenList
+        tokens={tokens as TokenAmount[]}
+        scrollElementRef={parentRef}
+        onClick={handleTokenClick}
+        chainId={selectedChainId}
+        isBalanceLoading={isBalanceLoading}
+        showBalance={account.isActive}
+      />
     </Box>
   );
 };

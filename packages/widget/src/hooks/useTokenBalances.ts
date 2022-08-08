@@ -17,7 +17,8 @@ export const useTokenBalances = (selectedChainId: number) => {
     defaultRefetchInterval,
   );
 
-  const isBalanceLoadingEnabled = Boolean(account.address) && Boolean(tokens);
+  const isBalanceLoadingEnabled =
+    Boolean(account.address) && Boolean(tokens?.length);
 
   const {
     data: tokensWithBalance,
@@ -25,7 +26,7 @@ export const useTokenBalances = (selectedChainId: number) => {
     isFetched: isBalanceFetched,
     refetch,
   } = useQuery(
-    ['token-balances', selectedChainId, account.address],
+    ['token-balances', selectedChainId, account.address, tokens?.length],
     async ({ queryKey: [, , accountAddress] }) => {
       if (!accountAddress || !tokens) {
         return;

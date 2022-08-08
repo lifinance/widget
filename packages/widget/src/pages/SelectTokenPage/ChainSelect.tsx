@@ -13,6 +13,7 @@ import { Card, CardTitle } from '../../components/Card';
 import { Select } from '../../components/Select';
 import { useChains } from '../../hooks';
 import {
+  SwapFormKey,
   SwapFormKeyHelper,
   SwapFormTypeProps,
 } from '../../providers/SwapFormProvider';
@@ -31,6 +32,7 @@ export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
     setValue(SwapFormKeyHelper.getChainKey(formType), event.target.value);
     setValue(SwapFormKeyHelper.getTokenKey(formType), '');
     setValue(SwapFormKeyHelper.getAmountKey(formType), '');
+    setValue(SwapFormKey.SearchTokensFilter, '');
   };
 
   return !isLoading ? (

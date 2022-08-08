@@ -25,8 +25,6 @@ export const SwapFormKeyHelper = {
     `${formType}Token`,
   getAmountKey: (formType: SwapFormDirection): 'fromAmount' | 'toAmount' =>
     `${formType}Amount`,
-  getSearchTokensFilterKey: (formType: SwapFormDirection) =>
-    `${formType}SearchTokensFilter`,
 };
 
 export interface SwapFormTypeProps {
