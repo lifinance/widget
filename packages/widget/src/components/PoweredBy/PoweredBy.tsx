@@ -1,4 +1,5 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Tooltip, Typography } from '@mui/material';
+import { version } from '../../config/version';
 import { LiFiLogo } from '../LiFiLogo';
 import { Link } from './PoweredBy.style';
 
@@ -14,17 +15,19 @@ export const PoweredBy: React.FC = () => {
         justifyContent: 'flex-end',
       }}
     >
-      <Link
-        href="https://li.fi"
-        target="_blank"
-        underline="none"
-        color="text.primary"
-      >
-        <Typography color="text.secondary" fontSize={12} px={0.5}>
-          Powered by
-        </Typography>
-        <LiFiLogo variant="full" style={{ height: 16, width: 42 }} />
-      </Link>
+      <Tooltip title={`v${version}`} placement="top" enterDelay={5000} arrow>
+        <Link
+          href="https://li.fi"
+          target="_blank"
+          underline="none"
+          color="text.primary"
+        >
+          <Typography color="text.secondary" fontSize={12} px={0.5}>
+            Powered by
+          </Typography>
+          <LiFiLogo variant="full" style={{ height: 16, width: 42 }} />
+        </Link>
+      </Tooltip>
     </Box>
   );
 };
