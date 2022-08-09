@@ -10,6 +10,7 @@ export const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
   borderRadius: theme.shape.borderRadiusSecondary,
   paddingLeft: theme.spacing(2),
   height: 64,
+  width: '100%',
   '&:hover': {
     backgroundColor: getContrastAlphaColor(theme, '4%'),
   },
@@ -19,8 +20,10 @@ export const ListItem = styled(MuiListItem)(({ theme }) => ({
   position: 'absolute',
   top: 0,
   left: 0,
-  width: '100%',
-  padding: theme.spacing(0.5, 3),
+  height: 64,
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  padding: theme.spacing(0, 3),
   [`.${listItemSecondaryActionClasses.root}`]: {
     right: theme.spacing(5),
   },

@@ -13,7 +13,7 @@ export const SearchTokenInput = () => {
 
   useEffect(
     () => () => {
-      setValue(SwapFormKey.SearchTokensFilter, '');
+      setValue(SwapFormKey.TokenSearchFilter, '');
     },
     [setValue],
   );
@@ -32,7 +32,7 @@ export const SearchTokenInput = () => {
           }
           inputProps={{
             inputMode: 'search',
-            ...register(SwapFormKey.SearchTokensFilter),
+            ...register(SwapFormKey.TokenSearchFilter),
           }}
           autoComplete="off"
         />

@@ -10,10 +10,19 @@ import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatTokenPrice } from '../../utils';
 import { ListItem, ListItemButton } from './TokenList.style';
-import { TokenListItemBaseProps, TokenListItemProps } from './types';
+import { TokenListItemProps } from './types';
 
 export const TokenListItem: React.FC<TokenListItemProps> = memo(
-  ({ onClick, size, start, token, showBalance, isBalanceLoading }) => {
+  ({
+    onClick,
+    size,
+    start,
+    token,
+    showBalance,
+    isBalanceLoading,
+    startAdornment,
+    endAdornment,
+  }) => {
     const { t } = useTranslation();
     const handleClick = () => onClick?.(token.address);
     const tokenPrice = formatTokenPrice(token.amount, token.priceUSD);
@@ -25,6 +34,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
           transform: `translateY(${start}px)`,
         }}
       >
+        {startAdornment}
         <ListItemButton onClick={handleClick} dense disableRipple>
           <ListItemAvatar>
             <Avatar src={token.logoURI} alt={token.symbol}>
@@ -58,23 +68,18 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
             )
           ) : null}
         </ListItemButton>
+        {endAdornment}
       </ListItem>
     );
   },
 );
 
-export const TokenListItemSkeleton: React.FC<TokenListItemBaseProps> = ({
-  size,
-  start,
-}) => {
+export const TokenListItemSkeleton = () => {
   return (
     <ListItem
       secondaryAction={<TokenAmountSkeleton />}
       disablePadding
-      style={{
-        height: `${size}px`,
-        transform: `translateY(${start}px)`,
-      }}
+      sx={{ position: 'relative', flexDirection: 'row', alignItems: 'center' }}
     >
       <ListItemAvatar>
         <Skeleton

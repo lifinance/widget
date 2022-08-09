@@ -45,7 +45,7 @@ export const useTokenBalance = (chainId: number, tokenAddress: string) => {
         return;
       }
       await queryClient.invalidateQueries(
-        ['token', account.address, chainId, tokenAddress],
+        ['token-balance', account.address, chainId, tokenAddress],
         { type: 'all', exact: true },
       );
     },

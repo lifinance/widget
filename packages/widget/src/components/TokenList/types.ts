@@ -1,6 +1,7 @@
 import { TokenAmount } from '@lifi/sdk';
 import { MutableRefObject } from 'react';
 import { SwapFormDirection } from '../../providers/SwapFormProvider';
+import { Token } from '../../types';
 
 export interface TokenListProps {
   formType: SwapFormDirection;
@@ -9,12 +10,15 @@ export interface TokenListProps {
 }
 
 export interface VirtualizedTokenListProps {
-  tokens: TokenAmount[];
+  tokens: Token[];
+  featuredTokensLength?: number;
   scrollElementRef: MutableRefObject<HTMLElement | null>;
-  onClick(tokenAddress: string): void;
+  isLoading: boolean;
   isBalanceLoading: boolean;
   chainId: number;
   showBalance?: boolean;
+  showFeatured?: boolean;
+  onClick(tokenAddress: string): void;
 }
 
 export interface TokenListItemBaseProps {
@@ -27,4 +31,6 @@ export interface TokenListItemProps extends TokenListItemBaseProps {
   showBalance?: boolean;
   token: TokenAmount;
   isBalanceLoading?: boolean;
+  startAdornment?: React.ReactNode;
+  endAdornment?: React.ReactNode;
 }

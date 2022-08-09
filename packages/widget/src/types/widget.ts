@@ -22,7 +22,6 @@ export interface WidgetWalletManagement {
 
 interface WidgetConfigBase {
   fromAmount?: number;
-  disabledChains?: number[];
   containerStyle?: CSSProperties;
   theme?: ThemeConfig;
   appearance?: Appearance;
@@ -30,6 +29,8 @@ interface WidgetConfigBase {
   disableTelemetry?: boolean;
   walletManagement?: WidgetWalletManagement;
   integrator?: string;
+  disabledChains?: number[];
+  featuredTokens?: Token[];
 }
 
 type WidgetFromTokenConfig =

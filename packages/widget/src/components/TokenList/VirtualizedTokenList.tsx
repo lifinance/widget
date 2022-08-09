@@ -1,25 +1,52 @@
-import { TokenAmount } from '@lifi/sdk';
-import { List } from '@mui/material';
+import { List, Typography } from '@mui/material';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { FC, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { TokenListItem, TokenListItemSkeleton } from './TokenListItem';
 import { VirtualizedTokenListProps } from './types';
-import { skeletonKey } from './utils';
 
 export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   tokens,
+  featuredTokensLength,
   scrollElementRef,
-  onClick,
   chainId,
+  isLoading,
   isBalanceLoading,
   showBalance,
+  showFeatured,
+  onClick,
 }) => {
+  const { t } = useTranslation();
+
+  const hasFeaturedTokens = !!featuredTokensLength && showFeatured;
+  const featuredTokensLastIndex = (featuredTokensLength ?? 0) - 1;
+  const tokensLastIndex = tokens.length - 1;
+
   const { getVirtualItems, getTotalSize, scrollToIndex } = useVirtualizer({
     count: tokens.length,
     getScrollElement: () => scrollElementRef.current,
-    overscan: 3,
+    overscan: 5,
     paddingEnd: 12,
-    estimateSize: () => 64,
+    estimateSize: (index) => {
+      // heigth of TokenListItem
+      let size = 64;
+      if (!hasFeaturedTokens) {
+        return size;
+      }
+      if (index === 0 && tokens[index]?.featured) {
+        // height of startAdornment
+        size += 24;
+      }
+      if (
+        index === featuredTokensLastIndex &&
+        index !== tokensLastIndex &&
+        tokens[index]?.featured
+      ) {
+        // height of endAdornment
+        size += 32;
+      }
+      return size;
+    },
     getItemKey: (index) => tokens[index].address ?? index,
   });
 
@@ -27,19 +54,21 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     scrollToIndex(0, { align: 'start', smoothScroll: false });
   }, [scrollToIndex, chainId]);
 
+  if (isLoading) {
+    return (
+      <List disablePadding>
+        {Array.from({ length: 3 }).map((_, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <TokenListItemSkeleton key={index} />
+        ))}
+      </List>
+    );
+  }
+
   return (
     <List style={{ height: getTotalSize() }} disablePadding>
       {getVirtualItems().map((item) => {
-        const token = tokens[item.index] as TokenAmount;
-        if (token.name.includes(skeletonKey)) {
-          return (
-            <TokenListItemSkeleton
-              key={item.key}
-              size={item.size}
-              start={item.start}
-            />
-          );
-        }
+        const token = tokens[item.index];
         return (
           <TokenListItem
             key={item.key}
@@ -49,6 +78,35 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
             token={token}
             isBalanceLoading={isBalanceLoading}
             showBalance={showBalance}
+            startAdornment={
+              hasFeaturedTokens && token.featured && item.index === 0 ? (
+                <Typography
+                  fontSize={14}
+                  fontWeight={600}
+                  lineHeight={1}
+                  px={2}
+                  pb={1.25}
+                >
+                  {t('swap.featuredTokens')}
+                </Typography>
+              ) : null
+            }
+            endAdornment={
+              hasFeaturedTokens &&
+              token.featured &&
+              item.index === featuredTokensLastIndex &&
+              item.index !== tokensLastIndex ? (
+                <Typography
+                  fontSize={14}
+                  fontWeight={600}
+                  lineHeight={1}
+                  px={2}
+                  py={1.25}
+                >
+                  {t('swap.otherTokens')}
+                </Typography>
+              ) : null
+            }
           />
         );
       })}

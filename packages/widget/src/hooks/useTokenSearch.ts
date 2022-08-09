@@ -1,6 +1,7 @@
-import { ChainId, Token } from '@lifi/sdk';
+import { ChainId } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { LiFi } from '../config/lifi';
+import { Token } from '../types';
 
 export const useTokenSearch = (
   token: string,
@@ -15,14 +16,14 @@ export const useTokenSearch = (
         signal,
       });
       if (data) {
-        queryClient.setQueryData(['tokens', chainId], (tokens?: Token[]) => {
+        queryClient.setQueriesData(['tokens', chainId], (tokens?: Token[]) => {
           if (!tokens?.some((token) => token.address === data.address)) {
-            tokens?.push(data);
+            tokens?.push(data as Token);
           }
           return tokens;
         });
       }
-      return data;
+      return data as Token;
     },
     {
       enabled,

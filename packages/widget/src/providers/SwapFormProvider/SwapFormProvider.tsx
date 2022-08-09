@@ -4,7 +4,7 @@ import { SwapFormKey, SwapFormValues } from './types';
 
 export const formDefaultValues = {
   [SwapFormKey.FromAmount]: '',
-  [SwapFormKey.SearchTokensFilter]: '',
+  [SwapFormKey.TokenSearchFilter]: '',
 };
 
 export const SwapFormProvider: React.FC<React.PropsWithChildren<{}>> = ({

@@ -32,7 +32,7 @@ export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
     setValue(SwapFormKeyHelper.getChainKey(formType), event.target.value);
     setValue(SwapFormKeyHelper.getTokenKey(formType), '');
     setValue(SwapFormKeyHelper.getAmountKey(formType), '');
-    setValue(SwapFormKey.SearchTokensFilter, '');
+    setValue(SwapFormKey.TokenSearchFilter, '');
   };
 
   return !isLoading ? (
