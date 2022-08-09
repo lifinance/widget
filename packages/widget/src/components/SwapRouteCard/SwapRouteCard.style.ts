@@ -1,6 +1,6 @@
-import { getContrastTextColor } from '@lifi/widget/utils';
 import { Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { getContrastTextColor } from '../../utils';
 
 export const Label = styled(Typography, {
   shouldForwardProp: (prop) => prop !== 'active',
