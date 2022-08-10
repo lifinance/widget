@@ -13,6 +13,7 @@ export const useToken = (chainId: number, tokenAddress: string) => {
 
   return {
     token,
-    isLoading: isLoading && isFetching,
+    isLoading,
+    isFetching,
   };
 };

@@ -28,8 +28,8 @@ export const useTokenBalances = (selectedChainId: number) => {
     isFetched: isBalanceFetched,
     refetch,
   } = useQuery(
-    ['token-balances', selectedChainId, account.address, tokens?.length],
-    async ({ queryKey: [, , accountAddress] }) => {
+    ['token-balances', account.address, selectedChainId, tokens?.length],
+    async ({ queryKey: [, accountAddress] }) => {
       if (!accountAddress || !tokens) {
         return;
       }
@@ -63,7 +63,7 @@ export const useTokenBalances = (selectedChainId: number) => {
         token.amount = formatTokenAmount(token.amount);
         return token;
       });
-      return [
+      const result = [
         ...formattedTokens
           .filter(
             (token) =>
@@ -86,6 +86,7 @@ export const useTokenBalances = (selectedChainId: number) => {
             token.amount === '0' && !featuredTokenAddresses.has(token.address),
         ),
       ];
+      return result;
     },
     {
       enabled: isBalanceLoadingEnabled,
@@ -102,6 +103,6 @@ export const useTokenBalances = (selectedChainId: number) => {
     isLoading,
     isBalanceLoading: isBalanceLoading && isBalanceLoadingEnabled,
     isBalanceFetched,
-    updateBalances: refetch,
+    refetch,
   };
 };

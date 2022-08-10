@@ -17,10 +17,8 @@ export const SwapInputAdornment = ({ formType }: SwapFormTypeProps) => {
       SwapFormKeyHelper.getTokenKey(formType),
     ],
   });
-  const { token, isLoading, isFetching } = useTokenBalance(
-    chainId,
-    tokenAddress,
-  );
+
+  const { token, isLoading } = useTokenBalance(chainId, tokenAddress);
 
   const handleMax = () => {
     setValue(SwapFormKeyHelper.getAmountKey(formType), token?.amount ?? '');
@@ -28,7 +26,7 @@ export const SwapInputAdornment = ({ formType }: SwapFormTypeProps) => {
 
   return (
     <InputAdornment position="end">
-      {isLoading && isFetching ? (
+      {isLoading && tokenAddress ? (
         <Skeleton
           variant="rectangular"
           width={46}

@@ -19,10 +19,8 @@ export const FormPriceHelperText: React.FC<
       SwapFormKeyHelper.getTokenKey(formType),
     ],
   });
-  const { token, isLoading, isFetching } = useTokenBalance(
-    chainId,
-    tokenAddress,
-  );
+
+  const { token, isLoading } = useTokenBalance(chainId, tokenAddress);
 
   const fromAmountTokenPrice = formatTokenPrice(amount, token?.priceUSD);
 
@@ -47,7 +45,7 @@ export const FormPriceHelperText: React.FC<
           value: fromAmountTokenPrice,
         })}
       </Typography>
-      {isLoading && isFetching ? (
+      {isLoading && tokenAddress ? (
         <Skeleton
           variant="text"
           width={48}

@@ -28,14 +28,14 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   const navigate = useNavigate();
   const ref = useRef<BottomSheetBase>(null);
   const { getChainById } = useChains();
-  const { token, refetchBalance } = useTokenBalance(
+  const { token, refetch: refetchBalance } = useTokenBalance(
     route.toChainId,
     route.toToken.address,
   );
   const { setValue } = useFormContext();
 
   const clearFromAmount = () => {
-    refetchBalance(route.fromChainId, route.fromToken.address);
+    refetchBalance();
     setValue(SwapFormKey.FromAmount, '');
   };
 
