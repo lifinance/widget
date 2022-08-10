@@ -91,10 +91,38 @@ const widgetDrawerConfig: WidgetConfig = {
   // toChain: 10,
   // fromToken: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
   // toToken: '0x7f5c764cbc14f9669b88837ca1490cca17c31607',
-  // fromAmount: 10,
+  // fromAmount: '10',
   // disableColorSchemes: true,
   disableTelemetry: true,
   integrator: 'li.fi-playground',
+  // featuredTokens: [
+  //   {
+  //     address: '0x195e3087ea4d7eec6e9c37e9640162fe32433d5e',
+  //     symbol: '$ALTI',
+  //     decimals: 18,
+  //     chainId: 56,
+  //     name: 'Altimatum',
+  //     logoURI: 'https://s2.coinmarketcap.com/static/img/coins/64x64/21303.png',
+  //   },
+  //   {
+  //     address: '0x60d8d17d6b824e19f77eaccaf16ed7ba6fb209c2',
+  //     symbol: 'SERENE',
+  //     decimals: 18,
+  //     chainId: 250,
+  //     name: 'Serenity V2',
+  //     logoURI:
+  //       'https://static.debank.com/image/ftm_token/logo_url/0x60d8d17d6b824e19f77eaccaf16ed7ba6fb209c2/5842f60d05f1d9ce473d0c3f70917c86.png',
+  //   },
+  //   {
+  //     address: '0x2fd6c9b869dea106730269e13113361b684f843a',
+  //     symbol: 'CHH',
+  //     decimals: 9,
+  //     chainId: 56,
+  //     name: 'Chihuahua',
+  //     priceUSD: '2.8497281105098143e-11',
+  //     logoURI: 'https://s2.coinmarketcap.com/static/img/coins/64x64/21334.png',
+  //   },
+  // ],
 };
 
 const widgetConfig: WidgetConfig = {
@@ -114,7 +142,10 @@ const widgetConfig: WidgetConfig = {
 };
 
 const App = () => {
-  const [drawer, setDrawer] = useState(false);
+  const [searchParams] = useState(() =>
+    Object.fromEntries(new URLSearchParams(window?.location.search)),
+  );
+  const [drawer, setDrawer] = useState(() => Boolean(searchParams.drawer));
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const [config, setConfig] = useState(widgetConfig);
   const [fontFamily, setFontFamily] = useState('Inter var, Inter, sans-serif');
