@@ -26,6 +26,7 @@ export const WidgetProvider: React.FC<
     fromToken,
     toChain,
     toToken,
+    fromAmount,
     integrator,
     ...config
   } = {},
@@ -33,28 +34,60 @@ export const WidgetProvider: React.FC<
   const { account } = useWallet();
   const value = useMemo((): WidgetContextProps => {
     try {
+      const searchParams = Object.fromEntries(
+        new URLSearchParams(window?.location.search),
+      );
       return {
         ...config,
         fromChain:
-          typeof fromChain === 'number'
-            ? fromChain
-            : typeof fromChain === 'string'
-            ? getChainByKey(fromChain.toLowerCase() as ChainKey).id
+          (searchParams.fromChain &&
+            isNaN(parseInt(searchParams.fromChain, 10))) ||
+          typeof fromChain === 'string'
+            ? getChainByKey(
+                (
+                  searchParams.fromChain || (fromChain as string)
+                )?.toLowerCase() as ChainKey,
+              ).id
+            : (searchParams.fromChain &&
+                !isNaN(parseInt(searchParams.fromChain, 10))) ||
+              typeof fromChain === 'number'
+            ? parseInt(searchParams.fromChain, 10) || fromChain
             : account.chainId ?? ChainId.ETH,
         toChain:
-          typeof toChain === 'number'
-            ? toChain
-            : typeof toChain === 'string'
-            ? getChainByKey(toChain.toLowerCase() as ChainKey).id
+          (searchParams.toChain && isNaN(parseInt(searchParams.toChain, 10))) ||
+          typeof toChain === 'string'
+            ? getChainByKey(
+                (
+                  searchParams.toChain || (toChain as string)
+                )?.toLowerCase() as ChainKey,
+              ).id
+            : (searchParams.toChain &&
+                !isNaN(parseInt(searchParams.toChain, 10))) ||
+              typeof toChain === 'number'
+            ? parseInt(searchParams.toChain, 10) || toChain
             : ChainId.ETH,
-        fromToken: fromToken?.toLowerCase(),
-        toToken: toToken?.toLowerCase(),
+        fromToken:
+          searchParams.fromToken?.toLowerCase() || fromToken?.toLowerCase(),
+        toToken: searchParams.toToken?.toLowerCase() || toToken?.toLowerCase(),
+        fromAmount:
+          typeof searchParams.fromAmount === 'string' &&
+          !isNaN(parseFloat(searchParams.fromAmount))
+            ? searchParams.fromAmount
+            : fromAmount,
       } as WidgetContextProps;
     } catch (e) {
       console.warn(e);
       return config;
     }
-  }, [account.chainId, config, fromChain, fromToken, toChain, toToken]);
+  }, [
+    account.chainId,
+    config,
+    fromAmount,
+    fromChain,
+    fromToken,
+    toChain,
+    toToken,
+  ]);
 
   useEffect(() => {
     updateLiFiConfig({

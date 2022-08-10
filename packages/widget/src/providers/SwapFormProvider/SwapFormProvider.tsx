@@ -18,7 +18,10 @@ export const SwapFormProvider: React.FC<React.PropsWithChildren<{}>> = ({
       ...formDefaultValues,
       fromChain,
       fromToken,
-      fromAmount: fromAmount?.toPrecision() ?? formDefaultValues.fromAmount,
+      fromAmount:
+        (typeof fromAmount === 'number'
+          ? fromAmount?.toPrecision()
+          : fromAmount) || formDefaultValues.fromAmount,
       toChain,
       toToken,
     },
