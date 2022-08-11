@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.13.0](https://github.com/lifinance/widget/compare/v1.12.1...v1.13.0) (2022-08-11)
+
+
+### Features
+
+* add advanced token search ([4e4068a](https://github.com/lifinance/widget/commit/4e4068a6455dd6a0a770724567df7dd9d06e57ee))
+* add featured tokens ([a941359](https://github.com/lifinance/widget/commit/a941359055d733e48863e11c27ca38579dedc483))
+* parse config from search params ([f01f333](https://github.com/lifinance/widget/commit/f01f3338445b9964fb1b2f57605a94156ee1b63d))
+* set wallet chain as default if config option is not provided ([d04285d](https://github.com/lifinance/widget/commit/d04285dbf87eed3f9d72d0b6e6a34144b7dd323e))
+
 ### [1.12.1](https://github.com/lifinance/widget/compare/v1.12.0...v1.12.1) (2022-08-06)
 
 
