@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.13.1](https://github.com/lifinance/widget/compare/v1.13.0...v1.13.1) (2022-08-11)
+
+
+### Bug Fixes
+
+* icons import ([43ff424](https://github.com/lifinance/widget/commit/43ff4245cfab208e3ddfcc9b0597a91d0fa795f9))
+
 ## [1.13.0](https://github.com/lifinance/widget/compare/v1.12.1...v1.13.0) (2022-08-11)
 
 
