@@ -32,25 +32,28 @@ export const SwapFormProvider: React.FC<React.PropsWithChildren<{}>> = ({
     },
   });
 
-  // Set wallet chain as default if no fromChain is provided by config and if it wasn't changed during widget usage
+  // Set wallet chain as default if no chains are provided by config and if they were not changed during widget usage
   useEffect(() => {
-    const { isDirty, isTouched } = methods.getFieldState(
-      SwapFormKey.FromChain,
-      methods.formState,
-    );
-    if (
-      account.isActive &&
-      account.chainId &&
-      !fromChain &&
-      !isDirty &&
-      !isTouched
-    ) {
+    if (!account.isActive || !account.chainId) {
+      return;
+    }
+    const { isDirty: isFromChainDirty, isTouched: isFromChainTouched } =
+      methods.getFieldState(SwapFormKey.FromChain, methods.formState);
+    if (!fromChain && !isFromChainDirty && !isFromChainTouched) {
       methods.setValue(SwapFormKey.FromChain, account.chainId, {
         shouldDirty: false,
         shouldTouch: false,
       });
     }
-  }, [account.chainId, account.isActive, fromChain, methods]);
+    const { isDirty: isToChainDirty, isTouched: isToChainTouched } =
+      methods.getFieldState(SwapFormKey.ToChain, methods.formState);
+    if (!toChain && !isToChainDirty && !isToChainTouched) {
+      methods.setValue(SwapFormKey.ToChain, account.chainId, {
+        shouldDirty: false,
+        shouldTouch: false,
+      });
+    }
+  }, [account.chainId, account.isActive, fromChain, methods, toChain]);
 
   return <FormProvider {...methods}>{children}</FormProvider>;
 };
