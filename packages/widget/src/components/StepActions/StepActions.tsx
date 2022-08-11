@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useChains } from '../../hooks';
-import { ReactComponent as LiFiToolLogo } from '../../icons/LiFiToolLogo.svg';
+import { LiFiToolLogo } from '../../icons';
 import { formatTokenAmount } from '../../utils';
 import { SmallAvatar } from '../SmallAvatar';
 import {

@@ -1,6 +1,5 @@
 import { CSSProperties } from 'react';
-import { ReactComponent as LiFiFullLogo } from '../icons/LiFiFullLogo.svg';
-import { ReactComponent as LiFiIconLogo } from '../icons/LiFiLogo.svg';
+import { LiFiFullLogo, LiFiLogo as LiFiIconLogo } from '../icons';
 
 export const LiFiLogo: React.FC<{
   variant?: 'icon' | 'full';
