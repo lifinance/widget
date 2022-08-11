@@ -21,15 +21,18 @@ import { useWidgetConfig } from '../../providers/WidgetProvider';
 
 export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
   const { t } = useTranslation();
-  const { setValue } = useFormContext();
+  const { setValue, register } = useFormContext();
   const { fromChain, toChain } = useWidgetConfig();
   const { chains, isLoading } = useChains();
+  const chainKey = SwapFormKeyHelper.getChainKey(formType);
   const [chainId] = useWatch({
-    name: [SwapFormKeyHelper.getChainKey(formType)],
+    name: [chainKey],
   });
 
+  const { onChange, onBlur, name, ref } = register(chainKey);
+
   const handleChain = (event: SelectChangeEvent<unknown>) => {
-    setValue(SwapFormKeyHelper.getChainKey(formType), event.target.value);
+    onChange(event);
     setValue(SwapFormKeyHelper.getTokenKey(formType), '');
     setValue(SwapFormKeyHelper.getAmountKey(formType), '');
     setValue(SwapFormKey.TokenSearchFilter, '');
@@ -40,11 +43,14 @@ export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
       <CardTitle>{t(`swap.selectChain`)}</CardTitle>
       <FormControl fullWidth>
         <Select
-          labelId="label"
+          ref={ref}
+          labelId={chainKey}
+          name={name}
           MenuProps={{ elevation: 2 }}
           defaultValue={formType === 'from' ? fromChain : toChain}
           value={chainId}
           onChange={handleChain}
+          onBlur={onBlur}
           IconComponent={KeyboardArrowDownIcon}
         >
           {chains?.map((chain) => (

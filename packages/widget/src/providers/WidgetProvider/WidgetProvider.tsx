@@ -1,7 +1,6 @@
-import { ChainId, ChainKey, getChainByKey } from '@lifi/sdk';
+import { ChainKey, getChainByKey } from '@lifi/sdk';
 import { createContext, useContext, useEffect, useMemo } from 'react';
 import { updateLiFiConfig } from '../../config/lifi';
-import { useWallet } from '../WalletProvider';
 import type { WidgetContextProps, WidgetProviderProps } from './types';
 
 const stub = (): never => {
@@ -31,7 +30,6 @@ export const WidgetProvider: React.FC<
     ...config
   } = {},
 }) => {
-  const { account } = useWallet();
   const value = useMemo((): WidgetContextProps => {
     try {
       const searchParams = Object.fromEntries(
@@ -52,7 +50,7 @@ export const WidgetProvider: React.FC<
                 !isNaN(parseInt(searchParams.fromChain, 10))) ||
               typeof fromChain === 'number'
             ? parseInt(searchParams.fromChain, 10) || fromChain
-            : account.chainId ?? ChainId.ETH,
+            : undefined,
         toChain:
           (searchParams.toChain && isNaN(parseInt(searchParams.toChain, 10))) ||
           typeof toChain === 'string'
@@ -65,7 +63,7 @@ export const WidgetProvider: React.FC<
                 !isNaN(parseInt(searchParams.toChain, 10))) ||
               typeof toChain === 'number'
             ? parseInt(searchParams.toChain, 10) || toChain
-            : ChainId.ETH,
+            : undefined,
         fromToken:
           searchParams.fromToken?.toLowerCase() || fromToken?.toLowerCase(),
         toToken: searchParams.toToken?.toLowerCase() || toToken?.toLowerCase(),
@@ -79,15 +77,7 @@ export const WidgetProvider: React.FC<
       console.warn(e);
       return config;
     }
-  }, [
-    account.chainId,
-    config,
-    fromAmount,
-    fromChain,
-    fromToken,
-    toChain,
-    toToken,
-  ]);
+  }, [config, fromAmount, fromChain, fromToken, toChain, toToken]);
 
   useEffect(() => {
     updateLiFiConfig({
