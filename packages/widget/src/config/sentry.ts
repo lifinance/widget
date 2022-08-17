@@ -3,6 +3,9 @@ import { version } from './version';
 let sentryLoaded = false;
 
 export const initSentry = async (enabled?: boolean) => {
+  if (process.env.NODE_ENV === 'development') {
+    return;
+  }
   if (enabled || sentryLoaded) {
     const [Sentry, { CaptureConsole }, { BrowserTracing }] = await Promise.all([
       import('@sentry/react'),
