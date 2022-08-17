@@ -1,22 +1,12 @@
- 
-<svg xmlns="http://www.w3.org/2000/svg" id="구성_요소_171_4" width="100%" height="100%" viewBox="0 0 48 48">
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 62.27 71.11" style="enable-background:new 0 0 62.27 71.11;" xml:space="preserve">
-<style type="text/css">
-	.st0{fill:#B3B5B5;}
-	.st1{fill:#72BFBC;}
-	.st2{fill:#6D6E70;}
-</style>
-<g>
-	<polygon class="st0" points="32.04,13.43 37.34,10.37 37.34,3.06 32.04,0 32.04,0 	"/>
-	<path class="st1" d="M12.53,45.25V24.69l17.71-10.22V0L0.9,16.94C0.34,17.26,0,17.86,0,18.5v33.88c0,0.03,0.01,0.07,0.01,0.1
-		L12.53,45.25z"/>
-	<path class="st2" d="M48.86,46.69L31.14,56.93L13.52,46.75L0.99,53.99l29.25,16.89c0.28,0.16,0.59,0.24,0.9,0.24
-		c0.31,0,0.62-0.08,0.9-0.24l29.34-16.94c0.01,0,0.01-0.01,0.02-0.01L48.86,46.69z"/>
-	<g>
-		<path class="st0" d="M61.38,16.94l-11.63-6.71v7.3l-12.5,7.22l12.5,7.21v13.16l12.53,7.23V18.5
-			C62.27,17.86,61.93,17.26,61.38,16.94z"/>
-	</g>
-	<polygon class="st2" points="24.93,31.85 24.94,46.18 37.1,39.16 37.1,24.83 	"/>
-</g>
- </svg>
+<svg data-v-e6b95a28="" data-v-31924dc8=""
+  xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 46 52" class="default-thema">
+  <g data-v-e6b95a28="" id="그룹_67">
+    <g data-v-e6b95a28="" id="그룹_70">
+      <path data-v-e6b95a28="" id="패스_65" d="M23.426 9.819l3.875-2.237v-5.345l-3.875-2.237z" class="cls-2"></path>
+      <path data-v-e6b95a28="" id="패스_66" d="M9.161 33.085v-15.033l12.949-7.472v-10.58l-21.452 12.386a1.314 1.314 0 0 0-.658 1.14v24.774l.007.073z" class="cls-3"></path>
+      <path data-v-e6b95a28="" id="패스_67" d="M35.991 46.69l-12.957 7.487-12.883-7.443-9.161 5.293 21.386 12.35a1.322 1.322 0 0 0 1.316 0l21.453-12.386.015-.007z" transform="translate(-.266 -12.552)" class="cls-4"></path>
+      <path data-v-e6b95a28="" id="패스_68" d="M54.893 15.136l-8.5-4.906v5.337l-9.143 5.279 9.139 5.272v9.622l9.161 5.286v-24.749a1.346 1.346 0 0 0-.657-1.141z" transform="translate(27.236 7.48) translate(-37.25 -10.23)" class="cls-2"></path>
+      <path data-v-e6b95a28="" id="패스_69" d="M18.228 23.288l.007 10.478 8.891-5.133v-10.478z" class="cls-4"></path>
+    </g>
+  </g>
+</svg>
