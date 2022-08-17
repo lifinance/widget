@@ -70,7 +70,10 @@ export const SelectWalletPage = () => {
             disableRipple
           >
             <ListItemAvatar>
-              <Avatar src={wallet.icon} alt={wallet.name}>
+              <Avatar
+                src={(wallet.icon as any).src || wallet.icon}
+                alt={wallet.name}
+              >
                 {wallet.name[0]}
               </Avatar>
             </ListItemAvatar>
