@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.13.2](https://github.com/lifinance/widget/compare/v1.13.1...v1.13.2) (2022-08-17)
+
+
+### Bug Fixes
+
+* ignore getAddress error ([df64eba](https://github.com/lifinance/widget/commit/df64ebad065c94cee52350f87030604858181446))
+* nextjs icon import ([0b023ce](https://github.com/lifinance/widget/commit/0b023ced48a592c30f53f98379dce7db56ddb5fb))
+
 ### [1.13.1](https://github.com/lifinance/widget/compare/v1.13.0...v1.13.1) (2022-08-11)
 
 
