@@ -131,9 +131,16 @@ export const WalletProvider: FC<
   );
 };
 
-export const extractAccountFromSigner = async (signer?: Signer) => ({
-  address: (await signer?.getAddress()) || undefined,
-  isActive: (signer && !!(await signer.getAddress()) === null) || !!signer,
-  signer,
-  chainId: (await signer?.getChainId()) || undefined,
-});
+export const extractAccountFromSigner = async (signer?: Signer) => {
+  try {
+    return {
+      address: (await signer?.getAddress()) || undefined,
+      isActive: (signer && !!(await signer.getAddress()) === null) || !!signer,
+      signer,
+      chainId: (await signer?.getChainId()) || undefined,
+    };
+  } catch (error) {
+    console.log(error);
+    return {};
+  }
+};
