@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig",
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "noEmit": false,
+    "outDir": "build/cjs",
+    "rootDir": "./src",
+    "module": "CommonJS",
+  },
+  "include": [
+    "./src/**/*",
+    "./src/**/*.json"
+  ],
+}

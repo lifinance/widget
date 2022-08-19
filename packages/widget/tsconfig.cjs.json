@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig",
+  "compilerOptions": {
+    "outDir": "build/cjs",
+    "module": "CommonJS",
+  },
+  "references": [
+    {
+      "path": "../wallet-management/tsconfig.json"
+    },
+  ]
+}

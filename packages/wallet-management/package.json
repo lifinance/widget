@@ -7,7 +7,7 @@
   "module": "./src/index.ts",
   "scripts": {
     "watch": "tsc -w -p ./tsconfig.json",
-    "build": "tsc --build --clean && tsc --build && yarn build:copy-files",
+    "build": "tsc --build --clean && tsc --build && tsc --build tsconfig.cjs.json && yarn build:copy-files",
     "build:copy-files": "node ../../scripts/copy-files.js",
     "postbuild": "cpy 'src/**/*' '!src/**/*.ts*' build",
     "pre-commit": "lint-staged",
