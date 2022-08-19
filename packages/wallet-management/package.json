@@ -1,6 +1,6 @@
 {
   "name": "@lifi/wallet-management",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "LI.FI Wallet Management solution.",
   "sideEffects": false,
   "main": "./src/index.ts",
