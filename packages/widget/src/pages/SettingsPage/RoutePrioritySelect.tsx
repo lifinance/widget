@@ -1,4 +1,5 @@
-import { Order, Orders } from '@lifi/sdk';
+import type { Order } from '@lifi/sdk';
+import { Orders } from '@lifi/sdk';
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material';
 import { FormControl, MenuItem } from '@mui/material';
 import { useTranslation } from 'react-i18next';

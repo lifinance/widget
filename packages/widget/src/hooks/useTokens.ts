@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { LiFi } from '../config/lifi';
-import { Token } from '../types';
+import type { Token } from '../types';
 import { useFeaturedTokens } from './useFeaturedTokens';
 
 export const useTokens = (selectedChainId: number) => {

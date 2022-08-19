@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { darken, lighten, styled } from '@mui/material/styles';
-import { MouseEventHandler } from 'react';
+import type { MouseEventHandler } from 'react';
 
 export const Card = styled(Box, {
   shouldForwardProp: (prop) =>

@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { LiFi } from '../config/lifi';
 import { useWallet } from '../providers/WalletProvider';
-import { Token } from '../types';
+import type { Token } from '../types';
 import { formatTokenAmount } from '../utils';
 import { useFeaturedTokens } from './useFeaturedTokens';
 import { useTokens } from './useTokens';

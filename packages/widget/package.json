@@ -9,7 +9,7 @@
     "build": "tsc --build --clean && yarn build:version && tsc --build && tsc --build tsconfig.cjs.json && yarn build:copy-files",
     "build:copy-files": "node ../../scripts/copy-files.js",
     "build:version": "node ../../scripts/version.js",
-    "postbuild": "cpy 'src/**/*' '!src/**/*.ts*' build",
+    "postbuild": "cpy 'src/**/*' '!src/**/*.ts*' build && cpy 'src/**/*' '!src/**/*.ts*' build",
     "pre-commit": "lint-staged",
     "lint": "eslint --ext .tsx --ext .ts ./src",
     "lint:fix": "eslint --ext .tsx --ext .ts ./src --fix",

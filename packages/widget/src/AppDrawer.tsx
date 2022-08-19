@@ -2,10 +2,11 @@ import {
   KeyboardArrowLeft as KeyboardArrowLeftIcon,
   KeyboardArrowRight as KeyboardArrowRightIcon,
 } from '@mui/icons-material';
-import { Drawer, DrawerProps } from '@mui/material';
+import type { DrawerProps } from '@mui/material';
+import { Drawer } from '@mui/material';
+import type { RefObject } from 'react';
 import {
   forwardRef,
-  RefObject,
   useCallback,
   useImperativeHandle,
   useRef,
@@ -15,7 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { AppDefault } from './App';
 import { DrawerButton, DrawerButtonTypography } from './AppDrawer.style';
 import { AppProvider } from './AppProvider';
-import { WidgetConfig } from './types';
+import type { WidgetConfig } from './types';
 
 export type AppDrawerProps = DrawerProps & {
   elementRef?: RefObject<HTMLDivElement>;

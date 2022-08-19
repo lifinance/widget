@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import { KeyboardArrowRight as KeyboardArrowRightIcon } from '@mui/icons-material';
-import { Box, BoxProps, IconButton } from '@mui/material';
+import type { BoxProps } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';

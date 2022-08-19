@@ -1,5 +1,5 @@
-import { DrawerProps } from '@mui/material';
-import { RefObject } from 'react';
+import type { DrawerProps } from '@mui/material';
+import type { RefObject } from 'react';
 
 export type BottomSheetProps = DrawerProps & {
   elementRef?: RefObject<HTMLDivElement>;

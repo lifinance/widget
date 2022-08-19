@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { ChangeEvent } from 'react';
+import type { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Switch } from '../../components/Switch';
 import { useSetSettings, useSettings } from '../../stores';

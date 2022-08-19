@@ -1,4 +1,4 @@
-import { Route } from '@lifi/sdk';
+import type { Route } from '@lifi/sdk';
 import { useMutation } from '@tanstack/react-query';
 import { useCallback, useEffect, useRef } from 'react';
 import shallow from 'zustand/shallow';

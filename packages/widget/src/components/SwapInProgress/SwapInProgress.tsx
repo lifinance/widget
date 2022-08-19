@@ -2,7 +2,8 @@ import {
   ArrowForward as ArrowForwardIcon,
   KeyboardArrowRight as KeyboardArrowRightIcon,
 } from '@mui/icons-material';
-import { Box, BoxProps, Stack } from '@mui/material';
+import type { BoxProps } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';

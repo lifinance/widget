@@ -1,12 +1,7 @@
 import { useTheme } from '@mui/material/styles';
-import {
-  PropsWithChildren,
-  useCallback,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react';
-import { TextFitterProps } from './types';
+import type { PropsWithChildren } from 'react';
+import { useCallback, useLayoutEffect, useRef, useState } from 'react';
+import type { TextFitterProps } from './types';
 
 const initialState = {
   x: 0,

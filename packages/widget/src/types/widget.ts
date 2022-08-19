@@ -1,8 +1,8 @@
-import { ChainKey, Token } from '@lifi/sdk';
-import { PaletteMode, PaletteOptions, Shape } from '@mui/material';
-import { TypographyOptions } from '@mui/material/styles/createTypography';
-import { Signer } from 'ethers';
-import { CSSProperties } from 'react';
+import type { ChainKey, Token } from '@lifi/sdk';
+import type { PaletteMode, PaletteOptions, Shape } from '@mui/material';
+import type { TypographyOptions } from '@mui/material/styles/createTypography';
+import type { Signer } from 'ethers';
+import type { CSSProperties } from 'react';
 
 export type Appearance = PaletteMode | 'auto';
 export type ThemeConfig = {

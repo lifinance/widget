@@ -1,5 +1,5 @@
 import shallow from 'zustand/shallow';
-import { SettingsState, ValueSetter, ValuesSetter } from './types';
+import type { SettingsState, ValueSetter, ValuesSetter } from './types';
 import { useSettingsStore } from './useSettingsStore';
 
 export const useSetSettings = (): [

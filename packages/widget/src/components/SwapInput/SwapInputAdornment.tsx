@@ -2,10 +2,8 @@ import { InputAdornment, Skeleton } from '@mui/material';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useTokenBalance } from '../../hooks';
-import {
-  SwapFormKeyHelper,
-  SwapFormTypeProps,
-} from '../../providers/SwapFormProvider';
+import type { SwapFormTypeProps } from '../../providers/SwapFormProvider';
+import { SwapFormKeyHelper } from '../../providers/SwapFormProvider';
 import { Button } from './SwapInputAdornment.style';
 
 export const SwapInputAdornment = ({ formType }: SwapFormTypeProps) => {

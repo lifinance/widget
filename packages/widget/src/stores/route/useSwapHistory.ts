@@ -1,5 +1,5 @@
 import shallow from 'zustand/shallow';
-import { RouteExecution } from './types';
+import type { RouteExecution } from './types';
 import { useRouteStore } from './useRouteStore';
 
 export const useSwapHistory = (address?: string) => {

@@ -1,7 +1,8 @@
 /* eslint-disable react/no-array-index-key */
-import { Route } from '@lifi/sdk';
+import type { Route } from '@lifi/sdk';
 import { WarningAmber as WarningIcon } from '@mui/icons-material';
-import { Box, BoxProps, Typography } from '@mui/material';
+import type { BoxProps } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useGasSufficiency } from '../../hooks';
 import { CardTitle } from '../Card';

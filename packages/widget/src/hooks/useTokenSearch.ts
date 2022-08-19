@@ -1,7 +1,7 @@
-import { ChainId } from '@lifi/sdk';
+import type { ChainId } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { LiFi } from '../config/lifi';
-import { Token } from '../types';
+import type { Token } from '../types';
 
 export const useTokenSearch = (
   token: string,

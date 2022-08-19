@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import create from 'zustand';
 import { immer } from 'zustand/middleware/immer';
-import { HeaderActionState, HeaderActionStore } from './types';
+import type { HeaderActionState, HeaderActionStore } from './types';
 
 export const useHeaderActionStore = create<HeaderActionStore>()(
   immer((set, get) => ({

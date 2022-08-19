@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { Bridge, Exchange } from '@lifi/sdk';
+import type { Bridge, Exchange } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { LiFi } from '../config/lifi';

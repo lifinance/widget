@@ -7,7 +7,7 @@ import {
   useState,
 } from 'react';
 import { useScrollableContainer } from '../../hooks';
-import { BottomSheetBase, BottomSheetProps } from './types';
+import type { BottomSheetBase, BottomSheetProps } from './types';
 
 export const BottomSheet = forwardRef<BottomSheetBase, BottomSheetProps>(
   ({ elementRef, children, open }, ref) => {

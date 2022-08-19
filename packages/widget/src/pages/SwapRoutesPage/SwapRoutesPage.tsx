@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
-import { Route } from '@lifi/sdk';
-import { BoxProps } from '@mui/material';
+import type { Route } from '@lifi/sdk';
+import type { BoxProps } from '@mui/material';
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSetHeaderAction } from '../../components/Header';

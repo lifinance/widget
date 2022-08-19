@@ -1,7 +1,7 @@
-import { TokenAmount } from '@lifi/sdk';
-import { MutableRefObject } from 'react';
-import { SwapFormDirection } from '../../providers/SwapFormProvider';
-import { Token } from '../../types';
+import type { TokenAmount } from '@lifi/sdk';
+import type { MutableRefObject } from 'react';
+import type { SwapFormDirection } from '../../providers/SwapFormProvider';
+import type { Token } from '../../types';
 
 export interface TokenListProps {
   formType: SwapFormDirection;

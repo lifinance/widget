@@ -1,5 +1,6 @@
 import { FormControl, InputAdornment } from '@mui/material';
-import { ChangeEventHandler, FocusEventHandler, useRef } from 'react';
+import type { ChangeEventHandler, FocusEventHandler } from 'react';
+import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardTitle } from '../../components/Card';
 import { Input } from '../../components/Input';

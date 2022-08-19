@@ -1,10 +1,10 @@
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material';
+import type { SelectChangeEvent } from '@mui/material';
 import {
   Avatar,
   FormControl,
   ListItemAvatar,
   MenuItem,
-  SelectChangeEvent,
   Skeleton,
 } from '@mui/material';
 import { useFormContext, useWatch } from 'react-hook-form';
@@ -12,10 +12,10 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardTitle } from '../../components/Card';
 import { Select } from '../../components/Select';
 import { useChains } from '../../hooks';
+import type { SwapFormTypeProps } from '../../providers/SwapFormProvider';
 import {
   SwapFormKey,
   SwapFormKeyHelper,
-  SwapFormTypeProps,
 } from '../../providers/SwapFormProvider';
 import { useWidgetConfig } from '../../providers/WidgetProvider';
 

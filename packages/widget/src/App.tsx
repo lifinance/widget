@@ -1,5 +1,6 @@
 import { useRoutes } from 'react-router-dom';
-import { AppProps, AppProvider } from './AppProvider';
+import type { AppProps } from './AppProvider';
+import { AppProvider } from './AppProvider';
 import { AppContainer, FlexContainer } from './components/AppContainer';
 import { Header } from './components/Header';
 import { Initializer } from './components/Initializer';

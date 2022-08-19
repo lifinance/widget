@@ -1,4 +1,5 @@
-import { LiFiWidget, LiFiWidgetDrawer, WidgetConfig } from '@lifi/widget';
+import type { WidgetConfig } from '@lifi/widget';
+import { LiFiWidget, LiFiWidgetDrawer } from '@lifi/widget';
 import {
   Box,
   // Button,

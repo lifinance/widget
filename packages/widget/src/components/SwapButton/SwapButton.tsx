@@ -8,7 +8,7 @@ import { useWallet } from '../../providers/WalletProvider';
 import { useWidgetConfig } from '../../providers/WidgetProvider';
 import { navigationRoutes } from '../../utils';
 import { Button } from './SwapButton.style';
-import { SwapButtonProps } from './types';
+import type { SwapButtonProps } from './types';
 
 export const SwapButton: React.FC<SwapButtonProps> = ({
   onClick,

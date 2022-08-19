@@ -1,13 +1,6 @@
-import {
-  EVMChain,
-  LifiErrorCode,
-  MetaMaskProviderErrorCode,
-  Process,
-  ProcessType,
-  Status,
-  Step,
-} from '@lifi/sdk';
-import { TFunction } from 'react-i18next';
+import type { EVMChain, Process, ProcessType, Status, Step } from '@lifi/sdk';
+import { LifiErrorCode, MetaMaskProviderErrorCode } from '@lifi/sdk';
+import type { TFunction } from 'react-i18next';
 import { formatTokenAmount } from '../../utils';
 
 const formatProcessMessage = (

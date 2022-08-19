@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
-import { FC, useCallback, useRef } from 'react';
+import type { FC } from 'react';
+import { useCallback, useRef } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import {
   useDebouncedWatch,
@@ -11,9 +12,9 @@ import {
   SwapFormKeyHelper,
 } from '../../providers/SwapFormProvider';
 import { useWallet } from '../../providers/WalletProvider';
-import { Token } from '../../types';
+import type { Token } from '../../types';
 import { TokenNotFound } from './TokenNotFound';
-import { TokenListProps } from './types';
+import type { TokenListProps } from './types';
 import { VirtualizedTokenList } from './VirtualizedTokenList';
 
 export const TokenList: FC<TokenListProps> = ({

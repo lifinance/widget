@@ -3,7 +3,8 @@ import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useWallet } from '../WalletProvider';
 import { useWidgetConfig } from '../WidgetProvider';
-import { SwapFormKey, SwapFormValues } from './types';
+import type { SwapFormValues } from './types';
+import { SwapFormKey } from './types';
 
 export const formDefaultValues = {
   [SwapFormKey.FromAmount]: '',

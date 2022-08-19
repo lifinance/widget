@@ -1,4 +1,4 @@
-import { Signer } from 'ethers';
+import type { Signer } from 'ethers';
 import { useCallback, useEffect, useState } from 'react';
 import { usePriorityConnector, usePriorityProvider } from './connectorHooks';
 import {
@@ -8,7 +8,7 @@ import {
   removeFromActiveWallets,
   removeFromDeactivatedWallets,
 } from './walletPersistance';
-import { Wallet } from './wallets';
+import type { Wallet } from './wallets';
 
 export const useLiFiWalletManagement = () => {
   const priorityConnector = usePriorityConnector();

@@ -1,4 +1,4 @@
-import { Step } from '@lifi/sdk';
+import type { Step } from '@lifi/sdk';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTimer } from 'react-timer-hook';

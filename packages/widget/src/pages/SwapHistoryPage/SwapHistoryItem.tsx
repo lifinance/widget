@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import { Route } from '@lifi/sdk';
+import type { Route } from '@lifi/sdk';
 import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';

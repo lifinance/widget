@@ -1,5 +1,6 @@
-import { Dialog as MuiDialog, DialogProps } from '@mui/material';
-import { PropsWithChildren } from 'react';
+import type { DialogProps } from '@mui/material';
+import { Dialog as MuiDialog } from '@mui/material';
+import type { PropsWithChildren } from 'react';
 import { useScrollableContainer } from '../hooks';
 
 export const Dialog: React.FC<PropsWithChildren<DialogProps>> = ({

@@ -1,9 +1,10 @@
 import { List, Typography } from '@mui/material';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { FC, useEffect } from 'react';
+import type { FC } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TokenListItem, TokenListItemSkeleton } from './TokenListItem';
-import { VirtualizedTokenListProps } from './types';
+import type { VirtualizedTokenListProps } from './types';
 
 export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   tokens,

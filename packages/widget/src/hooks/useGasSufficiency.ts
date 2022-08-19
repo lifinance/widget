@@ -1,4 +1,4 @@
-import { EVMChain, Route, Token } from '@lifi/sdk';
+import type { EVMChain, Route, Token } from '@lifi/sdk';
 import Big from 'big.js';
 import { useMemo } from 'react';
 import { useWatch } from 'react-hook-form';

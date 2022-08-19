@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
-import { TokenAmount } from '@lifi/sdk';
-import { Box, BoxProps } from '@mui/material';
+import type { TokenAmount } from '@lifi/sdk';
+import type { BoxProps } from '@mui/material';
+import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useChains } from '../../hooks';
 import { formatTokenAmount } from '../../utils';

@@ -1,5 +1,5 @@
 import shallow from 'zustand/shallow';
-import { Appearance } from '../../types';
+import type { Appearance } from '../../types';
 import { useSettingsStore } from './useSettingsStore';
 
 export const useAppearance = (): [

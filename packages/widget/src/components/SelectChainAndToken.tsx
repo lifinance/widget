@@ -1,4 +1,5 @@
-import { Box, BoxProps, Theme, useMediaQuery } from '@mui/material';
+import type { BoxProps, Theme } from '@mui/material';
+import { Box, useMediaQuery } from '@mui/material';
 import { useWatch } from 'react-hook-form';
 import { ReverseTokensButton } from '../components/ReverseTokensButton';
 import { SelectTokenButton } from '../components/SelectTokenButton';

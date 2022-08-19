@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react';
+import type { CSSProperties } from 'react';
 import { LiFiFullLogo, LiFiLogo as LiFiIconLogo } from '../icons';
 
 export const LiFiLogo: React.FC<{

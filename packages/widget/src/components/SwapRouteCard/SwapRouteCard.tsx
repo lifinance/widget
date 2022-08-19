@@ -1,10 +1,11 @@
-import { Box, BoxProps, Typography } from '@mui/material';
+import type { BoxProps } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Card } from '../Card';
 import { StepActions } from '../StepActions';
 import { Token } from '../Token';
 import { Label } from './SwapRouteCard.style';
-import { SwapRouteCardProps } from './types';
+import type { SwapRouteCardProps } from './types';
 
 export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
   route,

@@ -2,7 +2,8 @@
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
-import { SettingsState, SettingsStore, SettingsToolTypes } from './types';
+import type { SettingsState, SettingsStore } from './types';
+import { SettingsToolTypes } from './types';
 
 export const useSettingsStore = create<SettingsStore>()(
   persist(

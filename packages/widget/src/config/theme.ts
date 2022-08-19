@@ -1,4 +1,4 @@
-import { PaletteMode, SimplePaletteColorOptions } from '@mui/material';
+import type { PaletteMode, SimplePaletteColorOptions } from '@mui/material';
 import { dialogActionsClasses } from '@mui/material/DialogActions';
 import {
   alpha,
@@ -7,8 +7,7 @@ import {
   getContrastRatio,
   lighten,
 } from '@mui/material/styles';
-import { dark, light } from '@mui/material/styles/createPalette';
-import { ThemeConfig } from '../types';
+import type { ThemeConfig } from '../types';
 
 // https://mui.com/customization/palette/
 // declare module '@mui/material/styles' {
@@ -210,9 +209,9 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
           contained: {
             '&:hover': {
               color:
-                getContrastRatio(dark.text.primary, primaryMainColor) >= 3
-                  ? dark.text.primary
-                  : light.text.primary,
+                getContrastRatio('rgb(0, 0, 0)', primaryMainColor) >= 3
+                  ? 'rgb(0, 0, 0)'
+                  : 'rgb(255, 255, 255)',
             },
           },
         },

@@ -1,5 +1,6 @@
 /* eslint-disable radix */
-import { getChainById, prefixChainId, Token } from '@lifi/sdk';
+import type { Token } from '@lifi/sdk';
+import { getChainById, prefixChainId } from '@lifi/sdk';
 
 export const switchChain = async (chainId: number): Promise<boolean> => {
   return new Promise((resolve, reject) => {

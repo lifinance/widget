@@ -1,4 +1,4 @@
-import { WidgetConfig } from '../../types';
+import type { WidgetConfig } from '../../types';
 
 export type WidgetContextProps = WidgetConfig & {
   fromChain?: number;

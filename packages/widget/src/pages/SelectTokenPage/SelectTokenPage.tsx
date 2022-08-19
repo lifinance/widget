@@ -1,9 +1,10 @@
 import { Box, Container } from '@mui/material';
-import { FC, useLayoutEffect, useRef, useState } from 'react';
+import type { FC } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TokenList } from '../../components/TokenList';
 import { useContentHeight, useScrollableOverflowHidden } from '../../hooks';
-import { SwapFormDirection } from '../../providers/SwapFormProvider';
+import type { SwapFormDirection } from '../../providers/SwapFormProvider';
 import { ChainSelect } from './ChainSelect';
 import { SearchTokenInput } from './SearchTokenInput';
 

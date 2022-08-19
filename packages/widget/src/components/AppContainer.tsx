@@ -1,6 +1,7 @@
 import { Box, Container, ScopedCssBaseline } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { PropsWithChildren, RefObject, useLayoutEffect, useRef } from 'react';
+import type { PropsWithChildren, RefObject } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useWidgetConfig } from '../providers/WidgetProvider';
 import { ElementId } from '../utils';

@@ -1,5 +1,6 @@
-import { Token } from '@lifi/sdk';
-import { Avatar, Badge, SxProps, Theme } from '@mui/material';
+import type { Token } from '@lifi/sdk';
+import type { SxProps, Theme } from '@mui/material';
+import { Avatar, Badge } from '@mui/material';
 import { useChain, useToken } from '../../hooks';
 import { SmallAvatar } from '../SmallAvatar';
 

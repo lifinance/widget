@@ -1,6 +1,7 @@
-import { Box, BoxProps, Skeleton } from '@mui/material';
+import type { BoxProps } from '@mui/material';
+import { Box, Skeleton } from '@mui/material';
 import { Card } from '../Card';
-import { SwapRouteCardSkeletonProps } from './types';
+import type { SwapRouteCardSkeletonProps } from './types';
 
 export const SwapRouteCardSkeleton: React.FC<
   SwapRouteCardSkeletonProps & BoxProps

@@ -1,12 +1,7 @@
-import { LifiStep, Step } from '@lifi/sdk';
+import type { LifiStep, Step } from '@lifi/sdk';
 import { ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
-import {
-  Box,
-  Step as MuiStep,
-  StepIconProps,
-  Stepper,
-  Typography,
-} from '@mui/material';
+import type { StepIconProps } from '@mui/material';
+import { Box, Step as MuiStep, Stepper, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useChains } from '../../hooks';
 import { LiFiToolLogo } from '../../icons';
@@ -18,7 +13,7 @@ import {
   StepContent,
   StepLabel,
 } from './StepActions.style';
-import { StepActionsProps } from './types';
+import type { StepActionsProps } from './types';
 
 export const StepActions: React.FC<StepActionsProps> = ({
   step,

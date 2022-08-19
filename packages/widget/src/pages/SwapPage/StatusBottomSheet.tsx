@@ -8,11 +8,12 @@ import { useEffect, useMemo, useRef } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { BottomSheet, BottomSheetBase } from '../../components/BottomSheet';
+import type { BottomSheetBase } from '../../components/BottomSheet';
+import { BottomSheet } from '../../components/BottomSheet';
 import { Token } from '../../components/Token';
 import { useChains, useTokenBalance } from '../../hooks';
 import { SwapFormKey } from '../../providers/SwapFormProvider';
-import { RouteExecution } from '../../stores';
+import type { RouteExecution } from '../../stores';
 import {
   IconCircle,
   IconContainer,

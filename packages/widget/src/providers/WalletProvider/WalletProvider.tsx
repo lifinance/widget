@@ -1,23 +1,22 @@
-import { Token } from '@lifi/sdk';
+import type { Token } from '@lifi/sdk';
+import type { Wallet } from '@lifi/wallet-management';
 import {
   addChain as walletAddChain,
   switchChain as walletSwitchChain,
   switchChainAndAddToken,
   useLiFiWalletManagement,
-  Wallet,
 } from '@lifi/wallet-management';
-import { Signer } from 'ethers';
+import type { Signer } from 'ethers';
+import type { FC, PropsWithChildren } from 'react';
 import {
   createContext,
-  FC,
-  PropsWithChildren,
   useCallback,
   useContext,
   useEffect,
   useMemo,
   useState,
 } from 'react';
-import { WidgetWalletManagement } from '../../types';
+import type { WidgetWalletManagement } from '../../types';
 import type { WalletAccount, WalletContextProps } from './types';
 
 const stub = (): never => {

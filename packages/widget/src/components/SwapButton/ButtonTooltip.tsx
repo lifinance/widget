@@ -1,5 +1,5 @@
 import { Tooltip } from '@mui/material';
-import { ReactElement } from 'react';
+import type { ReactElement } from 'react';
 
 export const ButtonTooltip = ({
   title,

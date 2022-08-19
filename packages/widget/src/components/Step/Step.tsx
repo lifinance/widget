@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import { Step as StepType, TokenAmount } from '@lifi/sdk';
+import type { Step as StepType, TokenAmount } from '@lifi/sdk';
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Card, CardTitle } from '../../components/Card';

@@ -1,4 +1,4 @@
-import { Connector } from '@web3-react/types';
+import type { Connector } from '@web3-react/types';
 import { metaMask } from './connectors/metaMask';
 import { walletIcons } from './walletIcons';
 

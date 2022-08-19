@@ -1,5 +1,6 @@
-import { Status } from '@lifi/sdk';
-import { CircularProgress as MuiCircularProgress, Theme } from '@mui/material';
+import type { Status } from '@lifi/sdk';
+import type { Theme } from '@mui/material';
+import { CircularProgress as MuiCircularProgress } from '@mui/material';
 import { circularProgressClasses } from '@mui/material/CircularProgress';
 import { keyframes, styled } from '@mui/material/styles';
 

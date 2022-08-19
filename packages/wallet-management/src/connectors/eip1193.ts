@@ -1,7 +1,8 @@
 import { Eip1193Bridge } from '@ethersproject/experimental';
 import { initializeConnector } from '@web3-react/core';
 import { EIP1193 } from '@web3-react/eip1193';
-import { Empty, EMPTY } from '@web3-react/empty';
+import type { Empty } from '@web3-react/empty';
+import { EMPTY } from '@web3-react/empty';
 import { providers } from 'ethers';
 
 class Eip1193BridgeWithoutAccounts extends Eip1193Bridge {

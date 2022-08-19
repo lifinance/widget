@@ -4,10 +4,8 @@ import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useChain, useToken } from '../../hooks';
-import {
-  SwapFormKeyHelper,
-  SwapFormTypeProps,
-} from '../../providers/SwapFormProvider';
+import type { SwapFormTypeProps } from '../../providers/SwapFormProvider';
+import { SwapFormKeyHelper } from '../../providers/SwapFormProvider';
 import { navigationRoutes } from '../../utils';
 import { Card, CardTitle } from '../Card';
 import { TokenAvatar } from '../TokenAvatar';

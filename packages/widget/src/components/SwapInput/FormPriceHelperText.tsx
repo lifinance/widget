@@ -2,10 +2,8 @@ import { FormHelperText, Skeleton, Typography } from '@mui/material';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useTokenBalance } from '../../hooks';
-import {
-  SwapFormKeyHelper,
-  SwapFormTypeProps,
-} from '../../providers/SwapFormProvider';
+import type { SwapFormTypeProps } from '../../providers/SwapFormProvider';
+import { SwapFormKeyHelper } from '../../providers/SwapFormProvider';
 import { formatTokenPrice } from '../../utils';
 
 export const FormPriceHelperText: React.FC<

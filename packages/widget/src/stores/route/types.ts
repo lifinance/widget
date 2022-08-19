@@ -1,4 +1,4 @@
-import { Route } from '@lifi/sdk';
+import type { Route } from '@lifi/sdk';
 
 export interface RouteExecutionStore {
   routes: Partial<Record<string, RouteExecution>>;
