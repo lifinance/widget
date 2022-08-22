@@ -26,7 +26,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   const { getVirtualItems, getTotalSize, scrollToIndex } = useVirtualizer({
     count: tokens.length,
     getScrollElement: () => scrollElementRef.current,
-    overscan: 5,
+    overscan: 10,
     paddingEnd: 12,
     estimateSize: (index) => {
       // heigth of TokenListItem
