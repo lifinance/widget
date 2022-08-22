@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.14.1](https://github.com/lifinance/widget/compare/v1.14.0...v1.14.1) (2022-08-22)
+
+
+### Bug Fixes
+
+* increase token list overscan ([440aabd](https://github.com/lifinance/widget/commit/440aabd929a8c1117502b4c9b7565a2714f657fd))
+
 ## [1.14.0](https://github.com/lifinance/widget/compare/v1.13.7...v1.14.0) (2022-08-22)
 
 
