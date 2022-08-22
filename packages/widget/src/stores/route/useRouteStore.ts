@@ -63,6 +63,45 @@ export const useRouteStore = create<RouteExecutionStore>()(
     {
       name: 'li.fi-widget-routes',
       partialize: (state) => ({ routes: state.routes }),
+      merge: (persistedState: any, currentState: RouteExecutionStore) => {
+        const state = { ...currentState, ...persistedState };
+        try {
+          const routeString = localStorage.getItem('routes');
+          if (routeString) {
+            const routes = JSON.parse(routeString) as Array<Route>;
+            routes.forEach((route) => {
+              if (state.routes[route.id]) {
+                return;
+              }
+              state.routes[route.id] = {
+                route,
+                status: 'idle',
+              };
+              const isFailed = route.steps.some(
+                (step) => step.execution?.status === 'FAILED',
+              );
+              if (isFailed) {
+                state.routes[route.id]!.status = 'error';
+                return;
+              }
+              const isDone = route.steps.every(
+                (step) => step.execution?.status === 'DONE',
+              );
+              if (isDone) {
+                state.routes[route.id]!.status = 'success';
+                return;
+              }
+              const isLoading = route.steps.some((step) => step.execution);
+              if (isLoading) {
+                state.routes[route.id]!.status = 'loading';
+              }
+            });
+          }
+        } catch (error) {
+          console.log(error);
+        }
+        return state;
+      },
     },
   ),
 );
