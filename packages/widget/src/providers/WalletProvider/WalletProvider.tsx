@@ -133,10 +133,10 @@ export const WalletProvider: FC<
 export const extractAccountFromSigner = async (signer?: Signer) => {
   try {
     return {
-      address: (await signer?.getAddress()) || undefined,
+      address: await signer?.getAddress(),
       isActive: (signer && !!(await signer.getAddress()) === null) || !!signer,
       signer,
-      chainId: (await signer?.getChainId()) || undefined,
+      chainId: await signer?.getChainId(),
     };
   } catch (error) {
     console.log(error);
