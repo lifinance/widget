@@ -1,4 +1,5 @@
 import type { Theme } from '@mui/material';
+import { common } from '@mui/material/colors';
 import { getContrastRatio } from '@mui/material/styles';
 
 export const getContrastAlphaColor = (theme: Theme, alpha: string | number) =>
@@ -7,7 +8,6 @@ export const getContrastAlphaColor = (theme: Theme, alpha: string | number) =>
     : `rgb(255 255 255 / ${alpha})`;
 
 export const getContrastTextColor = (theme: Theme, background?: string) =>
-  getContrastRatio('rgb(0, 0, 0)', background ?? theme.palette.primary.main) >=
-  3
-    ? 'rgb(0, 0, 0)'
-    : 'rgb(255, 255, 255)';
+  getContrastRatio(common.white, background ?? theme.palette.primary.main) >= 3
+    ? common.white
+    : common.black;

@@ -1,4 +1,5 @@
 import type { PaletteMode, SimplePaletteColorOptions } from '@mui/material';
+import { common } from '@mui/material/colors';
 import { dialogActionsClasses } from '@mui/material/DialogActions';
 import {
   alpha,
@@ -209,9 +210,9 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
           contained: {
             '&:hover': {
               color:
-                getContrastRatio('rgb(0, 0, 0)', primaryMainColor) >= 3
-                  ? 'rgb(0, 0, 0)'
-                  : 'rgb(255, 255, 255)',
+                getContrastRatio(common.white, primaryMainColor) >= 3
+                  ? common.white
+                  : common.black,
             },
           },
         },
