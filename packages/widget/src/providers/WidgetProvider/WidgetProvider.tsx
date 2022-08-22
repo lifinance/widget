@@ -1,7 +1,8 @@
 import type { ChainKey } from '@lifi/sdk';
-import { getChainByKey } from '@lifi/sdk';
+import { checkPackageUpdates, getChainByKey } from '@lifi/sdk';
 import { createContext, useContext, useEffect, useMemo } from 'react';
 import { updateLiFiConfig } from '../../config/lifi';
+import { name, version } from '../../config/version';
 import type { WidgetContextProps, WidgetProviderProps } from './types';
 
 const stub = (): never => {
@@ -87,6 +88,10 @@ export const WidgetProvider: React.FC<
       },
     });
   }, [integrator]);
+
+  useEffect(() => {
+    checkPackageUpdates(name, version);
+  }, []);
 
   return (
     <WidgetContext.Provider value={value}>{children}</WidgetContext.Provider>
