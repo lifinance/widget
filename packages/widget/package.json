@@ -51,6 +51,7 @@
     "@emotion/styled": "^11.10.0",
     "@ethersproject/experimental": "^5.7.0",
     "@ethersproject/providers": "^5.7.0",
+    "@ethersproject/address": "^5.7.0",
     "@lifi/sdk": "^1.2.1",
     "@lifi/wallet-management": "^1.1.7",
     "@mui/icons-material": "^5.8.4",
