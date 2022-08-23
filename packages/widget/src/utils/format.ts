@@ -78,8 +78,12 @@ export const formatAmount = (
   if (parsedAmount < 0) {
     return Math.abs(parsedAmount).toString();
   }
-  if (returnInitial) {
-    return amount;
+  try {
+    if (returnInitial && Big(amount)) {
+      return amount;
+    }
+  } catch {
+    return '';
   }
   return Big(parsedAmount).toString();
 };
