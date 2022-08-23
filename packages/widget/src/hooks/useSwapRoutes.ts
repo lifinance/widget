@@ -1,3 +1,4 @@
+import { isAddress } from '@ethersproject/address';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Big from 'big.js';
 import { useWatch } from 'react-hook-form';
@@ -10,7 +11,7 @@ import { useSettings } from '../stores';
 const refetchTime = 60_000;
 
 export const useSwapRoutes = () => {
-  const { account } = useWallet();
+  const { account, provider } = useWallet();
   const queryClient = useQueryClient();
   const { slippage, enabledBridges, enabledExchanges, routePriority } =
     useSettings([
@@ -19,14 +20,16 @@ export const useSwapRoutes = () => {
       'enabledBridges',
       'enabledExchanges',
     ]);
-  const [fromChainId, fromTokenAddress, toChainId, toTokenAddress] = useWatch({
-    name: [
-      SwapFormKey.FromChain,
-      SwapFormKey.FromToken,
-      SwapFormKey.ToChain,
-      SwapFormKey.ToToken,
-    ],
-  });
+  const [fromChainId, fromTokenAddress, toChainId, toTokenAddress, toAddress] =
+    useWatch({
+      name: [
+        SwapFormKey.FromChain,
+        SwapFormKey.FromToken,
+        SwapFormKey.ToChain,
+        SwapFormKey.ToToken,
+        SwapFormKey.ToAddress,
+      ],
+    });
   const [fromTokenAmount] = useDebouncedWatch([SwapFormKey.FromAmount], 250);
   const { token } = useToken(fromChainId, fromTokenAddress);
   const isEnabled =
@@ -46,6 +49,7 @@ export const useSwapRoutes = () => {
     fromTokenAmount,
     toChainId,
     toTokenAddress,
+    toAddress,
     slippage,
     enabledBridges,
     enabledExchanges,
@@ -65,12 +69,13 @@ export const useSwapRoutes = () => {
       async ({
         queryKey: [
           _,
-          address,
+          fromAddress,
           fromChainId,
           fromTokenAddress,
           fromTokenAmount,
           toChainId,
           toTokenAddress,
+          toAddress,
           slippage,
           enabledBridges,
           enabledExchanges,
@@ -78,6 +83,14 @@ export const useSwapRoutes = () => {
         ],
         signal,
       }) => {
+        let toWalletAddress;
+        try {
+          toWalletAddress =
+            (await provider?.resolveName(toAddress)) ??
+            (isAddress(toAddress) ? toAddress : fromAddress);
+        } catch {
+          toWalletAddress = isAddress(toAddress) ? toAddress : fromAddress;
+        }
         return LiFi.getRoutes(
           {
             fromChainId,
@@ -87,8 +100,8 @@ export const useSwapRoutes = () => {
             fromTokenAddress,
             toChainId,
             toTokenAddress,
-            fromAddress: address,
-            toAddress: address,
+            fromAddress,
+            toAddress: toWalletAddress,
             options: {
               slippage: slippage / 100,
               bridges: {

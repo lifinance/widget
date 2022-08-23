@@ -64,6 +64,8 @@
     "tokenOnChain": "{{tokenSymbol}} on {{chainName}}",
     "tokenOnChainAmount": "{{amount}} {{tokenSymbol}} on {{chainName}}",
     "routeId": "Route ID",
+    "sendToWallet": "Send to wallet",
+    "yourWalletAddress": "Your wallet address",
     "tags": {
       "recommended": "Recommended",
       "fastest": "Fast",
@@ -109,7 +111,9 @@
         "transactionUnprepared": "Unable to prepare transaction.",
         "unknown": "Something went wrong.",
         "userRejectedSignatureRequest": "Signature required.",
-        "slippageTooLarge": "Slippage too large."
+        "slippageTooLarge": "Slippage too large.",
+        "walletAddressInvalid": "Wallet address is invalid.",
+        "walletEnsAddressInvalid": "Wallet address is invalid or network doesn't support ENS."
       },
       "message": {
         "signatureRequired": "Your signature is required to complete the transaction. {{amount}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
@@ -156,6 +160,7 @@
       "fast": "Fast"
     },
     "advancedPreferences": "Advanced preferences",
+    "showDestinationWallet": "Show destination wallet",
     "enabledBridges": "Enabled bridges",
     "selectEnabledBridges": "Select enabled bridges",
     "enabledExchanges": "Enabled exchanges",

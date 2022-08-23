@@ -9,6 +9,7 @@ export const useSettingsStore = create<SettingsStore>()(
   persist(
     immer((set) => ({
       advancedPreferences: false,
+      showDestinationWallet: false,
       appearance: 'auto',
       gasPrice: 'normal',
       routePriority: 'RECOMMENDED',

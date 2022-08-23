@@ -16,9 +16,10 @@ export const SettingsToolTypes: SettingsToolType[] = ['Bridges', 'Exchanges'];
 export interface SettingsState {
   advancedPreferences: boolean;
   appearance: Appearance;
-  routePriority: Order;
-  slippage: string;
   gasPrice: string;
+  routePriority: Order;
+  showDestinationWallet: boolean;
+  slippage: string;
   enabledBridges?: string[];
   _enabledBridges?: Record<string, boolean>;
   enabledExchanges?: string[];

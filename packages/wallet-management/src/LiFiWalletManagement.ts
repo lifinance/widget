@@ -86,5 +86,6 @@ export const useLiFiWalletManagement = () => {
     connect,
     disconnect,
     signer,
+    provider: priorityProvider,
   };
 };

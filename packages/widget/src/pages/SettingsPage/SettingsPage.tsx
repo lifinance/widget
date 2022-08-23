@@ -3,6 +3,7 @@ import { AdvancedPreferences } from './AdvancedPreferences';
 import { ColorSchemeButtonGroup } from './ColorSchemeButtonGroup';
 import { GasPriceSelect } from './GasPriceSelect';
 import { RoutePrioritySelect } from './RoutePrioritySelect';
+import { ShowDestinationWallet } from './ShowDestinationWallet';
 import { SlippageInput } from './SlippageInput';
 
 export const SettingsPage = () => {
@@ -18,6 +19,7 @@ export const SettingsPage = () => {
           <GasPriceSelect />
         </Box>
       </Box>
+      <ShowDestinationWallet />
       <AdvancedPreferences />
     </Container>
   );

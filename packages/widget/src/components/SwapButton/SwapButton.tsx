@@ -1,11 +1,9 @@
 import { ChainId } from '@lifi/sdk';
-import { useWatch } from 'react-hook-form';
+import { useFormState, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useChains, useGasSufficiency } from '../../hooks';
-import { SwapFormKeyHelper } from '../../providers/SwapFormProvider';
-import { useWallet } from '../../providers/WalletProvider';
-import { useWidgetConfig } from '../../providers/WidgetProvider';
+import { SwapFormKeyHelper, useWallet, useWidgetConfig } from '../../providers';
 import { navigationRoutes } from '../../utils';
 import { Button } from './SwapButton.style';
 import type { SwapButtonProps } from './types';
@@ -16,8 +14,9 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
   text,
   loading,
 }) => {
-  const navigate = useNavigate();
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { isValid, isValidating } = useFormState();
   const { getChainById } = useChains();
   const config = useWidgetConfig();
   const { account, switchChain, connect: walletConnect } = useWallet();
@@ -70,7 +69,11 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
       onClick={handleSwapButtonClick}
       // loading={isLoading || isFetching}
       disabled={
-        (insufficientFunds || !!insufficientGas.length || loading) &&
+        (insufficientFunds ||
+          !!insufficientGas.length ||
+          loading ||
+          isValidating ||
+          !isValid) &&
         currentRoute &&
         !switchChainAllowed
       }

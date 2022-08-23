@@ -22,6 +22,7 @@ export interface WidgetWalletManagement {
 
 interface WidgetConfigBase {
   fromAmount?: number | string;
+  toAddress?: string;
   containerStyle?: CSSProperties;
   theme?: ThemeConfig;
   appearance?: Appearance;

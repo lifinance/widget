@@ -3,19 +3,14 @@ import type { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Switch } from '../../components/Switch';
 import { useSetSettings, useSettings } from '../../stores';
-import { EnabledBridgesSelect } from './EnabledBridgesSelect';
-import { EnabledExchangesSelect } from './EnabledExchangesSelect';
 
-export const AdvancedPreferences = () => {
+export const ShowDestinationWallet = () => {
   const { t } = useTranslation();
   const [setValue] = useSetSettings();
-  const { advancedPreferences } = useSettings(['advancedPreferences']);
+  const { showDestinationWallet } = useSettings(['showDestinationWallet']);
 
-  const handleAdvancedPreferences = (
-    _: ChangeEvent<HTMLInputElement>,
-    checked: boolean,
-  ) => {
-    setValue('advancedPreferences', checked);
+  const onChange = (_: ChangeEvent<HTMLInputElement>, checked: boolean) => {
+    setValue('showDestinationWallet', checked);
   };
 
   return (
@@ -33,22 +28,11 @@ export const AdvancedPreferences = () => {
             color="text.primary"
             lineHeight="normal"
           >
-            {t(`settings.advancedPreferences`)}
+            {t(`settings.showDestinationWallet`)}
           </Typography>
         </Box>
-        <Switch
-          checked={advancedPreferences}
-          onChange={handleAdvancedPreferences}
-        />
+        <Switch checked={showDestinationWallet} onChange={onChange} />
       </Box>
-      {advancedPreferences && (
-        <Box mt={2} mb={1}>
-          <EnabledBridgesSelect />
-          <Box mt={2}>
-            <EnabledExchangesSelect />
-          </Box>
-        </Box>
-      )}
     </Box>
   );
 };

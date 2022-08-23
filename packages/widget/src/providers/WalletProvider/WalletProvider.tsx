@@ -43,6 +43,7 @@ export const WalletProvider: FC<
     connect: walletManagementConnect,
     disconnect: walletManagementDisconnect,
     signer,
+    provider,
   } = useLiFiWalletManagement();
   const [account, setAccount] = useState<WalletAccount>({});
 
@@ -121,8 +122,9 @@ export const WalletProvider: FC<
       addChain,
       addToken,
       account,
+      provider,
     }),
-    [account, addChain, addToken, connect, disconnect, switchChain],
+    [account, addChain, addToken, connect, disconnect, provider, switchChain],
   );
 
   return (

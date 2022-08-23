@@ -5,6 +5,7 @@ export enum SwapFormKey {
   TokenSearchFilter = 'tokenSearchFilter',
   ToChain = 'toChain',
   ToToken = 'toToken',
+  ToAddress = 'toAddress',
 }
 
 export type SwapFormValues = {
@@ -14,6 +15,7 @@ export type SwapFormValues = {
   [SwapFormKey.TokenSearchFilter]: string;
   [SwapFormKey.ToChain]: number;
   [SwapFormKey.ToToken]: string;
+  [SwapFormKey.ToAddress]: string;
 };
 
 export type SwapFormDirection = 'from' | 'to';
