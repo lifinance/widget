@@ -12,9 +12,9 @@ import { useExecutingRoutes } from '../../stores';
 import { navigationRoutes } from '../../utils';
 import { CardTitle } from '../Card';
 import { TokenAvatar, TokenAvatarGroup } from '../TokenAvatar';
-import { ProgressCard, RouteCard } from './SwapInProgress.style';
+import { ProgressCard, RouteCard } from './SwapsInProgress.style';
 
-export const SwapInProgress: React.FC<BoxProps> = (props) => {
+export const SwapsInProgress: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { account } = useWallet();
@@ -33,7 +33,7 @@ export const SwapInProgress: React.FC<BoxProps> = (props) => {
 
   return (
     <ProgressCard {...props}>
-      <CardTitle>{t('swap.inProgress')}</CardTitle>
+      <CardTitle>{t('swap.activeTransfers')}</CardTitle>
       <Stack spacing={2} py={2}>
         {executingRoutes.map(({ route, status }) => (
           <RouteCard
