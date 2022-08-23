@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Card } from '../../components/Card';
-import { SwapFormKey } from '../../providers/SwapFormProvider';
+import { SwapFormKey } from '../../providers';
 import { Input } from './SearchTokenInput.style';
 
 export const SearchTokenInput = () => {

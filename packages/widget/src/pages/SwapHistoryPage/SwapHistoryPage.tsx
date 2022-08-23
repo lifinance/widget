@@ -13,7 +13,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog } from '../../components/Dialog';
 import { useSetHeaderAction } from '../../components/Header';
-import { useWallet } from '../../providers/WalletProvider';
+import { useWallet } from '../../providers';
 import { useRouteStore } from '../../stores';
 import { useSwapHistory } from '../../stores/route';
 import { SwapHistoryEmpty } from './SwapHistoryEmpty';

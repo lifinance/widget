@@ -1,6 +1,6 @@
 import type { FC, PropsWithChildren } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useWidgetConfig } from '../../providers/WidgetProvider';
+import { useWidgetConfig } from '../../providers';
 import { ElementId, navigationRoutes } from '../../utils';
 import { Container } from './Header.style';
 import { NavigationHeader } from './NavigationHeader';

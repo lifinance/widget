@@ -7,7 +7,7 @@ import { Box, Stack } from '@mui/material';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useWallet } from '../../providers/WalletProvider';
+import { useWallet } from '../../providers';
 import { useExecutingRoutes } from '../../stores';
 import { navigationRoutes } from '../../utils';
 import { CardTitle } from '../Card';

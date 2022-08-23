@@ -5,7 +5,7 @@ import {
 } from '@mui/icons-material';
 import { Box, ToggleButtonGroup } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useWidgetConfig } from '../../providers/WidgetProvider';
+import { useWidgetConfig } from '../../providers';
 import { useAppearance } from '../../stores';
 import { ToggleButton } from './ColorSchemeButtonGroup.style';
 

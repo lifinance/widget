@@ -7,11 +7,7 @@ import {
   useTokenBalances,
   useTokenSearch,
 } from '../../hooks';
-import {
-  SwapFormKey,
-  SwapFormKeyHelper,
-} from '../../providers/SwapFormProvider';
-import { useWallet } from '../../providers/WalletProvider';
+import { SwapFormKey, SwapFormKeyHelper, useWallet } from '../../providers';
 import type { Token } from '../../types';
 import { TokenNotFound } from './TokenNotFound';
 import type { TokenListProps } from './types';

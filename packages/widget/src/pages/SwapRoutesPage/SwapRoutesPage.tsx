@@ -23,7 +23,6 @@ export const SwapRoutesPage: React.FC<BoxProps> = () => {
     routes: swapRoutes,
     isLoading,
     isFetching,
-    isFetched,
     dataUpdatedAt,
     refetchTime,
     refetch,

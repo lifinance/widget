@@ -3,7 +3,7 @@ import {
   SwapVert as SwapVertIcon,
 } from '@mui/icons-material';
 import { useFormContext } from 'react-hook-form';
-import { SwapFormKey } from '../../providers/SwapFormProvider';
+import { SwapFormKey } from '../../providers';
 import { IconButton } from './ReverseTokensButton.style';
 
 export const ReverseTokensButton: React.FC<{ vertical?: boolean }> = ({
