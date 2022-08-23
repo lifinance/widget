@@ -5,8 +5,7 @@ import {
 import { Box, IconButton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useWallet } from '../../providers/WalletProvider';
-import { useWidgetConfig } from '../../providers/WidgetProvider';
+import { useWallet, useWidgetConfig } from '../../providers';
 import { navigationRoutes } from '../../utils';
 import { HeaderAppBar } from './Header.style';
 

@@ -5,8 +5,9 @@ import {
 } from '@mui/icons-material';
 import { Box, IconButton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import { useWallet } from '../../providers/WalletProvider';
+import { Route, Routes, useLocation } from 'react-router-dom';
+import { useNavigateBack } from '../../hooks';
+import { useWallet } from '../../providers';
 import { navigationRoutes, navigationRoutesValues } from '../../utils';
 import { HeaderAppBar } from './Header.style';
 import { useHeaderActionStore } from './useHeaderActionStore';
@@ -24,16 +25,12 @@ const backButtonRoutes = [
 
 export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  const { navigate, navigateBack } = useNavigateBack();
   const { account } = useWallet();
   const { element } = useHeaderActionStore();
   const { pathname } = useLocation();
   const path = pathname.substring(pathname.lastIndexOf('/') + 1);
   const hasPath = navigationRoutesValues.includes(path);
-
-  const handleBack = () => {
-    navigate(-1);
-  };
 
   const handleHeaderTitle = () => {
     switch (path) {
@@ -65,7 +62,7 @@ export const NavigationHeader: React.FC = () => {
           size="medium"
           aria-label="settings"
           edge="start"
-          onClick={handleBack}
+          onClick={navigateBack}
         >
           <ArrowBackIcon />
         </IconButton>

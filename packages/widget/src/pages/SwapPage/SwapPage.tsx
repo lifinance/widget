@@ -1,24 +1,24 @@
 import { Box, Button } from '@mui/material';
 import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { GasSufficiencyMessage } from '../../components/GasSufficiencyMessage';
 import { Step } from '../../components/Step';
 import { StepDivider } from '../../components/StepDivider';
 import { SwapButton } from '../../components/SwapButton';
-import { useRouteExecution } from '../../hooks';
+import { useNavigateBack, useRouteExecution } from '../../hooks';
 import { StatusBottomSheet } from './StatusBottomSheet';
 import { Container } from './SwapPage.style';
 
 export const SwapPage: React.FC = () => {
   const { t } = useTranslation();
   const { state }: any = useLocation();
-  const navigate = useNavigate();
+  const { navigateBack } = useNavigateBack();
   const { route, status, executeRoute, restartRoute, deleteRoute } =
     useRouteExecution(state?.routeId);
 
   const handleRemoveRoute = () => {
-    navigate(-1);
+    navigateBack();
     deleteRoute();
   };
 

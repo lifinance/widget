@@ -1,10 +1,13 @@
 import { Box, Container } from '@mui/material';
 import type { FC } from 'react';
 import { useLayoutEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { TokenList } from '../../components/TokenList';
-import { useContentHeight, useScrollableOverflowHidden } from '../../hooks';
-import type { SwapFormDirection } from '../../providers/SwapFormProvider';
+import {
+  useContentHeight,
+  useNavigateBack,
+  useScrollableOverflowHidden,
+} from '../../hooks';
+import type { SwapFormDirection } from '../../providers';
 import { ChainSelect } from './ChainSelect';
 import { SearchTokenInput } from './SearchTokenInput';
 
@@ -12,14 +15,10 @@ export const SelectTokenPage: FC<{ formType: SwapFormDirection }> = ({
   formType,
 }) => {
   useScrollableOverflowHidden();
-  const navigate = useNavigate();
+  const { navigateBack } = useNavigateBack();
   const headerRef = useRef<HTMLElement>(null);
   const contentHeight = useContentHeight();
   const [headerHeight, setHeaderHeight] = useState(0);
-
-  const handleTokenClick = () => {
-    navigate(-1);
-  };
 
   useLayoutEffect(() => {
     setHeaderHeight(contentHeight - (headerRef.current?.offsetHeight ?? 0));
@@ -35,7 +34,7 @@ export const SelectTokenPage: FC<{ formType: SwapFormDirection }> = ({
       </Box>
       <TokenList
         height={headerHeight}
-        onClick={handleTokenClick}
+        onClick={navigateBack}
         formType={formType}
       />
     </Container>

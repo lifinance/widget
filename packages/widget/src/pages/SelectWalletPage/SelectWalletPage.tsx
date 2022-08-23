@@ -12,9 +12,9 @@ import {
 } from '@mui/material';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { Dialog } from '../../components/Dialog';
-import { useWallet } from '../../providers/WalletProvider';
+import { useNavigateBack } from '../../hooks';
+import { useWallet } from '../../providers';
 import {
   WalletListItemButton,
   WalletListItemText,
@@ -22,8 +22,7 @@ import {
 
 export const SelectWalletPage = () => {
   const { t } = useTranslation();
-
-  const navigate = useNavigate();
+  const { navigateBack } = useNavigateBack();
   const { connect } = useWallet();
   const [walletIdentity, setWalletIdentity] = useState<{
     show: boolean;
@@ -50,10 +49,10 @@ export const SelectWalletPage = () => {
         });
         return;
       }
-      navigate(-1);
+      navigateBack();
       await connect(wallet);
     },
-    [connect, navigate],
+    [connect, navigateBack],
   );
 
   return (

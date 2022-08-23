@@ -5,6 +5,7 @@ export * from './useDebouncedWatch';
 export * from './useFeaturedTokens';
 export * from './useGasSufficiency';
 export * from './useInitializer';
+export * from './useNavigateBack';
 export * from './useRouteExecution';
 export * from './useScrollableContainer';
 export * from './useSwapRoutes';

@@ -14,19 +14,20 @@ import {
 } from '@mui/material';
 import { Fragment, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import shallow from 'zustand/shallow';
 import { Card, CardTitle } from '../../components/Card';
 import { Dialog } from '../../components/Dialog';
 import { useSetHeaderAction } from '../../components/Header';
 import { Step } from '../../components/Step';
 import { StepDivider } from '../../components/StepDivider';
+import { useNavigateBack } from '../../hooks';
 import { useRouteStore } from '../../stores';
 import { Container } from './SwapDetailsPage.style';
 
 export const SwapDetailsPage: React.FC = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  const { navigateBack } = useNavigateBack();
   const setHeaderAction = useSetHeaderAction();
   const { state }: any = useLocation();
   const [routeExecution, deleteRoute] = useRouteStore(
@@ -40,7 +41,7 @@ export const SwapDetailsPage: React.FC = () => {
   }, []);
 
   const handleDeleteRoute = () => {
-    navigate(-1);
+    navigateBack();
     if (routeExecution) {
       deleteRoute(routeExecution.route.id);
     }

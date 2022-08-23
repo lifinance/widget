@@ -1,5 +1,4 @@
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material';
-import type { SelectChangeEvent } from '@mui/material';
 import {
   Avatar,
   FormControl,
@@ -12,12 +11,12 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardTitle } from '../../components/Card';
 import { Select } from '../../components/Select';
 import { useChains } from '../../hooks';
-import type { SwapFormTypeProps } from '../../providers/SwapFormProvider';
+import type { SwapFormTypeProps } from '../../providers';
 import {
   SwapFormKey,
   SwapFormKeyHelper,
-} from '../../providers/SwapFormProvider';
-import { useWidgetConfig } from '../../providers/WidgetProvider';
+  useWidgetConfig,
+} from '../../providers';
 
 export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
   const { t } = useTranslation();
@@ -29,14 +28,13 @@ export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
     name: [chainKey],
   });
 
-  const { onChange, onBlur, name, ref } = register(chainKey);
-
-  const handleChain = (event: SelectChangeEvent<unknown>) => {
-    onChange(event);
-    setValue(SwapFormKeyHelper.getTokenKey(formType), '');
-    setValue(SwapFormKeyHelper.getAmountKey(formType), '');
-    setValue(SwapFormKey.TokenSearchFilter, '');
-  };
+  const { onChange, onBlur, name, ref } = register(chainKey, {
+    onChange: () => {
+      setValue(SwapFormKeyHelper.getTokenKey(formType), '');
+      setValue(SwapFormKeyHelper.getAmountKey(formType), '');
+      setValue(SwapFormKey.TokenSearchFilter, '');
+    },
+  });
 
   return !isLoading ? (
     <Card>
@@ -49,7 +47,7 @@ export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
           MenuProps={{ elevation: 2 }}
           defaultValue={formType === 'from' ? fromChain : toChain}
           value={chainId}
-          onChange={handleChain}
+          onChange={onChange}
           onBlur={onBlur}
           IconComponent={KeyboardArrowDownIcon}
         >

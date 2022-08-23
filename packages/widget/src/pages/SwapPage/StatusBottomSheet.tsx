@@ -7,12 +7,11 @@ import { Box, Button, Typography } from '@mui/material';
 import { useEffect, useMemo, useRef } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import { BottomSheet } from '../../components/BottomSheet';
 import { Token } from '../../components/Token';
-import { useChains, useTokenBalance } from '../../hooks';
-import { SwapFormKey } from '../../providers/SwapFormProvider';
+import { useChains, useNavigateBack, useTokenBalance } from '../../hooks';
+import { SwapFormKey } from '../../providers';
 import type { RouteExecution } from '../../stores';
 import {
   IconCircle,
@@ -26,7 +25,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   route,
 }) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  const { navigateBack } = useNavigateBack();
   const ref = useRef<BottomSheetBase>(null);
   const { getChainById } = useChains();
   const { token, refetch: refetchBalance } = useTokenBalance(
@@ -42,7 +41,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
 
   const handleDone = () => {
     clearFromAmount();
-    navigate(-1);
+    navigateBack();
   };
 
   const handleClose = () => {
