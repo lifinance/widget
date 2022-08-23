@@ -66,7 +66,7 @@ export const StepTimer: React.FC<{ step: Step }> = ({ step }) => {
     return null;
   }
   return isExpired ? (
-    <>{t('swap.networkIsBusy')}</>
+    <>{t('swap.inProgress')}</>
   ) : (
     // eslint-disable-next-line react/jsx-no-useless-fragment
     <>{`${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`}</>
