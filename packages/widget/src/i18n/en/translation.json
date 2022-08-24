@@ -64,14 +64,14 @@
     "tokenOnChain": "{{tokenSymbol}} on {{chainName}}",
     "tokenOnChainAmount": "{{amount}} {{tokenSymbol}} on {{chainName}}",
     "routeId": "Route ID",
-    "sendToWallet": "Send to wallet",
-    "yourWalletAddress": "Your wallet address",
+    "sendToWallet": "Send to a different wallet",
+    "walletAddressOrEns": "Wallet address or ENS name",
     "tags": {
-      "recommended": "Recommended",
-      "fastest": "Fast",
-      "cheapest": "Cheap",
-      "safest": "Safe",
-      "general": "General"
+      "RECOMMENDED": "RECOMMENDED",
+      "FASTEST": "FAST",
+      "CHEAPEST": "CHEAP",
+      "SAFEST": "SAFE",
+      "ALTERNATIVE": "ALTERNATIVE"
     },
     "success": {
       "title": {

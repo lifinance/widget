@@ -59,7 +59,7 @@ export const SendToWallet: React.FC<BoxProps> = (props) => {
           onChange={onChange}
           onBlur={onBlur}
           name={name}
-          placeholder={t('swap.yourWalletAddress')}
+          placeholder={t('swap.walletAddressOrEns')}
         />
         <FormHelperText error={!!errors.toAddress}>
           {errors.toAddress?.message as string}

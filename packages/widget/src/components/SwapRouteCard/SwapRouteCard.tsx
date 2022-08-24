@@ -14,9 +14,10 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
   ...other
 }) => {
   const { t } = useTranslation();
+  const alternativeTag = t(`swap.tags.ALTERNATIVE`);
   const label = route.tags?.length
-    ? t(`swap.tags.${route.tags[0].toLowerCase()}` as any).toUpperCase()
-    : t(`swap.tags.general`).toUpperCase();
+    ? t(`swap.tags.${route.tags[0]}` as any)
+    : alternativeTag;
   return (
     <Card dense={dense} indented {...other}>
       <Box
@@ -27,7 +28,7 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
         }}
         mb={2}
       >
-        <Label active={active}>{label}</Label>
+        <Label active={active ?? label !== alternativeTag}>{label}</Label>
       </Box>
       <Token token={{ ...route.toToken, amount: route.toAmount }} mb={2} />
       {!dense

@@ -5,16 +5,16 @@ import { getContrastTextColor } from '../../utils';
 export const Label = styled(Typography, {
   shouldForwardProp: (prop) => prop !== 'active',
 })<{ active?: boolean }>(({ theme, active }) => ({
-  backgroundColor: active ? theme.palette.primary.main : 'transparent',
+  backgroundColor: active ? theme.palette.secondary.main : 'transparent',
   border: '1px solid',
   borderColor: active
-    ? theme.palette.primary.main
+    ? theme.palette.secondary.main
     : theme.palette.mode === 'light'
     ? theme.palette.grey[500]
     : theme.palette.grey[600],
   borderRadius: theme.shape.borderRadiusSecondary,
   color: active
-    ? getContrastTextColor(theme, theme.palette.primary.main)
+    ? getContrastTextColor(theme, theme.palette.secondary.main)
     : theme.palette.text.secondary,
   padding: theme.spacing(0.75),
   fontSize: 12,
