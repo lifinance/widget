@@ -35,28 +35,10 @@ export const SwapFormProvider: React.FC<React.PropsWithChildren<{}>> = ({
     },
   });
 
-  // Set wallet chain and address as default if no chains or address are provided by config and if they were not changed during widget usage
+  // Set wallet chain as default if no chains are provided by config and if they were not changed during widget usage
   useEffect(() => {
-    const { isDirty: isToAddressDirty, isTouched: isToAddressTouched } =
-      methods.getFieldState(SwapFormKey.ToAddress, methods.formState);
-    if (!account.isActive || !account.chainId || !account.address) {
-      if (!toAddress && !isToAddressDirty && !isToAddressTouched) {
-        methods.setValue(SwapFormKey.ToAddress, '', {
-          shouldDirty: false,
-          shouldTouch: false,
-        });
-      }
+    if (!account.isActive || !account.chainId) {
       return;
-    }
-    const toAddressValue = methods.getValues(SwapFormKey.ToAddress);
-    if (
-      ((!isToAddressDirty && !isToAddressTouched) || !toAddressValue) &&
-      !toAddress
-    ) {
-      methods.setValue(SwapFormKey.ToAddress, account.address, {
-        shouldDirty: false,
-        shouldTouch: false,
-      });
     }
     const { isDirty: isFromChainDirty, isTouched: isFromChainTouched } =
       methods.getFieldState(SwapFormKey.FromChain, methods.formState);
@@ -80,15 +62,7 @@ export const SwapFormProvider: React.FC<React.PropsWithChildren<{}>> = ({
         shouldTouch: false,
       });
     }
-  }, [
-    account.address,
-    account.chainId,
-    account.isActive,
-    fromChain,
-    methods,
-    toAddress,
-    toChain,
-  ]);
+  }, [account.chainId, account.isActive, fromChain, methods, toChain]);
 
   return <FormProvider {...methods}>{children}</FormProvider>;
 };
