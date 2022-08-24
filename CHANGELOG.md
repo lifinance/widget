@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.15.0](https://github.com/lifinance/widget/compare/v1.14.1...v1.15.0) (2022-08-24)
+
+
+### Features
+
+* add send to wallet field ([9f23752](https://github.com/lifinance/widget/commit/9f23752a2879b24ad188e814a31ba7d9c338c4cc))
+
+
+### Bug Fixes
+
+* better handle go back navigation ([c0840a4](https://github.com/lifinance/widget/commit/c0840a47a77e6f403b1e753663824ccacad6cb26))
+* check if value compatible with Big.js ([4617954](https://github.com/lifinance/widget/commit/46179545b71d6c471156dc4b1574a80e36a9a299))
+
 ### [1.14.1](https://github.com/lifinance/widget/compare/v1.14.0...v1.14.1) (2022-08-22)
 
 
