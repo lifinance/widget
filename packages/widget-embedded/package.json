@@ -23,12 +23,12 @@
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
-    "@lifi/sdk": "^1.2.1",
+    "@lifi/sdk": "^1.2.2",
     "@lifi/wallet-management": "^1.1.7",
     "@lifi/widget": "^1.14.1",
-    "@mui/icons-material": "^5.8.4",
-    "@mui/lab": "^5.0.0-alpha.95",
-    "@mui/material": "^5.10.1",
+    "@mui/icons-material": "^5.10.2",
+    "@mui/lab": "^5.0.0-alpha.96",
+    "@mui/material": "^5.10.2",
     "ethers": "^5.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -54,6 +54,6 @@
     ]
   },
   "devDependencies": {
-    "@types/node": "^18.7.11"
+    "@types/node": "^18.7.13"
   }
 }

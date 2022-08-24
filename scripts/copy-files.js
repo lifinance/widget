@@ -1,10 +1,8 @@
 const path = require('path');
 const fse = require('fs-extra');
-const glob = require('fast-glob');
 
 const packagePath = process.cwd();
 const buildPath = path.join(packagePath, './build');
-const srcPath = path.join(packagePath, './src');
 
 async function includeFileInBuild(file) {
   const sourcePath = path.resolve(packagePath, file);
@@ -37,13 +35,8 @@ async function createPackageFile() {
           main: './cjs/index.js',
           module: './index.js',
           types: './index.d.ts',
-          exports: {
-            require: './cjs/index.js',
-            import: './index.js',
-          },
         }
       : {}),
-    types: './index.d.ts',
   };
 
   const targetPath = path.resolve(buildPath, './package.json');

@@ -5,6 +5,7 @@
   "sideEffects": false,
   "main": "./src/index.ts",
   "module": "./src/index.ts",
+  "types": "./index.d.ts",
   "scripts": {
     "watch": "tsc -w -p ./tsconfig.json",
     "build": "tsc --build --clean && tsc --build && tsc --build tsconfig.cjs.json && yarn build:copy-files",
