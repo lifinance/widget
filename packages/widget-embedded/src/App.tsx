@@ -22,7 +22,7 @@ import {
 } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import React, { useEffect, useState } from 'react';
-import { WalletButtons } from './components/walletButtons';
+import { WalletButtons } from './components/WalletButtons';
 import './index.css';
 import { useWallet } from './providers/WalletProvider';
 

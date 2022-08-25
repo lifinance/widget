@@ -18,8 +18,6 @@ import {
   useState,
 } from 'react';
 
-// import type { WalletAccount, WalletContextProps } from '../types';
-
 const stub = (): never => {
   throw new Error('You forgot to wrap your component in <WalletProvider>.');
 };
@@ -51,7 +49,7 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
       const account = await extractAccountFromSigner(signer);
       setAccount(account);
     },
-    [walletManagementConnect, signer],
+    [signer, walletManagementConnect],
   );
 
   const disconnect = useCallback(async () => {
