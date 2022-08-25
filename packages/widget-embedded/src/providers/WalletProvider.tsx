@@ -51,7 +51,7 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
       const account = await extractAccountFromSigner(signer);
       setAccount(account);
     },
-    [walletManagementConnect],
+    [walletManagementConnect, signer],
   );
 
   const disconnect = useCallback(async () => {
