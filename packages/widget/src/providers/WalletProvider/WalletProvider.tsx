@@ -106,9 +106,13 @@ export const WalletProvider: FC<
   // keep account information up to date
   useEffect(() => {
     const updateAccount = async () => {
-      const account = await extractAccountFromSigner(
-        walletManagement?.signer ?? signer,
-      );
+      let account;
+      if (walletManagement) {
+        account = await extractAccountFromSigner(walletManagement?.signer);
+      } else {
+        account = await extractAccountFromSigner(signer);
+      }
+
       setAccount(account);
     };
     updateAccount();
