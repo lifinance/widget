@@ -170,6 +170,34 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
           disableElevation: true,
         },
         styleOverrides: {
+          root: {
+            borderRadius:
+              theme.shape?.borderRadiusSecondary ?? shape.borderRadiusSecondary,
+            textTransform: 'none',
+            fontSize: '1rem',
+            '&.Mui-disabled, &.Mui-disabled:hover': {
+              color:
+                mode === 'light'
+                  ? 'rgb(0 0 0 / 70%)'
+                  : 'rgb(255 255 255 / 70%)',
+              cursor: 'not-allowed',
+              pointerEvents: 'auto',
+            },
+          },
+          contained: {
+            '&:hover': {
+              color:
+                getContrastRatio(common.white, primaryMainColor) >= 3
+                  ? common.white
+                  : common.black,
+            },
+          },
+          sizeMedium: {
+            padding: '10px 16px',
+            [`.${dialogActionsClasses.root} &`]: {
+              padding: '6px 12px',
+            },
+          },
           ...(mode === 'dark'
             ? {
                 outlined: {
@@ -189,32 +217,6 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
                 },
               }
             : {}),
-          root: {
-            borderRadius:
-              theme.shape?.borderRadiusSecondary ?? shape.borderRadiusSecondary,
-            textTransform: 'none',
-            fontSize: '1rem',
-            padding: '10px 16px',
-            [`.${dialogActionsClasses.root} &`]: {
-              padding: '6px 12px',
-            },
-            '&.Mui-disabled, &.Mui-disabled:hover': {
-              color:
-                mode === 'light'
-                  ? 'rgb(0 0 0 / 70%)'
-                  : 'rgb(255 255 255 / 70%)',
-              cursor: 'not-allowed',
-              pointerEvents: 'auto',
-            },
-          },
-          contained: {
-            '&:hover': {
-              color:
-                getContrastRatio(common.white, primaryMainColor) >= 3
-                  ? common.white
-                  : common.black,
-            },
-          },
         },
       },
       MuiIconButton: {
