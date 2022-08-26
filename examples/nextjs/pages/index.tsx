@@ -7,12 +7,11 @@ const LiFiWidgetDynamic = dynamic(
   {
     ssr: false,
   },
-);
+) as typeof LiFiWidget;
 
 const Home: NextPage = () => {
-  const Widget = LiFiWidgetDynamic as typeof LiFiWidget;
   return (
-    <Widget
+    <LiFiWidgetDynamic
       config={{
         containerStyle: {
           width: 392,

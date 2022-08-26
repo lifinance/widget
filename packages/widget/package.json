@@ -61,7 +61,7 @@
     "@sentry/integrations": "^7.11.1",
     "@sentry/react": "^7.11.1",
     "@sentry/tracing": "^7.11.1",
-    "@tanstack/react-query": "^4.2.1",
+    "@tanstack/react-query": "^4.2.3",
     "@tanstack/react-virtual": "^3.0.0-beta.17",
     "big.js": "^6.2.1",
     "i18next": "^21.9.1",
@@ -69,7 +69,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.34.2",
-    "react-i18next": "^11.18.4",
+    "react-i18next": "^11.18.5",
     "react-router-dom": "^6.3.0",
     "react-timer-hook": "^3.0.5",
     "zustand": "^4.1.1"
