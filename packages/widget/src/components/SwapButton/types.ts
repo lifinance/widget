@@ -1,8 +1,8 @@
-import { Route } from '@lifi/sdk';
+import type { Route } from '@lifi/sdk';
 
 export interface SwapButtonProps {
   onClick?(): void;
   currentRoute?: Route;
   text?: string;
-  loading?: boolean;
+  disable?: boolean;
 }
