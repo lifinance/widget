@@ -1,3 +1,4 @@
+import { useFormState } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { SwapButton } from '../../components/SwapButton';
 import { useSwapRoutes } from '../../hooks';
@@ -6,6 +7,7 @@ import { navigationRoutes } from '../../utils';
 
 export const MainSwapButton: React.FC = () => {
   const navigate = useNavigate();
+  const { isValid, isValidating } = useFormState();
   const setExecutableRoute = useSetExecutableRoute();
 
   const { routes: swapRoutes, isLoading, isFetching } = useSwapRoutes();
@@ -25,7 +27,9 @@ export const MainSwapButton: React.FC = () => {
     <SwapButton
       onClick={handleClick}
       currentRoute={currentRoute}
-      loading={isLoading || isFetching || !currentRoute}
+      disable={
+        isLoading || isFetching || !currentRoute || isValidating || !isValid
+      }
     />
   );
 };

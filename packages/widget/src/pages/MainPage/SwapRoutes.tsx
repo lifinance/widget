@@ -3,6 +3,7 @@ import { KeyboardArrowRight as KeyboardArrowRightIcon } from '@mui/icons-materia
 import type { BoxProps } from '@mui/material';
 import { Box, IconButton } from '@mui/material';
 import { useCallback } from 'react';
+import { useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardTitle } from '../../components/Card';
@@ -21,6 +22,7 @@ import { Stack } from './SwapRoutes.style';
 export const SwapRoutes: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { isValid, isValidating } = useFormState();
   const {
     routes,
     isLoading,
@@ -100,6 +102,7 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
                   onClick={handleCardClick}
                   size="medium"
                   aria-label="swap-routes"
+                  disabled={isValidating || !isValid}
                 >
                   <KeyboardArrowRightIcon />
                 </IconButton>

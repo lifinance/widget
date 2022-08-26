@@ -1,5 +1,6 @@
 import { Box, Button } from '@mui/material';
 import { Fragment } from 'react';
+import { useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { GasSufficiencyMessage } from '../../components/GasSufficiencyMessage';
@@ -14,6 +15,7 @@ export const SwapPage: React.FC = () => {
   const { t } = useTranslation();
   const { state }: any = useLocation();
   const { navigateBack } = useNavigateBack();
+  const { isValid, isValidating } = useFormState();
   const { route, status, executeRoute, restartRoute, deleteRoute } =
     useRouteExecution(state?.routeId);
 
@@ -75,6 +77,7 @@ export const SwapPage: React.FC = () => {
             text={getSwapButtonText()}
             onClick={handleSwapClick}
             currentRoute={route}
+            disable={status === 'idle' && (isValidating || !isValid)}
           />
         </Box>
       ) : null}
