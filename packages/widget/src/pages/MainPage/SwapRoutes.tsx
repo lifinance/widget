@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardTitle } from '../../components/Card';
 import { GasSufficiencyMessage } from '../../components/GasSufficiencyMessage';
 import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate';
+import { SendToWallet } from '../../components/SendToWallet';
 import {
   SwapRouteCard,
   SwapRouteCardSkeleton,
@@ -111,6 +112,7 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
         route={!isFetching ? currentRoute : undefined}
         {...props}
       />
+      <SendToWallet mx={3} mb={3} />
     </>
   );
 };

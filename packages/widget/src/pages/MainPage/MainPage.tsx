@@ -1,6 +1,5 @@
 import { Box } from '@mui/material';
 import { SelectChainAndToken } from '../../components/SelectChainAndToken';
-import { SendToWallet } from '../../components/SendToWallet';
 import { SwapInput } from '../../components/SwapInput';
 import { SwapsInProgress } from '../../components/SwapsInProgress';
 import { FormContainer } from './MainPage.style';
@@ -15,7 +14,6 @@ export const MainPage: React.FC = () => {
       <Box mx={3} mb={3}>
         <SwapInput formType="from" />
       </Box>
-      <SendToWallet mx={3} mb={3} />
       <SwapRoutes mx={3} mb={3} />
       <Box mx={3} mb={1}>
         <MainSwapButton />
