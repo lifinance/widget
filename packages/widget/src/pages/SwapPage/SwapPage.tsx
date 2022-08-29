@@ -1,6 +1,6 @@
 import { Box, Button } from '@mui/material';
 import { Fragment } from 'react';
-import { useFormState } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { GasSufficiencyMessage } from '../../components/GasSufficiencyMessage';
@@ -8,6 +8,7 @@ import { Step } from '../../components/Step';
 import { StepDivider } from '../../components/StepDivider';
 import { SwapButton } from '../../components/SwapButton';
 import { useNavigateBack, useRouteExecution } from '../../hooks';
+import { SwapFormKey } from '../../providers';
 import { StatusBottomSheet } from './StatusBottomSheet';
 import { Container } from './SwapPage.style';
 
@@ -15,7 +16,10 @@ export const SwapPage: React.FC = () => {
   const { t } = useTranslation();
   const { state }: any = useLocation();
   const { navigateBack } = useNavigateBack();
-  const { isValid, isValidating } = useFormState();
+  const {
+    setValue,
+    formState: { isValid, isValidating },
+  } = useFormContext();
   const { route, status, executeRoute, restartRoute, deleteRoute } =
     useRouteExecution(state?.routeId);
 
@@ -27,6 +31,7 @@ export const SwapPage: React.FC = () => {
   const handleSwapClick = () => {
     if (status === 'idle') {
       executeRoute();
+      setValue(SwapFormKey.FromAmount, '');
     }
     if (status === 'error') {
       restartRoute();
