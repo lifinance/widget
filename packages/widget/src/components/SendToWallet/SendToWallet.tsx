@@ -19,6 +19,14 @@ export const SendToWallet: React.FC<BoxProps> = (props) => {
     formState: { errors },
   } = useFormContext();
 
+  useEffect(() => {
+    trigger(SwapFormKey.ToAddress);
+  }, [account.chainId, trigger]);
+
+  if (!showDestinationWallet) {
+    return null;
+  }
+
   const { onChange, onBlur, name, ref } = register(SwapFormKey.ToAddress, {
     validate: async (value: string) => {
       try {
@@ -36,14 +44,6 @@ export const SendToWallet: React.FC<BoxProps> = (props) => {
     },
     onBlur: () => trigger(SwapFormKey.ToAddress),
   });
-
-  useEffect(() => {
-    trigger(SwapFormKey.ToAddress);
-  }, [account.chainId, trigger]);
-
-  if (!showDestinationWallet) {
-    return null;
-  }
 
   return (
     <Card {...props}>
