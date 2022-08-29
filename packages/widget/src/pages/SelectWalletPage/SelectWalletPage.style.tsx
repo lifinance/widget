@@ -12,7 +12,7 @@ import { getContrastAlphaColor } from '../../utils';
 export const WalletListItemButton = styled(ListItemButton)(({ theme }) => ({
   borderRadius: theme.shape.borderRadiusSecondary,
   paddingLeft: theme.spacing(1.5),
-  height: 64,
+  height: 56,
   '&:hover': {
     backgroundColor: getContrastAlphaColor(theme, '4%'),
   },
