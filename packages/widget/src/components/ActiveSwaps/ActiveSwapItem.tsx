@@ -16,7 +16,7 @@ export const ActiveSwapItem: React.FC<{
   dense?: boolean;
 }> = ({ routeId, dense }) => {
   const navigate = useNavigate();
-  const { route, status } = useRouteExecution(routeId, true);
+  const { route, status } = useRouteExecution(routeId);
 
   // TODO: replace with ES2023 findLast
   const lastActiveStep = route?.steps
@@ -53,7 +53,7 @@ export const ActiveSwapItem: React.FC<{
   const ListItemComponent = dense ? ListItem : ListItemButton;
 
   return (
-    <ListItemComponent onClick={handleClick} dense disableRipple={!dense}>
+    <ListItemComponent onClick={handleClick} dense disableRipple>
       <ListItemAvatar>
         <TokenAvatarGroup total={2}>
           <TokenAvatar token={route.fromToken} />
