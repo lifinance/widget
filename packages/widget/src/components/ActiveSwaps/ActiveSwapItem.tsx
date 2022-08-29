@@ -3,8 +3,7 @@ import {
   Info as InfoIcon,
   Warning as WarningIcon
 } from '@mui/icons-material';
-import { Box, ListItemAvatar, ListItemText, Typography } from '@mui/material';
-import { useTranslation } from 'react-i18next';
+import { ListItemAvatar, ListItemText, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useProcessMessage, useRouteExecution } from '../../hooks';
 import { navigationRoutes } from '../../utils';
@@ -16,9 +15,8 @@ export const ActiveSwapItem: React.FC<{
   routeId: string;
   dense?: boolean;
 }> = ({ routeId, dense }) => {
-  const { t } = useTranslation();
   const navigate = useNavigate();
-  const { route, status } = useRouteExecution(routeId);
+  const { route, status } = useRouteExecution(routeId, true);
 
   // TODO: replace with ES2023 findLast
   const lastActiveStep = route?.steps
@@ -52,14 +50,10 @@ export const ActiveSwapItem: React.FC<{
     }
   };
 
-  const ListItemWrapper = dense ? ListItem : ListItemButton;
+  const ListItemComponent = dense ? ListItem : ListItemButton;
 
   return (
-    <ListItemWrapper
-      onClick={handleClick}
-      dense
-      disableRipple
-    >
+    <ListItemComponent onClick={handleClick} dense disableRipple={!dense}>
       <ListItemAvatar>
         <TokenAvatarGroup total={2}>
           <TokenAvatar token={route.fromToken} />
@@ -70,19 +64,19 @@ export const ActiveSwapItem: React.FC<{
         sx={{ margin: 0 }}
         disableTypography
         primary={
-          <Typography fontWeight={500} lineHeight={1}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                marginLeft: 2,
-                height: 16,
-              }}
-            >
-              {route.fromToken.symbol}
-              <ArrowForwardIcon sx={{ paddingX: 0.5 }} />
-              {route.toToken.symbol}
-            </Box>
+          <Typography
+            fontWeight={500}
+            lineHeight={1}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              marginLeft: 2,
+              height: 16,
+            }}
+          >
+            {route.fromToken.symbol}
+            <ArrowForwardIcon sx={{ paddingX: 0.5 }} />
+            {route.toToken.symbol}
           </Typography>
         }
         secondary={
@@ -101,6 +95,6 @@ export const ActiveSwapItem: React.FC<{
         }
       />
       {getStatusComponent()}
-    </ListItemWrapper>
+    </ListItemComponent>
   );
 };
