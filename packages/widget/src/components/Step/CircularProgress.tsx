@@ -2,12 +2,12 @@ import type { Status } from '@lifi/sdk';
 import {
   Done as DoneIcon,
   Info as InfoIcon,
-  Warning as WarningIcon,
+  Warning as WarningIcon
 } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import {
   CircularProgress as CircularProgressStyled,
-  CircularProgressPending,
+  CircularProgressPending
 } from './CircularProgress.style';
 
 export function CircularProgress({ status }: { status: Status }) {
@@ -31,7 +31,7 @@ export function CircularProgress({ status }: { status: Status }) {
       ) : null}
       {status === 'ACTION_REQUIRED' ? (
         <InfoIcon
-          color="primary"
+          color="info"
           sx={{
             position: 'absolute',
             fontSize: '1rem',

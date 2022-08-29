@@ -22,7 +22,7 @@ const circleAnimation = keyframes({
 const getStatusColor = (status: Status, theme: Theme) => {
   switch (status) {
     case 'ACTION_REQUIRED':
-      return theme.palette.primary.main;
+      return theme.palette.info.main;
     case 'DONE':
       return theme.palette.success.main;
     case 'FAILED':
