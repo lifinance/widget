@@ -1,15 +1,17 @@
 import type { EVMChain, Process, ProcessType, Status, Step } from '@lifi/sdk';
 import { LifiErrorCode, MetaMaskProviderErrorCode } from '@lifi/sdk';
 import type { TFunction } from 'react-i18next';
-import { formatTokenAmount } from '../../utils';
+import { useTranslation } from 'react-i18next';
+import { formatTokenAmount } from '../utils';
+import { useChains } from './useChains';
 
-const formatProcessMessage = (
-  initialMessage: string,
-  args: Record<string, string> = {},
-) => {
-  return Object.keys(args).reduce((message, key) => {
-    return message.replace(`{${key}}`, args[key]);
-  }, initialMessage);
+export const useProcessMessage = (step?: Step, process?: Process) => {
+  const { t } = useTranslation();
+  const { getChainById } = useChains();
+  if (!step || !process) {
+    return {};
+  }
+  return getProcessMessage(t, getChainById, step, process);
 };
 
 const processMessages: Record<

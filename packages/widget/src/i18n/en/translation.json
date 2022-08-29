@@ -9,7 +9,8 @@
     "settings": "Settings",
     "routes": "You get",
     "swapHistory": "Swap history",
-    "swapDetails": "Swap details"
+    "swapDetails": "Swap details",
+    "activeSwaps": "Active swaps"
   },
   "button": {
     "connectWallet": "Connect wallet",
@@ -31,6 +32,7 @@
     "delete": "Delete",
     "hide": "Hide",
     "max": "max",
+    "showAll": "Show all",
     "contactSupport": "Contact support",
     "lifiSwap": "LI.FI Swap"
   },
@@ -53,7 +55,6 @@
     "featuredTokens": "Featured tokens",
     "otherTokens": "Other tokens",
     "inProgress": "in progress",
-    "activeTransfers": "Active transfers",
     "couldntFindTokens": "We couldn't find tokens on this chain or you don't have any.",
     "stepSwap": "Swap",
     "stepBridge": "Bridge",
@@ -84,11 +85,13 @@
     "info": {
       "title": {
         "routeNotFound": "No routes available",
-        "emptySwapHistory": "No recent swaps"
+        "emptySwapHistory": "No recent swaps",
+        "emptyActiveSwaps": "No active swaps"
       },
       "message": {
         "routeNotFound": "Try another token combination.",
-        "emptySwapHistory": "Swap history is only stored locally and will be deleted if you clear your browser data."
+        "emptySwapHistory": "Swap history is only stored locally and will be deleted if you clear your browser data.",
+        "emptyActiveSwaps": "Swaps in progress will appear here. Once completed, find them in swap history."
       }
     },
     "warning": {
@@ -105,6 +108,7 @@
     },
     "error": {
       "title": {
+        "failed": "Swap failed.",
         "chainSwitch": "Chain switch required.",
         "transactionFailed": "Transaction has failed.",
         "transactionUnderpriced": "Transaction is underpriced.",

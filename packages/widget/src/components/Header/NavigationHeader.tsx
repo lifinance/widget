@@ -8,20 +8,13 @@ import { useTranslation } from 'react-i18next';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { useNavigateBack } from '../../hooks';
 import { useWallet } from '../../providers';
-import { navigationRoutes, navigationRoutesValues } from '../../utils';
+import {
+  backButtonRoutes,
+  navigationRoutes,
+  navigationRoutesValues,
+} from '../../utils';
 import { HeaderAppBar } from './Header.style';
 import { useHeaderActionStore } from './useHeaderActionStore';
-
-const backButtonRoutes = [
-  navigationRoutes.selectWallet,
-  navigationRoutes.settings,
-  navigationRoutes.swapHistory,
-  navigationRoutes.fromToken,
-  navigationRoutes.toToken,
-  navigationRoutes.swapRoutes,
-  navigationRoutes.swapExecution,
-  navigationRoutes.swapDetails,
-];
 
 export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
@@ -46,6 +39,8 @@ export const NavigationHeader: React.FC = () => {
         return t(`header.to`);
       case navigationRoutes.swapRoutes:
         return t(`header.routes`);
+      case navigationRoutes.activeSwaps:
+        return t(`header.activeSwaps`);
       case navigationRoutes.swapExecution:
         return t(`header.swap`);
       case navigationRoutes.swapDetails:

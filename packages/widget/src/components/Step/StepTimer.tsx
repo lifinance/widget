@@ -9,7 +9,10 @@ const getExpiryTimestamp = (step: Step) =>
       step.estimate.executionDuration * 1000,
   );
 
-export const StepTimer: React.FC<{ step: Step }> = ({ step }) => {
+export const StepTimer: React.FC<{ step: Step; hideInProgress?: boolean }> = ({
+  step,
+  hideInProgress,
+}) => {
   const { t } = useTranslation();
   const [isExpired, setExpired] = useState(false);
   const [isExecutionStarted, setExecutionStarted] = useState(!!step.execution);
@@ -59,13 +62,18 @@ export const StepTimer: React.FC<{ step: Step }> = ({ step }) => {
       </>
     );
   }
+
+  const isTimerExpired = isExpired || (!minutes && !seconds);
+
   if (
     step.execution?.status === 'DONE' ||
-    step.execution?.status === 'FAILED'
+    step.execution?.status === 'FAILED' ||
+    (isTimerExpired && hideInProgress)
   ) {
     return null;
   }
-  return isExpired ? (
+
+  return isTimerExpired ? (
     <>{t('swap.inProgress')}</>
   ) : (
     // eslint-disable-next-line react/jsx-no-useless-fragment

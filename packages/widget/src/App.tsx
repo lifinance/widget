@@ -6,6 +6,7 @@ import { Header } from './components/Header';
 import { Initializer } from './components/Initializer';
 import { NotFound } from './components/NotFound';
 import { PoweredBy } from './components/PoweredBy';
+import { ActiveSwapsPage } from './pages/ActiveSwapsPage';
 import { MainPage } from './pages/MainPage';
 import { SelectTokenPage } from './pages/SelectTokenPage';
 import { SelectWalletPage } from './pages/SelectWalletPage';
@@ -60,6 +61,10 @@ const AppRoutes = () => {
       element: <SwapRoutesPage />,
     },
     {
+      path: navigationRoutes.activeSwaps,
+      element: <ActiveSwapsPage />,
+    },
+    {
       path: navigationRoutes.swapHistory,
       element: <SwapHistoryPage />,
     },
@@ -78,6 +83,7 @@ const AppRoutes = () => {
     ...[
       navigationRoutes.swapExecution,
       `${navigationRoutes.swapRoutes}/${navigationRoutes.swapExecution}`,
+      `${navigationRoutes.activeSwaps}/${navigationRoutes.swapExecution}`,
     ].map((path) => ({
       path,
       element: <SwapPage />,

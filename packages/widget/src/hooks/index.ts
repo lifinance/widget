@@ -6,6 +6,7 @@ export * from './useFeaturedTokens';
 export * from './useGasSufficiency';
 export * from './useInitializer';
 export * from './useNavigateBack';
+export * from './useProcessMessage';
 export * from './useRouteExecution';
 export * from './useScrollableContainer';
 export * from './useSwapRoutes';

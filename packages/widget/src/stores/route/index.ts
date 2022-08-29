@@ -1,5 +1,5 @@
 export * from './types';
-export * from './useExecutingRoutes';
+export * from './useExecutingRoutesIds';
 export * from './useRouteStore';
 export * from './useSetExecutableRoute';
 export * from './useSwapHistory';

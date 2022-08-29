@@ -68,7 +68,7 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
             {(
               route.steps
                 .map((step) => step.estimate.executionDuration)
-                .reduce((cumulated, x) => cumulated + x) / 60
+                .reduce((duration, x) => duration + x) / 60
             ).toFixed(0)}
           </Typography>
           <Typography

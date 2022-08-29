@@ -1,19 +1,15 @@
 import type { Process, Step } from '@lifi/sdk';
 import { Link as LinkIcon } from '@mui/icons-material';
 import { Box, Link, Typography } from '@mui/material';
-import { useTranslation } from 'react-i18next';
-import { useChains } from '../../hooks';
+import { useProcessMessage } from '../../hooks';
 import { CircularProgress } from './CircularProgress';
 import { LinkButton } from './StepProcess.style';
-import { getProcessMessage } from './utils';
 
 export const StepProcess: React.FC<{
   step: Step;
   process: Process;
 }> = ({ step, process }) => {
-  const { t } = useTranslation();
-  const { getChainById } = useChains();
-  const { title, message } = getProcessMessage(t, getChainById, step, process);
+  const { title, message } = useProcessMessage(step, process);
   return (
     <Box px={2} py={1}>
       <Box
