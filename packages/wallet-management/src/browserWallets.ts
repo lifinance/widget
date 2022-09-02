@@ -1,6 +1,10 @@
 /* eslint-disable radix */
 import type { Token } from '@lifi/sdk';
-import { getChainById, prefixChainId } from '@lifi/sdk';
+import {
+  getChainById,
+  MetaMaskProviderErrorCode,
+  prefixChainId,
+} from '@lifi/sdk';
 
 export const switchChain = async (chainId: number): Promise<boolean> => {
   return new Promise((resolve, reject) => {
@@ -8,10 +12,18 @@ export const switchChain = async (chainId: number): Promise<boolean> => {
     if (!ethereum) resolve(false);
 
     try {
-      ethereum.request({
-        method: 'wallet_switchEthereumChain',
-        params: [{ chainId: getChainById(chainId).metamask?.chainId }],
-      });
+      ethereum
+        .request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: getChainById(chainId).metamask?.chainId }],
+        })
+        .catch((error: any) => {
+          if (error.code !== MetaMaskProviderErrorCode.userRejectedRequest) {
+            addChain(chainId).then((result) => resolve(result));
+          } else {
+            reject(error);
+          }
+        });
       ethereum.once('chainChanged', (id: string) => {
         if (parseInt(id) === chainId) {
           resolve(true);
@@ -19,8 +31,7 @@ export const switchChain = async (chainId: number): Promise<boolean> => {
       });
     } catch (error: any) {
       // const ERROR_CODE_UNKNOWN_CHAIN = 4902
-      const ERROR_CODE_USER_REJECTED = 4001;
-      if (error.code !== ERROR_CODE_USER_REJECTED) {
+      if (error.code !== MetaMaskProviderErrorCode.userRejectedRequest) {
         addChain(chainId).then((result) => resolve(result));
       } else {
         resolve(false);
