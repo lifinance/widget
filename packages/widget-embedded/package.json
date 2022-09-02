@@ -26,15 +26,15 @@
     "@lifi/sdk": "^1.2.2",
     "@lifi/wallet-management": "^1.1.8",
     "@lifi/widget": "^1.15.1",
-    "@mui/icons-material": "^5.10.2",
-    "@mui/lab": "^5.0.0-alpha.96",
-    "@mui/material": "^5.10.2",
+    "@mui/icons-material": "^5.10.3",
+    "@mui/lab": "^5.0.0-alpha.97",
+    "@mui/material": "^5.10.3",
     "ethers": "^5.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.0",
-    "web-vitals": "^3.0.0"
+    "web-vitals": "^3.0.1"
   },
   "eslintConfig": {
     "extends": "../../.eslintrc"
@@ -54,6 +54,6 @@
     ]
   },
   "devDependencies": {
-    "@types/node": "^18.7.13"
+    "@types/node": "^18.7.14"
   }
 }
