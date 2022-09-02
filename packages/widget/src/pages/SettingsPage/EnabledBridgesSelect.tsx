@@ -1,3 +1,4 @@
+import type { Bridge } from '@lifi/sdk';
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material';
 import { Box, Chip, FormControl, MenuItem, Skeleton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -26,13 +27,7 @@ export const EnabledBridgesSelect: React.FC = () => {
           IconComponent={KeyboardArrowDownIcon}
           value={enabledBridges ?? []}
           onChange={(event) => {
-            if (tools?.bridges) {
-              setTools(
-                'Bridges',
-                event.target.value as string[],
-                tools.bridges,
-              );
-            }
+            setTools('Bridges', event.target.value as string[], tools.bridges);
           }}
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
@@ -45,7 +40,7 @@ export const EnabledBridgesSelect: React.FC = () => {
             </Box>
           )}
         >
-          {tools?.bridges?.map((bridge) => (
+          {tools.bridges.map((bridge: Bridge) => (
             <MenuItem key={bridge.key} value={bridge.key}>
               {bridge.name}
             </MenuItem>

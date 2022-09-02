@@ -24,13 +24,11 @@ export const EnabledExchangesSelect: React.FC = () => {
           placeholder={t(`settings.selectEnabledExchanges`)}
           value={enabledExchanges ?? []}
           onChange={(event) => {
-            if (tools?.exchanges) {
-              setTools(
-                'Exchanges',
-                event.target.value as string[],
-                tools.exchanges,
-              );
-            }
+            setTools(
+              'Exchanges',
+              event.target.value as string[],
+              tools.exchanges,
+            );
           }}
           MenuProps={{ elevation: 2 }}
           IconComponent={KeyboardArrowDownIcon}
@@ -45,7 +43,7 @@ export const EnabledExchangesSelect: React.FC = () => {
             </Box>
           )}
         >
-          {tools?.exchanges.map((exchange) => (
+          {tools.exchanges.map((exchange) => (
             <MenuItem key={exchange.key} value={exchange.key}>
               {exchange.key}
             </MenuItem>

@@ -32,11 +32,12 @@ export const useSettingsStore = create<SettingsStore>()(
             return;
           }
           if (state[`_enabled${toolType}`]) {
-            state[`_enabled${toolType}`] = tools
+            // Add a new tools
+            const enabledTools = tools
               .filter(
                 (tool) =>
                   !Object.prototype.hasOwnProperty.call(
-                    state._enabledBridges,
+                    state[`_enabled${toolType}`],
                     tool,
                   ),
               )
@@ -44,6 +45,12 @@ export const useSettingsStore = create<SettingsStore>()(
                 values[tool] = true;
                 return values;
               }, state[`_enabled${toolType}`] as Record<string, boolean>);
+            // Filter tools we no longer have
+            state[`_enabled${toolType}`] = Object.fromEntries(
+              Object.entries(enabledTools).filter(([key]) =>
+                tools.includes(key),
+              ),
+            );
           } else {
             state[`_enabled${toolType}`] = tools.reduce((values, tool) => {
               values[tool] = true;
