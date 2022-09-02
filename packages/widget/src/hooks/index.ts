@@ -17,3 +17,4 @@ export * from './useTokenBalances';
 export * from './useTokens';
 export * from './useTokenSearch';
 export * from './useTools';
+export * from './useWidgetEvents';

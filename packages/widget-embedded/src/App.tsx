@@ -5,7 +5,12 @@ import {
   switchChainAndAddToken,
 } from '@lifi/wallet-management';
 import type { WidgetConfig } from '@lifi/widget';
-import { LiFiWidget, LiFiWidgetDrawer } from '@lifi/widget';
+import {
+  LiFiWidget,
+  LiFiWidgetDrawer,
+  useWidgetEvents,
+  WidgetEvent,
+} from '@lifi/widget';
 import {
   Box,
   // Button,
@@ -97,6 +102,7 @@ const widgetConfig: WidgetConfig = {
 
 export const App = () => {
   const { connect, disconnect, account } = useWallet();
+  const widgetEvents = useWidgetEvents();
   const [searchParams] = useState(() =>
     Object.fromEntries(new URLSearchParams(window?.location.search)),
   );
@@ -232,6 +238,16 @@ export const App = () => {
       setDarkMode(systemColor && prefersDarkMode);
     }
   }, [darkMode, prefersDarkMode, primary, secondary, systemColor]);
+
+  useEffect(() => {
+    const onSwapStarted = () => {
+      console.log('onSwapStarted fired.');
+    };
+    widgetEvents.on(WidgetEvent.SwapStarted, onSwapStarted);
+    return () => {
+      widgetEvents.removeListener(WidgetEvent.SwapStarted, onSwapStarted);
+    };
+  }, [widgetEvents]);
 
   return (
     <ThemeProvider theme={theme}>
