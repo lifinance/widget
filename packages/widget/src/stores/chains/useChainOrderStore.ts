@@ -20,7 +20,6 @@ export const useChainOrderStore = create<ChainOrderStore>()(
           const chainsToAdd = chainIds.filter(
             (chainId) => !state.chainOrder.includes(chainId),
           );
-          console.log(state.chainOrder, chainsToAdd);
           if (
             state.chainOrder.length === maxChainToOrder ||
             !chainsToAdd.length

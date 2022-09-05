@@ -7,22 +7,14 @@ import { useSetChainOrder } from '../stores/chains';
 export const useChains = () => {
   const { disabledChains } = useWidgetConfig();
   const [, initializeChains] = useSetChainOrder();
-  const { data, isLoading } = useQuery(
-    ['chains'],
-    async () => {
-      const chains = await LiFi.getChains();
-      const filteredChains = chains.filter(
-        (chain) => !disabledChains?.includes(chain.id),
-      );
-      initializeChains(filteredChains.map((chain) => chain.id));
-      return filteredChains;
-    },
-    {
-      onError(err) {
-        console.log(err);
-      },
-    },
-  );
+  const { data, isLoading } = useQuery(['chains'], async () => {
+    const chains = await LiFi.getChains();
+    const filteredChains = chains.filter(
+      (chain) => !disabledChains?.includes(chain.id),
+    );
+    initializeChains(filteredChains.map((chain) => chain.id));
+    return filteredChains;
+  });
 
   const getChainById = useCallback(
     (chainId: number) => {
