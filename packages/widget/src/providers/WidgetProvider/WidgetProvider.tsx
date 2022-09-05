@@ -29,6 +29,7 @@ export const WidgetProvider: React.FC<
     toToken,
     fromAmount,
     integrator,
+    sdkConfig,
     ...config
   } = {},
 }) => {
@@ -83,11 +84,13 @@ export const WidgetProvider: React.FC<
 
   useEffect(() => {
     updateLiFiConfig({
+      ...sdkConfig,
       defaultRouteOptions: {
+        ...sdkConfig?.defaultRouteOptions,
         integrator: integrator ?? window.location.hostname,
       },
     });
-  }, [integrator]);
+  }, [integrator, sdkConfig]);
 
   useEffect(() => {
     checkPackageUpdates(name, version);

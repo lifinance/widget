@@ -1,4 +1,4 @@
-import type { ChainKey, Token } from '@lifi/sdk';
+import type { ChainKey, ConfigUpdate, Token } from '@lifi/sdk';
 import type { PaletteMode, PaletteOptions, Shape } from '@mui/material';
 import type { TypographyOptions } from '@mui/material/styles/createTypography';
 import type { Signer } from 'ethers';
@@ -32,6 +32,7 @@ interface WidgetConfigBase {
   integrator?: string;
   disabledChains?: number[];
   featuredTokens?: Token[];
+  sdkConfig?: ConfigUpdate;
 }
 
 type WidgetFromTokenConfig =
