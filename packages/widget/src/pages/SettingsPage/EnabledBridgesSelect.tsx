@@ -1,6 +1,13 @@
 import type { Bridge } from '@lifi/sdk';
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material';
-import { Box, Chip, FormControl, MenuItem, Skeleton } from '@mui/material';
+import {
+  Box,
+  Checkbox,
+  Chip,
+  FormControl,
+  MenuItem,
+  Skeleton,
+} from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import shallow from 'zustand/shallow';
 import { Card, CardTitle } from '../../components/Card';
@@ -23,7 +30,7 @@ export const EnabledBridgesSelect: React.FC = () => {
         <Select
           multiple
           placeholder={t(`settings.selectEnabledBridges`)}
-          MenuProps={{ elevation: 2 }}
+          MenuProps={{ elevation: 2, PaperProps: { sx: { maxHeight: 320 } } }}
           IconComponent={KeyboardArrowDownIcon}
           value={enabledBridges ?? []}
           onChange={(event) => {
@@ -41,7 +48,12 @@ export const EnabledBridgesSelect: React.FC = () => {
           )}
         >
           {tools.bridges.map((bridge: Bridge) => (
-            <MenuItem key={bridge.key} value={bridge.key}>
+            <MenuItem
+              key={bridge.key}
+              value={bridge.key}
+              sx={{ paddingTop: 0, paddingBottom: 0 }}
+            >
+              <Checkbox checked={enabledBridges?.includes(bridge.key)} />
               {bridge.name}
             </MenuItem>
           ))}

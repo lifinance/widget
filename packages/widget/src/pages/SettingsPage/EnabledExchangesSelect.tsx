@@ -1,5 +1,12 @@
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material';
-import { Box, Chip, FormControl, MenuItem, Skeleton } from '@mui/material';
+import {
+  Box,
+  Checkbox,
+  Chip,
+  FormControl,
+  MenuItem,
+  Skeleton,
+} from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import shallow from 'zustand/shallow';
 import { Card, CardTitle } from '../../components/Card';
@@ -30,7 +37,7 @@ export const EnabledExchangesSelect: React.FC = () => {
               tools.exchanges,
             );
           }}
-          MenuProps={{ elevation: 2 }}
+          MenuProps={{ elevation: 2, PaperProps: { sx: { maxHeight: 320 } } }}
           IconComponent={KeyboardArrowDownIcon}
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
@@ -44,8 +51,13 @@ export const EnabledExchangesSelect: React.FC = () => {
           )}
         >
           {tools.exchanges.map((exchange) => (
-            <MenuItem key={exchange.key} value={exchange.key}>
-              {exchange.key}
+            <MenuItem
+              key={exchange.key}
+              value={exchange.key}
+              sx={{ paddingTop: 0, paddingBottom: 0 }}
+            >
+              <Checkbox checked={enabledExchanges?.includes(exchange.key)} />
+              {exchange.name}
             </MenuItem>
           ))}
         </Select>
