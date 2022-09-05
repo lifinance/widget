@@ -7,7 +7,6 @@ import { ActiveSwapsEmpty } from './ActiveSwapsEmpty';
 export const ActiveSwapsPage = () => {
   const { account } = useWallet();
   const executingRoutes = useExecutingRoutesIds(account.address);
-
   if (!executingRoutes.length) {
     return <ActiveSwapsEmpty />;
   }
@@ -16,8 +15,8 @@ export const ActiveSwapsPage = () => {
     <Container disableGutters>
       <List
         sx={{
-          paddingLeft: 2,
-          paddingRight: 2,
+          paddingLeft: 1.5,
+          paddingRight: 1.5,
         }}
       >
         {executingRoutes.map((routeId) => (

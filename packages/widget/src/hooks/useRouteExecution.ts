@@ -5,11 +5,17 @@ import shallow from 'zustand/shallow';
 import { LiFi } from '../config/lifi';
 import { useWallet } from '../providers/WalletProvider';
 import { useRouteStore } from '../stores';
+import { WidgetEvent } from '../types/events';
 import { deepClone } from '../utils';
+import { useWidgetEvents } from './useWidgetEvents';
 
-export const useRouteExecution = (routeId: string) => {
+export const useRouteExecution = (
+  routeId: string,
+  executeInBackground?: boolean,
+) => {
   const { account, switchChain } = useWallet();
   const resumedAfterMount = useRef(false);
+  const emitter = useWidgetEvents();
   const routeExecution = useRouteStore((state) => state.routes[routeId]);
   const [updateRoute, restartRoute, deleteRoute] = useRouteStore(
     (state) => [state.updateRoute, state.restartRoute, state.deleteRoute],
@@ -48,17 +54,13 @@ export const useRouteExecution = (routeId: string) => {
         updateCallback,
         switchChainHook,
         infiniteApproval: false,
+        executeInBackground,
       });
     },
     {
       onMutate: () => {
         console.log('Execution started.', routeId);
-      },
-      onError: () => {
-        console.warn('Execution failed.', routeId);
-      },
-      onSuccess: (route: Route) => {
-        console.log('Executed successfully.', routeId);
+        emitter.emit(WidgetEvent.SwapStarted);
       },
     },
   );
@@ -78,6 +80,7 @@ export const useRouteExecution = (routeId: string) => {
           updateCallback,
           switchChainHook,
           infiniteApproval: false,
+          executeInBackground,
         },
       );
     },
@@ -85,23 +88,17 @@ export const useRouteExecution = (routeId: string) => {
       onMutate: () => {
         console.log('Resumed to execution.', routeId);
       },
-      onError: () => {
-        console.warn('Resumed execution failed.', routeId);
-      },
-      onSuccess: (route: Route) => {
-        console.log('Resumed execution successful.', route);
-      },
     },
   );
 
   const executeRoute = useCallback(() => {
     executeRouteMutation.mutateAsync(undefined, {
       onError: () => {
-        console.warn('Real execution failed!', routeId);
+        console.warn('Execution failed!', routeId);
         // Notification.showNotification(NotificationType.SwapExecution_ERROR);
       },
       onSuccess: (route: Route) => {
-        console.log('Real execution successfully!', route);
+        console.log('Executed successfully!', route);
         // Notification.showNotification(NotificationType.TRANSACTION_SUCCESSFULL);
       },
     });
@@ -111,10 +108,10 @@ export const useRouteExecution = (routeId: string) => {
     (route?: Route) => {
       resumeRouteMutation.mutateAsync(route, {
         onError: () => {
-          console.warn('Real resumed execution failed.', routeId);
+          console.warn('Resumed execution failed.', routeId);
         },
-        onSuccess: (route: Route) => {
-          console.log('Real resumed execution successful.', route);
+        onSuccess: (route) => {
+          console.log('Resumed execution successful.', route);
         },
       });
     },
@@ -152,7 +149,7 @@ export const useRouteExecution = (routeId: string) => {
       if (!route || !isActiveRoute(route)) {
         return;
       }
-      LiFi.moveExecutionToBackground(route);
+      LiFi.updateRouteExecution(route, { executeInBackground: true });
       console.log('Move route execution to background.', routeId);
       resumedAfterMount.current = false;
     };

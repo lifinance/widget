@@ -119,7 +119,7 @@ export const SwapDetailsPage: React.FC = () => {
             flex: 1,
           }}
         >
-          <CardTitle flex={1}>{t('swap.routeId')}</CardTitle>
+          <CardTitle flex={1}>{t('swap.supportId')}</CardTitle>
           <Box mr={1} mt={1}>
             <IconButton
               size="medium"

@@ -25,11 +25,15 @@ export const RoutePrioritySelect: React.FC = () => {
           IconComponent={KeyboardArrowDownIcon}
           dense
         >
-          {Orders.map((order) => (
-            <MenuItem key={order} value={order}>
-              {t(`swap.tags.${order.toLowerCase()}` as any)}
-            </MenuItem>
-          ))}
+          {Orders.map((order) => {
+            const tag = t(`swap.tags.${order.toUpperCase()}` as any);
+            const tagName = `${tag[0]}${tag.slice(1).toLowerCase()}`;
+            return (
+              <MenuItem key={order} value={order}>
+                {tagName}
+              </MenuItem>
+            );
+          })}
         </Select>
       </FormControl>
     </Card>

@@ -4,13 +4,18 @@ import {
   Warning as WarningIcon,
 } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import { BottomSheet } from '../../components/BottomSheet';
 import { Token } from '../../components/Token';
-import { useChains, useNavigateBack, useTokenBalance } from '../../hooks';
+import {
+  getProcessMessage,
+  useChains,
+  useNavigateBack,
+  useTokenBalance,
+} from '../../hooks';
 import { SwapFormKey } from '../../providers';
 import type { RouteExecution } from '../../stores';
 import {
@@ -18,7 +23,6 @@ import {
   IconContainer,
   iconStyles,
 } from './StatusBottomSheet.style';
-import { getProcessMessage } from './utils';
 
 export const StatusBottomSheet: React.FC<RouteExecution> = ({
   status,
@@ -49,43 +53,35 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
     ref.current?.closeDrawer();
   };
 
-  const { title, message } = useMemo(() => {
-    switch (status) {
-      case 'success':
-        return {
-          title: t('swap.success.title.fundsReceived'),
-          message: t('swap.success.message.fundsReceived', {
-            amount: token?.amount,
-            tokenSymbol: token?.symbol,
-            chainName: getChainById(route.toChainId)?.name,
-          }),
-        };
-      case 'error': {
-        const step = route.steps.find((step) =>
-          step.execution?.process.some(
-            (process) => process.status === 'FAILED',
-          ),
-        );
-        const process = step?.execution?.process.find(
-          (process) => process.status === 'FAILED',
-        );
-        if (!step || !process) {
-          return {};
-        }
-        return getProcessMessage(t, getChainById, step, process);
+  let title;
+  let message;
+  switch (status) {
+    case 'success':
+      title = t('swap.success.title.fundsReceived');
+      message = t('swap.success.message.fundsReceived', {
+        amount: token?.amount,
+        tokenSymbol: token?.symbol,
+        chainName: getChainById(route.toChainId)?.name,
+      });
+      break;
+    case 'error': {
+      const step = route.steps.find(
+        (step) => step.execution?.status === 'FAILED',
+      );
+      const process = step?.execution?.process.find(
+        (process) => process.status === 'FAILED',
+      );
+      if (!step || !process) {
+        break;
       }
-      default:
-        return {};
+      const processMessage = getProcessMessage(t, getChainById, step, process);
+      title = processMessage.title;
+      message = processMessage.message;
+      break;
     }
-  }, [
-    getChainById,
-    route.steps,
-    route.toChainId,
-    status,
-    t,
-    token?.amount,
-    token?.symbol,
-  ]);
+    default:
+      break;
+  }
 
   useEffect(() => {
     if (
@@ -96,6 +92,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
       ref.current?.openDrawer();
     }
   }, [refetchBalance, status]);
+
   return (
     <BottomSheet ref={ref}>
       <Box p={3}>

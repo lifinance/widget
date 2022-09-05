@@ -15,10 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { Dialog } from '../../components/Dialog';
 import { useNavigateBack } from '../../hooks';
 import { useWallet } from '../../providers';
-import {
-  WalletListItemButton,
-  WalletListItemText,
-} from './SelectWalletPage.style';
+import { ListItemButton, ListItemText } from './SelectWalletPage.style';
 
 export const SelectWalletPage = () => {
   const { t } = useTranslation();
@@ -37,7 +34,7 @@ export const SelectWalletPage = () => {
   };
 
   const handleConnect = useCallback(
-    async (event: any, wallet: Wallet) => {
+    async (wallet: Wallet) => {
       const { ethereum } = window as any;
       const identityCheckPassed = wallet.checkProviderIdentity({
         provider: ethereum,
@@ -59,14 +56,14 @@ export const SelectWalletPage = () => {
     <Container disableGutters>
       <List
         sx={{
-          paddingLeft: 2,
-          paddingRight: 2,
+          paddingLeft: 1.5,
+          paddingRight: 1.5,
         }}
       >
         {supportedWallets.map((wallet: Wallet) => (
-          <WalletListItemButton
+          <ListItemButton
             key={wallet.name}
-            onClick={(event) => handleConnect(event, wallet)}
+            onClick={() => handleConnect(wallet)}
             disableRipple
           >
             <ListItemAvatar>
@@ -77,8 +74,8 @@ export const SelectWalletPage = () => {
                 {wallet.name[0]}
               </Avatar>
             </ListItemAvatar>
-            <WalletListItemText primary={wallet.name} />
-          </WalletListItemButton>
+            <ListItemText primary={wallet.name} />
+          </ListItemButton>
         ))}
       </List>
       <Dialog open={walletIdentity.show} onClose={closeDialog}>

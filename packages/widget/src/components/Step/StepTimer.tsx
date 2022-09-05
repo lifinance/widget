@@ -33,9 +33,7 @@ export const StepTimer: React.FC<{ step: Step; hideInProgress?: boolean }> = ({
     }
     const shouldBePaused = step.execution.process.some(
       (process) =>
-        process.status === 'ACTION_REQUIRED' ||
-        process.status === 'CHAIN_SWITCH_REQUIRED' ||
-        process.status === 'FAILED',
+        process.status === 'ACTION_REQUIRED' || process.status === 'FAILED',
     );
     if (isRunning && shouldBePaused) {
       pause();

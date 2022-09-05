@@ -1,9 +1,11 @@
 export const navigationRoutes = {
   home: '/',
-  selectWallet: 'select-wallet',
+  selectWallet: 'wallet',
   settings: 'settings',
-  fromToken: 'select-from-token',
-  toToken: 'select-to-token',
+  fromToken: 'from-token',
+  toToken: 'to-token',
+  fromChain: 'from-chain',
+  toChain: 'to-chain',
   swapRoutes: 'swap-routes',
   swapExecution: 'swap-execution',
   swapHistory: 'swap-history',
@@ -15,6 +17,8 @@ export const navigationRoutesValues = Object.values(navigationRoutes);
 
 export const stickyHeaderRoutes = [
   navigationRoutes.selectWallet,
+  navigationRoutes.fromChain,
+  navigationRoutes.toChain,
   navigationRoutes.settings,
   navigationRoutes.swapRoutes,
   navigationRoutes.swapExecution,
@@ -30,6 +34,8 @@ export const backButtonRoutes = [
   navigationRoutes.activeSwaps,
   navigationRoutes.fromToken,
   navigationRoutes.toToken,
+  navigationRoutes.fromChain,
+  navigationRoutes.toChain,
   navigationRoutes.swapRoutes,
   navigationRoutes.swapExecution,
   navigationRoutes.swapDetails,

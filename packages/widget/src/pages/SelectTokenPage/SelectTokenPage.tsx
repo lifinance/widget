@@ -1,19 +1,17 @@
 import { Box, Container } from '@mui/material';
 import type { FC } from 'react';
 import { useLayoutEffect, useRef, useState } from 'react';
+import { ChainSelect } from '../../components/ChainSelect';
 import { TokenList } from '../../components/TokenList';
 import {
   useContentHeight,
   useNavigateBack,
   useScrollableOverflowHidden,
 } from '../../hooks';
-import type { SwapFormDirection } from '../../providers';
-import { ChainSelect } from './ChainSelect';
+import type { SwapFormTypeProps } from '../../providers';
 import { SearchTokenInput } from './SearchTokenInput';
 
-export const SelectTokenPage: FC<{ formType: SwapFormDirection }> = ({
-  formType,
-}) => {
+export const SelectTokenPage: FC<SwapFormTypeProps> = ({ formType }) => {
   useScrollableOverflowHidden();
   const { navigateBack } = useNavigateBack();
   const headerRef = useRef<HTMLElement>(null);

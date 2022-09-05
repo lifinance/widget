@@ -1,7 +1,7 @@
 import {
   Button,
   ListItem as MuiListItem,
-  ListItemButton as MuiListItemButton
+  ListItemButton as MuiListItemButton,
 } from '@mui/material';
 import { listItemSecondaryActionClasses } from '@mui/material/ListItemSecondaryAction';
 import { alpha, styled } from '@mui/material/styles';
@@ -18,8 +18,8 @@ export const ProgressCard = styled(Card)(({ theme }) => ({
 
 export const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
   borderRadius: theme.shape.borderRadiusSecondary,
-  paddingLeft: theme.spacing(1),
-  paddingRight: theme.spacing(1),
+  paddingLeft: theme.spacing(1.5),
+  paddingRight: theme.spacing(1.5),
   height: 64,
   '&:hover': {
     backgroundColor: getContrastAlphaColor(theme, '4%'),
@@ -27,8 +27,7 @@ export const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
 }));
 
 export const ListItem = styled(MuiListItem, {
-  shouldForwardProp: (prop) =>
-    prop !== 'disableRipple',
+  shouldForwardProp: (prop) => prop !== 'disableRipple',
 })(({ theme }) => ({
   padding: theme.spacing(0, 1.5),
   [`.${listItemSecondaryActionClasses.root}`]: {

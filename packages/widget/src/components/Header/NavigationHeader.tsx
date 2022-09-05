@@ -37,6 +37,9 @@ export const NavigationHeader: React.FC = () => {
         return t(`header.from`);
       case navigationRoutes.toToken:
         return t(`header.to`);
+      case navigationRoutes.fromChain:
+      case navigationRoutes.toChain:
+        return t(`header.selectChain`);
       case navigationRoutes.swapRoutes:
         return t(`header.routes`);
       case navigationRoutes.activeSwaps:

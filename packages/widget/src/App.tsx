@@ -8,6 +8,7 @@ import { NotFound } from './components/NotFound';
 import { PoweredBy } from './components/PoweredBy';
 import { ActiveSwapsPage } from './pages/ActiveSwapsPage';
 import { MainPage } from './pages/MainPage';
+import { SelectChainPage } from './pages/SelectChainPage';
 import { SelectTokenPage } from './pages/SelectTokenPage';
 import { SelectWalletPage } from './pages/SelectWalletPage';
 import { SettingsPage } from './pages/SettingsPage';
@@ -56,6 +57,20 @@ const AppRoutes = () => {
       path: navigationRoutes.toToken,
       element: <SelectTokenPage formType="to" />,
     },
+    ...[
+      navigationRoutes.fromChain,
+      `${navigationRoutes.fromToken}/${navigationRoutes.fromChain}`,
+    ].map((path) => ({
+      path,
+      element: <SelectChainPage formType="from" />,
+    })),
+    ...[
+      navigationRoutes.toChain,
+      `${navigationRoutes.toToken}/${navigationRoutes.toChain}`,
+    ].map((path) => ({
+      path,
+      element: <SelectChainPage formType="to" />,
+    })),
     {
       path: navigationRoutes.swapRoutes,
       element: <SwapRoutesPage />,

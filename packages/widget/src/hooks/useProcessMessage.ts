@@ -1,5 +1,5 @@
 import type { EVMChain, Process, ProcessType, Status, Step } from '@lifi/sdk';
-import { LifiErrorCode, MetaMaskProviderErrorCode } from '@lifi/sdk';
+import { LifiErrorCode } from '@lifi/sdk';
 import type { TFunction } from 'react-i18next';
 import { useTranslation } from 'react-i18next';
 import { formatTokenAmount } from '../utils';
@@ -24,7 +24,7 @@ const processMessages: Record<
     DONE: (t) => t(`swap.process.tokenAllowance.done`),
   },
   SWITCH_CHAIN: {
-    PENDING: (t) => t(`swap.process.switchChain.pending`),
+    ACTION_REQUIRED: (t) => t(`swap.process.switchChain.actionRequired`),
     DONE: (t) => t(`swap.process.switchChain.done`),
   },
   SWAP: {
@@ -88,9 +88,9 @@ export function getProcessMessage(
         title = t(`swap.error.title.slippageTooLarge`);
         message = t(`swap.error.message.slippageTooLarge`);
         break;
-      case MetaMaskProviderErrorCode.userRejectedRequest:
-        title = t(`swap.error.title.userRejectedSignatureRequest`);
-        message = t(`swap.error.message.signatureRequired`, {
+      case LifiErrorCode.TransactionRejected:
+        title = t(`swap.error.title.transactionRejected`);
+        message = t(`swap.error.message.transactionRejected`, {
           amount: formatTokenAmount(
             step.action.fromAmount,
             step.action.fromToken.decimals,

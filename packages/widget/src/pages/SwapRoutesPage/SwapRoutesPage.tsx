@@ -69,7 +69,7 @@ export const SwapRoutesPage: React.FC<BoxProps> = () => {
           <SwapRouteCardSkeleton key={index} />
         ))
       ) : (
-        swapRoutes?.map((route) => (
+        swapRoutes?.map((route: Route) => (
           <SwapRouteCard
             key={route.id}
             route={route}

@@ -6,6 +6,7 @@
     "swap": "Swap",
     "from": "Swap from",
     "to": "Swap to",
+    "selectChain": "Select chain",
     "settings": "Settings",
     "routes": "You get",
     "swapHistory": "Swap history",
@@ -64,7 +65,7 @@
     "swapStepDetails": "Swap on {{chain}} via {{tool}}",
     "tokenOnChain": "{{tokenSymbol}} on {{chainName}}",
     "tokenOnChainAmount": "{{amount}} {{tokenSymbol}} on {{chainName}}",
-    "routeId": "Route ID",
+    "supportId": "Support ID",
     "sendToWallet": "Send to a different wallet",
     "walletAddressOrEns": "Wallet address or ENS name",
     "tags": {
@@ -113,14 +114,14 @@
         "transactionFailed": "Transaction has failed.",
         "transactionUnderpriced": "Transaction is underpriced.",
         "transactionUnprepared": "Unable to prepare transaction.",
+        "transactionRejected": "Signature required.",
         "unknown": "Something went wrong.",
-        "userRejectedSignatureRequest": "Signature required.",
         "slippageTooLarge": "Slippage too large.",
         "walletAddressInvalid": "Wallet address is invalid.",
         "walletEnsAddressInvalid": "Wallet address is invalid or network doesn't support ENS."
       },
       "message": {
-        "signatureRequired": "Your signature is required to complete the transaction. {{amount}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
+        "transactionRejected": "Your signature is required to complete the transaction. {{amount}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
         "transactionFailed": "Please check the block explorer for more information.",
         "transactionNotSent": "Transaction was not sent, your funds are still in your wallet ({{amount}} {{tokenSymbol}} on {{chainName}}).",
         "slippageTooLarge": "The slippage is larger than the defined threshold. Please request a new route to get a fresh quote."
@@ -133,7 +134,7 @@
         "done": "Token allowance approved."
       },
       "switchChain": {
-        "pending": "Chain switch required.",
+        "actionRequired": "Chain switch required.",
         "done": "Chain switched successfully."
       },
       "swap": {
