@@ -4,7 +4,12 @@ import { useCallback, useEffect, useRef } from 'react';
 import shallow from 'zustand/shallow';
 import { LiFi } from '../config/lifi';
 import { useWallet } from '../providers/WalletProvider';
-import { useRouteStore } from '../stores';
+import {
+  isRouteActive,
+  isRouteCompleted,
+  isRouteFailed,
+  useRouteStore,
+} from '../stores';
 import { WidgetEvent } from '../types/events';
 import { deepClone } from '../utils';
 import { useWidgetEvents } from './useWidgetEvents';
@@ -26,6 +31,12 @@ export const useRouteExecution = (
     const clonedUpdatedRoute = deepClone(updatedRoute);
     console.log('Route updated.', clonedUpdatedRoute);
     updateRoute(clonedUpdatedRoute);
+    if (isRouteCompleted(clonedUpdatedRoute)) {
+      emitter.emit(WidgetEvent.SwapCompleted);
+    }
+    if (isRouteFailed(clonedUpdatedRoute)) {
+      emitter.emit(WidgetEvent.SwapFailed);
+    }
   };
 
   const switchChainHook = async (requiredChainId: number) => {
@@ -133,7 +144,7 @@ export const useRouteExecution = (
   useEffect(() => {
     // Check if route is eligible for automatic resuming
     if (
-      isActiveRoute(routeExecution?.route) &&
+      isRouteActive(routeExecution?.route) &&
       account.isActive &&
       !resumedAfterMount.current
     ) {
@@ -146,7 +157,7 @@ export const useRouteExecution = (
   useEffect(() => {
     return () => {
       const route = useRouteStore.getState().routes[routeId]?.route;
-      if (!route || !isActiveRoute(route)) {
+      if (!route || !isRouteActive(route)) {
         return;
       }
       LiFi.updateRouteExecution(route, { executeInBackground: true });
@@ -162,18 +173,4 @@ export const useRouteExecution = (
     route: routeExecution?.route,
     status: routeExecution?.status,
   };
-};
-
-const isActiveRoute = (route?: Route) => {
-  if (!route) {
-    return false;
-  }
-  const allDone = route.steps.every(
-    (step) => step.execution?.status === 'DONE',
-  );
-  const isFailed = route.steps.some(
-    (step) => step.execution?.status === 'FAILED',
-  );
-  const alreadyStarted = route.steps.some((step) => step.execution);
-  return !allDone && !isFailed && alreadyStarted;
 };
