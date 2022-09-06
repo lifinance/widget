@@ -3,14 +3,13 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Big from 'big.js';
 import { useWatch } from 'react-hook-form';
 import { useDebouncedWatch, useToken } from '.';
-import { LiFi } from '../config/lifi';
-import { SwapFormKey } from '../providers/SwapFormProvider';
-import { useWallet } from '../providers/WalletProvider';
+import { SwapFormKey, useLiFi, useWallet } from '../providers';
 import { useSettings } from '../stores';
 
 const refetchTime = 60_000;
 
 export const useSwapRoutes = () => {
+  const lifi = useLiFi();
   const { account, provider } = useWallet();
   const queryClient = useQueryClient();
   const { slippage, enabledBridges, enabledExchanges, routePriority } =
@@ -91,7 +90,7 @@ export const useSwapRoutes = () => {
         } catch {
           toWalletAddress = isAddress(toAddress) ? toAddress : fromAddress;
         }
-        return LiFi.getRoutes(
+        return lifi.getRoutes(
           {
             fromChainId,
             fromAmount: Big(

@@ -1,13 +1,7 @@
 import type { ChainKey } from '@lifi/sdk';
-import { checkPackageUpdates, getChainByKey } from '@lifi/sdk';
-import { createContext, useContext, useEffect, useMemo } from 'react';
-import { updateLiFiConfig } from '../../config/lifi';
-import { name, version } from '../../config/version';
+import { getChainByKey } from '@lifi/sdk';
+import { createContext, useContext, useMemo } from 'react';
 import type { WidgetContextProps, WidgetProviderProps } from './types';
-
-const stub = (): never => {
-  throw new Error('You forgot to wrap your component in <WidgetProvider>.');
-};
 
 const initialContext: WidgetContextProps = {
   disabledChains: [],
@@ -28,8 +22,6 @@ export const WidgetProvider: React.FC<
     toChain,
     toToken,
     fromAmount,
-    integrator,
-    sdkConfig,
     ...config
   } = {},
 }) => {
@@ -81,20 +73,6 @@ export const WidgetProvider: React.FC<
       return config;
     }
   }, [config, fromAmount, fromChain, fromToken, toChain, toToken]);
-
-  useEffect(() => {
-    updateLiFiConfig({
-      ...sdkConfig,
-      defaultRouteOptions: {
-        ...sdkConfig?.defaultRouteOptions,
-        integrator: integrator ?? window.location.hostname,
-      },
-    });
-  }, [integrator, sdkConfig]);
-
-  useEffect(() => {
-    checkPackageUpdates(name, version);
-  }, []);
 
   return (
     <WidgetContext.Provider value={value}>{children}</WidgetContext.Provider>

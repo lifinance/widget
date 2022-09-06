@@ -54,6 +54,9 @@ const widgetDrawerConfig: WidgetConfig = {
   // disableColorSchemes: true,
   disableTelemetry: true,
   integrator: 'li.fi-playground',
+  // sdkConfig: {
+  //   apiUrl: 'https://developkub.li.finance/v1/',
+  // },
   // featuredTokens: [
   //   {
   //     address: '0x195e3087ea4d7eec6e9c37e9640162fe32433d5e',

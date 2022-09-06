@@ -3,8 +3,7 @@ import Big from 'big.js';
 import { useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useChains, useDebouncedWatch } from '.';
-import { SwapFormKey, SwapFormKeyHelper } from '../providers/SwapFormProvider';
-import { useWallet } from '../providers/WalletProvider';
+import { SwapFormKey, SwapFormKeyHelper, useWallet } from '../providers';
 import { useTokenBalances } from './useTokenBalances';
 
 interface GasSufficiency {

@@ -16,7 +16,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import type { WidgetWalletManagement } from '../../types';
+import { useWidgetConfig } from '../WidgetProvider';
 import type { WalletAccount, WalletContextProps } from './types';
 
 const stub = (): never => {
@@ -36,9 +36,8 @@ const WalletContext = createContext<WalletContextProps>(initialContext);
 
 export const useWallet = (): WalletContextProps => useContext(WalletContext);
 
-export const WalletProvider: FC<
-  PropsWithChildren<{ walletManagement?: WidgetWalletManagement }>
-> = ({ children, walletManagement }) => {
+export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
+  const { walletManagement } = useWidgetConfig();
   const {
     connect: walletManagementConnect,
     disconnect: walletManagementDisconnect,

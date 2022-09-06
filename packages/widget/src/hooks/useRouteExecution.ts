@@ -2,8 +2,7 @@ import type { Route } from '@lifi/sdk';
 import { useMutation } from '@tanstack/react-query';
 import { useCallback, useEffect, useRef } from 'react';
 import shallow from 'zustand/shallow';
-import { LiFi } from '../config/lifi';
-import { useWallet } from '../providers/WalletProvider';
+import { useLiFi, useWallet } from '../providers';
 import {
   isRouteActive,
   isRouteCompleted,
@@ -18,6 +17,7 @@ export const useRouteExecution = (
   routeId: string,
   executeInBackground?: boolean,
 ) => {
+  const lifi = useLiFi();
   const { account, switchChain } = useWallet();
   const resumedAfterMount = useRef(false);
   const emitter = useWidgetEvents();
@@ -61,7 +61,7 @@ export const useRouteExecution = (
       if (!routeExecution?.route) {
         throw Error('Execution route not found.');
       }
-      return LiFi.executeRoute(account.signer, routeExecution.route, {
+      return lifi.executeRoute(account.signer, routeExecution.route, {
         updateCallback,
         switchChainHook,
         infiniteApproval: false,
@@ -84,7 +84,7 @@ export const useRouteExecution = (
       if (!routeExecution?.route) {
         throw Error('Execution route not found.');
       }
-      return LiFi.resumeRoute(
+      return lifi.resumeRoute(
         account.signer,
         resumedRoute ?? routeExecution.route,
         {
@@ -160,11 +160,11 @@ export const useRouteExecution = (
       if (!route || !isRouteActive(route)) {
         return;
       }
-      LiFi.updateRouteExecution(route, { executeInBackground: true });
+      lifi.updateRouteExecution(route, { executeInBackground: true });
       console.log('Move route execution to background.', routeId);
       resumedAfterMount.current = false;
     };
-  }, [routeId]);
+  }, [lifi, routeId]);
 
   return {
     executeRoute,

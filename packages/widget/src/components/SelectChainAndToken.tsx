@@ -3,7 +3,7 @@ import { Box, useMediaQuery } from '@mui/material';
 import { useWatch } from 'react-hook-form';
 import { ReverseTokensButton } from '../components/ReverseTokensButton';
 import { SelectTokenButton } from '../components/SelectTokenButton';
-import { SwapFormKey } from '../providers/SwapFormProvider';
+import { SwapFormKey } from '../providers';
 
 export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
   const prefersNarrowView = useMediaQuery((theme: Theme) =>

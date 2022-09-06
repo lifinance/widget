@@ -1,6 +1,6 @@
 import type { ChainId } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { LiFi } from '../config/lifi';
+import { useLiFi } from '../providers';
 import type { Token } from '../types';
 
 export const useTokenSearch = (
@@ -8,11 +8,12 @@ export const useTokenSearch = (
   chainId: number,
   enabled?: boolean,
 ) => {
+  const lifi = useLiFi();
   const queryClient = useQueryClient();
   const { data, isLoading, isFetching, isFetched } = useQuery(
     ['token-search', chainId, token],
     async ({ queryKey: [, chainId, token], signal }) => {
-      const data = await LiFi.getToken(chainId as ChainId, token as string, {
+      const data = await lifi.getToken(chainId as ChainId, token as string, {
         signal,
       });
       if (data) {

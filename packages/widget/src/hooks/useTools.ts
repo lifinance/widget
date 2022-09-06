@@ -2,20 +2,17 @@
 import type { Bridge, Exchange } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
-import { LiFi } from '../config/lifi';
+import { useLiFi } from '../providers';
 import { useSettingsStore } from '../stores';
 
 type FormattedTool<T, K extends keyof T> = Record<string, Pick<T, K>>;
-interface FormattedTools {
-  bridges: FormattedTool<Bridge, 'key' | 'name' | 'logoURI'>;
-  exchanges: FormattedTool<Exchange, 'key' | 'name' | 'logoURI'>;
-}
 
 export const useTools = () => {
+  const lifi = useLiFi();
   const initializeTools = useSettingsStore((state) => state.initializeTools);
   const { data } = useQuery(
     ['tools'],
-    ({ signal }) => LiFi.getTools(undefined, { signal }),
+    ({ signal }) => lifi.getTools(undefined, { signal }),
     {
       onSuccess(data) {
         initializeTools(

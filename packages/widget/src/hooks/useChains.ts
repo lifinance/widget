@@ -1,14 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { useCallback } from 'react';
-import { LiFi } from '../config/lifi';
-import { useWidgetConfig } from '../providers/WidgetProvider';
+import { useLiFi, useWidgetConfig } from '../providers';
 import { useSetChainOrder } from '../stores/chains';
 
 export const useChains = () => {
   const { disabledChains } = useWidgetConfig();
+  const lifi = useLiFi();
   const [, initializeChains] = useSetChainOrder();
   const { data, isLoading } = useQuery(['chains'], async () => {
-    const chains = await LiFi.getChains();
+    const chains = await lifi.getChains();
     const filteredChains = chains.filter(
       (chain) => !disabledChains?.includes(chain.id),
     );

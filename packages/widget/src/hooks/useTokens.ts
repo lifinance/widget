@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { LiFi } from '../config/lifi';
+import { useLiFi } from '../providers';
 import type { Token } from '../types';
 import { useFeaturedTokens } from './useFeaturedTokens';
 
 export const useTokens = (selectedChainId: number) => {
+  const lifi = useLiFi();
   const featuredTokens = useFeaturedTokens(selectedChainId);
   const {
     data: tokens,
@@ -12,7 +13,7 @@ export const useTokens = (selectedChainId: number) => {
   } = useQuery(
     ['tokens', selectedChainId, featuredTokens?.length],
     async () => {
-      const data = await LiFi.getTokens({ chains: [selectedChainId] });
+      const data = await lifi.getTokens({ chains: [selectedChainId] });
       const featuredTokenAddresses = new Set(
         featuredTokens?.map((token) => token.address),
       );

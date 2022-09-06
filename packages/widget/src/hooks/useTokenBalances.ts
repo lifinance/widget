@@ -1,8 +1,7 @@
 /* eslint-disable consistent-return */
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { LiFi } from '../config/lifi';
-import { useWallet } from '../providers/WalletProvider';
+import { useLiFi, useWallet } from '../providers';
 import type { Token } from '../types';
 import { formatTokenAmount } from '../utils';
 import { useFeaturedTokens } from './useFeaturedTokens';
@@ -12,6 +11,7 @@ const defaultRefetchInterval = 60_000;
 const minRefetchInterval = 1000;
 
 export const useTokenBalances = (selectedChainId: number) => {
+  const lifi = useLiFi();
   const { account } = useWallet();
   const featuredTokens = useFeaturedTokens(selectedChainId);
   const { tokens, isLoading } = useTokens(selectedChainId);
@@ -33,7 +33,7 @@ export const useTokenBalances = (selectedChainId: number) => {
       if (!accountAddress || !tokens) {
         return;
       }
-      const tokenBalances = await LiFi.getTokenBalances(
+      const tokenBalances = await lifi.getTokenBalances(
         accountAddress as string,
         tokens,
       );
