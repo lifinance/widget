@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.16.1](https://github.com/lifinance/widget/compare/v1.16.0...v1.16.1) (2022-09-06)
+
+
+### Bug Fixes
+
+* move sdk initialization to provider ([882e02a](https://github.com/lifinance/widget/commit/882e02ab72e924e6620f4fefe3fbb3a6b7ce3e1c))
+
 ## [1.16.0](https://github.com/lifinance/widget/compare/v1.15.1...v1.16.0) (2022-09-06)
 
 
