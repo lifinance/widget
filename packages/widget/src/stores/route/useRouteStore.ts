@@ -3,6 +3,7 @@ import create from 'zustand';
 import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import type { RouteExecutionStore } from './types';
+import { isRouteCompleted, isRouteFailed } from './utils';
 
 export const useRouteStore = create<RouteExecutionStore>()(
   persist(
@@ -25,16 +26,12 @@ export const useRouteStore = create<RouteExecutionStore>()(
         set((state: RouteExecutionStore) => {
           if (state.routes[route.id]) {
             state.routes[route.id]!.route = route;
-            const isFailed = route.steps.some(
-              (step) => step.execution?.status === 'FAILED',
-            );
+            const isFailed = isRouteFailed(route);
             if (isFailed) {
               state.routes[route.id]!.status = 'error';
               return;
             }
-            const isDone = route.steps.every(
-              (step) => step.execution?.status === 'DONE',
-            );
+            const isDone = isRouteCompleted(route);
             if (isDone) {
               state.routes[route.id]!.status = 'success';
               return;
@@ -77,16 +74,12 @@ export const useRouteStore = create<RouteExecutionStore>()(
                 route,
                 status: 'idle',
               };
-              const isFailed = route.steps.some(
-                (step) => step.execution?.status === 'FAILED',
-              );
+              const isFailed = isRouteFailed(route);
               if (isFailed) {
                 state.routes[route.id]!.status = 'error';
                 return;
               }
-              const isDone = route.steps.every(
-                (step) => step.execution?.status === 'DONE',
-              );
+              const isDone = isRouteCompleted(route);
               if (isDone) {
                 state.routes[route.id]!.status = 'success';
                 return;
