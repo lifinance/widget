@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.16.0](https://github.com/lifinance/widget/compare/v1.15.1...v1.16.0) (2022-09-06)
+
+
+### Features
+
+* add active swaps page and live updates ([4d470b5](https://github.com/lifinance/widget/commit/4d470b52be482c0b75c9c2e88bc1104dba865890))
+* add checkboxes to bridges and exchanges selection ([88a4e5d](https://github.com/lifinance/widget/commit/88a4e5d2707d6f9f24262c52f37134d1459bb0ac))
+* add new chain selection view ([3c4d3fe](https://github.com/lifinance/widget/commit/3c4d3fe0030cbc5ba5bb7d644adbfe6c8c26b0c2))
+* add sdk configuration option ([74aaead](https://github.com/lifinance/widget/commit/74aaead1f6648c79d48e0e300b842867751e6543))
+* add swap completed and failed events ([69ff4bc](https://github.com/lifinance/widget/commit/69ff4bc4994b8de7777403e444e3938c2fa85b0e))
+* add widget events ([7c0857e](https://github.com/lifinance/widget/commit/7c0857e3ee3505f89cdc575706c0b7ef5f9ac2fe))
+* sort executing routes ([f9fecac](https://github.com/lifinance/widget/commit/f9fecac7cb3551a1f60d77446cebb264269a340d))
+
+
+### Bug Fixes
+
+* better handle chain switch rejection ([48d34ce](https://github.com/lifinance/widget/commit/48d34ce786abf8e324de1b6ce8981303cd55bd5b))
+* correctly disable button if form is not valid ([2a536d9](https://github.com/lifinance/widget/commit/2a536d9b6cfada26c7ac1d95b9f103bef53b84ab))
+* filter tools we no longer have ([edc5fb8](https://github.com/lifinance/widget/commit/edc5fb890875ce63a5f72d5c1eadeb7f226ad283))
+* set fromAmount to 0 after starting the swap ([9493fed](https://github.com/lifinance/widget/commit/9493fed8a05523e722e5c6cee009e45a0c8211d3))
+
 ### [1.15.1](https://github.com/lifinance/widget/compare/v1.15.0...v1.15.1) (2022-08-25)
 
 ## [1.15.0](https://github.com/lifinance/widget/compare/v1.14.1...v1.15.0) (2022-08-24)
