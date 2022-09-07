@@ -27,9 +27,9 @@ export const AppProvider: React.FC<PropsWithChildren<AppProps>> = ({
   config,
 }) => {
   return (
-    <WidgetProvider config={config}>
-      <SDKProvider>
-        <QueryProvider client={queryClient}>
+    <QueryProvider client={queryClient}>
+      <WidgetProvider config={config}>
+        <SDKProvider>
           <TelemetryProvider>
             <WalletProvider>
               <ThemeProvider>
@@ -39,9 +39,9 @@ export const AppProvider: React.FC<PropsWithChildren<AppProps>> = ({
               </ThemeProvider>
             </WalletProvider>
           </TelemetryProvider>
-        </QueryProvider>
-      </SDKProvider>
-    </WidgetProvider>
+        </SDKProvider>
+      </WidgetProvider>
+    </QueryProvider>
   );
 };
 
