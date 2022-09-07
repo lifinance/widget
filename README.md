@@ -83,7 +83,7 @@ Visit our [playground](https://testing.li.finance) to see how you can customize 
 
 ## Documentation
 
-[LI.FI Widget Documentation](https://docs.li.fi/products/integrate-li.fi-widget/li.fi-widget-overview)
+[LI.FI Widget Documentation](https://docs.li.fi/integrate-li.fi-widget/li.fi-widget-overview)
 
 ## Changelog
 
