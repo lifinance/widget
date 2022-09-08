@@ -56,7 +56,6 @@
     "featuredTokens": "Featured tokens",
     "otherTokens": "Other tokens",
     "inProgress": "in progress",
-    "couldntFindTokens": "We couldn't find tokens on this chain or you don't have any.",
     "stepSwap": "Swap",
     "stepBridge": "Bridge",
     "stepSwapAndBridge": "Swap and bridge",
@@ -92,7 +91,9 @@
       "message": {
         "routeNotFound": "Try another token combination.",
         "emptySwapHistory": "Swap history is only stored locally and will be deleted if you clear your browser data.",
-        "emptyActiveSwaps": "Swaps in progress will appear here. Once completed, find them in swap history."
+        "emptyActiveSwaps": "Swaps in progress will appear here. Once completed, find them in swap history.",
+        "emptyTokenList": "We couldn't find tokens on {{chainName}} chain or you don't have any. Please try search again or choose another chain.",
+        "chainIsDisabled": "{{chainName}} chain is disabled. Please choose another chain."
       }
     },
     "warning": {
