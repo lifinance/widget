@@ -1,10 +1,10 @@
 import type { TokenAmount } from '@lifi/sdk';
 import type { MutableRefObject } from 'react';
-import type { SwapFormDirection } from '../../providers';
+import type { SwapFormType } from '../../providers';
 import type { Token } from '../../types';
 
 export interface TokenListProps {
-  formType: SwapFormDirection;
+  formType: SwapFormType;
   height: number;
   onClick?(): void;
 }

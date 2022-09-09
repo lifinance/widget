@@ -4,6 +4,6 @@ export interface ChainOrderState {
 }
 
 export interface ChainOrderStore extends ChainOrderState {
-  initializeChains(chainIds: number[]): void;
+  initializeChains(chainIds: number[]): number[];
   setChain(chainId: number): void;
 }

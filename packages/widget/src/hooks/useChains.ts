@@ -1,24 +1,42 @@
 import { useQuery } from '@tanstack/react-query';
 import { useCallback } from 'react';
-import { useLiFi, useWidgetConfig } from '../providers';
-import { useSetChainOrder } from '../stores/chains';
+import { useFormContext } from 'react-hook-form';
+import {
+  isItemAllowed,
+  SwapFormKey,
+  useLiFi,
+  useWidgetConfig,
+} from '../providers';
+import { useChainOrderStore } from '../stores/chains';
 
 export const useChains = () => {
-  const { disabledChains } = useWidgetConfig();
+  const { disabledChains, chains } = useWidgetConfig();
   const lifi = useLiFi();
-  const [, initializeChains] = useSetChainOrder();
+  const { getValues, setValue } = useFormContext();
   const { data, isLoading } = useQuery(['chains'], async () => {
-    const chains = await lifi.getChains();
-    const filteredChains = chains.filter(
-      (chain) => !disabledChains?.includes(chain.id),
+    const availableChains = await lifi.getChains();
+    const filteredChains = availableChains.filter((chain) =>
+      isItemAllowed(chain.id, chains, disabledChains),
     );
-    initializeChains(filteredChains.map((chain) => chain.id));
-    return filteredChains;
+    const chainOrder = useChainOrderStore
+      .getState()
+      .initializeChains(filteredChains.map((chain) => chain.id));
+    const [fromChainValue, toChainValue] = getValues([
+      SwapFormKey.FromChain,
+      SwapFormKey.ToChain,
+    ]);
+    if (!fromChainValue) {
+      setValue(SwapFormKey.FromChain, chainOrder[0]);
+    }
+    if (!toChainValue) {
+      setValue(SwapFormKey.ToChain, chainOrder[0]);
+    }
+    return { availableChains, filteredChains };
   });
 
   const getChainById = useCallback(
     (chainId: number) => {
-      const chain = data?.find((chain) => chain.id === chainId);
+      const chain = data?.availableChains.find((chain) => chain.id === chainId);
       // if (!chain) {
       //   throw new Error('Chain not found or chainId is invalid.');
       // }
@@ -27,5 +45,5 @@ export const useChains = () => {
     [data],
   );
 
-  return { chains: data, getChainById, isLoading };
+  return { chains: data?.filteredChains, getChainById, isLoading };
 };

@@ -90,7 +90,9 @@ export const TokenList: FC<TokenListProps> = ({
 
   return (
     <Box ref={parentRef} style={{ height, overflow: 'auto' }}>
-      {!tokens.length && !isLoading ? <TokenNotFound /> : null}
+      {!tokens.length && !isLoading ? (
+        <TokenNotFound formType={formType} />
+      ) : null}
       <VirtualizedTokenList
         tokens={tokens}
         featuredTokensLength={featuredTokens?.length}

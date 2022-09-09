@@ -8,7 +8,8 @@ import { getContrastAlphaColor } from '../../utils';
 
 export const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
   borderRadius: theme.shape.borderRadiusSecondary,
-  paddingLeft: theme.spacing(2),
+  paddingLeft: theme.spacing(1.5),
+  paddingRight: theme.spacing(1.5),
   height: 64,
   width: '100%',
   '&:hover': {
@@ -23,8 +24,8 @@ export const ListItem = styled(MuiListItem)(({ theme }) => ({
   height: 64,
   flexDirection: 'column',
   alignItems: 'flex-start',
-  padding: theme.spacing(0, 3),
+  padding: theme.spacing(0, 1.5),
   [`.${listItemSecondaryActionClasses.root}`]: {
-    right: theme.spacing(5),
+    right: theme.spacing(3),
   },
 }));

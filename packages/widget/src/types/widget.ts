@@ -20,41 +20,46 @@ export interface WidgetWalletManagement {
   signer?: Signer;
 }
 
-interface WidgetConfigBase {
-  fromAmount?: number | string;
+export interface WidgetConfig {
+  fromChain?: `${ChainKey}` | number;
+  toChain?: `${ChainKey}` | number;
+  fromToken?: string;
+  toToken?: string;
   toAddress?: string;
-  containerStyle?: CSSProperties;
-  theme?: ThemeConfig;
+  fromAmount?: number | string;
+
   appearance?: Appearance;
+  theme?: ThemeConfig;
+  containerStyle?: CSSProperties;
+
   disableAppearance?: boolean;
   disableTelemetry?: boolean;
-  walletManagement?: WidgetWalletManagement;
-  integrator?: string;
+
+  /** @deprecated Use chains.deny instead */
   disabledChains?: number[];
+  /** @deprecated Use tokens.featured instead */
   featuredTokens?: Token[];
+
+  integrator?: string;
+
+  walletManagement?: WidgetWalletManagement;
   sdkConfig?: ConfigUpdate;
+
+  bridges?: {
+    allow?: string[];
+    deny?: string[];
+  };
+  exchanges?: {
+    allow?: string[];
+    deny?: string[];
+  };
+  chains?: {
+    allow?: number[];
+    deny?: number[];
+  };
+  tokens?: {
+    featured?: Token[];
+    allow?: Token[];
+    deny?: (Partial<Token> & Pick<Token, 'address' | 'chainId'>)[];
+  };
 }
-
-type WidgetFromTokenConfig =
-  | {
-      fromChain: `${ChainKey}` | number;
-      fromToken?: string;
-    }
-  | {
-      fromChain?: never;
-      fromToken?: never;
-    };
-
-type WidgetToTokenConfig =
-  | {
-      toChain: `${ChainKey}` | number;
-      toToken?: string;
-    }
-  | {
-      toChain?: never;
-      toToken?: never;
-    };
-
-export type WidgetConfig = WidgetConfigBase &
-  WidgetFromTokenConfig &
-  WidgetToTokenConfig;

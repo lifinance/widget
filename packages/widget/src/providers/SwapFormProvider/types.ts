@@ -18,17 +18,17 @@ export type SwapFormValues = {
   [SwapFormKey.ToAddress]: string;
 };
 
-export type SwapFormDirection = 'from' | 'to';
+export type SwapFormType = 'from' | 'to';
 
 export const SwapFormKeyHelper = {
-  getChainKey: (formType: SwapFormDirection): 'fromChain' | 'toChain' =>
+  getChainKey: (formType: SwapFormType): 'fromChain' | 'toChain' =>
     `${formType}Chain`,
-  getTokenKey: (formType: SwapFormDirection): 'fromToken' | 'toToken' =>
+  getTokenKey: (formType: SwapFormType): 'fromToken' | 'toToken' =>
     `${formType}Token`,
-  getAmountKey: (formType: SwapFormDirection): 'fromAmount' | 'toAmount' =>
+  getAmountKey: (formType: SwapFormType): 'fromAmount' | 'toAmount' =>
     `${formType}Amount`,
 };
 
 export interface SwapFormTypeProps {
-  formType: SwapFormDirection;
+  formType: SwapFormType;
 }

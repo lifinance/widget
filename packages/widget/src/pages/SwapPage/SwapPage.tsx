@@ -28,7 +28,7 @@ export const SwapPage: React.FC = () => {
     deleteRoute();
   };
 
-  const handleSwapClick = () => {
+  const handleSwapClick = async () => {
     if (status === 'idle') {
       executeRoute();
       setValue(SwapFormKey.FromAmount, '');

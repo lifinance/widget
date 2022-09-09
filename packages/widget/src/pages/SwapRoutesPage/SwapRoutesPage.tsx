@@ -3,7 +3,7 @@ import type { Route } from '@lifi/sdk';
 import type { BoxProps } from '@mui/material';
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useSetHeaderAction } from '../../components/Header';
+import { useHeaderActionStore } from '../../components/Header';
 import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate';
 import {
   SwapRouteCard,
@@ -18,7 +18,6 @@ import { Stack } from './SwapRoutesPage.style';
 export const SwapRoutesPage: React.FC<BoxProps> = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const setHeaderAction = useSetHeaderAction();
   const {
     routes: swapRoutes,
     isLoading,
@@ -45,18 +44,20 @@ export const SwapRoutesPage: React.FC<BoxProps> = () => {
   }, []);
 
   useEffect(() => {
-    return setHeaderAction(
-      <ProgressToNextUpdate
-        updatedAt={dataUpdatedAt || new Date().getTime()}
-        timeToUpdate={refetchTime}
-        isLoading={isFetching}
-        onClick={() => refetch()}
-        sx={{ marginRight: -1 }}
-        size="medium"
-        edge="end"
-      />,
-    );
-  }, [dataUpdatedAt, isFetching, refetch, refetchTime, setHeaderAction]);
+    return useHeaderActionStore
+      .getState()
+      .setAction(
+        <ProgressToNextUpdate
+          updatedAt={dataUpdatedAt || new Date().getTime()}
+          timeToUpdate={refetchTime}
+          isLoading={isFetching}
+          onClick={() => refetch()}
+          sx={{ marginRight: -1 }}
+          size="medium"
+          edge="end"
+        />,
+      );
+  }, [dataUpdatedAt, isFetching, refetch, refetchTime]);
 
   const routeNotFound = !swapRoutes?.length && !isLoading && !isFetching;
 

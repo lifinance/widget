@@ -5,11 +5,11 @@ import { FormControl, MenuItem } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Card, CardTitle } from '../../components/Card';
 import { Select } from '../../components/Select';
-import { useSetSettings, useSettings } from '../../stores';
+import { useSettings, useSettingsStore } from '../../stores';
 
 export const RoutePrioritySelect: React.FC = () => {
   const { t } = useTranslation();
-  const [setValue] = useSetSettings();
+  const setValue = useSettingsStore((state) => state.setValue);
   const { routePriority } = useSettings(['routePriority']);
 
   return (

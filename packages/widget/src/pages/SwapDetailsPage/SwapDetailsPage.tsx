@@ -18,7 +18,7 @@ import { useLocation } from 'react-router-dom';
 import shallow from 'zustand/shallow';
 import { Card, CardTitle } from '../../components/Card';
 import { Dialog } from '../../components/Dialog';
-import { useSetHeaderAction } from '../../components/Header';
+import { useHeaderActionStore } from '../../components/Header';
 import { Step } from '../../components/Step';
 import { StepDivider } from '../../components/StepDivider';
 import { useNavigateBack } from '../../hooks';
@@ -28,7 +28,6 @@ import { Container } from './SwapDetailsPage.style';
 export const SwapDetailsPage: React.FC = () => {
   const { t } = useTranslation();
   const { navigateBack } = useNavigateBack();
-  const setHeaderAction = useSetHeaderAction();
   const { state }: any = useLocation();
   const [routeExecution, deleteRoute] = useRouteStore(
     (store) => [store.routes[state?.routeId], store.deleteRoute],
@@ -52,7 +51,7 @@ export const SwapDetailsPage: React.FC = () => {
   };
 
   useEffect(() => {
-    return setHeaderAction(
+    return useHeaderActionStore.getState().setAction(
       <IconButton
         size="medium"
         aria-label="settings"
@@ -62,7 +61,7 @@ export const SwapDetailsPage: React.FC = () => {
         <DeleteIcon />
       </IconButton>,
     );
-  }, [setHeaderAction, toggleDialog]);
+  }, [toggleDialog]);
 
   const startedAt = new Date(
     routeExecution?.route.steps[0].execution?.process[0].startedAt ?? 0,

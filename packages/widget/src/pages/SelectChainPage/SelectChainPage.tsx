@@ -3,7 +3,7 @@ import { Avatar, Container, List, ListItemAvatar } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { useChainSelect } from '../../components/ChainSelect';
 import { useNavigateBack } from '../../hooks';
-import type { SwapFormDirection, SwapFormTypeProps } from '../../providers';
+import type { SwapFormType, SwapFormTypeProps } from '../../providers';
 import { ListItemButton, ListItemText } from './SelectChainPage.style';
 
 export const SelectChainPage: React.FC<Partial<SwapFormTypeProps>> = ({
@@ -11,7 +11,7 @@ export const SelectChainPage: React.FC<Partial<SwapFormTypeProps>> = ({
 }) => {
   const { navigateBack } = useNavigateBack();
   const { state }: any = useLocation();
-  const formTypeState: SwapFormDirection = state?.formType || formType;
+  const formTypeState: SwapFormType = state?.formType || formType;
   const { chains, setCurrentChain } = useChainSelect(formTypeState);
 
   const handleClick = async (chainId: number) => {

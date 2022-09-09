@@ -1,19 +1,44 @@
 import { useQuery } from '@tanstack/react-query';
-import { useLiFi } from '../providers';
+import { isItemAllowed, useLiFi, useWidgetConfig } from '../providers';
 import type { Token } from '../types';
 import { useFeaturedTokens } from './useFeaturedTokens';
 
-export const useTokens = (selectedChainId: number) => {
+export const useTokens = (selectedChainId?: number) => {
   const lifi = useLiFi();
   const featuredTokens = useFeaturedTokens(selectedChainId);
-  const {
-    data: tokens,
-    isLoading,
-    isFetching,
-  } = useQuery(
-    ['tokens', selectedChainId, featuredTokens?.length],
+  const { tokens, chains, disabledChains } = useWidgetConfig();
+  const { data, isLoading, isFetching } = useQuery(
+    [
+      'tokens',
+      selectedChainId,
+      featuredTokens?.length,
+      tokens?.allow?.length,
+      tokens?.deny?.length,
+      chains?.allow?.length,
+      chains?.deny?.length,
+    ],
     async () => {
-      const data = await lifi.getTokens({ chains: [selectedChainId] });
+      const chainAllowed =
+        selectedChainId &&
+        isItemAllowed(selectedChainId, chains, disabledChains);
+      if (!chainAllowed) {
+        return [];
+      }
+      let filteredTokens = tokens?.allow?.filter(
+        (token) => token.chainId === selectedChainId,
+      );
+      if (!filteredTokens?.length) {
+        const data = await lifi.getTokens({ chains: [selectedChainId] });
+        filteredTokens = data.tokens?.[selectedChainId];
+      }
+      const deniedTokenAddresses = tokens?.deny
+        ?.filter((token) => token.chainId === selectedChainId)
+        .map((token) => token.address);
+      if (deniedTokenAddresses?.length) {
+        filteredTokens = filteredTokens?.filter(
+          (token) => !deniedTokenAddresses.includes(token.address),
+        );
+      }
       const featuredTokenAddresses = new Set(
         featuredTokens?.map((token) => token.address),
       );
@@ -22,14 +47,14 @@ export const useTokens = (selectedChainId: number) => {
           (token as Token).featured = true;
           return token;
         }) ?? []),
-        ...(data.tokens?.[selectedChainId].filter(
+        ...(filteredTokens?.filter(
           (token) => !featuredTokenAddresses.has(token.address),
         ) ?? []),
       ] as Token[];
     },
   );
   return {
-    tokens,
+    tokens: data,
     isLoading,
     isFetching,
   };

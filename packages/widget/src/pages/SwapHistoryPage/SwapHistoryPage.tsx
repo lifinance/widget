@@ -12,7 +12,7 @@ import {
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog } from '../../components/Dialog';
-import { useSetHeaderAction } from '../../components/Header';
+import { useHeaderActionStore } from '../../components/Header';
 import { useWallet } from '../../providers';
 import { useRouteStore } from '../../stores';
 import { useSwapHistory } from '../../stores/route';
@@ -24,7 +24,6 @@ export const SwapHistoryPage: React.FC = () => {
   const { account } = useWallet();
   const swaps = useSwapHistory(account.address);
   const deleteRoutes = useRouteStore((store) => store.deleteRoutes);
-  const setHeaderAction = useSetHeaderAction();
   const [open, setOpen] = useState(false);
 
   const toggleDialog = useCallback(() => {
@@ -32,7 +31,7 @@ export const SwapHistoryPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    return setHeaderAction(
+    return useHeaderActionStore.getState().setAction(
       <IconButton
         size="medium"
         aria-label="settings"
@@ -42,7 +41,7 @@ export const SwapHistoryPage: React.FC = () => {
         <DeleteIcon />
       </IconButton>,
     );
-  }, [setHeaderAction, toggleDialog]);
+  }, [toggleDialog]);
 
   if (!swaps.length) {
     return <SwapHistoryEmpty />;

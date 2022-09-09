@@ -2,11 +2,11 @@ import { Box, Typography } from '@mui/material';
 import type { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Switch } from '../../components/Switch';
-import { useSetSettings, useSettings } from '../../stores';
+import { useSettings, useSettingsStore } from '../../stores';
 
 export const ShowDestinationWallet = () => {
   const { t } = useTranslation();
-  const [setValue] = useSetSettings();
+  const setValue = useSettingsStore((state) => state.setValue);
   const { showDestinationWallet } = useSettings(['showDestinationWallet']);
 
   const onChange = (_: ChangeEvent<HTMLInputElement>, checked: boolean) => {

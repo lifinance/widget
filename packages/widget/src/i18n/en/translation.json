@@ -15,7 +15,6 @@
   },
   "button": {
     "connectWallet": "Connect wallet",
-    "switchChain": "Switch chain",
     "swap": "Swap",
     "reviewSwap": "Review swap",
     "startSwap": "Start swap",
@@ -92,8 +91,7 @@
         "routeNotFound": "Try another token combination.",
         "emptySwapHistory": "Swap history is only stored locally and will be deleted if you clear your browser data.",
         "emptyActiveSwaps": "Swaps in progress will appear here. Once completed, find them in swap history.",
-        "emptyTokenList": "We couldn't find tokens on {{chainName}} chain or you don't have any. Please try search again or choose another chain.",
-        "chainIsDisabled": "{{chainName}} chain is disabled. Please choose another chain."
+        "emptyTokenList": "We couldn't find tokens on {{chainName}} chain or you don't have any. Please try search again or choose another chain."
       }
     },
     "warning": {

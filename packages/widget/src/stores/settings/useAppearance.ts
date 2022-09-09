@@ -10,7 +10,8 @@ export const useAppearance = (): [
     (state) => [state.appearance, state.setValue],
     shallow,
   );
-  const setAppearance = (appearance: Appearance) =>
+  const setAppearance = (appearance: Appearance) => {
     setValue('appearance', appearance);
+  };
   return [appearance, setAppearance];
 };

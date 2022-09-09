@@ -18,7 +18,3 @@ export const useHeaderActionStore = create<HeaderActionStore>()(
     },
   })),
 );
-
-export const useSetHeaderAction = () => {
-  return useHeaderActionStore((state) => state.setAction);
-};

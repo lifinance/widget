@@ -2,26 +2,31 @@
 import type { Bridge, Exchange } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
-import { useLiFi } from '../providers';
+import { isItemAllowed, useLiFi, useWidgetConfig } from '../providers';
 import { useSettingsStore } from '../stores';
 
 type FormattedTool<T, K extends keyof T> = Record<string, Pick<T, K>>;
 
 export const useTools = () => {
   const lifi = useLiFi();
-  const initializeTools = useSettingsStore((state) => state.initializeTools);
+  const { bridges, exchanges } = useWidgetConfig();
   const { data } = useQuery(
     ['tools'],
     ({ signal }) => lifi.getTools(undefined, { signal }),
     {
       onSuccess(data) {
+        const { initializeTools } = useSettingsStore.getState();
         initializeTools(
           'Bridges',
-          data.bridges.map((bridge) => bridge.key),
+          data.bridges
+            .filter((bridge) => isItemAllowed(bridge.key, bridges))
+            .map((bridge) => bridge.key),
         );
         initializeTools(
           'Exchanges',
-          data.exchanges.map((exchange) => exchange.key),
+          data.exchanges
+            .filter((exchange) => isItemAllowed(exchange.key, exchanges))
+            .map((exchange) => exchange.key),
         );
       },
     },

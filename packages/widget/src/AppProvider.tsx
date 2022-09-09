@@ -31,13 +31,13 @@ export const AppProvider: React.FC<PropsWithChildren<AppProps>> = ({
       <WidgetProvider config={config}>
         <SDKProvider>
           <TelemetryProvider>
-            <WalletProvider>
+            <SwapFormProvider>
               <ThemeProvider>
-                <SwapFormProvider>
+                <WalletProvider>
                   <AppRouter>{children}</AppRouter>
-                </SwapFormProvider>
+                </WalletProvider>
               </ThemeProvider>
-            </WalletProvider>
+            </SwapFormProvider>
           </TelemetryProvider>
         </SDKProvider>
       </WidgetProvider>

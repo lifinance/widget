@@ -2,13 +2,13 @@ import { Box, Typography } from '@mui/material';
 import type { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Switch } from '../../components/Switch';
-import { useSetSettings, useSettings } from '../../stores';
+import { useSettings, useSettingsStore } from '../../stores';
 import { EnabledBridgesSelect } from './EnabledBridgesSelect';
 import { EnabledExchangesSelect } from './EnabledExchangesSelect';
 
 export const AdvancedPreferences = () => {
   const { t } = useTranslation();
-  const [setValue] = useSetSettings();
+  const setValue = useSettingsStore((state) => state.setValue);
   const { advancedPreferences } = useSettings(['advancedPreferences']);
 
   const handleAdvancedPreferences = (

@@ -8,10 +8,10 @@ export const maxChainToOrder = 9;
 
 export const useChainOrderStore = create<ChainOrderStore>()(
   persist(
-    immer((set) => ({
+    immer((set, get) => ({
       chainOrder: [],
       availableChains: [],
-      initializeChains: (chainIds: number[]) =>
+      initializeChains: (chainIds: number[]) => {
         set((state: ChainOrderState) => {
           state.availableChains = chainIds;
           state.chainOrder = state.chainOrder.filter((chainId) =>
@@ -30,7 +30,9 @@ export const useChainOrderStore = create<ChainOrderStore>()(
           for (let index = 0; index < chainsToAddLength; index++) {
             state.chainOrder.push(chainsToAdd[index]);
           }
-        }),
+        });
+        return get().chainOrder;
+      },
       setChain: (chainId: number) =>
         set((state: ChainOrderState) => {
           if (

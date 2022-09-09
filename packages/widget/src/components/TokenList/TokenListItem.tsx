@@ -86,7 +86,7 @@ export const TokenListItemSkeleton = () => {
           variant="circular"
           width={32}
           height={32}
-          sx={{ marginLeft: 2, marginRight: 2 }}
+          sx={{ marginLeft: 1.5, marginRight: 2 }}
         />
       </ListItemAvatar>
       <ListItemText

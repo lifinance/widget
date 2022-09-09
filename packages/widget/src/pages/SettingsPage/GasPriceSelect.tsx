@@ -3,11 +3,11 @@ import { FormControl, MenuItem } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Card, CardTitle } from '../../components/Card';
 import { Select } from '../../components/Select';
-import { useSetSettings, useSettings } from '../../stores';
+import { useSettings, useSettingsStore } from '../../stores';
 
 export const GasPriceSelect = () => {
   const { t } = useTranslation();
-  const [setValue] = useSetSettings();
+  const setValue = useSettingsStore((state) => state.setValue);
   const { gasPrice } = useSettings(['gasPrice']);
 
   return (
