@@ -27,9 +27,7 @@ export const MainSwapButton: React.FC = () => {
     <SwapButton
       onClick={handleClick}
       currentRoute={currentRoute}
-      disable={
-        isLoading || isFetching || !currentRoute || isValidating || !isValid
-      }
+      disable={isLoading || isFetching || isValidating || !isValid}
     />
   );
 };
