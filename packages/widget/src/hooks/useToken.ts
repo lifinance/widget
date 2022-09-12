@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useTokens } from './useTokens';
 
 export const useToken = (chainId: number, tokenAddress: string) => {
-  const { tokens, isLoading, isFetching } = useTokens(chainId);
+  const { tokens, isLoading } = useTokens(chainId);
 
   const token = useMemo(() => {
     const token = tokens?.find(
@@ -14,6 +14,5 @@ export const useToken = (chainId: number, tokenAddress: string) => {
   return {
     token,
     isLoading,
-    isFetching,
   };
 };

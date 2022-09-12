@@ -14,7 +14,6 @@ export const GasSufficiencyMessage: React.FC<{ route?: Route } & BoxProps> = ({
 }) => {
   const { t } = useTranslation();
   const { insufficientFunds, insufficientGas } = useGasSufficiency(route);
-  console.log(insufficientFunds);
 
   if (!insufficientFunds && !insufficientGas?.length) {
     return null;

@@ -7,7 +7,7 @@ export const useTokens = (selectedChainId?: number) => {
   const lifi = useLiFi();
   const featuredTokens = useFeaturedTokens(selectedChainId);
   const { tokens, chains, disabledChains } = useWidgetConfig();
-  const { data, isLoading, isFetching } = useQuery(
+  const { data, isLoading } = useQuery(
     [
       'tokens',
       selectedChainId,
@@ -56,6 +56,5 @@ export const useTokens = (selectedChainId?: number) => {
   return {
     tokens: data,
     isLoading,
-    isFetching,
   };
 };
