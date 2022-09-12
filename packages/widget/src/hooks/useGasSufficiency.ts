@@ -40,6 +40,7 @@ export const useGasSufficiency = (route?: Route) => {
 
   const checkInsufficientGas = useCallback(async () => {
     if (!account.isActive || !route || !fromAmount) {
+      setInsufficientGas(undefined);
       return;
     }
 
@@ -82,6 +83,7 @@ export const useGasSufficiency = (route?: Route) => {
     );
 
     if (!tokenBalances?.length) {
+      setInsufficientGas(undefined);
       return;
     }
 
