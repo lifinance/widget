@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.17.0](https://github.com/lifinance/widget/compare/v1.16.1...v1.17.0) (2022-09-12)
+
+
+### Features
+
+* add bridges, exchanges, tokens and chains config options ([457ffb7](https://github.com/lifinance/widget/commit/457ffb7a77c06e0cf22c3e57321529963507e111))
+
 ### [1.16.1](https://github.com/lifinance/widget/compare/v1.16.0...v1.16.1) (2022-09-06)
 
 
