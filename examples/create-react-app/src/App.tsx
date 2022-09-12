@@ -1,4 +1,5 @@
 import { LiFiWidget } from '@lifi/widget';
+import './App.css';
 
 function App() {
   return (
