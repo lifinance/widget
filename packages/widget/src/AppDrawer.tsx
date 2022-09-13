@@ -18,19 +18,19 @@ import { DrawerButton, DrawerButtonTypography } from './AppDrawer.style';
 import { AppProvider } from './AppProvider';
 import type { WidgetConfig } from './types';
 
-export type AppDrawerProps = DrawerProps & {
+export type WidgetDrawerProps = DrawerProps & {
   elementRef?: RefObject<HTMLDivElement>;
   config?: WidgetConfig;
 };
 
-export interface AppDrawerBase {
+export interface WidgetDrawer {
   isOpen(): void;
   toggleDrawer(): void;
   openDrawer(): void;
   closeDrawer(): void;
 }
 
-export const AppDrawer = forwardRef<AppDrawerBase, AppDrawerProps>(
+export const AppDrawer = forwardRef<WidgetDrawer, WidgetDrawerProps>(
   ({ elementRef, open, config }, ref) => {
     const { t } = useTranslation();
     const openRef = useRef(open);
