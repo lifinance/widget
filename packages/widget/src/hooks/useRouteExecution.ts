@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import shallow from 'zustand/shallow';
 import { useLiFi, useWallet } from '../providers';
 import {
+  getUpdatedProcess,
   isRouteActive,
   isRouteCompleted,
   isRouteFailed,
@@ -28,15 +29,29 @@ export const useRouteExecution = (
   );
 
   const updateCallback = (updatedRoute: Route) => {
+    const routeExecution = useRouteStore.getState().routes[updatedRoute.id];
+    if (!routeExecution) {
+      return;
+    }
     const clonedUpdatedRoute = deepClone(updatedRoute);
-    console.log('Route updated.', clonedUpdatedRoute);
     updateRoute(clonedUpdatedRoute);
+    const process = getUpdatedProcess(routeExecution.route, clonedUpdatedRoute);
+    if (process) {
+      emitter.emit(WidgetEvent.RouteExecutionUpdated, {
+        route: clonedUpdatedRoute,
+        process,
+      });
+    }
     if (isRouteCompleted(clonedUpdatedRoute)) {
-      emitter.emit(WidgetEvent.SwapCompleted);
+      emitter.emit(WidgetEvent.RouteExecutionCompleted, clonedUpdatedRoute);
     }
-    if (isRouteFailed(clonedUpdatedRoute)) {
-      emitter.emit(WidgetEvent.SwapFailed);
+    if (isRouteFailed(clonedUpdatedRoute) && process) {
+      emitter.emit(WidgetEvent.RouteExecutionFailed, {
+        route: clonedUpdatedRoute,
+        process,
+      });
     }
+    console.log('Route updated.', clonedUpdatedRoute);
   };
 
   const switchChainHook = async (requiredChainId: number) => {
@@ -71,7 +86,9 @@ export const useRouteExecution = (
     {
       onMutate: () => {
         console.log('Execution started.', routeId);
-        emitter.emit(WidgetEvent.SwapStarted);
+        if (routeExecution) {
+          emitter.emit(WidgetEvent.RouteExecutionStarted, routeExecution.route);
+        }
       },
     },
   );
