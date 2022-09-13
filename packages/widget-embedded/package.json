@@ -30,6 +30,7 @@
     "@mui/lab": "^5.0.0-alpha.99",
     "@mui/material": "^5.10.5",
     "ethers": "^5.7.0",
+    "events": "^3.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
