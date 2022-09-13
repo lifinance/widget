@@ -25,5 +25,5 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          SOURCE: 'packages/widget-embedded/build/' # optional, default is
+          SOURCE: 'packages/widget-embedded/dist/' # optional, default is
           TARGET: ${{ secrets.REMOTE_TARGET }}/test/web-testing # optional, default is /home/REMOTE_USER/

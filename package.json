@@ -3,7 +3,6 @@
   "private": true,
   "sideEffects": false,
   "workspaces": [
-    "libs/*",
     "packages/*"
   ],
   "scripts": {
