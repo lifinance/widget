@@ -1,6 +1,6 @@
 import { LiFiWidget } from '@lifi/widget';
 
-function App() {
+export function App() {
   return (
     <LiFiWidget
       config={{
@@ -16,5 +16,3 @@ function App() {
     />
   );
 }
-
-export default App;
