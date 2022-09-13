@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.17.1](https://github.com/lifinance/widget/compare/v1.17.0...v1.17.1) (2022-09-13)
+
+
+### Bug Fixes
+
+* add chain check to find correct token balance ([cff5de2](https://github.com/lifinance/widget/commit/cff5de2aa931e366a6ea29a8f5f37cfa773f6106))
+* reset insufficient gas check ([4afe42a](https://github.com/lifinance/widget/commit/4afe42ac63780611379894b7588129b1bbcc3609))
+
 ## [1.17.0](https://github.com/lifinance/widget/compare/v1.16.1...v1.17.0) (2022-09-12)
 
 
