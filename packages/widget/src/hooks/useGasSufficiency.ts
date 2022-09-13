@@ -91,7 +91,9 @@ export const useGasSufficiency = (route?: Route) => {
       if (gasCosts[chainId]) {
         const gasTokenBalance = Big(
           tokenBalances?.find(
-            (t) => t.address === gasCosts[chainId].token.address,
+            (t) =>
+              t.chainId === gasCosts[chainId].token.chainId &&
+              t.address === gasCosts[chainId].token.address,
           )?.amount ?? 0,
         );
 
