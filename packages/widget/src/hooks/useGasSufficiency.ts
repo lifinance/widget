@@ -54,8 +54,7 @@ export const useGasSufficiency = (route?: Route) => {
     }, {} as Record<number, GasSufficiency>);
 
     if (
-      gasCosts[route.fromChainId] &&
-      route.fromToken.address === gasCosts[route.fromChainId].token.address
+      route.fromToken.address === gasCosts[route.fromChainId]?.token.address
     ) {
       gasCosts[route.fromChainId].tokenAmount = gasCosts[
         route.fromChainId
