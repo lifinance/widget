@@ -10,7 +10,7 @@ import { useTokens } from './useTokens';
 const defaultRefetchInterval = 60_000;
 const minRefetchInterval = 1000;
 
-export const useTokenBalances = (selectedChainId: number) => {
+export const useTokenBalances = (selectedChainId?: number) => {
   const lifi = useLiFi();
   const { account } = useWallet();
   const featuredTokens = useFeaturedTokens(selectedChainId);
@@ -20,7 +20,9 @@ export const useTokenBalances = (selectedChainId: number) => {
   );
 
   const isBalanceLoadingEnabled =
-    Boolean(account.address) && Boolean(tokens?.length);
+    Boolean(account.address) &&
+    Boolean(tokens?.length) &&
+    Boolean(selectedChainId);
 
   const {
     data: tokensWithBalance,

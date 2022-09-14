@@ -1,14 +1,8 @@
 import type { EVMChain, Route, Token } from '@lifi/sdk';
 import Big from 'big.js';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useWatch } from 'react-hook-form';
-import { useChains, useDebouncedWatch } from '.';
-import {
-  SwapFormKey,
-  SwapFormKeyHelper,
-  useLiFi,
-  useWallet,
-} from '../providers';
+import { useChains } from '.';
+import { useLiFi, useWallet } from '../providers';
 import { useTokenBalances } from './useTokenBalances';
 
 interface GasSufficiency {
@@ -23,27 +17,18 @@ interface GasSufficiency {
 export const useGasSufficiency = (route?: Route) => {
   const lifi = useLiFi();
   const { account } = useWallet();
-  const [fromChainId, toChainId, fromToken]: [number, number, string] =
-    useWatch({
-      name: [
-        SwapFormKeyHelper.getChainKey('from'),
-        SwapFormKeyHelper.getChainKey('to'),
-        SwapFormKey.FromToken,
-      ],
-    });
 
-  const fromAmount = useDebouncedWatch(SwapFormKey.FromAmount, 250);
   const { getChainById } = useChains();
-  const { tokensWithBalance: fromChainTokenBalances } =
-    useTokenBalances(fromChainId);
+  const { tokensWithBalance: fromChainTokenBalances } = useTokenBalances(
+    route?.fromChainId,
+  );
   const [insufficientGas, setInsufficientGas] = useState<GasSufficiency[]>();
 
   const checkInsufficientGas = useCallback(async () => {
-    if (!account.isActive || !route || !fromAmount) {
+    if (!account.isActive || !route) {
       setInsufficientGas(undefined);
       return;
     }
-
     const gasCosts = route.steps.reduce((groupedGasCosts, step) => {
       if (step.estimate.gasCosts) {
         const { token } = step.estimate.gasCosts[0];
@@ -69,11 +54,13 @@ export const useGasSufficiency = (route?: Route) => {
     }, {} as Record<number, GasSufficiency>);
 
     if (
-      gasCosts[fromChainId] &&
-      route.fromToken.address === gasCosts[fromChainId].token.address
+      gasCosts[route.fromChainId] &&
+      route.fromToken.address === gasCosts[route.fromChainId].token.address
     ) {
-      gasCosts[fromChainId].tokenAmount = gasCosts[fromChainId]?.gasAmount.plus(
-        Big(fromAmount),
+      gasCosts[route.fromChainId].tokenAmount = gasCosts[
+        route.fromChainId
+      ]?.gasAmount.plus(
+        Big(route.fromAmount).div(10 ** route.fromToken.decimals),
       );
     }
 
@@ -87,7 +74,7 @@ export const useGasSufficiency = (route?: Route) => {
       return;
     }
 
-    [fromChainId, toChainId].forEach((chainId) => {
+    [route.fromChainId, route.toChainId].forEach((chainId) => {
       if (gasCosts[chainId]) {
         const gasTokenBalance = Big(
           tokenBalances?.find(
@@ -120,31 +107,21 @@ export const useGasSufficiency = (route?: Route) => {
     );
 
     setInsufficientGas(gasCostResult);
-  }, [
-    account.address,
-    account.isActive,
-    fromAmount,
-    fromChainId,
-    getChainById,
-    lifi,
-    route,
-    toChainId,
-  ]);
+  }, [account.address, account.isActive, getChainById, lifi, route]);
 
   const insufficientFunds = useMemo(() => {
-    if (
-      !account.isActive ||
-      !fromToken ||
-      !fromAmount ||
-      !fromChainTokenBalances
-    ) {
+    if (!account.isActive || !fromChainTokenBalances || !route) {
       return false;
     }
     const balance = Big(
-      fromChainTokenBalances?.find((t) => t.address === fromToken)?.amount ?? 0,
+      fromChainTokenBalances?.find(
+        (t) => t.address === route?.fromToken.address,
+      )?.amount ?? 0,
     );
-    return Big(fromAmount).gt(balance);
-  }, [account.isActive, fromAmount, fromChainTokenBalances, fromToken]);
+    return Big(route.fromAmount)
+      .div(10 ** route.fromToken.decimals)
+      .gt(balance);
+  }, [account.isActive, fromChainTokenBalances, route]);
 
   useEffect(() => {
     checkInsufficientGas();

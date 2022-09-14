@@ -48,7 +48,11 @@ export const TokenList: FC<TokenListProps> = ({
       )
     : filteredTokens;
 
-  const tokenSearchEnabled = !filteredTokens.length && !isTokensLoading;
+  const tokenSearchEnabled =
+    !isTokensLoading &&
+    !!filteredTokens.length &&
+    !!tokenSearchFilter &&
+    !!selectedChainId;
 
   const { token: searchedToken, isLoading: isSearchedTokenLoading } =
     useTokenSearch(tokenSearchFilter, selectedChainId, tokenSearchEnabled);
