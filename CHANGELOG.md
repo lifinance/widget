@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.17.2](https://github.com/lifinance/widget/compare/v1.17.1...v1.17.2) (2022-09-14)
+
+
+### Bug Fixes
+
+* navigate to home page if no routes are found on a page ([4f22c8c](https://github.com/lifinance/widget/commit/4f22c8c65c695c15f61dcce8d1c727c606f551bb))
+* only check route data for gas sufficiency ([d2b08be](https://github.com/lifinance/widget/commit/d2b08be94b99841fde302cc2908d57ef4fda8895))
+
 ### [1.17.1](https://github.com/lifinance/widget/compare/v1.17.0...v1.17.1) (2022-09-13)
 
 
