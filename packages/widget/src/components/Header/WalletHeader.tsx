@@ -1,6 +1,6 @@
 import {
-  AccountBalanceWalletOutlined as AccountBalanceWalletIcon,
   Logout as LogoutIcon,
+  WalletOutlined as WalletOutlinedIcon,
 } from '@mui/icons-material';
 import { Box, IconButton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -85,7 +85,7 @@ const ConnectButton = () => {
         !pathname.includes(navigationRoutes.selectWallet) ? connect : undefined
       }
     >
-      <AccountBalanceWalletIcon />
+      <WalletOutlinedIcon />
     </IconButton>
   );
 };

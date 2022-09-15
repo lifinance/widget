@@ -1,17 +1,19 @@
 import { isAddress } from '@ethersproject/address';
 import type { BoxProps } from '@mui/material';
-import { FormHelperText } from '@mui/material';
-import { useEffect } from 'react';
+import { Collapse, FormHelperText } from '@mui/material';
+import { forwardRef, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { SwapFormKey, useWallet } from '../../providers';
-import { useSettings } from '../../stores';
 import { Card, CardTitle } from '../Card';
 import { FormControl, Input } from './SendToWallet.style';
+import { useSendToWalletStore } from './store';
 
-export const SendToWallet: React.FC<BoxProps> = (props) => {
+export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
   const { t } = useTranslation();
-  const { showDestinationWallet } = useSettings(['showDestinationWallet']);
+  const showSendToWallet = useSendToWalletStore(
+    (state) => state.showSendToWallet,
+  );
   const { account, provider } = useWallet();
   const {
     register,
@@ -23,11 +25,12 @@ export const SendToWallet: React.FC<BoxProps> = (props) => {
     trigger(SwapFormKey.ToAddress);
   }, [account.chainId, trigger]);
 
-  if (!showDestinationWallet) {
-    return null;
-  }
-
-  const { onChange, onBlur, name, ref } = register(SwapFormKey.ToAddress, {
+  const {
+    onChange,
+    onBlur,
+    name,
+    ref: inputRef,
+  } = register(SwapFormKey.ToAddress, {
     validate: async (value: string) => {
       try {
         if (!value) {
@@ -46,25 +49,27 @@ export const SendToWallet: React.FC<BoxProps> = (props) => {
   });
 
   return (
-    <Card {...props}>
-      <CardTitle>{t('swap.sendToWallet')}</CardTitle>
-      <FormControl fullWidth>
-        <Input
-          ref={ref}
-          size="small"
-          autoComplete="off"
-          autoCorrect="off"
-          autoCapitalize="off"
-          spellCheck="false"
-          onChange={onChange}
-          onBlur={onBlur}
-          name={name}
-          placeholder={t('swap.walletAddressOrEns')}
-        />
-        <FormHelperText error={!!errors.toAddress}>
-          {errors.toAddress?.message as string}
-        </FormHelperText>
-      </FormControl>
-    </Card>
+    <Collapse timeout={225} in={showSendToWallet}>
+      <Card {...props} ref={ref}>
+        <CardTitle>{t('swap.sendToWallet')}</CardTitle>
+        <FormControl fullWidth sx={{ paddingTop: '6px', paddingBottom: '5px' }}>
+          <Input
+            ref={inputRef}
+            size="small"
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck="false"
+            onChange={onChange}
+            onBlur={onBlur}
+            name={name}
+            placeholder={t('swap.walletAddressOrEns')}
+          />
+          <FormHelperText error={!!errors.toAddress}>
+            {errors.toAddress?.message as string}
+          </FormHelperText>
+        </FormControl>
+      </Card>
+    </Collapse>
   );
-};
+});
