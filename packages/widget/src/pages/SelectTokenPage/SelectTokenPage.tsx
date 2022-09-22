@@ -11,15 +11,22 @@ import {
 import type { SwapFormTypeProps } from '../../providers';
 import { SearchTokenInput } from './SearchTokenInput';
 
+const minTokenListHeight = 330;
+
 export const SelectTokenPage: FC<SwapFormTypeProps> = ({ formType }) => {
   useScrollableOverflowHidden();
   const { navigateBack } = useNavigateBack();
   const headerRef = useRef<HTMLElement>(null);
   const contentHeight = useContentHeight();
-  const [headerHeight, setHeaderHeight] = useState(0);
+  const [tokenListHeight, setTokenListHeight] = useState(0);
 
   useLayoutEffect(() => {
-    setHeaderHeight(contentHeight - (headerRef.current?.offsetHeight ?? 0));
+    setTokenListHeight(
+      Math.max(
+        contentHeight - (headerRef.current?.offsetHeight ?? 0),
+        minTokenListHeight,
+      ),
+    );
   }, [contentHeight]);
 
   return (
@@ -31,7 +38,7 @@ export const SelectTokenPage: FC<SwapFormTypeProps> = ({ formType }) => {
         </Box>
       </Box>
       <TokenList
-        height={headerHeight}
+        height={tokenListHeight}
         onClick={navigateBack}
         formType={formType}
       />
