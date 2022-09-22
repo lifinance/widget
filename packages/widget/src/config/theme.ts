@@ -70,6 +70,19 @@ const palette = {
   },
 };
 
+const paletteLight = {
+  text: {
+    primary: '#000000',
+    secondary: '#747474',
+  },
+};
+
+const paletteDark = {
+  background: {
+    paper: '#212121',
+  },
+};
+
 const shape = {
   borderRadius: 12,
   borderRadiusSecondary: 6,
@@ -117,27 +130,7 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
           0.2,
         ),
       },
-      ...(mode === 'light'
-        ? {
-            text: {
-              primary: '#000',
-              secondary: '#52575b',
-            },
-            grey: {
-              100: '#F4F5F6',
-              200: '#EFF1F2',
-              300: '#E3E7E9',
-              400: '#C6C9CD',
-              500: '#AEB3B7',
-              600: '#798086',
-              700: '#57595C',
-            },
-          }
-        : {
-            background: {
-              paper: '#212121',
-            },
-          }),
+      ...(mode === 'light' ? paletteLight : paletteDark),
     },
     shape: {
       ...shape,
@@ -184,6 +177,12 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
               pointerEvents: 'auto',
             },
           },
+          text: {
+            backgroundColor: alpha(primaryMainColor, 0.08),
+            '&:hover': {
+              backgroundColor: alpha(primaryMainColor, 0.12),
+            },
+          },
           contained: {
             '&:hover': {
               color:
@@ -209,10 +208,13 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
                   },
                 },
                 text: {
-                  color: primaryLightColor,
+                  backgroundColor: paletteDark.background.paper,
+                  color: common.white,
                   '&:hover': {
-                    backgroundColor: alpha(primaryLightColor, 0.08),
-                    borderColor: primaryLightColor,
+                    backgroundColor: lighten(
+                      paletteDark.background.paper,
+                      0.02,
+                    ),
                   },
                 },
               }

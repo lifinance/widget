@@ -1,3 +1,4 @@
+import { Delete as DeleteIcon } from '@mui/icons-material';
 import { Box, Button } from '@mui/material';
 import { Fragment } from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -77,20 +78,24 @@ export const SwapPage: React.FC = () => {
         <GasSufficiencyMessage route={route} mt={2} />
       ) : null}
       {status === 'idle' || status === 'error' ? (
-        <Box mt={2}>
+        <Box mt={2} display="flex">
           <SwapButton
             text={getSwapButtonText()}
             onClick={handleSwapClick}
             currentRoute={route}
             disable={status === 'idle' && (isValidating || !isValid)}
           />
-        </Box>
-      ) : null}
-      {status === 'error' ? (
-        <Box mt={2}>
-          <Button variant="outlined" onClick={handleRemoveRoute} fullWidth>
-            {t('button.removeSwap')}
-          </Button>
+          {status === 'error' ? (
+            <Button
+              onClick={handleRemoveRoute}
+              sx={{
+                minWidth: 48,
+                marginLeft: 1,
+              }}
+            >
+              <DeleteIcon />
+            </Button>
+          ) : null}
         </Box>
       ) : null}
       {route && status ? (

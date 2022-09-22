@@ -9,9 +9,7 @@ export const SendToWalletButton: React.FC = () => {
   const { t } = useTranslation();
   const { account } = useWallet();
   const { showDestinationWallet } = useSettings(['showDestinationWallet']);
-  const toggleSendToWallet = useSendToWalletStore(
-    (state) => state.toggleSendToWallet,
-  );
+  const { showSendToWallet, toggleSendToWallet } = useSendToWalletStore();
 
   if (!showDestinationWallet || !account.isActive) {
     return null;
@@ -26,7 +24,7 @@ export const SendToWalletButton: React.FC = () => {
       arrow
     >
       <Button
-        variant="contained"
+        variant={showSendToWallet ? 'contained' : 'text'}
         onClick={toggleSendToWallet}
         sx={{
           minWidth: 48,
