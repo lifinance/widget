@@ -22,7 +22,11 @@ export const NavigationHeader: React.FC = () => {
   const { account } = useWallet();
   const { element } = useHeaderActionStore();
   const { pathname } = useLocation();
-  const path = pathname.substring(pathname.lastIndexOf('/') + 1);
+
+  const cleanedPathname = pathname.endsWith('/')
+    ? pathname.slice(0, -1)
+    : pathname;
+  const path = cleanedPathname.substring(cleanedPathname.lastIndexOf('/') + 1);
   const hasPath = navigationRoutesValues.includes(path);
 
   const handleHeaderTitle = () => {
