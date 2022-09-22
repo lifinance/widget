@@ -9,6 +9,7 @@ export const widgetDrawerConfig: WidgetConfig = {
   // fromAmount: '10',
   // disableColorSchemes: true,
   disableTelemetry: true,
+  // expandableRoutesView: true,
   integrator: 'li.fi-playground',
   disabledChains: [],
   chains: {
@@ -91,15 +92,12 @@ export const widgetDrawerConfig: WidgetConfig = {
 export const widgetConfig: WidgetConfig = {
   ...widgetDrawerConfig,
   containerStyle: {
-    width: 392,
-    height: 640,
-    border: `1px solid ${
-      window.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'rgb(66, 66, 66)'
-        : 'rgb(234, 234, 234)'
-    }`,
+    // border: `1px solid ${
+    //   window.matchMedia('(prefers-color-scheme: dark)').matches
+    //     ? 'rgb(66, 66, 66)'
+    //     : 'rgb(234, 234, 234)'
+    // }`,
+    boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
     borderRadius: '16px',
-    display: 'flex',
-    maxWidth: 392,
   },
 };

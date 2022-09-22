@@ -4,6 +4,8 @@ import type { TypographyOptions } from '@mui/material/styles/createTypography';
 import type { Signer } from 'ethers';
 import type { CSSProperties } from 'react';
 
+export type WidgetVariant = 'default' | 'expandable' | 'drawer';
+
 export type Appearance = PaletteMode | 'auto';
 export type ThemeConfig = {
   palette?: Pick<PaletteOptions, 'primary' | 'secondary'>;
@@ -41,6 +43,8 @@ export interface WidgetConfig {
   featuredTokens?: Token[];
 
   integrator?: string;
+
+  variant?: WidgetVariant;
 
   walletManagement?: WidgetWalletManagement;
   sdkConfig?: ConfigUpdate;

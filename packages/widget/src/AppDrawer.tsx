@@ -9,6 +9,7 @@ import {
   forwardRef,
   useCallback,
   useImperativeHandle,
+  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -59,8 +60,16 @@ export const AppDrawer = forwardRef<WidgetDrawer, WidgetDrawerProps>(
       [closeDrawer, openDrawer, toggleDrawer],
     );
 
+    const drawerConfig: WidgetConfig = useMemo(
+      () => ({
+        ...config,
+        variant: 'drawer',
+      }),
+      [config],
+    );
+
     return (
-      <AppProvider config={config}>
+      <AppProvider config={drawerConfig}>
         <DrawerButton
           variant="contained"
           onClick={toggleDrawer}

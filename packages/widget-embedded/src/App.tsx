@@ -48,8 +48,9 @@ export const App = () => {
   const [borderRadiusSecondary, setBorderRadiusSecondary] = useState(6);
   const [primary, setPrimaryColor] = useState('#3F49E1');
   const [secondary, setSecondaryColor] = useState('#F5B5FF');
-  const [darkMode, setDarkMode] = useState(prefersDarkMode);
 
+  const [expandableRoutesView, setExpandableRoutesView] = useState(false);
+  const [darkMode, setDarkMode] = useState(prefersDarkMode);
   const [systemColor, setSystemColor] = useState(true);
   const [theme, setTheme] = useState(() =>
     createTheme({
@@ -78,11 +79,11 @@ export const App = () => {
             appearance: systemColor ? 'auto' : darkMode ? 'dark' : 'light',
             containerStyle: {
               ...widgetConfig.containerStyle,
-              border: `1px solid ${
-                (systemColor && prefersDarkMode) || darkMode
-                  ? 'rgb(66, 66, 66)'
-                  : 'rgb(234, 234, 234)'
-              }`,
+              // border: `1px solid ${
+              //   (systemColor && prefersDarkMode) || darkMode
+              //     ? 'rgb(66, 66, 66)'
+              //     : 'rgb(234, 234, 234)'
+              // }`,
             },
           }),
       theme: {
@@ -102,12 +103,14 @@ export const App = () => {
           fontFamily,
         },
       },
+      expandableRoutesView,
     }));
   }, [
     borderRadius,
     borderRadiusSecondary,
     darkMode,
     drawer,
+    expandableRoutesView,
     fontFamily,
     prefersDarkMode,
     primary,
@@ -196,13 +199,13 @@ export const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ display: 'flex' }}>
+      <Box display="flex" height="100vh">
         <CssBaseline />
         <Drawer
           sx={{
-            width: 320,
+            width: 288,
             '& .MuiDrawer-paper': {
-              width: 320,
+              width: 288,
               boxSizing: 'border-box',
             },
           }}
@@ -238,6 +241,19 @@ export const App = () => {
                 label="Enable external wallet management"
               />
               {externalWallerManagement && <WalletButtons />}
+            </Box>
+            <Box px={1} flex={1}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={expandableRoutesView}
+                    onChange={() =>
+                      setExpandableRoutesView((expand) => !expand)
+                    }
+                  />
+                }
+                label="Expandable routes view"
+              />
             </Box>
             <Box p={1} flex={1}>
               <FormControlLabel
@@ -324,11 +340,11 @@ export const App = () => {
         </Drawer>
         <Box
           sx={{
-            height: '100vh',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
             flex: 1,
+            margin: 'auto',
           }}
         >
           {drawer ? (
