@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.18.1](https://github.com/lifinance/widget/compare/v1.18.0...v1.18.1) (2022-09-23)
+
+
+### Bug Fixes
+
+* remove show all button background ([9990fcc](https://github.com/lifinance/widget/commit/9990fcc12a1ec75ee1149e83bcef4009d377dfa0))
+
 ## [1.18.0](https://github.com/lifinance/widget/compare/v1.17.2...v1.18.0) (2022-09-23)
 
 
