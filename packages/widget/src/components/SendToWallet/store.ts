@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import create from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import type { SendToWalletStore } from './types';

@@ -9,7 +9,7 @@ export const widgetDrawerConfig: WidgetConfig = {
   // fromAmount: '10',
   // disableColorSchemes: true,
   disableTelemetry: true,
-  // expandableRoutesView: true,
+  variant: 'expandable',
   integrator: 'li.fi-playground',
   disabledChains: [],
   chains: {

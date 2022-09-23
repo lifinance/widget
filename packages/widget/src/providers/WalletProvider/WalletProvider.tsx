@@ -17,7 +17,7 @@ import {
   useState,
 } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { useChainOrderStore } from '../../stores/chains';
+import { useChainOrderStore } from '../../stores';
 import { SwapFormKey } from '../SwapFormProvider';
 import { isItemAllowed, useWidgetConfig } from '../WidgetProvider';
 import type { WalletAccount, WalletContextProps } from './types';

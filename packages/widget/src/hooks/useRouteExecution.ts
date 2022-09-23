@@ -8,7 +8,7 @@ import {
   isRouteActive,
   isRouteCompleted,
   isRouteFailed,
-  useRouteStore,
+  useRouteExecutionStore,
 } from '../stores';
 import { WidgetEvent } from '../types/events';
 import { deepClone } from '../utils';
@@ -22,14 +22,17 @@ export const useRouteExecution = (
   const { account, switchChain } = useWallet();
   const resumedAfterMount = useRef(false);
   const emitter = useWidgetEvents();
-  const routeExecution = useRouteStore((state) => state.routes[routeId]);
-  const [updateRoute, restartRoute, deleteRoute] = useRouteStore(
+  const routeExecution = useRouteExecutionStore(
+    (state) => state.routes[routeId],
+  );
+  const [updateRoute, restartRoute, deleteRoute] = useRouteExecutionStore(
     (state) => [state.updateRoute, state.restartRoute, state.deleteRoute],
     shallow,
   );
 
   const updateCallback = (updatedRoute: Route) => {
-    const routeExecution = useRouteStore.getState().routes[updatedRoute.id];
+    const routeExecution =
+      useRouteExecutionStore.getState().routes[updatedRoute.id];
     if (!routeExecution) {
       return;
     }
@@ -173,7 +176,7 @@ export const useRouteExecution = (
 
   useEffect(() => {
     return () => {
-      const route = useRouteStore.getState().routes[routeId]?.route;
+      const route = useRouteExecutionStore.getState().routes[routeId]?.route;
       if (!route || !isRouteActive(route)) {
         return;
       }

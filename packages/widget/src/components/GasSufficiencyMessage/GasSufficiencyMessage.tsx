@@ -1,10 +1,10 @@
-/* eslint-disable react/no-array-index-key */
 import type { Route } from '@lifi/sdk';
 import { WarningAmber as WarningIcon } from '@mui/icons-material';
 import type { BoxProps } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useGasSufficiency } from '../../hooks';
+import { useSelectedRouteStore } from '../../stores';
 import { CardTitle } from '../Card';
 import { MessageCard } from './GasSufficiencyMessage.style';
 
@@ -13,7 +13,10 @@ export const GasSufficiencyMessage: React.FC<{ route?: Route } & BoxProps> = ({
   ...props
 }) => {
   const { t } = useTranslation();
-  const { insufficientFunds, insufficientGas } = useGasSufficiency(route);
+  const selectedRoute = useSelectedRouteStore((state) => state.selectedRoute);
+  const { insufficientFunds, insufficientGas } = useGasSufficiency(
+    route ?? selectedRoute,
+  );
 
   if (!insufficientFunds && !insufficientGas?.length) {
     return null;
@@ -51,6 +54,7 @@ export const GasSufficiencyMessage: React.FC<{ route?: Route } & BoxProps> = ({
         {insufficientGas?.length
           ? insufficientGas.map((item, index) => (
               <Typography
+                // eslint-disable-next-line react/no-array-index-key
                 key={index}
                 variant="body2"
                 px={2}

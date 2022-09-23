@@ -16,29 +16,29 @@ export const navigationRoutes = {
 export const navigationRoutesValues = Object.values(navigationRoutes);
 
 export const stickyHeaderRoutes = [
-  navigationRoutes.selectWallet,
+  navigationRoutes.activeSwaps,
   navigationRoutes.fromChain,
-  navigationRoutes.toChain,
+  navigationRoutes.selectWallet,
   navigationRoutes.settings,
-  navigationRoutes.swapRoutes,
+  navigationRoutes.swapDetails,
   navigationRoutes.swapExecution,
   navigationRoutes.swapHistory,
-  navigationRoutes.activeSwaps,
-  navigationRoutes.swapDetails,
+  navigationRoutes.swapRoutes,
+  navigationRoutes.toChain,
 ];
 
 export const backButtonRoutes = [
+  navigationRoutes.activeSwaps,
+  navigationRoutes.fromChain,
+  navigationRoutes.fromToken,
   navigationRoutes.selectWallet,
   navigationRoutes.settings,
-  navigationRoutes.swapHistory,
-  navigationRoutes.activeSwaps,
-  navigationRoutes.fromToken,
-  navigationRoutes.toToken,
-  navigationRoutes.fromChain,
-  navigationRoutes.toChain,
-  navigationRoutes.swapRoutes,
-  navigationRoutes.swapExecution,
   navigationRoutes.swapDetails,
+  navigationRoutes.swapExecution,
+  navigationRoutes.swapHistory,
+  navigationRoutes.swapRoutes,
+  navigationRoutes.toChain,
+  navigationRoutes.toToken,
 ];
 
 export type NavigationRouteType = keyof typeof navigationRoutes;

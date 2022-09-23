@@ -22,14 +22,14 @@ import { useHeaderActionStore } from '../../components/Header';
 import { Step } from '../../components/Step';
 import { StepDivider } from '../../components/StepDivider';
 import { useNavigateBack } from '../../hooks';
-import { useRouteStore } from '../../stores';
+import { useRouteExecutionStore } from '../../stores';
 import { Container } from './SwapDetailsPage.style';
 
 export const SwapDetailsPage: React.FC = () => {
   const { t } = useTranslation();
   const { navigateBack } = useNavigateBack();
   const { state }: any = useLocation();
-  const [routeExecution, deleteRoute] = useRouteStore(
+  const [routeExecution, deleteRoute] = useRouteExecutionStore(
     (store) => [store.routes[state?.routeId], store.deleteRoute],
     shallow,
   );

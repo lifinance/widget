@@ -7,7 +7,7 @@ import {
   useLiFi,
   useWidgetConfig,
 } from '../providers';
-import { useChainOrderStore } from '../stores/chains';
+import { useChainOrderStore } from '../stores';
 
 export const useChains = () => {
   const { disabledChains, chains } = useWidgetConfig();

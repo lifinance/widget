@@ -3,7 +3,7 @@ import { useFormContext } from 'react-hook-form';
 import { useChains } from '../../hooks';
 import type { SwapFormType } from '../../providers';
 import { SwapFormKey, SwapFormKeyHelper } from '../../providers';
-import { useChainOrder } from '../../stores/chains';
+import { useChainOrder } from '../../stores';
 
 export const useChainSelect = (formType: SwapFormType) => {
   const { setValue } = useFormContext();

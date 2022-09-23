@@ -68,11 +68,12 @@ export const SwapRoutesPage: React.FC<BoxProps> = () => {
           <SwapRouteCardSkeleton key={index} />
         ))
       ) : (
-        swapRoutes?.map((route: Route) => (
+        swapRoutes?.map((route: Route, index: number) => (
           <SwapRouteCard
             key={route.id}
             route={route}
             onClick={() => handleRouteClick(route)}
+            active={index === 0}
           />
         ))
       )}

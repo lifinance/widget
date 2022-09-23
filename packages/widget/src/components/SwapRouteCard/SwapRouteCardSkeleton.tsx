@@ -5,57 +5,64 @@ import type { SwapRouteCardSkeletonProps } from './types';
 
 export const SwapRouteCardSkeleton: React.FC<
   SwapRouteCardSkeletonProps & BoxProps
-> = ({ dense, ...other }) => {
+> = ({ variant, ...other }) => {
   return (
-    <Card dense={dense} indented {...other}>
-      <Skeleton
-        variant="rectangular"
-        width={120}
-        height={24}
-        sx={{ borderRadius: 0.5 }}
-      />
-      <Box my={2}>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
+    <Card dense={variant === 'dense'} indented {...other}>
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Skeleton
+          variant="rectangular"
+          width={118}
+          height={24}
+          sx={{ borderRadius: 0.5 }}
+        />
+        {variant === 'extended' ? (
+          <Box display="flex">
+            <Skeleton
+              variant="text"
+              width={52}
+              height={24}
+              sx={{ marginRight: 2 }}
+            />
+            <Skeleton
+              variant="text"
+              width={44}
+              height={24}
+              sx={{ marginRight: 2 }}
+            />
+            <Skeleton variant="text" width={32} height={24} />
+          </Box>
+        ) : null}
+      </Box>
+      <Box mt={2}>
+        <Box display="flex" alignItems="center">
           <Box mr={2}>
             <Skeleton variant="circular" width={32} height={32} />
           </Box>
           <Skeleton variant="text" width={96} height={32} />
         </Box>
-        <Box ml={6}>
+        <Box ml={6} display="flex" alignItems="center">
           <Skeleton
             variant="text"
             width={102}
             height={16}
             sx={{ borderRadius: 0.5 }}
           />
+          {variant === 'extended' ? (
+            <Skeleton
+              variant="text"
+              width={72}
+              height={16}
+              sx={{ marginLeft: 1 }}
+            />
+          ) : null}
         </Box>
       </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Box>
-          <Skeleton variant="text" width={56} height={20} />
-          <Skeleton variant="text" width={52} height={16} />
+      {variant !== 'extended' ? (
+        <Box mt={2} display="flex" justifyContent="space-between">
+          <Skeleton variant="text" width={48} height={24} />
+          <Skeleton variant="text" width={48} height={24} />
         </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'flex-end',
-            flexDirection: 'column',
-          }}
-        >
-          <Skeleton variant="text" width={40} height={20} />
-          <Skeleton variant="text" width={48} height={16} />
-        </Box>
-      </Box>
+      ) : null}
     </Card>
   );
 };

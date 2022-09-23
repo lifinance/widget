@@ -5,7 +5,7 @@ import { useWatch } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import type { SwapFormTypeProps } from '../../providers';
 import { SwapFormKeyHelper } from '../../providers';
-import { maxChainToOrder } from '../../stores/chains';
+import { maxChainToOrder } from '../../stores';
 import { navigationRoutes } from '../../utils';
 import { ChainCard, ChainContainer } from './ChainSelect.style';
 import { useChainSelect } from './useChainSelect';

@@ -1,14 +1,15 @@
 import { Box } from '@mui/material';
 import { ActiveSwaps } from '../../components/ActiveSwaps';
+import { GasSufficiencyMessage } from '../../components/GasSufficiencyMessage';
 import { SelectChainAndToken } from '../../components/SelectChainAndToken';
 import {
   SendToWallet,
   SendToWalletButton,
 } from '../../components/SendToWallet';
 import { SwapInput } from '../../components/SwapInput';
+import { SwapRoutes } from '../../components/SwapRoutes';
 import { FormContainer } from './MainPage.style';
 import { MainSwapButton } from './MainSwapButton';
-import { SwapRoutes } from './SwapRoutes';
 
 export const MainPage: React.FC = () => {
   return (
@@ -19,6 +20,7 @@ export const MainPage: React.FC = () => {
         <SwapInput formType="from" />
       </Box>
       <SwapRoutes mx={3} mb={3} />
+      <GasSufficiencyMessage mx={3} mb={3} />
       <Box mx={3} mb={1}>
         <SendToWallet mb={3} />
         <Box sx={{ display: 'flex' }}>

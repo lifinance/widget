@@ -14,8 +14,8 @@ import { useTranslation } from 'react-i18next';
 import { Dialog } from '../../components/Dialog';
 import { useHeaderActionStore } from '../../components/Header';
 import { useWallet } from '../../providers';
-import { useRouteStore } from '../../stores';
-import { useSwapHistory } from '../../stores/route';
+import { useRouteExecutionStore } from '../../stores';
+import { useSwapHistory } from '../../stores/routes';
 import { SwapHistoryEmpty } from './SwapHistoryEmpty';
 import { SwapHistoryItem } from './SwapHistoryItem';
 
@@ -23,7 +23,7 @@ export const SwapHistoryPage: React.FC = () => {
   const { t } = useTranslation();
   const { account } = useWallet();
   const swaps = useSwapHistory(account.address);
-  const deleteRoutes = useRouteStore((store) => store.deleteRoutes);
+  const deleteRoutes = useRouteExecutionStore((store) => store.deleteRoutes);
   const [open, setOpen] = useState(false);
 
   const toggleDialog = useCallback(() => {

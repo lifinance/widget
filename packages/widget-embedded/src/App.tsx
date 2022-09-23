@@ -49,7 +49,7 @@ export const App = () => {
   const [primary, setPrimaryColor] = useState('#3F49E1');
   const [secondary, setSecondaryColor] = useState('#F5B5FF');
 
-  const [expandableRoutesView, setExpandableRoutesView] = useState(false);
+  const [expandableRoutesView, setExpandableRoutesView] = useState(true);
   const [darkMode, setDarkMode] = useState(prefersDarkMode);
   const [systemColor, setSystemColor] = useState(true);
   const [theme, setTheme] = useState(() =>
@@ -103,7 +103,7 @@ export const App = () => {
           fontFamily,
         },
       },
-      expandableRoutesView,
+      variant: expandableRoutesView ? 'expandable' : 'default',
     }));
   }, [
     borderRadius,
@@ -338,15 +338,7 @@ export const App = () => {
             </Box>
           </Box>
         </Drawer>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flex: 1,
-            margin: 'auto',
-          }}
-        >
+        <Box flex={1} margin="auto">
           {drawer ? (
             <LiFiWidgetDrawer config={config} open />
           ) : (

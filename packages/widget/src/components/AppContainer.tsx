@@ -1,19 +1,22 @@
 import { Box, Container, ScopedCssBaseline } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import type { PropsWithChildren, RefObject } from 'react';
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useWidgetConfig } from '../providers';
 import type { WidgetVariant } from '../types';
 import { ElementId } from '../utils';
 
-const maxHeight = 640;
+export const maxHeight = 680;
 
-const ExpandedContainer = styled(Box)(({ theme }) => ({
+const ExpandedContainer = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'variant',
+})<{ variant?: WidgetVariant }>(({ variant }) => ({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'start',
   flex: 1,
+  height: variant === 'drawer' ? 'none' : maxHeight,
 }));
 
 const RelativeContainer = styled(Box, {
@@ -31,13 +34,6 @@ const RelativeContainer = styled(Box, {
   zIndex: 0,
 }));
 
-const ScrollableContainer = styled(Box)({
-  overflowY: 'auto',
-  height: '100%',
-  flex: 1,
-  display: 'flex',
-});
-
 const CssBaselineContainer = styled(ScopedCssBaseline, {
   shouldForwardProp: (prop) => prop !== 'variant',
 })<{ variant?: WidgetVariant }>(({ variant }) => ({
@@ -52,23 +48,24 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
 
 export const FlexContainer = styled(Container)({
   display: 'flex',
-  flexBasis: 'auto',
   flexDirection: 'column',
-  flexShrink: 0,
-  flexGrow: 1,
+  flex: 1,
 });
 
 export const AppContainer: React.FC<PropsWithChildren<{}>> = ({ children }) => {
-  const ref = useRef<HTMLElement>(null);
+  // const ref = useRef<HTMLDivElement>(null);
   const { containerStyle, variant } = useWidgetConfig();
   return (
     <RelativeContainer sx={containerStyle} variant={variant}>
-      <ScrollableContainer id={ElementId.ScrollableContainer} ref={ref}>
-        <CssBaselineContainer variant={variant} enableColorScheme>
-          <FlexContainer disableGutters>{children}</FlexContainer>
-        </CssBaselineContainer>
-      </ScrollableContainer>
-      <ScrollToLocation elementRef={ref} />
+      <CssBaselineContainer
+        variant={variant}
+        id={ElementId.ScrollableContainer}
+        // ref={ref}
+        enableColorScheme
+      >
+        <FlexContainer disableGutters>{children}</FlexContainer>
+      </CssBaselineContainer>
+      {/* <ScrollToLocation elementRef={ref} /> */}
     </RelativeContainer>
   );
 };

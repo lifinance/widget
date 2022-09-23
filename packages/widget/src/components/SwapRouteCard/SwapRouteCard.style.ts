@@ -1,5 +1,5 @@
-import { Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { IconButton as MuiIconButton, Typography } from '@mui/material';
+import { alpha, styled } from '@mui/material/styles';
 import { getContrastTextColor } from '../../utils';
 
 export const Label = styled(Typography, {
@@ -10,8 +10,8 @@ export const Label = styled(Typography, {
   borderColor: active
     ? theme.palette.secondary.main
     : theme.palette.mode === 'light'
-    ? theme.palette.grey[500]
-    : theme.palette.grey[600],
+    ? theme.palette.grey[300]
+    : theme.palette.grey[700],
   borderRadius: theme.shape.borderRadiusSecondary,
   color: active
     ? getContrastTextColor(theme, theme.palette.secondary.main)
@@ -26,3 +26,18 @@ export const Label = styled(Typography, {
   display: 'inline-flex',
   userSelect: 'none',
 }));
+
+export const IconButton = styled(MuiIconButton, {
+  shouldForwardProp: (prop) => prop !== 'active',
+})<{ active?: boolean }>(({ theme, active }) => {
+  const backgroundColor =
+    theme.palette.mode === 'light'
+      ? theme.palette.common.black
+      : theme.palette.common.white;
+  return {
+    backgroundColor: alpha(backgroundColor, 0.04),
+    '&:hover': {
+      backgroundColor: alpha(backgroundColor, 0.08),
+    },
+  };
+});

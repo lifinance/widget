@@ -70,7 +70,6 @@ export const StepContent = styled(MuiStepContent, {
 }));
 
 export const StepAvatar = styled(Avatar)(({ theme, variant }) => ({
-  color:
-    variant === 'square' ? theme.palette.text.primary : theme.palette.grey[900],
+  color: theme.palette.text.primary,
   backgroundColor: 'transparent',
 }));

@@ -5,7 +5,7 @@ import { immer } from 'zustand/middleware/immer';
 import type { RouteExecutionStore } from './types';
 import { isRouteCompleted, isRouteFailed } from './utils';
 
-export const useRouteStore = create<RouteExecutionStore>()(
+export const useRouteExecutionStore = create<RouteExecutionStore>()(
   persist(
     immer((set) => ({
       routes: {},

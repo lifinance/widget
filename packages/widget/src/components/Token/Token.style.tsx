@@ -20,6 +20,8 @@ export const TextSecondary = styled(Typography, {
   padding: connected
     ? theme.spacing(0, 0, 0, 3.875)
     : theme.spacing(0, 0, 0, 0),
+  display: 'flex',
+  alignItems: 'flex-start',
 }));
 
 export const TokenDivider = styled(Box)(({ theme }) => ({

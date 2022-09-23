@@ -1,9 +1,9 @@
 import shallow from 'zustand/shallow';
 import type { RouteExecution } from './types';
-import { useRouteStore } from './useRouteStore';
+import { useRouteExecutionStore } from './useRouteExecutionStore';
 
 export const useExecutingRoutesIds = (address?: string) => {
-  return useRouteStore(
+  return useRouteExecutionStore(
     (state) =>
       (Object.values(state.routes) as RouteExecution[])
         .filter(
