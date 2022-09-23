@@ -17,10 +17,10 @@ export const Token: React.FC<
   const { getChainById } = useChains();
   return (
     <Box flex={1} {...other}>
-      <Box display="flex" flex={1}>
+      <Box display="flex" flex={1} alignItems="center">
         <TokenAvatar token={token} sx={{ marginRight: 2 }} />
         <TextFitter
-          height={32}
+          height={30}
           textStyle={{
             fontWeight: 700,
           }}
