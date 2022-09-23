@@ -1,8 +1,8 @@
 import { AppBar, Box } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { alpha, styled } from '@mui/material/styles';
 
 export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
-  backgroundColor: theme.palette.background.default,
+  backgroundColor: 'transparent',
   color: theme.palette.text.primary,
   flexDirection: 'row',
   alignItems: 'center',
@@ -18,7 +18,8 @@ export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
 export const Container = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'sticky',
 })<{ sticky?: boolean }>(({ theme, sticky }) => ({
-  backgroundColor: theme.palette.background.default,
+  backgroundColor: alpha(theme.palette.background.default, 0.84),
+  backdropFilter: 'blur(12px)',
   position: sticky ? 'sticky' : 'relative',
   top: 0,
   zIndex: 1200,

@@ -6,7 +6,7 @@ import { Container } from './Header.style';
 import { NavigationHeader } from './NavigationHeader';
 import { WalletHeader } from './WalletHeader';
 
-const HeaderContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
+export const HeaderContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
   const { pathname } = useLocation();
   return (
     <Container
