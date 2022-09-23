@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.18.2](https://github.com/lifinance/widget/compare/v1.18.1...v1.18.2) (2022-09-23)
+
+
+### Bug Fixes
+
+* always expand cards if there are one or two ([5c0b3a3](https://github.com/lifinance/widget/commit/5c0b3a3bfd355572a8c26dbb698e2a82605185da))
+* disable route cards if form is not valid ([7165164](https://github.com/lifinance/widget/commit/716516427548148c89e10ba625f63fa2f66efdda))
+
 ### [1.18.1](https://github.com/lifinance/widget/compare/v1.18.0...v1.18.1) (2022-09-23)
 
 
