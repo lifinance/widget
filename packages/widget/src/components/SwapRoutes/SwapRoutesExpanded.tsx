@@ -89,7 +89,7 @@ export const SwapRoutesExpanded = () => {
                   <SwapRouteNotFoundCard />
                 ) : isLoading || isFetching ? (
                   Array.from({ length: 3 }).map((_, index) => (
-                    <SwapRouteCardSkeleton key={index} variant="extended" />
+                    <SwapRouteCardSkeleton key={index} variant="stretched" />
                   ))
                 ) : (
                   routes?.map((route: Route, index: number) => (
@@ -98,7 +98,8 @@ export const SwapRoutesExpanded = () => {
                       route={route}
                       onClick={() => handleRouteClick(route)}
                       active={index === 0}
-                      variant="extended"
+                      variant="stretched"
+                      expanded={routes?.length <= 2}
                     />
                   ))
                 )}

@@ -20,10 +20,13 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
   route,
   active,
   variant = 'default',
+  expanded,
   ...other
 }) => {
   const { t } = useTranslation();
-  const [expanded, setExpanded] = useState(variant === 'default');
+  const [cardExpanded, setCardExpanded] = useState(
+    variant === 'default' || expanded,
+  );
   const alternativeTag = t(`swap.tags.ALTERNATIVE`);
   const label = route.tags?.length
     ? t(`swap.tags.${route.tags[0]}` as any)
@@ -31,7 +34,7 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
 
   const handleExpand: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation();
-    setExpanded((expanded) => !expanded);
+    setCardExpanded((expanded) => !expanded);
   };
   return (
     <Card
@@ -48,27 +51,27 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
         mb={2}
       >
         <Label active={active ?? label !== alternativeTag}>{label}</Label>
-        {variant === 'extended' ? (
+        {variant === 'stretched' ? (
           <SwapRouteCardEssentials route={route} />
         ) : null}
       </Box>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Token
           token={{ ...route.toToken, amount: route.toAmount }}
-          step={variant === 'extended' ? route.steps[0] : undefined}
+          step={variant === 'stretched' ? route.steps[0] : undefined}
         />
-        {variant === 'extended' ? (
+        {variant === 'stretched' && !expanded ? (
           <IconButton onClick={handleExpand} size="small">
-            {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            {cardExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </IconButton>
         ) : null}
       </Box>
-      <Collapse mountOnEnter unmountOnExit in={expanded}>
+      <Collapse mountOnEnter unmountOnExit in={cardExpanded}>
         {route.steps.map((step) => (
           <StepActions key={step.id} step={step} mt={2} />
         ))}
       </Collapse>
-      {variant !== 'extended' ? (
+      {variant !== 'stretched' ? (
         <SwapRouteCardEssentials route={route} dense />
       ) : null}
     </Card>

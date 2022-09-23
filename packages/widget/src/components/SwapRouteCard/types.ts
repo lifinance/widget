@@ -2,8 +2,9 @@ import type { Route } from '@lifi/sdk';
 
 export interface SwapRouteCardProps {
   route: Route;
-  variant?: 'default' | 'extended' | 'dense';
+  variant?: 'default' | 'stretched' | 'dense';
   active?: boolean;
+  expanded?: boolean;
 }
 
 export interface SwapRouteCardEssentialsProps {
@@ -12,5 +13,5 @@ export interface SwapRouteCardEssentialsProps {
 }
 
 export interface SwapRouteCardSkeletonProps {
-  variant?: 'default' | 'extended' | 'dense';
+  variant?: 'default' | 'stretched' | 'dense';
 }

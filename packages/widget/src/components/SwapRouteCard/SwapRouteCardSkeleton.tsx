@@ -15,7 +15,7 @@ export const SwapRouteCardSkeleton: React.FC<
           height={24}
           sx={{ borderRadius: 0.5 }}
         />
-        {variant === 'extended' ? (
+        {variant === 'stretched' ? (
           <Box display="flex">
             <Skeleton
               variant="text"
@@ -47,7 +47,7 @@ export const SwapRouteCardSkeleton: React.FC<
             height={16}
             sx={{ borderRadius: 0.5 }}
           />
-          {variant === 'extended' ? (
+          {variant === 'stretched' ? (
             <Skeleton
               variant="text"
               width={72}
@@ -57,7 +57,7 @@ export const SwapRouteCardSkeleton: React.FC<
           ) : null}
         </Box>
       </Box>
-      {variant !== 'extended' ? (
+      {variant !== 'stretched' ? (
         <Box mt={2} display="flex" justifyContent="space-between">
           <Skeleton variant="text" width={48} height={24} />
           <Skeleton variant="text" width={48} height={24} />
