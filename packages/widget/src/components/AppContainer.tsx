@@ -1,8 +1,6 @@
 import { Box, Container, ScopedCssBaseline } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import type { PropsWithChildren, RefObject } from 'react';
-import { useLayoutEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import type { PropsWithChildren } from 'react';
 import { useWidgetConfig } from '../providers';
 import type { WidgetVariant } from '../types';
 import { ElementId } from '../utils';
@@ -44,6 +42,8 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
   margin: 0,
   width: '100%',
   maxHeight: variant === 'drawer' ? 'none' : maxHeight,
+  overflowY: 'auto',
+  height: '100%',
 }));
 
 export const FlexContainer = styled(Container)({
@@ -58,10 +58,10 @@ export const AppContainer: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   return (
     <RelativeContainer sx={containerStyle} variant={variant}>
       <CssBaselineContainer
-        variant={variant}
         id={ElementId.ScrollableContainer}
-        // ref={ref}
+        variant={variant}
         enableColorScheme
+        // ref={ref}
       >
         <FlexContainer disableGutters>{children}</FlexContainer>
       </CssBaselineContainer>
@@ -76,12 +76,12 @@ export const AppExpandedContainer: React.FC<PropsWithChildren<{}>> = ({
   return <ExpandedContainer>{children}</ExpandedContainer>;
 };
 
-export const ScrollToLocation: React.FC<{
-  elementRef: RefObject<HTMLElement>;
-}> = ({ elementRef }) => {
-  const { pathname } = useLocation();
-  useLayoutEffect(() => {
-    elementRef.current?.scrollTo(0, 0);
-  }, [elementRef, pathname]);
-  return null;
-};
+// export const ScrollToLocation: React.FC<{
+//   elementRef: RefObject<HTMLElement>;
+// }> = ({ elementRef }) => {
+//   const { pathname } = useLocation();
+//   useLayoutEffect(() => {
+//     elementRef.current?.scrollTo(0, 0);
+//   }, [elementRef, pathname]);
+//   return null;
+// };
