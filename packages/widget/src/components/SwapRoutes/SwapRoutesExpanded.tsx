@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import type { Route } from '@lifi/sdk';
 import { Collapse, Grow, Stack, Typography } from '@mui/material';
+import { useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSwapRoutes } from '../../hooks';
@@ -33,7 +34,7 @@ export const SwapRoutesExpanded = () => {
     refetchTime,
     refetch,
   } = useSwapRoutes();
-
+  const { isValid, isValidating } = useFormState();
   const setExecutableRoute = useSetExecutableRoute();
 
   const { pathname } = useLocation();
@@ -44,10 +45,12 @@ export const SwapRoutesExpanded = () => {
   const hasPath = navigationRoutesValues.includes(path);
 
   const handleRouteClick = (route: Route) => {
-    setExecutableRoute(route);
-    navigate(navigationRoutes.swapExecution, {
-      state: { routeId: route.id },
-    });
+    if (isValid && !isValidating) {
+      setExecutableRoute(route);
+      navigate(navigationRoutes.swapExecution, {
+        state: { routeId: route.id },
+      });
+    }
   };
 
   const currentRoute = routes?.[0];
