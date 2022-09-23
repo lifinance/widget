@@ -39,6 +39,7 @@ export const ListItem = styled(MuiListItem, {
 }));
 
 export const ShowAllButton = styled(Button)(({ theme }) => ({
+  background: 'none',
   '&:hover': {
     background: 'none',
   },
