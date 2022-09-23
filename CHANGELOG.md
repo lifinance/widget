@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.18.0](https://github.com/lifinance/widget/compare/v1.17.2...v1.18.0) (2022-09-23)
+
+
+### Features
+
+* add new route selection UI ([beb780c](https://github.com/lifinance/widget/commit/beb780c5e6113a0d079d348e6f9b8e566c15f153))
+
+
+### Bug Fixes
+
+* hide powered by section on token page ([41cd261](https://github.com/lifinance/widget/commit/41cd2619b3f756828834668248b07973af3103c0))
+* improve path parsing ([c9e1a28](https://github.com/lifinance/widget/commit/c9e1a28fa6936a87c870347c08bade43ce509ae2))
+* show delete only if history exist ([dd34a1d](https://github.com/lifinance/widget/commit/dd34a1d9f8ee947bfcc509974d448fa46d5cffb8))
+* temp fix for MemoryRouter ([555a7d2](https://github.com/lifinance/widget/commit/555a7d24fd4e8345dc091ea631a0f8461f37f393))
+
 ### [1.17.2](https://github.com/lifinance/widget/compare/v1.17.1...v1.17.2) (2022-09-14)
 
 
