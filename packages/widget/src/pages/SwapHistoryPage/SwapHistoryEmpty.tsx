@@ -12,6 +12,7 @@ export const SwapHistoryEmpty: React.FC = () => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
+        paddingY: 12,
       }}
     >
       <Typography fontSize={48}>

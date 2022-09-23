@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import { DeleteOutline as DeleteIcon } from '@mui/icons-material';
 import {
   Button,
@@ -31,17 +32,19 @@ export const SwapHistoryPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    return useHeaderActionStore.getState().setAction(
-      <IconButton
-        size="medium"
-        aria-label="settings"
-        edge="end"
-        onClick={toggleDialog}
-      >
-        <DeleteIcon />
-      </IconButton>,
-    );
-  }, [toggleDialog]);
+    if (swaps.length) {
+      return useHeaderActionStore.getState().setAction(
+        <IconButton
+          size="medium"
+          aria-label="settings"
+          edge="end"
+          onClick={toggleDialog}
+        >
+          <DeleteIcon />
+        </IconButton>,
+      );
+    }
+  }, [swaps.length, toggleDialog]);
 
   if (!swaps.length) {
     return <SwapHistoryEmpty />;
