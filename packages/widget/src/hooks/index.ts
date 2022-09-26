@@ -1,6 +1,5 @@
 export * from './useChain';
 export * from './useChains';
-export * from './useContentHeight';
 export * from './useDebouncedWatch';
 export * from './useFeaturedTokens';
 export * from './useGasSufficiency';
