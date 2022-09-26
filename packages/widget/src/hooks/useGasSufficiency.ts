@@ -1,4 +1,4 @@
-import type { EVMChain, Route, Token } from '@lifi/sdk';
+import type { EVMChain, Route, Token, TokenAmount } from '@lifi/sdk';
 import Big from 'big.js';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useChains } from '.';
@@ -23,6 +23,27 @@ export const useGasSufficiency = (route?: Route) => {
     route?.fromChainId,
   );
   const [insufficientGas, setInsufficientGas] = useState<GasSufficiency[]>();
+
+  const getTokenBalancesWithRetry = useCallback(
+    async (tokens: Token[], depth = 0): Promise<TokenAmount[] | undefined> => {
+      const tokenBalances = await lifi.getTokenBalances(
+        account.address as string,
+        tokens,
+      );
+      if (!tokenBalances.every((token) => token.blockNumber)) {
+        if (depth > 5) {
+          console.warn('Token balance backoff depth exceeded.');
+          return undefined;
+        }
+        await new Promise((resolve) => {
+          setTimeout(resolve, depth * 100);
+        });
+        return getTokenBalancesWithRetry(tokens, depth + 1);
+      }
+      return tokenBalances;
+    },
+    [account.address, lifi],
+  );
 
   const checkInsufficientGas = useCallback(async () => {
     if (!account.isActive || !route) {
@@ -63,8 +84,7 @@ export const useGasSufficiency = (route?: Route) => {
       );
     }
 
-    const tokenBalances = await lifi.getTokenBalances(
-      account.address as string,
+    const tokenBalances = await getTokenBalancesWithRetry(
       Object.values(gasCosts).map((item) => item.token),
     );
 
@@ -96,7 +116,10 @@ export const useGasSufficiency = (route?: Route) => {
         gasCosts[chainId] = {
           ...gasCosts[chainId],
           insufficient: insufficientFromChainGas,
-          insufficientAmount: insufficientFromChainGasAmount,
+          insufficientAmount: insufficientFromChainGasAmount?.round(
+            5,
+            Big.roundUp,
+          ),
         };
       }
     });
@@ -106,7 +129,7 @@ export const useGasSufficiency = (route?: Route) => {
     );
 
     setInsufficientGas(gasCostResult);
-  }, [account.address, account.isActive, getChainById, lifi, route]);
+  }, [account.isActive, getChainById, getTokenBalancesWithRetry, route]);
 
   const insufficientFunds = useMemo(() => {
     if (!account.isActive || !fromChainTokenBalances || !route) {
