@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import type { EVMChain } from '@lifi/sdk';
-import { Avatar, Box, Skeleton, Typography } from '@mui/material';
+import { Avatar, Box, Skeleton, Tooltip, Typography } from '@mui/material';
 import { useWatch } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import type { SwapFormTypeProps } from '../../providers';
@@ -39,19 +39,27 @@ export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
             />
           ))
         : getChains().map((chain: EVMChain) => (
-            <ChainCard
+            <Tooltip
               key={chain.id}
-              onClick={() => setCurrentChain(chain.id)}
-              variant={chainId === chain.id ? 'selected' : 'default'}
+              title={chain.name}
+              placement="top"
+              enterDelay={500}
+              enterNextDelay={500}
+              arrow
             >
-              <Avatar
-                src={chain.logoURI}
-                alt={chain.key}
-                sx={{ width: 40, height: 40 }}
+              <ChainCard
+                onClick={() => setCurrentChain(chain.id)}
+                variant={chainId === chain.id ? 'selected' : 'default'}
               >
-                {chain.name[0]}
-              </Avatar>
-            </ChainCard>
+                <Avatar
+                  src={chain.logoURI}
+                  alt={chain.key}
+                  sx={{ width: 40, height: 40 }}
+                >
+                  {chain.name[0]}
+                </Avatar>
+              </ChainCard>
+            </Tooltip>
           ))}
       {chainsToHide > 0 ? (
         <ChainCard onClick={showAllChains}>
