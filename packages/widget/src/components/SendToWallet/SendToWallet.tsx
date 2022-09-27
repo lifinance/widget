@@ -49,7 +49,7 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
   });
 
   return (
-    <Collapse timeout={225} in={showSendToWallet}>
+    <Collapse timeout={225} unmountOnExit mountOnEnter in={showSendToWallet}>
       <Card {...props} ref={ref}>
         <CardTitle>{t('swap.sendToWallet')}</CardTitle>
         <FormControl fullWidth sx={{ paddingTop: '6px', paddingBottom: '5px' }}>
@@ -64,6 +64,7 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
             onBlur={onBlur}
             name={name}
             placeholder={t('swap.walletAddressOrEns')}
+            autoFocus
           />
           <FormHelperText error={!!errors.toAddress}>
             {errors.toAddress?.message as string}
