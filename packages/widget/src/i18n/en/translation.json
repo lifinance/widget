@@ -78,7 +78,7 @@
         "fundsReceived": "Funds received"
       },
       "message": {
-        "fundsReceived": "You now have {{amount}} {{tokenSymbol}} in your wallet on {{chainName}} chain."
+        "fundsReceived": "There are now {{amount}} {{tokenSymbol}} in wallet {{walletAddress}} on {{chainName}} chain."
       }
     },
     "info": {

@@ -56,10 +56,14 @@ export const AppRoutes = () => {
       path: navigationRoutes.swapHistory,
       element: <SwapHistoryPage />,
     },
-    {
-      path: `${navigationRoutes.swapHistory}/${navigationRoutes.swapDetails}`,
+    ...[
+      `${navigationRoutes.swapHistory}/${navigationRoutes.swapDetails}`,
+      `${navigationRoutes.swapExecution}/${navigationRoutes.swapDetails}`,
+      `${navigationRoutes.swapRoutes}/${navigationRoutes.swapExecution}/${navigationRoutes.swapDetails}`,
+    ].map((path) => ({
+      path,
       element: <SwapDetailsPage />,
-    },
+    })),
     ...[
       navigationRoutes.selectWallet,
       `${navigationRoutes.swapExecution}/${navigationRoutes.selectWallet}`,

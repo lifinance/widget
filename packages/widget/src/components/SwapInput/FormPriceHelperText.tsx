@@ -1,7 +1,7 @@
 import { FormHelperText, Skeleton, Typography } from '@mui/material';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useTokenBalance } from '../../hooks';
+import { useTokenAddressBalance } from '../../hooks';
 import type { SwapFormTypeProps } from '../../providers';
 import { SwapFormKeyHelper } from '../../providers';
 import { formatTokenPrice } from '../../utils';
@@ -18,7 +18,7 @@ export const FormPriceHelperText: React.FC<
     ],
   });
 
-  const { token, isLoading } = useTokenBalance(chainId, tokenAddress);
+  const { token, isLoading } = useTokenAddressBalance(chainId, tokenAddress);
 
   const fromAmountTokenPrice = formatTokenPrice(amount, token?.priceUSD);
 

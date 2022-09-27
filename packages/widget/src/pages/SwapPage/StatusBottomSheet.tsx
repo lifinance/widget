@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import {
   Done as DoneIcon,
   Info as InfoIcon,
@@ -18,6 +19,7 @@ import {
 } from '../../hooks';
 import { SwapFormKey } from '../../providers';
 import type { RouteExecution } from '../../stores';
+import { navigationRoutes, shortenWalletAddress } from '../../utils';
 import {
   IconCircle,
   IconContainer,
@@ -29,17 +31,15 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   route,
 }) => {
   const { t } = useTranslation();
-  const { navigateBack } = useNavigateBack();
+  const { navigateBack, navigate } = useNavigateBack();
   const ref = useRef<BottomSheetBase>(null);
   const { getChainById } = useChains();
-  const { token, refetch: refetchBalance } = useTokenBalance(
-    route.toChainId,
-    route.toToken.address,
-  );
+  const { token, refetch, refetchNewBalance, refetchAllBalances } =
+    useTokenBalance(route.toToken, route.toAddress);
   const { setValue } = useFormContext();
 
   const clearFromAmount = () => {
-    refetchBalance();
+    refetchAllBalances();
     setValue(SwapFormKey.FromAmount, '');
   };
 
@@ -53,6 +53,14 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
     ref.current?.closeDrawer();
   };
 
+  const handleSeeDetails = () => {
+    handleClose();
+    navigate(navigationRoutes.swapDetails, {
+      state: { routeId: route.id },
+      replace: true,
+    });
+  };
+
   let title;
   let message;
   switch (status) {
@@ -62,6 +70,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
         amount: token?.amount,
         tokenSymbol: token?.symbol,
         chainName: getChainById(route.toChainId)?.name,
+        walletAddress: shortenWalletAddress(route.toAddress),
       });
       break;
     case 'error': {
@@ -88,10 +97,13 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
       (status === 'success' || status === 'error') &&
       !ref.current?.isOpen()
     ) {
-      refetchBalance();
+      if (status === 'success') {
+        refetchNewBalance();
+        refetch();
+      }
       ref.current?.openDrawer();
     }
-  }, [refetchBalance, status]);
+  }, [refetch, refetchNewBalance, status]);
 
   return (
     <BottomSheet ref={ref}>
@@ -140,7 +152,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
         </Box>
         {status === 'success' ? (
           <Box mt={2}>
-            <Button variant="outlined" fullWidth onClick={handleClose}>
+            <Button variant="outlined" fullWidth onClick={handleSeeDetails}>
               {t('button.seeDetails')}
             </Button>
           </Box>

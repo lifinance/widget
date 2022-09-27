@@ -17,10 +17,12 @@ export const BottomSheet = forwardRef<BottomSheetBase, BottomSheetProps>(
 
     const openDrawer = useCallback(() => {
       setDrawerOpen(true);
+      openRef.current = true;
     }, []);
 
     const closeDrawer = useCallback(() => {
       setDrawerOpen(false);
+      openRef.current = false;
     }, []);
 
     useImperativeHandle(

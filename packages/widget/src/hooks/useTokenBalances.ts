@@ -31,12 +31,9 @@ export const useTokenBalances = (selectedChainId?: number) => {
   } = useQuery(
     ['token-balances', account.address, selectedChainId, tokens?.length],
     async ({ queryKey: [, accountAddress] }) => {
-      if (!accountAddress || !tokens) {
-        return;
-      }
       const tokenBalances = await lifi.getTokenBalances(
         accountAddress as string,
-        tokens,
+        tokens!,
       );
 
       if (!tokenBalances?.length) {
@@ -47,7 +44,7 @@ export const useTokenBalances = (selectedChainId?: number) => {
             ? minRefetchInterval
             : interval * 2,
         );
-        return;
+        throw Error('Could not get tokens balance.');
       }
 
       const featuredTokenAddresses = new Set(

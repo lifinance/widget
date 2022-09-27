@@ -1,7 +1,7 @@
 import { InputAdornment, Skeleton } from '@mui/material';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useTokenBalance } from '../../hooks';
+import { useTokenAddressBalance } from '../../hooks';
 import type { SwapFormTypeProps } from '../../providers';
 import { SwapFormKeyHelper } from '../../providers';
 import { Button } from './SwapInputAdornment.style';
@@ -16,7 +16,7 @@ export const SwapInputAdornment = ({ formType }: SwapFormTypeProps) => {
     ],
   });
 
-  const { token, isLoading } = useTokenBalance(chainId, tokenAddress);
+  const { token, isLoading } = useTokenAddressBalance(chainId, tokenAddress);
 
   const handleMax = () => {
     setValue(SwapFormKeyHelper.getAmountKey(formType), token?.amount ?? '');

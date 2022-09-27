@@ -11,6 +11,7 @@ export * from './useScrollableContainer';
 export * from './useSwapRoutes';
 export * from './useTelemetry';
 export * from './useToken';
+export * from './useTokenAddressBalance';
 export * from './useTokenBalance';
 export * from './useTokenBalances';
 export * from './useTokens';
