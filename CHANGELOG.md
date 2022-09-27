@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.18.3](https://github.com/lifinance/widget/compare/v1.18.2...v1.18.3) (2022-09-27)
+
+
+### Bug Fixes
+
+* add retry to token balance checking ([50e2915](https://github.com/lifinance/widget/commit/50e29157648b063277285c6c74aff250ac8fb408))
+* add tooltip to chain buttons ([0fd9626](https://github.com/lifinance/widget/commit/0fd9626b58303943e67b98fbc8fc70f74c91a16b))
+* adjust wallet address shortening ([d12d4a7](https://github.com/lifinance/widget/commit/d12d4a713829814033e5c3728ae1ee573789f2fb))
+* auto focus and clean send wallet field ([a983ca4](https://github.com/lifinance/widget/commit/a983ca4c7dcc7849690f1c0b39b63323bb945157))
+* improve funds received message to include wallet address ([5829e64](https://github.com/lifinance/widget/commit/5829e64a67a2b2f663173d96636e5973633f7b9c))
+
 ### [1.18.2](https://github.com/lifinance/widget/compare/v1.18.1...v1.18.2) (2022-09-23)
 
 
