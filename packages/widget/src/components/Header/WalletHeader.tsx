@@ -6,17 +6,13 @@ import { Box, IconButton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useWallet, useWidgetConfig } from '../../providers';
-import { navigationRoutes } from '../../utils';
+import { navigationRoutes, shortenWalletAddress } from '../../utils';
 import { HeaderAppBar } from './Header.style';
 
 export const WalletHeader: React.FC = () => {
   const { t } = useTranslation();
   const { account, disconnect } = useWallet();
-  const walletAddress = account.address
-    ? `${account.address.substring(0, 7)}...${account.address.substring(
-        account.address.length - 7,
-      )}`
-    : null;
+  const walletAddress = shortenWalletAddress(account.address);
 
   return (
     <HeaderAppBar elevation={0}>
