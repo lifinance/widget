@@ -14,10 +14,7 @@ export const useDebouncedWatch = (name: any, delay: number) => {
       const hasWatchedValue = Array.isArray(watchedValue)
         ? watchedValue.some((value) => value)
         : Boolean(watchedValue);
-      const hasDebouncedValue = Array.isArray(debouncedValueRef.current)
-        ? debouncedValueRef.current.some((value) => value)
-        : Boolean(debouncedValueRef.current);
-      if (hasWatchedValue && hasDebouncedValue) {
+      if (hasWatchedValue) {
         const handler = setTimeout(() => {
           setDebouncedValue(watchedValue);
         }, delay);

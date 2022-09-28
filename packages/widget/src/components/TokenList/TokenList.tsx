@@ -26,7 +26,7 @@ export const TokenList: FC<TokenListProps> = ({
   });
   const [tokenSearchFilter]: string[] = useDebouncedWatch(
     [SwapFormKey.TokenSearchFilter],
-    250,
+    320,
   );
 
   const {
