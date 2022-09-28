@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.18.4](https://github.com/lifinance/widget/compare/v1.18.3...v1.18.4) (2022-09-28)
+
+
+### Bug Fixes
+
+* remove box-sizing for container ([c56ba98](https://github.com/lifinance/widget/commit/c56ba987ad67ae03f3e8c6a5a1802391ccb8ac2d))
+
 ### [1.18.3](https://github.com/lifinance/widget/compare/v1.18.2...v1.18.3) (2022-09-27)
 
 
