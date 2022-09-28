@@ -20,11 +20,14 @@ import {
   Header,
   ScrollableContainer,
 } from './SwapRoutes.style';
+import { useSetSelectedRoute } from './useSetSelectedRoute';
 
 export const SwapRoutesExpanded = () => {
   const { t } = useTranslation();
-  const { containerStyle } = useWidgetConfig();
   const navigate = useNavigate();
+  const setExecutableRoute = useSetExecutableRoute();
+  const { containerStyle } = useWidgetConfig();
+  const { isValid, isValidating } = useFormState();
   const {
     routes,
     isLoading,
@@ -34,8 +37,10 @@ export const SwapRoutesExpanded = () => {
     refetchTime,
     refetch,
   } = useSwapRoutes();
-  const { isValid, isValidating } = useFormState();
-  const setExecutableRoute = useSetExecutableRoute();
+
+  const currentRoute = routes?.[0];
+
+  useSetSelectedRoute(currentRoute, isFetching);
 
   const { pathname } = useLocation();
   const cleanedPathname = pathname.endsWith('/')
@@ -52,8 +57,6 @@ export const SwapRoutesExpanded = () => {
       });
     }
   };
-
-  const currentRoute = routes?.[0];
 
   const expanded =
     Boolean(currentRoute || isLoading || isFetching || isFetched) && !hasPath;

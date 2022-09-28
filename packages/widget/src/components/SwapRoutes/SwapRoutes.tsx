@@ -1,7 +1,6 @@
 import { KeyboardArrowRight as KeyboardArrowRightIcon } from '@mui/icons-material';
 import type { BoxProps } from '@mui/material';
 import { Box, IconButton } from '@mui/material';
-import { useEffect } from 'react';
 import { useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -13,19 +12,14 @@ import {
   SwapRouteNotFoundCard,
 } from '../../components/SwapRouteCard';
 import { useSwapRoutes } from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import { useSelectedRouteStore } from '../../stores';
 import { navigationRoutes } from '../../utils';
 import { Stack } from './SwapRoutes.style';
+import { useSetSelectedRoute } from './useSetSelectedRoute';
 
 export const SwapRoutes: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation();
-  const { variant } = useWidgetConfig();
   const navigate = useNavigate();
   const { isValid, isValidating } = useFormState();
-  const setSelectedRoute = useSelectedRouteStore(
-    (state) => state.setSelectedRoute,
-  );
   const {
     routes,
     isLoading,
@@ -38,10 +32,7 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
 
   const currentRoute = routes?.[0];
 
-  useEffect(() => {
-    setSelectedRoute(!isFetching ? currentRoute : undefined);
-    return () => setSelectedRoute(undefined);
-  }, [currentRoute, isFetching, setSelectedRoute]);
+  useSetSelectedRoute(currentRoute, isFetching);
 
   if (!currentRoute && !isLoading && !isFetching && !isFetched) {
     return null;
@@ -52,10 +43,6 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
   };
 
   const routeNotFound = !currentRoute && !isLoading && !isFetching;
-
-  if (variant === 'expandable') {
-    return null;
-  }
 
   return (
     <Card {...props}>
