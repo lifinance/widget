@@ -21,6 +21,7 @@ const RelativeContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'variant',
 })<{ variant?: WidgetVariant }>(({ theme, variant }) => ({
   position: 'relative',
+  boxSizing: 'content-box',
   width: '100%',
   minWidth: 375,
   maxWidth: 392,
