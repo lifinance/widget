@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.18.6](https://github.com/lifinance/widget/compare/v1.18.5...v1.18.6) (2022-09-28)
+
+
+### Bug Fixes
+
+* drawer layout height ([fe53895](https://github.com/lifinance/widget/commit/fe5389588eadb48c882c01ae08b7287babaa9553))
+
 ### [1.18.5](https://github.com/lifinance/widget/compare/v1.18.4...v1.18.5) (2022-09-28)
 
 
