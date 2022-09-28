@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.18.7](https://github.com/lifinance/widget/compare/v1.18.6...v1.18.7) (2022-09-28)
+
+
+### Bug Fixes
+
+* process type may not exists ([eb44846](https://github.com/lifinance/widget/commit/eb4484602ebda614315f1610bdf64964386a0316))
+
 ### [1.18.6](https://github.com/lifinance/widget/compare/v1.18.5...v1.18.6) (2022-09-28)
 
 
