@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.18.8](https://github.com/lifinance/widget/compare/v1.18.7...v1.18.8) (2022-09-28)
+
+
+### Bug Fixes
+
+* debouncing should work from the first value ([e288dcf](https://github.com/lifinance/widget/commit/e288dcfc556689941e3e92b8aaf9531037530d4f))
+* query tokens only if no local ones are found ([25225fd](https://github.com/lifinance/widget/commit/25225fd5425ed3aff5bd70232e488348935bcc48))
+
 ### [1.18.7](https://github.com/lifinance/widget/compare/v1.18.6...v1.18.7) (2022-09-28)
 
 
