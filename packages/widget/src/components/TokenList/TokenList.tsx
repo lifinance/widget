@@ -50,7 +50,7 @@ export const TokenList: FC<TokenListProps> = ({
 
   const tokenSearchEnabled =
     !isTokensLoading &&
-    !!filteredTokens.length &&
+    !filteredTokens.length &&
     !!tokenSearchFilter &&
     !!selectedChainId;
 
