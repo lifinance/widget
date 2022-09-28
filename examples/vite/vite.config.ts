@@ -7,6 +7,9 @@ import { defineConfig } from 'vite';
 // eslint-disable-next-line import/no-default-export
 export default defineConfig({
   plugins: [react()],
+  esbuild: {
+    target: 'esnext',
+  },
   build: {
     rollupOptions: {
       plugins: [
@@ -15,6 +18,7 @@ export default defineConfig({
         }),
       ],
     },
+    sourcemap: true,
   },
   optimizeDeps: {
     esbuildOptions: {
@@ -27,5 +31,9 @@ export default defineConfig({
         }),
       ],
     },
+  },
+  server: {
+    port: 3000,
+    open: true,
   },
 });
