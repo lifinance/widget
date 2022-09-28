@@ -108,6 +108,6 @@ export function getProcessMessage(
     }
     return { title, message };
   }
-  const title = processMessages[process.type][process.status]?.(t);
+  const title = processMessages[process.type]?.[process.status]?.(t);
   return { title };
 }
