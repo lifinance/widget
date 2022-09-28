@@ -28,7 +28,6 @@ const RelativeContainer = styled(Box, {
   background: theme.palette.background.default,
   overflow: 'auto',
   flex: 1,
-  boxSizing: 'border-box',
   zIndex: 0,
 }));
 
