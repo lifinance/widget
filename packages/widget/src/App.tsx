@@ -22,7 +22,6 @@ export const App: React.FC<AppProps> = ({ config }) => {
 
 export const AppDefault = () => {
   const { variant } = useWidgetConfig();
-
   return (
     <AppExpandedContainer>
       <AppContainer>

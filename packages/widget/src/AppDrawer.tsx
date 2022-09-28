@@ -63,6 +63,10 @@ export const AppDrawer = forwardRef<WidgetDrawer, WidgetDrawerProps>(
     const drawerConfig: WidgetConfig = useMemo(
       () => ({
         ...config,
+        containerStyle: {
+          ...config?.containerStyle,
+          height: '100%',
+        },
         variant: 'drawer',
       }),
       [config],
