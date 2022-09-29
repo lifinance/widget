@@ -90,6 +90,7 @@ export const useRouteExecutionStore = create<RouteExecutionStore>()(
               }
             });
           }
+          localStorage.removeItem('routes');
         } catch (error) {
           console.log(error);
         }
