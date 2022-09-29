@@ -13,7 +13,7 @@ export const useSettingsStore = create<SettingsStore>()(
       appearance: 'auto',
       gasPrice: 'normal',
       routePriority: 'RECOMMENDED',
-      slippage: '3',
+      slippage: '0.5',
       setValue: (key, value) =>
         set((state: SettingsState) => {
           state[key] = value;
@@ -77,7 +77,7 @@ export const useSettingsStore = create<SettingsStore>()(
     })),
     {
       name: 'li.fi-widget-settings',
-      version: 1,
+      version: 2,
       partialize: (state) => {
         const { enabledBridges, enabledExchanges, ...partializedState } = state;
         return partializedState;
@@ -96,6 +96,9 @@ export const useSettingsStore = create<SettingsStore>()(
       migrate: (persistedState: any, version) => {
         if (version === 0 && persistedState.appearance === 'system') {
           persistedState.appearance = 'auto';
+        }
+        if (version === 1) {
+          persistedState.slippage = '0.5';
         }
         return persistedState as SettingsStore;
       },
