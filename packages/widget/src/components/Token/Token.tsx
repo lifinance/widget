@@ -8,7 +8,7 @@ import { formatTokenAmount } from '../../utils';
 import { SmallAvatar } from '../SmallAvatar';
 import { TextFitter } from '../TextFitter';
 import { TokenAvatar } from '../TokenAvatar';
-import { TextSecondary } from './Token.style';
+import { TextSecondary, TextSecondaryContainer } from './Token.style';
 
 export const Token: React.FC<
   { token: TokenAmount; connected?: boolean; step?: Step } & BoxProps
@@ -28,7 +28,7 @@ export const Token: React.FC<
           {formatTokenAmount(token.amount, token.decimals)}
         </TextFitter>
       </Box>
-      <Box display="flex">
+      <TextSecondaryContainer connected={connected} component="span">
         <TextSecondary connected={connected}>
           {t(`swap.tokenOnChain`, {
             tokenSymbol: token.symbol,
@@ -36,39 +36,42 @@ export const Token: React.FC<
           })}
         </TextSecondary>
         {step ? (
-          <Box display="flex" alignItems="flex-end" height={12} mt={0.5}>
+          <>
             <Typography
               fontSize={12}
               lineHeight={1}
               fontWeight={500}
               color="text.secondary"
               px={1}
+              mt={0.5}
             >
               &#x2022;
             </Typography>
-            <Box pr={0.75}>
-              <SmallAvatar
-                src={step.toolDetails.logoURI}
-                alt={step.toolDetails.name}
-                sx={{
-                  border: 0,
-                  marginBottom: -0.25,
-                }}
+            <Box display="flex" alignItems="flex-end" height={12} mt={0.5}>
+              <Box pr={0.75}>
+                <SmallAvatar
+                  src={step.toolDetails.logoURI}
+                  alt={step.toolDetails.name}
+                  sx={{
+                    border: 0,
+                    marginBottom: -0.25,
+                  }}
+                >
+                  {step.toolDetails.name[0]}
+                </SmallAvatar>
+              </Box>
+              <Typography
+                fontSize={12}
+                lineHeight={1}
+                fontWeight={500}
+                color="text.secondary"
               >
-                {step.toolDetails.name[0]}
-              </SmallAvatar>
+                {step.toolDetails.name}
+              </Typography>
             </Box>
-            <Typography
-              fontSize={12}
-              lineHeight={1}
-              fontWeight={500}
-              color="text.secondary"
-            >
-              {step.toolDetails.name}
-            </Typography>
-          </Box>
+          </>
         ) : null}
-      </Box>
+      </TextSecondaryContainer>
     </Box>
   );
 };

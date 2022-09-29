@@ -1,13 +1,9 @@
 import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-export const TextSecondary = styled(Typography, {
+export const TextSecondaryContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'connected',
 })<{ connected?: boolean }>(({ theme, connected }) => ({
-  fontSize: 12,
-  lineHeight: 1,
-  fontWeight: 500,
-  color: theme.palette.text.secondary,
   borderLeftWidth: connected ? 2 : 0,
   borderLeftStyle: 'solid',
   borderColor:
@@ -16,12 +12,23 @@ export const TextSecondary = styled(Typography, {
       : theme.palette.grey[800],
   margin: connected
     ? theme.spacing(0.5, 0, 0, 1.875)
-    : theme.spacing(0.5, 0, 0, 6),
+    : theme.spacing(0, 0, 0, 6),
   padding: connected
     ? theme.spacing(0, 0, 0, 3.875)
     : theme.spacing(0, 0, 0, 0),
   display: 'flex',
   alignItems: 'flex-start',
+  flexWrap: 'wrap',
+}));
+
+export const TextSecondary = styled(Typography, {
+  shouldForwardProp: (prop) => prop !== 'connected',
+})<{ connected?: boolean }>(({ theme, connected }) => ({
+  fontSize: 12,
+  lineHeight: 1,
+  fontWeight: 500,
+  color: theme.palette.text.secondary,
+  marginTop: connected ? 0 : theme.spacing(0.5),
 }));
 
 export const TokenDivider = styled(Box)(({ theme }) => ({
