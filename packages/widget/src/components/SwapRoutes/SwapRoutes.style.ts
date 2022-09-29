@@ -1,20 +1,6 @@
-import { Box, Stack as MuiStack } from '@mui/material';
+import { Box, ScopedCssBaseline, Stack as MuiStack } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 import { maxHeight } from '../AppContainer';
-
-export const Stack = styled(MuiStack)(({ theme }) => ({
-  alignItems: 'stretch',
-  display: 'flex',
-  flex: 1,
-  flexWrap: 'nowrap',
-  overflow: 'hidden',
-  borderRight: `solid ${
-    theme.palette.mode === 'light'
-      ? theme.palette.grey[300]
-      : theme.palette.grey[800]
-  }`,
-  width: 'calc(100% - 48px)',
-}));
 
 export const CollapseContainer = styled(Box)(({ theme }) => ({
   height: maxHeight,
@@ -28,7 +14,7 @@ export const ScrollableContainer = styled(Box)({
   flexDirection: 'column',
 });
 
-export const Container = styled(Box)(({ theme }) => ({
+export const Container = styled(ScopedCssBaseline)(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
   overflow: 'auto',
   width: 436,
@@ -48,4 +34,18 @@ export const Header = styled(Box)(({ theme }) => ({
   position: 'sticky',
   top: 0,
   zIndex: 1200,
+}));
+
+export const Stack = styled(MuiStack)(({ theme }) => ({
+  alignItems: 'stretch',
+  display: 'flex',
+  flex: 1,
+  flexWrap: 'nowrap',
+  overflow: 'hidden',
+  borderRight: `solid ${
+    theme.palette.mode === 'light'
+      ? theme.palette.grey[300]
+      : theme.palette.grey[800]
+  }`,
+  width: 'calc(100% - 48px)',
 }));
