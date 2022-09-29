@@ -67,7 +67,7 @@ export const SwapRoutesExpanded = () => {
     <CollapseContainer>
       <Collapse appear timeout={225} in={expanded} orientation="horizontal">
         <Grow appear timeout={225} in={expanded}>
-          <Container sx={containerStyle}>
+          <Container sx={containerStyle} enableColorScheme>
             <ScrollableContainer>
               <Header>
                 <Typography fontSize={18} fontWeight="700" flex={1} noWrap>
