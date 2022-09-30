@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useTokens } from './useTokens';
+import { useTokenSearch } from './useTokenSearch';
 
 export const useToken = (chainId: number, tokenAddress: string) => {
   const { tokens, isLoading } = useTokens(chainId);
@@ -11,8 +12,12 @@ export const useToken = (chainId: number, tokenAddress: string) => {
     return token;
   }, [chainId, tokenAddress, tokens]);
 
+  const tokenSearchEnabled = isLoading && !token;
+  const { token: searchedToken, isLoading: isSearchedTokenLoading } =
+    useTokenSearch(chainId, tokenAddress, tokenSearchEnabled);
+
   return {
-    token,
-    isLoading,
+    token: token ?? searchedToken,
+    isLoading: isLoading || (tokenSearchEnabled && isSearchedTokenLoading),
   };
 };

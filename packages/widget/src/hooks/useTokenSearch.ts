@@ -4,13 +4,13 @@ import { useLiFi } from '../providers';
 import type { Token } from '../types';
 
 export const useTokenSearch = (
-  token: string,
   chainId: number,
+  token: string,
   enabled?: boolean,
 ) => {
   const lifi = useLiFi();
   const queryClient = useQueryClient();
-  const { data, isLoading, isFetching, isFetched } = useQuery(
+  const { data, isLoading } = useQuery(
     ['token-search', chainId, token],
     async ({ queryKey: [, chainId, token], signal }) => {
       const data = await lifi.getToken(chainId as ChainId, token as string, {
@@ -34,7 +34,5 @@ export const useTokenSearch = (
   return {
     token: data,
     isLoading,
-    isFetching,
-    isFetched,
   };
 };
