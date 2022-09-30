@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.18.9](https://github.com/lifinance/widget/compare/v1.18.8...v1.18.9) (2022-09-30)
+
+
+### Bug Fixes
+
+* add ScopedCssBaseline to expandable view ([a81c216](https://github.com/lifinance/widget/commit/a81c21672813c61f63cb5917c209369fe680d142))
+* enable color scheme for container ([d2c2416](https://github.com/lifinance/widget/commit/d2c241675506e1dec57e64855e997d8daaefa15a))
+* improve token layout for longer bridge names ([36c341c](https://github.com/lifinance/widget/commit/36c341c2e10700017d6ce6b3dea785c4b32a82c4))
+* provide default values if execution time or gas cost are too small ([6bb908b](https://github.com/lifinance/widget/commit/6bb908b35d7a245dfd31879222bbd49654ea5dd6))
+* query for tokens if not present in local cache ([d809d8e](https://github.com/lifinance/widget/commit/d809d8e8fdf154ab8b74c5bba30099c019a6d907))
+* reduce default slippage ([292c2db](https://github.com/lifinance/widget/commit/292c2dbfabf71a5e1cb492c56f0cd2e8ce83746a))
+* remove old routes history object after merge ([487c990](https://github.com/lifinance/widget/commit/487c9909ff9d6fe7ed4d3754779de62217c0ee1f))
+* use i18n for execution time ([7c9a188](https://github.com/lifinance/widget/commit/7c9a18806b1fbea6cb5f94447af184c6914b5d0a))
+
 ### [1.18.8](https://github.com/lifinance/widget/compare/v1.18.7...v1.18.8) (2022-09-28)
 
 

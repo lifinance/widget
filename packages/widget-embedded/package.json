@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-embedded",
-  "version": "1.0.48",
+  "version": "1.0.49",
   "private": true,
   "type": "module",
   "scripts": {
@@ -26,7 +26,7 @@
   "dependencies": {
     "@lifi/sdk": "^1.6.0",
     "@lifi/wallet-management": "^1.1.10",
-    "@lifi/widget": "^1.18.8",
+    "@lifi/widget": "^1.18.9",
     "@mui/icons-material": "^5.10.6",
     "@mui/lab": "^5.0.0-alpha.101",
     "@mui/material": "^5.10.7",
