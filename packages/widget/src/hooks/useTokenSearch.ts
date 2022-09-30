@@ -27,7 +27,7 @@ export const useTokenSearch = (
       return data as Token;
     },
     {
-      enabled,
+      enabled: Boolean(chainId && token && enabled),
       retry: false,
     },
   );

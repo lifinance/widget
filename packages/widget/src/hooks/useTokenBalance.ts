@@ -19,21 +19,25 @@ export const useTokenBalance = (token?: Token, accountAddress?: string) => {
       tokens: Token[],
       depth = 0,
     ): Promise<TokenAmount[] | undefined> => {
-      const tokenBalances = await lifi.getTokenBalances(
-        accountAddress as string,
-        tokens,
-      );
-      if (!tokenBalances.every((token) => token.blockNumber)) {
-        if (depth > 5) {
-          console.warn('Token balance backoff depth exceeded.');
-          return undefined;
+      try {
+        const tokenBalances = await lifi.getTokenBalances(
+          accountAddress as string,
+          tokens,
+        );
+        if (!tokenBalances.every((token) => token.blockNumber)) {
+          if (depth > 5) {
+            console.warn('Token balance backoff depth exceeded.');
+            return undefined;
+          }
+          await new Promise((resolve) => {
+            setTimeout(resolve, depth * 100);
+          });
+          return getTokenBalancesWithRetry(accountAddress, tokens, depth + 1);
         }
-        await new Promise((resolve) => {
-          setTimeout(resolve, depth * 100);
-        });
-        return getTokenBalancesWithRetry(accountAddress, tokens, depth + 1);
+        return tokenBalances;
+      } catch (error) {
+        //
       }
-      return tokenBalances;
     },
     [lifi],
   );

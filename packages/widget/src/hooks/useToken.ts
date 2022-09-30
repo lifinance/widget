@@ -12,7 +12,7 @@ export const useToken = (chainId: number, tokenAddress: string) => {
     return token;
   }, [chainId, tokenAddress, tokens]);
 
-  const tokenSearchEnabled = isLoading && !token;
+  const tokenSearchEnabled = !isLoading && !token;
   const { token: searchedToken, isLoading: isSearchedTokenLoading } =
     useTokenSearch(chainId, tokenAddress, tokenSearchEnabled);
 
