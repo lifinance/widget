@@ -58,7 +58,7 @@
     "stepSwap": "Swap",
     "stepBridge": "Bridge",
     "stepSwapAndBridge": "Swap and bridge",
-    "estimatedTime": "~{{value}} min.",
+    "estimatedTime": "{{value}}m",
     "crossStepDetails": "Bridge from {{from}} to {{to}} via {{tool}}",
     "swapStepDetails": "Swap on {{chain}} via {{tool}}",
     "tokenOnChain": "{{tokenSymbol}} on {{chainName}}",

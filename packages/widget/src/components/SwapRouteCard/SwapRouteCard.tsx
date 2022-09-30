@@ -119,7 +119,9 @@ export const SwapRouteCardEssentials: React.FC<
           fontWeight="500"
           lineHeight={1}
         >
-          {`${executionTime}m`}
+          {t('swap.estimatedTime', {
+            value: executionTime,
+          })}
         </Typography>
       </Box>
       {!dense ? (
