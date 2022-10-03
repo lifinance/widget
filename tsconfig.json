@@ -27,6 +27,5 @@
     "**/build",
     "**/dist",
     "node_modules",
-    "**/react-scripts/*"
   ]
 }
