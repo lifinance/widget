@@ -33,7 +33,6 @@ export const StepProcess: React.FC<{
           >
             <LinkButton
               size="small"
-              aria-label="settings"
               edge="end"
               LinkComponent={Link}
               href={process.txLink}

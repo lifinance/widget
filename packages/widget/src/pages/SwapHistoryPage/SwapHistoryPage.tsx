@@ -34,12 +34,7 @@ export const SwapHistoryPage: React.FC = () => {
   useEffect(() => {
     if (swaps.length) {
       return useHeaderActionStore.getState().setAction(
-        <IconButton
-          size="medium"
-          aria-label="settings"
-          edge="end"
-          onClick={toggleDialog}
-        >
+        <IconButton size="medium" edge="end" onClick={toggleDialog}>
           <DeleteIcon />
         </IconButton>,
       );
@@ -65,12 +60,12 @@ export const SwapHistoryPage: React.FC = () => {
         <DialogTitle>{t('swap.warning.title.deleteSwapHistory')}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {t('swap.warning.message.deleteSwap')}
+            {t('swap.warning.message.deleteSwapHistory')}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={toggleDialog}>{t('button.cancel')}</Button>
-          <Button onClick={deleteRoutes} autoFocus>
+          <Button onClick={() => deleteRoutes('completed')} autoFocus>
             {t('button.delete')}
           </Button>
         </DialogActions>

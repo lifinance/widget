@@ -60,12 +60,7 @@ export const NavigationHeader: React.FC = () => {
   return (
     <HeaderAppBar elevation={0}>
       {backButtonRoutes.includes(path) ? (
-        <IconButton
-          size="medium"
-          aria-label="settings"
-          edge="start"
-          onClick={navigateBack}
-        >
+        <IconButton size="medium" edge="start" onClick={navigateBack}>
           <ArrowBackIcon />
         </IconButton>
       ) : null}
@@ -86,7 +81,6 @@ export const NavigationHeader: React.FC = () => {
               {account.isActive ? (
                 <IconButton
                   size="medium"
-                  aria-label="swap-history"
                   edge="start"
                   onClick={() => navigate(navigationRoutes.swapHistory)}
                 >
@@ -95,7 +89,6 @@ export const NavigationHeader: React.FC = () => {
               ) : null}
               <IconButton
                 size="medium"
-                aria-label="settings"
                 edge="end"
                 onClick={() => navigate(navigationRoutes.settings)}
               >

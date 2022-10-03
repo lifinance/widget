@@ -52,9 +52,15 @@ export const useRouteExecutionStore = create<RouteExecutionStore>()(
             delete state.routes[routeId];
           }
         }),
-      deleteRoutes: () =>
+      deleteRoutes: (type) =>
         set((state: RouteExecutionStore) => {
-          state.routes = {};
+          Object.keys(state.routes)
+            .filter((routeId) =>
+              type === 'completed'
+                ? state.routes[routeId]?.status === 'success'
+                : state.routes[routeId]?.status !== 'success',
+            )
+            .forEach((routeId) => delete state.routes[routeId]);
         }),
     })),
     {

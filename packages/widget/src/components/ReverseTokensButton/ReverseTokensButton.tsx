@@ -24,11 +24,7 @@ export const ReverseTokensButton: React.FC<{ vertical?: boolean }> = ({
     setValue(SwapFormKey.ToToken, fromToken);
   };
   return (
-    <IconButton
-      onClick={handleClick}
-      size="small"
-      aria-label="swap-destinations"
-    >
+    <IconButton onClick={handleClick} size="small">
       {vertical ? <SwapVertIcon /> : <SwapHorizIcon />}
     </IconButton>
   );

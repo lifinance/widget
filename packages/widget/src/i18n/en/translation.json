@@ -98,12 +98,14 @@
       "title": {
         "insufficientGas": "Insufficient gas",
         "deleteSwap": "Delete this swap?",
-        "deleteSwapHistory": "Delete swap history?"
+        "deleteSwapHistory": "Delete swap history?",
+        "deleteActiveSwaps": "Delete all active swaps?"
       },
       "message": {
         "insufficientFunds": "You don't have enough funds to execute the swap.",
         "insufficientGas": "You need to add at least:",
-        "deleteSwap": "Swap history is only stored locally and can't be recovered if you delete it."
+        "deleteSwapHistory": "Swap history is only stored locally and can't be recovered if you delete it.",
+        "deleteActiveSwaps": "Active swaps are only stored locally and can't be recovered if you delete them."
       }
     },
     "error": {

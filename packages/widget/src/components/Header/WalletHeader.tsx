@@ -33,12 +33,7 @@ export const WalletHeader: React.FC = () => {
               {walletAddress}
             </Typography>
           </Box>
-          <IconButton
-            size="medium"
-            aria-label="disconnect"
-            edge="end"
-            onClick={disconnect}
-          >
+          <IconButton size="medium" edge="end" onClick={disconnect}>
             <LogoutIcon />
           </IconButton>
         </>
@@ -75,7 +70,6 @@ const ConnectButton = () => {
   return (
     <IconButton
       size="medium"
-      aria-label="disconnect"
       edge="end"
       onClick={
         !pathname.includes(navigationRoutes.selectWallet) ? connect : undefined

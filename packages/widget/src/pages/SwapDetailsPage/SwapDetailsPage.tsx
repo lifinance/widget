@@ -52,12 +52,7 @@ export const SwapDetailsPage: React.FC = () => {
 
   useEffect(() => {
     return useHeaderActionStore.getState().setAction(
-      <IconButton
-        size="medium"
-        aria-label="settings"
-        edge="end"
-        onClick={toggleDialog}
-      >
+      <IconButton size="medium" edge="end" onClick={toggleDialog}>
         <DeleteIcon />
       </IconButton>,
     );
@@ -120,11 +115,7 @@ export const SwapDetailsPage: React.FC = () => {
         >
           <CardTitle flex={1}>{t('swap.supportId')}</CardTitle>
           <Box mr={1} mt={1}>
-            <IconButton
-              size="medium"
-              aria-label="settings"
-              onClick={copyRouteId}
-            >
+            <IconButton size="medium" onClick={copyRouteId}>
               <ContentCopyIcon fontSize="small" />
             </IconButton>
           </Box>
