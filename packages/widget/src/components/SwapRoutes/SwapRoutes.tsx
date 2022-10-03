@@ -66,7 +66,7 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
           ml={2}
           mr={routeNotFound ? 2 : 1}
           sx={{
-            borderWidth:
+            borderRightWidth:
               !routeNotFound && (isFetching || (routes && routes.length > 1))
                 ? 1
                 : 0,
@@ -103,7 +103,6 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
               <IconButton
                 onClick={handleCardClick}
                 size="medium"
-                aria-label="swap-routes"
                 disabled={isValidating || !isValid}
               >
                 <KeyboardArrowRightIcon />
