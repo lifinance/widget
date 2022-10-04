@@ -82,12 +82,12 @@ export const SwapRouteCardEssentials: React.FC<
   SwapRouteCardEssentialsProps
 > = ({ route, dense }) => {
   const { t } = useTranslation();
-  const executionTime =
-    (
-      route.steps
-        .map((step) => step.estimate.executionDuration)
-        .reduce((duration, x) => duration + x) / 60
-    ).toFixed(0) || 1;
+  const executionTimeMinutes = Math.ceil(
+    route.steps
+      .map((step) => step.estimate.executionDuration)
+      .reduce((duration, x) => duration + x, 0) / 60,
+  );
+  const gasCostUSD = parseFloat(route.gasCostUSD ?? '') || 0.01;
   return (
     <Box
       display="flex"
@@ -106,7 +106,7 @@ export const SwapRouteCardEssentials: React.FC<
           fontWeight="500"
           lineHeight={1}
         >
-          {t(`swap.currency`, { value: route.gasCostUSD ?? 0.01 })}
+          {t(`swap.currency`, { value: gasCostUSD })}
         </Typography>
       </Box>
       <Box display="flex" alignItems="center" pr={dense ? 0 : 2}>
@@ -120,7 +120,7 @@ export const SwapRouteCardEssentials: React.FC<
           lineHeight={1}
         >
           {t('swap.estimatedTime', {
-            value: executionTime,
+            value: executionTimeMinutes,
           })}
         </Typography>
       </Box>
