@@ -90,19 +90,21 @@ export const useSwapRoutes = () => {
         } catch {
           toWalletAddress = isAddress(toAddress) ? toAddress : fromAddress;
         }
+        const fromAmount = Big(
+          Number(fromTokenAmount) * 10 ** (token?.decimals ?? 0),
+        ).toString();
+        const formattedSlippage = parseFloat(slippage) / 100;
         return lifi.getRoutes(
           {
             fromChainId,
-            fromAmount: Big(
-              Number(fromTokenAmount) * 10 ** (token?.decimals ?? 0),
-            ).toString(),
+            fromAmount,
             fromTokenAddress,
             toChainId,
             toTokenAddress,
             fromAddress,
             toAddress: toWalletAddress,
             options: {
-              slippage: slippage / 100,
+              slippage: formattedSlippage,
               bridges: {
                 allow: enabledBridges,
               },
