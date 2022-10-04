@@ -2,7 +2,7 @@ import { isAddress } from '@ethersproject/address';
 import type { BoxProps } from '@mui/material';
 import { Collapse, FormHelperText } from '@mui/material';
 import { forwardRef, useEffect } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { SwapFormKey, useWallet } from '../../providers';
 import { Card, CardTitle } from '../Card';
@@ -15,11 +15,7 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
     (state) => state.showSendToWallet,
   );
   const { account, provider } = useWallet();
-  const {
-    register,
-    trigger,
-    formState: { errors },
-  } = useFormContext();
+  const { register, trigger } = useFormContext();
 
   useEffect(() => {
     trigger(SwapFormKey.ToAddress);
@@ -66,11 +62,19 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
             placeholder={t('swap.walletAddressOrEns')}
             autoFocus
           />
-          <FormHelperText error={!!errors.toAddress}>
-            {errors.toAddress?.message as string}
-          </FormHelperText>
+          <SendToWalletFormHelperText />
         </FormControl>
       </Card>
     </Collapse>
   );
 });
+
+export const SendToWalletFormHelperText: React.FC = () => {
+  const { errors } = useFormState();
+
+  return (
+    <FormHelperText error={!!errors.toAddress}>
+      {errors.toAddress?.message as string}
+    </FormHelperText>
+  );
+};
