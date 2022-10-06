@@ -16,6 +16,7 @@ export const widgetDrawerConfig: WidgetConfig = {
     allow: [], // 1, 1285, 10, 56, 137
     deny: [],
   },
+  buildSwapUrl: true,
   // sdkConfig: {
   //   apiUrl: 'https://developkub.li.finance/v1/',
   // },

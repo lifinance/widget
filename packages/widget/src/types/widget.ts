@@ -49,6 +49,8 @@ export interface WidgetConfig {
   walletManagement?: WidgetWalletManagement;
   sdkConfig?: ConfigUpdate;
 
+  buildSwapUrl?: boolean;
+
   bridges?: {
     allow?: string[];
     deny?: string[];

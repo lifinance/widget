@@ -2,6 +2,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useWidgetConfig } from '../WidgetProvider';
 import type { SwapFormValues } from './types';
 import { SwapFormKey } from './types';
+import { URLSearchParamsBuilder } from './URLSearchParamsBuilder';
 
 export const formDefaultValues = {
   [SwapFormKey.FromAmount]: '',
@@ -12,8 +13,15 @@ export const formDefaultValues = {
 export const SwapFormProvider: React.FC<React.PropsWithChildren<{}>> = ({
   children,
 }) => {
-  const { fromChain, fromToken, fromAmount, toChain, toToken, toAddress } =
-    useWidgetConfig();
+  const {
+    fromChain,
+    fromToken,
+    fromAmount,
+    toChain,
+    toToken,
+    toAddress,
+    buildSwapUrl,
+  } = useWidgetConfig();
 
   const methods = useForm<SwapFormValues>({
     defaultValues: {
@@ -30,5 +38,10 @@ export const SwapFormProvider: React.FC<React.PropsWithChildren<{}>> = ({
     },
   });
 
-  return <FormProvider {...methods}>{children}</FormProvider>;
+  return (
+    <FormProvider {...methods}>
+      {buildSwapUrl ? <URLSearchParamsBuilder /> : null}
+      {children}
+    </FormProvider>
+  );
 };

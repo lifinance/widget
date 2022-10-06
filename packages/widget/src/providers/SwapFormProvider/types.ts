@@ -2,20 +2,20 @@ export enum SwapFormKey {
   FromAmount = 'fromAmount',
   FromChain = 'fromChain',
   FromToken = 'fromToken',
-  TokenSearchFilter = 'tokenSearchFilter',
+  ToAddress = 'toAddress',
   ToChain = 'toChain',
   ToToken = 'toToken',
-  ToAddress = 'toAddress',
+  TokenSearchFilter = 'tokenSearchFilter',
 }
 
 export type SwapFormValues = {
   [SwapFormKey.FromAmount]: string;
   [SwapFormKey.FromChain]: number;
   [SwapFormKey.FromToken]: string;
-  [SwapFormKey.TokenSearchFilter]: string;
+  [SwapFormKey.ToAddress]: string;
   [SwapFormKey.ToChain]: number;
   [SwapFormKey.ToToken]: string;
-  [SwapFormKey.ToAddress]: string;
+  [SwapFormKey.TokenSearchFilter]: string;
 };
 
 export type SwapFormType = 'from' | 'to';

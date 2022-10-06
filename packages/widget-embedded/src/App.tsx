@@ -1,16 +1,10 @@
-import type { Route, Token } from '@lifi/sdk';
+import type { Token } from '@lifi/sdk';
 import {
   addChain,
   switchChain,
   switchChainAndAddToken,
 } from '@lifi/wallet-management';
-import type { RouteExecutionUpdate } from '@lifi/widget';
-import {
-  LiFiWidget,
-  LiFiWidgetDrawer,
-  useWidgetEvents,
-  WidgetEvent,
-} from '@lifi/widget';
+import { LiFiWidget, LiFiWidgetDrawer } from '@lifi/widget';
 import {
   Box,
   // Button,
@@ -28,13 +22,13 @@ import {
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import React, { useEffect, useState } from 'react';
 import { WalletButtons } from './components/WalletButtons';
+import { WidgetEvents } from './components/WidgetEvents';
 import { widgetConfig, widgetDrawerConfig } from './config';
 import './index.css';
 import { useWallet } from './providers/WalletProvider';
 
 export const App = () => {
   const { connect, disconnect, account } = useWallet();
-  const widgetEvents = useWidgetEvents();
   const [searchParams] = useState(() =>
     Object.fromEntries(new URLSearchParams(window?.location.search)),
   );
@@ -174,31 +168,9 @@ export const App = () => {
     }
   }, [darkMode, prefersDarkMode, primary, secondary, systemColor]);
 
-  useEffect(() => {
-    const onRouteExecutionStarted = (route: Route) => {
-      // console.log('onRouteExecutionStarted fired.');
-    };
-    const onRouteExecutionUpdated = (update: RouteExecutionUpdate) => {
-      // console.log('onRouteExecutionUpdated fired.');
-    };
-    const onRouteExecutionCompleted = (route: Route) => {
-      // console.log('onRouteExecutionCompleted fired.');
-    };
-    const onRouteExecutionFailed = (update: RouteExecutionUpdate) => {
-      // console.log('onRouteExecutionFailed fired.');
-    };
-    widgetEvents.on(WidgetEvent.RouteExecutionStarted, onRouteExecutionStarted);
-    widgetEvents.on(WidgetEvent.RouteExecutionUpdated, onRouteExecutionUpdated);
-    widgetEvents.on(
-      WidgetEvent.RouteExecutionCompleted,
-      onRouteExecutionCompleted,
-    );
-    widgetEvents.on(WidgetEvent.RouteExecutionFailed, onRouteExecutionFailed);
-    return () => widgetEvents.all.clear();
-  }, [widgetEvents]);
-
   return (
     <ThemeProvider theme={theme}>
+      <WidgetEvents />
       <Box display="flex" height="100vh">
         <CssBaseline />
         <Drawer
