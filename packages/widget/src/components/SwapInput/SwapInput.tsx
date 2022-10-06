@@ -39,14 +39,18 @@ export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { value } = event.target;
-    setValue(amountKey, formatAmount(value, true));
+    const formattedAmount = formatAmount(value, true);
+    setValue(amountKey, formattedAmount, {
+      shouldDirty: true,
+    });
   };
 
   const handleBlur = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { value } = event.target;
-    setValue(amountKey, formatAmount(value));
+    const formattedAmount = formatAmount(value);
+    setValue(amountKey, formattedAmount);
   };
 
   useLayoutEffect(() => {

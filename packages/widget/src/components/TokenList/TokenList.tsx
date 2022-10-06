@@ -83,9 +83,7 @@ export const TokenList: FC<TokenListProps> = ({
         selectedOppositeToken === tokenAddress &&
         selectedOppositeChain === selectedChain
       ) {
-        setValue(SwapFormKeyHelper.getTokenKey(oppositeFormType), '', {
-          shouldDirty: false,
-        });
+        setValue(SwapFormKeyHelper.getTokenKey(oppositeFormType), '');
       }
       onClick?.();
     },

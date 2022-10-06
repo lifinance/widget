@@ -24,9 +24,7 @@ export const useChainSelect = (formType: SwapFormType) => {
 
   const setCurrentChain = (chainId: number) => {
     setValue(chainKey, chainId, { shouldDirty: true });
-    setValue(SwapFormKeyHelper.getTokenKey(formType), '', {
-      shouldDirty: false,
-    });
+    setValue(SwapFormKeyHelper.getTokenKey(formType), '');
     setValue(SwapFormKeyHelper.getAmountKey(formType), '');
     setValue(SwapFormKey.TokenSearchFilter, '');
     setChainOrder(chainId);

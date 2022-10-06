@@ -66,7 +66,7 @@ export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
           </IconButton>
         ) : null}
       </Box>
-      <Collapse mountOnEnter unmountOnExit in={cardExpanded}>
+      <Collapse timeout={225} in={cardExpanded} mountOnEnter unmountOnExit>
         {route.steps.map((step) => (
           <StepActions key={step.id} step={step} mt={2} />
         ))}

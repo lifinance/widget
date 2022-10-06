@@ -19,7 +19,9 @@ export const SwapInputAdornment = ({ formType }: SwapFormTypeProps) => {
   const { token, isLoading } = useTokenAddressBalance(chainId, tokenAddress);
 
   const handleMax = () => {
-    setValue(SwapFormKeyHelper.getAmountKey(formType), token?.amount ?? '');
+    setValue(SwapFormKeyHelper.getAmountKey(formType), token?.amount ?? '', {
+      shouldDirty: true,
+    });
   };
 
   return (
