@@ -16,11 +16,9 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { useFormContext } from 'react-hook-form';
-import { useChainOrderStore } from '../../stores';
-import { SwapFormKey } from '../SwapFormProvider';
-import { isItemAllowed, useWidgetConfig } from '../WidgetProvider';
+import { useWidgetConfig } from '../WidgetProvider';
 import type { WalletAccount, WalletContextProps } from './types';
+import { WalletFormUpdate } from './WalletFormUpdate';
 
 const stub = (): never => {
   throw new Error('You forgot to wrap your component in <WalletProvider>.');
@@ -40,9 +38,7 @@ const WalletContext = createContext<WalletContextProps>(initialContext);
 export const useWallet = (): WalletContextProps => useContext(WalletContext);
 
 export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
-  const { walletManagement, fromChain, toChain, chains, disabledChains } =
-    useWidgetConfig();
-  const methods = useFormContext();
+  const { walletManagement } = useWidgetConfig();
   const {
     connect: walletManagementConnect,
     disconnect: walletManagementDisconnect,
@@ -135,84 +131,11 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
     [account, addChain, addToken, connect, disconnect, provider, switchChain],
   );
 
-  // Set wallet chain as default if no chains are provided by config and if they were not changed during widget usage
-  useEffect(() => {
-    const chainAllowed =
-      account.chainId && isItemAllowed(account.chainId, chains, disabledChains);
-    if (!account.isActive || !account.chainId || !chainAllowed) {
-      return;
-    }
-
-    const [fromChainValue, toChainValue] = methods.getValues([
-      SwapFormKey.FromChain,
-      SwapFormKey.ToChain,
-    ]);
-
-    const { isDirty: isFromChainDirty } = methods.getFieldState(
-      SwapFormKey.FromChain,
-      methods.formState,
-    );
-    const { isDirty: isToChainDirty } = methods.getFieldState(
-      SwapFormKey.ToChain,
-      methods.formState,
-    );
-    const { isDirty: isFromTokenDirty } = methods.getFieldState(
-      SwapFormKey.FromToken,
-      methods.formState,
-    );
-    const { isDirty: isToTokenDirty } = methods.getFieldState(
-      SwapFormKey.ToToken,
-      methods.formState,
-    );
-
-    const { chainOrder, setChain } = useChainOrderStore.getState();
-
-    // Users can switch chains in the wallet.
-    // If we don't have a chain in the ordered chain list we should add it.
-    setChain(account.chainId);
-
-    // If we ran out of slots for the ordered chain list and the current chain isn't there
-    // we should make a recently switched chain as current.
-    const hasFromChainInOrderedList = chainOrder.includes(fromChainValue);
-    const hasToChainInOrderedList = chainOrder.includes(toChainValue);
-
-    if (
-      (!fromChain && !isFromChainDirty && !isFromTokenDirty) ||
-      !hasFromChainInOrderedList
-    ) {
-      methods.setValue(SwapFormKey.FromChain, account.chainId, {
-        shouldDirty: false,
-      });
-      methods.setValue(SwapFormKey.FromToken, '', {
-        shouldDirty: false,
-      });
-      methods.setValue(SwapFormKey.FromAmount, '', {
-        shouldDirty: false,
-      });
-    }
-    if (
-      (!toChain && !isToChainDirty && !isToTokenDirty) ||
-      !hasToChainInOrderedList
-    ) {
-      methods.setValue(SwapFormKey.ToChain, account.chainId, {
-        shouldDirty: false,
-      });
-      methods.setValue(SwapFormKey.ToToken, '', {
-        shouldDirty: false,
-      });
-    }
-  }, [
-    account.chainId,
-    account.isActive,
-    chains,
-    disabledChains,
-    fromChain,
-    methods,
-    toChain,
-  ]);
-
   return (
-    <WalletContext.Provider value={value}>{children}</WalletContext.Provider>
+    <WalletContext.Provider value={value}>
+      <WalletFormUpdate account={account} />
+      {children}
+    </WalletContext.Provider>
   );
 };
 
