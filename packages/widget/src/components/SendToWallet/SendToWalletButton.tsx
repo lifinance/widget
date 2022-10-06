@@ -19,7 +19,7 @@ export const SendToWalletButton: React.FC = () => {
 
   const handleClick = () => {
     if (showSendToWallet) {
-      setValue(SwapFormKey.ToAddress, '');
+      setValue(SwapFormKey.ToAddress, '', { shouldTouch: true });
     }
     toggleSendToWallet();
   };

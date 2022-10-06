@@ -69,25 +69,29 @@ export const TokenList: FC<TokenListProps> = ({
   const handleTokenClick = useCallback(
     (tokenAddress: string) => {
       setValue(SwapFormKeyHelper.getTokenKey(formType), tokenAddress, {
-        shouldDirty: true,
+        shouldTouch: true,
+      });
+      // Set chain again to trigger URL builder update
+      setValue(SwapFormKeyHelper.getChainKey(formType), selectedChainId, {
+        shouldTouch: true,
       });
       setValue(SwapFormKeyHelper.getAmountKey(formType), '');
       const oppositeFormType = formType === 'from' ? 'to' : 'from';
-      const [selectedOppositeToken, selectedOppositeChain, selectedChain] =
-        getValues([
-          SwapFormKeyHelper.getTokenKey(oppositeFormType),
-          SwapFormKeyHelper.getChainKey(oppositeFormType),
-          SwapFormKeyHelper.getChainKey(formType),
-        ]);
+      const [selectedOppositeToken, selectedOppositeChainId] = getValues([
+        SwapFormKeyHelper.getTokenKey(oppositeFormType),
+        SwapFormKeyHelper.getChainKey(oppositeFormType),
+      ]);
       if (
         selectedOppositeToken === tokenAddress &&
-        selectedOppositeChain === selectedChain
+        selectedOppositeChainId === selectedChainId
       ) {
-        setValue(SwapFormKeyHelper.getTokenKey(oppositeFormType), '');
+        setValue(SwapFormKeyHelper.getTokenKey(oppositeFormType), '', {
+          shouldTouch: true,
+        });
       }
       onClick?.();
     },
-    [formType, getValues, onClick, setValue],
+    [formType, getValues, onClick, selectedChainId, setValue],
   );
 
   return (

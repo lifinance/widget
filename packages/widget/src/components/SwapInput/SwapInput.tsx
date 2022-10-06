@@ -41,7 +41,7 @@ export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
     const { value } = event.target;
     const formattedAmount = formatAmount(value, true);
     setValue(amountKey, formattedAmount, {
-      shouldDirty: true,
+      shouldTouch: true,
     });
   };
 

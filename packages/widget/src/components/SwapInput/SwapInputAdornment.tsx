@@ -20,7 +20,7 @@ export const SwapInputAdornment = ({ formType }: SwapFormTypeProps) => {
 
   const handleMax = () => {
     setValue(SwapFormKeyHelper.getAmountKey(formType), token?.amount ?? '', {
-      shouldDirty: true,
+      shouldTouch: true,
     });
   };
 

@@ -23,7 +23,7 @@ export const useChainSelect = (formType: SwapFormType) => {
   };
 
   const setCurrentChain = (chainId: number) => {
-    setValue(chainKey, chainId, { shouldDirty: true });
+    setValue(chainKey, chainId, { shouldTouch: true });
     setValue(SwapFormKeyHelper.getTokenKey(formType), '');
     setValue(SwapFormKeyHelper.getAmountKey(formType), '');
     setValue(SwapFormKey.TokenSearchFilter, '');

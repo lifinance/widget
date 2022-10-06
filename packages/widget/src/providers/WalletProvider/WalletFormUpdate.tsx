@@ -14,8 +14,8 @@ export const WalletFormUpdate: React.FC<{ account: WalletAccount }> = ({
     setValue,
     getValues,
     getFieldState,
-    // Subscription to dirtyFields is required by getFieldState to work
-    formState: { dirtyFields },
+    // Subscription to touchedFields is required by getFieldState to work
+    formState: { touchedFields },
   } = useFormContext();
 
   // Set wallet chain as default if no chains are provided by config and if they were not changed during widget usage
@@ -31,11 +31,15 @@ export const WalletFormUpdate: React.FC<{ account: WalletAccount }> = ({
       SwapFormKey.ToChain,
     ]);
 
-    const { isDirty: isFromChainDirty } = getFieldState(SwapFormKey.FromChain);
-    const { isDirty: isToChainDirty } = getFieldState(SwapFormKey.ToChain);
-    const { isDirty: isFromTokenDirty } = getFieldState(SwapFormKey.FromToken);
-    const { isDirty: isToTokenDirty } = getFieldState(SwapFormKey.ToToken);
-    const { isDirty: isFromAmountDirty } = getFieldState(
+    const { isTouched: isFromChainTouched } = getFieldState(
+      SwapFormKey.FromChain,
+    );
+    const { isTouched: isToChainTouched } = getFieldState(SwapFormKey.ToChain);
+    const { isTouched: isFromTokenTouched } = getFieldState(
+      SwapFormKey.FromToken,
+    );
+    const { isTouched: isToTokenTouched } = getFieldState(SwapFormKey.ToToken);
+    const { isTouched: isFromAmountTouched } = getFieldState(
       SwapFormKey.FromAmount,
     );
 
@@ -51,17 +55,17 @@ export const WalletFormUpdate: React.FC<{ account: WalletAccount }> = ({
     const hasToChainInOrderedList = chainOrder.includes(toChainValue);
 
     if (
-      (!fromChain && !isFromChainDirty && !isFromTokenDirty) ||
+      (!fromChain && !isFromChainTouched && !isFromTokenTouched) ||
       !hasFromChainInOrderedList
     ) {
       setValue(SwapFormKey.FromChain, account.chainId);
       setValue(SwapFormKey.FromToken, '');
-      if (isFromAmountDirty) {
+      if (isFromAmountTouched) {
         setValue(SwapFormKey.FromAmount, '');
       }
     }
     if (
-      (!toChain && !isToChainDirty && !isToTokenDirty) ||
+      (!toChain && !isToChainTouched && !isToTokenTouched) ||
       !hasToChainInOrderedList
     ) {
       setValue(SwapFormKey.ToChain, account.chainId);

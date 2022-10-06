@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { useFormState, useWatch } from 'react-hook-form';
 import { useLocation } from 'react-router-dom';
 import { SwapFormKey } from './types';
@@ -12,41 +12,25 @@ const formValueKeys = [
   SwapFormKey.ToToken,
 ];
 
-const replcateUrlState = (urlSearchParams?: URLSearchParams) => {
-  if (!urlSearchParams) {
-    return;
-  }
-  const url = new URL(window.location as any);
-  urlSearchParams.forEach((value, key) => {
-    if (value) {
-      url.searchParams.set(key, value);
-    } else {
-      url.searchParams.delete(key);
-    }
-  });
-  window.history.replaceState(null, '', url);
-};
-
 export const URLSearchParamsBuilder = () => {
   const { pathname } = useLocation();
-  const urlSearchParamsRef = useRef<URLSearchParams>();
-  const { dirtyFields } = useFormState();
+  const {
+    touchedFields: { ...touchedFields },
+  } = useFormState();
   const values = useWatch({ name: formValueKeys });
 
   useEffect(() => {
-    const urlSearchParams = new URLSearchParams();
+    const url = new URL(window.location as any);
     formValueKeys.forEach((key, index) => {
-      if (dirtyFields[key]) {
-        urlSearchParams.set(key, values[index] || '');
+      if (touchedFields[key] && values[index]) {
+        url.searchParams.set(key, values[index]);
+      } else if (url.searchParams.has(key) && !values[index]) {
+        url.searchParams.delete(key);
       }
     });
-    replcateUrlState(urlSearchParams);
-    urlSearchParamsRef.current = urlSearchParams;
-  }, [dirtyFields, values]);
-
-  useEffect(() => {
-    replcateUrlState(urlSearchParamsRef.current);
-  }, [pathname]);
+    url.searchParams.sort();
+    window.history.replaceState(null, '', url);
+  }, [pathname, touchedFields, values]);
 
   return null;
 };

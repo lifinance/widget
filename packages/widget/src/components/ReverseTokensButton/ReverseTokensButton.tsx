@@ -17,11 +17,11 @@ export const ReverseTokensButton: React.FC<{ vertical?: boolean }> = ({
       SwapFormKey.ToChain,
       SwapFormKey.ToToken,
     ]);
-    setValue(SwapFormKey.FromAmount, '');
-    setValue(SwapFormKey.FromChain, toChain);
-    setValue(SwapFormKey.FromToken, toToken);
-    setValue(SwapFormKey.ToChain, fromChain);
-    setValue(SwapFormKey.ToToken, fromToken);
+    setValue(SwapFormKey.FromAmount, '', { shouldTouch: true });
+    setValue(SwapFormKey.FromChain, toChain, { shouldTouch: true });
+    setValue(SwapFormKey.FromToken, toToken, { shouldTouch: true });
+    setValue(SwapFormKey.ToChain, fromChain, { shouldTouch: true });
+    setValue(SwapFormKey.ToToken, fromToken, { shouldTouch: true });
   };
   return (
     <IconButton onClick={handleClick} size="small">
