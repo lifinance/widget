@@ -1,6 +1,7 @@
 import type { ChainKey } from '@lifi/sdk';
 import { getChainByKey } from '@lifi/sdk';
 import { createContext, useContext, useMemo } from 'react';
+import { formatAmount } from '../../utils';
 import type { WidgetContextProps, WidgetProviderProps } from './types';
 
 const initialContext: WidgetContextProps = {
@@ -30,6 +31,12 @@ export const WidgetProvider: React.FC<
       const searchParams = Object.fromEntries(
         new URLSearchParams(window?.location.search),
       );
+      // Prevent using fromToken/toToken params if chain is not selected
+      ['from', 'to'].forEach((key) => {
+        if (searchParams[`${key}Token`] && !searchParams[`${key}Chain`]) {
+          delete searchParams[`${key}Token`];
+        }
+      });
       return {
         ...config,
         fromChain:
@@ -65,7 +72,7 @@ export const WidgetProvider: React.FC<
         fromAmount:
           typeof searchParams.fromAmount === 'string' &&
           !isNaN(parseFloat(searchParams.fromAmount))
-            ? searchParams.fromAmount
+            ? formatAmount(searchParams.fromAmount)
             : fromAmount,
       } as WidgetContextProps;
     } catch (e) {
