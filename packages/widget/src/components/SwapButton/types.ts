@@ -5,4 +5,6 @@ export interface SwapButtonProps {
   currentRoute?: Route;
   text?: string;
   disable?: boolean;
+  loading?: boolean;
+  enableLoading?: boolean;
 }

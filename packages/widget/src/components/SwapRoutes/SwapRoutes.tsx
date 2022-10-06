@@ -14,7 +14,7 @@ import {
 import { useSwapRoutes } from '../../hooks';
 import { navigationRoutes } from '../../utils';
 import { Stack } from './SwapRoutes.style';
-import { useSetSelectedRoute } from './useSetSelectedRoute';
+import { useSetRecommendedRoute } from './useSetRecommendedRoute';
 
 export const SwapRoutes: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation();
@@ -32,7 +32,7 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
 
   const currentRoute = routes?.[0];
 
-  useSetSelectedRoute(currentRoute, isFetching);
+  useSetRecommendedRoute(currentRoute, isFetching);
 
   if (!currentRoute && !isLoading && !isFetching && !isFetched) {
     return null;

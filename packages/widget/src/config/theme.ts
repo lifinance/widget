@@ -1,3 +1,4 @@
+import { loadingButtonClasses } from '@mui/lab/LoadingButton';
 import type { PaletteMode, SimplePaletteColorOptions } from '@mui/material';
 import { common } from '@mui/material/colors';
 import { dialogActionsClasses } from '@mui/material/DialogActions';
@@ -102,6 +103,10 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
       palette.primary.main,
     0.2,
   );
+  const contrastButtonColor =
+    getContrastRatio(common.white, primaryMainColor) >= 3
+      ? common.white
+      : common.black;
   return createMuiTheme({
     typography: {
       fontFamily: 'Inter var, Inter, sans-serif',
@@ -168,14 +173,27 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
               theme.shape?.borderRadiusSecondary ?? shape.borderRadiusSecondary,
             textTransform: 'none',
             fontSize: '1rem',
-            '&.Mui-disabled, &.Mui-disabled:hover': {
+            [`&.Mui-disabled, &.Mui-disabled:hover`]: {
               color:
                 mode === 'light'
-                  ? 'rgb(0 0 0 / 70%)'
-                  : 'rgb(255 255 255 / 70%)',
+                  ? 'rgb(0 0 0 / 56%)'
+                  : 'rgb(255 255 255 / 56%)',
               cursor: 'not-allowed',
               pointerEvents: 'auto',
             },
+            [`&.${loadingButtonClasses.root}.Mui-disabled`]: {
+              backgroundColor: primaryMainColor,
+              color: contrastButtonColor,
+              cursor: 'auto',
+              pointerEvents: 'auto',
+            },
+            [`.${loadingButtonClasses.loadingIndicator}`]: {
+              color: contrastButtonColor,
+            },
+            [`&.${loadingButtonClasses.root}.${loadingButtonClasses.loading}`]:
+              {
+                color: 'transparent',
+              },
           },
           text: {
             backgroundColor: alpha(primaryMainColor, 0.08),
@@ -185,10 +203,7 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
           },
           contained: {
             '&:hover': {
-              color:
-                getContrastRatio(common.white, primaryMainColor) >= 3
-                  ? common.white
-                  : common.black,
+              color: contrastButtonColor,
             },
           },
           sizeMedium: {

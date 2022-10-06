@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import { forwardRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -8,14 +8,17 @@ import { navigationRoutes } from '../../utils';
 import type { SwapButtonProps } from './types';
 
 export const SwapButton = forwardRef<HTMLButtonElement, SwapButtonProps>(
-  ({ onClick, currentRoute, text, disable }, ref) => {
+  ({ onClick, currentRoute, text, disable, enableLoading, loading }, ref) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const config = useWidgetConfig();
     const { account, connect } = useWallet();
 
-    const { insufficientFunds, insufficientGas } =
-      useGasSufficiency(currentRoute);
+    const {
+      insufficientFunds,
+      insufficientGas,
+      isLoading: isGasSufficiencyLoading,
+    } = useGasSufficiency(currentRoute);
 
     const handleSwapButtonClick = async () => {
       if (!account.isActive) {
@@ -40,16 +43,18 @@ export const SwapButton = forwardRef<HTMLButtonElement, SwapButtonProps>(
     };
 
     return (
-      <Button
+      <LoadingButton
         variant="contained"
         color={account.isActive ? 'primary' : 'success'}
         onClick={handleSwapButtonClick}
         disabled={insufficientFunds || !!insufficientGas?.length || disable}
+        loading={enableLoading && (loading || isGasSufficiencyLoading)}
+        loadingPosition="center"
         fullWidth
         ref={ref}
       >
         {getButtonText()}
-      </Button>
+      </LoadingButton>
     );
   },
 );

@@ -25,12 +25,12 @@ export const useTokenBalance = (token?: Token, accountAddress?: string) => {
           tokens,
         );
         if (!tokenBalances.every((token) => token.blockNumber)) {
-          if (depth > 5) {
+          if (depth > 10) {
             console.warn('Token balance backoff depth exceeded.');
             return undefined;
           }
           await new Promise((resolve) => {
-            setTimeout(resolve, depth * 100);
+            setTimeout(resolve, 1.5 ** depth * 100);
           });
           return getTokenBalancesWithRetry(accountAddress, tokens, depth + 1);
         }

@@ -181,6 +181,6 @@
       "title": "404",
       "text": "We couldn't find this page."
     },
-    "progressToNextUpdate": "Displayed data will auto-refresh after {{value}} seconds. Click this circle to update manually."
+    "progressToNextUpdate": "Displayed data will auto-refresh after {{value}} seconds. Click here to update manually."
   }
 }

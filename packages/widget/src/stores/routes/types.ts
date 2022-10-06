@@ -16,7 +16,7 @@ export interface RouteExecution {
   status: RouteExecutionStatus;
 }
 
-export interface SelectedRouteStore {
-  selectedRoute?: Route;
-  setSelectedRoute: (route?: Route) => void;
+export interface RecommendedRouteStore {
+  recommendedRoute?: Route;
+  setRecommendedRoute: (route?: Route) => void;
 }
