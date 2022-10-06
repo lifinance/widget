@@ -8,12 +8,12 @@ import {
 } from '../../components/SendToWallet';
 import { SwapInput } from '../../components/SwapInput';
 import { SwapRoutes } from '../../components/SwapRoutes';
-import { useWidgetConfig } from '../../providers';
+import { useExpandableVariant } from '../../hooks';
 import { FormContainer } from './MainPage.style';
 import { MainSwapButton } from './MainSwapButton';
 
 export const MainPage: React.FC = () => {
-  const { variant } = useWidgetConfig();
+  const expandable = useExpandableVariant();
   return (
     <FormContainer disableGutters>
       <ActiveSwaps mx={3} mt={1} mb={2} />
@@ -21,7 +21,7 @@ export const MainPage: React.FC = () => {
       <Box mx={3} mb={3}>
         <SwapInput formType="from" />
       </Box>
-      {variant !== 'expandable' ? <SwapRoutes mx={3} mb={3} /> : null}
+      {!expandable ? <SwapRoutes mx={3} mb={3} /> : null}
       <GasSufficiencyMessage mx={3} mb={3} />
       <Box mx={3} mb={1}>
         <SendToWallet mb={3} />

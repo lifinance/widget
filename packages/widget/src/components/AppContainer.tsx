@@ -7,7 +7,7 @@ import { ElementId } from '../utils';
 
 export const maxHeight = 680;
 
-const ExpandedContainer = styled(Box, {
+export const AppExpandedContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'variant',
 })<{ variant?: WidgetVariant }>(({ variant }) => ({
   display: 'flex',
@@ -68,12 +68,6 @@ export const AppContainer: React.FC<PropsWithChildren<{}>> = ({ children }) => {
       {/* <ScrollToLocation elementRef={ref} /> */}
     </RelativeContainer>
   );
-};
-
-export const AppExpandedContainer: React.FC<PropsWithChildren<{}>> = ({
-  children,
-}) => {
-  return <ExpandedContainer>{children}</ExpandedContainer>;
 };
 
 // export const ScrollToLocation: React.FC<{

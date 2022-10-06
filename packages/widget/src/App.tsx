@@ -10,7 +10,7 @@ import { Header } from './components/Header';
 import { Initializer } from './components/Initializer';
 import { PoweredBy } from './components/PoweredBy';
 import { SwapRoutesExpanded } from './components/SwapRoutes';
-import { useWidgetConfig } from './providers';
+import { useExpandableVariant } from './hooks';
 
 export const App: React.FC<AppProps> = ({ config }) => {
   return (
@@ -21,7 +21,7 @@ export const App: React.FC<AppProps> = ({ config }) => {
 };
 
 export const AppDefault = () => {
-  const { variant } = useWidgetConfig();
+  const expandable = useExpandableVariant();
   return (
     <AppExpandedContainer>
       <AppContainer>
@@ -32,7 +32,7 @@ export const AppDefault = () => {
         <PoweredBy />
         <Initializer />
       </AppContainer>
-      {variant === 'expandable' ? <SwapRoutesExpanded /> : null}
+      {expandable ? <SwapRoutesExpanded /> : null}
     </AppExpandedContainer>
   );
 };
