@@ -47,7 +47,6 @@ export const BottomSheet = forwardRef<BottomSheetBase, BottomSheetProps>(
             position: 'absolute',
             overflow: 'hidden',
           },
-          keepMounted: true,
         }}
         PaperProps={{
           sx: (theme) => ({
@@ -67,6 +66,10 @@ export const BottomSheet = forwardRef<BottomSheetBase, BottomSheetProps>(
         SlideProps={{
           container: containerElement,
         }}
+        disableAutoFocus
+        disableEnforceFocus
+        disableScrollLock
+        disablePortal
       >
         {children}
       </Drawer>

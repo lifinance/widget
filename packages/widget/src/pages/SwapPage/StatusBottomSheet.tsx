@@ -34,9 +34,9 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   const { navigateBack, navigate } = useNavigateBack();
   const ref = useRef<BottomSheetBase>(null);
   const { getChainById } = useChains();
+  const { setValue } = useFormContext();
   const { token, refetch, refetchNewBalance, refetchAllBalances } =
     useTokenBalance(route.toToken, route.toAddress);
-  const { setValue } = useFormContext();
 
   const clearFromAmount = () => {
     refetchAllBalances();
