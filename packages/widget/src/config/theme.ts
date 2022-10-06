@@ -181,7 +181,7 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
               cursor: 'not-allowed',
               pointerEvents: 'auto',
             },
-            [`&.${loadingButtonClasses.root}.Mui-disabled`]: {
+            [`&.${loadingButtonClasses.loading}.Mui-disabled`]: {
               backgroundColor: primaryMainColor,
               color: contrastButtonColor,
               cursor: 'auto',
