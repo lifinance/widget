@@ -145,7 +145,7 @@ export const SwapDetailsPage: React.FC = () => {
         <DialogTitle>{t('swap.warning.title.deleteSwap')}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {t('swap.warning.message.deleteSwap')}
+            {t('swap.warning.message.deleteSwapHistory')}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
