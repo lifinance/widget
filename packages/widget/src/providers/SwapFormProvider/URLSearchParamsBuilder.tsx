@@ -29,7 +29,7 @@ export const URLSearchParamsBuilder = () => {
       }
     });
     url.searchParams.sort();
-    window.history.replaceState(null, '', url);
+    window.history.replaceState(window.history.state, '', url);
   }, [pathname, touchedFields, values]);
 
   return null;
