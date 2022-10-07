@@ -6,7 +6,7 @@ import {
   LayersOutlined as LayersIcon,
 } from '@mui/icons-material';
 import type { BoxProps } from '@mui/material';
-import { Box, Collapse, Typography } from '@mui/material';
+import { Box, Collapse, Tooltip, Typography } from '@mui/material';
 import type { MouseEventHandler } from 'react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -96,38 +96,16 @@ export const SwapRouteCardEssentials: React.FC<
       pl={dense ? 0 : 2}
       mt={dense ? 2 : 0}
     >
-      <Box display="flex" alignItems="center" pr={dense ? 0 : 2}>
-        <Typography lineHeight={0} mr={0.5} color="grey.500">
-          <EvStationIcon fontSize={dense ? 'medium' : 'small'} />
-        </Typography>
-        <Typography
-          fontSize={14}
-          color="text.primary"
-          fontWeight="500"
-          lineHeight={1}
-        >
-          {t(`swap.currency`, { value: gasCostUSD })}
-        </Typography>
-      </Box>
-      <Box display="flex" alignItems="center" pr={dense ? 0 : 2}>
-        <Typography lineHeight={0} mr={0.5} color="grey.500">
-          <AccessTimeIcon fontSize={dense ? 'medium' : 'small'} />
-        </Typography>
-        <Typography
-          fontSize={14}
-          color="text.primary"
-          fontWeight="500"
-          lineHeight={1}
-        >
-          {t('swap.estimatedTime', {
-            value: executionTimeMinutes,
-          })}
-        </Typography>
-      </Box>
-      {!dense ? (
-        <Box display="flex" alignItems="center">
+      <Tooltip
+        title={t(`tooltip.estimatedNetworkFee`)}
+        placement="top"
+        enterDelay={400}
+        enterNextDelay={400}
+        arrow
+      >
+        <Box display="flex" alignItems="center" mr={dense ? 0 : 2}>
           <Typography lineHeight={0} mr={0.5} color="grey.500">
-            <LayersIcon fontSize={dense ? 'medium' : 'small'} />
+            <EvStationIcon fontSize={dense ? 'medium' : 'small'} />
           </Typography>
           <Typography
             fontSize={14}
@@ -135,9 +113,55 @@ export const SwapRouteCardEssentials: React.FC<
             fontWeight="500"
             lineHeight={1}
           >
-            {route.steps.length}
+            {t(`swap.currency`, { value: gasCostUSD })}
           </Typography>
         </Box>
+      </Tooltip>
+      <Tooltip
+        title={t(`tooltip.estimatedTime`)}
+        placement="top"
+        enterDelay={400}
+        enterNextDelay={400}
+        arrow
+      >
+        <Box display="flex" alignItems="center" mr={dense ? 0 : 2}>
+          <Typography lineHeight={0} mr={0.5} color="grey.500">
+            <AccessTimeIcon fontSize={dense ? 'medium' : 'small'} />
+          </Typography>
+          <Typography
+            fontSize={14}
+            color="text.primary"
+            fontWeight="500"
+            lineHeight={1}
+          >
+            {t('swap.estimatedTime', {
+              value: executionTimeMinutes,
+            })}
+          </Typography>
+        </Box>
+      </Tooltip>
+      {!dense ? (
+        <Tooltip
+          title={t(`tooltip.numberOfSteps`)}
+          placement="top"
+          enterDelay={400}
+          enterNextDelay={400}
+          arrow
+        >
+          <Box display="flex" alignItems="center">
+            <Typography lineHeight={0} mr={0.5} color="grey.500">
+              <LayersIcon fontSize={dense ? 'medium' : 'small'} />
+            </Typography>
+            <Typography
+              fontSize={14}
+              color="text.primary"
+              fontWeight="500"
+              lineHeight={1}
+            >
+              {route.steps.length}
+            </Typography>
+          </Box>
+        </Tooltip>
       ) : null}
     </Box>
   );

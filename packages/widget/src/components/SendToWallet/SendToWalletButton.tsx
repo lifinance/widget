@@ -28,8 +28,8 @@ export const SendToWalletButton: React.FC = () => {
     <Tooltip
       title={t('swap.sendToWallet')}
       placement="bottom-end"
-      enterDelay={500}
-      enterNextDelay={500}
+      enterDelay={400}
+      enterNextDelay={400}
       arrow
     >
       <Button

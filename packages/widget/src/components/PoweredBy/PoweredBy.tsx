@@ -24,7 +24,7 @@ export const PoweredBy: React.FC = () => {
         justifyContent: 'flex-end',
       }}
     >
-      <Tooltip title={`v${version}`} placement="top" enterDelay={5000} arrow>
+      <Tooltip title={`v${version}`} placement="top" enterDelay={3000} arrow>
         <Link
           href="https://li.fi"
           target="_blank"

@@ -3,7 +3,7 @@ import {
   History as HistoryIcon,
   SettingsOutlined as SettingsIcon,
 } from '@mui/icons-material';
-import { Box, IconButton, Typography } from '@mui/material';
+import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { useNavigateBack } from '../../hooks';
@@ -79,21 +79,35 @@ export const NavigationHeader: React.FC = () => {
           element={
             <>
               {account.isActive ? (
+                <Tooltip
+                  title={t(`header.swapHistory`)}
+                  enterDelay={400}
+                  enterNextDelay={400}
+                  arrow
+                >
+                  <IconButton
+                    size="medium"
+                    edge="start"
+                    onClick={() => navigate(navigationRoutes.swapHistory)}
+                  >
+                    <HistoryIcon />
+                  </IconButton>
+                </Tooltip>
+              ) : null}
+              <Tooltip
+                title={t(`header.settings`)}
+                enterDelay={400}
+                enterNextDelay={400}
+                arrow
+              >
                 <IconButton
                   size="medium"
-                  edge="start"
-                  onClick={() => navigate(navigationRoutes.swapHistory)}
+                  edge="end"
+                  onClick={() => navigate(navigationRoutes.settings)}
                 >
-                  <HistoryIcon />
+                  <SettingsIcon />
                 </IconButton>
-              ) : null}
-              <IconButton
-                size="medium"
-                edge="end"
-                onClick={() => navigate(navigationRoutes.settings)}
-              >
-                <SettingsIcon />
-              </IconButton>
+              </Tooltip>
             </>
           }
         />
