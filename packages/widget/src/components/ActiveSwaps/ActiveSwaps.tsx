@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { useWallet } from '../../providers';
 import { useExecutingRoutesIds } from '../../stores';
 import { navigationRoutes } from '../../utils';
-import { CardTitle } from '../Card';
+import { Card, CardTitle } from '../Card';
 import { ActiveSwapItem } from './ActiveSwapItem';
-import { ProgressCard, ShowAllButton } from './ActiveSwaps.style';
+import { ShowAllButton } from './ActiveSwaps.style';
 
 export const ActiveSwaps: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation();
@@ -26,7 +26,7 @@ export const ActiveSwaps: React.FC<BoxProps> = (props) => {
   const hasShowAll = executingRoutes?.length > 2;
 
   return (
-    <ProgressCard {...props}>
+    <Card variant="selected" selectionColor="secondary" {...props}>
       <CardTitle>{t('header.activeSwaps')}</CardTitle>
       <Stack spacing={1.5} pt={1.5} pb={hasShowAll ? 0 : 2}>
         {executingRoutes.slice(0, 2).map((routeId) => (
@@ -45,6 +45,6 @@ export const ActiveSwaps: React.FC<BoxProps> = (props) => {
           {t('button.showAll')}
         </ShowAllButton>
       ) : null}
-    </ProgressCard>
+    </Card>
   );
 };

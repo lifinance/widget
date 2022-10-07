@@ -223,12 +223,12 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
                   },
                 },
                 text: {
-                  backgroundColor: paletteDark.background.paper,
+                  backgroundColor: lighten(paletteDark.background.paper, 0.08),
                   color: common.white,
                   '&:hover': {
                     backgroundColor: lighten(
                       paletteDark.background.paper,
-                      0.02,
+                      0.12,
                     ),
                   },
                 },

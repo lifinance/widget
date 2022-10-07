@@ -4,17 +4,8 @@ import {
   ListItemButton as MuiListItemButton,
 } from '@mui/material';
 import { listItemSecondaryActionClasses } from '@mui/material/ListItemSecondaryAction';
-import { alpha, styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import { getContrastAlphaColor } from '../../utils';
-import { Card } from '../Card';
-
-export const ProgressCard = styled(Card)(({ theme }) => ({
-  borderColor: alpha(theme.palette.secondary.main, 0.48),
-  background: alpha(theme.palette.secondary.main, 0.08),
-  '&:hover': {
-    background: alpha(theme.palette.secondary.main, 0.08),
-  },
-}));
 
 export const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
   borderRadius: theme.shape.borderRadiusSecondary,

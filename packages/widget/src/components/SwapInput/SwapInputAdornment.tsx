@@ -34,9 +34,7 @@ export const SwapInputAdornment = ({ formType }: SwapFormTypeProps) => {
           sx={{ borderRadius: 0.5 }}
         />
       ) : formType === 'from' && token?.amount ? (
-        <Button onClick={handleMax} variant="outlined">
-          {t('button.max')}
-        </Button>
+        <Button onClick={handleMax}>{t('button.max')}</Button>
       ) : null}
     </InputAdornment>
   );
