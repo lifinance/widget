@@ -43,8 +43,8 @@ export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
               key={chain.id}
               title={chain.name}
               placement="top"
-              enterDelay={500}
-              enterNextDelay={500}
+              enterDelay={400}
+              enterNextDelay={400}
               arrow
             >
               <ChainCard
