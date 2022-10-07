@@ -87,7 +87,7 @@ export const SelectWalletPage = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={closeDialog} autoFocus>
+          <Button variant="contained" onClick={closeDialog} autoFocus>
             {t('button.ok')}
           </Button>
         </DialogActions>

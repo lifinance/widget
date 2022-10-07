@@ -65,7 +65,11 @@ export const SwapHistoryPage: React.FC = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={toggleDialog}>{t('button.cancel')}</Button>
-          <Button onClick={() => deleteRoutes('completed')} autoFocus>
+          <Button
+            variant="contained"
+            onClick={() => deleteRoutes('completed')}
+            autoFocus
+          >
             {t('button.delete')}
           </Button>
         </DialogActions>

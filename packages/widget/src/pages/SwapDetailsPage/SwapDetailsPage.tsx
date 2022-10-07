@@ -150,7 +150,7 @@ export const SwapDetailsPage: React.FC = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={toggleDialog}>{t('button.cancel')}</Button>
-          <Button onClick={handleDeleteRoute} autoFocus>
+          <Button variant="contained" onClick={handleDeleteRoute} autoFocus>
             {t('button.delete')}
           </Button>
         </DialogActions>

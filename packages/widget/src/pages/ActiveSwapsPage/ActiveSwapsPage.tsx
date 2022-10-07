@@ -65,7 +65,11 @@ export const ActiveSwapsPage = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={toggleDialog}>{t('button.cancel')}</Button>
-          <Button onClick={() => deleteRoutes('active')} autoFocus>
+          <Button
+            variant="contained"
+            onClick={() => deleteRoutes('active')}
+            autoFocus
+          >
             {t('button.delete')}
           </Button>
         </DialogActions>
