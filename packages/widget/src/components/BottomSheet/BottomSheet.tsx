@@ -6,21 +6,15 @@ import {
   useRef,
   useState,
 } from 'react';
-import { useScrollableContainer } from '../../hooks';
+import { backdropProps, modalProps, paperProps } from '../Dialog';
 import type { BottomSheetBase, BottomSheetProps } from './types';
 
 export const BottomSheet = forwardRef<BottomSheetBase, BottomSheetProps>(
   ({ elementRef, children, open }, ref) => {
     const openRef = useRef(open);
     const [drawerOpen, setDrawerOpen] = useState(open);
-    const containerElement = useScrollableContainer();
 
-    const openDrawer = useCallback(() => {
-      setDrawerOpen(true);
-      openRef.current = true;
-    }, []);
-
-    const closeDrawer = useCallback(() => {
+    const close = useCallback(() => {
       setDrawerOpen(false);
       openRef.current = false;
     }, []);
@@ -29,43 +23,24 @@ export const BottomSheet = forwardRef<BottomSheetBase, BottomSheetProps>(
       ref,
       () => ({
         isOpen: () => openRef.current,
-        openDrawer,
-        closeDrawer,
+        open: () => {
+          setDrawerOpen(true);
+          openRef.current = true;
+        },
+        close,
       }),
-      [closeDrawer, openDrawer],
+      [close],
     );
 
     return (
       <Drawer
-        container={containerElement}
         ref={elementRef}
         anchor="bottom"
         open={drawerOpen}
-        onClose={closeDrawer}
-        ModalProps={{
-          sx: {
-            position: 'absolute',
-            overflow: 'hidden',
-          },
-        }}
-        PaperProps={{
-          sx: (theme) => ({
-            position: 'absolute',
-            backgroundImage: 'none',
-            borderTopLeftRadius: theme.shape.borderRadius,
-            borderTopRightRadius: theme.shape.borderRadius,
-          }),
-        }}
-        BackdropProps={{
-          sx: {
-            position: 'absolute',
-            backgroundColor: 'rgb(0 0 0 / 48%)',
-            backdropFilter: 'blur(3px)',
-          },
-        }}
-        SlideProps={{
-          container: containerElement,
-        }}
+        onClose={close}
+        ModalProps={modalProps}
+        PaperProps={paperProps}
+        BackdropProps={backdropProps}
         disableAutoFocus
         disableEnforceFocus
         disableScrollLock

@@ -50,7 +50,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
 
   const handleClose = () => {
     clearFromAmount();
-    ref.current?.closeDrawer();
+    ref.current?.close();
   };
 
   const handleSeeDetails = () => {
@@ -101,7 +101,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
         refetchNewBalance();
         refetch();
       }
-      ref.current?.openDrawer();
+      ref.current?.open();
     }
   }, [refetch, refetchNewBalance, status]);
 
@@ -152,7 +152,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
         </Box>
         {status === 'success' ? (
           <Box mt={2}>
-            <Button variant="outlined" fullWidth onClick={handleSeeDetails}>
+            <Button variant="text" fullWidth onClick={handleSeeDetails}>
               {t('button.seeDetails')}
             </Button>
           </Box>

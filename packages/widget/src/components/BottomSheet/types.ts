@@ -7,6 +7,6 @@ export type BottomSheetProps = DrawerProps & {
 
 export interface BottomSheetBase {
   isOpen(): void;
-  openDrawer(): void;
-  closeDrawer(): void;
+  open(): void;
+  close(): void;
 }
