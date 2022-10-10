@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.20.0](https://github.com/lifinance/widget/compare/v1.19.0...v1.20.0) (2022-10-10)
+
+
+### Features
+
+* add high value loss consent bottom sheet ([f588b43](https://github.com/lifinance/widget/commit/f588b4397083322f012d4b38a94b4a04c33f544c))
+
+
+### Bug Fixes
+
+* bottom sheet scroll ([0c2aac3](https://github.com/lifinance/widget/commit/0c2aac3816710682e9085d30a7891eab9cfc3508))
+
 ## [1.19.0](https://github.com/lifinance/widget/compare/v1.18.9...v1.19.0) (2022-10-10)
 
 
