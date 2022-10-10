@@ -20,11 +20,7 @@ import {
 import { SwapFormKey } from '../../providers';
 import type { RouteExecution } from '../../stores';
 import { navigationRoutes, shortenWalletAddress } from '../../utils';
-import {
-  IconCircle,
-  IconContainer,
-  iconStyles,
-} from './StatusBottomSheet.style';
+import { IconCircle, IconContainer } from './StatusBottomSheet.style';
 
 export const StatusBottomSheet: React.FC<RouteExecution> = ({
   status,
@@ -110,15 +106,9 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
       <Box p={3}>
         <IconContainer>
           <IconCircle status={status} mb={1}>
-            {status === 'idle' ? (
-              <InfoIcon color="primary" sx={iconStyles} />
-            ) : null}
-            {status === 'success' ? (
-              <DoneIcon color="success" sx={iconStyles} />
-            ) : null}
-            {status === 'error' ? (
-              <WarningIcon color="error" sx={iconStyles} />
-            ) : null}
+            {status === 'idle' ? <InfoIcon color="primary" /> : null}
+            {status === 'success' ? <DoneIcon color="success" /> : null}
+            {status === 'error' ? <WarningIcon color="error" /> : null}
           </IconCircle>
           <Typography py={1} fontSize={18} fontWeight={700}>
             {title}
@@ -136,9 +126,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
             />
           ) : null}
         </IconContainer>
-        <Typography pt={2} pb={1}>
-          {message}
-        </Typography>
+        <Typography py={1}>{message}</Typography>
         <Box mt={2}>
           <Button
             variant="contained"
@@ -147,7 +135,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
           >
             {status === 'idle' ? t('button.okay') : null}
             {status === 'success' ? t('button.done') : null}
-            {status === 'error' ? t('button.tryAgain') : null}
+            {status === 'error' ? t('button.seeDetails') : null}
           </Button>
         </Box>
         {status === 'success' ? (

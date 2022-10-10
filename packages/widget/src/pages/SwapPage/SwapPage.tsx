@@ -1,6 +1,7 @@
+import type { BottomSheetBase } from '@lifi/widget/components/BottomSheet';
 import { Delete as DeleteIcon } from '@mui/icons-material';
-import { Box, Button } from '@mui/material';
-import { Fragment } from 'react';
+import { Box, Button, Tooltip } from '@mui/material';
+import { Fragment, useCallback, useRef } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
@@ -12,40 +13,58 @@ import { useNavigateBack, useRouteExecution } from '../../hooks';
 import { SwapFormKey } from '../../providers';
 import { StatusBottomSheet } from './StatusBottomSheet';
 import { Container } from './SwapPage.style';
+import {
+  getTokenValueLossThreshold,
+  TokenValueBottomSheet,
+} from './TokenValueBottomSheet';
 
 export const SwapPage: React.FC = () => {
   const { t } = useTranslation();
   const { state }: any = useLocation();
   const { navigateBack } = useNavigateBack();
+  const tokenValueBottomSheetRef = useRef<BottomSheetBase>(null);
   const {
     setValue,
-    formState: { isValid, isValidating },
+    // formState: { isValid, isValidating },
   } = useFormContext();
   const { route, status, executeRoute, restartRoute, deleteRoute } =
     useRouteExecution(state?.routeId);
 
-  const handleRemoveRoute = () => {
-    navigateBack();
-    deleteRoute();
-  };
+  const handleExecuteRoute = useCallback(() => {
+    if (tokenValueBottomSheetRef.current?.isOpen()) {
+      tokenValueBottomSheetRef.current?.close();
+    }
+    executeRoute();
+    setValue(SwapFormKey.FromAmount, '');
+  }, [executeRoute, setValue]);
 
   const handleSwapClick = async () => {
     if (status === 'idle') {
-      executeRoute();
-      setValue(SwapFormKey.FromAmount, '');
+      const thresholdExceeded = getTokenValueLossThreshold(route);
+      if (thresholdExceeded) {
+        tokenValueBottomSheetRef.current?.open();
+      } else {
+        handleExecuteRoute();
+      }
     }
     if (status === 'error') {
       restartRoute();
     }
   };
 
-  // eslint-disable-next-line consistent-return
+  const handleRemoveRoute = () => {
+    navigateBack();
+    deleteRoute();
+  };
+
   const getSwapButtonText = () => {
-    if (status === 'idle') {
-      return t('button.startSwap');
-    }
-    if (status === 'error') {
-      return t('button.restartSwap');
+    switch (status) {
+      case 'idle':
+        return t('button.startSwap');
+      case 'error':
+        return t('button.restartSwap');
+      default:
+        return '';
     }
   };
 
@@ -82,25 +101,39 @@ export const SwapPage: React.FC = () => {
               text={getSwapButtonText()}
               onClick={handleSwapClick}
               currentRoute={route}
-              disable={status === 'idle' && (isValidating || !isValid)}
+              // disable={status === 'idle' && (isValidating || !isValid)}
               enableLoading
             />
             {status === 'error' ? (
-              <Button
-                onClick={handleRemoveRoute}
-                sx={{
-                  minWidth: 48,
-                  marginLeft: 1,
-                }}
+              <Tooltip
+                title={t('button.removeSwap')}
+                placement="bottom-end"
+                enterDelay={400}
+                arrow
               >
-                <DeleteIcon />
-              </Button>
+                <Button
+                  onClick={handleRemoveRoute}
+                  sx={{
+                    minWidth: 48,
+                    marginLeft: 1,
+                  }}
+                >
+                  <DeleteIcon />
+                </Button>
+              </Tooltip>
             ) : null}
           </Box>
         </>
       ) : null}
       {route && status ? (
         <StatusBottomSheet status={status} route={route} />
+      ) : null}
+      {route ? (
+        <TokenValueBottomSheet
+          route={route}
+          ref={tokenValueBottomSheetRef}
+          onContinue={handleExecuteRoute}
+        />
       ) : null}
     </Container>
   );

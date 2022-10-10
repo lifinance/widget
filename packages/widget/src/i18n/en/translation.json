@@ -22,6 +22,7 @@
     "removeSwap": "Remove swap",
     "done": "Done",
     "okay": "Okay",
+    "continue": "Continue",
     "seeDetails": "See details",
     "tryAgain": "Try again",
     "light": "Light",
@@ -62,6 +63,10 @@
     "supportId": "Support ID",
     "sendToWallet": "Send to a different wallet",
     "walletAddressOrEns": "Wallet address or ENS name",
+    "swapping": "Swapping",
+    "gasCost": "Gas cost",
+    "receiving": "Receiving",
+    "valueLoss": "Value loss",
     "tags": {
       "RECOMMENDED": "RECOMMENDED",
       "FASTEST": "FAST",
@@ -95,13 +100,15 @@
         "insufficientGas": "Insufficient gas",
         "deleteSwap": "Delete this swap?",
         "deleteSwapHistory": "Delete swap history?",
-        "deleteActiveSwaps": "Delete all active swaps?"
+        "deleteActiveSwaps": "Delete all active swaps?",
+        "highValueLoss": "High value loss"
       },
       "message": {
         "insufficientFunds": "You don't have enough funds to execute the swap.",
         "insufficientGas": "You need to add at least:",
         "deleteSwapHistory": "Swap history is only stored locally and can't be recovered if you delete it.",
-        "deleteActiveSwaps": "Active swaps are only stored locally and can't be recovered if you delete them."
+        "deleteActiveSwaps": "Active swaps are only stored locally and can't be recovered if you delete them.",
+        "highValueLoss": "The value of the received tokens is significantly lower than the swapped tokens and transaction cost."
       }
     },
     "error": {

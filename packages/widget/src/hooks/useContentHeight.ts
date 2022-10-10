@@ -1,5 +1,8 @@
+/* eslint-disable consistent-return */
+import type { MutableRefObject } from 'react';
 import { useLayoutEffect, useState } from 'react';
 import { ElementId } from '../utils';
+import { getScrollableContainer } from './useScrollableContainer';
 
 const getContentHeight = () => {
   const headerElement = document.getElementById(ElementId.Header);
@@ -26,4 +29,23 @@ export const useContentHeight = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return contentHeight;
+};
+
+export const useSetContentHeight = (
+  ref: MutableRefObject<HTMLElement | undefined>,
+) => {
+  useLayoutEffect(() => {
+    const scrollableContainer = getScrollableContainer();
+    if (
+      !scrollableContainer ||
+      !ref.current ||
+      ref.current?.clientHeight <= scrollableContainer?.clientHeight
+    ) {
+      return;
+    }
+    scrollableContainer.style.height = `${ref.current.clientHeight}px`;
+    return () => {
+      scrollableContainer.style.removeProperty('height');
+    };
+  }, [ref]);
 };
