@@ -79,12 +79,7 @@ export const NavigationHeader: React.FC = () => {
           element={
             <>
               {account.isActive ? (
-                <Tooltip
-                  title={t(`header.swapHistory`)}
-                  enterDelay={400}
-                  enterNextDelay={400}
-                  arrow
-                >
+                <Tooltip title={t(`header.swapHistory`)} enterDelay={400} arrow>
                   <IconButton
                     size="medium"
                     edge="start"
@@ -94,12 +89,7 @@ export const NavigationHeader: React.FC = () => {
                   </IconButton>
                 </Tooltip>
               ) : null}
-              <Tooltip
-                title={t(`header.settings`)}
-                enterDelay={400}
-                enterNextDelay={400}
-                arrow
-              >
+              <Tooltip title={t(`header.settings`)} enterDelay={400} arrow>
                 <IconButton
                   size="medium"
                   edge="end"

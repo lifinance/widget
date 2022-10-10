@@ -100,7 +100,6 @@ export const SwapRouteCardEssentials: React.FC<
         title={t(`tooltip.estimatedNetworkFee`)}
         placement="top"
         enterDelay={400}
-        enterNextDelay={400}
         arrow
       >
         <Box display="flex" alignItems="center" mr={dense ? 0 : 2}>
@@ -121,7 +120,6 @@ export const SwapRouteCardEssentials: React.FC<
         title={t(`tooltip.estimatedTime`)}
         placement="top"
         enterDelay={400}
-        enterNextDelay={400}
         arrow
       >
         <Box display="flex" alignItems="center" mr={dense ? 0 : 2}>
@@ -145,7 +143,6 @@ export const SwapRouteCardEssentials: React.FC<
           title={t(`tooltip.numberOfSteps`)}
           placement="top"
           enterDelay={400}
-          enterNextDelay={400}
           arrow
         >
           <Box display="flex" alignItems="center">

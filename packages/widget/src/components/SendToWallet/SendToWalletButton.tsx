@@ -29,7 +29,6 @@ export const SendToWalletButton: React.FC = () => {
       title={t('swap.sendToWallet')}
       placement="bottom-end"
       enterDelay={400}
-      enterNextDelay={400}
       arrow
     >
       <Button
