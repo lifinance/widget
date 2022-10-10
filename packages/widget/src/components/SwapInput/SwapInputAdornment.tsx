@@ -30,7 +30,7 @@ export const SwapInputAdornment = ({ formType }: SwapFormTypeProps) => {
         <Skeleton
           variant="rectangular"
           width={46}
-          height={20}
+          height={24}
           sx={{ borderRadius: 0.5 }}
         />
       ) : formType === 'from' && token?.amount ? (
