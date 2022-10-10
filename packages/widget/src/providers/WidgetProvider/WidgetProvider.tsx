@@ -47,7 +47,7 @@ export const WidgetProvider: React.FC<
                 (
                   searchParams.fromChain || (fromChain as string)
                 )?.toLowerCase() as ChainKey,
-              ).id
+              )?.id
             : (searchParams.fromChain &&
                 !isNaN(parseInt(searchParams.fromChain, 10))) ||
               typeof fromChain === 'number'
@@ -60,7 +60,7 @@ export const WidgetProvider: React.FC<
                 (
                   searchParams.toChain || (toChain as string)
                 )?.toLowerCase() as ChainKey,
-              ).id
+              )?.id
             : (searchParams.toChain &&
                 !isNaN(parseInt(searchParams.toChain, 10))) ||
               typeof toChain === 'number'
