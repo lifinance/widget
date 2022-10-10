@@ -42,16 +42,16 @@ export const ProgressToNextUpdate: React.FC<
   }, [isLoading]);
 
   return (
-    <Tooltip
-      title={t('tooltip.progressToNextUpdate', {
-        value: getSecondsToUpdate(updatedAt, timeToUpdate),
-      })}
-      placement="top"
-      enterDelay={400}
-      enterNextDelay={400}
-      arrow
-    >
-      <IconButton onClick={onClick} disabled={isLoading} {...other}>
+    <IconButton onClick={onClick} disabled={isLoading} {...other}>
+      <Tooltip
+        title={t('tooltip.progressToNextUpdate', {
+          value: getSecondsToUpdate(updatedAt, timeToUpdate),
+        })}
+        placement="top"
+        enterDelay={400}
+        enterNextDelay={400}
+        arrow
+      >
         <Box
           sx={{
             display: 'grid',
@@ -86,7 +86,7 @@ export const ProgressToNextUpdate: React.FC<
             })}
           />
         </Box>
-      </IconButton>
-    </Tooltip>
+      </Tooltip>
+    </IconButton>
   );
 };
