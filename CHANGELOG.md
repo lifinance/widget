@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.19.0](https://github.com/lifinance/widget/compare/v1.18.9...v1.19.0) (2022-10-10)
+
+
+### Features
+
+* add delete active swaps button ([3365ed8](https://github.com/lifinance/widget/commit/3365ed89f9253bb35a047ba9a09d47fb4096b0f1))
+* add tooltips to cards and header ([5b88a93](https://github.com/lifinance/widget/commit/5b88a93dd5e17b7f0bc58e945267b2f9107866cf))
+* add URL search params builder ([9e9c396](https://github.com/lifinance/widget/commit/9e9c396207cb24a969744ab4e95d9b586b7fdb71))
+
+
+### Bug Fixes
+
+* dark theme card and button adjustments ([06905c4](https://github.com/lifinance/widget/commit/06905c4e75d4f0e2dbb93997e7112d06cb89cb5b))
+* disable expandable variant on small devices ([d03c4c8](https://github.com/lifinance/widget/commit/d03c4c8dc46fb2c233ef833b7a8bc962f0cedd0b))
+* don't keep bottom sheet mounted ([861bec5](https://github.com/lifinance/widget/commit/861bec598b37a5f00303860a1c270ce908c6352d))
+* make action buttons variant contained ([74eb1c6](https://github.com/lifinance/widget/commit/74eb1c62fa79c54c57ef78ef31c22d8fbcb99f46))
+* preserve history state ([8662e37](https://github.com/lifinance/widget/commit/8662e371e01bb608feb6febe38e5309021fd1a9c))
+* prevent using fromToken/toToken params if chain is not selected ([2e21b9e](https://github.com/lifinance/widget/commit/2e21b9ed315cb50d0789d2f9959332e449d8272d))
+* set only right border width ([6f09075](https://github.com/lifinance/widget/commit/6f090752917f5db9093079f774e41f9ccb96349d))
+* show time and gas cost default values ([7d9c220](https://github.com/lifinance/widget/commit/7d9c22015aa53411616e6f97e9d61d1a4b5cd5a6))
+
 ### [1.18.9](https://github.com/lifinance/widget/compare/v1.18.8...v1.18.9) (2022-09-30)
 
 
