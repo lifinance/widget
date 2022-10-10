@@ -1,6 +1,7 @@
 import type { DialogProps, Theme } from '@mui/material';
 import { Dialog as MuiDialog } from '@mui/material';
 import type { PropsWithChildren } from 'react';
+import { getScrollableContainer } from '../hooks';
 
 export const modalProps = {
   sx: {
@@ -33,15 +34,12 @@ export const Dialog: React.FC<PropsWithChildren<DialogProps>> = ({
 }) => {
   return (
     <MuiDialog
+      container={getScrollableContainer}
       open={open}
       onClose={onClose}
       sx={modalProps.sx}
       PaperProps={paperProps}
       BackdropProps={backdropProps}
-      disableAutoFocus
-      disableEnforceFocus
-      disableScrollLock
-      disablePortal
     >
       {children}
     </MuiDialog>

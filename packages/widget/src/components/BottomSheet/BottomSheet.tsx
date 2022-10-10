@@ -6,6 +6,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { getScrollableContainer } from '../../hooks';
 import { backdropProps, modalProps, paperProps } from '../Dialog';
 import type { BottomSheetBase, BottomSheetProps } from './types';
 
@@ -34,6 +35,7 @@ export const BottomSheet = forwardRef<BottomSheetBase, BottomSheetProps>(
 
     return (
       <Drawer
+        container={getScrollableContainer}
         ref={elementRef}
         anchor="bottom"
         open={drawerOpen}
@@ -42,9 +44,6 @@ export const BottomSheet = forwardRef<BottomSheetBase, BottomSheetProps>(
         PaperProps={paperProps}
         BackdropProps={backdropProps}
         disableAutoFocus
-        disableEnforceFocus
-        disableScrollLock
-        disablePortal
       >
         {children}
       </Drawer>

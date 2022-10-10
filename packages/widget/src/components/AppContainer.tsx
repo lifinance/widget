@@ -35,7 +35,6 @@ const RelativeContainer = styled(Box, {
 const CssBaselineContainer = styled(ScopedCssBaseline, {
   shouldForwardProp: (prop) => prop !== 'variant',
 })<{ variant?: WidgetVariant }>(({ variant }) => ({
-  position: 'relative',
   display: 'flex',
   flex: 1,
   flexDirection: 'column',
