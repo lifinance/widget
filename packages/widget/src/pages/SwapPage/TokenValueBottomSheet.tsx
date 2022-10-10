@@ -79,7 +79,8 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
         <Typography fontWeight={600}>
           {Big(route.toAmountUSD || 0)
             .div(Big(route.fromAmountUSD || 0).plus(Big(route.gasCostUSD || 0)))
-            .mul(-100)
+            .minus(1)
+            .mul(100)
             .toFixed(1)}
           %
         </Typography>
