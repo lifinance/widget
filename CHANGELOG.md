@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.20.1](https://github.com/lifinance/widget/compare/v1.20.0...v1.20.1) (2022-10-10)
+
+
+### Bug Fixes
+
+* value loss calculation ([02ee277](https://github.com/lifinance/widget/commit/02ee27762fd30f7c6254d90883ef13b3e1365295))
+
 ## [1.20.0](https://github.com/lifinance/widget/compare/v1.19.0...v1.20.0) (2022-10-10)
 
 
