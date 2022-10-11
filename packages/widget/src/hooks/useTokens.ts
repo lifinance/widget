@@ -1,10 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import { isItemAllowed, useLiFi, useWidgetConfig } from '../providers';
 import type { Token } from '../types';
+import { useChains } from './useChains';
 import { useFeaturedTokens } from './useFeaturedTokens';
 
 export const useTokens = (selectedChainId?: number) => {
   const lifi = useLiFi();
+  const { getChainById, isLoading: isSupportedChainsLoading } = useChains();
   const featuredTokens = useFeaturedTokens(selectedChainId);
   const { tokens, chains, disabledChains } = useWidgetConfig();
   const { data, isLoading } = useQuery(
@@ -20,6 +22,7 @@ export const useTokens = (selectedChainId?: number) => {
     async () => {
       const chainAllowed =
         selectedChainId &&
+        getChainById(selectedChainId) &&
         isItemAllowed(selectedChainId, chains, disabledChains);
       if (!chainAllowed) {
         return [];
@@ -51,6 +54,9 @@ export const useTokens = (selectedChainId?: number) => {
           (token) => !featuredTokenAddresses.has(token.address),
         ) ?? []),
       ] as Token[];
+    },
+    {
+      enabled: !isSupportedChainsLoading,
     },
   );
   return {
