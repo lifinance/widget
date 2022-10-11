@@ -92,6 +92,7 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
                   minWidth="80%"
                   route={routes[1]}
                   variant="dense"
+                  pointerEvents="none"
                 />
               ) : null}
             </>

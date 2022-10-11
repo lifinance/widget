@@ -7,7 +7,7 @@ import { useWallet } from '../providers';
 import { isRouteCompleted } from '../stores';
 import { useTokenBalance } from './useTokenBalance';
 
-interface GasSufficiency {
+export interface GasSufficiency {
   gasAmount: Big;
   tokenAmount?: Big;
   insufficientAmount?: Big;

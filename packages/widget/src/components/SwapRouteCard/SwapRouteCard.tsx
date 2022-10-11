@@ -5,24 +5,21 @@ import {
   ExpandMore as ExpandMoreIcon,
   LayersOutlined as LayersIcon,
 } from '@mui/icons-material';
-import type { BoxProps } from '@mui/material';
 import { Box, Collapse, Tooltip, Typography } from '@mui/material';
 import type { MouseEventHandler } from 'react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { CardProps } from '../Card';
 import { Card } from '../Card';
 import { StepActions } from '../StepActions';
 import { Token } from '../Token';
 import { IconButton, Label } from './SwapRouteCard.style';
 import type { SwapRouteCardEssentialsProps, SwapRouteCardProps } from './types';
+import { getGasCostsBreakdown } from './utils';
 
-export const SwapRouteCard: React.FC<SwapRouteCardProps & BoxProps> = ({
-  route,
-  active,
-  variant = 'default',
-  expanded,
-  ...other
-}) => {
+export const SwapRouteCard: React.FC<
+  SwapRouteCardProps & Omit<CardProps, 'variant'>
+> = ({ route, active, variant = 'default', expanded, ...other }) => {
   const { t } = useTranslation();
   const [cardExpanded, setCardExpanded] = useState(
     variant === 'default' || expanded,
@@ -88,6 +85,7 @@ export const SwapRouteCardEssentials: React.FC<
       .reduce((duration, x) => duration + x, 0) / 60,
   );
   const gasCostUSD = parseFloat(route.gasCostUSD ?? '') || 0.01;
+  const gasCosts = getGasCostsBreakdown(route);
   return (
     <Box
       display="flex"
@@ -97,7 +95,20 @@ export const SwapRouteCardEssentials: React.FC<
       mt={dense ? 2 : 0}
     >
       <Tooltip
-        title={t(`tooltip.estimatedNetworkFee`)}
+        title={
+          <Box component="span">
+            {t(`tooltip.estimatedNetworkFee`)}
+            {gasCosts.map((gas) => (
+              <Typography
+                fontSize={11}
+                key={`${gas.token.address}${gas.token.symbol}`}
+              >
+                {gas.amount?.toFixed(6)} {gas.token.symbol} (
+                {t(`swap.currency`, { value: gas.amountUSD })})
+              </Typography>
+            ))}
+          </Box>
+        }
         placement="top"
         enterDelay={400}
         arrow

@@ -1,9 +1,18 @@
-import type { Theme } from '@mui/material';
+import type { BoxProps, Theme } from '@mui/material';
 import { Box } from '@mui/material';
 import { alpha, darken, lighten, styled } from '@mui/material/styles';
 import type { MouseEventHandler } from 'react';
 
 type CardVariant = 'default' | 'selected' | 'error';
+
+export type CardProps = {
+  variant?: CardVariant;
+  selectionColor?: 'primary' | 'secondary';
+  dense?: boolean;
+  indented?: boolean;
+  onClick?: MouseEventHandler<HTMLDivElement>;
+  pointerEvents?: 'auto' | 'none';
+} & BoxProps;
 
 const getBackgroundColor = (
   theme: Theme,
@@ -23,22 +32,21 @@ const getBackgroundColor = (
 
 export const Card = styled(Box, {
   shouldForwardProp: (prop) =>
-    !['dense', 'variant', 'indented', 'selectionColor'].includes(
-      prop as string,
-    ),
-})<{
-  variant?: CardVariant;
-  selectionColor?: 'primary' | 'secondary';
-  dense?: boolean;
-  indented?: boolean;
-  onClick?: MouseEventHandler<HTMLDivElement>;
-}>(
+    ![
+      'dense',
+      'variant',
+      'indented',
+      'selectionColor',
+      'pointerEvents',
+    ].includes(prop as string),
+})<CardProps>(
   ({
     theme,
     variant,
     selectionColor = 'primary',
     dense,
     indented,
+    pointerEvents,
     onClick,
   }) => {
     const backgroundColor = getBackgroundColor(theme, variant, selectionColor);
@@ -74,6 +82,7 @@ export const Card = styled(Box, {
         duration: theme.transitions.duration.enteringScreen,
         easing: theme.transitions.easing.easeOut,
       }),
+      pointerEvents,
     };
   },
 );
