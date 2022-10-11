@@ -34,14 +34,7 @@ export const ActiveSwaps: React.FC<BoxProps> = (props) => {
         ))}
       </Stack>
       {hasShowAll ? (
-        <ShowAllButton
-          disableRipple
-          fullWidth
-          onClick={handleShowAll}
-          sx={(theme) => ({
-            padding: theme.spacing(0.75, 2),
-          })}
-        >
+        <ShowAllButton disableRipple fullWidth onClick={handleShowAll}>
           {t('button.showAll')}
         </ShowAllButton>
       ) : null}

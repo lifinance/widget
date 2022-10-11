@@ -34,4 +34,6 @@ export const ShowAllButton = styled(Button)(({ theme }) => ({
   '&:hover': {
     background: 'none',
   },
+  padding: theme.spacing(0.75, 2),
+  fontSize: '0.875rem',
 }));
