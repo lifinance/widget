@@ -16,8 +16,8 @@ export const SDKProvider: React.FC<React.PropsWithChildren> = ({
     const config = {
       ...sdkConfig,
       defaultRouteOptions: {
-        ...sdkConfig?.defaultRouteOptions,
         integrator: integrator ?? window.location.hostname,
+        ...sdkConfig?.defaultRouteOptions,
       },
     };
     if (!lifi) {
