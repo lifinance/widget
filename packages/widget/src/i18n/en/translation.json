@@ -186,7 +186,8 @@
     },
     "progressToNextUpdate": "Displayed data will auto-refresh after {{value}} seconds. Click here to update manually.",
     "numberOfSteps": "A number of swap steps. Each step can contain 1-3 transactions that require a signature.",
-    "estimatedTime": "Estimated time in minutes.",
-    "estimatedNetworkFee": "Estimated network fee."
+    "estimatedTime": "Estimated swap execution time in minutes.",
+    "estimatedNetworkFee": "Estimated network fee.",
+    "settingsModified": "Settings (modified)"
   }
 }
