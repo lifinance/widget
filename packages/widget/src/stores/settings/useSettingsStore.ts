@@ -5,15 +5,25 @@ import { immer } from 'zustand/middleware/immer';
 import type { SettingsState, SettingsStore } from './types';
 import { SettingsToolTypes } from './types';
 
+export const defaultSettings: Omit<
+  SettingsState,
+  | 'enabledBridges'
+  | 'enabledExchanges'
+  | '_enabledBridges'
+  | '_enabledExchanges'
+> = {
+  appearance: 'auto',
+  gasPrice: 'normal',
+  routePriority: 'RECOMMENDED',
+  slippage: '0.5',
+  advancedPreferences: false,
+  showDestinationWallet: true,
+};
+
 export const useSettingsStore = create<SettingsStore>()(
   persist(
     immer((set) => ({
-      advancedPreferences: false,
-      showDestinationWallet: true,
-      appearance: 'auto',
-      gasPrice: 'normal',
-      routePriority: 'RECOMMENDED',
-      slippage: '0.5',
+      ...defaultSettings,
       setValue: (key, value) =>
         set((state: SettingsState) => {
           state[key] = value;
