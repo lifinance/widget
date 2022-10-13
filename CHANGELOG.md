@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.21.0](https://github.com/lifinance/widget/compare/v1.20.3...v1.21.0) (2022-10-13)
+
+
+### Features
+
+* add drawer variant to main config ([5407a34](https://github.com/lifinance/widget/commit/5407a34fd6109734ed0a6a27f2cc5445df83d6d7))
+
+
+### Bug Fixes
+
+* isolate i18next instance ([#14](https://github.com/lifinance/widget/issues/14)) ([e2ff741](https://github.com/lifinance/widget/commit/e2ff741d5e008629bf0443e639b97d611b11ad6e))
+
 ### [1.20.3](https://github.com/lifinance/widget/compare/v1.20.2...v1.20.3) (2022-10-12)
 
 
