@@ -2,7 +2,7 @@ import type { ChainKey, ConfigUpdate, Token } from '@lifi/sdk';
 import type { PaletteMode, PaletteOptions, Shape } from '@mui/material';
 import type { TypographyOptions } from '@mui/material/styles/createTypography';
 import type { Signer } from 'ethers';
-import type { CSSProperties } from 'react';
+import type { CSSProperties, RefObject } from 'react';
 
 export type WidgetVariant = 'default' | 'expandable' | 'drawer';
 
@@ -69,3 +69,9 @@ export interface WidgetConfig {
     deny?: (Partial<Token> & Pick<Token, 'address' | 'chainId'>)[];
   };
 }
+
+export type WidgetProps = {
+  elementRef?: RefObject<HTMLDivElement>;
+  config?: WidgetConfig;
+  open?: boolean;
+};

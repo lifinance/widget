@@ -1,4 +1,6 @@
-import type { AppProps } from './AppProvider';
+import { forwardRef } from 'react';
+import type { WidgetDrawer } from './AppDrawer';
+import { AppDrawer } from './AppDrawer';
 import { AppProvider } from './AppProvider';
 import { AppRoutes } from './AppRoutes';
 import {
@@ -11,14 +13,24 @@ import { Initializer } from './components/Initializer';
 import { PoweredBy } from './components/PoweredBy';
 import { SwapRoutesExpanded } from './components/SwapRoutes';
 import { useExpandableVariant } from './hooks';
+import type { WidgetProps } from './types';
 
-export const App: React.FC<AppProps> = ({ config }) => {
-  return (
-    <AppProvider config={config}>
-      <AppDefault />
-    </AppProvider>
-  );
-};
+export const App: React.FC<WidgetProps> = forwardRef<WidgetDrawer, WidgetProps>(
+  ({ elementRef, open, config }, ref) => {
+    return config?.variant !== 'drawer' ? (
+      <AppProvider config={config}>
+        <AppDefault />
+      </AppProvider>
+    ) : (
+      <AppDrawer
+        ref={ref}
+        elementRef={elementRef}
+        config={config}
+        open={open}
+      />
+    );
+  },
+);
 
 export const AppDefault = () => {
   const expandable = useExpandableVariant();

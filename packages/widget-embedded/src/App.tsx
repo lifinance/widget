@@ -4,7 +4,7 @@ import {
   switchChain,
   switchChainAndAddToken,
 } from '@lifi/wallet-management';
-import { LiFiWidget, LiFiWidgetDrawer } from '@lifi/widget';
+import { LiFiWidget } from '@lifi/widget';
 import {
   Box,
   // Button,
@@ -23,7 +23,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import React, { useEffect, useState } from 'react';
 import { WalletButtons } from './components/WalletButtons';
 import { WidgetEvents } from './components/WidgetEvents';
-import { widgetConfig, widgetDrawerConfig } from './config';
+import { widgetBaseConfig, widgetConfig } from './config';
 import './index.css';
 import { useWallet } from './providers/WalletProvider';
 
@@ -67,7 +67,7 @@ export const App = () => {
   useEffect(() => {
     setConfig(() => ({
       ...(drawer
-        ? widgetDrawerConfig
+        ? widgetBaseConfig
         : {
             ...widgetConfig,
             appearance: systemColor ? 'auto' : darkMode ? 'dark' : 'light',
@@ -97,7 +97,11 @@ export const App = () => {
           fontFamily,
         },
       },
-      variant: expandableRoutesView ? 'expandable' : 'default',
+      variant: drawer
+        ? 'drawer'
+        : expandableRoutesView
+        ? 'expandable'
+        : 'default',
     }));
   }, [
     borderRadius,
@@ -311,11 +315,7 @@ export const App = () => {
           </Box>
         </Drawer>
         <Box flex={1} margin="auto">
-          {drawer ? (
-            <LiFiWidgetDrawer config={config} open />
-          ) : (
-            <LiFiWidget config={config} />
-          )}
+          <LiFiWidget config={config} open />
         </Box>
       </Box>
     </ThemeProvider>

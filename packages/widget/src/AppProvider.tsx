@@ -3,7 +3,6 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import type { FC, PropsWithChildren } from 'react';
 import { Fragment } from 'react';
 import { MemoryRouter, useInRouterContext } from 'react-router-dom';
-import type { WidgetConfig } from '.';
 import { queryClient } from './config/queryClient';
 import {
   SDKProvider,
@@ -13,16 +12,13 @@ import {
   WalletProvider,
   WidgetProvider,
 } from './providers';
-
-export interface AppProps {
-  config?: WidgetConfig;
-}
+import type { WidgetProps } from './types';
 
 const QueryProvider = QueryClientProvider as FC<
   PropsWithChildren<QueryClientProviderProps>
 >;
 
-export const AppProvider: React.FC<PropsWithChildren<AppProps>> = ({
+export const AppProvider: React.FC<PropsWithChildren<WidgetProps>> = ({
   children,
   config,
 }) => {

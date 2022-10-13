@@ -1,7 +1,7 @@
 import type { WidgetConfig } from '@lifi/widget';
 import './index.css';
 
-export const widgetDrawerConfig: WidgetConfig = {
+export const widgetBaseConfig: WidgetConfig = {
   // fromChain: 137,
   // toChain: 10,
   // fromToken: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
@@ -22,6 +22,15 @@ export const widgetDrawerConfig: WidgetConfig = {
   // },
   tokens: {
     featured: [
+      // {
+      //   address: '0xba98c0fbebc892f5b07a42b0febd606913ebc981',
+      //   symbol: 'MEH',
+      //   decimals: 18,
+      //   chainId: 1,
+      //   name: 'meh',
+      //   logoURI:
+      //     'https://s2.coinmarketcap.com/static/img/coins/64x64/22158.png',
+      // },
       {
         address: '0x195e3087ea4d7eec6e9c37e9640162fe32433d5e',
         symbol: '$ALTI',
@@ -91,7 +100,7 @@ export const widgetDrawerConfig: WidgetConfig = {
 };
 
 export const widgetConfig: WidgetConfig = {
-  ...widgetDrawerConfig,
+  ...widgetBaseConfig,
   containerStyle: {
     // border: `1px solid ${
     //   window.matchMedia('(prefers-color-scheme: dark)').matches
