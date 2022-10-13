@@ -1,0 +1,193 @@
+{
+    "header": {
+        "walletConnected": "Гаманець підʼєднано",
+        "connectWallet": "Під'єднати гаманець",
+        "selectWallet": "Виберіть свій гаманець",
+        "swap": "Своп",
+        "from": "Своп від",
+        "to": "Своп на",
+        "selectChain": "",
+        "settings": "Налаштування",
+        "routes": "Ви отримуєте",
+        "swapHistory": "Історія свопів",
+        "swapDetails": "Деталі свопу",
+        "activeSwaps": "Активні свопи"
+    },
+    "button": {
+        "connectWallet": "Під'єднати гаманець",
+        "swap": "Своп",
+        "reviewSwap": "Переглянути своп",
+        "startSwap": "Почати своп",
+        "restartSwap": "Перезапустити своп",
+        "removeSwap": "Видалити своп",
+        "done": "Готово",
+        "okay": "Добре",
+        "continue": "Продовжити",
+        "seeDetails": "Детальніше",
+        "tryAgain": "Спробувати ще раз",
+        "light": "Світла",
+        "dark": "Темна",
+        "auto": "Автоматично",
+        "ok": "",
+        "cancel": "Скасувати",
+        "delete": "Видалити",
+        "hide": "Сховати",
+        "max": "",
+        "showAll": "Показати всі",
+        "contactSupport": "Зв'язатися зі службою підтримки",
+        "lifiSwap": ""
+    },
+    "swap": {
+        "from": "Від",
+        "to": "До",
+        "amount": "Ви платите",
+        "maxAmount": "",
+        "routes": "Ви отримуєте",
+        "approximateCurrency": "",
+        "currency": "",
+        "tokenSearch": "Знайдіть свій токен",
+        "selectChain": "",
+        "selectToken": "Токен",
+        "selectChainAndToken": "",
+        "featuredTokens": "",
+        "otherTokens": "Інші токени",
+        "inProgress": "в процесі",
+        "stepSwap": "Своп",
+        "stepBridge": "Міст",
+        "stepSwapAndBridge": "Своп і міст",
+        "estimatedTime": "",
+        "crossStepDetails": "",
+        "swapStepDetails": "",
+        "tokenOnChain": "",
+        "tokenOnChainAmount": "",
+        "supportId": "",
+        "sendToWallet": "Надіслати на інший гаманець",
+        "walletAddressOrEns": "",
+        "swapping": "",
+        "gasCost": "",
+        "receiving": "",
+        "valueLoss": "",
+        "tags": {
+            "RECOMMENDED": "РЕКОМЕНДОВАНО",
+            "FASTEST": "ШВИДКО",
+            "CHEAPEST": "ДЕШЕВО",
+            "SAFEST": "БЕЗПЕЧНО",
+            "ALTERNATIVE": "АЛЬТЕРНАТИВНИЙ"
+        },
+        "success": {
+            "title": {
+                "fundsReceived": "Кошти отримані"
+            },
+            "message": {
+                "fundsReceived": ""
+            }
+        },
+        "info": {
+            "title": {
+                "routeNotFound": "Немає доступних маршрутів",
+                "emptySwapHistory": "Немає останніх свопів",
+                "emptyActiveSwaps": "Немає активних свопів"
+            },
+            "message": {
+                "routeNotFound": "Спробуйте іншу комбінацію токенів.",
+                "emptySwapHistory": "Історія свопів зберігається лише локально та буде видалена, якщо ви очистите дані браузера.",
+                "emptyActiveSwaps": "Тут відображатимуться незавершені свопи. Після завершення ви можете знайти їх в історії свопів.",
+                "emptyTokenList": ""
+            }
+        },
+        "warning": {
+            "title": {
+                "insufficientGas": "",
+                "deleteSwap": "Видалити цей своп?",
+                "deleteSwapHistory": "Видалити історію свопів?",
+                "deleteActiveSwaps": "Видалити всі активні свопи?",
+                "highValueLoss": ""
+            },
+            "message": {
+                "insufficientFunds": "У вас недостатньо коштів для здійснення свопу.",
+                "insufficientGas": "Потрібно додати хоча б:",
+                "deleteSwapHistory": "Історія свопів зберігається лише локально й не може бути відновлена, якщо ви їх видалите.",
+                "deleteActiveSwaps": "Активні свопи зберігаються лише локально й не можуть бути відновлені, якщо ви їх видалите.",
+                "highValueLoss": ""
+            }
+        },
+        "error": {
+            "title": {
+                "failed": "",
+                "chainSwitch": "",
+                "transactionFailed": "",
+                "transactionUnderpriced": "",
+                "transactionUnprepared": "Не вдалося підготувати транзакцію.",
+                "transactionRejected": "Підпис обов'язковий.",
+                "unknown": "Щось пішло не так.",
+                "slippageTooLarge": "",
+                "walletAddressInvalid": "Адреса гаманця недійсна.",
+                "walletEnsAddressInvalid": ""
+            },
+            "message": {
+                "transactionRejected": "",
+                "transactionFailed": "",
+                "transactionNotSent": "",
+                "slippageTooLarge": ""
+            }
+        },
+        "process": {
+            "tokenAllowance": {
+                "started": "",
+                "pending": "",
+                "done": ""
+            },
+            "switchChain": {
+                "actionRequired": "",
+                "done": ""
+            },
+            "swap": {
+                "started": "",
+                "actionRequired": "",
+                "pending": "",
+                "done": ""
+            },
+            "crossChain": {
+                "started": "",
+                "actionRequired": "",
+                "pending": "",
+                "done": ""
+            },
+            "receivingChain": {
+                "pending": "",
+                "done": ""
+            }
+        }
+    },
+    "settings": {
+        "routePriority": "",
+        "slippage": "",
+        "gasPrice": {
+            "title": "",
+            "slow": "",
+            "normal": "",
+            "fast": ""
+        },
+        "advancedPreferences": "",
+        "showDestinationWallet": "",
+        "enabledBridges": "",
+        "selectEnabledBridges": "",
+        "enabledExchanges": "",
+        "selectEnabledExchanges": "",
+        "resetToDefault": ""
+    },
+    "wallet": {
+        "extensionNotFound": ""
+    },
+    "tooltip": {
+        "notFound": {
+            "title": "",
+            "text": ""
+        },
+        "progressToNextUpdate": "",
+        "numberOfSteps": "",
+        "estimatedTime": "",
+        "estimatedNetworkFee": "",
+        "settingsModified": "Налаштування (змінено)"
+    }
+}
