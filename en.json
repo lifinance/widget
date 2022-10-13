@@ -1,0 +1,194 @@
+{
+    "header": {
+        "walletConnected": "Wallet connected",
+        "connectWallet": "Connect wallet",
+        "selectWallet": "Select your wallet",
+        "swap": "Swap",
+        "from": "Swap from",
+        "to": "Swap to",
+        "selectChain": "Select chain",
+        "settings": "Settings",
+        "routes": "You get",
+        "swapHistory": "Swap history",
+        "swapDetails": "Swap details",
+        "activeSwaps": "Active swaps"
+    },
+    "button": {
+        "connectWallet": "Connect wallet",
+        "swap": "Swap",
+        "reviewSwap": "Review swap",
+        "startSwap": "Start swap",
+        "restartSwap": "Restart swap",
+        "removeSwap": "Remove swap",
+        "done": "Done",
+        "okay": "Okay",
+        "continue": "Continue",
+        "seeDetails": "See details",
+        "tryAgain": "Try again",
+        "light": "Light",
+        "dark": "Dark",
+        "auto": "Auto",
+        "ok": "Ok",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "hide": "Hide",
+        "max": "max",
+        "showAll": "Show all",
+        "contactSupport": "Contact support",
+        "lifiSwap": "LI.FI Swap"
+    },
+    "swap": {
+        "from": "From",
+        "to": "To",
+        "amount": "You pay",
+        "maxAmount": "\/ {{amount}}",
+        "routes": "You get",
+        "approximateCurrency": "≈ {{value, currency(currency: USD)}}",
+        "currency": "{{value, currency(currency: USD)}}",
+        "tokenSearch": "Search your token",
+        "selectChain": "Chain",
+        "selectToken": "Token",
+        "selectChainAndToken": "Select chain and token",
+        "featuredTokens": "Featured tokens",
+        "otherTokens": "Other tokens",
+        "inProgress": "in progress",
+        "stepSwap": "Swap",
+        "stepBridge": "Bridge",
+        "stepSwapAndBridge": "Swap and bridge",
+        "estimatedTime": "{{value}}m",
+        "crossStepDetails": "Bridge from {{from}} to {{to}} via {{tool}}",
+        "swapStepDetails": "Swap on {{chain}} via {{tool}}",
+        "tokenOnChain": "{{tokenSymbol}} on {{chainName}}",
+        "tokenOnChainAmount": "{{amount}} {{tokenSymbol}} on {{chainName}}",
+        "supportId": "Support ID",
+        "sendToWallet": "Send to a different wallet",
+        "walletAddressOrEns": "Wallet address or ENS name",
+        "swapping": "Swapping",
+        "gasCost": "Gas cost",
+        "receiving": "Receiving",
+        "valueLoss": "Value loss",
+        "tags": {
+            "RECOMMENDED": "RECOMMENDED",
+            "FASTEST": "FAST",
+            "CHEAPEST": "CHEAP",
+            "SAFEST": "SAFE",
+            "ALTERNATIVE": "ALTERNATIVE"
+        },
+        "success": {
+            "title": {
+                "fundsReceived": "Funds received"
+            },
+            "message": {
+                "fundsReceived": "There are now {{amount}} {{tokenSymbol}} in wallet {{walletAddress}} on {{chainName}} chain."
+            }
+        },
+        "info": {
+            "title": {
+                "routeNotFound": "No routes available",
+                "emptySwapHistory": "No recent swaps",
+                "emptyActiveSwaps": "No active swaps"
+            },
+            "message": {
+                "routeNotFound": "Try another token combination.",
+                "emptySwapHistory": "Swap history is only stored locally and will be deleted if you clear your browser data.",
+                "emptyActiveSwaps": "Swaps in progress will appear here. Once completed, find them in swap history.",
+                "emptyTokenList": "We couldn't find tokens on {{chainName}} chain or you don't have any. Please try search again or choose another chain."
+            }
+        },
+        "warning": {
+            "title": {
+                "insufficientGas": "Insufficient gas",
+                "deleteSwap": "Delete this swap?",
+                "deleteSwapHistory": "Delete swap history?",
+                "deleteActiveSwaps": "Delete all active swaps?",
+                "highValueLoss": "High value loss"
+            },
+            "message": {
+                "insufficientFunds": "You don't have enough funds to execute the swap.",
+                "insufficientGas": "You need to add at least:",
+                "deleteSwapHistory": "Swap history is only stored locally and can't be recovered if you delete it.",
+                "deleteActiveSwaps": "Active swaps are only stored locally and can't be recovered if you delete them.",
+                "highValueLoss": "The value of the received tokens is significantly lower than the swapped tokens and transaction cost."
+            }
+        },
+        "error": {
+            "title": {
+                "failed": "Swap failed.",
+                "chainSwitch": "Chain switch required.",
+                "transactionFailed": "Transaction has failed.",
+                "transactionUnderpriced": "Transaction is underpriced.",
+                "transactionUnprepared": "Unable to prepare transaction.",
+                "transactionRejected": "Signature required.",
+                "unknown": "Something went wrong.",
+                "slippageTooLarge": "Slippage too large.",
+                "walletAddressInvalid": "Wallet address is invalid.",
+                "walletEnsAddressInvalid": "Wallet address is invalid or network doesn't support ENS."
+            },
+            "message": {
+                "transactionRejected": "Your signature is required to complete the transaction. {{amount}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
+                "transactionFailed": "Please check the block explorer for more information.",
+                "transactionNotSent": "Transaction was not sent, your funds are still in your wallet ({{amount}} {{tokenSymbol}} on {{chainName}}).",
+                "slippageTooLarge": "The slippage is larger than the defined threshold. Please request a new route to get a fresh quote."
+            }
+        },
+        "process": {
+            "tokenAllowance": {
+                "started": "Setting token allowance.",
+                "pending": "Waiting for token allowance.",
+                "done": "Token allowance approved."
+            },
+            "switchChain": {
+                "actionRequired": "Chain switch required.",
+                "done": "Chain switched successfully."
+            },
+            "swap": {
+                "started": "Preparing swap.",
+                "actionRequired": "Please sign the transaction.",
+                "pending": "Swapping.",
+                "done": "Swap completed."
+            },
+            "crossChain": {
+                "started": "Preparing transaction.",
+                "actionRequired": "Please sign the transaction.",
+                "pending": "Waiting for transaction.",
+                "done": "Transaction approved."
+            },
+            "receivingChain": {
+                "pending": "Waiting for receiving chain.",
+                "done": "Funds received."
+            }
+        }
+    },
+    "settings": {
+        "routePriority": "Route priority",
+        "slippage": "Slippage",
+        "gasPrice": {
+            "title": "Gas price",
+            "slow": "Slow",
+            "normal": "Normal",
+            "fast": "Fast"
+        },
+        "advancedPreferences": "Advanced preferences",
+        "showDestinationWallet": "Show destination wallet",
+        "enabledBridges": "Enabled bridges",
+        "selectEnabledBridges": "Select enabled bridges",
+        "enabledExchanges": "Enabled exchanges",
+        "selectEnabledExchanges": "Select enabled exchanges",
+        "resetToDefault": "Reset to default"
+    },
+    "wallet": {
+        "extensionNotFound": "Please make sure that only the {{name}} browser extension is active before choosing this wallet."
+    },
+    "tooltip": {
+        "notFound": {
+            "title": "404",
+            "text": "We couldn't find this page."
+        },
+        "progressToNextUpdate": "Displayed data will auto-refresh after {{value}} seconds. Click here to update manually.",
+        "numberOfSteps": "A number of swap steps. Each step can contain 1-3 transactions that require a signature.",
+        "estimatedTime": "Estimated swap execution time in minutes.",
+        "estimatedNetworkFee": "Estimated network fee.",
+        "settingsModified": "Settings (modified)"
+    },
+    "language": "English"
+}
