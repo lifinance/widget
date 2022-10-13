@@ -1,5 +1,4 @@
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
+import i18next from 'i18next';
 import translation from './en/translation.json';
 
 export const defaultNS = 'translation';
@@ -9,8 +8,8 @@ export const resources = {
   },
 } as const;
 
-export function configureReactI18next() {
-  i18n.use(initReactI18next).init({
+export const i18n = i18next.createInstance(
+  {
     lng: 'en',
     fallbackLng: 'en',
     lowerCaseLng: true,
@@ -18,5 +17,7 @@ export function configureReactI18next() {
       escapeValue: false,
     },
     resources,
-  });
-}
+  },
+  // providing an empty callback here will automatically call init
+  () => {},
+);
