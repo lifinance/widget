@@ -4,9 +4,8 @@ import type { FC, PropsWithChildren } from 'react';
 import { Fragment } from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { MemoryRouter, useInRouterContext } from 'react-router-dom';
-import { i18n } from './i18n';
-import type { WidgetConfig } from '.';
 import { queryClient } from './config/queryClient';
+import { i18n } from './i18n';
 import {
   SDKProvider,
   SwapFormProvider,

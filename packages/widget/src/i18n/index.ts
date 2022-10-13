@@ -1,10 +1,10 @@
 import i18next from 'i18next';
-import translation from './en/translation.json';
+import en from './en.json';
 
 export const defaultNS = 'translation';
 export const resources = {
   en: {
-    translation,
+    translation: en,
   },
 } as const;
 
