@@ -15,16 +15,13 @@ import {
   WalletProvider,
   WidgetProvider,
 } from './providers';
-
-export interface AppProps {
-  config?: WidgetConfig;
-}
+import type { WidgetProps } from './types';
 
 const QueryProvider = QueryClientProvider as FC<
   PropsWithChildren<QueryClientProviderProps>
 >;
 
-export const AppProvider: React.FC<PropsWithChildren<AppProps>> = ({
+export const AppProvider: React.FC<PropsWithChildren<WidgetProps>> = ({
   children,
   config,
 }) => {

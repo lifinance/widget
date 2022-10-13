@@ -2,9 +2,7 @@ import {
   KeyboardArrowLeft as KeyboardArrowLeftIcon,
   KeyboardArrowRight as KeyboardArrowRightIcon,
 } from '@mui/icons-material';
-import type { DrawerProps } from '@mui/material';
 import { Drawer } from '@mui/material';
-import type { RefObject } from 'react';
 import {
   forwardRef,
   useCallback,
@@ -17,12 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { AppDefault } from './App';
 import { DrawerButton, DrawerButtonTypography } from './AppDrawer.style';
 import { AppProvider } from './AppProvider';
-import type { WidgetConfig } from './types';
-
-export type WidgetDrawerProps = DrawerProps & {
-  elementRef?: RefObject<HTMLDivElement>;
-  config?: WidgetConfig;
-};
+import type { WidgetConfig, WidgetProps } from './types';
 
 export interface WidgetDrawer {
   isOpen(): void;
@@ -31,7 +24,7 @@ export interface WidgetDrawer {
   closeDrawer(): void;
 }
 
-export const AppDrawer = forwardRef<WidgetDrawer, WidgetDrawerProps>(
+export const AppDrawer = forwardRef<WidgetDrawer, WidgetProps>(
   ({ elementRef, open, config }, ref) => {
     const { t } = useTranslation();
     const openRef = useRef(open);
