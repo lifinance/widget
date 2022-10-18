@@ -1,0 +1,199 @@
+{
+  "header": {
+    "walletConnected": "वॉलेट जुड़ा",
+    "connectWallet": "वॉलेट कनेक्ट करें",
+    "selectWallet": "अपना बटुआ चुनें",
+    "swap": "बदलना",
+    "from": "से स्वैप करें",
+    "to": "करने के लिए स्वैप करें",
+    "selectChain": "श्रृंखला का चयन करें",
+    "settings": "समायोजन",
+    "routes": "आपको मिला",
+    "swapHistory": "स्वैप इतिहास",
+    "swapDetails": "स्वैप विवरण",
+    "activeSwaps": "सक्रिय स्वैप"
+  },
+  "button": {
+    "connectWallet": "वॉलेट कनेक्ट करें",
+    "swap": "बदलना",
+    "reviewSwap": "स्वैप की समीक्षा करें",
+    "startSwap": "स्वैप शुरू करें",
+    "restartSwap": "स्वैप पुनः आरंभ करें",
+    "removeSwap": "स्वैप हटाएं",
+    "done": "पूर्ण",
+    "okay": "ठीक",
+    "continue": "जारी रखना",
+    "seeDetails": "विस्तृत जानकारी देखें",
+    "tryAgain": "पुनः प्रयास करें",
+    "light": "रोशनी",
+    "dark": "अँधेरा",
+    "auto": "ऑटो",
+    "ok": "ठीक",
+    "cancel": "रद्द करना",
+    "delete": "मिटाना",
+    "hide": "छिपाना",
+    "max": "मैक्स",
+    "showAll": "सब दिखाएं",
+    "contactSupport": "सहयोग टीम से संपर्क करें",
+    "lifiSwap": "LI.FI स्वैप"
+  },
+  "swap": {
+    "from": "से",
+    "to": "प्रति",
+    "amount": "तुम भुगतान दो",
+    "maxAmount": "/ {{amount}}",
+    "routes": "आपको मिला",
+    "approximateCurrency": "≈ {{मूल्य, मुद्रा (मुद्रा: अमरीकी डालर)}}",
+    "currency": "{{मूल्य, मुद्रा (मुद्रा: अमरीकी डालर)}}",
+    "tokenSearch": "अपना टोकन खोजें",
+    "selectChain": "ज़ंजीर",
+    "selectToken": "टोकन",
+    "selectChainAndToken": "चेन और टोकन चुनें",
+    "featuredTokens": "विशेष रुप से प्रदर्शित टोकन",
+    "otherTokens": "अन्य टोकन",
+    "inProgress": "चालू",
+    "stepSwap": "बदलना",
+    "stepBridge": "पुल",
+    "stepSwapAndBridge": "स्वैप और ब्रिज",
+    "estimatedTime": "{{value}} मी",
+    "crossStepDetails": "{{tool}} {{to}} के माध्यम से {{from}} से {{से}} तक पुल",
+    "swapStepDetails": "{{chain}} पर {{tool}} } के माध्यम से स्वैप करें",
+    "tokenOnChain": "{{tokenSymbol}} {{chainName}} पर",
+    "tokenOnChainAmount": "{{amount}} {{tokenSymbol}} {{chainName}}",
+    "supportId": "समर्थन आईडी",
+    "sendToWallet": "किसी दूसरे वॉलेट में भेजें",
+    "walletAddressOrEns": "वॉलेट पता या ईएनएस नाम",
+    "swapping": "अदला-बदली",
+    "gasCost": "गैस की लागत",
+    "receiving": "प्राप्त",
+    "valueLoss": "मूल्य हानि",
+    "tags": {
+      "RECOMMENDED": "अनुशंसित",
+      "FASTEST": "तेज़",
+      "CHEAPEST": "सस्ता",
+      "SAFEST": "सुरक्षित",
+      "ALTERNATIVE": "विकल्प"
+    },
+    "success": {
+      "title": {
+        "fundsReceived": "प्राप्त धन",
+        "swapSuccessful": "स्वैप सफल"
+      },
+      "message": {
+        "fundsReceived": "{{chainName}} चेन पर अब {{amount}} {{tokenSymbol}} वॉलेट {{walletAddress}} में हैं।",
+        "swapSuccessful": "{{chainName}} चेन पर अब {{amount}} {{tokenSymbol}} वॉलेट {{walletAddress}} में हैं।"
+      }
+    },
+    "info": {
+      "title": {
+        "routeNotFound": "कोई मार्ग उपलब्ध नहीं",
+        "emptySwapHistory": "हाल ही में कोई अदला-बदली नहीं",
+        "emptyActiveSwaps": "कोई सक्रिय स्वैप नहीं"
+      },
+      "message": {
+        "routeNotFound": "एक और टोकन संयोजन का प्रयास करें।",
+        "emptySwapHistory": "स्वैप इतिहास केवल स्थानीय रूप से संग्रहीत किया जाता है और यदि आप अपना ब्राउज़र डेटा साफ़ करते हैं तो इसे हटा दिया जाएगा।",
+        "emptyActiveSwaps": "चल रहे स्वैप यहां दिखाई देंगे। एक बार पूरा हो जाने पर, उन्हें स्वैप इतिहास में खोजें।",
+        "emptyTokenList": "हमें {{chainName}} चेन पर टोकन नहीं मिले या आपके पास कोई टोकन नहीं है। कृपया फिर से खोजने का प्रयास करें या कोई अन्य श्रृंखला चुनें।"
+      }
+    },
+    "warning": {
+      "title": {
+        "insufficientGas": "अपर्याप्त गैस",
+        "deleteSwap": "यह स्वैप हटाएं?",
+        "deleteSwapHistory": "स्वैप इतिहास हटाएं?",
+        "deleteActiveSwaps": "सभी सक्रिय स्वैप हटाएं?",
+        "highValueLoss": "उच्च मूल्य हानि"
+      },
+      "message": {
+        "insufficientFunds": "आपके पास स्वैप निष्पादित करने के लिए पर्याप्त धनराशि नहीं है।",
+        "insufficientGas": "आपको कम से कम जोड़ना होगा:",
+        "deleteSwapHistory": "स्वैप इतिहास केवल स्थानीय रूप से संग्रहीत किया जाता है और यदि आप इसे हटाते हैं तो इसे पुनर्प्राप्त नहीं किया जा सकता है।",
+        "deleteActiveSwaps": "सक्रिय स्वैप केवल स्थानीय रूप से संग्रहीत होते हैं और यदि आप उन्हें हटाते हैं तो उन्हें पुनर्प्राप्त नहीं किया जा सकता है।",
+        "highValueLoss": "प्राप्त टोकन का मूल्य स्वैप किए गए टोकन और लेनदेन लागत से काफी कम है।"
+      }
+    },
+    "error": {
+      "title": {
+        "failed": "स्वैप विफल।",
+        "chainSwitch": "चेन स्विच की आवश्यकता है।",
+        "transactionFailed": "लेन-देन विफल हो गया है।",
+        "transactionUnderpriced": "लेन-देन की कीमत कम है।",
+        "transactionUnprepared": "लेन-देन तैयार करने में असमर्थ।",
+        "transactionRejected": "हस्ताक्षर चाहिए।",
+        "unknown": "कुछ गलत हो गया।",
+        "slippageTooLarge": "फिसलन बहुत बड़ी है।",
+        "walletAddressInvalid": "वॉलेट का पता अमान्य है।",
+        "walletEnsAddressInvalid": "वॉलेट का पता अमान्य है या नेटवर्क ENS का समर्थन नहीं करता है।"
+      },
+      "message": {
+        "transactionRejected": "लेनदेन को पूरा करने के लिए आपके हस्ताक्षर की आवश्यकता है। {{amount}} {{tokenSymbol}} {{chainName}} आपके वॉलेट में रहेगा।",
+        "transactionFailed": "अधिक जानकारी के लिए कृपया ब्लॉक एक्सप्लोरर देखें।",
+        "transactionNotSent": "लेन-देन नहीं भेजा गया था, आपकी धनराशि अभी भी आपके बटुए में है ( {{amount}} {{tokenSymbol}} {{chainName}} )।",
+        "slippageTooLarge": "फिसलन निर्धारित सीमा से अधिक है। कृपया एक नया उद्धरण प्राप्त करने के लिए एक नए मार्ग का अनुरोध करें।"
+      }
+    },
+    "process": {
+      "tokenAllowance": {
+        "started": "टोकन भत्ता निर्धारित करना।",
+        "pending": "टोकन भत्ता का इंतजार",
+        "done": "टोकन भत्ता स्वीकृत।"
+      },
+      "switchChain": {
+        "actionRequired": "चेन स्विच की आवश्यकता है।",
+        "done": "चेन सफलतापूर्वक स्विच की गई।"
+      },
+      "swap": {
+        "started": "स्वैप की तैयारी।",
+        "actionRequired": "कृपया लेनदेन पर हस्ताक्षर करें।",
+        "pending": "अदला-बदली।",
+        "done": "स्वैप पूरा हुआ।"
+      },
+      "crossChain": {
+        "started": "लेन-देन की तैयारी।",
+        "actionRequired": "कृपया लेनदेन पर हस्ताक्षर करें।",
+        "pending": "लेन-देन की प्रतीक्षा कर रहा है।",
+        "done": "लेन-देन स्वीकृत।"
+      },
+      "receivingChain": {
+        "pending": "चेन मिलने का इंतजार है।",
+        "done": "धनराशि प्राप्त हुई।"
+      }
+    }
+  },
+  "settings": {
+    "routePriority": "मार्ग प्राथमिकता",
+    "slippage": "फिसलन",
+    "gasPrice": {
+      "title": "गैस की कीमत",
+      "slow": "धीमा",
+      "normal": "सामान्य",
+      "fast": "तेज़"
+    },
+    "advancedPreferences": "उन्नत प्राथमिकताएं",
+    "showDestinationWallet": "गंतव्य वॉलेट दिखाएं",
+    "enabledBridges": "सक्षम पुल",
+    "selectEnabledBridges": "सक्षम पुलों का चयन करें",
+    "enabledExchanges": "सक्षम एक्सचेंज",
+    "selectEnabledExchanges": "सक्षम एक्सचेंजों का चयन करें",
+    "resetToDefault": "डिफ़ॉल्ट पर रीसेट"
+  },
+  "wallet": {
+    "extensionNotFound": "कृपया सुनिश्चित करें कि इस वॉलेट को चुनने से पहले केवल {{name}} ब्राउज़र एक्सटेंशन सक्रिय है।"
+  },
+  "tooltip": {
+    "notFound": {
+      "title": "404",
+      "text": "हमें यह पृष्ठ नहीं मिला।"
+    },
+    "progressToNextUpdate": "प्रदर्शित डेटा {{value}} सेकंड के बाद स्वतः रीफ़्रेश हो जाएगा। मैन्युअल रूप से अपडेट करने के लिए यहां क्लिक करें।",
+    "numberOfSteps": "कई स्वैप कदम। प्रत्येक चरण में 1-2 लेन-देन हो सकते हैं जिनके लिए हस्ताक्षर की आवश्यकता होती है।",
+    "estimatedTime": "मिनटों में अनुमानित स्वैप निष्पादन समय।",
+    "estimatedNetworkFee": "अनुमानित नेटवर्क शुल्क।",
+    "settingsModified": "सेटिंग्स (संशोधित)"
+  },
+  "language": {
+    "name": "अंग्रेज़ी",
+    "title": "भाषा"
+  }
+}

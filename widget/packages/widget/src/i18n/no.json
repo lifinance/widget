@@ -1,0 +1,199 @@
+{
+  "header": {
+    "walletConnected": "Lommebok tilkoblet",
+    "connectWallet": "Koble til lommebok",
+    "selectWallet": "Velg lommeboken din",
+    "swap": "Bytte",
+    "from": "Bytt fra",
+    "to": "Bytt til",
+    "selectChain": "Velg kjede",
+    "settings": "Innstillinger",
+    "routes": "Du får",
+    "swapHistory": "Byttehistorikk",
+    "swapDetails": "Bytt detaljer",
+    "activeSwaps": "Aktive bytter"
+  },
+  "button": {
+    "connectWallet": "Koble til lommebok",
+    "swap": "Bytte",
+    "reviewSwap": "Anmeldelsesbytte",
+    "startSwap": "Start bytte",
+    "restartSwap": "Start bytte på nytt",
+    "removeSwap": "Fjern bytte",
+    "done": "Ferdig",
+    "okay": "Greit",
+    "continue": "Fortsette",
+    "seeDetails": "Se detaljer",
+    "tryAgain": "Prøv igjen",
+    "light": "Lys",
+    "dark": "Mørk",
+    "auto": "Auto",
+    "ok": "Ok",
+    "cancel": "Avbryt",
+    "delete": "Slett",
+    "hide": "Gjemme seg",
+    "max": "maks",
+    "showAll": "Vis alt",
+    "contactSupport": "Kontakt support",
+    "lifiSwap": "LI.FI Bytte"
+  },
+  "swap": {
+    "from": "Fra",
+    "to": "Til",
+    "amount": "Du betaler",
+    "maxAmount": "/ {{amount}}",
+    "routes": "Du får",
+    "approximateCurrency": "≈ {{verdi, valuta(valuta: USD)}}",
+    "currency": "{{value, currency(currency: USD)}}",
+    "tokenSearch": "Søk på tokenet ditt",
+    "selectChain": "Kjede",
+    "selectToken": "Token",
+    "selectChainAndToken": "Velg kjede og token",
+    "featuredTokens": "Utvalgte tokens",
+    "otherTokens": "Andre tokens",
+    "inProgress": "i prosess",
+    "stepSwap": "Bytte",
+    "stepBridge": "Bro",
+    "stepSwapAndBridge": "Bytt og bro",
+    "estimatedTime": "{{value}} m",
+    "crossStepDetails": "Bro fra {{from}} til {{to}} via {{tool}}",
+    "swapStepDetails": "Bytt på {{chain}} via {{tool}}",
+    "tokenOnChain": "{{tokenSymbol}} på {{chainName}}",
+    "tokenOnChainAmount": "{{amount}} {{tokenSymbol}} på {{chainName}}",
+    "supportId": "Support ID",
+    "sendToWallet": "Send til en annen lommebok",
+    "walletAddressOrEns": "Lommebokadresse eller ENS-navn",
+    "swapping": "Bytting",
+    "gasCost": "Gasskostnad",
+    "receiving": "Mottar",
+    "valueLoss": "Verditap",
+    "tags": {
+      "RECOMMENDED": "ANBEFALT",
+      "FASTEST": "RASK",
+      "CHEAPEST": "BILLIG",
+      "SAFEST": "SIKKER",
+      "ALTERNATIVE": "ALTERNATIV"
+    },
+    "success": {
+      "title": {
+        "fundsReceived": "Mottatte midler",
+        "swapSuccessful": "Bytte vellykket"
+      },
+      "message": {
+        "fundsReceived": "Det er nå {{amount}} {{tokenSymbol}} i lommeboken {{walletAddress}} på {{chainName}} kjeden.",
+        "swapSuccessful": "Det er nå {{amount}} {{tokenSymbol}} i lommeboken {{walletAddress}} på {{chainName}} kjeden."
+      }
+    },
+    "info": {
+      "title": {
+        "routeNotFound": "Ingen tilgjengelige ruter",
+        "emptySwapHistory": "Ingen nylige bytter",
+        "emptyActiveSwaps": "Ingen aktive bytter"
+      },
+      "message": {
+        "routeNotFound": "Prøv en annen token-kombinasjon.",
+        "emptySwapHistory": "Byttehistorikk lagres kun lokalt og vil bli slettet hvis du sletter nettleserdataene dine.",
+        "emptyActiveSwaps": "Bytter som pågår vises her. Når du er ferdig, finner du dem i bytteloggen.",
+        "emptyTokenList": "Vi kunne ikke finne tokens på {{chainName}} kjeden, eller du har ingen. Prøv å søke på nytt eller velg en annen kjede."
+      }
+    },
+    "warning": {
+      "title": {
+        "insufficientGas": "Utilstrekkelig gass",
+        "deleteSwap": "Vil du slette dette byttet?",
+        "deleteSwapHistory": "Vil du slette bytteloggen?",
+        "deleteActiveSwaps": "Vil du slette alle aktive bytteavtaler?",
+        "highValueLoss": "Høyt verditap"
+      },
+      "message": {
+        "insufficientFunds": "Du har ikke nok midler til å gjennomføre byttet.",
+        "insufficientGas": "Du må legge til minst:",
+        "deleteSwapHistory": "Byttehistorikk lagres kun lokalt og kan ikke gjenopprettes hvis du sletter den.",
+        "deleteActiveSwaps": "Aktive bytteavtaler lagres kun lokalt og kan ikke gjenopprettes hvis du sletter dem.",
+        "highValueLoss": "Verdien av de mottatte tokenene er betydelig lavere enn de byttede tokenene og transaksjonskostnadene."
+      }
+    },
+    "error": {
+      "title": {
+        "failed": "Bytte mislyktes.",
+        "chainSwitch": "Kjedebryter nødvendig.",
+        "transactionFailed": "Transaksjonen mislyktes.",
+        "transactionUnderpriced": "Transaksjonen er underpriset.",
+        "transactionUnprepared": "Kan ikke forberede transaksjonen.",
+        "transactionRejected": "Signatur kreves.",
+        "unknown": "Noe gikk galt.",
+        "slippageTooLarge": "Utglidningen er for stor.",
+        "walletAddressInvalid": "Lommebokadressen er ugyldig.",
+        "walletEnsAddressInvalid": "Lommebokadressen er ugyldig eller nettverket støtter ikke ENS."
+      },
+      "message": {
+        "transactionRejected": "Din signatur er nødvendig for å fullføre transaksjonen. {{amount}} {{tokenSymbol}} på {{chainName}} forblir i lommeboken din.",
+        "transactionFailed": "Vennligst sjekk blokkutforskeren for mer informasjon.",
+        "transactionNotSent": "Transaksjonen ble ikke sendt, pengene dine er fortsatt i lommeboken din ( {{amount}} {{tokenSymbol}} på {{chainName}} ).",
+        "slippageTooLarge": "Utglidningen er større enn den definerte terskelen. Vennligst be om en ny rute for å få et nytt tilbud."
+      }
+    },
+    "process": {
+      "tokenAllowance": {
+        "started": "Innstilling av tokengodtgjørelse.",
+        "pending": "Venter på symbolgodtgjørelse.",
+        "done": "Tokengodtgjørelse godkjent."
+      },
+      "switchChain": {
+        "actionRequired": "Kjedebryter nødvendig.",
+        "done": "Kjede byttet vellykket."
+      },
+      "swap": {
+        "started": "Forbereder bytte.",
+        "actionRequired": "Vennligst signer transaksjonen.",
+        "pending": "Bytting.",
+        "done": "Bytte fullført."
+      },
+      "crossChain": {
+        "started": "Forbereder transaksjon.",
+        "actionRequired": "Vennligst signer transaksjonen.",
+        "pending": "Venter på transaksjon.",
+        "done": "Transaksjonen godkjent."
+      },
+      "receivingChain": {
+        "pending": "Venter på mottakskjede.",
+        "done": "Mottatte midler."
+      }
+    }
+  },
+  "settings": {
+    "routePriority": "Ruteprioritet",
+    "slippage": "Utglidning",
+    "gasPrice": {
+      "title": "Gasspris",
+      "slow": "Langsom",
+      "normal": "Vanlig",
+      "fast": "Rask"
+    },
+    "advancedPreferences": "Avanserte preferanser",
+    "showDestinationWallet": "Vis destinasjonslommebok",
+    "enabledBridges": "Aktiverte broer",
+    "selectEnabledBridges": "Velg aktiverte broer",
+    "enabledExchanges": "Aktiverte utvekslinger",
+    "selectEnabledExchanges": "Velg aktiverte sentraler",
+    "resetToDefault": "Tilbakestill til standard"
+  },
+  "wallet": {
+    "extensionNotFound": "Sørg for at bare nettleserutvidelsen {{name}} er aktiv før du velger denne lommeboken."
+  },
+  "tooltip": {
+    "notFound": {
+      "title": "404",
+      "text": "Vi kunne ikke finne denne siden."
+    },
+    "progressToNextUpdate": "Viste data vil automatisk oppdateres etter {{value}} sekunder. Klikk her for å oppdatere manuelt.",
+    "numberOfSteps": "En rekke byttetrinn. Hvert trinn kan inneholde 1-2 transaksjoner som krever signatur.",
+    "estimatedTime": "Estimert utførelsestid for bytte i minutter.",
+    "estimatedNetworkFee": "Estimert nettverksavgift.",
+    "settingsModified": "Innstillinger (endret)"
+  },
+  "language": {
+    "name": "Engelsk",
+    "title": "Språk"
+  }
+}
