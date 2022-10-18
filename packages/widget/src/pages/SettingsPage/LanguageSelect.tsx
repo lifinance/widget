@@ -4,13 +4,13 @@ import { FormControl, MenuItem } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Card, CardTitle } from '../../components/Card';
 import { Select } from '../../components/Select';
-import { isItemAllowed, useI18n, useWidgetConfig } from '../../providers';
+import { useWidgetConfig } from '../../providers';
 import { useSettings, useSettingsStore } from '../../stores';
 
 export const LanguageSelect: React.FC = () => {
   const { t } = useTranslation();
   const { languages, disableI18n } = useWidgetConfig();
-  const { changeLanguage, languageResources } = useI18n();
+  const { i18n } = useTranslation();
   const setValue = useSettingsStore((state) => state.setValue);
   const { language } = useSettings(['language']);
 
@@ -21,19 +21,17 @@ export const LanguageSelect: React.FC = () => {
   const handleChangeLanguage = (event: SelectChangeEvent<unknown>) => {
     const language = event.target.value as string;
     setValue('language', language);
-    changeLanguage(language);
+    i18n.changeLanguage(language);
   };
 
-  const filteredLanguages = Object.keys(languageResources).filter((lng) =>
-    isItemAllowed(lng, languages),
-  );
+  const filteredLanguages = Object.keys(i18n.store.data).sort();
 
   if (filteredLanguages.length <= 1) {
     return null;
   }
 
-  const value = filteredLanguages.includes(language || 'en')
-    ? language || 'en'
+  const value = filteredLanguages.includes(language || i18n.resolvedLanguage)
+    ? language || i18n.resolvedLanguage
     : languages?.default || languages?.allow?.[0];
 
   return (
