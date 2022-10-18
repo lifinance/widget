@@ -1,8 +1,4 @@
 {
-  "language": {
-    "name": "English",
-    "title": "Language"
-  },
   "header": {
     "walletConnected": "Wallet connected",
     "connectWallet": "Connect wallet",
@@ -25,6 +21,7 @@
     "restartSwap": "Restart swap",
     "removeSwap": "Remove swap",
     "done": "Done",
+    "okay": "Okay",
     "continue": "Continue",
     "seeDetails": "See details",
     "tryAgain": "Try again",
@@ -46,7 +43,7 @@
     "amount": "You pay",
     "maxAmount": "/ {{amount}}",
     "routes": "You get",
-    "approximateCurrency": "\u2248 {{value, currency(currency: USD)}}",
+    "approximateCurrency": "≈ {{value, currency(currency: USD)}}",
     "currency": "{{value, currency(currency: USD)}}",
     "tokenSearch": "Search your token",
     "selectChain": "Chain",
@@ -79,9 +76,11 @@
     },
     "success": {
       "title": {
+        "fundsReceived": "Funds received",
         "swapSuccessful": "Swap successful"
       },
       "message": {
+        "fundsReceived": "There are now {{amount}} {{tokenSymbol}} in wallet {{walletAddress}} on {{chainName}} chain.",
         "swapSuccessful": "There are now {{amount}} {{tokenSymbol}} in wallet {{walletAddress}} on {{chainName}} chain."
       }
     },
@@ -192,5 +191,9 @@
     "estimatedTime": "Estimated swap execution time in minutes.",
     "estimatedNetworkFee": "Estimated network fee.",
     "settingsModified": "Settings (modified)"
+  },
+  "language": {
+    "name": "English",
+    "title": "Language"
   }
 }

@@ -1,0 +1,199 @@
+{
+  "header": {
+    "walletConnected": "ウォレット接続",
+    "connectWallet": "コネクトウォレット",
+    "selectWallet": "ウォレットを選択する",
+    "swap": "スワップ",
+    "from": "からスワップ",
+    "to": "に交換します。",
+    "selectChain": "チェーン選択",
+    "settings": "設定",
+    "routes": "を得ることができます。",
+    "swapHistory": "スワップ履歴",
+    "swapDetails": "スワップ内容",
+    "activeSwaps": "アクティブスワップ"
+  },
+  "button": {
+    "connectWallet": "コネクトウォレット",
+    "swap": "スワップ",
+    "reviewSwap": "レビュー スワップ",
+    "startSwap": "スワップ開始",
+    "restartSwap": "スワップ再開",
+    "removeSwap": "スワップ削除",
+    "done": "完了",
+    "okay": "オーケー",
+    "continue": "継続",
+    "seeDetails": "詳細を見る",
+    "tryAgain": "再試行",
+    "light": "光",
+    "dark": "ダーク",
+    "auto": "オート",
+    "ok": "オッケー",
+    "cancel": "キャンセル",
+    "delete": "削除",
+    "hide": "隠す",
+    "max": "マックス",
+    "showAll": "すべて表示",
+    "contactSupport": "お問い合わせ先",
+    "lifiSwap": "LI.FIスワップ"
+  },
+  "swap": {
+    "from": "から",
+    "to": "への",
+    "amount": "あなたが支払う",
+    "maxAmount": "/ {{amount}}",
+    "routes": "を得ることができます。",
+    "approximateCurrency": "≈ {{value, currency(currency: USD)}}のようになります。",
+    "currency": "{{value, currency(currency: USD)}}。",
+    "tokenSearch": "トークンの検索",
+    "selectChain": "チェーン",
+    "selectToken": "トークン",
+    "selectChainAndToken": "チェーンとトークンの選択",
+    "featuredTokens": "注目のトークン",
+    "otherTokens": "その他のトークン",
+    "inProgress": "進行中",
+    "stepSwap": "スワップ",
+    "stepBridge": "ブリッジ",
+    "stepSwapAndBridge": "スワップ＆ブリッジ",
+    "estimatedTime": "{{value}}m",
+    "crossStepDetails": "ツール}}で{{from}}から{{to}}へ橋渡しする。",
+    "swapStepDetails": "ツール}}で{{chain}}にスワップする。",
+    "tokenOnChain": "{{tokenSymbol}}で{{chainName}}。",
+    "tokenOnChainAmount": "{{amount}}{{chainName}}上の{{tokenSymbol}}。",
+    "supportId": "サポートID",
+    "sendToWallet": "別のウォレットに送信する",
+    "walletAddressOrEns": "ウォレットアドレスまたはENS名",
+    "swapping": "スワッピング",
+    "gasCost": "ガス代",
+    "receiving": "レシービング",
+    "valueLoss": "価値損失",
+    "tags": {
+      "RECOMMENDED": "推奨",
+      "FASTEST": "高速",
+      "CHEAPEST": "CHEAP",
+      "SAFEST": "セーフ",
+      "ALTERNATIVE": "アルタネティブ"
+    },
+    "success": {
+      "title": {
+        "fundsReceived": "受入資金",
+        "swapSuccessful": "スワップ成功"
+      },
+      "message": {
+        "fundsReceived": "現在、{{amount}}があります。{chainName}} チェーンのウォレット {{walletAddress}} に {{tokenSymbol}} があります。",
+        "swapSuccessful": "現在、{{amount}}があります。{chainName}} チェーンのウォレット {{walletAddress}} に {{tokenSymbol}} があります。"
+      }
+    },
+    "info": {
+      "title": {
+        "routeNotFound": "利用可能なルートはありません",
+        "emptySwapHistory": "最近のスワップはありません",
+        "emptyActiveSwaps": "アクティブスワップなし"
+      },
+      "message": {
+        "routeNotFound": "別のトークンの組み合わせを試してみてください。",
+        "emptySwapHistory": "スワップ履歴はローカルにのみ保存され、ブラウザデータを消去すると削除されます。",
+        "emptyActiveSwaps": "進行中のスワップはここに表示されます。完了したら、スワップ履歴で確認できます。",
+        "emptyTokenList": "チェーン{{chainName}}でトークンが見つかりませんでした、またはお持ちでないようです。もう一度検索するか、他のチェーンを選択してください。"
+      }
+    },
+    "warning": {
+      "title": {
+        "insufficientGas": "ガス不足",
+        "deleteSwap": "このスワップを削除しますか？",
+        "deleteSwapHistory": "スワップ履歴を削除しますか？",
+        "deleteActiveSwaps": "アクティブなスワップをすべて削除しますか？",
+        "highValueLoss": "高額の損失"
+      },
+      "message": {
+        "insufficientFunds": "スワップを実行するための資金が足りない。",
+        "insufficientGas": "最低でも追加する必要があります。",
+        "deleteSwapHistory": "スワップ履歴はローカルにのみ保存され、削除すると元に戻せません。",
+        "deleteActiveSwaps": "アクティブスワップはローカルにしか保存されないので、削除すると元に戻せません。",
+        "highValueLoss": "受け取ったトークンの価値は、スワップされたトークンや取引コストよりも大幅に低くなります。"
+      }
+    },
+    "error": {
+      "title": {
+        "failed": "スワップに失敗しました。",
+        "chainSwitch": "要チェーンスイッチ。",
+        "transactionFailed": "トランザクションに失敗しました。",
+        "transactionUnderpriced": "トランザクションはアンダープライスです。",
+        "transactionUnprepared": "トランザクションを準備できません。",
+        "transactionRejected": "署名が必要です。",
+        "unknown": "何かが間違っていた。",
+        "slippageTooLarge": "スリッページが大きすぎる。",
+        "walletAddressInvalid": "ウォレットアドレスが無効です。",
+        "walletEnsAddressInvalid": "ウォレットアドレスが無効であるか、ネットワークがENSをサポートしていない。"
+      },
+      "message": {
+        "transactionRejected": "取引完了にはお客様の署名が必要です。{{amount}}{chainName}}の{{tokenSymbol}}はあなたのウォレットに残ります。",
+        "transactionFailed": "詳しくはブロックエクスプローラーをご確認ください。",
+        "transactionNotSent": "取引は送信されませんでした。お客様の資金はまだお客様のウォレット（{{amount}} {{tokenSymbol}} on {{chainName}}）に残っています。",
+        "slippageTooLarge": "スリッページが定義された閾値より大きい。新しいルートをリクエストして、再見積もりを行ってください。"
+      }
+    },
+    "process": {
+      "tokenAllowance": {
+        "started": "トークン手当の設定。",
+        "pending": "トークン手当を待っています。",
+        "done": "トークンの支給が承認されました。"
+      },
+      "switchChain": {
+        "actionRequired": "要チェーンスイッチ。",
+        "done": "チェーン切り替えに成功"
+      },
+      "swap": {
+        "started": "スワップを準備する。",
+        "actionRequired": "お取引のサインをお願いします。",
+        "pending": "スワッピング",
+        "done": "スワップ完了"
+      },
+      "crossChain": {
+        "started": "トランザクションを準備する。",
+        "actionRequired": "お取引のサインをお願いします。",
+        "pending": "取引待ちの状態。",
+        "done": "取引成立。"
+      },
+      "receivingChain": {
+        "pending": "受信チェーン待ち。",
+        "done": "資金を受け取った。"
+      }
+    }
+  },
+  "settings": {
+    "routePriority": "ルート優先",
+    "slippage": "スリッページ",
+    "gasPrice": {
+      "title": "ガス料金",
+      "slow": "スロー",
+      "normal": "通常",
+      "fast": "高速"
+    },
+    "advancedPreferences": "高度な環境設定",
+    "showDestinationWallet": "表示先ウォレット",
+    "enabledBridges": "ブリッジを有効にする",
+    "selectEnabledBridges": "有効なブリッジを選択",
+    "enabledExchanges": "交換を可能にする",
+    "selectEnabledExchanges": "有効な取引所を選択する",
+    "resetToDefault": "デフォルトに戻す"
+  },
+  "wallet": {
+    "extensionNotFound": "このウォレットを選択する前に、{{name}}ブラウザの拡張機能のみが有効であることを確認してください。"
+  },
+  "tooltip": {
+    "notFound": {
+      "title": "404",
+      "text": "このページは見つかりませんでした。"
+    },
+    "progressToNextUpdate": "表示されているデータは{{value}}秒後に自動更新されます。手動で更新する場合はこちらをクリックしてください。",
+    "numberOfSteps": "いくつかのスワップ・ステップ。各ステップは、署名を必要とする1～3個のトランザクションを含むことができる。",
+    "estimatedTime": "スワップ実行予定時間（分）。",
+    "estimatedNetworkFee": "ネットワーク料金の目安。",
+    "settingsModified": "設定（変更）"
+  },
+  "language": {
+    "name": "イングリッシュ",
+    "title": "言語"
+  }
+}

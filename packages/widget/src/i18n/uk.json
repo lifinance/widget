@@ -21,6 +21,7 @@
     "restartSwap": "Перезапустити своп",
     "removeSwap": "Видалити своп",
     "done": "Готово",
+    "okay": "Добре",
     "continue": "Продовжити",
     "seeDetails": "Детальніше",
     "tryAgain": "Спробувати ще раз",
@@ -75,9 +76,11 @@
     },
     "success": {
       "title": {
+        "fundsReceived": "Кошти отримані",
         "swapSuccessful": "Своп успішний"
       },
       "message": {
+        "fundsReceived": "Зараз у гаманці {{walletAddress}} на чейні {{chainName}} є {{amount}} {{tokenSymbol}}.",
         "swapSuccessful": "Зараз у гаманці {{walletAddress}} на чейні {{chainName}} є {{amount}} {{tokenSymbol}}."
       }
     },
@@ -184,7 +187,7 @@
       "text": "Ми не змогли знайти цю сторінку."
     },
     "progressToNextUpdate": "Зображені дані автоматично оновляться через {{value}} секунд. Натисніть тут, щоб оновити вручну.",
-    "numberOfSteps": "Кількість кроків свопу. Кожен крок може містити 1-3 транзакції, які потребують підпису.",
+    "numberOfSteps": "Кількість кроків свопу. Кожен крок може містити 1-2 транзакції, які потребують підпису.",
     "estimatedTime": "Орієнтовний час виконання свопу в хвилинах.",
     "estimatedNetworkFee": "Орієнтовна мережева плата.",
     "settingsModified": "Налаштування (змінено)"

@@ -1,0 +1,199 @@
+{
+  "header": {
+    "walletConnected": "钱包连接",
+    "connectWallet": "连接钱包",
+    "selectWallet": "选择你的钱包",
+    "swap": "互换",
+    "from": "调换自",
+    "to": "调换到",
+    "selectChain": "选择链条",
+    "settings": "设置",
+    "routes": "你会得到",
+    "swapHistory": "互换历史",
+    "swapDetails": "互换细节",
+    "activeSwaps": "活跃的互换"
+  },
+  "button": {
+    "connectWallet": "连接钱包",
+    "swap": "互换",
+    "reviewSwap": "审查调换",
+    "startSwap": "开始互换",
+    "restartSwap": "重新启动互换",
+    "removeSwap": "移除交换",
+    "done": "已完成",
+    "okay": "好的",
+    "continue": "继续",
+    "seeDetails": "查看详情",
+    "tryAgain": "再试一次",
+    "light": "亮度",
+    "dark": "黑暗",
+    "auto": "自动",
+    "ok": "好的",
+    "cancel": "取消",
+    "delete": "删除",
+    "hide": "隐藏",
+    "max": "最大",
+    "showAll": "显示所有",
+    "contactSupport": "联系支持",
+    "lifiSwap": "LI.FI互换"
+  },
+  "swap": {
+    "from": "来自",
+    "to": "拟",
+    "amount": "您支付",
+    "maxAmount": "/ {{amount}}",
+    "routes": "你会得到",
+    "approximateCurrency": "≈ {{value, currency(currency: USD)}}.",
+    "currency": "{{value, currency(currency: USD)}}.",
+    "tokenSearch": "搜索你的代币",
+    "selectChain": "链条",
+    "selectToken": "代币",
+    "selectChainAndToken": "选择链和令牌",
+    "featuredTokens": "特色代币",
+    "otherTokens": "其他代币",
+    "inProgress": "进行中",
+    "stepSwap": "互换",
+    "stepBridge": "桥梁",
+    "stepSwapAndBridge": "互换和桥梁",
+    "estimatedTime": "{{价值}}m",
+    "crossStepDetails": "通过{{工具}}从{{from}}到{{to}}的桥梁",
+    "swapStepDetails": "通过{{工具}}对{{链}}进行交换",
+    "tokenOnChain": "{{tokenSymbol}}上的{{chainName}}。",
+    "tokenOnChainAmount": "{pos(190,8)}{amount}{tokenSymbol}{{tokenSymbol}}上的{{chainName}}。",
+    "supportId": "支持ID",
+    "sendToWallet": "发送到一个不同的钱包",
+    "walletAddressOrEns": "钱包地址或ENS名称",
+    "swapping": "交换",
+    "gasCost": "燃气费用",
+    "receiving": "接收",
+    "valueLoss": "价值损失",
+    "tags": {
+      "RECOMMENDED": "建议的",
+      "FASTEST": "快捷",
+      "CHEAPEST": "便宜",
+      "SAFEST": "安全",
+      "ALTERNATIVE": "替代方案"
+    },
+    "success": {
+      "title": {
+        "fundsReceived": "收到的资金",
+        "swapSuccessful": "互换成功"
+      },
+      "message": {
+        "fundsReceived": "现在有 {{amount}}{{tokenSymbol}}在{{chainName}}链上的钱包{{walletAddress}}。",
+        "swapSuccessful": "现在有 {{amount}}{{tokenSymbol}}在{{chainName}}链上的钱包{{walletAddress}}。"
+      }
+    },
+    "info": {
+      "title": {
+        "routeNotFound": "没有可用的路线",
+        "emptySwapHistory": "最近没有调换",
+        "emptyActiveSwaps": "没有积极的互换"
+      },
+      "message": {
+        "routeNotFound": "试试另一个令牌组合。",
+        "emptySwapHistory": "交换历史只存储在本地，如果你清除浏览器数据，将被删除。",
+        "emptyActiveSwaps": "正在进行的互换将出现在这里。一旦完成，可在交换历史中找到它们。",
+        "emptyTokenList": "我们无法找到{{chainName}}链上的代币，或者你没有任何代币。请再次尝试搜索或选择其他链。"
+      }
+    },
+    "warning": {
+      "title": {
+        "insufficientGas": "气体不足",
+        "deleteSwap": "删除这个交换？",
+        "deleteSwapHistory": "删除互换历史？",
+        "deleteActiveSwaps": "删除所有活动的互换？",
+        "highValueLoss": "高价值损失"
+      },
+      "message": {
+        "insufficientFunds": "你没有足够的资金来执行互换。",
+        "insufficientGas": "你至少需要添加。",
+        "deleteSwapHistory": "交换历史只存储在本地，如果你删除它，就无法恢复。",
+        "deleteActiveSwaps": "活动交换只存储在本地，如果你删除它们，就无法恢复。",
+        "highValueLoss": "收到的代币的价值明显低于交换的代币和交易成本。"
+      }
+    },
+    "error": {
+      "title": {
+        "failed": "调换失败。",
+        "chainSwitch": "需要链式开关。",
+        "transactionFailed": "交易已经失败。",
+        "transactionUnderpriced": "交易价格偏低。",
+        "transactionUnprepared": "无法准备交易。",
+        "transactionRejected": "需要签名。",
+        "unknown": "出了点问题。",
+        "slippageTooLarge": "滑移量过大。",
+        "walletAddressInvalid": "钱包地址是无效的。",
+        "walletEnsAddressInvalid": "钱包地址无效或网络不支持ENS。"
+      },
+      "message": {
+        "transactionRejected": "需要您的签名来完成交易。{{amount}}的在{{tokenSymbol}}上的{{chainName}}保留在您的钱包里。",
+        "transactionFailed": "请查看区块探索器以了解更多信息。",
+        "transactionNotSent": "交易未发送，您的资金仍在您的钱包（{{amount}}{{tokenSymbol}}在{{chainName}}）中。",
+        "slippageTooLarge": "滑移量大于定义的阈值。请申请一条新的路线以获得新的报价。"
+      }
+    },
+    "process": {
+      "tokenAllowance": {
+        "started": "设置代币津贴。",
+        "pending": "等待象征性的津贴。",
+        "done": "代币津贴获得批准。"
+      },
+      "switchChain": {
+        "actionRequired": "需要链式开关。",
+        "done": "链条切换成功。"
+      },
+      "swap": {
+        "started": "准备调换。",
+        "actionRequired": "请在交易上签字。",
+        "pending": "调换。",
+        "done": "互换完成。"
+      },
+      "crossChain": {
+        "started": "准备交易。",
+        "actionRequired": "请在交易上签字。",
+        "pending": "等待交易。",
+        "done": "交易获得批准。"
+      },
+      "receivingChain": {
+        "pending": "等待接收链。",
+        "done": "收到的资金。"
+      }
+    }
+  },
+  "settings": {
+    "routePriority": "路线优先",
+    "slippage": "滑坡",
+    "gasPrice": {
+      "title": "天然气价格",
+      "slow": "缓慢",
+      "normal": "正常",
+      "fast": "快速"
+    },
+    "advancedPreferences": "高级偏好",
+    "showDestinationWallet": "显示目的地钱包",
+    "enabledBridges": "已启用的桥梁",
+    "selectEnabledBridges": "选择已启用的桥梁",
+    "enabledExchanges": "已启用的交流",
+    "selectEnabledExchanges": "选择已启用的交易所",
+    "resetToDefault": "重置为默认值"
+  },
+  "wallet": {
+    "extensionNotFound": "在选择这个钱包之前，请确保只有{{name}}浏览器扩展处于激活状态。"
+  },
+  "tooltip": {
+    "notFound": {
+      "title": "404",
+      "text": "我们找不到这个页面。"
+    },
+    "progressToNextUpdate": "显示的数据将在{{价值}}秒后自动刷新。点击这里可以手动更新。",
+    "numberOfSteps": "一些互换步骤。每个步骤可以包含1-2个需要签名的交易。",
+    "estimatedTime": "估计的交换执行时间（分钟）。",
+    "estimatedNetworkFee": "估计的网络费用。",
+    "settingsModified": "设置(修改)"
+  },
+  "language": {
+    "name": "英语",
+    "title": "语言"
+  }
+}
