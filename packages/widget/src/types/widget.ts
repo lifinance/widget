@@ -3,6 +3,7 @@ import type { PaletteMode, PaletteOptions, Shape } from '@mui/material';
 import type { TypographyOptions } from '@mui/material/styles/createTypography';
 import type { Signer } from 'ethers';
 import type { CSSProperties, RefObject } from 'react';
+import type { LanguageKey, LanguageResources } from '../providers';
 
 export type WidgetVariant = 'default' | 'expandable' | 'drawer';
 
@@ -68,6 +69,13 @@ export interface WidgetConfig {
     allow?: Token[];
     deny?: (Partial<Token> & Pick<Token, 'address' | 'chainId'>)[];
   };
+  languages?: {
+    default?: LanguageKey;
+    allow?: LanguageKey[];
+    deny?: LanguageKey[];
+  };
+  languageResources?: LanguageResources;
+  disableI18n?: boolean;
 }
 
 export type WidgetProps = {

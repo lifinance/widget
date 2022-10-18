@@ -17,6 +17,7 @@ export interface SettingsState {
   advancedPreferences: boolean;
   appearance: Appearance;
   gasPrice: string;
+  language?: string;
   routePriority: Order;
   showDestinationWallet: boolean;
   slippage: string;

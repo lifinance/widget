@@ -1,16 +1,14 @@
 export const isItemAllowed = <T>(
-  chainId: T,
-  chains?: {
+  itemId: T,
+  items?: {
     allow?: T[];
     deny?: T[];
   },
   /** @deprecated Remove in the next major release */
   disabledChains?: T[],
 ) => {
-  if (chains?.allow?.length) {
-    return chains.allow.includes(chainId);
+  if (items?.allow?.length) {
+    return items.allow.includes(itemId);
   }
-  return !(
-    disabledChains?.includes(chainId) || chains?.deny?.includes(chainId)
-  );
+  return !(disabledChains?.includes(itemId) || items?.deny?.includes(itemId));
 };

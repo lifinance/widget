@@ -61,8 +61,8 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   let message;
   switch (status) {
     case 'success':
-      title = t('swap.success.title.fundsReceived');
-      message = t('swap.success.message.fundsReceived', {
+      title = t('swap.success.title.swapSuccessful');
+      message = t('swap.success.message.swapSuccessful', {
         amount: token?.amount,
         tokenSymbol: token?.symbol,
         chainName: getChainById(route.toChainId)?.name,
@@ -133,7 +133,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
             fullWidth
             onClick={status === 'success' ? handleDone : handleClose}
           >
-            {status === 'idle' ? t('button.okay') : null}
+            {status === 'idle' ? t('button.ok') : null}
             {status === 'success' ? t('button.done') : null}
             {status === 'error' ? t('button.seeDetails') : null}
           </Button>

@@ -1,5 +1,8 @@
 {
-  "language": "English",
+  "language": {
+    "name": "English",
+    "title": "Language"
+  },
   "header": {
     "walletConnected": "Wallet connected",
     "connectWallet": "Connect wallet",
@@ -22,7 +25,6 @@
     "restartSwap": "Restart swap",
     "removeSwap": "Remove swap",
     "done": "Done",
-    "okay": "Okay",
     "continue": "Continue",
     "seeDetails": "See details",
     "tryAgain": "Try again",
@@ -77,10 +79,10 @@
     },
     "success": {
       "title": {
-        "fundsReceived": "Funds received"
+        "swapSuccessful": "Swap successful"
       },
       "message": {
-        "fundsReceived": "There are now {{amount}} {{tokenSymbol}} in wallet {{walletAddress}} on {{chainName}} chain."
+        "swapSuccessful": "There are now {{amount}} {{tokenSymbol}} in wallet {{walletAddress}} on {{chainName}} chain."
       }
     },
     "info": {

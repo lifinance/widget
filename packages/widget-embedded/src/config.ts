@@ -8,6 +8,7 @@ export const widgetBaseConfig: WidgetConfig = {
   // toToken: '0x7f5c764cbc14f9669b88837ca1490cca17c31607',
   // fromAmount: '10',
   // disableColorSchemes: true,
+  // toAddress: '0x552008c0f6870c2f77e5cC1d2eb9bdff03e30Ea0',
   disableTelemetry: true,
   variant: 'expandable',
   integrator: 'li.fi-playground',
@@ -97,6 +98,16 @@ export const widgetBaseConfig: WidgetConfig = {
     // allow: ['stargate'],
     // deny: ['connext'],
   },
+  languages: {
+    // allow: ['uk'],
+    // deny: ['uk'],
+  },
+  // languageResources: {
+  //   en: {
+  //     button: { swap: 'Test' },
+  //   },
+  //   es,
+  // },
 };
 
 export const widgetConfig: WidgetConfig = {
