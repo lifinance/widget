@@ -10,7 +10,7 @@ import { navigationRoutes } from '../../utils';
 export const SwapHistoryItem: React.FC<{
   route: Route;
 }> = ({ route }) => {
-  const { t } = useTranslation();
+  const { i18n } = useTranslation();
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -34,14 +34,14 @@ export const SwapHistoryItem: React.FC<{
         px={2}
       >
         <Typography fontSize={12}>
-          {new Intl.DateTimeFormat(undefined, { dateStyle: 'long' }).format(
+          {new Intl.DateTimeFormat(i18n.language, { dateStyle: 'long' }).format(
             startedAt,
           )}
         </Typography>
         <Typography fontSize={12}>
-          {new Intl.DateTimeFormat(undefined, { timeStyle: 'short' }).format(
-            startedAt,
-          )}
+          {new Intl.DateTimeFormat(i18n.language, {
+            timeStyle: 'short',
+          }).format(startedAt)}
         </Typography>
       </Box>
       <Box py={1}>

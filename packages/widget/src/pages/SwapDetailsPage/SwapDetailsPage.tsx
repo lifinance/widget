@@ -26,7 +26,7 @@ import { useRouteExecutionStore } from '../../stores';
 import { Container } from './SwapDetailsPage.style';
 
 export const SwapDetailsPage: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { navigateBack } = useNavigateBack();
   const { state }: any = useLocation();
   const [routeExecution, deleteRoute] = useRouteExecutionStore(
@@ -73,14 +73,14 @@ export const SwapDetailsPage: React.FC = () => {
         pb={1}
       >
         <Typography fontSize={12}>
-          {new Intl.DateTimeFormat(undefined, { dateStyle: 'long' }).format(
+          {new Intl.DateTimeFormat(i18n.language, { dateStyle: 'long' }).format(
             startedAt,
           )}
         </Typography>
         <Typography fontSize={12}>
-          {new Intl.DateTimeFormat(undefined, { timeStyle: 'short' }).format(
-            startedAt,
-          )}
+          {new Intl.DateTimeFormat(i18n.language, {
+            timeStyle: 'short',
+          }).format(startedAt)}
         </Typography>
       </Box>
       {routeExecution?.route.steps.map((step, index, steps) => (
