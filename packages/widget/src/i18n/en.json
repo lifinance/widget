@@ -4,8 +4,6 @@
     "title": "Language"
   },
   "header": {
-    "walletConnected": "Wallet connected",
-    "connectWallet": "Connect wallet",
     "selectWallet": "Select your wallet",
     "swap": "Swap",
     "from": "Swap from",
@@ -19,6 +17,7 @@
   },
   "button": {
     "connectWallet": "Connect wallet",
+    "disconnectWallet": "Disconnect wallet",
     "swap": "Swap",
     "reviewSwap": "Review swap",
     "startSwap": "Start swap",
@@ -38,6 +37,7 @@
     "max": "max",
     "showAll": "Show all",
     "contactSupport": "Contact support",
+    "copyAddress": "Copy address",
     "lifiSwap": "LI.FI Swap"
   },
   "swap": {

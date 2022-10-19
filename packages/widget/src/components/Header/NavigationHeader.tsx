@@ -92,8 +92,10 @@ export const NavigationHeader: React.FC = () => {
               <Tooltip title={t(`header.settings`)} enterDelay={400} arrow>
                 <IconButton
                   size="medium"
-                  edge="end"
                   onClick={() => navigate(navigationRoutes.settings)}
+                  sx={{
+                    marginRight: -1.25,
+                  }}
                 >
                   <SettingsIcon />
                 </IconButton>

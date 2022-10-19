@@ -1,4 +1,5 @@
-import { AppBar, Box } from '@mui/material';
+import { AppBar, Box, Button } from '@mui/material';
+import { buttonClasses } from '@mui/material/Button';
 import { alpha, styled } from '@mui/material/styles';
 
 export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
@@ -23,4 +24,23 @@ export const Container = styled(Box, {
   position: sticky ? 'sticky' : 'relative',
   top: 0,
   zIndex: 1200,
+}));
+
+export const WalletButton = styled(Button)(({ theme }) => ({
+  color: theme.palette.text.primary,
+  backgroundColor: 'transparent',
+  padding: theme.spacing(1, 1.5),
+  maxHeight: 40,
+  fontSize: '0.875rem',
+  fontWeight: 600,
+  borderRadius: theme.shape.borderRadius * 2,
+  '&:hover': {
+    backgroundColor:
+      theme.palette.mode === 'light'
+        ? alpha(theme.palette.common.black, 0.04)
+        : alpha(theme.palette.common.white, 0.08),
+  },
+  [`.${buttonClasses.endIcon} > *:nth-of-type(1)`]: {
+    fontSize: '24px',
+  },
 }));

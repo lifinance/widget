@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useChains } from './useChains';
 
-export const useChain = (chainId: number) => {
+export const useChain = (chainId?: number) => {
   const { chains, isLoading } = useChains();
 
   const chain = useMemo(() => {
