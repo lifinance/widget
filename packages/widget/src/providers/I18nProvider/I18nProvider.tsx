@@ -55,7 +55,6 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
       detection: {
         caches: [],
       },
-      debug: true,
     });
 
     if (!language && !languages?.default && !disableI18n) {
