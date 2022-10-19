@@ -1,7 +1,7 @@
 import {
   ContentCopy as ContentCopyIcon,
   ExpandMore as ExpandMoreIcon,
-  Logout as LogoutIcon,
+  PowerSettingsNew as PowerSettingsIcon,
   WalletOutlined as WalletOutlinedIcon,
 } from '@mui/icons-material';
 import { Avatar, MenuItem } from '@mui/material';
@@ -107,7 +107,7 @@ const ConnectedButton = () => {
           {t(`button.copyAddress`)}
         </MenuItem>
         <MenuItem onClick={handleDisconnect} disableRipple dense>
-          <LogoutIcon />
+          <PowerSettingsIcon />
           {t(`button.disconnectWallet`)}
         </MenuItem>
       </Menu>
