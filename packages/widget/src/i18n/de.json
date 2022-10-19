@@ -61,9 +61,8 @@
   },
   "swap": {
     "amount": "Sie bezahlen",
-    "approximateCurrency": "≈ {{Wert, Währung (Währung: USD)}}",
     "crossStepDetails": "Brücke von {{from}} nach {{to}} über {{tool}}",
-    "currency": "{{Wert, Währung (Währung: USD)}}",
+    "currency": "{{value, currency(currency: USD)}}",
     "error": {
       "message": {
         "slippageTooLarge": "Der Schlupf ist größer als der definierte Schwellenwert. Bitte fordern Sie eine neue Route an, um ein neues Angebot zu erhalten.",
