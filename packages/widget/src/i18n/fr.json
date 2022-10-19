@@ -61,7 +61,6 @@
   },
   "swap": {
     "amount": "Vous payez",
-    "approximateCurrency": "≈ {{value, currency(devise : USD)}}",
     "crossStepDetails": "Passer de {{de}} à {{de}} via {{outil}}",
     "currency": "{{value, currency(devise : USD)}}",
     "error": {
