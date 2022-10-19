@@ -1,196 +1,198 @@
 {
-  "header": {
-    "walletConnected": "Гаманець підʼєднано",
-    "connectWallet": "Під'єднати гаманець",
-    "selectWallet": "Виберіть свій гаманець",
-    "swap": "Своп",
-    "from": "Своп з",
-    "to": "Своп на",
-    "selectChain": "Оберіть чейн",
-    "settings": "Налаштування",
-    "routes": "Ви отримуєте",
-    "swapHistory": "Історія свопів",
-    "swapDetails": "Деталі свопу",
-    "activeSwaps": "Активні свопи"
-  },
   "button": {
-    "connectWallet": "Під'єднати гаманець",
-    "swap": "Своп",
-    "reviewSwap": "Переглянути своп",
-    "startSwap": "Почати своп",
-    "restartSwap": "Перезапустити своп",
-    "removeSwap": "Видалити своп",
-    "done": "Готово",
-    "continue": "Продовжити",
-    "seeDetails": "Детальніше",
-    "tryAgain": "Спробувати ще раз",
-    "light": "Світла",
-    "dark": "Темна",
     "auto": "Авто",
-    "ok": "Ок",
     "cancel": "Скасувати",
-    "delete": "Видалити",
-    "hide": "Сховати",
-    "max": "макс",
-    "showAll": "Показати всі",
+    "connectWallet": "Під'єднати гаманець",
     "contactSupport": "Служба підтримки",
-    "lifiSwap": "LI.FI Swap"
+    "continue": "Продовжити",
+    "copyAddress": "Скопіювати адресу",
+    "dark": "Темна",
+    "delete": "Видалити",
+    "disconnectWallet": "Відключити гаманець",
+    "done": "Готово",
+    "hide": "Сховати",
+    "lifiSwap": "LI.FI Swap",
+    "light": "Світла",
+    "max": "макс",
+    "ok": "Ок",
+    "okay": "Добре",
+    "removeSwap": "Видалити своп",
+    "restartSwap": "Перезапустити своп",
+    "reviewSwap": "Переглянути своп",
+    "seeDetails": "Детальніше",
+    "showAll": "Показати всі",
+    "startSwap": "Почати своп",
+    "swap": "Своп",
+    "tryAgain": "Спробувати ще раз"
+  },
+  "header": {
+    "activeSwaps": "Активні свопи",
+    "from": "Своп з",
+    "routes": "Ви отримуєте",
+    "selectChain": "Оберіть чейн",
+    "selectWallet": "Виберіть свій гаманець",
+    "settings": "Налаштування",
+    "swap": "Своп",
+    "swapDetails": "Деталі свопу",
+    "swapHistory": "Історія свопів",
+    "to": "Своп на",
+    "walletConnected": "Гаманець підʼєднано"
+  },
+  "language": {
+    "name": "Українська",
+    "title": "Мова"
+  },
+  "settings": {
+    "advancedPreferences": "Розширені параметри",
+    "enabledBridges": "Увімкнені мости",
+    "enabledExchanges": "Увімкнені обмінники",
+    "gasPrice": {
+      "fast": "Швидко",
+      "normal": "Нормально",
+      "slow": "Повільно",
+      "title": "Ціна на газ"
+    },
+    "resetToDefault": "Скинути налаштування",
+    "routePriority": "Пріоритет маршруту",
+    "selectEnabledBridges": "Виберіть увімкнені мости",
+    "selectEnabledExchanges": "Виберіть увімкнені обмінники",
+    "showDestinationWallet": "Показати цільовий гаманець",
+    "slippage": "Прослизання"
   },
   "swap": {
-    "from": "З",
-    "to": "До",
     "amount": "Ви платите",
-    "maxAmount": "/ {{amount}}",
-    "routes": "Ви отримуєте",
     "approximateCurrency": "≈ {{value, currency(currency: USD)}}",
-    "currency": "{{value, currency(currency: USD)}}",
-    "tokenSearch": "Знайдіть свій токен",
-    "selectChain": "Чейн",
-    "selectToken": "Токен",
-    "selectChainAndToken": "Виберіть чейн і токен",
-    "featuredTokens": "Рекомендовані токени",
-    "otherTokens": "Інші токени",
-    "inProgress": "в процесі",
-    "stepSwap": "Своп",
-    "stepBridge": "Міст",
-    "stepSwapAndBridge": "Своп і міст",
-    "estimatedTime": "{{value}}м",
     "crossStepDetails": "Міст з {{from}} до {{to}} через {{tool}}",
-    "swapStepDetails": "Своп на {{chain}} через {{tool}}",
-    "tokenOnChain": "{{tokenSymbol}} на {{chainName}}",
-    "tokenOnChainAmount": "{{amount}}{{tokenSymbol}} на {{chainName}}",
-    "supportId": "Ідентифікатор підтримки",
-    "sendToWallet": "Надіслати на інший гаманець",
-    "walletAddressOrEns": "Адреса гаманця або ім’я ENS",
-    "swapping": "Обмін",
-    "gasCost": "Вартість газу",
-    "receiving": "Отримання",
-    "valueLoss": "Втрата вартості",
-    "tags": {
-      "RECOMMENDED": "РЕКОМЕНДОВАНИЙ",
-      "FASTEST": "ШВИДКИЙ",
-      "CHEAPEST": "ДЕШЕВИЙ",
-      "SAFEST": "БЕЗПЕЧНИЙ",
-      "ALTERNATIVE": "АЛЬТЕРНАТИВНИЙ"
-    },
-    "success": {
-      "title": {
-        "swapSuccessful": "Своп успішний"
-      },
-      "message": {
-        "swapSuccessful": "Зараз у гаманці {{walletAddress}} на чейні {{chainName}} є {{amount}} {{tokenSymbol}}."
-      }
-    },
-    "info": {
-      "title": {
-        "routeNotFound": "Немає доступних маршрутів",
-        "emptySwapHistory": "Немає останніх свопів",
-        "emptyActiveSwaps": "Немає активних свопів"
-      },
-      "message": {
-        "routeNotFound": "Спробуйте іншу комбінацію токенів.",
-        "emptySwapHistory": "Історія свопів зберігається лише локально та буде видалена, якщо ви очистите дані браузера.",
-        "emptyActiveSwaps": "Тут відображатимуться незавершені свопи. Після завершення ви можете знайти їх в історії свопів.",
-        "emptyTokenList": "Нам не вдалося знайти токени на {{chainName}}, або у вас їх немає. Будь ласка, повторіть пошук або виберіть інший чейн."
-      }
-    },
-    "warning": {
-      "title": {
-        "insufficientGas": "Недостатня кількість газу",
-        "deleteSwap": "Видалити цей своп?",
-        "deleteSwapHistory": "Видалити історію свопів?",
-        "deleteActiveSwaps": "Видалити всі активні свопи?",
-        "highValueLoss": "Висока втрата вартості"
-      },
-      "message": {
-        "insufficientFunds": "У вас недостатньо коштів для здійснення свопу.",
-        "insufficientGas": "Потрібно додати хоча б:",
-        "deleteSwapHistory": "Історія свопів зберігається лише локально й не може бути відновлена, якщо ви їх видалите.",
-        "deleteActiveSwaps": "Активні свопи зберігаються лише локально й не можуть бути відновлені, якщо ви їх видалите.",
-        "highValueLoss": "Вартість отриманих токенів значно нижча, ніж обмінені токени та вартість транзакції."
-      }
-    },
+    "currency": "{{value, currency(currency: USD)}}",
     "error": {
-      "title": {
-        "failed": "Помилка обміну.",
-        "chainSwitch": "Потрібно переключити чейн.",
-        "transactionFailed": "Транзакція не вдалася.",
-        "transactionUnderpriced": "Транзакція є заниженою.",
-        "transactionUnprepared": "Не вдалося підготувати транзакцію.",
-        "transactionRejected": "Підпис обов'язковий.",
-        "unknown": "Щось пішло не так.",
-        "slippageTooLarge": "Прослизання занадто велике.",
-        "walletAddressInvalid": "Адреса гаманця недійсна.",
-        "walletEnsAddressInvalid": "Адреса гаманця недійсна або мережа не підтримує ENS."
-      },
       "message": {
-        "transactionRejected": "Для завершення транзакції потрібен ваш підпис. {{amount}} {{tokenSymbol}} на {{chainName}} залишаються у вашому гаманці.",
+        "slippageTooLarge": "Прослизання більше визначеного порогу. Будь ласка, оберіть новий маршрут, щоб отримати свіжу пропозицію.",
         "transactionFailed": "Будь ласка, перевірте провідник блоків для отримання додаткової інформації.",
         "transactionNotSent": "Транзакція не була відправлена, ваші кошти все ще знаходяться у вашому гаманці ({{amount}}{{tokenSymbol}} на {{chainName}}).",
-        "slippageTooLarge": "Прослизання більше визначеного порогу. Будь ласка, оберіть новий маршрут, щоб отримати свіжу пропозицію."
+        "transactionRejected": "Для завершення транзакції потрібен ваш підпис. {{amount}} {{tokenSymbol}} на {{chainName}} залишаються у вашому гаманці."
+      },
+      "title": {
+        "chainSwitch": "Потрібно переключити чейн.",
+        "failed": "Помилка обміну.",
+        "slippageTooLarge": "Прослизання занадто велике.",
+        "transactionFailed": "Транзакція не вдалася.",
+        "transactionRejected": "Підпис обов'язковий.",
+        "transactionUnderpriced": "Транзакція є заниженою.",
+        "transactionUnprepared": "Не вдалося підготувати транзакцію.",
+        "unknown": "Щось пішло не так.",
+        "walletAddressInvalid": "Адреса гаманця недійсна.",
+        "walletEnsAddressInvalid": "Адреса гаманця недійсна або мережа не підтримує ENS."
       }
     },
+    "estimatedTime": "{{value}}м",
+    "featuredTokens": "Рекомендовані токени",
+    "from": "З",
+    "gasCost": "Вартість газу",
+    "inProgress": "в процесі",
+    "info": {
+      "message": {
+        "emptyActiveSwaps": "Тут відображатимуться незавершені свопи. Після завершення ви можете знайти їх в історії свопів.",
+        "emptySwapHistory": "Історія свопів зберігається лише локально та буде видалена, якщо ви очистите дані браузера.",
+        "emptyTokenList": "Нам не вдалося знайти токени на {{chainName}}, або у вас їх немає. Будь ласка, повторіть пошук або виберіть інший чейн.",
+        "routeNotFound": "Спробуйте іншу комбінацію токенів."
+      },
+      "title": {
+        "emptyActiveSwaps": "Немає активних свопів",
+        "emptySwapHistory": "Немає останніх свопів",
+        "routeNotFound": "Немає доступних маршрутів"
+      }
+    },
+    "maxAmount": "/ {{amount}}",
+    "otherTokens": "Інші токени",
     "process": {
-      "tokenAllowance": {
-        "started": "Схвалення токенів.",
-        "pending": "Очікування схвалення токенів.",
-        "done": "Токени схвалено."
+      "crossChain": {
+        "actionRequired": "Будь ласка, підпишіть транзакцію.",
+        "done": "Транзакцію схвалено.",
+        "pending": "Очікування транзакції.",
+        "started": "Підготовка транзакції."
+      },
+      "receivingChain": {
+        "done": "Кошти отримані.",
+        "pending": "В очікуванні приймаючого чейна."
+      },
+      "swap": {
+        "actionRequired": "Будь ласка, підпишіть транзакцію.",
+        "done": "Обмін завершено.",
+        "pending": "Обмінюємо.",
+        "started": "Підготовка свопу."
       },
       "switchChain": {
         "actionRequired": "Потрібно переключити чейн.",
         "done": "Чейн успішно переключився."
       },
-      "swap": {
-        "started": "Підготовка свопу.",
-        "actionRequired": "Будь ласка, підпишіть транзакцію.",
-        "pending": "Обмінюємо.",
-        "done": "Обмін завершено."
+      "tokenAllowance": {
+        "done": "Токени схвалено.",
+        "pending": "Очікування схвалення токенів.",
+        "started": "Схвалення токенів."
+      }
+    },
+    "receiving": "Отримання",
+    "routes": "Ви отримуєте",
+    "selectChain": "Чейн",
+    "selectChainAndToken": "Виберіть чейн і токен",
+    "selectToken": "Токен",
+    "sendToWallet": "Надіслати на інший гаманець",
+    "stepBridge": "Міст",
+    "stepSwap": "Своп",
+    "stepSwapAndBridge": "Своп і міст",
+    "success": {
+      "message": {
+        "swapSuccessful": "Зараз у гаманці {{walletAddress}} на чейні {{chainName}} є {{amount}} {{tokenSymbol}}."
       },
-      "crossChain": {
-        "started": "Підготовка транзакції.",
-        "actionRequired": "Будь ласка, підпишіть транзакцію.",
-        "pending": "Очікування транзакції.",
-        "done": "Транзакцію схвалено."
+      "title": {
+        "swapSuccessful": "Своп успішний"
+      }
+    },
+    "supportId": "Ідентифікатор підтримки",
+    "swapStepDetails": "Своп на {{chain}} через {{tool}}",
+    "swapping": "Обмін",
+    "tags": {
+      "ALTERNATIVE": "АЛЬТЕРНАТИВНИЙ",
+      "CHEAPEST": "ДЕШЕВИЙ",
+      "FASTEST": "ШВИДКИЙ",
+      "RECOMMENDED": "РЕКОМЕНДОВАНИЙ",
+      "SAFEST": "БЕЗПЕЧНИЙ"
+    },
+    "to": "До",
+    "tokenOnChain": "{{tokenSymbol}} на {{chainName}}",
+    "tokenOnChainAmount": "{{amount}}{{tokenSymbol}} на {{chainName}}",
+    "tokenSearch": "Знайдіть свій токен",
+    "valueLoss": "Втрата вартості",
+    "walletAddressOrEns": "Адреса гаманця або ім’я ENS",
+    "warning": {
+      "message": {
+        "deleteActiveSwaps": "Активні свопи зберігаються лише локально й не можуть бути відновлені, якщо ви їх видалите.",
+        "deleteSwapHistory": "Історія свопів зберігається лише локально й не може бути відновлена, якщо ви їх видалите.",
+        "highValueLoss": "Вартість отриманих токенів значно нижча, ніж обмінені токени та вартість транзакції.",
+        "insufficientFunds": "У вас недостатньо коштів для здійснення свопу.",
+        "insufficientGas": "Потрібно додати хоча б:"
       },
-      "receivingChain": {
-        "pending": "В очікуванні приймаючого чейна.",
-        "done": "Кошти отримані."
+      "title": {
+        "deleteActiveSwaps": "Видалити всі активні свопи?",
+        "deleteSwap": "Видалити цей своп?",
+        "deleteSwapHistory": "Видалити історію свопів?",
+        "highValueLoss": "Висока втрата вартості",
+        "insufficientGas": "Недостатня кількість газу"
       }
     }
   },
-  "settings": {
-    "routePriority": "Пріоритет маршруту",
-    "slippage": "Прослизання",
-    "gasPrice": {
-      "title": "Ціна на газ",
-      "slow": "Повільно",
-      "normal": "Нормально",
-      "fast": "Швидко"
+  "tooltip": {
+    "estimatedNetworkFee": "Орієнтовна мережева плата.",
+    "estimatedTime": "Орієнтовний час виконання свопу в хвилинах.",
+    "notFound": {
+      "text": "Ми не змогли знайти цю сторінку.",
+      "title": "404"
     },
-    "advancedPreferences": "Розширені параметри",
-    "showDestinationWallet": "Показати цільовий гаманець",
-    "enabledBridges": "Увімкнені мости",
-    "selectEnabledBridges": "Виберіть увімкнені мости",
-    "enabledExchanges": "Увімкнені обмінники",
-    "selectEnabledExchanges": "Виберіть увімкнені обмінники",
-    "resetToDefault": "Скинути налаштування"
+    "numberOfSteps": "Кількість кроків свопу. Кожен крок може містити 1-3 транзакції, які потребують підпису.",
+    "progressToNextUpdate": "Зображені дані автоматично оновляться через {{value}} секунд. Натисніть тут, щоб оновити вручну.",
+    "settingsModified": "Налаштування (змінено)"
   },
   "wallet": {
     "extensionNotFound": "Перш ніж вибрати цей гаманець, переконайтеся, що в браузері активне лише розширення {{name}} ."
-  },
-  "tooltip": {
-    "notFound": {
-      "title": "404",
-      "text": "Ми не змогли знайти цю сторінку."
-    },
-    "progressToNextUpdate": "Зображені дані автоматично оновляться через {{value}} секунд. Натисніть тут, щоб оновити вручну.",
-    "numberOfSteps": "Кількість кроків свопу. Кожен крок може містити 1-3 транзакції, які потребують підпису.",
-    "estimatedTime": "Орієнтовний час виконання свопу в хвилинах.",
-    "estimatedNetworkFee": "Орієнтовна мережева плата.",
-    "settingsModified": "Налаштування (змінено)"
-  },
-  "language": {
-    "name": "Українська",
-    "title": "Мова"
   }
 }
