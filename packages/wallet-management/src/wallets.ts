@@ -1,6 +1,7 @@
 import type { Connector } from '@web3-react/types';
 import { metaMask } from './connectors/metaMask';
 import { walletIcons } from './walletIcons';
+import { walletConnect as walletConnectConnector } from './connectors/walletConnect';
 
 export interface Wallet {
   name: string;
@@ -53,6 +54,16 @@ const metamask: Wallet = {
   connector: metaMask,
   platforms: ['all'],
 };
+
+const walletConnect: Wallet = {
+  name: 'Wallet Connect',
+  checkProviderIdentity: () => true,
+  icon: walletIcons.walletconnect,
+  connector: walletConnectConnector,
+  platforms: ['all'],
+};
+
+// other wallets
 
 const brave: Wallet = {
   name: 'Brave',
@@ -273,7 +284,13 @@ const tp: Wallet = {
 const xdefi: Wallet = {
   name: 'XDEFI',
   checkProviderIdentity: ({ provider }) =>
-    provider?.ethereum?.[ProviderIdentityFlag.XDEFI],
+    // provider?.[ProviderIdentityFlag.XDEFI] &&
+    {
+      // eslint-disable-next-line no-underscore-dangle
+      console.log(provider?.[ProviderIdentityFlag.XDEFI]);
+      // eslint-disable-next-line no-underscore-dangle
+      return provider?.__XDEFI;
+    },
   icon: walletIcons.xdefi,
   connector: metaMask,
   platforms: ['all'],
@@ -299,6 +316,7 @@ const tokenary: Wallet = {
 
 export const supportedWallets = [
   metamask,
+  walletConnect,
   binance,
   coinbase,
   detected,

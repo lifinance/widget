@@ -28,8 +28,11 @@ import tp from './tp.svg';
 import xdefi from './xdefi.svg';
 import mathwallet from './mathWallet.svg';
 
+import walletconnect from './walletConnect.svg';
+
 export const walletIcons = {
   mathwallet,
+  walletconnect,
   alphawallet,
   atoken,
   blockwallet,

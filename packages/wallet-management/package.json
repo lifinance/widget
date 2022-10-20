@@ -51,6 +51,11 @@
   "dependencies": {
     "@ethersproject/experimental": "^5.7.0",
     "@ethersproject/providers": "^5.7.0",
+    "@types/big.js": "^6.1.5",
+    "@types/node": "^18.7.16",
+    "@types/react": "^18.0.19",
+    "@typescript-eslint/eslint-plugin": "^5.36.1",
+    "@typescript-eslint/parser": "^5.36.1",
     "@walletconnect/ethereum-provider": "^1.8.0",
     "@web3-react/coinbase-wallet": "^8.0.34-beta.0",
     "@web3-react/core": "^8.0.35-beta.0",
@@ -61,7 +66,11 @@
     "@web3-react/types": "^8.0.20-beta.0",
     "@web3-react/url": "^8.0.25-beta.0",
     "@web3-react/walletconnect": "^8.0.35-beta.0",
-    "react": "^18.2.0"
+    "eslint": "^8.23.1",
+    "eslint-plugin-react": "^7.31.8",
+    "lerna": "^5.5.1",
+    "react": "^18.2.0",
+    "typescript": "^4.8.3"
   },
   "eslintConfig": {
     "extends": "../../.eslintrc"
