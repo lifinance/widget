@@ -61,6 +61,7 @@
   },
   "swap": {
     "amount": "Paghi",
+    "approximateCurrency": "≈ {{valore, valuta(valuta: USD)}}",
     "crossStepDetails": "Trasferisci da {{from}} a {{to}} tramite {{tool}}",
     "currency": "{{value, currency(currency: USD)}}",
     "error": {

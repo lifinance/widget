@@ -61,6 +61,7 @@
   },
   "swap": {
     "amount": "Ви платите",
+    "approximateCurrency": "≈ {{value, currency(currency: USD)}}",
     "crossStepDetails": "Міст з {{from}} до {{to}} через {{tool}}",
     "currency": "{{value, currency(currency: USD)}}",
     "error": {
