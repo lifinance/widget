@@ -19,7 +19,7 @@ interface MockWalletConnectProvider
 class WalletConnectV2 extends Connector {
   private readonly options?: WalletConnectOptions;
 
-  public provider: MockWalletConnectProvider; 
+  public provider: MockWalletConnectProvider;
 
   constructor(actions: Actions, options?: WalletConnectOptions) {
     super(actions);
