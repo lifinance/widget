@@ -1,6 +1,7 @@
 import type { Connector } from '@web3-react/types';
 import { metaMask } from './connectors/metaMask';
 import { walletIcons } from './walletIcons';
+import { walletConnect as walletConnectConnector } from './connectors/walletConnect';
 
 export interface Wallet {
   name: string;
@@ -43,6 +44,7 @@ enum ProviderIdentityFlag {
   Tokenary = 'isTokenary',
   MathWallet = 'isMathWallet',
 }
+
 const metamask: Wallet = {
   name: 'MetaMask',
   checkProviderIdentity: ({ provider }) =>
@@ -51,6 +53,14 @@ const metamask: Wallet = {
     true,
   icon: walletIcons.metamask,
   connector: metaMask,
+  platforms: ['all'],
+};
+
+const walletConnect: Wallet = {
+  name: 'Wallet Connect',
+  checkProviderIdentity: ({ provider }) => true,
+  icon: walletIcons.walletConnect,
+  connector: walletConnectConnector,
   platforms: ['all'],
 };
 
@@ -299,6 +309,7 @@ const tokenary: Wallet = {
 
 export const supportedWallets = [
   metamask,
+  walletConnect,
   binance,
   coinbase,
   detected,
