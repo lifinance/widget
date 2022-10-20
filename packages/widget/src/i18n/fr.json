@@ -62,7 +62,7 @@
   "swap": {
     "amount": "Vous payez",
     "crossStepDetails": "Passer de {{de}} à {{de}} via {{outil}}",
-    "currency": "{{value, currency(devise : USD)}}",
+    "currency": "{{value, currency(currency: USD)}}",
     "error": {
       "message": {
         "slippageTooLarge": "Le glissement est plus important que le seuil défini. Veuillez demander un nouvel itinéraire pour obtenir un nouveau devis.",
@@ -92,7 +92,7 @@
       "message": {
         "emptyActiveSwaps": "Les échanges en cours apparaissent ici. Une fois terminés, vous les trouverez dans l'historique des échanges.",
         "emptySwapHistory": "L'historique des échanges n'est stocké que localement et sera supprimé si vous effacez les données de votre navigateur.",
-        "emptyTokenList": "Nous n'avons pas trouvé de jetons sur la chaîne {{chaîneNom}} ou vous n'en avez pas. Veuillez réessayer la recherche ou choisir une autre chaîne.",
+        "emptyTokenList": "Nous n'avons pas trouvé de jetons sur la chaîne {{chainName}} ou vous n'en avez pas. Veuillez réessayer la recherche ou choisir une autre chaîne.",
         "routeNotFound": "Essayez une autre combinaison de jetons."
       },
       "title": {

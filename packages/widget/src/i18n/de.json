@@ -67,7 +67,7 @@
       "message": {
         "slippageTooLarge": "Der Schlupf ist größer als der definierte Schwellenwert. Bitte fordern Sie eine neue Route an, um ein neues Angebot zu erhalten.",
         "transactionFailed": "Weitere Informationen finden Sie im Block-Explorer.",
-        "transactionNotSent": "Die Transaktion wurde nicht gesendet, Ihr Geld befindet sich noch in Ihrer Brieftasche ( {{amount}} {{tokenSymbol}} auf {{chainName}} ).",
+        "transactionNotSent": "Die Transaktion wurde nicht gesendet, Ihr Geld befindet sich noch in Ihrer Brieftasche ({{amount}} {{tokenSymbol}} auf {{chainName}}).",
         "transactionRejected": "Ihre Unterschrift ist erforderlich, um die Transaktion abzuschließen. {{amount}} {{tokenSymbol}} auf {{chainName}} verbleiben in Ihrem Wallet."
       },
       "title": {
@@ -141,7 +141,7 @@
     "stepSwapAndBridge": "Tauschen und überbrücken",
     "success": {
       "message": {
-        "swapSuccessful": "Es sind jetzt {{amount}} {{tokenSymbol}} in Wallet {{walletAddress}} auf Blockchain {{chainName}}."
+        "swapSuccessful": "Es sind jetzt {{amount}} {{tokenSymbol}} in wallet {{walletAddress}} auf chain {{chainName}}."
       },
       "title": {
         "swapSuccessful": "Tausch erfolgreich"
