@@ -30,7 +30,7 @@
     "@mui/icons-material": "^5.10.9",
     "@mui/lab": "^5.0.0-alpha.104",
     "@mui/material": "^5.10.10",
-    "ethers": "^5.7.1",
+    "ethers": "^5.7.2",
     "events": "^3.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
