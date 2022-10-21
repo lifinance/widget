@@ -1,6 +1,6 @@
 import type { EVMChain, Process, ProcessType, Status, Step } from '@lifi/sdk';
 import { LifiErrorCode } from '@lifi/sdk';
-import type { TFunction } from 'react-i18next';
+import type { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { formatTokenAmount } from '../utils';
 import { useChains } from './useChains';
@@ -16,7 +16,7 @@ export const useProcessMessage = (step?: Step, process?: Process) => {
 
 const processMessages: Record<
   ProcessType,
-  Partial<Record<Status, (t: TFunction<'translation', undefined>) => string>>
+  Partial<Record<Status, (t: TFunction) => string>>
 > = {
   TOKEN_ALLOWANCE: {
     STARTED: (t) => t(`swap.process.tokenAllowance.started`),
@@ -47,7 +47,7 @@ const processMessages: Record<
 };
 
 export function getProcessMessage(
-  t: TFunction<'translation', undefined>,
+  t: TFunction,
   getChainById: (chainId: number) => EVMChain | undefined,
   step: Step,
   process: Process,
