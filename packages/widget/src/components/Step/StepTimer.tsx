@@ -55,7 +55,7 @@ export const StepTimer: React.FC<{ step: Step; hideInProgress?: boolean }> = ({
     return (
       <>
         {t('swap.estimatedTime', {
-          value: (step.estimate.executionDuration / 60).toFixed(0),
+          value: Math.ceil(step.estimate.executionDuration / 60),
         })}
       </>
     );
