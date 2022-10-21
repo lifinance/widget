@@ -1,10 +1,9 @@
 import { supportedChains } from '@lifi/sdk';
-import { initializeConnector } from '@web3-react/core';
-import type { EventEmitter } from 'node:events';
-
 import WalletConnectProvider from '@walletconnect/ethereum-provider';
-import type { Actions, RequestArguments } from '@web3-react/types';
+import { initializeConnector } from '@web3-react/core';
+import type { Actions } from '@web3-react/types';
 import { Connector } from '@web3-react/types';
+import type { EventEmitter } from 'node:events';
 
 interface WalletConnectOptions {
   rpc: {

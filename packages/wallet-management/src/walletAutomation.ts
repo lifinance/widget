@@ -1,11 +1,11 @@
+/* eslint-disable radix */
+import type { Token } from '@lifi/sdk';
 import {
   getChainById,
   MetaMaskProviderErrorCode,
   prefixChainId,
 } from '@lifi/sdk';
-import type { Token } from '@lifi/sdk';
 import { walletConnect } from './connectors/walletConnect';
-/* eslint-disable radix */
 
 export const switchChain = async (chainId: number): Promise<boolean> => {
   return new Promise((resolve, reject) => {
