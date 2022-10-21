@@ -30,13 +30,14 @@ export const useSwapRoutes = () => {
       ],
     });
   const [fromTokenAmount] = useDebouncedWatch([SwapFormKey.FromAmount], 320);
-  const { token } = useToken(fromChainId, fromTokenAddress);
+  const { token: fromToken } = useToken(fromChainId, fromTokenAddress);
+  const { token: toToken } = useToken(toChainId, toTokenAddress);
   const isEnabled =
     // Boolean(account.address) &&
     !isNaN(fromChainId) &&
     !isNaN(toChainId) &&
-    Boolean(token?.address) &&
-    Boolean(toTokenAddress) &&
+    Boolean(fromToken?.address) &&
+    Boolean(toToken?.address) &&
     !isNaN(fromTokenAmount) &&
     Number(fromTokenAmount) > 0 &&
     !Number.isNaN(slippage);
@@ -44,10 +45,10 @@ export const useSwapRoutes = () => {
     'routes',
     account.address,
     fromChainId,
-    token?.address,
+    fromToken?.address,
     fromTokenAmount,
     toChainId,
-    toTokenAddress,
+    toToken?.address,
     toAddress,
     slippage,
     enabledBridges,
@@ -91,7 +92,7 @@ export const useSwapRoutes = () => {
           toWalletAddress = isAddress(toAddress) ? toAddress : fromAddress;
         }
         const fromAmount = Big(
-          Number(fromTokenAmount) * 10 ** (token?.decimals ?? 0),
+          Number(fromTokenAmount) * 10 ** (fromToken?.decimals ?? 0),
         ).toString();
         const formattedSlippage = parseFloat(slippage) / 100;
         return lifi.getRoutes(
