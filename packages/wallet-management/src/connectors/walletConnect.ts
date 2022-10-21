@@ -3,7 +3,7 @@ import { initializeConnector } from '@web3-react/core';
 import type { EventEmitter } from 'node:events';
 
 import WalletConnectProvider from '@walletconnect/ethereum-provider';
-import type { Actions } from '@web3-react/types';
+import type { Actions, RequestArguments } from '@web3-react/types';
 import { Connector } from '@web3-react/types';
 
 interface WalletConnectOptions {
@@ -21,6 +21,10 @@ class WalletConnectV2 extends Connector {
 
   public provider: MockWalletConnectProvider;
 
+  public walletConnectProvider: WalletConnectProvider;
+
+  public isCurrentlyUsed: boolean = false;
+
   constructor(actions: Actions, options?: WalletConnectOptions) {
     super(actions);
     this.options = options;
@@ -30,6 +34,7 @@ class WalletConnectV2 extends Connector {
     });
     this.provider =
       walletConnectProvider as unknown as MockWalletConnectProvider;
+    this.walletConnectProvider = walletConnectProvider;
   }
 
   private async startListening(): Promise<void> {
@@ -47,6 +52,7 @@ class WalletConnectV2 extends Connector {
     this.provider?.on('disconnect', (code: number, reason: string) => {
       this.actions.update({ accounts: [], chainId: undefined });
       this.actions.resetState();
+      this.isCurrentlyUsed = false;
     });
   }
 
@@ -54,7 +60,7 @@ class WalletConnectV2 extends Connector {
 
   public async activate(): Promise<void> {
     this.actions.startActivation();
-    console.log(this.provider);
+    this.isCurrentlyUsed = true;
 
     await this.provider?.enable(); // open modal
     this.startListening();
@@ -67,6 +73,7 @@ class WalletConnectV2 extends Connector {
   public async deactivate(): Promise<void> {
     if (this.provider) {
       await this.provider?.disconnect();
+      this.isCurrentlyUsed = false;
       this.actions.resetState();
     }
   }
