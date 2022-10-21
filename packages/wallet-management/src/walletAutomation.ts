@@ -124,7 +124,6 @@ export const switchChainAndAddToken = async (chainId: number, token: Token) => {
     provider.once('chainChanged', async (id: string) => {
       if (parseInt(id, 10) === chainId) {
         await addToken(token);
-        return true;
       }
     });
   } else {
