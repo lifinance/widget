@@ -25,6 +25,10 @@
     "swap": "Tausch",
     "tryAgain": "Versuchen Sie es nochmal"
   },
+  "format": {
+    "currency": "{{value, currency(currency: USD)}}",
+    "number": "{{value, number(maximumFractionDigits: 4)}}"
+  },
   "header": {
     "activeSwaps": "Aktive Swaps",
     "from": "Abtauschen",
@@ -86,6 +90,7 @@
     "estimatedTime": "{{value}} m",
     "featuredTokens": "Ausgewählte Token",
     "from": "Aus",
+    "fromAmount": "Sie bezahlen",
     "gasCost": "Gaskosten",
     "inProgress": "im Gange",
     "info": {

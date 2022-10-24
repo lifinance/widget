@@ -25,6 +25,10 @@
     "swap": "Scambio",
     "tryAgain": "Riprova"
   },
+  "format": {
+    "currency": "{{value, currency(currency: USD)}}",
+    "number": "{{value, number(maximumFractionDigits: 4)}}"
+  },
   "header": {
     "activeSwaps": "Swap attivi",
     "from": "Scambio da",
@@ -86,6 +90,7 @@
     "estimatedTime": "{{value}}m",
     "featuredTokens": "Token in evidenza",
     "from": "Da",
+    "fromAmount": "Paghi",
     "gasCost": "Costo del gas",
     "inProgress": "in corso",
     "info": {

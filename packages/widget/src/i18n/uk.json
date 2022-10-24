@@ -25,6 +25,10 @@
     "swap": "Своп",
     "tryAgain": "Спробувати ще раз"
   },
+  "format": {
+    "currency": "{{value, currency(currency: USD)}}",
+    "number": "{{value, number(maximumFractionDigits: 4)}}"
+  },
   "header": {
     "activeSwaps": "Активні свопи",
     "from": "Своп з",
@@ -86,6 +90,7 @@
     "estimatedTime": "{{value}}м",
     "featuredTokens": "Рекомендовані токени",
     "from": "З",
+    "fromAmount": "Ви платите",
     "gasCost": "Вартість газу",
     "inProgress": "в процесі",
     "info": {

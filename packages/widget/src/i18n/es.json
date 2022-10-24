@@ -8,32 +8,36 @@
     "copyAddress": "Copiar dirección",
     "dark": "Oscuro",
     "delete": "Eliminar",
-    "disconnectWallet": "Desconectar la cartera",
+    "disconnectWallet": "Desconectar la billetera",
     "done": "Hecho",
     "hide": "Esconder",
-    "lifiSwap": "Intercambio LI.FI",
+    "lifiSwap": "LI.FI Swap",
     "light": "Luz",
     "max": "máximo",
     "ok": "Ok",
     "okay": "Bien",
-    "removeSwap": "Eliminar intercambio",
-    "restartSwap": "Reiniciar intercambio",
-    "reviewSwap": "Revisar intercambio",
+    "removeSwap": "Eliminar swap",
+    "restartSwap": "Reiniciar swap",
+    "reviewSwap": "Revisar swap",
     "seeDetails": "Ver detalles",
     "showAll": "Mostrar todo",
-    "startSwap": "Iniciar intercambio",
-    "swap": "Intercambiar",
+    "startSwap": "Iniciar swap",
+    "swap": "Swap",
     "tryAgain": "Intentar otra vez"
   },
+  "format": {
+    "currency": "{{value, currency(currency: USD)}}",
+    "number": "{{value, number(maximumFractionDigits: 4)}}"
+  },
   "header": {
-    "activeSwaps": "Intercambios activos",
+    "activeSwaps": "Swaps activos",
     "from": "Intercambiar de",
     "routes": "Usted obtiene",
     "selectChain": "Seleccione la cadena",
     "selectWallet": "Seleccione su billetera",
     "settings": "Ajustes",
-    "swap": "Intercambiar",
-    "swapDetails": "Detalles del intercambio",
+    "swap": "Swap",
+    "swapDetails": "Detalles del swap",
     "swapHistory": "Historial de intercambios",
     "to": "Intercambiar a",
     "walletConnected": "Billetera conectada"
@@ -57,23 +61,21 @@
     "selectEnabledBridges": "Seleccione los puentes habilitados",
     "selectEnabledExchanges": "Seleccione intercambios habilitados",
     "showDestinationWallet": "Mostrar billetera de destino",
-    "slippage": "Deslizamiento"
+    "slippage": "Diferencial"
   },
   "swap": {
-    "amount": "Usted paga",
     "crossStepDetails": "Mover fondos de {{from}} {{to}} {{tool}}",
-    "currency": "{{value, currency(currency: USD)}}",
     "error": {
       "message": {
-        "slippageTooLarge": "El deslizamiento es mayor que el limite definido. Por favor, solicite una nueva ruta para obtener una nueva cotización",
+        "slippageTooLarge": "El diferencial es mayor que el limite definido. Por favor, solicite una nueva ruta para obtener una nueva cotización",
         "transactionFailed": "Por favor consulte el explorador de bloques para obtener mas información",
-        "transactionNotSent": "La transacción no fue enviada, sus fondos aún están en su billetera ({{amount}} {{tokenSymbol}} en {{chainName}}).",
-        "transactionRejected": "Se requiere su firma para completar la transacción. {{amount}} {{tokenSymbol}} en {{chainName}} permanecen en su billetera."
+        "transactionNotSent": "La transacción no fue enviada, sus fondos aún están en su billetera ({{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} en {{chainName}}).",
+        "transactionRejected": "Se requiere su firma para completar la transacción. {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} en {{chainName}} permanecen en su billetera."
       },
       "title": {
         "chainSwitch": "Se requiere cambiar cadena.",
         "failed": "Intercambio ha fallado",
-        "slippageTooLarge": "Deslizamiento demasiado grande.",
+        "slippageTooLarge": "Diferencial demasiado grande.",
         "transactionFailed": "La transacción ha fallado.",
         "transactionRejected": "Firma requerida.",
         "transactionUnderpriced": "La transacción está subvaluada.",
@@ -86,6 +88,7 @@
     "estimatedTime": "{{value}}m",
     "featuredTokens": "Tokens destacados",
     "from": "Desde",
+    "fromAmount": "Usted paga",
     "gasCost": "Costo de gas",
     "inProgress": "en progreso",
     "info": {
@@ -101,7 +104,6 @@
         "routeNotFound": "No hay rutas disponibles"
       }
     },
-    "maxAmount": "/ {{amount}}",
     "otherTokens": "Otros tokens",
     "process": {
       "crossChain": {
@@ -116,9 +118,9 @@
       },
       "swap": {
         "actionRequired": "Por favor firme la transacción.",
-        "done": "Intercambio completado.",
+        "done": "Swap completado.",
         "pending": "Intercambiando",
-        "started": "Preparando intercambio"
+        "started": "Preparando swap"
       },
       "switchChain": {
         "actionRequired": "Cambiar cadenas es requerido",
@@ -130,18 +132,18 @@
         "started": "Configurando asignación de tokens."
       }
     },
-    "receiving": "Recibir",
+    "receiving": "Recibiendo",
     "routes": "Usted obtiene",
     "selectChain": "Cadena",
     "selectChainAndToken": "Seleccione cadena y token",
     "selectToken": "Token",
     "sendToWallet": "Enviar a una billetera diferente",
     "stepBridge": "Cruzar",
-    "stepSwap": "Intercambiar",
-    "stepSwapAndBridge": "Intercambiar y cruzar",
+    "stepSwap": "Swap",
+    "stepSwapAndBridge": "Swap y cruzar",
     "success": {
       "message": {
-        "swapSuccessful": "Ahora hay {{amount}} {{tokenSymbol}} en la billetera {{walletAddress}} en la cadena {{chainName}}."
+        "swapSuccessful": "Ahora hay {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} en la billetera {{walletAddress}} en la cadena {{chainName}}."
       },
       "title": {
         "swapSuccessful": "Intercambio exitoso"
@@ -159,8 +161,8 @@
     },
     "to": "A",
     "tokenOnChain": "{{tokenSymbol}} en {{chainName}}",
-    "tokenOnChainAmount": "{{amount}} {{tokenSymbol}} en {{chainName}}",
-    "tokenSearch": "Busca tu token",
+    "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} en {{chainName}}",
+    "tokenSearch": "Busque su token",
     "valueLoss": "Valor perdido",
     "walletAddressOrEns": "Dirección de billetera o nombre ENS",
     "warning": {

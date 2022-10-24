@@ -25,6 +25,10 @@
     "swap": "Échanger",
     "tryAgain": "Essayez à nouveau"
   },
+  "format": {
+    "currency": "{{value, currency(currency: USD)}}",
+    "number": "{{value, number(maximumFractionDigits: 4)}}"
+  },
   "header": {
     "activeSwaps": "Swaps actifs",
     "from": "Échanger de",
@@ -86,6 +90,7 @@
     "estimatedTime": "{{value}}m",
     "featuredTokens": "Jetons en vedette",
     "from": "De",
+    "fromAmount": "Vous payez",
     "gasCost": "Coût du gaz",
     "inProgress": "en cours",
     "info": {
