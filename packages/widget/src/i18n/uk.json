@@ -25,6 +25,10 @@
     "swap": "Своп",
     "tryAgain": "Спробувати ще раз"
   },
+  "format": {
+    "currency": "{{value, currency(currency: USD)}}",
+    "number": "{{value, number(maximumFractionDigits: 4)}}"
+  },
   "header": {
     "activeSwaps": "Активні свопи",
     "from": "Своп з",
@@ -60,15 +64,13 @@
     "slippage": "Прослизання"
   },
   "swap": {
-    "amount": "Ви платите",
     "crossStepDetails": "Міст з {{from}} до {{to}} через {{tool}}",
-    "currency": "{{value, currency(currency: USD)}}",
     "error": {
       "message": {
         "slippageTooLarge": "Прослизання більше визначеного порогу. Будь ласка, оберіть новий маршрут, щоб отримати свіжу пропозицію.",
         "transactionFailed": "Будь ласка, перевірте провідник блоків для отримання додаткової інформації.",
-        "transactionNotSent": "Транзакція не була відправлена, ваші кошти все ще знаходяться у вашому гаманці ({{amount}}{{tokenSymbol}} на {{chainName}}).",
-        "transactionRejected": "Для завершення транзакції потрібен ваш підпис. {{amount}} {{tokenSymbol}} на {{chainName}} залишаються у вашому гаманці."
+        "transactionNotSent": "Транзакція не була відправлена, ваші кошти все ще знаходяться у вашому гаманці ({{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} на {{chainName}}).",
+        "transactionRejected": "Для завершення транзакції потрібен ваш підпис. {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} на {{chainName}} залишаються у вашому гаманці."
       },
       "title": {
         "chainSwitch": "Потрібно переключити чейн.",
@@ -86,6 +88,7 @@
     "estimatedTime": "{{value}}м",
     "featuredTokens": "Рекомендовані токени",
     "from": "З",
+    "fromAmount": "Ви платите",
     "gasCost": "Вартість газу",
     "inProgress": "в процесі",
     "info": {
@@ -101,7 +104,6 @@
         "routeNotFound": "Немає доступних маршрутів"
       }
     },
-    "maxAmount": "/ {{amount}}",
     "otherTokens": "Інші токени",
     "process": {
       "crossChain": {
@@ -141,7 +143,7 @@
     "stepSwapAndBridge": "Своп і міст",
     "success": {
       "message": {
-        "swapSuccessful": "Зараз у гаманці {{walletAddress}} на чейні {{chainName}} є {{amount}} {{tokenSymbol}}."
+        "swapSuccessful": "Зараз у гаманці {{walletAddress}} на чейні {{chainName}} є {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}}."
       },
       "title": {
         "swapSuccessful": "Своп успішний"
@@ -159,7 +161,7 @@
     },
     "to": "До",
     "tokenOnChain": "{{tokenSymbol}} на {{chainName}}",
-    "tokenOnChainAmount": "{{amount}}{{tokenSymbol}} на {{chainName}}",
+    "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} на {{chainName}}",
     "tokenSearch": "Знайдіть свій токен",
     "valueLoss": "Втрата вартості",
     "walletAddressOrEns": "Адреса гаманця або ім’я ENS",

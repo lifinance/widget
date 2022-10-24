@@ -8,7 +8,7 @@
     "copyAddress": "Adresse kopieren",
     "dark": "Dunkel",
     "delete": "Löschen",
-    "disconnectWallet": "Brieftasche abtrennen",
+    "disconnectWallet": "Wallet trennen",
     "done": "Fertig",
     "hide": "Ausblenden",
     "lifiSwap": "LI.FI Tausch",
@@ -25,6 +25,10 @@
     "swap": "Tausch",
     "tryAgain": "Versuchen Sie es nochmal"
   },
+  "format": {
+    "currency": "{{value, currency(currency: USD)}}",
+    "number": "{{value, number(maximumFractionDigits: 4)}}"
+  },
   "header": {
     "activeSwaps": "Aktive Swaps",
     "from": "Abtauschen",
@@ -39,7 +43,7 @@
     "walletConnected": "Brieftasche verbunden"
   },
   "language": {
-    "name": "Deutsch",
+    "name": "Englisch",
     "title": "Sprache"
   },
   "settings": {
@@ -57,25 +61,23 @@
     "selectEnabledBridges": "Wählen Sie aktivierte Bridges aus",
     "selectEnabledExchanges": "Wählen Sie aktivierte Börsen aus",
     "showDestinationWallet": "Zielgeldbörse anzeigen",
-    "slippage": "Schlupf"
+    "slippage": "Abweichung"
   },
   "swap": {
-    "amount": "Sie bezahlen",
     "crossStepDetails": "Brücke von {{from}} nach {{to}} über {{tool}}",
-    "currency": "{{value, currency(currency: USD)}}",
     "error": {
       "message": {
         "slippageTooLarge": "Der Schlupf ist größer als der definierte Schwellenwert. Bitte fordern Sie eine neue Route an, um ein neues Angebot zu erhalten.",
         "transactionFailed": "Weitere Informationen finden Sie im Block-Explorer.",
-        "transactionNotSent": "Die Transaktion wurde nicht gesendet, Ihr Geld befindet sich noch in Ihrer Brieftasche ({{amount}} {{tokenSymbol}} auf {{chainName}}).",
-        "transactionRejected": "Ihre Unterschrift ist erforderlich, um die Transaktion abzuschließen. {{amount}} {{tokenSymbol}} auf {{chainName}} verbleiben in Ihrem Wallet."
+        "transactionNotSent": "Die Transaktion wurde nicht gesendet, Ihr Geld befindet sich noch in Ihrer Brieftasche ({{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} auf {{chainName}}).",
+        "transactionRejected": "Ihre Unterschrift ist erforderlich, um die Transaktion abzuschließen. {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} auf {{chainName}} verbleiben in Ihrem Wallet."
       },
       "title": {
         "chainSwitch": "Kettenschalter erforderlich.",
         "failed": "Austausch fehlgeschlagen.",
         "slippageTooLarge": "Schlupf zu groß.",
         "transactionFailed": "Transaktion ist fehlgeschlagen.",
-        "transactionRejected": "Unterschrift benötigt.",
+        "transactionRejected": "Signatur benötigt.",
         "transactionUnderpriced": "Transaktion ist unterbewertet.",
         "transactionUnprepared": "Transaktion kann nicht vorbereitet werden.",
         "unknown": "Etwas ist schief gelaufen.",
@@ -86,6 +88,7 @@
     "estimatedTime": "{{value}} m",
     "featuredTokens": "Ausgewählte Token",
     "from": "Aus",
+    "fromAmount": "Sie bezahlen",
     "gasCost": "Gaskosten",
     "inProgress": "im Gange",
     "info": {
@@ -101,18 +104,17 @@
         "routeNotFound": "Keine Routen verfügbar"
       }
     },
-    "maxAmount": "/ {{amount}}",
     "otherTokens": "Andere Token",
     "process": {
       "crossChain": {
-        "actionRequired": "Bitte unterschreiben Sie die Transaktion.",
+        "actionRequired": "Bitte signieren Sie die Transaktion.",
         "done": "Transaktion genehmigt.",
         "pending": "Warten auf Transaktion.",
         "started": "Transaktion vorbereiten."
       },
       "receivingChain": {
         "done": "Erhaltene Mittel.",
-        "pending": "Warten auf Empfangskette."
+        "pending": "Warten auf Empfänger-Chain."
       },
       "swap": {
         "actionRequired": "Bitte unterschreiben Sie die Transaktion.",
@@ -122,7 +124,7 @@
       },
       "switchChain": {
         "actionRequired": "Kettenschalter erforderlich.",
-        "done": "Kette erfolgreich gewechselt."
+        "done": "Chain erfolgreich gewechselt."
       },
       "tokenAllowance": {
         "done": "Token-Zulassung genehmigt.",
@@ -132,16 +134,16 @@
     },
     "receiving": "Empfang",
     "routes": "Du erhältst",
-    "selectChain": "Kette",
+    "selectChain": "Chain",
     "selectChainAndToken": "Kette und Token auswählen",
-    "selectToken": "Zeichen",
+    "selectToken": "Token",
     "sendToWallet": "An eine andere Brieftasche senden",
     "stepBridge": "Brücke",
     "stepSwap": "Tausch",
     "stepSwapAndBridge": "Tauschen und überbrücken",
     "success": {
       "message": {
-        "swapSuccessful": "Es sind jetzt {{amount}} {{tokenSymbol}} in wallet {{walletAddress}} auf chain {{chainName}}."
+        "swapSuccessful": "Es sind jetzt {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} in Wallet {{walletAddress}} auf Chain {{chainName}}."
       },
       "title": {
         "swapSuccessful": "Tausch erfolgreich"
@@ -159,8 +161,8 @@
     },
     "to": "Zu",
     "tokenOnChain": "{{tokenSymbol}} auf {{chainName}}",
-    "tokenOnChainAmount": "{{amount}} {{tokenSymbol}} auf {{chainName}}",
-    "tokenSearch": "Durchsuchen Sie Ihr Token",
+    "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} auf {{chainName}}",
+    "tokenSearch": "Suchen Sie Ihr Token",
     "valueLoss": "Wertverlust",
     "walletAddressOrEns": "Wallet-Adresse oder ENS-Name",
     "warning": {
