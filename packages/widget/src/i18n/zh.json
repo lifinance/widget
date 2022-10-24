@@ -25,6 +25,10 @@
     "swap": "兑换",
     "tryAgain": "再试一次"
   },
+  "format": {
+    "currency": "{{value, currency(currency: USD)}}",
+    "number": "{{value, number(maximumFractionDigits: 4)}}"
+  },
   "header": {
     "activeSwaps": "正在进行的兑换",
     "from": "兑换自",
@@ -60,15 +64,13 @@
     "slippage": "滑点"
   },
   "swap": {
-    "amount": "需要支付",
     "crossStepDetails": "通过{{tool}}把资产从{{from}}链跨到{{to}}链上",
-    "currency": "{{value, currency(currency: USD)}}",
     "error": {
       "message": {
         "slippageTooLarge": "滑点大于预设值，请选择其他路由来获取新的报价。",
         "transactionFailed": "请查看区块浏览器以了解更多信息。",
-        "transactionNotSent": "交易未发送，资金仍在您的钱包中（{{chainName}}链上{{amount}}个{{tokenSymbol}}）。",
-        "transactionRejected": "需要您签名来完成此次交易。不用担心，{{chainName}}链上{{amount}}个{{tokenSymbol}}仍在您的钱包里。"
+        "transactionNotSent": "交易未发送，资金仍在您的钱包中（{{chainName}}链上{{amount, number(maximumFractionDigits: 4)}}个{{tokenSymbol}}）。",
+        "transactionRejected": "需要您签名来完成此次交易。不用担心，{{chainName}}链上{{amount, number(maximumFractionDigits: 4)}}个{{tokenSymbol}}仍在您的钱包里。"
       },
       "title": {
         "chainSwitch": "需要切换当前链",
@@ -84,8 +86,9 @@
       }
     },
     "estimatedTime": "{{value}}分钟",
-    "featuredTokens": "特色代币",
+    "featuredTokens": "精选代币",
     "from": "从",
+    "fromAmount": "需要支付",
     "gasCost": "交易费",
     "inProgress": "进行中",
     "info": {
@@ -101,7 +104,6 @@
         "routeNotFound": "没有可用的路由"
       }
     },
-    "maxAmount": "/ {{amount}}",
     "otherTokens": "其他代币",
     "process": {
       "crossChain": {
@@ -141,7 +143,7 @@
     "stepSwapAndBridge": "兑换和跨链",
     "success": {
       "message": {
-        "swapSuccessful": "现在有 {{amount}}个{{tokenSymbol}}在{{chainName}}链上的{{walletAddress}}钱包。"
+        "swapSuccessful": "现在有 {{amount, number(maximumFractionDigits: 4)}}个{{tokenSymbol}}在{{chainName}}链上的{{walletAddress}}钱包。"
       },
       "title": {
         "swapSuccessful": "兑换成功"
@@ -159,7 +161,7 @@
     },
     "to": "到",
     "tokenOnChain": "{{chainName}}链上的{{tokenSymbol}}",
-    "tokenOnChainAmount": "{{chainName}}链上{{amount}}个{{tokenSymbol}}",
+    "tokenOnChainAmount": "{{chainName}}链上{{amount, number(maximumFractionDigits: 4)}}个{{tokenSymbol}}",
     "tokenSearch": "搜索代币",
     "valueLoss": "资金损失",
     "walletAddressOrEns": "钱包地址或ENS名称",

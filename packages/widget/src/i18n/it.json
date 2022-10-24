@@ -25,6 +25,10 @@
     "swap": "Scambio",
     "tryAgain": "Riprova"
   },
+  "format": {
+    "currency": "{{value, currency(currency: USD)}}",
+    "number": "{{value, number(maximumFractionDigits: 4)}}"
+  },
   "header": {
     "activeSwaps": "Swap attivi",
     "from": "Scambio da",
@@ -60,15 +64,13 @@
     "slippage": "Slippage"
   },
   "swap": {
-    "amount": "Paghi",
     "crossStepDetails": "Trasferisci da {{from}} a {{to}} tramite {{tool}}",
-    "currency": "{{value, currency(currency: USD)}}",
     "error": {
       "message": {
         "slippageTooLarge": "Lo slippage è superiore alla soglia definita. Richiedete una nuova rotta per aggiornare le quote.",
         "transactionFailed": "Per ulteriori informazioni, consultare il block explorer.",
-        "transactionNotSent": "La transazione non è stata inviata, i fondi sono ancora nel tuo portafoglio ({{amount}} {{tokenSymbol}} su {{chainName}}).",
-        "transactionRejected": "Per completare la transazione è necessaria la sua firma. {{amount}} {{tokenSymbol}} su {{chainName}} rimangono nel tuo portafoglio."
+        "transactionNotSent": "La transazione non è stata inviata, i fondi sono ancora nel tuo portafoglio ({{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} su {{chainName}}).",
+        "transactionRejected": "Per completare la transazione è necessaria la sua firma. {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} su {{chainName}} rimangono nel tuo portafoglio."
       },
       "title": {
         "chainSwitch": "È necessario cambiare la chain.",
@@ -86,6 +88,7 @@
     "estimatedTime": "{{value}}m",
     "featuredTokens": "Token in evidenza",
     "from": "Da",
+    "fromAmount": "Paghi",
     "gasCost": "Costo del gas",
     "inProgress": "in corso",
     "info": {
@@ -101,7 +104,6 @@
         "routeNotFound": "Nessuna rotta disponibile"
       }
     },
-    "maxAmount": "/ {{amount}}",
     "otherTokens": "Altri token",
     "process": {
       "crossChain": {
@@ -141,7 +143,7 @@
     "stepSwapAndBridge": "Scambia e trasferisci",
     "success": {
       "message": {
-        "swapSuccessful": "Sono presenti ora {{amount}} {{tokenSymbol}} nel portafoglio {{walletAddress}} sulla chain {{chainName}}."
+        "swapSuccessful": "Sono presenti ora {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} nel portafoglio {{walletAddress}} sulla chain {{chainName}}."
       },
       "title": {
         "swapSuccessful": "Scambio avvenuto con successo"
@@ -159,7 +161,7 @@
     },
     "to": "A",
     "tokenOnChain": "{{tokenSymbol}} su {{chainName}}",
-    "tokenOnChainAmount": "{{amount}} {{tokenSymbol}} su {{chainName}}",
+    "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} su {{chainName}}",
     "tokenSearch": "Cerca il tuo token",
     "valueLoss": "Perdita di valore",
     "walletAddressOrEns": "Indirizzo del portafoglio o nome ENS",
