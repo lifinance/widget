@@ -5,14 +5,22 @@ import {
   MetaMaskProviderErrorCode,
   prefixChainId,
 } from '@lifi/sdk';
+import { walletConnect } from './connectors/walletConnect';
 
 export const switchChain = async (chainId: number): Promise<boolean> => {
   return new Promise((resolve, reject) => {
-    const { ethereum } = window as any;
-    if (!ethereum) resolve(false);
-
+    let provider: any;
+    if (walletConnect.isCurrentlyUsed) {
+      provider = walletConnect.walletConnectProvider;
+    } else {
+      const { ethereum } = window as any;
+      provider = ethereum;
+    }
+    if (!provider) {
+      resolve(false);
+    }
     try {
-      ethereum
+      provider
         .request({
           method: 'wallet_switchEthereumChain',
           params: [{ chainId: getChainById(chainId).metamask?.chainId }],
@@ -24,7 +32,7 @@ export const switchChain = async (chainId: number): Promise<boolean> => {
             reject(error);
           }
         });
-      ethereum.once('chainChanged', (id: string) => {
+      provider.once('chainChanged', (id: string) => {
         if (parseInt(id) === chainId) {
           resolve(true);
         }
@@ -34,6 +42,7 @@ export const switchChain = async (chainId: number): Promise<boolean> => {
       if (error.code !== MetaMaskProviderErrorCode.userRejectedRequest) {
         addChain(chainId).then((result) => resolve(result));
       } else {
+        console.error(error);
         resolve(false);
       }
     }
@@ -41,12 +50,20 @@ export const switchChain = async (chainId: number): Promise<boolean> => {
 };
 
 export const addChain = async (chainId: number) => {
-  const { ethereum } = window as any;
-  if (typeof ethereum === 'undefined') return false;
+  let provider: any;
+  if (walletConnect.isCurrentlyUsed) {
+    provider = walletConnect.walletConnectProvider;
+  } else {
+    const { ethereum } = window as any;
+    provider = ethereum;
+  }
+  if (!provider) {
+    return false;
+  }
 
   const params = getChainById(chainId).metamask;
   try {
-    await ethereum.request({
+    await provider.request({
       method: 'wallet_addEthereumChain',
       params: [params],
     });
@@ -58,9 +75,19 @@ export const addChain = async (chainId: number) => {
 };
 
 export const addToken = async (token: Token) => {
+  let provider: any;
+  if (walletConnect.isCurrentlyUsed) {
+    provider = walletConnect.walletConnectProvider;
+  } else {
+    const { ethereum } = window as any;
+    provider = ethereum;
+  }
+  if (!provider) {
+    return false;
+  }
   try {
     // wasAdded is a boolean. Like any RPC method, an error may be thrown.
-    const wasAdded = await (window as any).ethereum.request({
+    const wasAdded = await provider.request({
       method: 'wallet_watchAsset',
       params: {
         type: 'ERC20', // Initially only supports ERC20, but eventually more!
@@ -80,12 +107,21 @@ export const addToken = async (token: Token) => {
 };
 
 export const switchChainAndAddToken = async (chainId: number, token: Token) => {
-  const { ethereum } = window as any;
+  let provider: any;
+  if (walletConnect.isCurrentlyUsed) {
+    provider = walletConnect.walletConnectProvider;
+  } else {
+    const { ethereum } = window as any;
+    provider = ethereum;
+  }
+  if (!provider) {
+    return;
+  }
   const chainIdPrefixed = prefixChainId(chainId);
 
-  if (chainIdPrefixed !== ethereum.chainId) {
+  if (chainIdPrefixed !== provider.chainId) {
     await switchChain(chainId);
-    ethereum.once('chainChanged', async (id: string) => {
+    provider.once('chainChanged', async (id: string) => {
       if (parseInt(id, 10) === chainId) {
         await addToken(token);
       }

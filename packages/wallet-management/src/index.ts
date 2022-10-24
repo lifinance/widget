@@ -1,3 +1,3 @@
 export * from './LiFiWalletManagement';
+export * from './walletAutomation';
 export * from './wallets';
-export * from './browserWallets';
