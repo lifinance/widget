@@ -25,7 +25,9 @@ export const Token: React.FC<
             fontWeight: 700,
           }}
         >
-          {formatTokenAmount(token.amount, token.decimals)}
+          {t('format.number', {
+            value: formatTokenAmount(token.amount, token.decimals),
+          })}
         </TextFitter>
       </Box>
       <TextSecondaryContainer connected={connected} component="span">

@@ -63,7 +63,7 @@ export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
 
   return (
     <Card>
-      <CardTitle>{t('swap.amount')}</CardTitle>
+      <CardTitle>{t('swap.fromAmount')}</CardTitle>
       <FormControl fullWidth>
         <Input
           inputRef={ref}

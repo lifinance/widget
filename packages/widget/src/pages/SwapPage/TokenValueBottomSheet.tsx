@@ -59,19 +59,19 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
       <Box display="flex" justifyContent="space-between" mt={1}>
         <Typography>{t('swap.swapping')}</Typography>
         <Typography fontWeight={600}>
-          {t('swap.currency', { value: route.fromAmountUSD })}
+          {t('format.currency', { value: route.fromAmountUSD })}
         </Typography>
       </Box>
       <Box display="flex" justifyContent="space-between" mt={0.25}>
         <Typography>{t('swap.gasCost')}</Typography>
         <Typography fontWeight={600}>
-          {t('swap.currency', { value: route.gasCostUSD })}
+          {t('format.currency', { value: route.gasCostUSD })}
         </Typography>
       </Box>
       <Box display="flex" justifyContent="space-between" mt={0.25}>
         <Typography>{t('swap.receiving')}</Typography>
         <Typography fontWeight={600}>
-          {t('swap.currency', { value: route.toAmountUSD })}
+          {t('format.currency', { value: route.toAmountUSD })}
         </Typography>
       </Box>
       <Box display="flex" justifyContent="space-between" mt={0.25}>

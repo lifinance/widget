@@ -101,6 +101,7 @@ export const StepActions: React.FC<StepActionsProps> = ({
 };
 
 export const StepDetailsContent: React.FC<{ step: Step }> = ({ step }) => {
+  const { t } = useTranslation();
   return (
     <Typography
       fontSize={12}
@@ -109,16 +110,20 @@ export const StepDetailsContent: React.FC<{ step: Step }> = ({ step }) => {
       alignItems="center"
       display="flex"
     >
-      {formatTokenAmount(
-        step.estimate.fromAmount,
-        step.action.fromToken.decimals,
-      )}{' '}
+      {t('format.number', {
+        value: formatTokenAmount(
+          step.estimate.fromAmount,
+          step.action.fromToken.decimals,
+        ),
+      })}{' '}
       {step.action.fromToken.symbol}
       <ArrowForwardIcon sx={{ fontSize: 18, paddingX: 0.5 }} />
-      {formatTokenAmount(
-        step.execution?.toAmount ?? step.estimate.toAmount,
-        step.action.toToken.decimals,
-      )}{' '}
+      {t('format.number', {
+        value: formatTokenAmount(
+          step.execution?.toAmount ?? step.estimate.toAmount,
+          step.action.toToken.decimals,
+        ),
+      })}{' '}
       {step.action.toToken.symbol}
     </Typography>
   );

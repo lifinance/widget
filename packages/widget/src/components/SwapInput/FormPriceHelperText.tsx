@@ -39,7 +39,7 @@ export const FormPriceHelperText: React.FC<
           overflowWrap: 'break-word',
         }}
       >
-        {t(`swap.currency`, {
+        {t(`format.currency`, {
           value: fromAmountTokenPrice,
         })}
       </Typography>
@@ -58,9 +58,9 @@ export const FormPriceHelperText: React.FC<
           lineHeight={1.3334}
           pl={0.25}
         >
-          {t(`swap.maxAmount`, {
-            amount: token?.amount,
-          })}
+          {`/ ${t(`format.number`, {
+            value: token?.amount,
+          })}`}
         </Typography>
       ) : null}
     </FormHelperText>

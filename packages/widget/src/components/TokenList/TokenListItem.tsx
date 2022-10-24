@@ -49,7 +49,9 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
               <Box sx={{ textAlign: 'right' }}>
                 {Number(token.amount) ? (
                   <Typography variant="body1" noWrap>
-                    {token.amount}
+                    {t('format.number', {
+                      value: token.amount,
+                    })}
                   </Typography>
                 ) : null}
                 {tokenPrice ? (
@@ -59,7 +61,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
                     color="text.secondary"
                     data-price={token.priceUSD}
                   >
-                    {t(`swap.currency`, {
+                    {t(`format.currency`, {
                       value: tokenPrice,
                     })}
                   </Typography>

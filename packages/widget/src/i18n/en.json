@@ -60,15 +60,14 @@
     "slippage": "Slippage"
   },
   "swap": {
-    "amount": "You pay",
+    "fromAmount": "You pay",
     "crossStepDetails": "Bridge from {{from}} to {{to}} via {{tool}}",
-    "currency": "{{value, currency(currency: USD)}}",
     "error": {
       "message": {
         "slippageTooLarge": "The slippage is larger than the defined threshold. Please request a new route to get a fresh quote.",
         "transactionFailed": "Please check the block explorer for more information.",
-        "transactionNotSent": "Transaction was not sent, your funds are still in your wallet ({{amount}} {{tokenSymbol}} on {{chainName}}).",
-        "transactionRejected": "Your signature is required to complete the transaction. {{amount}} {{tokenSymbol}} on {{chainName}} remain in your wallet."
+        "transactionNotSent": "Transaction was not sent, your funds are still in your wallet ({{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} on {{chainName}}).",
+        "transactionRejected": "Your signature is required to complete the transaction. {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} on {{chainName}} remain in your wallet."
       },
       "title": {
         "chainSwitch": "Chain switch required.",
@@ -101,7 +100,6 @@
         "routeNotFound": "No routes available"
       }
     },
-    "maxAmount": "/ {{amount}}",
     "otherTokens": "Other tokens",
     "process": {
       "crossChain": {
@@ -141,7 +139,7 @@
     "stepSwapAndBridge": "Swap and bridge",
     "success": {
       "message": {
-        "swapSuccessful": "There are now {{amount}} {{tokenSymbol}} in wallet {{walletAddress}} on {{chainName}} chain."
+        "swapSuccessful": "There are now {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} in wallet {{walletAddress}} on {{chainName}} chain."
       },
       "title": {
         "swapSuccessful": "Swap successful"
@@ -159,7 +157,7 @@
     },
     "to": "To",
     "tokenOnChain": "{{tokenSymbol}} on {{chainName}}",
-    "tokenOnChainAmount": "{{amount}} {{tokenSymbol}} on {{chainName}}",
+    "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} on {{chainName}}",
     "tokenSearch": "Search your token",
     "valueLoss": "Value loss",
     "walletAddressOrEns": "Wallet address or ENS name",
@@ -193,5 +191,9 @@
   },
   "wallet": {
     "extensionNotFound": "Please make sure that only the {{name}} browser extension is active before choosing this wallet."
+  },
+  "format": {
+    "currency": "{{value, currency(currency: USD)}}",
+    "number": "{{value, number(maximumFractionDigits: 4)}}"
   }
 }

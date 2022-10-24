@@ -104,7 +104,7 @@ export const SwapRouteCardEssentials: React.FC<
                 key={`${gas.token.address}${gas.token.symbol}`}
               >
                 {gas.amount?.toFixed(6)} {gas.token.symbol} (
-                {t(`swap.currency`, { value: gas.amountUSD })})
+                {t(`format.currency`, { value: gas.amountUSD })})
               </Typography>
             ))}
           </Box>
@@ -123,7 +123,7 @@ export const SwapRouteCardEssentials: React.FC<
             fontWeight="500"
             lineHeight={1}
           >
-            {t(`swap.currency`, { value: gasCostUSD })}
+            {t(`format.currency`, { value: gasCostUSD })}
           </Typography>
         </Box>
       </Tooltip>
