@@ -25,6 +25,10 @@
     "swap": "Swap",
     "tryAgain": "Try again"
   },
+  "format": {
+    "currency": "{{value, currency(currency: USD)}}",
+    "number": "{{value, number(maximumFractionDigits: 4)}}"
+  },
   "header": {
     "activeSwaps": "Active swaps",
     "from": "Swap from",
@@ -60,7 +64,6 @@
     "slippage": "Slippage"
   },
   "swap": {
-    "fromAmount": "You pay",
     "crossStepDetails": "Bridge from {{from}} to {{to}} via {{tool}}",
     "error": {
       "message": {
@@ -85,6 +88,7 @@
     "estimatedTime": "{{value}}m",
     "featuredTokens": "Featured tokens",
     "from": "From",
+    "fromAmount": "You pay",
     "gasCost": "Gas cost",
     "inProgress": "in progress",
     "info": {
@@ -191,9 +195,5 @@
   },
   "wallet": {
     "extensionNotFound": "Please make sure that only the {{name}} browser extension is active before choosing this wallet."
-  },
-  "format": {
-    "currency": "{{value, currency(currency: USD)}}",
-    "number": "{{value, number(maximumFractionDigits: 4)}}"
   }
 }

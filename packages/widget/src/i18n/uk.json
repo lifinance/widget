@@ -25,6 +25,10 @@
     "swap": "Своп",
     "tryAgain": "Спробувати ще раз"
   },
+  "format": {
+    "currency": "{{value, currency(currency: USD)}}",
+    "number": "{{value, number(maximumFractionDigits: 4)}}"
+  },
   "header": {
     "activeSwaps": "Активні свопи",
     "from": "Своп з",
@@ -60,9 +64,7 @@
     "slippage": "Прослизання"
   },
   "swap": {
-    "amount": "Ви платите",
     "crossStepDetails": "Міст з {{from}} до {{to}} через {{tool}}",
-    "currency": "{{value, currency(currency: USD)}}",
     "error": {
       "message": {
         "slippageTooLarge": "Прослизання більше визначеного порогу. Будь ласка, оберіть новий маршрут, щоб отримати свіжу пропозицію.",
@@ -86,6 +88,7 @@
     "estimatedTime": "{{value}}м",
     "featuredTokens": "Рекомендовані токени",
     "from": "З",
+    "fromAmount": "Ви платите",
     "gasCost": "Вартість газу",
     "inProgress": "в процесі",
     "info": {
@@ -101,7 +104,6 @@
         "routeNotFound": "Немає доступних маршрутів"
       }
     },
-    "maxAmount": "/ {{amount}}",
     "otherTokens": "Інші токени",
     "process": {
       "crossChain": {
