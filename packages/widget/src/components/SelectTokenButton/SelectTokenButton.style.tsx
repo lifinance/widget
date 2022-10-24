@@ -17,7 +17,7 @@ export const SelectTokenCardHeader = styled(CardHeader, {
       overflow: 'hidden',
       width: compact ? (selected ? 92 : 142) : 224,
       fontWeight: selected ? 500 : 400,
-      fontSize: selected ? '1.125rem' : '1rem',
+      fontSize: compact && !selected ? '1rem' : '1.125rem',
     },
     [`.${cardHeaderClasses.subheader}`]: {
       textOverflow: 'ellipsis',
