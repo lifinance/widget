@@ -18,6 +18,7 @@ export const widgetBaseConfig: WidgetConfig = {
     deny: [],
   },
   buildSwapUrl: true,
+  // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
   // sdkConfig: {
   //   apiUrl: 'https://developkub.li.finance/v1/',
   // },

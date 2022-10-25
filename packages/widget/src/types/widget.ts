@@ -5,7 +5,15 @@ import type { Signer } from 'ethers';
 import type { CSSProperties, RefObject } from 'react';
 import type { LanguageKey, LanguageResources } from '../providers';
 
-export type WidgetVariant = 'default' | 'expandable' | 'drawer';
+export type WidgetVariant = 'default' | 'expandable' | 'drawer' | 'refuel';
+
+export enum DisabledUI {
+  FromToken = 'fromToken',
+  ToToken = 'toToken',
+  FromAmount = 'fromAmount',
+  ToAddress = 'toAddress',
+}
+export type DisabledUIType = `${DisabledUI}`;
 
 export type Appearance = PaletteMode | 'auto';
 export type ThemeConfig = {
@@ -31,21 +39,17 @@ export interface WidgetConfig {
   toAddress?: string;
   fromAmount?: number | string;
 
+  integrator?: string;
+
+  variant?: WidgetVariant;
+
   appearance?: Appearance;
   theme?: ThemeConfig;
   containerStyle?: CSSProperties;
 
   disableAppearance?: boolean;
   disableTelemetry?: boolean;
-
-  /** @deprecated Use chains.deny instead */
-  disabledChains?: number[];
-  /** @deprecated Use tokens.featured instead */
-  featuredTokens?: Token[];
-
-  integrator?: string;
-
-  variant?: WidgetVariant;
+  disabledUI?: DisabledUIType[];
 
   walletManagement?: WidgetWalletManagement;
   sdkConfig?: ConfigUpdate;
@@ -76,6 +80,11 @@ export interface WidgetConfig {
   };
   languageResources?: LanguageResources;
   disableI18n?: boolean;
+
+  /** @deprecated Use chains.deny instead */
+  disabledChains?: number[];
+  /** @deprecated Use tokens.featured instead */
+  featuredTokens?: Token[];
 }
 
 export type WidgetProps = {

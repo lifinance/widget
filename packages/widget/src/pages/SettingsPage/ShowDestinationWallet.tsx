@@ -2,12 +2,19 @@ import { Box, Typography } from '@mui/material';
 import type { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Switch } from '../../components/Switch';
+import { useWidgetConfig } from '../../providers';
 import { useSettings, useSettingsStore } from '../../stores';
+import { DisabledUI } from '../../types';
 
 export const ShowDestinationWallet = () => {
   const { t } = useTranslation();
+  const { disabledUI } = useWidgetConfig();
   const setValue = useSettingsStore((state) => state.setValue);
   const { showDestinationWallet } = useSettings(['showDestinationWallet']);
+
+  if (disabledUI?.includes(DisabledUI.ToAddress)) {
+    return null;
+  }
 
   const onChange = (_: ChangeEvent<HTMLInputElement>, checked: boolean) => {
     setValue('showDestinationWallet', checked);

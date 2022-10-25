@@ -2,18 +2,24 @@ import { WalletOutlined as WalletOutlinedIcon } from '@mui/icons-material';
 import { Button, Tooltip } from '@mui/material';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { SwapFormKey, useWallet } from '../../providers';
+import { SwapFormKey, useWallet, useWidgetConfig } from '../../providers';
 import { useSettings } from '../../stores';
+import { DisabledUI } from '../../types';
 import { useSendToWalletStore } from './store';
 
 export const SendToWalletButton: React.FC = () => {
   const { t } = useTranslation();
+  const { disabledUI } = useWidgetConfig();
   const { account } = useWallet();
   const { setValue } = useFormContext();
   const { showDestinationWallet } = useSettings(['showDestinationWallet']);
   const { showSendToWallet, toggleSendToWallet } = useSendToWalletStore();
 
-  if (!showDestinationWallet || !account.isActive) {
+  if (
+    !showDestinationWallet ||
+    !account.isActive ||
+    disabledUI?.includes(DisabledUI.ToAddress)
+  ) {
     return null;
   }
 

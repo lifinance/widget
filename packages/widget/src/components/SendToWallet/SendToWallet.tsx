@@ -4,13 +4,15 @@ import { Collapse, FormHelperText } from '@mui/material';
 import { forwardRef, useEffect } from 'react';
 import { useFormContext, useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { SwapFormKey, useWallet } from '../../providers';
+import { SwapFormKey, useWallet, useWidgetConfig } from '../../providers';
+import { DisabledUI } from '../../types';
 import { Card, CardTitle } from '../Card';
 import { FormControl, Input } from './SendToWallet.style';
 import { useSendToWalletStore } from './store';
 
 export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
   const { t } = useTranslation();
+  const { disabledUI } = useWidgetConfig();
   const showSendToWallet = useSendToWalletStore(
     (state) => state.showSendToWallet,
   );
@@ -20,6 +22,10 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
   useEffect(() => {
     trigger(SwapFormKey.ToAddress);
   }, [account.chainId, trigger]);
+
+  if (disabledUI?.includes(DisabledUI.ToAddress)) {
+    return null;
+  }
 
   const {
     onChange,
