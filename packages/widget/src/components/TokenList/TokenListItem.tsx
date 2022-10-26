@@ -10,7 +10,7 @@ import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatTokenPrice } from '../../utils';
 import { ListItem, ListItemButton } from './TokenList.style';
-import type { TokenListItemProps } from './types';
+import type { TokenListItemButtonProps, TokenListItemProps } from './types';
 
 export const TokenListItem: React.FC<TokenListItemProps> = memo(
   ({
@@ -23,9 +23,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
     startAdornment,
     endAdornment,
   }) => {
-    const { t } = useTranslation();
     const handleClick = () => onClick?.(token.address);
-    const tokenPrice = formatTokenPrice(token.amount, token.priceUSD);
     return (
       <ListItem
         disablePadding
@@ -35,46 +33,64 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
         }}
       >
         {startAdornment}
-        <ListItemButton onClick={handleClick} dense disableRipple>
-          <ListItemAvatar>
-            <Avatar src={token.logoURI} alt={token.symbol}>
-              {token.symbol[0]}
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary={token.symbol} secondary={token.name} />
-          {showBalance ? (
-            isBalanceLoading ? (
-              <TokenAmountSkeleton />
-            ) : (
-              <Box sx={{ textAlign: 'right' }}>
-                {Number(token.amount) ? (
-                  <Typography variant="body1" noWrap>
-                    {t('format.number', {
-                      value: token.amount,
-                    })}
-                  </Typography>
-                ) : null}
-                {tokenPrice ? (
-                  <Typography
-                    fontWeight={400}
-                    fontSize={12}
-                    color="text.secondary"
-                    data-price={token.priceUSD}
-                  >
-                    {t(`format.currency`, {
-                      value: tokenPrice,
-                    })}
-                  </Typography>
-                ) : null}
-              </Box>
-            )
-          ) : null}
-        </ListItemButton>
+        <TokenListItemButton
+          token={token}
+          showBalance={showBalance}
+          isBalanceLoading={isBalanceLoading}
+          onClick={handleClick}
+        />
         {endAdornment}
       </ListItem>
     );
   },
 );
+
+export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
+  onClick,
+  token,
+  showBalance,
+  isBalanceLoading,
+}) => {
+  const { t } = useTranslation();
+  const tokenPrice = formatTokenPrice(token.amount, token.priceUSD);
+  return (
+    <ListItemButton onClick={onClick} dense disableRipple>
+      <ListItemAvatar>
+        <Avatar src={token.logoURI} alt={token.symbol}>
+          {token.symbol[0]}
+        </Avatar>
+      </ListItemAvatar>
+      <ListItemText primary={token.symbol} secondary={token.name} />
+      {showBalance ? (
+        isBalanceLoading ? (
+          <TokenAmountSkeleton />
+        ) : (
+          <Box sx={{ textAlign: 'right' }}>
+            {Number(token.amount) ? (
+              <Typography variant="body1" noWrap>
+                {t('format.number', {
+                  value: token.amount,
+                })}
+              </Typography>
+            ) : null}
+            {tokenPrice ? (
+              <Typography
+                fontWeight={400}
+                fontSize={12}
+                color="text.secondary"
+                data-price={token.priceUSD}
+              >
+                {t(`format.currency`, {
+                  value: tokenPrice,
+                })}
+              </Typography>
+            ) : null}
+          </Box>
+        )
+      ) : null}
+    </ListItemButton>
+  );
+};
 
 export const TokenListItemSkeleton = () => {
   return (

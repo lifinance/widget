@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import type { FC } from 'react';
-import { useCallback, useRef } from 'react';
-import { useFormContext, useWatch } from 'react-hook-form';
+import { useRef } from 'react';
+import { useWatch } from 'react-hook-form';
 import {
   useDebouncedWatch,
   useTokenBalances,
@@ -11,6 +11,7 @@ import { SwapFormKey, SwapFormKeyHelper, useWallet } from '../../providers';
 import type { Token } from '../../types';
 import { TokenNotFound } from './TokenNotFound';
 import type { TokenListProps } from './types';
+import { useTokenSelect } from './useTokenSelect';
 import { VirtualizedTokenList } from './VirtualizedTokenList';
 
 export const TokenList: FC<TokenListProps> = ({
@@ -20,7 +21,6 @@ export const TokenList: FC<TokenListProps> = ({
 }) => {
   const parentRef = useRef<HTMLUListElement | null>(null);
   const { account } = useWallet();
-  const { setValue, getValues } = useFormContext();
   const [selectedChainId] = useWatch({
     name: [SwapFormKeyHelper.getChainKey(formType)],
   });
@@ -66,33 +66,7 @@ export const TokenList: FC<TokenListProps> = ({
     ? [searchedToken]
     : filteredTokens;
 
-  const handleTokenClick = useCallback(
-    (tokenAddress: string) => {
-      setValue(SwapFormKeyHelper.getTokenKey(formType), tokenAddress, {
-        shouldTouch: true,
-      });
-      // Set chain again to trigger URL builder update
-      setValue(SwapFormKeyHelper.getChainKey(formType), selectedChainId, {
-        shouldTouch: true,
-      });
-      setValue(SwapFormKeyHelper.getAmountKey(formType), '');
-      const oppositeFormType = formType === 'from' ? 'to' : 'from';
-      const [selectedOppositeToken, selectedOppositeChainId] = getValues([
-        SwapFormKeyHelper.getTokenKey(oppositeFormType),
-        SwapFormKeyHelper.getChainKey(oppositeFormType),
-      ]);
-      if (
-        selectedOppositeToken === tokenAddress &&
-        selectedOppositeChainId === selectedChainId
-      ) {
-        setValue(SwapFormKeyHelper.getTokenKey(oppositeFormType), '', {
-          shouldTouch: true,
-        });
-      }
-      onClick?.();
-    },
-    [formType, getValues, onClick, selectedChainId, setValue],
-  );
+  const handleTokenClick = useTokenSelect(formType, onClick);
 
   return (
     <Box ref={parentRef} style={{ height, overflow: 'auto' }}>

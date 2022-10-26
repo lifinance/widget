@@ -34,3 +34,10 @@ export interface TokenListItemProps extends TokenListItemBaseProps {
   startAdornment?: React.ReactNode;
   endAdornment?: React.ReactNode;
 }
+
+export interface TokenListItemButtonProps {
+  onClick?(): void;
+  showBalance?: boolean;
+  token: TokenAmount;
+  isBalanceLoading?: boolean;
+}
