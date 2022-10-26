@@ -3,7 +3,7 @@ import type { Step, TokenAmount } from '@lifi/sdk';
 import type { BoxProps } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useChains } from '../../hooks';
+import { useChain } from '../../hooks';
 import { formatTokenAmount } from '../../utils';
 import { SmallAvatar } from '../SmallAvatar';
 import { TextFitter } from '../TextFitter';
@@ -14,11 +14,11 @@ export const Token: React.FC<
   { token: TokenAmount; connected?: boolean; step?: Step } & BoxProps
 > = ({ token, connected, step, ...other }) => {
   const { t } = useTranslation();
-  const { getChainById } = useChains();
+  const { chain } = useChain(token.chainId);
   return (
     <Box flex={1} {...other}>
       <Box display="flex" flex={1} alignItems="center">
-        <TokenAvatar token={token} sx={{ marginRight: 2 }} />
+        <TokenAvatar token={token} chain={chain} sx={{ marginRight: 2 }} />
         <TextFitter
           height={30}
           textStyle={{
@@ -34,7 +34,7 @@ export const Token: React.FC<
         <TextSecondary connected={connected}>
           {t(`swap.tokenOnChain`, {
             tokenSymbol: token.symbol,
-            chainName: getChainById(token.chainId)?.name,
+            chainName: chain?.name,
           })}
         </TextSecondary>
         {step ? (

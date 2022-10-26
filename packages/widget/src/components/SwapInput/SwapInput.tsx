@@ -76,7 +76,7 @@ export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
           placeholder="0"
           startAdornment={
             isSelected ? (
-              <TokenAvatar token={token} sx={{ marginLeft: 2 }} />
+              <TokenAvatar token={token} chain={chain} sx={{ marginLeft: 2 }} />
             ) : null
           }
           endAdornment={
