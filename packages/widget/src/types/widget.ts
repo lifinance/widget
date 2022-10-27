@@ -50,6 +50,7 @@ export interface WidgetConfig {
   disableAppearance?: boolean;
   disableTelemetry?: boolean;
   disabledUI?: DisabledUIType[];
+  useRecommendedRoute?: boolean;
 
   walletManagement?: WidgetWalletManagement;
   sdkConfig?: ConfigUpdate;

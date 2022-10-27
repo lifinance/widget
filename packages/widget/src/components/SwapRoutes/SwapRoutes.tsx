@@ -12,12 +12,14 @@ import {
   SwapRouteNotFoundCard,
 } from '../../components/SwapRouteCard';
 import { useSwapRoutes } from '../../hooks';
+import { useWidgetConfig } from '../../providers';
 import { navigationRoutes } from '../../utils';
 import { Stack } from './SwapRoutes.style';
 import { useSetRecommendedRoute } from './useSetRecommendedRoute';
 
 export const SwapRoutes: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation();
+  const { variant, useRecommendedRoute } = useWidgetConfig();
   const navigate = useNavigate();
   const { isValid, isValidating } = useFormState();
   const {
@@ -43,6 +45,7 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
   };
 
   const routeNotFound = !currentRoute && !isLoading && !isFetching;
+  const onlyRecommendedRoute = variant === 'refuel' || useRecommendedRoute;
 
   return (
     <Card {...props}>
@@ -64,30 +67,39 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
           spacing={2}
           my={2}
           ml={2}
-          mr={routeNotFound ? 2 : 1}
+          mr={onlyRecommendedRoute || routeNotFound ? 2 : 1}
           sx={{
             borderRightWidth:
-              !routeNotFound && (isFetching || (routes && routes.length > 1))
+              !onlyRecommendedRoute &&
+              !routeNotFound &&
+              (isFetching || (routes && routes.length > 1))
                 ? 1
                 : 0,
           }}
         >
           {isLoading || isFetching ? (
             <>
-              <SwapRouteCardSkeleton minWidth="80%" variant="dense" />
-              <SwapRouteCardSkeleton minWidth="80%" variant="dense" />
+              <SwapRouteCardSkeleton
+                minWidth={!onlyRecommendedRoute ? '80%' : '100%'}
+                variant="dense"
+              />
+              {!onlyRecommendedRoute ? (
+                <SwapRouteCardSkeleton minWidth="80%" variant="dense" />
+              ) : null}
             </>
           ) : !currentRoute ? (
             <SwapRouteNotFoundCard />
           ) : (
             <>
               <SwapRouteCard
-                minWidth={routes.length > 1 ? '80%' : '100%'}
+                minWidth={
+                  !onlyRecommendedRoute && routes.length > 1 ? '80%' : '100%'
+                }
                 route={currentRoute}
                 variant="dense"
                 active
               />
-              {routes.length > 1 ? (
+              {!onlyRecommendedRoute && routes.length > 1 ? (
                 <SwapRouteCard
                   minWidth="80%"
                   route={routes[1]}
@@ -99,7 +111,7 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
           )}
         </Stack>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {!routeNotFound ? (
+          {!onlyRecommendedRoute && !routeNotFound ? (
             <Box py={1} pr={1}>
               <IconButton
                 onClick={handleCardClick}

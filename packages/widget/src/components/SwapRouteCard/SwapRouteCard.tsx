@@ -9,6 +9,7 @@ import { Box, Collapse, Tooltip, Typography } from '@mui/material';
 import type { MouseEventHandler } from 'react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useWidgetConfig } from '../../providers';
 import type { CardProps } from '../Card';
 import { Card } from '../Card';
 import { StepActions } from '../StepActions';
@@ -21,6 +22,7 @@ export const SwapRouteCard: React.FC<
   SwapRouteCardProps & Omit<CardProps, 'variant'>
 > = ({ route, active, variant = 'default', expanded, ...other }) => {
   const { t } = useTranslation();
+  const { variant: widgetVariant, useRecommendedRoute } = useWidgetConfig();
   const [cardExpanded, setCardExpanded] = useState(
     variant === 'default' || expanded,
   );
@@ -33,6 +35,7 @@ export const SwapRouteCard: React.FC<
     e.stopPropagation();
     setCardExpanded((expanded) => !expanded);
   };
+
   return (
     <Card
       dense={variant === 'dense'}
@@ -41,17 +44,19 @@ export const SwapRouteCard: React.FC<
       indented
       {...other}
     >
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        mb={2}
-      >
-        <Label active={active ?? label !== alternativeTag}>{label}</Label>
-        {variant === 'stretched' ? (
-          <SwapRouteCardEssentials route={route} />
-        ) : null}
-      </Box>
+      {widgetVariant !== 'refuel' && !useRecommendedRoute ? (
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          mb={2}
+        >
+          <Label active={active ?? label !== alternativeTag}>{label}</Label>
+          {variant === 'stretched' ? (
+            <SwapRouteCardEssentials route={route} />
+          ) : null}
+        </Box>
+      ) : null}
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Token
           token={{ ...route.toToken, amount: route.toAmount }}
