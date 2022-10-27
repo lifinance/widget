@@ -41,10 +41,10 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
         const address = await provider?.resolveName(value);
         return (
           isAddress(address || value) ||
-          t('swap.error.title.walletAddressInvalid')
+          (t('swap.error.title.walletAddressInvalid') as string)
         );
       } catch {
-        return t('swap.error.title.walletEnsAddressInvalid');
+        return t('swap.error.title.walletEnsAddressInvalid') as string;
       }
     },
     onBlur: () => trigger(SwapFormKey.ToAddress),
