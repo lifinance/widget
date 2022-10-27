@@ -104,6 +104,7 @@
         "routeNotFound": "Немає доступних маршрутів"
       }
     },
+    "onChain": "на {{chainName}}",
     "otherTokens": "Інші токени",
     "process": {
       "crossChain": {

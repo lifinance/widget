@@ -2,35 +2,35 @@
   "button": {
     "auto": "Auto",
     "cancel": "Annuler",
-    "connectWallet": "Portefeuille de connexion",
+    "connectWallet": "Connecter un portefeuille",
     "contactSupport": "Contacter le support",
     "continue": "Continuer",
     "copyAddress": "Copier l’adresse",
-    "dark": "Dark",
+    "dark": "Sombre",
     "delete": "Supprimer",
     "disconnectWallet": "Déconnecter le portefeuille",
     "done": "Terminé",
     "hide": "Cacher",
     "lifiSwap": "LI.FI Swap",
-    "light": "Lumière",
+    "light": "Clair",
     "max": "max",
     "ok": "Ok",
     "okay": "D'accord",
-    "removeSwap": "Retirer l'échange",
-    "restartSwap": "Redémarrer le swap",
-    "reviewSwap": "Passage en revue",
+    "removeSwap": "Supprimer l'échange",
+    "restartSwap": "Redémarrer l'échange",
+    "reviewSwap": "Revue de l'échange",
     "seeDetails": "Voir les détails",
     "showAll": "Afficher tous",
     "startSwap": "Échange de départ",
     "swap": "Échanger",
-    "tryAgain": "Essayez à nouveau"
+    "tryAgain": "Réessayer"
   },
   "format": {
     "currency": "{{value, currency(currency: USD)}}",
     "number": "{{value, number(maximumFractionDigits: 4)}}"
   },
   "header": {
-    "activeSwaps": "Swaps actifs",
+    "activeSwaps": "Échange actifs",
     "from": "Échanger de",
     "routes": "Vous obtenez",
     "selectChain": "Sélectionner la chaîne",
@@ -39,7 +39,7 @@
     "swap": "Échanger",
     "swapDetails": "Détails de l'échange",
     "swapHistory": "Historique des échanges",
-    "to": "Swap vers",
+    "to": "Échanger pour",
     "walletConnected": "Portefeuille connecté"
   },
   "language": {
@@ -136,11 +136,11 @@
     "routes": "Vous obtenez",
     "selectChain": "Chaîne",
     "selectChainAndToken": "Sélectionnez la chaîne et le jeton",
-    "selectToken": "Token",
+    "selectToken": "Jeton",
     "sendToWallet": "Envoyer vers un autre portefeuille",
-    "stepBridge": "Pont",
+    "stepBridge": "Bridge",
     "stepSwap": "Échanger",
-    "stepSwapAndBridge": "Swap et pont",
+    "stepSwapAndBridge": "Échange et Bridge",
     "success": {
       "message": {
         "swapSuccessful": "Il y a maintenant {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} dans le portefeuille {{walletAddress}} de la chaîne {{chainName}}."
@@ -154,12 +154,12 @@
     "swapping": "Échanger",
     "tags": {
       "ALTERNATIVE": "ALTERNATIVE",
-      "CHEAPEST": "CHEAP",
-      "FASTEST": "FAST",
+      "CHEAPEST": "PETIT PRIX",
+      "FASTEST": "RAPIDE",
       "RECOMMENDED": "RECOMMANDÉ",
-      "SAFEST": "SAFE"
+      "SAFEST": "SÛR"
     },
-    "to": "A",
+    "to": "À",
     "tokenOnChain": "{{tokenSymbol}} sur {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} sur {{chainName}}",
     "tokenSearch": "Recherchez votre jeton",
