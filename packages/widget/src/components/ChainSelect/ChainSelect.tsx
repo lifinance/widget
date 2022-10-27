@@ -19,9 +19,7 @@ export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
   });
 
   const showAllChains = () => {
-    navigate(navigationRoutes[`${formType}Chain`], {
-      state: { formType },
-    });
+    navigate(navigationRoutes[`${formType}Chain`]);
   };
 
   const chainsToHide = (chains?.length ?? 0) - maxChainToOrder;

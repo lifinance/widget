@@ -18,7 +18,7 @@ export const SelectTokenButton: React.FC<
 > = ({ formType, compact }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { disabledUI } = useWidgetConfig();
+  const { disabledUI, variant } = useWidgetConfig();
   const tokenKey = SwapFormKeyHelper.getTokenKey(formType);
   const [chainId, tokenAddress] = useWatch({
     name: [SwapFormKeyHelper.getChainKey(formType), tokenKey],
@@ -30,6 +30,8 @@ export const SelectTokenButton: React.FC<
     navigate(
       formType === 'from'
         ? navigationRoutes.fromToken
+        : variant === 'refuel'
+        ? navigationRoutes.toTokenNative
         : navigationRoutes.toToken,
     );
   };
@@ -49,10 +51,14 @@ export const SelectTokenButton: React.FC<
         />
       ) : (
         <SelectTokenCardHeader
-          avatar={isSelected ? <TokenAvatar token={token} /> : null}
+          avatar={
+            isSelected ? <TokenAvatar token={token} chain={chain} /> : null
+          }
           action={!compact ? <KeyboardArrowRightIcon /> : null}
           title={isSelected ? token.symbol : t(`swap.selectChainAndToken`)}
-          subheader={isSelected ? `on ${chain.name}` : null}
+          subheader={
+            isSelected ? t(`swap.onChain`, { chainName: chain.name }) : null
+          }
           selected={isSelected}
           compact={compact}
         />

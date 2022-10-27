@@ -3,6 +3,7 @@ import { NotFound } from './components/NotFound';
 import { ActiveSwapsPage } from './pages/ActiveSwapsPage';
 import { MainPage } from './pages/MainPage';
 import { SelectChainPage } from './pages/SelectChainPage';
+import { SelectNativeTokenPage } from './pages/SelectNativeTokenPage';
 import { SelectTokenPage } from './pages/SelectTokenPage';
 import { SelectWalletPage } from './pages/SelectWalletPage';
 import { SettingsPage } from './pages/SettingsPage';
@@ -29,6 +30,10 @@ export const AppRoutes = () => {
     {
       path: navigationRoutes.toToken,
       element: <SelectTokenPage formType="to" />,
+    },
+    {
+      path: navigationRoutes.toTokenNative,
+      element: <SelectNativeTokenPage formType="to" />,
     },
     ...[
       navigationRoutes.fromChain,

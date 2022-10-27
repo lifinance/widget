@@ -3,13 +3,14 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Big from 'big.js';
 import { useWatch } from 'react-hook-form';
 import { useDebouncedWatch, useToken } from '.';
-import { SwapFormKey, useLiFi, useWallet } from '../providers';
+import { SwapFormKey, useLiFi, useWallet, useWidgetConfig } from '../providers';
 import { useSettings } from '../stores';
 
 const refetchTime = 60_000;
 
 export const useSwapRoutes = () => {
   const lifi = useLiFi();
+  const { variant } = useWidgetConfig();
   const { account, provider } = useWallet();
   const queryClient = useQueryClient();
   const { slippage, enabledBridges, enabledExchanges, routePriority } =
@@ -54,6 +55,7 @@ export const useSwapRoutes = () => {
     enabledBridges,
     enabledExchanges,
     routePriority,
+    variant,
   ];
   const previousDataUpdatedAt =
     queryClient.getQueryState(queryKey)?.dataUpdatedAt;
@@ -80,6 +82,7 @@ export const useSwapRoutes = () => {
           enabledBridges,
           enabledExchanges,
           routePriority,
+          variant,
         ],
         signal,
       }) => {
@@ -113,6 +116,7 @@ export const useSwapRoutes = () => {
                 allow: enabledExchanges,
               },
               order: routePriority,
+              allowSwitchChain: variant !== 'refuel',
             },
           },
           { signal },

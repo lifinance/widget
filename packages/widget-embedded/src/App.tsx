@@ -4,6 +4,7 @@ import {
   switchChain,
   switchChainAndAddToken,
 } from '@lifi/wallet-management';
+import type { WidgetVariant } from '@lifi/widget';
 import { LiFiWidget } from '@lifi/widget';
 import {
   Box,
@@ -11,7 +12,11 @@ import {
   Checkbox,
   CssBaseline,
   Drawer,
+  FormControl,
   FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Select,
   Slider,
   Switch,
   TextField,
@@ -23,7 +28,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import React, { useEffect, useState } from 'react';
 import { WalletButtons } from './components/WalletButtons';
 import { WidgetEvents } from './components/WidgetEvents';
-import { widgetBaseConfig, widgetConfig } from './config';
+import { widgetBaseConfig, widgetConfig, WidgetVariants } from './config';
 import './index.css';
 import { useWallet } from './providers/WalletProvider';
 
@@ -32,18 +37,19 @@ export const App = () => {
   const [searchParams] = useState(() =>
     Object.fromEntries(new URLSearchParams(window?.location.search)),
   );
-  const [drawer, setDrawer] = useState(() => Boolean(searchParams.drawer));
   const [externalWallerManagement, setExternalWalletManagement] =
     useState<boolean>(false);
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const [config, setConfig] = useState(widgetConfig);
+  const [variant, setVariant] = useState<WidgetVariant>(
+    searchParams.drawer ? 'drawer' : 'expandable',
+  );
   const [fontFamily, setFontFamily] = useState('Inter var, Inter, sans-serif');
   const [borderRadius, setBorderRadius] = useState(12);
   const [borderRadiusSecondary, setBorderRadiusSecondary] = useState(6);
   const [primary, setPrimaryColor] = useState('#3F49E1');
   const [secondary, setSecondaryColor] = useState('#F5B5FF');
 
-  const [expandableRoutesView, setExpandableRoutesView] = useState(true);
   const [darkMode, setDarkMode] = useState(prefersDarkMode);
   const [systemColor, setSystemColor] = useState(true);
   const [theme, setTheme] = useState(() =>
@@ -66,7 +72,7 @@ export const App = () => {
 
   useEffect(() => {
     setConfig(() => ({
-      ...(drawer
+      ...(variant === 'drawer'
         ? widgetBaseConfig
         : {
             ...widgetConfig,
@@ -97,23 +103,18 @@ export const App = () => {
           fontFamily,
         },
       },
-      variant: drawer
-        ? 'drawer'
-        : expandableRoutesView
-        ? 'expandable'
-        : 'default',
+      variant,
     }));
   }, [
     borderRadius,
     borderRadiusSecondary,
     darkMode,
-    drawer,
-    expandableRoutesView,
     fontFamily,
     prefersDarkMode,
     primary,
     secondary,
     systemColor,
+    variant,
   ]);
 
   useEffect(() => {
@@ -192,16 +193,24 @@ export const App = () => {
             <Typography px={1} mb={2} variant="h6">
               Widget Customization
             </Typography>
-            <Box px={1} flex={1}>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={drawer}
-                    onChange={() => setDrawer((drawer) => !drawer)}
-                  />
-                }
-                label="Enable drawer view"
-              />
+
+            <Box pb={2} flex={1}>
+              <FormControl size="small" fullWidth>
+                <InputLabel>Widget variant</InputLabel>
+                <Select
+                  value={variant}
+                  label="Widget variant"
+                  onChange={(event) =>
+                    setVariant(event.target.value as WidgetVariant)
+                  }
+                >
+                  {WidgetVariants.map((variant) => (
+                    <MenuItem key={variant} value={variant}>
+                      {variant}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Box>
 
             <Box px={1} flex={1}>
@@ -217,19 +226,6 @@ export const App = () => {
                 label="Enable external wallet management"
               />
               {externalWallerManagement && <WalletButtons />}
-            </Box>
-            <Box px={1} flex={1}>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={expandableRoutesView}
-                    onChange={() =>
-                      setExpandableRoutesView((expand) => !expand)
-                    }
-                  />
-                }
-                label="Expandable routes view"
-              />
             </Box>
             <Box p={1} flex={1}>
               <FormControlLabel

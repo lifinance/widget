@@ -104,6 +104,7 @@
         "routeNotFound": "No routes available"
       }
     },
+    "onChain": "on {{chainName}}",
     "otherTokens": "Other tokens",
     "process": {
       "crossChain": {

@@ -40,6 +40,7 @@ export const NavigationHeader: React.FC = () => {
       case navigationRoutes.fromToken:
         return t(`header.from`);
       case navigationRoutes.toToken:
+      case navigationRoutes.toTokenNative:
         return t(`header.to`);
       case navigationRoutes.fromChain:
       case navigationRoutes.toChain:

@@ -10,7 +10,7 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
   const prefersNarrowView = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('sm'),
   );
-  const { disabledUI } = useWidgetConfig();
+  const { disabledUI, variant } = useWidgetConfig();
   const [fromChain, toChain, fromToken, toToken] = useWatch({
     name: [
       SwapFormKey.FromChain,
@@ -21,6 +21,7 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
   });
 
   const disabledReverse =
+    variant === 'refuel' ||
     disabledUI?.includes(DisabledUI.FromToken) ||
     disabledUI?.includes(DisabledUI.ToToken);
 

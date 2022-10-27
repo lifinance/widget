@@ -1,16 +1,17 @@
 export const navigationRoutes = {
   home: '/',
+  activeSwaps: 'active-swaps',
+  fromChain: 'from-chain',
+  fromToken: 'from-token',
   selectWallet: 'wallet',
   settings: 'settings',
-  fromToken: 'from-token',
-  toToken: 'to-token',
-  fromChain: 'from-chain',
-  toChain: 'to-chain',
-  swapRoutes: 'swap-routes',
+  swapDetails: 'swap-details',
   swapExecution: 'swap-execution',
   swapHistory: 'swap-history',
-  activeSwaps: 'active-swaps',
-  swapDetails: 'swap-details',
+  swapRoutes: 'swap-routes',
+  toChain: 'to-chain',
+  toToken: 'to-token',
+  toTokenNative: 'to-token-native',
 };
 
 export const navigationRoutesValues = Object.values(navigationRoutes);
@@ -25,6 +26,7 @@ export const stickyHeaderRoutes = [
   navigationRoutes.swapHistory,
   navigationRoutes.swapRoutes,
   navigationRoutes.toChain,
+  navigationRoutes.toTokenNative,
 ];
 
 export const backButtonRoutes = [
@@ -39,6 +41,7 @@ export const backButtonRoutes = [
   navigationRoutes.swapRoutes,
   navigationRoutes.toChain,
   navigationRoutes.toToken,
+  navigationRoutes.toTokenNative,
 ];
 
 export type NavigationRouteType = keyof typeof navigationRoutes;

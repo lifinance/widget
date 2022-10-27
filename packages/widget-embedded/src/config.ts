@@ -1,6 +1,13 @@
 import type { WidgetConfig } from '@lifi/widget';
 import './index.css';
 
+export const WidgetVariants = [
+  'default',
+  'expandable',
+  'drawer',
+  'refuel',
+] as const;
+
 export const widgetBaseConfig: WidgetConfig = {
   // fromChain: 137,
   // toChain: 10,
@@ -17,11 +24,12 @@ export const widgetBaseConfig: WidgetConfig = {
     allow: [], // 1, 1285, 10, 56, 137
     deny: [],
   },
+  // useRecommendedRoute: true,
   buildSwapUrl: true,
   // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
-  // sdkConfig: {
-  //   apiUrl: 'https://developkub.li.finance/v1/',
-  // },
+  sdkConfig: {
+    apiUrl: 'https://staging.li.quest/v1/',
+  },
   tokens: {
     featured: [
       // {
