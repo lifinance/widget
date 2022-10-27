@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.22.0](https://github.com/lifinance/widget/compare/v1.21.0...v1.22.0) (2022-10-27)
+
+
+### Features
+
+* add disabledUI config option ([7d6f95b](https://github.com/lifinance/widget/commit/7d6f95bde908046f267c226eb40d5d5ed7aef8cc))
+* add i18n management ([6ec80af](https://github.com/lifinance/widget/commit/6ec80af087c8220d7c32090873c6f872e5e5fe58))
+* add useRecommendedRoute config option ([8c5ed74](https://github.com/lifinance/widget/commit/8c5ed744280cec4e95e7c6a20053c11f72c5b3b0))
+* new wallet header menu ([0caf75f](https://github.com/lifinance/widget/commit/0caf75f0b39f7164756eb6b49dd56f27af7854f3))
+* walletconnect ([#24](https://github.com/lifinance/widget/issues/24)) ([b3e7bcf](https://github.com/lifinance/widget/commit/b3e7bcf845f58049820651f76d4d0f53aa1d88a2))
+
+
+### Bug Fixes
+
+* allow using symbols in url builder ([f84b340](https://github.com/lifinance/widget/commit/f84b3408e5dd159a0c382debd683ebe3c6e1ca64))
+* correct execution time ceiling ([c6cecbd](https://github.com/lifinance/widget/commit/c6cecbde0d17f1721d77cfeda955bb09b8c75f71))
+* format numbers ([fe63cdd](https://github.com/lifinance/widget/commit/fe63cdd8181ff680a82b0d8bec8a26d26b885347))
+
 ## [1.21.0](https://github.com/lifinance/widget/compare/v1.20.3...v1.21.0) (2022-10-13)
 
 
