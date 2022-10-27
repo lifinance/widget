@@ -161,7 +161,7 @@
     },
     "to": "A",
     "tokenOnChain": "{{tokenSymbol}} en {{chainName}}",
-    "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} en {{chainName}}",
+    "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} on {{chainName}}",
     "tokenSearch": "Busque su token",
     "valueLoss": "Valor perdido",
     "walletAddressOrEns": "Dirección de billetera o nombre ENS",
