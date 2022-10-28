@@ -10,6 +10,7 @@
     "delete": "Delete",
     "disconnectWallet": "Disconnect wallet",
     "done": "Done",
+    "getGas": "Get gas",
     "hide": "Hide",
     "lifiSwap": "LI.FI Swap",
     "light": "Light",
@@ -21,6 +22,7 @@
     "reviewSwap": "Review swap",
     "seeDetails": "See details",
     "showAll": "Show all",
+    "startGasSwap": "Start gas swap",
     "startSwap": "Start swap",
     "swap": "Swap",
     "tryAgain": "Try again"
@@ -32,6 +34,8 @@
   "header": {
     "activeSwaps": "Active swaps",
     "from": "Swap from",
+    "gas": "Gas",
+    "gasSwap": "Gas swap",
     "routes": "You get",
     "selectChain": "Select chain",
     "selectWallet": "Select your wallet",
@@ -147,6 +151,7 @@
         "swapSuccessful": "There are now {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} in wallet {{walletAddress}} on {{chainName}} chain."
       },
       "title": {
+        "gasSwapSuccessful": "Gas swap successful",
         "swapSuccessful": "Swap successful"
       }
     },

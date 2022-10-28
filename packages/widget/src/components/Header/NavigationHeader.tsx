@@ -7,7 +7,7 @@ import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { useNavigateBack } from '../../hooks';
-import { useWallet } from '../../providers';
+import { useWallet, useWidgetConfig } from '../../providers';
 import {
   backButtonRoutes,
   navigationRoutes,
@@ -18,6 +18,7 @@ import { useHeaderActionStore } from './useHeaderActionStore';
 
 export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
+  const { variant } = useWidgetConfig();
   const { navigate, navigateBack } = useNavigateBack();
   const { account } = useWallet();
   const { element } = useHeaderActionStore();
@@ -40,10 +41,10 @@ export const NavigationHeader: React.FC = () => {
       case navigationRoutes.fromToken:
         return t(`header.from`);
       case navigationRoutes.toToken:
-      case navigationRoutes.toTokenNative:
         return t(`header.to`);
       case navigationRoutes.fromChain:
       case navigationRoutes.toChain:
+      case navigationRoutes.toTokenNative:
         return t(`header.selectChain`);
       case navigationRoutes.swapRoutes:
         return t(`header.routes`);
@@ -54,7 +55,7 @@ export const NavigationHeader: React.FC = () => {
       case navigationRoutes.swapDetails:
         return t(`header.swapDetails`);
       default:
-        return t(`header.swap`);
+        return variant !== 'refuel' ? t(`header.swap`) : t(`header.gas`);
     }
   };
 
