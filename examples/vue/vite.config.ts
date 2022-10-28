@@ -1,4 +1,6 @@
 /* eslint-disable import/no-default-export */
+import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
+import nodePolyfills from 'rollup-plugin-polyfill-node';
 import veauryVitePlugins from 'veaury/vite';
 import { defineConfig } from 'vite';
 
@@ -21,4 +23,33 @@ export default defineConfig({
       // vueJsxOptions: {...}
     }),
   ],
+  esbuild: {
+    target: 'esnext',
+  },
+  build: {
+    rollupOptions: {
+      plugins: [
+        nodePolyfills({
+          include: null,
+        }),
+      ],
+    },
+    sourcemap: true,
+  },
+  optimizeDeps: {
+    esbuildOptions: {
+      define: {
+        global: 'globalThis',
+      },
+      plugins: [
+        NodeGlobalsPolyfillPlugin({
+          buffer: true,
+        }),
+      ],
+    },
+  },
+  server: {
+    port: 3000,
+    open: true,
+  },
 });
