@@ -35,6 +35,7 @@ enum ProviderIdentityFlag {
   MyKey = 'isMYKEY',
   OwnBit = 'isOwnbit',
   Status = 'isStatus',
+  TallyHo = 'isTally',
   Trust = 'isTrust',
   TokenPocket = 'isTokenPocket',
   TP = 'isTp',
@@ -83,6 +84,16 @@ const mathWallet: Wallet = {
   connector: metaMask,
 
   platforms: ['all'],
+};
+
+const tallyho: Wallet = {
+  name: 'Tally Ho',
+  checkProviderIdentity: ({ provider }) =>
+    provider?.[ProviderIdentityFlag.TallyHo],
+  icon: walletIcons.tallyho,
+  connector: metaMask,
+
+  platforms: ['desktop'],
 };
 
 const blockWallet: Wallet = {
@@ -310,6 +321,7 @@ const tokenary: Wallet = {
 export const supportedWallets = [
   metamask,
   walletConnect,
+  tallyho,
   binance,
   coinbase,
   detected,

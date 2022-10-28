@@ -28,6 +28,8 @@ import tp from './tp.svg';
 import xdefi from './xdefi.svg';
 import mathwallet from './mathWallet.svg';
 import walletConnect from './walletConnect.svg';
+import tallyho from './tallyho.svg';
+
 
 export const walletIcons = {
   mathwallet,
@@ -54,6 +56,7 @@ export const walletIcons = {
   opera,
   ownbit,
   status,
+  tallyho,
   tokenary,
   tokenpocket,
   tp,
