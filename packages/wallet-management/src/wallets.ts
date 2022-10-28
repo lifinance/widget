@@ -320,8 +320,8 @@ const tokenary: Wallet = {
 
 export const supportedWallets = [
   metamask,
-  tallyho,
   walletConnect,
+  tallyho,
   binance,
   coinbase,
   detected,
