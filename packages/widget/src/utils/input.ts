@@ -15,7 +15,9 @@ export const fitInputText = (
     mid = (high + low) >> 1;
     const fontSize = `${mid + 1}px`;
     element.style.fontSize = fontSize;
-    if (element.scrollWidth <= element.clientWidth) {
+    // scrollWidth has different rounding than clientWidth, remove 1px for consistency
+    const scrollWidth = element.scrollWidth - 1;
+    if (scrollWidth <= element.clientWidth) {
       size = mid;
       low = mid + 1;
     } else {
