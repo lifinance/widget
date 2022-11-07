@@ -28,19 +28,19 @@
     "@lifi/wallet-management": "^1.1.11",
     "@lifi/widget": "^1.22.0",
     "@mui/icons-material": "^5.10.9",
-    "@mui/lab": "^5.0.0-alpha.105",
-    "@mui/material": "^5.10.11",
+    "@mui/lab": "^5.0.0-alpha.106",
+    "@mui/material": "^5.10.12",
     "ethers": "^5.7.2",
     "events": "^3.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.4.2"
+    "react-router-dom": "^6.4.3"
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
     "@vitejs/plugin-react": "^2.2.0",
     "rollup-plugin-polyfill-node": "^0.11.0",
-    "vite": "^3.2.1",
+    "vite": "^3.2.3",
     "web-vitals": "^3.0.4"
   },
   "eslintConfig": {
