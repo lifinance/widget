@@ -10,17 +10,14 @@ export const TokenAvatarFallback: React.FC<{
 }> = ({ token, sx }) => {
   const { chain } = useChain(token.chainId);
   const { token: chainToken } = useToken(token.chainId, token.address);
-  return <TokenAvatar token={chainToken ?? token} chain={chain} sx={sx} />;
+  return <TokenAvatarBase token={chainToken ?? token} chain={chain} sx={sx} />;
 };
 
-export const TokenAvatar: React.FC<{
+export const TokenAvatarBase: React.FC<{
   token: Token;
   chain?: Chain;
   sx?: SxProps<Theme>;
 }> = ({ token, chain, sx }) => {
-  if (!chain || !token.logoURI) {
-    return <TokenAvatarFallback token={token} sx={sx} />;
-  }
   return (
     <Badge
       overlap="circular"
@@ -39,4 +36,15 @@ export const TokenAvatar: React.FC<{
       </Avatar>
     </Badge>
   );
+};
+
+export const TokenAvatar: React.FC<{
+  token: Token;
+  chain?: Chain;
+  sx?: SxProps<Theme>;
+}> = ({ token, chain, sx }) => {
+  if (!chain || !token.logoURI) {
+    return <TokenAvatarFallback token={token} sx={sx} />;
+  }
+  return <TokenAvatarBase token={token} chain={chain} sx={sx} />;
 };
