@@ -64,7 +64,7 @@
     "slippage": "Effet de glissement"
   },
   "swap": {
-    "crossStepDetails": "Passer de {{de}} à {{de}} via {{outil}}",
+    "crossStepDetails": "Passer de {{from}} à {{to}} via {{tool}}",
     "error": {
       "message": {
         "slippageTooLarge": "Le glissement est plus important que le seuil défini. Veuillez demander un nouvel itinéraire pour obtenir un nouveau devis.",
@@ -150,7 +150,7 @@
       }
     },
     "supportId": "ID de support",
-    "swapStepDetails": "Echanger sur {{chaîne}} via {{outil}}.",
+    "swapStepDetails": "Echanger sur {{chain}} via {{tool}}",
     "swapping": "Échanger",
     "tags": {
       "ALTERNATIVE": "ALTERNATIVE",
