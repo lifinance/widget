@@ -23,10 +23,7 @@ export const SwapPage: React.FC = () => {
   const { state }: any = useLocation();
   const { navigateBack } = useNavigateBack();
   const tokenValueBottomSheetRef = useRef<BottomSheetBase>(null);
-  const {
-    setValue,
-    // formState: { isValid, isValidating },
-  } = useFormContext();
+  const { setValue } = useFormContext();
   const { route, status, executeRoute, restartRoute, deleteRoute } =
     useRouteExecution(state?.routeId);
 

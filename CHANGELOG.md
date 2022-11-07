@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.22.1](https://github.com/lifinance/widget/compare/v1.22.0...v1.22.1) (2022-11-07)
+
+
+### Bug Fixes
+
+* correctly fit swap input text ([9288b58](https://github.com/lifinance/widget/commit/9288b58128bd442f6f42da88264c389cff9c9884))
+* fix circular component reference issue ([e3f3209](https://github.com/lifinance/widget/commit/e3f3209b9c7a23c60980edee48a86602cfeb987f))
+
 ## [1.22.0](https://github.com/lifinance/widget/compare/v1.21.0...v1.22.0) (2022-10-27)
 
 

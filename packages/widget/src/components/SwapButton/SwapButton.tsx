@@ -11,7 +11,7 @@ export const SwapButton = forwardRef<HTMLButtonElement, SwapButtonProps>(
   ({ onClick, currentRoute, text, disable, enableLoading, loading }, ref) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const config = useWidgetConfig();
+    const { variant, walletManagement } = useWidgetConfig();
     const { account, connect } = useWallet();
 
     const {
@@ -22,7 +22,7 @@ export const SwapButton = forwardRef<HTMLButtonElement, SwapButtonProps>(
 
     const handleSwapButtonClick = async () => {
       if (!account.isActive) {
-        if (config.walletManagement) {
+        if (walletManagement) {
           await connect();
         } else {
           navigate(navigationRoutes.selectWallet);
@@ -35,9 +35,14 @@ export const SwapButton = forwardRef<HTMLButtonElement, SwapButtonProps>(
     const getButtonText = () => {
       if (account.isActive) {
         if (!currentRoute) {
-          return t(`button.swap`);
+          return variant !== 'refuel' ? t(`button.swap`) : t(`button.getGas`);
         }
-        return text || t(`button.reviewSwap`);
+        if (text) {
+          return text;
+        }
+        return variant !== 'refuel'
+          ? t(`button.reviewSwap`)
+          : t(`button.startSwap`);
       }
       return t(`button.connectWallet`);
     };
