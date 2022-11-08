@@ -3,6 +3,7 @@ import type { SxProps, Theme } from '@mui/material';
 import { Avatar, Badge } from '@mui/material';
 import { useChain, useToken } from '../../hooks';
 import { SmallAvatar } from '../SmallAvatar';
+import { AvatarSkeleton, AvatarSkeletonContainer } from './TokenAvatar.style';
 
 export const TokenAvatarFallback: React.FC<{
   token: Token;
@@ -47,4 +48,21 @@ export const TokenAvatar: React.FC<{
     return <TokenAvatarFallback token={token} sx={sx} />;
   }
   return <TokenAvatarBase token={token} chain={chain} sx={sx} />;
+};
+
+export const TokenAvatarSkeleton: React.FC<{
+  sx?: SxProps<Theme>;
+}> = ({ sx }) => {
+  return (
+    <Badge
+      overlap="circular"
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      badgeContent={<AvatarSkeleton width={16} height={16} />}
+      sx={sx}
+    >
+      <AvatarSkeletonContainer>
+        <AvatarSkeleton width={28} height={28} />
+      </AvatarSkeletonContainer>
+    </Badge>
+  );
 };

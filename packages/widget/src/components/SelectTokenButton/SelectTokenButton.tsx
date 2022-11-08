@@ -1,4 +1,3 @@
-import { KeyboardArrowRight as KeyboardArrowRightIcon } from '@mui/icons-material';
 import { Skeleton } from '@mui/material';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +7,7 @@ import type { SwapFormTypeProps } from '../../providers';
 import { SwapFormKeyHelper, useWidgetConfig } from '../../providers';
 import { navigationRoutes } from '../../utils';
 import { Card, CardTitle } from '../Card';
-import { TokenAvatar } from '../TokenAvatar';
+import { TokenAvatar, TokenAvatarSkeleton } from '../TokenAvatar';
 import { SelectTokenCardHeader } from './SelectTokenButton.style';
 
 export const SelectTokenButton: React.FC<
@@ -55,9 +54,12 @@ export const SelectTokenButton: React.FC<
       ) : (
         <SelectTokenCardHeader
           avatar={
-            isSelected ? <TokenAvatar token={token} chain={chain} /> : null
+            isSelected ? (
+              <TokenAvatar token={token} chain={chain} />
+            ) : (
+              <TokenAvatarSkeleton />
+            )
           }
-          action={!compact ? <KeyboardArrowRightIcon /> : null}
           title={isSelected ? token.symbol : defaultTitle}
           subheader={
             isSelected ? t(`swap.onChain`, { chainName: chain.name }) : null

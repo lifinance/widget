@@ -8,7 +8,7 @@ import { SwapFormKeyHelper, useWidgetConfig } from '../../providers';
 import { DisabledUI } from '../../types';
 import { fitInputText, formatAmount } from '../../utils';
 import { Card, CardTitle } from '../Card';
-import { TokenAvatar } from '../TokenAvatar';
+import { TokenAvatar, TokenAvatarSkeleton } from '../TokenAvatar';
 import { FormPriceHelperText } from './FormPriceHelperText';
 import {
   FormControl,
@@ -77,7 +77,9 @@ export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
           startAdornment={
             isSelected ? (
               <TokenAvatar token={token} chain={chain} sx={{ marginLeft: 2 }} />
-            ) : null
+            ) : (
+              <TokenAvatarSkeleton sx={{ marginLeft: 2 }} />
+            )
           }
           endAdornment={
             !disabled ? <SwapInputAdornment formType={formType} /> : undefined
