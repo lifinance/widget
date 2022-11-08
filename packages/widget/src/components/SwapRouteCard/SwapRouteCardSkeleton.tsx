@@ -8,8 +8,9 @@ export const SwapRouteCardSkeleton: React.FC<
   SwapRouteCardSkeletonProps & BoxProps
 > = ({ variant, ...other }) => {
   const { variant: widgetVariant, useRecommendedRoute } = useWidgetConfig();
-  return (
-    <Card dense={variant === 'dense'} indented {...other}>
+
+  const cardContent = (
+    <Box flex={1}>
       {widgetVariant !== 'refuel' && !useRecommendedRoute ? (
         <Box
           display="flex"
@@ -72,6 +73,14 @@ export const SwapRouteCardSkeleton: React.FC<
           <Skeleton variant="text" width={48} height={24} />
         </Box>
       ) : null}
+    </Box>
+  );
+
+  return widgetVariant === 'refuel' ? (
+    cardContent
+  ) : (
+    <Card dense={variant === 'dense'} indented {...other}>
+      {cardContent}
     </Card>
   );
 };

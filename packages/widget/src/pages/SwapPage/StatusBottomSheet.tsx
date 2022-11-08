@@ -123,6 +123,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
                   route.toAmount,
               }}
               py={1}
+              disableDescription
             />
           ) : null}
         </IconContainer>
