@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.23.0](https://github.com/lifinance/widget/compare/v1.22.1...v1.23.0) (2022-11-08)
+
+
+### Features
+
+* add token avatar skeletons ([c118e8e](https://github.com/lifinance/widget/commit/c118e8ef22b581abdef6b08664bbdbb5bbcc4250))
+* show token price in route cards ([e1380f8](https://github.com/lifinance/widget/commit/e1380f8842600c88d5f3181ecc631d7d568ff8fe))
+
+
+### Bug Fixes
+
+* disable background refetch ([b96ec48](https://github.com/lifinance/widget/commit/b96ec482fa46f029f6a593711958383ba76d7e9c))
+* use execution token if present ([4e71609](https://github.com/lifinance/widget/commit/4e71609f8e353b19e2e918313e57aec897c6654e))
+
 ### [1.22.1](https://github.com/lifinance/widget/compare/v1.22.0...v1.22.1) (2022-11-07)
 
 
