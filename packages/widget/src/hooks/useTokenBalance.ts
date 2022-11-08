@@ -106,7 +106,6 @@ export const useTokenBalance = (token?: Token, accountAddress?: string) => {
     },
     {
       enabled: Boolean(walletAddress && token),
-      refetchIntervalInBackground: true,
       refetchInterval: defaultRefetchInterval,
       staleTime: defaultRefetchInterval,
     },

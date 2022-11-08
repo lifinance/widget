@@ -88,7 +88,6 @@ export const useTokenBalances = (selectedChainId?: number) => {
     },
     {
       enabled: isBalanceLoadingEnabled,
-      refetchIntervalInBackground: true,
       refetchInterval,
       staleTime: refetchInterval,
     },
