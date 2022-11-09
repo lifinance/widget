@@ -8,7 +8,7 @@ import {
   removeFromActiveWallets,
   removeFromDeactivatedWallets,
 } from './walletPersistance';
-import type { Wallet } from './wallets';
+import type { Wallet } from './walletProviders';
 
 export const useLiFiWalletManagement = () => {
   const priorityConnector = usePriorityConnector();
