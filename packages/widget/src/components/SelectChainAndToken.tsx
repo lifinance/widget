@@ -35,7 +35,7 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
       <SelectTokenButton formType="from" compact={isCompact} />
       <Box
         sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-        m={!disabledReverse ? -1.25 : 1}
+        m={!disabledReverse ? -1.125 : 1}
       >
         {!disabledReverse ? (
           <ReverseTokensButton vertical={!isCompact} />
