@@ -64,19 +64,15 @@ export const useLiFiWalletManagement = () => {
 
   useEffect(() => {
     const { ethereum } = window as any;
-    const handleConnect = async () => {
-      await priorityConnector.activate();
-    };
+
     const handleChainChanged = async (chainId: string | number) => {
       await priorityConnector.activate();
     };
 
-    ethereum?.on('connect', handleConnect);
     ethereum?.on('chainChanged', handleChainChanged);
 
     return () => {
       if (ethereum?.removeListener) {
-        ethereum.removeListener('connect', handleConnect);
         ethereum.removeListener('chainChanged', handleChainChanged);
       }
     };
