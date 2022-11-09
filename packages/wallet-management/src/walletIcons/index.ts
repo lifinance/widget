@@ -30,7 +30,6 @@ import mathwallet from './mathWallet.svg';
 import walletConnect from './walletConnect.svg';
 import tallyho from './tallyho.svg';
 
-
 export const walletIcons = {
   mathwallet,
   walletConnect,
