@@ -124,7 +124,7 @@ export const StepDetailsContent: React.FC<{ step: Step }> = ({ step }) => {
           step.execution?.toToken?.decimals ?? step.action.toToken.decimals,
         ),
       })}{' '}
-      {step.action.toToken.symbol}
+      {step.execution?.toToken?.symbol ?? step.action.toToken.symbol}
     </Typography>
   );
 };
