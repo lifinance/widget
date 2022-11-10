@@ -1,20 +1,25 @@
 import type { Connector } from '@web3-react/types';
-import { metaMask } from './connectors/metaMask';
+import type { Web3ReactHooks } from '@web3-react/core';
+import { createMetamaskConnector } from './connectors/metaMask';
 import { walletIcons } from './walletIcons';
-import { walletConnect as walletConnectConnector } from './connectors/walletConnect';
+import { createWalletConnectConnector } from './connectors/walletConnect';
+import { createTallyHoConnector } from './connectors/tallyho';
 
 export interface Wallet {
   name: string;
   icon: string;
-  connector: Connector;
   checkProviderIdentity: (helpers: {
     provider: any;
     // device: Device;
   }) => boolean;
+  web3react: {
+    connector: Connector;
+    hooks: Web3ReactHooks;
+  };
   platforms: string[];
 }
 
-enum ProviderIdentityFlag {
+export enum ProviderIdentityFlag {
   AlphaWallet = 'isAlphaWallet',
   AToken = 'isAToken',
   BlockWallet = 'isBlockWallet',
@@ -40,7 +45,7 @@ enum ProviderIdentityFlag {
   TokenPocket = 'isTokenPocket',
   TP = 'isTp',
   WalletIo = 'isWalletIO',
-  XDEFI = 'isXDEFI',
+  XDEFI = '__XDEFI',
   OneInch = 'isOneInchIOSWallet',
   Tokenary = 'isTokenary',
   MathWallet = 'isMathWallet',
@@ -53,16 +58,16 @@ const metamask: Wallet = {
     // !!provider && !!provider[ProviderIdentityFlag.MetaMask],
     true,
   icon: walletIcons.metamask,
-  connector: metaMask,
   platforms: ['all'],
+  web3react: createMetamaskConnector(),
 };
 
 const walletConnect: Wallet = {
   name: 'Wallet Connect',
   checkProviderIdentity: ({ provider }) => true,
   icon: walletIcons.walletConnect,
-  connector: walletConnectConnector,
   platforms: ['all'],
+  web3react: createWalletConnectConnector(),
 };
 
 const brave: Wallet = {
@@ -71,9 +76,8 @@ const brave: Wallet = {
     // eslint-disable-next-line no-underscore-dangle
     (navigator as any).brave && provider?._web3Ref,
   icon: walletIcons.brave,
-  connector: metaMask,
-
   platforms: ['all'],
+  web3react: createMetamaskConnector(),
 };
 
 const mathWallet: Wallet = {
@@ -81,9 +85,8 @@ const mathWallet: Wallet = {
   checkProviderIdentity: ({ provider }) =>
     provider?.[ProviderIdentityFlag.MathWallet],
   icon: walletIcons.mathwallet,
-  connector: metaMask,
-
   platforms: ['all'],
+  web3react: createMetamaskConnector(),
 };
 
 const tallyho: Wallet = {
@@ -91,9 +94,9 @@ const tallyho: Wallet = {
   checkProviderIdentity: ({ provider }) =>
     provider?.[ProviderIdentityFlag.TallyHo],
   icon: walletIcons.tallyho,
-  connector: metaMask,
 
   platforms: ['desktop'],
+  web3react: createTallyHoConnector(),
 };
 
 const blockWallet: Wallet = {
@@ -101,9 +104,9 @@ const blockWallet: Wallet = {
   checkProviderIdentity: ({ provider }) =>
     provider?.[ProviderIdentityFlag.BlockWallet],
   icon: walletIcons.blockwallet,
-  connector: metaMask,
 
   platforms: ['desktop'],
+  web3react: createMetamaskConnector(),
 };
 
 const binance: Wallet = {
@@ -111,9 +114,9 @@ const binance: Wallet = {
   checkProviderIdentity: ({ provider }) =>
     provider?.[ProviderIdentityFlag.Binance],
   icon: walletIcons.binance,
-  connector: metaMask,
 
   platforms: ['desktop'],
+  web3react: createMetamaskConnector(),
 };
 
 const coinbase: Wallet = {
@@ -122,9 +125,9 @@ const coinbase: Wallet = {
     provider?.[ProviderIdentityFlag.Coinbase] ||
     provider?.providers?.[0]?.[ProviderIdentityFlag.CoinbaseExtension],
   icon: walletIcons.coinbase,
-  connector: metaMask,
 
   platforms: ['all'],
+  web3react: createMetamaskConnector(),
 };
 
 const detected: Wallet = {
@@ -132,8 +135,8 @@ const detected: Wallet = {
   checkProviderIdentity: ({ provider }) =>
     provider?.[ProviderIdentityFlag.Detected],
   icon: walletIcons.detected,
-  connector: metaMask,
   platforms: ['all'],
+  web3react: createMetamaskConnector(),
 };
 
 const trust: Wallet = {
@@ -142,8 +145,8 @@ const trust: Wallet = {
     provider?.[ProviderIdentityFlag.Trust] &&
     !provider[ProviderIdentityFlag.TokenPocket],
   icon: walletIcons.trust,
-  connector: metaMask,
   platforms: ['mobile'],
+  web3react: createMetamaskConnector(),
 };
 
 const status: Wallet = {
@@ -151,8 +154,8 @@ const status: Wallet = {
   checkProviderIdentity: ({ provider }) =>
     provider?.[ProviderIdentityFlag.Status],
   icon: walletIcons.status,
-  connector: metaMask,
   platforms: ['mobile'],
+  web3react: createMetamaskConnector(),
 };
 
 const alphawallet: Wallet = {
@@ -160,8 +163,8 @@ const alphawallet: Wallet = {
   checkProviderIdentity: ({ provider }) =>
     provider?.[ProviderIdentityFlag.AlphaWallet],
   icon: walletIcons.alphawallet,
-  connector: metaMask,
   platforms: ['mobile'],
+  web3react: createMetamaskConnector(),
 };
 
 const atoken: Wallet = {
@@ -169,16 +172,16 @@ const atoken: Wallet = {
   checkProviderIdentity: ({ provider }) =>
     provider?.[ProviderIdentityFlag.AToken],
   icon: walletIcons.atoken,
-  connector: metaMask,
   platforms: ['mobile'],
+  web3react: createMetamaskConnector(),
 };
 
 const bitpie: Wallet = {
   name: 'Bitpie',
   checkProviderIdentity: () => (window as any).Bitpie,
   icon: walletIcons.bitpie,
-  connector: metaMask,
   platforms: ['mobile'],
+  web3react: createMetamaskConnector(),
 };
 
 const blankwallet: Wallet = {
@@ -186,8 +189,8 @@ const blankwallet: Wallet = {
   checkProviderIdentity: ({ provider }) =>
     provider?.[ProviderIdentityFlag.BlankWallet],
   icon: walletIcons.blankwallet,
-  connector: metaMask,
   platforms: ['desktop'],
+  web3react: createMetamaskConnector(),
 };
 
 const dcent: Wallet = {
@@ -195,8 +198,8 @@ const dcent: Wallet = {
   checkProviderIdentity: ({ provider }) =>
     provider?.[ProviderIdentityFlag.Dcent],
   icon: walletIcons.dcent,
-  connector: metaMask,
   platforms: ['mobile'],
+  web3react: createMetamaskConnector(),
 };
 
 const frame: Wallet = {
@@ -204,8 +207,8 @@ const frame: Wallet = {
   checkProviderIdentity: ({ provider }) =>
     provider?.[ProviderIdentityFlag.Frame],
   icon: walletIcons.frame,
-  connector: metaMask,
   platforms: ['desktop'],
+  web3react: createMetamaskConnector(),
 };
 
 const huobiwallet: Wallet = {
@@ -213,8 +216,8 @@ const huobiwallet: Wallet = {
   checkProviderIdentity: ({ provider }) =>
     provider?.[ProviderIdentityFlag.HuobiWallet],
   icon: walletIcons.huobiwallet,
-  connector: metaMask,
   platforms: ['mobile'],
+  web3react: createMetamaskConnector(),
 };
 
 const hyperpay: Wallet = {
@@ -224,8 +227,8 @@ const hyperpay: Wallet = {
   // future changes
   checkProviderIdentity: () => (window as any).hiWallet,
   icon: walletIcons.hyperpay,
-  connector: metaMask,
   platforms: ['mobile'],
+  web3react: createMetamaskConnector(),
 };
 
 const imtoken: Wallet = {
@@ -233,8 +236,8 @@ const imtoken: Wallet = {
   checkProviderIdentity: ({ provider }) =>
     provider?.[ProviderIdentityFlag.ImToken],
   icon: walletIcons.imtoken,
-  connector: metaMask,
   platforms: ['mobile'],
+  web3react: createMetamaskConnector(),
 };
 
 const liquality: Wallet = {
@@ -242,8 +245,8 @@ const liquality: Wallet = {
   checkProviderIdentity: ({ provider }) =>
     provider?.[ProviderIdentityFlag.Liquality],
   icon: walletIcons.liquality,
-  connector: metaMask,
   platforms: ['desktop'],
+  web3react: createMetamaskConnector(),
 };
 
 const meetone: Wallet = {
@@ -251,8 +254,8 @@ const meetone: Wallet = {
   checkProviderIdentity: ({ provider }) =>
     provider?.[ProviderIdentityFlag.MeetOne] === 'MEETONE',
   icon: walletIcons.meetone,
-  connector: metaMask,
   platforms: ['mobile'],
+  web3react: createMetamaskConnector(),
 };
 
 const mykey: Wallet = {
@@ -260,8 +263,8 @@ const mykey: Wallet = {
   checkProviderIdentity: ({ provider }) =>
     provider?.[ProviderIdentityFlag.MyKey],
   icon: walletIcons.mykey,
-  connector: metaMask,
   platforms: ['mobile'],
+  web3react: createMetamaskConnector(),
 };
 
 const ownbit: Wallet = {
@@ -269,8 +272,8 @@ const ownbit: Wallet = {
   checkProviderIdentity: ({ provider }) =>
     provider?.[ProviderIdentityFlag.OwnBit],
   icon: walletIcons.ownbit,
-  connector: metaMask,
   platforms: ['mobile'],
+  web3react: createMetamaskConnector(),
 };
 
 const tokenpocket: Wallet = {
@@ -279,25 +282,25 @@ const tokenpocket: Wallet = {
     provider?.[ProviderIdentityFlag.TokenPocket] &&
     !provider[ProviderIdentityFlag.TP],
   icon: walletIcons.tokenpocket,
-  connector: metaMask,
   platforms: ['all'],
+  web3react: createMetamaskConnector(),
 };
 
 const tp: Wallet = {
   name: 'TP',
   checkProviderIdentity: ({ provider }) => provider?.[ProviderIdentityFlag.TP],
   icon: walletIcons.tp,
-  connector: metaMask,
   platforms: ['mobile'],
+  web3react: createMetamaskConnector(),
 };
 
 const xdefi: Wallet = {
   name: 'XDEFI',
-  checkProviderIdentity: ({ provider }) =>
-    provider?.ethereum?.[ProviderIdentityFlag.XDEFI],
+  // eslint-disable-next-line dot-notation
+  checkProviderIdentity: ({ provider }) => true,
   icon: walletIcons.xdefi,
-  connector: metaMask,
   platforms: ['all'],
+  web3react: createMetamaskConnector(),
 };
 
 const oneInch: Wallet = {
@@ -305,8 +308,8 @@ const oneInch: Wallet = {
   checkProviderIdentity: ({ provider }) =>
     provider?.[ProviderIdentityFlag.OneInch],
   icon: walletIcons.oneInch,
-  connector: metaMask,
   platforms: ['mobile'],
+  web3react: createMetamaskConnector(),
 };
 
 const tokenary: Wallet = {
@@ -314,8 +317,8 @@ const tokenary: Wallet = {
   checkProviderIdentity: ({ provider }) =>
     provider?.[ProviderIdentityFlag.Tokenary],
   icon: walletIcons.tokenary,
-  connector: metaMask,
   platforms: ['mobile'],
+  web3react: createMetamaskConnector(),
 };
 
 export const supportedWallets = [

@@ -5,6 +5,13 @@ export const [metaMask, hooks] = initializeConnector<MetaMask>(
   (actions) => new MetaMask({ actions }),
 );
 
+export const createMetamaskConnector = () => {
+  const [connector, hooks] = initializeConnector<MetaMask>(
+    (actions) => new MetaMask({ actions }),
+  );
+  return { connector, hooks };
+};
+
 /*
 Known issues:
 issue: metamask uninitialized

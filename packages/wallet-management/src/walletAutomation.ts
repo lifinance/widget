@@ -1,3 +1,4 @@
+import { supportedWallets } from '@lifi/wallet-management';
 /* eslint-disable radix */
 import type { Token } from '@lifi/sdk';
 import {
@@ -5,17 +6,32 @@ import {
   MetaMaskProviderErrorCode,
   prefixChainId,
 } from '@lifi/sdk';
-import { walletConnect } from './connectors/walletConnect';
+import type { WalletConnect } from './connectors/walletConnect';
+import type { TallyHo } from './connectors/tallyho';
+
+const getAppropriateProvider = () => {
+  const walletConnect = supportedWallets.find(
+    (wallet) => wallet.name === 'Wallet Connect',
+  );
+  const tallyho = supportedWallets.find((wallet) => wallet.name === 'Tally Ho');
+
+  let provider: any;
+  if ((walletConnect?.web3react.connector as WalletConnect).isCurrentlyUsed) {
+    provider = (walletConnect?.web3react.connector as WalletConnect)
+      .walletConnectProvider;
+  } else if ((tallyho?.web3react.connector as TallyHo).isCurrentlyUsed) {
+    const { tally } = window as any;
+    provider = tally;
+  } else {
+    const { ethereum } = window as any;
+    provider = ethereum;
+  }
+  return provider;
+};
 
 export const switchChain = async (chainId: number): Promise<boolean> => {
   return new Promise((resolve, reject) => {
-    let provider: any;
-    if (walletConnect.isCurrentlyUsed) {
-      provider = walletConnect.walletConnectProvider;
-    } else {
-      const { ethereum } = window as any;
-      provider = ethereum;
-    }
+    const provider: any = getAppropriateProvider();
     if (!provider) {
       resolve(false);
     }
@@ -50,13 +66,8 @@ export const switchChain = async (chainId: number): Promise<boolean> => {
 };
 
 export const addChain = async (chainId: number) => {
-  let provider: any;
-  if (walletConnect.isCurrentlyUsed) {
-    provider = walletConnect.walletConnectProvider;
-  } else {
-    const { ethereum } = window as any;
-    provider = ethereum;
-  }
+  const provider: any = getAppropriateProvider();
+
   if (!provider) {
     return false;
   }
@@ -75,13 +86,8 @@ export const addChain = async (chainId: number) => {
 };
 
 export const addToken = async (token: Token) => {
-  let provider: any;
-  if (walletConnect.isCurrentlyUsed) {
-    provider = walletConnect.walletConnectProvider;
-  } else {
-    const { ethereum } = window as any;
-    provider = ethereum;
-  }
+  const provider: any = getAppropriateProvider();
+
   if (!provider) {
     return false;
   }
@@ -107,13 +113,8 @@ export const addToken = async (token: Token) => {
 };
 
 export const switchChainAndAddToken = async (chainId: number, token: Token) => {
-  let provider: any;
-  if (walletConnect.isCurrentlyUsed) {
-    provider = walletConnect.walletConnectProvider;
-  } else {
-    const { ethereum } = window as any;
-    provider = ethereum;
-  }
+  const provider: any = getAppropriateProvider();
+
   if (!provider) {
     return;
   }

@@ -1,6 +1,11 @@
+import type { ExternalProvider, Web3Provider } from '@ethersproject/providers';
+import { ethers } from 'ethers';
+import type { Connector } from '@web3-react/types';
 import type { Signer } from 'ethers';
 import { useCallback, useEffect, useState } from 'react';
-import { usePriorityConnector, usePriorityProvider } from './connectorHooks';
+import { getSelectedConnector } from '@web3-react/core';
+import { usePriorityConnector, usePriorityProvider } from './priorityConnector';
+// import { usePriorityConnector, usePriorityProvider } from './connectorHooks';
 import {
   addToActiveWallets,
   addToDeactivatedWallets,
@@ -14,14 +19,39 @@ export const useLiFiWalletManagement = () => {
   const priorityConnector = usePriorityConnector();
   // "any" because of https://github.com/ethers-io/ethers.js/issues/866
   const priorityProvider = usePriorityProvider('any');
+  const [currentProvider, setCurrentProvider] = useState<Web3Provider>();
+  const [currentConnector, setCurrentConnector] = useState<Connector>();
   const [signer, setSigner] = useState<Signer>();
+
+  const flushCurrentWalletData = () => {
+    console.log('flushing wallet data');
+
+    setCurrentConnector(() => undefined);
+    setCurrentProvider(() => undefined);
+    setSigner(() => undefined);
+  };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const calcWalletData = (connector?: Connector) => {
+    if (connector) {
+      const provider = new ethers.providers.Web3Provider(
+        connector.provider as ExternalProvider,
+      );
+      setCurrentProvider(() => provider);
+      setCurrentConnector(() => connector);
+      setSigner(() => provider?.getSigner?.());
+    }
+  };
 
   const connect = useCallback(
     async (wallet?: Wallet) => {
       const selectedAddress = (window as any)?.ethereum?.selectedAddress;
+
       try {
         if (wallet) {
-          await wallet.connector.activate();
+          const { connector } = wallet.web3react;
+          await connector.activate();
+          calcWalletData(connector);
         } else {
           await priorityConnector.activate();
         }
@@ -31,7 +61,7 @@ export const useLiFiWalletManagement = () => {
       removeFromDeactivatedWallets(selectedAddress);
       addToActiveWallets(selectedAddress);
     },
-    [priorityConnector],
+    [calcWalletData, priorityConnector],
   );
 
   const disconnect = useCallback(
@@ -40,48 +70,68 @@ export const useLiFiWalletManagement = () => {
       removeFromActiveWallets(selectedAddress);
       addToDeactivatedWallets(selectedAddress);
       if (wallet) {
-        await wallet.connector.deactivate?.();
+        await currentConnector?.deactivate?.();
+        flushCurrentWalletData();
       } else if (priorityConnector.deactivate) {
         await priorityConnector.deactivate?.();
+        flushCurrentWalletData();
       } else {
         await priorityConnector.resetState();
-        setSigner(undefined);
+        flushCurrentWalletData();
       }
     },
-    [priorityConnector],
+    [priorityConnector, currentConnector],
   );
 
-  useEffect(() => {
-    setSigner(priorityProvider?.getSigner());
-  }, [priorityProvider]);
-
+  // eager connect
   useEffect(() => {
     const selectedAddress = (window as any).ethereum?.selectedAddress;
-    if (!isWalletDeactivated(selectedAddress)) {
+    if (!isWalletDeactivated(selectedAddress) && priorityConnector) {
       priorityConnector?.connectEagerly!();
     }
-  }, [priorityConnector?.connectEagerly]);
+  }, [priorityConnector]);
 
+  // injected wallet listeners
   useEffect(() => {
     const { ethereum } = window as any;
-
     const handleChainChanged = async (chainId: string | number) => {
-      await priorityConnector.activate();
+      console.log('switch to', chainId);
+
+      console.log('cc', currentConnector);
+      await currentConnector?.activate();
+      calcWalletData(currentConnector);
+    };
+    const handleAccountsChanged = async (accounts: string[]) => {
+      console.log('accounts changed to', accounts);
+
+      // if (accounts.length) {
+      //   await currentConnector?.activate();
+      //   calcWalletData(currentConnector);
+      // } else {
+      //   await currentConnector?.deactivate?.();
+      //   flushCurrentWalletData();
+      // }
+      if (!accounts.length) {
+        await currentConnector?.deactivate?.();
+        flushCurrentWalletData();
+      }
     };
 
     ethereum?.on('chainChanged', handleChainChanged);
+    ethereum?.on('accountsChanged', handleAccountsChanged);
 
     return () => {
       if (ethereum?.removeListener) {
         ethereum.removeListener('chainChanged', handleChainChanged);
+        ethereum.removeListener('accountsChanged', handleAccountsChanged);
       }
     };
-  }, [priorityConnector]);
+  }, [currentConnector]);
 
   return {
     connect,
     disconnect,
     signer,
-    provider: priorityProvider,
+    provider: currentProvider ?? priorityProvider,
   };
 };
