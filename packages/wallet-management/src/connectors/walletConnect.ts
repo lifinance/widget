@@ -15,7 +15,7 @@ interface MockWalletConnectProvider
   extends Omit<WalletConnectProvider, 'on' | 'off' | 'once' | 'removeListener'>,
     EventEmitter {}
 
-class WalletConnectV2 extends Connector {
+export class WalletConnect extends Connector {
   private readonly options?: WalletConnectOptions;
 
   public provider: MockWalletConnectProvider;
@@ -78,9 +78,9 @@ class WalletConnectV2 extends Connector {
   }
 }
 
-export const [walletConnect, hooks] = initializeConnector<WalletConnectV2>(
+export const [walletConnect, hooks] = initializeConnector<WalletConnect>(
   (actions) =>
-    new WalletConnectV2(actions, {
+    new WalletConnect(actions, {
       rpc: Object.fromEntries(
         supportedChains.map((chain) => {
           return [chain.id, chain.metamask.rpcUrls[0] || ''];
@@ -88,3 +88,17 @@ export const [walletConnect, hooks] = initializeConnector<WalletConnectV2>(
       ),
     }),
 );
+
+export const createWalletConnectConnector = () => {
+  const [connector, hooks] = initializeConnector<WalletConnect>(
+    (actions) =>
+      new WalletConnect(actions, {
+        rpc: Object.fromEntries(
+          supportedChains.map((chain) => {
+            return [chain.id, chain.metamask.rpcUrls[0] || ''];
+          }),
+        ),
+      }),
+  );
+  return { connector, hooks };
+};
