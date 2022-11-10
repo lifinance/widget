@@ -10,6 +10,7 @@
     "delete": "Видалити",
     "disconnectWallet": "Відключити гаманець",
     "done": "Готово",
+    "getGas": "Отримати газ",
     "hide": "Сховати",
     "lifiSwap": "LI.FI Swap",
     "light": "Світла",
@@ -21,6 +22,7 @@
     "reviewSwap": "Переглянути своп",
     "seeDetails": "Детальніше",
     "showAll": "Показати всі",
+    "startGasSwap": "Почати своп газу",
     "startSwap": "Почати своп",
     "swap": "Своп",
     "tryAgain": "Спробувати ще раз"
@@ -32,6 +34,8 @@
   "header": {
     "activeSwaps": "Активні свопи",
     "from": "Своп з",
+    "gas": "Газ",
+    "gasSwap": "Своп газу",
     "routes": "Ви отримуєте",
     "selectChain": "Оберіть чейн",
     "selectWallet": "Виберіть свій гаманець",
@@ -64,7 +68,7 @@
     "slippage": "Прослизання"
   },
   "swap": {
-    "crossStepDetails": "Міст з {{from}} до {{to}} через {{tool}}",
+    "crossStepDetails": "Брідж з {{from}} до {{to}} через {{tool}}",
     "error": {
       "message": {
         "slippageTooLarge": "Прослизання більше визначеного порогу. Будь ласка, оберіть новий маршрут, щоб отримати свіжу пропозицію.",
@@ -85,7 +89,7 @@
         "walletEnsAddressInvalid": "Адреса гаманця недійсна або мережа не підтримує ENS."
       }
     },
-    "estimatedTime": "{{value}}м",
+    "estimatedTime": "{{value}}х",
     "featuredTokens": "Рекомендовані токени",
     "from": "З",
     "fromAmount": "Ви платите",
@@ -139,14 +143,15 @@
     "selectChainAndToken": "Виберіть чейн і токен",
     "selectToken": "Токен",
     "sendToWallet": "Надіслати на інший гаманець",
-    "stepBridge": "Міст",
+    "stepBridge": "Брідж",
     "stepSwap": "Своп",
-    "stepSwapAndBridge": "Своп і міст",
+    "stepSwapAndBridge": "Своп та брідж",
     "success": {
       "message": {
         "swapSuccessful": "Зараз у гаманці {{walletAddress}} на чейні {{chainName}} є {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}}."
       },
       "title": {
+        "gasSwapSuccessful": "Своп газу успішний",
         "swapSuccessful": "Своп успішний"
       }
     },
@@ -154,10 +159,10 @@
     "swapStepDetails": "Своп на {{chain}} через {{tool}}",
     "swapping": "Обмін",
     "tags": {
-      "ALTERNATIVE": "АЛЬТЕРНАТИВНИЙ",
+      "ALTERNATIVE": "АЛЬТЕРНАТИВА",
       "CHEAPEST": "ДЕШЕВИЙ",
       "FASTEST": "ШВИДКИЙ",
-      "RECOMMENDED": "РЕКОМЕНДОВАНИЙ",
+      "RECOMMENDED": "РЕКОМЕНДУЄМО",
       "SAFEST": "БЕЗПЕЧНИЙ"
     },
     "to": "До",
