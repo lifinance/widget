@@ -3,10 +3,13 @@ import { useEffect } from 'react';
 import { initSentry } from '../config/sentry';
 import { name } from '../config/version';
 
+let warningLogged = false;
+
 export const useTelemetry = (disabled?: boolean) => {
   useEffect(() => {
     if (disabled) {
-      if (process.env.NODE_ENV === 'development') {
+      if (process.env.NODE_ENV === 'development' && !warningLogged) {
+        warningLogged = true;
         console.warn(
           `[${name}] Enable crash reports and diagnostic data to be collected. This helps us to better understand how the widget is performing and where improvements need to be made.`,
         );

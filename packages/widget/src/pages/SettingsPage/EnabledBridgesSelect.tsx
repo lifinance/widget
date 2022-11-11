@@ -1,4 +1,3 @@
-import type { Bridge } from '@lifi/sdk';
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material';
 import {
   Box,
@@ -47,7 +46,7 @@ export const EnabledBridgesSelect: React.FC = () => {
             </Box>
           )}
         >
-          {tools.bridges.map((bridge: Bridge) => (
+          {tools.bridges.map((bridge) => (
             <MenuItem
               key={bridge.key}
               value={bridge.key}
