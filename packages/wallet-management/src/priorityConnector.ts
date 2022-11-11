@@ -1,11 +1,10 @@
 import { getPriorityConnector } from '@web3-react/core';
-import { eip1193, hooks as eip1193Hooks } from './connectors/eip1193';
-import { hooks as metaMaskHooks, metaMask } from './connectors/metaMask';
-import {
-  hooks as walletConnectHooks,
-  walletConnect,
-} from './connectors/walletConnect';
+import { supportedWallets } from './walletProviders';
+// import { eip1193, hooks as eip1193Hooks } from './connectors/eip1193';
 
+const metamaskWallet = supportedWallets.find(
+  (wallet) => wallet.name === 'MetaMask',
+);
 export const {
   useSelectedStore,
   useSelectedChainId,
@@ -27,9 +26,9 @@ export const {
   usePriorityENSNames,
   usePriorityENSName,
 } = getPriorityConnector(
-  [metaMask, metaMaskHooks], // needs to be on top!
-  [eip1193, eip1193Hooks],
-  [walletConnect, walletConnectHooks],
+  [metamaskWallet!.web3react.connector, metamaskWallet!.web3react.hooks], // needs to be on top!
+  // [eip1193, eip1193Hooks],
+  // [walletConnect, walletConnectHooks],
   // [walletLink, walletLinkHooks],
   // [network, networkHooks],
 );
