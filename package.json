@@ -1,5 +1,5 @@
 {
-  "version": "1.22.1",
+  "version": "1.23.1",
   "private": true,
   "sideEffects": false,
   "workspaces": [
@@ -30,8 +30,8 @@
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.8",
     "@types/uuid": "^8.3.4",
-    "@typescript-eslint/eslint-plugin": "^5.42.0",
-    "@typescript-eslint/parser": "^5.42.0",
+    "@typescript-eslint/eslint-plugin": "^5.42.1",
+    "@typescript-eslint/parser": "^5.42.1",
     "cpy-cli": "^4.2.0",
     "eslint": "^8.27.0",
     "eslint-config-airbnb": "^19.0.4",
@@ -43,7 +43,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.10",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "lerna": "^6.0.1",
+    "lerna": "^6.0.3",
     "prettier": "^2.7.1",
     "standard-version": "^9.5.0",
     "typescript": "^4.8.4"

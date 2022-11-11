@@ -22,6 +22,11 @@ export const SwapHistoryItem: React.FC<{
   const startedAt = new Date(
     route.steps[0].execution?.process[0].startedAt ?? 0,
   );
+  const fromToken = { ...route.fromToken, amount: route.fromAmount };
+  const toToken = {
+    ...(route.steps.at(-1)?.execution?.toToken ?? route.toToken),
+    amount: route.steps.at(-1)?.execution?.toAmount ?? route.toAmount,
+  };
   return (
     <Card onClick={handleClick}>
       <Box
@@ -45,22 +50,9 @@ export const SwapHistoryItem: React.FC<{
         </Typography>
       </Box>
       <Box py={1}>
-        <Token
-          token={{ ...route.fromToken, amount: route.fromAmount }}
-          px={2}
-          pt={1}
-          connected
-        />
+        <Token token={fromToken} px={2} pt={1} connected />
         <TokenDivider />
-        <Token
-          token={{
-            ...route.toToken,
-            amount: route.steps.at(-1)?.execution?.toAmount ?? route.toAmount,
-          }}
-          px={2}
-          pt={0.5}
-          pb={1}
-        />
+        <Token token={toToken} px={2} pt={0.5} pb={1} />
       </Box>
     </Card>
   );

@@ -10,27 +10,23 @@ type FormattedTool<T, K extends keyof T> = Record<string, Pick<T, K>>;
 export const useTools = () => {
   const lifi = useLiFi();
   const { bridges, exchanges } = useWidgetConfig();
-  const { data } = useQuery(
-    ['tools'],
-    ({ signal }) => lifi.getTools(undefined, { signal }),
-    {
-      onSuccess(data) {
-        const { initializeTools } = useSettingsStore.getState();
-        initializeTools(
-          'Bridges',
-          data.bridges
-            .filter((bridge) => isItemAllowed(bridge.key, bridges))
-            .map((bridge) => bridge.key),
-        );
-        initializeTools(
-          'Exchanges',
-          data.exchanges
-            .filter((exchange) => isItemAllowed(exchange.key, exchanges))
-            .map((exchange) => exchange.key),
-        );
-      },
+  const { data } = useQuery(['tools'], () => lifi.getTools(), {
+    onSuccess(data) {
+      const { initializeTools } = useSettingsStore.getState();
+      initializeTools(
+        'Bridges',
+        data.bridges
+          .filter((bridge) => isItemAllowed(bridge.key, bridges))
+          .map((bridge) => bridge.key),
+      );
+      initializeTools(
+        'Exchanges',
+        data.exchanges
+          .filter((exchange) => isItemAllowed(exchange.key, exchanges))
+          .map((exchange) => exchange.key),
+      );
     },
-  );
+  });
 
   const formattedTools = useMemo(
     () => ({

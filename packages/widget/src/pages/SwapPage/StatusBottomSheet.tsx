@@ -31,8 +31,17 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   const ref = useRef<BottomSheetBase>(null);
   const { getChainById } = useChains();
   const { setValue } = useFormContext();
+
+  const toToken = {
+    ...(route.steps.at(-1)?.execution?.toToken ?? route.toToken),
+    amount:
+      route.steps.at(-1)?.execution?.toAmount ??
+      route.steps.at(-1)?.estimate.toAmount ??
+      route.toAmount,
+  };
+
   const { token, refetch, refetchNewBalance, refetchAllBalances } =
-    useTokenBalance(route.toToken, route.toAddress);
+    useTokenBalance(toToken, route.toAddress);
 
   const clearFromAmount = () => {
     refetchAllBalances();
@@ -114,16 +123,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
             {title}
           </Typography>
           {status === 'success' ? (
-            <Token
-              token={{
-                ...route.toToken,
-                amount:
-                  route.steps.at(-1)?.execution?.toAmount ??
-                  route.steps.at(-1)?.estimate.toAmount ??
-                  route.toAmount,
-              }}
-              py={1}
-            />
+            <Token token={toToken} py={1} disableDescription />
           ) : null}
         </IconContainer>
         <Typography py={1}>{message}</Typography>
@@ -140,7 +140,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
         </Box>
         {status === 'success' ? (
           <Box mt={2}>
-            <Button variant="text" fullWidth onClick={handleSeeDetails}>
+            <Button variant="text" onClick={handleSeeDetails} fullWidth>
               {t('button.seeDetails')}
             </Button>
           </Box>

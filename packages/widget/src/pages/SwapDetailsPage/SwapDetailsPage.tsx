@@ -83,29 +83,27 @@ export const SwapDetailsPage: React.FC = () => {
           }).format(startedAt)}
         </Typography>
       </Box>
-      {routeExecution?.route.steps.map((step, index, steps) => (
-        <Fragment key={step.id}>
-          <Step
-            step={step}
-            fromToken={
-              index === 0
-                ? { ...step.action.fromToken, amount: step.action.fromAmount }
-                : undefined
-            }
-            toToken={
-              index === steps.length - 1
-                ? {
-                    ...step.action.toToken,
-                    amount: step.execution?.toAmount ?? step.estimate.toAmount,
-                  }
-                : undefined
-            }
-          />
-          {steps.length > 1 && index !== steps.length - 1 ? (
-            <StepDivider />
-          ) : null}
-        </Fragment>
-      ))}
+      {routeExecution?.route.steps.map((step, index, steps) => {
+        const fromToken =
+          index === 0
+            ? { ...step.action.fromToken, amount: step.action.fromAmount }
+            : undefined;
+        const toToken =
+          index === steps.length - 1
+            ? {
+                ...(step.execution?.toToken ?? step.action?.toToken),
+                amount: step.execution?.toAmount ?? step.estimate.toAmount,
+              }
+            : undefined;
+        return (
+          <Fragment key={step.id}>
+            <Step step={step} fromToken={fromToken} toToken={toToken} />
+            {steps.length > 1 && index !== steps.length - 1 ? (
+              <StepDivider />
+            ) : null}
+          </Fragment>
+        );
+      })}
       <Card mt={2}>
         <Box
           sx={{

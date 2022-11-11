@@ -113,7 +113,6 @@ export const useGasSufficiency = (route?: Route) => {
       },
       {
         enabled: Boolean(account.address && route),
-        refetchIntervalInBackground: true,
         refetchInterval,
         staleTime: refetchInterval,
         cacheTime: refetchInterval,
@@ -157,7 +156,6 @@ export const useGasSufficiency = (route?: Route) => {
     },
     {
       enabled: Boolean(account.address && route && fromToken),
-      refetchIntervalInBackground: true,
       refetchInterval,
       staleTime: refetchInterval,
       cacheTime: refetchInterval,

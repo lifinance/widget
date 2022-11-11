@@ -42,7 +42,7 @@ export const SwapButton = forwardRef<HTMLButtonElement, SwapButtonProps>(
         }
         return variant !== 'refuel'
           ? t(`button.reviewSwap`)
-          : t(`button.startSwap`);
+          : t(`button.startGasSwap`);
       }
       return t(`button.connectWallet`);
     };

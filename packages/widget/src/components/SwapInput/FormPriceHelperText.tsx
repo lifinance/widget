@@ -31,7 +31,7 @@ export const FormPriceHelperText: React.FC<
         color={fromAmountTokenPrice ? 'text.secondary' : 'grey.600'}
         fontWeight={400}
         fontSize={12}
-        marginLeft={selected ? 8 : 2}
+        marginLeft={8}
         lineHeight={1.3334}
         flex={1}
         sx={{

@@ -22,12 +22,12 @@ export const TextSecondaryContainer = styled(Box, {
 }));
 
 export const TextSecondary = styled(Typography, {
-  shouldForwardProp: (prop) => prop !== 'connected',
-})<{ connected?: boolean }>(({ theme, connected }) => ({
+  shouldForwardProp: (prop: string) => !['connected', 'dot'].includes(prop),
+})<{ connected?: boolean; dot?: boolean }>(({ theme, connected, dot }) => ({
   fontSize: 12,
   lineHeight: 1,
   fontWeight: 500,
-  color: theme.palette.text.secondary,
+  color: dot ? theme.palette.grey[400] : theme.palette.text.secondary,
   marginTop: connected ? 0 : theme.spacing(0.5),
 }));
 

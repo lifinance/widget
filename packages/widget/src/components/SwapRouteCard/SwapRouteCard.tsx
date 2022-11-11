@@ -36,14 +36,8 @@ export const SwapRouteCard: React.FC<
     setCardExpanded((expanded) => !expanded);
   };
 
-  return (
-    <Card
-      dense={variant === 'dense'}
-      variant={active ? 'selected' : 'default'}
-      selectionColor="secondary"
-      indented
-      {...other}
-    >
+  const cardContent = (
+    <Box flex={1}>
       {widgetVariant !== 'refuel' && !useRecommendedRoute ? (
         <Box
           display="flex"
@@ -61,6 +55,7 @@ export const SwapRouteCard: React.FC<
         <Token
           token={{ ...route.toToken, amount: route.toAmount }}
           step={variant === 'stretched' ? route.steps[0] : undefined}
+          disableDescription={variant === 'dense' && widgetVariant !== 'refuel'}
         />
         {variant === 'stretched' && !expanded ? (
           <IconButton onClick={handleExpand} size="small">
@@ -76,6 +71,20 @@ export const SwapRouteCard: React.FC<
       {variant !== 'stretched' ? (
         <SwapRouteCardEssentials route={route} dense />
       ) : null}
+    </Box>
+  );
+
+  return widgetVariant === 'refuel' ? (
+    cardContent
+  ) : (
+    <Card
+      dense={variant === 'dense'}
+      variant={active ? 'selected' : 'default'}
+      selectionColor="secondary"
+      indented
+      {...other}
+    >
+      {cardContent}
     </Card>
   );
 };

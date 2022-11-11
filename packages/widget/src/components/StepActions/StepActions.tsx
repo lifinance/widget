@@ -121,10 +121,10 @@ export const StepDetailsContent: React.FC<{ step: Step }> = ({ step }) => {
       {t('format.number', {
         value: formatTokenAmount(
           step.execution?.toAmount ?? step.estimate.toAmount,
-          step.action.toToken.decimals,
+          step.execution?.toToken?.decimals ?? step.action.toToken.decimals,
         ),
       })}{' '}
-      {step.action.toToken.symbol}
+      {step.execution?.toToken?.symbol ?? step.action.toToken.symbol}
     </Typography>
   );
 };

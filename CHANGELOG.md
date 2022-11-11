@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.23.1](https://github.com/lifinance/widget/compare/v1.23.0...v1.23.1) (2022-11-09)
+
+
+### Bug Fixes
+
+* adjust button text for refuel mode ([e4ce0ef](https://github.com/lifinance/widget/commit/e4ce0ef88b8c5926a2f875ac9e8686e2344484f9))
+* adjust margin in refuel mode ([7a47bfc](https://github.com/lifinance/widget/commit/7a47bfc041abe30ad8150c0d8951f5b22f0ff555))
+* re-export wallet icons with names ([1bedc9e](https://github.com/lifinance/widget/commit/1bedc9ee6cfd2ed2673f18a2cd16f280a3eca2b5))
+* reduce initialization requests in strict mode ([1892674](https://github.com/lifinance/widget/commit/189267431a24dbe375b52d8a2f8aec9523a245de))
+* wallets import ([6b20491](https://github.com/lifinance/widget/commit/6b20491131222de27df45bed5d7898fd7ba71b0f))
+
+## [1.23.0](https://github.com/lifinance/widget/compare/v1.22.1...v1.23.0) (2022-11-08)
+
+
+### Features
+
+* add token avatar skeletons ([c118e8e](https://github.com/lifinance/widget/commit/c118e8ef22b581abdef6b08664bbdbb5bbcc4250))
+* show token price in route cards ([e1380f8](https://github.com/lifinance/widget/commit/e1380f8842600c88d5f3181ecc631d7d568ff8fe))
+
+
+### Bug Fixes
+
+* disable background refetch ([b96ec48](https://github.com/lifinance/widget/commit/b96ec482fa46f029f6a593711958383ba76d7e9c))
+* use execution token if present ([4e71609](https://github.com/lifinance/widget/commit/4e71609f8e353b19e2e918313e57aec897c6654e))
+
 ### [1.22.1](https://github.com/lifinance/widget/compare/v1.22.0...v1.22.1) (2022-11-07)
 
 

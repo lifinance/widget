@@ -4,9 +4,14 @@ import { useEffect } from 'react';
 import { name, version } from '../config/version';
 import { useTools } from './useTools';
 
+let checkedPackageUpdates = false;
+
 export const useInitializer = () => {
   useTools();
   useEffect(() => {
-    checkPackageUpdates(name, version);
+    if (!checkedPackageUpdates) {
+      checkedPackageUpdates = true;
+      checkPackageUpdates(name, version);
+    }
   }, []);
 };
