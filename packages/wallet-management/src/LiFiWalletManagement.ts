@@ -95,22 +95,10 @@ export const useLiFiWalletManagement = () => {
   useEffect(() => {
     const { ethereum } = window as any;
     const handleChainChanged = async (chainId: string | number) => {
-      console.log('switch to', chainId);
-
-      console.log('cc', currentConnector);
       await currentConnector?.activate();
       calcWalletData(currentConnector);
     };
     const handleAccountsChanged = async (accounts: string[]) => {
-      console.log('accounts changed to', accounts);
-
-      // if (accounts.length) {
-      //   await currentConnector?.activate();
-      //   calcWalletData(currentConnector);
-      // } else {
-      //   await currentConnector?.deactivate?.();
-      //   flushCurrentWalletData();
-      // }
       if (!accounts.length) {
         await currentConnector?.deactivate?.();
         flushCurrentWalletData();

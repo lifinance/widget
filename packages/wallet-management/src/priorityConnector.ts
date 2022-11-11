@@ -1,5 +1,5 @@
 import { getPriorityConnector } from '@web3-react/core';
-import { supportedWallets } from './wallets';
+import { supportedWallets } from './walletProviders';
 // import { eip1193, hooks as eip1193Hooks } from './connectors/eip1193';
 
 const metamaskWallet = supportedWallets.find(
