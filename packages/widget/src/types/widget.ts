@@ -1,4 +1,10 @@
-import type { ChainKey, ConfigUpdate, Token } from '@lifi/sdk';
+import type {
+  ChainKey,
+  ConfigUpdate,
+  Order,
+  RouteOptions,
+  Token,
+} from '@lifi/sdk';
 import type { PaletteMode, PaletteOptions, Shape } from '@mui/material';
 import type { TypographyOptions } from '@mui/material/styles/createTypography';
 import type { Signer } from 'ethers';
@@ -31,6 +37,14 @@ export interface WidgetWalletManagement {
   signer?: Signer;
 }
 
+export interface SDKConfig
+  extends Omit<
+    ConfigUpdate,
+    'defaultExecutionSettings' | 'defaultRouteOptions' | 'disableVersionCheck'
+  > {
+  defaultRouteOptions?: Omit<RouteOptions, 'bridges' | 'exchanges'>;
+}
+
 export interface WidgetConfig {
   fromChain?: `${ChainKey}` | number;
   toChain?: `${ChainKey}` | number;
@@ -40,6 +54,9 @@ export interface WidgetConfig {
   fromAmount?: number | string;
 
   integrator?: string;
+
+  slippage?: number;
+  routePriority?: Order;
 
   variant?: WidgetVariant;
 
@@ -53,7 +70,7 @@ export interface WidgetConfig {
   useRecommendedRoute?: boolean;
 
   walletManagement?: WidgetWalletManagement;
-  sdkConfig?: ConfigUpdate;
+  sdkConfig?: SDKConfig;
 
   buildSwapUrl?: boolean;
 
