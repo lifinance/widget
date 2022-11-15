@@ -3,7 +3,6 @@ import { ethers } from 'ethers';
 import type { Connector } from '@web3-react/types';
 import type { Signer } from 'ethers';
 import { useCallback, useEffect, useState } from 'react';
-import { getSelectedConnector } from '@web3-react/core';
 import { usePriorityConnector, usePriorityProvider } from './priorityConnector';
 // import { usePriorityConnector, usePriorityProvider } from './connectorHooks';
 import {
@@ -14,6 +13,7 @@ import {
   removeFromDeactivatedWallets,
 } from './walletPersistance';
 import type { Wallet } from './walletProviders';
+import { getInjectedAddress } from './injectedData';
 
 export const useLiFiWalletManagement = () => {
   const priorityConnector = usePriorityConnector();
@@ -35,7 +35,7 @@ export const useLiFiWalletManagement = () => {
   const calcWalletData = (connector?: Connector) => {
     if (connector) {
       const provider = new ethers.providers.Web3Provider(
-        connector.provider as ExternalProvider,
+        (connector.provider as ExternalProvider) || (window as any).ethereum, // fallback
       );
       setCurrentProvider(() => provider);
       setCurrentConnector(() => connector);
@@ -45,8 +45,6 @@ export const useLiFiWalletManagement = () => {
 
   const connect = useCallback(
     async (wallet?: Wallet) => {
-      const selectedAddress = (window as any)?.ethereum?.selectedAddress;
-
       try {
         if (wallet) {
           const { connector } = wallet.web3react;
@@ -58,6 +56,7 @@ export const useLiFiWalletManagement = () => {
       } catch (e) {
         console.log(e);
       }
+      const selectedAddress = getInjectedAddress(wallet);
       removeFromDeactivatedWallets(selectedAddress);
       addToActiveWallets(selectedAddress);
     },
@@ -66,7 +65,7 @@ export const useLiFiWalletManagement = () => {
 
   const disconnect = useCallback(
     async (wallet?: Wallet) => {
-      const selectedAddress = (window as any).ethereum?.selectedAddress;
+      const selectedAddress = getInjectedAddress(wallet);
       removeFromActiveWallets(selectedAddress);
       addToDeactivatedWallets(selectedAddress);
       if (wallet) {
@@ -85,11 +84,19 @@ export const useLiFiWalletManagement = () => {
 
   // eager connect
   useEffect(() => {
-    const selectedAddress = (window as any).ethereum?.selectedAddress;
-    if (!isWalletDeactivated(selectedAddress) && priorityConnector) {
-      priorityConnector?.connectEagerly!();
-    }
-  }, [priorityConnector]);
+    const eagerConnect = async () => {
+      const selectedAddress = getInjectedAddress();
+      if (!isWalletDeactivated(selectedAddress) && priorityConnector) {
+        priorityConnector.connectEagerly?.();
+        calcWalletData(priorityConnector);
+      }
+    };
+    eagerConnect();
+  }, [
+    priorityConnector,
+    (window as any).ethereum?.selectedAddress,
+    (window as any).tally?.selectedAddress,
+  ]);
 
   // injected wallet listeners
   useEffect(() => {
