@@ -15,7 +15,7 @@ export const SettingsToolTypes: SettingsToolType[] = ['Bridges', 'Exchanges'];
 
 export interface SettingsState {
   advancedPreferences: boolean;
-  appearance?: Appearance;
+  appearance: Appearance;
   gasPrice?: string;
   language?: string;
   routePriority?: Order;
