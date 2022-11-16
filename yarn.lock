@@ -2356,20 +2356,20 @@
     npmlog "^6.0.2"
     write-file-atomic "^4.0.1"
 
-"@lifi/sdk@^1.6.3":
-  version "1.6.3"
-  resolved "https://registry.yarnpkg.com/@lifi/sdk/-/sdk-1.6.3.tgz#fc531dc02f8747e26f978d9b161ceb55ca70c564"
-  integrity sha512-lNW+7gBURd8TSV3CGjju4q1KwfFgqkwfSIkWNkMbprA94S41xPGX+x4q0L5eR7z/w5DosoIR9HD3R1YmhzhvHw==
+"@lifi/sdk@^1.6.4":
+  version "1.6.4"
+  resolved "https://registry.yarnpkg.com/@lifi/sdk/-/sdk-1.6.4.tgz#325b3058aa76f6538f3a21d63db5db0589b40b18"
+  integrity sha512-g2wjHoXjM9QmTNAezMeHuFcUrfzn/6MSTSTRiWVgFOXcQt7e8guzn9tqLj+4Q24xwPlLB6nj0Coz2JX8dh1spA==
   dependencies:
     "@ethersproject/abi" "^5.7.0"
     "@ethersproject/contracts" "^5.7.0"
-    "@lifi/types" "^1.11.1"
+    "@lifi/types" "^1.16.0"
     axios "^1.1.3"
     bignumber.js "^9.1.0"
     eth-rpc-errors "^4.0.3"
     ethers "^5.7.2"
 
-"@lifi/types@^1.11.1":
+"@lifi/types@^1.16.0":
   version "1.16.0"
   resolved "https://registry.yarnpkg.com/@lifi/types/-/types-1.16.0.tgz#d738a8f2053134d546f26598ef6bc7af3bdd17ac"
   integrity sha512-pngYZqvXtBELw9BCSgu0biAN8FO0jgjZWcIn/5QNXNB8PTKe0Y3ZdmMrY4ofXCWounC4reNSjKxnObF0/5dqNw==

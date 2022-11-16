@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.25.0](https://github.com/lifinance/widget/compare/v1.24.0...v1.25.0) (2022-11-16)
+
+
+### Features
+
+* add swap partially successful message ([9c3be1e](https://github.com/lifinance/widget/commit/9c3be1e9e2dba70bbeb9f530e3a520eb48ee11a7))
+
+
+### Bug Fixes
+
+* ability to set default slippage and route priority ([594c427](https://github.com/lifinance/widget/commit/594c427c756c8a3004be25be629450ea352a00e4))
+* eagerConnect ([#36](https://github.com/lifinance/widget/issues/36)) ([b2b7dde](https://github.com/lifinance/widget/commit/b2b7dde1c971f67971d9eb0afdc4c65ea3e80a76))
+* network error when switching chains ([#37](https://github.com/lifinance/widget/issues/37)) ([cb2b691](https://github.com/lifinance/widget/commit/cb2b691ef13b23d59efef6c3b43ec685e192b6e5))
+* update chain value if config did not provide it ([8394cd9](https://github.com/lifinance/widget/commit/8394cd9bf23ec48943db9f9e697a24ba794dbd97))
+* updating widget config options in runtime ([75eb492](https://github.com/lifinance/widget/commit/75eb4928a62076d495c8686708269fae562cae42))
+
 ## [1.24.0](https://github.com/lifinance/widget/compare/v1.23.1...v1.24.0) (2022-11-11)
 
 
