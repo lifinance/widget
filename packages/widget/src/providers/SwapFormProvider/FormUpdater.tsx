@@ -1,22 +1,26 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { useChainOrderStore } from '../../stores';
+import type { SwapFormValues } from '../SwapFormProvider';
 import { SwapFormKey } from '../SwapFormProvider';
+import { useWallet } from '../WalletProvider';
 import { isItemAllowed, useWidgetConfig } from '../WidgetProvider';
-import type { WalletAccount } from './types';
 
-export const WalletFormUpdate: React.FC<{ account: WalletAccount }> = ({
-  account,
-}) => {
+export const FormUpdater: React.FC<{
+  defaultValues: Partial<SwapFormValues>;
+}> = ({ defaultValues }) => {
   const { fromChain, toChain, chains, disabledChains } = useWidgetConfig();
+  const { account } = useWallet();
   const {
     setValue,
     getValues,
     getFieldState,
+    resetField,
     // Subscription to touchedFields is required by getFieldState to work
     formState: { touchedFields },
   } = useFormContext();
+
+  const previousDefaultValues = useRef(defaultValues);
 
   // Set wallet chain as default if no chains are provided by config and if they were not changed during widget usage
   useEffect(() => {
@@ -25,11 +29,6 @@ export const WalletFormUpdate: React.FC<{ account: WalletAccount }> = ({
     if (!account.isActive || !account.chainId || !chainAllowed) {
       return;
     }
-
-    const [fromChainValue, toChainValue] = getValues([
-      SwapFormKey.FromChain,
-      SwapFormKey.ToChain,
-    ]);
 
     const { isTouched: isFromChainTouched } = getFieldState(
       SwapFormKey.FromChain,
@@ -43,31 +42,14 @@ export const WalletFormUpdate: React.FC<{ account: WalletAccount }> = ({
       SwapFormKey.FromAmount,
     );
 
-    const { chainOrder, setChain } = useChainOrderStore.getState();
-
-    // Users can switch chains in the wallet.
-    // If we don't have a chain in the ordered chain list we should add it.
-    setChain(account.chainId);
-
-    // If we ran out of slots for the ordered chain list and the current chain isn't there
-    // we should make a recently switched chain as current.
-    const hasFromChainInOrderedList = chainOrder.includes(fromChainValue);
-    const hasToChainInOrderedList = chainOrder.includes(toChainValue);
-
-    if (
-      (!fromChain && !isFromChainTouched && !isFromTokenTouched) ||
-      !hasFromChainInOrderedList
-    ) {
+    if (!fromChain && !isFromChainTouched && !isFromTokenTouched) {
       setValue(SwapFormKey.FromChain, account.chainId);
       setValue(SwapFormKey.FromToken, '');
       if (isFromAmountTouched) {
         setValue(SwapFormKey.FromAmount, '');
       }
     }
-    if (
-      (!toChain && !isToChainTouched && !isToTokenTouched) ||
-      !hasToChainInOrderedList
-    ) {
+    if (!toChain && !isToChainTouched && !isToTokenTouched) {
       setValue(SwapFormKey.ToChain, account.chainId);
       setValue(SwapFormKey.ToToken, '');
     }
@@ -82,6 +64,23 @@ export const WalletFormUpdate: React.FC<{ account: WalletAccount }> = ({
     setValue,
     toChain,
   ]);
+
+  useEffect(() => {
+    (Object.keys(defaultValues) as SwapFormKey[]).forEach((key) => {
+      if (previousDefaultValues.current[key] !== defaultValues[key]) {
+        const value =
+          defaultValues[key] ||
+          // set the chain to the current user one if it is not present in the config
+          (key === SwapFormKey.FromChain || key === SwapFormKey.ToChain
+            ? account.chainId || ''
+            : '');
+        setValue(key, value);
+        resetField(key, { defaultValue: value });
+      }
+    });
+    previousDefaultValues.current = defaultValues;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultValues, getValues, resetField, setValue]);
 
   return null;
 };

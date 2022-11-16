@@ -34,5 +34,12 @@ export const useChainSelect = (formType: SwapFormType) => {
     setChainOrder(chainId);
   };
 
-  return { chains, getChains, setCurrentChain, isLoading };
+  return {
+    chainOrder,
+    chains,
+    getChains,
+    isLoading,
+    setChainOrder,
+    setCurrentChain,
+  };
 };

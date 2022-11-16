@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useWidgetConfig } from '../WidgetProvider';
+import { FormUpdater } from './FormUpdater';
 import type { SwapFormValues } from './types';
 import { SwapFormKey } from './types';
 import { URLSearchParamsBuilder } from './URLSearchParamsBuilder';
@@ -40,27 +41,15 @@ export const SwapFormProvider: React.FC<React.PropsWithChildren<{}>> = ({
     [fromAmount, fromChain, fromToken, toAddress, toChain, toToken],
   );
 
-  const previousDefaultValues = useRef(defaultValues);
-
   const methods = useForm<SwapFormValues>({
+    // TODO: revisit after RHF release values support
+    // values,
     defaultValues,
   });
 
-  useEffect(() => {
-    (Object.keys(defaultValues) as SwapFormKey[]).forEach((key) => {
-      if (previousDefaultValues.current[key] !== defaultValues[key]) {
-        methods.resetField(key, {
-          defaultValue: defaultValues[key] || '',
-          keepDirty: true,
-          keepTouched: true,
-        });
-      }
-    });
-    previousDefaultValues.current = defaultValues;
-  }, [defaultValues, methods]);
-
   return (
     <FormProvider {...methods}>
+      <FormUpdater defaultValues={defaultValues} />
       {buildSwapUrl ? <URLSearchParamsBuilder /> : null}
       {children}
     </FormProvider>

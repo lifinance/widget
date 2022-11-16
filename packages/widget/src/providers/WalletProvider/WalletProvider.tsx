@@ -18,7 +18,6 @@ import {
 } from 'react';
 import { useWidgetConfig } from '../WidgetProvider';
 import type { WalletAccount, WalletContextProps } from './types';
-import { WalletFormUpdate } from './WalletFormUpdate';
 
 const stub = (): never => {
   throw new Error('You forgot to wrap your component in <WalletProvider>.');
@@ -132,10 +131,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   );
 
   return (
-    <WalletContext.Provider value={value}>
-      <WalletFormUpdate account={account} />
-      {children}
-    </WalletContext.Provider>
+    <WalletContext.Provider value={value}>{children}</WalletContext.Provider>
   );
 };
 

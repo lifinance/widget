@@ -28,15 +28,15 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetProps>> = ({
       <WidgetProvider config={config}>
         <SDKProvider>
           <TelemetryProvider>
-            <SwapFormProvider>
-              <ThemeProvider>
-                <I18nProvider>
-                  <WalletProvider>
+            <ThemeProvider>
+              <I18nProvider>
+                <WalletProvider>
+                  <SwapFormProvider>
                     <AppRouter>{children}</AppRouter>
-                  </WalletProvider>
-                </I18nProvider>
-              </ThemeProvider>
-            </SwapFormProvider>
+                  </SwapFormProvider>
+                </WalletProvider>
+              </I18nProvider>
+            </ThemeProvider>
           </TelemetryProvider>
         </SDKProvider>
       </WidgetProvider>

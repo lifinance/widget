@@ -12,11 +12,23 @@ import { useChainSelect } from './useChainSelect';
 
 export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
   const navigate = useNavigate();
-  const { chains, getChains, setCurrentChain, isLoading } =
-    useChainSelect(formType);
+  const {
+    chainOrder,
+    chains,
+    getChains,
+    isLoading,
+    setChainOrder,
+    setCurrentChain,
+  } = useChainSelect(formType);
   const [chainId] = useWatch({
     name: [SwapFormKeyHelper.getChainKey(formType)],
   });
+
+  const hasChainInOrderedList = chainOrder.includes(chainId);
+  // If we don't have a chain in the ordered chain list we should add it.
+  if (!hasChainInOrderedList) {
+    setChainOrder(chainId);
+  }
 
   const showAllChains = () => {
     navigate(navigationRoutes[`${formType}Chain`]);
