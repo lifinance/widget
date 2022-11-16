@@ -128,6 +128,6 @@ export const useLiFiWalletManagement = () => {
     connect,
     disconnect,
     signer,
-    provider: signer?.provider ?? currentProvider ?? priorityProvider,
+    provider: signer?.provider,
   };
 };
