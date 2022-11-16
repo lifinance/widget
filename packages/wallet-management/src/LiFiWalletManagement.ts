@@ -24,8 +24,6 @@ export const useLiFiWalletManagement = () => {
   const [signer, setSigner] = useState<Signer>();
 
   const flushCurrentWalletData = () => {
-    console.log('flushing wallet data');
-
     setCurrentConnector(() => undefined);
     setCurrentProvider(() => undefined);
     setSigner(() => undefined);
@@ -35,7 +33,8 @@ export const useLiFiWalletManagement = () => {
   const calcWalletData = (connector?: Connector) => {
     if (connector) {
       const provider = new ethers.providers.Web3Provider(
-        (connector.provider as ExternalProvider) || (window as any).ethereum, // fallback
+        (connector.provider as ExternalProvider) || (window as any).ethereum,
+        'any', // fallback
       );
       setCurrentProvider(() => provider);
       setCurrentConnector(() => connector);
@@ -94,7 +93,9 @@ export const useLiFiWalletManagement = () => {
     eagerConnect();
   }, [
     priorityConnector,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     (window as any).ethereum?.selectedAddress,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     (window as any).tally?.selectedAddress,
   ]);
 
@@ -127,6 +128,6 @@ export const useLiFiWalletManagement = () => {
     connect,
     disconnect,
     signer,
-    provider: currentProvider ?? priorityProvider,
+    provider: signer?.provider ?? currentProvider ?? priorityProvider,
   };
 };

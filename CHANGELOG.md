@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.24.0](https://github.com/lifinance/widget/compare/v1.23.1...v1.24.0) (2022-11-11)
+
+
+### Features
+
+* allow for alternative wallet injections ([#34](https://github.com/lifinance/widget/issues/34)) ([f7790b4](https://github.com/lifinance/widget/commit/f7790b4ca6eb32775aa0446284fa3da07197004f))
+
+
+### Bug Fixes
+
+* bridges types ([ac21920](https://github.com/lifinance/widget/commit/ac219205d4823f286aa28988b096939ab8ff9bca))
+* use toToken from execution if present ([3afa3e5](https://github.com/lifinance/widget/commit/3afa3e5db68ca66f52259c1945ebae00f62763be))
+
 ### [1.23.1](https://github.com/lifinance/widget/compare/v1.23.0...v1.23.1) (2022-11-09)
 
 

@@ -29,6 +29,10 @@ export const widgetBaseConfig: WidgetConfig = {
   // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
   sdkConfig: {
     apiUrl: 'https://staging.li.quest/v1/',
+    defaultRouteOptions: {
+      // slippage: 0.02,
+      // order: 'SAFEST',
+    },
   },
   tokens: {
     featured: [

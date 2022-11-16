@@ -1,6 +1,7 @@
 import type { ChainKey } from '@lifi/sdk';
 import { getChainByKey } from '@lifi/sdk';
-import { createContext, useContext, useMemo } from 'react';
+import { createContext, useContext, useEffect, useMemo } from 'react';
+import { setDefaultSettings } from '../../stores';
 import { formatAmount } from '../../utils';
 import type { WidgetContextProps, WidgetProviderProps } from './types';
 
@@ -80,6 +81,10 @@ export const WidgetProvider: React.FC<
       return config;
     }
   }, [config, fromAmount, fromChain, fromToken, toChain, toToken]);
+
+  useEffect(() => {
+    setDefaultSettings(value);
+  }, [value]);
 
   return (
     <WidgetContext.Provider value={value}>{children}</WidgetContext.Provider>

@@ -23,6 +23,8 @@ export const SlippageInput = () => {
     setValue('slippage', formatSlippage(value, defaultValue.current));
   };
 
+  const value = slippage ?? '';
+
   return (
     <Card>
       <CardTitle>{t(`settings.slippage`)}</CardTitle>
@@ -37,7 +39,7 @@ export const SlippageInput = () => {
           }}
           onChange={handleChange}
           onBlur={handleBlur}
-          value={slippage}
+          value={value}
         />
       </FormControl>
     </Card>

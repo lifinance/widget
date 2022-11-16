@@ -11,6 +11,7 @@ export const RoutePrioritySelect: React.FC = () => {
   const { t } = useTranslation();
   const setValue = useSettingsStore((state) => state.setValue);
   const { routePriority } = useSettings(['routePriority']);
+  const value = routePriority ?? '';
 
   return (
     <Card>
@@ -18,7 +19,7 @@ export const RoutePrioritySelect: React.FC = () => {
       <FormControl fullWidth>
         <Select
           MenuProps={{ elevation: 2 }}
-          value={routePriority}
+          value={value}
           onChange={(event) =>
             setValue('routePriority', event.target.value as Order)
           }

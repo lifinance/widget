@@ -2,20 +2,21 @@
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
+import type { WidgetConfig } from '../../types';
 import type { SettingsState, SettingsStore } from './types';
 import { SettingsToolTypes } from './types';
 
-export const defaultSettings: Omit<
+export const defaultConfigurableSettings: Pick<
   SettingsState,
-  | 'enabledBridges'
-  | 'enabledExchanges'
-  | '_enabledBridges'
-  | '_enabledExchanges'
+  'routePriority' | 'slippage'
 > = {
-  appearance: 'auto',
-  gasPrice: 'normal',
   routePriority: 'RECOMMENDED',
   slippage: '0.5',
+};
+
+export const defaultSettings: SettingsState = {
+  appearance: 'auto',
+  gasPrice: 'normal',
   advancedPreferences: false,
   showDestinationWallet: true,
 };
@@ -105,13 +106,35 @@ export const useSettingsStore = create<SettingsStore>()(
       },
       migrate: (persistedState: any, version) => {
         if (version === 0 && persistedState.appearance === 'system') {
-          persistedState.appearance = 'auto';
+          persistedState.appearance = defaultSettings.appearance;
         }
         if (version === 1) {
-          persistedState.slippage = '0.5';
+          persistedState.slippage = defaultConfigurableSettings.slippage;
         }
         return persistedState as SettingsStore;
       },
     },
   ),
 );
+
+export const setDefaultSettings = (config?: WidgetConfig) => {
+  const { slippage, routePriority, setValue } = useSettingsStore.getState();
+  const defaultSlippage =
+    (config?.slippage ||
+      config?.sdkConfig?.defaultRouteOptions?.slippage ||
+      0) * 100;
+  const defaultRoutePriority =
+    config?.routePriority || config?.sdkConfig?.defaultRouteOptions?.order;
+  if (!slippage) {
+    setValue(
+      'slippage',
+      (defaultSlippage || defaultConfigurableSettings.slippage)?.toString(),
+    );
+  }
+  if (!routePriority) {
+    setValue(
+      'routePriority',
+      defaultRoutePriority || defaultConfigurableSettings.routePriority,
+    );
+  }
+};

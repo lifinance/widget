@@ -10,7 +10,7 @@ const refetchTime = 60_000;
 
 export const useSwapRoutes = () => {
   const lifi = useLiFi();
-  const { variant } = useWidgetConfig();
+  const { variant, sdkConfig } = useWidgetConfig();
   const { account, provider } = useWallet();
   const queryClient = useQueryClient();
   const { slippage, enabledBridges, enabledExchanges, routePriority } =
@@ -56,6 +56,7 @@ export const useSwapRoutes = () => {
     enabledExchanges,
     routePriority,
     variant,
+    sdkConfig?.defaultRouteOptions?.allowSwitchChain,
   ];
   const previousDataUpdatedAt =
     queryClient.getQueryState(queryKey)?.dataUpdatedAt;
@@ -83,6 +84,7 @@ export const useSwapRoutes = () => {
           enabledExchanges,
           routePriority,
           variant,
+          allowSwitchChain,
         ],
         signal,
       }) => {
@@ -94,9 +96,9 @@ export const useSwapRoutes = () => {
         } catch {
           toWalletAddress = isAddress(toAddress) ? toAddress : fromAddress;
         }
-        const fromAmount = Big(
-          Number(fromTokenAmount) * 10 ** (fromToken?.decimals ?? 0),
-        ).toString();
+        const fromAmount = Big(fromTokenAmount)
+          .mul(10 ** (fromToken?.decimals ?? 0))
+          .toString();
         const formattedSlippage = parseFloat(slippage) / 100;
         return lifi.getRoutes(
           {
@@ -116,7 +118,7 @@ export const useSwapRoutes = () => {
                 allow: enabledExchanges,
               },
               order: routePriority,
-              allowSwitchChain: variant !== 'refuel',
+              allowSwitchChain: variant === 'refuel' ? false : allowSwitchChain,
             },
           },
           { signal },

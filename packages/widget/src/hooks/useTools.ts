@@ -5,6 +5,10 @@ import { useMemo } from 'react';
 import { isItemAllowed, useLiFi, useWidgetConfig } from '../providers';
 import { useSettingsStore } from '../stores';
 
+interface WidgetBridge extends Omit<Bridge, 'key'> {
+  key: string;
+}
+
 type FormattedTool<T, K extends keyof T> = Record<string, Pick<T, K>>;
 
 export const useTools = () => {
@@ -33,7 +37,7 @@ export const useTools = () => {
       bridges: data?.bridges.reduce((bridges, bridge) => {
         bridges[bridge.key] = bridge;
         return bridges;
-      }, {} as FormattedTool<Bridge, 'key' | 'name' | 'logoURI'>),
+      }, {} as FormattedTool<WidgetBridge, 'key' | 'name' | 'logoURI'>),
       exchanges: data?.exchanges.reduce((exchanges, exchange) => {
         exchanges[exchange.key] = exchange;
         return exchanges;
