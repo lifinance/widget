@@ -1,3 +1,4 @@
+import type { Signer } from '@ethersproject/abstract-signer';
 import type { Token } from '@lifi/sdk';
 import type { Wallet } from '@lifi/wallet-management';
 import {
@@ -7,7 +8,6 @@ import {
   useLiFiWalletManagement,
 } from '@lifi/wallet-management';
 import type { WalletAccount, WalletContextProps } from '@lifi/widget/providers';
-import type { Signer } from 'ethers';
 import type { FC, PropsWithChildren } from 'react';
 import {
   createContext,

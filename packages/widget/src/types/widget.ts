@@ -1,3 +1,4 @@
+import type { Signer } from '@ethersproject/abstract-signer';
 import type {
   ChainKey,
   ConfigUpdate,
@@ -7,7 +8,6 @@ import type {
 } from '@lifi/sdk';
 import type { PaletteMode, PaletteOptions, Shape } from '@mui/material';
 import type { TypographyOptions } from '@mui/material/styles/createTypography';
-import type { Signer } from 'ethers';
 import type { CSSProperties, RefObject } from 'react';
 import type { LanguageKey, LanguageResources } from '../providers';
 

@@ -1,11 +1,12 @@
 // eslint-disable-next-line max-classes-per-file
 import { Eip1193Bridge } from '@ethersproject/experimental';
+import { Web3Provider } from '@ethersproject/providers';
 import { initializeConnector } from '@web3-react/core';
-import { EIP1193, EIP1193ConstructorArgs } from '@web3-react/eip1193';
+import type { EIP1193ConstructorArgs } from '@web3-react/eip1193';
+import { EIP1193 } from '@web3-react/eip1193';
 import type { Empty } from '@web3-react/empty';
 import { EMPTY } from '@web3-react/empty';
-import { ProviderConnectInfo, ProviderRpcError } from '@web3-react/types';
-import { providers } from 'ethers';
+import type { ProviderConnectInfo, ProviderRpcError } from '@web3-react/types';
 
 class Eip1193BridgeWithoutAccounts extends Eip1193Bridge {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -40,9 +41,7 @@ class EIP1193Listener extends EIP1193 {
 
 export const createEip1193Connector = () => {
   const { ethereum } = window as any;
-  const currentProvider = ethereum
-    ? new providers.Web3Provider(ethereum)
-    : null;
+  const currentProvider = ethereum ? new Web3Provider(ethereum) : null;
 
   const eip1193Provider = new Eip1193BridgeWithoutAccounts(
     currentProvider!.getSigner(),

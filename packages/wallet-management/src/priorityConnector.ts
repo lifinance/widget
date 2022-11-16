@@ -1,5 +1,6 @@
-import { getPriorityConnector, Web3ReactHooks } from '@web3-react/core';
-import { Connector } from '@web3-react/types';
+import type { Web3ReactHooks } from '@web3-react/core';
+import { getPriorityConnector } from '@web3-react/core';
+import type { Connector } from '@web3-react/types';
 import { supportedWallets } from './walletProviders';
 // import { eip1193, hooks as eip1193Hooks } from './connectors/eip1193';
 

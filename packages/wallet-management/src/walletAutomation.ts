@@ -1,4 +1,3 @@
-import { supportedWallets } from '@lifi/wallet-management';
 /* eslint-disable radix */
 import type { Token } from '@lifi/sdk';
 import {
@@ -6,8 +5,9 @@ import {
   MetaMaskProviderErrorCode,
   prefixChainId,
 } from '@lifi/sdk';
-import type { WalletConnect } from './connectors/walletConnect';
+import { supportedWallets } from '@lifi/wallet-management';
 import type { TallyHo } from './connectors/tallyho';
+import type { WalletConnect } from './connectors/walletConnect';
 
 const getAppropriateProvider = () => {
   const walletConnect = supportedWallets.find(

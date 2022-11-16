@@ -1,8 +1,8 @@
-import type { Connector } from '@web3-react/types';
 import type { Web3ReactHooks } from '@web3-react/core';
+import type { Connector } from '@web3-react/types';
 import { createMetamaskConnector } from './connectors/metaMask';
-import { createWalletConnectConnector } from './connectors/walletConnect';
 import { createTallyHoConnector } from './connectors/tallyho';
+import { createWalletConnectConnector } from './connectors/walletConnect';
 import { walletIcons } from './walletIcons';
 
 export interface Wallet {

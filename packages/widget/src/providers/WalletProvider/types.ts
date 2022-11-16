@@ -1,11 +1,11 @@
-import type { Web3Provider } from '@ethersproject/providers';
+import type { Signer } from '@ethersproject/abstract-signer';
+import type { Provider } from '@ethersproject/providers';
 import type { Token } from '@lifi/sdk';
 import type { Wallet } from '@lifi/wallet-management';
-import type { Signer } from 'ethers';
 
 export interface WalletContextProps {
   account: WalletAccount;
-  provider?: Web3Provider;
+  provider?: Provider;
   addChain(chainId: number): Promise<boolean>;
   addToken(chainId: number, token: Token): Promise<void>;
   disconnect(): void;

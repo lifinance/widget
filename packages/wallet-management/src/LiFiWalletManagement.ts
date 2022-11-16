@@ -1,10 +1,11 @@
-import type { ExternalProvider, Web3Provider } from '@ethersproject/providers';
-import { ethers } from 'ethers';
+import type { Signer } from '@ethersproject/abstract-signer';
+import type { ExternalProvider } from '@ethersproject/providers';
+import { Web3Provider } from '@ethersproject/providers';
 import type { Connector } from '@web3-react/types';
-import type { Signer } from 'ethers';
 import { useCallback, useEffect, useState } from 'react';
-import { usePriorityConnector, usePriorityProvider } from './priorityConnector';
+import { usePriorityConnector } from './priorityConnector';
 // import { usePriorityConnector, usePriorityProvider } from './connectorHooks';
+import { getInjectedAddress } from './injectedData';
 import {
   addToActiveWallets,
   addToDeactivatedWallets,
@@ -13,30 +14,29 @@ import {
   removeFromDeactivatedWallets,
 } from './walletPersistance';
 import type { Wallet } from './walletProviders';
-import { getInjectedAddress } from './injectedData';
 
 export const useLiFiWalletManagement = () => {
   const priorityConnector = usePriorityConnector();
   // "any" because of https://github.com/ethers-io/ethers.js/issues/866
-  const priorityProvider = usePriorityProvider('any');
-  const [currentProvider, setCurrentProvider] = useState<Web3Provider>();
+  // const priorityProvider = usePriorityProvider('any');
+  // const [currentProvider, setCurrentProvider] = useState<Web3Provider>();
   const [currentConnector, setCurrentConnector] = useState<Connector>();
   const [signer, setSigner] = useState<Signer>();
 
   const flushCurrentWalletData = () => {
-    setCurrentConnector(() => undefined);
-    setCurrentProvider(() => undefined);
-    setSigner(() => undefined);
+    setCurrentConnector(undefined);
+    // setCurrentProvider(undefined);
+    setSigner(undefined);
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const calcWalletData = (connector?: Connector) => {
     if (connector) {
-      const provider = new ethers.providers.Web3Provider(
+      const provider = new Web3Provider(
         (connector.provider as ExternalProvider) || (window as any).ethereum,
         'any', // fallback
       );
-      setCurrentProvider(() => provider);
+      // setCurrentProvider(() => provider);
       setCurrentConnector(() => connector);
       setSigner(() => provider?.getSigner?.());
     }
@@ -83,14 +83,11 @@ export const useLiFiWalletManagement = () => {
 
   // eager connect
   useEffect(() => {
-    const eagerConnect = async () => {
-      const selectedAddress = getInjectedAddress();
-      if (!isWalletDeactivated(selectedAddress) && priorityConnector) {
-        priorityConnector.connectEagerly?.();
-        calcWalletData(priorityConnector);
-      }
-    };
-    eagerConnect();
+    const selectedAddress = getInjectedAddress();
+    if (!isWalletDeactivated(selectedAddress) && priorityConnector) {
+      priorityConnector.connectEagerly?.();
+      calcWalletData(priorityConnector);
+    }
   }, [
     priorityConnector,
     // eslint-disable-next-line react-hooks/exhaustive-deps

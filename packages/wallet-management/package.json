@@ -49,6 +49,7 @@
     "lifi"
   ],
   "dependencies": {
+    "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/experimental": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
     "@walletconnect/ethereum-provider": "^1.8.0",
