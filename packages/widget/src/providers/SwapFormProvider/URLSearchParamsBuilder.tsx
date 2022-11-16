@@ -15,6 +15,7 @@ const formValueKeys = [
 export const URLSearchParamsBuilder = () => {
   const { pathname } = useLocation();
   const {
+    // Have to use touchedFields, because default values are not considered dirty
     touchedFields: { ...touchedFields },
   } = useFormState();
   const values = useWatch({ name: formValueKeys });

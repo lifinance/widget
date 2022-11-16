@@ -6,7 +6,7 @@ import type { SwapFormTypeProps } from '../../providers';
 import { SwapFormKeyHelper } from '../../providers';
 import { Button } from './SwapInputAdornment.style';
 
-export const SwapInputAdornment = ({ formType }: SwapFormTypeProps) => {
+export const SwapInputEndAdornment = ({ formType }: SwapFormTypeProps) => {
   const { t } = useTranslation();
   const { setValue } = useFormContext();
   const [chainId, tokenAddress] = useWatch({

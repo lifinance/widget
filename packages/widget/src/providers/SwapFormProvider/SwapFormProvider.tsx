@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useWidgetConfig } from '../WidgetProvider';
 import type { SwapFormValues } from './types';
@@ -23,8 +24,8 @@ export const SwapFormProvider: React.FC<React.PropsWithChildren<{}>> = ({
     buildSwapUrl,
   } = useWidgetConfig();
 
-  const methods = useForm<SwapFormValues>({
-    defaultValues: {
+  const defaultValues = useMemo(
+    () => ({
       ...formDefaultValues,
       fromChain,
       fromToken,
@@ -35,8 +36,28 @@ export const SwapFormProvider: React.FC<React.PropsWithChildren<{}>> = ({
       toChain,
       toToken,
       toAddress,
-    },
+    }),
+    [fromAmount, fromChain, fromToken, toAddress, toChain, toToken],
+  );
+
+  const previousDefaultValues = useRef(defaultValues);
+
+  const methods = useForm<SwapFormValues>({
+    defaultValues,
   });
+
+  useEffect(() => {
+    (Object.keys(defaultValues) as SwapFormKey[]).forEach((key) => {
+      if (previousDefaultValues.current[key] !== defaultValues[key]) {
+        methods.resetField(key, {
+          defaultValue: defaultValues[key] || '',
+          keepDirty: true,
+          keepTouched: true,
+        });
+      }
+    });
+    previousDefaultValues.current = defaultValues;
+  }, [defaultValues, methods]);
 
   return (
     <FormProvider {...methods}>

@@ -1,50 +1,38 @@
 import type { ChangeEvent } from 'react';
-import { useLayoutEffect, useRef } from 'react';
-import { useFormContext, useWatch } from 'react-hook-form';
+import { useRef } from 'react';
+import { useController } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useChain, useToken } from '../../hooks';
 import type { SwapFormTypeProps } from '../../providers';
 import { SwapFormKeyHelper, useWidgetConfig } from '../../providers';
 import { DisabledUI } from '../../types';
-import { fitInputText, formatAmount } from '../../utils';
+import { formatAmount } from '../../utils';
 import { Card, CardTitle } from '../Card';
-import { TokenAvatar, TokenAvatarSkeleton } from '../TokenAvatar';
+import { FitInputText } from './FitInputText';
 import { FormPriceHelperText } from './FormPriceHelperText';
-import {
-  FormControl,
-  Input,
-  maxInputFontSize,
-  minInputFontSize,
-} from './SwapInput.style';
-import { SwapInputAdornment } from './SwapInputAdornment';
+import { FormControl, Input } from './SwapInput.style';
+import { SwapInputEndAdornment } from './SwapInputEndAdornment';
+import { SwapInputStartAdornment } from './SwapInputStartAdornment';
 
 export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
   const { t } = useTranslation();
-  const { setValue } = useFormContext();
+  const amountKey = SwapFormKeyHelper.getAmountKey(formType);
+  const {
+    field: { onChange, onBlur, value },
+    fieldState: { isDirty, isTouched },
+  } = useController({
+    name: amountKey,
+  });
   const { disabledUI } = useWidgetConfig();
   const ref = useRef<HTMLInputElement>(null);
 
-  const amountKey = SwapFormKeyHelper.getAmountKey(formType);
-  const [amount, chainId, tokenAddress] = useWatch({
-    name: [
-      amountKey,
-      SwapFormKeyHelper.getChainKey(formType),
-      SwapFormKeyHelper.getTokenKey(formType),
-    ],
-  });
-
-  const { chain } = useChain(chainId);
-  const { token } = useToken(chainId, tokenAddress);
-  const isSelected = !!(chain && token);
+  console.log(isDirty, isTouched);
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { value } = event.target;
     const formattedAmount = formatAmount(value, true);
-    setValue(amountKey, formattedAmount, {
-      shouldTouch: true,
-    });
+    onChange(formattedAmount);
   };
 
   const handleBlur = (
@@ -52,16 +40,9 @@ export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
   ) => {
     const { value } = event.target;
     const formattedAmount = formatAmount(value);
-    setValue(amountKey, formattedAmount);
+    onChange(formattedAmount);
+    onBlur();
   };
-
-  useLayoutEffect(() => {
-    fitInputText(
-      maxInputFontSize,
-      minInputFontSize,
-      ref.current as HTMLElement,
-    );
-  }, [amount]);
 
   const disabled = disabledUI?.includes(DisabledUI.FromAmount);
 
@@ -74,28 +55,25 @@ export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
           size="small"
           autoComplete="off"
           placeholder="0"
-          startAdornment={
-            isSelected ? (
-              <TokenAvatar token={token} chain={chain} sx={{ marginLeft: 2 }} />
-            ) : (
-              <TokenAvatarSkeleton sx={{ marginLeft: 2 }} />
-            )
-          }
+          startAdornment={<SwapInputStartAdornment formType={formType} />}
           endAdornment={
-            !disabled ? <SwapInputAdornment formType={formType} /> : undefined
+            !disabled ? (
+              <SwapInputEndAdornment formType={formType} />
+            ) : undefined
           }
           inputProps={{
             inputMode: 'decimal',
           }}
           onChange={handleChange}
           onBlur={handleBlur}
-          value={amount}
+          value={value}
           name={amountKey}
           disabled={disabled}
           required
         />
-        <FormPriceHelperText selected={isSelected} formType={formType} />
+        <FormPriceHelperText formType={formType} />
       </FormControl>
+      <FitInputText ref={ref} formType={formType} />
     </Card>
   );
 };

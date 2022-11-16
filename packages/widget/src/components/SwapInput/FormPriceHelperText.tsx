@@ -6,9 +6,9 @@ import type { SwapFormTypeProps } from '../../providers';
 import { SwapFormKeyHelper } from '../../providers';
 import { formatTokenPrice } from '../../utils';
 
-export const FormPriceHelperText: React.FC<
-  SwapFormTypeProps & { selected: boolean }
-> = ({ formType, selected }) => {
+export const FormPriceHelperText: React.FC<SwapFormTypeProps> = ({
+  formType,
+}) => {
   const { t } = useTranslation();
   const [amount, chainId, tokenAddress] = useWatch({
     name: [
