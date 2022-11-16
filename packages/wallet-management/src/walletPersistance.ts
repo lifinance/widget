@@ -77,7 +77,7 @@ const removeFromDeactivatedWallets = (address?: string | null) => {
 };
 
 const isWalletDeactivated = (address?: string | null): boolean => {
-  if (!address) return false;
+  if (!address) return true;
   const lowerCaseAddress = address.toLowerCase();
   const deactivatedWallets = readDeactivatedWallets();
   const deactivatedAddresses = deactivatedWallets.map((address) =>
