@@ -19,7 +19,13 @@ import {
 } from '../../hooks';
 import { SwapFormKey } from '../../providers';
 import type { RouteExecution } from '../../stores';
-import { navigationRoutes, shortenWalletAddress } from '../../utils';
+import { RouteExecutionStatus } from '../../stores';
+import {
+  formatTokenAmount,
+  hasEnumFlag,
+  navigationRoutes,
+  shortenWalletAddress,
+} from '../../utils';
 import { IconCircle, IconContainer } from './StatusBottomSheet.style';
 
 export const StatusBottomSheet: React.FC<RouteExecution> = ({
@@ -53,6 +59,29 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
     navigateBack();
   };
 
+  const handlePartialDone = () => {
+    clearFromAmount();
+    if (
+      toToken.chainId !== route.toToken.chainId &&
+      toToken.address !== route.toToken.address
+    ) {
+      setValue(
+        SwapFormKey.FromAmount,
+        formatTokenAmount(toToken.amount, toToken.decimals),
+        { shouldTouch: true },
+      );
+      setValue(SwapFormKey.FromChain, toToken.chainId, { shouldTouch: true });
+      setValue(SwapFormKey.FromToken, toToken.address, { shouldTouch: true });
+      setValue(SwapFormKey.ToChain, route.toToken.chainId, {
+        shouldTouch: true,
+      });
+      setValue(SwapFormKey.ToToken, route.toToken.address, {
+        shouldTouch: true,
+      });
+    }
+    navigateBack();
+  };
+
   const handleClose = () => {
     clearFromAmount();
     ref.current?.close();
@@ -67,18 +96,41 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   };
 
   let title;
-  let message;
+  let primaryMessage;
+  let secondaryMessage;
+  let handlePrimaryButton = handleDone;
   switch (status) {
-    case 'success':
+    case RouteExecutionStatus.Done: {
       title = t('swap.success.title.swapSuccessful');
-      message = t('swap.success.message.swapSuccessful', {
-        amount: token?.amount,
-        tokenSymbol: token?.symbol,
-        chainName: getChainById(route.toChainId)?.name,
-        walletAddress: shortenWalletAddress(route.toAddress),
-      });
+      if (token) {
+        primaryMessage = t('swap.success.message.swapSuccessful', {
+          amount: token.amount,
+          tokenSymbol: token.symbol,
+          chainName: getChainById(token.chainId)?.name,
+          walletAddress: shortenWalletAddress(route.toAddress),
+        });
+      }
+      handlePrimaryButton = handleDone;
       break;
-    case 'error': {
+    }
+    case RouteExecutionStatus.Done | RouteExecutionStatus.Partial: {
+      title = t('swap.success.title.swapPartiallySuccessful');
+      primaryMessage = t('swap.success.message.swapPartiallySuccessful', {
+        tool: route.steps.at(-1)?.toolDetails.name,
+        tokenSymbol: route.steps.at(-1)?.action.toToken.symbol,
+      });
+      if (token) {
+        secondaryMessage = t('swap.success.message.swapSuccessful', {
+          amount: token.amount,
+          tokenSymbol: token.symbol,
+          chainName: getChainById(token.chainId)?.name,
+          walletAddress: shortenWalletAddress(route.toAddress),
+        });
+      }
+      handlePrimaryButton = handlePartialDone;
+      break;
+    }
+    case RouteExecutionStatus.Failed: {
       const step = route.steps.find(
         (step) => step.execution?.status === 'FAILED',
       );
@@ -90,7 +142,8 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
       }
       const processMessage = getProcessMessage(t, getChainById, step, process);
       title = processMessage.title;
-      message = processMessage.message;
+      primaryMessage = processMessage.message;
+      handlePrimaryButton = handleClose;
       break;
     }
     default:
@@ -98,11 +151,12 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   }
 
   useEffect(() => {
+    const hasSuccessFlag = hasEnumFlag(status, RouteExecutionStatus.Done);
     if (
-      (status === 'success' || status === 'error') &&
+      (hasSuccessFlag || hasEnumFlag(status, RouteExecutionStatus.Failed)) &&
       !ref.current?.isOpen()
     ) {
-      if (status === 'success') {
+      if (hasSuccessFlag) {
         refetchNewBalance();
         refetch();
       }
@@ -115,30 +169,43 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
       <Box p={3}>
         <IconContainer>
           <IconCircle status={status} mb={1}>
-            {status === 'idle' ? <InfoIcon color="primary" /> : null}
-            {status === 'success' ? <DoneIcon color="success" /> : null}
-            {status === 'error' ? <WarningIcon color="error" /> : null}
+            {status === RouteExecutionStatus.Idle ? (
+              <InfoIcon color="primary" />
+            ) : null}
+            {status === RouteExecutionStatus.Done ? (
+              <DoneIcon color="success" />
+            ) : null}
+            {hasEnumFlag(status, RouteExecutionStatus.Partial) ||
+            hasEnumFlag(status, RouteExecutionStatus.Refunded) ? (
+              <WarningIcon color="warning" />
+            ) : null}
+            {hasEnumFlag(status, RouteExecutionStatus.Failed) ? (
+              <WarningIcon color="error" />
+            ) : null}
           </IconCircle>
           <Typography py={1} fontSize={18} fontWeight={700}>
             {title}
           </Typography>
-          {status === 'success' ? (
+          {hasEnumFlag(status, RouteExecutionStatus.Done) ? (
             <Token token={toToken} py={1} disableDescription />
           ) : null}
         </IconContainer>
-        <Typography py={1}>{message}</Typography>
+        <Typography py={1}>{primaryMessage}</Typography>
+        {secondaryMessage ? (
+          <Typography py={1}>{secondaryMessage}</Typography>
+        ) : null}
         <Box mt={2}>
-          <Button
-            variant="contained"
-            fullWidth
-            onClick={status === 'success' ? handleDone : handleClose}
-          >
-            {status === 'idle' ? t('button.ok') : null}
-            {status === 'success' ? t('button.done') : null}
-            {status === 'error' ? t('button.seeDetails') : null}
+          <Button variant="contained" fullWidth onClick={handlePrimaryButton}>
+            {status === RouteExecutionStatus.Idle ? t('button.ok') : null}
+            {hasEnumFlag(status, RouteExecutionStatus.Done)
+              ? t('button.done')
+              : null}
+            {status === RouteExecutionStatus.Failed
+              ? t('button.seeDetails')
+              : null}
           </Button>
         </Box>
-        {status === 'success' ? (
+        {hasEnumFlag(status, RouteExecutionStatus.Done) ? (
           <Box mt={2}>
             <Button variant="text" onClick={handleSeeDetails} fullWidth>
               {t('button.seeDetails')}

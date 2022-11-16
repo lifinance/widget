@@ -6,7 +6,7 @@ import { useLiFi, useWallet } from '../providers';
 import {
   getUpdatedProcess,
   isRouteActive,
-  isRouteCompleted,
+  isRouteDone,
   isRouteFailed,
   useRouteExecutionStore,
 } from '../stores';
@@ -45,7 +45,7 @@ export const useRouteExecution = (
         process,
       });
     }
-    if (isRouteCompleted(clonedUpdatedRoute)) {
+    if (isRouteDone(clonedUpdatedRoute)) {
       emitter.emit(WidgetEvent.RouteExecutionCompleted, clonedUpdatedRoute);
     }
     if (isRouteFailed(clonedUpdatedRoute) && process) {

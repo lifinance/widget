@@ -1,8 +1,20 @@
 import type { Process, Route } from '@lifi/sdk';
 import microdiff from 'microdiff';
 
-export const isRouteCompleted = (route: Route) => {
+export const isRouteDone = (route: Route) => {
   return route.steps.every((step) => step.execution?.status === 'DONE');
+};
+
+export const isRoutePartiallyDone = (route: Route) => {
+  return route.steps.some((step) =>
+    step.execution?.process.some((process) => process.substatus === 'PARTIAL'),
+  );
+};
+
+export const isRouteRefunded = (route: Route) => {
+  return route.steps.some((step) =>
+    step.execution?.process.some((process) => process.substatus === 'REFUNDED'),
+  );
 };
 
 export const isRouteFailed = (route: Route) => {
@@ -13,7 +25,7 @@ export const isRouteActive = (route?: Route) => {
   if (!route) {
     return false;
   }
-  const isDone = isRouteCompleted(route);
+  const isDone = isRouteDone(route);
   const isFailed = isRouteFailed(route);
   const alreadyStarted = route.steps.some((step) => step.execution);
   return !isDone && !isFailed && alreadyStarted;

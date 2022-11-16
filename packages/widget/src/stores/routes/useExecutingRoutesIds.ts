@@ -1,5 +1,6 @@
 import shallow from 'zustand/shallow';
 import type { RouteExecution } from './types';
+import { RouteExecutionStatus } from './types';
 import { useRouteExecutionStore } from './useRouteExecutionStore';
 
 export const useExecutingRoutesIds = (address?: string) => {
@@ -9,7 +10,8 @@ export const useExecutingRoutesIds = (address?: string) => {
         .filter(
           (item) =>
             item.route.fromAddress === address &&
-            (item.status === 'loading' || item.status === 'error'),
+            (item.status === RouteExecutionStatus.Pending ||
+              item.status === RouteExecutionStatus.Failed),
         )
         .sort(
           (a, b) =>

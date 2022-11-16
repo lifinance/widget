@@ -12,11 +12,12 @@ export const widgetBaseConfig: WidgetConfig = {
   // fromChain: 137,
   // toChain: 10,
   // fromToken: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
-  // toToken: '0x7f5c764cbc14f9669b88837ca1490cca17c31607',
-  // fromAmount: '10',
-  // disableColorSchemes: true,
+  // toToken: '0x7f5c764cbc14f9669b88837ca1490cca17c31607', // 0x0000000000000000000000000000000000000000
+  // fromAmount: '20',
   // toAddress: '0x552008c0f6870c2f77e5cC1d2eb9bdff03e30Ea0',
-  disableTelemetry: true,
+
+  disableTelemetry: false,
+  // disableColorSchemes: true,
   variant: 'expandable',
   integrator: 'li.fi-playground',
   disabledChains: [],
@@ -32,6 +33,7 @@ export const widgetBaseConfig: WidgetConfig = {
     defaultRouteOptions: {
       // slippage: 0.02,
       // order: 'SAFEST',
+      // allowSwitchChain: false,
     },
   },
   tokens: {

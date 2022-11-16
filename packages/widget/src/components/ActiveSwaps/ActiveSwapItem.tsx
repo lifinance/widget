@@ -6,6 +6,7 @@ import {
 import { ListItemAvatar, ListItemText, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useProcessMessage, useRouteExecution } from '../../hooks';
+import { RouteExecutionStatus } from '../../stores';
 import { navigationRoutes } from '../../utils';
 import { StepTimer } from '../Step/StepTimer';
 import { TokenAvatar, TokenAvatarGroup } from '../TokenAvatar';
@@ -80,7 +81,7 @@ export const ActiveSwapItem: React.FC<{
           </Typography>
         }
         secondary={
-          status !== 'success' ? (
+          status !== RouteExecutionStatus.Done ? (
             <Typography
               fontWeight={400}
               fontSize={12}

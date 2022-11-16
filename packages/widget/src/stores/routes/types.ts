@@ -9,12 +9,14 @@ export interface RouteExecutionStore {
   deleteRoutes: (type: 'completed' | 'active') => void;
 }
 
-export type RouteExecutionStatus =
-  | 'error'
-  | 'idle'
-  | 'loading'
-  | 'success'
-  | 'warning';
+export enum RouteExecutionStatus {
+  Idle = 0,
+  Pending = 1 << 0,
+  Done = 1 << 1,
+  Failed = 1 << 2,
+  Partial = 1 << 3,
+  Refunded = 1 << 4,
+}
 
 export interface RouteExecution {
   route: Route;

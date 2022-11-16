@@ -148,10 +148,12 @@
     "stepSwapAndBridge": "Swap and bridge",
     "success": {
       "message": {
-        "swapSuccessful": "There are now {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} in wallet {{walletAddress}} on {{chainName}} chain."
+        "swapPartiallySuccessful": "We've tried to complete the swap, but {{tool}} ran out of liquidity for {{tokenSymbol}} token.",
+        "swapSuccessful": "There are now {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} in {{walletAddress}} wallet on {{chainName}} chain."
       },
       "title": {
         "gasSwapSuccessful": "Gas swap successful",
+        "swapPartiallySuccessful": "Swap partially successful",
         "swapSuccessful": "Swap successful"
       }
     },

@@ -1,16 +1,17 @@
-import type { BottomSheetBase } from '@lifi/widget/components/BottomSheet';
 import { Delete as DeleteIcon } from '@mui/icons-material';
 import { Box, Button, Tooltip } from '@mui/material';
 import { Fragment, useCallback, useRef } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
+import type { BottomSheetBase } from '../../components/BottomSheet';
 import { GasSufficiencyMessage } from '../../components/GasSufficiencyMessage';
 import { Step } from '../../components/Step';
 import { StepDivider } from '../../components/StepDivider';
 import { SwapButton } from '../../components/SwapButton';
 import { useNavigateBack, useRouteExecution } from '../../hooks';
 import { SwapFormKey } from '../../providers';
+import { RouteExecutionStatus } from '../../stores';
 import { StatusBottomSheet } from './StatusBottomSheet';
 import { Container } from './SwapPage.style';
 import {
@@ -36,7 +37,7 @@ export const SwapPage: React.FC = () => {
   }, [executeRoute, setValue]);
 
   const handleSwapClick = async () => {
-    if (status === 'idle') {
+    if (status === RouteExecutionStatus.Idle) {
       const thresholdExceeded = getTokenValueLossThreshold(route);
       if (thresholdExceeded) {
         tokenValueBottomSheetRef.current?.open();
@@ -44,7 +45,7 @@ export const SwapPage: React.FC = () => {
         handleExecuteRoute();
       }
     }
-    if (status === 'error') {
+    if (status === RouteExecutionStatus.Failed) {
       restartRoute();
     }
   };
@@ -56,9 +57,9 @@ export const SwapPage: React.FC = () => {
 
   const getSwapButtonText = () => {
     switch (status) {
-      case 'idle':
+      case RouteExecutionStatus.Idle:
         return t('button.startSwap');
-      case 'error':
+      case RouteExecutionStatus.Failed:
         return t('button.restartSwap');
       default:
         return '';
@@ -88,7 +89,8 @@ export const SwapPage: React.FC = () => {
           </Fragment>
         );
       })}
-      {status === 'idle' || status === 'error' ? (
+      {status === RouteExecutionStatus.Idle ||
+      status === RouteExecutionStatus.Failed ? (
         <>
           <GasSufficiencyMessage route={route} mt={2} />
           <Box mt={2} display="flex">
@@ -99,7 +101,7 @@ export const SwapPage: React.FC = () => {
               // disable={status === 'idle' && (isValidating || !isValid)}
               enableLoading
             />
-            {status === 'error' ? (
+            {status === RouteExecutionStatus.Failed ? (
               <Tooltip
                 title={t('button.removeSwap')}
                 placement="bottom-end"

@@ -2,8 +2,15 @@ import type { Route } from '@lifi/sdk';
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
+import { hasEnumFlag } from '../../utils';
 import type { RouteExecutionStore } from './types';
-import { isRouteCompleted, isRouteFailed } from './utils';
+import { RouteExecutionStatus } from './types';
+import {
+  isRouteDone,
+  isRouteFailed,
+  isRoutePartiallyDone,
+  isRouteRefunded,
+} from './utils';
 
 export const useRouteExecutionStore = create<RouteExecutionStore>()(
   persist(
@@ -14,11 +21,14 @@ export const useRouteExecutionStore = create<RouteExecutionStore>()(
           if (!state.routes[route.id]) {
             // clean previous idle routes that were not executed
             Object.keys(state.routes)
-              .filter((routeId) => state.routes[routeId]?.status === 'idle')
+              .filter(
+                (routeId) =>
+                  state.routes[routeId]?.status === RouteExecutionStatus.Idle,
+              )
               .forEach((routeId) => delete state.routes[routeId]);
             state.routes[route.id] = {
               route,
-              status: 'idle',
+              status: RouteExecutionStatus.Idle,
             };
           }
         }),
@@ -28,23 +38,28 @@ export const useRouteExecutionStore = create<RouteExecutionStore>()(
             state.routes[route.id]!.route = route;
             const isFailed = isRouteFailed(route);
             if (isFailed) {
-              state.routes[route.id]!.status = 'error';
+              state.routes[route.id]!.status = RouteExecutionStatus.Failed;
               return;
             }
-            const isDone = isRouteCompleted(route);
+            const isDone = isRouteDone(route);
             if (isDone) {
-              state.routes[route.id]!.status = 'success';
+              state.routes[route.id]!.status = RouteExecutionStatus.Done;
+              if (isRoutePartiallyDone(route)) {
+                state.routes[route.id]!.status |= RouteExecutionStatus.Partial;
+              } else if (isRouteRefunded(route)) {
+                state.routes[route.id]!.status |= RouteExecutionStatus.Refunded;
+              }
               return;
             }
             const isLoading = route.steps.some((step) => step.execution);
             if (isLoading) {
-              state.routes[route.id]!.status = 'loading';
+              state.routes[route.id]!.status = RouteExecutionStatus.Pending;
             }
           }
         }),
       restartRoute: (routeId: string) =>
         set((state: RouteExecutionStore) => {
-          state.routes[routeId]!.status = 'loading';
+          state.routes[routeId]!.status = RouteExecutionStatus.Pending;
         }),
       deleteRoute: (routeId: string) =>
         set((state: RouteExecutionStore) => {
@@ -57,14 +72,21 @@ export const useRouteExecutionStore = create<RouteExecutionStore>()(
           Object.keys(state.routes)
             .filter((routeId) =>
               type === 'completed'
-                ? state.routes[routeId]?.status === 'success'
-                : state.routes[routeId]?.status !== 'success',
+                ? hasEnumFlag(
+                    state.routes[routeId]?.status ?? 0,
+                    RouteExecutionStatus.Done,
+                  )
+                : !hasEnumFlag(
+                    state.routes[routeId]?.status ?? 0,
+                    RouteExecutionStatus.Done,
+                  ),
             )
             .forEach((routeId) => delete state.routes[routeId]);
         }),
     })),
     {
       name: 'li.fi-widget-routes',
+      version: 1,
       partialize: (state) => ({ routes: state.routes }),
       merge: (persistedState: any, currentState: RouteExecutionStore) => {
         const state = { ...currentState, ...persistedState };
@@ -78,21 +100,21 @@ export const useRouteExecutionStore = create<RouteExecutionStore>()(
               }
               state.routes[route.id] = {
                 route,
-                status: 'idle',
+                status: RouteExecutionStatus.Idle,
               };
               const isFailed = isRouteFailed(route);
               if (isFailed) {
-                state.routes[route.id]!.status = 'error';
+                state.routes[route.id]!.status = RouteExecutionStatus.Failed;
                 return;
               }
-              const isDone = isRouteCompleted(route);
+              const isDone = isRouteDone(route);
               if (isDone) {
-                state.routes[route.id]!.status = 'success';
+                state.routes[route.id]!.status = RouteExecutionStatus.Done;
                 return;
               }
               const isLoading = route.steps.some((step) => step.execution);
               if (isLoading) {
-                state.routes[route.id]!.status = 'loading';
+                state.routes[route.id]!.status = RouteExecutionStatus.Pending;
               }
             });
           }
@@ -101,6 +123,32 @@ export const useRouteExecutionStore = create<RouteExecutionStore>()(
           console.log(error);
         }
         return state;
+      },
+      migrate: (persistedState: any, version) => {
+        if (version === 0) {
+          Object.values(persistedState.routes).forEach((route: any) => {
+            if (route) {
+              switch (route.status) {
+                case 'idle':
+                  route.status = RouteExecutionStatus.Idle;
+                  break;
+                case 'loading':
+                  route.status = RouteExecutionStatus.Pending;
+                  break;
+                case 'success':
+                case 'warning':
+                  route.status = RouteExecutionStatus.Done;
+                  break;
+                case 'error':
+                  route.status = RouteExecutionStatus.Failed;
+                  break;
+                default:
+                  break;
+              }
+            }
+          });
+        }
+        return persistedState as RouteExecutionStore;
       },
     },
   ),

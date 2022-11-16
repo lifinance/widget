@@ -18,14 +18,11 @@ export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
   const amountKey = SwapFormKeyHelper.getAmountKey(formType);
   const {
     field: { onChange, onBlur, value },
-    fieldState: { isDirty, isTouched },
   } = useController({
     name: amountKey,
   });
   const { disabledUI } = useWidgetConfig();
   const ref = useRef<HTMLInputElement>(null);
-
-  console.log(isDirty, isTouched);
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,

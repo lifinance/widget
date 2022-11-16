@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import Big from 'big.js';
 import { useChains } from '.';
 import { useWallet } from '../providers';
-import { isRouteCompleted } from '../stores';
+import { isRouteDone } from '../stores';
 import { useTokenBalance } from './useTokenBalance';
 
 export interface GasSufficiency {
@@ -125,7 +125,7 @@ export const useGasSufficiency = (route?: Route) => {
   } = useQuery(
     ['funds-sufficiency-check', account.address, route?.id],
     async () => {
-      if (!account.address || !fromToken || !route || isRouteCompleted(route)) {
+      if (!account.address || !fromToken || !route || isRouteDone(route)) {
         return null;
       }
       let currentTokenBalance = Big(fromToken?.amount ?? 0);

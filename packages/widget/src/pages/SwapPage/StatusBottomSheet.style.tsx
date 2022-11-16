@@ -1,14 +1,18 @@
 import type { Theme } from '@mui/material';
 import { Box } from '@mui/material';
 import { alpha, darken, styled } from '@mui/material/styles';
-import type { RouteExecutionStatus } from '../../stores';
+import { RouteExecutionStatus } from '../../stores';
 
-const getStatusColor = (status: RouteExecutionStatus, theme: Theme) => {
+type StatusColor = RouteExecutionStatus | 'warning';
+
+const getStatusColor = (status: StatusColor, theme: Theme) => {
   switch (status) {
-    case 'success':
+    case RouteExecutionStatus.Done:
       return { color: theme.palette.success.main, alpha: 0.15, darken: 0 };
-    case 'error':
+    case RouteExecutionStatus.Failed:
       return { color: theme.palette.error.main, alpha: 0.2, darken: 0 };
+    case RouteExecutionStatus.Done | RouteExecutionStatus.Partial:
+    case RouteExecutionStatus.Done | RouteExecutionStatus.Refunded:
     case 'warning':
       return { color: theme.palette.warning.main, alpha: 0.7, darken: 0.4 };
     default:
@@ -24,7 +28,7 @@ export const IconContainer = styled(Box)(({ theme }) => ({
 
 export const IconCircle = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'status',
-})<{ status: RouteExecutionStatus }>(({ theme, status }) => {
+})<{ status: StatusColor }>(({ theme, status }) => {
   const {
     color,
     alpha: alphaValue,

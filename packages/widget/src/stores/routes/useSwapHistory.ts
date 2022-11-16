@@ -1,5 +1,7 @@
 import shallow from 'zustand/shallow';
+import { hasEnumFlag } from '../../utils';
 import type { RouteExecution } from './types';
+import { RouteExecutionStatus } from './types';
 import { useRouteExecutionStore } from './useRouteExecutionStore';
 
 export const useSwapHistory = (address?: string) => {
@@ -8,7 +10,8 @@ export const useSwapHistory = (address?: string) => {
       Object.values(state.routes)
         .filter(
           (item) =>
-            item?.route.fromAddress === address && item?.status === 'success',
+            item?.route.fromAddress === address &&
+            hasEnumFlag(item!.status, RouteExecutionStatus.Done),
         )
         .sort(
           (a, b) =>
