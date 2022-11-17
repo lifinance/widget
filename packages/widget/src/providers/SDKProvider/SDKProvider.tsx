@@ -11,12 +11,16 @@ export const useLiFi = (): LIFI => useContext(SDKContext);
 export const SDKProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
-  const { sdkConfig, integrator } = useWidgetConfig();
+  const { sdkConfig, fee, integrator, routePriority, slippage } =
+    useWidgetConfig();
   const value = useMemo(() => {
     const config = {
       ...sdkConfig,
       defaultRouteOptions: {
+        fee,
         integrator: integrator ?? window.location.hostname,
+        routePriority,
+        slippage,
         ...sdkConfig?.defaultRouteOptions,
       },
     };
@@ -28,7 +32,7 @@ export const SDKProvider: React.FC<React.PropsWithChildren> = ({
     }
     lifi.setConfig(config);
     return lifi;
-  }, [integrator, sdkConfig]);
+  }, [fee, integrator, routePriority, sdkConfig, slippage]);
 
   return <SDKContext.Provider value={value}>{children}</SDKContext.Provider>;
 };

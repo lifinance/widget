@@ -53,6 +53,7 @@ export interface WidgetConfig {
   toAddress?: string;
   fromAmount?: number | string;
 
+  fee?: number;
   integrator?: string;
 
   slippage?: number;
