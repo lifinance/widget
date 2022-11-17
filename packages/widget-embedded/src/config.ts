@@ -34,6 +34,7 @@ export const widgetBaseConfig: WidgetConfig = {
       // slippage: 0.02,
       // order: 'SAFEST',
       // allowSwitchChain: false,
+      // fee: 0.05
     },
   },
   tokens: {

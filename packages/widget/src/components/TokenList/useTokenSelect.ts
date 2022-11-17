@@ -19,6 +19,12 @@ export const useTokenSelect = (
       onBlur();
       const selectedChainId =
         chainId ?? getValues(SwapFormKeyHelper.getChainKey(formType));
+      // Set chain again to trigger URL builder update
+      setValue(SwapFormKeyHelper.getChainKey(formType), selectedChainId, {
+        shouldDirty: true,
+        shouldTouch: true,
+      });
+      setValue(SwapFormKeyHelper.getAmountKey(formType), '');
       const oppositeFormType = formType === 'from' ? 'to' : 'from';
       const [selectedOppositeToken, selectedOppositeChainId] = getValues([
         SwapFormKeyHelper.getTokenKey(oppositeFormType),
@@ -33,12 +39,6 @@ export const useTokenSelect = (
           shouldTouch: true,
         });
       }
-      // Set chain again to trigger URL builder update
-      setValue(SwapFormKeyHelper.getChainKey(formType), selectedChainId, {
-        shouldDirty: true,
-        shouldTouch: true,
-      });
-      setValue(SwapFormKeyHelper.getAmountKey(formType), '');
       onClick?.();
     },
     [formType, getValues, onBlur, onChange, onClick, setValue],
