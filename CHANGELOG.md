@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.25.1](https://github.com/lifinance/widget/compare/v1.25.0...v1.25.1) (2022-11-17)
+
+
+### Bug Fixes
+
+* add fee option to top level config ([4ce4d7d](https://github.com/lifinance/widget/commit/4ce4d7d30dc851e52fc3a7001d9b53e4d874affb))
+
 ## [1.25.0](https://github.com/lifinance/widget/compare/v1.24.0...v1.25.0) (2022-11-16)
 
 
