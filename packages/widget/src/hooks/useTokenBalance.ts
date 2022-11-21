@@ -121,8 +121,8 @@ export const useTokenBalance = (token?: Token, accountAddress?: string) => {
 
   const refetchNewBalance = useCallback(() => {
     queryClient.setQueryDefaults(tokenBalanceQueryKey, {
-      refetchInterval: 500,
-      staleTime: 500,
+      refetchInterval: 250,
+      staleTime: 250,
     });
   }, [queryClient, tokenBalanceQueryKey]);
 
