@@ -113,19 +113,19 @@
     "process": {
       "crossChain": {
         "actionRequired": "Please sign the transaction.",
-        "done": "Transaction approved.",
-        "pending": "Waiting for transaction.",
-        "started": "Preparing transaction."
+        "done": "Bridge transaction confirmed.",
+        "pending": "Waiting for bridge transaction.",
+        "started": "Preparing bridge transaction."
       },
       "receivingChain": {
-        "done": "Funds received.",
-        "pending": "Waiting for receiving chain."
+        "done": "Bridge completed.",
+        "pending": "Waiting for destination chain."
       },
       "swap": {
         "actionRequired": "Please sign the transaction.",
         "done": "Swap completed.",
-        "pending": "Swapping.",
-        "started": "Preparing swap."
+        "pending": "Waiting for swap transaction.",
+        "started": "Preparing swap transaction."
       },
       "switchChain": {
         "actionRequired": "Chain switch required.",
