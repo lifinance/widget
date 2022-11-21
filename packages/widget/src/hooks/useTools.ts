@@ -30,6 +30,8 @@ export const useTools = () => {
           .map((exchange) => exchange.key),
       );
     },
+    refetchInterval: 180000,
+    staleTime: 180000,
   });
 
   const formattedTools = useMemo(
