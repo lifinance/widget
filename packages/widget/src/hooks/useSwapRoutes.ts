@@ -1,4 +1,5 @@
 import { isAddress } from '@ethersproject/address';
+import { LifiErrorCode } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Big from 'big.js';
 import { useWatch } from 'react-hook-form';
@@ -129,6 +130,12 @@ export const useSwapRoutes = () => {
         refetchInterval,
         staleTime: refetchTime,
         cacheTime: refetchTime,
+        retry(failureCount, error: any) {
+          if (error?.code === LifiErrorCode.NotFound) {
+            return false;
+          }
+          return true;
+        },
       },
     );
 
