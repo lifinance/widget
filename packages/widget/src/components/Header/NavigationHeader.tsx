@@ -1,7 +1,7 @@
 import {
   ArrowBack as ArrowBackIcon,
-  History as HistoryIcon,
-  SettingsOutlined as SettingsIcon,
+  ReceiptLongOutlined as HistoryIcon,
+  SettingsOutlined as SettingsIcon
 } from '@mui/icons-material';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -11,7 +11,7 @@ import { useWallet, useWidgetConfig } from '../../providers';
 import {
   backButtonRoutes,
   navigationRoutes,
-  navigationRoutesValues,
+  navigationRoutesValues
 } from '../../utils';
 import { HeaderAppBar } from './Header.style';
 import { useHeaderActionStore } from './useHeaderActionStore';
