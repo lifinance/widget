@@ -12,15 +12,14 @@ import {
   IconButton,
   Typography
 } from '@mui/material';
-import { Fragment, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import shallow from 'zustand/shallow';
 import { Card, CardTitle } from '../../components/Card';
 import { Dialog } from '../../components/Dialog';
 import { useHeaderActionStore } from '../../components/Header';
-import { Step } from '../../components/Step';
-import { StepDivider } from '../../components/StepDivider';
+import { getStepList } from '../../components/Step';
 import { useNavigateBack } from '../../hooks';
 import { useRouteExecutionStore } from '../../stores';
 import { Container } from './SwapDetailsPage.style';
@@ -46,12 +45,16 @@ export const SwapDetailsPage: React.FC = () => {
     }
   };
 
-  const supportId =
+  let supportId =
     routeExecution?.route.steps[0].execution?.process.find(
       (process) => process.txHash,
     )?.txHash ??
     routeExecution?.route.id ??
     '';
+
+  if (process.env.NODE_ENV === 'development') {
+    supportId += `_${routeExecution?.route.id}`;
+  }
 
   const copySupportId = async () => {
     await navigator.clipboard.writeText(supportId);
@@ -90,27 +93,7 @@ export const SwapDetailsPage: React.FC = () => {
           }).format(startedAt)}
         </Typography>
       </Box>
-      {routeExecution?.route.steps.map((step, index, steps) => {
-        const fromToken =
-          index === 0
-            ? { ...step.action.fromToken, amount: step.action.fromAmount }
-            : undefined;
-        const toToken =
-          index === steps.length - 1
-            ? {
-                ...(step.execution?.toToken ?? step.action?.toToken),
-                amount: step.execution?.toAmount ?? step.estimate.toAmount,
-              }
-            : undefined;
-        return (
-          <Fragment key={step.id}>
-            <Step step={step} fromToken={fromToken} toToken={toToken} />
-            {steps.length > 1 && index !== steps.length - 1 ? (
-              <StepDivider />
-            ) : null}
-          </Fragment>
-        );
-      })}
+      {getStepList(routeExecution?.route)}
       <Card mt={2}>
         <Box
           sx={{

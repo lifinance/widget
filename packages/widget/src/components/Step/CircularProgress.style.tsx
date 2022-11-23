@@ -1,4 +1,4 @@
-import type { Process, Status, Substatus } from '@lifi/sdk';
+import type { Status, Substatus } from '@lifi/sdk';
 import {
   Box,
   CircularProgress as MuiCircularProgress,
@@ -42,22 +42,26 @@ const getStatusColor = (
   }
 };
 
-export const CircularProgressBox = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'process',
-})<{ process: Process }>(({ theme, process }) => ({
-  backgroundColor: !['STARTED', 'PENDING'].includes(process.status)
-    ? getStatusColor(theme, process.status, process.substatus)
-    : theme.palette.background.paper,
-  borderStyle: 'solid',
-  borderColor: getStatusColor(theme, process.status, process.substatus),
-  borderWidth: ['STARTED', 'PENDING'].includes(process.status) ? 2 : 0,
-  display: 'grid',
-  position: 'relative',
-  placeItems: 'center',
-  width: 32,
-  height: 32,
-  borderRadius: '50%',
-}));
+export const CircularIcon = styled(Box, {
+  shouldForwardProp: (prop: string) => !['status', 'substatus'].includes(prop),
+})<{ status: Status; substatus?: Substatus }>(
+  ({ theme, status, substatus }) => ({
+    backgroundColor: ['ACTION_REQUIRED', 'DONE', 'FAILED'].includes(status)
+      ? getStatusColor(theme, status, substatus)
+      : theme.palette.background.paper,
+    borderStyle: 'solid',
+    borderColor: getStatusColor(theme, status, substatus),
+    borderWidth: !['ACTION_REQUIRED', 'DONE', 'FAILED'].includes(status)
+      ? 2
+      : 0,
+    display: 'grid',
+    position: 'relative',
+    placeItems: 'center',
+    width: 32,
+    height: 32,
+    borderRadius: '50%',
+  }),
+);
 
 export const CircularProgressPending = styled(MuiCircularProgress)(
   ({ theme }) => ({

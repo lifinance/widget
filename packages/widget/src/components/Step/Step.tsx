@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardTitle } from '../../components/Card';
 import { StepActions } from '../../components/StepActions';
 import { Token } from '../../components/Token';
+import { GasStepProcess } from './GasStepProcess';
 import { StepProcess } from './StepProcess';
 import { StepTimer } from './StepTimer';
 
@@ -57,6 +58,7 @@ export const Step: React.FC<{
         {step.execution?.process.map((process, index) => (
           <StepProcess key={index} step={step} process={process} />
         ))}
+        <GasStepProcess step={step} />
         {toToken ? <Token token={toToken} px={2} py={1} /> : null}
       </Box>
     </Card>

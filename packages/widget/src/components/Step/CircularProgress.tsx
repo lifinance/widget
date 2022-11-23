@@ -6,13 +6,13 @@ import {
 } from '@mui/icons-material';
 import { darken } from '@mui/material/styles';
 import {
-  CircularProgressBox,
+  CircularIcon,
   CircularProgressPending
 } from './CircularProgress.style';
 
 export function CircularProgress({ process }: { process: Process }) {
   return (
-    <CircularProgressBox process={process}>
+    <CircularIcon status={process.status} substatus={process.substatus}>
       {process.status === 'STARTED' || process.status === 'PENDING' ? (
         <CircularProgressPending size={32} thickness={3} />
       ) : null}
@@ -31,7 +31,7 @@ export function CircularProgress({ process }: { process: Process }) {
           sx={(theme) => ({
             position: 'absolute',
             fontSize: '1rem',
-            color: darken(theme.palette.warning.main, 0.32)
+            color: darken(theme.palette.warning.main, 0.32),
           })}
         />
       ) : process.status === 'DONE' ? (
@@ -52,6 +52,6 @@ export function CircularProgress({ process }: { process: Process }) {
           }}
         />
       ) : null}
-    </CircularProgressBox>
+    </CircularIcon>
   );
 }

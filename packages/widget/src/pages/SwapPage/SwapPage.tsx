@@ -1,13 +1,12 @@
 import { Delete as DeleteIcon } from '@mui/icons-material';
 import { Box, Button, Tooltip } from '@mui/material';
-import { Fragment, useCallback, useRef } from 'react';
+import { useCallback, useRef } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import { GasSufficiencyMessage } from '../../components/GasSufficiencyMessage';
-import { Step } from '../../components/Step';
-import { StepDivider } from '../../components/StepDivider';
+import { getStepList } from '../../components/Step';
 import { SwapButton } from '../../components/SwapButton';
 import { useNavigateBack, useRouteExecution } from '../../hooks';
 import { SwapFormKey } from '../../providers';
@@ -76,27 +75,7 @@ export const SwapPage: React.FC = () => {
 
   return (
     <Container>
-      {route?.steps.map((step, index, steps) => {
-        const fromToken =
-          index === 0
-            ? { ...step.action.fromToken, amount: step.action.fromAmount }
-            : undefined;
-        const toToken =
-          index === steps.length - 1
-            ? {
-                ...(step.execution?.toToken ?? step.action?.toToken),
-                amount: step.execution?.toAmount ?? step.estimate.toAmount,
-              }
-            : undefined;
-        return (
-          <Fragment key={step.id}>
-            <Step step={step} fromToken={fromToken} toToken={toToken} />
-            {steps.length > 1 && index !== steps.length - 1 ? (
-              <StepDivider />
-            ) : null}
-          </Fragment>
-        );
-      })}
+      {getStepList(route)}
       {status === RouteExecutionStatus.Idle ||
       status === RouteExecutionStatus.Failed ? (
         <>

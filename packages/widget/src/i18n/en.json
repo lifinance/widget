@@ -79,17 +79,17 @@
         "unknown": "Please try again or contact support."
       },
       "title": {
-        "balanceIsTooLow": "The balance is too low.",
-        "chainSwitch": "Chain switch required.",
-        "failed": "Swap failed.",
-        "gasLimitIsTooLow": "The gas limit is too low.",
-        "slippageNotMet": "Slippage conditions not met.",
-        "transactionCanceled": "Transaction canceled.",
-        "transactionFailed": "Transaction failed.",
-        "transactionRejected": "Signature required.",
-        "transactionUnderpriced": "Transaction is underpriced.",
-        "transactionUnprepared": "Unable to prepare transaction.",
-        "unknown": "Something went wrong.",
+        "balanceIsTooLow": "The balance is too low",
+        "chainSwitch": "Chain switch required",
+        "failed": "Swap failed",
+        "gasLimitIsTooLow": "The gas limit is too low",
+        "slippageNotMet": "Slippage conditions not met",
+        "transactionCanceled": "Transaction canceled",
+        "transactionFailed": "Transaction failed",
+        "transactionRejected": "Signature required",
+        "transactionUnderpriced": "Transaction is underpriced",
+        "transactionUnprepared": "Unable to prepare transaction",
+        "unknown": "Something went wrong",
         "walletAddressInvalid": "Wallet address is invalid.",
         "walletEnsAddressInvalid": "Wallet address is invalid or network doesn't support ENS."
       }
@@ -99,6 +99,8 @@
     "from": "From",
     "fromAmount": "You pay",
     "gasCost": "Gas cost",
+    "gasFeeEstimated": "estimated gas fee",
+    "gasFeePaid": "gas fee paid",
     "inProgress": "in progress",
     "info": {
       "message": {
@@ -117,31 +119,31 @@
     "otherTokens": "Other tokens",
     "process": {
       "crossChain": {
-        "actionRequired": "Please sign the transaction.",
-        "done": "Bridge transaction confirmed.",
-        "pending": "Waiting for bridge transaction.",
-        "started": "Preparing bridge transaction."
+        "actionRequired": "Please sign the transaction",
+        "done": "Bridge transaction confirmed",
+        "pending": "Waiting for bridge transaction",
+        "started": "Preparing bridge transaction"
       },
       "receivingChain": {
-        "done": "Bridge completed.",
-        "partial": "Bridge partially completed.",
-        "pending": "Waiting for destination chain.",
-        "refunded": "Bridge transaction refunded."
+        "done": "Bridge completed",
+        "partial": "Bridge partially completed",
+        "pending": "Waiting for destination chain",
+        "refunded": "Bridge transaction refunded"
       },
       "swap": {
-        "actionRequired": "Please sign the transaction.",
-        "done": "Swap completed.",
-        "pending": "Waiting for swap transaction.",
-        "started": "Preparing swap transaction."
+        "actionRequired": "Please sign the transaction",
+        "done": "Swap completed",
+        "pending": "Waiting for swap transaction",
+        "started": "Preparing swap transaction"
       },
       "switchChain": {
-        "actionRequired": "Chain switch required.",
-        "done": "Chain switched successfully."
+        "actionRequired": "Chain switch required",
+        "done": "Chain switched successfully"
       },
       "tokenAllowance": {
-        "done": "Token allowance approved.",
-        "pending": "Waiting for token allowance.",
-        "started": "Setting token allowance."
+        "done": "Token allowance approved",
+        "pending": "Waiting for token allowance",
+        "started": "Setting token allowance"
       }
     },
     "quotedAmount": "Quoted amount",
