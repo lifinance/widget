@@ -137,7 +137,6 @@ export const SwapDetailsPage: React.FC = () => {
       </Card>
       <Box mt={2}>
         <Button
-          variant="contained"
           href="https://discord.com/channels/849912621360218112/863689862514343946"
           target="_blank"
           rel="nofollow noreferrer"

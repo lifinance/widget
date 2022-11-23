@@ -8,15 +8,15 @@ type StatusColor = RouteExecutionStatus | 'warning';
 const getStatusColor = (status: StatusColor, theme: Theme) => {
   switch (status) {
     case RouteExecutionStatus.Done:
-      return { color: theme.palette.success.main, alpha: 0.15, darken: 0 };
+      return { color: theme.palette.success.main, alpha: 0.12, darken: 0 };
     case RouteExecutionStatus.Failed:
-      return { color: theme.palette.error.main, alpha: 0.2, darken: 0 };
+      return { color: theme.palette.error.main, alpha: 0.12, darken: 0 };
     case RouteExecutionStatus.Done | RouteExecutionStatus.Partial:
     case RouteExecutionStatus.Done | RouteExecutionStatus.Refunded:
     case 'warning':
-      return { color: theme.palette.warning.main, alpha: 0.7, darken: 0.4 };
+      return { color: theme.palette.warning.main, alpha: 0.48, darken: 0.32 };
     default:
-      return { color: theme.palette.primary.main, alpha: 0.15, darken: 0 };
+      return { color: theme.palette.primary.main, alpha: 0.12, darken: 0 };
   }
 };
 

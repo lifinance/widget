@@ -18,7 +18,7 @@ export const StepProcess: React.FC<{
           alignItems: 'center',
         }}
       >
-        <CircularProgress status={process.status} />
+        <CircularProgress process={process} />
         <Typography ml={2} fontSize={14} fontWeight={process.error ? 600 : 400}>
           {title}
         </Typography>

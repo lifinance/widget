@@ -1,8 +1,11 @@
-import type { Status } from '@lifi/sdk';
-import type { Theme } from '@mui/material';
-import { CircularProgress as MuiCircularProgress } from '@mui/material';
+import type { Process, Status, Substatus } from '@lifi/sdk';
+import {
+  Box,
+  CircularProgress as MuiCircularProgress,
+  Theme
+} from '@mui/material';
 import { circularProgressClasses } from '@mui/material/CircularProgress';
-import { keyframes, styled } from '@mui/material/styles';
+import { alpha, keyframes, styled } from '@mui/material/styles';
 
 const circleAnimation = keyframes({
   '0%': {
@@ -19,23 +22,41 @@ const circleAnimation = keyframes({
   },
 });
 
-const getStatusColor = (status: Status, theme: Theme) => {
+const getStatusColor = (
+  theme: Theme,
+  status: Status,
+  substatus?: Substatus,
+) => {
   switch (status) {
     case 'ACTION_REQUIRED':
-      return theme.palette.info.main;
+      return alpha(theme.palette.info.main, 0.12);
     case 'DONE':
-      return theme.palette.success.main;
+      if (substatus === 'PARTIAL' || substatus === 'REFUNDED') {
+        return alpha(theme.palette.warning.main, 0.48);
+      }
+      return alpha(theme.palette.success.main, 0.12);
     case 'FAILED':
-      return theme.palette.error.main;
+      return alpha(theme.palette.error.main, 0.12);
     default:
       return theme.palette.grey[theme.palette.mode === 'light' ? 300 : 800];
   }
 };
 
-export const CircularProgress = styled(MuiCircularProgress, {
-  shouldForwardProp: (prop) => prop !== 'status',
-})<{ status: Status }>(({ theme, status }) => ({
-  color: getStatusColor(status, theme),
+export const CircularProgressBox = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'process',
+})<{ process: Process }>(({ theme, process }) => ({
+  backgroundColor: !['STARTED', 'PENDING'].includes(process.status)
+    ? getStatusColor(theme, process.status, process.substatus)
+    : theme.palette.background.paper,
+  borderStyle: 'solid',
+  borderColor: getStatusColor(theme, process.status, process.substatus),
+  borderWidth: ['STARTED', 'PENDING'].includes(process.status) ? 2 : 0,
+  display: 'grid',
+  position: 'relative',
+  placeItems: 'center',
+  width: 32,
+  height: 32,
+  borderRadius: '50%',
 }));
 
 export const CircularProgressPending = styled(MuiCircularProgress)(
@@ -46,7 +67,7 @@ export const CircularProgressPending = styled(MuiCircularProgress)(
         : theme.palette.primary.light,
     animationDuration: '3s',
     position: 'absolute',
-    left: 0,
+    left: '-2px',
     [`.${circularProgressClasses.circle}`]: {
       animationDuration: '2s',
       animationTimingFunction: 'linear',

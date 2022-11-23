@@ -1,35 +1,22 @@
-import type { Status } from '@lifi/sdk';
+import type { Process } from '@lifi/sdk';
 import {
   Done as DoneIcon,
   Info as InfoIcon,
   Warning as WarningIcon
 } from '@mui/icons-material';
-import { Box } from '@mui/material';
+import { darken } from '@mui/material/styles';
 import {
-  CircularProgress as CircularProgressStyled,
+  CircularProgressBox,
   CircularProgressPending
 } from './CircularProgress.style';
 
-export function CircularProgress({ status }: { status: Status }) {
+export function CircularProgress({ process }: { process: Process }) {
   return (
-    <Box
-      sx={{
-        display: 'grid',
-        position: 'relative',
-        placeItems: 'center',
-      }}
-    >
-      <CircularProgressStyled
-        variant="determinate"
-        status={status}
-        size={32}
-        thickness={3}
-        value={100}
-      />
-      {status === 'STARTED' || status === 'PENDING' ? (
+    <CircularProgressBox process={process}>
+      {process.status === 'STARTED' || process.status === 'PENDING' ? (
         <CircularProgressPending size={32} thickness={3} />
       ) : null}
-      {status === 'ACTION_REQUIRED' ? (
+      {process.status === 'ACTION_REQUIRED' ? (
         <InfoIcon
           color="info"
           sx={{
@@ -38,7 +25,16 @@ export function CircularProgress({ status }: { status: Status }) {
           }}
         />
       ) : null}
-      {status === 'DONE' ? (
+      {process.status === 'DONE' &&
+      (process.substatus === 'PARTIAL' || process.substatus === 'REFUNDED') ? (
+        <WarningIcon
+          sx={(theme) => ({
+            position: 'absolute',
+            fontSize: '1rem',
+            color: darken(theme.palette.warning.main, 0.32)
+          })}
+        />
+      ) : process.status === 'DONE' ? (
         <DoneIcon
           color="success"
           sx={{
@@ -47,7 +43,7 @@ export function CircularProgress({ status }: { status: Status }) {
           }}
         />
       ) : null}
-      {status === 'FAILED' ? (
+      {process.status === 'FAILED' ? (
         <WarningIcon
           color="error"
           sx={{
@@ -56,6 +52,6 @@ export function CircularProgress({ status }: { status: Status }) {
           }}
         />
       ) : null}
-    </Box>
+    </CircularProgressBox>
   );
 }
