@@ -13,7 +13,7 @@ export const SwapRouteNotFoundCard: React.FC = () => {
         flexDirection: 'column',
         flex: 1,
       }}
-      py={2.375}
+      py={1.625}
     >
       <Typography fontSize={48}>
         <RouteIcon fontSize="inherit" />
