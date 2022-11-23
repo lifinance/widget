@@ -1,6 +1,6 @@
 import {
   ContentCopy as ContentCopyIcon,
-  DeleteOutline as DeleteIcon,
+  DeleteOutline as DeleteIcon
 } from '@mui/icons-material';
 import {
   Box,
@@ -10,7 +10,7 @@ import {
   DialogContentText,
   DialogTitle,
   IconButton,
-  Typography,
+  Typography
 } from '@mui/material';
 import { Fragment, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -46,8 +46,15 @@ export const SwapDetailsPage: React.FC = () => {
     }
   };
 
-  const copyRouteId = async () => {
-    await navigator.clipboard.writeText(routeExecution?.route.id ?? '');
+  const supportId =
+    routeExecution?.route.steps[0].execution?.process.find(
+      (process) => process.txHash,
+    )?.txHash ??
+    routeExecution?.route.id ??
+    '';
+
+  const copySupportId = async () => {
+    await navigator.clipboard.writeText(supportId);
   };
 
   useEffect(() => {
@@ -113,7 +120,7 @@ export const SwapDetailsPage: React.FC = () => {
         >
           <CardTitle flex={1}>{t('swap.supportId')}</CardTitle>
           <Box mr={1} mt={1}>
-            <IconButton size="medium" onClick={copyRouteId}>
+            <IconButton size="medium" onClick={copySupportId}>
               <ContentCopyIcon fontSize="small" />
             </IconButton>
           </Box>
@@ -125,7 +132,7 @@ export const SwapDetailsPage: React.FC = () => {
           px={2}
           sx={{ wordBreak: 'break-all' }}
         >
-          {routeExecution?.route.id}
+          {supportId}
         </Typography>
       </Card>
       <Box mt={2}>
