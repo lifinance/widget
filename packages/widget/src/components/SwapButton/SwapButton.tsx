@@ -50,7 +50,7 @@ export const SwapButton = forwardRef<HTMLButtonElement, SwapButtonProps>(
     return (
       <LoadingButton
         variant="contained"
-        color={account.isActive ? 'primary' : 'success'}
+        color="primary"
         onClick={handleSwapButtonClick}
         disabled={insufficientFunds || !!insufficientGas?.length || disable}
         loading={enableLoading && (loading || isGasSufficiencyLoading)}
