@@ -69,18 +69,23 @@
   },
   "swap": {
     "crossStepDetails": "Bridge from {{from}} to {{to}} via {{tool}}",
+    "currentAmount": "Current amount",
     "error": {
       "message": {
-        "slippageTooLarge": "The slippage is larger than the defined threshold. Please request a new route to get a fresh quote.",
+        "slippageThreshold": "The slippage is larger than the defined threshold. Please request a new route to get a fresh quote.",
         "transactionFailed": "Please check the block explorer for more information.",
-        "transactionNotSent": "Transaction was not sent, your funds are still in your wallet ({{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} on {{chainName}}).",
-        "transactionRejected": "Your signature is required to complete the transaction. {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} on {{chainName}} remain in your wallet."
+        "transactionNotSent": "Transaction was not sent. {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
+        "transactionRejected": "Your signature is required to complete the transaction. {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
+        "unknown": "Please try again or contact support."
       },
       "title": {
+        "balanceIsTooLow": "The balance is too low.",
         "chainSwitch": "Chain switch required.",
         "failed": "Swap failed.",
-        "slippageTooLarge": "Slippage too large.",
-        "transactionFailed": "Transaction has failed.",
+        "gasLimitIsTooLow": "The gas limit is too low.",
+        "slippageNotMet": "Slippage conditions not met.",
+        "transactionCanceled": "Transaction canceled.",
+        "transactionFailed": "Transaction failed.",
         "transactionRejected": "Signature required.",
         "transactionUnderpriced": "Transaction is underpriced.",
         "transactionUnprepared": "Unable to prepare transaction.",
@@ -119,7 +124,9 @@
       },
       "receivingChain": {
         "done": "Bridge completed.",
-        "pending": "Waiting for destination chain."
+        "partial": "Bridge partially completed.",
+        "pending": "Waiting for destination chain.",
+        "refunded": "Bridge transaction refunded."
       },
       "swap": {
         "actionRequired": "Please sign the transaction.",
@@ -137,6 +144,8 @@
         "started": "Setting token allowance."
       }
     },
+    "quotedAmount": "Quoted amount",
+    "rateChange": "Rate change",
     "receiving": "Receiving",
     "routes": "You get",
     "selectChain": "Chain",
@@ -153,6 +162,7 @@
       },
       "title": {
         "gasSwapSuccessful": "Gas swap successful",
+        "refundIssued": "Refund issued",
         "swapPartiallySuccessful": "Swap partially successful",
         "swapSuccessful": "Swap successful"
       }
@@ -179,14 +189,16 @@
         "deleteSwapHistory": "Swap history is only stored locally and can't be recovered if you delete it.",
         "highValueLoss": "The value of the received tokens is significantly lower than the swapped tokens and transaction cost.",
         "insufficientFunds": "You don't have enough funds to execute the swap.",
-        "insufficientGas": "You need to add at least:"
+        "insufficientGas": "You need to add at least:",
+        "rateChanged": "The exchange rate has changed. By continuing the swap, you'll accept the new rate."
       },
       "title": {
         "deleteActiveSwaps": "Delete all active swaps?",
         "deleteSwap": "Delete this swap?",
         "deleteSwapHistory": "Delete swap history?",
         "highValueLoss": "High value loss",
-        "insufficientGas": "Insufficient gas"
+        "insufficientGas": "Insufficient gas",
+        "rateChanged": "Rate changed"
       }
     }
   },

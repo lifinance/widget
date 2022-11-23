@@ -12,11 +12,15 @@ import { SwapButton } from '../../components/SwapButton';
 import { useNavigateBack, useRouteExecution } from '../../hooks';
 import { SwapFormKey } from '../../providers';
 import { RouteExecutionStatus } from '../../stores';
+import {
+  ExchangeRateBottomSheet,
+  ExchangeRateBottomSheetBase
+} from './ExchangeRateBottomSheet';
 import { StatusBottomSheet } from './StatusBottomSheet';
 import { Container } from './SwapPage.style';
 import {
   getTokenValueLossThreshold,
-  TokenValueBottomSheet,
+  TokenValueBottomSheet
 } from './TokenValueBottomSheet';
 
 export const SwapPage: React.FC = () => {
@@ -24,9 +28,13 @@ export const SwapPage: React.FC = () => {
   const { state }: any = useLocation();
   const { navigateBack } = useNavigateBack();
   const tokenValueBottomSheetRef = useRef<BottomSheetBase>(null);
+  const exchangeRateBottomSheetRef = useRef<ExchangeRateBottomSheetBase>(null);
   const { setValue } = useFormContext();
   const { route, status, executeRoute, restartRoute, deleteRoute } =
-    useRouteExecution(state?.routeId);
+    useRouteExecution({
+      routeId: state?.routeId,
+      onAcceptExchangeRateUpdate: exchangeRateBottomSheetRef.current?.open,
+    });
 
   const handleExecuteRoute = useCallback(() => {
     if (tokenValueBottomSheetRef.current?.isOpen()) {
@@ -60,7 +68,7 @@ export const SwapPage: React.FC = () => {
       case RouteExecutionStatus.Idle:
         return t('button.startSwap');
       case RouteExecutionStatus.Failed:
-        return t('button.restartSwap');
+        return t('button.tryAgain');
       default:
         return '';
     }
@@ -132,6 +140,7 @@ export const SwapPage: React.FC = () => {
           onContinue={handleExecuteRoute}
         />
       ) : null}
+      {route ? <ExchangeRateBottomSheet ref={exchangeRateBottomSheetRef} /> : null}
     </Container>
   );
 };

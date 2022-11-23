@@ -1,4 +1,4 @@
-import type { Route } from '@lifi/sdk';
+import type { ExchangeRateUpdateParams, Route } from '@lifi/sdk';
 import { useMutation } from '@tanstack/react-query';
 import { useCallback, useEffect, useRef } from 'react';
 import shallow from 'zustand/shallow';
@@ -8,16 +8,26 @@ import {
   isRouteActive,
   isRouteDone,
   isRouteFailed,
-  useRouteExecutionStore,
+  useRouteExecutionStore
 } from '../stores';
 import { WidgetEvent } from '../types/events';
 import { deepClone } from '../utils';
 import { useWidgetEvents } from './useWidgetEvents';
 
-export const useRouteExecution = (
-  routeId: string,
-  executeInBackground?: boolean,
-) => {
+interface RouteExecutionProps {
+  routeId: string;
+  executeInBackground?: boolean;
+  onAcceptExchangeRateUpdate?(
+    resolver: (value: boolean) => void,
+    data: ExchangeRateUpdateParams,
+  ): void;
+}
+
+export const useRouteExecution = ({
+  routeId,
+  executeInBackground,
+  onAcceptExchangeRateUpdate,
+}: RouteExecutionProps) => {
   const lifi = useLiFi();
   const { account, switchChain } = useWallet();
   const resumedAfterMount = useRef(false);
@@ -71,6 +81,20 @@ export const useRouteExecution = (
     return account.signer;
   };
 
+  const acceptExchangeRateUpdateHook = async (
+    params: ExchangeRateUpdateParams,
+  ) => {
+    if (!onAcceptExchangeRateUpdate) {
+      return false;
+    }
+
+    const accepted = await new Promise<boolean>((resolve) =>
+      onAcceptExchangeRateUpdate(resolve, params),
+    );
+
+    return accepted;
+  };
+
   const executeRouteMutation = useMutation(
     () => {
       if (!account.signer) {
@@ -82,6 +106,7 @@ export const useRouteExecution = (
       return lifi.executeRoute(account.signer, routeExecution.route, {
         updateCallback,
         switchChainHook,
+        acceptExchangeRateUpdateHook,
         infiniteApproval: false,
         executeInBackground,
       });
@@ -110,6 +135,7 @@ export const useRouteExecution = (
         {
           updateCallback,
           switchChainHook,
+          acceptExchangeRateUpdateHook,
           infiniteApproval: false,
           executeInBackground,
         },
@@ -124,8 +150,8 @@ export const useRouteExecution = (
 
   const executeRoute = useCallback(() => {
     executeRouteMutation.mutateAsync(undefined, {
-      onError: () => {
-        console.warn('Execution failed!', routeId);
+      onError: (error) => {
+        console.warn('Execution failed!', routeId, error);
         // Notification.showNotification(NotificationType.SwapExecution_ERROR);
       },
       onSuccess: (route: Route) => {
@@ -138,8 +164,8 @@ export const useRouteExecution = (
   const resumeRoute = useCallback(
     (route?: Route) => {
       resumeRouteMutation.mutateAsync(route, {
-        onError: () => {
-          console.warn('Resumed execution failed.', routeId);
+        onError: (error) => {
+          console.warn('Resumed execution failed.', routeId, error);
         },
         onSuccess: (route) => {
           console.log('Resumed execution successful.', route);

@@ -1,7 +1,7 @@
 import {
   ArrowForward as ArrowForwardIcon,
   Info as InfoIcon,
-  Warning as WarningIcon,
+  Warning as WarningIcon
 } from '@mui/icons-material';
 import { ListItemAvatar, ListItemText, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -17,7 +17,10 @@ export const ActiveSwapItem: React.FC<{
   dense?: boolean;
 }> = ({ routeId, dense }) => {
   const navigate = useNavigate();
-  const { route, status } = useRouteExecution(routeId, true);
+  const { route, status } = useRouteExecution({
+    routeId,
+    executeInBackground: true,
+  });
 
   // TODO: replace with ES2023 findLast
   const lastActiveStep = route?.steps

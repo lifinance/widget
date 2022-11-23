@@ -2,7 +2,7 @@
 import {
   Done as DoneIcon,
   Info as InfoIcon,
-  Warning as WarningIcon,
+  Warning as WarningIcon
 } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import { useEffect, useRef } from 'react';
@@ -15,7 +15,7 @@ import {
   getProcessMessage,
   useChains,
   useNavigateBack,
-  useTokenBalance,
+  useTokenBalance
 } from '../../hooks';
 import { SwapFormKey } from '../../providers';
 import type { RouteExecution } from '../../stores';
@@ -24,7 +24,7 @@ import {
   formatTokenAmount,
   hasEnumFlag,
   navigationRoutes,
-  shortenWalletAddress,
+  shortenWalletAddress
 } from '../../utils';
 import { IconCircle, IconContainer } from './StatusBottomSheet.style';
 
@@ -128,6 +128,22 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
         });
       }
       handlePrimaryButton = handlePartialDone;
+      break;
+    }
+    case RouteExecutionStatus.Done | RouteExecutionStatus.Refunded: {
+      title = t('swap.success.title.refundIssued');
+      primaryMessage = t('swap.success.message.swapPartiallySuccessful', {
+        tool: route.steps.at(-1)?.toolDetails.name,
+        tokenSymbol: route.steps.at(-1)?.action.toToken.symbol,
+      });
+      if (token) {
+        secondaryMessage = t('swap.success.message.swapSuccessful', {
+          amount: token.amount,
+          tokenSymbol: token.symbol,
+          chainName: getChainById(token.chainId)?.name,
+          walletAddress: shortenWalletAddress(route.toAddress),
+        });
+      }
       break;
     }
     case RouteExecutionStatus.Failed: {

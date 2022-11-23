@@ -81,7 +81,8 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
             .div(Big(route.fromAmountUSD || 0).plus(Big(route.gasCostUSD || 0)))
             .minus(1)
             .mul(100)
-            .toFixed(1)}
+            .round(2, Big.roundUp)
+            .toString()}
           %
         </Typography>
       </Box>
