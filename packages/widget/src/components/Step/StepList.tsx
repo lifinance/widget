@@ -17,9 +17,18 @@ export const getStepList = (route?: Route) =>
             amount: step.execution?.toAmount ?? step.estimate.toAmount,
           }
         : undefined;
+    const toAddress =
+      index === lastIndex && route.fromAddress !== route.toAddress
+        ? route.toAddress
+        : undefined;
     return (
       <Fragment key={step.id}>
-        <Step step={step} fromToken={fromToken} toToken={toToken} />
+        <Step
+          step={step}
+          fromToken={fromToken}
+          toToken={toToken}
+          toAddress={toAddress}
+        />
         {steps.length > 1 && index !== steps.length - 1 ? (
           <StepDivider />
         ) : null}

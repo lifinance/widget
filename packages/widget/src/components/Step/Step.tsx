@@ -5,6 +5,9 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardTitle } from '../../components/Card';
 import { StepActions } from '../../components/StepActions';
 import { Token } from '../../components/Token';
+import { useChains } from '../../hooks';
+import { shortenWalletAddress } from '../../utils';
+import { DestinationWalletAddress } from './DestinationWalletAddress';
 import { GasStepProcess } from './GasStepProcess';
 import { StepProcess } from './StepProcess';
 import { StepTimer } from './StepTimer';
@@ -13,8 +16,10 @@ export const Step: React.FC<{
   step: StepType;
   fromToken?: TokenAmount;
   toToken?: TokenAmount;
-}> = ({ step, fromToken, toToken }) => {
+  toAddress?: string;
+}> = ({ step, fromToken, toToken, toAddress }) => {
   const { t } = useTranslation();
+  const { getChainById } = useChains();
 
   const stepHasError = step.execution?.process.some(
     (process) => process.status === 'FAILED',
@@ -39,6 +44,13 @@ export const Step: React.FC<{
     }
   };
 
+  const formattedToAddress = shortenWalletAddress(toAddress);
+  const toAddressLink = toAddress
+    ? `${
+        getChainById(step.action.toChainId)?.metamask.blockExplorerUrls[0]
+      }address/${toAddress}`
+    : undefined;
+
   return (
     <Card variant={stepHasError ? 'error' : 'default'}>
       <Box
@@ -59,6 +71,13 @@ export const Step: React.FC<{
           <StepProcess key={index} step={step} process={process} />
         ))}
         <GasStepProcess step={step} />
+        {formattedToAddress && toAddressLink ? (
+          <DestinationWalletAddress
+            step={step}
+            toAddress={formattedToAddress}
+            toAddressLink={toAddressLink}
+          />
+        ) : null}
         {toToken ? <Token token={toToken} px={2} py={1} /> : null}
       </Box>
     </Card>
