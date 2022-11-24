@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.26.1](https://github.com/lifinance/widget/compare/v1.26.0...v1.26.1) (2022-11-24)
+
+
+### Bug Fixes
+
+* cancelation on backdrop click ([7d648ad](https://github.com/lifinance/widget/commit/7d648ad58e7689428bf52e3e3a85565bb4ea1939))
+
 ## [1.26.0](https://github.com/lifinance/widget/compare/v1.25.1...v1.26.0) (2022-11-24)
 
 
