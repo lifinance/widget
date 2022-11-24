@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.26.0](https://github.com/lifinance/widget/compare/v1.25.1...v1.26.0) (2022-11-24)
+
+
+### Features
+
+* add acceptExchangeRateUpdateHook and improve substatus handling ([2a70a88](https://github.com/lifinance/widget/commit/2a70a88a7b3e159563a628e722ef33ea4d7fc7a6))
+* add destination wallet address to swap details ([4214577](https://github.com/lifinance/widget/commit/42145772b46f3cf9e02faa6bf4a67b55bd97f9e0))
+* add estimated and paid gas fees to swap details page ([be4f613](https://github.com/lifinance/widget/commit/be4f6133b87cdcda31cbddee7c12e08d5bcaef3a))
+
+
+### Bug Fixes
+
+* add refresh time for tools and chains ([0a2e4c0](https://github.com/lifinance/widget/commit/0a2e4c0a31ec922e99c91113f6bea7166ae4e154))
+* add retry exception for not found routes ([afe2415](https://github.com/lifinance/widget/commit/afe2415b0d888e388e5c45d06de84b593a44fd92))
+* adjust connect button color ([68b45a9](https://github.com/lifinance/widget/commit/68b45a9440e05522c24c43e9db06b610d1d8f471))
+* change sentry sample rate ([f960704](https://github.com/lifinance/widget/commit/f9607043fac28e171e8543e4e393ebf3e86b20dd))
+* correct step title ([5024614](https://github.com/lifinance/widget/commit/5024614f5a063609bb77bb8e2e995f6dbe93c187))
+* make main page sticky ([7466c8f](https://github.com/lifinance/widget/commit/7466c8f678a3f9195f32a9303b18eceddccc0d36))
+* make support id a source tx hash ([d837b47](https://github.com/lifinance/widget/commit/d837b47df988c00ace068103c3755fc1a560e244))
+* not found routes padding ([57d54b2](https://github.com/lifinance/widget/commit/57d54b2664cb3976ab8ab7664dc7d11e6f8b467e))
+* reduce refresh time for token balance ([e5bd5af](https://github.com/lifinance/widget/commit/e5bd5afb98a4308f674ced9e7e35be1663a94f71))
+
 ### [1.25.1](https://github.com/lifinance/widget/compare/v1.25.0...v1.25.1) (2022-11-17)
 
 
