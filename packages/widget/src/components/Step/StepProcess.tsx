@@ -1,5 +1,5 @@
 import type { Process, Step } from '@lifi/sdk';
-import { Link as LinkIcon } from '@mui/icons-material';
+import { LinkRounded as LinkIcon } from '@mui/icons-material';
 import { Box, Link, Typography } from '@mui/material';
 import { useProcessMessage } from '../../hooks';
 import { CircularProgress } from './CircularProgress';

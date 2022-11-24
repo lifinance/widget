@@ -1,4 +1,4 @@
-import { History as HistoryIcon } from '@mui/icons-material';
+import { ReceiptLongRounded as HistoryIcon } from '@mui/icons-material';
 import { Container, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 

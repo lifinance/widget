@@ -1,8 +1,7 @@
 import type { Process } from '@lifi/sdk';
 import {
-  Done as DoneIcon,
-  Info as InfoIcon,
-  Warning as WarningIcon
+  Done as DoneIcon, ErrorRounded as ErrorIcon, InfoRounded as InfoIcon,
+  WarningRounded as WarningIcon
 } from '@mui/icons-material';
 import { darken } from '@mui/material/styles';
 import {
@@ -44,7 +43,7 @@ export function CircularProgress({ process }: { process: Process }) {
         />
       ) : null}
       {process.status === 'FAILED' ? (
-        <WarningIcon
+        <ErrorIcon
           color="error"
           sx={{
             position: 'absolute',

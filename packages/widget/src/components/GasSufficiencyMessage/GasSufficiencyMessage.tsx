@@ -1,5 +1,5 @@
 import type { Route } from '@lifi/sdk';
-import { WarningAmber as WarningIcon } from '@mui/icons-material';
+import { WarningAmberRounded as WarningIcon } from '@mui/icons-material';
 import type { BoxProps } from '@mui/material';
 import { Box, Collapse, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';

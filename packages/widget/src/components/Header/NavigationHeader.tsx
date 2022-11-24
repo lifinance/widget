@@ -1,6 +1,6 @@
 import {
   ArrowBack as ArrowBackIcon,
-  ReceiptLongOutlined as HistoryIcon,
+  ReceiptLongRounded as HistoryIcon,
   SettingsOutlined as SettingsIcon
 } from '@mui/icons-material';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';

@@ -1,8 +1,7 @@
 /* eslint-disable consistent-return */
 import {
-  Done as DoneIcon,
-  Info as InfoIcon,
-  Warning as WarningIcon
+  Done as DoneIcon, ErrorRounded as ErrorIcon, InfoRounded as InfoIcon,
+  WarningRounded as WarningIcon
 } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import { useEffect, useRef } from 'react';
@@ -196,7 +195,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
               <WarningIcon color="warning" />
             ) : null}
             {hasEnumFlag(status, RouteExecutionStatus.Failed) ? (
-              <WarningIcon color="error" />
+              <ErrorIcon color="error" />
             ) : null}
           </IconCircle>
           <Typography py={1} fontSize={18} fontWeight={700}>

@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 import type { ExchangeRateUpdateParams, Route } from '@lifi/sdk';
-import { Warning as WarningIcon } from '@mui/icons-material';
+import { WarningRounded as WarningIcon } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import Big from 'big.js';
 import {

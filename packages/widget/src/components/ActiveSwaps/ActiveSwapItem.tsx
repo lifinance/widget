@@ -1,7 +1,5 @@
 import {
-  ArrowForward as ArrowForwardIcon,
-  Info as InfoIcon,
-  Warning as WarningIcon
+  ArrowForward as ArrowForwardIcon, ErrorRounded as ErrorIcon, InfoRounded as InfoIcon
 } from '@mui/icons-material';
 import { ListItemAvatar, ListItemText, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -44,7 +42,7 @@ export const ActiveSwapItem: React.FC<{
       case 'ACTION_REQUIRED':
         return <InfoIcon color="info" fontSize="small" />;
       case 'FAILED':
-        return <WarningIcon color="error" fontSize="small" />;
+        return <ErrorIcon color="error" fontSize="small" />;
       default:
         return (
           <Typography fontSize={14} fontWeight={500}>
