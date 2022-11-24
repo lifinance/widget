@@ -4,20 +4,21 @@ import {
   useCallback,
   useImperativeHandle,
   useRef,
-  useState,
+  useState
 } from 'react';
 import { getScrollableContainer } from '../../hooks';
 import { backdropProps, modalProps, paperProps } from '../Dialog';
 import type { BottomSheetBase, BottomSheetProps } from './types';
 
 export const BottomSheet = forwardRef<BottomSheetBase, BottomSheetProps>(
-  ({ elementRef, children, open }, ref) => {
+  ({ elementRef, children, open, onClose }, ref) => {
     const openRef = useRef(open);
     const [drawerOpen, setDrawerOpen] = useState(open);
 
     const close = useCallback(() => {
       setDrawerOpen(false);
       openRef.current = false;
+      onClose?.();
     }, []);
 
     useImperativeHandle(

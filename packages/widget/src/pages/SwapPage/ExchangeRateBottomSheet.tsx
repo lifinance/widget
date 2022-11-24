@@ -6,6 +6,7 @@ import Big from 'big.js';
 import {
   forwardRef,
   MutableRefObject,
+  useCallback,
   useImperativeHandle,
   useRef,
   useState
@@ -45,12 +46,12 @@ export const ExchangeRateBottomSheet = forwardRef<
     onContinue?.();
   };
 
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     (ref as MutableRefObject<ExchangeRateBottomSheetBase>).current?.close(
       false,
     );
     onCancel?.();
-  };
+  }, []);
 
   useImperativeHandle(
     ref,
@@ -70,7 +71,7 @@ export const ExchangeRateBottomSheet = forwardRef<
   );
 
   return (
-    <BottomSheet ref={bottomSheetRef}>
+    <BottomSheet ref={bottomSheetRef} onClose={handleCancel}>
       <ExchangeRateBottomSheetContent
         data={data}
         onContinue={handleContinue}

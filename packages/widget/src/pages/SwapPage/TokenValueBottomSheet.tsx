@@ -3,8 +3,7 @@ import type { Route } from '@lifi/sdk';
 import { WarningRounded as WarningIcon } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import Big from 'big.js';
-import type { MutableRefObject } from 'react';
-import { forwardRef, useRef } from 'react';
+import { forwardRef, MutableRefObject, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import { BottomSheet } from '../../components/BottomSheet';
@@ -21,13 +20,13 @@ export const TokenValueBottomSheet = forwardRef<
   BottomSheetBase,
   TokenValueBottomSheetProps
 >(({ route, onContinue, onCancel }, ref) => {
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     (ref as MutableRefObject<BottomSheetBase>).current?.close();
     onCancel?.();
-  };
+  }, []);
 
   return (
-    <BottomSheet ref={ref}>
+    <BottomSheet ref={ref} onClose={handleCancel}>
       <TokenValueBottomSheetContent
         route={route}
         onContinue={onContinue}
