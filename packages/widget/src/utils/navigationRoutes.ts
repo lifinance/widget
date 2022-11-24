@@ -19,6 +19,7 @@ export const navigationRoutesValues = Object.values(navigationRoutes);
 export const stickyHeaderRoutes = [
   navigationRoutes.activeSwaps,
   navigationRoutes.fromChain,
+  navigationRoutes.home,
   navigationRoutes.selectWallet,
   navigationRoutes.settings,
   navigationRoutes.swapDetails,

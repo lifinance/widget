@@ -8,7 +8,7 @@ export const IconButton = styled(MuiIconButton)(({ theme }) => ({
     theme.palette.mode === 'light'
       ? theme.palette.grey[300]
       : theme.palette.grey[800],
-  zIndex: 1200,
+  zIndex: 1100,
   padding: theme.spacing(0.5),
   '&:hover': {
     backgroundColor:
