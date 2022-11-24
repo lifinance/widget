@@ -20,7 +20,7 @@ export const initSentry = async (enabled?: boolean) => {
           levels: ['error'],
         }),
       ],
-      sampleRate: 1,
+      sampleRate: 0.25,
       tracesSampleRate: 0.2,
       enabled,
       environment: process.env.NODE_ENV,
