@@ -1,5 +1,5 @@
 import type { ExchangeRateUpdateParams, Route } from '@lifi/sdk';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useRef } from 'react';
 import shallow from 'zustand/shallow';
 import { useLiFi, useWallet } from '../providers';
@@ -29,6 +29,7 @@ export const useRouteExecution = ({
   onAcceptExchangeRateUpdate,
 }: RouteExecutionProps) => {
   const lifi = useLiFi();
+  const queryClient = useQueryClient();
   const { account, switchChain } = useWallet();
   const resumedAfterMount = useRef(false);
   const emitter = useWidgetEvents();
@@ -103,6 +104,7 @@ export const useRouteExecution = ({
       if (!routeExecution?.route) {
         throw Error('Execution route not found.');
       }
+      queryClient.removeQueries(['routes'])
       return lifi.executeRoute(account.signer, routeExecution.route, {
         updateCallback,
         switchChainHook,
