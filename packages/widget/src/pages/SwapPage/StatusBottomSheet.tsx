@@ -1,7 +1,9 @@
 /* eslint-disable consistent-return */
 import {
-  Done as DoneIcon, ErrorRounded as ErrorIcon, InfoRounded as InfoIcon,
-  WarningRounded as WarningIcon
+  Done as DoneIcon,
+  ErrorRounded as ErrorIcon,
+  InfoRounded as InfoIcon,
+  WarningRounded as WarningIcon,
 } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import { useEffect, useRef } from 'react';
@@ -14,7 +16,7 @@ import {
   getProcessMessage,
   useChains,
   useNavigateBack,
-  useTokenBalance
+  useTokenBalance,
 } from '../../hooks';
 import { SwapFormKey } from '../../providers';
 import type { RouteExecution } from '../../stores';
@@ -23,7 +25,7 @@ import {
   formatTokenAmount,
   hasEnumFlag,
   navigationRoutes,
-  shortenWalletAddress
+  shortenWalletAddress,
 } from '../../utils';
 import { IconCircle, IconContainer } from './StatusBottomSheet.style';
 

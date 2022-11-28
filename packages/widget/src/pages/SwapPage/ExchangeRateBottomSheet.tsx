@@ -3,13 +3,13 @@ import type { ExchangeRateUpdateParams, Route } from '@lifi/sdk';
 import { WarningRounded as WarningIcon } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import Big from 'big.js';
+import type { MutableRefObject } from 'react';
 import {
   forwardRef,
-  MutableRefObject,
   useCallback,
   useImperativeHandle,
   useRef,
-  useState
+  useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { BottomSheetBase } from '../../components/BottomSheet';
@@ -24,7 +24,7 @@ export interface ExchangeRateBottomSheetBase {
     resolver: (value: boolean) => void,
     data: ExchangeRateUpdateParams,
   ): void;
-  close(value?: boolean): void;
+  close(value?: boolean, bottomSheetClose?: boolean): void;
 }
 
 interface ExchangeRateBottomSheetProps {
@@ -51,7 +51,15 @@ export const ExchangeRateBottomSheet = forwardRef<
       false,
     );
     onCancel?.();
-  }, []);
+  }, [onCancel, ref]);
+
+  const handleClose = useCallback(() => {
+    (ref as MutableRefObject<ExchangeRateBottomSheetBase>).current?.close(
+      false,
+      false,
+    );
+    onCancel?.();
+  }, [onCancel, ref]);
 
   useImperativeHandle(
     ref,
@@ -62,16 +70,18 @@ export const ExchangeRateBottomSheet = forwardRef<
         resolverRef.current = resolver;
         bottomSheetRef.current?.open();
       },
-      close: (value = false) => {
+      close: (value = false, bottomSheetClose = true) => {
         resolverRef.current?.(value);
-        bottomSheetRef.current?.close();
+        if (bottomSheetClose) {
+          bottomSheetRef.current?.close();
+        }
       },
     }),
     [],
   );
 
   return (
-    <BottomSheet ref={bottomSheetRef} onClose={handleCancel}>
+    <BottomSheet ref={bottomSheetRef} onClose={handleClose}>
       <ExchangeRateBottomSheetContent
         data={data}
         onContinue={handleContinue}

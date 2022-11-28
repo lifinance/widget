@@ -11,15 +11,13 @@ import { SwapButton } from '../../components/SwapButton';
 import { useNavigateBack, useRouteExecution } from '../../hooks';
 import { SwapFormKey } from '../../providers';
 import { RouteExecutionStatus } from '../../stores';
-import {
-  ExchangeRateBottomSheet,
-  ExchangeRateBottomSheetBase
-} from './ExchangeRateBottomSheet';
+import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet';
+import { ExchangeRateBottomSheet } from './ExchangeRateBottomSheet';
 import { StatusBottomSheet } from './StatusBottomSheet';
 import { Container } from './SwapPage.style';
 import {
   getTokenValueLossThreshold,
-  TokenValueBottomSheet
+  TokenValueBottomSheet,
 } from './TokenValueBottomSheet';
 
 export const SwapPage: React.FC = () => {
@@ -119,7 +117,9 @@ export const SwapPage: React.FC = () => {
           onContinue={handleExecuteRoute}
         />
       ) : null}
-      {route ? <ExchangeRateBottomSheet ref={exchangeRateBottomSheetRef} /> : null}
+      {route ? (
+        <ExchangeRateBottomSheet ref={exchangeRateBottomSheetRef} />
+      ) : null}
     </Container>
   );
 };
