@@ -6,7 +6,7 @@
     "node": true
   },
   "extends": [
-    "airbnb",
+    // "airbnb",
     "react-app",
     "plugin:prettier/recommended"
   ],

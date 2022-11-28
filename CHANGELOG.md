@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.26.2](https://github.com/lifinance/widget/compare/v1.26.1...v1.26.2) (2022-11-28)
+
+
+### Bug Fixes
+
+* bottom sheet closing ([f34b0b8](https://github.com/lifinance/widget/commit/f34b0b8058fc4e6771b70027560745946dddd2cd))
+* clean the cache of available routes after starting the execution ([f60a0dd](https://github.com/lifinance/widget/commit/f60a0dd7359679d894682179808207035c5d9f6a))
+
 ### [1.26.1](https://github.com/lifinance/widget/compare/v1.26.0...v1.26.1) (2022-11-24)
 
 
