@@ -3,7 +3,7 @@ import { AppDrawer } from './AppDrawer';
 import './fonts/inter.css';
 
 export type { WidgetDrawer } from './AppDrawer';
-export { useWidgetEvents } from './hooks';
+export { useWidgetEvents, widgetEvents } from './hooks';
 export * from './types';
 
 // ClassNameGenerator.configure((componentName) =>

@@ -66,7 +66,6 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
             onBlur={onBlur}
             name={name}
             placeholder={t('swap.walletAddressOrEns')}
-            autoFocus
           />
           <SendToWalletFormHelperText />
         </FormControl>

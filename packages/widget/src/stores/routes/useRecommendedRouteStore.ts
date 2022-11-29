@@ -1,14 +1,13 @@
 import type { Route } from '@lifi/sdk';
 import create from 'zustand';
-import { immer } from 'zustand/middleware/immer';
 import type { RecommendedRouteStore } from './types';
 
-export const useRecommendedRouteStore = create<RecommendedRouteStore>()(
-  immer((set) => ({
-    setRecommendedRoute: (route?: Route) => {
-      set((state) => {
-        state.recommendedRoute = route;
-      });
+export const useRecommendedRouteStore = create<RecommendedRouteStore>(
+  (set) => ({
+    setRecommendedRoute: (recommendedRoute?: Route) => {
+      set(() => ({
+        recommendedRoute,
+      }));
     },
-  })),
+  }),
 );

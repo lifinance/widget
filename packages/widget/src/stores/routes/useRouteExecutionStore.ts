@@ -1,7 +1,6 @@
 import type { Route } from '@lifi/sdk';
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
-import { immer } from 'zustand/middleware/immer';
 import { hasEnumFlag } from '../../utils';
 import type { RouteExecutionStore } from './types';
 import { RouteExecutionStatus } from './types';
@@ -14,76 +13,110 @@ import {
 
 export const useRouteExecutionStore = create<RouteExecutionStore>()(
   persist(
-    immer((set) => ({
+    (set, get) => ({
       routes: {},
-      setExecutableRoute: (route: Route) =>
-        set((state: RouteExecutionStore) => {
-          if (!state.routes[route.id]) {
+      setExecutableRoute: (route: Route) => {
+        if (!get().routes[route.id]) {
+          set((state: RouteExecutionStore) => {
+            const routes = { ...state.routes };
             // clean previous idle routes that were not executed
-            Object.keys(state.routes)
+            Object.keys(routes)
               .filter(
                 (routeId) =>
-                  state.routes[routeId]?.status === RouteExecutionStatus.Idle,
+                  routes[routeId]?.status === RouteExecutionStatus.Idle,
               )
-              .forEach((routeId) => delete state.routes[routeId]);
-            state.routes[route.id] = {
+              .forEach((routeId) => delete routes[routeId]);
+            routes[route.id] = {
               route,
               status: RouteExecutionStatus.Idle,
             };
-          }
-        }),
-      updateRoute: (route: Route) =>
-        set((state: RouteExecutionStore) => {
-          if (state.routes[route.id]) {
-            state.routes[route.id]!.route = route;
+            return {
+              routes,
+            };
+          });
+        }
+      },
+      updateRoute: (route: Route) => {
+        if (get().routes[route.id]) {
+          set((state: RouteExecutionStore) => {
+            const updatedState = {
+              routes: {
+                ...state.routes,
+                [route.id]: { ...state.routes[route.id]!, route },
+              },
+            };
             const isFailed = isRouteFailed(route);
             if (isFailed) {
-              state.routes[route.id]!.status = RouteExecutionStatus.Failed;
-              return;
+              updatedState.routes[route.id]!.status =
+                RouteExecutionStatus.Failed;
+              return updatedState;
             }
             const isDone = isRouteDone(route);
             if (isDone) {
-              state.routes[route.id]!.status = RouteExecutionStatus.Done;
+              updatedState.routes[route.id]!.status = RouteExecutionStatus.Done;
               if (isRoutePartiallyDone(route)) {
-                state.routes[route.id]!.status |= RouteExecutionStatus.Partial;
+                updatedState.routes[route.id]!.status |=
+                  RouteExecutionStatus.Partial;
               } else if (isRouteRefunded(route)) {
-                state.routes[route.id]!.status |= RouteExecutionStatus.Refunded;
+                updatedState.routes[route.id]!.status |=
+                  RouteExecutionStatus.Refunded;
               }
-              return;
+              return updatedState;
             }
             const isLoading = route.steps.some((step) => step.execution);
             if (isLoading) {
-              state.routes[route.id]!.status = RouteExecutionStatus.Pending;
+              updatedState.routes[route.id]!.status =
+                RouteExecutionStatus.Pending;
             }
-          }
-        }),
-      restartRoute: (routeId: string) =>
-        set((state: RouteExecutionStore) => {
-          state.routes[routeId]!.status = RouteExecutionStatus.Pending;
-        }),
-      deleteRoute: (routeId: string) =>
-        set((state: RouteExecutionStore) => {
-          if (state.routes[routeId]) {
-            delete state.routes[routeId];
-          }
-        }),
+            return updatedState;
+          });
+        }
+      },
+      restartRoute: (routeId: string) => {
+        if (get().routes[routeId]) {
+          set((state: RouteExecutionStore) => ({
+            routes: {
+              ...state.routes,
+              [routeId]: {
+                ...state.routes[routeId]!,
+                status: RouteExecutionStatus.Pending,
+              },
+            },
+          }));
+        }
+      },
+      deleteRoute: (routeId: string) => {
+        if (get().routes[routeId]) {
+          set((state: RouteExecutionStore) => {
+            const routes = { ...state.routes };
+            delete routes[routeId];
+            return {
+              routes,
+            };
+          });
+        }
+      },
       deleteRoutes: (type) =>
         set((state: RouteExecutionStore) => {
-          Object.keys(state.routes)
+          const routes = { ...state.routes };
+          Object.keys(routes)
             .filter((routeId) =>
               type === 'completed'
                 ? hasEnumFlag(
-                    state.routes[routeId]?.status ?? 0,
+                    routes[routeId]?.status ?? 0,
                     RouteExecutionStatus.Done,
                   )
                 : !hasEnumFlag(
-                    state.routes[routeId]?.status ?? 0,
+                    routes[routeId]?.status ?? 0,
                     RouteExecutionStatus.Done,
                   ),
             )
-            .forEach((routeId) => delete state.routes[routeId]);
+            .forEach((routeId) => delete routes[routeId]);
+          return {
+            routes,
+          };
         }),
-    })),
+    }),
     {
       name: 'li.fi-widget-routes',
       version: 1,
