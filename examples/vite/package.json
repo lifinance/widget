@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/widget": "^1.25.1",
+    "@lifi/widget": "^1.26.3",
     "events": "^3.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

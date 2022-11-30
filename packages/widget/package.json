@@ -70,7 +70,7 @@
     "mitt": "^3.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.39.7",
+    "react-hook-form": "^7.40.0",
     "react-i18next": "^12.0.0",
     "react-router-dom": "^6.4.3",
     "react-timer-hook": "^3.0.5",

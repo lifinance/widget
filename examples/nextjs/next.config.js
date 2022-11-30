@@ -1,4 +1,7 @@
-const withTM = require('next-transpile-modules')(['@lifi/widget']);
+const withTM = require('next-transpile-modules')([
+  '@lifi/widget',
+  '@lifi/wallet-management',
+]);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
