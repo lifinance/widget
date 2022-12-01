@@ -25,7 +25,6 @@ export enum ProviderIdentityFlag {
   BlockWallet = 'isBlockWallet',
   Binance = 'bbcSignTx',
   Bitpie = 'isBitpie',
-  BlankWallet = 'isBlank',
   Coinbase = 'isToshi',
   CoinbaseExtension = 'isCoinbaseWallet',
   Detected = 'request',
@@ -184,15 +183,6 @@ const bitpie: Wallet = {
   web3react: createMetamaskConnector(),
 };
 
-const blankwallet: Wallet = {
-  name: 'BlankWallet',
-  checkProviderIdentity: ({ provider }) =>
-    provider?.[ProviderIdentityFlag.BlankWallet],
-  icon: walletIcons.blankwallet,
-  platforms: ['desktop'],
-  web3react: createMetamaskConnector(),
-};
-
 const dcent: Wallet = {
   name: 'Dcent',
   checkProviderIdentity: ({ provider }) =>
@@ -334,7 +324,6 @@ export const supportedWallets = [
   atoken,
   blockWallet,
   bitpie,
-  blankwallet,
   brave,
   dcent,
   frame,

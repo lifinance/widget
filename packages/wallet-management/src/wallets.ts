@@ -17,10 +17,6 @@ export const wallets = {
     name: 'Bitpie',
     icon: walletIcons.bitpie,
   },
-  blankwallet: {
-    name: 'BlankWallet',
-    icon: walletIcons.blankwallet,
-  },
   blockwallet: {
     name: 'BlockWallet',
     icon: walletIcons.blockwallet,
