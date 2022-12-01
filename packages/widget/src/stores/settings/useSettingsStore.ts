@@ -32,7 +32,7 @@ export const useSettingsStore = create<SettingsStore>()(
         set((state: SettingsState) => {
           const updatedState = { ...state };
           for (const key in values) {
-            if (Object.prototype.hasOwnProperty.call(state, key)) {
+            if (Object.hasOwn(state, key)) {
               updatedState[key] = values[key];
             }
           }
@@ -49,8 +49,8 @@ export const useSettingsStore = create<SettingsStore>()(
             const enabledTools = tools
               .filter(
                 (tool) =>
-                  !Object.prototype.hasOwnProperty.call(
-                    updatedState[`_enabled${toolType}`],
+                  !Object.hasOwn(
+                    updatedState[`_enabled${toolType}`] as object,
                     tool,
                   ),
               )
