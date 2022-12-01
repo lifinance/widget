@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.26.4](https://github.com/lifinance/widget/compare/v1.26.3...v1.26.4) (2022-12-01)
+
+
+### Bug Fixes
+
+* add referrer as top level option ([3a5ac47](https://github.com/lifinance/widget/commit/3a5ac47b620304a07fa1b8aa61a386b259b20ff4))
+* remove blankwallet ([d62c35d](https://github.com/lifinance/widget/commit/d62c35d70af9869b84c66d25ab2728deb5bf57ca))
+
 ### [1.26.3](https://github.com/lifinance/widget/compare/v1.26.2...v1.26.3) (2022-11-29)
 
 ### [1.26.2](https://github.com/lifinance/widget/compare/v1.26.1...v1.26.2) (2022-11-28)

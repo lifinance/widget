@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-embedded",
-  "version": "1.0.66",
+  "version": "1.0.67",
   "private": true,
   "type": "module",
   "scripts": {
@@ -25,8 +25,8 @@
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
     "@lifi/sdk": "^1.7.0",
-    "@lifi/wallet-management": "^1.2.1",
-    "@lifi/widget": "^1.26.3",
+    "@lifi/wallet-management": "^1.2.2",
+    "@lifi/widget": "^1.26.4",
     "@mui/icons-material": "^5.10.16",
     "@mui/lab": "^5.0.0-alpha.110",
     "@mui/material": "^5.10.16",
