@@ -55,6 +55,7 @@ export interface WidgetConfig {
 
   fee?: number;
   integrator?: string;
+  referrer?: string;
 
   slippage?: number;
   routePriority?: Order;
