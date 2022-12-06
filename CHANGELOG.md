@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.26.5](https://github.com/lifinance/widget/compare/v1.26.4...v1.26.5) (2022-12-06)
+
+
+### Bug Fixes
+
+* chain selection resize ([beae60c](https://github.com/lifinance/widget/commit/beae60cf9a9efa4bd8310d8059dd7d7114ded350))
+
 ### [1.26.4](https://github.com/lifinance/widget/compare/v1.26.3...v1.26.4) (2022-12-01)
 
 
