@@ -31,7 +31,7 @@ export const SlippageInput = () => {
       <FormControl fullWidth>
         <Input
           size="small"
-          placeholder={t(`settings.slippage`)}
+          placeholder={t(`settings.slippage`) as string}
           endAdornment={<InputAdornment position="end">%</InputAdornment>}
           autoComplete="off"
           inputProps={{

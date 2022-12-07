@@ -28,7 +28,7 @@ export const EnabledExchangesSelect: React.FC = () => {
       <FormControl fullWidth>
         <Select
           multiple
-          placeholder={t(`settings.selectEnabledExchanges`)}
+          placeholder={t(`settings.selectEnabledExchanges`) as string}
           value={enabledExchanges ?? []}
           onChange={(event) => {
             setTools(

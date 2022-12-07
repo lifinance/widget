@@ -28,7 +28,7 @@ export const EnabledBridgesSelect: React.FC = () => {
       <FormControl fullWidth>
         <Select
           multiple
-          placeholder={t(`settings.selectEnabledBridges`)}
+          placeholder={t(`settings.selectEnabledBridges`) as string}
           MenuProps={{ elevation: 2, PaperProps: { sx: { maxHeight: 320 } } }}
           IconComponent={KeyboardArrowDownIcon}
           value={enabledBridges ?? []}
