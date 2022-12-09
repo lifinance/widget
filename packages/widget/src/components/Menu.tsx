@@ -6,7 +6,7 @@ import { svgIconClasses } from '@mui/material/SvgIcon';
 
 export const Menu = styled(MuiMenu)(({ theme }) => ({
   [`& .${menuClasses.paper}`]: {
-    borderRadius: theme.shape.borderRadiusSecondary,
+    borderRadius: theme.shape.borderRadius,
     color: theme.palette.text.primary,
     [`& .${menuClasses.list}`]: {
       padding: theme.spacing(0.5, 0),
