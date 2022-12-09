@@ -8,7 +8,7 @@ import {
   isRouteActive,
   isRouteDone,
   isRouteFailed,
-  useRouteExecutionStore
+  useRouteExecutionStore,
 } from '../stores';
 import { WidgetEvent } from '../types/events';
 import { deepClone } from '../utils';
@@ -104,7 +104,7 @@ export const useRouteExecution = ({
       if (!routeExecution?.route) {
         throw Error('Execution route not found.');
       }
-      queryClient.removeQueries(['routes'])
+      queryClient.removeQueries(['routes']);
       return lifi.executeRoute(account.signer, routeExecution.route, {
         updateCallback,
         switchChainHook,

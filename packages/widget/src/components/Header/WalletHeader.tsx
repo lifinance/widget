@@ -2,7 +2,7 @@ import {
   ContentCopy as ContentCopyIcon,
   ExpandMore as ExpandMoreIcon,
   PowerSettingsNewRounded as PowerSettingsIcon,
-  WalletOutlined as WalletOutlinedIcon
+  WalletOutlined as WalletOutlinedIcon,
 } from '@mui/icons-material';
 import { Avatar, MenuItem } from '@mui/material';
 import { useState } from 'react';
