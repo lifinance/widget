@@ -7,7 +7,7 @@ import type { SwapFormTypeProps } from '../../providers';
 import { SwapFormKeyHelper, useWidgetConfig } from '../../providers';
 import { navigationRoutes } from '../../utils';
 import { Card, CardTitle } from '../Card';
-import { TokenAvatar, TokenAvatarSkeleton } from '../TokenAvatar';
+import { TokenAvatar, TokenAvatarDefault } from '../TokenAvatar';
 import { SelectTokenCardHeader } from './SelectTokenButton.style';
 
 export const SelectTokenButton: React.FC<
@@ -57,7 +57,7 @@ export const SelectTokenButton: React.FC<
             isSelected ? (
               <TokenAvatar token={token} chain={chain} />
             ) : (
-              <TokenAvatarSkeleton />
+              <TokenAvatarDefault />
             )
           }
           title={isSelected ? token.symbol : defaultTitle}

@@ -3,7 +3,7 @@ import type { Step, TokenAmount } from '@lifi/sdk';
 import type { BoxProps } from '@mui/material';
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useChain } from '../../hooks';
+import { useChain, useToken } from '../../hooks';
 import { formatTokenAmount, formatTokenPrice } from '../../utils';
 import { SmallAvatar } from '../SmallAvatar';
 import { TextFitter } from '../TextFitter';
@@ -15,13 +15,42 @@ interface TokenProps {
   connected?: boolean;
   step?: Step;
   disableDescription?: boolean;
+  isLoading?: boolean;
 }
 
-export const Token: React.FC<TokenProps & BoxProps> = ({
+export const Token: React.FC<TokenProps & BoxProps> = ({ token, ...other }) => {
+  if (!token.priceUSD || !token.logoURI) {
+    return <TokenFallback token={token} {...other} />;
+  }
+  return <TokenBase token={token} {...other} />;
+};
+
+export const TokenFallback: React.FC<TokenProps & BoxProps> = ({
   token,
   connected,
   step,
   disableDescription,
+  ...other
+}) => {
+  const { token: chainToken, isLoading } = useToken(
+    token.chainId,
+    token.address,
+  );
+  return (
+    <TokenBase
+      token={{ ...token, ...chainToken }}
+      isLoading={isLoading}
+      {...other}
+    />
+  );
+};
+
+export const TokenBase: React.FC<TokenProps & BoxProps> = ({
+  token,
+  connected,
+  step,
+  disableDescription,
+  isLoading,
   ...other
 }) => {
   const { t } = useTranslation();

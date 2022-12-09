@@ -13,7 +13,7 @@ export const TokenAvatarGroup = styled(AvatarGroup)(({ theme }) => ({
   },
 }));
 
-export const AvatarSkeleton = styled(Box)(({ theme }) => ({
+export const AvatarDefault = styled(Box)(({ theme }) => ({
   background:
     theme.palette.mode === 'light'
       ? theme.palette.grey[300]
@@ -22,7 +22,7 @@ export const AvatarSkeleton = styled(Box)(({ theme }) => ({
   borderRadius: '50%',
 }));
 
-export const AvatarSkeletonContainer = styled(Box)(({ theme }) => ({
+export const AvatarDefaultContainer = styled(Box)(({ theme }) => ({
   border: `2px solid ${
     theme.palette.mode === 'light'
       ? theme.palette.grey[300]

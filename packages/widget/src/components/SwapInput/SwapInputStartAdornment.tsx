@@ -2,7 +2,7 @@ import { useWatch } from 'react-hook-form';
 import { useChain, useToken } from '../../hooks';
 import type { SwapFormTypeProps } from '../../providers';
 import { SwapFormKeyHelper } from '../../providers';
-import { TokenAvatar, TokenAvatarSkeleton } from '../TokenAvatar';
+import { TokenAvatar, TokenAvatarDefault } from '../TokenAvatar';
 
 export const SwapInputStartAdornment: React.FC<SwapFormTypeProps> = ({
   formType,
@@ -21,6 +21,6 @@ export const SwapInputStartAdornment: React.FC<SwapFormTypeProps> = ({
   return isSelected ? (
     <TokenAvatar token={token} chain={chain} sx={{ marginLeft: 2 }} />
   ) : (
-    <TokenAvatarSkeleton sx={{ marginLeft: 2 }} />
+    <TokenAvatarDefault sx={{ marginLeft: 2 }} />
   );
 };
