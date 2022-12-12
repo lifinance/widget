@@ -122,8 +122,26 @@ export const useRouteExecutionStore = create<RouteExecutionStore>()(
       version: 1,
       partialize: (state) => ({ routes: state.routes }),
       merge: (persistedState: any, currentState: RouteExecutionStore) => {
-        const state = { ...currentState, ...persistedState };
+        const state = {
+          ...currentState,
+          ...persistedState,
+        } as RouteExecutionStore;
         try {
+          // Move swaps to history after 1 day
+          const currentTime = new Date().getTime();
+          const oneDay = 1000 * 60 * 60 * 24;
+          Object.values(state.routes).forEach((routeExecution) => {
+            const startedAt =
+              routeExecution?.route.steps
+                ?.find((step) => step.execution?.status === 'FAILED')
+                ?.execution?.process.find((process) => process.startedAt)
+                ?.startedAt ?? 0;
+            const outdated = startedAt > 0 && currentTime - startedAt > oneDay;
+            if (routeExecution?.route && outdated) {
+              routeExecution.status |= RouteExecutionStatus.Done;
+            }
+          });
+          // migrate old routes
           const routeString = localStorage.getItem('routes');
           if (routeString) {
             const routes = JSON.parse(routeString) as Array<Route>;
@@ -150,8 +168,8 @@ export const useRouteExecutionStore = create<RouteExecutionStore>()(
                 state.routes[route.id]!.status = RouteExecutionStatus.Pending;
               }
             });
+            localStorage.removeItem('routes');
           }
-          localStorage.removeItem('routes');
         } catch (error) {
           console.log(error);
         }
