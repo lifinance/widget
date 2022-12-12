@@ -7,12 +7,12 @@ import { useLocation } from 'react-router-dom';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import { GasSufficiencyMessage } from '../../components/GasSufficiencyMessage';
 import { getStepList } from '../../components/Step';
-import { SwapButton } from '../../components/SwapButton';
 import { useNavigateBack, useRouteExecution } from '../../hooks';
 import { SwapFormKey } from '../../providers';
 import { RouteExecutionStatus } from '../../stores';
 import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet';
 import { ExchangeRateBottomSheet } from './ExchangeRateBottomSheet';
+import { StartSwapButton } from './StartSwapButton';
 import { StatusBottomSheet } from './StatusBottomSheet';
 import { Container } from './SwapPage.style';
 import {
@@ -79,12 +79,11 @@ export const SwapPage: React.FC = () => {
         <>
           <GasSufficiencyMessage route={route} mt={2} />
           <Box mt={2} display="flex">
-            <SwapButton
+            <StartSwapButton
               text={getSwapButtonText()}
               onClick={handleSwapClick}
               currentRoute={route}
-              // disable={status === 'idle' && (isValidating || !isValid)}
-              enableLoading
+              // disabled={status === 'idle' && (isValidating || !isValid)}
             />
             {status === RouteExecutionStatus.Failed ? (
               <Tooltip
