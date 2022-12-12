@@ -7,14 +7,15 @@ import { Box, ToggleButtonGroup } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useWidgetConfig } from '../../providers';
 import { useAppearance } from '../../stores';
+import { HiddenUI } from '../../types';
 import { ToggleButton } from './ColorSchemeButtonGroup.style';
 
 export const ColorSchemeButtonGroup: React.FC = () => {
   const { t } = useTranslation();
-  const { disableAppearance } = useWidgetConfig();
+  const { disableAppearance, hiddenUI } = useWidgetConfig();
   const [appearance, setAppearance] = useAppearance();
 
-  if (disableAppearance) {
+  if (disableAppearance || hiddenUI?.includes(HiddenUI.Appearance)) {
     return null;
   }
 

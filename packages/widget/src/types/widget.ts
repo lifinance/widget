@@ -8,18 +8,26 @@ import type {
 } from '@lifi/sdk';
 import type { PaletteMode, PaletteOptions, Shape } from '@mui/material';
 import type { TypographyOptions } from '@mui/material/styles/createTypography';
-import type { CSSProperties, RefObject } from 'react';
+import type { CSSProperties, ReactNode, RefObject } from 'react';
 import type { LanguageKey, LanguageResources } from '../providers';
 
 export type WidgetVariant = 'default' | 'expandable' | 'drawer' | 'refuel';
 
 export enum DisabledUI {
-  FromToken = 'fromToken',
-  ToToken = 'toToken',
   FromAmount = 'fromAmount',
+  FromToken = 'fromToken',
   ToAddress = 'toAddress',
+  ToToken = 'toToken',
 }
 export type DisabledUIType = `${DisabledUI}`;
+
+export enum HiddenUI {
+  Appearance = 'appearance',
+  Language = 'language',
+  PoweredBy = 'poweredBy',
+  ToAddress = 'toAddress',
+}
+export type HiddenUIType = `${HiddenUI}`;
 
 export type Appearance = PaletteMode | 'auto';
 export type ThemeConfig = {
@@ -45,6 +53,15 @@ export interface SDKConfig
   defaultRouteOptions?: Omit<RouteOptions, 'bridges' | 'exchanges'>;
 }
 
+export interface WidgetContract {
+  address: string;
+  callData: string;
+  gasLimit: string;
+  approvalAddress?: string;
+  outputToken?: string;
+  fallbackAddress?: string;
+}
+
 export interface WidgetConfig {
   fromChain?: `${ChainKey}` | number;
   toChain?: `${ChainKey}` | number;
@@ -52,6 +69,11 @@ export interface WidgetConfig {
   toToken?: string;
   toAddress?: string;
   fromAmount?: number | string;
+  toAmount?: number | string;
+
+  contract?: WidgetContract;
+  contractComponent?: ReactNode;
+  contractCompactComponent?: ReactNode;
 
   fee?: number;
   integrator?: string;
@@ -66,9 +88,9 @@ export interface WidgetConfig {
   theme?: ThemeConfig;
   containerStyle?: CSSProperties;
 
-  disableAppearance?: boolean;
   disableTelemetry?: boolean;
   disabledUI?: DisabledUIType[];
+  hiddenUI?: HiddenUIType[];
   useRecommendedRoute?: boolean;
 
   walletManagement?: WidgetWalletManagement;
@@ -101,14 +123,20 @@ export interface WidgetConfig {
   languageResources?: LanguageResources;
   disableI18n?: boolean;
 
+  /** @deprecated Use hiddenUI: ['appearance'] instead */
+  disableAppearance?: boolean;
   /** @deprecated Use chains.deny instead */
   disabledChains?: number[];
   /** @deprecated Use tokens.featured instead */
   featuredTokens?: Token[];
 }
 
-export type WidgetProps = {
+export type WidgetDrawerProps = {
   elementRef?: RefObject<HTMLDivElement>;
-  config?: WidgetConfig;
   open?: boolean;
 };
+
+export type WidgetProps = WidgetDrawerProps &
+  WidgetConfig & {
+    config?: WidgetConfig;
+  };

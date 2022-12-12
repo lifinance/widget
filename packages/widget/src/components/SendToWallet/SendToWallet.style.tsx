@@ -11,4 +11,10 @@ export const Input = styled(InputBase)(({ theme }) => ({
     height: 32,
     padding: theme.spacing(0, 0, 0, 2),
   },
+  [`&.${inputBaseClasses.disabled}`]: {
+    color: 'inherit',
+  },
+  [`.${inputBaseClasses.input}.${inputBaseClasses.disabled}`]: {
+    WebkitTextFillColor: 'unset',
+  },
 }));

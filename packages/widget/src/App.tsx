@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, useMemo } from 'react';
 import type { WidgetDrawer } from './AppDrawer';
 import { AppDrawer } from './AppDrawer';
 import { AppProvider } from './AppProvider';
@@ -16,7 +16,8 @@ import { useExpandableVariant } from './hooks';
 import type { WidgetProps } from './types';
 
 export const App: React.FC<WidgetProps> = forwardRef<WidgetDrawer, WidgetProps>(
-  ({ elementRef, open, config }, ref) => {
+  ({ elementRef, open, ...other }, ref) => {
+    const config = useMemo(() => ({ ...other, ...other.config }), [other]);
     return config?.variant !== 'drawer' ? (
       <AppProvider config={config}>
         <AppDefault />

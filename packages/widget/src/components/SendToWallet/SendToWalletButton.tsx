@@ -3,28 +3,27 @@ import { Button, Tooltip } from '@mui/material';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { SwapFormKey, useWallet, useWidgetConfig } from '../../providers';
-import { useSettings } from '../../stores';
-import { DisabledUI } from '../../types';
-import { useSendToWalletStore } from './store';
+import { useSendToWalletStore, useSettings } from '../../stores';
+import { DisabledUI, HiddenUI } from '../../types';
 
 export const SendToWalletButton: React.FC = () => {
   const { t } = useTranslation();
-  const { disabledUI } = useWidgetConfig();
-  const { account } = useWallet();
   const { setValue } = useFormContext();
-  const { showDestinationWallet } = useSettings(['showDestinationWallet']);
+  const { account } = useWallet();
+  const { disabledUI, hiddenUI } = useWidgetConfig();
   const { showSendToWallet, toggleSendToWallet } = useSendToWalletStore();
+  const { showDestinationWallet } = useSettings(['showDestinationWallet']);
 
   if (
     !showDestinationWallet ||
     !account.isActive ||
-    disabledUI?.includes(DisabledUI.ToAddress)
+    hiddenUI?.includes(HiddenUI.ToAddress)
   ) {
     return null;
   }
 
   const handleClick = () => {
-    if (showSendToWallet) {
+    if (showSendToWallet && !disabledUI?.includes(DisabledUI.ToAddress)) {
       setValue(SwapFormKey.ToAddress, '', { shouldTouch: true });
     }
     toggleSendToWallet();

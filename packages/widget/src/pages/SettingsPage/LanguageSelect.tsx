@@ -6,15 +6,16 @@ import { Card, CardTitle } from '../../components/Card';
 import { Select } from '../../components/Select';
 import { useWidgetConfig } from '../../providers';
 import { useSettings, useSettingsStore } from '../../stores';
+import { HiddenUI } from '../../types';
 
 export const LanguageSelect: React.FC = () => {
   const { t } = useTranslation();
-  const { languages, disableI18n } = useWidgetConfig();
+  const { languages, hiddenUI } = useWidgetConfig();
   const { i18n } = useTranslation();
   const setValue = useSettingsStore((state) => state.setValue);
   const { language } = useSettings(['language']);
 
-  if (disableI18n) {
+  if (hiddenUI?.includes(HiddenUI.Language)) {
     return null;
   }
 

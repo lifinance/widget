@@ -37,3 +37,13 @@ export interface SettingsStore extends SettingsState {
     availableTools: (Pick<Bridge, 'key'> | Pick<Exchange, 'key'>)[],
   ): void;
 }
+
+export interface SendToWalletState {
+  showSendToWallet: boolean;
+  showSendToWalletDirty: boolean;
+}
+
+export interface SendToWalletStore extends SendToWalletState {
+  toggleSendToWallet(): void;
+  setSendToWallet(value: boolean): void;
+}
