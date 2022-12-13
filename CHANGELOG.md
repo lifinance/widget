@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.27.0](https://github.com/lifinance/widget/compare/v1.26.5...v1.27.0) (2022-12-13)
+
+
+### Features
+
+* add hiddenUI and extend disabledUI options ([6aea124](https://github.com/lifinance/widget/commit/6aea124d967cd47fd671b0d475454cd8443928b0))
+* add more palette customization options ([2794190](https://github.com/lifinance/widget/commit/27941909d6bc8c10375683258168f157862516a4))
+* move failed swaps to hisory after one day ([63bf2d2](https://github.com/lifinance/widget/commit/63bf2d2ba657aa5c7383ead609827f6f1fbfe1cb))
+
+
+### Bug Fixes
+
+* menu should use main border radius ([2a78952](https://github.com/lifinance/widget/commit/2a78952417e54c573f51be848ed6abe05274806e))
+* remove box shadow from swap input ([a93b64b](https://github.com/lifinance/widget/commit/a93b64be090b6268585dfce5c153baa9bb8417e1))
+* unblock Review swap button if other routes are possible for execution ([85bb861](https://github.com/lifinance/widget/commit/85bb861c14fa56a8db4e8066aab8443b418f704c))
+
 ### [1.26.5](https://github.com/lifinance/widget/compare/v1.26.4...v1.26.5) (2022-12-06)
 
 
