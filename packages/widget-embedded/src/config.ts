@@ -37,6 +37,13 @@ export const widgetBaseConfig: WidgetConfig = {
       // fee: 0.05
     },
   },
+  // theme: {
+  //   palette: {
+  //     background: {
+  //       paper: '#121212',
+  //     },
+  //   },
+  // },
   tokens: {
     featured: [
       // {

@@ -94,6 +94,7 @@ export const App = () => {
           secondary: {
             main: secondary,
           },
+          ...widgetConfig.theme?.palette,
         },
         shape: {
           borderRadius,

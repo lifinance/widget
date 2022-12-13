@@ -115,6 +115,8 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
     palette: {
       mode,
       ...palette,
+      ...(mode === 'light' ? paletteLight : paletteDark),
+      ...theme.palette,
       primary: {
         main: primaryMainColor,
         light: primaryLightColor,
@@ -135,7 +137,6 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
           0.2,
         ),
       },
-      ...(mode === 'light' ? paletteLight : paletteDark),
     },
     shape: {
       ...shape,

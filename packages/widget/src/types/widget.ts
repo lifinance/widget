@@ -31,7 +31,10 @@ export type HiddenUIType = `${HiddenUI}`;
 
 export type Appearance = PaletteMode | 'auto';
 export type ThemeConfig = {
-  palette?: Pick<PaletteOptions, 'primary' | 'secondary'>;
+  palette?: Pick<
+    PaletteOptions,
+    'grey' | 'background' | 'text' | 'secondary' | 'primary'
+  >;
   shape?: Shape;
   typography?: TypographyOptions;
 };
