@@ -69,17 +69,22 @@
   },
   "swap": {
     "crossStepDetails": "Брідж з {{from}} до {{to}} через {{tool}}",
+    "currentAmount": "Current amount",
     "error": {
       "message": {
-        "slippageTooLarge": "Прослизання більше визначеного порогу. Будь ласка, оберіть новий маршрут, щоб отримати свіжу пропозицію.",
+        "slippageThreshold": "The slippage is larger than the defined threshold. Please request a new route to get a fresh quote.",
         "transactionFailed": "Будь ласка, перевірте провідник блоків для отримання додаткової інформації.",
         "transactionNotSent": "Транзакція не була відправлена, ваші кошти все ще знаходяться у вашому гаманці ({{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} на {{chainName}}).",
-        "transactionRejected": "Для завершення транзакції потрібен ваш підпис. {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} на {{chainName}} залишаються у вашому гаманці."
+        "transactionRejected": "Для завершення транзакції потрібен ваш підпис. {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} на {{chainName}} залишаються у вашому гаманці.",
+        "unknown": "Please try again or contact support."
       },
       "title": {
+        "balanceIsTooLow": "The balance is too low",
         "chainSwitch": "Потрібно переключити чейн.",
         "failed": "Помилка обміну.",
-        "slippageTooLarge": "Прослизання занадто велике.",
+        "gasLimitIsTooLow": "The gas limit is too low",
+        "slippageNotMet": "Slippage conditions not met",
+        "transactionCanceled": "Transaction canceled",
         "transactionFailed": "Транзакція не вдалася.",
         "transactionRejected": "Підпис обов'язковий.",
         "transactionUnderpriced": "Транзакція є заниженою.",
@@ -94,6 +99,8 @@
     "from": "З",
     "fromAmount": "Ви платите",
     "gasCost": "Вартість газу",
+    "gasFeeEstimated": "estimated gas fee",
+    "gasFeePaid": "gas fee paid",
     "inProgress": "в процесі",
     "info": {
       "message": {
@@ -119,7 +126,9 @@
       },
       "receivingChain": {
         "done": "Кошти отримані.",
-        "pending": "В очікуванні приймаючого чейна."
+        "partial": "Bridge partially completed",
+        "pending": "В очікуванні приймаючого чейна.",
+        "refunded": "Bridge transaction refunded"
       },
       "swap": {
         "actionRequired": "Будь ласка, підпишіть транзакцію.",
@@ -137,21 +146,28 @@
         "started": "Схвалення токенів."
       }
     },
+    "quotedAmount": "Quoted amount",
+    "rateChange": "Rate change",
     "receiving": "Отримання",
     "routes": "Ви отримуєте",
     "selectChain": "Чейн",
     "selectChainAndToken": "Виберіть чейн і токен",
     "selectToken": "Токен",
+    "sendToAddress": "Send to {{address}}",
     "sendToWallet": "Надіслати на інший гаманець",
+    "sentToAddress": "Sent to {{address}}",
     "stepBridge": "Брідж",
     "stepSwap": "Своп",
     "stepSwapAndBridge": "Своп та брідж",
     "success": {
       "message": {
+        "swapPartiallySuccessful": "We've tried to complete the swap, but {{tool}} ran out of liquidity for {{tokenSymbol}} token.",
         "swapSuccessful": "Зараз у гаманці {{walletAddress}} на чейні {{chainName}} є {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}}."
       },
       "title": {
         "gasSwapSuccessful": "Своп газу успішний",
+        "refundIssued": "Refund issued",
+        "swapPartiallySuccessful": "Swap partially successful",
         "swapSuccessful": "Своп успішний"
       }
     },
@@ -177,14 +193,16 @@
         "deleteSwapHistory": "Історія свопів зберігається лише локально й не може бути відновлена, якщо ви їх видалите.",
         "highValueLoss": "Вартість отриманих токенів значно нижча, ніж обмінені токени та вартість транзакції.",
         "insufficientFunds": "У вас недостатньо коштів для здійснення свопу.",
-        "insufficientGas": "Потрібно додати хоча б:"
+        "insufficientGas": "Потрібно додати хоча б:",
+        "rateChanged": "The exchange rate has changed. By continuing the swap, you'll accept the new rate."
       },
       "title": {
         "deleteActiveSwaps": "Видалити всі активні свопи?",
         "deleteSwap": "Видалити цей своп?",
         "deleteSwapHistory": "Видалити історію свопів?",
         "highValueLoss": "Висока втрата вартості",
-        "insufficientGas": "Недостатня кількість газу"
+        "insufficientGas": "Недостатня кількість газу",
+        "rateChanged": "Rate changed"
       }
     }
   },
