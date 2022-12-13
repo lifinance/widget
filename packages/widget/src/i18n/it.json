@@ -10,6 +10,7 @@
     "delete": "Elimina",
     "disconnectWallet": "Scollegare il portafoglio",
     "done": "Fatto",
+    "getGas": "Get gas",
     "hide": "Nascondere",
     "lifiSwap": "Scambio LI.FI",
     "light": "Chiaro",
@@ -21,6 +22,7 @@
     "reviewSwap": "Rivedi lo scambio",
     "seeDetails": "Vedi dettagli",
     "showAll": "Mostra tutti",
+    "startGasSwap": "Start gas swap",
     "startSwap": "Avvia lo scambio",
     "swap": "Scambio",
     "tryAgain": "Riprova"
@@ -32,6 +34,8 @@
   "header": {
     "activeSwaps": "Swap attivi",
     "from": "Scambio da",
+    "gas": "Gas",
+    "gasSwap": "Gas swap",
     "routes": "Ottieni",
     "selectChain": "Seleziona la chain",
     "selectWallet": "Seleziona il tuo portafoglio",
@@ -65,17 +69,22 @@
   },
   "swap": {
     "crossStepDetails": "Trasferisci da {{from}} a {{to}} tramite {{tool}}",
+    "currentAmount": "Current amount",
     "error": {
       "message": {
-        "slippageTooLarge": "Lo slippage è superiore alla soglia definita. Richiedete una nuova rotta per aggiornare le quote.",
+        "slippageThreshold": "The slippage is larger than the defined threshold. Please request a new route to get a fresh quote.",
         "transactionFailed": "Per ulteriori informazioni, consultare il block explorer.",
         "transactionNotSent": "La transazione non è stata inviata, i fondi sono ancora nel tuo portafoglio ({{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} su {{chainName}}).",
-        "transactionRejected": "Per completare la transazione è necessaria la sua firma. {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} su {{chainName}} rimangono nel tuo portafoglio."
+        "transactionRejected": "Per completare la transazione è necessaria la sua firma. {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} su {{chainName}} rimangono nel tuo portafoglio.",
+        "unknown": "Please try again or contact support."
       },
       "title": {
+        "balanceIsTooLow": "The balance is too low",
         "chainSwitch": "È necessario cambiare la chain.",
         "failed": "Scambio fallito.",
-        "slippageTooLarge": "Slippage eccessivo.",
+        "gasLimitIsTooLow": "The gas limit is too low",
+        "slippageNotMet": "Slippage conditions not met",
+        "transactionCanceled": "Transaction canceled",
         "transactionFailed": "La transazione è fallita.",
         "transactionRejected": "Firma obbligatoria.",
         "transactionUnderpriced": "L'operazione è sottoprezzo.",
@@ -90,6 +99,8 @@
     "from": "Da",
     "fromAmount": "Paghi",
     "gasCost": "Costo del gas",
+    "gasFeeEstimated": "estimated gas fee",
+    "gasFeePaid": "gas fee paid",
     "inProgress": "in corso",
     "info": {
       "message": {
@@ -104,6 +115,7 @@
         "routeNotFound": "Nessuna rotta disponibile"
       }
     },
+    "onChain": "on {{chainName}}",
     "otherTokens": "Altri token",
     "process": {
       "crossChain": {
@@ -114,7 +126,9 @@
       },
       "receivingChain": {
         "done": "Fondi ricevuti.",
-        "pending": "In attesa di ricevere la catena."
+        "partial": "Bridge partially completed",
+        "pending": "In attesa di ricevere la catena.",
+        "refunded": "Bridge transaction refunded"
       },
       "swap": {
         "actionRequired": "Si prega di firmare la transazione.",
@@ -132,20 +146,28 @@
         "started": "Impostazione dell'indennità di token."
       }
     },
+    "quotedAmount": "Quoted amount",
+    "rateChange": "Rate change",
     "receiving": "Ricezione",
     "routes": "Ottieni",
     "selectChain": "Chain",
     "selectChainAndToken": "Selezionare la chain e il token",
     "selectToken": "Token",
+    "sendToAddress": "Send to {{address}}",
     "sendToWallet": "Inviare a un altro portafoglio",
+    "sentToAddress": "Sent to {{address}}",
     "stepBridge": "Bridge",
     "stepSwap": "Scambio",
     "stepSwapAndBridge": "Scambia e trasferisci",
     "success": {
       "message": {
+        "swapPartiallySuccessful": "We've tried to complete the swap, but {{tool}} ran out of liquidity for {{tokenSymbol}} token.",
         "swapSuccessful": "Sono presenti ora {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} nel portafoglio {{walletAddress}} sulla chain {{chainName}}."
       },
       "title": {
+        "gasSwapSuccessful": "Gas swap successful",
+        "refundIssued": "Refund issued",
+        "swapPartiallySuccessful": "Swap partially successful",
         "swapSuccessful": "Scambio avvenuto con successo"
       }
     },
@@ -171,14 +193,16 @@
         "deleteSwapHistory": "La cronologia degli scambi viene memorizzata solo localmente e non può essere recuperata se viene cancellata.",
         "highValueLoss": "Il valore dei gettoni ricevuti è significativamente inferiore ai gettoni scambiati e al costo della transazione.",
         "insufficientFunds": "Non hai abbastanza fondi per eseguire lo swap.",
-        "insufficientGas": "È necessario aggiungere almeno:"
+        "insufficientGas": "È necessario aggiungere almeno:",
+        "rateChanged": "The exchange rate has changed. By continuing the swap, you'll accept the new rate."
       },
       "title": {
         "deleteActiveSwaps": "Cancellare tutti gli scambi attivi?",
         "deleteSwap": "Cancellare questo scambio?",
         "deleteSwapHistory": "Cancellare la cronologia degli scambi?",
         "highValueLoss": "Perdita di valore elevato",
-        "insufficientGas": "Gas insufficiente"
+        "insufficientGas": "Gas insufficiente",
+        "rateChanged": "Rate changed"
       }
     }
   },
