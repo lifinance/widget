@@ -69,22 +69,22 @@
   },
   "swap": {
     "crossStepDetails": "Брідж з {{from}} до {{to}} через {{tool}}",
-    "currentAmount": "Current amount",
+    "currentAmount": "Поточна сума",
     "error": {
       "message": {
-        "slippageThreshold": "The slippage is larger than the defined threshold. Please request a new route to get a fresh quote.",
+        "slippageThreshold": "Прослизання перевищує визначений поріг. Будь ласка, зробіть запит на новий маршрут, щоб отримати нову пропозицію.",
         "transactionFailed": "Будь ласка, перевірте провідник блоків для отримання додаткової інформації.",
         "transactionNotSent": "Транзакція не була відправлена, ваші кошти все ще знаходяться у вашому гаманці ({{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} на {{chainName}}).",
         "transactionRejected": "Для завершення транзакції потрібен ваш підпис. {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} на {{chainName}} залишаються у вашому гаманці.",
-        "unknown": "Please try again or contact support."
+        "unknown": "Будь ласка, спробуйте ще раз або зверніться до служби підтримки."
       },
       "title": {
-        "balanceIsTooLow": "The balance is too low",
+        "balanceIsTooLow": "Баланс занадто низький",
         "chainSwitch": "Потрібно переключити чейн.",
         "failed": "Помилка обміну.",
-        "gasLimitIsTooLow": "The gas limit is too low",
-        "slippageNotMet": "Slippage conditions not met",
-        "transactionCanceled": "Transaction canceled",
+        "gasLimitIsTooLow": "Занадто низький ліміт газу",
+        "slippageNotMet": "Не виконані умови прослизання",
+        "transactionCanceled": "Транзакцію скасовано",
         "transactionFailed": "Транзакція не вдалася.",
         "transactionRejected": "Підпис обов'язковий.",
         "transactionUnderpriced": "Транзакція є заниженою.",
@@ -99,8 +99,8 @@
     "from": "З",
     "fromAmount": "Ви платите",
     "gasCost": "Вартість газу",
-    "gasFeeEstimated": "estimated gas fee",
-    "gasFeePaid": "gas fee paid",
+    "gasFeeEstimated": "орієнтована комісія за газ",
+    "gasFeePaid": "оплата за газ",
     "inProgress": "в процесі",
     "info": {
       "message": {
@@ -119,55 +119,55 @@
     "otherTokens": "Інші токени",
     "process": {
       "crossChain": {
-        "actionRequired": "Будь ласка, підпишіть транзакцію.",
-        "done": "Транзакцію схвалено.",
-        "pending": "Очікування транзакції.",
-        "started": "Підготовка транзакції."
+        "actionRequired": "Будь ласка, підпишіть транзакцію",
+        "done": "Брідж транзакцію схвалено",
+        "pending": "Очікування брідж транзакції",
+        "started": "Підготовка брідж транзакції"
       },
       "receivingChain": {
-        "done": "Кошти отримані.",
-        "partial": "Bridge partially completed",
-        "pending": "В очікуванні приймаючого чейна.",
-        "refunded": "Bridge transaction refunded"
+        "done": "Брідж завершено",
+        "partial": "Брідж частково завершено",
+        "pending": "В очікуванні чейна що приймає",
+        "refunded": "Брідж транзакція відшкодована"
       },
       "swap": {
-        "actionRequired": "Будь ласка, підпишіть транзакцію.",
-        "done": "Обмін завершено.",
-        "pending": "Обмінюємо.",
-        "started": "Підготовка свопу."
+        "actionRequired": "Будь ласка, підпишіть транзакцію",
+        "done": "Своп завершено",
+        "pending": "Очікування своп транзакції",
+        "started": "Підготовка своп транзакції"
       },
       "switchChain": {
-        "actionRequired": "Потрібно переключити чейн.",
-        "done": "Чейн успішно переключився."
+        "actionRequired": "Потрібно перемикнути чейн",
+        "done": "Чейн успішно перемикнувся"
       },
       "tokenAllowance": {
-        "done": "Токени схвалено.",
-        "pending": "Очікування схвалення токенів.",
-        "started": "Схвалення токенів."
+        "done": "Токени схвалено",
+        "pending": "Очікування схвалення токенів",
+        "started": "Схвалення токенів"
       }
     },
-    "quotedAmount": "Quoted amount",
-    "rateChange": "Rate change",
+    "quotedAmount": "Запропонована сума",
+    "rateChange": "Зміна курсу",
     "receiving": "Отримання",
     "routes": "Ви отримуєте",
     "selectChain": "Чейн",
     "selectChainAndToken": "Виберіть чейн і токен",
     "selectToken": "Токен",
-    "sendToAddress": "Send to {{address}}",
+    "sendToAddress": "Відправити на {{address}}",
     "sendToWallet": "Надіслати на інший гаманець",
-    "sentToAddress": "Sent to {{address}}",
+    "sentToAddress": "Відправлено на {{address}}",
     "stepBridge": "Брідж",
     "stepSwap": "Своп",
     "stepSwapAndBridge": "Своп та брідж",
     "success": {
       "message": {
-        "swapPartiallySuccessful": "We've tried to complete the swap, but {{tool}} ran out of liquidity for {{tokenSymbol}} token.",
+        "swapPartiallySuccessful": "Ми намагалися завершити своп, але {{tool}} не вистачило ліквідності токену {{tokenSymbol}}.",
         "swapSuccessful": "Зараз у гаманці {{walletAddress}} на чейні {{chainName}} є {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}}."
       },
       "title": {
         "gasSwapSuccessful": "Своп газу успішний",
-        "refundIssued": "Refund issued",
-        "swapPartiallySuccessful": "Swap partially successful",
+        "refundIssued": "Здійснено повернення коштів",
+        "swapPartiallySuccessful": "Своп частково успішний",
         "swapSuccessful": "Своп успішний"
       }
     },
@@ -194,7 +194,7 @@
         "highValueLoss": "Вартість отриманих токенів значно нижча, ніж обмінені токени та вартість транзакції.",
         "insufficientFunds": "У вас недостатньо коштів для здійснення свопу.",
         "insufficientGas": "Потрібно додати хоча б:",
-        "rateChanged": "The exchange rate has changed. By continuing the swap, you'll accept the new rate."
+        "rateChanged": "Курс обміну змінився. Продовжуючи своп, ви приймете новий курс."
       },
       "title": {
         "deleteActiveSwaps": "Видалити всі активні свопи?",
@@ -202,7 +202,7 @@
         "deleteSwapHistory": "Видалити історію свопів?",
         "highValueLoss": "Висока втрата вартості",
         "insufficientGas": "Недостатня кількість газу",
-        "rateChanged": "Rate changed"
+        "rateChanged": "Курс змінився"
       }
     }
   },
