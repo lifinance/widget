@@ -1,0 +1,3 @@
+files:
+  - source: /packages/widget/src/i18n/en.json
+    translation: /packages/widget/src/i18n/%two_letters_code%.%file_extension%
