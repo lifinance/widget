@@ -9,9 +9,8 @@ import { useSettings, useSettingsStore } from '../../stores';
 import { HiddenUI } from '../../types';
 
 export const LanguageSelect: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { languages, hiddenUI } = useWidgetConfig();
-  const { i18n } = useTranslation();
   const setValue = useSettingsStore((state) => state.setValue);
   const { language } = useSettings(['language']);
 
