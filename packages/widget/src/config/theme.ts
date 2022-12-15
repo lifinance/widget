@@ -254,6 +254,7 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
             width: 32,
           },
         },
+        ...theme.components?.MuiAvatar,
       },
       MuiListItemAvatar: {
         styleOverrides: {

@@ -6,7 +6,13 @@ import type {
   RouteOptions,
   Token,
 } from '@lifi/sdk';
-import type { PaletteMode, PaletteOptions, Shape } from '@mui/material';
+import type {
+  Components,
+  PaletteMode,
+  PaletteOptions,
+  Shape,
+  Theme,
+} from '@mui/material';
 import type { TypographyOptions } from '@mui/material/styles/createTypography';
 import type { CSSProperties, ReactNode, RefObject } from 'react';
 import type { LanguageKey, LanguageResources } from '../providers';
@@ -33,10 +39,11 @@ export type Appearance = PaletteMode | 'auto';
 export type ThemeConfig = {
   palette?: Pick<
     PaletteOptions,
-    'grey' | 'background' | 'text' | 'secondary' | 'primary'
+    'background' | 'grey' | 'primary' | 'secondary' | 'text'
   >;
   shape?: Shape;
   typography?: TypographyOptions;
+  components?: Pick<Components<Omit<Theme, 'components'>>, 'MuiAvatar'>;
 };
 
 export interface WidgetWalletManagement {

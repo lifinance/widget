@@ -103,6 +103,7 @@ export const App = () => {
         typography: {
           fontFamily,
         },
+        components: widgetConfig.theme?.components,
       },
       variant,
     }));

@@ -144,4 +144,13 @@ export const widgetConfig: WidgetConfig = {
     boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
     borderRadius: '16px',
   },
+  // theme: {
+  //   components: {
+  //     MuiAvatar: {
+  //       defaultProps: {
+  //         imgProps: { crossOrigin: 'anonymous' },
+  //       },
+  //     },
+  //   },
+  // },
 };
