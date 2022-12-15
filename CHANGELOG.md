@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.27.2](https://github.com/lifinance/widget/compare/v1.27.1...v1.27.2) (2022-12-15)
+
+
+### Bug Fixes
+
+* allow adding crossOrigin tag to avatar props ([d7aff7e](https://github.com/lifinance/widget/commit/d7aff7ea2cd45174a3537e8752171815775f8f01))
+
 ### [1.27.1](https://github.com/lifinance/widget/compare/v1.27.0...v1.27.1) (2022-12-13)
 
 ## [1.27.0](https://github.com/lifinance/widget/compare/v1.26.5...v1.27.0) (2022-12-13)
