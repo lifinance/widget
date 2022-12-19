@@ -34,20 +34,14 @@ export const AppRoutes = () => {
       path: navigationRoutes.toTokenNative,
       element: <SelectChainPage formType="to" selectNativeToken />,
     },
-    ...[
-      navigationRoutes.fromChain,
-      `${navigationRoutes.fromToken}/${navigationRoutes.fromChain}`,
-    ].map((path) => ({
-      path,
+    {
+      path: `${navigationRoutes.fromToken}?/${navigationRoutes.fromChain}`,
       element: <SelectChainPage formType="from" />,
-    })),
-    ...[
-      navigationRoutes.toChain,
-      `${navigationRoutes.toToken}/${navigationRoutes.toChain}`,
-    ].map((path) => ({
-      path,
+    },
+    {
+      path: `${navigationRoutes.toToken}?/${navigationRoutes.toChain}`,
       element: <SelectChainPage formType="to" />,
-    })),
+    },
     {
       path: navigationRoutes.swapRoutes,
       element: <SwapRoutesPage />,
@@ -60,30 +54,18 @@ export const AppRoutes = () => {
       path: navigationRoutes.swapHistory,
       element: <SwapHistoryPage />,
     },
-    ...[
-      `${navigationRoutes.swapHistory}/${navigationRoutes.swapDetails}`,
-      `${navigationRoutes.swapExecution}/${navigationRoutes.swapDetails}`,
-      `${navigationRoutes.swapRoutes}/${navigationRoutes.swapExecution}/${navigationRoutes.swapDetails}`,
-    ].map((path) => ({
-      path,
+    {
+      path: `${navigationRoutes.swapHistory}?/${navigationRoutes.swapRoutes}?/${navigationRoutes.swapExecution}?/${navigationRoutes.swapDetails}`,
       element: <SwapDetailsPage />,
-    })),
-    ...[
-      navigationRoutes.selectWallet,
-      `${navigationRoutes.swapExecution}/${navigationRoutes.selectWallet}`,
-      `${navigationRoutes.swapRoutes}/${navigationRoutes.swapExecution}/${navigationRoutes.selectWallet}`,
-    ].map((path) => ({
-      path,
+    },
+    {
+      path: `${navigationRoutes.swapRoutes}?/${navigationRoutes.swapExecution}?/${navigationRoutes.selectWallet}`,
       element: <SelectWalletPage />,
-    })),
-    ...[
-      navigationRoutes.swapExecution,
-      `${navigationRoutes.swapRoutes}/${navigationRoutes.swapExecution}`,
-      `${navigationRoutes.activeSwaps}/${navigationRoutes.swapExecution}`,
-    ].map((path) => ({
-      path,
+    },
+    {
+      path: `${navigationRoutes.swapRoutes}?/${navigationRoutes.activeSwaps}?/${navigationRoutes.swapExecution}`,
       element: <SwapPage />,
-    })),
+    },
     {
       path: '*',
       element: <NotFound />,
