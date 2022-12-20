@@ -15,6 +15,8 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "ES6",
+    "composite": true,
+    "baseUrl": "./",
     "paths": {
       "@lifi/widget": ["./packages/widget/src"],
       "@lifi/widget/*": ["./packages/widget/src/*"],
@@ -27,5 +29,6 @@
     "**/build",
     "**/dist",
     "node_modules",
+    ".yarn"
   ]
 }

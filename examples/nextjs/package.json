@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@lifi/sdk": "^1.7.2",
     "@lifi/widget": "^1.27.2",
     "next": "13.0.7",
     "next-transpile-modules": "^10.0.0",
