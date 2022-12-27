@@ -1,10 +1,5 @@
 import BigNumber from 'bignumber.js';
 import type {
-  OrdersQueryOptions,
-  OrderV2,
-  SerializedOrderV2,
-} from 'opensea-js/lib/orders/types';
-import type {
   AssetEvent,
   OpenSeaAccount,
   OpenSeaAsset,
@@ -16,8 +11,11 @@ import type {
   OpenSeaUser,
   Order,
   OrderJSON,
+  OrdersQueryOptions,
+  OrderV2,
+  SerializedOrderV2,
   Transaction,
-} from 'opensea-js/lib/types';
+} from './types';
 
 type OrdersQueryPathOptions = 'protocol' | 'side';
 
