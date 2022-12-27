@@ -1,12 +1,10 @@
 import { switchChain } from '@lifi/wallet-management';
 import type { WidgetContract } from '@lifi/widget';
-import { NFT } from '@lifi/widget';
+import { NFT, useWallet } from '@lifi/widget';
 import { Seaport } from '@opensea/seaport-js';
 import { useQuery } from '@tanstack/react-query';
-import { ethers } from 'ethers';
-import type { OrdersQueryResponse } from 'opensea-js/lib/orders/types';
 import { useEffect, useState } from 'react';
-import type { NFTNetwork, NFTOpenSeaProps } from './types';
+import type { NFTNetwork, NFTOpenSeaProps, OrdersQueryResponse } from './types';
 import { ChainId } from './types';
 import { deserializeOrder } from './utils';
 
@@ -15,6 +13,7 @@ export const NFTOpenSea: React.FC<NFTOpenSeaProps> = ({
   contractAddress,
   tokenId,
 }) => {
+  const { account } = useWallet();
   const [contract, setContract] = useState<WidgetContract>();
   const { data, isLoading } = useQuery(
     ['nft', network, contractAddress, tokenId],
@@ -37,12 +36,10 @@ export const NFTOpenSea: React.FC<NFTOpenSeaProps> = ({
   );
 
   useEffect(() => {
-    if (data) {
+    if (data && account.signer) {
       const fulfillOrder = async () => {
         try {
-          const seaport = new Seaport(
-            new ethers.providers.Web3Provider(window.ethereum as any),
-          );
+          const seaport = new Seaport(account.signer as any);
           const { actions } = await seaport.fulfillOrder({
             order: data?.protocolData,
           });
