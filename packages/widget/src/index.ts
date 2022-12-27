@@ -3,6 +3,7 @@ import { AppDrawer } from './AppDrawer';
 import './fonts/inter.css';
 
 export type { WidgetDrawer } from './AppDrawer';
+export * from './components/NFT';
 export { useWidgetEvents, widgetEvents } from './hooks';
 export * from './types';
 

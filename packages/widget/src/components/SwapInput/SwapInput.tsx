@@ -1,3 +1,4 @@
+import type { BoxProps } from '@mui/material';
 import type { ChangeEvent } from 'react';
 import { useRef } from 'react';
 import { useController } from 'react-hook-form';
@@ -13,7 +14,10 @@ import { FormControl, Input } from './SwapInput.style';
 import { SwapInputEndAdornment } from './SwapInputEndAdornment';
 import { SwapInputStartAdornment } from './SwapInputStartAdornment';
 
-export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
+export const SwapInput: React.FC<SwapFormTypeProps & BoxProps> = ({
+  formType,
+  ...props
+}) => {
   const { t } = useTranslation();
   const amountKey = SwapFormKeyHelper.getAmountKey(formType);
   const {
@@ -44,7 +48,7 @@ export const SwapInput: React.FC<SwapFormTypeProps> = ({ formType }) => {
   const disabled = disabledUI?.includes(DisabledUI.FromAmount);
 
   return (
-    <Card>
+    <Card {...props}>
       <CardTitle>{t('swap.fromAmount')}</CardTitle>
       <FormControl fullWidth>
         <Input

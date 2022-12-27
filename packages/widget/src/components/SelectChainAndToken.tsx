@@ -25,23 +25,38 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
     disabledUI?.includes(DisabledUI.FromToken) ||
     disabledUI?.includes(DisabledUI.ToToken);
 
+  const nftVariant = variant === 'nft';
+
   const isCompact =
-    fromChain && toChain && fromToken && toToken && !prefersNarrowView;
+    fromChain &&
+    toChain &&
+    fromToken &&
+    toToken &&
+    !prefersNarrowView &&
+    !nftVariant;
   return (
     <Box
       sx={{ display: 'flex', flexDirection: isCompact ? 'row' : 'column' }}
       {...props}
     >
       <SelectTokenButton formType="from" compact={isCompact} />
-      <Box
-        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-        m={!disabledReverse ? -1.125 : 1}
-      >
-        {!disabledReverse ? (
-          <ReverseTokensButton vertical={!isCompact} />
-        ) : null}
-      </Box>
-      <SelectTokenButton formType="to" compact={isCompact} />
+      {!nftVariant ? (
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          m={!disabledReverse ? -1.125 : 1}
+        >
+          {!disabledReverse ? (
+            <ReverseTokensButton vertical={!isCompact} />
+          ) : null}
+        </Box>
+      ) : null}
+      {!nftVariant ? (
+        <SelectTokenButton formType="to" compact={isCompact} />
+      ) : null}
     </Box>
   );
 };

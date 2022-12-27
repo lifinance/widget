@@ -102,11 +102,11 @@ const ConnectedButton = () => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleCopyAddress} disableRipple dense>
+        <MenuItem onClick={handleCopyAddress} disableRipple>
           <ContentCopyIcon />
           {t(`button.copyAddress`)}
         </MenuItem>
-        <MenuItem onClick={handleDisconnect} disableRipple dense>
+        <MenuItem onClick={handleDisconnect} disableRipple>
           <PowerSettingsIcon />
           {t(`button.disconnectWallet`)}
         </MenuItem>

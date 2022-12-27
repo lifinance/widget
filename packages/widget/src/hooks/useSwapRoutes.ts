@@ -1,8 +1,10 @@
 import { isAddress } from '@ethersproject/address';
+import type { Route } from '@lifi/sdk';
 import { LifiErrorCode } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Big from 'big.js';
 import { useWatch } from 'react-hook-form';
+import { v4 as uuidv4 } from 'uuid';
 import { useDebouncedWatch, useToken } from '.';
 import { SwapFormKey, useLiFi, useWallet, useWidgetConfig } from '../providers';
 import { useSettings } from '../stores';
@@ -21,37 +23,64 @@ export const useSwapRoutes = () => {
       'enabledBridges',
       'enabledExchanges',
     ]);
-  const [fromChainId, fromTokenAddress, toChainId, toTokenAddress, toAddress] =
-    useWatch({
-      name: [
-        SwapFormKey.FromChain,
-        SwapFormKey.FromToken,
-        SwapFormKey.ToChain,
-        SwapFormKey.ToToken,
-        SwapFormKey.ToAddress,
-      ],
-    });
   const [fromTokenAmount] = useDebouncedWatch([SwapFormKey.FromAmount], 320);
+  const [
+    fromChainId,
+    fromTokenAddress,
+    toAddress,
+    toTokenAmount,
+    toChainId,
+    toContractAddress,
+    toContractCallData,
+    toContractGasLimit,
+    toTokenAddress,
+  ] = useWatch({
+    name: [
+      SwapFormKey.FromChain,
+      SwapFormKey.FromToken,
+      SwapFormKey.ToAddress,
+      SwapFormKey.ToAmount,
+      SwapFormKey.ToChain,
+      SwapFormKey.ToContractAddress,
+      SwapFormKey.ToContractCallData,
+      SwapFormKey.ToContractGasLimit,
+      SwapFormKey.ToToken,
+    ],
+  });
   const { token: fromToken } = useToken(fromChainId, fromTokenAddress);
   const { token: toToken } = useToken(toChainId, toTokenAddress);
+
+  const hasAmount =
+    (!isNaN(fromTokenAmount) && Number(fromTokenAmount) > 0) ||
+    (!isNaN(toTokenAmount) && Number(toTokenAmount) > 0);
+
+  const contractCallQuoteEnabled: boolean =
+    variant === 'nft'
+      ? Boolean(toContractAddress && toContractCallData && toContractGasLimit)
+      : true;
+
   const isEnabled =
-    // Boolean(account.address) &&
     !isNaN(fromChainId) &&
     !isNaN(toChainId) &&
     Boolean(fromToken?.address) &&
     Boolean(toToken?.address) &&
-    !isNaN(fromTokenAmount) &&
-    Number(fromTokenAmount) > 0 &&
-    !Number.isNaN(slippage);
+    !Number.isNaN(slippage) &&
+    hasAmount &&
+    contractCallQuoteEnabled;
+
   const queryKey = [
     'routes',
     account.address,
     fromChainId,
     fromToken?.address,
     fromTokenAmount,
+    toAddress,
     toChainId,
     toToken?.address,
-    toAddress,
+    toTokenAmount,
+    toContractAddress,
+    toContractCallData,
+    toContractGasLimit,
     slippage,
     enabledBridges,
     enabledExchanges,
@@ -59,6 +88,7 @@ export const useSwapRoutes = () => {
     variant,
     sdkConfig?.defaultRouteOptions?.allowSwitchChain,
   ];
+
   const previousDataUpdatedAt =
     queryClient.getQueryState(queryKey)?.dataUpdatedAt;
   const refetchInterval = previousDataUpdatedAt
@@ -67,6 +97,7 @@ export const useSwapRoutes = () => {
         refetchTime,
       )
     : refetchTime;
+
   const { data, isLoading, isFetching, isFetched, dataUpdatedAt, refetch } =
     useQuery(
       queryKey,
@@ -77,9 +108,13 @@ export const useSwapRoutes = () => {
           fromChainId,
           fromTokenAddress,
           fromTokenAmount,
+          toAddress,
           toChainId,
           toTokenAddress,
-          toAddress,
+          toTokenAmount,
+          toContractAddress,
+          toContractCallData,
+          toContractGasLimit,
           slippage,
           enabledBridges,
           enabledExchanges,
@@ -97,10 +132,55 @@ export const useSwapRoutes = () => {
         } catch {
           toWalletAddress = isAddress(toAddress) ? toAddress : fromAddress;
         }
-        const fromAmount = Big(fromTokenAmount)
+        const fromAmount = Big(fromTokenAmount || 0)
           .mul(10 ** (fromToken?.decimals ?? 0))
           .toString();
+        // const toAmount = Big(toTokenAmount || 0)
+        //   .mul(10 ** (toToken?.decimals ?? 0))
+        //   .toString();
         const formattedSlippage = parseFloat(slippage) / 100;
+
+        if (variant === 'nft') {
+          const contractCallQuote = await lifi.getContractCallQuote(
+            {
+              fromAddress,
+              fromChain: fromChainId,
+              fromToken: fromTokenAddress,
+              toAmount: toTokenAmount,
+              toChain: toChainId,
+              toToken: toTokenAddress,
+              toContractAddress,
+              toContractCallData,
+              toContractGasLimit,
+              // toFallbackAddress: toAddress,
+              slippage: formattedSlippage,
+            },
+            { signal },
+          );
+
+          contractCallQuote.estimate.toAmount = toTokenAmount;
+          contractCallQuote.estimate.toAmountMin = toTokenAmount;
+          contractCallQuote.action.toToken = toToken!;
+
+          const route: Route = {
+            id: uuidv4(),
+            fromChainId: contractCallQuote.action.fromChainId,
+            fromAmountUSD: contractCallQuote.estimate.fromAmountUSD || '',
+            fromAmount: contractCallQuote.action.fromAmount,
+            fromToken: contractCallQuote.action.fromToken,
+            fromAddress: contractCallQuote.action.fromAddress,
+            toChainId: contractCallQuote.action.toChainId,
+            toAmountUSD: contractCallQuote.estimate.toAmountUSD || '',
+            toAmount: toTokenAmount,
+            toAmountMin: toTokenAmount,
+            toToken: toToken!,
+            toAddress: toAddress,
+            gasCostUSD: contractCallQuote.estimate.gasCosts?.[0].amountUSD,
+            steps: [contractCallQuote],
+          };
+
+          return { routes: [route] };
+        }
         return lifi.getRoutes(
           {
             fromChainId,

@@ -37,13 +37,17 @@ export const SelectTokenButton: React.FC<
 
   const isSelected = !!(chain && token);
   const onClick = !disabledUI?.includes(tokenKey) ? handleClick : undefined;
-  const defaultTitle =
+  const defaultPlaceholder =
     formType === 'to' && variant === 'refuel'
       ? t(`header.selectChain`)
       : t(`swap.selectChainAndToken`);
+  const cardTitle =
+    formType === 'from' && variant === 'nft'
+      ? t(`swap.payWith`)
+      : t(`swap.${formType}`);
   return (
     <Card flex={1} onClick={onClick}>
-      <CardTitle>{t(`swap.${formType}`)}</CardTitle>
+      <CardTitle>{cardTitle}</CardTitle>
       {chainId && tokenAddress && (isChainLoading || isTokenLoading) ? (
         <SelectTokenCardHeader
           avatar={<Skeleton variant="circular" width={32} height={32} />}
@@ -60,7 +64,7 @@ export const SelectTokenButton: React.FC<
               <TokenAvatarDefault />
             )
           }
-          title={isSelected ? token.symbol : defaultTitle}
+          title={isSelected ? token.symbol : defaultPlaceholder}
           subheader={
             isSelected ? t(`swap.onChain`, { chainName: chain.name }) : null
           }
