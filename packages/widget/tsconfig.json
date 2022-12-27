@@ -1,19 +1,18 @@
 {
-  "extends": "../../tsconfig",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "composite": true,
     "declaration": true,
     "noEmit": false,
     "outDir": "build",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "baseUrl": "../../"
   },
   "include": [
     "./src/**/*",
     "./src/**/*.json"
   ],
   "references": [
-    {
-      "path": "../wallet-management/tsconfig.json"
-    },
+    { "path": "../wallet-management" },
   ]
 }

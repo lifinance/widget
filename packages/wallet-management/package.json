@@ -49,9 +49,11 @@
     "lifi"
   ],
   "dependencies": {
+    "@coinbase/wallet-sdk": "^3.6.3",
     "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/experimental": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
+    "@lifi/sdk": "^1.7.2",
     "@walletconnect/ethereum-provider": "^1.8.0",
     "@walletconnect/web3-provider": "^1.8.0",
     "@web3-react/coinbase-wallet": "^8.0.34-beta.0",
@@ -61,7 +63,8 @@
     "@web3-react/metamask": "^8.0.28-beta.0",
     "@web3-react/network": "^8.0.27-beta.0",
     "@web3-react/types": "^8.0.20-beta.0",
-    "@web3-react/url": "^8.0.25-beta.0"
+    "@web3-react/url": "^8.0.25-beta.0",
+    "react": "^18.2.0"
   },
   "eslintConfig": {
     "extends": "../../.eslintrc"
