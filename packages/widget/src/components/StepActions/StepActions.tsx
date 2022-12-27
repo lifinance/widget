@@ -15,7 +15,7 @@ import {
   StepContent,
   StepLabel,
 } from './StepActions.style';
-import type { StepActionsProps } from './types';
+import type { StepActionsProps, StepDetailsLabelProps } from './types';
 
 export const StepActions: React.FC<StepActionsProps> = ({
   step,
@@ -24,9 +24,11 @@ export const StepActions: React.FC<StepActionsProps> = ({
 }) => {
   const { variant, contractTool } = useWidgetConfig();
   const StepDetailsLabel =
-    step.type === 'cross' ||
-    (step.type === 'lifi' &&
-      step.includedSteps.some((step) => step.type === 'cross'))
+    step.tool === 'custom' && variant === 'nft'
+      ? CustomStepDetailsLabel
+      : step.type === 'cross' ||
+        (step.type === 'lifi' &&
+          step.includedSteps.some((step) => step.type === 'cross'))
       ? CrossStepDetailsLabel
       : SwapStepDetailsLabel;
   const isFullView = !dense && (step as LifiStep).includedSteps?.length > 1;
@@ -37,11 +39,15 @@ export const StepActions: React.FC<StepActionsProps> = ({
       : undefined;
 
   if (customStep && contractTool) {
-    customStep.toolDetails = {
+    const toolDetails = {
       key: contractTool.name,
       name: contractTool.name,
       logoURI: contractTool.logoURI,
     };
+    customStep.toolDetails = toolDetails;
+    if (!isFullView) {
+      (step as LifiStep).toolDetails = toolDetails;
+    }
   }
 
   // eslint-disable-next-line react/no-unstable-nested-components
@@ -110,8 +116,11 @@ export const StepActions: React.FC<StepActionsProps> = ({
         </Stepper>
       ) : (
         <Box ml={6}>
-          <StepDetailsLabel step={step} />
-          <StepDetailsContent step={step} />
+          <StepDetailsLabel
+            step={step}
+            variant={variant === 'nft' ? variant : undefined}
+          />
+          <StepDetailsContent step={step} variant={variant} />
         </Box>
       )}
     </Box>
@@ -138,7 +147,10 @@ export const StepDetailsContent: React.FC<{
         ),
       })}{' '}
       {step.action.fromToken.symbol}
-      {!(step.type === 'custom' && variant === 'nft') ? (
+      {!(
+        (step.type === 'custom' || step.tool === 'custom') &&
+        variant === 'nft'
+      ) ? (
         <>
           <ArrowForwardIcon sx={{ fontSize: 18, paddingX: 0.5 }} />
           {t('format.number', {
@@ -154,11 +166,16 @@ export const StepDetailsContent: React.FC<{
   );
 };
 
-export const CustomStepDetailsLabel: React.FC<{
-  step: Step;
-  variant: Extract<WidgetVariant, 'nft'>;
-}> = ({ step, variant }) => {
+export const CustomStepDetailsLabel: React.FC<StepDetailsLabelProps> = ({
+  step,
+  variant,
+}) => {
   const { t } = useTranslation();
+
+  if (!variant) {
+    return null;
+  }
+
   return (
     <Typography fontSize={12} fontWeight="500" color="text.secondary">
       {t(`swap.${variant}StepDetails`, {
@@ -168,7 +185,9 @@ export const CustomStepDetailsLabel: React.FC<{
   );
 };
 
-export const CrossStepDetailsLabel: React.FC<{ step: Step }> = ({ step }) => {
+export const CrossStepDetailsLabel: React.FC<
+  Omit<StepDetailsLabelProps, 'variant'>
+> = ({ step }) => {
   const { t } = useTranslation();
   const { getChainById } = useChains();
   return (
@@ -182,7 +201,9 @@ export const CrossStepDetailsLabel: React.FC<{ step: Step }> = ({ step }) => {
   );
 };
 
-export const SwapStepDetailsLabel: React.FC<{ step: Step }> = ({ step }) => {
+export const SwapStepDetailsLabel: React.FC<
+  Omit<StepDetailsLabelProps, 'variant'>
+> = ({ step }) => {
   const { t } = useTranslation();
   const { getChainById } = useChains();
   return (
