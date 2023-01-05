@@ -24,6 +24,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.REG_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
       - name: Build React App
+        env:
+          NODE_OPTIONS: "--max_old_space_size=4096"
         run: yarn install && yarn build
       - name: Deploy app build to S3 bucket
         run: aws s3 sync ./packages/widget-playground/dist/ s3://playground.li.fi --delete
