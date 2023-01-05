@@ -3,6 +3,7 @@ import {
   ListItemButton as MuiListItemButton,
 } from '@mui/material';
 import { listItemSecondaryActionClasses } from '@mui/material/ListItemSecondaryAction';
+import { listItemTextClasses } from '@mui/material/ListItemText';
 import { styled } from '@mui/material/styles';
 import { getContrastAlphaColor } from '../../utils';
 
@@ -27,5 +28,10 @@ export const ListItem = styled(MuiListItem)(({ theme }) => ({
   padding: theme.spacing(0, 1.5),
   [`.${listItemSecondaryActionClasses.root}`]: {
     right: theme.spacing(3),
+  },
+  [`& .${listItemTextClasses.primary}, & .${listItemTextClasses.secondary}`]: {
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
   },
 }));
