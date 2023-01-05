@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "start": "lerna run start",
-    "build": "lerna run build --concurrency 1",
+    "build": "lerna run build",
     "release": "yarn release:version:before && yarn release:version && yarn release:version:after && yarn standard-version -a",
     "release:version": "lerna version --no-changelog --no-push --no-git-tag-version --no-private",
     "release:version:before": "node scripts/private-version before",
