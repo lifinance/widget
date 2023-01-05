@@ -1,11 +1,11 @@
 
-name: s3-depl
+name: Deploy Widget Playground to S3
 
 on:
   push:
     branches: [ "main" ]
 env:
-  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}    
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -26,4 +26,4 @@ jobs:
       - name: Build React App
         run: yarn install && yarn build
       - name: Deploy app build to S3 bucket
-        run: aws s3 sync ./packages/widget-embedded/dist/ s3://playground.li.fi --delete
+        run: aws s3 sync ./packages/widget-playground/dist/ s3://playground.li.fi --delete
