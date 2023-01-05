@@ -3534,7 +3534,9 @@ __metadata:
     "@web3-react/network": ^8.0.27-beta.0
     "@web3-react/types": ^8.0.20-beta.0
     "@web3-react/url": ^8.0.25-beta.0
+    cpy-cli: ^4.2.0
     react: ^18.2.0
+    typescript: ^4.9.4
   languageName: unknown
   linkType: soft
 
