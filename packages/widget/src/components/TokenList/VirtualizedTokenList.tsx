@@ -52,8 +52,10 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   });
 
   useEffect(() => {
-    scrollToIndex(0, { align: 'start' });
-  }, [scrollToIndex, chainId]);
+    if (getVirtualItems().length) {
+      scrollToIndex(0, { align: 'start' });
+    }
+  }, [scrollToIndex, chainId, getVirtualItems]);
 
   if (isLoading) {
     return (
