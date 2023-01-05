@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.28.0](https://github.com/lifinance/widget/compare/v1.27.2...v1.28.0) (2023-01-05)
+
+
+### Features
+
+* add interactive tools ([acc3aa9](https://github.com/lifinance/widget/commit/acc3aa96e48850d50e179e2b3a7c577b8781af3f))
+* new variant draft ([#40](https://github.com/lifinance/widget/issues/40)) ([5d0f36a](https://github.com/lifinance/widget/commit/5d0f36a479101badccfe581f7b0d9fe232072345))
+* use yarn v3 and fix dependencies ([b09bc34](https://github.com/lifinance/widget/commit/b09bc3499f1d03a63a7547f2933de884ed0e316d))
+
+
+### Bug Fixes
+
+* long token names ([596b212](https://github.com/lifinance/widget/commit/596b21203541dde4909d271d02ab333df94fbe03))
+* remove sdks ([b0f7018](https://github.com/lifinance/widget/commit/b0f701802a8a418082164c0cab24ce23f3f65aff))
+
 ### [1.27.2](https://github.com/lifinance/widget/compare/v1.27.1...v1.27.2) (2022-12-15)
 
 
