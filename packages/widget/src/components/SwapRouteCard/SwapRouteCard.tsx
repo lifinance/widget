@@ -36,6 +36,11 @@ export const SwapRouteCard: React.FC<
     setCardExpanded((expanded) => !expanded);
   };
 
+  const token =
+    widgetVariant === 'nft'
+      ? { ...route.fromToken, amount: route.fromAmount }
+      : { ...route.toToken, amount: route.toAmount };
+
   const cardContent = (
     <Box flex={1}>
       {widgetVariant !== 'refuel' && !useRecommendedRoute ? (
@@ -53,7 +58,7 @@ export const SwapRouteCard: React.FC<
       ) : null}
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Token
-          token={{ ...route.toToken, amount: route.toAmount }}
+          token={token}
           step={variant === 'stretched' ? route.steps[0] : undefined}
           disableDescription={variant === 'dense' && widgetVariant !== 'refuel'}
         />

@@ -4,8 +4,8 @@ import { useLiFi } from '../providers';
 import type { Token } from '../types';
 
 export const useTokenSearch = (
-  chainId: number,
-  token: string,
+  chainId?: number,
+  token?: string,
   enabled?: boolean,
 ) => {
   const lifi = useLiFi();

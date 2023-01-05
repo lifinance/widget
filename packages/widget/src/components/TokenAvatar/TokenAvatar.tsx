@@ -6,18 +6,19 @@ import { SmallAvatar, SmallAvatarSkeleton } from '../SmallAvatar';
 import { AvatarDefault, AvatarDefaultContainer } from './TokenAvatar.style';
 
 export const TokenAvatarFallback: React.FC<{
-  token: Token;
+  token?: Token;
+  isLoading?: boolean;
   sx?: SxProps<Theme>;
-}> = ({ token, sx }) => {
-  const { chain } = useChain(token.chainId);
-  const { token: chainToken, isLoading } = useToken(
-    token.chainId,
-    token.address,
+}> = ({ token, isLoading, sx }) => {
+  const { chain } = useChain(token?.chainId);
+  const { token: chainToken, isLoading: isLoadingToken } = useToken(
+    token?.chainId,
+    token?.address,
   );
   return (
     <TokenAvatarBase
       token={chainToken ?? token}
-      isLoading={isLoading}
+      isLoading={isLoading || isLoadingToken}
       chain={chain}
       sx={sx}
     />
@@ -25,7 +26,7 @@ export const TokenAvatarFallback: React.FC<{
 };
 
 export const TokenAvatarBase: React.FC<{
-  token: Token;
+  token?: Token;
   chain?: Chain;
   isLoading?: boolean;
   sx?: SxProps<Theme>;
@@ -35,7 +36,7 @@ export const TokenAvatarBase: React.FC<{
       overlap="circular"
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       badgeContent={
-        chain ? (
+        chain && !isLoading ? (
           <SmallAvatar src={chain.logoURI} alt={chain.name}>
             {chain.name[0]}
           </SmallAvatar>
@@ -48,8 +49,8 @@ export const TokenAvatarBase: React.FC<{
       {isLoading ? (
         <Skeleton width={32} height={32} variant="circular" />
       ) : (
-        <Avatar src={token.logoURI} alt={token.symbol}>
-          {token.symbol[0]}
+        <Avatar src={token?.logoURI} alt={token?.symbol}>
+          {token?.symbol?.[0]}
         </Avatar>
       )}
     </Badge>
@@ -57,14 +58,22 @@ export const TokenAvatarBase: React.FC<{
 };
 
 export const TokenAvatar: React.FC<{
-  token: Token;
+  token?: Token;
   chain?: Chain;
+  isLoading?: boolean;
   sx?: SxProps<Theme>;
-}> = ({ token, chain, sx }) => {
-  if (!chain || !token.logoURI) {
-    return <TokenAvatarFallback token={token} sx={sx} />;
+}> = ({ token, chain, isLoading, sx }) => {
+  if (!chain || !token?.logoURI) {
+    return <TokenAvatarFallback token={token} isLoading={isLoading} sx={sx} />;
   }
-  return <TokenAvatarBase token={token} chain={chain} sx={sx} />;
+  return (
+    <TokenAvatarBase
+      token={token}
+      chain={chain}
+      isLoading={isLoading}
+      sx={sx}
+    />
+  );
 };
 
 export const TokenAvatarDefault: React.FC<{

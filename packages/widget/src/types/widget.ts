@@ -17,7 +17,12 @@ import type { TypographyOptions } from '@mui/material/styles/createTypography';
 import type { CSSProperties, ReactNode, RefObject } from 'react';
 import type { LanguageKey, LanguageResources } from '../providers';
 
-export type WidgetVariant = 'default' | 'expandable' | 'drawer' | 'refuel';
+export type WidgetVariant =
+  | 'default'
+  | 'expandable'
+  | 'drawer'
+  | 'refuel'
+  | 'nft';
 
 export enum DisabledUI {
   FromAmount = 'fromAmount',
@@ -29,9 +34,11 @@ export type DisabledUIType = `${DisabledUI}`;
 
 export enum HiddenUI {
   Appearance = 'appearance',
+  // FromAmount = 'fromAmount',
   Language = 'language',
   PoweredBy = 'poweredBy',
   ToAddress = 'toAddress',
+  // ToToken = 'toToken',
 }
 export type HiddenUIType = `${HiddenUI}`;
 
@@ -63,10 +70,15 @@ export interface SDKConfig
   defaultRouteOptions?: Omit<RouteOptions, 'bridges' | 'exchanges'>;
 }
 
+export interface WidgetContractTool {
+  logoURI: string;
+  name: string;
+}
+
 export interface WidgetContract {
-  address: string;
-  callData: string;
-  gasLimit: string;
+  address?: string;
+  callData?: string;
+  gasLimit?: string;
   approvalAddress?: string;
   outputToken?: string;
   fallbackAddress?: string;
@@ -84,6 +96,7 @@ export interface WidgetConfig {
   contract?: WidgetContract;
   contractComponent?: ReactNode;
   contractCompactComponent?: ReactNode;
+  contractTool?: WidgetContractTool;
 
   fee?: number;
   integrator?: string;

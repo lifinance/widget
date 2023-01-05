@@ -14,7 +14,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '19'
       - name: Install dependencies
         run: yarn install
       - name: Build WebApp
@@ -25,5 +25,5 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          SOURCE: 'packages/widget-embedded/dist/' # optional, default is
+          SOURCE: 'packages/widget-playground/dist/'
           TARGET: ${{ secrets.REMOTE_TARGET }}/test/web-testing # optional, default is /home/REMOTE_USER/
