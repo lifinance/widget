@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.28.1](https://github.com/lifinance/widget/compare/v1.28.0...v1.28.1) (2023-01-05)
+
+
+### Bug Fixes
+
+* postbuild script ([f06a87a](https://github.com/lifinance/widget/commit/f06a87ab7b7ebb31cb57708e7607a63008c07184))
+* postbuild script ([f002233](https://github.com/lifinance/widget/commit/f0022330f0e92bd9941bc5a4e9d556df53266db3))
+
 ## [1.28.0](https://github.com/lifinance/widget/compare/v1.27.2...v1.28.0) (2023-01-05)
 
 
