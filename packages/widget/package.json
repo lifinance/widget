@@ -8,9 +8,8 @@
   "scripts": {
     "watch": "tsc -w -p ./tsconfig.json",
     "build": "tsc --build --clean && yarn build:version && tsc --build && tsc --build tsconfig.cjs.json && yarn build:copy-files",
-    "build:copy-files": "node ../../scripts/copy-files.js",
+    "build:copy-files": "node ../../scripts/copy-files.js && cpy 'src/**/*' '!src/**/*.ts*' build && cpy 'src/**/*' '!src/**/*.ts*' build/cjs",
     "build:version": "node ../../scripts/version.js",
-    "postbuild": "cpy 'src/**/*' '!src/**/*.ts*' build && cpy 'src/**/*' '!src/**/*.ts*' build/cjs",
     "pre-commit": "lint-staged",
     "lint": "eslint --ext .tsx --ext .ts ./src",
     "lint:fix": "eslint --ext .tsx --ext .ts ./src --fix",
@@ -77,6 +76,10 @@
     "react-timer-hook": "^3.0.5",
     "uuid": "^9.0.0",
     "zustand": "^4.2.0"
+  },
+  "devDependencies": {
+    "cpy-cli": "^4.2.0",
+    "typescript": "^4.9.4"
   },
   "peerDependencies": {
     "@types/react": "^18.0.0",
