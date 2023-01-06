@@ -4,6 +4,7 @@ import { maxHeight } from '../AppContainer';
 
 export const CollapseContainer = styled(Box)(({ theme }) => ({
   height: maxHeight,
+  zIndex: 0,
 }));
 
 export const ScrollableContainer = styled(Box)({
