@@ -134,10 +134,7 @@ export const useSwapRoutes = () => {
         }
         const fromAmount = Big(fromTokenAmount || 0)
           .mul(10 ** (fromToken?.decimals ?? 0))
-          .toString();
-        // const toAmount = Big(toTokenAmount || 0)
-        //   .mul(10 ** (toToken?.decimals ?? 0))
-        //   .toString();
+          .toFixed(0);
         const formattedSlippage = parseFloat(slippage) / 100;
 
         if (variant === 'nft') {
