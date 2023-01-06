@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-embedded",
-  "version": "1.0.74",
+  "version": "1.0.75",
   "private": true,
   "type": "module",
   "scripts": {
@@ -27,7 +27,7 @@
     "@ethersproject/abstract-signer": "^5.7.0",
     "@lifi/sdk": "^1.7.2",
     "@lifi/wallet-management": "^1.2.4",
-    "@lifi/widget": "^1.28.2",
+    "@lifi/widget": "^1.28.3",
     "@mui/icons-material": "^5.11.0",
     "@mui/lab": "^5.0.0-alpha.114",
     "@mui/material": "^5.11.3",

@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.28.3](https://github.com/lifinance/widget/compare/v1.28.2...v1.28.3) (2023-01-06)
+
+
+### Bug Fixes
+
+* bignumber conversion ([a0e6221](https://github.com/lifinance/widget/commit/a0e622195df09cd6056c715f6d23cb3ac7098616))
+* make square icon button possible ([9ce176d](https://github.com/lifinance/widget/commit/9ce176d59aa4073cbded7e06c72538a5fb3582eb))
+
 ### [1.28.2](https://github.com/lifinance/widget/compare/v1.28.1...v1.28.2) (2023-01-06)
 
 
