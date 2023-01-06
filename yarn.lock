@@ -3548,7 +3548,7 @@ __metadata:
     "@ethersproject/abstract-signer": ^5.7.0
     "@lifi/sdk": ^1.7.2
     "@lifi/wallet-management": ^1.2.4
-    "@lifi/widget": ^1.28.1
+    "@lifi/widget": ^1.28.2
     "@mui/icons-material": ^5.11.0
     "@mui/lab": ^5.0.0-alpha.114
     "@mui/material": ^5.11.3
@@ -3579,7 +3579,7 @@ __metadata:
     "@esbuild-plugins/node-globals-polyfill": ^0.1.1
     "@lifi/sdk": ^1.7.2
     "@lifi/wallet-management": ^1.2.4
-    "@lifi/widget": ^1.28.1
+    "@lifi/widget": ^1.28.2
     "@mui/icons-material": ^5.11.0
     "@mui/lab": ^5.0.0-alpha.114
     "@mui/material": ^5.11.3
@@ -3596,7 +3596,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@lifi/widget@^1.28.1, @lifi/widget@workspace:packages/widget":
+"@lifi/widget@^1.28.2, @lifi/widget@workspace:packages/widget":
   version: 0.0.0-use.local
   resolution: "@lifi/widget@workspace:packages/widget"
   dependencies:
