@@ -208,7 +208,7 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
             },
           },
           sizeMedium: {
-            padding: '10px 16px',
+            padding: '10px 14px',
             [`.${dialogActionsClasses.root} &`]: {
               padding: '6px 12px',
             },
