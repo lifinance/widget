@@ -1,4 +1,4 @@
-import shallow from 'zustand/shallow';
+import { shallow } from 'zustand/shallow';
 import type { SettingsState } from '.';
 import { useSettingsStore } from './useSettingsStore';
 

@@ -1,4 +1,4 @@
-import shallow from 'zustand/shallow';
+import { shallow } from 'zustand/shallow';
 import { useChainOrderStore } from './useChainOrderStore';
 
 export const useChainOrder = (): [number[], (chainId: number) => void] => {

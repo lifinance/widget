@@ -1,4 +1,4 @@
-import shallow from 'zustand/shallow';
+import { shallow } from 'zustand/shallow';
 import type { RouteExecution } from './types';
 import { RouteExecutionStatus } from './types';
 import { useRouteExecutionStore } from './useRouteExecutionStore';

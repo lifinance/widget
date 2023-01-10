@@ -1,6 +1,6 @@
 import {
   ContentCopy as ContentCopyIcon,
-  DeleteOutline as DeleteIcon
+  DeleteOutline as DeleteIcon,
 } from '@mui/icons-material';
 import {
   Box,
@@ -10,12 +10,12 @@ import {
   DialogContentText,
   DialogTitle,
   IconButton,
-  Typography
+  Typography,
 } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import shallow from 'zustand/shallow';
+import { shallow } from 'zustand/shallow';
 import { Card, CardTitle } from '../../components/Card';
 import { Dialog } from '../../components/Dialog';
 import { useHeaderActionStore } from '../../components/Header';

@@ -1,5 +1,5 @@
 import type { Route } from '@lifi/sdk';
-import create from 'zustand';
+import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { hasEnumFlag } from '../../utils';
 import type { RouteExecutionStore } from './types';

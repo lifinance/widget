@@ -1,4 +1,4 @@
-import create from 'zustand';
+import { create } from 'zustand';
 import type { SendToWalletStore } from './types';
 
 export const useSendToWalletStore = create<SendToWalletStore>((set) => ({

@@ -1,7 +1,7 @@
 import type { ExchangeRateUpdateParams, Route } from '@lifi/sdk';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useRef } from 'react';
-import shallow from 'zustand/shallow';
+import { shallow } from 'zustand/shallow';
 import { useLiFi, useWallet } from '../providers';
 import {
   getUpdatedProcess,

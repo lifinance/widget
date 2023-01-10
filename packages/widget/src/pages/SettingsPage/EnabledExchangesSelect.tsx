@@ -8,7 +8,7 @@ import {
   Skeleton,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import shallow from 'zustand/shallow';
+import { shallow } from 'zustand/shallow';
 import { Card, CardTitle } from '../../components/Card';
 import { Select } from '../../components/Select';
 import { useTools } from '../../hooks';

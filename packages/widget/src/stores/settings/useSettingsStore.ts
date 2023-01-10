@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import create from 'zustand';
+import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { WidgetConfig } from '../../types';
 import type { SettingsState, SettingsStore } from './types';
