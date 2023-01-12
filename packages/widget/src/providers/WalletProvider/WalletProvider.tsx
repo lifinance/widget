@@ -20,7 +20,9 @@ import { useWidgetConfig } from '../WidgetProvider';
 import type { WalletAccount, WalletContextProps } from './types';
 
 const stub = (): never => {
-  throw new Error('You forgot to wrap your component in <WalletProvider>.');
+  throw new Error(
+    `You forgot to wrap your component in <${WalletProvider.name}>.`,
+  );
 };
 
 const initialContext: WalletContextProps = {

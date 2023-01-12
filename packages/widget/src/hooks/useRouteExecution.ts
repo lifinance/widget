@@ -9,6 +9,7 @@ import {
   isRouteDone,
   isRouteFailed,
   useRouteExecutionStore,
+  useRouteExecutionStoreContext,
 } from '../stores';
 import { WidgetEvent } from '../types/events';
 import { deepClone } from '../utils';
@@ -33,6 +34,7 @@ export const useRouteExecution = ({
   const { account, switchChain } = useWallet();
   const resumedAfterMount = useRef(false);
   const emitter = useWidgetEvents();
+  const routeExecutionStoreContext = useRouteExecutionStoreContext();
   const routeExecution = useRouteExecutionStore(
     (state) => state.routes[routeId],
   );
@@ -43,7 +45,7 @@ export const useRouteExecution = ({
 
   const updateCallback = (updatedRoute: Route) => {
     const routeExecution =
-      useRouteExecutionStore.getState().routes[updatedRoute.id];
+      routeExecutionStoreContext.getState().routes[updatedRoute.id];
     if (!routeExecution) {
       return;
     }
@@ -204,7 +206,8 @@ export const useRouteExecution = ({
 
   useEffect(() => {
     return () => {
-      const route = useRouteExecutionStore.getState().routes[routeId]?.route;
+      const route =
+        routeExecutionStoreContext.getState().routes[routeId]?.route;
       if (!route || !isRouteActive(route)) {
         return;
       }
@@ -212,7 +215,7 @@ export const useRouteExecution = ({
       console.log('Move route execution to background.', routeId);
       resumedAfterMount.current = false;
     };
-  }, [lifi, routeId]);
+  }, [lifi, routeExecutionStoreContext, routeId]);
 
   return {
     executeRoute,

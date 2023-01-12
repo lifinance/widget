@@ -1,6 +1,11 @@
 import type { Route } from '@lifi/sdk';
 
-export interface RouteExecutionStore {
+export interface RouteExecution {
+  route: Route;
+  status: RouteExecutionStatus;
+}
+
+export interface RouteExecutionState {
   routes: Partial<Record<string, RouteExecution>>;
   setExecutableRoute: (route: Route) => void;
   updateRoute: (route: Route) => void;
@@ -16,11 +21,6 @@ export enum RouteExecutionStatus {
   Failed = 1 << 2,
   Partial = 1 << 3,
   Refunded = 1 << 4,
-}
-
-export interface RouteExecution {
-  route: Route;
-  status: RouteExecutionStatus;
 }
 
 export interface RecommendedRouteStore {

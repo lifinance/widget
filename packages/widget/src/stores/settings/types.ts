@@ -13,7 +13,7 @@ export type ValuesSetter<S> = <K extends keyof S>(
 export type SettingsToolType = 'Bridges' | 'Exchanges';
 export const SettingsToolTypes: SettingsToolType[] = ['Bridges', 'Exchanges'];
 
-export interface SettingsState {
+export interface SettingsProps {
   advancedPreferences: boolean;
   appearance: Appearance;
   gasPrice?: string;
@@ -27,9 +27,9 @@ export interface SettingsState {
   _enabledExchanges?: Record<string, boolean>;
 }
 
-export interface SettingsStore extends SettingsState {
-  setValue: ValueSetter<SettingsState>;
-  setValues: ValuesSetter<SettingsState>;
+export interface SettingsState extends SettingsProps {
+  setValue: ValueSetter<SettingsProps>;
+  setValues: ValuesSetter<SettingsProps>;
   initializeTools(toolType: SettingsToolType, tools: string[]): void;
   setTools(
     toolType: SettingsToolType,

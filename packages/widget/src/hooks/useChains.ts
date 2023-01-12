@@ -5,7 +5,7 @@ import {
   isItemAllowed,
   SwapFormKey,
   useLiFi,
-  useWidgetConfig
+  useWidgetConfig,
 } from '../providers';
 import { useChainOrderStore } from '../stores';
 
@@ -13,6 +13,9 @@ export const useChains = () => {
   const { disabledChains, chains } = useWidgetConfig();
   const lifi = useLiFi();
   const { getValues, setValue } = useFormContext();
+  const initializeChains = useChainOrderStore(
+    (state) => state.initializeChains,
+  );
   const { data, isLoading } = useQuery(
     ['chains'],
     async () => {
@@ -20,9 +23,9 @@ export const useChains = () => {
       const filteredChains = availableChains.filter((chain) =>
         isItemAllowed(chain.id, chains, disabledChains),
       );
-      const chainOrder = useChainOrderStore
-        .getState()
-        .initializeChains(filteredChains.map((chain) => chain.id));
+      const chainOrder = initializeChains(
+        filteredChains.map((chain) => chain.id),
+      );
       const [fromChainValue, toChainValue] = getValues([
         SwapFormKey.FromChain,
         SwapFormKey.ToChain,

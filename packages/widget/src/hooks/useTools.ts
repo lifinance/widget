@@ -3,7 +3,7 @@ import type { Bridge, Exchange } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { isItemAllowed, useLiFi, useWidgetConfig } from '../providers';
-import { useSettingsStore } from '../stores';
+import { useSettingsStoreContext } from '../stores';
 
 interface WidgetBridge extends Omit<Bridge, 'key'> {
   key: string;
@@ -14,9 +14,10 @@ type FormattedTool<T, K extends keyof T> = Record<string, Pick<T, K>>;
 export const useTools = () => {
   const lifi = useLiFi();
   const { bridges, exchanges } = useWidgetConfig();
+  const settingsStoreContext = useSettingsStoreContext();
   const { data } = useQuery(['tools'], () => lifi.getTools(), {
     onSuccess(data) {
-      const { initializeTools } = useSettingsStore.getState();
+      const { initializeTools } = settingsStoreContext.getState();
       initializeTools(
         'Bridges',
         data.bridges

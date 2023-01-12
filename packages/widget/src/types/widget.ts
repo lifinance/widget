@@ -120,6 +120,7 @@ export interface WidgetConfig {
   sdkConfig?: SDKConfig;
 
   buildSwapUrl?: boolean;
+  localStorageKeyPrefix?: string;
 
   bridges?: {
     allow?: string[];

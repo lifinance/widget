@@ -1,8 +1,8 @@
 import { shallow } from 'zustand/shallow';
 import { hasEnumFlag } from '../../utils';
+import { useRouteExecutionStore } from './RouteExecutionStore';
 import type { RouteExecution } from './types';
 import { RouteExecutionStatus } from './types';
-import { useRouteExecutionStore } from './useRouteExecutionStore';
 
 export const useSwapHistory = (address?: string) => {
   return useRouteExecutionStore(
