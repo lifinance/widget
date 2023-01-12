@@ -11,7 +11,7 @@ export const Label = styled(Typography, {
     ? theme.palette.secondary.main
     : theme.palette.mode === 'light'
     ? theme.palette.grey[300]
-    : theme.palette.grey[700],
+    : theme.palette.grey[800],
   borderRadius: theme.shape.borderRadiusSecondary,
   color: active
     ? getContrastTextColor(theme, theme.palette.secondary.main)

@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { alpha, styled } from '@mui/material/styles';
 
 export const TextSecondaryContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'connected',
@@ -27,7 +27,9 @@ export const TextSecondary = styled(Typography, {
   fontSize: 12,
   lineHeight: 1,
   fontWeight: 500,
-  color: dot ? theme.palette.grey[400] : theme.palette.text.secondary,
+  color: dot
+    ? alpha(theme.palette.text.secondary, 0.56)
+    : theme.palette.text.secondary,
   marginTop: connected ? 0 : theme.spacing(0.5),
 }));
 

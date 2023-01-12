@@ -107,6 +107,10 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
     getContrastRatio(common.white, primaryMainColor) >= 3
       ? common.white
       : common.black;
+  const contrastTextButtonColor =
+    getContrastRatio(common.white, alpha(primaryMainColor, 0.08)) >= 3
+      ? common.white
+      : common.black;
   return createMuiTheme({
     typography: {
       fontFamily: 'Inter var, Inter, sans-serif',
@@ -177,8 +181,8 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
             [`&.Mui-disabled, &.Mui-disabled:hover`]: {
               color:
                 mode === 'light'
-                  ? 'rgb(0 0 0 / 56%)'
-                  : 'rgb(255 255 255 / 56%)',
+                  ? alpha(common.black, 0.56)
+                  : alpha(common.white, 0.56),
               cursor: 'not-allowed',
               pointerEvents: 'auto',
             },
@@ -197,10 +201,18 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
               },
           },
           text: {
-            backgroundColor: alpha(primaryMainColor, 0.08),
+            backgroundColor:
+              mode === 'light'
+                ? alpha(primaryMainColor, 0.08)
+                : alpha(primaryMainColor, 0.42),
             '&:hover': {
-              backgroundColor: alpha(primaryMainColor, 0.12),
+              backgroundColor:
+                mode === 'light'
+                  ? alpha(primaryMainColor, 0.12)
+                  : alpha(primaryMainColor, 0.56),
             },
+            color:
+              mode === 'light' ? primaryMainColor : contrastTextButtonColor,
           },
           contained: {
             '&:hover': {
@@ -213,28 +225,6 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
               padding: '6px 12px',
             },
           },
-          ...(mode === 'dark'
-            ? {
-                outlined: {
-                  color: primaryLightColor,
-                  borderColor: primaryLightColor,
-                  '&:hover': {
-                    backgroundColor: alpha(primaryLightColor, 0.08),
-                    borderColor: primaryLightColor,
-                  },
-                },
-                text: {
-                  backgroundColor: lighten(paletteDark.background.paper, 0.08),
-                  color: common.white,
-                  '&:hover': {
-                    backgroundColor: lighten(
-                      paletteDark.background.paper,
-                      0.12,
-                    ),
-                  },
-                },
-              }
-            : {}),
         },
       },
       MuiIconButton: {

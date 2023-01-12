@@ -46,7 +46,7 @@ export const Switch = styled(MuiSwitch)(({ theme }) => ({
     borderRadius: 24 / 2,
     backgroundColor:
       theme.palette.mode === 'light'
-        ? theme.palette.grey[400]
+        ? theme.palette.grey[300]
         : theme.palette.grey[800],
     opacity: 1,
     transition: theme.transitions.create(['background-color'], {
