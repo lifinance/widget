@@ -22,7 +22,9 @@ export const SwapRouteCardSkeleton: React.FC<
             variant="rectangular"
             width={118}
             height={24}
-            sx={{ borderRadius: 0.5 }}
+            sx={(theme) => ({
+              borderRadius: `${theme.shape.borderRadiusSecondary}px`,
+            })}
           />
           {variant === 'stretched' ? (
             <Box display="flex">

@@ -63,9 +63,7 @@ export const Card = styled(Box, {
           : theme.palette.mode === 'light'
           ? theme.palette.grey[300]
           : theme.palette.grey[800],
-      borderRadius: dense
-        ? theme.shape.borderRadiusSecondary
-        : theme.shape.borderRadius,
+      borderRadius: theme.shape.borderRadius,
       overflow: 'hidden',
       position: 'relative',
       padding: indented ? theme.spacing(2) : 0,
