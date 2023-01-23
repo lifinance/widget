@@ -5,7 +5,7 @@ import {
   switchChainAndAddToken,
 } from '@lifi/wallet-management';
 import type { WidgetVariant } from '@lifi/widget';
-import { LiFiWidget, NFT } from '@lifi/widget';
+import { LiFiWidget } from '@lifi/widget';
 import {
   Box,
   // Button,
@@ -313,7 +313,7 @@ export const App = () => {
           </Box>
         </Drawer>
         <Box flex={1} margin="auto">
-          <LiFiWidget contractComponent={<NFT />} config={config} open />
+          <LiFiWidget config={config} open />
         </Box>
       </Box>
     </ThemeProvider>
