@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.29.0](https://github.com/lifinance/widget/compare/v1.28.4...v1.29.0) (2023-01-23)
+
+
+### Features
+
+* add StoreProvider and localStorageKeyPrefix config option ([709aa0a](https://github.com/lifinance/widget/commit/709aa0afc7366dee63d82ea6c54d721f72447d62))
+
+
+### Bug Fixes
+
+* improve dark theme colors ([7dff268](https://github.com/lifinance/widget/commit/7dff2688625eee0e359dc624a698f33687572a8e))
+* remove settings provider namePrefix ([0503922](https://github.com/lifinance/widget/commit/0503922581f11565dbcf62174e9576639608d8f9))
+
 ### [1.28.4](https://github.com/lifinance/widget/compare/v1.28.3...v1.28.4) (2023-01-10)
 
 
