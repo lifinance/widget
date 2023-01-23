@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.29.2](https://github.com/lifinance/widget/compare/v1.29.1...v1.29.2) (2023-01-23)
+
+
+### Bug Fixes
+
+* remove namePrefix for chain order ([6e42e76](https://github.com/lifinance/widget/commit/6e42e766565c8f332391d8a5563cb554118a82f0))
+
 ### [1.29.1](https://github.com/lifinance/widget/compare/v1.29.0...v1.29.1) (2023-01-23)
 
 

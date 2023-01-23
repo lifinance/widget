@@ -1,5 +1,5 @@
 {
-  "version": "1.29.1",
+  "version": "1.29.2",
   "private": true,
   "sideEffects": false,
   "packageManager": "yarn@3.3.1",
