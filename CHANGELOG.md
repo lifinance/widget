@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.29.1](https://github.com/lifinance/widget/compare/v1.29.0...v1.29.1) (2023-01-23)
+
+
+### Bug Fixes
+
+* use main border radius in list items ([09a4a4a](https://github.com/lifinance/widget/commit/09a4a4a7fbfacc0247403b22b69150ede44669e9))
+
 ## [1.29.0](https://github.com/lifinance/widget/compare/v1.28.4...v1.29.0) (2023-01-23)
 
 
