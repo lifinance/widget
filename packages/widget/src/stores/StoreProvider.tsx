@@ -9,7 +9,10 @@ export const StoreProvider: React.FC<
 > = ({ children, namePrefix }) => {
   return (
     <RouteExecutionStoreProvider namePrefix={namePrefix}>
-      <SettingsStoreProvider namePrefix={namePrefix}>
+      {/* We don't want separate settings in each widget instance for now. */}
+      <SettingsStoreProvider
+      // namePrefix={namePrefix}
+      >
         <ChainOrderStoreProvider namePrefix={namePrefix}>
           {children}
         </ChainOrderStoreProvider>
