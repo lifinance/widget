@@ -13,7 +13,9 @@ export const StoreProvider: React.FC<
       <SettingsStoreProvider
       // namePrefix={namePrefix}
       >
-        <ChainOrderStoreProvider namePrefix={namePrefix}>
+        <ChainOrderStoreProvider
+        // namePrefix={namePrefix}
+        >
           {children}
         </ChainOrderStoreProvider>
       </SettingsStoreProvider>
