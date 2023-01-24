@@ -8,7 +8,7 @@ import type { BottomSheetBase } from '../../components/BottomSheet';
 import { GasSufficiencyMessage } from '../../components/GasSufficiencyMessage';
 import { getStepList } from '../../components/Step';
 import { useNavigateBack, useRouteExecution } from '../../hooks';
-import { SwapFormKey } from '../../providers';
+import { SwapFormKey, useWidgetConfig } from '../../providers';
 import { RouteExecutionStatus } from '../../stores';
 import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet';
 import { ExchangeRateBottomSheet } from './ExchangeRateBottomSheet';
@@ -22,6 +22,7 @@ import {
 
 export const SwapPage: React.FC = () => {
   const { t } = useTranslation();
+  const { variant } = useWidgetConfig();
   const { state }: any = useLocation();
   const { navigateBack } = useNavigateBack();
   const tokenValueBottomSheetRef = useRef<BottomSheetBase>(null);
@@ -63,7 +64,9 @@ export const SwapPage: React.FC = () => {
   const getSwapButtonText = () => {
     switch (status) {
       case RouteExecutionStatus.Idle:
-        return t('button.startSwap');
+        return variant !== 'refuel'
+          ? t(`button.startSwap`)
+          : t(`button.startGasSwap`);
       case RouteExecutionStatus.Failed:
         return t('button.tryAgain');
       default:

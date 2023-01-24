@@ -39,7 +39,7 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
       }
       return variant !== 'refuel'
         ? t(`button.reviewSwap`)
-        : t(`button.startGasSwap`);
+        : t(`button.reviewGasSwap`);
     }
     return t(`button.connectWallet`);
   };
