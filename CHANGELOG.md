@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.29.3](https://github.com/lifinance/widget/compare/v1.29.2...v1.29.3) (2023-01-24)
+
+
+### Bug Fixes
+
+* add id prefix to all ids in case of multiple instances of the widget in a page ([684f6d8](https://github.com/lifinance/widget/commit/684f6d878e99a8e53f27b8c625f614f68c2ee2cc))
+
 ### [1.29.2](https://github.com/lifinance/widget/compare/v1.29.1...v1.29.2) (2023-01-23)
 
 
