@@ -1,12 +1,13 @@
 import type { ChainKey } from '@lifi/sdk';
 import { getChainByKey } from '@lifi/sdk';
-import { createContext, useContext, useEffect, useMemo } from 'react';
+import { createContext, useContext, useEffect, useId, useMemo } from 'react';
 import { setDefaultSettings, useSettingsStoreContext } from '../../stores';
 import { formatAmount } from '../../utils';
 import type { WidgetContextProps, WidgetProviderProps } from './types';
 
 const initialContext: WidgetContextProps = {
   disabledChains: [],
+  elementId: '',
 };
 
 const WidgetContext = createContext<WidgetContextProps>(initialContext);
@@ -28,6 +29,7 @@ export const WidgetProvider: React.FC<
   } = {},
 }) => {
   const settingsStoreContext = useSettingsStoreContext();
+  const elementId = useId();
   const value = useMemo((): WidgetContextProps => {
     try {
       const searchParams = Object.fromEntries(
@@ -76,12 +78,13 @@ export const WidgetProvider: React.FC<
           !isNaN(parseFloat(searchParams.fromAmount))
             ? formatAmount(searchParams.fromAmount)
             : fromAmount,
+        elementId,
       } as WidgetContextProps;
     } catch (e) {
       console.warn(e);
-      return config;
+      return { ...config, elementId };
     }
-  }, [config, fromAmount, fromChain, fromToken, toChain, toToken]);
+  }, [config, elementId, fromAmount, fromChain, fromToken, toChain, toToken]);
 
   useEffect(() => {
     setDefaultSettings(settingsStoreContext, value);

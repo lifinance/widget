@@ -1,13 +1,16 @@
 /* eslint-disable consistent-return */
 import type { MutableRefObject } from 'react';
 import { useLayoutEffect, useState } from 'react';
-import { ElementId } from '../utils';
+import { createElementId, ElementId } from '../utils';
+import { useDefaultElementId } from './useDefaultElementId';
 import { getScrollableContainer } from './useScrollableContainer';
 
-const getContentHeight = () => {
-  const headerElement = document.getElementById(ElementId.Header);
+const getContentHeight = (elementId: string) => {
+  const headerElement = document.getElementById(
+    createElementId(ElementId.Header, elementId),
+  );
   const containerElement = document.getElementById(
-    ElementId.ScrollableContainer,
+    createElementId(ElementId.ScrollableContainer, elementId),
   );
   if (!containerElement || !headerElement) {
     console.warn(
@@ -21,10 +24,13 @@ const getContentHeight = () => {
 };
 
 export const useContentHeight = () => {
-  const [contentHeight, setContentHeight] = useState<number>(getContentHeight);
+  const elementId = useDefaultElementId();
+  const [contentHeight, setContentHeight] = useState<number>(() =>
+    getContentHeight(elementId),
+  );
   useLayoutEffect(() => {
     if (!contentHeight) {
-      setContentHeight(getContentHeight());
+      setContentHeight(getContentHeight(elementId));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -34,8 +40,9 @@ export const useContentHeight = () => {
 export const useSetContentHeight = (
   ref: MutableRefObject<HTMLElement | undefined>,
 ) => {
+  const elementId = useDefaultElementId();
   useLayoutEffect(() => {
-    const scrollableContainer = getScrollableContainer();
+    const scrollableContainer = getScrollableContainer(elementId);
     if (
       !scrollableContainer ||
       !ref.current ||
@@ -47,5 +54,5 @@ export const useSetContentHeight = (
     return () => {
       scrollableContainer.style.removeProperty('height');
     };
-  }, [ref]);
+  }, [elementId, ref]);
 };

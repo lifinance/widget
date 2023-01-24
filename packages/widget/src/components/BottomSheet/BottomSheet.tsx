@@ -6,12 +6,13 @@ import {
   useRef,
   useState,
 } from 'react';
-import { getScrollableContainer } from '../../hooks';
+import { useGetScrollableContainer } from '../../hooks';
 import { backdropProps, modalProps, paperProps } from '../Dialog';
 import type { BottomSheetBase, BottomSheetProps } from './types';
 
 export const BottomSheet = forwardRef<BottomSheetBase, BottomSheetProps>(
   ({ elementRef, children, open, onClose }, ref) => {
+    const getContainer = useGetScrollableContainer();
     const openRef = useRef(open);
     const [drawerOpen, setDrawerOpen] = useState(open);
 
@@ -36,7 +37,7 @@ export const BottomSheet = forwardRef<BottomSheetBase, BottomSheetProps>(
 
     return (
       <Drawer
-        container={getScrollableContainer}
+        container={getContainer}
         ref={elementRef}
         anchor="bottom"
         open={drawerOpen}

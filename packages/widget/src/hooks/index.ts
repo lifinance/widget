@@ -2,6 +2,7 @@ export * from './useChain';
 export * from './useChains';
 export * from './useContentHeight';
 export * from './useDebouncedWatch';
+export * from './useDefaultElementId';
 export * from './useExpandableVariant';
 export * from './useFeaturedTokens';
 export * from './useGasSufficiency';

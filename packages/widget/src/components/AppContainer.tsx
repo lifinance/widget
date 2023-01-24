@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import type { PropsWithChildren } from 'react';
 import { useWidgetConfig } from '../providers';
 import type { WidgetVariant } from '../types';
-import { ElementId } from '../utils';
+import { createElementId, ElementId } from '../utils';
 
 export const maxHeight = 680;
 
@@ -54,11 +54,11 @@ export const FlexContainer = styled(Container)({
 
 export const AppContainer: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   // const ref = useRef<HTMLDivElement>(null);
-  const { containerStyle, variant } = useWidgetConfig();
+  const { containerStyle, variant, elementId } = useWidgetConfig();
   return (
     <RelativeContainer sx={containerStyle} variant={variant}>
       <CssBaselineContainer
-        id={ElementId.ScrollableContainer}
+        id={createElementId(ElementId.ScrollableContainer, elementId)}
         variant={variant}
         enableColorScheme
         // ref={ref}
