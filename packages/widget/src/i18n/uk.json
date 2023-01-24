@@ -19,6 +19,7 @@
     "okay": "Добре",
     "removeSwap": "Видалити своп",
     "restartSwap": "Перезапустити своп",
+    "reviewGasSwap": "Переглянути своп газу",
     "reviewSwap": "Переглянути своп",
     "seeDetails": "Детальніше",
     "showAll": "Показати всі",
@@ -29,10 +30,11 @@
   },
   "format": {
     "currency": "{{value, currency(currency: USD)}}",
-    "number": "{{value, number(maximumFractionDigits: 4)}}"
+    "number": "{{value, number(maximumFractionDigits: 9)}}"
   },
   "header": {
     "activeSwaps": "Активні свопи",
+    "checkout": "Розрахунок",
     "from": "Своп з",
     "gas": "Газ",
     "gasSwap": "Своп газу",
@@ -74,8 +76,8 @@
       "message": {
         "slippageThreshold": "Прослизання перевищує визначений поріг. Будь ласка, зробіть запит на новий маршрут, щоб отримати нову пропозицію.",
         "transactionFailed": "Будь ласка, перевірте провідник блоків для отримання додаткової інформації.",
-        "transactionNotSent": "Транзакція не була відправлена, ваші кошти все ще знаходяться у вашому гаманці ({{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} на {{chainName}}).",
-        "transactionRejected": "Для завершення транзакції потрібен ваш підпис. {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} на {{chainName}} залишаються у вашому гаманці.",
+        "transactionNotSent": "Транзакція не була відправлена. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} на {{chainName}} все ще знаходяться у вашому гаманці.",
+        "transactionRejected": "Для завершення транзакції потрібен ваш підпис. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} на {{chainName}} залишаються у вашому гаманці.",
         "unknown": "Будь ласка, спробуйте ще раз або зверніться до служби підтримки."
       },
       "title": {
@@ -115,8 +117,11 @@
         "routeNotFound": "Немає доступних маршрутів"
       }
     },
+    "nftStepDetails": "Придбати NFT через {{tool}}",
     "onChain": "на {{chainName}}",
     "otherTokens": "Інші токени",
+    "ownedBy": "Власник",
+    "payWith": "Оплатити з",
     "process": {
       "crossChain": {
         "actionRequired": "Будь ласка, підпишіть транзакцію",
@@ -162,7 +167,7 @@
     "success": {
       "message": {
         "swapPartiallySuccessful": "Ми намагалися завершити своп, але {{tool}} не вистачило ліквідності токену {{tokenSymbol}}.",
-        "swapSuccessful": "Зараз у гаманці {{walletAddress}} на чейні {{chainName}} є {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}}."
+        "swapSuccessful": "Зараз є {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} у гаманці {{walletAddress}} на чейні {{chainName}}."
       },
       "title": {
         "gasSwapSuccessful": "Своп газу успішний",
@@ -183,7 +188,7 @@
     },
     "to": "До",
     "tokenOnChain": "{{tokenSymbol}} на {{chainName}}",
-    "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} на {{chainName}}",
+    "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} на {{chainName}}",
     "tokenSearch": "Знайдіть свій токен",
     "valueLoss": "Втрата вартості",
     "walletAddressOrEns": "Адреса гаманця або ім’я ENS",
