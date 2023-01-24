@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.29.4](https://github.com/lifinance/widget/compare/v1.29.3...v1.29.4) (2023-01-24)
+
+
+### Bug Fixes
+
+* rename gas start and review buttons ([3285151](https://github.com/lifinance/widget/commit/3285151476300cf81579f9838dba142bccc24bf5))
+
 ### [1.29.3](https://github.com/lifinance/widget/compare/v1.29.2...v1.29.3) (2023-01-24)
 
 
