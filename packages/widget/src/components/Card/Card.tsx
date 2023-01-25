@@ -1,5 +1,6 @@
 import type { BoxProps, Theme } from '@mui/material';
 import { Box } from '@mui/material';
+import { badgeClasses } from '@mui/material/Badge';
 import { alpha, darken, lighten, styled } from '@mui/material/styles';
 import type { MouseEventHandler } from 'react';
 
@@ -50,6 +51,11 @@ export const Card = styled(Box, {
     onClick,
   }) => {
     const backgroundColor = getBackgroundColor(theme, variant, selectionColor);
+    const backgroundHoverColor = onClick
+      ? theme.palette.mode === 'light'
+        ? darken(backgroundColor, 0.02)
+        : lighten(backgroundColor, 0.02)
+      : backgroundColor;
     return {
       backgroundColor,
       border: `1px solid`,
@@ -70,11 +76,10 @@ export const Card = styled(Box, {
       boxSizing: 'border-box',
       '&:hover': {
         cursor: onClick ? 'pointer' : 'default',
-        backgroundColor: onClick
-          ? theme.palette.mode === 'light'
-            ? darken(backgroundColor, 0.02)
-            : lighten(backgroundColor, 0.02)
-          : backgroundColor,
+        backgroundColor: backgroundHoverColor,
+      },
+      [`&:hover .${badgeClasses.badge} > div`]: {
+        borderColor: backgroundHoverColor,
       },
       transition: theme.transitions.create(['background-color'], {
         duration: theme.transitions.duration.enteringScreen,

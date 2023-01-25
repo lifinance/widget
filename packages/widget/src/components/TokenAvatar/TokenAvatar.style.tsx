@@ -18,15 +18,14 @@ export const AvatarDefault = styled(Box)(({ theme }) => ({
     theme.palette.mode === 'light'
       ? theme.palette.grey[300]
       : theme.palette.grey[800],
-  border: `2px solid ${theme.palette.background.paper}`,
   borderRadius: '50%',
 }));
 
-export const AvatarDefaultContainer = styled(Box)(({ theme }) => ({
-  border: `2px solid ${
+export const AvatarDefaultBadge = styled(Box)(({ theme }) => ({
+  background:
     theme.palette.mode === 'light'
       ? theme.palette.grey[300]
-      : theme.palette.grey[800]
-  }`,
+      : theme.palette.grey[800],
+  border: `2px solid ${theme.palette.background.paper}`,
   borderRadius: '50%',
 }));
