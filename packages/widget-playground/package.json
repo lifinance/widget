@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-playground",
-  "version": "1.0.81",
+  "version": "1.0.82",
   "private": true,
   "type": "module",
   "scripts": {
@@ -26,7 +26,7 @@
   "dependencies": {
     "@lifi/sdk": "^1.7.2",
     "@lifi/wallet-management": "^1.2.4",
-    "@lifi/widget": "^1.29.4",
+    "@lifi/widget": "^1.29.5",
     "@mui/icons-material": "^5.11.0",
     "@mui/lab": "^5.0.0-alpha.117",
     "@mui/material": "^5.11.6",

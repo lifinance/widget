@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.29.5](https://github.com/lifinance/widget/compare/v1.29.4...v1.29.5) (2023-01-25)
+
+
+### Bug Fixes
+
+* adjust token avatar skeleton badge to match with background ([333b3c3](https://github.com/lifinance/widget/commit/333b3c35a77acc2f3d3cef028b76d871d7543ba2))
+
 ### [1.29.4](https://github.com/lifinance/widget/compare/v1.29.3...v1.29.4) (2023-01-24)
 
 
