@@ -77,7 +77,7 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
                 : 0,
           }}
         >
-          {isLoading || isFetching ? (
+          {isLoading ? (
             <>
               <SwapRouteCardSkeleton
                 minWidth={!onlyRecommendedRoute ? '80%' : '100%'}

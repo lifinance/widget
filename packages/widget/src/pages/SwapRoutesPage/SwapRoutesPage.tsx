@@ -63,7 +63,7 @@ export const SwapRoutesPage: React.FC<BoxProps> = () => {
     <Stack direction="column" spacing={2} flex={1}>
       {routeNotFound ? (
         <SwapRouteNotFoundCard />
-      ) : isLoading || isFetching ? (
+      ) : isLoading ? (
         Array.from({ length: 3 }).map((_, index) => (
           <SwapRouteCardSkeleton key={index} />
         ))

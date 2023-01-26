@@ -105,7 +105,7 @@ export const SwapRoutesExpandedElement = () => {
             >
               {routeNotFound ? (
                 <SwapRouteNotFoundCard />
-              ) : isLoading || isFetching ? (
+              ) : isLoading ? (
                 Array.from({ length: 3 }).map((_, index) => (
                   <SwapRouteCardSkeleton key={index} variant="stretched" />
                 ))
