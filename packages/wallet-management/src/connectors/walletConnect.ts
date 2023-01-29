@@ -18,9 +18,9 @@ interface MockWalletConnectProvider
 export class WalletConnect extends Connector {
   private readonly options?: WalletConnectOptions;
 
-  public provider: MockWalletConnectProvider;
+  public provider: MockWalletConnectProvider | undefined;
 
-  public walletConnectProvider: WalletConnectProvider;
+  public walletConnectProvider: WalletConnectProvider | undefined;
 
   public isCurrentlyUsed: boolean = false;
 
