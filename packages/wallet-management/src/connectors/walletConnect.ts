@@ -18,22 +18,15 @@ interface MockWalletConnectProvider
 export class WalletConnect extends Connector {
   private readonly options?: WalletConnectOptions;
 
-  public provider: MockWalletConnectProvider;
+  public provider: MockWalletConnectProvider | undefined;
 
-  public walletConnectProvider: WalletConnectProvider;
+  public walletConnectProvider: WalletConnectProvider | undefined;
 
   public isCurrentlyUsed: boolean = false;
 
   constructor(actions: Actions, options?: WalletConnectOptions) {
     super(actions);
     this.options = options;
-
-    const walletConnectProvider = new WalletConnectProvider({
-      rpc: this.options!.rpc,
-    });
-    this.provider =
-      walletConnectProvider as unknown as MockWalletConnectProvider;
-    this.walletConnectProvider = walletConnectProvider;
   }
 
   private async startListening(): Promise<void> {
@@ -60,6 +53,14 @@ export class WalletConnect extends Connector {
   public async activate(): Promise<void> {
     this.actions.startActivation();
     this.isCurrentlyUsed = true;
+
+    // Reset provider for every connection attempt
+    const walletConnectProvider = new WalletConnectProvider({
+      rpc: this.options!.rpc,
+    });
+    this.provider =
+      walletConnectProvider as unknown as MockWalletConnectProvider;
+    this.walletConnectProvider = walletConnectProvider;
 
     await this.provider?.enable(); // open modal
     this.startListening();
