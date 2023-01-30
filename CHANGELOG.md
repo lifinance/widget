@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.29.6](https://github.com/lifinance/widget/compare/v1.29.5...v1.29.6) (2023-01-30)
+
+
+### Bug Fixes
+
+* preserve old routes while the new ones are loading ([13998ad](https://github.com/lifinance/widget/commit/13998ad9efbdf855f9738a1ef97734df6ff114e5))
+* WalletConnect does not connect a second time ([#44](https://github.com/lifinance/widget/issues/44)) ([72b5373](https://github.com/lifinance/widget/commit/72b53739e9255bda82380a567781d35173261463))
+
 ### [1.29.5](https://github.com/lifinance/widget/compare/v1.29.4...v1.29.5) (2023-01-25)
 
 
