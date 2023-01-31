@@ -1,30 +1,29 @@
 import { supportedChains } from '@lifi/sdk';
 import WalletConnectProvider from '@walletconnect/ethereum-provider';
+import type {
+  ConnectOps,
+  EthereumRpcMap,
+} from '@walletconnect/ethereum-provider/dist/types/EthereumProvider';
 import { initializeConnector } from '@web3-react/core';
 import type { Actions } from '@web3-react/types';
 import { Connector } from '@web3-react/types';
 import type { EventEmitter } from 'node:events';
 
-interface WalletConnectOptions {
-  rpc: {
-    [chainId: number]: string;
-  };
-}
-
+type WalletConnectOptions = Omit<Required<ConnectOps>, 'pairingTopic'>;
 interface MockWalletConnectProvider
   extends Omit<WalletConnectProvider, 'on' | 'off' | 'once' | 'removeListener'>,
     EventEmitter {}
 
 export class WalletConnect extends Connector {
-  private readonly options?: WalletConnectOptions;
+  private readonly options: WalletConnectOptions;
 
-  public provider: MockWalletConnectProvider | undefined;
+  public provider?: MockWalletConnectProvider;
 
-  public walletConnectProvider: WalletConnectProvider | undefined;
+  public walletConnectProvider?: WalletConnectProvider;
 
   public isCurrentlyUsed: boolean = false;
 
-  constructor(actions: Actions, options?: WalletConnectOptions) {
+  constructor(actions: Actions, options: WalletConnectOptions) {
     super(actions);
     this.options = options;
   }
@@ -55,8 +54,10 @@ export class WalletConnect extends Connector {
     this.isCurrentlyUsed = true;
 
     // Reset provider for every connection attempt
-    const walletConnectProvider = new WalletConnectProvider({
-      rpc: this.options!.rpc,
+    const walletConnectProvider = await WalletConnectProvider.init({
+      projectId: '5432e3507d41270bee46b7b85bbc2ef8',
+      chains: this.options.chains,
+      rpcMap: this.options.rpcMap,
     });
     this.provider =
       walletConnectProvider as unknown as MockWalletConnectProvider;
@@ -79,26 +80,15 @@ export class WalletConnect extends Connector {
   }
 }
 
-export const [walletConnect, hooks] = initializeConnector<WalletConnect>(
-  (actions) =>
-    new WalletConnect(actions, {
-      rpc: Object.fromEntries(
-        supportedChains.map((chain) => {
-          return [chain.id, chain.metamask.rpcUrls[0] || ''];
-        }),
-      ),
-    }),
-);
-
 export const createWalletConnectConnector = () => {
   const [connector, hooks] = initializeConnector<WalletConnect>(
     (actions) =>
       new WalletConnect(actions, {
-        rpc: Object.fromEntries(
-          supportedChains.map((chain) => {
-            return [chain.id, chain.metamask.rpcUrls[0] || ''];
-          }),
-        ),
+        chains: supportedChains.map((chain) => chain.id),
+        rpcMap: supportedChains.reduce((rpcMap, chain) => {
+          rpcMap[`eip155:${chain.id}`] = chain.metamask.rpcUrls[0] || '';
+          return rpcMap;
+        }, {} as EthereumRpcMap),
       }),
   );
   return { connector, hooks };
