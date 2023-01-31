@@ -27,11 +27,11 @@ const ConnectButton = () => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
   const config = useWidgetConfig();
-  const { connect: walletConnect } = useWallet();
+  const { connect: connectWallet } = useWallet();
   const navigate = useNavigate();
   const connect = async () => {
     if (config.walletManagement) {
-      await walletConnect();
+      await connectWallet();
       return;
     }
     navigate(navigationRoutes.selectWallet);
