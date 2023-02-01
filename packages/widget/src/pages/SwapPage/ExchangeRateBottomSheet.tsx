@@ -112,7 +112,11 @@ const ExchangeRateBottomSheetContent: React.FC<
         <Typography>{t('swap.quotedAmount')}</Typography>
         <Typography fontWeight={600}>
           {t('format.number', {
-            value: formatTokenAmount(data?.oldToAmount, data?.toToken.decimals),
+            value: formatTokenAmount(
+              data?.oldToAmount,
+              data?.toToken.decimals,
+              5,
+            ),
           })}{' '}
           {data?.toToken.symbol}
         </Typography>
@@ -121,7 +125,11 @@ const ExchangeRateBottomSheetContent: React.FC<
         <Typography>{t('swap.currentAmount')}</Typography>
         <Typography fontWeight={600}>
           {t('format.number', {
-            value: formatTokenAmount(data?.newToAmount, data?.toToken.decimals),
+            value: formatTokenAmount(
+              data?.newToAmount,
+              data?.toToken.decimals,
+              5,
+            ),
           })}{' '}
           {data?.toToken.symbol}
         </Typography>

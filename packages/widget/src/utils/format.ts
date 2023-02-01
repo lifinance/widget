@@ -13,6 +13,7 @@ Big.NE = -42;
 export const formatTokenAmount = (
   amount: string = '0',
   decimals: number = 0,
+  decimalPlaces: number = 3,
 ) => {
   let shiftedAmount = amount;
   if (decimals) {
@@ -23,7 +24,6 @@ export const formatTokenAmount = (
     return '0';
   }
 
-  let decimalPlaces = 3;
   const absAmount = Math.abs(parsedAmount);
   while (absAmount < 1 / 10 ** decimalPlaces) {
     decimalPlaces++;
