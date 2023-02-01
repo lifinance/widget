@@ -10,14 +10,15 @@ export const SendToWalletButton: React.FC = () => {
   const { t } = useTranslation();
   const { setValue } = useFormContext();
   const { account } = useWallet();
-  const { disabledUI, hiddenUI } = useWidgetConfig();
+  const { disabledUI, hiddenUI, requiredUI } = useWidgetConfig();
   const { showSendToWallet, toggleSendToWallet } = useSendToWalletStore();
   const { showDestinationWallet } = useSettings(['showDestinationWallet']);
 
   if (
     !showDestinationWallet ||
     !account.isActive ||
-    hiddenUI?.includes(HiddenUI.ToAddress)
+    hiddenUI?.includes(HiddenUI.ToAddress) ||
+    requiredUI?.includes(HiddenUI.ToAddress)
   ) {
     return null;
   }

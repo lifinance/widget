@@ -93,6 +93,7 @@
         "transactionUnprepared": "Unable to prepare transaction",
         "unknown": "Something went wrong",
         "walletAddressInvalid": "Wallet address is invalid.",
+        "walletAddressRequired": "Wallet address is required.",
         "walletEnsAddressInvalid": "Wallet address is invalid or network doesn't support ENS."
       }
     },
