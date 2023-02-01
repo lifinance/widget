@@ -29,7 +29,7 @@ export const widgetBaseConfig: WidgetConfig = {
   // useRecommendedRoute: true,
   buildSwapUrl: true,
   // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
-  requiredUI: ['toAddress'],
+  // requiredUI: ['toAddress'],
   sdkConfig: {
     // apiUrl: 'https://staging.li.quest/v1/',
     defaultRouteOptions: {
