@@ -10,6 +10,11 @@ export const formDefaultValues = {
   [SwapFormKey.FromAmount]: '',
   [SwapFormKey.ToAddress]: '',
   [SwapFormKey.TokenSearchFilter]: '',
+  [SwapFormKey.ContractOutputsToken]: '',
+  [SwapFormKey.ToContractAddress]: '',
+  [SwapFormKey.ToContractCallData]: '',
+  [SwapFormKey.ToContractGasLimit]: '',
+  [SwapFormKey.ToAmount]: '',
 };
 
 export const SwapFormProvider: React.FC<React.PropsWithChildren<{}>> = ({
@@ -36,13 +41,12 @@ export const SwapFormProvider: React.FC<React.PropsWithChildren<{}>> = ({
           : fromAmount) || formDefaultValues.fromAmount,
       toChain,
       toToken,
-      toAddress,
+      toAddress: toAddress || formDefaultValues.toAddress,
     }),
     [fromAmount, fromChain, fromToken, toAddress, toChain, toToken],
   );
 
   const methods = useForm<SwapFormValues>({
-    // TODO: revisit after RHF release values support
     // values,
     defaultValues,
   });
