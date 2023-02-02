@@ -2,7 +2,7 @@
   "version": "1.29.6",
   "private": true,
   "sideEffects": false,
-  "packageManager": "yarn@3.3.1",
+  "packageManager": "yarn@3.4.1",
   "workspaces": [
     "packages/*"
   ],
