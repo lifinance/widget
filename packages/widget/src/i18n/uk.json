@@ -93,6 +93,7 @@
         "transactionUnprepared": "Не вдалося підготувати транзакцію.",
         "unknown": "Щось пішло не так.",
         "walletAddressInvalid": "Адреса гаманця недійсна.",
+        "walletAddressRequired": "Необхідно вказати адресу гаманця.",
         "walletEnsAddressInvalid": "Адреса гаманця недійсна або мережа не підтримує ENS."
       }
     },
