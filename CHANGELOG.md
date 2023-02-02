@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.30.0](https://github.com/lifinance/widget/compare/v1.29.6...v1.30.0) (2023-02-02)
+
+
+### Features
+
+* add requiredUI config option ([61a7960](https://github.com/lifinance/widget/commit/61a7960b0524d0d96210d4e450028b80f0c58a5d))
+
+
+### Bug Fixes
+
+* show more decimal places for exchange rate bottom sheet ([88b7f6a](https://github.com/lifinance/widget/commit/88b7f6afac6e6421d134de2b87911be03f96dc24))
+
 ### [1.29.6](https://github.com/lifinance/widget/compare/v1.29.5...v1.29.6) (2023-01-30)
 
 
