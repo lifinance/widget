@@ -3477,11 +3477,11 @@ __metadata:
     "@lifi/sdk": ^1.7.2
     "@walletconnect/ethereum-provider": ^1.8.0
     "@walletconnect/web3-provider": ^1.8.0
-    "@web3-react/coinbase-wallet": ^8.0.34-beta.0
+    "@web3-react/coinbase-wallet": ^8.0.35-beta.0
     "@web3-react/core": ^8.0.35-beta.0
-    "@web3-react/eip1193": ^8.0.26-beta.0
+    "@web3-react/eip1193": ^8.0.27-beta.0
     "@web3-react/empty": ^8.0.20-beta.0
-    "@web3-react/metamask": ^8.0.28-beta.0
+    "@web3-react/metamask": ^8.0.30-beta.0
     "@web3-react/network": ^8.0.27-beta.0
     "@web3-react/types": ^8.0.20-beta.0
     "@web3-react/url": ^8.0.25-beta.0
@@ -3517,7 +3517,7 @@ __metadata:
     rollup: ^3.12.1
     rollup-plugin-polyfill-node: ^0.12.0
     typescript: ^4.9.5
-    vite: ^4.1.0
+    vite: ^4.1.1
     web-vitals: ^3.1.1
     web3: ^1.8.2
   languageName: unknown
@@ -3542,7 +3542,7 @@ __metadata:
     react-router-dom: ^6.8.0
     rollup-plugin-polyfill-node: ^0.12.0
     typescript: ^4.9.5
-    vite: ^4.1.0
+    vite: ^4.1.1
     web-vitals: ^3.1.1
   languageName: unknown
   linkType: soft
@@ -3562,9 +3562,9 @@ __metadata:
     "@mui/icons-material": ^5.11.0
     "@mui/lab": ^5.0.0-alpha.118
     "@mui/material": ^5.11.7
-    "@sentry/integrations": ^7.35.0
-    "@sentry/react": ^7.35.0
-    "@sentry/tracing": ^7.35.0
+    "@sentry/integrations": ^7.36.0
+    "@sentry/react": ^7.36.0
+    "@sentry/tracing": ^7.36.0
     "@tanstack/react-query": ^4.24.4
     "@tanstack/react-virtual": ^3.0.0-beta.41
     big.js: ^6.2.1
@@ -3576,7 +3576,7 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
     react-hook-form: ^7.43.0
-    react-i18next: ^12.1.4
+    react-i18next: ^12.1.5
     react-router-dom: ^6.8.0
     react-timer-hook: ^3.0.5
     typescript: ^4.9.5
@@ -4293,94 +4293,94 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/browser@npm:7.35.0":
-  version: 7.35.0
-  resolution: "@sentry/browser@npm:7.35.0"
+"@sentry/browser@npm:7.36.0":
+  version: 7.36.0
+  resolution: "@sentry/browser@npm:7.36.0"
   dependencies:
-    "@sentry/core": 7.35.0
-    "@sentry/replay": 7.35.0
-    "@sentry/types": 7.35.0
-    "@sentry/utils": 7.35.0
+    "@sentry/core": 7.36.0
+    "@sentry/replay": 7.36.0
+    "@sentry/types": 7.36.0
+    "@sentry/utils": 7.36.0
     tslib: ^1.9.3
-  checksum: 98134d6cc59d1c5ce31b8121c71d078dd5722ab0c2cb1d6d8eaffe23ae66df08c8cf2339a83f6ae90068ae627130fb616d9a5d6ca9a90915790c4aa0ae636ad6
+  checksum: 463a6a5cc8b8108dbe4359622c471cc650e5509052fc7015dc21c113a4e9afe0981071a3dc1588b7f60c667e9d9f75b58922ad5613639b024422e6ab70b73f8c
   languageName: node
   linkType: hard
 
-"@sentry/core@npm:7.35.0":
-  version: 7.35.0
-  resolution: "@sentry/core@npm:7.35.0"
+"@sentry/core@npm:7.36.0":
+  version: 7.36.0
+  resolution: "@sentry/core@npm:7.36.0"
   dependencies:
-    "@sentry/types": 7.35.0
-    "@sentry/utils": 7.35.0
+    "@sentry/types": 7.36.0
+    "@sentry/utils": 7.36.0
     tslib: ^1.9.3
-  checksum: 127e31527e60f1f5e22967ab5a3d4fa70de2b03bae209a60812677da601b295bc415fd2c8263dc1bd663b0698b556f911a25de19c04792c12d78a6a99ebbedf2
+  checksum: 121d7ca9fe40235ac4d761e82aadb0dd0b8a13d9cfbd37838bc168c59702d1ccd1390dc78ef90b6e6a01f952db91a13b95bdf57dae9d6eca76d5210f518659e8
   languageName: node
   linkType: hard
 
-"@sentry/integrations@npm:^7.35.0":
-  version: 7.35.0
-  resolution: "@sentry/integrations@npm:7.35.0"
+"@sentry/integrations@npm:^7.36.0":
+  version: 7.36.0
+  resolution: "@sentry/integrations@npm:7.36.0"
   dependencies:
-    "@sentry/types": 7.35.0
-    "@sentry/utils": 7.35.0
+    "@sentry/types": 7.36.0
+    "@sentry/utils": 7.36.0
     localforage: ^1.8.1
     tslib: ^1.9.3
-  checksum: dfc41a9197e8087a799ded4abda9bcdddab48b10b92cdf4d94627e6d49e6e9434e227b18b668ef868809fa2e77975584a5d7b37764147e80b60fcd585db50ca1
+  checksum: 96cc1204fe4ae8929cb9c138994b22d1b5ede3023f90e12fe4cba5645d7adb8f2c401ce9d284e8cbc020d827f1b22022fa67c8778d8879a03e820dffd4531d6c
   languageName: node
   linkType: hard
 
-"@sentry/react@npm:^7.35.0":
-  version: 7.35.0
-  resolution: "@sentry/react@npm:7.35.0"
+"@sentry/react@npm:^7.36.0":
+  version: 7.36.0
+  resolution: "@sentry/react@npm:7.36.0"
   dependencies:
-    "@sentry/browser": 7.35.0
-    "@sentry/types": 7.35.0
-    "@sentry/utils": 7.35.0
+    "@sentry/browser": 7.36.0
+    "@sentry/types": 7.36.0
+    "@sentry/utils": 7.36.0
     hoist-non-react-statics: ^3.3.2
     tslib: ^1.9.3
   peerDependencies:
     react: 15.x || 16.x || 17.x || 18.x
-  checksum: d37052d4e017e14cc382d53ba136ea523a2c64e9f168b194020f53b3db4d025812f77884aa221bad680d21a33f6414c687969e1d400e010fc716a1f663848693
+  checksum: 0192423f0138fff53fd8d14aca5d7b324fb6ec007316d9f18f054fac24d318a8320cf38b7e801fac95d5f9fe4d3e7e1dcf2f13b7061c864a9b7880617c54c78c
   languageName: node
   linkType: hard
 
-"@sentry/replay@npm:7.35.0":
-  version: 7.35.0
-  resolution: "@sentry/replay@npm:7.35.0"
+"@sentry/replay@npm:7.36.0":
+  version: 7.36.0
+  resolution: "@sentry/replay@npm:7.36.0"
   dependencies:
-    "@sentry/core": 7.35.0
-    "@sentry/types": 7.35.0
-    "@sentry/utils": 7.35.0
-  checksum: 7b1109f76ccb242a5fcb4d605bebeb1e43ecb54d6d32a67dd49722388b8ec3ae98fe45ca8953c356805e0f48fd2d7d5668ada000e22a24918c9465f680aaa291
+    "@sentry/core": 7.36.0
+    "@sentry/types": 7.36.0
+    "@sentry/utils": 7.36.0
+  checksum: dd5fcf2389c0801e2c5499f67010265768e5131f20eb06e647f46b014c0da7273674ed52673a63df72a5506165eff6fd703af9d25903d678d1f315b967bf04fe
   languageName: node
   linkType: hard
 
-"@sentry/tracing@npm:^7.35.0":
-  version: 7.35.0
-  resolution: "@sentry/tracing@npm:7.35.0"
+"@sentry/tracing@npm:^7.36.0":
+  version: 7.36.0
+  resolution: "@sentry/tracing@npm:7.36.0"
   dependencies:
-    "@sentry/core": 7.35.0
-    "@sentry/types": 7.35.0
-    "@sentry/utils": 7.35.0
+    "@sentry/core": 7.36.0
+    "@sentry/types": 7.36.0
+    "@sentry/utils": 7.36.0
     tslib: ^1.9.3
-  checksum: 9ced53e3ebaf66a65480321ba05cc5c619dd8a49e4616f5c0f29e7bd77620793d28d3a193ea5b5d9881370c1edae73d85bdbd70c89fdbb92f5befe2f4470680a
+  checksum: 8c56925897a376d813c3a6fdbabd83de6ecfff7ea1da1e44f957eb3bf4fd803205301a2b1c8897691a4b136aaa5aaed4b9597e5ff1d078fc56f09f300286fd35
   languageName: node
   linkType: hard
 
-"@sentry/types@npm:7.35.0":
-  version: 7.35.0
-  resolution: "@sentry/types@npm:7.35.0"
-  checksum: b0d9398c5c303f9b5a05b7508e4bf10db8dd1b87f0927154e48e778f5b5ff097545829c06e6c71fe273038ce388053ad435d666572740a7565154e1b958d6daf
+"@sentry/types@npm:7.36.0":
+  version: 7.36.0
+  resolution: "@sentry/types@npm:7.36.0"
+  checksum: 7d4d0b049e23ebff208cbd0519e90fba8953268609a11fa16652406c76edd92d190de3af76acc39f2a0b2f640a60762527ce7b59edae9724edb9009b3cb35426
   languageName: node
   linkType: hard
 
-"@sentry/utils@npm:7.35.0":
-  version: 7.35.0
-  resolution: "@sentry/utils@npm:7.35.0"
+"@sentry/utils@npm:7.36.0":
+  version: 7.36.0
+  resolution: "@sentry/utils@npm:7.36.0"
   dependencies:
-    "@sentry/types": 7.35.0
+    "@sentry/types": 7.36.0
     tslib: ^1.9.3
-  checksum: 297a8eb0538e4542c0c877b96fa0748b31374d4b9ef03aeee48bb6b42e2649cf8700d3f6c724fe965f76a3f81b32e1082e17e6833ea77112bdc2f73f662f0308
+  checksum: 996831ae0895e7531b8a9119ebe5555b974d0b2193b9d143c87bb0ee620a4afe6515d0fda024454207ffcc24c366e7fcbe05e1cebc4e8344fdd6247334152244
   languageName: node
   linkType: hard
 
@@ -4609,13 +4609,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:^8.4.10":
-  version: 8.4.10
-  resolution: "@types/eslint@npm:8.4.10"
+"@types/eslint@npm:^8.21.0":
+  version: 8.21.0
+  resolution: "@types/eslint@npm:8.21.0"
   dependencies:
     "@types/estree": "*"
     "@types/json-schema": "*"
-  checksum: 21e009ed9ed9bc8920fdafc6e11ff321c4538b4cc18a56fdd59dc5184ea7bbf363c71638c9bdb59fc1254dddcdd567485136ed68b0ee4750948d4e32cb79c689
+  checksum: 48823b13e1ffbc6fe22c96d99f691a17507ef5a498c4aed95e3a9076ec6d44ff48ce8a632928b6f82bea92701ac8967bba0d78a5c9de4dfa3f2e12d26dae7da4
   languageName: node
   linkType: hard
 
@@ -5429,14 +5429,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@web3-react/coinbase-wallet@npm:^8.0.34-beta.0":
-  version: 8.0.34-beta.0
-  resolution: "@web3-react/coinbase-wallet@npm:8.0.34-beta.0"
+"@web3-react/coinbase-wallet@npm:^8.0.35-beta.0":
+  version: 8.0.35-beta.0
+  resolution: "@web3-react/coinbase-wallet@npm:8.0.35-beta.0"
   dependencies:
     "@web3-react/types": ^8.0.20-beta.0
   peerDependencies:
     "@coinbase/wallet-sdk": ^3.0.4
-  checksum: 9a22b949e875bb65bd83c882384556a101887472b4f03f7de10df4f98f983341f46216074a3a02d44b4db4232a61a74fc199f295c9f08a01d54e2f69d4475930
+  checksum: fa8a9e313cb0cb25e90c160545870d4d8657b55b3d42d42cbadb78a5a5c6e8979347ed84315aa6e50fb67c58e9e4c9d26d23d3f4200c22aa94bbfb770b0167d1
   languageName: node
   linkType: hard
 
@@ -5457,12 +5457,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@web3-react/eip1193@npm:^8.0.26-beta.0":
-  version: 8.0.26-beta.0
-  resolution: "@web3-react/eip1193@npm:8.0.26-beta.0"
+"@web3-react/eip1193@npm:^8.0.27-beta.0":
+  version: 8.0.27-beta.0
+  resolution: "@web3-react/eip1193@npm:8.0.27-beta.0"
   dependencies:
     "@web3-react/types": ^8.0.20-beta.0
-  checksum: 790f48d9995857b27dfe188abe0c0db82708b61ebb0d3f2165faf3ae324f4e930a1b3c56becc8f91af93d04c8489eaa6b3fe3040d50426abc717df9bbdc13727
+  checksum: d50109144fc887be8e94a78ae4a39d49939a6909fb0c14d263906adf2998f9c14f3a73564b67cf896431bf5b2f3e41ed90197aa134a350316ab02354586e0b51
   languageName: node
   linkType: hard
 
@@ -5475,13 +5475,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@web3-react/metamask@npm:^8.0.28-beta.0":
-  version: 8.0.28-beta.0
-  resolution: "@web3-react/metamask@npm:8.0.28-beta.0"
+"@web3-react/metamask@npm:^8.0.30-beta.0":
+  version: 8.0.30-beta.0
+  resolution: "@web3-react/metamask@npm:8.0.30-beta.0"
   dependencies:
     "@metamask/detect-provider": ^1.2.0
     "@web3-react/types": ^8.0.20-beta.0
-  checksum: 45d1c4555d0edae0f54ed037d574c471cc69f6ad8304fcbe76642e6402a2f7f24eec09caf9a88e22a1be84f35404b2382e916ee625ff2f6032276f4e53894781
+  checksum: a9fb153045d996c5fd3d2a2352dd668ede5309e4c96a0b19a2e5a8ae58b04dba77c5d0da543ff5ac7c3b111a3152f42c77cd00c5e1f5f3b97ab38287198c9aae
   languageName: node
   linkType: hard
 
@@ -13693,9 +13693,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-i18next@npm:^12.1.4":
-  version: 12.1.4
-  resolution: "react-i18next@npm:12.1.4"
+"react-i18next@npm:^12.1.5":
+  version: 12.1.5
+  resolution: "react-i18next@npm:12.1.5"
   dependencies:
     "@babel/runtime": ^7.20.6
     html-parse-stringify: ^3.0.1
@@ -13707,7 +13707,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: 6f0f8a47f0bf7da2c9ac383c88b6ef02446d9d1aa2609cfcc98d8a28999da85361f065fbe7f7f4af910df4e8d53af7879db4b9cd681274d582fc7bdd1b07813b
+  checksum: 90f151dfef237eee4e24d5ca6ddac45869b5025b9173b3cf0403afbc794a448d5ba429105c88e6a539cea1e8ec3f6e18df46d8bee78e7918d79305aa9ec585cb
   languageName: node
   linkType: hard
 
@@ -14289,7 +14289,7 @@ __metadata:
     "@testing-library/react": ^13.4.0
     "@testing-library/user-event": ^14.4.3
     "@types/big.js": ^6.1.6
-    "@types/eslint": ^8.4.10
+    "@types/eslint": ^8.21.0
     "@types/events": ^3.0.0
     "@types/node": ^18.11.18
     "@types/react": ^18.0.27
@@ -15821,9 +15821,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "vite@npm:4.1.0"
+"vite@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "vite@npm:4.1.1"
   dependencies:
     esbuild: ^0.16.14
     fsevents: ~2.3.2
@@ -15855,7 +15855,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 00443893c922a41539d4e990eb0ee58e2774c6254a442640b339e0ab200813e3010b463ab0487e5b487918add7935320464054e6f3473d84a6ea01d0799ec286
+  checksum: aad14b660b69068f6596ab7e760dd71642862996328e404a4d265e090ae0d06c7064cf8415ffb135cd8b79d5157dc1dcb48b56386caaa96a474fb53bdd8cac3d
   languageName: node
   linkType: hard
 

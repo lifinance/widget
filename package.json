@@ -27,7 +27,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
     "@types/big.js": "^6.1.6",
-    "@types/eslint": "^8.4.10",
+    "@types/eslint": "^8.21.0",
     "@types/events": "^3.0.0",
     "@types/node": "^18.11.18",
     "@types/react": "^18.0.27",
