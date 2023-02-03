@@ -68,8 +68,9 @@ export const formatAmount = (
   if (!amount) {
     return amount;
   }
-  const parsedAmount = parseFloat(amount);
-  if (isNaN(Number(amount)) && !isNaN(parsedAmount)) {
+  const formattedAmount = amount.replaceAll(',', '.');
+  const parsedAmount = parseFloat(formattedAmount);
+  if (isNaN(Number(formattedAmount)) && !isNaN(parsedAmount)) {
     return parsedAmount.toString();
   }
   if (isNaN(parsedAmount)) {
@@ -79,8 +80,8 @@ export const formatAmount = (
     return Math.abs(parsedAmount).toString();
   }
   try {
-    if (returnInitial && Big(amount)) {
-      return amount;
+    if (returnInitial && Big(formattedAmount)) {
+      return formattedAmount;
     }
   } catch {
     return '';
