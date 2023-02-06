@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.31.0](https://github.com/lifinance/widget/compare/v1.29.6...v1.31.0) (2023-02-06)
+
+
+### Features
+
+* add requiredUI config option ([61a7960](https://github.com/lifinance/widget/commit/61a7960b0524d0d96210d4e450028b80f0c58a5d))
+* update wallet menu UI and add view on explorer link ([3eb822f](https://github.com/lifinance/widget/commit/3eb822f76ab5880bdc47f195106064739c02d906))
+
+
+### Bug Fixes
+
+* accept comma as valid decimal delimiter ([9af2686](https://github.com/lifinance/widget/commit/9af26864db130c0999b965a34e18b4c1b5fcaeb5))
+* show more decimal places for exchange rate bottom sheet ([88b7f6a](https://github.com/lifinance/widget/commit/88b7f6afac6e6421d134de2b87911be03f96dc24))
+
 ## [1.30.0](https://github.com/lifinance/widget/compare/v1.29.6...v1.30.0) (2023-02-02)
 
 
