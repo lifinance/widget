@@ -3442,20 +3442,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lifi/sdk@portal:/Users/Eugene/Projects/sdk::locator=root-workspace-0b6124%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@lifi/sdk@portal:/Users/Eugene/Projects/sdk::locator=root-workspace-0b6124%40workspace%3A."
+"@lifi/sdk@npm:^1.7.2":
+  version: 1.7.2
+  resolution: "@lifi/sdk@npm:1.7.2"
   dependencies:
     "@ethersproject/abi": ^5.7.0
     "@ethersproject/contracts": ^5.7.0
-    "@lifi/types": ^1.21.0
+    "@lifi/types": ^1.19.0
+    axios: 1.1.3
     bignumber.js: ^9.1.1
     eth-rpc-errors: ^4.0.3
     ethers: ^5.7.2
+  checksum: e036bfebdff7b7b12dfb2d1f333d1dd890ab8d86bed7333930bfd3906de0a877ec63292a666bb8d1a47570240fed20dac1877e555d0d021fc0111732b8deb87d
   languageName: node
-  linkType: soft
+  linkType: hard
 
-"@lifi/types@npm:^1.21.0":
+"@lifi/types@npm:^1.19.0":
   version: 1.21.0
   resolution: "@lifi/types@npm:1.21.0"
   dependencies:
@@ -6016,6 +6018,17 @@ __metadata:
   version: 4.6.3
   resolution: "axe-core@npm:4.6.3"
   checksum: d0c46be92b9707c48b88a53cd5f471b155a2bfc8bf6beffb514ecd14e30b4863e340b5fc4f496d82a3c562048088c1f3ff5b93b9b3b026cb9c3bfacfd535da10
+  languageName: node
+  linkType: hard
+
+"axios@npm:1.1.3":
+  version: 1.1.3
+  resolution: "axios@npm:1.1.3"
+  dependencies:
+    follow-redirects: ^1.15.0
+    form-data: ^4.0.0
+    proxy-from-env: ^1.1.0
+  checksum: cab3b17bf6092c9387f7023d699db093cfa23650b56c4422cd474d124b78b2e3b5a520f932c330664a58ab85b867b1c25a95cace475ef72d236888c852b84e6d
   languageName: node
   linkType: hard
 
