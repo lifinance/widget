@@ -3442,22 +3442,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lifi/sdk@npm:^1.7.2":
-  version: 1.7.2
-  resolution: "@lifi/sdk@npm:1.7.2"
+"@lifi/sdk@portal:/Users/Eugene/Projects/sdk::locator=root-workspace-0b6124%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@lifi/sdk@portal:/Users/Eugene/Projects/sdk::locator=root-workspace-0b6124%40workspace%3A."
   dependencies:
     "@ethersproject/abi": ^5.7.0
     "@ethersproject/contracts": ^5.7.0
-    "@lifi/types": ^1.19.0
-    axios: 1.1.3
+    "@lifi/types": ^1.21.0
     bignumber.js: ^9.1.1
     eth-rpc-errors: ^4.0.3
     ethers: ^5.7.2
-  checksum: e036bfebdff7b7b12dfb2d1f333d1dd890ab8d86bed7333930bfd3906de0a877ec63292a666bb8d1a47570240fed20dac1877e555d0d021fc0111732b8deb87d
   languageName: node
-  linkType: hard
+  linkType: soft
 
-"@lifi/types@npm:^1.19.0":
+"@lifi/types@npm:^1.21.0":
   version: 1.21.0
   resolution: "@lifi/types@npm:1.21.0"
   dependencies:
@@ -3514,7 +3512,7 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
     react-router-dom: ^6.8.0
-    rollup: ^3.12.1
+    rollup: ^3.14.0
     rollup-plugin-polyfill-node: ^0.12.0
     typescript: ^4.9.5
     vite: ^4.1.1
@@ -3566,7 +3564,7 @@ __metadata:
     "@sentry/react": ^7.36.0
     "@sentry/tracing": ^7.36.0
     "@tanstack/react-query": ^4.24.4
-    "@tanstack/react-virtual": ^3.0.0-beta.41
+    "@tanstack/react-virtual": ^3.0.0-beta.43
     big.js: ^6.2.1
     cpy-cli: ^4.2.0
     i18next: ^22.4.9
@@ -4475,21 +4473,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-virtual@npm:^3.0.0-beta.41":
-  version: 3.0.0-beta.41
-  resolution: "@tanstack/react-virtual@npm:3.0.0-beta.41"
+"@tanstack/react-virtual@npm:^3.0.0-beta.43":
+  version: 3.0.0-beta.43
+  resolution: "@tanstack/react-virtual@npm:3.0.0-beta.43"
   dependencies:
-    "@tanstack/virtual-core": 3.0.0-beta.41
+    "@tanstack/virtual-core": 3.0.0-beta.43
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: b8f02d2eb7a6544c5815c4f08f7bed3891e61cce518420cc65ac0d8f31d00682cadb797528e4ed78936af96aa2377a66d1bfa9782f99edc203ba0e44f5fa7e14
+  checksum: 446415a2974083dc0cfdc3c692c78a2cc1bffa493ccbbe65e0f83b358380685d6e09ba66fbf2f29be985e78c10470e7568f59d303ff02aab04b68b057459a703
   languageName: node
   linkType: hard
 
-"@tanstack/virtual-core@npm:3.0.0-beta.41":
-  version: 3.0.0-beta.41
-  resolution: "@tanstack/virtual-core@npm:3.0.0-beta.41"
-  checksum: 997203660d67d688741db64a3d2b78e41a6bb9b05e9b919d7944fd58b2a89023309c8ab438c670f7b2d64d6642123af89210b1526b1acf0bbb10d3c3998371b0
+"@tanstack/virtual-core@npm:3.0.0-beta.43":
+  version: 3.0.0-beta.43
+  resolution: "@tanstack/virtual-core@npm:3.0.0-beta.43"
+  checksum: bec1ebbcc563d521c9e6bbea4e82ecaf80b1d3c40525a2f0f8d98c956020dc12242b7eab8e497126ec3e52a70f0f1ba7c32663d777627e07967a9e4f897cde47
   languageName: node
   linkType: hard
 
@@ -4712,7 +4710,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.11.18":
+"@types/node@npm:*":
   version: 18.11.18
   resolution: "@types/node@npm:18.11.18"
   checksum: 03f17f9480f8d775c8a72da5ea7e9383db5f6d85aa5fefde90dd953a1449bd5e4ffde376f139da4f3744b4c83942166d2a7603969a6f8ea826edfb16e6e3b49d
@@ -4723,6 +4721,13 @@ __metadata:
   version: 12.20.55
   resolution: "@types/node@npm:12.20.55"
   checksum: e4f86785f4092706e0d3b0edff8dca5a13b45627e4b36700acd8dfe6ad53db71928c8dee914d4276c7fd3b6ccd829aa919811c9eb708a2c8e4c6eb3701178c37
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^18.11.19":
+  version: 18.11.19
+  resolution: "@types/node@npm:18.11.19"
+  checksum: d7cd19fcfc59cbdd3f9ba0b4072cb7adc21bd575bd8eb7d7e698975e63564aaa83f03434f32b12331f84f73d0b369d9cbe2371e359d9d7f5c3361f4987f4f7da
   languageName: node
   linkType: hard
 
@@ -6011,17 +6016,6 @@ __metadata:
   version: 4.6.3
   resolution: "axe-core@npm:4.6.3"
   checksum: d0c46be92b9707c48b88a53cd5f471b155a2bfc8bf6beffb514ecd14e30b4863e340b5fc4f496d82a3c562048088c1f3ff5b93b9b3b026cb9c3bfacfd535da10
-  languageName: node
-  linkType: hard
-
-"axios@npm:1.1.3":
-  version: 1.1.3
-  resolution: "axios@npm:1.1.3"
-  dependencies:
-    follow-redirects: ^1.15.0
-    form-data: ^4.0.0
-    proxy-from-env: ^1.1.0
-  checksum: cab3b17bf6092c9387f7023d699db093cfa23650b56c4422cd474d124b78b2e3b5a520f932c330664a58ab85b867b1c25a95cace475ef72d236888c852b84e6d
   languageName: node
   linkType: hard
 
@@ -14266,7 +14260,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^3.10.0, rollup@npm:^3.12.1":
+"rollup@npm:^3.10.0":
   version: 3.12.1
   resolution: "rollup@npm:3.12.1"
   dependencies:
@@ -14277,6 +14271,20 @@ __metadata:
   bin:
     rollup: dist/bin/rollup
   checksum: b6b3aa4bcc13b1f15c1945201f3837be07b249854ed8a73bd67411ffe56f691b808d5b563246b78ecea4110afdb9e9e6cc7d5a3f82965a5592187dbb10d3671f
+  languageName: node
+  linkType: hard
+
+"rollup@npm:^3.14.0":
+  version: 3.14.0
+  resolution: "rollup@npm:3.14.0"
+  dependencies:
+    fsevents: ~2.3.2
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  bin:
+    rollup: dist/bin/rollup
+  checksum: 48f4da224753b8022529256243b74b3f6f41d9b4358ba079ac42f2a2cf07e4bd01b5d94579338194238e3c575487974ca508e144cf6195123293e7fdf82506cb
   languageName: node
   linkType: hard
 
@@ -14291,7 +14299,7 @@ __metadata:
     "@types/big.js": ^6.1.6
     "@types/eslint": ^8.21.0
     "@types/events": ^3.0.0
-    "@types/node": ^18.11.18
+    "@types/node": ^18.11.19
     "@types/react": ^18.0.27
     "@types/react-dom": ^18.0.10
     "@types/uuid": ^9.0.0

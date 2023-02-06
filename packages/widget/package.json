@@ -62,7 +62,7 @@
     "@sentry/react": "^7.36.0",
     "@sentry/tracing": "^7.36.0",
     "@tanstack/react-query": "^4.24.4",
-    "@tanstack/react-virtual": "^3.0.0-beta.41",
+    "@tanstack/react-virtual": "^3.0.0-beta.43",
     "big.js": "^6.2.1",
     "i18next": "^22.4.9",
     "i18next-browser-languagedetector": "^7.0.1",
