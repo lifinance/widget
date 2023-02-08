@@ -6,9 +6,10 @@
     "contactSupport": "Служба підтримки",
     "continue": "Продовжити",
     "copyAddress": "Скопіювати адресу",
+    "viewOnExplorer": "Переглянути в оглядачі",
     "dark": "Темна",
     "delete": "Видалити",
-    "disconnectWallet": "Відключити гаманець",
+    "disconnect": "Від'єднатись",
     "done": "Готово",
     "getGas": "Отримати газ",
     "hide": "Сховати",
@@ -93,6 +94,7 @@
         "transactionUnprepared": "Не вдалося підготувати транзакцію.",
         "unknown": "Щось пішло не так.",
         "walletAddressInvalid": "Адреса гаманця недійсна.",
+        "walletAddressRequired": "Необхідно вказати адресу гаманця.",
         "walletEnsAddressInvalid": "Адреса гаманця недійсна або мережа не підтримує ENS."
       }
     },

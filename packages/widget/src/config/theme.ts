@@ -86,7 +86,7 @@ const paletteDark = {
 
 const shape = {
   borderRadius: 12,
-  borderRadiusSecondary: 6,
+  borderRadiusSecondary: 8,
 };
 
 export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {

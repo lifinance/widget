@@ -12,7 +12,6 @@ import {
   useRouteExecutionStoreContext,
 } from '../stores';
 import { WidgetEvent } from '../types/events';
-import { deepClone } from '../utils';
 import { useWidgetEvents } from './useWidgetEvents';
 
 interface RouteExecutionProps {
@@ -49,7 +48,7 @@ export const useRouteExecution = ({
     if (!routeExecution) {
       return;
     }
-    const clonedUpdatedRoute = deepClone(updatedRoute);
+    const clonedUpdatedRoute = structuredClone(updatedRoute);
     updateRoute(clonedUpdatedRoute);
     const process = getUpdatedProcess(routeExecution.route, clonedUpdatedRoute);
     if (process) {

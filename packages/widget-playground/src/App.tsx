@@ -46,7 +46,7 @@ export const App = () => {
   );
   const [fontFamily, setFontFamily] = useState('Inter var, Inter, sans-serif');
   const [borderRadius, setBorderRadius] = useState(12);
-  const [borderRadiusSecondary, setBorderRadiusSecondary] = useState(6);
+  const [borderRadiusSecondary, setBorderRadiusSecondary] = useState(8);
   const [primary, setPrimaryColor] = useState('#3F49E1');
   const [secondary, setSecondaryColor] = useState('#F5B5FF');
 

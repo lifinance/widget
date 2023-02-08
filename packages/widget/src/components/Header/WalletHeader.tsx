@@ -1,18 +1,19 @@
 import {
   ContentCopy as ContentCopyIcon,
   ExpandMore as ExpandMoreIcon,
+  OpenInNewOutlined as OpenInNewOutlinedIcon,
   PowerSettingsNewRounded as PowerSettingsIcon,
   WalletOutlined as WalletOutlinedIcon,
 } from '@mui/icons-material';
-import { Avatar, MenuItem } from '@mui/material';
+import { Avatar, Button, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useChain } from '../../hooks';
 import { useWallet, useWidgetConfig } from '../../providers';
 import { navigationRoutes, shortenWalletAddress } from '../../utils';
-import { Menu } from '../Menu';
 import { HeaderAppBar, WalletButton } from './Header.style';
+import { WalletMenu } from './WalletMenu';
 
 export const WalletHeader: React.FC = () => {
   const { account } = useWallet();
@@ -96,8 +97,7 @@ const ConnectedButton = () => {
       >
         {walletAddress}
       </WalletButton>
-      <Menu
-        elevation={2}
+      <WalletMenu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}
@@ -106,11 +106,27 @@ const ConnectedButton = () => {
           <ContentCopyIcon />
           {t(`button.copyAddress`)}
         </MenuItem>
-        <MenuItem onClick={handleDisconnect} disableRipple>
-          <PowerSettingsIcon />
-          {t(`button.disconnectWallet`)}
+        <MenuItem
+          component="a"
+          onClick={handleClose}
+          href={`${chain?.metamask.blockExplorerUrls[0]}address/${account.address}`}
+          target="_blank"
+          disableRipple
+        >
+          <OpenInNewOutlinedIcon />
+          {t(`button.viewOnExplorer`)}
         </MenuItem>
-      </Menu>
+        <Button
+          onClick={handleDisconnect}
+          fullWidth
+          startIcon={<PowerSettingsIcon />}
+          sx={{
+            marginTop: 1,
+          }}
+        >
+          {t(`button.disconnect`)}
+        </Button>
+      </WalletMenu>
     </>
   );
 };

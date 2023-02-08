@@ -42,6 +42,11 @@ export enum HiddenUI {
 }
 export type HiddenUIType = `${HiddenUI}`;
 
+export enum RequiredUI {
+  ToAddress = 'toAddress',
+}
+export type RequiredUIType = `${RequiredUI}`;
+
 export type Appearance = PaletteMode | 'auto';
 export type ThemeConfig = {
   palette?: Pick<
@@ -114,6 +119,7 @@ export interface WidgetConfig {
   disableTelemetry?: boolean;
   disabledUI?: DisabledUIType[];
   hiddenUI?: HiddenUIType[];
+  requiredUI?: RequiredUIType[];
   useRecommendedRoute?: boolean;
 
   walletManagement?: WidgetWalletManagement;
