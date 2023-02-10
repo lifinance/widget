@@ -65,6 +65,8 @@ export const FormUpdater: React.FC<{
     toChain,
   ]);
 
+  // Makes widget config options reactive to changes
+  // Acts similar to values property from useForm, but includes additional logic for chains
   useEffect(() => {
     (Object.keys(defaultValues) as SwapFormKey[]).forEach((key) => {
       if (previousDefaultValues.current[key] !== defaultValues[key]) {

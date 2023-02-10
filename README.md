@@ -3,7 +3,7 @@
 [![license](https://img.shields.io/badge/license-Apache%202-blue)](/LICENSE.md)
 [![npm latest package](https://img.shields.io/npm/v/@lifi/widget/latest.svg)](https://www.npmjs.com/package/@lifi/widget)
 [![npm downloads](https://img.shields.io/npm/dm/@lifi/widget.svg)](https://www.npmjs.com/package/@lifi/widget)
-[![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/lifinance/widget.svg)](https://isitmaintained.com/project/lifinance/widget)
+[![Crowdin](https://badges.crowdin.net/lifi-widget/localized.svg)](https://crowdin.com/project/lifi-widget)
 [![Follow on Twitter](https://img.shields.io/twitter/follow/lifiprotocol.svg?label=follow+LI.FI)](https://twitter.com/lifiprotocol)
 
 </div>

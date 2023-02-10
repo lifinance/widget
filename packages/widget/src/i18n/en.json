@@ -6,9 +6,10 @@
     "contactSupport": "Contact support",
     "continue": "Continue",
     "copyAddress": "Copy address",
+    "viewOnExplorer": "View on explorer",
     "dark": "Dark",
     "delete": "Delete",
-    "disconnectWallet": "Disconnect wallet",
+    "disconnect": "Disconnect",
     "done": "Done",
     "getGas": "Get gas",
     "hide": "Hide",
@@ -93,6 +94,7 @@
         "transactionUnprepared": "Unable to prepare transaction",
         "unknown": "Something went wrong",
         "walletAddressInvalid": "Wallet address is invalid.",
+        "walletAddressRequired": "Wallet address is required.",
         "walletEnsAddressInvalid": "Wallet address is invalid or network doesn't support ENS."
       }
     },

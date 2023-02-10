@@ -13,6 +13,7 @@ Big.NE = -42;
 export const formatTokenAmount = (
   amount: string = '0',
   decimals: number = 0,
+  decimalPlaces: number = 3,
 ) => {
   let shiftedAmount = amount;
   if (decimals) {
@@ -23,7 +24,6 @@ export const formatTokenAmount = (
     return '0';
   }
 
-  let decimalPlaces = 3;
   const absAmount = Math.abs(parsedAmount);
   while (absAmount < 1 / 10 ** decimalPlaces) {
     decimalPlaces++;
@@ -68,8 +68,9 @@ export const formatAmount = (
   if (!amount) {
     return amount;
   }
-  const parsedAmount = parseFloat(amount);
-  if (isNaN(Number(amount)) && !isNaN(parsedAmount)) {
+  const formattedAmount = amount.replaceAll(',', '.');
+  const parsedAmount = parseFloat(formattedAmount);
+  if (isNaN(Number(formattedAmount)) && !isNaN(parsedAmount)) {
     return parsedAmount.toString();
   }
   if (isNaN(parsedAmount)) {
@@ -79,8 +80,8 @@ export const formatAmount = (
     return Math.abs(parsedAmount).toString();
   }
   try {
-    if (returnInitial && Big(amount)) {
-      return amount;
+    if (returnInitial && Big(formattedAmount)) {
+      return formattedAmount;
     }
   } catch {
     return '';
