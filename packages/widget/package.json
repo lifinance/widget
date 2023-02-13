@@ -61,7 +61,7 @@
     "@sentry/integrations": "^7.36.0",
     "@sentry/react": "^7.36.0",
     "@sentry/tracing": "^7.36.0",
-    "@tanstack/react-query": "^4.24.4",
+    "@tanstack/react-query": "^4.24.6",
     "@tanstack/react-virtual": "^3.0.0-beta.47",
     "big.js": "^6.2.1",
     "i18next": "^22.4.9",
@@ -75,7 +75,7 @@
     "react-router-dom": "^6.8.1",
     "react-timer-hook": "^3.0.5",
     "uuid": "^9.0.0",
-    "zustand": "^4.3.2"
+    "zustand": "^4.3.3"
   },
   "devDependencies": {
     "cpy-cli": "^4.2.0",
