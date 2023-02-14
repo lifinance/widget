@@ -36,6 +36,10 @@ export const NavigationHeader: React.FC = () => {
         return t(`header.selectWallet`);
       case navigationRoutes.settings:
         return t(`header.settings`);
+      case navigationRoutes.bridges:
+        return t(`settings.enabledBridges`);
+      case navigationRoutes.exchanges:
+        return t(`settings.enabledExchanges`);
       case navigationRoutes.swapHistory:
         return t(`header.swapHistory`);
       case navigationRoutes.fromToken:

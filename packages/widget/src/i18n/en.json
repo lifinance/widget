@@ -6,7 +6,6 @@
     "contactSupport": "Contact support",
     "continue": "Continue",
     "copyAddress": "Copy address",
-    "viewOnExplorer": "View on explorer",
     "dark": "Dark",
     "delete": "Delete",
     "disconnect": "Disconnect",
@@ -19,6 +18,8 @@
     "ok": "Ok",
     "okay": "Okay",
     "removeSwap": "Remove swap",
+    "reset": "Reset",
+    "resetSettings": "Reset settings",
     "restartSwap": "Restart swap",
     "reviewGasSwap": "Review gas swap",
     "reviewSwap": "Review swap",
@@ -27,7 +28,8 @@
     "startGasSwap": "Start gas swap",
     "startSwap": "Start swap",
     "swap": "Swap",
-    "tryAgain": "Try again"
+    "tryAgain": "Try again",
+    "viewOnExplorer": "View on explorer"
   },
   "format": {
     "currency": "{{value, currency(currency: USD)}}",
@@ -201,7 +203,8 @@
         "highValueLoss": "The value of the received tokens is significantly lower than the swapped tokens and transaction cost.",
         "insufficientFunds": "You don't have enough funds to execute the swap.",
         "insufficientGas": "You need to add at least:",
-        "rateChanged": "The exchange rate has changed. By continuing the swap, you'll accept the new rate."
+        "rateChanged": "The exchange rate has changed. By continuing the swap, you'll accept the new rate.",
+        "resetSettings": "This will reset your route priority, slippage, gas price, enabled bridges and exchanges."
       },
       "title": {
         "deleteActiveSwaps": "Delete all active swaps?",
@@ -209,7 +212,8 @@
         "deleteSwapHistory": "Delete swap history?",
         "highValueLoss": "High value loss",
         "insufficientGas": "Insufficient gas",
-        "rateChanged": "Rate changed"
+        "rateChanged": "Rate changed",
+        "resetSettings": "Reset settings?"
       }
     }
   },

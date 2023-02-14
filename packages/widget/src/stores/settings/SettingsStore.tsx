@@ -62,16 +62,15 @@ export const setDefaultSettings = (
       0) * 100;
   const defaultRoutePriority =
     config?.routePriority || config?.sdkConfig?.defaultRouteOptions?.order;
+  defaultConfigurableSettings.slippage = (
+    defaultSlippage || defaultConfigurableSettings.slippage
+  )?.toString();
+  defaultConfigurableSettings.routePriority =
+    defaultRoutePriority || defaultConfigurableSettings.routePriority;
   if (!slippage) {
-    setValue(
-      'slippage',
-      (defaultSlippage || defaultConfigurableSettings.slippage)?.toString(),
-    );
+    setValue('slippage', defaultConfigurableSettings.slippage);
   }
   if (!routePriority) {
-    setValue(
-      'routePriority',
-      defaultRoutePriority || defaultConfigurableSettings.routePriority,
-    );
+    setValue('routePriority', defaultConfigurableSettings.routePriority);
   }
 };

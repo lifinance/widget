@@ -17,14 +17,15 @@ export const defaultConfigurableSettings: Pick<
 export const defaultSettings: SettingsProps = {
   appearance: 'auto',
   gasPrice: 'normal',
-  advancedPreferences: false,
   showDestinationWallet: true,
+  enabledBridges: [],
+  enabledExchanges: [],
 };
 
 export const createSettingsStore = ({ namePrefix }: PersistStoreProps) =>
   create<SettingsState>(
     persist(
-      (set) => ({
+      (set, get) => ({
         ...defaultSettings,
         setValue: (key, value) =>
           set(() => ({
@@ -40,14 +41,14 @@ export const createSettingsStore = ({ namePrefix }: PersistStoreProps) =>
             }
             return updatedState;
           }),
-        initializeTools: (toolType, tools) => {
+        initializeTools: (toolType, tools, reset) => {
           if (!tools.length) {
             return;
           }
           set((state) => {
             const updatedState = { ...state };
-            if (updatedState[`_enabled${toolType}`]) {
-              // Add a new tools
+            if (updatedState[`_enabled${toolType}`] && !reset) {
+              // Add new tools
               const enabledTools = tools
                 .filter(
                   (tool) =>
@@ -86,11 +87,22 @@ export const createSettingsStore = ({ namePrefix }: PersistStoreProps) =>
         setTools: (toolType, tools, availableTools) =>
           set(() => ({
             [`enabled${toolType}`]: tools,
-            [`_enabled${toolType}`]: availableTools.reduce((values, tool) => {
-              values[tool.key] = tools.includes(tool.key);
-              return values;
-            }, {} as Record<string, boolean>),
+            [`_enabled${toolType}`]: availableTools.reduce(
+              (values, toolKey) => {
+                values[toolKey] = tools.includes(toolKey);
+                return values;
+              },
+              {} as Record<string, boolean>,
+            ),
           })),
+        reset: (bridges, exchanges) => {
+          set(() => ({
+            ...defaultSettings,
+            ...defaultConfigurableSettings,
+          }));
+          get().initializeTools('Bridges', bridges, true);
+          get().initializeTools('Exchanges', exchanges, true);
+        },
       }),
       {
         name: `${namePrefix || 'li.fi'}-widget-settings`,

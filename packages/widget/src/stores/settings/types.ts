@@ -1,4 +1,4 @@
-import type { Bridge, Exchange, Order } from '@lifi/sdk';
+import type { Order } from '@lifi/sdk';
 import type { Appearance } from '../../types';
 
 export type ValueSetter<S> = <K extends keyof S>(
@@ -14,28 +14,32 @@ export type SettingsToolType = 'Bridges' | 'Exchanges';
 export const SettingsToolTypes: SettingsToolType[] = ['Bridges', 'Exchanges'];
 
 export interface SettingsProps {
-  advancedPreferences: boolean;
   appearance: Appearance;
   gasPrice?: string;
   language?: string;
   routePriority?: Order;
   showDestinationWallet: boolean;
   slippage?: string;
-  enabledBridges?: string[];
+  enabledBridges: string[];
   _enabledBridges?: Record<string, boolean>;
-  enabledExchanges?: string[];
+  enabledExchanges: string[];
   _enabledExchanges?: Record<string, boolean>;
 }
 
 export interface SettingsState extends SettingsProps {
   setValue: ValueSetter<SettingsProps>;
   setValues: ValuesSetter<SettingsProps>;
-  initializeTools(toolType: SettingsToolType, tools: string[]): void;
+  initializeTools(
+    toolType: SettingsToolType,
+    tools: string[],
+    reset?: boolean,
+  ): void;
   setTools(
     toolType: SettingsToolType,
     tools: string[],
-    availableTools: (Pick<Bridge, 'key'> | Pick<Exchange, 'key'>)[],
+    availableTools: string[],
   ): void;
+  reset(bridges: string[], exchanges: string[]): void;
 }
 
 export interface SendToWalletState {

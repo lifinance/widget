@@ -1,10 +1,11 @@
 import { Container, List, ListItemAvatar } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { ListItemButton } from '../../components/ListItemButton';
+import { ListItemText } from '../../components/ListItemText';
 import { TokenAvatar } from '../../components/TokenAvatar';
 import { useTokenSelect } from '../../components/TokenList';
 import { useChains, useNavigateBack } from '../../hooks';
 import type { SwapFormTypeProps } from '../../providers';
-import { ListItemButton, ListItemText } from './SelectNativeTokenPage.style';
 
 export const SelectNativeTokenPage: React.FC<SwapFormTypeProps> = ({
   formType,
