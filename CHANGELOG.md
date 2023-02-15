@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.32.1](https://github.com/lifinance/widget/compare/v1.32.0...v1.32.1) (2023-02-15)
+
+
+### Bug Fixes
+
+* add provider for recommended route store ([e31da8f](https://github.com/lifinance/widget/commit/e31da8f7498b4c4174fc79b548e0cd68e3fba40b))
+
 ## [1.32.0](https://github.com/lifinance/widget/compare/v1.31.1...v1.32.0) (2023-02-15)
 
 
