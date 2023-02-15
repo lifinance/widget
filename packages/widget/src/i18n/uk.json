@@ -6,7 +6,6 @@
     "contactSupport": "Служба підтримки",
     "continue": "Продовжити",
     "copyAddress": "Скопіювати адресу",
-    "viewOnExplorer": "Переглянути в оглядачі",
     "dark": "Темна",
     "delete": "Видалити",
     "disconnect": "Від'єднатись",
@@ -19,6 +18,8 @@
     "ok": "Ок",
     "okay": "Добре",
     "removeSwap": "Видалити своп",
+    "reset": "Скинути",
+    "resetSettings": "Скинути налаштування",
     "restartSwap": "Перезапустити своп",
     "reviewGasSwap": "Переглянути своп газу",
     "reviewSwap": "Переглянути своп",
@@ -27,7 +28,8 @@
     "startGasSwap": "Почати своп газу",
     "startSwap": "Почати своп",
     "swap": "Своп",
-    "tryAgain": "Спробувати ще раз"
+    "tryAgain": "Спробувати ще раз",
+    "viewOnExplorer": "Переглянути в оглядачі"
   },
   "format": {
     "currency": "{{value, currency(currency: USD)}}",
@@ -54,7 +56,6 @@
     "title": "Мова"
   },
   "settings": {
-    "advancedPreferences": "Розширені параметри",
     "enabledBridges": "Увімкнені мости",
     "enabledExchanges": "Увімкнені обмінники",
     "gasPrice": {
@@ -63,10 +64,7 @@
       "slow": "Повільно",
       "title": "Ціна на газ"
     },
-    "resetToDefault": "Скинути налаштування",
     "routePriority": "Пріоритет маршруту",
-    "selectEnabledBridges": "Виберіть увімкнені мости",
-    "selectEnabledExchanges": "Виберіть увімкнені обмінники",
     "showDestinationWallet": "Показати цільовий гаманець",
     "slippage": "Прослизання"
   },
@@ -201,7 +199,8 @@
         "highValueLoss": "Вартість отриманих токенів значно нижча, ніж обмінені токени та вартість транзакції.",
         "insufficientFunds": "У вас недостатньо коштів для здійснення свопу.",
         "insufficientGas": "Потрібно додати хоча б:",
-        "rateChanged": "Курс обміну змінився. Продовжуючи своп, ви приймете новий курс."
+        "rateChanged": "Курс обміну змінився. Продовжуючи своп, ви приймете новий курс.",
+        "resetSettings": "Це скине пріоритет вашого маршруту, прослизання, ціну газу, увімкнені мости та обмінники."
       },
       "title": {
         "deleteActiveSwaps": "Видалити всі активні свопи?",
@@ -209,7 +208,8 @@
         "deleteSwapHistory": "Видалити історію свопів?",
         "highValueLoss": "Висока втрата вартості",
         "insufficientGas": "Недостатня кількість газу",
-        "rateChanged": "Курс змінився"
+        "rateChanged": "Курс змінився",
+        "resetSettings": "Скинути налаштування?"
       }
     }
   },
