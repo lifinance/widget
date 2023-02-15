@@ -1,6 +1,6 @@
 import { shallow } from 'zustand/shallow';
 import type { SettingsState } from '.';
-import { useSettingsStore } from './SettingsStore';
+import { useSettingsStore } from './useSettingsStore';
 
 export const useSettings = <K extends keyof SettingsState>(
   keys: Array<K>,

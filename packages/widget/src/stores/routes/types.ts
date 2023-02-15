@@ -23,7 +23,7 @@ export enum RouteExecutionStatus {
   Refunded = 1 << 4,
 }
 
-export interface RecommendedRouteStore {
+export interface RecommendedRouteState {
   recommendedRoute?: Route;
   setRecommendedRoute: (route?: Route) => void;
 }

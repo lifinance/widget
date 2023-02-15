@@ -1,7 +1,8 @@
 import type { PropsWithChildren } from 'react';
-import { ChainOrderStoreProvider } from './chains';
-import { RouteExecutionStoreProvider } from './routes';
-import { SettingsStoreProvider } from './settings';
+import {
+  RecommendedRouteStoreProvider,
+  RouteExecutionStoreProvider,
+} from './routes';
 import type { PersistStoreProviderProps } from './types';
 
 export const StoreProvider: React.FC<
@@ -9,16 +10,7 @@ export const StoreProvider: React.FC<
 > = ({ children, namePrefix }) => {
   return (
     <RouteExecutionStoreProvider namePrefix={namePrefix}>
-      {/* We don't want separate settings in each widget instance for now. */}
-      <SettingsStoreProvider
-      // namePrefix={namePrefix}
-      >
-        <ChainOrderStoreProvider
-        // namePrefix={namePrefix}
-        >
-          {children}
-        </ChainOrderStoreProvider>
-      </SettingsStoreProvider>
+      <RecommendedRouteStoreProvider>{children}</RecommendedRouteStoreProvider>
     </RouteExecutionStoreProvider>
   );
 };

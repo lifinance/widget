@@ -2,12 +2,11 @@
 import type { ToolsResponse } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
 import { isItemAllowed, useLiFi, useWidgetConfig } from '../providers';
-import { useSettingsStoreContext } from '../stores';
+import { useSettingsStore } from '../stores';
 
 export const useTools = () => {
   const lifi = useLiFi();
   const { bridges, exchanges } = useWidgetConfig();
-  const settingsStoreContext = useSettingsStoreContext();
   const { data } = useQuery(
     ['tools'],
     async (): Promise<ToolsResponse> => {
@@ -23,7 +22,7 @@ export const useTools = () => {
     },
     {
       onSuccess(data) {
-        const { initializeTools } = settingsStoreContext.getState();
+        const { initializeTools } = useSettingsStore.getState();
         initializeTools(
           'Bridges',
           data.bridges.map((bridge) => bridge.key),

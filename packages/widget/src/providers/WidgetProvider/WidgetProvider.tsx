@@ -1,7 +1,7 @@
 import type { ChainKey } from '@lifi/sdk';
 import { getChainByKey } from '@lifi/sdk';
-import { createContext, useContext, useEffect, useId, useMemo } from 'react';
-import { setDefaultSettings, useSettingsStoreContext } from '../../stores';
+import { createContext, useContext, useId, useMemo } from 'react';
+import { setDefaultSettings } from '../../stores';
 import { formatAmount } from '../../utils';
 import type { WidgetContextProps, WidgetProviderProps } from './types';
 
@@ -28,7 +28,6 @@ export const WidgetProvider: React.FC<
     ...config
   } = {},
 }) => {
-  const settingsStoreContext = useSettingsStoreContext();
   const elementId = useId();
   const value = useMemo((): WidgetContextProps => {
     try {
@@ -41,7 +40,7 @@ export const WidgetProvider: React.FC<
           delete searchParams[`${key}Token`];
         }
       });
-      return {
+      const value = {
         ...config,
         fromChain:
           (searchParams.fromChain &&
@@ -80,15 +79,13 @@ export const WidgetProvider: React.FC<
             : fromAmount,
         elementId,
       } as WidgetContextProps;
+      setDefaultSettings(value);
+      return value;
     } catch (e) {
       console.warn(e);
       return { ...config, elementId };
     }
   }, [config, elementId, fromAmount, fromChain, fromToken, toChain, toToken]);
-
-  useEffect(() => {
-    setDefaultSettings(settingsStoreContext, value);
-  }, [settingsStoreContext, value]);
 
   return (
     <WidgetContext.Provider value={value}>{children}</WidgetContext.Provider>
