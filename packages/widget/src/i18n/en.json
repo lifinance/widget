@@ -56,7 +56,6 @@
     "title": "Language"
   },
   "settings": {
-    "advancedPreferences": "Advanced preferences",
     "enabledBridges": "Enabled bridges",
     "enabledExchanges": "Enabled exchanges",
     "gasPrice": {
@@ -65,10 +64,7 @@
       "slow": "Slow",
       "title": "Gas price"
     },
-    "resetToDefault": "Reset to default",
     "routePriority": "Route priority",
-    "selectEnabledBridges": "Select enabled bridges",
-    "selectEnabledExchanges": "Select enabled exchanges",
     "showDestinationWallet": "Show destination wallet",
     "slippage": "Slippage"
   },
