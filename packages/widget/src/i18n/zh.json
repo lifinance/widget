@@ -6,7 +6,6 @@
     "contactSupport": "联系我们",
     "continue": "继续",
     "copyAddress": "复制地址",
-    "viewOnExplorer": "在区块链浏览器上查看",
     "dark": "深色模式",
     "delete": "删除",
     "disconnect": "断开连接",
@@ -19,6 +18,8 @@
     "ok": "确认",
     "okay": "确认",
     "removeSwap": "删除该兑换",
+    "reset": "重置",
+    "resetSettings": "恢复默认设置",
     "restartSwap": "重新兑换",
     "reviewGasSwap": "查看燃气费兑换",
     "reviewSwap": "查看该兑换",
@@ -27,7 +28,8 @@
     "startGasSwap": "开始兑换燃气费",
     "startSwap": "开始兑换",
     "swap": "兑换",
-    "tryAgain": "重试"
+    "tryAgain": "重试",
+    "viewOnExplorer": "在区块链浏览器上查看"
   },
   "format": {
     "currency": "{{value, currency(currency: USD)}}",
@@ -54,7 +56,6 @@
     "title": "语言"
   },
   "settings": {
-    "advancedPreferences": "偏好设置",
     "enabledBridges": "已选中的跨链桥",
     "enabledExchanges": "已选中的交易所",
     "gasPrice": {
@@ -63,10 +64,7 @@
       "slow": "缓慢",
       "title": "燃气费"
     },
-    "resetToDefault": "重置为默认值",
     "routePriority": "路由优先级",
-    "selectEnabledBridges": "选择要使用的跨链桥",
-    "selectEnabledExchanges": "选择要使用的交易所",
     "showDestinationWallet": "显示收款钱包",
     "slippage": "滑点"
   },
@@ -201,7 +199,8 @@
         "highValueLoss": "收到的代币的价值明显低于要被兑换的代币和交易成本。",
         "insufficientFunds": "你没有足够的资金来执行这笔兑换。",
         "insufficientGas": "你至少需要：",
-        "rateChanged": "兑换比例已经改变，如果继续兑换，您将接受新的兑换比例。"
+        "rateChanged": "兑换比例已经改变，如果继续兑换，您将接受新的兑换比例。",
+        "resetSettings": "这将重置您的路由优先级，滑点，燃气费，选中的跨链桥和链上交易所。"
       },
       "title": {
         "deleteActiveSwaps": "确定要清空正在进行的兑换记录？",
@@ -209,7 +208,8 @@
         "deleteSwapHistory": "确定要清空兑换记录？",
         "highValueLoss": "大额资金损失",
         "insufficientGas": "燃料费不足",
-        "rateChanged": "兑换比例变动"
+        "rateChanged": "兑换比例变动",
+        "resetSettings": "确定要恢复默认设置吗?"
       }
     }
   },
