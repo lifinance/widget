@@ -54,7 +54,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   const { t } = useTranslation();
   const tokenPrice = formatTokenPrice(token.amount, token.priceUSD);
   return (
-    <ListItemButton onClick={onClick} dense disableRipple>
+    <ListItemButton onClick={onClick} dense>
       <ListItemAvatar>
         <Avatar src={token.logoURI} alt={token.symbol}>
           {token.symbol[0]}

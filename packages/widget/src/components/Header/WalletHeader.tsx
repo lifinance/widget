@@ -102,7 +102,7 @@ const ConnectedButton = () => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleCopyAddress} disableRipple>
+        <MenuItem onClick={handleCopyAddress}>
           <ContentCopyIcon />
           {t(`button.copyAddress`)}
         </MenuItem>
@@ -111,7 +111,6 @@ const ConnectedButton = () => {
           onClick={handleClose}
           href={`${chain?.metamask.blockExplorerUrls[0]}address/${account.address}`}
           target="_blank"
-          disableRipple
         >
           <OpenInNewOutlinedIcon />
           {t(`button.viewOnExplorer`)}

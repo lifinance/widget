@@ -27,7 +27,6 @@ export const SelectNativeTokenPage: React.FC<SwapFormTypeProps> = ({
           <ListItemButton
             key={chain.id}
             onClick={() => selectToken(chain.nativeToken.address, chain.id)}
-            disableRipple
           >
             <ListItemAvatar>
               <TokenAvatar token={chain.nativeToken} chain={chain} />

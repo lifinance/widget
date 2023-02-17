@@ -65,7 +65,6 @@ export const SelectWalletPage = () => {
           <ListItemButton
             key={wallet.name}
             onClick={() => handleConnect(wallet)}
-            disableRipple
           >
             <ListItemAvatar>
               <Avatar

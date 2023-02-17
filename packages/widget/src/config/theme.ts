@@ -1,5 +1,6 @@
 import { loadingButtonClasses } from '@mui/lab/LoadingButton';
 import type { PaletteMode, SimplePaletteColorOptions } from '@mui/material';
+import { touchRippleClasses } from '@mui/material/ButtonBase';
 import { common } from '@mui/material/colors';
 import { dialogActionsClasses } from '@mui/material/DialogActions';
 import {
@@ -9,6 +10,7 @@ import {
   getContrastRatio,
   lighten,
 } from '@mui/material/styles';
+import { keyframes } from '@mui/system';
 import type { ThemeConfig } from '../types';
 
 // https://mui.com/customization/palette/
@@ -89,6 +91,17 @@ const shape = {
   borderRadiusSecondary: 8,
 };
 
+const enterKeyframe = keyframes`
+  0% {
+    transform: scale(0);
+    opacity: 0.05;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.1;
+  }
+`;
+
 export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
   const primaryMainColor =
     (theme.palette?.primary as SimplePaletteColorOptions)?.main ??
@@ -165,6 +178,21 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
               fontFamily: 'Inter var, sans-serif',
               ...theme.typography,
             },
+          },
+        },
+      },
+      MuiButtonBase: {
+        styleOverrides: {
+          root: {
+            [`& .${touchRippleClasses.ripple}.${touchRippleClasses.rippleVisible}`]:
+              {
+                animationName: `${enterKeyframe}`,
+              },
+            [`& .${touchRippleClasses.ripple}.${touchRippleClasses.rippleVisible}`]:
+              {
+                opacity: 0.1,
+                animationName: `${enterKeyframe}`,
+              },
           },
         },
       },

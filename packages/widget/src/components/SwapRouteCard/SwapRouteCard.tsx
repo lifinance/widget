@@ -83,7 +83,6 @@ export const SwapRouteCard: React.FC<
     cardContent
   ) : (
     <Card
-      dense={variant === 'dense'}
       variant={active ? 'selected' : 'default'}
       selectionColor="secondary"
       indented

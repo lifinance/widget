@@ -33,11 +33,7 @@ export const SelectChainPage: React.FC<SelectChainPageProps> = ({
         }}
       >
         {chains?.map((chain) => (
-          <ListItemButton
-            key={chain.id}
-            onClick={() => handleClick(chain)}
-            disableRipple
-          >
+          <ListItemButton key={chain.id} onClick={() => handleClick(chain)}>
             <ListItemAvatar>
               <Avatar src={chain.logoURI} alt={chain.name}>
                 {chain.name[0]}

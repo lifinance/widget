@@ -81,7 +81,7 @@ export const SwapRouteCardSkeleton: React.FC<
   return widgetVariant === 'refuel' ? (
     cardContent
   ) : (
-    <Card dense={variant === 'dense'} indented {...other}>
+    <Card indented {...other}>
       {cardContent}
     </Card>
   );

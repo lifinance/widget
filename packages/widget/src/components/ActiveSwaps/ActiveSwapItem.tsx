@@ -57,7 +57,7 @@ export const ActiveSwapItem: React.FC<{
   const ListItemComponent = dense ? ListItem : ListItemButton;
 
   return (
-    <ListItemComponent onClick={handleClick} dense disableRipple>
+    <ListItemComponent onClick={handleClick} dense disableRipple={dense}>
       <ListItemAvatar>
         <TokenAvatarGroup total={2}>
           <TokenAvatar token={route.fromToken} />

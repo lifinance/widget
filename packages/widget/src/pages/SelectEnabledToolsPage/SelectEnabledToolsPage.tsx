@@ -81,11 +81,7 @@ export const SelectEnabledToolsPage: React.FC<{
         }}
       >
         {tools?.[typeKey].map((tool) => (
-          <ListItemButton
-            key={tool.name}
-            onClick={() => handleClick(tool.key)}
-            disableRipple
-          >
+          <ListItemButton key={tool.name} onClick={() => handleClick(tool.key)}>
             <ListItemAvatar>
               <Avatar src={tool.logoURI} alt={tool.name}>
                 {tool.name[0]}
