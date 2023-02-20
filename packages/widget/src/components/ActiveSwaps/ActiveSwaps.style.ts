@@ -13,7 +13,7 @@ export const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
   paddingRight: theme.spacing(1.5),
   height: 64,
   '&:hover': {
-    backgroundColor: getContrastAlphaColor(theme, '4%'),
+    backgroundColor: getContrastAlphaColor(theme.palette.mode, '4%'),
   },
 }));
 

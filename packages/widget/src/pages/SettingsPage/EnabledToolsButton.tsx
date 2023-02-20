@@ -22,7 +22,7 @@ export const EnabledToolsButton: React.FC<{
   };
 
   return (
-    <ListItemButton onClick={handleClick} disableRipple>
+    <ListItemButton onClick={handleClick}>
       <ListItemText primary={t(`settings.enabled${type}`)} />
       <Box display="flex" alignItems="center">
         <ListItemText primary={`${enabledTools}/${tools}`} />
