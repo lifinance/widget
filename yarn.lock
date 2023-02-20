@@ -2684,7 +2684,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lifi/wallet-management@^1.2.7, @lifi/wallet-management@workspace:packages/wallet-management":
+"@lifi/wallet-management@^1.2.8, @lifi/wallet-management@workspace:packages/wallet-management":
   version: 0.0.0-use.local
   resolution: "@lifi/wallet-management@workspace:packages/wallet-management"
   dependencies:
@@ -2716,8 +2716,8 @@ __metadata:
     "@esbuild-plugins/node-globals-polyfill": ^0.2.3
     "@ethersproject/abstract-signer": ^5.7.0
     "@lifi/sdk": ^1.7.2
-    "@lifi/wallet-management": ^1.2.7
-    "@lifi/widget": ^1.32.1
+    "@lifi/wallet-management": ^1.2.8
+    "@lifi/widget": ^1.32.2
     "@mui/icons-material": ^5.11.9
     "@mui/lab": ^5.0.0-alpha.120
     "@mui/material": ^5.11.9
@@ -2732,10 +2732,10 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
     react-router-dom: ^6.8.1
-    rollup: ^3.15.0
+    rollup: ^3.17.1
     rollup-plugin-polyfill-node: ^0.12.0
     typescript: ^4.9.5
-    vite: ^4.1.1
+    vite: ^4.1.2
     web-vitals: ^3.1.1
     web3: ^1.8.2
   languageName: unknown
@@ -2747,8 +2747,8 @@ __metadata:
   dependencies:
     "@esbuild-plugins/node-globals-polyfill": ^0.2.3
     "@lifi/sdk": ^1.7.2
-    "@lifi/wallet-management": ^1.2.7
-    "@lifi/widget": ^1.32.1
+    "@lifi/wallet-management": ^1.2.8
+    "@lifi/widget": ^1.32.2
     "@mui/icons-material": ^5.11.9
     "@mui/lab": ^5.0.0-alpha.120
     "@mui/material": ^5.11.9
@@ -2760,12 +2760,12 @@ __metadata:
     react-router-dom: ^6.8.1
     rollup-plugin-polyfill-node: ^0.12.0
     typescript: ^4.9.5
-    vite: ^4.1.1
+    vite: ^4.1.2
     web-vitals: ^3.1.1
   languageName: unknown
   linkType: soft
 
-"@lifi/widget@^1.32.1, @lifi/widget@workspace:packages/widget":
+"@lifi/widget@^1.32.2, @lifi/widget@workspace:packages/widget":
   version: 0.0.0-use.local
   resolution: "@lifi/widget@workspace:packages/widget"
   dependencies:
@@ -2776,7 +2776,7 @@ __metadata:
     "@ethersproject/experimental": ^5.7.0
     "@ethersproject/providers": ^5.7.2
     "@lifi/sdk": ^1.7.2
-    "@lifi/wallet-management": ^1.2.7
+    "@lifi/wallet-management": ^1.2.8
     "@mui/icons-material": ^5.11.9
     "@mui/lab": ^5.0.0-alpha.120
     "@mui/material": ^5.11.9
@@ -4135,10 +4135,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^18.13.0":
-  version: 18.13.0
-  resolution: "@types/node@npm:18.13.0"
-  checksum: 4ea10f8802848b01672bce938f678b6774ca2cee0c9774f12275ab064ae07818419c3e2e41d6257ce7ba846d1ea26c63214aa1dfa4166fa3746291752b8c6416
+"@types/node@npm:^18.14.0":
+  version: 18.14.0
+  resolution: "@types/node@npm:18.14.0"
+  checksum: d83fcf5e4ed544755dd9028f5cbb6b9d46235043159111bb2ad62223729aee581c0144a9f6df8ba73d74011db9ed4ebd7af2fd5e0996714e3beb508a5da8ac5c
   languageName: node
   linkType: hard
 
@@ -13993,9 +13993,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^3.15.0":
-  version: 3.15.0
-  resolution: "rollup@npm:3.15.0"
+"rollup@npm:^3.17.1":
+  version: 3.17.1
+  resolution: "rollup@npm:3.17.1"
   dependencies:
     fsevents: ~2.3.2
   dependenciesMeta:
@@ -14003,7 +14003,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: 1a75b09503f705b594dcfebf65b9e1ca4536e3facdf5716e10d4272697b4bb7e6bd8ab35be1b3fe1271f864d4c4a75d012bd77cbe7a55579d5138258b9e85c23
+  checksum: 3c6076eba228a6623b886929154ebbb9ddfb6a044e567456eeb6257b5235f4fd740655836b539155b1b25697f38f5d189bf81b9ce0624ce5aafc6c8620bd80c0
   languageName: node
   linkType: hard
 
@@ -14018,7 +14018,7 @@ __metadata:
     "@types/big.js": ^6.1.6
     "@types/eslint": ^8.21.1
     "@types/events": ^3.0.0
-    "@types/node": ^18.13.0
+    "@types/node": ^18.14.0
     "@types/react": ^18.0.28
     "@types/react-dom": ^18.0.11
     "@types/uuid": ^9.0.0
@@ -15552,9 +15552,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^4.1.1":
-  version: 4.1.1
-  resolution: "vite@npm:4.1.1"
+"vite@npm:^4.1.2":
+  version: 4.1.2
+  resolution: "vite@npm:4.1.2"
   dependencies:
     esbuild: ^0.16.14
     fsevents: ~2.3.2
@@ -15586,7 +15586,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: aad14b660b69068f6596ab7e760dd71642862996328e404a4d265e090ae0d06c7064cf8415ffb135cd8b79d5157dc1dcb48b56386caaa96a474fb53bdd8cac3d
+  checksum: c3d92b7ab59095498e80e70a7847c7a4c4fd7f16f859c57dc93c0dc09ec57584819a929924e8d8858bdde157f0386ec37322bdb064da7f8f4854c8aa22d0beec
   languageName: node
   linkType: hard
 

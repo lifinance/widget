@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.32.2](https://github.com/lifinance/widget/compare/v1.32.1...v1.32.2) (2023-02-20)
+
+
+### Bug Fixes
+
+* refine ripple effect usage and colors ([#57](https://github.com/lifinance/widget/issues/57)) ([c9eaa91](https://github.com/lifinance/widget/commit/c9eaa91752fedbd4b818c70c3316d6f1ffe1685d))
+
 ### [1.32.1](https://github.com/lifinance/widget/compare/v1.32.0...v1.32.1) (2023-02-15)
 
 
