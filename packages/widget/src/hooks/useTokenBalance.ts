@@ -5,7 +5,7 @@ import { useCallback, useMemo } from 'react';
 import { useLiFi, useWallet } from '../providers';
 import { formatTokenAmount } from '../utils';
 
-const defaultRefetchInterval = 60_000;
+const defaultRefetchInterval = 30_000;
 
 export const useTokenBalance = (token?: Token, accountAddress?: string) => {
   const lifi = useLiFi();
