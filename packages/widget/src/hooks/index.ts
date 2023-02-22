@@ -12,7 +12,6 @@ export * from './useProcessMessage';
 export * from './useRouteExecution';
 export * from './useScrollableContainer';
 export * from './useSwapRoutes';
-export * from './useTelemetry';
 export * from './useToken';
 export * from './useTokenAddressBalance';
 export * from './useTokenBalance';
