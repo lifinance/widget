@@ -9,18 +9,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/widget": "^1.28.3",
-    "veaury": "^2.3.11",
-    "vue": "^3.2.45"
+    "@lifi/widget": "^1.32.2",
+    "veaury": "^2.3.12",
+    "vue": "^3.2.47"
   },
   "devDependencies": {
-    "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
-    "@vitejs/plugin-react": "^3.0.1",
+    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
+    "@vitejs/plugin-react": "^3.1.0",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vitejs/plugin-vue-jsx": "^3.0.0",
-    "rollup-plugin-polyfill-node": "^0.11.0",
-    "typescript": "^4.9.4",
-    "vite": "^4.0.4",
-    "vue-tsc": "^1.0.24"
+    "rollup-plugin-polyfill-node": "^0.12.0",
+    "typescript": "^4.9.5",
+    "vite": "^4.1.4",
+    "vue-tsc": "^1.1.7"
   }
 }
