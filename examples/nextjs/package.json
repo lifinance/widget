@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@lifi/sdk": "^1.7.2",
-    "@lifi/widget": "^1.32.2",
+    "@lifi/widget": "^1.32.3",
     "next": "13.1.6",
     "next-transpile-modules": "^10.0.0",
     "react": "18.2.0",

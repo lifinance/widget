@@ -16,7 +16,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@lifi/widget": "^1.32.2",
+    "@lifi/widget": "^1.32.3",
     "@mdx-js/react": "^2.3.0",
     "babel-plugin-styled-components": "^2.0.7",
     "gatsby": "^5.7.0",
