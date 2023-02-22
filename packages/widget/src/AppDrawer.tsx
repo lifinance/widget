@@ -26,9 +26,8 @@ export interface WidgetDrawer {
 
 export const AppDrawer = forwardRef<WidgetDrawer, WidgetProps>(
   ({ elementRef, open, config }, ref) => {
-    const { t } = useTranslation();
     const openRef = useRef(open);
-    const [drawerOpen, setDrawerOpen] = useState(open);
+    const [drawerOpen, setDrawerOpen] = useState(Boolean(open));
 
     const toggleDrawer = useCallback(() => {
       setDrawerOpen((open) => !open);
@@ -60,7 +59,6 @@ export const AppDrawer = forwardRef<WidgetDrawer, WidgetProps>(
           ...config?.containerStyle,
           height: '100%',
         },
-        variant: 'drawer',
       }),
       [config],
     );
@@ -74,9 +72,7 @@ export const AppDrawer = forwardRef<WidgetDrawer, WidgetProps>(
           drawerProps={config?.containerStyle}
         >
           {drawerOpen ? <KeyboardArrowRightIcon /> : <KeyboardArrowLeftIcon />}
-          <DrawerButtonTypography>
-            {drawerOpen ? t('button.hide') : t('button.lifiSwap')}
-          </DrawerButtonTypography>
+          <DrawerButtonText open={drawerOpen} />
         </DrawerButton>
         <Drawer
           ref={elementRef}
@@ -104,3 +100,13 @@ export const AppDrawer = forwardRef<WidgetDrawer, WidgetProps>(
     );
   },
 );
+
+export const DrawerButtonText = ({ open }: { open: boolean }) => {
+  const { t } = useTranslation();
+
+  return (
+    <DrawerButtonTypography>
+      {open ? t('button.hide') : t('button.lifiSwap')}
+    </DrawerButtonTypography>
+  );
+};
