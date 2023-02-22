@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.32.3](https://github.com/lifinance/widget/compare/v1.32.2...v1.32.3) (2023-02-22)
+
+
+### Bug Fixes
+
+* drawer variant isn't wrapped in i18n provider ([c33f0ce](https://github.com/lifinance/widget/commit/c33f0ce36b0c3e49c9dde230fce09804c4bf788a))
+* fetch balance more often ([7a7d574](https://github.com/lifinance/widget/commit/7a7d57462a801154ed9c3747189922f94129d608))
+
 ### [1.32.2](https://github.com/lifinance/widget/compare/v1.32.1...v1.32.2) (2023-02-20)
 
 
