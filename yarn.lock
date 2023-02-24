@@ -2722,7 +2722,7 @@ __metadata:
     "@mui/lab": ^5.0.0-alpha.120
     "@mui/material": ^5.11.10
     "@opensea/seaport-js": ^1.0.8
-    "@tanstack/react-query": ^4.24.9
+    "@tanstack/react-query": ^4.24.10
     "@vitejs/plugin-react": ^3.1.0
     bignumber.js: ^9.1.1
     buffer: ^6.0.3
@@ -2735,7 +2735,7 @@ __metadata:
     rollup: ^3.17.2
     rollup-plugin-polyfill-node: ^0.12.0
     typescript: ^4.9.5
-    vite: ^4.1.3
+    vite: ^4.1.4
     web-vitals: ^3.1.1
     web3: ^1.8.2
   languageName: unknown
@@ -2760,7 +2760,7 @@ __metadata:
     react-router-dom: ^6.8.1
     rollup-plugin-polyfill-node: ^0.12.0
     typescript: ^4.9.5
-    vite: ^4.1.3
+    vite: ^4.1.4
     web-vitals: ^3.1.1
   languageName: unknown
   linkType: soft
@@ -2780,7 +2780,7 @@ __metadata:
     "@mui/icons-material": ^5.11.9
     "@mui/lab": ^5.0.0-alpha.120
     "@mui/material": ^5.11.10
-    "@tanstack/react-query": ^4.24.9
+    "@tanstack/react-query": ^4.24.10
     "@tanstack/react-virtual": ^3.0.0-beta.49
     big.js: ^6.2.1
     cpy-cli: ^4.2.0
@@ -2790,8 +2790,8 @@ __metadata:
     mitt: ^3.0.0
     react: ^18.2.0
     react-dom: ^18.2.0
-    react-hook-form: ^7.43.1
-    react-i18next: ^12.1.5
+    react-hook-form: ^7.43.2
+    react-i18next: ^12.2.0
     react-router-dom: ^6.8.1
     react-timer-hook: ^3.0.5
     typescript: ^4.9.5
@@ -3764,18 +3764,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:4.24.9":
-  version: 4.24.9
-  resolution: "@tanstack/query-core@npm:4.24.9"
-  checksum: 7b84e960d82c046c9eef6083cbc13b21c2ed8552fe8a5f092a66ca2586af66b770ca71ad838135ef49ac8b990e5f85d34a1d8b8de13fffb3abb0fb780a64a532
+"@tanstack/query-core@npm:4.24.10":
+  version: 4.24.10
+  resolution: "@tanstack/query-core@npm:4.24.10"
+  checksum: 8268b9dca4a2ed39f8575976d8a3e2f839bb6f4fb821dc00ba8e2aeffffe2f73e23344bcc24b9cb6dae9dbfe3ba2b14c76a1e0a38b4064c83beb9aa607fd94bc
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^4.24.9":
-  version: 4.24.9
-  resolution: "@tanstack/react-query@npm:4.24.9"
+"@tanstack/react-query@npm:^4.24.10":
+  version: 4.24.10
+  resolution: "@tanstack/react-query@npm:4.24.10"
   dependencies:
-    "@tanstack/query-core": 4.24.9
+    "@tanstack/query-core": 4.24.10
     use-sync-external-store: ^1.2.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -3786,7 +3786,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: 409c945c5043d11fa2f3c219254df5b0505bdf7d9dc94821f5db495d87a38fe27e0a373144446cef42fc829d1449a64e3fa873adf37e8abe15562e5832d59516
+  checksum: 576a2c73e98cf6a3c9584283989383d5ac63b01efe546cc7580ec7b1edf0c0cb8958a3071778cb0af908f5269d45c7516fa388e5f856e37f5b2d3c6110974cbe
   languageName: node
   linkType: hard
 
@@ -4041,10 +4041,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^18.14.0":
-  version: 18.14.0
-  resolution: "@types/node@npm:18.14.0"
-  checksum: d83fcf5e4ed544755dd9028f5cbb6b9d46235043159111bb2ad62223729aee581c0144a9f6df8ba73d74011db9ed4ebd7af2fd5e0996714e3beb508a5da8ac5c
+"@types/node@npm:^18.14.1":
+  version: 18.14.1
+  resolution: "@types/node@npm:18.14.1"
+  checksum: 58556bbdb0050e44a4934742c1da2530812782c06d266a758e669e44c5aa196166c5fce45fdb03f016876717e3840478b3220129bb77367f979607564047f0a3
   languageName: node
   linkType: hard
 
@@ -4184,10 +4184,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/uuid@npm:^9.0.0":
-  version: 9.0.0
-  resolution: "@types/uuid@npm:9.0.0"
-  checksum: 59ae56d9547c8758588659da2a2b4c97cce79c2aae1798c892bb29452ef08e87859dea2ec3a66bfa88d0d2153147520be2b1893be920f9f0bc9c53a3207ea6aa
+"@types/uuid@npm:^9.0.1":
+  version: 9.0.1
+  resolution: "@types/uuid@npm:9.0.1"
+  checksum: c472b8a77cbeded4bc529220b8611afa39bd64677f507838f8083d8aac8033b1f88cb9ddaa2f8589e0dcd2317291d0f6e1379f82d5ceebd6f74f3b4825288e00
   languageName: node
   linkType: hard
 
@@ -13259,18 +13259,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.43.1":
-  version: 7.43.1
-  resolution: "react-hook-form@npm:7.43.1"
+"react-hook-form@npm:^7.43.2":
+  version: 7.43.2
+  resolution: "react-hook-form@npm:7.43.2"
   peerDependencies:
     react: ^16.8.0 || ^17 || ^18
-  checksum: a15b672885cf9bb43c6691bf544b3ead59860bb8c6298c7607b8b82952707ec8dd9fd9d1346310abb8696e99319b1f78f6023941d129154815811ee64d750461
+  checksum: 68d4fb73fec052801d5e7840c3d0afba887676acfdefa33aef342ead0db419cb1a14a0891ed567cea58a78d544d9245445c593e25bc0564a797201cb32c91a01
   languageName: node
   linkType: hard
 
-"react-i18next@npm:^12.1.5":
-  version: 12.1.5
-  resolution: "react-i18next@npm:12.1.5"
+"react-i18next@npm:^12.2.0":
+  version: 12.2.0
+  resolution: "react-i18next@npm:12.2.0"
   dependencies:
     "@babel/runtime": ^7.20.6
     html-parse-stringify: ^3.0.1
@@ -13282,7 +13282,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: 90f151dfef237eee4e24d5ca6ddac45869b5025b9173b3cf0403afbc794a448d5ba429105c88e6a539cea1e8ec3f6e18df46d8bee78e7918d79305aa9ec585cb
+  checksum: ed2d6a5bb6746c2ea25cca9531b400d62edef6479631c1113eb7a3c3f6b28d493492171d7dc6d87f61a7d7e9b21d4be3bd7eaf0f7af00392fb546d8c50267345
   languageName: node
   linkType: hard
 
@@ -13899,10 +13899,10 @@ __metadata:
     "@types/big.js": ^6.1.6
     "@types/eslint": ^8.21.1
     "@types/events": ^3.0.0
-    "@types/node": ^18.14.0
+    "@types/node": ^18.14.1
     "@types/react": ^18.0.28
     "@types/react-dom": ^18.0.11
-    "@types/uuid": ^9.0.0
+    "@types/uuid": ^9.0.1
     "@typescript-eslint/eslint-plugin": ^5.53.0
     "@typescript-eslint/parser": ^5.53.0
     cpy-cli: ^4.2.0
@@ -15433,9 +15433,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^4.1.3":
-  version: 4.1.3
-  resolution: "vite@npm:4.1.3"
+"vite@npm:^4.1.4":
+  version: 4.1.4
+  resolution: "vite@npm:4.1.4"
   dependencies:
     esbuild: ^0.16.14
     fsevents: ~2.3.2
@@ -15467,7 +15467,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 0877e1fd52e9939e8cab85ed42c19a16a5df162a003e8f4f3f8538bf572ae647fa6151a84d052e527e4a51636cac7ee9f05c81b50f428bd3e930591471b1427a
+  checksum: 50a9a1f2e29e0ee8fefdec60314d38fb9b746df0bb6ae5a8114014b5bfd95e0fc9b29c0d5e73939361ba53af7eb66c7d20c5656bbe53a783e96540bd3b907c47
   languageName: node
   linkType: hard
 
