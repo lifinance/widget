@@ -1,0 +1,230 @@
+{
+  "button": {
+    "auto": "자동",
+    "cancel": "취소",
+    "connectWallet": "지갑 연결",
+    "contactSupport": "고객 지원",
+    "continue": "계속",
+    "copyAddress": "주소 복사",
+    "dark": "어둡게",
+    "delete": "삭제",
+    "disconnect": "연결 해제",
+    "done": "완료",
+    "getGas": "가스 받기",
+    "hide": "숨기기",
+    "lifiSwap": "Li.Fi 스왑",
+    "light": "밝게",
+    "max": "최대",
+    "ok": "확인",
+    "okay": "확인",
+    "removeSwap": "스왑 제거",
+    "reset": "초기화",
+    "resetSettings": "설정 초기화",
+    "restartSwap": "스왑 재시작",
+    "reviewGasSwap": "가스 스왑 검토",
+    "reviewSwap": "스왑 검토",
+    "seeDetails": "자세히 보기",
+    "showAll": "모두 보기",
+    "startGasSwap": "가스 스왑 시작",
+    "startSwap": "스왑 시작",
+    "swap": "스왑",
+    "tryAgain": "다시 시도",
+    "viewOnExplorer": "탐색기에서 보기"
+  },
+  "format": {
+    "currency": "{{value, currency(currency: USD)}}",
+    "number": "{{value, number(maximumFractionDigits: 9)}}"
+  },
+  "header": {
+    "activeSwaps": "활성화된 스왑",
+    "checkout": "주문",
+    "from": "다음에서 스왑",
+    "gas": "가스",
+    "gasSwap": "가스 스왑",
+    "routes": "받는 수량",
+    "selectChain": "체인 선택",
+    "selectWallet": "지갑 선택",
+    "settings": "설정",
+    "swap": "스왑",
+    "swapDetails": "스왑 세부정보",
+    "swapHistory": "스왑 기록",
+    "to": "다음으로 스왑",
+    "walletConnected": "지갑 연결됨"
+  },
+  "language": {
+    "name": "한국어",
+    "title": "언어"
+  },
+  "settings": {
+    "enabledBridges": "활성화된 브릿지",
+    "enabledExchanges": "지원 거래소",
+    "gasPrice": {
+      "fast": "빠르게",
+      "normal": "표준",
+      "slow": "느리게",
+      "title": "가스 가격"
+    },
+    "routePriority": "우선 경로",
+    "showDestinationWallet": "받는 지갑 보기",
+    "slippage": "슬리피지"
+  },
+  "swap": {
+    "crossStepDetails": "{{tool}}을 통해 {{from}}(으)로부터 {{to}}(으)로 브릿지",
+    "currentAmount": "현재 수량",
+    "error": {
+      "message": {
+        "slippageThreshold": "슬리피지가 한계점보다 큽니다. 새로운 견적을 얻기 위해 새 경로를 요청하십시오.",
+        "transactionFailed": "자세한 정보는 블록 탐색기에서 확인하세요.",
+        "transactionNotSent": "트랜잭션 전송에 실패했습니다. {{chainName}}의 {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}이 지갑에 남아있습니다.",
+        "transactionRejected": "트랜잭션 완료를 위해 서명이 필요합니다. {{chainName}}의 {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}이 지갑에 남아있습니다.",
+        "unknown": "다시 시도하거나 고객 센터에 문의하십시오."
+      },
+      "title": {
+        "balanceIsTooLow": "잔액이 부족합니다.",
+        "chainSwitch": "체인을 변경하십시오",
+        "failed": "스왑에 실패하였습니다",
+        "gasLimitIsTooLow": "가스 한도가 너무 낮습니다",
+        "slippageNotMet": "슬리피지 조건을 충족하지 못했습니다.",
+        "transactionCanceled": "거래가 취소되었습니다",
+        "transactionFailed": "거래가 실패하였습니다",
+        "transactionRejected": "서명이 필요합니다",
+        "transactionUnderpriced": "거래 가격이 너무 낮습니다",
+        "transactionUnprepared": "트랜잭션을 진행할 수 없습니다.",
+        "unknown": "문제가 발생했습니다",
+        "walletAddressInvalid": "지갑 주소가 유효하지 않습니다.",
+        "walletAddressRequired": "지갑 주소가 필요합니다.",
+        "walletEnsAddressInvalid": "지갑 주소가 유효하지 않거나 네트워크가 ENS를 지원하지 않습니다."
+      }
+    },
+    "estimatedTime": "{{value}}분",
+    "featuredTokens": "주요 토큰",
+    "from": "[Value] 를",
+    "fromAmount": "지불 수량",
+    "gasCost": "가스비",
+    "gasFeeEstimated": "예상 가스비",
+    "gasFeePaid": "가스비 지불됨",
+    "inProgress": "진행 중",
+    "info": {
+      "message": {
+        "emptyActiveSwaps": "진행 중인 스왑이 여기에 나타납니다. 완료 후에는 스왑 기록을 참조하십시오",
+        "emptySwapHistory": "스왑 기록은 로컬에만 저장되며 브라우저 데이터를 지우면 삭제됩니다.",
+        "emptyTokenList": "{{chainName}} 체인에서 토큰을 찾을 수 없거나 보유 중인 토큰이 아닙니다. 다시 검색하거나 다른 체인을 선택하십시오.",
+        "routeNotFound": "다른 토큰 조합으로 시도하십시오."
+      },
+      "title": {
+        "emptyActiveSwaps": "활성화된 스왑 없음",
+        "emptySwapHistory": "최근 스왑 없음",
+        "routeNotFound": "가능한 경로가 없음"
+      }
+    },
+    "nftStepDetails": "{{tool}} 를 통해 NFT 구입",
+    "onChain": "{{chainName}} 에서",
+    "otherTokens": "다른 토큰",
+    "ownedBy": "소유자: ",
+    "payWith": "지불 수단",
+    "process": {
+      "crossChain": {
+        "actionRequired": "트랜잭션을 서명하십시오.",
+        "done": "브릿지 트랜잭션이 확인됨",
+        "pending": "브릿지 트랜잭션 대기 중",
+        "started": "브릿지 트랜잭션 준비 중"
+      },
+      "receivingChain": {
+        "done": "브릿지 완료",
+        "partial": "브릿지 부분 완료",
+        "pending": "도착 체인 대기 중",
+        "refunded": "브릿지 트랜잭션 환불됨"
+      },
+      "swap": {
+        "actionRequired": "트랜잭션을 서명하십시오",
+        "done": "스왑 완료",
+        "pending": "스왑 트랜잭션 대기 중",
+        "started": "스왑 트랜잭션 준비 중"
+      },
+      "switchChain": {
+        "actionRequired": "체인 전환 요청됨",
+        "done": "체인 전환 완료"
+      },
+      "tokenAllowance": {
+        "done": "토큰 허용 승인됨",
+        "pending": "토큰 허용 대기 중",
+        "started": "토큰 허용 설정"
+      }
+    },
+    "quotedAmount": "견적",
+    "rateChange": "비율 변경",
+    "receiving": "받는 중",
+    "routes": "받는 수량",
+    "selectChain": "체인",
+    "selectChainAndToken": "체인과 토큰 선택",
+    "selectToken": "토큰",
+    "sendToAddress": "{{address}}로 전송",
+    "sendToWallet": "다른 지갑으로 전송",
+    "sentToAddress": "{{address}}로 전송",
+    "stepBridge": "브릿지",
+    "stepSwap": "스왑",
+    "stepSwapAndBridge": "스왑 그리고 브릿지",
+    "success": {
+      "message": {
+        "swapPartiallySuccessful": "스왑을 시도했지만, {{tokenSymbol}} 토큰에 대한 {{tool}}의 유동성이 부족합니다.",
+        "swapSuccessful": "{{walletAddress}} 지갑의 {{chainName}} 체인에 {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}이(가) 있습니다."
+      },
+      "title": {
+        "gasSwapSuccessful": "가스 스왑 성공",
+        "refundIssued": "환불되었습니다",
+        "swapPartiallySuccessful": "부분 스왑 성공",
+        "swapSuccessful": "스왑 성공"
+      }
+    },
+    "supportId": "서포트 ID",
+    "swapStepDetails": "{{tool}}로 {{chain}}에서 스왑",
+    "swapping": "스왑 중",
+    "tags": {
+      "ALTERNATIVE": "대안",
+      "CHEAPEST": "저렴한",
+      "FASTEST": "빠름",
+      "RECOMMENDED": "추천",
+      "SAFEST": "안전"
+    },
+    "to": "도착",
+    "tokenOnChain": "{{chainName}}의 {{tokenSymbol}}",
+    "tokenOnChainAmount": "{{chainName}}의 {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}",
+    "tokenSearch": "토큰 검색",
+    "valueLoss": "가치 손실",
+    "walletAddressOrEns": "지갑 주소 또는 ENS",
+    "warning": {
+      "message": {
+        "deleteActiveSwaps": "활성화된 스왑은 로컬에만 저장되며 삭제시 복구할 수 없습니다.",
+        "deleteSwapHistory": "스왑 기록은 로컬에만 저장되며 삭제시 복구할 수 없습니다.",
+        "highValueLoss": "받은 토큰의 가치가 스왑된 토큰 및 트랜잭션 비용보다 상당히 낮습니다.",
+        "insufficientFunds": "스왑을 실행할 자금이 부족합니다.",
+        "insufficientGas": "최소 필요 가스:",
+        "rateChanged": "거래 비율이 변경되었습니다. 스왑을 계속하면 새로운 비율이 적용됩니다.",
+        "resetSettings": "우선 경로, 슬리피지, 가스 비용, 활성화된 브릿지 및 거래소가 재설정됩니다."
+      },
+      "title": {
+        "deleteActiveSwaps": "모든 활성화된 스왑을 제거합니까?",
+        "deleteSwap": "이 스왑을 제거합니까?",
+        "deleteSwapHistory": "스왑 기록을 삭제합니까?",
+        "highValueLoss": "높은 가치 손실",
+        "insufficientGas": "가스 부족",
+        "rateChanged": "비율 변경됨",
+        "resetSettings": "설정을 초기화합니까?"
+      }
+    }
+  },
+  "tooltip": {
+    "estimatedNetworkFee": "예상 네트워크 수수료",
+    "estimatedTime": "예상 스왑 시간(분)",
+    "notFound": {
+      "text": "페이지를 찾을 수 없습니다.",
+      "title": "404"
+    },
+    "numberOfSteps": "여러 스왑 단계. 각 단계 진행을 위해서는 1-2개의 트랜잭션 서명이 필요할 수 있습니다.",
+    "progressToNextUpdate": "표시된 데이터가 {{value}} 초 후에 자동 새로고침 됩니다. 수동으로 업데이트 하려면 여기를 클릭하십시오.",
+    "settingsModified": "설정 (수정됨)"
+  },
+  "wallet": {
+    "extensionNotFound": "이 지갑을 선택하기 전 {{name}} 브라우저만 활성화 상태인지 확인하십시오."
+  }
+}
