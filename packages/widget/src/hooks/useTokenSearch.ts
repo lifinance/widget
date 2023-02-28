@@ -21,20 +21,18 @@ export const useTokenSearch = (
         },
       );
       if (token) {
-        queryClient.setQueriesData(
-          ['tokens'],
-          (data?: TokensResponse) => {
-            if (
-              !data?.tokens[chainId as number].some(
-                (t) => t.address === token.address,
-              )
-            ) {
-              data?.tokens[chainId as number].push(token as Token);
-            }
-            return data;
-          },
-          { updatedAt: Date.now() },
-        );
+        queryClient.setQueriesData<TokensResponse>(['tokens'], (data) => {
+          if (
+            data &&
+            !data.tokens[chainId as number].some(
+              (t) => t.address === token.address,
+            )
+          ) {
+            const clonedData = { ...data };
+            clonedData.tokens[chainId as number].push(token as Token);
+            return clonedData;
+          }
+        });
       }
       return token as Token;
     },
