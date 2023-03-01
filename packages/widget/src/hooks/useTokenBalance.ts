@@ -83,19 +83,20 @@ export const useTokenBalance = (token?: Token, accountAddress?: string) => {
         });
       }
 
-      queryClient.setQueryData<TokenAmount[]>(
+      queryClient.setQueriesData<TokenAmount[]>(
         ['token-balances', accountAddress, token!.chainId],
         (data) => {
           if (data) {
-            const index = data.findIndex(
+            const clonedData = [...data];
+            const index = clonedData.findIndex(
               (dataToken) => dataToken.address === token!.address,
             );
-            data[index] = {
-              ...data[index],
+            clonedData[index] = {
+              ...clonedData[index],
               amount: formattedAmount,
             };
+            return clonedData;
           }
-          return data;
         },
       );
 
@@ -112,11 +113,10 @@ export const useTokenBalance = (token?: Token, accountAddress?: string) => {
   );
 
   const refetchAllBalances = () => {
-    queryClient.refetchQueries([
-      'token-balances',
-      token?.chainId,
-      accountAddress,
-    ]);
+    queryClient.refetchQueries(
+      ['token-balances', accountAddress, token?.chainId],
+      { exact: false },
+    );
   };
 
   const refetchNewBalance = useCallback(() => {
