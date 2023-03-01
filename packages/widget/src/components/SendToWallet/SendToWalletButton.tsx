@@ -1,4 +1,4 @@
-import { WalletOutlined as WalletOutlinedIcon } from '@mui/icons-material';
+import WalletOutlinedIcon from '@mui/icons-material/WalletOutlined';
 import { Button, Tooltip } from '@mui/material';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';

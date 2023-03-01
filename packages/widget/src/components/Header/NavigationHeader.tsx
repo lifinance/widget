@@ -1,8 +1,6 @@
-import {
-  ArrowBack as ArrowBackIcon,
-  ReceiptLongRounded as HistoryIcon,
-  SettingsOutlined as SettingsIcon,
-} from '@mui/icons-material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ReceiptLongRoundedIcon from '@mui/icons-material/ReceiptLongRounded';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Route, Routes, useLocation } from 'react-router-dom';
@@ -99,7 +97,7 @@ export const NavigationHeader: React.FC = () => {
                     edge="start"
                     onClick={() => navigate(navigationRoutes.swapHistory)}
                   >
-                    <HistoryIcon />
+                    <ReceiptLongRoundedIcon />
                   </IconButton>
                 </Tooltip>
               ) : null}
@@ -111,7 +109,7 @@ export const NavigationHeader: React.FC = () => {
                     marginRight: -1.25,
                   }}
                 >
-                  <SettingsIcon />
+                  <SettingsOutlinedIcon />
                 </IconButton>
               </Tooltip>
             </>

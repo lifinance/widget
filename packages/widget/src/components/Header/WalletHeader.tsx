@@ -1,10 +1,8 @@
-import {
-  ContentCopy as ContentCopyIcon,
-  ExpandMore as ExpandMoreIcon,
-  OpenInNewOutlined as OpenInNewOutlinedIcon,
-  PowerSettingsNewRounded as PowerSettingsIcon,
-  WalletOutlined as WalletOutlinedIcon,
-} from '@mui/icons-material';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
+import PowerSettingsNewRoundedIcon from '@mui/icons-material/PowerSettingsNewRounded';
+import WalletOutlinedIcon from '@mui/icons-material/WalletOutlined';
 import { Avatar, Button, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -118,7 +116,7 @@ const ConnectedButton = () => {
         <Button
           onClick={handleDisconnect}
           fullWidth
-          startIcon={<PowerSettingsIcon />}
+          startIcon={<PowerSettingsNewRoundedIcon />}
           sx={{
             marginTop: 1,
           }}

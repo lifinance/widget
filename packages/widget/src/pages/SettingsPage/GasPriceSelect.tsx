@@ -1,4 +1,4 @@
-import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { FormControl, MenuItem } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Card, CardTitle } from '../../components/Card';

@@ -1,6 +1,5 @@
-/* eslint-disable consistent-return */
 import type { ExchangeRateUpdateParams, Route } from '@lifi/sdk';
-import { WarningRounded as WarningIcon } from '@mui/icons-material';
+import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import { Box, Button, Typography } from '@mui/material';
 import Big from 'big.js';
 import type { MutableRefObject } from 'react';
@@ -101,7 +100,7 @@ const ExchangeRateBottomSheetContent: React.FC<
     <Box p={3} ref={ref}>
       <IconContainer>
         <IconCircle status="warning" mb={1}>
-          <WarningIcon color="warning" />
+          <WarningRoundedIcon color="warning" />
         </IconCircle>
         <Typography py={1} fontSize={18} fontWeight={700}>
           {t('swap.warning.title.rateChanged')}

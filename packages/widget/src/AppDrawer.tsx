@@ -1,7 +1,5 @@
-import {
-  KeyboardArrowLeft as KeyboardArrowLeftIcon,
-  KeyboardArrowRight as KeyboardArrowRightIcon,
-} from '@mui/icons-material';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { Drawer } from '@mui/material';
 import {
   forwardRef,

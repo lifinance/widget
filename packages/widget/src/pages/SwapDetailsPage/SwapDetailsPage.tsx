@@ -1,7 +1,5 @@
-import {
-  ContentCopy as ContentCopyIcon,
-  DeleteOutline as DeleteIcon,
-} from '@mui/icons-material';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import {
   Box,
   Button,
@@ -63,7 +61,7 @@ export const SwapDetailsPage: React.FC = () => {
   useEffect(() => {
     return useHeaderActionStore.getState().setAction(
       <IconButton size="medium" edge="end" onClick={toggleDialog}>
-        <DeleteIcon />
+        <DeleteOutlineIcon />
       </IconButton>,
     );
   }, [toggleDialog]);

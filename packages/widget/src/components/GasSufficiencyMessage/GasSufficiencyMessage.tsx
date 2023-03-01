@@ -1,5 +1,5 @@
 import type { Route } from '@lifi/sdk';
-import { WarningAmberRounded as WarningIcon } from '@mui/icons-material';
+import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
 import type { BoxProps } from '@mui/material';
 import { Box, Collapse, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -30,7 +30,7 @@ export const GasSufficiencyMessage: React.FC<{ route?: Route } & BoxProps> = ({
     >
       <Box {...props}>
         <MessageCard>
-          <WarningIcon
+          <WarningAmberRoundedIcon
             sx={{
               marginTop: 2,
               marginLeft: 2,

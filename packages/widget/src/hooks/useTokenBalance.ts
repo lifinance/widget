@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import type { Token, TokenAmount } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';

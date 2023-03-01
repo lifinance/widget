@@ -1,5 +1,4 @@
-/* eslint-disable consistent-return */
-import { DeleteOutline as DeleteIcon } from '@mui/icons-material';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import {
   Button,
   Container,
@@ -34,7 +33,7 @@ export const ActiveSwapsPage = () => {
     if (executingRoutes.length) {
       return useHeaderActionStore.getState().setAction(
         <IconButton size="medium" edge="end" onClick={toggleDialog}>
-          <DeleteIcon />
+          <DeleteOutlineIcon />
         </IconButton>,
       );
     }

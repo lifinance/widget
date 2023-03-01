@@ -1,4 +1,4 @@
-import { KeyboardArrowRight as KeyboardArrowRightIcon } from '@mui/icons-material';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import type { BoxProps } from '@mui/material';
 import { Box, IconButton } from '@mui/material';
 import { useFormState } from 'react-hook-form';

@@ -1,10 +1,8 @@
-import {
-  AccessTime as AccessTimeIcon,
-  EvStationOutlined as EvStationIcon,
-  ExpandLess as ExpandLessIcon,
-  ExpandMore as ExpandMoreIcon,
-  LayersOutlined as LayersIcon,
-} from '@mui/icons-material';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import EvStationOutlinedIcon from '@mui/icons-material/EvStationOutlined';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import LayersOutlinedIcon from '@mui/icons-material/LayersOutlined';
 import { Box, Collapse, Tooltip, Typography } from '@mui/material';
 import type { MouseEventHandler } from 'react';
 import { useState } from 'react';
@@ -133,7 +131,7 @@ export const SwapRouteCardEssentials: React.FC<
       >
         <Box display="flex" alignItems="center" mr={dense ? 0 : 2}>
           <Typography lineHeight={0} mr={0.5} color="grey.500">
-            <EvStationIcon fontSize={dense ? 'medium' : 'small'} />
+            <EvStationOutlinedIcon fontSize={dense ? 'medium' : 'small'} />
           </Typography>
           <Typography
             fontSize={14}
@@ -176,7 +174,7 @@ export const SwapRouteCardEssentials: React.FC<
         >
           <Box display="flex" alignItems="center">
             <Typography lineHeight={0} mr={0.5} color="grey.500">
-              <LayersIcon fontSize={dense ? 'medium' : 'small'} />
+              <LayersOutlinedIcon fontSize={dense ? 'medium' : 'small'} />
             </Typography>
             <Typography
               fontSize={14}

@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import type { EVMChain, Route, Token } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
 import Big from 'big.js';

@@ -1,4 +1,4 @@
-import { ChevronRight as ChevronRightIcon } from '@mui/icons-material';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';

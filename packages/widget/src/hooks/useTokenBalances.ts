@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useLiFi, useWallet } from '../providers';
