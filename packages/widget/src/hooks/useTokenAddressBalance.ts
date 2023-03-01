@@ -9,7 +9,6 @@ export const useTokenAddressBalance = (
     useTokenBalances(chainId);
 
   const token = useMemo(() => {
-    console.log('useTokenAddressBalance');
     const token = (tokensWithBalance ?? tokens)?.find(
       (token) => token.address === tokenAddress && token.chainId === chainId,
     );
