@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.32.5](https://github.com/lifinance/widget/compare/v1.32.4...v1.32.5) (2023-03-01)
+
+
+### Bug Fixes
+
+* provider destructuring doesn't work for WalletConnect ([76647ed](https://github.com/lifinance/widget/commit/76647ede568d2fe8fee2a07b03fc0cb8747ed8c6))
+* update local tokens cache to keep priceUSD in sync ([#61](https://github.com/lifinance/widget/issues/61)) ([d3f4d87](https://github.com/lifinance/widget/commit/d3f4d87133f89c5ff4e3276e09492c2d9c279ec2))
+
 ### [1.32.4](https://github.com/lifinance/widget/compare/v1.32.3...v1.32.4) (2023-02-24)
 
 ### [1.32.3](https://github.com/lifinance/widget/compare/v1.32.2...v1.32.3) (2023-02-22)
