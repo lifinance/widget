@@ -52,7 +52,7 @@ export enum ProviderIdentityFlag {
 
 const metamask: Wallet = {
   name: 'MetaMask',
-  checkProviderIdentity: ({ provider }) =>
+  checkProviderIdentity: () =>
     // Removed for now to allow all kinds of injected wallets to connect using the metamask button as fallback
     // !!provider && !!provider[ProviderIdentityFlag.MetaMask],
     true,
@@ -63,7 +63,7 @@ const metamask: Wallet = {
 
 const walletConnect: Wallet = {
   name: 'Wallet Connect',
-  checkProviderIdentity: ({ provider }) => true,
+  checkProviderIdentity: () => true,
   icon: walletIcons.walletConnect,
   platforms: ['all'],
   web3react: createWalletConnectConnector(),
@@ -287,7 +287,7 @@ const tp: Wallet = {
 const xdefi: Wallet = {
   name: 'XDEFI',
   // eslint-disable-next-line dot-notation
-  checkProviderIdentity: ({ provider }) => true,
+  checkProviderIdentity: () => true,
   icon: walletIcons.xdefi,
   platforms: ['all'],
   web3react: createMetamaskConnector(),
