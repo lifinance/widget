@@ -55,9 +55,9 @@
     "@ethersproject/providers": "^5.7.2",
     "@lifi/sdk": "^1.7.2",
     "@lifi/wallet-management": "^1.2.8",
-    "@mui/icons-material": "^5.11.9",
-    "@mui/lab": "^5.0.0-alpha.120",
-    "@mui/material": "^5.11.10",
+    "@mui/icons-material": "^5.11.11",
+    "@mui/lab": "^5.0.0-alpha.121",
+    "@mui/material": "^5.11.11",
     "@tanstack/react-query": "^4.24.10",
     "@tanstack/react-virtual": "^3.0.0-beta.52",
     "big.js": "^6.2.1",
@@ -72,7 +72,7 @@
     "react-router-dom": "^6.8.2",
     "react-timer-hook": "^3.0.5",
     "uuid": "^9.0.0",
-    "zustand": "^4.3.4"
+    "zustand": "^4.3.5"
   },
   "devDependencies": {
     "cpy-cli": "^4.2.0",

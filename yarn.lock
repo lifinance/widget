@@ -1470,12 +1470,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.17.2, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.19.4, @babel/runtime@npm:^7.20.13, @babel/runtime@npm:^7.20.6, @babel/runtime@npm:^7.20.7, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.17.2, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.19.4, @babel/runtime@npm:^7.20.6, @babel/runtime@npm:^7.20.7, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
   version: 7.20.13
   resolution: "@babel/runtime@npm:7.20.13"
   dependencies:
     regenerator-runtime: ^0.13.11
   checksum: 09b7a97a05c80540db6c9e4ddf8c5d2ebb06cae5caf3a87e33c33f27f8c4d49d9c67a2d72f1570e796045288fad569f98a26ceba0c4f5fad2af84b6ad855c4fb
+  languageName: node
+  linkType: hard
+
+"@babel/runtime@npm:^7.21.0":
+  version: 7.21.0
+  resolution: "@babel/runtime@npm:7.21.0"
+  dependencies:
+    regenerator-runtime: ^0.13.11
+  checksum: 7b33e25bfa9e0e1b9e8828bb61b2d32bdd46b41b07ba7cb43319ad08efc6fda8eb89445193e67d6541814627df0ca59122c0ea795e412b99c5183a0540d338ab
   languageName: node
   linkType: hard
 
@@ -2725,9 +2734,9 @@ __metadata:
     "@lifi/sdk": ^1.7.2
     "@lifi/wallet-management": ^1.2.8
     "@lifi/widget": ^1.32.4
-    "@mui/icons-material": ^5.11.9
-    "@mui/lab": ^5.0.0-alpha.120
-    "@mui/material": ^5.11.10
+    "@mui/icons-material": ^5.11.11
+    "@mui/lab": ^5.0.0-alpha.121
+    "@mui/material": ^5.11.11
     "@opensea/seaport-js": ^1.0.9
     "@tanstack/react-query": ^4.24.10
     "@vitejs/plugin-react": ^3.1.0
@@ -2756,9 +2765,9 @@ __metadata:
     "@lifi/sdk": ^1.7.2
     "@lifi/wallet-management": ^1.2.8
     "@lifi/widget": ^1.32.4
-    "@mui/icons-material": ^5.11.9
-    "@mui/lab": ^5.0.0-alpha.120
-    "@mui/material": ^5.11.10
+    "@mui/icons-material": ^5.11.11
+    "@mui/lab": ^5.0.0-alpha.121
+    "@mui/material": ^5.11.11
     "@vitejs/plugin-react": ^3.1.0
     ethers: ^5.7.2
     events: ^3.3.0
@@ -2784,9 +2793,9 @@ __metadata:
     "@ethersproject/providers": ^5.7.2
     "@lifi/sdk": ^1.7.2
     "@lifi/wallet-management": ^1.2.8
-    "@mui/icons-material": ^5.11.9
-    "@mui/lab": ^5.0.0-alpha.120
-    "@mui/material": ^5.11.10
+    "@mui/icons-material": ^5.11.11
+    "@mui/lab": ^5.0.0-alpha.121
+    "@mui/material": ^5.11.11
     "@tanstack/react-query": ^4.24.10
     "@tanstack/react-virtual": ^3.0.0-beta.52
     big.js: ^6.2.1
@@ -2803,7 +2812,7 @@ __metadata:
     react-timer-hook: ^3.0.5
     typescript: ^4.9.5
     uuid: ^9.0.0
-    zustand: ^4.3.4
+    zustand: ^4.3.5
   peerDependencies:
     "@types/react": ^18.0.0
     react: ^18.0.0
@@ -2828,14 +2837,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/base@npm:5.0.0-alpha.118":
-  version: 5.0.0-alpha.118
-  resolution: "@mui/base@npm:5.0.0-alpha.118"
+"@mui/base@npm:5.0.0-alpha.119":
+  version: 5.0.0-alpha.119
+  resolution: "@mui/base@npm:5.0.0-alpha.119"
   dependencies:
-    "@babel/runtime": ^7.20.13
+    "@babel/runtime": ^7.21.0
     "@emotion/is-prop-valid": ^1.2.0
     "@mui/types": ^7.2.3
-    "@mui/utils": ^5.11.9
+    "@mui/utils": ^5.11.11
     "@popperjs/core": ^2.11.6
     clsx: ^1.2.1
     prop-types: ^15.8.1
@@ -2847,22 +2856,22 @@ __metadata:
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: 0de774b9208042a9c64eb1ccc8b10119a804d130cad4722e0efc47f2396c5e90a64ffd54698ee947d39da230401ec48000ddedf4649b69b3043aa91b6a842b2c
+  checksum: 1ad5876a0b455cdc880abc51c331771d954bac769daa5b4c91bccceaaca8c2cf15401e2fa4030e46cdfb0ab876edd6e33818db1b365203e61bb1ec513618bba8
   languageName: node
   linkType: hard
 
-"@mui/core-downloads-tracker@npm:^5.11.9":
-  version: 5.11.9
-  resolution: "@mui/core-downloads-tracker@npm:5.11.9"
-  checksum: 2fcb81a43afb9be4a14509f7e48097968ae32c4ad22380a0dc3d516fa1b6b6cc927384585e797a6c461f79e8453331ce49aa7658830e8a4dc3b8904ce7084a6a
+"@mui/core-downloads-tracker@npm:^5.11.11":
+  version: 5.11.11
+  resolution: "@mui/core-downloads-tracker@npm:5.11.11"
+  checksum: 8c79c1a760eee497fb65f867117251adaaca435a8813394c6bf3d014d5e26148af1ff89beef2f50cea76c43412b722d3bd78bc71d8fc85aadcd57c8b22f17ec6
   languageName: node
   linkType: hard
 
-"@mui/icons-material@npm:^5.11.9":
-  version: 5.11.9
-  resolution: "@mui/icons-material@npm:5.11.9"
+"@mui/icons-material@npm:^5.11.11":
+  version: 5.11.11
+  resolution: "@mui/icons-material@npm:5.11.11"
   dependencies:
-    "@babel/runtime": ^7.20.13
+    "@babel/runtime": ^7.21.0
   peerDependencies:
     "@mui/material": ^5.0.0
     "@types/react": ^17.0.0 || ^18.0.0
@@ -2870,19 +2879,19 @@ __metadata:
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: bb7e4478272a8758c253c6fa89215247d735b3ead47a87f88dc6dde69a2f44e523a84304346eb7a3f07529e3aea08f649646b3d03a2f4ef3f534fcb7b6b692cb
+  checksum: 6ec89f3c68aaedd521f6a5106964394c410b08cec6875166d3ee97dcbaf2983c67d3b19cd58113d767d9f934cc0e9439fb5856e45471f5094656c0f87bbefecd
   languageName: node
   linkType: hard
 
-"@mui/lab@npm:^5.0.0-alpha.120":
-  version: 5.0.0-alpha.120
-  resolution: "@mui/lab@npm:5.0.0-alpha.120"
+"@mui/lab@npm:^5.0.0-alpha.121":
+  version: 5.0.0-alpha.121
+  resolution: "@mui/lab@npm:5.0.0-alpha.121"
   dependencies:
-    "@babel/runtime": ^7.20.13
-    "@mui/base": 5.0.0-alpha.118
-    "@mui/system": ^5.11.9
+    "@babel/runtime": ^7.21.0
+    "@mui/base": 5.0.0-alpha.119
+    "@mui/system": ^5.11.11
     "@mui/types": ^7.2.3
-    "@mui/utils": ^5.11.9
+    "@mui/utils": ^5.11.11
     clsx: ^1.2.1
     prop-types: ^15.8.1
     react-is: ^18.2.0
@@ -2900,20 +2909,20 @@ __metadata:
       optional: true
     "@types/react":
       optional: true
-  checksum: 04f61edb523b806a5b01a0ab18f5960a4e87e25790cc4cee3ab46be1740e4344816ea0e6e86c3feeb42277a17ae0c54ec6d610251f072596c2a98f1f39b1de19
+  checksum: 3f0419c8c44cfd44f50622250593145581f0552e1ae28fed4208d5ac82f56735a43ac811942469ce629e369bf6bad940fbd4141f33cf3f7f77e596bab3f28f09
   languageName: node
   linkType: hard
 
-"@mui/material@npm:^5.11.10":
-  version: 5.11.10
-  resolution: "@mui/material@npm:5.11.10"
+"@mui/material@npm:^5.11.11":
+  version: 5.11.11
+  resolution: "@mui/material@npm:5.11.11"
   dependencies:
-    "@babel/runtime": ^7.20.13
-    "@mui/base": 5.0.0-alpha.118
-    "@mui/core-downloads-tracker": ^5.11.9
-    "@mui/system": ^5.11.9
+    "@babel/runtime": ^7.21.0
+    "@mui/base": 5.0.0-alpha.119
+    "@mui/core-downloads-tracker": ^5.11.11
+    "@mui/system": ^5.11.11
     "@mui/types": ^7.2.3
-    "@mui/utils": ^5.11.9
+    "@mui/utils": ^5.11.11
     "@types/react-transition-group": ^4.4.5
     clsx: ^1.2.1
     csstype: ^3.1.1
@@ -2933,16 +2942,16 @@ __metadata:
       optional: true
     "@types/react":
       optional: true
-  checksum: 7d0ee8b7bc8a39146464a9a3ccc18766aff55914e7d801590b401f79c36e98b3b17aacd069e2620166024dd1020e67ad3a38da0d72e6aa0283d760a488c79501
+  checksum: 132af11ab4aff98c2c98dd22f10dcbc58221a8b3949f9ff3747c76362acaf1b2fb07ce8afd1a12ed905ebf1a7f778f7eb508a08d63fe56ea2bd703699e51e5cf
   languageName: node
   linkType: hard
 
-"@mui/private-theming@npm:^5.11.9":
-  version: 5.11.9
-  resolution: "@mui/private-theming@npm:5.11.9"
+"@mui/private-theming@npm:^5.11.11":
+  version: 5.11.11
+  resolution: "@mui/private-theming@npm:5.11.11"
   dependencies:
-    "@babel/runtime": ^7.20.13
-    "@mui/utils": ^5.11.9
+    "@babel/runtime": ^7.21.0
+    "@mui/utils": ^5.11.11
     prop-types: ^15.8.1
   peerDependencies:
     "@types/react": ^17.0.0 || ^18.0.0
@@ -2950,15 +2959,15 @@ __metadata:
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: c0cfdf6d790ce219e59f2d222847b88e0ab1d3281a427935460f8a652b54faaf0ad483f13a5fafdec37df7cc87a489821b20e9fa26d49251e714fa6fef8da5c2
+  checksum: e1db9423d000fc377201dd74a78f8f1cb627fade1b17f83171d4d8a18c1f9bb24e5fa86b1e08e3766961a0be23f84d87a6323da25e9bc08fc21b44288fa8d2b9
   languageName: node
   linkType: hard
 
-"@mui/styled-engine@npm:^5.11.9":
-  version: 5.11.9
-  resolution: "@mui/styled-engine@npm:5.11.9"
+"@mui/styled-engine@npm:^5.11.11":
+  version: 5.11.11
+  resolution: "@mui/styled-engine@npm:5.11.11"
   dependencies:
-    "@babel/runtime": ^7.20.13
+    "@babel/runtime": ^7.21.0
     "@emotion/cache": ^11.10.5
     csstype: ^3.1.1
     prop-types: ^15.8.1
@@ -2971,19 +2980,19 @@ __metadata:
       optional: true
     "@emotion/styled":
       optional: true
-  checksum: c32dd4b1e90fd19664dce92b3188a4ae3e239bcf6c1baa0e608478f41047aba4f0b796543a213337aa905a86c44284cf99198ceaccb1e444dee3ab0cc3092829
+  checksum: 63b71aafe79afbe1638a31d9cc1361d11edd5b4a8eacc50da86d83b5db11c9a1713c5744d1533360488aef85afc8d4a5429517447b78b598493c7a7d639390dd
   languageName: node
   linkType: hard
 
-"@mui/system@npm:^5.11.9":
-  version: 5.11.9
-  resolution: "@mui/system@npm:5.11.9"
+"@mui/system@npm:^5.11.11":
+  version: 5.11.11
+  resolution: "@mui/system@npm:5.11.11"
   dependencies:
-    "@babel/runtime": ^7.20.13
-    "@mui/private-theming": ^5.11.9
-    "@mui/styled-engine": ^5.11.9
+    "@babel/runtime": ^7.21.0
+    "@mui/private-theming": ^5.11.11
+    "@mui/styled-engine": ^5.11.11
     "@mui/types": ^7.2.3
-    "@mui/utils": ^5.11.9
+    "@mui/utils": ^5.11.11
     clsx: ^1.2.1
     csstype: ^3.1.1
     prop-types: ^15.8.1
@@ -2999,7 +3008,7 @@ __metadata:
       optional: true
     "@types/react":
       optional: true
-  checksum: d3cc0efbb992299f030369c09d6d0db44c7b29f436d1eaa271de9e06b78575d63e6b3df389cbf37191870a478a5267b43e995d27361236cfceac1f5a88b71a5b
+  checksum: 4f91a2855e50d8cac629424f9cd8bac2aa2c81d0a307d6a6db552f035da28e3b7916fc3a5d7aa98e448962cf06f4ff066f8cbf37ac39886cffd27f755ea2a012
   languageName: node
   linkType: hard
 
@@ -3015,18 +3024,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/utils@npm:^5.11.9":
-  version: 5.11.9
-  resolution: "@mui/utils@npm:5.11.9"
+"@mui/utils@npm:^5.11.11":
+  version: 5.11.11
+  resolution: "@mui/utils@npm:5.11.11"
   dependencies:
-    "@babel/runtime": ^7.20.13
+    "@babel/runtime": ^7.21.0
     "@types/prop-types": ^15.7.5
     "@types/react-is": ^16.7.1 || ^17.0.0
     prop-types: ^15.8.1
     react-is: ^18.2.0
   peerDependencies:
     react: ^17.0.0 || ^18.0.0
-  checksum: 23761e646443a8f9ad5e0715587491e65f5164fd99f6730f134068f9c859a6af9e3f9d218d193c9a9217da1c91182f76352c120de4f70ab19539afa7504698a2
+  checksum: 268ac11cfcf5acc90137502f1fb999c4b5a4a05b00769056f48a15c9aa0c358b2ce93655c04929136282ed2f3b8b0a62d12653449c3463ed4b79723764ab6d71
   languageName: node
   linkType: hard
 
@@ -3271,12 +3280,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/cli@npm:15.7.2":
-  version: 15.7.2
-  resolution: "@nrwl/cli@npm:15.7.2"
+"@nrwl/cli@npm:15.8.1":
+  version: 15.8.1
+  resolution: "@nrwl/cli@npm:15.8.1"
   dependencies:
-    nx: 15.7.2
-  checksum: c59130679458e1572181d8b49ff3a755bba4e07f8fe9a4c0b20330a16105548381467c557a4f3dd09051cf6ae8bcea15c3f2ccd2dba9ad6d0dfec79de0b61b49
+    nx: 15.8.1
+  checksum: d6b4fb396e5c6dce6ef6c4095df501b2180fec1c14b93702b0420ab5b1aceacb2f37e5a4f6e68feb94deb174e60a7d9202c377684cf3d24d1834b7c471e78e6a
   languageName: node
   linkType: hard
 
@@ -3302,9 +3311,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/nx-darwin-arm64@npm:15.7.2":
-  version: 15.7.2
-  resolution: "@nrwl/nx-darwin-arm64@npm:15.7.2"
+"@nrwl/nx-darwin-arm64@npm:15.8.1":
+  version: 15.8.1
+  resolution: "@nrwl/nx-darwin-arm64@npm:15.8.1"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
@@ -3316,9 +3325,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/nx-darwin-x64@npm:15.7.2":
-  version: 15.7.2
-  resolution: "@nrwl/nx-darwin-x64@npm:15.7.2"
+"@nrwl/nx-darwin-x64@npm:15.8.1":
+  version: 15.8.1
+  resolution: "@nrwl/nx-darwin-x64@npm:15.8.1"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
@@ -3330,9 +3339,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/nx-linux-arm-gnueabihf@npm:15.7.2":
-  version: 15.7.2
-  resolution: "@nrwl/nx-linux-arm-gnueabihf@npm:15.7.2"
+"@nrwl/nx-linux-arm-gnueabihf@npm:15.8.1":
+  version: 15.8.1
+  resolution: "@nrwl/nx-linux-arm-gnueabihf@npm:15.8.1"
   conditions: os=linux & cpu=arm
   languageName: node
   linkType: hard
@@ -3344,9 +3353,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/nx-linux-arm64-gnu@npm:15.7.2":
-  version: 15.7.2
-  resolution: "@nrwl/nx-linux-arm64-gnu@npm:15.7.2"
+"@nrwl/nx-linux-arm64-gnu@npm:15.8.1":
+  version: 15.8.1
+  resolution: "@nrwl/nx-linux-arm64-gnu@npm:15.8.1"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
@@ -3358,9 +3367,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/nx-linux-arm64-musl@npm:15.7.2":
-  version: 15.7.2
-  resolution: "@nrwl/nx-linux-arm64-musl@npm:15.7.2"
+"@nrwl/nx-linux-arm64-musl@npm:15.8.1":
+  version: 15.8.1
+  resolution: "@nrwl/nx-linux-arm64-musl@npm:15.8.1"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
@@ -3372,9 +3381,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/nx-linux-x64-gnu@npm:15.7.2":
-  version: 15.7.2
-  resolution: "@nrwl/nx-linux-x64-gnu@npm:15.7.2"
+"@nrwl/nx-linux-x64-gnu@npm:15.8.1":
+  version: 15.8.1
+  resolution: "@nrwl/nx-linux-x64-gnu@npm:15.8.1"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
@@ -3386,9 +3395,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/nx-linux-x64-musl@npm:15.7.2":
-  version: 15.7.2
-  resolution: "@nrwl/nx-linux-x64-musl@npm:15.7.2"
+"@nrwl/nx-linux-x64-musl@npm:15.8.1":
+  version: 15.8.1
+  resolution: "@nrwl/nx-linux-x64-musl@npm:15.8.1"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
@@ -3400,9 +3409,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/nx-win32-arm64-msvc@npm:15.7.2":
-  version: 15.7.2
-  resolution: "@nrwl/nx-win32-arm64-msvc@npm:15.7.2"
+"@nrwl/nx-win32-arm64-msvc@npm:15.8.1":
+  version: 15.8.1
+  resolution: "@nrwl/nx-win32-arm64-msvc@npm:15.8.1"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
@@ -3414,9 +3423,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/nx-win32-x64-msvc@npm:15.7.2":
-  version: 15.7.2
-  resolution: "@nrwl/nx-win32-x64-msvc@npm:15.7.2"
+"@nrwl/nx-win32-x64-msvc@npm:15.8.1":
+  version: 15.8.1
+  resolution: "@nrwl/nx-win32-x64-msvc@npm:15.8.1"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -3432,14 +3441,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/tao@npm:15.7.2":
-  version: 15.7.2
-  resolution: "@nrwl/tao@npm:15.7.2"
+"@nrwl/tao@npm:15.8.1":
+  version: 15.8.1
+  resolution: "@nrwl/tao@npm:15.8.1"
   dependencies:
-    nx: 15.7.2
+    nx: 15.8.1
   bin:
     tao: index.js
-  checksum: cbf76f385bffb1bf1bde52d4ad950a8abd1ba9865f47afb67a58bb5dc5d7be0d21c5021a3332d2ab665d99b36ec1f08ee260c1289bb7e69783e69712145d2709
+  checksum: e318e3b0c10b1234ec053a8de8b0e206b14bf0e39439a8746e63532b792fdbd120d591ef1e09727d3cd1ceb54e2c0bbcc46495d3521b9181c84c696853e76494
   languageName: node
   linkType: hard
 
@@ -12202,21 +12211,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nx@npm:15.7.2, nx@npm:^15.7.2":
-  version: 15.7.2
-  resolution: "nx@npm:15.7.2"
+"nx@npm:15.8.1, nx@npm:^15.8.1":
+  version: 15.8.1
+  resolution: "nx@npm:15.8.1"
   dependencies:
-    "@nrwl/cli": 15.7.2
-    "@nrwl/nx-darwin-arm64": 15.7.2
-    "@nrwl/nx-darwin-x64": 15.7.2
-    "@nrwl/nx-linux-arm-gnueabihf": 15.7.2
-    "@nrwl/nx-linux-arm64-gnu": 15.7.2
-    "@nrwl/nx-linux-arm64-musl": 15.7.2
-    "@nrwl/nx-linux-x64-gnu": 15.7.2
-    "@nrwl/nx-linux-x64-musl": 15.7.2
-    "@nrwl/nx-win32-arm64-msvc": 15.7.2
-    "@nrwl/nx-win32-x64-msvc": 15.7.2
-    "@nrwl/tao": 15.7.2
+    "@nrwl/cli": 15.8.1
+    "@nrwl/nx-darwin-arm64": 15.8.1
+    "@nrwl/nx-darwin-x64": 15.8.1
+    "@nrwl/nx-linux-arm-gnueabihf": 15.8.1
+    "@nrwl/nx-linux-arm64-gnu": 15.8.1
+    "@nrwl/nx-linux-arm64-musl": 15.8.1
+    "@nrwl/nx-linux-x64-gnu": 15.8.1
+    "@nrwl/nx-linux-x64-musl": 15.8.1
+    "@nrwl/nx-win32-arm64-msvc": 15.8.1
+    "@nrwl/nx-win32-x64-msvc": 15.8.1
+    "@nrwl/tao": 15.8.1
     "@parcel/watcher": 2.0.4
     "@yarnpkg/lockfile": ^1.1.0
     "@yarnpkg/parsers": ^3.0.0-rc.18
@@ -12279,7 +12288,7 @@ __metadata:
       optional: true
   bin:
     nx: bin/nx.js
-  checksum: c5765575146bb94f54c1da3d6dec600e6414c0cc64c198821a3de10a72583933f1a752a61452b74f02492e3518f4ead3c287416173b1bb3bbc15ce82bd8d2bb4
+  checksum: 4c51f2c96c5b7e2795cb1440232282c923d1b4573742016da61ea6d43730d0a071a61d5fb1d65f8b26730f758f12a329d0f6a8e38d5cccc0b2bff974cafdb9e7
   languageName: node
   linkType: hard
 
@@ -13933,7 +13942,7 @@ __metadata:
     eslint-plugin-react: ^7.32.2
     eslint-plugin-react-hooks: ^4.6.0
     lerna: ^6.5.1
-    nx: ^15.7.2
+    nx: ^15.8.1
     prettier: ^2.8.4
     react: ^18.2.0
     react-dom: ^18.2.0
@@ -16308,9 +16317,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zustand@npm:^4.3.4":
-  version: 4.3.4
-  resolution: "zustand@npm:4.3.4"
+"zustand@npm:^4.3.5":
+  version: 4.3.5
+  resolution: "zustand@npm:4.3.5"
   dependencies:
     use-sync-external-store: 1.2.0
   peerDependencies:
@@ -16321,6 +16330,6 @@ __metadata:
       optional: true
     react:
       optional: true
-  checksum: 8fbce0205e36ad7e6e8494b5b2ee4c0b0ea79be523a6352810dc69c370872e054d551f4ea9ee36e50a3551bc2d45966a49c22bee4e950aaa0531817a3f4256e1
+  checksum: 166099ecadd870e5e0f51b5b443b71145149447b2bfe557d73254891dd0fe603d55c93e560649a7c31a30b4a180dd6d4f4d90463636fd54c3393ace3b68dbc67
   languageName: node
   linkType: hard
