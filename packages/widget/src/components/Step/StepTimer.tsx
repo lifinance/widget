@@ -3,12 +3,47 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTimer } from 'react-timer-hook';
 
-const getExpiryTimestamp = (step: Step) =>
-  new Date(
-    (step.execution?.process[0]?.startedAt ?? Date.now()) +
-      step.estimate.executionDuration * 1000,
+const getExpiryTimestamp = (step: Step) => {
+  const confirmationTime =
+    step.execution?.process.reduce((acc, process) => {
+      const timeTakenForExternalAction = !!process.eoaConfirmationAt
+        ? process.eoaConfirmationAt - process.startedAt
+        : 0;
+
+      return acc + timeTakenForExternalAction;
+    }, 0) ?? 0;
+
+  const firstProcess = step.execution?.process[0];
+
+  // if no firstProcess or no firstProcess.doneAt or no firstProcess.eoaConfirmationAt
+  // then don't start the timer and show the estimated time.
+  // EOA confirmation is pending
+  if (
+    !firstProcess ||
+    !firstProcess.doneAt ||
+    !!(firstProcess.doneAt && !firstProcess.eoaConfirmationAt)
+  ) {
+    const expiryTimstamp = new Date(
+      Date.now() + step.estimate.executionDuration * 1000,
+    );
+
+    return expiryTimstamp;
+  }
+
+  const { eoaConfirmationAt, doneAt } = firstProcess;
+
+  const lastActivityTimestamp = eoaConfirmationAt ?? doneAt ?? Date.now();
+
+  // confirmationTime is the time taken for the EOA to confirm the transaction
+  // Add the confirmationTime to the lastActivityTimestamp to compensate the time taken for the EOA to confirm the transaction
+  const expiryTimstamp = new Date(
+    lastActivityTimestamp +
+      step.estimate.executionDuration * 1000 +
+      confirmationTime,
   );
 
+  return expiryTimstamp;
+};
 export const StepTimer: React.FC<{ step: Step; hideInProgress?: boolean }> = ({
   step,
   hideInProgress,
