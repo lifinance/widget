@@ -14,7 +14,7 @@ export const EnabledToolsButton: React.FC<{
   const navigate = useNavigate();
   const [enabledTools, tools] = useSettingsStore((state) => {
     const enabledTools = Object.values(state[`_enabled${type}`] ?? {});
-    return [enabledTools.filter((tool) => tool).length, enabledTools.length];
+    return [enabledTools.filter(Boolean).length, enabledTools.length];
   }, shallow);
 
   const handleClick = () => {

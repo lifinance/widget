@@ -1,5 +1,5 @@
 import { isAddress } from '@ethersproject/address';
-import type { Route } from '@lifi/sdk';
+import type { Route, RoutesResponse, Token } from '@lifi/sdk';
 import { LifiErrorCode } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Big from 'big.js';
@@ -176,7 +176,7 @@ export const useSwapRoutes = () => {
             steps: [contractCallQuote],
           };
 
-          return { routes: [route] };
+          return { routes: [route] } as RoutesResponse;
         }
         return lifi.getRoutes(
           {
@@ -212,6 +212,30 @@ export const useSwapRoutes = () => {
             return false;
           }
           return true;
+        },
+        onSuccess(data) {
+          if (data.routes[0]) {
+            // Update local tokens cache to keep priceUSD in sync
+            const { fromToken, toToken } = data.routes[0];
+            [fromToken, toToken].forEach((token) => {
+              queryClient.setQueriesData<Token[]>(
+                ['token-balances', account.address, token.chainId],
+                (data) => {
+                  if (data) {
+                    const clonedData = [...data];
+                    const index = clonedData.findIndex(
+                      (dataToken) => dataToken.address === token.address,
+                    );
+                    clonedData[index] = {
+                      ...clonedData[index],
+                      ...token,
+                    };
+                    return clonedData;
+                  }
+                },
+              );
+            });
+          }
         },
       },
     );
