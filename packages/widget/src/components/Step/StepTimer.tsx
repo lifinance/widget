@@ -4,46 +4,72 @@ import { useTranslation } from 'react-i18next';
 import { useTimer } from 'react-timer-hook';
 
 const getExpiryTimestamp = (step: Step) => {
-  const confirmationTime =
-    step.execution?.process.reduce((acc, process) => {
-      const timeTakenForExternalAction = !!process.eoaConfirmationAt
-        ? process.eoaConfirmationAt - process.startedAt
-        : 0;
-
-      return acc + timeTakenForExternalAction;
-    }, 0) ?? 0;
-
   const firstProcess = step.execution?.process[0];
 
-  // if no firstProcess or no firstProcess.doneAt or no firstProcess.eoaConfirmationAt
-  // then don't start the timer and show the estimated time.
-  // EOA confirmation is pending
-  if (
-    !firstProcess ||
-    !firstProcess.doneAt ||
-    !!(firstProcess.doneAt && !firstProcess.eoaConfirmationAt)
-  ) {
-    const expiryTimstamp = new Date(
-      Date.now() + step.estimate.executionDuration * 1000,
-    );
+  const beginningTimestamp =
+    firstProcess?.eoaConfirmationAt ?? firstProcess?.doneAt;
 
-    return expiryTimstamp;
+  if (!beginningTimestamp) {
+    return new Date(Date.now() + step.estimate.executionDuration * 1000);
   }
 
-  const { eoaConfirmationAt, doneAt } = firstProcess;
+  const timeSpentInExecution =
+    step.execution?.process.reduce((timeConsumed, process, index) => {
+      if (index === 0) {
+        // skip the first process as it is already accounted for
+        return timeConsumed;
+      }
 
-  const lastActivityTimestamp = eoaConfirmationAt ?? doneAt ?? Date.now();
+      const { startedAt, doneAt, eoaConfirmationAt, failedAt } = process;
 
-  // confirmationTime is the time taken for the EOA to confirm the transaction
-  // Add the confirmationTime to the lastActivityTimestamp to compensate the time taken for the EOA to confirm the transaction
-  const expiryTimstamp = new Date(
-    lastActivityTimestamp +
-      step.estimate.executionDuration * 1000 +
-      confirmationTime,
+      // ClonedTimeConsumed is used to include the beginningTimestamp in the calculation
+      let clonedTimeConsumed = timeConsumed;
+
+      if (index === 1) {
+        clonedTimeConsumed += startedAt - beginningTimestamp;
+      }
+      if (process.status !== 'ACTION_REQUIRED') {
+        // if eoaConfirmationAt is set, then doneAt - eoaConfirmationAt is the time spent in execution
+        // since startedAt -> eoaConfirmationAt is the time spent in waiting for the user to confirm the transaction
+
+        if (eoaConfirmationAt) {
+          if (doneAt) {
+            console.log('eoaConfirmationAt', clonedTimeConsumed);
+            return clonedTimeConsumed + doneAt - eoaConfirmationAt;
+          }
+        } else {
+          // if eoaConfirmationAt is not set, then doneAt - startedAt is the time spent in execution
+          // no user intervention was required
+          if (doneAt && !failedAt) {
+            // if the process failed, then the time for the previous process is not updated.
+            // hence, the time spent in execution will not be considered
+            console.log('doneAt', clonedTimeConsumed);
+            return clonedTimeConsumed + doneAt - startedAt;
+          }
+        }
+
+        return clonedTimeConsumed;
+      }
+
+      return clonedTimeConsumed;
+    }, 0) ?? 0;
+
+  // timeSpentInExecution is in milliseconds
+  const remainingTimeInSeconds =
+    step.estimate.executionDuration * 1000 - timeSpentInExecution;
+
+  console.log(
+    'remainingTimeInSeconds',
+    remainingTimeInSeconds,
+    step.estimate.executionDuration * 1000,
+    timeSpentInExecution,
   );
+
+  const expiryTimstamp = new Date(Date.now() + remainingTimeInSeconds);
 
   return expiryTimstamp;
 };
+
 export const StepTimer: React.FC<{ step: Step; hideInProgress?: boolean }> = ({
   step,
   hideInProgress,
@@ -85,6 +111,8 @@ export const StepTimer: React.FC<{ step: Step; hideInProgress?: boolean }> = ({
     resume,
     step,
   ]);
+
+  console.log([...(step.execution?.process ?? [])]);
 
   if (!isExecutionStarted) {
     return (
