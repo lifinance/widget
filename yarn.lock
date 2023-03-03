@@ -2737,7 +2737,7 @@ __metadata:
     "@mui/icons-material": ^5.11.11
     "@mui/lab": ^5.0.0-alpha.121
     "@mui/material": ^5.11.11
-    "@opensea/seaport-js": ^1.0.9
+    "@opensea/seaport-js": ^1.0.10
     "@tanstack/react-query": ^4.24.10
     "@vitejs/plugin-react": ^3.1.0
     bignumber.js: ^9.1.1
@@ -2748,7 +2748,7 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
     react-router-dom: ^6.8.2
-    rollup: ^3.17.3
+    rollup: ^3.18.0
     rollup-plugin-polyfill-node: ^0.12.0
     typescript: ^4.9.5
     vite: ^4.1.4
@@ -2806,7 +2806,7 @@ __metadata:
     mitt: ^3.0.0
     react: ^18.2.0
     react-dom: ^18.2.0
-    react-hook-form: ^7.43.2
+    react-hook-form: ^7.43.3
     react-i18next: ^12.2.0
     react-router-dom: ^6.8.2
     react-timer-hook: ^3.0.5
@@ -3280,12 +3280,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/cli@npm:15.8.1":
-  version: 15.8.1
-  resolution: "@nrwl/cli@npm:15.8.1"
+"@nrwl/cli@npm:15.8.3":
+  version: 15.8.3
+  resolution: "@nrwl/cli@npm:15.8.3"
   dependencies:
-    nx: 15.8.1
-  checksum: d6b4fb396e5c6dce6ef6c4095df501b2180fec1c14b93702b0420ab5b1aceacb2f37e5a4f6e68feb94deb174e60a7d9202c377684cf3d24d1834b7c471e78e6a
+    nx: 15.8.3
+  checksum: f15183130b9a9e28af0ca17f02a41e2d6008a2f6ad756951b91b978ea0e78fc9bf373b7ae5b06c3fb2c5bcef83c866d8fad7e01b6b017dbf2ddf5919147b88b7
   languageName: node
   linkType: hard
 
@@ -3311,9 +3311,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/nx-darwin-arm64@npm:15.8.1":
-  version: 15.8.1
-  resolution: "@nrwl/nx-darwin-arm64@npm:15.8.1"
+"@nrwl/nx-darwin-arm64@npm:15.8.3":
+  version: 15.8.3
+  resolution: "@nrwl/nx-darwin-arm64@npm:15.8.3"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
@@ -3325,9 +3325,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/nx-darwin-x64@npm:15.8.1":
-  version: 15.8.1
-  resolution: "@nrwl/nx-darwin-x64@npm:15.8.1"
+"@nrwl/nx-darwin-x64@npm:15.8.3":
+  version: 15.8.3
+  resolution: "@nrwl/nx-darwin-x64@npm:15.8.3"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
@@ -3339,9 +3339,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/nx-linux-arm-gnueabihf@npm:15.8.1":
-  version: 15.8.1
-  resolution: "@nrwl/nx-linux-arm-gnueabihf@npm:15.8.1"
+"@nrwl/nx-linux-arm-gnueabihf@npm:15.8.3":
+  version: 15.8.3
+  resolution: "@nrwl/nx-linux-arm-gnueabihf@npm:15.8.3"
   conditions: os=linux & cpu=arm
   languageName: node
   linkType: hard
@@ -3353,9 +3353,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/nx-linux-arm64-gnu@npm:15.8.1":
-  version: 15.8.1
-  resolution: "@nrwl/nx-linux-arm64-gnu@npm:15.8.1"
+"@nrwl/nx-linux-arm64-gnu@npm:15.8.3":
+  version: 15.8.3
+  resolution: "@nrwl/nx-linux-arm64-gnu@npm:15.8.3"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
@@ -3367,9 +3367,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/nx-linux-arm64-musl@npm:15.8.1":
-  version: 15.8.1
-  resolution: "@nrwl/nx-linux-arm64-musl@npm:15.8.1"
+"@nrwl/nx-linux-arm64-musl@npm:15.8.3":
+  version: 15.8.3
+  resolution: "@nrwl/nx-linux-arm64-musl@npm:15.8.3"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
@@ -3381,9 +3381,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/nx-linux-x64-gnu@npm:15.8.1":
-  version: 15.8.1
-  resolution: "@nrwl/nx-linux-x64-gnu@npm:15.8.1"
+"@nrwl/nx-linux-x64-gnu@npm:15.8.3":
+  version: 15.8.3
+  resolution: "@nrwl/nx-linux-x64-gnu@npm:15.8.3"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
@@ -3395,9 +3395,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/nx-linux-x64-musl@npm:15.8.1":
-  version: 15.8.1
-  resolution: "@nrwl/nx-linux-x64-musl@npm:15.8.1"
+"@nrwl/nx-linux-x64-musl@npm:15.8.3":
+  version: 15.8.3
+  resolution: "@nrwl/nx-linux-x64-musl@npm:15.8.3"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
@@ -3409,9 +3409,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/nx-win32-arm64-msvc@npm:15.8.1":
-  version: 15.8.1
-  resolution: "@nrwl/nx-win32-arm64-msvc@npm:15.8.1"
+"@nrwl/nx-win32-arm64-msvc@npm:15.8.3":
+  version: 15.8.3
+  resolution: "@nrwl/nx-win32-arm64-msvc@npm:15.8.3"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
@@ -3423,9 +3423,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/nx-win32-x64-msvc@npm:15.8.1":
-  version: 15.8.1
-  resolution: "@nrwl/nx-win32-x64-msvc@npm:15.8.1"
+"@nrwl/nx-win32-x64-msvc@npm:15.8.3":
+  version: 15.8.3
+  resolution: "@nrwl/nx-win32-x64-msvc@npm:15.8.3"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -3441,14 +3441,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/tao@npm:15.8.1":
-  version: 15.8.1
-  resolution: "@nrwl/tao@npm:15.8.1"
+"@nrwl/tao@npm:15.8.3":
+  version: 15.8.3
+  resolution: "@nrwl/tao@npm:15.8.3"
   dependencies:
-    nx: 15.8.1
+    nx: 15.8.3
   bin:
     tao: index.js
-  checksum: e318e3b0c10b1234ec053a8de8b0e206b14bf0e39439a8746e63532b792fdbd120d591ef1e09727d3cd1ceb54e2c0bbcc46495d3521b9181c84c696853e76494
+  checksum: 7d2b37ca5003683ead062fb1506eef578279c3bbe2d4086a15d2f2861dc970c3f50c97aa3a1c8fd8e4865419a6de3f76d9a220b49ede73b9a4a1c61909ff1b32
   languageName: node
   linkType: hard
 
@@ -3622,14 +3622,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opensea/seaport-js@npm:^1.0.9":
-  version: 1.0.9
-  resolution: "@opensea/seaport-js@npm:1.0.9"
+"@opensea/seaport-js@npm:^1.0.10":
+  version: 1.0.10
+  resolution: "@opensea/seaport-js@npm:1.0.10"
   dependencies:
     "@0xsequence/multicall": ^0.39.0
     ethers: ^5.6.7
     merkletreejs: ^0.3.9
-  checksum: 5eb11eaeb4822b6f3ee0e261fa2c4100e2d8917c7ba7ea2498611ae908f8d2bc9fc240332f6e430f573b06c70a23f81744949c4fc102cd13196dbea513226d1f
+  checksum: 96dc39f1ea388fd73f8e5ea14c06f5a34a04deea88151cf9bff354b4e6c30e458774ce5baccea5c51a864fc3544850cc0c01fc864795f6982375a31e618c2f42
   languageName: node
   linkType: hard
 
@@ -4057,10 +4057,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^18.14.2":
-  version: 18.14.2
-  resolution: "@types/node@npm:18.14.2"
-  checksum: 53c07e721f6ae33de71306f6a0b75dae6066a4f55bd5484c93bd59ff25f0c5f004ceafeef509a4d0cb9e24a247efc34d50489bcc1b05a53ecc68e2fc088e65cb
+"@types/node@npm:^18.14.5":
+  version: 18.14.5
+  resolution: "@types/node@npm:18.14.5"
+  checksum: 415fb0edc132baa9580f1b7a381a3f10b662f5d7a7d11641917fa0961788ccede3272badc414aadc47306e9fc35c5f6c59159ac470b46d3f3a15fb0446224c8c
   languageName: node
   linkType: hard
 
@@ -12211,21 +12211,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nx@npm:15.8.1, nx@npm:^15.8.1":
-  version: 15.8.1
-  resolution: "nx@npm:15.8.1"
+"nx@npm:15.8.3, nx@npm:^15.8.3":
+  version: 15.8.3
+  resolution: "nx@npm:15.8.3"
   dependencies:
-    "@nrwl/cli": 15.8.1
-    "@nrwl/nx-darwin-arm64": 15.8.1
-    "@nrwl/nx-darwin-x64": 15.8.1
-    "@nrwl/nx-linux-arm-gnueabihf": 15.8.1
-    "@nrwl/nx-linux-arm64-gnu": 15.8.1
-    "@nrwl/nx-linux-arm64-musl": 15.8.1
-    "@nrwl/nx-linux-x64-gnu": 15.8.1
-    "@nrwl/nx-linux-x64-musl": 15.8.1
-    "@nrwl/nx-win32-arm64-msvc": 15.8.1
-    "@nrwl/nx-win32-x64-msvc": 15.8.1
-    "@nrwl/tao": 15.8.1
+    "@nrwl/cli": 15.8.3
+    "@nrwl/nx-darwin-arm64": 15.8.3
+    "@nrwl/nx-darwin-x64": 15.8.3
+    "@nrwl/nx-linux-arm-gnueabihf": 15.8.3
+    "@nrwl/nx-linux-arm64-gnu": 15.8.3
+    "@nrwl/nx-linux-arm64-musl": 15.8.3
+    "@nrwl/nx-linux-x64-gnu": 15.8.3
+    "@nrwl/nx-linux-x64-musl": 15.8.3
+    "@nrwl/nx-win32-arm64-msvc": 15.8.3
+    "@nrwl/nx-win32-x64-msvc": 15.8.3
+    "@nrwl/tao": 15.8.3
     "@parcel/watcher": 2.0.4
     "@yarnpkg/lockfile": ^1.1.0
     "@yarnpkg/parsers": ^3.0.0-rc.18
@@ -12288,7 +12288,7 @@ __metadata:
       optional: true
   bin:
     nx: bin/nx.js
-  checksum: 4c51f2c96c5b7e2795cb1440232282c923d1b4573742016da61ea6d43730d0a071a61d5fb1d65f8b26730f758f12a329d0f6a8e38d5cccc0b2bff974cafdb9e7
+  checksum: 492d48fc459efd1db007821dac9f6d28e6c50fb3d04046ec67c1b3b02ccee4904777dda63430b843cf7afcb6953ae515b4360afa03f30581cf9115c17d993bb4
   languageName: node
   linkType: hard
 
@@ -13285,12 +13285,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.43.2":
-  version: 7.43.2
-  resolution: "react-hook-form@npm:7.43.2"
+"react-hook-form@npm:^7.43.3":
+  version: 7.43.3
+  resolution: "react-hook-form@npm:7.43.3"
   peerDependencies:
     react: ^16.8.0 || ^17 || ^18
-  checksum: 68d4fb73fec052801d5e7840c3d0afba887676acfdefa33aef342ead0db419cb1a14a0891ed567cea58a78d544d9245445c593e25bc0564a797201cb32c91a01
+  checksum: 16e03e42d07f696e36d67c0d60671df6d0bc73b9e48876ea99b85cf3aaa4cf40acb0c0e2870169d4a22504c7111c0f658b0b17a4f3fd191ef69c7eea70785a9d
   languageName: node
   linkType: hard
 
@@ -13900,9 +13900,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^3.17.3":
-  version: 3.17.3
-  resolution: "rollup@npm:3.17.3"
+"rollup@npm:^3.18.0":
+  version: 3.18.0
+  resolution: "rollup@npm:3.18.0"
   dependencies:
     fsevents: ~2.3.2
   dependenciesMeta:
@@ -13910,7 +13910,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: afce20a6ef4a613e5803eff7fb17a3efe740e326257b43f48bdbe10783f3eae79587d7e455234bc68f3c3154a50f2c29c85d4d2a42cdebcc17a5abeaeb04e0ed
+  checksum: 0bcd1abb1cc383abdd09b5594de862ecb2f946e950954bb472a370289bdc4499aea8d04477be55ce205450d973d38ad255f0dc6926162500a251d73bf0e60e6f
   languageName: node
   linkType: hard
 
@@ -13925,7 +13925,7 @@ __metadata:
     "@types/big.js": ^6.1.6
     "@types/eslint": ^8.21.1
     "@types/events": ^3.0.0
-    "@types/node": ^18.14.2
+    "@types/node": ^18.14.5
     "@types/react": ^18.0.28
     "@types/react-dom": ^18.0.11
     "@types/uuid": ^9.0.1
@@ -13942,7 +13942,7 @@ __metadata:
     eslint-plugin-react: ^7.32.2
     eslint-plugin-react-hooks: ^4.6.0
     lerna: ^6.5.1
-    nx: ^15.8.1
+    nx: ^15.8.3
     prettier: ^2.8.4
     react: ^18.2.0
     react-dom: ^18.2.0
