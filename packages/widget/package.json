@@ -58,8 +58,8 @@
     "@mui/icons-material": "^5.11.11",
     "@mui/lab": "^5.0.0-alpha.121",
     "@mui/material": "^5.11.11",
-    "@tanstack/react-query": "^4.24.10",
-    "@tanstack/react-virtual": "^3.0.0-beta.52",
+    "@tanstack/react-query": "^4.26.0",
+    "@tanstack/react-virtual": "^3.0.0-beta.53",
     "big.js": "^6.2.1",
     "i18next": "^22.4.10",
     "i18next-browser-languagedetector": "^7.0.1",
@@ -67,12 +67,13 @@
     "mitt": "^3.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.43.3",
+    "react-hook-form": "^7.43.4",
     "react-i18next": "^12.2.0",
+    "react-intersection-observer": "^9.4.3",
     "react-router-dom": "^6.8.2",
     "react-timer-hook": "^3.0.5",
     "uuid": "^9.0.0",
-    "zustand": "^4.3.5"
+    "zustand": "^4.3.6"
   },
   "devDependencies": {
     "cpy-cli": "^4.2.0",

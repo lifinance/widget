@@ -1,6 +1,7 @@
 import { useTheme } from '@mui/material/styles';
 import type { PropsWithChildren } from 'react';
 import { useCallback, useLayoutEffect, useRef, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 import type { TextFitterProps } from './types';
 
 const initialState = {
@@ -25,7 +26,14 @@ export const TextFitter: React.FC<PropsWithChildren<TextFitterProps>> = ({
   const theme = useTheme();
   const textRef = useRef<SVGTextElement>(null);
   const [viewBox, setViewBox] = useState<Partial<DOMRect>>(initialState);
-  // const [textRect, setTextRect] = useState<Partial<DOMRect>>(initialState);
+
+  const [ref] = useInView({
+    onChange(inView) {
+      if (inView) {
+        calculateBox();
+      }
+    },
+  });
 
   const calculateBox = useCallback(() => {
     if (!textRef.current) {
@@ -40,7 +48,6 @@ export const TextFitter: React.FC<PropsWithChildren<TextFitterProps>> = ({
       box.height -= box.height * cropBottom;
     }
     setViewBox(box);
-    // setTextRect(textRef.current.getBoundingClientRect());
     onFit?.();
   }, [cropBottom, cropTop, onFit]);
 
@@ -69,6 +76,7 @@ export const TextFitter: React.FC<PropsWithChildren<TextFitterProps>> = ({
       // }
       preserveAspectRatio={preserveAspectRatio}
       fill={theme.palette.text.primary}
+      ref={ref}
     >
       <text x={0} y={0} style={textStyle} ref={textRef}>
         {children}
