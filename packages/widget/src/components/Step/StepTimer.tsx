@@ -6,8 +6,7 @@ import { useTimer } from 'react-timer-hook';
 const getExpiryTimestamp = (step: Step) => {
   const firstProcess = step.execution?.process[0];
 
-  const beginningTimestamp =
-    firstProcess?.eoaConfirmationAt ?? firstProcess?.doneAt;
+  const beginningTimestamp = firstProcess?.approvedAt ?? firstProcess?.doneAt;
 
   if (!beginningTimestamp) {
     return new Date(Date.now() + step.estimate.executionDuration * 1000);
@@ -20,7 +19,7 @@ const getExpiryTimestamp = (step: Step) => {
         return timeConsumed;
       }
 
-      const { startedAt, doneAt, eoaConfirmationAt, failedAt } = process;
+      const { startedAt, doneAt, approvedAt, failedAt } = process;
 
       // ClonedTimeConsumed is used to include the beginningTimestamp in the calculation
       let clonedTimeConsumed = timeConsumed;
@@ -29,16 +28,15 @@ const getExpiryTimestamp = (step: Step) => {
         clonedTimeConsumed += startedAt - beginningTimestamp;
       }
       if (process.status !== 'ACTION_REQUIRED') {
-        // if eoaConfirmationAt is set, then doneAt - eoaConfirmationAt is the time spent in execution
-        // since startedAt -> eoaConfirmationAt is the time spent in waiting for the user to confirm the transaction
+        // if approvedAt is set, then doneAt - approvedAt is the time spent in execution
+        // since startedAt -> approvedAt is the time spent in waiting for the user to confirm the transaction
 
-        if (eoaConfirmationAt) {
+        if (approvedAt) {
           if (doneAt) {
-            console.log('eoaConfirmationAt', clonedTimeConsumed);
-            return clonedTimeConsumed + doneAt - eoaConfirmationAt;
+            return clonedTimeConsumed + doneAt - approvedAt;
           }
         } else {
-          // if eoaConfirmationAt is not set, then doneAt - startedAt is the time spent in execution
+          // if approvedAt is not set, then doneAt - startedAt is the time spent in execution
           // no user intervention was required
           if (doneAt && !failedAt) {
             // if the process failed, then the time for the previous process is not updated.
