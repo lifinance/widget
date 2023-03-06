@@ -41,7 +41,6 @@ const getExpiryTimestamp = (step: Step) => {
           if (doneAt && !failedAt) {
             // if the process failed, then the time for the previous process is not updated.
             // hence, the time spent in execution will not be considered
-            console.log('doneAt', clonedTimeConsumed);
             return clonedTimeConsumed + doneAt - startedAt;
           }
         }
@@ -55,13 +54,6 @@ const getExpiryTimestamp = (step: Step) => {
   // timeSpentInExecution is in milliseconds
   const remainingTimeInSeconds =
     step.estimate.executionDuration * 1000 - timeSpentInExecution;
-
-  console.log(
-    'remainingTimeInSeconds',
-    remainingTimeInSeconds,
-    step.estimate.executionDuration * 1000,
-    timeSpentInExecution,
-  );
 
   const expiryTimstamp = new Date(Date.now() + remainingTimeInSeconds);
 
@@ -109,8 +101,6 @@ export const StepTimer: React.FC<{ step: Step; hideInProgress?: boolean }> = ({
     resume,
     step,
   ]);
-
-  console.log([...(step.execution?.process ?? [])]);
 
   if (!isExecutionStarted) {
     return (
