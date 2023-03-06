@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.32.8](https://github.com/lifinance/widget/compare/v1.32.7...v1.32.8) (2023-03-06)
+
+
+### Bug Fixes
+
+* add actions permissions ([a8dcf18](https://github.com/lifinance/widget/commit/a8dcf18581057aa1fad95735c81d785d695dc4eb))
+* only reset appearance if not set via config ([bc5f164](https://github.com/lifinance/widget/commit/bc5f16471235ffb6afe9bf39839375a1090323a6))
+* TextFitter visibility when using display: none ([05eb5aa](https://github.com/lifinance/widget/commit/05eb5aa1eaf34d704e514130daab1255674b08bf))
+* use iam role in github actions ([d663c7e](https://github.com/lifinance/widget/commit/d663c7e7c1b7e93775b7d11c8b8546ca7a3b3316))
+
 ### [1.32.7](https://github.com/lifinance/widget/compare/v1.32.6...v1.32.7) (2023-03-03)
 
 ### [1.32.6](https://github.com/lifinance/widget/compare/v1.32.5...v1.32.6) (2023-03-01)
