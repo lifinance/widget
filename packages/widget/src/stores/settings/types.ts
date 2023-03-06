@@ -1,5 +1,5 @@
 import type { Order } from '@lifi/sdk';
-import type { Appearance } from '../../types';
+import type { Appearance, WidgetConfig } from '../../types';
 
 export type ValueSetter<S> = <K extends keyof S>(
   key: K,
@@ -39,7 +39,7 @@ export interface SettingsState extends SettingsProps {
     tools: string[],
     availableTools: string[],
   ): void;
-  reset(bridges: string[], exchanges: string[]): void;
+  reset(config: WidgetConfig, bridges: string[], exchanges: string[]): void;
 }
 
 export interface SendToWalletState {

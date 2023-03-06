@@ -91,10 +91,11 @@ export const useSettingsStore = create<SettingsState>(
             return values;
           }, {} as Record<string, boolean>),
         })),
-      reset: (bridges, exchanges) => {
+      reset: (config, bridges, exchanges) => {
         set(() => ({
           ...defaultSettings,
           ...defaultConfigurableSettings,
+          appearance: config.appearance ?? defaultSettings.appearance,
         }));
         get().initializeTools('Bridges', bridges, true);
         get().initializeTools('Exchanges', exchanges, true);
