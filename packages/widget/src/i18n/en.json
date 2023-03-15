@@ -106,12 +106,14 @@
     "inProgress": "in progress",
     "info": {
       "message": {
+        "autoRefuel": "You're low on {{chainName}} gas. By continuing, you'll get enough gas to complete the swap.",
         "emptyActiveSwaps": "Swaps in progress will appear here. Once completed, find them in swap history.",
         "emptySwapHistory": "Swap history is only stored locally and will be deleted if you clear your browser data.",
         "emptyTokenList": "We couldn't find tokens on {{chainName}} chain or you don't have any. Please try search again or choose another chain.",
         "routeNotFound": "Try another token combination."
       },
       "title": {
+        "autoRefuel": "Auto refuel",
         "emptyActiveSwaps": "No active swaps",
         "emptySwapHistory": "No recent swaps",
         "routeNotFound": "No routes available"
@@ -154,6 +156,7 @@
     "quotedAmount": "Quoted amount",
     "rateChange": "Rate change",
     "receiving": "Receiving",
+    "refuelStepDetails": "Refuel via {{tool}}",
     "routes": "You get",
     "selectChain": "Chain",
     "selectChainAndToken": "Select chain and token",
@@ -162,6 +165,7 @@
     "sendToWallet": "Send to a different wallet",
     "sentToAddress": "Sent to {{address}}",
     "stepBridge": "Bridge",
+    "stepDetails": "{{tool}} via LI.FI",
     "stepSwap": "Swap",
     "stepSwapAndBridge": "Swap and bridge",
     "success": {
@@ -197,8 +201,8 @@
         "deleteActiveSwaps": "Active swaps are only stored locally and can't be recovered if you delete them.",
         "deleteSwapHistory": "Swap history is only stored locally and can't be recovered if you delete it.",
         "highValueLoss": "The value of the received tokens is significantly lower than the swapped tokens and transaction cost.",
-        "insufficientFunds": "You don't have enough funds to execute the swap.",
-        "insufficientGas": "You need to add at least:",
+        "insufficientFunds": "You don't have enough funds to complete the swap.",
+        "insufficientGas": "You don't have enough gas to complete the swap. You need to add at least:",
         "rateChanged": "The exchange rate has changed. By continuing the swap, you'll accept the new rate.",
         "resetSettings": "This will reset your route priority, slippage, gas price, enabled bridges and exchanges."
       },

@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { ActiveSwaps } from '../../components/ActiveSwaps';
 import { ContractComponent } from '../../components/ContractComponent';
-import { GasSufficiencyMessage } from '../../components/GasSufficiencyMessage';
+import { GasMessage, GasRefuelMessage } from '../../components/GasMessage';
 import { SelectChainAndToken } from '../../components/SelectChainAndToken';
 import {
   SendToWallet,
@@ -25,7 +25,8 @@ export const MainPage: React.FC = () => {
       <SelectChainAndToken mt={1} mx={3} mb={3} />
       {!nft ? <SwapInput formType="from" mx={3} mb={3} /> : null}
       {!expandable ? <SwapRoutes mx={3} mb={3} /> : null}
-      <GasSufficiencyMessage mx={3} mb={3} />
+      <GasRefuelMessage mx={3} mb={3} />
+      <GasMessage mx={3} mb={3} />
       <Box mx={3} mb={1}>
         <SendToWallet mb={3} />
         <Box sx={{ display: 'flex' }}>

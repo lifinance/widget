@@ -57,7 +57,11 @@ export const SwapRouteCard: React.FC<
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Token
           token={token}
-          step={variant === 'stretched' ? route.steps[0] : undefined}
+          step={
+            variant === 'stretched' && !cardExpanded
+              ? route.steps[0]
+              : undefined
+          }
           disableDescription={variant === 'dense' && widgetVariant !== 'refuel'}
         />
         {variant === 'stretched' && !expanded ? (
@@ -119,7 +123,7 @@ export const SwapRouteCardEssentials: React.FC<
                 fontSize={11}
                 key={`${gas.token.address}${gas.token.symbol}`}
               >
-                {gas.amount?.toFixed(6)} {gas.token.symbol} (
+                {gas.amount?.toFixed(9)} {gas.token.symbol} (
                 {t(`format.currency`, { value: gas.amountUSD })})
               </Typography>
             ))}

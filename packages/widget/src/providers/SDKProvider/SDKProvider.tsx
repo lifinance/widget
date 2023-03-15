@@ -1,12 +1,12 @@
-import LIFI from '@lifi/sdk';
+import { LiFi } from '@lifi/sdk';
 import { createContext, useContext, useMemo } from 'react';
 import { useWidgetConfig } from '../WidgetProvider';
 
-let lifi: LIFI;
+let lifi: LiFi;
 
-const SDKContext = createContext<LIFI>(null!);
+const SDKContext = createContext<LiFi>(null!);
 
-export const useLiFi = (): LIFI => useContext(SDKContext);
+export const useLiFi = (): LiFi => useContext(SDKContext);
 
 export const SDKProvider: React.FC<React.PropsWithChildren> = ({
   children,
@@ -26,7 +26,7 @@ export const SDKProvider: React.FC<React.PropsWithChildren> = ({
       },
     };
     if (!lifi) {
-      lifi = new LIFI({
+      lifi = new LiFi({
         disableVersionCheck: true,
         ...config,
       });

@@ -9,10 +9,12 @@ export const useTokenAddressBalance = (
     useTokenBalances(chainId);
 
   const token = useMemo(() => {
-    const token = (tokensWithBalance ?? tokens)?.find(
-      (token) => token.address === tokenAddress && token.chainId === chainId,
-    );
-    return token;
+    if (tokenAddress && chainId) {
+      const token = (tokensWithBalance ?? tokens)?.find(
+        (token) => token.address === tokenAddress && token.chainId === chainId,
+      );
+      return token;
+    }
   }, [chainId, tokenAddress, tokens, tokensWithBalance]);
 
   return {

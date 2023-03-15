@@ -1,5 +1,5 @@
 import { Switch as MuiSwitch } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { alpha, styled } from '@mui/material/styles';
 import { switchClasses } from '@mui/material/Switch';
 
 export const Switch = styled(MuiSwitch)(({ theme }) => ({
@@ -30,8 +30,8 @@ export const Switch = styled(MuiSwitch)(({ theme }) => ({
     [`&.${switchClasses.disabled} .${switchClasses.thumb}`]: {
       color:
         theme.palette.mode === 'light'
-          ? theme.palette.grey[100]
-          : theme.palette.grey[600],
+          ? alpha(theme.palette.common.black, 0.12)
+          : alpha(theme.palette.common.white, 0.12),
     },
     [`&.${switchClasses.disabled} + .${switchClasses.track}`]: {
       opacity: theme.palette.mode === 'light' ? 0.7 : 0.3,
@@ -46,8 +46,8 @@ export const Switch = styled(MuiSwitch)(({ theme }) => ({
     borderRadius: 24 / 2,
     backgroundColor:
       theme.palette.mode === 'light'
-        ? theme.palette.grey[300]
-        : theme.palette.grey[800],
+        ? alpha(theme.palette.common.black, 0.16)
+        : alpha(theme.palette.common.white, 0.16),
     opacity: 1,
     transition: theme.transitions.create(['background-color'], {
       duration: theme.transitions.duration.standard,

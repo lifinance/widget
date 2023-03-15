@@ -18,6 +18,7 @@ export interface SettingsProps {
   gasPrice?: string;
   language?: string;
   routePriority?: Order;
+  enabledAutoRefuel: boolean;
   showDestinationWallet: boolean;
   slippage?: string;
   enabledBridges: string[];

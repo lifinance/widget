@@ -32,7 +32,7 @@ export const widgetBaseConfig: WidgetConfig = {
   // requiredUI: ['toAddress'],
   // slippage: 0.003,
   sdkConfig: {
-    // apiUrl: 'https://staging.li.quest/v1/',
+    apiUrl: 'https://develop.li.quest/v1',
     defaultRouteOptions: {
       // slippage: 0.03,
       // order: 'SAFEST',

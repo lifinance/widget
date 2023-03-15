@@ -20,7 +20,7 @@ export const App = () => {
             <NFTOpenSea
               network="matic"
               contractAddress="0x2953399124f0cbb46d2cbacd8a89cf0599974963"
-              tokenId="64502972783035859128289628429895945738065380838425747288102663476761386287105"
+              tokenId="29014243319676196359126730877655047555107173670640133741458013584582074433537"
             />
           }
           contractTool={openSeaContractTool}

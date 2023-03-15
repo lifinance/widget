@@ -5,7 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import type { BottomSheetBase } from '../../components/BottomSheet';
-import { GasSufficiencyMessage } from '../../components/GasSufficiencyMessage';
+import { GasMessage } from '../../components/GasMessage';
 import { getStepList } from '../../components/Step';
 import { useNavigateBack, useRouteExecution } from '../../hooks';
 import { SwapFormKey, useWidgetConfig } from '../../providers';
@@ -80,7 +80,7 @@ export const SwapPage: React.FC = () => {
       {status === RouteExecutionStatus.Idle ||
       status === RouteExecutionStatus.Failed ? (
         <>
-          <GasSufficiencyMessage route={route} mt={2} />
+          <GasMessage mt={2} route={route} />
           <Box mt={2} display="flex">
             <StartSwapButton
               text={getSwapButtonText()}

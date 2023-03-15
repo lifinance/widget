@@ -12,8 +12,7 @@ import { FormControl, Input } from './SendToWallet.style';
 
 export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
   const { t } = useTranslation();
-  const { register, unregister, trigger, getValues, clearErrors } =
-    useFormContext();
+  const { register, unregister, trigger, getValues } = useFormContext();
   const { account, provider } = useWallet();
   const { disabledUI, hiddenUI, requiredUI, toAddress } = useWidgetConfig();
   const { showSendToWallet, showSendToWalletDirty, setSendToWallet } =

@@ -1,11 +1,11 @@
 import { isAddress } from '@ethersproject/address';
-import type { Route, RoutesResponse, Token } from '@lifi/sdk';
+import type { LifiStep, Route, RoutesResponse, Token } from '@lifi/sdk';
 import { LifiErrorCode } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Big from 'big.js';
 import { useWatch } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
-import { useDebouncedWatch, useToken } from '.';
+import { useDebouncedWatch, useGasRefuel, useToken } from '.';
 import { SwapFormKey, useLiFi, useWallet, useWidgetConfig } from '../providers';
 import { useSettings } from '../stores';
 
@@ -16,13 +16,19 @@ export const useSwapRoutes = () => {
   const { variant, sdkConfig } = useWidgetConfig();
   const { account, provider } = useWallet();
   const queryClient = useQueryClient();
-  const { slippage, enabledBridges, enabledExchanges, routePriority } =
-    useSettings([
-      'slippage',
-      'routePriority',
-      'enabledBridges',
-      'enabledExchanges',
-    ]);
+  const {
+    slippage,
+    enabledBridges,
+    enabledAutoRefuel,
+    enabledExchanges,
+    routePriority,
+  } = useSettings([
+    'slippage',
+    'routePriority',
+    'enabledAutoRefuel',
+    'enabledBridges',
+    'enabledExchanges',
+  ]);
   const [fromTokenAmount] = useDebouncedWatch([SwapFormKey.FromAmount], 320);
   const [
     fromChainId,
@@ -49,6 +55,7 @@ export const useSwapRoutes = () => {
   });
   const { token: fromToken } = useToken(fromChainId, fromTokenAddress);
   const { token: toToken } = useToken(toChainId, toTokenAddress);
+  const { enabled: enabledRefuel, gasRecommendation } = useGasRefuel();
 
   const hasAmount =
     (!isNaN(fromTokenAmount) && Number(fromTokenAmount) > 0) ||
@@ -87,6 +94,8 @@ export const useSwapRoutes = () => {
     routePriority,
     variant,
     sdkConfig?.defaultRouteOptions?.allowSwitchChain,
+    enabledRefuel && enabledAutoRefuel,
+    gasRecommendation?.fromAmount,
   ];
 
   const previousDataUpdatedAt =
@@ -121,6 +130,8 @@ export const useSwapRoutes = () => {
           routePriority,
           variant,
           allowSwitchChain,
+          enabledRefuel,
+          gasRecommendationFromAmount,
         ],
         signal,
       }) => {
@@ -173,7 +184,7 @@ export const useSwapRoutes = () => {
             toToken: toToken!,
             toAddress: toAddress,
             gasCostUSD: contractCallQuote.estimate.gasCosts?.[0].amountUSD,
-            steps: [contractCallQuote],
+            steps: [contractCallQuote as LifiStep],
           };
 
           return { routes: [route] } as RoutesResponse;
@@ -187,6 +198,10 @@ export const useSwapRoutes = () => {
             toTokenAddress,
             fromAddress,
             toAddress: toWalletAddress,
+            fromAmountForGas:
+              enabledRefuel && gasRecommendationFromAmount
+                ? gasRecommendationFromAmount
+                : undefined,
             options: {
               slippage: formattedSlippage,
               bridges: {
@@ -197,6 +212,7 @@ export const useSwapRoutes = () => {
               },
               order: routePriority,
               allowSwitchChain: variant === 'refuel' ? false : allowSwitchChain,
+              maxPriceImpact: 1,
             },
           },
           { signal },
