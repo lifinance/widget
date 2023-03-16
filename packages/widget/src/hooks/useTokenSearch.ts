@@ -20,7 +20,6 @@ export const useTokenSearch = (
           signal,
         },
       );
-      console.log(token);
 
       if (token) {
         queryClient.setQueriesData<TokensResponse>(['tokens'], (data) => {

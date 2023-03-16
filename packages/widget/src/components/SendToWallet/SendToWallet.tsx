@@ -1,18 +1,18 @@
 import { isAddress } from '@ethersproject/address';
 import type { BoxProps } from '@mui/material';
 import { Collapse, FormHelperText } from '@mui/material';
-import { forwardRef, useEffect } from 'react';
-import { useFormContext, useFormState } from 'react-hook-form';
+import { forwardRef, useEffect, useRef } from 'react';
+import { useController, useFormContext, useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { SwapFormKey, useWallet, useWidgetConfig } from '../../providers';
 import { useSendToWalletStore, useSettings } from '../../stores';
-import { DisabledUI, HiddenUI } from '../../types';
+import { DisabledUI, HiddenUI, RequiredUI } from '../../types';
 import { Card, CardTitle } from '../Card';
 import { FormControl, Input } from './SendToWallet.style';
 
 export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
   const { t } = useTranslation();
-  const { register, unregister, trigger, getValues } = useFormContext();
+  const { trigger, getValues, clearErrors } = useFormContext();
   const { account, provider } = useWallet();
   const { disabledUI, hiddenUI, requiredUI, toAddress } = useWidgetConfig();
   const { showSendToWallet, showSendToWalletDirty, setSendToWallet } =
@@ -21,7 +21,34 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
 
   const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress);
   const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress);
-  const requiredToAddress = requiredUI?.includes(DisabledUI.ToAddress);
+  const requiredToAddress = requiredUI?.includes(RequiredUI.ToAddress);
+  const requiredToAddressRef = useRef(requiredToAddress);
+
+  const {
+    field: { onChange, onBlur, name, value },
+  } = useController({
+    name: SwapFormKey.ToAddress,
+    rules: {
+      required:
+        requiredToAddress &&
+        (t('swap.error.title.walletAddressRequired') as string),
+      validate: async (value: string) => {
+        try {
+          if (!value) {
+            return true;
+          }
+          const address = await provider?.resolveName(value);
+          return (
+            isAddress(address || value) ||
+            (t('swap.error.title.walletAddressInvalid') as string)
+          );
+        } catch {
+          return t('swap.error.title.walletEnsAddressInvalid') as string;
+        }
+      },
+      onBlur: () => trigger(SwapFormKey.ToAddress),
+    },
+  });
 
   // We want to show toAddress field if it is set via widget configuration and not hidden
   const showInstantly =
@@ -42,42 +69,18 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
     const value = getValues(SwapFormKey.ToAddress);
     if (value) {
       trigger(SwapFormKey.ToAddress);
+      // Trigger validation if we change requiredToAddress in the runtime
+    } else if (requiredToAddressRef.current !== requiredToAddress) {
+      requiredToAddressRef.current = requiredToAddress;
+      trigger(SwapFormKey.ToAddress).then(() =>
+        clearErrors(SwapFormKey.ToAddress),
+      );
     }
-  }, [account.chainId, getValues, trigger]);
-
-  useEffect(() => {
-    unregister(SwapFormKey.ToAddress);
-  }, [requiredToAddress, unregister]);
+  }, [account.chainId, clearErrors, getValues, requiredToAddress, trigger]);
 
   if (hiddenToAddress) {
     return null;
   }
-
-  const {
-    onChange,
-    onBlur,
-    name,
-    ref: inputRef,
-  } = register(SwapFormKey.ToAddress, {
-    required:
-      requiredToAddress &&
-      (t('swap.error.title.walletAddressRequired') as string),
-    validate: async (value: string) => {
-      try {
-        if (!value) {
-          return true;
-        }
-        const address = await provider?.resolveName(value);
-        return (
-          isAddress(address || value) ||
-          (t('swap.error.title.walletAddressInvalid') as string)
-        );
-      } catch {
-        return t('swap.error.title.walletEnsAddressInvalid') as string;
-      }
-    },
-    onBlur: () => trigger(SwapFormKey.ToAddress),
-  });
 
   return (
     <Collapse
@@ -92,7 +95,6 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
         </CardTitle>
         <FormControl fullWidth sx={{ paddingTop: '6px', paddingBottom: '5px' }}>
           <Input
-            ref={inputRef}
             size="small"
             autoComplete="off"
             autoCorrect="off"
@@ -101,6 +103,7 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
             onChange={onChange}
             onBlur={onBlur}
             name={name}
+            value={value}
             placeholder={t('swap.walletAddressOrEns') as string}
             disabled={Boolean(toAddress && disabledToAddress)}
           />
