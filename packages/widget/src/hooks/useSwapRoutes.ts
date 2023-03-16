@@ -13,7 +13,7 @@ const refetchTime = 60_000;
 
 export const useSwapRoutes = () => {
   const lifi = useLiFi();
-  const { variant, sdkConfig } = useWidgetConfig();
+  const { variant, sdkConfig, maxPriceImpact } = useWidgetConfig();
   const { account, provider } = useWallet();
   const queryClient = useQueryClient();
   const {
@@ -94,6 +94,7 @@ export const useSwapRoutes = () => {
     routePriority,
     variant,
     sdkConfig?.defaultRouteOptions?.allowSwitchChain,
+    maxPriceImpact,
     enabledRefuel && enabledAutoRefuel,
     gasRecommendation?.fromAmount,
   ];
@@ -130,6 +131,7 @@ export const useSwapRoutes = () => {
           routePriority,
           variant,
           allowSwitchChain,
+          maxPriceImpact,
           enabledRefuel,
           gasRecommendationFromAmount,
         ],
@@ -212,7 +214,7 @@ export const useSwapRoutes = () => {
               },
               order: routePriority,
               allowSwitchChain: variant === 'refuel' ? false : allowSwitchChain,
-              maxPriceImpact: 1,
+              maxPriceImpact,
             },
           },
           { signal },

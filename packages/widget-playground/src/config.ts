@@ -31,6 +31,7 @@ export const widgetBaseConfig: WidgetConfig = {
   // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
   // requiredUI: ['toAddress'],
   // slippage: 0.003,
+  maxPriceImpact: 1,
   sdkConfig: {
     apiUrl: 'https://develop.li.quest/v1',
     defaultRouteOptions: {

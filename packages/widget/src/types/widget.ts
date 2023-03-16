@@ -107,8 +107,9 @@ export interface WidgetConfig {
   integrator?: string;
   referrer?: string;
 
-  slippage?: number;
   routePriority?: Order;
+  slippage?: number;
+  maxPriceImpact?: number;
 
   variant?: WidgetVariant;
 
