@@ -20,15 +20,15 @@ export const MainPage: React.FC = () => {
   const nft = variant === 'nft';
   return (
     <FormContainer disableGutters>
-      <ActiveSwaps mx={3} mt={1} mb={2} />
+      <ActiveSwaps mx={3} mt={1} mb={1} />
       {nft ? <ContractComponent mx={3} mt={1} mb={1} /> : null}
-      <SelectChainAndToken mt={1} mx={3} mb={3} />
-      {!nft ? <SwapInput formType="from" mx={3} mb={3} /> : null}
-      {!expandable ? <SwapRoutes mx={3} mb={3} /> : null}
-      <GasRefuelMessage mx={3} mb={3} />
-      <GasMessage mx={3} mb={3} />
+      <SelectChainAndToken mt={1} mx={3} mb={2} />
+      {!nft ? <SwapInput formType="from" mx={3} mb={2} /> : null}
+      {!expandable ? <SwapRoutes mx={3} mb={2} /> : null}
+      <GasRefuelMessage mx={3} mb={2} />
+      <GasMessage mx={3} mb={2} />
       <Box mx={3} mb={1}>
-        <SendToWallet mb={3} />
+        <SendToWallet mb={2} />
         <Box sx={{ display: 'flex' }}>
           <MainSwapButton />
           <SendToWalletButton />
