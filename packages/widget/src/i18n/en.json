@@ -113,7 +113,7 @@
         "routeNotFound": "Try another token combination."
       },
       "title": {
-        "autoRefuel": "Auto refuel",
+        "autoRefuel": "Get gas",
         "emptyActiveSwaps": "No active swaps",
         "emptySwapHistory": "No recent swaps",
         "routeNotFound": "No routes available"
@@ -156,7 +156,7 @@
     "quotedAmount": "Quoted amount",
     "rateChange": "Rate change",
     "receiving": "Receiving",
-    "refuelStepDetails": "Refuel via {{tool}}",
+    "refuelStepDetails": "Get gas via {{tool}}",
     "routes": "You get",
     "selectChain": "Chain",
     "selectChainAndToken": "Select chain and token",
