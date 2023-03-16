@@ -1,32 +1,59 @@
 import type { Route } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
 import Big from 'big.js';
-import { useWallet } from '../providers';
+import { useWatch } from 'react-hook-form';
+import { SwapFormKey, useWallet } from '../providers';
 import { isRouteDone } from '../stores';
 import { useGetTokenBalancesWithRetry } from './useGetTokenBalancesWithRetry';
-import { useTokenBalance } from './useTokenBalance';
+import { useTokenAddressBalance } from './useTokenAddressBalance';
 
 const refetchInterval = 30_000;
 
 export const useFundsSufficiency = (route?: Route) => {
-  const { account } = useWallet();
-  const getTokenBalancesWithRetry = useGetTokenBalancesWithRetry();
-  const { token: fromToken } = useTokenBalance(route?.fromToken);
+  const { account, provider } = useWallet();
+  const getTokenBalancesWithRetry = useGetTokenBalancesWithRetry(provider);
+  const [fromChainId, fromTokenAddress, fromAmount] = useWatch({
+    name: [
+      SwapFormKey.FromChain,
+      SwapFormKey.FromToken,
+      SwapFormKey.FromAmount,
+    ],
+  });
+
+  let chainId = fromChainId;
+  let tokenAddress = fromTokenAddress;
+  if (route) {
+    chainId = route.fromToken.chainId;
+    tokenAddress = route.fromToken.address;
+  }
+  const { token, isLoading } = useTokenAddressBalance(chainId, tokenAddress);
 
   const { data: insufficientFunds, isInitialLoading } = useQuery(
-    ['funds-sufficiency-check', account.address, route?.id],
+    [
+      'funds-sufficiency-check',
+      account.address,
+      chainId,
+      tokenAddress,
+      route?.id ?? fromAmount,
+    ],
     async () => {
-      if (!account.address || !fromToken || !route || isRouteDone(route)) {
+      if (!account.address || !token) {
         return;
       }
-      let currentTokenBalance = Big(fromToken?.amount ?? 0);
+      let currentTokenBalance = Big(token?.amount || 0);
+
+      if (!route || isRouteDone(route)) {
+        const insufficientFunds = currentTokenBalance.lt(Big(fromAmount || 0));
+        return insufficientFunds;
+      }
+
       const currentAction = route.steps.filter(
         (step) => !step.execution || step.execution.status !== 'DONE',
       )[0]?.action;
 
       if (
-        fromToken.chainId === currentAction.fromToken.chainId &&
-        fromToken.address === currentAction.fromToken.address &&
+        token.chainId === currentAction.fromToken.chainId &&
+        token.address === currentAction.fromToken.address &&
         currentTokenBalance.gt(0)
       ) {
         const insufficientFunds = Big(route.fromAmount)
@@ -39,17 +66,18 @@ export const useFundsSufficiency = (route?: Route) => {
         currentAction.fromToken,
       ]);
 
-      currentTokenBalance = Big(tokenBalances?.[0]?.amount ?? 0);
+      currentTokenBalance = Big(tokenBalances?.[0]?.amount || 0);
       const insufficientFunds = Big(currentAction.fromAmount)
         .div(10 ** currentAction.fromToken.decimals)
         .gt(currentTokenBalance);
       return insufficientFunds;
     },
     {
-      enabled: Boolean(account.address && route && fromToken),
+      enabled: Boolean(account.address && token && !isLoading),
       refetchInterval,
       staleTime: refetchInterval,
       cacheTime: refetchInterval,
+      keepPreviousData: true,
     },
   );
 
