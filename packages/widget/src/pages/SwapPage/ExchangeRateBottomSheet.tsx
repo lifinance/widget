@@ -1,4 +1,4 @@
-import type { ExchangeRateUpdateParams, Route } from '@lifi/sdk';
+import type { ExchangeRateUpdateParams } from '@lifi/sdk';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import { Box, Button, Typography } from '@mui/material';
 import Big from 'big.js';
@@ -156,17 +156,4 @@ const ExchangeRateBottomSheetContent: React.FC<
       </Box>
     </Box>
   );
-};
-
-export const getTokenValueLossThreshold = (route?: Route) => {
-  if (!route) {
-    return false;
-  }
-  const fromAmountUSD = Big(route?.fromAmountUSD || 0);
-  const toAmountUSD = Big(route?.toAmountUSD || 0);
-  const gasCostUSD = Big(route?.gasCostUSD || 0);
-  if (fromAmountUSD.eq(0) && toAmountUSD.eq(0)) {
-    return false;
-  }
-  return toAmountUSD.div(fromAmountUSD.plus(gasCostUSD)).lt(0.9);
 };
