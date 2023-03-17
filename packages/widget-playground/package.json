@@ -24,7 +24,7 @@
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
-    "@lifi/sdk": "^2.0.0-beta.4",
+    "@lifi/sdk": "^2.0.0-beta.5",
     "@lifi/wallet-management": "^1.2.9",
     "@lifi/widget": "^1.32.8",
     "@mui/icons-material": "^5.11.11",
@@ -40,8 +40,8 @@
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@vitejs/plugin-react": "^3.1.0",
     "rollup-plugin-polyfill-node": "^0.12.0",
-    "typescript": "^4.9.5",
-    "vite": "^4.1.4",
+    "typescript": "^5.0.2",
+    "vite": "^4.2.0",
     "web-vitals": "^3.3.0"
   },
   "eslintConfig": {

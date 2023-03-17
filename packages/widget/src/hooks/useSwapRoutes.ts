@@ -187,6 +187,7 @@ export const useSwapRoutes = () => {
             toAddress: toAddress,
             gasCostUSD: contractCallQuote.estimate.gasCosts?.[0].amountUSD,
             steps: [contractCallQuote as LifiStep],
+            insurance: { state: 'NOT_INSURABLE', feeAmountUsd: '0' },
           };
 
           return { routes: [route] } as RoutesResponse;
@@ -215,6 +216,7 @@ export const useSwapRoutes = () => {
               order: routePriority,
               allowSwitchChain: variant === 'refuel' ? false : allowSwitchChain,
               maxPriceImpact,
+              // insurance: true,
             },
           },
           { signal },
