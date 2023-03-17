@@ -5,7 +5,7 @@ import type {
   Status,
   StatusMessage,
   Step,
-  Substatus
+  Substatus,
 } from '@lifi/sdk';
 import { LifiErrorCode } from '@lifi/sdk';
 import type { TFunction } from 'i18next';
@@ -147,6 +147,12 @@ export function getProcessMessage(
           ),
           tokenSymbol: step.action.fromToken.symbol,
           chainName: getChainById(step.action.fromChainId)?.name ?? '',
+        });
+        break;
+      case LifiErrorCode.AllowanceRequired:
+        title = t(`swap.error.title.allowanceRequired`);
+        message = t(`swap.error.message.allowanceRequired`, {
+          tokenSymbol: step.action.fromToken.symbol,
         });
         break;
       case LifiErrorCode.ProviderUnavailable:
