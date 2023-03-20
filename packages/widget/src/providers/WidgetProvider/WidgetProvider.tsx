@@ -8,6 +8,7 @@ import type { WidgetContextProps, WidgetProviderProps } from './types';
 const initialContext: WidgetContextProps = {
   disabledChains: [],
   elementId: '',
+  integrator: '',
 };
 
 const WidgetContext = createContext<WidgetContextProps>(initialContext);
@@ -25,10 +26,16 @@ export const WidgetProvider: React.FC<
     toChain,
     toToken,
     fromAmount,
+    integrator,
     ...config
   } = {},
 }) => {
   const elementId = useId();
+
+  if (!integrator) {
+    throw Error('Required property "integrator" is missing.');
+  }
+
   const value = useMemo((): WidgetContextProps => {
     try {
       const searchParams = Object.fromEntries(
@@ -78,14 +85,24 @@ export const WidgetProvider: React.FC<
             ? formatAmount(searchParams.fromAmount)
             : fromAmount,
         elementId,
+        integrator,
       } as WidgetContextProps;
       setDefaultSettings(value);
       return value;
     } catch (e) {
       console.warn(e);
-      return { ...config, elementId };
+      return { ...config, elementId, integrator };
     }
-  }, [config, elementId, fromAmount, fromChain, fromToken, toChain, toToken]);
+  }, [
+    config,
+    elementId,
+    fromAmount,
+    fromChain,
+    fromToken,
+    integrator,
+    toChain,
+    toToken,
+  ]);
 
   return (
     <WidgetContext.Provider value={value}>{children}</WidgetContext.Provider>

@@ -23,7 +23,7 @@ export interface WidgetDrawer {
 }
 
 export const AppDrawer = forwardRef<WidgetDrawer, WidgetProps>(
-  ({ elementRef, open, config }, ref) => {
+  ({ elementRef, open, integrator, config }, ref) => {
     const openRef = useRef(open);
     const [drawerOpen, setDrawerOpen] = useState(Boolean(open));
 
@@ -53,16 +53,17 @@ export const AppDrawer = forwardRef<WidgetDrawer, WidgetProps>(
     const drawerConfig: WidgetConfig = useMemo(
       () => ({
         ...config,
+        integrator,
         containerStyle: {
           ...config?.containerStyle,
           height: '100%',
         },
       }),
-      [config],
+      [config, integrator],
     );
 
     return (
-      <AppProvider config={drawerConfig}>
+      <AppProvider integrator={integrator} config={drawerConfig}>
         <DrawerButton
           variant="contained"
           onClick={toggleDrawer}

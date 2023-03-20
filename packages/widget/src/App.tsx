@@ -16,16 +16,20 @@ import { useExpandableVariant } from './hooks';
 import type { WidgetProps } from './types';
 
 export const App: React.FC<WidgetProps> = forwardRef<WidgetDrawer, WidgetProps>(
-  ({ elementRef, open, ...other }, ref) => {
-    const config = useMemo(() => ({ ...other, ...other.config }), [other]);
+  ({ elementRef, open, integrator, ...other }, ref) => {
+    const config = useMemo(
+      () => ({ integrator, ...other, ...other.config }),
+      [integrator, other],
+    );
     return config?.variant !== 'drawer' ? (
-      <AppProvider config={config}>
+      <AppProvider integrator={integrator} config={config}>
         <AppDefault />
       </AppProvider>
     ) : (
       <AppDrawer
         ref={ref}
         elementRef={elementRef}
+        integrator={integrator}
         config={config}
         open={open}
       />

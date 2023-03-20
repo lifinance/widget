@@ -70,7 +70,10 @@ export interface WidgetWalletManagement {
 export interface SDKConfig
   extends Omit<
     ConfigUpdate,
-    'defaultExecutionSettings' | 'defaultRouteOptions' | 'disableVersionCheck'
+    | 'defaultExecutionSettings'
+    | 'defaultRouteOptions'
+    | 'disableVersionCheck'
+    | 'integrator'
   > {
   defaultRouteOptions?: Omit<RouteOptions, 'bridges' | 'exchanges'>;
 }
@@ -104,7 +107,7 @@ export interface WidgetConfig {
   contractTool?: WidgetContractTool;
 
   fee?: number;
-  integrator?: string;
+  integrator: string;
   referrer?: string;
 
   routePriority?: Order;
@@ -169,5 +172,5 @@ export type WidgetDrawerProps = {
 
 export type WidgetProps = WidgetDrawerProps &
   WidgetConfig & {
-    config?: WidgetConfig;
+    config?: Partial<WidgetConfig>;
   };
