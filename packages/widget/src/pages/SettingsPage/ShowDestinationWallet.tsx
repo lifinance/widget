@@ -29,7 +29,7 @@ export const ShowDestinationWallet = () => {
   };
 
   return (
-    <Box px={3} pt={2}>
+    <Box px={3} pt={2} pb={1.5}>
       <Box
         sx={{
           display: 'flex',

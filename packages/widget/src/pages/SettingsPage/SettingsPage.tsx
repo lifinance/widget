@@ -1,8 +1,9 @@
 import { Box, Container } from '@mui/material';
-import { AdvancedPreferences } from './AdvancedPreferences';
 import { ColorSchemeButtonGroup } from './ColorSchemeButtonGroup';
+import { EnabledToolsButton } from './EnabledToolsButton';
 import { GasPriceSelect } from './GasPriceSelect';
 import { LanguageSelect } from './LanguageSelect';
+import { ResetSettingsButton } from './ResetSettingsButton';
 import { RoutePrioritySelect } from './RoutePrioritySelect';
 import { ShowDestinationWallet } from './ShowDestinationWallet';
 import { SlippageInput } from './SlippageInput';
@@ -22,7 +23,11 @@ export const SettingsPage = () => {
         </Box>
       </Box>
       <ShowDestinationWallet />
-      <AdvancedPreferences />
+      <Box px={1.5}>
+        <EnabledToolsButton type="Bridges" />
+        <EnabledToolsButton type="Exchanges" />
+      </Box>
+      <ResetSettingsButton />
     </Container>
   );
 };

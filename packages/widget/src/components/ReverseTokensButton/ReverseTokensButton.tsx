@@ -1,7 +1,5 @@
-import {
-  SwapHoriz as SwapHorizIcon,
-  SwapVert as SwapVertIcon,
-} from '@mui/icons-material';
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { useFormContext } from 'react-hook-form';
 import { SwapFormKey } from '../../providers';
 import { IconButton } from './ReverseTokensButton.style';

@@ -1,4 +1,4 @@
-import { Route } from '@lifi/sdk';
+import type { Route } from '@lifi/sdk';
 import { Fragment } from 'react';
 import { StepDivider } from '../../components/StepDivider';
 import { Step } from './Step';

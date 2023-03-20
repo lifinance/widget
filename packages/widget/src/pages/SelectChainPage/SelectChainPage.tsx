@@ -1,9 +1,10 @@
 import type { ExtendedChain } from '@lifi/sdk';
 import { Avatar, Container, List, ListItemAvatar } from '@mui/material';
 import { useChainSelect } from '../../components/ChainSelect';
+import { ListItemButton } from '../../components/ListItemButton';
+import { ListItemText } from '../../components/ListItemText';
 import { useTokenSelect } from '../../components/TokenList';
 import { useNavigateBack } from '../../hooks';
-import { ListItemButton, ListItemText } from './SelectChainPage.style';
 import type { SelectChainPageProps } from './types';
 
 export const SelectChainPage: React.FC<SelectChainPageProps> = ({
@@ -32,11 +33,7 @@ export const SelectChainPage: React.FC<SelectChainPageProps> = ({
         }}
       >
         {chains?.map((chain) => (
-          <ListItemButton
-            key={chain.id}
-            onClick={() => handleClick(chain)}
-            disableRipple
-          >
+          <ListItemButton key={chain.id} onClick={() => handleClick(chain)}>
             <ListItemAvatar>
               <Avatar src={chain.logoURI} alt={chain.name}>
                 {chain.name[0]}

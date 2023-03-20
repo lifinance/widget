@@ -30,8 +30,10 @@ export const widgetBaseConfig: WidgetConfig = {
   buildSwapUrl: true,
   // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
   // requiredUI: ['toAddress'],
+  // slippage: 0.003,
+  maxPriceImpact: 1,
   sdkConfig: {
-    // apiUrl: 'https://staging.li.quest/v1/',
+    apiUrl: 'https://develop.li.quest/v1',
     defaultRouteOptions: {
       // slippage: 0.03,
       // order: 'SAFEST',

@@ -1,33 +1,44 @@
-import type { ChainId } from '@lifi/sdk';
+import type { ChainId, TokensResponse } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useLiFi } from '../providers';
 import type { Token } from '../types';
 
 export const useTokenSearch = (
   chainId?: number,
-  token?: string,
+  tokenQuery?: string,
   enabled?: boolean,
 ) => {
   const lifi = useLiFi();
   const queryClient = useQueryClient();
   const { data, isLoading } = useQuery(
-    ['token-search', chainId, token],
-    async ({ queryKey: [, chainId, token], signal }) => {
-      const data = await lifi.getToken(chainId as ChainId, token as string, {
-        signal,
-      });
-      if (data) {
-        queryClient.setQueriesData(['tokens', chainId], (tokens?: Token[]) => {
-          if (!tokens?.some((token) => token.address === data.address)) {
-            tokens?.push(data as Token);
+    ['token-search', chainId, tokenQuery],
+    async ({ queryKey: [, chainId, tokenQuery], signal }) => {
+      const token = await lifi.getToken(
+        chainId as ChainId,
+        tokenQuery as string,
+        {
+          signal,
+        },
+      );
+
+      if (token) {
+        queryClient.setQueriesData<TokensResponse>(['tokens'], (data) => {
+          if (
+            data &&
+            !data.tokens[chainId as number]?.some(
+              (t) => t.address === token.address,
+            )
+          ) {
+            const clonedData = { ...data };
+            clonedData.tokens[chainId as number]?.push(token as Token);
+            return clonedData;
           }
-          return tokens;
         });
       }
-      return data as Token;
+      return token as Token;
     },
     {
-      enabled: Boolean(chainId && token && enabled),
+      enabled: Boolean(chainId && tokenQuery && enabled),
       retry: false,
     },
   );

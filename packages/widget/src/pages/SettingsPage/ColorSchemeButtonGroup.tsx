@@ -1,8 +1,6 @@
-import {
-  Brightness4 as Brightness4Icon,
-  DarkMode as DarkModeIcon,
-  LightMode as LightModeIcon,
-} from '@mui/icons-material';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
 import { Box, ToggleButtonGroup } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useWidgetConfig } from '../../providers';

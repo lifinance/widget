@@ -1,5 +1,6 @@
 import {
   Avatar,
+  IconButton as MuiIconButton,
   StepConnector as MuiStepConnector,
   StepContent as MuiStepContent,
   StepLabel as MuiStepLabel,
@@ -7,7 +8,7 @@ import {
 import { stepConnectorClasses } from '@mui/material/StepConnector';
 import { stepContentClasses } from '@mui/material/StepContent';
 import { stepLabelClasses } from '@mui/material/StepLabel';
-import { styled } from '@mui/material/styles';
+import { alpha, styled } from '@mui/material/styles';
 
 export const StepIcon = styled('span', {
   shouldForwardProp: (prop) =>
@@ -73,3 +74,18 @@ export const StepAvatar = styled(Avatar)(({ theme, variant }) => ({
   color: theme.palette.text.primary,
   backgroundColor: 'transparent',
 }));
+
+export const IconButton = styled(MuiIconButton, {
+  shouldForwardProp: (prop) => prop !== 'active',
+})<{ active?: boolean }>(({ theme, active }) => {
+  const backgroundColor =
+    theme.palette.mode === 'light'
+      ? theme.palette.common.black
+      : theme.palette.common.white;
+  return {
+    backgroundColor: alpha(backgroundColor, 0.04),
+    '&:hover': {
+      backgroundColor: alpha(backgroundColor, 0.08),
+    },
+  };
+});

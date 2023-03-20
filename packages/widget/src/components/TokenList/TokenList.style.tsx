@@ -1,21 +1,14 @@
-import {
-  ListItem as MuiListItem,
-  ListItemButton as MuiListItemButton,
-} from '@mui/material';
+import { ListItem as MuiListItem } from '@mui/material';
 import { listItemSecondaryActionClasses } from '@mui/material/ListItemSecondaryAction';
 import { listItemTextClasses } from '@mui/material/ListItemText';
 import { styled } from '@mui/material/styles';
-import { getContrastAlphaColor } from '../../utils';
+import { ListItemButton as ListItemButtonBase } from '../ListItemButton';
 
-export const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
-  borderRadius: theme.shape.borderRadius,
+export const ListItemButton = styled(ListItemButtonBase)(({ theme }) => ({
   paddingLeft: theme.spacing(1.5),
   paddingRight: theme.spacing(1.5),
   height: 64,
   width: '100%',
-  '&:hover': {
-    backgroundColor: getContrastAlphaColor(theme, '4%'),
-  },
 }));
 
 export const ListItem = styled(MuiListItem)(({ theme }) => ({

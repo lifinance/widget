@@ -20,7 +20,7 @@ export const useChainSelect = (formType: SwapFormType) => {
     }
     const selectedChains = chainOrder
       .map((chainId) => chains.find((chain) => chain.id === chainId))
-      .filter((chain) => chain) as EVMChain[];
+      .filter(Boolean) as EVMChain[];
 
     return selectedChains;
   };

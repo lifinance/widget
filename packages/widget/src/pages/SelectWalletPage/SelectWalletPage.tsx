@@ -13,9 +13,10 @@ import {
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog } from '../../components/Dialog';
+import { ListItemButton } from '../../components/ListItemButton';
+import { ListItemText } from '../../components/ListItemText';
 import { useNavigateBack } from '../../hooks';
 import { useWallet } from '../../providers';
-import { ListItemButton, ListItemText } from './SelectWalletPage.style';
 
 export const SelectWalletPage = () => {
   const { t } = useTranslation();
@@ -64,7 +65,6 @@ export const SelectWalletPage = () => {
           <ListItemButton
             key={wallet.name}
             onClick={() => handleConnect(wallet)}
-            disableRipple
           >
             <ListItemAvatar>
               <Avatar

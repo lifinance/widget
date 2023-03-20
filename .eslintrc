@@ -6,7 +6,6 @@
     "node": true
   },
   "extends": [
-    // "airbnb",
     "react-app",
     "plugin:prettier/recommended"
   ],
@@ -16,7 +15,7 @@
       "jsx": true,
       "modules": true
     },
-    "ecmaVersion": 2021,
+    "ecmaVersion": "latest",
     "sourceType": "module"
   },
   "rules": {
@@ -25,7 +24,10 @@
     "@typescript-eslint/no-shadow": "off",
     "@typescript-eslint/no-unused-vars": "warn",
     "class-methods-use-this": "off",
-    "comma-dangle": ["error", "always-multiline"],
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
     "curly": 1,
     "import/extensions": "off",
     "import/no-default-export": "error",
@@ -33,7 +35,10 @@
     "import/no-unresolved": 0,
     "import/prefer-default-export": "off",
     "indent": "off",
-    "jsx-quotes": ["error", "prefer-double"],
+    "jsx-quotes": [
+      "error",
+      "prefer-double"
+    ],
     "linebreak-style": "off",
     "max-len": "off",
     "newline-per-chained-call": "off",
@@ -55,7 +60,10 @@
     "react/jsx-filename-extension": [
       1,
       {
-        "extensions": [".ts", ".tsx"]
+        "extensions": [
+          ".ts",
+          ".tsx"
+        ]
       }
     ],
     "react/jsx-one-expression-per-line": "off",

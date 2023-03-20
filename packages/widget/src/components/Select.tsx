@@ -19,6 +19,7 @@ export const Select = styled(MuiSelect, {
   },
   [`.${selectClasses.icon}`]: {
     right: 10,
+    color: theme.palette.text.primary,
   },
   [`.${listItemIconClasses.root}`]: {
     minWidth: 38,

@@ -1,4 +1,4 @@
-import { SwapHoriz as SwapHorizIcon } from '@mui/icons-material';
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import { Container, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 

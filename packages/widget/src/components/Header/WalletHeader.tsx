@@ -1,10 +1,8 @@
-import {
-  ContentCopy as ContentCopyIcon,
-  ExpandMore as ExpandMoreIcon,
-  OpenInNewOutlined as OpenInNewOutlinedIcon,
-  PowerSettingsNewRounded as PowerSettingsIcon,
-  WalletOutlined as WalletOutlinedIcon,
-} from '@mui/icons-material';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
+import PowerSettingsNewRoundedIcon from '@mui/icons-material/PowerSettingsNewRounded';
+import WalletOutlinedIcon from '@mui/icons-material/WalletOutlined';
 import { Avatar, Button, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -102,7 +100,7 @@ const ConnectedButton = () => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleCopyAddress} disableRipple>
+        <MenuItem onClick={handleCopyAddress}>
           <ContentCopyIcon />
           {t(`button.copyAddress`)}
         </MenuItem>
@@ -111,7 +109,6 @@ const ConnectedButton = () => {
           onClick={handleClose}
           href={`${chain?.metamask.blockExplorerUrls[0]}address/${account.address}`}
           target="_blank"
-          disableRipple
         >
           <OpenInNewOutlinedIcon />
           {t(`button.viewOnExplorer`)}
@@ -119,7 +116,7 @@ const ConnectedButton = () => {
         <Button
           onClick={handleDisconnect}
           fullWidth
-          startIcon={<PowerSettingsIcon />}
+          startIcon={<PowerSettingsNewRoundedIcon />}
           sx={{
             marginTop: 1,
           }}

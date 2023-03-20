@@ -7,7 +7,6 @@ import {
   I18nProvider,
   SDKProvider,
   SwapFormProvider,
-  TelemetryProvider,
   ThemeProvider,
   WalletProvider,
   WidgetProvider,
@@ -24,17 +23,17 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetProps>> = ({
       <StoreProvider namePrefix={config?.localStorageKeyPrefix}>
         <WidgetProvider config={config}>
           <SDKProvider>
-            <TelemetryProvider>
-              <ThemeProvider>
-                <I18nProvider>
-                  <WalletProvider>
-                    <SwapFormProvider>
-                      <AppRouter>{children}</AppRouter>
-                    </SwapFormProvider>
-                  </WalletProvider>
-                </I18nProvider>
-              </ThemeProvider>
-            </TelemetryProvider>
+            {/* <TelemetryProvider> */}
+            <ThemeProvider>
+              <I18nProvider>
+                <WalletProvider>
+                  <SwapFormProvider>
+                    <AppRouter>{children}</AppRouter>
+                  </SwapFormProvider>
+                </WalletProvider>
+              </I18nProvider>
+            </ThemeProvider>
+            {/* </TelemetryProvider> */}
           </SDKProvider>
         </WidgetProvider>
       </StoreProvider>

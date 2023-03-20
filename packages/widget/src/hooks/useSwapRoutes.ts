@@ -1,11 +1,11 @@
 import { isAddress } from '@ethersproject/address';
-import type { Route } from '@lifi/sdk';
+import type { LifiStep, Route, RoutesResponse, Token } from '@lifi/sdk';
 import { LifiErrorCode } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Big from 'big.js';
 import { useWatch } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
-import { useDebouncedWatch, useToken } from '.';
+import { useDebouncedWatch, useGasRefuel, useToken } from '.';
 import { SwapFormKey, useLiFi, useWallet, useWidgetConfig } from '../providers';
 import { useSettings } from '../stores';
 
@@ -13,16 +13,22 @@ const refetchTime = 60_000;
 
 export const useSwapRoutes = () => {
   const lifi = useLiFi();
-  const { variant, sdkConfig } = useWidgetConfig();
+  const { variant, sdkConfig, maxPriceImpact } = useWidgetConfig();
   const { account, provider } = useWallet();
   const queryClient = useQueryClient();
-  const { slippage, enabledBridges, enabledExchanges, routePriority } =
-    useSettings([
-      'slippage',
-      'routePriority',
-      'enabledBridges',
-      'enabledExchanges',
-    ]);
+  const {
+    slippage,
+    enabledBridges,
+    enabledAutoRefuel,
+    enabledExchanges,
+    routePriority,
+  } = useSettings([
+    'slippage',
+    'routePriority',
+    'enabledAutoRefuel',
+    'enabledBridges',
+    'enabledExchanges',
+  ]);
   const [fromTokenAmount] = useDebouncedWatch([SwapFormKey.FromAmount], 320);
   const [
     fromChainId,
@@ -49,6 +55,7 @@ export const useSwapRoutes = () => {
   });
   const { token: fromToken } = useToken(fromChainId, fromTokenAddress);
   const { token: toToken } = useToken(toChainId, toTokenAddress);
+  const { enabled: enabledRefuel, gasRecommendation } = useGasRefuel();
 
   const hasAmount =
     (!isNaN(fromTokenAmount) && Number(fromTokenAmount) > 0) ||
@@ -87,6 +94,9 @@ export const useSwapRoutes = () => {
     routePriority,
     variant,
     sdkConfig?.defaultRouteOptions?.allowSwitchChain,
+    maxPriceImpact,
+    enabledRefuel && enabledAutoRefuel,
+    gasRecommendation?.fromAmount,
   ];
 
   const previousDataUpdatedAt =
@@ -121,6 +131,9 @@ export const useSwapRoutes = () => {
           routePriority,
           variant,
           allowSwitchChain,
+          maxPriceImpact,
+          enabledRefuel,
+          gasRecommendationFromAmount,
         ],
         signal,
       }) => {
@@ -173,10 +186,10 @@ export const useSwapRoutes = () => {
             toToken: toToken!,
             toAddress: toAddress,
             gasCostUSD: contractCallQuote.estimate.gasCosts?.[0].amountUSD,
-            steps: [contractCallQuote],
+            steps: [contractCallQuote as LifiStep],
           };
 
-          return { routes: [route] };
+          return { routes: [route] } as RoutesResponse;
         }
         return lifi.getRoutes(
           {
@@ -187,6 +200,10 @@ export const useSwapRoutes = () => {
             toTokenAddress,
             fromAddress,
             toAddress: toWalletAddress,
+            fromAmountForGas:
+              enabledRefuel && gasRecommendationFromAmount
+                ? gasRecommendationFromAmount
+                : undefined,
             options: {
               slippage: formattedSlippage,
               bridges: {
@@ -197,6 +214,7 @@ export const useSwapRoutes = () => {
               },
               order: routePriority,
               allowSwitchChain: variant === 'refuel' ? false : allowSwitchChain,
+              maxPriceImpact,
             },
           },
           { signal },
@@ -212,6 +230,30 @@ export const useSwapRoutes = () => {
             return false;
           }
           return true;
+        },
+        onSuccess(data) {
+          if (data.routes[0]) {
+            // Update local tokens cache to keep priceUSD in sync
+            const { fromToken, toToken } = data.routes[0];
+            [fromToken, toToken].forEach((token) => {
+              queryClient.setQueriesData<Token[]>(
+                ['token-balances', account.address, token.chainId],
+                (data) => {
+                  if (data) {
+                    const clonedData = [...data];
+                    const index = clonedData.findIndex(
+                      (dataToken) => dataToken.address === token.address,
+                    );
+                    clonedData[index] = {
+                      ...clonedData[index],
+                      ...token,
+                    };
+                    return clonedData;
+                  }
+                },
+              );
+            });
+          }
         },
       },
     );

@@ -1,17 +1,16 @@
 import type { SwapButtonProps } from '../../components/SwapButton';
 import { SwapButton } from '../../components/SwapButton';
-import { useGasSufficiency } from '../../hooks';
+import { useFundsSufficiency, useGasSufficiency } from '../../hooks';
 
 export const StartSwapButton: React.FC<SwapButtonProps> = ({
   onClick,
   currentRoute,
   text,
 }) => {
-  const {
-    insufficientFunds,
-    insufficientGas,
-    isLoading: isGasSufficiencyLoading,
-  } = useGasSufficiency(currentRoute);
+  const { insufficientGas, isInitialLoading: isGasSufficiencyLoading } =
+    useGasSufficiency(currentRoute);
+  const { insufficientFunds, isInitialLoading: isFundsSufficiencyLoading } =
+    useFundsSufficiency(currentRoute);
 
   return (
     <SwapButton
@@ -19,7 +18,7 @@ export const StartSwapButton: React.FC<SwapButtonProps> = ({
       text={text}
       currentRoute={currentRoute}
       disabled={insufficientFunds || !!insufficientGas?.length}
-      loading={isGasSufficiencyLoading}
+      loading={isFundsSufficiencyLoading || isGasSufficiencyLoading}
     />
   );
 };
