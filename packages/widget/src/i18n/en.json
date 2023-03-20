@@ -184,11 +184,13 @@
     "swapStepDetails": "Swap on {{chain}} via {{tool}}",
     "swapping": "Swapping",
     "tags": {
-      "ALTERNATIVE": "ALTERNATIVE",
-      "CHEAPEST": "CHEAP",
-      "FASTEST": "FAST",
-      "RECOMMENDED": "RECOMMENDED",
-      "SAFEST": "SAFE"
+      "cheapest": "Cheap",
+      "fastest": "Fast",
+      "insurable": "Insurable",
+      "insurance": "Insurance",
+      "insured": "Insured",
+      "recommended": "Recommended",
+      "safest": "Safe"
     },
     "to": "To",
     "tokenOnChain": "{{tokenSymbol}} on {{chainName}}",

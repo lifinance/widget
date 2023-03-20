@@ -11,7 +11,7 @@ import { useSettings } from '../stores';
 
 const refetchTime = 60_000;
 
-export const useSwapRoutes = () => {
+export const useSwapRoutes = (insurableRoute?: Route) => {
   const lifi = useLiFi();
   const { variant, sdkConfig, maxPriceImpact } = useWidgetConfig();
   const { account, provider } = useWallet();
@@ -97,6 +97,7 @@ export const useSwapRoutes = () => {
     maxPriceImpact,
     enabledRefuel && enabledAutoRefuel,
     gasRecommendation?.fromAmount,
+    insurableRoute?.id,
   ];
 
   const previousDataUpdatedAt =
@@ -134,6 +135,7 @@ export const useSwapRoutes = () => {
           maxPriceImpact,
           enabledRefuel,
           gasRecommendationFromAmount,
+          insurableRouteId,
         ],
         signal,
       }) => {
@@ -192,6 +194,23 @@ export const useSwapRoutes = () => {
 
           return { routes: [route] } as RoutesResponse;
         }
+
+        const allowedBridges: string[] = insurableRoute
+          ? insurableRoute.steps.flatMap((step) =>
+              step.includedSteps
+                .filter((includedStep) => includedStep.type === 'cross')
+                .map((includedStep) => includedStep.toolDetails.key),
+            )
+          : enabledBridges;
+
+        const allowedExchanges: string[] = insurableRoute
+          ? insurableRoute.steps.flatMap((step) =>
+              step.includedSteps
+                .filter((includedStep) => includedStep.type === 'swap')
+                .map((includedStep) => includedStep.toolDetails.key),
+            )
+          : enabledExchanges;
+
         return lifi.getRoutes(
           {
             fromChainId,
@@ -208,15 +227,15 @@ export const useSwapRoutes = () => {
             options: {
               slippage: formattedSlippage,
               bridges: {
-                allow: enabledBridges,
+                allow: allowedBridges,
               },
               exchanges: {
-                allow: enabledExchanges,
+                allow: allowedExchanges,
               },
               order: routePriority,
               allowSwitchChain: variant === 'refuel' ? false : allowSwitchChain,
               maxPriceImpact,
-              // insurance: true,
+              insurance: insurableRoute ? true : false,
             },
           },
           { signal },

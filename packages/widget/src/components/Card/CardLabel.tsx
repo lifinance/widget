@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 import { getContrastTextColor } from '../../utils';
 
-export const Label = styled(Box, {
+export const CardLabel = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'type',
 })<{ type?: 'active' | 'insurance' | 'insurance-icon' }>(({ theme, type }) => ({
   backgroundColor:
@@ -37,7 +37,7 @@ export const Label = styled(Box, {
   marginRight: theme.spacing(1),
 }));
 
-export const LabelTypography = styled(Typography, {
+export const CardLabelTypography = styled(Typography, {
   shouldForwardProp: (prop) => prop !== 'type',
 })<{ type?: 'icon' }>(({ theme, type }) => ({
   padding:

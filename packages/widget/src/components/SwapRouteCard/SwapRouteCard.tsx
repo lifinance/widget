@@ -3,16 +3,16 @@ import EvStationOutlinedIcon from '@mui/icons-material/EvStationOutlined';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LayersOutlinedIcon from '@mui/icons-material/LayersOutlined';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import { Box, Collapse, Tooltip, Typography } from '@mui/material';
 import type { MouseEventHandler } from 'react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useWidgetConfig } from '../../providers';
 import type { CardProps } from '../Card';
-import { Card } from '../Card';
+import { Card, CardIconButton, CardLabel, CardLabelTypography } from '../Card';
 import { StepActions } from '../StepActions';
 import { Token } from '../Token';
-import { IconButton, Label } from './SwapRouteCard.style';
 import type { SwapRouteCardEssentialsProps, SwapRouteCardProps } from './types';
 import { getGasCostsBreakdown } from './utils';
 
@@ -24,10 +24,12 @@ export const SwapRouteCard: React.FC<
   const [cardExpanded, setCardExpanded] = useState(
     variant === 'default' || expanded,
   );
-  const alternativeTag = t(`swap.tags.ALTERNATIVE`);
-  const label = route.tags?.length
-    ? t(`swap.tags.${route.tags[0]}` as any)
-    : alternativeTag;
+  const insurable = route.insurance?.state === 'INSURABLE';
+  const label: string | undefined = route.tags?.length
+    ? t(`swap.tags.${route.tags[0].toLowerCase()}` as any)
+    : insurable
+    ? t(`swap.tags.insurable`)
+    : undefined;
 
   const handleExpand: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation();
@@ -41,16 +43,24 @@ export const SwapRouteCard: React.FC<
 
   const cardContent = (
     <Box flex={1}>
-      {widgetVariant !== 'refuel' && !useRecommendedRoute ? (
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          mb={2}
-        >
-          <Label active={active ?? label !== alternativeTag}>{label}</Label>
-          {variant === 'stretched' ? (
-            <SwapRouteCardEssentials route={route} />
+      {(insurable || route.tags?.length) &&
+      widgetVariant !== 'refuel' &&
+      !useRecommendedRoute ? (
+        <Box display="flex" alignItems="center" mb={2}>
+          {insurable ? (
+            <CardLabel
+              type={route.tags?.length ? 'insurance-icon' : 'insurance'}
+            >
+              <VerifiedUserIcon fontSize="inherit" />
+              {!route.tags?.length ? (
+                <CardLabelTypography type="icon">{label}</CardLabelTypography>
+              ) : null}
+            </CardLabel>
+          ) : null}
+          {route.tags?.length ? (
+            <CardLabel type={active ? 'active' : undefined}>
+              <CardLabelTypography>{label}</CardLabelTypography>
+            </CardLabel>
           ) : null}
         </Box>
       ) : null}
@@ -65,9 +75,9 @@ export const SwapRouteCard: React.FC<
           disableDescription={variant === 'dense' && widgetVariant !== 'refuel'}
         />
         {variant === 'stretched' && !expanded ? (
-          <IconButton onClick={handleExpand} size="small">
+          <CardIconButton onClick={handleExpand} size="small">
             {cardExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-          </IconButton>
+          </CardIconButton>
         ) : null}
       </Box>
       <Collapse timeout={225} in={cardExpanded} mountOnEnter unmountOnExit>
@@ -75,9 +85,7 @@ export const SwapRouteCard: React.FC<
           <StepActions key={step.id} step={step} mt={2} />
         ))}
       </Collapse>
-      {variant !== 'stretched' ? (
-        <SwapRouteCardEssentials route={route} dense />
-      ) : null}
+      <SwapRouteCardEssentials route={route} />
     </Box>
   );
 
@@ -107,13 +115,7 @@ export const SwapRouteCardEssentials: React.FC<
   const gasCostUSD = parseFloat(route.gasCostUSD ?? '') || 0.01;
   const gasCosts = getGasCostsBreakdown(route);
   return (
-    <Box
-      display="flex"
-      justifyContent={dense ? 'space-between' : 'flex-end'}
-      flex={1}
-      pl={dense ? 0 : 2}
-      mt={dense ? 2 : 0}
-    >
+    <Box display="flex" justifyContent={'space-between'} flex={1} mt={2}>
       <Tooltip
         title={
           <Box component="span">
@@ -135,7 +137,7 @@ export const SwapRouteCardEssentials: React.FC<
       >
         <Box display="flex" alignItems="center" mr={dense ? 0 : 2}>
           <Typography lineHeight={0} mr={0.5} color="grey.500">
-            <EvStationOutlinedIcon fontSize={dense ? 'medium' : 'small'} />
+            <EvStationOutlinedIcon fontSize={dense ? 'small' : 'medium'} />
           </Typography>
           <Typography
             fontSize={14}
@@ -155,7 +157,7 @@ export const SwapRouteCardEssentials: React.FC<
       >
         <Box display="flex" alignItems="center" mr={dense ? 0 : 2}>
           <Typography lineHeight={0} mr={0.5} color="grey.500">
-            <AccessTimeIcon fontSize={dense ? 'medium' : 'small'} />
+            <AccessTimeIcon fontSize={dense ? 'small' : 'medium'} />
           </Typography>
           <Typography
             fontSize={14}
@@ -178,7 +180,7 @@ export const SwapRouteCardEssentials: React.FC<
         >
           <Box display="flex" alignItems="center">
             <Typography lineHeight={0} mr={0.5} color="grey.500">
-              <LayersOutlinedIcon fontSize={dense ? 'medium' : 'small'} />
+              <LayersOutlinedIcon fontSize={dense ? 'small' : 'medium'} />
             </Typography>
             <Typography
               fontSize={14}

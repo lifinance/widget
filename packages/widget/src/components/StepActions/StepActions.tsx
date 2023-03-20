@@ -20,9 +20,9 @@ import { LiFiToolLogo } from '../../icons';
 import { useWidgetConfig } from '../../providers';
 import type { WidgetVariant } from '../../types';
 import { formatTokenAmount } from '../../utils';
+import { CardIconButton } from '../Card';
 import { SmallAvatar } from '../SmallAvatar';
 import {
-  IconButton,
   StepAvatar,
   StepConnector,
   StepContent,
@@ -90,9 +90,9 @@ export const StepActions: React.FC<StepActionsProps> = ({
           })}
         </Typography>
         {hasCollapsedSteps ? (
-          <IconButton onClick={handleExpand} size="small">
+          <CardIconButton onClick={handleExpand} size="small">
             {cardExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-          </IconButton>
+          </CardIconButton>
         ) : null}
       </Box>
       {hasCollapsedSteps ? (
