@@ -172,5 +172,5 @@ export type WidgetDrawerProps = {
 
 export type WidgetProps = WidgetDrawerProps &
   WidgetConfig & {
-    config?: Partial<WidgetConfig>;
+    config?: WidgetConfig;
   };
