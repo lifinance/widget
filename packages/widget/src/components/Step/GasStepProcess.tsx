@@ -1,5 +1,5 @@
 import type { Step } from '@lifi/sdk';
-import EvStationOutlinedIcon from '@mui/icons-material/EvStationOutlined';
+import EvStationIcon from '@mui/icons-material/EvStation';
 import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { CircularIcon } from './CircularProgress.style';
@@ -18,7 +18,7 @@ export const GasStepProcess: React.FC<{
         }}
       >
         <CircularIcon status={isDone ? 'DONE' : 'NOT_STARTED'}>
-          <EvStationOutlinedIcon
+          <EvStationIcon
             color={isDone ? 'success' : 'inherit'}
             sx={{
               position: 'absolute',
