@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { alpha, styled } from '@mui/material/styles';
+import { alpha, lighten, styled } from '@mui/material/styles';
 import { getContrastTextColor } from '../../utils';
 
 export const CardLabel = styled(Box, {
@@ -9,7 +9,10 @@ export const CardLabel = styled(Box, {
     type === 'active'
       ? theme.palette.secondary.main
       : type?.includes('insurance')
-      ? alpha(theme.palette.success.main, 0.12)
+      ? alpha(
+          theme.palette.success.main,
+          theme.palette.mode === 'light' ? 0.12 : 0.24,
+        )
       : 'transparent',
   border: 'solid',
   borderWidth: type?.includes('insurance') ? 0 : 1,
@@ -24,7 +27,10 @@ export const CardLabel = styled(Box, {
     type === 'active'
       ? getContrastTextColor(theme, theme.palette.secondary.main)
       : type?.includes('insurance')
-      ? theme.palette.success.main
+      ? lighten(
+          theme.palette.success.main,
+          theme.palette.mode === 'light' ? 0 : 0.24,
+        )
       : theme.palette.text.secondary,
   padding: type === 'insurance' ? theme.spacing(0, 1.5) : 0,
   display: 'flex',
