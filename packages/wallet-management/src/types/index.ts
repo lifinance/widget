@@ -21,7 +21,7 @@ export interface RequestArguments {
 
 export interface Provider extends EventEmitter {
   request(args: RequestArguments): Promise<unknown>;
-  selectedAddress?: any[];
+  selectedAddress?: string[];
   chainId?: any;
 }
 
@@ -44,6 +44,7 @@ export interface Wallet extends events.EventEmitter {
   account: AccountData | undefined;
   installed: (helpers: { provider: any }) => boolean;
   connect: () => Promise<void>;
+  autoConnect?: () => Promise<void>;
   disconnect: () => void;
   switchChain: (chainId: number) => Promise<boolean>;
   addChain: (chainId: number) => Promise<boolean>;

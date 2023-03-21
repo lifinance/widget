@@ -1,14 +1,16 @@
 import type { Signer } from '@ethersproject/abstract-signer';
 import type { Token } from '@lifi/sdk';
-import { LiFiWalletManagement } from '@lifi/wallet-management';
+import {
+  LiFiWalletManagement,
+  supportedWallets,
+} from '@lifi/wallet-management';
 import type { Wallet } from '@lifi/wallet-management/types';
 
-import type { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren, useEffect } from 'react';
 import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useState,
 } from 'react';
@@ -42,6 +44,18 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   const [currentWallet, setCurrentWallet] = useState<Wallet | undefined>(
     liFiWalletManagement.connectedWallets[0],
   );
+
+  useEffect(() => {
+    const autoConnect = async () => {
+      const metaMask = supportedWallets.filter(
+        (wallet) => wallet.name === 'MetaMask',
+      );
+      await liFiWalletManagement.autoConnect(metaMask);
+      metaMask[0].addListener('walletAccountChanged', handleWalletUpdate);
+      handleWalletUpdate(metaMask[0]);
+    };
+    autoConnect();
+  }, []);
 
   const handleWalletUpdate = async (wallet?: Wallet) => {
     setCurrentWallet(() => wallet);

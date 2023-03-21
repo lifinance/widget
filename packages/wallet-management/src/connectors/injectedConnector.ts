@@ -14,6 +14,7 @@ import {
   switchChain,
   switchChainAndAddToken,
 } from '../walletAutomation';
+import { isWalletDeactivated } from '../walletPersistance';
 
 export class InjectedConnector extends events.EventEmitter implements Wallet {
   private windowProvider: Provider | undefined;
@@ -26,6 +27,7 @@ export class InjectedConnector extends events.EventEmitter implements Wallet {
   constructor(
     constructorArgs: InjectedConnectorConstructorArgs,
     connectorWindowProperty = 'ethereum',
+    autoConnect = false,
   ) {
     super();
     this.initializeProvider(connectorWindowProperty);
@@ -76,6 +78,28 @@ export class InjectedConnector extends events.EventEmitter implements Wallet {
         await this.calcAccountData();
       },
     );
+  }
+  public async autoConnect() {
+    if (window === undefined) {
+      throw new Error('window is not defined. This should not have happened.');
+    }
+
+    if (!this.windowProvider) {
+      throw new Error('provider is not defined.');
+    }
+
+    if (this.isActivationInProgress) {
+      return;
+    }
+
+    try {
+      const selectedAddress = this.windowProvider.selectedAddress;
+      if (!isWalletDeactivated(selectedAddress?.[0])) {
+        await this.calcAccountData();
+      }
+    } catch (e) {
+      throw e;
+    }
   }
 
   public async connect() {
