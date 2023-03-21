@@ -43,9 +43,9 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
     liFiWalletManagement.connectedWallets[0],
   );
 
-  const handleWalletUpdate = async (wallet: Wallet) => {
-    setCurrentWallet(wallet);
-    const account = await extractAccountFromSigner(wallet.account?.signer);
+  const handleWalletUpdate = async (wallet?: Wallet) => {
+    setCurrentWallet(() => wallet);
+    const account = await extractAccountFromSigner(wallet?.account?.signer);
     setAccount(account);
   };
 
@@ -59,12 +59,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
       }
       await liFiWalletManagement.connect(wallet);
       wallet.addListener('walletAccountChanged', handleWalletUpdate);
-      const activeWallet = liFiWalletManagement.connectedWallets[0];
-      setCurrentWallet(activeWallet);
-      const account = await extractAccountFromSigner(
-        activeWallet.account?.signer,
-      );
-      setAccount(account);
+      handleWalletUpdate(liFiWalletManagement.connectedWallets[0]);
     },
     [walletManagement],
   );
@@ -77,9 +72,8 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
     }
     if (currentWallet) {
       await liFiWalletManagement.disconnect(currentWallet);
-      setCurrentWallet(undefined);
       currentWallet.removeAllListeners();
-      setAccount({} as WalletAccount);
+      handleWalletUpdate(undefined);
     }
   }, [walletManagement, currentWallet]);
 
@@ -93,11 +87,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
       }
       try {
         await currentWallet?.switchChain(chainId);
-        setCurrentWallet(() => currentWallet);
-        const account = await extractAccountFromSigner(
-          currentWallet?.account?.signer,
-        );
-        setAccount(account);
+        handleWalletUpdate(currentWallet);
         return true;
       } catch {
         return false;
@@ -113,11 +103,8 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
       }
       try {
         await currentWallet?.addChain(chainId);
-        setCurrentWallet(() => currentWallet);
-        const account = await extractAccountFromSigner(
-          currentWallet?.account?.signer,
-        );
-        setAccount(account);
+        handleWalletUpdate(currentWallet);
+
         return true;
       } catch {
         return false;
@@ -132,11 +119,8 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
         return walletManagement.addToken(token, chainId);
       }
       await currentWallet?.addToken(chainId, token);
-      setCurrentWallet(() => currentWallet);
-      const account = await extractAccountFromSigner(
-        currentWallet?.account?.signer,
-      );
-      setAccount(account);
+      handleWalletUpdate(currentWallet);
+
       return;
     },
     [walletManagement, currentWallet],

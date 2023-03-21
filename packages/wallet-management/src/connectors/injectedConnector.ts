@@ -70,6 +70,8 @@ export class InjectedConnector extends events.EventEmitter implements Wallet {
         console.log('on accountsChanged');
         if (!accounts.length) {
           this.account = undefined;
+          this.emit('walletAccountChanged', this);
+          return;
         }
         await this.calcAccountData();
       },
