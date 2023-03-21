@@ -1,27 +1,37 @@
 import type { Token } from '@lifi/sdk';
-import type { Signer } from 'ethers';
 import { ethers } from 'ethers';
-import type { Provider, ProviderConnectInfo, ProviderRpcError } from '../types';
+import events from 'events';
+import type {
+  AccountData,
+  InjectedConnectorConstructorArgs,
+  Provider,
+  ProviderConnectInfo,
+  ProviderRpcError,
+  Wallet,
+} from '../types';
 import {
   addChain,
   switchChain,
   switchChainAndAddToken,
 } from '../walletAutomation';
 
-export interface AccountData {
-  chainId: number;
-  address: string;
-  signer: Signer;
-  provider: ethers.providers.Web3Provider;
-}
-
-export class InjectedConnector {
+export class InjectedConnector extends events.EventEmitter implements Wallet {
   private windowProvider: Provider | undefined;
-  isActivationInProgress: boolean = false; // TODO: check if needed
-  account: AccountData | undefined;
+  public isActivationInProgress: boolean = false;
+  public account: AccountData | undefined;
+  public name: string;
+  public icon: string;
+  public installed: (helpers: { provider: any }) => boolean;
 
-  constructor(connectorWindowProperty = 'ethereum') {
+  constructor(
+    constructorArgs: InjectedConnectorConstructorArgs,
+    connectorWindowProperty = 'ethereum',
+  ) {
+    super();
     this.initializeProvider(connectorWindowProperty);
+    this.name = constructorArgs.name;
+    this.icon = constructorArgs.icon;
+    this.installed = constructorArgs.installed;
   }
 
   private initializeProvider(connectorWindowProperty: string) {
@@ -66,7 +76,7 @@ export class InjectedConnector {
     );
   }
 
-  public async activate() {
+  public async connect() {
     if (window === undefined) {
       throw new Error('window is not defined. This should not have happened.');
     }
@@ -93,7 +103,7 @@ export class InjectedConnector {
     this.isActivationInProgress = false;
   }
 
-  public deactivate(): void | Promise<void> {
+  public disconnect(): void | Promise<void> {
     this.account = undefined;
     this.isActivationInProgress = false;
   }
@@ -146,5 +156,6 @@ export class InjectedConnector {
       signer,
       provider,
     };
+    this.emit('walletAccountChanged', this);
   }
 }

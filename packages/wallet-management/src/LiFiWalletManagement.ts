@@ -1,3 +1,5 @@
+import events from 'events';
+import type { Wallet } from './types';
 import {
   addToActiveWallets,
   addToDeactivatedWallets,
@@ -5,29 +7,34 @@ import {
   removeFromActiveWallets,
   removeFromDeactivatedWallets,
 } from './walletPersistance';
-import type { Wallet } from './walletProviders';
 
-export class LiFiWalletManagement {
+export class LiFiWalletManagement extends events.EventEmitter {
   connectedWallets: Wallet[] = [];
 
   connect = async (wallet: Wallet) => {
     try {
-      await wallet.connector.activate();
+      await wallet.connect();
+      wallet.addListener('walletAccountChanged', this.handleAccountDataChange);
       this.connectedWallets.push(wallet); // TODO: add new wallet as first element
-      removeFromDeactivatedWallets(wallet.connector.account?.address);
-      addToActiveWallets(wallet.connector.account?.address);
+      removeFromDeactivatedWallets(wallet.account?.address);
+      addToActiveWallets(wallet.account?.address);
     } catch (e) {
       throw e;
     }
   };
 
   disconnect = async (wallet: Wallet) => {
-    const selectedAddress = wallet.connector.account?.address;
+    const selectedAddress = wallet.account?.address;
+    wallet.removeAllListeners();
     removeFromActiveWallets(selectedAddress);
     addToDeactivatedWallets(selectedAddress);
 
-    wallet.connector.deactivate();
+    wallet.disconnect();
   };
+
+  private handleAccountDataChange() {
+    this.emit('walletChanged', this.connectedWallets);
+  }
 }
 
 // export const useLiFiWalletManagement = () => {

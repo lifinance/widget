@@ -85,14 +85,20 @@ export const switchChainAndAddToken = async (
 ) => {
   const chainIdPrefixed = prefixChainId(chainId);
 
-  if (chainIdPrefixed !== provider.chainId) {
-    await switchChain(provider, chainId);
-    provider.once('chainChanged', async (id: string) => {
-      if (parseInt(id, 10) === chainId) {
-        await addToken(provider, token);
-      }
-    });
-  } else {
-    await addToken(provider, token);
+  try {
+    if (chainIdPrefixed !== provider.chainId) {
+      await switchChain(provider, chainId);
+      provider.once('chainChanged', async (id: string) => {
+        if (parseInt(id, 10) === chainId) {
+          await addToken(provider, token);
+        }
+      });
+    } else {
+      await addToken(provider, token);
+    }
+    return true;
+  } catch (e) {
+    console.error(e);
+    return false;
   }
 };
