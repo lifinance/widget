@@ -19,7 +19,7 @@ import {
   Container,
   Header,
   ScrollableContainer,
-} from './SwapRoutes.style';
+} from './SwapRoutesExpanded.style';
 import { useSetRecommendedRoute } from './useSetRecommendedRoute';
 
 const timeout = { enter: 225, exit: 225, appear: 0 };
@@ -107,7 +107,7 @@ export const SwapRoutesExpandedElement = () => {
                 <SwapRouteNotFoundCard />
               ) : isLoading || (isFetching && !routes?.length) ? (
                 Array.from({ length: 3 }).map((_, index) => (
-                  <SwapRouteCardSkeleton key={index} variant="stretched" />
+                  <SwapRouteCardSkeleton key={index} />
                 ))
               ) : (
                 routes?.map((route: Route, index: number) => (
@@ -116,7 +116,6 @@ export const SwapRoutesExpandedElement = () => {
                     route={route}
                     onClick={() => handleRouteClick(route)}
                     active={index === 0}
-                    variant="stretched"
                     expanded={routes?.length <= 2}
                   />
                 ))

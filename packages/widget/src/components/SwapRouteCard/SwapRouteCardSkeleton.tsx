@@ -7,42 +7,20 @@ import type { SwapRouteCardSkeletonProps } from './types';
 export const SwapRouteCardSkeleton: React.FC<
   SwapRouteCardSkeletonProps & BoxProps
 > = ({ variant, ...other }) => {
-  const { variant: widgetVariant, useRecommendedRoute } = useWidgetConfig();
+  const { variant: widgetVariant } = useWidgetConfig();
 
   const cardContent = (
     <Box flex={1}>
-      {widgetVariant !== 'refuel' && !useRecommendedRoute ? (
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          mb={2}
-        >
+      {widgetVariant !== 'refuel' ? (
+        <Box display="flex" alignItems="center" mb={2}>
           <Skeleton
             variant="rectangular"
-            width={118}
+            width={112}
             height={24}
             sx={(theme) => ({
-              borderRadius: `${theme.shape.borderRadiusSecondary}px`,
+              borderRadius: `${theme.shape.borderRadius}px`,
             })}
           />
-          {variant === 'stretched' ? (
-            <Box display="flex">
-              <Skeleton
-                variant="text"
-                width={52}
-                height={24}
-                sx={{ marginRight: 2 }}
-              />
-              <Skeleton
-                variant="text"
-                width={44}
-                height={24}
-                sx={{ marginRight: 2 }}
-              />
-              <Skeleton variant="text" width={32} height={24} />
-            </Box>
-          ) : null}
         </Box>
       ) : null}
       <Box>
@@ -59,26 +37,24 @@ export const SwapRouteCardSkeleton: React.FC<
             height={16}
             sx={{ borderRadius: 0.5 }}
           />
-          {variant === 'stretched' ? (
-            <Skeleton
-              variant="text"
-              width={72}
-              height={16}
-              sx={{ marginLeft: 1 }}
-            />
-          ) : null}
+          <Skeleton
+            variant="text"
+            width={72}
+            height={16}
+            sx={{ marginLeft: 1 }}
+          />
         </Box>
       </Box>
-      {variant !== 'stretched' ? (
-        <Box mt={2} display="flex" justifyContent="space-between">
-          <Skeleton variant="text" width={48} height={24} />
-          <Skeleton variant="text" width={48} height={24} />
-        </Box>
-      ) : null}
+      <Box mt={2} display="flex" justifyContent="space-between">
+        <Skeleton variant="text" width={64} height={24} />
+        <Skeleton variant="text" width={64} height={24} />
+        <Skeleton variant="text" width={48} height={24} />
+        <Skeleton variant="text" width={32} height={24} />
+      </Box>
     </Box>
   );
 
-  return widgetVariant === 'refuel' ? (
+  return widgetVariant === 'refuel' || variant === 'cardless' ? (
     cardContent
   ) : (
     <Card indented {...other}>

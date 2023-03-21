@@ -220,6 +220,7 @@
     }
   },
   "tooltip": {
+    "additionalProviderFee": "Additional provider fee.",
     "estimatedNetworkFee": "Estimated network fee.",
     "estimatedTime": "Estimated swap execution time in minutes.",
     "notFound": {

@@ -1,4 +1,4 @@
-import { Box, ScopedCssBaseline, Stack as MuiStack } from '@mui/material';
+import { Box, ScopedCssBaseline } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 import { maxHeight } from '../AppContainer';
 
@@ -35,18 +35,4 @@ export const Header = styled(Box)(({ theme }) => ({
   position: 'sticky',
   top: 0,
   zIndex: 1200,
-}));
-
-export const Stack = styled(MuiStack)(({ theme }) => ({
-  alignItems: 'stretch',
-  display: 'flex',
-  flex: 1,
-  flexWrap: 'nowrap',
-  overflow: 'hidden',
-  borderRight: `solid ${
-    theme.palette.mode === 'light'
-      ? theme.palette.grey[300]
-      : theme.palette.grey[800]
-  }`,
-  width: 'calc(100% - 48px)',
 }));
