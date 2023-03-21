@@ -98,7 +98,7 @@ export const SwapDetailsPage: React.FC = () => {
           mt={2}
           status={routeExecution.status}
           feeAmountUsd={routeExecution.route.insurance.feeAmountUsd}
-          available={routeExecution.route.insurance.state === 'INSURED'}
+          insurableRouteId={routeExecution.route.id}
         />
       ) : null}
       <Card mt={2}>
