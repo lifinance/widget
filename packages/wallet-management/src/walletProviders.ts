@@ -1,21 +1,11 @@
-import type { Web3ReactHooks } from '@web3-react/core';
-import type { Connector } from '@web3-react/types';
-import { createMetamaskConnector } from './connectors/metaMask';
-import { createTallyHoConnector } from './connectors/tallyho';
-import { createWalletConnectConnector } from './connectors/walletConnect';
+import { InjectedConnector } from './connectors/injectedConnector';
 import { walletIcons } from './walletIcons';
 
 export interface Wallet {
   name: string;
   icon: string;
-  checkProviderIdentity: (helpers: {
-    provider: any;
-    // device: Device;
-  }) => boolean;
-  web3react: {
-    connector: Connector;
-    hooks: Web3ReactHooks;
-  };
+  installed: (helpers: { provider: any }) => boolean;
+  connector: InjectedConnector;
   platforms: string[];
 }
 
@@ -52,162 +42,148 @@ export enum ProviderIdentityFlag {
 
 const metamask: Wallet = {
   name: 'MetaMask',
-  checkProviderIdentity: ({ provider }) =>
-    // Removed for now to allow all kinds of injected wallets to connect using the metamask button as fallback
-    // !!provider && !!provider[ProviderIdentityFlag.MetaMask],
-    true,
+  installed: ({ provider }) =>
+    !!provider && !!provider[ProviderIdentityFlag.MetaMask],
   icon: walletIcons.metamask,
   platforms: ['all'],
-  web3react: createMetamaskConnector(),
+  connector: new InjectedConnector(),
 };
 
 const walletConnect: Wallet = {
   name: 'Wallet Connect',
-  checkProviderIdentity: ({ provider }) => true,
+  installed: ({ provider }) => true,
   icon: walletIcons.walletConnect,
   platforms: ['all'],
-  web3react: createWalletConnectConnector(),
+  connector: new InjectedConnector(),
 };
 
 const brave: Wallet = {
   name: 'Brave',
-  checkProviderIdentity: ({ provider }) =>
+  installed: ({ provider }) =>
     // eslint-disable-next-line no-underscore-dangle
     (navigator as any).brave && provider?._web3Ref,
   icon: walletIcons.brave,
   platforms: ['all'],
-  web3react: createMetamaskConnector(),
+  connector: new InjectedConnector(),
 };
 
 const mathWallet: Wallet = {
   name: 'MathWallet',
-  checkProviderIdentity: ({ provider }) =>
-    provider?.[ProviderIdentityFlag.MathWallet],
+  installed: ({ provider }) => provider?.[ProviderIdentityFlag.MathWallet],
   icon: walletIcons.mathwallet,
   platforms: ['all'],
-  web3react: createMetamaskConnector(),
+  connector: new InjectedConnector(),
 };
 
 const tallyho: Wallet = {
   name: 'Tally Ho',
-  checkProviderIdentity: ({ provider }) =>
-    provider?.[ProviderIdentityFlag.TallyHo],
+  installed: ({ provider }) => provider?.[ProviderIdentityFlag.TallyHo],
   icon: walletIcons.tallyho,
 
   platforms: ['desktop'],
-  web3react: createTallyHoConnector(),
+  connector: new InjectedConnector(),
 };
 
 const blockWallet: Wallet = {
   name: 'BlockWallet',
-  checkProviderIdentity: ({ provider }) =>
-    provider?.[ProviderIdentityFlag.BlockWallet],
+  installed: ({ provider }) => provider?.[ProviderIdentityFlag.BlockWallet],
   icon: walletIcons.blockwallet,
 
   platforms: ['desktop'],
-  web3react: createMetamaskConnector(),
+  connector: new InjectedConnector(),
 };
 
 const binance: Wallet = {
   name: 'Binance',
-  checkProviderIdentity: ({ provider }) =>
-    provider?.[ProviderIdentityFlag.Binance],
+  installed: ({ provider }) => provider?.[ProviderIdentityFlag.Binance],
   icon: walletIcons.binance,
-
   platforms: ['desktop'],
-  web3react: createMetamaskConnector(),
+  connector: new InjectedConnector(),
 };
 
 const coinbase: Wallet = {
   name: 'Coinbase',
-  checkProviderIdentity: ({ provider }) =>
+  installed: ({ provider }) =>
     provider?.[ProviderIdentityFlag.Coinbase] ||
     provider?.providers?.[0]?.[ProviderIdentityFlag.CoinbaseExtension],
   icon: walletIcons.coinbase,
 
   platforms: ['all'],
-  web3react: createMetamaskConnector(),
+  connector: new InjectedConnector(),
 };
 
 const detected: Wallet = {
   name: 'Detected',
-  checkProviderIdentity: ({ provider }) =>
-    provider?.[ProviderIdentityFlag.Detected],
+  installed: ({ provider }) => provider?.[ProviderIdentityFlag.Detected],
   icon: walletIcons.detected,
   platforms: ['all'],
-  web3react: createMetamaskConnector(),
+  connector: new InjectedConnector(),
 };
 
 const trust: Wallet = {
   name: 'Trust',
-  checkProviderIdentity: ({ provider }) =>
+  installed: ({ provider }) =>
     provider?.[ProviderIdentityFlag.Trust] &&
     !provider[ProviderIdentityFlag.TokenPocket],
   icon: walletIcons.trust,
   platforms: ['mobile'],
-  web3react: createMetamaskConnector(),
+  connector: new InjectedConnector(),
 };
 
 const status: Wallet = {
   name: 'Status',
-  checkProviderIdentity: ({ provider }) =>
-    provider?.[ProviderIdentityFlag.Status],
+  installed: ({ provider }) => provider?.[ProviderIdentityFlag.Status],
   icon: walletIcons.status,
   platforms: ['mobile'],
-  web3react: createMetamaskConnector(),
+  connector: new InjectedConnector(),
 };
 
 const alphawallet: Wallet = {
   name: 'AlphaWallet',
-  checkProviderIdentity: ({ provider }) =>
-    provider?.[ProviderIdentityFlag.AlphaWallet],
+  installed: ({ provider }) => provider?.[ProviderIdentityFlag.AlphaWallet],
   icon: walletIcons.alphawallet,
   platforms: ['mobile'],
-  web3react: createMetamaskConnector(),
+  connector: new InjectedConnector(),
 };
 
 const atoken: Wallet = {
   name: 'AToken',
-  checkProviderIdentity: ({ provider }) =>
-    provider?.[ProviderIdentityFlag.AToken],
+  installed: ({ provider }) => provider?.[ProviderIdentityFlag.AToken],
   icon: walletIcons.atoken,
   platforms: ['mobile'],
-  web3react: createMetamaskConnector(),
+  connector: new InjectedConnector(),
 };
 
 const bitpie: Wallet = {
   name: 'Bitpie',
-  checkProviderIdentity: () => (window as any).Bitpie,
+  installed: () => (window as any).Bitpie,
   icon: walletIcons.bitpie,
   platforms: ['mobile'],
-  web3react: createMetamaskConnector(),
+  connector: new InjectedConnector(),
 };
 
 const dcent: Wallet = {
   name: 'Dcent',
-  checkProviderIdentity: ({ provider }) =>
-    provider?.[ProviderIdentityFlag.Dcent],
+  installed: ({ provider }) => provider?.[ProviderIdentityFlag.Dcent],
   icon: walletIcons.dcent,
   platforms: ['mobile'],
-  web3react: createMetamaskConnector(),
+  connector: new InjectedConnector(),
 };
 
 const frame: Wallet = {
   name: 'Frame',
-  checkProviderIdentity: ({ provider }) =>
-    provider?.[ProviderIdentityFlag.Frame],
+  installed: ({ provider }) => provider?.[ProviderIdentityFlag.Frame],
   icon: walletIcons.frame,
   platforms: ['desktop'],
-  web3react: createMetamaskConnector(),
+  connector: new InjectedConnector(),
 };
 
 const huobiwallet: Wallet = {
   name: 'HuobiWallet',
-  checkProviderIdentity: ({ provider }) =>
-    provider?.[ProviderIdentityFlag.HuobiWallet],
+  installed: ({ provider }) => provider?.[ProviderIdentityFlag.HuobiWallet],
   icon: walletIcons.huobiwallet,
   platforms: ['mobile'],
-  web3react: createMetamaskConnector(),
+  connector: new InjectedConnector(),
 };
 
 const hyperpay: Wallet = {
@@ -215,100 +191,94 @@ const hyperpay: Wallet = {
   // Note: The property `hiWallet` is as of now the only known way of identifying hyperpay
   // wallet as it is a direct clone of metamask. `checkProviderIdentity` implementation is subject to
   // future changes
-  checkProviderIdentity: () => (window as any).hiWallet,
+  installed: () => (window as any).hiWallet,
   icon: walletIcons.hyperpay,
   platforms: ['mobile'],
-  web3react: createMetamaskConnector(),
+  connector: new InjectedConnector(),
 };
 
 const imtoken: Wallet = {
   name: 'ImToken',
-  checkProviderIdentity: ({ provider }) =>
-    provider?.[ProviderIdentityFlag.ImToken],
+  installed: ({ provider }) => provider?.[ProviderIdentityFlag.ImToken],
   icon: walletIcons.imtoken,
   platforms: ['mobile'],
-  web3react: createMetamaskConnector(),
+  connector: new InjectedConnector(),
 };
 
 const liquality: Wallet = {
   name: 'Liquality',
-  checkProviderIdentity: ({ provider }) =>
-    provider?.[ProviderIdentityFlag.Liquality],
+  installed: ({ provider }) => provider?.[ProviderIdentityFlag.Liquality],
   icon: walletIcons.liquality,
   platforms: ['desktop'],
-  web3react: createMetamaskConnector(),
+  connector: new InjectedConnector(),
 };
 
 const meetone: Wallet = {
   name: 'MeetOne',
-  checkProviderIdentity: ({ provider }) =>
+  installed: ({ provider }) =>
     provider?.[ProviderIdentityFlag.MeetOne] === 'MEETONE',
   icon: walletIcons.meetone,
   platforms: ['mobile'],
-  web3react: createMetamaskConnector(),
+  connector: new InjectedConnector(),
 };
 
 const mykey: Wallet = {
   name: 'MyKey',
-  checkProviderIdentity: ({ provider }) =>
-    provider?.[ProviderIdentityFlag.MyKey],
+  installed: ({ provider }) => provider?.[ProviderIdentityFlag.MyKey],
   icon: walletIcons.mykey,
   platforms: ['mobile'],
-  web3react: createMetamaskConnector(),
+  connector: new InjectedConnector(),
 };
 
 const ownbit: Wallet = {
   name: 'OwnBit',
-  checkProviderIdentity: ({ provider }) =>
-    provider?.[ProviderIdentityFlag.OwnBit],
+  installed: ({ provider }) => provider?.[ProviderIdentityFlag.OwnBit],
   icon: walletIcons.ownbit,
   platforms: ['mobile'],
-  web3react: createMetamaskConnector(),
+  connector: new InjectedConnector(),
 };
 
 const tokenpocket: Wallet = {
   name: 'TokenPocket',
-  checkProviderIdentity: ({ provider }) =>
+  installed: ({ provider }) =>
     provider?.[ProviderIdentityFlag.TokenPocket] &&
     !provider[ProviderIdentityFlag.TP],
   icon: walletIcons.tokenpocket,
   platforms: ['all'],
-  web3react: createMetamaskConnector(),
+  connector: new InjectedConnector(),
 };
 
 const tp: Wallet = {
   name: 'TP',
-  checkProviderIdentity: ({ provider }) => provider?.[ProviderIdentityFlag.TP],
+  installed: ({ provider }) => provider?.[ProviderIdentityFlag.TP],
   icon: walletIcons.tp,
   platforms: ['mobile'],
-  web3react: createMetamaskConnector(),
+  connector: new InjectedConnector(),
 };
 
 const xdefi: Wallet = {
   name: 'XDEFI',
   // eslint-disable-next-line dot-notation
-  checkProviderIdentity: ({ provider }) => true,
+  installed: ({ provider }) => true,
   icon: walletIcons.xdefi,
   platforms: ['all'],
-  web3react: createMetamaskConnector(),
+  connector: new InjectedConnector(),
 };
 
 const oneInch: Wallet = {
   name: 'OneInch',
-  checkProviderIdentity: ({ provider }) =>
-    provider?.[ProviderIdentityFlag.OneInch],
+  installed: ({ provider }) => provider?.[ProviderIdentityFlag.OneInch],
   icon: walletIcons.oneInch,
   platforms: ['mobile'],
-  web3react: createMetamaskConnector(),
+  connector: new InjectedConnector(),
 };
 
 const tokenary: Wallet = {
   name: 'Tokenary',
-  checkProviderIdentity: ({ provider }) =>
-    provider?.[ProviderIdentityFlag.Tokenary],
+  installed: ({ provider }) => provider?.[ProviderIdentityFlag.Tokenary],
   icon: walletIcons.tokenary,
   platforms: ['mobile'],
-  web3react: createMetamaskConnector(),
+  connector: new InjectedConnector(),
 };
 
 export const supportedWallets = [

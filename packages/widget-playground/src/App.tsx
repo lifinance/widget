@@ -1,6 +1,7 @@
 import type { Token } from '@lifi/sdk';
 import {
   addChain,
+  supportedWallets,
   switchChain,
   switchChainAndAddToken,
 } from '@lifi/wallet-management';
@@ -126,11 +127,17 @@ export const App = () => {
         walletManagement: {
           signer: account.signer,
           connect: async () => {
-            await connect();
+            const metamask = supportedWallets.find(
+              (wallet) => wallet.name === 'MetaMask',
+            );
+            await connect(metamask);
             return account.signer!;
           },
           disconnect: async () => {
-            disconnect();
+            const metamask = supportedWallets.find(
+              (wallet) => wallet.name === 'MetaMask',
+            );
+            disconnect(metamask);
           },
           switchChain: async (reqChainId: number) => {
             await switchChain(reqChainId);

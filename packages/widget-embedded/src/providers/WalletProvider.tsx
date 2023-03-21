@@ -1,11 +1,11 @@
 import type { Signer } from '@ethersproject/abstract-signer';
 import type { Token } from '@lifi/sdk';
 import type { Wallet } from '@lifi/wallet-management';
+import { LiFiWalletManagement } from '@lifi/wallet-management';
 import {
   addChain as walletAddChain,
   switchChain as walletSwitchChain,
   switchChainAndAddToken,
-  useLiFiWalletManagement,
 } from '@lifi/wallet-management';
 import type { WalletAccount, WalletContextProps } from '@lifi/widget/providers';
 import type { FC, PropsWithChildren } from 'react';
@@ -36,27 +36,25 @@ const initialContext: WalletContextProps = {
 const WalletContext = createContext<WalletContextProps>(initialContext);
 
 export const useWallet = (): WalletContextProps => useContext(WalletContext);
+const liFiWalletManagement = new LiFiWalletManagement();
 
 export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
-  const {
-    connect: walletManagementConnect,
-    disconnect: walletManagementDisconnect,
-    signer,
-  } = useLiFiWalletManagement();
   const [account, setAccount] = useState<WalletAccount>({});
-
-  const connect = useCallback(
-    async (wallet?: Wallet) => {
-      await walletManagementConnect(wallet);
-      const account = await extractAccountFromSigner(signer);
-      setAccount(account);
-    },
-    [signer, walletManagementConnect],
+  const [currentWallet, setCurrentWallet] = useState<Wallet | undefined>(
+    liFiWalletManagement.connectedWallets[0],
   );
 
+  const connect = useCallback(async (wallet: Wallet) => {
+    await liFiWalletManagement.connect(wallet);
+    setCurrentWallet(wallet);
+  }, []);
+
   const disconnect = useCallback(async () => {
-    await walletManagementDisconnect();
-  }, [walletManagementDisconnect]);
+    if (currentWallet) {
+      await liFiWalletManagement.disconnect(currentWallet);
+    }
+    setCurrentWallet(undefined);
+  }, [currentWallet]);
 
   // only for injected wallets
   const switchChain = useCallback(async (chainId: number) => {
@@ -74,11 +72,14 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   // keep account information up to date
   useEffect(() => {
     const updateAccount = async () => {
-      const account = await extractAccountFromSigner(signer);
+      let account;
+      account = await extractAccountFromSigner(
+        currentWallet?.connector.account?.signer,
+      );
       setAccount(account);
     };
     updateAccount();
-  }, [signer]);
+  }, [account.signer, currentWallet]);
 
   const value = useMemo(
     () => ({

@@ -37,7 +37,7 @@ export const SelectWalletPage = () => {
   const handleConnect = useCallback(
     async (wallet: Wallet) => {
       const { ethereum } = window as any;
-      const identityCheckPassed = wallet.checkProviderIdentity({
+      const identityCheckPassed = wallet.installed({
         provider: ethereum,
       });
       if (!identityCheckPassed) {

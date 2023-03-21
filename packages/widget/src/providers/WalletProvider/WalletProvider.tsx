@@ -1,12 +1,8 @@
 import type { Signer } from '@ethersproject/abstract-signer';
 import type { Token } from '@lifi/sdk';
 import type { Wallet } from '@lifi/wallet-management';
-import {
-  addChain as walletAddChain,
-  switchChain as walletSwitchChain,
-  switchChainAndAddToken,
-  useLiFiWalletManagement,
-} from '@lifi/wallet-management';
+import { LiFiWalletManagement } from '@lifi/wallet-management';
+
 import type { FC, PropsWithChildren } from 'react';
 import {
   createContext,
@@ -38,27 +34,49 @@ const WalletContext = createContext<WalletContextProps>(initialContext);
 
 export const useWallet = (): WalletContextProps => useContext(WalletContext);
 
+const liFiWalletManagement = new LiFiWalletManagement();
+
 export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   const { walletManagement } = useWidgetConfig();
-  const {
-    connect: walletManagementConnect,
-    disconnect: walletManagementDisconnect,
-    signer,
-    provider,
-  } = useLiFiWalletManagement();
   const [account, setAccount] = useState<WalletAccount>({});
+  const [currentWallet, setCurrentWallet] = useState<Wallet | undefined>(
+    liFiWalletManagement.connectedWallets[0],
+  );
+  const testCurrentWallet =
+    liFiWalletManagement.connectedWallets[0] || undefined;
+  console.log(testCurrentWallet);
+
+  useEffect(() => {
+    const sync = async () => {
+      const account = await extractAccountFromSigner(
+        liFiWalletManagement.connectedWallets[0].connector.account?.signer,
+      );
+      setAccount(account);
+    };
+    sync();
+  }, [
+    liFiWalletManagement.connectedWallets[0]?.connector.account?.address,
+    liFiWalletManagement.connectedWallets[0]?.connector.account?.chainId,
+    liFiWalletManagement.connectedWallets[0]?.connector.account?.signer,
+  ]);
 
   const connect = useCallback(
-    async (wallet?: Wallet) => {
+    async (wallet: Wallet) => {
       if (walletManagement) {
         const signer = await walletManagement.connect();
         const account = await extractAccountFromSigner(signer);
         setAccount(account);
         return;
       }
-      await walletManagementConnect(wallet);
+      await liFiWalletManagement.connect(wallet);
+      const activeWallet = liFiWalletManagement.connectedWallets[0];
+      setCurrentWallet(activeWallet);
+      const account = await extractAccountFromSigner(
+        activeWallet.connector.account?.signer,
+      );
+      setAccount(account);
     },
-    [walletManagement, walletManagementConnect],
+    [walletManagement],
   );
 
   const disconnect = useCallback(async () => {
@@ -67,10 +85,13 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
       setAccount({});
       return;
     }
-    await walletManagementDisconnect();
-  }, [walletManagement, walletManagementDisconnect]);
+    if (currentWallet) {
+      await liFiWalletManagement.disconnect(currentWallet);
+      setCurrentWallet(undefined);
+      setAccount({} as WalletAccount);
+    }
+  }, [walletManagement, currentWallet]);
 
-  // only for injected wallets
   const switchChain = useCallback(
     async (chainId: number) => {
       if (walletManagement?.switchChain) {
@@ -79,9 +100,19 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
         setAccount(account);
         return true;
       }
-      return walletSwitchChain(chainId);
+      try {
+        await currentWallet?.connector.switchChain(chainId);
+        setCurrentWallet(() => currentWallet);
+        const account = await extractAccountFromSigner(
+          currentWallet?.connector.account?.signer,
+        );
+        setAccount(account);
+        return true;
+      } catch {
+        return false;
+      }
     },
-    [walletManagement],
+    [walletManagement, currentWallet],
   );
 
   const addChain = useCallback(
@@ -89,9 +120,19 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
       if (walletManagement?.addChain) {
         return walletManagement.addChain(chainId);
       }
-      return walletAddChain(chainId);
+      try {
+        await currentWallet?.connector.addChain(chainId);
+        setCurrentWallet(() => currentWallet);
+        const account = await extractAccountFromSigner(
+          currentWallet?.connector.account?.signer,
+        );
+        setAccount(account);
+        return true;
+      } catch {
+        return false;
+      }
     },
-    [walletManagement],
+    [walletManagement, currentWallet],
   );
 
   const addToken = useCallback(
@@ -99,25 +140,33 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
       if (walletManagement?.addToken) {
         return walletManagement.addToken(token, chainId);
       }
-      return switchChainAndAddToken(chainId, token);
+      await currentWallet?.connector.addToken(chainId, token);
+      setCurrentWallet(() => currentWallet);
+      const account = await extractAccountFromSigner(
+        currentWallet?.connector.account?.signer,
+      );
+      setAccount(account);
+      return;
     },
-    [walletManagement],
+    [walletManagement, currentWallet],
   );
 
-  // keep account information up to date
-  useEffect(() => {
-    const updateAccount = async () => {
-      let account;
-      if (walletManagement) {
-        account = await extractAccountFromSigner(walletManagement?.signer);
-      } else {
-        account = await extractAccountFromSigner(signer);
-      }
+  // // keep account information up to date
+  // useEffect(() => {
+  //   const updateAccount = async () => {
+  //     let account;
+  //     if (walletManagement) {
+  //       account = await extractAccountFromSigner(walletManagement?.signer);
+  //     } else {
+  //       account = await extractAccountFromSigner(
+  //         currentWallet?.connector.account?.signer,
+  //       );
+  //     }
 
-      setAccount(account);
-    };
-    updateAccount();
-  }, [signer, walletManagement]);
+  //     setAccount(account);
+  //   };
+  //   updateAccount();
+  // }, [walletManagement, currentWallet]);
 
   const value = useMemo(
     () => ({
@@ -127,9 +176,17 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
       addChain,
       addToken,
       account,
-      provider,
+      provider: currentWallet?.connector.account?.provider || undefined,
     }),
-    [account, addChain, addToken, connect, disconnect, provider, switchChain],
+    [
+      account,
+      addChain,
+      addToken,
+      connect,
+      disconnect,
+      currentWallet,
+      switchChain,
+    ],
   );
 
   return (

@@ -5,36 +5,13 @@ import {
   MetaMaskProviderErrorCode,
   prefixChainId,
 } from '@lifi/sdk';
-import { supportedWallets } from '@lifi/wallet-management';
-import type { TallyHo } from './connectors/tallyho';
-import type { WalletConnect } from './connectors/walletConnect';
+import type { Provider } from './types';
 
-const getAppropriateProvider = () => {
-  const walletConnect = supportedWallets.find(
-    (wallet) => wallet.name === 'Wallet Connect',
-  );
-  const tallyho = supportedWallets.find((wallet) => wallet.name === 'Tally Ho');
-
-  let provider: any;
-  if ((walletConnect?.web3react.connector as WalletConnect).isCurrentlyUsed) {
-    provider = (walletConnect?.web3react.connector as WalletConnect)
-      .walletConnectProvider;
-  } else if ((tallyho?.web3react.connector as TallyHo).isCurrentlyUsed) {
-    const { tally } = window as any;
-    provider = tally;
-  } else {
-    const { ethereum } = window as any;
-    provider = ethereum;
-  }
-  return provider;
-};
-
-export const switchChain = async (chainId: number): Promise<boolean> => {
+export const switchChain = async (
+  provider: Provider,
+  chainId: number,
+): Promise<boolean> => {
   return new Promise((resolve, reject) => {
-    const provider: any = getAppropriateProvider();
-    if (!provider) {
-      resolve(false);
-    }
     try {
       provider
         .request({
@@ -43,7 +20,7 @@ export const switchChain = async (chainId: number): Promise<boolean> => {
         })
         .catch((error: any) => {
           if (error.code !== MetaMaskProviderErrorCode.userRejectedRequest) {
-            addChain(chainId).then((result) => resolve(result));
+            addChain(provider, chainId).then((result) => resolve(result));
           } else {
             reject(error);
           }
@@ -56,7 +33,7 @@ export const switchChain = async (chainId: number): Promise<boolean> => {
     } catch (error: any) {
       // const ERROR_CODE_UNKNOWN_CHAIN = 4902
       if (error.code !== MetaMaskProviderErrorCode.userRejectedRequest) {
-        addChain(chainId).then((result) => resolve(result));
+        addChain(provider, chainId).then((result) => resolve(result));
       } else {
         console.error(error);
         resolve(false);
@@ -65,13 +42,7 @@ export const switchChain = async (chainId: number): Promise<boolean> => {
   });
 };
 
-export const addChain = async (chainId: number) => {
-  const provider: any = getAppropriateProvider();
-
-  if (!provider) {
-    return false;
-  }
-
+export const addChain = async (provider: Provider, chainId: number) => {
   const params = getChainById(chainId).metamask;
   try {
     await provider.request({
@@ -85,12 +56,7 @@ export const addChain = async (chainId: number) => {
   return false;
 };
 
-export const addToken = async (token: Token) => {
-  const provider: any = getAppropriateProvider();
-
-  if (!provider) {
-    return false;
-  }
+export const addToken = async (provider: Provider, token: Token) => {
   try {
     // wasAdded is a boolean. Like any RPC method, an error may be thrown.
     const wasAdded = await provider.request({
@@ -112,22 +78,21 @@ export const addToken = async (token: Token) => {
   return false;
 };
 
-export const switchChainAndAddToken = async (chainId: number, token: Token) => {
-  const provider: any = getAppropriateProvider();
-
-  if (!provider) {
-    return;
-  }
+export const switchChainAndAddToken = async (
+  provider: Provider,
+  chainId: number,
+  token: Token,
+) => {
   const chainIdPrefixed = prefixChainId(chainId);
 
   if (chainIdPrefixed !== provider.chainId) {
-    await switchChain(chainId);
+    await switchChain(provider, chainId);
     provider.once('chainChanged', async (id: string) => {
       if (parseInt(id, 10) === chainId) {
-        await addToken(token);
+        await addToken(provider, token);
       }
     });
   } else {
-    await addToken(token);
+    await addToken(provider, token);
   }
 };
