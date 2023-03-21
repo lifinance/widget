@@ -10,10 +10,10 @@ import { ToggleButton } from './ColorSchemeButtonGroup.style';
 
 export const ColorSchemeButtonGroup: React.FC = () => {
   const { t } = useTranslation();
-  const { disableAppearance, hiddenUI } = useWidgetConfig();
+  const { hiddenUI } = useWidgetConfig();
   const [appearance, setAppearance] = useAppearance();
 
-  if (disableAppearance || hiddenUI?.includes(HiddenUI.Appearance)) {
+  if (hiddenUI?.includes(HiddenUI.Appearance)) {
     return null;
   }
 

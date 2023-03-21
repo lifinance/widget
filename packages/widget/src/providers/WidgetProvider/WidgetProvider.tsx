@@ -6,7 +6,6 @@ import { formatAmount } from '../../utils';
 import type { WidgetContextProps, WidgetProviderProps } from './types';
 
 const initialContext: WidgetContextProps = {
-  disabledChains: [],
   elementId: '',
   integrator: '',
 };

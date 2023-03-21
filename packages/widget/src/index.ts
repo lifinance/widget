@@ -1,5 +1,4 @@
 import { App } from './App';
-import { AppDrawer } from './AppDrawer';
 // TODO: remove or make optional
 import './fonts/inter.css';
 
@@ -15,8 +14,3 @@ export * from './types';
 // );
 
 export const LiFiWidget = App;
-
-/**
- * @deprecated Use configuration { variant: 'drawer' } instead
- */
-export const LiFiWidgetDrawer = AppDrawer;

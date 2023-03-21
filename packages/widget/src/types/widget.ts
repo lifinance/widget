@@ -156,13 +156,6 @@ export interface WidgetConfig {
   };
   languageResources?: LanguageResources;
   disableI18n?: boolean;
-
-  /** @deprecated Use hiddenUI: ['appearance'] instead */
-  disableAppearance?: boolean;
-  /** @deprecated Use chains.deny instead */
-  disabledChains?: number[];
-  /** @deprecated Use tokens.featured instead */
-  featuredTokens?: Token[];
 }
 
 export type WidgetDrawerProps = {

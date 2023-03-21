@@ -12,11 +12,7 @@ export const useTokens = (selectedChainId?: number) => {
   );
   const { getChainById, isLoading: isSupportedChainsLoading } = useChains();
   const featuredTokens = useFeaturedTokens(selectedChainId);
-  const {
-    tokens: configTokens,
-    chains: configChains,
-    disabledChains,
-  } = useWidgetConfig();
+  const { tokens: configTokens, chains: configChains } = useWidgetConfig();
 
   const tokens = useMemo(() => {
     if (isSupportedChainsLoading) {
@@ -25,7 +21,7 @@ export const useTokens = (selectedChainId?: number) => {
     const chainAllowed =
       selectedChainId &&
       getChainById(selectedChainId) &&
-      isItemAllowed(selectedChainId, configChains, disabledChains);
+      isItemAllowed(selectedChainId, configChains);
     if (!chainAllowed) {
       return [];
     }
@@ -63,7 +59,6 @@ export const useTokens = (selectedChainId?: number) => {
     selectedChainId,
     getChainById,
     configChains,
-    disabledChains,
     configTokens?.allow,
     configTokens?.deny,
     featuredTokens,
