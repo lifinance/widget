@@ -1,6 +1,5 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Button, Tooltip } from '@mui/material';
-import type { ChangeEvent } from 'react';
 import { useCallback, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -9,16 +8,12 @@ import type { BottomSheetBase } from '../../components/BottomSheet';
 import { GasMessage } from '../../components/GasMessage';
 import { Insurance } from '../../components/Insurance';
 import { getStepList } from '../../components/Step';
-import { useNavigateBack, useRouteExecution, useSwapRoutes } from '../../hooks';
+import { useNavigateBack, useRouteExecution } from '../../hooks';
 import { SwapFormKey, useWidgetConfig } from '../../providers';
-import {
-  RouteExecutionStatus,
-  useRouteExecutionStore,
-  useSetExecutableRoute,
-} from '../../stores';
+import { RouteExecutionStatus } from '../../stores';
 import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet';
 import { ExchangeRateBottomSheet } from './ExchangeRateBottomSheet';
-import { StartSwapButton } from './StartSwapButton';
+import { StartIdleSwapButton, StartSwapButton } from './StartSwapButton';
 import { StatusBottomSheet } from './StatusBottomSheet';
 import { Container } from './SwapPage.style';
 import {
@@ -33,12 +28,7 @@ export const SwapPage: React.FC = () => {
   const { variant } = useWidgetConfig();
   const { state }: any = useLocation();
   const stateRouteId = state?.routeId;
-  const [routeId, setRouteId] = useState(stateRouteId);
-
-  const setExecutableRoute = useSetExecutableRoute();
-  const routeExecution = useRouteExecutionStore(
-    (state) => state.routes[stateRouteId],
-  );
+  const [routeId, setRouteId] = useState<string>(stateRouteId);
 
   const tokenValueBottomSheetRef = useRef<BottomSheetBase>(null);
   const exchangeRateBottomSheetRef = useRef<ExchangeRateBottomSheetBase>(null);
@@ -48,19 +38,6 @@ export const SwapPage: React.FC = () => {
       routeId: routeId,
       onAcceptExchangeRateUpdate: exchangeRateBottomSheetRef.current?.open,
     });
-
-  const { routes, isLoading } = useSwapRoutes(routeExecution?.route);
-
-  const toggleInsurance = (
-    _: ChangeEvent<HTMLInputElement>,
-    checked: boolean,
-  ) => {
-    const insuredRoute = routes?.[0];
-    if (insuredRoute && checked) {
-      setExecutableRoute(insuredRoute, stateRouteId);
-    }
-    setRouteId(checked ? insuredRoute?.id : stateRouteId);
-  };
 
   const handleExecuteRoute = useCallback(() => {
     if (tokenValueBottomSheetRef.current?.isOpen()) {
@@ -102,21 +79,27 @@ export const SwapPage: React.FC = () => {
     }
   };
 
-  const insuredRoute = routes?.[0] ?? route;
+  const SwapButton =
+    status === RouteExecutionStatus.Idle
+      ? StartIdleSwapButton
+      : StartSwapButton;
+
+  const insuranceAvailable =
+    variant !== 'refuel' &&
+    (route?.insurance?.state === 'INSURED' ||
+      (status === RouteExecutionStatus.Idle &&
+        route?.insurance?.state === 'INSURABLE'));
 
   return (
     <Container>
       {getStepList(route)}
-      {(status === RouteExecutionStatus.Idle &&
-        insuredRoute?.insurance?.state === 'INSURED') ||
-      route?.insurance?.state === 'INSURED' ? (
+      {insuranceAvailable ? (
         <Insurance
           mt={2}
           status={status}
           insurableRouteId={stateRouteId}
-          feeAmountUsd={insuredRoute?.insurance.feeAmountUsd}
-          available={insuredRoute?.insurance.state === 'INSURED'}
-          onChange={toggleInsurance}
+          feeAmountUsd={route?.insurance.feeAmountUsd}
+          onChange={setRouteId}
         />
       ) : null}
       {status === RouteExecutionStatus.Idle ||
@@ -124,11 +107,11 @@ export const SwapPage: React.FC = () => {
         <>
           <GasMessage mt={2} route={route} />
           <Box mt={2} display="flex">
-            <StartSwapButton
+            <SwapButton
               text={getSwapButtonText()}
               onClick={handleSwapClick}
               route={route}
-              loading={isLoading}
+              insurableRouteId={stateRouteId}
               // disabled={status === 'idle' && (isValidating || !isValid)}
             />
             {status === RouteExecutionStatus.Failed ? (

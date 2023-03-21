@@ -1,14 +1,11 @@
-import type { Route } from '@lifi/sdk';
 import { SwapButton } from '../../components/SwapButton';
-import { useFundsSufficiency, useGasSufficiency } from '../../hooks';
-
-export interface StartSwapButtonProps {
-  onClick?(): void;
-  route?: Route;
-  text?: string;
-  disabled?: boolean;
-  loading?: boolean;
-}
+import {
+  useFundsSufficiency,
+  useGasSufficiency,
+  useSwapRoutes,
+} from '../../hooks';
+import { useRouteExecutionStore } from '../../stores';
+import type { StartSwapButtonProps } from './types';
 
 export const StartSwapButton: React.FC<StartSwapButtonProps> = ({
   onClick,
@@ -28,6 +25,31 @@ export const StartSwapButton: React.FC<StartSwapButtonProps> = ({
       hasRoute={Boolean(route)}
       disabled={insufficientFunds || !!insufficientGas?.length}
       loading={isFundsSufficiencyLoading || isGasSufficiencyLoading || loading}
+    />
+  );
+};
+
+export const StartIdleSwapButton: React.FC<StartSwapButtonProps> = ({
+  onClick,
+  route,
+  text,
+  loading,
+  disabled,
+  insurableRouteId,
+}) => {
+  const routeExecution = useRouteExecutionStore(
+    (state) => state.routes[insurableRouteId],
+  );
+  const { isLoading } = useSwapRoutes(routeExecution?.route);
+
+  return (
+    <StartSwapButton
+      onClick={onClick}
+      text={text}
+      route={route}
+      disabled={disabled}
+      loading={loading || isLoading}
+      insurableRouteId={insurableRouteId}
     />
   );
 };
