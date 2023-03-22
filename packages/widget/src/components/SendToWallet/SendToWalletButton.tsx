@@ -1,4 +1,4 @@
-import WalletOutlinedIcon from '@mui/icons-material/WalletOutlined';
+import WalletIcon from '@mui/icons-material/Wallet';
 import { Button, Tooltip } from '@mui/material';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -45,7 +45,7 @@ export const SendToWalletButton: React.FC = () => {
           marginLeft: 1,
         }}
       >
-        <WalletOutlinedIcon />
+        <WalletIcon />
       </Button>
     </Tooltip>
   );

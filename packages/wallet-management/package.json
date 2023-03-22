@@ -48,7 +48,7 @@
     "lifi"
   ],
   "dependencies": {
-    "@coinbase/wallet-sdk": "^3.6.4",
+    "@coinbase/wallet-sdk": "^3.6.5",
     "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/experimental": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",

@@ -1,37 +1,29 @@
 import { Box, Typography } from '@mui/material';
 import { alpha, lighten, styled } from '@mui/material/styles';
-import { getContrastTextColor } from '../../utils';
 
 export const CardLabel = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'type',
 })<{ type?: 'active' | 'insurance' | 'insurance-icon' }>(({ theme, type }) => ({
   backgroundColor:
     type === 'active'
-      ? theme.palette.secondary.main
+      ? theme.palette.mode === 'light'
+        ? theme.palette.secondary.main
+        : alpha(theme.palette.secondary.main, 0.32)
       : type?.includes('insurance')
       ? alpha(
           theme.palette.success.main,
           theme.palette.mode === 'light' ? 0.12 : 0.24,
         )
-      : 'transparent',
-  border: 'solid',
-  borderWidth: type?.includes('insurance') ? 0 : 1,
-  borderColor:
-    type === 'active'
-      ? theme.palette.secondary.main
       : theme.palette.mode === 'light'
-      ? theme.palette.grey[300]
-      : theme.palette.grey[800],
+      ? alpha(theme.palette.common.black, 0.12)
+      : alpha(theme.palette.common.white, 0.16),
   borderRadius: theme.shape.borderRadius,
-  color:
-    type === 'active'
-      ? getContrastTextColor(theme, theme.palette.secondary.main)
-      : type?.includes('insurance')
-      ? lighten(
-          theme.palette.success.main,
-          theme.palette.mode === 'light' ? 0 : 0.24,
-        )
-      : theme.palette.text.secondary,
+  color: type?.includes('insurance')
+    ? lighten(
+        theme.palette.success.main,
+        theme.palette.mode === 'light' ? 0 : 0.24,
+      )
+    : theme.palette.text.primary,
   padding: type === 'insurance' ? theme.spacing(0, 1.5) : 0,
   display: 'flex',
   alignItems: 'center',

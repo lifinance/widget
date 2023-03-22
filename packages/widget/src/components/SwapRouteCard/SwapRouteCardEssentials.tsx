@@ -1,9 +1,10 @@
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import EvStationOutlinedIcon from '@mui/icons-material/EvStationOutlined';
-import LayersOutlinedIcon from '@mui/icons-material/LayersOutlined';
-import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
+import AccessTimeIcon from '@mui/icons-material/AccessTimeFilled';
+import EvStationIcon from '@mui/icons-material/EvStation';
+import LayersIcon from '@mui/icons-material/Layers';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import { Box, Tooltip, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { IconTypography } from './SwapRouteCard.style';
 import type { SwapRouteCardEssentialsProps } from './types';
 import { getFeeCostsBreakdown, getGasCostsBreakdown } from './utils';
 
@@ -41,9 +42,9 @@ export const SwapRouteCardEssentials: React.FC<
         arrow
       >
         <Box display="flex" alignItems="center" mr={dense ? 0 : 2}>
-          <Typography lineHeight={0} mr={0.5} color="grey.500">
-            <EvStationOutlinedIcon fontSize={dense ? 'small' : 'medium'} />
-          </Typography>
+          <IconTypography>
+            <EvStationIcon fontSize="small" />
+          </IconTypography>
           <Typography
             fontSize={14}
             color="text.primary"
@@ -74,9 +75,9 @@ export const SwapRouteCardEssentials: React.FC<
         arrow
       >
         <Box display="flex" alignItems="center" mr={dense ? 0 : 2}>
-          <Typography lineHeight={0} mr={0.5} color="grey.500">
-            <MonetizationOnOutlinedIcon fontSize={dense ? 'small' : 'medium'} />
-          </Typography>
+          <IconTypography>
+            <MonetizationOnIcon fontSize="small" />
+          </IconTypography>
           <Typography
             fontSize={14}
             color="text.primary"
@@ -99,9 +100,9 @@ export const SwapRouteCardEssentials: React.FC<
         arrow
       >
         <Box display="flex" alignItems="center" mr={dense ? 0 : 2}>
-          <Typography lineHeight={0} mr={0.5} color="grey.500">
-            <AccessTimeIcon fontSize={dense ? 'small' : 'medium'} />
-          </Typography>
+          <IconTypography>
+            <AccessTimeIcon fontSize="small" />
+          </IconTypography>
           <Typography
             fontSize={14}
             color="text.primary"
@@ -121,9 +122,9 @@ export const SwapRouteCardEssentials: React.FC<
         arrow
       >
         <Box display="flex" alignItems="center">
-          <Typography lineHeight={0} mr={0.5} color="grey.500">
-            <LayersOutlinedIcon fontSize={dense ? 'small' : 'medium'} />
-          </Typography>
+          <IconTypography>
+            <LayersIcon fontSize="small" />
+          </IconTypography>
           <Typography
             fontSize={14}
             color="text.primary"

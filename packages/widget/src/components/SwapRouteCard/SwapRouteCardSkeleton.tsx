@@ -31,12 +31,7 @@ export const SwapRouteCardSkeleton: React.FC<
           <Skeleton variant="text" width={96} height={32} />
         </Box>
         <Box ml={6} display="flex" alignItems="center">
-          <Skeleton
-            variant="text"
-            width={102}
-            height={16}
-            sx={{ borderRadius: 0.5 }}
-          />
+          <Skeleton variant="text" width={102} height={16} />
           <Skeleton
             variant="text"
             width={72}
@@ -46,10 +41,10 @@ export const SwapRouteCardSkeleton: React.FC<
         </Box>
       </Box>
       <Box mt={2} display="flex" justifyContent="space-between">
-        <Skeleton variant="text" width={64} height={24} />
-        <Skeleton variant="text" width={64} height={24} />
-        <Skeleton variant="text" width={48} height={24} />
-        <Skeleton variant="text" width={32} height={24} />
+        <Skeleton variant="text" width={64} height={20} />
+        <Skeleton variant="text" width={64} height={20} />
+        <Skeleton variant="text" width={48} height={20} />
+        <Skeleton variant="text" width={32} height={20} />
       </Box>
     </Box>
   );

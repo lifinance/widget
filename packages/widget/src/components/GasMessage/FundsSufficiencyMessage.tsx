@@ -1,4 +1,4 @@
-import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
+import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import {
@@ -11,7 +11,7 @@ export const FundsSufficiencyMessage = () => {
   return (
     <WarningMessageCard display="flex">
       <WarningMessageCardTitle>
-        <WarningAmberRoundedIcon
+        <WarningRoundedIcon
           sx={{
             marginTop: 2,
             marginLeft: 2,
