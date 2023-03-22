@@ -5,7 +5,7 @@ import type {
   Status,
   StatusMessage,
   Step,
-  Substatus
+  Substatus,
 } from '@lifi/sdk';
 import { LifiErrorCode } from '@lifi/sdk';
 import type { TFunction } from 'i18next';

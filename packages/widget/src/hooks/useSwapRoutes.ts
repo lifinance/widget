@@ -11,7 +11,15 @@ import { useSettings } from '../stores';
 
 const refetchTime = 60_000;
 
-export const useSwapRoutes = (insurableRoute?: Route) => {
+interface SwapRoutesProps {
+  onSettled?: (data?: RoutesResponse) => void;
+  insurableRoute?: Route;
+}
+
+export const useSwapRoutes = ({
+  onSettled,
+  insurableRoute,
+}: SwapRoutesProps = {}) => {
   const lifi = useLiFi();
   const { variant, sdkConfig, maxPriceImpact } = useWidgetConfig();
   const { account, provider } = useWallet();
@@ -272,6 +280,7 @@ export const useSwapRoutes = (insurableRoute?: Route) => {
             });
           }
         },
+        onSettled,
       },
     );
 

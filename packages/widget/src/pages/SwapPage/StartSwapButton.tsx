@@ -40,7 +40,9 @@ export const StartIdleSwapButton: React.FC<StartSwapButtonProps> = ({
   const routeExecution = useRouteExecutionStore(
     (state) => state.routes[insurableRouteId],
   );
-  const { isLoading } = useSwapRoutes(routeExecution?.route);
+  const { isFetching } = useSwapRoutes({
+    insurableRoute: routeExecution?.route,
+  });
 
   return (
     <StartSwapButton
@@ -48,7 +50,7 @@ export const StartIdleSwapButton: React.FC<StartSwapButtonProps> = ({
       text={text}
       route={route}
       disabled={disabled}
-      loading={loading || isLoading}
+      loading={loading || isFetching}
       insurableRouteId={insurableRouteId}
     />
   );
