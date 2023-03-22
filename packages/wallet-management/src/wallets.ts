@@ -23,6 +23,15 @@ const walletConnect: Wallet = new WalletConnectConnector({
   ),
 });
 
+const frontier: Wallet = new InjectedConnector(
+  {
+    name: 'Frontier',
+    installed: ({ provider }) => (window as any).frontier,
+    icon: walletIcons.mathwallet,
+  },
+  (window as any).frontier.ethereum,
+);
+
 const brave: Wallet = new InjectedConnector({
   name: 'Brave',
   installed: ({ provider }) =>
@@ -45,7 +54,7 @@ const tallyho: Wallet = new InjectedConnector(
       (window as any).tally[ProviderIdentityFlag.TallyHo],
     icon: walletIcons.tallyho,
   },
-  'tally',
+  (window as any).tally,
 );
 
 const blockWallet: Wallet = new InjectedConnector({
@@ -202,6 +211,7 @@ export const supportedWallets = [
   walletConnect,
   tallyho,
   binance,
+  frontier,
   coinbase,
   detected,
   trust,

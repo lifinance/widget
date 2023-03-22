@@ -26,25 +26,21 @@ export class InjectedConnector extends events.EventEmitter implements Wallet {
 
   constructor(
     constructorArgs: InjectedConnectorConstructorArgs,
-    connectorWindowProperty = 'ethereum',
+    windowConnector = (window as any).ethereum as Provider,
     autoConnect = false,
   ) {
     super();
-    this.initializeProvider(connectorWindowProperty);
+    this.initializeProvider(windowConnector);
     this.name = constructorArgs.name;
     this.icon = constructorArgs.icon;
     this.installed = constructorArgs.installed;
   }
 
-  private initializeProvider(connectorWindowProperty: string) {
-    if (!window[connectorWindowProperty as any]) {
-      throw new Error(
-        `window.${connectorWindowProperty} is not a valid connector`,
-      );
+  private initializeProvider(connectorWindowProperty: Provider) {
+    if (window === undefined) {
+      throw new Error('window is not defined. This should not have happened.');
     }
-    this.windowProvider = window[
-      connectorWindowProperty as any
-    ] as unknown as Provider;
+    this.windowProvider = connectorWindowProperty;
     this.windowProvider?.on(
       'connect',
       async ({ chainId }: ProviderConnectInfo): Promise<void> => {

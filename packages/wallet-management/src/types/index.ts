@@ -88,4 +88,5 @@ export enum ProviderIdentityFlag {
   OneInch = 'isOneInchIOSWallet',
   Tokenary = 'isTokenary',
   MathWallet = 'isMathWallet',
+  Frontier = 'isFrontier',
 }
