@@ -1,5 +1,7 @@
+import type { Route } from '@lifi/sdk';
 import { Collapse } from '@mui/material';
 import type { PropsWithChildren } from 'react';
+import { useState } from 'react';
 import { useSwapRoutes } from '../../hooks';
 import {
   RouteExecutionStatus,
@@ -19,17 +21,24 @@ export const InsuranceCollapsed: React.FC<
   children,
   ...props
 }) => {
+  const [insuredRoute, setInsuredRoute] = useState<Route>();
   const setExecutableRoute = useSetExecutableRoute();
   const routeExecution = useRouteExecutionStore(
     (state) => state.routes[insurableRouteId],
   );
-  const { routes } = useSwapRoutes(routeExecution?.route);
+  useSwapRoutes({
+    insurableRoute: routeExecution?.route,
+    onSettled(data) {
+      if (data?.routes?.[0]) {
+        setInsuredRoute(data.routes[0]);
+      }
+    },
+  });
 
   const toggleInsurance = (
     _: React.ChangeEvent<HTMLInputElement>,
     checked: boolean,
   ) => {
-    const insuredRoute = routes?.[0];
     if (insuredRoute) {
       if (checked) {
         setExecutableRoute(insuredRoute, insurableRouteId);
@@ -37,8 +46,6 @@ export const InsuranceCollapsed: React.FC<
       onChange?.(checked ? insuredRoute.id : insurableRouteId);
     }
   };
-
-  const insuredRoute = routes?.[0];
 
   return (
     <Collapse
