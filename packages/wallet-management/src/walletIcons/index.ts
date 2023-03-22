@@ -28,12 +28,14 @@ import trust from './trust.svg';
 import walletConnect from './walletConnect.svg';
 import walletio from './walletio.svg';
 import xdefi from './xdefi.svg';
+import frontier from './frontier.svg';
 
 export const walletIcons = {
   mathwallet,
   walletConnect,
   alphawallet,
   atoken,
+  frontier,
   blockwallet,
   binance,
   bitpie,
