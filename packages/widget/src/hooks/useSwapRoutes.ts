@@ -100,15 +100,6 @@ export const useSwapRoutes = (insurableRoute?: Route) => {
     insurableRoute?.id,
   ];
 
-  const previousDataUpdatedAt =
-    queryClient.getQueryState(queryKey)?.dataUpdatedAt;
-  const refetchInterval = previousDataUpdatedAt
-    ? Math.min(
-        Math.abs(refetchTime - (Date.now() - previousDataUpdatedAt)),
-        refetchTime,
-      )
-    : refetchTime;
-
   const { data, isLoading, isFetching, isFetched, dataUpdatedAt, refetch } =
     useQuery(
       queryKey,
@@ -243,9 +234,14 @@ export const useSwapRoutes = (insurableRoute?: Route) => {
       },
       {
         enabled: isEnabled,
-        refetchInterval,
         staleTime: refetchTime,
         cacheTime: refetchTime,
+        refetchInterval(data, query) {
+          return Math.min(
+            Math.abs(refetchTime - (Date.now() - query.state.dataUpdatedAt)),
+            refetchTime,
+          );
+        },
         retry(failureCount, error: any) {
           if (error?.code === LifiErrorCode.NotFound) {
             return false;
