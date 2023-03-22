@@ -25,11 +25,11 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import React, { useEffect, useState } from 'react';
 import { WalletButtons } from './components/WalletButtons';
 import { WidgetEvents } from './components/WidgetEvents';
-import { widgetBaseConfig, widgetConfig, WidgetVariants } from './config';
+import { WidgetVariants, widgetBaseConfig, widgetConfig } from './config';
 import './index.css';
 import { useWallet } from './providers/WalletProvider';
 
@@ -320,7 +320,7 @@ export const App = () => {
           </Box>
         </Drawer>
         <Box flex={1} margin="auto">
-          <LiFiWidget config={config} open />
+          <LiFiWidget integrator={config.integrator} config={config} open />
         </Box>
       </Box>
     </ThemeProvider>

@@ -1,0 +1,230 @@
+{
+  "button": {
+    "auto": "อัตโนมัติ",
+    "cancel": "ยกเลิก",
+    "connectWallet": "เชื่อมต่อ กระเป๋า",
+    "contactSupport": "ติดต่อฝ่ายสนับสนุน",
+    "continue": "ดำเนินการต่อ",
+    "copyAddress": "คัดลอกที่อยู่",
+    "dark": "มืด",
+    "delete": "ลบ",
+    "disconnect": "ยกเลิกการเชื่อมต่อ",
+    "done": "เสร็จสิ้น",
+    "getGas": "รับแก็ส",
+    "hide": "ซ่อน",
+    "lifiSwap": "การแลกเปลี่ยนของ LI.FI",
+    "light": "สว่าง",
+    "max": "สูงสุด",
+    "ok": "ตกลง",
+    "okay": "ตกลง",
+    "removeSwap": "ยกเลิกการแลกเปลี่ยน",
+    "reset": "ล้างข้อมูล",
+    "resetSettings": "รีเซ็ตการตั้งค่า",
+    "restartSwap": "เริ่มต้นการแลกเปลี่ยนใหม่",
+    "reviewGasSwap": "ตรวจสอบแก๊สในการแลกเปลี่ยน",
+    "reviewSwap": "ตรวจสอบการแลกเปลี่ยน",
+    "seeDetails": "ดูรายละเอียด",
+    "showAll": "แสดงทั้งหมด",
+    "startGasSwap": "เริ่มต้นแก๊สในการแลกเปลี่ยน",
+    "startSwap": "เริ่มต้นการแลกเปลี่ยน",
+    "swap": "การแลกเปลี่ยน",
+    "tryAgain": "ลองใหม่",
+    "viewOnExplorer": "ดูในการสำรวจ"
+  },
+  "format": {
+    "currency": "{{value, currency(currency: USD)}}",
+    "number": "{{value, number(maximumFractionDigits: 9)}}"
+  },
+  "header": {
+    "activeSwaps": "เปิดการใช้งาน การแลกเปลี่ยน",
+    "checkout": "เช็คเอาท์",
+    "from": "แลกเปลี่ยนจาก",
+    "gas": "แก็ส",
+    "gasSwap": "แก็สในการแลกเปลี่ยน",
+    "routes": "คุณได้รับ",
+    "selectChain": "เลือกเชน",
+    "selectWallet": "เลือกกระเป๋าของคุณ",
+    "settings": "ตั้งค่า",
+    "swap": "แลกเปลี่ยน",
+    "swapDetails": "รายละเอียดการแลกเปลี่ยน",
+    "swapHistory": "ประวัติการแลกเปลี่ยน",
+    "to": "แลกเปลี่ยนเป็น",
+    "walletConnected": "กระเป๋าถูกเชื่อมต่อแล้ว"
+  },
+  "language": {
+    "name": "ภาษาไทย",
+    "title": "ภาษา"
+  },
+  "settings": {
+    "enabledBridges": "เปิดการใช้งานบริดจ์",
+    "enabledExchanges": "เปิดการใช้งาน การแลกเปลี่ยน",
+    "gasPrice": {
+      "fast": "รวดเร็ว",
+      "normal": "ปกติ",
+      "slow": "ช้า",
+      "title": "ค่าแก็ส"
+    },
+    "routePriority": "ลำดับสำคัญของเส้นทาง",
+    "showDestinationWallet": "แสดงกระเป๋าปลายทาง",
+    "slippage": "ความคลาดเคลื่อน"
+  },
+  "swap": {
+    "crossStepDetails": "บริดจ์จาก{{from}} to {{to}} โดย {{tool}}",
+    "currentAmount": "จำนวนเงินปัจจุบัน",
+    "error": {
+      "message": {
+        "slippageThreshold": "การคลาดเคลื่อนมีขนาดใหญ่กว่าเกณฑ์ที่กำหนด โปรดขอเส้นทางใหม่เพื่อได้รับการเสนอราคาใหม่.",
+        "transactionFailed": "โปรดตรวจสอบบล็อกการสำรวจสำหรับข้อมูลเพิ่มเติม.",
+        "transactionNotSent": "ไม่ได้ส่งธุรกรรม. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} บน {{chainName}} ยังคงอยู่ในกระเป๋าเงินของคุณ.",
+        "transactionRejected": "จำเป็นต้องมีลายเซ็นของคุณเพื่อทำธุรกรมให้เสร็จสมบูรณ์. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} บน {{chainName}} ยังคงอยู่ในกระเป๋าเงินของคุณ.",
+        "unknown": "โปรดลองอีกครั้งหรือติดต่อฝ่ายสนับสนุน."
+      },
+      "title": {
+        "balanceIsTooLow": "ยอดคงเหลือต่ำเกินไป",
+        "chainSwitch": "จำเป็นต้องเปลี่ยนเชน",
+        "failed": "การแลกเปลี่ยนล้มเหลว",
+        "gasLimitIsTooLow": "แก๊สคงเหลือต่ำเกินไป",
+        "slippageNotMet": "ความคลาดเคลื่อนของราคาไม่เป็นไปตามเงื่อนไข.",
+        "transactionCanceled": "ธุรกรรมถูกยกเลิกแล้ว",
+        "transactionFailed": "การทำธุรกรรมล้มเหลว",
+        "transactionRejected": "ต้องมีลายเซ็น",
+        "transactionUnderpriced": "ราคาธุรกรรมต่ำเกินไป",
+        "transactionUnprepared": "ไม่สามารถจัดทำธุรกรรมได้",
+        "unknown": "มีบางอย่างผิดพลาด",
+        "walletAddressInvalid": "ที่อยู่กระเป๋าเงินไม่ถูกต้อง.",
+        "walletAddressRequired": "กรุณากรอกที่อยู่กระเป๋าเงิน.",
+        "walletEnsAddressInvalid": "ที่อยู่กระเป๋าเงินไม่ถูกต้องหรือเครือข่ายไม่รองรับ ENS."
+      }
+    },
+    "estimatedTime": "{{value}} นาที",
+    "featuredTokens": "จุดเด่นของเหรียญ",
+    "from": "จาก",
+    "fromAmount": "คุณจ่าย",
+    "gasCost": "ค่าแก๊ส",
+    "gasFeeEstimated": "ค่าแก๊สโดยประมาณ",
+    "gasFeePaid": "จ่ายค่าทำเนียมแล้ว",
+    "inProgress": "กำลังดำเนินการ",
+    "info": {
+      "message": {
+        "emptyActiveSwaps": "การแลกเปลี่ยนที่กำลังดำเนินการจะปรากฏที่นี่. เมื่อเสร็จสิ้น, จะพบประวัติการแลกเปลี่ยน.",
+        "emptySwapHistory": "ประวัติการแลกเปลี่ยนจะถูกเก็บไว้ในเครื่องเท่านั้นและจะถูกลบหากคุณล้างข้อมูลเบราว์เซอร์ของคุณ.",
+        "emptyTokenList": "เราไม่พบโทเค็นใน {{chainName}} เชนหรือคุณไม่มีโทเค็น. โปรดลองอีกครั้งหรือเลือกเชนอื่น.",
+        "routeNotFound": "ลองจับคู่แลกเปลี่ยนโทเค็นใหม่."
+      },
+      "title": {
+        "emptyActiveSwaps": "ไม่พบการแลกเปลี่ยนที่ใช้งานอยู่.",
+        "emptySwapHistory": "ไม่พบการแลกเปลี่ยนล่าสุด.",
+        "routeNotFound": "ไม่พบเส้นทาง"
+      }
+    },
+    "nftStepDetails": "ซื้อ NFT ผ่าน {{tool}}",
+    "onChain": "บน {{chainName}}",
+    "otherTokens": "โทเค็นอื่น",
+    "ownedBy": "เป็นเจ้าของโดย",
+    "payWith": "ชำระด้วย",
+    "process": {
+      "crossChain": {
+        "actionRequired": "กรุณาเซ็นชื่อในการทำธุรกรรม",
+        "done": "ธุรกรรมข้ามเชนได้รับการยืนยันแล้ว",
+        "pending": "รอสำหรับการทำรายการบริดจ์",
+        "started": "เตรียมการทำรายการบริดจ์"
+      },
+      "receivingChain": {
+        "done": "ข้ามเชนเสร็จสมบูรณ์",
+        "partial": "การข้ามเชนเสร็จสมบูรณ์บางส่วน",
+        "pending": "กำลังรอเชนปลายทาง",
+        "refunded": "คืนเงินการทำธุรกรรมข้ามเชนแล้ว"
+      },
+      "swap": {
+        "actionRequired": "กรุณาเซ็นชื่อในการทำธุรกรรม",
+        "done": "การแลกเปลี่ยนเสร็จสมบูรณ์",
+        "pending": "กำลังรอการแลกเปลี่ยนธุรกรรม",
+        "started": "กำลังเตรียมการแลกเปลี่ยนธุรกรรม"
+      },
+      "switchChain": {
+        "actionRequired": "จำเป็นต้องเปลี่ยนเชน",
+        "done": "สลับเชนสำเร็จแล้ว"
+      },
+      "tokenAllowance": {
+        "done": "โทเค็นได้รับการอนุญาตแล้ว",
+        "pending": "รอการอนุญาตของโทเค็น",
+        "started": "การตั้งค่าการอนุญาตโทเค็น"
+      }
+    },
+    "quotedAmount": "จำนวนทั้งหมดที่เสนอ",
+    "rateChange": "อัตราแลกเปลี่ยน",
+    "receiving": "ได้รับ",
+    "routes": "คุณได้รับ",
+    "selectChain": "เชน",
+    "selectChainAndToken": "เลือกเชนและโทเค็น",
+    "selectToken": "โทเค็น",
+    "sendToAddress": "ส่งไปยัง {{address}}",
+    "sendToWallet": "ส่งไปยังกระเป๋าเงินอื่น",
+    "sentToAddress": "ส่งไปยัง {{address}}",
+    "stepBridge": "บริดจ์",
+    "stepSwap": "แลกเปลี่ยน",
+    "stepSwapAndBridge": "แลกเปลี่ยนและบริดจ์",
+    "success": {
+      "message": {
+        "swapPartiallySuccessful": "เราได้พยายามดำเนินการแลกเปลี่ยนให้เสร็จสมบูรณ์แต่ {{tool}} ขาดสภาพคล่องสำหรับโทเค็น {{tokenSymbol}}",
+        "swapSuccessful": "ตอนนี้มี {{amount, number(maximumFractionDigits: 9)}}{{tokenSymbol}} ใน {{walletAddress}} กระเป๋าบน {{chainName}} เชน."
+      },
+      "title": {
+        "gasSwapSuccessful": "แลกเปลี่ยนแก็สสำเร็จ",
+        "refundIssued": "คืนเงินแล้ว",
+        "swapPartiallySuccessful": "แลกเปลี่ยนสำเร็จบางส่วน",
+        "swapSuccessful": "แลกเปลี่ยนสำเร็จ"
+      }
+    },
+    "supportId": "หมายเลขที่สนับสนุน",
+    "swapStepDetails": "แลกเปลี่ยนบน {{chain}} ผ่าน {{tool}}",
+    "swapping": "การแลกเปลี่ยน",
+    "tags": {
+      "ALTERNATIVE": "ทางเลือก",
+      "CHEAPEST": "ราคาถูก",
+      "FASTEST": "เร็ว",
+      "RECOMMENDED": "แนะนำ",
+      "SAFEST": "ปลอดภัย"
+    },
+    "to": "ถึง",
+    "tokenOnChain": "{{tokenSymbol}} บน {{chainName}}",
+    "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}}{{tokenSymbol}} บน {{chainName}}",
+    "tokenSearch": "ค้นหาโทเค็นของคุณ",
+    "valueLoss": "มูลค่าที่สูญเสีย",
+    "walletAddressOrEns": "ที่อยู่กระเป๋าหรือชื่อENS",
+    "warning": {
+      "message": {
+        "deleteActiveSwaps": "การแลกเปลี่ยนที่ใช้งานอยู่จะถูกจัดเก็บไว้ในเครื่องเท่านั้นและไม่สามารถกู้คืนได้หากคุณลบออก.",
+        "deleteSwapHistory": "ประวัติการแลกเปลี่ยนจะถูกจัดเก็บไว้ในเครื่องเท่านั้นและไม่สามารถกู้คืนได้หากคุณลบออก",
+        "highValueLoss": "มูลค่าของโทเค็นที่ได้รับนั้นต่ำกว่าโทเค็นที่แลกเปลี่ยนและต้นทุนการทำธุรกรรมอย่างมาก.",
+        "insufficientFunds": "คุณมีเงินไม่เพียงพอที่จะดำเนินการแลกเปลี่ยน.",
+        "insufficientGas": "คุณต้องเพิ่มอย่างน้อย:",
+        "rateChanged": "อัตราแลกเปลี่ยนมีการเปลี่ยนแปลง คุณจะยอมรับอัตราใหม่.",
+        "resetSettings": "การดำเนินการนี้จะรีเซ็ตลำดับความสำคัญของเส้นทาง การคลาดเลื่อน ค่าแก็ส บริดจ์ที่เปิดใช้งานและการแลกเปลี่ยน"
+      },
+      "title": {
+        "deleteActiveSwaps": "ลบการแลกเปลี่ยนที่เกิดขึ้นอยู่ทั้งหมด?",
+        "deleteSwap": "ลบการแลกเปลี่ยนในครั้งนี้?",
+        "deleteSwapHistory": "ลบประวัติการแลกเปลี่ยน?",
+        "highValueLoss": "สูญเสียมูลค่าสูง",
+        "insufficientGas": "ค่าแก็สไม่พอ",
+        "rateChanged": "อัตราการแลกเปลี่ยนถูกเปลี่ยน",
+        "resetSettings": "รีเซ็ทการตั้งค่า?"
+      }
+    }
+  },
+  "tooltip": {
+    "estimatedNetworkFee": "ค่าธรรรมเนียมโดยประมาณของเครือข่าย",
+    "estimatedTime": "เวลาดำเนินการแลกเปลี่ยนโดยประมาณเป็นนาที.",
+    "notFound": {
+      "text": "เราไม่พบหน้านี้.",
+      "title": "404"
+    },
+    "numberOfSteps": "ขั้นตอนการแลกเปลี่ยนหลายขั้นตอน แต่ละขั้นตอนสามารถมี 1-2 รายการที่ต้องใช้ลายเซ็น.",
+    "progressToNextUpdate": "ข้อมูลที่แสดงจะรีเฟรชอัตโนมัติหลังจาก {{value}} วินาที คลิกที่นี่เพื่ออัปเดตด้วยตนเอง",
+    "settingsModified": "การตั้งค่า (แก้ไข)"
+  },
+  "wallet": {
+    "extensionNotFound": "โปรดตรวจสอบว่ามีเพียงส่วนขยายของเบราว์เซอร์ {{name}} เท่านั้นที่ใช้งานได้ก่อนที่จะเลือกกระเป๋าเงินนี้."
+  }
+}

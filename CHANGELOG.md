@@ -2,6 +2,45 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.32.8](https://github.com/lifinance/widget/compare/v1.32.7...v1.32.8) (2023-03-06)
+
+
+### Bug Fixes
+
+* add actions permissions ([a8dcf18](https://github.com/lifinance/widget/commit/a8dcf18581057aa1fad95735c81d785d695dc4eb))
+* only reset appearance if not set via config ([bc5f164](https://github.com/lifinance/widget/commit/bc5f16471235ffb6afe9bf39839375a1090323a6))
+* TextFitter visibility when using display: none ([05eb5aa](https://github.com/lifinance/widget/commit/05eb5aa1eaf34d704e514130daab1255674b08bf))
+* use iam role in github actions ([d663c7e](https://github.com/lifinance/widget/commit/d663c7e7c1b7e93775b7d11c8b8546ca7a3b3316))
+
+### [1.32.7](https://github.com/lifinance/widget/compare/v1.32.6...v1.32.7) (2023-03-03)
+
+### [1.32.6](https://github.com/lifinance/widget/compare/v1.32.5...v1.32.6) (2023-03-01)
+
+### [1.32.5](https://github.com/lifinance/widget/compare/v1.32.4...v1.32.5) (2023-03-01)
+
+
+### Bug Fixes
+
+* provider destructuring doesn't work for WalletConnect ([76647ed](https://github.com/lifinance/widget/commit/76647ede568d2fe8fee2a07b03fc0cb8747ed8c6))
+* update local tokens cache to keep priceUSD in sync ([#61](https://github.com/lifinance/widget/issues/61)) ([d3f4d87](https://github.com/lifinance/widget/commit/d3f4d87133f89c5ff4e3276e09492c2d9c279ec2))
+
+### [1.32.4](https://github.com/lifinance/widget/compare/v1.32.3...v1.32.4) (2023-02-24)
+
+### [1.32.3](https://github.com/lifinance/widget/compare/v1.32.2...v1.32.3) (2023-02-22)
+
+
+### Bug Fixes
+
+* drawer variant isn't wrapped in i18n provider ([c33f0ce](https://github.com/lifinance/widget/commit/c33f0ce36b0c3e49c9dde230fce09804c4bf788a))
+* fetch balance more often ([7a7d574](https://github.com/lifinance/widget/commit/7a7d57462a801154ed9c3747189922f94129d608))
+
+### [1.32.2](https://github.com/lifinance/widget/compare/v1.32.1...v1.32.2) (2023-02-20)
+
+
+### Bug Fixes
+
+* refine ripple effect usage and colors ([#57](https://github.com/lifinance/widget/issues/57)) ([c9eaa91](https://github.com/lifinance/widget/commit/c9eaa91752fedbd4b818c70c3316d6f1ffe1685d))
+
 ### [1.32.1](https://github.com/lifinance/widget/compare/v1.32.0...v1.32.1) (2023-02-15)
 
 

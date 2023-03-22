@@ -1,7 +1,5 @@
-import {
-  KeyboardArrowLeft as KeyboardArrowLeftIcon,
-  KeyboardArrowRight as KeyboardArrowRightIcon,
-} from '@mui/icons-material';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { Drawer } from '@mui/material';
 import {
   forwardRef,
@@ -25,10 +23,9 @@ export interface WidgetDrawer {
 }
 
 export const AppDrawer = forwardRef<WidgetDrawer, WidgetProps>(
-  ({ elementRef, open, config }, ref) => {
-    const { t } = useTranslation();
+  ({ elementRef, open, integrator, config }, ref) => {
     const openRef = useRef(open);
-    const [drawerOpen, setDrawerOpen] = useState(open);
+    const [drawerOpen, setDrawerOpen] = useState(Boolean(open));
 
     const toggleDrawer = useCallback(() => {
       setDrawerOpen((open) => !open);
@@ -56,17 +53,17 @@ export const AppDrawer = forwardRef<WidgetDrawer, WidgetProps>(
     const drawerConfig: WidgetConfig = useMemo(
       () => ({
         ...config,
+        integrator,
         containerStyle: {
           ...config?.containerStyle,
           height: '100%',
         },
-        variant: 'drawer',
       }),
-      [config],
+      [config, integrator],
     );
 
     return (
-      <AppProvider config={drawerConfig}>
+      <AppProvider integrator={integrator} config={drawerConfig}>
         <DrawerButton
           variant="contained"
           onClick={toggleDrawer}
@@ -74,9 +71,7 @@ export const AppDrawer = forwardRef<WidgetDrawer, WidgetProps>(
           drawerProps={config?.containerStyle}
         >
           {drawerOpen ? <KeyboardArrowRightIcon /> : <KeyboardArrowLeftIcon />}
-          <DrawerButtonTypography>
-            {drawerOpen ? t('button.hide') : t('button.lifiSwap')}
-          </DrawerButtonTypography>
+          <DrawerButtonText open={drawerOpen} />
         </DrawerButton>
         <Drawer
           ref={elementRef}
@@ -104,3 +99,13 @@ export const AppDrawer = forwardRef<WidgetDrawer, WidgetProps>(
     );
   },
 );
+
+export const DrawerButtonText = ({ open }: { open: boolean }) => {
+  const { t } = useTranslation();
+
+  return (
+    <DrawerButtonTypography>
+      {open ? t('button.hide') : t('button.lifiSwap')}
+    </DrawerButtonTypography>
+  );
+};

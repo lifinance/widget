@@ -1,5 +1,6 @@
 import type { Step } from '@lifi/sdk';
-import { LinkRounded as LinkIcon, WalletOutlined as WalletOutlinedIcon } from '@mui/icons-material';
+import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
+import WalletIcon from '@mui/icons-material/Wallet';
 import { Box, Link, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { CircularIcon } from './CircularProgress.style';
@@ -21,7 +22,7 @@ export const DestinationWalletAddress: React.FC<{
         }}
       >
         <CircularIcon status={isDone ? 'DONE' : 'NOT_STARTED'}>
-          <WalletOutlinedIcon
+          <WalletIcon
             color={isDone ? 'success' : 'inherit'}
             sx={{
               position: 'absolute',
@@ -54,7 +55,7 @@ export const DestinationWalletAddress: React.FC<{
             target="_blank"
             rel="nofollow noreferrer"
           >
-            <LinkIcon />
+            <LinkRoundedIcon />
           </LinkButton>
         </Box>
       </Box>

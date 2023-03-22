@@ -1,9 +1,7 @@
-import {
-  CheckBox,
-  CheckBoxOutlineBlankOutlined,
-  CheckBoxOutlined,
-  IndeterminateCheckBoxOutlined,
-} from '@mui/icons-material';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
+import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
+import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
 import {
   Avatar,
   Container,
@@ -62,11 +60,11 @@ export const SelectEnabledToolsPage: React.FC<{
     return useHeaderActionStore.getState().setAction(
       <IconButton size="medium" edge="end" onClick={toggleCheckboxes}>
         {allToolsSelected ? (
-          <CheckBoxOutlined />
+          <CheckBoxOutlinedIcon />
         ) : enabledTools.length ? (
-          <IndeterminateCheckBoxOutlined />
+          <IndeterminateCheckBoxOutlinedIcon />
         ) : (
-          <CheckBoxOutlineBlankOutlined />
+          <CheckBoxOutlineBlankOutlinedIcon />
         )}
       </IconButton>,
     );
@@ -81,11 +79,7 @@ export const SelectEnabledToolsPage: React.FC<{
         }}
       >
         {tools?.[typeKey].map((tool) => (
-          <ListItemButton
-            key={tool.name}
-            onClick={() => handleClick(tool.key)}
-            disableRipple
-          >
+          <ListItemButton key={tool.name} onClick={() => handleClick(tool.key)}>
             <ListItemAvatar>
               <Avatar src={tool.logoURI} alt={tool.name}>
                 {tool.name[0]}
@@ -93,9 +87,9 @@ export const SelectEnabledToolsPage: React.FC<{
             </ListItemAvatar>
             <ListItemText primary={tool.name} />
             {enabledTools?.includes(tool.key) ? (
-              <CheckBox color="primary" />
+              <CheckBoxIcon color="primary" />
             ) : (
-              <CheckBoxOutlineBlankOutlined />
+              <CheckBoxOutlineBlankOutlinedIcon />
             )}
           </ListItemButton>
         ))}

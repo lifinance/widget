@@ -1,28 +1,42 @@
 import { isAddress } from '@ethersproject/address';
-import type { Route } from '@lifi/sdk';
+import type { LifiStep, Route, RoutesResponse, Token } from '@lifi/sdk';
 import { LifiErrorCode } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Big from 'big.js';
 import { useWatch } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
-import { useDebouncedWatch, useToken } from '.';
+import { useDebouncedWatch, useGasRefuel, useToken } from '.';
 import { SwapFormKey, useLiFi, useWallet, useWidgetConfig } from '../providers';
 import { useSettings } from '../stores';
 
 const refetchTime = 60_000;
 
-export const useSwapRoutes = () => {
+interface SwapRoutesProps {
+  onSettled?: (data?: RoutesResponse) => void;
+  insurableRoute?: Route;
+}
+
+export const useSwapRoutes = ({
+  onSettled,
+  insurableRoute,
+}: SwapRoutesProps = {}) => {
   const lifi = useLiFi();
-  const { variant, sdkConfig } = useWidgetConfig();
+  const { variant, sdkConfig, insurance } = useWidgetConfig();
   const { account, provider } = useWallet();
   const queryClient = useQueryClient();
-  const { slippage, enabledBridges, enabledExchanges, routePriority } =
-    useSettings([
-      'slippage',
-      'routePriority',
-      'enabledBridges',
-      'enabledExchanges',
-    ]);
+  const {
+    slippage,
+    enabledBridges,
+    enabledAutoRefuel,
+    enabledExchanges,
+    routePriority,
+  } = useSettings([
+    'slippage',
+    'routePriority',
+    'enabledAutoRefuel',
+    'enabledBridges',
+    'enabledExchanges',
+  ]);
   const [fromTokenAmount] = useDebouncedWatch([SwapFormKey.FromAmount], 320);
   const [
     fromChainId,
@@ -49,6 +63,7 @@ export const useSwapRoutes = () => {
   });
   const { token: fromToken } = useToken(fromChainId, fromTokenAddress);
   const { token: toToken } = useToken(toChainId, toTokenAddress);
+  const { enabled: enabledRefuel, gasRecommendation } = useGasRefuel();
 
   const hasAmount =
     (!isNaN(fromTokenAmount) && Number(fromTokenAmount) > 0) ||
@@ -87,16 +102,11 @@ export const useSwapRoutes = () => {
     routePriority,
     variant,
     sdkConfig?.defaultRouteOptions?.allowSwitchChain,
+    enabledRefuel && enabledAutoRefuel,
+    gasRecommendation?.fromAmount,
+    insurance,
+    insurableRoute?.id,
   ];
-
-  const previousDataUpdatedAt =
-    queryClient.getQueryState(queryKey)?.dataUpdatedAt;
-  const refetchInterval = previousDataUpdatedAt
-    ? Math.min(
-        Math.abs(refetchTime - (Date.now() - previousDataUpdatedAt)),
-        refetchTime,
-      )
-    : refetchTime;
 
   const { data, isLoading, isFetching, isFetched, dataUpdatedAt, refetch } =
     useQuery(
@@ -121,6 +131,10 @@ export const useSwapRoutes = () => {
           routePriority,
           variant,
           allowSwitchChain,
+          enabledRefuel,
+          gasRecommendationFromAmount,
+          insurance,
+          insurableRouteId,
         ],
         signal,
       }) => {
@@ -173,11 +187,29 @@ export const useSwapRoutes = () => {
             toToken: toToken!,
             toAddress: toAddress,
             gasCostUSD: contractCallQuote.estimate.gasCosts?.[0].amountUSD,
-            steps: [contractCallQuote],
+            steps: [contractCallQuote as LifiStep],
+            insurance: { state: 'NOT_INSURABLE', feeAmountUsd: '0' },
           };
 
-          return { routes: [route] };
+          return { routes: [route] } as RoutesResponse;
         }
+
+        const allowedBridges: string[] = insurableRoute
+          ? insurableRoute.steps.flatMap((step) =>
+              step.includedSteps
+                .filter((includedStep) => includedStep.type === 'cross')
+                .map((includedStep) => includedStep.toolDetails.key),
+            )
+          : enabledBridges;
+
+        const allowedExchanges: string[] = insurableRoute
+          ? insurableRoute.steps.flatMap((step) =>
+              step.includedSteps
+                .filter((includedStep) => includedStep.type === 'swap')
+                .map((includedStep) => includedStep.toolDetails.key),
+            )
+          : enabledExchanges;
+
         return lifi.getRoutes(
           {
             fromChainId,
@@ -187,16 +219,21 @@ export const useSwapRoutes = () => {
             toTokenAddress,
             fromAddress,
             toAddress: toWalletAddress,
+            fromAmountForGas:
+              enabledRefuel && gasRecommendationFromAmount
+                ? gasRecommendationFromAmount
+                : undefined,
             options: {
               slippage: formattedSlippage,
               bridges: {
-                allow: enabledBridges,
+                allow: allowedBridges,
               },
               exchanges: {
-                allow: enabledExchanges,
+                allow: allowedExchanges,
               },
               order: routePriority,
               allowSwitchChain: variant === 'refuel' ? false : allowSwitchChain,
+              insurance: insurance ? Boolean(insurableRoute) : undefined,
             },
           },
           { signal },
@@ -204,15 +241,45 @@ export const useSwapRoutes = () => {
       },
       {
         enabled: isEnabled,
-        refetchInterval,
         staleTime: refetchTime,
         cacheTime: refetchTime,
+        refetchInterval(data, query) {
+          return Math.min(
+            Math.abs(refetchTime - (Date.now() - query.state.dataUpdatedAt)),
+            refetchTime,
+          );
+        },
         retry(failureCount, error: any) {
           if (error?.code === LifiErrorCode.NotFound) {
             return false;
           }
           return true;
         },
+        onSuccess(data) {
+          if (data.routes[0]) {
+            // Update local tokens cache to keep priceUSD in sync
+            const { fromToken, toToken } = data.routes[0];
+            [fromToken, toToken].forEach((token) => {
+              queryClient.setQueriesData<Token[]>(
+                ['token-balances', account.address, token.chainId],
+                (data) => {
+                  if (data) {
+                    const clonedData = [...data];
+                    const index = clonedData.findIndex(
+                      (dataToken) => dataToken.address === token.address,
+                    );
+                    clonedData[index] = {
+                      ...clonedData[index],
+                      ...token,
+                    };
+                    return clonedData;
+                  }
+                },
+              );
+            });
+          }
+        },
+        onSettled,
       },
     );
 

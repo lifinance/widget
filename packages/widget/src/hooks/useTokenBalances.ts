@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useLiFi, useWallet } from '../providers';
@@ -7,7 +6,7 @@ import { formatTokenAmount } from '../utils';
 import { useFeaturedTokens } from './useFeaturedTokens';
 import { useTokens } from './useTokens';
 
-const defaultRefetchInterval = 60_000;
+const defaultRefetchInterval = 30_000;
 const minRefetchInterval = 1000;
 
 export const useTokenBalances = (selectedChainId?: number) => {

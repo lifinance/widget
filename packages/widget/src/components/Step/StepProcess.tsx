@@ -1,5 +1,5 @@
 import type { Process, Step } from '@lifi/sdk';
-import { LinkRounded as LinkIcon } from '@mui/icons-material';
+import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
 import { Box, Link, Typography } from '@mui/material';
 import { useProcessMessage } from '../../hooks';
 import { CircularProgress } from './CircularProgress';
@@ -39,7 +39,7 @@ export const StepProcess: React.FC<{
               target="_blank"
               rel="nofollow noreferrer"
             >
-              <LinkIcon />
+              <LinkRoundedIcon />
             </LinkButton>
           </Box>
         ) : null}

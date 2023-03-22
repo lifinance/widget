@@ -1,4 +1,4 @@
-import { ReceiptLongRounded as HistoryIcon } from '@mui/icons-material';
+import ReceiptLongRoundedIcon from '@mui/icons-material/ReceiptLongRounded';
 import { Container, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
@@ -16,7 +16,7 @@ export const SwapHistoryEmpty: React.FC = () => {
       }}
     >
       <Typography fontSize={48}>
-        <HistoryIcon fontSize="inherit" />
+        <ReceiptLongRoundedIcon fontSize="inherit" />
       </Typography>
       <Typography fontSize={18} fontWeight={700}>
         {t('swap.info.title.emptySwapHistory')}

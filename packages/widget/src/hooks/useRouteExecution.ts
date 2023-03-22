@@ -105,7 +105,7 @@ export const useRouteExecution = ({
       if (!routeExecution?.route) {
         throw Error('Execution route not found.');
       }
-      queryClient.removeQueries(['routes']);
+      queryClient.removeQueries(['routes'], { exact: false });
       return lifi.executeRoute(account.signer, routeExecution.route, {
         updateCallback,
         switchChainHook,

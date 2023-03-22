@@ -17,10 +17,8 @@ export const widgetBaseConfig: WidgetConfig = {
   // toAddress: '0x552008c0f6870c2f77e5cC1d2eb9bdff03e30Ea0',
 
   disableTelemetry: false,
-  // disableAppearance: true,
   variant: 'expandable',
   integrator: 'li.fi-playground',
-  disabledChains: [],
   // hiddenUI: ['poweredBy', 'language', 'appearance'],
   chains: {
     allow: [], // 1, 1285, 10, 56, 137
@@ -31,9 +29,11 @@ export const widgetBaseConfig: WidgetConfig = {
   // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
   // requiredUI: ['toAddress'],
   // slippage: 0.003,
+  insurance: true,
   sdkConfig: {
-    // apiUrl: 'https://staging.li.quest/v1/',
+    apiUrl: 'https://develop.li.quest/v1',
     defaultRouteOptions: {
+      maxPriceImpact: 1,
       // slippage: 0.03,
       // order: 'SAFEST',
       // allowSwitchChain: false,

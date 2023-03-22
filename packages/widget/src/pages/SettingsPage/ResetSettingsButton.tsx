@@ -10,11 +10,13 @@ import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog } from '../../components/Dialog';
 import { useTools } from '../../hooks';
+import { useWidgetConfig } from '../../providers';
 import { useSettingsStore } from '../../stores';
 
 export const ResetSettingsButton: React.FC = () => {
   const { t } = useTranslation();
   const { tools } = useTools();
+  const config = useWidgetConfig();
   const resetSettings = useSettingsStore((state) => state.reset);
   const [open, setOpen] = useState(false);
 
@@ -25,6 +27,7 @@ export const ResetSettingsButton: React.FC = () => {
   const handleReset = () => {
     if (tools) {
       resetSettings(
+        config,
         tools.bridges.map((tool) => tool.key),
         tools.exchanges.map((tool) => tool.key),
       );

@@ -1,4 +1,4 @@
-import { ChevronRight as ChevronRightIcon } from '@mui/icons-material';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -14,7 +14,7 @@ export const EnabledToolsButton: React.FC<{
   const navigate = useNavigate();
   const [enabledTools, tools] = useSettingsStore((state) => {
     const enabledTools = Object.values(state[`_enabled${type}`] ?? {});
-    return [enabledTools.filter((tool) => tool).length, enabledTools.length];
+    return [enabledTools.filter(Boolean).length, enabledTools.length];
   }, shallow);
 
   const handleClick = () => {
@@ -22,7 +22,7 @@ export const EnabledToolsButton: React.FC<{
   };
 
   return (
-    <ListItemButton onClick={handleClick} disableRipple>
+    <ListItemButton onClick={handleClick}>
       <ListItemText primary={t(`settings.enabled${type}`)} />
       <Box display="flex" alignItems="center">
         <ListItemText primary={`${enabledTools}/${tools}`} />

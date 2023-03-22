@@ -1,8 +1,6 @@
-import {
-  ArrowForward as ArrowForwardIcon,
-  ErrorRounded as ErrorIcon,
-  InfoRounded as InfoIcon,
-} from '@mui/icons-material';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
+import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import { ListItemAvatar, ListItemText, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useProcessMessage, useRouteExecution } from '../../hooks';
@@ -42,9 +40,9 @@ export const ActiveSwapItem: React.FC<{
   const getStatusComponent = () => {
     switch (lastActiveProcess?.status) {
       case 'ACTION_REQUIRED':
-        return <InfoIcon color="info" fontSize="small" />;
+        return <InfoRoundedIcon color="info" fontSize="small" />;
       case 'FAILED':
-        return <ErrorIcon color="error" fontSize="small" />;
+        return <ErrorRoundedIcon color="error" fontSize="small" />;
       default:
         return (
           <Typography fontSize={14} fontWeight={500}>
@@ -57,7 +55,7 @@ export const ActiveSwapItem: React.FC<{
   const ListItemComponent = dense ? ListItem : ListItemButton;
 
   return (
-    <ListItemComponent onClick={handleClick} dense disableRipple>
+    <ListItemComponent onClick={handleClick} dense disableRipple={dense}>
       <ListItemAvatar>
         <TokenAvatarGroup total={2}>
           <TokenAvatar token={route.fromToken} />

@@ -11,6 +11,8 @@ env:
 jobs:
   # This workflow contains a single job called "build"
   build:
+    permissions:
+      id-token: write
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -20,9 +22,12 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
-          aws-access-key-id: ${{ secrets.REG_ID }}
-          aws-secret-access-key: ${{ secrets.REG_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: arn:aws:iam::403372804574:role/github-actions
+          role-session-name: github-actions-role-session
+          aws-region: us-east-2
+      - name: Amazon ECR login
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
       - name: Build React App
         env:
           NODE_OPTIONS: "--max_old_space_size=4096"

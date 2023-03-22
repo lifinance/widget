@@ -9,7 +9,6 @@ type CardVariant = 'default' | 'selected' | 'error';
 export type CardProps = {
   variant?: CardVariant;
   selectionColor?: 'primary' | 'secondary';
-  dense?: boolean;
   indented?: boolean;
   onClick?: MouseEventHandler<HTMLDivElement>;
   pointerEvents?: 'auto' | 'none';
@@ -33,19 +32,14 @@ const getBackgroundColor = (
 
 export const Card = styled(Box, {
   shouldForwardProp: (prop) =>
-    ![
-      'dense',
-      'variant',
-      'indented',
-      'selectionColor',
-      'pointerEvents',
-    ].includes(prop as string),
+    !['variant', 'indented', 'selectionColor', 'pointerEvents'].includes(
+      prop as string,
+    ),
 })<CardProps>(
   ({
     theme,
     variant,
     selectionColor = 'primary',
-    dense,
     indented,
     pointerEvents,
     onClick,

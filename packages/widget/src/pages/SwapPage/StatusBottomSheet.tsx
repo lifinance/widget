@@ -1,10 +1,7 @@
-/* eslint-disable consistent-return */
-import {
-  Done as DoneIcon,
-  ErrorRounded as ErrorIcon,
-  InfoRounded as InfoIcon,
-  WarningRounded as WarningIcon,
-} from '@mui/icons-material';
+import DoneIcon from '@mui/icons-material/Done';
+import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
+import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
+import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import { Box, Button, Typography } from '@mui/material';
 import { useEffect, useRef } from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -187,17 +184,17 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
         <IconContainer>
           <IconCircle status={status} mb={1}>
             {status === RouteExecutionStatus.Idle ? (
-              <InfoIcon color="primary" />
+              <InfoRoundedIcon color="primary" />
             ) : null}
             {status === RouteExecutionStatus.Done ? (
               <DoneIcon color="success" />
             ) : null}
             {hasEnumFlag(status, RouteExecutionStatus.Partial) ||
             hasEnumFlag(status, RouteExecutionStatus.Refunded) ? (
-              <WarningIcon color="warning" />
+              <WarningRoundedIcon color="warning" />
             ) : null}
             {hasEnumFlag(status, RouteExecutionStatus.Failed) ? (
-              <ErrorIcon color="error" />
+              <ErrorRoundedIcon color="error" />
             ) : null}
           </IconCircle>
           <Typography py={1} fontSize={18} fontWeight={700}>

@@ -28,13 +28,19 @@ export const Step: React.FC<{
   const getCardTitle = () => {
     switch (step.type) {
       case 'lifi':
-        if (step.includedSteps.every((step) => step.type === 'cross')) {
+        const hasCrossStep = step.includedSteps.some(
+          (step) => step.type === 'cross',
+        );
+        const hasSwapStep = step.includedSteps.some(
+          (step) => step.type === 'swap',
+        );
+        if (hasCrossStep && hasSwapStep) {
+          return t('swap.stepSwapAndBridge');
+        }
+        if (hasCrossStep) {
           return t('swap.stepBridge');
         }
-        if (step.includedSteps.every((step) => step.type === 'swap')) {
-          return t('swap.stepSwap');
-        }
-        return t('swap.stepSwapAndBridge');
+        return t('swap.stepSwap');
       case 'swap':
         return t('swap.stepSwap');
       case 'cross':

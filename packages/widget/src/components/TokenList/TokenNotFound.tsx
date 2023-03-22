@@ -1,4 +1,4 @@
-import { SearchOff as SearchOffIcon } from '@mui/icons-material';
+import SearchOffIcon from '@mui/icons-material/SearchOff';
 import { Box, Typography } from '@mui/material';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';

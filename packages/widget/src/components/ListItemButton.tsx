@@ -7,6 +7,6 @@ export const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
   paddingLeft: theme.spacing(1.5),
   height: 56,
   '&:hover': {
-    backgroundColor: getContrastAlphaColor(theme, '4%'),
+    backgroundColor: getContrastAlphaColor(theme.palette.mode, '4%'),
   },
 }));

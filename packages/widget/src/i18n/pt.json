@@ -1,0 +1,234 @@
+{
+  "button": {
+    "auto": "Automático",
+    "cancel": "Cancelar",
+    "connectWallet": "Conectar carteira",
+    "contactSupport": "Falar com o suporte",
+    "continue": "Continuar",
+    "copyAddress": "Copiar endereço",
+    "dark": "Escuro",
+    "delete": "Apagar",
+    "disconnect": "Desconectar",
+    "done": "Concluído",
+    "getGas": "Obter gás",
+    "hide": "Ocultar",
+    "lifiSwap": "Conversão LI.FI",
+    "light": "Claro",
+    "max": "máximo",
+    "ok": "Tudo certo",
+    "okay": "Ok",
+    "removeSwap": "Remover conversão",
+    "reset": "Redefinir",
+    "resetSettings": "Redefinir as configurações",
+    "restartSwap": "Reiniciar a conversão",
+    "reviewGasSwap": "Rever o gás de conversão",
+    "reviewSwap": "Rever conversão",
+    "seeDetails": "Ver detalhes",
+    "showAll": "Mostrar tudo",
+    "startGasSwap": "Iniciar conversão de gás",
+    "startSwap": "Iniciar conversão",
+    "swap": "Conversão",
+    "tryAgain": "Tente novamente",
+    "viewOnExplorer": "Ver no explorador"
+  },
+  "format": {
+    "currency": "{{value, currency(currency: USD)}}",
+    "number": "{{value, number(maximumFractionDigits: 9)}}"
+  },
+  "header": {
+    "activeSwaps": "Conversões ativas",
+    "checkout": "Finalizar",
+    "from": "Converter a partir de",
+    "gas": "Gás",
+    "gasSwap": "Conversão de gás",
+    "routes": "Você recebe",
+    "selectChain": "Selecionar uma rede",
+    "selectWallet": "Selecionar sua carteira",
+    "settings": "Configurações",
+    "swap": "Conversão",
+    "swapDetails": "Detalhes da conversão",
+    "swapHistory": "Histórico de conversões",
+    "to": "Converter para",
+    "walletConnected": "Carteira conectada"
+  },
+  "language": {
+    "name": "Português",
+    "title": "Idioma"
+  },
+  "settings": {
+    "enabledBridges": "Pontes habilitadas",
+    "enabledExchanges": "Corretoras habilitadas",
+    "gasPrice": {
+      "fast": "Rápido",
+      "normal": "Normal",
+      "slow": "Lento",
+      "title": "Preço do gás"
+    },
+    "routePriority": "Prioridade de rota / caminho",
+    "showDestinationWallet": "Mostrar carteira de destino",
+    "slippage": "Derrapagem"
+  },
+  "swap": {
+    "crossStepDetails": "Ponte de {{from}} para {{to}} via {{tool}}",
+    "currentAmount": "Quantidade atual",
+    "error": {
+      "message": {
+        "slippageThreshold": "A derrapagem é maior do que o limite definido. Solicite uma nova rota para obter uma nova cotação.",
+        "transactionFailed": "Por favor, verifique o explorador de blocos para mais informações.",
+        "transactionNotSent": "A transação não foi enviada. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} na {{chainName}} permanece na sua carteira.",
+        "transactionRejected": "Sua assinatura é necessária para completar a transação. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} em {{chainName}} permanece na sua carteira.",
+        "unknown": "Por favor, tente novamente ou fale com o suporte."
+      },
+      "title": {
+        "balanceIsTooLow": "O saldo é muito baixo",
+        "chainSwitch": "Necessário mudança de rede",
+        "failed": "Conversão falhou",
+        "gasLimitIsTooLow": "O limite de gás é muito baixo",
+        "slippageNotMet": "Condições de tolerância a discrepâncias não foram atendidas",
+        "transactionCanceled": "Transação cancelada",
+        "transactionFailed": "Transação falhou",
+        "transactionRejected": "Necessário assinatura",
+        "transactionUnderpriced": "Transação está abaixo do valor",
+        "transactionUnprepared": "Não foi possível preparar a transação",
+        "unknown": "Algo deu errado",
+        "walletAddressInvalid": "Endereço da carteira é inválido.",
+        "walletAddressRequired": "Endereço da carteira é necessário.",
+        "walletEnsAddressInvalid": "O endereço da carteira é inválido ou a rede não suporta ENS."
+      }
+    },
+    "estimatedTime": "{{value}}minutos",
+    "featuredTokens": "Tokens em destaque",
+    "from": "De",
+    "fromAmount": "Você paga",
+    "gasCost": "Custo do gás",
+    "gasFeeEstimated": "Taxa de gás estimada",
+    "gasFeePaid": "taxa de gás paga",
+    "inProgress": "em andamento",
+    "info": {
+      "message": {
+        "autoRefuel": "Você está com pouco gás na rede {{chainName}}. Ao continuar, você obterá gás suficiente para completar a conversão.",
+        "emptyActiveSwaps": "Conversões em andamento aparecerão aqui. Uma vez concluídas, encontre-as no histórico de conversão.",
+        "emptySwapHistory": "Histórico de conversão é armazenado apenas localmente e será excluído se você limpar os dados do seu navegador.",
+        "emptyTokenList": "Não conseguimos encontrar tokens na rede {{chainName}} ou você não possui nenhum. Por favor, tente procurar novamente ou escolha outra rede.",
+        "routeNotFound": "Tente outra combinação de tokens."
+      },
+      "title": {
+        "autoRefuel": "Obter gás",
+        "emptyActiveSwaps": "Não há conversões ativas",
+        "emptySwapHistory": "Não há conversões recentes",
+        "routeNotFound": "Nenhuma rota disponível"
+      }
+    },
+    "nftStepDetails": "Comprar NFT via {{tool}}",
+    "onChain": "em {{nome da rede}}",
+    "otherTokens": "Outros tokens",
+    "ownedBy": "Possuído por",
+    "payWith": "Pagar com",
+    "process": {
+      "crossChain": {
+        "actionRequired": "Por favor, assine a transação",
+        "done": "Transação da ponte confirmada",
+        "pending": "Aguardando a transação da ponte",
+        "started": "Preparando a transação da ponte"
+      },
+      "receivingChain": {
+        "done": "Ponte concluída",
+        "partial": "Ponte parcialmente concluída",
+        "pending": "Aguardando a rede de destino",
+        "refunded": "Transação de ponte reembolsada"
+      },
+      "swap": {
+        "actionRequired": "Por favor, assine a transação",
+        "done": "Conversão concluída",
+        "pending": "Aguardando a transação de conversão",
+        "started": "Preparando a transação de conversão"
+      },
+      "switchChain": {
+        "actionRequired": "Necessário mudança de rede",
+        "done": "Rede alterada com sucesso"
+      },
+      "tokenAllowance": {
+        "done": "Permissão de token aprovada",
+        "pending": "Aguardando a permissão do token",
+        "started": "Configurando a permissão do token"
+      }
+    },
+    "quotedAmount": "Valor da cotação",
+    "rateChange": "Alterar taxa",
+    "receiving": "Recebendo",
+    "refuelStepDetails": "Obter gás via {{tool}}",
+    "routes": "Você recebe",
+    "selectChain": "Rede",
+    "selectChainAndToken": "Selecione a rede e o token",
+    "selectToken": "Token",
+    "sendToAddress": "Enviar para",
+    "sendToWallet": "Enviar para uma carteira diferente",
+    "sentToAddress": "Enviar para",
+    "stepBridge": "Ponte",
+    "stepDetails": "{{tool}} via LI.FI",
+    "stepSwap": "Conversão",
+    "stepSwapAndBridge": "Converter e enviar pela ponte",
+    "success": {
+      "message": {
+        "swapPartiallySuccessful": "Tentamos completar a conversão, mas a {{tool}} ficou sem liquidez para o token {{tokenSymbol}}.",
+        "swapSuccessful": "Agora há {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} na carteira {{walletAddress}} na rede {{chainName}}."
+      },
+      "title": {
+        "gasSwapSuccessful": "Conversão de gás bem sucedida",
+        "refundIssued": "Reembolso emitido",
+        "swapPartiallySuccessful": "Conversão parcialmente bem sucedida",
+        "swapSuccessful": "Conversão bem sucedida"
+      }
+    },
+    "supportId": "ID de suporte",
+    "swapStepDetails": "Converter na {{chain}} via {{tool}}",
+    "swapping": "Convertendo",
+    "tags": {
+      "ALTERNATIVE": "ALTERNATIVA",
+      "CHEAPEST": "MAIS BARATO",
+      "FASTEST": "MAIS RÁPIDO",
+      "RECOMMENDED": "RECOMENDADO",
+      "SAFEST": "MAIS SEGURO"
+    },
+    "to": "Para",
+    "tokenOnChain": "{{tokenSymbol}} na {{chainName}}",
+    "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} na {{chainName}}",
+    "tokenSearch": "Pesquisar seu token",
+    "valueLoss": "Perda de Valor",
+    "walletAddressOrEns": "Endereço da carteira ou nome ENS",
+    "warning": {
+      "message": {
+        "deleteActiveSwaps": "As conversões ativas são armazenadas apenas localmente e não podem ser recuperadas se forem excluídas.",
+        "deleteSwapHistory": "O histórico de conversões é armazenado apenas localmente e não pode ser recuperado caso seja excluído.",
+        "highValueLoss": "A quantidade de tokens a serem recebidos é significativamente menor do que os tokens convertidos e os custos da transação.",
+        "insufficientFunds": "Você não possui fundos suficientes para completar a conversão.",
+        "insufficientGas": "Você não tem gás suficiente para completar a conversão. É necessário adicionar pelo menos:",
+        "rateChanged": "A taxa de câmbio mudou. Ao continuar a conversão, você aceitará a nova taxa.",
+        "resetSettings": "Isto redefinirá sua prioridade de rota, tolerância a derrapagem, preço de gás, pontes e trocas ativadas."
+      },
+      "title": {
+        "deleteActiveSwaps": "Excluir todas as conversões ativas?",
+        "deleteSwap": "Excluir esta conversão?",
+        "deleteSwapHistory": "Excluir o histórico de conversão?",
+        "highValueLoss": "Alta perda de valor",
+        "insufficientGas": "Gás insuficiente",
+        "rateChanged": "Taxa alterada",
+        "resetSettings": "Redefinir as configurações?"
+      }
+    }
+  },
+  "tooltip": {
+    "estimatedNetworkFee": "Taxa de rede estimada.",
+    "estimatedTime": "Tempo de execução da conversão estimado em minutos.",
+    "notFound": {
+      "text": "Não conseguimos encontrar esta página.",
+      "title": "404"
+    },
+    "numberOfSteps": "Um número de passos para a conversão. Cada etapa pode conter 1-2 transações que requerem uma assinatura.",
+    "progressToNextUpdate": "Os dados exibidos serão atualizados automaticamente após {{value}} segundos. Clique aqui para atualizar manualmente.",
+    "settingsModified": "Configurações (modificado)"
+  },
+  "wallet": {
+    "extensionNotFound": "Por favor, certifique-se de que apenas a extensão do navegador da {{name}} está ativa antes de escolher esta carteira."
+  }
+}

@@ -1,25 +1,57 @@
-import type { SwapButtonProps } from '../../components/SwapButton';
 import { SwapButton } from '../../components/SwapButton';
-import { useGasSufficiency } from '../../hooks';
+import {
+  useFundsSufficiency,
+  useGasSufficiency,
+  useSwapRoutes,
+} from '../../hooks';
+import { useRouteExecutionStore } from '../../stores';
+import type { StartSwapButtonProps } from './types';
 
-export const StartSwapButton: React.FC<SwapButtonProps> = ({
+export const StartSwapButton: React.FC<StartSwapButtonProps> = ({
   onClick,
-  currentRoute,
+  route,
   text,
+  loading,
 }) => {
-  const {
-    insufficientFunds,
-    insufficientGas,
-    isLoading: isGasSufficiencyLoading,
-  } = useGasSufficiency(currentRoute);
+  const { insufficientGas, isInitialLoading: isGasSufficiencyLoading } =
+    useGasSufficiency(route);
+  const { insufficientFunds, isInitialLoading: isFundsSufficiencyLoading } =
+    useFundsSufficiency(route);
 
   return (
     <SwapButton
       onClick={onClick}
       text={text}
-      currentRoute={currentRoute}
+      hasRoute={Boolean(route)}
       disabled={insufficientFunds || !!insufficientGas?.length}
-      loading={isGasSufficiencyLoading}
+      loading={isFundsSufficiencyLoading || isGasSufficiencyLoading || loading}
+    />
+  );
+};
+
+export const StartIdleSwapButton: React.FC<StartSwapButtonProps> = ({
+  onClick,
+  route,
+  text,
+  loading,
+  disabled,
+  insurableRouteId,
+}) => {
+  const routeExecution = useRouteExecutionStore(
+    (state) => state.routes[insurableRouteId],
+  );
+  const { isFetching } = useSwapRoutes({
+    insurableRoute: routeExecution?.route,
+  });
+
+  return (
+    <StartSwapButton
+      onClick={onClick}
+      text={text}
+      route={route}
+      disabled={disabled}
+      loading={loading || isFetching}
+      insurableRouteId={insurableRouteId}
     />
   );
 };
