@@ -51,7 +51,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
         (wallet) => wallet.name === 'MetaMask',
       );
       await liFiWalletManagement.autoConnect(metaMask);
-      metaMask[0].addListener('walletAccountChanged', handleWalletUpdate);
+      metaMask[0].on('walletAccountChanged', handleWalletUpdate);
       handleWalletUpdate(metaMask[0]);
     };
     autoConnect();
@@ -72,8 +72,9 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
         return;
       }
       await liFiWalletManagement.connect(wallet);
-      wallet.addListener('walletAccountChanged', handleWalletUpdate);
-      handleWalletUpdate(liFiWalletManagement.connectedWallets[0]);
+      wallet.on('walletAccountChanged', handleWalletUpdate);
+
+      handleWalletUpdate(wallet);
     },
     [walletManagement],
   );
@@ -175,7 +176,7 @@ export const extractAccountFromSigner = async (signer?: Signer) => {
       chainId: await signer?.getChainId(),
     };
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return {};
   }
 };

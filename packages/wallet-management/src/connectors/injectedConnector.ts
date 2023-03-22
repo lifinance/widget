@@ -48,30 +48,27 @@ export class InjectedConnector extends events.EventEmitter implements Wallet {
     this.windowProvider?.on(
       'connect',
       async ({ chainId }: ProviderConnectInfo): Promise<void> => {
-        console.log('on connect');
         await this.calcAccountData();
       },
     );
     this.windowProvider?.on(
       'disconnect',
       async (error: ProviderRpcError): Promise<void> => {
-        console.log('on disconnect');
         await this.calcAccountData();
       },
     );
     this.windowProvider?.on(
       'chainChanged',
       async (chainId: string): Promise<void> => {
-        console.log('on chainChanged');
         await this.calcAccountData();
       },
     );
     this.windowProvider?.on(
       'accountsChanged',
       async (accounts: string[]): Promise<void> => {
-        console.log('on accountsChanged');
         if (!accounts.length) {
           this.account = undefined;
+
           this.emit('walletAccountChanged', this);
           return;
         }
@@ -91,7 +88,6 @@ export class InjectedConnector extends events.EventEmitter implements Wallet {
     if (this.isActivationInProgress) {
       return;
     }
-
     try {
       const selectedAddress = this.windowProvider.selectedAddress;
       if (!isWalletDeactivated(selectedAddress)) {
@@ -171,6 +167,7 @@ export class InjectedConnector extends events.EventEmitter implements Wallet {
     if (!this.windowProvider) {
       throw new Error('provider is not defined.');
     }
+
     const provider = new ethers.providers.Web3Provider(
       this.windowProvider,
       'any',

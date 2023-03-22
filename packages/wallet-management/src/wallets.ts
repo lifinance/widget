@@ -2,6 +2,8 @@ import { InjectedConnector } from './connectors/injectedConnector';
 import type { Wallet } from './types';
 import { ProviderIdentityFlag } from './types';
 import { walletIcons } from './walletIcons';
+import { WalletConnectConnector } from './connectors/walletConnectConnector';
+import { supportedChains } from '@lifi/sdk';
 
 const metamask: Wallet = new InjectedConnector({
   name: 'MetaMask',
@@ -10,13 +12,16 @@ const metamask: Wallet = new InjectedConnector({
   icon: walletIcons.metamask,
 });
 
-// const walletConnect: Wallet = {
-//   name: 'Wallet Connect',
-//   installed: ({ provider }) => true,
-//   icon: walletIcons.walletConnect,
-//   platforms: ['all'],
-//   connector: new InjectedConnector(),
-// };
+const walletConnect: Wallet = new WalletConnectConnector({
+  name: 'Wallet Connect',
+  installed: ({ provider }) => true,
+  icon: walletIcons.walletConnect,
+  rpc: Object.fromEntries(
+    supportedChains.map((chain) => {
+      return [chain.id, chain.metamask.rpcUrls[0] || ''];
+    }),
+  ),
+});
 
 const brave: Wallet = new InjectedConnector({
   name: 'Brave',
@@ -189,7 +194,7 @@ const tokenary: Wallet = new InjectedConnector({
 
 export const supportedWallets = [
   metamask,
-  // walletConnect,
+  walletConnect,
   tallyho,
   binance,
   coinbase,
