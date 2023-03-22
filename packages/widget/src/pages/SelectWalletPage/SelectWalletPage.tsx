@@ -1,5 +1,5 @@
-import type { Wallet } from '@lifi/wallet-management';
 import { supportedWallets } from '@lifi/wallet-management';
+import type { Wallet } from '@lifi/wallet-management';
 import {
   Avatar,
   Button,
