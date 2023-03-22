@@ -75,7 +75,10 @@ export interface SDKConfig
     | 'disableVersionCheck'
     | 'integrator'
   > {
-  defaultRouteOptions?: Omit<RouteOptions, 'bridges' | 'exchanges'>;
+  defaultRouteOptions?: Omit<
+    RouteOptions,
+    'bridges' | 'exchanges' | 'insurance'
+  >;
 }
 
 export interface WidgetContractTool {
@@ -112,7 +115,7 @@ export interface WidgetConfig {
 
   routePriority?: Order;
   slippage?: number;
-  maxPriceImpact?: number;
+  insurance?: boolean;
 
   variant?: WidgetVariant;
 

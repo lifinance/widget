@@ -25,7 +25,7 @@ export const SwapPage: React.FC = () => {
   const { t } = useTranslation();
   const { setValue } = useFormContext();
   const { navigateBack } = useNavigateBack();
-  const { variant } = useWidgetConfig();
+  const { variant, insurance } = useWidgetConfig();
   const { state }: any = useLocation();
   const stateRouteId = state?.routeId;
   const [routeId, setRouteId] = useState<string>(stateRouteId);
@@ -80,11 +80,12 @@ export const SwapPage: React.FC = () => {
   };
 
   const SwapButton =
-    status === RouteExecutionStatus.Idle
+    insurance && status === RouteExecutionStatus.Idle
       ? StartIdleSwapButton
       : StartSwapButton;
 
   const insuranceAvailable =
+    insurance &&
     variant !== 'refuel' &&
     (route?.insurance?.state === 'INSURED' ||
       (status === RouteExecutionStatus.Idle &&

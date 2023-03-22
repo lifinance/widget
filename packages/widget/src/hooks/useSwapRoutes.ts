@@ -21,7 +21,7 @@ export const useSwapRoutes = ({
   insurableRoute,
 }: SwapRoutesProps = {}) => {
   const lifi = useLiFi();
-  const { variant, sdkConfig, maxPriceImpact } = useWidgetConfig();
+  const { variant, sdkConfig, insurance } = useWidgetConfig();
   const { account, provider } = useWallet();
   const queryClient = useQueryClient();
   const {
@@ -102,9 +102,9 @@ export const useSwapRoutes = ({
     routePriority,
     variant,
     sdkConfig?.defaultRouteOptions?.allowSwitchChain,
-    maxPriceImpact,
     enabledRefuel && enabledAutoRefuel,
     gasRecommendation?.fromAmount,
+    insurance,
     insurableRoute?.id,
   ];
 
@@ -131,9 +131,9 @@ export const useSwapRoutes = ({
           routePriority,
           variant,
           allowSwitchChain,
-          maxPriceImpact,
           enabledRefuel,
           gasRecommendationFromAmount,
+          insurance,
           insurableRouteId,
         ],
         signal,
@@ -233,8 +233,7 @@ export const useSwapRoutes = ({
               },
               order: routePriority,
               allowSwitchChain: variant === 'refuel' ? false : allowSwitchChain,
-              maxPriceImpact,
-              insurance: insurableRoute ? true : false,
+              insurance: insurance ? Boolean(insurableRoute) : undefined,
             },
           },
           { signal },

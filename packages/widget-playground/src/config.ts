@@ -29,10 +29,11 @@ export const widgetBaseConfig: WidgetConfig = {
   // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
   // requiredUI: ['toAddress'],
   // slippage: 0.003,
-  maxPriceImpact: 1,
+  insurance: true,
   sdkConfig: {
     apiUrl: 'https://develop.li.quest/v1',
     defaultRouteOptions: {
+      maxPriceImpact: 1,
       // slippage: 0.03,
       // order: 'SAFEST',
       // allowSwitchChain: false,
