@@ -20,11 +20,6 @@ export const SwapRouteCard: React.FC<
   const { variant: widgetVariant } = useWidgetConfig();
   const [cardExpanded, setCardExpanded] = useState(expanded);
   const insurable = route.insurance?.state === 'INSURABLE';
-  const label: string | undefined = route.tags?.length
-    ? t(`swap.tags.${route.tags[0].toLowerCase()}` as any)
-    : insurable
-    ? t(`swap.tags.insurable`)
-    : undefined;
 
   const handleExpand: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation();
@@ -42,22 +37,30 @@ export const SwapRouteCard: React.FC<
         <Box display="flex" alignItems="center" mb={2}>
           {insurable ? (
             <CardLabel
-              type={route.tags?.length ? 'insurance-icon' : 'insurance'}
+              type={
+                route.tags?.length && !cardExpanded
+                  ? 'insurance-icon'
+                  : 'insurance'
+              }
             >
               <VerifiedUserIcon fontSize="inherit" />
-              {!route.tags?.length ? (
-                <CardLabelTypography type="icon">{label}</CardLabelTypography>
+              {cardExpanded || !route.tags?.length ? (
+                <CardLabelTypography type="icon">
+                  {t(`swap.tags.insurable`)}
+                </CardLabelTypography>
               ) : null}
             </CardLabel>
           ) : null}
           {route.tags?.length ? (
             <CardLabel type={active ? 'active' : undefined}>
-              <CardLabelTypography>{label}</CardLabelTypography>
+              <CardLabelTypography>
+                {t(`swap.tags.${route.tags[0].toLowerCase()}` as any)}
+              </CardLabelTypography>
             </CardLabel>
           ) : null}
         </Box>
       ) : null}
-      <Box display="flex" justifyContent="space-between" alignItems="center">
+      <Box display="flex" justifyContent="space-between" alignItems="start">
         <Token
           token={token}
           step={!cardExpanded ? route.steps[0] : undefined}
