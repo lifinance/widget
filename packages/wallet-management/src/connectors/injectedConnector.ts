@@ -94,7 +94,7 @@ export class InjectedConnector extends events.EventEmitter implements Wallet {
 
     try {
       const selectedAddress = this.windowProvider.selectedAddress;
-      if (!isWalletDeactivated(selectedAddress?.[0])) {
+      if (!isWalletDeactivated(selectedAddress)) {
         await this.calcAccountData();
       }
     } catch (e) {

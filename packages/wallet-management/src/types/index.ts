@@ -21,7 +21,7 @@ export interface RequestArguments {
 
 export interface Provider extends EventEmitter {
   request(args: RequestArguments): Promise<unknown>;
-  selectedAddress?: string[];
+  selectedAddress?: string;
   chainId?: any;
 }
 
@@ -35,6 +35,14 @@ export interface InjectedConnectorConstructorArgs {
   name: string;
   icon: string;
   installed: (helpers: { provider: any }) => boolean;
+}
+export interface WalletConnectConnectorConstructorArgs {
+  name: string;
+  icon: string;
+  installed: (helpers: { provider: any }) => boolean;
+  rpc: {
+    [chainId: number]: string;
+  };
 }
 
 export interface Wallet extends events.EventEmitter {
