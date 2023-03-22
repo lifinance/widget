@@ -41,9 +41,7 @@ export const useWallet = (): WalletContextProps => useContext(WalletContext);
 export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   const { walletManagement } = useWidgetConfig();
   const [account, setAccount] = useState<WalletAccount>({});
-  const [currentWallet, setCurrentWallet] = useState<Wallet | undefined>(
-    liFiWalletManagement.connectedWallets[0],
-  );
+  const [currentWallet, setCurrentWallet] = useState<Wallet | undefined>();
 
   useEffect(() => {
     const autoConnect = async () => {

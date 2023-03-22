@@ -37,11 +37,16 @@ const mathWallet: Wallet = new InjectedConnector({
   icon: walletIcons.mathwallet,
 });
 
-const tallyho: Wallet = new InjectedConnector({
-  name: 'Tally Ho',
-  installed: ({ provider }) => provider?.[ProviderIdentityFlag.TallyHo],
-  icon: walletIcons.tallyho,
-});
+const tallyho: Wallet = new InjectedConnector(
+  {
+    name: 'Tally Ho',
+    installed: ({ provider }) =>
+      (window as any).tally &&
+      (window as any).tally[ProviderIdentityFlag.TallyHo],
+    icon: walletIcons.tallyho,
+  },
+  'tally',
+);
 
 const blockWallet: Wallet = new InjectedConnector({
   name: 'BlockWallet',
