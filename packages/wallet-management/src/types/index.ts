@@ -1,7 +1,7 @@
 import type { Signer } from '@ethersproject/abstract-signer';
 import type { Token } from '@lifi/sdk';
 import type { ethers } from 'ethers';
-import events from 'events';
+import type events from 'events';
 
 import type EventEmitter from 'node:events';
 
