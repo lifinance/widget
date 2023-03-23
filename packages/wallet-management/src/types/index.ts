@@ -89,4 +89,5 @@ export enum ProviderIdentityFlag {
   Tokenary = 'isTokenary',
   MathWallet = 'isMathWallet',
   Frontier = 'isFrontier',
+  ApexWallet = 'isApexWallet',
 }

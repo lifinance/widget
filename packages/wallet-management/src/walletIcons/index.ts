@@ -23,12 +23,12 @@ import status from './status.svg';
 import tallyho from './tallyho.svg';
 import tokenary from './tokenary.svg';
 import tokenpocket from './tokenpocket.svg';
-import tp from './tp.svg';
 import trust from './trust.svg';
 import walletConnect from './walletConnect.svg';
 import walletio from './walletio.svg';
 import xdefi from './xdefi.svg';
 import frontier from './frontier.svg';
+import placeholder from './placeholder.svg';
 
 export const walletIcons = {
   mathwallet,
@@ -38,6 +38,7 @@ export const walletIcons = {
   frontier,
   blockwallet,
   binance,
+  placeholder,
   bitpie,
   brave,
   coinbase,
@@ -58,7 +59,6 @@ export const walletIcons = {
   tallyho,
   tokenary,
   tokenpocket,
-  tp,
   trust,
   walletio,
   xdefi,

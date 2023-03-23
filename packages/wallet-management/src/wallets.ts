@@ -5,10 +5,15 @@ import { walletIcons } from './walletIcons';
 import { WalletConnectConnector } from './connectors/walletConnectConnector';
 import { supportedChains } from '@lifi/sdk';
 
+const defaultWallet: Wallet = new InjectedConnector({
+  name: 'Your Default Wallet',
+  installed: () => !!(window as any).ethereum,
+  icon: walletIcons.metamask,
+});
+
 const metamask: Wallet = new InjectedConnector({
   name: 'MetaMask',
-  installed: () =>
-    !!(window as any) && !!(window as any)[ProviderIdentityFlag.MetaMask],
+  installed: () => !!(window as any).ethereum[ProviderIdentityFlag.MetaMask],
   icon: walletIcons.metamask,
 });
 
@@ -29,7 +34,7 @@ const frontier: Wallet = new InjectedConnector(
     installed: () => (window as any).frontier,
     icon: walletIcons.frontier,
   },
-  (window as any).frontier.ethereum,
+  (window as any).frontier?.ethereum,
 );
 
 const brave: Wallet = new InjectedConnector({
@@ -42,13 +47,13 @@ const brave: Wallet = new InjectedConnector({
 
 const mathWallet: Wallet = new InjectedConnector({
   name: 'MathWallet',
-  installed: () => (window as any)[ProviderIdentityFlag.MathWallet],
+  installed: () => (window as any).ethereum[ProviderIdentityFlag.MathWallet],
   icon: walletIcons.mathwallet,
 });
 
 const tallyho: Wallet = new InjectedConnector(
   {
-    name: 'Tally Ho',
+    name: 'Taho',
     installed: () =>
       (window as any).tally &&
       (window as any).tally[ProviderIdentityFlag.TallyHo],
@@ -59,77 +64,91 @@ const tallyho: Wallet = new InjectedConnector(
 
 const blockWallet: Wallet = new InjectedConnector({
   name: 'BlockWallet',
-  installed: () => (window as any)[ProviderIdentityFlag.BlockWallet],
+  installed: () => (window as any).ethereum[ProviderIdentityFlag.BlockWallet],
   icon: walletIcons.blockwallet,
 });
 
-const binance: Wallet = new InjectedConnector({
-  name: 'Binance',
-  installed: () => (window as any)[ProviderIdentityFlag.Binance],
-  icon: walletIcons.binance,
-});
+const binance: Wallet = new InjectedConnector(
+  {
+    name: 'Binance',
+    installed: () => (window as any).BinanceChain,
+    icon: walletIcons.binance,
+  },
+  (window as any).BinanceChain,
+);
 
-const coinbase: Wallet = new InjectedConnector({
-  name: 'Coinbase',
-  installed: () =>
-    (window as any)[ProviderIdentityFlag.Coinbase] ||
-    (window as any).providers?.[0]?.[ProviderIdentityFlag.CoinbaseExtension],
-  icon: walletIcons.coinbase,
-});
+const coinbase: Wallet = new InjectedConnector(
+  {
+    name: 'Coinbase',
+    installed: () => (window as any).coinbaseWalletExtension,
+    icon: walletIcons.coinbase,
+  },
+  (window as any).coinbaseWalletExtension,
+);
 
 const detected: Wallet = new InjectedConnector({
   name: 'Detected',
-  installed: () => (window as any)[ProviderIdentityFlag.Detected],
+  installed: () => (window as any).ethereum[ProviderIdentityFlag.Detected],
   icon: walletIcons.detected,
 });
 
-const trust: Wallet = new InjectedConnector({
-  name: 'Trust',
-  installed: () =>
-    (window as any)[ProviderIdentityFlag.Trust] &&
-    !(window as any)[ProviderIdentityFlag.TokenPocket],
-  icon: walletIcons.trust,
-});
+const trust: Wallet = new InjectedConnector(
+  {
+    name: 'Trust',
+    installed: () => (window as any).trustWallet,
+    icon: walletIcons.trust,
+  },
+  (window as any).trustWallet,
+);
 
 const status: Wallet = new InjectedConnector({
   name: 'Status',
-  installed: () => (window as any)[ProviderIdentityFlag.Status],
+  installed: () => (window as any).ethereum[ProviderIdentityFlag.Status],
   icon: walletIcons.status,
 });
 
 const alphawallet: Wallet = new InjectedConnector({
   name: 'AlphaWallet',
-  installed: () => (window as any)[ProviderIdentityFlag.AlphaWallet],
+  installed: () => (window as any).ethereum[ProviderIdentityFlag.AlphaWallet],
   icon: walletIcons.alphawallet,
 });
 
 const atoken: Wallet = new InjectedConnector({
   name: 'AToken',
-  installed: () => (window as any)[ProviderIdentityFlag.AToken],
+  installed: () => (window as any).ethereum[ProviderIdentityFlag.AToken],
   icon: walletIcons.atoken,
+});
+
+const apex: Wallet = new InjectedConnector({
+  name: 'Apex Wallet',
+  installed: () => (window as any).ethereum[ProviderIdentityFlag.ApexWallet],
+  icon: walletIcons.placeholder,
 });
 
 const bitpie: Wallet = new InjectedConnector({
   name: 'Bitpie',
-  installed: () => (window as any).Bitpie,
+  installed: () => (window as any).ethereum.Bitpie,
   icon: walletIcons.bitpie,
 });
 
 const dcent: Wallet = new InjectedConnector({
   name: 'Dcent',
-  installed: () => (window as any)[ProviderIdentityFlag.Dcent],
+  installed: () => (window as any).ethereum[ProviderIdentityFlag.Dcent],
   icon: walletIcons.dcent,
 });
 
-const frame: Wallet = new InjectedConnector({
-  name: 'Frame',
-  installed: () => (window as any)[ProviderIdentityFlag.Frame],
-  icon: walletIcons.frame,
-});
+const frame: Wallet = new InjectedConnector(
+  {
+    name: 'Frame',
+    installed: () => (window as any).frame,
+    icon: walletIcons.frame,
+  },
+  (window as any).frame,
+);
 
 const huobiwallet: Wallet = new InjectedConnector({
   name: 'HuobiWallet',
-  installed: () => (window as any)[ProviderIdentityFlag.HuobiWallet],
+  installed: () => (window as any).ethereum[ProviderIdentityFlag.HuobiWallet],
   icon: walletIcons.huobiwallet,
 });
 
@@ -138,70 +157,68 @@ const hyperpay: Wallet = new InjectedConnector({
   // Note: The property `hiWallet` is as of now the only known way of identifying hyperpay
   // wallet as it is a direct clone of metamask. `checkProviderIdentity` implementation is subject to
   // future changes
-  installed: () => (window as any).hiWallet,
+  installed: () => (window as any).ethereum.hiWallet,
   icon: walletIcons.hyperpay,
 });
 
 const imtoken: Wallet = new InjectedConnector({
   name: 'ImToken',
-  installed: () => (window as any)[ProviderIdentityFlag.ImToken],
+  installed: () => (window as any).ethereum[ProviderIdentityFlag.ImToken],
   icon: walletIcons.imtoken,
 });
 
-const liquality: Wallet = new InjectedConnector({
-  name: 'Liquality',
-  installed: () => (window as any)[ProviderIdentityFlag.Liquality],
-  icon: walletIcons.liquality,
-});
+const liquality: Wallet = new InjectedConnector(
+  {
+    name: 'Liquality',
+    installed: () => (window as any).liquality,
+    icon: walletIcons.liquality,
+  },
+  (window as any).liquality,
+);
 
 const meetone: Wallet = new InjectedConnector({
   name: 'MeetOne',
-  installed: () => (window as any)[ProviderIdentityFlag.MeetOne] === 'MEETONE',
+  installed: () =>
+    (window as any).ethereum[ProviderIdentityFlag.MeetOne] === 'MEETONE',
   icon: walletIcons.meetone,
 });
 
 const mykey: Wallet = new InjectedConnector({
   name: 'MyKey',
-  installed: () => (window as any)[ProviderIdentityFlag.MyKey],
+  installed: () => (window as any).ethereum[ProviderIdentityFlag.MyKey],
   icon: walletIcons.mykey,
 });
 
 const ownbit: Wallet = new InjectedConnector({
   name: 'OwnBit',
-  installed: () => (window as any)[ProviderIdentityFlag.OwnBit],
+  installed: () => (window as any).ethereum[ProviderIdentityFlag.OwnBit],
   icon: walletIcons.ownbit,
 });
 
 const tokenpocket: Wallet = new InjectedConnector({
   name: 'TokenPocket',
   installed: () =>
-    (window as any)[ProviderIdentityFlag.TokenPocket] &&
-    !(window as any)[ProviderIdentityFlag.TP],
+    (window as any).ethereum[ProviderIdentityFlag.TokenPocket] &&
+    !(window as any).ethereum[ProviderIdentityFlag.TP],
   icon: walletIcons.tokenpocket,
-});
-
-const tp: Wallet = new InjectedConnector({
-  name: 'TP',
-  installed: () => (window as any)[ProviderIdentityFlag.TP],
-  icon: walletIcons.tp,
 });
 
 const xdefi: Wallet = new InjectedConnector({
   name: 'XDEFI',
   // eslint-disable-next-line dot-notation
-  installed: () => true,
+  installed: () => (window as any).ethereum[ProviderIdentityFlag.XDEFI],
   icon: walletIcons.xdefi,
 });
 
 const oneInch: Wallet = new InjectedConnector({
   name: 'OneInch',
-  installed: () => (window as any)[ProviderIdentityFlag.OneInch],
+  installed: () => (window as any).ethereum[ProviderIdentityFlag.OneInch],
   icon: walletIcons.oneInch,
 });
 
 const tokenary: Wallet = new InjectedConnector({
   name: 'Tokenary',
-  installed: () => (window as any)[ProviderIdentityFlag.Tokenary],
+  installed: () => (window as any).ethereum[ProviderIdentityFlag.Tokenary],
   icon: walletIcons.tokenary,
 });
 
@@ -220,6 +237,7 @@ export const supportedWallets = [
   blockWallet,
   bitpie,
   brave,
+  apex,
   dcent,
   frame,
   huobiwallet,
@@ -230,7 +248,6 @@ export const supportedWallets = [
   mykey,
   ownbit,
   tokenpocket,
-  tp,
   xdefi,
   oneInch,
   tokenary,
