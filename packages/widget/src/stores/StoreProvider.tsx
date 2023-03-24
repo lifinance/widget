@@ -1,8 +1,5 @@
 import type { PropsWithChildren } from 'react';
-import {
-  RecommendedRouteStoreProvider,
-  RouteExecutionStoreProvider,
-} from './routes';
+import { RouteExecutionStoreProvider } from './routes';
 import type { PersistStoreProviderProps } from './types';
 
 export const StoreProvider: React.FC<
@@ -10,7 +7,7 @@ export const StoreProvider: React.FC<
 > = ({ children, namePrefix }) => {
   return (
     <RouteExecutionStoreProvider namePrefix={namePrefix}>
-      <RecommendedRouteStoreProvider>{children}</RecommendedRouteStoreProvider>
+      {children}
     </RouteExecutionStoreProvider>
   );
 };

@@ -7,7 +7,6 @@ import { useNavigate, useRoutes } from 'react-router-dom';
 import { useSwapRoutes } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
 import { useSetExecutableRoute } from '../../stores';
-import { useSetRecommendedRoute } from '../../stores/routes/useSetRecommendedRoute';
 import { navigationRoutes } from '../../utils';
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate';
 import {
@@ -48,7 +47,6 @@ export const SwapRoutesExpandedElement = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const setExecutableRoute = useSetExecutableRoute();
-  const setRecommendedRoute = useSetRecommendedRoute();
   const { containerStyle } = useWidgetConfig();
   const { isValid, isValidating } = useFormState();
   const {
@@ -59,11 +57,7 @@ export const SwapRoutesExpandedElement = () => {
     dataUpdatedAt,
     refetchTime,
     refetch,
-  } = useSwapRoutes({
-    onSettled(data) {
-      setRecommendedRoute(data?.routes?.[0]);
-    },
-  });
+  } = useSwapRoutes();
 
   const currentRoute = routes?.[0];
 
