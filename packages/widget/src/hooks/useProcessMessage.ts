@@ -1,10 +1,10 @@
 import type {
   EVMChain,
+  LifiStep,
   Process,
   ProcessType,
   Status,
   StatusMessage,
-  Step,
   Substatus,
 } from '@lifi/sdk';
 import { LifiErrorCode } from '@lifi/sdk';
@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { formatTokenAmount } from '../utils';
 import { useChains } from './useChains';
 
-export const useProcessMessage = (step?: Step, process?: Process) => {
+export const useProcessMessage = (step?: LifiStep, process?: Process) => {
   const { t } = useTranslation();
   const { getChainById } = useChains();
   if (!step || !process) {
@@ -87,7 +87,7 @@ const processSubstatusMessages: Record<
 export function getProcessMessage(
   t: TFunction,
   getChainById: (chainId: number) => EVMChain | undefined,
-  step: Step,
+  step: LifiStep,
   process: Process,
 ): {
   title?: string;

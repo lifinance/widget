@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import type { Step as StepType, TokenAmount } from '@lifi/sdk';
+import type { LifiStep, TokenAmount } from '@lifi/sdk';
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Card, CardTitle } from '../../components/Card';
@@ -13,7 +13,7 @@ import { StepProcess } from './StepProcess';
 import { StepTimer } from './StepTimer';
 
 export const Step: React.FC<{
-  step: StepType;
+  step: LifiStep;
   fromToken?: TokenAmount;
   toToken?: TokenAmount;
   toAddress?: string;
@@ -41,10 +41,6 @@ export const Step: React.FC<{
           return t('swap.stepBridge');
         }
         return t('swap.stepSwap');
-      case 'swap':
-        return t('swap.stepSwap');
-      case 'cross':
-        return t('swap.stepBridge');
       default:
         return t('swap.stepSwap');
     }
