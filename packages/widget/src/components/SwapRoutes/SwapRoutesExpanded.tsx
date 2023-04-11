@@ -3,7 +3,7 @@ import type { Route } from '@lifi/sdk';
 import { Collapse, Grow, Stack, Typography } from '@mui/material';
 import { useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useRoutes } from 'react-router-dom';
+import { useMatch, useNavigate } from 'react-router-dom';
 import { useSwapRoutes } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
 import { useSetExecutableRoute } from '../../stores';
@@ -24,12 +24,7 @@ import {
 const timeout = { enter: 225, exit: 225, appear: 0 };
 
 export const SwapRoutesExpanded = () => {
-  const element = useRoutes([
-    {
-      path: '/',
-      element: null,
-    },
-  ]);
+  const element = useMatch('/');
   return (
     <CollapseContainer>
       <Collapse timeout={timeout} in={!!element} orientation="horizontal">
