@@ -2,6 +2,7 @@
   "name": "@lifi/widget-playground",
   "version": "1.0.97",
   "type": "module",
+  "private": true,
   "scripts": {
     "analyze": "source-map-explorer 'dist/assets/*.js' --no-border-checks",
     "dev": "vite",
