@@ -220,7 +220,7 @@
     }
   },
   "tooltip": {
-    "additionalProviderFee": "Additional provider fee.",
+    "additionalProviderFee": "Additional bridges, DEXs, and service fees.",
     "estimatedNetworkFee": "Estimated network fee.",
     "estimatedTime": "Estimated swap execution time in minutes.",
     "notFound": {

@@ -1,6 +1,6 @@
 {
   "name": "@lifi/wallet-management",
-  "version": "1.2.9",
+  "version": "1.2.10",
   "description": "LI.FI Wallet Management solution.",
   "sideEffects": false,
   "main": "./src/index.ts",
@@ -52,14 +52,14 @@
     "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/experimental": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
-    "@lifi/sdk": "^2.0.0-beta.6",
+    "@lifi/sdk": "^2.0.0-beta.8",
     "@walletconnect/ethereum-provider": "^1.8.0",
     "@walletconnect/web3-provider": "^1.8.0",
     "react": "^18.2.0"
   },
   "devDependencies": {
     "cpy-cli": "^4.2.0",
-    "typescript": "^5.0.2"
+    "typescript": "^5.0.4"
   },
   "eslintConfig": {
     "extends": "../../.eslintrc"

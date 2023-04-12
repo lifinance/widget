@@ -12,13 +12,11 @@ import {
 } from '../../components/SwapRouteCard';
 import { useSwapRoutes } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
-import { useSetRecommendedRoute } from '../../stores/routes/useSetRecommendedRoute';
 import { navigationRoutes } from '../../utils';
 
 export const SwapRoutes: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const setRecommendedRoute = useSetRecommendedRoute();
   const { variant, useRecommendedRoute } = useWidgetConfig();
   const { isValid, isValidating } = useFormState();
   const {
@@ -29,11 +27,7 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
     dataUpdatedAt,
     refetchTime,
     refetch,
-  } = useSwapRoutes({
-    onSettled(data) {
-      setRecommendedRoute(data?.routes?.[0]);
-    },
-  });
+  } = useSwapRoutes();
 
   const currentRoute = routes?.[0];
 

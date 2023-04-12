@@ -33,7 +33,7 @@ export const widgetBaseConfig: WidgetConfig = {
   sdkConfig: {
     apiUrl: 'https://develop.li.quest/v1',
     defaultRouteOptions: {
-      maxPriceImpact: 1,
+      maxPriceImpact: 0.4,
       // slippage: 0.03,
       // order: 'SAFEST',
       // allowSwitchChain: false,

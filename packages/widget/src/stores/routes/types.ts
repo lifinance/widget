@@ -22,8 +22,3 @@ export enum RouteExecutionStatus {
   Partial = 1 << 3,
   Refunded = 1 << 4,
 }
-
-export interface RecommendedRouteState {
-  recommendedRoute?: Route;
-  setRecommendedRoute: (route?: Route) => void;
-}

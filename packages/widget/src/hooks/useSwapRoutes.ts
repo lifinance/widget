@@ -1,5 +1,5 @@
 import { isAddress } from '@ethersproject/address';
-import type { LifiStep, Route, RoutesResponse, Token } from '@lifi/sdk';
+import type { Route, RoutesResponse, Token } from '@lifi/sdk';
 import { LifiErrorCode } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Big from 'big.js';
@@ -187,7 +187,7 @@ export const useSwapRoutes = ({
             toToken: toToken!,
             toAddress: toAddress,
             gasCostUSD: contractCallQuote.estimate.gasCosts?.[0].amountUSD,
-            steps: [contractCallQuote as LifiStep],
+            steps: [contractCallQuote],
             insurance: { state: 'NOT_INSURABLE', feeAmountUsd: '0' },
           };
 

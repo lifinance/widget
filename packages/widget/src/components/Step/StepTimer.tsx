@@ -1,18 +1,18 @@
-import type { Step } from '@lifi/sdk';
+import type { LifiStep } from '@lifi/sdk';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTimer } from 'react-timer-hook';
 
-const getExpiryTimestamp = (step: Step) =>
+const getExpiryTimestamp = (step: LifiStep) =>
   new Date(
     (step.execution?.process[0]?.startedAt ?? Date.now()) +
       step.estimate.executionDuration * 1000,
   );
 
-export const StepTimer: React.FC<{ step: Step; hideInProgress?: boolean }> = ({
-  step,
-  hideInProgress,
-}) => {
+export const StepTimer: React.FC<{
+  step: LifiStep;
+  hideInProgress?: boolean;
+}> = ({ step, hideInProgress }) => {
   const { t } = useTranslation();
   const [isExpired, setExpired] = useState(false);
   const [isExecutionStarted, setExecutionStarted] = useState(!!step.execution);

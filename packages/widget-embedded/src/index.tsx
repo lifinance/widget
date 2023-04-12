@@ -14,14 +14,14 @@ const root = createRoot(rootElement);
 
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <WalletProvider>
+    <WalletProvider>
+      <BrowserRouter>
         <Routes>
           <Route path="/swap/*" element={<App />} />
           <Route path="/*" element={<App />} />
         </Routes>
-      </WalletProvider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </WalletProvider>
   </React.StrictMode>,
 );
 

@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-alpha.0](https://github.com/lifinance/widget/compare/v1.32.8...v2.0.0-alpha.0) (2023-03-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove deprecations
+* make integrator property required
+
+### Features
+
+* add auto refuel ([41de404](https://github.com/lifinance/widget/commit/41de404b12e989031364c5c3c92c66618dd253f6))
+* add insurance ([08162a6](https://github.com/lifinance/widget/commit/08162a666e8416e598b0585f68962953d80f33bb))
+* add insurance config option ([9a3f0be](https://github.com/lifinance/widget/commit/9a3f0bee717f44959c798b8edf0feca1aaaeb5a3))
+* add maxPriceImpact config options ([458e6a4](https://github.com/lifinance/widget/commit/458e6a4f1b98795d7c300420d22cb7f78e96b828))
+* make integrator property required ([d9b2a01](https://github.com/lifinance/widget/commit/d9b2a01cb2a72a2c5987d84e611b3136c0c4a1dc))
+* remove deprecations ([a966186](https://github.com/lifinance/widget/commit/a9661868dea3af96b6ac52a63545ba6128468c90))
+
+
+### Bug Fixes
+
+* add insurable route id ([79e838e](https://github.com/lifinance/widget/commit/79e838e025b0ba887a0a4c98182bb7435d2e73d7))
+* adjust card title to protocol steps ([670f67f](https://github.com/lifinance/widget/commit/670f67f47a9497a33a819c32619ccee8f85f6e7e))
+* check for ENS name while looking for balances ([ace7070](https://github.com/lifinance/widget/commit/ace7070ff12b8c03393c5a43cf5983affc8d9a06))
+* check for funds sufficiency as soon as it becomes possible ([cd1ef6e](https://github.com/lifinance/widget/commit/cd1ef6eb17987a75e620755dbc71506757b4b770))
+* don't apply auto refuel when swapping to native tokens ([fe85b38](https://github.com/lifinance/widget/commit/fe85b38174b436e20cecfd7fa95bafd8fecd669c))
+* possible duplicate keys ([6d294ed](https://github.com/lifinance/widget/commit/6d294edc9447c54e70943004a5719e8790904354))
+* reduce max price impact to 40% ([4b2a718](https://github.com/lifinance/widget/commit/4b2a71879971497bfdba14de82028ad07b0b70d0))
+* route priority tags now lowercased ([c93ca15](https://github.com/lifinance/widget/commit/c93ca15b3b5b222cdfcf5ec455aafa02fb16b5b8))
+* support input when it starts with a dot ([80857dd](https://github.com/lifinance/widget/commit/80857dd779c4d56caf4242ecdb16d36cdccf0d50))
+
 ### [1.32.8](https://github.com/lifinance/widget/compare/v1.32.7...v1.32.8) (2023-03-06)
 
 
