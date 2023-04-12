@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-alpha.1](https://github.com/lifinance/widget/compare/v2.0.0-alpha.0...v2.0.0-alpha.1) (2023-04-12)
+
+
+### Bug Fixes
+
+* long text overflow ([fdf8153](https://github.com/lifinance/widget/commit/fdf8153a312dc4309eaef4a79f882700298a6321))
+* route not found using MemoryRouter ([e4a2c47](https://github.com/lifinance/widget/commit/e4a2c47f37df8d69333d487b75e955f2ef21fbfa))
+* update step types ([6f547d7](https://github.com/lifinance/widget/commit/6f547d71d0870b5d14778244a185ec2b436bc129))
+
 ## [2.0.0-alpha.0](https://github.com/lifinance/widget/compare/v1.32.8...v2.0.0-alpha.0) (2023-03-28)
 
 

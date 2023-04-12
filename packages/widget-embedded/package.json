@@ -1,7 +1,6 @@
 {
   "name": "@lifi/widget-embedded",
-  "version": "1.0.96",
-  "private": true,
+  "version": "1.0.97",
   "type": "module",
   "scripts": {
     "analyze": "source-map-explorer 'dist/assets/*.js' --no-border-checks",
@@ -26,11 +25,11 @@
   "dependencies": {
     "@ethersproject/abstract-signer": "^5.7.0",
     "@lifi/sdk": "^2.0.0-beta.8",
-    "@lifi/wallet-management": "^1.2.10",
-    "@lifi/widget": "^2.0.0-alpha.0",
+    "@lifi/wallet-management": "^1.2.11",
+    "@lifi/widget": "^2.0.0-alpha.1",
     "@mui/icons-material": "^5.11.16",
-    "@mui/lab": "^5.0.0-alpha.125",
-    "@mui/material": "^5.11.16",
+    "@mui/lab": "^5.0.0-alpha.126",
+    "@mui/material": "^5.12.0",
     "@opensea/seaport-js": "^1.1.0",
     "@tanstack/react-query": "^4.29.1",
     "bignumber.js": "^9.1.1",
