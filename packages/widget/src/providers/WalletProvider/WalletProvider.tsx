@@ -5,12 +5,12 @@ import {
   supportedWallets,
 } from '@lifi/wallet-management';
 import type { Wallet } from '@lifi/wallet-management/types';
-
-import { FC, PropsWithChildren, useEffect } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from 'react';

@@ -1,9 +1,9 @@
+import { supportedChains } from '@lifi/sdk';
 import { InjectedConnector } from './connectors/injectedConnector';
+import { WalletConnectConnector } from './connectors/walletConnectConnector';
 import type { Wallet } from './types';
 import { ProviderIdentityFlag } from './types';
 import { walletIcons } from './walletIcons';
-import { WalletConnectConnector } from './connectors/walletConnectConnector';
-import { supportedChains } from '@lifi/sdk';
 
 const defaultWallet: Wallet = new InjectedConnector({
   name: 'Your Default Wallet',
