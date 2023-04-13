@@ -56,7 +56,7 @@
     "title": "Мова"
   },
   "settings": {
-    "enabledBridges": "Увімкнені мости",
+    "enabledBridges": "Увімкнені бріджі",
     "enabledExchanges": "Увімкнені обмінники",
     "gasPrice": {
       "fast": "Швидко",
@@ -184,11 +184,13 @@
     "swapStepDetails": "Своп на {{chain}} через {{tool}}",
     "swapping": "Обмін",
     "tags": {
-      "ALTERNATIVE": "АЛЬТЕРНАТИВА",
-      "CHEAPEST": "ДЕШЕВИЙ",
-      "FASTEST": "ШВИДКИЙ",
-      "RECOMMENDED": "РЕКОМЕНДУЄМО",
-      "SAFEST": "БЕЗПЕЧНИЙ"
+      "cheapest": "Дешевий",
+      "fastest": "Швидкий",
+      "insurable": "Страхування",
+      "insurance": "Страхування",
+      "insured": "Застрахований",
+      "recommended": "Рекомендований",
+      "safest": "Безпечний"
     },
     "to": "До",
     "tokenOnChain": "{{tokenSymbol}} на {{chainName}}",
@@ -218,6 +220,7 @@
     }
   },
   "tooltip": {
+    "additionalProviderFee": "Додаткові комісії бріджів, обмінників та послуг.",
     "estimatedNetworkFee": "Орієнтовна мережева плата.",
     "estimatedTime": "Орієнтовний час виконання свопу в хвилинах.",
     "notFound": {
