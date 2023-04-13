@@ -50,7 +50,7 @@ export const AppDrawer = forwardRef<WidgetDrawer, WidgetProps>(
       [closeDrawer, openDrawer, toggleDrawer],
     );
 
-    const drawerConfig: WidgetConfig = useMemo(
+    const widgetConfig: WidgetConfig = useMemo(
       () => ({
         ...config,
         integrator,
@@ -63,7 +63,7 @@ export const AppDrawer = forwardRef<WidgetDrawer, WidgetProps>(
     );
 
     return (
-      <AppProvider integrator={integrator} config={drawerConfig}>
+      <AppProvider config={widgetConfig}>
         <DrawerButton
           variant="contained"
           onClick={toggleDrawer}

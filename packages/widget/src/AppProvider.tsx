@@ -14,9 +14,9 @@ import {
   useWidgetConfig,
 } from './providers';
 import { StoreProvider } from './stores';
-import type { WidgetProps } from './types';
+import type { WidgetConfigProps } from './types';
 
-export const AppProvider: React.FC<PropsWithChildren<WidgetProps>> = ({
+export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
   children,
   config,
 }) => {

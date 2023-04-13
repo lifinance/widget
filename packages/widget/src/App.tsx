@@ -13,16 +13,16 @@ import { Initializer } from './components/Initializer';
 import { PoweredBy } from './components/PoweredBy';
 import { SwapRoutesExpanded } from './components/SwapRoutes';
 import { useExpandableVariant } from './hooks';
-import type { WidgetProps } from './types';
+import type { WidgetConfig, WidgetProps } from './types';
 
 export const App: React.FC<WidgetProps> = forwardRef<WidgetDrawer, WidgetProps>(
   ({ elementRef, open, integrator, ...other }, ref) => {
-    const config = useMemo(
+    const config: WidgetConfig = useMemo(
       () => ({ integrator, ...other, ...other.config }),
       [integrator, other],
     );
     return config?.variant !== 'drawer' ? (
-      <AppProvider integrator={integrator} config={config}>
+      <AppProvider config={config}>
         <AppDefault />
       </AppProvider>
     ) : (
