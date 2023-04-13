@@ -2,7 +2,7 @@ import type { Route } from '@lifi/sdk';
 
 export interface SwapRouteCardProps {
   route: Route;
-  variant?: 'default' | 'stretched' | 'dense';
+  variant?: 'default' | 'cardless';
   active?: boolean;
   expanded?: boolean;
 }
@@ -13,5 +13,5 @@ export interface SwapRouteCardEssentialsProps {
 }
 
 export interface SwapRouteCardSkeletonProps {
-  variant?: 'default' | 'stretched' | 'dense';
+  variant?: 'default' | 'cardless';
 }

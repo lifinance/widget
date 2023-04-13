@@ -20,9 +20,9 @@ import { LiFiToolLogo } from '../../icons';
 import { useWidgetConfig } from '../../providers';
 import type { WidgetVariant } from '../../types';
 import { formatTokenAmount } from '../../utils';
+import { CardIconButton } from '../Card';
 import { SmallAvatar } from '../SmallAvatar';
 import {
-  IconButton,
   StepAvatar,
   StepConnector,
   StepContent,
@@ -46,7 +46,7 @@ export const StepActions: React.FC<StepActionsProps> = ({
 
   const customStep =
     variant === 'nft'
-      ? (step as LifiStep).includedSteps?.find((step) => step.type === 'custom')
+      ? step.includedSteps?.find((step) => step.type === 'custom')
       : undefined;
 
   const hasCollapsedSteps =
@@ -90,9 +90,9 @@ export const StepActions: React.FC<StepActionsProps> = ({
           })}
         </Typography>
         {hasCollapsedSteps ? (
-          <IconButton onClick={handleExpand} size="small">
+          <CardIconButton onClick={handleExpand} size="small">
             {cardExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-          </IconButton>
+          </CardIconButton>
         ) : null}
       </Box>
       {hasCollapsedSteps ? (
@@ -107,12 +107,12 @@ export const StepActions: React.FC<StepActionsProps> = ({
 };
 
 export const IncludedSteps: React.FC<{
-  step: Step;
+  step: LifiStep;
   variant?: WidgetVariant;
 }> = ({ step, variant }) => {
   // eslint-disable-next-line react/no-unstable-nested-components
   const StepIconComponent = ({ icon }: StepIconProps) => {
-    const tool = (step as LifiStep).includedSteps?.[Number(icon) - 1];
+    const tool = step.includedSteps?.[Number(icon) - 1];
 
     return tool ? (
       <SmallAvatar
@@ -129,12 +129,11 @@ export const IncludedSteps: React.FC<{
   const StepDetailsLabel =
     step.tool === 'custom' && variant === 'nft'
       ? CustomStepDetailsLabel
-      : step.type === 'cross' ||
-        (step.type === 'lifi' &&
-          step.includedSteps.some((step) => step.type === 'cross'))
+      : step.type === 'lifi' &&
+        step.includedSteps.some((step) => step.type === 'cross')
       ? CrossStepDetailsLabel
       : SwapStepDetailsLabel;
-  return (step as LifiStep).includedSteps.length > 1 ? (
+  return step.includedSteps.length > 1 ? (
     <Box mt={1.5}>
       <Stepper
         orientation="vertical"
@@ -146,7 +145,7 @@ export const IncludedSteps: React.FC<{
             <StepLabel StepIconComponent={StepIconComponent}>
               {step.type === 'custom' && variant === 'nft' ? (
                 <CustomStepDetailsLabel step={step} variant={variant} />
-              ) : step.type === 'cross' || step.type === 'lifi' ? (
+              ) : step.type === 'cross' ? (
                 <CrossStepDetailsLabel step={step} />
               ) : step.type === 'protocol' ? (
                 <ProtocolStepDetailsLabel step={step} />
@@ -164,10 +163,10 @@ export const IncludedSteps: React.FC<{
   ) : (
     <Box ml={6}>
       <StepDetailsLabel
-        step={step}
+        step={step as unknown as Step}
         variant={variant === 'nft' ? variant : undefined}
       />
-      <StepDetailsContent step={step} variant={variant} />
+      <StepDetailsContent step={step as unknown as Step} variant={variant} />
     </Box>
   );
 };

@@ -25,6 +25,7 @@ export const App = () => {
           }
           contractTool={openSeaContractTool}
           config={widgetConfig}
+          integrator={widgetConfig.integrator}
           open
         />
       </Box>

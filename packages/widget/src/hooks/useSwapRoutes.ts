@@ -1,5 +1,5 @@
 import { isAddress } from '@ethersproject/address';
-import type { LifiStep, Route, RoutesResponse, Token } from '@lifi/sdk';
+import type { Route, RoutesResponse, Token } from '@lifi/sdk';
 import { LifiErrorCode } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Big from 'big.js';
@@ -11,9 +11,17 @@ import { useSettings } from '../stores';
 
 const refetchTime = 60_000;
 
-export const useSwapRoutes = () => {
+interface SwapRoutesProps {
+  onSettled?: (data?: RoutesResponse) => void;
+  insurableRoute?: Route;
+}
+
+export const useSwapRoutes = ({
+  onSettled,
+  insurableRoute,
+}: SwapRoutesProps = {}) => {
   const lifi = useLiFi();
-  const { variant, sdkConfig, maxPriceImpact } = useWidgetConfig();
+  const { variant, sdkConfig, insurance } = useWidgetConfig();
   const { account, provider } = useWallet();
   const queryClient = useQueryClient();
   const {
@@ -94,19 +102,11 @@ export const useSwapRoutes = () => {
     routePriority,
     variant,
     sdkConfig?.defaultRouteOptions?.allowSwitchChain,
-    maxPriceImpact,
     enabledRefuel && enabledAutoRefuel,
     gasRecommendation?.fromAmount,
+    insurance,
+    insurableRoute?.id,
   ];
-
-  const previousDataUpdatedAt =
-    queryClient.getQueryState(queryKey)?.dataUpdatedAt;
-  const refetchInterval = previousDataUpdatedAt
-    ? Math.min(
-        Math.abs(refetchTime - (Date.now() - previousDataUpdatedAt)),
-        refetchTime,
-      )
-    : refetchTime;
 
   const { data, isLoading, isFetching, isFetched, dataUpdatedAt, refetch } =
     useQuery(
@@ -131,9 +131,10 @@ export const useSwapRoutes = () => {
           routePriority,
           variant,
           allowSwitchChain,
-          maxPriceImpact,
           enabledRefuel,
           gasRecommendationFromAmount,
+          insurance,
+          insurableRouteId,
         ],
         signal,
       }) => {
@@ -186,11 +187,29 @@ export const useSwapRoutes = () => {
             toToken: toToken!,
             toAddress: toAddress,
             gasCostUSD: contractCallQuote.estimate.gasCosts?.[0].amountUSD,
-            steps: [contractCallQuote as LifiStep],
+            steps: [contractCallQuote],
+            insurance: { state: 'NOT_INSURABLE', feeAmountUsd: '0' },
           };
 
           return { routes: [route] } as RoutesResponse;
         }
+
+        const allowedBridges: string[] = insurableRoute
+          ? insurableRoute.steps.flatMap((step) =>
+              step.includedSteps
+                .filter((includedStep) => includedStep.type === 'cross')
+                .map((includedStep) => includedStep.toolDetails.key),
+            )
+          : enabledBridges;
+
+        const allowedExchanges: string[] = insurableRoute
+          ? insurableRoute.steps.flatMap((step) =>
+              step.includedSteps
+                .filter((includedStep) => includedStep.type === 'swap')
+                .map((includedStep) => includedStep.toolDetails.key),
+            )
+          : enabledExchanges;
+
         return lifi.getRoutes(
           {
             fromChainId,
@@ -207,14 +226,14 @@ export const useSwapRoutes = () => {
             options: {
               slippage: formattedSlippage,
               bridges: {
-                allow: enabledBridges,
+                allow: allowedBridges,
               },
               exchanges: {
-                allow: enabledExchanges,
+                allow: allowedExchanges,
               },
               order: routePriority,
               allowSwitchChain: variant === 'refuel' ? false : allowSwitchChain,
-              maxPriceImpact,
+              insurance: insurance ? Boolean(insurableRoute) : undefined,
             },
           },
           { signal },
@@ -222,9 +241,14 @@ export const useSwapRoutes = () => {
       },
       {
         enabled: isEnabled,
-        refetchInterval,
         staleTime: refetchTime,
         cacheTime: refetchTime,
+        refetchInterval(data, query) {
+          return Math.min(
+            Math.abs(refetchTime - (Date.now() - query.state.dataUpdatedAt)),
+            refetchTime,
+          );
+        },
         retry(failureCount, error: any) {
           if (error?.code === LifiErrorCode.NotFound) {
             return false;
@@ -255,6 +279,7 @@ export const useSwapRoutes = () => {
             });
           }
         },
+        onSettled,
       },
     );
 

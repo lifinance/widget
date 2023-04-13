@@ -17,10 +17,8 @@ export const widgetBaseConfig: WidgetConfig = {
   // toAddress: '0x552008c0f6870c2f77e5cC1d2eb9bdff03e30Ea0',
 
   disableTelemetry: false,
-  // disableAppearance: true,
   variant: 'nft',
   integrator: 'li.fi-playground',
-  disabledChains: [],
   // hiddenUI: ['poweredBy', 'language', 'appearance'],
   chains: {
     allow: [], // 1, 1285, 10, 56, 137

@@ -70,9 +70,15 @@ export interface WidgetWalletManagement {
 export interface SDKConfig
   extends Omit<
     ConfigUpdate,
-    'defaultExecutionSettings' | 'defaultRouteOptions' | 'disableVersionCheck'
+    | 'defaultExecutionSettings'
+    | 'defaultRouteOptions'
+    | 'disableVersionCheck'
+    | 'integrator'
   > {
-  defaultRouteOptions?: Omit<RouteOptions, 'bridges' | 'exchanges'>;
+  defaultRouteOptions?: Omit<
+    RouteOptions,
+    'bridges' | 'exchanges' | 'insurance'
+  >;
 }
 
 export interface WidgetContractTool {
@@ -104,12 +110,12 @@ export interface WidgetConfig {
   contractTool?: WidgetContractTool;
 
   fee?: number;
-  integrator?: string;
+  integrator: string;
   referrer?: string;
 
   routePriority?: Order;
   slippage?: number;
-  maxPriceImpact?: number;
+  insurance?: boolean;
 
   variant?: WidgetVariant;
 
@@ -153,13 +159,6 @@ export interface WidgetConfig {
   };
   languageResources?: LanguageResources;
   disableI18n?: boolean;
-
-  /** @deprecated Use hiddenUI: ['appearance'] instead */
-  disableAppearance?: boolean;
-  /** @deprecated Use chains.deny instead */
-  disabledChains?: number[];
-  /** @deprecated Use tokens.featured instead */
-  featuredTokens?: Token[];
 }
 
 export type WidgetDrawerProps = {
@@ -167,7 +166,14 @@ export type WidgetDrawerProps = {
   open?: boolean;
 };
 
+export interface WidgetConfigProps {
+  config: WidgetConfig;
+}
+
+export interface WidgetConfigPartialProps {
+  config?: Partial<WidgetConfig>;
+}
+
 export type WidgetProps = WidgetDrawerProps &
-  WidgetConfig & {
-    config?: WidgetConfig;
-  };
+  WidgetConfig &
+  WidgetConfigPartialProps;

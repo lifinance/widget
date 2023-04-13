@@ -18,7 +18,7 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
     persist(
       (set, get) => ({
         routes: {},
-        setExecutableRoute: (route: Route) => {
+        setExecutableRoute: (route: Route, insurableRouteId?: string) => {
           if (!get().routes[route.id]) {
             set((state: RouteExecutionState) => {
               const routes = { ...state.routes };
@@ -26,6 +26,7 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
               Object.keys(routes)
                 .filter(
                   (routeId) =>
+                    routeId !== insurableRouteId &&
                     routes[routeId]?.status === RouteExecutionStatus.Idle,
                 )
                 .forEach((routeId) => delete routes[routeId]);

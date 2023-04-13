@@ -2,13 +2,11 @@ import { useMemo } from 'react';
 import { useWidgetConfig } from '../providers';
 
 export const useFeaturedTokens = (selectedChainId?: number) => {
-  const { featuredTokens, tokens } = useWidgetConfig();
+  const { tokens } = useWidgetConfig();
 
   return useMemo(
     () =>
-      [...(tokens?.featured ?? []), ...(featuredTokens ?? [])].filter(
-        (token) => token.chainId === selectedChainId,
-      ),
-    [featuredTokens, selectedChainId, tokens?.featured],
+      tokens?.featured?.filter((token) => token.chainId === selectedChainId),
+    [selectedChainId, tokens?.featured],
   );
 };

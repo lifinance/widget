@@ -16,6 +16,7 @@ export const SDKProvider: React.FC<React.PropsWithChildren> = ({
   const value = useMemo(() => {
     const config = {
       ...sdkConfig,
+      integrator: integrator ?? window.location.hostname,
       defaultRouteOptions: {
         fee,
         integrator: integrator ?? window.location.hostname,

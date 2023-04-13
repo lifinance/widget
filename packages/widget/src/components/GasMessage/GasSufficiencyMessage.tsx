@@ -1,4 +1,4 @@
-import EvStationOutlinedIcon from '@mui/icons-material/EvStationOutlined';
+import EvStationIcon from '@mui/icons-material/EvStation';
 import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import type { GasSufficiency } from '../../hooks';
@@ -18,7 +18,7 @@ export const GasSufficiencyMessage: React.FC<GasSufficiencyMessageProps> = ({
   return (
     <WarningMessageCard>
       <WarningMessageCardTitle display="flex" alignItems="center" px={2} pt={2}>
-        <EvStationOutlinedIcon
+        <EvStationIcon
           sx={{
             marginRight: 1,
           }}

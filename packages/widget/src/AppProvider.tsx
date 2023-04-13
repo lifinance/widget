@@ -8,13 +8,15 @@ import {
   SDKProvider,
   SwapFormProvider,
   ThemeProvider,
+  URLSearchParamsBuilder,
   WalletProvider,
   WidgetProvider,
+  useWidgetConfig,
 } from './providers';
 import { StoreProvider } from './stores';
-import type { WidgetProps } from './types';
+import type { WidgetConfigProps } from './types';
 
-export const AppProvider: React.FC<PropsWithChildren<WidgetProps>> = ({
+export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
   children,
   config,
 }) => {
@@ -23,7 +25,6 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetProps>> = ({
       <StoreProvider namePrefix={config?.localStorageKeyPrefix}>
         <WidgetProvider config={config}>
           <SDKProvider>
-            {/* <TelemetryProvider> */}
             <ThemeProvider>
               <I18nProvider>
                 <WalletProvider>
@@ -33,7 +34,6 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetProps>> = ({
                 </WalletProvider>
               </I18nProvider>
             </ThemeProvider>
-            {/* </TelemetryProvider> */}
           </SDKProvider>
         </WidgetProvider>
       </StoreProvider>
@@ -42,7 +42,13 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetProps>> = ({
 };
 
 export const AppRouter: React.FC<PropsWithChildren<{}>> = ({ children }) => {
+  const { buildSwapUrl } = useWidgetConfig();
   const inRouterContext = useInRouterContext();
   const Router = inRouterContext ? Fragment : MemoryRouter;
-  return <Router>{children}</Router>;
+  return (
+    <Router>
+      {children}
+      {buildSwapUrl ? <URLSearchParamsBuilder /> : null}
+    </Router>
+  );
 };

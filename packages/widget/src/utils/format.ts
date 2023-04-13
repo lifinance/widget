@@ -68,7 +68,10 @@ export const formatAmount = (
   if (!amount) {
     return amount;
   }
-  const formattedAmount = amount.replaceAll(',', '.');
+  let formattedAmount = amount.replaceAll(',', '.');
+  if (formattedAmount.startsWith('.')) {
+    formattedAmount = '0' + formattedAmount;
+  }
   const parsedAmount = parseFloat(formattedAmount);
   if (isNaN(Number(formattedAmount)) && !isNaN(parsedAmount)) {
     return parsedAmount.toString();

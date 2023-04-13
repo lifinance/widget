@@ -1,5 +1,5 @@
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import ContentCopyIcon from '@mui/icons-material/ContentCopyRounded';
+import DeleteIcon from '@mui/icons-material/DeleteOutline';
 import {
   Box,
   Button,
@@ -17,6 +17,7 @@ import { shallow } from 'zustand/shallow';
 import { Card, CardTitle } from '../../components/Card';
 import { Dialog } from '../../components/Dialog';
 import { useHeaderActionStore } from '../../components/Header';
+import { Insurance } from '../../components/Insurance';
 import { getStepList } from '../../components/Step';
 import { useNavigateBack } from '../../hooks';
 import { useRouteExecutionStore } from '../../stores';
@@ -61,7 +62,7 @@ export const SwapDetailsPage: React.FC = () => {
   useEffect(() => {
     return useHeaderActionStore.getState().setAction(
       <IconButton size="medium" edge="end" onClick={toggleDialog}>
-        <DeleteOutlineIcon />
+        <DeleteIcon />
       </IconButton>,
     );
   }, [toggleDialog]);
@@ -92,6 +93,14 @@ export const SwapDetailsPage: React.FC = () => {
         </Typography>
       </Box>
       {getStepList(routeExecution?.route)}
+      {routeExecution?.route?.insurance?.state === 'INSURED' ? (
+        <Insurance
+          mt={2}
+          status={routeExecution.status}
+          feeAmountUsd={routeExecution.route.insurance.feeAmountUsd}
+          insurableRouteId={routeExecution.route.id}
+        />
+      ) : null}
       <Card mt={2}>
         <Box
           sx={{

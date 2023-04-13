@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import type { Step as StepType, TokenAmount } from '@lifi/sdk';
+import type { LifiStep, TokenAmount } from '@lifi/sdk';
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Card, CardTitle } from '../../components/Card';
@@ -13,7 +13,7 @@ import { StepProcess } from './StepProcess';
 import { StepTimer } from './StepTimer';
 
 export const Step: React.FC<{
-  step: StepType;
+  step: LifiStep;
   fromToken?: TokenAmount;
   toToken?: TokenAmount;
   toAddress?: string;
@@ -28,17 +28,19 @@ export const Step: React.FC<{
   const getCardTitle = () => {
     switch (step.type) {
       case 'lifi':
-        if (step.includedSteps.every((step) => step.type === 'cross')) {
+        const hasCrossStep = step.includedSteps.some(
+          (step) => step.type === 'cross',
+        );
+        const hasSwapStep = step.includedSteps.some(
+          (step) => step.type === 'swap',
+        );
+        if (hasCrossStep && hasSwapStep) {
+          return t('swap.stepSwapAndBridge');
+        }
+        if (hasCrossStep) {
           return t('swap.stepBridge');
         }
-        if (step.includedSteps.every((step) => step.type === 'swap')) {
-          return t('swap.stepSwap');
-        }
-        return t('swap.stepSwapAndBridge');
-      case 'swap':
         return t('swap.stepSwap');
-      case 'cross':
-        return t('swap.stepBridge');
       default:
         return t('swap.stepSwap');
     }

@@ -7,7 +7,7 @@ export interface RouteExecution {
 
 export interface RouteExecutionState {
   routes: Partial<Record<string, RouteExecution>>;
-  setExecutableRoute: (route: Route) => void;
+  setExecutableRoute: (route: Route, insurableRouteId?: string) => void;
   updateRoute: (route: Route) => void;
   restartRoute: (routeId: string) => void;
   deleteRoute: (routeId: string) => void;
@@ -21,9 +21,4 @@ export enum RouteExecutionStatus {
   Failed = 1 << 2,
   Partial = 1 << 3,
   Refunded = 1 << 4,
-}
-
-export interface RecommendedRouteState {
-  recommendedRoute?: Route;
-  setRecommendedRoute: (route?: Route) => void;
 }
