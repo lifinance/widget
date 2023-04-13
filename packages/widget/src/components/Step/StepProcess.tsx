@@ -19,29 +19,25 @@ export const StepProcess: React.FC<{
         }}
       >
         <CircularProgress process={process} />
-        <Typography ml={2} fontSize={14} fontWeight={process.error ? 600 : 400}>
+        <Typography
+          mx={2}
+          flex={1}
+          fontSize={14}
+          fontWeight={process.error ? 600 : 400}
+        >
           {title}
         </Typography>
         {process.txLink ? (
-          <Box
-            ml={2}
-            sx={{
-              display: 'flex',
-              flex: 1,
-              justifyContent: 'flex-end',
-            }}
+          <LinkButton
+            size="small"
+            edge="end"
+            LinkComponent={Link}
+            href={process.txLink}
+            target="_blank"
+            rel="nofollow noreferrer"
           >
-            <LinkButton
-              size="small"
-              edge="end"
-              LinkComponent={Link}
-              href={process.txLink}
-              target="_blank"
-              rel="nofollow noreferrer"
-            >
-              <LinkRoundedIcon />
-            </LinkButton>
-          </Box>
+            <LinkRoundedIcon />
+          </LinkButton>
         ) : null}
       </Box>
       {message ? (

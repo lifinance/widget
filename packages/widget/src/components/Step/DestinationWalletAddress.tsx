@@ -30,7 +30,7 @@ export const DestinationWalletAddress: React.FC<{
             }}
           />
         </CircularIcon>
-        <Typography ml={2} fontSize={14} fontWeight={400}>
+        <Typography mx={2} flex={1} fontSize={14} fontWeight={400}>
           {isDone
             ? t('swap.sentToAddress', {
                 address: toAddress,
@@ -39,25 +39,16 @@ export const DestinationWalletAddress: React.FC<{
                 address: toAddress,
               })}
         </Typography>
-        <Box
-          ml={2}
-          sx={{
-            display: 'flex',
-            flex: 1,
-            justifyContent: 'flex-end',
-          }}
+        <LinkButton
+          size="small"
+          edge="end"
+          LinkComponent={Link}
+          href={toAddressLink}
+          target="_blank"
+          rel="nofollow noreferrer"
         >
-          <LinkButton
-            size="small"
-            edge="end"
-            LinkComponent={Link}
-            href={toAddressLink}
-            target="_blank"
-            rel="nofollow noreferrer"
-          >
-            <LinkRoundedIcon />
-          </LinkButton>
-        </Box>
+          <LinkRoundedIcon />
+        </LinkButton>
       </Box>
     </Box>
   );

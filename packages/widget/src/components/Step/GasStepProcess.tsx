@@ -26,7 +26,7 @@ export const GasStepProcess: React.FC<{
             }}
           />
         </CircularIcon>
-        <Typography ml={2} fontSize={14} fontWeight={400}>
+        <Typography ml={2} flex={1} fontSize={14} fontWeight={400}>
           {t('format.currency', {
             value:
               (step.execution?.gasAmountUSD ||
