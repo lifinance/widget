@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-alpha.2](https://github.com/lifinance/widget/compare/v2.0.0-alpha.1...v2.0.0-alpha.2) (2023-04-13)
+
+
+### Bug Fixes
+
+* make config integrator optional ([7b983de](https://github.com/lifinance/widget/commit/7b983de3ed0fe30c77f8b00f9be36d9c9d87c307))
+
 ## [2.0.0-alpha.1](https://github.com/lifinance/widget/compare/v2.0.0-alpha.0...v2.0.0-alpha.1) (2023-04-12)
 
 
