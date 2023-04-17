@@ -1,12 +1,7 @@
 import type { Signer } from '@ethersproject/abstract-signer';
 import type { Token } from '@lifi/sdk';
 import type { Wallet } from '@lifi/wallet-management';
-import {
-  LiFiWalletManagement,
-  switchChainAndAddToken,
-  addChain as walletAddChain,
-  switchChain as walletSwitchChain,
-} from '@lifi/wallet-management';
+import { LiFiWalletManagement } from '@lifi/wallet-management';
 import type { WalletAccount, WalletContextProps } from '@lifi/widget/providers';
 import type { FC, PropsWithChildren } from 'react';
 import {
@@ -44,42 +39,63 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
     liFiWalletManagement.connectedWallets[0],
   );
 
+  const handleWalletUpdate = async (wallet?: Wallet) => {
+    setCurrentWallet(() => wallet);
+    const account = await extractAccountFromSigner(wallet?.account?.signer);
+    setAccount(account);
+  };
+
   const connect = useCallback(async (wallet: Wallet) => {
     await liFiWalletManagement.connect(wallet);
-    setCurrentWallet(wallet);
+    wallet.on('walletAccountChanged', handleWalletUpdate);
+
+    handleWalletUpdate(wallet);
   }, []);
 
   const disconnect = useCallback(async () => {
     if (currentWallet) {
       await liFiWalletManagement.disconnect(currentWallet);
+      currentWallet.removeAllListeners();
+      handleWalletUpdate(undefined);
     }
-    setCurrentWallet(undefined);
   }, [currentWallet]);
 
-  // only for injected wallets
-  const switchChain = useCallback(async (chainId: number) => {
-    return walletSwitchChain(chainId);
-  }, []);
+  const switchChain = useCallback(
+    async (chainId: number) => {
+      try {
+        await currentWallet?.switchChain(chainId);
+        handleWalletUpdate(currentWallet);
+        return true;
+      } catch {
+        return false;
+      }
+    },
+    [currentWallet],
+  );
 
-  const addChain = useCallback(async (chainId: number) => {
-    return walletAddChain(chainId);
-  }, []);
+  const addChain = useCallback(
+    async (chainId: number) => {
+      try {
+        await currentWallet?.addChain(chainId);
+        handleWalletUpdate(currentWallet);
 
-  const addToken = useCallback(async (chainId: number, token: Token) => {
-    return switchChainAndAddToken(chainId, token);
-  }, []);
+        return true;
+      } catch {
+        return false;
+      }
+    },
+    [currentWallet],
+  );
 
-  // keep account information up to date
-  useEffect(() => {
-    const updateAccount = async () => {
-      let account;
-      account = await extractAccountFromSigner(
-        currentWallet?.connector.account?.signer,
-      );
-      setAccount(account);
-    };
-    updateAccount();
-  }, [account.signer, currentWallet]);
+  const addToken = useCallback(
+    async (chainId: number, token: Token) => {
+      await currentWallet?.addToken(chainId, token);
+      handleWalletUpdate(currentWallet);
+
+      return;
+    },
+    [currentWallet],
+  );
 
   const value = useMemo(
     () => ({
