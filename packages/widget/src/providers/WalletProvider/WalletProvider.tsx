@@ -139,6 +139,19 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
     [walletManagement, currentWallet],
   );
 
+  // keep widget in sync with changing external signer object
+  useEffect(() => {
+    if (walletManagement) {
+      const updateAccount = async () => {
+        const account = await extractAccountFromSigner(
+          walletManagement?.signer,
+        );
+        setAccount(account);
+      };
+      updateAccount();
+    }
+  }, [walletManagement, walletManagement?.signer]);
+
   const value = useMemo(
     () => ({
       connect,
