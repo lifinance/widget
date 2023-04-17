@@ -1,10 +1,5 @@
 import type { Token } from '@lifi/sdk';
-import {
-  addChain,
-  supportedWallets,
-  switchChain,
-  switchChainAndAddToken,
-} from '@lifi/wallet-management';
+
 import type { WidgetVariant } from '@lifi/widget';
 import { LiFiWidget } from '@lifi/widget';
 import {
@@ -29,16 +24,18 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import React, { useEffect, useState } from 'react';
 import { WalletButtons } from './components/WalletButtons';
 import { WidgetEvents } from './components/WidgetEvents';
-import { WidgetVariants, widgetBaseConfig, widgetConfig } from './config';
+import {
+  METAMASK_WALLET,
+  WidgetVariants,
+  widgetBaseConfig,
+  widgetConfig,
+} from './config';
 import './index.css';
 import { useWallet } from './providers/WalletProvider';
 
-const METAMASK_WALLET = supportedWallets.find(
-  (wallet) => wallet.name === 'MetaMask',
-);
-
 export const App = () => {
   const { connect, disconnect, account } = useWallet();
+  console.log(account);
   const [searchParams] = useState(() =>
     Object.fromEntries(new URLSearchParams(window?.location.search)),
   );
@@ -155,7 +152,13 @@ export const App = () => {
     } else {
       setConfig((config) => ({ ...config, walletManagement: undefined }));
     }
-  }, [externalWallerManagement, account.signer, connect, disconnect]);
+  }, [
+    externalWallerManagement,
+    account.signer,
+    account.address,
+    connect,
+    disconnect,
+  ]);
 
   useEffect(() => {
     setTheme(

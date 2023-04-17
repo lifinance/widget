@@ -1,10 +1,7 @@
 import type { Signer } from '@ethersproject/abstract-signer';
 import type { Token } from '@lifi/sdk';
 import type { Wallet } from '@lifi/wallet-management';
-import {
-  LiFiWalletManagement,
-  supportedWallets,
-} from '@lifi/wallet-management';
+import { LiFiWalletManagement } from '@lifi/wallet-management';
 import type { WalletAccount, WalletContextProps } from '@lifi/widget/providers';
 import type { FC, PropsWithChildren } from 'react';
 import {
@@ -15,6 +12,7 @@ import {
   useMemo,
   useState,
 } from 'react';
+import { METAMASK_WALLET } from '../config';
 
 const stub = (): never => {
   throw new Error(
@@ -40,18 +38,6 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   const [account, setAccount] = useState<WalletAccount>({});
   const [currentWallet, setCurrentWallet] = useState<Wallet | undefined>();
 
-  useEffect(() => {
-    const autoConnect = async () => {
-      const metaMask = supportedWallets.filter(
-        (wallet) => wallet.name === 'MetaMask',
-      );
-      await liFiWalletManagement.autoConnect(metaMask);
-      metaMask[0].on('walletAccountChanged', handleWalletUpdate);
-      handleWalletUpdate(metaMask[0]);
-    };
-    autoConnect();
-  }, []);
-
   const handleWalletUpdate = async (wallet?: Wallet) => {
     setCurrentWallet(() => wallet);
     const account = await extractAccountFromSigner(wallet?.account?.signer);
@@ -67,6 +53,7 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
 
   const disconnect = useCallback(async () => {
     if (currentWallet) {
+      console.log('in disco');
       await liFiWalletManagement.disconnect(currentWallet);
       currentWallet.removeAllListeners();
       handleWalletUpdate(undefined);
@@ -119,7 +106,7 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
       addToken,
       account,
     }),
-    [account, addChain, addToken, connect, disconnect, switchChain],
+    [account.address, addChain, addToken, connect, disconnect, switchChain],
   );
 
   return (
