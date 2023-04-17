@@ -53,7 +53,6 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
 
   const disconnect = useCallback(async () => {
     if (currentWallet) {
-      console.log('in disco');
       await liFiWalletManagement.disconnect(currentWallet);
       currentWallet.removeAllListeners();
       handleWalletUpdate(undefined);

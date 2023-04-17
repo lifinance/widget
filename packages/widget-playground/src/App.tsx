@@ -35,7 +35,6 @@ import { useWallet } from './providers/WalletProvider';
 
 export const App = () => {
   const { connect, disconnect, account } = useWallet();
-  console.log(account);
   const [searchParams] = useState(() =>
     Object.fromEntries(new URLSearchParams(window?.location.search)),
   );
