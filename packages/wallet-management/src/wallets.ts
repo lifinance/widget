@@ -223,6 +223,7 @@ const tokenary: Wallet = new InjectedConnector({
 });
 
 export const supportedWallets = [
+  defaultWallet,
   metamask,
   walletConnect,
   tallyho,
