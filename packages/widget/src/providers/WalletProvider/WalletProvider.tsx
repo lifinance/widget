@@ -56,7 +56,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   }, []);
 
   const handleWalletUpdate = async (wallet?: Wallet) => {
-    setCurrentWallet(() => wallet);
+    setCurrentWallet(wallet);
     const account = await extractAccountFromSigner(wallet?.account?.signer);
     setAccount(account);
   };
@@ -147,7 +147,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
       addChain,
       addToken,
       account,
-      provider: currentWallet?.account?.provider || undefined,
+      provider: currentWallet?.account?.provider,
     }),
     [
       account,
