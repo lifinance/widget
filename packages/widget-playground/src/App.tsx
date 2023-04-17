@@ -33,6 +33,10 @@ import { WidgetVariants, widgetBaseConfig, widgetConfig } from './config';
 import './index.css';
 import { useWallet } from './providers/WalletProvider';
 
+const METAMASK_WALLET = supportedWallets.find(
+  (wallet) => wallet.name === 'MetaMask',
+);
+
 export const App = () => {
   const { connect, disconnect, account } = useWallet();
   const [searchParams] = useState(() =>
@@ -127,30 +131,24 @@ export const App = () => {
         walletManagement: {
           signer: account.signer,
           connect: async () => {
-            const metamask = supportedWallets.find(
-              (wallet) => wallet.name === 'MetaMask',
-            );
-            await connect(metamask);
+            await connect(METAMASK_WALLET);
             return account.signer!;
           },
           disconnect: async () => {
-            const metamask = supportedWallets.find(
-              (wallet) => wallet.name === 'MetaMask',
-            );
-            disconnect(metamask);
+            disconnect(METAMASK_WALLET);
           },
           switchChain: async (reqChainId: number) => {
-            await switchChain(reqChainId);
+            await METAMASK_WALLET!.switchChain(reqChainId);
             if (account.signer) {
               return account.signer!;
             }
             throw Error('No signer object after chain switch');
           },
           addToken: async (token: Token, chainId: number) => {
-            await switchChainAndAddToken(chainId, token);
+            await METAMASK_WALLET!.addToken(chainId, token);
           },
           addChain: async (chainId: number) => {
-            return addChain(chainId);
+            return METAMASK_WALLET!.addChain(chainId);
           },
         },
       }));
