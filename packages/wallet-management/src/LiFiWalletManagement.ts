@@ -14,7 +14,7 @@ export class LiFiWalletManagement extends events.EventEmitter {
     try {
       await wallet.connect();
       wallet.addListener('walletAccountChanged', this.handleAccountDataChange);
-      this.connectedWallets.push(wallet); // TODO: add new wallet as first element
+      this.connectedWallets.unshift(wallet);
       removeFromDeactivatedWallets(wallet.account?.address);
       addToActiveWallets(wallet.account?.address);
     } catch (e) {
