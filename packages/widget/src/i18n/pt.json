@@ -184,11 +184,13 @@
     "swapStepDetails": "Converter na {{chain}} via {{tool}}",
     "swapping": "Convertendo",
     "tags": {
-      "ALTERNATIVE": "ALTERNATIVA",
-      "CHEAPEST": "MAIS BARATO",
-      "FASTEST": "MAIS RÁPIDO",
-      "RECOMMENDED": "RECOMENDADO",
-      "SAFEST": "MAIS SEGURO"
+      "cheapest": "Barato",
+      "fastest": "Rápido",
+      "insurable": "Assegurável",
+      "insurance": "Seguro",
+      "insured": "Segurado",
+      "recommended": "Recomendado",
+      "safest": "Seguro"
     },
     "to": "Para",
     "tokenOnChain": "{{tokenSymbol}} na {{chainName}}",
@@ -218,6 +220,7 @@
     }
   },
   "tooltip": {
+    "additionalProviderFee": "Pontes adicionais, DEXes e taxas de serviço.",
     "estimatedNetworkFee": "Taxa de rede estimada.",
     "estimatedTime": "Tempo de execução da conversão estimado em minutos.",
     "notFound": {
