@@ -4,6 +4,7 @@ import type { RouteExecutionStatus } from '../../stores';
 export interface InsuranceProps extends Omit<BoxProps, 'onChange'> {
   insurableRouteId: string;
   feeAmountUsd?: string;
+  insuranceCoverageId?: string;
   status?: RouteExecutionStatus;
   onChange?: (routeId: string) => void;
 }
@@ -11,5 +12,6 @@ export interface InsuranceProps extends Omit<BoxProps, 'onChange'> {
 export interface InsuranceCardProps {
   feeAmountUsd?: string;
   status?: RouteExecutionStatus;
+  insuranceCoverageId?: string;
   onChange?: (_: React.ChangeEvent<HTMLInputElement>, checked: boolean) => void;
 }

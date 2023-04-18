@@ -8,9 +8,9 @@
     "copyAddress": "Copier l’adresse",
     "dark": "Sombre",
     "delete": "Supprimer",
-    "disconnectWallet": "Déconnecter le portefeuille",
+    "disconnect": "Déconnecter",
     "done": "Terminé",
-    "getGas": "Get gas",
+    "getGas": "Obtenir du gaz",
     "hide": "Cacher",
     "lifiSwap": "LI.FI Swap",
     "light": "Clair",
@@ -18,31 +18,36 @@
     "ok": "Ok",
     "okay": "D'accord",
     "removeSwap": "Supprimer l'échange",
+    "reset": "Réinitialiser",
+    "resetSettings": "Réinitialiser les paramètres",
     "restartSwap": "Redémarrer l'échange",
-    "reviewSwap": "Revue de l'échange",
+    "reviewGasSwap": "Vérifier le gaz d'échange",
+    "reviewSwap": "Vérifier l'échange",
     "seeDetails": "Voir les détails",
-    "showAll": "Afficher tous",
-    "startGasSwap": "Start gas swap",
-    "startSwap": "Échange de départ",
+    "showAll": "Afficher tout",
+    "startGasSwap": "Commencer l'échange de gaz",
+    "startSwap": "Commencer l'échange",
     "swap": "Échanger",
-    "tryAgain": "Réessayer"
+    "tryAgain": "Réessayer",
+    "viewOnExplorer": "Voir sur l'explorateur"
   },
   "format": {
     "currency": "{{value, currency(currency: USD)}}",
     "number": "{{value, number(maximumFractionDigits: 4)}}"
   },
   "header": {
-    "activeSwaps": "Échange actifs",
+    "activeSwaps": "Échanges actifs",
+    "checkout": "Paiement",
     "from": "Échanger de",
-    "gas": "Gas",
-    "gasSwap": "Gas swap",
-    "routes": "Vous obtenez",
+    "gas": "Gaz",
+    "gasSwap": "Échange de gaz",
+    "routes": "Vous recevez",
     "selectChain": "Sélectionner la chaîne",
     "selectWallet": "Sélectionnez votre portefeuille",
     "settings": "Paramètres",
     "swap": "Échanger",
     "swapDetails": "Détails de l'échange",
-    "swapHistory": "Historique des échanges",
+    "swapHistory": "Historique d'échange",
     "to": "Échanger pour",
     "walletConnected": "Portefeuille connecté"
   },
@@ -51,46 +56,43 @@
     "title": "Langue"
   },
   "settings": {
-    "advancedPreferences": "Préférences avancées",
     "enabledBridges": "Bridges activés",
-    "enabledExchanges": "Échanges activés",
+    "enabledExchanges": "Échanges autorisés",
     "gasPrice": {
       "fast": "Rapide",
       "normal": "Normal",
       "slow": "Lent",
       "title": "Prix du gaz"
     },
-    "resetToDefault": "Réinitialisation des valeurs par défaut",
     "routePriority": "Priorité de l'itinéraire",
-    "selectEnabledBridges": "Sélectionner les bridges activés",
-    "selectEnabledExchanges": "Sélectionner les échanges activés",
     "showDestinationWallet": "Afficher le portefeuille de destination",
     "slippage": "Effet de glissement"
   },
   "swap": {
     "crossStepDetails": "Passer de {{from}} à {{to}} via {{tool}}",
-    "currentAmount": "Current amount",
+    "currentAmount": "Montant actuel",
     "error": {
       "message": {
-        "slippageThreshold": "The slippage is larger than the defined threshold. Please request a new route to get a fresh quote.",
-        "transactionFailed": "Veuillez consulter l'explorateur de blockchain pour plus d'informations.",
-        "transactionNotSent": "La transaction n'a pas été envoyée, vos fonds sont toujours dans votre portefeuille ({{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} sur {{chainName}}).",
-        "transactionRejected": "Votre signature est requise pour compléter la transaction. Le {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} sur {{chainName}} restent dans votre portefeuille.",
-        "unknown": "Please try again or contact support."
+        "slippageThreshold": "L'effet de glissement est supérieur au seuil défini. Veuillez demander un nouvel itinéraire pour obtenir un nouveau devis.",
+        "transactionFailed": "Veuillez consulter l'explorateur de blocs pour plus d'informations.",
+        "transactionNotSent": "La transaction n'a pas été envoyée. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} sur {{chainName}} restent dans votre portefeuille.",
+        "transactionRejected": "Votre signature est requise pour compléter la transaction. {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} sur {{chainName}} restent dans votre portefeuille.",
+        "unknown": "Veuillez réessayer ou contacter le support."
       },
       "title": {
-        "balanceIsTooLow": "The balance is too low",
+        "balanceIsTooLow": "Le solde est trop bas.",
         "chainSwitch": "Changement de chaîne nécessaire.",
         "failed": "L'échange a échoué.",
-        "gasLimitIsTooLow": "The gas limit is too low",
-        "slippageNotMet": "Slippage conditions not met",
-        "transactionCanceled": "Transaction canceled",
+        "gasLimitIsTooLow": "La limite de gaz est trop basse.",
+        "slippageNotMet": "Les conditions de l'effet de glissement ne sont pas remplies.",
+        "transactionCanceled": "Transaction annulée.",
         "transactionFailed": "La transaction a échoué.",
         "transactionRejected": "Signature requise.",
         "transactionUnderpriced": "La transaction est sous-évaluée.",
         "transactionUnprepared": "Impossible de préparer la transaction.",
         "unknown": "Il y a eu un problème.",
         "walletAddressInvalid": "L'adresse du portefeuille n'est pas valide.",
+        "walletAddressRequired": "L'adresse du portefeuille est nécessaire.",
         "walletEnsAddressInvalid": "L'adresse du portefeuille n'est pas valide ou le réseau ne supporte pas l'ENS."
       }
     },
@@ -99,122 +101,134 @@
     "from": "De",
     "fromAmount": "Vous payez",
     "gasCost": "Coût du gaz",
-    "gasFeeEstimated": "estimated gas fee",
-    "gasFeePaid": "gas fee paid",
+    "gasFeeEstimated": "frais de gaz estimés",
+    "gasFeePaid": "frais de gaz payés",
     "inProgress": "en cours",
     "info": {
       "message": {
-        "emptyActiveSwaps": "Les échanges en cours apparaissent ici. Une fois terminés, vous les trouverez dans l'historique des échanges.",
-        "emptySwapHistory": "L'historique des échanges n'est stocké que localement et sera supprimé si vous effacez les données de votre navigateur.",
-        "emptyTokenList": "Nous n'avons pas trouvé de jetons sur la chaîne {{chainName}} ou vous n'en avez pas. Veuillez réessayer la recherche ou choisir une autre chaîne.",
+        "autoRefuel": "Vous avez peu de gaz sur {{chainName}}. En continuant, vous aurez assez de gaz pour compléter l'échange.",
+        "emptyActiveSwaps": "Les échanges en cours apparaissent ici. Une fois terminés, vous les trouverez dans l'historique d'échange.",
+        "emptySwapHistory": "L'historique d'échange est uniquement stocké au niveau local et sera supprimé si vous effacez les données de votre navigateur.",
+        "emptyTokenList": "Nous n'avons pas pu trouver de jetons sur la chaîne {{chainName}} ou vous n'en avez pas. Veuillez réessayer ou choisissez une autre chaîne.",
         "routeNotFound": "Essayez une autre combinaison de jetons."
       },
       "title": {
-        "emptyActiveSwaps": "Pas de swaps actifs",
+        "autoRefuel": "Obtenir du gaz",
+        "emptyActiveSwaps": "Aucun échange actif",
         "emptySwapHistory": "Aucun échange récent",
         "routeNotFound": "Aucun itinéraire disponible"
       }
     },
-    "onChain": "on {{chainName}}",
+    "nftStepDetails": "Acheter un NFT via {{tool}}",
+    "onChain": "sur {{chainName}}",
     "otherTokens": "Autres jetons",
+    "ownedBy": "Propriétaire",
+    "payWith": "Payer avec",
     "process": {
       "crossChain": {
         "actionRequired": "Veuillez signer la transaction.",
-        "done": "Transaction approuvée.",
-        "pending": "En attendant la transaction.",
-        "started": "Préparation de la transaction."
+        "done": "Transaction Bridge confirmée",
+        "pending": "En attente de la transaction bridge",
+        "started": "Préparation de la transaction bridge"
       },
       "receivingChain": {
-        "done": "Fonds reçus.",
-        "partial": "Bridge partially completed",
-        "pending": "En attente de la chaîne de réception.",
-        "refunded": "Bridge transaction refunded"
+        "done": "Bridge complété",
+        "partial": "Bridge partiellement complété",
+        "pending": "En attente de la chaîne de destination",
+        "refunded": "Transaction bridge remboursée"
       },
       "swap": {
         "actionRequired": "Veuillez signer la transaction.",
         "done": "Échange terminé.",
-        "pending": "Échange en cours.",
-        "started": "Préparation de l'échange."
+        "pending": "En attente de la transaction d'échange",
+        "started": "Préparation de la transaction d'échange"
       },
       "switchChain": {
         "actionRequired": "Changement de chaîne requis.",
-        "done": "La chaîne a été commutée avec succès."
+        "done": "Chaîne changée avec succès."
       },
       "tokenAllowance": {
-        "done": "L'allocation de jetons est approuvée.",
-        "pending": "En attente de l'allocation.",
+        "done": "Allocation de jetons approuvée.",
+        "pending": "En attente de l'allocation de jetons",
         "started": "Fixation de l'allocation de jeton."
       }
     },
-    "quotedAmount": "Quoted amount",
-    "rateChange": "Rate change",
-    "receiving": "Réception",
+    "quotedAmount": "Montant indiqué",
+    "rateChange": "Taux de change",
+    "receiving": "En cours de réception",
+    "refuelStepDetails": "Obtenir du gaz via {{tool}}",
     "routes": "Vous obtenez",
     "selectChain": "Chaîne",
     "selectChainAndToken": "Sélectionnez la chaîne et le jeton",
     "selectToken": "Jeton",
-    "sendToAddress": "Send to {{address}}",
+    "sendToAddress": "Envoyer à {{address}}",
     "sendToWallet": "Envoyer vers un autre portefeuille",
-    "sentToAddress": "Sent to {{address}}",
+    "sentToAddress": "Envoyé à {{address}}",
     "stepBridge": "Bridge",
+    "stepDetails": "{{tool}} via LI.FI",
     "stepSwap": "Échanger",
     "stepSwapAndBridge": "Échange et Bridge",
     "success": {
       "message": {
-        "swapPartiallySuccessful": "We've tried to complete the swap, but {{tool}} ran out of liquidity for {{tokenSymbol}} token.",
-        "swapSuccessful": "Il y a maintenant {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} dans le portefeuille {{walletAddress}} de la chaîne {{chainName}}."
+        "swapPartiallySuccessful": "Nous avons essayé de compléter l'échange, mais {{tool}} a manqué de liquidité pour le jeton {{tokenSymbol}}.",
+        "swapSuccessful": "Il y a maintenant {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} dans le portefeuille {{walletAddress}} sur la chaîne {{chainName}}."
       },
       "title": {
-        "gasSwapSuccessful": "Gas swap successful",
-        "refundIssued": "Refund issued",
-        "swapPartiallySuccessful": "Swap partially successful",
+        "gasSwapSuccessful": "Échange de gaz réussi",
+        "refundIssued": "Remboursement émis",
+        "swapPartiallySuccessful": "Échange partiellement réussi",
         "swapSuccessful": "Échange réussi"
       }
     },
     "supportId": "ID de support",
-    "swapStepDetails": "Echanger sur {{chain}} via {{tool}}",
+    "swapStepDetails": "Échanger sur {{chain}} via {{tool}}",
     "swapping": "Échanger",
     "tags": {
-      "ALTERNATIVE": "ALTERNATIVE",
-      "CHEAPEST": "PETIT PRIX",
-      "FASTEST": "RAPIDE",
-      "RECOMMENDED": "RECOMMANDÉ",
-      "SAFEST": "SÛR"
+      "cheapest": "Pas cher",
+      "fastest": "Rapide",
+      "insurable": "Assurable",
+      "insurance": "Assurance",
+      "insured": "Assuré",
+      "recommended": "Recommandé",
+      "safest": "Sûr"
     },
     "to": "À",
     "tokenOnChain": "{{tokenSymbol}} sur {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} sur {{chainName}}",
     "tokenSearch": "Recherchez votre jeton",
     "valueLoss": "Perte de valeur",
-    "walletAddressOrEns": "Adresse du portefeuille ou nom de l'ENS",
+    "walletAddressOrEns": "Adresse du portefeuille ou nom ENS",
     "warning": {
       "message": {
-        "deleteActiveSwaps": "Les échanges actifs sont uniquement stockés localement et ne peuvent pas être récupérés si vous les supprimez.",
-        "deleteSwapHistory": "L'historique des échanges est uniquement stocké localement et ne peut pas être récupéré si vous le supprimez.",
+        "deleteActiveSwaps": "Les échanges actifs sont uniquement stockés au niveau local et seront perdus si vous les supprimez.",
+        "deleteSwapHistory": "L'historique d'échange est uniquement stocké au niveau local et ne pourra pas être récupéré si vous le supprimez.",
         "highValueLoss": "La valeur des jetons reçus est nettement inférieure à celle des jetons échangés et au coût de la transaction.",
-        "insufficientFunds": "Vous n'avez pas assez de fonds pour exécuter l'échange.",
-        "insufficientGas": "Vous devez ajouter au moins :",
-        "rateChanged": "The exchange rate has changed. By continuing the swap, you'll accept the new rate."
+        "insufficientFunds": "Vous n'avez pas assez de fonds pour finaliser l'échange.",
+        "insufficientGas": "Vous n'avez pas assez de gaz pour finaliser l'échange. Vous devez avoir au moins:",
+        "rateChanged": "Le taux de change a changé. En continuant l'échange, vous devrez accepter le nouveau taux.",
+        "resetSettings": "Cela réinitialisera la priorité de votre itinéraire, l'effet de glissement, le prix du gaz, les ponts et les plateformes d'échanges activés."
       },
       "title": {
         "deleteActiveSwaps": "Supprimer tous les échanges actifs ?",
         "deleteSwap": "Supprimer cet échange ?",
-        "deleteSwapHistory": "Supprimer l'historique des échanges ?",
+        "deleteSwapHistory": "Supprimer l'historique d'échange ?",
         "highValueLoss": "Perte de valeur élevée",
         "insufficientGas": "Gaz insuffisant",
-        "rateChanged": "Rate changed"
+        "rateChanged": "Taux modifié",
+        "resetSettings": "Réinitialiser les paramètres ?"
       }
     }
   },
   "tooltip": {
+    "additionalProviderFee": "Ponts additionnels, DEX et frais de service.",
     "estimatedNetworkFee": "Frais de réseau estimés.",
-    "estimatedTime": "Durée estimée d'exécution en minutes.",
+    "estimatedTime": "Durée d'exécution de l'échange estimé en minutes.",
     "notFound": {
       "text": "Nous n'avons pas trouvé cette page.",
       "title": "404"
     },
-    "numberOfSteps": "Un certain nombre d'étapes de swap. Chaque étape peut contenir 1 à 3 transactions nécessitant une signature.",
-    "progressToNextUpdate": "Les données affichées seront actualisées automatiquement après {{value}} secondes. Cliquez ici pour une mise à jour manuelle.",
+    "numberOfSteps": "Un certain nombre d'étapes d'échange. Chaque étape peut contenir 1 à 2 transactions nécessitant une signature.",
+    "progressToNextUpdate": "Les données affichées seront automatiquement actualisées après {{value}} secondes. Cliquez ici pour les mettre à jour manuellement.",
     "settingsModified": "Paramètres (modifiés)"
   },
   "wallet": {

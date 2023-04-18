@@ -1,6 +1,5 @@
 import type { Route } from '@lifi/sdk';
 import { Collapse } from '@mui/material';
-import type { PropsWithChildren } from 'react';
 import { useState } from 'react';
 import { useSwapRoutes } from '../../hooks';
 import {
@@ -11,14 +10,12 @@ import {
 import { InsuranceCard } from './InsuranceCard';
 import type { InsuranceProps } from './types';
 
-export const InsuranceCollapsed: React.FC<
-  PropsWithChildren<InsuranceProps>
-> = ({
+export const InsuranceCollapsed: React.FC<InsuranceProps> = ({
   status,
   insurableRouteId,
+  insuranceCoverageId,
   feeAmountUsd,
   onChange,
-  children,
   ...props
 }) => {
   const [insuredRoute, setInsuredRoute] = useState<Route>();
@@ -58,6 +55,7 @@ export const InsuranceCollapsed: React.FC<
       <InsuranceCard
         feeAmountUsd={feeAmountUsd}
         status={status}
+        insuranceCoverageId={insuranceCoverageId}
         onChange={toggleInsurance}
         {...props}
       />
