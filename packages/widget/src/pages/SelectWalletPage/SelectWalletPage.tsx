@@ -67,24 +67,7 @@ export const SelectWalletPage = () => {
           paddingRight: 1.5,
         }}
       >
-        {installedWallets.map((wallet: Wallet) => (
-          <ListItemButton
-            key={wallet.name}
-            onClick={() => handleConnect(wallet)}
-          >
-            <ListItemAvatar>
-              <Avatar
-                src={(wallet.icon as any).src || wallet.icon}
-                alt={wallet.name}
-              >
-                {wallet.name[0]}
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={wallet.name} />
-          </ListItemButton>
-        ))}
-
-        {notInstalledWallets.map((wallet: Wallet) => (
+        {[...installedWallets, ...notInstalledWallets].map((wallet: Wallet) => (
           <ListItemButton
             key={wallet.name}
             onClick={() => handleConnect(wallet)}
