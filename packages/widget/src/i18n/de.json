@@ -106,12 +106,14 @@
     "inProgress": "wird ausgeführt",
     "info": {
       "message": {
+        "autoRefuel": "Sie haben nicht genug Gas auf {{chainName}}. Wenn Sie fortfahren, erhalten Sie zusätzlich genug Gas um den Swap abzuschließen.",
         "emptyActiveSwaps": "Laufende Swaps werden hier angezeigt. Sobald Sie fertig sind, finden Sie sie im Swap-Verlauf.",
         "emptySwapHistory": "Der Swap-Verlauf wird nur lokal gespeichert und gelöscht, wenn Sie Ihre Browserdaten löschen.",
         "emptyTokenList": "Wir konnten keine Tokens auf der Chain {{chainName}} finden oder Sie haben keine. Bitte versuchen Sie die Suche erneut oder wählen Sie eine andere Chain.",
         "routeNotFound": "Probieren Sie eine andere Token-Kombination aus."
       },
       "title": {
+        "autoRefuel": "Get gas",
         "emptyActiveSwaps": "Keine aktiven Swaps",
         "emptySwapHistory": "Keine Swaps in der letzten Zeit",
         "routeNotFound": "Keine Routen verfügbar"
@@ -154,6 +156,7 @@
     "quotedAmount": "Angebotsbetrag",
     "rateChange": "Wechselkurs geändert",
     "receiving": "Eingehend",
+    "refuelStepDetails": "Gas über {{tool}} erhalten",
     "routes": "Sie erhalten",
     "selectChain": "Chain",
     "selectChainAndToken": "Chain und Token auswählen",
@@ -162,6 +165,7 @@
     "sendToWallet": "An eine andere Wallet senden",
     "sentToAddress": "Gesendet an {{address}}",
     "stepBridge": "Bridge",
+    "stepDetails": "{{tool}} via LI.FI",
     "stepSwap": "Swap",
     "stepSwapAndBridge": "Tauschen und überbrücken",
     "success": {
@@ -180,11 +184,13 @@
     "swapStepDetails": "Tausche auf {{chain}} über {{tool}}",
     "swapping": "Austauschen",
     "tags": {
-      "ALTERNATIVE": "ALTERNATIV",
-      "CHEAPEST": "GÜNSTIG",
-      "FASTEST": "SCHNELL",
-      "RECOMMENDED": "EMPFOHLEN",
-      "SAFEST": "SICHER"
+      "cheapest": "Günstig",
+      "fastest": "Schnell",
+      "insurable": "Versicherbar",
+      "insurance": "Versicherung",
+      "insured": "Versichert",
+      "recommended": "Empfohlen",
+      "safest": "Sicher"
     },
     "to": "Zu",
     "tokenOnChain": "{{tokenSymbol}} auf {{chainName}}",
@@ -197,8 +203,8 @@
         "deleteActiveSwaps": "Aktive Swaps werden nur lokal gespeichert und können nicht wiederhergestellt werden, wenn Sie sie löschen.",
         "deleteSwapHistory": "Der Swap-Verlauf wird nur lokal gespeichert und kann nicht wiederhergestellt werden, wenn Sie ihn löschen.",
         "highValueLoss": "Der Wert der erhaltenen Token ist deutlich niedriger als die getauschten Token und die Transaktionskosten.",
-        "insufficientFunds": "Sie haben nicht genug Geld, um den Tausch durchzuführen.",
-        "insufficientGas": "Sie müssen mindestens hinzufügen:",
+        "insufficientFunds": "Sie haben nicht genug Token, um diesen Swap abzuschließen.",
+        "insufficientGas": "Sie haben nicht genug Gas um diesen Swap abzuschließen. Sie müssen mindestens hinzufügen:",
         "rateChanged": "Der Wechselkurs hat sich geändert. Durch Fortsetzen des Swaps akzeptieren Sie den neuen Kurs.",
         "resetSettings": "Dies wird Ihre Routenpriorität, Slippage, Gaspreis, aktivierte Brücken und Exchanges zurücksetzen."
       },
@@ -214,6 +220,7 @@
     }
   },
   "tooltip": {
+    "additionalProviderFee": "Zusätzliche Bridges, DEXs und Servicegebühren.",
     "estimatedNetworkFee": "Geschätzte Netzwerkgebühr.",
     "estimatedTime": "Geschätzte Swap-Ausführungszeit in Minuten.",
     "notFound": {

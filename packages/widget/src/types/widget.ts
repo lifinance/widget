@@ -166,7 +166,14 @@ export type WidgetDrawerProps = {
   open?: boolean;
 };
 
+export interface WidgetConfigProps {
+  config: WidgetConfig;
+}
+
+export interface WidgetConfigPartialProps {
+  config?: Partial<WidgetConfig>;
+}
+
 export type WidgetProps = WidgetDrawerProps &
-  WidgetConfig & {
-    config?: WidgetConfig;
-  };
+  WidgetConfig &
+  WidgetConfigPartialProps;
