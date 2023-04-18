@@ -45,9 +45,9 @@ export const SwapDetailsPage: React.FC = () => {
   };
 
   let supportId =
-    routeExecution?.route.steps[0].execution?.process.find(
-      (process) => process.txHash,
-    )?.txHash ??
+    routeExecution?.route.steps[0].execution?.process
+      .filter((process) => process.type !== 'TOKEN_ALLOWANCE')
+      .find((process) => process.txHash)?.txHash ??
     routeExecution?.route.id ??
     '';
 
