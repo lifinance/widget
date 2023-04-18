@@ -33,12 +33,12 @@ export interface AccountData {
 export interface InjectedConnectorConstructorArgs {
   name: string;
   icon: string;
-  installed: (helpers: { provider: any }) => boolean;
+  installed: () => boolean;
 }
 export interface WalletConnectConnectorConstructorArgs {
   name: string;
   icon: string;
-  installed: (helpers: { provider: any }) => boolean;
+  installed: () => boolean;
   rpc: {
     [chainId: number]: string;
   };
@@ -49,7 +49,7 @@ export interface Wallet extends events.EventEmitter {
   icon: string;
   isActivationInProgress: boolean;
   account: AccountData | undefined;
-  installed: (helpers: { provider: any }) => boolean;
+  installed: () => boolean;
   connect: () => Promise<void>;
   autoConnect?: () => Promise<void>;
   disconnect: () => void;

@@ -22,7 +22,7 @@ export class InjectedConnector extends events.EventEmitter implements Wallet {
   public account: AccountData | undefined;
   public name: string;
   public icon: string;
-  public installed: (helpers: { provider: any }) => boolean;
+  public installed: () => boolean;
 
   constructor(
     constructorArgs: InjectedConnectorConstructorArgs,

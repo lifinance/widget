@@ -6,7 +6,6 @@ import blockwallet from './blockwallet.svg';
 import brave from './brave.svg';
 import coinbase from './coinbase.svg';
 import dcent from './dcent.svg';
-import detected from './detected.svg';
 import frame from './frame.svg';
 import huobiwallet from './huobiwallet.svg';
 import hyperpay from './hyperpay.svg';
@@ -43,7 +42,6 @@ export const walletIcons = {
   brave,
   coinbase,
   dcent,
-  detected,
   frame,
   huobiwallet,
   hyperpay,

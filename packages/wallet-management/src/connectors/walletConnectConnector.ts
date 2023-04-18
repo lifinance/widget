@@ -34,7 +34,7 @@ export class WalletConnectConnector
   public account: AccountData | undefined;
   public name: string;
   public icon: string;
-  public installed: (helpers: { provider: any }) => boolean;
+  public installed: () => boolean;
 
   constructor(constructorArgs: WalletConnectConnectorConstructorArgs) {
     super();

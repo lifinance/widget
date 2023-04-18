@@ -6,14 +6,17 @@ import { ProviderIdentityFlag } from './types';
 import { walletIcons } from './walletIcons';
 
 const defaultWallet: Wallet = new InjectedConnector({
-  name: 'Your Default Wallet',
-  installed: () => !!(window as any).ethereum,
-  icon: walletIcons.metamask,
+  // unknown Default wallet that injects as metamask but is not metamask
+  name: 'Default Wallet',
+  installed: () =>
+    !!(window as any).ethereum &&
+    !(window as any)?.ethereum?.[ProviderIdentityFlag.MetaMask],
+  icon: walletIcons.placeholder,
 });
 
 const metamask: Wallet = new InjectedConnector({
   name: 'MetaMask',
-  installed: () => !!(window as any).ethereum[ProviderIdentityFlag.MetaMask],
+  installed: () => !!(window as any)?.ethereum?.[ProviderIdentityFlag.MetaMask],
   icon: walletIcons.metamask,
 });
 
@@ -47,7 +50,7 @@ const brave: Wallet = new InjectedConnector({
 
 const mathWallet: Wallet = new InjectedConnector({
   name: 'MathWallet',
-  installed: () => (window as any).ethereum[ProviderIdentityFlag.MathWallet],
+  installed: () => (window as any).ethereum?.[ProviderIdentityFlag.MathWallet],
   icon: walletIcons.mathwallet,
 });
 
@@ -56,7 +59,7 @@ const tallyho: Wallet = new InjectedConnector(
     name: 'Taho',
     installed: () =>
       (window as any).tally &&
-      (window as any).tally[ProviderIdentityFlag.TallyHo],
+      (window as any).tally?.[ProviderIdentityFlag.TallyHo],
     icon: walletIcons.tallyho,
   },
   (window as any).tally,
@@ -64,7 +67,7 @@ const tallyho: Wallet = new InjectedConnector(
 
 const blockWallet: Wallet = new InjectedConnector({
   name: 'BlockWallet',
-  installed: () => (window as any).ethereum[ProviderIdentityFlag.BlockWallet],
+  installed: () => (window as any).ethereum?.[ProviderIdentityFlag.BlockWallet],
   icon: walletIcons.blockwallet,
 });
 
@@ -86,12 +89,6 @@ const coinbase: Wallet = new InjectedConnector(
   (window as any).coinbaseWalletExtension,
 );
 
-const detected: Wallet = new InjectedConnector({
-  name: 'Detected',
-  installed: () => (window as any).ethereum[ProviderIdentityFlag.Detected],
-  icon: walletIcons.detected,
-});
-
 const trust: Wallet = new InjectedConnector(
   {
     name: 'Trust',
@@ -103,37 +100,37 @@ const trust: Wallet = new InjectedConnector(
 
 const status: Wallet = new InjectedConnector({
   name: 'Status',
-  installed: () => (window as any).ethereum[ProviderIdentityFlag.Status],
+  installed: () => (window as any).ethereum?.[ProviderIdentityFlag.Status],
   icon: walletIcons.status,
 });
 
 const alphawallet: Wallet = new InjectedConnector({
   name: 'AlphaWallet',
-  installed: () => (window as any).ethereum[ProviderIdentityFlag.AlphaWallet],
+  installed: () => (window as any).ethereum?.[ProviderIdentityFlag.AlphaWallet],
   icon: walletIcons.alphawallet,
 });
 
 const atoken: Wallet = new InjectedConnector({
   name: 'AToken',
-  installed: () => (window as any).ethereum[ProviderIdentityFlag.AToken],
+  installed: () => (window as any).ethereum?.[ProviderIdentityFlag.AToken],
   icon: walletIcons.atoken,
 });
 
 const apex: Wallet = new InjectedConnector({
   name: 'Apex Wallet',
-  installed: () => (window as any).ethereum[ProviderIdentityFlag.ApexWallet],
+  installed: () => (window as any).ethereum?.[ProviderIdentityFlag.ApexWallet],
   icon: walletIcons.placeholder,
 });
 
 const bitpie: Wallet = new InjectedConnector({
   name: 'Bitpie',
-  installed: () => (window as any).ethereum.Bitpie,
+  installed: () => (window as any).ethereum?.Bitpie,
   icon: walletIcons.bitpie,
 });
 
 const dcent: Wallet = new InjectedConnector({
   name: 'Dcent',
-  installed: () => (window as any).ethereum[ProviderIdentityFlag.Dcent],
+  installed: () => (window as any).ethereum?.[ProviderIdentityFlag.Dcent],
   icon: walletIcons.dcent,
 });
 
@@ -148,7 +145,7 @@ const frame: Wallet = new InjectedConnector(
 
 const huobiwallet: Wallet = new InjectedConnector({
   name: 'HuobiWallet',
-  installed: () => (window as any).ethereum[ProviderIdentityFlag.HuobiWallet],
+  installed: () => (window as any).ethereum?.[ProviderIdentityFlag.HuobiWallet],
   icon: walletIcons.huobiwallet,
 });
 
@@ -157,13 +154,13 @@ const hyperpay: Wallet = new InjectedConnector({
   // Note: The property `hiWallet` is as of now the only known way of identifying hyperpay
   // wallet as it is a direct clone of metamask. `checkProviderIdentity` implementation is subject to
   // future changes
-  installed: () => (window as any).ethereum.hiWallet,
+  installed: () => (window as any).ethereum?.hiWallet,
   icon: walletIcons.hyperpay,
 });
 
 const imtoken: Wallet = new InjectedConnector({
   name: 'ImToken',
-  installed: () => (window as any).ethereum[ProviderIdentityFlag.ImToken],
+  installed: () => (window as any).ethereum?.[ProviderIdentityFlag.ImToken],
   icon: walletIcons.imtoken,
 });
 
@@ -179,46 +176,46 @@ const liquality: Wallet = new InjectedConnector(
 const meetone: Wallet = new InjectedConnector({
   name: 'MeetOne',
   installed: () =>
-    (window as any).ethereum[ProviderIdentityFlag.MeetOne] === 'MEETONE',
+    (window as any).ethereum?.[ProviderIdentityFlag.MeetOne] === 'MEETONE',
   icon: walletIcons.meetone,
 });
 
 const mykey: Wallet = new InjectedConnector({
   name: 'MyKey',
-  installed: () => (window as any).ethereum[ProviderIdentityFlag.MyKey],
+  installed: () => (window as any).ethereum?.[ProviderIdentityFlag.MyKey],
   icon: walletIcons.mykey,
 });
 
 const ownbit: Wallet = new InjectedConnector({
   name: 'OwnBit',
-  installed: () => (window as any).ethereum[ProviderIdentityFlag.OwnBit],
+  installed: () => (window as any).ethereum?.[ProviderIdentityFlag.OwnBit],
   icon: walletIcons.ownbit,
 });
 
 const tokenpocket: Wallet = new InjectedConnector({
   name: 'TokenPocket',
   installed: () =>
-    (window as any).ethereum[ProviderIdentityFlag.TokenPocket] &&
-    !(window as any).ethereum[ProviderIdentityFlag.TP],
+    (window as any).ethereum?.[ProviderIdentityFlag.TokenPocket] &&
+    !(window as any).ethereum?.[ProviderIdentityFlag.TP],
   icon: walletIcons.tokenpocket,
 });
 
 const xdefi: Wallet = new InjectedConnector({
   name: 'XDEFI',
   // eslint-disable-next-line dot-notation
-  installed: () => (window as any).ethereum[ProviderIdentityFlag.XDEFI],
+  installed: () => (window as any).ethereum?.[ProviderIdentityFlag.XDEFI],
   icon: walletIcons.xdefi,
 });
 
 const oneInch: Wallet = new InjectedConnector({
   name: 'OneInch',
-  installed: () => (window as any).ethereum[ProviderIdentityFlag.OneInch],
+  installed: () => (window as any).ethereum?.[ProviderIdentityFlag.OneInch],
   icon: walletIcons.oneInch,
 });
 
 const tokenary: Wallet = new InjectedConnector({
   name: 'Tokenary',
-  installed: () => (window as any).ethereum[ProviderIdentityFlag.Tokenary],
+  installed: () => (window as any).ethereum?.[ProviderIdentityFlag.Tokenary],
   icon: walletIcons.tokenary,
 });
 
@@ -230,7 +227,6 @@ export const supportedWallets = [
   binance,
   frontier,
   coinbase,
-  detected,
   trust,
   status,
   alphawallet,
