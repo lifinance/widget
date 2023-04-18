@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-beta.0](https://github.com/lifinance/widget/compare/v2.0.0-alpha.4...v2.0.0-beta.0) (2023-04-18)
+
+
+### Features
+
+* add link to insurance coverage ([f8a9df6](https://github.com/lifinance/widget/commit/f8a9df62f3412094ef53a8ce6a285f236917ee05))
+
+
+### Bug Fixes
+
+* transaction support id should be swap or bridge source one ([d9c7e14](https://github.com/lifinance/widget/commit/d9c7e14eb0c42ea112ebe807a2dffe3b76cc678e))
+
 ## [2.0.0-alpha.4](https://github.com/lifinance/widget/compare/v2.0.0-alpha.3...v2.0.0-alpha.4) (2023-04-13)
 
 ## [2.0.0-alpha.3](https://github.com/lifinance/widget/compare/v2.0.0-alpha.2...v2.0.0-alpha.3) (2023-04-13)
