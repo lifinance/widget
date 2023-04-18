@@ -3,6 +3,7 @@ import type { Wallet } from './types';
 import {
   addToActiveWallets,
   addToDeactivatedWallets,
+  isWalletDeactivated,
   removeFromActiveWallets,
   removeFromDeactivatedWallets,
 } from './walletPersistance';
@@ -15,8 +16,14 @@ export class LiFiWalletManagement extends events.EventEmitter {
       await wallet.connect();
       wallet.addListener('walletAccountChanged', this.handleAccountDataChange);
       this.connectedWallets.unshift(wallet);
-      removeFromDeactivatedWallets(wallet.account?.address);
-      addToActiveWallets(wallet.account?.address);
+      removeFromDeactivatedWallets({
+        address: wallet.account?.address || '',
+        name: wallet.name,
+      });
+      addToActiveWallets({
+        address: wallet.account?.address || '',
+        name: wallet.name,
+      });
     } catch (e) {
       throw e;
     }
@@ -30,16 +37,21 @@ export class LiFiWalletManagement extends events.EventEmitter {
           'walletAccountChanged',
           this.handleAccountDataChange,
         );
-        this.connectedWallets.push(wallet); // TODO: add new wallet as first element
+        this.connectedWallets.unshift(wallet);
       }
     }
   }
 
   public disconnect = async (wallet: Wallet) => {
-    const selectedAddress = wallet.account?.address;
     wallet.removeAllListeners();
-    removeFromActiveWallets(selectedAddress);
-    addToDeactivatedWallets(selectedAddress);
+    removeFromActiveWallets({
+      address: wallet.account?.address || '',
+      name: wallet.name,
+    });
+    addToDeactivatedWallets({
+      address: wallet.account?.address || '',
+      name: wallet.name,
+    });
 
     wallet.disconnect();
   };

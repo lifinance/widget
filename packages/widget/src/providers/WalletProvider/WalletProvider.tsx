@@ -3,6 +3,7 @@ import type { Token } from '@lifi/sdk';
 import {
   LiFiWalletManagement,
   supportedWallets,
+  readActiveWallets,
 } from '@lifi/wallet-management';
 import type { Wallet } from '@lifi/wallet-management/types';
 import type { FC, PropsWithChildren } from 'react';
@@ -45,12 +46,18 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     const autoConnect = async () => {
-      const metaMask = supportedWallets.filter(
-        (wallet) => wallet.name === 'MetaMask',
+      const persistedActiveWallets = readActiveWallets();
+      const activeWallets = supportedWallets.filter((wallet) =>
+        persistedActiveWallets.some(
+          (perstistedWallet) => perstistedWallet.name === wallet.name,
+        ),
       );
-      await liFiWalletManagement.autoConnect(metaMask);
-      metaMask[0].on('walletAccountChanged', handleWalletUpdate);
-      handleWalletUpdate(metaMask[0]);
+      if (!activeWallets.length) {
+        return;
+      }
+      await liFiWalletManagement.autoConnect(activeWallets);
+      activeWallets[0].on('walletAccountChanged', handleWalletUpdate);
+      handleWalletUpdate(activeWallets[0]);
     };
     autoConnect();
   }, []);
