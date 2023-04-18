@@ -1,5 +1,5 @@
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
-import { Box, Typography } from '@mui/material';
+import { Box, Link, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { InsuraceLogo } from '../../icons';
 import { RouteExecutionStatus } from '../../stores';
@@ -10,6 +10,7 @@ import type { InsuranceCardProps } from './types';
 export const InsuranceCard: React.FC<InsuranceCardProps> = ({
   status,
   feeAmountUsd,
+  insuranceCoverageId,
   onChange,
   ...props
 }) => {
@@ -48,10 +49,28 @@ export const InsuranceCard: React.FC<InsuranceCardProps> = ({
           <Switch onChange={onChange} />
         ) : null}
       </Box>
-      <Box display="flex" alignItems="center" justifyContent="space-between">
+      <Box display="flex" alignItems="center">
         <Typography fontSize={12}>
-          Get 100% coverage for lost tokens.
+          {status === RouteExecutionStatus.Idle
+            ? 'Get 100% coverage for lost tokens.'
+            : '100% coverage for lost tokens.'}
         </Typography>
+        <Link
+          href={
+            status === RouteExecutionStatus.Idle
+              ? 'https://docs.insurace.io/landing-page/documentation/cover-products/bridge-cover/li.fi'
+              : `https://app.insurace.io/bridge-cover?search=${insuranceCoverageId}`
+          }
+          target="_blank"
+          underline="none"
+          color="text.primary"
+        >
+          <Typography px={0.5} color="primary" fontSize={12} fontWeight={600}>
+            {status === RouteExecutionStatus.Idle
+              ? 'Learn more'
+              : 'View coverage'}
+          </Typography>
+        </Link>
       </Box>
     </Card>
   );

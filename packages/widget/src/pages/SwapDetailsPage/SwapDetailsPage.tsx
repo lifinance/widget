@@ -44,12 +44,13 @@ export const SwapDetailsPage: React.FC = () => {
     }
   };
 
-  let supportId =
-    routeExecution?.route.steps[0].execution?.process
-      .filter((process) => process.type !== 'TOKEN_ALLOWANCE')
-      .find((process) => process.txHash)?.txHash ??
-    routeExecution?.route.id ??
-    '';
+  const sourceTxHash = routeExecution?.route.steps[0].execution?.process
+    .filter((process) => process.type !== 'TOKEN_ALLOWANCE')
+    .find((process) => process.txHash)?.txHash;
+
+  const insuranceCoverageId = sourceTxHash ?? routeExecution?.route.fromAddress;
+
+  let supportId = sourceTxHash ?? routeExecution?.route.id ?? '';
 
   if (process.env.NODE_ENV === 'development') {
     supportId += `_${routeExecution?.route.id}`;
@@ -99,6 +100,7 @@ export const SwapDetailsPage: React.FC = () => {
           status={routeExecution.status}
           feeAmountUsd={routeExecution.route.insurance.feeAmountUsd}
           insurableRouteId={routeExecution.route.id}
+          insuranceCoverageId={insuranceCoverageId}
         />
       ) : null}
       <Card mt={2}>

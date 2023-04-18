@@ -91,6 +91,11 @@ export const SwapPage: React.FC = () => {
       (status === RouteExecutionStatus.Idle &&
         route?.insurance?.state === 'INSURABLE'));
 
+  const insuranceCoverageId =
+    route?.steps[0].execution?.process
+      .filter((process) => process.type !== 'TOKEN_ALLOWANCE')
+      .find((process) => process.txHash)?.txHash ?? route?.fromAddress;
+
   return (
     <Container>
       {getStepList(route)}
@@ -100,6 +105,7 @@ export const SwapPage: React.FC = () => {
           status={status}
           insurableRouteId={stateRouteId}
           feeAmountUsd={route?.insurance.feeAmountUsd}
+          insuranceCoverageId={insuranceCoverageId}
           onChange={setRouteId}
         />
       ) : null}

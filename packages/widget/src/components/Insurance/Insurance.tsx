@@ -7,6 +7,7 @@ export const Insurance: React.FC<InsuranceProps> = ({
   status,
   insurableRouteId,
   feeAmountUsd,
+  insuranceCoverageId,
   onChange,
   ...props
 }) => {
@@ -14,11 +15,17 @@ export const Insurance: React.FC<InsuranceProps> = ({
     <InsuranceCollapsed
       insurableRouteId={insurableRouteId}
       feeAmountUsd={feeAmountUsd}
+      insuranceCoverageId={insuranceCoverageId}
       status={status}
       onChange={onChange}
       {...props}
     />
   ) : (
-    <InsuranceCard feeAmountUsd={feeAmountUsd} status={status} {...props} />
+    <InsuranceCard
+      feeAmountUsd={feeAmountUsd}
+      status={status}
+      insuranceCoverageId={insuranceCoverageId}
+      {...props}
+    />
   );
 };
