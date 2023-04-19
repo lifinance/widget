@@ -1,4 +1,3 @@
-import { switchChain } from '@lifi/wallet-management';
 import type { WidgetContract } from '@lifi/widget';
 import { NFT, useWallet } from '@lifi/widget';
 import { Seaport } from '@opensea/seaport-js';
@@ -13,7 +12,7 @@ export const NFTOpenSea: React.FC<NFTOpenSeaProps> = ({
   contractAddress,
   tokenId,
 }) => {
-  const { account } = useWallet();
+  const { account, switchChain } = useWallet();
   const [contract, setContract] = useState<WidgetContract>();
   const { data, isLoading } = useQuery(
     ['nft', network, contractAddress, tokenId],
@@ -67,7 +66,7 @@ export const NFTOpenSea: React.FC<NFTOpenSeaProps> = ({
       };
       fulfillOrder();
     }
-  }, [data, network]);
+  }, [account.signer, data, network, switchChain]);
 
   const asset = data?.makerAssetBundle.assets[0];
   const owner = {

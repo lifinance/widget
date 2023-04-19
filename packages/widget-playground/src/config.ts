@@ -1,5 +1,10 @@
 import type { WidgetConfig } from '@lifi/widget';
 import './index.css';
+import { supportedWallets } from '@lifi/wallet-management';
+
+export const METAMASK_WALLET = supportedWallets.find(
+  (wallet) => wallet.name === 'MetaMask',
+);
 
 export const WidgetVariants = [
   'default',

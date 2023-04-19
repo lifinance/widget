@@ -38,17 +38,17 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.10.0",
-    "web3": "^1.8.2"
+    "web3": "^1.9.0"
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@vitejs/plugin-react": "^3.1.0",
     "buffer": "^6.0.3",
     "esbuild": "^0.17.17",
-    "rollup": "^3.20.5",
+    "rollup": "^3.20.6",
     "rollup-plugin-polyfill-node": "^0.12.0",
     "typescript": "^5.0.4",
-    "vite": "^4.2.1",
+    "vite": "^4.2.2",
     "web-vitals": "^3.3.1"
   },
   "eslintConfig": {
