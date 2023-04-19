@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-beta.1](https://github.com/lifinance/widget/compare/v2.0.0-beta.0...v2.0.0-beta.1) (2023-04-19)
+
+
+### Features
+
+* new wallet management ([#69](https://github.com/lifinance/widget/issues/69)) ([626bc68](https://github.com/lifinance/widget/commit/626bc68b9f6c8dcdcf34d08e7e7ba13ef01efd19))
+
 ## [2.0.0-beta.0](https://github.com/lifinance/widget/compare/v2.0.0-alpha.4...v2.0.0-beta.0) (2023-04-18)
 
 
