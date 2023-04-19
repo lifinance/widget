@@ -2,8 +2,8 @@ import type { Signer } from '@ethersproject/abstract-signer';
 import type { Token } from '@lifi/sdk';
 import {
   LiFiWalletManagement,
-  supportedWallets,
   readActiveWallets,
+  supportedWallets,
 } from '@lifi/wallet-management';
 import type { Wallet } from '@lifi/wallet-management/types';
 import type { FC, PropsWithChildren } from 'react';

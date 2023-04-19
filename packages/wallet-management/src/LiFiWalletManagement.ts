@@ -3,7 +3,6 @@ import type { Wallet } from './types';
 import {
   addToActiveWallets,
   addToDeactivatedWallets,
-  isWalletDeactivated,
   removeFromActiveWallets,
   removeFromDeactivatedWallets,
 } from './walletPersistance';
