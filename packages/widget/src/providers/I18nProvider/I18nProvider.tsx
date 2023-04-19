@@ -11,7 +11,8 @@ import type { LanguageKey, LanguageTranslationResources } from './types';
 export const I18nProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
-  const { languageResources, languages, disableI18n } = useWidgetConfig();
+  const { languageResources, languages, disableLanguageDetector } =
+    useWidgetConfig();
   const { language } = useSettings(['language']);
 
   const i18n = useMemo(() => {
@@ -57,14 +58,14 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
       },
     });
 
-    if (!language && !languages?.default && !disableI18n) {
+    if (!language && !languages?.default && !disableLanguageDetector) {
       i18n = i18n.use(LanguageDetector);
     }
 
     i18n.use(initReactI18next).init();
 
     return i18n;
-  }, [disableI18n, language, languageResources, languages]);
+  }, [disableLanguageDetector, language, languageResources, languages]);
 
   return <I18nextProvider i18n={i18n}>{children}</I18nextProvider>;
 };

@@ -123,7 +123,6 @@ export interface WidgetConfig {
   theme?: ThemeConfig;
   containerStyle?: CSSProperties;
 
-  disableTelemetry?: boolean;
   disabledUI?: DisabledUIType[];
   hiddenUI?: HiddenUIType[];
   requiredUI?: RequiredUIType[];
@@ -158,7 +157,7 @@ export interface WidgetConfig {
     deny?: LanguageKey[];
   };
   languageResources?: LanguageResources;
-  disableI18n?: boolean;
+  disableLanguageDetector?: boolean;
 }
 
 export type WidgetDrawerProps = {

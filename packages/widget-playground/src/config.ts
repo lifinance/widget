@@ -1,6 +1,6 @@
+import { supportedWallets } from '@lifi/wallet-management';
 import type { WidgetConfig } from '@lifi/widget';
 import './index.css';
-import { supportedWallets } from '@lifi/wallet-management';
 
 export const METAMASK_WALLET = supportedWallets.find(
   (wallet) => wallet.name === 'MetaMask',
@@ -21,7 +21,6 @@ export const widgetBaseConfig: WidgetConfig = {
   // fromAmount: '20',
   // toAddress: '0x552008c0f6870c2f77e5cC1d2eb9bdff03e30Ea0',
 
-  disableTelemetry: false,
   variant: 'expandable',
   integrator: 'li.fi-playground',
   // hiddenUI: ['poweredBy', 'language', 'appearance'],

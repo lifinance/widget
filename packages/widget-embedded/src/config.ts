@@ -16,7 +16,6 @@ export const widgetBaseConfig: WidgetConfig = {
   // fromAmount: '20',
   // toAddress: '0x552008c0f6870c2f77e5cC1d2eb9bdff03e30Ea0',
 
-  disableTelemetry: false,
   variant: 'nft',
   integrator: 'li.fi-playground',
   // hiddenUI: ['poweredBy', 'language', 'appearance'],
