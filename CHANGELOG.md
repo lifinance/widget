@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-beta.2](https://github.com/lifinance/widget/compare/v2.0.0-beta.1...v2.0.0-beta.2) (2023-04-20)
+
+
+### Features
+
+* rename disableI18n -> disableLanguageDetector ([186d28c](https://github.com/lifinance/widget/commit/186d28c1928601afe64c6e0694a2e5cabc3df447))
+
+
+### Bug Fixes
+
+* set correct width ([72f3a6a](https://github.com/lifinance/widget/commit/72f3a6afe2abe2c6507c9cc2c8461fbbac11f661))
+
 ## [2.0.0-beta.1](https://github.com/lifinance/widget/compare/v2.0.0-beta.0...v2.0.0-beta.1) (2023-04-19)
 
 
