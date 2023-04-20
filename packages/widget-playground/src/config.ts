@@ -35,7 +35,7 @@ export const widgetBaseConfig: WidgetConfig = {
   // slippage: 0.003,
   insurance: true,
   sdkConfig: {
-    apiUrl: 'https://develop.li.quest/v1',
+    // apiUrl: 'https://develop.li.quest/v1',
     defaultRouteOptions: {
       maxPriceImpact: 0.4,
       // slippage: 0.03,
