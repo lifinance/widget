@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-beta.3](https://github.com/lifinance/widget/compare/v2.0.0-beta.2...v2.0.0-beta.3) (2023-04-21)
+
+
+### Features
+
+* update insurance card and text ([c623d11](https://github.com/lifinance/widget/commit/c623d11cf82e88e987d56932591da4c2fe3b2cf8))
+
+
+### Bug Fixes
+
+* remove svg icons unnecessary attributes ([#75](https://github.com/lifinance/widget/issues/75)) ([ee12534](https://github.com/lifinance/widget/commit/ee125349c8e3131fb0d9a3a5f6b2c166d10e3431))
+
 ## [2.0.0-beta.2](https://github.com/lifinance/widget/compare/v2.0.0-beta.1...v2.0.0-beta.2) (2023-04-20)
 
 
