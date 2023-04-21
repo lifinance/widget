@@ -42,13 +42,13 @@
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
-    "@vitejs/plugin-react": "^3.1.0",
+    "@vitejs/plugin-react": "^4.0.0",
     "buffer": "^6.0.3",
     "esbuild": "^0.17.17",
-    "rollup": "^3.20.6",
+    "rollup": "^3.20.7",
     "rollup-plugin-polyfill-node": "^0.12.0",
     "typescript": "^5.0.4",
-    "vite": "^4.3.0",
+    "vite": "^4.3.1",
     "web-vitals": "^3.3.1"
   },
   "eslintConfig": {
