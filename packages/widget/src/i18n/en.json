@@ -12,6 +12,7 @@
     "done": "Done",
     "getGas": "Get gas",
     "hide": "Hide",
+    "learnMore": "Learn more",
     "lifiSwap": "LI.FI Swap",
     "light": "Light",
     "max": "max",
@@ -29,6 +30,7 @@
     "startSwap": "Start swap",
     "swap": "Swap",
     "tryAgain": "Try again",
+    "viewCoverage": "View coverage",
     "viewOnExplorer": "View on explorer"
   },
   "format": {
@@ -104,6 +106,12 @@
     "gasFeeEstimated": "estimated gas fee",
     "gasFeePaid": "gas fee paid",
     "inProgress": "in progress",
+    "insurance": {
+      "bridgeExploits": "Bridge malfunctions, hacks or exploits",
+      "insure": "Insure 100% of tokens in transit.",
+      "insured": "You've insured 100% of tokens in transit:",
+      "slippageError": "Error in slippage for tokens received"
+    },
     "info": {
       "message": {
         "autoRefuel": "You're low on {{chainName}} gas. By continuing, you'll get enough gas to complete the swap.",
