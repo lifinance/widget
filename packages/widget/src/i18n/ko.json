@@ -12,6 +12,7 @@
     "done": "완료",
     "getGas": "가스 받기",
     "hide": "숨기기",
+    "learnMore": "자세히 알아보기",
     "lifiSwap": "Li.Fi 스왑",
     "light": "밝게",
     "max": "최대",
@@ -29,6 +30,7 @@
     "startSwap": "스왑 시작",
     "swap": "스왑",
     "tryAgain": "다시 시도",
+    "viewCoverage": "보장 범위",
     "viewOnExplorer": "탐색기에서 보기"
   },
   "format": {
@@ -104,14 +106,22 @@
     "gasFeeEstimated": "예상 가스비",
     "gasFeePaid": "가스비 지불됨",
     "inProgress": "진행 중",
+    "insurance": {
+      "bridgeExploits": "브릿지 오류, 해킹, 취약점 공격",
+      "insure": "토큰 전액에 대하여 보험 적용",
+      "insured": "토큰 전액에 대하여 보험을 적용하였습니다.",
+      "slippageError": "받을 토큰의 슬리피지 오류가 발생했습니다."
+    },
     "info": {
       "message": {
+        "autoRefuel": "현재 {{chainName}} 가스가 부족합니다. 이 기능을 통하여 스왑을 완료할 가스를 보충할 수 있습니다.",
         "emptyActiveSwaps": "진행 중인 스왑이 여기에 나타납니다. 완료 후에는 스왑 기록을 참조하십시오",
         "emptySwapHistory": "스왑 기록은 로컬에만 저장되며 브라우저 데이터를 지우면 삭제됩니다.",
         "emptyTokenList": "{{chainName}} 체인에서 토큰을 찾을 수 없거나 보유 중인 토큰이 아닙니다. 다시 검색하거나 다른 체인을 선택하십시오.",
         "routeNotFound": "다른 토큰 조합으로 시도하십시오."
       },
       "title": {
+        "autoRefuel": "가스 받기",
         "emptyActiveSwaps": "활성화된 스왑 없음",
         "emptySwapHistory": "최근 스왑 없음",
         "routeNotFound": "가능한 경로가 없음"
@@ -154,6 +164,7 @@
     "quotedAmount": "견적",
     "rateChange": "비율 변경",
     "receiving": "받는 중",
+    "refuelStepDetails": "{{tool}} 를 통해 가스 얻기",
     "routes": "받는 수량",
     "selectChain": "체인",
     "selectChainAndToken": "체인과 토큰 선택",
@@ -162,6 +173,7 @@
     "sendToWallet": "다른 지갑으로 전송",
     "sentToAddress": "{{address}}로 전송",
     "stepBridge": "브릿지",
+    "stepDetails": "LI.FI 를 통한 {{tool}}",
     "stepSwap": "스왑",
     "stepSwapAndBridge": "스왑 그리고 브릿지",
     "success": {
@@ -180,11 +192,13 @@
     "swapStepDetails": "{{tool}}로 {{chain}}에서 스왑",
     "swapping": "스왑 중",
     "tags": {
-      "ALTERNATIVE": "대안",
-      "CHEAPEST": "저렴한",
-      "FASTEST": "빠름",
-      "RECOMMENDED": "추천",
-      "SAFEST": "안전"
+      "cheapest": "저렴한",
+      "fastest": "빠르게",
+      "insurable": "보험 적용 가능한",
+      "insurance": "보험",
+      "insured": "보험 적용됨",
+      "recommended": "추천",
+      "safest": "안전한"
     },
     "to": "도착",
     "tokenOnChain": "{{chainName}}의 {{tokenSymbol}}",
@@ -197,8 +211,8 @@
         "deleteActiveSwaps": "활성화된 스왑은 로컬에만 저장되며 삭제시 복구할 수 없습니다.",
         "deleteSwapHistory": "스왑 기록은 로컬에만 저장되며 삭제시 복구할 수 없습니다.",
         "highValueLoss": "받은 토큰의 가치가 스왑된 토큰 및 트랜잭션 비용보다 상당히 낮습니다.",
-        "insufficientFunds": "스왑을 실행할 자금이 부족합니다.",
-        "insufficientGas": "최소 필요 가스:",
+        "insufficientFunds": "스왑을 진행할 자금이 부족합니다.",
+        "insufficientGas": "스왑을 진행할 가스가 부족합니다. 최소 다음과 같은 가스가 필요합니다:",
         "rateChanged": "거래 비율이 변경되었습니다. 스왑을 계속하면 새로운 비율이 적용됩니다.",
         "resetSettings": "우선 경로, 슬리피지, 가스 비용, 활성화된 브릿지 및 거래소가 재설정됩니다."
       },
@@ -214,6 +228,7 @@
     }
   },
   "tooltip": {
+    "additionalProviderFee": "추가적인 브릿지, 덱스, 그리고 서비스 수수료",
     "estimatedNetworkFee": "예상 네트워크 수수료",
     "estimatedTime": "예상 스왑 시간(분)",
     "notFound": {
