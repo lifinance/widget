@@ -12,6 +12,7 @@
     "done": "Terminé",
     "getGas": "Obtenir du gaz",
     "hide": "Cacher",
+    "learnMore": "Plus d'info",
     "lifiSwap": "LI.FI Swap",
     "light": "Clair",
     "max": "max",
@@ -29,6 +30,7 @@
     "startSwap": "Commencer l'échange",
     "swap": "Échanger",
     "tryAgain": "Réessayer",
+    "viewCoverage": "Voir la couverture",
     "viewOnExplorer": "Voir sur l'explorateur"
   },
   "format": {
@@ -104,6 +106,12 @@
     "gasFeeEstimated": "frais de gaz estimés",
     "gasFeePaid": "frais de gaz payés",
     "inProgress": "en cours",
+    "insurance": {
+      "bridgeExploits": "Des dysfonctionnements de pont, des hacks ou des exploits",
+      "insure": "Assurer 100% des jetons en cours de transit.",
+      "insured": "Vous avez assuré 100 % des jetons en cours de transit:",
+      "slippageError": "Erreur dans le slippage pour les jetons reçus"
+    },
     "info": {
       "message": {
         "autoRefuel": "Vous avez peu de gaz sur {{chainName}}. En continuant, vous aurez assez de gaz pour compléter l'échange.",
