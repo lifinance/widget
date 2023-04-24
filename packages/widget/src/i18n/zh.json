@@ -12,6 +12,7 @@
     "done": "已完成",
     "getGas": "开始兑换燃气费",
     "hide": "隐藏",
+    "learnMore": "了解更多",
     "lifiSwap": "LI.FI兑换",
     "light": "浅色主题",
     "max": "最大",
@@ -29,6 +30,7 @@
     "startSwap": "开始兑换",
     "swap": "兑换",
     "tryAgain": "重试",
+    "viewCoverage": "查看我们的覆盖范围",
     "viewOnExplorer": "在区块链浏览器上查看"
   },
   "format": {
@@ -104,6 +106,12 @@
     "gasFeeEstimated": "预估燃气费",
     "gasFeePaid": "已支付燃气费",
     "inProgress": "进行中",
+    "insurance": {
+      "bridgeExploits": "跨链桥故障、被黑或者被利用漏洞",
+      "insure": "为跨链代币提供100%的保障",
+      "insured": "您已经对100%的跨链代币投保:",
+      "slippageError": "目标链代币的滑点错误"
+    },
     "info": {
       "message": {
         "autoRefuel": "您在 {{chainName}} 链上的燃气费很低。如果启用该选项，您将获得足够的燃气费完成此次兑换。",
