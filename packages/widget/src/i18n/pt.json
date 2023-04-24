@@ -12,6 +12,7 @@
     "done": "Concluído",
     "getGas": "Obter gás",
     "hide": "Ocultar",
+    "learnMore": "Saiba mais",
     "lifiSwap": "Conversão LI.FI",
     "light": "Claro",
     "max": "máximo",
@@ -29,6 +30,7 @@
     "startSwap": "Iniciar conversão",
     "swap": "Conversão",
     "tryAgain": "Tente novamente",
+    "viewCoverage": "Ver cobertura",
     "viewOnExplorer": "Ver no explorador"
   },
   "format": {
@@ -104,6 +106,12 @@
     "gasFeeEstimated": "Taxa de gás estimada",
     "gasFeePaid": "taxa de gás paga",
     "inProgress": "em andamento",
+    "insurance": {
+      "bridgeExploits": "Mau funcionamento da ponte, hacks ou exploits",
+      "insure": "Garantir 100% dos tokens em trânsito.",
+      "insured": "Você segurou 100% dos tokens em trânsito:",
+      "slippageError": "Erro na discrepância para tokens recebidos"
+    },
     "info": {
       "message": {
         "autoRefuel": "Você está com pouco gás na rede {{chainName}}. Ao continuar, você obterá gás suficiente para completar a conversão.",
