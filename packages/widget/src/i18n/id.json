@@ -12,6 +12,7 @@
     "done": "Selesai",
     "getGas": "Dapatkan gas",
     "hide": "Sembunyikan",
+    "learnMore": "Pelajari lebih lanjut",
     "lifiSwap": "LI.FI Swap",
     "light": "Terang",
     "max": "maks",
@@ -29,6 +30,7 @@
     "startSwap": "Mulai swap",
     "swap": "Swap",
     "tryAgain": "Coba lagi",
+    "viewCoverage": "Melihat cakupan",
     "viewOnExplorer": "Lihat di explorer"
   },
   "format": {
@@ -104,14 +106,22 @@
     "gasFeeEstimated": "perkiraan biaya gas",
     "gasFeePaid": "biaya gas yang dibayar",
     "inProgress": "dalam proses",
+    "insurance": {
+      "bridgeExploits": "Malfungsi jembatan, peretasan, atau eksploitasi",
+      "insure": "Asuransikan 100% token dalam perjalanan.",
+      "insured": "Anda telah mengasuransikan 100% token dalam perjalanan:",
+      "slippageError": "Kesalahan dalam slippage untuk token yang diterima"
+    },
     "info": {
       "message": {
+        "autoRefuel": "Gas anda hampir habis {{chainName}}. Dengan melanjutkan, anda akan mendapatkan cukup gas untuk menyelesaikan penukaran.",
         "emptyActiveSwaps": "Swap yang sedang berlangsung akan muncul di sini. Setelah selesai, temukan di riwayat swap.",
         "emptySwapHistory": "Riwayat swap hanya disimpan secara lokal dan akan dihapus jika Anda menghapus data browser.",
         "emptyTokenList": "Kami tidak dapat menemukan token di rantai {{chainName}} atau Anda tidak memilikinya. Coba cari lagi atau pilih jaringan lain.",
         "routeNotFound": "Coba kombinasi token lain."
       },
       "title": {
+        "autoRefuel": "Dapatkan gas",
         "emptyActiveSwaps": "Tidak ada swap yang aktif",
         "emptySwapHistory": "Tidak ada swap terbaru",
         "routeNotFound": "Rute tidak tersedia"
@@ -154,6 +164,7 @@
     "quotedAmount": "Jumlah yang dikutip",
     "rateChange": "Perubahan rate",
     "receiving": "Menerima",
+    "refuelStepDetails": "Dapatkan gas melalui {{tool}}",
     "routes": "Anda mendapatkan",
     "selectChain": "Jaringan",
     "selectChainAndToken": "Pilih jaringan dan token",
@@ -162,6 +173,7 @@
     "sendToWallet": "Kirim ke dompet berbeda",
     "sentToAddress": "Dikirim ke {{address}}",
     "stepBridge": "Bridge",
+    "stepDetails": "{{tool}} melalui LI.FI",
     "stepSwap": "Swap",
     "stepSwapAndBridge": "Swap dan bridge",
     "success": {
@@ -180,11 +192,13 @@
     "swapStepDetails": "Swap di {{chain}} melalui {{tool}}",
     "swapping": "Bertukar",
     "tags": {
-      "ALTERNATIVE": "ALTERNATIF",
-      "CHEAPEST": "MURAH",
-      "FASTEST": "CEPAT",
-      "RECOMMENDED": "DIREKOMENDASIKAN",
-      "SAFEST": "AMAN"
+      "cheapest": "Murah",
+      "fastest": "Cepat",
+      "insurable": "Dapat diasuransikan",
+      "insurance": "Asuransi",
+      "insured": "Diasuransikan",
+      "recommended": "Direkomendasikan",
+      "safest": "Aman"
     },
     "to": "Kepada",
     "tokenOnChain": "{{tokenSymbol}} di {{chainName}}",
@@ -197,8 +211,8 @@
         "deleteActiveSwaps": "Swap aktif hanya disimpan secara lokal dan tidak dapat dipulihkan jika Anda menghapusnya.",
         "deleteSwapHistory": "Riwayat swap hanya disimpan secara lokal dan tidak dapat dipulihkan jika Anda menghapusnya.",
         "highValueLoss": "Nilai token yang diterima jauh lebih rendah daripada token yang ditukar dan biaya transaksi.",
-        "insufficientFunds": "Anda tidak memiliki cukup dana untuk mengeksekusi pertukaran.",
-        "insufficientGas": "Anda perlu menambahkan setidaknya:",
+        "insufficientFunds": "Anda tidak memiliki cukup dana untuk menyelesaikan penukaran.",
+        "insufficientGas": "Anda tidak memiliki cukup gas untuk menyelesaikan penukaran. Anda perlu menambahkan setidaknya:",
         "rateChanged": "Nilai tukar telah berubah. Dengan melanjutkan penukaran, Anda akan menerima tarif baru.",
         "resetSettings": "Ini akan mengatur ulang prioritas rute Anda, slippage, harga gas, jembatan yang diaktifkan, dan pertukaran."
       },
@@ -214,6 +228,7 @@
     }
   },
   "tooltip": {
+    "additionalProviderFee": "Jembatan tambahan, DEX, dan biaya layanan.",
     "estimatedNetworkFee": "Perkiraan biaya jaringan.",
     "estimatedTime": "Perkiraan waktu eksekusi swap dalam hitungan menit.",
     "notFound": {
