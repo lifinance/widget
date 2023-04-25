@@ -184,10 +184,13 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
     }
   }, [refetch, refetchNewBalance, status]);
 
+  const showContractComponent =
+    variant === 'nft' && hasEnumFlag(status, RouteExecutionStatus.Done);
+
   return (
     <BottomSheet ref={ref}>
       <Box p={3}>
-        {variant !== 'nft' ? (
+        {!showContractComponent ? (
           <CenterContainer>
             <IconCircle status={status} mb={1}>
               {status === RouteExecutionStatus.Idle ? (
@@ -211,7 +214,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
             {title}
           </Typography>
         </CenterContainer>
-        {variant === 'nft' ? (
+        {showContractComponent ? (
           contractCompactComponent || contractComponent
         ) : (
           <CenterContainer>
@@ -220,7 +223,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
             ) : null}
           </CenterContainer>
         )}
-        {variant !== 'nft' ? (
+        {!showContractComponent ? (
           <Typography py={1}>{primaryMessage}</Typography>
         ) : null}
         {secondaryMessage ? (

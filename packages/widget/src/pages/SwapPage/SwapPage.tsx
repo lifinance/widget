@@ -51,7 +51,7 @@ export const SwapPage: React.FC = () => {
   const handleSwapClick = async () => {
     if (status === RouteExecutionStatus.Idle) {
       const thresholdExceeded = getTokenValueLossThreshold(route);
-      if (thresholdExceeded) {
+      if (thresholdExceeded && variant !== 'nft') {
         tokenValueBottomSheetRef.current?.open();
       } else {
         handleExecuteRoute();
@@ -152,7 +152,7 @@ export const SwapPage: React.FC = () => {
       {route && status ? (
         <StatusBottomSheet status={status} route={route} />
       ) : null}
-      {route ? (
+      {route && variant !== 'nft' ? (
         <TokenValueBottomSheet
           route={route}
           ref={tokenValueBottomSheetRef}
