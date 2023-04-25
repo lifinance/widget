@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { useNavigateBack } from '../../hooks';
 import { useWallet, useWidgetConfig } from '../../providers';
+import { HiddenUI } from '../../types';
 import {
   backButtonRoutes,
   navigationRoutes,
@@ -16,7 +17,7 @@ import { useHeaderActionStore } from './useHeaderActionStore';
 
 export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
-  const { variant } = useWidgetConfig();
+  const { variant, hiddenUI } = useWidgetConfig();
   const { navigate, navigateBack } = useNavigateBack();
   const { account } = useWallet();
   const { element } = useHeaderActionStore();
@@ -102,7 +103,7 @@ export const NavigationHeader: React.FC = () => {
           path={navigationRoutes.home}
           element={
             <>
-              {account.isActive ? (
+              {account.isActive && !hiddenUI?.includes(HiddenUI.History) ? (
                 <Tooltip title={t(`header.swapHistory`)} enterDelay={400} arrow>
                   <IconButton
                     size="medium"
