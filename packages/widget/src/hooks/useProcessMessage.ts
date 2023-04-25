@@ -10,24 +10,28 @@ import type {
 import { LifiErrorCode } from '@lifi/sdk';
 import type { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
+import { useWidgetConfig } from '../providers';
+import type { WidgetVariant } from '../types';
 import { formatTokenAmount } from '../utils';
 import { useChains } from './useChains';
 
 export const useProcessMessage = (step?: LifiStep, process?: Process) => {
+  const { variant } = useWidgetConfig();
   const { t } = useTranslation();
   const { getChainById } = useChains();
   if (!step || !process) {
     return {};
   }
-  return getProcessMessage(t, getChainById, step, process);
+  return getProcessMessage(t, getChainById, step, process, variant);
 };
 
 const processStatusMessages: Record<
   ProcessType,
-  Partial<Record<Status, (t: TFunction) => string>>
+  Partial<Record<Status, (t: TFunction, variant?: WidgetVariant) => string>>
 > = {
   TOKEN_ALLOWANCE: {
     STARTED: (t) => t(`swap.process.tokenAllowance.started`),
+    ACTION_REQUIRED: (t) => t(`swap.process.tokenAllowance.pending`),
     PENDING: (t) => t(`swap.process.tokenAllowance.pending`),
     DONE: (t) => t(`swap.process.tokenAllowance.done`),
   },
@@ -39,7 +43,10 @@ const processStatusMessages: Record<
     STARTED: (t) => t(`swap.process.swap.started`),
     ACTION_REQUIRED: (t) => t(`swap.process.swap.actionRequired`),
     PENDING: (t) => t(`swap.process.swap.pending`),
-    DONE: (t) => t(`swap.process.swap.done`),
+    DONE: (t, variant) =>
+      variant === 'nft'
+        ? t(`swap.process.nft.done`)
+        : t(`swap.process.swap.done`),
   },
   CROSS_CHAIN: {
     STARTED: (t) => t(`swap.process.crossChain.started`),
@@ -49,7 +56,10 @@ const processStatusMessages: Record<
   },
   RECEIVING_CHAIN: {
     PENDING: (t) => t(`swap.process.receivingChain.pending`),
-    DONE: (t) => t(`swap.process.receivingChain.done`),
+    DONE: (t, variant) =>
+      variant === 'nft'
+        ? t(`swap.process.nft.done`)
+        : t(`swap.process.receivingChain.done`),
   },
   TRANSACTION: {},
 };
@@ -89,6 +99,7 @@ export function getProcessMessage(
   getChainById: (chainId: number) => EVMChain | undefined,
   step: LifiStep,
   process: Process,
+  variant?: WidgetVariant,
 ): {
   title?: string;
   message?: string;
@@ -164,6 +175,7 @@ export function getProcessMessage(
   const title =
     processSubstatusMessages[process.status as StatusMessage]?.[
       process.substatus!
-    ]?.(t) ?? processStatusMessages[process.type]?.[process.status]?.(t);
+    ]?.(t) ??
+    processStatusMessages[process.type]?.[process.status]?.(t, variant);
   return { title };
 }

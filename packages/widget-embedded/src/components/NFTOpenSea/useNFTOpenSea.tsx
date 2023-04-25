@@ -1,9 +1,8 @@
 import type { WidgetContract } from '@lifi/widget';
-import { NFT, useWallet } from '@lifi/widget';
-import { Box, Typography } from '@mui/material';
 import { Seaport } from '@opensea/seaport-js';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useWallet } from '../../providers/WalletProvider';
 import type {
   FulfillmentDataResponse,
   NFTNetwork,
@@ -13,11 +12,11 @@ import type {
 import { ChainId } from './types';
 import { deserializeOrder } from './utils';
 
-export const NFTOpenSea: React.FC<NFTOpenSeaProps> = ({
+export const useNFTOpenSea = ({
   network,
   contractAddress,
   tokenId,
-}) => {
+}: NFTOpenSeaProps) => {
   const { account, switchChain } = useWallet();
   const [contract, setContract] = useState<WidgetContract>();
   const { data, isLoading } = useQuery(
@@ -35,10 +34,6 @@ export const NFTOpenSea: React.FC<NFTOpenSeaProps> = ({
           },
         },
       ).then((response) => response.json());
-
-      if (!ordersQueryResponse.orders[0]) {
-        return;
-      }
 
       const fulfillmentDataResponse: FulfillmentDataResponse = await fetch(
         `https://api.opensea.io/v2/listings/fulfillment_data`,
@@ -61,15 +56,26 @@ export const NFTOpenSea: React.FC<NFTOpenSeaProps> = ({
         },
       ).then((response) => response.json());
 
-      const order = deserializeOrder(ordersQueryResponse.orders[0]);
-      order.protocolData = fulfillmentDataResponse.fulfillment_data.orders[0];
+      const deserializedOrder = deserializeOrder(ordersQueryResponse.orders[0]);
+      deserializedOrder.protocolData =
+        fulfillmentDataResponse.fulfillment_data.orders[0];
+      return deserializedOrder;
+    },
+    {
+      enabled: Boolean(account.isActive),
+    },
+  );
 
+  console.log(account);
+
+  useEffect(() => {
+    if (data && account.signer) {
       const fulfillOrder = async () => {
         try {
           const seaport = new Seaport(account.signer as any);
 
           const { actions } = await seaport.fulfillOrder({
-            order: order.protocolData,
+            order: data.protocolData,
             accountAddress: account.address,
             recipientAddress: account.address,
           });
@@ -88,76 +94,42 @@ export const NFTOpenSea: React.FC<NFTOpenSeaProps> = ({
           if (error.code === 'CALL_EXCEPTION') {
             const switched = await switchChain(ChainId[network as NFTNetwork]);
             if (switched) {
-              await fulfillOrder();
-            } else {
-              throw error;
+              fulfillOrder();
             }
           } else {
-            throw error;
+            console.warn(error);
           }
         }
       };
-      await fulfillOrder();
+      fulfillOrder();
+    }
+  }, [account.address, account.signer, data, network, switchChain]);
 
-      const asset = order?.makerAssetBundle.assets[0];
-      const owner = {
-        name:
-          order?.maker.user?.username ||
-          order?.maker.address.substring(2, 8).toUpperCase(),
-        url: `https://opensea.io/${
-          order?.maker.user?.username || order?.maker.address
-        }`,
-      };
-      const token = {
-        symbol: order?.takerAssetBundle.assets[0]?.assetContract?.tokenSymbol!,
-        amount: order?.currentPrice!,
-        decimals: order?.takerAssetBundle.assets[0].decimals!,
-        address: order?.takerAssetBundle.assets[0].tokenAddress!,
-        chainId: ChainId[network as NFTNetwork],
-        name: order?.takerAssetBundle.assets[0]?.assetContract.tokenSymbol!,
-      };
+  const asset = data?.makerAssetBundle.assets[0];
+  const owner = {
+    name:
+      data?.maker.user?.username ||
+      data?.maker.address.substring(2, 8).toUpperCase(),
+    url: `https://opensea.io/${
+      data?.maker.user?.username || data?.maker.address
+    }`,
+  };
+  const token = {
+    symbol: data?.takerAssetBundle.assets[0]?.assetContract?.tokenSymbol!,
+    amount: data?.currentPrice!,
+    decimals: data?.takerAssetBundle.assets[0].decimals!,
+    address: data?.takerAssetBundle.assets[0].tokenAddress!,
+    chainId: ChainId[network],
+    name: data?.takerAssetBundle.assets[0]?.assetContract.tokenSymbol!,
+  };
 
-      return {
-        imageUrl: asset?.imageUrl,
-        collectionName: asset?.collection.name,
-        assetName: asset?.name,
-        owner: owner,
-        token: token,
-        contract: contract,
-      };
-    },
-    {
-      enabled: Boolean(account.address),
-    },
-  );
-
-  return !data && !isLoading ? (
-    <Box
-      p={2}
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: 192,
-      }}
-    >
-      <Typography fontSize={18} fontWeight={600} p={2}>
-        Oops, NFT listing not found
-      </Typography>
-      <Typography>
-        NFT you are trying to buy doesn't have active listings.
-      </Typography>
-    </Box>
-  ) : (
-    <NFT
-      isLoading={isLoading}
-      imageUrl={data?.imageUrl}
-      collectionName={data?.collectionName}
-      assetName={data?.assetName}
-      owner={data?.owner}
-      token={data?.token}
-      contract={contract}
-    />
-  );
+  return {
+    isLoading: isLoading,
+    imageUrl: asset?.imageUrl,
+    collectonName: asset?.collection.name,
+    assetName: asset?.name,
+    owner: owner,
+    token: token,
+    contract: contract,
+  };
 };

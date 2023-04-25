@@ -21,7 +21,7 @@ export const useSwapRoutes = ({
   insurableRoute,
 }: SwapRoutesProps = {}) => {
   const lifi = useLiFi();
-  const { variant, sdkConfig, insurance } = useWidgetConfig();
+  const { variant, sdkConfig, insurance, contractTool } = useWidgetConfig();
   const { account, provider } = useWallet();
   const queryClient = useQueryClient();
   const {
@@ -151,6 +151,22 @@ export const useSwapRoutes = ({
           .toFixed(0);
         const formattedSlippage = parseFloat(slippage) / 100;
 
+        const allowedBridges: string[] = insurableRoute
+          ? insurableRoute.steps.flatMap((step) =>
+              step.includedSteps
+                .filter((includedStep) => includedStep.type === 'cross')
+                .map((includedStep) => includedStep.toolDetails.key),
+            )
+          : enabledBridges;
+
+        const allowedExchanges: string[] = insurableRoute
+          ? insurableRoute.steps.flatMap((step) =>
+              step.includedSteps
+                .filter((includedStep) => includedStep.type === 'swap')
+                .map((includedStep) => includedStep.toolDetails.key),
+            )
+          : enabledExchanges;
+
         if (variant === 'nft') {
           const contractCallQuote = await lifi.getContractCallQuote(
             {
@@ -163,6 +179,7 @@ export const useSwapRoutes = ({
               toContractAddress,
               toContractCallData,
               toContractGasLimit,
+              allowBridges: allowedBridges,
               // toFallbackAddress: toAddress,
               slippage: formattedSlippage,
             },
@@ -172,6 +189,23 @@ export const useSwapRoutes = ({
           contractCallQuote.estimate.toAmount = toTokenAmount;
           contractCallQuote.estimate.toAmountMin = toTokenAmount;
           contractCallQuote.action.toToken = toToken!;
+
+          const customStep =
+            variant === 'nft'
+              ? contractCallQuote.includedSteps?.find(
+                  (step) => step.type === 'custom',
+                )
+              : undefined;
+
+          if (customStep && contractTool) {
+            const toolDetails = {
+              key: contractTool.name,
+              name: contractTool.name,
+              logoURI: contractTool.logoURI,
+            };
+            customStep.toolDetails = toolDetails;
+            contractCallQuote.toolDetails = toolDetails;
+          }
 
           const route: Route = {
             id: uuidv4(),
@@ -193,22 +227,6 @@ export const useSwapRoutes = ({
 
           return { routes: [route] } as RoutesResponse;
         }
-
-        const allowedBridges: string[] = insurableRoute
-          ? insurableRoute.steps.flatMap((step) =>
-              step.includedSteps
-                .filter((includedStep) => includedStep.type === 'cross')
-                .map((includedStep) => includedStep.toolDetails.key),
-            )
-          : enabledBridges;
-
-        const allowedExchanges: string[] = insurableRoute
-          ? insurableRoute.steps.flatMap((step) =>
-              step.includedSteps
-                .filter((includedStep) => includedStep.type === 'swap')
-                .map((includedStep) => includedStep.toolDetails.key),
-            )
-          : enabledExchanges;
 
         return lifi.getRoutes(
           {

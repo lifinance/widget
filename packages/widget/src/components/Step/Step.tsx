@@ -6,6 +6,7 @@ import { Card, CardTitle } from '../../components/Card';
 import { StepActions } from '../../components/StepActions';
 import { Token } from '../../components/Token';
 import { useChains } from '../../hooks';
+import { useWidgetConfig } from '../../providers';
 import { shortenWalletAddress } from '../../utils';
 import { DestinationWalletAddress } from './DestinationWalletAddress';
 import { GasStepProcess } from './GasStepProcess';
@@ -20,6 +21,7 @@ export const Step: React.FC<{
 }> = ({ step, fromToken, toToken, toAddress }) => {
   const { t } = useTranslation();
   const { getChainById } = useChains();
+  const { variant } = useWidgetConfig();
 
   const stepHasError = step.execution?.process.some(
     (process) => process.status === 'FAILED',
@@ -35,14 +37,22 @@ export const Step: React.FC<{
           (step) => step.type === 'swap',
         );
         if (hasCrossStep && hasSwapStep) {
-          return t('swap.stepSwapAndBridge');
+          return variant === 'nft'
+            ? t('swap.stepBridgeAndBuy')
+            : t('swap.stepSwapAndBridge');
         }
         if (hasCrossStep) {
-          return t('swap.stepBridge');
+          return variant === 'nft'
+            ? t('swap.stepBridgeAndBuy')
+            : t('swap.stepBridge');
         }
-        return t('swap.stepSwap');
+        return variant === 'nft'
+          ? t('swap.stepSwapAndBuy')
+          : t('swap.stepSwap');
       default:
-        return t('swap.stepSwap');
+        return variant === 'nft'
+          ? t('swap.stepSwapAndBuy')
+          : t('swap.stepSwap');
     }
   };
 

@@ -3,7 +3,7 @@ import type { WidgetContract } from '../../types';
 
 export interface NFTProps {
   imageUrl?: string;
-  collectonName?: string;
+  collectionName?: string;
   assetName?: string;
   isLoading?: boolean;
   owner?: NFTOwner;

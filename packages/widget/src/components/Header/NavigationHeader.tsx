@@ -40,8 +40,12 @@ export const NavigationHeader: React.FC = () => {
         return t(`settings.enabledExchanges`);
       case navigationRoutes.swapHistory:
         return t(`header.swapHistory`);
-      case navigationRoutes.fromToken:
+      case navigationRoutes.fromToken: {
+        if (variant === 'nft') {
+          return t(`header.payWith`);
+        }
         return t(`header.from`);
+      }
       case navigationRoutes.toToken:
         return t(`header.to`);
       case navigationRoutes.fromChain:
@@ -52,10 +56,18 @@ export const NavigationHeader: React.FC = () => {
         return t(`header.routes`);
       case navigationRoutes.activeSwaps:
         return t(`header.activeSwaps`);
-      case navigationRoutes.swapExecution:
+      case navigationRoutes.swapExecution: {
+        if (variant === 'nft') {
+          return t(`header.purchase`);
+        }
         return t(`header.swap`);
-      case navigationRoutes.swapDetails:
+      }
+      case navigationRoutes.swapDetails: {
+        if (variant === 'nft') {
+          return t(`header.purchaseDetails`);
+        }
         return t(`header.swapDetails`);
+      }
       default: {
         switch (variant) {
           case 'nft':

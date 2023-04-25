@@ -36,7 +36,7 @@ export const StepActions: React.FC<StepActionsProps> = ({
   ...other
 }) => {
   const { t } = useTranslation();
-  const { variant, contractTool } = useWidgetConfig();
+  const { variant } = useWidgetConfig();
   const [cardExpanded, setCardExpanded] = useState(false);
 
   const handleExpand: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -44,25 +44,7 @@ export const StepActions: React.FC<StepActionsProps> = ({
     setCardExpanded((expanded) => !expanded);
   };
 
-  const customStep =
-    variant === 'nft'
-      ? step.includedSteps?.find((step) => step.type === 'custom')
-      : undefined;
-
-  const hasCollapsedSteps =
-    dense && (step as LifiStep).includedSteps?.length > 1;
-
-  if (customStep && contractTool) {
-    const toolDetails = {
-      key: contractTool.name,
-      name: contractTool.name,
-      logoURI: contractTool.logoURI,
-    };
-    customStep.toolDetails = toolDetails;
-    if (dense) {
-      (step as LifiStep).toolDetails = toolDetails;
-    }
-  }
+  const hasCollapsedSteps = dense && step.includedSteps?.length > 1;
 
   return (
     <Box {...other}>
@@ -140,7 +122,7 @@ export const IncludedSteps: React.FC<{
         connector={<StepConnector />}
         activeStep={-1}
       >
-        {(step as LifiStep).includedSteps.map((step, i) => (
+        {step.includedSteps.map((step, i) => (
           <MuiStep key={step.id} expanded>
             <StepLabel StepIconComponent={StepIconComponent}>
               {step.type === 'custom' && variant === 'nft' ? (
@@ -196,10 +178,7 @@ export const StepDetailsContent: React.FC<{
   }
 
   const showToAmount =
-    step.type !== 'custom' &&
-    step.tool !== 'custom' &&
-    variant !== 'nft' &&
-    !sameTokenProtocolStep;
+    step.type !== 'custom' && step.tool !== 'custom' && !sameTokenProtocolStep;
 
   return (
     <Typography

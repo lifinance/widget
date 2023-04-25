@@ -15,7 +15,7 @@ import type { BottomSheetBase } from '../../components/BottomSheet';
 import { BottomSheet } from '../../components/BottomSheet';
 import { useSetContentHeight } from '../../hooks';
 import { formatTokenAmount } from '../../utils';
-import { IconCircle, IconContainer } from './StatusBottomSheet.style';
+import { CenterContainer, IconCircle } from './StatusBottomSheet.style';
 
 export interface ExchangeRateBottomSheetBase {
   isOpen(): void;
@@ -98,14 +98,14 @@ const ExchangeRateBottomSheetContent: React.FC<
   useSetContentHeight(ref);
   return (
     <Box p={3} ref={ref}>
-      <IconContainer>
+      <CenterContainer>
         <IconCircle status="warning" mb={1}>
           <WarningRoundedIcon color="warning" />
         </IconCircle>
         <Typography py={1} fontSize={18} fontWeight={700}>
           {t('swap.warning.title.rateChanged')}
         </Typography>
-      </IconContainer>
+      </CenterContainer>
       <Typography py={1}>{t('swap.warning.message.rateChanged')}</Typography>
       <Box display="flex" justifyContent="space-between" mt={1}>
         <Typography>{t('swap.quotedAmount')}</Typography>

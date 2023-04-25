@@ -1,6 +1,8 @@
 {
   "button": {
     "auto": "Auto",
+    "buy": "Buy",
+    "buyNow": "Buy now",
     "cancel": "Cancel",
     "connectWallet": "Connect wallet",
     "contactSupport": "Contact support",
@@ -23,6 +25,7 @@
     "resetSettings": "Reset settings",
     "restartSwap": "Restart swap",
     "reviewGasSwap": "Review gas swap",
+    "reviewPurchase": "Review purchase",
     "reviewSwap": "Review swap",
     "seeDetails": "See details",
     "showAll": "Show all",
@@ -43,6 +46,9 @@
     "from": "Swap from",
     "gas": "Gas",
     "gasSwap": "Gas swap",
+    "payWith": "Pay with",
+    "purchase": "Purchase",
+    "purchaseDetails": "Purchase details",
     "routes": "You get",
     "selectChain": "Select chain",
     "selectWallet": "Select your wallet",
@@ -131,13 +137,15 @@
     "onChain": "on {{chainName}}",
     "otherTokens": "Other tokens",
     "ownedBy": "Owned by",
-    "payWith": "Pay with",
     "process": {
       "crossChain": {
         "actionRequired": "Please sign the transaction",
         "done": "Bridge transaction confirmed",
         "pending": "Waiting for bridge transaction",
         "started": "Preparing bridge transaction"
+      },
+      "nft": {
+        "done": "NFT purchased"
       },
       "receivingChain": {
         "done": "Bridge completed",
@@ -173,16 +181,20 @@
     "sendToWallet": "Send to a different wallet",
     "sentToAddress": "Sent to {{address}}",
     "stepBridge": "Bridge",
+    "stepBridgeAndBuy": "Bridge and buy",
     "stepDetails": "{{tool}} via LI.FI",
     "stepSwap": "Swap",
     "stepSwapAndBridge": "Swap and bridge",
+    "stepSwapAndBuy": "Swap and buy",
     "success": {
       "message": {
         "swapPartiallySuccessful": "We've tried to complete the swap, but {{tool}} ran out of liquidity for {{tokenSymbol}} token.",
+        "purchaseSuccessful": "You now own {{assetName}} in {{walletAddress}} wallet on {{chainName}} chain.",
         "swapSuccessful": "There are now {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} in {{walletAddress}} wallet on {{chainName}} chain."
       },
       "title": {
         "gasSwapSuccessful": "Gas swap successful",
+        "purchaseSuccessful": "Purchase successful",
         "refundIssued": "Refund issued",
         "swapPartiallySuccessful": "Swap partially successful",
         "swapSuccessful": "Swap successful"

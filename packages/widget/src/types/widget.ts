@@ -38,6 +38,7 @@ export enum HiddenUI {
   Language = 'language',
   PoweredBy = 'poweredBy',
   ToAddress = 'toAddress',
+  History = 'history',
   // ToToken = 'toToken',
 }
 export type HiddenUIType = `${HiddenUI}`;

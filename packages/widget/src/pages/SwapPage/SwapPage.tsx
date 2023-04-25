@@ -5,6 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import type { BottomSheetBase } from '../../components/BottomSheet';
+import { ContractComponent } from '../../components/ContractComponent';
 import { GasMessage } from '../../components/GasMessage';
 import { Insurance } from '../../components/Insurance';
 import { getStepList } from '../../components/Step';
@@ -69,9 +70,14 @@ export const SwapPage: React.FC = () => {
   const getSwapButtonText = () => {
     switch (status) {
       case RouteExecutionStatus.Idle:
-        return variant !== 'refuel'
-          ? t(`button.startSwap`)
-          : t(`button.startGasSwap`);
+        switch (variant) {
+          case 'nft':
+            return t('button.buyNow');
+          case 'refuel':
+            return t('button.startGasSwap');
+          default:
+            return t('button.startSwap');
+        }
       case RouteExecutionStatus.Failed:
         return t('button.tryAgain');
       default:
@@ -98,6 +104,7 @@ export const SwapPage: React.FC = () => {
 
   return (
     <Container>
+      {variant === 'nft' ? <ContractComponent mb={2} /> : null}
       {getStepList(route)}
       {insuranceAvailable ? (
         <Insurance

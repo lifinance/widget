@@ -15,7 +15,7 @@ import {
   useNavigateBack,
   useTokenBalance,
 } from '../../hooks';
-import { SwapFormKey } from '../../providers';
+import { SwapFormKey, useWidgetConfig } from '../../providers';
 import type { RouteExecution } from '../../stores';
 import { RouteExecutionStatus } from '../../stores';
 import {
@@ -24,7 +24,7 @@ import {
   navigationRoutes,
   shortenWalletAddress,
 } from '../../utils';
-import { IconCircle, IconContainer } from './StatusBottomSheet.style';
+import { CenterContainer, IconCircle } from './StatusBottomSheet.style';
 
 export const StatusBottomSheet: React.FC<RouteExecution> = ({
   status,
@@ -35,6 +35,8 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   const ref = useRef<BottomSheetBase>(null);
   const { getChainById } = useChains();
   const { setValue } = useFormContext();
+  const { variant, contractComponent, contractCompactComponent } =
+    useWidgetConfig();
 
   const toToken = {
     ...(route.steps.at(-1)?.execution?.toToken ?? route.toToken),
@@ -50,6 +52,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   const clearFromAmount = () => {
     refetchAllBalances();
     setValue(SwapFormKey.FromAmount, '');
+    setValue(SwapFormKey.ToAmount, '');
   };
 
   const handleDone = () => {
@@ -99,7 +102,10 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   let handlePrimaryButton = handleDone;
   switch (status) {
     case RouteExecutionStatus.Done: {
-      title = t('swap.success.title.swapSuccessful');
+      title =
+        variant === 'nft'
+          ? t('swap.success.title.purchaseSuccessful')
+          : t('swap.success.title.swapSuccessful');
       if (token) {
         primaryMessage = t('swap.success.message.swapSuccessful', {
           amount: token.amount,
@@ -181,30 +187,42 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   return (
     <BottomSheet ref={ref}>
       <Box p={3}>
-        <IconContainer>
-          <IconCircle status={status} mb={1}>
-            {status === RouteExecutionStatus.Idle ? (
-              <InfoRoundedIcon color="primary" />
-            ) : null}
-            {status === RouteExecutionStatus.Done ? (
-              <DoneIcon color="success" />
-            ) : null}
-            {hasEnumFlag(status, RouteExecutionStatus.Partial) ||
-            hasEnumFlag(status, RouteExecutionStatus.Refunded) ? (
-              <WarningRoundedIcon color="warning" />
-            ) : null}
-            {hasEnumFlag(status, RouteExecutionStatus.Failed) ? (
-              <ErrorRoundedIcon color="error" />
-            ) : null}
-          </IconCircle>
+        {variant !== 'nft' ? (
+          <CenterContainer>
+            <IconCircle status={status} mb={1}>
+              {status === RouteExecutionStatus.Idle ? (
+                <InfoRoundedIcon color="primary" />
+              ) : null}
+              {status === RouteExecutionStatus.Done ? (
+                <DoneIcon color="success" />
+              ) : null}
+              {hasEnumFlag(status, RouteExecutionStatus.Partial) ||
+              hasEnumFlag(status, RouteExecutionStatus.Refunded) ? (
+                <WarningRoundedIcon color="warning" />
+              ) : null}
+              {hasEnumFlag(status, RouteExecutionStatus.Failed) ? (
+                <ErrorRoundedIcon color="error" />
+              ) : null}
+            </IconCircle>
+          </CenterContainer>
+        ) : null}
+        <CenterContainer>
           <Typography py={1} fontSize={18} fontWeight={700}>
             {title}
           </Typography>
-          {hasEnumFlag(status, RouteExecutionStatus.Done) ? (
-            <Token token={toToken} py={1} disableDescription />
-          ) : null}
-        </IconContainer>
-        <Typography py={1}>{primaryMessage}</Typography>
+        </CenterContainer>
+        {variant === 'nft' ? (
+          contractCompactComponent || contractComponent
+        ) : (
+          <CenterContainer>
+            {hasEnumFlag(status, RouteExecutionStatus.Done) ? (
+              <Token token={toToken} py={1} disableDescription />
+            ) : null}
+          </CenterContainer>
+        )}
+        {variant !== 'nft' ? (
+          <Typography py={1}>{primaryMessage}</Typography>
+        ) : null}
         {secondaryMessage ? (
           <Typography py={1}>{secondaryMessage}</Typography>
         ) : null}

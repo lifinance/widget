@@ -32,14 +32,26 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
   const getButtonText = () => {
     if (account.isActive) {
       if (!hasRoute) {
-        return variant !== 'refuel' ? t(`button.swap`) : t(`button.getGas`);
+        switch (variant) {
+          case 'nft':
+            return t(`button.buy`);
+          case 'refuel':
+            return t(`button.getGas`);
+          default:
+            return t(`button.swap`);
+        }
       }
       if (text) {
         return text;
       }
-      return variant !== 'refuel'
-        ? t(`button.reviewSwap`)
-        : t(`button.reviewGasSwap`);
+      switch (variant) {
+        case 'nft':
+          return t(`button.reviewPurchase`);
+        case 'refuel':
+          return t(`button.reviewGasSwap`);
+        default:
+          return t(`button.reviewSwap`);
+      }
     }
     return t(`button.connectWallet`);
   };

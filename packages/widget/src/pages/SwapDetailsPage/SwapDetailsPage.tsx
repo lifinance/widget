@@ -15,17 +15,20 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { shallow } from 'zustand/shallow';
 import { Card, CardTitle } from '../../components/Card';
+import { ContractComponent } from '../../components/ContractComponent';
 import { Dialog } from '../../components/Dialog';
 import { useHeaderActionStore } from '../../components/Header';
 import { Insurance } from '../../components/Insurance';
 import { getStepList } from '../../components/Step';
 import { useNavigateBack } from '../../hooks';
+import { useWidgetConfig } from '../../providers';
 import { useRouteExecutionStore } from '../../stores';
 import { Container } from './SwapDetailsPage.style';
 
 export const SwapDetailsPage: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { navigateBack } = useNavigateBack();
+  const { variant } = useWidgetConfig();
   const { state }: any = useLocation();
   const [routeExecution, deleteRoute] = useRouteExecutionStore(
     (store) => [store.routes[state?.routeId], store.deleteRoute],
@@ -94,6 +97,7 @@ export const SwapDetailsPage: React.FC = () => {
         </Typography>
       </Box>
       {getStepList(routeExecution?.route)}
+      {variant === 'nft' ? <ContractComponent mt={2} /> : null}
       {routeExecution?.route?.insurance?.state === 'INSURED' ? (
         <Insurance
           mt={2}

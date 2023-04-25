@@ -11,7 +11,7 @@ export const SwapRouteCardSkeleton: React.FC<
 
   const cardContent = (
     <Box flex={1}>
-      {widgetVariant !== 'refuel' ? (
+      {widgetVariant !== 'refuel' && widgetVariant !== 'nft' ? (
         <Box display="flex" alignItems="center" mb={2}>
           <Skeleton
             variant="rectangular"

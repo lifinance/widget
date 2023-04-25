@@ -18,7 +18,7 @@ export const widgetBaseConfig: WidgetConfig = {
 
   variant: 'nft',
   integrator: 'li.fi-playground',
-  // hiddenUI: ['poweredBy', 'language', 'appearance'],
+  hiddenUI: ['history'],
   chains: {
     allow: [], // 1, 1285, 10, 56, 137
     deny: [],
