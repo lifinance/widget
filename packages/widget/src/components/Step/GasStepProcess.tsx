@@ -1,11 +1,11 @@
-import type { Step } from '@lifi/sdk';
-import EvStationOutlinedIcon from '@mui/icons-material/EvStationOutlined';
+import type { LifiStep } from '@lifi/sdk';
+import EvStationIcon from '@mui/icons-material/EvStation';
 import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { CircularIcon } from './CircularProgress.style';
 
 export const GasStepProcess: React.FC<{
-  step: Step;
+  step: LifiStep;
 }> = ({ step }) => {
   const { t } = useTranslation();
   const isDone = step.execution?.status === 'DONE';
@@ -18,7 +18,7 @@ export const GasStepProcess: React.FC<{
         }}
       >
         <CircularIcon status={isDone ? 'DONE' : 'NOT_STARTED'}>
-          <EvStationOutlinedIcon
+          <EvStationIcon
             color={isDone ? 'success' : 'inherit'}
             sx={{
               position: 'absolute',
@@ -26,7 +26,7 @@ export const GasStepProcess: React.FC<{
             }}
           />
         </CircularIcon>
-        <Typography ml={2} fontSize={14} fontWeight={400}>
+        <Typography ml={2} flex={1} fontSize={14} fontWeight={400}>
           {t('format.currency', {
             value:
               (step.execution?.gasAmountUSD ||

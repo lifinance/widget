@@ -7,7 +7,7 @@ import type { SwapButtonProps } from './types';
 
 export const SwapButton: React.FC<SwapButtonProps> = ({
   onClick,
-  currentRoute,
+  hasRoute,
   text,
   disabled,
   loading,
@@ -31,15 +31,27 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
 
   const getButtonText = () => {
     if (account.isActive) {
-      if (!currentRoute) {
-        return variant !== 'refuel' ? t(`button.swap`) : t(`button.getGas`);
+      if (!hasRoute) {
+        switch (variant) {
+          case 'nft':
+            return t(`button.buy`);
+          case 'refuel':
+            return t(`button.getGas`);
+          default:
+            return t(`button.swap`);
+        }
       }
       if (text) {
         return text;
       }
-      return variant !== 'refuel'
-        ? t(`button.reviewSwap`)
-        : t(`button.reviewGasSwap`);
+      switch (variant) {
+        case 'nft':
+          return t(`button.reviewPurchase`);
+        case 'refuel':
+          return t(`button.reviewGasSwap`);
+        default:
+          return t(`button.reviewSwap`);
+      }
     }
     return t(`button.connectWallet`);
   };

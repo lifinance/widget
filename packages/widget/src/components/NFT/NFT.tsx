@@ -11,7 +11,7 @@ import type { NFTProps } from './types';
 export const NFT: React.FC<BoxProps & NFTProps> = ({
   imageUrl,
   isLoading,
-  collectonName,
+  collectionName,
   assetName,
   owner,
   token,
@@ -50,7 +50,7 @@ export const NFT: React.FC<BoxProps & NFTProps> = ({
             <Skeleton width={144} height={21} variant="text" />
           ) : (
             <Typography fontSize={14} color="text.secondary">
-              {collectonName}
+              {collectionName}
             </Typography>
           )}
           {isLoading ? (

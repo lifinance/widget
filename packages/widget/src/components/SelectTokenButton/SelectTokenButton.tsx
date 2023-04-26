@@ -43,7 +43,7 @@ export const SelectTokenButton: React.FC<
       : t(`swap.selectChainAndToken`);
   const cardTitle =
     formType === 'from' && variant === 'nft'
-      ? t(`swap.payWith`)
+      ? t(`header.payWith`)
       : t(`swap.${formType}`);
   return (
     <Card flex={1} onClick={onClick}>

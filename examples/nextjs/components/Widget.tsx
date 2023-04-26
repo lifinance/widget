@@ -12,6 +12,7 @@ export const Widget = () => {
             borderRadius: '16px',
           },
         }}
+        integrator="nextjs-example"
       />
     </>
   );

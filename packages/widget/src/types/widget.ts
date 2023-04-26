@@ -38,6 +38,7 @@ export enum HiddenUI {
   Language = 'language',
   PoweredBy = 'poweredBy',
   ToAddress = 'toAddress',
+  History = 'history',
   // ToToken = 'toToken',
 }
 export type HiddenUIType = `${HiddenUI}`;
@@ -70,9 +71,15 @@ export interface WidgetWalletManagement {
 export interface SDKConfig
   extends Omit<
     ConfigUpdate,
-    'defaultExecutionSettings' | 'defaultRouteOptions' | 'disableVersionCheck'
+    | 'defaultExecutionSettings'
+    | 'defaultRouteOptions'
+    | 'disableVersionCheck'
+    | 'integrator'
   > {
-  defaultRouteOptions?: Omit<RouteOptions, 'bridges' | 'exchanges'>;
+  defaultRouteOptions?: Omit<
+    RouteOptions,
+    'bridges' | 'exchanges' | 'insurance'
+  >;
 }
 
 export interface WidgetContractTool {
@@ -104,11 +111,12 @@ export interface WidgetConfig {
   contractTool?: WidgetContractTool;
 
   fee?: number;
-  integrator?: string;
+  integrator: string;
   referrer?: string;
 
-  slippage?: number;
   routePriority?: Order;
+  slippage?: number;
+  insurance?: boolean;
 
   variant?: WidgetVariant;
 
@@ -116,7 +124,6 @@ export interface WidgetConfig {
   theme?: ThemeConfig;
   containerStyle?: CSSProperties;
 
-  disableTelemetry?: boolean;
   disabledUI?: DisabledUIType[];
   hiddenUI?: HiddenUIType[];
   requiredUI?: RequiredUIType[];
@@ -151,14 +158,7 @@ export interface WidgetConfig {
     deny?: LanguageKey[];
   };
   languageResources?: LanguageResources;
-  disableI18n?: boolean;
-
-  /** @deprecated Use hiddenUI: ['appearance'] instead */
-  disableAppearance?: boolean;
-  /** @deprecated Use chains.deny instead */
-  disabledChains?: number[];
-  /** @deprecated Use tokens.featured instead */
-  featuredTokens?: Token[];
+  disableLanguageDetector?: boolean;
 }
 
 export type WidgetDrawerProps = {
@@ -166,7 +166,14 @@ export type WidgetDrawerProps = {
   open?: boolean;
 };
 
+export interface WidgetConfigProps {
+  config: WidgetConfig;
+}
+
+export interface WidgetConfigPartialProps {
+  config?: Partial<WidgetConfig>;
+}
+
 export type WidgetProps = WidgetDrawerProps &
-  WidgetConfig & {
-    config?: WidgetConfig;
-  };
+  WidgetConfig &
+  WidgetConfigPartialProps;

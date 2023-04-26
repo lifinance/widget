@@ -2,6 +2,99 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-beta.3](https://github.com/lifinance/widget/compare/v2.0.0-beta.2...v2.0.0-beta.3) (2023-04-21)
+
+
+### Features
+
+* update insurance card and text ([c623d11](https://github.com/lifinance/widget/commit/c623d11cf82e88e987d56932591da4c2fe3b2cf8))
+
+
+### Bug Fixes
+
+* remove svg icons unnecessary attributes ([#75](https://github.com/lifinance/widget/issues/75)) ([ee12534](https://github.com/lifinance/widget/commit/ee125349c8e3131fb0d9a3a5f6b2c166d10e3431))
+
+## [2.0.0-beta.2](https://github.com/lifinance/widget/compare/v2.0.0-beta.1...v2.0.0-beta.2) (2023-04-20)
+
+
+### Features
+
+* rename disableI18n -> disableLanguageDetector ([186d28c](https://github.com/lifinance/widget/commit/186d28c1928601afe64c6e0694a2e5cabc3df447))
+
+
+### Bug Fixes
+
+* set correct width ([72f3a6a](https://github.com/lifinance/widget/commit/72f3a6afe2abe2c6507c9cc2c8461fbbac11f661))
+
+## [2.0.0-beta.1](https://github.com/lifinance/widget/compare/v2.0.0-beta.0...v2.0.0-beta.1) (2023-04-19)
+
+
+### Features
+
+* new wallet management ([#69](https://github.com/lifinance/widget/issues/69)) ([626bc68](https://github.com/lifinance/widget/commit/626bc68b9f6c8dcdcf34d08e7e7ba13ef01efd19))
+
+## [2.0.0-beta.0](https://github.com/lifinance/widget/compare/v2.0.0-alpha.4...v2.0.0-beta.0) (2023-04-18)
+
+
+### Features
+
+* add link to insurance coverage ([f8a9df6](https://github.com/lifinance/widget/commit/f8a9df62f3412094ef53a8ce6a285f236917ee05))
+
+
+### Bug Fixes
+
+* transaction support id should be swap or bridge source one ([d9c7e14](https://github.com/lifinance/widget/commit/d9c7e14eb0c42ea112ebe807a2dffe3b76cc678e))
+
+## [2.0.0-alpha.4](https://github.com/lifinance/widget/compare/v2.0.0-alpha.3...v2.0.0-alpha.4) (2023-04-13)
+
+## [2.0.0-alpha.3](https://github.com/lifinance/widget/compare/v2.0.0-alpha.2...v2.0.0-alpha.3) (2023-04-13)
+
+## [2.0.0-alpha.2](https://github.com/lifinance/widget/compare/v2.0.0-alpha.1...v2.0.0-alpha.2) (2023-04-13)
+
+
+### Bug Fixes
+
+* make config integrator optional ([7b983de](https://github.com/lifinance/widget/commit/7b983de3ed0fe30c77f8b00f9be36d9c9d87c307))
+
+## [2.0.0-alpha.1](https://github.com/lifinance/widget/compare/v2.0.0-alpha.0...v2.0.0-alpha.1) (2023-04-12)
+
+
+### Bug Fixes
+
+* long text overflow ([fdf8153](https://github.com/lifinance/widget/commit/fdf8153a312dc4309eaef4a79f882700298a6321))
+* route not found using MemoryRouter ([e4a2c47](https://github.com/lifinance/widget/commit/e4a2c47f37df8d69333d487b75e955f2ef21fbfa))
+* update step types ([6f547d7](https://github.com/lifinance/widget/commit/6f547d71d0870b5d14778244a185ec2b436bc129))
+
+## [2.0.0-alpha.0](https://github.com/lifinance/widget/compare/v1.32.8...v2.0.0-alpha.0) (2023-03-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove deprecations
+* make integrator property required
+
+### Features
+
+* add auto refuel ([41de404](https://github.com/lifinance/widget/commit/41de404b12e989031364c5c3c92c66618dd253f6))
+* add insurance ([08162a6](https://github.com/lifinance/widget/commit/08162a666e8416e598b0585f68962953d80f33bb))
+* add insurance config option ([9a3f0be](https://github.com/lifinance/widget/commit/9a3f0bee717f44959c798b8edf0feca1aaaeb5a3))
+* add maxPriceImpact config options ([458e6a4](https://github.com/lifinance/widget/commit/458e6a4f1b98795d7c300420d22cb7f78e96b828))
+* make integrator property required ([d9b2a01](https://github.com/lifinance/widget/commit/d9b2a01cb2a72a2c5987d84e611b3136c0c4a1dc))
+* remove deprecations ([a966186](https://github.com/lifinance/widget/commit/a9661868dea3af96b6ac52a63545ba6128468c90))
+
+
+### Bug Fixes
+
+* add insurable route id ([79e838e](https://github.com/lifinance/widget/commit/79e838e025b0ba887a0a4c98182bb7435d2e73d7))
+* adjust card title to protocol steps ([670f67f](https://github.com/lifinance/widget/commit/670f67f47a9497a33a819c32619ccee8f85f6e7e))
+* check for ENS name while looking for balances ([ace7070](https://github.com/lifinance/widget/commit/ace7070ff12b8c03393c5a43cf5983affc8d9a06))
+* check for funds sufficiency as soon as it becomes possible ([cd1ef6e](https://github.com/lifinance/widget/commit/cd1ef6eb17987a75e620755dbc71506757b4b770))
+* don't apply auto refuel when swapping to native tokens ([fe85b38](https://github.com/lifinance/widget/commit/fe85b38174b436e20cecfd7fa95bafd8fecd669c))
+* possible duplicate keys ([6d294ed](https://github.com/lifinance/widget/commit/6d294edc9447c54e70943004a5719e8790904354))
+* reduce max price impact to 40% ([4b2a718](https://github.com/lifinance/widget/commit/4b2a71879971497bfdba14de82028ad07b0b70d0))
+* route priority tags now lowercased ([c93ca15](https://github.com/lifinance/widget/commit/c93ca15b3b5b222cdfcf5ec455aafa02fb16b5b8))
+* support input when it starts with a dot ([80857dd](https://github.com/lifinance/widget/commit/80857dd779c4d56caf4242ecdb16d36cdccf0d50))
+
 ### [1.32.8](https://github.com/lifinance/widget/compare/v1.32.7...v1.32.8) (2023-03-06)
 
 

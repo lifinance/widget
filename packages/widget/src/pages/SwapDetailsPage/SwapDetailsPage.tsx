@@ -1,5 +1,5 @@
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import ContentCopyIcon from '@mui/icons-material/ContentCopyRounded';
+import DeleteIcon from '@mui/icons-material/DeleteOutline';
 import {
   Box,
   Button,
@@ -15,16 +15,20 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { shallow } from 'zustand/shallow';
 import { Card, CardTitle } from '../../components/Card';
+import { ContractComponent } from '../../components/ContractComponent';
 import { Dialog } from '../../components/Dialog';
 import { useHeaderActionStore } from '../../components/Header';
+import { Insurance } from '../../components/Insurance';
 import { getStepList } from '../../components/Step';
 import { useNavigateBack } from '../../hooks';
+import { useWidgetConfig } from '../../providers';
 import { useRouteExecutionStore } from '../../stores';
 import { Container } from './SwapDetailsPage.style';
 
 export const SwapDetailsPage: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { navigateBack } = useNavigateBack();
+  const { variant } = useWidgetConfig();
   const { state }: any = useLocation();
   const [routeExecution, deleteRoute] = useRouteExecutionStore(
     (store) => [store.routes[state?.routeId], store.deleteRoute],
@@ -43,12 +47,13 @@ export const SwapDetailsPage: React.FC = () => {
     }
   };
 
-  let supportId =
-    routeExecution?.route.steps[0].execution?.process.find(
-      (process) => process.txHash,
-    )?.txHash ??
-    routeExecution?.route.id ??
-    '';
+  const sourceTxHash = routeExecution?.route.steps[0].execution?.process
+    .filter((process) => process.type !== 'TOKEN_ALLOWANCE')
+    .find((process) => process.txHash)?.txHash;
+
+  const insuranceCoverageId = sourceTxHash ?? routeExecution?.route.fromAddress;
+
+  let supportId = sourceTxHash ?? routeExecution?.route.id ?? '';
 
   if (process.env.NODE_ENV === 'development') {
     supportId += `_${routeExecution?.route.id}`;
@@ -61,7 +66,7 @@ export const SwapDetailsPage: React.FC = () => {
   useEffect(() => {
     return useHeaderActionStore.getState().setAction(
       <IconButton size="medium" edge="end" onClick={toggleDialog}>
-        <DeleteOutlineIcon />
+        <DeleteIcon />
       </IconButton>,
     );
   }, [toggleDialog]);
@@ -92,6 +97,16 @@ export const SwapDetailsPage: React.FC = () => {
         </Typography>
       </Box>
       {getStepList(routeExecution?.route)}
+      {variant === 'nft' ? <ContractComponent mt={2} /> : null}
+      {routeExecution?.route?.insurance?.state === 'INSURED' ? (
+        <Insurance
+          mt={2}
+          status={routeExecution.status}
+          feeAmountUsd={routeExecution.route.insurance.feeAmountUsd}
+          insurableRouteId={routeExecution.route.id}
+          insuranceCoverageId={insuranceCoverageId}
+        />
+      ) : null}
       <Card mt={2}>
         <Box
           sx={{

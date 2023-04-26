@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import { BottomSheet } from '../../components/BottomSheet';
 import { useSetContentHeight } from '../../hooks';
-import { IconCircle, IconContainer } from './StatusBottomSheet.style';
+import { CenterContainer, IconCircle } from './StatusBottomSheet.style';
 
 interface TokenValueBottomSheetProps {
   route: Route;
@@ -46,14 +46,14 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
   useSetContentHeight(ref);
   return (
     <Box p={3} ref={ref}>
-      <IconContainer>
+      <CenterContainer>
         <IconCircle status="warning" mb={1}>
           <WarningRoundedIcon color="warning" />
         </IconCircle>
         <Typography py={1} fontSize={18} fontWeight={700}>
           {t('swap.warning.title.highValueLoss')}
         </Typography>
-      </IconContainer>
+      </CenterContainer>
       <Typography py={1}>{t('swap.warning.message.highValueLoss')}</Typography>
       <Box display="flex" justifyContent="space-between" mt={1}>
         <Typography>{t('swap.swapping')}</Typography>

@@ -1,4 +1,4 @@
-import type { ExchangeRateUpdateParams, Route } from '@lifi/sdk';
+import type { ExchangeRateUpdateParams } from '@lifi/sdk';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import { Box, Button, Typography } from '@mui/material';
 import Big from 'big.js';
@@ -15,7 +15,7 @@ import type { BottomSheetBase } from '../../components/BottomSheet';
 import { BottomSheet } from '../../components/BottomSheet';
 import { useSetContentHeight } from '../../hooks';
 import { formatTokenAmount } from '../../utils';
-import { IconCircle, IconContainer } from './StatusBottomSheet.style';
+import { CenterContainer, IconCircle } from './StatusBottomSheet.style';
 
 export interface ExchangeRateBottomSheetBase {
   isOpen(): void;
@@ -98,14 +98,14 @@ const ExchangeRateBottomSheetContent: React.FC<
   useSetContentHeight(ref);
   return (
     <Box p={3} ref={ref}>
-      <IconContainer>
+      <CenterContainer>
         <IconCircle status="warning" mb={1}>
           <WarningRoundedIcon color="warning" />
         </IconCircle>
         <Typography py={1} fontSize={18} fontWeight={700}>
           {t('swap.warning.title.rateChanged')}
         </Typography>
-      </IconContainer>
+      </CenterContainer>
       <Typography py={1}>{t('swap.warning.message.rateChanged')}</Typography>
       <Box display="flex" justifyContent="space-between" mt={1}>
         <Typography>{t('swap.quotedAmount')}</Typography>
@@ -156,17 +156,4 @@ const ExchangeRateBottomSheetContent: React.FC<
       </Box>
     </Box>
   );
-};
-
-export const getTokenValueLossThreshold = (route?: Route) => {
-  if (!route) {
-    return false;
-  }
-  const fromAmountUSD = Big(route?.fromAmountUSD || 0);
-  const toAmountUSD = Big(route?.toAmountUSD || 0);
-  const gasCostUSD = Big(route?.gasCostUSD || 0);
-  if (fromAmountUSD.eq(0) && toAmountUSD.eq(0)) {
-    return false;
-  }
-  return toAmountUSD.div(fromAmountUSD.plus(gasCostUSD)).lt(0.9);
 };

@@ -10,7 +10,7 @@ import {
 import { useChainOrderStore } from '../stores';
 
 export const useChains = () => {
-  const { disabledChains, chains } = useWidgetConfig();
+  const { chains } = useWidgetConfig();
   const lifi = useLiFi();
   const { getValues, setValue } = useFormContext();
   const initializeChains = useChainOrderStore(
@@ -21,7 +21,7 @@ export const useChains = () => {
     async () => {
       const availableChains = await lifi.getChains();
       const filteredChains = availableChains.filter((chain) =>
-        isItemAllowed(chain.id, chains, disabledChains),
+        isItemAllowed(chain.id, chains),
       );
       const chainOrder = initializeChains(
         filteredChains.map((chain) => chain.id),

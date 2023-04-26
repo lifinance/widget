@@ -1,6 +1,7 @@
 import { LiFiWidget } from '@lifi/widget';
 import { Box, CssBaseline } from '@mui/material';
 import { useState } from 'react';
+import type { NFTNetwork } from './components/NFTOpenSea';
 import { NFTOpenSea, openSeaContractTool } from './components/NFTOpenSea';
 import { WidgetEvents } from './components/WidgetEvents';
 import { widgetConfig } from './config';
@@ -10,6 +11,21 @@ export const App = () => {
   const [searchParams] = useState(() =>
     Object.fromEntries(new URLSearchParams(window?.location.search)),
   );
+  const pathnameParams = window.location.pathname.substring(1).split('/');
+  // const {
+  //   isLoading,
+  //   imageUrl,
+  //   collectonName,
+  //   assetName,
+  //   owner,
+  //   token,
+  //   contract,
+  // } = useNFTOpenSea({
+  //   network: pathnameParams[0] as NFTNetwork,
+  //   contractAddress: pathnameParams[1],
+  //   tokenId: pathnameParams[2],
+  // });
+
   return (
     <Box display="flex" height="100vh">
       <WidgetEvents />
@@ -18,13 +34,14 @@ export const App = () => {
         <LiFiWidget
           contractComponent={
             <NFTOpenSea
-              network="matic"
-              contractAddress="0x2953399124f0cbb46d2cbacd8a89cf0599974963"
-              tokenId="29014243319676196359126730877655047555107173670640133741458013584582074433537"
+              network={pathnameParams[0] as NFTNetwork}
+              contractAddress={pathnameParams[1]}
+              tokenId={pathnameParams[2]}
             />
           }
           contractTool={openSeaContractTool}
           config={widgetConfig}
+          integrator={widgetConfig.integrator}
           open
         />
       </Box>

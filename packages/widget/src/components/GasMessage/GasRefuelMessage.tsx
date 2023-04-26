@@ -1,4 +1,4 @@
-import EvStationOutlinedIcon from '@mui/icons-material/EvStationOutlined';
+import EvStationIcon from '@mui/icons-material/EvStation';
 import type { BoxProps } from '@mui/material';
 import { Box, Collapse, Typography } from '@mui/material';
 import type { ChangeEvent } from 'react';
@@ -38,7 +38,7 @@ export const GasRefuelMessage: React.FC<BoxProps> = (props) => {
           p={2}
         >
           <Box display="flex" alignItems="center">
-            <EvStationOutlinedIcon
+            <EvStationIcon
               sx={{
                 marginRight: 1,
               }}

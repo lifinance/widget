@@ -1,9 +1,5 @@
 import type { Token } from '@lifi/sdk';
-import {
-  addChain,
-  switchChain,
-  switchChainAndAddToken,
-} from '@lifi/wallet-management';
+
 import type { WidgetVariant } from '@lifi/widget';
 import { LiFiWidget } from '@lifi/widget';
 import {
@@ -24,11 +20,16 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import React, { useEffect, useState } from 'react';
 import { WalletButtons } from './components/WalletButtons';
 import { WidgetEvents } from './components/WidgetEvents';
-import { widgetBaseConfig, widgetConfig, WidgetVariants } from './config';
+import {
+  METAMASK_WALLET,
+  WidgetVariants,
+  widgetBaseConfig,
+  widgetConfig,
+} from './config';
 import './index.css';
 import { useWallet } from './providers/WalletProvider';
 
@@ -126,31 +127,37 @@ export const App = () => {
         walletManagement: {
           signer: account.signer,
           connect: async () => {
-            await connect();
+            await connect(METAMASK_WALLET);
             return account.signer!;
           },
           disconnect: async () => {
-            disconnect();
+            disconnect(METAMASK_WALLET);
           },
           switchChain: async (reqChainId: number) => {
-            await switchChain(reqChainId);
+            await METAMASK_WALLET!.switchChain(reqChainId);
             if (account.signer) {
               return account.signer!;
             }
             throw Error('No signer object after chain switch');
           },
           addToken: async (token: Token, chainId: number) => {
-            await switchChainAndAddToken(chainId, token);
+            await METAMASK_WALLET!.addToken(chainId, token);
           },
           addChain: async (chainId: number) => {
-            return addChain(chainId);
+            return METAMASK_WALLET!.addChain(chainId);
           },
         },
       }));
     } else {
       setConfig((config) => ({ ...config, walletManagement: undefined }));
     }
-  }, [externalWallerManagement, account.signer, connect, disconnect]);
+  }, [
+    externalWallerManagement,
+    account.signer,
+    account.address,
+    connect,
+    disconnect,
+  ]);
 
   useEffect(() => {
     setTheme(
@@ -313,7 +320,7 @@ export const App = () => {
           </Box>
         </Drawer>
         <Box flex={1} margin="auto">
-          <LiFiWidget config={config} open />
+          <LiFiWidget integrator={config.integrator} config={config} open />
         </Box>
       </Box>
     </ThemeProvider>

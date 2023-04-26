@@ -74,6 +74,7 @@ export const SwapRoutesPage: React.FC<BoxProps> = () => {
             route={route}
             onClick={() => handleRouteClick(route)}
             active={index === 0}
+            expanded={swapRoutes?.length <= 2}
           />
         ))
       )}

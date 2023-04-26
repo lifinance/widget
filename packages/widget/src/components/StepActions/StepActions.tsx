@@ -20,9 +20,9 @@ import { LiFiToolLogo } from '../../icons';
 import { useWidgetConfig } from '../../providers';
 import type { WidgetVariant } from '../../types';
 import { formatTokenAmount } from '../../utils';
+import { CardIconButton } from '../Card';
 import { SmallAvatar } from '../SmallAvatar';
 import {
-  IconButton,
   StepAvatar,
   StepConnector,
   StepContent,
@@ -36,7 +36,7 @@ export const StepActions: React.FC<StepActionsProps> = ({
   ...other
 }) => {
   const { t } = useTranslation();
-  const { variant, contractTool } = useWidgetConfig();
+  const { variant } = useWidgetConfig();
   const [cardExpanded, setCardExpanded] = useState(false);
 
   const handleExpand: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -44,25 +44,7 @@ export const StepActions: React.FC<StepActionsProps> = ({
     setCardExpanded((expanded) => !expanded);
   };
 
-  const customStep =
-    variant === 'nft'
-      ? (step as LifiStep).includedSteps?.find((step) => step.type === 'custom')
-      : undefined;
-
-  const hasCollapsedSteps =
-    dense && (step as LifiStep).includedSteps?.length > 1;
-
-  if (customStep && contractTool) {
-    const toolDetails = {
-      key: contractTool.name,
-      name: contractTool.name,
-      logoURI: contractTool.logoURI,
-    };
-    customStep.toolDetails = toolDetails;
-    if (dense) {
-      (step as LifiStep).toolDetails = toolDetails;
-    }
-  }
+  const hasCollapsedSteps = dense && step.includedSteps?.length > 1;
 
   return (
     <Box {...other}>
@@ -90,9 +72,9 @@ export const StepActions: React.FC<StepActionsProps> = ({
           })}
         </Typography>
         {hasCollapsedSteps ? (
-          <IconButton onClick={handleExpand} size="small">
+          <CardIconButton onClick={handleExpand} size="small">
             {cardExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-          </IconButton>
+          </CardIconButton>
         ) : null}
       </Box>
       {hasCollapsedSteps ? (
@@ -107,12 +89,12 @@ export const StepActions: React.FC<StepActionsProps> = ({
 };
 
 export const IncludedSteps: React.FC<{
-  step: Step;
+  step: LifiStep;
   variant?: WidgetVariant;
 }> = ({ step, variant }) => {
   // eslint-disable-next-line react/no-unstable-nested-components
   const StepIconComponent = ({ icon }: StepIconProps) => {
-    const tool = (step as LifiStep).includedSteps?.[Number(icon) - 1];
+    const tool = step.includedSteps?.[Number(icon) - 1];
 
     return tool ? (
       <SmallAvatar
@@ -129,24 +111,23 @@ export const IncludedSteps: React.FC<{
   const StepDetailsLabel =
     step.tool === 'custom' && variant === 'nft'
       ? CustomStepDetailsLabel
-      : step.type === 'cross' ||
-        (step.type === 'lifi' &&
-          step.includedSteps.some((step) => step.type === 'cross'))
+      : step.type === 'lifi' &&
+        step.includedSteps.some((step) => step.type === 'cross')
       ? CrossStepDetailsLabel
       : SwapStepDetailsLabel;
-  return (step as LifiStep).includedSteps.length > 1 ? (
+  return step.includedSteps.length > 1 ? (
     <Box mt={1.5}>
       <Stepper
         orientation="vertical"
         connector={<StepConnector />}
         activeStep={-1}
       >
-        {(step as LifiStep).includedSteps.map((step, i) => (
+        {step.includedSteps.map((step, i) => (
           <MuiStep key={step.id} expanded>
             <StepLabel StepIconComponent={StepIconComponent}>
               {step.type === 'custom' && variant === 'nft' ? (
                 <CustomStepDetailsLabel step={step} variant={variant} />
-              ) : step.type === 'cross' || step.type === 'lifi' ? (
+              ) : step.type === 'cross' ? (
                 <CrossStepDetailsLabel step={step} />
               ) : step.type === 'protocol' ? (
                 <ProtocolStepDetailsLabel step={step} />
@@ -164,10 +145,10 @@ export const IncludedSteps: React.FC<{
   ) : (
     <Box ml={6}>
       <StepDetailsLabel
-        step={step}
+        step={step as unknown as Step}
         variant={variant === 'nft' ? variant : undefined}
       />
-      <StepDetailsContent step={step} variant={variant} />
+      <StepDetailsContent step={step as unknown as Step} variant={variant} />
     </Box>
   );
 };
@@ -197,10 +178,7 @@ export const StepDetailsContent: React.FC<{
   }
 
   const showToAmount =
-    step.type !== 'custom' &&
-    step.tool !== 'custom' &&
-    variant !== 'nft' &&
-    !sameTokenProtocolStep;
+    step.type !== 'custom' && step.tool !== 'custom' && !sameTokenProtocolStep;
 
   return (
     <Typography
