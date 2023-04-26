@@ -3,72 +3,61 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTimer } from 'react-timer-hook';
 
-// const getExpiryTimestamp = (step: LifiStep) =>
-//   new Date(
-//     (step.execution?.process[0]?.startedAt ?? Date.now()) +
-//       step.estimate.executionDuration * 1000,
-//   );
-const getExpiryTimestamp = (step: Step) => {
+const getExpiryTimestamp = (step: LifiStep) => {
   const firstProcess = step.execution?.process[0];
 
-  const beginningTimestamp = firstProcess?.approvedAt ?? firstProcess?.doneAt;
+  const processInitTimestamp = firstProcess?.approvedAt ?? firstProcess?.doneAt;
 
-  if (!beginningTimestamp) {
+  if (!processInitTimestamp) {
     return new Date(Date.now() + step.estimate.executionDuration * 1000);
   }
 
-  const timeSpentInExecution =
+  let latestActionStepInitTimestamp = 0;
+
+  // total time user took to approve all the steps where needed
+  const totalApprovalTime =
     step.execution?.process.reduce((timeConsumed, process, index) => {
-      if (index === 0) {
-        // skip the first process as it is already accounted for
-        return timeConsumed;
+      const { startedAt, approvedAt } = process;
+
+      if (process.status === 'ACTION_REQUIRED') {
+        latestActionStepInitTimestamp = startedAt;
       }
 
-      const { startedAt, doneAt, approvedAt, failedAt } = process;
-
-      // ClonedTimeConsumed is used to include the beginningTimestamp in the calculation
-      let clonedTimeConsumed = timeConsumed;
-
-      if (index === 1) {
-        clonedTimeConsumed += startedAt - beginningTimestamp;
-      }
-      if (process.status !== 'ACTION_REQUIRED') {
-        // if approvedAt is set, then doneAt - approvedAt is the time spent in execution
-        // since startedAt -> approvedAt is the time spent in waiting for the user to confirm the transaction
-
-        if (approvedAt) {
-          if (doneAt) {
-            return clonedTimeConsumed + doneAt - approvedAt;
-          }
-        } else {
-          // if approvedAt is not set, then doneAt - startedAt is the time spent in execution
-          // no user intervention was required
-          if (doneAt && !failedAt) {
-            // if the process failed, then the time for the previous process is not updated.
-            // hence, the time spent in execution will not be considered
-            return clonedTimeConsumed + doneAt - startedAt;
-          }
-        }
-
-        return clonedTimeConsumed;
+      if (approvedAt) {
+        // time taken from metamask prompt to user approval
+        // startedAt    -> metamask prompt
+        // userApproval -> approvedAt
+        return timeConsumed + approvedAt - startedAt;
       }
 
-      return clonedTimeConsumed;
+      return timeConsumed;
     }, 0) ?? 0;
 
-  // timeSpentInExecution is in milliseconds
-  const remainingTimeInSeconds =
-    step.estimate.executionDuration * 1000 - timeSpentInExecution;
+  // end timestamp to consider for calculation when the user has not approved
+  const endTimestamp = !!latestActionStepInitTimestamp
+    ? latestActionStepInitTimestamp
+    : Date.now();
 
-  const expiryTimstamp = new Date(Date.now() + remainingTimeInSeconds);
+  // total time from the first process to the end timestamp including the userApprovals
+  const totalTimeFromInitTimestamp =
+    endTimestamp - (firstProcess?.startedAt ?? 0);
 
-  return expiryTimstamp;
+  // subtract the userApprovals time
+  const remainingExecutionTime = totalTimeFromInitTimestamp - totalApprovalTime;
+
+  // actual remaining time to consider for the timer based on estimated time
+  const actualRemainingDuration =
+    step.estimate.executionDuration * 1000 - remainingExecutionTime;
+
+  return new Date(Date.now() + actualRemainingDuration);
 };
 
 export const StepTimer: React.FC<{
   step: LifiStep;
   hideInProgress?: boolean;
 }> = ({ step, hideInProgress }) => {
+  console.log({ step });
+
   const { t } = useTranslation();
   const [isExpired, setExpired] = useState(false);
   const [isExecutionStarted, setExecutionStarted] = useState(!!step.execution);
