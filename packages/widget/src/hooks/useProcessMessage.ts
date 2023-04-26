@@ -117,6 +117,12 @@ export function getProcessMessage(
     let title: string = '';
     let message: string = '';
     switch (process.error.code) {
+      case LifiErrorCode.AllowanceRequired:
+        title = t(`swap.error.title.allowanceRequired`);
+        message = t(`swap.error.message.allowanceRequired`, {
+          tokenSymbol: step.action.fromToken.symbol,
+        });
+        break;
       case LifiErrorCode.BalanceError:
         title = t(`swap.error.title.balanceIsTooLow`);
         message = getTransactionNotSentMessage();
@@ -128,6 +134,10 @@ export function getProcessMessage(
       case LifiErrorCode.GasLimitError:
         title = t(`swap.error.title.gasLimitIsTooLow`);
         message = getTransactionNotSentMessage();
+        break;
+      case LifiErrorCode.SlippageError:
+        title = t(`swap.error.title.slippageNotMet`);
+        message = t(`swap.error.message.slippageThreshold`);
         break;
       case LifiErrorCode.TransactionFailed:
         title = t(`swap.error.title.transactionFailed`);
@@ -144,10 +154,6 @@ export function getProcessMessage(
       case LifiErrorCode.TransactionCanceled:
         title = t(`swap.error.title.transactionCanceled`);
         message = getTransactionNotSentMessage();
-        break;
-      case LifiErrorCode.SlippageError:
-        title = t(`swap.error.title.slippageNotMet`);
-        message = t(`swap.error.message.slippageThreshold`);
         break;
       case LifiErrorCode.TransactionRejected:
         title = t(`swap.error.title.transactionRejected`);
