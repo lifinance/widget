@@ -42,6 +42,7 @@
   },
   "header": {
     "activeSwaps": "Active swaps",
+    "bridge": "Bridge",
     "checkout": "Checkout",
     "from": "Swap from",
     "gas": "Gas",
@@ -173,7 +174,6 @@
     "rateChange": "Rate change",
     "receiving": "Receiving",
     "refuelStepDetails": "Get gas via {{tool}}",
-    "routes": "You get",
     "selectChain": "Chain",
     "selectChainAndToken": "Select chain and token",
     "selectToken": "Token",

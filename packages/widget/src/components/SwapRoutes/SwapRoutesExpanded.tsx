@@ -42,7 +42,7 @@ export const SwapRoutesExpandedElement = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const setExecutableRoute = useSetExecutableRoute();
-  const { containerStyle } = useWidgetConfig();
+  const { variant, containerStyle } = useWidgetConfig();
   const { isValid, isValidating } = useFormState();
   const {
     routes,
@@ -78,7 +78,7 @@ export const SwapRoutesExpandedElement = () => {
           <ScrollableContainer>
             <Header>
               <Typography fontSize={18} fontWeight="700" flex={1} noWrap>
-                {t('swap.routes')}
+                {variant === 'nft' ? t('swap.fromAmount') : t('header.routes')}
               </Typography>
               <ProgressToNextUpdate
                 updatedAt={dataUpdatedAt || new Date().getTime()}

@@ -46,7 +46,9 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
 
   return (
     <Card {...props}>
-      <CardTitle>{t('swap.routes')}</CardTitle>
+      <CardTitle>
+        {variant === 'nft' ? t('swap.fromAmount') : t('header.routes')}
+      </CardTitle>
       <ProgressToNextUpdate
         updatedAt={dataUpdatedAt || new Date().getTime()}
         timeToUpdate={refetchTime}
