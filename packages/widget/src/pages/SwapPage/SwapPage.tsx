@@ -104,8 +104,8 @@ export const SwapPage: React.FC = () => {
 
   return (
     <Container>
-      {variant === 'nft' ? <ContractComponent mb={2} /> : null}
       {getStepList(route)}
+      {variant === 'nft' ? <ContractComponent mt={2} /> : null}
       {insuranceAvailable ? (
         <Insurance
           mt={2}
