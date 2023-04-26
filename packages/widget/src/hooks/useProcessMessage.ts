@@ -1,33 +1,37 @@
 import type {
   EVMChain,
+  LifiStep,
   Process,
   ProcessType,
   Status,
   StatusMessage,
-  Step,
-  Substatus
+  Substatus,
 } from '@lifi/sdk';
 import { LifiErrorCode } from '@lifi/sdk';
 import type { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
+import { useWidgetConfig } from '../providers';
+import type { WidgetVariant } from '../types';
 import { formatTokenAmount } from '../utils';
 import { useChains } from './useChains';
 
-export const useProcessMessage = (step?: Step, process?: Process) => {
+export const useProcessMessage = (step?: LifiStep, process?: Process) => {
+  const { variant } = useWidgetConfig();
   const { t } = useTranslation();
   const { getChainById } = useChains();
   if (!step || !process) {
     return {};
   }
-  return getProcessMessage(t, getChainById, step, process);
+  return getProcessMessage(t, getChainById, step, process, variant);
 };
 
 const processStatusMessages: Record<
   ProcessType,
-  Partial<Record<Status, (t: TFunction) => string>>
+  Partial<Record<Status, (t: TFunction, variant?: WidgetVariant) => string>>
 > = {
   TOKEN_ALLOWANCE: {
     STARTED: (t) => t(`swap.process.tokenAllowance.started`),
+    ACTION_REQUIRED: (t) => t(`swap.process.tokenAllowance.pending`),
     PENDING: (t) => t(`swap.process.tokenAllowance.pending`),
     DONE: (t) => t(`swap.process.tokenAllowance.done`),
   },
@@ -39,7 +43,10 @@ const processStatusMessages: Record<
     STARTED: (t) => t(`swap.process.swap.started`),
     ACTION_REQUIRED: (t) => t(`swap.process.swap.actionRequired`),
     PENDING: (t) => t(`swap.process.swap.pending`),
-    DONE: (t) => t(`swap.process.swap.done`),
+    DONE: (t, variant) =>
+      variant === 'nft'
+        ? t(`swap.process.nft.done`)
+        : t(`swap.process.swap.done`),
   },
   CROSS_CHAIN: {
     STARTED: (t) => t(`swap.process.crossChain.started`),
@@ -49,7 +56,10 @@ const processStatusMessages: Record<
   },
   RECEIVING_CHAIN: {
     PENDING: (t) => t(`swap.process.receivingChain.pending`),
-    DONE: (t) => t(`swap.process.receivingChain.done`),
+    DONE: (t, variant) =>
+      variant === 'nft'
+        ? t(`swap.process.nft.done`)
+        : t(`swap.process.receivingChain.done`),
   },
   TRANSACTION: {},
 };
@@ -87,8 +97,9 @@ const processSubstatusMessages: Record<
 export function getProcessMessage(
   t: TFunction,
   getChainById: (chainId: number) => EVMChain | undefined,
-  step: Step,
+  step: LifiStep,
   process: Process,
+  variant?: WidgetVariant,
 ): {
   title?: string;
   message?: string;
@@ -106,6 +117,12 @@ export function getProcessMessage(
     let title: string = '';
     let message: string = '';
     switch (process.error.code) {
+      case LifiErrorCode.AllowanceRequired:
+        title = t(`swap.error.title.allowanceRequired`);
+        message = t(`swap.error.message.allowanceRequired`, {
+          tokenSymbol: step.action.fromToken.symbol,
+        });
+        break;
       case LifiErrorCode.BalanceError:
         title = t(`swap.error.title.balanceIsTooLow`);
         message = getTransactionNotSentMessage();
@@ -117,6 +134,10 @@ export function getProcessMessage(
       case LifiErrorCode.GasLimitError:
         title = t(`swap.error.title.gasLimitIsTooLow`);
         message = getTransactionNotSentMessage();
+        break;
+      case LifiErrorCode.SlippageError:
+        title = t(`swap.error.title.slippageNotMet`);
+        message = t(`swap.error.message.slippageThreshold`);
         break;
       case LifiErrorCode.TransactionFailed:
         title = t(`swap.error.title.transactionFailed`);
@@ -133,10 +154,6 @@ export function getProcessMessage(
       case LifiErrorCode.TransactionCanceled:
         title = t(`swap.error.title.transactionCanceled`);
         message = getTransactionNotSentMessage();
-        break;
-      case LifiErrorCode.SlippageError:
-        title = t(`swap.error.title.slippageNotMet`);
-        message = t(`swap.error.message.slippageThreshold`);
         break;
       case LifiErrorCode.TransactionRejected:
         title = t(`swap.error.title.transactionRejected`);
@@ -164,6 +181,7 @@ export function getProcessMessage(
   const title =
     processSubstatusMessages[process.status as StatusMessage]?.[
       process.substatus!
-    ]?.(t) ?? processStatusMessages[process.type]?.[process.status]?.(t);
+    ]?.(t) ??
+    processStatusMessages[process.type]?.[process.status]?.(t, variant);
   return { title };
 }

@@ -20,7 +20,7 @@ const getStatusColor = (status: StatusColor, theme: Theme) => {
   }
 };
 
-export const IconContainer = styled(Box)(({ theme }) => ({
+export const CenterContainer = styled(Box)(({ theme }) => ({
   display: 'grid',
   placeItems: 'center',
   position: 'relative',

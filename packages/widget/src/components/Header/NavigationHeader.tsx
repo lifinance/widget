@@ -1,13 +1,12 @@
-import {
-  ArrowBack as ArrowBackIcon,
-  ReceiptLongRounded as HistoryIcon,
-  SettingsOutlined as SettingsIcon,
-} from '@mui/icons-material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { useNavigateBack } from '../../hooks';
 import { useWallet, useWidgetConfig } from '../../providers';
+import { HiddenUI } from '../../types';
 import {
   backButtonRoutes,
   navigationRoutes,
@@ -18,7 +17,7 @@ import { useHeaderActionStore } from './useHeaderActionStore';
 
 export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
-  const { variant } = useWidgetConfig();
+  const { variant, hiddenUI } = useWidgetConfig();
   const { navigate, navigateBack } = useNavigateBack();
   const { account } = useWallet();
   const { element } = useHeaderActionStore();
@@ -42,8 +41,12 @@ export const NavigationHeader: React.FC = () => {
         return t(`settings.enabledExchanges`);
       case navigationRoutes.swapHistory:
         return t(`header.swapHistory`);
-      case navigationRoutes.fromToken:
+      case navigationRoutes.fromToken: {
+        if (variant === 'nft') {
+          return t(`header.payWith`);
+        }
         return t(`header.from`);
+      }
       case navigationRoutes.toToken:
         return t(`header.to`);
       case navigationRoutes.fromChain:
@@ -54,10 +57,18 @@ export const NavigationHeader: React.FC = () => {
         return t(`header.routes`);
       case navigationRoutes.activeSwaps:
         return t(`header.activeSwaps`);
-      case navigationRoutes.swapExecution:
+      case navigationRoutes.swapExecution: {
+        if (variant === 'nft') {
+          return t(`header.purchase`);
+        }
         return t(`header.swap`);
-      case navigationRoutes.swapDetails:
+      }
+      case navigationRoutes.swapDetails: {
+        if (variant === 'nft') {
+          return t(`header.purchaseDetails`);
+        }
         return t(`header.swapDetails`);
+      }
       default: {
         switch (variant) {
           case 'nft':
@@ -92,14 +103,14 @@ export const NavigationHeader: React.FC = () => {
           path={navigationRoutes.home}
           element={
             <>
-              {account.isActive ? (
+              {account.isActive && !hiddenUI?.includes(HiddenUI.History) ? (
                 <Tooltip title={t(`header.swapHistory`)} enterDelay={400} arrow>
                   <IconButton
                     size="medium"
                     edge="start"
                     onClick={() => navigate(navigationRoutes.swapHistory)}
                   >
-                    <HistoryIcon />
+                    <ReceiptLongIcon />
                   </IconButton>
                 </Tooltip>
               ) : null}

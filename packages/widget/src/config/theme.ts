@@ -63,7 +63,7 @@ const palette = {
     main: '#0AA65B',
   },
   warning: {
-    main: '#FFE668',
+    main: '#FFCC00',
   },
   error: {
     main: '#E5452F',

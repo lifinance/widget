@@ -1,6 +1,6 @@
 import type { Order } from '@lifi/sdk';
 import { Orders } from '@lifi/sdk';
-import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { FormControl, MenuItem } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Card, CardTitle } from '../../components/Card';
@@ -27,7 +27,7 @@ export const RoutePrioritySelect: React.FC = () => {
           dense
         >
           {Orders.map((order) => {
-            const tag = t(`swap.tags.${order.toUpperCase()}` as any);
+            const tag = t(`swap.tags.${order.toLowerCase()}` as any);
             const tagName = `${tag[0]}${tag.slice(1).toLowerCase()}`;
             return (
               <MenuItem key={order} value={order}>

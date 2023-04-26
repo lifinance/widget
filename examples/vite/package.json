@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/widget": "^1.32.3",
+    "@lifi/widget": "^1.32.6",
     "events": "^3.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
@@ -17,7 +17,7 @@
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@types/events": "^3.0.0",
-    "@types/node": "^18.14.0",
+    "@types/node": "^18.14.5",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^3.1.0",

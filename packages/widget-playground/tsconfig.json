@@ -6,10 +6,19 @@
     "rootDir": "./src",
     "composite": true
   },
-  "include": ["src"],
+  "include": [
+    "src",
+    "./src/**/*.json"
+  ],
   "references": [
-    { "path": "./tsconfig.node.json" },
-    { "path": "../wallet-management" },
-    { "path": "../widget" }
+    {
+      "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "../wallet-management"
+    },
+    {
+      "path": "../widget"
+    }
   ]
 }

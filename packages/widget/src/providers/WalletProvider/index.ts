@@ -1,2 +1,2 @@
-export * from './types';
 export * from './WalletProvider';
+export * from './types';

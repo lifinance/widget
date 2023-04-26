@@ -1,12 +1,12 @@
-import type { Process, Step } from '@lifi/sdk';
-import { LinkRounded as LinkIcon } from '@mui/icons-material';
+import type { LifiStep, Process } from '@lifi/sdk';
+import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
 import { Box, Link, Typography } from '@mui/material';
 import { useProcessMessage } from '../../hooks';
 import { CircularProgress } from './CircularProgress';
 import { LinkButton } from './StepProcess.style';
 
 export const StepProcess: React.FC<{
-  step: Step;
+  step: LifiStep;
   process: Process;
 }> = ({ step, process }) => {
   const { title, message } = useProcessMessage(step, process);
@@ -19,29 +19,25 @@ export const StepProcess: React.FC<{
         }}
       >
         <CircularProgress process={process} />
-        <Typography ml={2} fontSize={14} fontWeight={process.error ? 600 : 400}>
+        <Typography
+          mx={2}
+          flex={1}
+          fontSize={14}
+          fontWeight={process.error ? 600 : 400}
+        >
           {title}
         </Typography>
         {process.txLink ? (
-          <Box
-            ml={2}
-            sx={{
-              display: 'flex',
-              flex: 1,
-              justifyContent: 'flex-end',
-            }}
+          <LinkButton
+            size="small"
+            edge="end"
+            LinkComponent={Link}
+            href={process.txLink}
+            target="_blank"
+            rel="nofollow noreferrer"
           >
-            <LinkButton
-              size="small"
-              edge="end"
-              LinkComponent={Link}
-              href={process.txLink}
-              target="_blank"
-              rel="nofollow noreferrer"
-            >
-              <LinkIcon />
-            </LinkButton>
-          </Box>
+            <LinkRoundedIcon />
+          </LinkButton>
         ) : null}
       </Box>
       {message ? (

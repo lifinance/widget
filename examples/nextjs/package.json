@@ -9,19 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@lifi/sdk": "^1.7.2",
-    "@lifi/widget": "^1.32.3",
-    "next": "13.1.6",
+    "@lifi/sdk": "^2.0.0-beta.8",
+    "@lifi/widget": "^2.0.0-alpha.2",
+    "next": "13.3.0",
     "next-transpile-modules": "^10.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@types/node": "18.14.0",
-    "@types/react": "18.0.28",
+    "@types/node": "18.15.11",
+    "@types/react": "18.0.35",
     "@types/react-dom": "18.0.11",
-    "eslint": "8.34.0",
-    "eslint-config-next": "13.1.6",
-    "typescript": "4.9.5"
+    "eslint": "8.38.0",
+    "eslint-config-next": "13.3.0",
+    "typescript": "5.0.4"
   }
 }

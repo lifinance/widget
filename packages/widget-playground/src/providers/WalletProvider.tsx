@@ -1,12 +1,7 @@
 import type { Signer } from '@ethersproject/abstract-signer';
 import type { Token } from '@lifi/sdk';
 import type { Wallet } from '@lifi/wallet-management';
-import {
-  addChain as walletAddChain,
-  switchChain as walletSwitchChain,
-  switchChainAndAddToken,
-  useLiFiWalletManagement,
-} from '@lifi/wallet-management';
+import { LiFiWalletManagement } from '@lifi/wallet-management';
 import type { WalletAccount, WalletContextProps } from '@lifi/widget/providers';
 import type { FC, PropsWithChildren } from 'react';
 import {
@@ -17,6 +12,7 @@ import {
   useMemo,
   useState,
 } from 'react';
+import { METAMASK_WALLET } from '../config';
 
 const stub = (): never => {
   throw new Error(
@@ -36,49 +32,69 @@ const initialContext: WalletContextProps = {
 const WalletContext = createContext<WalletContextProps>(initialContext);
 
 export const useWallet = (): WalletContextProps => useContext(WalletContext);
+const liFiWalletManagement = new LiFiWalletManagement();
 
 export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
-  const {
-    connect: walletManagementConnect,
-    disconnect: walletManagementDisconnect,
-    signer,
-  } = useLiFiWalletManagement();
   const [account, setAccount] = useState<WalletAccount>({});
+  const [currentWallet, setCurrentWallet] = useState<Wallet | undefined>();
 
-  const connect = useCallback(
-    async (wallet?: Wallet) => {
-      await walletManagementConnect(wallet);
-      const account = await extractAccountFromSigner(signer);
-      setAccount(account);
-    },
-    [signer, walletManagementConnect],
-  );
+  const handleWalletUpdate = async (wallet?: Wallet) => {
+    setCurrentWallet(() => wallet);
+    const account = await extractAccountFromSigner(wallet?.account?.signer);
+    setAccount(account);
+  };
+
+  const connect = useCallback(async (wallet: Wallet) => {
+    await liFiWalletManagement.connect(wallet);
+    wallet.on('walletAccountChanged', handleWalletUpdate);
+
+    handleWalletUpdate(wallet);
+  }, []);
 
   const disconnect = useCallback(async () => {
-    await walletManagementDisconnect();
-  }, [walletManagementDisconnect]);
+    if (currentWallet) {
+      await liFiWalletManagement.disconnect(currentWallet);
+      currentWallet.removeAllListeners();
+      handleWalletUpdate(undefined);
+    }
+  }, [currentWallet]);
 
-  // only for injected wallets
-  const switchChain = useCallback(async (chainId: number) => {
-    return walletSwitchChain(chainId);
-  }, []);
+  const switchChain = useCallback(
+    async (chainId: number) => {
+      try {
+        await currentWallet?.switchChain(chainId);
+        handleWalletUpdate(currentWallet);
+        return true;
+      } catch {
+        return false;
+      }
+    },
+    [currentWallet],
+  );
 
-  const addChain = useCallback(async (chainId: number) => {
-    return walletAddChain(chainId);
-  }, []);
+  const addChain = useCallback(
+    async (chainId: number) => {
+      try {
+        await currentWallet?.addChain(chainId);
+        handleWalletUpdate(currentWallet);
 
-  const addToken = useCallback(async (chainId: number, token: Token) => {
-    return switchChainAndAddToken(chainId, token);
-  }, []);
+        return true;
+      } catch {
+        return false;
+      }
+    },
+    [currentWallet],
+  );
 
-  // keep account information up to date
-  useEffect(() => {
-    const updateAccount = async () => {
-      const account = await extractAccountFromSigner(signer);
-      setAccount(account);
-    };
-    updateAccount();
-  }, [signer]);
+  const addToken = useCallback(
+    async (chainId: number, token: Token) => {
+      await currentWallet?.addToken(chainId, token);
+      handleWalletUpdate(currentWallet);
+
+      return;
+    },
+    [currentWallet],
+  );
 
   const value = useMemo(
     () => ({
@@ -89,7 +105,7 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
       addToken,
       account,
     }),
-    [account, addChain, addToken, connect, disconnect, switchChain],
+    [account.address, addChain, addToken, connect, disconnect, switchChain],
   );
 
   return (

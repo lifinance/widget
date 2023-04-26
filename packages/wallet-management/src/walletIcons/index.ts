@@ -6,7 +6,6 @@ import blockwallet from './blockwallet.svg';
 import brave from './brave.svg';
 import coinbase from './coinbase.svg';
 import dcent from './dcent.svg';
-import detected from './detected.svg';
 import frame from './frame.svg';
 import huobiwallet from './huobiwallet.svg';
 import hyperpay from './hyperpay.svg';
@@ -23,24 +22,26 @@ import status from './status.svg';
 import tallyho from './tallyho.svg';
 import tokenary from './tokenary.svg';
 import tokenpocket from './tokenpocket.svg';
-import tp from './tp.svg';
 import trust from './trust.svg';
 import walletConnect from './walletConnect.svg';
 import walletio from './walletio.svg';
 import xdefi from './xdefi.svg';
+import frontier from './frontier.svg';
+import placeholder from './placeholder.svg';
 
 export const walletIcons = {
   mathwallet,
   walletConnect,
   alphawallet,
   atoken,
+  frontier,
   blockwallet,
   binance,
+  placeholder,
   bitpie,
   brave,
   coinbase,
   dcent,
-  detected,
   frame,
   huobiwallet,
   hyperpay,
@@ -56,7 +57,6 @@ export const walletIcons = {
   tallyho,
   tokenary,
   tokenpocket,
-  tp,
   trust,
   walletio,
   xdefi,

@@ -9,7 +9,7 @@ import { isItemAllowed, useWidgetConfig } from '../WidgetProvider';
 export const FormUpdater: React.FC<{
   defaultValues: Partial<SwapFormValues>;
 }> = ({ defaultValues }) => {
-  const { fromChain, toChain, chains, disabledChains } = useWidgetConfig();
+  const { fromChain, toChain, chains } = useWidgetConfig();
   const { account } = useWallet();
   const {
     setValue,
@@ -25,7 +25,7 @@ export const FormUpdater: React.FC<{
   // Set wallet chain as default if no chains are provided by config and if they were not changed during widget usage
   useEffect(() => {
     const chainAllowed =
-      account.chainId && isItemAllowed(account.chainId, chains, disabledChains);
+      account.chainId && isItemAllowed(account.chainId, chains);
     if (!account.isActive || !account.chainId || !chainAllowed) {
       return;
     }
@@ -57,7 +57,6 @@ export const FormUpdater: React.FC<{
     account.chainId,
     account.isActive,
     chains,
-    disabledChains,
     fromChain,
     getFieldState,
     getValues,

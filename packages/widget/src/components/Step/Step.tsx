@@ -1,11 +1,12 @@
 /* eslint-disable react/no-array-index-key */
-import type { Step as StepType, TokenAmount } from '@lifi/sdk';
+import type { LifiStep, TokenAmount } from '@lifi/sdk';
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Card, CardTitle } from '../../components/Card';
 import { StepActions } from '../../components/StepActions';
 import { Token } from '../../components/Token';
 import { useChains } from '../../hooks';
+import { useWidgetConfig } from '../../providers';
 import { shortenWalletAddress } from '../../utils';
 import { DestinationWalletAddress } from './DestinationWalletAddress';
 import { GasStepProcess } from './GasStepProcess';
@@ -13,13 +14,14 @@ import { StepProcess } from './StepProcess';
 import { StepTimer } from './StepTimer';
 
 export const Step: React.FC<{
-  step: StepType;
+  step: LifiStep;
   fromToken?: TokenAmount;
   toToken?: TokenAmount;
   toAddress?: string;
 }> = ({ step, fromToken, toToken, toAddress }) => {
   const { t } = useTranslation();
   const { getChainById } = useChains();
+  const { variant } = useWidgetConfig();
 
   const stepHasError = step.execution?.process.some(
     (process) => process.status === 'FAILED',
@@ -28,19 +30,29 @@ export const Step: React.FC<{
   const getCardTitle = () => {
     switch (step.type) {
       case 'lifi':
-        if (step.includedSteps.every((step) => step.type === 'cross')) {
-          return t('swap.stepBridge');
+        const hasCrossStep = step.includedSteps.some(
+          (step) => step.type === 'cross',
+        );
+        const hasSwapStep = step.includedSteps.some(
+          (step) => step.type === 'swap',
+        );
+        if (hasCrossStep && hasSwapStep) {
+          return variant === 'nft'
+            ? t('swap.stepBridgeAndBuy')
+            : t('swap.stepSwapAndBridge');
         }
-        if (step.includedSteps.every((step) => step.type === 'swap')) {
-          return t('swap.stepSwap');
+        if (hasCrossStep) {
+          return variant === 'nft'
+            ? t('swap.stepBridgeAndBuy')
+            : t('swap.stepBridge');
         }
-        return t('swap.stepSwapAndBridge');
-      case 'swap':
-        return t('swap.stepSwap');
-      case 'cross':
-        return t('swap.stepBridge');
+        return variant === 'nft'
+          ? t('swap.stepSwapAndBuy')
+          : t('swap.stepSwap');
       default:
-        return t('swap.stepSwap');
+        return variant === 'nft'
+          ? t('swap.stepSwapAndBuy')
+          : t('swap.stepSwap');
     }
   };
 

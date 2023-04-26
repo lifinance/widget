@@ -1,7 +1,5 @@
-import {
-  KeyboardArrowLeft as KeyboardArrowLeftIcon,
-  KeyboardArrowRight as KeyboardArrowRightIcon,
-} from '@mui/icons-material';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { Drawer } from '@mui/material';
 import {
   forwardRef,
@@ -25,7 +23,7 @@ export interface WidgetDrawer {
 }
 
 export const AppDrawer = forwardRef<WidgetDrawer, WidgetProps>(
-  ({ elementRef, open, config }, ref) => {
+  ({ elementRef, open, integrator, config }, ref) => {
     const openRef = useRef(open);
     const [drawerOpen, setDrawerOpen] = useState(Boolean(open));
 
@@ -52,19 +50,20 @@ export const AppDrawer = forwardRef<WidgetDrawer, WidgetProps>(
       [closeDrawer, openDrawer, toggleDrawer],
     );
 
-    const drawerConfig: WidgetConfig = useMemo(
+    const widgetConfig: WidgetConfig = useMemo(
       () => ({
         ...config,
+        integrator,
         containerStyle: {
           ...config?.containerStyle,
           height: '100%',
         },
       }),
-      [config],
+      [config, integrator],
     );
 
     return (
-      <AppProvider config={drawerConfig}>
+      <AppProvider config={widgetConfig}>
         <DrawerButton
           variant="contained"
           onClick={toggleDrawer}

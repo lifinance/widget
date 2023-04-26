@@ -1,10 +1,8 @@
-import {
-  ContentCopy as ContentCopyIcon,
-  ExpandMore as ExpandMoreIcon,
-  OpenInNewOutlined as OpenInNewOutlinedIcon,
-  PowerSettingsNewRounded as PowerSettingsIcon,
-  WalletOutlined as WalletOutlinedIcon,
-} from '@mui/icons-material';
+import ContentCopyIcon from '@mui/icons-material/ContentCopyRounded';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import OpenInNewIcon from '@mui/icons-material/OpenInNewRounded';
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNewRounded';
+import WalletIcon from '@mui/icons-material/Wallet';
 import { Avatar, Button, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -39,7 +37,7 @@ const ConnectButton = () => {
   };
   return (
     <WalletButton
-      endIcon={<WalletOutlinedIcon />}
+      endIcon={<WalletIcon />}
       onClick={
         !pathname.includes(navigationRoutes.selectWallet) ? connect : undefined
       }
@@ -112,13 +110,13 @@ const ConnectedButton = () => {
           href={`${chain?.metamask.blockExplorerUrls[0]}address/${account.address}`}
           target="_blank"
         >
-          <OpenInNewOutlinedIcon />
+          <OpenInNewIcon />
           {t(`button.viewOnExplorer`)}
         </MenuItem>
         <Button
           onClick={handleDisconnect}
           fullWidth
-          startIcon={<PowerSettingsIcon />}
+          startIcon={<PowerSettingsNewIcon />}
           sx={{
             marginTop: 1,
           }}

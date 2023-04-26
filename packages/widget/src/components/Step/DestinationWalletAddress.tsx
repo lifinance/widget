@@ -1,12 +1,13 @@
-import type { Step } from '@lifi/sdk';
-import { LinkRounded as LinkIcon, WalletOutlined as WalletOutlinedIcon } from '@mui/icons-material';
+import type { LifiStep } from '@lifi/sdk';
+import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
+import WalletIcon from '@mui/icons-material/Wallet';
 import { Box, Link, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { CircularIcon } from './CircularProgress.style';
 import { LinkButton } from './StepProcess.style';
 
 export const DestinationWalletAddress: React.FC<{
-  step: Step;
+  step: LifiStep;
   toAddress: string;
   toAddressLink: string;
 }> = ({ step, toAddress, toAddressLink }) => {
@@ -21,7 +22,7 @@ export const DestinationWalletAddress: React.FC<{
         }}
       >
         <CircularIcon status={isDone ? 'DONE' : 'NOT_STARTED'}>
-          <WalletOutlinedIcon
+          <WalletIcon
             color={isDone ? 'success' : 'inherit'}
             sx={{
               position: 'absolute',
@@ -29,7 +30,7 @@ export const DestinationWalletAddress: React.FC<{
             }}
           />
         </CircularIcon>
-        <Typography ml={2} fontSize={14} fontWeight={400}>
+        <Typography mx={2} flex={1} fontSize={14} fontWeight={400}>
           {isDone
             ? t('swap.sentToAddress', {
                 address: toAddress,
@@ -38,25 +39,16 @@ export const DestinationWalletAddress: React.FC<{
                 address: toAddress,
               })}
         </Typography>
-        <Box
-          ml={2}
-          sx={{
-            display: 'flex',
-            flex: 1,
-            justifyContent: 'flex-end',
-          }}
+        <LinkButton
+          size="small"
+          edge="end"
+          LinkComponent={Link}
+          href={toAddressLink}
+          target="_blank"
+          rel="nofollow noreferrer"
         >
-          <LinkButton
-            size="small"
-            edge="end"
-            LinkComponent={Link}
-            href={toAddressLink}
-            target="_blank"
-            rel="nofollow noreferrer"
-          >
-            <LinkIcon />
-          </LinkButton>
-        </Box>
+          <LinkRoundedIcon />
+        </LinkButton>
       </Box>
     </Box>
   );

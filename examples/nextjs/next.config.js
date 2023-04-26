@@ -1,13 +1,8 @@
-const withTM = require('next-transpile-modules')([
-  '@lifi/widget',
-  '@lifi/wallet-management',
-]);
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  transpilePackages: ['@lifi/widget', '@lifi/wallet-management'],
 };
 
-// Please declare withTM as your last plugin (the outermost one)
-module.exports = withTM(nextConfig);
+module.exports = nextConfig;

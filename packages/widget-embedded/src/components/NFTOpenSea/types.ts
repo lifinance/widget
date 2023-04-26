@@ -139,6 +139,16 @@ export type OrdersQueryResponse = QueryCursors & {
 
 export type OrdersPostQueryResponse = { order: SerializedOrderV2 };
 
+export type FulfillmentDataResponse = {
+  protocol: string;
+  fulfillment_data: FulfillmentData;
+};
+
+export type FulfillmentData = {
+  transaction: Transaction;
+  orders: ProtocolData[];
+};
+
 /**
  * Events emitted by the SDK. There are five types:
  * 1. Transaction events, which tell you when a new transaction was

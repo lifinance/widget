@@ -1,5 +1,4 @@
-/* eslint-disable consistent-return */
-import { DeleteOutline as DeleteIcon } from '@mui/icons-material';
+import DeleteIcon from '@mui/icons-material/DeleteOutline';
 import {
   Button,
   Container,

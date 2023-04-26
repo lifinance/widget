@@ -4,7 +4,6 @@ import { version } from '../../config/version';
 import { useWidgetConfig } from '../../providers';
 import { HiddenUI } from '../../types';
 import { navigationRoutes } from '../../utils';
-import { LiFiLogo } from '../LiFiLogo';
 import { Link } from './PoweredBy.style';
 
 export const PoweredBy: React.FC = () => {
@@ -19,7 +18,8 @@ export const PoweredBy: React.FC = () => {
   return (
     <Box
       px={3}
-      py={hiddenUI?.includes(HiddenUI.PoweredBy) ? 1 : 2}
+      pt={1}
+      pb={hiddenUI?.includes(HiddenUI.PoweredBy) ? 1 : 2}
       sx={{
         display: 'flex',
         alignItems: 'flex-end',
@@ -27,17 +27,24 @@ export const PoweredBy: React.FC = () => {
       }}
     >
       {!hiddenUI?.includes(HiddenUI.PoweredBy) ? (
-        <Tooltip title={`v${version}`} placement="top" enterDelay={3000} arrow>
+        <Tooltip title={`v${version}`} placement="top" enterDelay={1000} arrow>
           <Link
             href="https://li.fi"
             target="_blank"
             underline="none"
             color="text.primary"
           >
-            <Typography color="text.secondary" fontSize={12} px={0.5}>
+            <Typography
+              color="text.secondary"
+              fontSize={12}
+              fontWeight={500}
+              px={0.5}
+            >
               Powered by
             </Typography>
-            <LiFiLogo variant="full" style={{ height: 16, width: 42 }} />
+            <Typography color="text.primary" fontSize={12} fontWeight={500}>
+              LI.FI
+            </Typography>
           </Link>
         </Tooltip>
       ) : null}

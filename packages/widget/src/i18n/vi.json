@@ -1,0 +1,237 @@
+{
+  "button": {
+    "auto": "Tự động",
+    "cancel": "Huỷ bỏ",
+    "connectWallet": "Kết nối ví",
+    "contactSupport": "Liên hệ hỗ trợ",
+    "continue": "Tiếp tục",
+    "copyAddress": "Sao chép địa chỉ",
+    "dark": "Tối",
+    "delete": "Xóa",
+    "disconnect": "Ngắt kết nối",
+    "done": "Hoàn thành",
+    "getGas": "Thiết lập gas",
+    "hide": "Ẩn",
+    "lifiSwap": "LI.FI Swap",
+    "light": "Sáng",
+    "max": "Tối đa",
+    "ok": "Ok",
+    "okay": "Okay",
+    "removeSwap": "Xoá",
+    "reset": "Đặt lại",
+    "resetSettings": "Đặt lại cài đặt",
+    "restartSwap": "Thiết lập lại",
+    "reviewGasSwap": "Xem lại gas swap",
+    "reviewSwap": "Xem lại Swap",
+    "seeDetails": "Xem chi tiết",
+    "showAll": "Hiển thị tất cả",
+    "startGasSwap": "Start gas swap",
+    "startSwap": "Bắt đầu Swap",
+    "swap": "Swap",
+    "tryAgain": "Thử lại",
+    "viewOnExplorer": "Xem tại Explorer"
+  },
+  "format": {
+    "currency": "{{value, currency(currency: USD)}}",
+    "number": "{{value, number(maximumFractionDigits: 9)}}"
+  },
+  "header": {
+    "activeSwaps": "Active swaps",
+    "checkout": "Thanh toán",
+    "from": "Swap từ",
+    "gas": "Gas",
+    "gasSwap": "Gas swap",
+    "routes": "Kết quả",
+    "selectChain": "Chọn chain",
+    "selectWallet": "Chọn ví",
+    "settings": "Cài đặt",
+    "swap": "Swap",
+    "swapDetails": "Thông tin swap",
+    "swapHistory": "Lịch sử Swap",
+    "to": "Swap từ",
+    "walletConnected": "Wallet connected"
+  },
+  "language": {
+    "name": "Tiếng Việt",
+    "title": "Ngôn ngữ"
+  },
+  "settings": {
+    "enabledBridges": "Số lượng cầu khả dụng",
+    "enabledExchanges": "Số lượng sàn giao dịch khả dụng",
+    "gasPrice": {
+      "fast": "Nhanh",
+      "normal": "Bình thường",
+      "slow": "Chậm",
+      "title": "Giá gas"
+    },
+    "routePriority": "Tuyền đường ưu tiên",
+    "showDestinationWallet": "Hiển thị địa chỉ ví nhận",
+    "slippage": "Trượt giá"
+  },
+  "swap": {
+    "crossStepDetails": "Chuyển từ {{from}} đến {{to}} thông qua {{tool}}",
+    "currentAmount": "Số lượng hiện tại",
+    "error": {
+      "message": {
+        "slippageThreshold": "Độ trượt giá lớn hơn ngưỡng xác định. Vui lòng yêu cầu một tuyến đường mới để nhận báo giá mới.",
+        "transactionFailed": "Vui lòng kiểm tra block explorer để biết thêm thông tin.",
+        "transactionNotSent": "Giao dịch chưa được gửi. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} tại {{chainName}} vẫn còn trong ví của bạn.",
+        "transactionRejected": "Cần có chữ ký để hoàn tất giao dịch. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} tại {{chainName}} vẫn còn trong ví của bạn.",
+        "unknown": "Vui lòng thử lại hoặc liên hệ hỗ trợ."
+      },
+      "title": {
+        "balanceIsTooLow": "Số dư quá thấp",
+        "chainSwitch": "Yêu cầu đổi chain",
+        "failed": "Việc Swap thất bại",
+        "gasLimitIsTooLow": "Giới hạn gas quá thấp",
+        "slippageNotMet": "Điều kiện trượt giá không được đáp ứng",
+        "transactionCanceled": "Giao dịch bị huỷ",
+        "transactionFailed": "Giao dịch không thành công",
+        "transactionRejected": "Yêu cầu chữ ký",
+        "transactionUnderpriced": "Giao dịch bị định giá thấp",
+        "transactionUnprepared": "Không thể tải giao dịch",
+        "unknown": "Xảy ra lỗi",
+        "walletAddressInvalid": "Địa chỉ ví không hợp lệ.",
+        "walletAddressRequired": "Yêu cầu địa chỉ ví.",
+        "walletEnsAddressInvalid": "Địa chỉ ví không hợp lệ hoặc mạng lưới không hỗ trợ ENS."
+      }
+    },
+    "estimatedTime": "{{value}}m",
+    "featuredTokens": "Featured tokens",
+    "from": "Từ",
+    "fromAmount": "Yêu cầu",
+    "gasCost": "Phí Gas",
+    "gasFeeEstimated": "phí Gas ước tính",
+    "gasFeePaid": "phí Gas đã trả",
+    "inProgress": "đang xử lý",
+    "info": {
+      "message": {
+        "autoRefuel": "Gas trên {{chainName}} chain của bạn đang thấp. Để tiếp tục, bạn nên có thêm gas để hoàn thành việc swap.",
+        "emptyActiveSwaps": "Các lệnh swap đang xử lý sẽ được hiện ở đây. Khi nào lệnh hoàn tất, bạn có thể kiểm tra lại tại mục lịch sử swap.",
+        "emptySwapHistory": "Lịch sử Swap chỉ được lưu trữ cục bộ và sẽ bị xóa nếu bạn xóa dữ liệu trình duyệt của mình.",
+        "emptyTokenList": "Chúng tôi không thể tìm được Token ở {{chainName}} chain hoặc số dư của bạn không có. Vui lòng thử tìm kiếm lại hoặc chọn một chain khác.",
+        "routeNotFound": "Vui lòng chọn lại cặp token khác."
+      },
+      "title": {
+        "autoRefuel": "Thiết lập Gas",
+        "emptyActiveSwaps": "Swap hiện không hoạt động",
+        "emptySwapHistory": "Không có lệnh Swap gần đây",
+        "routeNotFound": "Không có đường đi"
+      }
+    },
+    "nftStepDetails": "Mua NFT thông qua {{tool}}",
+    "onChain": "tại {{chainName}}",
+    "otherTokens": "Token khác",
+    "ownedBy": "Được sở hữu bởi",
+    "payWith": "Trả bằng",
+    "process": {
+      "crossChain": {
+        "actionRequired": "Vui lòng ký hoàn thành giao dịch",
+        "done": "Giao dịch bridge đã được xác nhận",
+        "pending": "Chờ giao dịch Bridge",
+        "started": "Chuẩn bị giao dịch Bridge"
+      },
+      "receivingChain": {
+        "done": "Bridge thành công",
+        "partial": "Bridge thành công 1 phần",
+        "pending": "Đạng chain đến",
+        "refunded": "Giao dịch Bridge đã được hoàn trả"
+      },
+      "swap": {
+        "actionRequired": "Vui lòng ký hoàn thành giao dịch",
+        "done": "Lệnh swap đã hoàn tất",
+        "pending": "Chờ giao dịch Swap",
+        "started": "Đang chuẩn bị giao dịch Swap"
+      },
+      "switchChain": {
+        "actionRequired": "Yêu cầu đổi chain",
+        "done": "Chuyển đổi chain thành công"
+      },
+      "tokenAllowance": {
+        "done": "Mã token đã được phê duyệt",
+        "pending": "Chờ phê duyệt quyền sử dụng token",
+        "started": "Thiết lập quyền sử dụng token"
+      }
+    },
+    "quotedAmount": "Số tiền trích dẫn",
+    "rateChange": "Thay đổi tỉ giá",
+    "receiving": "Đang nhận",
+    "refuelStepDetails": "Lấy gas thông qua {{tool}}",
+    "routes": "Bạn nhận",
+    "selectChain": "Chain",
+    "selectChainAndToken": "Chọn chain và token",
+    "selectToken": "Token",
+    "sendToAddress": "Gửi đến {{address}}",
+    "sendToWallet": "Gửi đến địa chỉ khác",
+    "sentToAddress": "Gửi đến {{address}}",
+    "stepBridge": "Bridge",
+    "stepDetails": "{{tool}} thông qua LI.FI",
+    "stepSwap": "Swap",
+    "stepSwapAndBridge": "Swap và Bridge",
+    "success": {
+      "message": {
+        "swapPartiallySuccessful": "Chúng tôi đã cố gắng hoàn thành việc hoán đổi, nhưng {{tool}} đã cạn thanh khoản cho token {{tokenSymbol}}.",
+        "swapSuccessful": "Hiện tại {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} trong ví {{walletAddress}} tại {{chainName}} chain."
+      },
+      "title": {
+        "gasSwapSuccessful": "Gas Swap thành công",
+        "refundIssued": "Đã Refund",
+        "swapPartiallySuccessful": "Swap thành công một phần",
+        "swapSuccessful": "Swap thành công"
+      }
+    },
+    "supportId": "Support ID",
+    "swapStepDetails": "Swap tại {{chain}} thông qua {{tool}}",
+    "swapping": "Đang Swap",
+    "tags": {
+      "cheapest": "Rẻ",
+      "fastest": "Nhanh",
+      "insurable": "Bảo hiểm",
+      "insurance": "Bảo hiểm",
+      "insured": "An toàn",
+      "recommended": "Khuyến nghị",
+      "safest": "An toàn"
+    },
+    "to": "Đến",
+    "tokenOnChain": "{{tokenSymbol}} tại {{chainName}}",
+    "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} tại {{chainName}}",
+    "tokenSearch": "Tìm kiếm token",
+    "valueLoss": "Bạn sẽ mất",
+    "walletAddressOrEns": "Địa chỉ hoặc tên miền ENS",
+    "warning": {
+      "message": {
+        "deleteActiveSwaps": "Các giao dịch đang hoạt động chỉ được lưu trữ cục bộ và không thể phục hồi nếu bạn xóa chúng.",
+        "deleteSwapHistory": "Lịch sử Swap chỉ lưu trữ cục bộ và không thể phục hồi khi bạn xoá chúng.",
+        "highValueLoss": "Giá trị của token nhận được đang thấp hơn rất nhiều so với token được swap và chi phí giao dịch.",
+        "insufficientFunds": "Bạn không có đủ tiền để thực hiện tác vụ này.",
+        "insufficientGas": "Bạn không đủ gas để thực hiện swap. Bạn cần thêm ít nhất:",
+        "rateChanged": "Tỉ lệ hoán đổi đã thay đổi. Để tiếp tục Swap, bạn sẽ chấp nhận tỉ lệ mới.",
+        "resetSettings": "Thao tác này sẽ đặt lại mức độ ưu tiên của tuyến đường, độ trượt giá, giá gas, bridge và sàn giao dịch."
+      },
+      "title": {
+        "deleteActiveSwaps": "Xoá tất cả các lệnh swap đang hoạt động?",
+        "deleteSwap": "Xoá lệnh swap?",
+        "deleteSwapHistory": "Xoá lịch sử Swap?",
+        "highValueLoss": "Tổn thất lớn",
+        "insufficientGas": "Không đủ gas",
+        "rateChanged": "Tỉ giá đã thay đổi",
+        "resetSettings": "Đặt lại cài đặt?"
+      }
+    }
+  },
+  "tooltip": {
+    "additionalProviderFee": "Cầu bổ sung, DEX và phí dịch vụ.",
+    "estimatedNetworkFee": "Phí mạng ước tính.",
+    "estimatedTime": "Thời gian thực hiện lệnh swap (phút).",
+    "notFound": {
+      "text": "Chúng tôi không thể tìm thấy trang này.",
+      "title": "404"
+    },
+    "numberOfSteps": "Một số bước swap. Mỗi bước có thể chứa 1-2 giao dịch yêu cầu chữ ký.",
+    "progressToNextUpdate": "Thông tin hiển thị sẽ tự động làm mới sau {{value}} giây. Bấm vào đây để cập nhật thủ công.",
+    "settingsModified": "Thiết lập (Đã điều chỉnh)"
+  },
+  "wallet": {
+    "extensionNotFound": "Chắc chắn rằng tiện ích trên trình duyệt {{name}} đã được kích hoạt tước khi chọn ví này."
+  }
+}

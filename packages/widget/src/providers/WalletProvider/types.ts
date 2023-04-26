@@ -8,7 +8,7 @@ export interface WalletContextProps {
   provider?: Provider;
   addChain(chainId: number): Promise<boolean>;
   addToken(chainId: number, token: Token): Promise<void>;
-  disconnect(): void;
+  disconnect(wallet?: Wallet): void;
   switchChain(chainId: number): Promise<boolean>;
   connect(wallet?: Wallet | undefined): Promise<void>;
 }

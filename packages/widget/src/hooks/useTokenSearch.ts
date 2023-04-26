@@ -20,16 +20,17 @@ export const useTokenSearch = (
           signal,
         },
       );
+
       if (token) {
         queryClient.setQueriesData<TokensResponse>(['tokens'], (data) => {
           if (
             data &&
-            !data.tokens[chainId as number].some(
+            !data.tokens[chainId as number]?.some(
               (t) => t.address === token.address,
             )
           ) {
             const clonedData = { ...data };
-            clonedData.tokens[chainId as number].push(token as Token);
+            clonedData.tokens[chainId as number]?.push(token as Token);
             return clonedData;
           }
         });

@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import type { MutableRefObject } from 'react';
 import { useLayoutEffect, useState } from 'react';
 import { createElementId, ElementId } from '../utils';

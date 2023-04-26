@@ -1,46 +1,18 @@
-/* eslint-disable consistent-return */
 import type { Token, TokenAmount } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
-import { useLiFi, useWallet } from '../providers';
+import { useWallet } from '../providers';
 import { formatTokenAmount } from '../utils';
+import { useGetTokenBalancesWithRetry } from './useGetTokenBalancesWithRetry';
 
 const defaultRefetchInterval = 30_000;
 
 export const useTokenBalance = (token?: Token, accountAddress?: string) => {
-  const lifi = useLiFi();
-  const { account } = useWallet();
+  const { account, provider } = useWallet();
   const queryClient = useQueryClient();
-  const walletAddress = accountAddress ?? account.address;
+  const walletAddress = accountAddress || account.address;
 
-  const getTokenBalancesWithRetry = useCallback(
-    async (
-      accountAddress: string,
-      tokens: Token[],
-      depth = 0,
-    ): Promise<TokenAmount[] | undefined> => {
-      try {
-        const tokenBalances = await lifi.getTokenBalances(
-          accountAddress as string,
-          tokens,
-        );
-        if (!tokenBalances.every((token) => token.blockNumber)) {
-          if (depth > 10) {
-            console.warn('Token balance backoff depth exceeded.');
-            return undefined;
-          }
-          await new Promise((resolve) => {
-            setTimeout(resolve, 1.5 ** depth * 100);
-          });
-          return getTokenBalancesWithRetry(accountAddress, tokens, depth + 1);
-        }
-        return tokenBalances;
-      } catch (error) {
-        //
-      }
-    },
-    [lifi],
-  );
+  const getTokenBalancesWithRetry = useGetTokenBalancesWithRetry(provider);
 
   const tokenBalanceQueryKey = useMemo(
     () => ['token-balance', walletAddress, token?.chainId, token?.address],

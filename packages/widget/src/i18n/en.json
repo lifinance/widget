@@ -1,6 +1,8 @@
 {
   "button": {
     "auto": "Auto",
+    "buy": "Buy",
+    "buyNow": "Buy now",
     "cancel": "Cancel",
     "connectWallet": "Connect wallet",
     "contactSupport": "Contact support",
@@ -12,6 +14,7 @@
     "done": "Done",
     "getGas": "Get gas",
     "hide": "Hide",
+    "learnMore": "Learn more",
     "lifiSwap": "LI.FI Swap",
     "light": "Light",
     "max": "max",
@@ -22,6 +25,7 @@
     "resetSettings": "Reset settings",
     "restartSwap": "Restart swap",
     "reviewGasSwap": "Review gas swap",
+    "reviewPurchase": "Review purchase",
     "reviewSwap": "Review swap",
     "seeDetails": "See details",
     "showAll": "Show all",
@@ -29,6 +33,7 @@
     "startSwap": "Start swap",
     "swap": "Swap",
     "tryAgain": "Try again",
+    "viewCoverage": "View coverage",
     "viewOnExplorer": "View on explorer"
   },
   "format": {
@@ -37,10 +42,14 @@
   },
   "header": {
     "activeSwaps": "Active swaps",
+    "bridge": "Bridge",
     "checkout": "Checkout",
     "from": "Swap from",
     "gas": "Gas",
     "gasSwap": "Gas swap",
+    "payWith": "Pay with",
+    "purchase": "Purchase",
+    "purchaseDetails": "Purchase details",
     "routes": "You get",
     "selectChain": "Select chain",
     "selectWallet": "Select your wallet",
@@ -73,6 +82,7 @@
     "currentAmount": "Current amount",
     "error": {
       "message": {
+        "allowanceRequired": "Transfer amount for {{tokenSymbol}} exceeds your current allowance. Please increase your allowance and try again.",
         "slippageThreshold": "The slippage is larger than the defined threshold. Please request a new route to get a fresh quote.",
         "transactionFailed": "Please check the block explorer for more information.",
         "transactionNotSent": "Transaction was not sent. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
@@ -80,6 +90,7 @@
         "unknown": "Please try again or contact support."
       },
       "title": {
+        "allowanceRequired": "Insufficient allowance",
         "balanceIsTooLow": "The balance is too low",
         "chainSwitch": "Chain switch required",
         "failed": "Swap failed",
@@ -104,14 +115,22 @@
     "gasFeeEstimated": "estimated gas fee",
     "gasFeePaid": "gas fee paid",
     "inProgress": "in progress",
+    "insurance": {
+      "bridgeExploits": "Bridge malfunctions, hacks or exploits",
+      "insure": "Insure 100% of tokens in transit.",
+      "insured": "You've insured 100% of tokens in transit:",
+      "slippageError": "Error in slippage for tokens received"
+    },
     "info": {
       "message": {
+        "autoRefuel": "You're low on {{chainName}} gas. By continuing, you'll get enough gas to complete the swap.",
         "emptyActiveSwaps": "Swaps in progress will appear here. Once completed, find them in swap history.",
         "emptySwapHistory": "Swap history is only stored locally and will be deleted if you clear your browser data.",
         "emptyTokenList": "We couldn't find tokens on {{chainName}} chain or you don't have any. Please try search again or choose another chain.",
         "routeNotFound": "Try another token combination."
       },
       "title": {
+        "autoRefuel": "Get gas",
         "emptyActiveSwaps": "No active swaps",
         "emptySwapHistory": "No recent swaps",
         "routeNotFound": "No routes available"
@@ -121,13 +140,15 @@
     "onChain": "on {{chainName}}",
     "otherTokens": "Other tokens",
     "ownedBy": "Owned by",
-    "payWith": "Pay with",
     "process": {
       "crossChain": {
         "actionRequired": "Please sign the transaction",
         "done": "Bridge transaction confirmed",
         "pending": "Waiting for bridge transaction",
         "started": "Preparing bridge transaction"
+      },
+      "nft": {
+        "done": "NFT purchased"
       },
       "receivingChain": {
         "done": "Bridge completed",
@@ -154,7 +175,7 @@
     "quotedAmount": "Quoted amount",
     "rateChange": "Rate change",
     "receiving": "Receiving",
-    "routes": "You get",
+    "refuelStepDetails": "Get gas via {{tool}}",
     "selectChain": "Chain",
     "selectChainAndToken": "Select chain and token",
     "selectToken": "Token",
@@ -162,15 +183,20 @@
     "sendToWallet": "Send to a different wallet",
     "sentToAddress": "Sent to {{address}}",
     "stepBridge": "Bridge",
+    "stepBridgeAndBuy": "Bridge and buy",
+    "stepDetails": "{{tool}} via LI.FI",
     "stepSwap": "Swap",
     "stepSwapAndBridge": "Swap and bridge",
+    "stepSwapAndBuy": "Swap and buy",
     "success": {
       "message": {
         "swapPartiallySuccessful": "We've tried to complete the swap, but {{tool}} ran out of liquidity for {{tokenSymbol}} token.",
+        "purchaseSuccessful": "You now own {{assetName}} in {{walletAddress}} wallet on {{chainName}} chain.",
         "swapSuccessful": "There are now {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} in {{walletAddress}} wallet on {{chainName}} chain."
       },
       "title": {
         "gasSwapSuccessful": "Gas swap successful",
+        "purchaseSuccessful": "Purchase successful",
         "refundIssued": "Refund issued",
         "swapPartiallySuccessful": "Swap partially successful",
         "swapSuccessful": "Swap successful"
@@ -180,11 +206,13 @@
     "swapStepDetails": "Swap on {{chain}} via {{tool}}",
     "swapping": "Swapping",
     "tags": {
-      "ALTERNATIVE": "ALTERNATIVE",
-      "CHEAPEST": "CHEAP",
-      "FASTEST": "FAST",
-      "RECOMMENDED": "RECOMMENDED",
-      "SAFEST": "SAFE"
+      "cheapest": "Cheap",
+      "fastest": "Fast",
+      "insurable": "Insurable",
+      "insurance": "Insurance",
+      "insured": "Insured",
+      "recommended": "Recommended",
+      "safest": "Safe"
     },
     "to": "To",
     "tokenOnChain": "{{tokenSymbol}} on {{chainName}}",
@@ -197,8 +225,8 @@
         "deleteActiveSwaps": "Active swaps are only stored locally and can't be recovered if you delete them.",
         "deleteSwapHistory": "Swap history is only stored locally and can't be recovered if you delete it.",
         "highValueLoss": "The value of the received tokens is significantly lower than the swapped tokens and transaction cost.",
-        "insufficientFunds": "You don't have enough funds to execute the swap.",
-        "insufficientGas": "You need to add at least:",
+        "insufficientFunds": "You don't have enough funds to complete the swap.",
+        "insufficientGas": "You don't have enough gas to complete the swap. You need to add at least:",
         "rateChanged": "The exchange rate has changed. By continuing the swap, you'll accept the new rate.",
         "resetSettings": "This will reset your route priority, slippage, gas price, enabled bridges and exchanges."
       },
@@ -214,6 +242,7 @@
     }
   },
   "tooltip": {
+    "additionalProviderFee": "Additional bridges, DEXs, and service fees.",
     "estimatedNetworkFee": "Estimated network fee.",
     "estimatedTime": "Estimated swap execution time in minutes.",
     "notFound": {

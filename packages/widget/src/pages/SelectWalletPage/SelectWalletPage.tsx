@@ -1,5 +1,5 @@
-import type { Wallet } from '@lifi/wallet-management';
 import { supportedWallets } from '@lifi/wallet-management';
+import type { Wallet } from '@lifi/wallet-management';
 import {
   Avatar,
   Button,
@@ -27,6 +27,15 @@ export const SelectWalletPage = () => {
     wallet?: Wallet;
   }>({ show: false });
 
+  // separate into installed and not installed wallets
+  const installedWallets = supportedWallets.filter((wallet) =>
+    wallet.installed(),
+  );
+
+  const notInstalledWallets = supportedWallets.filter(
+    (wallet) => !wallet.installed() && wallet.name !== 'Default Wallet', // always remove Default Wallet from not installed Wallets
+  );
+
   const closeDialog = () => {
     setWalletIdentity((state) => ({
       ...state,
@@ -36,10 +45,7 @@ export const SelectWalletPage = () => {
 
   const handleConnect = useCallback(
     async (wallet: Wallet) => {
-      const { ethereum } = window as any;
-      const identityCheckPassed = wallet.checkProviderIdentity({
-        provider: ethereum,
-      });
+      const identityCheckPassed = wallet.installed();
       if (!identityCheckPassed) {
         setWalletIdentity({
           show: true,
@@ -61,7 +67,7 @@ export const SelectWalletPage = () => {
           paddingRight: 1.5,
         }}
       >
-        {supportedWallets.map((wallet: Wallet) => (
+        {[...installedWallets, ...notInstalledWallets].map((wallet: Wallet) => (
           <ListItemButton
             key={wallet.name}
             onClick={() => handleConnect(wallet)}

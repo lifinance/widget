@@ -106,12 +106,14 @@
     "inProgress": "in corso",
     "info": {
       "message": {
+        "autoRefuel": "Livello basso di gas su {{chainName}}. Continuando avrai abbastanza gas per completare lo scambio.",
         "emptyActiveSwaps": "Gli scambi in corso verranno visualizzati qui. Una volta completati, saranno presenti nella cronologia di scambi.",
         "emptySwapHistory": "La cronologia di scambi viene memorizzata solo localmente e verrà cancellata se si cancellano i dati del browser.",
         "emptyTokenList": "Non siamo riusciti a trovare token sulla chain {{chainName}} o non ne hai. Riprova o scegli un'altra chain.",
         "routeNotFound": "Prova un'altra combinazione di token."
       },
       "title": {
+        "autoRefuel": "Ottieni gas",
         "emptyActiveSwaps": "Nessuno scambio attivo",
         "emptySwapHistory": "Nessuno scambio recente",
         "routeNotFound": "Nessuna rotta disponibile"
@@ -154,6 +156,7 @@
     "quotedAmount": "Totale quotato",
     "rateChange": "Tasso di scambio",
     "receiving": "In ricezione",
+    "refuelStepDetails": "Ottieni gas tramite {{tool}}",
     "routes": "Ottieni",
     "selectChain": "Chain",
     "selectChainAndToken": "Selezionare la chain ed il token",
@@ -162,6 +165,7 @@
     "sendToWallet": "Invia ad un altro portafoglio",
     "sentToAddress": "Inviati a {{address}}",
     "stepBridge": "Bridge",
+    "stepDetails": "{{tool}} tramite LI.FI",
     "stepSwap": "Scambio",
     "stepSwapAndBridge": "Scambia e bridge",
     "success": {
@@ -197,8 +201,8 @@
         "deleteActiveSwaps": "Gli scambi attivi vengono memorizzati solo localmente e non possono essere recuperati se vengono cancellati.",
         "deleteSwapHistory": "La cronologia degli scambi viene memorizzata solo localmente e, se cancellata, non può essere recuperata.",
         "highValueLoss": "Il valore dei token ricevuti è significativamente inferiore ai token scambiati più il costo della transazione.",
-        "insufficientFunds": "Non hai abbastanza fondi per eseguire lo scambio.",
-        "insufficientGas": "È necessario aggiungere almeno:",
+        "insufficientFunds": "Non hai abbastanza fondi per completare lo scambio.",
+        "insufficientGas": "Non hai abbastanza gas per completare lo scambio. Devi aggiungere almeno:",
         "rateChanged": "Il tasso di scambio è cambiato. Se procedi, confermi di accettare il nuovo tasso.",
         "resetSettings": "Questo porterà al ripristino della priorità di route, slittamento di prezzo, prezzo del gas, bridge abilitati ed exchanges."
       },
