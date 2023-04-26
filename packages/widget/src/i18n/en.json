@@ -82,14 +82,15 @@
     "currentAmount": "Current amount",
     "error": {
       "message": {
+        "allowanceRequired": "Transfer amount for {{tokenSymbol}} exceeds your current allowance. Please increase your allowance and try again.",
         "slippageThreshold": "The slippage is larger than the defined threshold. Please request a new route to get a fresh quote.",
         "transactionFailed": "Please check the block explorer for more information.",
         "transactionNotSent": "Transaction was not sent. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
         "transactionRejected": "Your signature is required to complete the transaction. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
-        "unknown": "Please try again or contact support.",
-        "allowanceRequired": "The allowance for selected {{tokenSymbol}} is too low. Please increase the allowance and try again."
+        "unknown": "Please try again or contact support."
       },
       "title": {
+        "allowanceRequired": "Insufficient allowance",
         "balanceIsTooLow": "The balance is too low",
         "chainSwitch": "Chain switch required",
         "failed": "Swap failed",
@@ -103,8 +104,7 @@
         "unknown": "Something went wrong",
         "walletAddressInvalid": "Wallet address is invalid.",
         "walletAddressRequired": "Wallet address is required.",
-        "walletEnsAddressInvalid": "Wallet address is invalid or network doesn't support ENS.",
-        "allowanceRequired": "Insufficient allowance"
+        "walletEnsAddressInvalid": "Wallet address is invalid or network doesn't support ENS."
       }
     },
     "estimatedTime": "{{value}}m",
