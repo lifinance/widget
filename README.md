@@ -54,21 +54,20 @@ yarn add @lifi/wallet-management
 
 Here is an example of a basic app using LI.FI Widget:
 
-```jsx
+```tsx
 import { LiFiWidget, WidgetConfig } from '@lifi/widget';
-import { useMemo } from 'react';
+
+const widgetConfig: WidgetConfig = {
+  containerStyle: {
+    border: '1px solid rgb(234, 234, 234)',
+    borderRadius: '16px',
+  },
+};
 
 export const WidgetPage = () => {
-  const widgetConfig: WidgetConfig = useMemo(() => {
-    return {
-      containerStyle: {
-        border: '1px solid rgb(234, 234, 234)',
-        borderRadius: '16px',
-      },
-    };
-  }, []);
-
-  return <LiFiWidget config={widgetConfig} />;
+  return (
+    <LiFiWidget integrator="Your dApp/company name" config={widgetConfig} />
+  );
 };
 ```
 
