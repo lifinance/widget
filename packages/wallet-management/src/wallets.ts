@@ -219,6 +219,12 @@ const tokenary: Wallet = new InjectedConnector({
   icon: walletIcons.tokenary,
 });
 
+const exodus: Wallet = new InjectedConnector({
+  name: 'Exodus',
+  installed: () => (window as any).ethereum?.[ProviderIdentityFlag.Exodus],
+  icon: walletIcons.exodus,
+});
+
 export const supportedWallets = [
   defaultWallet,
   metamask,
@@ -249,4 +255,5 @@ export const supportedWallets = [
   oneInch,
   tokenary,
   mathWallet,
+  exodus,
 ];
