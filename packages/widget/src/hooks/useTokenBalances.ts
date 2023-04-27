@@ -1,22 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
 import { useLiFi, useWallet } from '../providers';
 import type { Token } from '../types';
 import { formatTokenAmount } from '../utils';
 import { useFeaturedTokens } from './useFeaturedTokens';
 import { useTokens } from './useTokens';
 
-const defaultRefetchInterval = 30_000;
-const minRefetchInterval = 1000;
+const defaultRefetchInterval = 32_000;
 
 export const useTokenBalances = (selectedChainId?: number) => {
   const lifi = useLiFi();
   const { account } = useWallet();
   const featuredTokens = useFeaturedTokens(selectedChainId);
   const { tokens, isLoading } = useTokens(selectedChainId);
-  const [refetchInterval, setRefetchInterval] = useState(
-    defaultRefetchInterval,
-  );
 
   const isBalanceLoadingEnabled =
     Boolean(account.address) &&
@@ -34,17 +29,6 @@ export const useTokenBalances = (selectedChainId?: number) => {
         accountAddress as string,
         tokens!,
       );
-
-      if (!tokenBalances?.length) {
-        // Sometimes RPCs (e.g. Arbitrum) don't return balances on first call
-        // TODO: fix and remove backplane
-        setRefetchInterval((interval) =>
-          interval === defaultRefetchInterval
-            ? minRefetchInterval
-            : interval * 2,
-        );
-        throw Error('Could not get tokens balance.');
-      }
 
       const featuredTokenAddresses = new Set(
         featuredTokens?.map((token) => token.address),
@@ -87,8 +71,8 @@ export const useTokenBalances = (selectedChainId?: number) => {
     },
     {
       enabled: isBalanceLoadingEnabled,
-      refetchInterval,
-      staleTime: refetchInterval,
+      refetchInterval: defaultRefetchInterval,
+      staleTime: defaultRefetchInterval,
     },
   );
 
