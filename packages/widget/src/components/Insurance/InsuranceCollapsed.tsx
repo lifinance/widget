@@ -32,10 +32,7 @@ export const InsuranceCollapsed: React.FC<InsuranceProps> = ({
     },
   });
 
-  const toggleInsurance = (
-    _: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean,
-  ) => {
+  const toggleInsurance = (checked: boolean) => {
     if (insuredRoute) {
       if (checked) {
         setExecutableRoute(insuredRoute, insurableRouteId);

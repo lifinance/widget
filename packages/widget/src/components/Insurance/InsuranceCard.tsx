@@ -2,7 +2,7 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import { Box, Collapse, Link, Typography } from '@mui/material';
-import type { MouseEventHandler } from 'react';
+import type { ChangeEvent, MouseEventHandler } from 'react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { InsuraceLogo } from '../../icons';
@@ -19,6 +19,7 @@ export const InsuranceCard: React.FC<InsuranceCardProps> = ({
   ...props
 }) => {
   const { t } = useTranslation();
+  const [enabled, setEnabled] = useState(false);
   const [cardExpanded, setCardExpanded] = useState(
     status === RouteExecutionStatus.Idle,
   );
@@ -26,6 +27,11 @@ export const InsuranceCard: React.FC<InsuranceCardProps> = ({
   const handleExpand: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation();
     setCardExpanded((expanded) => !expanded);
+  };
+
+  const handleSwitch = (_: ChangeEvent<HTMLInputElement>, checked: boolean) => {
+    setEnabled(checked);
+    onChange?.(checked);
   };
 
   return (
@@ -40,7 +46,7 @@ export const InsuranceCard: React.FC<InsuranceCardProps> = ({
           </CardLabelTypography>
         </CardLabel>
         {status === RouteExecutionStatus.Idle ? (
-          <Switch onChange={onChange} />
+          <Switch onChange={handleSwitch} value={enabled} />
         ) : (
           <Box my={-0.5}>
             <CardIconButton onClick={handleExpand} size="small">
@@ -70,7 +76,12 @@ export const InsuranceCard: React.FC<InsuranceCardProps> = ({
                 ? t('swap.insurance.insure')
                 : t('swap.insurance.insured')}
             </Typography>
-            {status !== RouteExecutionStatus.Idle ? (
+            <Collapse
+              timeout={225}
+              in={enabled || status !== RouteExecutionStatus.Idle}
+              mountOnEnter
+              unmountOnExit
+            >
               <Box
                 sx={{
                   listStyleType: 'disc',
@@ -84,7 +95,7 @@ export const InsuranceCard: React.FC<InsuranceCardProps> = ({
                   {t('swap.insurance.slippageError')}
                 </Typography>
               </Box>
-            ) : null}
+            </Collapse>
             <Link
               href={
                 status === RouteExecutionStatus.Idle

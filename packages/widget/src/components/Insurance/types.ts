@@ -13,5 +13,5 @@ export interface InsuranceCardProps {
   feeAmountUsd?: string;
   status?: RouteExecutionStatus;
   insuranceCoverageId?: string;
-  onChange?: (_: React.ChangeEvent<HTMLInputElement>, checked: boolean) => void;
+  onChange?: (checked: boolean) => void;
 }
