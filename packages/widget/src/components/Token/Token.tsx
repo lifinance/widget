@@ -27,9 +27,6 @@ export const Token: React.FC<TokenProps & BoxProps> = ({ token, ...other }) => {
 
 export const TokenFallback: React.FC<TokenProps & BoxProps> = ({
   token,
-  connected,
-  step,
-  disableDescription,
   isLoading,
   ...other
 }) => {
