@@ -1,7 +1,7 @@
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
-import { Box, Collapse } from '@mui/material';
+import { Box, Collapse, Tooltip, Typography } from '@mui/material';
 import type { MouseEventHandler } from 'react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -36,20 +36,46 @@ export const SwapRouteCard: React.FC<
       {widgetVariant !== 'refuel' && (insurable || route.tags?.length) ? (
         <Box display="flex" alignItems="center" mb={2}>
           {insurable ? (
-            <CardLabel
-              type={
-                route.tags?.length && !cardExpanded
-                  ? 'insurance-icon'
-                  : 'insurance'
+            <Tooltip
+              title={
+                <Box component="span">
+                  <Typography fontSize={12}>
+                    {t('swap.insurance.insure')}
+                  </Typography>
+                  <Box
+                    sx={{
+                      listStyleType: 'disc',
+                      pl: 2,
+                    }}
+                  >
+                    <Typography fontSize={12} display="list-item">
+                      {t('swap.insurance.bridgeExploits')}
+                    </Typography>
+                    <Typography fontSize={12} display="list-item">
+                      {t('swap.insurance.slippageError')}
+                    </Typography>
+                  </Box>
+                </Box>
               }
+              placement="top"
+              enterDelay={400}
+              arrow
             >
-              <VerifiedUserIcon fontSize="inherit" />
-              {cardExpanded || !route.tags?.length ? (
-                <CardLabelTypography type="icon">
-                  {t(`swap.tags.insurable`)}
-                </CardLabelTypography>
-              ) : null}
-            </CardLabel>
+              <CardLabel
+                type={
+                  route.tags?.length && !cardExpanded
+                    ? 'insurance-icon'
+                    : 'insurance'
+                }
+              >
+                <VerifiedUserIcon fontSize="inherit" />
+                {cardExpanded || !route.tags?.length ? (
+                  <CardLabelTypography type="icon">
+                    {t(`swap.tags.insurable`)}
+                  </CardLabelTypography>
+                ) : null}
+              </CardLabel>
+            </Tooltip>
           ) : null}
           {route.tags?.length ? (
             <CardLabel type={active ? 'active' : undefined}>
