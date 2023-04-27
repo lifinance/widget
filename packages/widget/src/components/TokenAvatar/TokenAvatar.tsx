@@ -1,4 +1,4 @@
-import type { Chain, Token } from '@lifi/sdk';
+import type { Chain, StaticToken } from '@lifi/sdk';
 import type { SxProps, Theme } from '@mui/material';
 import { Avatar, Badge, Skeleton } from '@mui/material';
 import { useChain, useToken } from '../../hooks';
@@ -6,7 +6,7 @@ import { SmallAvatar, SmallAvatarSkeleton } from '../SmallAvatar';
 import { AvatarDefault, AvatarDefaultBadge } from './TokenAvatar.style';
 
 export const TokenAvatarFallback: React.FC<{
-  token?: Token;
+  token?: StaticToken;
   isLoading?: boolean;
   sx?: SxProps<Theme>;
 }> = ({ token, isLoading, sx }) => {
@@ -26,7 +26,7 @@ export const TokenAvatarFallback: React.FC<{
 };
 
 export const TokenAvatarBase: React.FC<{
-  token?: Token;
+  token?: StaticToken;
   chain?: Chain;
   isLoading?: boolean;
   sx?: SxProps<Theme>;
@@ -58,7 +58,7 @@ export const TokenAvatarBase: React.FC<{
 };
 
 export const TokenAvatar: React.FC<{
-  token?: Token;
+  token?: StaticToken;
   chain?: Chain;
   isLoading?: boolean;
   sx?: SxProps<Theme>;

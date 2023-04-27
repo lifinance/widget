@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { isItemAllowed, useLiFi, useWidgetConfig } from '../providers';
-import type { Token } from '../types';
+import type { TokenAmount } from '../types';
 import { useChains } from './useChains';
 import { useFeaturedTokens } from './useFeaturedTokens';
 
@@ -44,13 +44,13 @@ export const useTokens = (selectedChainId?: number) => {
     );
     const tokens = [
       ...(featuredTokens?.map((token) => {
-        (token as Token).featured = true;
+        (token as TokenAmount).featured = true;
         return token;
       }) ?? []),
       ...(filteredTokens?.filter(
         (token) => !featuredTokenAddresses.has(token.address),
       ) ?? []),
-    ] as Token[];
+    ] as TokenAmount[];
 
     return tokens;
     // eslint-disable-next-line react-hooks/exhaustive-deps

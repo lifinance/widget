@@ -86,7 +86,6 @@ export const widgetBaseConfig: WidgetConfig = {
         decimals: 9,
         chainId: 56,
         name: 'Chihuahua',
-        priceUSD: '2.8497281105098143e-11',
         logoURI:
           'https://s2.coinmarketcap.com/static/img/coins/64x64/21334.png',
       },

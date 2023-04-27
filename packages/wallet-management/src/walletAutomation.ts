@@ -1,8 +1,8 @@
 /* eslint-disable radix */
-import type { Token } from '@lifi/sdk';
+import type { StaticToken } from '@lifi/sdk';
 import {
-  getChainById,
   MetaMaskProviderErrorCode,
+  getChainById,
   prefixChainId,
 } from '@lifi/sdk';
 import type { Provider } from './types';
@@ -56,7 +56,7 @@ export const addChain = async (provider: Provider, chainId: number) => {
   return false;
 };
 
-export const addToken = async (provider: Provider, token: Token) => {
+export const addToken = async (provider: Provider, token: StaticToken) => {
   try {
     // wasAdded is a boolean. Like any RPC method, an error may be thrown.
     const wasAdded = await provider.request({
@@ -81,7 +81,7 @@ export const addToken = async (provider: Provider, token: Token) => {
 export const switchChainAndAddToken = async (
   provider: Provider,
   chainId: number,
-  token: Token,
+  token: StaticToken,
 ) => {
   const chainIdPrefixed = prefixChainId(chainId);
 

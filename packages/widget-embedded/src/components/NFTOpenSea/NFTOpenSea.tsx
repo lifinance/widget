@@ -1,3 +1,4 @@
+import type { ChainId, TokenAmount } from '@lifi/sdk';
 import type { WidgetContract } from '@lifi/widget';
 import { NFT, useWallet } from '@lifi/widget';
 import { Box, Typography } from '@mui/material';
@@ -10,7 +11,7 @@ import type {
   NFTOpenSeaProps,
   OrdersQueryResponse,
 } from './types';
-import { ChainId } from './types';
+import { ChainId as OpenSeaChainId } from './types';
 import { deserializeOrder } from './utils';
 
 export const NFTOpenSea: React.FC<NFTOpenSeaProps> = ({
@@ -86,7 +87,9 @@ export const NFTOpenSea: React.FC<NFTOpenSeaProps> = ({
           });
         } catch (error: any) {
           if (error.code === 'CALL_EXCEPTION') {
-            const switched = await switchChain(ChainId[network as NFTNetwork]);
+            const switched = await switchChain(
+              OpenSeaChainId[network as NFTNetwork],
+            );
             if (switched) {
               await fulfillOrder();
             } else {
@@ -108,13 +111,14 @@ export const NFTOpenSea: React.FC<NFTOpenSeaProps> = ({
           order?.maker.user?.username || order?.maker.address
         }`,
       };
-      const token = {
+      const token: TokenAmount = {
         symbol: order?.takerAssetBundle.assets[0]?.assetContract?.tokenSymbol!,
         amount: order?.currentPrice!,
         decimals: order?.takerAssetBundle.assets[0].decimals!,
         address: order?.takerAssetBundle.assets[0].tokenAddress!,
-        chainId: ChainId[network as NFTNetwork],
+        chainId: OpenSeaChainId[network as NFTNetwork] as number as ChainId,
         name: order?.takerAssetBundle.assets[0]?.assetContract.tokenSymbol!,
+        priceUSD: '',
       };
 
       return {

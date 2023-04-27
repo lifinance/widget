@@ -1,4 +1,4 @@
-import type { Token } from '@lifi/sdk';
+import type { StaticToken } from '@lifi/sdk';
 import { ethers } from 'ethers';
 import events from 'events';
 import type {
@@ -153,7 +153,7 @@ export class InjectedConnector extends events.EventEmitter implements Wallet {
     return addChain(this.windowProvider, chainId);
   }
 
-  public async addToken(chainId: number, token: Token) {
+  public async addToken(chainId: number, token: StaticToken) {
     if (window === undefined) {
       throw new Error('window is not defined. This should not have happened.');
     }

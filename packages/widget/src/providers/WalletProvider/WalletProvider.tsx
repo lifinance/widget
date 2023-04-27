@@ -1,5 +1,5 @@
 import type { Signer } from '@ethersproject/abstract-signer';
-import type { Token } from '@lifi/sdk';
+import type { StaticToken } from '@lifi/sdk';
 import {
   LiFiWalletManagement,
   readActiveWallets,
@@ -134,7 +134,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   );
 
   const addToken = useCallback(
-    async (chainId: number, token: Token) => {
+    async (chainId: number, token: StaticToken) => {
       if (walletManagement?.addToken) {
         return walletManagement.addToken(token, chainId);
       }

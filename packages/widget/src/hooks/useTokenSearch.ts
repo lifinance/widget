@@ -1,7 +1,7 @@
 import type { ChainId, TokensResponse } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useLiFi } from '../providers';
-import type { Token } from '../types';
+import type { TokenAmount } from '../types';
 
 export const useTokenSearch = (
   chainId?: number,
@@ -30,12 +30,12 @@ export const useTokenSearch = (
             )
           ) {
             const clonedData = { ...data };
-            clonedData.tokens[chainId as number]?.push(token as Token);
+            clonedData.tokens[chainId as number]?.push(token as TokenAmount);
             return clonedData;
           }
         });
       }
-      return token as Token;
+      return token as TokenAmount;
     },
     {
       enabled: Boolean(chainId && tokenQuery && enabled),

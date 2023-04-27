@@ -1,10 +1,11 @@
 import type { Signer } from '@ethersproject/abstract-signer';
 import type {
+  BaseToken,
   ChainKey,
   ConfigUpdate,
   Order,
   RouteOptions,
-  Token,
+  StaticToken,
 } from '@lifi/sdk';
 import type {
   Components,
@@ -63,7 +64,7 @@ export interface WidgetWalletManagement {
   connect(): Promise<Signer>;
   disconnect(): Promise<void>;
   switchChain?(chainId: number): Promise<Signer>;
-  addToken?(token: Token, chainId: number): Promise<void>;
+  addToken?(token: StaticToken, chainId: number): Promise<void>;
   addChain?(chainId: number): Promise<boolean>;
   signer?: Signer;
 }
@@ -148,9 +149,9 @@ export interface WidgetConfig {
     deny?: number[];
   };
   tokens?: {
-    featured?: Token[];
-    allow?: Token[];
-    deny?: (Partial<Token> & Pick<Token, 'address' | 'chainId'>)[];
+    featured?: StaticToken[];
+    allow?: BaseToken[];
+    deny?: BaseToken[];
   };
   languages?: {
     default?: LanguageKey;

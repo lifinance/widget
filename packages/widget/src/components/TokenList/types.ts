@@ -1,7 +1,6 @@
-import type { TokenAmount } from '@lifi/sdk';
 import type { MutableRefObject } from 'react';
 import type { SwapFormType } from '../../providers';
-import type { Token } from '../../types';
+import type { TokenAmount } from '../../types';
 
 export interface TokenListProps {
   formType: SwapFormType;
@@ -10,7 +9,7 @@ export interface TokenListProps {
 }
 
 export interface VirtualizedTokenListProps {
-  tokens: Token[];
+  tokens: TokenAmount[];
   featuredTokensLength?: number;
   scrollElementRef: MutableRefObject<HTMLElement | null>;
   isLoading: boolean;

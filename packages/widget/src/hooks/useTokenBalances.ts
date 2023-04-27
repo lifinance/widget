@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useLiFi, useWallet } from '../providers';
-import type { Token } from '../types';
+import type { TokenAmount } from '../types';
 import { formatTokenAmount } from '../utils';
 import { useFeaturedTokens } from './useFeaturedTokens';
 import { useTokens } from './useTokens';
@@ -34,12 +34,12 @@ export const useTokenBalances = (selectedChainId?: number) => {
         featuredTokens?.map((token) => token.address),
       );
 
-      const sortFn = (a: Token, b: Token) =>
+      const sortFn = (a: TokenAmount, b: TokenAmount) =>
         parseFloat(b.amount ?? '0') * parseFloat(b.priceUSD ?? '0') -
         parseFloat(a.amount ?? '0') * parseFloat(a.priceUSD ?? '0');
 
       const formattedTokens = (
-        (tokenBalances.length === 0 ? tokens : tokenBalances) as Token[]
+        (tokenBalances.length === 0 ? tokens : tokenBalances) as TokenAmount[]
       ).map((token) => {
         token.amount = formatTokenAmount(token.amount);
         return token;

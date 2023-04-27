@@ -1,5 +1,4 @@
-import type { Token } from '@lifi/sdk';
-
+import type { StaticToken } from '@lifi/sdk';
 import type { WidgetVariant } from '@lifi/widget';
 import { LiFiWidget } from '@lifi/widget';
 import {
@@ -140,7 +139,7 @@ export const App = () => {
             }
             throw Error('No signer object after chain switch');
           },
-          addToken: async (token: Token, chainId: number) => {
+          addToken: async (token: StaticToken, chainId: number) => {
             await METAMASK_WALLET!.addToken(chainId, token);
           },
           addChain: async (chainId: number) => {

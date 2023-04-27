@@ -1,4 +1,4 @@
-import type { Token } from '@lifi/sdk';
+import type { StaticToken } from '@lifi/sdk';
 import WalletConnectProvider from '@walletconnect/ethereum-provider';
 import { ethers } from 'ethers';
 import events from 'events';
@@ -116,7 +116,7 @@ export class WalletConnectConnector
     return addChain(this.provider, chainId);
   }
 
-  public async addToken(chainId: number, token: Token) {
+  public async addToken(chainId: number, token: StaticToken) {
     if (!this.provider) {
       throw new Error('provider is not defined.');
     }

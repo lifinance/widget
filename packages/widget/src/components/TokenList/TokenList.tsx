@@ -8,11 +8,11 @@ import {
   useTokenSearch,
 } from '../../hooks';
 import { SwapFormKey, SwapFormKeyHelper, useWallet } from '../../providers';
-import type { Token } from '../../types';
+import type { TokenAmount } from '../../types';
 import { TokenNotFound } from './TokenNotFound';
+import { VirtualizedTokenList } from './VirtualizedTokenList';
 import type { TokenListProps } from './types';
 import { useTokenSelect } from './useTokenSelect';
-import { VirtualizedTokenList } from './VirtualizedTokenList';
 
 export const TokenList: FC<TokenListProps> = ({
   formType,
@@ -37,7 +37,9 @@ export const TokenList: FC<TokenListProps> = ({
     featuredTokens,
   } = useTokenBalances(selectedChainId);
 
-  let filteredTokens = (tokensWithBalance ?? chainTokens ?? []) as Token[];
+  let filteredTokens = (tokensWithBalance ??
+    chainTokens ??
+    []) as TokenAmount[];
   const searchFilter = tokenSearchFilter?.toUpperCase() ?? '';
   filteredTokens = tokenSearchFilter
     ? filteredTokens.filter(

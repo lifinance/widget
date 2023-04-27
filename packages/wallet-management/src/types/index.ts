@@ -1,5 +1,5 @@
 import type { Signer } from '@ethersproject/abstract-signer';
-import type { Token } from '@lifi/sdk';
+import type { StaticToken } from '@lifi/sdk';
 import type { ethers } from 'ethers';
 import type events from 'events';
 import type EventEmitter from 'node:events';
@@ -55,7 +55,7 @@ export interface Wallet extends events.EventEmitter {
   disconnect: () => void;
   switchChain: (chainId: number) => Promise<boolean>;
   addChain: (chainId: number) => Promise<boolean>;
-  addToken: (chainId: number, token: Token) => Promise<boolean>;
+  addToken: (chainId: number, token: StaticToken) => Promise<boolean>;
 }
 
 export enum ProviderIdentityFlag {

@@ -1,3 +1,4 @@
+import type { TokenAmount } from '@lifi/sdk';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
@@ -26,7 +27,7 @@ export const SwapRouteCard: React.FC<
     setCardExpanded((expanded) => !expanded);
   };
 
-  const token =
+  const token: TokenAmount =
     widgetVariant === 'nft'
       ? { ...route.fromToken, amount: route.fromAmount }
       : { ...route.toToken, amount: route.toAmount };

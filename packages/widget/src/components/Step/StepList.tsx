@@ -1,4 +1,4 @@
-import type { Route } from '@lifi/sdk';
+import type { Route, TokenAmount } from '@lifi/sdk';
 import { Fragment } from 'react';
 import { StepDivider } from '../../components/StepDivider';
 import { Step } from './Step';
@@ -6,11 +6,11 @@ import { Step } from './Step';
 export const getStepList = (route?: Route) =>
   route?.steps.map((step, index, steps) => {
     const lastIndex = steps.length - 1;
-    const fromToken =
+    const fromToken: TokenAmount | undefined =
       index === 0
         ? { ...step.action.fromToken, amount: step.action.fromAmount }
         : undefined;
-    const toToken =
+    const toToken: TokenAmount | undefined =
       index === lastIndex
         ? {
             ...(step.execution?.toToken ?? step.action?.toToken),
