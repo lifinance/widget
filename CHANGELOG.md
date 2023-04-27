@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-beta.4](https://github.com/lifinance/widget/compare/v2.0.0-beta.3...v2.0.0-beta.4) (2023-04-27)
+
+
+### Features
+
+* add tooltip for insurance badge ([9ac2a76](https://github.com/lifinance/widget/commit/9ac2a76cd797fd58307ac55289f89a2ab65fa879))
+
+
+### Bug Fixes
+
+* correctly return balances on first call ([0b9b30e](https://github.com/lifinance/widget/commit/0b9b30e46e0a7b38afb56cabf454d5ec0f46d149))
+* hide history icon when HiddenUI.History is provided ([748c6cd](https://github.com/lifinance/widget/commit/748c6cd3e1ced30e159bcfe2caeba895de3dec1c))
+* insurance card should expand when enabled ([d6f47e7](https://github.com/lifinance/widget/commit/d6f47e7ad3e421f41e2c5d3a0be702e1b83c6d20))
+* show fallback token step when present ([8a19cb8](https://github.com/lifinance/widget/commit/8a19cb8bd1b8dcc1f79c05dd13782f5461399330))
+* update powered by look ([cccd168](https://github.com/lifinance/widget/commit/cccd1689e388910bfe957904c3bcd190f032aaaa))
+
 ## [2.0.0-beta.3](https://github.com/lifinance/widget/compare/v2.0.0-beta.2...v2.0.0-beta.3) (2023-04-21)
 
 
