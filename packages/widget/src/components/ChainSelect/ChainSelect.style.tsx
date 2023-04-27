@@ -11,7 +11,7 @@ export const ChainCard = styled(Card)({
 
 export const ChainContainer = styled(Box)(({ theme }) => ({
   display: 'grid',
-  gridTemplateColumns: 'repeat(5, 1fr)',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(52px, 1fr))',
   gridAutoRows: '56px',
   justifyContent: 'space-between',
   gap: theme.spacing(1.5),
