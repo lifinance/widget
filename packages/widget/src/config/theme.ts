@@ -1,8 +1,8 @@
 import { loadingButtonClasses } from '@mui/lab/LoadingButton';
 import type { PaletteMode, SimplePaletteColorOptions } from '@mui/material';
 import { touchRippleClasses } from '@mui/material/ButtonBase';
-import { common } from '@mui/material/colors';
 import { dialogActionsClasses } from '@mui/material/DialogActions';
+import { common } from '@mui/material/colors';
 import {
   alpha,
   createTheme as createMuiTheme,
@@ -294,6 +294,19 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
             fontSize: '0.75rem',
             color: theme.palette.text.secondary,
           }),
+        },
+      },
+      MuiTooltip: {
+        styleOverrides: {
+          tooltip: ({ theme }) => ({
+            backgroundColor: 'rgb(0 0 0 / 64%)',
+            backdropFilter: 'blur(3px)',
+            fontSize: '0.75rem',
+            padding: theme.spacing(1, 1.5),
+          }),
+          arrow: {
+            color: 'rgb(0 0 0 / 64%)',
+          },
         },
       },
     },
