@@ -28,6 +28,7 @@ import walletio from './walletio.svg';
 import xdefi from './xdefi.svg';
 import frontier from './frontier.svg';
 import placeholder from './placeholder.svg';
+import exodus from './exodus.svg';
 
 export const walletIcons = {
   mathwallet,
@@ -60,4 +61,5 @@ export const walletIcons = {
   trust,
   walletio,
   xdefi,
+  exodus,
 };
