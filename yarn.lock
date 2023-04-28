@@ -1555,9 +1555,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/babel-plugin@npm:^11.10.6":
-  version: 11.10.6
-  resolution: "@emotion/babel-plugin@npm:11.10.6"
+"@emotion/babel-plugin@npm:^11.10.8":
+  version: 11.10.8
+  resolution: "@emotion/babel-plugin@npm:11.10.8"
   dependencies:
     "@babel/helper-module-imports": ^7.16.7
     "@babel/runtime": ^7.18.3
@@ -1569,12 +1569,12 @@ __metadata:
     escape-string-regexp: ^4.0.0
     find-root: ^1.1.0
     source-map: ^0.5.7
-    stylis: 4.1.3
-  checksum: 3eed138932e8edf2598352e69ad949b9db3051a4d6fcff190dacbac9aa838d7ef708b9f3e6c48660625d9311dae82d73477ae4e7a31139feef5eb001a5528421
+    stylis: 4.1.4
+  checksum: b8e2ed0c68a2ea423c5c2efdcf37e0b482dcb74caba042d2987a058f151819f0574fb2298fba4f76fa23265e1975dcf337f1f59ad6f35a33db2f9bf1afe03ee0
   languageName: node
   linkType: hard
 
-"@emotion/cache@npm:^11.10.5, @emotion/cache@npm:^11.10.7":
+"@emotion/cache@npm:^11.10.7":
   version: 11.10.7
   resolution: "@emotion/cache@npm:11.10.7"
   dependencies:
@@ -1584,6 +1584,19 @@ __metadata:
     "@emotion/weak-memoize": ^0.3.0
     stylis: 4.1.3
   checksum: 6b1efed2dffc93dac419409d91f6d57a200d858ec5ffa4b7c30080fdbd93db431ff86bb779c5b8830b8373f3c5dd754d9beb386604ed2667c7d55608ff653dfc
+  languageName: node
+  linkType: hard
+
+"@emotion/cache@npm:^11.10.8":
+  version: 11.10.8
+  resolution: "@emotion/cache@npm:11.10.8"
+  dependencies:
+    "@emotion/memoize": ^0.8.0
+    "@emotion/sheet": ^1.2.1
+    "@emotion/utils": ^1.2.0
+    "@emotion/weak-memoize": ^0.3.0
+    stylis: 4.1.4
+  checksum: a67751db54077813ee3a011f255ee5c79eb375284cec8404866d44da904d69b037566047ca52549772b8038f8cd00ebd092c628ddc764fe89d6932c16afd71e3
   languageName: node
   linkType: hard
 
@@ -1610,13 +1623,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/react@npm:^11.10.6":
-  version: 11.10.6
-  resolution: "@emotion/react@npm:11.10.6"
+"@emotion/react@npm:^11.10.8":
+  version: 11.10.8
+  resolution: "@emotion/react@npm:11.10.8"
   dependencies:
     "@babel/runtime": ^7.18.3
-    "@emotion/babel-plugin": ^11.10.6
-    "@emotion/cache": ^11.10.5
+    "@emotion/babel-plugin": ^11.10.8
+    "@emotion/cache": ^11.10.8
     "@emotion/serialize": ^1.1.1
     "@emotion/use-insertion-effect-with-fallbacks": ^1.0.0
     "@emotion/utils": ^1.2.0
@@ -1627,7 +1640,7 @@ __metadata:
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: 4762042e39126ffaffe76052dc65c9bb0ba6b8893013687ba3cc13ed4dd834c31597f1230684c3c078e90aecc13ab6cd0e3cde0dec8b7761affd2571f4d80019
+  checksum: ac56ef6375fa3bc7acd5a62eb5b2cf9eb4b1586a6a06cb05caab11a516700cf2f7857e0ad65bac57abd74e1141388e01fe65238f2de0075a912e129271c658b8
   languageName: node
   linkType: hard
 
@@ -1651,12 +1664,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/styled@npm:^11.10.6":
-  version: 11.10.6
-  resolution: "@emotion/styled@npm:11.10.6"
+"@emotion/styled@npm:^11.10.8":
+  version: 11.10.8
+  resolution: "@emotion/styled@npm:11.10.8"
   dependencies:
     "@babel/runtime": ^7.18.3
-    "@emotion/babel-plugin": ^11.10.6
+    "@emotion/babel-plugin": ^11.10.8
     "@emotion/is-prop-valid": ^1.2.0
     "@emotion/serialize": ^1.1.1
     "@emotion/use-insertion-effect-with-fallbacks": ^1.0.0
@@ -1667,7 +1680,7 @@ __metadata:
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: ed0ee4bec3b63ee9c5eb8216b22646313ff1ada06c5183f128d25b73252126e9fde625e81c868be7ccd666b686a73076f923ce188dac25e93d5062ddffdad46f
+  checksum: ceff0ac12f92289ea8febb1c3b4b70c1f3e110354452b9f6ee6461a7c01a24a0e2f071eb4303a7a289aad5cc8b62096561a150b0b6ed096bb1fd3e8503633226
   languageName: node
   linkType: hard
 
@@ -2786,7 +2799,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lifi/wallet-management@^2.0.0-beta.3, @lifi/wallet-management@workspace:packages/wallet-management":
+"@lifi/wallet-management@^2.0.0-beta.4, @lifi/wallet-management@workspace:packages/wallet-management":
   version: 0.0.0-use.local
   resolution: "@lifi/wallet-management@workspace:packages/wallet-management"
   dependencies:
@@ -2810,12 +2823,12 @@ __metadata:
     "@esbuild-plugins/node-globals-polyfill": ^0.2.3
     "@ethersproject/abstract-signer": ^5.7.0
     "@lifi/sdk": ^2.0.0-beta.11
-    "@lifi/wallet-management": ^2.0.0-beta.3
-    "@lifi/widget": ^2.0.0-beta.4
+    "@lifi/wallet-management": ^2.0.0-beta.4
+    "@lifi/widget": ^2.0.0-beta.5
     "@mui/icons-material": ^5.11.16
     "@mui/lab": ^5.0.0-alpha.128
     "@mui/material": ^5.12.2
-    "@opensea/seaport-js": ^1.1.0
+    "@opensea/seaport-js": ^1.2.0
     "@tanstack/react-query": ^4.29.5
     "@vitejs/plugin-react": ^4.0.0
     bignumber.js: ^9.1.1
@@ -2841,8 +2854,8 @@ __metadata:
   dependencies:
     "@esbuild-plugins/node-globals-polyfill": ^0.2.3
     "@lifi/sdk": ^2.0.0-beta.11
-    "@lifi/wallet-management": ^2.0.0-beta.3
-    "@lifi/widget": ^2.0.0-beta.4
+    "@lifi/wallet-management": ^2.0.0-beta.4
+    "@lifi/widget": ^2.0.0-beta.5
     "@mui/icons-material": ^5.11.16
     "@mui/lab": ^5.0.0-alpha.128
     "@mui/material": ^5.12.2
@@ -2859,18 +2872,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@lifi/widget@^2.0.0-beta.4, @lifi/widget@workspace:packages/widget":
+"@lifi/widget@^2.0.0-beta.5, @lifi/widget@workspace:packages/widget":
   version: 0.0.0-use.local
   resolution: "@lifi/widget@workspace:packages/widget"
   dependencies:
-    "@emotion/react": ^11.10.6
-    "@emotion/styled": ^11.10.6
+    "@emotion/react": ^11.10.8
+    "@emotion/styled": ^11.10.8
     "@ethersproject/abstract-signer": ^5.7.0
     "@ethersproject/address": ^5.7.0
     "@ethersproject/experimental": ^5.7.0
     "@ethersproject/providers": ^5.7.2
     "@lifi/sdk": ^2.0.0-beta.11
-    "@lifi/wallet-management": ^2.0.0-beta.3
+    "@lifi/wallet-management": ^2.0.0-beta.4
     "@mui/icons-material": ^5.11.16
     "@mui/lab": ^5.0.0-alpha.128
     "@mui/material": ^5.12.2
@@ -3438,6 +3451,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nrwl/cli@npm:15.9.3":
+  version: 15.9.3
+  resolution: "@nrwl/cli@npm:15.9.3"
+  dependencies:
+    nx: 15.9.3
+  checksum: 7e311876825a04878baba44b73de6beb49398344fccf9de16ab0a6370e3f75eb9a469665a8b9ec3989e6f48a944f42b06dab53f851fd60e15e90385dbdf209c9
+  languageName: node
+  linkType: hard
+
 "@nrwl/devkit@npm:>=15.5.2 < 16":
   version: 15.9.2
   resolution: "@nrwl/devkit@npm:15.9.2"
@@ -3460,9 +3482,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nrwl/nx-darwin-arm64@npm:15.9.3":
+  version: 15.9.3
+  resolution: "@nrwl/nx-darwin-arm64@npm:15.9.3"
+  conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
 "@nrwl/nx-darwin-x64@npm:15.9.2":
   version: 15.9.2
   resolution: "@nrwl/nx-darwin-x64@npm:15.9.2"
+  conditions: os=darwin & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@nrwl/nx-darwin-x64@npm:15.9.3":
+  version: 15.9.3
+  resolution: "@nrwl/nx-darwin-x64@npm:15.9.3"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
@@ -3474,9 +3510,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nrwl/nx-linux-arm-gnueabihf@npm:15.9.3":
+  version: 15.9.3
+  resolution: "@nrwl/nx-linux-arm-gnueabihf@npm:15.9.3"
+  conditions: os=linux & cpu=arm
+  languageName: node
+  linkType: hard
+
 "@nrwl/nx-linux-arm64-gnu@npm:15.9.2":
   version: 15.9.2
   resolution: "@nrwl/nx-linux-arm64-gnu@npm:15.9.2"
+  conditions: os=linux & cpu=arm64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@nrwl/nx-linux-arm64-gnu@npm:15.9.3":
+  version: 15.9.3
+  resolution: "@nrwl/nx-linux-arm64-gnu@npm:15.9.3"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
@@ -3488,9 +3538,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nrwl/nx-linux-arm64-musl@npm:15.9.3":
+  version: 15.9.3
+  resolution: "@nrwl/nx-linux-arm64-musl@npm:15.9.3"
+  conditions: os=linux & cpu=arm64 & libc=musl
+  languageName: node
+  linkType: hard
+
 "@nrwl/nx-linux-x64-gnu@npm:15.9.2":
   version: 15.9.2
   resolution: "@nrwl/nx-linux-x64-gnu@npm:15.9.2"
+  conditions: os=linux & cpu=x64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@nrwl/nx-linux-x64-gnu@npm:15.9.3":
+  version: 15.9.3
+  resolution: "@nrwl/nx-linux-x64-gnu@npm:15.9.3"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
@@ -3502,6 +3566,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nrwl/nx-linux-x64-musl@npm:15.9.3":
+  version: 15.9.3
+  resolution: "@nrwl/nx-linux-x64-musl@npm:15.9.3"
+  conditions: os=linux & cpu=x64 & libc=musl
+  languageName: node
+  linkType: hard
+
 "@nrwl/nx-win32-arm64-msvc@npm:15.9.2":
   version: 15.9.2
   resolution: "@nrwl/nx-win32-arm64-msvc@npm:15.9.2"
@@ -3509,9 +3580,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nrwl/nx-win32-arm64-msvc@npm:15.9.3":
+  version: 15.9.3
+  resolution: "@nrwl/nx-win32-arm64-msvc@npm:15.9.3"
+  conditions: os=win32 & cpu=arm64
+  languageName: node
+  linkType: hard
+
 "@nrwl/nx-win32-x64-msvc@npm:15.9.2":
   version: 15.9.2
   resolution: "@nrwl/nx-win32-x64-msvc@npm:15.9.2"
+  conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@nrwl/nx-win32-x64-msvc@npm:15.9.3":
+  version: 15.9.3
+  resolution: "@nrwl/nx-win32-x64-msvc@npm:15.9.3"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -3524,6 +3609,17 @@ __metadata:
   bin:
     tao: index.js
   checksum: dca52e95004df7298dae2d7b167bbcb469d6a8baf9e01c6c2a58bbf99850b6805fd6630e654e042344f3c7480547aa1114b2d3afda2e976b5657a28d48902bd8
+  languageName: node
+  linkType: hard
+
+"@nrwl/tao@npm:15.9.3":
+  version: 15.9.3
+  resolution: "@nrwl/tao@npm:15.9.3"
+  dependencies:
+    nx: 15.9.3
+  bin:
+    tao: index.js
+  checksum: 35f1d12f70849b506b1845b120b96da03bab779de1a77de5dc74d331f037b97ec280486943c38854bb4f1480b1862f057d3f827f514f5dafeb865be950c9839a
   languageName: node
   linkType: hard
 
@@ -3697,14 +3793,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opensea/seaport-js@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@opensea/seaport-js@npm:1.1.0"
+"@opensea/seaport-js@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@opensea/seaport-js@npm:1.2.0"
   dependencies:
     "@0xsequence/multicall": ^0.39.0
     ethers: ^5.6.7
     merkletreejs: ^0.3.9
-  checksum: d478dfaf09dff194df36fd5604fbc1360c4ff376f005078fa5ff7ae3030a8bdb857fa7d3b25b90ba5013a50529eb099770cc242d617e4af4c6e9ffd566392ac3
+  checksum: d039ff00dea62000d4d3cab989378649443478c468210df5557841c78e54fac7e8e3f3171f5d62051caa045fcd0435ff98e3911e5abb96173f9cbc6573075915
   languageName: node
   linkType: hard
 
@@ -4161,10 +4257,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^18.16.1":
-  version: 18.16.1
-  resolution: "@types/node@npm:18.16.1"
-  checksum: 799026b949a48993cba7c9b81b2eabfdfb34c880744cb44c1c990fbedc9e315f3634d126eb2cf9a6e0795577c01016e2326d98565bef695ada9d363fadeb6946
+"@types/node@npm:^18.16.2":
+  version: 18.16.2
+  resolution: "@types/node@npm:18.16.2"
+  checksum: 7ad66d23b3b93885a9f879bff98e0196790ad35589b47a3d81b52db969ad17ee298082020296df5166c2d72d3cd6a4b9ab34d254483637d967944a4b3e6febdb
   languageName: node
   linkType: hard
 
@@ -12482,7 +12578,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nx@npm:15.9.2, nx@npm:>=15.5.2 < 16, nx@npm:^15.9.2":
+"nx@npm:15.9.2, nx@npm:>=15.5.2 < 16":
   version: 15.9.2
   resolution: "nx@npm:15.9.2"
   dependencies:
@@ -12560,6 +12656,87 @@ __metadata:
   bin:
     nx: bin/nx.js
   checksum: 5154d8a764fdcccc6ace70aec0a111580b5346de0f67a78b3e62ea8d05a2363b63f9bbd3a6c4f68df5a8b8c72918ec068c56d258f173406636bd43119c8d5823
+  languageName: node
+  linkType: hard
+
+"nx@npm:15.9.3, nx@npm:^15.9.3":
+  version: 15.9.3
+  resolution: "nx@npm:15.9.3"
+  dependencies:
+    "@nrwl/cli": 15.9.3
+    "@nrwl/nx-darwin-arm64": 15.9.3
+    "@nrwl/nx-darwin-x64": 15.9.3
+    "@nrwl/nx-linux-arm-gnueabihf": 15.9.3
+    "@nrwl/nx-linux-arm64-gnu": 15.9.3
+    "@nrwl/nx-linux-arm64-musl": 15.9.3
+    "@nrwl/nx-linux-x64-gnu": 15.9.3
+    "@nrwl/nx-linux-x64-musl": 15.9.3
+    "@nrwl/nx-win32-arm64-msvc": 15.9.3
+    "@nrwl/nx-win32-x64-msvc": 15.9.3
+    "@nrwl/tao": 15.9.3
+    "@parcel/watcher": 2.0.4
+    "@yarnpkg/lockfile": ^1.1.0
+    "@yarnpkg/parsers": ^3.0.0-rc.18
+    "@zkochan/js-yaml": 0.0.6
+    axios: ^1.0.0
+    chalk: ^4.1.0
+    cli-cursor: 3.1.0
+    cli-spinners: 2.6.1
+    cliui: ^7.0.2
+    dotenv: ~10.0.0
+    enquirer: ~2.3.6
+    fast-glob: 3.2.7
+    figures: 3.2.0
+    flat: ^5.0.2
+    fs-extra: ^11.1.0
+    glob: 7.1.4
+    ignore: ^5.0.4
+    js-yaml: 4.1.0
+    jsonc-parser: 3.2.0
+    lines-and-columns: ~2.0.3
+    minimatch: 3.0.5
+    npm-run-path: ^4.0.1
+    open: ^8.4.0
+    semver: 7.3.4
+    string-width: ^4.2.3
+    strong-log-transformer: ^2.1.0
+    tar-stream: ~2.2.0
+    tmp: ~0.2.1
+    tsconfig-paths: ^4.1.2
+    tslib: ^2.3.0
+    v8-compile-cache: 2.3.0
+    yargs: ^17.6.2
+    yargs-parser: 21.1.1
+  peerDependencies:
+    "@swc-node/register": ^1.4.2
+    "@swc/core": ^1.2.173
+  dependenciesMeta:
+    "@nrwl/nx-darwin-arm64":
+      optional: true
+    "@nrwl/nx-darwin-x64":
+      optional: true
+    "@nrwl/nx-linux-arm-gnueabihf":
+      optional: true
+    "@nrwl/nx-linux-arm64-gnu":
+      optional: true
+    "@nrwl/nx-linux-arm64-musl":
+      optional: true
+    "@nrwl/nx-linux-x64-gnu":
+      optional: true
+    "@nrwl/nx-linux-x64-musl":
+      optional: true
+    "@nrwl/nx-win32-arm64-msvc":
+      optional: true
+    "@nrwl/nx-win32-x64-msvc":
+      optional: true
+  peerDependenciesMeta:
+    "@swc-node/register":
+      optional: true
+    "@swc/core":
+      optional: true
+  bin:
+    nx: bin/nx.js
+  checksum: 40cec2df497786d590694910633f79c6651c363e5944fac601c62f8511d4ed78aa586b69975abdf7ecf1305f80f47e8b680777652cbfe080e757ab5f5d0d403f
   languageName: node
   linkType: hard
 
@@ -14266,7 +14443,7 @@ __metadata:
     "@types/big.js": ^6.1.6
     "@types/eslint": ^8.37.0
     "@types/events": ^3.0.0
-    "@types/node": ^18.16.1
+    "@types/node": ^18.16.2
     "@types/react": ^18.2.0
     "@types/react-dom": ^18.2.1
     "@types/uuid": ^9.0.1
@@ -14283,7 +14460,7 @@ __metadata:
     eslint-plugin-react: ^7.32.2
     eslint-plugin-react-hooks: ^4.6.0
     lerna: ^6.6.1
-    nx: ^15.9.2
+    nx: ^15.9.3
     prettier: ^2.8.8
     react: ^18.2.0
     react-dom: ^18.2.0
@@ -15105,6 +15282,13 @@ __metadata:
   version: 4.1.3
   resolution: "stylis@npm:4.1.3"
   checksum: d04dbffcb9bf2c5ca8d8dc09534203c75df3bf711d33973ea22038a99cc475412a350b661ebd99cbc01daa50d7eedcf0d130d121800eb7318759a197023442a6
+  languageName: node
+  linkType: hard
+
+"stylis@npm:4.1.4":
+  version: 4.1.4
+  resolution: "stylis@npm:4.1.4"
+  checksum: cd929bd89709def13b47e6c16b11317bf996a09b4e987fc45a235549c3adf49d41531e017d7df511daa095bc9468c923ae9094a934fe9c62440b7351874dafb7
   languageName: node
   linkType: hard
 

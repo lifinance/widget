@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-beta.5](https://github.com/lifinance/widget/compare/v2.0.0-beta.4...v2.0.0-beta.5) (2023-04-28)
+
+
+### Features
+
+* add exodus wallet ([#80](https://github.com/lifinance/widget/issues/80)) ([2d13333](https://github.com/lifinance/widget/commit/2d1333360b7de203966165390cd04ea30f853b7d))
+* add recommended tag tooltip ([6021bb3](https://github.com/lifinance/widget/commit/6021bb38aa17f9bc31a4631221eddd038c132cb8))
+
+
+### Bug Fixes
+
+* exchange rate hook is undefined on first render ([6fd0c06](https://github.com/lifinance/widget/commit/6fd0c065642c83d39163b5e8b948ae11d75e746b))
+
 ## [2.0.0-beta.4](https://github.com/lifinance/widget/compare/v2.0.0-beta.3...v2.0.0-beta.4) (2023-04-27)
 
 
