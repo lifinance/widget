@@ -1,3 +1,4 @@
+import type { ExchangeRateUpdateParams } from '@lifi/sdk';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Button, Tooltip } from '@mui/material';
 import { useCallback, useRef, useState } from 'react';
@@ -34,10 +35,17 @@ export const SwapPage: React.FC = () => {
   const tokenValueBottomSheetRef = useRef<BottomSheetBase>(null);
   const exchangeRateBottomSheetRef = useRef<ExchangeRateBottomSheetBase>(null);
 
+  const onAcceptExchangeRateUpdate = (
+    resolver: (value: boolean) => void,
+    data: ExchangeRateUpdateParams,
+  ) => {
+    exchangeRateBottomSheetRef.current?.open(resolver, data);
+  };
+
   const { route, status, executeRoute, restartRoute, deleteRoute } =
     useRouteExecution({
       routeId: routeId,
-      onAcceptExchangeRateUpdate: exchangeRateBottomSheetRef.current?.open,
+      onAcceptExchangeRateUpdate,
     });
 
   const handleExecuteRoute = useCallback(() => {
