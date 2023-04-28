@@ -251,6 +251,7 @@
     },
     "numberOfSteps": "A number of swap steps. Each step can contain 1-2 transactions that require a signature.",
     "progressToNextUpdate": "Displayed data will auto-refresh after {{value}} seconds. Click here to update manually.",
+    "recommended": "A cheap route that balances complexity and ease of use.",
     "settingsModified": "Settings (modified)"
   },
   "wallet": {

@@ -27,7 +27,11 @@ export const SwapRouteCardEssentials: React.FC<
           <Box component="span">
             {t(`tooltip.estimatedNetworkFee`)}
             {gasCosts.map((gas, index) => (
-              <Typography fontSize={12} key={`${gas.token.address}${index}`}>
+              <Typography
+                fontSize={12}
+                fontWeight="500"
+                key={`${gas.token.address}${index}`}
+              >
                 {gas.amount?.toFixed(9)} {gas.token.symbol} (
                 {t(`format.currency`, { value: gas.amountUSD })})
               </Typography>
@@ -57,7 +61,11 @@ export const SwapRouteCardEssentials: React.FC<
           <Box component="span">
             {t(`tooltip.additionalProviderFee`)}
             {feeCosts.map((fee, index) => (
-              <Typography fontSize={12} key={`${fee.token.address}${index}`}>
+              <Typography
+                fontSize={12}
+                fontWeight="500"
+                key={`${fee.token.address}${index}`}
+              >
                 {fee.amount?.toFixed(9)} {fee.token.symbol} (
                 {t(`format.currency`, { value: fee.amountUSD })})
               </Typography>

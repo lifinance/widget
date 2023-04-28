@@ -2,9 +2,10 @@ import type { TokenAmount } from '@lifi/sdk';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import type { TooltipProps } from '@mui/material';
 import { Box, Collapse, Tooltip, Typography } from '@mui/material';
 import type { MouseEventHandler } from 'react';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useWidgetConfig } from '../../providers';
 import type { CardProps } from '../Card';
@@ -32,36 +33,15 @@ export const SwapRouteCard: React.FC<
       ? { ...route.fromToken, amount: route.fromAmount }
       : { ...route.toToken, amount: route.toAmount };
 
+  const RecommendedTagTooltip =
+    route.tags?.[0] === 'RECOMMENDED' ? RecommendedTooltip : Fragment;
+
   const cardContent = (
     <Box flex={1}>
       {widgetVariant !== 'refuel' && (insurable || route.tags?.length) ? (
         <Box display="flex" alignItems="center" mb={2}>
           {insurable ? (
-            <Tooltip
-              title={
-                <Box component="span">
-                  <Typography fontSize={12}>
-                    {t('swap.insurance.insure')}
-                  </Typography>
-                  <Box
-                    sx={{
-                      listStyleType: 'disc',
-                      pl: 2,
-                    }}
-                  >
-                    <Typography fontSize={12} display="list-item">
-                      {t('swap.insurance.bridgeExploits')}
-                    </Typography>
-                    <Typography fontSize={12} display="list-item">
-                      {t('swap.insurance.slippageError')}
-                    </Typography>
-                  </Box>
-                </Box>
-              }
-              placement="top"
-              enterDelay={400}
-              arrow
-            >
+            <InsuranceTooltip>
               <CardLabel
                 type={
                   route.tags?.length && !cardExpanded
@@ -76,14 +56,16 @@ export const SwapRouteCard: React.FC<
                   </CardLabelTypography>
                 ) : null}
               </CardLabel>
-            </Tooltip>
+            </InsuranceTooltip>
           ) : null}
           {route.tags?.length ? (
-            <CardLabel type={active ? 'active' : undefined}>
-              <CardLabelTypography>
-                {t(`swap.tags.${route.tags[0].toLowerCase()}` as any)}
-              </CardLabelTypography>
-            </CardLabel>
+            <RecommendedTagTooltip>
+              <CardLabel type={active ? 'active' : undefined}>
+                <CardLabelTypography>
+                  {t(`swap.tags.${route.tags[0].toLowerCase()}` as any)}
+                </CardLabelTypography>
+              </CardLabel>
+            </RecommendedTagTooltip>
           ) : null}
         </Box>
       ) : null}
@@ -118,5 +100,56 @@ export const SwapRouteCard: React.FC<
     >
       {cardContent}
     </Card>
+  );
+};
+
+const InsuranceTooltip: React.FC<Pick<TooltipProps, 'children'>> = ({
+  children,
+}) => {
+  const { t } = useTranslation();
+  return (
+    <Tooltip
+      title={
+        <Box component="span">
+          <Typography fontSize={12} fontWeight="500">
+            {t('swap.insurance.insure')}
+          </Typography>
+          <Box
+            sx={{
+              listStyleType: 'disc',
+              pl: 2,
+            }}
+          >
+            <Typography fontSize={12} fontWeight="500" display="list-item">
+              {t('swap.insurance.bridgeExploits')}
+            </Typography>
+            <Typography fontSize={12} fontWeight="500" display="list-item">
+              {t('swap.insurance.slippageError')}
+            </Typography>
+          </Box>
+        </Box>
+      }
+      placement="top"
+      enterDelay={400}
+      arrow
+    >
+      {children}
+    </Tooltip>
+  );
+};
+
+const RecommendedTooltip: React.FC<Pick<TooltipProps, 'children'>> = ({
+  children,
+}) => {
+  const { t } = useTranslation();
+  return (
+    <Tooltip
+      title={t('tooltip.recommended')}
+      placement="top"
+      enterDelay={400}
+      arrow
+    >
+      {children}
+    </Tooltip>
   );
 };
