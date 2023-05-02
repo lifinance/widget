@@ -14,6 +14,7 @@ import { AppDefault } from './App';
 import { DrawerButton, DrawerButtonTypography } from './AppDrawer.style';
 import { AppProvider } from './AppProvider';
 import type { WidgetConfig, WidgetProps } from './types';
+import { HiddenUI } from './types';
 
 export interface WidgetDrawer {
   isOpen(): void;
@@ -64,15 +65,21 @@ export const AppDrawer = forwardRef<WidgetDrawer, WidgetProps>(
 
     return (
       <AppProvider config={widgetConfig}>
-        <DrawerButton
-          variant="contained"
-          onClick={toggleDrawer}
-          open={drawerOpen}
-          drawerProps={config?.containerStyle}
-        >
-          {drawerOpen ? <KeyboardArrowRightIcon /> : <KeyboardArrowLeftIcon />}
-          <DrawerButtonText open={drawerOpen} />
-        </DrawerButton>
+        {!widgetConfig.hiddenUI?.includes(HiddenUI.DrawerButton) ? (
+          <DrawerButton
+            variant="contained"
+            onClick={toggleDrawer}
+            open={drawerOpen}
+            drawerProps={config?.containerStyle}
+          >
+            {drawerOpen ? (
+              <KeyboardArrowRightIcon />
+            ) : (
+              <KeyboardArrowLeftIcon />
+            )}
+            <DrawerButtonText open={drawerOpen} />
+          </DrawerButton>
+        ) : null}
         <Drawer
           ref={elementRef}
           anchor="right"

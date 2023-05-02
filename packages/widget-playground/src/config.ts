@@ -22,8 +22,9 @@ export const widgetBaseConfig: WidgetConfig = {
   // toAddress: '0x552008c0f6870c2f77e5cC1d2eb9bdff03e30Ea0',
 
   variant: 'expandable',
+  subvariant: 'split',
   integrator: 'li.fi-playground',
-  // hiddenUI: ['poweredBy', 'language', 'appearance'],
+  // hiddenUI: ['poweredBy', 'language', 'appearance', 'drawerButton'],
   chains: {
     allow: [], // 1, 1285, 10, 56, 137
     deny: [],

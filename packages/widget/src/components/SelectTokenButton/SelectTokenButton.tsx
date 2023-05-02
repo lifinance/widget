@@ -2,7 +2,7 @@ import { Skeleton } from '@mui/material';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useChain, useToken } from '../../hooks';
+import { useChain, useSwapOnly, useToken } from '../../hooks';
 import type { SwapFormTypeProps } from '../../providers';
 import { SwapFormKeyHelper, useWidgetConfig } from '../../providers';
 import { navigationRoutes } from '../../utils';
@@ -18,6 +18,7 @@ export const SelectTokenButton: React.FC<
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { disabledUI, variant } = useWidgetConfig();
+  const swapOnly = useSwapOnly();
   const tokenKey = SwapFormKeyHelper.getTokenKey(formType);
   const [chainId, tokenAddress] = useWatch({
     name: [SwapFormKeyHelper.getChainKey(formType), tokenKey],
@@ -39,8 +40,10 @@ export const SelectTokenButton: React.FC<
   const onClick = !disabledUI?.includes(tokenKey) ? handleClick : undefined;
   const defaultPlaceholder =
     formType === 'to' && variant === 'refuel'
-      ? t(`header.selectChain`)
-      : t(`swap.selectChainAndToken`);
+      ? t('swap.selectChain')
+      : formType === 'to' && swapOnly
+      ? t('swap.selectToken')
+      : t('swap.selectChainAndToken');
   const cardTitle =
     formType === 'from' && variant === 'nft'
       ? t(`header.payWith`)

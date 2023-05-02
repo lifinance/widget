@@ -25,6 +25,8 @@ export type WidgetVariant =
   | 'refuel'
   | 'nft';
 
+export type WidgetSubvariant = 'default' | 'split';
+
 export enum DisabledUI {
   FromAmount = 'fromAmount',
   FromToken = 'fromToken',
@@ -35,12 +37,11 @@ export type DisabledUIType = `${DisabledUI}`;
 
 export enum HiddenUI {
   Appearance = 'appearance',
-  // FromAmount = 'fromAmount',
+  DrawerButton = 'drawerButton',
+  History = 'history',
   Language = 'language',
   PoweredBy = 'poweredBy',
   ToAddress = 'toAddress',
-  History = 'history',
-  // ToToken = 'toToken',
 }
 export type HiddenUIType = `${HiddenUI}`;
 
@@ -120,6 +121,7 @@ export interface WidgetConfig {
   insurance?: boolean;
 
   variant?: WidgetVariant;
+  subvariant?: WidgetSubvariant;
 
   appearance?: Appearance;
   theme?: ThemeConfig;

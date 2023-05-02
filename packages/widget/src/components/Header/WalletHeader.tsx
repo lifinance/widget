@@ -14,12 +14,16 @@ import { HeaderAppBar, WalletButton } from './Header.style';
 import { WalletMenu } from './WalletMenu';
 
 export const WalletHeader: React.FC = () => {
-  const { account } = useWallet();
   return (
     <HeaderAppBar elevation={0} sx={{ justifyContent: 'flex-end' }}>
-      {account.isActive ? <ConnectedButton /> : <ConnectButton />}
+      <WalletMenuButton />
     </HeaderAppBar>
   );
+};
+
+export const WalletMenuButton: React.FC = () => {
+  const { account } = useWallet();
+  return account.isActive ? <ConnectedButton /> : <ConnectButton />;
 };
 
 const ConnectButton = () => {

@@ -43,6 +43,7 @@ export const FormUpdater: React.FC<{
     );
 
     if (!fromChain && !isFromChainTouched && !isFromTokenTouched) {
+      resetField(SwapFormKey.FromChain, { defaultValue: account.chainId });
       setValue(SwapFormKey.FromChain, account.chainId);
       setValue(SwapFormKey.FromToken, '');
       if (isFromAmountTouched) {
@@ -50,6 +51,7 @@ export const FormUpdater: React.FC<{
       }
     }
     if (!toChain && !isToChainTouched && !isToTokenTouched) {
+      resetField(SwapFormKey.ToChain, { defaultValue: account.chainId });
       setValue(SwapFormKey.ToChain, account.chainId);
       setValue(SwapFormKey.ToToken, '');
     }
@@ -60,6 +62,7 @@ export const FormUpdater: React.FC<{
     fromChain,
     getFieldState,
     getValues,
+    resetField,
     setValue,
     toChain,
   ]);
