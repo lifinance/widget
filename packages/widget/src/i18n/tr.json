@@ -1,6 +1,8 @@
 {
   "button": {
     "auto": "Otomatik",
+    "buy": "",
+    "buyNow": "",
     "cancel": "İptal",
     "connectWallet": "Cüzdanı Bağla",
     "contactSupport": "Destek Ekibine Ulaş",
@@ -12,7 +14,8 @@
     "done": "Tamamlandı",
     "getGas": "Gaz al",
     "hide": "Gizle",
-    "lifiSwap": "LI.FI Takas",
+    "learnMore": "",
+    "lifiSwap": "LIF3 Swap",
     "light": "Açık",
     "max": "maksimum",
     "ok": "Tamam",
@@ -22,6 +25,7 @@
     "resetSettings": "Ayarları Sıfırla",
     "restartSwap": "Takası yeniden başlat",
     "reviewGasSwap": "Gaz takasını incele",
+    "reviewPurchase": "",
     "reviewSwap": "Takas işlemini incele",
     "seeDetails": "Detayları Gör",
     "showAll": "Tümünü Göster",
@@ -29,6 +33,7 @@
     "startSwap": "Takas işlemini başlat",
     "swap": "Takas et",
     "tryAgain": "Tekrar Deneyin",
+    "viewCoverage": "",
     "viewOnExplorer": "Tarayıcıda Görüntüle"
   },
   "format": {
@@ -37,10 +42,14 @@
   },
   "header": {
     "activeSwaps": "Aktif takas işlemleri",
+    "bridge": "Köprüle",
     "checkout": "Ödeme yap",
     "from": "Şundan takas et",
     "gas": "Gaz",
     "gasSwap": "Gaz takası",
+    "payWith": "",
+    "purchase": "",
+    "purchaseDetails": "",
     "routes": "Alacağınız",
     "selectChain": "Zincir Seç",
     "selectWallet": "Bir Cüzdan Seçin",
@@ -66,13 +75,14 @@
     },
     "routePriority": "Rota önceliği",
     "showDestinationWallet": "Hedef Adresi Göster",
-    "slippage": "Slipaj"
+    "slippage": "Sapma toleransı"
   },
   "swap": {
     "crossStepDetails": "{{from}} ile {{to}} ağları arasında {{tool}} ile gönderim sağlayın",
     "currentAmount": "Geçerli miktar",
     "error": {
       "message": {
+        "allowanceRequired": "",
         "slippageThreshold": "Slipaj, tanımlanan eşikten daha büyük. Yeni bir fiyat teklifi almak için lütfen yeni bir rota isteyin.",
         "transactionFailed": "Daha fazla bilgi için ağ tarayıcısını kontrol edin.",
         "transactionNotSent": "İşlem gönderilmedi. {{chainName}} üzerinde {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} cüzdanınızda bulunmaktadır.",
@@ -80,6 +90,7 @@
         "unknown": "Lütfen tekrar deneyin veya desteğe başvurun."
       },
       "title": {
+        "allowanceRequired": "",
         "balanceIsTooLow": "Bakiye çok düşük",
         "chainSwitch": "Lütfen ağı değiştirin",
         "failed": "İşlem Başarısız",
@@ -104,14 +115,22 @@
     "gasFeeEstimated": "Tahmini Gaz Ücreti",
     "gasFeePaid": "Ödenen Gaz ücreti",
     "inProgress": "işlem devam ediyor",
+    "insurance": {
+      "bridgeExploits": "",
+      "insure": "",
+      "insured": "",
+      "slippageError": ""
+    },
     "info": {
       "message": {
+        "autoRefuel": "{{chainName}} ağında yeterli gaz bulunmamaktadır. Devam ederseniz, takas işlemini tamamlamak için gereken miktarı alacaksınız.",
         "emptyActiveSwaps": "Devam eden işlemler burada görünecek. Tamamlandığında, işlem geçmişinden bulabilirsiniz",
         "emptySwapHistory": "İşlem geçmişi yalnızca yerel olarak saklanır ve tarayıcı verilerinizi temizlerseniz silinir.",
         "emptyTokenList": "{{chainName}} zincirinde token bulamadık veya sizde hiç token yok. Lütfen tekrar aramayı deneyin veya başka bir zincir seçin.",
         "routeNotFound": "Başka bir token kombinasyonu deneyin"
       },
       "title": {
+        "autoRefuel": "Gaz al",
         "emptyActiveSwaps": "Aktif işlem bulunamadı",
         "emptySwapHistory": "Yakın zamanda işlem bulunamadı",
         "routeNotFound": "Kullanılabilir bir yol bulunamadı"
@@ -121,13 +140,15 @@
     "onChain": "{{chainName}} üzerinde",
     "otherTokens": "Diğer jetonlar",
     "ownedBy": "Tarafından sahip olunan",
-    "payWith": "Şununla öde",
     "process": {
       "crossChain": {
         "actionRequired": "Lütfen işlemi onaylayın",
         "done": "Köprü işlemi teyit edildi",
         "pending": "Köprü işlemi bekleniyor",
         "started": "Köprü işlemi hazırlanıyor"
+      },
+      "nft": {
+        "done": ""
       },
       "receivingChain": {
         "done": "Köprü işlemi tamamlandı",
@@ -154,23 +175,28 @@
     "quotedAmount": "Teklif edilen tutar",
     "rateChange": "Değişiklik oranı",
     "receiving": "Alınıyor",
-    "routes": "Alacağınız",
-    "selectChain": "Zincir",
+    "refuelStepDetails": "{{tool}} aracılığıyla gaz al",
+    "selectChain": "Zincir Seç",
     "selectChainAndToken": "Ağı ve jetonu seçin",
-    "selectToken": "Jeton",
+    "selectToken": "",
     "sendToAddress": "Bu adrese gönder: {{address}}",
     "sendToWallet": "Farklı bir cüzdana gönder",
     "sentToAddress": "Bu adrese gönderildi: {{address}}",
     "stepBridge": "Köprüle",
+    "stepBridgeAndBuy": "",
+    "stepDetails": "LI.FI aracılığıyla {{tool}}",
     "stepSwap": "Takas et",
     "stepSwapAndBridge": "Takas et ve Köprüle",
+    "stepSwapAndBuy": "",
     "success": {
       "message": {
         "swapPartiallySuccessful": "Takas işlemini tamamlamaya çalıştık, ancak {{tool}} içerisinde, {{tokenSymbol}} için likidite bulunmuyor.",
+        "purchaseSuccessful": "",
         "swapSuccessful": "Şu anda {{chainName}} ağındaki {{walletAddress}} adresli cüzdanda {{amount, number(maximumFractionDigits: 9)}} adet {{tokenSymbol}} bulunmaktadır."
       },
       "title": {
         "gasSwapSuccessful": "Gaz takası başarılı",
+        "purchaseSuccessful": "",
         "refundIssued": "Geri ödeme yapıldı",
         "swapPartiallySuccessful": "Takas işlemi kısmen başarılı",
         "swapSuccessful": "Takas başarılı"
@@ -180,11 +206,13 @@
     "swapStepDetails": "{{chain}} üzerinde {{tool}} aracılığıyla takas et",
     "swapping": "Takas ediliyor",
     "tags": {
-      "ALTERNATIVE": "ALTERNATİF",
-      "CHEAPEST": "UCUZ",
-      "FASTEST": "HIZLI",
-      "RECOMMENDED": "TAVSİYE EDİLEN",
-      "SAFEST": "GÜVENLİ"
+      "cheapest": "Ucuz",
+      "fastest": "Hızlı",
+      "insurable": "Sigortalanabilir",
+      "insurance": "Sigorta",
+      "insured": "Sigortalı",
+      "recommended": "Önerilen",
+      "safest": "Güvenli"
     },
     "to": "Şuna",
     "tokenOnChain": "{{chainName}} üzerindeki {{tokenSymbol}}",
@@ -197,8 +225,8 @@
         "deleteActiveSwaps": "Etkin takaslar yalnızca yerel olarak depolanır ve silerseniz kurtarılamaz.",
         "deleteSwapHistory": "Takas geçmişi yalnızca yerel olarak depolanır ve silerseniz kurtarılamaz.",
         "highValueLoss": "Elde edilecek varlıkların değeri, takas edilen varlıklardan ve işlem maliyetinden önemli ölçüde düşüktür.",
-        "insufficientFunds": "Takas işlemini gerçekleştirmek için yeterli bakiyeniz bulunmamaktadır.",
-        "insufficientGas": "En azından şunları eklemelisiniz:",
+        "insufficientFunds": "Takas işlemini tamamlamak için yeterli bakiyeniz bulunmamaktadır.",
+        "insufficientGas": "Takas işlemini tamamlamak için adresinizde yeterli gaz bulunmamaktadır. En az şu kadar eklemeniz gerekmektedir:",
         "rateChanged": "Takas oranı değişti. İşleme devam ederek yeni oranı kabul etmiş olursunuz.",
         "resetSettings": "Bu, rota önceliğinizi, slipajı, gaz fiyatını, etkin köprüleri ve takasları sıfırlayacaktır."
       },
@@ -214,6 +242,7 @@
     }
   },
   "tooltip": {
+    "additionalProviderFee": "Ek köprü, DEX'ler ve hizmet ücretleri.",
     "estimatedNetworkFee": "Tahmini ağ ücreti.",
     "estimatedTime": "Dakika cinsinden tahmini işlem süresi.",
     "notFound": {
@@ -222,6 +251,7 @@
     },
     "numberOfSteps": "İşlem birkaç adımdan oluşmaktadır. Her adım, imza gerektiren 1-2 işlem içerebilir.",
     "progressToNextUpdate": "Görüntülenen veriler, {{value}} saniye sonra otomatik olarak yenilenecektir. Manuel olarak güncellemek için burayı tıklayın.",
+    "recommended": "",
     "settingsModified": "Ayarlar (değiştirilen)"
   },
   "wallet": {
