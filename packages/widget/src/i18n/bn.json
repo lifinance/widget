@@ -1,6 +1,8 @@
 {
   "button": {
     "auto": "স্বয়ংক্রিয়",
+    "buy": "",
+    "buyNow": "",
     "cancel": "বাতিল করুন",
     "connectWallet": "ওয়ালেট সংযুক্ত করুন",
     "contactSupport": "সাপোর্ট এ যোগাযোগ করুন",
@@ -23,6 +25,7 @@
     "resetSettings": "সেটিংস রিসেট করুন",
     "restartSwap": "সোওয়াপ পুনরায় চালু করুন",
     "reviewGasSwap": "গ্যাস সোওয়াপ পর্যালোচনা করুন",
+    "reviewPurchase": "",
     "reviewSwap": "সোওয়াপ পর্যালোচনা করুন",
     "seeDetails": "বিস্তারিত দেখুন",
     "showAll": "সবগুলো দেখুন",
@@ -39,10 +42,14 @@
   },
   "header": {
     "activeSwaps": "সোওয়াপ সক্রিয়",
+    "bridge": "ব্রিজ",
     "checkout": "চেকআউট",
     "from": "থেকে সোওয়াপ করুন",
     "gas": "গ্যাস",
     "gasSwap": "গ্যাস সোওয়াপ",
+    "payWith": "",
+    "purchase": "",
+    "purchaseDetails": "",
     "routes": "আপনি পান",
     "selectChain": "চেইন নির্বাচন করুন",
     "selectWallet": "আপনার ওয়ালেট নির্বাচন করুন",
@@ -75,6 +82,7 @@
     "currentAmount": "বর্তমান পরিমাণ",
     "error": {
       "message": {
+        "allowanceRequired": "",
         "slippageThreshold": "স্লিপেজ সংজ্ঞায়িত থ্রেশহোল্ডের চেয়ে বড়। একটি নতুন উদ্ধৃতি পেতে একটি নতুন রুট অনুরোধ করুন।",
         "transactionFailed": "আরও তথ্যের জন্য ব্লক এক্সপ্লোরার চেক করুন।",
         "transactionNotSent": "লেনদেন পাঠানো হয়নি। আপনার ওয়ালেটে {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} {{chainName}} থেকে যায়।",
@@ -82,6 +90,7 @@
         "unknown": "অনুগ্রহ করে আবার চেষ্টা করুন বা সাপোর্ট এর সাথে যোগাযোগ করুন।"
       },
       "title": {
+        "allowanceRequired": "",
         "balanceIsTooLow": "ব্যালেন্স খুব কম",
         "chainSwitch": "চেইন সুইচ প্রয়োজন",
         "failed": "সোওয়াপ ব্যর্থ হয়েছে",
@@ -131,13 +140,15 @@
     "onChain": "{{chainName}} -এ",
     "otherTokens": "অন্যান্য টোকেন",
     "ownedBy": "মালিক",
-    "payWith": "পে দিতে",
     "process": {
       "crossChain": {
         "actionRequired": "দয়াকরে লেনদেন স্বাক্ষর করুন",
         "done": "ব্রিজ লেনদেন নিশ্চিত করা হয়েছে",
         "pending": "ব্রিজ লেনদেনের জন্য অপেক্ষা করছে",
         "started": "ব্রিজ লেনদেনের প্রস্তুতি"
+      },
+      "nft": {
+        "done": ""
       },
       "receivingChain": {
         "done": "ব্রিজ সম্পন্ন হয়েছে",
@@ -165,24 +176,27 @@
     "rateChange": "রেট পরিবর্তন",
     "receiving": "রিসিভিং",
     "refuelStepDetails": "{{tool}} এর মাধ্যমে গ্যাস পান",
-    "routes": "আপনি পান",
-    "selectChain": "চেইন",
+    "selectChain": "চেইন নির্বাচন করুন",
     "selectChainAndToken": "চেইন এবং টোকেন নির্বাচন করুন",
-    "selectToken": "টোকেন",
+    "selectToken": "",
     "sendToAddress": "{{address}} এ পাঠান",
     "sendToWallet": "অন্য ওয়ালেটে পাঠান",
     "sentToAddress": "{{address}} এ পাঠানো হয়েছে",
     "stepBridge": "ব্রিজ",
+    "stepBridgeAndBuy": "",
     "stepDetails": "লি.ফাই এর মাধ্যমে {{tool}}",
     "stepSwap": "সোওয়াপ",
     "stepSwapAndBridge": "সোওয়াপ এবং ব্রিজ",
+    "stepSwapAndBuy": "",
     "success": {
       "message": {
         "swapPartiallySuccessful": "আমরা সোওয়াপ সম্পূর্ণ করার চেষ্টা করেছি, কিন্তু {{tokenSymbol}} টোকেনের জন্য {{tool}} -এর লিকুইডিটি ফুরিয়ে গেছে।",
+        "purchaseSuccessful": "",
         "swapSuccessful": "এখন {{chainName}} চেইনে {{walletAddress}} ওয়ালেটে {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} আছে।"
       },
       "title": {
         "gasSwapSuccessful": "গ্যাস সোওয়াপ সফল",
+        "purchaseSuccessful": "",
         "refundIssued": "রিফান্ড জারি করা হয়েছে",
         "swapPartiallySuccessful": "সোওয়াপ আংশিকভাবে সফল",
         "swapSuccessful": "সোওয়াপ সফল"
@@ -237,6 +251,7 @@
     },
     "numberOfSteps": "সোওয়াপ পদক্ষেপ একটি সংখ্যা. প্রতিটি ধাপে ১-২ টি লেনদেন থাকতে পারে যার জন্য একটি স্বাক্ষর প্রয়োজন।",
     "progressToNextUpdate": "প্রদর্শিত ডেটা {{value}} সেকেন্ড পরে স্বয়ংক্রিয়ভাবে রিফ্রেশ হবে। ম্যানুয়ালি আপডেট করতে এখানে ক্লিক করুন।",
+    "recommended": "",
     "settingsModified": "সেটিংস (পরিবর্তিত)"
   },
   "wallet": {
