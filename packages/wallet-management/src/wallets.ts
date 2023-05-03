@@ -229,6 +229,7 @@ export const supportedWallets = [
   defaultWallet,
   metamask,
   walletConnect,
+  exodus,
   tallyho,
   binance,
   frontier,
@@ -255,5 +256,4 @@ export const supportedWallets = [
   oneInch,
   tokenary,
   mathWallet,
-  exodus,
 ];
