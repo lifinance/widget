@@ -1,6 +1,6 @@
 import type { Route } from '@lifi/sdk';
-import type { RouteExecutionUpdate } from '@lifi/widget';
-import { useWidgetEvents, WidgetEvent } from '@lifi/widget';
+import type { HighValueLossUpdate, RouteExecutionUpdate } from '@lifi/widget';
+import { WidgetEvent, useWidgetEvents } from '@lifi/widget';
 import { useEffect } from 'react';
 
 export const WidgetEvents = () => {
@@ -19,12 +19,16 @@ export const WidgetEvents = () => {
     const onRouteExecutionFailed = (update: RouteExecutionUpdate) => {
       console.log('onRouteExecutionFailed fired.');
     };
+    const onRouteHighValueLoss = (update: HighValueLossUpdate) => {
+      console.log('onRouteHighValueLoss fired.');
+    };
     widgetEvents.on(WidgetEvent.RouteExecutionStarted, onRouteExecutionStarted);
     widgetEvents.on(WidgetEvent.RouteExecutionUpdated, onRouteExecutionUpdated);
     widgetEvents.on(
       WidgetEvent.RouteExecutionCompleted,
       onRouteExecutionCompleted,
     );
+    widgetEvents.on(WidgetEvent.RouteHighValueLoss, onRouteHighValueLoss);
     widgetEvents.on(WidgetEvent.RouteExecutionFailed, onRouteExecutionFailed);
     return () => widgetEvents.all.clear();
   }, [widgetEvents]);

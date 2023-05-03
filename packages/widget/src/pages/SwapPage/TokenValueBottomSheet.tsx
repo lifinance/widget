@@ -7,7 +7,8 @@ import { forwardRef, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import { BottomSheet } from '../../components/BottomSheet';
-import { useSetContentHeight } from '../../hooks';
+import { useSetContentHeight, useWidgetEvents } from '../../hooks';
+import { WidgetEvent } from '../../types/events';
 import { CenterContainer, IconCircle } from './StatusBottomSheet.style';
 
 interface TokenValueBottomSheetProps {
@@ -43,7 +44,19 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
 }) => {
   const { t } = useTranslation();
   const ref = useRef<HTMLElement>();
+  const emitter = useWidgetEvents();
   useSetContentHeight(ref);
+  emitter.emit(WidgetEvent.RouteHighValueLoss, {
+    fromAmountUsd: route.fromAmountUSD,
+    gasCostUSD: route.gasCostUSD,
+    toAmountUSD: route.toAmountUSD,
+    valueLoss: Big(route.toAmountUSD || 0)
+      .div(Big(route.fromAmountUSD || 0).plus(Big(route.gasCostUSD || 0)))
+      .minus(1)
+      .mul(100)
+      .round(2, Big.roundUp)
+      .toString(),
+  });
   return (
     <Box p={3} ref={ref}>
       <CenterContainer>
