@@ -1,6 +1,8 @@
 {
   "button": {
     "auto": "자동",
+    "buy": "",
+    "buyNow": "",
     "cancel": "취소",
     "connectWallet": "지갑 연결",
     "contactSupport": "고객 지원",
@@ -23,6 +25,7 @@
     "resetSettings": "설정 초기화",
     "restartSwap": "스왑 재시작",
     "reviewGasSwap": "가스 스왑 검토",
+    "reviewPurchase": "",
     "reviewSwap": "스왑 검토",
     "seeDetails": "자세히 보기",
     "showAll": "모두 보기",
@@ -39,10 +42,14 @@
   },
   "header": {
     "activeSwaps": "활성화된 스왑",
+    "bridge": "브릿지",
     "checkout": "주문",
     "from": "다음에서 스왑",
     "gas": "가스",
     "gasSwap": "가스 스왑",
+    "payWith": "",
+    "purchase": "",
+    "purchaseDetails": "",
     "routes": "받는 수량",
     "selectChain": "체인 선택",
     "selectWallet": "지갑 선택",
@@ -75,6 +82,7 @@
     "currentAmount": "현재 수량",
     "error": {
       "message": {
+        "allowanceRequired": "",
         "slippageThreshold": "슬리피지가 한계점보다 큽니다. 새로운 견적을 얻기 위해 새 경로를 요청하십시오.",
         "transactionFailed": "자세한 정보는 블록 탐색기에서 확인하세요.",
         "transactionNotSent": "트랜잭션 전송에 실패했습니다. {{chainName}}의 {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}이 지갑에 남아있습니다.",
@@ -82,6 +90,7 @@
         "unknown": "다시 시도하거나 고객 센터에 문의하십시오."
       },
       "title": {
+        "allowanceRequired": "",
         "balanceIsTooLow": "잔액이 부족합니다.",
         "chainSwitch": "체인을 변경하십시오",
         "failed": "스왑에 실패하였습니다",
@@ -131,13 +140,15 @@
     "onChain": "{{chainName}} 에서",
     "otherTokens": "다른 토큰",
     "ownedBy": "소유자: ",
-    "payWith": "지불 수단",
     "process": {
       "crossChain": {
         "actionRequired": "트랜잭션을 서명하십시오.",
         "done": "브릿지 트랜잭션이 확인됨",
         "pending": "브릿지 트랜잭션 대기 중",
         "started": "브릿지 트랜잭션 준비 중"
+      },
+      "nft": {
+        "done": ""
       },
       "receivingChain": {
         "done": "브릿지 완료",
@@ -165,24 +176,27 @@
     "rateChange": "비율 변경",
     "receiving": "받는 중",
     "refuelStepDetails": "{{tool}} 를 통해 가스 얻기",
-    "routes": "받는 수량",
-    "selectChain": "체인",
+    "selectChain": "체인 선택",
     "selectChainAndToken": "체인과 토큰 선택",
-    "selectToken": "토큰",
+    "selectToken": "",
     "sendToAddress": "{{address}}로 전송",
     "sendToWallet": "다른 지갑으로 전송",
     "sentToAddress": "{{address}}로 전송",
     "stepBridge": "브릿지",
+    "stepBridgeAndBuy": "",
     "stepDetails": "LI.FI 를 통한 {{tool}}",
     "stepSwap": "스왑",
     "stepSwapAndBridge": "스왑 그리고 브릿지",
+    "stepSwapAndBuy": "",
     "success": {
       "message": {
         "swapPartiallySuccessful": "스왑을 시도했지만, {{tokenSymbol}} 토큰에 대한 {{tool}}의 유동성이 부족합니다.",
+        "purchaseSuccessful": "",
         "swapSuccessful": "{{walletAddress}} 지갑의 {{chainName}} 체인에 {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}이(가) 있습니다."
       },
       "title": {
         "gasSwapSuccessful": "가스 스왑 성공",
+        "purchaseSuccessful": "",
         "refundIssued": "환불되었습니다",
         "swapPartiallySuccessful": "부분 스왑 성공",
         "swapSuccessful": "스왑 성공"
@@ -237,6 +251,7 @@
     },
     "numberOfSteps": "여러 스왑 단계. 각 단계 진행을 위해서는 1-2개의 트랜잭션 서명이 필요할 수 있습니다.",
     "progressToNextUpdate": "표시된 데이터가 {{value}} 초 후에 자동 새로고침 됩니다. 수동으로 업데이트 하려면 여기를 클릭하십시오.",
+    "recommended": "",
     "settingsModified": "설정 (수정됨)"
   },
   "wallet": {
