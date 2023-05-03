@@ -8,7 +8,7 @@ export enum WidgetEvent {
   RouteHighValueLoss = 'highValueLoss',
 }
 
-interface HighValueLossUpdate {
+export interface HighValueLossUpdate {
   fromAmountUsd: string;
   gasCostUSD: string | undefined;
   toAmountUSD: string;
