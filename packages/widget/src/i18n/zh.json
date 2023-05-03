@@ -1,6 +1,8 @@
 {
   "button": {
     "auto": "自动",
+    "buy": "购买",
+    "buyNow": "立即购买",
     "cancel": "取消",
     "connectWallet": "关联钱包",
     "contactSupport": "联系技术支持",
@@ -23,6 +25,7 @@
     "resetSettings": "恢复默认设置",
     "restartSwap": "重新兑换",
     "reviewGasSwap": "查看燃气费兑换",
+    "reviewPurchase": "审查购买",
     "reviewSwap": "查看该兑换",
     "seeDetails": "查看详情",
     "showAll": "显示所有",
@@ -39,10 +42,14 @@
   },
   "header": {
     "activeSwaps": "正在进行的兑换",
+    "bridge": "跨链",
     "checkout": "支付",
     "from": "兑换自",
     "gas": "燃气费",
     "gasSwap": "燃气费兑换",
+    "payWith": "支付方式",
+    "purchase": "购买",
+    "purchaseDetails": "交易明细",
     "routes": "您获得",
     "selectChain": "选择网络",
     "selectWallet": "选择你的钱包",
@@ -75,6 +82,7 @@
     "currentAmount": "当前余额",
     "error": {
       "message": {
+        "allowanceRequired": "{{tokenSymbol}} 的转账金额超过了您设置的支出上限。请提高该代币的支出上限，然后重试。",
         "slippageThreshold": "滑点大于预设值，请选择其他路由并获取新的价格。",
         "transactionFailed": "请查看区块浏览器以了解更多信息。",
         "transactionNotSent": "交易未发送，不用担心，{{chainName}} 链上{{amount, number(maximumFractionDigits: 9)}} 个{{tokenSymbol}} 仍在您的钱包里。",
@@ -82,6 +90,7 @@
         "unknown": "请再试一次或者联系支持。"
       },
       "title": {
+        "allowanceRequired": "余额不足",
         "balanceIsTooLow": "余额太低",
         "chainSwitch": "请切换当前网络",
         "failed": "兑换失败",
@@ -131,13 +140,15 @@
     "onChain": "在{{chainName}} 上",
     "otherTokens": "其他代币",
     "ownedBy": "属于",
-    "payWith": "付款方式为",
     "process": {
       "crossChain": {
         "actionRequired": "请签署此交易",
         "done": "跨链交易已确认",
         "pending": "跨链交易进行中",
         "started": "准备执行跨链交易"
+      },
+      "nft": {
+        "done": "NFT 已购买"
       },
       "receivingChain": {
         "done": "跨链完成",
@@ -165,24 +176,27 @@
     "rateChange": "波动率",
     "receiving": "接收",
     "refuelStepDetails": "通过 {{tool}} 获取燃气费",
-    "routes": "你会收到",
-    "selectChain": "网络",
+    "selectChain": "选择网络",
     "selectChainAndToken": "选择链和代币",
-    "selectToken": "代币",
+    "selectToken": "",
     "sendToAddress": "发送到{{address}}",
     "sendToWallet": "发送到另外的钱包",
     "sentToAddress": "发送到{{address}}",
     "stepBridge": "跨链",
+    "stepBridgeAndBuy": "跨链并购买",
     "stepDetails": "通过 LI.FI {{tool}}",
     "stepSwap": "兑换",
     "stepSwapAndBridge": "兑换和跨链",
+    "stepSwapAndBuy": "兑换并购买",
     "success": {
       "message": {
         "swapPartiallySuccessful": "我们试图完成兑换，但 {{tool}} 的 {{tokenSymbol}} 代币流动性不足。",
+        "purchaseSuccessful": "您的 {{walletAddress}} 钱包在 {{chainName}} 链上拥有该 {{assetName}} 财产",
         "swapSuccessful": "现在有 {{amount, number(maximumFractionDigits: 9)}} 个{{tokenSymbol}} 在{{chainName}} 链上的{{walletAddress}} 钱包里。"
       },
       "title": {
         "gasSwapSuccessful": "燃气费兑换成功",
+        "purchaseSuccessful": "购买成功",
         "refundIssued": "退款已受理",
         "swapPartiallySuccessful": "兑换部分完成",
         "swapSuccessful": "兑换成功"
@@ -194,9 +208,9 @@
     "tags": {
       "cheapest": "便宜的",
       "fastest": "快速的",
-      "insurable": "可保性",
+      "insurable": "可投保",
       "insurance": "保险",
-      "insured": "受保的",
+      "insured": "受保中",
       "recommended": "建议的",
       "safest": "最佳/安全"
     },
@@ -237,6 +251,7 @@
     },
     "numberOfSteps": "一系列的兑换步骤，每个步骤可能包含1-2个需要签名的交易。",
     "progressToNextUpdate": "数据将在{{value}} 秒后自动刷新，点击这里可以手动更新。",
+    "recommended": "一个价格低廉但是兼顾复杂性和易用性的路由方案。",
     "settingsModified": "设置(已修改)"
   },
   "wallet": {
