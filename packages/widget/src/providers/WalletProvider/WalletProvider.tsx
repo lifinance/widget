@@ -1,9 +1,12 @@
 import type { Signer } from '@ethersproject/abstract-signer';
-import type { StaticToken } from '@lifi/sdk';
+import { StaticToken, getChainById } from '@lifi/sdk';
 import {
   LiFiWalletManagement,
   readActiveWallets,
   supportedWallets,
+  switchChain as walletAgnosticSwitchChain,
+  switchChainAndAddToken as walletAgnosticAddToken,
+  addChain as walletAgnosticAddChain,
 } from '@lifi/wallet-management';
 import type { Wallet } from '@lifi/wallet-management/types';
 import type { FC, PropsWithChildren } from 'react';
@@ -17,6 +20,7 @@ import {
 } from 'react';
 import { useWidgetConfig } from '../WidgetProvider';
 import type { WalletAccount, WalletContextProps } from './types';
+import { Web3Provider } from '@ethersproject/providers';
 
 const liFiWalletManagement = new LiFiWalletManagement();
 
@@ -78,7 +82,6 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
       }
       await liFiWalletManagement.connect(wallet);
       wallet.on('walletAccountChanged', handleWalletUpdate);
-
       handleWalletUpdate(wallet);
     },
     [walletManagement],
@@ -99,51 +102,71 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const switchChain = useCallback(
     async (chainId: number) => {
-      if (walletManagement?.switchChain) {
-        const signer = await walletManagement.switchChain(chainId);
-        const account = await extractAccountFromSigner(signer);
-        setAccount(account);
-        return true;
-      }
       try {
-        await currentWallet?.switchChain(chainId);
-        handleWalletUpdate(currentWallet);
+        if (walletManagement?.switchChain) {
+          const signer = await walletManagement.switchChain(chainId);
+          const account = await extractAccountFromSigner(signer);
+          setAccount(account);
+        } else if (!currentWallet) {
+          const provider = account.signer?.provider as Web3Provider;
+          if (!provider) {
+            throw new Error('switch chain: No provider available');
+          }
+          await walletAgnosticSwitchChain(provider, chainId);
+        } else {
+          await currentWallet?.switchChain(chainId);
+          handleWalletUpdate(currentWallet);
+        }
         return true;
       } catch {
         return false;
       }
     },
-    [walletManagement, currentWallet],
+    [walletManagement, currentWallet, account?.signer?.provider],
   );
 
   const addChain = useCallback(
     async (chainId: number) => {
-      if (walletManagement?.addChain) {
-        return walletManagement.addChain(chainId);
-      }
       try {
-        await currentWallet?.addChain(chainId);
-        handleWalletUpdate(currentWallet);
+        if (walletManagement?.addChain) {
+          return walletManagement.addChain(chainId);
+        } else if (!currentWallet) {
+          const provider = account.signer?.provider as Web3Provider;
+          if (!provider) {
+            throw new Error('switch chain: No provider available');
+          }
+          await walletAgnosticAddChain(provider, chainId);
+        } else {
+          await currentWallet?.addChain(chainId);
+          handleWalletUpdate(currentWallet);
+        }
 
         return true;
       } catch {
         return false;
       }
     },
-    [walletManagement, currentWallet],
+    [walletManagement, currentWallet, account?.signer?.provider],
   );
 
   const addToken = useCallback(
     async (chainId: number, token: StaticToken) => {
-      if (walletManagement?.addToken) {
-        return walletManagement.addToken(token, chainId);
-      }
-      await currentWallet?.addToken(chainId, token);
-      handleWalletUpdate(currentWallet);
-
-      return;
+      try {
+        if (walletManagement?.addToken) {
+          return walletManagement.addToken(token, chainId);
+        } else if (!currentWallet) {
+          const provider = account.signer?.provider as Web3Provider;
+          if (!provider) {
+            throw new Error('switch chain: No provider available');
+          }
+          await walletAgnosticAddToken(provider, chainId, token);
+        } else {
+          await currentWallet?.addToken(chainId, token);
+          handleWalletUpdate(currentWallet);
+        }
+      } catch {}
     },
-    [walletManagement, currentWallet],
+    [walletManagement, currentWallet, account?.signer?.provider],
   );
 
   // keep widget in sync with changing external signer object

@@ -1,67 +1,52 @@
 /* eslint-disable radix */
+import { Web3Provider } from '@ethersproject/providers';
 import type { StaticToken } from '@lifi/sdk';
 import {
   MetaMaskProviderErrorCode,
   getChainById,
   prefixChainId,
 } from '@lifi/sdk';
-import type { Provider } from './types';
 
 export const switchChain = async (
-  provider: Provider,
+  provider: Web3Provider,
   chainId: number,
 ): Promise<boolean> => {
-  return new Promise((resolve, reject) => {
-    try {
-      provider
-        .request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: getChainById(chainId).metamask?.chainId }],
-        })
-        .catch((error: any) => {
-          if (error.code !== MetaMaskProviderErrorCode.userRejectedRequest) {
-            addChain(provider, chainId).then((result) => resolve(result));
-          } else {
-            reject(error);
-          }
-        });
-      provider.once('chainChanged', (id: string) => {
-        if (parseInt(id) === chainId) {
-          resolve(true);
-        }
-      });
-    } catch (error: any) {
-      // const ERROR_CODE_UNKNOWN_CHAIN = 4902
-      if (error.code !== MetaMaskProviderErrorCode.userRejectedRequest) {
-        addChain(provider, chainId).then((result) => resolve(result));
-      } else {
-        console.error(error);
-        resolve(false);
-      }
-    }
-  });
-};
-
-export const addChain = async (provider: Provider, chainId: number) => {
-  const params = getChainById(chainId).metamask;
   try {
-    await provider.request({
-      method: 'wallet_addEthereumChain',
-      params: [params],
-    });
+    await provider.send('wallet_switchEthereumChain', [
+      { chainId: getChainById(chainId).metamask?.chainId },
+    ]);
     return true;
   } catch (error: any) {
-    console.error(`Error adding chain ${chainId}: ${error.message}`);
+    // const ERROR_CODE_UNKNOWN_CHAIN = 4902
+    if (error.code !== MetaMaskProviderErrorCode.userRejectedRequest) {
+      // addChain(provider, chainId).then((result) => resolve(result));
+    } else {
+      console.error(error);
+      return false;
+    }
   }
   return false;
 };
 
-export const addToken = async (provider: Provider, token: StaticToken) => {
+export const addChain = async (provider: Web3Provider, chainId: number) => {
+  const params = getChainById(chainId).metamask;
+  provider
+    .send('wallet_switchEthereumChain', [params])
+    .then(() => {
+      console.log('in new');
+      return true;
+    })
+    .catch((error: any) => {
+      console.error(`Error adding chain ${chainId}: ${error.message}`);
+    });
+  return false;
+};
+
+export const addToken = async (provider: Web3Provider, token: StaticToken) => {
   try {
     // wasAdded is a boolean. Like any RPC method, an error may be thrown.
-    const wasAdded = await provider.request({
-      method: 'wallet_watchAsset',
-      params: {
+    const wasAdded = await provider.send('wallet_watchAsset', [
+      {
         type: 'ERC20', // Initially only supports ERC20, but eventually more!
         options: {
           address: token.address, // The address that the token is at.
@@ -70,7 +55,7 @@ export const addToken = async (provider: Provider, token: StaticToken) => {
           image: token.logoURI, // A string url of the token logo
         },
       },
-    });
+    ]);
     return wasAdded;
   } catch (error) {
     console.error(error);
@@ -79,14 +64,15 @@ export const addToken = async (provider: Provider, token: StaticToken) => {
 };
 
 export const switchChainAndAddToken = async (
-  provider: Provider,
+  provider: Web3Provider,
   chainId: number,
   token: StaticToken,
 ) => {
   const chainIdPrefixed = prefixChainId(chainId);
-
   try {
-    if (chainIdPrefixed !== provider.chainId) {
+    if (
+      chainIdPrefixed !== prefixChainId((await provider.getNetwork()).chainId)
+    ) {
       await switchChain(provider, chainId);
       provider.once('chainChanged', async (id: string) => {
         if (parseInt(id, 10) === chainId) {
