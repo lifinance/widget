@@ -1,5 +1,3 @@
-import EvStationOutlinedIcon from '@mui/icons-material/EvStationOutlined';
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { SwapFormKey } from '../../providers';
@@ -29,16 +27,8 @@ export const NavigationTabs = () => {
         aria-label="tabs"
         indicatorColor="primary"
       >
-        <NavbarTab
-          icon={<SwapHorizIcon />}
-          label={t('header.swap')}
-          disableRipple
-        />
-        <NavbarTab
-          label={t('header.bridge')}
-          icon={<EvStationOutlinedIcon />}
-          disableRipple
-        />
+        <NavbarTab label={t('header.swap')} disableRipple />
+        <NavbarTab label={t('header.bridge')} disableRipple />
       </NavbarTabs>
     </HeaderAppBar>
   );

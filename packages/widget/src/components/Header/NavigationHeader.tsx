@@ -95,7 +95,11 @@ export const NavigationHeader: React.FC = () => {
           </IconButton>
         ) : null}
         {splitSubvariant ? (
-          <Box flex={1}>{!walletManagement ? <WalletMenuButton /> : null}</Box>
+          <Box flex={1}>
+            {!hiddenUI?.includes(HiddenUI.WalletMenu) ? (
+              <WalletMenuButton />
+            ) : null}
+          </Box>
         ) : (
           <Typography
             fontSize={hasPath ? 18 : 24}

@@ -29,11 +29,11 @@ export const WalletMenuButton: React.FC = () => {
 const ConnectButton = () => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
-  const config = useWidgetConfig();
+  const { walletManagement, subvariant } = useWidgetConfig();
   const { connect: connectWallet } = useWallet();
   const navigate = useNavigate();
   const connect = async () => {
-    if (config.walletManagement) {
+    if (walletManagement) {
       await connectWallet();
       return;
     }
@@ -41,12 +41,14 @@ const ConnectButton = () => {
   };
   return (
     <WalletButton
-      endIcon={<WalletIcon />}
+      endIcon={subvariant !== 'split' ? <WalletIcon /> : undefined}
+      startIcon={subvariant === 'split' ? <WalletIcon /> : undefined}
       onClick={
         !pathname.includes(navigationRoutes.selectWallet) ? connect : undefined
       }
       sx={{
-        marginRight: -1.25,
+        marginRight: subvariant === 'split' ? 0 : -1.25,
+        marginLeft: subvariant === 'split' ? -1.25 : 0,
       }}
     >
       {t(`button.connectWallet`)}
@@ -56,6 +58,7 @@ const ConnectButton = () => {
 
 const ConnectedButton = () => {
   const { t } = useTranslation();
+  const { subvariant } = useWidgetConfig();
   const { account, disconnect } = useWallet();
   const walletAddress = shortenWalletAddress(account.address);
   const { chain } = useChain(account.chainId);
@@ -93,7 +96,8 @@ const ConnectedButton = () => {
           </Avatar>
         }
         sx={{
-          marginRight: -1.25,
+          marginRight: subvariant === 'split' ? 0 : -1.25,
+          marginLeft: subvariant === 'split' ? -1 : 0,
         }}
         onClick={handleClick}
       >

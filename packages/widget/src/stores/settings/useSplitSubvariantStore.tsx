@@ -10,12 +10,20 @@ import type {
 export const SplitSubvariantStoreContext =
   createContext<SplitSubvariantStore | null>(null);
 
+const shouldRecreateStore = (
+  store: SplitSubvariantStore,
+  props: SplitSubvariantProps,
+) => {
+  const { state } = store.getState();
+  return (!state && props.state) || (state && !props.state);
+};
+
 export function SplitSubvariantStoreProvider({
   children,
   ...props
 }: SplitSubvariantProviderProps) {
   const storeRef = useRef<SplitSubvariantStore>();
-  if (!storeRef.current) {
+  if (!storeRef.current || shouldRecreateStore(storeRef.current, props)) {
     storeRef.current = createSplitSubvariantStore(props);
   }
   return (

@@ -12,7 +12,7 @@ export const NavbarTabs = styled(Tabs)(({ theme }) => ({
   flex: 1,
   display: 'flex',
   alignItems: 'center',
-  height: 48,
+  height: 56,
   [`.${tabsClasses.flexContainer}`]: {
     alignItems: 'center',
   },
@@ -23,7 +23,7 @@ export const NavbarTabs = styled(Tabs)(({ theme }) => ({
     position: 'absolute',
     top: '50%',
     transform: 'translateY(-50%)',
-    height: 40,
+    height: 48,
     backgroundColor:
       theme.palette.mode === 'dark'
         ? theme.palette.common.black
@@ -43,8 +43,8 @@ export const NavbarTab = styled(Tab, {
   alignItems: 'center',
   flexDirection: 'row',
   textTransform: 'none',
-  height: 40,
-  minHeight: 40,
+  height: 48,
+  minHeight: 48,
   fontSize: '1rem',
   fontWeight: 700,
   color:
