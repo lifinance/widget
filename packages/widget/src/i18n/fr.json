@@ -1,6 +1,8 @@
 {
   "button": {
     "auto": "Auto",
+    "buy": "",
+    "buyNow": "",
     "cancel": "Annuler",
     "connectWallet": "Connecter un portefeuille",
     "contactSupport": "Contacter le support",
@@ -23,6 +25,7 @@
     "resetSettings": "Réinitialiser les paramètres",
     "restartSwap": "Redémarrer l'échange",
     "reviewGasSwap": "Vérifier le gaz d'échange",
+    "reviewPurchase": "",
     "reviewSwap": "Vérifier l'échange",
     "seeDetails": "Voir les détails",
     "showAll": "Afficher tout",
@@ -39,10 +42,14 @@
   },
   "header": {
     "activeSwaps": "Échanges actifs",
+    "bridge": "Bridge",
     "checkout": "Paiement",
     "from": "Échanger de",
     "gas": "Gaz",
     "gasSwap": "Échange de gaz",
+    "payWith": "",
+    "purchase": "",
+    "purchaseDetails": "",
     "routes": "Vous recevez",
     "selectChain": "Sélectionner la chaîne",
     "selectWallet": "Sélectionnez votre portefeuille",
@@ -75,6 +82,7 @@
     "currentAmount": "Montant actuel",
     "error": {
       "message": {
+        "allowanceRequired": "",
         "slippageThreshold": "L'effet de glissement est supérieur au seuil défini. Veuillez demander un nouvel itinéraire pour obtenir un nouveau devis.",
         "transactionFailed": "Veuillez consulter l'explorateur de blocs pour plus d'informations.",
         "transactionNotSent": "La transaction n'a pas été envoyée. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} sur {{chainName}} restent dans votre portefeuille.",
@@ -82,6 +90,7 @@
         "unknown": "Veuillez réessayer ou contacter le support."
       },
       "title": {
+        "allowanceRequired": "",
         "balanceIsTooLow": "Le solde est trop bas.",
         "chainSwitch": "Changement de chaîne nécessaire.",
         "failed": "L'échange a échoué.",
@@ -131,13 +140,15 @@
     "onChain": "sur {{chainName}}",
     "otherTokens": "Autres jetons",
     "ownedBy": "Propriétaire",
-    "payWith": "Payer avec",
     "process": {
       "crossChain": {
         "actionRequired": "Veuillez signer la transaction.",
         "done": "Transaction Bridge confirmée",
         "pending": "En attente de la transaction bridge",
         "started": "Préparation de la transaction bridge"
+      },
+      "nft": {
+        "done": ""
       },
       "receivingChain": {
         "done": "Bridge complété",
@@ -165,24 +176,27 @@
     "rateChange": "Taux de change",
     "receiving": "En cours de réception",
     "refuelStepDetails": "Obtenir du gaz via {{tool}}",
-    "routes": "Vous obtenez",
-    "selectChain": "Chaîne",
+    "selectChain": "Sélectionner la chaîne",
     "selectChainAndToken": "Sélectionnez la chaîne et le jeton",
-    "selectToken": "Jeton",
+    "selectToken": "",
     "sendToAddress": "Envoyer à {{address}}",
     "sendToWallet": "Envoyer vers un autre portefeuille",
     "sentToAddress": "Envoyé à {{address}}",
     "stepBridge": "Bridge",
+    "stepBridgeAndBuy": "",
     "stepDetails": "{{tool}} via LI.FI",
     "stepSwap": "Échanger",
     "stepSwapAndBridge": "Échange et Bridge",
+    "stepSwapAndBuy": "",
     "success": {
       "message": {
         "swapPartiallySuccessful": "Nous avons essayé de compléter l'échange, mais {{tool}} a manqué de liquidité pour le jeton {{tokenSymbol}}.",
+        "purchaseSuccessful": "",
         "swapSuccessful": "Il y a maintenant {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} dans le portefeuille {{walletAddress}} sur la chaîne {{chainName}}."
       },
       "title": {
         "gasSwapSuccessful": "Échange de gaz réussi",
+        "purchaseSuccessful": "",
         "refundIssued": "Remboursement émis",
         "swapPartiallySuccessful": "Échange partiellement réussi",
         "swapSuccessful": "Échange réussi"
@@ -237,6 +251,7 @@
     },
     "numberOfSteps": "Un certain nombre d'étapes d'échange. Chaque étape peut contenir 1 à 2 transactions nécessitant une signature.",
     "progressToNextUpdate": "Les données affichées seront automatiquement actualisées après {{value}} secondes. Cliquez ici pour les mettre à jour manuellement.",
+    "recommended": "",
     "settingsModified": "Paramètres (modifiés)"
   },
   "wallet": {
