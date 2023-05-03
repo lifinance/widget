@@ -1,6 +1,8 @@
 {
   "button": {
     "auto": "Auto",
+    "buy": "",
+    "buyNow": "",
     "cancel": "Annulla",
     "connectWallet": "Collega il portafoglio",
     "contactSupport": "Contatta l'assistenza",
@@ -12,6 +14,7 @@
     "done": "Fatto",
     "getGas": "Ottieni gas",
     "hide": "Nascondi",
+    "learnMore": "",
     "lifiSwap": "Scambio LI.FI",
     "light": "Chiaro",
     "max": "massimo",
@@ -22,6 +25,7 @@
     "resetSettings": "Ripristina impostazioni",
     "restartSwap": "Riavvia lo scambio",
     "reviewGasSwap": "Rivedi lo scambio di gas",
+    "reviewPurchase": "",
     "reviewSwap": "Rivedi lo scambio",
     "seeDetails": "Vedi dettagli",
     "showAll": "Mostra tutto",
@@ -29,6 +33,7 @@
     "startSwap": "Avvia lo scambio",
     "swap": "Scambio",
     "tryAgain": "Riprova",
+    "viewCoverage": "",
     "viewOnExplorer": "Visualizza sull'Explorer"
   },
   "format": {
@@ -37,10 +42,14 @@
   },
   "header": {
     "activeSwaps": "Scambi attivi",
+    "bridge": "Bridge",
     "checkout": "Checkout",
     "from": "Scambia da",
     "gas": "Gas",
     "gasSwap": "Scambio di gas",
+    "payWith": "",
+    "purchase": "",
+    "purchaseDetails": "",
     "routes": "Ottieni",
     "selectChain": "Seleziona la chain",
     "selectWallet": "Seleziona il tuo portafoglio",
@@ -73,6 +82,7 @@
     "currentAmount": "Quantità corrente",
     "error": {
       "message": {
+        "allowanceRequired": "",
         "slippageThreshold": "Lo slittamento di prezzo è più alto della soglia definita. Si prega di richiedere una nuova route per ottenere una quota aggiornata.",
         "transactionFailed": "Per ulteriori informazioni, consultare il block explorer.",
         "transactionNotSent": "La transazione non è stata inviata. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} su {{chainName}} sono ancora presenti nel tuo portafoglio.",
@@ -80,6 +90,7 @@
         "unknown": "Riprova o contatta il nostro supporto."
       },
       "title": {
+        "allowanceRequired": "",
         "balanceIsTooLow": "Il saldo è troppo basso",
         "chainSwitch": "È necessario cambiare la chain",
         "failed": "Scambio fallito",
@@ -104,6 +115,12 @@
     "gasFeeEstimated": "tassa di gas stimata",
     "gasFeePaid": "tassa di gas pagata",
     "inProgress": "in corso",
+    "insurance": {
+      "bridgeExploits": "",
+      "insure": "",
+      "insured": "",
+      "slippageError": ""
+    },
     "info": {
       "message": {
         "autoRefuel": "Livello basso di gas su {{chainName}}. Continuando avrai abbastanza gas per completare lo scambio.",
@@ -123,13 +140,15 @@
     "onChain": "su {{chainName}}",
     "otherTokens": "Altri token",
     "ownedBy": "Di proprietà di",
-    "payWith": "Paga con",
     "process": {
       "crossChain": {
         "actionRequired": "Si prega di firmare la transazione",
         "done": "Transazione di bridge approvata",
         "pending": "In attesa della transazione di bridge",
         "started": "Preparazione della transazione di bridge"
+      },
+      "nft": {
+        "done": ""
       },
       "receivingChain": {
         "done": "Bridge completato",
@@ -157,24 +176,27 @@
     "rateChange": "Tasso di scambio",
     "receiving": "In ricezione",
     "refuelStepDetails": "Ottieni gas tramite {{tool}}",
-    "routes": "Ottieni",
-    "selectChain": "Chain",
+    "selectChain": "Seleziona la chain",
     "selectChainAndToken": "Selezionare la chain ed il token",
-    "selectToken": "Token",
+    "selectToken": "",
     "sendToAddress": "Invia a {{address}}",
     "sendToWallet": "Invia ad un altro portafoglio",
     "sentToAddress": "Inviati a {{address}}",
     "stepBridge": "Bridge",
+    "stepBridgeAndBuy": "",
     "stepDetails": "{{tool}} tramite LI.FI",
     "stepSwap": "Scambio",
     "stepSwapAndBridge": "Scambia e bridge",
+    "stepSwapAndBuy": "",
     "success": {
       "message": {
         "swapPartiallySuccessful": "Abbiamo provato a completare lo scambio, ma {{tool}} ha terminato la liquidità per {{tokenSymbol}} token.",
+        "purchaseSuccessful": "",
         "swapSuccessful": "Sono presenti ora {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} nel portafoglio {{walletAddress}} sulla chain {{chainName}}."
       },
       "title": {
         "gasSwapSuccessful": "Scambio di swap avvenuto con successo",
+        "purchaseSuccessful": "",
         "refundIssued": "Rimborso inviato",
         "swapPartiallySuccessful": "Scambio parzialmente completato con successo",
         "swapSuccessful": "Scambio completato con successo"
@@ -184,11 +206,13 @@
     "swapStepDetails": "Scambio su {{chain}} tramite {{tool}}.",
     "swapping": "In fase di scambio",
     "tags": {
-      "ALTERNATIVE": "ALTERNATIVA",
-      "CHEAPEST": "ECONOMICO",
-      "FASTEST": "VELOCE",
-      "RECOMMENDED": "CONSIGLIATO",
-      "SAFEST": "SICURO"
+      "cheapest": "",
+      "fastest": "Veloce",
+      "insurable": "",
+      "insurance": "",
+      "insured": "",
+      "recommended": "",
+      "safest": ""
     },
     "to": "A",
     "tokenOnChain": "{{tokenSymbol}} su {{chainName}}",
@@ -218,6 +242,7 @@
     }
   },
   "tooltip": {
+    "additionalProviderFee": "",
     "estimatedNetworkFee": "Costo di rete stimato.",
     "estimatedTime": "Tempo di esecuzione dello scambio stimato in minuti.",
     "notFound": {
@@ -226,6 +251,7 @@
     },
     "numberOfSteps": "Una serie di fasi di scambio. Ogni fase può contenere 1-3 transazioni che richiedono una firma.",
     "progressToNextUpdate": "I dati visualizzati si aggiorneranno automaticamente dopo {{value}} secondi. Fai click qui per aggiornare manualmente.",
+    "recommended": "",
     "settingsModified": "Impostazioni (modificate)"
   },
   "wallet": {
