@@ -1,6 +1,8 @@
 {
   "button": {
     "auto": "Auto",
+    "buy": "",
+    "buyNow": "",
     "cancel": "Cancelar",
     "connectWallet": "Conectar billetera",
     "contactSupport": "Contactar soporte",
@@ -12,6 +14,7 @@
     "done": "Hecho",
     "getGas": "Obtener gas",
     "hide": "Esconder",
+    "learnMore": "",
     "lifiSwap": "LI.FI Swap",
     "light": "Luz",
     "max": "máximo",
@@ -22,6 +25,7 @@
     "resetSettings": "Reiniciar ajustes",
     "restartSwap": "Reiniciar swap",
     "reviewGasSwap": "Revisar swap de gas",
+    "reviewPurchase": "",
     "reviewSwap": "Revisar swap",
     "seeDetails": "Ver detalles",
     "showAll": "Mostrar todo",
@@ -29,6 +33,7 @@
     "startSwap": "Iniciar swap",
     "swap": "Swap",
     "tryAgain": "Intentar otra vez",
+    "viewCoverage": "",
     "viewOnExplorer": "Ver en explorador"
   },
   "format": {
@@ -37,10 +42,14 @@
   },
   "header": {
     "activeSwaps": "Swaps activos",
+    "bridge": "Cruzar",
     "checkout": "Checkout",
     "from": "Intercambiar de",
     "gas": "Gas",
     "gasSwap": "Swap de gas",
+    "payWith": "",
+    "purchase": "",
+    "purchaseDetails": "",
     "routes": "Usted obtiene",
     "selectChain": "Seleccione la cadena",
     "selectWallet": "Seleccione su billetera",
@@ -73,6 +82,7 @@
     "currentAmount": "Cantidad actual",
     "error": {
       "message": {
+        "allowanceRequired": "",
         "slippageThreshold": "El slippage es mayor que el umbral definido. Por favor, solicite una nueva ruta para obtener un presupuesto nuevo.",
         "transactionFailed": "Por favor consulte el explorador de bloques para obtener mas información",
         "transactionNotSent": "La transacción no fue enviada, sus fondos aún están en su billetera ({{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} en {{chainName}}).",
@@ -80,6 +90,7 @@
         "unknown": "Inténtalo de nuevo o ponte en contacto con soporte."
       },
       "title": {
+        "allowanceRequired": "",
         "balanceIsTooLow": "El balance es demasiado bajo",
         "chainSwitch": "Se requiere cambiar cadena.",
         "failed": "Swap ha fallado",
@@ -104,14 +115,22 @@
     "gasFeeEstimated": "tarifa de gas estimada",
     "gasFeePaid": "comisión de gas pagada",
     "inProgress": "en progreso",
+    "insurance": {
+      "bridgeExploits": "",
+      "insure": "",
+      "insured": "",
+      "slippageError": ""
+    },
     "info": {
       "message": {
+        "autoRefuel": "",
         "emptyActiveSwaps": "Los intercambios en curso aparecerán aquí. Una vez completado, encuéntrelos en el historial de intercambio.",
         "emptySwapHistory": "El historial de intercambio solo se almacena localmente y se eliminará si borra los datos de su navegador.",
         "emptyTokenList": "No pudimos encontrar tokens en la cadena {{chainName}} o no tienes ninguno. Por favor intente buscar de nuevo o elija otra cadena.",
         "routeNotFound": "Pruebe con otra combinación de tokens."
       },
       "title": {
+        "autoRefuel": "Obtener gas",
         "emptyActiveSwaps": "No hay intercambios activos",
         "emptySwapHistory": "No hay intercambios recientes",
         "routeNotFound": "No hay rutas disponibles"
@@ -121,13 +140,15 @@
     "onChain": "en {{chainName}}",
     "otherTokens": "Otros tokens",
     "ownedBy": "Propiedad de",
-    "payWith": "Pagar con",
     "process": {
       "crossChain": {
         "actionRequired": "Por favor firme la transacción.",
         "done": "Transacción aprobada.",
         "pending": "Esperando transacción.",
         "started": "Preparando transacción."
+      },
+      "nft": {
+        "done": ""
       },
       "receivingChain": {
         "done": "Fondos recibidos.",
@@ -154,23 +175,28 @@
     "quotedAmount": "Monto citado",
     "rateChange": "Cambios de precio detectado",
     "receiving": "Recibiendo",
-    "routes": "Usted obtiene",
-    "selectChain": "Cadena",
+    "refuelStepDetails": "",
+    "selectChain": "Seleccione la cadena",
     "selectChainAndToken": "Seleccione cadena y token",
-    "selectToken": "Token",
+    "selectToken": "",
     "sendToAddress": "Enviar a {{address}}",
     "sendToWallet": "Enviar a una billetera diferente",
     "sentToAddress": "Enviado a {{address}}",
     "stepBridge": "Cruzar",
+    "stepBridgeAndBuy": "",
+    "stepDetails": "",
     "stepSwap": "Swap",
     "stepSwapAndBridge": "Swap y cruzar",
+    "stepSwapAndBuy": "",
     "success": {
       "message": {
         "swapPartiallySuccessful": "Hemos intentado completar el swap, pero {{tool}} se quedó sin liquidez para el token {{tokenSymbol}}.",
+        "purchaseSuccessful": "",
         "swapSuccessful": "Ahora hay {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} en la billetera {{walletAddress}} en la cadena {{chainName}}."
       },
       "title": {
         "gasSwapSuccessful": "Swap de gas exitoso",
+        "purchaseSuccessful": "",
         "refundIssued": "Reembolso emitido",
         "swapPartiallySuccessful": "Swap parcialmente exitoso",
         "swapSuccessful": "Intercambio exitoso"
@@ -180,11 +206,13 @@
     "swapStepDetails": "Intercambiar en {{chain}} a través de {{tool}}",
     "swapping": "Intercambiando",
     "tags": {
-      "ALTERNATIVE": "ALTERNATIVO",
-      "CHEAPEST": "BARATO",
-      "FASTEST": "RÁPIDO",
-      "RECOMMENDED": "RECOMENDADO",
-      "SAFEST": "SEGURO"
+      "cheapest": "",
+      "fastest": "Rápido",
+      "insurable": "",
+      "insurance": "",
+      "insured": "",
+      "recommended": "",
+      "safest": ""
     },
     "to": "A",
     "tokenOnChain": "{{tokenSymbol}} en {{chainName}}",
@@ -197,8 +225,8 @@
         "deleteActiveSwaps": "Los intercambios activos solo se almacenan localmente y no se pueden recuperar si los elimina.",
         "deleteSwapHistory": "El historial de intercambio solo se almacena localmente y no se puede recuperar si lo elimina.",
         "highValueLoss": "El valor de los tokens recibidos es significativamente menor que los tokens intercambiados y el costo de la transacción.",
-        "insufficientFunds": "No tiene fondos suficientes para ejecutar el intercambio.",
-        "insufficientGas": "Debes agregar al menos:",
+        "insufficientFunds": "",
+        "insufficientGas": "",
         "rateChanged": "La tasa de cambio ha cambiado. Continuar con el swap implica que estas de acuerdo con la nueva tasa.",
         "resetSettings": "Esto restablecerá su prioridad de ruta, deslizamiento, precio de gas, puentes e intercambios habilitados."
       },
@@ -214,6 +242,7 @@
     }
   },
   "tooltip": {
+    "additionalProviderFee": "",
     "estimatedNetworkFee": "Tarifa de red estimada.",
     "estimatedTime": "Tiempo estimado de ejecución del swap en minutos.",
     "notFound": {
@@ -222,6 +251,7 @@
     },
     "numberOfSteps": "Una serie de pasos de intercambio. Cada paso puede contener 1-2 transacciones que requieren una firma.",
     "progressToNextUpdate": "Los datos mostrados se actualizarán automáticamente después de {{value}} segundos. Haga clic aquí para actualizar manualmente.",
+    "recommended": "",
     "settingsModified": "Ajustes (modificados)"
   },
   "wallet": {
