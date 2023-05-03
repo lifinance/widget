@@ -1,6 +1,8 @@
 {
   "button": {
     "auto": "Automático",
+    "buy": "Comprar",
+    "buyNow": "Comprar agora",
     "cancel": "Cancelar",
     "connectWallet": "Conectar carteira",
     "contactSupport": "Falar com o suporte",
@@ -23,6 +25,7 @@
     "resetSettings": "Redefinir as configurações",
     "restartSwap": "Reiniciar a conversão",
     "reviewGasSwap": "Rever o gás de conversão",
+    "reviewPurchase": "Revisar compra",
     "reviewSwap": "Rever conversão",
     "seeDetails": "Ver detalhes",
     "showAll": "Mostrar tudo",
@@ -39,10 +42,14 @@
   },
   "header": {
     "activeSwaps": "Conversões ativas",
+    "bridge": "Ponte",
     "checkout": "Finalizar",
     "from": "Converter a partir de",
     "gas": "Gás",
     "gasSwap": "Conversão de gás",
+    "payWith": "Pagar com",
+    "purchase": "Compra",
+    "purchaseDetails": "Detalhes da compra",
     "routes": "Você recebe",
     "selectChain": "Selecionar uma rede",
     "selectWallet": "Selecionar sua carteira",
@@ -75,6 +82,7 @@
     "currentAmount": "Quantidade atual",
     "error": {
       "message": {
+        "allowanceRequired": "A quantidade a ser transferida para {{tokenSymbol}} excede a sua permissão atual. Por favor, aumente a sua permissão e tente novamente.",
         "slippageThreshold": "A derrapagem é maior do que o limite definido. Solicite uma nova rota para obter uma nova cotação.",
         "transactionFailed": "Por favor, verifique o explorador de blocos para mais informações.",
         "transactionNotSent": "A transação não foi enviada. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} na {{chainName}} permanece na sua carteira.",
@@ -82,6 +90,7 @@
         "unknown": "Por favor, tente novamente ou fale com o suporte."
       },
       "title": {
+        "allowanceRequired": "Permissão insuficiente",
         "balanceIsTooLow": "O saldo é muito baixo",
         "chainSwitch": "Necessário mudança de rede",
         "failed": "Conversão falhou",
@@ -131,13 +140,15 @@
     "onChain": "em {{nome da rede}}",
     "otherTokens": "Outros tokens",
     "ownedBy": "Possuído por",
-    "payWith": "Pagar com",
     "process": {
       "crossChain": {
         "actionRequired": "Por favor, assine a transação",
         "done": "Transação da ponte confirmada",
         "pending": "Aguardando a transação da ponte",
         "started": "Preparando a transação da ponte"
+      },
+      "nft": {
+        "done": "NFT comprado"
       },
       "receivingChain": {
         "done": "Ponte concluída",
@@ -165,24 +176,27 @@
     "rateChange": "Alterar taxa",
     "receiving": "Recebendo",
     "refuelStepDetails": "Obter gás via {{tool}}",
-    "routes": "Você recebe",
-    "selectChain": "Rede",
+    "selectChain": "Selecionar uma rede",
     "selectChainAndToken": "Selecione a rede e o token",
-    "selectToken": "Token",
+    "selectToken": "",
     "sendToAddress": "Enviar para",
     "sendToWallet": "Enviar para uma carteira diferente",
     "sentToAddress": "Enviar para",
     "stepBridge": "Ponte",
+    "stepBridgeAndBuy": "Transfira e compre",
     "stepDetails": "{{tool}} via LI.FI",
     "stepSwap": "Conversão",
     "stepSwapAndBridge": "Converter e enviar pela ponte",
+    "stepSwapAndBuy": "Converta e compre",
     "success": {
       "message": {
         "swapPartiallySuccessful": "Tentamos completar a conversão, mas a {{tool}} ficou sem liquidez para o token {{tokenSymbol}}.",
+        "purchaseSuccessful": "Agora você tem {{assetName}} na carteira {{walletAddress}} na cadeia {{chainName}}",
         "swapSuccessful": "Agora há {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} na carteira {{walletAddress}} na rede {{chainName}}."
       },
       "title": {
         "gasSwapSuccessful": "Conversão de gás bem sucedida",
+        "purchaseSuccessful": "Compra efetuada com sucesso",
         "refundIssued": "Reembolso emitido",
         "swapPartiallySuccessful": "Conversão parcialmente bem sucedida",
         "swapSuccessful": "Conversão bem sucedida"
@@ -237,6 +251,7 @@
     },
     "numberOfSteps": "Um número de passos para a conversão. Cada etapa pode conter 1-2 transações que requerem uma assinatura.",
     "progressToNextUpdate": "Os dados exibidos serão atualizados automaticamente após {{value}} segundos. Clique aqui para atualizar manualmente.",
+    "recommended": "Uma rota econômica que equilibra complexidade e facilidade de uso.",
     "settingsModified": "Configurações (modificado)"
   },
   "wallet": {
