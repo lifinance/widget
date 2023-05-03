@@ -1,6 +1,8 @@
 {
   "button": {
     "auto": "Auto",
+    "buy": "",
+    "buyNow": "",
     "cancel": "Abbrechen",
     "connectWallet": "Wallet verbinden",
     "contactSupport": "Support kontaktieren",
@@ -12,6 +14,7 @@
     "done": "Fertig",
     "getGas": "Gas erhalten",
     "hide": "Ausblenden",
+    "learnMore": "",
     "lifiSwap": "LI.FI Swap",
     "light": "Hell",
     "max": "max",
@@ -22,6 +25,7 @@
     "resetSettings": "Einstellungen zurücksetzen",
     "restartSwap": "Swap neu starten",
     "reviewGasSwap": "Gas-Swap überprüfen",
+    "reviewPurchase": "",
     "reviewSwap": "Swap überprüfen",
     "seeDetails": "Siehe Einzelheiten",
     "showAll": "Alles anzeigen",
@@ -29,6 +33,7 @@
     "startSwap": "Swap starten",
     "swap": "Swap",
     "tryAgain": "Erneut versuchen",
+    "viewCoverage": "",
     "viewOnExplorer": "Im Explorer anzeigen"
   },
   "format": {
@@ -37,10 +42,14 @@
   },
   "header": {
     "activeSwaps": "Aktive Swaps",
+    "bridge": "Bridge",
     "checkout": "Zur Kasse",
     "from": "Swap von",
     "gas": "Gas",
     "gasSwap": "Gas swap",
+    "payWith": "",
+    "purchase": "",
+    "purchaseDetails": "",
     "routes": "Sie erhalten",
     "selectChain": "Chain auswählen",
     "selectWallet": "Wallet wählen",
@@ -73,6 +82,7 @@
     "currentAmount": "Aktueller Betrag",
     "error": {
       "message": {
+        "allowanceRequired": "",
         "slippageThreshold": "Die Slippage ist größer als der definierte Schwellenwert. Bitte fordern Sie eine neue Route an, um ein neues Angebot zu erhalten.",
         "transactionFailed": "Weitere Informationen finden Sie im Block-Explorer.",
         "transactionNotSent": "Die Transaktion wurde nicht gesendet, Ihr Geld befindet sich noch in Ihrer Brieftasche ({{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} auf {{chainName}}).",
@@ -80,6 +90,7 @@
         "unknown": "Bitte versuchen Sie es später noch einmal oder kontaktieren Sie den Support."
       },
       "title": {
+        "allowanceRequired": "",
         "balanceIsTooLow": "Ihr Guthaben ist zu gering",
         "chainSwitch": "Chainwechsel erforderlich",
         "failed": "Swap fehlgeschlagen",
@@ -104,6 +115,12 @@
     "gasFeeEstimated": "geschätzte Gasgebühr",
     "gasFeePaid": "gezahlte Gasgebühr",
     "inProgress": "wird ausgeführt",
+    "insurance": {
+      "bridgeExploits": "",
+      "insure": "",
+      "insured": "",
+      "slippageError": ""
+    },
     "info": {
       "message": {
         "autoRefuel": "Sie haben nicht genug Gas auf {{chainName}}. Wenn Sie fortfahren, erhalten Sie zusätzlich genug Gas um den Swap abzuschließen.",
@@ -123,13 +140,15 @@
     "onChain": "auf {{chainName}}",
     "otherTokens": "Andere Token",
     "ownedBy": "In Besitz von",
-    "payWith": "Zahle mit",
     "process": {
       "crossChain": {
         "actionRequired": "Bitte signieren Sie die Transaktion.",
         "done": "Transaktion genehmigt",
         "pending": "Warten auf Transaktion",
         "started": "Transaktion vorbereiten"
+      },
+      "nft": {
+        "done": ""
       },
       "receivingChain": {
         "done": "Bridge abgeschlossen",
@@ -157,24 +176,27 @@
     "rateChange": "Wechselkurs geändert",
     "receiving": "Eingehend",
     "refuelStepDetails": "Gas über {{tool}} erhalten",
-    "routes": "Sie erhalten",
-    "selectChain": "Chain",
+    "selectChain": "Chain auswählen",
     "selectChainAndToken": "Chain und Token auswählen",
-    "selectToken": "Token",
+    "selectToken": "",
     "sendToAddress": "An {{address}} senden",
     "sendToWallet": "An eine andere Wallet senden",
     "sentToAddress": "Gesendet an {{address}}",
     "stepBridge": "Bridge",
+    "stepBridgeAndBuy": "",
     "stepDetails": "{{tool}} via LI.FI",
     "stepSwap": "Swap",
     "stepSwapAndBridge": "Tauschen und überbrücken",
+    "stepSwapAndBuy": "",
     "success": {
       "message": {
         "swapPartiallySuccessful": "Wir haben versucht, den Swap abzuschließen, aber {{tool}} hat keine Liquidität für {{tokenSymbol}} Token.",
+        "purchaseSuccessful": "",
         "swapSuccessful": "Es sind jetzt {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} in wallet {{walletAddress}} auf chain {{chainName}}."
       },
       "title": {
         "gasSwapSuccessful": "Gas-Swap erfolgreich",
+        "purchaseSuccessful": "",
         "refundIssued": "Rückerstattung gewährt",
         "swapPartiallySuccessful": "Swap teilweise erfolgreich",
         "swapSuccessful": "Swap erfolgreich"
@@ -229,6 +251,7 @@
     },
     "numberOfSteps": "Eine Anzahl von Swap-Schritten. Jeder Schritt kann 2 Transaktionen enthalten, die eine Unterschrift erfordern.",
     "progressToNextUpdate": "Angezeigte Daten werden nach {{value}} Sekunden automatisch aktualisiert. Klicken Sie hier, um manuell zu aktualisieren.",
+    "recommended": "",
     "settingsModified": "Einstellungen (geändert)"
   },
   "wallet": {
