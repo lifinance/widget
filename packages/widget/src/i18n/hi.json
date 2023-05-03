@@ -1,0 +1,260 @@
+{
+  "button": {
+    "auto": "स्वतः",
+    "buy": "",
+    "buyNow": "",
+    "cancel": "रद्द करें",
+    "connectWallet": "वॉलेट से जुड़ें?",
+    "contactSupport": "ग्राहक सेवा के लिए संपर्क करें",
+    "continue": "जारी रखें",
+    "copyAddress": "",
+    "dark": "अँधेरा",
+    "delete": "हटाएं",
+    "disconnect": "संपर्क तोड़ें",
+    "done": "समाप्त",
+    "getGas": "गेस शुल्क ले",
+    "hide": "छिपाएँ",
+    "learnMore": "",
+    "lifiSwap": "लिफाई स्वैप",
+    "light": "",
+    "max": "अधिकतम",
+    "ok": "ठीक है",
+    "okay": "ठीक है",
+    "removeSwap": "स्वैप हटायें",
+    "reset": "",
+    "resetSettings": "",
+    "restartSwap": "",
+    "reviewGasSwap": "",
+    "reviewPurchase": "",
+    "reviewSwap": "",
+    "seeDetails": "",
+    "showAll": "",
+    "startGasSwap": "",
+    "startSwap": "",
+    "swap": "",
+    "tryAgain": "",
+    "viewCoverage": "",
+    "viewOnExplorer": ""
+  },
+  "format": {
+    "currency": "",
+    "number": ""
+  },
+  "header": {
+    "activeSwaps": "",
+    "bridge": "",
+    "checkout": "",
+    "from": "",
+    "gas": "गैस",
+    "gasSwap": "",
+    "payWith": "",
+    "purchase": "",
+    "purchaseDetails": "",
+    "routes": "आपको मिलेगा ",
+    "selectChain": "चैन चुने",
+    "selectWallet": "वॉलेट चुनाव करे",
+    "settings": "सेटिंग्स",
+    "swap": "",
+    "swapDetails": "",
+    "swapHistory": "",
+    "to": "",
+    "walletConnected": ""
+  },
+  "language": {
+    "name": "अंग्रेज़ी",
+    "title": "भाषा"
+  },
+  "settings": {
+    "enabledBridges": "ब्रिज सक्रिय करे",
+    "enabledExchanges": "",
+    "gasPrice": {
+      "fast": "",
+      "normal": "",
+      "slow": "",
+      "title": ""
+    },
+    "routePriority": "",
+    "showDestinationWallet": "",
+    "slippage": ""
+  },
+  "swap": {
+    "crossStepDetails": "",
+    "currentAmount": "",
+    "error": {
+      "message": {
+        "allowanceRequired": "",
+        "slippageThreshold": "",
+        "transactionFailed": "",
+        "transactionNotSent": "",
+        "transactionRejected": "",
+        "unknown": ""
+      },
+      "title": {
+        "allowanceRequired": "",
+        "balanceIsTooLow": "",
+        "chainSwitch": "",
+        "failed": "",
+        "gasLimitIsTooLow": "",
+        "slippageNotMet": "",
+        "transactionCanceled": "",
+        "transactionFailed": "",
+        "transactionRejected": "",
+        "transactionUnderpriced": "",
+        "transactionUnprepared": "",
+        "unknown": "",
+        "walletAddressInvalid": "",
+        "walletAddressRequired": "",
+        "walletEnsAddressInvalid": ""
+      }
+    },
+    "estimatedTime": "",
+    "featuredTokens": "",
+    "from": "",
+    "fromAmount": "",
+    "gasCost": "",
+    "gasFeeEstimated": "",
+    "gasFeePaid": "",
+    "inProgress": "",
+    "insurance": {
+      "bridgeExploits": "",
+      "insure": "",
+      "insured": "",
+      "slippageError": ""
+    },
+    "info": {
+      "message": {
+        "autoRefuel": "",
+        "emptyActiveSwaps": "",
+        "emptySwapHistory": "",
+        "emptyTokenList": "",
+        "routeNotFound": ""
+      },
+      "title": {
+        "autoRefuel": "गेस शुल्क ले",
+        "emptyActiveSwaps": "",
+        "emptySwapHistory": "",
+        "routeNotFound": ""
+      }
+    },
+    "nftStepDetails": "",
+    "onChain": "",
+    "otherTokens": "",
+    "ownedBy": "",
+    "process": {
+      "crossChain": {
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
+      },
+      "nft": {
+        "done": ""
+      },
+      "receivingChain": {
+        "done": "",
+        "partial": "",
+        "pending": "",
+        "refunded": ""
+      },
+      "swap": {
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
+      },
+      "switchChain": {
+        "actionRequired": "",
+        "done": ""
+      },
+      "tokenAllowance": {
+        "done": "",
+        "pending": "",
+        "started": ""
+      }
+    },
+    "quotedAmount": "",
+    "rateChange": "",
+    "receiving": "",
+    "refuelStepDetails": "",
+    "selectChain": "चैन चुने",
+    "selectChainAndToken": "",
+    "selectToken": "",
+    "sendToAddress": "",
+    "sendToWallet": "",
+    "sentToAddress": "",
+    "stepBridge": "",
+    "stepBridgeAndBuy": "",
+    "stepDetails": "",
+    "stepSwap": "",
+    "stepSwapAndBridge": "",
+    "stepSwapAndBuy": "",
+    "success": {
+      "message": {
+        "swapPartiallySuccessful": "",
+        "purchaseSuccessful": "",
+        "swapSuccessful": ""
+      },
+      "title": {
+        "gasSwapSuccessful": "",
+        "purchaseSuccessful": "",
+        "refundIssued": "",
+        "swapPartiallySuccessful": "",
+        "swapSuccessful": ""
+      }
+    },
+    "supportId": "",
+    "swapStepDetails": "",
+    "swapping": "",
+    "tags": {
+      "cheapest": "",
+      "fastest": "",
+      "insurable": "",
+      "insurance": "",
+      "insured": "",
+      "recommended": "",
+      "safest": ""
+    },
+    "to": "",
+    "tokenOnChain": "",
+    "tokenOnChainAmount": "",
+    "tokenSearch": "",
+    "valueLoss": "",
+    "walletAddressOrEns": "",
+    "warning": {
+      "message": {
+        "deleteActiveSwaps": "",
+        "deleteSwapHistory": "",
+        "highValueLoss": "",
+        "insufficientFunds": "",
+        "insufficientGas": "",
+        "rateChanged": "",
+        "resetSettings": ""
+      },
+      "title": {
+        "deleteActiveSwaps": "",
+        "deleteSwap": "",
+        "deleteSwapHistory": "",
+        "highValueLoss": "",
+        "insufficientGas": "",
+        "rateChanged": "",
+        "resetSettings": ""
+      }
+    }
+  },
+  "tooltip": {
+    "additionalProviderFee": "",
+    "estimatedNetworkFee": "",
+    "estimatedTime": "",
+    "notFound": {
+      "text": "",
+      "title": "404"
+    },
+    "numberOfSteps": "",
+    "progressToNextUpdate": "",
+    "recommended": "",
+    "settingsModified": ""
+  },
+  "wallet": {
+    "extensionNotFound": ""
+  }
+}
