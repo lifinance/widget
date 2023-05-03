@@ -1,6 +1,6 @@
 import type { EVMChain } from '@lifi/sdk';
 import { useController, useFormContext } from 'react-hook-form';
-import { useChains } from '../../hooks';
+import { useChains, useSwapOnly } from '../../hooks';
 import type { SwapFormType } from '../../providers';
 import { SwapFormKey, SwapFormKeyHelper } from '../../providers';
 import { useChainOrder } from '../../stores';
@@ -13,6 +13,7 @@ export const useChainSelect = (formType: SwapFormType) => {
   const { setValue } = useFormContext();
   const { chains, isLoading } = useChains();
   const [chainOrder, setChainOrder] = useChainOrder();
+  const swapOnly = useSwapOnly();
 
   const getChains = () => {
     if (!chains) {
@@ -28,6 +29,11 @@ export const useChainSelect = (formType: SwapFormType) => {
   const setCurrentChain = (chainId: number) => {
     onChange(chainId);
     onBlur();
+    if (swapOnly) {
+      setValue(SwapFormKeyHelper.getChainKey('to'), chainId, {
+        shouldTouch: true,
+      });
+    }
     setValue(SwapFormKeyHelper.getTokenKey(formType), '');
     setValue(SwapFormKeyHelper.getAmountKey(formType), '');
     setValue(SwapFormKey.TokenSearchFilter, '');

@@ -43,4 +43,7 @@ export const WalletButton = styled(Button)(({ theme }) => ({
   [`.${buttonClasses.endIcon} > *:nth-of-type(1)`]: {
     fontSize: '24px',
   },
+  [`.${buttonClasses.startIcon} > *:nth-of-type(1)`]: {
+    fontSize: '24px',
+  },
 }));

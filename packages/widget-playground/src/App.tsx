@@ -1,5 +1,5 @@
 import type { StaticToken } from '@lifi/sdk';
-import type { WidgetVariant } from '@lifi/widget';
+import type { WidgetSubvariant, WidgetVariant } from '@lifi/widget';
 import { LiFiWidget } from '@lifi/widget';
 import {
   Box,
@@ -25,6 +25,7 @@ import { WalletButtons } from './components/WalletButtons';
 import { WidgetEvents } from './components/WidgetEvents';
 import {
   METAMASK_WALLET,
+  WidgetSubvariants,
   WidgetVariants,
   widgetBaseConfig,
   widgetConfig,
@@ -44,6 +45,7 @@ export const App = () => {
   const [variant, setVariant] = useState<WidgetVariant>(
     searchParams.drawer ? 'drawer' : 'expandable',
   );
+  const [subvariant, setSubvariant] = useState<WidgetSubvariant>('default');
   const [fontFamily, setFontFamily] = useState('Inter var, Inter, sans-serif');
   const [borderRadius, setBorderRadius] = useState(12);
   const [borderRadiusSecondary, setBorderRadiusSecondary] = useState(8);
@@ -106,6 +108,7 @@ export const App = () => {
         components: widgetConfig.theme?.components,
       },
       variant,
+      subvariant,
     }));
   }, [
     borderRadius,
@@ -115,6 +118,7 @@ export const App = () => {
     prefersDarkMode,
     primary,
     secondary,
+    subvariant,
     systemColor,
     variant,
   ]);
@@ -213,6 +217,24 @@ export const App = () => {
                   }
                 >
                   {WidgetVariants.map((variant) => (
+                    <MenuItem key={variant} value={variant}>
+                      {variant}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+            <Box pb={2} flex={1}>
+              <FormControl size="small" fullWidth>
+                <InputLabel>Widget subvariant</InputLabel>
+                <Select
+                  value={subvariant}
+                  label="Widget subvariant"
+                  onChange={(event) =>
+                    setSubvariant(event.target.value as WidgetSubvariant)
+                  }
+                >
+                  {WidgetSubvariants.map((variant) => (
                     <MenuItem key={variant} value={variant}>
                       {variant}
                     </MenuItem>
