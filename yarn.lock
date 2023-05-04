@@ -2825,8 +2825,8 @@ __metadata:
     events: ^3.3.0
     react: ^18.2.0
     react-dom: ^18.2.0
-    react-router-dom: ^6.11.0
-    rollup: ^3.21.3
+    react-router-dom: ^6.11.1
+    rollup: ^3.21.4
     rollup-plugin-polyfill-node: ^0.12.0
     typescript: ^5.0.4
     vite: ^4.3.4
@@ -2851,7 +2851,7 @@ __metadata:
     events: ^3.3.0
     react: ^18.2.0
     react-dom: ^18.2.0
-    react-router-dom: ^6.11.0
+    react-router-dom: ^6.11.1
     rollup-plugin-polyfill-node: ^0.12.0
     typescript: ^5.0.4
     vite: ^4.3.4
@@ -2887,11 +2887,11 @@ __metadata:
     react-hook-form: ^7.43.9
     react-i18next: ^12.2.2
     react-intersection-observer: ^9.4.3
-    react-router-dom: ^6.11.0
+    react-router-dom: ^6.11.1
     react-timer-hook: ^3.0.5
     typescript: ^5.0.4
     uuid: ^9.0.0
-    zustand: ^4.3.7
+    zustand: ^4.3.8
   peerDependencies:
     "@types/react": ^18.0.0
     react: ^18.0.0
@@ -3733,10 +3733,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@remix-run/router@npm:1.6.0":
-  version: 1.6.0
-  resolution: "@remix-run/router@npm:1.6.0"
-  checksum: 9f08f20500b2fc9d689c06c3c25504baf2ece861a9f4d0c49ba043ef4040a96b85c15a57a1c11377e64bf78b727ce8fb58b300345642efb05a75d49e4b638344
+"@remix-run/router@npm:1.6.1":
+  version: 1.6.1
+  resolution: "@remix-run/router@npm:1.6.1"
+  checksum: 4ca65d9c7d6fa277227ad8fd4ef53bebab99460b714d835b609c998f9a7e7c33a964ce2b8af853b50025a60d9113968f256abc5f71f451939ff14a5187d327fe
   languageName: node
   linkType: hard
 
@@ -4207,12 +4207,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^18.2.1":
-  version: 18.2.1
-  resolution: "@types/react-dom@npm:18.2.1"
+"@types/react-dom@npm:^18.2.3":
+  version: 18.2.3
+  resolution: "@types/react-dom@npm:18.2.3"
   dependencies:
     "@types/react": "*"
-  checksum: 4e607a9d08f707ae2bd6b377f1da32989dcbe4e38ac39110423a1f6bc95dd53a5484f7f952b34e9d12b5f29a265d52a8c74c1a7d1d1e25be0fa69ccf9d64209f
+  checksum: 33520610ee36765dbee62bd7d4a448598f0dec6d3ba94a05ff066e239ae536d739cb3bc2cd5269884f57293a3983ce614182844c4489b6e3350015eb5a08dcc7
   languageName: node
   linkType: hard
 
@@ -4245,14 +4245,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^18.2.0":
-  version: 18.2.0
-  resolution: "@types/react@npm:18.2.0"
+"@types/react@npm:^18.2.4":
+  version: 18.2.4
+  resolution: "@types/react@npm:18.2.4"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: db3d92b423150222a666329f7aa3023e3e942044700557b8a7d161530847e621aec9f56c9e7f71761b06dd164c8a7b17ad52355863efe80963dffa5537e8e5fd
+  checksum: d920fc93832fe50d5e8175a0ba233086c97a9e238ff7327c8319b8dec57409618f491d6f71be2374c3132f40a8fc428b3e406c1e2a5f1dc32ccd6d47051786d2
   languageName: node
   linkType: hard
 
@@ -13676,27 +13676,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:^6.11.0":
-  version: 6.11.0
-  resolution: "react-router-dom@npm:6.11.0"
+"react-router-dom@npm:^6.11.1":
+  version: 6.11.1
+  resolution: "react-router-dom@npm:6.11.1"
   dependencies:
-    "@remix-run/router": 1.6.0
-    react-router: 6.11.0
+    "@remix-run/router": 1.6.1
+    react-router: 6.11.1
   peerDependencies:
     react: ">=16.8"
     react-dom: ">=16.8"
-  checksum: 85c9e302de8f5730bd63fc1f0f712ca0645b7ec843828f43b60712b0a38105d101c7412487eeb35cc25d940cc026e8832e6492eba9772d26779e2856f18e7923
+  checksum: 44566e10cb1ff475c73be47425dba66e8e834e695e80c572c63ca82543ad03d41f4a1d8e974bf998143150f497792f74ba99714b1219df1c923c62a3b67f187b
   languageName: node
   linkType: hard
 
-"react-router@npm:6.11.0":
-  version: 6.11.0
-  resolution: "react-router@npm:6.11.0"
+"react-router@npm:6.11.1":
+  version: 6.11.1
+  resolution: "react-router@npm:6.11.1"
   dependencies:
-    "@remix-run/router": 1.6.0
+    "@remix-run/router": 1.6.1
   peerDependencies:
     react: ">=16.8"
-  checksum: c27d64b074da711d59a94d7b64fe82360da8a49077a5e8326c27e9fb48a7650080f73b5ba3b94d0b11f2d7e315255fabc3bad818cd26d1cec3a52220ad9d64cd
+  checksum: c5cafbaac13564d0e325f84ce6e4cbc42de5c381b0f619209f3b101d2b6eae4a8f9ee87b492875e869909dd9bb549d05d2f677085708f79622b872bd45d14bbb
   languageName: node
   linkType: hard
 
@@ -14255,9 +14255,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^3.21.3":
-  version: 3.21.3
-  resolution: "rollup@npm:3.21.3"
+"rollup@npm:^3.21.4":
+  version: 3.21.4
+  resolution: "rollup@npm:3.21.4"
   dependencies:
     fsevents: ~2.3.2
   dependenciesMeta:
@@ -14265,7 +14265,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: 430c0c66f1480586ccea77b190524efb6a3af3da5308c7bc77eca3160c3f387c9a56ebb3eef5bfb24f683764bdfdd3dafdea175d215e4b875bbde752619bec12
+  checksum: ad7dec30ce31b47e32c3daf464b14c25e52f4e07b6ad9fa610b0abcff480b1a1fb01aabdefa6bac30ff1ee23ab16762621cd24810798148cdff74efda1a98874
   languageName: node
   linkType: hard
 
@@ -14281,8 +14281,8 @@ __metadata:
     "@types/eslint": ^8.37.0
     "@types/events": ^3.0.0
     "@types/node": ^18.16.3
-    "@types/react": ^18.2.0
-    "@types/react-dom": ^18.2.1
+    "@types/react": ^18.2.4
+    "@types/react-dom": ^18.2.3
     "@types/uuid": ^9.0.1
     "@typescript-eslint/eslint-plugin": ^5.59.2
     "@typescript-eslint/parser": ^5.59.2
@@ -16808,9 +16808,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zustand@npm:^4.3.7":
-  version: 4.3.7
-  resolution: "zustand@npm:4.3.7"
+"zustand@npm:^4.3.8":
+  version: 4.3.8
+  resolution: "zustand@npm:4.3.8"
   dependencies:
     use-sync-external-store: 1.2.0
   peerDependencies:
@@ -16821,6 +16821,6 @@ __metadata:
       optional: true
     react:
       optional: true
-  checksum: 355b414ba4830b6106bcb888077c5f90f40ed649e4127e337eff4fb4ea90e88bf5cccf32344711d743cb92a676a0643a6ab3674ddc60ed49f17ea1bc8e3f58e2
+  checksum: 24db6bf063ce1fc8b2ee238f13211a88f43236541a716e5f6f706f613c671a45332465f9ed06d694f8c353da3d24c53ea668e5712a86aceda9ad74f6c433e8c0
   languageName: node
   linkType: hard

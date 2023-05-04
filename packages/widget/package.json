@@ -70,10 +70,10 @@
     "react-hook-form": "^7.43.9",
     "react-i18next": "^12.2.2",
     "react-intersection-observer": "^9.4.3",
-    "react-router-dom": "^6.11.0",
+    "react-router-dom": "^6.11.1",
     "react-timer-hook": "^3.0.5",
     "uuid": "^9.0.0",
-    "zustand": "^4.3.7"
+    "zustand": "^4.3.8"
   },
   "devDependencies": {
     "cpy-cli": "^4.2.0",
