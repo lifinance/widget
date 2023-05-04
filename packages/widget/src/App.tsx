@@ -15,7 +15,7 @@ import { SwapRoutesExpanded } from './components/SwapRoutes';
 import { useExpandableVariant } from './hooks';
 import type { WidgetConfig, WidgetProps } from './types';
 
-export const App: React.FC<WidgetProps> = forwardRef<WidgetDrawer, WidgetProps>(
+export const App = forwardRef<WidgetDrawer, WidgetProps>(
   ({ elementRef, open, integrator, ...other }, ref) => {
     const config: WidgetConfig = useMemo(
       () => ({ integrator, ...other, ...other.config }),
