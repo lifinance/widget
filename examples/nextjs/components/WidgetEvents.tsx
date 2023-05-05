@@ -23,7 +23,7 @@ export const WidgetEvents = () => {
       console.log('onRouteExecutionFailed fired.');
     };
     const onRouteHighValueLoss = (update: RouteHighValueLossUpdate) => {
-      console.log('onRouteHighValueLoss fired.');
+      console.log('onRouteHighValueLoss continued.');
     };
     widgetEvents.on(WidgetEvent.RouteExecutionStarted, onRouteExecutionStarted);
     widgetEvents.on(WidgetEvent.RouteExecutionUpdated, onRouteExecutionUpdated);
