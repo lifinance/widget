@@ -1,6 +1,7 @@
 import type { ExchangeRateUpdateParams } from '@lifi/sdk';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Button, Tooltip } from '@mui/material';
+import Big from 'big.js';
 import { useCallback, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -10,9 +11,14 @@ import { ContractComponent } from '../../components/ContractComponent';
 import { GasMessage } from '../../components/GasMessage';
 import { Insurance } from '../../components/Insurance';
 import { getStepList } from '../../components/Step';
-import { useNavigateBack, useRouteExecution } from '../../hooks';
+import {
+  useNavigateBack,
+  useRouteExecution,
+  useWidgetEvents,
+} from '../../hooks';
 import { SwapFormKey, useWidgetConfig } from '../../providers';
 import { RouteExecutionStatus } from '../../stores';
+import { WidgetEvent } from '../../types/events';
 import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet';
 import { ExchangeRateBottomSheet } from './ExchangeRateBottomSheet';
 import { StartIdleSwapButton, StartSwapButton } from './StartSwapButton';
@@ -26,6 +32,7 @@ import {
 export const SwapPage: React.FC = () => {
   const { t } = useTranslation();
   const { setValue } = useFormContext();
+  const emitter = useWidgetEvents();
   const { navigateBack } = useNavigateBack();
   const { variant, insurance } = useWidgetConfig();
   const { state }: any = useLocation();
@@ -50,6 +57,19 @@ export const SwapPage: React.FC = () => {
 
   const handleExecuteRoute = useCallback(() => {
     if (tokenValueBottomSheetRef.current?.isOpen()) {
+      if (route) {
+        emitter.emit(WidgetEvent.RouteHighValueLoss, {
+          fromAmountUsd: route.fromAmountUSD,
+          gasCostUSD: route.gasCostUSD,
+          toAmountUSD: route.toAmountUSD,
+          valueLoss: Big(route.toAmountUSD || 0)
+            .div(Big(route.fromAmountUSD || 0).plus(Big(route.gasCostUSD || 0)))
+            .minus(1)
+            .mul(100)
+            .round(2, Big.roundUp)
+            .toString(),
+        });
+      }
       tokenValueBottomSheetRef.current?.close();
     }
     executeRoute();
