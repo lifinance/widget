@@ -6,8 +6,9 @@ import { MutableRefObject, forwardRef, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import { BottomSheet } from '../../components/BottomSheet';
-import { useSetContentHeight, useWidgetEvents } from '../../hooks';
+import { useSetContentHeight } from '../../hooks';
 import { CenterContainer, IconCircle } from './StatusBottomSheet.style';
+import { calcValueLoss } from './SwapPage';
 
 interface TokenValueBottomSheetProps {
   route: Route;
@@ -42,7 +43,6 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
 }) => {
   const { t } = useTranslation();
   const ref = useRef<HTMLElement>();
-  const emitter = useWidgetEvents();
   useSetContentHeight(ref);
   return (
     <Box p={3} ref={ref}>
@@ -75,15 +75,7 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
       </Box>
       <Box display="flex" justifyContent="space-between" mt={0.25}>
         <Typography>{t('swap.valueLoss')}</Typography>
-        <Typography fontWeight={600}>
-          {Big(route.toAmountUSD || 0)
-            .div(Big(route.fromAmountUSD || 0).plus(Big(route.gasCostUSD || 0)))
-            .minus(1)
-            .mul(100)
-            .round(2, Big.roundUp)
-            .toString()}
-          %
-        </Typography>
+        <Typography fontWeight={600}>{calcValueLoss(route)}</Typography>
       </Box>
       <Box display="flex" mt={3}>
         <Button variant="text" onClick={onCancel} fullWidth>
