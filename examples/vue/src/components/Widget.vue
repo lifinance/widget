@@ -3,9 +3,9 @@
 </template>
 
 <script lang="ts">
-import { applyPureReactInVue } from 'veaury'
+import { applyPureReactInVue } from 'veaury';
 // This is a React component
-import { LiFiWidget } from '@lifi/widget'
+import { LiFiWidget } from '@lifi/widget';
 
 export default {
   components: {
@@ -20,7 +20,8 @@ export default {
           border: `1px solid rgb(234, 234, 234)`,
           borderRadius: '16px',
         },
-      }
+        integrator: 'vue-example'
+      },
     }
   }
 }

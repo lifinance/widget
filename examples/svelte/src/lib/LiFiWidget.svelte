@@ -11,6 +11,7 @@
       borderRadius: '16px',
     },
   }}
+  integrator="svelte-example"
 />
 
 <style>
