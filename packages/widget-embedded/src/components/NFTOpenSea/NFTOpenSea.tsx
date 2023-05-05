@@ -67,7 +67,9 @@ export const NFTOpenSea: React.FC<NFTOpenSeaProps> = ({
 
       const fulfillOrder = async () => {
         try {
-          const seaport = new Seaport(account.signer as any);
+          const seaport = new Seaport(account.signer as any, {
+            seaportVersion: '1.5',
+          });
 
           const { actions } = await seaport.fulfillOrder({
             order: order.protocolData,
