@@ -1,12 +1,13 @@
 import type { Signer } from '@ethersproject/abstract-signer';
-import { StaticToken, getChainById } from '@lifi/sdk';
+import type { Web3Provider } from '@ethersproject/providers';
+import type { StaticToken } from '@lifi/sdk';
 import {
   LiFiWalletManagement,
   readActiveWallets,
   supportedWallets,
-  switchChain as walletAgnosticSwitchChain,
-  switchChainAndAddToken as walletAgnosticAddToken,
   addChain as walletAgnosticAddChain,
+  switchChainAndAddToken as walletAgnosticAddToken,
+  switchChain as walletAgnosticSwitchChain,
 } from '@lifi/wallet-management';
 import type { Wallet } from '@lifi/wallet-management/types';
 import type { FC, PropsWithChildren } from 'react';
@@ -20,7 +21,6 @@ import {
 } from 'react';
 import { useWidgetConfig } from '../WidgetProvider';
 import type { WalletAccount, WalletContextProps } from './types';
-import { Web3Provider } from '@ethersproject/providers';
 
 const liFiWalletManagement = new LiFiWalletManagement();
 
@@ -110,7 +110,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
         } else if (!currentWallet) {
           const provider = account.signer?.provider as Web3Provider;
           if (!provider) {
-            throw new Error('switch chain: No provider available');
+            throw new Error(`Switch chain: No provider available`);
           }
           await walletAgnosticSwitchChain(provider, chainId);
         } else {
@@ -133,7 +133,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
         } else if (!currentWallet) {
           const provider = account.signer?.provider as Web3Provider;
           if (!provider) {
-            throw new Error('switch chain: No provider available');
+            throw new Error(`Add chain: No provider available`);
           }
           await walletAgnosticAddChain(provider, chainId);
         } else {
@@ -157,7 +157,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
         } else if (!currentWallet) {
           const provider = account.signer?.provider as Web3Provider;
           if (!provider) {
-            throw new Error('switch chain: No provider available');
+            throw new Error(`Add token: No provider available`);
           }
           await walletAgnosticAddToken(provider, chainId, token);
         } else {
@@ -190,17 +190,8 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
       addChain,
       addToken,
       account,
-      provider: currentWallet?.account?.provider,
     }),
-    [
-      account,
-      addChain,
-      addToken,
-      connect,
-      disconnect,
-      currentWallet,
-      switchChain,
-    ],
+    [account, addChain, addToken, connect, disconnect, switchChain],
   );
 
   return (

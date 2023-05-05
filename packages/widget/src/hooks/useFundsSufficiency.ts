@@ -10,8 +10,10 @@ import { useTokenAddressBalance } from './useTokenAddressBalance';
 const refetchInterval = 30_000;
 
 export const useFundsSufficiency = (route?: Route) => {
-  const { account, provider } = useWallet();
-  const getTokenBalancesWithRetry = useGetTokenBalancesWithRetry(provider);
+  const { account } = useWallet();
+  const getTokenBalancesWithRetry = useGetTokenBalancesWithRetry(
+    account.signer?.provider,
+  );
   const [fromChainId, fromTokenAddress, fromAmount] = useWatch({
     name: [
       SwapFormKey.FromChain,

@@ -1,6 +1,6 @@
 import type { Signer } from '@ethersproject/abstract-signer';
+import type { Web3Provider } from '@ethersproject/providers';
 import type { StaticToken } from '@lifi/sdk';
-import type { ethers } from 'ethers';
 import type events from 'events';
 import type EventEmitter from 'node:events';
 
@@ -28,7 +28,7 @@ export interface AccountData {
   chainId: number;
   address: string;
   signer: Signer;
-  provider: ethers.providers.Web3Provider;
+  provider: Web3Provider;
 }
 export interface InjectedConnectorConstructorArgs {
   name: string;

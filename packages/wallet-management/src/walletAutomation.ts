@@ -1,5 +1,5 @@
 /* eslint-disable radix */
-import { Web3Provider } from '@ethersproject/providers';
+import type { Web3Provider } from '@ethersproject/providers';
 import type { StaticToken } from '@lifi/sdk';
 import {
   MetaMaskProviderErrorCode,

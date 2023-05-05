@@ -16,9 +16,11 @@ export interface GasSufficiency {
 const refetchInterval = 30_000;
 
 export const useGasSufficiency = (route?: Route) => {
-  const { account, provider } = useWallet();
+  const { account } = useWallet();
   const { getChainById } = useChains();
-  const getTokenBalancesWithRetry = useGetTokenBalancesWithRetry(provider);
+  const getTokenBalancesWithRetry = useGetTokenBalancesWithRetry(
+    account.signer?.provider,
+  );
 
   const { data: insufficientGas, isInitialLoading } = useQuery(
     ['gas-sufficiency-check', account.address, route?.id],

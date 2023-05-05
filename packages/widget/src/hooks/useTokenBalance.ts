@@ -8,11 +8,13 @@ import { useGetTokenBalancesWithRetry } from './useGetTokenBalancesWithRetry';
 const defaultRefetchInterval = 30_000;
 
 export const useTokenBalance = (token?: Token, accountAddress?: string) => {
-  const { account, provider } = useWallet();
+  const { account } = useWallet();
   const queryClient = useQueryClient();
   const walletAddress = accountAddress || account.address;
 
-  const getTokenBalancesWithRetry = useGetTokenBalancesWithRetry(provider);
+  const getTokenBalancesWithRetry = useGetTokenBalancesWithRetry(
+    account.signer?.provider,
+  );
 
   const tokenBalanceQueryKey = useMemo(
     () => ['token-balance', walletAddress, token?.chainId, token?.address],
