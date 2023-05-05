@@ -38,10 +38,8 @@ export const useGasRefuel = () => {
       // We don't allow same chain refuel.
       // If a user runs out of gas, he can't send a source chain transaction.
       fromChainId === toChainId ||
-      // We don't want to apply auto refuel when swapping to native tokens
-      toChain?.nativeToken.address === toTokenAddress ||
       !gasRecommendation?.available ||
-      !gasRecommendation.recommended ||
+      !gasRecommendation?.recommended ||
       !nativeToken
     ) {
       return false;
@@ -60,9 +58,7 @@ export const useGasRefuel = () => {
     gasRecommendation?.available,
     gasRecommendation?.recommended,
     nativeToken,
-    toChain?.nativeToken.address,
     toChainId,
-    toTokenAddress,
   ]);
 
   return {
