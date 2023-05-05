@@ -9,16 +9,14 @@ import { useTokenBalance } from './useTokenBalance';
 export const useGasRefuel = () => {
   const { getChainById } = useChains();
 
-  const [fromChainId, fromTokenAddress, toChainId, toTokenAddress, toAddress] =
-    useWatch({
-      name: [
-        SwapFormKey.FromChain,
-        SwapFormKey.FromToken,
-        SwapFormKey.ToChain,
-        SwapFormKey.ToToken,
-        SwapFormKey.ToAddress,
-      ],
-    });
+  const [fromChainId, fromTokenAddress, toChainId, toAddress] = useWatch({
+    name: [
+      SwapFormKey.FromChain,
+      SwapFormKey.FromToken,
+      SwapFormKey.ToChain,
+      SwapFormKey.ToAddress,
+    ],
+  });
 
   const toChain = getChainById(toChainId);
 

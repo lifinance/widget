@@ -3272,7 +3272,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"enhanced-resolve@npm:^5.10.0, enhanced-resolve@npm:^5.12.0":
+"enhanced-resolve@npm:^5.12.0":
   version: 5.13.0
   resolution: "enhanced-resolve@npm:5.13.0"
   dependencies:
@@ -5920,21 +5920,11 @@ __metadata:
     eslint: 8.39.0
     eslint-config-next: 13.4.0
     next: 13.4.0
-    next-transpile-modules: ^10.0.0
     react: 18.2.0
     react-dom: 18.2.0
     typescript: 5.0.4
   languageName: unknown
   linkType: soft
-
-"next-transpile-modules@npm:^10.0.0":
-  version: 10.0.0
-  resolution: "next-transpile-modules@npm:10.0.0"
-  dependencies:
-    enhanced-resolve: ^5.10.0
-  checksum: 3300fc7081f63b2c9487588db7cbe718f209dfd2111adec22d9c8af0e3c8ade2d95fd45f91e045546d78d98cafc78a49431de9a623360d33831b5e694bf007c9
-  languageName: node
-  linkType: hard
 
 "next@npm:13.4.0":
   version: 13.4.0
