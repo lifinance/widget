@@ -48,24 +48,6 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   const [account, setAccount] = useState<WalletAccount>({});
   const [currentWallet, setCurrentWallet] = useState<Wallet | undefined>();
 
-  useEffect(() => {
-    const autoConnect = async () => {
-      const persistedActiveWallets = readActiveWallets();
-      const activeWallets = supportedWallets.filter((wallet) =>
-        persistedActiveWallets.some(
-          (perstistedWallet) => perstistedWallet.name === wallet.name,
-        ),
-      );
-      if (!activeWallets.length) {
-        return;
-      }
-      await liFiWalletManagement.autoConnect(activeWallets);
-      activeWallets[0].on('walletAccountChanged', handleWalletUpdate);
-      handleWalletUpdate(activeWallets[0]);
-    };
-    autoConnect();
-  }, []);
-
   const handleWalletUpdate = async (wallet?: Wallet) => {
     setCurrentWallet(wallet);
     const account = await extractAccountFromSigner(wallet?.account?.signer);
@@ -98,7 +80,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
       currentWallet.removeAllListeners();
       handleWalletUpdate(undefined);
     }
-  }, [walletManagement, currentWallet]);
+  }, [currentWallet, walletManagement]);
 
   const switchChain = useCallback(
     async (chainId: number) => {
@@ -122,7 +104,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
         return false;
       }
     },
-    [walletManagement, currentWallet, account?.signer?.provider],
+    [account.signer?.provider, currentWallet, walletManagement],
   );
 
   const addChain = useCallback(
@@ -146,7 +128,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
         return false;
       }
     },
-    [walletManagement, currentWallet, account?.signer?.provider],
+    [account.signer?.provider, currentWallet, walletManagement],
   );
 
   const addToken = useCallback(
@@ -166,21 +148,46 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
         }
       } catch {}
     },
-    [walletManagement, currentWallet, account?.signer?.provider],
+    [account.signer?.provider, currentWallet, walletManagement],
   );
+
+  useEffect(() => {
+    const autoConnect = async () => {
+      const persistedActiveWallets = readActiveWallets();
+      const activeWallets = supportedWallets.filter((wallet) =>
+        persistedActiveWallets.some(
+          (perstistedWallet) => perstistedWallet.name === wallet.name,
+        ),
+      );
+      if (!activeWallets.length) {
+        return;
+      }
+      await liFiWalletManagement.autoConnect(activeWallets);
+      activeWallets[0].on('walletAccountChanged', handleWalletUpdate);
+      handleWalletUpdate(activeWallets[0]);
+    };
+    autoConnect();
+  }, []);
 
   // keep widget in sync with changing external signer object
   useEffect(() => {
     if (walletManagement) {
+      let ignore = false;
       const updateAccount = async () => {
         const account = await extractAccountFromSigner(
           walletManagement?.signer,
         );
-        setAccount(account);
+        // we should ignore the update if there is a newer one
+        if (!ignore) {
+          setAccount(account);
+        }
       };
       updateAccount();
+      return () => {
+        ignore = true;
+      };
     }
-  }, [walletManagement, walletManagement?.signer]);
+  }, [walletManagement]);
 
   const value = useMemo(
     () => ({
