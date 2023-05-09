@@ -106,7 +106,6 @@ export class WalletConnectConnector
     if (!this.provider) {
       throw new Error('provider is not defined.');
     }
-    console.log('attemp chain switch');
     return switchChain(this.walletConnectProvider, chainId);
   }
 

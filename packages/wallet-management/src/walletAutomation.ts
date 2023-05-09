@@ -13,7 +13,6 @@ export const switchChain = async (
   const params = { chainId: getChainById(chainId).metamask?.chainId };
   try {
     if (provider.send) {
-      console.log('provider has send');
       await provider.send('wallet_switchEthereumChain', [params]);
     } else {
       const chainSwitchPromise = new Promise<boolean>((resolve, reject) => {
@@ -34,7 +33,6 @@ export const switchChain = async (
           }
         });
       });
-      console.log('chainSwitchPromise', chainSwitchPromise);
       const result = await chainSwitchPromise;
       return result;
     }
