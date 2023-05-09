@@ -53,7 +53,7 @@ export const switchChain = async (
 export const addChain = async (provider: any, chainId: number) => {
   const params = getChainById(chainId).metamask;
   if (provider.send) {
-    provider
+    await provider
       .send('wallet_addEthereumChain', [params])
       .then(() => {
         return true;
