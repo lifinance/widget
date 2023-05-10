@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { useRef } from 'react';
 import { useWatch } from 'react-hook-form';
 import {
+  useChain,
   useDebouncedWatch,
   useTokenBalances,
   useTokenSearch,
@@ -28,6 +29,8 @@ export const TokenList: FC<TokenListProps> = ({
     [SwapFormKey.TokenSearchFilter],
     320,
   );
+
+  const { chain, isLoading: isChainLoading } = useChain(selectedChainId);
 
   const {
     tokens: chainTokens,
@@ -60,7 +63,9 @@ export const TokenList: FC<TokenListProps> = ({
     useTokenSearch(selectedChainId, tokenSearchFilter, tokenSearchEnabled);
 
   const isLoading =
-    isTokensLoading || (tokenSearchEnabled && isSearchedTokenLoading);
+    isTokensLoading ||
+    isChainLoading ||
+    (tokenSearchEnabled && isSearchedTokenLoading);
 
   const tokens = filteredTokens.length
     ? filteredTokens
@@ -80,6 +85,7 @@ export const TokenList: FC<TokenListProps> = ({
         featuredTokensLength={featuredTokens?.length}
         scrollElementRef={parentRef}
         chainId={selectedChainId}
+        chain={chain}
         isLoading={isLoading}
         isBalanceLoading={isBalanceLoading}
         showBalance={account.isActive}
