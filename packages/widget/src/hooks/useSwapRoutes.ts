@@ -65,7 +65,8 @@ export const useSwapRoutes = ({
   });
   const { token: fromToken } = useToken(fromChainId, fromTokenAddress);
   const { token: toToken } = useToken(toChainId, toTokenAddress);
-  const { enabled: enabledRefuel, gasRecommendation } = useGasRefuel();
+  const { enabled: enabledRefuel, fromAmount: gasRecommendationFromAmount } =
+    useGasRefuel();
 
   const hasAmount =
     (!isNaN(fromTokenAmount) && Number(fromTokenAmount) > 0) ||
@@ -105,7 +106,7 @@ export const useSwapRoutes = ({
     variant,
     sdkConfig?.defaultRouteOptions?.allowSwitchChain,
     enabledRefuel && enabledAutoRefuel,
-    gasRecommendation?.fromAmount,
+    gasRecommendationFromAmount,
     insurance,
     insurableRoute?.id,
   ];
