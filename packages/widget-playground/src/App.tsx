@@ -140,13 +140,13 @@ export const App = () => {
           disconnect: async () => {
             disconnect(METAMASK_WALLET);
           },
-          // switchChain: async (reqChainId: number) => {
-          //   await METAMASK_WALLET!.switchChain(reqChainId);
-          //   if (account.signer) {
-          //     return account.signer!;
-          //   }
-          //   throw Error('No signer object after chain switch');
-          // },
+          switchChain: async (reqChainId: number) => {
+            await METAMASK_WALLET!.switchChain(reqChainId);
+            if (account.signer) {
+              return account.signer!;
+            }
+            throw Error('No signer object after chain switch');
+          },
           addToken: async (token: StaticToken, chainId: number) => {
             await METAMASK_WALLET!.addToken(chainId, token);
           },
