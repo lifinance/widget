@@ -217,7 +217,7 @@
     "to": "To",
     "tokenOnChain": "{{tokenSymbol}} on {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} on {{chainName}}",
-    "tokenSearch": "Search your token",
+    "tokenSearch": "Search by token name or address",
     "valueLoss": "Value loss",
     "walletAddressOrEns": "Wallet address or ENS name",
     "warning": {
