@@ -47,8 +47,8 @@
     "lifi"
   ],
   "dependencies": {
-    "@emotion/react": "^11.10.8",
-    "@emotion/styled": "^11.10.8",
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
     "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/address": "^5.7.0",
     "@ethersproject/experimental": "^5.7.0",
@@ -57,7 +57,7 @@
     "@lifi/wallet-management": "^2.0.0-beta.5",
     "@mui/icons-material": "^5.11.16",
     "@mui/lab": "^5.0.0-alpha.129",
-    "@mui/material": "^5.12.3",
+    "@mui/material": "^5.13.0",
     "@tanstack/react-query": "^4.29.5",
     "@tanstack/react-virtual": "^3.0.0-beta.54",
     "big.js": "^6.2.1",
