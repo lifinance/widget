@@ -42,6 +42,7 @@ export enum HiddenUI {
   Language = 'language',
   PoweredBy = 'poweredBy',
   ToAddress = 'toAddress',
+  ToToken = 'toToken',
   WalletMenu = 'walletMenu',
 }
 export type HiddenUIType = `${HiddenUI}`;

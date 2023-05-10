@@ -4,13 +4,13 @@ import { useWatch } from 'react-hook-form';
 import { ReverseTokensButton } from '../components/ReverseTokensButton';
 import { SelectTokenButton } from '../components/SelectTokenButton';
 import { SwapFormKey, useWidgetConfig } from '../providers';
-import { DisabledUI } from '../types';
+import { DisabledUI, HiddenUI } from '../types';
 
 export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
   const prefersNarrowView = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('sm'),
   );
-  const { disabledUI, variant } = useWidgetConfig();
+  const { disabledUI, hiddenUI, variant } = useWidgetConfig();
   const [fromChain, toChain, fromToken, toToken] = useWatch({
     name: [
       SwapFormKey.FromChain,
@@ -20,12 +20,14 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
     ],
   });
 
-  const disabledReverse =
+  const hiddenReverse =
     variant === 'refuel' ||
     disabledUI?.includes(DisabledUI.FromToken) ||
-    disabledUI?.includes(DisabledUI.ToToken);
+    disabledUI?.includes(DisabledUI.ToToken) ||
+    hiddenUI?.includes(HiddenUI.ToToken);
 
-  const nftVariant = variant === 'nft';
+  const hiddenToToken =
+    variant === 'nft' || hiddenUI?.includes(HiddenUI.ToToken);
 
   const isCompact =
     fromChain &&
@@ -33,28 +35,28 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
     fromToken &&
     toToken &&
     !prefersNarrowView &&
-    !nftVariant;
+    !hiddenToToken;
   return (
     <Box
       sx={{ display: 'flex', flexDirection: isCompact ? 'row' : 'column' }}
       {...props}
     >
       <SelectTokenButton formType="from" compact={isCompact} />
-      {!nftVariant ? (
+      {!hiddenToToken ? (
         <Box
           sx={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
           }}
-          m={!disabledReverse ? -1.125 : 1}
+          m={!hiddenReverse ? -1.125 : 1}
         >
-          {!disabledReverse ? (
+          {!hiddenReverse ? (
             <ReverseTokensButton vertical={!isCompact} />
           ) : null}
         </Box>
       ) : null}
-      {!nftVariant ? (
+      {!hiddenToToken ? (
         <SelectTokenButton formType="to" compact={isCompact} />
       ) : null}
     </Box>

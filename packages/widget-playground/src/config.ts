@@ -26,13 +26,13 @@ export const widgetBaseConfig: WidgetConfig = {
   variant: 'expandable',
   // subvariant: 'split',
   integrator: 'li.fi-playground',
-  // hiddenUI: ['poweredBy', 'language', 'appearance', 'drawerButton'],
   chains: {
     allow: [], // 1, 1285, 10, 56, 137
     deny: [],
   },
   // useRecommendedRoute: true,
   buildSwapUrl: true,
+  // hiddenUI: ['poweredBy', 'language', 'appearance', 'drawerButton'],
   // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
   // requiredUI: ['toAddress'],
   // slippage: 0.003,
