@@ -7,6 +7,7 @@ import {
   useContentHeight,
   useNavigateBack,
   useScrollableOverflowHidden,
+  useSwapOnly,
 } from '../../hooks';
 import type { SwapFormTypeProps } from '../../providers';
 import { SearchTokenInput } from './SearchTokenInput';
@@ -19,6 +20,7 @@ export const SelectTokenPage: FC<SwapFormTypeProps> = ({ formType }) => {
   const headerRef = useRef<HTMLElement>(null);
   const contentHeight = useContentHeight();
   const [tokenListHeight, setTokenListHeight] = useState(0);
+  const swapOnly = useSwapOnly();
 
   useLayoutEffect(() => {
     setTokenListHeight(
@@ -29,11 +31,13 @@ export const SelectTokenPage: FC<SwapFormTypeProps> = ({ formType }) => {
     );
   }, [contentHeight]);
 
+  const hideChainSelect = swapOnly && formType === 'to';
+
   return (
     <Container disableGutters>
       <Box pt={1} pb={2} px={3} ref={headerRef}>
-        <ChainSelect formType={formType} />
-        <Box mt={2}>
+        {!hideChainSelect ? <ChainSelect formType={formType} /> : null}
+        <Box mt={!hideChainSelect ? 2 : 0}>
           <SearchTokenInput />
         </Box>
       </Box>

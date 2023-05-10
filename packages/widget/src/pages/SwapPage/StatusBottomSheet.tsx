@@ -22,7 +22,7 @@ import {
   formatTokenAmount,
   hasEnumFlag,
   navigationRoutes,
-  shortenWalletAddress,
+  shortenAddress,
 } from '../../utils';
 import { CenterContainer, IconCircle } from './StatusBottomSheet.style';
 
@@ -111,7 +111,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
           amount: token.amount,
           tokenSymbol: token.symbol,
           chainName: getChainById(token.chainId)?.name,
-          walletAddress: shortenWalletAddress(route.toAddress),
+          walletAddress: shortenAddress(route.toAddress),
         });
       }
       handlePrimaryButton = handleDone;
@@ -128,7 +128,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
           amount: token.amount,
           tokenSymbol: token.symbol,
           chainName: getChainById(token.chainId)?.name,
-          walletAddress: shortenWalletAddress(route.toAddress),
+          walletAddress: shortenAddress(route.toAddress),
         });
       }
       handlePrimaryButton = handlePartialDone;
@@ -145,7 +145,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
           amount: token.amount,
           tokenSymbol: token.symbol,
           chainName: getChainById(token.chainId)?.name,
-          walletAddress: shortenWalletAddress(route.toAddress),
+          walletAddress: shortenAddress(route.toAddress),
         });
       }
       break;

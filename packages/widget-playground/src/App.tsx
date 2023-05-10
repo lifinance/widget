@@ -1,9 +1,12 @@
 import type { StaticToken } from '@lifi/sdk';
-import type { WidgetVariant } from '@lifi/widget';
+import type {
+  WidgetDrawer,
+  WidgetSubvariant,
+  WidgetVariant,
+} from '@lifi/widget';
 import { LiFiWidget } from '@lifi/widget';
 import {
   Box,
-  // Button,
   Checkbox,
   CssBaseline,
   Drawer,
@@ -20,11 +23,12 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { WalletButtons } from './components/WalletButtons';
 import { WidgetEvents } from './components/WidgetEvents';
 import {
   METAMASK_WALLET,
+  WidgetSubvariants,
   WidgetVariants,
   widgetBaseConfig,
   widgetConfig,
@@ -33,6 +37,7 @@ import './index.css';
 import { useWallet } from './providers/WalletProvider';
 
 export const App = () => {
+  const drawerRef = useRef<WidgetDrawer>(null);
   const { connect, disconnect, account } = useWallet();
   const [searchParams] = useState(() =>
     Object.fromEntries(new URLSearchParams(window?.location.search)),
@@ -44,6 +49,7 @@ export const App = () => {
   const [variant, setVariant] = useState<WidgetVariant>(
     searchParams.drawer ? 'drawer' : 'expandable',
   );
+  const [subvariant, setSubvariant] = useState<WidgetSubvariant>('default');
   const [fontFamily, setFontFamily] = useState('Inter var, Inter, sans-serif');
   const [borderRadius, setBorderRadius] = useState(12);
   const [borderRadiusSecondary, setBorderRadiusSecondary] = useState(8);
@@ -106,6 +112,7 @@ export const App = () => {
         components: widgetConfig.theme?.components,
       },
       variant,
+      subvariant,
     }));
   }, [
     borderRadius,
@@ -115,6 +122,7 @@ export const App = () => {
     prefersDarkMode,
     primary,
     secondary,
+    subvariant,
     systemColor,
     variant,
   ]);
@@ -213,6 +221,24 @@ export const App = () => {
                   }
                 >
                   {WidgetVariants.map((variant) => (
+                    <MenuItem key={variant} value={variant}>
+                      {variant}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+            <Box pb={2} flex={1}>
+              <FormControl size="small" fullWidth>
+                <InputLabel>Widget subvariant</InputLabel>
+                <Select
+                  value={subvariant}
+                  label="Widget subvariant"
+                  onChange={(event) =>
+                    setSubvariant(event.target.value as WidgetSubvariant)
+                  }
+                >
+                  {WidgetSubvariants.map((variant) => (
                     <MenuItem key={variant} value={variant}>
                       {variant}
                     </MenuItem>
@@ -319,7 +345,12 @@ export const App = () => {
           </Box>
         </Drawer>
         <Box flex={1} margin="auto">
-          <LiFiWidget integrator={config.integrator} config={config} open />
+          <LiFiWidget
+            integrator={config.integrator}
+            config={config}
+            open
+            ref={drawerRef}
+          />
         </Box>
       </Box>
     </ThemeProvider>

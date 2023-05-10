@@ -11,6 +11,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   featuredTokensLength,
   scrollElementRef,
   chainId,
+  chain,
   isLoading,
   isBalanceLoading,
   showBalance,
@@ -79,6 +80,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
             size={item.size}
             start={item.start}
             token={token}
+            chain={chain}
             isBalanceLoading={isBalanceLoading}
             showBalance={showBalance}
             startAdornment={

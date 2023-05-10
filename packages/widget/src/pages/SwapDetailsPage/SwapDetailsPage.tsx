@@ -133,7 +133,7 @@ export const SwapDetailsPage: React.FC = () => {
       </Card>
       <Box mt={2}>
         <Button
-          href="https://discord.com/channels/849912621360218112/863689862514343946"
+          href="https://discord.gg/lifi"
           target="_blank"
           rel="nofollow noreferrer"
           fullWidth

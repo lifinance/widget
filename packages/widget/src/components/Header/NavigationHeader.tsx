@@ -13,11 +13,13 @@ import {
   navigationRoutesValues,
 } from '../../utils';
 import { HeaderAppBar } from './Header.style';
+import { NavigationTabs } from './NavigationTabs';
+import { WalletMenuButton } from './WalletHeader';
 import { useHeaderActionStore } from './useHeaderActionStore';
 
 export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
-  const { variant, hiddenUI } = useWidgetConfig();
+  const { variant, subvariant, hiddenUI, walletManagement } = useWidgetConfig();
   const { navigate, navigateBack } = useNavigateBack();
   const { account } = useWallet();
   const { element } = useHeaderActionStore();
@@ -28,6 +30,8 @@ export const NavigationHeader: React.FC = () => {
     : pathname;
   const path = cleanedPathname.substring(cleanedPathname.lastIndexOf('/') + 1);
   const hasPath = navigationRoutesValues.includes(path);
+
+  const splitSubvariant = subvariant === 'split' && !hasPath;
 
   const handleHeaderTitle = () => {
     switch (path) {
@@ -83,53 +87,68 @@ export const NavigationHeader: React.FC = () => {
   };
 
   return (
-    <HeaderAppBar elevation={0}>
-      {backButtonRoutes.includes(path) ? (
-        <IconButton size="medium" edge="start" onClick={navigateBack}>
-          <ArrowBackIcon />
-        </IconButton>
-      ) : null}
-      <Typography
-        fontSize={hasPath ? 18 : 24}
-        align={hasPath ? 'center' : 'left'}
-        fontWeight="700"
-        flex={1}
-        noWrap
-      >
-        {handleHeaderTitle()}
-      </Typography>
-      <Routes>
-        <Route
-          path={navigationRoutes.home}
-          element={
-            <>
-              {account.isActive && !hiddenUI?.includes(HiddenUI.History) ? (
-                <Tooltip title={t(`header.swapHistory`)} enterDelay={400} arrow>
+    <>
+      <HeaderAppBar elevation={0}>
+        {backButtonRoutes.includes(path) ? (
+          <IconButton size="medium" edge="start" onClick={navigateBack}>
+            <ArrowBackIcon />
+          </IconButton>
+        ) : null}
+        {splitSubvariant ? (
+          <Box flex={1}>
+            {!hiddenUI?.includes(HiddenUI.WalletMenu) ? (
+              <WalletMenuButton />
+            ) : null}
+          </Box>
+        ) : (
+          <Typography
+            fontSize={hasPath ? 18 : 24}
+            align={hasPath ? 'center' : 'left'}
+            fontWeight="700"
+            flex={1}
+            noWrap
+          >
+            {handleHeaderTitle()}
+          </Typography>
+        )}
+        <Routes>
+          <Route
+            path={navigationRoutes.home}
+            element={
+              <>
+                {account.isActive && !hiddenUI?.includes(HiddenUI.History) ? (
+                  <Tooltip
+                    title={t(`header.swapHistory`)}
+                    enterDelay={400}
+                    arrow
+                  >
+                    <IconButton
+                      size="medium"
+                      edge="start"
+                      onClick={() => navigate(navigationRoutes.swapHistory)}
+                    >
+                      <ReceiptLongIcon />
+                    </IconButton>
+                  </Tooltip>
+                ) : null}
+                <Tooltip title={t(`header.settings`)} enterDelay={400} arrow>
                   <IconButton
                     size="medium"
-                    edge="start"
-                    onClick={() => navigate(navigationRoutes.swapHistory)}
+                    onClick={() => navigate(navigationRoutes.settings)}
+                    sx={{
+                      marginRight: -1.25,
+                    }}
                   >
-                    <ReceiptLongIcon />
+                    <SettingsIcon />
                   </IconButton>
                 </Tooltip>
-              ) : null}
-              <Tooltip title={t(`header.settings`)} enterDelay={400} arrow>
-                <IconButton
-                  size="medium"
-                  onClick={() => navigate(navigationRoutes.settings)}
-                  sx={{
-                    marginRight: -1.25,
-                  }}
-                >
-                  <SettingsIcon />
-                </IconButton>
-              </Tooltip>
-            </>
-          }
-        />
-        <Route path="*" element={element || <Box width={28} height={40} />} />
-      </Routes>
-    </HeaderAppBar>
+              </>
+            }
+          />
+          <Route path="*" element={element || <Box width={28} height={40} />} />
+        </Routes>
+      </HeaderAppBar>
+      {splitSubvariant ? <NavigationTabs /> : null}
+    </>
   );
 };

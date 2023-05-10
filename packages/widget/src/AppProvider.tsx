@@ -22,7 +22,7 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
 }) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <StoreProvider namePrefix={config?.localStorageKeyPrefix}>
+      <StoreProvider config={config}>
         <WidgetProvider config={config}>
           <SDKProvider>
             <ThemeProvider>

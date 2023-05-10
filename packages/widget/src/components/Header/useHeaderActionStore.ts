@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import { create } from 'zustand';
 import type { HeaderActionStore } from './types';
 

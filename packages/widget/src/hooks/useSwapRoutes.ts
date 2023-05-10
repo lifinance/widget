@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useDebouncedWatch, useGasRefuel, useToken } from '.';
 import { SwapFormKey, useLiFi, useWallet, useWidgetConfig } from '../providers';
 import { useSettings } from '../stores';
+import { useSwapOnly } from './useSwapOnly';
 
 const refetchTime = 60_000;
 
@@ -24,6 +25,7 @@ export const useSwapRoutes = ({
   const { variant, sdkConfig, insurance, contractTool } = useWidgetConfig();
   const { account } = useWallet();
   const queryClient = useQueryClient();
+  const swapOnly = useSwapOnly();
   const {
     slippage,
     enabledBridges,
@@ -97,7 +99,7 @@ export const useSwapRoutes = ({
     toContractCallData,
     toContractGasLimit,
     slippage,
-    enabledBridges,
+    swapOnly ? [] : enabledBridges,
     enabledExchanges,
     routePriority,
     variant,

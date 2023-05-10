@@ -1,15 +1,15 @@
 import type { MutableRefObject } from 'react';
 import { useLayoutEffect, useState } from 'react';
-import { createElementId, ElementId } from '../utils';
+import { ElementId, createElementId } from '../utils';
 import { useDefaultElementId } from './useDefaultElementId';
 import { getScrollableContainer } from './useScrollableContainer';
 
 const getContentHeight = (elementId: string) => {
-  const headerElement = document.getElementById(
-    createElementId(ElementId.Header, elementId),
-  );
   const containerElement = document.getElementById(
     createElementId(ElementId.ScrollableContainer, elementId),
+  );
+  const headerElement = document.getElementById(
+    createElementId(ElementId.Header, elementId),
   );
   if (!containerElement || !headerElement) {
     console.warn(
@@ -24,13 +24,9 @@ const getContentHeight = (elementId: string) => {
 
 export const useContentHeight = () => {
   const elementId = useDefaultElementId();
-  const [contentHeight, setContentHeight] = useState<number>(() =>
-    getContentHeight(elementId),
-  );
+  const [contentHeight, setContentHeight] = useState<number>(0);
   useLayoutEffect(() => {
-    if (!contentHeight) {
-      setContentHeight(getContentHeight(elementId));
-    }
+    setContentHeight(getContentHeight(elementId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return contentHeight;

@@ -1,13 +1,19 @@
 import type { PropsWithChildren } from 'react';
+import type { WidgetConfigProps } from '../types';
 import { RouteExecutionStoreProvider } from './routes';
-import type { PersistStoreProviderProps } from './types';
+import { SplitSubvariantStoreProvider } from './settings';
 
-export const StoreProvider: React.FC<
-  PropsWithChildren<PersistStoreProviderProps>
-> = ({ children, namePrefix }) => {
+export const StoreProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
+  children,
+  config,
+}) => {
   return (
-    <RouteExecutionStoreProvider namePrefix={namePrefix}>
-      {children}
-    </RouteExecutionStoreProvider>
+    <SplitSubvariantStoreProvider
+      state={config.subvariant === 'split' ? 'swap' : undefined}
+    >
+      <RouteExecutionStoreProvider namePrefix={config?.localStorageKeyPrefix}>
+        {children}
+      </RouteExecutionStoreProvider>
+    </SplitSubvariantStoreProvider>
   );
 };

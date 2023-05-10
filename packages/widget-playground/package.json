@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-playground",
-  "version": "1.0.106",
+  "version": "1.0.108",
   "type": "module",
   "scripts": {
     "analyze": "source-map-explorer 'dist/assets/*.js' --no-border-checks",
@@ -24,23 +24,23 @@
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
     "@lifi/sdk": "^2.0.0-beta.11",
-    "@lifi/wallet-management": "^2.0.0-beta.4",
-    "@lifi/widget": "^2.0.0-beta.5",
+    "@lifi/wallet-management": "^2.0.0-beta.5",
+    "@lifi/widget": "^2.0.0-beta.7",
     "@mui/icons-material": "^5.11.16",
-    "@mui/lab": "^5.0.0-alpha.128",
-    "@mui/material": "^5.12.2",
+    "@mui/lab": "^5.0.0-alpha.129",
+    "@mui/material": "^5.13.0",
     "ethers": "^5.7.2",
     "events": "^3.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.10.0"
+    "react-router-dom": "^6.11.1"
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@vitejs/plugin-react": "^4.0.0",
     "rollup-plugin-polyfill-node": "^0.12.0",
     "typescript": "^5.0.4",
-    "vite": "^4.3.3",
+    "vite": "^4.3.5",
     "web-vitals": "^3.3.1"
   },
   "eslintConfig": {

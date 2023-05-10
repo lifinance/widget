@@ -53,7 +53,7 @@ export const NFTOpenSea: React.FC<NFTOpenSeaProps> = ({
             listing: {
               hash: ordersQueryResponse.orders[0].order_hash,
               chain: network,
-              protocol_address: '0x00000000000001ad428e4906aE43D8F9852d0dD6',
+              protocol_address: ordersQueryResponse.orders[0].protocol_address,
             },
             fulfiller: {
               address: accountAddress,
@@ -67,7 +67,9 @@ export const NFTOpenSea: React.FC<NFTOpenSeaProps> = ({
 
       const fulfillOrder = async () => {
         try {
-          const seaport = new Seaport(account.signer as any);
+          const seaport = new Seaport(account.signer as any, {
+            seaportVersion: '1.5',
+          });
 
           const { actions } = await seaport.fulfillOrder({
             order: order.protocolData,

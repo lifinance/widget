@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import { createContext, useContext, useRef } from 'react';
 import type { StoreApi, UseBoundStore } from 'zustand';
 import type { PersistStoreProviderProps } from '../types';

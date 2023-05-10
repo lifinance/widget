@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-beta.7](https://github.com/lifinance/widget/compare/v2.0.0-beta.6...v2.0.0-beta.7) (2023-05-04)
+
+
+### Bug Fixes
+
+* widget drawer types for refs ([0168ff7](https://github.com/lifinance/widget/commit/0168ff79154fe9925b199a8e3c36328c7f33babd))
+
+## [2.0.0-beta.6](https://github.com/lifinance/widget/compare/v2.0.0-beta.5...v2.0.0-beta.6) (2023-05-04)
+
+
+### Features
+
+* add split subvariant ([#81](https://github.com/lifinance/widget/issues/81)) ([7c65124](https://github.com/lifinance/widget/commit/7c65124fb14cdd765c4703625a26865803ddacf1))
+
+
+### Bug Fixes
+
+* move exodus up the list ([#85](https://github.com/lifinance/widget/issues/85)) ([5fc59bc](https://github.com/lifinance/widget/commit/5fc59bc97b899d5ced2a7fd2dc545470c8c0a976))
+
 ## [2.0.0-beta.5](https://github.com/lifinance/widget/compare/v2.0.0-beta.4...v2.0.0-beta.5) (2023-04-28)
 
 

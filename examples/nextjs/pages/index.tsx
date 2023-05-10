@@ -1,3 +1,4 @@
+/* eslint-disable import/no-default-export */
 import type { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import { LoadingIndicator } from '../components/LoadingIndicator';

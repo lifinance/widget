@@ -13,6 +13,8 @@ export const WidgetVariants = [
   'refuel',
 ] as const;
 
+export const WidgetSubvariants = ['default', 'split'] as const;
+
 export const widgetBaseConfig: WidgetConfig = {
   // fromChain: 137,
   // toChain: 10,
@@ -22,14 +24,15 @@ export const widgetBaseConfig: WidgetConfig = {
   // toAddress: '0x552008c0f6870c2f77e5cC1d2eb9bdff03e30Ea0',
 
   variant: 'expandable',
+  // subvariant: 'split',
   integrator: 'li.fi-playground',
-  // hiddenUI: ['poweredBy', 'language', 'appearance'],
   chains: {
     allow: [], // 1, 1285, 10, 56, 137
     deny: [],
   },
   // useRecommendedRoute: true,
   buildSwapUrl: true,
+  // hiddenUI: ['poweredBy', 'language', 'appearance', 'drawerButton'],
   // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
   // requiredUI: ['toAddress'],
   // slippage: 0.003,

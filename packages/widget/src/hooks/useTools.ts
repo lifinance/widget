@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import type { ToolsResponse } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
 import { isItemAllowed, useLiFi, useWidgetConfig } from '../providers';
