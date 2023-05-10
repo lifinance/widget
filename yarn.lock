@@ -2662,6 +2662,7 @@ __metadata:
     "@walletconnect/ethereum-provider": ^1.8.0
     "@walletconnect/web3-provider": ^1.8.0
     cpy-cli: ^4.2.0
+    events: ^3.3.0
     react: ^18.2.0
     typescript: ^5.0.4
   languageName: unknown

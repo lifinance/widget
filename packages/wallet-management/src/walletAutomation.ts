@@ -14,8 +14,9 @@ export const switchChain = async (
   try {
     if (provider.send) {
       await provider.send('wallet_switchEthereumChain', [params]);
+      return true;
     } else {
-      const chainSwitchPromise = new Promise<boolean>((resolve, reject) => {
+      const switched = await new Promise<boolean>((resolve, reject) => {
         provider
           .request({
             method: 'wallet_switchEthereumChain',
@@ -33,45 +34,36 @@ export const switchChain = async (
           }
         });
       });
-      const result = await chainSwitchPromise;
-      return result;
+      return switched;
     }
-
-    return true;
   } catch (error: any) {
     // const ERROR_CODE_UNKNOWN_CHAIN = 4902
     if (error.code !== MetaMaskProviderErrorCode.userRejectedRequest) {
-      await addChain(provider, chainId);
+      const added = await addChain(provider, chainId);
+      return added;
     } else {
       console.error(error);
       return false;
     }
   }
-  return false;
 };
 
 export const addChain = async (provider: any, chainId: number) => {
   const params = getChainById(chainId).metamask;
-  if (provider.send) {
-    await provider
-      .send('wallet_addEthereumChain', [params])
-      .then(() => {
-        return true;
-      })
-      .catch((error: any) => {
-        console.error(`Error adding chain ${chainId}: ${error.message}`);
+  try {
+    if (provider.send) {
+      await provider.send('wallet_addEthereumChain', [params]);
+    } else {
+      await provider.request({
+        method: 'wallet_addEthereumChain',
+        params: [params],
       });
-  } else {
-    provider
-      .request({ method: 'wallet_addEthereumChain', params: [params] })
-      .then(() => {
-        return true;
-      })
-      .catch((error: any) => {
-        console.error(`Error adding chain ${chainId}: ${error.message}`);
-      });
+    }
+    return true;
+  } catch (error: any) {
+    console.error(`Error adding chain ${chainId}: ${error.message}`);
+    return false;
   }
-  return false;
 };
 
 export const addToken = async (provider: any, token: StaticToken) => {
@@ -85,22 +77,19 @@ export const addToken = async (provider: any, token: StaticToken) => {
     },
   };
   try {
-    let wasAdded;
-    // wasAdded is a boolean. Like any RPC method, an error may be thrown.
     if (provider.send) {
-      wasAdded = await provider.send('wallet_watchAsset', [params]);
+      await provider.send('wallet_watchAsset', [params]);
     } else {
-      wasAdded = await provider.request({
+      await provider.request({
         method: 'wallet_watchAsset',
         params: [params],
       });
     }
-
-    return wasAdded;
+    return true;
   } catch (error) {
     console.error(error);
+    return false;
   }
-  return false;
 };
 
 export const switchChainAndAddToken = async (
@@ -113,18 +102,25 @@ export const switchChainAndAddToken = async (
     if (
       chainIdPrefixed !== prefixChainId((await provider.getNetwork()).chainId)
     ) {
-      await switchChain(provider, chainId);
-      provider.once('chainChanged', async (id: string) => {
-        if (parseInt(id, 10) === chainId) {
-          await addToken(provider, token);
-        }
-      });
+      const switched = await switchChain(provider, chainId);
+      if (switched) {
+        const added = await new Promise<boolean>((resolve, reject) => {
+          provider.once('chainChanged', async (id: string) => {
+            if (parseInt(id, 10) === chainId) {
+              const added = await addToken(provider, token);
+              resolve(added);
+            }
+          });
+        });
+        return added;
+      }
+      return switched;
     } else {
-      await addToken(provider, token);
+      const added = await addToken(provider, token);
+      return added;
     }
-    return true;
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error(error);
     return false;
   }
 };

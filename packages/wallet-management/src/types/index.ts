@@ -1,7 +1,6 @@
 import type { Signer } from '@ethersproject/abstract-signer';
 import type { Web3Provider } from '@ethersproject/providers';
 import type { StaticToken } from '@lifi/sdk';
-import type events from 'events';
 import type EventEmitter from 'node:events';
 
 export interface ProviderConnectInfo {
@@ -44,7 +43,7 @@ export interface WalletConnectConnectorConstructorArgs {
   };
 }
 
-export interface Wallet extends events.EventEmitter {
+export interface Wallet extends EventEmitter {
   name: string;
   icon: string;
   isActivationInProgress: boolean;
