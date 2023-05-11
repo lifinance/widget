@@ -49,7 +49,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
       }
       return size;
     },
-    getItemKey: (index) => tokens[index].address ?? index,
+    getItemKey: (index) => `${tokens[index].address}-${index}`,
   });
 
   useEffect(() => {
