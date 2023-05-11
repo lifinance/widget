@@ -135,6 +135,12 @@ export function getProcessMessage(
         title = t(`swap.error.title.gasLimitIsTooLow`);
         message = getTransactionNotSentMessage();
         break;
+      case LifiErrorCode.InsufficientFunds:
+        title = t(`swap.error.title.insufficientFunds`);
+        message = `${t(
+          `swap.error.message.insufficientFunds`,
+        )} ${getTransactionNotSentMessage()}`;
+        break;
       case LifiErrorCode.SlippageError:
         title = t(`swap.error.title.slippageNotMet`);
         message = t(`swap.error.message.slippageThreshold`);

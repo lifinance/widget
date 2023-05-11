@@ -2627,9 +2627,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lifi/sdk@npm:^2.0.0-beta.12":
-  version: 2.0.0-beta.12
-  resolution: "@lifi/sdk@npm:2.0.0-beta.12"
+"@lifi/sdk@npm:^2.0.0-beta.13":
+  version: 2.0.0-beta.13
+  resolution: "@lifi/sdk@npm:2.0.0-beta.13"
   dependencies:
     "@ethersproject/abi": ^5.7.0
     "@ethersproject/contracts": ^5.7.0
@@ -2637,7 +2637,7 @@ __metadata:
     bignumber.js: ^9.1.1
     eth-rpc-errors: ^4.0.3
     ethers: ^5.7.2
-  checksum: 7240974c05f52b7fa8c95b602b4c8bf3ec0dc28d16d8f202884569d1c1917852422828da8cb371271d6ea3fbfd6236c4707277ebc11ccbeccccf43e85758711e
+  checksum: aba59d9ea9c95bf07c467781ad19f9b5e656c55a38ff4a148e2c2a45325ff92eef64cd47e87b151d249b07c1baabf00e115774b5fb935f7e8fccb419720b568f
   languageName: node
   linkType: hard
 
@@ -2658,7 +2658,7 @@ __metadata:
     "@ethersproject/abstract-signer": ^5.7.0
     "@ethersproject/experimental": ^5.7.0
     "@ethersproject/providers": ^5.7.2
-    "@lifi/sdk": ^2.0.0-beta.12
+    "@lifi/sdk": ^2.0.0-beta.13
     "@walletconnect/ethereum-provider": ^1.8.0
     "@walletconnect/web3-provider": ^1.8.0
     cpy-cli: ^4.2.0
@@ -2674,7 +2674,7 @@ __metadata:
   dependencies:
     "@esbuild-plugins/node-globals-polyfill": ^0.2.3
     "@ethersproject/abstract-signer": ^5.7.0
-    "@lifi/sdk": ^2.0.0-beta.12
+    "@lifi/sdk": ^2.0.0-beta.13
     "@lifi/wallet-management": ^2.0.0-beta.6
     "@lifi/widget": ^2.0.0-beta.8
     "@mui/icons-material": ^5.11.16
@@ -2705,7 +2705,7 @@ __metadata:
   resolution: "@lifi/widget-playground@workspace:packages/widget-playground"
   dependencies:
     "@esbuild-plugins/node-globals-polyfill": ^0.2.3
-    "@lifi/sdk": ^2.0.0-beta.12
+    "@lifi/sdk": ^2.0.0-beta.13
     "@lifi/wallet-management": ^2.0.0-beta.6
     "@lifi/widget": ^2.0.0-beta.8
     "@mui/icons-material": ^5.11.16
@@ -2734,7 +2734,7 @@ __metadata:
     "@ethersproject/address": ^5.7.0
     "@ethersproject/experimental": ^5.7.0
     "@ethersproject/providers": ^5.7.2
-    "@lifi/sdk": ^2.0.0-beta.12
+    "@lifi/sdk": ^2.0.0-beta.13
     "@lifi/wallet-management": ^2.0.0-beta.6
     "@mui/icons-material": ^5.11.16
     "@mui/lab": ^5.0.0-alpha.129
