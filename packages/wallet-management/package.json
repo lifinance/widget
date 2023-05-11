@@ -52,7 +52,7 @@
     "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/experimental": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
-    "@lifi/sdk": "^2.0.0-beta.11",
+    "@lifi/sdk": "^2.0.0-beta.12",
     "@walletconnect/ethereum-provider": "^1.8.0",
     "@walletconnect/web3-provider": "^1.8.0",
     "events": "^3.3.0",
