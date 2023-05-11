@@ -2,13 +2,14 @@ import type { Route } from '@lifi/sdk';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import { Box, Button, Typography } from '@mui/material';
 import Big from 'big.js';
-import { MutableRefObject, forwardRef, useRef } from 'react';
+import type { MutableRefObject } from 'react';
+import { forwardRef, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import { BottomSheet } from '../../components/BottomSheet';
 import { useSetContentHeight } from '../../hooks';
+import { calcValueLoss } from './';
 import { CenterContainer, IconCircle } from './StatusBottomSheet.style';
-import { calcValueLoss } from './SwapPage';
 
 interface TokenValueBottomSheetProps {
   route: Route;

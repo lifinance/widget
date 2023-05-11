@@ -1,11 +1,11 @@
-import type { ExchangeRateUpdateParams, Route } from '@lifi/sdk';
+import type { ExchangeRateUpdateParams } from '@lifi/sdk';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Button, Tooltip } from '@mui/material';
-import { Big } from 'big.js';
 import { useCallback, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
+import { calcValueLoss } from '.';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import { ContractComponent } from '../../components/ContractComponent';
 import { GasMessage } from '../../components/GasMessage';
@@ -28,16 +28,6 @@ import {
   TokenValueBottomSheet,
   getTokenValueLossThreshold,
 } from './TokenValueBottomSheet';
-
-export const calcValueLoss = (route: Route) => {
-  return `${Big(route.toAmountUSD || 0)
-    .div(Big(route.fromAmountUSD || 0).plus(Big(route.gasCostUSD || 0)))
-    .minus(1)
-    .mul(100)
-    .round(2, Big.roundUp)
-    .toString()}
-  %`;
-};
 
 export const SwapPage: React.FC = () => {
   const { t } = useTranslation();
