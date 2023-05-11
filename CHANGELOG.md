@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-beta.8](https://github.com/lifinance/widget/compare/v2.0.0-beta.7...v2.0.0-beta.8) (2023-05-11)
+
+
+### Features
+
+* add hiddenUI toToken option ([4e5376b](https://github.com/lifinance/widget/commit/4e5376b5a9db1fa4b35012b6db3f6fb996555b6e))
+* show token address in token list items ([e5d6411](https://github.com/lifinance/widget/commit/e5d64115452a6798fd8d5464ed15d38e1dc49ab4))
+
+
+### Bug Fixes
+
+* adjust token search field text ([4aa5cef](https://github.com/lifinance/widget/commit/4aa5cefaea78341af0872400fb527cea9140dae0))
+* apply auto refuel when swapping to native tokens ([14d5a1a](https://github.com/lifinance/widget/commit/14d5a1ae800779a5ee5547a379777c18284272e3))
+* handle duplicates in token list ([ee804da](https://github.com/lifinance/widget/commit/ee804daa522bd695e450792c3613332bb22583ae))
+* handle undefined current wallet ([#87](https://github.com/lifinance/widget/issues/87)) ([5b37b6f](https://github.com/lifinance/widget/commit/5b37b6f93e041148d47b6661d0e59b5b3c16c847))
+* replace support link ([55a04df](https://github.com/lifinance/widget/commit/55a04dfe35b06d0a3f2804738d9f2278689d16c7))
+
 ## [2.0.0-beta.7](https://github.com/lifinance/widget/compare/v2.0.0-beta.6...v2.0.0-beta.7) (2023-05-04)
 
 
