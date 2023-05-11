@@ -23,7 +23,7 @@ export const useSwapRoutes = ({
 }: SwapRoutesProps = {}) => {
   const lifi = useLiFi();
   const { variant, sdkConfig, insurance, contractTool } = useWidgetConfig();
-  const { account, provider } = useWallet();
+  const { account } = useWallet();
   const queryClient = useQueryClient();
   const swapOnly = useSwapOnly();
   const {
@@ -144,7 +144,7 @@ export const useSwapRoutes = ({
         let toWalletAddress;
         try {
           toWalletAddress =
-            (await provider?.resolveName(toAddress)) ??
+            (await account.signer?.provider?.resolveName(toAddress)) ??
             (isAddress(toAddress) ? toAddress : fromAddress);
         } catch {
           toWalletAddress = isAddress(toAddress) ? toAddress : fromAddress;

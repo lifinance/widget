@@ -1,4 +1,4 @@
-import events from 'events';
+import { EventEmitter } from 'events';
 import type { Wallet } from './types';
 import {
   addToActiveWallets,
@@ -7,7 +7,7 @@ import {
   removeFromDeactivatedWallets,
 } from './walletPersistance';
 
-export class LiFiWalletManagement extends events.EventEmitter {
+export class LiFiWalletManagement extends EventEmitter {
   connectedWallets: Wallet[] = [];
 
   public connect = async (wallet: Wallet) => {

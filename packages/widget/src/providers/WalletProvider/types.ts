@@ -1,11 +1,9 @@
 import type { Signer } from '@ethersproject/abstract-signer';
-import type { Provider } from '@ethersproject/providers';
 import type { StaticToken } from '@lifi/sdk';
 import type { Wallet } from '@lifi/wallet-management';
 
 export interface WalletContextProps {
   account: WalletAccount;
-  provider?: Provider;
   addChain(chainId: number): Promise<boolean>;
   addToken(chainId: number, token: StaticToken): Promise<void>;
   disconnect(wallet?: Wallet): void;
