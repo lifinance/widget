@@ -1,8 +1,9 @@
 import type { EVMChain, Route, Token } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
 import Big from 'big.js';
-import { useChains, useGetTokenBalancesWithRetry } from '.';
+import { useChains, useGasRefuel, useGetTokenBalancesWithRetry } from '.';
 import { useWallet } from '../providers';
+import { useSettings } from '../stores';
 
 export interface GasSufficiency {
   gasAmount: Big;
@@ -22,12 +23,22 @@ export const useGasSufficiency = (route?: Route) => {
     account.signer?.provider,
   );
 
+  const { enabledAutoRefuel } = useSettings(['enabledAutoRefuel']);
+  const { enabled, isLoading: isRefuelLoading } = useGasRefuel();
+  const enabledRefuel = enabled && enabledAutoRefuel;
+
   const { data: insufficientGas, isInitialLoading } = useQuery(
     ['gas-sufficiency-check', account.address, route?.id],
     async () => {
       if (!account.address || !route) {
         return;
       }
+
+      // TODO: include LI.Fuel into calculation once steps and tools are properly typed
+      // const refuelSteps = route.steps
+      //   .flatMap((step) => step.includedSteps)
+      //   .filter((includedStep) => includedStep.tool === 'lifuelProtocol');
+
       const gasCosts = route.steps
         .filter((step) => !step.execution || step.execution.status !== 'DONE')
         .reduce((groupedGasCosts, step) => {
@@ -115,8 +126,11 @@ export const useGasSufficiency = (route?: Route) => {
     },
   );
 
+  const isInsufficientGas =
+    Boolean(insufficientGas?.length) && !isRefuelLoading && !enabledRefuel;
+
   return {
-    insufficientGas,
+    insufficientGas: isInsufficientGas ? insufficientGas : undefined,
     isInitialLoading,
   };
 };
