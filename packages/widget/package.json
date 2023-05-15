@@ -58,7 +58,7 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/lab": "^5.0.0-alpha.129",
     "@mui/material": "^5.13.0",
-    "@tanstack/react-query": "^4.29.5",
+    "@tanstack/react-query": "^4.29.7",
     "@tanstack/react-virtual": "^3.0.0-beta.54",
     "big.js": "^6.2.1",
     "i18next": "^22.4.15",
@@ -71,7 +71,7 @@
     "react-i18next": "^12.2.2",
     "react-intersection-observer": "^9.4.3",
     "react-router-dom": "^6.11.1",
-    "react-timer-hook": "^3.0.5",
+    "react-timer-hook": "^3.0.6",
     "uuid": "^9.0.0",
     "zustand": "^4.3.8"
   },
