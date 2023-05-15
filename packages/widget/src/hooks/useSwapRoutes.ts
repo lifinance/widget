@@ -13,14 +13,10 @@ import { useSwapOnly } from './useSwapOnly';
 const refetchTime = 60_000;
 
 interface SwapRoutesProps {
-  onSettled?: (data?: RoutesResponse) => void;
   insurableRoute?: Route;
 }
 
-export const useSwapRoutes = ({
-  onSettled,
-  insurableRoute,
-}: SwapRoutesProps = {}) => {
+export const useSwapRoutes = ({ insurableRoute }: SwapRoutesProps = {}) => {
   const lifi = useLiFi();
   const { variant, sdkConfig, insurance, contractTool } = useWidgetConfig();
   const { account } = useWallet();
@@ -300,7 +296,6 @@ export const useSwapRoutes = ({
             });
           }
         },
-        onSettled,
       },
     );
 
