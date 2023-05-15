@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-beta.9](https://github.com/lifinance/widget/compare/v2.0.0-beta.8...v2.0.0-beta.9) (2023-05-15)
+
+
+### Bug Fixes
+
+* add insufficient funds error handling ([6991ee4](https://github.com/lifinance/widget/commit/6991ee457771540e6da5a723d2bb7201842956b4))
+* include auto refuel into gas sufficiency check ([d31f7e4](https://github.com/lifinance/widget/commit/d31f7e4eb393b64204dd364b0e9a85ea4299f421))
+* insurance card isn't shown in some cases ([a8eb1ef](https://github.com/lifinance/widget/commit/a8eb1ef6e7fd0a83f1e61c1b9974f18e72796e1a))
+
 ## [2.0.0-beta.8](https://github.com/lifinance/widget/compare/v2.0.0-beta.7...v2.0.0-beta.8) (2023-05-11)
 
 
