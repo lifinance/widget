@@ -83,6 +83,7 @@
     "error": {
       "message": {
         "allowanceRequired": "A quantidade a ser transferida para {{tokenSymbol}} excede a sua permissão atual. Por favor, aumente a sua permissão e tente novamente.",
+        "insufficientFunds": "Você não tem gás suficiente para cobrir o custo da transação.",
         "slippageThreshold": "A derrapagem é maior do que o limite definido. Solicite uma nova rota para obter uma nova cotação.",
         "transactionFailed": "Por favor, verifique o explorador de blocos para mais informações.",
         "transactionNotSent": "A transação não foi enviada. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} na {{chainName}} permanece na sua carteira.",
@@ -95,6 +96,7 @@
         "chainSwitch": "Necessário mudança de rede",
         "failed": "Conversão falhou",
         "gasLimitIsTooLow": "O limite de gás é muito baixo",
+        "insufficientFunds": "Saldo insuficiente",
         "slippageNotMet": "Condições de tolerância a discrepâncias não foram atendidas",
         "transactionCanceled": "Transação cancelada",
         "transactionFailed": "Transação falhou",
@@ -217,7 +219,7 @@
     "to": "Para",
     "tokenOnChain": "{{tokenSymbol}} na {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} na {{chainName}}",
-    "tokenSearch": "Pesquisar seu token",
+    "tokenSearch": "Pesquisar pelo nome do token ou endereço",
     "valueLoss": "Perda de Valor",
     "walletAddressOrEns": "Endereço da carteira ou nome ENS",
     "warning": {
