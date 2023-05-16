@@ -109,7 +109,7 @@
         "walletEnsAddressInvalid": "O endereço da carteira é inválido ou a rede não suporta ENS."
       }
     },
-    "estimatedTime": "{{value}}minutos",
+    "estimatedTime": "{{value}}m",
     "featuredTokens": "Tokens em destaque",
     "from": "De",
     "fromAmount": "Você paga",
@@ -139,7 +139,7 @@
       }
     },
     "nftStepDetails": "Comprar NFT via {{tool}}",
-    "onChain": "em {{nome da rede}}",
+    "onChain": "em {{chainName}}",
     "otherTokens": "Outros tokens",
     "ownedBy": "Possuído por",
     "process": {
