@@ -13,17 +13,13 @@ import { useSwapOnly } from './useSwapOnly';
 const refetchTime = 60_000;
 
 interface SwapRoutesProps {
-  onSettled?: (data?: RoutesResponse) => void;
   insurableRoute?: Route;
 }
 
-export const useSwapRoutes = ({
-  onSettled,
-  insurableRoute,
-}: SwapRoutesProps = {}) => {
+export const useSwapRoutes = ({ insurableRoute }: SwapRoutesProps = {}) => {
   const lifi = useLiFi();
   const { variant, sdkConfig, insurance, contractTool } = useWidgetConfig();
-  const { account, provider } = useWallet();
+  const { account } = useWallet();
   const queryClient = useQueryClient();
   const swapOnly = useSwapOnly();
   const {
@@ -65,7 +61,8 @@ export const useSwapRoutes = ({
   });
   const { token: fromToken } = useToken(fromChainId, fromTokenAddress);
   const { token: toToken } = useToken(toChainId, toTokenAddress);
-  const { enabled: enabledRefuel, gasRecommendation } = useGasRefuel();
+  const { enabled: enabledRefuel, fromAmount: gasRecommendationFromAmount } =
+    useGasRefuel();
 
   const hasAmount =
     (!isNaN(fromTokenAmount) && Number(fromTokenAmount) > 0) ||
@@ -105,7 +102,7 @@ export const useSwapRoutes = ({
     variant,
     sdkConfig?.defaultRouteOptions?.allowSwitchChain,
     enabledRefuel && enabledAutoRefuel,
-    gasRecommendation?.fromAmount,
+    gasRecommendationFromAmount,
     insurance,
     insurableRoute?.id,
   ];
@@ -143,7 +140,7 @@ export const useSwapRoutes = ({
         let toWalletAddress;
         try {
           toWalletAddress =
-            (await provider?.resolveName(toAddress)) ??
+            (await account.signer?.provider?.resolveName(toAddress)) ??
             (isAddress(toAddress) ? toAddress : fromAddress);
         } catch {
           toWalletAddress = isAddress(toAddress) ? toAddress : fromAddress;
@@ -299,7 +296,6 @@ export const useSwapRoutes = ({
             });
           }
         },
-        onSettled,
       },
     );
 

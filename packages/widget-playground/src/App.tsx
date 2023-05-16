@@ -1,9 +1,12 @@
 import type { StaticToken } from '@lifi/sdk';
-import type { WidgetSubvariant, WidgetVariant } from '@lifi/widget';
+import type {
+  WidgetDrawer,
+  WidgetSubvariant,
+  WidgetVariant,
+} from '@lifi/widget';
 import { LiFiWidget } from '@lifi/widget';
 import {
   Box,
-  // Button,
   Checkbox,
   CssBaseline,
   Drawer,
@@ -20,7 +23,7 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { WalletButtons } from './components/WalletButtons';
 import { WidgetEvents } from './components/WidgetEvents';
 import {
@@ -34,6 +37,7 @@ import './index.css';
 import { useWallet } from './providers/WalletProvider';
 
 export const App = () => {
+  const drawerRef = useRef<WidgetDrawer>(null);
   const { connect, disconnect, account } = useWallet();
   const [searchParams] = useState(() =>
     Object.fromEntries(new URLSearchParams(window?.location.search)),
@@ -341,7 +345,12 @@ export const App = () => {
           </Box>
         </Drawer>
         <Box flex={1} margin="auto">
-          <LiFiWidget integrator={config.integrator} config={config} open />
+          <LiFiWidget
+            integrator={config.integrator}
+            config={config}
+            open
+            ref={drawerRef}
+          />
         </Box>
       </Box>
     </ThemeProvider>

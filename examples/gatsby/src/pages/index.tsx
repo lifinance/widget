@@ -1,3 +1,4 @@
+/* eslint-disable import/no-default-export */
 import { LiFiWidget } from '@lifi/widget';
 import type { HeadFC } from 'gatsby';
 import * as React from 'react';
@@ -11,6 +12,7 @@ const IndexPage = () => {
           borderRadius: '16px',
         },
       }}
+      integrator="gatsby-example"
     />
   );
 };

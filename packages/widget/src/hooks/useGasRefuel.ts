@@ -9,16 +9,14 @@ import { useTokenBalance } from './useTokenBalance';
 export const useGasRefuel = () => {
   const { getChainById } = useChains();
 
-  const [fromChainId, fromTokenAddress, toChainId, toTokenAddress, toAddress] =
-    useWatch({
-      name: [
-        SwapFormKey.FromChain,
-        SwapFormKey.FromToken,
-        SwapFormKey.ToChain,
-        SwapFormKey.ToToken,
-        SwapFormKey.ToAddress,
-      ],
-    });
+  const [fromChainId, fromTokenAddress, toChainId, toAddress] = useWatch({
+    name: [
+      SwapFormKey.FromChain,
+      SwapFormKey.FromToken,
+      SwapFormKey.ToChain,
+      SwapFormKey.ToAddress,
+    ],
+  });
 
   const toChain = getChainById(toChainId);
 
@@ -38,10 +36,7 @@ export const useGasRefuel = () => {
       // We don't allow same chain refuel.
       // If a user runs out of gas, he can't send a source chain transaction.
       fromChainId === toChainId ||
-      // We don't want to apply auto refuel when swapping to native tokens
-      toChain?.nativeToken.address === toTokenAddress ||
       !gasRecommendation?.available ||
-      !gasRecommendation.recommended ||
       !nativeToken
     ) {
       return false;
@@ -55,21 +50,15 @@ export const useGasRefuel = () => {
 
     const insufficientGas = tokenBalance.lt(recommendedAmount);
     return insufficientGas;
-  }, [
-    fromChainId,
-    gasRecommendation?.available,
-    gasRecommendation?.recommended,
-    nativeToken,
-    toChain?.nativeToken.address,
-    toChainId,
-    toTokenAddress,
-  ]);
+  }, [fromChainId, gasRecommendation, nativeToken, toChainId]);
 
   return {
     enabled: enabled,
     availble: gasRecommendation?.available,
     isLoading: isLoading,
     chain: toChain,
-    gasRecommendation,
+    fromAmount: gasRecommendation?.available
+      ? gasRecommendation.fromAmount
+      : undefined,
   };
 };

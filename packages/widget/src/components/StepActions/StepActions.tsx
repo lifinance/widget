@@ -163,13 +163,14 @@ export const StepDetailsContent: React.FC<{
     step.action.fromToken.chainId === step.action.toToken.chainId &&
     step.action.fromToken.address === step.action.toToken.address;
 
-  let fromAmount;
+  let fromAmount: string;
   if (sameTokenProtocolStep) {
     fromAmount = Big(step.estimate.fromAmount)
       .div(10 ** step.action.fromToken.decimals)
       .minus(
         Big(step.estimate.toAmount).div(10 ** step.action.toToken.decimals),
-      );
+      )
+      .toString();
   } else {
     fromAmount = formatTokenAmount(
       step.estimate.fromAmount,

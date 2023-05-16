@@ -14,7 +14,7 @@ import {
   switchChainAndAddToken,
 } from '../walletAutomation';
 
-interface MockWalletConnectProvider
+export interface MockWalletConnectProvider
   extends Omit<WalletConnectProvider, 'on' | 'off' | 'once' | 'removeListener'>,
     EventEmitter {}
 
@@ -106,21 +106,21 @@ export class WalletConnectConnector
     if (!this.provider) {
       throw new Error('provider is not defined.');
     }
-    return switchChain(this.provider, chainId);
+    return switchChain(this.walletConnectProvider, chainId);
   }
 
   public async addChain(chainId: number) {
     if (!this.provider) {
       throw new Error('provider is not defined.');
     }
-    return addChain(this.provider, chainId);
+    return addChain(this.walletConnectProvider, chainId);
   }
 
   public async addToken(chainId: number, token: StaticToken) {
     if (!this.provider) {
       throw new Error('provider is not defined.');
     }
-    return switchChainAndAddToken(this.provider, chainId, token);
+    return switchChainAndAddToken(this.walletConnectProvider, chainId, token);
   }
 
   private async calcAccountData() {

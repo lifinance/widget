@@ -10,6 +10,7 @@ function App() {
           borderRadius: '16px',
         },
       }}
+      integrator="cra-example"
     />
   );
 }

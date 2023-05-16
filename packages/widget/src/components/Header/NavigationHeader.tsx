@@ -19,7 +19,7 @@ import { useHeaderActionStore } from './useHeaderActionStore';
 
 export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
-  const { variant, subvariant, hiddenUI, walletManagement } = useWidgetConfig();
+  const { variant, subvariant, hiddenUI } = useWidgetConfig();
   const { navigate, navigateBack } = useNavigateBack();
   const { account } = useWallet();
   const { element } = useHeaderActionStore();

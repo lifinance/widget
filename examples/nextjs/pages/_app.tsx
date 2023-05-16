@@ -1,3 +1,4 @@
+/* eslint-disable import/no-default-export */
 import type { AppProps } from 'next/app';
 import '../styles/globals.css';
 

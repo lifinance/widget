@@ -42,7 +42,7 @@ export const useRouteExecution = ({
     shallow,
   );
 
-  const updateCallback = (updatedRoute: Route) => {
+  const updateRouteHook = (updatedRoute: Route) => {
     const routeExecution =
       routeExecutionStoreContext.getState().routes[updatedRoute.id];
     if (!routeExecution) {
@@ -107,7 +107,7 @@ export const useRouteExecution = ({
       }
       queryClient.removeQueries(['routes'], { exact: false });
       return lifi.executeRoute(account.signer, routeExecution.route, {
-        updateCallback,
+        updateRouteHook,
         switchChainHook,
         acceptExchangeRateUpdateHook,
         infiniteApproval: false,
@@ -136,7 +136,7 @@ export const useRouteExecution = ({
         account.signer,
         resumedRoute ?? routeExecution.route,
         {
-          updateCallback,
+          updateRouteHook,
           switchChainHook,
           acceptExchangeRateUpdateHook,
           infiniteApproval: false,

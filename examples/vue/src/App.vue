@@ -5,5 +5,5 @@ import Widget from './components/Widget.vue';
 </script>
 
 <template>
-  <Widget msg="Vite + Vue + LI.FI Widget" />
+  <Widget msg="LI.FI Widget + Vue + Vite" />
 </template>

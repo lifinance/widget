@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useChain } from '../../hooks';
 import { useWallet, useWidgetConfig } from '../../providers';
-import { navigationRoutes, shortenWalletAddress } from '../../utils';
+import { navigationRoutes, shortenAddress } from '../../utils';
 import { HeaderAppBar, WalletButton } from './Header.style';
 import { WalletMenu } from './WalletMenu';
 
@@ -60,7 +60,7 @@ const ConnectedButton = () => {
   const { t } = useTranslation();
   const { subvariant } = useWidgetConfig();
   const { account, disconnect } = useWallet();
-  const walletAddress = shortenWalletAddress(account.address);
+  const walletAddress = shortenAddress(account.address);
   const { chain } = useChain(account.chainId);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 

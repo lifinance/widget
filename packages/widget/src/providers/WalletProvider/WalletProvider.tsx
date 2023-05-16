@@ -1,9 +1,13 @@
 import type { Signer } from '@ethersproject/abstract-signer';
+import type { Web3Provider } from '@ethersproject/providers';
 import type { StaticToken } from '@lifi/sdk';
 import {
   LiFiWalletManagement,
   readActiveWallets,
   supportedWallets,
+  addChain as walletAgnosticAddChain,
+  switchChainAndAddToken as walletAgnosticAddToken,
+  switchChain as walletAgnosticSwitchChain,
 } from '@lifi/wallet-management';
 import type { Wallet } from '@lifi/wallet-management/types';
 import type { FC, PropsWithChildren } from 'react';
@@ -44,6 +48,109 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   const [account, setAccount] = useState<WalletAccount>({});
   const [currentWallet, setCurrentWallet] = useState<Wallet | undefined>();
 
+  const handleWalletUpdate = async (wallet?: Wallet) => {
+    setCurrentWallet(wallet);
+    const account = await extractAccountFromSigner(wallet?.account?.signer);
+    setAccount(account);
+  };
+
+  const connect = useCallback(
+    async (wallet: Wallet) => {
+      if (walletManagement) {
+        const signer = await walletManagement.connect();
+        const account = await extractAccountFromSigner(signer);
+        setAccount(account);
+        return;
+      }
+      await liFiWalletManagement.connect(wallet);
+      wallet.on('walletAccountChanged', handleWalletUpdate);
+      handleWalletUpdate(wallet);
+    },
+    [walletManagement],
+  );
+
+  const disconnect = useCallback(async () => {
+    if (walletManagement) {
+      await walletManagement.disconnect();
+      setAccount({});
+      return;
+    }
+    if (currentWallet) {
+      await liFiWalletManagement.disconnect(currentWallet);
+      currentWallet.removeAllListeners();
+      handleWalletUpdate(undefined);
+    }
+  }, [currentWallet, walletManagement]);
+
+  const switchChain = useCallback(
+    async (chainId: number) => {
+      try {
+        if (walletManagement?.switchChain) {
+          const signer = await walletManagement.switchChain(chainId);
+          const account = await extractAccountFromSigner(signer);
+          setAccount(account);
+        } else if (!currentWallet) {
+          const provider = account.signer?.provider as Web3Provider;
+          if (!provider) {
+            throw new Error(`Switch chain: No provider available`);
+          }
+          await walletAgnosticSwitchChain(provider, chainId);
+        } else {
+          await currentWallet?.switchChain(chainId);
+          handleWalletUpdate(currentWallet);
+        }
+        return true;
+      } catch {
+        return false;
+      }
+    },
+    [account.signer?.provider, currentWallet, walletManagement],
+  );
+
+  const addChain = useCallback(
+    async (chainId: number) => {
+      try {
+        if (walletManagement?.addChain) {
+          return walletManagement.addChain(chainId);
+        } else if (!currentWallet) {
+          const provider = account.signer?.provider as Web3Provider;
+          if (!provider) {
+            throw new Error(`Add chain: No provider available`);
+          }
+          await walletAgnosticAddChain(provider, chainId);
+        } else {
+          await currentWallet?.addChain(chainId);
+          handleWalletUpdate(currentWallet);
+        }
+
+        return true;
+      } catch {
+        return false;
+      }
+    },
+    [account.signer?.provider, currentWallet, walletManagement],
+  );
+
+  const addToken = useCallback(
+    async (chainId: number, token: StaticToken) => {
+      try {
+        if (walletManagement?.addToken) {
+          return walletManagement.addToken(token, chainId);
+        } else if (!currentWallet) {
+          const provider = account.signer?.provider as Web3Provider;
+          if (!provider) {
+            throw new Error(`Add token: No provider available`);
+          }
+          await walletAgnosticAddToken(provider, chainId, token);
+        } else {
+          await currentWallet?.addToken(chainId, token);
+          handleWalletUpdate(currentWallet);
+        }
+      } catch {}
+    },
+    [account.signer?.provider, currentWallet, walletManagement],
+  );
+
   useEffect(() => {
     const autoConnect = async () => {
       const persistedActiveWallets = readActiveWallets();
@@ -62,102 +169,25 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
     autoConnect();
   }, []);
 
-  const handleWalletUpdate = async (wallet?: Wallet) => {
-    setCurrentWallet(wallet);
-    const account = await extractAccountFromSigner(wallet?.account?.signer);
-    setAccount(account);
-  };
-
-  const connect = useCallback(
-    async (wallet: Wallet) => {
-      if (walletManagement) {
-        const signer = await walletManagement.connect();
-        const account = await extractAccountFromSigner(signer);
-        setAccount(account);
-        return;
-      }
-      await liFiWalletManagement.connect(wallet);
-      wallet.on('walletAccountChanged', handleWalletUpdate);
-
-      handleWalletUpdate(wallet);
-    },
-    [walletManagement],
-  );
-
-  const disconnect = useCallback(async () => {
-    if (walletManagement) {
-      await walletManagement.disconnect();
-      setAccount({});
-      return;
-    }
-    if (currentWallet) {
-      await liFiWalletManagement.disconnect(currentWallet);
-      currentWallet.removeAllListeners();
-      handleWalletUpdate(undefined);
-    }
-  }, [walletManagement, currentWallet]);
-
-  const switchChain = useCallback(
-    async (chainId: number) => {
-      if (walletManagement?.switchChain) {
-        const signer = await walletManagement.switchChain(chainId);
-        const account = await extractAccountFromSigner(signer);
-        setAccount(account);
-        return true;
-      }
-      try {
-        await currentWallet?.switchChain(chainId);
-        handleWalletUpdate(currentWallet);
-        return true;
-      } catch {
-        return false;
-      }
-    },
-    [walletManagement, currentWallet],
-  );
-
-  const addChain = useCallback(
-    async (chainId: number) => {
-      if (walletManagement?.addChain) {
-        return walletManagement.addChain(chainId);
-      }
-      try {
-        await currentWallet?.addChain(chainId);
-        handleWalletUpdate(currentWallet);
-
-        return true;
-      } catch {
-        return false;
-      }
-    },
-    [walletManagement, currentWallet],
-  );
-
-  const addToken = useCallback(
-    async (chainId: number, token: StaticToken) => {
-      if (walletManagement?.addToken) {
-        return walletManagement.addToken(token, chainId);
-      }
-      await currentWallet?.addToken(chainId, token);
-      handleWalletUpdate(currentWallet);
-
-      return;
-    },
-    [walletManagement, currentWallet],
-  );
-
   // keep widget in sync with changing external signer object
   useEffect(() => {
     if (walletManagement) {
+      let ignore = false;
       const updateAccount = async () => {
         const account = await extractAccountFromSigner(
           walletManagement?.signer,
         );
-        setAccount(account);
+        // we should ignore the update if there is a newer one
+        if (!ignore) {
+          setAccount(account);
+        }
       };
       updateAccount();
+      return () => {
+        ignore = true;
+      };
     }
-  }, [walletManagement, walletManagement?.signer]);
+  }, [walletManagement]);
 
   const value = useMemo(
     () => ({
@@ -167,17 +197,8 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
       addChain,
       addToken,
       account,
-      provider: currentWallet?.account?.provider,
     }),
-    [
-      account,
-      addChain,
-      addToken,
-      connect,
-      disconnect,
-      currentWallet,
-      switchChain,
-    ],
+    [account, addChain, addToken, connect, disconnect, switchChain],
   );
 
   return (

@@ -7,7 +7,7 @@ import { StepActions } from '../../components/StepActions';
 import { Token } from '../../components/Token';
 import { useChains } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
-import { shortenWalletAddress } from '../../utils';
+import { shortenAddress } from '../../utils';
 import { DestinationWalletAddress } from './DestinationWalletAddress';
 import { GasStepProcess } from './GasStepProcess';
 import { StepProcess } from './StepProcess';
@@ -56,7 +56,7 @@ export const Step: React.FC<{
     }
   };
 
-  const formattedToAddress = shortenWalletAddress(toAddress);
+  const formattedToAddress = shortenAddress(toAddress);
   const toAddressLink = toAddress
     ? `${
         getChainById(step.action.toChainId)?.metamask.blockExplorerUrls[0]
