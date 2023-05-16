@@ -5,6 +5,14 @@ export enum WidgetEvent {
   RouteExecutionUpdated = 'routeExecutionUpdated',
   RouteExecutionCompleted = 'routeExecutionCompleted',
   RouteExecutionFailed = 'routeExecutionFailed',
+  RouteHighValueLoss = 'routeHighValueLoss',
+}
+
+export interface RouteHighValueLossUpdate {
+  fromAmountUsd: string;
+  gasCostUSD: string | undefined;
+  toAmountUSD: string;
+  valueLoss: string;
 }
 
 export type WidgetEvents = {
@@ -12,6 +20,7 @@ export type WidgetEvents = {
   routeExecutionUpdated: RouteExecutionUpdate;
   routeExecutionCompleted: Route;
   routeExecutionFailed: RouteExecutionUpdate;
+  routeHighValueLoss: RouteHighValueLossUpdate;
 };
 
 export interface RouteExecutionUpdate {

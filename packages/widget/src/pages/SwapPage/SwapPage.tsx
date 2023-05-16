@@ -1,7 +1,7 @@
 import type { ExchangeRateUpdateParams } from '@lifi/sdk';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Button, Tooltip } from '@mui/material';
-import { useCallback, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
@@ -10,9 +10,14 @@ import { ContractComponent } from '../../components/ContractComponent';
 import { GasMessage } from '../../components/GasMessage';
 import { Insurance } from '../../components/Insurance';
 import { getStepList } from '../../components/Step';
-import { useNavigateBack, useRouteExecution } from '../../hooks';
+import {
+  useNavigateBack,
+  useRouteExecution,
+  useWidgetEvents,
+} from '../../hooks';
 import { SwapFormKey, useWidgetConfig } from '../../providers';
 import { RouteExecutionStatus } from '../../stores';
+import { WidgetEvent } from '../../types/events';
 import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet';
 import { ExchangeRateBottomSheet } from './ExchangeRateBottomSheet';
 import { StartIdleSwapButton, StartSwapButton } from './StartSwapButton';
@@ -22,10 +27,12 @@ import {
   TokenValueBottomSheet,
   getTokenValueLossThreshold,
 } from './TokenValueBottomSheet';
+import { calcValueLoss } from './utils';
 
 export const SwapPage: React.FC = () => {
   const { t } = useTranslation();
   const { setValue } = useFormContext();
+  const emitter = useWidgetEvents();
   const { navigateBack } = useNavigateBack();
   const { variant, insurance } = useWidgetConfig();
   const { state }: any = useLocation();
@@ -48,18 +55,27 @@ export const SwapPage: React.FC = () => {
       onAcceptExchangeRateUpdate,
     });
 
-  const handleExecuteRoute = useCallback(() => {
+  const tokenValueLossThresholdExceeded = getTokenValueLossThreshold(route);
+
+  const handleExecuteRoute = () => {
     if (tokenValueBottomSheetRef.current?.isOpen()) {
+      if (route) {
+        emitter.emit(WidgetEvent.RouteHighValueLoss, {
+          fromAmountUsd: route.fromAmountUSD,
+          gasCostUSD: route.gasCostUSD,
+          toAmountUSD: route.toAmountUSD,
+          valueLoss: calcValueLoss(route),
+        });
+      }
       tokenValueBottomSheetRef.current?.close();
     }
     executeRoute();
     setValue(SwapFormKey.FromAmount, '');
-  }, [executeRoute, setValue]);
+  };
 
   const handleSwapClick = async () => {
     if (status === RouteExecutionStatus.Idle) {
-      const thresholdExceeded = getTokenValueLossThreshold(route);
-      if (thresholdExceeded && variant !== 'nft') {
+      if (tokenValueLossThresholdExceeded && variant !== 'nft') {
         tokenValueBottomSheetRef.current?.open();
       } else {
         handleExecuteRoute();
@@ -160,7 +176,7 @@ export const SwapPage: React.FC = () => {
       {route && status ? (
         <StatusBottomSheet status={status} route={route} />
       ) : null}
-      {route && variant !== 'nft' ? (
+      {route && tokenValueLossThresholdExceeded && variant !== 'nft' ? (
         <TokenValueBottomSheet
           route={route}
           ref={tokenValueBottomSheetRef}
