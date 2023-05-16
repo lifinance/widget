@@ -1,11 +1,10 @@
 import type { ExchangeRateUpdateParams } from '@lifi/sdk';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Button, Tooltip } from '@mui/material';
-import { useCallback, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { calcValueLoss } from '.';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import { ContractComponent } from '../../components/ContractComponent';
 import { GasMessage } from '../../components/GasMessage';
@@ -28,6 +27,7 @@ import {
   TokenValueBottomSheet,
   getTokenValueLossThreshold,
 } from './TokenValueBottomSheet';
+import { calcValueLoss } from './utils';
 
 export const SwapPage: React.FC = () => {
   const { t } = useTranslation();
@@ -55,7 +55,9 @@ export const SwapPage: React.FC = () => {
       onAcceptExchangeRateUpdate,
     });
 
-  const handleExecuteRoute = useCallback(() => {
+  const tokenValueLossThresholdExceeded = getTokenValueLossThreshold(route);
+
+  const handleExecuteRoute = () => {
     if (tokenValueBottomSheetRef.current?.isOpen()) {
       if (route) {
         emitter.emit(WidgetEvent.RouteHighValueLoss, {
@@ -69,12 +71,11 @@ export const SwapPage: React.FC = () => {
     }
     executeRoute();
     setValue(SwapFormKey.FromAmount, '');
-  }, [executeRoute, setValue]);
+  };
 
   const handleSwapClick = async () => {
     if (status === RouteExecutionStatus.Idle) {
-      const thresholdExceeded = getTokenValueLossThreshold(route);
-      if (thresholdExceeded && variant !== 'nft') {
+      if (tokenValueLossThresholdExceeded && variant !== 'nft') {
         tokenValueBottomSheetRef.current?.open();
       } else {
         handleExecuteRoute();
@@ -175,7 +176,7 @@ export const SwapPage: React.FC = () => {
       {route && status ? (
         <StatusBottomSheet status={status} route={route} />
       ) : null}
-      {route && variant !== 'nft' ? (
+      {route && tokenValueLossThresholdExceeded && variant !== 'nft' ? (
         <TokenValueBottomSheet
           route={route}
           ref={tokenValueBottomSheetRef}

@@ -1,15 +1,14 @@
 import type { Route } from '@lifi/sdk';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import { Box, Button, Typography } from '@mui/material';
-import Big from 'big.js';
 import type { MutableRefObject } from 'react';
 import { forwardRef, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import { BottomSheet } from '../../components/BottomSheet';
 import { useSetContentHeight } from '../../hooks';
-import { calcValueLoss } from './';
 import { CenterContainer, IconCircle } from './StatusBottomSheet.style';
+import { calcValueLoss } from './utils';
 
 interface TokenValueBottomSheetProps {
   route: Route;
@@ -95,11 +94,11 @@ export const getTokenValueLossThreshold = (route?: Route) => {
   if (!route) {
     return false;
   }
-  const fromAmountUSD = Big(route?.fromAmountUSD || 0);
-  const toAmountUSD = Big(route?.toAmountUSD || 0);
-  const gasCostUSD = Big(route?.gasCostUSD || 0);
-  if (fromAmountUSD.eq(0) && toAmountUSD.eq(0)) {
+  const fromAmountUSD = Number(route.fromAmountUSD || 0);
+  const toAmountUSD = Number(route.toAmountUSD || 0);
+  const gasCostUSD = Number(route.gasCostUSD || 0);
+  if (!fromAmountUSD && !toAmountUSD) {
     return false;
   }
-  return toAmountUSD.div(fromAmountUSD.plus(gasCostUSD)).lt(0.9);
+  return toAmountUSD / (fromAmountUSD + gasCostUSD) < 0.9;
 };
