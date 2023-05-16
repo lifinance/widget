@@ -83,6 +83,7 @@
     "error": {
       "message": {
         "allowanceRequired": "Сума переказу для {{tokenSymbol}} перевищує поточну межу. Збільшіть доступну кількість у гаманці та спробуйте ще раз.",
+        "insufficientFunds": "Не вистачає газу для покриття вартості транзакції.",
         "slippageThreshold": "Прослизання перевищує визначений поріг. Будь ласка, зробіть запит на новий маршрут, щоб отримати нову пропозицію.",
         "transactionFailed": "Будь ласка, перевірте провідник блоків для отримання додаткової інформації.",
         "transactionNotSent": "Транзакція не була відправлена. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} на {{chainName}} все ще знаходяться у вашому гаманці.",
@@ -95,6 +96,7 @@
         "chainSwitch": "Потрібно переключити чейн.",
         "failed": "Помилка обміну.",
         "gasLimitIsTooLow": "Занадто низький ліміт газу",
+        "insufficientFunds": "Недостатньо коштів",
         "slippageNotMet": "Не виконані умови прослизання",
         "transactionCanceled": "Транзакцію скасовано",
         "transactionFailed": "Транзакція не вдалася.",
@@ -217,7 +219,7 @@
     "to": "До",
     "tokenOnChain": "{{tokenSymbol}} на {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} на {{chainName}}",
-    "tokenSearch": "Знайдіть свій токен",
+    "tokenSearch": "Шукати за ім'ям або адресою",
     "valueLoss": "Втрата вартості",
     "walletAddressOrEns": "Адреса гаманця або ім’я ENS",
     "warning": {
