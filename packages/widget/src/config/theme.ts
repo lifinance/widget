@@ -8,9 +8,9 @@ import {
   createTheme as createMuiTheme,
   darken,
   getContrastRatio,
+  keyframes,
   lighten,
 } from '@mui/material/styles';
-import { keyframes } from '@mui/system';
 import type { ThemeConfig } from '../types';
 
 // https://mui.com/customization/palette/
