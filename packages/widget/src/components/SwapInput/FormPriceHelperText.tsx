@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useTokenAddressBalance } from '../../hooks';
 import type { SwapFormTypeProps } from '../../providers';
 import { SwapFormKeyHelper } from '../../providers';
-import { formatTokenPrice } from '../../utils';
+import { formatTokenAmount, formatTokenPrice } from '../../utils';
 
 export const FormPriceHelperText: React.FC<SwapFormTypeProps> = ({
   formType,
@@ -59,7 +59,7 @@ export const FormPriceHelperText: React.FC<SwapFormTypeProps> = ({
           pl={0.25}
         >
           {`/ ${t(`format.number`, {
-            value: token?.amount,
+            value: formatTokenAmount(token?.amount),
           })}`}
         </Typography>
       ) : null}

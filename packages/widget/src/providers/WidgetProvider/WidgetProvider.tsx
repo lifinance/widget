@@ -2,7 +2,7 @@ import type { ChainKey } from '@lifi/sdk';
 import { getChainByKey } from '@lifi/sdk';
 import { createContext, useContext, useId, useMemo } from 'react';
 import { setDefaultSettings } from '../../stores';
-import { formatAmount } from '../../utils';
+import { formatInputAmount } from '../../utils';
 import type { WidgetContextProps, WidgetProviderProps } from './types';
 
 const initialContext: WidgetContextProps = {
@@ -81,7 +81,7 @@ export const WidgetProvider: React.FC<
         fromAmount:
           typeof searchParams.fromAmount === 'string' &&
           !isNaN(parseFloat(searchParams.fromAmount))
-            ? formatAmount(searchParams.fromAmount)
+            ? formatInputAmount(searchParams.fromAmount)
             : fromAmount,
         elementId,
         integrator,

@@ -108,7 +108,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
           : t('swap.success.title.swapSuccessful');
       if (token) {
         primaryMessage = t('swap.success.message.swapSuccessful', {
-          amount: token.amount,
+          amount: formatTokenAmount(token.amount),
           tokenSymbol: token.symbol,
           chainName: getChainById(token.chainId)?.name,
           walletAddress: shortenAddress(route.toAddress),
@@ -125,7 +125,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
       });
       if (token) {
         secondaryMessage = t('swap.success.message.swapSuccessful', {
-          amount: token.amount,
+          amount: formatTokenAmount(token.amount),
           tokenSymbol: token.symbol,
           chainName: getChainById(token.chainId)?.name,
           walletAddress: shortenAddress(route.toAddress),
@@ -142,7 +142,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
       });
       if (token) {
         secondaryMessage = t('swap.success.message.swapSuccessful', {
-          amount: token.amount,
+          amount: formatTokenAmount(token.amount),
           tokenSymbol: token.symbol,
           chainName: getChainById(token.chainId)?.name,
           walletAddress: shortenAddress(route.toAddress),

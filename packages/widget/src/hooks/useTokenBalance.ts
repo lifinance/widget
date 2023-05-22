@@ -2,7 +2,6 @@ import type { Token, TokenAmount } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
 import { useWallet } from '../providers';
-import { formatTokenAmount } from '../utils';
 import { useGetTokenBalancesWithRetry } from './useGetTokenBalancesWithRetry';
 
 const defaultRefetchInterval = 30_000;
@@ -48,9 +47,9 @@ export const useTokenBalance = (token?: Token, accountAddress?: string) => {
       const cachedTokenAmount =
         queryClient.getQueryData<TokenAmount>(tokenBalanceQueryKey);
 
-      const formattedAmount = formatTokenAmount(tokenBalances[0].amount);
+      const tokenAmount = tokenBalances[0].amount;
 
-      if (cachedTokenAmount?.amount !== formattedAmount) {
+      if (cachedTokenAmount?.amount !== tokenAmount) {
         queryClient.setQueryDefaults(tokenBalanceQueryKey, {
           refetchInterval: defaultRefetchInterval,
           staleTime: defaultRefetchInterval,
@@ -67,7 +66,7 @@ export const useTokenBalance = (token?: Token, accountAddress?: string) => {
             );
             clonedData[index] = {
               ...clonedData[index],
-              amount: formattedAmount,
+              amount: tokenAmount,
             };
             return clonedData;
           }
@@ -76,7 +75,7 @@ export const useTokenBalance = (token?: Token, accountAddress?: string) => {
 
       return {
         ...tokenBalances[0],
-        amount: formattedAmount,
+        amount: tokenAmount,
       } as TokenAmount;
     },
     {

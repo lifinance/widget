@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import type { SwapFormTypeProps } from '../../providers';
 import { SwapFormKeyHelper, useWidgetConfig } from '../../providers';
 import { DisabledUI } from '../../types';
-import { formatAmount } from '../../utils';
+import { formatInputAmount } from '../../utils';
 import { Card, CardTitle } from '../Card';
 import { FitInputText } from './FitInputText';
 import { FormPriceHelperText } from './FormPriceHelperText';
@@ -32,7 +32,7 @@ export const SwapInput: React.FC<SwapFormTypeProps & BoxProps> = ({
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { value } = event.target;
-    const formattedAmount = formatAmount(value, true);
+    const formattedAmount = formatInputAmount(value, true);
     onChange(formattedAmount);
   };
 
@@ -40,7 +40,7 @@ export const SwapInput: React.FC<SwapFormTypeProps & BoxProps> = ({
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { value } = event.target;
-    const formattedAmount = formatAmount(value);
+    const formattedAmount = formatInputAmount(value);
     onChange(formattedAmount);
     onBlur();
   };

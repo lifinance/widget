@@ -29,9 +29,7 @@ export const formatTokenAmount = (
     decimalPlaces++;
   }
 
-  return Big(
-    parseFloat(Big(parsedAmount).toFixed(decimalPlaces + 1, 0)),
-  ).toString();
+  return Big(parsedAmount).toFixed(decimalPlaces + 1, 0);
 };
 
 export const formatSlippage = (
@@ -61,8 +59,8 @@ export const formatSlippage = (
   return parsedSlippage.toString();
 };
 
-export const formatAmount = (
-  amount: string = '',
+export const formatInputAmount = (
+  amount: string,
   returnInitial: boolean = false,
 ) => {
   if (!amount) {
@@ -76,20 +74,15 @@ export const formatAmount = (
   if (isNaN(Number(formattedAmount)) && !isNaN(parsedAmount)) {
     return parsedAmount.toString();
   }
-  if (isNaN(parsedAmount)) {
-    return '';
-  }
-  if (parsedAmount < 0) {
-    return Math.abs(parsedAmount).toString();
-  }
   try {
-    if (returnInitial && Big(formattedAmount)) {
+    const absFormattedAmount = Big(formattedAmount).abs();
+    if (returnInitial) {
       return formattedAmount;
     }
+    return absFormattedAmount.toString();
   } catch {
     return '';
   }
-  return Big(parsedAmount).toString();
 };
 
 export const formatTokenPrice = (amount?: string, price?: string) => {

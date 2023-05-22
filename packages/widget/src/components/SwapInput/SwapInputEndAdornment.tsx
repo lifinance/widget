@@ -28,7 +28,7 @@ export const SwapInputEndAdornment = ({ formType }: SwapFormTypeProps) => {
 
   const handleMax = () => {
     const chain = getChainById(chainId);
-    let maxAmount;
+    let maxAmount = token?.amount;
     if (
       chain?.nativeToken.address === tokenAddress &&
       data?.available &&
@@ -45,13 +45,9 @@ export const SwapInputEndAdornment = ({ formType }: SwapFormTypeProps) => {
       }
     }
 
-    setValue(
-      SwapFormKeyHelper.getAmountKey(formType),
-      maxAmount || token?.amount || '',
-      {
-        shouldTouch: true,
-      },
-    );
+    setValue(SwapFormKeyHelper.getAmountKey(formType), maxAmount || '', {
+      shouldTouch: true,
+    });
   };
 
   return (

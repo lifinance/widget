@@ -11,7 +11,11 @@ import {
 } from '@mui/material';
 import { memo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { formatTokenPrice, shortenAddress } from '../../utils';
+import {
+  formatTokenAmount,
+  formatTokenPrice,
+  shortenAddress,
+} from '../../utils';
 import { LinkButton, ListItem, ListItemButton } from './TokenList.style';
 import type { TokenListItemButtonProps, TokenListItemProps } from './types';
 
@@ -141,7 +145,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
             {Number(token.amount) ? (
               <Typography variant="body1" noWrap>
                 {t('format.number', {
-                  value: token.amount,
+                  value: formatTokenAmount(token.amount),
                 })}
               </Typography>
             ) : null}
