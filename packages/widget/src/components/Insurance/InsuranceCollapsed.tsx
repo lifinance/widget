@@ -5,14 +5,13 @@ import {
   useRouteExecutionStore,
   useSetExecutableRoute,
 } from '../../stores';
+import { formatTokenAmount } from '../../utils';
 import { InsuranceCard } from './InsuranceCard';
 import type { InsuranceProps } from './types';
 
 export const InsuranceCollapsed: React.FC<InsuranceProps> = ({
   status,
   insurableRouteId,
-  insuranceCoverageId,
-  feeAmountUsd,
   onChange,
   ...props
 }) => {
@@ -35,20 +34,27 @@ export const InsuranceCollapsed: React.FC<InsuranceProps> = ({
     }
   };
 
+  if (!insuredRoute) {
+    return null;
+  }
+
   return (
     <Collapse
       timeout={225}
-      in={insuredRoute?.insurance?.state === 'INSURED'}
+      in={insuredRoute.insurance.state === 'INSURED'}
       unmountOnExit
       mountOnEnter
       appear={status === RouteExecutionStatus.Idle}
     >
       <InsuranceCard
-        feeAmountUsd={feeAmountUsd}
-        status={status}
-        insuranceCoverageId={insuranceCoverageId}
-        onChange={toggleInsurance}
         {...props}
+        status={status}
+        insuredAmount={formatTokenAmount(
+          insuredRoute.toAmountMin,
+          insuredRoute.toToken.decimals,
+        )}
+        insuredTokenSymbol={insuredRoute.toToken.symbol}
+        onChange={toggleInsurance}
       />
     </Collapse>
   );

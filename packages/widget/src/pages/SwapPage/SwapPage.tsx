@@ -18,6 +18,7 @@ import {
 import { SwapFormKey, useWidgetConfig } from '../../providers';
 import { RouteExecutionStatus } from '../../stores';
 import { WidgetEvent } from '../../types/events';
+import { formatTokenAmount } from '../../utils';
 import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet';
 import { ExchangeRateBottomSheet } from './ExchangeRateBottomSheet';
 import { StartIdleSwapButton, StartSwapButton } from './StartSwapButton';
@@ -130,12 +131,17 @@ export const SwapPage: React.FC = () => {
     <Container>
       {getStepList(route)}
       {variant === 'nft' ? <ContractComponent mt={2} /> : null}
-      {insuranceAvailable ? (
+      {route && insuranceAvailable ? (
         <Insurance
           mt={2}
           status={status}
           insurableRouteId={stateRouteId}
-          feeAmountUsd={route?.insurance.feeAmountUsd}
+          feeAmountUsd={route.insurance.feeAmountUsd}
+          insuredAmount={formatTokenAmount(
+            route.toAmountMin,
+            route.toToken.decimals,
+          )}
+          insuredTokenSymbol={route.toToken.symbol}
           insuranceCoverageId={insuranceCoverageId}
           onChange={setRouteId}
         />

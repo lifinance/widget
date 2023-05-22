@@ -4,7 +4,7 @@ import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import { Box, Collapse, Link, Typography } from '@mui/material';
 import type { ChangeEvent, MouseEventHandler } from 'react';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { InsuraceLogo } from '../../icons';
 import { RouteExecutionStatus } from '../../stores';
 import { Card, CardIconButton, CardLabel, CardLabelTypography } from '../Card';
@@ -14,6 +14,8 @@ import type { InsuranceCardProps } from './types';
 export const InsuranceCard: React.FC<InsuranceCardProps> = ({
   status,
   feeAmountUsd,
+  insuredAmount,
+  insuredTokenSymbol,
   insuranceCoverageId,
   onChange,
   ...props
@@ -72,9 +74,17 @@ export const InsuranceCard: React.FC<InsuranceCardProps> = ({
           </Box>
           <Box>
             <Typography fontSize={14}>
-              {status === RouteExecutionStatus.Idle
-                ? t('swap.insurance.insure')
-                : t('swap.insurance.insured')}
+              <Trans>
+                {status === RouteExecutionStatus.Idle
+                  ? t('swap.insurance.insure', {
+                      amount: insuredAmount,
+                      tokenSymbol: insuredTokenSymbol,
+                    })
+                  : t('swap.insurance.insured', {
+                      amount: insuredAmount,
+                      tokenSymbol: insuredTokenSymbol,
+                    })}
+              </Trans>
             </Typography>
             <Collapse
               timeout={225}

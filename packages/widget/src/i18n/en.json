@@ -119,8 +119,8 @@
     "inProgress": "in progress",
     "insurance": {
       "bridgeExploits": "Bridge malfunctions, hacks or exploits",
-      "insure": "Insure 100% of tokens in transit.",
-      "insured": "You've insured 100% of tokens in transit:",
+      "insure": "Insure <strong>{{amount}} {{tokenSymbol}}</strong> in transit.",
+      "insured": "You've insured <strong>{{amount}} {{tokenSymbol}}</strong> in transit:",
       "slippageError": "Error in slippage for tokens received"
     },
     "info": {

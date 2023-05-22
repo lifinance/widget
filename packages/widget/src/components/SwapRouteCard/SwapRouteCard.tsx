@@ -8,8 +8,10 @@ import type { MouseEventHandler } from 'react';
 import { Fragment, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useWidgetConfig } from '../../providers';
+import { formatTokenAmount } from '../../utils';
 import type { CardProps } from '../Card';
 import { Card, CardIconButton, CardLabel, CardLabelTypography } from '../Card';
+import type { InsuredAmount } from '../Insurance';
 import { StepActions } from '../StepActions';
 import { Token } from '../Token';
 import { SwapRouteCardEssentials } from './SwapRouteCardEssentials';
@@ -41,7 +43,13 @@ export const SwapRouteCard: React.FC<
       {widgetVariant !== 'refuel' && (insurable || route.tags?.length) ? (
         <Box display="flex" alignItems="center" mb={2}>
           {insurable ? (
-            <InsuranceTooltip>
+            <InsuranceTooltip
+              insuredAmount={formatTokenAmount(
+                route.toAmountMin,
+                route.toToken.decimals,
+              )}
+              insuredTokenSymbol={route.toToken.symbol}
+            >
               <CardLabel
                 type={
                   route.tags?.length && !cardExpanded
@@ -103,16 +111,19 @@ export const SwapRouteCard: React.FC<
   );
 };
 
-const InsuranceTooltip: React.FC<Pick<TooltipProps, 'children'>> = ({
-  children,
-}) => {
+const InsuranceTooltip: React.FC<
+  InsuredAmount & Pick<TooltipProps, 'children'>
+> = ({ insuredAmount, insuredTokenSymbol, children }) => {
   const { t } = useTranslation();
   return (
     <Tooltip
       title={
         <Box component="span">
           <Typography fontSize={12} fontWeight="500">
-            {t('swap.insurance.insure')}
+            {t('swap.insurance.insure', {
+              amount: insuredAmount,
+              tokenSymbol: insuredTokenSymbol,
+            })}
           </Typography>
           <Box
             sx={{

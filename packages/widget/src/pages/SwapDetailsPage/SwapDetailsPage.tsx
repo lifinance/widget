@@ -23,6 +23,7 @@ import { getStepList } from '../../components/Step';
 import { useNavigateBack } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
 import { useRouteExecutionStore } from '../../stores';
+import { formatTokenAmount } from '../../utils';
 import { Container } from './SwapDetailsPage.style';
 
 export const SwapDetailsPage: React.FC = () => {
@@ -103,6 +104,11 @@ export const SwapDetailsPage: React.FC = () => {
           mt={2}
           status={routeExecution.status}
           feeAmountUsd={routeExecution.route.insurance.feeAmountUsd}
+          insuredAmount={formatTokenAmount(
+            routeExecution.route.toAmountMin,
+            routeExecution.route.toToken.decimals,
+          )}
+          insuredTokenSymbol={routeExecution.route.toToken.symbol}
           insurableRouteId={routeExecution.route.id}
           insuranceCoverageId={insuranceCoverageId}
         />
