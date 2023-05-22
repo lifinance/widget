@@ -30,7 +30,9 @@ export const LanguageSelect: React.FC = () => {
     return null;
   }
 
-  const value = filteredLanguages.includes(language || i18n.resolvedLanguage)
+  const value = filteredLanguages.includes(
+    language || i18n.resolvedLanguage || '',
+  )
     ? language || i18n.resolvedLanguage
     : languages?.default || languages?.allow?.[0];
 
