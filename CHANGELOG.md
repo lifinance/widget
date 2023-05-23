@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-beta.11](https://github.com/lifinance/widget/compare/v2.0.0-beta.10...v2.0.0-beta.11) (2023-05-23)
+
+
+### Bug Fixes
+
+* fix tab radius in split mode ([24fa80b](https://github.com/lifinance/widget/commit/24fa80bff99e5bf5aa33f6d8bd62580699aa1ee1))
+
 ## [2.0.0-beta.10](https://github.com/lifinance/widget/compare/v2.0.0-beta.9...v2.0.0-beta.10) (2023-05-23)
 
 
