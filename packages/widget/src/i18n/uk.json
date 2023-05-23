@@ -119,8 +119,8 @@
     "inProgress": "в процесі",
     "insurance": {
       "bridgeExploits": "Збої в роботі бриджу, зломи чи експлойти",
-      "insure": "Застрахуйте 100% токенів транзакції.",
-      "insured": "Ви застрахували 100% токенів транзакції:",
+      "insure": "Застрахуйте <strong>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</strong> токенів транзакції.",
+      "insured": "Ви застрахували <strong>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</strong> токенів транзакції:",
       "slippageError": "Помилка в прослизанні для отриманих токенів"
     },
     "info": {
