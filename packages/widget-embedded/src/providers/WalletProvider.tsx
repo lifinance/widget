@@ -64,9 +64,9 @@ export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
       try {
         await currentWallet?.switchChain(chainId);
         handleWalletUpdate(currentWallet);
-        return true;
+        return currentWallet?.account?.signer;
       } catch {
-        return false;
+        return currentWallet?.account?.signer;
       }
     },
     [currentWallet],
