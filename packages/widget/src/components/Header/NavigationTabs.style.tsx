@@ -9,7 +9,10 @@ export const NavbarTabs: StyledComponent<TabsProps> = styled(Tabs)(
       theme.palette.mode === 'dark'
         ? theme.palette.common.white
         : alpha(theme.palette.common.black, 0.04),
-    borderRadius: theme.shape.borderRadius,
+    borderRadius: Math.max(
+      theme.shape.borderRadius,
+      theme.shape.borderRadiusSecondary,
+    ),
     padding: theme.spacing(0.5),
     flex: 1,
     display: 'flex',
