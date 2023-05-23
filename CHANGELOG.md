@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-beta.10](https://github.com/lifinance/widget/compare/v2.0.0-beta.9...v2.0.0-beta.10) (2023-05-23)
+
+
+### Features
+
+* add HighValueLoss emitter event ([#86](https://github.com/lifinance/widget/issues/86)) ([69d3918](https://github.com/lifinance/widget/commit/69d391852644a09a4ac8b37ec8d4b5ffd61bbe98))
+* show insured amount ([b928d08](https://github.com/lifinance/widget/commit/b928d0805360a33b1ec27601c7ade64a6a6fc680))
+
+
+### Bug Fixes
+
+* max button should return full amount ([64e0592](https://github.com/lifinance/widget/commit/64e05924e5481c96c5d797e90fe11a751356888d))
+* remove direct @mui/system import ([39080e4](https://github.com/lifinance/widget/commit/39080e467425be18257cd47377564596e3eff9b3))
+* wagmi can't switch chain ([2a708c2](https://github.com/lifinance/widget/commit/2a708c2683abe268936a79bdc071becaeedcf6f4))
+
 ## [2.0.0-beta.9](https://github.com/lifinance/widget/compare/v2.0.0-beta.8...v2.0.0-beta.9) (2023-05-15)
 
 
