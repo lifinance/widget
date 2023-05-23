@@ -89,6 +89,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
           const signer = await walletManagement.switchChain(chainId);
           const account = await extractAccountFromSigner(signer);
           setAccount(account);
+          return signer;
         } else if (!currentWallet) {
           const provider = account.signer?.provider as Web3Provider;
           if (!provider) {
@@ -99,12 +100,13 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
           await currentWallet?.switchChain(chainId);
           handleWalletUpdate(currentWallet);
         }
-        return true;
+        // TODO: this will fail if it's not created with ethers 'any' network, replace with the new signer when possible
+        return account.signer;
       } catch {
-        return false;
+        return account.signer;
       }
     },
-    [account.signer?.provider, currentWallet, walletManagement],
+    [account.signer, currentWallet, walletManagement],
   );
 
   const addChain = useCallback(

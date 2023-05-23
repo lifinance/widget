@@ -75,10 +75,11 @@ export const useRouteExecution = ({
     }
     const currentChainId = await account.signer.getChainId();
     if (currentChainId !== requiredChainId) {
-      const switched = await switchChain(requiredChainId);
-      if (!switched) {
+      const signer = await switchChain(requiredChainId);
+      if (!signer) {
         throw new Error('Chain was not switched.');
       }
+      return signer;
     }
     return account.signer;
   };

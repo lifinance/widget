@@ -7,7 +7,7 @@ export interface WalletContextProps {
   addChain(chainId: number): Promise<boolean>;
   addToken(chainId: number, token: StaticToken): Promise<void>;
   disconnect(wallet?: Wallet): void;
-  switchChain(chainId: number): Promise<boolean>;
+  switchChain(chainId: number): Promise<Signer | undefined>;
   connect(wallet?: Wallet | undefined): Promise<void>;
 }
 
