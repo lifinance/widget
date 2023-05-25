@@ -1,21 +1,69 @@
+import type { Token } from '@lifi/sdk';
 import type { BoxProps } from '@mui/material';
-import type { ChangeEvent } from 'react';
-import { useRef } from 'react';
-import { useController } from 'react-hook-form';
+import type { ChangeEvent, ReactNode } from 'react';
+import { useLayoutEffect, useRef } from 'react';
+import { useController, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useToken } from '../../hooks';
 import type { SwapFormTypeProps } from '../../providers';
 import { SwapFormKeyHelper, useWidgetConfig } from '../../providers';
 import { DisabledUI } from '../../types';
-import { formatInputAmount } from '../../utils';
+import { fitInputText, formatInputAmount } from '../../utils';
 import { Card, CardTitle } from '../Card';
-import { FitInputText } from './FitInputText';
 import { FormPriceHelperText } from './FormPriceHelperText';
-import { FormControl, Input } from './SwapInput.style';
+import {
+  FormControl,
+  Input,
+  maxInputFontSize,
+  minInputFontSize,
+} from './SwapInput.style';
 import { SwapInputEndAdornment } from './SwapInputEndAdornment';
 import { SwapInputStartAdornment } from './SwapInputStartAdornment';
 
 export const SwapInput: React.FC<SwapFormTypeProps & BoxProps> = ({
   formType,
+  ...props
+}) => {
+  const { disabledUI } = useWidgetConfig();
+  const [chainId, tokenAddress] = useWatch({
+    name: [
+      SwapFormKeyHelper.getChainKey(formType),
+      SwapFormKeyHelper.getTokenKey(formType),
+    ],
+  });
+  const { token } = useToken(chainId, tokenAddress);
+  const disabled = disabledUI?.includes(DisabledUI.FromAmount);
+  return (
+    <SwapInputBase
+      formType={formType}
+      token={token}
+      startAdornment={<SwapInputStartAdornment formType={formType} />}
+      endAdornment={
+        !disabled ? <SwapInputEndAdornment formType={formType} /> : undefined
+      }
+      bottomAdornment={<FormPriceHelperText formType={formType} />}
+      disabled={disabled}
+      {...props}
+    />
+  );
+};
+
+export const SwapInputBase: React.FC<
+  SwapFormTypeProps &
+    BoxProps & {
+      token?: Token;
+      startAdornment?: ReactNode;
+      endAdornment?: ReactNode;
+      bottomAdornment?: ReactNode;
+      disabled?: boolean;
+    }
+> = ({
+  formType,
+  token,
+  startAdornment,
+  endAdornment,
+  bottomAdornment,
+  disabled,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -25,14 +73,13 @@ export const SwapInput: React.FC<SwapFormTypeProps & BoxProps> = ({
   } = useController({
     name: amountKey,
   });
-  const { disabledUI } = useWidgetConfig();
   const ref = useRef<HTMLInputElement>(null);
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { value } = event.target;
-    const formattedAmount = formatInputAmount(value, true);
+    const formattedAmount = formatInputAmount(value, token?.decimals, true);
     onChange(formattedAmount);
   };
 
@@ -40,12 +87,16 @@ export const SwapInput: React.FC<SwapFormTypeProps & BoxProps> = ({
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { value } = event.target;
-    const formattedAmount = formatInputAmount(value);
+    const formattedAmount = formatInputAmount(value, token?.decimals);
     onChange(formattedAmount);
     onBlur();
   };
 
-  const disabled = disabledUI?.includes(DisabledUI.FromAmount);
+  useLayoutEffect(() => {
+    if (ref.current) {
+      fitInputText(maxInputFontSize, minInputFontSize, ref.current);
+    }
+  }, [value, ref]);
 
   return (
     <Card {...props}>
@@ -56,12 +107,8 @@ export const SwapInput: React.FC<SwapFormTypeProps & BoxProps> = ({
           size="small"
           autoComplete="off"
           placeholder="0"
-          startAdornment={<SwapInputStartAdornment formType={formType} />}
-          endAdornment={
-            !disabled ? (
-              <SwapInputEndAdornment formType={formType} />
-            ) : undefined
-          }
+          startAdornment={startAdornment}
+          endAdornment={endAdornment}
           inputProps={{
             inputMode: 'decimal',
           }}
@@ -72,9 +119,8 @@ export const SwapInput: React.FC<SwapFormTypeProps & BoxProps> = ({
           disabled={disabled}
           required
         />
-        <FormPriceHelperText formType={formType} />
+        {bottomAdornment}
       </FormControl>
-      <FitInputText ref={ref} formType={formType} />
     </Card>
   );
 };
