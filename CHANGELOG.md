@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-beta.12](https://github.com/lifinance/widget/compare/v2.0.0-beta.11...v2.0.0-beta.12) (2023-05-25)
+
+
+### Features
+
+* add option to include additional tokens ([e2040bb](https://github.com/lifinance/widget/commit/e2040bb8c56c0ebad6db460b3eb3ad1487fafd33))
+
+
+### Bug Fixes
+
+* limit decimals for swap input amount ([93973d8](https://github.com/lifinance/widget/commit/93973d82d0c5fa14eac62c7a09f4de84afa9d68d))
+* trigger gas suggestion only for supported chains ([d5f5750](https://github.com/lifinance/widget/commit/d5f5750eb5123b946f6c816047683c3eee6bb6a4))
+
 ## [2.0.0-beta.11](https://github.com/lifinance/widget/compare/v2.0.0-beta.10...v2.0.0-beta.11) (2023-05-23)
 
 
