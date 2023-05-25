@@ -6,6 +6,7 @@ import type {
   Order,
   RouteOptions,
   StaticToken,
+  Token,
 } from '@lifi/sdk';
 import type {
   Components,
@@ -154,6 +155,7 @@ export interface WidgetConfig {
   };
   tokens?: {
     featured?: StaticToken[];
+    include?: Token[];
     allow?: BaseToken[];
     deny?: BaseToken[];
   };

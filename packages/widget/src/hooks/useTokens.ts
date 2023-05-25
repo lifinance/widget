@@ -7,9 +7,7 @@ import { useFeaturedTokens } from './useFeaturedTokens';
 
 export const useTokens = (selectedChainId?: number) => {
   const lifi = useLiFi();
-  const { data, isLoading, dataUpdatedAt } = useQuery(['tokens'], () =>
-    lifi.getTokens(),
-  );
+  const { data, isLoading } = useQuery(['tokens'], () => lifi.getTokens());
   const { getChainById, isLoading: isSupportedChainsLoading } = useChains();
   const featuredTokens = useFeaturedTokens(selectedChainId);
   const { tokens: configTokens, chains: configChains } = useWidgetConfig();
@@ -25,11 +23,22 @@ export const useTokens = (selectedChainId?: number) => {
     if (!chainAllowed) {
       return [];
     }
-    let filteredTokens = configTokens?.allow?.filter(
+    let filteredTokens = data?.tokens[selectedChainId];
+    const includedTokens = configTokens?.include?.filter(
       (token) => token.chainId === selectedChainId,
     );
-    if (!filteredTokens?.length) {
-      filteredTokens = data?.tokens[selectedChainId];
+    if (includedTokens?.length) {
+      filteredTokens = filteredTokens
+        ? [...includedTokens, ...filteredTokens]
+        : includedTokens;
+    }
+    const allowedTokens = configTokens?.allow
+      ?.filter((token) => token.chainId === selectedChainId)
+      .map((token) => token.address);
+    if (allowedTokens?.length) {
+      filteredTokens = filteredTokens?.filter((token) =>
+        allowedTokens.includes(token.address),
+      );
     }
     const deniedTokenAddresses = configTokens?.deny
       ?.filter((token) => token.chainId === selectedChainId)
@@ -53,17 +62,16 @@ export const useTokens = (selectedChainId?: number) => {
     ] as TokenAmount[];
 
     return tokens;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    isSupportedChainsLoading,
-    selectedChainId,
-    getChainById,
     configChains,
     configTokens?.allow,
     configTokens?.deny,
+    configTokens?.include,
+    data?.tokens,
     featuredTokens,
-    data,
-    dataUpdatedAt,
+    getChainById,
+    isSupportedChainsLoading,
+    selectedChainId,
   ]);
 
   return {

@@ -87,7 +87,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
     >
       <ListItemAvatar>
         <Avatar src={token.logoURI} alt={token.symbol}>
-          {token.symbol[0]}
+          {token.symbol?.[0]}
         </Avatar>
       </ListItemAvatar>
       <ListItemText
