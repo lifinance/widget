@@ -2627,9 +2627,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lifi/sdk@npm:^2.0.0-beta.13":
-  version: 2.0.0-beta.13
-  resolution: "@lifi/sdk@npm:2.0.0-beta.13"
+"@lifi/sdk@npm:^2.0.0-beta.15":
+  version: 2.0.0-beta.15
+  resolution: "@lifi/sdk@npm:2.0.0-beta.15"
   dependencies:
     "@ethersproject/abi": ^5.7.0
     "@ethersproject/contracts": ^5.7.0
@@ -2637,7 +2637,7 @@ __metadata:
     bignumber.js: ^9.1.1
     eth-rpc-errors: ^4.0.3
     ethers: ^5.7.2
-  checksum: aba59d9ea9c95bf07c467781ad19f9b5e656c55a38ff4a148e2c2a45325ff92eef64cd47e87b151d249b07c1baabf00e115774b5fb935f7e8fccb419720b568f
+  checksum: 48e08dd7d9eb1cc0c03f4ce9e51debec8f83a9749b83af2726750da89c124ed9d2f20dba75bd64455ad1c462cf734c0e05ebb3d91fd5454a989c67cf5a022782
   languageName: node
   linkType: hard
 
@@ -2658,7 +2658,7 @@ __metadata:
     "@ethersproject/abstract-signer": ^5.7.0
     "@ethersproject/experimental": ^5.7.0
     "@ethersproject/providers": ^5.7.2
-    "@lifi/sdk": ^2.0.0-beta.13
+    "@lifi/sdk": ^2.0.0-beta.15
     "@walletconnect/ethereum-provider": ^1.8.0
     "@walletconnect/web3-provider": ^1.8.0
     cpy-cli: ^4.2.0
@@ -2674,7 +2674,7 @@ __metadata:
   dependencies:
     "@esbuild-plugins/node-globals-polyfill": ^0.2.3
     "@ethersproject/abstract-signer": ^5.7.0
-    "@lifi/sdk": ^2.0.0-beta.13
+    "@lifi/sdk": ^2.0.0-beta.15
     "@lifi/wallet-management": ^2.0.0-beta.7
     "@lifi/widget": ^2.0.0-beta.11
     "@mui/icons-material": ^5.11.16
@@ -2705,7 +2705,7 @@ __metadata:
   resolution: "@lifi/widget-playground@workspace:packages/widget-playground"
   dependencies:
     "@esbuild-plugins/node-globals-polyfill": ^0.2.3
-    "@lifi/sdk": ^2.0.0-beta.13
+    "@lifi/sdk": ^2.0.0-beta.15
     "@lifi/wallet-management": ^2.0.0-beta.7
     "@lifi/widget": ^2.0.0-beta.11
     "@mui/icons-material": ^5.11.16
@@ -2734,7 +2734,7 @@ __metadata:
     "@ethersproject/address": ^5.7.0
     "@ethersproject/experimental": ^5.7.0
     "@ethersproject/providers": ^5.7.2
-    "@lifi/sdk": ^2.0.0-beta.13
+    "@lifi/sdk": ^2.0.0-beta.15
     "@lifi/wallet-management": ^2.0.0-beta.7
     "@mui/icons-material": ^5.11.16
     "@mui/lab": ^5.0.0-alpha.131
@@ -3638,8 +3638,8 @@ __metadata:
   linkType: hard
 
 "@solana/web3.js@npm:^1.70.1":
-  version: 1.76.0
-  resolution: "@solana/web3.js@npm:1.76.0"
+  version: 1.77.0
+  resolution: "@solana/web3.js@npm:1.77.0"
   dependencies:
     "@babel/runtime": ^7.12.5
     "@noble/curves": ^1.0.0
@@ -3656,7 +3656,7 @@ __metadata:
     node-fetch: ^2.6.7
     rpc-websockets: ^7.5.1
     superstruct: ^0.14.2
-  checksum: f42f7cae09cef78ee169933e1df7676f2e11b34783b2fa726f3207e3d696054feb79ed8539526f170d609001474d07973457732a64396c74eb78c9eed614b45b
+  checksum: 0f61bd125d1d54ff6b7921aef4410a4a052a02afb033402a12547cd6890014a5e623e60cee86a987e56700a628c643737932105b28a00843c2530ee6b9ff5d62
   languageName: node
   linkType: hard
 
@@ -4045,14 +4045,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^18.2.6":
-  version: 18.2.6
-  resolution: "@types/react@npm:18.2.6"
+"@types/react@npm:*, @types/react@npm:^18.2.7":
+  version: 18.2.7
+  resolution: "@types/react@npm:18.2.7"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: dea9d232d8df7ac357367a69dcb557711ab3d5501807ffa77cebeee73d49ee94d095f298e36853c63ed47cce097eee4c7eae2aaa8c02fac3f0171ec1b523a819
+  checksum: caa5da4cf929766738ec789301dc6fb6624bd48dd317d851c4c9b84b1f47cd8ebe17fe01398cadaa0bc938cd4d502d67f4b9de9ff771dc132096bdc86228efba
   languageName: node
   linkType: hard
 
@@ -4096,11 +4096,11 @@ __metadata:
   linkType: hard
 
 "@types/testing-library__jest-dom@npm:^5.9.1":
-  version: 5.14.5
-  resolution: "@types/testing-library__jest-dom@npm:5.14.5"
+  version: 5.14.6
+  resolution: "@types/testing-library__jest-dom@npm:5.14.6"
   dependencies:
     "@types/jest": "*"
-  checksum: dcb05416758fe88c1f4f3aa97b4699fcb46a5ed8f53c6b81721e66155452a48caf12ecb97dfdfd4130678e65efd66b9fca0ac434b3d63affec84842a84a6bf38
+  checksum: 92f81cefeacba3b5c06d4b3fbea0341fe2bcaa6e425c026ae262de39f1148c2588cf3003112aa4ac0880c3972ffb77641a863f3be71518d1d8080402c944e326
   languageName: node
   linkType: hard
 
@@ -7063,9 +7063,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.284":
-  version: 1.4.404
-  resolution: "electron-to-chromium@npm:1.4.404"
-  checksum: 40e9ce607877e5d2a0578e78a3bd461ca6574cefb738f2dd82c171fad124c833cb078844947d9d21d6e6cf13a7d9b75b500ef4522c8cc67e99ad47d6b36cf078
+  version: 1.4.407
+  resolution: "electron-to-chromium@npm:1.4.407"
+  checksum: 44619c189c082953c0d12454c38aaf9c2e0226bbe4bcc2b6aef70fb5f655fd9e4e9630e2fedb256ec972327225f610ef5ddcc299c4f7f436a45ed48d1b8367f9
   languageName: node
   linkType: hard
 
@@ -11820,9 +11820,9 @@ __metadata:
   linkType: hard
 
 "node-releases@npm:^2.0.8":
-  version: 2.0.11
-  resolution: "node-releases@npm:2.0.11"
-  checksum: ade1c8e19852aa7d7b45691c2708e6275703dd4994b16bc191cdbf66add29ccf87c595ecdb03a39db54a8aaba645f228bccd7d9477e4066f1d97a94f857dae9d
+  version: 2.0.12
+  resolution: "node-releases@npm:2.0.12"
+  checksum: b8c56db82c4642a0f443332b331a4396dae452a2ac5a65c8dbd93ef89ecb2fbb0da9d42ac5366d4764973febadca816cf7587dad492dce18d2a6b2af59cda260
   languageName: node
   linkType: hard
 
@@ -13890,7 +13890,7 @@ __metadata:
     "@types/eslint": ^8.40.0
     "@types/events": ^3.0.0
     "@types/node": ^20.2.3
-    "@types/react": ^18.2.6
+    "@types/react": ^18.2.7
     "@types/react-dom": ^18.2.4
     "@types/uuid": ^9.0.1
     "@typescript-eslint/eslint-plugin": ^5.59.7
