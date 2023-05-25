@@ -119,8 +119,8 @@
     "inProgress": "em andamento",
     "insurance": {
       "bridgeExploits": "Mau funcionamento da ponte, hacks ou exploits",
-      "insure": "Garantir 100% dos tokens em trânsito.",
-      "insured": "Você segurou 100% dos tokens em trânsito:",
+      "insure": "Contratar seguro para <strong>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</strong> em trânsito.",
+      "insured": "Você contratou seguro para <strong>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</strong> em trânsito:",
       "slippageError": "Erro na discrepância para tokens recebidos"
     },
     "info": {
