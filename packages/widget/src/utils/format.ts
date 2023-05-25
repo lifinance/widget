@@ -61,7 +61,7 @@ export const formatSlippage = (
 
 export const formatInputAmount = (
   amount: string,
-  decimals: number = 0,
+  decimals: number | null = null,
   returnInitial: boolean = false,
 ) => {
   if (!amount) {
@@ -82,7 +82,7 @@ export const formatInputAmount = (
     return formattedAmount;
   }
   let [integer, fraction = ''] = formattedAmount.split('.');
-  if (fraction.length > decimals) {
+  if (decimals !== null && fraction.length > decimals) {
     fraction = fraction.slice(0, decimals);
   }
   integer = integer.replace(/^0+|-/, '');
