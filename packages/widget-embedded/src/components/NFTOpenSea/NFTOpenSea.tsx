@@ -152,7 +152,8 @@ export const NFTOpenSea: React.FC<NFTOpenSeaProps> = ({
         Oops, NFT listing not found
       </Typography>
       <Typography>
-        NFT you are trying to buy doesn't have active listings.
+        NFT you are trying to buy doesn't have active listings or we could not
+        find them.
       </Typography>
     </Box>
   ) : (
