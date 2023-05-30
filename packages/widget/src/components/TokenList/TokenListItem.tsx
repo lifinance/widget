@@ -16,7 +16,7 @@ import {
   formatTokenPrice,
   shortenAddress,
 } from '../../utils';
-import { LinkButton, ListItem, ListItemButton } from './TokenList.style';
+import { IconButton, ListItem, ListItemButton } from './TokenList.style';
 import type { TokenListItemButtonProps, TokenListItemProps } from './types';
 
 export const TokenListItem: React.FC<TokenListItemProps> = memo(
@@ -94,13 +94,9 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
         primary={token.symbol}
         secondaryTypographyProps={{
           component: 'div',
-          sx: {
-            overflow: 'auto',
-            marginLeft: -0.75,
-          },
         }}
         secondary={
-          <Box position="relative" height={18} ref={container}>
+          <Box position="relative" height={20} ref={container}>
             <Slide
               direction="down"
               in={!showAddress}
@@ -110,7 +106,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
               }}
               appear={false}
             >
-              <Box pl={0.75}>{token.name}</Box>
+              <Box pt={0.25}>{token.name}</Box>
             </Slide>
             <Slide
               direction="up"
@@ -122,17 +118,21 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
               appear={false}
               mountOnEnter
             >
-              <LinkButton
-                size="small"
-                LinkComponent={Link}
-                href={`${chain?.metamask.blockExplorerUrls[0]}address/${token.address}`}
-                target="_blank"
-                rel="nofollow noreferrer"
-                onClick={(e) => e.stopPropagation()}
-                endIcon={<OpenInNewIcon />}
-              >
-                {shortenAddress(token.address)}
-              </LinkButton>
+              <Box display="flex">
+                <Box display="flex" alignItems="center" pt={0.125}>
+                  {shortenAddress(token.address)}
+                </Box>
+                <IconButton
+                  size="small"
+                  LinkComponent={Link}
+                  href={`${chain?.metamask.blockExplorerUrls[0]}address/${token.address}`}
+                  target="_blank"
+                  rel="nofollow noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <OpenInNewIcon />
+                </IconButton>
+              </Box>
             </Slide>
           </Box>
         }
