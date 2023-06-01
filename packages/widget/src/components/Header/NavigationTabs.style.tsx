@@ -53,10 +53,7 @@ export const NavbarTab = styled(Tab, {
   minHeight: 48,
   fontSize: '1rem',
   fontWeight: 700,
-  color:
-    theme.palette.mode === 'dark'
-      ? theme.palette.common.white
-      : theme.palette.common.black,
+  color: theme.palette.common.black,
   textDecoration: 'none',
   [`&.${tabClasses.selected}`]: {
     color:
