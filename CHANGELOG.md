@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-beta.14](https://github.com/lifinance/widget/compare/v2.0.0-beta.13...v2.0.0-beta.14) (2023-06-02)
+
+
+### Bug Fixes
+
+* make icon as a link to address explorer ([e173400](https://github.com/lifinance/widget/commit/e17340004344574eac3426a0c930bb1b7d06590b))
+* tabs background color within split subvariant ([beb78c6](https://github.com/lifinance/widget/commit/beb78c6cf4447936e12c739e5ae533064eacac9b))
+
 ## [2.0.0-beta.13](https://github.com/lifinance/widget/compare/v2.0.0-beta.12...v2.0.0-beta.13) (2023-05-25)
 
 
