@@ -7,7 +7,7 @@ export const NavbarTabs: StyledComponent<TabsProps> = styled(Tabs)(
   ({ theme }) => ({
     backgroundColor:
       theme.palette.mode === 'dark'
-        ? theme.palette.common.white
+        ? theme.palette.background.paper
         : alpha(theme.palette.common.black, 0.04),
     borderRadius: Math.max(
       theme.shape.borderRadius,
@@ -31,7 +31,7 @@ export const NavbarTabs: StyledComponent<TabsProps> = styled(Tabs)(
       height: 48,
       backgroundColor:
         theme.palette.mode === 'dark'
-          ? theme.palette.common.black
+          ? theme.palette.background.default
           : theme.palette.common.white,
       borderRadius: theme.shape.borderRadiusSecondary,
       boxShadow: `0px 2px 4px ${alpha(theme.palette.common.black, 0.04)}`,
