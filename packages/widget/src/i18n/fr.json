@@ -1,6 +1,8 @@
 {
   "button": {
     "auto": "Auto",
+    "buy": "Acheter",
+    "buyNow": "Acheter maintenant",
     "cancel": "Annuler",
     "connectWallet": "Connecter un portefeuille",
     "contactSupport": "Contacter le support",
@@ -23,6 +25,7 @@
     "resetSettings": "Réinitialiser les paramètres",
     "restartSwap": "Redémarrer l'échange",
     "reviewGasSwap": "Vérifier le gaz d'échange",
+    "reviewPurchase": "Vérifiez votre achat",
     "reviewSwap": "Vérifier l'échange",
     "seeDetails": "Voir les détails",
     "showAll": "Afficher tout",
@@ -39,10 +42,14 @@
   },
   "header": {
     "activeSwaps": "Échanges actifs",
+    "bridge": "Bridge",
     "checkout": "Paiement",
     "from": "Échanger de",
     "gas": "Gaz",
     "gasSwap": "Échange de gaz",
+    "payWith": "Payer avec",
+    "purchase": "Acheter",
+    "purchaseDetails": "Détails de l'achat",
     "routes": "Vous recevez",
     "selectChain": "Sélectionner la chaîne",
     "selectWallet": "Sélectionnez votre portefeuille",
@@ -75,6 +82,8 @@
     "currentAmount": "Montant actuel",
     "error": {
       "message": {
+        "allowanceRequired": "Le montant du transfert pour {{tokenSymbol}} dépasse votre allocation actuelle. Veuillez augmenter votre allocation et réessayer.",
+        "insufficientFunds": "Vous n'avez pas assez de gaz pour couvrir le coût de la transaction.",
         "slippageThreshold": "L'effet de glissement est supérieur au seuil défini. Veuillez demander un nouvel itinéraire pour obtenir un nouveau devis.",
         "transactionFailed": "Veuillez consulter l'explorateur de blocs pour plus d'informations.",
         "transactionNotSent": "La transaction n'a pas été envoyée. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} sur {{chainName}} restent dans votre portefeuille.",
@@ -82,10 +91,12 @@
         "unknown": "Veuillez réessayer ou contacter le support."
       },
       "title": {
+        "allowanceRequired": "Allocation insuffisante",
         "balanceIsTooLow": "Le solde est trop bas.",
         "chainSwitch": "Changement de chaîne nécessaire.",
         "failed": "L'échange a échoué.",
         "gasLimitIsTooLow": "La limite de gaz est trop basse.",
+        "insufficientFunds": "Fonds insuffisants",
         "slippageNotMet": "Les conditions de l'effet de glissement ne sont pas remplies.",
         "transactionCanceled": "Transaction annulée.",
         "transactionFailed": "La transaction a échoué.",
@@ -108,8 +119,8 @@
     "inProgress": "en cours",
     "insurance": {
       "bridgeExploits": "Des dysfonctionnements de pont, des hacks ou des exploits",
-      "insure": "Assurer 100% des jetons en cours de transit.",
-      "insured": "Vous avez assuré 100 % des jetons en cours de transit:",
+      "insure": "Assurer <strong>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</strong> en transit :",
+      "insured": "Vous avez assuré <strong>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</strong> en transit :",
       "slippageError": "Erreur dans le slippage pour les jetons reçus"
     },
     "info": {
@@ -131,13 +142,15 @@
     "onChain": "sur {{chainName}}",
     "otherTokens": "Autres jetons",
     "ownedBy": "Propriétaire",
-    "payWith": "Payer avec",
     "process": {
       "crossChain": {
         "actionRequired": "Veuillez signer la transaction.",
         "done": "Transaction Bridge confirmée",
         "pending": "En attente de la transaction bridge",
         "started": "Préparation de la transaction bridge"
+      },
+      "nft": {
+        "done": "NFT acheté"
       },
       "receivingChain": {
         "done": "Bridge complété",
@@ -165,24 +178,27 @@
     "rateChange": "Taux de change",
     "receiving": "En cours de réception",
     "refuelStepDetails": "Obtenir du gaz via {{tool}}",
-    "routes": "Vous obtenez",
-    "selectChain": "Chaîne",
+    "selectChain": "Sélectionner la chaîne",
     "selectChainAndToken": "Sélectionnez la chaîne et le jeton",
-    "selectToken": "Jeton",
+    "selectToken": "Choisissez un jeton",
     "sendToAddress": "Envoyer à {{address}}",
     "sendToWallet": "Envoyer vers un autre portefeuille",
     "sentToAddress": "Envoyé à {{address}}",
     "stepBridge": "Bridge",
+    "stepBridgeAndBuy": "Bridge et acheter",
     "stepDetails": "{{tool}} via LI.FI",
     "stepSwap": "Échanger",
     "stepSwapAndBridge": "Échange et Bridge",
+    "stepSwapAndBuy": "Échanger et acheter",
     "success": {
       "message": {
         "swapPartiallySuccessful": "Nous avons essayé de compléter l'échange, mais {{tool}} a manqué de liquidité pour le jeton {{tokenSymbol}}.",
+        "purchaseSuccessful": "Vous possédez maintenant {{assetName}} dans le portefeuille {{walletAddress}} sur la chaîne {{chainName}}.",
         "swapSuccessful": "Il y a maintenant {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} dans le portefeuille {{walletAddress}} sur la chaîne {{chainName}}."
       },
       "title": {
         "gasSwapSuccessful": "Échange de gaz réussi",
+        "purchaseSuccessful": "Achat effectué",
         "refundIssued": "Remboursement émis",
         "swapPartiallySuccessful": "Échange partiellement réussi",
         "swapSuccessful": "Échange réussi"
@@ -203,7 +219,7 @@
     "to": "À",
     "tokenOnChain": "{{tokenSymbol}} sur {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} sur {{chainName}}",
-    "tokenSearch": "Recherchez votre jeton",
+    "tokenSearch": "Recherche par nom de jeton ou adresse",
     "valueLoss": "Perte de valeur",
     "walletAddressOrEns": "Adresse du portefeuille ou nom ENS",
     "warning": {
@@ -237,6 +253,7 @@
     },
     "numberOfSteps": "Un certain nombre d'étapes d'échange. Chaque étape peut contenir 1 à 2 transactions nécessitant une signature.",
     "progressToNextUpdate": "Les données affichées seront automatiquement actualisées après {{value}} secondes. Cliquez ici pour les mettre à jour manuellement.",
+    "recommended": "Une voie bon marché qui équilibre complexité et facilité d'utilisation.",
     "settingsModified": "Paramètres (modifiés)"
   },
   "wallet": {
