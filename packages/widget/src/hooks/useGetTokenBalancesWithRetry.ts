@@ -1,8 +1,8 @@
-import { isAddress } from '@ethersproject/address';
 import type { Provider } from '@ethersproject/providers';
 import type { Token, TokenAmount } from '@lifi/sdk';
 import { useCallback } from 'react';
 import { useLiFi } from '../providers';
+import { isLiFiAddress } from '../utils/address';
 
 export const useGetTokenBalancesWithRetry = (provider?: Provider) => {
   const lifi = useLiFi();
@@ -14,7 +14,7 @@ export const useGetTokenBalancesWithRetry = (provider?: Provider) => {
       depth = 0,
     ): Promise<TokenAmount[] | undefined> => {
       try {
-        const walletAddress = isAddress(accountAddress)
+        const walletAddress = isLiFiAddress(accountAddress)
           ? accountAddress
           : await provider?.resolveName(accountAddress);
 

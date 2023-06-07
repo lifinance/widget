@@ -3904,7 +3904,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@solana/web3.js@npm:^1.70.1":
+"@solana/web3.js@npm:^1.70.1, @solana/web3.js@npm:^1.77.3":
   version: 1.77.3
   resolution: "@solana/web3.js@npm:1.77.3"
   dependencies:
@@ -14290,6 +14290,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
+    "@solana/web3.js": ^1.77.3
     "@testing-library/dom": ^9.3.0
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^14.0.0

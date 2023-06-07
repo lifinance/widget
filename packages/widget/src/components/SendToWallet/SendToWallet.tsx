@@ -1,4 +1,3 @@
-import { isAddress } from '@ethersproject/address';
 import type { BoxProps } from '@mui/material';
 import { Collapse, FormHelperText } from '@mui/material';
 import { forwardRef, useEffect, useRef } from 'react';
@@ -9,6 +8,7 @@ import { useSendToWalletStore, useSettings } from '../../stores';
 import { DisabledUI, HiddenUI, RequiredUI } from '../../types';
 import { Card, CardTitle } from '../Card';
 import { FormControl, Input } from './SendToWallet.style';
+import { isLiFiAddress } from '@lifi/widget/utils/address';
 
 export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
   const { t } = useTranslation();
@@ -39,7 +39,7 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
           }
           const address = await account.signer?.provider?.resolveName(value);
           return (
-            isAddress(address || value) ||
+            isLiFiAddress(address || value) ||
             (t('swap.error.title.walletAddressInvalid') as string)
           );
         } catch {

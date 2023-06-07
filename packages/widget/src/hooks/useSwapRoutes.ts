@@ -1,4 +1,3 @@
-import { isAddress } from '@ethersproject/address';
 import type { Route, RoutesResponse, Token } from '@lifi/sdk';
 import { LifiErrorCode } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -9,6 +8,7 @@ import { useDebouncedWatch, useGasRefuel, useToken } from '.';
 import { SwapFormKey, useLiFi, useWallet, useWidgetConfig } from '../providers';
 import { useSettings } from '../stores';
 import { useSwapOnly } from './useSwapOnly';
+import { isLiFiAddress } from '../utils/address';
 
 const refetchTime = 60_000;
 
@@ -141,9 +141,9 @@ export const useSwapRoutes = ({ insurableRoute }: SwapRoutesProps = {}) => {
         try {
           toWalletAddress =
             (await account.signer?.provider?.resolveName(toAddress)) ??
-            (isAddress(toAddress) ? toAddress : fromAddress);
+            (isLiFiAddress(toAddress) ? toAddress : fromAddress);
         } catch {
-          toWalletAddress = isAddress(toAddress) ? toAddress : fromAddress;
+          toWalletAddress = isLiFiAddress(toAddress) ? toAddress : fromAddress;
         }
         const fromAmount = Big(fromTokenAmount || 0)
           .mul(10 ** (fromToken?.decimals ?? 0))
