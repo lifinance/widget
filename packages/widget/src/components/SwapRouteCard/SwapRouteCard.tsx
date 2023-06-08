@@ -60,7 +60,7 @@ export const SwapRouteCard: React.FC<
                 <VerifiedUserIcon fontSize="inherit" />
                 {cardExpanded || !route.tags?.length ? (
                   <CardLabelTypography type="icon">
-                    {t(`swap.tags.insurable`)}
+                    {t(`main.tags.insurable`)}
                   </CardLabelTypography>
                 ) : null}
               </CardLabel>
@@ -70,7 +70,7 @@ export const SwapRouteCard: React.FC<
             <RecommendedTagTooltip>
               <CardLabel type={active ? 'active' : undefined}>
                 <CardLabelTypography>
-                  {t(`swap.tags.${route.tags[0].toLowerCase()}` as any)}
+                  {t(`main.tags.${route.tags[0].toLowerCase()}` as any)}
                 </CardLabelTypography>
               </CardLabel>
             </RecommendedTagTooltip>
@@ -120,7 +120,7 @@ const InsuranceTooltip: React.FC<
       title={
         <Box component="span">
           <Typography fontSize={12} fontWeight="500">
-            {t('swap.insurance.insure', {
+            {t('insurance.insure', {
               amount: insuredAmount,
               tokenSymbol: insuredTokenSymbol,
             })}
@@ -132,10 +132,10 @@ const InsuranceTooltip: React.FC<
             }}
           >
             <Typography fontSize={12} fontWeight="500" display="list-item">
-              {t('swap.insurance.bridgeExploits')}
+              {t('insurance.bridgeExploits')}
             </Typography>
             <Typography fontSize={12} fontWeight="500" display="list-item">
-              {t('swap.insurance.slippageError')}
+              {t('insurance.slippageError')}
             </Typography>
           </Box>
         </Box>

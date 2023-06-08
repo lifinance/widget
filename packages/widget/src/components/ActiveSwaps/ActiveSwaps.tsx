@@ -20,14 +20,14 @@ export const ActiveSwaps: React.FC<BoxProps> = (props) => {
   }
 
   const handleShowAll = () => {
-    navigate(navigationRoutes.activeSwaps);
+    navigate(navigationRoutes.activeTransactions);
   };
 
   const hasShowAll = executingRoutes?.length > 2;
 
   return (
     <Card variant="selected" selectionColor="secondary" {...props}>
-      <CardTitle>{t('header.activeSwaps')}</CardTitle>
+      <CardTitle>{t('header.activeTransactions')}</CardTitle>
       <Stack spacing={1.5} pt={1.5} pb={hasShowAll ? 0 : 2}>
         {executingRoutes.slice(0, 2).map((routeId) => (
           <ActiveSwapItem key={routeId} routeId={routeId} dense />

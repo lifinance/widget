@@ -103,12 +103,12 @@ const ExchangeRateBottomSheetContent: React.FC<
           <WarningRoundedIcon color="warning" />
         </IconCircle>
         <Typography py={1} fontSize={18} fontWeight={700}>
-          {t('swap.warning.title.rateChanged')}
+          {t('warning.title.rateChanged')}
         </Typography>
       </CenterContainer>
-      <Typography py={1}>{t('swap.warning.message.rateChanged')}</Typography>
+      <Typography py={1}>{t('warning.message.rateChanged')}</Typography>
       <Box display="flex" justifyContent="space-between" mt={1}>
-        <Typography>{t('swap.quotedAmount')}</Typography>
+        <Typography>{t('main.quotedAmount')}</Typography>
         <Typography fontWeight={600}>
           {t('format.number', {
             value: formatTokenAmount(
@@ -121,7 +121,7 @@ const ExchangeRateBottomSheetContent: React.FC<
         </Typography>
       </Box>
       <Box display="flex" justifyContent="space-between" mt={0.25}>
-        <Typography>{t('swap.currentAmount')}</Typography>
+        <Typography>{t('main.currentAmount')}</Typography>
         <Typography fontWeight={600}>
           {t('format.number', {
             value: formatTokenAmount(
@@ -134,7 +134,7 @@ const ExchangeRateBottomSheetContent: React.FC<
         </Typography>
       </Box>
       <Box display="flex" justifyContent="space-between" mt={0.25}>
-        <Typography>{t('swap.rateChange')}</Typography>
+        <Typography>{t('main.rateChange')}</Typography>
         <Typography fontWeight={600}>
           {Big(data?.newToAmount || 0)
             .div(Big(data?.oldToAmount || 0))

@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - adjust-terminology
 
 jobs:
   build:

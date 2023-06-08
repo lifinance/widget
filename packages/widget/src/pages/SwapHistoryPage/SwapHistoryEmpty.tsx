@@ -19,7 +19,7 @@ export const SwapHistoryEmpty: React.FC = () => {
         <ReceiptLongRoundedIcon fontSize="inherit" />
       </Typography>
       <Typography fontSize={18} fontWeight={700}>
-        {t('swap.info.title.emptySwapHistory')}
+        {t('info.title.emptyTransactionHistory')}
       </Typography>
       <Typography
         fontSize={14}
@@ -27,7 +27,7 @@ export const SwapHistoryEmpty: React.FC = () => {
         textAlign="center"
         mt={2}
       >
-        {t('swap.info.message.emptySwapHistory')}
+        {t('info.message.emptyTransactionHistory')}
       </Typography>
     </Container>
   );

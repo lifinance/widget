@@ -100,7 +100,7 @@ export const SwapInputBase: React.FC<
 
   return (
     <Card {...props}>
-      <CardTitle>{t('swap.fromAmount')}</CardTitle>
+      <CardTitle>{t('main.fromAmount')}</CardTitle>
       <FormControl fullWidth>
         <Input
           inputRef={ref}

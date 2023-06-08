@@ -43,8 +43,8 @@ export const InsuranceCard: React.FC<InsuranceCardProps> = ({
           <VerifiedUserIcon fontSize="inherit" />
           <CardLabelTypography type="icon">
             {status === RouteExecutionStatus.Idle
-              ? t('swap.tags.insurance')
-              : t('swap.tags.insured')}
+              ? t('main.tags.insurance')
+              : t('main.tags.insured')}
           </CardLabelTypography>
         </CardLabel>
         {status === RouteExecutionStatus.Idle ? (
@@ -76,11 +76,11 @@ export const InsuranceCard: React.FC<InsuranceCardProps> = ({
             <Typography fontSize={14}>
               <Trans>
                 {status === RouteExecutionStatus.Idle
-                  ? t('swap.insurance.insure', {
+                  ? t('insurance.insure', {
                       amount: insuredAmount,
                       tokenSymbol: insuredTokenSymbol,
                     })
-                  : t('swap.insurance.insured', {
+                  : t('insurance.insured', {
                       amount: insuredAmount,
                       tokenSymbol: insuredTokenSymbol,
                     })}
@@ -99,10 +99,10 @@ export const InsuranceCard: React.FC<InsuranceCardProps> = ({
                 }}
               >
                 <Typography fontSize={14} display="list-item">
-                  {t('swap.insurance.bridgeExploits')}
+                  {t('insurance.bridgeExploits')}
                 </Typography>
                 <Typography fontSize={14} display="list-item">
-                  {t('swap.insurance.slippageError')}
+                  {t('insurance.slippageError')}
                 </Typography>
               </Box>
             </Collapse>

@@ -17,7 +17,7 @@ import { shallow } from 'zustand/shallow';
 import { Card, CardTitle } from '../../components/Card';
 import { ContractComponent } from '../../components/ContractComponent';
 import { Dialog } from '../../components/Dialog';
-import { useHeaderActionStore } from '../../components/Header';
+import { useHeaderStore } from '../../components/Header';
 import { Insurance } from '../../components/Insurance';
 import { getStepList } from '../../components/Step';
 import { useNavigateBack } from '../../hooks';
@@ -65,7 +65,7 @@ export const SwapDetailsPage: React.FC = () => {
   };
 
   useEffect(() => {
-    return useHeaderActionStore.getState().setAction(
+    return useHeaderStore.getState().setAction(
       <IconButton size="medium" edge="end" onClick={toggleDialog}>
         <DeleteIcon />
       </IconButton>,
@@ -120,7 +120,7 @@ export const SwapDetailsPage: React.FC = () => {
             flex: 1,
           }}
         >
-          <CardTitle flex={1}>{t('swap.supportId')}</CardTitle>
+          <CardTitle flex={1}>{t('main.supportId')}</CardTitle>
           <Box mr={1} mt={1}>
             <IconButton size="medium" onClick={copySupportId}>
               <ContentCopyIcon fontSize="small" />
@@ -148,10 +148,10 @@ export const SwapDetailsPage: React.FC = () => {
         </Button>
       </Box>
       <Dialog open={open} onClose={toggleDialog}>
-        <DialogTitle>{t('swap.warning.title.deleteSwap')}</DialogTitle>
+        <DialogTitle>{t('warning.title.deleteTransaction')}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {t('swap.warning.message.deleteSwapHistory')}
+            {t('warning.message.deleteTransactionHistory')}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

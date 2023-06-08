@@ -17,7 +17,7 @@ export const MainSwapButton: React.FC = () => {
   const handleClick = async () => {
     if (currentRoute) {
       setExecutableRoute(currentRoute);
-      navigate(navigationRoutes.swapExecution, {
+      navigate(navigationRoutes.transactionExecution, {
         state: { routeId: currentRoute.id },
       });
     }
@@ -26,7 +26,7 @@ export const MainSwapButton: React.FC = () => {
   return (
     <SwapButton
       onClick={handleClick}
-      hasRoute={Boolean(currentRoute)}
+      route={currentRoute}
       disabled={
         currentRoute && (isLoading || isFetching || isValidating || !isValid)
       }

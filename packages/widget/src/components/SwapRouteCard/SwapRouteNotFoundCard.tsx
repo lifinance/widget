@@ -19,7 +19,7 @@ export const SwapRouteNotFoundCard: React.FC = () => {
         <RouteIcon fontSize="inherit" />
       </Typography>
       <Typography fontSize={18} fontWeight={700}>
-        {t('swap.info.title.routeNotFound')}
+        {t('info.title.routeNotFound')}
       </Typography>
       <Typography
         fontSize={14}
@@ -27,7 +27,7 @@ export const SwapRouteNotFoundCard: React.FC = () => {
         textAlign="center"
         mt={2}
       >
-        {t('swap.info.message.routeNotFound')}
+        {t('info.message.routeNotFound')}
       </Typography>
     </Box>
   );

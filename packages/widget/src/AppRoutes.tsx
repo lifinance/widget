@@ -52,27 +52,27 @@ export const AppRoutes = () => {
       element: <SelectChainPage formType="to" />,
     },
     {
-      path: navigationRoutes.swapRoutes,
+      path: navigationRoutes.routes,
       element: <SwapRoutesPage />,
     },
     {
-      path: navigationRoutes.activeSwaps,
+      path: navigationRoutes.activeTransactions,
       element: <ActiveSwapsPage />,
     },
     {
-      path: navigationRoutes.swapHistory,
+      path: navigationRoutes.transactionHistory,
       element: <SwapHistoryPage />,
     },
     {
-      path: `${navigationRoutes.swapHistory}?/${navigationRoutes.swapRoutes}?/${navigationRoutes.swapExecution}?/${navigationRoutes.swapDetails}`,
+      path: `${navigationRoutes.transactionHistory}?/${navigationRoutes.routes}?/${navigationRoutes.transactionExecution}?/${navigationRoutes.transactionDetails}`,
       element: <SwapDetailsPage />,
     },
     {
-      path: `${navigationRoutes.swapRoutes}?/${navigationRoutes.swapExecution}?/${navigationRoutes.selectWallet}`,
+      path: `${navigationRoutes.routes}?/${navigationRoutes.transactionExecution}?/${navigationRoutes.selectWallet}`,
       element: <SelectWalletPage />,
     },
     {
-      path: `${navigationRoutes.swapRoutes}?/${navigationRoutes.activeSwaps}?/${navigationRoutes.swapExecution}`,
+      path: `${navigationRoutes.routes}?/${navigationRoutes.activeTransactions}?/${navigationRoutes.transactionExecution}`,
       element: <SwapPage />,
     },
     {

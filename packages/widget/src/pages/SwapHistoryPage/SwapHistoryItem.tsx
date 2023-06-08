@@ -14,7 +14,7 @@ export const SwapHistoryItem: React.FC<{
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(navigationRoutes.swapDetails, {
+    navigate(navigationRoutes.transactionDetails, {
       state: { routeId: route.id },
     });
   };

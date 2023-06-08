@@ -32,7 +32,7 @@ export const SendToWalletButton: React.FC = () => {
 
   return (
     <Tooltip
-      title={t('swap.sendToWallet')}
+      title={t('main.sendToWallet')}
       placement="bottom-end"
       enterDelay={400}
       arrow

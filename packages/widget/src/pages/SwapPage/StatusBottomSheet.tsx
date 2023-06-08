@@ -90,11 +90,14 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
 
   const handleSeeDetails = () => {
     handleClose();
-    navigate(navigationRoutes.swapDetails, {
+    navigate(navigationRoutes.transactionDetails, {
       state: { routeId: route.id },
       replace: true,
     });
   };
+
+  const transactionType =
+    route.fromChainId === route.toChainId ? 'swap' : 'bridge';
 
   let title;
   let primaryMessage;
@@ -104,10 +107,10 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
     case RouteExecutionStatus.Done: {
       title =
         variant === 'nft'
-          ? t('swap.success.title.purchaseSuccessful')
-          : t('swap.success.title.swapSuccessful');
+          ? t('success.title.purchaseSuccessful')
+          : t(`success.title.${transactionType}Successful`);
       if (token) {
-        primaryMessage = t('swap.success.message.swapSuccessful', {
+        primaryMessage = t('success.message.exchangeSuccessful', {
           amount: formatTokenAmount(token.amount),
           tokenSymbol: token.symbol,
           chainName: getChainById(token.chainId)?.name,
@@ -118,13 +121,13 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
       break;
     }
     case RouteExecutionStatus.Done | RouteExecutionStatus.Partial: {
-      title = t('swap.success.title.swapPartiallySuccessful');
-      primaryMessage = t('swap.success.message.swapPartiallySuccessful', {
+      title = t(`success.title.${transactionType}PartiallySuccessful`);
+      primaryMessage = t('success.message.exchangePartiallySuccessful', {
         tool: route.steps.at(-1)?.toolDetails.name,
         tokenSymbol: route.steps.at(-1)?.action.toToken.symbol,
       });
       if (token) {
-        secondaryMessage = t('swap.success.message.swapSuccessful', {
+        secondaryMessage = t('success.message.exchangeSuccessful', {
           amount: formatTokenAmount(token.amount),
           tokenSymbol: token.symbol,
           chainName: getChainById(token.chainId)?.name,
@@ -135,13 +138,13 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
       break;
     }
     case RouteExecutionStatus.Done | RouteExecutionStatus.Refunded: {
-      title = t('swap.success.title.refundIssued');
-      primaryMessage = t('swap.success.message.swapPartiallySuccessful', {
+      title = t('success.title.refundIssued');
+      primaryMessage = t('success.message.exchangePartiallySuccessful', {
         tool: route.steps.at(-1)?.toolDetails.name,
         tokenSymbol: route.steps.at(-1)?.action.toToken.symbol,
       });
       if (token) {
-        secondaryMessage = t('swap.success.message.swapSuccessful', {
+        secondaryMessage = t('success.message.exchangeSuccessful', {
           amount: formatTokenAmount(token.amount),
           tokenSymbol: token.symbol,
           chainName: getChainById(token.chainId)?.name,

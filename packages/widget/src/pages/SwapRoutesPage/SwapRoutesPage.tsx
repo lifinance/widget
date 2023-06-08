@@ -2,7 +2,7 @@
 import type { Route } from '@lifi/sdk';
 import type { BoxProps } from '@mui/material';
 import { useEffect } from 'react';
-import { useHeaderActionStore } from '../../components/Header';
+import { useHeaderStore } from '../../components/Header';
 import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate';
 import {
   SwapRouteCard,
@@ -28,7 +28,7 @@ export const SwapRoutesPage: React.FC<BoxProps> = () => {
 
   const handleRouteClick = (route: Route) => {
     setExecutableRoute(route);
-    navigate(navigationRoutes.swapExecution, {
+    navigate(navigationRoutes.transactionExecution, {
       state: { routeId: route.id },
     });
   };
@@ -42,7 +42,7 @@ export const SwapRoutesPage: React.FC<BoxProps> = () => {
   }, []);
 
   useEffect(() => {
-    return useHeaderActionStore
+    return useHeaderStore
       .getState()
       .setAction(
         <ProgressToNextUpdate

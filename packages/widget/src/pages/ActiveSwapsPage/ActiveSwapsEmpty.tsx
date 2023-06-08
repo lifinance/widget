@@ -19,7 +19,7 @@ export const ActiveSwapsEmpty: React.FC = () => {
         <SwapHorizIcon fontSize="inherit" />
       </Typography>
       <Typography fontSize={18} fontWeight={700}>
-        {t('swap.info.title.emptyActiveSwaps')}
+        {t('info.title.emptyActiveTransactions')}
       </Typography>
       <Typography
         fontSize={14}
@@ -27,7 +27,7 @@ export const ActiveSwapsEmpty: React.FC = () => {
         textAlign="center"
         mt={2}
       >
-        {t('swap.info.message.emptyActiveSwaps')}
+        {t('info.message.emptyActiveTransactions')}
       </Typography>
     </Container>
   );

@@ -33,7 +33,7 @@ export const SelectNativeTokenPage: React.FC<SwapFormTypeProps> = ({
             </ListItemAvatar>
             <ListItemText
               primary={chain.nativeToken.symbol}
-              secondary={t('swap.onChain', { chainName: chain.name })}
+              secondary={t('main.onChain', { chainName: chain.name })}
             />
           </ListItemButton>
         ))}

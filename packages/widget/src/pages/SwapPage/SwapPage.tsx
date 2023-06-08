@@ -1,13 +1,14 @@
 import type { ExchangeRateUpdateParams } from '@lifi/sdk';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Button, Tooltip } from '@mui/material';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import { ContractComponent } from '../../components/ContractComponent';
 import { GasMessage } from '../../components/GasMessage';
+import { useHeaderStore } from '../../components/Header';
 import { Insurance } from '../../components/Insurance';
 import { getStepList } from '../../components/Step';
 import {
@@ -56,20 +57,36 @@ export const SwapPage: React.FC = () => {
       onAcceptExchangeRateUpdate,
     });
 
+  useEffect(() => {
+    if (route && variant !== 'nft') {
+      const transactionType =
+        route.fromChainId === route.toChainId ? 'Swap' : 'Bridge';
+      return useHeaderStore
+        .getState()
+        .setTitle(
+          status === RouteExecutionStatus.Idle
+            ? t(`button.review${transactionType}`)
+            : t(`header.${transactionType.toLowerCase() as 'swap' | 'bridge'}`),
+        );
+    }
+  }, [route, status, t, variant]);
+
+  if (!route) {
+    return null;
+  }
+
   const tokenValueLossThresholdExceeded = getTokenValueLossThreshold(route);
 
   const handleExecuteRoute = () => {
     if (tokenValueBottomSheetRef.current?.isOpen()) {
-      if (route) {
-        emitter.emit(WidgetEvent.RouteHighValueLoss, {
-          fromAmountUsd: route.fromAmountUSD,
-          gasCostUSD: route.gasCostUSD,
-          toAmountUSD: route.toAmountUSD,
-          valueLoss: calcValueLoss(route),
-        });
-      }
-      tokenValueBottomSheetRef.current?.close();
+      emitter.emit(WidgetEvent.RouteHighValueLoss, {
+        fromAmountUsd: route.fromAmountUSD,
+        gasCostUSD: route.gasCostUSD,
+        toAmountUSD: route.toAmountUSD,
+        valueLoss: calcValueLoss(route),
+      });
     }
+    tokenValueBottomSheetRef.current?.close();
     executeRoute();
     setValue(SwapFormKey.FromAmount, '');
   };
@@ -99,9 +116,11 @@ export const SwapPage: React.FC = () => {
           case 'nft':
             return t('button.buyNow');
           case 'refuel':
-            return t('button.startGasSwap');
+            return t('button.startBridging');
           default:
-            return t('button.startSwap');
+            const transactionType =
+              route.fromChainId === route.toChainId ? 'Swapping' : 'Bridging';
+            return t(`button.start${transactionType}`);
         }
       case RouteExecutionStatus.Failed:
         return t('button.tryAgain');
@@ -118,20 +137,20 @@ export const SwapPage: React.FC = () => {
   const insuranceAvailable =
     insurance &&
     variant !== 'refuel' &&
-    (route?.insurance?.state === 'INSURED' ||
+    (route.insurance?.state === 'INSURED' ||
       (status === RouteExecutionStatus.Idle &&
-        route?.insurance?.state === 'INSURABLE'));
+        route.insurance?.state === 'INSURABLE'));
 
   const insuranceCoverageId =
-    route?.steps[0].execution?.process
+    route.steps[0].execution?.process
       .filter((process) => process.type !== 'TOKEN_ALLOWANCE')
-      .find((process) => process.txHash)?.txHash ?? route?.fromAddress;
+      .find((process) => process.txHash)?.txHash ?? route.fromAddress;
 
   return (
     <Container>
       {getStepList(route)}
       {variant === 'nft' ? <ContractComponent mt={2} /> : null}
-      {route && insuranceAvailable ? (
+      {insuranceAvailable ? (
         <Insurance
           mt={2}
           status={status}
@@ -160,7 +179,7 @@ export const SwapPage: React.FC = () => {
             />
             {status === RouteExecutionStatus.Failed ? (
               <Tooltip
-                title={t('button.removeSwap')}
+                title={t('button.removeTransaction')}
                 placement="bottom-end"
                 enterDelay={400}
                 arrow
@@ -179,19 +198,15 @@ export const SwapPage: React.FC = () => {
           </Box>
         </>
       ) : null}
-      {route && status ? (
-        <StatusBottomSheet status={status} route={route} />
-      ) : null}
-      {route && tokenValueLossThresholdExceeded && variant !== 'nft' ? (
+      {status ? <StatusBottomSheet status={status} route={route} /> : null}
+      {tokenValueLossThresholdExceeded && variant !== 'nft' ? (
         <TokenValueBottomSheet
           route={route}
           ref={tokenValueBottomSheetRef}
           onContinue={handleExecuteRoute}
         />
       ) : null}
-      {route ? (
-        <ExchangeRateBottomSheet ref={exchangeRateBottomSheetRef} />
-      ) : null}
+      <ExchangeRateBottomSheet ref={exchangeRateBottomSheetRef} />
     </Container>
   );
 };

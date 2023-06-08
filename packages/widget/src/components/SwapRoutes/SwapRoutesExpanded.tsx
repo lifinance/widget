@@ -59,7 +59,7 @@ export const SwapRoutesExpandedElement = () => {
   const handleRouteClick = (route: Route) => {
     if (isValid && !isValidating) {
       setExecutableRoute(route);
-      navigate(navigationRoutes.swapExecution, {
+      navigate(navigationRoutes.transactionExecution, {
         state: { routeId: route.id },
       });
     }
@@ -78,7 +78,7 @@ export const SwapRoutesExpandedElement = () => {
           <ScrollableContainer>
             <Header>
               <Typography fontSize={18} fontWeight="700" flex={1} noWrap>
-                {variant === 'nft' ? t('swap.fromAmount') : t('header.routes')}
+                {variant === 'nft' ? t('main.fromAmount') : t('header.youGet')}
               </Typography>
               <ProgressToNextUpdate
                 updatedAt={dataUpdatedAt || new Date().getTime()}

@@ -36,7 +36,7 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
   }
 
   const handleCardClick = () => {
-    navigate(navigationRoutes.swapRoutes);
+    navigate(navigationRoutes.routes);
   };
 
   const routeNotFound = !currentRoute && !isLoading && !isFetching;
@@ -47,7 +47,7 @@ export const SwapRoutes: React.FC<BoxProps> = (props) => {
   return (
     <Card {...props}>
       <CardTitle>
-        {variant === 'nft' ? t('swap.fromAmount') : t('header.routes')}
+        {variant === 'nft' ? t('main.fromAmount') : t('header.youGet')}
       </CardTitle>
       <ProgressToNextUpdate
         updatedAt={dataUpdatedAt || new Date().getTime()}

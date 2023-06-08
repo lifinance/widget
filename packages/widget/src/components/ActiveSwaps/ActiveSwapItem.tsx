@@ -34,7 +34,7 @@ export const ActiveSwapItem: React.FC<{
   }
 
   const handleClick = () => {
-    navigate(navigationRoutes.swapExecution, { state: { routeId } });
+    navigate(navigationRoutes.transactionExecution, { state: { routeId } });
   };
 
   const getStatusComponent = () => {

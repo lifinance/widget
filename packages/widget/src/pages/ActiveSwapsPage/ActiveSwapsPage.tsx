@@ -13,7 +13,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ActiveSwapItem } from '../../components/ActiveSwaps';
 import { Dialog } from '../../components/Dialog';
-import { useHeaderActionStore } from '../../components/Header';
+import { useHeaderStore } from '../../components/Header';
 import { useWallet } from '../../providers';
 import { useExecutingRoutesIds, useRouteExecutionStore } from '../../stores';
 import { ActiveSwapsEmpty } from './ActiveSwapsEmpty';
@@ -31,7 +31,7 @@ export const ActiveSwapsPage = () => {
 
   useEffect(() => {
     if (executingRoutes.length) {
-      return useHeaderActionStore.getState().setAction(
+      return useHeaderStore.getState().setAction(
         <IconButton size="medium" edge="end" onClick={toggleDialog}>
           <DeleteIcon />
         </IconButton>,
@@ -56,10 +56,10 @@ export const ActiveSwapsPage = () => {
         ))}
       </List>
       <Dialog open={open} onClose={toggleDialog}>
-        <DialogTitle>{t('swap.warning.title.deleteActiveSwaps')}</DialogTitle>
+        <DialogTitle>{t('warning.title.deleteActiveTransactions')}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {t('swap.warning.message.deleteActiveSwaps')}
+            {t('warning.message.deleteActiveTransactions')}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

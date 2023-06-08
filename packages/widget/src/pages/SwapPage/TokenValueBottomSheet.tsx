@@ -51,30 +51,30 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
           <WarningRoundedIcon color="warning" />
         </IconCircle>
         <Typography py={1} fontSize={18} fontWeight={700}>
-          {t('swap.warning.title.highValueLoss')}
+          {t('warning.title.highValueLoss')}
         </Typography>
       </CenterContainer>
-      <Typography py={1}>{t('swap.warning.message.highValueLoss')}</Typography>
+      <Typography py={1}>{t('warning.message.highValueLoss')}</Typography>
       <Box display="flex" justifyContent="space-between" mt={1}>
-        <Typography>{t('swap.swapping')}</Typography>
+        <Typography>{t('main.sending')}</Typography>
         <Typography fontWeight={600}>
           {t('format.currency', { value: route.fromAmountUSD })}
         </Typography>
       </Box>
       <Box display="flex" justifyContent="space-between" mt={0.25}>
-        <Typography>{t('swap.gasCost')}</Typography>
+        <Typography>{t('main.gasCost')}</Typography>
         <Typography fontWeight={600}>
           {t('format.currency', { value: route.gasCostUSD })}
         </Typography>
       </Box>
       <Box display="flex" justifyContent="space-between" mt={0.25}>
-        <Typography>{t('swap.receiving')}</Typography>
+        <Typography>{t('main.receiving')}</Typography>
         <Typography fontWeight={600}>
           {t('format.currency', { value: route.toAmountUSD })}
         </Typography>
       </Box>
       <Box display="flex" justifyContent="space-between" mt={0.25}>
-        <Typography>{t('swap.valueLoss')}</Typography>
+        <Typography>{t('main.valueLoss')}</Typography>
         <Typography fontWeight={600}>{calcValueLoss(route)}</Typography>
       </Box>
       <Box display="flex" mt={3}>

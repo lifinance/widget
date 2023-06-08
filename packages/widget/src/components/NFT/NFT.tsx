@@ -64,7 +64,7 @@ export const NFT: React.FC<BoxProps & NFTProps> = ({
             <Skeleton width={128} height={21} variant="text" />
           ) : owner ? (
             <Typography fontSize={14} color="text.secondary">
-              {t('swap.ownedBy')}{' '}
+              {t('main.ownedBy')}{' '}
               <Link
                 href={owner.url}
                 target="_blank"

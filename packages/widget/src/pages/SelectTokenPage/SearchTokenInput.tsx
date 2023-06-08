@@ -23,7 +23,7 @@ export const SearchTokenInput = () => {
       <FormControl fullWidth>
         <Input
           size="small"
-          placeholder={t(`swap.tokenSearch`) as string}
+          placeholder={t(`main.tokenSearch`) as string}
           defaultValue=""
           endAdornment={
             <InputAdornment position="end">

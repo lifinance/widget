@@ -33,7 +33,7 @@ export const TokenNotFound: React.FC<SwapFormTypeProps> = ({ formType }) => {
         mt={2}
         px={2}
       >
-        {t('swap.info.message.emptyTokenList', {
+        {t('info.message.emptyTokenList', {
           chainName: getChainById(selectedChainId)?.name,
         })}
       </Typography>

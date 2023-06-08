@@ -12,7 +12,7 @@ import {
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog } from '../../components/Dialog';
-import { useHeaderActionStore } from '../../components/Header';
+import { useHeaderStore } from '../../components/Header';
 import { useWallet } from '../../providers';
 import { useRouteExecutionStore } from '../../stores';
 import { useSwapHistory } from '../../stores/routes';
@@ -32,7 +32,7 @@ export const SwapHistoryPage: React.FC = () => {
 
   useEffect(() => {
     if (swaps.length) {
-      return useHeaderActionStore.getState().setAction(
+      return useHeaderStore.getState().setAction(
         <IconButton size="medium" edge="end" onClick={toggleDialog}>
           <DeleteIcon />
         </IconButton>,
@@ -56,10 +56,10 @@ export const SwapHistoryPage: React.FC = () => {
         )}
       </Stack>
       <Dialog open={open} onClose={toggleDialog}>
-        <DialogTitle>{t('swap.warning.title.deleteSwapHistory')}</DialogTitle>
+        <DialogTitle>{t('warning.title.deleteTransactionHistory')}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {t('swap.warning.message.deleteSwapHistory')}
+            {t('warning.message.deleteTransactionHistory')}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

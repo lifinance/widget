@@ -40,14 +40,14 @@ export const SelectTokenButton: React.FC<
   const onClick = !disabledUI?.includes(tokenKey) ? handleClick : undefined;
   const defaultPlaceholder =
     formType === 'to' && variant === 'refuel'
-      ? t('swap.selectChain')
+      ? t('main.selectChain')
       : formType === 'to' && swapOnly
-      ? t('swap.selectToken')
-      : t('swap.selectChainAndToken');
+      ? t('main.selectToken')
+      : t('main.selectChainAndToken');
   const cardTitle =
     formType === 'from' && variant === 'nft'
       ? t(`header.payWith`)
-      : t(`swap.${formType}`);
+      : t(`main.${formType}`);
   return (
     <Card flex={1} onClick={onClick}>
       <CardTitle>{cardTitle}</CardTitle>
@@ -69,7 +69,7 @@ export const SelectTokenButton: React.FC<
           }
           title={isSelected ? token.symbol : defaultPlaceholder}
           subheader={
-            isSelected ? t(`swap.onChain`, { chainName: chain.name }) : null
+            isSelected ? t(`main.onChain`, { chainName: chain.name }) : null
           }
           selected={isSelected}
           compact={compact}

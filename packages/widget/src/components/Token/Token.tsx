@@ -116,7 +116,7 @@ export const TokenBase: React.FC<TokenProps & BoxProps> = ({
             />
           ) : (
             <TextSecondary connected={connected}>
-              {t(`swap.tokenOnChain`, {
+              {t(`main.tokenOnChain`, {
                 tokenSymbol: token?.symbol,
                 chainName: chain?.name,
               })}
