@@ -10,7 +10,7 @@ export const MainSwapButton: React.FC = () => {
   const { isValid, isValidating } = useFormState();
   const setExecutableRoute = useSetExecutableRoute();
 
-  const { routes: swapRoutes, isLoading, isFetching } = useSwapRoutes();
+  const { routes: swapRoutes } = useSwapRoutes();
 
   const currentRoute = swapRoutes?.[0];
 
@@ -27,9 +27,7 @@ export const MainSwapButton: React.FC = () => {
     <SwapButton
       onClick={handleClick}
       route={currentRoute}
-      disabled={
-        currentRoute && (isLoading || isFetching || isValidating || !isValid)
-      }
+      disabled={currentRoute && (isValidating || !isValid)}
     />
   );
 };
