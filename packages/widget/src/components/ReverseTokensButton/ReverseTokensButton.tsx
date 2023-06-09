@@ -1,7 +1,7 @@
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { useFormContext } from 'react-hook-form';
-import { SwapFormKey } from '../../providers';
+import { FormKey } from '../../providers';
 import { IconButton } from './ReverseTokensButton.style';
 
 export const ReverseTokensButton: React.FC<{ vertical?: boolean }> = ({
@@ -10,16 +10,16 @@ export const ReverseTokensButton: React.FC<{ vertical?: boolean }> = ({
   const { setValue, getValues } = useFormContext();
   const handleClick = () => {
     const [fromChain, fromToken, toChain, toToken] = getValues([
-      SwapFormKey.FromChain,
-      SwapFormKey.FromToken,
-      SwapFormKey.ToChain,
-      SwapFormKey.ToToken,
+      FormKey.FromChain,
+      FormKey.FromToken,
+      FormKey.ToChain,
+      FormKey.ToToken,
     ]);
-    setValue(SwapFormKey.FromAmount, '', { shouldTouch: true });
-    setValue(SwapFormKey.FromChain, toChain, { shouldTouch: true });
-    setValue(SwapFormKey.FromToken, toToken, { shouldTouch: true });
-    setValue(SwapFormKey.ToChain, fromChain, { shouldTouch: true });
-    setValue(SwapFormKey.ToToken, fromToken, { shouldTouch: true });
+    setValue(FormKey.FromAmount, '', { shouldTouch: true });
+    setValue(FormKey.FromChain, toChain, { shouldTouch: true });
+    setValue(FormKey.FromToken, toToken, { shouldTouch: true });
+    setValue(FormKey.ToChain, fromChain, { shouldTouch: true });
+    setValue(FormKey.ToToken, fromToken, { shouldTouch: true });
   };
   return (
     <IconButton onClick={handleClick} size="small">

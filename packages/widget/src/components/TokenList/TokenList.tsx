@@ -8,7 +8,7 @@ import {
   useTokenBalances,
   useTokenSearch,
 } from '../../hooks';
-import { SwapFormKey, SwapFormKeyHelper, useWallet } from '../../providers';
+import { FormKey, FormKeyHelper, useWallet } from '../../providers';
 import type { TokenAmount } from '../../types';
 import { TokenNotFound } from './TokenNotFound';
 import { VirtualizedTokenList } from './VirtualizedTokenList';
@@ -23,10 +23,10 @@ export const TokenList: FC<TokenListProps> = ({
   const parentRef = useRef<HTMLUListElement | null>(null);
   const { account } = useWallet();
   const [selectedChainId] = useWatch({
-    name: [SwapFormKeyHelper.getChainKey(formType)],
+    name: [FormKeyHelper.getChainKey(formType)],
   });
   const [tokenSearchFilter]: string[] = useDebouncedWatch(
-    [SwapFormKey.TokenSearchFilter],
+    [FormKey.TokenSearchFilter],
     320,
   );
 

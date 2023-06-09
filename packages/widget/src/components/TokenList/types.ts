@@ -1,10 +1,10 @@
 import type { ExtendedChain } from '@lifi/sdk';
 import type { MutableRefObject } from 'react';
-import type { SwapFormType } from '../../providers';
+import type { FormType } from '../../providers';
 import type { TokenAmount } from '../../types';
 
 export interface TokenListProps {
-  formType: SwapFormType;
+  formType: FormType;
   height: number;
   onClick?(): void;
 }

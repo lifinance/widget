@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Card } from '../../components/Card';
-import { SwapFormKey } from '../../providers';
+import { FormKey } from '../../providers';
 import { Input } from './SearchTokenInput.style';
 
 export const SearchTokenInput = () => {
@@ -13,7 +13,7 @@ export const SearchTokenInput = () => {
 
   useEffect(
     () => () => {
-      setValue(SwapFormKey.TokenSearchFilter, '');
+      setValue(FormKey.TokenSearchFilter, '');
     },
     [setValue],
   );
@@ -32,7 +32,7 @@ export const SearchTokenInput = () => {
           }
           inputProps={{
             inputMode: 'search',
-            ...register(SwapFormKey.TokenSearchFilter),
+            ...register(FormKey.TokenSearchFilter),
           }}
           autoComplete="off"
         />

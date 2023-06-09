@@ -3,7 +3,7 @@ import { Box, Link, Skeleton, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { SwapFormKey } from '../../providers';
+import { FormKey } from '../../providers';
 import { Token } from '../Token';
 import { PreviewAvatar } from './NFT.style';
 import type { NFTProps } from './types';
@@ -22,14 +22,14 @@ export const NFT: React.FC<BoxProps & NFTProps> = ({
   const { setValue } = useFormContext();
   useEffect(() => {
     if (token) {
-      setValue(SwapFormKey.ToChain, token.chainId);
-      setValue(SwapFormKey.ToToken, token.address);
-      setValue(SwapFormKey.ToAmount, token.amount);
+      setValue(FormKey.ToChain, token.chainId);
+      setValue(FormKey.ToToken, token.address);
+      setValue(FormKey.ToAmount, token.amount);
     }
     if (contract) {
-      setValue(SwapFormKey.ToContractAddress, contract.address);
-      setValue(SwapFormKey.ToContractCallData, contract.callData);
-      setValue(SwapFormKey.ToContractGasLimit, contract.gasLimit);
+      setValue(FormKey.ToContractAddress, contract.address);
+      setValue(FormKey.ToContractCallData, contract.callData);
+      setValue(FormKey.ToContractGasLimit, contract.gasLimit);
     }
   }, [contract, setValue, token]);
   return (

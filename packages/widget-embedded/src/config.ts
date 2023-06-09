@@ -12,7 +12,7 @@ export const widgetBaseConfig: WidgetConfig = {
   variant: 'nft',
   integrator: 'li.fi-playground',
   hiddenUI: ['history'],
-  buildSwapUrl: true,
+  buildUrl: true,
   sdkConfig: {
     // apiUrl: 'https://staging.li.quest/v1/',
     defaultRouteOptions: {

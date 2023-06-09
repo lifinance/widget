@@ -2,7 +2,7 @@ import WalletIcon from '@mui/icons-material/Wallet';
 import { Button, Tooltip } from '@mui/material';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { SwapFormKey, useWallet, useWidgetConfig } from '../../providers';
+import { FormKey, useWallet, useWidgetConfig } from '../../providers';
 import { useSendToWalletStore, useSettings } from '../../stores';
 import { DisabledUI, HiddenUI, RequiredUI } from '../../types';
 
@@ -25,7 +25,7 @@ export const SendToWalletButton: React.FC = () => {
 
   const handleClick = () => {
     if (showSendToWallet && !disabledUI?.includes(DisabledUI.ToAddress)) {
-      setValue(SwapFormKey.ToAddress, '', { shouldTouch: true });
+      setValue(FormKey.ToAddress, '', { shouldTouch: true });
     }
     toggleSendToWallet();
   };

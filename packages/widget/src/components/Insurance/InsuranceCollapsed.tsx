@@ -1,5 +1,5 @@
 import { Collapse } from '@mui/material';
-import { useSwapRoutes } from '../../hooks';
+import { useRoutes } from '../../hooks';
 import {
   RouteExecutionStatus,
   useRouteExecutionStore,
@@ -19,7 +19,7 @@ export const InsuranceCollapsed: React.FC<InsuranceProps> = ({
   const routeExecution = useRouteExecutionStore(
     (state) => state.routes[insurableRouteId],
   );
-  const { routes } = useSwapRoutes({
+  const { routes } = useRoutes({
     insurableRoute: routeExecution?.route,
   });
 

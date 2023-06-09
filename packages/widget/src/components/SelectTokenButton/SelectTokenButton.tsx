@@ -3,15 +3,15 @@ import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useChain, useSwapOnly, useToken } from '../../hooks';
-import type { SwapFormTypeProps } from '../../providers';
-import { SwapFormKeyHelper, useWidgetConfig } from '../../providers';
+import type { FormTypeProps } from '../../providers';
+import { FormKeyHelper, useWidgetConfig } from '../../providers';
 import { navigationRoutes } from '../../utils';
 import { Card, CardTitle } from '../Card';
 import { TokenAvatar, TokenAvatarDefault } from '../TokenAvatar';
 import { SelectTokenCardHeader } from './SelectTokenButton.style';
 
 export const SelectTokenButton: React.FC<
-  SwapFormTypeProps & {
+  FormTypeProps & {
     compact: boolean;
   }
 > = ({ formType, compact }) => {
@@ -19,9 +19,9 @@ export const SelectTokenButton: React.FC<
   const navigate = useNavigate();
   const { disabledUI, variant } = useWidgetConfig();
   const swapOnly = useSwapOnly();
-  const tokenKey = SwapFormKeyHelper.getTokenKey(formType);
+  const tokenKey = FormKeyHelper.getTokenKey(formType);
   const [chainId, tokenAddress] = useWatch({
-    name: [SwapFormKeyHelper.getChainKey(formType), tokenKey],
+    name: [FormKeyHelper.getChainKey(formType), tokenKey],
   });
   const { chain, isLoading: isChainLoading } = useChain(chainId);
   const { token, isLoading: isTokenLoading } = useToken(chainId, tokenAddress);

@@ -4,7 +4,7 @@ import { Collapse, FormHelperText } from '@mui/material';
 import { forwardRef, useEffect, useRef } from 'react';
 import { useController, useFormContext, useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { SwapFormKey, useWallet, useWidgetConfig } from '../../providers';
+import { FormKey, useWallet, useWidgetConfig } from '../../providers';
 import { useSendToWalletStore, useSettings } from '../../stores';
 import { DisabledUI, HiddenUI, RequiredUI } from '../../types';
 import { Card, CardTitle } from '../Card';
@@ -27,7 +27,7 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
   const {
     field: { onChange, onBlur, name, value },
   } = useController({
-    name: SwapFormKey.ToAddress,
+    name: FormKey.ToAddress,
     rules: {
       required:
         requiredToAddress && (t('error.title.walletAddressRequired') as string),
@@ -45,7 +45,7 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
           return t('error.title.walletEnsAddressInvalid') as string;
         }
       },
-      onBlur: () => trigger(SwapFormKey.ToAddress),
+      onBlur: () => trigger(FormKey.ToAddress),
     },
   });
 
@@ -65,15 +65,13 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
   }, [showInstantly, setSendToWallet]);
 
   useEffect(() => {
-    const value = getValues(SwapFormKey.ToAddress);
+    const value = getValues(FormKey.ToAddress);
     if (value) {
-      trigger(SwapFormKey.ToAddress);
+      trigger(FormKey.ToAddress);
       // Trigger validation if we change requiredToAddress in the runtime
     } else if (requiredToAddressRef.current !== requiredToAddress) {
       requiredToAddressRef.current = requiredToAddress;
-      trigger(SwapFormKey.ToAddress).then(() =>
-        clearErrors(SwapFormKey.ToAddress),
-      );
+      trigger(FormKey.ToAddress).then(() => clearErrors(FormKey.ToAddress));
     }
   }, [account.chainId, clearErrors, getValues, requiredToAddress, trigger]);
 

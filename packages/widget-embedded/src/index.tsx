@@ -41,12 +41,6 @@ root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <WalletProvider>
-        {/* <BrowserRouter>
-        <Routes>
-          <Route path="/swap/*" element={<App />} />
-          <Route path="/*" element={<App />} />
-        </Routes>
-      </BrowserRouter> */}
         <App />
       </WalletProvider>
     </QueryClientProvider>

@@ -2,7 +2,7 @@ import Big from 'big.js';
 import { useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useChains } from '.';
-import { SwapFormKey } from '../providers';
+import { FormKey } from '../providers';
 import { useGasRecommendation } from './useGasRecommendation';
 import { useTokenBalance } from './useTokenBalance';
 
@@ -11,10 +11,10 @@ export const useGasRefuel = () => {
 
   const [fromChainId, fromTokenAddress, toChainId, toAddress] = useWatch({
     name: [
-      SwapFormKey.FromChain,
-      SwapFormKey.FromToken,
-      SwapFormKey.ToChain,
-      SwapFormKey.ToAddress,
+      FormKey.FromChain,
+      FormKey.FromToken,
+      FormKey.ToChain,
+      FormKey.ToAddress,
     ],
   });
 
