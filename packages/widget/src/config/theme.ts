@@ -215,16 +215,13 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
               pointerEvents: 'auto',
             },
             [`&.${loadingButtonClasses.loading}.Mui-disabled`]: {
-              color:
-                mode === 'light'
-                  ? alpha(common.black, 0.56)
-                  : alpha(common.white, 0.56),
+              backgroundColor: primaryMainColor,
+              color: contrastButtonColor,
+              cursor: 'auto',
+              pointerEvents: 'auto',
             },
             [`.${loadingButtonClasses.loadingIndicator}`]: {
-              color:
-                mode === 'light'
-                  ? alpha(common.black, 0.56)
-                  : alpha(common.white, 0.56),
+              color: contrastButtonColor,
             },
             [`&.${loadingButtonClasses.root}.${loadingButtonClasses.loading}`]:
               {
