@@ -6,7 +6,7 @@ import type { TooltipProps } from '@mui/material';
 import { Box, Collapse, Tooltip, Typography } from '@mui/material';
 import type { MouseEventHandler } from 'react';
 import { Fragment, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useWidgetConfig } from '../../providers';
 import { formatTokenAmount } from '../../utils';
 import type { CardProps } from '../Card';
@@ -120,10 +120,14 @@ const InsuranceTooltip: React.FC<
       title={
         <Box component="span">
           <Typography fontSize={12} fontWeight="500">
-            {t('insurance.insure', {
-              amount: insuredAmount,
-              tokenSymbol: insuredTokenSymbol,
-            })}
+            <Trans
+              i18nKey="insurance.insure"
+              values={{
+                amount: insuredAmount,
+                tokenSymbol: insuredTokenSymbol,
+              }}
+              components={[<strong />]}
+            />
           </Typography>
           <Box
             sx={{

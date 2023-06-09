@@ -74,17 +74,18 @@ export const InsuranceCard: React.FC<InsuranceCardProps> = ({
           </Box>
           <Box>
             <Typography fontSize={14}>
-              <Trans>
-                {status === RouteExecutionStatus.Idle
-                  ? t('insurance.insure', {
-                      amount: insuredAmount,
-                      tokenSymbol: insuredTokenSymbol,
-                    })
-                  : t('insurance.insured', {
-                      amount: insuredAmount,
-                      tokenSymbol: insuredTokenSymbol,
-                    })}
-              </Trans>
+              <Trans
+                i18nKey={
+                  status === RouteExecutionStatus.Idle
+                    ? 'insurance.insure'
+                    : 'insurance.insured'
+                }
+                values={{
+                  amount: insuredAmount,
+                  tokenSymbol: insuredTokenSymbol,
+                }}
+                components={[<strong />]}
+              />
             </Typography>
             <Collapse
               timeout={225}
