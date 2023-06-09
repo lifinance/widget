@@ -129,19 +129,18 @@ export const SwapPage: React.FC = () => {
     }
   };
 
-  const SwapButton =
-    insurance && status === RouteExecutionStatus.Idle
-      ? StartIdleSwapButton
-      : StartSwapButton;
-
-  const insuranceAvailable =
+  const insuredRoute = route.insurance?.state === 'INSURED';
+  const insurableRoute =
     insurance &&
     variant !== 'refuel' &&
-    (route.insurance?.state === 'INSURED' ||
-      (status === RouteExecutionStatus.Idle &&
-        route.insurance?.state === 'INSURABLE'));
+    status === RouteExecutionStatus.Idle &&
+    route.insurance?.state === 'INSURABLE';
 
-  const insuranceCoverageId =
+  const insuranceAvailable = insuredRoute || insurableRoute;
+
+  const SwapButton = insurableRoute ? StartIdleSwapButton : StartSwapButton;
+
+  const getInsuranceCoverageId = () =>
     route.steps[0].execution?.process
       .filter((process) => process.type !== 'TOKEN_ALLOWANCE')
       .find((process) => process.txHash)?.txHash ?? route.fromAddress;
@@ -161,7 +160,7 @@ export const SwapPage: React.FC = () => {
             route.toToken.decimals,
           )}
           insuredTokenSymbol={route.toToken.symbol}
-          insuranceCoverageId={insuranceCoverageId}
+          insuranceCoverageId={getInsuranceCoverageId()}
           onChange={setRouteId}
         />
       ) : null}
@@ -175,7 +174,6 @@ export const SwapPage: React.FC = () => {
               onClick={handleSwapClick}
               route={route}
               insurableRouteId={stateRouteId}
-              // disabled={status === 'idle' && (isValidating || !isValid)}
             />
             {status === RouteExecutionStatus.Failed ? (
               <Tooltip
