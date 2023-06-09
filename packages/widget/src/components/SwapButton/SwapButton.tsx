@@ -2,6 +2,7 @@ import { LoadingButton } from '@mui/lab';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useWallet, useWidgetConfig } from '../../providers';
+import { useSplitSubvariantStore } from '../../stores';
 import { navigationRoutes } from '../../utils';
 import type { SwapButtonProps } from './types';
 
@@ -14,8 +15,9 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
 }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { variant, walletManagement } = useWidgetConfig();
+  const { variant, subvariant, walletManagement } = useWidgetConfig();
   const { account, connect } = useWallet();
+  const splitState = useSplitSubvariantStore((state) => state.state);
 
   const handleSwapButtonClick = async () => {
     if (!account.isActive) {
@@ -38,6 +40,9 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
           case 'refuel':
             return t(`button.getGas`);
           default:
+            if (subvariant === 'split' && splitState) {
+              return t(`button.${splitState}`);
+            }
             return t(`button.exchange`);
         }
       }

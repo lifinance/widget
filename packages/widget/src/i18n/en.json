@@ -9,6 +9,7 @@
   },
   "button": {
     "auto": "Auto",
+    "bridge": "Bridge",
     "buy": "Buy",
     "buyNow": "Buy now",
     "cancel": "Cancel",
@@ -38,6 +39,7 @@
     "showAll": "Show all",
     "startBridging": "Start bridging",
     "startSwapping": "Start swapping",
+    "swap": "Swap",
     "tryAgain": "Try again",
     "viewCoverage": "View coverage",
     "viewOnExplorer": "View on explorer"
