@@ -118,7 +118,7 @@
     "message": {
       "allowanceRequired": "Transfer amount for {{tokenSymbol}} exceeds your current allowance. Please increase your allowance and try again.",
       "insufficientFunds": "You don't have enough gas to cover the cost of the transaction.",
-      "slippageThreshold": "The slippage is larger than the defined threshold. Please request a new route to get a fresh quote.",
+      "slippageThreshold": "The slippage is larger than the defined threshold. Please request a new quote.",
       "transactionFailed": "Please check the block explorer for more information.",
       "transactionNotSent": "Transaction was not sent. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
       "transactionRejected": "Your signature is required to complete the transaction. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
@@ -151,7 +151,7 @@
       "title": "404"
     },
     "numberOfSteps": "A number of exchange steps. Each step can contain 1-2 transactions that require a signature.",
-    "progressToNextUpdate": "Displayed data will auto-refresh after {{value}} seconds. Click here to update manually.",
+    "progressToNextUpdate": "Quotes will update in {{value}} seconds. <0/> Click here to update now.",
     "recommended": "A cheap route that balances complexity and ease of use.",
     "settingsModified": "Settings (modified)"
   },
@@ -239,8 +239,8 @@
   },
   "insurance": {
     "bridgeExploits": "Bridge malfunctions, hacks or exploits",
-    "insure": "Insure <strong>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</strong> in transit.",
-    "insured": "You've insured <strong>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</strong> in transit:",
+    "insure": "Insure <0>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</0> in transit.",
+    "insured": "You've insured <0>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</0> in transit:",
     "slippageError": "Error in slippage for tokens received"
   },
   "settings": {
