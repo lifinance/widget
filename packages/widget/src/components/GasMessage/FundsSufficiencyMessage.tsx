@@ -19,7 +19,7 @@ export const FundsSufficiencyMessage = () => {
         />
       </WarningMessageCardTitle>
       <Typography variant="body2" px={2} pb={2} pt={2}>
-        {t(`swap.warning.message.insufficientFunds`)}
+        {t(`warning.message.insufficientFunds`)}
       </Typography>
     </WarningMessageCard>
   );

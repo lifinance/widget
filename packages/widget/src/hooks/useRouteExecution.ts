@@ -156,11 +156,9 @@ export const useRouteExecution = ({
     executeRouteMutation.mutateAsync(undefined, {
       onError: (error) => {
         console.warn('Execution failed!', routeId, error);
-        // Notification.showNotification(NotificationType.SwapExecution_ERROR);
       },
       onSuccess: (route: Route) => {
         console.log('Executed successfully!', route);
-        // Notification.showNotification(NotificationType.TRANSACTION_SUCCESSFULL);
       },
     });
   }, [executeRouteMutation, routeId]);

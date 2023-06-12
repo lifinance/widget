@@ -54,7 +54,7 @@ export const StepTimer: React.FC<{
   if (!isExecutionStarted) {
     return (
       <>
-        {t('swap.estimatedTime', {
+        {t('main.estimatedTime', {
           value: Math.ceil(step.estimate.executionDuration / 60),
         })}
       </>
@@ -72,7 +72,7 @@ export const StepTimer: React.FC<{
   }
 
   return isTimerExpired ? (
-    <>{t('swap.inProgress')}</>
+    <>{t('main.inProgress')}</>
   ) : (
     // eslint-disable-next-line react/jsx-no-useless-fragment
     <>{`${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`}</>

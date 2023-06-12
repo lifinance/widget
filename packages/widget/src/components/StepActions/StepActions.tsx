@@ -67,7 +67,7 @@ export const StepActions: React.FC<StepActionsProps> = ({
           </StepAvatar>
         </Badge>
         <Typography ml={2} fontSize={18} fontWeight="500" flex={1}>
-          {t(`swap.stepDetails`, {
+          {t(`main.stepDetails`, {
             tool: step.toolDetails.name,
           })}
         </Typography>
@@ -221,7 +221,7 @@ export const CustomStepDetailsLabel: React.FC<StepDetailsLabelProps> = ({
 
   return (
     <Typography fontSize={12} fontWeight="500" color="text.secondary">
-      {t(`swap.${variant}StepDetails`, {
+      {t(`main.${variant}StepDetails`, {
         tool: step.toolDetails.name,
       })}
     </Typography>
@@ -235,7 +235,7 @@ export const CrossStepDetailsLabel: React.FC<
   const { getChainById } = useChains();
   return (
     <Typography fontSize={12} fontWeight="500" color="text.secondary">
-      {t('swap.crossStepDetails', {
+      {t('main.crossStepDetails', {
         from: getChainById(step.action.fromChainId)?.name,
         to: getChainById(step.action.toChainId)?.name,
         tool: step.toolDetails.name,
@@ -251,7 +251,7 @@ export const SwapStepDetailsLabel: React.FC<
   const { getChainById } = useChains();
   return (
     <Typography fontSize={12} fontWeight="500" color="text.secondary">
-      {t('swap.swapStepDetails', {
+      {t('main.swapStepDetails', {
         chain: getChainById(step.action.fromChainId)?.name,
         tool: step.toolDetails.name,
       })}
@@ -266,7 +266,7 @@ export const ProtocolStepDetailsLabel: React.FC<
   return (
     <Typography fontSize={12} fontWeight="500" color="text.secondary">
       {step.toolDetails.key === 'lifuelProtocol'
-        ? t('swap.refuelStepDetails', {
+        ? t('main.refuelStepDetails', {
             tool: step.toolDetails.name,
           })
         : step.toolDetails.name}

@@ -37,7 +37,7 @@ export const GasStepProcess: React.FC<{
                 )) ??
               0,
           })}{' '}
-          {isDone ? t('swap.gasFeePaid') : t('swap.gasFeeEstimated')}
+          {isDone ? t('main.gasFeePaid') : t('main.gasFeeEstimated')}
         </Typography>
       </Box>
     </Box>

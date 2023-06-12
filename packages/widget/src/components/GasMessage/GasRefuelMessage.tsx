@@ -44,7 +44,7 @@ export const GasRefuelMessage: React.FC<BoxProps> = (props) => {
               }}
             />
             <Typography variant="body2" fontWeight={700}>
-              {t(`swap.info.title.autoRefuel`)}
+              {t(`info.title.autoRefuel`)}
             </Typography>
           </Box>
           <InfoMessageSwitch checked={enabledAutoRefuel} onChange={onChange} />
@@ -56,7 +56,7 @@ export const GasRefuelMessage: React.FC<BoxProps> = (props) => {
           mountOnEnter
         >
           <Typography variant="body2" px={2} pb={2}>
-            {t(`swap.info.message.autoRefuel`, {
+            {t(`info.message.autoRefuel`, {
               chainName: chain?.name,
             })}
           </Typography>

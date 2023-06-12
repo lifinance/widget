@@ -1,7 +1,7 @@
 import type { IconButtonProps } from '@mui/material';
 import { Box, CircularProgress, IconButton, Tooltip } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 
 const getProgressValue = (updatedAt: number, timeToUpdate: number) =>
   updatedAt
@@ -44,9 +44,15 @@ export const ProgressToNextUpdate: React.FC<
   return (
     <IconButton onClick={onClick} disabled={isLoading} {...other}>
       <Tooltip
-        title={t('tooltip.progressToNextUpdate', {
-          value: getSecondsToUpdate(updatedAt, timeToUpdate),
-        })}
+        title={
+          <Trans
+            i18nKey="tooltip.progressToNextUpdate"
+            values={{
+              value: getSecondsToUpdate(updatedAt, timeToUpdate),
+            }}
+            components={[<br />]}
+          />
+        }
         placement="top"
         enterDelay={400}
         arrow

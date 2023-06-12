@@ -31,7 +31,7 @@ export const widgetBaseConfig: WidgetConfig = {
     deny: [],
   },
   // useRecommendedRoute: true,
-  buildSwapUrl: true,
+  buildUrl: true,
   // hiddenUI: ['poweredBy', 'language', 'appearance', 'drawerButton'],
   // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
   // requiredUI: ['toAddress'],
@@ -136,7 +136,7 @@ export const widgetBaseConfig: WidgetConfig = {
   },
   // languageResources: {
   //   en: {
-  //     button: { swap: 'Test' },
+  //     button: { exchange: 'Test' },
   //   },
   //   es,
   // },

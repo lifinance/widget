@@ -36,15 +36,15 @@ export const ResetSettingsButton: React.FC = () => {
   };
 
   return (
-    <Box px={3} mt={1.5}>
+    <Box px={3} mt={1.5} mb={1}>
       <Button onClick={toggleDialog} fullWidth>
         {t('button.resetSettings')}
       </Button>
       <Dialog open={open} onClose={toggleDialog}>
-        <DialogTitle>{t('swap.warning.title.resetSettings')}</DialogTitle>
+        <DialogTitle>{t('warning.title.resetSettings')}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {t('swap.warning.message.resetSettings')}
+            {t('warning.message.resetSettings')}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

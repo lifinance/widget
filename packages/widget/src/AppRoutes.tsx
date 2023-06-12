@@ -1,16 +1,16 @@
 import { useRoutes } from 'react-router-dom';
 import { NotFound } from './components/NotFound';
-import { ActiveSwapsPage } from './pages/ActiveSwapsPage';
+import { ActiveTransactionsPage } from './pages/ActiveTransactionsPage';
 import { MainPage } from './pages/MainPage';
+import { RoutesPage } from './pages/RoutesPage';
 import { SelectChainPage } from './pages/SelectChainPage';
 import { SelectEnabledToolsPage } from './pages/SelectEnabledToolsPage';
 import { SelectTokenPage } from './pages/SelectTokenPage';
 import { SelectWalletPage } from './pages/SelectWalletPage';
 import { SettingsPage } from './pages/SettingsPage';
-import { SwapDetailsPage } from './pages/SwapDetailsPage';
-import { SwapHistoryPage } from './pages/SwapHistoryPage';
-import { SwapPage } from './pages/SwapPage';
-import { SwapRoutesPage } from './pages/SwapRoutesPage';
+import { TransactionDetailsPage } from './pages/TransactionDetailsPage';
+import { TransactionHistoryPage } from './pages/TransactionHistoryPage';
+import { TransactionPage } from './pages/TransactionPage';
 import { navigationRoutes } from './utils';
 
 export const AppRoutes = () => {
@@ -52,28 +52,28 @@ export const AppRoutes = () => {
       element: <SelectChainPage formType="to" />,
     },
     {
-      path: navigationRoutes.swapRoutes,
-      element: <SwapRoutesPage />,
+      path: navigationRoutes.routes,
+      element: <RoutesPage />,
     },
     {
-      path: navigationRoutes.activeSwaps,
-      element: <ActiveSwapsPage />,
+      path: navigationRoutes.activeTransactions,
+      element: <ActiveTransactionsPage />,
     },
     {
-      path: navigationRoutes.swapHistory,
-      element: <SwapHistoryPage />,
+      path: navigationRoutes.transactionHistory,
+      element: <TransactionHistoryPage />,
     },
     {
-      path: `${navigationRoutes.swapHistory}?/${navigationRoutes.swapRoutes}?/${navigationRoutes.swapExecution}?/${navigationRoutes.swapDetails}`,
-      element: <SwapDetailsPage />,
+      path: `${navigationRoutes.transactionHistory}?/${navigationRoutes.routes}?/${navigationRoutes.transactionExecution}?/${navigationRoutes.transactionDetails}`,
+      element: <TransactionDetailsPage />,
     },
     {
-      path: `${navigationRoutes.swapRoutes}?/${navigationRoutes.swapExecution}?/${navigationRoutes.selectWallet}`,
+      path: `${navigationRoutes.routes}?/${navigationRoutes.transactionExecution}?/${navigationRoutes.selectWallet}`,
       element: <SelectWalletPage />,
     },
     {
-      path: `${navigationRoutes.swapRoutes}?/${navigationRoutes.activeSwaps}?/${navigationRoutes.swapExecution}`,
-      element: <SwapPage />,
+      path: `${navigationRoutes.routes}?/${navigationRoutes.activeTransactions}?/${navigationRoutes.transactionExecution}`,
+      element: <TransactionPage />,
     },
     {
       path: '*',

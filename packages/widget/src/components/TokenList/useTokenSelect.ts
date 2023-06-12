@@ -1,13 +1,10 @@
 import { useCallback } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
-import type { SwapFormType } from '../../providers';
-import { SwapFormKeyHelper } from '../../providers';
+import type { FormType } from '../../providers';
+import { FormKeyHelper } from '../../providers';
 
-export const useTokenSelect = (
-  formType: SwapFormType,
-  onClick?: () => void,
-) => {
-  const tokenKey = SwapFormKeyHelper.getTokenKey(formType);
+export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
+  const tokenKey = FormKeyHelper.getTokenKey(formType);
   const {
     field: { onChange, onBlur },
   } = useController({ name: tokenKey });
@@ -18,23 +15,23 @@ export const useTokenSelect = (
       onChange(tokenAddress);
       onBlur();
       const selectedChainId =
-        chainId ?? getValues(SwapFormKeyHelper.getChainKey(formType));
+        chainId ?? getValues(FormKeyHelper.getChainKey(formType));
       // Set chain again to trigger URL builder update
-      setValue(SwapFormKeyHelper.getChainKey(formType), selectedChainId, {
+      setValue(FormKeyHelper.getChainKey(formType), selectedChainId, {
         shouldDirty: true,
         shouldTouch: true,
       });
-      setValue(SwapFormKeyHelper.getAmountKey(formType), '');
+      setValue(FormKeyHelper.getAmountKey(formType), '');
       const oppositeFormType = formType === 'from' ? 'to' : 'from';
       const [selectedOppositeToken, selectedOppositeChainId] = getValues([
-        SwapFormKeyHelper.getTokenKey(oppositeFormType),
-        SwapFormKeyHelper.getChainKey(oppositeFormType),
+        FormKeyHelper.getTokenKey(oppositeFormType),
+        FormKeyHelper.getChainKey(oppositeFormType),
       ]);
       if (
         selectedOppositeToken === tokenAddress &&
         selectedOppositeChainId === selectedChainId
       ) {
-        setValue(SwapFormKeyHelper.getTokenKey(oppositeFormType), '', {
+        setValue(FormKeyHelper.getTokenKey(oppositeFormType), '', {
           shouldDirty: true,
           shouldTouch: true,
         });

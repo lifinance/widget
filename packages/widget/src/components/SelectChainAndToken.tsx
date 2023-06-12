@@ -3,7 +3,7 @@ import { Box, useMediaQuery } from '@mui/material';
 import { useWatch } from 'react-hook-form';
 import { ReverseTokensButton } from '../components/ReverseTokensButton';
 import { SelectTokenButton } from '../components/SelectTokenButton';
-import { SwapFormKey, useWidgetConfig } from '../providers';
+import { FormKey, useWidgetConfig } from '../providers';
 import { DisabledUI, HiddenUI } from '../types';
 
 export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
@@ -13,10 +13,10 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
   const { disabledUI, hiddenUI, variant } = useWidgetConfig();
   const [fromChain, toChain, fromToken, toToken] = useWatch({
     name: [
-      SwapFormKey.FromChain,
-      SwapFormKey.ToChain,
-      SwapFormKey.FromToken,
-      SwapFormKey.ToToken,
+      FormKey.FromChain,
+      FormKey.ToChain,
+      FormKey.FromToken,
+      FormKey.ToToken,
     ],
   });
 

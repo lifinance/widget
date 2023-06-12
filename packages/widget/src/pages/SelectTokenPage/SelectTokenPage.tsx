@@ -9,12 +9,12 @@ import {
   useScrollableOverflowHidden,
   useSwapOnly,
 } from '../../hooks';
-import type { SwapFormTypeProps } from '../../providers';
+import type { FormTypeProps } from '../../providers';
 import { SearchTokenInput } from './SearchTokenInput';
 
 const minTokenListHeight = 360;
 
-export const SelectTokenPage: FC<SwapFormTypeProps> = ({ formType }) => {
+export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
   useScrollableOverflowHidden();
   const { navigateBack } = useNavigateBack();
   const headerRef = useRef<HTMLElement>(null);

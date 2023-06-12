@@ -11,7 +11,7 @@ import {
 import { Header } from './components/Header';
 import { Initializer } from './components/Initializer';
 import { PoweredBy } from './components/PoweredBy';
-import { SwapRoutesExpanded } from './components/SwapRoutes';
+import { RoutesExpanded } from './components/Routes';
 import { useExpandableVariant } from './hooks';
 import type { WidgetConfig, WidgetProps } from './types';
 
@@ -49,7 +49,7 @@ export const AppDefault = () => {
         <PoweredBy />
         <Initializer />
       </AppContainer>
-      {expandable ? <SwapRoutesExpanded /> : null}
+      {expandable ? <RoutesExpanded /> : null}
     </AppExpandedContainer>
   );
 };

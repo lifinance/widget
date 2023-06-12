@@ -1,12 +1,12 @@
 import type { EVMChain } from '@lifi/sdk';
 import { useController, useFormContext } from 'react-hook-form';
 import { useChains, useSwapOnly } from '../../hooks';
-import type { SwapFormType } from '../../providers';
-import { SwapFormKey, SwapFormKeyHelper } from '../../providers';
+import type { FormType } from '../../providers';
+import { FormKey, FormKeyHelper } from '../../providers';
 import { useChainOrder } from '../../stores';
 
-export const useChainSelect = (formType: SwapFormType) => {
-  const chainKey = SwapFormKeyHelper.getChainKey(formType);
+export const useChainSelect = (formType: FormType) => {
+  const chainKey = FormKeyHelper.getChainKey(formType);
   const {
     field: { onChange, onBlur },
   } = useController({ name: chainKey });
@@ -30,13 +30,13 @@ export const useChainSelect = (formType: SwapFormType) => {
     onChange(chainId);
     onBlur();
     if (swapOnly) {
-      setValue(SwapFormKeyHelper.getChainKey('to'), chainId, {
+      setValue(FormKeyHelper.getChainKey('to'), chainId, {
         shouldTouch: true,
       });
     }
-    setValue(SwapFormKeyHelper.getTokenKey(formType), '');
-    setValue(SwapFormKeyHelper.getAmountKey(formType), '');
-    setValue(SwapFormKey.TokenSearchFilter, '');
+    setValue(FormKeyHelper.getTokenKey(formType), '');
+    setValue(FormKeyHelper.getAmountKey(formType), '');
+    setValue(FormKey.TokenSearchFilter, '');
     setChainOrder(chainId);
   };
 

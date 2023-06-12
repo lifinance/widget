@@ -9,7 +9,7 @@ import {
   List,
   ListItemAvatar,
 } from '@mui/material';
-import { useHeaderActionStore } from '../../components/Header';
+import { useHeaderStore } from '../../components/Header';
 
 import { useEffect } from 'react';
 import { shallow } from 'zustand/shallow';
@@ -57,7 +57,7 @@ export const SelectEnabledToolsPage: React.FC<{
         setTools(type, toolKeys, toolKeys);
       }
     };
-    return useHeaderActionStore.getState().setAction(
+    return useHeaderStore.getState().setAction(
       <IconButton size="medium" edge="end" onClick={toggleCheckboxes}>
         {allToolsSelected ? (
           <CheckBoxOutlinedIcon />

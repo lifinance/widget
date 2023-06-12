@@ -3,13 +3,13 @@ import { Box, Typography } from '@mui/material';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useChains } from '../../hooks';
-import type { SwapFormTypeProps } from '../../providers';
-import { SwapFormKeyHelper } from '../../providers';
+import type { FormTypeProps } from '../../providers';
+import { FormKeyHelper } from '../../providers';
 
-export const TokenNotFound: React.FC<SwapFormTypeProps> = ({ formType }) => {
+export const TokenNotFound: React.FC<FormTypeProps> = ({ formType }) => {
   const { t } = useTranslation();
   const [selectedChainId] = useWatch({
-    name: [SwapFormKeyHelper.getChainKey(formType)],
+    name: [FormKeyHelper.getChainKey(formType)],
   });
   const { getChainById } = useChains();
   return (
@@ -33,7 +33,7 @@ export const TokenNotFound: React.FC<SwapFormTypeProps> = ({ formType }) => {
         mt={2}
         px={2}
       >
-        {t('swap.info.message.emptyTokenList', {
+        {t('info.message.emptyTokenList', {
           chainName: getChainById(selectedChainId)?.name,
         })}
       </Typography>

@@ -4,9 +4,9 @@ import { Fragment } from 'react';
 import { MemoryRouter, useInRouterContext } from 'react-router-dom';
 import { queryClient } from './config/queryClient';
 import {
+  FormProvider,
   I18nProvider,
   SDKProvider,
-  SwapFormProvider,
   ThemeProvider,
   URLSearchParamsBuilder,
   WalletProvider,
@@ -28,9 +28,9 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
             <ThemeProvider>
               <I18nProvider>
                 <WalletProvider>
-                  <SwapFormProvider>
+                  <FormProvider>
                     <AppRouter>{children}</AppRouter>
-                  </SwapFormProvider>
+                  </FormProvider>
                 </WalletProvider>
               </I18nProvider>
             </ThemeProvider>
@@ -42,13 +42,13 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
 };
 
 export const AppRouter: React.FC<PropsWithChildren<{}>> = ({ children }) => {
-  const { buildSwapUrl } = useWidgetConfig();
+  const { buildUrl } = useWidgetConfig();
   const inRouterContext = useInRouterContext();
   const Router = inRouterContext ? Fragment : MemoryRouter;
   return (
     <Router>
       {children}
-      {buildSwapUrl ? <URLSearchParamsBuilder /> : null}
+      {buildUrl ? <URLSearchParamsBuilder /> : null}
     </Router>
   );
 };

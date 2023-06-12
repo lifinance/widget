@@ -38,21 +38,21 @@ export const Step: React.FC<{
         );
         if (hasCrossStep && hasSwapStep) {
           return variant === 'nft'
-            ? t('swap.stepBridgeAndBuy')
-            : t('swap.stepSwapAndBridge');
+            ? t('main.stepBridgeAndBuy')
+            : t('main.stepSwapAndBridge');
         }
         if (hasCrossStep) {
           return variant === 'nft'
-            ? t('swap.stepBridgeAndBuy')
-            : t('swap.stepBridge');
+            ? t('main.stepBridgeAndBuy')
+            : t('main.stepBridge');
         }
         return variant === 'nft'
-          ? t('swap.stepSwapAndBuy')
-          : t('swap.stepSwap');
+          ? t('main.stepSwapAndBuy')
+          : t('main.stepSwap');
       default:
         return variant === 'nft'
-          ? t('swap.stepSwapAndBuy')
-          : t('swap.stepSwap');
+          ? t('main.stepSwapAndBuy')
+          : t('main.stepSwap');
     }
   };
 

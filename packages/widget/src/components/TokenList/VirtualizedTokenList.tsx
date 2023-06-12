@@ -92,7 +92,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
                   px={2}
                   pb={1.25}
                 >
-                  {t('swap.featuredTokens')}
+                  {t('main.featuredTokens')}
                 </Typography>
               ) : null
             }
@@ -108,7 +108,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
                   px={2}
                   py={1.25}
                 >
-                  {t('swap.otherTokens')}
+                  {t('main.otherTokens')}
                 </Typography>
               ) : null
             }

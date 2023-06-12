@@ -1,6 +1,6 @@
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { SwapFormKey } from '../../providers';
+import { FormKey } from '../../providers';
 import { useSplitSubvariantStore } from '../../stores';
 import { HeaderAppBar } from './Header.style';
 import { NavbarTab, NavbarTabs } from './NavigationTabs.style';
@@ -13,9 +13,9 @@ export const NavigationTabs = () => {
   ]);
   const { setValue } = useFormContext();
   const handleChange = (_: React.SyntheticEvent, value: number) => {
-    setValue(SwapFormKey.FromAmount, '');
-    setValue(SwapFormKey.FromToken, '');
-    setValue(SwapFormKey.ToToken, '');
+    setValue(FormKey.FromAmount, '');
+    setValue(FormKey.FromToken, '');
+    setValue(FormKey.ToToken, '');
     setState(value === 0 ? 'swap' : 'bridge');
   };
 

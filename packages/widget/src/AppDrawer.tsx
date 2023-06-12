@@ -112,7 +112,7 @@ export const DrawerButtonText = ({ open }: { open: boolean }) => {
 
   return (
     <DrawerButtonTypography>
-      {open ? t('button.hide') : t('button.lifiSwap')}
+      {open ? t('button.hide') : t('button.lifiExchange')}
     </DrawerButtonTypography>
   );
 };

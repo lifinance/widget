@@ -32,10 +32,10 @@ export const DestinationWalletAddress: React.FC<{
         </CircularIcon>
         <Typography mx={2} flex={1} fontSize={14} fontWeight={400}>
           {isDone
-            ? t('swap.sentToAddress', {
+            ? t('main.sentToAddress', {
                 address: toAddress,
               })
-            : t('swap.sendToAddress', {
+            : t('main.sendToAddress', {
                 address: toAddress,
               })}
         </Typography>

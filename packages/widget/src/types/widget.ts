@@ -138,7 +138,7 @@ export interface WidgetConfig {
   walletManagement?: WidgetWalletManagement;
   sdkConfig?: SDKConfig;
 
-  buildSwapUrl?: boolean;
+  buildUrl?: boolean;
   localStorageKeyPrefix?: string;
 
   bridges?: {

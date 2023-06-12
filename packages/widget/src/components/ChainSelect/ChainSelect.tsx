@@ -3,14 +3,14 @@ import type { EVMChain } from '@lifi/sdk';
 import { Avatar, Box, Skeleton, Tooltip, Typography } from '@mui/material';
 import { useWatch } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import type { SwapFormTypeProps } from '../../providers';
-import { SwapFormKeyHelper } from '../../providers';
+import type { FormTypeProps } from '../../providers';
+import { FormKeyHelper } from '../../providers';
 import { maxChainToOrder } from '../../stores';
 import { navigationRoutes } from '../../utils';
 import { ChainCard, ChainContainer } from './ChainSelect.style';
 import { useChainSelect } from './useChainSelect';
 
-export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
+export const ChainSelect = ({ formType }: FormTypeProps) => {
   const navigate = useNavigate();
   const {
     chainOrder,
@@ -21,7 +21,7 @@ export const ChainSelect = ({ formType }: SwapFormTypeProps) => {
     setCurrentChain,
   } = useChainSelect(formType);
   const [chainId] = useWatch({
-    name: [SwapFormKeyHelper.getChainKey(formType)],
+    name: [FormKeyHelper.getChainKey(formType)],
   });
 
   const hasChainInOrderedList = chainOrder.includes(chainId);

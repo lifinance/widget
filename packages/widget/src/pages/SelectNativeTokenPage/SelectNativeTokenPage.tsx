@@ -5,9 +5,9 @@ import { ListItemText } from '../../components/ListItemText';
 import { TokenAvatar } from '../../components/TokenAvatar';
 import { useTokenSelect } from '../../components/TokenList';
 import { useChains, useNavigateBack } from '../../hooks';
-import type { SwapFormTypeProps } from '../../providers';
+import type { FormTypeProps } from '../../providers';
 
-export const SelectNativeTokenPage: React.FC<SwapFormTypeProps> = ({
+export const SelectNativeTokenPage: React.FC<FormTypeProps> = ({
   formType,
 }) => {
   const { t } = useTranslation();
@@ -33,7 +33,7 @@ export const SelectNativeTokenPage: React.FC<SwapFormTypeProps> = ({
             </ListItemAvatar>
             <ListItemText
               primary={chain.nativeToken.symbol}
-              secondary={t('swap.onChain', { chainName: chain.name })}
+              secondary={t('main.onChain', { chainName: chain.name })}
             />
           </ListItemButton>
         ))}

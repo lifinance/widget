@@ -1,12 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useCallback } from 'react';
 import { useFormContext } from 'react-hook-form';
-import {
-  isItemAllowed,
-  SwapFormKey,
-  useLiFi,
-  useWidgetConfig,
-} from '../providers';
+import { FormKey, isItemAllowed, useLiFi, useWidgetConfig } from '../providers';
 import { useChainOrderStore } from '../stores';
 
 export const useChains = () => {
@@ -27,14 +22,14 @@ export const useChains = () => {
         filteredChains.map((chain) => chain.id),
       );
       const [fromChainValue, toChainValue] = getValues([
-        SwapFormKey.FromChain,
-        SwapFormKey.ToChain,
+        FormKey.FromChain,
+        FormKey.ToChain,
       ]);
       if (!fromChainValue) {
-        setValue(SwapFormKey.FromChain, chainOrder[0]);
+        setValue(FormKey.FromChain, chainOrder[0]);
       }
       if (!toChainValue) {
-        setValue(SwapFormKey.ToChain, chainOrder[0]);
+        setValue(FormKey.ToChain, chainOrder[0]);
       }
       return { availableChains, filteredChains };
     },

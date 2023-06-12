@@ -132,7 +132,7 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
             ...persistedState,
           } as RouteExecutionState;
           try {
-            // Move swaps to history after 1 day
+            // Move transactions to history after 1 day
             const currentTime = new Date().getTime();
             const oneDay = 1000 * 60 * 60 * 24;
             Object.values(state.routes).forEach((routeExecution) => {
