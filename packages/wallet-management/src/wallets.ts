@@ -4,6 +4,7 @@ import { WalletConnectConnector } from './connectors/walletConnectConnector';
 import type { Wallet } from './types';
 import { ProviderIdentityFlag } from './types';
 import { walletIcons } from './walletIcons';
+import { SafeWalletConnector } from './connectors/safeWalletConnector';
 
 const defaultWallet: Wallet = new InjectedConnector({
   // unknown Default wallet that injects as metamask but is not metamask
@@ -228,6 +229,12 @@ const exodus: Wallet = new InjectedConnector(
   (window as any).exodus?.ethereum,
 );
 
+const safe: Wallet = new SafeWalletConnector({
+  name: 'Safe',
+  installed: () => false,
+  icon: walletIcons.safe,
+});
+
 export const supportedWallets = [
   defaultWallet,
   metamask,
@@ -259,4 +266,5 @@ export const supportedWallets = [
   oneInch,
   tokenary,
   mathWallet,
+  safe,
 ];

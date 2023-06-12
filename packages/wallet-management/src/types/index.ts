@@ -29,16 +29,15 @@ export interface AccountData {
   address: string;
   signer: Signer;
   provider: ethers.providers.Web3Provider;
+  isSafeWallet?: boolean;
 }
 export interface InjectedConnectorConstructorArgs {
   name: string;
   icon: string;
   installed: () => boolean;
 }
-export interface WalletConnectConnectorConstructorArgs {
-  name: string;
-  icon: string;
-  installed: () => boolean;
+export interface WalletConnectConnectorConstructorArgs
+  extends InjectedConnectorConstructorArgs {
   rpc: {
     [chainId: number]: string;
   };

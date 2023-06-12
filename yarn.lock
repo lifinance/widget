@@ -2764,25 +2764,25 @@ __metadata:
   linkType: hard
 
 "@lifi/sdk@npm:^2.0.0-beta.11":
-  version: 2.0.0-beta.11
-  resolution: "@lifi/sdk@npm:2.0.0-beta.11"
+  version: 2.0.0-beta.15
+  resolution: "@lifi/sdk@npm:2.0.0-beta.15"
   dependencies:
     "@ethersproject/abi": ^5.7.0
     "@ethersproject/contracts": ^5.7.0
-    "@lifi/types": ^5.0.0
+    "@lifi/types": ^6.0.0
     bignumber.js: ^9.1.1
     eth-rpc-errors: ^4.0.3
     ethers: ^5.7.2
-  checksum: d3a43ba17aa4181692cd8e855b0be6b05e2a6d62f2d9ab9554e87a71b6b023d75538a385c50dcebecc4b99e995d5e8ba0d24e0186c73e71c51abf35e09b388e8
+  checksum: 48e08dd7d9eb1cc0c03f4ce9e51debec8f83a9749b83af2726750da89c124ed9d2f20dba75bd64455ad1c462cf734c0e05ebb3d91fd5454a989c67cf5a022782
   languageName: node
   linkType: hard
 
-"@lifi/types@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "@lifi/types@npm:5.0.0"
+"@lifi/types@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "@lifi/types@npm:6.0.0"
   dependencies:
     ethers: ^5.7.2
-  checksum: f9d1c64c666a52c81fb53c5ffefa0460ba7904fe86d9b1d4666ffc2a1e40e87d8e86df73c1639f9e08068a70039f6373117df51e4c6f32b3e26e0f267291ea5a
+  checksum: 297f0fc0c90d7d56ab76059e505b0f6aebcdaab25baf2bb8ec4982871591288d1b300e7f998f0b13562cb727b388d3eb7c909434072dde2b4f4741d97add4942
   languageName: node
   linkType: hard
 
@@ -2795,6 +2795,8 @@ __metadata:
     "@ethersproject/experimental": ^5.7.0
     "@ethersproject/providers": ^5.7.2
     "@lifi/sdk": ^2.0.0-beta.11
+    "@safe-global/safe-apps-provider": ^0.17.0
+    "@safe-global/safe-apps-sdk": ^7.11.0
     "@walletconnect/ethereum-provider": ^1.8.0
     "@walletconnect/web3-provider": ^1.8.0
     cpy-cli: ^4.2.0
@@ -3734,6 +3736,35 @@ __metadata:
   version: 1.2.0
   resolution: "@rushstack/eslint-patch@npm:1.2.0"
   checksum: faa749faae0e83c26ae9eb00ad36a897ac78f3cf27da8e8ff21c00bcf7973b598d823d8f2b3957ef66079288bcf577f94df831eae2d65f3f68d8ca32f18b6aff
+  languageName: node
+  linkType: hard
+
+"@safe-global/safe-apps-provider@npm:^0.17.0":
+  version: 0.17.0
+  resolution: "@safe-global/safe-apps-provider@npm:0.17.0"
+  dependencies:
+    "@safe-global/safe-apps-sdk": 7.11.0
+    events: ^3.3.0
+  checksum: b8e3056e32f30ca4d46543cfd5b48da44bd6401f5359260ba771ad02449cfc8c8b46df14bb741b73d47936cd3db7c6f59f3701274950f6cd7b530dea3c10162f
+  languageName: node
+  linkType: hard
+
+"@safe-global/safe-apps-sdk@npm:7.11.0, @safe-global/safe-apps-sdk@npm:^7.11.0":
+  version: 7.11.0
+  resolution: "@safe-global/safe-apps-sdk@npm:7.11.0"
+  dependencies:
+    "@safe-global/safe-gateway-typescript-sdk": ^3.5.3
+    ethers: ^5.7.2
+  checksum: 8ada9c238fa485a12f0ecac14aa0c0497635f118c03537980e4ab32da7e8bfd7f01e25cfa1aaac28842e9e27d0d12598aaca943e342d94db305d2b6b9a65df9e
+  languageName: node
+  linkType: hard
+
+"@safe-global/safe-gateway-typescript-sdk@npm:^3.5.3":
+  version: 3.7.3
+  resolution: "@safe-global/safe-gateway-typescript-sdk@npm:3.7.3"
+  dependencies:
+    cross-fetch: ^3.1.5
+  checksum: 5ee57fe228ff107cc7f08db231e52e8ac217894d1a34189374a01ac3ef18a69ef0ae802a5b21d2d2de11654b96e0117deea007d814eef4dfb9b8c7b82e36ae63
   languageName: node
   linkType: hard
 
@@ -6839,6 +6870,15 @@ __metadata:
   dependencies:
     node-fetch: 2.6.7
   checksum: f6b8c6ee3ef993ace6277fd789c71b6acf1b504fd5f5c7128df4ef2f125a429e29cd62dc8c127523f04a5f2fa4771ed80e3f3d9695617f441425045f505cf3bb
+  languageName: node
+  linkType: hard
+
+"cross-fetch@npm:^3.1.5":
+  version: 3.1.6
+  resolution: "cross-fetch@npm:3.1.6"
+  dependencies:
+    node-fetch: ^2.6.11
+  checksum: 704b3519ab7de488328cc49a52cf1aa14132ec748382be5b9557b22398c33ffa7f8c2530e8a97ed8cb55da52b0a9740a9791d361271c4591910501682d981d9c
   languageName: node
   linkType: hard
 
@@ -12075,6 +12115,20 @@ __metadata:
     encoding:
       optional: true
   checksum: acb04f9ce7224965b2b59e71b33c639794d8991efd73855b0b250921382b38331ffc9d61bce502571f6cc6e11a8905ca9b1b6d4aeb586ab093e2756a1fd190d0
+  languageName: node
+  linkType: hard
+
+"node-fetch@npm:^2.6.11":
+  version: 2.6.11
+  resolution: "node-fetch@npm:2.6.11"
+  dependencies:
+    whatwg-url: ^5.0.0
+  peerDependencies:
+    encoding: ^0.1.0
+  peerDependenciesMeta:
+    encoding:
+      optional: true
+  checksum: 249d0666a9497553384d46b5ab296ba223521ac88fed4d8a17d6ee6c2efb0fc890f3e8091cafe7f9fba8151a5b8d925db2671543b3409a56c3cd522b468b47b3
   languageName: node
   linkType: hard
 
