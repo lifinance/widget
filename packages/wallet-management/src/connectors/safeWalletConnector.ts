@@ -82,6 +82,7 @@ export class SafeWalletConnector
       signer,
       provider,
       isSafeWallet: true,
+      sdk,
     };
   }
 }

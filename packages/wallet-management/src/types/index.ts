@@ -1,5 +1,6 @@
 import type { Signer } from '@ethersproject/abstract-signer';
 import type { StaticToken } from '@lifi/sdk';
+import type SafeAppsSDK from '@safe-global/safe-apps-sdk/dist/src/sdk';
 import type { ethers } from 'ethers';
 import type events from 'events';
 import type EventEmitter from 'node:events';
@@ -30,6 +31,7 @@ export interface AccountData {
   signer: Signer;
   provider: ethers.providers.Web3Provider;
   isSafeWallet?: boolean;
+  sdk?: SafeAppsSDK;
 }
 export interface InjectedConnectorConstructorArgs {
   name: string;
