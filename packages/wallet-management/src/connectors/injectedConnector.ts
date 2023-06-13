@@ -95,7 +95,7 @@ export class InjectedConnector extends events.EventEmitter implements Wallet {
         await this.calcAccountData();
       }
     } catch (e) {
-      throw e;
+      //
     }
   }
 
