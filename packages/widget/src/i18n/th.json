@@ -77,38 +77,87 @@
     "showDestinationWallet": "แสดงกระเป๋าปลายทาง",
     "slippage": "ความคลาดเคลื่อน"
   },
-  "swap": {
+  "info": {
+    "message": {
+      "autoRefuel": "คุณใช้แก็ส {{chainName}} เหลือน้อย เมื่อดำเนินการต่อ คุณจะได้รับแก็สเพียงพอสำหรับการแลกเปลี่ยนให้เสร็จสมบูรณ์",
+      "emptyActiveSwaps": "การแลกเปลี่ยนที่กำลังดำเนินการจะปรากฏที่นี่. เมื่อเสร็จสิ้น, จะพบประวัติการแลกเปลี่ยน.",
+      "emptySwapHistory": "ประวัติการแลกเปลี่ยนจะถูกเก็บไว้ในเครื่องเท่านั้นและจะถูกลบหากคุณล้างข้อมูลเบราว์เซอร์ของคุณ.",
+      "emptyTokenList": "เราไม่พบโทเค็นใน {{chainName}} เชนหรือคุณไม่มีโทเค็น. โปรดลองอีกครั้งหรือเลือกเชนอื่น.",
+      "routeNotFound": "ลองจับคู่แลกเปลี่ยนโทเค็นใหม่."
+    },
+    "title": {
+      "autoRefuel": "รับแก็ส",
+      "emptyActiveSwaps": "ไม่พบการแลกเปลี่ยนที่ใช้งานอยู่.",
+      "emptySwapHistory": "ไม่พบการแลกเปลี่ยนล่าสุด.",
+      "routeNotFound": "ไม่พบเส้นทาง"
+    }
+  },
+  "success": {
+    "message": {
+      "swapPartiallySuccessful": "เราได้พยายามดำเนินการแลกเปลี่ยนให้เสร็จสมบูรณ์แต่ {{tool}} ขาดสภาพคล่องสำหรับโทเค็น {{tokenSymbol}}",
+      "purchaseSuccessful": "คุณมี {{assetName}} ใน{{walletAddress}} กระเป๋า บน{{chainName}} เครือข่าย",
+      "swapSuccessful": "ตอนนี้มี {{amount, number(maximumFractionDigits: 9)}}{{tokenSymbol}} ใน {{walletAddress}} กระเป๋าบน {{chainName}} เชน."
+    },
+    "title": {
+      "gasSwapSuccessful": "แลกเปลี่ยนแก็สสำเร็จ",
+      "purchaseSuccessful": "การซื้อเสร็จสมบูรณ์",
+      "refundIssued": "คืนเงินแล้ว",
+      "swapPartiallySuccessful": "แลกเปลี่ยนสำเร็จบางส่วน",
+      "swapSuccessful": "แลกเปลี่ยนสำเร็จ"
+    }
+  },
+  "warning": {
+    "message": {
+      "deleteActiveSwaps": "การแลกเปลี่ยนที่ใช้งานอยู่จะถูกจัดเก็บไว้ในเครื่องเท่านั้นและไม่สามารถกู้คืนได้หากคุณลบออก.",
+      "deleteSwapHistory": "ประวัติการแลกเปลี่ยนจะถูกจัดเก็บไว้ในเครื่องเท่านั้นและไม่สามารถกู้คืนได้หากคุณลบออก",
+      "highValueLoss": "มูลค่าของโทเค็นที่ได้รับนั้นต่ำกว่าโทเค็นที่แลกเปลี่ยนและต้นทุนการทำธุรกรรมอย่างมาก.",
+      "insufficientFunds": "คุณมีเงินไม่เพียงพอที่จะดำเนินการแลกเปลี่ยน.",
+      "insufficientGas": "คุณมีแก๊สไม่เพียงพอที่จะแลกเปลี่ยนให้เสร็จสมบูรณ์ คุณต้องเพิ่มอย่างน้อย:",
+      "rateChanged": "อัตราแลกเปลี่ยนมีการเปลี่ยนแปลง คุณจะยอมรับอัตราใหม่.",
+      "resetSettings": "การดำเนินการนี้จะรีเซ็ตลำดับความสำคัญของเส้นทาง การคลาดเลื่อน ค่าแก็ส บริดจ์ที่เปิดใช้งานและการแลกเปลี่ยน"
+    },
+    "title": {
+      "deleteActiveSwaps": "ลบการแลกเปลี่ยนที่เกิดขึ้นอยู่ทั้งหมด?",
+      "deleteSwap": "ลบการแลกเปลี่ยนในครั้งนี้?",
+      "deleteSwapHistory": "ลบประวัติการแลกเปลี่ยน?",
+      "highValueLoss": "สูญเสียมูลค่าสูง",
+      "insufficientGas": "ค่าแก็สไม่พอ",
+      "rateChanged": "อัตราการแลกเปลี่ยนถูกเปลี่ยน",
+      "resetSettings": "รีเซ็ทการตั้งค่า?"
+    }
+  },
+  "error": {
+    "message": {
+      "allowanceRequired": "โอนด้วยจำนวน {{tokenSymbol}} ตามการอนุญาตของคุณ.ได้โปรดเพิ่มการอนุญาตของคุณอีกครั้ง",
+      "insufficientFunds": "คุณมีแก็สไม่พอสำหรับการธุรกรรมนี้",
+      "slippageThreshold": "การคลาดเคลื่อนมีขนาดใหญ่กว่าเกณฑ์ที่กำหนด โปรดขอเส้นทางใหม่เพื่อได้รับการเสนอราคาใหม่.",
+      "transactionFailed": "โปรดตรวจสอบบล็อกการสำรวจสำหรับข้อมูลเพิ่มเติม.",
+      "transactionNotSent": "ไม่ได้ส่งธุรกรรม. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} บน {{chainName}} ยังคงอยู่ในกระเป๋าเงินของคุณ.",
+      "transactionRejected": "จำเป็นต้องมีลายเซ็นของคุณเพื่อทำธุรกรมให้เสร็จสมบูรณ์. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} บน {{chainName}} ยังคงอยู่ในกระเป๋าเงินของคุณ.",
+      "unknown": "โปรดลองอีกครั้งหรือติดต่อฝ่ายสนับสนุน."
+    },
+    "title": {
+      "allowanceRequired": "การอนุญาตไม่เพียงพอ",
+      "balanceIsTooLow": "ยอดคงเหลือต่ำเกินไป",
+      "chainSwitch": "จำเป็นต้องเปลี่ยนเชน",
+      "failed": "การแลกเปลี่ยนล้มเหลว",
+      "gasLimitIsTooLow": "แก๊สคงเหลือต่ำเกินไป",
+      "insufficientFunds": "ยอดคงเหลือไม่เพียงพอ",
+      "slippageNotMet": "ความคลาดเคลื่อนของราคาไม่เป็นไปตามเงื่อนไข.",
+      "transactionCanceled": "ธุรกรรมถูกยกเลิกแล้ว",
+      "transactionFailed": "การทำธุรกรรมล้มเหลว",
+      "transactionRejected": "ต้องมีลายเซ็น",
+      "transactionUnderpriced": "ราคาธุรกรรมต่ำเกินไป",
+      "transactionUnprepared": "ไม่สามารถจัดทำธุรกรรมได้",
+      "unknown": "มีบางอย่างผิดพลาด",
+      "walletAddressInvalid": "ที่อยู่กระเป๋าเงินไม่ถูกต้อง.",
+      "walletAddressRequired": "กรุณากรอกที่อยู่กระเป๋าเงิน.",
+      "walletEnsAddressInvalid": "ที่อยู่กระเป๋าเงินไม่ถูกต้องหรือเครือข่ายไม่รองรับ ENS."
+    }
+  },
+  "main": {
     "crossStepDetails": "บริดจ์จาก{{from}} to {{to}} โดย {{tool}}",
     "currentAmount": "จำนวนเงินปัจจุบัน",
-    "error": {
-      "message": {
-        "allowanceRequired": "โอนด้วยจำนวน {{tokenSymbol}} ตามการอนุญาตของคุณ.ได้โปรดเพิ่มการอนุญาตของคุณอีกครั้ง",
-        "insufficientFunds": "คุณมีแก็สไม่พอสำหรับการธุรกรรมนี้",
-        "slippageThreshold": "การคลาดเคลื่อนมีขนาดใหญ่กว่าเกณฑ์ที่กำหนด โปรดขอเส้นทางใหม่เพื่อได้รับการเสนอราคาใหม่.",
-        "transactionFailed": "โปรดตรวจสอบบล็อกการสำรวจสำหรับข้อมูลเพิ่มเติม.",
-        "transactionNotSent": "ไม่ได้ส่งธุรกรรม. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} บน {{chainName}} ยังคงอยู่ในกระเป๋าเงินของคุณ.",
-        "transactionRejected": "จำเป็นต้องมีลายเซ็นของคุณเพื่อทำธุรกรมให้เสร็จสมบูรณ์. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} บน {{chainName}} ยังคงอยู่ในกระเป๋าเงินของคุณ.",
-        "unknown": "โปรดลองอีกครั้งหรือติดต่อฝ่ายสนับสนุน."
-      },
-      "title": {
-        "allowanceRequired": "การอนุญาตไม่เพียงพอ",
-        "balanceIsTooLow": "ยอดคงเหลือต่ำเกินไป",
-        "chainSwitch": "จำเป็นต้องเปลี่ยนเชน",
-        "failed": "การแลกเปลี่ยนล้มเหลว",
-        "gasLimitIsTooLow": "แก๊สคงเหลือต่ำเกินไป",
-        "insufficientFunds": "ยอดคงเหลือไม่เพียงพอ",
-        "slippageNotMet": "ความคลาดเคลื่อนของราคาไม่เป็นไปตามเงื่อนไข.",
-        "transactionCanceled": "ธุรกรรมถูกยกเลิกแล้ว",
-        "transactionFailed": "การทำธุรกรรมล้มเหลว",
-        "transactionRejected": "ต้องมีลายเซ็น",
-        "transactionUnderpriced": "ราคาธุรกรรมต่ำเกินไป",
-        "transactionUnprepared": "ไม่สามารถจัดทำธุรกรรมได้",
-        "unknown": "มีบางอย่างผิดพลาด",
-        "walletAddressInvalid": "ที่อยู่กระเป๋าเงินไม่ถูกต้อง.",
-        "walletAddressRequired": "กรุณากรอกที่อยู่กระเป๋าเงิน.",
-        "walletEnsAddressInvalid": "ที่อยู่กระเป๋าเงินไม่ถูกต้องหรือเครือข่ายไม่รองรับ ENS."
-      }
-    },
     "estimatedTime": "{{value}} นาที",
     "featuredTokens": "จุดเด่นของเหรียญ",
     "from": "จาก",
@@ -117,27 +166,6 @@
     "gasFeeEstimated": "ค่าแก๊สโดยประมาณ",
     "gasFeePaid": "จ่ายค่าทำเนียมแล้ว",
     "inProgress": "กำลังดำเนินการ",
-    "insurance": {
-      "bridgeExploits": "การบริดจ์ทำงานผิดปกติ แฮ็กหรือหาผลประโยชน์",
-      "insure": "ประกัน<strong>{{amount, number(maximumFractionDigits: 9)}}{{tokenSymbol}}</strong> ในการขนส่ง",
-      "insured": "คุณได้ประกัน<strong>{{amount, number(maximumFractionDigits: 9)}}{{tokenSymbol}}</strong> ในการขนส่ง",
-      "slippageError": "เกิดข้อผิดพลาดในการคลาดเคลื่อนของโทเค็นที่ได้รับ"
-    },
-    "info": {
-      "message": {
-        "autoRefuel": "คุณใช้แก็ส {{chainName}} เหลือน้อย เมื่อดำเนินการต่อ คุณจะได้รับแก็สเพียงพอสำหรับการแลกเปลี่ยนให้เสร็จสมบูรณ์",
-        "emptyActiveSwaps": "การแลกเปลี่ยนที่กำลังดำเนินการจะปรากฏที่นี่. เมื่อเสร็จสิ้น, จะพบประวัติการแลกเปลี่ยน.",
-        "emptySwapHistory": "ประวัติการแลกเปลี่ยนจะถูกเก็บไว้ในเครื่องเท่านั้นและจะถูกลบหากคุณล้างข้อมูลเบราว์เซอร์ของคุณ.",
-        "emptyTokenList": "เราไม่พบโทเค็นใน {{chainName}} เชนหรือคุณไม่มีโทเค็น. โปรดลองอีกครั้งหรือเลือกเชนอื่น.",
-        "routeNotFound": "ลองจับคู่แลกเปลี่ยนโทเค็นใหม่."
-      },
-      "title": {
-        "autoRefuel": "รับแก็ส",
-        "emptyActiveSwaps": "ไม่พบการแลกเปลี่ยนที่ใช้งานอยู่.",
-        "emptySwapHistory": "ไม่พบการแลกเปลี่ยนล่าสุด.",
-        "routeNotFound": "ไม่พบเส้นทาง"
-      }
-    },
     "nftStepDetails": "ซื้อ NFT ผ่าน {{tool}}",
     "onChain": "บน {{chainName}}",
     "otherTokens": "โทเค็นอื่น",
@@ -190,20 +218,6 @@
     "stepSwap": "แลกเปลี่ยน",
     "stepSwapAndBridge": "แลกเปลี่ยนและบริดจ์",
     "stepSwapAndBuy": "แลกเปลี่ยน และ ซื้อ",
-    "success": {
-      "message": {
-        "swapPartiallySuccessful": "เราได้พยายามดำเนินการแลกเปลี่ยนให้เสร็จสมบูรณ์แต่ {{tool}} ขาดสภาพคล่องสำหรับโทเค็น {{tokenSymbol}}",
-        "purchaseSuccessful": "คุณมี {{assetName}} ใน{{walletAddress}} กระเป๋า บน{{chainName}} เครือข่าย",
-        "swapSuccessful": "ตอนนี้มี {{amount, number(maximumFractionDigits: 9)}}{{tokenSymbol}} ใน {{walletAddress}} กระเป๋าบน {{chainName}} เชน."
-      },
-      "title": {
-        "gasSwapSuccessful": "แลกเปลี่ยนแก็สสำเร็จ",
-        "purchaseSuccessful": "การซื้อเสร็จสมบูรณ์",
-        "refundIssued": "คืนเงินแล้ว",
-        "swapPartiallySuccessful": "แลกเปลี่ยนสำเร็จบางส่วน",
-        "swapSuccessful": "แลกเปลี่ยนสำเร็จ"
-      }
-    },
     "supportId": "หมายเลขที่สนับสนุน",
     "swapStepDetails": "แลกเปลี่ยนบน {{chain}} ผ่าน {{tool}}",
     "swapping": "การแลกเปลี่ยน",
@@ -221,27 +235,13 @@
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}}{{tokenSymbol}} บน {{chainName}}",
     "tokenSearch": "ค้นหาชื่อของเหรียญ หรือ ที่อยู่",
     "valueLoss": "มูลค่าที่สูญเสีย",
-    "walletAddressOrEns": "ที่อยู่กระเป๋าหรือชื่อENS",
-    "warning": {
-      "message": {
-        "deleteActiveSwaps": "การแลกเปลี่ยนที่ใช้งานอยู่จะถูกจัดเก็บไว้ในเครื่องเท่านั้นและไม่สามารถกู้คืนได้หากคุณลบออก.",
-        "deleteSwapHistory": "ประวัติการแลกเปลี่ยนจะถูกจัดเก็บไว้ในเครื่องเท่านั้นและไม่สามารถกู้คืนได้หากคุณลบออก",
-        "highValueLoss": "มูลค่าของโทเค็นที่ได้รับนั้นต่ำกว่าโทเค็นที่แลกเปลี่ยนและต้นทุนการทำธุรกรรมอย่างมาก.",
-        "insufficientFunds": "คุณมีเงินไม่เพียงพอที่จะดำเนินการแลกเปลี่ยน.",
-        "insufficientGas": "คุณมีแก๊สไม่เพียงพอที่จะแลกเปลี่ยนให้เสร็จสมบูรณ์ คุณต้องเพิ่มอย่างน้อย:",
-        "rateChanged": "อัตราแลกเปลี่ยนมีการเปลี่ยนแปลง คุณจะยอมรับอัตราใหม่.",
-        "resetSettings": "การดำเนินการนี้จะรีเซ็ตลำดับความสำคัญของเส้นทาง การคลาดเลื่อน ค่าแก็ส บริดจ์ที่เปิดใช้งานและการแลกเปลี่ยน"
-      },
-      "title": {
-        "deleteActiveSwaps": "ลบการแลกเปลี่ยนที่เกิดขึ้นอยู่ทั้งหมด?",
-        "deleteSwap": "ลบการแลกเปลี่ยนในครั้งนี้?",
-        "deleteSwapHistory": "ลบประวัติการแลกเปลี่ยน?",
-        "highValueLoss": "สูญเสียมูลค่าสูง",
-        "insufficientGas": "ค่าแก็สไม่พอ",
-        "rateChanged": "อัตราการแลกเปลี่ยนถูกเปลี่ยน",
-        "resetSettings": "รีเซ็ทการตั้งค่า?"
-      }
-    }
+    "walletAddressOrEns": "ที่อยู่กระเป๋าหรือชื่อENS"
+  },
+  "insurance": {
+    "bridgeExploits": "การบริดจ์ทำงานผิดปกติ แฮ็กหรือหาผลประโยชน์",
+    "insure": "ประกัน<0>{{amount, number(maximumFractionDigits: 9)}}{{tokenSymbol}}</0> ในการขนส่ง",
+    "insured": "คุณได้ประกัน<0>{{amount, number(maximumFractionDigits: 9)}}{{tokenSymbol}}</0> ในการขนส่ง",
+    "slippageError": "เกิดข้อผิดพลาดในการคลาดเคลื่อนของโทเค็นที่ได้รับ"
   },
   "tooltip": {
     "additionalProviderFee": "บริดจ์เพิ่มเติม DEX และค่าบริการ",

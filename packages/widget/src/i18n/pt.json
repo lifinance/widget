@@ -77,38 +77,87 @@
     "showDestinationWallet": "Mostrar carteira de destino",
     "slippage": "Derrapagem"
   },
-  "swap": {
+  "info": {
+    "message": {
+      "autoRefuel": "Você está com pouco gás na rede {{chainName}}. Ao continuar, você obterá gás suficiente para completar a conversão.",
+      "emptyActiveSwaps": "Conversões em andamento aparecerão aqui. Uma vez concluídas, encontre-as no histórico de conversão.",
+      "emptySwapHistory": "Histórico de conversão é armazenado apenas localmente e será excluído se você limpar os dados do seu navegador.",
+      "emptyTokenList": "Não conseguimos encontrar tokens na rede {{chainName}} ou você não possui nenhum. Por favor, tente procurar novamente ou escolha outra rede.",
+      "routeNotFound": "Tente outra combinação de tokens."
+    },
+    "title": {
+      "autoRefuel": "Obter gás",
+      "emptyActiveSwaps": "Não há conversões ativas",
+      "emptySwapHistory": "Não há conversões recentes",
+      "routeNotFound": "Nenhuma rota disponível"
+    }
+  },
+  "success": {
+    "message": {
+      "swapPartiallySuccessful": "Tentamos completar a conversão, mas a {{tool}} ficou sem liquidez para o token {{tokenSymbol}}.",
+      "purchaseSuccessful": "Agora você tem {{assetName}} na carteira {{walletAddress}} na cadeia {{chainName}}",
+      "swapSuccessful": "Agora há {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} na carteira {{walletAddress}} na rede {{chainName}}."
+    },
+    "title": {
+      "gasSwapSuccessful": "Conversão de gás bem sucedida",
+      "purchaseSuccessful": "Compra efetuada com sucesso",
+      "refundIssued": "Reembolso emitido",
+      "swapPartiallySuccessful": "Conversão parcialmente bem sucedida",
+      "swapSuccessful": "Conversão bem sucedida"
+    }
+  },
+  "warning": {
+    "message": {
+      "deleteActiveSwaps": "As conversões ativas são armazenadas apenas localmente e não podem ser recuperadas se forem excluídas.",
+      "deleteSwapHistory": "O histórico de conversões é armazenado apenas localmente e não pode ser recuperado caso seja excluído.",
+      "highValueLoss": "A quantidade de tokens a serem recebidos é significativamente menor do que os tokens convertidos e os custos da transação.",
+      "insufficientFunds": "Você não possui fundos suficientes para completar a conversão.",
+      "insufficientGas": "Você não tem gás suficiente para completar a conversão. É necessário adicionar pelo menos:",
+      "rateChanged": "A taxa de câmbio mudou. Ao continuar a conversão, você aceitará a nova taxa.",
+      "resetSettings": "Isto redefinirá sua prioridade de rota, tolerância a derrapagem, preço de gás, pontes e trocas ativadas."
+    },
+    "title": {
+      "deleteActiveSwaps": "Excluir todas as conversões ativas?",
+      "deleteSwap": "Excluir esta conversão?",
+      "deleteSwapHistory": "Excluir o histórico de conversão?",
+      "highValueLoss": "Alta perda de valor",
+      "insufficientGas": "Gás insuficiente",
+      "rateChanged": "Taxa alterada",
+      "resetSettings": "Redefinir as configurações?"
+    }
+  },
+  "error": {
+    "message": {
+      "allowanceRequired": "A quantidade a ser transferida para {{tokenSymbol}} excede a sua permissão atual. Por favor, aumente a sua permissão e tente novamente.",
+      "insufficientFunds": "Você não tem gás suficiente para cobrir o custo da transação.",
+      "slippageThreshold": "A derrapagem é maior do que o limite definido. Solicite uma nova rota para obter uma nova cotação.",
+      "transactionFailed": "Por favor, verifique o explorador de blocos para mais informações.",
+      "transactionNotSent": "A transação não foi enviada. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} na {{chainName}} permanece na sua carteira.",
+      "transactionRejected": "Sua assinatura é necessária para completar a transação. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} em {{chainName}} permanece na sua carteira.",
+      "unknown": "Por favor, tente novamente ou fale com o suporte."
+    },
+    "title": {
+      "allowanceRequired": "Permissão insuficiente",
+      "balanceIsTooLow": "O saldo é muito baixo",
+      "chainSwitch": "Necessário mudança de rede",
+      "failed": "Conversão falhou",
+      "gasLimitIsTooLow": "O limite de gás é muito baixo",
+      "insufficientFunds": "Saldo insuficiente",
+      "slippageNotMet": "Condições de tolerância a discrepâncias não foram atendidas",
+      "transactionCanceled": "Transação cancelada",
+      "transactionFailed": "Transação falhou",
+      "transactionRejected": "Necessário assinatura",
+      "transactionUnderpriced": "Transação está abaixo do valor",
+      "transactionUnprepared": "Não foi possível preparar a transação",
+      "unknown": "Algo deu errado",
+      "walletAddressInvalid": "Endereço da carteira é inválido.",
+      "walletAddressRequired": "Endereço da carteira é necessário.",
+      "walletEnsAddressInvalid": "O endereço da carteira é inválido ou a rede não suporta ENS."
+    }
+  },
+  "main": {
     "crossStepDetails": "Ponte de {{from}} para {{to}} via {{tool}}",
     "currentAmount": "Quantidade atual",
-    "error": {
-      "message": {
-        "allowanceRequired": "A quantidade a ser transferida para {{tokenSymbol}} excede a sua permissão atual. Por favor, aumente a sua permissão e tente novamente.",
-        "insufficientFunds": "Você não tem gás suficiente para cobrir o custo da transação.",
-        "slippageThreshold": "A derrapagem é maior do que o limite definido. Solicite uma nova rota para obter uma nova cotação.",
-        "transactionFailed": "Por favor, verifique o explorador de blocos para mais informações.",
-        "transactionNotSent": "A transação não foi enviada. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} na {{chainName}} permanece na sua carteira.",
-        "transactionRejected": "Sua assinatura é necessária para completar a transação. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} em {{chainName}} permanece na sua carteira.",
-        "unknown": "Por favor, tente novamente ou fale com o suporte."
-      },
-      "title": {
-        "allowanceRequired": "Permissão insuficiente",
-        "balanceIsTooLow": "O saldo é muito baixo",
-        "chainSwitch": "Necessário mudança de rede",
-        "failed": "Conversão falhou",
-        "gasLimitIsTooLow": "O limite de gás é muito baixo",
-        "insufficientFunds": "Saldo insuficiente",
-        "slippageNotMet": "Condições de tolerância a discrepâncias não foram atendidas",
-        "transactionCanceled": "Transação cancelada",
-        "transactionFailed": "Transação falhou",
-        "transactionRejected": "Necessário assinatura",
-        "transactionUnderpriced": "Transação está abaixo do valor",
-        "transactionUnprepared": "Não foi possível preparar a transação",
-        "unknown": "Algo deu errado",
-        "walletAddressInvalid": "Endereço da carteira é inválido.",
-        "walletAddressRequired": "Endereço da carteira é necessário.",
-        "walletEnsAddressInvalid": "O endereço da carteira é inválido ou a rede não suporta ENS."
-      }
-    },
     "estimatedTime": "{{value}}m",
     "featuredTokens": "Tokens em destaque",
     "from": "De",
@@ -117,27 +166,6 @@
     "gasFeeEstimated": "Taxa de gás estimada",
     "gasFeePaid": "taxa de gás paga",
     "inProgress": "em andamento",
-    "insurance": {
-      "bridgeExploits": "Mau funcionamento da ponte, hacks ou exploits",
-      "insure": "Contratar seguro para <strong>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</strong> em trânsito.",
-      "insured": "Você contratou seguro para <strong>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</strong> em trânsito:",
-      "slippageError": "Erro na discrepância para tokens recebidos"
-    },
-    "info": {
-      "message": {
-        "autoRefuel": "Você está com pouco gás na rede {{chainName}}. Ao continuar, você obterá gás suficiente para completar a conversão.",
-        "emptyActiveSwaps": "Conversões em andamento aparecerão aqui. Uma vez concluídas, encontre-as no histórico de conversão.",
-        "emptySwapHistory": "Histórico de conversão é armazenado apenas localmente e será excluído se você limpar os dados do seu navegador.",
-        "emptyTokenList": "Não conseguimos encontrar tokens na rede {{chainName}} ou você não possui nenhum. Por favor, tente procurar novamente ou escolha outra rede.",
-        "routeNotFound": "Tente outra combinação de tokens."
-      },
-      "title": {
-        "autoRefuel": "Obter gás",
-        "emptyActiveSwaps": "Não há conversões ativas",
-        "emptySwapHistory": "Não há conversões recentes",
-        "routeNotFound": "Nenhuma rota disponível"
-      }
-    },
     "nftStepDetails": "Comprar NFT via {{tool}}",
     "onChain": "em {{chainName}}",
     "otherTokens": "Outros tokens",
@@ -190,20 +218,6 @@
     "stepSwap": "Conversão",
     "stepSwapAndBridge": "Converter e enviar pela ponte",
     "stepSwapAndBuy": "Converta e compre",
-    "success": {
-      "message": {
-        "swapPartiallySuccessful": "Tentamos completar a conversão, mas a {{tool}} ficou sem liquidez para o token {{tokenSymbol}}.",
-        "purchaseSuccessful": "Agora você tem {{assetName}} na carteira {{walletAddress}} na cadeia {{chainName}}",
-        "swapSuccessful": "Agora há {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} na carteira {{walletAddress}} na rede {{chainName}}."
-      },
-      "title": {
-        "gasSwapSuccessful": "Conversão de gás bem sucedida",
-        "purchaseSuccessful": "Compra efetuada com sucesso",
-        "refundIssued": "Reembolso emitido",
-        "swapPartiallySuccessful": "Conversão parcialmente bem sucedida",
-        "swapSuccessful": "Conversão bem sucedida"
-      }
-    },
     "supportId": "ID de suporte",
     "swapStepDetails": "Converter na {{chain}} via {{tool}}",
     "swapping": "Convertendo",
@@ -221,27 +235,13 @@
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} na {{chainName}}",
     "tokenSearch": "Pesquisar pelo nome do token ou endereço",
     "valueLoss": "Perda de Valor",
-    "walletAddressOrEns": "Endereço da carteira ou nome ENS",
-    "warning": {
-      "message": {
-        "deleteActiveSwaps": "As conversões ativas são armazenadas apenas localmente e não podem ser recuperadas se forem excluídas.",
-        "deleteSwapHistory": "O histórico de conversões é armazenado apenas localmente e não pode ser recuperado caso seja excluído.",
-        "highValueLoss": "A quantidade de tokens a serem recebidos é significativamente menor do que os tokens convertidos e os custos da transação.",
-        "insufficientFunds": "Você não possui fundos suficientes para completar a conversão.",
-        "insufficientGas": "Você não tem gás suficiente para completar a conversão. É necessário adicionar pelo menos:",
-        "rateChanged": "A taxa de câmbio mudou. Ao continuar a conversão, você aceitará a nova taxa.",
-        "resetSettings": "Isto redefinirá sua prioridade de rota, tolerância a derrapagem, preço de gás, pontes e trocas ativadas."
-      },
-      "title": {
-        "deleteActiveSwaps": "Excluir todas as conversões ativas?",
-        "deleteSwap": "Excluir esta conversão?",
-        "deleteSwapHistory": "Excluir o histórico de conversão?",
-        "highValueLoss": "Alta perda de valor",
-        "insufficientGas": "Gás insuficiente",
-        "rateChanged": "Taxa alterada",
-        "resetSettings": "Redefinir as configurações?"
-      }
-    }
+    "walletAddressOrEns": "Endereço da carteira ou nome ENS"
+  },
+  "insurance": {
+    "bridgeExploits": "Mau funcionamento da ponte, hacks ou exploits",
+    "insure": "Contratar seguro para <0>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</0> em trânsito.",
+    "insured": "Você contratou seguro para <0>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</0> em trânsito:",
+    "slippageError": "Erro na discrepância para tokens recebidos"
   },
   "tooltip": {
     "additionalProviderFee": "Pontes adicionais, DEXes e taxas de serviço.",

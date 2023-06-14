@@ -68,34 +68,79 @@
     "showDestinationWallet": "Mostrar billetera de destino",
     "slippage": "Diferencial"
   },
-  "swap": {
+  "info": {
+    "message": {
+      "emptyActiveSwaps": "Los intercambios en curso aparecerán aquí. Una vez completado, encuéntrelos en el historial de intercambio.",
+      "emptySwapHistory": "El historial de intercambio solo se almacena localmente y se eliminará si borra los datos de su navegador.",
+      "emptyTokenList": "No pudimos encontrar tokens en la cadena {{chainName}} o no tienes ninguno. Por favor intente buscar de nuevo o elija otra cadena.",
+      "routeNotFound": "Pruebe con otra combinación de tokens."
+    },
+    "title": {
+      "emptyActiveSwaps": "No hay intercambios activos",
+      "emptySwapHistory": "No hay intercambios recientes",
+      "routeNotFound": "No hay rutas disponibles"
+    }
+  },
+  "success": {
+    "message": {
+      "swapPartiallySuccessful": "Hemos intentado completar el swap, pero {{tool}} se quedó sin liquidez para el token {{tokenSymbol}}.",
+      "swapSuccessful": "Ahora hay {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} en la billetera {{walletAddress}} en la cadena {{chainName}}."
+    },
+    "title": {
+      "gasSwapSuccessful": "Swap de gas exitoso",
+      "refundIssued": "Reembolso emitido",
+      "swapPartiallySuccessful": "Swap parcialmente exitoso",
+      "swapSuccessful": "Intercambio exitoso"
+    }
+  },
+  "warning": {
+    "message": {
+      "deleteActiveSwaps": "Los intercambios activos solo se almacenan localmente y no se pueden recuperar si los elimina.",
+      "deleteSwapHistory": "El historial de intercambio solo se almacena localmente y no se puede recuperar si lo elimina.",
+      "highValueLoss": "El valor de los tokens recibidos es significativamente menor que los tokens intercambiados y el costo de la transacción.",
+      "insufficientFunds": "No tiene fondos suficientes para ejecutar el intercambio.",
+      "insufficientGas": "Debes agregar al menos:",
+      "rateChanged": "La tasa de cambio ha cambiado. Continuar con el swap implica que estas de acuerdo con la nueva tasa.",
+      "resetSettings": "Esto restablecerá su prioridad de ruta, deslizamiento, precio de gas, puentes e intercambios habilitados."
+    },
+    "title": {
+      "deleteActiveSwaps": "¿Eliminar todos los intercambios activos?",
+      "deleteSwap": "¿Eliminar este intercambio?",
+      "deleteSwapHistory": "¿Eliminar el historial de intercambio?",
+      "highValueLoss": "Pérdida de alto valor",
+      "insufficientGas": "Gas insuficiente",
+      "rateChanged": "Cambios de precio detectado",
+      "resetSettings": "¿Reiniciar los ajustes?"
+    }
+  },
+  "error": {
+    "message": {
+      "slippageThreshold": "El slippage es mayor que el umbral definido. Por favor, solicite una nueva ruta para obtener un presupuesto nuevo.",
+      "transactionFailed": "Por favor consulte el explorador de bloques para obtener mas información",
+      "transactionNotSent": "La transacción no fue enviada, sus fondos aún están en su billetera ({{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} en {{chainName}}).",
+      "transactionRejected": "Se requiere su firma para completar la transacción. {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} en {{chainName}} permanecen en su billetera.",
+      "unknown": "Inténtalo de nuevo o ponte en contacto con soporte."
+    },
+    "title": {
+      "balanceIsTooLow": "El balance es demasiado bajo",
+      "chainSwitch": "Se requiere cambiar cadena.",
+      "failed": "Swap ha fallado",
+      "gasLimitIsTooLow": "Límite de gas es demasiado bajo",
+      "slippageNotMet": "Condiciones de slippage no cumplidas",
+      "transactionCanceled": "Transacción cancelada",
+      "transactionFailed": "La transacción ha fallado.",
+      "transactionRejected": "Firma requerida.",
+      "transactionUnderpriced": "La transacción está subvaluada.",
+      "transactionUnprepared": "No se puede preparar la transacción.",
+      "unknown": "Algo salió mal.",
+      "walletAddressInvalid": "La dirección de la billetera no es válida.",
+      "walletAddressRequired": "Dirección de billetera es requerida.",
+      "walletEnsAddressInvalid": "La dirección de la billetera no es válida o la red no es compatible con ENS."
+    }
+  },
+  "main": {
     "crossStepDetails": "Mover fondos de {{from}} {{to}} {{tool}}",
     "currentAmount": "Cantidad actual",
-    "error": {
-      "message": {
-        "slippageThreshold": "El slippage es mayor que el umbral definido. Por favor, solicite una nueva ruta para obtener un presupuesto nuevo.",
-        "transactionFailed": "Por favor consulte el explorador de bloques para obtener mas información",
-        "transactionNotSent": "La transacción no fue enviada, sus fondos aún están en su billetera ({{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} en {{chainName}}).",
-        "transactionRejected": "Se requiere su firma para completar la transacción. {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} en {{chainName}} permanecen en su billetera.",
-        "unknown": "Inténtalo de nuevo o ponte en contacto con soporte."
-      },
-      "title": {
-        "balanceIsTooLow": "El balance es demasiado bajo",
-        "chainSwitch": "Se requiere cambiar cadena.",
-        "failed": "Swap ha fallado",
-        "gasLimitIsTooLow": "Límite de gas es demasiado bajo",
-        "slippageNotMet": "Condiciones de slippage no cumplidas",
-        "transactionCanceled": "Transacción cancelada",
-        "transactionFailed": "La transacción ha fallado.",
-        "transactionRejected": "Firma requerida.",
-        "transactionUnderpriced": "La transacción está subvaluada.",
-        "transactionUnprepared": "No se puede preparar la transacción.",
-        "unknown": "Algo salió mal.",
-        "walletAddressInvalid": "La dirección de la billetera no es válida.",
-        "walletAddressRequired": "Dirección de billetera es requerida.",
-        "walletEnsAddressInvalid": "La dirección de la billetera no es válida o la red no es compatible con ENS."
-      }
-    },
     "estimatedTime": "{{value}}m",
     "featuredTokens": "Tokens destacados",
     "from": "Desde",
@@ -104,19 +149,6 @@
     "gasFeeEstimated": "tarifa de gas estimada",
     "gasFeePaid": "comisión de gas pagada",
     "inProgress": "en progreso",
-    "info": {
-      "message": {
-        "emptyActiveSwaps": "Los intercambios en curso aparecerán aquí. Una vez completado, encuéntrelos en el historial de intercambio.",
-        "emptySwapHistory": "El historial de intercambio solo se almacena localmente y se eliminará si borra los datos de su navegador.",
-        "emptyTokenList": "No pudimos encontrar tokens en la cadena {{chainName}} o no tienes ninguno. Por favor intente buscar de nuevo o elija otra cadena.",
-        "routeNotFound": "Pruebe con otra combinación de tokens."
-      },
-      "title": {
-        "emptyActiveSwaps": "No hay intercambios activos",
-        "emptySwapHistory": "No hay intercambios recientes",
-        "routeNotFound": "No hay rutas disponibles"
-      }
-    },
     "nftStepDetails": "Compra NFT a través de {{tool}}",
     "onChain": "en {{chainName}}",
     "otherTokens": "Otros tokens",
@@ -164,18 +196,6 @@
     "stepBridge": "Cruzar",
     "stepSwap": "Swap",
     "stepSwapAndBridge": "Swap y cruzar",
-    "success": {
-      "message": {
-        "swapPartiallySuccessful": "Hemos intentado completar el swap, pero {{tool}} se quedó sin liquidez para el token {{tokenSymbol}}.",
-        "swapSuccessful": "Ahora hay {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} en la billetera {{walletAddress}} en la cadena {{chainName}}."
-      },
-      "title": {
-        "gasSwapSuccessful": "Swap de gas exitoso",
-        "refundIssued": "Reembolso emitido",
-        "swapPartiallySuccessful": "Swap parcialmente exitoso",
-        "swapSuccessful": "Intercambio exitoso"
-      }
-    },
     "supportId": "ID de soporte",
     "swapStepDetails": "Intercambiar en {{chain}} a través de {{tool}}",
     "swapping": "Intercambiando",
@@ -191,27 +211,7 @@
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} on {{chainName}}",
     "tokenSearch": "Busque su token",
     "valueLoss": "Valor perdido",
-    "walletAddressOrEns": "Dirección de billetera o nombre ENS",
-    "warning": {
-      "message": {
-        "deleteActiveSwaps": "Los intercambios activos solo se almacenan localmente y no se pueden recuperar si los elimina.",
-        "deleteSwapHistory": "El historial de intercambio solo se almacena localmente y no se puede recuperar si lo elimina.",
-        "highValueLoss": "El valor de los tokens recibidos es significativamente menor que los tokens intercambiados y el costo de la transacción.",
-        "insufficientFunds": "No tiene fondos suficientes para ejecutar el intercambio.",
-        "insufficientGas": "Debes agregar al menos:",
-        "rateChanged": "La tasa de cambio ha cambiado. Continuar con el swap implica que estas de acuerdo con la nueva tasa.",
-        "resetSettings": "Esto restablecerá su prioridad de ruta, deslizamiento, precio de gas, puentes e intercambios habilitados."
-      },
-      "title": {
-        "deleteActiveSwaps": "¿Eliminar todos los intercambios activos?",
-        "deleteSwap": "¿Eliminar este intercambio?",
-        "deleteSwapHistory": "¿Eliminar el historial de intercambio?",
-        "highValueLoss": "Pérdida de alto valor",
-        "insufficientGas": "Gas insuficiente",
-        "rateChanged": "Cambios de precio detectado",
-        "resetSettings": "¿Reiniciar los ajustes?"
-      }
-    }
+    "walletAddressOrEns": "Dirección de billetera o nombre ENS"
   },
   "tooltip": {
     "estimatedNetworkFee": "Tarifa de red estimada.",

@@ -77,38 +77,87 @@
     "showDestinationWallet": "받는 지갑 보기",
     "slippage": "슬리피지"
   },
-  "swap": {
+  "info": {
+    "message": {
+      "autoRefuel": "현재 {{chainName}} 가스가 부족합니다. 이 기능을 통하여 스왑을 완료할 가스를 보충할 수 있습니다.",
+      "emptyActiveSwaps": "진행 중인 스왑이 여기에 나타납니다. 완료 후에는 스왑 기록을 참조하십시오",
+      "emptySwapHistory": "스왑 기록은 로컬에만 저장되며 브라우저 데이터를 지우면 삭제됩니다.",
+      "emptyTokenList": "{{chainName}} 체인에서 토큰을 찾을 수 없거나 보유 중인 토큰이 아닙니다. 다시 검색하거나 다른 체인을 선택하십시오.",
+      "routeNotFound": "다른 토큰 조합으로 시도하십시오."
+    },
+    "title": {
+      "autoRefuel": "가스 받기",
+      "emptyActiveSwaps": "활성화된 스왑 없음",
+      "emptySwapHistory": "최근 스왑 없음",
+      "routeNotFound": "가능한 경로가 없음"
+    }
+  },
+  "success": {
+    "message": {
+      "swapPartiallySuccessful": "스왑을 시도했지만, {{tokenSymbol}} 토큰에 대한 {{tool}}의 유동성이 부족합니다.",
+      "purchaseSuccessful": "{{walletAddress}} 지갑의 {{chainName}} 체인에 {{assetName}} 을 획득하셨습니다.",
+      "swapSuccessful": "{{walletAddress}} 지갑의 {{chainName}} 체인에 {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}이(가) 있습니다."
+    },
+    "title": {
+      "gasSwapSuccessful": "가스 스왑 성공",
+      "purchaseSuccessful": "구입 성공",
+      "refundIssued": "환불되었습니다",
+      "swapPartiallySuccessful": "부분 스왑 성공",
+      "swapSuccessful": "스왑 성공"
+    }
+  },
+  "warning": {
+    "message": {
+      "deleteActiveSwaps": "활성화된 스왑은 로컬에만 저장되며 삭제시 복구할 수 없습니다.",
+      "deleteSwapHistory": "스왑 기록은 로컬에만 저장되며 삭제시 복구할 수 없습니다.",
+      "highValueLoss": "받은 토큰의 가치가 스왑된 토큰 및 트랜잭션 비용보다 상당히 낮습니다.",
+      "insufficientFunds": "스왑을 진행할 자금이 부족합니다.",
+      "insufficientGas": "스왑을 진행할 가스가 부족합니다. 최소 다음과 같은 가스가 필요합니다:",
+      "rateChanged": "거래 비율이 변경되었습니다. 스왑을 계속하면 새로운 비율이 적용됩니다.",
+      "resetSettings": "우선 경로, 슬리피지, 가스 비용, 활성화된 브릿지 및 거래소가 재설정됩니다."
+    },
+    "title": {
+      "deleteActiveSwaps": "모든 활성화된 스왑을 제거합니까?",
+      "deleteSwap": "이 스왑을 제거합니까?",
+      "deleteSwapHistory": "스왑 기록을 삭제합니까?",
+      "highValueLoss": "높은 가치 손실",
+      "insufficientGas": "가스 부족",
+      "rateChanged": "비율 변경됨",
+      "resetSettings": "설정을 초기화합니까?"
+    }
+  },
+  "error": {
+    "message": {
+      "allowanceRequired": "{{tokenSymbol}} 이체 금액이 한도를 초과했습니다. 한도를 증액한 뒤 다시 시도해주십시오.",
+      "insufficientFunds": "트랜잭션에 필요한 가스비가 부족합니다.",
+      "slippageThreshold": "슬리피지가 한계점보다 큽니다. 새로운 견적을 얻기 위해 새 경로를 요청하십시오.",
+      "transactionFailed": "자세한 정보는 블록 탐색기에서 확인하세요.",
+      "transactionNotSent": "트랜잭션 전송에 실패했습니다. {{chainName}}의 {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}이 지갑에 남아있습니다.",
+      "transactionRejected": "트랜잭션 완료를 위해 서명이 필요합니다. {{chainName}}의 {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}이 지갑에 남아있습니다.",
+      "unknown": "다시 시도하거나 고객 센터에 문의하십시오."
+    },
+    "title": {
+      "allowanceRequired": "한도 부족",
+      "balanceIsTooLow": "잔액이 부족합니다.",
+      "chainSwitch": "체인을 변경하십시오",
+      "failed": "스왑에 실패하였습니다",
+      "gasLimitIsTooLow": "가스 한도가 너무 낮습니다",
+      "insufficientFunds": "잔고 부족",
+      "slippageNotMet": "슬리피지 조건을 충족하지 못했습니다.",
+      "transactionCanceled": "거래가 취소되었습니다",
+      "transactionFailed": "거래가 실패하였습니다",
+      "transactionRejected": "서명이 필요합니다",
+      "transactionUnderpriced": "거래 가격이 너무 낮습니다",
+      "transactionUnprepared": "트랜잭션을 진행할 수 없습니다.",
+      "unknown": "문제가 발생했습니다",
+      "walletAddressInvalid": "지갑 주소가 유효하지 않습니다.",
+      "walletAddressRequired": "지갑 주소가 필요합니다.",
+      "walletEnsAddressInvalid": "지갑 주소가 유효하지 않거나 네트워크가 ENS를 지원하지 않습니다."
+    }
+  },
+  "main": {
     "crossStepDetails": "{{tool}}을 통해 {{from}}(으)로부터 {{to}}(으)로 브릿지",
     "currentAmount": "현재 수량",
-    "error": {
-      "message": {
-        "allowanceRequired": "{{tokenSymbol}} 이체 금액이 한도를 초과했습니다. 한도를 증액한 뒤 다시 시도해주십시오.",
-        "insufficientFunds": "트랜잭션에 필요한 가스비가 부족합니다.",
-        "slippageThreshold": "슬리피지가 한계점보다 큽니다. 새로운 견적을 얻기 위해 새 경로를 요청하십시오.",
-        "transactionFailed": "자세한 정보는 블록 탐색기에서 확인하세요.",
-        "transactionNotSent": "트랜잭션 전송에 실패했습니다. {{chainName}}의 {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}이 지갑에 남아있습니다.",
-        "transactionRejected": "트랜잭션 완료를 위해 서명이 필요합니다. {{chainName}}의 {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}이 지갑에 남아있습니다.",
-        "unknown": "다시 시도하거나 고객 센터에 문의하십시오."
-      },
-      "title": {
-        "allowanceRequired": "한도 부족",
-        "balanceIsTooLow": "잔액이 부족합니다.",
-        "chainSwitch": "체인을 변경하십시오",
-        "failed": "스왑에 실패하였습니다",
-        "gasLimitIsTooLow": "가스 한도가 너무 낮습니다",
-        "insufficientFunds": "잔고 부족",
-        "slippageNotMet": "슬리피지 조건을 충족하지 못했습니다.",
-        "transactionCanceled": "거래가 취소되었습니다",
-        "transactionFailed": "거래가 실패하였습니다",
-        "transactionRejected": "서명이 필요합니다",
-        "transactionUnderpriced": "거래 가격이 너무 낮습니다",
-        "transactionUnprepared": "트랜잭션을 진행할 수 없습니다.",
-        "unknown": "문제가 발생했습니다",
-        "walletAddressInvalid": "지갑 주소가 유효하지 않습니다.",
-        "walletAddressRequired": "지갑 주소가 필요합니다.",
-        "walletEnsAddressInvalid": "지갑 주소가 유효하지 않거나 네트워크가 ENS를 지원하지 않습니다."
-      }
-    },
     "estimatedTime": "{{value}}분",
     "featuredTokens": "주요 토큰",
     "from": "[Value] 를",
@@ -117,27 +166,6 @@
     "gasFeeEstimated": "예상 가스비",
     "gasFeePaid": "가스비 지불됨",
     "inProgress": "진행 중",
-    "insurance": {
-      "bridgeExploits": "브릿지 오류, 해킹, 취약점 공격",
-      "insure": "브릿지 중인 <strong>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</strong> 보험 적용",
-      "insured": "브릿지 중인 <strong>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</strong> 보험 적용 완료",
-      "slippageError": "받을 토큰의 슬리피지 오류가 발생했습니다."
-    },
-    "info": {
-      "message": {
-        "autoRefuel": "현재 {{chainName}} 가스가 부족합니다. 이 기능을 통하여 스왑을 완료할 가스를 보충할 수 있습니다.",
-        "emptyActiveSwaps": "진행 중인 스왑이 여기에 나타납니다. 완료 후에는 스왑 기록을 참조하십시오",
-        "emptySwapHistory": "스왑 기록은 로컬에만 저장되며 브라우저 데이터를 지우면 삭제됩니다.",
-        "emptyTokenList": "{{chainName}} 체인에서 토큰을 찾을 수 없거나 보유 중인 토큰이 아닙니다. 다시 검색하거나 다른 체인을 선택하십시오.",
-        "routeNotFound": "다른 토큰 조합으로 시도하십시오."
-      },
-      "title": {
-        "autoRefuel": "가스 받기",
-        "emptyActiveSwaps": "활성화된 스왑 없음",
-        "emptySwapHistory": "최근 스왑 없음",
-        "routeNotFound": "가능한 경로가 없음"
-      }
-    },
     "nftStepDetails": "{{tool}} 를 통해 NFT 구입",
     "onChain": "{{chainName}} 에서",
     "otherTokens": "다른 토큰",
@@ -190,20 +218,6 @@
     "stepSwap": "스왑",
     "stepSwapAndBridge": "스왑 그리고 브릿지",
     "stepSwapAndBuy": "스왑 그리고 매수",
-    "success": {
-      "message": {
-        "swapPartiallySuccessful": "스왑을 시도했지만, {{tokenSymbol}} 토큰에 대한 {{tool}}의 유동성이 부족합니다.",
-        "purchaseSuccessful": "{{walletAddress}} 지갑의 {{chainName}} 체인에 {{assetName}} 을 획득하셨습니다.",
-        "swapSuccessful": "{{walletAddress}} 지갑의 {{chainName}} 체인에 {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}이(가) 있습니다."
-      },
-      "title": {
-        "gasSwapSuccessful": "가스 스왑 성공",
-        "purchaseSuccessful": "구입 성공",
-        "refundIssued": "환불되었습니다",
-        "swapPartiallySuccessful": "부분 스왑 성공",
-        "swapSuccessful": "스왑 성공"
-      }
-    },
     "supportId": "서포트 ID",
     "swapStepDetails": "{{tool}}로 {{chain}}에서 스왑",
     "swapping": "스왑 중",
@@ -221,27 +235,13 @@
     "tokenOnChainAmount": "{{chainName}}의 {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}",
     "tokenSearch": "이름 또는 컨트랙트 주소를 통해 검색",
     "valueLoss": "가치 손실",
-    "walletAddressOrEns": "지갑 주소 또는 ENS",
-    "warning": {
-      "message": {
-        "deleteActiveSwaps": "활성화된 스왑은 로컬에만 저장되며 삭제시 복구할 수 없습니다.",
-        "deleteSwapHistory": "스왑 기록은 로컬에만 저장되며 삭제시 복구할 수 없습니다.",
-        "highValueLoss": "받은 토큰의 가치가 스왑된 토큰 및 트랜잭션 비용보다 상당히 낮습니다.",
-        "insufficientFunds": "스왑을 진행할 자금이 부족합니다.",
-        "insufficientGas": "스왑을 진행할 가스가 부족합니다. 최소 다음과 같은 가스가 필요합니다:",
-        "rateChanged": "거래 비율이 변경되었습니다. 스왑을 계속하면 새로운 비율이 적용됩니다.",
-        "resetSettings": "우선 경로, 슬리피지, 가스 비용, 활성화된 브릿지 및 거래소가 재설정됩니다."
-      },
-      "title": {
-        "deleteActiveSwaps": "모든 활성화된 스왑을 제거합니까?",
-        "deleteSwap": "이 스왑을 제거합니까?",
-        "deleteSwapHistory": "스왑 기록을 삭제합니까?",
-        "highValueLoss": "높은 가치 손실",
-        "insufficientGas": "가스 부족",
-        "rateChanged": "비율 변경됨",
-        "resetSettings": "설정을 초기화합니까?"
-      }
-    }
+    "walletAddressOrEns": "지갑 주소 또는 ENS"
+  },
+  "insurance": {
+    "bridgeExploits": "브릿지 오류, 해킹, 취약점 공격",
+    "insure": "브릿지 중인 <0>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</0> 보험 적용",
+    "insured": "브릿지 중인 <0>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</0> 보험 적용 완료",
+    "slippageError": "받을 토큰의 슬리피지 오류가 발생했습니다."
   },
   "tooltip": {
     "additionalProviderFee": "추가적인 브릿지, 덱스, 그리고 서비스 수수료",
