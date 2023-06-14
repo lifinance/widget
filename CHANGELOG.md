@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-beta.15](https://github.com/lifinance/widget/compare/v2.0.0-beta.14...v2.0.0-beta.15) (2023-06-14)
+
+
+### Features
+
+* update nft subvariant to support drawer and send to another wallet ([87d8927](https://github.com/lifinance/widget/commit/87d892778fdc87078509885ea98f0c700c6802d1))
+
+
+### Bug Fixes
+
+* adjust swap/bridge terminology across the widget ([ca69314](https://github.com/lifinance/widget/commit/ca693143892a25d5468f315c665d49cce972e422))
+* don't disable button when refreshing routes ([398e70b](https://github.com/lifinance/widget/commit/398e70b67bbef8add9c9e0a56db4afbfd4658400))
+* don't gray out button on loading state ([af2220e](https://github.com/lifinance/widget/commit/af2220ed90ece2bc051b8fa290dc38d2726f749c))
+* don't throw if autoConnect fails ([7dc4578](https://github.com/lifinance/widget/commit/7dc4578442aed5728231550157c4b02493a0067b))
+* make button gray in loading state ([d64220e](https://github.com/lifinance/widget/commit/d64220e7c62cf05c023c190241cced978cff7bc4))
+* request additional route for insurance only when bridging ([84a9bae](https://github.com/lifinance/widget/commit/84a9bae87b9273f1b03cb55f2534f75109859f3e))
+* translation tags should work inside tooltip ([afbf669](https://github.com/lifinance/widget/commit/afbf669743d99835fed96bb3b04c506a25dedfb6))
+* update progress text ([5d7030d](https://github.com/lifinance/widget/commit/5d7030d26a9dabfd8ec8bf49017e61c226ecc2c7))
+* use subvariant split state for button text ([1cb952c](https://github.com/lifinance/widget/commit/1cb952cc8c3051bfd94d10f9a6f47bb1d1d4d29f))
+
 ## [2.0.0-beta.14](https://github.com/lifinance/widget/compare/v2.0.0-beta.13...v2.0.0-beta.14) (2023-06-02)
 
 
