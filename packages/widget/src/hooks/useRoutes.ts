@@ -18,7 +18,7 @@ interface RoutesProps {
 
 export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
   const lifi = useLiFi();
-  const { variant, sdkConfig, insurance, contractTool } = useWidgetConfig();
+  const { subvariant, sdkConfig, insurance, contractTool } = useWidgetConfig();
   const { account } = useWallet();
   const queryClient = useQueryClient();
   const swapOnly = useSwapOnly();
@@ -69,7 +69,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
     (!isNaN(toTokenAmount) && Number(toTokenAmount) > 0);
 
   const contractCallQuoteEnabled: boolean =
-    variant === 'nft'
+    subvariant === 'nft'
       ? Boolean(toContractAddress && toContractCallData && toContractGasLimit)
       : true;
 
@@ -99,7 +99,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
     swapOnly ? [] : enabledBridges,
     enabledExchanges,
     routePriority,
-    variant,
+    subvariant,
     sdkConfig?.defaultRouteOptions?.allowSwitchChain,
     enabledRefuel && enabledAutoRefuel,
     gasRecommendationFromAmount,
@@ -128,7 +128,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
           enabledBridges,
           enabledExchanges,
           routePriority,
-          variant,
+          subvariant,
           allowSwitchChain,
           enabledRefuel,
           gasRecommendationFromAmount,
@@ -166,7 +166,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
             )
           : enabledExchanges;
 
-        if (variant === 'nft') {
+        if (subvariant === 'nft') {
           const contractCallQuote = await lifi.getContractCallQuote(
             {
               fromAddress,
@@ -179,7 +179,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
               toContractCallData,
               toContractGasLimit,
               allowBridges: allowedBridges,
-              // toFallbackAddress: toAddress,
+              toFallbackAddress: toWalletAddress,
               slippage: formattedSlippage,
             },
             { signal },
@@ -190,7 +190,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
           contractCallQuote.action.toToken = toToken!;
 
           const customStep =
-            variant === 'nft'
+            subvariant === 'nft'
               ? contractCallQuote.includedSteps?.find(
                   (step) => step.type === 'custom',
                 )
@@ -215,10 +215,11 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
             fromAddress: contractCallQuote.action.fromAddress,
             toChainId: contractCallQuote.action.toChainId,
             toAmountUSD: contractCallQuote.estimate.toAmountUSD || '',
-            toAmount: toTokenAmount,
-            toAmountMin: toTokenAmount,
+            toAmount: contractCallQuote.estimate.toAmount || toTokenAmount,
+            toAmountMin:
+              contractCallQuote.estimate.toAmountMin || toTokenAmount,
             toToken: toToken!,
-            toAddress: toAddress,
+            toAddress: toWalletAddress,
             gasCostUSD: contractCallQuote.estimate.gasCosts?.[0].amountUSD,
             steps: [contractCallQuote],
             insurance: { state: 'NOT_INSURABLE', feeAmountUsd: '0' },
@@ -249,7 +250,8 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
                 allow: allowedExchanges,
               },
               order: routePriority,
-              allowSwitchChain: variant === 'refuel' ? false : allowSwitchChain,
+              allowSwitchChain:
+                subvariant === 'refuel' ? false : allowSwitchChain,
               insurance: insurance ? Boolean(insurableRoute) : undefined,
             },
           },

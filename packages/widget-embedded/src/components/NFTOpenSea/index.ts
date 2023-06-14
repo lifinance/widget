@@ -1,3 +1,3 @@
 export * from './NFTOpenSea';
+export * from './NFTOpenSeaSecondary';
 export * from './types';
-export * from './useNFTOpenSea';

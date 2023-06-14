@@ -10,7 +10,7 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
   const prefersNarrowView = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('sm'),
   );
-  const { disabledUI, hiddenUI, variant } = useWidgetConfig();
+  const { disabledUI, hiddenUI, subvariant } = useWidgetConfig();
   const [fromChain, toChain, fromToken, toToken] = useWatch({
     name: [
       FormKey.FromChain,
@@ -21,13 +21,13 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
   });
 
   const hiddenReverse =
-    variant === 'refuel' ||
+    subvariant === 'refuel' ||
     disabledUI?.includes(DisabledUI.FromToken) ||
     disabledUI?.includes(DisabledUI.ToToken) ||
     hiddenUI?.includes(HiddenUI.ToToken);
 
   const hiddenToToken =
-    variant === 'nft' || hiddenUI?.includes(HiddenUI.ToToken);
+    subvariant === 'nft' || hiddenUI?.includes(HiddenUI.ToToken);
 
   const isCompact =
     fromChain &&

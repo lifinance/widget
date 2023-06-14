@@ -12,7 +12,7 @@ export const ReviewButton: React.FC = () => {
   const navigate = useNavigate();
   const { isValid, isValidating } = useFormState();
   const setExecutableRoute = useSetExecutableRoute();
-  const { variant, subvariant } = useWidgetConfig();
+  const { subvariant } = useWidgetConfig();
   const splitState = useSplitSubvariantStore((state) => state.state);
 
   const { routes } = useRoutes();
@@ -30,7 +30,7 @@ export const ReviewButton: React.FC = () => {
 
   const getButtonText = () => {
     if (currentRoute) {
-      switch (variant) {
+      switch (subvariant) {
         case 'nft':
           return t(`button.reviewPurchase`);
         case 'refuel':
@@ -43,15 +43,17 @@ export const ReviewButton: React.FC = () => {
           return t(`button.review${transactionType}`);
       }
     } else {
-      switch (variant) {
+      switch (subvariant) {
         case 'nft':
           return t(`button.buy`);
         case 'refuel':
           return t(`button.getGas`);
-        default:
-          if (subvariant === 'split' && splitState) {
+        case 'split':
+          if (splitState) {
             return t(`button.${splitState}`);
           }
+          return t(`button.exchange`);
+        default:
           return t(`button.exchange`);
       }
     }

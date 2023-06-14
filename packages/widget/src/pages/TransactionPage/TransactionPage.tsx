@@ -39,7 +39,12 @@ export const TransactionPage: React.FC = () => {
   const { setValue } = useFormContext();
   const emitter = useWidgetEvents();
   const { navigateBack } = useNavigateBack();
-  const { variant, insurance } = useWidgetConfig();
+  const {
+    subvariant,
+    insurance,
+    contractComponent,
+    contractSecondaryComponent,
+  } = useWidgetConfig();
   const { state }: any = useLocation();
   const stateRouteId = state?.routeId;
   const [routeId, setRouteId] = useState<string>(stateRouteId);
@@ -61,7 +66,7 @@ export const TransactionPage: React.FC = () => {
     });
 
   useEffect(() => {
-    if (route && variant !== 'nft') {
+    if (route && subvariant !== 'nft') {
       const transactionType =
         route.fromChainId === route.toChainId ? 'Swap' : 'Bridge';
       return useHeaderStore
@@ -72,7 +77,7 @@ export const TransactionPage: React.FC = () => {
             : t(`header.${transactionType.toLowerCase() as 'swap' | 'bridge'}`),
         );
     }
-  }, [route, status, t, variant]);
+  }, [route, status, subvariant, t]);
 
   if (!route) {
     return null;
@@ -96,7 +101,7 @@ export const TransactionPage: React.FC = () => {
 
   const handleStartClick = async () => {
     if (status === RouteExecutionStatus.Idle) {
-      if (tokenValueLossThresholdExceeded && variant !== 'nft') {
+      if (tokenValueLossThresholdExceeded && subvariant !== 'nft') {
         tokenValueBottomSheetRef.current?.open();
       } else {
         handleExecuteRoute();
@@ -115,7 +120,7 @@ export const TransactionPage: React.FC = () => {
   const getButtonText = () => {
     switch (status) {
       case RouteExecutionStatus.Idle:
-        switch (variant) {
+        switch (subvariant) {
           case 'nft':
             return t('button.buyNow');
           case 'refuel':
@@ -135,7 +140,7 @@ export const TransactionPage: React.FC = () => {
   const insuredRoute = route.insurance?.state === 'INSURED';
   const insurableRoute =
     insurance &&
-    variant !== 'refuel' &&
+    subvariant !== 'refuel' &&
     status === RouteExecutionStatus.Idle &&
     route.insurance?.state === 'INSURABLE';
 
@@ -153,7 +158,11 @@ export const TransactionPage: React.FC = () => {
   return (
     <Container>
       {getStepList(route)}
-      {variant === 'nft' ? <ContractComponent mt={2} /> : null}
+      {subvariant === 'nft' ? (
+        <ContractComponent mt={2}>
+          {contractSecondaryComponent || contractComponent}
+        </ContractComponent>
+      ) : null}
       {insuranceAvailable ? (
         <Insurance
           mt={2}
@@ -202,7 +211,7 @@ export const TransactionPage: React.FC = () => {
         </>
       ) : null}
       {status ? <StatusBottomSheet status={status} route={route} /> : null}
-      {tokenValueLossThresholdExceeded && variant !== 'nft' ? (
+      {tokenValueLossThresholdExceeded && subvariant !== 'nft' ? (
         <TokenValueBottomSheet
           route={route}
           ref={tokenValueBottomSheetRef}

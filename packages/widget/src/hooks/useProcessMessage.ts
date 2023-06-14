@@ -11,23 +11,25 @@ import { LifiErrorCode } from '@lifi/sdk';
 import type { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useWidgetConfig } from '../providers';
-import type { WidgetVariant } from '../types';
+import type { WidgetSubvariant } from '../types';
 import { formatTokenAmount } from '../utils';
 import { useChains } from './useChains';
 
 export const useProcessMessage = (step?: LifiStep, process?: Process) => {
-  const { variant } = useWidgetConfig();
+  const { subvariant } = useWidgetConfig();
   const { t } = useTranslation();
   const { getChainById } = useChains();
   if (!step || !process) {
     return {};
   }
-  return getProcessMessage(t, getChainById, step, process, variant);
+  return getProcessMessage(t, getChainById, step, process, subvariant);
 };
 
 const processStatusMessages: Record<
   ProcessType,
-  Partial<Record<Status, (t: TFunction, variant?: WidgetVariant) => string>>
+  Partial<
+    Record<Status, (t: TFunction, subvariant?: WidgetSubvariant) => string>
+  >
 > = {
   TOKEN_ALLOWANCE: {
     STARTED: (t) => t(`main.process.tokenAllowance.started`),
@@ -43,8 +45,8 @@ const processStatusMessages: Record<
     STARTED: (t) => t(`main.process.swap.started`),
     ACTION_REQUIRED: (t) => t(`main.process.swap.actionRequired`),
     PENDING: (t) => t(`main.process.swap.pending`),
-    DONE: (t, variant) =>
-      variant === 'nft'
+    DONE: (t, subvariant) =>
+      subvariant === 'nft'
         ? t(`main.process.nft.done`)
         : t(`main.process.swap.done`),
   },
@@ -56,8 +58,8 @@ const processStatusMessages: Record<
   },
   RECEIVING_CHAIN: {
     PENDING: (t) => t(`main.process.receivingChain.pending`),
-    DONE: (t, variant) =>
-      variant === 'nft'
+    DONE: (t, subvariant) =>
+      subvariant === 'nft'
         ? t(`main.process.nft.done`)
         : t(`main.process.receivingChain.done`),
   },
@@ -99,7 +101,7 @@ export function getProcessMessage(
   getChainById: (chainId: number) => EVMChain | undefined,
   step: LifiStep,
   process: Process,
-  variant?: WidgetVariant,
+  subvariant?: WidgetSubvariant,
 ): {
   title?: string;
   message?: string;
@@ -188,6 +190,6 @@ export function getProcessMessage(
     processSubstatusMessages[process.status as StatusMessage]?.[
       process.substatus!
     ]?.(t) ??
-    processStatusMessages[process.type]?.[process.status]?.(t, variant);
+    processStatusMessages[process.type]?.[process.status]?.(t, subvariant);
   return { title };
 }

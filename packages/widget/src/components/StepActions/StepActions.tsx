@@ -18,7 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { useChains } from '../../hooks';
 import { LiFiToolLogo } from '../../icons';
 import { useWidgetConfig } from '../../providers';
-import type { WidgetVariant } from '../../types';
+import type { WidgetSubvariant } from '../../types';
 import { formatTokenAmount } from '../../utils';
 import { CardIconButton } from '../Card';
 import { SmallAvatar } from '../SmallAvatar';
@@ -36,7 +36,7 @@ export const StepActions: React.FC<StepActionsProps> = ({
   ...other
 }) => {
   const { t } = useTranslation();
-  const { variant } = useWidgetConfig();
+  const { subvariant } = useWidgetConfig();
   const [cardExpanded, setCardExpanded] = useState(false);
 
   const handleExpand: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -79,10 +79,10 @@ export const StepActions: React.FC<StepActionsProps> = ({
       </Box>
       {hasCollapsedSteps ? (
         <Collapse timeout={225} in={cardExpanded} mountOnEnter unmountOnExit>
-          <IncludedSteps step={step} variant={variant} />
+          <IncludedSteps step={step} subvariant={subvariant} />
         </Collapse>
       ) : (
-        <IncludedSteps step={step} variant={variant} />
+        <IncludedSteps step={step} subvariant={subvariant} />
       )}
     </Box>
   );
@@ -90,8 +90,8 @@ export const StepActions: React.FC<StepActionsProps> = ({
 
 export const IncludedSteps: React.FC<{
   step: LifiStep;
-  variant?: WidgetVariant;
-}> = ({ step, variant }) => {
+  subvariant?: WidgetSubvariant;
+}> = ({ step, subvariant }) => {
   // eslint-disable-next-line react/no-unstable-nested-components
   const StepIconComponent = ({ icon }: StepIconProps) => {
     const tool = step.includedSteps?.[Number(icon) - 1];
@@ -109,7 +109,7 @@ export const IncludedSteps: React.FC<{
     ) : null;
   };
   const StepDetailsLabel =
-    step.tool === 'custom' && variant === 'nft'
+    step.tool === 'custom' && subvariant === 'nft'
       ? CustomStepDetailsLabel
       : step.type === 'lifi' &&
         step.includedSteps.some((step) => step.type === 'cross')
@@ -125,8 +125,8 @@ export const IncludedSteps: React.FC<{
         {step.includedSteps.map((step, i) => (
           <MuiStep key={step.id} expanded>
             <StepLabel StepIconComponent={StepIconComponent}>
-              {step.type === 'custom' && variant === 'nft' ? (
-                <CustomStepDetailsLabel step={step} variant={variant} />
+              {step.type === 'custom' && subvariant === 'nft' ? (
+                <CustomStepDetailsLabel step={step} subvariant={subvariant} />
               ) : step.type === 'cross' ? (
                 <CrossStepDetailsLabel step={step} />
               ) : step.type === 'protocol' ? (
@@ -136,7 +136,7 @@ export const IncludedSteps: React.FC<{
               )}
             </StepLabel>
             <StepContent>
-              <StepDetailsContent step={step} variant={variant} />
+              <StepDetailsContent step={step} subvariant={subvariant} />
             </StepContent>
           </MuiStep>
         ))}
@@ -146,31 +146,38 @@ export const IncludedSteps: React.FC<{
     <Box ml={6}>
       <StepDetailsLabel
         step={step as unknown as Step}
-        variant={variant === 'nft' ? variant : undefined}
+        subvariant={subvariant === 'nft' ? subvariant : undefined}
       />
-      <StepDetailsContent step={step as unknown as Step} variant={variant} />
+      <StepDetailsContent
+        step={step as unknown as Step}
+        subvariant={subvariant}
+      />
     </Box>
   );
 };
 
 export const StepDetailsContent: React.FC<{
   step: Step;
-  variant?: WidgetVariant;
-}> = ({ step, variant }) => {
+  subvariant?: WidgetSubvariant;
+}> = ({ step, subvariant }) => {
   const { t } = useTranslation();
 
   const sameTokenProtocolStep =
     step.action.fromToken.chainId === step.action.toToken.chainId &&
     step.action.fromToken.address === step.action.toToken.address;
 
-  let fromAmount: string;
+  let fromAmount: string | undefined;
   if (sameTokenProtocolStep) {
-    fromAmount = Big(step.estimate.fromAmount)
+    const estimatedFromAmount = Big(step.estimate.fromAmount)
       .div(10 ** step.action.fromToken.decimals)
       .minus(
         Big(step.estimate.toAmount).div(10 ** step.action.toToken.decimals),
-      )
-      .toString();
+      );
+    fromAmount = estimatedFromAmount.gt(0)
+      ? estimatedFromAmount.toString()
+      : Big(step.estimate.fromAmount)
+          .div(10 ** step.action.fromToken.decimals)
+          .toString();
   } else {
     fromAmount = formatTokenAmount(
       step.estimate.fromAmount,
@@ -211,17 +218,17 @@ export const StepDetailsContent: React.FC<{
 
 export const CustomStepDetailsLabel: React.FC<StepDetailsLabelProps> = ({
   step,
-  variant,
+  subvariant,
 }) => {
   const { t } = useTranslation();
 
-  if (!variant) {
+  if (!subvariant) {
     return null;
   }
 
   return (
     <Typography fontSize={12} fontWeight="500" color="text.secondary">
-      {t(`main.${variant}StepDetails`, {
+      {t(`main.${subvariant}StepDetails`, {
         tool: step.toolDetails.name,
       })}
     </Typography>

@@ -8,11 +8,11 @@ export const RouteCardSkeleton: React.FC<RouteCardSkeletonProps & BoxProps> = ({
   variant,
   ...other
 }) => {
-  const { variant: widgetVariant } = useWidgetConfig();
+  const { subvariant } = useWidgetConfig();
 
   const cardContent = (
     <Box flex={1}>
-      {widgetVariant !== 'refuel' && widgetVariant !== 'nft' ? (
+      {subvariant !== 'refuel' && subvariant !== 'nft' ? (
         <Box display="flex" alignItems="center" mb={2}>
           <Skeleton
             variant="rectangular"
@@ -50,7 +50,7 @@ export const RouteCardSkeleton: React.FC<RouteCardSkeletonProps & BoxProps> = ({
     </Box>
   );
 
-  return widgetVariant === 'refuel' || variant === 'cardless' ? (
+  return subvariant === 'refuel' || variant === 'cardless' ? (
     cardContent
   ) : (
     <Card indented {...other}>

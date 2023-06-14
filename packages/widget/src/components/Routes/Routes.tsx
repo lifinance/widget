@@ -13,7 +13,7 @@ import { RouteCard, RouteCardSkeleton, RouteNotFoundCard } from '../RouteCard';
 export const Routes: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { variant, useRecommendedRoute } = useWidgetConfig();
+  const { subvariant, useRecommendedRoute } = useWidgetConfig();
   const { isValid, isValidating } = useFormState();
   const {
     routes,
@@ -36,14 +36,14 @@ export const Routes: React.FC<BoxProps> = (props) => {
   };
 
   const routeNotFound = !currentRoute && !isLoading && !isFetching;
-  const onlyRecommendedRoute = variant === 'refuel' || useRecommendedRoute;
+  const onlyRecommendedRoute = subvariant === 'refuel' || useRecommendedRoute;
   const showAll =
     !onlyRecommendedRoute && !routeNotFound && (routes?.length ?? 0) > 1;
 
   return (
     <Card {...props}>
       <CardTitle>
-        {variant === 'nft' ? t('main.fromAmount') : t('header.youGet')}
+        {subvariant === 'nft' ? t('main.fromAmount') : t('header.youGet')}
       </CardTitle>
       <ProgressToNextUpdate
         updatedAt={dataUpdatedAt || new Date().getTime()}

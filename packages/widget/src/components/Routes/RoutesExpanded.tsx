@@ -38,7 +38,7 @@ export const RoutesExpandedElement = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const setExecutableRoute = useSetExecutableRoute();
-  const { variant, containerStyle } = useWidgetConfig();
+  const { subvariant, containerStyle } = useWidgetConfig();
   const { isValid, isValidating } = useFormState();
   const {
     routes,
@@ -74,7 +74,9 @@ export const RoutesExpandedElement = () => {
           <ScrollableContainer>
             <Header>
               <Typography fontSize={18} fontWeight="700" flex={1} noWrap>
-                {variant === 'nft' ? t('main.fromAmount') : t('header.youGet')}
+                {subvariant === 'nft'
+                  ? t('main.fromAmount')
+                  : t('header.youGet')}
               </Typography>
               <ProgressToNextUpdate
                 updatedAt={dataUpdatedAt || new Date().getTime()}

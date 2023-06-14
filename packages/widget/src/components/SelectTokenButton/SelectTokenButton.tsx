@@ -17,7 +17,7 @@ export const SelectTokenButton: React.FC<
 > = ({ formType, compact }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { disabledUI, variant } = useWidgetConfig();
+  const { disabledUI, subvariant } = useWidgetConfig();
   const swapOnly = useSwapOnly();
   const tokenKey = FormKeyHelper.getTokenKey(formType);
   const [chainId, tokenAddress] = useWatch({
@@ -30,7 +30,7 @@ export const SelectTokenButton: React.FC<
     navigate(
       formType === 'from'
         ? navigationRoutes.fromToken
-        : variant === 'refuel'
+        : subvariant === 'refuel'
         ? navigationRoutes.toTokenNative
         : navigationRoutes.toToken,
     );
@@ -39,13 +39,13 @@ export const SelectTokenButton: React.FC<
   const isSelected = !!(chain && token);
   const onClick = !disabledUI?.includes(tokenKey) ? handleClick : undefined;
   const defaultPlaceholder =
-    formType === 'to' && variant === 'refuel'
+    formType === 'to' && subvariant === 'refuel'
       ? t('main.selectChain')
       : formType === 'to' && swapOnly
       ? t('main.selectToken')
       : t('main.selectChainAndToken');
   const cardTitle =
-    formType === 'from' && variant === 'nft'
+    formType === 'from' && subvariant === 'nft'
       ? t(`header.payWith`)
       : t(`main.${formType}`);
   return (

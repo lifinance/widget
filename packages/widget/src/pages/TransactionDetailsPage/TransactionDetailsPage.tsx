@@ -29,7 +29,8 @@ import { Container } from './TransactionDetailsPage.style';
 export const TransactionDetailsPage: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { navigateBack } = useNavigateBack();
-  const { variant } = useWidgetConfig();
+  const { subvariant, contractComponent, contractSecondaryComponent } =
+    useWidgetConfig();
   const { state }: any = useLocation();
   const [routeExecution, deleteRoute] = useRouteExecutionStore(
     (store) => [store.routes[state?.routeId], store.deleteRoute],
@@ -98,7 +99,11 @@ export const TransactionDetailsPage: React.FC = () => {
         </Typography>
       </Box>
       {getStepList(routeExecution?.route)}
-      {variant === 'nft' ? <ContractComponent mt={2} /> : null}
+      {subvariant === 'nft' ? (
+        <ContractComponent mt={2}>
+          {contractSecondaryComponent || contractComponent}
+        </ContractComponent>
+      ) : null}
       {routeExecution?.route?.insurance?.state === 'INSURED' ? (
         <Insurance
           mt={2}

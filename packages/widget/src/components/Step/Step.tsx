@@ -21,7 +21,7 @@ export const Step: React.FC<{
 }> = ({ step, fromToken, toToken, toAddress }) => {
   const { t } = useTranslation();
   const { getChainById } = useChains();
-  const { variant } = useWidgetConfig();
+  const { subvariant } = useWidgetConfig();
 
   const stepHasError = step.execution?.process.some(
     (process) => process.status === 'FAILED',
@@ -37,20 +37,20 @@ export const Step: React.FC<{
           (step) => step.type === 'swap',
         );
         if (hasCrossStep && hasSwapStep) {
-          return variant === 'nft'
+          return subvariant === 'nft'
             ? t('main.stepBridgeAndBuy')
             : t('main.stepSwapAndBridge');
         }
         if (hasCrossStep) {
-          return variant === 'nft'
+          return subvariant === 'nft'
             ? t('main.stepBridgeAndBuy')
             : t('main.stepBridge');
         }
-        return variant === 'nft'
+        return subvariant === 'nft'
           ? t('main.stepSwapAndBuy')
           : t('main.stepSwap');
       default:
-        return variant === 'nft'
+        return subvariant === 'nft'
           ? t('main.stepSwapAndBuy')
           : t('main.stepSwap');
     }

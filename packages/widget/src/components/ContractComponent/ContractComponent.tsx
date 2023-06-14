@@ -1,17 +1,14 @@
 import type { BoxProps } from '@mui/material';
-import { useWidgetConfig } from '../../providers';
+import type { PropsWithChildren } from 'react';
 import { Card } from '../Card';
 
-export const ContractComponent: React.FC<BoxProps> = (props) => {
-  const { contractComponent } = useWidgetConfig();
-
-  if (!contractComponent) {
+export const ContractComponent: React.FC<PropsWithChildren<BoxProps>> = ({
+  children,
+  ...props
+}) => {
+  if (!children) {
     return null;
   }
 
-  return (
-    <Card flex={1} {...props}>
-      {contractComponent}
-    </Card>
-  );
+  return <Card {...props}>{children}</Card>;
 };

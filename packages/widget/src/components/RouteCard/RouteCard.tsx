@@ -21,7 +21,7 @@ export const RouteCard: React.FC<
   RouteCardProps & Omit<CardProps, 'variant'>
 > = ({ route, active, variant = 'default', expanded, ...other }) => {
   const { t } = useTranslation();
-  const { variant: widgetVariant } = useWidgetConfig();
+  const { subvariant } = useWidgetConfig();
   const [cardExpanded, setCardExpanded] = useState(expanded);
   const insurable = route.insurance?.state === 'INSURABLE';
 
@@ -31,7 +31,7 @@ export const RouteCard: React.FC<
   };
 
   const token: TokenAmount =
-    widgetVariant === 'nft'
+    subvariant === 'nft'
       ? { ...route.fromToken, amount: route.fromAmount }
       : { ...route.toToken, amount: route.toAmount };
 
@@ -40,7 +40,7 @@ export const RouteCard: React.FC<
 
   const cardContent = (
     <Box flex={1}>
-      {widgetVariant !== 'refuel' && (insurable || route.tags?.length) ? (
+      {subvariant !== 'refuel' && (insurable || route.tags?.length) ? (
         <Box display="flex" alignItems="center" mb={2}>
           {insurable ? (
             <InsuranceTooltip
@@ -97,7 +97,7 @@ export const RouteCard: React.FC<
     </Box>
   );
 
-  return widgetVariant === 'refuel' || variant === 'cardless' ? (
+  return subvariant === 'refuel' || variant === 'cardless' ? (
     cardContent
   ) : (
     <Card

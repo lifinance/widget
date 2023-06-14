@@ -1,20 +1,13 @@
 import type { WidgetConfig } from '@lifi/widget';
 import './index.css';
 
-export const WidgetVariants = [
-  'default',
-  'expandable',
-  'drawer',
-  'refuel',
-] as const;
-
 export const widgetBaseConfig: WidgetConfig = {
-  variant: 'nft',
+  subvariant: 'nft',
   integrator: 'li.fi-playground',
   hiddenUI: ['history'],
-  buildUrl: true,
+  // buildUrl: true,
   sdkConfig: {
-    // apiUrl: 'https://staging.li.quest/v1/',
+    apiUrl: 'https://staging.li.quest/v1',
     defaultRouteOptions: {
       // maxPriceImpact: 0.4,
     },

@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import type { FormType } from '../../providers';
-import { FormKeyHelper } from '../../providers';
+import { FormKeyHelper, useWidgetConfig } from '../../providers';
 
 export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
   const tokenKey = FormKeyHelper.getTokenKey(formType);
@@ -9,6 +9,7 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
     field: { onChange, onBlur },
   } = useController({ name: tokenKey });
   const { setValue, getValues } = useFormContext();
+  const { subvariant } = useWidgetConfig();
 
   return useCallback(
     (tokenAddress: string, chainId?: number) => {
@@ -29,7 +30,8 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
       ]);
       if (
         selectedOppositeToken === tokenAddress &&
-        selectedOppositeChainId === selectedChainId
+        selectedOppositeChainId === selectedChainId &&
+        subvariant !== 'nft'
       ) {
         setValue(FormKeyHelper.getTokenKey(oppositeFormType), '', {
           shouldDirty: true,
@@ -38,6 +40,6 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
       }
       onClick?.();
     },
-    [formType, getValues, onBlur, onChange, onClick, setValue],
+    [formType, getValues, onBlur, onChange, onClick, setValue, subvariant],
   );
 };

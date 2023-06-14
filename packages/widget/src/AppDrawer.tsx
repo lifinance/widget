@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { AppDefault } from './App';
 import { DrawerButton, DrawerButtonTypography } from './AppDrawer.style';
 import { AppProvider } from './AppProvider';
-import type { WidgetConfig, WidgetProps } from './types';
+import type { WidgetConfig, WidgetProps, WidgetSubvariant } from './types';
 import { HiddenUI } from './types';
 
 export interface WidgetDrawer {
@@ -77,7 +77,10 @@ export const AppDrawer = forwardRef<WidgetDrawer, WidgetProps>(
             ) : (
               <KeyboardArrowLeftIcon />
             )}
-            <DrawerButtonText open={drawerOpen} />
+            <DrawerButtonText
+              open={drawerOpen}
+              subvariant={config?.subvariant}
+            />
           </DrawerButton>
         ) : null}
         <Drawer
@@ -107,12 +110,22 @@ export const AppDrawer = forwardRef<WidgetDrawer, WidgetProps>(
   },
 );
 
-export const DrawerButtonText = ({ open }: { open: boolean }) => {
+export const DrawerButtonText = ({
+  open,
+  subvariant,
+}: {
+  open: boolean;
+  subvariant?: WidgetSubvariant;
+}) => {
   const { t } = useTranslation();
 
   return (
     <DrawerButtonTypography>
-      {open ? t('button.hide') : t('button.lifiExchange')}
+      {open
+        ? t('button.hide')
+        : subvariant === 'nft'
+        ? t('button.lifiCheckout')
+        : t('button.lifiExchange')}
     </DrawerButtonTypography>
   );
 };

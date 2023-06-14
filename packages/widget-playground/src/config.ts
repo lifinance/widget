@@ -6,14 +6,9 @@ export const METAMASK_WALLET = supportedWallets.find(
   (wallet) => wallet.name === 'MetaMask',
 );
 
-export const WidgetVariants = [
-  'default',
-  'expandable',
-  'drawer',
-  'refuel',
-] as const;
+export const WidgetVariants = ['default', 'expandable', 'drawer'] as const;
 
-export const WidgetSubvariants = ['default', 'split'] as const;
+export const WidgetSubvariants = ['default', 'split', 'refuel'] as const;
 
 export const widgetBaseConfig: WidgetConfig = {
   // fromChain: 137,
@@ -152,6 +147,7 @@ export const widgetConfig: WidgetConfig = {
     // }`,
     boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
     borderRadius: '16px',
+    minWidth: 300,
   },
   // theme: {
   //   components: {

@@ -35,8 +35,12 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   const ref = useRef<BottomSheetBase>(null);
   const { getChainById } = useChains();
   const { setValue } = useFormContext();
-  const { variant, contractComponent, contractCompactComponent } =
-    useWidgetConfig();
+  const {
+    subvariant,
+    contractComponent,
+    contractSecondaryComponent,
+    contractCompactComponent,
+  } = useWidgetConfig();
 
   const toToken = {
     ...(route.steps.at(-1)?.execution?.toToken ?? route.toToken),
@@ -106,7 +110,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   switch (status) {
     case RouteExecutionStatus.Done: {
       title =
-        variant === 'nft'
+        subvariant === 'nft'
           ? t('success.title.purchaseSuccessful')
           : t(`success.title.${transactionType}Successful`);
       if (token) {
@@ -188,7 +192,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   }, [refetch, refetchNewBalance, status]);
 
   const showContractComponent =
-    variant === 'nft' && hasEnumFlag(status, RouteExecutionStatus.Done);
+    subvariant === 'nft' && hasEnumFlag(status, RouteExecutionStatus.Done);
 
   return (
     <BottomSheet ref={ref}>
@@ -218,7 +222,9 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
           </Typography>
         </CenterContainer>
         {showContractComponent ? (
-          contractCompactComponent || contractComponent
+          contractCompactComponent ||
+          contractSecondaryComponent ||
+          contractComponent
         ) : (
           <CenterContainer>
             {hasEnumFlag(status, RouteExecutionStatus.Done) ? (

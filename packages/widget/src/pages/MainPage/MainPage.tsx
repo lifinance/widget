@@ -17,12 +17,16 @@ import { ReviewButton } from './ReviewButton';
 
 export const MainPage: React.FC = () => {
   const expandable = useExpandableVariant();
-  const { variant } = useWidgetConfig();
-  const nft = variant === 'nft';
+  const { subvariant, contractComponent } = useWidgetConfig();
+  const nft = subvariant === 'nft';
   return (
     <FormContainer disableGutters>
       <ActiveTransactions mx={3} mt={1} mb={1} />
-      {nft ? <ContractComponent mx={3} mt={1} mb={1} /> : null}
+      {nft ? (
+        <ContractComponent mx={3} mt={1} mb={1}>
+          {contractComponent}
+        </ContractComponent>
+      ) : null}
       <SelectChainAndToken mt={1} mx={3} mb={2} />
       {!nft ? <AmountInput formType="from" mx={3} mb={2} /> : null}
       {!expandable ? <Routes mx={3} mb={2} /> : null}

@@ -19,7 +19,7 @@ import { useHeaderStore } from './useHeaderStore';
 
 export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
-  const { variant, subvariant, hiddenUI } = useWidgetConfig();
+  const { subvariant, hiddenUI } = useWidgetConfig();
   const { navigate, navigateBack } = useNavigateBack();
   const { account } = useWallet();
   const { element, title } = useHeaderStore();
@@ -46,7 +46,7 @@ export const NavigationHeader: React.FC = () => {
       case navigationRoutes.transactionHistory:
         return t(`header.transactionHistory`);
       case navigationRoutes.fromToken: {
-        if (variant === 'nft') {
+        if (subvariant === 'nft') {
           return t(`header.payWith`);
         }
         return t(`header.from`);
@@ -62,19 +62,19 @@ export const NavigationHeader: React.FC = () => {
       case navigationRoutes.activeTransactions:
         return t(`header.activeTransactions`);
       case navigationRoutes.transactionExecution: {
-        if (variant === 'nft') {
+        if (subvariant === 'nft') {
           return t(`header.purchase`);
         }
         return t(`header.exchange`);
       }
       case navigationRoutes.transactionDetails: {
-        if (variant === 'nft') {
+        if (subvariant === 'nft') {
           return t(`header.purchaseDetails`);
         }
         return t(`header.transactionDetails`);
       }
       default: {
-        switch (variant) {
+        switch (subvariant) {
           case 'nft':
             return t(`header.checkout`);
           case 'refuel':
