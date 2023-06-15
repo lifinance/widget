@@ -10,10 +10,7 @@ import type { SafeInfo } from '@safe-global/safe-apps-sdk';
 import { SafeAppProvider } from '@safe-global/safe-apps-provider';
 import SafeAppsSDK from '@safe-global/safe-apps-sdk/dist/src/sdk';
 
-export class SafeWalletConnector
-  extends events.EventEmitter
-  implements Partial<Wallet>
-{
+export class SafeWalletConnector extends events.EventEmitter implements Wallet {
   public provider: ethers.providers.Web3Provider | undefined;
 
   public isActivationInProgress: boolean = false;

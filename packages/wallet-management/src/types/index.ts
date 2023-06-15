@@ -36,7 +36,7 @@ export interface AccountData {
 export interface InjectedConnectorConstructorArgs {
   name: string;
   icon: string;
-  installed: () => boolean;
+  installed: () => boolean | Promise<boolean>;
 }
 export interface WalletConnectConnectorConstructorArgs
   extends InjectedConnectorConstructorArgs {

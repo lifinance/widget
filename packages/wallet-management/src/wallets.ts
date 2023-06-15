@@ -5,6 +5,7 @@ import type { Wallet } from './types';
 import { ProviderIdentityFlag } from './types';
 import { walletIcons } from './walletIcons';
 import { SafeWalletConnector } from './connectors/safeWalletConnector';
+import SafeAppsSDK from '@safe-global/safe-apps-sdk/dist/src/sdk';
 
 const defaultWallet: Wallet = new InjectedConnector({
   // unknown Default wallet that injects as metamask but is not metamask
@@ -231,7 +232,12 @@ const exodus: Wallet = new InjectedConnector(
 
 const safe: Wallet = new SafeWalletConnector({
   name: 'Safe',
-  installed: () => false,
+  installed: async () => {
+    const sdk = new SafeAppsSDK();
+
+    const accountInfo = await sdk.safe.getInfo();
+    return !!accountInfo.safeAddress;
+  },
   icon: walletIcons.safe,
 });
 
