@@ -2973,9 +2973,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lifi/sdk@npm:^2.0.0-beta.16":
-  version: 2.0.0-beta.16
-  resolution: "@lifi/sdk@npm:2.0.0-beta.16"
+"@lifi/sdk@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@lifi/sdk@npm:2.0.0"
   dependencies:
     "@ethersproject/abi": ^5.7.0
     "@ethersproject/contracts": ^5.7.0
@@ -2983,7 +2983,7 @@ __metadata:
     bignumber.js: ^9.1.1
     eth-rpc-errors: ^4.0.3
     ethers: ^5.7.2
-  checksum: 28e25f11ca3e4d9bac598714d1b8ead6d66d92697109cccc069f2a401a3ac52b367323108f8e44762f80ed4123a6f4224a575fd1bd1eaeb96fbbc3216ae5a99d
+  checksum: f8f368eed3ae5e70567ec6cfc1957cd49c03faead4f70bc94873bd9501c0f9b932f597f2b1cbb141ac2e1801eea98ee73cd7af4bb77660189772ca987e58846d
   languageName: node
   linkType: hard
 
@@ -3004,7 +3004,7 @@ __metadata:
     "@ethersproject/abstract-signer": ^5.7.0
     "@ethersproject/experimental": ^5.7.0
     "@ethersproject/providers": ^5.7.2
-    "@lifi/sdk": ^2.0.0-beta.16
+    "@lifi/sdk": ^2.0.0
     "@walletconnect/ethereum-provider": ^1.8.0
     "@walletconnect/web3-provider": ^1.8.0
     cpy-cli: ^4.2.0
@@ -3020,7 +3020,7 @@ __metadata:
   dependencies:
     "@esbuild-plugins/node-globals-polyfill": ^0.2.3
     "@ethersproject/abstract-signer": ^5.7.0
-    "@lifi/sdk": ^2.0.0-beta.16
+    "@lifi/sdk": ^2.0.0
     "@lifi/wallet-management": ^2.0.0-beta.10
     "@lifi/widget": ^2.0.0-beta.16
     "@mui/icons-material": ^5.11.16
@@ -3051,7 +3051,7 @@ __metadata:
   resolution: "@lifi/widget-playground@workspace:packages/widget-playground"
   dependencies:
     "@esbuild-plugins/node-globals-polyfill": ^0.2.3
-    "@lifi/sdk": ^2.0.0-beta.16
+    "@lifi/sdk": ^2.0.0
     "@lifi/wallet-management": ^2.0.0-beta.10
     "@lifi/widget": ^2.0.0-beta.16
     "@mui/icons-material": ^5.11.16
@@ -3080,7 +3080,7 @@ __metadata:
     "@ethersproject/address": ^5.7.0
     "@ethersproject/experimental": ^5.7.0
     "@ethersproject/providers": ^5.7.2
-    "@lifi/sdk": ^2.0.0-beta.16
+    "@lifi/sdk": ^2.0.0
     "@lifi/wallet-management": ^2.0.0-beta.10
     "@mui/icons-material": ^5.11.16
     "@mui/lab": ^5.0.0-alpha.134
