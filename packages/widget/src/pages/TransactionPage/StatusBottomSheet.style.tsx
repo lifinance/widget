@@ -14,7 +14,11 @@ const getStatusColor = (status: StatusColor, theme: Theme) => {
     case RouteExecutionStatus.Done | RouteExecutionStatus.Partial:
     case RouteExecutionStatus.Done | RouteExecutionStatus.Refunded:
     case 'warning':
-      return { color: theme.palette.warning.main, alpha: 0.48, darken: 0.32 };
+      return {
+        color: theme.palette.warning.main,
+        alpha: 0.48,
+        darken: theme.palette.mode === 'light' ? 0.32 : 0,
+      };
     default:
       return { color: theme.palette.primary.main, alpha: 0.12, darken: 0 };
   }
