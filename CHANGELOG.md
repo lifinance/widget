@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.1](https://github.com/lifinance/widget/compare/v2.0.0...v2.0.1) (2023-06-16)
+
+
+### Bug Fixes
+
+* don't modify estimations for contract calls ([23f8997](https://github.com/lifinance/widget/commit/23f89971b77bf1e72d3b99f471fe49a99259ca8d))
+* warning color in dark theme ([bf3aeac](https://github.com/lifinance/widget/commit/bf3aeac92dc0dcc7fad4ed0eb6f7c64618946e01))
+
 ## [2.0.0](https://github.com/lifinance/widget/compare/v2.0.0-beta.16...v2.0.0) (2023-06-15)
 
 ## [2.0.0-beta.16](https://github.com/lifinance/widget/compare/v2.0.0-beta.15...v2.0.0-beta.16) (2023-06-14)
