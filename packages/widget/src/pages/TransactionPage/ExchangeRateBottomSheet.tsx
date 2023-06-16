@@ -96,6 +96,8 @@ const ExchangeRateBottomSheetContent: React.FC<
   const { t } = useTranslation();
   const ref = useRef<HTMLElement>();
   useSetContentHeight(ref);
+
+  const oldAmount = Big(data?.oldToAmount || 1);
   return (
     <Box p={3} ref={ref}>
       <CenterContainer>
@@ -137,7 +139,7 @@ const ExchangeRateBottomSheetContent: React.FC<
         <Typography>{t('main.rateChange')}</Typography>
         <Typography fontWeight={600}>
           {Big(data?.newToAmount || 0)
-            .div(Big(data?.oldToAmount || 0))
+            .div(oldAmount.eq(0) ? Big(1) : oldAmount)
             .minus(1)
             .mul(100)
             .round(2, Big.roundUp)

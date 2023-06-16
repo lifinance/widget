@@ -98,7 +98,7 @@ export const TransactionDetailsPage: React.FC = () => {
           }).format(startedAt)}
         </Typography>
       </Box>
-      {getStepList(routeExecution?.route)}
+      {getStepList(routeExecution?.route, subvariant)}
       {subvariant === 'nft' ? (
         <ContractComponent mt={2}>
           {contractSecondaryComponent || contractComponent}

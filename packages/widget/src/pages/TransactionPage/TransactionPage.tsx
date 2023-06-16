@@ -97,6 +97,10 @@ export const TransactionPage: React.FC = () => {
     tokenValueBottomSheetRef.current?.close();
     executeRoute();
     setValue(FormKey.FromAmount, '');
+    if (subvariant === 'nft') {
+      setValue(FormKey.FromToken, '');
+      setValue(FormKey.ToToken, '');
+    }
   };
 
   const handleStartClick = async () => {
@@ -157,7 +161,7 @@ export const TransactionPage: React.FC = () => {
 
   return (
     <Container>
-      {getStepList(route)}
+      {getStepList(route, subvariant)}
       {subvariant === 'nft' ? (
         <ContractComponent mt={2}>
           {contractSecondaryComponent || contractComponent}

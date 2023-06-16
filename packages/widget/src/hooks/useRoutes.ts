@@ -185,8 +185,6 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
             { signal },
           );
 
-          contractCallQuote.estimate.toAmount = toTokenAmount;
-          contractCallQuote.estimate.toAmountMin = toTokenAmount;
           contractCallQuote.action.toToken = toToken!;
 
           const customStep =
@@ -215,9 +213,8 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
             fromAddress: contractCallQuote.action.fromAddress,
             toChainId: contractCallQuote.action.toChainId,
             toAmountUSD: contractCallQuote.estimate.toAmountUSD || '',
-            toAmount: contractCallQuote.estimate.toAmount || toTokenAmount,
-            toAmountMin:
-              contractCallQuote.estimate.toAmountMin || toTokenAmount,
+            toAmount: toTokenAmount,
+            toAmountMin: toTokenAmount,
             toToken: toToken!,
             toAddress: toWalletAddress,
             gasCostUSD: contractCallQuote.estimate.gasCosts?.[0].amountUSD,

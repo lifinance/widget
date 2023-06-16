@@ -46,6 +46,14 @@ export const StepActions: React.FC<StepActionsProps> = ({
 
   const hasCollapsedSteps = dense && step.includedSteps?.length > 1;
 
+  // FIXME: step transaction request overrides step tool details, but not included step tool details
+  const toolDetails =
+    subvariant === 'nft'
+      ? step.includedSteps.find(
+          (step) => step.tool === 'custom' && step.toolDetails.key !== 'custom',
+        )?.toolDetails || step.toolDetails
+      : step.toolDetails;
+
   return (
     <Box {...other}>
       <Box display="flex" alignItems="center">
@@ -60,15 +68,15 @@ export const StepActions: React.FC<StepActionsProps> = ({
         >
           <StepAvatar
             variant="circular"
-            src={step.toolDetails.logoURI}
-            alt={step.toolDetails.name}
+            src={toolDetails.logoURI}
+            alt={toolDetails.name}
           >
-            {step.toolDetails.name[0]}
+            {toolDetails.name[0]}
           </StepAvatar>
         </Badge>
         <Typography ml={2} fontSize={18} fontWeight="500" flex={1}>
           {t(`main.stepDetails`, {
-            tool: step.toolDetails.name,
+            tool: toolDetails.name,
           })}
         </Typography>
         {hasCollapsedSteps ? (
@@ -226,10 +234,19 @@ export const CustomStepDetailsLabel: React.FC<StepDetailsLabelProps> = ({
     return null;
   }
 
+  // FIXME: step transaction request overrides step tool details, but not included step tool details
+  const toolDetails =
+    subvariant === 'nft' &&
+    (step as unknown as LifiStep).includedSteps?.length > 0
+      ? (step as unknown as LifiStep).includedSteps.find(
+          (step) => step.tool === 'custom' && step.toolDetails.key !== 'custom',
+        )?.toolDetails || step.toolDetails
+      : step.toolDetails;
+
   return (
     <Typography fontSize={12} fontWeight="500" color="text.secondary">
       {t(`main.${subvariant}StepDetails`, {
-        tool: step.toolDetails.name,
+        tool: toolDetails.name,
       })}
     </Typography>
   );
