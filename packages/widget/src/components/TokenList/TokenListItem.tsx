@@ -1,15 +1,22 @@
+import OpenInNewIcon from '@mui/icons-material/OpenInNewRounded';
 import {
   Avatar,
   Box,
+  Link,
   ListItemAvatar,
   ListItemText,
   Skeleton,
+  Slide,
   Typography,
 } from '@mui/material';
-import { memo } from 'react';
+import { memo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { formatTokenPrice } from '../../utils';
-import { ListItem, ListItemButton } from './TokenList.style';
+import {
+  formatTokenAmount,
+  formatTokenPrice,
+  shortenAddress,
+} from '../../utils';
+import { IconButton, ListItem, ListItemButton } from './TokenList.style';
 import type { TokenListItemButtonProps, TokenListItemProps } from './types';
 
 export const TokenListItem: React.FC<TokenListItemProps> = memo(
@@ -18,6 +25,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
     size,
     start,
     token,
+    chain,
     showBalance,
     isBalanceLoading,
     startAdornment,
@@ -35,6 +43,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
         {startAdornment}
         <TokenListItemButton
           token={token}
+          chain={chain}
           showBalance={showBalance}
           isBalanceLoading={isBalanceLoading}
           onClick={handleClick}
@@ -48,19 +57,86 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
 export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   onClick,
   token,
+  chain,
   showBalance,
   isBalanceLoading,
 }) => {
   const { t } = useTranslation();
   const tokenPrice = formatTokenPrice(token.amount, token.priceUSD);
+  const container = useRef(null);
+  const timeoutId = useRef<ReturnType<typeof setTimeout>>();
+  const [showAddress, setShowAddress] = useState(false);
+
+  const onMouseEnter = () => {
+    timeoutId.current = setTimeout(() => setShowAddress(true), 350);
+  };
+
+  const onMouseLeave = () => {
+    clearTimeout(timeoutId.current);
+    if (showAddress) {
+      setShowAddress(false);
+    }
+  };
+
   return (
-    <ListItemButton onClick={onClick} dense>
+    <ListItemButton
+      onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      dense
+    >
       <ListItemAvatar>
         <Avatar src={token.logoURI} alt={token.symbol}>
-          {token.symbol[0]}
+          {token.symbol?.[0]}
         </Avatar>
       </ListItemAvatar>
-      <ListItemText primary={token.symbol} secondary={token.name} />
+      <ListItemText
+        primary={token.symbol}
+        secondaryTypographyProps={{
+          component: 'div',
+        }}
+        secondary={
+          <Box position="relative" height={20} ref={container}>
+            <Slide
+              direction="down"
+              in={!showAddress}
+              container={container.current}
+              style={{
+                position: 'absolute',
+              }}
+              appear={false}
+            >
+              <Box pt={0.25}>{token.name}</Box>
+            </Slide>
+            <Slide
+              direction="up"
+              in={showAddress}
+              container={container.current}
+              style={{
+                position: 'absolute',
+              }}
+              appear={false}
+              mountOnEnter
+            >
+              <Box display="flex">
+                <Box display="flex" alignItems="center" pt={0.125}>
+                  {shortenAddress(token.address)}
+                </Box>
+                <IconButton
+                  size="small"
+                  LinkComponent={Link}
+                  href={`${chain?.metamask.blockExplorerUrls[0]}address/${token.address}`}
+                  target="_blank"
+                  rel="nofollow noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <OpenInNewIcon />
+                </IconButton>
+              </Box>
+            </Slide>
+          </Box>
+        }
+      />
       {showBalance ? (
         isBalanceLoading ? (
           <TokenAmountSkeleton />
@@ -69,7 +145,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
             {Number(token.amount) ? (
               <Typography variant="body1" noWrap>
                 {t('format.number', {
-                  value: token.amount,
+                  value: formatTokenAmount(token.amount),
                 })}
               </Typography>
             ) : null}

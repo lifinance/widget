@@ -1,36 +1,29 @@
-import type { Route } from '@lifi/sdk';
 import { Collapse } from '@mui/material';
-import { useState } from 'react';
-import { useSwapRoutes } from '../../hooks';
+import { useRoutes } from '../../hooks';
 import {
   RouteExecutionStatus,
   useRouteExecutionStore,
   useSetExecutableRoute,
 } from '../../stores';
+import { formatTokenAmount } from '../../utils';
 import { InsuranceCard } from './InsuranceCard';
 import type { InsuranceProps } from './types';
 
 export const InsuranceCollapsed: React.FC<InsuranceProps> = ({
   status,
   insurableRouteId,
-  insuranceCoverageId,
-  feeAmountUsd,
   onChange,
   ...props
 }) => {
-  const [insuredRoute, setInsuredRoute] = useState<Route>();
   const setExecutableRoute = useSetExecutableRoute();
   const routeExecution = useRouteExecutionStore(
     (state) => state.routes[insurableRouteId],
   );
-  useSwapRoutes({
+  const { routes } = useRoutes({
     insurableRoute: routeExecution?.route,
-    onSettled(data) {
-      if (data?.routes?.[0]) {
-        setInsuredRoute(data.routes[0]);
-      }
-    },
   });
+
+  const insuredRoute = routes?.[0];
 
   const toggleInsurance = (checked: boolean) => {
     if (insuredRoute) {
@@ -41,20 +34,27 @@ export const InsuranceCollapsed: React.FC<InsuranceProps> = ({
     }
   };
 
+  if (!insuredRoute) {
+    return null;
+  }
+
   return (
     <Collapse
       timeout={225}
-      in={insuredRoute?.insurance?.state === 'INSURED'}
+      in={insuredRoute.insurance.state === 'INSURED'}
       unmountOnExit
       mountOnEnter
       appear={status === RouteExecutionStatus.Idle}
     >
       <InsuranceCard
-        feeAmountUsd={feeAmountUsd}
-        status={status}
-        insuranceCoverageId={insuranceCoverageId}
-        onChange={toggleInsurance}
         {...props}
+        status={status}
+        insuredAmount={formatTokenAmount(
+          insuredRoute.toAmountMin,
+          insuredRoute.toToken.decimals,
+        )}
+        insuredTokenSymbol={insuredRoute.toToken.symbol}
+        onChange={toggleInsurance}
       />
     </Collapse>
   );

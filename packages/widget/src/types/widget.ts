@@ -6,6 +6,7 @@ import type {
   Order,
   RouteOptions,
   StaticToken,
+  Token,
 } from '@lifi/sdk';
 import type {
   Components,
@@ -18,14 +19,9 @@ import type { TypographyOptions } from '@mui/material/styles/createTypography';
 import type { CSSProperties, ReactNode, RefObject } from 'react';
 import type { LanguageKey, LanguageResources } from '../providers';
 
-export type WidgetVariant =
-  | 'default'
-  | 'expandable'
-  | 'drawer'
-  | 'refuel'
-  | 'nft';
+export type WidgetVariant = 'default' | 'expandable' | 'drawer';
 
-export type WidgetSubvariant = 'default' | 'split';
+export type WidgetSubvariant = 'default' | 'split' | 'nft' | 'refuel';
 
 export enum DisabledUI {
   FromAmount = 'fromAmount',
@@ -42,6 +38,7 @@ export enum HiddenUI {
   Language = 'language',
   PoweredBy = 'poweredBy',
   ToAddress = 'toAddress',
+  ToToken = 'toToken',
   WalletMenu = 'walletMenu',
 }
 export type HiddenUIType = `${HiddenUI}`;
@@ -110,6 +107,7 @@ export interface WidgetConfig {
 
   contract?: WidgetContract;
   contractComponent?: ReactNode;
+  contractSecondaryComponent?: ReactNode;
   contractCompactComponent?: ReactNode;
   contractTool?: WidgetContractTool;
 
@@ -136,7 +134,7 @@ export interface WidgetConfig {
   walletManagement?: WidgetWalletManagement;
   sdkConfig?: SDKConfig;
 
-  buildSwapUrl?: boolean;
+  buildUrl?: boolean;
   localStorageKeyPrefix?: string;
 
   bridges?: {
@@ -153,6 +151,7 @@ export interface WidgetConfig {
   };
   tokens?: {
     featured?: StaticToken[];
+    include?: Token[];
     allow?: BaseToken[];
     deny?: BaseToken[];
   };

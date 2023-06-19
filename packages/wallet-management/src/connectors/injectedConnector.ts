@@ -95,7 +95,7 @@ export class InjectedConnector extends events.EventEmitter implements Wallet {
         await this.calcAccountData();
       }
     } catch (e) {
-      throw e;
+      //
     }
   }
 
@@ -136,10 +136,10 @@ export class InjectedConnector extends events.EventEmitter implements Wallet {
       throw new Error('window is not defined. This should not have happened.');
     }
 
-    if (!this.windowProvider) {
+    if (!this.account?.provider) {
       throw new Error('provider is not defined.');
     }
-    return switchChain(this.windowProvider, chainId);
+    return switchChain(this.account?.provider, chainId);
   }
 
   public async addChain(chainId: number) {
@@ -147,10 +147,10 @@ export class InjectedConnector extends events.EventEmitter implements Wallet {
       throw new Error('window is not defined. This should not have happened.');
     }
 
-    if (!this.windowProvider) {
+    if (!this.account?.provider) {
       throw new Error('provider is not defined.');
     }
-    return addChain(this.windowProvider, chainId);
+    return addChain(this.account?.provider, chainId);
   }
 
   public async addToken(chainId: number, token: StaticToken) {
@@ -158,10 +158,10 @@ export class InjectedConnector extends events.EventEmitter implements Wallet {
       throw new Error('window is not defined. This should not have happened.');
     }
 
-    if (!this.windowProvider) {
+    if (!this.account?.provider) {
       throw new Error('provider is not defined.');
     }
-    return switchChainAndAddToken(this.windowProvider, chainId, token);
+    return switchChainAndAddToken(this.account?.provider, chainId, token);
   }
 
   private async calcAccountData() {

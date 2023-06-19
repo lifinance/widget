@@ -2,6 +2,119 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.1](https://github.com/lifinance/widget/compare/v2.0.0...v2.0.1) (2023-06-16)
+
+
+### Bug Fixes
+
+* don't modify estimations for contract calls ([23f8997](https://github.com/lifinance/widget/commit/23f89971b77bf1e72d3b99f471fe49a99259ca8d))
+* warning color in dark theme ([bf3aeac](https://github.com/lifinance/widget/commit/bf3aeac92dc0dcc7fad4ed0eb6f7c64618946e01))
+
+## [2.0.0](https://github.com/lifinance/widget/compare/v2.0.0-beta.16...v2.0.0) (2023-06-15)
+
+## [2.0.0-beta.16](https://github.com/lifinance/widget/compare/v2.0.0-beta.15...v2.0.0-beta.16) (2023-06-14)
+
+
+### Bug Fixes
+
+* drawer button icon color in dark theme ([dcbe962](https://github.com/lifinance/widget/commit/dcbe962dd0a229eeb6d063f33110d62e52a877f8))
+
+## [2.0.0-beta.15](https://github.com/lifinance/widget/compare/v2.0.0-beta.14...v2.0.0-beta.15) (2023-06-14)
+
+
+### Features
+
+* update nft subvariant to support drawer and send to another wallet ([87d8927](https://github.com/lifinance/widget/commit/87d892778fdc87078509885ea98f0c700c6802d1))
+
+
+### Bug Fixes
+
+* adjust swap/bridge terminology across the widget ([ca69314](https://github.com/lifinance/widget/commit/ca693143892a25d5468f315c665d49cce972e422))
+* don't disable button when refreshing routes ([398e70b](https://github.com/lifinance/widget/commit/398e70b67bbef8add9c9e0a56db4afbfd4658400))
+* don't gray out button on loading state ([af2220e](https://github.com/lifinance/widget/commit/af2220ed90ece2bc051b8fa290dc38d2726f749c))
+* don't throw if autoConnect fails ([7dc4578](https://github.com/lifinance/widget/commit/7dc4578442aed5728231550157c4b02493a0067b))
+* make button gray in loading state ([d64220e](https://github.com/lifinance/widget/commit/d64220e7c62cf05c023c190241cced978cff7bc4))
+* request additional route for insurance only when bridging ([84a9bae](https://github.com/lifinance/widget/commit/84a9bae87b9273f1b03cb55f2534f75109859f3e))
+* translation tags should work inside tooltip ([afbf669](https://github.com/lifinance/widget/commit/afbf669743d99835fed96bb3b04c506a25dedfb6))
+* update progress text ([5d7030d](https://github.com/lifinance/widget/commit/5d7030d26a9dabfd8ec8bf49017e61c226ecc2c7))
+* use subvariant split state for button text ([1cb952c](https://github.com/lifinance/widget/commit/1cb952cc8c3051bfd94d10f9a6f47bb1d1d4d29f))
+
+## [2.0.0-beta.14](https://github.com/lifinance/widget/compare/v2.0.0-beta.13...v2.0.0-beta.14) (2023-06-02)
+
+
+### Bug Fixes
+
+* make icon as a link to address explorer ([e173400](https://github.com/lifinance/widget/commit/e17340004344574eac3426a0c930bb1b7d06590b))
+* tabs background color within split subvariant ([beb78c6](https://github.com/lifinance/widget/commit/beb78c6cf4447936e12c739e5ae533064eacac9b))
+
+## [2.0.0-beta.13](https://github.com/lifinance/widget/compare/v2.0.0-beta.12...v2.0.0-beta.13) (2023-05-25)
+
+
+### Bug Fixes
+
+* prevent decimals removal if no tokens are selected ([b78066e](https://github.com/lifinance/widget/commit/b78066e98ec783ba4662bc562d38ba95a70b64d1))
+
+## [2.0.0-beta.12](https://github.com/lifinance/widget/compare/v2.0.0-beta.11...v2.0.0-beta.12) (2023-05-25)
+
+
+### Features
+
+* add option to include additional tokens ([e2040bb](https://github.com/lifinance/widget/commit/e2040bb8c56c0ebad6db460b3eb3ad1487fafd33))
+
+
+### Bug Fixes
+
+* limit decimals for swap input amount ([93973d8](https://github.com/lifinance/widget/commit/93973d82d0c5fa14eac62c7a09f4de84afa9d68d))
+* trigger gas suggestion only for supported chains ([d5f5750](https://github.com/lifinance/widget/commit/d5f5750eb5123b946f6c816047683c3eee6bb6a4))
+
+## [2.0.0-beta.11](https://github.com/lifinance/widget/compare/v2.0.0-beta.10...v2.0.0-beta.11) (2023-05-23)
+
+
+### Bug Fixes
+
+* fix tab radius in split mode ([24fa80b](https://github.com/lifinance/widget/commit/24fa80bff99e5bf5aa33f6d8bd62580699aa1ee1))
+
+## [2.0.0-beta.10](https://github.com/lifinance/widget/compare/v2.0.0-beta.9...v2.0.0-beta.10) (2023-05-23)
+
+
+### Features
+
+* add HighValueLoss emitter event ([#86](https://github.com/lifinance/widget/issues/86)) ([69d3918](https://github.com/lifinance/widget/commit/69d391852644a09a4ac8b37ec8d4b5ffd61bbe98))
+* show insured amount ([b928d08](https://github.com/lifinance/widget/commit/b928d0805360a33b1ec27601c7ade64a6a6fc680))
+
+
+### Bug Fixes
+
+* max button should return full amount ([64e0592](https://github.com/lifinance/widget/commit/64e05924e5481c96c5d797e90fe11a751356888d))
+* remove direct @mui/system import ([39080e4](https://github.com/lifinance/widget/commit/39080e467425be18257cd47377564596e3eff9b3))
+* wagmi can't switch chain ([2a708c2](https://github.com/lifinance/widget/commit/2a708c2683abe268936a79bdc071becaeedcf6f4))
+
+## [2.0.0-beta.9](https://github.com/lifinance/widget/compare/v2.0.0-beta.8...v2.0.0-beta.9) (2023-05-15)
+
+
+### Bug Fixes
+
+* add insufficient funds error handling ([6991ee4](https://github.com/lifinance/widget/commit/6991ee457771540e6da5a723d2bb7201842956b4))
+* include auto refuel into gas sufficiency check ([d31f7e4](https://github.com/lifinance/widget/commit/d31f7e4eb393b64204dd364b0e9a85ea4299f421))
+* insurance card isn't shown in some cases ([a8eb1ef](https://github.com/lifinance/widget/commit/a8eb1ef6e7fd0a83f1e61c1b9974f18e72796e1a))
+
+## [2.0.0-beta.8](https://github.com/lifinance/widget/compare/v2.0.0-beta.7...v2.0.0-beta.8) (2023-05-11)
+
+
+### Features
+
+* add hiddenUI toToken option ([4e5376b](https://github.com/lifinance/widget/commit/4e5376b5a9db1fa4b35012b6db3f6fb996555b6e))
+* show token address in token list items ([e5d6411](https://github.com/lifinance/widget/commit/e5d64115452a6798fd8d5464ed15d38e1dc49ab4))
+
+
+### Bug Fixes
+
+* adjust token search field text ([4aa5cef](https://github.com/lifinance/widget/commit/4aa5cefaea78341af0872400fb527cea9140dae0))
+* apply auto refuel when swapping to native tokens ([14d5a1a](https://github.com/lifinance/widget/commit/14d5a1ae800779a5ee5547a379777c18284272e3))
+* handle duplicates in token list ([ee804da](https://github.com/lifinance/widget/commit/ee804daa522bd695e450792c3613332bb22583ae))
+* handle undefined current wallet ([#87](https://github.com/lifinance/widget/issues/87)) ([5b37b6f](https://github.com/lifinance/widget/commit/5b37b6f93e041148d47b6661d0e59b5b3c16c847))
+* replace support link ([55a04df](https://github.com/lifinance/widget/commit/55a04dfe35b06d0a3f2804738d9f2278689d16c7))
+
 ## [2.0.0-beta.7](https://github.com/lifinance/widget/compare/v2.0.0-beta.6...v2.0.0-beta.7) (2023-05-04)
 
 

@@ -2,7 +2,7 @@ import Big from 'big.js';
 import { useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useChains } from '.';
-import { SwapFormKey } from '../providers';
+import { FormKey } from '../providers';
 import { useGasRecommendation } from './useGasRecommendation';
 import { useTokenBalance } from './useTokenBalance';
 
@@ -11,10 +11,10 @@ export const useGasRefuel = () => {
 
   const [fromChainId, fromTokenAddress, toChainId, toAddress] = useWatch({
     name: [
-      SwapFormKey.FromChain,
-      SwapFormKey.FromToken,
-      SwapFormKey.ToChain,
-      SwapFormKey.ToAddress,
+      FormKey.FromChain,
+      FormKey.FromToken,
+      FormKey.ToChain,
+      FormKey.ToAddress,
     ],
   });
 
@@ -37,7 +37,6 @@ export const useGasRefuel = () => {
       // If a user runs out of gas, he can't send a source chain transaction.
       fromChainId === toChainId ||
       !gasRecommendation?.available ||
-      !gasRecommendation?.recommended ||
       !nativeToken
     ) {
       return false;
@@ -51,19 +50,15 @@ export const useGasRefuel = () => {
 
     const insufficientGas = tokenBalance.lt(recommendedAmount);
     return insufficientGas;
-  }, [
-    fromChainId,
-    gasRecommendation?.available,
-    gasRecommendation?.recommended,
-    nativeToken,
-    toChainId,
-  ]);
+  }, [fromChainId, gasRecommendation, nativeToken, toChainId]);
 
   return {
     enabled: enabled,
     availble: gasRecommendation?.available,
     isLoading: isLoading,
     chain: toChain,
-    gasRecommendation,
+    fromAmount: gasRecommendation?.available
+      ? gasRecommendation.fromAmount
+      : undefined,
   };
 };

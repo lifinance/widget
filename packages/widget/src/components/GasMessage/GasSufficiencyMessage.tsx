@@ -24,11 +24,11 @@ export const GasSufficiencyMessage: React.FC<GasSufficiencyMessageProps> = ({
           }}
         />
         <Typography variant="body2" fontWeight={700}>
-          {t(`swap.warning.title.insufficientGas`)}
+          {t(`warning.title.insufficientGas`)}
         </Typography>
       </WarningMessageCardTitle>
       <Typography variant="body2" px={2} pt={1}>
-        {t(`swap.warning.message.insufficientGas`)}
+        {t(`warning.message.insufficientGas`)}
       </Typography>
       {insufficientGas?.map((item, index) => (
         <Typography
@@ -39,7 +39,7 @@ export const GasSufficiencyMessage: React.FC<GasSufficiencyMessageProps> = ({
           pb={insufficientGas?.length - 1 === index ? 2 : 0}
           pt={0.5}
         >
-          {t(`swap.tokenOnChainAmount`, {
+          {t(`main.tokenOnChainAmount`, {
             amount: item.insufficientAmount?.toString(),
             tokenSymbol: item.token.symbol,
             chainName: item.chain?.name,

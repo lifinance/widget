@@ -17,7 +17,6 @@ root.render(
     <WalletProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/swap/*" element={<App />} />
           <Route path="/*" element={<App />} />
         </Routes>
       </BrowserRouter>

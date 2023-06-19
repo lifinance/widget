@@ -31,6 +31,12 @@ export const isRouteActive = (route?: Route) => {
   return !isDone && !isFailed && alreadyStarted;
 };
 
+export const doesRouteHaveCustomTool = (route: Route) => {
+  return route.steps.some(
+    (step) => step.tool === 'custom' || step.toolDetails.key === 'custom',
+  );
+};
+
 export const getUpdatedProcess = (
   currentRoute: Route,
   updatedRoute: Route,

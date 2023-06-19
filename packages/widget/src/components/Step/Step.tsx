@@ -7,7 +7,7 @@ import { StepActions } from '../../components/StepActions';
 import { Token } from '../../components/Token';
 import { useChains } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
-import { shortenWalletAddress } from '../../utils';
+import { shortenAddress } from '../../utils';
 import { DestinationWalletAddress } from './DestinationWalletAddress';
 import { GasStepProcess } from './GasStepProcess';
 import { StepProcess } from './StepProcess';
@@ -21,7 +21,7 @@ export const Step: React.FC<{
 }> = ({ step, fromToken, toToken, toAddress }) => {
   const { t } = useTranslation();
   const { getChainById } = useChains();
-  const { variant } = useWidgetConfig();
+  const { subvariant } = useWidgetConfig();
 
   const stepHasError = step.execution?.process.some(
     (process) => process.status === 'FAILED',
@@ -37,26 +37,26 @@ export const Step: React.FC<{
           (step) => step.type === 'swap',
         );
         if (hasCrossStep && hasSwapStep) {
-          return variant === 'nft'
-            ? t('swap.stepBridgeAndBuy')
-            : t('swap.stepSwapAndBridge');
+          return subvariant === 'nft'
+            ? t('main.stepBridgeAndBuy')
+            : t('main.stepSwapAndBridge');
         }
         if (hasCrossStep) {
-          return variant === 'nft'
-            ? t('swap.stepBridgeAndBuy')
-            : t('swap.stepBridge');
+          return subvariant === 'nft'
+            ? t('main.stepBridgeAndBuy')
+            : t('main.stepBridge');
         }
-        return variant === 'nft'
-          ? t('swap.stepSwapAndBuy')
-          : t('swap.stepSwap');
+        return subvariant === 'nft'
+          ? t('main.stepSwapAndBuy')
+          : t('main.stepSwap');
       default:
-        return variant === 'nft'
-          ? t('swap.stepSwapAndBuy')
-          : t('swap.stepSwap');
+        return subvariant === 'nft'
+          ? t('main.stepSwapAndBuy')
+          : t('main.stepSwap');
     }
   };
 
-  const formattedToAddress = shortenWalletAddress(toAddress);
+  const formattedToAddress = shortenAddress(toAddress);
   const toAddressLink = toAddress
     ? `${
         getChainById(step.action.toChainId)?.metamask.blockExplorerUrls[0]

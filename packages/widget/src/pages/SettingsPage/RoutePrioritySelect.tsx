@@ -27,7 +27,7 @@ export const RoutePrioritySelect: React.FC = () => {
           dense
         >
           {Orders.map((order) => {
-            const tag = t(`swap.tags.${order.toLowerCase()}` as any);
+            const tag = t(`main.tags.${order.toLowerCase()}` as any);
             const tagName = `${tag[0]}${tag.slice(1).toLowerCase()}`;
             return (
               <MenuItem key={order} value={order}>

@@ -6,14 +6,9 @@ export const METAMASK_WALLET = supportedWallets.find(
   (wallet) => wallet.name === 'MetaMask',
 );
 
-export const WidgetVariants = [
-  'default',
-  'expandable',
-  'drawer',
-  'refuel',
-] as const;
+export const WidgetVariants = ['default', 'expandable', 'drawer'] as const;
 
-export const WidgetSubvariants = ['default', 'split'] as const;
+export const WidgetSubvariants = ['default', 'split', 'refuel'] as const;
 
 export const widgetBaseConfig: WidgetConfig = {
   // fromChain: 137,
@@ -26,13 +21,13 @@ export const widgetBaseConfig: WidgetConfig = {
   variant: 'expandable',
   // subvariant: 'split',
   integrator: 'li.fi-playground',
-  // hiddenUI: ['poweredBy', 'language', 'appearance', 'drawerButton'],
   chains: {
     allow: [], // 1, 1285, 10, 56, 137
     deny: [],
   },
   // useRecommendedRoute: true,
-  buildSwapUrl: true,
+  buildUrl: true,
+  // hiddenUI: ['poweredBy', 'language', 'appearance', 'drawerButton'],
   // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
   // requiredUI: ['toAddress'],
   // slippage: 0.003,
@@ -136,7 +131,7 @@ export const widgetBaseConfig: WidgetConfig = {
   },
   // languageResources: {
   //   en: {
-  //     button: { swap: 'Test' },
+  //     button: { exchange: 'Test' },
   //   },
   //   es,
   // },
@@ -152,6 +147,7 @@ export const widgetConfig: WidgetConfig = {
     // }`,
     boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
     borderRadius: '16px',
+    minWidth: 300,
   },
   // theme: {
   //   components: {

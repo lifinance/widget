@@ -11,6 +11,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   featuredTokensLength,
   scrollElementRef,
   chainId,
+  chain,
   isLoading,
   isBalanceLoading,
   showBalance,
@@ -48,7 +49,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
       }
       return size;
     },
-    getItemKey: (index) => tokens[index].address ?? index,
+    getItemKey: (index) => `${tokens[index].address}-${index}`,
   });
 
   useEffect(() => {
@@ -79,6 +80,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
             size={item.size}
             start={item.start}
             token={token}
+            chain={chain}
             isBalanceLoading={isBalanceLoading}
             showBalance={showBalance}
             startAdornment={
@@ -90,7 +92,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
                   px={2}
                   pb={1.25}
                 >
-                  {t('swap.featuredTokens')}
+                  {t('main.featuredTokens')}
                 </Typography>
               ) : null
             }
@@ -106,7 +108,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
                   px={2}
                   py={1.25}
                 >
-                  {t('swap.otherTokens')}
+                  {t('main.otherTokens')}
                 </Typography>
               ) : null
             }

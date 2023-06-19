@@ -4,7 +4,7 @@ import { Collapse, FormHelperText } from '@mui/material';
 import { forwardRef, useEffect, useRef } from 'react';
 import { useController, useFormContext, useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { SwapFormKey, useWallet, useWidgetConfig } from '../../providers';
+import { FormKey, useWallet, useWidgetConfig } from '../../providers';
 import { useSendToWalletStore, useSettings } from '../../stores';
 import { DisabledUI, HiddenUI, RequiredUI } from '../../types';
 import { Card, CardTitle } from '../Card';
@@ -13,7 +13,7 @@ import { FormControl, Input } from './SendToWallet.style';
 export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
   const { t } = useTranslation();
   const { trigger, getValues, clearErrors } = useFormContext();
-  const { account, provider } = useWallet();
+  const { account } = useWallet();
   const { disabledUI, hiddenUI, requiredUI, toAddress } = useWidgetConfig();
   const { showSendToWallet, showSendToWalletDirty, setSendToWallet } =
     useSendToWalletStore();
@@ -27,26 +27,25 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
   const {
     field: { onChange, onBlur, name, value },
   } = useController({
-    name: SwapFormKey.ToAddress,
+    name: FormKey.ToAddress,
     rules: {
       required:
-        requiredToAddress &&
-        (t('swap.error.title.walletAddressRequired') as string),
+        requiredToAddress && (t('error.title.walletAddressRequired') as string),
       validate: async (value: string) => {
         try {
           if (!value) {
             return true;
           }
-          const address = await provider?.resolveName(value);
+          const address = await account.signer?.provider?.resolveName(value);
           return (
             isAddress(address || value) ||
-            (t('swap.error.title.walletAddressInvalid') as string)
+            (t('error.title.walletAddressInvalid') as string)
           );
         } catch {
-          return t('swap.error.title.walletEnsAddressInvalid') as string;
+          return t('error.title.walletEnsAddressInvalid') as string;
         }
       },
-      onBlur: () => trigger(SwapFormKey.ToAddress),
+      onBlur: () => trigger(FormKey.ToAddress),
     },
   });
 
@@ -66,15 +65,13 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
   }, [showInstantly, setSendToWallet]);
 
   useEffect(() => {
-    const value = getValues(SwapFormKey.ToAddress);
+    const value = getValues(FormKey.ToAddress);
     if (value) {
-      trigger(SwapFormKey.ToAddress);
+      trigger(FormKey.ToAddress);
       // Trigger validation if we change requiredToAddress in the runtime
     } else if (requiredToAddressRef.current !== requiredToAddress) {
       requiredToAddressRef.current = requiredToAddress;
-      trigger(SwapFormKey.ToAddress).then(() =>
-        clearErrors(SwapFormKey.ToAddress),
-      );
+      trigger(FormKey.ToAddress).then(() => clearErrors(FormKey.ToAddress));
     }
   }, [account.chainId, clearErrors, getValues, requiredToAddress, trigger]);
 
@@ -91,7 +88,7 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
     >
       <Card {...props} ref={ref}>
         <CardTitle required={requiredToAddress}>
-          {t('swap.sendToWallet')}
+          {t('main.sendToWallet')}
         </CardTitle>
         <FormControl fullWidth sx={{ paddingTop: '6px', paddingBottom: '5px' }}>
           <Input
@@ -104,7 +101,7 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
             onBlur={onBlur}
             name={name}
             value={value}
-            placeholder={t('swap.walletAddressOrEns') as string}
+            placeholder={t('main.walletAddressOrEns') as string}
             disabled={Boolean(toAddress && disabledToAddress)}
           />
           <SendToWalletFormHelperText />

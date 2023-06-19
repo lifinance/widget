@@ -1,19 +1,13 @@
 {
   "npmClient": "yarn",
-  "packages": [
-    "packages/*"
-  ],
-  "ignoreChanges": [
-    "**/*.md"
-  ],
+  "packages": ["packages/*"],
+  "ignoreChanges": ["**/*.md"],
   "command": {
     "version": {
-      "ignore": [
-        "**/*.md"
-      ]
+      "ignoreChanges": ["**/*.md"]
     }
   },
   "changelogPreset": "conventionalcommits",
-  "useWorkspaces": true,
-  "version": "independent"
+  "version": "independent",
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json"
 }

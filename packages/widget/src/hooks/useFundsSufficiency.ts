@@ -2,7 +2,7 @@ import type { Route } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
 import Big from 'big.js';
 import { useWatch } from 'react-hook-form';
-import { SwapFormKey, useWallet } from '../providers';
+import { FormKey, useWallet } from '../providers';
 import { isRouteDone } from '../stores';
 import { useGetTokenBalancesWithRetry } from './useGetTokenBalancesWithRetry';
 import { useTokenAddressBalance } from './useTokenAddressBalance';
@@ -10,14 +10,12 @@ import { useTokenAddressBalance } from './useTokenAddressBalance';
 const refetchInterval = 30_000;
 
 export const useFundsSufficiency = (route?: Route) => {
-  const { account, provider } = useWallet();
-  const getTokenBalancesWithRetry = useGetTokenBalancesWithRetry(provider);
+  const { account } = useWallet();
+  const getTokenBalancesWithRetry = useGetTokenBalancesWithRetry(
+    account.signer?.provider,
+  );
   const [fromChainId, fromTokenAddress, fromAmount] = useWatch({
-    name: [
-      SwapFormKey.FromChain,
-      SwapFormKey.FromToken,
-      SwapFormKey.FromAmount,
-    ],
+    name: [FormKey.FromChain, FormKey.FromToken, FormKey.FromAmount],
   });
 
   let chainId = fromChainId;

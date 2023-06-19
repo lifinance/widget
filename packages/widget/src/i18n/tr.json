@@ -68,34 +68,79 @@
     "showDestinationWallet": "Hedef Adresi Göster",
     "slippage": "Slipaj"
   },
-  "swap": {
+  "info": {
+    "message": {
+      "emptyActiveSwaps": "Devam eden işlemler burada görünecek. Tamamlandığında, işlem geçmişinden bulabilirsiniz",
+      "emptySwapHistory": "İşlem geçmişi yalnızca yerel olarak saklanır ve tarayıcı verilerinizi temizlerseniz silinir.",
+      "emptyTokenList": "{{chainName}} zincirinde token bulamadık veya sizde hiç token yok. Lütfen tekrar aramayı deneyin veya başka bir zincir seçin.",
+      "routeNotFound": "Başka bir token kombinasyonu deneyin"
+    },
+    "title": {
+      "emptyActiveSwaps": "Aktif işlem bulunamadı",
+      "emptySwapHistory": "Yakın zamanda işlem bulunamadı",
+      "routeNotFound": "Kullanılabilir bir yol bulunamadı"
+    }
+  },
+  "success": {
+    "message": {
+      "swapPartiallySuccessful": "Takas işlemini tamamlamaya çalıştık, ancak {{tool}} içerisinde, {{tokenSymbol}} için likidite bulunmuyor.",
+      "swapSuccessful": "Şu anda {{chainName}} ağındaki {{walletAddress}} adresli cüzdanda {{amount, number(maximumFractionDigits: 9)}} adet {{tokenSymbol}} bulunmaktadır."
+    },
+    "title": {
+      "gasSwapSuccessful": "Gaz takası başarılı",
+      "refundIssued": "Geri ödeme yapıldı",
+      "swapPartiallySuccessful": "Takas işlemi kısmen başarılı",
+      "swapSuccessful": "Takas başarılı"
+    }
+  },
+  "warning": {
+    "message": {
+      "deleteActiveSwaps": "Etkin takaslar yalnızca yerel olarak depolanır ve silerseniz kurtarılamaz.",
+      "deleteSwapHistory": "Takas geçmişi yalnızca yerel olarak depolanır ve silerseniz kurtarılamaz.",
+      "highValueLoss": "Elde edilecek varlıkların değeri, takas edilen varlıklardan ve işlem maliyetinden önemli ölçüde düşüktür.",
+      "insufficientFunds": "Takas işlemini gerçekleştirmek için yeterli bakiyeniz bulunmamaktadır.",
+      "insufficientGas": "En azından şunları eklemelisiniz:",
+      "rateChanged": "Takas oranı değişti. İşleme devam ederek yeni oranı kabul etmiş olursunuz.",
+      "resetSettings": "Bu, rota önceliğinizi, slipajı, gaz fiyatını, etkin köprüleri ve takasları sıfırlayacaktır."
+    },
+    "title": {
+      "deleteActiveSwaps": "Tüm aktif takasları silmek istiyor musunuz?",
+      "deleteSwap": "Bu takası silmek istiyor musunuz?",
+      "deleteSwapHistory": "Takas geçmişini silmek istiyor musunuz?",
+      "highValueLoss": "Yüksek değer kaybı",
+      "insufficientGas": "Yetersiz gaz",
+      "rateChanged": "Oran değişti",
+      "resetSettings": "Ayarları sıfırla?"
+    }
+  },
+  "error": {
+    "message": {
+      "slippageThreshold": "Slipaj, tanımlanan eşikten daha büyük. Yeni bir fiyat teklifi almak için lütfen yeni bir rota isteyin.",
+      "transactionFailed": "Daha fazla bilgi için ağ tarayıcısını kontrol edin.",
+      "transactionNotSent": "İşlem gönderilmedi. {{chainName}} üzerinde {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} cüzdanınızda bulunmaktadır.",
+      "transactionRejected": "İşlemi tamamlamak için imzanız gerekiyor. {{chainName}} üzerinde {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} cüzdanınızda bulunmaktadır.",
+      "unknown": "Lütfen tekrar deneyin veya desteğe başvurun."
+    },
+    "title": {
+      "balanceIsTooLow": "Bakiye çok düşük",
+      "chainSwitch": "Lütfen ağı değiştirin",
+      "failed": "İşlem Başarısız",
+      "gasLimitIsTooLow": "Gaz limiti çok düşük",
+      "slippageNotMet": "Slipaj koşulları karşılanmadı",
+      "transactionCanceled": "İşlem iptal edildi",
+      "transactionFailed": "İşlem başarısız",
+      "transactionRejected": "İmza gerekiyor",
+      "transactionUnderpriced": "İşlemin değeri düşük",
+      "transactionUnprepared": "İşlem başlatılamıyor",
+      "unknown": "Bir sorun oluştu",
+      "walletAddressInvalid": "Cüzdan adresi geçersizdir.",
+      "walletAddressRequired": "Cüzdan adresi gereklidir.",
+      "walletEnsAddressInvalid": "Cüzdan adresi geçerli değil veya ağ ENS desteklemiyor."
+    }
+  },
+  "main": {
     "crossStepDetails": "{{from}} ile {{to}} ağları arasında {{tool}} ile gönderim sağlayın",
     "currentAmount": "Geçerli miktar",
-    "error": {
-      "message": {
-        "slippageThreshold": "Slipaj, tanımlanan eşikten daha büyük. Yeni bir fiyat teklifi almak için lütfen yeni bir rota isteyin.",
-        "transactionFailed": "Daha fazla bilgi için ağ tarayıcısını kontrol edin.",
-        "transactionNotSent": "İşlem gönderilmedi. {{chainName}} üzerinde {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} cüzdanınızda bulunmaktadır.",
-        "transactionRejected": "İşlemi tamamlamak için imzanız gerekiyor. {{chainName}} üzerinde {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} cüzdanınızda bulunmaktadır.",
-        "unknown": "Lütfen tekrar deneyin veya desteğe başvurun."
-      },
-      "title": {
-        "balanceIsTooLow": "Bakiye çok düşük",
-        "chainSwitch": "Lütfen ağı değiştirin",
-        "failed": "İşlem Başarısız",
-        "gasLimitIsTooLow": "Gaz limiti çok düşük",
-        "slippageNotMet": "Slipaj koşulları karşılanmadı",
-        "transactionCanceled": "İşlem iptal edildi",
-        "transactionFailed": "İşlem başarısız",
-        "transactionRejected": "İmza gerekiyor",
-        "transactionUnderpriced": "İşlemin değeri düşük",
-        "transactionUnprepared": "İşlem başlatılamıyor",
-        "unknown": "Bir sorun oluştu",
-        "walletAddressInvalid": "Cüzdan adresi geçersizdir.",
-        "walletAddressRequired": "Cüzdan adresi gereklidir.",
-        "walletEnsAddressInvalid": "Cüzdan adresi geçerli değil veya ağ ENS desteklemiyor."
-      }
-    },
     "estimatedTime": "{{value}} dakika",
     "featuredTokens": "Öne çıkan jetonlar",
     "from": "Gönderen",
@@ -104,19 +149,6 @@
     "gasFeeEstimated": "Tahmini Gaz Ücreti",
     "gasFeePaid": "Ödenen Gaz ücreti",
     "inProgress": "işlem devam ediyor",
-    "info": {
-      "message": {
-        "emptyActiveSwaps": "Devam eden işlemler burada görünecek. Tamamlandığında, işlem geçmişinden bulabilirsiniz",
-        "emptySwapHistory": "İşlem geçmişi yalnızca yerel olarak saklanır ve tarayıcı verilerinizi temizlerseniz silinir.",
-        "emptyTokenList": "{{chainName}} zincirinde token bulamadık veya sizde hiç token yok. Lütfen tekrar aramayı deneyin veya başka bir zincir seçin.",
-        "routeNotFound": "Başka bir token kombinasyonu deneyin"
-      },
-      "title": {
-        "emptyActiveSwaps": "Aktif işlem bulunamadı",
-        "emptySwapHistory": "Yakın zamanda işlem bulunamadı",
-        "routeNotFound": "Kullanılabilir bir yol bulunamadı"
-      }
-    },
     "nftStepDetails": "{{tool}} aracılığıyla NFT satın alın",
     "onChain": "{{chainName}} üzerinde",
     "otherTokens": "Diğer jetonlar",
@@ -164,18 +196,6 @@
     "stepBridge": "Köprüle",
     "stepSwap": "Takas et",
     "stepSwapAndBridge": "Takas et ve Köprüle",
-    "success": {
-      "message": {
-        "swapPartiallySuccessful": "Takas işlemini tamamlamaya çalıştık, ancak {{tool}} içerisinde, {{tokenSymbol}} için likidite bulunmuyor.",
-        "swapSuccessful": "Şu anda {{chainName}} ağındaki {{walletAddress}} adresli cüzdanda {{amount, number(maximumFractionDigits: 9)}} adet {{tokenSymbol}} bulunmaktadır."
-      },
-      "title": {
-        "gasSwapSuccessful": "Gaz takası başarılı",
-        "refundIssued": "Geri ödeme yapıldı",
-        "swapPartiallySuccessful": "Takas işlemi kısmen başarılı",
-        "swapSuccessful": "Takas başarılı"
-      }
-    },
     "supportId": "Destek",
     "swapStepDetails": "{{chain}} üzerinde {{tool}} aracılığıyla takas et",
     "swapping": "Takas ediliyor",
@@ -191,27 +211,7 @@
     "tokenOnChainAmount": "{{chainName}} üzerindeki {{amount, number(maximumFractionDigits: 9)}}{{tokenSymbol}}",
     "tokenSearch": "Varlıklarınızı arayın",
     "valueLoss": "Değer kaybı",
-    "walletAddressOrEns": "Cüzdan adresi veya ENS alan adı",
-    "warning": {
-      "message": {
-        "deleteActiveSwaps": "Etkin takaslar yalnızca yerel olarak depolanır ve silerseniz kurtarılamaz.",
-        "deleteSwapHistory": "Takas geçmişi yalnızca yerel olarak depolanır ve silerseniz kurtarılamaz.",
-        "highValueLoss": "Elde edilecek varlıkların değeri, takas edilen varlıklardan ve işlem maliyetinden önemli ölçüde düşüktür.",
-        "insufficientFunds": "Takas işlemini gerçekleştirmek için yeterli bakiyeniz bulunmamaktadır.",
-        "insufficientGas": "En azından şunları eklemelisiniz:",
-        "rateChanged": "Takas oranı değişti. İşleme devam ederek yeni oranı kabul etmiş olursunuz.",
-        "resetSettings": "Bu, rota önceliğinizi, slipajı, gaz fiyatını, etkin köprüleri ve takasları sıfırlayacaktır."
-      },
-      "title": {
-        "deleteActiveSwaps": "Tüm aktif takasları silmek istiyor musunuz?",
-        "deleteSwap": "Bu takası silmek istiyor musunuz?",
-        "deleteSwapHistory": "Takas geçmişini silmek istiyor musunuz?",
-        "highValueLoss": "Yüksek değer kaybı",
-        "insufficientGas": "Yetersiz gaz",
-        "rateChanged": "Oran değişti",
-        "resetSettings": "Ayarları sıfırla?"
-      }
-    }
+    "walletAddressOrEns": "Cüzdan adresi veya ENS alan adı"
   },
   "tooltip": {
     "estimatedNetworkFee": "Tahmini ağ ücreti.",

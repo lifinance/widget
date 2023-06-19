@@ -4,7 +4,7 @@ import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import { Box, Collapse, Link, Typography } from '@mui/material';
 import type { ChangeEvent, MouseEventHandler } from 'react';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { InsuraceLogo } from '../../icons';
 import { RouteExecutionStatus } from '../../stores';
 import { Card, CardIconButton, CardLabel, CardLabelTypography } from '../Card';
@@ -14,6 +14,8 @@ import type { InsuranceCardProps } from './types';
 export const InsuranceCard: React.FC<InsuranceCardProps> = ({
   status,
   feeAmountUsd,
+  insuredAmount,
+  insuredTokenSymbol,
   insuranceCoverageId,
   onChange,
   ...props
@@ -41,8 +43,8 @@ export const InsuranceCard: React.FC<InsuranceCardProps> = ({
           <VerifiedUserIcon fontSize="inherit" />
           <CardLabelTypography type="icon">
             {status === RouteExecutionStatus.Idle
-              ? t('swap.tags.insurance')
-              : t('swap.tags.insured')}
+              ? t('main.tags.insurance')
+              : t('main.tags.insured')}
           </CardLabelTypography>
         </CardLabel>
         {status === RouteExecutionStatus.Idle ? (
@@ -72,9 +74,18 @@ export const InsuranceCard: React.FC<InsuranceCardProps> = ({
           </Box>
           <Box>
             <Typography fontSize={14}>
-              {status === RouteExecutionStatus.Idle
-                ? t('swap.insurance.insure')
-                : t('swap.insurance.insured')}
+              <Trans
+                i18nKey={
+                  status === RouteExecutionStatus.Idle
+                    ? 'insurance.insure'
+                    : 'insurance.insured'
+                }
+                values={{
+                  amount: insuredAmount,
+                  tokenSymbol: insuredTokenSymbol,
+                }}
+                components={[<strong />]}
+              />
             </Typography>
             <Collapse
               timeout={225}
@@ -89,10 +100,10 @@ export const InsuranceCard: React.FC<InsuranceCardProps> = ({
                 }}
               >
                 <Typography fontSize={14} display="list-item">
-                  {t('swap.insurance.bridgeExploits')}
+                  {t('insurance.bridgeExploits')}
                 </Typography>
                 <Typography fontSize={14} display="list-item">
-                  {t('swap.insurance.slippageError')}
+                  {t('insurance.slippageError')}
                 </Typography>
               </Box>
             </Collapse>

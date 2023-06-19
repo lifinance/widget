@@ -69,6 +69,12 @@ export const DrawerButton = styled(Button, {
         ? theme.palette.common.black
         : theme.palette.common.white,
   },
+  svg: {
+    color:
+      theme.palette.mode === 'light'
+        ? theme.palette.common.white
+        : theme.palette.common.black,
+  },
 }));
 
 export const DrawerButtonTypography = styled(Typography)(({ theme }) => ({

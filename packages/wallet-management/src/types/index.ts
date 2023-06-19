@@ -1,4 +1,5 @@
 import type { Signer } from '@ethersproject/abstract-signer';
+import type { Web3Provider } from '@ethersproject/providers';
 import type { StaticToken } from '@lifi/sdk';
 import type SafeAppsSDK from '@safe-global/safe-apps-sdk/dist/src/sdk';
 import type { ethers } from 'ethers';
@@ -45,7 +46,7 @@ export interface WalletConnectConnectorConstructorArgs
   };
 }
 
-export interface Wallet extends events.EventEmitter {
+export interface Wallet extends EventEmitter {
   name: string;
   icon: string;
   isActivationInProgress: boolean;

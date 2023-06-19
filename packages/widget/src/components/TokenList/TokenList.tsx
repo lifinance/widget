@@ -3,11 +3,12 @@ import type { FC } from 'react';
 import { useRef } from 'react';
 import { useWatch } from 'react-hook-form';
 import {
+  useChain,
   useDebouncedWatch,
   useTokenBalances,
   useTokenSearch,
 } from '../../hooks';
-import { SwapFormKey, SwapFormKeyHelper, useWallet } from '../../providers';
+import { FormKey, FormKeyHelper, useWallet } from '../../providers';
 import type { TokenAmount } from '../../types';
 import { TokenNotFound } from './TokenNotFound';
 import { VirtualizedTokenList } from './VirtualizedTokenList';
@@ -22,12 +23,14 @@ export const TokenList: FC<TokenListProps> = ({
   const parentRef = useRef<HTMLUListElement | null>(null);
   const { account } = useWallet();
   const [selectedChainId] = useWatch({
-    name: [SwapFormKeyHelper.getChainKey(formType)],
+    name: [FormKeyHelper.getChainKey(formType)],
   });
   const [tokenSearchFilter]: string[] = useDebouncedWatch(
-    [SwapFormKey.TokenSearchFilter],
+    [FormKey.TokenSearchFilter],
     320,
   );
+
+  const { chain, isLoading: isChainLoading } = useChain(selectedChainId);
 
   const {
     tokens: chainTokens,
@@ -60,7 +63,9 @@ export const TokenList: FC<TokenListProps> = ({
     useTokenSearch(selectedChainId, tokenSearchFilter, tokenSearchEnabled);
 
   const isLoading =
-    isTokensLoading || (tokenSearchEnabled && isSearchedTokenLoading);
+    isTokensLoading ||
+    isChainLoading ||
+    (tokenSearchEnabled && isSearchedTokenLoading);
 
   const tokens = filteredTokens.length
     ? filteredTokens
@@ -80,6 +85,7 @@ export const TokenList: FC<TokenListProps> = ({
         featuredTokensLength={featuredTokens?.length}
         scrollElementRef={parentRef}
         chainId={selectedChainId}
+        chain={chain}
         isLoading={isLoading}
         isBalanceLoading={isBalanceLoading}
         showBalance={account.isActive}
