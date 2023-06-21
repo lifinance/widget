@@ -11,7 +11,7 @@ export const WidgetEvents = () => {
 
   useEffect(() => {
     const onRouteExecutionStarted = (route: Route) => {
-      console.log('onRouteExecutionStarted fired.');
+      // console.log('onRouteExecutionStarted fired.');
     };
     const onRouteExecutionUpdated = (update: RouteExecutionUpdate) => {
       // console.log('onRouteExecutionUpdated fired.');
@@ -26,7 +26,7 @@ export const WidgetEvents = () => {
       // console.log('onRouteHighValueLoss continued.');
     };
     // const onRouteContactSupport = (supportId: RouteContactSupport) => {
-    //   // console.log('onRouteContactSupport clicked', supportId);
+    //  console.log('onRouteContactSupport clicked', supportId);
     // };
     widgetEvents.on(WidgetEvent.RouteExecutionStarted, onRouteExecutionStarted);
     widgetEvents.on(WidgetEvent.RouteExecutionUpdated, onRouteExecutionUpdated);
