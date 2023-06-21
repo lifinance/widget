@@ -24,6 +24,7 @@ import { useNavigateBack } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
 import { useRouteExecutionStore } from '../../stores';
 import { formatTokenAmount } from '../../utils';
+import { ContactSupportButton } from './ContactSupportButton';
 import { Container } from './TransactionDetailsPage.style';
 
 export const TransactionDetailsPage: React.FC = () => {
@@ -143,14 +144,7 @@ export const TransactionDetailsPage: React.FC = () => {
         </Typography>
       </Card>
       <Box mt={2}>
-        <Button
-          href="https://discord.gg/lifi"
-          target="_blank"
-          rel="nofollow noreferrer"
-          fullWidth
-        >
-          {t('button.contactSupport')}
-        </Button>
+        <ContactSupportButton supportId={supportId} />
       </Box>
       <Dialog open={open} onClose={toggleDialog}>
         <DialogTitle>{t('warning.title.deleteTransaction')}</DialogTitle>

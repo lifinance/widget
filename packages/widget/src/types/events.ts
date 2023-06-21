@@ -6,6 +6,7 @@ export enum WidgetEvent {
   RouteExecutionCompleted = 'routeExecutionCompleted',
   RouteExecutionFailed = 'routeExecutionFailed',
   RouteHighValueLoss = 'routeHighValueLoss',
+  RouteContactSupport = 'routeContactSupport',
 }
 
 export type WidgetEvents = {
@@ -14,7 +15,12 @@ export type WidgetEvents = {
   routeExecutionCompleted: Route;
   routeExecutionFailed: RouteExecutionUpdate;
   routeHighValueLoss: RouteHighValueLossUpdate;
+  routeContactSupport: RouteContactSupport;
 };
+
+export interface RouteContactSupport {
+  supportId?: string;
+}
 
 export interface RouteHighValueLossUpdate {
   fromAmountUsd: string;
