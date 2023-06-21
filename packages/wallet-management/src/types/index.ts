@@ -37,7 +37,7 @@ export interface AccountData {
 export interface InjectedConnectorConstructorArgs {
   name: string;
   icon: string;
-  installed: () => boolean | Promise<boolean>;
+  installed: () => Promise<boolean>;
 }
 export interface WalletConnectConnectorConstructorArgs
   extends InjectedConnectorConstructorArgs {
@@ -51,7 +51,7 @@ export interface Wallet extends EventEmitter {
   icon: string;
   isActivationInProgress: boolean;
   account: AccountData | undefined;
-  installed: () => boolean;
+  installed: () => Promise<boolean>;
   connect: () => Promise<void>;
   autoConnect?: () => Promise<void>;
   disconnect: () => void;

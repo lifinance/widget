@@ -27,7 +27,7 @@ export class SafeWalletConnector extends events.EventEmitter implements Wallet {
     this.calcAccountData();
   }
 
-  public installed = () => {
+  public installed = async () => {
     return false;
   };
   public autoConnect = (): any => {
