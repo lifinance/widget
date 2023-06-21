@@ -22,7 +22,7 @@ const metamask: Wallet = new InjectedConnector({
 });
 
 const walletConnect: Wallet = new WalletConnectConnector({
-  name: 'Wallet Connect',
+  name: 'WalletConnect',
   installed: () => true,
   icon: walletIcons.walletConnect,
   options: {
