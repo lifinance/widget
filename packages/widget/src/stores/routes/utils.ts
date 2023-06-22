@@ -31,6 +31,18 @@ export const isRouteActive = (route?: Route) => {
   return !isDone && !isFailed && alreadyStarted;
 };
 
+export const isSafeRouteActive = (route?: Route) => {
+  if (!route) {
+    return false;
+  }
+  const isDone = isRouteDone(route);
+  const isFailed = isRouteFailed(route);
+  const alreadyStarted = route.steps.some(
+    (step) => step.execution.status === 'SAFE_SIGNING_PENDING',
+  );
+  return !isDone && !isFailed && alreadyStarted;
+};
+
 export const doesRouteHaveCustomTool = (route: Route) => {
   return route.steps.some(
     (step) => step.tool === 'custom' || step.toolDetails.key === 'custom',

@@ -8,6 +8,7 @@ import {
   isRouteActive,
   isRouteDone,
   isRouteFailed,
+  isSafeRouteActive,
   useRouteExecutionStore,
   useRouteExecutionStoreContext,
 } from '../stores';
@@ -57,6 +58,11 @@ export const useRouteExecution = ({
         process,
       });
     }
+
+    if (isSafeRouteActive(clonedUpdatedRoute)) {
+      emitter.emit(WidgetEvent.SafeRouteInitiated, clonedUpdatedRoute);
+    }
+
     if (isRouteDone(clonedUpdatedRoute)) {
       emitter.emit(WidgetEvent.RouteExecutionCompleted, clonedUpdatedRoute);
     }
