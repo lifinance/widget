@@ -31,8 +31,9 @@ const walletConnect: Wallet = new WalletConnectConnector({
       rpcMap[`eip155:${chain.id}`] = chain.metamask.rpcUrls[0] || '';
       return rpcMap;
     }, {} as EthereumRpcMap),
-    chains: supportedChains.map((chain) => chain.id),
-    showQrModal: false,
+    chains: [1],
+    optionalChains: supportedChains.map((chain) => chain.id),
+    showQrModal: true,
   },
 });
 
