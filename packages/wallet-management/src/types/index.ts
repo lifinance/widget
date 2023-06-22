@@ -19,6 +19,12 @@ export interface RequestArguments {
   readonly params?: readonly unknown[] | object;
 }
 
+export interface Provider extends EventEmitter {
+  request(args: RequestArguments): Promise<unknown>;
+  selectedAddress?: string;
+  chainId?: any;
+}
+
 export interface AccountData {
   chainId: number;
   address: string;
