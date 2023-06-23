@@ -31,15 +31,17 @@ export const isRouteActive = (route?: Route) => {
   return !isDone && !isFailed && alreadyStarted;
 };
 
-export const isSafeRouteActive = (route?: Route) => {
+export const isMultisigRouteActive = (route?: Route) => {
   if (!route) {
     return false;
   }
   const isDone = isRouteDone(route);
   const isFailed = isRouteFailed(route);
-  const alreadyStarted = route.steps.some(
-    (step) => step.execution.status === 'SAFE_SIGNING_PENDING',
+
+  const alreadyStarted = route.steps.some((step) =>
+    step.execution?.process.find((process) => !!process.multisigInternalTxHash),
   );
+
   return !isDone && !isFailed && alreadyStarted;
 };
 

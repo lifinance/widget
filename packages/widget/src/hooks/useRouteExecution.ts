@@ -8,7 +8,7 @@ import {
   isRouteActive,
   isRouteDone,
   isRouteFailed,
-  isSafeRouteActive,
+  isMultisigRouteActive,
   useRouteExecutionStore,
   useRouteExecutionStoreContext,
 } from '../stores';
@@ -59,7 +59,7 @@ export const useRouteExecution = ({
       });
     }
 
-    if (isSafeRouteActive(clonedUpdatedRoute)) {
+    if (isMultisigRouteActive(clonedUpdatedRoute)) {
       emitter.emit(WidgetEvent.SafeRouteInitiated, clonedUpdatedRoute);
     }
 
