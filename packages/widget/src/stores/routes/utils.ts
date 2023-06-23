@@ -39,7 +39,7 @@ export const isMultisigRouteActive = (route?: Route) => {
   const isFailed = isRouteFailed(route);
 
   const alreadyStarted = route.steps.some((step) =>
-    step.execution?.process.find((process) => !!process.multisigInternalTxHash),
+    step.execution?.process.find((process) => !!process.multisigTxHash),
   );
 
   return !isDone && !isFailed && alreadyStarted;
