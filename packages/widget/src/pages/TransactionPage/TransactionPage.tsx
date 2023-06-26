@@ -8,7 +8,6 @@ import { useLocation } from 'react-router-dom';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import { ContractComponent } from '../../components/ContractComponent';
 import { GasMessage } from '../../components/GasMessage';
-import { useHeaderStore } from '../../components/Header';
 import { Insurance } from '../../components/Insurance';
 import { getStepList } from '../../components/Step';
 import {
@@ -17,7 +16,7 @@ import {
   useWidgetEvents,
 } from '../../hooks';
 import { FormKey, useWidgetConfig } from '../../providers';
-import { RouteExecutionStatus } from '../../stores';
+import { RouteExecutionStatus, useHeaderStoreContext } from '../../stores';
 import { WidgetEvent } from '../../types/events';
 import { formatTokenAmount } from '../../utils';
 import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet';
@@ -46,6 +45,7 @@ export const TransactionPage: React.FC = () => {
     contractSecondaryComponent,
   } = useWidgetConfig();
   const { state }: any = useLocation();
+  const headerStoreContext = useHeaderStoreContext();
   const stateRouteId = state?.routeId;
   const [routeId, setRouteId] = useState<string>(stateRouteId);
 
@@ -69,7 +69,7 @@ export const TransactionPage: React.FC = () => {
     if (route && subvariant !== 'nft') {
       const transactionType =
         route.fromChainId === route.toChainId ? 'Swap' : 'Bridge';
-      return useHeaderStore
+      return headerStoreContext
         .getState()
         .setTitle(
           status === RouteExecutionStatus.Idle
@@ -77,7 +77,7 @@ export const TransactionPage: React.FC = () => {
             : t(`header.${transactionType.toLowerCase() as 'swap' | 'bridge'}`),
         );
     }
-  }, [route, status, subvariant, t]);
+  }, [headerStoreContext, route, status, subvariant, t]);
 
   if (!route) {
     return null;
