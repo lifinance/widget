@@ -12,9 +12,8 @@ import {
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog } from '../../components/Dialog';
-import { useHeaderStore } from '../../components/Header';
 import { useWallet } from '../../providers';
-import { useRouteExecutionStore } from '../../stores';
+import { useHeaderStoreContext, useRouteExecutionStore } from '../../stores';
 import { useTransactionHistory } from '../../stores/routes';
 import { TransactionHistoryEmpty } from './TransactionHistoryEmpty';
 import { TransactionHistoryItem } from './TransactionHistoryItem';
@@ -23,6 +22,7 @@ export const TransactionHistoryPage: React.FC = () => {
   const { t } = useTranslation();
   const { account } = useWallet();
   const transactions = useTransactionHistory(account.address);
+  const headerStoreContext = useHeaderStoreContext();
   const deleteRoutes = useRouteExecutionStore((store) => store.deleteRoutes);
   const [open, setOpen] = useState(false);
 
@@ -32,13 +32,13 @@ export const TransactionHistoryPage: React.FC = () => {
 
   useEffect(() => {
     if (transactions.length) {
-      return useHeaderStore.getState().setAction(
+      return headerStoreContext.getState().setAction(
         <IconButton size="medium" edge="end" onClick={toggleDialog}>
           <DeleteIcon />
         </IconButton>,
       );
     }
-  }, [transactions.length, toggleDialog]);
+  }, [transactions.length, toggleDialog, headerStoreContext]);
 
   if (!transactions.length) {
     return <TransactionHistoryEmpty />;

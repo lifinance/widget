@@ -9,13 +9,11 @@ import {
   List,
   ListItemAvatar,
 } from '@mui/material';
-import { useHeaderStore } from '../../components/Header';
-
 import { useEffect } from 'react';
 import { shallow } from 'zustand/shallow';
 import { ListItemText } from '../../components/ListItemText';
 import { useTools } from '../../hooks';
-import { useSettingsStore } from '../../stores';
+import { useHeaderStoreContext, useSettingsStore } from '../../stores';
 import { ListItemButton } from './SelectEnabledToolsPage.style';
 
 export const SelectEnabledToolsPage: React.FC<{
@@ -27,6 +25,7 @@ export const SelectEnabledToolsPage: React.FC<{
     (state) => [state[`enabled${type}`], state.setTools],
     shallow,
   );
+  const headerStoreContext = useHeaderStoreContext();
 
   const handleClick = (key: string) => {
     if (!tools) {
@@ -57,7 +56,7 @@ export const SelectEnabledToolsPage: React.FC<{
         setTools(type, toolKeys, toolKeys);
       }
     };
-    return useHeaderStore.getState().setAction(
+    return headerStoreContext.getState().setAction(
       <IconButton size="medium" edge="end" onClick={toggleCheckboxes}>
         {allToolsSelected ? (
           <CheckBoxOutlinedIcon />
@@ -68,7 +67,7 @@ export const SelectEnabledToolsPage: React.FC<{
         )}
       </IconButton>,
     );
-  }, [enabledTools.length, setTools, tools, type, typeKey]);
+  }, [enabledTools.length, headerStoreContext, setTools, tools, type, typeKey]);
 
   return (
     <Container disableGutters>

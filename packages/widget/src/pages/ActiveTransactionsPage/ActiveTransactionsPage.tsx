@@ -13,9 +13,12 @@ import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ActiveTransactionItem } from '../../components/ActiveTransactions';
 import { Dialog } from '../../components/Dialog';
-import { useHeaderStore } from '../../components/Header';
 import { useWallet } from '../../providers';
-import { useExecutingRoutesIds, useRouteExecutionStore } from '../../stores';
+import {
+  useExecutingRoutesIds,
+  useHeaderStoreContext,
+  useRouteExecutionStore,
+} from '../../stores';
 import { ActiveTransactionsEmpty } from './ActiveTransactionsEmpty';
 
 export const ActiveTransactionsPage = () => {
@@ -23,6 +26,7 @@ export const ActiveTransactionsPage = () => {
   const { account } = useWallet();
   const executingRoutes = useExecutingRoutesIds(account.address);
   const deleteRoutes = useRouteExecutionStore((store) => store.deleteRoutes);
+  const headerStoreContext = useHeaderStoreContext();
   const [open, setOpen] = useState(false);
 
   const toggleDialog = useCallback(() => {
@@ -31,13 +35,13 @@ export const ActiveTransactionsPage = () => {
 
   useEffect(() => {
     if (executingRoutes.length) {
-      return useHeaderStore.getState().setAction(
+      return headerStoreContext.getState().setAction(
         <IconButton size="medium" edge="end" onClick={toggleDialog}>
           <DeleteIcon />
         </IconButton>,
       );
     }
-  }, [executingRoutes.length, toggleDialog]);
+  }, [executingRoutes.length, headerStoreContext, toggleDialog]);
 
   if (!executingRoutes.length) {
     return <ActiveTransactionsEmpty />;

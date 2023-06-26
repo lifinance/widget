@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { useNavigateBack } from '../../hooks';
 import { useWallet, useWidgetConfig } from '../../providers';
+import { useHeaderStore } from '../../stores';
 import { HiddenUI } from '../../types';
 import {
   backButtonRoutes,
@@ -15,14 +16,13 @@ import {
 import { HeaderAppBar } from './Header.style';
 import { NavigationTabs } from './NavigationTabs';
 import { WalletMenuButton } from './WalletHeader';
-import { useHeaderStore } from './useHeaderStore';
 
 export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
   const { subvariant, hiddenUI } = useWidgetConfig();
   const { navigate, navigateBack } = useNavigateBack();
   const { account } = useWallet();
-  const { element, title } = useHeaderStore();
+  const { element, title } = useHeaderStore((state) => state);
   const { pathname } = useLocation();
 
   const cleanedPathname = pathname.endsWith('/')
