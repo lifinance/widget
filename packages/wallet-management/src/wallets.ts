@@ -1,4 +1,4 @@
-import { supportedChains } from '@lifi/sdk';
+import { ChainType, supportedChains } from '@lifi/sdk';
 import type { EthereumRpcMap } from '@walletconnect/ethereum-provider/dist/types/EthereumProvider';
 import { InjectedConnector } from './connectors/injectedConnector';
 import { WalletConnectConnector } from './connectors/walletConnectConnector';
@@ -28,11 +28,15 @@ const walletConnect: Wallet = new WalletConnectConnector({
   options: {
     projectId: '5432e3507d41270bee46b7b85bbc2ef8',
     rpcMap: supportedChains.reduce((rpcMap, chain) => {
-      rpcMap[`eip155:${chain.id}`] = chain.metamask.rpcUrls[0] || '';
+      if (chain.chainType === ChainType.EVM) {
+        rpcMap[`eip155:${chain.id}`] = chain.metamask.rpcUrls[0] || '';
+      }
       return rpcMap;
     }, {} as EthereumRpcMap),
     chains: [1],
-    optionalChains: supportedChains.map((chain) => chain.id),
+    optionalChains: supportedChains
+      .filter((chain) => chain.chainType === ChainType.EVM)
+      .map((chain) => chain.id),
     showQrModal: true,
   },
 });
