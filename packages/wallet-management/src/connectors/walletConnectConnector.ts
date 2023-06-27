@@ -1,13 +1,9 @@
+import { Web3Provider } from '@ethersproject/providers';
 import type { StaticToken } from '@lifi/sdk';
 import WalletConnectProvider from '@walletconnect/ethereum-provider';
-import { ethers } from 'ethers';
-import events from 'events';
-import type { EventEmitter } from 'node:events';
-import type {
-  AccountData,
-  Wallet,
-  WalletConnectConnectorConstructorArgs,
-} from '../types';
+import type { EthereumProviderOptions } from '@walletconnect/ethereum-provider/dist/types/EthereumProvider';
+import { EventEmitter } from 'events';
+import type { AccountData, Wallet, WalletConnectConnectorArgs } from '../types';
 import {
   addChain,
   switchChain,
@@ -18,30 +14,25 @@ export interface MockWalletConnectProvider
   extends Omit<WalletConnectProvider, 'on' | 'off' | 'once' | 'removeListener'>,
     EventEmitter {}
 
-export class WalletConnectConnector
-  extends events.EventEmitter
-  implements Wallet
-{
-  private readonly options?: {
-    [chainId: number]: string;
-  };
+export class WalletConnectConnector extends EventEmitter implements Wallet {
+  private readonly options: EthereumProviderOptions;
 
-  public provider: MockWalletConnectProvider | undefined;
+  public provider?: MockWalletConnectProvider;
 
-  public walletConnectProvider: WalletConnectProvider | undefined;
+  public walletConnectProvider?: WalletConnectProvider;
 
   public isActivationInProgress: boolean = false;
-  public account: AccountData | undefined;
+  public account?: AccountData;
   public name: string;
   public icon: string;
   public installed: () => boolean;
 
-  constructor(constructorArgs: WalletConnectConnectorConstructorArgs) {
+  constructor(args: WalletConnectConnectorArgs) {
     super();
-    this.options = constructorArgs.rpc;
-    this.name = constructorArgs.name;
-    this.icon = constructorArgs.icon;
-    this.installed = constructorArgs.installed;
+    this.options = args.options;
+    this.name = args.name;
+    this.icon = args.icon;
+    this.installed = args.installed;
   }
 
   private async startListening(): Promise<void> {
@@ -61,7 +52,7 @@ export class WalletConnectConnector
 
     // Subscribe to session disconnection
     this.provider?.on('disconnect', async (code: number, reason: string) => {
-      await this.calcAccountData();
+      // await this.calcAccountData();
     });
   }
 
@@ -72,15 +63,16 @@ export class WalletConnectConnector
     this.isActivationInProgress = true;
 
     // Reset provider for every connection attempt
-    const walletConnectProvider = new WalletConnectProvider({
-      rpc: this.options!,
-    });
+    const walletConnectProvider = await WalletConnectProvider.init(
+      this.options,
+    );
     this.provider =
       walletConnectProvider as unknown as MockWalletConnectProvider;
     this.walletConnectProvider = walletConnectProvider;
 
     try {
-      await this.walletConnectProvider?.enable(); // open modal
+      // Open modal
+      await this.walletConnectProvider?.enable();
       this.startListening();
       await this.calcAccountData();
     } catch (e) {
@@ -104,33 +96,30 @@ export class WalletConnectConnector
 
   public async switchChain(chainId: number) {
     if (!this.provider) {
-      throw new Error('provider is not defined.');
+      throw new Error('Provider is not defined.');
     }
     return switchChain(this.walletConnectProvider, chainId);
   }
 
   public async addChain(chainId: number) {
     if (!this.provider) {
-      throw new Error('provider is not defined.');
+      throw new Error('Provider is not defined.');
     }
     return addChain(this.walletConnectProvider, chainId);
   }
 
   public async addToken(chainId: number, token: StaticToken) {
     if (!this.provider) {
-      throw new Error('provider is not defined.');
+      throw new Error('Provider is not defined.');
     }
     return switchChainAndAddToken(this.walletConnectProvider, chainId, token);
   }
 
   private async calcAccountData() {
     if (!this.walletConnectProvider) {
-      throw new Error('provider is not defined.');
+      throw new Error('Provider is not defined.');
     }
-    const provider = new ethers.providers.Web3Provider(
-      this.walletConnectProvider!,
-      'any',
-    );
+    const provider = new Web3Provider(this.walletConnectProvider, 'any');
 
     const signer = provider.getSigner();
     this.account = {

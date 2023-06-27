@@ -1,11 +1,13 @@
 import type { Signer } from '@ethersproject/abstract-signer';
 import type { Web3Provider } from '@ethersproject/providers';
 import type { StaticToken } from '@lifi/sdk';
-import type EventEmitter from 'node:events';
+import type { EthereumProviderOptions } from '@walletconnect/ethereum-provider/dist/types/EthereumProvider';
+import type { EventEmitter } from 'events';
 
 export interface ProviderConnectInfo {
   readonly chainId: string;
 }
+
 export interface ProviderRpcError extends Error {
   message: string;
   code: number;
@@ -29,25 +31,25 @@ export interface AccountData {
   signer: Signer;
   provider: Web3Provider;
 }
-export interface InjectedConnectorConstructorArgs {
+
+export interface InjectedConnectorArgs {
   name: string;
   icon: string;
   installed: () => boolean;
 }
-export interface WalletConnectConnectorConstructorArgs {
+
+export interface WalletConnectConnectorArgs {
   name: string;
   icon: string;
   installed: () => boolean;
-  rpc: {
-    [chainId: number]: string;
-  };
+  options: EthereumProviderOptions;
 }
 
 export interface Wallet extends EventEmitter {
   name: string;
   icon: string;
   isActivationInProgress: boolean;
-  account: AccountData | undefined;
+  account?: AccountData;
   installed: () => boolean;
   connect: () => Promise<void>;
   autoConnect?: () => Promise<void>;
