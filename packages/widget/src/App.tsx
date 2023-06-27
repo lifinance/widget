@@ -6,6 +6,7 @@ import { AppRoutes } from './AppRoutes';
 import {
   AppContainer,
   AppExpandedContainer,
+  AppExpandedContainerMultisig,
   FlexContainer,
 } from './components/AppContainer';
 import { Header } from './components/Header';
@@ -14,6 +15,8 @@ import { PoweredBy } from './components/PoweredBy';
 import { RoutesExpanded } from './components/Routes';
 import { useExpandableVariant } from './hooks';
 import type { WidgetConfig, WidgetProps } from './types';
+import { MultisigWalletAlert } from './components/MultisigWalletAlert';
+import { useWidgetConfig } from './providers';
 
 export const App = forwardRef<WidgetDrawer, WidgetProps>(
   ({ elementRef, open, integrator, ...other }, ref) => {
@@ -39,17 +42,25 @@ export const App = forwardRef<WidgetDrawer, WidgetProps>(
 
 export const AppDefault = () => {
   const expandable = useExpandableVariant();
+
+  const { sdkConfig } = useWidgetConfig();
+
+  const isMultisigWalletEnabled = sdkConfig?.multisigConfig?.isMultisigSigner;
+
   return (
     <AppExpandedContainer>
-      <AppContainer>
-        <Header />
-        <FlexContainer disableGutters>
-          <AppRoutes />
-        </FlexContainer>
-        <PoweredBy />
-        <Initializer />
-      </AppContainer>
-      {expandable ? <RoutesExpanded /> : null}
+      {isMultisigWalletEnabled ? <MultisigWalletAlert /> : null}
+      <AppExpandedContainerMultisig>
+        <AppContainer>
+          <Header />
+          <FlexContainer disableGutters>
+            <AppRoutes />
+          </FlexContainer>
+          <PoweredBy />
+          <Initializer />
+        </AppContainer>
+        {expandable ? <RoutesExpanded /> : null}
+      </AppExpandedContainerMultisig>
     </AppExpandedContainer>
   );
 };
