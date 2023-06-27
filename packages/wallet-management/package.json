@@ -52,8 +52,8 @@
     "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/experimental": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
-    "@lifi/sdk": "^2.0.1",
-    "@walletconnect/ethereum-provider": "^2.8.3",
+    "@lifi/sdk": "^2.1.0",
+    "@walletconnect/ethereum-provider": "^2.8.4",
     "@walletconnect/modal": "^2.5.4",
     "events": "^3.3.0",
     "react": "^18.2.0"
