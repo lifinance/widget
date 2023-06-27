@@ -69,9 +69,9 @@
     "message": {
       "autoRefuel": "Você está com pouco gás na rede {{chainName}}. Ao continuar, você obterá gás suficiente para completar a conversão.",
       "emptyActiveTransactions": "As transações em andamento aparecerão aqui. Uma vez concluídas, encontre-as no histórico de transações.",
-      "emptyTokenList": "Não conseguimos encontrar tokens na rede {{chainName}} ou você não possui nenhum. Por favor, tente procurar novamente ou escolha outra rede.",
+      "emptyTokenList": "Não conseguimos encontrar tokens na rede {{chainName}} ou você não possui nenhum. Por favor, procure pelo endereço de contrato caso o token não apareça ou escolha outra rede.",
       "emptyTransactionHistory": "O histórico de transações é armazenado apenas localmente e será excluído se você limpar os dados do seu navegador.",
-      "routeNotFound": "Tente outra combinação de tokens."
+      "routeNotFound": "Razões para isso podem ser: baixa liquidez, valor selecionado é muito baixo, os custos com gás são muito elevados ou não há rotas para a combinação selecionada."
     },
     "title": {
       "autoRefuel": "Obter gás",
