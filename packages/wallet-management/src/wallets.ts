@@ -38,6 +38,11 @@ const walletConnect: Wallet = new WalletConnectConnector({
       .filter((chain) => chain.chainType === ChainType.EVM)
       .map((chain) => chain.id),
     showQrModal: true,
+    qrModalOptions: {
+      themeVariables: {
+        '--wcm-z-index': '3000',
+      },
+    },
   },
 });
 
