@@ -1,14 +1,13 @@
 import type { Signer } from '@ethersproject/abstract-signer';
 import type { Web3Provider } from '@ethersproject/providers';
 import type { StaticToken } from '@lifi/sdk';
-import type SafeAppsSDK from '@safe-global/safe-apps-sdk/dist/src/sdk';
-import type { ethers } from 'ethers';
-import type events from 'events';
-import type EventEmitter from 'node:events';
+import type { EthereumProviderOptions } from '@walletconnect/ethereum-provider/dist/types/EthereumProvider';
+import type { EventEmitter } from 'events';
 
 export interface ProviderConnectInfo {
   readonly chainId: string;
 }
+
 export interface ProviderRpcError extends Error {
   message: string;
   code: number;
@@ -34,23 +33,25 @@ export interface AccountData {
   isMultisigWallet?: boolean;
   sdk?: SafeAppsSDK;
 }
-export interface InjectedConnectorConstructorArgs {
+
+export interface InjectedConnectorArgs {
   name: string;
   icon: string;
   installed: () => Promise<boolean>;
 }
-export interface WalletConnectConnectorConstructorArgs
-  extends InjectedConnectorConstructorArgs {
-  rpc: {
-    [chainId: number]: string;
-  };
+
+export interface WalletConnectConnectorArgs {
+  name: string;
+  icon: string;
+  installed: () => boolean;
+  options: EthereumProviderOptions;
 }
 
 export interface Wallet extends EventEmitter {
   name: string;
   icon: string;
   isActivationInProgress: boolean;
-  account: AccountData | undefined;
+  account?: AccountData;
   installed: () => Promise<boolean>;
   connect: () => Promise<void>;
   autoConnect?: () => Promise<void>;

@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/lifinance/widget/compare/v2.0.1...v2.1.0) (2023-06-27)
+
+
+### Features
+
+* add emitter-event for contact support button ([192140a](https://github.com/lifinance/widget/commit/192140a624bc6a55b6f7288632891c1e5cb6576b))
+* support WalletConnect v2 ([#89](https://github.com/lifinance/widget/issues/89)) ([5c8cd6d](https://github.com/lifinance/widget/commit/5c8cd6ddabd898ec27411f4b19a5f354d9d365aa))
+
+
+### Bug Fixes
+
+* add header store context ([5274705](https://github.com/lifinance/widget/commit/5274705c5dfa8412cc25a54792d58ddccb5b501b))
+
 ### [2.0.1](https://github.com/lifinance/widget/compare/v2.0.0...v2.0.1) (2023-06-16)
 
 

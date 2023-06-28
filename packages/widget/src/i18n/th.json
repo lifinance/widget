@@ -1,6 +1,15 @@
 {
+  "language": {
+    "name": "ภาษาไทย",
+    "title": "ภาษา"
+  },
+  "format": {
+    "currency": "{{value, currency(currency: USD)}}",
+    "number": "{{value, number(maximumFractionDigits: 9)}}"
+  },
   "button": {
     "auto": "อัตโนมัติ",
+    "bridge": "บริดจ์",
     "buy": "ซื้อ",
     "buyNow": "ซื้อตอนนี้",
     "cancel": "ยกเลิก",
@@ -12,94 +21,74 @@
     "delete": "ลบ",
     "disconnect": "ยกเลิกการเชื่อมต่อ",
     "done": "เสร็จสิ้น",
+    "exchange": "แลกเปลี่ยน",
     "getGas": "รับแก็ส",
     "hide": "ซ่อน",
     "learnMore": "เรียนรู้เพิ่มเติม",
-    "lifiSwap": "การแลกเปลี่ยนของ LI.FI",
+    "lifiCheckout": "Li.Fi. ตรวจสอบ",
+    "lifiExchange": "LI.FI Exchange",
     "light": "สว่าง",
     "max": "สูงสุด",
     "ok": "ตกลง",
-    "okay": "ตกลง",
-    "removeSwap": "ยกเลิกการแลกเปลี่ยน",
+    "removeTransaction": "นำรายการออก",
     "reset": "ล้างข้อมูล",
     "resetSettings": "รีเซ็ตการตั้งค่า",
-    "restartSwap": "เริ่มต้นการแลกเปลี่ยนใหม่",
-    "reviewGasSwap": "ตรวจสอบแก๊สในการแลกเปลี่ยน",
+    "reviewBridge": "ตรวจสอบบริดจ์",
     "reviewPurchase": "ตรวจสอบการสั่งซื้อ",
     "reviewSwap": "ตรวจสอบการแลกเปลี่ยน",
     "seeDetails": "ดูรายละเอียด",
     "showAll": "แสดงทั้งหมด",
-    "startGasSwap": "เริ่มต้นแก๊สในการแลกเปลี่ยน",
-    "startSwap": "เริ่มต้นการแลกเปลี่ยน",
+    "startBridging": "เริ่มต้นการบริดจ์",
+    "startSwapping": "เริ่มต้นการแลกเปลี่ยน",
     "swap": "การแลกเปลี่ยน",
     "tryAgain": "ลองใหม่",
     "viewCoverage": "ดูความคุ้มครอง",
     "viewOnExplorer": "ดูในการสำรวจ"
   },
-  "format": {
-    "currency": "{{value, currency(currency: USD)}}",
-    "number": "{{value, number(maximumFractionDigits: 9)}}"
-  },
   "header": {
-    "activeSwaps": "เปิดการใช้งาน การแลกเปลี่ยน",
+    "activeTransactions": "ธุรกรรมมีผล",
     "bridge": "บริดจ์",
     "checkout": "เช็คเอาท์",
+    "exchange": "แลกเปลี่ยน",
     "from": "แลกเปลี่ยนจาก",
     "gas": "แก็ส",
-    "gasSwap": "แก็สในการแลกเปลี่ยน",
     "payWith": "ชำระด้วย",
     "purchase": "ซื้อ",
     "purchaseDetails": "รายละเอียดการซื้อ",
-    "routes": "คุณได้รับ",
     "selectChain": "เลือกเชน",
     "selectWallet": "เลือกกระเป๋าของคุณ",
     "settings": "ตั้งค่า",
     "swap": "แลกเปลี่ยน",
-    "swapDetails": "รายละเอียดการแลกเปลี่ยน",
-    "swapHistory": "ประวัติการแลกเปลี่ยน",
     "to": "แลกเปลี่ยนเป็น",
-    "walletConnected": "กระเป๋าถูกเชื่อมต่อแล้ว"
-  },
-  "language": {
-    "name": "ภาษาไทย",
-    "title": "ภาษา"
-  },
-  "settings": {
-    "enabledBridges": "เปิดการใช้งานบริดจ์",
-    "enabledExchanges": "เปิดการใช้งาน การแลกเปลี่ยน",
-    "gasPrice": {
-      "fast": "รวดเร็ว",
-      "normal": "ปกติ",
-      "slow": "ช้า",
-      "title": "ค่าแก็ส"
-    },
-    "routePriority": "ลำดับสำคัญของเส้นทาง",
-    "showDestinationWallet": "แสดงกระเป๋าปลายทาง",
-    "slippage": "ความคลาดเคลื่อน"
+    "transactionDetails": "รายละเอียดของธุรกรรม",
+    "transactionHistory": "ประวัติการซื้อขาย",
+    "walletConnected": "กระเป๋าถูกเชื่อมต่อแล้ว",
+    "youGet": "คุณได้รับ"
   },
   "info": {
     "message": {
       "autoRefuel": "คุณใช้แก็ส {{chainName}} เหลือน้อย เมื่อดำเนินการต่อ คุณจะได้รับแก็สเพียงพอสำหรับการแลกเปลี่ยนให้เสร็จสมบูรณ์",
-      "emptyActiveSwaps": "การแลกเปลี่ยนที่กำลังดำเนินการจะปรากฏที่นี่. เมื่อเสร็จสิ้น, จะพบประวัติการแลกเปลี่ยน.",
-      "emptySwapHistory": "ประวัติการแลกเปลี่ยนจะถูกเก็บไว้ในเครื่องเท่านั้นและจะถูกลบหากคุณล้างข้อมูลเบราว์เซอร์ของคุณ.",
+      "emptyActiveTransactions": "การแลกเปลี่ยนที่กำลังดำเนินการจะปรากฏที่นี่. เมื่อเสร็จสิ้น, จะพบประวัติการแลกเปลี่ยน.",
       "emptyTokenList": "เราไม่พบโทเค็นใน {{chainName}} เชนหรือคุณไม่มีโทเค็น. โปรดลองอีกครั้งหรือเลือกเชนอื่น.",
-      "routeNotFound": "ลองจับคู่แลกเปลี่ยนโทเค็นใหม่."
+      "emptyTransactionHistory": "ประวัติการแลกเปลี่ยนจะถูกเก็บไว้ในเครื่องเท่านั้นและจะถูกลบหากคุณล้างข้อมูลเบราว์เซอร์ของคุณ.",
+      "routeNotFound": "เหตุผลที่อาจเกิดขึ้น : สภาพคล่องต่ำ , จำนวนที่เลือกน้อยเกินไป , ต้นทุนแก็สสูงหรือไม่มีเส้นทางที่ใช้งานได้"
     },
     "title": {
       "autoRefuel": "รับแก็ส",
-      "emptyActiveSwaps": "ไม่พบการแลกเปลี่ยนที่ใช้งานอยู่.",
-      "emptySwapHistory": "ไม่พบการแลกเปลี่ยนล่าสุด.",
+      "emptyActiveTransactions": "ไม่มีธุรกรรมที่มีผล",
+      "emptyTransactionHistory": "ไม่มีธุรกรรมล่าสุด",
       "routeNotFound": "ไม่พบเส้นทาง"
     }
   },
   "success": {
     "message": {
-      "swapPartiallySuccessful": "เราได้พยายามดำเนินการแลกเปลี่ยนให้เสร็จสมบูรณ์แต่ {{tool}} ขาดสภาพคล่องสำหรับโทเค็น {{tokenSymbol}}",
-      "purchaseSuccessful": "คุณมี {{assetName}} ใน{{walletAddress}} กระเป๋า บน{{chainName}} เครือข่าย",
-      "swapSuccessful": "ตอนนี้มี {{amount, number(maximumFractionDigits: 9)}}{{tokenSymbol}} ใน {{walletAddress}} กระเป๋าบน {{chainName}} เชน."
+      "exchangePartiallySuccessful": "เราได้พยายามดำเนินการแลกเปลี่ยนให้เสร็จสมบูรณ์แต่ {{tool}} ขาดสภาพคล่องสำหรับโทเค็น {{tokenSymbol}}",
+      "exchangeSuccessful": "ตอนนี้มี {{amount, number(maximumFractionDigits: 9)}}{{tokenSymbol}} ใน {{walletAddress}} กระเป๋าบน {{chainName}} เชน.",
+      "purchaseSuccessful": "คุณมี {{assetName}} ใน{{walletAddress}} กระเป๋า บน{{chainName}} เครือข่าย"
     },
     "title": {
-      "gasSwapSuccessful": "แลกเปลี่ยนแก็สสำเร็จ",
+      "bridgePartiallySuccessful": "แลกเปลี่ยนสำเร็จบางส่วน",
+      "bridgeSuccessful": "บริดจ์สำเร็จ",
       "purchaseSuccessful": "การซื้อเสร็จสมบูรณ์",
       "refundIssued": "คืนเงินแล้ว",
       "swapPartiallySuccessful": "แลกเปลี่ยนสำเร็จบางส่วน",
@@ -108,8 +97,8 @@
   },
   "warning": {
     "message": {
-      "deleteActiveSwaps": "การแลกเปลี่ยนที่ใช้งานอยู่จะถูกจัดเก็บไว้ในเครื่องเท่านั้นและไม่สามารถกู้คืนได้หากคุณลบออก.",
-      "deleteSwapHistory": "ประวัติการแลกเปลี่ยนจะถูกจัดเก็บไว้ในเครื่องเท่านั้นและไม่สามารถกู้คืนได้หากคุณลบออก",
+      "deleteActiveTransactions": "การแลกเปลี่ยนที่ใช้งานอยู่จะถูกจัดเก็บไว้ในเครื่องเท่านั้นและไม่สามารถกู้คืนได้หากคุณลบออก.",
+      "deleteTransactionHistory": "ประวัติการแลกเปลี่ยนจะถูกจัดเก็บไว้ในเครื่องเท่านั้นและไม่สามารถกู้คืนได้หากคุณลบออก",
       "highValueLoss": "มูลค่าของโทเค็นที่ได้รับนั้นต่ำกว่าโทเค็นที่แลกเปลี่ยนและต้นทุนการทำธุรกรรมอย่างมาก.",
       "insufficientFunds": "คุณมีเงินไม่เพียงพอที่จะดำเนินการแลกเปลี่ยน.",
       "insufficientGas": "คุณมีแก๊สไม่เพียงพอที่จะแลกเปลี่ยนให้เสร็จสมบูรณ์ คุณต้องเพิ่มอย่างน้อย:",
@@ -117,9 +106,9 @@
       "resetSettings": "การดำเนินการนี้จะรีเซ็ตลำดับความสำคัญของเส้นทาง การคลาดเลื่อน ค่าแก็ส บริดจ์ที่เปิดใช้งานและการแลกเปลี่ยน"
     },
     "title": {
-      "deleteActiveSwaps": "ลบการแลกเปลี่ยนที่เกิดขึ้นอยู่ทั้งหมด?",
-      "deleteSwap": "ลบการแลกเปลี่ยนในครั้งนี้?",
-      "deleteSwapHistory": "ลบประวัติการแลกเปลี่ยน?",
+      "deleteActiveTransactions": "ลบ​รายการธุรกรรม​ทั้งหมด?",
+      "deleteTransaction": "ต้องการลบธุรกรรมนี้?",
+      "deleteTransactionHistory": "ต้องการลบประวัติการทำธุรกรรม?",
       "highValueLoss": "สูญเสียมูลค่าสูง",
       "insufficientGas": "ค่าแก็สไม่พอ",
       "rateChanged": "อัตราการแลกเปลี่ยนถูกเปลี่ยน",
@@ -140,7 +129,6 @@
       "allowanceRequired": "การอนุญาตไม่เพียงพอ",
       "balanceIsTooLow": "ยอดคงเหลือต่ำเกินไป",
       "chainSwitch": "จำเป็นต้องเปลี่ยนเชน",
-      "failed": "การแลกเปลี่ยนล้มเหลว",
       "gasLimitIsTooLow": "แก๊สคงเหลือต่ำเกินไป",
       "insufficientFunds": "ยอดคงเหลือไม่เพียงพอ",
       "slippageNotMet": "ความคลาดเคลื่อนของราคาไม่เป็นไปตามเงื่อนไข.",
@@ -154,6 +142,19 @@
       "walletAddressRequired": "กรุณากรอกที่อยู่กระเป๋าเงิน.",
       "walletEnsAddressInvalid": "ที่อยู่กระเป๋าเงินไม่ถูกต้องหรือเครือข่ายไม่รองรับ ENS."
     }
+  },
+  "tooltip": {
+    "additionalProviderFee": "บริดจ์เพิ่มเติม DEX และค่าบริการ",
+    "estimatedNetworkFee": "ค่าธรรรมเนียมโดยประมาณของเครือข่าย",
+    "estimatedTime": "เวลาดำเนินการแลกเปลี่ยนโดยประมาณเป็นนาที.",
+    "notFound": {
+      "text": "เราไม่พบหน้านี้.",
+      "title": "404"
+    },
+    "numberOfSteps": "ขั้นตอนการแลกเปลี่ยนหลายขั้นตอน แต่ละขั้นตอนสามารถมี 1-2 รายการที่ต้องใช้ลายเซ็น.",
+    "progressToNextUpdate": "ข้อมูลที่แสดงจะรีเฟรชอัตโนมัติหลังจาก {{value}} วินาที คลิกที่นี่เพื่ออัปเดตด้วยตนเอง",
+    "recommended": "เส้นทางที่ถูกมียอดคงเหลือที่เพียงพอและง่ายต่องการใช้งาน",
+    "settingsModified": "การตั้งค่า (แก้ไข)"
   },
   "main": {
     "crossStepDetails": "บริดจ์จาก{{from}} to {{to}} โดย {{tool}}",
@@ -211,6 +212,7 @@
     "selectToken": "เลือกโทเคน",
     "sendToAddress": "ส่งไปยัง {{address}}",
     "sendToWallet": "ส่งไปยังกระเป๋าเงินอื่น",
+    "sending": "กำลังส่ง",
     "sentToAddress": "ส่งไปยัง {{address}}",
     "stepBridge": "บริดจ์",
     "stepBridgeAndBuy": "บริดจ์และซื้อ",
@@ -220,7 +222,6 @@
     "stepSwapAndBuy": "แลกเปลี่ยน และ ซื้อ",
     "supportId": "หมายเลขที่สนับสนุน",
     "swapStepDetails": "แลกเปลี่ยนบน {{chain}} ผ่าน {{tool}}",
-    "swapping": "การแลกเปลี่ยน",
     "tags": {
       "cheapest": "ราคาถูก",
       "fastest": "รวดเร็ว",
@@ -243,18 +244,18 @@
     "insured": "คุณได้ประกัน<0>{{amount, number(maximumFractionDigits: 9)}}{{tokenSymbol}}</0> ในการขนส่ง",
     "slippageError": "เกิดข้อผิดพลาดในการคลาดเคลื่อนของโทเค็นที่ได้รับ"
   },
-  "tooltip": {
-    "additionalProviderFee": "บริดจ์เพิ่มเติม DEX และค่าบริการ",
-    "estimatedNetworkFee": "ค่าธรรรมเนียมโดยประมาณของเครือข่าย",
-    "estimatedTime": "เวลาดำเนินการแลกเปลี่ยนโดยประมาณเป็นนาที.",
-    "notFound": {
-      "text": "เราไม่พบหน้านี้.",
-      "title": "404"
+  "settings": {
+    "enabledBridges": "เปิดการใช้งานบริดจ์",
+    "enabledExchanges": "เปิดการใช้งาน การแลกเปลี่ยน",
+    "gasPrice": {
+      "fast": "รวดเร็ว",
+      "normal": "ปกติ",
+      "slow": "ช้า",
+      "title": "ค่าแก็ส"
     },
-    "numberOfSteps": "ขั้นตอนการแลกเปลี่ยนหลายขั้นตอน แต่ละขั้นตอนสามารถมี 1-2 รายการที่ต้องใช้ลายเซ็น.",
-    "progressToNextUpdate": "ข้อมูลที่แสดงจะรีเฟรชอัตโนมัติหลังจาก {{value}} วินาที คลิกที่นี่เพื่ออัปเดตด้วยตนเอง",
-    "recommended": "เส้นทางที่ถูกมียอดคงเหลือที่เพียงพอและง่ายต่องการใช้งาน",
-    "settingsModified": "การตั้งค่า (แก้ไข)"
+    "routePriority": "ลำดับสำคัญของเส้นทาง",
+    "showDestinationWallet": "แสดงกระเป๋าปลายทาง",
+    "slippage": "ความคลาดเคลื่อน"
   },
   "wallet": {
     "extensionNotFound": "โปรดตรวจสอบว่ามีเพียงส่วนขยายของเบราว์เซอร์ {{name}} เท่านั้นที่ใช้งานได้ก่อนที่จะเลือกกระเป๋าเงินนี้."

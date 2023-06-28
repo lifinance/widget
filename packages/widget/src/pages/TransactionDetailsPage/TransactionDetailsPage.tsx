@@ -17,13 +17,13 @@ import { shallow } from 'zustand/shallow';
 import { Card, CardTitle } from '../../components/Card';
 import { ContractComponent } from '../../components/ContractComponent';
 import { Dialog } from '../../components/Dialog';
-import { useHeaderStore } from '../../components/Header';
 import { Insurance } from '../../components/Insurance';
 import { getStepList } from '../../components/Step';
 import { useNavigateBack } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
-import { useRouteExecutionStore } from '../../stores';
+import { useHeaderStoreContext, useRouteExecutionStore } from '../../stores';
 import { formatTokenAmount } from '../../utils';
+import { ContactSupportButton } from './ContactSupportButton';
 import { Container } from './TransactionDetailsPage.style';
 
 export const TransactionDetailsPage: React.FC = () => {
@@ -36,6 +36,7 @@ export const TransactionDetailsPage: React.FC = () => {
     (store) => [store.routes[state?.routeId], store.deleteRoute],
     shallow,
   );
+  const headerStoreContext = useHeaderStoreContext();
   const [open, setOpen] = useState(false);
 
   const toggleDialog = useCallback(() => {
@@ -66,12 +67,12 @@ export const TransactionDetailsPage: React.FC = () => {
   };
 
   useEffect(() => {
-    return useHeaderStore.getState().setAction(
+    return headerStoreContext.getState().setAction(
       <IconButton size="medium" edge="end" onClick={toggleDialog}>
         <DeleteIcon />
       </IconButton>,
     );
-  }, [toggleDialog]);
+  }, [headerStoreContext, toggleDialog]);
 
   const startedAt = new Date(
     routeExecution?.route.steps[0].execution?.process[0].startedAt ?? 0,
@@ -143,14 +144,7 @@ export const TransactionDetailsPage: React.FC = () => {
         </Typography>
       </Card>
       <Box mt={2}>
-        <Button
-          href="https://discord.gg/lifi"
-          target="_blank"
-          rel="nofollow noreferrer"
-          fullWidth
-        >
-          {t('button.contactSupport')}
-        </Button>
+        <ContactSupportButton supportId={supportId} />
       </Box>
       <Dialog open={open} onClose={toggleDialog}>
         <DialogTitle>{t('warning.title.deleteTransaction')}</DialogTitle>

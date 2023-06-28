@@ -3,7 +3,7 @@ import { ethers } from 'ethers';
 import events from 'events';
 import type {
   AccountData,
-  InjectedConnectorConstructorArgs,
+  InjectedConnectorArgs,
   Provider,
   ProviderConnectInfo,
   ProviderRpcError,
@@ -25,7 +25,7 @@ export class InjectedConnector extends events.EventEmitter implements Wallet {
   public installed: () => Promise<boolean>;
 
   constructor(
-    constructorArgs: InjectedConnectorConstructorArgs,
+    constructorArgs: InjectedConnectorArgs,
     windowConnector = (window as any).ethereum as Provider,
     autoConnect = false,
   ) {

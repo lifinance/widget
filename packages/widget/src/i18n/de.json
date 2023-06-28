@@ -1,6 +1,17 @@
 {
+  "language": {
+    "name": "Deutsch",
+    "title": "Sprache"
+  },
+  "format": {
+    "currency": "{{value, currency(currency: USD)}}",
+    "number": "{{value, number(maximumFractionDigits: 4)}}"
+  },
   "button": {
     "auto": "Auto",
+    "bridge": "Bridge",
+    "buy": "Buy",
+    "buyNow": "Jetzt kaufen",
     "cancel": "Abbrechen",
     "connectWallet": "Wallet verbinden",
     "contactSupport": "Support kontaktieren",
@@ -10,86 +21,75 @@
     "delete": "Löschen",
     "disconnect": "Trennen",
     "done": "Fertig",
+    "exchange": "Exchange",
     "getGas": "Gas erhalten",
     "hide": "Ausblenden",
-    "lifiSwap": "LI.FI Swap",
+    "learnMore": "Mehr erfahren",
+    "lifiCheckout": "LI.FI Checkout",
+    "lifiExchange": "LI.FI Exchange",
     "light": "Hell",
     "max": "max",
     "ok": "OK",
-    "okay": "Okay",
-    "removeSwap": "Swap entfernen",
+    "removeTransaction": "Transaktion entfernen",
     "reset": "Zurücksetzen",
     "resetSettings": "Einstellungen zurücksetzen",
-    "restartSwap": "Swap neu starten",
-    "reviewGasSwap": "Gas-Swap überprüfen",
+    "reviewBridge": "Bridge überprüfen",
+    "reviewPurchase": "Kauf ansehen",
     "reviewSwap": "Swap überprüfen",
     "seeDetails": "Siehe Einzelheiten",
     "showAll": "Alles anzeigen",
-    "startGasSwap": "Gas-Swap starten",
-    "startSwap": "Swap starten",
+    "startBridging": "Starte Bridge Protokoll",
+    "startSwapping": "Swap starten",
     "swap": "Swap",
     "tryAgain": "Erneut versuchen",
+    "viewCoverage": "Deckung anzeigen",
     "viewOnExplorer": "Im Explorer anzeigen"
   },
-  "format": {
-    "currency": "{{value, currency(currency: USD)}}",
-    "number": "{{value, number(maximumFractionDigits: 4)}}"
-  },
   "header": {
-    "activeSwaps": "Aktive Swaps",
+    "activeTransactions": "Aktive Transaktion",
+    "bridge": "Bridge",
     "checkout": "Zur Kasse",
+    "exchange": "Exchange",
     "from": "Swap von",
     "gas": "Gas",
-    "gasSwap": "Gas swap",
-    "routes": "Sie erhalten",
+    "payWith": "Zahle mit",
+    "purchase": "Kauf",
+    "purchaseDetails": "Kaufdetails",
     "selectChain": "Chain auswählen",
     "selectWallet": "Wallet wählen",
     "settings": "Einstellungen",
     "swap": "Swap",
-    "swapDetails": "Siehe Einzelheiten",
-    "swapHistory": "Swap-Verlauf",
     "to": "Swap zu",
-    "walletConnected": "Wallet verbunden"
-  },
-  "language": {
-    "name": "Deutsch",
-    "title": "Sprache"
-  },
-  "settings": {
-    "enabledBridges": "Aktivierte Bridges",
-    "enabledExchanges": "Aktivierte Exchanges",
-    "gasPrice": {
-      "fast": "Schnell",
-      "normal": "Normal",
-      "slow": "Langsam",
-      "title": "Gaspreis"
-    },
-    "routePriority": "Routenpriorität",
-    "showDestinationWallet": "Ziel Wallet anzeigen",
-    "slippage": "Slippage"
+    "transactionDetails": "Transaktionsdetails",
+    "transactionHistory": "Transaktionshistorie\u2028",
+    "walletConnected": "Wallet verbunden",
+    "youGet": "Sie erhalten"
   },
   "info": {
     "message": {
       "autoRefuel": "Sie haben nicht genug Gas auf {{chainName}}. Wenn Sie fortfahren, erhalten Sie zusätzlich genug Gas um den Swap abzuschließen.",
-      "emptyActiveSwaps": "Laufende Swaps werden hier angezeigt. Sobald Sie fertig sind, finden Sie sie im Swap-Verlauf.",
-      "emptySwapHistory": "Der Swap-Verlauf wird nur lokal gespeichert und gelöscht, wenn Sie Ihre Browserdaten löschen.",
-      "emptyTokenList": "Wir konnten keine Tokens auf der Chain {{chainName}} finden oder Sie haben keine. Bitte versuchen Sie die Suche erneut oder wählen Sie eine andere Chain.",
-      "routeNotFound": "Probieren Sie eine andere Token-Kombination aus."
+      "emptyActiveTransactions": "Laufende Swaps werden hier angezeigt. Sobald Sie fertig sind, finden Sie sie in der Transaktionshistorie.",
+      "emptyTokenList": "Es wurden keine Tokens auf der Chain {{chainName}} gefunden oder Sie haben keine. Bitte versuchen Sie die Suche erneut mit der Contract-Adresse falls Ihr Token nicht erscheint oder wechseln Sie die Chain.",
+      "emptyTransactionHistory": "Die Transaktionshistorie wird nur lokal gespeichert und gelöscht, wenn Sie Ihre Browserdaten löschen.",
+      "routeNotFound": "Gründe dafür könnten lauten: geringe Liquidität, gewählter Betrag ist zu niedrig, die Gaskosten sind zu hoch oder es gibt keine Routen für die ausgewählte Kombination."
     },
     "title": {
-      "autoRefuel": "Get gas",
-      "emptyActiveSwaps": "Keine aktiven Swaps",
-      "emptySwapHistory": "Keine Swaps in der letzten Zeit",
+      "autoRefuel": "Gas erhalten",
+      "emptyActiveTransactions": "Keine aktiven Transaktionen",
+      "emptyTransactionHistory": "Keine neuen Transaktionen",
       "routeNotFound": "Keine Routen verfügbar"
     }
   },
   "success": {
     "message": {
-      "swapPartiallySuccessful": "Wir haben versucht, den Swap abzuschließen, aber {{tool}} hat keine Liquidität für {{tokenSymbol}} Token.",
-      "swapSuccessful": "Es sind jetzt {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} in wallet {{walletAddress}} auf chain {{chainName}}."
+      "exchangePartiallySuccessful": "Wir haben versucht, den Swap abzuschließen, aber {{tool}} hat keine Liquidität für {{tokenSymbol}} Token.",
+      "exchangeSuccessful": "Es sind jetzt {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} in der Wallet {{walletAddress}} auf der {{chainName}}-Chain.",
+      "purchaseSuccessful": "Sie besitzen jetzt {{assetName}} in der Wallet {{walletAddress}} auf der {{chainName}}-Chain."
     },
     "title": {
-      "gasSwapSuccessful": "Gas-Swap erfolgreich",
+      "bridgePartiallySuccessful": "Bridge teilweise erfolgreich",
+      "bridgeSuccessful": "Bridge erfolgreich",
+      "purchaseSuccessful": "Kauf abgeschlossen",
       "refundIssued": "Rückerstattung gewährt",
       "swapPartiallySuccessful": "Swap teilweise erfolgreich",
       "swapSuccessful": "Swap erfolgreich"
@@ -97,8 +97,8 @@
   },
   "warning": {
     "message": {
-      "deleteActiveSwaps": "Aktive Swaps werden nur lokal gespeichert und können nicht wiederhergestellt werden, wenn Sie sie löschen.",
-      "deleteSwapHistory": "Der Swap-Verlauf wird nur lokal gespeichert und kann nicht wiederhergestellt werden, wenn Sie ihn löschen.",
+      "deleteActiveTransactions": "Aktive Swaps werden nur lokal gespeichert und können nicht wiederhergestellt werden, wenn Sie sie löschen.",
+      "deleteTransactionHistory": "Die Transaktionshistorie wird nur lokal gespeichert und kann nicht wiederhergestellt werden, wenn Sie sie löschen.",
       "highValueLoss": "Der Wert der erhaltenen Token ist deutlich niedriger als die getauschten Token und die Transaktionskosten.",
       "insufficientFunds": "Sie haben nicht genug Token, um diesen Swap abzuschließen.",
       "insufficientGas": "Sie haben nicht genug Gas um diesen Swap abzuschließen. Sie müssen mindestens hinzufügen:",
@@ -106,9 +106,9 @@
       "resetSettings": "Dies wird Ihre Routenpriorität, Slippage, Gaspreis, aktivierte Brücken und Exchanges zurücksetzen."
     },
     "title": {
-      "deleteActiveSwaps": "Alle aktiven Swaps löschen?",
-      "deleteSwap": "Diesen Swap löschen?",
-      "deleteSwapHistory": "Swap-Verlauf löschen?",
+      "deleteActiveTransactions": "Alle aktiven Transaktionen entfernen?",
+      "deleteTransaction": "Transaktion löschen?",
+      "deleteTransactionHistory": "Transaktionshistorie entfernen?",
       "highValueLoss": "Hoher Wertverlust",
       "insufficientGas": "Unzureichendes Gas",
       "rateChanged": "Wechselkurs geändert",
@@ -117,6 +117,8 @@
   },
   "error": {
     "message": {
+      "allowanceRequired": "Überweisungsbetrag für {{tokenSymbol}} überschreitet Ihre derzeitige Zulassung. Bitte erhöhen Sie das Limit und versuchen Sie es erneut.",
+      "insufficientFunds": "Sie haben nicht genug Gas, um die Kosten der Transaktion zu decken.",
       "slippageThreshold": "Die Slippage ist größer als der definierte Schwellenwert. Bitte fordern Sie eine neue Route an, um ein neues Angebot zu erhalten.",
       "transactionFailed": "Weitere Informationen finden Sie im Block-Explorer.",
       "transactionNotSent": "Die Transaktion wurde nicht gesendet, Ihr Geld befindet sich noch in Ihrer Brieftasche ({{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} auf {{chainName}}).",
@@ -124,10 +126,11 @@
       "unknown": "Bitte versuchen Sie es später noch einmal oder kontaktieren Sie den Support."
     },
     "title": {
+      "allowanceRequired": "Unzureichende Erlaubnis",
       "balanceIsTooLow": "Ihr Guthaben ist zu gering",
       "chainSwitch": "Chainwechsel erforderlich",
-      "failed": "Swap fehlgeschlagen",
       "gasLimitIsTooLow": "Das Gaslimit ist zu niedrig",
+      "insufficientFunds": "Unzureichendes Guthaben",
       "slippageNotMet": "Slippagebedingungen nicht erfüllt",
       "transactionCanceled": "Transaktion abgebrochen",
       "transactionFailed": "Transaktion ist fehlgeschlagen.",
@@ -139,6 +142,19 @@
       "walletAddressRequired": "Wallet-Adresse ist erforderlich.",
       "walletEnsAddressInvalid": "Die Wallet-Adresse ist ungültig oder das Netzwerk unterstützt ENS nicht."
     }
+  },
+  "tooltip": {
+    "additionalProviderFee": "Zusätzliche Bridges, DEXs und Servicegebühren.",
+    "estimatedNetworkFee": "Geschätzte Netzwerkgebühr.",
+    "estimatedTime": "Geschätzte Swap-Ausführungszeit in Minuten.",
+    "notFound": {
+      "text": "Wir konnten diese Seite nicht finden.",
+      "title": "404"
+    },
+    "numberOfSteps": "Eine Anzahl von Swap-Schritten. Jeder Schritt kann 2 Transaktionen enthalten, die eine Unterschrift erfordern.",
+    "progressToNextUpdate": "Angezeigte Daten werden nach {{value}} Sekunden automatisch aktualisiert. Klicken Sie hier, um manuell zu aktualisieren.",
+    "recommended": "Eine preiswerte Route, die Komplexität und Benutzerfreundlichkeit in Einklang bringt.",
+    "settingsModified": "Einstellungen (geändert)"
   },
   "main": {
     "crossStepDetails": "Bridgen von {{from}} nach {{to}} über {{tool}}",
@@ -155,13 +171,15 @@
     "onChain": "auf {{chainName}}",
     "otherTokens": "Andere Token",
     "ownedBy": "In Besitz von",
-    "payWith": "Zahle mit",
     "process": {
       "crossChain": {
         "actionRequired": "Bitte signieren Sie die Transaktion.",
         "done": "Transaktion genehmigt",
         "pending": "Warten auf Transaktion",
         "started": "Transaktion vorbereiten"
+      },
+      "nft": {
+        "done": "NFT gekauft"
       },
       "receivingChain": {
         "done": "Bridge abgeschlossen",
@@ -189,20 +207,21 @@
     "rateChange": "Wechselkurs geändert",
     "receiving": "Eingehend",
     "refuelStepDetails": "Gas über {{tool}} erhalten",
-    "routes": "Sie erhalten",
     "selectChain": "Chain",
     "selectChainAndToken": "Chain und Token auswählen",
     "selectToken": "Token",
     "sendToAddress": "An {{address}} senden",
     "sendToWallet": "An eine andere Wallet senden",
+    "sending": "Wird gesendet",
     "sentToAddress": "Gesendet an {{address}}",
     "stepBridge": "Bridge",
+    "stepBridgeAndBuy": "Bridge und Kauf",
     "stepDetails": "{{tool}} via LI.FI",
     "stepSwap": "Swap",
     "stepSwapAndBridge": "Tauschen und überbrücken",
+    "stepSwapAndBuy": "Tauschen und kaufen",
     "supportId": "Support-ID",
     "swapStepDetails": "Tausche auf {{chain}} über {{tool}}",
-    "swapping": "Austauschen",
     "tags": {
       "cheapest": "Günstig",
       "fastest": "Schnell",
@@ -219,17 +238,24 @@
     "valueLoss": "Wertverlust",
     "walletAddressOrEns": "Wallet-Adresse oder ENS-Name"
   },
-  "tooltip": {
-    "additionalProviderFee": "Zusätzliche Bridges, DEXs und Servicegebühren.",
-    "estimatedNetworkFee": "Geschätzte Netzwerkgebühr.",
-    "estimatedTime": "Geschätzte Swap-Ausführungszeit in Minuten.",
-    "notFound": {
-      "text": "Wir konnten diese Seite nicht finden.",
-      "title": "404"
+  "insurance": {
+    "bridgeExploits": "Bridge-Fehlfunktionen, Hacks oder Exploits",
+    "insure": "Versichere <0>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</0> während der Übertragung.",
+    "insured": "Du hast <0>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</0> während der Übertragung versichert:",
+    "slippageError": "Fehler in Slippage für empfangene Token"
+  },
+  "settings": {
+    "enabledBridges": "Aktivierte Bridges",
+    "enabledExchanges": "Aktivierte Exchanges",
+    "gasPrice": {
+      "fast": "Schnell",
+      "normal": "Normal",
+      "slow": "Langsam",
+      "title": "Gaspreis"
     },
-    "numberOfSteps": "Eine Anzahl von Swap-Schritten. Jeder Schritt kann 2 Transaktionen enthalten, die eine Unterschrift erfordern.",
-    "progressToNextUpdate": "Angezeigte Daten werden nach {{value}} Sekunden automatisch aktualisiert. Klicken Sie hier, um manuell zu aktualisieren.",
-    "settingsModified": "Einstellungen (geändert)"
+    "routePriority": "Routenpriorität",
+    "showDestinationWallet": "Ziel Wallet anzeigen",
+    "slippage": "Slippage"
   },
   "wallet": {
     "extensionNotFound": "Bitte stellen Sie sicher, dass nur die Browsererweiterung {{name}} aktiv ist, bevor Sie dieses Wallet auswählen."
