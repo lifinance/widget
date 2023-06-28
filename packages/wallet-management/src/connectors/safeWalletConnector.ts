@@ -78,7 +78,7 @@ export class SafeWalletConnector extends events.EventEmitter implements Wallet {
       address: accountInfo.safeAddress,
       signer,
       provider,
-      isSafeWallet: true,
+      isMultisigWallet: true,
       sdk,
     };
   }

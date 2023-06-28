@@ -60,7 +60,7 @@ export const useRouteExecution = ({
     }
 
     if (isMultisigRouteActive(clonedUpdatedRoute)) {
-      emitter.emit(WidgetEvent.SafeRouteInitiated, clonedUpdatedRoute);
+      emitter.emit(WidgetEvent.MultisigTransactionStarted, clonedUpdatedRoute);
     }
 
     if (isRouteDone(clonedUpdatedRoute)) {
