@@ -235,7 +235,7 @@ const tokenary: Wallet = new InjectedConnector({
 
 const exodus: Wallet = new InjectedConnector(
   {
-    name: 'ERSLKDJFLKSDJf',
+    name: 'Exodus',
     installed: async () => (window as any).exodus?.ethereum,
     icon: walletIcons.exodus,
   },
@@ -247,8 +247,13 @@ const safe: Wallet = new SafeWalletConnector({
   installed: async () => {
     const sdk = new SafeAppsSDK();
 
-    const accountInfo = await sdk.safe.getInfo();
-    return !!accountInfo.safeAddress;
+    try {
+      const accountInfo = await sdk.safe.getInfo();
+
+      return !!accountInfo.safeAddress;
+    } catch (error) {
+      return false;
+    }
   },
   icon: walletIcons.safe,
 });
