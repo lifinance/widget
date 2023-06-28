@@ -9,15 +9,6 @@ export const maxHeight = 680;
 
 export const AppExpandedContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'variant',
-})(() => ({
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  width: '100%',
-}));
-
-export const AppExpandedContainerMultisig = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'variant',
 })<{ variant?: WidgetVariant }>(({ variant }) => ({
   display: 'flex',
   justifyContent: 'center',
