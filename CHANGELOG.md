@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.2](https://github.com/lifinance/widget/compare/v2.1.0...v2.1.2) (2023-06-28)
+
+
+### Bug Fixes
+
+* WalletConnect multiple instances + increase z-index ([e69a3a1](https://github.com/lifinance/widget/commit/e69a3a1455117031f105f56f11763a3291d28f58))
+
 ## [2.1.0](https://github.com/lifinance/widget/compare/v2.0.1...v2.1.0) (2023-06-27)
 
 

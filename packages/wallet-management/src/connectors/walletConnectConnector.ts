@@ -62,13 +62,11 @@ export class WalletConnectConnector extends EventEmitter implements Wallet {
     }
     this.isActivationInProgress = true;
 
-    // Reset provider for every connection attempt
-    const walletConnectProvider = await WalletConnectProvider.init(
+    this.walletConnectProvider ||= await WalletConnectProvider.init(
       this.options,
     );
-    this.provider =
-      walletConnectProvider as unknown as MockWalletConnectProvider;
-    this.walletConnectProvider = walletConnectProvider;
+    this.provider = this
+      .walletConnectProvider as unknown as MockWalletConnectProvider;
 
     try {
       // Open modal
