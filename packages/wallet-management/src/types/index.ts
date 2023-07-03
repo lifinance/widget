@@ -31,7 +31,6 @@ export interface AccountData {
   signer: Signer;
   provider: ethers.providers.Web3Provider;
   isMultisigWallet?: boolean;
-  sdk?: SafeAppsSDK;
 }
 
 export interface InjectedConnectorArgs {

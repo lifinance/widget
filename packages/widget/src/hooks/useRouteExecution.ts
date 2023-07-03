@@ -8,7 +8,6 @@ import {
   isRouteActive,
   isRouteDone,
   isRouteFailed,
-  isMultisigRouteActive,
   useRouteExecutionStore,
   useRouteExecutionStoreContext,
 } from '../stores';
@@ -57,10 +56,6 @@ export const useRouteExecution = ({
         route: clonedUpdatedRoute,
         process,
       });
-    }
-
-    if (isMultisigRouteActive(clonedUpdatedRoute)) {
-      emitter.emit(WidgetEvent.MultisigTransactionStarted, clonedUpdatedRoute);
     }
 
     if (isRouteDone(clonedUpdatedRoute)) {

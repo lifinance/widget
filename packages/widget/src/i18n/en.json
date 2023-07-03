@@ -259,11 +259,5 @@
   },
   "wallet": {
     "extensionNotFound": "Please make sure that only the {{name}} browser extension is active before choosing this wallet."
-  },
-  "multisig": {
-    "alert": {
-      "title": "Multisig wallet connected",
-      "description": "Destination wallet address is required to complete the exchange."
-    }
   }
 }
