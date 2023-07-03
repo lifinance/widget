@@ -6,7 +6,6 @@ export enum WidgetEvent {
   RouteExecutionCompleted = 'routeExecutionCompleted',
   RouteExecutionFailed = 'routeExecutionFailed',
   RouteHighValueLoss = 'routeHighValueLoss',
-  MultisigTransactionStarted = 'multisigTransactionStarted',
   RouteContactSupport = 'routeContactSupport',
 }
 
@@ -16,7 +15,6 @@ export type WidgetEvents = {
   routeExecutionCompleted: Route;
   routeExecutionFailed: RouteExecutionUpdate;
   routeHighValueLoss: RouteHighValueLossUpdate;
-  multisigTransactionStarted: Route;
   routeContactSupport: RouteContactSupport;
 };
 
