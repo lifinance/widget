@@ -3,7 +3,7 @@ name: Deploy Widget to S3
 on:
   push:
     branches:
-      - cache-actions
+      - main
 
 jobs:
   build:
@@ -28,7 +28,7 @@ jobs:
         env:
           NODE_OPTIONS: "--max_old_space_size=4096"
         run: yarn build
-      # - name: Deploy app build to S3 bucket
-      #   run: |
-      #     aws s3 sync ./packages/widget-playground/dist/ s3://playground.li.fi --delete
-      #     aws s3 sync ./packages/widget-embedded/dist/ s3://widget.li.fi --delete
+      - name: Deploy app build to S3 bucket
+        run: |
+          aws s3 sync ./packages/widget-playground/dist/ s3://playground.li.fi --delete
+          aws s3 sync ./packages/widget-embedded/dist/ s3://widget.li.fi --delete
