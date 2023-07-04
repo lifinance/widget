@@ -2926,9 +2926,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lifi/sdk@npm:^2.1.2":
-  version: 2.1.2
-  resolution: "@lifi/sdk@npm:2.1.2"
+"@lifi/sdk@npm:^2.1.3-beta.0":
+  version: 2.1.3-beta.0
+  resolution: "@lifi/sdk@npm:2.1.3-beta.0"
   dependencies:
     "@ethersproject/abi": ^5.7.0
     "@ethersproject/contracts": ^5.7.0
@@ -2936,7 +2936,7 @@ __metadata:
     bignumber.js: ^9.1.1
     eth-rpc-errors: ^4.0.3
     ethers: ^5.7.2
-  checksum: 23057e3f23e77046d50cea22602bd43872967bb5ebfe44f90de47cc8cb34b2e9b23265da2140b352dec79c7c6ace53c88c9c65436517a4f824fcc706b6eeb279
+  checksum: 3322698e9c5761ceaa99392e4780d7e1ecfa4892da34dd296fe733ad9237066208ccbf504456c1e6526af76ceb8fafc0f524ff0ef8e80f9d145810ad4cf2f76c
   languageName: node
   linkType: hard
 
@@ -2957,7 +2957,7 @@ __metadata:
     "@ethersproject/abstract-signer": ^5.7.0
     "@ethersproject/experimental": ^5.7.0
     "@ethersproject/providers": ^5.7.2
-    "@lifi/sdk": ^2.1.2
+    "@lifi/sdk": ^2.1.3-beta.0
     "@safe-global/safe-apps-provider": ^0.17.1
     "@safe-global/safe-apps-sdk": ^8.0.0
     "@walletconnect/ethereum-provider": ^2.8.6
@@ -2975,7 +2975,7 @@ __metadata:
   dependencies:
     "@esbuild-plugins/node-globals-polyfill": ^0.2.3
     "@ethersproject/abstract-signer": ^5.7.0
-    "@lifi/sdk": ^2.1.2
+    "@lifi/sdk": ^2.1.3-beta.0
     "@lifi/wallet-management": ^2.1.3
     "@lifi/widget": ^2.1.3
     "@mui/icons-material": ^5.13.7
@@ -3005,7 +3005,7 @@ __metadata:
   resolution: "@lifi/widget-playground@workspace:packages/widget-playground"
   dependencies:
     "@esbuild-plugins/node-globals-polyfill": ^0.2.3
-    "@lifi/sdk": ^2.1.2
+    "@lifi/sdk": ^2.1.3-beta.0
     "@lifi/wallet-management": ^2.1.3
     "@lifi/widget": ^2.1.3
     "@mui/icons-material": ^5.13.7
@@ -3034,7 +3034,7 @@ __metadata:
     "@ethersproject/address": ^5.7.0
     "@ethersproject/experimental": ^5.7.0
     "@ethersproject/providers": ^5.7.2
-    "@lifi/sdk": ^2.1.2
+    "@lifi/sdk": ^2.1.3-beta.0
     "@lifi/wallet-management": ^2.1.3
     "@mui/icons-material": ^5.13.7
     "@mui/lab": ^5.0.0-alpha.135
@@ -3056,7 +3056,7 @@ __metadata:
     react-timer-hook: ^3.0.6
     typescript: ^5.1.6
     uuid: ^9.0.0
-    zustand: ^4.3.8
+    zustand: ^4.3.9
   peerDependencies:
     "@types/react": ^18.0.0
     react: ^18.0.0
@@ -14222,9 +14222,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zustand@npm:^4.3.8":
-  version: 4.3.8
-  resolution: "zustand@npm:4.3.8"
+"zustand@npm:^4.3.9":
+  version: 4.3.9
+  resolution: "zustand@npm:4.3.9"
   dependencies:
     use-sync-external-store: 1.2.0
   peerDependencies:
@@ -14235,6 +14235,6 @@ __metadata:
       optional: true
     react:
       optional: true
-  checksum: 24db6bf063ce1fc8b2ee238f13211a88f43236541a716e5f6f706f613c671a45332465f9ed06d694f8c353da3d24c53ea668e5712a86aceda9ad74f6c433e8c0
+  checksum: fc83d653913fa537c354ba8b95d3a4fdebe62d2ebd3d9f5aeff2edf062811c0f5af48e02ab4da32b666752fd4f3e78c2b44624e445254f48503595435d4a7d70
   languageName: node
   linkType: hard
