@@ -1,6 +1,15 @@
 {
+  "language": {
+    "name": "中文",
+    "title": "语言"
+  },
+  "format": {
+    "currency": "{{value, currency(currency: USD)}}",
+    "number": "{{value, number(maximumFractionDigits: 9)}}"
+  },
   "button": {
     "auto": "自动",
+    "bridge": "跨链",
     "buy": "购买",
     "buyNow": "立即购买",
     "cancel": "取消",
@@ -12,94 +21,74 @@
     "delete": "删除",
     "disconnect": "断开连接",
     "done": "已完成",
+    "exchange": "兑换",
     "getGas": "开始兑换燃气费",
     "hide": "隐藏",
     "learnMore": "了解更多",
-    "lifiSwap": "LI.FI兑换",
+    "lifiCheckout": "LI.FI 结算",
+    "lifiExchange": "LI.FI 兑换",
     "light": "浅色主题",
     "max": "最大",
     "ok": "确认",
-    "okay": "确认",
-    "removeSwap": "删除该兑换",
+    "removeTransaction": "删除交易",
     "reset": "重置",
     "resetSettings": "恢复默认设置",
-    "restartSwap": "重新兑换",
-    "reviewGasSwap": "查看燃气费兑换",
-    "reviewPurchase": "审查购买",
+    "reviewBridge": "查看跨链详情",
+    "reviewPurchase": "查看购买详情",
     "reviewSwap": "查看该兑换",
     "seeDetails": "查看详情",
     "showAll": "显示所有",
-    "startGasSwap": "开始兑换燃气费",
-    "startSwap": "开始兑换",
+    "startBridging": "开始跨链",
+    "startSwapping": "开始兑换",
     "swap": "兑换",
     "tryAgain": "重试",
     "viewCoverage": "查看我们的覆盖范围",
     "viewOnExplorer": "在区块链浏览器上查看"
   },
-  "format": {
-    "currency": "{{value, currency(currency: USD)}}",
-    "number": "{{value, number(maximumFractionDigits: 9)}}"
-  },
   "header": {
-    "activeSwaps": "正在进行的兑换",
+    "activeTransactions": "进行中的交易",
     "bridge": "跨链",
     "checkout": "支付",
+    "exchange": "兑换",
     "from": "兑换自",
     "gas": "燃气费",
-    "gasSwap": "燃气费兑换",
     "payWith": "支付方式",
     "purchase": "购买",
     "purchaseDetails": "交易明细",
-    "routes": "您获得",
     "selectChain": "选择网络",
     "selectWallet": "选择你的钱包",
     "settings": "设置",
     "swap": "兑换",
-    "swapDetails": "兑换详情",
-    "swapHistory": "交换历史记录",
     "to": "兑换为",
-    "walletConnected": "连接钱包"
-  },
-  "language": {
-    "name": "中文",
-    "title": "语言"
-  },
-  "settings": {
-    "enabledBridges": "已选中的跨链桥",
-    "enabledExchanges": "已选中的交易所",
-    "gasPrice": {
-      "fast": "快速",
-      "normal": "正常",
-      "slow": "缓慢",
-      "title": "燃气费"
-    },
-    "routePriority": "路由优先级",
-    "showDestinationWallet": "显示收款钱包",
-    "slippage": "滑点"
+    "transactionDetails": "交易详情",
+    "transactionHistory": "交易记录",
+    "walletConnected": "连接钱包",
+    "youGet": "您获得"
   },
   "info": {
     "message": {
       "autoRefuel": "您在 {{chainName}} 链上的燃气费很低。如果启用该选项，您将获得足够的燃气费完成此次兑换。",
-      "emptyActiveSwaps": "正在进行的兑换将在这里显示。一旦完成，你可在兑换记录中找到它们。",
-      "emptySwapHistory": "兑换记录只存储在本地，如果你清除浏览器数据，他们将被删除。",
+      "emptyActiveTransactions": "正在进行的兑换将在这里显示。一旦完成，你可在兑换记录中找到它们。",
       "emptyTokenList": "我们无法在 {{chainName}} 链上找到这些代币，或者你的钱包内没有这些代币。请再次搜索或者选择其他链再试一次。",
-      "routeNotFound": "试试另一个代币组合。"
+      "emptyTransactionHistory": "交易记录只存储在本地，如果您清除浏览器数据，交易记录将被删除。",
+      "routeNotFound": "导致其的原因可能是：流动性低，所选定代币的数额太低，燃气费过高，或者当前没有合适的交易路径。"
     },
     "title": {
       "autoRefuel": "获得燃气费",
-      "emptyActiveSwaps": "没有正在进行的兑换",
-      "emptySwapHistory": "没有兑换记录",
+      "emptyActiveTransactions": "没有正在进行的交易",
+      "emptyTransactionHistory": "近期无交易",
       "routeNotFound": "没有可用的路由"
     }
   },
   "success": {
     "message": {
-      "swapPartiallySuccessful": "我们试图完成兑换，但 {{tool}} 的 {{tokenSymbol}} 代币流动性不足。",
-      "purchaseSuccessful": "您的 {{walletAddress}} 钱包在 {{chainName}} 链上拥有该 {{assetName}} 财产",
-      "swapSuccessful": "现在有 {{amount, number(maximumFractionDigits: 9)}} 个{{tokenSymbol}} 在{{chainName}} 链上的{{walletAddress}} 钱包里。"
+      "exchangePartiallySuccessful": "我们尝试完成本次交易，但是 {{tool}} 的 {{tokenSymbol}} 代币流动性不足。",
+      "exchangeSuccessful": "{{walletAddress}} 钱包在 {{chainName}} 链上收到 {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}",
+      "purchaseSuccessful": "您的 {{walletAddress}} 钱包在 {{chainName}} 链上拥有该 {{assetName}} 财产"
     },
     "title": {
-      "gasSwapSuccessful": "燃气费兑换成功",
+      "bridgePartiallySuccessful": "跨链部分成功",
+      "bridgeSuccessful": "跨链成功",
       "purchaseSuccessful": "购买成功",
       "refundIssued": "退款已受理",
       "swapPartiallySuccessful": "兑换部分完成",
@@ -108,8 +97,8 @@
   },
   "warning": {
     "message": {
-      "deleteActiveSwaps": "正在进行的兑换记录只存储在本地，如果删除它们，我们将无法恢复这些记录。",
-      "deleteSwapHistory": "兑换记录只存储在本地，如果你删除它，我们将无法恢复这些记录。",
+      "deleteActiveTransactions": "正在进行的交易记录只存储在本地，如果删除它们，我们将无法恢复这些记录。",
+      "deleteTransactionHistory": "交易记录只存储在本地，如果你删除它，我们将无法恢复这些记录。",
       "highValueLoss": "收到的代币的价值明显低于要被兑换的代币和交易成本。",
       "insufficientFunds": "你没有足够的资金来完成这笔交易。",
       "insufficientGas": "您没有足够的燃气费来完成此次交易。您至少需要添加：",
@@ -117,9 +106,9 @@
       "resetSettings": "这将重置您的路由优先级，滑点，燃气费，选中的跨链桥和链上交易所。"
     },
     "title": {
-      "deleteActiveSwaps": "确定要清空正在进行的兑换记录？",
-      "deleteSwap": "确定要删除这个兑换记录？",
-      "deleteSwapHistory": "确定要清空兑换记录？",
+      "deleteActiveTransactions": "确定要删除所有正在进行的交易吗？",
+      "deleteTransaction": "确定要删除该交易吗？",
+      "deleteTransactionHistory": "确定要清空交易记录吗?",
       "highValueLoss": "大额资金损失",
       "insufficientGas": "燃气费不足",
       "rateChanged": "兑换比例变动",
@@ -140,7 +129,6 @@
       "allowanceRequired": "余额不足",
       "balanceIsTooLow": "余额太低",
       "chainSwitch": "请切换当前网络",
-      "failed": "兑换失败",
       "gasLimitIsTooLow": "燃气费设置过低",
       "insufficientFunds": "资金不足",
       "slippageNotMet": "滑点未满足",
@@ -154,6 +142,19 @@
       "walletAddressRequired": "请输入钱包地址。",
       "walletEnsAddressInvalid": "钱包地址无效或者当前网络不支持ENS。"
     }
+  },
+  "tooltip": {
+    "additionalProviderFee": "跨链和交易所的手续费。",
+    "estimatedNetworkFee": "预估网络手续费。",
+    "estimatedTime": "预计兑换的执行时间（分钟）。",
+    "notFound": {
+      "text": "我们找不到这个页面。",
+      "title": "404"
+    },
+    "numberOfSteps": "一系列的兑换步骤，每个步骤可能包含1-2个需要签名的交易。",
+    "progressToNextUpdate": "数据将在{{value}} 秒后自动刷新，点击这里可以手动更新。",
+    "recommended": "一个价格低廉但是兼顾复杂性和易用性的路由方案。",
+    "settingsModified": "设置(已修改)"
   },
   "main": {
     "crossStepDetails": "通过{{tool}}把资产从{{from}}链跨到{{to}}链上",
@@ -211,6 +212,7 @@
     "selectToken": "选择代币",
     "sendToAddress": "发送到{{address}}",
     "sendToWallet": "发送到另外的钱包",
+    "sending": "发送中",
     "sentToAddress": "发送到{{address}}",
     "stepBridge": "跨链",
     "stepBridgeAndBuy": "跨链并购买",
@@ -220,7 +222,6 @@
     "stepSwapAndBuy": "兑换并购买",
     "supportId": "支持ID",
     "swapStepDetails": "通过{{tool}}在{{chain}}链上兑换代币",
-    "swapping": "兑换中",
     "tags": {
       "cheapest": "便宜的",
       "fastest": "快速的",
@@ -243,18 +244,18 @@
     "insured": "在跨链期间为<0>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</0> 投保。",
     "slippageError": "目标链代币的滑点错误"
   },
-  "tooltip": {
-    "additionalProviderFee": "跨链和交易所的手续费。",
-    "estimatedNetworkFee": "预估网络手续费。",
-    "estimatedTime": "预计兑换的执行时间（分钟）。",
-    "notFound": {
-      "text": "我们找不到这个页面。",
-      "title": "404"
+  "settings": {
+    "enabledBridges": "已选中的跨链桥",
+    "enabledExchanges": "已选中的交易所",
+    "gasPrice": {
+      "fast": "快速",
+      "normal": "正常",
+      "slow": "缓慢",
+      "title": "燃气费"
     },
-    "numberOfSteps": "一系列的兑换步骤，每个步骤可能包含1-2个需要签名的交易。",
-    "progressToNextUpdate": "数据将在{{value}} 秒后自动刷新，点击这里可以手动更新。",
-    "recommended": "一个价格低廉但是兼顾复杂性和易用性的路由方案。",
-    "settingsModified": "设置(已修改)"
+    "routePriority": "路由优先级",
+    "showDestinationWallet": "显示收款钱包",
+    "slippage": "滑点"
   },
   "wallet": {
     "extensionNotFound": "在选择钱包之前，请确保只有{{name}} 浏览器的扩展应用处于激活状态。"

@@ -95,7 +95,7 @@ export class InjectedConnector extends events.EventEmitter implements Wallet {
         await this.calcAccountData();
       }
     } catch (e) {
-      //
+      throw e;
     }
   }
 
@@ -173,7 +173,14 @@ export class InjectedConnector extends events.EventEmitter implements Wallet {
       this.windowProvider,
       'any',
     );
+    const accounts = await provider.listAccounts();
+
+    if (!accounts.length) {
+      return;
+    }
+
     const signer = provider.getSigner();
+
     this.account = {
       chainId: await signer.getChainId(),
       address: await signer.getAddress(),
