@@ -4,6 +4,7 @@ import { Box, Collapse } from '@mui/material';
 import { useFundsSufficiency, useGasSufficiency } from '../../hooks';
 import { FundsSufficiencyMessage } from './FundsSufficiencyMessage';
 import { GasSufficiencyMessage } from './GasSufficiencyMessage';
+import { useWidgetConfig } from '../../providers';
 
 interface GasMessageProps extends BoxProps {
   route?: Route;
@@ -12,18 +13,22 @@ interface GasMessageProps extends BoxProps {
 export const GasMessage: React.FC<GasMessageProps> = ({ route, ...props }) => {
   const { insufficientGas } = useGasSufficiency(route);
   const { insufficientFunds } = useFundsSufficiency(route);
+  const { sdkConfig } = useWidgetConfig();
+  const isMultisigSigner = sdkConfig?.multisigConfig?.isMultisigSigner;
+
+  const validInsufficientGas = insufficientGas?.length && !isMultisigSigner;
 
   return (
     <Collapse
       timeout={225}
-      in={Boolean(insufficientFunds || insufficientGas?.length)}
+      in={Boolean(insufficientFunds || validInsufficientGas)}
       unmountOnExit
       mountOnEnter
     >
       <Box {...props}>
         {insufficientFunds ? (
           <FundsSufficiencyMessage />
-        ) : insufficientGas?.length ? (
+        ) : validInsufficientGas ? (
           <GasSufficiencyMessage insufficientGas={insufficientGas} />
         ) : null}
       </Box>
