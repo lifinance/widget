@@ -1,5 +1,5 @@
-import { supportedWallets } from '@lifi/wallet-management';
 import type { Wallet } from '@lifi/wallet-management';
+import { supportedWallets } from '@lifi/wallet-management';
 import {
   Avatar,
   Button,
@@ -10,7 +10,7 @@ import {
   List,
   ListItemAvatar,
 } from '@mui/material';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog } from '../../components/Dialog';
 import { ListItemButton } from '../../components/ListItemButton';
@@ -26,15 +26,7 @@ export const SelectWalletPage = () => {
     show: boolean;
     wallet?: Wallet;
   }>({ show: false });
-
-  // separate into installed and not installed wallets
-  const installedWallets = supportedWallets.filter((wallet) =>
-    wallet.installed(),
-  );
-
-  const notInstalledWallets = supportedWallets.filter(
-    (wallet) => !wallet.installed() && wallet.name !== 'Default Wallet', // always remove Default Wallet from not installed Wallets
-  );
+  const [wallets, setWallets] = useState<Wallet[]>();
 
   const closeDialog = () => {
     setWalletIdentity((state) => ({
@@ -45,7 +37,7 @@ export const SelectWalletPage = () => {
 
   const handleConnect = useCallback(
     async (wallet: Wallet) => {
-      const identityCheckPassed = wallet.installed();
+      const identityCheckPassed = await wallet.installed();
       if (!identityCheckPassed) {
         setWalletIdentity({
           show: true,
@@ -59,6 +51,23 @@ export const SelectWalletPage = () => {
     [connect, navigateBack],
   );
 
+  useEffect(() => {
+    Promise.all(supportedWallets.map((wallet) => wallet.installed())).then(
+      (installed) => {
+        // separate into installed and not installed wallets
+        const installedWallets = supportedWallets.filter(
+          (_, index) => installed[index],
+        );
+        // always remove Default Wallet from not installed Wallets
+        const notInstalledWallets = supportedWallets.filter(
+          (wallet, index) =>
+            !installed[index] && wallet.name !== 'Default Wallet',
+        );
+        setWallets([...installedWallets, ...notInstalledWallets]);
+      },
+    );
+  }, []);
+
   return (
     <Container disableGutters>
       <List
@@ -67,7 +76,7 @@ export const SelectWalletPage = () => {
           paddingRight: 1.5,
         }}
       >
-        {[...installedWallets, ...notInstalledWallets].map((wallet: Wallet) => (
+        {wallets?.map((wallet: Wallet) => (
           <ListItemButton
             key={wallet.name}
             onClick={() => handleConnect(wallet)}

@@ -1,14 +1,9 @@
+import { SafeAppProvider } from '@safe-global/safe-apps-provider';
+import type { SafeInfo } from '@safe-global/safe-apps-sdk';
+import SafeAppsSDK from '@safe-global/safe-apps-sdk/dist/src/sdk';
 import { ethers } from 'ethers';
 import events from 'events';
-import type {
-  AccountData,
-  InjectedConnectorConstructorArgs,
-  Wallet,
-} from '../types';
-
-import type { SafeInfo } from '@safe-global/safe-apps-sdk';
-import { SafeAppProvider } from '@safe-global/safe-apps-provider';
-import SafeAppsSDK from '@safe-global/safe-apps-sdk/dist/src/sdk';
+import type { AccountData, InjectedConnectorArgs, Wallet } from '../types';
 
 export class SafeWalletConnector extends events.EventEmitter implements Wallet {
   public provider: ethers.providers.Web3Provider | undefined;
@@ -19,7 +14,7 @@ export class SafeWalletConnector extends events.EventEmitter implements Wallet {
   public name: string;
   public icon: string;
 
-  constructor(args: InjectedConnectorConstructorArgs) {
+  constructor(args: InjectedConnectorArgs) {
     super();
     this.name = args.name;
     this.icon = args.icon;

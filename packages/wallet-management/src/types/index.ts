@@ -29,7 +29,7 @@ export interface AccountData {
   chainId: number;
   address: string;
   signer: Signer;
-  provider: ethers.providers.Web3Provider;
+  provider: Web3Provider;
   isMultisigWallet?: boolean;
 }
 
@@ -42,7 +42,7 @@ export interface InjectedConnectorArgs {
 export interface WalletConnectConnectorArgs {
   name: string;
   icon: string;
-  installed: () => boolean;
+  installed: () => Promise<boolean>;
   options: EthereumProviderOptions;
 }
 
