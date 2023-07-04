@@ -10,11 +10,13 @@
     "start": "lerna run start",
     "build": "lerna run build",
     "release": "yarn release:version:before && yarn release:version && yarn release:version:after && yarn standard-version -a",
-    "release:version": "lerna version --no-changelog --no-push --no-git-tag-version --no-private",
+    "release:beta": "yarn release:version:before && yarn release:version && yarn release:version:after && yarn standard-version -a --prerelease beta",
+    "release:version": "lerna version --preid beta --no-changelog --no-push --no-git-tag-version --no-private",
     "release:version:before": "node scripts/private-version before",
     "release:version:after": "yarn release:build && node scripts/private-version after",
     "release:build": "lerna run build --no-private",
-    "release:publish": "lerna publish from-package --dist-tag latest --contents build --no-verify-access --yes"
+    "release:publish": "lerna publish from-package --dist-tag latest --contents build --no-verify-access --yes",
+    "release:publish:beta": "lerna publish from-package --dist-tag beta --contents build --no-verify-access --yes"
   },
   "standard-version": {
     "scripts": {
@@ -33,8 +35,8 @@
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
     "@types/uuid": "^9.0.2",
-    "@typescript-eslint/eslint-plugin": "^5.60.1",
-    "@typescript-eslint/parser": "^5.60.1",
+    "@typescript-eslint/eslint-plugin": "^5.61.0",
+    "@typescript-eslint/parser": "^5.61.0",
     "cpy-cli": "^5.0.0",
     "eslint": "^8.44.0",
     "eslint-config-prettier": "^8.8.0",
