@@ -5,16 +5,24 @@ import { FormKey, isItemAllowed, useLiFi, useWidgetConfig } from '../providers';
 import { useChainOrderStore } from '../stores';
 
 export const useChains = () => {
-  const { chains } = useWidgetConfig();
+  const { chains, keyPrefix } = useWidgetConfig();
   const lifi = useLiFi();
   const { getValues, setValue } = useFormContext();
   const initializeChains = useChainOrderStore(
     (state) => state.initializeChains,
   );
-  const { data, isLoading } = useQuery(
-    ['chains'],
+  const { data: availableChains, isLoading: isLoadingAvailableChains } =
+    useQuery(['chains'], async () => lifi.getChains(), {
+      refetchInterval: 300000,
+      staleTime: 300000,
+    });
+
+  const { data: filteredChains, isLoading: isLoadingFilteredChains } = useQuery(
+    ['filtered-chains', availableChains?.length, keyPrefix],
     async () => {
-      const availableChains = await lifi.getChains();
+      if (!availableChains) {
+        return;
+      }
       const filteredChains = availableChains.filter((chain) =>
         isItemAllowed(chain.id, chains),
       );
@@ -31,24 +39,27 @@ export const useChains = () => {
       if (!toChainValue) {
         setValue(FormKey.ToChain, chainOrder[0]);
       }
-      return { availableChains, filteredChains };
+      return filteredChains;
     },
     {
-      refetchInterval: 180000,
-      staleTime: 180000,
+      enabled: Boolean(availableChains),
     },
   );
 
   const getChainById = useCallback(
     (chainId: number) => {
-      const chain = data?.availableChains.find((chain) => chain.id === chainId);
+      const chain = availableChains?.find((chain) => chain.id === chainId);
       // if (!chain) {
       //   throw new Error('Chain not found or chainId is invalid.');
       // }
       return chain;
     },
-    [data],
+    [availableChains],
   );
 
-  return { chains: data?.filteredChains, getChainById, isLoading };
+  return {
+    chains: filteredChains,
+    getChainById,
+    isLoading: isLoadingAvailableChains || isLoadingFilteredChains,
+  };
 };

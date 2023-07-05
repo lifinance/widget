@@ -12,8 +12,8 @@ export const StoreProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
     <SplitSubvariantStoreProvider
       state={config.subvariant === 'split' ? 'swap' : undefined}
     >
-      <HeaderStoreProvider namePrefix={config?.localStorageKeyPrefix}>
-        <RouteExecutionStoreProvider namePrefix={config?.localStorageKeyPrefix}>
+      <HeaderStoreProvider namePrefix={config?.keyPrefix}>
+        <RouteExecutionStoreProvider namePrefix={config?.keyPrefix}>
           {children}
         </RouteExecutionStoreProvider>
       </HeaderStoreProvider>
