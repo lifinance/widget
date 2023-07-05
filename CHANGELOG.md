@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.4](https://github.com/lifinance/widget/compare/v2.1.3...v2.1.4) (2023-07-05)
+
+
+### Bug Fixes
+
+* make chain filtering available for multiple instances ([b2c9083](https://github.com/lifinance/widget/commit/b2c9083ed230719e1f36f886dc73f3885d22c4ef))
+* unknown account [#0](https://github.com/lifinance/widget/issues/0) (LF-3621) ([6f67d4f](https://github.com/lifinance/widget/commit/6f67d4fc95afb9fba05433a9243f8cd4151144ba))
+
 ### [2.1.3](https://github.com/lifinance/widget/compare/v2.1.2...v2.1.3) (2023-07-03)
 
 ### [2.1.2](https://github.com/lifinance/widget/compare/v2.1.0...v2.1.2) (2023-06-28)
