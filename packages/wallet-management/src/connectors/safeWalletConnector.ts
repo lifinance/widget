@@ -1,10 +1,6 @@
 import { ethers } from 'ethers';
 import events from 'events';
-import type {
-  AccountData,
-  InjectedConnectorConstructorArgs,
-  Wallet,
-} from '../types';
+import type { AccountData, InjectedConnectorArgs, Wallet } from '../types';
 
 import type { SafeInfo } from '@safe-global/safe-apps-sdk';
 import { SafeAppProvider } from '@safe-global/safe-apps-provider';
@@ -19,7 +15,7 @@ export class SafeWalletConnector extends events.EventEmitter implements Wallet {
   public name: string;
   public icon: string;
 
-  constructor(args: InjectedConnectorConstructorArgs) {
+  constructor(args: InjectedConnectorArgs) {
     super();
     this.name = args.name;
     this.icon = args.icon;
@@ -30,30 +26,28 @@ export class SafeWalletConnector extends events.EventEmitter implements Wallet {
   public installed = async () => {
     return false;
   };
-  public autoConnect = (): any => {
-    console.warn('Method not allowed');
-    return null;
+  public autoConnect = async () => {
+    await this.calcAccountData();
   };
   public disconnect = () => {
-    console.warn('Method not allowed');
+    console.warn('Method disconnect not allowed');
     return null;
   };
   public switchChain = (): any => {
-    console.warn('Method not allowed');
+    console.warn('Method switchChain not allowed');
     return null;
   };
   public addChain = (): any => {
-    console.warn('Method not allowed');
+    console.warn('Method addChain not allowed');
     return null;
   };
   public addToken = (): any => {
-    console.warn('Method not allowed');
+    console.warn('Method addToken not allowed');
     return null;
   };
 
-  public connect = (): any => {
-    console.warn('Method not allowed');
-    return null;
+  public connect = async () => {
+    await this.calcAccountData();
   };
 
   private async calcAccountData() {
@@ -80,5 +74,6 @@ export class SafeWalletConnector extends events.EventEmitter implements Wallet {
       provider,
       isMultisigWallet: true,
     };
+    this.emit('walletAccountChanged', this);
   }
 }
