@@ -275,6 +275,7 @@ const safe: Wallet = new SafeWalletConnector({
 
 export const supportedWallets = [
   defaultWallet,
+  safe,
   metamask,
   walletConnect,
   exodus,
@@ -304,5 +305,4 @@ export const supportedWallets = [
   oneInch,
   tokenary,
   mathWallet,
-  safe,
 ];

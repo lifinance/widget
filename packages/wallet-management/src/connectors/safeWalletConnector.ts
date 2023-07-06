@@ -23,26 +23,16 @@ export class SafeWalletConnector extends events.EventEmitter implements Wallet {
   }
 
   public installed = async () => {
-    return false;
+    const sdk = new SafeAppsSDK();
+    const accountInfo = await sdk.safe.getInfo();
+    return !!accountInfo;
   };
   public autoConnect = async () => {
     await this.calcAccountData();
   };
+
   public disconnect = () => {
-    console.warn('Method disconnect not allowed');
-    return null;
-  };
-  public switchChain = (): any => {
-    console.warn('Method switchChain not allowed');
-    return null;
-  };
-  public addChain = (): any => {
-    console.warn('Method addChain not allowed');
-    return null;
-  };
-  public addToken = (): any => {
-    console.warn('Method addToken not allowed');
-    return null;
+    this.account = undefined;
   };
 
   public connect = async () => {
@@ -75,4 +65,17 @@ export class SafeWalletConnector extends events.EventEmitter implements Wallet {
     };
     this.emit('walletAccountChanged', this);
   }
+
+  public switchChain = (): any => {
+    console.warn('Method switchChain not allowed');
+    return null;
+  };
+  public addChain = (): any => {
+    console.warn('Method addChain not allowed');
+    return null;
+  };
+  public addToken = (): any => {
+    console.warn('Method addToken not allowed');
+    return null;
+  };
 }
