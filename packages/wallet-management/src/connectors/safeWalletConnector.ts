@@ -1,12 +1,12 @@
+import { Web3Provider } from '@ethersproject/providers';
 import { SafeAppProvider } from '@safe-global/safe-apps-provider';
 import type { SafeInfo } from '@safe-global/safe-apps-sdk';
-import SafeAppsSDK from '@safe-global/safe-apps-sdk/dist/src/sdk';
-import { ethers } from 'ethers';
+import SafeAppsSDK from '@safe-global/safe-apps-sdk';
 import events from 'events';
 import type { AccountData, InjectedConnectorArgs, Wallet } from '../types';
 
 export class SafeWalletConnector extends events.EventEmitter implements Wallet {
-  public provider: ethers.providers.Web3Provider | undefined;
+  public provider: Web3Provider | undefined;
 
   public isActivationInProgress: boolean = false;
   public account: AccountData | undefined;
@@ -53,7 +53,7 @@ export class SafeWalletConnector extends events.EventEmitter implements Wallet {
 
     const safeInstance = new SafeAppProvider(safe, sdk);
 
-    const provider = new ethers.providers.Web3Provider(safeInstance);
+    const provider = new Web3Provider(safeInstance);
     const signer = provider.getSigner();
 
     this.account = {

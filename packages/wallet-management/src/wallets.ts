@@ -1,12 +1,12 @@
 import { ChainType, supportedChains } from '@lifi/sdk';
+import SafeAppsSDK from '@safe-global/safe-apps-sdk';
 import type { EthereumRpcMap } from '@walletconnect/ethereum-provider/dist/types/EthereumProvider';
 import { InjectedConnector } from './connectors/injectedConnector';
+import { SafeWalletConnector } from './connectors/safeWalletConnector';
 import { WalletConnectConnector } from './connectors/walletConnectConnector';
 import type { Wallet } from './types';
 import { ProviderIdentityFlag } from './types';
 import { walletIcons } from './walletIcons';
-import { SafeWalletConnector } from './connectors/safeWalletConnector';
-import SafeAppsSDK from '@safe-global/safe-apps-sdk/dist/src/sdk';
 
 const defaultWallet: Wallet = new InjectedConnector({
   // unknown Default wallet that injects as metamask but is not metamask
