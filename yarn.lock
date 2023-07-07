@@ -2795,7 +2795,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lifi/wallet-management@^2.2.0-beta.1, @lifi/wallet-management@workspace:packages/wallet-management":
+"@lifi/wallet-management@^2.1.4, @lifi/wallet-management@workspace:packages/wallet-management":
   version: 0.0.0-use.local
   resolution: "@lifi/wallet-management@workspace:packages/wallet-management"
   dependencies:
@@ -2821,9 +2821,9 @@ __metadata:
   dependencies:
     "@esbuild-plugins/node-globals-polyfill": ^0.2.3
     "@ethersproject/abstract-signer": ^5.7.0
-    "@lifi/sdk": ^2.1.3-beta.0
-    "@lifi/wallet-management": ^2.2.0-beta.1
-    "@lifi/widget": ^2.2.0-beta.1
+    "@lifi/sdk": ^2.1.2
+    "@lifi/wallet-management": ^2.1.4
+    "@lifi/widget": ^2.1.4
     "@mui/icons-material": ^5.13.7
     "@mui/lab": ^5.0.0-alpha.135
     "@mui/material": ^5.13.7
@@ -2851,9 +2851,9 @@ __metadata:
   resolution: "@lifi/widget-playground@workspace:packages/widget-playground"
   dependencies:
     "@esbuild-plugins/node-globals-polyfill": ^0.2.3
-    "@lifi/sdk": ^2.1.3-beta.0
-    "@lifi/wallet-management": ^2.2.0-beta.1
-    "@lifi/widget": ^2.2.0-beta.1
+    "@lifi/sdk": ^2.1.2
+    "@lifi/wallet-management": ^2.1.4
+    "@lifi/widget": ^2.1.4
     "@mui/icons-material": ^5.13.7
     "@mui/lab": ^5.0.0-alpha.135
     "@mui/material": ^5.13.7
@@ -2870,7 +2870,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@lifi/widget@^2.2.0-beta.1, @lifi/widget@workspace:packages/widget":
+"@lifi/widget@^2.1.4, @lifi/widget@workspace:packages/widget":
   version: 0.0.0-use.local
   resolution: "@lifi/widget@workspace:packages/widget"
   dependencies:
@@ -2880,8 +2880,8 @@ __metadata:
     "@ethersproject/address": ^5.7.0
     "@ethersproject/experimental": ^5.7.0
     "@ethersproject/providers": ^5.7.2
-    "@lifi/sdk": ^2.1.3-beta.0
-    "@lifi/wallet-management": ^2.2.0-beta.1
+    "@lifi/sdk": ^2.1.2
+    "@lifi/wallet-management": ^2.1.4
     "@mui/icons-material": ^5.13.7
     "@mui/lab": ^5.0.0-alpha.135
     "@mui/material": ^5.13.7
@@ -12179,6 +12179,20 @@ __metadata:
   linkType: hard
 
 "rollup@npm:^3.25.2, rollup@npm:^3.26.1":
+  version: 3.26.1
+  resolution: "rollup@npm:3.26.1"
+  dependencies:
+    fsevents: ~2.3.2
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  bin:
+    rollup: dist/bin/rollup
+  checksum: 397965706bb46a217e2815995133c11ce9a843e7b80018a91594d36d7a7708fe3a33acd1635deaa3138c42918397f38b32ca975951519fdfe3b4201875ecfd3d
+  languageName: node
+  linkType: hard
+
+"rollup@npm:^3.26.1":
   version: 3.26.1
   resolution: "rollup@npm:3.26.1"
   dependencies:
