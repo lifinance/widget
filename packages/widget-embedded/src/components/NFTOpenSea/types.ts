@@ -1,6 +1,11 @@
 import type { OrderWithCounter } from '@opensea/seaport-js/lib/types';
 import type BigNumber from 'bignumber.js';
 
+export const openSeaContractTool = {
+  logoURI: 'https://opensea.io/static/images/logos/opensea.svg',
+  name: 'OpenSea',
+};
+
 export interface NFTOpenSeaProps {
   network: NFTNetwork;
   contractAddress: string;
@@ -25,11 +30,6 @@ export type NFTNetwork =
   | 'klaytn'
   | 'matic'
   | 'optimism';
-
-export const openSeaContractTool = {
-  logoURI: 'https://testnets.opensea.io/static/images/logos/opensea.svg',
-  name: 'OpenSea',
-};
 
 // Protocol data
 type OrderProtocolToProtocolData = {
