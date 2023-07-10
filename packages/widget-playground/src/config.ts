@@ -147,7 +147,6 @@ export const widgetConfig: WidgetConfig = {
     // }`,
     boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
     borderRadius: '16px',
-    minWidth: 300,
   },
   // theme: {
   //   components: {
