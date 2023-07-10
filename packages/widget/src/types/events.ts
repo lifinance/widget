@@ -7,14 +7,8 @@ export enum WidgetEvent {
   RouteExecutionFailed = 'routeExecutionFailed',
   RouteHighValueLoss = 'routeHighValueLoss',
   RouteContactSupport = 'routeContactSupport',
-  ExecutionPathDetails = 'executionPathDetails',
-}
-
-export interface ExecutionPathDetails {
-  fromChain: ChainId;
-  toChain: ChainId;
-  fromToken: string;
-  toToken: string;
+  SourceChainTokenSelected = 'sourceChainTokenSelected',
+  DestinationChainTokenSelected = 'destinationChainTokenSelected',
 }
 
 export type WidgetEvents = {
@@ -24,7 +18,8 @@ export type WidgetEvents = {
   routeExecutionFailed: RouteExecutionUpdate;
   routeHighValueLoss: RouteHighValueLossUpdate;
   routeContactSupport: RouteContactSupport;
-  executionPathDetails: ExecutionPathDetails;
+  sourceChainTokenSelected: ExecutionPathDetails;
+  destinationChainTokenSelected: ExecutionPathDetails;
 };
 
 export interface RouteContactSupport {
@@ -41,4 +36,9 @@ export interface RouteHighValueLossUpdate {
 export interface RouteExecutionUpdate {
   route: Route;
   process: Process;
+}
+
+export interface ExecutionPathDetails {
+  chainId: ChainId;
+  tokenAddress: string;
 }

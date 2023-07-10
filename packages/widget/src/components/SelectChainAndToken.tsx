@@ -40,15 +40,6 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
     !prefersNarrowView &&
     !hiddenToToken;
 
-  useEffect(() => {
-    emitter.emit(WidgetEvent.ExecutionPathDetails, {
-      fromChain,
-      fromToken,
-      toChain,
-      toToken,
-    });
-  }, [fromChain, toChain, fromToken, toToken]);
-
   return (
     <Box
       sx={{ display: 'flex', flexDirection: isCompact ? 'row' : 'column' }}
