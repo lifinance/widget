@@ -1,5 +1,5 @@
+import { Web3Provider } from '@ethersproject/providers';
 import type { StaticToken } from '@lifi/sdk';
-import { ethers } from 'ethers';
 import events from 'events';
 import type {
   AccountData,
@@ -22,7 +22,7 @@ export class InjectedConnector extends events.EventEmitter implements Wallet {
   public account: AccountData | undefined;
   public name: string;
   public icon: string;
-  public installed: () => boolean;
+  public installed: () => Promise<boolean>;
 
   constructor(
     constructorArgs: InjectedConnectorArgs,
@@ -169,10 +169,7 @@ export class InjectedConnector extends events.EventEmitter implements Wallet {
       throw new Error('provider is not defined.');
     }
 
-    const provider = new ethers.providers.Web3Provider(
-      this.windowProvider,
-      'any',
-    );
+    const provider = new Web3Provider(this.windowProvider, 'any');
     const accounts = await provider.listAccounts();
 
     if (!accounts.length) {

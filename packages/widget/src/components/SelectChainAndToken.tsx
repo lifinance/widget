@@ -36,6 +36,7 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
     toToken &&
     !prefersNarrowView &&
     !hiddenToToken;
+
   return (
     <Box
       sx={{ display: 'flex', flexDirection: isCompact ? 'row' : 'column' }}

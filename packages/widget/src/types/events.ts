@@ -1,4 +1,4 @@
-import type { Process, Route } from '@lifi/sdk';
+import type { ChainId, Process, Route } from '@lifi/sdk';
 
 export enum WidgetEvent {
   RouteExecutionStarted = 'routeExecutionStarted',
@@ -7,6 +7,8 @@ export enum WidgetEvent {
   RouteExecutionFailed = 'routeExecutionFailed',
   RouteHighValueLoss = 'routeHighValueLoss',
   RouteContactSupport = 'routeContactSupport',
+  SourceChainTokenSelected = 'sourceChainTokenSelected',
+  DestinationChainTokenSelected = 'destinationChainTokenSelected',
 }
 
 export type WidgetEvents = {
@@ -16,6 +18,8 @@ export type WidgetEvents = {
   routeExecutionFailed: RouteExecutionUpdate;
   routeHighValueLoss: RouteHighValueLossUpdate;
   routeContactSupport: RouteContactSupport;
+  sourceChainTokenSelected: ChainTokenSelected;
+  destinationChainTokenSelected: ChainTokenSelected;
 };
 
 export interface RouteContactSupport {
@@ -32,4 +36,9 @@ export interface RouteHighValueLossUpdate {
 export interface RouteExecutionUpdate {
   route: Route;
   process: Process;
+}
+
+export interface ChainTokenSelected {
+  chainId: ChainId;
+  tokenAddress: string;
 }

@@ -25,7 +25,7 @@ export class WalletConnectConnector extends EventEmitter implements Wallet {
   public account?: AccountData;
   public name: string;
   public icon: string;
-  public installed: () => boolean;
+  public installed: () => Promise<boolean>;
 
   constructor(args: WalletConnectConnectorArgs) {
     super();

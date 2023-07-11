@@ -57,6 +57,7 @@ export const useRouteExecution = ({
         process,
       });
     }
+
     if (isRouteDone(clonedUpdatedRoute)) {
       emitter.emit(WidgetEvent.RouteExecutionCompleted, clonedUpdatedRoute);
     }

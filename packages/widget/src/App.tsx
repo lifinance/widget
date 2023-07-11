@@ -39,6 +39,7 @@ export const App = forwardRef<WidgetDrawer, WidgetProps>(
 
 export const AppDefault = () => {
   const expandable = useExpandableVariant();
+
   return (
     <AppExpandedContainer>
       <AppContainer>

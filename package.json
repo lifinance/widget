@@ -1,5 +1,5 @@
 {
-  "version": "2.1.4",
+  "version": "2.2.0-beta.2",
   "private": true,
   "sideEffects": false,
   "packageManager": "yarn@3.6.1",
@@ -10,7 +10,7 @@
     "start": "lerna run start",
     "build": "lerna run build",
     "release": "yarn release:version:before && yarn release:version && yarn release:version:after && yarn standard-version -a",
-    "release:beta": "yarn release:version:before && yarn release:version && yarn release:version:after && yarn standard-version -a --prerelease beta",
+    "release:beta": "yarn release:version:before && yarn release:version && yarn release:version:after && yarn standard-version -a --prerelease beta --skip.changelog",
     "release:version": "lerna version --preid beta --no-changelog --no-push --no-git-tag-version --no-private",
     "release:version:before": "node scripts/private-version before",
     "release:version:after": "yarn release:build && node scripts/private-version after",

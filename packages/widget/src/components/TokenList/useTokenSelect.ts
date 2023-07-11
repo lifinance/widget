@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import type { FormType } from '../../providers';
 import { FormKeyHelper, useWidgetConfig } from '../../providers';
+import { WidgetEvent, useWidgetEvents } from '@lifi/widget';
 
 export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
   const tokenKey = FormKeyHelper.getTokenKey(formType);
@@ -10,6 +11,7 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
   } = useController({ name: tokenKey });
   const { setValue, getValues } = useFormContext();
   const { subvariant } = useWidgetConfig();
+  const emitter = useWidgetEvents();
 
   return useCallback(
     (tokenAddress: string, chainId?: number) => {
@@ -38,6 +40,17 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
           shouldTouch: true,
         });
       }
+
+      const eventToEmit =
+        formType === 'from'
+          ? WidgetEvent.SourceChainTokenSelected
+          : WidgetEvent.DestinationChainTokenSelected;
+
+      emitter.emit(eventToEmit, {
+        chainId: selectedChainId,
+        tokenAddress,
+      });
+
       onClick?.();
     },
     [formType, getValues, onBlur, onChange, onClick, setValue, subvariant],

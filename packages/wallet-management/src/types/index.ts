@@ -30,18 +30,19 @@ export interface AccountData {
   address: string;
   signer: Signer;
   provider: Web3Provider;
+  isMultisigWallet?: boolean;
 }
 
 export interface InjectedConnectorArgs {
   name: string;
   icon: string;
-  installed: () => boolean;
+  installed: () => Promise<boolean>;
 }
 
 export interface WalletConnectConnectorArgs {
   name: string;
   icon: string;
-  installed: () => boolean;
+  installed: () => Promise<boolean>;
   options: EthereumProviderOptions;
 }
 
@@ -50,7 +51,7 @@ export interface Wallet extends EventEmitter {
   icon: string;
   isActivationInProgress: boolean;
   account?: AccountData;
-  installed: () => boolean;
+  installed: () => Promise<boolean>;
   connect: () => Promise<void>;
   autoConnect?: () => Promise<void>;
   disconnect: () => void;
