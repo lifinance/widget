@@ -1,6 +1,6 @@
-import { useWidgetConfig } from '../../providers';
 import { DefaultTransactionButton } from '../../components/DefaultTransactionButton';
 import { useFundsSufficiency, useGasSufficiency, useRoutes } from '../../hooks';
+import { useWidgetConfig } from '../../providers';
 import { useRouteExecutionStore } from '../../stores';
 import type { StartTransactionButtonProps } from './types';
 

@@ -2,9 +2,9 @@ import type { Route } from '@lifi/sdk';
 import type { BoxProps } from '@mui/material';
 import { Box, Collapse } from '@mui/material';
 import { useFundsSufficiency, useGasSufficiency } from '../../hooks';
+import { useWidgetConfig } from '../../providers';
 import { FundsSufficiencyMessage } from './FundsSufficiencyMessage';
 import { GasSufficiencyMessage } from './GasSufficiencyMessage';
-import { useWidgetConfig } from '../../providers';
 
 interface GasMessageProps extends BoxProps {
   route?: Route;

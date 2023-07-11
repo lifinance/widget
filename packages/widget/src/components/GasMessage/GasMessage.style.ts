@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
-import { alpha, darken, lighten, styled } from '@mui/material/styles';
 import { switchClasses } from '@mui/material/Switch';
+import { alpha, darken, lighten, styled } from '@mui/material/styles';
 import { Switch } from '../Switch';
 
 const MessageCard = styled(Box)(({ theme }) => ({

@@ -1,8 +1,8 @@
+import { WidgetEvent, useWidgetEvents } from '@lifi/widget';
 import { useCallback } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import type { FormType } from '../../providers';
 import { FormKeyHelper, useWidgetConfig } from '../../providers';
-import { WidgetEvent, useWidgetEvents } from '@lifi/widget';
 
 export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
   const tokenKey = FormKeyHelper.getTokenKey(formType);

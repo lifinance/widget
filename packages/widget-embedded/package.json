@@ -24,7 +24,7 @@
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
     "@ethersproject/abstract-signer": "^5.7.0",
-    "@lifi/sdk": "^2.2.0-beta.0",
+    "@lifi/sdk": "^2.2.0",
     "@lifi/wallet-management": "^2.2.0-beta.2",
     "@lifi/widget": "^2.2.0-beta.2",
     "@mui/icons-material": "^5.13.7",
@@ -41,14 +41,14 @@
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
-    "@vitejs/plugin-react": "^4.0.2",
+    "@vitejs/plugin-react": "^4.0.3",
     "buffer": "^6.0.3",
     "esbuild": "^0.18.11",
     "rollup": "^3.26.2",
     "rollup-plugin-polyfill-node": "^0.12.0",
     "typescript": "^5.1.6",
     "vite": "^4.4.2",
-    "web-vitals": "^3.3.2"
+    "web-vitals": "^3.4.0"
   },
   "eslintConfig": {
     "extends": "../../.eslintrc"
