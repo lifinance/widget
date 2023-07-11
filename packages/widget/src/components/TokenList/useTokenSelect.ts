@@ -41,18 +41,15 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
         });
       }
 
-      if (formType === 'from') {
-        emitter.emit(WidgetEvent.SourceChainTokenSelected, {
-          chainId: selectedChainId,
-          tokenAddress,
-        });
-      }
-      if (formType === 'to') {
-        emitter.emit(WidgetEvent.DestinationChainTokenSelected, {
-          chainId: selectedChainId,
-          tokenAddress,
-        });
-      }
+      const eventToEmit =
+        formType === 'from'
+          ? WidgetEvent.SourceChainTokenSelected
+          : WidgetEvent.DestinationChainTokenSelected;
+
+      emitter.emit(eventToEmit, {
+        chainId: selectedChainId,
+        tokenAddress,
+      });
 
       onClick?.();
     },

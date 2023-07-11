@@ -18,8 +18,8 @@ export type WidgetEvents = {
   routeExecutionFailed: RouteExecutionUpdate;
   routeHighValueLoss: RouteHighValueLossUpdate;
   routeContactSupport: RouteContactSupport;
-  sourceChainTokenSelected: ExecutionPathDetails;
-  destinationChainTokenSelected: ExecutionPathDetails;
+  sourceChainTokenSelected: ChainTokenSelected;
+  destinationChainTokenSelected: ChainTokenSelected;
 };
 
 export interface RouteContactSupport {
@@ -38,7 +38,7 @@ export interface RouteExecutionUpdate {
   process: Process;
 }
 
-export interface ExecutionPathDetails {
+export interface ChainTokenSelected {
   chainId: ChainId;
   tokenAddress: string;
 }
