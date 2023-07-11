@@ -2,7 +2,7 @@
   "version": "2.2.0-beta.2",
   "private": true,
   "sideEffects": false,
-  "packageManager": "yarn@3.5.1",
+  "packageManager": "yarn@3.6.1",
   "workspaces": [
     "packages/*"
   ],
