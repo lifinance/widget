@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/lifinance/widget/compare/v2.1.4...v2.2.0) (2023-07-11)
+
+
+### Features
+
+* add Safe Wallet to wallet management ([#100](https://github.com/lifinance/widget/issues/100)) ([ba1b483](https://github.com/lifinance/widget/commit/ba1b483830253515e58cc2fb785f89493fe8d917))
+
 ### [2.1.4](https://github.com/lifinance/widget/compare/v2.1.3...v2.1.4) (2023-07-05)
 
 
