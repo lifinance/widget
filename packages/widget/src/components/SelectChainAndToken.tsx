@@ -4,12 +4,9 @@ import { useWatch } from 'react-hook-form';
 import { ReverseTokensButton } from '../components/ReverseTokensButton';
 import { SelectTokenButton } from '../components/SelectTokenButton';
 import { FormKey, useWidgetConfig } from '../providers';
-import { DisabledUI, HiddenUI, WidgetEvent } from '../types';
-import { useEffect } from 'react';
-import { useWidgetEvents } from '../hooks';
+import { DisabledUI, HiddenUI } from '../types';
 
 export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
-  const emitter = useWidgetEvents();
   const prefersNarrowView = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('sm'),
   );
