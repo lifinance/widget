@@ -13,20 +13,17 @@ export class SafeWalletConnector extends events.EventEmitter implements Wallet {
 
   public name: string;
   public icon: string;
+  public installed: () => Promise<boolean>;
 
   constructor(args: InjectedConnectorArgs) {
     super();
     this.name = args.name;
     this.icon = args.icon;
+    this.installed = args.installed;
 
     this.calcAccountData();
   }
 
-  public installed = async () => {
-    const sdk = new SafeAppsSDK();
-    const accountInfo = await sdk.safe.getInfo();
-    return !!accountInfo;
-  };
   public autoConnect = async () => {
     await this.calcAccountData();
   };
