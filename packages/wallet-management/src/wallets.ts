@@ -260,7 +260,12 @@ const exodus: Wallet = new InjectedConnector(
 const safe: Wallet = new SafeWalletConnector({
   name: 'Safe',
   installed: async () => {
+    // in Multisig env, window.parent is not equal to window
     const isIFrameEnvironment = window?.parent !== window;
+
+    if (!isIFrameEnvironment) {
+      return false;
+    }
 
     const sdk = new SafeAppsSDK();
 
