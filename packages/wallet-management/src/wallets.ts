@@ -260,12 +260,22 @@ const exodus: Wallet = new InjectedConnector(
 const safe: Wallet = new SafeWalletConnector({
   name: 'Safe',
   installed: async () => {
+    // in Multisig env, window.parent is not equal to window
+    const isIFrameEnvironment = window?.parent !== window;
+
+    if (!isIFrameEnvironment) {
+      return false;
+    }
+
     const sdk = new SafeAppsSDK();
 
     try {
-      const accountInfo = await sdk.safe.getInfo();
+      const accountInfo = await Promise.race([
+        sdk.safe.getInfo(),
+        new Promise<undefined>((resolve) => setTimeout(resolve, 200)),
+      ]);
 
-      return !!accountInfo.safeAddress;
+      return !!accountInfo?.safeAddress;
     } catch (error) {
       return false;
     }
