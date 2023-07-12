@@ -275,7 +275,7 @@ const safe: Wallet = new SafeWalletConnector({
         new Promise<undefined>((resolve) => setTimeout(resolve, 200)),
       ]);
 
-      return !!accountInfo?.safeAddress || isIFrameEnvironment;
+      return !!accountInfo?.safeAddress;
     } catch (error) {
       return false;
     }
