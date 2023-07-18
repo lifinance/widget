@@ -56,10 +56,13 @@ export const useSettingsStore = create<SettingsState>(
                     tool,
                   ),
               )
-              .reduce((values, tool) => {
-                values[tool] = true;
-                return values;
-              }, updatedState[`_enabled${toolType}`] as Record<string, boolean>);
+              .reduce(
+                (values, tool) => {
+                  values[tool] = true;
+                  return values;
+                },
+                updatedState[`_enabled${toolType}`] as Record<string, boolean>,
+              );
             // Filter tools we no longer have
             updatedState[`_enabled${toolType}`] = Object.fromEntries(
               Object.entries(enabledTools).filter(([key]) =>
@@ -86,10 +89,13 @@ export const useSettingsStore = create<SettingsState>(
       setTools: (toolType, tools, availableTools) =>
         set(() => ({
           [`enabled${toolType}`]: tools,
-          [`_enabled${toolType}`]: availableTools.reduce((values, toolKey) => {
-            values[toolKey] = tools.includes(toolKey);
-            return values;
-          }, {} as Record<string, boolean>),
+          [`_enabled${toolType}`]: availableTools.reduce(
+            (values, toolKey) => {
+              values[toolKey] = tools.includes(toolKey);
+              return values;
+            },
+            {} as Record<string, boolean>,
+          ),
         })),
       reset: (config, bridges, exchanges) => {
         set(() => ({
