@@ -2944,7 +2944,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lifi/wallet-management@^2.2.2, @lifi/wallet-management@workspace:packages/wallet-management":
+"@lifi/wallet-management@^2.2.3, @lifi/wallet-management@workspace:packages/wallet-management":
   version: 0.0.0-use.local
   resolution: "@lifi/wallet-management@workspace:packages/wallet-management"
   dependencies:
@@ -2971,8 +2971,8 @@ __metadata:
     "@esbuild-plugins/node-globals-polyfill": ^0.2.3
     "@ethersproject/abstract-signer": ^5.7.0
     "@lifi/sdk": ^2.2.1
-    "@lifi/wallet-management": ^2.2.2
-    "@lifi/widget": ^2.2.2
+    "@lifi/wallet-management": ^2.2.3
+    "@lifi/widget": ^2.2.3
     "@mui/icons-material": ^5.14.1
     "@mui/lab": ^5.0.0-alpha.137
     "@mui/material": ^5.14.1
@@ -3001,8 +3001,8 @@ __metadata:
   dependencies:
     "@esbuild-plugins/node-globals-polyfill": ^0.2.3
     "@lifi/sdk": ^2.2.1
-    "@lifi/wallet-management": ^2.2.2
-    "@lifi/widget": ^2.2.2
+    "@lifi/wallet-management": ^2.2.3
+    "@lifi/widget": ^2.2.3
     "@mui/icons-material": ^5.14.1
     "@mui/lab": ^5.0.0-alpha.137
     "@mui/material": ^5.14.1
@@ -3019,7 +3019,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@lifi/widget@^2.2.2, @lifi/widget@workspace:packages/widget":
+"@lifi/widget@^2.2.3, @lifi/widget@workspace:packages/widget":
   version: 0.0.0-use.local
   resolution: "@lifi/widget@workspace:packages/widget"
   dependencies:
@@ -3030,7 +3030,7 @@ __metadata:
     "@ethersproject/experimental": ^5.7.0
     "@ethersproject/providers": ^5.7.2
     "@lifi/sdk": ^2.2.1
-    "@lifi/wallet-management": ^2.2.2
+    "@lifi/wallet-management": ^2.2.3
     "@mui/icons-material": ^5.14.1
     "@mui/lab": ^5.0.0-alpha.137
     "@mui/material": ^5.14.1
