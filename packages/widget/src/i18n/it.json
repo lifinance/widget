@@ -71,7 +71,7 @@
       "emptyActiveTransactions": "Le transazioni in corso appariranno qui. Una volta completate, potrai trovarle nella cronologia delle transazioni.",
       "emptyTokenList": "Non siamo riusciti a trovare token sulla chain {{chainName}} o non ne hai. Riprova o scegli un'altra chain.",
       "emptyTransactionHistory": "La cronologia delle transazioni è memorizzata solo localmente e verrà eliminata se si cancellano i dati del browser.",
-      "routeNotFound": "Prova un'altra combinazione di token."
+      "routeNotFound": "Le ragioni potrebbero essere: bassa liquidità, la quantità selezionata è troppo bassa, i costi del gas sono troppo elevati o non ci sono routes per la combinazione selezionata."
     },
     "title": {
       "autoRefuel": "Ottieni gas",
