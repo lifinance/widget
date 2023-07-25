@@ -44,8 +44,15 @@ export const widgetBaseConfig: WidgetConfig = {
   },
   // theme: {
   //   palette: {
+  //     primary: { main: '#FFCF7D' },
+  //     secondary: { main: '#FFCF7D' },
   //     background: {
-  //       paper: '#121212',
+  //       paper: 'rgba(14, 35, 48, 0.4)', // background cards
+  //       default: 'rgba(0, 0, 0, 0)', // background container
+  //     },
+  //     grey: {
+  //       300: '#5C4219', // border light theme
+  //       800: '#5C4219', // border dark theme
   //     },
   //   },
   // },
