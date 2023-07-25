@@ -1,7 +1,9 @@
 export enum ElementId {
-  ScrollableContainer = 'widget-scrollable-container',
+  AppExpandedContainer = 'widget-app-expanded-container',
   Header = 'widget-header',
+  RelativeContainer = 'widget-relative-container',
+  ScrollableContainer = 'widget-scrollable-container',
 }
 
 export const createElementId = (ElementId: ElementId, elementId: string) =>
-  `${ElementId}-${elementId}`;
+  elementId ? `${ElementId}-${elementId}` : ElementId;
