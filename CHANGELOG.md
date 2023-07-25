@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.4](https://github.com/lifinance/widget/compare/v2.2.3...v2.2.4) (2023-07-25)
+
+
+### Bug Fixes
+
+* allow header transparent background ([b40d773](https://github.com/lifinance/widget/commit/b40d7736b53c399b2279502a81b4f876c1c8c28c))
+
 ### [2.2.3](https://github.com/lifinance/widget/compare/v2.2.1...v2.2.3) (2023-07-24)
 
 ### [2.2.2](https://github.com/lifinance/widget/compare/v2.2.1...v2.2.2) (2023-07-24)
