@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.5](https://github.com/lifinance/widget/compare/v2.2.4...v2.2.5) (2023-07-25)
+
+
+### Bug Fixes
+
+* add element ids to containers ([6ba591c](https://github.com/lifinance/widget/commit/6ba591cb4b617033118afd3e9d19ebcf6baba3fc))
+
 ### [2.2.4](https://github.com/lifinance/widget/compare/v2.2.3...v2.2.4) (2023-07-25)
 
 
