@@ -14,8 +14,8 @@
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}": [
-      "yarn run lint:fix",
-      "yarn run prettier:fix"
+      "pnpm run lint:fix",
+      "pnpm run prettier:fix"
     ]
   },
   "publishConfig": {

@@ -24,5 +24,5 @@
       "@lifi/widget/*": ["./packages/widget/src/*"]
     }
   },
-  "exclude": ["**/.*/", "**/build", "**/dist", "node_modules", ".yarn"]
+  "exclude": ["**/.*/", "**/build", "**/dist", "node_modules"]
 }

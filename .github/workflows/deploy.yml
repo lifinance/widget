@@ -23,11 +23,11 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
       - name: Install dependencies
-        uses: ./.github/actions/yarn-install
+        uses: ./.github/actions/install
       - name: Build React App
         env:
           NODE_OPTIONS: "--max_old_space_size=4096"
-        run: yarn build
+        run: pnpm build
       - name: Deploy app build to S3 bucket
         run: |
           aws s3 sync ./packages/widget-playground/dist/ s3://playground.li.fi --delete

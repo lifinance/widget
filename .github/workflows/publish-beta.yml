@@ -28,10 +28,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install dependencies
-        uses: ./.github/actions/yarn-install
+        uses: ./.github/actions/install
       - name: Build
-        run: yarn release:build
+        run: pnpm release:build
       - name: Publish to npm
-        run: yarn release:publish:beta
+        run: pnpm release:publish:beta
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

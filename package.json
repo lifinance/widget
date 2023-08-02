@@ -2,25 +2,22 @@
   "version": "2.2.5",
   "private": true,
   "sideEffects": false,
-  "packageManager": "yarn@3.6.1",
-  "workspaces": [
-    "packages/*"
-  ],
+  "packageManager": "pnpm@8.6.11",
   "scripts": {
     "start": "lerna run start",
     "build": "lerna run build",
-    "release": "yarn release:version:before && yarn release:version && yarn release:version:after && yarn standard-version -a",
-    "release:beta": "yarn release:version:before && yarn release:version && yarn release:version:after && yarn standard-version -a --prerelease beta --skip.changelog",
+    "release": "pnpm release:version:before && pnpm release:version && pnpm release:version:after && pnpm standard-version -a",
+    "release:beta": "pnpm release:version:before && pnpm release:version && pnpm release:version:after && pnpm standard-version -a --prerelease beta --skip.changelog",
     "release:version": "lerna version --preid beta --no-changelog --no-push --no-git-tag-version --no-private",
     "release:version:before": "node scripts/private-version before",
-    "release:version:after": "yarn release:build && node scripts/private-version after",
+    "release:version:after": "pnpm release:build && node scripts/private-version after",
     "release:build": "lerna run build --no-private",
     "release:publish": "lerna publish from-package --dist-tag latest --contents build --no-verify-access --yes",
     "release:publish:beta": "lerna publish from-package --dist-tag beta --contents build --no-verify-access --yes"
   },
   "standard-version": {
     "scripts": {
-      "prerelease": "yarn && git add ."
+      "prerelease": "pnpm i && git add ."
     }
   },
   "devDependencies": {
@@ -47,6 +44,7 @@
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-react": "^7.33.0",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "fs-extra": "^11.1.1",
     "lerna": "^7.1.4",
     "prettier": "^3.0.0",
     "react": "^18.2.0",
