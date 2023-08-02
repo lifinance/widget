@@ -30,7 +30,7 @@ const getBackgroundColor = (
         )
     : theme.palette.background.paper;
 
-export const Card = styled(Box, {
+export const Card: any = styled(Box, {
   shouldForwardProp: (prop) =>
     !['variant', 'indented', 'selectionColor', 'pointerEvents'].includes(
       prop as string,

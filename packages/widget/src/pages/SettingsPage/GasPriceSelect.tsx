@@ -17,7 +17,7 @@ export const GasPriceSelect = () => {
         <Select
           MenuProps={{ elevation: 2 }}
           value={gasPrice}
-          onChange={(event) =>
+          onChange={(event: any) =>
             setValue('gasPrice', event.target.value as string)
           }
           IconComponent={KeyboardArrowDownIcon}

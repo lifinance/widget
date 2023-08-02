@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 
-export const TextSecondaryContainer = styled(Box, {
+export const TextSecondaryContainer: any = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'connected',
 })<{ connected?: boolean }>(({ theme, connected }) => ({
   borderLeftWidth: connected ? 2 : 0,
@@ -21,7 +21,7 @@ export const TextSecondaryContainer = styled(Box, {
   flexWrap: 'wrap',
 }));
 
-export const TextSecondary = styled(Typography, {
+export const TextSecondary: any = styled(Typography, {
   shouldForwardProp: (prop: string) => !['connected', 'dot'].includes(prop),
 })<{ connected?: boolean; dot?: boolean }>(({ theme, connected, dot }) => ({
   fontSize: 12,
@@ -33,7 +33,7 @@ export const TextSecondary = styled(Typography, {
   marginTop: connected ? 0 : theme.spacing(0.5),
 }));
 
-export const TokenDivider = styled(Box)(({ theme }) => ({
+export const TokenDivider: any = styled(Box)(({ theme }) => ({
   height: 12,
   borderLeftWidth: 2,
   borderLeftStyle: 'solid',

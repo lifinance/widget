@@ -6,7 +6,7 @@ import { FormKey } from '../providers';
 import { useGasRecommendation } from './useGasRecommendation';
 import { useTokenBalance } from './useTokenBalance';
 
-export const useGasRefuel = () => {
+export const useGasRefuel: any = () => {
   const { getChainById } = useChains();
 
   const [fromChainId, fromTokenAddress, toChainId, toAddress] = useWatch({

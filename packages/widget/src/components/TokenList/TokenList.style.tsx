@@ -9,14 +9,14 @@ import { listItemTextClasses } from '@mui/material/ListItemText';
 import { alpha, styled } from '@mui/material/styles';
 import { ListItemButton as ListItemButtonBase } from '../ListItemButton';
 
-export const ListItemButton = styled(ListItemButtonBase)(({ theme }) => ({
+export const ListItemButton: any = styled(ListItemButtonBase)(({ theme }) => ({
   paddingLeft: theme.spacing(1.5),
   paddingRight: theme.spacing(1.5),
   height: 64,
   width: '100%',
 }));
 
-export const ListItem = styled(MuiListItem)(({ theme }) => ({
+export const ListItem: any = styled(MuiListItem)(({ theme }) => ({
   position: 'absolute',
   top: 0,
   left: 0,

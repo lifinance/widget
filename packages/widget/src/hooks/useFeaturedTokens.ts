@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useWidgetConfig } from '../providers';
 
-export const useFeaturedTokens = (selectedChainId?: number) => {
+export const useFeaturedTokens: any = (selectedChainId?: number) => {
   const { tokens } = useWidgetConfig();
 
   return useMemo(

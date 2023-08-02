@@ -6,7 +6,7 @@ import { useTokens } from './useTokens';
 
 const defaultRefetchInterval = 32_000;
 
-export const useTokenBalances = (selectedChainId?: number) => {
+export const useTokenBalances: any = (selectedChainId?: number) => {
   const lifi = useLiFi();
   const { account } = useWallet();
   const featuredTokens = useFeaturedTokens(selectedChainId);
@@ -30,7 +30,7 @@ export const useTokenBalances = (selectedChainId?: number) => {
       );
 
       const featuredTokenAddresses = new Set(
-        featuredTokens?.map((token) => token.address),
+        featuredTokens?.map((token: any) => token.address),
       );
 
       const sortFn = (a: TokenAmount, b: TokenAmount) =>

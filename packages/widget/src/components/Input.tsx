@@ -2,7 +2,7 @@ import { InputBase } from '@mui/material';
 import { inputBaseClasses } from '@mui/material/InputBase';
 import { styled } from '@mui/material/styles';
 
-export const Input = styled(InputBase)(({ theme }) => ({
+export const Input: any = styled(InputBase)(({ theme }) => ({
   backgroundColor:
     theme.palette.mode === 'light'
       ? theme.palette.common.white

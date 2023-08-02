@@ -23,7 +23,7 @@ export const SelectNativeTokenPage: React.FC<FormTypeProps> = ({
           paddingRight: 1.5,
         }}
       >
-        {chains?.map((chain) => (
+        {chains?.map((chain: any) => (
           <ListItemButton
             key={chain.id}
             onClick={() => selectToken(chain.nativeToken.address, chain.id)}

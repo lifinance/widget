@@ -2,7 +2,7 @@ import { Switch as MuiSwitch } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 import { switchClasses } from '@mui/material/Switch';
 
-export const Switch = styled(MuiSwitch)(({ theme }) => ({
+export const Switch: any = styled(MuiSwitch)(({ theme }) => ({
   width: 42,
   height: 24,
   padding: 0,

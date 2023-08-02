@@ -2,7 +2,7 @@ import { cardHeaderClasses } from '@mui/material/CardHeader';
 import { styled } from '@mui/material/styles';
 import { CardHeader } from '../Card';
 
-export const SelectTokenCardHeader = styled(CardHeader, {
+export const SelectTokenCardHeader: any = styled(CardHeader, {
   shouldForwardProp: (prop) =>
     !['selected', 'compact'].includes(prop as string),
 })<{ selected?: boolean; compact?: boolean }>(

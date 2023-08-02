@@ -24,13 +24,13 @@ const getStatusColor = (status: StatusColor, theme: Theme) => {
   }
 };
 
-export const CenterContainer = styled(Box)(({ theme }) => ({
+export const CenterContainer: any = styled(Box)(({ theme }) => ({
   display: 'grid',
   placeItems: 'center',
   position: 'relative',
 }));
 
-export const IconCircle = styled(Box, {
+export const IconCircle: any = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'status',
 })<{ status: StatusColor }>(({ theme, status }) => {
   const {

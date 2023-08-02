@@ -4,7 +4,7 @@ import { menuItemClasses } from '@mui/material/MenuItem';
 import { styled } from '@mui/material/styles';
 import { svgIconClasses } from '@mui/material/SvgIcon';
 
-export const WalletMenu = styled(MuiMenu)(({ theme }) => ({
+export const WalletMenu: any = styled(MuiMenu)(({ theme }) => ({
   [`& .${menuClasses.paper}`]: {
     borderRadius: theme.shape.borderRadius,
     color: theme.palette.text.primary,

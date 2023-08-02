@@ -5,7 +5,7 @@ import { outlinedInputClasses } from '@mui/material/OutlinedInput';
 import { selectClasses } from '@mui/material/Select';
 import { styled } from '@mui/material/styles';
 
-export const Select = styled(MuiSelect, {
+export const Select: any = styled(MuiSelect, {
   shouldForwardProp: (prop) => prop !== 'dense',
 })<{ dense?: boolean }>(({ theme, dense }) => ({
   backgroundColor:

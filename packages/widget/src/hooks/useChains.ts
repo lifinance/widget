@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form';
 import { FormKey, isItemAllowed, useLiFi, useWidgetConfig } from '../providers';
 import { useChainOrderStore } from '../stores';
 
-export const useChains = () => {
+export const useChains: any = () => {
   const { chains, keyPrefix } = useWidgetConfig();
   const lifi = useLiFi();
   const { getValues, setValue } = useFormContext();

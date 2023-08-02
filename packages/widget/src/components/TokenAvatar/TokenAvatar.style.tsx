@@ -3,7 +3,7 @@ import { avatarClasses } from '@mui/material/Avatar';
 import { badgeClasses } from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 
-export const TokenAvatarGroup = styled(AvatarGroup)(({ theme }) => ({
+export const TokenAvatarGroup: any = styled(AvatarGroup)(({ theme }) => ({
   [`& .${badgeClasses.badge}:last-child .${avatarClasses.root}`]: {
     marginLeft: theme.spacing(-1),
     boxSizing: 'border-box',
@@ -13,7 +13,7 @@ export const TokenAvatarGroup = styled(AvatarGroup)(({ theme }) => ({
   },
 }));
 
-export const AvatarDefault = styled(Box)(({ theme }) => ({
+export const AvatarDefault: any = styled(Box)(({ theme }) => ({
   background:
     theme.palette.mode === 'light'
       ? theme.palette.grey[300]
@@ -21,7 +21,7 @@ export const AvatarDefault = styled(Box)(({ theme }) => ({
   borderRadius: '50%',
 }));
 
-export const AvatarDefaultBadge = styled(Box)(({ theme }) => ({
+export const AvatarDefaultBadge: any = styled(Box)(({ theme }) => ({
   background:
     theme.palette.mode === 'light'
       ? theme.palette.grey[300]

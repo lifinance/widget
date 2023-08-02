@@ -2,12 +2,12 @@ import { Box, ScopedCssBaseline } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { maxHeight } from '../AppContainer';
 
-export const CollapseContainer = styled(Box)(({ theme }) => ({
+export const CollapseContainer: any = styled(Box)(({ theme }) => ({
   height: maxHeight,
   zIndex: 0,
 }));
 
-export const ScrollableContainer = styled(Box)({
+export const ScrollableContainer: any = styled(Box)({
   overflowY: 'auto',
   height: '100%',
   width: '100%',
@@ -16,7 +16,7 @@ export const ScrollableContainer = styled(Box)({
   flexDirection: 'column',
 });
 
-export const Container = styled(ScopedCssBaseline)(({ theme }) => ({
+export const Container: any = styled(ScopedCssBaseline)(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
   overflow: 'auto',
   width: 436,
@@ -26,7 +26,7 @@ export const Container = styled(ScopedCssBaseline)(({ theme }) => ({
   flexDirection: 'column',
 }));
 
-export const Header = styled(Box)(({ theme }) => ({
+export const Header: any = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
   backdropFilter: 'blur(12px)',
   display: 'flex',

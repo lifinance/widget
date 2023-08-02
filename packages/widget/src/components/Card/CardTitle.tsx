@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-export const CardTitle = styled(Typography, {
+export const CardTitle: any = styled(Typography, {
   shouldForwardProp: (prop) => !['required'].includes(prop as string),
 })<{ required?: boolean }>(({ theme, required }) => ({
   fontSize: '0.875rem',

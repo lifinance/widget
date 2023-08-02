@@ -2,7 +2,7 @@ import { AppBar, Box, Button } from '@mui/material';
 import { buttonClasses } from '@mui/material/Button';
 import { alpha, styled } from '@mui/material/styles';
 
-export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
+export const HeaderAppBar: any = styled(AppBar)(({ theme }) => ({
   backgroundColor: 'transparent',
   color: theme.palette.text.primary,
   flexDirection: 'row',
@@ -16,7 +16,7 @@ export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
   },
 }));
 
-export const Container = styled(Box, {
+export const Container: any = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'sticky',
 })<{ sticky?: boolean }>(({ theme, sticky }) => ({
   backgroundColor: theme.palette.background.default,
@@ -26,7 +26,7 @@ export const Container = styled(Box, {
   zIndex: 1200,
 }));
 
-export const WalletButton = styled(Button)(({ theme }) => ({
+export const WalletButton: any = styled(Button)(({ theme }) => ({
   color: theme.palette.text.primary,
   backgroundColor: 'transparent',
   padding: theme.spacing(1, 1.5),

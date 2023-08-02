@@ -3,41 +3,41 @@ import { switchClasses } from '@mui/material/Switch';
 import { alpha, darken, lighten, styled } from '@mui/material/styles';
 import { Switch } from '../Switch';
 
-const MessageCard = styled(Box)(({ theme }) => ({
+const MessageCard: any = styled(Box)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   position: 'relative',
   whiteSpace: 'pre-line',
 }));
 
-export const WarningMessageCard = styled(MessageCard)(({ theme }) => ({
+export const WarningMessageCard: any = styled(MessageCard)(({ theme }) => ({
   backgroundColor:
     theme.palette.mode === 'light'
       ? alpha(theme.palette.warning.main, 0.32)
       : alpha(theme.palette.warning.main, 0.16),
 }));
 
-export const WarningMessageCardTitle = styled(Box)(({ theme }) => ({
+export const WarningMessageCardTitle: any = styled(Box)(({ theme }) => ({
   color:
     theme.palette.mode === 'light'
       ? darken(theme.palette.warning.main, 0.36)
       : alpha(theme.palette.warning.main, 1),
 }));
 
-export const InfoMessageCard = styled(MessageCard)(({ theme }) => ({
+export const InfoMessageCard: any = styled(MessageCard)(({ theme }) => ({
   backgroundColor:
     theme.palette.mode === 'light'
       ? alpha(theme.palette.info.main, 0.12)
       : alpha(theme.palette.info.main, 0.16),
 }));
 
-export const InfoMessageCardTitle = styled(Box)(({ theme }) => ({
+export const InfoMessageCardTitle: any = styled(Box)(({ theme }) => ({
   color:
     theme.palette.mode === 'light'
       ? theme.palette.info.main
       : lighten(theme.palette.info.main, 0.24),
 }));
 
-export const InfoMessageSwitch = styled(Switch)(({ theme }) => ({
+export const InfoMessageSwitch: any = styled(Switch)(({ theme }) => ({
   [`.${switchClasses.switchBase}`]: {
     [`&.${switchClasses.checked}`]: {
       [`& + .${switchClasses.track}`]: {

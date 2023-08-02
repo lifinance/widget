@@ -32,7 +32,7 @@ export const SelectChainPage: React.FC<SelectChainPageProps> = ({
           paddingRight: 1.5,
         }}
       >
-        {chains?.map((chain) => (
+        {chains?.map((chain: any) => (
           <ListItemButton key={chain.id} onClick={() => handleClick(chain)}>
             <ListItemAvatar>
               <Avatar src={chain.logoURI} alt={chain.name}>

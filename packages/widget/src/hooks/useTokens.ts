@@ -51,10 +51,10 @@ export const useTokens = (selectedChainId?: number) => {
       );
     }
     const featuredTokenAddresses = new Set(
-      featuredTokens?.map((token) => token.address),
+      featuredTokens?.map((token: any) => token.address),
     );
     const tokens = [
-      ...(featuredTokens?.map((token) => {
+      ...(featuredTokens?.map((token: any) => {
         (token as TokenAmount).featured = true;
         return token;
       }) ?? []),

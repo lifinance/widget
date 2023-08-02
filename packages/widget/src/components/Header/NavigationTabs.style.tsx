@@ -39,7 +39,7 @@ export const NavbarTabs: StyledComponent<TabsProps> = styled(Tabs)(
   }),
 );
 
-export const NavbarTab = styled(Tab, {
+export const NavbarTab: any = styled(Tab, {
   shouldForwardProp: (prop) => prop !== 'isDarkMode',
 })<TabProps>(({ theme }) => ({
   zIndex: 1,

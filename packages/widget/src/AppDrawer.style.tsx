@@ -20,7 +20,7 @@ const getButtonTransformWidth = (
   return '392px';
 };
 
-export const DrawerButton = styled(Button, {
+export const DrawerButton: any = styled(Button, {
   shouldForwardProp: (prop) =>
     !['open', 'drawerProps'].includes(prop as string),
 })<{
@@ -77,7 +77,7 @@ export const DrawerButton = styled(Button, {
   },
 }));
 
-export const DrawerButtonTypography = styled(Typography)(({ theme }) => ({
+export const DrawerButtonTypography: any = styled(Typography)(({ theme }) => ({
   borderRadius: `0 ${theme.shape.borderRadiusSecondary}px ${theme.shape.borderRadiusSecondary}px 0`,
   background:
     theme.palette.mode === 'light'

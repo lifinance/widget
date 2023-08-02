@@ -20,7 +20,7 @@ export const RoutePrioritySelect: React.FC = () => {
         <Select
           MenuProps={{ elevation: 2 }}
           value={value}
-          onChange={(event) =>
+          onChange={(event: any) =>
             setValue('routePriority', event.target.value as Order)
           }
           IconComponent={KeyboardArrowDownIcon}

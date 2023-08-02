@@ -5,7 +5,7 @@ import { useChains } from './useChains';
 
 const refetchInterval = 60_000;
 
-export const useGasRecommendation = (
+export const useGasRecommendation: any = (
   chainId: ChainId,
   fromChain?: ChainId,
   fromToken?: string,
@@ -16,7 +16,7 @@ export const useGasRecommendation = (
   return useQuery(
     ['gas-recommendation', chainId, fromChain, fromToken],
     async ({ queryKey: [_, chainId, fromChain, fromToken] }) => {
-      if (!chains?.some((chain) => chain.id === chainId)) {
+      if (!chains?.some((chain: any) => chain.id === chainId)) {
         return null;
       }
       const gasRecommendation = await lifi.getGasRecommendation({

@@ -39,7 +39,7 @@ const getStatusColor = (
   }
 };
 
-export const CircularIcon = styled(Box, {
+export const CircularIcon: any = styled(Box, {
   shouldForwardProp: (prop: string) => !['status', 'substatus'].includes(prop),
 })<{ status: Status; substatus?: Substatus }>(
   ({ theme, status, substatus }) => ({
@@ -60,7 +60,7 @@ export const CircularIcon = styled(Box, {
   }),
 );
 
-export const CircularProgressPending = styled(MuiCircularProgress)(
+export const CircularProgressPending: any = styled(MuiCircularProgress)(
   ({ theme }) => ({
     color:
       theme.palette.mode === 'light'

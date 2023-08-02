@@ -9,7 +9,7 @@ import { stepContentClasses } from '@mui/material/StepContent';
 import { stepLabelClasses } from '@mui/material/StepLabel';
 import { styled } from '@mui/material/styles';
 
-export const StepIcon = styled('span', {
+export const StepIcon: any = styled('span', {
   shouldForwardProp: (prop) =>
     !['active', 'completed', 'error'].includes(prop as string),
 })(({ theme }) => ({
@@ -23,7 +23,7 @@ export const StepIcon = styled('span', {
   }`,
 }));
 
-export const StepConnector = styled(MuiStepConnector, {
+export const StepConnector: any = styled(MuiStepConnector, {
   shouldForwardProp: (prop) =>
     !['active', 'completed', 'error'].includes(prop as string),
 })(({ theme }) => ({
@@ -38,7 +38,7 @@ export const StepConnector = styled(MuiStepConnector, {
   },
 }));
 
-export const StepLabel = styled(MuiStepLabel, {
+export const StepLabel: any = styled(MuiStepLabel, {
   shouldForwardProp: (prop) =>
     !['active', 'completed', 'error', 'disabled'].includes(prop as string),
 })(({ theme }) => ({
@@ -52,7 +52,7 @@ export const StepLabel = styled(MuiStepLabel, {
   },
 }));
 
-export const StepContent = styled(MuiStepContent, {
+export const StepContent: any = styled(MuiStepContent, {
   shouldForwardProp: (prop) =>
     !['active', 'completed', 'error'].includes(prop as string),
 })(({ theme }) => ({
@@ -69,7 +69,7 @@ export const StepContent = styled(MuiStepContent, {
   },
 }));
 
-export const StepAvatar = styled(Avatar)(({ theme, variant }) => ({
+export const StepAvatar: any = styled(Avatar)(({ theme, variant }) => ({
   color: theme.palette.text.primary,
   backgroundColor: 'transparent',
 }));

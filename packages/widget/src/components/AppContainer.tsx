@@ -7,7 +7,7 @@ import { ElementId, createElementId } from '../utils';
 
 export const maxHeight = 680;
 
-export const AppExpandedContainer = styled(Box, {
+export const AppExpandedContainer: any = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'variant',
 })<{ variant?: WidgetVariant }>(({ variant }) => ({
   display: 'flex',
@@ -17,7 +17,7 @@ export const AppExpandedContainer = styled(Box, {
   height: variant === 'drawer' ? 'none' : maxHeight,
 }));
 
-const RelativeContainer = styled(Box, {
+const RelativeContainer: any = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'variant',
 })<{ variant?: WidgetVariant }>(({ theme, variant }) => ({
   position: 'relative',
@@ -32,7 +32,7 @@ const RelativeContainer = styled(Box, {
   zIndex: 0,
 }));
 
-const CssBaselineContainer = styled(ScopedCssBaseline, {
+const CssBaselineContainer: any = styled(ScopedCssBaseline, {
   shouldForwardProp: (prop) => prop !== 'variant',
 })<{ variant?: WidgetVariant }>(({ variant }) => ({
   display: 'flex',
@@ -46,7 +46,7 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
   height: '100%',
 }));
 
-export const FlexContainer = styled(Container)({
+export const FlexContainer: any = styled(Container)({
   display: 'flex',
   flexDirection: 'column',
   flex: 1,

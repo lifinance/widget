@@ -2,7 +2,7 @@ import { CardHeader as MuiCardHeader } from '@mui/material';
 import { cardHeaderClasses } from '@mui/material/CardHeader';
 import { styled } from '@mui/material/styles';
 
-export const CardHeader = styled(MuiCardHeader)(({ theme }) => ({
+export const CardHeader: any = styled(MuiCardHeader)(({ theme }) => ({
   [`.${cardHeaderClasses.action}`]: {
     marginTop: -2,
     alignSelf: 'center',

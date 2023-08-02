@@ -1,7 +1,7 @@
 import { IconButton as MuiIconButton } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 
-export const CardIconButton = styled(MuiIconButton)(({ theme }) => {
+export const CardIconButton: any = styled(MuiIconButton)(({ theme }) => {
   const backgroundColor =
     theme.palette.mode === 'light'
       ? theme.palette.common.black
