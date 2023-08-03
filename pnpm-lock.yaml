@@ -314,6 +314,9 @@ importers:
 
   packages/widget-playground:
     dependencies:
+      '@ethersproject/abstract-signer':
+        specifier: ^5.7.0
+        version: 5.7.0
       '@lifi/sdk':
         specifier: ^2.2.1
         version: 2.2.1

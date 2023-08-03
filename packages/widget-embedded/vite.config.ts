@@ -17,6 +17,7 @@ export default defineConfig({
           include: null,
         }),
       ],
+      external: ['@lifi/widget'],
     },
     sourcemap: true,
   },
