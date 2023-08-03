@@ -2,6 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { App } from './App';
+import { ViemTest } from './components/ViemTest';
 import { WalletProvider } from './providers/WalletProvider';
 import { reportWebVitals } from './reportWebVitals';
 
@@ -17,6 +18,7 @@ root.render(
     <WalletProvider>
       <BrowserRouter>
         <Routes>
+          <Route path="/viem" element={<ViemTest />} />
           <Route path="/*" element={<App />} />
         </Routes>
       </BrowserRouter>

@@ -22,10 +22,10 @@ export const TransactionHistoryItem: React.FC<{
   const startedAt = new Date(
     route.steps[0].execution?.process[0].startedAt ?? 0,
   );
-  const fromToken = { ...route.fromToken, amount: route.fromAmount };
+  const fromToken = { ...route.fromToken, amount: BigInt(route.fromAmount) };
   const toToken = {
     ...(route.steps.at(-1)?.execution?.toToken ?? route.toToken),
-    amount: route.steps.at(-1)?.execution?.toAmount ?? route.toAmount,
+    amount: BigInt(route.steps.at(-1)?.execution?.toAmount ?? route.toAmount),
   };
   return (
     <Card onClick={handleClick}>

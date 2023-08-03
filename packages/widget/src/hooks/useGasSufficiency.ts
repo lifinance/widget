@@ -1,14 +1,13 @@
 import type { EVMChain, Route, Token } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
-import Big from 'big.js';
 import { useChains, useGasRefuel, useGetTokenBalancesWithRetry } from '.';
 import { useWallet } from '../providers';
 import { useSettings } from '../stores';
 
 export interface GasSufficiency {
-  gasAmount: Big;
-  tokenAmount?: Big;
-  insufficientAmount?: Big;
+  gasAmount: bigint;
+  tokenAmount?: bigint;
+  insufficientAmount?: bigint;
   insufficient?: boolean;
   token: Token;
   chain?: EVMChain;
@@ -41,37 +40,35 @@ export const useGasSufficiency = (route?: Route) => {
 
       const gasCosts = route.steps
         .filter((step) => !step.execution || step.execution.status !== 'DONE')
-        .reduce((groupedGasCosts, step) => {
-          if (step.estimate.gasCosts) {
-            const { token } = step.estimate.gasCosts[0];
-            const gasCostAmount = step.estimate.gasCosts
-              .reduce(
-                (amount, gasCost) => amount.plus(Big(gasCost.amount || 0)),
-                Big(0),
-              )
-              .div(10 ** token.decimals);
-            const groupedGasCost = groupedGasCosts[token.chainId];
-            const gasAmount = groupedGasCost
-              ? groupedGasCost.gasAmount.plus(gasCostAmount)
-              : gasCostAmount;
-            groupedGasCosts[token.chainId] = {
-              gasAmount,
-              tokenAmount: gasAmount,
-              token,
-            };
+        .reduce(
+          (groupedGasCosts, step) => {
+            if (step.estimate.gasCosts) {
+              const { token } = step.estimate.gasCosts[0];
+              const gasCostAmount = step.estimate.gasCosts.reduce(
+                (amount, gasCost) => amount + BigInt(gasCost.amount),
+                0n,
+              );
+              const groupedGasCost = groupedGasCosts[token.chainId];
+              const gasAmount = groupedGasCost
+                ? groupedGasCost.gasAmount + gasCostAmount
+                : gasCostAmount;
+              groupedGasCosts[token.chainId] = {
+                gasAmount,
+                tokenAmount: gasAmount,
+                token,
+              };
+              return groupedGasCosts;
+            }
             return groupedGasCosts;
-          }
-          return groupedGasCosts;
-        }, {} as Record<number, GasSufficiency>);
+          },
+          {} as Record<number, GasSufficiency>,
+        );
 
       if (
         route.fromToken.address === gasCosts[route.fromChainId]?.token.address
       ) {
-        gasCosts[route.fromChainId].tokenAmount = gasCosts[
-          route.fromChainId
-        ]?.gasAmount.plus(
-          Big(route.fromAmount).div(10 ** route.fromToken.decimals),
-        );
+        gasCosts[route.fromChainId].tokenAmount =
+          gasCosts[route.fromChainId]?.gasAmount + BigInt(route.fromAmount);
       }
 
       const tokenBalances = await getTokenBalancesWithRetry(
@@ -85,28 +82,27 @@ export const useGasSufficiency = (route?: Route) => {
 
       [route.fromChainId, route.toChainId].forEach((chainId) => {
         if (gasCosts[chainId]) {
-          const gasTokenBalance = Big(
+          const gasTokenBalance =
             tokenBalances?.find(
               (t) =>
                 t.chainId === gasCosts[chainId].token.chainId &&
                 t.address === gasCosts[chainId].token.address,
-            )?.amount ?? 0,
-          );
-
+            )?.amount ?? 0n;
           const insufficient =
-            gasTokenBalance.lte(0) ||
-            gasTokenBalance.lt(gasCosts[chainId].gasAmount ?? Big(0)) ||
-            gasTokenBalance.lt(gasCosts[chainId].tokenAmount ?? Big(0));
+            gasTokenBalance <= 0n ||
+            gasTokenBalance < gasCosts[chainId].gasAmount ||
+            gasTokenBalance < (gasCosts[chainId].tokenAmount ?? 0n);
 
           const insufficientAmount = insufficient
-            ? gasCosts[chainId].tokenAmount?.minus(gasTokenBalance) ??
-              gasCosts[chainId].gasAmount.minus(gasTokenBalance)
+            ? gasCosts[chainId].tokenAmount
+              ? gasCosts[chainId].tokenAmount! - gasTokenBalance
+              : gasCosts[chainId].gasAmount - gasTokenBalance
             : undefined;
 
           gasCosts[chainId] = {
             ...gasCosts[chainId],
             insufficient,
-            insufficientAmount: insufficientAmount?.round(5, Big.roundUp),
+            insufficientAmount,
             chain: insufficient ? getChainById(chainId) : undefined,
           };
         }

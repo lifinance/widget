@@ -1,6 +1,9 @@
 import type { ExchangeRateUpdateParams, Route } from '@lifi/sdk';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useRef } from 'react';
+import type { WalletClient } from 'viem';
+import { createWalletClient, custom } from 'viem';
+import type { Address } from 'wagmi';
 import { shallow } from 'zustand/shallow';
 import { useLiFi, useWallet } from '../providers';
 import {
@@ -70,9 +73,11 @@ export const useRouteExecution = ({
     console.log('Route updated.', clonedUpdatedRoute);
   };
 
-  const switchChainHook = async (requiredChainId: number) => {
+  const switchChainHook = async (
+    requiredChainId: number,
+  ): Promise<WalletClient | undefined> => {
     if (!account.isActive || !account.signer) {
-      return account.signer;
+      return;
     }
     const currentChainId = await account.signer.getChainId();
     if (currentChainId !== requiredChainId) {
@@ -80,9 +85,17 @@ export const useRouteExecution = ({
       if (!signer) {
         throw new Error('Chain was not switched.');
       }
-      return signer;
+      const client = createWalletClient({
+        account: (await signer.getAddress()) as Address,
+        transport: custom((signer.provider as any)?.provider as any),
+      });
+      return client;
     }
-    return account.signer;
+    const client = createWalletClient({
+      account: account.address as Address,
+      transport: custom(account.provider?.provider as any),
+    });
+    return client;
   };
 
   const acceptExchangeRateUpdateHook = async (
@@ -108,7 +121,11 @@ export const useRouteExecution = ({
         throw Error('Execution route not found.');
       }
       queryClient.removeQueries(['routes'], { exact: false });
-      return lifi.executeRoute(account.signer, routeExecution.route, {
+      const client = createWalletClient({
+        account: account.address as Address,
+        transport: custom(account.provider?.provider as any),
+      });
+      return lifi.executeRoute(client, routeExecution.route, {
         updateRouteHook,
         switchChainHook,
         acceptExchangeRateUpdateHook,
@@ -134,17 +151,17 @@ export const useRouteExecution = ({
       if (!routeExecution?.route) {
         throw Error('Execution route not found.');
       }
-      return lifi.resumeRoute(
-        account.signer,
-        resumedRoute ?? routeExecution.route,
-        {
-          updateRouteHook,
-          switchChainHook,
-          acceptExchangeRateUpdateHook,
-          infiniteApproval: false,
-          executeInBackground,
-        },
-      );
+      const client = createWalletClient({
+        account: account.address as Address,
+        transport: custom(account.provider?.provider as any),
+      });
+      return lifi.resumeRoute(client, resumedRoute ?? routeExecution.route, {
+        updateRouteHook,
+        switchChainHook,
+        acceptExchangeRateUpdateHook,
+        infiniteApproval: false,
+        executeInBackground,
+      });
     },
     {
       onMutate: () => {

@@ -14,9 +14,11 @@ export const GasMessage: React.FC<GasMessageProps> = ({ route, ...props }) => {
   const { insufficientGas } = useGasSufficiency(route);
   const { insufficientFunds } = useFundsSufficiency(route);
   const { sdkConfig } = useWidgetConfig();
-  const isMultisigSigner = sdkConfig?.multisigConfig?.isMultisigSigner;
+  const isMultisigWalletClient =
+    sdkConfig?.multisigConfig?.isMultisigWalletClient;
 
-  const validInsufficientGas = insufficientGas?.length && !isMultisigSigner;
+  const validInsufficientGas =
+    insufficientGas?.length && !isMultisigWalletClient;
 
   return (
     <Collapse

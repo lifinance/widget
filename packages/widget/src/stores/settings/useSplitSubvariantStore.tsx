@@ -35,7 +35,6 @@ export function SplitSubvariantStoreProvider({
 
 export function useSplitSubvariantStore<T>(
   selector: (state: SplitSubvariantState) => T,
-  equalityFn?: (left: T, right: T) => boolean,
 ): T {
   const useStore = useContext(SplitSubvariantStoreContext);
   if (!useStore) {
@@ -43,7 +42,7 @@ export function useSplitSubvariantStore<T>(
       `You forgot to wrap your component in <${SplitSubvariantStoreProvider.name}>.`,
     );
   }
-  return useStore(selector, equalityFn);
+  return useStore(selector);
 }
 
 export function useSplitSubvariantStoreContext() {

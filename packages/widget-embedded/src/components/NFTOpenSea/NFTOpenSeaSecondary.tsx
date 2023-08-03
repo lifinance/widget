@@ -26,7 +26,7 @@ export const NFTOpenSeaSecondary: React.FC<NFTOpenSeaProps> = ({
   };
   const token: TokenAmount = {
     symbol: order?.takerAssetBundle.assets[0]?.assetContract?.tokenSymbol!,
-    amount: order?.currentPrice!,
+    amount: BigInt(order?.currentPrice ?? 0),
     decimals: order?.takerAssetBundle.assets[0].decimals!,
     address: order?.takerAssetBundle.assets[0].tokenAddress!,
     chainId: OpenSeaChainId[network as NFTNetwork] as number as ChainId,

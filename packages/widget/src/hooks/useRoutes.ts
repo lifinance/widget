@@ -1,10 +1,10 @@
 import { isAddress } from '@ethersproject/address';
 import type { Route, RoutesResponse, Token } from '@lifi/sdk';
-import { LifiErrorCode } from '@lifi/sdk';
+import { LiFiErrorCode } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import Big from 'big.js';
 import { useWatch } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
+import { parseUnits } from 'viem';
 import { useDebouncedWatch, useGasRefuel, useToken } from '.';
 import { FormKey, useLiFi, useWallet, useWidgetConfig } from '../providers';
 import { useSettings } from '../stores';
@@ -145,9 +145,10 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
         } catch {
           toWalletAddress = isAddress(toAddress) ? toAddress : fromAddress;
         }
-        const fromAmount = Big(fromTokenAmount || 0)
-          .mul(10 ** (fromToken?.decimals ?? 0))
-          .toFixed(0);
+        const fromAmount = parseUnits(
+          fromTokenAmount || 0,
+          fromToken!.decimals,
+        ).toString();
         const formattedSlippage = parseFloat(slippage) / 100;
 
         const allowedBridges: string[] = insurableRoute
@@ -266,7 +267,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
           );
         },
         retry(failureCount, error: any) {
-          if (error?.code === LifiErrorCode.NotFound) {
+          if (error?.code === LiFiErrorCode.NotFound) {
             return false;
           }
           return true;

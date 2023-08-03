@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { formatUnits } from 'viem';
 import { useLiFi, useWallet } from '../providers';
 import type { TokenAmount } from '../types';
 import { useFeaturedTokens } from './useFeaturedTokens';
@@ -34,9 +35,10 @@ export const useTokenBalances = (selectedChainId?: number) => {
       );
 
       const sortFn = (a: TokenAmount, b: TokenAmount) =>
-        parseFloat(b.amount ?? '0') * parseFloat(b.priceUSD ?? '0') -
-        parseFloat(a.amount ?? '0') * parseFloat(a.priceUSD ?? '0');
-
+        parseFloat(formatUnits(b.amount ?? 0n, b.decimals)) *
+          parseFloat(b.priceUSD ?? '0') -
+        parseFloat(formatUnits(a.amount ?? 0n, a.decimals)) *
+          parseFloat(a.priceUSD ?? '0');
       const formattedTokens = (
         tokenBalances.length === 0 ? tokens : tokenBalances
       ) as TokenAmount[];
@@ -45,23 +47,21 @@ export const useTokenBalances = (selectedChainId?: number) => {
         ...formattedTokens
           .filter(
             (token) =>
-              token.amount !== '0' && featuredTokenAddresses.has(token.address),
+              token.amount && featuredTokenAddresses.has(token.address),
           )
           .sort(sortFn),
         ...formattedTokens.filter(
-          (token) =>
-            token.amount === '0' && featuredTokenAddresses.has(token.address),
+          (token) => !token.amount && featuredTokenAddresses.has(token.address),
         ),
         ...formattedTokens
           .filter(
             (token) =>
-              token.amount !== '0' &&
-              !featuredTokenAddresses.has(token.address),
+              token.amount && !featuredTokenAddresses.has(token.address),
           )
           .sort(sortFn),
         ...formattedTokens.filter(
           (token) =>
-            token.amount === '0' && !featuredTokenAddresses.has(token.address),
+            !token.amount && !featuredTokenAddresses.has(token.address),
         ),
       ];
       return result;

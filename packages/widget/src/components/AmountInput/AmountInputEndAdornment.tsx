@@ -1,7 +1,7 @@
 import { InputAdornment, Skeleton } from '@mui/material';
-import Big from 'big.js';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { formatUnits } from 'viem';
 import {
   useChains,
   useGasRecommendation,
@@ -9,7 +9,6 @@ import {
 } from '../../hooks';
 import type { FormTypeProps } from '../../providers';
 import { FormKeyHelper } from '../../providers';
-import { formatTokenAmount } from '../../utils';
 import { Button } from './AmountInputAdornment.style';
 
 export const AmountInputEndAdornment = ({ formType }: FormTypeProps) => {
@@ -34,20 +33,20 @@ export const AmountInputEndAdornment = ({ formType }: FormTypeProps) => {
       data?.available &&
       data?.recommended
     ) {
-      const tokenAmount = Big(token?.amount ?? 0);
-      const recommendedAmount = Big(data.recommended.amount)
-        .div(10 ** data.recommended.token.decimals)
-        .div(2);
-      if (tokenAmount.gt(recommendedAmount)) {
-        maxAmount = formatTokenAmount(
-          tokenAmount.minus(recommendedAmount).toString(),
-        );
+      const tokenAmount = token?.amount ?? 0n;
+      const recommendedAmount = BigInt(data.recommended.amount) / 2n;
+      if (tokenAmount > recommendedAmount) {
+        maxAmount = tokenAmount - recommendedAmount;
       }
     }
 
-    setValue(FormKeyHelper.getAmountKey(formType), maxAmount || '', {
-      shouldTouch: true,
-    });
+    setValue(
+      FormKeyHelper.getAmountKey(formType),
+      maxAmount && token ? formatUnits(maxAmount, token.decimals) : '',
+      {
+        shouldTouch: true,
+      },
+    );
   };
 
   return (

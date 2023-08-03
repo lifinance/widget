@@ -51,7 +51,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   const handleWalletUpdate = async (wallet?: Wallet) => {
     setCurrentWallet(wallet);
     const account = await extractAccountFromSigner(wallet?.account?.signer);
-    setAccount(account);
+    setAccount({ ...account, provider: wallet?.account?.provider });
   };
 
   const connect = useCallback(

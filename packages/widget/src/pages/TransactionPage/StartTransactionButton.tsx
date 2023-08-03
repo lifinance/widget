@@ -11,7 +11,8 @@ export const StartTransactionButton: React.FC<StartTransactionButtonProps> = ({
   loading,
 }) => {
   const { sdkConfig } = useWidgetConfig();
-  const isMultisigSigner = sdkConfig?.multisigConfig?.isMultisigSigner;
+  const isMultisigWalletClient =
+    sdkConfig?.multisigConfig?.isMultisigWalletClient;
 
   const { insufficientGas, isInitialLoading: isGasSufficiencyLoading } =
     useGasSufficiency(route);
@@ -19,7 +20,7 @@ export const StartTransactionButton: React.FC<StartTransactionButtonProps> = ({
     useFundsSufficiency(route);
 
   const shouldDisableButton =
-    !isMultisigSigner && (insufficientFunds || !!insufficientGas?.length);
+    !isMultisigWalletClient && (insufficientFunds || !!insufficientGas?.length);
 
   return (
     <DefaultTransactionButton

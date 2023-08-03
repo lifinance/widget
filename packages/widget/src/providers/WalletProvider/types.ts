@@ -1,4 +1,5 @@
 import type { Signer } from '@ethersproject/abstract-signer';
+import type { Web3Provider } from '@ethersproject/providers';
 import type { StaticToken } from '@lifi/sdk';
 import type { Wallet } from '@lifi/wallet-management';
 
@@ -16,4 +17,5 @@ export interface WalletAccount {
   chainId?: number;
   address?: string;
   signer?: Signer;
+  provider?: Web3Provider;
 }

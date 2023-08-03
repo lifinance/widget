@@ -11,10 +11,10 @@ import {
   Stepper,
   Typography,
 } from '@mui/material';
-import Big from 'big.js';
 import type { MouseEventHandler } from 'react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { formatUnits } from 'viem';
 import { useChains } from '../../hooks';
 import { LiFiToolLogo } from '../../icons';
 import { useWidgetConfig } from '../../providers';
@@ -176,19 +176,19 @@ export const StepDetailsContent: React.FC<{
 
   let fromAmount: string | undefined;
   if (sameTokenProtocolStep) {
-    const estimatedFromAmount = Big(step.estimate.fromAmount)
-      .div(10 ** step.action.fromToken.decimals)
-      .minus(
-        Big(step.estimate.toAmount).div(10 ** step.action.toToken.decimals),
-      );
-    fromAmount = estimatedFromAmount.gt(0)
-      ? estimatedFromAmount.toString()
-      : Big(step.estimate.fromAmount)
-          .div(10 ** step.action.fromToken.decimals)
-          .toString();
+    const estimatedFromAmount =
+      BigInt(step.estimate.fromAmount) - BigInt(step.estimate.toAmount);
+
+    fromAmount =
+      estimatedFromAmount > 0n
+        ? formatUnits(estimatedFromAmount, step.action.fromToken.decimals)
+        : formatUnits(
+            BigInt(step.estimate.fromAmount),
+            step.action.fromToken.decimals,
+          );
   } else {
     fromAmount = formatTokenAmount(
-      step.estimate.fromAmount,
+      BigInt(step.estimate.fromAmount),
       step.action.fromToken.decimals,
     );
   }
@@ -213,7 +213,7 @@ export const StepDetailsContent: React.FC<{
           <ArrowForwardIcon sx={{ fontSize: 18, paddingX: 0.5 }} />
           {t('format.number', {
             value: formatTokenAmount(
-              step.execution?.toAmount ?? step.estimate.toAmount,
+              BigInt(step.execution?.toAmount ?? step.estimate.toAmount),
               step.execution?.toToken?.decimals ?? step.action.toToken.decimals,
             ),
           })}{' '}

@@ -1,7 +1,7 @@
 import type { Route } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
-import Big from 'big.js';
 import { useWatch } from 'react-hook-form';
+import { parseUnits } from 'viem';
 import { FormKey, useWallet } from '../providers';
 import { isRouteDone } from '../stores';
 import { useGetTokenBalancesWithRetry } from './useGetTokenBalancesWithRetry';
@@ -38,10 +38,11 @@ export const useFundsSufficiency = (route?: Route) => {
       if (!account.address || !token) {
         return;
       }
-      let currentTokenBalance = Big(token?.amount || 0);
+      const parsedFromAmount = parseUnits(fromAmount, token.decimals);
+      let currentTokenBalance = token.amount ?? 0n;
 
       if (!route || isRouteDone(route)) {
-        const insufficientFunds = currentTokenBalance.lt(Big(fromAmount || 0));
+        const insufficientFunds = currentTokenBalance < parsedFromAmount;
         return insufficientFunds;
       }
 
@@ -52,11 +53,10 @@ export const useFundsSufficiency = (route?: Route) => {
       if (
         token.chainId === currentAction.fromToken.chainId &&
         token.address === currentAction.fromToken.address &&
-        currentTokenBalance.gt(0)
+        currentTokenBalance > 0
       ) {
-        const insufficientFunds = Big(route.fromAmount)
-          .div(10 ** route.fromToken.decimals)
-          .gt(currentTokenBalance);
+        const insufficientFunds =
+          BigInt(route.fromAmount) > currentTokenBalance;
         return insufficientFunds;
       }
 
@@ -64,10 +64,9 @@ export const useFundsSufficiency = (route?: Route) => {
         currentAction.fromToken,
       ]);
 
-      currentTokenBalance = Big(tokenBalances?.[0]?.amount || 0);
-      const insufficientFunds = Big(currentAction.fromAmount)
-        .div(10 ** currentAction.fromToken.decimals)
-        .gt(currentTokenBalance);
+      currentTokenBalance = tokenBalances?.[0]?.amount ?? 0n;
+      const insufficientFunds =
+        BigInt(currentAction.fromAmount) > currentTokenBalance;
       return insufficientFunds;
     },
     {

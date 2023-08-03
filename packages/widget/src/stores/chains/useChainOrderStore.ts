@@ -1,11 +1,11 @@
 import type { StateCreator } from 'zustand';
-import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { createWithEqualityFn } from 'zustand/traditional';
 import type { ChainOrderState } from './types';
 
 export const maxChainToOrder = 9;
 
-export const useChainOrderStore = create<ChainOrderState>(
+export const useChainOrderStore = createWithEqualityFn<ChainOrderState>(
   persist(
     (set, get) => ({
       chainOrder: [],
@@ -61,4 +61,5 @@ export const useChainOrderStore = create<ChainOrderState>(
       partialize: (state) => ({ chainOrder: state.chainOrder }),
     },
   ) as StateCreator<ChainOrderState, [], [], ChainOrderState>,
+  Object.is,
 );

@@ -9,16 +9,17 @@ export const getStepList = (route?: Route, subvariant?: WidgetSubvariant) =>
     const lastIndex = steps.length - 1;
     const fromToken: TokenAmount | undefined =
       index === 0
-        ? { ...step.action.fromToken, amount: step.action.fromAmount }
+        ? { ...step.action.fromToken, amount: BigInt(step.action.fromAmount) }
         : undefined;
     const toToken: TokenAmount | undefined =
       index === lastIndex
         ? {
             ...(step.execution?.toToken ?? step.action?.toToken),
-            amount:
-              step.execution?.toAmount ?? subvariant === 'nft'
-                ? route.toAmount
-                : step.estimate.toAmount,
+            amount: step.execution?.toAmount
+              ? BigInt(step.execution.toAmount)
+              : subvariant === 'nft'
+              ? BigInt(route.toAmount)
+              : BigInt(step.estimate.toAmount),
           }
         : undefined;
     const toAddress =

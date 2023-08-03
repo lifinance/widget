@@ -32,8 +32,8 @@ export const RouteCard: React.FC<
 
   const token: TokenAmount =
     subvariant === 'nft'
-      ? { ...route.fromToken, amount: route.fromAmount }
-      : { ...route.toToken, amount: route.toAmount };
+      ? { ...route.fromToken, amount: BigInt(route.fromAmount) }
+      : { ...route.toToken, amount: BigInt(route.toAmount) };
 
   const RecommendedTagTooltip =
     route.tags?.[0] === 'RECOMMENDED' ? RecommendedTooltip : Fragment;
@@ -45,7 +45,7 @@ export const RouteCard: React.FC<
           {insurable ? (
             <InsuranceTooltip
               insuredAmount={formatTokenAmount(
-                route.toAmountMin,
+                BigInt(route.toAmountMin),
                 route.toToken.decimals,
               )}
               insuredTokenSymbol={route.toToken.symbol}
