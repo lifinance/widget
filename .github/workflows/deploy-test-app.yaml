@@ -60,7 +60,7 @@ jobs:
                 body: JSON.stringify({
                   build_config: {
                     build_command: "yarn run build",
-                    destination_dir: "packages/widget-embedded/dist/",
+                    destination_dir: "packages/widget-playground/dist/",
                     root_dir: "/",
                   },
                   canonical_deployment: null,
@@ -114,7 +114,7 @@ jobs:
           apiToken: ${{ secrets.CF_PAGES_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
           command: | 
-            pages deploy ./packages/widget-embedded/dist/ --project-name ${{ env.PROJECT_NAME }} --branch ${{ env.BRANCH_NAME }}
+            pages deploy ./packages/widget-playground/dist/ --project-name ${{ env.PROJECT_NAME }} --branch ${{ env.BRANCH_NAME }}
 
       - name: Comment Test Endpoint
         uses: actions/github-script@v6
