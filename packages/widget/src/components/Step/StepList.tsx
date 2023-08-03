@@ -15,10 +15,11 @@ export const getStepList = (route?: Route, subvariant?: WidgetSubvariant) =>
       index === lastIndex
         ? {
             ...(step.execution?.toToken ?? step.action?.toToken),
-            amount:
-              step.execution?.toAmount ?? subvariant === 'nft'
-                ? route.toAmount
-                : step.estimate.toAmount,
+            amount: step.execution?.toAmount
+              ? step.execution.toAmount
+              : subvariant === 'nft'
+              ? route.toAmount
+              : step.estimate.toAmount,
           }
         : undefined;
     const toAddress =

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.6](https://github.com/lifinance/widget/compare/v2.2.5...v2.2.6) (2023-08-02)
+
+
+### Bug Fixes
+
+* partially bridged tokens are not displayed correctly ([2a94b8d](https://github.com/lifinance/widget/commit/2a94b8d663f2e860e87e3ea9b0ccbf7e4e2254e7))
+
 ### [2.2.5](https://github.com/lifinance/widget/compare/v2.2.4...v2.2.5) (2023-07-25)
 
 
