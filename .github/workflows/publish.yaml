@@ -1,8 +1,10 @@
-name: Release & Publish
+name: Release & Publish Beta
 
 on:
   push:
     tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+-alpha.[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]+-beta.[0-9]+'
       - 'v[0-9]+.[0-9]+.[0-9]+'
   workflow_dispatch:
 
@@ -32,6 +34,7 @@ jobs:
       - name: Build
         run: yarn release:build
       - name: Publish to npm
-        run: yarn release:publish
+        run: |
+          yarn release:publish${{ contains(github.ref_name, 'alpha') && ':alpha' || contains(github.ref_name, 'beta') && ':beta' || '' }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
