@@ -60,7 +60,7 @@ jobs:
                 body: JSON.stringify({
                   build_config: {
                     build_command: "yarn run build",
-                    destination_dir: "packages/dapp/dist/",
+                    destination_dir: "packages/widget-embedded/dist/",
                     root_dir: "/",
                   },
                   canonical_deployment: null,
