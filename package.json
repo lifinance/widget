@@ -10,12 +10,14 @@
     "start": "lerna run start",
     "build": "lerna run build",
     "release": "yarn release:version:before && yarn release:version && yarn release:version:after && yarn standard-version -a",
-    "release:beta": "yarn release:version:before && yarn release:version && yarn release:version:after && yarn standard-version -a --prerelease beta --skip.changelog",
-    "release:version": "lerna version --preid beta --no-changelog --no-push --no-git-tag-version --no-private",
+    "release:alpha": "yarn release:version:before && yarn release:version --preid alpha && yarn release:version:after && yarn standard-version -a --prerelease alpha --skip.changelog",
+    "release:beta": "yarn release:version:before && yarn release:version --preid beta && yarn release:version:after && yarn standard-version -a --prerelease beta --skip.changelog",
+    "release:version": "lerna version --no-changelog --no-push --no-git-tag-version --no-private",
     "release:version:before": "node scripts/private-version before",
     "release:version:after": "yarn release:build && node scripts/private-version after",
     "release:build": "lerna run build --no-private",
     "release:publish": "lerna publish from-package --dist-tag latest --contents build --no-verify-access --yes",
+    "release:publish:alpha": "lerna publish from-package --dist-tag alpha --contents build --no-verify-access --yes",
     "release:publish:beta": "lerna publish from-package --dist-tag beta --contents build --no-verify-access --yes"
   },
   "standard-version": {
