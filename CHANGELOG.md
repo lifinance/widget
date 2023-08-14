@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.7](https://github.com/lifinance/widget/compare/v2.2.6...v2.2.7) (2023-08-14)
+
+
+### Bug Fixes
+
+* chain order for multiple widget instances ([4255ea3](https://github.com/lifinance/widget/commit/4255ea3ef4c027b2c1a3fedd0004eca6b1db2a2b))
+
 ### [2.2.6](https://github.com/lifinance/widget/compare/v2.2.5...v2.2.6) (2023-08-02)
 
 
