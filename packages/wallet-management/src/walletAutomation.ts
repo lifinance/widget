@@ -1,16 +1,13 @@
 /* eslint-disable radix */
 import type { StaticToken } from '@lifi/sdk';
-import {
-  MetaMaskProviderErrorCode,
-  getChainById,
-  prefixChainId,
-} from '@lifi/sdk';
+import { MetaMaskProviderErrorCode } from '@lifi/sdk';
+import { toHex } from 'viem';
 
 export const switchChain = async (
   provider: any,
   chainId: number,
 ): Promise<boolean> => {
-  const params = { chainId: getChainById(chainId).metamask?.chainId };
+  const params = { chainId: toHex(chainId) };
   try {
     if (provider.send) {
       await provider.send('wallet_switchEthereumChain', [params]);
@@ -49,7 +46,8 @@ export const switchChain = async (
 };
 
 export const addChain = async (provider: any, chainId: number) => {
-  const params = getChainById(chainId).metamask;
+  // TODO: should be fixed with full wagmi migration
+  const params = {}; // getChainById(chainId).metamask;
   try {
     if (provider.send) {
       await provider.send('wallet_addEthereumChain', [params]);
@@ -97,11 +95,8 @@ export const switchChainAndAddToken = async (
   chainId: number,
   token: StaticToken,
 ) => {
-  const chainIdPrefixed = prefixChainId(chainId);
   try {
-    if (
-      chainIdPrefixed !== prefixChainId((await provider.getNetwork()).chainId)
-    ) {
+    if (chainId !== (await provider.getNetwork()).chainId) {
       const switched = await switchChain(provider, chainId);
       if (switched) {
         const added = await new Promise<boolean>((resolve, reject) => {

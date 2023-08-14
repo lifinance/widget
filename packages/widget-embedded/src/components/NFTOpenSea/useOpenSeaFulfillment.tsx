@@ -108,7 +108,7 @@ export const useOpenSeaFulfillment = (
       const token: TokenAmount = {
         symbol:
           orderV2?.takerAssetBundle.assets[0]?.assetContract?.tokenSymbol!,
-        amount: orderV2?.currentPrice!,
+        amount: BigInt(orderV2?.currentPrice ?? 0),
         decimals: orderV2?.takerAssetBundle.assets[0].decimals!,
         address: orderV2?.takerAssetBundle.assets[0].tokenAddress!,
         chainId: OpenSeaChainId[network as NFTNetwork] as number as ChainId,

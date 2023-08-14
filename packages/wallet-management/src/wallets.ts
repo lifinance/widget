@@ -1,6 +1,4 @@
-import { ChainType, supportedChains } from '@lifi/sdk';
 import SafeAppsSDK from '@safe-global/safe-apps-sdk';
-import type { EthereumRpcMap } from '@walletconnect/ethereum-provider/dist/types/EthereumProvider';
 import { InjectedConnector } from './connectors/injectedConnector';
 import { SafeWalletConnector } from './connectors/safeWalletConnector';
 import { WalletConnectConnector } from './connectors/walletConnectConnector';
@@ -30,16 +28,16 @@ const walletConnect: Wallet = new WalletConnectConnector({
   icon: walletIcons.walletConnect,
   options: {
     projectId: '5432e3507d41270bee46b7b85bbc2ef8',
-    rpcMap: supportedChains.reduce((rpcMap, chain) => {
-      if (chain.chainType === ChainType.EVM) {
-        rpcMap[`eip155:${chain.id}`] = chain.metamask.rpcUrls[0] || '';
-      }
-      return rpcMap;
-    }, {} as EthereumRpcMap),
+    // rpcMap: supportedChains.reduce((rpcMap, chain) => {
+    //   if (chain.chainType === ChainType.EVM) {
+    //     rpcMap[`eip155:${chain.id}`] = chain.metamask.rpcUrls[0] || '';
+    //   }
+    //   return rpcMap;
+    // }, {} as EthereumRpcMap),
     chains: [1],
-    optionalChains: supportedChains
-      .filter((chain) => chain.chainType === ChainType.EVM)
-      .map((chain) => chain.id),
+    // optionalChains: supportedChains
+    //   .filter((chain) => chain.chainType === ChainType.EVM)
+    //   .map((chain) => chain.id),
     showQrModal: true,
     qrModalOptions: {
       themeVariables: {

@@ -1,7 +1,6 @@
 import type { Signer } from '@ethersproject/abstract-signer';
 import type {
   BaseToken,
-  ChainKey,
   ConfigUpdate,
   Order,
   RouteOptions,
@@ -97,8 +96,8 @@ export interface WidgetContract {
 }
 
 export interface WidgetConfig {
-  fromChain?: `${ChainKey}` | number;
-  toChain?: `${ChainKey}` | number;
+  fromChain?: number;
+  toChain?: number;
   fromToken?: string;
   toToken?: string;
   toAddress?: string;

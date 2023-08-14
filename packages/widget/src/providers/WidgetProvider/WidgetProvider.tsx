@@ -1,5 +1,3 @@
-import type { ChainKey } from '@lifi/sdk';
-import { getChainByKey } from '@lifi/sdk';
 import { createContext, useContext, useId, useMemo } from 'react';
 import { setDefaultSettings } from '../../stores';
 import { formatInputAmount } from '../../utils';
@@ -50,29 +48,14 @@ export const WidgetProvider: React.FC<
         ...config,
         fromChain:
           (searchParams.fromChain &&
-            isNaN(parseInt(searchParams.fromChain, 10))) ||
-          typeof fromChain === 'string'
-            ? getChainByKey(
-                (
-                  searchParams.fromChain || (fromChain as string)
-                )?.toLowerCase() as ChainKey,
-              )?.id
-            : (searchParams.fromChain &&
-                !isNaN(parseInt(searchParams.fromChain, 10))) ||
-              typeof fromChain === 'number'
+            !isNaN(parseInt(searchParams.fromChain, 10))) ||
+          typeof fromChain === 'number'
             ? parseInt(searchParams.fromChain, 10) || fromChain
             : undefined,
         toChain:
-          (searchParams.toChain && isNaN(parseInt(searchParams.toChain, 10))) ||
-          typeof toChain === 'string'
-            ? getChainByKey(
-                (
-                  searchParams.toChain || (toChain as string)
-                )?.toLowerCase() as ChainKey,
-              )?.id
-            : (searchParams.toChain &&
-                !isNaN(parseInt(searchParams.toChain, 10))) ||
-              typeof toChain === 'number'
+          (searchParams.toChain &&
+            !isNaN(parseInt(searchParams.toChain, 10))) ||
+          typeof toChain === 'number'
             ? parseInt(searchParams.toChain, 10) || toChain
             : undefined,
         fromToken:
