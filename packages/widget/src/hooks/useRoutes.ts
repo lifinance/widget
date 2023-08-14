@@ -1,10 +1,9 @@
-import { isAddress } from '@ethersproject/address';
 import type { Route, RoutesResponse, Token } from '@lifi/sdk';
 import { LiFiErrorCode } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useWatch } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
-import { parseUnits } from 'viem';
+import { isAddress, parseUnits } from 'viem';
 import { useDebouncedWatch, useGasRefuel, useToken } from '.';
 import { FormKey, useLiFi, useWallet, useWidgetConfig } from '../providers';
 import { useSettings } from '../stores';

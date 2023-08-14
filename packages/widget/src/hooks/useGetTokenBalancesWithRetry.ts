@@ -1,7 +1,7 @@
-import { isAddress } from '@ethersproject/address';
 import type { Provider } from '@ethersproject/providers';
 import type { Token, TokenAmount } from '@lifi/sdk';
 import { useCallback } from 'react';
+import { isAddress } from 'viem';
 import { useLiFi } from '../providers';
 
 export const useGetTokenBalancesWithRetry = (provider?: Provider) => {

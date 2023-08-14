@@ -1,9 +1,9 @@
-import { isAddress } from '@ethersproject/address';
 import type { BoxProps } from '@mui/material';
 import { Collapse, FormHelperText } from '@mui/material';
 import { forwardRef, useEffect, useRef } from 'react';
 import { useController, useFormContext, useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { isAddress } from 'viem';
 import { FormKey, useWallet, useWidgetConfig } from '../../providers';
 import { useSendToWalletStore, useSettings } from '../../stores';
 import { DisabledUI, HiddenUI, RequiredUI } from '../../types';
