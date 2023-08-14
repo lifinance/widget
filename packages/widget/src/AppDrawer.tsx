@@ -11,10 +11,15 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppDefault } from './App';
-import { DrawerButton, DrawerButtonTypography } from './AppDrawer.style';
+import {
+  CloseButtonLayout,
+  DrawerButton,
+  DrawerButtonTypography,
+} from './AppDrawer.style';
 import { AppProvider } from './AppProvider';
 import type { WidgetConfig, WidgetProps, WidgetSubvariant } from './types';
 import { HiddenUI } from './types';
+import CloseIcon from '@mui/icons-material/CloseRounded';
 
 export interface WidgetDrawer {
   isOpen(): void;
@@ -103,6 +108,7 @@ export const AppDrawer = forwardRef<WidgetDrawer, WidgetProps>(
           }}
           keepMounted
         >
+          <CloseButton onClick={closeDrawer} />
           <AppDefault />
         </Drawer>
       </AppProvider>
@@ -127,5 +133,13 @@ export const DrawerButtonText = ({
         ? t('button.lifiCheckout')
         : t('button.lifiExchange')}
     </DrawerButtonTypography>
+  );
+};
+
+export const CloseButton = ({ onClick }: { onClick: () => void }) => {
+  return (
+    <CloseButtonLayout onClick={onClick}>
+      <CloseIcon />
+    </CloseButtonLayout>
   );
 };
