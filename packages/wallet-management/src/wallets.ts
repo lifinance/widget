@@ -167,13 +167,6 @@ const frame: Wallet = new InjectedConnector(
   (window as any).frame,
 );
 
-const huobiwallet: Wallet = new InjectedConnector({
-  name: 'HuobiWallet',
-  installed: async () =>
-    (window as any).ethereum?.[ProviderIdentityFlag.HuobiWallet],
-  icon: walletIcons.huobiwallet,
-});
-
 const hyperpay: Wallet = new InjectedConnector({
   name: 'HyperPay',
   // Note: The property `hiWallet` is as of now the only known way of identifying hyperpay
@@ -303,7 +296,6 @@ export const supportedWallets = [
   apex,
   dcent,
   frame,
-  huobiwallet,
   hyperpay,
   imtoken,
   liquality,

@@ -71,7 +71,6 @@ export enum ProviderIdentityFlag {
   Detected = 'request',
   Dcent = 'isDcentWallet',
   Frame = 'isFrame',
-  HuobiWallet = 'isHbWallet',
   HyperPay = 'isHyperPay',
   ImToken = 'isImToken',
   Liquality = 'isLiquality',
