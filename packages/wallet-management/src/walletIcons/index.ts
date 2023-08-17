@@ -13,7 +13,6 @@ import hyperpay from './hyperpay.svg';
 import imtoken from './imtoken.svg';
 import liquality from './liquality.svg';
 import mathwallet from './mathWallet.svg';
-import meetone from './meetone.svg';
 import metamask from './metaMask.svg';
 import mykey from './mykey.svg';
 import oneInch from './oneInch.svg';
@@ -47,7 +46,6 @@ export const walletIcons = {
   hyperpay,
   imtoken,
   liquality,
-  meetone,
   metamask,
   mykey,
   oneInch,

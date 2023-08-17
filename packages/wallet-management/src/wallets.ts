@@ -192,13 +192,6 @@ const liquality: Wallet = new InjectedConnector(
   (window as any).liquality,
 );
 
-const meetone: Wallet = new InjectedConnector({
-  name: 'MeetOne',
-  installed: async () =>
-    (window as any).ethereum?.[ProviderIdentityFlag.MeetOne] === 'MEETONE',
-  icon: walletIcons.meetone,
-});
-
 const mykey: Wallet = new InjectedConnector({
   name: 'MyKey',
   installed: async () => (window as any).ethereum?.[ProviderIdentityFlag.MyKey],
@@ -299,7 +292,6 @@ export const supportedWallets = [
   hyperpay,
   imtoken,
   liquality,
-  meetone,
   mykey,
   ownbit,
   tokenpocket,

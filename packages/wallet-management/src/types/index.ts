@@ -74,7 +74,6 @@ export enum ProviderIdentityFlag {
   HyperPay = 'isHyperPay',
   ImToken = 'isImToken',
   Liquality = 'isLiquality',
-  MeetOne = 'wallet',
   MetaMask = 'isMetaMask',
   MyKey = 'isMYKEY',
   OwnBit = 'isOwnbit',
