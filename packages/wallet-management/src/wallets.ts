@@ -132,13 +132,6 @@ const alphawallet: Wallet = new InjectedConnector({
   icon: walletIcons.alphawallet,
 });
 
-const atoken: Wallet = new InjectedConnector({
-  name: 'AToken',
-  installed: async () =>
-    (window as any).ethereum?.[ProviderIdentityFlag.AToken],
-  icon: walletIcons.atoken,
-});
-
 const apex: Wallet = new InjectedConnector({
   name: 'Apex Wallet',
   installed: async () =>
@@ -282,7 +275,6 @@ export const supportedWallets = [
   trust,
   status,
   alphawallet,
-  atoken,
   blockWallet,
   bitpie,
   brave,

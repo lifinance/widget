@@ -1,5 +1,4 @@
 import alphawallet from './alphawallet.svg';
-import atoken from './atoken.svg';
 import binance from './binance.svg';
 import bitpie from './bitpie.svg';
 import blockwallet from './blockwallet.svg';
@@ -33,7 +32,6 @@ export const walletIcons = {
   mathwallet,
   walletConnect,
   alphawallet,
-  atoken,
   frontier,
   blockwallet,
   binance,

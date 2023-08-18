@@ -62,7 +62,6 @@ export interface Wallet extends EventEmitter {
 
 export enum ProviderIdentityFlag {
   AlphaWallet = 'isAlphaWallet',
-  AToken = 'isAToken',
   BlockWallet = 'isBlockWallet',
   Binance = 'bbcSignTx',
   Bitpie = 'isBitpie',
