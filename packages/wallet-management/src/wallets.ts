@@ -185,12 +185,6 @@ const liquality: Wallet = new InjectedConnector(
   (window as any).liquality,
 );
 
-const mykey: Wallet = new InjectedConnector({
-  name: 'MyKey',
-  installed: async () => (window as any).ethereum?.[ProviderIdentityFlag.MyKey],
-  icon: walletIcons.mykey,
-});
-
 const ownbit: Wallet = new InjectedConnector({
   name: 'OwnBit',
   installed: async () =>
@@ -284,7 +278,6 @@ export const supportedWallets = [
   hyperpay,
   imtoken,
   liquality,
-  mykey,
   ownbit,
   tokenpocket,
   xdefi,

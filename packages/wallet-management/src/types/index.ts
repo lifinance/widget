@@ -74,7 +74,6 @@ export enum ProviderIdentityFlag {
   ImToken = 'isImToken',
   Liquality = 'isLiquality',
   MetaMask = 'isMetaMask',
-  MyKey = 'isMYKEY',
   OwnBit = 'isOwnbit',
   Status = 'isStatus',
   TallyHo = 'isTally',

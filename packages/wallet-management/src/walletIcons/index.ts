@@ -13,7 +13,6 @@ import imtoken from './imtoken.svg';
 import liquality from './liquality.svg';
 import mathwallet from './mathWallet.svg';
 import metamask from './metaMask.svg';
-import mykey from './mykey.svg';
 import oneInch from './oneInch.svg';
 import opera from './opera.svg';
 import ownbit from './ownbit.svg';
@@ -45,7 +44,6 @@ export const walletIcons = {
   imtoken,
   liquality,
   metamask,
-  mykey,
   oneInch,
   opera,
   ownbit,
