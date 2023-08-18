@@ -12,7 +12,7 @@ import { FormControl, Input } from './SendToWallet.style';
 
 export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
   const { t } = useTranslation();
-  const { trigger, getValues, setValue, clearErrors } = useFormContext();
+  const { trigger, getValues, clearErrors, register } = useFormContext();
   const { account } = useWallet();
   const { disabledUI, hiddenUI, requiredUI, toAddress } = useWidgetConfig();
   const { showSendToWallet, showSendToWalletDirty, setSendToWallet } =
@@ -25,15 +25,12 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
   const requiredToAddressRef = useRef(requiredToAddress);
 
   const {
-    field: { onChange, onBlur, name, value },
+    field: { value },
   } = useController({
     name: FormKey.ToAddress,
     rules: {
       required:
         requiredToAddress && (t('error.title.walletAddressRequired') as string),
-      onChange: (e) => {
-        setValue(FormKey.ToAddress, e.target.value.replace(/\s+/g, '')); // remove empty spaces
-      },
       validate: async (value: string) => {
         try {
           if (!value) {
@@ -48,7 +45,6 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
           return t('error.title.walletEnsAddressInvalid') as string;
         }
       },
-      onBlur: () => trigger(FormKey.ToAddress),
     },
   });
 
@@ -100,12 +96,13 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
             autoCorrect="off"
             autoCapitalize="off"
             spellCheck="false"
-            onChange={onChange}
-            onBlur={onBlur}
-            name={name}
             value={value}
             placeholder={t('main.walletAddressOrEns') as string}
             disabled={Boolean(toAddress && disabledToAddress)}
+            {...register(FormKey.ToAddress, {
+              setValueAs: (e: string) => e.trim(),
+              onBlur: () => trigger(FormKey.ToAddress),
+            })}
           />
           <SendToWalletFormHelperText />
         </FormControl>
