@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.8](https://github.com/lifinance/widget/compare/v2.2.7...v2.2.8) (2023-08-18)
+
+
+### Bug Fixes
+
+* remove Huobi, MeetOne, AToken and MyKey wallets (LF-4489) ([#120](https://github.com/lifinance/widget/issues/120)) ([3f52729](https://github.com/lifinance/widget/commit/3f52729a02b6824777707ddc13c65403cc179c09))
+
 ### [2.2.7](https://github.com/lifinance/widget/compare/v2.2.6...v2.2.7) (2023-08-14)
 
 
