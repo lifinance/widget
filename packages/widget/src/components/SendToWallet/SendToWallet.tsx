@@ -32,7 +32,7 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
       required:
         requiredToAddress && (t('error.title.walletAddressRequired') as string),
       onChange: (e) => {
-        setValue(FormKey.ToAddress, e.target.value.replace(/\s+/g, '')); // remove empty spaces
+        setValue(FormKey.ToAddress, e.trim());
       },
       validate: async (value: string) => {
         try {
