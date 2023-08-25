@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.3.0](https://github.com/lifinance/widget/compare/v2.2.8...v2.3.0) (2023-08-25)
+
+
+### Features
+
+* add SendToWalletToggled event ([e6bffcf](https://github.com/lifinance/widget/commit/e6bffcf013b34aca999d6a2763a4866c4164b52b))
+
 ### [2.2.8](https://github.com/lifinance/widget/compare/v2.2.7...v2.2.8) (2023-08-18)
 
 
