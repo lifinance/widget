@@ -58,9 +58,8 @@ export const Step: React.FC<{
 
   const formattedToAddress = shortenAddress(toAddress);
   const toAddressLink = toAddress
-    ? `${
-        getChainById(step.action.toChainId)?.metamask.blockExplorerUrls[0]
-      }address/${toAddress}`
+    ? `${getChainById(step.action.toChainId)?.metamask
+        .blockExplorerUrls[0]}address/${toAddress}`
     : undefined;
 
   return (

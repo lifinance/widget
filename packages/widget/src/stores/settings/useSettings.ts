@@ -7,10 +7,13 @@ export const useSettings = <K extends keyof SettingsState>(
 ): Pick<SettingsState, (typeof keys)[number]> => {
   return useSettingsStore(
     (state) =>
-      keys.reduce((values, key) => {
-        values[key] = state[key];
-        return values;
-      }, {} as Pick<SettingsState, (typeof keys)[number]>),
+      keys.reduce(
+        (values, key) => {
+          values[key] = state[key];
+          return values;
+        },
+        {} as Pick<SettingsState, (typeof keys)[number]>,
+      ),
     shallow,
   );
 };

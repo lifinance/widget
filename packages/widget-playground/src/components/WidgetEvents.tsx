@@ -25,6 +25,9 @@ export const WidgetEvents = () => {
     const onRouteHighValueLoss = (update: RouteHighValueLossUpdate) => {
       // console.log('onRouteHighValueLoss continued.');
     };
+    const onSendToWalletToggled = (open: boolean) => {
+      // console.log('onSendToWalletToggled', open);
+    };
     // const onRouteContactSupport = (supportId: RouteContactSupport) => {
     //  console.log('onRouteContactSupport clicked', supportId);
     // };
@@ -36,6 +39,7 @@ export const WidgetEvents = () => {
     );
     widgetEvents.on(WidgetEvent.RouteHighValueLoss, onRouteHighValueLoss);
     widgetEvents.on(WidgetEvent.RouteExecutionFailed, onRouteExecutionFailed);
+    widgetEvents.on(WidgetEvent.SendToWalletToggled, onSendToWalletToggled);
     // widgetEvents.on(WidgetEvent.RouteContactSupport, onRouteContactSupport);
     return () => widgetEvents.all.clear();
   }, [widgetEvents]);

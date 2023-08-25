@@ -6,14 +6,20 @@ export const isRouteDone = (route: Route) => {
 };
 
 export const isRoutePartiallyDone = (route: Route) => {
-  return route.steps.some((step) =>
-    step.execution?.process.some((process) => process.substatus === 'PARTIAL'),
+  return route.steps.some(
+    (step) =>
+      step.execution?.process.some(
+        (process) => process.substatus === 'PARTIAL',
+      ),
   );
 };
 
 export const isRouteRefunded = (route: Route) => {
-  return route.steps.some((step) =>
-    step.execution?.process.some((process) => process.substatus === 'REFUNDED'),
+  return route.steps.some(
+    (step) =>
+      step.execution?.process.some(
+        (process) => process.substatus === 'REFUNDED',
+      ),
   );
 };
 
