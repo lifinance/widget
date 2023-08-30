@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-embedded",
-  "version": "1.0.132",
+  "version": "1.0.135",
   "type": "module",
   "scripts": {
     "analyze": "source-map-explorer 'dist/assets/*.js' --no-border-checks",

@@ -53,6 +53,15 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
 
       onClick?.();
     },
-    [formType, getValues, onBlur, onChange, onClick, setValue, subvariant],
+    [
+      emitter,
+      formType,
+      getValues,
+      onBlur,
+      onChange,
+      onClick,
+      setValue,
+      subvariant,
+    ],
   );
 };

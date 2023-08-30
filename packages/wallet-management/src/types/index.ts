@@ -62,7 +62,6 @@ export interface Wallet extends EventEmitter {
 
 export enum ProviderIdentityFlag {
   AlphaWallet = 'isAlphaWallet',
-  AToken = 'isAToken',
   BlockWallet = 'isBlockWallet',
   Binance = 'bbcSignTx',
   Bitpie = 'isBitpie',
@@ -71,13 +70,10 @@ export enum ProviderIdentityFlag {
   Detected = 'request',
   Dcent = 'isDcentWallet',
   Frame = 'isFrame',
-  HuobiWallet = 'isHbWallet',
   HyperPay = 'isHyperPay',
   ImToken = 'isImToken',
   Liquality = 'isLiquality',
-  MeetOne = 'wallet',
   MetaMask = 'isMetaMask',
-  MyKey = 'isMYKEY',
   OwnBit = 'isOwnbit',
   Status = 'isStatus',
   TallyHo = 'isTally',

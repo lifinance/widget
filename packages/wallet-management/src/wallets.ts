@@ -130,13 +130,6 @@ const alphawallet: Wallet = new InjectedConnector({
   icon: walletIcons.alphawallet,
 });
 
-const atoken: Wallet = new InjectedConnector({
-  name: 'AToken',
-  installed: async () =>
-    (window as any).ethereum?.[ProviderIdentityFlag.AToken],
-  icon: walletIcons.atoken,
-});
-
 const apex: Wallet = new InjectedConnector({
   name: 'Apex Wallet',
   installed: async () =>
@@ -165,13 +158,6 @@ const frame: Wallet = new InjectedConnector(
   (window as any).frame,
 );
 
-const huobiwallet: Wallet = new InjectedConnector({
-  name: 'HuobiWallet',
-  installed: async () =>
-    (window as any).ethereum?.[ProviderIdentityFlag.HuobiWallet],
-  icon: walletIcons.huobiwallet,
-});
-
 const hyperpay: Wallet = new InjectedConnector({
   name: 'HyperPay',
   // Note: The property `hiWallet` is as of now the only known way of identifying hyperpay
@@ -196,19 +182,6 @@ const liquality: Wallet = new InjectedConnector(
   },
   (window as any).liquality,
 );
-
-const meetone: Wallet = new InjectedConnector({
-  name: 'MeetOne',
-  installed: async () =>
-    (window as any).ethereum?.[ProviderIdentityFlag.MeetOne] === 'MEETONE',
-  icon: walletIcons.meetone,
-});
-
-const mykey: Wallet = new InjectedConnector({
-  name: 'MyKey',
-  installed: async () => (window as any).ethereum?.[ProviderIdentityFlag.MyKey],
-  icon: walletIcons.mykey,
-});
 
 const ownbit: Wallet = new InjectedConnector({
   name: 'OwnBit',
@@ -294,19 +267,15 @@ export const supportedWallets = [
   trust,
   status,
   alphawallet,
-  atoken,
   blockWallet,
   bitpie,
   brave,
   apex,
   dcent,
   frame,
-  huobiwallet,
   hyperpay,
   imtoken,
   liquality,
-  meetone,
-  mykey,
   ownbit,
   tokenpocket,
   xdefi,
