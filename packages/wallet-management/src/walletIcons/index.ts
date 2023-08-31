@@ -27,6 +27,7 @@ import walletConnect from './walletConnect.svg';
 import walletio from './walletio.svg';
 import xdefi from './xdefi.svg';
 import bitkeep from './bitkeep.svg';
+import gate from './gate.svg';
 
 export const walletIcons = {
   mathwallet,
@@ -35,6 +36,7 @@ export const walletIcons = {
   frontier,
   blockwallet,
   bitkeep,
+  gate,
   binance,
   placeholder,
   bitpie,
