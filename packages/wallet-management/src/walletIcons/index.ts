@@ -26,6 +26,7 @@ import trust from './trust.svg';
 import walletConnect from './walletConnect.svg';
 import walletio from './walletio.svg';
 import xdefi from './xdefi.svg';
+import okx from './okx.svg';
 
 export const walletIcons = {
   mathwallet,
@@ -44,6 +45,7 @@ export const walletIcons = {
   imtoken,
   liquality,
   metamask,
+  okx,
   oneInch,
   opera,
   ownbit,

@@ -221,6 +221,15 @@ const tokenary: Wallet = new InjectedConnector({
   icon: walletIcons.tokenary,
 });
 
+const okx: Wallet = new InjectedConnector(
+  {
+    name: 'Okx',
+    installed: async () => (window as any).okxwallet,
+    icon: walletIcons.okx,
+  },
+  (window as any).okxwallet,
+);
+
 const exodus: Wallet = new InjectedConnector(
   {
     name: 'Exodus',
@@ -266,6 +275,7 @@ export const supportedWallets = [
   binance,
   frontier,
   coinbase,
+  okx,
   trust,
   status,
   alphawallet,
