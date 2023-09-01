@@ -233,7 +233,7 @@ const tokenary: Wallet = new InjectedConnector({
 
 const okx: Wallet = new InjectedConnector(
   {
-    name: 'Okx',
+    name: 'OKX',
     installed: async () => (window as any).okxwallet,
     icon: walletIcons.okx,
   },
