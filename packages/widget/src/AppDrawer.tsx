@@ -108,7 +108,9 @@ export const AppDrawer = forwardRef<WidgetDrawer, WidgetProps>(
           }}
           keepMounted
         >
-          <CloseButton onClick={closeDrawer} />
+          <CloseButtonLayout onClick={closeDrawer}>
+            <CloseIcon />
+          </CloseButtonLayout>
           <AppDefault />
         </Drawer>
       </AppProvider>
@@ -133,13 +135,5 @@ export const DrawerButtonText = ({
         ? t('button.lifiCheckout')
         : t('button.lifiExchange')}
     </DrawerButtonTypography>
-  );
-};
-
-export const CloseButton = ({ onClick }: { onClick: () => void }) => {
-  return (
-    <CloseButtonLayout onClick={onClick}>
-      <CloseIcon />
-    </CloseButtonLayout>
   );
 };

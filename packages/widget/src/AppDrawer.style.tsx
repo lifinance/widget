@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Button, IconButton, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 const getButtonTransformWidth = (
@@ -97,23 +97,13 @@ export const DrawerButtonTypography = styled(Typography)(({ theme }) => ({
   writingMode: 'vertical-rl',
 }));
 
-export const CloseButtonLayout = styled(Box)(
-  () => ({
-    position: 'absolute',
-    top: '16px',
-    left: '24px',
-    zIndex: 1,
-    border: '1px solid',
-    borderRadius: '50%',
-    height: '32px',
-    width: '32px',
-    display: 'none',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }),
-  `
-  @media (max-width: 375px) {
-    display: flex;
-  }
-`,
-);
+export const CloseButtonLayout = styled(IconButton)(() => ({
+  position: 'absolute',
+  top: '16px',
+  right: '18px',
+  zIndex: 1,
+  height: '32px',
+  width: '32px',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));

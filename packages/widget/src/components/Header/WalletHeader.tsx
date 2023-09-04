@@ -10,7 +10,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useChain } from '../../hooks';
 import { useWallet, useWidgetConfig } from '../../providers';
 import { navigationRoutes, shortenAddress } from '../../utils';
-import { HeaderAppBar, WalletButton } from './Header.style';
+import {
+  DrawerWalletContainer,
+  HeaderAppBar,
+  WalletButton,
+} from './Header.style';
 import { WalletMenu } from './WalletMenu';
 
 export const WalletHeader: React.FC = () => {
@@ -23,6 +27,15 @@ export const WalletHeader: React.FC = () => {
 
 export const WalletMenuButton: React.FC = () => {
   const { account } = useWallet();
+  const { variant } = useWidgetConfig();
+
+  if (variant === 'drawer') {
+    return (
+      <DrawerWalletContainer>
+        {account.isActive ? <ConnectedButton /> : <ConnectButton />}
+      </DrawerWalletContainer>
+    );
+  }
   return account.isActive ? <ConnectedButton /> : <ConnectButton />;
 };
 
