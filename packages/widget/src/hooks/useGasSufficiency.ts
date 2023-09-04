@@ -41,28 +41,31 @@ export const useGasSufficiency = (route?: Route) => {
 
       const gasCosts = route.steps
         .filter((step) => !step.execution || step.execution.status !== 'DONE')
-        .reduce((groupedGasCosts, step) => {
-          if (step.estimate.gasCosts) {
-            const { token } = step.estimate.gasCosts[0];
-            const gasCostAmount = step.estimate.gasCosts
-              .reduce(
-                (amount, gasCost) => amount.plus(Big(gasCost.amount || 0)),
-                Big(0),
-              )
-              .div(10 ** token.decimals);
-            const groupedGasCost = groupedGasCosts[token.chainId];
-            const gasAmount = groupedGasCost
-              ? groupedGasCost.gasAmount.plus(gasCostAmount)
-              : gasCostAmount;
-            groupedGasCosts[token.chainId] = {
-              gasAmount,
-              tokenAmount: gasAmount,
-              token,
-            };
+        .reduce(
+          (groupedGasCosts, step) => {
+            if (step.estimate.gasCosts) {
+              const { token } = step.estimate.gasCosts[0];
+              const gasCostAmount = step.estimate.gasCosts
+                .reduce(
+                  (amount, gasCost) => amount.plus(Big(gasCost.amount || 0)),
+                  Big(0),
+                )
+                .div(10 ** token.decimals);
+              const groupedGasCost = groupedGasCosts[token.chainId];
+              const gasAmount = groupedGasCost
+                ? groupedGasCost.gasAmount.plus(gasCostAmount)
+                : gasCostAmount;
+              groupedGasCosts[token.chainId] = {
+                gasAmount,
+                tokenAmount: gasAmount,
+                token,
+              };
+              return groupedGasCosts;
+            }
             return groupedGasCosts;
-          }
-          return groupedGasCosts;
-        }, {} as Record<number, GasSufficiency>);
+          },
+          {} as Record<number, GasSufficiency>,
+        );
 
       if (
         route.fromToken.address === gasCosts[route.fromChainId]?.token.address
