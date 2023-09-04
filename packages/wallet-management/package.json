@@ -59,7 +59,7 @@
     "@walletconnect/modal": "^2.6.1",
     "events": "^3.3.0",
     "react": "^18.2.0",
-    "viem": "^1.9.2"
+    "viem": "^1.10.1"
   },
   "devDependencies": {
     "cpy-cli": "^5.0.0",
