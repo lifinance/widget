@@ -34,7 +34,7 @@ export const walletIcons = {
   alphawallet,
   frontier,
   blockwallet,
-  bitkeep: bitGet,
+  bitGet,
   binance,
   placeholder,
   bitpie,
