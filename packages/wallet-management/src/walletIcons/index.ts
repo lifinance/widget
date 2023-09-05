@@ -26,7 +26,7 @@ import trust from './trust.svg';
 import walletConnect from './walletConnect.svg';
 import walletio from './walletio.svg';
 import xdefi from './xdefi.svg';
-import bitkeep from './bitkeep.svg';
+import bitGet from './bitget.svg';
 
 export const walletIcons = {
   mathwallet,
@@ -34,7 +34,7 @@ export const walletIcons = {
   alphawallet,
   frontier,
   blockwallet,
-  bitkeep,
+  bitkeep: bitGet,
   binance,
   placeholder,
   bitpie,
