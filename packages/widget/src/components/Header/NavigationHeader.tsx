@@ -115,7 +115,11 @@ export const NavigationHeader: React.FC = () => {
           <Route
             path={navigationRoutes.home}
             element={
-              <Box paddingRight={variant === 'drawer' ? 5 : 0}>
+              <Box
+                paddingRight={
+                  variant === 'drawer' && subvariant === 'split' ? 6 : 0
+                }
+              >
                 {account.isActive && !hiddenUI?.includes(HiddenUI.History) ? (
                   <Tooltip
                     title={t(`header.transactionHistory`)}

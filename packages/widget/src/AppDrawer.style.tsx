@@ -99,11 +99,11 @@ export const DrawerButtonTypography = styled(Typography)(({ theme }) => ({
 
 export const CloseButtonLayout = styled(IconButton)(() => ({
   position: 'absolute',
-  top: '16px',
-  right: '18px',
+  top: '12px',
+  right: '16px',
   zIndex: 1,
-  height: '32px',
-  width: '32px',
+  height: '40px',
+  width: '40px',
   alignItems: 'center',
   justifyContent: 'center',
 }));
