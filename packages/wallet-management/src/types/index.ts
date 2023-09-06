@@ -87,4 +87,5 @@ export enum ProviderIdentityFlag {
   MathWallet = 'isMathWallet',
   Frontier = 'isFrontier',
   ApexWallet = 'isApexWallet',
+  OkxWallet = 'okxwallet',
 }

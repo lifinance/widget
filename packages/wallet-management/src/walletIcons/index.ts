@@ -26,7 +26,8 @@ import trust from './trust.svg';
 import walletConnect from './walletConnect.svg';
 import walletio from './walletio.svg';
 import xdefi from './xdefi.svg';
-import bitkeep from './bitkeep.svg';
+import bitGet from './bitget.svg';
+import okx from './okx.svg';
 import gate from './gate.svg';
 
 export const walletIcons = {
@@ -35,7 +36,7 @@ export const walletIcons = {
   alphawallet,
   frontier,
   blockwallet,
-  bitkeep,
+  bitGet,
   gate,
   binance,
   placeholder,
@@ -48,6 +49,7 @@ export const walletIcons = {
   imtoken,
   liquality,
   metamask,
+  okx,
   oneInch,
   opera,
   ownbit,
