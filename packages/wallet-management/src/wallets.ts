@@ -49,12 +49,12 @@ const walletConnect: Wallet = new WalletConnectConnector({
   },
 });
 
-const bitKeep: Wallet = new InjectedConnector(
+const bitGet: Wallet = new InjectedConnector(
   {
-    name: 'BitKeep',
+    name: 'BitGet',
     installed: async () =>
       (window as any).bitkeep && (window as any).bitkeep?.ethereum,
-    icon: walletIcons.bitkeep,
+    icon: walletIcons.bitGet,
   },
   (window as any).bitkeep?.ethereum,
 );
@@ -280,7 +280,7 @@ export const supportedWallets = [
   safe,
   metamask,
   walletConnect,
-  bitKeep,
+  bitGet,
   exodus,
   tallyho,
   binance,
