@@ -22,7 +22,7 @@ import {
 import { useWidgetConfig } from '../WidgetProvider';
 import type { WalletAccount, WalletContextProps } from './types';
 
-const liFiWalletManagement = new LiFiWalletManagement();
+export const liFiWalletManagement = new LiFiWalletManagement();
 
 const stub = (): never => {
   throw new Error(

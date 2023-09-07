@@ -1,9 +1,9 @@
 import type { Signer } from '@ethersproject/abstract-signer';
 import type {
   BaseToken,
-  ConfigUpdate,
   Order,
   RouteOptions,
+  SDKOptions,
   StaticToken,
   Token,
 } from '@lifi/sdk';
@@ -67,9 +67,9 @@ export interface WidgetWalletManagement {
   signer?: Signer;
 }
 
-export interface SDKConfig
+export interface WidgetSDKOptions
   extends Omit<
-    ConfigUpdate,
+    SDKOptions,
     | 'defaultExecutionSettings'
     | 'defaultRouteOptions'
     | 'disableVersionCheck'
@@ -131,7 +131,7 @@ export interface WidgetConfig {
   useRecommendedRoute?: boolean;
 
   walletManagement?: WidgetWalletManagement;
-  sdkConfig?: SDKConfig;
+  sdkConfig?: WidgetSDKOptions;
 
   buildUrl?: boolean;
   keyPrefix?: string;

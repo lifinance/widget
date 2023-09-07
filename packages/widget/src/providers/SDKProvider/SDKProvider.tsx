@@ -1,6 +1,10 @@
-import { LiFi } from '@lifi/sdk';
+import type { SDKOptions } from '@lifi/sdk';
+import { EVM, LiFi } from '@lifi/sdk';
 import { createContext, useContext, useMemo } from 'react';
+import type { Address } from 'viem';
+import { createWalletClient, custom } from 'viem';
 import { version } from '../../config/version';
+import { liFiWalletManagement } from '../WalletProvider';
 import { useWidgetConfig } from '../WidgetProvider';
 
 let lifi: LiFi;
@@ -15,17 +19,31 @@ export const SDKProvider: React.FC<React.PropsWithChildren> = ({
   const { sdkConfig, fee, integrator, referrer, routePriority, slippage } =
     useWidgetConfig();
   const value = useMemo(() => {
-    const config = {
+    const config: SDKOptions = {
       ...sdkConfig,
       integrator: integrator ?? window.location.hostname,
       defaultRouteOptions: {
         fee,
         integrator: integrator ?? window.location.hostname,
         referrer,
-        routePriority,
+        order: routePriority,
         slippage,
         ...sdkConfig?.defaultRouteOptions,
       },
+      providers: [
+        EVM({
+          getWalletClient() {
+            const account =
+              liFiWalletManagement.connectedWallets.at(0)?.account;
+            const client = createWalletClient({
+              account: account?.address as Address,
+              transport: custom(account?.provider?.provider as any),
+            });
+
+            return Promise.resolve(client);
+          },
+        }),
+      ],
     };
     if (!lifi) {
       lifi = new LiFi({

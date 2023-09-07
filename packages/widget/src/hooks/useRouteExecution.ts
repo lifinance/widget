@@ -125,7 +125,7 @@ export const useRouteExecution = ({
         account: account.address as Address,
         transport: custom(account.provider?.provider as any),
       });
-      return lifi.executeRoute(client, routeExecution.route, {
+      return lifi.executeRoute(routeExecution.route, {
         updateRouteHook,
         switchChainHook,
         acceptExchangeRateUpdateHook,
@@ -155,7 +155,7 @@ export const useRouteExecution = ({
         account: account.address as Address,
         transport: custom(account.provider?.provider as any),
       });
-      return lifi.resumeRoute(client, resumedRoute ?? routeExecution.route, {
+      return lifi.resumeRoute(resumedRoute ?? routeExecution.route, {
         updateRouteHook,
         switchChainHook,
         acceptExchangeRateUpdateHook,
