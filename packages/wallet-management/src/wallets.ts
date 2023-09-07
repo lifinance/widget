@@ -59,6 +59,15 @@ const bitGet: Wallet = new InjectedConnector(
   (window as any).bitkeep?.ethereum,
 );
 
+const gate: Wallet = new InjectedConnector(
+  {
+    name: 'Gate',
+    installed: async () => (window as any).gatewallet,
+    icon: walletIcons.gate,
+  },
+  (window as any).gatewallet,
+);
+
 const frontier: Wallet = new InjectedConnector(
   {
     name: 'Frontier',
@@ -281,6 +290,7 @@ export const supportedWallets = [
   metamask,
   walletConnect,
   bitGet,
+  gate,
   exodus,
   tallyho,
   binance,
