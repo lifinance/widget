@@ -234,7 +234,7 @@
     "to": "Şuna",
     "tokenOnChain": "{{chainName}} üzerindeki {{tokenSymbol}}",
     "tokenOnChainAmount": "{{chainName}} üzerindeki {{amount, number(maximumFractionDigits: 9)}}{{tokenSymbol}}",
-    "tokenSearch": "Varlıklarınızı arayın",
+    "tokenSearch": "Tokenlerinizi adres ve ya isim aracılığıyla arayın",
     "valueLoss": "Değer kaybı",
     "walletAddressOrEns": "Cüzdan adresi veya ENS alan adı"
   },
