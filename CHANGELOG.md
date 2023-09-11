@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.4.0](https://github.com/lifinance/widget/compare/v2.3.0...v2.4.0) (2023-09-11)
+
+
+### Features
+
+* add bitkeep wallet ([#122](https://github.com/lifinance/widget/issues/122)) ([ae83ae6](https://github.com/lifinance/widget/commit/ae83ae63678c8c0471870e5ba19dbc8acf6194c0))
+* add gate wallet ([#123](https://github.com/lifinance/widget/issues/123)) ([cd19867](https://github.com/lifinance/widget/commit/cd19867e56fdc2b3d198560e7e7b1dd1d68244d7))
+* added okx wallet ([#124](https://github.com/lifinance/widget/issues/124)) ([d977981](https://github.com/lifinance/widget/commit/d977981edd0234b07ce4c44e4fa0b2ed028f5464))
+
 ## [2.3.0](https://github.com/lifinance/widget/compare/v2.2.8...v2.3.0) (2023-08-25)
 
 
