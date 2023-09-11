@@ -2334,10 +2334,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/js@npm:8.48.0":
-  version: 8.48.0
-  resolution: "@eslint/js@npm:8.48.0"
-  checksum: b2755f9c0ee810c886eba3c50dcacb184ba5a5cd1cbc01988ee506ad7340653cae0bd55f1d95c64b56dfc6d25c2caa7825335ffd2c50165bae9996fe0f396851
+"@eslint/js@npm:8.49.0":
+  version: 8.49.0
+  resolution: "@eslint/js@npm:8.49.0"
+  checksum: a6601807c8aeeefe866926ad92ed98007c034a735af20ff709009e39ad1337474243d47908500a3bde04e37bfba16bcf1d3452417f962e1345bc8756edd6b830
   languageName: node
   linkType: hard
 
@@ -2812,7 +2812,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@humanwhocodes/config-array@npm:^0.11.10":
+"@humanwhocodes/config-array@npm:^0.11.11":
   version: 0.11.11
   resolution: "@humanwhocodes/config-array@npm:0.11.11"
   dependencies:
@@ -3000,22 +3000,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lifi/sdk@npm:^3.0.0-alpha.8":
-  version: 3.0.0-alpha.8
-  resolution: "@lifi/sdk@npm:3.0.0-alpha.8"
+"@lifi/sdk@npm:^3.0.0-alpha.12":
+  version: 3.0.0-alpha.12
+  resolution: "@lifi/sdk@npm:3.0.0-alpha.12"
   dependencies:
-    "@lifi/types": ^9.0.0-alpha.12
+    "@lifi/types": ^9.0.0-alpha.16
     "@solana/web3.js": ^1.78.4
     eth-rpc-errors: ^4.0.3
-    viem: ^1.10.3
-  checksum: 59bf92075af04acd5d935c10749924192115b7963eb85814335129d198c3657c6be086797f1317add411147e45f9b383ec2b7ec7cb1aa993bbdac360d715fc70
+    viem: ^1.10.8
+  checksum: c8a9a59bfdb3cea372ef31f6ee1f35c2770260b89f1302b77910b2f29f97b22799d7c57717bc560ca9cebf52f7e53342a9727c67999cc42f9841145140df3b3d
   languageName: node
   linkType: hard
 
-"@lifi/types@npm:^9.0.0-alpha.12":
-  version: 9.0.0-alpha.12
-  resolution: "@lifi/types@npm:9.0.0-alpha.12"
-  checksum: 3eb869ced9193cec3a9f857f5b03fa49c7c5bb78037f0c1852c7d3ad391885411696377c32d918e49302ca14823812a30c9bdc0578b39af56a49ad80c6d756bb
+"@lifi/types@npm:^9.0.0-alpha.16":
+  version: 9.0.0-alpha.16
+  resolution: "@lifi/types@npm:9.0.0-alpha.16"
+  checksum: 7052727ee5ecd8083823ca8f6e3b766562be01c60810a3784085bbb79be4376a12cc2cb352fdda568353e0eeee21f5ee1a4541bdcb0acb115b272fab99633db8
   languageName: node
   linkType: hard
 
@@ -3027,7 +3027,7 @@ __metadata:
     "@ethersproject/abstract-signer": ^5.7.0
     "@ethersproject/experimental": ^5.7.0
     "@ethersproject/providers": ^5.7.2
-    "@lifi/sdk": ^3.0.0-alpha.8
+    "@lifi/sdk": ^3.0.0-alpha.12
     "@safe-global/safe-apps-provider": ^0.18.0
     "@safe-global/safe-apps-sdk": ^8.1.0
     "@walletconnect/ethereum-provider": ^2.10.0
@@ -3036,7 +3036,7 @@ __metadata:
     events: ^3.3.0
     react: ^18.2.0
     typescript: ^5.2.2
-    viem: ^1.10.3
+    viem: ^1.10.9
   languageName: unknown
   linkType: soft
 
@@ -3046,14 +3046,14 @@ __metadata:
   dependencies:
     "@esbuild-plugins/node-globals-polyfill": ^0.2.3
     "@ethersproject/abstract-signer": ^5.7.0
-    "@lifi/sdk": ^3.0.0-alpha.8
+    "@lifi/sdk": ^3.0.0-alpha.12
     "@lifi/wallet-management": ^2.2.5
     "@lifi/widget": ^2.3.0
     "@mui/icons-material": ^5.14.7
     "@mui/lab": ^5.0.0-alpha.142
     "@mui/material": ^5.14.7
     "@opensea/seaport-js": 2.0.7
-    "@tanstack/react-query": ^4.33.0
+    "@tanstack/react-query": ^4.35.0
     "@vitejs/plugin-react": ^4.0.4
     bignumber.js: ^9.1.2
     buffer: ^6.0.3
@@ -3063,7 +3063,7 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
     react-router-dom: ^6.15.0
-    rollup: ^3.29.0
+    rollup: ^3.29.1
     rollup-plugin-polyfill-node: ^0.12.0
     typescript: ^5.2.2
     vite: ^4.4.9
@@ -3076,7 +3076,7 @@ __metadata:
   resolution: "@lifi/widget-playground@workspace:packages/widget-playground"
   dependencies:
     "@esbuild-plugins/node-globals-polyfill": ^0.2.3
-    "@lifi/sdk": ^3.0.0-alpha.8
+    "@lifi/sdk": ^3.0.0-alpha.12
     "@lifi/wallet-management": ^2.2.5
     "@lifi/widget": ^2.3.0
     "@mui/icons-material": ^5.14.7
@@ -3091,7 +3091,7 @@ __metadata:
     rollup-plugin-polyfill-node: ^0.12.0
     source-map-explorer: ^2.5.3
     typescript: ^5.2.2
-    viem: ^1.10.3
+    viem: ^1.10.9
     vite: ^4.4.9
     wagmi: ^1.4.1
     web-vitals: ^3.4.0
@@ -3108,15 +3108,15 @@ __metadata:
     "@ethersproject/address": ^5.7.0
     "@ethersproject/experimental": ^5.7.0
     "@ethersproject/providers": ^5.7.2
-    "@lifi/sdk": ^3.0.0-alpha.8
+    "@lifi/sdk": ^3.0.0-alpha.12
     "@lifi/wallet-management": ^2.2.4
     "@mui/icons-material": ^5.14.7
     "@mui/lab": ^5.0.0-alpha.142
     "@mui/material": ^5.14.7
-    "@tanstack/react-query": ^4.33.0
-    "@tanstack/react-virtual": ^3.0.0-beta.59
+    "@tanstack/react-query": ^4.35.0
+    "@tanstack/react-virtual": ^3.0.0-beta.60
     cpy-cli: ^5.0.0
-    i18next: ^23.4.9
+    i18next: ^23.5.1
     i18next-browser-languagedetector: ^7.1.0
     microdiff: ^1.3.2
     mitt: ^3.0.1
@@ -3129,7 +3129,7 @@ __metadata:
     react-timer-hook: ^3.0.7
     typescript: ^5.2.2
     uuid: ^9.0.0
-    viem: ^1.10.3
+    viem: ^1.10.9
     wagmi: ^1.4.1
     zustand: ^4.4.1
   peerDependencies:
@@ -4340,6 +4340,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/query-core@npm:4.35.0":
+  version: 4.35.0
+  resolution: "@tanstack/query-core@npm:4.35.0"
+  checksum: 7a6f24164bce5d7367e2bb58f94380d9608bf4df2726e4e8b0e4f42e84d40cc7883baab2127c0c7e8eaa5c4d444a80c1e5f6e7930d21768a863c82baf22a75d4
+  languageName: node
+  linkType: hard
+
 "@tanstack/query-persist-client-core@npm:4.33.0":
   version: 4.33.0
   resolution: "@tanstack/query-persist-client-core@npm:4.33.0"
@@ -4369,7 +4376,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^4.28.0, @tanstack/react-query@npm:^4.33.0":
+"@tanstack/react-query@npm:^4.28.0":
   version: 4.33.0
   resolution: "@tanstack/react-query@npm:4.33.0"
   dependencies:
@@ -4388,21 +4395,40 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-virtual@npm:^3.0.0-beta.59":
-  version: 3.0.0-beta.59
-  resolution: "@tanstack/react-virtual@npm:3.0.0-beta.59"
+"@tanstack/react-query@npm:^4.35.0":
+  version: 4.35.0
+  resolution: "@tanstack/react-query@npm:4.35.0"
   dependencies:
-    "@tanstack/virtual-core": 3.0.0-beta.59
+    "@tanstack/query-core": 4.35.0
+    use-sync-external-store: ^1.2.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 1bd001a7ba089f5dfa03984669ffabfb6e9880007ca9aa4e628733e5e38653ae82eced5cc45de43b09c4281c7b0527d5509856effd928817e65e69b41fa06cb4
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-native: "*"
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+    react-native:
+      optional: true
+  checksum: d3a140a010f0266eca9dae83c4995f2b541ceb8cafafd7247c5c17ec4e09416d2f2a88450f23ebab45c132125e4e4222e77a69354c0dd5d459170c7a24f1b172
   languageName: node
   linkType: hard
 
-"@tanstack/virtual-core@npm:3.0.0-beta.59":
-  version: 3.0.0-beta.59
-  resolution: "@tanstack/virtual-core@npm:3.0.0-beta.59"
-  checksum: 26be3f7350ea016a01547d5951f521c3e0a553933bbb58f09eb57364a171cafb6cb2f07aecad704e4f8ab07a6b0cc483892c65e3ce9b805ddda6c3ab996b4167
+"@tanstack/react-virtual@npm:^3.0.0-beta.60":
+  version: 3.0.0-beta.60
+  resolution: "@tanstack/react-virtual@npm:3.0.0-beta.60"
+  dependencies:
+    "@tanstack/virtual-core": 3.0.0-beta.60
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: e266ed9ad3e26da77287da07497b6658c2d97fe76151c08c29d6fcb0d34986c2b2d7c482c6c3fd6890b8871d87576e14ee6ce67d0300b0878a226a38023dbc7c
+  languageName: node
+  linkType: hard
+
+"@tanstack/virtual-core@npm:3.0.0-beta.60":
+  version: 3.0.0-beta.60
+  resolution: "@tanstack/virtual-core@npm:3.0.0-beta.60"
+  checksum: 46d43ddb1745f87e4c17a5580539cb4365265054e8ae3e83133b14b939096f339738d9dbb362927c9df828550a93681c3afd7ae2216d26b3a147422d9b930536
   languageName: node
   linkType: hard
 
@@ -4597,10 +4623,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^20.5.9":
-  version: 20.5.9
-  resolution: "@types/node@npm:20.5.9"
-  checksum: 717490e94131722144878b4ca1a963ede1673bb8f2ef78c2f5b50b918df6dc9b35e7f8283e5c2a7a9f137730f7c08dc6228e53d4494a94c9ee16881e6ce6caed
+"@types/node@npm:^20.6.0":
+  version: 20.6.0
+  resolution: "@types/node@npm:20.6.0"
+  checksum: 52611801af5cf151c6fac1963aa4a8a8ca2e388a9e9ed82b01b70bca762088ded5b32cc789c5564220d5d7dccba2b8dd34446a3d4fc74736805e1f2cf262e29d
   languageName: node
   linkType: hard
 
@@ -8095,15 +8121,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.48.0":
-  version: 8.48.0
-  resolution: "eslint@npm:8.48.0"
+"eslint@npm:^8.49.0":
+  version: 8.49.0
+  resolution: "eslint@npm:8.49.0"
   dependencies:
     "@eslint-community/eslint-utils": ^4.2.0
     "@eslint-community/regexpp": ^4.6.1
     "@eslint/eslintrc": ^2.1.2
-    "@eslint/js": 8.48.0
-    "@humanwhocodes/config-array": ^0.11.10
+    "@eslint/js": 8.49.0
+    "@humanwhocodes/config-array": ^0.11.11
     "@humanwhocodes/module-importer": ^1.0.1
     "@nodelib/fs.walk": ^1.2.8
     ajv: ^6.12.4
@@ -8138,7 +8164,7 @@ __metadata:
     text-table: ^0.2.0
   bin:
     eslint: bin/eslint.js
-  checksum: f20b359a4f8123fec5c033577368cc020d42978b1b45303974acd8da7a27063168ee3fe297ab5b35327162f6a93154063e3ce6577102f70f9809aff793db9bd0
+  checksum: 4dfe257e1e42da2f9da872b05aaaf99b0f5aa022c1a91eee8f2af1ab72651b596366320c575ccd4e0469f7b4c97aff5bb85ae3323ebd6a293c3faef4028b0d81
   languageName: node
   linkType: hard
 
@@ -9343,12 +9369,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:^23.4.9":
-  version: 23.4.9
-  resolution: "i18next@npm:23.4.9"
+"i18next@npm:^23.5.1":
+  version: 23.5.1
+  resolution: "i18next@npm:23.5.1"
   dependencies:
     "@babel/runtime": ^7.22.5
-  checksum: 46ac2415dc817c0e25e1c5e64332249825cd63b5fb9a5d42e3a2329d4ecd098c0f15a243f56b53e03db02e2e9931ca9bb4447370b2436f9ad6556de40ce981cf
+  checksum: 4be043bd72287bfae9777a3252b9458d2e3f5e9a97ea62cf434e6e3767b45df4365d8780d0dd14efd4e9da5eb0f90534510b138f1372d1cb9012000a69bbedaf
   languageName: node
   linkType: hard
 
@@ -12860,9 +12886,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^3.29.0":
-  version: 3.29.0
-  resolution: "rollup@npm:3.29.0"
+"rollup@npm:^3.29.1":
+  version: 3.29.1
+  resolution: "rollup@npm:3.29.1"
   dependencies:
     fsevents: ~2.3.2
   dependenciesMeta:
@@ -12870,7 +12896,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: 77124a606f44c065dce95b615cd0c9955e1a12f67a30ad28c1128438d5080535b0f028d0edef9dda576ebe8806bdc48aff990198334978738da9716fe9677d72
+  checksum: eb92dbb83842f46782257c93e864dd12e9eef72eb98485a70a08026e50f7b557cfff7da71f677a4bd62906e597cc99284bf152b876f814a95b61f5a618a0f43e
   languageName: node
   linkType: hard
 
@@ -12884,14 +12910,14 @@ __metadata:
     "@testing-library/user-event": ^14.4.3
     "@types/eslint": ^8.44.2
     "@types/events": ^3.0.0
-    "@types/node": ^20.5.9
+    "@types/node": ^20.6.0
     "@types/react": ^18.2.21
     "@types/react-dom": ^18.2.7
     "@types/uuid": ^9.0.3
     "@typescript-eslint/eslint-plugin": ^6.6.0
     "@typescript-eslint/parser": ^6.6.0
     cpy-cli: ^5.0.0
-    eslint: ^8.48.0
+    eslint: ^8.49.0
     eslint-config-prettier: ^9.0.0
     eslint-config-react-app: ^7.0.1
     eslint-plugin-flowtype: ^8.0.3
@@ -14322,9 +14348,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"viem@npm:^1.10.3":
-  version: 1.10.3
-  resolution: "viem@npm:1.10.3"
+"viem@npm:^1.10.8":
+  version: 1.10.8
+  resolution: "viem@npm:1.10.8"
   dependencies:
     "@adraffy/ens-normalize": 1.9.4
     "@noble/curves": 1.2.0
@@ -14340,7 +14366,29 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 3bc57ae093db57a199ff75b931309db0fff8774b9c99bd4b3a3132b5abd81ef6e3c6b54e5b3f2a726e17cfd3ac000cc29edafbf023feb8bcca9b82c5c8597342
+  checksum: f8d044a86a5d635ca968e47548aa0566a90a8e12ea9c15cd1bd373d15fd19cb188938ee1b7ab768b34ba4ee1dae9ad867881f56f07632ff41d421a95865961ec
+  languageName: node
+  linkType: hard
+
+"viem@npm:^1.10.9":
+  version: 1.10.9
+  resolution: "viem@npm:1.10.9"
+  dependencies:
+    "@adraffy/ens-normalize": 1.9.4
+    "@noble/curves": 1.2.0
+    "@noble/hashes": 1.3.2
+    "@scure/bip32": 1.3.2
+    "@scure/bip39": 1.2.1
+    "@types/ws": ^8.5.5
+    abitype: 0.9.8
+    isomorphic-ws: 5.0.0
+    ws: 8.13.0
+  peerDependencies:
+    typescript: ">=5.0.4"
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 7bf53044abff4ff703d518227921d9a56907be744a30750873231a442dcfdee485d9928f337e22ad698a4d0cf25a57194aee9e636a09233169721bf2a6f2eea0
   languageName: node
   linkType: hard
 
