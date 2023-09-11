@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.1](https://github.com/lifinance/widget/compare/v2.4.0...v2.4.1) (2023-09-11)
+
+
+### Bug Fixes
+
+* remove unnecessary svg tags ([a33c294](https://github.com/lifinance/widget/commit/a33c29473cc8d1e65e652a28a4c303792063d667))
+
 ## [2.4.0](https://github.com/lifinance/widget/compare/v2.3.0...v2.4.0) (2023-09-11)
 
 
