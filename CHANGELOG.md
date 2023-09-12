@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.2](https://github.com/lifinance/widget/compare/v2.4.0...v2.4.2) (2023-09-12)
+
+
+### Bug Fixes
+
+* gate wallet name ([ce423a3](https://github.com/lifinance/widget/commit/ce423a3d902e96bd13baf3e5fddfaba606c7c82a))
+* remove unnecessary svg tags ([7f46bdd](https://github.com/lifinance/widget/commit/7f46bdd6c409a64f8c8f573e40af829a1cab5fa1))
+
 ### [2.4.1](https://github.com/lifinance/widget/compare/v2.4.0...v2.4.1) (2023-09-11)
 
 
