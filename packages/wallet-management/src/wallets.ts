@@ -61,7 +61,7 @@ const bitGet: Wallet = new InjectedConnector(
 
 const gate: Wallet = new InjectedConnector(
   {
-    name: 'Gate',
+    name: 'Gate Wallet',
     installed: async () => (window as any).gatewallet,
     icon: walletIcons.gate,
   },
