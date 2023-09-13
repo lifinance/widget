@@ -19,7 +19,7 @@ import { WalletMenuButton } from './WalletHeader';
 
 export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
-  const { subvariant, hiddenUI } = useWidgetConfig();
+  const { subvariant, hiddenUI, variant } = useWidgetConfig();
   const { navigate, navigateBack } = useNavigateBack();
   const { account } = useWallet();
   const { element, title } = useHeaderStore((state) => state);
@@ -115,7 +115,11 @@ export const NavigationHeader: React.FC = () => {
           <Route
             path={navigationRoutes.home}
             element={
-              <>
+              <Box
+                paddingRight={
+                  variant === 'drawer' && subvariant === 'split' ? 5 : 0
+                }
+              >
                 {account.isActive && !hiddenUI?.includes(HiddenUI.History) ? (
                   <Tooltip
                     title={t(`header.transactionHistory`)}
@@ -144,7 +148,7 @@ export const NavigationHeader: React.FC = () => {
                     <SettingsIcon />
                   </IconButton>
                 </Tooltip>
-              </>
+              </Box>
             }
           />
           <Route path="*" element={element || <Box width={28} height={40} />} />
