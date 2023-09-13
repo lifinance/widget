@@ -51,7 +51,7 @@ const walletConnect: Wallet = new WalletConnectConnector({
 
 const bitGet: Wallet = new InjectedConnector(
   {
-    name: 'BitGet',
+    name: 'Bitget Wallet',
     installed: async () =>
       (window as any).bitkeep && (window as any).bitkeep?.ethereum,
     icon: walletIcons.bitGet,
