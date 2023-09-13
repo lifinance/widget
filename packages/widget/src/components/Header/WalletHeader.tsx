@@ -42,7 +42,7 @@ export const WalletMenuButton: React.FC = () => {
 const ConnectButton = () => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
-  const { walletManagement, subvariant } = useWidgetConfig();
+  const { walletManagement, subvariant, variant } = useWidgetConfig();
   const { connect: connectWallet } = useWallet();
   const navigate = useNavigate();
   const connect = async () => {
@@ -54,8 +54,16 @@ const ConnectButton = () => {
   };
   return (
     <WalletButton
-      endIcon={subvariant !== 'split' ? <WalletIcon /> : undefined}
-      startIcon={subvariant === 'split' ? <WalletIcon /> : undefined}
+      endIcon={
+        variant !== 'drawer' && subvariant !== 'split' ? (
+          <WalletIcon />
+        ) : undefined
+      }
+      startIcon={
+        variant === 'drawer' || subvariant === 'split' ? (
+          <WalletIcon sx={{ marginLeft: -0.25 }} />
+        ) : undefined
+      }
       onClick={
         !pathname.includes(navigationRoutes.selectWallet) ? connect : undefined
       }

@@ -1,3 +1,4 @@
+import CloseIcon from '@mui/icons-material/CloseRounded';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { Drawer } from '@mui/material';
@@ -19,7 +20,6 @@ import {
 import { AppProvider } from './AppProvider';
 import type { WidgetConfig, WidgetProps, WidgetSubvariant } from './types';
 import { HiddenUI } from './types';
-import CloseIcon from '@mui/icons-material/CloseRounded';
 
 export interface WidgetDrawer {
   isOpen(): void;
@@ -108,7 +108,7 @@ export const AppDrawer = forwardRef<WidgetDrawer, WidgetProps>(
           }}
           keepMounted
         >
-          <CloseButtonLayout onClick={closeDrawer} size="medium" edge="end">
+          <CloseButtonLayout onClick={closeDrawer} edge="end">
             <CloseIcon />
           </CloseButtonLayout>
           <AppDefault />

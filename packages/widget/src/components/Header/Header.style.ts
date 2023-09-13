@@ -54,6 +54,6 @@ export const DrawerWalletContainer = styled(Box)(() => ({
   justifyItems: 'start',
 
   '& > button': {
-    marginLeft: '-0.75rem',
+    marginLeft: '-0.5rem',
   },
 }));
