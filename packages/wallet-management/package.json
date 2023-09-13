@@ -55,8 +55,8 @@
     "@lifi/sdk": "^3.0.0-alpha.12",
     "@safe-global/safe-apps-provider": "^0.18.0",
     "@safe-global/safe-apps-sdk": "^8.1.0",
-    "@walletconnect/ethereum-provider": "^2.10.0",
-    "@walletconnect/modal": "^2.6.1",
+    "@walletconnect/ethereum-provider": "^2.10.1",
+    "@walletconnect/modal": "^2.6.2",
     "events": "^3.3.0",
     "react": "^18.2.0",
     "viem": "^1.10.9"
