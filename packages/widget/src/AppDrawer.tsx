@@ -108,7 +108,7 @@ export const AppDrawer = forwardRef<WidgetDrawer, WidgetProps>(
           }}
           keepMounted
         >
-          <CloseButtonLayout onClick={closeDrawer} size="medium" edge="start">
+          <CloseButtonLayout onClick={closeDrawer} size="medium" edge="end">
             <CloseIcon />
           </CloseButtonLayout>
           <AppDefault />
