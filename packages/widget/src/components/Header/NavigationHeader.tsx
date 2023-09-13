@@ -117,7 +117,7 @@ export const NavigationHeader: React.FC = () => {
             element={
               <Box
                 paddingRight={
-                  variant === 'drawer' && subvariant === 'split' ? 6 : 0
+                  variant === 'drawer' && subvariant === 'split' ? 7 : 1.25
                 }
               >
                 {account.isActive && !hiddenUI?.includes(HiddenUI.History) ? (
