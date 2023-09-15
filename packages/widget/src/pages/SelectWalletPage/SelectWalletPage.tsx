@@ -77,6 +77,7 @@ export const SelectWalletPage = () => {
         if (isDesktopView) {
           allowedWallets.push(...notInstalledWallets);
         }
+
         setWallets(allowedWallets);
       },
     );
