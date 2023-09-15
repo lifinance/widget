@@ -16,6 +16,13 @@ import { ResetButtonContainer } from './ResetSettingsButton.style';
 import { InfoRounded } from '@mui/icons-material';
 
 export const ResetSettingsButton: React.FC = () => {
+  const { enabledBridges, enabledExchanges } = useSettingsStore((state) => {
+    return {
+      enabledBridges: state.enabledBridges,
+      enabledExchanges: state.enabledExchanges,
+    };
+  });
+
   const { t } = useTranslation();
   const { tools } = useTools();
   const config = useWidgetConfig();
@@ -37,7 +44,9 @@ export const ResetSettingsButton: React.FC = () => {
     toggleDialog();
   };
 
-  const isCustomRouteSettings = true;
+  const isCustomRouteSettings =
+    tools?.bridges?.length !== enabledBridges?.length ||
+    tools?.exchanges?.length !== enabledExchanges?.length;
 
   return (
     <Box px={3} mt={1.5} mb={1}>
