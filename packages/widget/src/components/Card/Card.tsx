@@ -35,51 +35,49 @@ export const Card = styled(Box, {
     !['variant', 'indented', 'selectionColor', 'pointerEvents'].includes(
       prop as string,
     ),
-})<CardProps>(
-  ({
-    theme,
-    variant,
-    selectionColor = 'primary',
-    indented,
+})<CardProps>(({
+  theme,
+  variant,
+  selectionColor = 'primary',
+  indented,
+  pointerEvents,
+  onClick,
+}) => {
+  const backgroundColor = getBackgroundColor(theme, variant, selectionColor);
+  const backgroundHoverColor = onClick
+    ? theme.palette.mode === 'light'
+      ? darken(backgroundColor, 0.02)
+      : lighten(backgroundColor, 0.02)
+    : backgroundColor;
+  return {
+    backgroundColor,
+    border: `1px solid`,
+    borderColor:
+      variant === 'error'
+        ? theme.palette.error.main
+        : variant === 'selected'
+        ? selectionColor === 'primary'
+          ? theme.palette.primary.main
+          : alpha(theme.palette.secondary.main, 0.48)
+        : theme.palette.mode === 'light'
+        ? theme.palette.grey[300]
+        : theme.palette.grey[800],
+    borderRadius: theme.shape.borderRadius,
+    overflow: 'hidden',
+    position: 'relative',
+    padding: indented ? theme.spacing(2) : 0,
+    boxSizing: 'border-box',
+    '&:hover': {
+      cursor: onClick ? 'pointer' : 'default',
+      backgroundColor: backgroundHoverColor,
+    },
+    [`&:hover .${badgeClasses.badge} > div`]: {
+      borderColor: backgroundHoverColor,
+    },
+    transition: theme.transitions.create(['background-color'], {
+      duration: theme.transitions.duration.enteringScreen,
+      easing: theme.transitions.easing.easeOut,
+    }),
     pointerEvents,
-    onClick,
-  }) => {
-    const backgroundColor = getBackgroundColor(theme, variant, selectionColor);
-    const backgroundHoverColor = onClick
-      ? theme.palette.mode === 'light'
-        ? darken(backgroundColor, 0.02)
-        : lighten(backgroundColor, 0.02)
-      : backgroundColor;
-    return {
-      backgroundColor,
-      border: `1px solid`,
-      borderColor:
-        variant === 'error'
-          ? theme.palette.error.main
-          : variant === 'selected'
-          ? selectionColor === 'primary'
-            ? theme.palette.primary.main
-            : alpha(theme.palette.secondary.main, 0.48)
-          : theme.palette.mode === 'light'
-          ? theme.palette.grey[300]
-          : theme.palette.grey[800],
-      borderRadius: theme.shape.borderRadius,
-      overflow: 'hidden',
-      position: 'relative',
-      padding: indented ? theme.spacing(2) : 0,
-      boxSizing: 'border-box',
-      '&:hover': {
-        cursor: onClick ? 'pointer' : 'default',
-        backgroundColor: backgroundHoverColor,
-      },
-      [`&:hover .${badgeClasses.badge} > div`]: {
-        borderColor: backgroundHoverColor,
-      },
-      transition: theme.transitions.create(['background-color'], {
-        duration: theme.transitions.duration.enteringScreen,
-        easing: theme.transitions.easing.easeOut,
-      }),
-      pointerEvents,
-    };
-  },
-);
+  };
+});

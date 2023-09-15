@@ -1,3 +1,4 @@
+import CloseIcon from '@mui/icons-material/CloseRounded';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { Drawer } from '@mui/material';
@@ -11,7 +12,11 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppDefault } from './App';
-import { DrawerButton, DrawerButtonTypography } from './AppDrawer.style';
+import {
+  CloseButtonLayout,
+  DrawerButton,
+  DrawerButtonTypography,
+} from './AppDrawer.style';
 import { AppProvider } from './AppProvider';
 import type { WidgetConfig, WidgetProps, WidgetSubvariant } from './types';
 import { HiddenUI } from './types';
@@ -103,6 +108,9 @@ export const AppDrawer = forwardRef<WidgetDrawer, WidgetProps>(
           }}
           keepMounted
         >
+          <CloseButtonLayout onClick={closeDrawer} edge="end">
+            <CloseIcon />
+          </CloseButtonLayout>
           <AppDefault />
         </Drawer>
       </AppProvider>

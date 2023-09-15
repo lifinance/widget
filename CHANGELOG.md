@@ -2,6 +2,46 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.4](https://github.com/lifinance/widget/compare/v2.4.3...v2.4.4) (2023-09-14)
+
+
+### Bug Fixes
+
+* add close button on mobile ([#119](https://github.com/lifinance/widget/issues/119)) ([8c2ab60](https://github.com/lifinance/widget/commit/8c2ab605b52f8fc30a6ffa01b5d552a6e1f8da9e))
+
+### [2.4.3](https://github.com/lifinance/widget/compare/v2.4.2...v2.4.3) (2023-09-13)
+
+### [2.4.2](https://github.com/lifinance/widget/compare/v2.4.0...v2.4.2) (2023-09-12)
+
+
+### Bug Fixes
+
+* gate wallet name ([ce423a3](https://github.com/lifinance/widget/commit/ce423a3d902e96bd13baf3e5fddfaba606c7c82a))
+* remove unnecessary svg tags ([7f46bdd](https://github.com/lifinance/widget/commit/7f46bdd6c409a64f8c8f573e40af829a1cab5fa1))
+
+### [2.4.1](https://github.com/lifinance/widget/compare/v2.4.0...v2.4.1) (2023-09-11)
+
+
+### Bug Fixes
+
+* remove unnecessary svg tags ([a33c294](https://github.com/lifinance/widget/commit/a33c29473cc8d1e65e652a28a4c303792063d667))
+
+## [2.4.0](https://github.com/lifinance/widget/compare/v2.3.0...v2.4.0) (2023-09-11)
+
+
+### Features
+
+* add bitkeep wallet ([#122](https://github.com/lifinance/widget/issues/122)) ([ae83ae6](https://github.com/lifinance/widget/commit/ae83ae63678c8c0471870e5ba19dbc8acf6194c0))
+* add gate wallet ([#123](https://github.com/lifinance/widget/issues/123)) ([cd19867](https://github.com/lifinance/widget/commit/cd19867e56fdc2b3d198560e7e7b1dd1d68244d7))
+* added okx wallet ([#124](https://github.com/lifinance/widget/issues/124)) ([d977981](https://github.com/lifinance/widget/commit/d977981edd0234b07ce4c44e4fa0b2ed028f5464))
+
+## [2.3.0](https://github.com/lifinance/widget/compare/v2.2.8...v2.3.0) (2023-08-25)
+
+
+### Features
+
+* add SendToWalletToggled event ([e6bffcf](https://github.com/lifinance/widget/commit/e6bffcf013b34aca999d6a2763a4866c4164b52b))
+
 ### [2.2.8](https://github.com/lifinance/widget/compare/v2.2.7...v2.2.8) (2023-08-18)
 
 

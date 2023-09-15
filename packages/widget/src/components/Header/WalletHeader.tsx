@@ -10,7 +10,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useChain } from '../../hooks';
 import { useWallet, useWidgetConfig } from '../../providers';
 import { navigationRoutes, shortenAddress } from '../../utils';
-import { HeaderAppBar, WalletButton } from './Header.style';
+import {
+  DrawerWalletContainer,
+  HeaderAppBar,
+  WalletButton,
+} from './Header.style';
 import { WalletMenu } from './WalletMenu';
 
 export const WalletHeader: React.FC = () => {
@@ -23,13 +27,22 @@ export const WalletHeader: React.FC = () => {
 
 export const WalletMenuButton: React.FC = () => {
   const { account } = useWallet();
+  const { variant } = useWidgetConfig();
+
+  if (variant === 'drawer') {
+    return (
+      <DrawerWalletContainer>
+        {account.isActive ? <ConnectedButton /> : <ConnectButton />}
+      </DrawerWalletContainer>
+    );
+  }
   return account.isActive ? <ConnectedButton /> : <ConnectButton />;
 };
 
 const ConnectButton = () => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
-  const { walletManagement, subvariant } = useWidgetConfig();
+  const { walletManagement, subvariant, variant } = useWidgetConfig();
   const { connect: connectWallet } = useWallet();
   const navigate = useNavigate();
   const connect = async () => {
@@ -41,8 +54,16 @@ const ConnectButton = () => {
   };
   return (
     <WalletButton
-      endIcon={subvariant !== 'split' ? <WalletIcon /> : undefined}
-      startIcon={subvariant === 'split' ? <WalletIcon /> : undefined}
+      endIcon={
+        variant !== 'drawer' && subvariant !== 'split' ? (
+          <WalletIcon />
+        ) : undefined
+      }
+      startIcon={
+        variant === 'drawer' || subvariant === 'split' ? (
+          <WalletIcon sx={{ marginLeft: -0.25 }} />
+        ) : undefined
+      }
       onClick={
         !pathname.includes(navigationRoutes.selectWallet) ? connect : undefined
       }

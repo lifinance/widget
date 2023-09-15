@@ -9,6 +9,7 @@ export enum WidgetEvent {
   RouteContactSupport = 'routeContactSupport',
   SourceChainTokenSelected = 'sourceChainTokenSelected',
   DestinationChainTokenSelected = 'destinationChainTokenSelected',
+  SendToWalletToggled = 'sendToWalletToggled',
 }
 
 export type WidgetEvents = {
@@ -20,6 +21,7 @@ export type WidgetEvents = {
   routeContactSupport: RouteContactSupport;
   sourceChainTokenSelected: ChainTokenSelected;
   destinationChainTokenSelected: ChainTokenSelected;
+  sendToWalletToggled: boolean;
 };
 
 export interface RouteContactSupport {

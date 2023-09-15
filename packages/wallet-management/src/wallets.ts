@@ -49,6 +49,25 @@ const walletConnect: Wallet = new WalletConnectConnector({
   },
 });
 
+const bitGet: Wallet = new InjectedConnector(
+  {
+    name: 'Bitget Wallet',
+    installed: async () =>
+      (window as any).bitkeep && (window as any).bitkeep?.ethereum,
+    icon: walletIcons.bitGet,
+  },
+  (window as any).bitkeep?.ethereum,
+);
+
+const gate: Wallet = new InjectedConnector(
+  {
+    name: 'Gate Wallet',
+    installed: async () => (window as any).gatewallet,
+    icon: walletIcons.gate,
+  },
+  (window as any).gatewallet,
+);
+
 const frontier: Wallet = new InjectedConnector(
   {
     name: 'Frontier',
@@ -221,6 +240,15 @@ const tokenary: Wallet = new InjectedConnector({
   icon: walletIcons.tokenary,
 });
 
+const okx: Wallet = new InjectedConnector(
+  {
+    name: 'OKX',
+    installed: async () => (window as any).okxwallet,
+    icon: walletIcons.okx,
+  },
+  (window as any).okxwallet,
+);
+
 const exodus: Wallet = new InjectedConnector(
   {
     name: 'Exodus',
@@ -261,11 +289,14 @@ export const supportedWallets = [
   safe,
   metamask,
   walletConnect,
+  bitGet,
+  gate,
   exodus,
   tallyho,
   binance,
   frontier,
   coinbase,
+  okx,
   trust,
   status,
   alphawallet,
