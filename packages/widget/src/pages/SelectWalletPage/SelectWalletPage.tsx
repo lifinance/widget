@@ -9,6 +9,8 @@ import {
   DialogContentText,
   List,
   ListItemAvatar,
+  Theme,
+  useMediaQuery,
 } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -17,6 +19,8 @@ import { ListItemButton } from '../../components/ListItemButton';
 import { ListItemText } from '../../components/ListItemText';
 import { useNavigateBack } from '../../hooks';
 import { useWallet } from '../../providers';
+
+const defaultTabWidth = 892;
 
 export const SelectWalletPage = () => {
   const { t } = useTranslation();
@@ -27,6 +31,10 @@ export const SelectWalletPage = () => {
     wallet?: Wallet;
   }>({ show: false });
   const [wallets, setWallets] = useState<Wallet[]>();
+
+  const isDesktopView = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.up(defaultTabWidth),
+  );
 
   const closeDialog = () => {
     setWalletIdentity((state) => ({
@@ -63,7 +71,13 @@ export const SelectWalletPage = () => {
           (wallet, index) =>
             !installed[index] && wallet.name !== 'Default Wallet',
         );
-        setWallets([...installedWallets, ...notInstalledWallets]);
+
+        const allowedWallets = [...installedWallets];
+
+        if (isDesktopView) {
+          allowedWallets.push(...notInstalledWallets);
+        }
+        setWallets(allowedWallets);
       },
     );
   }, []);
