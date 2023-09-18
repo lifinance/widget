@@ -20,8 +20,6 @@ import { ListItemText } from '../../components/ListItemText';
 import { useNavigateBack } from '../../hooks';
 import { useWallet } from '../../providers';
 
-const defaultTabWidth = 892;
-
 export const SelectWalletPage = () => {
   const { t } = useTranslation();
   const { navigateBack } = useNavigateBack();
@@ -33,7 +31,7 @@ export const SelectWalletPage = () => {
   const [wallets, setWallets] = useState<Wallet[]>();
 
   const isDesktopView = useMediaQuery((theme: Theme) =>
-    theme.breakpoints.up(defaultTabWidth),
+    theme.breakpoints.up('sm'),
   );
 
   const closeDialog = () => {
