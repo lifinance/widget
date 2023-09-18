@@ -189,6 +189,8 @@ export const App = () => {
     }
   }, [darkMode, prefersDarkMode, primary, secondary, systemColor]);
 
+  console.log({ config });
+
   return (
     <ThemeProvider theme={theme}>
       <WidgetEvents />

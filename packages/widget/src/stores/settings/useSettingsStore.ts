@@ -8,9 +8,12 @@ import { SettingsToolTypes } from './types';
 export const defaultConfigurableSettings: Pick<
   SettingsState,
   'routePriority' | 'slippage'
-> = {
+> & {
+  gasPrice: string;
+} = {
   routePriority: 'RECOMMENDED',
   slippage: '0.5',
+  gasPrice: 'slow',
 };
 
 export const defaultSettings: SettingsProps = {
@@ -139,7 +142,8 @@ export const useSettingsStore = create<SettingsState>(
 );
 
 export const setDefaultSettings = (config?: WidgetConfig) => {
-  const { slippage, routePriority, setValue } = useSettingsStore.getState();
+  const { slippage, routePriority, setValue, gasPrice } =
+    useSettingsStore.getState();
   const defaultSlippage =
     (config?.slippage ||
       config?.sdkConfig?.defaultRouteOptions?.slippage ||
@@ -156,5 +160,8 @@ export const setDefaultSettings = (config?: WidgetConfig) => {
   }
   if (!routePriority) {
     setValue('routePriority', defaultConfigurableSettings.routePriority);
+  }
+  if (!gasPrice) {
+    setValue('gasPrice', defaultConfigurableSettings.gasPrice);
   }
 };
