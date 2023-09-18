@@ -14,6 +14,7 @@ import { useWidgetConfig } from '../../providers';
 import {
   defaultConfigurableSettings,
   setDefaultSettings,
+  useAppearance,
   useSettingsStore,
 } from '../../stores';
 import { ResetButtonContainer } from './ResetSettingsButton.style';
@@ -38,6 +39,8 @@ export const ResetSettingsButton: React.FC = () => {
   const config = useWidgetConfig();
   const resetSettings = useSettingsStore((state) => state.reset);
   const [open, setOpen] = useState(false);
+
+  const [appearance] = useAppearance();
 
   const toggleDialog = useCallback(() => {
     setOpen((open) => !open);
@@ -72,10 +75,16 @@ export const ResetSettingsButton: React.FC = () => {
     isRoutePriorityChanged ||
     isGasPriceChanged;
 
+  const isSettingsModified = isCustomRouteSettings || appearance !== 'auto';
+
+  if (!isSettingsModified) {
+    return null;
+  }
+
   return (
-    isCustomRouteSettings && (
-      <Box px={3} mt={1.5} mb={1}>
-        <ResetButtonContainer>
+    <Box px={3} mt={1.5} mb={1}>
+      <ResetButtonContainer isCustomRouteSettings={isCustomRouteSettings}>
+        {isCustomRouteSettings ? (
           <Box display={'flex'} marginBottom={'12px'}>
             <InfoRounded
               sx={{
@@ -86,26 +95,27 @@ export const ResetSettingsButton: React.FC = () => {
               {t(`settings.resetSettings`)}
             </Box>
           </Box>
-          <Button onClick={toggleDialog} fullWidth>
-            {t('button.resetSettings')}
-          </Button>
+        ) : null}
 
-          <Dialog open={open} onClose={toggleDialog}>
-            <DialogTitle>{t('warning.title.resetSettings')}</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                {t('warning.message.resetSettings')}
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={toggleDialog}>{t('button.cancel')}</Button>
-              <Button variant="contained" onClick={handleReset} autoFocus>
-                {t('button.reset')}
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </ResetButtonContainer>
-      </Box>
-    )
+        <Button onClick={toggleDialog} fullWidth>
+          {t('button.resetSettings')}
+        </Button>
+
+        <Dialog open={open} onClose={toggleDialog}>
+          <DialogTitle>{t('warning.title.resetSettings')}</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              {t('warning.message.resetSettings')}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={toggleDialog}>{t('button.cancel')}</Button>
+            <Button variant="contained" onClick={handleReset} autoFocus>
+              {t('button.reset')}
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </ResetButtonContainer>
+    </Box>
   );
 };

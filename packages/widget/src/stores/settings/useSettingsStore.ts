@@ -7,13 +7,11 @@ import { SettingsToolTypes } from './types';
 
 export const defaultConfigurableSettings: Pick<
   SettingsState,
-  'routePriority' | 'slippage'
-> & {
-  gasPrice: string;
-} = {
+  'routePriority' | 'slippage' | 'gasPrice'
+> = {
   routePriority: 'RECOMMENDED',
   slippage: '0.5',
-  gasPrice: 'slow',
+  gasPrice: 'normal',
 };
 
 export const defaultSettings: SettingsProps = {
