@@ -105,8 +105,6 @@ export const buildRouteExecutionFromTransactionHistory = (
     chainId: receiving.token?.chainId,
   };
 
-  console.log({ toToken, fromToken });
-
   const routeExecution: RouteExecution = {
     status: 1,
     route: {
