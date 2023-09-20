@@ -23,26 +23,26 @@
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
-    "@lifi/sdk": "^2.2.1",
+    "@lifi/sdk": "^2.4.0",
     "@lifi/wallet-management": "^2.3.3",
     "@lifi/widget": "^2.4.4",
-    "@mui/icons-material": "^5.14.1",
-    "@mui/lab": "^5.0.0-alpha.137",
-    "@mui/material": "^5.14.2",
+    "@mui/icons-material": "^5.14.9",
+    "@mui/lab": "^5.0.0-alpha.145",
+    "@mui/material": "^5.14.10",
     "ethers": "^5.7.2",
     "events": "^3.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.14.2",
-    "viem": "^1.4.1",
-    "wagmi": "^1.3.9"
+    "react-router-dom": "^6.16.0",
+    "viem": "^1.11.0",
+    "wagmi": "^1.4.2"
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
-    "@vitejs/plugin-react": "^4.0.3",
+    "@vitejs/plugin-react": "^4.0.4",
     "rollup-plugin-polyfill-node": "^0.12.0",
-    "typescript": "^5.1.6",
-    "vite": "^4.4.7",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9",
     "web-vitals": "^3.4.0"
   },
   "eslintConfig": {

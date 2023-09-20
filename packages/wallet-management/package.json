@@ -48,21 +48,21 @@
     "lifi"
   ],
   "dependencies": {
-    "@coinbase/wallet-sdk": "^3.7.1",
+    "@coinbase/wallet-sdk": "^3.7.2",
     "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/experimental": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
-    "@lifi/sdk": "^2.2.1",
-    "@safe-global/safe-apps-provider": "^0.17.1",
-    "@safe-global/safe-apps-sdk": "^8.0.0",
-    "@walletconnect/ethereum-provider": "^2.9.1",
-    "@walletconnect/modal": "^2.6.1",
+    "@lifi/sdk": "^2.4.0",
+    "@safe-global/safe-apps-provider": "^0.18.0",
+    "@safe-global/safe-apps-sdk": "^8.1.0",
+    "@walletconnect/ethereum-provider": "^2.10.1",
+    "@walletconnect/modal": "^2.6.2",
     "events": "^3.3.0",
     "react": "^18.2.0"
   },
   "devDependencies": {
     "cpy-cli": "^5.0.0",
-    "typescript": "^5.1.6"
+    "typescript": "^5.2.2"
   },
   "eslintConfig": {
     "extends": "../../.eslintrc"

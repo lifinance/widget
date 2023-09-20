@@ -1,6 +1,6 @@
 import type { StateCreator } from 'zustand';
-import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { createWithEqualityFn } from 'zustand/traditional';
 import type { WidgetConfig } from '../../types';
 import type { SettingsProps, SettingsState } from './types';
 import { SettingsToolTypes } from './types';
@@ -22,7 +22,7 @@ export const defaultSettings: SettingsProps = {
   enabledExchanges: [],
 };
 
-export const useSettingsStore = create<SettingsState>(
+export const useSettingsStore = createWithEqualityFn<SettingsState>(
   persist(
     (set, get) => ({
       ...defaultSettings,
@@ -136,6 +136,7 @@ export const useSettingsStore = create<SettingsState>(
       },
     },
   ) as StateCreator<SettingsState, [], [], SettingsState>,
+  Object.is,
 );
 
 export const setDefaultSettings = (config?: WidgetConfig) => {

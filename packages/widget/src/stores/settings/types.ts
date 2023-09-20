@@ -1,6 +1,7 @@
 import type { Order } from '@lifi/sdk';
 import type { PropsWithChildren } from 'react';
-import type { StoreApi, UseBoundStore } from 'zustand';
+import type { StoreApi } from 'zustand';
+import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
 import type { Appearance, WidgetConfig } from '../../types';
 
 export type ValueSetter<S> = <K extends keyof S>(
@@ -60,7 +61,7 @@ export interface SplitSubvariantState {
   setState(state: 'swap' | 'bridge'): void;
 }
 
-export type SplitSubvariantStore = UseBoundStore<
+export type SplitSubvariantStore = UseBoundStoreWithEqualityFn<
   StoreApi<SplitSubvariantState>
 >;
 
