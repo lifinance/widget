@@ -2928,26 +2928,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lifi/sdk@npm:^2.2.1":
-  version: 2.2.1
-  resolution: "@lifi/sdk@npm:2.2.1"
+"@lifi/sdk@portal:/Users/abhishekkumar/Desktop/work/sdk::locator=root-workspace-0b6124%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@lifi/sdk@portal:/Users/abhishekkumar/Desktop/work/sdk::locator=root-workspace-0b6124%40workspace%3A."
   dependencies:
     "@ethersproject/abi": ^5.7.0
     "@ethersproject/contracts": ^5.7.0
-    "@lifi/types": ^8.0.4
+    "@lifi/types": ^8.4.0
     bignumber.js: ^9.1.1
     eth-rpc-errors: ^4.0.3
     ethers: ^5.7.2
-  checksum: 2e5881bb8cbd6d33b2e5b671e01a1cdc643523f33645089a7c91a7dfa8ced7b4bbfc4d8dbba7063cc37191ff2c9fb6422399384d28a35d24c92ed698b9ce46c1
   languageName: node
-  linkType: hard
+  linkType: soft
 
-"@lifi/types@npm:^8.0.4":
-  version: 8.0.4
-  resolution: "@lifi/types@npm:8.0.4"
+"@lifi/types@npm:^8.4.0":
+  version: 8.7.0
+  resolution: "@lifi/types@npm:8.7.0"
   dependencies:
     ethers: ^5.7.2
-  checksum: b081ec0267ca0f53f3aa14c2beb269866cc5a374963661b9629005a51ed0a1e14edd9d3f9b3d5793f5cd33dcf93b73a756ca2c31f0799b60d9aa03c1fc5ae153
+  checksum: 230b468de2411a8683c5caf2ed9295920d236463e81acc9c60aeb25a99835a971554a1b6198a5b7e44099e0a72b77b6417a035a2776be0903a669afebb6e2d08
   languageName: node
   linkType: hard
 

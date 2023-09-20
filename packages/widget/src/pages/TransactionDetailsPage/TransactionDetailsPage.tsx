@@ -21,10 +21,22 @@ import { Insurance } from '../../components/Insurance';
 import { getStepList } from '../../components/Step';
 import { useNavigateBack } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
-import { useHeaderStoreContext, useRouteExecutionStore } from '../../stores';
+import {
+  RouteExecution,
+  useHeaderStoreContext,
+  useRouteExecutionStore,
+} from '../../stores';
 import { formatTokenAmount } from '../../utils';
 import { ContactSupportButton } from './ContactSupportButton';
 import { Container } from './TransactionDetailsPage.style';
+import {
+  ExtendedTransactionInfo,
+  FullStatusData,
+  Process,
+  StatusResponse,
+  TokenAmount,
+} from '@lifi/sdk';
+import { send } from 'process';
 
 export const TransactionDetailsPage: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -32,10 +44,139 @@ export const TransactionDetailsPage: React.FC = () => {
   const { subvariant, contractComponent, contractSecondaryComponent } =
     useWidgetConfig();
   const { state }: any = useLocation();
-  const [routeExecution, deleteRoute] = useRouteExecutionStore(
-    (store) => [store.routes[state?.routeId], store.deleteRoute],
-    shallow,
-  );
+  // const [routeExecution, deleteRoute] = useRouteExecutionStore(
+  //   (store) => [store.routes[state?.routeId], store.deleteRoute],
+  //   shallow,
+  // );
+
+  const transactionHistory: StatusResponse = state?.transactionHistory;
+
+  const routeExecution: RouteExecution = {};
+
+  const buildRouteExecutionFromTransactionHistory = (
+    txHistory: StatusResponse,
+  ) => {
+    const sending = txHistory.sending as ExtendedTransactionInfo;
+    const receiving = txHistory.receiving as ExtendedTransactionInfo;
+
+    if (!sending.token?.chainId || !receiving.token?.chainId) {
+      return;
+    }
+
+    const fromToken: TokenAmount = {
+      ...sending.token,
+      amount: sending.amount ?? '0',
+      priceUSD: sending.amountUSD ?? '0',
+      symbol: sending.token?.symbol ?? '',
+      decimals: sending.token?.decimals ?? 0,
+      name: sending.token?.name ?? '',
+      chainId: sending.token?.chainId,
+    };
+
+    const toToken: TokenAmount = {
+      ...receiving.token,
+      amount: receiving.amount ?? '0',
+      priceUSD: receiving.amountUSD ?? '0',
+      symbol: receiving.token?.symbol ?? '',
+      decimals: receiving.token?.decimals ?? 0,
+      name: receiving.token?.name ?? '',
+      chainId: receiving.token?.chainId,
+    };
+
+    const routeExecution: RouteExecution = {
+      route: {
+        id: (txHistory as FullStatusData).transactionId,
+        fromAddress: (txHistory as FullStatusData).fromAddress,
+        toAddress: (txHistory as FullStatusData).toAddress,
+        fromToken,
+        toToken,
+        steps: [
+          {
+            type: 'lifi',
+            tool: txHistory.tool,
+            toolDetails: {
+              key: '1inch',
+              name: '1inch',
+              logoURI:
+                'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/exchanges/oneinch.png',
+            },
+            action: {
+              fromToken: sending.token,
+              fromAmount: sending.amount ?? '',
+              toToken: receiving.token,
+              fromChainId: sending.chainId,
+              toChainId: receiving.chainId,
+              fromAddress: (txHistory as FullStatusData).fromAddress,
+              toAddress: (txHistory as FullStatusData).toAddress,
+              slippage: 0,
+            },
+            estimate: {
+              tool: txHistory.tool,
+              approvalAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
+              toAmountMin: '916619',
+              toAmount: '921225',
+              fromAmount: '100000000000000000',
+              executionDuration: 30,
+              fromAmountUSD: '0.92',
+              toAmountUSD: '0.92',
+            },
+            includedSteps: [
+              {
+                id: 'c340c3da-03a3-4d4b-9baa-9c34e9cdb8ce',
+                type: 'cross',
+                action: {
+                  fromChainId: sending.chainId,
+                  fromAmount: sending.amount ?? '',
+                  fromToken: sending.token,
+                  toChainId: receiving.chainId,
+                  toToken: receiving.token,
+                  slippage: 0,
+                  fromAddress: (txHistory as FullStatusData).fromAddress,
+                  toAddress: (txHistory as FullStatusData).toAddress,
+                },
+                estimate: {
+                  tool: txHistory.tool,
+                  fromAmount: sending.amount ?? '',
+                  toAmount: receiving.amount ?? '',
+                  toAmountMin: receiving.amount ?? '',
+                  approvalAddress: '',
+                  executionDuration: 30,
+                },
+                tool: txHistory.tool,
+                toolDetails: {
+                  key: 'stargate',
+                  name: 'Stargate',
+                  logoURI:
+                    'https://raw.githubusercontent.com/lifinance/types/5685c638772f533edad80fcb210b4bb89e30a50f/src/assets/icons/bridges/stargate.png',
+                },
+              },
+            ],
+            integrator: 'li.fi-playground',
+            execution: {
+              // status: txHistory.status,
+              status: 'DONE',
+              process: [],
+              fromAmount: sending.amount,
+              toAmount: receiving.amount,
+              toToken: sending.token,
+              gasAmount: sending.gasAmount,
+              gasAmountUSD: sending.gasAmountUSD,
+              gasPrice: sending.gasPrice,
+              gasToken: sending.gasToken,
+              gasUsed: sending.gasUsed,
+            },
+          },
+        ],
+        insurance: {
+          state: 'INSURED',
+          feeAmountUsd: '0',
+        },
+      },
+    };
+
+    return routeExecution;
+  };
+
   const headerStoreContext = useHeaderStoreContext();
   const [open, setOpen] = useState(false);
 
@@ -45,9 +186,9 @@ export const TransactionDetailsPage: React.FC = () => {
 
   const handleDeleteRoute = () => {
     navigateBack();
-    if (routeExecution) {
-      deleteRoute(routeExecution.route.id);
-    }
+    // if (routeExecution) {
+    //   deleteRoute(routeExecution.route.id);
+    // }
   };
 
   const sourceTxHash = routeExecution?.route.steps[0].execution?.process
