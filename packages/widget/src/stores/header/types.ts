@@ -1,6 +1,7 @@
-import type { StoreApi, UseBoundStore } from 'zustand';
+import type { StoreApi } from 'zustand';
+import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
 
-export type HeaderStore = UseBoundStore<StoreApi<HeaderState>>;
+export type HeaderStore = UseBoundStoreWithEqualityFn<StoreApi<HeaderState>>;
 
 export interface HeaderStateBase {
   element?: React.ReactNode | null;

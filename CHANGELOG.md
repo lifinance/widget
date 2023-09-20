@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.5](https://github.com/lifinance/widget/compare/v2.4.4...v2.4.5) (2023-09-20)
+
+
+### Bug Fixes
+
+* hide browser wallets for mobile and tablets ([#131](https://github.com/lifinance/widget/issues/131)) ([bd07ca6](https://github.com/lifinance/widget/commit/bd07ca691d2767c7a01b8baa0cc493ea7604ebbb))
+* remove empty spaces from ens- or walletAddress input (LF-3268) ([#121](https://github.com/lifinance/widget/issues/121)) ([d28cbc5](https://github.com/lifinance/widget/commit/d28cbc5eeac5c6bce0ed5fb01291df7787d6d627))
+
 ### [2.4.4](https://github.com/lifinance/widget/compare/v2.4.3...v2.4.4) (2023-09-14)
 
 

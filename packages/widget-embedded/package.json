@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-embedded",
-  "version": "1.0.140",
+  "version": "1.0.141",
   "type": "module",
   "scripts": {
     "analyze": "source-map-explorer 'dist/assets/*.js' --no-border-checks",
@@ -24,30 +24,30 @@
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
     "@ethersproject/abstract-signer": "^5.7.0",
-    "@lifi/sdk": "^2.2.1",
-    "@lifi/wallet-management": "^2.3.3",
-    "@lifi/widget": "^2.4.4",
-    "@mui/icons-material": "^5.14.1",
-    "@mui/lab": "^5.0.0-alpha.137",
-    "@mui/material": "^5.14.2",
-    "@opensea/seaport-js": "2.0.5",
-    "@tanstack/react-query": "^4.32.0",
-    "bignumber.js": "^9.1.1",
+    "@lifi/sdk": "^2.4.0",
+    "@lifi/wallet-management": "^2.3.4",
+    "@lifi/widget": "^2.4.5",
+    "@mui/icons-material": "^5.14.9",
+    "@mui/lab": "^5.0.0-alpha.145",
+    "@mui/material": "^5.14.10",
+    "@opensea/seaport-js": "2.0.7",
+    "@tanstack/react-query": "^4.35.3",
+    "bignumber.js": "^9.1.2",
     "ethers": "^5.7.2",
     "events": "^3.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.14.2"
+    "react-router-dom": "^6.16.0"
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
-    "@vitejs/plugin-react": "^4.0.3",
+    "@vitejs/plugin-react": "^4.0.4",
     "buffer": "^6.0.3",
-    "esbuild": "^0.18.17",
-    "rollup": "^3.26.3",
+    "esbuild": "^0.19.3",
+    "rollup": "^3.29.2",
     "rollup-plugin-polyfill-node": "^0.12.0",
-    "typescript": "^5.1.6",
-    "vite": "^4.4.7",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9",
     "web-vitals": "^3.4.0"
   },
   "eslintConfig": {
