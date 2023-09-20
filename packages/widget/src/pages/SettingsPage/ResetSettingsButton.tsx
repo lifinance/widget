@@ -14,7 +14,6 @@ import { useWidgetConfig } from '../../providers';
 import {
   defaultConfigurableSettings,
   setDefaultSettings,
-  useAppearance,
   useSettingsStore,
 } from '../../stores';
 import { ResetButtonContainer } from './ResetSettingsButton.style';
@@ -40,8 +39,6 @@ export const ResetSettingsButton: React.FC = () => {
   const resetSettings = useSettingsStore((state) => state.reset);
   const [open, setOpen] = useState(false);
 
-  const [appearance] = useAppearance();
-
   const toggleDialog = useCallback(() => {
     setOpen((open) => !open);
   }, []);
@@ -53,6 +50,9 @@ export const ResetSettingsButton: React.FC = () => {
         tools.bridges.map((tool) => tool.key),
         tools.exchanges.map((tool) => tool.key),
       );
+
+      console.log({ config });
+
       setDefaultSettings(config);
     }
     toggleDialog();
@@ -75,28 +75,23 @@ export const ResetSettingsButton: React.FC = () => {
     isRoutePriorityChanged ||
     isGasPriceChanged;
 
-  const isSettingsModified = isCustomRouteSettings || appearance !== 'auto';
-
-  if (!isSettingsModified) {
+  if (!isCustomRouteSettings) {
     return null;
   }
 
   return (
     <Box px={3} mt={1.5} mb={1}>
-      <ResetButtonContainer isCustomRouteSettings={isCustomRouteSettings}>
-        {isCustomRouteSettings ? (
-          <Box display={'flex'} marginBottom={'12px'}>
-            <InfoRounded
-              sx={{
-                marginRight: '8px',
-              }}
-            />
-            <Box marginTop={'2px'} fontSize={14}>
-              {t(`settings.resetSettings`)}
-            </Box>
+      <ResetButtonContainer>
+        <Box display={'flex'} marginBottom={'12px'}>
+          <InfoRounded
+            sx={{
+              marginRight: '8px',
+            }}
+          />
+          <Box marginTop={'2px'} fontSize={14}>
+            {t(`settings.resetSettings`)}
           </Box>
-        ) : null}
-
+        </Box>
         <Button onClick={toggleDialog} fullWidth>
           {t('button.resetSettings')}
         </Button>
