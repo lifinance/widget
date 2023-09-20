@@ -51,10 +51,6 @@ export const ResetSettingsButton: React.FC = () => {
         tools.exchanges.map((tool) => tool.key),
       );
 
-      console.log({ testing: config });
-
-      console.log({ config });
-
       setDefaultSettings(config);
     }
     toggleDialog();
