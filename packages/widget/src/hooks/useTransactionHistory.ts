@@ -1,4 +1,4 @@
-import type { StatusResponse, Token, TokenAmount } from '@lifi/sdk';
+import type { StatusResponse } from '@lifi/sdk';
 import { useLiFi } from '../providers';
 import { useQuery } from '@tanstack/react-query';
 
@@ -8,8 +8,6 @@ export const useTransactionHistory = (
   const lifi = useLiFi();
 
   const cacheKey = 'transaction-history';
-
-  console.log('Copming here ateladst');
 
   const { data, isLoading, refetch } = useQuery(
     [cacheKey, address],

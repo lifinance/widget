@@ -47,12 +47,11 @@ export const TransactionHistoryPage: React.FC = () => {
     return <TransactionHistoryEmpty />;
   }
 
+  // until virtualisation is done
   const latest5Tx = transactions.slice(
     transactions.length - 5,
     transactions.length,
   );
-
-  console.log('transactions', latest5Tx);
 
   return (
     <Container>
