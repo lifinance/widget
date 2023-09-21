@@ -99,10 +99,10 @@ export const useSettingsStore = createWithEqualityFn<SettingsState>(
           ),
         })),
       reset: (config, bridges, exchanges) => {
-        const { appearance, ...restDefaultsettings } = defaultSettings;
+        const { appearance, ...restDefaultSettings } = defaultSettings;
 
         set(() => ({
-          ...restDefaultsettings,
+          ...restDefaultSettings,
           ...defaultConfigurableSettings,
         }));
         get().initializeTools('Bridges', bridges, true);
