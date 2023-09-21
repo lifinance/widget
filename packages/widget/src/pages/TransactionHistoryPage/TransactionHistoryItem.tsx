@@ -45,7 +45,7 @@ export const TransactionHistoryItem: React.FC<{
   const fromToken: TokenAmount = {
     ...sending.token,
     amount: sending.amount ?? '0',
-    priceUSD: sending.amountUSD ?? '0',
+    priceUSD: sending.token.priceUSD ?? '0',
     symbol: sending.token?.symbol ?? '',
     decimals: sending.token?.decimals ?? 0,
     name: sending.token?.name ?? '',
@@ -55,7 +55,7 @@ export const TransactionHistoryItem: React.FC<{
   const toToken: TokenAmount = {
     ...receiving.token,
     amount: receiving.amount ?? '0',
-    priceUSD: receiving.amountUSD ?? '0',
+    priceUSD: receiving.token.priceUSD ?? '0',
     symbol: receiving.token?.symbol ?? '',
     decimals: receiving.token?.decimals ?? 0,
     name: receiving.token?.name ?? '',

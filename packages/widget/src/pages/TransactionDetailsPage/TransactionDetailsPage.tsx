@@ -24,7 +24,7 @@ import { useHeaderStoreContext } from '../../stores';
 import { formatTokenAmount } from '../../utils';
 import { ContactSupportButton } from './ContactSupportButton';
 import { Container } from './TransactionDetailsPage.style';
-import type { StatusResponse } from '@lifi/sdk';
+import type { ExtendedTransactionInfo, StatusResponse } from '@lifi/sdk';
 import { buildRouteExecutionFromTransactionHistory } from '../../utils/converters';
 
 export const TransactionDetailsPage: React.FC = () => {
@@ -81,7 +81,9 @@ export const TransactionDetailsPage: React.FC = () => {
     );
   }, [headerStoreContext, toggleDialog]);
 
-  const startedAt = new Date(); // set to sending.timestamp
+  const startedAt =
+    ((transactionHistory.sending as ExtendedTransactionInfo).timestamp ?? 0) *
+    1000;
 
   return (
     <Container>

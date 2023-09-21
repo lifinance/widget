@@ -16,7 +16,7 @@ export const useTransactionHistory = (
 
       const response = await lifi.getTransactionHistory(address);
 
-      return response;
+      return (response as any).transactions;
     },
   );
 
