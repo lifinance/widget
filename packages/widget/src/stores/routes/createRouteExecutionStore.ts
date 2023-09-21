@@ -177,7 +177,7 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
               localStorage.removeItem('routes');
             }
           } catch (error) {
-            console.log(error);
+            console.error(error);
           }
           return state;
         },

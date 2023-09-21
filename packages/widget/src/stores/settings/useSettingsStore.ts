@@ -7,10 +7,11 @@ import { SettingsToolTypes } from './types';
 
 export const defaultConfigurableSettings: Pick<
   SettingsState,
-  'routePriority' | 'slippage'
+  'routePriority' | 'slippage' | 'gasPrice'
 > = {
   routePriority: 'RECOMMENDED',
   slippage: '0.5',
+  gasPrice: 'normal',
 };
 
 export const defaultSettings: SettingsProps = {
@@ -98,10 +99,11 @@ export const useSettingsStore = createWithEqualityFn<SettingsState>(
           ),
         })),
       reset: (config, bridges, exchanges) => {
+        const { appearance, ...restDefaultSettings } = defaultSettings;
+
         set(() => ({
-          ...defaultSettings,
+          ...restDefaultSettings,
           ...defaultConfigurableSettings,
-          appearance: config.appearance ?? defaultSettings.appearance,
         }));
         get().initializeTools('Bridges', bridges, true);
         get().initializeTools('Exchanges', exchanges, true);
@@ -140,7 +142,8 @@ export const useSettingsStore = createWithEqualityFn<SettingsState>(
 );
 
 export const setDefaultSettings = (config?: WidgetConfig) => {
-  const { slippage, routePriority, setValue } = useSettingsStore.getState();
+  const { slippage, routePriority, setValue, gasPrice } =
+    useSettingsStore.getState();
   const defaultSlippage =
     (config?.slippage ||
       config?.sdkConfig?.defaultRouteOptions?.slippage ||
@@ -157,5 +160,8 @@ export const setDefaultSettings = (config?: WidgetConfig) => {
   }
   if (!routePriority) {
     setValue('routePriority', defaultConfigurableSettings.routePriority);
+  }
+  if (!gasPrice) {
+    setValue('gasPrice', defaultConfigurableSettings.gasPrice);
   }
 };

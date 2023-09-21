@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import type { ExchangeRateUpdateParams, Route } from '@lifi/sdk';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useRef } from 'react';
