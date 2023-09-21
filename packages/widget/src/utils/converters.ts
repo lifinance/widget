@@ -2,7 +2,9 @@ import type {
   ExtendedTransactionInfo,
   FullStatusData,
   Process,
+  Status,
   StatusResponse,
+  Substatus,
   TokenAmount,
 } from '@lifi/sdk';
 import type { RouteExecution } from '../stores';
@@ -18,28 +20,43 @@ const buildProcessFromTransactionHistory = (
     return [];
   }
 
+  const processStatus: Status = txHistory.status === 'DONE' ? 'DONE' : 'FAILED';
+  const substatus: Substatus =
+    processStatus === 'FAILED' ? 'UNKNOWN_ERROR' : 'COMPLETED';
+
   if (sending.chainId === receiving.chainId) {
     return [
       {
         type: 'SWAP', // operations on same chain will be swaps
         startedAt: sending.timestamp ?? Date.now(),
-        message: 'Swap completed.',
-        status: 'DONE', // can be FAILED
+        message:
+          processStatus === 'FAILED' ? 'Swap failed.' : 'Swap completed.',
+        status: processStatus,
         txHash: sending.txHash,
         txLink: sending.txLink,
         doneAt: receiving.timestamp ?? Date.now(),
-        substatus: 'COMPLETED', // can be incomplete
+        substatus,
         substatusMessage: 'The transfer is complete.',
       },
     ];
   }
 
+  const crossChainMessage: string =
+    processStatus === 'FAILED'
+      ? 'Bridge transfer failed.'
+      : 'Bridge transfer completed.';
+
+  const receivingChainMessage: string =
+    processStatus === 'FAILED'
+      ? 'Bridge transfer failed.'
+      : 'Bridge transfer completed.';
+
   const process: Process[] = [
     {
       type: 'CROSS_CHAIN', // first step of bridging, ignoring the approvals
       startedAt: sending.timestamp ?? Date.now(),
-      message: 'Bridge transaction confirmed.',
-      status: 'DONE', // can be FAILED
+      message: crossChainMessage,
+      status: processStatus, // can be FAILED
       txHash: sending.txHash,
       txLink: sending.txLink,
       doneAt: sending.timestamp,
@@ -47,9 +64,9 @@ const buildProcessFromTransactionHistory = (
     {
       type: 'RECEIVING_CHAIN', // final step of bridging, post swaps
       startedAt: receiving.timestamp ?? Date.now(),
-      message: 'Bridge completed.',
-      status: 'DONE', // can be Failed
-      substatus: 'COMPLETED', // can be failed
+      message: receivingChainMessage,
+      status: processStatus,
+      substatus,
       substatusMessage: 'The transfer is complete.',
       doneAt: receiving.timestamp ?? Date.now(),
       txHash: receiving.txHash,

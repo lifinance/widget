@@ -1,5 +1,6 @@
 import DeleteIcon from '@mui/icons-material/DeleteOutline';
 import {
+  Box,
   Button,
   Container,
   DialogActions,
@@ -9,20 +10,34 @@ import {
   IconButton,
   Stack,
 } from '@mui/material';
-import { useCallback, useEffect, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog } from '../../components/Dialog';
 import { useWallet } from '../../providers';
 import { useHeaderStoreContext, useRouteExecutionStore } from '../../stores';
 // import { useTransactionHistory } from '../../stores/routes';
 import { TransactionHistoryEmpty } from './TransactionHistoryEmpty';
-import { TransactionHistoryItem } from './TransactionHistoryItem';
 import { useTransactionHistory } from '../../hooks/useTransactionHistory';
+import { VirtualizedTransactionHistory } from './VirtualizedTransactionHistoryPage';
+import { useContentHeight } from '../../hooks';
+
+const minTokenListHeight = 360;
 
 export const TransactionHistoryPage: React.FC = () => {
+  const parentRef = useRef<HTMLUListElement | null>(null);
+  const [tokenListHeight, setTokenListHeight] = useState(0);
+  const contentHeight = useContentHeight();
   const { t } = useTranslation();
   const { account } = useWallet();
-  const { data: transactions } = useTransactionHistory(account.address);
+  const { data: transactions, isLoading } = useTransactionHistory(
+    account.address,
+  );
 
   const headerStoreContext = useHeaderStoreContext();
 
@@ -32,6 +47,10 @@ export const TransactionHistoryPage: React.FC = () => {
   const toggleDialog = useCallback(() => {
     setOpen((open) => !open);
   }, []);
+
+  useLayoutEffect(() => {
+    setTokenListHeight(Math.max(contentHeight, minTokenListHeight));
+  }, [contentHeight]);
 
   useEffect(() => {
     if (transactions.length) {
@@ -47,23 +66,24 @@ export const TransactionHistoryPage: React.FC = () => {
     return <TransactionHistoryEmpty />;
   }
 
-  // until virtualisation is done
-  const latest5Tx = transactions.slice(
-    transactions.length - 5,
-    transactions.length,
-  );
-
   return (
     <Container>
-      <Stack spacing={2} mt={1}>
-        {transactions.length ? (
-          latest5Tx.map((transaction, index) => (
-            <TransactionHistoryItem key={index} transaction={transaction} />
-          ))
-        ) : (
-          <TransactionHistoryEmpty />
-        )}
-      </Stack>
+      <Box
+        ref={parentRef}
+        style={{ height: tokenListHeight, overflow: 'auto' }}
+      >
+        <Stack spacing={2} mt={1}>
+          {transactions.length ? (
+            <VirtualizedTransactionHistory
+              transactions={transactions.reverse()}
+              isLoading={isLoading}
+              scrollElementRef={parentRef}
+            />
+          ) : (
+            <TransactionHistoryEmpty />
+          )}
+        </Stack>
+      </Box>
       <Dialog open={open} onClose={toggleDialog}>
         <DialogTitle>{t('warning.title.deleteTransactionHistory')}</DialogTitle>
         <DialogContent>
