@@ -1,7 +1,7 @@
 import type { Route } from '@lifi/sdk';
 import type { StateCreator } from 'zustand';
-import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { createWithEqualityFn } from 'zustand/traditional';
 import { hasEnumFlag } from '../../utils';
 import type { PersistStoreProps } from '../types';
 import type { RouteExecutionState } from './types';
@@ -14,7 +14,7 @@ import {
 } from './utils';
 
 export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
-  create<RouteExecutionState>(
+  createWithEqualityFn<RouteExecutionState>(
     persist(
       (set, get) => ({
         routes: {},
@@ -177,7 +177,7 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
               localStorage.removeItem('routes');
             }
           } catch (error) {
-            console.log(error);
+            console.error(error);
           }
           return state;
         },
@@ -209,4 +209,5 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
         },
       },
     ) as StateCreator<RouteExecutionState, [], [], RouteExecutionState>,
+    Object.is,
   );

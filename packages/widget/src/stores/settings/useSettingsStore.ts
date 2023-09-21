@@ -1,16 +1,17 @@
 import type { StateCreator } from 'zustand';
-import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { createWithEqualityFn } from 'zustand/traditional';
 import type { WidgetConfig } from '../../types';
 import type { SettingsProps, SettingsState } from './types';
 import { SettingsToolTypes } from './types';
 
 export const defaultConfigurableSettings: Pick<
   SettingsState,
-  'routePriority' | 'slippage'
+  'routePriority' | 'slippage' | 'gasPrice'
 > = {
   routePriority: 'RECOMMENDED',
   slippage: '0.5',
+  gasPrice: 'normal',
 };
 
 export const defaultSettings: SettingsProps = {
@@ -22,7 +23,7 @@ export const defaultSettings: SettingsProps = {
   enabledExchanges: [],
 };
 
-export const useSettingsStore = create<SettingsState>(
+export const useSettingsStore = createWithEqualityFn<SettingsState>(
   persist(
     (set, get) => ({
       ...defaultSettings,
@@ -98,10 +99,11 @@ export const useSettingsStore = create<SettingsState>(
           ),
         })),
       reset: (config, bridges, exchanges) => {
+        const { appearance, ...restDefaultSettings } = defaultSettings;
+
         set(() => ({
-          ...defaultSettings,
+          ...restDefaultSettings,
           ...defaultConfigurableSettings,
-          appearance: config.appearance ?? defaultSettings.appearance,
         }));
         get().initializeTools('Bridges', bridges, true);
         get().initializeTools('Exchanges', exchanges, true);
@@ -136,10 +138,12 @@ export const useSettingsStore = create<SettingsState>(
       },
     },
   ) as StateCreator<SettingsState, [], [], SettingsState>,
+  Object.is,
 );
 
 export const setDefaultSettings = (config?: WidgetConfig) => {
-  const { slippage, routePriority, setValue } = useSettingsStore.getState();
+  const { slippage, routePriority, setValue, gasPrice } =
+    useSettingsStore.getState();
   const defaultSlippage =
     (config?.slippage ||
       config?.sdkConfig?.defaultRouteOptions?.slippage ||
@@ -156,5 +160,8 @@ export const setDefaultSettings = (config?: WidgetConfig) => {
   }
   if (!routePriority) {
     setValue('routePriority', defaultConfigurableSettings.routePriority);
+  }
+  if (!gasPrice) {
+    setValue('gasPrice', defaultConfigurableSettings.gasPrice);
   }
 };

@@ -1,10 +1,13 @@
 import { createContext, useContext, useRef } from 'react';
-import type { StoreApi, UseBoundStore } from 'zustand';
+import type { StoreApi } from 'zustand';
+import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
 import type { PersistStoreProviderProps } from '../types';
 import { createRouteExecutionStore } from './createRouteExecutionStore';
 import type { RouteExecutionState } from './types';
 
-export type RouteExecutionStore = UseBoundStore<StoreApi<RouteExecutionState>>;
+export type RouteExecutionStore = UseBoundStoreWithEqualityFn<
+  StoreApi<RouteExecutionState>
+>;
 
 export const RouteExecutionStoreContext =
   createContext<RouteExecutionStore | null>(null);

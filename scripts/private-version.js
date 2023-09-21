@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-prototype-builtins */
 const fs = require('fs-extra');
 const path = require('path');

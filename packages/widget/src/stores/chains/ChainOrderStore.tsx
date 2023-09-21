@@ -1,10 +1,13 @@
 import { createContext, useContext, useRef } from 'react';
-import type { StoreApi, UseBoundStore } from 'zustand';
+import type { StoreApi } from 'zustand';
+import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
 import type { PersistStoreProviderProps } from '../types';
 import { createChainOrderStore } from './createChainOrderStore';
 import type { ChainOrderState } from './types';
 
-export type ChainOrderStore = UseBoundStore<StoreApi<ChainOrderState>>;
+export type ChainOrderStore = UseBoundStoreWithEqualityFn<
+  StoreApi<ChainOrderState>
+>;
 
 export const ChainOrderStoreContext = createContext<ChainOrderStore | null>(
   null,
