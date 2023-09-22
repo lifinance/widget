@@ -256,7 +256,7 @@
     "routePriority": "Route priority",
     "showDestinationWallet": "Show destination wallet",
     "slippage": "Slippage",
-    "resetSettings": "You've customised the settings that could limit the number of available routes"
+    "resetSettings": "You're using custom setting limiting the number of available routes."
   },
   "wallet": {
     "extensionNotFound": "Please make sure that only the {{name}} browser extension is active before choosing this wallet."
