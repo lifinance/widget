@@ -66,8 +66,12 @@ export const TransactionHistoryItem: React.FC<{
     <Card
       onClick={handleClick}
       style={{
-        height: `${size}px`,
+        // height: `${size}px`,
         transform: `translateY(${start}px)`,
+        position: 'absolute',
+        right: '24px',
+        left: 0,
+        top: 0,
       }}
     >
       {startAdornment}

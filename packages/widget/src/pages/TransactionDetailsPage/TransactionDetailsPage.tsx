@@ -73,14 +73,6 @@ export const TransactionDetailsPage: React.FC = () => {
     await navigator.clipboard.writeText(supportId);
   };
 
-  useEffect(() => {
-    return headerStoreContext.getState().setAction(
-      <IconButton size="medium" edge="end" onClick={toggleDialog}>
-        <DeleteIcon />
-      </IconButton>,
-    );
-  }, [headerStoreContext, toggleDialog]);
-
   const startedAt =
     ((transactionHistory.sending as ExtendedTransactionInfo).timestamp ?? 0) *
     1000;
@@ -153,20 +145,6 @@ export const TransactionDetailsPage: React.FC = () => {
       <Box mt={2}>
         <ContactSupportButton supportId={supportId} />
       </Box>
-      <Dialog open={open} onClose={toggleDialog}>
-        <DialogTitle>{t('warning.title.deleteTransaction')}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            {t('warning.message.deleteTransactionHistory')}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={toggleDialog}>{t('button.cancel')}</Button>
-          <Button variant="contained" onClick={handleDeleteRoute} autoFocus>
-            {t('button.delete')}
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Container>
   );
 };

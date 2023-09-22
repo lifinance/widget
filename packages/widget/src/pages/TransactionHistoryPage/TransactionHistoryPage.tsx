@@ -52,22 +52,16 @@ export const TransactionHistoryPage: React.FC = () => {
     setTokenListHeight(Math.max(contentHeight, minTokenListHeight));
   }, [contentHeight]);
 
-  useEffect(() => {
-    if (transactions.length) {
-      return headerStoreContext.getState().setAction(
-        <IconButton size="medium" edge="end" onClick={toggleDialog}>
-          <DeleteIcon />
-        </IconButton>,
-      );
-    }
-  }, [transactions.length, toggleDialog, headerStoreContext]);
-
   if (!transactions.length) {
     return <TransactionHistoryEmpty />;
   }
 
   return (
-    <Container>
+    <Container
+      style={{
+        paddingRight: 0,
+      }}
+    >
       <Box
         ref={parentRef}
         style={{ height: tokenListHeight, overflow: 'auto' }}
@@ -75,7 +69,7 @@ export const TransactionHistoryPage: React.FC = () => {
         <Stack spacing={2} mt={1}>
           {transactions.length ? (
             <VirtualizedTransactionHistory
-              transactions={transactions.reverse()}
+              transactions={transactions}
               isLoading={isLoading}
               scrollElementRef={parentRef}
             />
@@ -84,24 +78,6 @@ export const TransactionHistoryPage: React.FC = () => {
           )}
         </Stack>
       </Box>
-      <Dialog open={open} onClose={toggleDialog}>
-        <DialogTitle>{t('warning.title.deleteTransactionHistory')}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            {t('warning.message.deleteTransactionHistory')}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={toggleDialog}>{t('button.cancel')}</Button>
-          <Button
-            variant="contained"
-            onClick={() => deleteRoutes('completed')}
-            autoFocus
-          >
-            {t('button.delete')}
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Container>
   );
 };

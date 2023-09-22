@@ -21,8 +21,7 @@ export const VirtualizedTransactionHistory: FC<
     count: transactions.length,
     getScrollElement: () => scrollElementRef.current,
     overscan: 5,
-    // paddingEnd: 12,
-    estimateSize: () => 176,
+    estimateSize: () => 192,
     getItemKey: (index) =>
       `${(transactions[index] as FullStatusData).transactionId}-${index}`,
   });

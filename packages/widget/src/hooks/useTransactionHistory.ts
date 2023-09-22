@@ -2,6 +2,11 @@ import type { StatusResponse } from '@lifi/sdk';
 import { useLiFi } from '../providers';
 import { useQuery } from '@tanstack/react-query';
 
+interface TransactionHistoryResponse {
+  transactions: StatusResponse[];
+  walletAddress: string;
+}
+
 export const useTransactionHistory = (
   address?: string,
 ): { data: StatusResponse[]; isLoading: boolean; refetch: () => void } => {
@@ -16,7 +21,14 @@ export const useTransactionHistory = (
 
       const response = await lifi.getTransactionHistory(address);
 
-      return (response as any).transactions;
+      const filteredTransactions = (
+        (response as any).transactions as StatusResponse[]
+      ).filter(
+        (transaction) =>
+          !!transaction.receiving.chainId && !!transaction.sending.chainId,
+      );
+
+      return filteredTransactions;
     },
   );
 
