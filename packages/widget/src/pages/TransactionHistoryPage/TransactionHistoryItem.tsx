@@ -14,11 +14,9 @@ import type { FullStatusData } from '@lifi/sdk';
 
 export const TransactionHistoryItem: React.FC<{
   transaction: StatusResponse;
-  startAdornment?: React.ReactNode;
-  endAdornment?: React.ReactNode;
   size: number;
   start: number;
-}> = ({ transaction, size, start, startAdornment, endAdornment }) => {
+}> = ({ transaction, size, start }) => {
   const { i18n } = useTranslation();
   const navigate = useNavigate();
 
@@ -74,7 +72,6 @@ export const TransactionHistoryItem: React.FC<{
         top: 0,
       }}
     >
-      {startAdornment}
       <Box
         sx={{
           display: 'flex',
@@ -100,7 +97,6 @@ export const TransactionHistoryItem: React.FC<{
         <TokenDivider />
         <Token token={toToken} px={2} pt={0.5} pb={1} />
       </Box>
-      {endAdornment}
     </Card>
   );
 };

@@ -53,8 +53,6 @@ export const VirtualizedTransactionHistory: FC<
             size={item.size}
             start={item.start}
             transaction={transaction}
-            startAdornment={null}
-            endAdornment={null}
           />
         );
       })}

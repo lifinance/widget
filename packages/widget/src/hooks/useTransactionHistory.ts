@@ -3,14 +3,16 @@ import { useLiFi } from '../providers';
 import { useQuery } from '@tanstack/react-query';
 
 export const transactionHistoryCacheKey = 'transaction-history';
-interface TransactionHistoryResponse {
-  transactions: StatusResponse[];
-  walletAddress: string;
+
+interface TransactionHistoryQueryParams {
+  data: StatusResponse[];
+  isLoading: boolean;
+  refetch: () => void;
 }
 
 export const useTransactionHistory = (
   address?: string,
-): { data: StatusResponse[]; isLoading: boolean; refetch: () => void } => {
+): TransactionHistoryQueryParams => {
   const lifi = useLiFi();
 
   const { data, isLoading, refetch } = useQuery(
@@ -20,9 +22,7 @@ export const useTransactionHistory = (
 
       const response = await lifi.getTransactionHistory(address);
 
-      const filteredTransactions = (
-        (response as any).transactions as StatusResponse[]
-      ).filter(
+      const filteredTransactions = response.transactions.filter(
         (transaction) =>
           !!transaction.receiving.chainId && !!transaction.sending.chainId,
       );
