@@ -36,7 +36,6 @@ export const TransactionHistoryItem: React.FC<{
   );
 
   if (!sending.token?.chainId || !receiving.token?.chainId) {
-    // @eugene how to handle this case?
     return null;
   }
 

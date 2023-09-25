@@ -10,9 +10,7 @@ import type {
 import type { RouteExecution } from '../stores';
 import type { ToolsResponse } from '@lifi/sdk';
 
-const buildProcessFromTransactionHistory = (
-  txHistory: StatusResponse,
-): Process[] => {
+const buildProcessFromTxHistory = (txHistory: StatusResponse): Process[] => {
   const sending = txHistory.sending as ExtendedTransactionInfo;
   const receiving = txHistory.receiving as ExtendedTransactionInfo;
 
@@ -77,7 +75,7 @@ const buildProcessFromTransactionHistory = (
   return process;
 };
 
-export const buildRouteExecutionFromTransactionHistory = (
+export const buildRouteFromTxHistory = (
   txHistory: StatusResponse,
   tools?: ToolsResponse,
 ) => {
@@ -192,7 +190,7 @@ export const buildRouteExecutionFromTransactionHistory = (
           integrator: '',
           execution: {
             status: 'DONE', // can be FAILED
-            process: buildProcessFromTransactionHistory(txHistory),
+            process: buildProcessFromTxHistory(txHistory),
             fromAmount: sending.amount,
             toAmount: receiving.amount,
             toToken: receiving.token,

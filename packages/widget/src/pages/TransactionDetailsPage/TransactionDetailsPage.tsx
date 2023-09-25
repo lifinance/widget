@@ -29,7 +29,7 @@ import { formatTokenAmount } from '../../utils';
 import { ContactSupportButton } from './ContactSupportButton';
 import { Container } from './TransactionDetailsPage.style';
 import type { ExtendedTransactionInfo, StatusResponse } from '@lifi/sdk';
-import { buildRouteExecutionFromTransactionHistory } from '../../utils/converters';
+import { buildRouteFromTxHistory } from '../../utils/converters';
 
 export const TransactionDetailsPage: React.FC = () => {
   // const data = useTransactionHistoryById();
@@ -45,10 +45,7 @@ export const TransactionDetailsPage: React.FC = () => {
 
   const transactionHistory: StatusResponse = state?.transactionHistory;
 
-  const routeExecution = buildRouteExecutionFromTransactionHistory(
-    transactionHistory,
-    tools,
-  );
+  const routeExecution = buildRouteFromTxHistory(transactionHistory, tools);
 
   const headerStoreContext = useHeaderStoreContext();
   const [open, setOpen] = useState(false);
