@@ -4,9 +4,11 @@ import { Collapse, FormHelperText } from '@mui/material';
 import { forwardRef, useEffect, useRef } from 'react';
 import { useController, useFormContext, useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { FormKey, useWallet, useWidgetConfig } from '../../providers';
 import { useSendToWalletStore, useSettings } from '../../stores';
 import { DisabledUI, HiddenUI, RequiredUI } from '../../types';
+import { navigationRoutes } from '../../utils';
 import { Card, CardTitle } from '../Card';
 import { FormControl, Input } from './SendToWallet.style';
 
@@ -14,6 +16,7 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
   const { t } = useTranslation();
   const { trigger, getValues, setValue, clearErrors } = useFormContext();
   const { account } = useWallet();
+  const navigate = useNavigate();
   const { disabledUI, hiddenUI, requiredUI, toAddress } = useWidgetConfig();
   const { showSendToWallet, showSendToWalletDirty, setSendToWallet } =
     useSendToWalletStore();
@@ -51,6 +54,10 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
       onBlur: () => trigger(FormKey.ToAddress),
     },
   });
+
+  const handleInputClick = () => {
+    navigate(navigationRoutes.walletBookmark);
+  };
 
   // We want to show toAddress field if it is set via widget configuration and not hidden
   const showInstantly =
@@ -104,6 +111,7 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
             onBlur={onBlur}
             name={name}
             value={value}
+            onClick={handleInputClick}
             placeholder={t('main.walletAddressOrEns') as string}
             disabled={Boolean(toAddress && disabledToAddress)}
           />
