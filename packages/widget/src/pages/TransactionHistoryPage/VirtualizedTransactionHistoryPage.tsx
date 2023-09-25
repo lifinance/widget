@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import type { FullStatusData, StatusResponse } from '@lifi/sdk';
 
 import { TransactionHistoryItem } from './TransactionHistoryItem';
-import { TokenListItemSkeleton } from '../../components/TokenList/TokenListItem';
+import { TransactionHistorySkeleton } from './TransactionHistorySkeleton';
 
 interface VirtualizedTransactionHistoryProps {
   transactions: StatusResponse[];
@@ -35,9 +35,9 @@ export const VirtualizedTransactionHistory: FC<
   if (isLoading) {
     return (
       <List disablePadding>
-        {Array.from({ length: 3 }).map((_, index) => (
+        {Array.from({ length: 2 }).map((_, index) => (
           // eslint-disable-next-line react/no-array-index-key
-          <TokenListItemSkeleton key={index} />
+          <TransactionHistorySkeleton key={index} />
         ))}
       </List>
     );

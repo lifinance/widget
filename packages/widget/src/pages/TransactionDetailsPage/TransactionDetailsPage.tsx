@@ -18,7 +18,11 @@ import { ContractComponent } from '../../components/ContractComponent';
 import { Dialog } from '../../components/Dialog';
 import { Insurance } from '../../components/Insurance';
 import { getStepList } from '../../components/Step';
-import { useNavigateBack, useTools } from '../../hooks';
+import {
+  useNavigateBack,
+  useTools,
+  // useTransactionHistoryById,
+} from '../../hooks';
 import { useWidgetConfig } from '../../providers';
 import { useHeaderStoreContext } from '../../stores';
 import { formatTokenAmount } from '../../utils';
@@ -28,6 +32,9 @@ import type { ExtendedTransactionInfo, StatusResponse } from '@lifi/sdk';
 import { buildRouteExecutionFromTransactionHistory } from '../../utils/converters';
 
 export const TransactionDetailsPage: React.FC = () => {
+  // const data = useTransactionHistoryById();
+  // console.log('🚀 ~ file: TransactionDetailsPage.tsx:36 ~ data:', data);
+
   const { t, i18n } = useTranslation();
   const { navigateBack } = useNavigateBack();
   const { subvariant, contractComponent, contractSecondaryComponent } =
