@@ -155,7 +155,7 @@ export const buildRouteExecutionFromTransactionHistory = (
           },
           estimate: {
             tool: txHistory.tool,
-            approvalAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
+            approvalAddress: '',
             fromAmount: sending.amount ?? '',
             fromAmountUSD: sending.amountUSD ?? '',
             toAmountMin: receiving.amount ?? '',
@@ -165,7 +165,7 @@ export const buildRouteExecutionFromTransactionHistory = (
           },
           includedSteps: [
             {
-              id: 'c340c3da-03a3-4d4b-9baa-9c34e9cdb8ce',
+              id: '',
               type: 'cross', // not considered to show history
               action: {
                 fromChainId: sending.chainId,
@@ -189,7 +189,7 @@ export const buildRouteExecutionFromTransactionHistory = (
               toolDetails: usedTool,
             },
           ],
-          integrator: 'li.fi-playground',
+          integrator: '',
           execution: {
             status: 'DONE', // can be FAILED
             process: buildProcessFromTransactionHistory(txHistory),
