@@ -14,6 +14,7 @@ export const navigationRoutes = {
   transactionDetails: 'transaction-details',
   transactionExecution: 'transaction-execution',
   transactionHistory: 'transaction-history',
+  walletBookmark: 'wallet-bookmark',
 };
 
 export const navigationRoutesValues = Object.values(navigationRoutes);
@@ -32,6 +33,7 @@ export const stickyHeaderRoutes = [
   navigationRoutes.transactionDetails,
   navigationRoutes.transactionExecution,
   navigationRoutes.transactionHistory,
+  navigationRoutes.walletBookmark,
 ];
 
 export const backButtonRoutes = [
@@ -49,6 +51,7 @@ export const backButtonRoutes = [
   navigationRoutes.transactionDetails,
   navigationRoutes.transactionExecution,
   navigationRoutes.transactionHistory,
+  navigationRoutes.walletBookmark,
 ];
 
 export type NavigationRouteType = keyof typeof navigationRoutes;

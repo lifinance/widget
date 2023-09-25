@@ -11,6 +11,7 @@ import { SettingsPage } from './pages/SettingsPage';
 import { TransactionDetailsPage } from './pages/TransactionDetailsPage';
 import { TransactionHistoryPage } from './pages/TransactionHistoryPage';
 import { TransactionPage } from './pages/TransactionPage';
+import { WalletBookmark } from './pages/WalletBookmark';
 import { navigationRoutes } from './utils';
 
 export const AppRoutes = () => {
@@ -62,6 +63,10 @@ export const AppRoutes = () => {
     {
       path: navigationRoutes.transactionHistory,
       element: <TransactionHistoryPage />,
+    },
+    {
+      path: navigationRoutes.walletBookmark,
+      element: <WalletBookmark />,
     },
     {
       path: `${navigationRoutes.transactionHistory}?/${navigationRoutes.routes}?/${navigationRoutes.transactionExecution}?/${navigationRoutes.transactionDetails}`,

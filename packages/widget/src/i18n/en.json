@@ -63,7 +63,8 @@
     "transactionDetails": "Transaction details",
     "transactionHistory": "Transaction history",
     "walletConnected": "Wallet connected",
-    "youGet": "You get"
+    "youGet": "You get",
+    "sendToWallet":"Send to Wallet"
   },
   "info": {
     "message": {
