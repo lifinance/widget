@@ -66,6 +66,9 @@
     "youGet": "You get",
     "sendToWallet":"Send to Wallet"
   },
+  "bookmark":{
+    "enterAddressOrEns":"Enter address or ENS"
+  },
   "info": {
     "message": {
       "autoRefuel": "You're low on {{chainName}} gas. By continuing, you'll get enough gas to complete the transaction.",
