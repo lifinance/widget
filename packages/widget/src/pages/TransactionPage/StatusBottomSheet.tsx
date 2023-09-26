@@ -94,8 +94,18 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
 
   const handleSeeDetails = () => {
     handleClose();
+
+    // sending transaction hash to history page because no other unique id is shared across
+    // using transaction hashes the correct transaction history item can be found
+    const transactionHash = route.steps
+      .map((step) => step.execution?.process.map((process) => process.txHash))
+      .flat();
+
     navigate(navigationRoutes.transactionDetails, {
-      state: { routeId: route.id },
+      state: {
+        transactionHistoryId: route.id,
+        transactionHashes: transactionHash,
+      },
       replace: true,
     });
   };

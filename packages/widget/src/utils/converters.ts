@@ -10,6 +10,28 @@ import type {
 import type { RouteExecution } from '../stores';
 import type { ToolsResponse } from '@lifi/sdk';
 
+export const findTxHistoryByIdOrHash = (
+  transactionHistory: StatusResponse[],
+  transactionHistoryId: string,
+  transactionHistoryHashes = [] as string[],
+): StatusResponse | undefined => {
+  const txHistoryById = transactionHistory?.find(
+    (transactionHistory) =>
+      (transactionHistory as FullStatusData).transactionId ===
+      transactionHistoryId,
+  ) as StatusResponse;
+
+  const txHistoryByHash = transactionHistory?.find(
+    (transactionHistory) =>
+      transactionHistoryHashes.includes(transactionHistory.sending.txHash) ||
+      transactionHistoryHashes.includes(
+        (transactionHistory.receiving as ExtendedTransactionInfo).txHash,
+      ),
+  ) as StatusResponse;
+
+  return txHistoryById ?? txHistoryByHash;
+};
+
 const buildProcessFromTxHistory = (txHistory: StatusResponse): Process[] => {
   const sending = txHistory.sending as ExtendedTransactionInfo;
   const receiving = txHistory.receiving as ExtendedTransactionInfo;

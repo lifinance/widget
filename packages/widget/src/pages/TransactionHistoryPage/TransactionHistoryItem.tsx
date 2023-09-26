@@ -27,7 +27,9 @@ export const TransactionHistoryItem: React.FC<{
 
   const handleClick = () => {
     navigate(navigationRoutes.transactionDetails, {
-      state: { transactionHistory: transaction as FullStatusData },
+      state: {
+        transactionHistoryId: (transaction as FullStatusData).transactionId,
+      },
     });
   };
 

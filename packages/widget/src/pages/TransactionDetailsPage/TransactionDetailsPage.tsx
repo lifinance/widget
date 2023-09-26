@@ -1,65 +1,41 @@
 import ContentCopyIcon from '@mui/icons-material/ContentCopyRounded';
-import DeleteIcon from '@mui/icons-material/DeleteOutline';
-import {
-  Box,
-  Button,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  IconButton,
-  Typography,
-} from '@mui/material';
-import { useCallback, useEffect, useState } from 'react';
+import { Box, IconButton, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { Card, CardTitle } from '../../components/Card';
 import { ContractComponent } from '../../components/ContractComponent';
-import { Dialog } from '../../components/Dialog';
 import { Insurance } from '../../components/Insurance';
 import { getStepList } from '../../components/Step';
-import {
-  useNavigateBack,
-  useTools,
-  // useTransactionHistoryById,
-} from '../../hooks';
+import { useNavigateBack, useTools, useTransactionHistory } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
-import { useHeaderStoreContext } from '../../stores';
-import { formatTokenAmount } from '../../utils';
+import type { RouteExecution } from '../../stores';
+import { formatTokenAmount, navigationRoutes } from '../../utils';
 import { ContactSupportButton } from './ContactSupportButton';
 import { Container } from './TransactionDetailsPage.style';
-import type { ExtendedTransactionInfo, StatusResponse } from '@lifi/sdk';
-import { buildRouteFromTxHistory } from '../../utils/converters';
+import type { StatusResponse } from '@lifi/sdk';
+import {
+  buildRouteFromTxHistory,
+  findTxHistoryByIdOrHash,
+} from '../../utils/converters';
 
 export const TransactionDetailsPage: React.FC = () => {
-  // const data = useTransactionHistoryById();
-  // console.log('🚀 ~ file: TransactionDetailsPage.tsx:36 ~ data:', data);
-
   const { t, i18n } = useTranslation();
-  const { navigateBack } = useNavigateBack();
   const { subvariant, contractComponent, contractSecondaryComponent } =
     useWidgetConfig();
   const { state }: any = useLocation();
 
   const { tools } = useTools();
 
-  const transactionHistory: StatusResponse = state?.transactionHistory;
+  const transactionHistoryId: string = state?.transactionHistoryId;
+  const transactionHashes: string[] = state?.transactionHashes;
 
-  const routeExecution = buildRouteFromTxHistory(transactionHistory, tools);
+  const { navigate } = useNavigateBack();
+  const { data, isLoading, refetch } = useTransactionHistory();
 
-  const headerStoreContext = useHeaderStoreContext();
-  const [open, setOpen] = useState(false);
-
-  const toggleDialog = useCallback(() => {
-    setOpen((open) => !open);
-  }, []);
-
-  const handleDeleteRoute = () => {
-    navigateBack();
-    // if (routeExecution) {
-    //   deleteRoute(routeExecution.route.id);
-    // }
-  };
+  const [routeExecution, setRouteExecution] = useState<RouteExecution | null>(
+    null,
+  );
 
   const sourceTxHash = routeExecution?.route.steps[0].execution?.process
     .filter((process) => process.type !== 'TOKEN_ALLOWANCE')
@@ -77,9 +53,40 @@ export const TransactionDetailsPage: React.FC = () => {
     await navigator.clipboard.writeText(supportId);
   };
 
-  const startedAt =
-    ((transactionHistory.sending as ExtendedTransactionInfo).timestamp ?? 0) *
-    1000;
+  const handleRouteSetting = async (retry = 1) => {
+    console.warn({ transactionHistoryId, transactionHashes, isLoading, retry });
+
+    const transactionHistory: StatusResponse | undefined =
+      findTxHistoryByIdOrHash(data, transactionHistoryId, transactionHashes);
+
+    if (retry < 0) {
+      navigate(navigationRoutes.home);
+      return;
+    }
+
+    if (!transactionHistory) {
+      setTimeout(async () => {
+        await refetch();
+        handleRouteSetting(retry - 1);
+      }, 1000);
+      return;
+    }
+
+    const routeExecution = buildRouteFromTxHistory(transactionHistory, tools);
+
+    if (routeExecution) {
+      setRouteExecution(routeExecution);
+    }
+  };
+
+  useEffect(() => {
+    handleRouteSetting();
+  }, [data, isLoading]);
+
+  const startedAt = new Date(
+    (routeExecution?.route.steps[0].execution?.process[0].startedAt ?? 0) *
+      1000,
+  );
 
   return (
     <Container>

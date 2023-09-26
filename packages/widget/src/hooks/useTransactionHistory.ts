@@ -1,6 +1,6 @@
 import type { StatusResponse } from '@lifi/sdk';
-import { useLiFi } from '../providers';
-import { useQuery } from '@tanstack/react-query';
+import { useLiFi, useWallet } from '../providers';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const transactionHistoryCacheKey = 'transaction-history';
 
@@ -10,17 +10,24 @@ interface TransactionHistoryQueryParams {
   refetch: () => void;
 }
 
-export const useTransactionHistory = (
-  address?: string,
-): TransactionHistoryQueryParams => {
+export const useTransactionHistory = (): TransactionHistoryQueryParams => {
+  const { account } = useWallet();
   const lifi = useLiFi();
+  const queryClient = useQueryClient();
 
   const { data, isLoading, refetch } = useQuery(
-    [transactionHistoryCacheKey, address],
+    [transactionHistoryCacheKey, account.address],
     async () => {
-      if (!address) return [];
+      const cachedData = queryClient.getQueryData<StatusResponse[]>([
+        transactionHistoryCacheKey,
+        account.address,
+      ]);
 
-      const response = await lifi.getTransactionHistory(address);
+      if (cachedData) {
+        return cachedData as StatusResponse[];
+      }
+
+      const response = await lifi.getTransactionHistory(account.address ?? '');
 
       const filteredTransactions = response.transactions.filter(
         (transaction) =>
@@ -30,9 +37,9 @@ export const useTransactionHistory = (
       return filteredTransactions;
     },
     {
+      refetchInterval: 60000,
       staleTime: 60000,
-      cacheTime: 60000,
-      enabled: Boolean(address),
+      enabled: Boolean(account.address),
     },
   );
 
