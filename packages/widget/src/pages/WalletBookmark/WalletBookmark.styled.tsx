@@ -1,4 +1,8 @@
-import { InputBase, FormControl as MuiFormControl } from '@mui/material';
+import {
+  Container,
+  InputBase,
+  FormControl as MuiFormControl,
+} from '@mui/material';
 import { inputBaseClasses } from '@mui/material/InputBase';
 import { styled } from '@mui/material/styles';
 
@@ -17,4 +21,8 @@ export const Input = styled(InputBase)(({ theme }) => ({
   [`.${inputBaseClasses.input}.${inputBaseClasses.disabled}`]: {
     WebkitTextFillColor: 'unset',
   },
+}));
+
+export const PageContainer = styled(Container)(({ theme }) => ({
+  height: 508,
 }));

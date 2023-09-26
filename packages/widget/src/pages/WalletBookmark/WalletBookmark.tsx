@@ -1,13 +1,12 @@
-import { Container } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import { useTranslation } from 'react-i18next';
 import { Card } from '../../components/Card';
-import { FormControl, Input } from './WalletBookmark.styled';
+import { FormControl, Input, PageContainer } from './WalletBookmark.styled';
 
 export const WalletBookmark = () => {
   const { t } = useTranslation();
   return (
-    <Container>
+    <PageContainer>
       <Alert severity="info">{t('info.message.fundsToExchange')}</Alert>
       <Card sx={{ marginTop: '16px' }}>
         <FormControl
@@ -28,6 +27,6 @@ export const WalletBookmark = () => {
           />
         </FormControl>
       </Card>
-    </Container>
+    </PageContainer>
   );
 };
