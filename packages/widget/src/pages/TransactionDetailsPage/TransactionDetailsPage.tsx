@@ -18,6 +18,7 @@ import {
   buildRouteFromTxHistory,
   findTxHistoryByIdOrHash,
 } from '../../utils/converters';
+import { TransactionDetailsSkeleton } from './TransactionDetailsSkeleton';
 
 export const TransactionDetailsPage: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -54,7 +55,10 @@ export const TransactionDetailsPage: React.FC = () => {
   };
 
   const handleRouteSetting = async (retry = 1) => {
-    console.warn({ transactionHistoryId, transactionHashes, isLoading, retry });
+    if (isLoading) {
+      // this will be triggered again once isloading updates
+      return;
+    }
 
     const transactionHistory: StatusResponse | undefined =
       findTxHistoryByIdOrHash(data, transactionHistoryId, transactionHashes);
@@ -65,10 +69,8 @@ export const TransactionDetailsPage: React.FC = () => {
     }
 
     if (!transactionHistory) {
-      setTimeout(async () => {
-        await refetch();
-        handleRouteSetting(retry - 1);
-      }, 1000);
+      refetch();
+      handleRouteSetting(retry - 1);
       return;
     }
 
@@ -81,7 +83,7 @@ export const TransactionDetailsPage: React.FC = () => {
 
   useEffect(() => {
     handleRouteSetting();
-  }, [data, isLoading]);
+  }, [data.length, isLoading]);
 
   const startedAt = new Date(
     (routeExecution?.route.steps[0].execution?.process[0].startedAt ?? 0) *
@@ -89,73 +91,79 @@ export const TransactionDetailsPage: React.FC = () => {
   );
 
   return (
-    <Container>
-      <Box
-        sx={{
-          display: 'flex',
-          flex: 1,
-          justifyContent: 'space-between',
-        }}
-        pb={1}
-      >
-        <Typography fontSize={12}>
-          {new Intl.DateTimeFormat(i18n.language, { dateStyle: 'long' }).format(
-            startedAt,
-          )}
-        </Typography>
-        <Typography fontSize={12}>
-          {new Intl.DateTimeFormat(i18n.language, {
-            timeStyle: 'short',
-          }).format(startedAt)}
-        </Typography>
-      </Box>
-      {getStepList(routeExecution?.route, subvariant)}
-      {subvariant === 'nft' ? (
-        <ContractComponent mt={2}>
-          {contractSecondaryComponent || contractComponent}
-        </ContractComponent>
-      ) : null}
-      {routeExecution?.route?.insurance?.state === 'INSURED' ? (
-        <Insurance
-          mt={2}
-          status={routeExecution.status}
-          feeAmountUsd={routeExecution.route.insurance.feeAmountUsd}
-          insuredAmount={formatTokenAmount(
-            routeExecution.route.toAmountMin,
-            routeExecution.route.toToken.decimals,
-          )}
-          insuredTokenSymbol={routeExecution.route.toToken.symbol}
-          insurableRouteId={routeExecution.route.id}
-          insuranceCoverageId={insuranceCoverageId}
-        />
-      ) : null}
-      <Card mt={2}>
-        <Box
-          sx={{
-            display: 'flex',
-            flex: 1,
-          }}
-        >
-          <CardTitle flex={1}>{t('main.supportId')}</CardTitle>
-          <Box mr={1} mt={1}>
-            <IconButton size="medium" onClick={copySupportId}>
-              <ContentCopyIcon fontSize="small" />
-            </IconButton>
+    <>
+      {isLoading ? (
+        <TransactionDetailsSkeleton />
+      ) : (
+        <Container>
+          <Box
+            sx={{
+              display: 'flex',
+              flex: 1,
+              justifyContent: 'space-between',
+            }}
+            pb={1}
+          >
+            <Typography fontSize={12}>
+              {new Intl.DateTimeFormat(i18n.language, {
+                dateStyle: 'long',
+              }).format(startedAt)}
+            </Typography>
+            <Typography fontSize={12}>
+              {new Intl.DateTimeFormat(i18n.language, {
+                timeStyle: 'short',
+              }).format(startedAt)}
+            </Typography>
           </Box>
-        </Box>
-        <Typography
-          variant="body2"
-          pt={1}
-          pb={2}
-          px={2}
-          sx={{ wordBreak: 'break-all' }}
-        >
-          {supportId}
-        </Typography>
-      </Card>
-      <Box mt={2}>
-        <ContactSupportButton supportId={supportId} />
-      </Box>
-    </Container>
+          {getStepList(routeExecution?.route, subvariant)}
+          {subvariant === 'nft' ? (
+            <ContractComponent mt={2}>
+              {contractSecondaryComponent || contractComponent}
+            </ContractComponent>
+          ) : null}
+          {routeExecution?.route?.insurance?.state === 'INSURED' ? (
+            <Insurance
+              mt={2}
+              status={routeExecution.status}
+              feeAmountUsd={routeExecution.route.insurance.feeAmountUsd}
+              insuredAmount={formatTokenAmount(
+                routeExecution.route.toAmountMin,
+                routeExecution.route.toToken.decimals,
+              )}
+              insuredTokenSymbol={routeExecution.route.toToken.symbol}
+              insurableRouteId={routeExecution.route.id}
+              insuranceCoverageId={insuranceCoverageId}
+            />
+          ) : null}
+          <Card mt={2}>
+            <Box
+              sx={{
+                display: 'flex',
+                flex: 1,
+              }}
+            >
+              <CardTitle flex={1}>{t('main.supportId')}</CardTitle>
+              <Box mr={1} mt={1}>
+                <IconButton size="medium" onClick={copySupportId}>
+                  <ContentCopyIcon fontSize="small" />
+                </IconButton>
+              </Box>
+            </Box>
+            <Typography
+              variant="body2"
+              pt={1}
+              pb={2}
+              px={2}
+              sx={{ wordBreak: 'break-all' }}
+            >
+              {supportId}
+            </Typography>
+          </Card>
+          <Box mt={2}>
+            <ContactSupportButton supportId={supportId} />
+          </Box>
+        </Container>
+      )}
+    </>
   );
 };

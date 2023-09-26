@@ -186,7 +186,7 @@ export const buildRouteFromTxHistory = (
           includedSteps: [
             {
               id: '',
-              type: 'cross', // not considered to show history
+              type: sending.chainId === receiving.chainId ? 'swap' : 'cross',
               action: {
                 fromChainId: sending.chainId,
                 fromAmount: sending.amount ?? '',
