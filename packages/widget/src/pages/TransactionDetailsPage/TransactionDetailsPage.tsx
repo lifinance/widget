@@ -32,7 +32,7 @@ export const TransactionDetailsPage: React.FC = () => {
   const transactionHashes: string[] = state?.transactionHashes;
 
   const { navigate } = useNavigateBack();
-  const { data, isLoading, refetch } = useTransactionHistory();
+  const { data, isLoading, refetch } = useTransactionHistory(transactionHashes);
 
   const [routeExecution, setRouteExecution] = useState<RouteExecution | null>(
     null,
