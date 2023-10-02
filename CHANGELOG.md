@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.6](https://github.com/lifinance/widget/compare/v2.4.5...v2.4.6) (2023-10-02)
+
+
+### Bug Fixes
+
+* add options for split subvariant ([a63b303](https://github.com/lifinance/widget/commit/a63b303f641f67e9f02c037a81baf1a4362cf6ff))
+* adjust actions ([#136](https://github.com/lifinance/widget/issues/136)) ([77da36b](https://github.com/lifinance/widget/commit/77da36bd52b377af1eac4434e435ce63dcc5b7a2))
+* custom bridge and exchange select indicator ([#130](https://github.com/lifinance/widget/issues/130)) ([05fb020](https://github.com/lifinance/widget/commit/05fb020ce395971f94a95528581c76bf348306ce))
+
 ### [2.4.5](https://github.com/lifinance/widget/compare/v2.4.4...v2.4.5) (2023-09-20)
 
 
