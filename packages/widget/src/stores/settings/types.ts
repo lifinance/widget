@@ -56,9 +56,11 @@ export interface SendToWalletStore extends SendToWalletState {
   setSendToWallet(value: boolean): void;
 }
 
+export type SplitSubvariantOptions = 'bridge' | 'swap';
+
 export interface SplitSubvariantState {
-  state?: 'swap' | 'bridge';
-  setState(state: 'swap' | 'bridge'): void;
+  state?: SplitSubvariantOptions;
+  setState(state: SplitSubvariantOptions): void;
 }
 
 export type SplitSubvariantStore = UseBoundStoreWithEqualityFn<
@@ -66,7 +68,7 @@ export type SplitSubvariantStore = UseBoundStoreWithEqualityFn<
 >;
 
 export interface SplitSubvariantProps {
-  state?: 'swap' | 'bridge';
+  state?: SplitSubvariantOptions;
 }
 
 export type SplitSubvariantProviderProps =
