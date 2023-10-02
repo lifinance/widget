@@ -1,13 +1,12 @@
-import Alert from '@mui/material/Alert';
 import { useTranslation } from 'react-i18next';
 import { Card } from '../../components/Card';
-import { FormControl, Input, PageContainer } from './BookmarkLanding.styled';
+import { AlertSection, FormControl, Input, PageContainer } from './BookmarkLanding.styled';
 
 export const BookmarkLanding = () => {
   const { t } = useTranslation();
   return (
     <PageContainer>
-      <Alert severity="info">{t('info.message.fundsToExchange')}</Alert>
+      <AlertSection severity="info">{t('info.message.fundsToExchange')}</AlertSection>
       <Card sx={{ marginTop: '16px' }}>
         <FormControl
           fullWidth
