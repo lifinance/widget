@@ -255,7 +255,8 @@
     },
     "routePriority": "Prioridade de rota / caminho",
     "showDestinationWallet": "Mostrar carteira de destino",
-    "slippage": "Derrapagem"
+    "slippage": "Derrapagem",
+    "resetSettings": "Você está usando a configuração personalizada que limita a quantidade de rotas disponíveis."
   },
   "wallet": {
     "extensionNotFound": "Por favor, certifique-se de que apenas a extensão do navegador da {{name}} está ativa antes de escolher esta carteira."
