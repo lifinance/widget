@@ -2,10 +2,10 @@ import { Web3Provider } from '@ethersproject/providers';
 import { SafeAppProvider } from '@safe-global/safe-apps-provider';
 import type { SafeInfo } from '@safe-global/safe-apps-sdk';
 import SafeAppsSDK from '@safe-global/safe-apps-sdk';
-import events from 'events';
+import { EventEmitter } from 'events';
 import type { AccountData, InjectedConnectorArgs, Wallet } from '../types';
 
-export class SafeWalletConnector extends events.EventEmitter implements Wallet {
+export class SafeWalletConnector extends EventEmitter implements Wallet {
   public provider: Web3Provider | undefined;
 
   public isActivationInProgress: boolean = false;
