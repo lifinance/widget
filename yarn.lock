@@ -2993,26 +2993,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lifi/sdk@npm:^2.4.1":
-  version: 2.4.1
-  resolution: "@lifi/sdk@npm:2.4.1"
+"@lifi/sdk@npm:^2.4.3":
+  version: 2.4.3
+  resolution: "@lifi/sdk@npm:2.4.3"
   dependencies:
     "@ethersproject/abi": ^5.7.0
     "@ethersproject/contracts": ^5.7.0
-    "@lifi/types": ^9.0.2
+    "@lifi/types": ^9.0.3
     bignumber.js: ^9.1.2
     eth-rpc-errors: ^4.0.3
     ethers: ^5.7.2
-  checksum: f723f5f15f9ab59500e4bda29ee94ffb039c9880277aac40829cbcce2b20d7c8c72752f3f47454ef3d30b15f083d25c1a55bc83f4d2f7036dea74450bac5d71d
+  checksum: 4dc54142e253acecfe32a7b5330bbfd20dc4f40185468fe7cd94087edbfed1c74605901c19966185b6d84df9f4393fa9f40db93f96ccd0602940b3ce026de342
   languageName: node
   linkType: hard
 
-"@lifi/types@npm:^9.0.2":
-  version: 9.0.2
-  resolution: "@lifi/types@npm:9.0.2"
+"@lifi/types@npm:^9.0.3":
+  version: 9.0.3
+  resolution: "@lifi/types@npm:9.0.3"
   dependencies:
     ethers: ^5.7.2
-  checksum: 2b8bab6ab00270d3608f8e303ad2a34233fb60c6bc9eda3e42403ce5a14b7d6648042cf400e630f62791fc55477831236e6e2f8137077b9878eee2648acef38b
+  checksum: b69c9c005c6c136ded8ea13d38c991fceb67a5244b01671b452864cc97f221bbfaed1ee9ae8a0fc6a05f8f0d5ab0ffea3aaae9ccfff6bdd2d10fca874620b117
   languageName: node
   linkType: hard
 
@@ -3024,7 +3024,7 @@ __metadata:
     "@ethersproject/abstract-signer": ^5.7.0
     "@ethersproject/experimental": ^5.7.0
     "@ethersproject/providers": ^5.7.2
-    "@lifi/sdk": ^2.4.1
+    "@lifi/sdk": ^2.4.3
     "@safe-global/safe-apps-provider": ^0.18.0
     "@safe-global/safe-apps-sdk": ^8.1.0
     "@walletconnect/ethereum-provider": ^2.10.1
@@ -3042,7 +3042,7 @@ __metadata:
   dependencies:
     "@esbuild-plugins/node-globals-polyfill": ^0.2.3
     "@ethersproject/abstract-signer": ^5.7.0
-    "@lifi/sdk": ^2.4.1
+    "@lifi/sdk": ^2.4.3
     "@lifi/wallet-management": ^2.3.4
     "@lifi/widget": ^2.4.6
     "@mui/icons-material": ^5.14.9
@@ -3072,7 +3072,7 @@ __metadata:
   resolution: "@lifi/widget-playground@workspace:packages/widget-playground"
   dependencies:
     "@esbuild-plugins/node-globals-polyfill": ^0.2.3
-    "@lifi/sdk": ^2.4.1
+    "@lifi/sdk": ^2.4.3
     "@lifi/wallet-management": ^2.3.4
     "@lifi/widget": ^2.4.6
     "@mui/icons-material": ^5.14.9
@@ -3103,7 +3103,7 @@ __metadata:
     "@ethersproject/address": ^5.7.0
     "@ethersproject/experimental": ^5.7.0
     "@ethersproject/providers": ^5.7.2
-    "@lifi/sdk": ^2.4.1
+    "@lifi/sdk": ^2.4.3
     "@lifi/wallet-management": ^2.3.4
     "@mui/icons-material": ^5.14.9
     "@mui/lab": ^5.0.0-alpha.145

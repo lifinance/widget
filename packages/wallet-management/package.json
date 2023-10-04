@@ -52,7 +52,7 @@
     "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/experimental": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
-    "@lifi/sdk": "^2.4.1",
+    "@lifi/sdk": "^2.4.3",
     "@safe-global/safe-apps-provider": "^0.18.0",
     "@safe-global/safe-apps-sdk": "^8.1.0",
     "@walletconnect/ethereum-provider": "^2.10.1",

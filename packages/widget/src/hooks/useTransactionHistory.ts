@@ -47,7 +47,17 @@ export const useTransactionHistory = (
         return updatedCachedData;
       }
 
-      const response = await lifi.getTransactionHistory(account.address ?? '');
+      if (!account.address) {
+        return [];
+      }
+
+      const thirtyDaysAgoTimestamp = Date.now() - 2592000000;
+
+      const response = await lifi.getTransactionHistory({
+        walletAddress: account.address,
+        fromTimestamp: thirtyDaysAgoTimestamp / 1000,
+        toTimestamp: Date.now() / 1000,
+      });
 
       const filteredTransactions = response.transactions.filter(
         (transaction) =>
