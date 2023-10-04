@@ -81,6 +81,8 @@ export const SelectWalletPage = () => {
     );
   }, []);
 
+  console.log({ isDesktopView });
+
   return (
     <Container disableGutters>
       <List
