@@ -112,8 +112,9 @@ export interface WidgetConfig {
   contractCompactComponent?: ReactNode;
   contractTool?: WidgetContractTool;
 
-  fee?: number;
   integrator: string;
+  apiKey?: string;
+  fee?: number;
   referrer?: string;
 
   routePriority?: Order;

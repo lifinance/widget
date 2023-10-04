@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.5.1](https://github.com/lifinance/widget/compare/v2.5.0...v2.5.1) (2023-10-03)
+
+
+### Bug Fixes
+
+* events import ([cd97fd1](https://github.com/lifinance/widget/commit/cd97fd1de2c79007fd573b958508bca50304c28e))
+
+## [2.5.0](https://github.com/lifinance/widget/compare/v2.4.6...v2.5.0) (2023-10-03)
+
+
+### Features
+
+* add apiKey configuration option ([6948dd6](https://github.com/lifinance/widget/commit/6948dd6c06163e0b5ebe87f10b2adec567b6a76a))
+
+
+### Bug Fixes
+
+* improve fee costs handling ([d5e8c53](https://github.com/lifinance/widget/commit/d5e8c539a43885d661b6b1e2e71059e317654d6b))
+
 ### [2.4.6](https://github.com/lifinance/widget/compare/v2.4.5...v2.4.6) (2023-10-02)
 
 

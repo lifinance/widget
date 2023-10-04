@@ -5,7 +5,7 @@ export * from './useDebouncedWatch';
 export * from './useDefaultElementId';
 export * from './useExpandableVariant';
 export * from './useFeaturedTokens';
-export * from './useFundsSufficiency';
+export * from './useFromTokenSufficiency';
 export * from './useGasRecommendation';
 export * from './useGasRefuel';
 export * from './useGasSufficiency';
