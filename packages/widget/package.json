@@ -53,7 +53,7 @@
     "@ethersproject/address": "^5.7.0",
     "@ethersproject/experimental": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
-    "@lifi/sdk": "^2.4.1",
+    "@lifi/sdk": "^2.4.3",
     "@lifi/wallet-management": "^2.3.6",
     "@mui/icons-material": "^5.14.11",
     "@mui/lab": "^5.0.0-alpha.146",
