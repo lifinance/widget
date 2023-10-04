@@ -111,7 +111,7 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
             onBlur={onBlur}
             name={name}
             value={value}
-            onClick={handleInputClick}
+            //onClick={handleInputClick}
             placeholder={t('main.walletAddressOrEns') as string}
             disabled={Boolean(toAddress && disabledToAddress)}
           />
