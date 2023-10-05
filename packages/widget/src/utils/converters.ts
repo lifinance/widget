@@ -118,7 +118,7 @@ export const buildRouteFromTxHistory = (
 
   const usedTool = {
     key: txHistory.tool,
-    name: selectedBridge?.name ?? selectedExchange?.name ?? '',
+    name: selectedBridge?.name ?? selectedExchange?.name ?? txHistory.tool,
     logoURI: selectedBridge?.logoURI ?? selectedExchange?.logoURI ?? '',
   };
 

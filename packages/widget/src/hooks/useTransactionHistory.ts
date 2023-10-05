@@ -61,7 +61,7 @@ export const useTransactionHistory = (
 
       const filteredTransactions = response.transactions.filter(
         (transaction) =>
-          !!transaction.receiving.chainId && !!transaction.sending.chainId,
+          transaction.receiving.chainId && transaction.sending.chainId,
       );
 
       const sortedTransactions = filteredTransactions.sort((a, b) => {

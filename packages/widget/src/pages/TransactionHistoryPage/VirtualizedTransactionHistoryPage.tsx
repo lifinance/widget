@@ -35,7 +35,7 @@ export const VirtualizedTransactionHistory: FC<
   if (isLoading) {
     return (
       <List disablePadding>
-        {Array.from({ length: 2 }).map((_, index) => (
+        {Array.from({ length: 3 }).map((_, index) => (
           // eslint-disable-next-line react/no-array-index-key
           <TransactionHistorySkeleton key={index} />
         ))}

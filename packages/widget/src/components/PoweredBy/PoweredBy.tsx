@@ -11,7 +11,8 @@ export const PoweredBy: React.FC = () => {
   const { pathname } = useLocation();
   if (
     pathname.includes(navigationRoutes.fromToken) ||
-    pathname.includes(navigationRoutes.toToken)
+    pathname.includes(navigationRoutes.toToken) ||
+    pathname.includes(navigationRoutes.transactionHistory)
   ) {
     return null;
   }
