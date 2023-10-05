@@ -1,16 +1,21 @@
-import { useTranslation } from 'react-i18next';
-import { Card } from '../../components/Card';
+import { isAddress } from '@ethersproject/address';
 import InfoIcon from '@mui/icons-material/Info';
 import { FormHelperText } from '@mui/material';
-import { AlertSection, FormControl, Input, PageContainer } from './BookmarkLanding.styled';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useController, useFormContext, useFormState } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { Card } from '../../components/Card';
 import { FormKey, useWallet, useWidgetConfig } from '../../providers';
 import { useSendToWalletStore, useSettings } from '../../stores';
 import { DisabledUI, HiddenUI, RequiredUI } from '../../types';
-import { navigationRoutes } from '../../utils';
-import { isAddress } from '@ethersproject/address';
+import { DefaultTransactionButton } from '../DefaultTransactionButton';
+import {
+  AlertSection,
+  FormControl,
+  Input,
+  PageContainer,
+} from './BookmarkLanding.styled';
 
 export const BookmarkLanding = () => {
   const { t } = useTranslation();
@@ -19,14 +24,14 @@ export const BookmarkLanding = () => {
   const navigate = useNavigate();
   const { disabledUI, hiddenUI, requiredUI, toAddress } = useWidgetConfig();
   const { showSendToWallet, showSendToWalletDirty, setSendToWallet } =
-  useSendToWalletStore();
+    useSendToWalletStore();
   const { showDestinationWallet } = useSettings(['showDestinationWallet']);
 
   const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress);
   const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress);
   const requiredToAddress = requiredUI?.includes(RequiredUI.ToAddress);
   const requiredToAddressRef = useRef(requiredToAddress);
-
+  const [isValidAddressOrENS, setIsValidAddressOrENS] = useState(false);
   const {
     field: { onChange, onBlur, name, value },
   } = useController({
@@ -54,7 +59,28 @@ export const BookmarkLanding = () => {
       onBlur: () => trigger(FormKey.ToAddress),
     },
   });
-
+  async function checkIsValidAddressOrENS(
+    value: string,
+    signer?: any,
+  ): Promise<boolean> {
+    if (!value) {
+      return false;
+    }
+    try {
+      const address = await signer?.provider?.resolveName(value);
+      return isAddress(address || value);
+    } catch {
+      return false;
+    }
+  }
+  useEffect(() => {
+    const checkValidity = async () => {
+      setIsValidAddressOrENS(
+        await checkIsValidAddressOrENS(value, account.signer),
+      );
+    };
+    checkValidity();
+  }, [value, account.signer]);
   // We want to show toAddress field if it is set via widget configuration and not hidden
   const showInstantly =
     Boolean(
@@ -86,7 +112,9 @@ export const BookmarkLanding = () => {
   }
   return (
     <PageContainer>
-      <AlertSection severity="info" icon={<InfoIcon />}>{t('info.message.fundsToExchange')}</AlertSection>
+      <AlertSection severity="info" icon={<InfoIcon />}>
+        {t('info.message.fundsToExchange')}
+      </AlertSection>
       <Card sx={{ marginTop: '16px' }}>
         <FormControl
           fullWidth
@@ -112,10 +140,12 @@ export const BookmarkLanding = () => {
           <SendToWalletFormHelperText />
         </FormControl>
       </Card>
+      {isValidAddressOrENS && (
+        <DefaultTransactionButton text={t('button.confirm')} />
+      )}
     </PageContainer>
   );
 };
-
 
 export const SendToWalletFormHelperText: React.FC = () => {
   const { errors } = useFormState();
