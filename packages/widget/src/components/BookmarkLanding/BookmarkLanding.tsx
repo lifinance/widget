@@ -16,6 +16,7 @@ import {
   Input,
   PageContainer,
 } from './BookmarkLanding.styled';
+import { BookmarkLandingButtonGroup } from './BookmarkLandingButtonGroup';
 
 export const BookmarkLanding = () => {
   const { t } = useTranslation();
@@ -112,9 +113,7 @@ export const BookmarkLanding = () => {
   }
   return (
     <PageContainer>
-      <AlertSection severity="info" icon={<InfoIcon />}>
-        {t('info.message.fundsToExchange')}
-      </AlertSection>
+      <BookmarkLandingButtonGroup />
       <Card sx={{ marginTop: '16px' }}>
         <FormControl
           fullWidth
@@ -143,6 +142,9 @@ export const BookmarkLanding = () => {
       {isValidAddressOrENS && (
         <DefaultTransactionButton text={t('button.confirm')} />
       )}
+      <AlertSection severity="info" icon={<InfoIcon />}>
+        {t('info.message.fundsToExchange')}
+      </AlertSection>
     </PageContainer>
   );
 };

@@ -28,10 +28,10 @@ export const PageContainer = styled(Container)(({ theme }) => ({
   height: 508,
 }));
 
-export const AlertSection = styled(Alert)(({theme}) => ({
-  backgroundColor:theme.palette.grey[300],
+export const AlertSection = styled(Alert)(({ theme }) => ({
+  backgroundColor: theme.palette.grey[300],
   color: theme.palette.text.primary,
   '.MuiAlert-icon': {
     color: theme.palette.grey[700],
   },
-}))
+}));

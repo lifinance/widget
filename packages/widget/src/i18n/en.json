@@ -10,6 +10,7 @@
   "button": {
     "auto": "Auto",
     "bridge": "Bridge",
+    "bookmarks": "Bookmarks",
     "buy": "Buy",
     "buyNow": "Buy now",
     "cancel": "Cancel",
@@ -18,6 +19,7 @@
     "contactSupport": "Contact support",
     "continue": "Continue",
     "copyAddress": "Copy address",
+    "custom": "Custom",
     "dark": "Dark",
     "delete": "Delete",
     "disconnect": "Disconnect",
