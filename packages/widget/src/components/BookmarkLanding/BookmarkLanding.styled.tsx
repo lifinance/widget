@@ -37,4 +37,5 @@ export const AlertSection = styled(Alert)(({ theme }) => ({
   '.MuiAlert-icon': {
     color: theme.palette.grey[700],
   },
+  marginBottom: theme.spacing(2),
 }));
