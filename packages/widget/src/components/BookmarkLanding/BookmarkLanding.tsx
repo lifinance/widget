@@ -123,6 +123,7 @@ export const BookmarkLanding = () => {
           }}
         >
           <Input
+            multiline
             sx={{ height: '96px', alignItems: 'flex-start' }}
             size="small"
             autoComplete="off"
