@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup as MuiButtonGroup } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import type { ButtonProps } from '@mui/material/Button';
 
 import { styled } from '@mui/material/styles';
@@ -7,7 +7,7 @@ interface SelectedButtonProps extends ButtonProps {
   selected: string;
 }
 
-export const ButtonContainer = styled(Box)(({ theme }) => ({
+export const ButtonGroupContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   padding: '4px',
   alignItems: 'center',
@@ -17,7 +17,7 @@ export const ButtonContainer = styled(Box)(({ theme }) => ({
   borderRadius: '20px',
 }));
 
-export const SelectedButton = styled(Button)<SelectedButtonProps>(
+export const SelectButton = styled(Button)<SelectedButtonProps>(
   ({ theme, selected }) => ({
     borderRadius: '20px',
     flex: 1,
@@ -32,5 +32,3 @@ export const SelectedButton = styled(Button)<SelectedButtonProps>(
     boxShadow: selected === 'Custom' || selected === 'Bookmarks' ? 'none' : '',
   }),
 );
-
-export const ButtonGroup = styled(MuiButtonGroup)(({ theme }) => ({}));

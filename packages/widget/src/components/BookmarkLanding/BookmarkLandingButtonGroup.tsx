@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  ButtonContainer,
-  SelectedButton,
+  ButtonGroupContainer,
+  SelectButton,
 } from './BookmarkLandingButtonGroup.styled';
 
 export const BookmarkLandingButtonGroup = () => {
@@ -10,16 +10,16 @@ export const BookmarkLandingButtonGroup = () => {
   const [selected, setSelected] = useState('Custom');
 
   return (
-    <ButtonContainer>
-      <SelectedButton selected={selected} onClick={() => setSelected('Custom')}>
+    <ButtonGroupContainer>
+      <SelectButton selected={selected} onClick={() => setSelected('Custom')}>
         {t('button.custom')}
-      </SelectedButton>
-      <SelectedButton
+      </SelectButton>
+      <SelectButton
         selected={selected}
         onClick={() => setSelected('Bookmarks')}
       >
         {t('button.bookmarks')}
-      </SelectedButton>
-    </ButtonContainer>
+      </SelectButton>
+    </ButtonGroupContainer>
   );
 };
