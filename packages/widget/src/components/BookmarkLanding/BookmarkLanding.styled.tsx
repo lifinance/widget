@@ -26,9 +26,12 @@ export const Input = styled(InputBase)(({ theme }) => ({
 
 export const PageContainer = styled(Container)(({ theme }) => ({
   height: 508,
+  display: 'flex',
+  flexDirection: 'column',
 }));
 
 export const AlertSection = styled(Alert)(({ theme }) => ({
+  marginTop: 'auto',
   backgroundColor: theme.palette.grey[300],
   color: theme.palette.text.primary,
   '.MuiAlert-icon': {

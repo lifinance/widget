@@ -139,12 +139,12 @@ export const BookmarkLanding = () => {
           <SendToWalletFormHelperText />
         </FormControl>
       </Card>
-      {isValidAddressOrENS && (
-        <DefaultTransactionButton text={t('button.confirm')} />
-      )}
       <AlertSection severity="info" icon={<InfoIcon />}>
         {t('info.message.fundsToExchange')}
       </AlertSection>
+      {isValidAddressOrENS && (
+        <DefaultTransactionButton text={t('button.confirm')} />
+      )}
     </PageContainer>
   );
 };
