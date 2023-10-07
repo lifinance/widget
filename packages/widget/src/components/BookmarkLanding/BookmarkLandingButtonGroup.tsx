@@ -7,16 +7,20 @@ import {
 
 export const BookmarkLandingButtonGroup = () => {
   const { t } = useTranslation();
-  const [selected, setSelected] = useState('Custom');
+  const [selected, setSelected] = useState('custom');
 
   return (
     <ButtonGroupContainer>
-      <SelectButton selected={selected} onClick={() => setSelected('Custom')}>
+      <SelectButton
+        isSelected={selected === 'custom'}
+        onClick={() => setSelected('custom')}
+      >
         {t('button.custom')}
       </SelectButton>
+
       <SelectButton
-        selected={selected}
-        onClick={() => setSelected('Bookmarks')}
+        isSelected={selected === 'bookmarks'}
+        onClick={() => setSelected('bookmarks')}
       >
         {t('button.bookmarks')}
       </SelectButton>

@@ -1,10 +1,11 @@
+import type { ButtonProps } from '@mui/material';
 import { Box, Button } from '@mui/material';
-import type { ButtonProps } from '@mui/material/Button';
-
+import type { Theme } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
 
-interface SelectedButtonProps extends ButtonProps {
-  selected: string;
+interface SelectButtonT extends ButtonProps {
+  isSelected: boolean;
+  theme?: Theme;
 }
 
 export const ButtonGroupContainer = styled(Box)(({ theme }) => ({
@@ -17,18 +18,32 @@ export const ButtonGroupContainer = styled(Box)(({ theme }) => ({
   borderRadius: '12px',
 }));
 
-export const SelectButton = styled(Button)<SelectedButtonProps>(
-  ({ theme, selected }) => ({
-    borderRadius: '12px',
-    flex: 1,
-    backgroundColor:
-      selected === 'Custom' || selected === 'Bookmarks'
-        ? 'white'
-        : theme.palette.grey[300],
-    color:
-      selected === 'Custom' || selected === 'Bookmarks'
-        ? theme.palette.common.black
-        : theme.palette.text.secondary,
-    boxShadow: selected === 'Custom' || selected === 'Bookmarks' ? 'none' : '',
-  }),
-);
+// export const SelectButton = styled(Button)<SelectButtonT>(
+//   ({ theme, isSelected }) => ({
+//     borderRadius: '12px',
+//     flex: 1,
+//     backgroundColor: isSelected
+//       ? theme.palette.common.white
+//       : theme.palette.grey[200],
+//     color: isSelected
+//       ? theme.palette.common.black
+//       : theme.palette.text.secondary,
+//     boxShadow: isSelected ? 'none' : '',
+//   }),
+// );
+
+export const SelectButton = styled(
+  ({ isSelected, ...props }: SelectButtonT) => <Button {...props} />,
+)(({ theme, isSelected }: SelectButtonT) => ({
+  borderRadius: '12px',
+  flex: 1,
+  backgroundColor: isSelected
+    ? theme?.palette.common.white
+    : theme?.palette.grey[200],
+  color: isSelected ? theme?.palette.common.black : theme?.palette.grey[400],
+  '&:hover': {
+    backgroundColor: isSelected
+      ? theme?.palette.common.white
+      : theme?.palette.grey[200],
+  },
+}));
