@@ -9,17 +9,17 @@ interface SelectedButtonProps extends ButtonProps {
 
 export const ButtonGroupContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
-  padding: '4px',
+  padding: theme.spacing(0.5),
   alignItems: 'center',
-  gap: '8px',
+  gap: theme.spacing(1),
   justifyContent: 'center',
-  backgroundColor: '#F0F1FC',
-  borderRadius: '20px',
+  backgroundColor: theme.palette.grey[200],
+  borderRadius: '12px',
 }));
 
 export const SelectButton = styled(Button)<SelectedButtonProps>(
   ({ theme, selected }) => ({
-    borderRadius: '20px',
+    borderRadius: '12px',
     flex: 1,
     backgroundColor:
       selected === 'Custom' || selected === 'Bookmarks'
