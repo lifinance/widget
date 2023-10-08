@@ -9,6 +9,7 @@ import { Card } from '../../components/Card';
 import { FormKey, useWallet, useWidgetConfig } from '../../providers';
 import { useSendToWalletStore, useSettings } from '../../stores';
 import { DisabledUI, HiddenUI, RequiredUI } from '../../types';
+import { navigationRoutes } from '../../utils';
 import { DefaultTransactionButton } from '../DefaultTransactionButton';
 import {
   AlertSection,
@@ -24,8 +25,7 @@ export const BookmarkLanding = () => {
   const { account } = useWallet();
   const navigate = useNavigate();
   const { disabledUI, hiddenUI, requiredUI, toAddress } = useWidgetConfig();
-  const { showSendToWallet, showSendToWalletDirty, setSendToWallet } =
-    useSendToWalletStore();
+  const { showSendToWalletDirty, setSendToWallet } = useSendToWalletStore();
   const { showDestinationWallet } = useSettings(['showDestinationWallet']);
 
   const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress);
@@ -146,6 +146,7 @@ export const BookmarkLanding = () => {
       <DefaultTransactionButton
         text={t('button.confirm')}
         disabled={!isValidAddressOrENS}
+        onClick={() => navigate(navigationRoutes.home)}
       />
     </PageContainer>
   );
