@@ -143,9 +143,10 @@ export const BookmarkLanding = () => {
       <AlertSection severity="info" icon={<InfoIcon />}>
         {t('info.message.fundsToExchange')}
       </AlertSection>
-      {isValidAddressOrENS && (
-        <DefaultTransactionButton text={t('button.confirm')} />
-      )}
+      <DefaultTransactionButton
+        text={t('button.confirm')}
+        disabled={!isValidAddressOrENS}
+      />
     </PageContainer>
   );
 };
