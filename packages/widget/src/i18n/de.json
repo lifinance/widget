@@ -255,7 +255,8 @@
     },
     "routePriority": "Routenpriorität",
     "showDestinationWallet": "Ziel Wallet anzeigen",
-    "slippage": "Slippage"
+    "slippage": "Slippage",
+    "resetSettings": "Sie verwenden benutzerdefinierte Einstellungen, die die Anzahl der verfügbaren Routen begrenzen."
   },
   "wallet": {
     "extensionNotFound": "Bitte stellen Sie sicher, dass nur die Browsererweiterung {{name}} aktiv ist, bevor Sie dieses Wallet auswählen."
