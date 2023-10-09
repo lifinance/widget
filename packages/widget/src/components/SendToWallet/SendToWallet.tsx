@@ -55,7 +55,7 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
     },
   });
 
-  const handleInputClick = () => {
+  const onClick = () => {
     navigate(navigationRoutes.walletBookmark);
   };
 
@@ -96,12 +96,13 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
       mountOnEnter
       unmountOnExit
     >
-      <Card {...props} ref={ref}>
+      <Card {...props} ref={ref} onClick={onClick}>
         <CardTitle required={requiredToAddress}>
           {t('main.sendToWallet')}
         </CardTitle>
         <FormControl fullWidth sx={{ paddingTop: '6px', paddingBottom: '5px' }}>
           <Input
+            readOnly
             size="small"
             autoComplete="off"
             autoCorrect="off"
@@ -111,7 +112,6 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
             onBlur={onBlur}
             name={name}
             value={value}
-            //onClick={handleInputClick}
             placeholder={t('main.walletAddressOrEns') as string}
             disabled={Boolean(toAddress && disabledToAddress)}
           />

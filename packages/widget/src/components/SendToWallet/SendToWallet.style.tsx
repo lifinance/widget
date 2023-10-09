@@ -1,4 +1,4 @@
-import { FormControl as MuiFormControl, InputBase } from '@mui/material';
+import { InputBase, FormControl as MuiFormControl } from '@mui/material';
 import { inputBaseClasses } from '@mui/material/InputBase';
 import { styled } from '@mui/material/styles';
 
@@ -10,6 +10,7 @@ export const Input = styled(InputBase)(({ theme }) => ({
   [`.${inputBaseClasses.input}`]: {
     height: 32,
     padding: theme.spacing(0, 0, 0, 2),
+    cursor: 'pointer',
   },
   [`&.${inputBaseClasses.disabled}`]: {
     color: 'inherit',
