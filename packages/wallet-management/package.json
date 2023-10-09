@@ -1,6 +1,6 @@
 {
   "name": "@lifi/wallet-management",
-  "version": "2.3.4",
+  "version": "2.3.6",
   "description": "LI.FI Wallet Management solution.",
   "sideEffects": false,
   "main": "./src/index.ts",
@@ -52,7 +52,7 @@
     "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/experimental": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
-    "@lifi/sdk": "^2.4.0",
+    "@lifi/sdk": "^2.4.1",
     "@safe-global/safe-apps-provider": "^0.18.0",
     "@safe-global/safe-apps-sdk": "^8.1.0",
     "@walletconnect/ethereum-provider": "^2.10.1",

@@ -1,6 +1,6 @@
 import { Web3Provider } from '@ethersproject/providers';
 import type { StaticToken } from '@lifi/sdk';
-import events from 'events';
+import { EventEmitter } from 'events';
 import type {
   AccountData,
   InjectedConnectorArgs,
@@ -16,7 +16,7 @@ import {
 } from '../walletAutomation';
 import { isWalletDeactivated } from '../walletPersistance';
 
-export class InjectedConnector extends events.EventEmitter implements Wallet {
+export class InjectedConnector extends EventEmitter implements Wallet {
   private windowProvider: Provider | undefined;
   public isActivationInProgress: boolean = false;
   public account: AccountData | undefined;

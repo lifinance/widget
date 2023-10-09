@@ -15,7 +15,7 @@ const shouldRecreateStore = (
   props: SplitSubvariantProps,
 ) => {
   const { state } = store.getState();
-  return (!state && props.state) || (state && !props.state);
+  return state !== props.state;
 };
 
 export function SplitSubvariantStoreProvider({

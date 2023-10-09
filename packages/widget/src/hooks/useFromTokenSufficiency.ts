@@ -9,7 +9,7 @@ import { useTokenAddressBalance } from './useTokenAddressBalance';
 
 const refetchInterval = 30_000;
 
-export const useFundsSufficiency = (route?: Route) => {
+export const useFromTokenSufficiency = (route?: Route) => {
   const { account } = useWallet();
   const getTokenBalancesWithRetry = useGetTokenBalancesWithRetry(
     account.signer?.provider,
@@ -24,11 +24,12 @@ export const useFundsSufficiency = (route?: Route) => {
     chainId = route.fromToken.chainId;
     tokenAddress = route.fromToken.address;
   }
+
   const { token, isLoading } = useTokenAddressBalance(chainId, tokenAddress);
 
-  const { data: insufficientFunds, isInitialLoading } = useQuery(
+  const { data: insufficientFromToken, isInitialLoading } = useQuery(
     [
-      'funds-sufficiency-check',
+      'from-token-sufficiency-check',
       account.address,
       chainId,
       tokenAddress,
@@ -80,7 +81,7 @@ export const useFundsSufficiency = (route?: Route) => {
   );
 
   return {
-    insufficientFunds,
+    insufficientFromToken,
     isInitialLoading,
   };
 };

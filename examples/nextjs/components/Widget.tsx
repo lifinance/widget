@@ -7,7 +7,6 @@ export const Widget = () => {
       <WidgetEvents />
       <LiFiWidget
         config={{
-          variant: 'drawer',
           containerStyle: {
             border: `1px solid rgb(234, 234, 234)`,
             borderRadius: '16px',
