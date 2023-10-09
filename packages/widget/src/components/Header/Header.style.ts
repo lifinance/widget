@@ -47,3 +47,13 @@ export const WalletButton = styled(Button)(({ theme }) => ({
     fontSize: '24px',
   },
 }));
+
+export const DrawerWalletContainer = styled(Box)(() => ({
+  width: '100%',
+  display: 'flex',
+  justifyItems: 'start',
+
+  '& > button': {
+    marginLeft: '-0.5rem',
+  },
+}));

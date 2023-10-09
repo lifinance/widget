@@ -48,16 +48,29 @@ export const useGasSufficiency = (route?: Route) => {
                 (amount, gasCost) => amount + BigInt(gasCost.amount),
                 0n,
               );
-              const groupedGasCost = groupedGasCosts[token.chainId];
-              const gasAmount = groupedGasCost
-                ? groupedGasCost.gasAmount + gasCostAmount
-                : gasCostAmount;
               groupedGasCosts[token.chainId] = {
-                gasAmount,
-                tokenAmount: gasAmount,
+                gasAmount: groupedGasCosts[token.chainId]
+                  ? groupedGasCosts[token.chainId].gasAmount + gasCostAmount
+                  : gasCostAmount,
                 token,
               };
-              return groupedGasCosts;
+            }
+            // Add fees paid in native tokens to gas sufficiency check (included: false)
+            const nonIncludedFeeCosts = step.estimate.feeCosts?.filter(
+              (feeCost) => !feeCost.included,
+            );
+            if (nonIncludedFeeCosts?.length) {
+              const { token } = nonIncludedFeeCosts[0];
+              const feeCostAmount = nonIncludedFeeCosts.reduce(
+                (amount, feeCost) => amount + BigInt(feeCost.amount),
+                0n,
+              );
+              groupedGasCosts[token.chainId] = {
+                gasAmount: groupedGasCosts[token.chainId]
+                  ? groupedGasCosts[token.chainId].gasAmount + feeCostAmount
+                  : feeCostAmount,
+                token,
+              } as any;
             }
             return groupedGasCosts;
           },

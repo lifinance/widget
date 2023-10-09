@@ -12,7 +12,7 @@ import { FormControl, Input } from './SendToWallet.style';
 
 export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
   const { t } = useTranslation();
-  const { trigger, getValues, clearErrors } = useFormContext();
+  const { trigger, getValues, setValue, clearErrors } = useFormContext();
   const { account } = useWallet();
   const { disabledUI, hiddenUI, requiredUI, toAddress } = useWidgetConfig();
   const { showSendToWallet, showSendToWalletDirty, setSendToWallet } =
@@ -31,6 +31,9 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
     rules: {
       required:
         requiredToAddress && (t('error.title.walletAddressRequired') as string),
+      onChange: (e) => {
+        setValue(FormKey.ToAddress, e.target.value.trim());
+      },
       validate: async (value: string) => {
         try {
           if (!value) {

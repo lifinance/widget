@@ -17,6 +17,7 @@ import type {
 import type { TypographyOptions } from '@mui/material/styles/createTypography';
 import type { CSSProperties, ReactNode, RefObject } from 'react';
 import type { LanguageKey, LanguageResources } from '../providers';
+import type { SplitSubvariantOptions } from '../stores';
 
 export type WidgetVariant = 'default' | 'expandable' | 'drawer';
 
@@ -110,8 +111,9 @@ export interface WidgetConfig {
   contractCompactComponent?: ReactNode;
   contractTool?: WidgetContractTool;
 
-  fee?: number;
   integrator: string;
+  apiKey?: string;
+  fee?: number;
   referrer?: string;
 
   routePriority?: Order;
@@ -120,6 +122,7 @@ export interface WidgetConfig {
 
   variant?: WidgetVariant;
   subvariant?: WidgetSubvariant;
+  subvariantOptions?: SplitSubvariantOptions;
 
   appearance?: Appearance;
   theme?: ThemeConfig;

@@ -1,4 +1,4 @@
-import { Button, Typography } from '@mui/material';
+import { Button, IconButton, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 const getButtonTransformWidth = (
@@ -95,4 +95,15 @@ export const DrawerButtonTypography = styled(Typography)(({ theme }) => ({
   textTransform: 'none',
   transform: 'rotateZ(180deg)',
   writingMode: 'vertical-rl',
+}));
+
+export const CloseButtonLayout = styled(IconButton)(() => ({
+  position: 'absolute',
+  top: '12px',
+  right: '26px',
+  zIndex: 1,
+  height: '40px',
+  width: '40px',
+  alignItems: 'center',
+  justifyContent: 'center',
 }));

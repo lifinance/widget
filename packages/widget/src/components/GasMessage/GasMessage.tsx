@@ -1,7 +1,7 @@
 import type { Route } from '@lifi/sdk';
 import type { BoxProps } from '@mui/material';
 import { Box, Collapse } from '@mui/material';
-import { useFundsSufficiency, useGasSufficiency } from '../../hooks';
+import { useFromTokenSufficiency, useGasSufficiency } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
 import { FundsSufficiencyMessage } from './FundsSufficiencyMessage';
 import { GasSufficiencyMessage } from './GasSufficiencyMessage';
@@ -12,7 +12,7 @@ interface GasMessageProps extends BoxProps {
 
 export const GasMessage: React.FC<GasMessageProps> = ({ route, ...props }) => {
   const { insufficientGas } = useGasSufficiency(route);
-  const { insufficientFunds } = useFundsSufficiency(route);
+  const { insufficientFromToken } = useFromTokenSufficiency(route);
   const { sdkConfig } = useWidgetConfig();
   const isMultisigWalletClient =
     sdkConfig?.multisigConfig?.isMultisigWalletClient;
@@ -23,12 +23,12 @@ export const GasMessage: React.FC<GasMessageProps> = ({ route, ...props }) => {
   return (
     <Collapse
       timeout={225}
-      in={Boolean(insufficientFunds || validInsufficientGas)}
+      in={Boolean(insufficientFromToken || validInsufficientGas)}
       unmountOnExit
       mountOnEnter
     >
       <Box {...props}>
-        {insufficientFunds ? (
+        {insufficientFromToken ? (
           <FundsSufficiencyMessage />
         ) : validInsufficientGas ? (
           <GasSufficiencyMessage insufficientGas={insufficientGas} />

@@ -234,7 +234,7 @@
     "to": "Şuna",
     "tokenOnChain": "{{chainName}} üzerindeki {{tokenSymbol}}",
     "tokenOnChainAmount": "{{chainName}} üzerindeki {{amount, number(maximumFractionDigits: 9)}}{{tokenSymbol}}",
-    "tokenSearch": "Varlıklarınızı arayın",
+    "tokenSearch": "Tokenlerinizi adres ve ya isim aracılığıyla arayın",
     "valueLoss": "Değer kaybı",
     "walletAddressOrEns": "Cüzdan adresi veya ENS alan adı"
   },
@@ -255,7 +255,8 @@
     },
     "routePriority": "Rota önceliği",
     "showDestinationWallet": "Hedef Adresi Göster",
-    "slippage": "Sapma toleransı"
+    "slippage": "Sapma toleransı",
+    "resetSettings": "Kullanılabilir rotaların sayısını sınırlayan özel bir ayar kullanıyorsunuz."
   },
   "wallet": {
     "extensionNotFound": "Lütfen bu cüzdanı seçmeden önce yalnızca {{name}} tarayıcı uzantısının etkin olduğundan emin olun."

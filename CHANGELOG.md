@@ -2,6 +2,75 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.5.1](https://github.com/lifinance/widget/compare/v2.5.0...v2.5.1) (2023-10-03)
+
+
+### Bug Fixes
+
+* events import ([cd97fd1](https://github.com/lifinance/widget/commit/cd97fd1de2c79007fd573b958508bca50304c28e))
+
+## [2.5.0](https://github.com/lifinance/widget/compare/v2.4.6...v2.5.0) (2023-10-03)
+
+
+### Features
+
+* add apiKey configuration option ([6948dd6](https://github.com/lifinance/widget/commit/6948dd6c06163e0b5ebe87f10b2adec567b6a76a))
+
+
+### Bug Fixes
+
+* improve fee costs handling ([d5e8c53](https://github.com/lifinance/widget/commit/d5e8c539a43885d661b6b1e2e71059e317654d6b))
+
+### [2.4.6](https://github.com/lifinance/widget/compare/v2.4.5...v2.4.6) (2023-10-02)
+
+
+### Bug Fixes
+
+* add options for split subvariant ([a63b303](https://github.com/lifinance/widget/commit/a63b303f641f67e9f02c037a81baf1a4362cf6ff))
+* adjust actions ([#136](https://github.com/lifinance/widget/issues/136)) ([77da36b](https://github.com/lifinance/widget/commit/77da36bd52b377af1eac4434e435ce63dcc5b7a2))
+* custom bridge and exchange select indicator ([#130](https://github.com/lifinance/widget/issues/130)) ([05fb020](https://github.com/lifinance/widget/commit/05fb020ce395971f94a95528581c76bf348306ce))
+
+### [2.4.5](https://github.com/lifinance/widget/compare/v2.4.4...v2.4.5) (2023-09-20)
+
+
+### Bug Fixes
+
+* hide browser wallets for mobile and tablets ([#131](https://github.com/lifinance/widget/issues/131)) ([bd07ca6](https://github.com/lifinance/widget/commit/bd07ca691d2767c7a01b8baa0cc493ea7604ebbb))
+* remove empty spaces from ens- or walletAddress input (LF-3268) ([#121](https://github.com/lifinance/widget/issues/121)) ([d28cbc5](https://github.com/lifinance/widget/commit/d28cbc5eeac5c6bce0ed5fb01291df7787d6d627))
+
+### [2.4.4](https://github.com/lifinance/widget/compare/v2.4.3...v2.4.4) (2023-09-14)
+
+
+### Bug Fixes
+
+* add close button on mobile ([#119](https://github.com/lifinance/widget/issues/119)) ([8c2ab60](https://github.com/lifinance/widget/commit/8c2ab605b52f8fc30a6ffa01b5d552a6e1f8da9e))
+
+### [2.4.3](https://github.com/lifinance/widget/compare/v2.4.2...v2.4.3) (2023-09-13)
+
+### [2.4.2](https://github.com/lifinance/widget/compare/v2.4.0...v2.4.2) (2023-09-12)
+
+
+### Bug Fixes
+
+* gate wallet name ([ce423a3](https://github.com/lifinance/widget/commit/ce423a3d902e96bd13baf3e5fddfaba606c7c82a))
+* remove unnecessary svg tags ([7f46bdd](https://github.com/lifinance/widget/commit/7f46bdd6c409a64f8c8f573e40af829a1cab5fa1))
+
+### [2.4.1](https://github.com/lifinance/widget/compare/v2.4.0...v2.4.1) (2023-09-11)
+
+
+### Bug Fixes
+
+* remove unnecessary svg tags ([a33c294](https://github.com/lifinance/widget/commit/a33c29473cc8d1e65e652a28a4c303792063d667))
+
+## [2.4.0](https://github.com/lifinance/widget/compare/v2.3.0...v2.4.0) (2023-09-11)
+
+
+### Features
+
+* add bitkeep wallet ([#122](https://github.com/lifinance/widget/issues/122)) ([ae83ae6](https://github.com/lifinance/widget/commit/ae83ae63678c8c0471870e5ba19dbc8acf6194c0))
+* add gate wallet ([#123](https://github.com/lifinance/widget/issues/123)) ([cd19867](https://github.com/lifinance/widget/commit/cd19867e56fdc2b3d198560e7e7b1dd1d68244d7))
+* added okx wallet ([#124](https://github.com/lifinance/widget/issues/124)) ([d977981](https://github.com/lifinance/widget/commit/d977981edd0234b07ce4c44e4fa0b2ed028f5464))
+
 ## [2.3.0](https://github.com/lifinance/widget/compare/v2.2.8...v2.3.0) (2023-08-25)
 
 
