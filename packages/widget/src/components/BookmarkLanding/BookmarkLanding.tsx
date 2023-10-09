@@ -17,7 +17,6 @@ import {
   Input,
   PageContainer,
 } from './BookmarkLanding.styled';
-import { BookmarkLandingButtonGroup } from './BookmarkLandingButtonGroup';
 
 export const BookmarkLanding = () => {
   const { t } = useTranslation();
@@ -113,8 +112,8 @@ export const BookmarkLanding = () => {
   }
   return (
     <PageContainer>
-      <BookmarkLandingButtonGroup />
-      <Card sx={{ marginTop: '16px' }}>
+      {/*<BookmarkLandingButtonGroup />*/}
+      <Card sx={{ marginTop: '16px', marginBottom: '16px' }}>
         <FormControl
           fullWidth
           sx={{
@@ -137,9 +136,9 @@ export const BookmarkLanding = () => {
             disabled={Boolean(toAddress && disabledToAddress)}
             placeholder={t('bookmark.enterAddressOrEns') as string}
           />
-          <SendToWalletFormHelperText />
         </FormControl>
       </Card>
+      <SendToWalletFormHelperText />
       <AlertSection severity="info" icon={<InfoIcon />}>
         {t('info.message.fundsToExchange')}
       </AlertSection>
