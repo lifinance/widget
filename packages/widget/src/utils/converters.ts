@@ -49,33 +49,22 @@ const buildProcessFromTxHistory = (txHistory: StatusResponse): Process[] => {
       {
         type: 'SWAP', // operations on same chain will be swaps
         startedAt: sending.timestamp ?? Date.now(),
-        message:
-          processStatus === 'FAILED' ? 'Swap failed.' : 'Swap completed.',
+        message: '',
         status: processStatus,
         txHash: sending.txHash,
         txLink: sending.txLink,
         doneAt: receiving.timestamp ?? Date.now(),
         substatus,
-        substatusMessage: 'The transfer is complete.',
+        substatusMessage: '',
       },
     ];
   }
-
-  const crossChainMessage: string =
-    processStatus === 'FAILED'
-      ? 'Bridge transfer failed.'
-      : 'Bridge transfer completed.';
-
-  const receivingChainMessage: string =
-    processStatus === 'FAILED'
-      ? 'Bridge transfer failed.'
-      : 'Bridge transfer completed.';
 
   const process: Process[] = [
     {
       type: 'CROSS_CHAIN', // first step of bridging, ignoring the approvals
       startedAt: sending.timestamp ?? Date.now(),
-      message: crossChainMessage,
+      message: '',
       status: processStatus, // can be FAILED
       txHash: sending.txHash,
       txLink: sending.txLink,
@@ -84,10 +73,10 @@ const buildProcessFromTxHistory = (txHistory: StatusResponse): Process[] => {
     {
       type: 'RECEIVING_CHAIN', // final step of bridging, post swaps
       startedAt: receiving.timestamp ?? Date.now(),
-      message: receivingChainMessage,
+      message: '',
       status: processStatus,
       substatus,
-      substatusMessage: 'The transfer is complete.',
+      substatusMessage: '',
       doneAt: receiving.timestamp ?? Date.now(),
       txHash: receiving.txHash,
       txLink: receiving.txLink,

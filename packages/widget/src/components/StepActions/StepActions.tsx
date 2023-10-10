@@ -30,6 +30,9 @@ import {
 } from './StepActions.style';
 import type { StepActionsProps, StepDetailsLabelProps } from './types';
 
+const lifiLogo =
+  'https://github.com/lifinance/types/blob/main/src/assets/icons/bridges/lifuel.png';
+
 export const StepActions: React.FC<StepActionsProps> = ({
   step,
   dense,
@@ -67,8 +70,8 @@ export const StepActions: React.FC<StepActionsProps> = ({
           }
         >
           <StepAvatar
-            variant="circular"
-            src={toolDetails.logoURI}
+            variant="rounded"
+            src={toolDetails.logoURI ?? lifiLogo}
             alt={toolDetails.name}
           >
             {toolDetails.name[0]}
