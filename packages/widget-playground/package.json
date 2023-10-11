@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-playground",
-  "version": "1.0.144",
+  "version": "1.0.145",
   "type": "module",
   "scripts": {
     "analyze": "source-map-explorer 'dist/assets/*.js' --no-border-checks",
@@ -24,8 +24,8 @@
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
     "@lifi/sdk": "^2.4.3",
-    "@lifi/wallet-management": "^2.3.6",
-    "@lifi/widget": "^2.5.1",
+    "@lifi/wallet-management": "^2.3.7",
+    "@lifi/widget": "^2.6.0",
     "@mui/icons-material": "^5.14.13",
     "@mui/lab": "^5.0.0-alpha.148",
     "@mui/material": "^5.14.13",

@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.6.0](https://github.com/lifinance/widget/compare/v2.5.1...v2.6.0) (2023-10-11)
+
+
+### Features
+
+* add ReviewTransactionPageEntered event ([b09cfee](https://github.com/lifinance/widget/commit/b09cfee90fbccf2938d10416e64ac7064e73167a))
+
+
+### Bug Fixes
+
+* use object syntax for keyframes ([8c2032f](https://github.com/lifinance/widget/commit/8c2032f73a6975b8c51c6576909652275719d828))
+
 ### [2.5.1](https://github.com/lifinance/widget/compare/v2.5.0...v2.5.1) (2023-10-03)
 
 
