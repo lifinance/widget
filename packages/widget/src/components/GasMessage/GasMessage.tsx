@@ -16,7 +16,17 @@ export const GasMessage: React.FC<GasMessageProps> = ({ route, ...props }) => {
   const { sdkConfig } = useWidgetConfig();
   const isMultisigSigner = sdkConfig?.multisigConfig?.isMultisigSigner;
 
-  const validInsufficientGas = insufficientGas?.length && !isMultisigSigner;
+  const selectedTool = route?.steps[0]?.tool;
+  const bridgesForGasWarning = ['connext', 'stargate'];
+
+  // Connext and Stargate require gas to be paid in the native token of the chain
+  // Hence, SAFE wallet would required a minimum amount of native token to be present in the wallet
+  const showGasWarningForSAFE =
+    isMultisigSigner && selectedTool
+      ? bridgesForGasWarning.includes(selectedTool)
+      : true;
+
+  const validInsufficientGas = insufficientGas?.length && showGasWarningForSAFE;
 
   return (
     <Collapse
