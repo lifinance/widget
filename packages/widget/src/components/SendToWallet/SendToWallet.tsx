@@ -56,7 +56,7 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
   });
 
   const onClick = () => {
-    navigate(navigationRoutes.walletBookmark);
+    navigate(navigationRoutes.sendToWallet);
   };
 
   // We want to show toAddress field if it is set via widget configuration and not hidden
