@@ -255,7 +255,8 @@
     },
     "routePriority": "Priorité de l'itinéraire",
     "showDestinationWallet": "Afficher le portefeuille de destination",
-    "slippage": "Effet de glissement"
+    "slippage": "Effet de glissement",
+    "resetSettings": "Vous utilisez des paramètres personnalisés limitant le nombre de routes disponibles."
   },
   "wallet": {
     "extensionNotFound": "Veuillez vous assurer que seule l'extension de navigateur {{name}} est active avant de choisir ce portefeuille."
