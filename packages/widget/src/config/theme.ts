@@ -91,16 +91,16 @@ const shape = {
   borderRadiusSecondary: 8,
 };
 
-const enterKeyframe = keyframes`
-  0% {
-    transform: scale(0);
-    opacity: 0.05;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 0.1;
-  }
-`;
+const enterKeyframe = keyframes({
+  '0%': {
+    transform: 'scale(0)',
+    opacity: 0.05,
+  },
+  '100%': {
+    transform: 'scale(1)',
+    opacity: 0.1,
+  },
+});
 
 export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
   const primaryMainColor =
@@ -186,12 +186,12 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
           root: {
             [`& .${touchRippleClasses.ripple}.${touchRippleClasses.rippleVisible}`]:
               {
-                animationName: `${enterKeyframe}`,
+                animationName: enterKeyframe,
               },
             [`& .${touchRippleClasses.ripple}.${touchRippleClasses.rippleVisible}`]:
               {
                 opacity: 0.1,
-                animationName: `${enterKeyframe}`,
+                animationName: enterKeyframe,
               },
           },
         },
