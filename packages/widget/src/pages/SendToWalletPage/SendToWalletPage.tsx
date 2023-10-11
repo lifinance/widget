@@ -1,5 +1,5 @@
 import { BookmarkLanding } from '../../components/BookmarkLanding';
 
-export const WalletBookmark = () => {
+export const SendToWalletPage = () => {
   return <BookmarkLanding />;
 };

@@ -7,11 +7,11 @@ import { SelectChainPage } from './pages/SelectChainPage';
 import { SelectEnabledToolsPage } from './pages/SelectEnabledToolsPage';
 import { SelectTokenPage } from './pages/SelectTokenPage';
 import { SelectWalletPage } from './pages/SelectWalletPage';
+import { SendToWalletPage } from './pages/SendToWalletPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { TransactionDetailsPage } from './pages/TransactionDetailsPage';
 import { TransactionHistoryPage } from './pages/TransactionHistoryPage';
 import { TransactionPage } from './pages/TransactionPage';
-import { WalletBookmark } from './pages/WalletBookmark';
 import { navigationRoutes } from './utils';
 
 export const AppRoutes = () => {
@@ -65,8 +65,8 @@ export const AppRoutes = () => {
       element: <TransactionHistoryPage />,
     },
     {
-      path: navigationRoutes.walletBookmark,
-      element: <WalletBookmark />,
+      path: navigationRoutes.sendToWallet,
+      element: <SendToWalletPage />,
     },
     {
       path: `${navigationRoutes.transactionHistory}?/${navigationRoutes.routes}?/${navigationRoutes.transactionExecution}?/${navigationRoutes.transactionDetails}`,
