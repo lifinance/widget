@@ -5,20 +5,20 @@ import { useEffect, useRef, useState } from 'react';
 import { useController, useFormContext, useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { Card } from '../../components/Card';
 import { FormKey, useWallet, useWidgetConfig } from '../../providers';
 import { useSendToWalletStore, useSettings } from '../../stores';
 import { DisabledUI, HiddenUI, RequiredUI } from '../../types';
 import { navigationRoutes } from '../../utils';
+import { Card } from '../Card';
 import { DefaultTransactionButton } from '../DefaultTransactionButton';
 import {
   AlertSection,
   FormControl,
   Input,
   PageContainer,
-} from './BookmarkLanding.styled';
+} from './SendToWallet.styled';
 
-export const BookmarkLanding = () => {
+export const SendToWallet = () => {
   const { t } = useTranslation();
   const { trigger, getValues, setValue, clearErrors } = useFormContext();
   const { account } = useWallet();

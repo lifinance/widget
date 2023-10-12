@@ -1,5 +1,5 @@
-import { BookmarkLanding } from '../../components/BookmarkLanding';
+import { SendToWallet } from '../../components/BookmarkLanding';
 
 export const SendToWalletPage = () => {
-  return <BookmarkLanding />;
+  return <SendToWallet />;
 };

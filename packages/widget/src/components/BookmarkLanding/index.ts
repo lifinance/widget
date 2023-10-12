@@ -1,1 +1,1 @@
-export * from './BookmarkLanding'
+export * from './SendToWallet';
