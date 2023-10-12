@@ -134,7 +134,7 @@ export const SendToWallet = () => {
             name={name}
             value={value}
             disabled={Boolean(toAddress && disabledToAddress)}
-            placeholder={t('bookmark.enterAddressOrEns') as string}
+            placeholder={t('main.walletAddressOrEns') as string}
           />
         </FormControl>
       </Card>

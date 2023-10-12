@@ -69,9 +69,6 @@
     "youGet": "You get",
     "sendToWallet":"Send to Wallet"
   },
-  "bookmark":{
-    "enterAddressOrEns":"Enter address or ENS"
-  },
   "info": {
     "message": {
       "autoRefuel": "You're low on {{chainName}} gas. By continuing, you'll get enough gas to complete the transaction.",
@@ -244,7 +241,7 @@
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} on {{chainName}}",
     "tokenSearch": "Search by token name or address",
     "valueLoss": "Value loss",
-    "walletAddressOrEns": "Wallet address or ENS name"
+    "walletAddressOrEns": "Enter address or ENS name"
   },
   "insurance": {
     "bridgeExploits": "Bridge malfunctions, hacks or exploits",
