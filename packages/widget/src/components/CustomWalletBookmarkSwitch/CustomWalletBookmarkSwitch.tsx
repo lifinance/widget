@@ -3,9 +3,9 @@ import { useTranslation } from 'react-i18next';
 import {
   ButtonGroupContainer,
   SelectButton,
-} from './BookmarkLandingButtonGroup.styled';
+} from './CustomWalletBookmarkSwitch.styled';
 
-export const BookmarkLandingButtonGroup = () => {
+export const CustomWalletBookmarkSwitch = () => {
   const { t } = useTranslation();
   const [selected, setSelected] = useState('custom');
 

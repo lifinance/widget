@@ -112,7 +112,7 @@ export const SendToWallet = () => {
   }
   return (
     <PageContainer>
-      {/*<BookmarkLandingButtonGroup />*/}
+      {/*<CustomWalletBookmarkSwitch />*/}
       <Card sx={{ marginTop: '16px', marginBottom: '16px' }}>
         <FormControl
           fullWidth
