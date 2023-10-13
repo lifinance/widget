@@ -10,12 +10,7 @@ import { DisabledUI, HiddenUI, RequiredUI } from '../../types';
 import { navigationRoutes } from '../../utils';
 import { Card } from '../Card';
 import { DefaultTransactionButton } from '../DefaultTransactionButton';
-import {
-  AlertSection,
-  FormControl,
-  Input,
-  PageContainer,
-} from './SendToWallet.styled';
+import { AlertSection, FormControl, Input } from './SendToWallet.styled';
 
 export const SendToWallet = () => {
   const { t } = useTranslation();
@@ -96,7 +91,7 @@ export const SendToWallet = () => {
   }
 
   return (
-    <PageContainer>
+    <>
       <Card sx={{ marginTop: '16px', marginBottom: '16px' }}>
         <FormControl
           fullWidth
@@ -131,7 +126,7 @@ export const SendToWallet = () => {
         disabled={!isValidAddressOrENS}
         onClick={() => navigate(navigationRoutes.home)}
       />
-    </PageContainer>
+    </>
   );
 };
 
