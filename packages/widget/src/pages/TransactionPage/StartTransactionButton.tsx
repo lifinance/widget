@@ -1,4 +1,4 @@
-import { DefaultTransactionButton } from '../../components/DefaultTransactionButton';
+import { BaseTransactionButton } from '../../components/BaseTransactionButton';
 import {
   useFromTokenSufficiency,
   useGasSufficiency,
@@ -28,7 +28,7 @@ export const StartTransactionButton: React.FC<StartTransactionButtonProps> = ({
     !isMultisigSigner && (insufficientFromToken || !!insufficientGas?.length);
 
   return (
-    <DefaultTransactionButton
+    <BaseTransactionButton
       onClick={onClick}
       text={text}
       disabled={shouldDisableButton}
