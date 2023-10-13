@@ -6,7 +6,6 @@ import { useController, useFormContext, useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { FormKey, useWallet, useWidgetConfig } from '../../providers';
-import { useSendToWalletStore, useSettings } from '../../stores';
 import { DisabledUI, HiddenUI, RequiredUI } from '../../types';
 import { navigationRoutes } from '../../utils';
 import { Card } from '../Card';
@@ -24,8 +23,6 @@ export const SendToWallet = () => {
   const { account } = useWallet();
   const navigate = useNavigate();
   const { disabledUI, hiddenUI, requiredUI, toAddress } = useWidgetConfig();
-  const { showSendToWalletDirty, setSendToWallet } = useSendToWalletStore();
-  const { showDestinationWallet } = useSettings(['showDestinationWallet']);
 
   const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress);
   const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress);
@@ -59,6 +56,7 @@ export const SendToWallet = () => {
       onBlur: () => trigger(FormKey.ToAddress),
     },
   });
+
   async function checkIsValidAddressOrENS(
     value: string,
     signer?: any,
@@ -73,6 +71,7 @@ export const SendToWallet = () => {
       return false;
     }
   }
+
   useEffect(() => {
     const checkValidity = async () => {
       setIsValidAddressOrENS(
@@ -81,26 +80,11 @@ export const SendToWallet = () => {
     };
     checkValidity();
   }, [value, account.signer]);
-  // We want to show toAddress field if it is set via widget configuration and not hidden
-  const showInstantly =
-    Boolean(
-      !showSendToWalletDirty &&
-        showDestinationWallet &&
-        toAddress &&
-        !hiddenToAddress,
-    ) || requiredToAddress;
-
-  useEffect(() => {
-    if (showInstantly) {
-      setSendToWallet(true);
-    }
-  }, [showInstantly, setSendToWallet]);
 
   useEffect(() => {
     const value = getValues(FormKey.ToAddress);
     if (value) {
       trigger(FormKey.ToAddress);
-      // Trigger validation if we change requiredToAddress in the runtime
     } else if (requiredToAddressRef.current !== requiredToAddress) {
       requiredToAddressRef.current = requiredToAddress;
       trigger(FormKey.ToAddress).then(() => clearErrors(FormKey.ToAddress));
@@ -110,9 +94,9 @@ export const SendToWallet = () => {
   if (hiddenToAddress) {
     return null;
   }
+
   return (
     <PageContainer>
-      {/*<CustomWalletBookmarkSwitch />*/}
       <Card sx={{ marginTop: '16px', marginBottom: '16px' }}>
         <FormControl
           fullWidth
