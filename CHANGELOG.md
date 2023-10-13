@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.6.1](https://github.com/lifinance/widget/compare/v2.6.0...v2.6.1) (2023-10-13)
+
+
+### Bug Fixes
+
+* use keyframes in string templates ([6799aaf](https://github.com/lifinance/widget/commit/6799aaf6fc3f384aed1cea3ef9bc4cc0676dd9e2))
+
 ## [2.6.0](https://github.com/lifinance/widget/compare/v2.5.1...v2.6.0) (2023-10-11)
 
 
