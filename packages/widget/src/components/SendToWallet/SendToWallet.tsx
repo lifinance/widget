@@ -7,9 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { FormKey, useWallet, useWidgetConfig } from '../../providers';
 import { DisabledUI, HiddenUI, RequiredUI } from '../../types';
-import { navigationRoutes } from '../../utils';
 import { Card } from '../Card';
-import { DefaultTransactionButton } from '../DefaultTransactionButton';
 import { AlertSection, FormControl, Input } from './SendToWallet.styled';
 
 export const SendToWallet = () => {
@@ -121,11 +119,14 @@ export const SendToWallet = () => {
       <AlertSection severity="info" icon={<InfoIcon />}>
         {t('info.message.fundsToExchange')}
       </AlertSection>
-      <DefaultTransactionButton
-        text={t('button.confirm')}
-        disabled={!isValidAddressOrENS}
+      {/* <Button
+        variant="contained"
         onClick={() => navigate(navigationRoutes.home)}
-      />
+        autoFocus
+        disabled={!isValidAddressOrENS}
+      >
+        {t('button.confirm')}
+      </Button> */}
     </>
   );
 };
