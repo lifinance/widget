@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { styled } from '@mui/material/styles';
 import { Alert, Container } from '@mui/material';
 
 export const PageContainer = styled(Container)(({ theme }) => ({
