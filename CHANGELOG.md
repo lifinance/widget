@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.6.2](https://github.com/lifinance/widget/compare/v2.6.1...v2.6.2) (2023-10-16)
+
+
+### Bug Fixes
+
+* enable gas sufficiency check for SAFE ([#142](https://github.com/lifinance/widget/issues/142)) ([a2030cf](https://github.com/lifinance/widget/commit/a2030cf58dd25b9028e751c9ccebadb67adcb60c))
+
 ### [2.6.1](https://github.com/lifinance/widget/compare/v2.6.0...v2.6.1) (2023-10-13)
 
 
