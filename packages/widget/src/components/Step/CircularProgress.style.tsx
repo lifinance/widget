@@ -4,21 +4,6 @@ import { Box, CircularProgress as MuiCircularProgress } from '@mui/material';
 import { circularProgressClasses } from '@mui/material/CircularProgress';
 import { alpha, keyframes, styled } from '@mui/material/styles';
 
-const circleAnimation = keyframes({
-  '0%': {
-    strokeDashoffset: 129,
-    transform: 'rotate(0)',
-  },
-  '50%': {
-    strokeDashoffset: 56,
-    transform: 'rotate(45deg)',
-  },
-  '100%': {
-    strokeDashoffset: 129,
-    transform: 'rotate(360deg)',
-  },
-});
-
 const getStatusColor = (
   theme: Theme,
   status: Status,
@@ -60,23 +45,38 @@ export const CircularIcon = styled(Box, {
   }),
 );
 
-export const CircularProgressPending = styled(MuiCircularProgress)(
-  ({ theme }) => ({
-    color:
-      theme.palette.mode === 'light'
-        ? theme.palette.primary.main
-        : theme.palette.primary.light,
-    animationDuration: '3s',
-    position: 'absolute',
-    left: '-2px',
-    [`.${circularProgressClasses.circle}`]: {
-      animationDuration: '2s',
-      animationTimingFunction: 'linear',
-      animationName: circleAnimation,
-      strokeDasharray: 129,
-      strokeDashoffset: 129,
-      strokeLinecap: 'round',
-      transformOrigin: '100% 100%',
-    },
-  }),
-);
+const circleAnimation = keyframes`
+  0% {
+    stroke-dashoffset: 129;
+    transform: rotate(0);
+  }
+  50% {
+    stroke-dashoffset: 56;
+    transform: rotate(45deg);
+  };
+  100% {
+    stroke-dashoffset: 129;
+    transform: rotate(360deg);
+  }
+`;
+
+// This `styled()` function invokes keyframes. `styled-components` only supports keyframes
+// in string templates. Do not convert these styles in JS object as it will break.
+export const CircularProgressPending = styled(MuiCircularProgress)`
+  color: ${({ theme }) =>
+    theme.palette.mode === 'light'
+      ? theme.palette.primary.main
+      : theme.palette.primary.light};
+  animation-duration: '3s';
+  position: 'absolute';
+  left: '-2px';
+  .${circularProgressClasses.circle} {
+    animation-duration: '2s';
+    animation-timing-function: 'linear';
+    animation-name: ${circleAnimation};
+    stroke-dasharray: 129;
+    stroke-dashoffset: 129;
+    stroke-linecap: 'round';
+    transform-origin: '100% 100%';
+  }
+`;

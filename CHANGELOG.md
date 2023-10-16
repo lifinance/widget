@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.6.2](https://github.com/lifinance/widget/compare/v2.6.1...v2.6.2) (2023-10-16)
+
+
+### Bug Fixes
+
+* enable gas sufficiency check for SAFE ([#142](https://github.com/lifinance/widget/issues/142)) ([a2030cf](https://github.com/lifinance/widget/commit/a2030cf58dd25b9028e751c9ccebadb67adcb60c))
+
+### [2.6.1](https://github.com/lifinance/widget/compare/v2.6.0...v2.6.1) (2023-10-13)
+
+
+### Bug Fixes
+
+* use keyframes in string templates ([6799aaf](https://github.com/lifinance/widget/commit/6799aaf6fc3f384aed1cea3ef9bc4cc0676dd9e2))
+
+## [2.6.0](https://github.com/lifinance/widget/compare/v2.5.1...v2.6.0) (2023-10-11)
+
+
+### Features
+
+* add ReviewTransactionPageEntered event ([b09cfee](https://github.com/lifinance/widget/commit/b09cfee90fbccf2938d10416e64ac7064e73167a))
+
+
+### Bug Fixes
+
+* use object syntax for keyframes ([8c2032f](https://github.com/lifinance/widget/commit/8c2032f73a6975b8c51c6576909652275719d828))
+
 ### [2.5.1](https://github.com/lifinance/widget/compare/v2.5.0...v2.5.1) (2023-10-03)
 
 
