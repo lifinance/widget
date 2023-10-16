@@ -1,10 +1,9 @@
 import { isAddress } from '@ethersproject/address';
 import InfoIcon from '@mui/icons-material/Info';
 import { FormHelperText } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useController, useFormContext, useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { FormKey, useWallet, useWidgetConfig } from '../../providers';
 import { DisabledUI, HiddenUI, RequiredUI } from '../../types';
 import { Card } from '../Card';
@@ -14,14 +13,12 @@ export const SendToWallet = () => {
   const { t } = useTranslation();
   const { trigger, getValues, setValue, clearErrors } = useFormContext();
   const { account } = useWallet();
-  const navigate = useNavigate();
   const { disabledUI, hiddenUI, requiredUI, toAddress } = useWidgetConfig();
 
   const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress);
   const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress);
   const requiredToAddress = requiredUI?.includes(RequiredUI.ToAddress);
   const requiredToAddressRef = useRef(requiredToAddress);
-  const [isValidAddressOrENS, setIsValidAddressOrENS] = useState(false);
   const {
     field: { onChange, onBlur, name, value },
   } = useController({
@@ -49,30 +46,6 @@ export const SendToWallet = () => {
       onBlur: () => trigger(FormKey.ToAddress),
     },
   });
-
-  async function checkIsValidAddressOrENS(
-    value: string,
-    signer?: any,
-  ): Promise<boolean> {
-    if (!value) {
-      return false;
-    }
-    try {
-      const address = await signer?.provider?.resolveName(value);
-      return isAddress(address || value);
-    } catch {
-      return false;
-    }
-  }
-
-  useEffect(() => {
-    const checkValidity = async () => {
-      setIsValidAddressOrENS(
-        await checkIsValidAddressOrENS(value, account.signer),
-      );
-    };
-    checkValidity();
-  }, [value, account.signer]);
 
   useEffect(() => {
     const value = getValues(FormKey.ToAddress);
@@ -119,14 +92,6 @@ export const SendToWallet = () => {
       <AlertSection severity="info" icon={<InfoIcon />}>
         {t('info.message.fundsToExchange')}
       </AlertSection>
-      {/* <Button
-        variant="contained"
-        onClick={() => navigate(navigationRoutes.home)}
-        autoFocus
-        disabled={!isValidAddressOrENS}
-      >
-        {t('button.confirm')}
-      </Button> */}
     </>
   );
 };

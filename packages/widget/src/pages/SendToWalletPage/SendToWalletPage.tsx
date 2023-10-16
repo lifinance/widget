@@ -10,6 +10,7 @@ import { navigationRoutes } from '../../utils';
 import { PageContainer } from './SendToWalletPage.styled';
 
 export const SendToWalletPage = () => {
+  const [isValidAddressOrENS, setIsValidAddressOrENS] = useState(false);
   const { watch } = useFormContext();
   const value = watch(FormKey.ToAddress);
   const { account } = useWallet();
@@ -30,7 +31,6 @@ export const SendToWalletPage = () => {
 
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [isValidAddressOrENS, setIsValidAddressOrENS] = useState(false);
 
   useEffect(() => {
     const checkValidity = async () => {
