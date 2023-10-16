@@ -1,13 +1,11 @@
 import { isAddress } from '@ethersproject/address';
-import InfoIcon from '@mui/icons-material/Info';
-import { FormHelperText } from '@mui/material';
 import { useEffect, useRef } from 'react';
-import { useController, useFormContext, useFormState } from 'react-hook-form';
+import { useController, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { FormKey, useWallet, useWidgetConfig } from '../../providers';
 import { DisabledUI, HiddenUI, RequiredUI } from '../../types';
 import { Card } from '../Card';
-import { AlertSection, FormControl, Input } from './SendToWallet.styled';
+import { FormControl, Input } from './SendToWallet.styled';
 
 export const SendToWallet = () => {
   const { t } = useTranslation();
@@ -88,20 +86,6 @@ export const SendToWallet = () => {
           />
         </FormControl>
       </Card>
-      <SendToWalletFormHelperText />
-      <AlertSection severity="info" icon={<InfoIcon />}>
-        {t('info.message.fundsToExchange')}
-      </AlertSection>
     </>
-  );
-};
-
-export const SendToWalletFormHelperText: React.FC = () => {
-  const { errors } = useFormState();
-
-  return (
-    <FormHelperText error={!!errors.toAddress}>
-      {errors.toAddress?.message as string}
-    </FormHelperText>
   );
 };

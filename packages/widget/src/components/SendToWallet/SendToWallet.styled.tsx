@@ -1,5 +1,4 @@
 import { InputBase, FormControl as MuiFormControl } from '@mui/material';
-import Alert from '@mui/material/Alert';
 import { inputBaseClasses } from '@mui/material/InputBase';
 import { styled } from '@mui/material/styles';
 
@@ -18,14 +17,4 @@ export const Input = styled(InputBase)(({ theme }) => ({
   [`.${inputBaseClasses.input}.${inputBaseClasses.disabled}`]: {
     WebkitTextFillColor: 'unset',
   },
-}));
-
-export const AlertSection = styled(Alert)(({ theme }) => ({
-  marginTop: 'auto',
-  backgroundColor: theme.palette.grey[300],
-  color: theme.palette.text.primary,
-  '.MuiAlert-icon': {
-    color: theme.palette.grey[700],
-  },
-  marginBottom: theme.spacing(2),
 }));
