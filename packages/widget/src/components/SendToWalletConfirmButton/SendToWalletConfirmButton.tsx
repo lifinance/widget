@@ -8,14 +8,16 @@ import { FormKey, useWallet } from '../../providers';
 import { navigationRoutes } from '../../utils';
 
 export const SendToWalletConfirmButton = () => {
-  const [isValidAddressOrENS, setIsValidAddressOrENS] = useState(false);
+  const { t } = useTranslation();
+  const navigate = useNavigate();
   const { watch } = useFormContext();
   const value = watch(FormKey.ToAddress);
   const { account } = useWallet();
-  async function checkIsValidAddressOrENS(
+  const [isValidAddressOrENS, setIsValidAddressOrENS] = useState(false);
+  const checkIsValidAddressOrENS = async (
     value: string,
     signer?: any,
-  ): Promise<boolean> {
+  ): Promise<boolean> => {
     if (!value) {
       return false;
     }
@@ -25,10 +27,7 @@ export const SendToWalletConfirmButton = () => {
     } catch {
       return false;
     }
-  }
-
-  const { t } = useTranslation();
-  const navigate = useNavigate();
+  };
 
   useEffect(() => {
     const checkValidity = async () => {
