@@ -7,7 +7,7 @@ import { Routes } from '../../components/Routes';
 import { SelectChainAndToken } from '../../components/SelectChainAndToken';
 import {
   SendToWalletButton,
-  ShowSendToWalletButton,
+  SendToWalletToggleButton,
 } from '../../components/SendToWalletButton';
 import { useExpandableVariant } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
@@ -35,7 +35,7 @@ export const MainPage: React.FC = () => {
       <MainGasMessage mx={3} mb={2} />
       <Box display="flex" mx={3} mb={1}>
         <ReviewButton />
-        <ShowSendToWalletButton />
+        <SendToWalletToggleButton />
       </Box>
     </FormContainer>
   );
