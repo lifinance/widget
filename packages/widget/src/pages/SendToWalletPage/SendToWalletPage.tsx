@@ -58,10 +58,10 @@ export const SendToWalletPage = () => {
       onBlur: () => trigger(FormKey.ToAddress),
     },
   });
-  async function checkIsValidAddressOrENS(
+  const checkIsValidAddressOrENS = async (
     value: string,
     signer?: any,
-  ): Promise<boolean> {
+  ): Promise<boolean> => {
     if (!value) {
       return false;
     }
@@ -71,7 +71,7 @@ export const SendToWalletPage = () => {
     } catch {
       return false;
     }
-  }
+  };
   useEffect(() => {
     const checkValidity = async () => {
       setIsValidAddressOrENS(

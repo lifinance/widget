@@ -7,7 +7,7 @@ import { FormKey, useWallet, useWidgetConfig } from '../../providers';
 import { useSendToWalletStore, useSettings } from '../../stores';
 import { DisabledUI, HiddenUI, RequiredUI, WidgetEvent } from '../../types';
 
-export const ShowSendToWalletButton: React.FC = () => {
+export const SendToWalletToggleButton: React.FC = () => {
   const { t } = useTranslation();
   const { setValue } = useFormContext();
   const emitter = useWidgetEvents();
