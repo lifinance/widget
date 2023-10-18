@@ -1,7 +1,7 @@
 import { isAddress } from '@ethersproject/address';
 import InfoIcon from '@mui/icons-material/Info';
 import { Button, FormHelperText } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useController, useFormContext, useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -30,16 +30,18 @@ export const SendToWalletPage = () => {
   const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress);
   const requiredToAddress = requiredUI?.includes(RequiredUI.ToAddress);
   const requiredToAddressRef = useRef(requiredToAddress);
-  const [isValidAddressOrENS, setIsValidAddressOrENS] = useState(false);
   const {
     field: { onChange, onBlur, name, value },
+    fieldState: { invalid },
   } = useController({
     name: FormKey.ToAddress,
     rules: {
       required:
         requiredToAddress && (t('error.title.walletAddressRequired') as string),
-      onChange: (e) => {
-        setValue(FormKey.ToAddress, e.target.value.trim());
+      onChange: async (e) => {
+        const trimmedValue = e.target.value.trim();
+        setValue(FormKey.ToAddress, trimmedValue);
+        await trigger(FormKey.ToAddress);
       },
       validate: async (value: string) => {
         try {
@@ -58,28 +60,6 @@ export const SendToWalletPage = () => {
       onBlur: () => trigger(FormKey.ToAddress),
     },
   });
-  const checkIsValidAddressOrENS = async (
-    value: string,
-    signer?: any,
-  ): Promise<boolean> => {
-    if (!value) {
-      return false;
-    }
-    try {
-      const address = await signer?.provider?.resolveName(value);
-      return isAddress(address || value);
-    } catch {
-      return false;
-    }
-  };
-  useEffect(() => {
-    const checkValidity = async () => {
-      setIsValidAddressOrENS(
-        await checkIsValidAddressOrENS(value, account.signer),
-      );
-    };
-    checkValidity();
-  }, [value, account.signer]);
   // We want to show toAddress field if it is set via widget configuration and not hidden
   const showInstantly =
     Boolean(
@@ -144,7 +124,7 @@ export const SendToWalletPage = () => {
         variant="contained"
         onClick={() => navigate(navigationRoutes.home)}
         autoFocus
-        disabled={!isValidAddressOrENS}
+        disabled={invalid}
       >
         {t('button.confirm')}
       </Button>
