@@ -67,16 +67,16 @@ export const CircularProgressPending = styled(MuiCircularProgress)`
     theme.palette.mode === 'light'
       ? theme.palette.primary.main
       : theme.palette.primary.light};
-  animation-duration: '3s';
-  position: 'absolute';
-  left: '-2px';
+  animation-duration: 3s;
+  position: absolute;
+  left: -2px;
   .${circularProgressClasses.circle} {
-    animation-duration: '2s';
-    animation-timing-function: 'linear';
+    animation-duration: 2s;
+    animation-timing-function: linear;
     animation-name: ${circleAnimation};
     stroke-dasharray: 129;
     stroke-dashoffset: 129;
-    stroke-linecap: 'round';
-    transform-origin: '100% 100%';
+    stroke-linecap: round;
+    transform-origin: 100% 100%;
   }
 `;
