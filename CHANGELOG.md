@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.7.1](https://github.com/lifinance/widget/compare/v2.7.0...v2.7.1) (2023-10-19)
+
+
+### Bug Fixes
+
+* remove xmlns:xodm attribute ([b64757e](https://github.com/lifinance/widget/commit/b64757eb6eeee4145dc13954dd5ce1758bfcd41e))
+
 ## [2.7.0](https://github.com/lifinance/widget/compare/v2.6.3...v2.7.0) (2023-10-19)
 
 
