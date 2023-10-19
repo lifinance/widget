@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.7.0](https://github.com/lifinance/widget/compare/v2.6.3...v2.7.0) (2023-10-19)
+
+
+### Features
+
+* SafePal wallet added ([#145](https://github.com/lifinance/widget/issues/145)) ([38199fc](https://github.com/lifinance/widget/commit/38199fc60477f49cc1ffdba21e07d731f18d6b8f))
+
+
+### Bug Fixes
+
+* allow lower mobile view min-width ([6d05d54](https://github.com/lifinance/widget/commit/6d05d546687854000a3e3f3a0d892e5e3b7930bb))
+
 ### [2.6.3](https://github.com/lifinance/widget/compare/v2.6.2...v2.6.3) (2023-10-18)
 
 
