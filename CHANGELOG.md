@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.6.3](https://github.com/lifinance/widget/compare/v2.6.2...v2.6.3) (2023-10-18)
+
+
+### Bug Fixes
+
+* remove quotes from inside string template ([9fa27a9](https://github.com/lifinance/widget/commit/9fa27a9e2110b4f31baee00effc38c1e577d0513))
+
 ### [2.6.2](https://github.com/lifinance/widget/compare/v2.6.1...v2.6.2) (2023-10-16)
 
 
