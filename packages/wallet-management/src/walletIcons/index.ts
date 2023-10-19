@@ -29,6 +29,7 @@ import xdefi from './xdefi.svg';
 import bitGet from './bitget.svg';
 import okx from './okx.svg';
 import gate from './gate.svg';
+import safepal from './safepal.svg';
 
 export const walletIcons = {
   mathwallet,
@@ -62,4 +63,5 @@ export const walletIcons = {
   xdefi,
   exodus,
   safe,
+  safepal,
 };
