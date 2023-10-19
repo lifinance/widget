@@ -26,10 +26,16 @@ export const Input = styled(InputBase)(({ theme }) => ({
 
 export const AlertSection = styled(Alert)(({ theme }) => ({
   marginTop: 'auto',
-  backgroundColor: theme.palette.grey[300],
+  backgroundColor:
+    theme.palette.mode === 'light'
+      ? theme.palette.grey[300]
+      : theme.palette.grey[800],
   color: theme.palette.text.primary,
   '.MuiAlert-icon': {
-    color: theme.palette.grey[700],
+    color:
+      theme.palette.mode === 'light'
+        ? theme.palette.grey[700]
+        : theme.palette.grey[300],
   },
   marginBottom: theme.spacing(2),
 }));
