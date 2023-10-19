@@ -38,10 +38,9 @@ export const SendToWalletPage = () => {
     rules: {
       required:
         requiredToAddress && (t('error.title.walletAddressRequired') as string),
-      onChange: async (e) => {
+      onChange: (e) => {
         const trimmedValue = e.target.value.trim();
         setValue(FormKey.ToAddress, trimmedValue);
-        await trigger(FormKey.ToAddress);
       },
       validate: async (value: string) => {
         try {
@@ -122,9 +121,12 @@ export const SendToWalletPage = () => {
       </AlertSection>
       <Button
         variant="contained"
-        onClick={() => navigate(navigationRoutes.home)}
+        onClick={() => {
+          if (!invalid) {
+            navigate(navigationRoutes.home);
+          }
+        }}
         autoFocus
-        disabled={invalid}
       >
         {t('button.confirm')}
       </Button>
