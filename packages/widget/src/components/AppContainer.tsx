@@ -23,7 +23,7 @@ const RelativeContainer = styled(Box, {
   position: 'relative',
   boxSizing: 'content-box',
   width: '100%',
-  minWidth: 375,
+  minWidth: 360,
   maxWidth: 392,
   maxHeight: variant === 'drawer' ? 'none' : maxHeight,
   background: theme.palette.background.default,
