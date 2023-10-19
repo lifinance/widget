@@ -1,0 +1,11 @@
+<svg xmlns:xodm="http://www.corel.com/coreldraw/odm/2003" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 2500 2500" style="enable-background:new 0 0 2500 2500;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#4A21EF;}
+</style>
+<g id="Layer_x0020_1">
+	<g id="_1577769208608">
+		<path class="st0" d="M1096,0c-76,0-149,30-203,84L48,929c-32,32-48,74-48,116s16,84,48,116l554,554V735c0-73,59-132,132-132    c309,0,1062,0,1164,0L2500,1H1096V0z"></path>
+		<path class="st0" d="M602,1898h1164c73,0,132-59,132-132V786l554,554c32,32,48,74,48,116s-16,84-48,116l-845,845    c-54,54-127,84-203,84H0l602-602V1898z"></path>
+	</g>
+</g>
+</svg>
