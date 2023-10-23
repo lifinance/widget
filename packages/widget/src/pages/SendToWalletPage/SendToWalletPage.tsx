@@ -90,7 +90,7 @@ export const SendToWalletPage = () => {
   }
   return (
     <PageContainer>
-      <Card sx={{ marginTop: '16px', marginBottom: '16px' }}>
+      <Card sx={{ marginTop: '16px', marginBottom: '8px' }}>
         <FormControl
           fullWidth
           sx={{

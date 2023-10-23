@@ -15,6 +15,10 @@ export const Input = styled(InputBase)(({ theme }) => ({
   [`.${inputBaseClasses.input}`]: {
     height: 32,
     padding: theme.spacing(0, 0, 0, 2),
+    fontSize: '18px',
+    fontStyle: 'normal',
+    fontWeight: 500,
+    lineHeight: '24px',
   },
   [`&.${inputBaseClasses.disabled}`]: {
     color: 'inherit',
