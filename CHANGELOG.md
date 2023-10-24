@@ -2,6 +2,58 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.7.1](https://github.com/lifinance/widget/compare/v2.7.0...v2.7.1) (2023-10-19)
+
+
+### Bug Fixes
+
+* remove xmlns:xodm attribute ([b64757e](https://github.com/lifinance/widget/commit/b64757eb6eeee4145dc13954dd5ce1758bfcd41e))
+
+## [2.7.0](https://github.com/lifinance/widget/compare/v2.6.3...v2.7.0) (2023-10-19)
+
+
+### Features
+
+* SafePal wallet added ([#145](https://github.com/lifinance/widget/issues/145)) ([38199fc](https://github.com/lifinance/widget/commit/38199fc60477f49cc1ffdba21e07d731f18d6b8f))
+
+
+### Bug Fixes
+
+* allow lower mobile view min-width ([6d05d54](https://github.com/lifinance/widget/commit/6d05d546687854000a3e3f3a0d892e5e3b7930bb))
+
+### [2.6.3](https://github.com/lifinance/widget/compare/v2.6.2...v2.6.3) (2023-10-18)
+
+
+### Bug Fixes
+
+* remove quotes from inside string template ([9fa27a9](https://github.com/lifinance/widget/commit/9fa27a9e2110b4f31baee00effc38c1e577d0513))
+
+### [2.6.2](https://github.com/lifinance/widget/compare/v2.6.1...v2.6.2) (2023-10-16)
+
+
+### Bug Fixes
+
+* enable gas sufficiency check for SAFE ([#142](https://github.com/lifinance/widget/issues/142)) ([a2030cf](https://github.com/lifinance/widget/commit/a2030cf58dd25b9028e751c9ccebadb67adcb60c))
+
+### [2.6.1](https://github.com/lifinance/widget/compare/v2.6.0...v2.6.1) (2023-10-13)
+
+
+### Bug Fixes
+
+* use keyframes in string templates ([6799aaf](https://github.com/lifinance/widget/commit/6799aaf6fc3f384aed1cea3ef9bc4cc0676dd9e2))
+
+## [2.6.0](https://github.com/lifinance/widget/compare/v2.5.1...v2.6.0) (2023-10-11)
+
+
+### Features
+
+* add ReviewTransactionPageEntered event ([b09cfee](https://github.com/lifinance/widget/commit/b09cfee90fbccf2938d10416e64ac7064e73167a))
+
+
+### Bug Fixes
+
+* use object syntax for keyframes ([8c2032f](https://github.com/lifinance/widget/commit/8c2032f73a6975b8c51c6576909652275719d828))
+
 ### [2.5.1](https://github.com/lifinance/widget/compare/v2.5.0...v2.5.1) (2023-10-03)
 
 

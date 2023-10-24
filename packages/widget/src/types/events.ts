@@ -6,10 +6,11 @@ export enum WidgetEvent {
   RouteExecutionCompleted = 'routeExecutionCompleted',
   RouteExecutionFailed = 'routeExecutionFailed',
   RouteHighValueLoss = 'routeHighValueLoss',
-  RouteContactSupport = 'routeContactSupport',
+  RouteContactSupport = 'routeContactSupport', // TODO: rename for v3
   SourceChainTokenSelected = 'sourceChainTokenSelected',
   DestinationChainTokenSelected = 'destinationChainTokenSelected',
   SendToWalletToggled = 'sendToWalletToggled',
+  ReviewTransactionPageEntered = 'reviewTransactionPageEntered',
 }
 
 export type WidgetEvents = {
@@ -22,6 +23,7 @@ export type WidgetEvents = {
   sourceChainTokenSelected: ChainTokenSelected;
   destinationChainTokenSelected: ChainTokenSelected;
   sendToWalletToggled: boolean;
+  reviewTransactionPageEntered?: Route;
 };
 
 export interface RouteContactSupport {

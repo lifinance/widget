@@ -2,7 +2,6 @@ import type { Route } from '@lifi/sdk';
 import type { BoxProps } from '@mui/material';
 import { Box, Collapse } from '@mui/material';
 import { useFromTokenSufficiency, useGasSufficiency } from '../../hooks';
-import { useWidgetConfig } from '../../providers';
 import { FundsSufficiencyMessage } from './FundsSufficiencyMessage';
 import { GasSufficiencyMessage } from './GasSufficiencyMessage';
 
@@ -13,12 +12,8 @@ interface GasMessageProps extends BoxProps {
 export const GasMessage: React.FC<GasMessageProps> = ({ route, ...props }) => {
   const { insufficientGas } = useGasSufficiency(route);
   const { insufficientFromToken } = useFromTokenSufficiency(route);
-  const { sdkConfig } = useWidgetConfig();
-  const isMultisigWalletClient =
-    sdkConfig?.multisigConfig?.isMultisigWalletClient;
 
-  const validInsufficientGas =
-    insufficientGas?.length && !isMultisigWalletClient;
+  const validInsufficientGas = insufficientGas?.length;
 
   return (
     <Collapse
