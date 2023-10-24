@@ -5,11 +5,11 @@ import { useEffect, useRef } from 'react';
 import { useController, useFormContext, useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { Card } from '../../components/Card';
 import { FormKey, useWallet, useWidgetConfig } from '../../providers';
 import { useSendToWalletStore, useSettings } from '../../stores';
 import { DisabledUI, HiddenUI, RequiredUI } from '../../types';
 import { navigationRoutes } from '../../utils';
-import { Card } from '../../components/Card';
 import {
   AlertSection,
   FormControl,
@@ -91,13 +91,7 @@ export const SendToWalletPage = () => {
   return (
     <PageContainer>
       <Card sx={{ marginTop: '16px', marginBottom: '8px' }}>
-        <FormControl
-          fullWidth
-          sx={{
-            paddingTop: '6px',
-            paddingBottom: '5px',
-          }}
-        >
+        <FormControl fullWidth>
           <Input
             multiline
             sx={{ height: '96px', alignItems: 'flex-start' }}

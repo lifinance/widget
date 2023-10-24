@@ -7,14 +7,12 @@ import {
 import { inputBaseClasses } from '@mui/material/InputBase';
 import { styled } from '@mui/material/styles';
 
-export const FormControl = styled(MuiFormControl)(({ theme }) => ({
-  padding: theme.spacing(1.5, 2, 1.5, 0),
-}));
+export const FormControl = styled(MuiFormControl)(({ theme }) => ({}));
 
 export const Input = styled(InputBase)(({ theme }) => ({
   [`.${inputBaseClasses.input}`]: {
+    padding: theme.spacing(2),
     height: 32,
-    padding: theme.spacing(0, 0, 0, 2),
     fontSize: '18px',
     fontStyle: 'normal',
     fontWeight: 500,
