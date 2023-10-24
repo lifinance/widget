@@ -10,19 +10,19 @@
   },
   "dependencies": {
     "@ethersproject/providers": "^5.7.2",
-    "@lifi/widget": "^2.6.3",
+    "@lifi/widget": "^2.7.1",
     "@mui/material": "^5.14.14",
     "events": "^3.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "wagmi": "^1.4.4"
+    "wagmi": "^1.4.5"
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@types/events": "^3.0.2",
-    "@types/node": "^20.8.7",
-    "@types/react": "^18.2.29",
-    "@types/react-dom": "^18.2.13",
+    "@types/node": "^20.8.8",
+    "@types/react": "^18.2.31",
+    "@types/react-dom": "^18.2.14",
     "@vitejs/plugin-react": "^4.1.0",
     "rollup-plugin-polyfill-node": "^0.12.0",
     "typescript": "^5.2.2",
