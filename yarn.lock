@@ -2997,22 +2997,18 @@ __metadata:
   version: 3.0.0-alpha.16
   resolution: "@lifi/sdk@npm:3.0.0-alpha.16"
   dependencies:
-    "@ethersproject/abi": "npm:^5.7.0"
-    "@ethersproject/contracts": "npm:^5.7.0"
-    "@lifi/types": "npm:^9.0.3"
-    bignumber.js: "npm:^9.1.2"
+    "@lifi/types": "npm:^10.0.0-alpha.23"
+    "@solana/web3.js": "npm:^1.87.1"
     eth-rpc-errors: "npm:^4.0.3"
-    ethers: "npm:^5.7.2"
-  checksum: 0858d4d9314a9103a93d511189d76ba5bd06e39e359c8de7b1ceacca35e0929901aa7f26fb5268f3b154f08d312e936a5e11fc42b6d4599cdeb396563f2390fd
+    viem: "npm:^1.16.0"
+  checksum: 5458bfa07053deec2195ba4353ff24a3e8fbbe19249a81ca9b68de0d3408d8824b94eef405ed75d12ce73f17637e1737b42317741e495994b69ad521fe30f628
   languageName: node
   linkType: hard
 
-"@lifi/types@npm:^9.0.3":
-  version: 9.2.1
-  resolution: "@lifi/types@npm:9.2.1"
-  dependencies:
-    ethers: "npm:^5.7.2"
-  checksum: 96e1bdf997e5bfa49d17a2a0aee46b51e4672942cf464a3ab156e1acfd670e7a6c6caf47dcc5c5c027fe7853d541905da78d50e51445e835b4ff91ec40a4954f
+"@lifi/types@npm:^10.0.0-alpha.23":
+  version: 10.0.0-alpha.25
+  resolution: "@lifi/types@npm:10.0.0-alpha.25"
+  checksum: 9fb794cc79b66ef68bb293444c4558dbae326efb8d62b6c1237aca483b977de77022aab83565bf13056e943cd62fe0b20e8e3a495d9c28d4cc0114bc8f88336e
   languageName: node
   linkType: hard
 
@@ -3024,7 +3020,7 @@ __metadata:
     "@ethersproject/abstract-signer": "npm:^5.7.0"
     "@ethersproject/experimental": "npm:^5.7.0"
     "@ethersproject/providers": "npm:^5.7.2"
-    "@lifi/sdk": "npm:^2.4.3"
+    "@lifi/sdk": "npm:^3.0.0-alpha.16"
     "@safe-global/safe-apps-provider": "npm:^0.18.0"
     "@safe-global/safe-apps-sdk": "npm:^8.1.0"
     "@walletconnect/ethereum-provider": "npm:^2.10.2"
@@ -3033,6 +3029,7 @@ __metadata:
     events: "npm:^3.3.0"
     react: "npm:^18.2.0"
     typescript: "npm:^5.2.2"
+    viem: "npm:^1.16.3"
   languageName: unknown
   linkType: soft
 
@@ -3042,7 +3039,7 @@ __metadata:
   dependencies:
     "@esbuild-plugins/node-globals-polyfill": "npm:^0.2.3"
     "@ethersproject/abstract-signer": "npm:^5.7.0"
-    "@lifi/sdk": "npm:^2.4.3"
+    "@lifi/sdk": "npm:^3.0.0-alpha.16"
     "@lifi/wallet-management": "npm:^2.4.1"
     "@lifi/widget": "npm:^2.7.1"
     "@mui/icons-material": "npm:^5.14.14"
@@ -3072,8 +3069,7 @@ __metadata:
   resolution: "@lifi/widget-playground@workspace:packages/widget-playground"
   dependencies:
     "@esbuild-plugins/node-globals-polyfill": "npm:^0.2.3"
-    "@ethersproject/providers": "npm:^5.7.2"
-    "@lifi/sdk": "npm:^2.4.3"
+    "@lifi/sdk": "npm:^3.0.0-alpha.16"
     "@lifi/wallet-management": "npm:^2.4.1"
     "@lifi/widget": "npm:^2.7.1"
     "@mui/icons-material": "npm:^5.14.14"
@@ -3086,6 +3082,7 @@ __metadata:
     react-dom: "npm:^18.2.0"
     react-router-dom: "npm:^6.17.0"
     rollup-plugin-polyfill-node: "npm:^0.12.0"
+    source-map-explorer: "npm:^2.5.3"
     typescript: "npm:^5.2.2"
     viem: "npm:^1.16.6"
     vite: "npm:^4.5.0"
@@ -3104,14 +3101,13 @@ __metadata:
     "@ethersproject/address": "npm:^5.7.0"
     "@ethersproject/experimental": "npm:^5.7.0"
     "@ethersproject/providers": "npm:^5.7.2"
-    "@lifi/sdk": "npm:^2.4.3"
+    "@lifi/sdk": "npm:^3.0.0-alpha.16"
     "@lifi/wallet-management": "npm:^2.4.1"
     "@mui/icons-material": "npm:^5.14.14"
     "@mui/lab": "npm:^5.0.0-alpha.149"
     "@mui/material": "npm:^5.14.14"
     "@tanstack/react-query": "npm:^4.36.1"
     "@tanstack/react-virtual": "npm:^3.0.0-beta.68"
-    big.js: "npm:^6.2.1"
     cpy-cli: "npm:^5.0.0"
     i18next: "npm:^23.6.0"
     i18next-browser-languagedetector: "npm:^7.1.0"
@@ -3126,6 +3122,8 @@ __metadata:
     react-timer-hook: "npm:^3.0.7"
     typescript: "npm:^5.2.2"
     uuid: "npm:^9.0.1"
+    viem: "npm:^1.16.3"
+    wagmi: "npm:^1.4.3"
     zustand: "npm:^4.4.4"
   peerDependencies:
     "@types/react": ^18.0.0
@@ -4112,7 +4110,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@solana/web3.js@npm:^1.70.1":
+"@solana/web3.js@npm:^1.70.1, @solana/web3.js@npm:^1.87.1":
   version: 1.87.2
   resolution: "@solana/web3.js@npm:1.87.2"
   dependencies:
@@ -4517,13 +4515,6 @@ __metadata:
   dependencies:
     "@babel/types": "npm:^7.20.7"
   checksum: ccf85b0f1ed4931074d6efe34f79d9e8d54de2ce8109ddf8b8b4955094d30af4ef12dca9f64963c38a7b63d85583557d935bece1d9ad1fd5c925f1c62ffb0e10
-  languageName: node
-  linkType: hard
-
-"@types/big.js@npm:^6.2.1":
-  version: 6.2.1
-  resolution: "@types/big.js@npm:6.2.1"
-  checksum: 0911e54cc572f88278ed249a3fb9822ffd81d7a6a575bf952fec2ca6297bbb410f783b27d334ea5e9698af88472b1ab7dc6ae2668f0ef868dd4f1457527fbf48
   languageName: node
   linkType: hard
 
@@ -6061,13 +6052,6 @@ __metadata:
   version: 1.6.51
   resolution: "big-integer@npm:1.6.51"
   checksum: c7a12640901906d6f6b6bdb42a4eaba9578397b6d9a0dd090cf001ec813ff2bfcd441e364068ea0416db6175d2615f8ed19cff7d1a795115bf7c92d44993f991
-  languageName: node
-  linkType: hard
-
-"big.js@npm:^6.2.1":
-  version: 6.2.1
-  resolution: "big.js@npm:6.2.1"
-  checksum: 1d4b621451de712cab20464a26f22b2eee5e7daf0ee88c49dfbfa76061ec37cff2257751e8c3fc183c231bcffac2f006e33af930d8f49b03c758890080b76ada
   languageName: node
   linkType: hard
 
@@ -7857,6 +7841,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"escape-html@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "escape-html@npm:1.0.3"
+  checksum: 6213ca9ae00d0ab8bccb6d8d4e0a98e76237b2410302cf7df70aaa6591d509a2a37ce8998008cbecae8fc8ffaadf3fb0229535e6a145f3ce0b211d060decbb24
+  languageName: node
+  linkType: hard
+
 "escape-string-regexp@npm:5.0.0":
   version: 5.0.0
   resolution: "escape-string-regexp@npm:5.0.0"
@@ -9109,6 +9100,15 @@ __metadata:
   version: 1.4.0
   resolution: "graphemer@npm:1.4.0"
   checksum: 6dd60dba97007b21e3a829fab3f771803cc1292977fe610e240ea72afd67e5690ac9eeaafc4a99710e78962e5936ab5a460787c2a1180f1cb0ccfac37d29f897
+  languageName: node
+  linkType: hard
+
+"gzip-size@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "gzip-size@npm:6.0.0"
+  dependencies:
+    duplexer: "npm:^0.1.2"
+  checksum: 2df97f359696ad154fc171dcb55bc883fe6e833bca7a65e457b9358f3cb6312405ed70a8da24a77c1baac0639906cd52358dc0ce2ec1a937eaa631b934c94194
   languageName: node
   linkType: hard
 
@@ -10987,6 +10987,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mkdirp@npm:^0.5.1":
+  version: 0.5.6
+  resolution: "mkdirp@npm:0.5.6"
+  dependencies:
+    minimist: "npm:^1.2.6"
+  bin:
+    mkdirp: bin/cmd.js
+  checksum: 0c91b721bb12c3f9af4b77ebf73604baf350e64d80df91754dc509491ae93bf238581e59c7188360cec7cb62fc4100959245a42cfe01834efedc5e9d068376c2
+  languageName: node
+  linkType: hard
+
 "mkdirp@npm:^1.0.3":
   version: 1.0.4
   resolution: "mkdirp@npm:1.0.4"
@@ -12824,6 +12835,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"rimraf@npm:~2.6.2":
+  version: 2.6.3
+  resolution: "rimraf@npm:2.6.3"
+  dependencies:
+    glob: "npm:^7.1.3"
+  bin:
+    rimraf: ./bin.js
+  checksum: 756419f2fa99aa119c46a9fc03e09d84ecf5421a80a72d1944c5088c9e4671e77128527a900a313ed9d3fdbdd37e2ae05486cd7e9116d5812d8c31f2399d7c86
+  languageName: node
+  linkType: hard
+
 "rollup-plugin-polyfill-node@npm:^0.12.0":
   version: 0.12.0
   resolution: "rollup-plugin-polyfill-node@npm:0.12.0"
@@ -12857,7 +12879,6 @@ __metadata:
     "@testing-library/jest-dom": "npm:^6.1.4"
     "@testing-library/react": "npm:^14.0.0"
     "@testing-library/user-event": "npm:^14.5.1"
-    "@types/big.js": "npm:^6.2.1"
     "@types/eslint": "npm:^8.44.6"
     "@types/events": "npm:^3.0.2"
     "@types/node": "npm:^20.8.8"
@@ -13228,6 +13249,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"source-map-explorer@npm:^2.5.3":
+  version: 2.5.3
+  resolution: "source-map-explorer@npm:2.5.3"
+  dependencies:
+    btoa: "npm:^1.2.1"
+    chalk: "npm:^4.1.0"
+    convert-source-map: "npm:^1.7.0"
+    ejs: "npm:^3.1.5"
+    escape-html: "npm:^1.0.3"
+    glob: "npm:^7.1.6"
+    gzip-size: "npm:^6.0.0"
+    lodash: "npm:^4.17.20"
+    open: "npm:^7.3.1"
+    source-map: "npm:^0.7.4"
+    temp: "npm:^0.9.4"
+    yargs: "npm:^16.2.0"
+  bin:
+    sme: bin/cli.js
+    source-map-explorer: bin/cli.js
+  checksum: 39487c6db499d9e55d724c761d572be6d0e7953eedde848649cabdc200b5195efe3d41ff09916339022791f50d0ec577c9268beb9be10f6f131827a00c22b0c7
+  languageName: node
+  linkType: hard
+
 "source-map-js@npm:^1.0.2":
   version: 1.0.2
   resolution: "source-map-js@npm:1.0.2"
@@ -13246,6 +13290,13 @@ __metadata:
   version: 0.6.1
   resolution: "source-map@npm:0.6.1"
   checksum: 59ef7462f1c29d502b3057e822cdbdae0b0e565302c4dd1a95e11e793d8d9d62006cdc10e0fd99163ca33ff2071360cf50ee13f90440806e7ed57d81cba2f7ff
+  languageName: node
+  linkType: hard
+
+"source-map@npm:^0.7.4":
+  version: 0.7.4
+  resolution: "source-map@npm:0.7.4"
+  checksum: a0f7c9b797eda93139842fd28648e868a9a03ea0ad0d9fa6602a0c1f17b7fb6a7dcca00c144476cccaeaae5042e99a285723b1a201e844ad67221bf5d428f1dc
   languageName: node
   linkType: hard
 
@@ -14280,7 +14331,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"viem@npm:^1.0.0, viem@npm:^1.16.6":
+"viem@npm:^1.0.0, viem@npm:^1.16.0, viem@npm:^1.16.3, viem@npm:^1.16.6":
   version: 1.16.6
   resolution: "viem@npm:1.16.6"
   dependencies:
