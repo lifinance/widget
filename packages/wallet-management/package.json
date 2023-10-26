@@ -49,6 +49,8 @@
   ],
   "dependencies": {
     "@coinbase/wallet-sdk": "^3.7.2",
+    "@cyberlab/cyber-account": "^2.0.0",
+    "@cyberlab/cyber-app-sdk": "1.3.0-beta.4",
     "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/experimental": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",

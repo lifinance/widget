@@ -4,6 +4,7 @@ import type { SafeInfo } from '@safe-global/safe-apps-sdk';
 import SafeAppsSDK from '@safe-global/safe-apps-sdk';
 import { EventEmitter } from 'events';
 import type { AccountData, InjectedConnectorArgs, Wallet } from '../types';
+import { InjectedConnector } from 'wagmi/connectors/injected';
 
 export class SafeWalletConnector extends EventEmitter implements Wallet {
   public provider: Web3Provider | undefined;

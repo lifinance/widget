@@ -44,14 +44,14 @@ export const SelectWalletPage = () => {
   const handleConnect = useCallback(
     async (wallet: Wallet) => {
       const identityCheckPassed = await wallet.installed();
-      if (!identityCheckPassed) {
-        setWalletIdentity({
-          show: true,
-          wallet,
-        });
-        return;
-      }
-      navigateBack();
+      // if (!identityCheckPassed) {
+      //   setWalletIdentity({
+      //     show: true,
+      //     wallet,
+      //   });
+      //   return;
+      // }
+      // navigateBack();
       await connect(wallet);
     },
     [connect, navigateBack],

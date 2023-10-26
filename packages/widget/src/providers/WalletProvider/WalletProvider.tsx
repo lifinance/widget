@@ -87,6 +87,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
       try {
         if (walletManagement?.switchChain) {
           const signer = await walletManagement.switchChain(chainId);
+          console.log('🚀 ~ file: WalletProvider.tsx:91 ~ signer:', signer);
           const account = await extractAccountFromSigner(signer);
           setAccount(account);
           return signer;

@@ -7,6 +7,7 @@ import { WalletConnectConnector } from './connectors/walletConnectConnector';
 import type { Wallet } from './types';
 import { ProviderIdentityFlag } from './types';
 import { walletIcons } from './walletIcons';
+import { CyberConnectConnector } from './connectors/cyberConnectConnector';
 
 const defaultWallet: Wallet = new InjectedConnector({
   // unknown Default wallet that injects as metamask but is not metamask
@@ -284,6 +285,12 @@ const safe: Wallet = new SafeWalletConnector({
   icon: walletIcons.safe,
 });
 
+const cyberConnect: Wallet = new CyberConnectConnector({
+  name: 'CyberConnect',
+  installed: async () => true,
+  icon: walletIcons.exodus,
+});
+
 export const supportedWallets = [
   defaultWallet,
   safe,
@@ -315,4 +322,5 @@ export const supportedWallets = [
   oneInch,
   tokenary,
   mathWallet,
+  cyberConnect,
 ];
