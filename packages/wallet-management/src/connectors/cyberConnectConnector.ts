@@ -77,9 +77,8 @@ export class CyberConnectConnector extends EventEmitter implements Wallet {
     this.emit('walletAccountChanged', this);
   }
 
-  public switchChain = (chainId: number): any => {
-    this.calcAccountData(chainId);
-    return true;
+  public switchChain = async (chainId: number): Promise<any> => {
+    return this.calcAccountData(chainId);
   };
   public addChain = (): any => {
     console.warn('Method addChain not allowed');
