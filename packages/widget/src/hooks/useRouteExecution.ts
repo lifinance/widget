@@ -73,23 +73,13 @@ export const useRouteExecution = ({
 
   const switchChainHook = async (requiredChainId: number) => {
     if (!account.isActive || !account.signer) {
-      console.log('account.isActive', account.isActive, account);
-
       return account.signer;
     }
 
     const currentChainId = await account.signer.getChainId();
 
     if (currentChainId !== requiredChainId) {
-      console.log(
-        '🚀 ~ file: useRouteExecution.ts:84 ~ switchChainHook ~ requiredChainId:',
-        requiredChainId,
-      );
       const signer = await switchChain(requiredChainId);
-      console.log(
-        '🚀 ~ file: useRouteExecution.ts:89 ~ switchChainHook ~ signer:',
-        signer,
-      );
       if (!signer) {
         throw new Error('Chain was not switched.');
       }
