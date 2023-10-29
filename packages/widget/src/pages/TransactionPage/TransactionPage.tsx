@@ -79,6 +79,14 @@ export const TransactionPage: React.FC = () => {
     }
   }, [headerStoreContext, route, status, subvariant, t]);
 
+  useEffect(() => {
+    if (status === RouteExecutionStatus.Idle) {
+      emitter.emit(WidgetEvent.ReviewTransactionPageEntered, route);
+    }
+    // We want to emit event only when the page is mounted
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   if (!route) {
     return null;
   }

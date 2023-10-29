@@ -78,6 +78,12 @@ const frontier: Wallet = new InjectedConnector(
   (window as any).frontier?.ethereum,
 );
 
+const safepal: Wallet = new InjectedConnector({
+  name: 'SafePal',
+  installed: async () => (window as any).safepal,
+  icon: walletIcons.safepal,
+});
+
 const brave: Wallet = new InjectedConnector({
   name: 'Brave',
   installed: async () =>
@@ -323,4 +329,5 @@ export const supportedWallets = [
   tokenary,
   mathWallet,
   cyberConnect,
+  safepal,
 ];

@@ -3,11 +3,14 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useWallet, useWidgetConfig } from '../../providers';
 import { navigationRoutes } from '../../utils';
-import type { DefaultTransactionButtonProps } from './types';
+import type { BaseTransactionButtonProps } from './types';
 
-export const DefaultTransactionButton: React.FC<
-  DefaultTransactionButtonProps
-> = ({ onClick, text, disabled, loading }) => {
+export const BaseTransactionButton: React.FC<BaseTransactionButtonProps> = ({
+  onClick,
+  text,
+  disabled,
+  loading,
+}) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { walletManagement } = useWidgetConfig();

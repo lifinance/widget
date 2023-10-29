@@ -1,7 +1,7 @@
 import { useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { DefaultTransactionButton } from '../../components/DefaultTransactionButton';
+import { BaseTransactionButton } from '../../components/BaseTransactionButton';
 import { useRoutes } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
 import { useSetExecutableRoute, useSplitSubvariantStore } from '../../stores';
@@ -60,7 +60,7 @@ export const ReviewButton: React.FC = () => {
   };
 
   return (
-    <DefaultTransactionButton
+    <BaseTransactionButton
       text={getButtonText()}
       onClick={handleClick}
       disabled={currentRoute && (isValidating || !isValid)}

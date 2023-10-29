@@ -2,7 +2,7 @@ import type { EVMChain, Route, Token } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
 import Big from 'big.js';
 import { useChains, useGasRefuel, useGetTokenBalancesWithRetry } from '.';
-import { useWallet } from '../providers';
+import { useWallet, useWidgetConfig } from '../providers';
 import { useSettings } from '../stores';
 
 export interface GasSufficiency {
@@ -22,6 +22,8 @@ export const useGasSufficiency = (route?: Route) => {
   const getTokenBalancesWithRetry = useGetTokenBalancesWithRetry(
     account.signer?.provider,
   );
+  const { sdkConfig } = useWidgetConfig();
+  const isMultisigSigner = sdkConfig?.multisigConfig?.isMultisigSigner;
 
   const { enabledAutoRefuel } = useSettings(['enabledAutoRefuel']);
   const { enabled, isLoading: isRefuelLoading } = useGasRefuel();
@@ -43,7 +45,7 @@ export const useGasSufficiency = (route?: Route) => {
         .filter((step) => !step.execution || step.execution.status !== 'DONE')
         .reduce(
           (groupedGasCosts, step) => {
-            if (step.estimate.gasCosts) {
+            if (step.estimate.gasCosts && !isMultisigSigner) {
               const { token } = step.estimate.gasCosts[0];
               const gasCostAmount = step.estimate.gasCosts
                 .reduce(

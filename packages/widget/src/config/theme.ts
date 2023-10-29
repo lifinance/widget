@@ -6,6 +6,7 @@ import { common } from '@mui/material/colors';
 import {
   alpha,
   createTheme as createMuiTheme,
+  css,
   darken,
   getContrastRatio,
   keyframes,
@@ -183,17 +184,15 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
       },
       MuiButtonBase: {
         styleOverrides: {
-          root: {
-            [`& .${touchRippleClasses.ripple}.${touchRippleClasses.rippleVisible}`]:
-              {
-                animationName: `${enterKeyframe}`,
-              },
-            [`& .${touchRippleClasses.ripple}.${touchRippleClasses.rippleVisible}`]:
-              {
-                opacity: 0.1,
-                animationName: `${enterKeyframe}`,
-              },
-          },
+          // This `css()` function invokes keyframes. `styled-components` only supports keyframes
+          // in string templates. Do not convert these styles in JS object as it will break.
+          root: css`
+            &
+              .${touchRippleClasses.ripple}.${touchRippleClasses.rippleVisible} {
+              opacity: 0.1;
+              animation-name: ${enterKeyframe};
+            }
+          `,
         },
       },
       MuiButton: {
