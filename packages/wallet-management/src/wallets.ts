@@ -313,7 +313,7 @@ const cyberConnect: Wallet = new CyberConnectConnector({
 
     return !!accountInfo?.address;
   },
-  icon: walletIcons.exodus,
+  icon: walletIcons.cyberconnect,
 });
 
 export const supportedWallets = [
