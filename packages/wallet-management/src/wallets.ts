@@ -8,6 +8,7 @@ import type { Wallet } from './types';
 import { ProviderIdentityFlag } from './types';
 import { walletIcons } from './walletIcons';
 import { CyberConnectConnector } from './connectors/cyberConnectConnector';
+import { CyberApp } from '@cyberlab/cyber-app-sdk';
 
 const defaultWallet: Wallet = new InjectedConnector({
   // unknown Default wallet that injects as metamask but is not metamask
@@ -293,7 +294,25 @@ const safe: Wallet = new SafeWalletConnector({
 
 const cyberConnect: Wallet = new CyberConnectConnector({
   name: 'CyberConnect',
-  installed: async () => true,
+  installed: async () => {
+    const isIframeEnvironment = window.parent !== window;
+
+    if (!isIframeEnvironment) {
+      return false;
+    }
+
+    const sdk = new CyberApp({
+      name: 'Li.Fi',
+      icon: 'https://github.com/lifinance/types/blob/main/src/assets/icons/bridges/lifuel.png',
+    });
+
+    const accountInfo = await Promise.race([
+      sdk.start(),
+      new Promise<undefined>((resolve) => setTimeout(resolve, 200)),
+    ]);
+
+    return !!accountInfo?.address;
+  },
   icon: walletIcons.exodus,
 });
 
