@@ -19,6 +19,8 @@ import {
   useMemo,
   useState,
 } from 'react';
+import { useWidgetEvents } from '../../hooks';
+import { WidgetEvent } from '../../types';
 import { useWidgetConfig } from '../WidgetProvider';
 import type { WalletAccount, WalletContextProps } from './types';
 
@@ -44,6 +46,7 @@ const WalletContext = createContext<WalletContextProps>(initialContext);
 export const useWallet = (): WalletContextProps => useContext(WalletContext);
 
 export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
+  const emitter = useWidgetEvents();
   const { walletManagement } = useWidgetConfig();
   const [account, setAccount] = useState<WalletAccount>({});
   const [currentWallet, setCurrentWallet] = useState<Wallet | undefined>();
@@ -52,6 +55,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
     setCurrentWallet(wallet);
     const account = await extractAccountFromSigner(wallet?.account?.signer);
     setAccount(account);
+    return account;
   };
 
   const connect = useCallback(
@@ -60,13 +64,21 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
         const signer = await walletManagement.connect();
         const account = await extractAccountFromSigner(signer);
         setAccount(account);
+        emitter.emit(WidgetEvent.WalletConnected, {
+          address: account.address,
+          chainId: account.chainId,
+        });
         return;
       }
       await liFiWalletManagement.connect(wallet);
       wallet.on('walletAccountChanged', handleWalletUpdate);
-      handleWalletUpdate(wallet);
+      const account = await handleWalletUpdate(wallet);
+      emitter.emit(WidgetEvent.WalletConnected, {
+        address: account.address,
+        chainId: account.chainId,
+      });
     },
-    [walletManagement],
+    [emitter, walletManagement],
   );
 
   const disconnect = useCallback(async () => {
@@ -78,7 +90,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
     if (currentWallet) {
       await liFiWalletManagement.disconnect(currentWallet);
       currentWallet.removeAllListeners();
-      handleWalletUpdate(undefined);
+      await handleWalletUpdate(undefined);
     }
   }, [currentWallet, walletManagement]);
 
@@ -98,7 +110,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
           await walletAgnosticSwitchChain(provider, chainId);
         } else {
           await currentWallet?.switchChain(chainId);
-          handleWalletUpdate(currentWallet);
+          await handleWalletUpdate(currentWallet);
         }
         // TODO: this will fail if it's not created with ethers 'any' network, replace with the new signer when possible
         return account.signer;
@@ -122,7 +134,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
           await walletAgnosticAddChain(provider, chainId);
         } else {
           await currentWallet?.addChain(chainId);
-          handleWalletUpdate(currentWallet);
+          await handleWalletUpdate(currentWallet);
         }
 
         return true;
@@ -146,7 +158,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
           await walletAgnosticAddToken(provider, chainId, token);
         } else {
           await currentWallet?.addToken(chainId, token);
-          handleWalletUpdate(currentWallet);
+          await handleWalletUpdate(currentWallet);
         }
       } catch {}
     },
@@ -166,7 +178,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
       }
       await liFiWalletManagement.autoConnect(activeWallets);
       activeWallets[0].on('walletAccountChanged', handleWalletUpdate);
-      handleWalletUpdate(activeWallets[0]);
+      await handleWalletUpdate(activeWallets[0]);
     };
     autoConnect();
   }, []);

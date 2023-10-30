@@ -11,6 +11,7 @@ export enum WidgetEvent {
   DestinationChainTokenSelected = 'destinationChainTokenSelected',
   SendToWalletToggled = 'sendToWalletToggled',
   ReviewTransactionPageEntered = 'reviewTransactionPageEntered',
+  WalletConnected = 'walletConnected',
 }
 
 export type WidgetEvents = {
@@ -24,6 +25,7 @@ export type WidgetEvents = {
   destinationChainTokenSelected: ChainTokenSelected;
   sendToWalletToggled: boolean;
   reviewTransactionPageEntered?: Route;
+  walletConnected: WalletConnected;
 };
 
 export interface RouteContactSupport {
@@ -45,4 +47,9 @@ export interface RouteExecutionUpdate {
 export interface ChainTokenSelected {
   chainId: ChainId;
   tokenAddress: string;
+}
+
+export interface WalletConnected {
+  chainId?: number;
+  address?: string;
 }
