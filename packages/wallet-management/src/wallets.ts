@@ -255,6 +255,14 @@ const okx: Wallet = new InjectedConnector(
   (window as any).okxwallet,
 );
 
+const rabbywallet: Wallet = new InjectedConnector(
+  {
+    name: 'Rabby Wallet',
+    installed: async () => (window as any).ethereum,
+    icon: walletIcons.rabbywallet,
+  },
+  (window as any).ethereum,
+);
 const exodus: Wallet = new InjectedConnector(
   {
     name: 'Exodus',
@@ -322,4 +330,5 @@ export const supportedWallets = [
   tokenary,
   mathWallet,
   safepal,
+  rabbywallet,
 ];
