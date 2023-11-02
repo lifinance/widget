@@ -7,8 +7,9 @@ import { Avatar, Button, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useAccount, useDisconnect } from 'wagmi';
 import { useChain } from '../../hooks';
-import { useWallet, useWidgetConfig } from '../../providers';
+import { useWidgetConfig } from '../../providers';
 import { navigationRoutes, shortenAddress } from '../../utils';
 import {
   DrawerWalletContainer,
@@ -26,28 +27,27 @@ export const WalletHeader: React.FC = () => {
 };
 
 export const WalletMenuButton: React.FC = () => {
-  const { account } = useWallet();
+  const account = useAccount();
   const { variant } = useWidgetConfig();
 
   if (variant === 'drawer') {
     return (
       <DrawerWalletContainer>
-        {account.isActive ? <ConnectedButton /> : <ConnectButton />}
+        {account.isConnected ? <ConnectedButton /> : <ConnectButton />}
       </DrawerWalletContainer>
     );
   }
-  return account.isActive ? <ConnectedButton /> : <ConnectButton />;
+  return account.isConnected ? <ConnectedButton /> : <ConnectButton />;
 };
 
 const ConnectButton = () => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
   const { walletManagement, subvariant, variant } = useWidgetConfig();
-  const { connect: connectWallet } = useWallet();
   const navigate = useNavigate();
   const connect = async () => {
     if (walletManagement) {
-      await connectWallet();
+      await walletManagement.connect();
       return;
     }
     navigate(navigationRoutes.selectWallet);
@@ -80,7 +80,8 @@ const ConnectButton = () => {
 const ConnectedButton = () => {
   const { t } = useTranslation();
   const { subvariant } = useWidgetConfig();
-  const { account, disconnect } = useWallet();
+  const account = useAccount();
+  const { disconnect } = useDisconnect();
   const walletAddress = shortenAddress(account.address);
   const { chain } = useChain(account.chainId);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);

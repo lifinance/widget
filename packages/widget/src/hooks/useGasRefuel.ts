@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
-import { useChains } from '.';
+import { useAvailableChains } from '.';
 import { FormKey } from '../providers';
 import { useGasRecommendation } from './useGasRecommendation';
 import { useTokenBalance } from './useTokenBalance';
 
 export const useGasRefuel = () => {
-  const { getChainById } = useChains();
+  const { getChainById } = useAvailableChains();
 
   const [fromChainId, fromTokenAddress, toChainId, toAddress] = useWatch({
     name: [

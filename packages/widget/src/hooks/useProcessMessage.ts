@@ -1,6 +1,6 @@
 import type {
   EVMChain,
-  LifiStep,
+  LiFiStep,
   Process,
   ProcessType,
   Status,
@@ -13,12 +13,12 @@ import { useTranslation } from 'react-i18next';
 import { useWidgetConfig } from '../providers';
 import type { WidgetSubvariant } from '../types';
 import { formatTokenAmount } from '../utils';
-import { useChains } from './useChains';
+import { useAvailableChains } from './useAvailableChains';
 
-export const useProcessMessage = (step?: LifiStep, process?: Process) => {
+export const useProcessMessage = (step?: LiFiStep, process?: Process) => {
   const { subvariant } = useWidgetConfig();
   const { t } = useTranslation();
-  const { getChainById } = useChains();
+  const { getChainById } = useAvailableChains();
   if (!step || !process) {
     return {};
   }
@@ -99,7 +99,7 @@ const processSubstatusMessages: Record<
 export function getProcessMessage(
   t: TFunction,
   getChainById: (chainId: number) => EVMChain | undefined,
-  step: LifiStep,
+  step: LiFiStep,
   process: Process,
   subvariant?: WidgetSubvariant,
 ): {

@@ -2,13 +2,14 @@ import { Box } from '@mui/material';
 import type { FC } from 'react';
 import { useRef } from 'react';
 import { useWatch } from 'react-hook-form';
+import { useAccount } from 'wagmi';
 import {
   useChain,
   useDebouncedWatch,
   useTokenBalances,
   useTokenSearch,
 } from '../../hooks';
-import { FormKey, FormKeyHelper, useWallet } from '../../providers';
+import { FormKey, FormKeyHelper } from '../../providers';
 import type { TokenAmount } from '../../types';
 import { TokenNotFound } from './TokenNotFound';
 import { VirtualizedTokenList } from './VirtualizedTokenList';
@@ -21,7 +22,7 @@ export const TokenList: FC<TokenListProps> = ({
   onClick,
 }) => {
   const parentRef = useRef<HTMLUListElement | null>(null);
-  const { account } = useWallet();
+  const account = useAccount();
   const [selectedChainId] = useWatch({
     name: [FormKeyHelper.getChainKey(formType)],
   });
@@ -88,7 +89,7 @@ export const TokenList: FC<TokenListProps> = ({
         chain={chain}
         isLoading={isLoading}
         isBalanceLoading={isBalanceLoading}
-        showBalance={account.isActive}
+        showBalance={account.isConnected}
         showFeatured={!tokenSearchFilter}
         onClick={handleTokenClick}
       />

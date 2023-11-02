@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useRef } from 'react';
 import { useFormContext } from 'react-hook-form';
+import { useAccount } from 'wagmi';
 import type { FormValues } from '.';
 import { FormKey } from '.';
-import { useWallet } from '../WalletProvider';
 import { isItemAllowed, useWidgetConfig } from '../WidgetProvider';
 
 export const FormUpdater: React.FC<{
   defaultValues: Partial<FormValues>;
 }> = ({ defaultValues }) => {
   const { fromChain, toChain, chains } = useWidgetConfig();
-  const { account } = useWallet();
+  const account = useAccount();
   const {
     setValue,
     getValues,
@@ -26,7 +26,7 @@ export const FormUpdater: React.FC<{
   useEffect(() => {
     const chainAllowed =
       account.chainId && isItemAllowed(account.chainId, chains);
-    if (!account.isActive || !account.chainId || !chainAllowed) {
+    if (!account.isConnected || !account.chainId || !chainAllowed) {
       return;
     }
 
@@ -53,7 +53,7 @@ export const FormUpdater: React.FC<{
     }
   }, [
     account.chainId,
-    account.isActive,
+    account.isConnected,
     chains,
     fromChain,
     getFieldState,

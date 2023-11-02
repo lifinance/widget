@@ -1,11 +1,11 @@
 /* eslint-disable react/no-array-index-key */
-import type { LifiStep, TokenAmount } from '@lifi/sdk';
+import type { LiFiStep, TokenAmount } from '@lifi/sdk';
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Card, CardTitle } from '../../components/Card';
 import { StepActions } from '../../components/StepActions';
 import { Token } from '../../components/Token';
-import { useChains } from '../../hooks';
+import { useAvailableChains } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
 import { shortenAddress } from '../../utils';
 import { DestinationWalletAddress } from './DestinationWalletAddress';
@@ -14,13 +14,13 @@ import { StepProcess } from './StepProcess';
 import { StepTimer } from './StepTimer';
 
 export const Step: React.FC<{
-  step: LifiStep;
+  step: LiFiStep;
   fromToken?: TokenAmount;
   toToken?: TokenAmount;
   toAddress?: string;
 }> = ({ step, fromToken, toToken, toAddress }) => {
   const { t } = useTranslation();
-  const { getChainById } = useChains();
+  const { getChainById } = useAvailableChains();
   const { subvariant } = useWidgetConfig();
 
   const stepHasError = step.execution?.process.some(

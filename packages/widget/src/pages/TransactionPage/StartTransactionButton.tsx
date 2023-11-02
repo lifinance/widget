@@ -13,12 +13,10 @@ export const StartTransactionButton: React.FC<StartTransactionButtonProps> = ({
   text,
   loading,
 }) => {
-  const { insufficientGas, isInitialLoading: isGasSufficiencyLoading } =
+  const { insufficientGas, isLoading: isGasSufficiencyLoading } =
     useGasSufficiency(route);
-  const {
-    insufficientFromToken,
-    isInitialLoading: isFromTokenSufficiencyLoading,
-  } = useFromTokenSufficiency(route);
+  const { insufficientFromToken, isLoading: isFromTokenSufficiencyLoading } =
+    useFromTokenSufficiency(route);
 
   const shouldDisableButton =
     insufficientFromToken || !!insufficientGas?.length;

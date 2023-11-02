@@ -1,5 +1,5 @@
-import type { Wallet } from '@lifi/wallet-management';
-import { supportedWallets } from '@lifi/wallet-management';
+import { isWalletInstalled } from '@lifi/wallet-management';
+import type { Theme } from '@mui/material';
 import {
   Avatar,
   Button,
@@ -9,26 +9,33 @@ import {
   DialogContentText,
   List,
   ListItemAvatar,
-  Theme,
   useMediaQuery,
 } from '@mui/material';
+import { useWallet } from '@solana/wallet-adapter-react';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { Connector } from 'wagmi';
+import { useConnect } from 'wagmi';
 import { Dialog } from '../../components/Dialog';
 import { ListItemButton } from '../../components/ListItemButton';
 import { ListItemText } from '../../components/ListItemText';
 import { useNavigateBack } from '../../hooks';
-import { useWallet } from '../../providers';
 
 export const SelectWalletPage = () => {
   const { t } = useTranslation();
   const { navigateBack } = useNavigateBack();
-  const { connect } = useWallet();
+  const { connectors, connect } = useConnect();
   const [walletIdentity, setWalletIdentity] = useState<{
     show: boolean;
-    wallet?: Wallet;
+    connector?: Connector;
   }>({ show: false });
-  const [wallets, setWallets] = useState<Wallet[]>();
+  const [wallets, setWallets] = useState<Connector[]>();
+  const {
+    wallets: solanaWallets,
+    wallet: solanaWallet,
+    select,
+    connect: solanaConnect,
+  } = useWallet();
 
   const isDesktopView = useMediaQuery((theme: Theme) =>
     theme.breakpoints.up('sm'),
@@ -42,44 +49,44 @@ export const SelectWalletPage = () => {
   };
 
   const handleConnect = useCallback(
-    async (wallet: Wallet) => {
-      const identityCheckPassed = await wallet.installed();
+    async (connector: Connector) => {
+      const identityCheckPassed = await isWalletInstalled(connector.id);
       if (!identityCheckPassed) {
         setWalletIdentity({
           show: true,
-          wallet,
+          connector,
         });
         return;
       }
+      connect({ connector });
       navigateBack();
-      await connect(wallet);
     },
     [connect, navigateBack],
   );
 
   useEffect(() => {
-    Promise.all(supportedWallets.map((wallet) => wallet.installed())).then(
-      (installed) => {
-        // separate into installed and not installed wallets
-        const installedWallets = supportedWallets.filter(
-          (_, index) => installed[index],
-        );
-        // always remove Default Wallet from not installed Wallets
-        const notInstalledWallets = supportedWallets.filter(
-          (wallet, index) =>
-            !installed[index] && wallet.name !== 'Default Wallet',
-        );
+    Promise.all(
+      connectors.map((connector) => isWalletInstalled(connector.id)),
+    ).then((installed) => {
+      // separate into installed and not installed wallets
+      const installedWallets = connectors.filter(
+        (_, index) => installed[index],
+      );
+      // always remove Default Wallet from not installed Wallets
+      const notInstalledWallets = connectors.filter(
+        (connector, index) =>
+          !installed[index] && connector.name !== 'Default Wallet',
+      );
 
-        const allowedWallets = [...installedWallets];
+      const allowedWallets = [...installedWallets];
 
-        if (isDesktopView) {
-          allowedWallets.push(...notInstalledWallets);
-        }
+      if (isDesktopView) {
+        allowedWallets.push(...notInstalledWallets);
+      }
 
-        setWallets(allowedWallets);
-      },
-    );
-  }, []);
+      setWallets(allowedWallets);
+    });
+  }, [connectors, isDesktopView]);
 
   return (
     <Container disableGutters>
@@ -89,20 +96,36 @@ export const SelectWalletPage = () => {
           paddingRight: 1.5,
         }}
       >
-        {wallets?.map((wallet: Wallet) => (
+        {wallets?.map((connector) => (
           <ListItemButton
-            key={wallet.name}
-            onClick={() => handleConnect(wallet)}
+            key={connector.name}
+            onClick={() => handleConnect(connector)}
           >
             <ListItemAvatar>
-              <Avatar
-                src={(wallet.icon as any).src || wallet.icon}
-                alt={wallet.name}
-              >
-                {wallet.name[0]}
+              <Avatar src={connector.icon} alt={connector.name}>
+                {connector.name[0]}
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={wallet.name} />
+            <ListItemText primary={connector.name} />
+          </ListItemButton>
+        ))}
+        {solanaWallets?.map((wallet) => (
+          <ListItemButton
+            key={wallet.adapter.name}
+            onClick={() => {
+              select(wallet.adapter.name);
+              solanaConnect();
+            }}
+          >
+            <ListItemAvatar>
+              <Avatar src={wallet.adapter.icon} alt={wallet.adapter.name}>
+                {wallet.adapter.name[0]}
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText
+              primary={wallet.adapter.name}
+              secondary={`${wallet.readyState} ${wallet.adapter.readyState} ${solanaWallet?.adapter.publicKey}`}
+            />
           </ListItemButton>
         ))}
       </List>
@@ -110,7 +133,7 @@ export const SelectWalletPage = () => {
         <DialogContent>
           <DialogContentText>
             {t('wallet.extensionNotFound', {
-              name: walletIdentity.wallet?.name,
+              name: walletIdentity.connector?.name,
             })}
           </DialogContentText>
         </DialogContent>

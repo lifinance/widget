@@ -1,5 +1,4 @@
 import { Box, Button } from '@mui/material';
-import { useWallet } from '../providers/WalletProvider';
 import { METAMASK_WALLET } from '../config';
 
 export const WalletButtons = () => {
@@ -7,7 +6,7 @@ export const WalletButtons = () => {
 
   return (
     <Box m={2}>
-      {account.isActive && account.address ? (
+      {account.isConnected && account.address ? (
         <Button variant="contained" onClick={() => disconnect(METAMASK_WALLET)}>
           Disconnect
         </Button>

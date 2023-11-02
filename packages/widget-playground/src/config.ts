@@ -1,10 +1,7 @@
-import { supportedWallets } from '@lifi/wallet-management';
 import type { WidgetConfig } from '@lifi/widget';
 import './index.css';
 
-export const METAMASK_WALLET = supportedWallets.find(
-  (wallet) => wallet.name === 'MetaMask',
-);
+export const METAMASK_WALLET = undefined;
 
 export const WidgetVariants = ['default', 'expandable', 'drawer'] as const;
 
@@ -21,6 +18,7 @@ export const widgetBaseConfig: WidgetConfig = {
   variant: 'expandable',
   // subvariant: 'split',
   integrator: 'li.fi-playground',
+  apiKey: 'test-key',
   chains: {
     allow: [], // 1, 1285, 10, 56, 137
     deny: [],

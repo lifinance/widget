@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import type { LifiStep, TokenAmount } from '@lifi/sdk';
+import type { LiFiStep, TokenAmount } from '@lifi/sdk';
 import type { BoxProps } from '@mui/material';
 import { Box, Skeleton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +13,7 @@ import { TextSecondary, TextSecondaryContainer } from './Token.style';
 interface TokenProps {
   token: TokenAmount;
   connected?: boolean;
-  step?: LifiStep;
+  step?: LiFiStep;
   disableDescription?: boolean;
   isLoading?: boolean;
 }

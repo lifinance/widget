@@ -1,7 +1,7 @@
 import type { EVMChain, Route, Token } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
-import { useChains, useGasRefuel, useGetTokenBalancesWithRetry } from '.';
-import { useWallet, useWidgetConfig } from '../providers';
+import { useAccount } from 'wagmi';
+import { getTokenBalancesWithRetry, useAvailableChains, useGasRefuel } from '.';
 import { useSettings } from '../stores';
 
 export interface GasSufficiency {
@@ -16,22 +16,17 @@ export interface GasSufficiency {
 const refetchInterval = 30_000;
 
 export const useGasSufficiency = (route?: Route) => {
-  const { account } = useWallet();
-  const { getChainById } = useChains();
-  const getTokenBalancesWithRetry = useGetTokenBalancesWithRetry(
-    account.signer?.provider,
-  );
-  const { sdkConfig } = useWidgetConfig();
-  const isMultisigSigner = sdkConfig?.multisigConfig?.isMultisigSigner;
+  const account = useAccount();
+  const { getChainById } = useAvailableChains();
 
   const { enabledAutoRefuel } = useSettings(['enabledAutoRefuel']);
   const { enabled, isLoading: isRefuelLoading } = useGasRefuel();
   const enabledRefuel = enabled && enabledAutoRefuel;
 
-  const { data: insufficientGas, isInitialLoading } = useQuery(
-    ['gas-sufficiency-check', account.address, route?.id],
-    async () => {
-      if (!account.address || !route) {
+  const { data: insufficientGas, isLoading } = useQuery({
+    queryKey: ['gas-sufficiency-check', account.address, route?.id],
+    queryFn: async () => {
+      if (account.status !== 'connected' || !route) {
         return;
       }
 
@@ -44,7 +39,7 @@ export const useGasSufficiency = (route?: Route) => {
         .filter((step) => !step.execution || step.execution.status !== 'DONE')
         .reduce(
           (groupedGasCosts, step) => {
-            if (step.estimate.gasCosts && !isMultisigSigner) {
+            if (step.estimate.gasCosts && account.connector.id !== 'safe') {
               const { token } = step.estimate.gasCosts[0];
               const gasCostAmount = step.estimate.gasCosts.reduce(
                 (amount, gasCost) => amount + BigInt(gasCost.amount),
@@ -129,19 +124,17 @@ export const useGasSufficiency = (route?: Route) => {
 
       return gasCostResult;
     },
-    {
-      enabled: Boolean(account.address && route),
-      refetchInterval,
-      staleTime: refetchInterval,
-      cacheTime: refetchInterval,
-    },
-  );
+
+    enabled: Boolean(account.address && route),
+    refetchInterval,
+    staleTime: refetchInterval,
+  });
 
   const isInsufficientGas =
     Boolean(insufficientGas?.length) && !isRefuelLoading && !enabledRefuel;
 
   return {
     insufficientGas: isInsufficientGas ? insufficientGas : undefined,
-    isInitialLoading,
+    isLoading,
   };
 };

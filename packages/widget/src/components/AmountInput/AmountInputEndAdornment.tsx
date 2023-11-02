@@ -3,7 +3,7 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { formatUnits } from 'viem';
 import {
-  useChains,
+  useAvailableChains,
   useGasRecommendation,
   useTokenAddressBalance,
 } from '../../hooks';
@@ -14,7 +14,7 @@ import { Button } from './AmountInputAdornment.style';
 export const AmountInputEndAdornment = ({ formType }: FormTypeProps) => {
   const { t } = useTranslation();
   const { setValue } = useFormContext();
-  const { getChainById } = useChains();
+  const { getChainById } = useAvailableChains();
   const [chainId, tokenAddress] = useWatch({
     name: [
       FormKeyHelper.getChainKey(formType),

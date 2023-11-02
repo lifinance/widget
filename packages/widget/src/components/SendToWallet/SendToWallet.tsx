@@ -1,10 +1,13 @@
 import type { BoxProps } from '@mui/material';
 import { Collapse, FormHelperText } from '@mui/material';
+import { getEnsAddress } from '@wagmi/core';
 import { forwardRef, useEffect, useRef } from 'react';
 import { useController, useFormContext, useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { isAddress } from 'viem';
-import { FormKey, useWallet, useWidgetConfig } from '../../providers';
+import { normalize } from 'viem/ens';
+import { useAccount, useConfig } from 'wagmi';
+import { FormKey, useWidgetConfig } from '../../providers';
 import { useSendToWalletStore, useSettings } from '../../stores';
 import { DisabledUI, HiddenUI, RequiredUI } from '../../types';
 import { Card, CardTitle } from '../Card';
@@ -13,7 +16,8 @@ import { FormControl, Input } from './SendToWallet.style';
 export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
   const { t } = useTranslation();
   const { trigger, getValues, setValue, clearErrors } = useFormContext();
-  const { account } = useWallet();
+  const account = useAccount();
+  const config = useConfig();
   const { disabledUI, hiddenUI, requiredUI, toAddress } = useWidgetConfig();
   const { showSendToWallet, showSendToWalletDirty, setSendToWallet } =
     useSendToWalletStore();
@@ -36,14 +40,13 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
       },
       validate: async (value: string) => {
         try {
-          if (!value) {
+          if (!value || isAddress(value)) {
             return true;
           }
-          const address = await account.signer?.provider?.resolveName(value);
-          return (
-            isAddress(address || value) ||
-            (t('error.title.walletAddressInvalid') as string)
-          );
+          const address = await getEnsAddress(config, {
+            name: normalize(value),
+          });
+          return Boolean(address);
         } catch {
           return t('error.title.walletEnsAddressInvalid') as string;
         }

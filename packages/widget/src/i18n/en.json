@@ -143,7 +143,7 @@
       "unknown": "Something went wrong",
       "walletAddressInvalid": "Wallet address is invalid.",
       "walletAddressRequired": "Wallet address is required.",
-      "walletEnsAddressInvalid": "Wallet address is invalid or network doesn't support ENS."
+      "walletEnsAddressInvalid": "Wallet address or ENS is invalid, or the network doesn't support ENS."
     }
   },
   "tooltip": {

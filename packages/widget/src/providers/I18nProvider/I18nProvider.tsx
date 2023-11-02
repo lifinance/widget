@@ -1,5 +1,4 @@
 import i18next from 'i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
 import { useMemo } from 'react';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import * as supportedLanguages from '../../i18n';
@@ -11,8 +10,7 @@ import type { LanguageKey, LanguageTranslationResources } from './types';
 export const I18nProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
-  const { languageResources, languages, disableLanguageDetector } =
-    useWidgetConfig();
+  const { languageResources, languages } = useWidgetConfig();
   const { language } = useSettings(['language']);
 
   const i18n = useMemo(() => {
@@ -58,14 +56,10 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
       },
     });
 
-    if (!language && !languages?.default && !disableLanguageDetector) {
-      i18n = i18n.use(LanguageDetector);
-    }
-
     i18n.use(initReactI18next).init();
 
     return i18n;
-  }, [disableLanguageDetector, language, languageResources, languages]);
+  }, [language, languageResources, languages]);
 
   return <I18nextProvider i18n={i18n}>{children}</I18nextProvider>;
 };

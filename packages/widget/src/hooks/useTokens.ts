@@ -1,27 +1,31 @@
+import { getTokens } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
-import { isItemAllowed, useLiFi, useWidgetConfig } from '../providers';
+import { useWidgetConfig } from '../providers';
 import type { TokenAmount } from '../types';
 import { useChains } from './useChains';
 import { useFeaturedTokens } from './useFeaturedTokens';
 
 export const useTokens = (selectedChainId?: number) => {
-  const lifi = useLiFi();
-  const { data, isLoading } = useQuery(['tokens'], () => lifi.getTokens(), {
+  const { data, isLoading } = useQuery({
+    queryKey: ['tokens'],
+    queryFn: () => getTokens(),
     refetchInterval: 3_600_000,
   });
-  const { getChainById, isLoading: isSupportedChainsLoading } = useChains();
+  const {
+    chains,
+    isLoading: isSupportedChainsLoading,
+    getChainById,
+  } = useChains();
   const featuredTokens = useFeaturedTokens(selectedChainId);
-  const { tokens: configTokens, chains: configChains } = useWidgetConfig();
+  const { tokens: configTokens } = useWidgetConfig();
 
   const tokens = useMemo(() => {
     if (isSupportedChainsLoading) {
       return [];
     }
     const chainAllowed =
-      selectedChainId &&
-      getChainById(selectedChainId) &&
-      isItemAllowed(selectedChainId, configChains);
+      selectedChainId && getChainById(selectedChainId, chains);
     if (!chainAllowed) {
       return [];
     }
@@ -64,14 +68,12 @@ export const useTokens = (selectedChainId?: number) => {
     ] as TokenAmount[];
 
     return tokens;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    configChains,
+    chains,
     configTokens?.allow,
     configTokens?.deny,
     configTokens?.include,
     data?.tokens,
-    data,
     featuredTokens,
     getChainById,
     isSupportedChainsLoading,

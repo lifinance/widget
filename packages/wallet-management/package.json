@@ -52,14 +52,15 @@
     "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/experimental": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
-    "@lifi/sdk": "^3.0.0-alpha.16",
+    "@lifi/sdk": "^3.0.0-alpha.27",
     "@safe-global/safe-apps-provider": "^0.18.0",
     "@safe-global/safe-apps-sdk": "^8.1.0",
-    "@walletconnect/ethereum-provider": "^2.10.2",
+    "@walletconnect/ethereum-provider": "^2.10.4",
     "@walletconnect/modal": "^2.6.2",
     "events": "^3.3.0",
     "react": "^18.2.0",
-    "viem": "^1.16.3"
+    "viem": "^2.0.0-beta.0",
+    "wagmi": "^2.0.0-beta.0"
   },
   "devDependencies": {
     "cpy-cli": "^5.0.0",

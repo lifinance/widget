@@ -163,7 +163,6 @@ export interface WidgetConfig {
     deny?: LanguageKey[];
   };
   languageResources?: LanguageResources;
-  disableLanguageDetector?: boolean;
 }
 
 export type WidgetDrawerProps = {

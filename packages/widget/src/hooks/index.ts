@@ -1,3 +1,4 @@
+export * from './useAvailableChains';
 export * from './useChain';
 export * from './useChains';
 export * from './useContentHeight';
@@ -9,7 +10,6 @@ export * from './useFromTokenSufficiency';
 export * from './useGasRecommendation';
 export * from './useGasRefuel';
 export * from './useGasSufficiency';
-export * from './useGetTokenBalancesWithRetry';
 export * from './useInitializer';
 export * from './useNavigateBack';
 export * from './useProcessMessage';
@@ -25,3 +25,4 @@ export * from './useTokenSearch';
 export * from './useTokens';
 export * from './useTools';
 export * from './useWidgetEvents';
+

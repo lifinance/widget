@@ -1,17 +1,17 @@
 import type { SDKOptions } from '@lifi/sdk';
-import { EVM, LiFi } from '@lifi/sdk';
+import { EVM, Solana, createConfig } from '@lifi/sdk';
+import { getWalletClient, switchChain } from '@wagmi/core';
 import { createContext, useContext, useMemo } from 'react';
-import type { Address } from 'viem';
-import { createWalletClient, custom } from 'viem';
 import { version } from '../../config/version';
-import { liFiWalletManagement } from '../WalletProvider';
+import { wagmiConfig } from '../WalletProvider';
 import { useWidgetConfig } from '../WidgetProvider';
 
-let lifi: LiFi;
+let config: ReturnType<typeof createConfig>;
 
-const SDKContext = createContext<LiFi>(null!);
+const SDKContext = createContext<ReturnType<typeof createConfig>>(null!);
 
-export const useLiFi = (): LiFi => useContext(SDKContext);
+export const useLiFi = (): ReturnType<typeof createConfig> =>
+  useContext(SDKContext);
 
 export const SDKProvider: React.FC<React.PropsWithChildren> = ({
   children,
@@ -25,12 +25,13 @@ export const SDKProvider: React.FC<React.PropsWithChildren> = ({
     routePriority,
     slippage,
   } = useWidgetConfig();
-  const value = useMemo(() => {
-    const config: SDKOptions = {
+
+  useMemo(() => {
+    const _config: SDKOptions = {
       ...sdkConfig,
       apiKey,
       integrator: integrator ?? window.location.hostname,
-      defaultRouteOptions: {
+      routeOptions: {
         integrator: integrator ?? window.location.hostname,
         fee,
         referrer,
@@ -40,29 +41,25 @@ export const SDKProvider: React.FC<React.PropsWithChildren> = ({
       },
       providers: [
         EVM({
-          getWalletClient() {
-            const account =
-              liFiWalletManagement.connectedWallets.at(0)?.account;
-            const client = createWalletClient({
-              account: account?.address as Address,
-              transport: custom(account?.provider?.provider as any),
-            });
-
-            return Promise.resolve(client);
+          getWalletClient: () => getWalletClient(wagmiConfig),
+          switchChain: async (chainId: number) => {
+            await switchChain(wagmiConfig, { chainId });
+            return getWalletClient(wagmiConfig);
           },
         }),
+        Solana({
+          getWalletAdapter() {},
+        }),
       ],
+      disableVersionCheck: true,
+      widgetVersion: version,
     };
-    if (!lifi) {
-      lifi = new LiFi({
-        disableVersionCheck: true,
-        widgetVersion: version,
-        ...config,
-      });
+    if (!config) {
+      config = createConfig(_config);
+    } else {
+      config.set(_config);
     }
-    lifi.setConfig(config);
-    return lifi;
   }, [apiKey, fee, integrator, referrer, routePriority, sdkConfig, slippage]);
 
-  return <SDKContext.Provider value={value}>{children}</SDKContext.Provider>;
+  return children;
 };

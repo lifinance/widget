@@ -11,7 +11,7 @@ import { BottomSheet } from '../../components/BottomSheet';
 import { Token } from '../../components/Token';
 import {
   getProcessMessage,
-  useChains,
+  useAvailableChains,
   useNavigateBack,
   useTokenBalance,
 } from '../../hooks';
@@ -33,7 +33,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   const { t } = useTranslation();
   const { navigateBack, navigate } = useNavigateBack();
   const ref = useRef<BottomSheetBase>(null);
-  const { getChainById } = useChains();
+  const { getChainById } = useAvailableChains();
   const { setValue } = useFormContext();
   const {
     subvariant,

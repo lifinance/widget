@@ -7,6 +7,7 @@ import {
   FormProvider,
   I18nProvider,
   SDKProvider,
+  SolanaProvider,
   ThemeProvider,
   URLSearchParamsBuilder,
   WalletProvider,
@@ -24,17 +25,19 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
     <QueryClientProvider client={queryClient}>
       <StoreProvider config={config}>
         <WidgetProvider config={config}>
-          <SDKProvider>
-            <ThemeProvider>
-              <I18nProvider>
-                <WalletProvider>
-                  <FormProvider>
-                    <AppRouter>{children}</AppRouter>
-                  </FormProvider>
-                </WalletProvider>
-              </I18nProvider>
-            </ThemeProvider>
-          </SDKProvider>
+          <ThemeProvider>
+            <I18nProvider>
+              <SolanaProvider>
+                <SDKProvider>
+                  <WalletProvider>
+                    <FormProvider>
+                      <AppRouter>{children}</AppRouter>
+                    </FormProvider>
+                  </WalletProvider>
+                </SDKProvider>
+              </SolanaProvider>
+            </I18nProvider>
+          </ThemeProvider>
         </WidgetProvider>
       </StoreProvider>
     </QueryClientProvider>

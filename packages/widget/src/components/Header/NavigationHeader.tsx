@@ -4,8 +4,9 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Route, Routes, useLocation } from 'react-router-dom';
+import { useAccount } from 'wagmi';
 import { useNavigateBack } from '../../hooks';
-import { useWallet, useWidgetConfig } from '../../providers';
+import { useWidgetConfig } from '../../providers';
 import { useHeaderStore } from '../../stores';
 import { HiddenUI } from '../../types';
 import {
@@ -21,7 +22,7 @@ export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
   const { subvariant, hiddenUI, variant } = useWidgetConfig();
   const { navigate, navigateBack } = useNavigateBack();
-  const { account } = useWallet();
+  const account = useAccount();
   const { element, title } = useHeaderStore((state) => state);
   const { pathname } = useLocation();
 
@@ -120,7 +121,8 @@ export const NavigationHeader: React.FC = () => {
                   variant === 'drawer' && subvariant === 'split' ? 5 : 0
                 }
               >
-                {account.isActive && !hiddenUI?.includes(HiddenUI.History) ? (
+                {account.isConnected &&
+                !hiddenUI?.includes(HiddenUI.History) ? (
                   <Tooltip
                     title={t(`header.transactionHistory`)}
                     enterDelay={400}

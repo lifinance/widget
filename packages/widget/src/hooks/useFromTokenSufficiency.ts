@@ -1,19 +1,17 @@
 import type { Route } from '@lifi/sdk';
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useWatch } from 'react-hook-form';
 import { parseUnits } from 'viem';
-import { FormKey, useWallet } from '../providers';
+import { useAccount } from 'wagmi';
+import { FormKey } from '../providers';
 import { isRouteDone } from '../stores';
-import { useGetTokenBalancesWithRetry } from './useGetTokenBalancesWithRetry';
 import { useTokenAddressBalance } from './useTokenAddressBalance';
+import { getTokenBalancesWithRetry } from './useTokenBalance';
 
 const refetchInterval = 30_000;
 
 export const useFromTokenSufficiency = (route?: Route) => {
-  const { account } = useWallet();
-  const getTokenBalancesWithRetry = useGetTokenBalancesWithRetry(
-    account.signer?.provider,
-  );
+  const account = useAccount();
   const [fromChainId, fromTokenAddress, fromAmount] = useWatch({
     name: [FormKey.FromChain, FormKey.FromToken, FormKey.FromAmount],
   });
@@ -25,17 +23,18 @@ export const useFromTokenSufficiency = (route?: Route) => {
     tokenAddress = route.fromToken.address;
   }
 
-  const { token, isLoading } = useTokenAddressBalance(chainId, tokenAddress);
+  const { token, isLoading: isTokenAddressBalanceLoading } =
+    useTokenAddressBalance(chainId, tokenAddress);
 
-  const { data: insufficientFromToken, isInitialLoading } = useQuery(
-    [
+  const { data: insufficientFromToken, isLoading } = useQuery({
+    queryKey: [
       'from-token-sufficiency-check',
       account.address,
       chainId,
       tokenAddress,
       route?.id ?? fromAmount,
     ],
-    async () => {
+    queryFn: async () => {
       if (!account.address || !token) {
         return;
       }
@@ -70,17 +69,15 @@ export const useFromTokenSufficiency = (route?: Route) => {
         BigInt(currentAction.fromAmount) > currentTokenBalance;
       return insufficientFunds;
     },
-    {
-      enabled: Boolean(account.address && token && !isLoading),
-      refetchInterval,
-      staleTime: refetchInterval,
-      cacheTime: refetchInterval,
-      keepPreviousData: true,
-    },
-  );
+
+    enabled: Boolean(account.address && token && !isTokenAddressBalanceLoading),
+    refetchInterval,
+    staleTime: refetchInterval,
+    placeholderData: keepPreviousData,
+  });
 
   return {
     insufficientFromToken,
-    isInitialLoading,
+    isLoading,
   };
 };

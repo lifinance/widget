@@ -5,7 +5,6 @@ export const queryClient = new QueryClient({
     queries: {
       enabled: true,
       staleTime: 3_600_000,
-      cacheTime: Infinity,
       refetchInterval: false,
       refetchIntervalInBackground: false,
       refetchOnWindowFocus: true,
@@ -13,9 +12,6 @@ export const queryClient = new QueryClient({
       refetchOnMount: true,
       retryOnMount: true,
       // suspense: true,
-      onError: (error) => {
-        //
-      },
     },
     mutations: {
       onError: (error) => {
