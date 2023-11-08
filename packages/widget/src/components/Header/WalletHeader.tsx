@@ -1,14 +1,11 @@
-import ContentCopyIcon from '@mui/icons-material/ContentCopyRounded';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import OpenInNewIcon from '@mui/icons-material/OpenInNewRounded';
-import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNewRounded';
 import WalletIcon from '@mui/icons-material/Wallet';
-import { Avatar, Button, MenuItem } from '@mui/material';
+import { Avatar } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAccount, useDisconnect } from 'wagmi';
-import { useChain } from '../../hooks';
+import type { Account } from '../../hooks';
+import { useAccount, useChain } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
 import { navigationRoutes, shortenAddress } from '../../utils';
 import {
@@ -17,6 +14,7 @@ import {
   WalletButton,
 } from './Header.style';
 import { WalletMenu } from './WalletMenu';
+import { WalletMenuContainer } from './WalletMenu.style';
 
 export const WalletHeader: React.FC = () => {
   return (
@@ -27,17 +25,25 @@ export const WalletHeader: React.FC = () => {
 };
 
 export const WalletMenuButton: React.FC = () => {
-  const account = useAccount();
+  const { account } = useAccount();
   const { variant } = useWidgetConfig();
 
   if (variant === 'drawer') {
     return (
       <DrawerWalletContainer>
-        {account.isConnected ? <ConnectedButton /> : <ConnectButton />}
+        {account.isConnected ? (
+          <ConnectedButton account={account} />
+        ) : (
+          <ConnectButton />
+        )}
       </DrawerWalletContainer>
     );
   }
-  return account.isConnected ? <ConnectedButton /> : <ConnectButton />;
+  return account.isConnected ? (
+    <ConnectedButton account={account} />
+  ) : (
+    <ConnectButton />
+  );
 };
 
 const ConnectButton = () => {
@@ -77,14 +83,11 @@ const ConnectButton = () => {
   );
 };
 
-const ConnectedButton = () => {
-  const { t } = useTranslation();
+const ConnectedButton = ({ account }: { account: Account }) => {
   const { subvariant } = useWidgetConfig();
-  const account = useAccount();
-  const { disconnect } = useDisconnect();
-  const walletAddress = shortenAddress(account.address);
   const { chain } = useChain(account.chainId);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const walletAddress = shortenAddress(account.address);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -92,16 +95,6 @@ const ConnectedButton = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
-  };
-
-  const handleDisconnect = () => {
-    disconnect();
-    handleClose();
-  };
-
-  const handleCopyAddress = async () => {
-    await navigator.clipboard.writeText(account.address ?? '');
-    handleClose();
   };
 
   return (
@@ -125,35 +118,13 @@ const ConnectedButton = () => {
       >
         {walletAddress}
       </WalletButton>
-      <WalletMenu
+      <WalletMenuContainer
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleCopyAddress}>
-          <ContentCopyIcon />
-          {t(`button.copyAddress`)}
-        </MenuItem>
-        <MenuItem
-          component="a"
-          onClick={handleClose}
-          href={`${chain?.metamask.blockExplorerUrls[0]}address/${account.address}`}
-          target="_blank"
-        >
-          <OpenInNewIcon />
-          {t(`button.viewOnExplorer`)}
-        </MenuItem>
-        <Button
-          onClick={handleDisconnect}
-          fullWidth
-          startIcon={<PowerSettingsNewIcon />}
-          sx={{
-            marginTop: 1,
-          }}
-        >
-          {t(`button.disconnect`)}
-        </Button>
-      </WalletMenu>
+        <WalletMenu onClose={handleClose} />
+      </WalletMenuContainer>
     </>
   );
 };

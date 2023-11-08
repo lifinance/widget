@@ -41,7 +41,6 @@ export const useChains = () => {
         }
         return filteredChains;
       },
-
       enabled: Boolean(availableChains),
     },
   );

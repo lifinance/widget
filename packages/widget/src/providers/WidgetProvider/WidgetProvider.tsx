@@ -58,9 +58,8 @@ export const WidgetProvider: React.FC<
           typeof toChain === 'number'
             ? parseInt(searchParams.toChain, 10) || toChain
             : undefined,
-        fromToken:
-          searchParams.fromToken?.toLowerCase() || fromToken?.toLowerCase(),
-        toToken: searchParams.toToken?.toLowerCase() || toToken?.toLowerCase(),
+        fromToken: searchParams.fromToken || fromToken,
+        toToken: searchParams.toToken || toToken,
         fromAmount:
           typeof searchParams.fromAmount === 'string' &&
           !isNaN(parseFloat(searchParams.fromAmount))

@@ -18,7 +18,6 @@ export const widgetBaseConfig: WidgetConfig = {
   variant: 'expandable',
   // subvariant: 'split',
   integrator: 'li.fi-playground',
-  apiKey: 'test-key',
   chains: {
     allow: [], // 1, 1285, 10, 56, 137
     deny: [],
@@ -31,8 +30,8 @@ export const widgetBaseConfig: WidgetConfig = {
   // slippage: 0.003,
   insurance: true,
   sdkConfig: {
-    // apiUrl: 'https://develop.li.quest/v1',
-    defaultRouteOptions: {
+    apiUrl: 'https://develop.li.quest/v1',
+    routeOptions: {
       maxPriceImpact: 0.4,
       // slippage: 0.03,
       // order: 'SAFEST',

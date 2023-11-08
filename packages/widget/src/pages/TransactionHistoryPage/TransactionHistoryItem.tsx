@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import type { Route } from '@lifi/sdk';
+import type { RouteExtended } from '@lifi/sdk';
 import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +8,7 @@ import { Token, TokenDivider } from '../../components/Token';
 import { navigationRoutes } from '../../utils';
 
 export const TransactionHistoryItem: React.FC<{
-  route: Route;
+  route: RouteExtended;
 }> = ({ route }) => {
   const { i18n } = useTranslation();
   const navigate = useNavigate();

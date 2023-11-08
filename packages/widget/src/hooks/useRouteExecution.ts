@@ -3,7 +3,6 @@ import type { ExchangeRateUpdateParams, Route } from '@lifi/sdk';
 import { executeRoute, resumeRoute, updateRouteExecution } from '@lifi/sdk';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useRef } from 'react';
-import { useAccount } from 'wagmi';
 import { shallow } from 'zustand/shallow';
 import {
   getUpdatedProcess,
@@ -14,6 +13,7 @@ import {
   useRouteExecutionStoreContext,
 } from '../stores';
 import { WidgetEvent } from '../types/events';
+import { useAccount } from './useAccount';
 import { useWidgetEvents } from './useWidgetEvents';
 
 interface RouteExecutionProps {
@@ -31,7 +31,7 @@ export const useRouteExecution = ({
   onAcceptExchangeRateUpdate,
 }: RouteExecutionProps) => {
   const queryClient = useQueryClient();
-  const account = useAccount();
+  const { account } = useAccount();
   const resumedAfterMount = useRef(false);
   const emitter = useWidgetEvents();
   const routeExecutionStoreContext = useRouteExecutionStoreContext();

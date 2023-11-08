@@ -1,17 +1,14 @@
 import type { SDKOptions } from '@lifi/sdk';
 import { EVM, Solana, createConfig } from '@lifi/sdk';
+import type { WalletAdapter } from '@solana/wallet-adapter-base';
+import { useWallet } from '@solana/wallet-adapter-react';
 import { getWalletClient, switchChain } from '@wagmi/core';
-import { createContext, useContext, useMemo } from 'react';
+import { useMemo } from 'react';
 import { version } from '../../config/version';
 import { wagmiConfig } from '../WalletProvider';
 import { useWidgetConfig } from '../WidgetProvider';
 
 let config: ReturnType<typeof createConfig>;
-
-const SDKContext = createContext<ReturnType<typeof createConfig>>(null!);
-
-export const useLiFi = (): ReturnType<typeof createConfig> =>
-  useContext(SDKContext);
 
 export const SDKProvider: React.FC<React.PropsWithChildren> = ({
   children,
@@ -26,6 +23,8 @@ export const SDKProvider: React.FC<React.PropsWithChildren> = ({
     slippage,
   } = useWidgetConfig();
 
+  const { wallet } = useWallet();
+
   useMemo(() => {
     const _config: SDKOptions = {
       ...sdkConfig,
@@ -37,7 +36,7 @@ export const SDKProvider: React.FC<React.PropsWithChildren> = ({
         referrer,
         order: routePriority,
         slippage,
-        ...sdkConfig?.defaultRouteOptions,
+        ...sdkConfig?.routeOptions,
       },
       providers: [
         EVM({
@@ -48,7 +47,9 @@ export const SDKProvider: React.FC<React.PropsWithChildren> = ({
           },
         }),
         Solana({
-          getWalletAdapter() {},
+          async getWalletAdapter() {
+            return wallet?.adapter as WalletAdapter;
+          },
         }),
       ],
       disableVersionCheck: true,
@@ -59,7 +60,16 @@ export const SDKProvider: React.FC<React.PropsWithChildren> = ({
     } else {
       config.set(_config);
     }
-  }, [apiKey, fee, integrator, referrer, routePriority, sdkConfig, slippage]);
+  }, [
+    apiKey,
+    fee,
+    integrator,
+    referrer,
+    routePriority,
+    sdkConfig,
+    slippage,
+    wallet?.adapter,
+  ]);
 
   return children;
 };

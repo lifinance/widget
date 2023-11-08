@@ -71,15 +71,13 @@ export interface WidgetWalletManagement {
 export interface WidgetSDKOptions
   extends Omit<
     SDKOptions,
-    | 'defaultExecutionSettings'
-    | 'defaultRouteOptions'
+    | 'apiKey'
     | 'disableVersionCheck'
     | 'integrator'
+    | 'routeOptions'
+    | 'widgetVersion'
   > {
-  defaultRouteOptions?: Omit<
-    RouteOptions,
-    'bridges' | 'exchanges' | 'insurance'
-  >;
+  routeOptions?: Omit<RouteOptions, 'bridges' | 'exchanges' | 'insurance'>;
 }
 
 export interface WidgetContractTool {

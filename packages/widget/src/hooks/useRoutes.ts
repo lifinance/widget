@@ -1,15 +1,14 @@
 import type { Route, RoutesResponse, Token } from '@lifi/sdk';
 import { LiFiErrorCode, getContractCallQuote, getRoutes } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { getEnsAddress } from '@wagmi/core';
 import { useWatch } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
-import { isAddress, parseUnits } from 'viem';
-import { normalize } from 'viem/ens';
-import { useAccount, useConfig } from 'wagmi';
+import { parseUnits } from 'viem';
+import { useConfig } from 'wagmi';
 import { useDebouncedWatch, useGasRefuel, useToken } from '.';
 import { FormKey, useWidgetConfig } from '../providers';
 import { useSettings } from '../stores';
+import { useAccount } from './useAccount';
 import { useSwapOnly } from './useSwapOnly';
 
 const refetchTime = 60_000;
@@ -20,7 +19,7 @@ interface RoutesProps {
 
 export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
   const { subvariant, sdkConfig, insurance, contractTool } = useWidgetConfig();
-  const account = useAccount();
+  const { account } = useAccount();
   const config = useConfig();
   const queryClient = useQueryClient();
   const swapOnly = useSwapOnly();
@@ -102,7 +101,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
     enabledExchanges,
     routePriority,
     subvariant,
-    sdkConfig?.defaultRouteOptions?.allowSwitchChain,
+    sdkConfig?.routeOptions?.allowSwitchChain,
     enabledRefuel && enabledAutoRefuel,
     gasRecommendationFromAmount,
     insurance,
@@ -139,19 +138,19 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
         ],
         signal,
       }) => {
-        let toWalletAddress;
-        try {
-          // FIXME: resolve address in one place
-          toWalletAddress = !isAddress(toAddress)
-            ? await getEnsAddress(config, {
-                name: normalize(toAddress),
-              })
-            : isAddress(toAddress)
-            ? toAddress
-            : fromAddress;
-        } catch {
-          toWalletAddress = isAddress(toAddress) ? toAddress : fromAddress;
-        }
+        let toWalletAddress = toAddress || fromAddress;
+        // try {
+        //   // FIXME: resolve address in one place
+        //   toWalletAddress = !isAddress(toAddress)
+        //     ? await getEnsAddress(config, {
+        //         name: normalize(toAddress),
+        //       })
+        //     : isAddress(toAddress)
+        //     ? toAddress
+        //     : fromAddress;
+        // } catch {
+        //   toWalletAddress = isAddress(toAddress) ? toAddress : fromAddress;
+        // }
         const fromAmount = parseUnits(
           fromTokenAmount || 0,
           fromToken!.decimals,

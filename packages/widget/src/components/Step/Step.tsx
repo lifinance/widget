@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import type { LiFiStep, TokenAmount } from '@lifi/sdk';
+import type { LiFiStepExtended, TokenAmount } from '@lifi/sdk';
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Card, CardTitle } from '../../components/Card';
@@ -14,7 +14,7 @@ import { StepProcess } from './StepProcess';
 import { StepTimer } from './StepTimer';
 
 export const Step: React.FC<{
-  step: LiFiStep;
+  step: LiFiStepExtended;
   fromToken?: TokenAmount;
   toToken?: TokenAmount;
   toAddress?: string;

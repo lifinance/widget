@@ -1,22 +1,23 @@
 import { getTokenBalances } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
 import { formatUnits } from 'viem';
-import { useAccount } from 'wagmi';
 import type { TokenAmount } from '../types';
+import { useAccount } from './useAccount';
 import { useFeaturedTokens } from './useFeaturedTokens';
 import { useTokens } from './useTokens';
 
 const defaultRefetchInterval = 32_000;
 
 export const useTokenBalances = (selectedChainId?: number) => {
-  const account = useAccount();
+  const { account } = useAccount();
   const featuredTokens = useFeaturedTokens(selectedChainId);
-  const { tokens, isLoading } = useTokens(selectedChainId);
+  const { tokens, chain, isLoading } = useTokens(selectedChainId);
 
   const isBalanceLoadingEnabled =
     Boolean(account.address) &&
     Boolean(tokens?.length) &&
-    Boolean(selectedChainId);
+    Boolean(selectedChainId) &&
+    chain?.chainType === account.chainType;
 
   const {
     data: tokensWithBalance,
@@ -71,7 +72,6 @@ export const useTokenBalances = (selectedChainId?: number) => {
       ];
       return result;
     },
-
     enabled: isBalanceLoadingEnabled,
     refetchInterval: defaultRefetchInterval,
     staleTime: defaultRefetchInterval,

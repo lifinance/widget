@@ -1,4 +1,4 @@
-import type { Route } from '@lifi/sdk';
+import type { Route, RouteExtended } from '@lifi/sdk';
 import type { StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { createWithEqualityFn } from 'zustand/traditional';
@@ -40,7 +40,7 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
             });
           }
         },
-        updateRoute: (route: Route) => {
+        updateRoute: (route: RouteExtended) => {
           if (get().routes[route.id]) {
             set((state: RouteExecutionState) => {
               const updatedState = {
@@ -150,7 +150,7 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
             // migrate old routes
             const routeString = localStorage.getItem('routes');
             if (routeString) {
-              const routes = JSON.parse(routeString) as Array<Route>;
+              const routes = JSON.parse(routeString) as Array<RouteExtended>;
               routes.forEach((route) => {
                 if (state.routes[route.id]) {
                   return;

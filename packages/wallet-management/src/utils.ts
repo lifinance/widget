@@ -1,6 +1,6 @@
 import { ProviderIdentityFlag } from './types';
 
-export const isWalletInstalled = async (id: string): Promise<boolean> => {
+export const isWalletInstalled = (id: string): boolean => {
   switch (id) {
     case 'default':
       return (
@@ -69,6 +69,13 @@ export const isWalletInstalled = async (id: string): Promise<boolean> => {
       return (window as any).okxwallet;
     case 'exodus':
       return (window as any).exodus?.ethereum;
+    default:
+      return false;
+  }
+};
+
+export const isWalletInstalledAsync = async (id: string): Promise<boolean> => {
+  switch (id) {
     case 'safe': {
       // in Multisig env, window.parent is not equal to window
       const isIFrameEnvironment = window?.parent !== window;
@@ -90,8 +97,7 @@ export const isWalletInstalled = async (id: string): Promise<boolean> => {
         return false;
       }
     }
-
     default:
-      return false;
+      return isWalletInstalled(id);
   }
 };

@@ -11,8 +11,8 @@ import {
 } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAccount } from 'wagmi';
 import { Dialog } from '../../components/Dialog';
+import { useAccount } from '../../hooks';
 import { useHeaderStoreContext, useRouteExecutionStore } from '../../stores';
 import { useTransactionHistory } from '../../stores/routes';
 import { TransactionHistoryEmpty } from './TransactionHistoryEmpty';
@@ -20,7 +20,7 @@ import { TransactionHistoryItem } from './TransactionHistoryItem';
 
 export const TransactionHistoryPage: React.FC = () => {
   const { t } = useTranslation();
-  const account = useAccount();
+  const { account } = useAccount();
   const transactions = useTransactionHistory(account.address);
   const headerStoreContext = useHeaderStoreContext();
   const deleteRoutes = useRouteExecutionStore((store) => store.deleteRoutes);

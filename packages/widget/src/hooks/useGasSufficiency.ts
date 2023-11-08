@@ -1,8 +1,8 @@
-import type { EVMChain, Route, Token } from '@lifi/sdk';
+import type { EVMChain, RouteExtended, Token } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
-import { useAccount } from 'wagmi';
 import { getTokenBalancesWithRetry, useAvailableChains, useGasRefuel } from '.';
 import { useSettings } from '../stores';
+import { useAccount } from './useAccount';
 
 export interface GasSufficiency {
   gasAmount: bigint;
@@ -15,8 +15,8 @@ export interface GasSufficiency {
 
 const refetchInterval = 30_000;
 
-export const useGasSufficiency = (route?: Route) => {
-  const account = useAccount();
+export const useGasSufficiency = (route?: RouteExtended) => {
+  const { account } = useAccount();
   const { getChainById } = useAvailableChains();
 
   const { enabledAutoRefuel } = useSettings(['enabledAutoRefuel']);
@@ -26,7 +26,7 @@ export const useGasSufficiency = (route?: Route) => {
   const { data: insufficientGas, isLoading } = useQuery({
     queryKey: ['gas-sufficiency-check', account.address, route?.id],
     queryFn: async () => {
-      if (account.status !== 'connected' || !route) {
+      if (!account.address || !route) {
         return;
       }
 
@@ -39,7 +39,7 @@ export const useGasSufficiency = (route?: Route) => {
         .filter((step) => !step.execution || step.execution.status !== 'DONE')
         .reduce(
           (groupedGasCosts, step) => {
-            if (step.estimate.gasCosts && account.connector.id !== 'safe') {
+            if (step.estimate.gasCosts && account.connector?.id !== 'safe') {
               const { token } = step.estimate.gasCosts[0];
               const gasCostAmount = step.estimate.gasCosts.reduce(
                 (amount, gasCost) => amount + BigInt(gasCost.amount),

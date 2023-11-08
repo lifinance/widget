@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useRef } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { useAccount } from 'wagmi';
 import type { FormValues } from '.';
 import { FormKey } from '.';
+import { useAccount } from '../../hooks';
 import { isItemAllowed, useWidgetConfig } from '../WidgetProvider';
 
 export const FormUpdater: React.FC<{
   defaultValues: Partial<FormValues>;
 }> = ({ defaultValues }) => {
   const { fromChain, toChain, chains } = useWidgetConfig();
-  const account = useAccount();
+  const { account } = useAccount();
   const {
     setValue,
     getValues,

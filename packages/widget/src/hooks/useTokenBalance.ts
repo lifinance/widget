@@ -1,12 +1,12 @@
 import { getTokenBalances, type Token, type TokenAmount } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
-import { useAccount } from 'wagmi';
+import { useAccount } from './useAccount';
 
 const defaultRefetchInterval = 30_000;
 
 export const useTokenBalance = (token?: Token, accountAddress?: string) => {
-  const account = useAccount();
+  const { account } = useAccount();
   const queryClient = useQueryClient();
   const walletAddress = accountAddress || account.address;
 

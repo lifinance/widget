@@ -1,7 +1,7 @@
 import { LoadingButton } from '@mui/lab';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useAccount } from 'wagmi';
+import { useAccount } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
 import { navigationRoutes } from '../../utils';
 import type { BaseTransactionButtonProps } from './types';
@@ -15,7 +15,7 @@ export const BaseTransactionButton: React.FC<BaseTransactionButtonProps> = ({
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { walletManagement } = useWidgetConfig();
-  const account = useAccount();
+  const { account } = useAccount();
 
   const handleClick = async () => {
     if (account.isConnected) {

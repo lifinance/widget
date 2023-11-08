@@ -1,4 +1,4 @@
-import { getTokens } from '@lifi/sdk';
+import { ChainType, getTokens } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { useWidgetConfig } from '../providers';
@@ -9,7 +9,7 @@ import { useFeaturedTokens } from './useFeaturedTokens';
 export const useTokens = (selectedChainId?: number) => {
   const { data, isLoading } = useQuery({
     queryKey: ['tokens'],
-    queryFn: () => getTokens(),
+    queryFn: () => getTokens({ chainTypes: [ChainType.EVM, ChainType.SVM] }),
     refetchInterval: 3_600_000,
   });
   const {
@@ -20,14 +20,14 @@ export const useTokens = (selectedChainId?: number) => {
   const featuredTokens = useFeaturedTokens(selectedChainId);
   const { tokens: configTokens } = useWidgetConfig();
 
-  const tokens = useMemo(() => {
+  const filteredData = useMemo(() => {
     if (isSupportedChainsLoading) {
-      return [];
+      return;
     }
-    const chainAllowed =
-      selectedChainId && getChainById(selectedChainId, chains);
+    const chain = getChainById(selectedChainId, chains);
+    const chainAllowed = selectedChainId && chain;
     if (!chainAllowed) {
-      return [];
+      return;
     }
     let filteredTokens = data?.tokens[selectedChainId];
     const includedTokens = configTokens?.include?.filter(
@@ -67,7 +67,10 @@ export const useTokens = (selectedChainId?: number) => {
       ) ?? []),
     ] as TokenAmount[];
 
-    return tokens;
+    return {
+      tokens,
+      chain,
+    };
   }, [
     chains,
     configTokens?.allow,
@@ -81,7 +84,8 @@ export const useTokens = (selectedChainId?: number) => {
   ]);
 
   return {
-    tokens,
+    tokens: filteredData?.tokens,
+    chain: filteredData?.chain,
     isLoading,
   };
 };

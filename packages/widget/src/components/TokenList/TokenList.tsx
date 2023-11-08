@@ -2,8 +2,8 @@ import { Box } from '@mui/material';
 import type { FC } from 'react';
 import { useRef } from 'react';
 import { useWatch } from 'react-hook-form';
-import { useAccount } from 'wagmi';
 import {
+  useAccount,
   useChain,
   useDebouncedWatch,
   useTokenBalances,
@@ -22,7 +22,7 @@ export const TokenList: FC<TokenListProps> = ({
   onClick,
 }) => {
   const parentRef = useRef<HTMLUListElement | null>(null);
-  const account = useAccount();
+  const { account } = useAccount();
   const [selectedChainId] = useWatch({
     name: [FormKeyHelper.getChainKey(formType)],
   });

@@ -28,13 +28,13 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
           <ThemeProvider>
             <I18nProvider>
               <SolanaProvider>
-                <SDKProvider>
-                  <WalletProvider>
+                <WalletProvider>
+                  <SDKProvider>
                     <FormProvider>
                       <AppRouter>{children}</AppRouter>
                     </FormProvider>
-                  </WalletProvider>
-                </SDKProvider>
+                  </SDKProvider>
+                </WalletProvider>
               </SolanaProvider>
             </I18nProvider>
           </ThemeProvider>

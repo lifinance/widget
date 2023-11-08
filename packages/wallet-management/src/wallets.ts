@@ -4,6 +4,7 @@ import {
   coinbaseWallet,
   injected,
 } from 'wagmi/connectors';
+import { isWalletInstalled } from './utils';
 import { walletIcons } from './walletIcons';
 
 export const metaMask = injected({
@@ -74,7 +75,8 @@ export const safepal = injected({
     id: 'safepal',
     name: 'SafePal',
     icon: walletIcons.safepal,
-    provider: (window as any).ethereum,
+    provider: (window) =>
+      isWalletInstalled('safepal') ? window?.ethereum : undefined,
   },
 });
 
@@ -83,7 +85,7 @@ export const brave = injected({
     id: 'brave',
     name: 'Brave',
     icon: walletIcons.brave,
-    provider: (window as any).ethereum,
+    provider: isWalletInstalled('brave') ? window?.ethereum : undefined,
   },
 });
 
@@ -101,7 +103,7 @@ export const block = injected({
     id: 'block',
     name: 'BlockWallet',
     icon: walletIcons.blockwallet,
-    provider: (window as any).ethereum,
+    provider: isWalletInstalled('block') ? window?.ethereum : undefined,
   },
 });
 
@@ -128,7 +130,7 @@ export const status = injected({
     id: 'status',
     name: 'Status',
     icon: walletIcons.status,
-    provider: (window as any).ethereum,
+    provider: isWalletInstalled('status') ? window?.ethereum : undefined,
   },
 });
 
@@ -137,7 +139,7 @@ export const alpha = injected({
     id: 'alpha',
     name: 'AlphaWallet',
     icon: walletIcons.alphawallet,
-    provider: (window as any).ethereum,
+    provider: isWalletInstalled('alpha') ? window?.ethereum : undefined,
   },
 });
 
@@ -146,7 +148,7 @@ export const bitpie = injected({
     id: 'bitpie',
     name: 'Bitpie',
     icon: walletIcons.bitpie,
-    provider: (window as any).ethereum,
+    provider: isWalletInstalled('bitpie') ? window?.ethereum : undefined,
   },
 });
 
@@ -155,7 +157,7 @@ export const dcent = injected({
     id: 'dcent',
     name: 'Dcent',
     icon: walletIcons.dcent,
-    provider: (window as any).ethereum,
+    provider: isWalletInstalled('dcent') ? window?.ethereum : undefined,
   },
 });
 
@@ -173,7 +175,7 @@ export const hyperpay = injected({
     id: 'hyperpay',
     name: 'HyperPay',
     icon: walletIcons.hyperpay,
-    provider: (window as any).ethereum,
+    provider: isWalletInstalled('hyperpay') ? window?.ethereum : undefined,
   },
 });
 
@@ -182,7 +184,7 @@ export const imtoken = injected({
     id: 'imtoken',
     name: 'ImToken',
     icon: walletIcons.imtoken,
-    provider: (window as any).ethereum,
+    provider: isWalletInstalled('imtoken') ? window?.ethereum : undefined,
   },
 });
 
@@ -200,7 +202,7 @@ export const ownbit = injected({
     id: 'ownbit',
     name: 'OwnBit',
     icon: walletIcons.ownbit,
-    provider: (window as any).ethereum,
+    provider: isWalletInstalled('ownbit') ? window?.ethereum : undefined,
   },
 });
 
@@ -209,7 +211,7 @@ export const tokenpocket = injected({
     id: 'tokenpocket',
     name: 'TokenPocket',
     icon: walletIcons.tokenpocket,
-    provider: (window as any).ethereum,
+    provider: isWalletInstalled('tokenpocket') ? window?.ethereum : undefined,
   },
 });
 
@@ -218,7 +220,7 @@ export const xdefi = injected({
     id: 'xdefi',
     name: 'XDEFI',
     icon: walletIcons.xdefi,
-    provider: (window as any).ethereum,
+    provider: isWalletInstalled('xdefi') ? window?.ethereum : undefined,
   },
 });
 
@@ -227,7 +229,7 @@ export const oneinch = injected({
     id: '1inch',
     name: '1inch',
     icon: walletIcons.oneInch,
-    provider: (window as any).ethereum,
+    provider: isWalletInstalled('1inch') ? window?.ethereum : undefined,
   },
 });
 
@@ -236,7 +238,7 @@ export const tokenary = injected({
     id: 'tokenary',
     name: 'Tokenary',
     icon: walletIcons.tokenary,
-    provider: (window as any).ethereum,
+    provider: isWalletInstalled('tokenary') ? window?.ethereum : undefined,
   },
 });
 

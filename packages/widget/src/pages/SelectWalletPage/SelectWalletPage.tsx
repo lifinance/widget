@@ -1,4 +1,4 @@
-import { isWalletInstalled } from '@lifi/wallet-management';
+import { isWalletInstalledAsync } from '@lifi/wallet-management';
 import type { Theme } from '@mui/material';
 import {
   Avatar,
@@ -24,7 +24,7 @@ import { useNavigateBack } from '../../hooks';
 export const SelectWalletPage = () => {
   const { t } = useTranslation();
   const { navigateBack } = useNavigateBack();
-  const { connectors, connect } = useConnect();
+  const { connect, connectors } = useConnect();
   const [walletIdentity, setWalletIdentity] = useState<{
     show: boolean;
     connector?: Connector;
@@ -50,7 +50,7 @@ export const SelectWalletPage = () => {
 
   const handleConnect = useCallback(
     async (connector: Connector) => {
-      const identityCheckPassed = await isWalletInstalled(connector.id);
+      const identityCheckPassed = await isWalletInstalledAsync(connector.id);
       if (!identityCheckPassed) {
         setWalletIdentity({
           show: true,
@@ -66,7 +66,7 @@ export const SelectWalletPage = () => {
 
   useEffect(() => {
     Promise.all(
-      connectors.map((connector) => isWalletInstalled(connector.id)),
+      connectors.map((connector) => isWalletInstalledAsync(connector.id)),
     ).then((installed) => {
       // separate into installed and not installed wallets
       const installedWallets = connectors.filter(

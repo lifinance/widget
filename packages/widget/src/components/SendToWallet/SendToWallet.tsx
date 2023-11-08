@@ -6,27 +6,40 @@ import { useController, useFormContext, useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { isAddress } from 'viem';
 import { normalize } from 'viem/ens';
-import { useAccount, useConfig } from 'wagmi';
+import { useConfig } from 'wagmi';
+import { useAccount } from '../../hooks';
 import { FormKey, useWidgetConfig } from '../../providers';
 import { useSendToWalletStore, useSettings } from '../../stores';
 import { DisabledUI, HiddenUI, RequiredUI } from '../../types';
 import { Card, CardTitle } from '../Card';
 import { FormControl, Input } from './SendToWallet.style';
+import { useDifferentChainType } from './useDifferentChainType';
 
 export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
   const { t } = useTranslation();
   const { trigger, getValues, setValue, clearErrors } = useFormContext();
-  const account = useAccount();
+  const { account } = useAccount();
   const config = useConfig();
   const { disabledUI, hiddenUI, requiredUI, toAddress } = useWidgetConfig();
-  const { showSendToWallet, showSendToWalletDirty, setSendToWallet } =
-    useSendToWalletStore();
+  const { showSendToWallet, showSendToWalletDirty } = useSendToWalletStore();
   const { showDestinationWallet } = useSettings(['showDestinationWallet']);
+
+  const differentChainType = useDifferentChainType();
 
   const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress);
   const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress);
-  const requiredToAddress = requiredUI?.includes(RequiredUI.ToAddress);
+  const requiredToAddress =
+    requiredUI?.includes(RequiredUI.ToAddress) || differentChainType;
   const requiredToAddressRef = useRef(requiredToAddress);
+
+  // We want to show toAddress field if it is set via widget configuration and not hidden
+  const showInstantly =
+    Boolean(
+      !showSendToWalletDirty &&
+        showDestinationWallet &&
+        toAddress &&
+        !hiddenToAddress,
+    ) || requiredToAddress;
 
   const {
     field: { onChange, onBlur, name, value },
@@ -39,6 +52,7 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
         setValue(FormKey.ToAddress, e.target.value.trim());
       },
       validate: async (value: string) => {
+        return true;
         try {
           if (!value || isAddress(value)) {
             return true;
@@ -55,20 +69,11 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
     },
   });
 
-  // We want to show toAddress field if it is set via widget configuration and not hidden
-  const showInstantly =
-    Boolean(
-      !showSendToWalletDirty &&
-        showDestinationWallet &&
-        toAddress &&
-        !hiddenToAddress,
-    ) || requiredToAddress;
-
-  useEffect(() => {
-    if (showInstantly) {
-      setSendToWallet(true);
-    }
-  }, [showInstantly, setSendToWallet]);
+  // useEffect(() => {
+  //   if (showInstantly) {
+  //     setSendToWallet(true);
+  //   }
+  // }, [showInstantly, setSendToWallet]);
 
   useEffect(() => {
     const value = getValues(FormKey.ToAddress);
@@ -81,7 +86,7 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
     }
   }, [account.chainId, clearErrors, getValues, requiredToAddress, trigger]);
 
-  if (hiddenToAddress) {
+  if (hiddenToAddress && !requiredToAddress) {
     return null;
   }
 

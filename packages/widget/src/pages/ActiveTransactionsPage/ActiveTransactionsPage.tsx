@@ -11,9 +11,9 @@ import {
 } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAccount } from 'wagmi';
 import { ActiveTransactionItem } from '../../components/ActiveTransactions';
 import { Dialog } from '../../components/Dialog';
+import { useAccount } from '../../hooks';
 import {
   useExecutingRoutesIds,
   useHeaderStoreContext,
@@ -23,7 +23,7 @@ import { ActiveTransactionsEmpty } from './ActiveTransactionsEmpty';
 
 export const ActiveTransactionsPage = () => {
   const { t } = useTranslation();
-  const account = useAccount();
+  const { account } = useAccount();
   const executingRoutes = useExecutingRoutesIds(account.address);
   const deleteRoutes = useRouteExecutionStore((store) => store.deleteRoutes);
   const headerStoreContext = useHeaderStoreContext();

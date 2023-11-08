@@ -1,3 +1,4 @@
+export * from './useAccount';
 export * from './useAvailableChains';
 export * from './useChain';
 export * from './useChains';

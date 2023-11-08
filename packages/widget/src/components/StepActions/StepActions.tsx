@@ -1,4 +1,4 @@
-import type { LiFiStep, Step } from '@lifi/sdk';
+import type { LiFiStep, Step, StepExtended } from '@lifi/sdk';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -165,7 +165,7 @@ export const IncludedSteps: React.FC<{
 };
 
 export const StepDetailsContent: React.FC<{
-  step: Step;
+  step: StepExtended;
   subvariant?: WidgetSubvariant;
 }> = ({ step, subvariant }) => {
   const { t } = useTranslation();
