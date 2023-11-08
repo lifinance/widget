@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.8.1](https://github.com/lifinance/widget/compare/v2.8.0...v2.8.1) (2023-11-08)
+
+
+### Bug Fixes
+
+* add toAddress for URL params ([9565af9](https://github.com/lifinance/widget/commit/9565af9dfc19427142cbf395da1f3fda2fb712c6))
+* update safepal logo ([#149](https://github.com/lifinance/widget/issues/149)) ([5e8aeb9](https://github.com/lifinance/widget/commit/5e8aeb9c92e9e2f1a5d85ef41b6508643f377a2b))
+
 ## [2.8.0](https://github.com/lifinance/widget/compare/v2.7.1...v2.8.0) (2023-10-30)
 
 
