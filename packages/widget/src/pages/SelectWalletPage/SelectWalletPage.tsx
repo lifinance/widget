@@ -98,7 +98,7 @@ export const SelectWalletPage = () => {
       >
         {wallets?.map((connector) => (
           <ListItemButton
-            key={connector.name}
+            key={connector.uid}
             onClick={() => handleConnect(connector)}
           >
             <ListItemAvatar>
