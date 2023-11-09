@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.9.0](https://github.com/lifinance/widget/compare/v2.8.1...v2.9.0) (2023-11-09)
+
+
+### Features
+
+* add cyberconnect wallet ([#150](https://github.com/lifinance/widget/issues/150)) ([5763f76](https://github.com/lifinance/widget/commit/5763f76cf89f901c3c4b9b90c5372fef8601bb46))
+* add rabby wallet ([#151](https://github.com/lifinance/widget/issues/151)) ([884ecd1](https://github.com/lifinance/widget/commit/884ecd1d8c75681e2c7dfdbeeef130856b362831))
+
 ### [2.8.1](https://github.com/lifinance/widget/compare/v2.8.0...v2.8.1) (2023-11-08)
 
 
