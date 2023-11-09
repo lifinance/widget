@@ -45,7 +45,7 @@ const walletConnect: Wallet = new WalletConnectConnector({
     showQrModal: true,
     qrModalOptions: {
       themeVariables: {
-        '--wcm-z-index': '3000',
+        '--w3m-z-index': '3000',
       },
     },
   },
@@ -302,8 +302,9 @@ const cyberConnect: Wallet = new CyberConnectConnector({
     }
 
     const sdk = new CyberApp({
-      name: 'LI.FI',
-      icon: 'https://ccgateway.infura-ipfs.io/ipfs/bafkreiavhjbipjkzukvlwwvasobzsqre7o6z2egm33zxrch5miwho7pkx4',
+      appId: 'jumper.exchange',
+      name: 'Jumper.Exchange',
+      icon: 'https://raw.githubusercontent.com/lifinance/jumper.exchange/e9ead2e32981db0bf47adf2b1b2781e31ad14650/packages/dapp/public/logo-144x144.svg',
     });
 
     const accountInfo = await Promise.race([
