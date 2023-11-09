@@ -25,6 +25,7 @@ export const WidgetProvider: React.FC<
     toChain,
     toToken,
     fromAmount,
+    toAddress,
     integrator,
     ...config
   } = {},
@@ -83,6 +84,7 @@ export const WidgetProvider: React.FC<
           !isNaN(parseFloat(searchParams.fromAmount))
             ? formatInputAmount(searchParams.fromAmount)
             : fromAmount,
+        toAddress: searchParams.toAddress || toAddress,
         elementId,
         integrator,
       } as WidgetContextProps;
