@@ -30,6 +30,7 @@ import bitGet from './bitget.svg';
 import okx from './okx.svg';
 import gate from './gate.svg';
 import safepal from './safepal.svg';
+import cyberconnect from './cyberconnect.svg';
 
 export const walletIcons = {
   mathwallet,
@@ -64,4 +65,5 @@ export const walletIcons = {
   exodus,
   safe,
   safepal,
+  cyberconnect,
 };
