@@ -24,7 +24,7 @@
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
     "@ethersproject/abstract-signer": "^5.7.0",
-    "@lifi/sdk": "^3.0.0-alpha.31",
+    "@lifi/sdk": "^3.0.0-alpha.32",
     "@lifi/wallet-management": "^2.4.1",
     "@lifi/widget": "^2.7.1",
     "@mui/icons-material": "^5.14.16",

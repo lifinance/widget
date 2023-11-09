@@ -43,6 +43,7 @@ export const useAccount = () => {
           status: 'disconnected',
         };
     const evm = { ...account, chainType: ChainType.EVM };
+
     return {
       account: account.isConnected ? evm : svm,
       accounts: [evm, svm],

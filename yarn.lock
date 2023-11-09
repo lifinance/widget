@@ -3056,16 +3056,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lifi/sdk@npm:^3.0.0-alpha.31":
-  version: 3.0.0-alpha.31
-  resolution: "@lifi/sdk@npm:3.0.0-alpha.31"
+"@lifi/sdk@npm:^3.0.0-alpha.32":
+  version: 3.0.0-alpha.32
+  resolution: "@lifi/sdk@npm:3.0.0-alpha.32"
   dependencies:
     "@lifi/types": "npm:10.0.0-alpha.27"
     "@solana/wallet-adapter-base": "npm:^0.9.23"
     "@solana/web3.js": "npm:^1.87.3"
     eth-rpc-errors: "npm:^4.0.3"
     viem: "npm:^2.0.0-beta.0"
-  checksum: 143a8c3a46c4af97675b3cd2f7306ed3d3985e743bd92a6ddd1325022b033dce5a854391d3b6b6514adc3dbe747896d204ebc1da74d5da83519825e8e7617bfa
+  checksum: adf86fd57f3bc7966de18f1ad979a84b1d7fbbe6209963a68ebe9da7e30995e7e0825d3ebc27a6bb8553804403594ba928689d251da0e3e3a654c10819a9307e
   languageName: node
   linkType: hard
 
@@ -3084,7 +3084,7 @@ __metadata:
     "@ethersproject/abstract-signer": "npm:^5.7.0"
     "@ethersproject/experimental": "npm:^5.7.0"
     "@ethersproject/providers": "npm:^5.7.2"
-    "@lifi/sdk": "npm:^3.0.0-alpha.31"
+    "@lifi/sdk": "npm:^3.0.0-alpha.32"
     "@safe-global/safe-apps-provider": "npm:^0.18.0"
     "@safe-global/safe-apps-sdk": "npm:^8.1.0"
     "@walletconnect/ethereum-provider": "npm:^2.10.4"
@@ -3094,7 +3094,7 @@ __metadata:
     react: "npm:^18.2.0"
     typescript: "npm:^5.2.2"
     viem: "npm:^2.0.0-beta.0"
-    wagmi: "npm:^2.0.0-beta.0"
+    wagmi: "npm:^2.0.0-beta.1"
   languageName: unknown
   linkType: soft
 
@@ -3103,7 +3103,7 @@ __metadata:
   resolution: "@lifi/widget-embedded@workspace:packages/widget-embedded"
   dependencies:
     "@ethersproject/abstract-signer": "npm:^5.7.0"
-    "@lifi/sdk": "npm:^3.0.0-alpha.31"
+    "@lifi/sdk": "npm:^3.0.0-alpha.32"
     "@lifi/wallet-management": "npm:^2.4.1"
     "@lifi/widget": "npm:^2.7.1"
     "@mui/icons-material": "npm:^5.14.16"
@@ -3128,7 +3128,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@lifi/widget-playground@workspace:packages/widget-playground"
   dependencies:
-    "@lifi/sdk": "npm:^3.0.0-alpha.31"
+    "@lifi/sdk": "npm:^3.0.0-alpha.32"
     "@lifi/wallet-management": "npm:^2.4.1"
     "@lifi/widget": "npm:^2.7.1"
     "@mui/icons-material": "npm:^5.14.16"
@@ -3144,7 +3144,7 @@ __metadata:
     typescript: "npm:^5.2.2"
     viem: "npm:^2.0.0-beta.0"
     vite: "npm:^4.5.0"
-    wagmi: "npm:^2.0.0-beta.0"
+    wagmi: "npm:^2.0.0-beta.1"
     web-vitals: "npm:^3.5.0"
   languageName: unknown
   linkType: soft
@@ -3155,7 +3155,7 @@ __metadata:
   dependencies:
     "@emotion/react": "npm:^11.11.1"
     "@emotion/styled": "npm:^11.11.0"
-    "@lifi/sdk": "npm:^3.0.0-alpha.31"
+    "@lifi/sdk": "npm:^3.0.0-alpha.32"
     "@lifi/wallet-management": "npm:^2.4.1"
     "@mui/icons-material": "npm:^5.14.16"
     "@mui/lab": "npm:^5.0.0-alpha.152"
@@ -3180,7 +3180,7 @@ __metadata:
     typescript: "npm:^5.2.2"
     uuid: "npm:^9.0.1"
     viem: "npm:^2.0.0-beta.0"
-    wagmi: "npm:^2.0.0-beta.0"
+    wagmi: "npm:^2.0.0-beta.1"
     zustand: "npm:^4.4.6"
   peerDependencies:
     "@types/react": ^18.0.0
@@ -6096,9 +6096,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wagmi/connectors@npm:4.0.0-beta.0":
-  version: 4.0.0-beta.0
-  resolution: "@wagmi/connectors@npm:4.0.0-beta.0"
+"@wagmi/connectors@npm:4.0.0-beta.1":
+  version: 4.0.0-beta.1
+  resolution: "@wagmi/connectors@npm:4.0.0-beta.1"
   dependencies:
     "@coinbase/wallet-sdk": "npm:3.9.0-canary.2"
     "@ledgerhq/connect-kit-loader": "npm:^1.1.2"
@@ -6108,19 +6108,19 @@ __metadata:
     "@walletconnect/ethereum-provider": "npm:^2.10.1"
     "@walletconnect/modal": "npm:^2.6.2"
   peerDependencies:
-    "@wagmi/core": 2.0.0-beta.0
+    "@wagmi/core": 2.0.0-beta.1
     typescript: ">=5.0.4"
     viem: 2.0.0-beta.0
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: b0ee54b3954ca127354f3ab03b305e4cea348e573e0ba86698e94696ed8df10886b7950ec80278abea9285fd3cc7d877737ae9c32390a4e86215b90da4babe4b
+  checksum: 754849ebc67c81357206895eabe932dc07f0f327957ca51992d6c0279c335d39806bc457fb47cb7d8f7cc658c27d512dd3569a1c713e631ac75fff3b95ae6e8e
   languageName: node
   linkType: hard
 
-"@wagmi/core@npm:2.0.0-beta.0":
-  version: 2.0.0-beta.0
-  resolution: "@wagmi/core@npm:2.0.0-beta.0"
+"@wagmi/core@npm:2.0.0-beta.1":
+  version: 2.0.0-beta.1
+  resolution: "@wagmi/core@npm:2.0.0-beta.1"
   dependencies:
     eventemitter3: "npm:^5.0.1"
     mipd: "npm:^0.0.5"
@@ -6134,7 +6134,7 @@ __metadata:
       optional: true
     typescript:
       optional: true
-  checksum: 1b4ad4a09144ff7dfda740d1a0e174f64bb042cd2b8a88be3894a31e61c2c3523b288a1d97d5b76ab8bb712742ba85031649040806416ca16d5dadbe87ec8cae
+  checksum: 0334fbf13355591efce760ed03deabfe29bcc60365fca380a12adf25a849cf0659980473c5cded895c5c7b61f51aae494941b567a2412a6528b767cd1bc18737
   languageName: node
   linkType: hard
 
@@ -16623,12 +16623,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wagmi@npm:^2.0.0-beta.0":
-  version: 2.0.0-beta.0
-  resolution: "wagmi@npm:2.0.0-beta.0"
+"wagmi@npm:^2.0.0-beta.1":
+  version: 2.0.0-beta.1
+  resolution: "wagmi@npm:2.0.0-beta.1"
   dependencies:
-    "@wagmi/connectors": "npm:4.0.0-beta.0"
-    "@wagmi/core": "npm:2.0.0-beta.0"
+    "@wagmi/connectors": "npm:4.0.0-beta.1"
+    "@wagmi/core": "npm:2.0.0-beta.1"
     use-sync-external-store: "npm:^1.2.0"
   peerDependencies:
     "@tanstack/react-query": ">=5.0.0"
@@ -16638,7 +16638,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: efc88bb79de5eb5d6579243d0ff1d4cedce192bb11a3c10eceff1f9dbda352940f3cc4db8bb6a539cdaa7df62b38969e8e93a8aaeb1955eb426080b11a4fbadd
+  checksum: fda05c33af13c808885e7fb46d009fe0a7617a1277a33019db053250b79ae1b77a738aa6529b7f4696c7f7044f3980f5dfad7bcefd698c4e918f378d0d3e193b
   languageName: node
   linkType: hard
 

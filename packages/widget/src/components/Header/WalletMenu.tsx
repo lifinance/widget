@@ -82,7 +82,13 @@ const EVMDisconnectIconButton = ({ connector }: { connector?: Connector }) => {
   const { disconnect } = useDisconnect();
 
   return (
-    <IconButton size="medium" onClick={() => disconnect({ connector })}>
+    <IconButton
+      size="medium"
+      onClick={(e) => {
+        e.stopPropagation();
+        disconnect({ connector });
+      }}
+    >
       <PowerSettingsNewIcon />
     </IconButton>
   );
@@ -92,7 +98,13 @@ const SVMDisconnectIconButton = () => {
   const { disconnect } = useWallet();
 
   return (
-    <IconButton size="medium" onClick={disconnect}>
+    <IconButton
+      size="medium"
+      onClick={(e) => {
+        e.stopPropagation();
+        disconnect();
+      }}
+    >
       <PowerSettingsNewIcon />
     </IconButton>
   );
