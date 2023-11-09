@@ -258,10 +258,10 @@ const okx: Wallet = new InjectedConnector(
 const rabbywallet: Wallet = new InjectedConnector(
   {
     name: 'Rabby Wallet',
-    installed: async () => (window as any).ethereum,
+    installed: async () => (window as any).rabby,
     icon: walletIcons.rabbywallet,
   },
-  (window as any).ethereum,
+  (window as any).rabby,
 );
 const exodus: Wallet = new InjectedConnector(
   {
