@@ -7,6 +7,7 @@ export const isWalletInstalled = (id: string): boolean => {
         (window as any).ethereum &&
         !(window as any).ethereum[ProviderIdentityFlag.MetaMask]
       );
+    case 'io.metamask':
     case 'metaMaskSDK':
       return (window as any)?.ethereum?.[ProviderIdentityFlag.MetaMask];
     case 'walletConnect':

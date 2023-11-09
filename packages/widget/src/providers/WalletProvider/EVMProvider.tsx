@@ -14,7 +14,6 @@ import {
   hyperpay,
   imtoken,
   liquality,
-  metaMask,
   okx,
   oneinch,
   ownbit,
@@ -36,6 +35,35 @@ import { useAvailableChains } from '../../hooks';
 import { useWidgetConfig } from '../WidgetProvider';
 import { formatChain } from './utils';
 
+const connectors = [
+  walletConnect,
+  coinbase,
+  bitget,
+  gate,
+  exodus,
+  taho,
+  binance,
+  frontier,
+  okx,
+  trust,
+  status,
+  alpha,
+  block,
+  bitpie,
+  brave,
+  dcent,
+  frame,
+  hyperpay,
+  imtoken,
+  liquality,
+  ownbit,
+  tokenpocket,
+  xdefi,
+  oneinch,
+  tokenary,
+  safepal,
+];
+
 export const EVMProvider: FC<PropsWithChildren> = ({ children }) => {
   const { walletManagement } = useWidgetConfig();
   const { chains } = useAvailableChains();
@@ -46,35 +74,7 @@ export const EVMProvider: FC<PropsWithChildren> = ({ children }) => {
       : [mainnet];
     const wagmiConfig = createConfig({
       chains: _chains,
-      connectors: [
-        metaMask,
-        walletConnect,
-        coinbase,
-        bitget,
-        gate,
-        exodus,
-        taho,
-        binance,
-        frontier,
-        okx,
-        trust,
-        status,
-        alpha,
-        block,
-        bitpie,
-        brave,
-        dcent,
-        frame,
-        hyperpay,
-        imtoken,
-        liquality,
-        ownbit,
-        tokenpocket,
-        xdefi,
-        oneinch,
-        tokenary,
-        safepal,
-      ],
+      connectors: connectors,
       client({ chain }) {
         return createClient({ chain, transport: http() });
       },
