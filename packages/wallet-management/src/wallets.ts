@@ -303,7 +303,7 @@ const cyberConnect: Wallet = new CyberConnectConnector({
 
     const sdk = new CyberApp({
       name: 'LI.FI',
-      icon: 'https://links.li.fi/upload/Site/favicon/g/b/w/ghwXzYcVwEpMe8TvKdlHY4Ig6cWoq-KP.png',
+      icon: 'https://ccgateway.infura-ipfs.io/ipfs/bafkreiavhjbipjkzukvlwwvasobzsqre7o6z2egm33zxrch5miwho7pkx4',
     });
 
     const accountInfo = await Promise.race([
