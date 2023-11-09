@@ -8,7 +8,7 @@ import type { Wallet } from './types';
 import { ProviderIdentityFlag } from './types';
 import { walletIcons } from './walletIcons';
 import { CyberConnectConnector } from './connectors/cyberConnectConnector';
-import { CyberApp } from '@cyberlab/cyber-app-sdk';
+import { isCyberWallet } from '@cyberlab/cyber-app-sdk';
 
 const defaultWallet: Wallet = new InjectedConnector({
   // unknown Default wallet that injects as metamask but is not metamask
@@ -294,26 +294,7 @@ const safe: Wallet = new SafeWalletConnector({
 
 const cyberConnect: Wallet = new CyberConnectConnector({
   name: 'CyberConnect',
-  installed: async () => {
-    const isIframeEnvironment = window.parent !== window;
-
-    if (!isIframeEnvironment) {
-      return false;
-    }
-
-    const sdk = new CyberApp({
-      appId: 'jumper.exchange',
-      name: 'Jumper.Exchange',
-      icon: 'https://raw.githubusercontent.com/lifinance/jumper.exchange/e9ead2e32981db0bf47adf2b1b2781e31ad14650/packages/dapp/public/logo-144x144.svg',
-    });
-
-    const accountInfo = await Promise.race([
-      sdk.start(),
-      new Promise<undefined>((resolve) => setTimeout(resolve, 200)),
-    ]);
-
-    return !!accountInfo?.address;
-  },
+  installed: async () => isCyberWallet(),
   icon: walletIcons.cyberconnect,
 });
 
