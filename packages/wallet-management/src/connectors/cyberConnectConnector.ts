@@ -40,7 +40,7 @@ export class CyberConnectConnector extends EventEmitter implements Wallet {
 
   private async calcAccountData(currentChainId = ARBITRUM_CHAIN_ID) {
     const cyberApp = new CyberApp({
-      name: 'Li.Fi',
+      name: 'LI.FI',
       icon: 'https://github.com/lifinance/types/blob/main/src/assets/icons/bridges/lifuel.png',
     });
 
