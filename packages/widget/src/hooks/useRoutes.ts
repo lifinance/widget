@@ -4,7 +4,6 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useWatch } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 import { parseUnits } from 'viem';
-import { useConfig } from 'wagmi';
 import { useDebouncedWatch, useGasRefuel, useToken } from '.';
 import { FormKey, useWidgetConfig } from '../providers';
 import { useSettings } from '../stores';
@@ -20,7 +19,6 @@ interface RoutesProps {
 export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
   const { subvariant, sdkConfig, insurance, contractTool } = useWidgetConfig();
   const { account } = useAccount();
-  const config = useConfig();
   const queryClient = useQueryClient();
   const swapOnly = useSwapOnly();
   const {
@@ -152,7 +150,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
         //   toWalletAddress = isAddress(toAddress) ? toAddress : fromAddress;
         // }
         const fromAmount = parseUnits(
-          fromTokenAmount || 0,
+          fromTokenAmount,
           fromToken!.decimals,
         ).toString();
         const formattedSlippage = parseFloat(slippage) / 100;

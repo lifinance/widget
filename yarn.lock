@@ -3122,6 +3122,7 @@ __metadata:
   resolution: "@lifi/widget-embedded@workspace:packages/widget-embedded"
   dependencies:
     "@ethersproject/abstract-signer": "npm:^5.7.0"
+    "@ethersproject/providers": "npm:^5.7.2"
     "@lifi/sdk": "npm:^3.0.0-alpha.32"
     "@lifi/wallet-management": "npm:^2.4.1"
     "@lifi/widget": "npm:^2.8.0"
@@ -3139,6 +3140,7 @@ __metadata:
     react-router-dom: "npm:^6.18.0"
     typescript: "npm:^5.2.2"
     vite: "npm:^4.5.0"
+    wagmi: "npm:^2.0.0-beta.1"
     web-vitals: "npm:^3.5.0"
   languageName: unknown
   linkType: soft
