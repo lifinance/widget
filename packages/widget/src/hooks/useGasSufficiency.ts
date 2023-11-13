@@ -1,5 +1,6 @@
-import type { EVMChain, RouteExtended, Token } from '@lifi/sdk';
+import { type EVMChain, type RouteExtended, type Token } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
+import type { Connector } from 'wagmi';
 import { getTokenBalancesWithRetry, useAvailableChains, useGasRefuel } from '.';
 import { useSettings } from '../stores';
 import { useAccount } from './useAccount';
@@ -39,7 +40,10 @@ export const useGasSufficiency = (route?: RouteExtended) => {
         .filter((step) => !step.execution || step.execution.status !== 'DONE')
         .reduce(
           (groupedGasCosts, step) => {
-            if (step.estimate.gasCosts && account.connector?.id !== 'safe') {
+            if (
+              step.estimate.gasCosts &&
+              (account.connector as Connector)?.id !== 'safe'
+            ) {
               const { token } = step.estimate.gasCosts[0];
               const gasCostAmount = step.estimate.gasCosts.reduce(
                 (amount, gasCost) => amount + BigInt(gasCost.amount),

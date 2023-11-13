@@ -1,4 +1,7 @@
-import { isWalletInstalledAsync } from '@lifi/wallet-management';
+import {
+  isWalletInstalled,
+  isWalletInstalledAsync,
+} from '@lifi/wallet-management';
 import type { Theme } from '@mui/material';
 import {
   Avatar,
@@ -11,6 +14,8 @@ import {
   ListItemAvatar,
   useMediaQuery,
 } from '@mui/material';
+import { WalletReadyState } from '@solana/wallet-adapter-base';
+import type { Wallet } from '@solana/wallet-adapter-react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -29,10 +34,9 @@ export const SelectWalletPage = () => {
     show: boolean;
     connector?: Connector;
   }>({ show: false });
-  const [wallets, setWallets] = useState<Connector[]>();
+  const [wallets, setWallets] = useState<(Connector | Wallet)[]>();
   const {
     wallets: solanaWallets,
-    wallet: solanaWallet,
     select,
     connect: solanaConnect,
   } = useWallet();
@@ -48,7 +52,7 @@ export const SelectWalletPage = () => {
     }));
   };
 
-  const handleConnect = useCallback(
+  const handleEVMConnect = useCallback(
     async (connector: Connector) => {
       const identityCheckPassed = await isWalletInstalledAsync(connector.id);
       if (!identityCheckPassed) {
@@ -64,29 +68,68 @@ export const SelectWalletPage = () => {
     [connect, navigateBack],
   );
 
+  const handleSVMConnect = useCallback(
+    async (wallet: Wallet) => {
+      select(wallet.adapter.name);
+      // We use autoConnect on wallet selection
+      // await solanaConnect();
+      navigateBack();
+    },
+    [navigateBack, select],
+  );
+
   useEffect(() => {
-    Promise.all(
-      connectors.map((connector) => isWalletInstalledAsync(connector.id)),
-    ).then((installed) => {
-      // separate into installed and not installed wallets
-      const installedWallets = connectors.filter(
-        (_, index) => installed[index],
-      );
-      // always remove Default Wallet from not installed Wallets
-      const notInstalledWallets = connectors.filter(
-        (connector, index) =>
-          !installed[index] && connector.name !== 'Default Wallet',
-      );
+    const evmInstalled = connectors.filter((connector) =>
+      isWalletInstalled(connector.id),
+    );
+    const evmNotDetected = connectors.filter(
+      (connector) => !isWalletInstalled(connector.id),
+    );
+    const svmInstalled = solanaWallets?.filter(
+      (connector) =>
+        connector.adapter.readyState === WalletReadyState.Installed,
+    );
+    const svmNotDetected = solanaWallets?.filter(
+      (connector) =>
+        connector.adapter.readyState !== WalletReadyState.Installed,
+    );
 
-      const allowedWallets = [...installedWallets];
+    const installedWallets = [...evmInstalled, ...svmInstalled];
 
-      if (isDesktopView) {
-        allowedWallets.push(...notInstalledWallets);
-      }
+    if (isDesktopView) {
+      installedWallets.push(...evmNotDetected, ...svmNotDetected);
+    }
 
-      setWallets(allowedWallets);
-    });
-  }, [connectors, isDesktopView]);
+    setWallets(installedWallets);
+  }, [connectors, isDesktopView, solanaWallets]);
+
+  const createEVMListItemButton = (connector: Connector) => (
+    <ListItemButton
+      key={connector.uid}
+      onClick={() => handleEVMConnect(connector)}
+    >
+      <ListItemAvatar>
+        <Avatar src={connector.icon} alt={connector.name}>
+          {connector.name[0]}
+        </Avatar>
+      </ListItemAvatar>
+      <ListItemText primary={connector.name} />
+    </ListItemButton>
+  );
+
+  const createSVMListItemButton = (wallet: Wallet) => (
+    <ListItemButton
+      key={wallet.adapter.name}
+      onClick={() => handleSVMConnect(wallet)}
+    >
+      <ListItemAvatar>
+        <Avatar src={wallet.adapter.icon} alt={wallet.adapter.name}>
+          {wallet.adapter.name[0]}
+        </Avatar>
+      </ListItemAvatar>
+      <ListItemText primary={wallet.adapter.name} />
+    </ListItemButton>
+  );
 
   return (
     <Container disableGutters>
@@ -96,38 +139,11 @@ export const SelectWalletPage = () => {
           paddingRight: 1.5,
         }}
       >
-        {wallets?.map((connector) => (
-          <ListItemButton
-            key={connector.uid}
-            onClick={() => handleConnect(connector)}
-          >
-            <ListItemAvatar>
-              <Avatar src={connector.icon} alt={connector.name}>
-                {connector.name[0]}
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={connector.name} />
-          </ListItemButton>
-        ))}
-        {solanaWallets?.map((wallet) => (
-          <ListItemButton
-            key={wallet.adapter.name}
-            onClick={() => {
-              select(wallet.adapter.name);
-              solanaConnect();
-            }}
-          >
-            <ListItemAvatar>
-              <Avatar src={wallet.adapter.icon} alt={wallet.adapter.name}>
-                {wallet.adapter.name[0]}
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText
-              primary={wallet.adapter.name}
-              secondary={`${wallet.readyState} ${wallet.adapter.readyState} ${solanaWallet?.adapter.publicKey}`}
-            />
-          </ListItemButton>
-        ))}
+        {wallets?.map((connector) =>
+          (connector as Connector).uid
+            ? createEVMListItemButton(connector as Connector)
+            : createSVMListItemButton(connector as Wallet),
+        )}
       </List>
       <Dialog open={walletIdentity.show} onClose={closeDialog}>
         <DialogContent>

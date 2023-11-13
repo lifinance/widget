@@ -86,8 +86,16 @@ export const EVMProvider: FC<PropsWithChildren> = ({ children }) => {
       //   {} as Record<number, Transport>,
       // ),
     });
+
     return wagmiConfig;
   }, [chains]);
 
-  return <WagmiProvider config={wagmiConfig}>{children}</WagmiProvider>;
+  return (
+    <WagmiProvider
+      config={wagmiConfig}
+      reconnectOnMount={Boolean(chains?.length)}
+    >
+      {children}
+    </WagmiProvider>
+  );
 };

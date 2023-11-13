@@ -9,15 +9,17 @@ import { useTokens } from './useTokens';
 const defaultRefetchInterval = 32_000;
 
 export const useTokenBalances = (selectedChainId?: number) => {
-  const { account } = useAccount();
+  const { accounts } = useAccount();
   const featuredTokens = useFeaturedTokens(selectedChainId);
   const { tokens, chain, isLoading } = useTokens(selectedChainId);
 
+  const account = accounts.find(
+    (account) => account.chainType === chain?.chainType,
+  );
   const isBalanceLoadingEnabled =
-    Boolean(account.address) &&
+    Boolean(account?.address) &&
     Boolean(tokens?.length) &&
-    Boolean(selectedChainId) &&
-    chain?.chainType === account.chainType;
+    Boolean(selectedChainId);
 
   const {
     data: tokensWithBalance,
@@ -26,7 +28,7 @@ export const useTokenBalances = (selectedChainId?: number) => {
   } = useQuery({
     queryKey: [
       'token-balances',
-      account.address,
+      account?.address,
       selectedChainId,
       tokens?.length,
     ],

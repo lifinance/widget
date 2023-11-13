@@ -1,6 +1,6 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import WalletIcon from '@mui/icons-material/Wallet';
-import { Avatar } from '@mui/material';
+import { Avatar, Badge } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -8,6 +8,7 @@ import type { Account } from '../../hooks';
 import { useAccount, useChain } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
 import { navigationRoutes, shortenAddress } from '../../utils';
+import { SmallAvatar } from '../SmallAvatar';
 import {
   DrawerWalletContainer,
   HeaderAppBar,
@@ -102,13 +103,23 @@ const ConnectedButton = ({ account }: { account: Account }) => {
       <WalletButton
         endIcon={<ExpandMoreIcon />}
         startIcon={
-          <Avatar
-            src={chain?.logoURI}
-            alt={chain?.key}
-            sx={{ width: 24, height: 24 }}
+          <Badge
+            overlap="circular"
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            badgeContent={
+              <SmallAvatar src={chain?.logoURI} alt={chain?.name}>
+                {chain?.name[0]}
+              </SmallAvatar>
+            }
           >
-            {chain?.name[0]}
-          </Avatar>
+            <Avatar
+              src={account.connector?.icon}
+              alt={account.connector?.name}
+              sx={{ width: 24, height: 24 }}
+            >
+              {account.connector?.name[0]}
+            </Avatar>
+          </Badge>
         }
         sx={{
           marginRight: subvariant === 'split' ? 0 : -1.25,
