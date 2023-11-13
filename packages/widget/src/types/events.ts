@@ -1,4 +1,4 @@
-import type { ChainId, Process, Route } from '@lifi/sdk';
+import type { ChainId, ChainType, Process, Route } from '@lifi/sdk';
 
 export enum WidgetEvent {
   RouteExecutionStarted = 'routeExecutionStarted',
@@ -50,6 +50,7 @@ export interface ChainTokenSelected {
 }
 
 export interface WalletConnected {
-  chainId?: number;
   address?: string;
+  chainId?: number;
+  chainType?: ChainType;
 }

@@ -1,3 +1,4 @@
+import { ChainId, ChainType } from '@lifi/sdk';
 import {
   isWalletInstalled,
   isWalletInstalledAsync,
@@ -24,12 +25,14 @@ import { useConnect } from 'wagmi';
 import { Dialog } from '../../components/Dialog';
 import { ListItemButton } from '../../components/ListItemButton';
 import { ListItemText } from '../../components/ListItemText';
-import { useNavigateBack } from '../../hooks';
+import { useNavigateBack, useWidgetEvents } from '../../hooks';
+import { WidgetEvent } from '../../types';
 
 export const SelectWalletPage = () => {
   const { t } = useTranslation();
   const { navigateBack } = useNavigateBack();
-  const { connect, connectors } = useConnect();
+  const emitter = useWidgetEvents();
+  const { connectAsync, connectors } = useConnect();
   const [walletIdentity, setWalletIdentity] = useState<{
     show: boolean;
     connector?: Connector;
@@ -62,10 +65,21 @@ export const SelectWalletPage = () => {
         });
         return;
       }
-      connect({ connector });
+      await connectAsync(
+        { connector },
+        {
+          onSuccess(data) {
+            emitter.emit(WidgetEvent.WalletConnected, {
+              address: data.accounts[0],
+              chainId: data.chainId,
+              chainType: ChainType.EVM,
+            });
+          },
+        },
+      );
       navigateBack();
     },
-    [connect, navigateBack],
+    [connectAsync, emitter, navigateBack],
   );
 
   const handleSVMConnect = useCallback(
@@ -73,9 +87,15 @@ export const SelectWalletPage = () => {
       select(wallet.adapter.name);
       // We use autoConnect on wallet selection
       // await solanaConnect();
+      // TODO: Check if this works fine for Solana autoConnect
+      emitter.emit(WidgetEvent.WalletConnected, {
+        address: wallet.adapter.publicKey?.toString(),
+        chainId: ChainId.SOL,
+        chainType: ChainType.SVM,
+      });
       navigateBack();
     },
-    [navigateBack, select],
+    [emitter, navigateBack, select],
   );
 
   useEffect(() => {
