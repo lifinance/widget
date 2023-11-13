@@ -20,17 +20,14 @@ export function HeaderStoreProvider({
   );
 }
 
-export function useHeaderStore<T>(
-  selector: (state: HeaderState) => T,
-  equalityFn?: (left: T, right: T) => boolean,
-): T {
+export function useHeaderStore<T>(selector: (state: HeaderState) => T): T {
   const useStore = useContext(HeaderStoreContext);
   if (!useStore) {
     throw new Error(
       `You forgot to wrap your component in <${HeaderStoreProvider.name}>.`,
     );
   }
-  return useStore(selector, equalityFn);
+  return useStore(selector);
 }
 
 export function useHeaderStoreContext() {

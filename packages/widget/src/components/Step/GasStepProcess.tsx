@@ -1,11 +1,11 @@
-import type { LifiStep } from '@lifi/sdk';
+import type { LiFiStepExtended } from '@lifi/sdk';
 import EvStationIcon from '@mui/icons-material/EvStation';
 import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { CircularIcon } from './CircularProgress.style';
 
 export const GasStepProcess: React.FC<{
-  step: LifiStep;
+  step: LiFiStepExtended;
 }> = ({ step }) => {
   const { t } = useTranslation();
   const isDone = step.execution?.status === 'DONE';

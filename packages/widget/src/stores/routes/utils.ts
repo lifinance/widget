@@ -1,11 +1,11 @@
-import type { Process, Route } from '@lifi/sdk';
+import type { Process, RouteExtended } from '@lifi/sdk';
 import microdiff from 'microdiff';
 
-export const isRouteDone = (route: Route) => {
+export const isRouteDone = (route: RouteExtended) => {
   return route.steps.every((step) => step.execution?.status === 'DONE');
 };
 
-export const isRoutePartiallyDone = (route: Route) => {
+export const isRoutePartiallyDone = (route: RouteExtended) => {
   return route.steps.some(
     (step) =>
       step.execution?.process.some(
@@ -14,7 +14,7 @@ export const isRoutePartiallyDone = (route: Route) => {
   );
 };
 
-export const isRouteRefunded = (route: Route) => {
+export const isRouteRefunded = (route: RouteExtended) => {
   return route.steps.some(
     (step) =>
       step.execution?.process.some(
@@ -23,11 +23,11 @@ export const isRouteRefunded = (route: Route) => {
   );
 };
 
-export const isRouteFailed = (route: Route) => {
+export const isRouteFailed = (route: RouteExtended) => {
   return route.steps.some((step) => step.execution?.status === 'FAILED');
 };
 
-export const isRouteActive = (route?: Route) => {
+export const isRouteActive = (route?: RouteExtended) => {
   if (!route) {
     return false;
   }
@@ -37,15 +37,9 @@ export const isRouteActive = (route?: Route) => {
   return !isDone && !isFailed && alreadyStarted;
 };
 
-export const doesRouteHaveCustomTool = (route: Route) => {
-  return route.steps.some(
-    (step) => step.tool === 'custom' || step.toolDetails.key === 'custom',
-  );
-};
-
 export const getUpdatedProcess = (
-  currentRoute: Route,
-  updatedRoute: Route,
+  currentRoute: RouteExtended,
+  updatedRoute: RouteExtended,
 ): Process | undefined => {
   const processDiff = microdiff(currentRoute, updatedRoute).find((diff) =>
     diff.path.includes('process'),

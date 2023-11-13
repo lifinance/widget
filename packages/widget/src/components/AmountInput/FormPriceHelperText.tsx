@@ -78,7 +78,7 @@ export const FormPriceHelperTextBase: React.FC<
           pl={0.25}
         >
           {`/ ${t(`format.number`, {
-            value: formatTokenAmount(token?.amount),
+            value: formatTokenAmount(token.amount, token.decimals),
           })}`}
         </Typography>
       ) : null}

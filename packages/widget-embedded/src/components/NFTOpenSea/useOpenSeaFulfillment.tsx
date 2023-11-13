@@ -21,14 +21,16 @@ export const useOpenSeaFulfillment = (
     contractAddress,
     tokenId,
   );
-  const { data, isLoading } = useQuery(
-    [
+  const { data, isLoading } = useQuery({
+    queryKey: [
       'opensea-fulfillment',
       order?.orderHash,
       recipientAddress,
       account.address,
     ],
-    async ({ queryKey: [, orderHash, recipientAddress, accountAddress] }) => {
+    queryFn: async ({
+      queryKey: [, orderHash, recipientAddress, accountAddress],
+    }) => {
       if (!order) {
         return;
       }
@@ -108,7 +110,7 @@ export const useOpenSeaFulfillment = (
       const token: TokenAmount = {
         symbol:
           orderV2?.takerAssetBundle.assets[0]?.assetContract?.tokenSymbol!,
-        amount: orderV2?.currentPrice!,
+        amount: BigInt(orderV2?.currentPrice ?? 0),
         decimals: orderV2?.takerAssetBundle.assets[0].decimals!,
         address: orderV2?.takerAssetBundle.assets[0].tokenAddress!,
         chainId: OpenSeaChainId[network as NFTNetwork] as number as ChainId,
@@ -127,10 +129,9 @@ export const useOpenSeaFulfillment = (
 
       return result;
     },
-    {
-      enabled: Boolean(account.address) && Boolean(order),
-    },
-  );
+
+    enabled: Boolean(account.address) && Boolean(order),
+  });
 
   return {
     data,

@@ -1,10 +1,9 @@
 import type { Signer } from '@ethersproject/abstract-signer';
 import type {
   BaseToken,
-  ChainKey,
-  ConfigUpdate,
   Order,
   RouteOptions,
+  SDKOptions,
   StaticToken,
   Token,
 } from '@lifi/sdk';
@@ -69,18 +68,16 @@ export interface WidgetWalletManagement {
   signer?: Signer;
 }
 
-export interface SDKConfig
+export interface WidgetSDKOptions
   extends Omit<
-    ConfigUpdate,
-    | 'defaultExecutionSettings'
-    | 'defaultRouteOptions'
+    SDKOptions,
+    | 'apiKey'
     | 'disableVersionCheck'
     | 'integrator'
+    | 'routeOptions'
+    | 'widgetVersion'
   > {
-  defaultRouteOptions?: Omit<
-    RouteOptions,
-    'bridges' | 'exchanges' | 'insurance'
-  >;
+  routeOptions?: Omit<RouteOptions, 'bridges' | 'exchanges' | 'insurance'>;
 }
 
 export interface WidgetContractTool {
@@ -98,8 +95,8 @@ export interface WidgetContract {
 }
 
 export interface WidgetConfig {
-  fromChain?: `${ChainKey}` | number;
-  toChain?: `${ChainKey}` | number;
+  fromChain?: number;
+  toChain?: number;
   fromToken?: string;
   toToken?: string;
   toAddress?: string;
@@ -135,7 +132,7 @@ export interface WidgetConfig {
   useRecommendedRoute?: boolean;
 
   walletManagement?: WidgetWalletManagement;
-  sdkConfig?: SDKConfig;
+  sdkConfig?: WidgetSDKOptions;
 
   buildUrl?: boolean;
   keyPrefix?: string;
@@ -164,7 +161,6 @@ export interface WidgetConfig {
     deny?: LanguageKey[];
   };
   languageResources?: LanguageResources;
-  disableLanguageDetector?: boolean;
 }
 
 export type WidgetDrawerProps = {

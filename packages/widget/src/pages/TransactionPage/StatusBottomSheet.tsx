@@ -11,7 +11,7 @@ import { BottomSheet } from '../../components/BottomSheet';
 import { Token } from '../../components/Token';
 import {
   getProcessMessage,
-  useChains,
+  useAvailableChains,
   useNavigateBack,
   useTokenBalance,
 } from '../../hooks';
@@ -33,7 +33,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   const { t } = useTranslation();
   const { navigateBack, navigate } = useNavigateBack();
   const ref = useRef<BottomSheetBase>(null);
-  const { getChainById } = useChains();
+  const { getChainById } = useAvailableChains();
   const { setValue } = useFormContext();
   const {
     subvariant,
@@ -44,10 +44,11 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
 
   const toToken = {
     ...(route.steps.at(-1)?.execution?.toToken ?? route.toToken),
-    amount:
+    amount: BigInt(
       route.steps.at(-1)?.execution?.toAmount ??
-      route.steps.at(-1)?.estimate.toAmount ??
-      route.toAmount,
+        route.steps.at(-1)?.estimate.toAmount ??
+        route.toAmount,
+    ),
   };
 
   const { token, refetch, refetchNewBalance, refetchAllBalances } =
@@ -115,7 +116,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
           : t(`success.title.${transactionType}Successful`);
       if (token) {
         primaryMessage = t('success.message.exchangeSuccessful', {
-          amount: formatTokenAmount(token.amount),
+          amount: formatTokenAmount(token.amount, token.decimals),
           tokenSymbol: token.symbol,
           chainName: getChainById(token.chainId)?.name,
           walletAddress: shortenAddress(route.toAddress),
@@ -132,7 +133,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
       });
       if (token) {
         secondaryMessage = t('success.message.exchangeSuccessful', {
-          amount: formatTokenAmount(token.amount),
+          amount: formatTokenAmount(token.amount, token.decimals),
           tokenSymbol: token.symbol,
           chainName: getChainById(token.chainId)?.name,
           walletAddress: shortenAddress(route.toAddress),
@@ -149,7 +150,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
       });
       if (token) {
         secondaryMessage = t('success.message.exchangeSuccessful', {
-          amount: formatTokenAmount(token.amount),
+          amount: formatTokenAmount(token.amount, token.decimals),
           tokenSymbol: token.symbol,
           chainName: getChainById(token.chainId)?.name,
           walletAddress: shortenAddress(route.toAddress),

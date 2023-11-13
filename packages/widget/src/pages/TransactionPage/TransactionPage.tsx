@@ -182,7 +182,7 @@ export const TransactionPage: React.FC = () => {
           insurableRouteId={stateRouteId}
           feeAmountUsd={route.insurance.feeAmountUsd}
           insuredAmount={formatTokenAmount(
-            route.toAmountMin,
+            BigInt(route.toAmountMin),
             route.toToken.decimals,
           )}
           insuredTokenSymbol={route.toToken.symbol}

@@ -1,7 +1,7 @@
-import type { Route } from '@lifi/sdk';
+import type { Route, RouteExtended } from '@lifi/sdk';
 
 export interface RouteExecution {
-  route: Route;
+  route: RouteExtended;
   status: RouteExecutionStatus;
 }
 

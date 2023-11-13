@@ -7,9 +7,9 @@ export const useOpenSeaOrder = (
   contractAddress: string,
   tokenId: string | number,
 ) => {
-  return useQuery(
-    ['opensea-order', network, contractAddress, tokenId],
-    async ({ queryKey: [, network, contractAddress, tokenId] }) => {
+  return useQuery({
+    queryKey: ['opensea-order', network, contractAddress, tokenId],
+    queryFn: async ({ queryKey: [, network, contractAddress, tokenId] }) => {
       const ordersQueryResponse: OrdersQueryResponse = await fetch(
         `https://api.opensea.io/v2/orders/${network}/seaport/listings?asset_contract_address=${contractAddress}&token_ids=${tokenId}&order_by=created_date&order_direction=desc`,
         {
@@ -27,8 +27,7 @@ export const useOpenSeaOrder = (
 
       return deserializeOrder(ordersQueryResponse.orders[0]);
     },
-    {
-      enabled: Boolean(network) && Boolean(contractAddress),
-    },
-  );
+
+    enabled: Boolean(network) && Boolean(contractAddress),
+  });
 };

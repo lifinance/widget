@@ -1,4 +1,4 @@
-import type { LifiStep, Process } from '@lifi/sdk';
+import type { LiFiStep, Process } from '@lifi/sdk';
 import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
 import { Box, Link, Typography } from '@mui/material';
 import { useProcessMessage } from '../../hooks';
@@ -6,7 +6,7 @@ import { CircularProgress } from './CircularProgress';
 import { LinkButton } from './StepProcess.style';
 
 export const StepProcess: React.FC<{
-  step: LifiStep;
+  step: LiFiStep;
   process: Process;
 }> = ({ step, process }) => {
   const { title, message } = useProcessMessage(step, process);

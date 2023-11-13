@@ -8,7 +8,6 @@ export * from './components/NFT';
 export * from './config/version';
 export { useWidgetEvents, widgetEvents } from './hooks';
 export * from './providers/FormProvider/types';
-export { useWallet } from './providers/WalletProvider';
 export * from './types';
 
 // ClassNameGenerator.configure((componentName) =>

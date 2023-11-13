@@ -1,10 +1,7 @@
-import { supportedWallets } from '@lifi/wallet-management';
 import type { WidgetConfig } from '@lifi/widget';
 import './index.css';
 
-export const METAMASK_WALLET = supportedWallets.find(
-  (wallet) => wallet.name === 'MetaMask',
-);
+export const METAMASK_WALLET = undefined;
 
 export const WidgetVariants = ['default', 'expandable', 'drawer'] as const;
 
@@ -33,8 +30,8 @@ export const widgetBaseConfig: WidgetConfig = {
   // slippage: 0.003,
   insurance: true,
   sdkConfig: {
-    // apiUrl: 'https://develop.li.quest/v1',
-    defaultRouteOptions: {
+    apiUrl: 'https://develop.li.quest/v1',
+    routeOptions: {
       maxPriceImpact: 0.4,
       // slippage: 0.03,
       // order: 'SAFEST',

@@ -1,4 +1,4 @@
-import type { LifiStep, Step } from '@lifi/sdk';
+import type { LiFiStep, Step, StepExtended } from '@lifi/sdk';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -11,11 +11,11 @@ import {
   Stepper,
   Typography,
 } from '@mui/material';
-import Big from 'big.js';
 import type { MouseEventHandler } from 'react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useChains } from '../../hooks';
+import { formatUnits } from 'viem';
+import { useAvailableChains } from '../../hooks';
 import { LiFiToolLogo } from '../../icons';
 import { useWidgetConfig } from '../../providers';
 import type { WidgetSubvariant } from '../../types';
@@ -97,7 +97,7 @@ export const StepActions: React.FC<StepActionsProps> = ({
 };
 
 export const IncludedSteps: React.FC<{
-  step: LifiStep;
+  step: LiFiStep;
   subvariant?: WidgetSubvariant;
 }> = ({ step, subvariant }) => {
   // eslint-disable-next-line react/no-unstable-nested-components
@@ -165,7 +165,7 @@ export const IncludedSteps: React.FC<{
 };
 
 export const StepDetailsContent: React.FC<{
-  step: Step;
+  step: StepExtended;
   subvariant?: WidgetSubvariant;
 }> = ({ step, subvariant }) => {
   const { t } = useTranslation();
@@ -176,19 +176,19 @@ export const StepDetailsContent: React.FC<{
 
   let fromAmount: string | undefined;
   if (sameTokenProtocolStep) {
-    const estimatedFromAmount = Big(step.estimate.fromAmount)
-      .div(10 ** step.action.fromToken.decimals)
-      .minus(
-        Big(step.estimate.toAmount).div(10 ** step.action.toToken.decimals),
-      );
-    fromAmount = estimatedFromAmount.gt(0)
-      ? estimatedFromAmount.toString()
-      : Big(step.estimate.fromAmount)
-          .div(10 ** step.action.fromToken.decimals)
-          .toString();
+    const estimatedFromAmount =
+      BigInt(step.estimate.fromAmount) - BigInt(step.estimate.toAmount);
+
+    fromAmount =
+      estimatedFromAmount > 0n
+        ? formatUnits(estimatedFromAmount, step.action.fromToken.decimals)
+        : formatUnits(
+            BigInt(step.estimate.fromAmount),
+            step.action.fromToken.decimals,
+          );
   } else {
     fromAmount = formatTokenAmount(
-      step.estimate.fromAmount,
+      BigInt(step.estimate.fromAmount),
       step.action.fromToken.decimals,
     );
   }
@@ -213,7 +213,7 @@ export const StepDetailsContent: React.FC<{
           <ArrowForwardIcon sx={{ fontSize: 18, paddingX: 0.5 }} />
           {t('format.number', {
             value: formatTokenAmount(
-              step.execution?.toAmount ?? step.estimate.toAmount,
+              BigInt(step.execution?.toAmount ?? step.estimate.toAmount),
               step.execution?.toToken?.decimals ?? step.action.toToken.decimals,
             ),
           })}{' '}
@@ -237,8 +237,8 @@ export const CustomStepDetailsLabel: React.FC<StepDetailsLabelProps> = ({
   // FIXME: step transaction request overrides step tool details, but not included step tool details
   const toolDetails =
     subvariant === 'nft' &&
-    (step as unknown as LifiStep).includedSteps?.length > 0
-      ? (step as unknown as LifiStep).includedSteps.find(
+    (step as unknown as LiFiStep).includedSteps?.length > 0
+      ? (step as unknown as LiFiStep).includedSteps.find(
           (step) => step.tool === 'custom' && step.toolDetails.key !== 'custom',
         )?.toolDetails || step.toolDetails
       : step.toolDetails;
@@ -256,7 +256,7 @@ export const CrossStepDetailsLabel: React.FC<
   Omit<StepDetailsLabelProps, 'variant'>
 > = ({ step }) => {
   const { t } = useTranslation();
-  const { getChainById } = useChains();
+  const { getChainById } = useAvailableChains();
   return (
     <Typography fontSize={12} fontWeight="500" color="text.secondary">
       {t('main.crossStepDetails', {
@@ -272,7 +272,7 @@ export const SwapStepDetailsLabel: React.FC<
   Omit<StepDetailsLabelProps, 'variant'>
 > = ({ step }) => {
   const { t } = useTranslation();
-  const { getChainById } = useChains();
+  const { getChainById } = useAvailableChains();
   return (
     <Typography fontSize={12} fontWeight="500" color="text.secondary">
       {t('main.swapStepDetails', {
