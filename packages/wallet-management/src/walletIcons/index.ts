@@ -21,6 +21,7 @@ import opera from './opera.svg';
 import ownbit from './ownbit.svg';
 import phantom from './phantom.svg';
 import placeholder from './placeholder.svg';
+import rabby from './rabbywallet.svg';
 import safe from './safe.svg';
 import safepal from './safepal.svg';
 import status from './status.svg';
@@ -66,4 +67,5 @@ export const walletIcons = {
   walletConnect,
   walletio,
   xdefi,
+  rabby,
 };

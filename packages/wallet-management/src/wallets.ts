@@ -272,3 +272,12 @@ export const exodus = injected({
     provider: (window as any).exodus?.ethereum,
   },
 });
+
+export const rabby = injected({
+  target: {
+    id: 'rabby',
+    name: 'Rabby Wallet',
+    icon: walletIcons.rabby,
+    provider: (window as any).rabby,
+  },
+});
