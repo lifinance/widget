@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.8.0](https://github.com/lifinance/widget/compare/v2.7.1...v2.8.0) (2023-10-30)
+
+
+### Features
+
+* add walletConnected event ([f916940](https://github.com/lifinance/widget/commit/f916940f90dea1d71e402a38e875947793fb3b95))
+
 ### [2.7.1](https://github.com/lifinance/widget/compare/v2.7.0...v2.7.1) (2023-10-19)
 
 
