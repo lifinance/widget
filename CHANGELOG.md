@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.9.1](https://github.com/lifinance/widget/compare/v2.9.0...v2.9.1) (2023-11-13)
+
+
+### Bug Fixes
+
+* remove wagmi logic from cyberwallet ([#152](https://github.com/lifinance/widget/issues/152)) ([9ed9247](https://github.com/lifinance/widget/commit/9ed924753072058776632991d3d1f82e2f412bf6))
+
 ## [2.9.0](https://github.com/lifinance/widget/compare/v2.8.1...v2.9.0) (2023-11-09)
 
 
