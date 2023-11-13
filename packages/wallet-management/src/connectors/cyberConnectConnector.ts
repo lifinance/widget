@@ -2,7 +2,6 @@ import type { Web3Provider } from '@ethersproject/providers';
 import { CyberApp, CyberProvider } from '@cyberlab/cyber-app-sdk';
 import { EventEmitter } from 'events';
 import type { AccountData, InjectedConnectorArgs, Wallet } from '../types';
-import { InjectedConnector } from 'wagmi/connectors/injected';
 import { providers } from 'ethers';
 
 const ARBITRUM_CHAIN_ID = 42161;
@@ -50,27 +49,12 @@ export class CyberConnectConnector extends EventEmitter implements Wallet {
       chainId: currentChainId,
     });
 
-    const injectedConnector = new InjectedConnector({
-      options: {
-        name: 'CyberWallet',
-        getProvider: () => {
-          return cyberProvider;
-        },
-      },
-    });
-
-    const walletClient = await injectedConnector.getWalletClient({
-      chainId: currentChainId,
-    });
-
-    const { account, transport } = walletClient;
-
-    const provider = new providers.Web3Provider(transport, 'any');
-    const signer = provider.getSigner(account.address);
+    const provider = new providers.Web3Provider(cyberProvider, 'any');
+    const signer = provider.getSigner();
 
     this.account = {
       chainId: currentChainId,
-      address: account.address,
+      address: await signer.getAddress(),
       signer,
       provider,
       isMultisigWallet: true,
