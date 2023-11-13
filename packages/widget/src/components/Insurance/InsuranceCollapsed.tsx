@@ -50,7 +50,7 @@ export const InsuranceCollapsed: React.FC<InsuranceProps> = ({
         {...props}
         status={status}
         insuredAmount={formatTokenAmount(
-          insuredRoute.toAmountMin,
+          BigInt(insuredRoute.toAmountMin),
           insuredRoute.toToken.decimals,
         )}
         insuredTokenSymbol={insuredRoute.toToken.symbol}

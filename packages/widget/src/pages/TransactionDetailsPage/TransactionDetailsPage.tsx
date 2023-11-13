@@ -1,3 +1,4 @@
+import type { StatusResponse } from '@lifi/sdk';
 import ContentCopyIcon from '@mui/icons-material/ContentCopyRounded';
 import { Box, IconButton, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
@@ -11,13 +12,12 @@ import { useNavigateBack, useTools, useTransactionHistory } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
 import type { RouteExecution } from '../../stores';
 import { formatTokenAmount, navigationRoutes } from '../../utils';
-import { ContactSupportButton } from './ContactSupportButton';
-import { Container } from './TransactionDetailsPage.style';
-import type { StatusResponse } from '@lifi/sdk';
 import {
   buildRouteFromTxHistory,
   findTxHistoryByIdOrHash,
 } from '../../utils/converters';
+import { ContactSupportButton } from './ContactSupportButton';
+import { Container } from './TransactionDetailsPage.style';
 import { TransactionDetailsSkeleton } from './TransactionDetailsSkeleton';
 
 export const TransactionDetailsPage: React.FC = () => {
@@ -81,6 +81,7 @@ export const TransactionDetailsPage: React.FC = () => {
     }
   };
 
+  // FIXME
   useEffect(() => {
     handleRouteSetting();
   }, [data.length, isLoading]);
@@ -127,7 +128,7 @@ export const TransactionDetailsPage: React.FC = () => {
               status={routeExecution.status}
               feeAmountUsd={routeExecution.route.insurance.feeAmountUsd}
               insuredAmount={formatTokenAmount(
-                routeExecution.route.toAmountMin,
+                BigInt(routeExecution.route.toAmountMin),
                 routeExecution.route.toToken.decimals,
               )}
               insuredTokenSymbol={routeExecution.route.toToken.symbol}

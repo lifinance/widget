@@ -18,7 +18,9 @@ export const NFT: React.FC<NFTProps> = ({
     if (token) {
       setValue(FormKey.ToChain, token.chainId, { shouldTouch: true });
       setValue(FormKey.ToToken, token.address, { shouldTouch: true });
-      setValue(FormKey.ToAmount, token.amount, { shouldTouch: true });
+      setValue(FormKey.ToAmount, token.amount?.toString(), {
+        shouldTouch: true,
+      });
     }
     if (contract) {
       setValue(FormKey.ToContractAddress, contract.address, {

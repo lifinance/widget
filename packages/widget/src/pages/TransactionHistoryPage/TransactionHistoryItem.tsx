@@ -1,16 +1,16 @@
 /* eslint-disable react/no-array-index-key */
+import type {
+  ExtendedTransactionInfo,
+  FullStatusData,
+  StatusResponse,
+  TokenAmount,
+} from '@lifi/sdk';
 import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '../../components/Card';
 import { Token, TokenDivider } from '../../components/Token';
 import { navigationRoutes } from '../../utils';
-import type {
-  ExtendedTransactionInfo,
-  StatusResponse,
-  TokenAmount,
-} from '@lifi/sdk';
-import type { FullStatusData } from '@lifi/sdk';
 
 export const TransactionHistoryItem: React.FC<{
   transaction: StatusResponse;
@@ -43,7 +43,7 @@ export const TransactionHistoryItem: React.FC<{
 
   const fromToken: TokenAmount = {
     ...sending.token,
-    amount: sending.amount ?? '0',
+    amount: BigInt(sending.amount ?? '0'),
     priceUSD: sending.token.priceUSD ?? '0',
     symbol: sending.token?.symbol ?? '',
     decimals: sending.token?.decimals ?? 0,
@@ -53,7 +53,7 @@ export const TransactionHistoryItem: React.FC<{
 
   const toToken: TokenAmount = {
     ...receiving.token,
-    amount: receiving.amount ?? '0',
+    amount: BigInt(receiving.amount ?? '0'),
     priceUSD: receiving.token.priceUSD ?? '0',
     symbol: receiving.token?.symbol ?? '',
     decimals: receiving.token?.decimals ?? 0,

@@ -8,7 +8,7 @@ export const widgetBaseConfig: WidgetConfig = {
   // buildUrl: true,
   sdkConfig: {
     apiUrl: 'https://staging.li.quest/v1',
-    defaultRouteOptions: {
+    routeOptions: {
       // maxPriceImpact: 0.4,
     },
   },

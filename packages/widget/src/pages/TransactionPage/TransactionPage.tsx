@@ -79,6 +79,14 @@ export const TransactionPage: React.FC = () => {
     }
   }, [headerStoreContext, route, status, subvariant, t]);
 
+  useEffect(() => {
+    if (status === RouteExecutionStatus.Idle) {
+      emitter.emit(WidgetEvent.ReviewTransactionPageEntered, route);
+    }
+    // We want to emit event only when the page is mounted
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   if (!route) {
     return null;
   }
@@ -174,7 +182,7 @@ export const TransactionPage: React.FC = () => {
           insurableRouteId={stateRouteId}
           feeAmountUsd={route.insurance.feeAmountUsd}
           insuredAmount={formatTokenAmount(
-            route.toAmountMin,
+            BigInt(route.toAmountMin),
             route.toToken.decimals,
           )}
           insuredTokenSymbol={route.toToken.symbol}

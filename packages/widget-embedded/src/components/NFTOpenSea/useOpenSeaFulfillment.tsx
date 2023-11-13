@@ -1,8 +1,10 @@
+import { Web3Provider } from '@ethersproject/providers';
 import type { ChainId, TokenAmount } from '@lifi/sdk';
 import type { NFTProps } from '@lifi/widget';
-import { FormKey, useWallet, useWatch } from '@lifi/widget';
+import { FormKey, useAccount, useWatch } from '@lifi/widget';
 import { Seaport } from '@opensea/seaport-js';
 import { useQuery } from '@tanstack/react-query';
+import type { Connector } from 'wagmi';
 import type { FulfillmentDataResponse, NFTNetwork } from './types';
 import { ChainId as OpenSeaChainId } from './types';
 import { useOpenSeaOrder } from './useOpenSeaOrder';
@@ -12,7 +14,7 @@ export const useOpenSeaFulfillment = (
   contractAddress: string,
   tokenId: string | number,
 ) => {
-  const { account, switchChain } = useWallet();
+  const { account } = useAccount();
   const recipientAddress = useWatch({
     name: FormKey.ToAddress,
   });
@@ -21,14 +23,16 @@ export const useOpenSeaFulfillment = (
     contractAddress,
     tokenId,
   );
-  const { data, isLoading } = useQuery(
-    [
+  const { data, isLoading } = useQuery({
+    queryKey: [
       'opensea-fulfillment',
       order?.orderHash,
       recipientAddress,
       account.address,
     ],
-    async ({ queryKey: [, orderHash, recipientAddress, accountAddress] }) => {
+    queryFn: async ({
+      queryKey: [, orderHash, recipientAddress, accountAddress],
+    }) => {
       if (!order) {
         return;
       }
@@ -59,7 +63,16 @@ export const useOpenSeaFulfillment = (
 
       const fulfillOrder = async () => {
         try {
-          const seaport = new Seaport(account.signer as any, {
+          const wagmiProvider = await (
+            account.connector as Connector
+          ).getProvider?.();
+          if (!wagmiProvider) {
+            throw new Error('Provider not found');
+          }
+          const provider = new Web3Provider(wagmiProvider, 'any');
+          const signer = provider.getSigner(account.address);
+
+          const seaport = new Seaport(signer, {
             seaportVersion: '1.5',
           });
 
@@ -81,9 +94,9 @@ export const useOpenSeaFulfillment = (
           };
         } catch (error: any) {
           if (error.code === 'CALL_EXCEPTION') {
-            const switched = await switchChain(
-              OpenSeaChainId[network as NFTNetwork],
-            );
+            const switched = await (
+              account.connector as Connector
+            ).switchChain?.({ chainId: OpenSeaChainId[network as NFTNetwork] });
             if (switched) {
               await fulfillOrder();
             } else {
@@ -108,7 +121,7 @@ export const useOpenSeaFulfillment = (
       const token: TokenAmount = {
         symbol:
           orderV2?.takerAssetBundle.assets[0]?.assetContract?.tokenSymbol!,
-        amount: orderV2?.currentPrice!,
+        amount: BigInt(orderV2?.currentPrice ?? 0),
         decimals: orderV2?.takerAssetBundle.assets[0].decimals!,
         address: orderV2?.takerAssetBundle.assets[0].tokenAddress!,
         chainId: OpenSeaChainId[network as NFTNetwork] as number as ChainId,
@@ -127,15 +140,13 @@ export const useOpenSeaFulfillment = (
 
       return result;
     },
-    {
-      enabled: Boolean(account.address) && Boolean(order),
-    },
-  );
+
+    enabled: Boolean(account.address) && Boolean(order),
+  });
 
   return {
     data,
-    isLoading,
+    isLoading: isLoading || isOrderLoading,
     order,
-    isOrderLoading,
   };
 };

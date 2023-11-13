@@ -17,6 +17,7 @@ root.render(
     <WalletProvider>
       <BrowserRouter>
         <Routes>
+          {/* <Route path="/viem" element={<ViemTest />} /> */}
           <Route path="/*" element={<App />} />
         </Routes>
       </BrowserRouter>
@@ -28,5 +29,6 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 if (import.meta.env.DEV) {
+  // eslint-disable-next-line no-console
   reportWebVitals(console.log);
 }

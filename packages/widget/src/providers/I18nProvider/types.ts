@@ -8,16 +8,18 @@ export type PartialResource<T> = T extends object
 
 export type LanguageKey = keyof typeof languages;
 
+export type LanguageResource = typeof languages.en;
+
 export type LanguageResources =
   | {
-      [language in LanguageKey]?: PartialResource<typeof languages.en>;
+      [language in LanguageKey]?: PartialResource<LanguageResource>;
     }
   | {
-      [language: string]: PartialResource<typeof languages.en>;
+      [language: string]: PartialResource<LanguageResource>;
     };
 
 export type LanguageTranslationResource = {
-  [namespace in 'translation']: PartialResource<typeof languages.en>;
+  [namespace in 'translation']: PartialResource<LanguageResource>;
 };
 
 export type LanguageTranslationResources = {

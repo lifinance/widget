@@ -1,7 +1,7 @@
 import { Box, Container, Stack } from '@mui/material';
 import { useRef } from 'react';
-import { TransactionHistoryEmpty } from './TransactionHistoryEmpty';
 import { useTransactionHistory } from '../../hooks/useTransactionHistory';
+import { TransactionHistoryEmpty } from './TransactionHistoryEmpty';
 import { VirtualizedTransactionHistory } from './VirtualizedTransactionHistoryPage';
 
 const minTransactionListHeight = 542;

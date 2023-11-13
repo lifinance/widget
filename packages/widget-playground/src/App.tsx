@@ -1,4 +1,3 @@
-import type { StaticToken } from '@lifi/sdk';
 import type {
   WidgetDrawer,
   WidgetSubvariant,
@@ -27,7 +26,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { WalletButtons } from './components/WalletButtons';
 import { WidgetEvents } from './components/WidgetEvents';
 import {
-  METAMASK_WALLET,
   WidgetSubvariants,
   WidgetVariants,
   widgetBaseConfig,
@@ -127,44 +125,44 @@ export const App = () => {
     variant,
   ]);
 
-  useEffect(() => {
-    if (externalWallerManagement) {
-      setConfig((config) => ({
-        ...config,
-        walletManagement: {
-          signer: account.signer,
-          connect: async () => {
-            await connect(METAMASK_WALLET);
-            return account.signer!;
-          },
-          disconnect: async () => {
-            disconnect(METAMASK_WALLET);
-          },
-          switchChain: async (reqChainId: number) => {
-            await METAMASK_WALLET!.switchChain(reqChainId);
-            if (account.signer) {
-              return account.signer!;
-            }
-            throw Error('No signer object after chain switch');
-          },
-          addToken: async (token: StaticToken, chainId: number) => {
-            await METAMASK_WALLET!.addToken(chainId, token);
-          },
-          addChain: async (chainId: number) => {
-            return METAMASK_WALLET!.addChain(chainId);
-          },
-        },
-      }));
-    } else {
-      setConfig((config) => ({ ...config, walletManagement: undefined }));
-    }
-  }, [
-    externalWallerManagement,
-    account.signer,
-    account.address,
-    connect,
-    disconnect,
-  ]);
+  // useEffect(() => {
+  //   if (externalWallerManagement) {
+  //     // setConfig((config) => ({
+  //     //   ...config,
+  //     //   walletManagement: {
+  //     //     signer: account.signer,
+  //     //     connect: async () => {
+  //     //       await connect(METAMASK_WALLET);
+  //     //       return account.signer!;
+  //     //     },
+  //     //     disconnect: async () => {
+  //     //       disconnect(METAMASK_WALLET);
+  //     //     },
+  //     //     switchChain: async (reqChainId: number) => {
+  //     //       await METAMASK_WALLET!.switchChain(reqChainId);
+  //     //       if (account.signer) {
+  //     //         return account.signer!;
+  //     //       }
+  //     //       throw Error('No signer object after chain switch');
+  //     //     },
+  //     //     addToken: async (token: StaticToken, chainId: number) => {
+  //     //       await METAMASK_WALLET!.addToken(chainId, token);
+  //     //     },
+  //     //     addChain: async (chainId: number) => {
+  //     //       return METAMASK_WALLET!.addChain(chainId);
+  //     //     },
+  //     //   },
+  //     // }));
+  //   } else {
+  //     setConfig((config) => ({ ...config, walletManagement: undefined }));
+  //   }
+  // }, [
+  //   externalWallerManagement,
+  //   account.signer,
+  //   account.address,
+  //   connect,
+  //   disconnect,
+  // ]);
 
   useEffect(() => {
     setTheme(

@@ -1,10 +1,9 @@
-import { DefaultTransactionButton } from '../../components/DefaultTransactionButton';
+import { BaseTransactionButton } from '../../components/BaseTransactionButton';
 import {
   useFromTokenSufficiency,
   useGasSufficiency,
   useRoutes,
 } from '../../hooks';
-import { useWidgetConfig } from '../../providers';
 import { useRouteExecutionStore } from '../../stores';
 import type { StartTransactionButtonProps } from './types';
 
@@ -14,21 +13,16 @@ export const StartTransactionButton: React.FC<StartTransactionButtonProps> = ({
   text,
   loading,
 }) => {
-  const { sdkConfig } = useWidgetConfig();
-  const isMultisigSigner = sdkConfig?.multisigConfig?.isMultisigSigner;
-
-  const { insufficientGas, isInitialLoading: isGasSufficiencyLoading } =
+  const { insufficientGas, isLoading: isGasSufficiencyLoading } =
     useGasSufficiency(route);
-  const {
-    insufficientFromToken,
-    isInitialLoading: isFromTokenSufficiencyLoading,
-  } = useFromTokenSufficiency(route);
+  const { insufficientFromToken, isLoading: isFromTokenSufficiencyLoading } =
+    useFromTokenSufficiency(route);
 
   const shouldDisableButton =
-    !isMultisigSigner && (insufficientFromToken || !!insufficientGas?.length);
+    insufficientFromToken || !!insufficientGas?.length;
 
   return (
-    <DefaultTransactionButton
+    <BaseTransactionButton
       onClick={onClick}
       text={text}
       disabled={shouldDisableButton}

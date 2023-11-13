@@ -1,4 +1,4 @@
-import { AppBar, Box, Button } from '@mui/material';
+import { AppBar, Box, Button, badgeClasses } from '@mui/material';
 import { buttonClasses } from '@mui/material/Button';
 import { alpha, styled } from '@mui/material/styles';
 
@@ -45,6 +45,12 @@ export const WalletButton = styled(Button)(({ theme }) => ({
   },
   [`.${buttonClasses.startIcon} > *:nth-of-type(1)`]: {
     fontSize: '24px',
+  },
+  [`&:hover .${badgeClasses.badge} > div`]: {
+    borderColor:
+      theme.palette.mode === 'light'
+        ? alpha(theme.palette.common.black, 0.04)
+        : alpha(theme.palette.common.white, 0.08),
   },
 }));
 

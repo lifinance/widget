@@ -9,8 +9,9 @@ import {
   Slide,
   Typography,
 } from '@mui/material';
-import { memo, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { formatUnits } from 'viem';
 import {
   formatTokenAmount,
   formatTokenPrice,
@@ -19,40 +20,38 @@ import {
 import { IconButton, ListItem, ListItemButton } from './TokenList.style';
 import type { TokenListItemButtonProps, TokenListItemProps } from './types';
 
-export const TokenListItem: React.FC<TokenListItemProps> = memo(
-  ({
-    onClick,
-    size,
-    start,
-    token,
-    chain,
-    showBalance,
-    isBalanceLoading,
-    startAdornment,
-    endAdornment,
-  }) => {
-    const handleClick = () => onClick?.(token.address);
-    return (
-      <ListItem
-        disablePadding
-        style={{
-          height: `${size}px`,
-          transform: `translateY(${start}px)`,
-        }}
-      >
-        {startAdornment}
-        <TokenListItemButton
-          token={token}
-          chain={chain}
-          showBalance={showBalance}
-          isBalanceLoading={isBalanceLoading}
-          onClick={handleClick}
-        />
-        {endAdornment}
-      </ListItem>
-    );
-  },
-);
+export const TokenListItem: React.FC<TokenListItemProps> = ({
+  onClick,
+  size,
+  start,
+  token,
+  chain,
+  showBalance,
+  isBalanceLoading,
+  startAdornment,
+  endAdornment,
+}) => {
+  const handleClick = () => onClick?.(token.address);
+  return (
+    <ListItem
+      disablePadding
+      style={{
+        height: `${size}px`,
+        transform: `translateY(${start}px)`,
+      }}
+    >
+      {startAdornment}
+      <TokenListItemButton
+        token={token}
+        chain={chain}
+        showBalance={showBalance}
+        isBalanceLoading={isBalanceLoading}
+        onClick={handleClick}
+      />
+      {endAdornment}
+    </ListItem>
+  );
+};
 
 export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   onClick,
@@ -62,7 +61,12 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   isBalanceLoading,
 }) => {
   const { t } = useTranslation();
-  const tokenPrice = formatTokenPrice(token.amount, token.priceUSD);
+  const tokenPrice = token.amount
+    ? formatTokenPrice(
+        formatUnits(token.amount, token.decimals),
+        token.priceUSD,
+      )
+    : undefined;
   const container = useRef(null);
   const timeoutId = useRef<ReturnType<typeof setTimeout>>();
   const [showAddress, setShowAddress] = useState(false);
@@ -142,10 +146,10 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
           <TokenAmountSkeleton />
         ) : (
           <Box sx={{ textAlign: 'right' }}>
-            {Number(token.amount) ? (
+            {token.amount ? (
               <Typography variant="body1" noWrap>
                 {t('format.number', {
-                  value: formatTokenAmount(token.amount),
+                  value: formatTokenAmount(token.amount, token.decimals),
                 })}
               </Typography>
             ) : null}

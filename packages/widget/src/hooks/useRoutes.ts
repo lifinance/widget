@@ -1,13 +1,13 @@
-import { isAddress } from '@ethersproject/address';
 import type { Route, RoutesResponse, Token } from '@lifi/sdk';
-import { LifiErrorCode } from '@lifi/sdk';
+import { LiFiErrorCode, getContractCallQuote, getRoutes } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import Big from 'big.js';
 import { useWatch } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
+import { parseUnits } from 'viem';
 import { useDebouncedWatch, useGasRefuel, useToken } from '.';
-import { FormKey, useLiFi, useWallet, useWidgetConfig } from '../providers';
+import { FormKey, useWidgetConfig } from '../providers';
 import { useSettings } from '../stores';
+import { useAccount } from './useAccount';
 import { useSwapOnly } from './useSwapOnly';
 
 const refetchTime = 60_000;
@@ -17,9 +17,8 @@ interface RoutesProps {
 }
 
 export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
-  const lifi = useLiFi();
   const { subvariant, sdkConfig, insurance, contractTool } = useWidgetConfig();
-  const { account } = useWallet();
+  const { account } = useAccount();
   const queryClient = useQueryClient();
   const swapOnly = useSwapOnly();
   const {
@@ -100,7 +99,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
     enabledExchanges,
     routePriority,
     subvariant,
-    sdkConfig?.defaultRouteOptions?.allowSwitchChain,
+    sdkConfig?.routeOptions?.allowSwitchChain,
     enabledRefuel && enabledAutoRefuel,
     gasRecommendationFromAmount,
     insurance,
@@ -108,9 +107,9 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
   ];
 
   const { data, isLoading, isFetching, isFetched, dataUpdatedAt, refetch } =
-    useQuery(
+    useQuery({
       queryKey,
-      async ({
+      queryFn: async ({
         queryKey: [
           _,
           fromAddress,
@@ -137,17 +136,23 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
         ],
         signal,
       }) => {
-        let toWalletAddress;
-        try {
-          toWalletAddress =
-            (await account.signer?.provider?.resolveName(toAddress)) ??
-            (isAddress(toAddress) ? toAddress : fromAddress);
-        } catch {
-          toWalletAddress = isAddress(toAddress) ? toAddress : fromAddress;
-        }
-        const fromAmount = Big(fromTokenAmount || 0)
-          .mul(10 ** (fromToken?.decimals ?? 0))
-          .toFixed(0);
+        let toWalletAddress = toAddress || fromAddress;
+        // try {
+        //   // FIXME: resolve address in one place
+        //   toWalletAddress = !isAddress(toAddress)
+        //     ? await getEnsAddress(config, {
+        //         name: normalize(toAddress),
+        //       })
+        //     : isAddress(toAddress)
+        //     ? toAddress
+        //     : fromAddress;
+        // } catch {
+        //   toWalletAddress = isAddress(toAddress) ? toAddress : fromAddress;
+        // }
+        const fromAmount = parseUnits(
+          fromTokenAmount,
+          fromToken!.decimals,
+        ).toString();
         const formattedSlippage = parseFloat(slippage) / 100;
 
         const allowedBridges: string[] = insurableRoute
@@ -167,7 +172,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
           : enabledExchanges;
 
         if (subvariant === 'nft') {
-          const contractCallQuote = await lifi.getContractCallQuote(
+          const contractCallQuote = await getContractCallQuote(
             {
               fromAddress,
               fromChain: fromChainId,
@@ -225,7 +230,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
           return { routes: [route] } as RoutesResponse;
         }
 
-        return lifi.getRoutes(
+        const data = await getRoutes(
           {
             fromChainId,
             fromAmount,
@@ -254,49 +259,45 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
           },
           { signal },
         );
+        if (data.routes[0]) {
+          // Update local tokens cache to keep priceUSD in sync
+          const { fromToken, toToken } = data.routes[0];
+          [fromToken, toToken].forEach((token) => {
+            queryClient.setQueriesData<Token[]>(
+              { queryKey: ['token-balances', account.address, token.chainId] },
+              (data) => {
+                if (data) {
+                  const clonedData = [...data];
+                  const index = clonedData.findIndex(
+                    (dataToken) => dataToken.address === token.address,
+                  );
+                  clonedData[index] = {
+                    ...clonedData[index],
+                    ...token,
+                  };
+                  return clonedData;
+                }
+              },
+            );
+          });
+        }
+        return data;
       },
-      {
-        enabled: isEnabled,
-        staleTime: refetchTime,
-        cacheTime: refetchTime,
-        refetchInterval(data, query) {
-          return Math.min(
-            Math.abs(refetchTime - (Date.now() - query.state.dataUpdatedAt)),
-            refetchTime,
-          );
-        },
-        retry(failureCount, error: any) {
-          if (error?.code === LifiErrorCode.NotFound) {
-            return false;
-          }
-          return true;
-        },
-        onSuccess(data) {
-          if (data.routes[0]) {
-            // Update local tokens cache to keep priceUSD in sync
-            const { fromToken, toToken } = data.routes[0];
-            [fromToken, toToken].forEach((token) => {
-              queryClient.setQueriesData<Token[]>(
-                ['token-balances', account.address, token.chainId],
-                (data) => {
-                  if (data) {
-                    const clonedData = [...data];
-                    const index = clonedData.findIndex(
-                      (dataToken) => dataToken.address === token.address,
-                    );
-                    clonedData[index] = {
-                      ...clonedData[index],
-                      ...token,
-                    };
-                    return clonedData;
-                  }
-                },
-              );
-            });
-          }
-        },
+      enabled: isEnabled,
+      staleTime: refetchTime,
+      refetchInterval(query) {
+        return Math.min(
+          Math.abs(refetchTime - (Date.now() - query.state.dataUpdatedAt)),
+          refetchTime,
+        );
       },
-    );
+      retry(_, error: any) {
+        if (error?.code === LiFiErrorCode.NotFound) {
+          return false;
+        }
+        return true;
+      },
+    });
 
   return {
     routes: data?.routes,

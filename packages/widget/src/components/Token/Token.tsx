@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import type { LifiStep, TokenAmount } from '@lifi/sdk';
+import type { LiFiStep, TokenAmount } from '@lifi/sdk';
 import type { BoxProps } from '@mui/material';
 import { Box, Skeleton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -11,15 +11,15 @@ import { TokenAvatar } from '../TokenAvatar';
 import { TextSecondary, TextSecondaryContainer } from './Token.style';
 
 interface TokenProps {
-  token?: TokenAmount;
+  token: TokenAmount;
   connected?: boolean;
-  step?: LifiStep;
+  step?: LiFiStep;
   disableDescription?: boolean;
   isLoading?: boolean;
 }
 
 export const Token: React.FC<TokenProps & BoxProps> = ({ token, ...other }) => {
-  if (!token?.priceUSD || !token.logoURI) {
+  if (!token.priceUSD || !token.logoURI) {
     return <TokenFallback token={token} {...other} />;
   }
   return <TokenBase token={token} {...other} />;
@@ -31,8 +31,8 @@ export const TokenFallback: React.FC<TokenProps & BoxProps> = ({
   ...other
 }) => {
   const { token: chainToken, isLoading: isLoadingToken } = useToken(
-    token?.chainId,
-    token?.address,
+    token.chainId,
+    token.address,
   );
 
   return (
@@ -54,13 +54,10 @@ export const TokenBase: React.FC<TokenProps & BoxProps> = ({
 }) => {
   const { t } = useTranslation();
   const { chain } = useChain(token?.chainId);
-  const formattedTokenAmount = formatTokenAmount(
-    token?.amount,
-    token?.decimals,
-  );
+  const formattedTokenAmount = formatTokenAmount(token.amount, token.decimals);
   const formattedTokenPrice = formatTokenPrice(
     formattedTokenAmount,
-    token?.priceUSD,
+    token.priceUSD,
   );
   return (
     <Box flex={1} {...other}>
@@ -117,7 +114,7 @@ export const TokenBase: React.FC<TokenProps & BoxProps> = ({
           ) : (
             <TextSecondary connected={connected}>
               {t(`main.tokenOnChain`, {
-                tokenSymbol: token?.symbol,
+                tokenSymbol: token.symbol,
                 chainName: chain?.name,
               })}
             </TextSecondary>

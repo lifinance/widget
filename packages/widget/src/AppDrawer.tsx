@@ -102,7 +102,7 @@ export const AppDrawer = forwardRef<WidgetDrawer, WidgetProps>(
           PaperProps={{
             sx: {
               width: config?.containerStyle?.width ?? '100%',
-              minWidth: config?.containerStyle?.minWidth ?? 375,
+              minWidth: config?.containerStyle?.minWidth ?? 360,
               maxWidth: config?.containerStyle?.maxWidth ?? 392,
             },
           }}

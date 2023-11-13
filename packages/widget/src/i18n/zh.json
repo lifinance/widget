@@ -255,7 +255,8 @@
     },
     "routePriority": "路由优先级",
     "showDestinationWallet": "显示收款钱包",
-    "slippage": "滑点"
+    "slippage": "滑点",
+    "resetSettings": "您正在使用自定义设置过滤可用路由。"
   },
   "wallet": {
     "extensionNotFound": "在选择钱包之前，请确保只有{{name}} 浏览器的扩展应用处于激活状态。"

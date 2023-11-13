@@ -1,30 +1,34 @@
 import { LoadingButton } from '@mui/lab';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useWallet, useWidgetConfig } from '../../providers';
+import { useAccount } from '../../hooks';
+import { useWidgetConfig } from '../../providers';
 import { navigationRoutes } from '../../utils';
-import type { DefaultTransactionButtonProps } from './types';
+import type { BaseTransactionButtonProps } from './types';
 
-export const DefaultTransactionButton: React.FC<
-  DefaultTransactionButtonProps
-> = ({ onClick, text, disabled, loading }) => {
+export const BaseTransactionButton: React.FC<BaseTransactionButtonProps> = ({
+  onClick,
+  text,
+  disabled,
+  loading,
+}) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { walletManagement } = useWidgetConfig();
-  const { account, connect } = useWallet();
+  const { account } = useAccount();
 
   const handleClick = async () => {
-    if (account.isActive) {
+    if (account.isConnected) {
       onClick?.();
     } else if (walletManagement) {
-      await connect();
+      await walletManagement.connect();
     } else {
       navigate(navigationRoutes.selectWallet);
     }
   };
 
   const getButtonText = () => {
-    if (account.isActive) {
+    if (account.isConnected) {
       if (text) {
         return text;
       }

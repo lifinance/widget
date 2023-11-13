@@ -145,11 +145,9 @@ export const setDefaultSettings = (config?: WidgetConfig) => {
   const { slippage, routePriority, setValue, gasPrice } =
     useSettingsStore.getState();
   const defaultSlippage =
-    (config?.slippage ||
-      config?.sdkConfig?.defaultRouteOptions?.slippage ||
-      0) * 100;
+    (config?.slippage || config?.sdkConfig?.routeOptions?.slippage || 0) * 100;
   const defaultRoutePriority =
-    config?.routePriority || config?.sdkConfig?.defaultRouteOptions?.order;
+    config?.routePriority || config?.sdkConfig?.routeOptions?.order;
   defaultConfigurableSettings.slippage = (
     defaultSlippage || defaultConfigurableSettings.slippage
   )?.toString();

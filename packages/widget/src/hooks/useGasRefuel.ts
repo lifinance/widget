@@ -1,13 +1,12 @@
-import Big from 'big.js';
 import { useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
-import { useChains } from '.';
+import { useAvailableChains } from '.';
 import { FormKey } from '../providers';
 import { useGasRecommendation } from './useGasRecommendation';
 import { useTokenBalance } from './useTokenBalance';
 
 export const useGasRefuel = () => {
-  const { getChainById } = useChains();
+  const { getChainById } = useAvailableChains();
 
   const [fromChainId, fromTokenAddress, toChainId, toAddress] = useWatch({
     name: [
@@ -41,14 +40,12 @@ export const useGasRefuel = () => {
     ) {
       return false;
     }
-    const tokenBalance = Big(nativeToken.amount ?? 0);
+    const tokenBalance = nativeToken.amount ?? 0n;
 
     // check if the user balance < 50% of the recommended amount
-    const recommendedAmount = Big(gasRecommendation.recommended.amount)
-      .div(10 ** gasRecommendation.recommended.token.decimals)
-      .div(2);
+    const recommendedAmount = BigInt(gasRecommendation.recommended.amount) / 2n;
 
-    const insufficientGas = tokenBalance.lt(recommendedAmount);
+    const insufficientGas = tokenBalance < recommendedAmount;
     return insufficientGas;
   }, [fromChainId, gasRecommendation, nativeToken, toChainId]);
 

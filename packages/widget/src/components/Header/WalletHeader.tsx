@@ -1,21 +1,21 @@
-import ContentCopyIcon from '@mui/icons-material/ContentCopyRounded';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import OpenInNewIcon from '@mui/icons-material/OpenInNewRounded';
-import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNewRounded';
 import WalletIcon from '@mui/icons-material/Wallet';
-import { Avatar, Button, MenuItem } from '@mui/material';
+import { Avatar, Badge } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useChain } from '../../hooks';
-import { useWallet, useWidgetConfig } from '../../providers';
+import type { Account } from '../../hooks';
+import { useAccount, useChain } from '../../hooks';
+import { useWidgetConfig } from '../../providers';
 import { navigationRoutes, shortenAddress } from '../../utils';
+import { SmallAvatar } from '../SmallAvatar';
 import {
   DrawerWalletContainer,
   HeaderAppBar,
   WalletButton,
 } from './Header.style';
 import { WalletMenu } from './WalletMenu';
+import { WalletMenuContainer } from './WalletMenu.style';
 
 export const WalletHeader: React.FC = () => {
   return (
@@ -26,28 +26,35 @@ export const WalletHeader: React.FC = () => {
 };
 
 export const WalletMenuButton: React.FC = () => {
-  const { account } = useWallet();
+  const { account } = useAccount();
   const { variant } = useWidgetConfig();
 
   if (variant === 'drawer') {
     return (
       <DrawerWalletContainer>
-        {account.isActive ? <ConnectedButton /> : <ConnectButton />}
+        {account.isConnected ? (
+          <ConnectedButton account={account} />
+        ) : (
+          <ConnectButton />
+        )}
       </DrawerWalletContainer>
     );
   }
-  return account.isActive ? <ConnectedButton /> : <ConnectButton />;
+  return account.isConnected ? (
+    <ConnectedButton account={account} />
+  ) : (
+    <ConnectButton />
+  );
 };
 
 const ConnectButton = () => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
   const { walletManagement, subvariant, variant } = useWidgetConfig();
-  const { connect: connectWallet } = useWallet();
   const navigate = useNavigate();
   const connect = async () => {
     if (walletManagement) {
-      await connectWallet();
+      await walletManagement.connect();
       return;
     }
     navigate(navigationRoutes.selectWallet);
@@ -77,13 +84,11 @@ const ConnectButton = () => {
   );
 };
 
-const ConnectedButton = () => {
-  const { t } = useTranslation();
+const ConnectedButton = ({ account }: { account: Account }) => {
   const { subvariant } = useWidgetConfig();
-  const { account, disconnect } = useWallet();
-  const walletAddress = shortenAddress(account.address);
   const { chain } = useChain(account.chainId);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const walletAddress = shortenAddress(account.address);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -93,28 +98,28 @@ const ConnectedButton = () => {
     setAnchorEl(null);
   };
 
-  const handleDisconnect = () => {
-    disconnect();
-    handleClose();
-  };
-
-  const handleCopyAddress = async () => {
-    await navigator.clipboard.writeText(account.address ?? '');
-    handleClose();
-  };
-
   return (
     <>
       <WalletButton
         endIcon={<ExpandMoreIcon />}
         startIcon={
-          <Avatar
-            src={chain?.logoURI}
-            alt={chain?.key}
-            sx={{ width: 24, height: 24 }}
+          <Badge
+            overlap="circular"
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            badgeContent={
+              <SmallAvatar src={chain?.logoURI} alt={chain?.name}>
+                {chain?.name[0]}
+              </SmallAvatar>
+            }
           >
-            {chain?.name[0]}
-          </Avatar>
+            <Avatar
+              src={account.connector?.icon}
+              alt={account.connector?.name}
+              sx={{ width: 24, height: 24 }}
+            >
+              {account.connector?.name[0]}
+            </Avatar>
+          </Badge>
         }
         sx={{
           marginRight: subvariant === 'split' ? 0 : -1.25,
@@ -124,35 +129,13 @@ const ConnectedButton = () => {
       >
         {walletAddress}
       </WalletButton>
-      <WalletMenu
+      <WalletMenuContainer
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleCopyAddress}>
-          <ContentCopyIcon />
-          {t(`button.copyAddress`)}
-        </MenuItem>
-        <MenuItem
-          component="a"
-          onClick={handleClose}
-          href={`${chain?.metamask.blockExplorerUrls[0]}address/${account.address}`}
-          target="_blank"
-        >
-          <OpenInNewIcon />
-          {t(`button.viewOnExplorer`)}
-        </MenuItem>
-        <Button
-          onClick={handleDisconnect}
-          fullWidth
-          startIcon={<PowerSettingsNewIcon />}
-          sx={{
-            marginTop: 1,
-          }}
-        >
-          {t(`button.disconnect`)}
-        </Button>
-      </WalletMenu>
+        <WalletMenu onClose={handleClose} />
+      </WalletMenuContainer>
     </>
   );
 };

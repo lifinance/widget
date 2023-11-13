@@ -4,6 +4,7 @@ import LayersIcon from '@mui/icons-material/Layers';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import { Box, Tooltip, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { formatUnits } from 'viem';
 import { IconTypography } from './RouteCard.style';
 import type { RouteCardEssentialsProps } from './types';
 import { getFeeCostsBreakdown, getGasCostsBreakdown } from './utils';
@@ -33,7 +34,10 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
                 fontWeight="500"
                 key={`${gas.token.address}${index}`}
               >
-                {gas.amount?.toFixed(9)} {gas.token.symbol} (
+                {parseFloat(
+                  formatUnits(gas.amount, gas.token.decimals),
+                )?.toFixed(9)}{' '}
+                {gas.token.symbol} (
                 {t(`format.currency`, { value: gas.amountUSD })})
               </Typography>
             ))}
@@ -67,7 +71,10 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
                 fontWeight="500"
                 key={`${fee.token.address}${index}`}
               >
-                {fee.amount?.toFixed(9)} {fee.token.symbol} (
+                {parseFloat(
+                  formatUnits(fee.amount, fee.token.decimals),
+                )?.toFixed(9)}{' '}
+                {fee.token.symbol} (
                 {t(`format.currency`, { value: fee.amountUSD })})
               </Typography>
             ))}
