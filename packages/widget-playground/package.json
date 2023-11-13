@@ -6,6 +6,7 @@
     "analyze": "source-map-explorer 'dist/assets/*.js' --no-border-checks",
     "dev": "vite",
     "build": "tsc && vite build",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo",
     "preview": "vite preview",
     "pre-commit": "lint-staged",
     "lint": "eslint --ext .tsx --ext .ts ./src",
@@ -34,7 +35,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.18.0",
-    "viem": "^2.0.0-beta.0",
+    "viem": "^2.0.0-beta.4",
     "wagmi": "^2.0.0-beta.1"
   },
   "devDependencies": {

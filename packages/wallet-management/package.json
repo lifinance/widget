@@ -10,6 +10,7 @@
     "watch": "tsc -w -p ./tsconfig.json",
     "build": "tsc --build --clean && tsc --build && tsc --build tsconfig.cjs.json && yarn build:copy-files",
     "build:copy-files": "node ../../scripts/copy-files.js && cpy 'src/**/*' '!src/**/*.ts*' build && cpy 'src/**/*' '!src/**/*.ts*' build/cjs",
+    "clean": "rm -rf build tsconfig.tsbuildinfo",
     "pre-commit": "lint-staged",
     "lint": "eslint --ext .tsx --ext .ts ./src",
     "lint:fix": "eslint --ext .tsx --ext .ts ./src --fix",
@@ -59,7 +60,7 @@
     "@walletconnect/modal": "^2.6.2",
     "events": "^3.3.0",
     "react": "^18.2.0",
-    "viem": "^2.0.0-beta.0",
+    "viem": "^2.0.0-beta.4",
     "wagmi": "^2.0.0-beta.1"
   },
   "devDependencies": {

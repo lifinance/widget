@@ -9,6 +9,7 @@
   "scripts": {
     "start": "lerna run start",
     "build": "lerna run build",
+    "clean": "lerna run clean",
     "release": "yarn release:version:before && yarn release:version && yarn release:version:after && yarn standard-version -a",
     "release:alpha": "yarn release:version:before && yarn release:version --preid alpha && yarn release:version:after && yarn standard-version -a --prerelease alpha --skip.changelog",
     "release:beta": "yarn release:version:before && yarn release:version --preid beta && yarn release:version:after && yarn standard-version -a --prerelease beta --skip.changelog",
@@ -48,8 +49,8 @@
     "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "lerna": "7.4.1",
-    "prettier": "^3.0.3",
+    "lerna": "7.4.2",
+    "prettier": "^3.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "standard-version": "^9.5.0",
