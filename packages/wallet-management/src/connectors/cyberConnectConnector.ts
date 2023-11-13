@@ -1,8 +1,7 @@
-import type { Web3Provider } from '@ethersproject/providers';
+import { Web3Provider } from '@ethersproject/providers';
 import { CyberApp, CyberProvider } from '@cyberlab/cyber-app-sdk';
 import { EventEmitter } from 'events';
 import type { AccountData, InjectedConnectorArgs, Wallet } from '../types';
-import { providers } from 'ethers';
 
 const ARBITRUM_CHAIN_ID = 42161;
 
@@ -49,7 +48,7 @@ export class CyberConnectConnector extends EventEmitter implements Wallet {
       chainId: currentChainId,
     });
 
-    const provider = new providers.Web3Provider(cyberProvider, 'any');
+    const provider = new Web3Provider(cyberProvider, 'any');
     const signer = provider.getSigner();
 
     this.account = {
