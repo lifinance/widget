@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.9.2](https://github.com/lifinance/widget/compare/v2.9.1...v2.9.2) (2023-11-13)
+
+
+### Bug Fixes
+
+* remove ethers import ([#153](https://github.com/lifinance/widget/issues/153)) ([511bd3a](https://github.com/lifinance/widget/commit/511bd3ab303e2e3d7ad40b6aa056e066ca587b83))
+
 ### [2.9.1](https://github.com/lifinance/widget/compare/v2.9.0...v2.9.1) (2023-11-13)
 
 
