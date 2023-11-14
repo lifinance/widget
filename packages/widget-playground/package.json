@@ -24,19 +24,19 @@
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
-    "@lifi/sdk": "^3.0.0-alpha.32",
+    "@lifi/sdk": "^3.0.0-alpha.33",
     "@lifi/wallet-management": "^2.4.1",
     "@lifi/widget": "^2.8.0",
-    "@mui/icons-material": "^5.14.16",
-    "@mui/lab": "^5.0.0-alpha.152",
-    "@mui/material": "^5.14.17",
+    "@mui/icons-material": "^5.14.18",
+    "@mui/lab": "^5.0.0-alpha.153",
+    "@mui/material": "^5.14.18",
     "ethers": "^5.7.2",
     "events": "^3.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.18.0",
-    "viem": "^2.0.0-beta.4",
-    "wagmi": "^2.0.0-beta.1"
+    "viem": "^2.0.0-beta.6",
+    "wagmi": "^2.0.0-beta.4"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.1.1",
