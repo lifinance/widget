@@ -1,6 +1,11 @@
-import type { ExtendedTransactionInfo, StatusResponse } from '@lifi/sdk';
-import { useLiFi, useWallet } from '../providers';
+import {
+  getStatus,
+  getTransactionHistory,
+  type ExtendedTransactionInfo,
+  type StatusResponse,
+} from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useAccount } from './useAccount';
 
 interface TransactionHistoryQueryResponse {
   data: StatusResponse[];
@@ -11,13 +16,16 @@ interface TransactionHistoryQueryResponse {
 export const useTransactionHistory = (
   transactionHashes?: string[],
 ): TransactionHistoryQueryResponse => {
-  const { account } = useWallet();
-  const lifi = useLiFi();
+  const { account } = useAccount();
   const queryClient = useQueryClient();
 
-  const { data, isLoading, refetch } = useQuery(
-    ['transaction-history', account.address, transactionHashes?.length],
-    async () => {
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: [
+      'transaction-history',
+      account.address,
+      transactionHashes?.length,
+    ],
+    queryFn: async () => {
       const validTx = transactionHashes?.find(Boolean);
       if (validTx) {
         const cachedData = queryClient.getQueryData<StatusResponse[]>([
@@ -28,7 +36,7 @@ export const useTransactionHistory = (
         let updatedCachedData = [...(cachedData ?? [])];
 
         try {
-          const response = await lifi.getStatus({
+          const response = await getStatus({
             txHash: validTx,
           });
 
@@ -53,7 +61,7 @@ export const useTransactionHistory = (
 
       const thirtyDaysAgoTimestamp = Date.now() - 2592000000;
 
-      const response = await lifi.getTransactionHistory({
+      const response = await getTransactionHistory({
         walletAddress: account.address,
         fromTimestamp: thirtyDaysAgoTimestamp / 1000,
         toTimestamp: Date.now() / 1000,
@@ -73,12 +81,9 @@ export const useTransactionHistory = (
 
       return sortedTransactions;
     },
-    {
-      refetchInterval: 60000,
-      cacheTime: 60000,
-      enabled: Boolean(account.address),
-    },
-  );
+    refetchInterval: 60000,
+    enabled: Boolean(account.address),
+  });
 
   return {
     data: data ?? [],
