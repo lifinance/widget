@@ -248,6 +248,7 @@
     "slippageError": "Error in slippage for tokens received"
   },
   "settings": {
+    "theme": "Theme",
     "enabledBridges": "Enabled bridges",
     "enabledExchanges": "Enabled exchanges",
     "gasPrice": {

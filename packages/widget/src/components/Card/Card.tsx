@@ -49,6 +49,7 @@ export const Card = styled(Box, {
       ? darken(backgroundColor, 0.02)
       : lighten(backgroundColor, 0.02)
     : backgroundColor;
+
   return {
     backgroundColor,
     border: `1px solid`,

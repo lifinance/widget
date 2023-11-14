@@ -1,9 +1,14 @@
 import type { StyledComponent } from '@emotion/styled';
 import type { TabProps, TabsProps } from '@mui/material';
-import { Tab, Tabs, tabClasses, tabsClasses } from '@mui/material';
+import {
+  Tab as MuiTab,
+  Tabs as MuiTabs,
+  tabClasses,
+  tabsClasses,
+} from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 
-export const NavbarTabs: StyledComponent<TabsProps> = styled(Tabs)(
+export const Tabs: StyledComponent<TabsProps> = styled(MuiTabs)(
   ({ theme }) => ({
     backgroundColor:
       theme.palette.mode === 'dark'
@@ -39,7 +44,7 @@ export const NavbarTabs: StyledComponent<TabsProps> = styled(Tabs)(
   }),
 );
 
-export const NavbarTab = styled(Tab, {
+export const Tab = styled(MuiTab, {
   shouldForwardProp: (prop) => prop !== 'isDarkMode',
 })<TabProps>(({ theme }) => ({
   zIndex: 1,

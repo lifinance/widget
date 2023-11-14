@@ -1,5 +1,4 @@
 import { Box, Container } from '@mui/material';
-import { ColorSchemeButtonGroup } from './ColorSchemeButtonGroup';
 import { EnabledToolsButton } from './EnabledToolsButton';
 import { GasPriceSelect } from './GasPriceSelect';
 import { LanguageSelect } from './LanguageSelect';
@@ -8,11 +7,13 @@ import { RoutePrioritySelect } from './RoutePrioritySelect';
 import { ShowDestinationWallet } from './ShowDestinationWallet';
 import { SlippageInput } from './SlippageInput';
 
+import { ThemeSettings } from './ThemeSettings';
+
 export const SettingsPage = () => {
   return (
     <Container disableGutters>
       <Box px={3} pt={1}>
-        <ColorSchemeButtonGroup />
+        <ThemeSettings />
         <LanguageSelect />
         <RoutePrioritySelect />
         <Box sx={{ display: 'flex', alignItems: 'center' }} mt={2}>
