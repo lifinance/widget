@@ -1,14 +1,13 @@
 import { Box, Container } from '@mui/material';
 import { EnabledToolsButton } from './EnabledToolsButton';
-import { GasPriceSelect } from './GasPriceSelect';
 import { LanguageSelect } from './LanguageSelect';
 import { ResetSettingsButton } from './ResetSettingsButton';
-import { RoutePrioritySelect } from './RoutePrioritySelect';
 import { ShowDestinationWallet } from './ShowDestinationWallet';
 import { SlippageInput } from './SlippageInput';
 
-import { ThemeSettings } from './ThemeSettings';
 import { GasPriceSettings } from './GasPriceSettings';
+import { RoutePrioritySettings } from './RoutePrioritySettings';
+import { ThemeSettings } from './ThemeSettings';
 
 export const SettingsPage = () => {
   return (
@@ -19,10 +18,10 @@ export const SettingsPage = () => {
           pb={2}
         >
           <ThemeSettings />
+          <RoutePrioritySettings />
           <GasPriceSettings />
         </Box>
         <LanguageSelect />
-        <RoutePrioritySelect />
         <Box sx={{ display: 'flex', alignItems: 'center' }} mt={2}>
           <Box flex={1}>
             <SlippageInput />
