@@ -157,7 +157,9 @@
     "numberOfSteps": "A number of exchange steps. Each step can contain 1-2 transactions that require a signature.",
     "progressToNextUpdate": "Quotes will update in {{value}} seconds. <0/> Click here to update now.",
     "recommended": "A cheap route that balances complexity and ease of use.",
-    "settingsModified": "Settings (modified)"
+    "settingsModified": "Settings (modified)",
+    "selectAll": "Select all",
+    "deselectAll": "Deselect all"
   },
   "main": {
     "crossStepDetails": "Bridge from {{from}} to {{to}} via {{tool}}",
@@ -249,8 +251,8 @@
   },
   "settings": {
     "theme": "Theme",
-    "enabledBridges": "Enabled bridges",
-    "enabledExchanges": "Enabled exchanges",
+    "enabledBridges": "Bridges",
+    "enabledExchanges": "Exchanges",
     "gasPrice": {
       "fast": "Fast",
       "normal": "Normal",

@@ -1,5 +1,5 @@
 import { Box, Container } from '@mui/material';
-import { EnabledToolsButton } from './EnabledToolsButton';
+import { BridgeAndExchangeSettings } from './BridgeAndExchangeSettings';
 import { LanguageSelect } from './LanguageSelect';
 import { ResetSettingsButton } from './ResetSettingsButton';
 import { ShowDestinationWallet } from './ShowDestinationWallet';
@@ -20,6 +20,8 @@ export const SettingsPage = () => {
           <ThemeSettings />
           <RoutePrioritySettings />
           <GasPriceSettings />
+          <BridgeAndExchangeSettings type="Bridges" />
+          <BridgeAndExchangeSettings type="Exchanges" />
         </Box>
         <LanguageSelect />
         <Box sx={{ display: 'flex', alignItems: 'center' }} mt={2}>
@@ -29,10 +31,6 @@ export const SettingsPage = () => {
         </Box>
       </Box>
       <ShowDestinationWallet />
-      <Box px={1.5}>
-        <EnabledToolsButton type="Bridges" />
-        <EnabledToolsButton type="Exchanges" />
-      </Box>
       <ResetSettingsButton />
     </Container>
   );

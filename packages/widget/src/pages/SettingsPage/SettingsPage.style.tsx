@@ -1,7 +1,7 @@
 import { Card } from '../../components/Card';
 import { styled } from '@mui/material/styles';
 import { Box, ButtonBase, Typography } from '@mui/material';
-import { PropsWithChildren } from 'react';
+import { MouseEventHandler, PropsWithChildren, ReactNode } from 'react';
 
 export const SettingCard: React.FC<PropsWithChildren> = ({ children }) => {
   return (
@@ -41,3 +41,27 @@ export const SettingSummaryText = styled(Typography)(({ theme }) => ({
   lineHeight: '1.25',
   fontWeight: 500,
 }));
+
+interface SettingCardButtonProps {
+  onClick: MouseEventHandler;
+  icon: ReactNode;
+  title: ReactNode;
+  additionalInfo: ReactNode;
+}
+
+export const SettingCardButton: React.FC<SettingCardButtonProps> = ({
+  onClick,
+  icon,
+  title,
+  additionalInfo,
+}) => (
+  <SettingCard>
+    <SettingSummaryButton onClick={onClick} focusRipple>
+      <SettingTitle>
+        {icon}
+        <SettingSummaryText>{title}</SettingSummaryText>
+      </SettingTitle>
+      <SettingSummaryText>{additionalInfo}</SettingSummaryText>
+    </SettingSummaryButton>
+  </SettingCard>
+);

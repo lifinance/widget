@@ -1,13 +1,24 @@
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { shallow } from 'zustand/shallow';
+import AirlineStopsIcon from '@mui/icons-material/AirlineStops';
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import { useSettingsStore } from '../../stores';
 import { navigationRoutes } from '../../utils';
-import { ListItemButton, ListItemText } from './EnabledToolsButton.style';
+import {
+  SettingCard,
+  SettingSummaryText,
+  SettingSummaryButton,
+  SettingTitle,
+  SettingCardButton,
+} from './SettingsPage.style';
 
-export const EnabledToolsButton: React.FC<{
+const supportedIcons = {
+  Bridges: AirlineStopsIcon, // TODO: source the bridge icon
+  Exchanges: SwapHorizIcon,
+};
+
+export const BridgeAndExchangeSettings: React.FC<{
   type: 'Bridges' | 'Exchanges';
 }> = ({ type }) => {
   const { t } = useTranslation();
@@ -21,13 +32,14 @@ export const EnabledToolsButton: React.FC<{
     navigate(navigationRoutes[type.toLowerCase() as 'bridges' | 'exchanges']);
   };
 
+  const Icon = supportedIcons[type];
+
   return (
-    <ListItemButton onClick={handleClick}>
-      <ListItemText primary={t(`settings.enabled${type}`)} />
-      <Box display="flex" alignItems="center">
-        <ListItemText primary={`${enabledTools}/${tools}`} />
-        <ChevronRightIcon />
-      </Box>
-    </ListItemButton>
+    <SettingCardButton
+      onClick={handleClick}
+      icon={<Icon />}
+      title={t(`settings.enabled${type}`)}
+      additionalInfo={`${enabledTools}/${tools}`}
+    />
   );
 };
