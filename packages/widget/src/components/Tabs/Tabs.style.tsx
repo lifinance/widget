@@ -20,20 +20,9 @@ export const Tabs: StyledComponent<TabsProps> = styled(MuiTabs)(
     ),
     padding: theme.spacing(0.5),
     flex: 1,
-    display: 'flex',
-    alignItems: 'center',
-    height: 56,
-    [`.${tabsClasses.flexContainer}`]: {
-      alignItems: 'center',
-    },
-    [`.${tabsClasses.scroller}`]: {
-      overflow: 'initial !important',
-    },
     [`.${tabsClasses.indicator}`]: {
-      position: 'absolute',
-      top: '50%',
-      transform: 'translateY(-50%)',
-      height: 48,
+      height: '100%',
+      width: '100%',
       backgroundColor:
         theme.palette.mode === 'dark'
           ? theme.palette.background.default
@@ -48,29 +37,18 @@ export const Tab = styled(MuiTab, {
   shouldForwardProp: (prop) => prop !== 'isDarkMode',
 })<TabProps>(({ theme }) => ({
   zIndex: 1,
-  display: 'flex',
   flex: 1,
-  justifyContent: 'center',
-  alignItems: 'center',
-  flexDirection: 'row',
   textTransform: 'none',
-  height: 48,
-  minHeight: 48,
   fontSize: '1rem',
   fontWeight: 700,
   color:
     theme.palette.mode === 'dark'
       ? theme.palette.common.white
       : theme.palette.common.black,
-  textDecoration: 'none',
   [`&.${tabClasses.selected}`]: {
     color:
       theme.palette.mode === 'dark'
         ? theme.palette.common.white
         : theme.palette.common.black,
-    backgroundColor: 'transparent',
-  },
-  [`.${tabClasses.iconWrapper}`]: {
-    margin: theme.spacing(0, 1, 0, 0),
   },
 }));
