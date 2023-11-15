@@ -6,7 +6,7 @@ import { useSettings, useSettingsStore } from '../../stores';
 import { Tab, Tabs } from '../../components/Tabs';
 import {
   SettingCard,
-  SettingSummary,
+  SettingTitle,
   SettingSummaryButton,
   SettingSummaryText,
 } from './SettingsPage.style';
@@ -27,19 +27,19 @@ export const GasPriceSettings: React.FC = () => {
 
   return (
     <SettingCard>
-      <SettingSummary>
-        <SettingSummaryButton onClick={toggleExpanded} focusRipple>
+      <SettingSummaryButton onClick={toggleExpanded} focusRipple>
+        <SettingTitle>
           <EvStationIcon />
           <SettingSummaryText>
             {t(`settings.gasPrice.title`)}
           </SettingSummaryText>
-        </SettingSummaryButton>
+        </SettingTitle>
         {!expanded && (
           <SettingSummaryText>
             {t(`settings.gasPrice.${gasPrice}` as any)}
           </SettingSummaryText>
         )}
-      </SettingSummary>
+      </SettingSummaryButton>
       <Collapse in={expanded}>
         <Tabs
           value={gasPrice}

@@ -7,7 +7,7 @@ import { Tab, Tabs } from '../../components/Tabs';
 import { useSettings, useSettingsStore } from '../../stores';
 import {
   SettingCard,
-  SettingSummary,
+  SettingTitle,
   SettingSummaryButton,
   SettingSummaryText,
 } from './SettingsPage.style';
@@ -34,17 +34,17 @@ export const RoutePrioritySettings: React.FC = () => {
 
   return (
     <SettingCard>
-      <SettingSummary>
-        <SettingSummaryButton onClick={toggleExpanded} focusRipple>
+      <SettingSummaryButton onClick={toggleExpanded} focusRipple>
+        <SettingTitle>
           <RouteIcon />
           <SettingSummaryText>{t(`settings.routePriority`)}</SettingSummaryText>
-        </SettingSummaryButton>
+        </SettingTitle>
         {!expanded && (
           <SettingSummaryText>
             {t(`main.tags.${currentRoutePriority.toLowerCase()}` as any)}
           </SettingSummaryText>
         )}
-      </SettingSummary>
+      </SettingSummaryButton>
       <Collapse in={expanded}>
         <Tabs
           value={currentRoutePriority}

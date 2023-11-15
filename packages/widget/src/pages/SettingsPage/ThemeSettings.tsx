@@ -12,7 +12,7 @@ import {
   SettingCard,
   SettingSummaryText,
   SettingSummaryButton,
-  SettingSummary,
+  SettingTitle,
 } from './SettingsPage.style';
 import { Tab, Tabs } from '../../components/Tabs';
 
@@ -65,15 +65,15 @@ export const ThemeSettings: React.FC = () => {
 
   return (
     <SettingCard>
-      <SettingSummary>
-        <SettingSummaryButton onClick={toggleExpanded} focusRipple>
+      <SettingSummaryButton onClick={toggleExpanded} focusRipple>
+        <SettingTitle>
           <ThemeIcon />
           <SettingSummaryText>{t('settings.theme')}</SettingSummaryText>
-        </SettingSummaryButton>
+        </SettingTitle>
         {!expanded && (
           <SettingSummaryText>{t(`button.${appearance}`)}</SettingSummaryText>
         )}
-      </SettingSummary>
+      </SettingSummaryButton>
       <Collapse in={expanded}>
         <Tabs
           value={appearance}

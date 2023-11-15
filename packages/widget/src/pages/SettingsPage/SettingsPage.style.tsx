@@ -17,10 +17,10 @@ export const SettingCard: React.FC<PropsWithChildren> = ({ children }) => {
   );
 };
 
-export const SettingSummary = styled(Box)(({ theme }) => ({
+export const SettingTitle = styled(Box)(({ theme }) => ({
   display: 'flex',
-  justifyContent: 'space-between',
   alignItems: 'center',
+  gap: theme.spacing(1.5),
 }));
 
 export const SettingSummaryButton = styled(ButtonBase)(({ theme }) => ({
@@ -32,8 +32,9 @@ export const SettingSummaryButton = styled(ButtonBase)(({ theme }) => ({
   cursor: 'pointer',
   outline: 'inherit',
   display: 'flex',
+  width: '100%',
+  justifyContent: 'space-between',
   alignItems: 'center',
-  gap: theme.spacing(1.5),
 }));
 
 export const SettingSummaryText = styled(Typography)(({ theme }) => ({
