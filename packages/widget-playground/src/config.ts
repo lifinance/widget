@@ -1,7 +1,7 @@
+import { ChainId } from '@lifi/sdk';
 import type { WidgetConfig } from '@lifi/widget';
+import './fonts/inter.css';
 import './index.css';
-
-export const METAMASK_WALLET = undefined;
 
 export const WidgetVariants = ['default', 'expandable', 'drawer'] as const;
 
@@ -31,6 +31,11 @@ export const widgetBaseConfig: WidgetConfig = {
   insurance: true,
   sdkConfig: {
     apiUrl: 'https://develop.li.quest/v1',
+    rpcUrls: {
+      [ChainId.SOL]: [
+        'https://withered-lingering-frog.solana-mainnet.quiknode.pro/',
+      ],
+    },
     routeOptions: {
       maxPriceImpact: 0.4,
       // slippage: 0.03,

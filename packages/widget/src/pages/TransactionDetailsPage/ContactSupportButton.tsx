@@ -14,13 +14,13 @@ export const ContactSupportButton = ({
   const widgetEvents = useWidgetEvents();
 
   const handleClick = () => {
-    if (!widgetEvents.all.has(WidgetEvent.RouteContactSupport)) {
+    if (!widgetEvents.all.has(WidgetEvent.ContactSupport)) {
       const url = 'https://discord.gg/lifi';
       const target = '_blank';
       const rel = 'nofollow noreferrer';
       window.open(url, target, rel);
     } else {
-      widgetEvents.emit(WidgetEvent.RouteContactSupport, { supportId });
+      widgetEvents.emit(WidgetEvent.ContactSupport, { supportId });
     }
   };
 

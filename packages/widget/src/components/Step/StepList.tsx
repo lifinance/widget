@@ -21,8 +21,8 @@ export const getStepList = (
             amount: step.execution?.toAmount
               ? BigInt(step.execution.toAmount)
               : subvariant === 'nft'
-              ? BigInt(route.toAmount)
-              : BigInt(step.estimate.toAmount),
+                ? BigInt(route.toAmount)
+                : BigInt(step.estimate.toAmount),
           }
         : undefined;
     const toAddress =

@@ -1,5 +1,6 @@
 import { ChainId, ChainType } from '@lifi/sdk';
 import {
+  getWalletIcon,
   isWalletInstalled,
   isWalletInstalledAsync,
 } from '@lifi/wallet-management';
@@ -119,7 +120,6 @@ export const SelectWalletPage = () => {
     if (isDesktopView) {
       installedWallets.push(...evmNotDetected, ...svmNotDetected);
     }
-
     setWallets(installedWallets);
   }, [connectors, isDesktopView, solanaWallets]);
 
@@ -129,7 +129,10 @@ export const SelectWalletPage = () => {
       onClick={() => handleEVMConnect(connector)}
     >
       <ListItemAvatar>
-        <Avatar src={connector.icon} alt={connector.name}>
+        <Avatar
+          src={connector.icon || getWalletIcon(connector.id)}
+          alt={connector.name}
+        >
           {connector.name[0]}
         </Avatar>
       </ListItemAvatar>

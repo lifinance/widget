@@ -71,8 +71,8 @@ export const TokenList: FC<TokenListProps> = ({
   const tokens = filteredTokens.length
     ? filteredTokens
     : searchedToken
-    ? [searchedToken]
-    : filteredTokens;
+      ? [searchedToken]
+      : filteredTokens;
 
   const handleTokenClick = useTokenSelect(formType, onClick);
 

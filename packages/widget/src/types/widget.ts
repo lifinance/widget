@@ -1,4 +1,3 @@
-import type { Signer } from '@ethersproject/abstract-signer';
 import type {
   BaseToken,
   Order,
@@ -60,12 +59,7 @@ export type ThemeConfig = {
 };
 
 export interface WidgetWalletManagement {
-  connect(): Promise<Signer>;
-  disconnect(): Promise<void>;
-  switchChain?(chainId: number): Promise<Signer>;
-  addToken?(token: StaticToken, chainId: number): Promise<void>;
-  addChain?(chainId: number): Promise<boolean>;
-  signer?: Signer;
+  connect(): Promise<void>;
 }
 
 export interface WidgetSDKOptions

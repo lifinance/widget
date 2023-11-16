@@ -123,9 +123,9 @@ export const IncludedSteps: React.FC<{
     step.tool === 'custom' && subvariant === 'nft'
       ? CustomStepDetailsLabel
       : step.type === 'lifi' &&
-        step.includedSteps.some((step) => step.type === 'cross')
-      ? CrossStepDetailsLabel
-      : SwapStepDetailsLabel;
+          step.includedSteps.some((step) => step.type === 'cross')
+        ? CrossStepDetailsLabel
+        : SwapStepDetailsLabel;
   return step.includedSteps.length > 1 ? (
     <Box mt={1.5}>
       <Stepper

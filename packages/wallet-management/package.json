@@ -49,19 +49,9 @@
     "lifi"
   ],
   "dependencies": {
-    "@coinbase/wallet-sdk": "^3.7.2",
-    "@ethersproject/abstract-signer": "^5.7.0",
-    "@ethersproject/experimental": "^5.7.0",
-    "@ethersproject/providers": "^5.7.2",
-    "@lifi/sdk": "^3.0.0-alpha.32",
-    "@safe-global/safe-apps-provider": "^0.18.0",
-    "@safe-global/safe-apps-sdk": "^8.1.0",
-    "@walletconnect/ethereum-provider": "^2.10.4",
-    "@walletconnect/modal": "^2.6.2",
-    "events": "^3.3.0",
+    "@lifi/sdk": "^3.0.0-alpha.33",
     "react": "^18.2.0",
-    "viem": "^2.0.0-beta.4",
-    "wagmi": "^2.0.0-beta.1"
+    "wagmi": "^2.0.0-beta.5"
   },
   "devDependencies": {
     "cpy-cli": "^5.0.0",
