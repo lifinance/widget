@@ -1,6 +1,6 @@
-import { Box, Typography } from '@mui/material';
 import type { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
+import WalletIcon from '@mui/icons-material/Wallet';
 import { Switch } from '../../components/Switch';
 import { useWidgetConfig } from '../../providers';
 import {
@@ -9,8 +9,9 @@ import {
   useSettingsStore,
 } from '../../stores';
 import { HiddenUI } from '../../types';
+import { SettingCardComponent } from './SettingsPage.style';
 
-export const ShowDestinationWallet = () => {
+export const SendToWalletOptionSetting = () => {
   const { t } = useTranslation();
   const { hiddenUI } = useWidgetConfig();
   const setSendToWallet = useSendToWalletStore(
@@ -29,25 +30,10 @@ export const ShowDestinationWallet = () => {
   };
 
   return (
-    <Box px={3} pt={2} pb={1.5}>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Typography
-            variant="subtitle1"
-            color="text.primary"
-            lineHeight="normal"
-          >
-            {t(`settings.showDestinationWallet`)}
-          </Typography>
-        </Box>
-        <Switch checked={showDestinationWallet} onChange={onChange} />
-      </Box>
-    </Box>
+    <SettingCardComponent
+      icon={<WalletIcon />}
+      title={t(`settings.showDestinationWallet`)}
+      component={<Switch checked={showDestinationWallet} onChange={onChange} />}
+    />
   );
 };
