@@ -51,7 +51,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@lifi/sdk": "^3.0.0-alpha.33",
+    "@lifi/sdk": "^3.0.0-alpha.34",
     "@lifi/wallet-management": "^2.4.1",
     "@mui/icons-material": "^5.14.18",
     "@mui/lab": "^5.0.0-alpha.153",
@@ -70,7 +70,7 @@
     "react-hook-form": "^7.48.2",
     "react-i18next": "^13.5.0",
     "react-intersection-observer": "^9.5.3",
-    "react-router-dom": "^6.18.0",
+    "react-router-dom": "^6.19.0",
     "react-timer-hook": "^3.0.7",
     "uuid": "^9.0.1",
     "viem": "^2.0.0-beta.6",
