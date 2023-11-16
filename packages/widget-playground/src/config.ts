@@ -30,7 +30,7 @@ export const widgetBaseConfig: WidgetConfig = {
   // slippage: 0.003,
   insurance: true,
   sdkConfig: {
-    apiUrl: 'https://feat-featlf5671.li.quest',
+    apiUrl: 'https://feat-featlf5671.li.quest/v1',
     rpcUrls: {
       [ChainId.SOL]: [
         'https://withered-lingering-frog.solana-mainnet.quiknode.pro/',
