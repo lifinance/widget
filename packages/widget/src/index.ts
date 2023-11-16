@@ -7,7 +7,7 @@ export {
   useAccount,
   useAvailableChains,
   useWidgetEvents,
-  widgetEvents
+  widgetEvents,
 } from './hooks';
 export * from './providers/FormProvider/types';
 export { formatChain } from './providers/WalletProvider';

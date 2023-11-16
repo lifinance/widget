@@ -125,18 +125,16 @@ export const App = () => {
     variant,
   ]);
 
-  useEffect(() => {
-    if (externalWallerManagement) {
-      setConfig((config) => ({
-        ...config,
-        walletManagement: {
-          connector: account.connector,
-        },
-      }));
-    } else {
-      setConfig((config) => ({ ...config, walletManagement: undefined }));
-    }
-  }, [externalWallerManagement, account.address, account.connector]);
+  // useEffect(() => {
+  //   if (externalWallerManagement) {
+  //     setConfig((config) => ({
+  //       ...config,
+  //       walletManagement: {},
+  //     }));
+  //   } else {
+  //     setConfig((config) => ({ ...config, walletManagement: undefined }));
+  //   }
+  // }, [externalWallerManagement, account.address, account.connector]);
 
   useEffect(() => {
     setTheme(

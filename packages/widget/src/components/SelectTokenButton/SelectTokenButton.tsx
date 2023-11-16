@@ -31,8 +31,8 @@ export const SelectTokenButton: React.FC<
       formType === 'from'
         ? navigationRoutes.fromToken
         : subvariant === 'refuel'
-        ? navigationRoutes.toTokenNative
-        : navigationRoutes.toToken,
+          ? navigationRoutes.toTokenNative
+          : navigationRoutes.toToken,
     );
   };
 
@@ -42,8 +42,8 @@ export const SelectTokenButton: React.FC<
     formType === 'to' && subvariant === 'refuel'
       ? t('main.selectChain')
       : formType === 'to' && swapOnly
-      ? t('main.selectToken')
-      : t('main.selectChainAndToken');
+        ? t('main.selectToken')
+        : t('main.selectChainAndToken');
   const cardTitle =
     formType === 'from' && subvariant === 'nft'
       ? t(`header.payWith`)

@@ -15,7 +15,6 @@ import type {
 } from '@mui/material';
 import type { TypographyOptions } from '@mui/material/styles/createTypography';
 import type { CSSProperties, ReactNode, RefObject } from 'react';
-import type { Connector } from 'wagmi';
 import type { LanguageKey, LanguageResources } from '../providers';
 import type { SplitSubvariantOptions } from '../stores';
 
@@ -60,7 +59,7 @@ export type ThemeConfig = {
 };
 
 export interface WidgetWalletManagement {
-  connector?: Connector;
+  connect(): Promise<void>;
 }
 
 export interface WidgetSDKOptions

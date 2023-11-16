@@ -10,13 +10,13 @@ export const CardLabel = styled(Box, {
         ? theme.palette.secondary.main
         : alpha(theme.palette.secondary.main, 0.32)
       : type?.includes('insurance')
-      ? alpha(
-          theme.palette.success.main,
-          theme.palette.mode === 'light' ? 0.12 : 0.24,
-        )
-      : theme.palette.mode === 'light'
-      ? alpha(theme.palette.common.black, 0.12)
-      : alpha(theme.palette.common.white, 0.16),
+        ? alpha(
+            theme.palette.success.main,
+            theme.palette.mode === 'light' ? 0.12 : 0.24,
+          )
+        : theme.palette.mode === 'light'
+          ? alpha(theme.palette.common.black, 0.12)
+          : alpha(theme.palette.common.white, 0.16),
   borderRadius: theme.shape.borderRadius,
   color: type?.includes('insurance')
     ? lighten(

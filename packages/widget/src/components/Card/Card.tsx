@@ -56,12 +56,12 @@ export const Card = styled(Box, {
       variant === 'error'
         ? theme.palette.error.main
         : variant === 'selected'
-        ? selectionColor === 'primary'
-          ? theme.palette.primary.main
-          : alpha(theme.palette.secondary.main, 0.48)
-        : theme.palette.mode === 'light'
-        ? theme.palette.grey[300]
-        : theme.palette.grey[800],
+          ? selectionColor === 'primary'
+            ? theme.palette.primary.main
+            : alpha(theme.palette.secondary.main, 0.48)
+          : theme.palette.mode === 'light'
+            ? theme.palette.grey[300]
+            : theme.palette.grey[800],
     borderRadius: theme.shape.borderRadius,
     overflow: 'hidden',
     position: 'relative',

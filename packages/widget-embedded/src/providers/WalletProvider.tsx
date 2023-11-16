@@ -1,127 +1,95 @@
-import type { Signer } from '@ethersproject/abstract-signer';
-import type { StaticToken } from '@lifi/sdk';
-import type { Wallet } from '@lifi/wallet-management';
-import { LiFiWalletManagement } from '@lifi/wallet-management';
-import type { WalletAccount, WalletContextProps } from '@lifi/widget/providers';
-import type { FC, PropsWithChildren } from 'react';
 import {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from 'react';
+  alpha,
+  binance,
+  bitget,
+  bitpie,
+  block,
+  brave,
+  coinbase,
+  dcent,
+  exodus,
+  frame,
+  frontier,
+  gate,
+  hyperpay,
+  imtoken,
+  liquality,
+  metaMask,
+  okx,
+  oneinch,
+  ownbit,
+  rabby,
+  safepal,
+  status,
+  taho,
+  tokenary,
+  tokenpocket,
+  trust,
+  walletConnect,
+  xdefi,
+} from '@lifi/wallet-management';
+import { formatChain, useAvailableChains } from '@lifi/widget';
+import { useMemo, type FC, type PropsWithChildren } from 'react';
+import type { Chain } from 'viem';
+import { createClient } from 'viem';
+import { WagmiProvider, createConfig, http } from 'wagmi';
+import { mainnet } from 'wagmi/chains';
 
-const stub = (): never => {
-  throw new Error(
-    `You forgot to wrap your component in <${WalletProvider.name}>.`,
-  );
-};
+const connectors = [
+  metaMask,
+  walletConnect,
+  coinbase,
+  bitget,
+  gate,
+  exodus,
+  taho,
+  binance,
+  frontier,
+  okx,
+  trust,
+  status,
+  alpha,
+  block,
+  bitpie,
+  brave,
+  dcent,
+  frame,
+  hyperpay,
+  imtoken,
+  liquality,
+  ownbit,
+  tokenpocket,
+  xdefi,
+  oneinch,
+  tokenary,
+  safepal,
+  rabby,
+];
 
-const initialContext: WalletContextProps = {
-  connect: stub,
-  disconnect: stub,
-  switchChain: stub,
-  addChain: stub,
-  addToken: stub,
-  account: {},
-};
+export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
+  const { chains } = useAvailableChains();
 
-const WalletContext = createContext<WalletContextProps>(initialContext);
+  const wagmiConfig = useMemo(() => {
+    const _chains: [Chain, ...Chain[]] = chains?.length
+      ? (chains.map(formatChain) as [Chain, ...Chain[]])
+      : [mainnet];
+    const wagmiConfig = createConfig({
+      chains: _chains,
+      connectors: connectors,
+      client({ chain }) {
+        return createClient({ chain, transport: http() });
+      },
+    });
 
-export const useWallet = (): WalletContextProps => useContext(WalletContext);
-const liFiWalletManagement = new LiFiWalletManagement();
-
-export const WalletProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
-  const [account, setAccount] = useState<WalletAccount>({});
-  const [currentWallet, setCurrentWallet] = useState<Wallet | undefined>(
-    liFiWalletManagement.connectedWallets[0],
-  );
-
-  const handleWalletUpdate = async (wallet?: Wallet) => {
-    setCurrentWallet(() => wallet);
-    const account = await extractAccountFromSigner(wallet?.account?.signer);
-    setAccount(account);
-  };
-
-  const connect = useCallback(async (wallet: Wallet) => {
-    await liFiWalletManagement.connect(wallet);
-    wallet.on('walletAccountChanged', handleWalletUpdate);
-
-    handleWalletUpdate(wallet);
-  }, []);
-
-  const disconnect = useCallback(async () => {
-    if (currentWallet) {
-      await liFiWalletManagement.disconnect(currentWallet);
-      currentWallet.removeAllListeners();
-      handleWalletUpdate(undefined);
-    }
-  }, [currentWallet]);
-
-  const switchChain = useCallback(
-    async (chainId: number) => {
-      try {
-        await currentWallet?.switchChain(chainId);
-        handleWalletUpdate(currentWallet);
-        return currentWallet?.account?.signer;
-      } catch {
-        return currentWallet?.account?.signer;
-      }
-    },
-    [currentWallet],
-  );
-
-  const addChain = useCallback(
-    async (chainId: number) => {
-      try {
-        await currentWallet?.addChain(chainId);
-        handleWalletUpdate(currentWallet);
-
-        return true;
-      } catch {
-        return false;
-      }
-    },
-    [currentWallet],
-  );
-
-  const addToken = useCallback(
-    async (chainId: number, token: StaticToken) => {
-      await currentWallet?.addToken(chainId, token);
-      handleWalletUpdate(currentWallet);
-
-      return;
-    },
-    [currentWallet],
-  );
-
-  const value = useMemo(
-    () => ({
-      connect,
-      disconnect,
-      switchChain,
-      addChain,
-      addToken,
-      account,
-    }),
-    [account, addChain, addToken, connect, disconnect, switchChain],
-  );
+    return wagmiConfig;
+  }, [chains]);
 
   return (
-    <WalletContext.Provider value={value}> {children} </WalletContext.Provider>
+    <WagmiProvider
+      config={wagmiConfig}
+      reconnectOnMount={Boolean(chains?.length)}
+    >
+      {children}
+    </WagmiProvider>
   );
-};
-
-const extractAccountFromSigner = async (signer?: Signer) => {
-  try {
-    return {
-      address: (await signer?.getAddress()) || undefined,
-      isActive: (signer && !!(await signer.getAddress()) === null) || !!signer,
-      signer,
-      chainId: (await signer?.getChainId()) || undefined,
-    };
-  } catch {
-    return {} as WalletAccount;
-  }
 };
