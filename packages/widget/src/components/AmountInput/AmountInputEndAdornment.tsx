@@ -21,6 +21,9 @@ export const AmountInputEndAdornment = ({ formType }: FormTypeProps) => {
       FormKeyHelper.getTokenKey(formType),
     ],
   });
+
+  // We get gas recommendations for the source chain to make sure that after pressing the Max button
+  // the user will have enough funds remaining to cover gas costs
   const { data } = useGasRecommendation(chainId);
 
   const { token, isLoading } = useTokenAddressBalance(chainId, tokenAddress);

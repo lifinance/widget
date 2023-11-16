@@ -85,6 +85,7 @@ export const WidgetProvider: React.FC<
       };
       if (!sdkInitialized) {
         createConfig(_config);
+        sdkInitialized = true;
       } else {
         config.set(_config);
       }

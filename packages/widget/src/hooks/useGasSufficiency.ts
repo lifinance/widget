@@ -27,16 +27,12 @@ export const useGasSufficiency = (route?: RouteExtended) => {
   const { data: insufficientGas, isLoading } = useQuery({
     queryKey: ['gas-sufficiency-check', account.address, route?.id],
     queryFn: async () => {
-      if (!account.address || !route) {
-        return;
-      }
-
       // TODO: include LI.Fuel into calculation once steps and tools are properly typed
       // const refuelSteps = route.steps
       //   .flatMap((step) => step.includedSteps)
       //   .filter((includedStep) => includedStep.tool === 'lifuelProtocol');
 
-      const gasCosts = route.steps
+      const gasCosts = route!.steps
         .filter((step) => !step.execution || step.execution.status !== 'DONE')
         .reduce(
           (groupedGasCosts, step) => {
@@ -79,22 +75,22 @@ export const useGasSufficiency = (route?: RouteExtended) => {
         );
 
       if (
-        route.fromToken.address === gasCosts[route.fromChainId]?.token.address
+        route!.fromToken.address === gasCosts[route!.fromChainId]?.token.address
       ) {
-        gasCosts[route.fromChainId].tokenAmount =
-          gasCosts[route.fromChainId]?.gasAmount + BigInt(route.fromAmount);
+        gasCosts[route!.fromChainId].tokenAmount =
+          gasCosts[route!.fromChainId]?.gasAmount + BigInt(route!.fromAmount);
       }
 
       const tokenBalances = await getTokenBalancesWithRetry(
-        account.address,
+        account.address!,
         Object.values(gasCosts).map((item) => item.token),
       );
 
       if (!tokenBalances?.length) {
-        return;
+        return [];
       }
 
-      [route.fromChainId, route.toChainId].forEach((chainId) => {
+      [route!.fromChainId, route!.toChainId].forEach((chainId) => {
         if (gasCosts[chainId]) {
           const gasTokenBalance =
             tokenBalances?.find(

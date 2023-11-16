@@ -27,13 +27,12 @@ import {
   walletConnect,
   xdefi,
 } from '@lifi/wallet-management';
-import { useMemo, type FC, type PropsWithChildren } from 'react';
+import { useContext, useMemo, type FC, type PropsWithChildren } from 'react';
 import type { Chain } from 'viem';
 import { createClient } from 'viem';
-import { WagmiProvider, createConfig, http } from 'wagmi';
+import { WagmiContext, WagmiProvider, createConfig, http } from 'wagmi';
 import { mainnet } from 'wagmi/chains';
 import { useAvailableChains } from '../../hooks';
-import { useWidgetConfig } from '../WidgetProvider';
 import { formatChain } from './utils';
 
 const connectors = [
@@ -67,7 +66,15 @@ const connectors = [
 ];
 
 export const EVMProvider: FC<PropsWithChildren> = ({ children }) => {
-  const { walletManagement } = useWidgetConfig();
+  const inWagmiContext = useInWagmiContext();
+  return inWagmiContext ? (
+    children
+  ) : (
+    <EVMBaseProvider>{children}</EVMBaseProvider>
+  );
+};
+
+export const EVMBaseProvider: FC<PropsWithChildren> = ({ children }) => {
   const { chains } = useAvailableChains();
 
   const wagmiConfig = useMemo(() => {
@@ -101,3 +108,8 @@ export const EVMProvider: FC<PropsWithChildren> = ({ children }) => {
     </WagmiProvider>
   );
 };
+
+function useInWagmiContext(): boolean {
+  const context = useContext(WagmiContext);
+  return Boolean(context);
+}

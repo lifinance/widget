@@ -7,6 +7,7 @@ import { useChains } from './useChains';
 import { useFeaturedTokens } from './useFeaturedTokens';
 
 export const useTokens = (selectedChainId?: number) => {
+  const { tokens: configTokens } = useWidgetConfig();
   const { data, isLoading } = useQuery({
     queryKey: ['tokens'],
     queryFn: () => getTokens({ chainTypes: [ChainType.EVM, ChainType.SVM] }),
@@ -18,7 +19,6 @@ export const useTokens = (selectedChainId?: number) => {
     getChainById,
   } = useChains();
   const featuredTokens = useFeaturedTokens(selectedChainId);
-  const { tokens: configTokens } = useWidgetConfig();
 
   const filteredData = useMemo(() => {
     if (isSupportedChainsLoading) {

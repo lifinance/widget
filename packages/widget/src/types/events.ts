@@ -6,7 +6,7 @@ export enum WidgetEvent {
   RouteExecutionCompleted = 'routeExecutionCompleted',
   RouteExecutionFailed = 'routeExecutionFailed',
   RouteHighValueLoss = 'routeHighValueLoss',
-  RouteContactSupport = 'routeContactSupport', // TODO: rename for v3
+  ContactSupport = 'contactSupport',
   SourceChainTokenSelected = 'sourceChainTokenSelected',
   DestinationChainTokenSelected = 'destinationChainTokenSelected',
   SendToWalletToggled = 'sendToWalletToggled',
@@ -20,7 +20,7 @@ export type WidgetEvents = {
   routeExecutionCompleted: Route;
   routeExecutionFailed: RouteExecutionUpdate;
   routeHighValueLoss: RouteHighValueLossUpdate;
-  routeContactSupport: RouteContactSupport;
+  contactSupport: ContactSupport;
   sourceChainTokenSelected: ChainTokenSelected;
   destinationChainTokenSelected: ChainTokenSelected;
   sendToWalletToggled: boolean;
@@ -28,7 +28,7 @@ export type WidgetEvents = {
   walletConnected: WalletConnected;
 };
 
-export interface RouteContactSupport {
+export interface ContactSupport {
   supportId?: string;
 }
 

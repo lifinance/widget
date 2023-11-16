@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -12,16 +13,39 @@ if (!rootElement) {
 
 const root = createRoot(rootElement);
 
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      enabled: true,
+      staleTime: 3_600_000,
+      refetchInterval: false,
+      refetchIntervalInBackground: false,
+      refetchOnWindowFocus: true,
+      refetchOnReconnect: true,
+      refetchOnMount: true,
+      retryOnMount: true,
+      // suspense: true,
+    },
+    mutations: {
+      onError: (error) => {
+        //
+      },
+    },
+  },
+});
+
 root.render(
   <React.StrictMode>
-    <WalletProvider>
-      <BrowserRouter>
-        <Routes>
-          {/* <Route path="/viem" element={<ViemTest />} /> */}
-          <Route path="/*" element={<App />} />
-        </Routes>
-      </BrowserRouter>
-    </WalletProvider>
+    <QueryClientProvider client={queryClient}>
+      <WalletProvider>
+        <BrowserRouter>
+          <Routes>
+            {/* <Route path="/viem" element={<ViemTest />} /> */}
+            <Route path="/*" element={<App />} />
+          </Routes>
+        </BrowserRouter>
+      </WalletProvider>
+    </QueryClientProvider>
   </React.StrictMode>,
 );
 

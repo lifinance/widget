@@ -1,4 +1,3 @@
-import type { Signer } from '@ethersproject/abstract-signer';
 import type {
   BaseToken,
   Order,
@@ -16,6 +15,7 @@ import type {
 } from '@mui/material';
 import type { TypographyOptions } from '@mui/material/styles/createTypography';
 import type { CSSProperties, ReactNode, RefObject } from 'react';
+import type { Connector } from 'wagmi';
 import type { LanguageKey, LanguageResources } from '../providers';
 import type { SplitSubvariantOptions } from '../stores';
 
@@ -60,12 +60,7 @@ export type ThemeConfig = {
 };
 
 export interface WidgetWalletManagement {
-  connect(): Promise<Signer>;
-  disconnect(): Promise<void>;
-  switchChain?(chainId: number): Promise<Signer>;
-  addToken?(token: StaticToken, chainId: number): Promise<void>;
-  addChain?(chainId: number): Promise<boolean>;
-  signer?: Signer;
+  connector?: Connector;
 }
 
 export interface WidgetSDKOptions

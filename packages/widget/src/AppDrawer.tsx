@@ -132,8 +132,8 @@ export const DrawerButtonText = ({
       {open
         ? t('button.hide')
         : subvariant === 'nft'
-        ? t('button.lifiCheckout')
-        : t('button.lifiExchange')}
+          ? t('button.lifiCheckout')
+          : t('button.lifiExchange')}
     </DrawerButtonTypography>
   );
 };
