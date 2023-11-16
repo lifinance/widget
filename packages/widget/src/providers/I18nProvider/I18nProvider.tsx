@@ -1,4 +1,4 @@
-import i18next from 'i18next';
+import { createInstance } from 'i18next';
 import { useMemo } from 'react';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import * as supportedLanguages from '../../i18n';
@@ -39,7 +39,7 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
       }, resources);
     }
 
-    let i18n = i18next.createInstance({
+    let i18n = createInstance({
       lng: languages?.default || language,
       fallbackLng: resources.en
         ? 'en'
