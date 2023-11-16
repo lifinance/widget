@@ -62,12 +62,12 @@ export const useTransactionHistory = (
       const thirtyDaysAgoTimestamp = Date.now() - 2592000000;
 
       const response = await getTransactionHistory({
-        walletAddress: account.address,
+        wallet: account.address,
         fromTimestamp: thirtyDaysAgoTimestamp / 1000,
         toTimestamp: Date.now() / 1000,
       });
 
-      const filteredTransactions = response.transactions.filter(
+      const filteredTransactions = response.transfers.filter(
         (transaction) =>
           transaction.receiving.chainId && transaction.sending.chainId,
       );
