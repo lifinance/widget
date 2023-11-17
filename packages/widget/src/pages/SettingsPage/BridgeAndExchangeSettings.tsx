@@ -5,13 +5,7 @@ import AirlineStopsIcon from '@mui/icons-material/AirlineStops';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import { useSettingsStore } from '../../stores';
 import { navigationRoutes } from '../../utils';
-import {
-  SettingCard,
-  SettingSummaryText,
-  SettingSummaryButton,
-  SettingTitle,
-  SettingCardButton,
-} from './SettingsPage.style';
+import { SettingCardButton } from './SettingsPage.style';
 
 const supportedIcons = {
   Bridges: AirlineStopsIcon, // TODO: source the bridge icon

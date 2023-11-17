@@ -11,9 +11,23 @@ import { SettingsPage } from './pages/SettingsPage';
 import { TransactionDetailsPage } from './pages/TransactionDetailsPage';
 import { TransactionHistoryPage } from './pages/TransactionHistoryPage';
 import { TransactionPage } from './pages/TransactionPage';
+import { LanguagesPage } from './pages/LanguagesPage';
 import { navigationRoutes } from './utils';
+import { useWidgetConfig } from './providers';
+import { HiddenUI } from './types';
 
 export const AppRoutes = () => {
+  // TODO: Question: is this overkill?
+  const { hiddenUI } = useWidgetConfig();
+  const optionalRoutes = hiddenUI?.includes(HiddenUI.Language)
+    ? []
+    : [
+        {
+          path: `${navigationRoutes.settings}/${navigationRoutes.languages}`,
+          element: <LanguagesPage />,
+        },
+      ];
+
   const element = useRoutes([
     {
       path: '/',
@@ -79,6 +93,7 @@ export const AppRoutes = () => {
       path: '*',
       element: <NotFound />,
     },
+    ...optionalRoutes,
   ]);
   return element;
 };

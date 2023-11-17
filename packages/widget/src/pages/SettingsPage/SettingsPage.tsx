@@ -1,6 +1,6 @@
 import { Container } from '@mui/material';
 import { BridgeAndExchangeSettings } from './BridgeAndExchangeSettings';
-import { LanguageSelect } from './LanguageSelect';
+import { LanguageSetting } from './LanguageSetting';
 import { ResetSettingsButton } from './ResetSettingsButton';
 import { SendToWalletOptionSetting } from './SendToWalletOptionSetting';
 import { SlippageInput } from './SlippageInput';
@@ -20,7 +20,7 @@ export const SettingsPage = () => {
         <BridgeAndExchangeSettings type="Bridges" />
         <BridgeAndExchangeSettings type="Exchanges" />
         <SendToWalletOptionSetting />
-        <LanguageSelect />
+        <LanguageSetting />
         <SlippageInput />
       </SettingsList>
       <ResetSettingsButton />

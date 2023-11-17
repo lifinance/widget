@@ -12,6 +12,7 @@ export * from './useGasRecommendation';
 export * from './useGasRefuel';
 export * from './useGasSufficiency';
 export * from './useInitializer';
+export * from './useLanguages';
 export * from './useNavigateBack';
 export * from './useProcessMessage';
 export * from './useRouteExecution';
