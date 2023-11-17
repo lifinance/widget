@@ -16,7 +16,7 @@ import { shallow } from 'zustand/shallow';
 import { ListItemText } from '../../components/ListItemText';
 import { useTools } from '../../hooks';
 import { useHeaderStoreContext, useSettingsStore } from '../../stores';
-import { ListItemButton } from './SelectEnabledToolsPage.style';
+import { SettingsListItemButton } from '../../components/SettingsListItemButton';
 
 interface SelectAllCheckboxProps {
   allCheckboxesSelected: boolean;
@@ -115,7 +115,10 @@ export const SelectEnabledToolsPage: React.FC<{
         }}
       >
         {tools?.[typeKey].map((tool) => (
-          <ListItemButton key={tool.name} onClick={() => handleClick(tool.key)}>
+          <SettingsListItemButton
+            key={tool.name}
+            onClick={() => handleClick(tool.key)}
+          >
             <ListItemAvatar>
               <Avatar src={tool.logoURI} alt={tool.name}>
                 {tool.name[0]}
@@ -123,7 +126,7 @@ export const SelectEnabledToolsPage: React.FC<{
             </ListItemAvatar>
             <ListItemText primary={tool.name} />
             {enabledTools?.includes(tool.key) && <CheckIcon color="primary" />}
-          </ListItemButton>
+          </SettingsListItemButton>
         ))}
       </List>
     </Container>

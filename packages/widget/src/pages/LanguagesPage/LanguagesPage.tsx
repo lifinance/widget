@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import CheckIcon from '@mui/icons-material/Check';
 import { Container, List } from '@mui/material';
 import { ListItemText } from '../../components/ListItemText';
-import { ListItemButton } from '../SelectEnabledToolsPage/SelectEnabledToolsPage.style'; // TODO: move to shared location
+import { SettingsListItemButton } from '../../components/SettingsListItemButton';
 import { useLanguages } from '../../hooks';
 
 export const LanguagesPage: React.FC = () => {
@@ -24,13 +24,13 @@ export const LanguagesPage: React.FC = () => {
         }}
       >
         {availableLanguages.map((language) => (
-          <ListItemButton
+          <SettingsListItemButton
             key={language}
             onClick={() => setLanguageWithCode(language)}
           >
             <ListItemText primary={t('language.name', { lng: language })} />
             {selectedLanguageCode === language && <CheckIcon color="primary" />}
-          </ListItemButton>
+          </SettingsListItemButton>
         ))}
       </List>
     </Container>

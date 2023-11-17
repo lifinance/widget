@@ -1,7 +1,13 @@
+import {
+  MouseEventHandler,
+  PropsWithChildren,
+  ReactNode,
+  useId,
+  useState,
+} from 'react';
 import { Card } from '../../components/Card';
 import { styled } from '@mui/material/styles';
-import { Box, ButtonBase, Typography } from '@mui/material';
-import { MouseEventHandler, PropsWithChildren, ReactNode } from 'react';
+import { Box, ButtonBase, Typography, Collapse } from '@mui/material';
 
 export const SettingsList = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -100,3 +106,43 @@ export const SettingCardComponent: React.FC<SettingCardComponentProps> = ({
     </SettingSummary>
   </SettingCard>
 );
+
+interface SettingCardExpandableProps extends SettingCardTitle {
+  additionalInfo: ReactNode;
+}
+export const SettingCardExpandable: React.FC<
+  PropsWithChildren<SettingCardExpandableProps>
+> = ({ icon, title, additionalInfo, children }) => {
+  const [expanded, setExpanded] = useState(false);
+  const buttonId = useId();
+  const collapseId = useId();
+  const toggleExpanded = () => {
+    setExpanded((currentExpanded) => !currentExpanded);
+  };
+
+  return (
+    <SettingCard>
+      <SettingSummaryButton
+        id={buttonId}
+        aria-expanded={expanded}
+        aria-controls={collapseId}
+        onClick={toggleExpanded}
+        focusRipple
+      >
+        <SettingTitle>
+          {icon}
+          <SettingSummaryText>{title}</SettingSummaryText>
+        </SettingTitle>
+        {!expanded && <SettingSummaryText>{additionalInfo}</SettingSummaryText>}
+      </SettingSummaryButton>
+      <Collapse
+        id={collapseId}
+        role="region"
+        aria-labelledby={buttonId}
+        in={expanded}
+      >
+        {children}
+      </Collapse>
+    </SettingCard>
+  );
+};

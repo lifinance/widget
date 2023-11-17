@@ -1,19 +1,13 @@
-import { useState } from 'react';
 import type { Appearance } from '../../types';
 import { HiddenUI } from '../../types';
 import { useWidgetConfig } from '../../providers';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import BrightnessAuto from '@mui/icons-material/BrightnessAuto';
 import Nightlight from '@mui/icons-material/Nightlight';
-import { Collapse, Tooltip } from '@mui/material';
+import { Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useAppearance } from '../../stores';
-import {
-  SettingCard,
-  SettingSummaryText,
-  SettingSummaryButton,
-  SettingTitle,
-} from './SettingsPage.style';
+import { SettingCardExpandable } from './SettingsPage.style';
 import { Tab, Tabs } from '../../components/Tabs';
 
 const themeIconLookUp = {
@@ -44,7 +38,6 @@ const ThemeTab: React.FC<ThemeTabProps> = ({
 export const ThemeSettings: React.FC = () => {
   const { t } = useTranslation();
   const [appearance, setAppearance] = useAppearance();
-  const [expanded, setExpanded] = useState(false);
   const { hiddenUI } = useWidgetConfig();
 
   if (hiddenUI?.includes(HiddenUI.Appearance)) {
@@ -52,9 +45,6 @@ export const ThemeSettings: React.FC = () => {
   }
 
   const ThemeIcon = themeIconLookUp[appearance];
-  const toggleExpanded = () => {
-    setExpanded((currentExpanded) => !currentExpanded);
-  };
 
   const handleThemeChange = (
     _: React.SyntheticEvent,
@@ -64,38 +54,31 @@ export const ThemeSettings: React.FC = () => {
   };
 
   return (
-    <SettingCard>
-      <SettingSummaryButton onClick={toggleExpanded} focusRipple>
-        <SettingTitle>
-          <ThemeIcon />
-          <SettingSummaryText>{t('settings.theme')}</SettingSummaryText>
-        </SettingTitle>
-        {!expanded && (
-          <SettingSummaryText>{t(`button.${appearance}`)}</SettingSummaryText>
-        )}
-      </SettingSummaryButton>
-      <Collapse in={expanded}>
-        <Tabs
-          value={appearance}
-          aria-label="tabs"
-          indicatorColor="primary"
-          onChange={handleThemeChange}
-          sx={{ mt: 1.5 }}
-        >
-          {Object.entries(themeIconLookUp).map(([theme, Icon]) => {
-            const supportedThemeOption = theme as Appearance;
+    <SettingCardExpandable
+      additionalInfo={t(`button.${appearance}`)}
+      icon={<ThemeIcon />}
+      title={t('settings.theme')}
+    >
+      <Tabs
+        value={appearance}
+        aria-label="tabs"
+        indicatorColor="primary"
+        onChange={handleThemeChange}
+        sx={{ mt: 1.5 }}
+      >
+        {Object.entries(themeIconLookUp).map(([theme, Icon]) => {
+          const supportedThemeOption = theme as Appearance;
 
-            return (
-              <ThemeTab
-                key={supportedThemeOption}
-                title={t(`button.${supportedThemeOption}`)}
-                value={supportedThemeOption}
-                Icon={<Icon />}
-              />
-            );
-          })}
-        </Tabs>
-      </Collapse>
-    </SettingCard>
+          return (
+            <ThemeTab
+              key={supportedThemeOption}
+              title={t(`button.${supportedThemeOption}`)}
+              value={supportedThemeOption}
+              Icon={<Icon />}
+            />
+          );
+        })}
+      </Tabs>
+    </SettingCardExpandable>
   );
 };
