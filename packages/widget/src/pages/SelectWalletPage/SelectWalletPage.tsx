@@ -154,8 +154,6 @@ export const SelectWalletPage = () => {
     </ListItemButton>
   );
 
-  console.log({ isDesktopView });
-
   return (
     <Container disableGutters>
       <List
