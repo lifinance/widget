@@ -53,3 +53,9 @@ export const getUpdatedProcess = (
     .reduce((obj, path) => obj[path], updatedRoute as any) as Process;
   return process;
 };
+
+export const getSourceTxHash = (route?: RouteExtended) => {
+  return route?.steps[0].execution?.process
+    .filter((process) => process.type !== 'TOKEN_ALLOWANCE')
+    .find((process) => process.txHash)?.txHash;
+};

@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 import type {
   ExtendedTransactionInfo,
   FullStatusData,
@@ -28,7 +27,7 @@ export const TransactionHistoryItem: React.FC<{
   const handleClick = () => {
     navigate(navigationRoutes.transactionDetails, {
       state: {
-        transactionHistoryId: (transaction as FullStatusData).transactionId,
+        transactionHash: (transaction as FullStatusData).sending.txHash,
       },
     });
   };

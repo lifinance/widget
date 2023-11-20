@@ -1,10 +1,8 @@
+import type { FullStatusData, StatusResponse } from '@lifi/sdk';
 import { List } from '@mui/material';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import type { FC, MutableRefObject } from 'react';
 import { useEffect } from 'react';
-
-import type { FullStatusData, StatusResponse } from '@lifi/sdk';
-
 import { TransactionHistoryItem } from './TransactionHistoryItem';
 import { TransactionHistorySkeleton } from './TransactionHistorySkeleton';
 
@@ -24,6 +22,7 @@ export const VirtualizedTransactionHistory: FC<
     estimateSize: () => 192,
     getItemKey: (index) =>
       `${(transactions[index] as FullStatusData).transactionId}-${index}`,
+    paddingEnd: 12,
   });
 
   useEffect(() => {
@@ -36,7 +35,6 @@ export const VirtualizedTransactionHistory: FC<
     return (
       <List disablePadding>
         {Array.from({ length: 3 }).map((_, index) => (
-          // eslint-disable-next-line react/no-array-index-key
           <TransactionHistorySkeleton key={index} />
         ))}
       </List>

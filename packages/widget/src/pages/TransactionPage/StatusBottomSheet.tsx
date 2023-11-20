@@ -17,7 +17,7 @@ import {
 } from '../../hooks';
 import { FormKey, useWidgetConfig } from '../../providers';
 import type { RouteExecution } from '../../stores';
-import { RouteExecutionStatus } from '../../stores';
+import { RouteExecutionStatus, getSourceTxHash } from '../../stores';
 import {
   formatTokenAmount,
   hasEnumFlag,
@@ -96,16 +96,11 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   const handleSeeDetails = () => {
     handleClose();
 
-    // sending transaction hash to history page because no other unique id is shared across
-    // using transaction hashes the correct transaction history item can be found
-    const transactionHash = route.steps
-      .map((step) => step.execution?.process.map((process) => process.txHash))
-      .flat();
+    const transactionHash = getSourceTxHash(route);
 
     navigate(navigationRoutes.transactionDetails, {
       state: {
-        transactionHistoryId: route.id,
-        transactionHashes: transactionHash,
+        transactionHash,
       },
       replace: true,
     });

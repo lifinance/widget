@@ -1,10 +1,10 @@
-import { TokenDivider } from '../../components/Token';
 import { Box, Skeleton } from '@mui/material';
 import { Card } from '../../components/Card';
+import { TokenDivider } from '../../components/Token';
 
 const TokenSkeleton = ({ showDivider }: { showDivider?: boolean }) => {
   return (
-    <Box flex={1} px={2} pt={1}>
+    <Box flex={1} px={2} pt={showDivider ? 1 : 0.5} pb={showDivider ? 0 : 1}>
       <Box display="flex" flex={1} alignItems="center">
         <Skeleton
           variant="rounded"
@@ -18,7 +18,7 @@ const TokenSkeleton = ({ showDivider }: { showDivider?: boolean }) => {
           <Skeleton width={40} height={30} variant="text" />
         </Box>
       </Box>
-      <Box display="flex" marginLeft="-16px" height={'24px'}>
+      <Box display="flex" marginLeft="-16px">
         <Box
           display="flex"
           flexDirection={'column'}
@@ -26,15 +26,18 @@ const TokenSkeleton = ({ showDivider }: { showDivider?: boolean }) => {
           visibility={showDivider ? 'visible' : 'hidden'}
         >
           <TokenDivider />
-          <TokenDivider />
         </Box>
-
-        <Skeleton width={64} height={12} variant="rounded" />
+        <Skeleton
+          width={64}
+          height={12}
+          sx={{ marginTop: 0.5 }}
+          variant="rounded"
+        />
         <Skeleton
           width={96}
           height={12}
           variant="rounded"
-          sx={{ marginLeft: 0.5 }}
+          sx={{ marginTop: 0.5, marginLeft: 0.5 }}
         />
       </Box>
     </Box>
@@ -77,6 +80,7 @@ export const TransactionHistorySkeleton = () => {
       </Box>
       <Box py={1}>
         <TokenSkeleton showDivider />
+        <TokenDivider />
         <TokenSkeleton />
       </Box>
     </Card>

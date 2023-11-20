@@ -6,41 +6,19 @@ import type {
   StatusResponse,
   Substatus,
   TokenAmount,
+  ToolsResponse,
 } from '@lifi/sdk';
 import type { RouteExecution } from '../stores';
-import type { ToolsResponse } from '@lifi/sdk';
 
-export const findTxHistoryByIdOrHash = (
-  transactionHistory: StatusResponse[],
-  transactionHistoryId: string,
-  transactionHistoryHashes = [] as string[],
-): StatusResponse | undefined => {
-  const txHistoryById = transactionHistory?.find(
-    (transactionHistory) =>
-      (transactionHistory as FullStatusData).transactionId ===
-      transactionHistoryId,
-  ) as StatusResponse;
-
-  const txHistoryByHash = transactionHistory?.find(
-    (transactionHistory) =>
-      transactionHistoryHashes.includes(transactionHistory.sending.txHash) ||
-      transactionHistoryHashes.includes(
-        (transactionHistory.receiving as ExtendedTransactionInfo).txHash,
-      ),
-  ) as StatusResponse;
-
-  return txHistoryById ?? txHistoryByHash;
-};
-
-const buildProcessFromTxHistory = (txHistory: StatusResponse): Process[] => {
-  const sending = txHistory.sending as ExtendedTransactionInfo;
-  const receiving = txHistory.receiving as ExtendedTransactionInfo;
+const buildProcessFromTxHistory = (tx: StatusResponse): Process[] => {
+  const sending = tx.sending as ExtendedTransactionInfo;
+  const receiving = tx.receiving as ExtendedTransactionInfo;
 
   if (!sending.token?.chainId || !receiving.token?.chainId) {
     return [];
   }
 
-  const processStatus: Status = txHistory.status === 'DONE' ? 'DONE' : 'FAILED';
+  const processStatus: Status = tx.status === 'DONE' ? 'DONE' : 'FAILED';
   const substatus: Substatus =
     processStatus === 'FAILED' ? 'UNKNOWN_ERROR' : 'COMPLETED';
 
@@ -87,33 +65,33 @@ const buildProcessFromTxHistory = (txHistory: StatusResponse): Process[] => {
 };
 
 export const buildRouteFromTxHistory = (
-  txHistory: StatusResponse,
+  tx: StatusResponse,
   tools?: ToolsResponse,
 ) => {
-  const sending = txHistory.sending as ExtendedTransactionInfo;
-  const receiving = txHistory.receiving as ExtendedTransactionInfo;
+  const sending = tx.sending as ExtendedTransactionInfo;
+  const receiving = tx.receiving as ExtendedTransactionInfo;
 
   if (!sending.token?.chainId || !receiving.token?.chainId) {
     return;
   }
 
   const selectedBridge = tools?.bridges.find(
-    (bridge) => bridge.key === txHistory.tool,
+    (bridge) => bridge.key === tx.tool,
   );
 
   const selectedExchange = tools?.exchanges.find(
-    (exchange) => exchange.key === txHistory.tool,
+    (exchange) => exchange.key === tx.tool,
   );
 
   const usedTool = {
-    key: txHistory.tool,
-    name: selectedBridge?.name ?? selectedExchange?.name ?? txHistory.tool,
+    key: tx.tool,
+    name: selectedBridge?.name ?? selectedExchange?.name ?? tx.tool,
     logoURI: selectedBridge?.logoURI ?? selectedExchange?.logoURI ?? '',
   };
 
   const fromToken: TokenAmount = {
     ...sending.token,
-    amount: sending.amount ?? '0',
+    amount: BigInt(sending.amount ?? 0),
     priceUSD: sending.amountUSD ?? '0',
     symbol: sending.token?.symbol ?? '',
     decimals: sending.token?.decimals ?? 0,
@@ -123,7 +101,7 @@ export const buildRouteFromTxHistory = (
 
   const toToken: TokenAmount = {
     ...receiving.token,
-    amount: receiving.amount ?? '0',
+    amount: BigInt(receiving.amount ?? 0),
     priceUSD: receiving.amountUSD ?? '0',
     symbol: receiving.token?.symbol ?? '',
     decimals: receiving.token?.decimals ?? 0,
@@ -134,9 +112,9 @@ export const buildRouteFromTxHistory = (
   const routeExecution: RouteExecution = {
     status: 1,
     route: {
-      id: (txHistory as FullStatusData).transactionId,
-      fromAddress: (txHistory as FullStatusData).fromAddress,
-      toAddress: (txHistory as FullStatusData).toAddress,
+      id: (tx as FullStatusData).transactionId,
+      fromAddress: (tx as FullStatusData).fromAddress,
+      toAddress: (tx as FullStatusData).toAddress,
       fromChainId: sending.chainId,
       fromAmount: sending.amount ?? '',
       fromAmountUSD: sending.amountUSD ?? '',
@@ -150,20 +128,20 @@ export const buildRouteFromTxHistory = (
         {
           id: '',
           type: 'lifi',
-          tool: txHistory.tool,
+          tool: tx.tool,
           toolDetails: usedTool,
           action: {
             fromToken: sending.token,
             fromAmount: sending.amount ?? '',
             fromChainId: sending.chainId,
-            fromAddress: (txHistory as FullStatusData).fromAddress,
+            fromAddress: (tx as FullStatusData).fromAddress,
             toToken: receiving.token,
             toChainId: receiving.chainId,
-            toAddress: (txHistory as FullStatusData).toAddress,
+            toAddress: (tx as FullStatusData).toAddress,
             slippage: 0,
           },
           estimate: {
-            tool: txHistory.tool,
+            tool: tx.tool,
             approvalAddress: '',
             fromAmount: sending.amount ?? '',
             fromAmountUSD: sending.amountUSD ?? '',
@@ -183,25 +161,25 @@ export const buildRouteFromTxHistory = (
                 toChainId: receiving.chainId,
                 toToken: receiving.token,
                 slippage: 0,
-                fromAddress: (txHistory as FullStatusData).fromAddress,
-                toAddress: (txHistory as FullStatusData).toAddress,
+                fromAddress: (tx as FullStatusData).fromAddress,
+                toAddress: (tx as FullStatusData).toAddress,
               },
               estimate: {
-                tool: txHistory.tool,
+                tool: tx.tool,
                 fromAmount: sending.amount ?? '',
                 toAmount: receiving.amount ?? '',
                 toAmountMin: receiving.amount ?? '',
                 approvalAddress: '',
                 executionDuration: 30,
               },
-              tool: txHistory.tool,
+              tool: tx.tool,
               toolDetails: usedTool,
             },
           ],
           integrator: '',
           execution: {
             status: 'DONE', // can be FAILED
-            process: buildProcessFromTxHistory(txHistory),
+            process: buildProcessFromTxHistory(tx),
             fromAmount: sending.amount,
             toAmount: receiving.amount,
             toToken: receiving.token,

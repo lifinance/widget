@@ -14,75 +14,97 @@ interface TransactionHistoryQueryResponse {
 }
 
 export const useTransactionHistory = (
-  transactionHashes?: string[],
+  transactionHash?: string,
 ): TransactionHistoryQueryResponse => {
   const { account } = useAccount();
   const queryClient = useQueryClient();
 
   const { data, isLoading, refetch } = useQuery({
-    queryKey: [
-      'transaction-history',
-      account.address,
-      transactionHashes?.length,
-    ],
-    queryFn: async () => {
-      const validTx = transactionHashes?.find(Boolean);
-      if (validTx) {
-        const cachedData = queryClient.getQueryData<StatusResponse[]>([
-          'transaction-history',
-          account.address,
-        ]);
-
-        let updatedCachedData = [...(cachedData ?? [])];
-
-        try {
-          const response = await getStatus({
-            txHash: validTx,
-          });
-
-          updatedCachedData = [response, ...updatedCachedData];
-        } catch (error) {
-          console.error(error);
-        }
-
-        queryClient.setQueryData<StatusResponse[]>(
-          ['transaction-history', account.address],
-          (data) => {
-            return [...updatedCachedData];
-          },
-        );
-
-        return updatedCachedData;
-      }
-
-      if (!account.address) {
+    queryKey: transactionHash
+      ? ['transaction-history', account.address, transactionHash]
+      : ['transaction-history', account.address],
+    queryFn: async ({
+      queryKey: [, accountAddress, transactionHash],
+      signal,
+    }) => {
+      if (!accountAddress) {
         return [];
       }
+      if (transactionHash) {
+        const cachedHistory = queryClient.getQueryData<StatusResponse[]>([
+          'transaction-history',
+          accountAddress,
+        ]);
 
-      const thirtyDaysAgoTimestamp = Date.now() - 2592000000;
+        let transaction = cachedHistory?.find(
+          (t) => t.sending.txHash === transactionHash,
+        );
 
-      const response = await getTransactionHistory({
-        wallet: account.address,
-        fromTimestamp: thirtyDaysAgoTimestamp / 1000,
-        toTimestamp: Date.now() / 1000,
-      });
+        if (transaction) {
+          return [transaction];
+        }
 
-      const filteredTransactions = response.transfers.filter(
-        (transaction) =>
-          transaction.receiving.chainId && transaction.sending.chainId,
+        transaction = await getStatus(
+          {
+            txHash: transactionHash,
+          },
+          { signal },
+        );
+
+        if (cachedHistory && transaction) {
+          queryClient.setQueryData<StatusResponse[]>(
+            ['transaction-history', accountAddress],
+            (data) => {
+              return [...data!, transaction!];
+            },
+          );
+        }
+
+        return [transaction];
+      }
+
+      const date = new Date();
+      date.setFullYear(date.getFullYear() - 10);
+
+      const response = await getTransactionHistory(
+        {
+          wallet: accountAddress,
+          fromTimestamp: date.getTime() / 1000,
+          toTimestamp: Date.now() / 1000,
+        },
+        { signal },
       );
 
-      const sortedTransactions = filteredTransactions.sort((a, b) => {
-        return (
-          ((b.sending as ExtendedTransactionInfo)?.timestamp ?? 0) -
-          ((a.sending as ExtendedTransactionInfo)?.timestamp ?? 0)
-        );
-      });
+      const filteredTransactions = response.transfers
+        .filter(
+          (transaction) =>
+            transaction.receiving.chainId && transaction.sending.chainId,
+        )
+        .sort((a, b) => {
+          return (
+            ((b.sending as ExtendedTransactionInfo)?.timestamp ?? 0) -
+            ((a.sending as ExtendedTransactionInfo)?.timestamp ?? 0)
+          );
+        });
 
-      return sortedTransactions;
+      return filteredTransactions;
     },
-    refetchInterval: 60000,
+    refetchInterval: 300000,
     enabled: Boolean(account.address),
+    initialData: () => {
+      const cachedHistory = queryClient.getQueryData<StatusResponse[]>([
+        'transaction-history',
+        account.address,
+      ]);
+
+      let transaction = cachedHistory?.find(
+        (t) => t.sending.txHash === transactionHash,
+      );
+
+      if (transaction) {
+        return [transaction];
+      }
+    },
   });
 
   return {
