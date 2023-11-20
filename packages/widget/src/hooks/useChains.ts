@@ -19,7 +19,7 @@ export const useChains = () => {
   const { data: filteredChains, isLoading: isLoadingFilteredChains } = useQuery(
     {
       queryKey: ['filtered-chains', availableChains?.length, keyPrefix],
-      queryFn: async () => {
+      queryFn: () => {
         if (!availableChains) {
           return;
         }
@@ -39,6 +39,7 @@ export const useChains = () => {
         if (!toChainValue) {
           setValue(FormKey.ToChain, chainOrder[0]);
         }
+
         return filteredChains;
       },
       enabled: Boolean(availableChains),

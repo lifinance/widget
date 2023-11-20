@@ -5,24 +5,33 @@ import { useAvailableChains } from './useAvailableChains';
 const refetchInterval = 60_000;
 
 export const useGasRecommendation = (
-  chainId: ChainId,
+  toChainId: ChainId,
   fromChain?: ChainId,
   fromToken?: string,
 ) => {
   const { chains } = useAvailableChains();
 
+  const checkRecommendationLiFuel =
+    Boolean(toChainId) &&
+    Boolean(fromChain) &&
+    Boolean(fromToken) &&
+    Boolean(chains?.length);
+
+  const checkRecommendationMaxButton =
+    Boolean(toChainId) && !fromChain && !fromToken && Boolean(chains?.length);
+
   return useQuery({
-    queryKey: ['gas-recommendation', chainId, fromChain, fromToken],
+    queryKey: ['gas-recommendation', toChainId, fromChain, fromToken],
     queryFn: async ({
-      queryKey: [_, chainId, fromChain, fromToken],
+      queryKey: [_, toChainId, fromChain, fromToken],
       signal,
     }) => {
-      if (!chains?.some((chain) => chain.id === chainId)) {
+      if (!chains?.some((chain) => chain.id === toChainId)) {
         return null;
       }
       const gasRecommendation = await getGasRecommendation(
         {
-          chainId: chainId as ChainId,
+          chainId: toChainId as ChainId,
           fromChain: fromChain as ChainId,
           fromToken: fromToken as string,
         },
@@ -30,11 +39,7 @@ export const useGasRecommendation = (
       );
       return gasRecommendation;
     },
-
-    enabled:
-      ((Boolean(chainId) && Boolean(fromChain) && Boolean(fromToken)) ||
-        Boolean(chainId)) &&
-      Boolean(chains?.length),
+    enabled: checkRecommendationLiFuel || checkRecommendationMaxButton,
     refetchInterval,
     staleTime: refetchInterval,
   });

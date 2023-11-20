@@ -82,6 +82,7 @@ export const WidgetProvider: React.FC<
         },
         disableVersionCheck: true,
         widgetVersion: version,
+        preloadChains: false,
       };
       if (!sdkInitialized) {
         createConfig(_config);
