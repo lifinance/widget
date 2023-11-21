@@ -16,7 +16,6 @@ export const SettingsIconButton = styled(IconButton)<SettingsIconButtonProps>(({
   theme,
   notification,
 }) => {
-  // TODO: Question: should the background colors here live in a global location for easier reuse?
   const notificationStyles = {
     info: {
       backgroundColor:
