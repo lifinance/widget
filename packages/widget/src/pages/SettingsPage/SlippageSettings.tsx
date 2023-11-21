@@ -9,7 +9,10 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import Percent from '@mui/icons-material/Percent';
-import { SettingCardExpandable } from './SettingsPage.style';
+import {
+  SettingCardExpandable,
+  SettingSummaryText,
+} from './SettingsPage.style';
 import { useSettings, useSettingsStore } from '../../stores';
 import {
   SettingsFieldSet,
@@ -42,7 +45,7 @@ export const SlippageSettings: React.FC = () => {
 
   return (
     <SettingCardExpandable
-      additionalInfo={`${slippage}%`}
+      additionalInfo={<SettingSummaryText>{`${slippage}%`}</SettingSummaryText>}
       icon={<Percent />}
       title={t(`settings.slippage`)}
     >

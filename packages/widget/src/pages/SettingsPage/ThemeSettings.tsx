@@ -7,7 +7,10 @@ import Nightlight from '@mui/icons-material/Nightlight';
 import { Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useAppearance } from '../../stores';
-import { SettingCardExpandable } from './SettingsPage.style';
+import {
+  SettingCardExpandable,
+  SettingSummaryText,
+} from './SettingsPage.style';
 import { Tab, Tabs } from '../../components/Tabs';
 
 const themeIconLookUp = {
@@ -55,7 +58,9 @@ export const ThemeSettings: React.FC = () => {
 
   return (
     <SettingCardExpandable
-      additionalInfo={t(`button.${appearance}`)}
+      additionalInfo={
+        <SettingSummaryText>{t(`button.${appearance}`)} </SettingSummaryText>
+      }
       icon={<ThemeIcon />}
       title={t('settings.theme')}
     >

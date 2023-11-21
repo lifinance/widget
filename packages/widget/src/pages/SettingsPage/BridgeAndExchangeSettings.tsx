@@ -5,7 +5,7 @@ import AirlineStopsIcon from '@mui/icons-material/AirlineStops';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import { useSettingsStore } from '../../stores';
 import { navigationRoutes } from '../../utils';
-import { SettingCardButton } from './SettingsPage.style';
+import { SettingCardButton, SettingSummaryText } from './SettingsPage.style';
 
 const supportedIcons = {
   Bridges: AirlineStopsIcon, // TODO: source the bridge icon
@@ -33,7 +33,9 @@ export const BridgeAndExchangeSettings: React.FC<{
       onClick={handleClick}
       icon={<Icon />}
       title={t(`settings.enabled${type}`)}
-      additionalInfo={`${enabledTools}/${tools}`}
+      additionalInfo={
+        <SettingSummaryText>{`${enabledTools}/${tools}`}</SettingSummaryText>
+      }
     />
   );
 };

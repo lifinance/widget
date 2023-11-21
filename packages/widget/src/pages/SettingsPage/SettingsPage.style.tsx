@@ -82,7 +82,7 @@ export const SettingCardButton: React.FC<SettingCardButtonProps> = ({
         {icon}
         <SettingSummaryText>{title}</SettingSummaryText>
       </SettingTitle>
-      <SettingSummaryText>{additionalInfo}</SettingSummaryText>
+      {additionalInfo}
     </SettingSummaryButton>
   </SettingCard>
 );
@@ -133,7 +133,7 @@ export const SettingCardExpandable: React.FC<
           {icon}
           <SettingSummaryText>{title}</SettingSummaryText>
         </SettingTitle>
-        {!expanded && <SettingSummaryText>{additionalInfo}</SettingSummaryText>}
+        {!expanded && additionalInfo}
       </SettingSummaryButton>
       <Collapse
         id={collapseId}

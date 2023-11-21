@@ -2,7 +2,10 @@ import EvStationIcon from '@mui/icons-material/EvStation';
 import { useTranslation } from 'react-i18next';
 import { useSettings, useSettingsStore } from '../../stores';
 import { Tab, Tabs } from '../../components/Tabs';
-import { SettingCardExpandable } from './SettingsPage.style';
+import {
+  SettingCardExpandable,
+  SettingSummaryText,
+} from './SettingsPage.style';
 
 export const GasPriceSettings: React.FC = () => {
   const { t } = useTranslation();
@@ -15,7 +18,11 @@ export const GasPriceSettings: React.FC = () => {
 
   return (
     <SettingCardExpandable
-      additionalInfo={t(`settings.gasPrice.${gasPrice}` as any)}
+      additionalInfo={
+        <SettingSummaryText>
+          {t(`settings.gasPrice.${gasPrice}` as any)}
+        </SettingSummaryText>
+      }
       icon={<EvStationIcon />}
       title={t(`settings.gasPrice.title`)}
     >

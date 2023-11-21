@@ -3,7 +3,10 @@ import RouteIcon from '@mui/icons-material/Route';
 import { Orders } from '@lifi/sdk';
 import { Tab, Tabs } from '../../components/Tabs';
 import { useSettings, useSettingsStore } from '../../stores';
-import { SettingCardExpandable } from './SettingsPage.style';
+import {
+  SettingCardExpandable,
+  SettingSummaryText,
+} from './SettingsPage.style';
 
 type SupportedRoute = (typeof Orders)[number];
 
@@ -22,9 +25,11 @@ export const RoutePrioritySettings: React.FC = () => {
 
   return (
     <SettingCardExpandable
-      additionalInfo={t(
-        `main.tags.${currentRoutePriority.toLowerCase()}` as any,
-      )}
+      additionalInfo={
+        <SettingSummaryText>
+          {t(`main.tags.${currentRoutePriority.toLowerCase()}` as any)}
+        </SettingSummaryText>
+      }
       icon={<RouteIcon />}
       title={t(`settings.routePriority`)}
     >
