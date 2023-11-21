@@ -7,7 +7,14 @@ import {
 } from 'react';
 import { Card } from '../../components/Card';
 import { styled } from '@mui/material/styles';
-import { Box, ButtonBase, Typography, Collapse } from '@mui/material';
+import {
+  Box,
+  ButtonBase,
+  Typography,
+  Collapse,
+  Badge as MuiBadge,
+} from '@mui/material';
+import { badgeClasses } from '@mui/material/Badge';
 
 export const SettingsList = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -57,10 +64,62 @@ export const SettingSummaryButton = styled(ButtonBase)({
   ...SettingSummaryBase,
 });
 
-export const SettingSummaryText = styled(Typography)(() => ({
-  lineHeight: '1.25',
-  fontWeight: 500,
-}));
+export const Badge = styled(MuiBadge)({
+  [`.${badgeClasses.badge}`]: {
+    top: '10px',
+  },
+});
+
+interface SettingSummaryTextProps {
+  withBadge?: boolean;
+}
+export const SettingSummaryText = styled(Typography)<SettingSummaryTextProps>(({
+  withBadge,
+}) => {
+  const badgeCss = withBadge ? { marginRight: '17px' } : {};
+
+  return {
+    lineHeight: '1.25',
+    fontWeight: 500,
+    ...badgeCss,
+  };
+});
+// TODO: any better way to type color - do we have this anywhere else?
+export type BadgeColor =
+  | 'primary'
+  | 'secondary'
+  | 'default'
+  | 'error'
+  | 'info'
+  | 'success'
+  | 'warning';
+interface SettingSummaryTextWithBadgeProps {
+  color: BadgeColor;
+}
+export const SettingSummaryTextWithBadge: React.FC<
+  PropsWithChildren<SettingSummaryTextWithBadgeProps>
+> = ({ color, children }) => {
+  return (
+    <Badge variant="dot" color={color}>
+      <SettingSummaryText withBadge>{children}</SettingSummaryText>
+    </Badge>
+  );
+};
+
+interface BadgedAdditionalInformationProps {
+  showBadge: boolean;
+  badgeColor: BadgeColor;
+}
+export const BadgedAdditionalInformation: React.FC<
+  PropsWithChildren<BadgedAdditionalInformationProps>
+> = ({ showBadge, badgeColor, children }) =>
+  showBadge ? (
+    <SettingSummaryTextWithBadge color={badgeColor}>
+      {children}
+    </SettingSummaryTextWithBadge>
+  ) : (
+    <SettingSummaryText>{children}</SettingSummaryText>
+  );
 
 interface SettingCardTitle {
   icon: ReactNode;

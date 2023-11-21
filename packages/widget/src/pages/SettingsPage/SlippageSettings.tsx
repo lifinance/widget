@@ -1,15 +1,8 @@
-import {
-  ChangeEvent,
-  ChangeEventHandler,
-  EventHandler,
-  FocusEvent,
-  FocusEventHandler,
-  useRef,
-  useState,
-} from 'react';
+import { ChangeEventHandler, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Percent from '@mui/icons-material/Percent';
 import {
+  BadgedAdditionalInformation,
   SettingCardExpandable,
   SettingSummaryText,
 } from './SettingsPage.style';
@@ -45,7 +38,12 @@ export const SlippageSettings: React.FC = () => {
 
   return (
     <SettingCardExpandable
-      additionalInfo={<SettingSummaryText>{`${slippage}%`}</SettingSummaryText>}
+      additionalInfo={
+        <BadgedAdditionalInformation
+          badgeColor="warning"
+          showBadge={Number(slippage) > 1}
+        >{`${slippage}%`}</BadgedAdditionalInformation>
+      }
       icon={<Percent />}
       title={t(`settings.slippage`)}
     >
