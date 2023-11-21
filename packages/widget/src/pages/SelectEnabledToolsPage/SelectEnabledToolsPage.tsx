@@ -1,4 +1,5 @@
-import { MouseEventHandler, useEffect, useId } from 'react';
+import type { MouseEventHandler } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import CheckIcon from '@mui/icons-material/Check';
 import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
@@ -28,20 +29,14 @@ const SelectAllCheckbox: React.FC<SelectAllCheckboxProps> = ({
   anyCheckboxesSelected,
   onClick,
 }) => {
-  const tooltipId = useId();
   const { t } = useTranslation();
   const tooltipTitle = allCheckboxesSelected
     ? t('tooltip.deselectAll')
     : t('tooltip.selectAll');
 
   return (
-    <Tooltip id={tooltipId} title={tooltipTitle} placement="top" arrow>
-      <IconButton
-        size="medium"
-        edge="end"
-        onClick={onClick}
-        aria-describedby={tooltipId}
-      >
+    <Tooltip title={tooltipTitle} arrow>
+      <IconButton size="medium" edge="end" onClick={onClick}>
         {allCheckboxesSelected ? (
           <CheckBoxOutlinedIcon />
         ) : anyCheckboxesSelected ? (
