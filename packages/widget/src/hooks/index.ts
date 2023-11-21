@@ -19,6 +19,7 @@ export * from './useRouteExecution';
 export * from './useRoutes';
 export * from './useScrollableContainer';
 export * from './useSwapOnly';
+export * from './useSettingMonitor';
 export * from './useToken';
 export * from './useTokenAddressBalance';
 export * from './useTokenBalance';

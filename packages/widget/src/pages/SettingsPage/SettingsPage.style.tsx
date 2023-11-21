@@ -96,12 +96,12 @@ export const SettingSummaryTextWithBadge: React.FC<
 
 interface BadgedAdditionalInformationProps {
   showBadge: boolean;
-  badgeColor: BadgeColor;
+  badgeColor?: BadgeColor;
 }
 export const BadgedAdditionalInformation: React.FC<
   PropsWithChildren<BadgedAdditionalInformationProps>
 > = ({ showBadge, badgeColor, children }) =>
-  showBadge ? (
+  showBadge && badgeColor ? (
     <SettingSummaryTextWithBadge color={badgeColor}>
       {children}
     </SettingSummaryTextWithBadge>

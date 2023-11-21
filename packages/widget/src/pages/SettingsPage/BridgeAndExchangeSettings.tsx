@@ -9,6 +9,7 @@ import {
   SettingCardButton,
   BadgedAdditionalInformation,
 } from './SettingsPage.style';
+import { useSettingMonitor } from '../../hooks';
 
 const supportedIcons = {
   Bridges: AirlineStopsIcon, // TODO: source the bridge icon
@@ -18,12 +19,18 @@ const supportedIcons = {
 export const BridgeAndExchangeSettings: React.FC<{
   type: 'Bridges' | 'Exchanges';
 }> = ({ type }) => {
+  const { isBridgesCustomised, isExchangesCustomised } = useSettingMonitor();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [enabledTools, tools] = useSettingsStore((state) => {
     const enabledTools = Object.values(state[`_enabled${type}`] ?? {});
     return [enabledTools.filter(Boolean).length, enabledTools.length];
   }, shallow);
+
+  const customisationLookUp = {
+    Bridges: isBridgesCustomised,
+    Exchanges: isExchangesCustomised,
+  };
 
   const handleClick = () => {
     navigate(navigationRoutes[type.toLowerCase() as 'bridges' | 'exchanges']);
@@ -39,7 +46,7 @@ export const BridgeAndExchangeSettings: React.FC<{
       additionalInfo={
         <BadgedAdditionalInformation
           badgeColor="info"
-          showBadge={enabledTools !== tools}
+          showBadge={customisationLookUp[type]}
         >{`${enabledTools}/${tools}`}</BadgedAdditionalInformation>
       }
     />

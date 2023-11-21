@@ -1,10 +1,10 @@
 import { ChangeEventHandler, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Percent from '@mui/icons-material/Percent';
+import PercentIcon from '@mui/icons-material/Percent';
+import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import {
   BadgedAdditionalInformation,
   SettingCardExpandable,
-  SettingSummaryText,
 } from './SettingsPage.style';
 import { useSettings, useSettingsStore } from '../../stores';
 import {
@@ -13,10 +13,14 @@ import {
   SlippageDefaultButton,
 } from './SlippageSettings.style';
 import { formatSlippage } from '../../utils';
+import { useSettingMonitor } from '../../hooks';
+import { Box, Typography } from '@mui/material';
 
 const slippageDefault = '0.5';
 export const SlippageSettings: React.FC = () => {
   const { t } = useTranslation();
+  const { isSlippageOutsideRecommendedLimits, isSlippageChanged } =
+    useSettingMonitor();
   const { slippage } = useSettings(['slippage']);
   const setValue = useSettingsStore((state) => state.setValue);
   const defaultValue = useRef(slippage);
@@ -36,40 +40,61 @@ export const SlippageSettings: React.FC = () => {
   const customInputValue =
     !slippage || slippage === slippageDefault ? '' : slippage;
 
+  const badgeColor = isSlippageOutsideRecommendedLimits
+    ? 'warning'
+    : isSlippageChanged
+      ? 'info'
+      : undefined;
+
   return (
     <SettingCardExpandable
       additionalInfo={
         <BadgedAdditionalInformation
-          badgeColor="warning"
-          showBadge={Number(slippage) > 1}
+          badgeColor={badgeColor}
+          showBadge={!!badgeColor}
         >{`${slippage}%`}</BadgedAdditionalInformation>
       }
-      icon={<Percent />}
+      icon={<PercentIcon />}
       title={t(`settings.slippage`)}
     >
-      <SettingsFieldSet mt={1.5}>
-        <SlippageDefaultButton
-          selected={slippageDefault === slippage && !customFocused}
-          onFocus={() => setDefaultFocused(true)}
-          onBlur={() => setDefaultFocused(false)}
-          onClick={handleDefaultClick}
-          focusRipple
-        >
-          0.5
-        </SlippageDefaultButton>
-        <SlippageCustomInput
-          selected={slippageDefault !== slippage && !defaultFocused}
-          placeholder={customFocused ? '' : t('settings.custom')}
-          inputProps={{
-            inputMode: 'decimal',
-          }}
-          onChange={handleInputUpdate}
-          onFocus={() => setCustomFocused(true)}
-          onBlur={() => setCustomFocused(false)}
-          value={customInputValue}
-          autoComplete="off"
-        />
-      </SettingsFieldSet>
+      <Box mt={1.5}>
+        <SettingsFieldSet>
+          <SlippageDefaultButton
+            selected={slippageDefault === slippage && !customFocused}
+            onFocus={() => setDefaultFocused(true)}
+            onBlur={() => setDefaultFocused(false)}
+            onClick={handleDefaultClick}
+            focusRipple
+          >
+            0.5
+          </SlippageDefaultButton>
+          <SlippageCustomInput
+            selected={slippageDefault !== slippage && !defaultFocused}
+            placeholder={customFocused ? '' : t('settings.custom')}
+            inputProps={{
+              inputMode: 'decimal',
+            }}
+            onChange={handleInputUpdate}
+            onFocus={() => setCustomFocused(true)}
+            onBlur={() => setCustomFocused(false)}
+            value={customInputValue}
+            autoComplete="off"
+          />
+        </SettingsFieldSet>
+        {isSlippageOutsideRecommendedLimits && (
+          <Box sx={{ display: 'flex', gap: '0.625rem' }} mt={0.66}>
+            <WarningRoundedIcon color="warning" />
+            <Typography
+              fontSize={13.5}
+              fontWeight={400}
+              mt={0.5}
+              letterSpacing={0.002}
+            >
+              {t('warning.message.slippageOutsideRecommendedLimits')}
+            </Typography>
+          </Box>
+        )}
+      </Box>
     </SettingCardExpandable>
   );
 };
