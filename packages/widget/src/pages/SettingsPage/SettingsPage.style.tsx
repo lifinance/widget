@@ -1,10 +1,5 @@
-import {
-  MouseEventHandler,
-  PropsWithChildren,
-  ReactNode,
-  useId,
-  useState,
-} from 'react';
+import type { MouseEventHandler, PropsWithChildren, ReactNode } from 'react';
+import { useId, useState } from 'react';
 import { Card } from '../../components/Card';
 import { styled } from '@mui/material/styles';
 import { Box, ButtonBase, Typography, Collapse } from '@mui/material';

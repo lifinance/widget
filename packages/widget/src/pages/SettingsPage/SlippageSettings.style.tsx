@@ -1,8 +1,9 @@
+import type { PropsWithChildren } from 'react';
 import { alpha, styled } from '@mui/material/styles';
-import { Box, ButtonBase, InputBase, Theme, Typography } from '@mui/material';
+import { Box, ButtonBase, InputBase, Typography } from '@mui/material';
+import type { Theme } from '@mui/material';
 import { inputBaseClasses } from '@mui/material/InputBase';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
-import { PropsWithChildren } from 'react';
 
 export const SettingsFieldSet = styled(Box)(({ theme }) => ({
   display: 'flex',

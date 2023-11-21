@@ -9,7 +9,7 @@ import {
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog } from '../../components/Dialog';
-import { useSettingMonitor, useTools } from '../../hooks';
+import { useSettingMonitor } from '../../hooks';
 import { ResetButtonContainer } from './ResetSettingsButton.style';
 import { InfoRounded } from '@mui/icons-material';
 

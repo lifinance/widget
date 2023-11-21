@@ -1,7 +1,7 @@
-import { ChangeEventHandler, useRef, useState } from 'react';
+import type { ChangeEventHandler } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import PercentIcon from '@mui/icons-material/Percent';
-import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import {
   BadgedAdditionalInformation,
   SettingCardExpandable,
@@ -15,7 +15,7 @@ import {
 } from './SlippageSettings.style';
 import { formatSlippage } from '../../utils';
 import { useSettingMonitor } from '../../hooks';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 
 const slippageDefault = '0.5';
 export const SlippageSettings: React.FC = () => {

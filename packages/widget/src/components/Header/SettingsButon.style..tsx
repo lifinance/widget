@@ -8,11 +8,11 @@ export const SettingsBadge = styled(Badge)({
     right: '-10px',
   },
 });
-interface SettingsIconButton {
+interface SettingsIconButtonProps {
   notification?: 'info' | 'warning';
 }
 
-export const SettingsIconButton = styled(IconButton)<SettingsIconButton>(({
+export const SettingsIconButton = styled(IconButton)<SettingsIconButtonProps>(({
   theme,
   notification,
 }) => {
