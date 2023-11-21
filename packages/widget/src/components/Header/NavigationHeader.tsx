@@ -1,6 +1,5 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
-import SettingsIcon from '@mui/icons-material/Settings';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Route, Routes, useLocation } from 'react-router-dom';
@@ -16,6 +15,7 @@ import {
 import { HeaderAppBar } from './Header.style';
 import { NavigationTabs } from './NavigationTabs';
 import { WalletMenuButton } from './WalletHeader';
+import { SettingsButton } from './SettingsButton';
 
 export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
@@ -140,17 +140,7 @@ export const NavigationHeader: React.FC = () => {
                     </IconButton>
                   </Tooltip>
                 ) : null}
-                <Tooltip title={t(`header.settings`)} enterDelay={400} arrow>
-                  <IconButton
-                    size="medium"
-                    onClick={() => navigate(navigationRoutes.settings)}
-                    sx={{
-                      marginRight: -1.25,
-                    }}
-                  >
-                    <SettingsIcon />
-                  </IconButton>
-                </Tooltip>
+                <SettingsButton />
               </Box>
             }
           />

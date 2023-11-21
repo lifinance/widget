@@ -7,14 +7,8 @@ import {
 } from 'react';
 import { Card } from '../../components/Card';
 import { styled } from '@mui/material/styles';
-import {
-  Box,
-  ButtonBase,
-  Typography,
-  Collapse,
-  Badge as MuiBadge,
-} from '@mui/material';
-import { badgeClasses } from '@mui/material/Badge';
+import { Box, ButtonBase, Typography, Collapse } from '@mui/material';
+import { Badge } from '../../components/Badge';
 
 export const SettingsList = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -62,12 +56,6 @@ export const SettingSummaryButton = styled(ButtonBase)({
   cursor: 'pointer',
   outline: 'inherit',
   ...SettingSummaryBase,
-});
-
-export const Badge = styled(MuiBadge)({
-  [`.${badgeClasses.badge}`]: {
-    top: '10px',
-  },
 });
 
 interface SettingSummaryTextProps {
