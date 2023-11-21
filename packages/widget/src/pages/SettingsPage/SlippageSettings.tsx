@@ -11,6 +11,7 @@ import {
   SettingsFieldSet,
   SlippageCustomInput,
   SlippageDefaultButton,
+  SlippageLimitsWarning,
 } from './SlippageSettings.style';
 import { formatSlippage } from '../../utils';
 import { useSettingMonitor } from '../../hooks';
@@ -82,17 +83,9 @@ export const SlippageSettings: React.FC = () => {
           />
         </SettingsFieldSet>
         {isSlippageOutsideRecommendedLimits && (
-          <Box sx={{ display: 'flex', gap: '0.625rem' }} mt={0.66}>
-            <WarningRoundedIcon color="warning" />
-            <Typography
-              fontSize={13.5}
-              fontWeight={400}
-              mt={0.5}
-              letterSpacing={0.002}
-            >
-              {t('warning.message.slippageOutsideRecommendedLimits')}
-            </Typography>
-          </Box>
+          <SlippageLimitsWarning>
+            {t('warning.message.slippageOutsideRecommendedLimits')}
+          </SlippageLimitsWarning>
         )}
       </Box>
     </SettingCardExpandable>

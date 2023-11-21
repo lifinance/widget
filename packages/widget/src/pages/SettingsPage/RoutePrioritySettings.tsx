@@ -4,15 +4,17 @@ import { Orders } from '@lifi/sdk';
 import { Tab, Tabs } from '../../components/Tabs';
 import { useSettings, useSettingsStore } from '../../stores';
 import {
+  BadgedAdditionalInformation,
   SettingCardExpandable,
-  SettingSummaryText,
 } from './SettingsPage.style';
+import { useSettingMonitor } from '../../hooks';
 
 type SupportedRoute = (typeof Orders)[number];
 
 export const RoutePrioritySettings: React.FC = () => {
   const { t } = useTranslation();
   const setValue = useSettingsStore((state) => state.setValue);
+  const { isRoutePriorityChanged } = useSettingMonitor();
   const { routePriority } = useSettings(['routePriority']);
   const currentRoutePriority = routePriority ?? '';
 
@@ -26,9 +28,12 @@ export const RoutePrioritySettings: React.FC = () => {
   return (
     <SettingCardExpandable
       additionalInfo={
-        <SettingSummaryText>
+        <BadgedAdditionalInformation
+          badgeColor="info"
+          showBadge={isRoutePriorityChanged}
+        >
           {t(`main.tags.${currentRoutePriority.toLowerCase()}` as any)}
-        </SettingSummaryText>
+        </BadgedAdditionalInformation>
       }
       icon={<RouteIcon />}
       title={t(`settings.routePriority`)}

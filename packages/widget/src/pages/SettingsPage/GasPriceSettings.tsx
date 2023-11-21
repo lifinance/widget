@@ -3,13 +3,15 @@ import { useTranslation } from 'react-i18next';
 import { useSettings, useSettingsStore } from '../../stores';
 import { Tab, Tabs } from '../../components/Tabs';
 import {
+  BadgedAdditionalInformation,
   SettingCardExpandable,
-  SettingSummaryText,
 } from './SettingsPage.style';
+import { useSettingMonitor } from '../../hooks';
 
 export const GasPriceSettings: React.FC = () => {
   const { t } = useTranslation();
   const setValue = useSettingsStore((state) => state.setValue);
+  const { isGasPriceChanged } = useSettingMonitor();
   const { gasPrice } = useSettings(['gasPrice']);
 
   const handleGasPriceChange = (_: React.SyntheticEvent, gasPrice: string) => {
@@ -19,9 +21,12 @@ export const GasPriceSettings: React.FC = () => {
   return (
     <SettingCardExpandable
       additionalInfo={
-        <SettingSummaryText>
+        <BadgedAdditionalInformation
+          badgeColor="info"
+          showBadge={isGasPriceChanged}
+        >
           {t(`settings.gasPrice.${gasPrice}` as any)}
-        </SettingSummaryText>
+        </BadgedAdditionalInformation>
       }
       icon={<EvStationIcon />}
       title={t(`settings.gasPrice.title`)}

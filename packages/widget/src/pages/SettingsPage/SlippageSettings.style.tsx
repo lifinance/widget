@@ -1,6 +1,8 @@
 import { alpha, styled } from '@mui/material/styles';
-import { Box, ButtonBase, InputBase, Theme } from '@mui/material';
+import { Box, ButtonBase, InputBase, Theme, Typography } from '@mui/material';
 import { inputBaseClasses } from '@mui/material/InputBase';
+import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
+import { PropsWithChildren } from 'react';
 
 export const SettingsFieldSet = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -86,3 +88,19 @@ export const SlippageCustomInput = styled(InputBase)<SlippageDefaultProps>(({
     },
   };
 });
+
+const SlippageLimitsWarningContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  gap: theme.spacing(1.25),
+  marginTop: theme.spacing(1.5),
+}));
+export const SlippageLimitsWarning: React.FC<PropsWithChildren> = ({
+  children,
+}) => (
+  <SlippageLimitsWarningContainer>
+    <WarningRoundedIcon color="warning" />
+    <Typography fontSize={13} fontWeight={400}>
+      {children}
+    </Typography>
+  </SlippageLimitsWarningContainer>
+);
