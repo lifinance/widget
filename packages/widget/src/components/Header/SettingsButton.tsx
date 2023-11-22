@@ -26,9 +26,13 @@ export const SettingsButton = () => {
         onClick={() => navigate(navigationRoutes.settings)}
         notification={notification}
       >
-        <Badge variant="dot" color={notification}>
+        {notification ? (
+          <Badge variant="dot" color={notification}>
+            <SettingsIcon />
+          </Badge>
+        ) : (
           <SettingsIcon />
-        </Badge>
+        )}
       </SettingsIconButton>
     </Tooltip>
   );
