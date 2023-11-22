@@ -12,10 +12,11 @@ import {
   navigationRoutes,
   navigationRoutesValues,
 } from '../../utils';
-import { HeaderAppBar } from './Header.style';
+import { HeaderAppBar, HeaderControlsContainer } from './Header.style';
 import { NavigationTabs } from './NavigationTabs';
 import { WalletMenuButton } from './WalletHeader';
 import { SettingsButton } from './SettingsButton';
+import { TransactionHistoryButton } from './TransactionHistoryButton';
 
 export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
@@ -117,31 +118,17 @@ export const NavigationHeader: React.FC = () => {
           <Route
             path={navigationRoutes.home}
             element={
-              <Box
+              <HeaderControlsContainer
                 paddingRight={
                   variant === 'drawer' && subvariant === 'split' ? 5 : 0
                 }
               >
                 {account.isConnected &&
                 !hiddenUI?.includes(HiddenUI.History) ? (
-                  <Tooltip
-                    title={t(`header.transactionHistory`)}
-                    enterDelay={400}
-                    arrow
-                  >
-                    <IconButton
-                      size="medium"
-                      edge="start"
-                      onClick={() =>
-                        navigate(navigationRoutes.transactionHistory)
-                      }
-                    >
-                      <ReceiptLongIcon />
-                    </IconButton>
-                  </Tooltip>
+                  <TransactionHistoryButton />
                 ) : null}
                 <SettingsButton />
-              </Box>
+              </HeaderControlsContainer>
             }
           />
           <Route path="*" element={element || <Box width={28} height={40} />} />

@@ -63,3 +63,8 @@ export const DrawerWalletContainer = styled(Box)(() => ({
     marginLeft: '-0.5rem',
   },
 }));
+
+export const HeaderControlsContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  gap: theme.spacing(0.5),
+}));

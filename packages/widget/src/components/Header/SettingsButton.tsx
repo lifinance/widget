@@ -3,7 +3,7 @@ import { Tooltip } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useNavigateBack, useSettingMonitor } from '../../hooks';
 import { navigationRoutes } from '../../utils';
-import { SettingsBadge, SettingsIconButton } from './SettingsButon.style.';
+import { SettingsBadge, SettingsIconButton } from './SettingsButon.style';
 
 export const SettingsButton = () => {
   const { t } = useTranslation();
