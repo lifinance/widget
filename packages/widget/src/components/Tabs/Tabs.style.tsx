@@ -6,13 +6,13 @@ import {
   tabClasses,
   tabsClasses,
 } from '@mui/material';
-import { alpha, styled } from '@mui/material/styles';
+import { alpha, darken, styled } from '@mui/material/styles';
 
 export const Tabs: StyledComponent<TabsProps> = styled(MuiTabs)(
   ({ theme }) => ({
     backgroundColor:
       theme.palette.mode === 'dark'
-        ? theme.palette.background.paper
+        ? darken(theme.palette.background.paper, 0.2)
         : alpha(theme.palette.common.black, 0.04),
     borderRadius: Math.max(
       theme.shape.borderRadius,
