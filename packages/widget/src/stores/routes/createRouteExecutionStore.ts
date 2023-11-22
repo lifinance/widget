@@ -22,12 +22,19 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
           if (!get().routes[route.id]) {
             set((state: RouteExecutionState) => {
               const routes = { ...state.routes };
-              // clean previous idle routes that were not executed
+              // clean previous idle and done routes
               Object.keys(routes)
                 .filter(
                   (routeId) =>
-                    routeId !== insurableRouteId &&
-                    routes[routeId]?.status === RouteExecutionStatus.Idle,
+                    (routeId !== insurableRouteId &&
+                      hasEnumFlag(
+                        routes[routeId]!.status,
+                        RouteExecutionStatus.Idle,
+                      )) ||
+                    hasEnumFlag(
+                      routes[routeId]!.status,
+                      RouteExecutionStatus.Done,
+                    ),
                 )
                 .forEach((routeId) => delete routes[routeId]);
               routes[route.id] = {
@@ -132,7 +139,7 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
             ...persistedState,
           } as RouteExecutionState;
           try {
-            // Move transactions to history after 1 day
+            // Remove failed transactions from history after 1 day
             const currentTime = new Date().getTime();
             const oneDay = 1000 * 60 * 60 * 24;
             Object.values(state.routes).forEach((routeExecution) => {
@@ -144,68 +151,13 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
               const outdated =
                 startedAt > 0 && currentTime - startedAt > oneDay;
               if (routeExecution?.route && outdated) {
-                routeExecution.status |= RouteExecutionStatus.Done;
+                delete state.routes[routeExecution.route.id];
               }
             });
-            // migrate old routes
-            const routeString = localStorage.getItem('routes');
-            if (routeString) {
-              const routes = JSON.parse(routeString) as Array<RouteExtended>;
-              routes.forEach((route) => {
-                if (state.routes[route.id]) {
-                  return;
-                }
-                state.routes[route.id] = {
-                  route,
-                  status: RouteExecutionStatus.Idle,
-                };
-                const isFailed = isRouteFailed(route);
-                if (isFailed) {
-                  state.routes[route.id]!.status = RouteExecutionStatus.Failed;
-                  return;
-                }
-                const isDone = isRouteDone(route);
-                if (isDone) {
-                  state.routes[route.id]!.status = RouteExecutionStatus.Done;
-                  return;
-                }
-                const isLoading = route.steps.some((step) => step.execution);
-                if (isLoading) {
-                  state.routes[route.id]!.status = RouteExecutionStatus.Pending;
-                }
-              });
-              localStorage.removeItem('routes');
-            }
           } catch (error) {
             console.error(error);
           }
           return state;
-        },
-        migrate: (persistedState: any, version) => {
-          if (version === 0) {
-            Object.values(persistedState.routes).forEach((route: any) => {
-              if (route) {
-                switch (route.status) {
-                  case 'idle':
-                    route.status = RouteExecutionStatus.Idle;
-                    break;
-                  case 'loading':
-                    route.status = RouteExecutionStatus.Pending;
-                    break;
-                  case 'success':
-                  case 'warning':
-                    route.status = RouteExecutionStatus.Done;
-                    break;
-                  case 'error':
-                    route.status = RouteExecutionStatus.Failed;
-                    break;
-                  default:
-                    break;
-                }
-              }
-            });
-          }
-          return persistedState as RouteExecutionState;
         },
       },
     ) as StateCreator<RouteExecutionState, [], [], RouteExecutionState>,

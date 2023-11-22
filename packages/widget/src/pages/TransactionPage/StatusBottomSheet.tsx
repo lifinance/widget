@@ -100,6 +100,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
 
     navigate(navigationRoutes.transactionDetails, {
       state: {
+        routeId: route.id,
         transactionHash,
       },
       replace: true,

@@ -4,7 +4,7 @@ import { useTransactionHistory } from '../../hooks/useTransactionHistory';
 import { TransactionHistoryEmpty } from './TransactionHistoryEmpty';
 import { VirtualizedTransactionHistory } from './VirtualizedTransactionHistoryPage';
 
-const minTransactionListHeight = 542;
+const minTransactionListHeight = 544;
 
 export const TransactionHistoryPage: React.FC = () => {
   const parentRef = useRef<HTMLUListElement | null>(null);

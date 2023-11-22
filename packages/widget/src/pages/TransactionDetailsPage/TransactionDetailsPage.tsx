@@ -1,15 +1,15 @@
 import ContentCopyIcon from '@mui/icons-material/ContentCopyRounded';
 import { Box, IconButton, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { Card, CardTitle } from '../../components/Card';
 import { ContractComponent } from '../../components/ContractComponent';
 import { Insurance } from '../../components/Insurance';
 import { getStepList } from '../../components/Step';
-import { useNavigateBack, useTools, useTransactionHistory } from '../../hooks';
+import { useNavigateBack, useTools, useTransactionDetails } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
-import { getSourceTxHash, type RouteExecution } from '../../stores';
+import { getSourceTxHash, useRouteExecutionStore } from '../../stores';
 import { formatTokenAmount, navigationRoutes } from '../../utils';
 import { buildRouteFromTxHistory } from '../../utils/converters';
 import { ContactSupportButton } from './ContactSupportButton';
@@ -18,20 +18,41 @@ import { TransactionDetailsSkeleton } from './TransactionDetailsSkeleton';
 
 export const TransactionDetailsPage: React.FC = () => {
   const { t, i18n } = useTranslation();
+  const { navigate } = useNavigateBack();
   const { subvariant, contractComponent, contractSecondaryComponent } =
     useWidgetConfig();
   const { state }: any = useLocation();
-
   const { tools } = useTools();
+  const storedRouteExecution = useRouteExecutionStore(
+    (store) => store.routes[state?.routeId],
+  );
 
-  const { navigate } = useNavigateBack();
-  const { data, isLoading, refetch } = useTransactionHistory(
+  const { transaction, isLoading } = useTransactionDetails(
     state?.transactionHash,
   );
 
-  const [routeExecution, setRouteExecution] = useState<
-    RouteExecution | undefined
-  >(() => buildRouteFromTxHistory(data[0], tools));
+  const routeExecution = useMemo(() => {
+    if (storedRouteExecution) {
+      return storedRouteExecution;
+    }
+    if (isLoading) {
+      return;
+    }
+    if (transaction) {
+      const routeExecution = buildRouteFromTxHistory(transaction, tools);
+      return routeExecution;
+    }
+  }, [isLoading, storedRouteExecution, tools, transaction]);
+
+  useEffect(() => {
+    if (!isLoading && !routeExecution) {
+      navigate(navigationRoutes.home);
+    }
+  }, [isLoading, navigate, routeExecution]);
+
+  const copySupportId = async () => {
+    await navigator.clipboard.writeText(supportId);
+  };
 
   const sourceTxHash = getSourceTxHash(routeExecution?.route);
 
@@ -43,39 +64,12 @@ export const TransactionDetailsPage: React.FC = () => {
     supportId += `_${routeExecution?.route.id}`;
   }
 
-  const copySupportId = async () => {
-    await navigator.clipboard.writeText(supportId);
-  };
-
-  const handleRouteSetting = async (retry = 1) => {
-    if (isLoading) {
-      // this will be triggered again once isloading updates
-      return;
-    }
-
-    if (retry < 0) {
-      navigate(navigationRoutes.home);
-      return;
-    }
-
-    const routeExecution = buildRouteFromTxHistory(data[0], tools);
-
-    if (routeExecution) {
-      setRouteExecution(routeExecution);
-    }
-  };
-
-  // FIXME
-  useEffect(() => {
-    handleRouteSetting();
-  }, [data.length, isLoading]);
-
   const startedAt = new Date(
     (routeExecution?.route.steps[0].execution?.process[0].startedAt ?? 0) *
-      1000,
+      (storedRouteExecution ? 1 : 1000), // local and BE routes have different ms handling
   );
 
-  return isLoading ? (
+  return isLoading && !storedRouteExecution ? (
     <TransactionDetailsSkeleton />
   ) : (
     <Container>

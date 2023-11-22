@@ -1,17 +1,14 @@
-import { Container, Box, Typography, Skeleton } from '@mui/material';
+import { Box, Container, Skeleton } from '@mui/material';
 import { Card } from '../../components/Card';
-import EvStationIcon from '@mui/icons-material/EvStation';
-import DoneIcon from '@mui/icons-material/Done';
-import { CircularIcon } from '../../components/Step/CircularProgress.style';
 
 const DetailedTextSkeleton = () => {
   return (
-    <Box display="flex" ml={6} mb={1}>
-      <Skeleton width={64} height={12} variant="rounded" />
+    <Box display="flex" ml={6}>
+      <Skeleton width={64} height={16} variant="text" />
       <Skeleton
         width={96}
-        height={12}
-        variant="rounded"
+        height={16}
+        variant="text"
         sx={{ marginLeft: 0.5 }}
       />
     </Box>
@@ -20,7 +17,7 @@ const DetailedTextSkeleton = () => {
 
 const TransactionDetailsTokenSkeleton = () => {
   return (
-    <Box mb={2}>
+    <Box py={1}>
       <Box display="flex" flex={1} alignItems="center">
         <Skeleton
           variant="rounded"
@@ -31,7 +28,7 @@ const TransactionDetailsTokenSkeleton = () => {
           }}
         />
         <Box display="flex" flexDirection="column" flex={1} ml={2}>
-          <Skeleton width={40} height={32} variant="text" />
+          <Skeleton width={64} height={32} variant="text" />
         </Box>
       </Box>
       <DetailedTextSkeleton />
@@ -49,94 +46,67 @@ export const TransactionDetailsSkeleton = () => {
           justifyContent: 'space-between',
         }}
         pb={1}
+        pt={0.75}
       >
-        <Typography fontSize={12}>
-          <Skeleton width={96} height={32} variant="text" />
-        </Typography>
-        <Typography fontSize={12}>
-          <Skeleton width={40} height={32} variant="text" />
-        </Typography>
+        <Skeleton width={96} height={20} variant="text" />
+        <Skeleton width={40} height={20} variant="text" />
       </Box>
-      <Card
-        sx={{
-          padding: 2,
-        }}
-        variant={'default'}
-      >
-        <Skeleton width={64} height={32} variant="text" sx={{ mb: 1 }} />
-        {/* Token skeleton */}
-        <TransactionDetailsTokenSkeleton />
-        {/* Bridge Skeleton */}
-        <Box mb={2}>
-          <Box display="flex" flex={1} alignItems="center">
-            <Skeleton
-              variant="rounded"
-              width={32}
-              height={32}
-              sx={{
-                borderRadius: '100%',
-              }}
-            />
-            <Box display="flex" flexDirection="column" flex={1} ml={2}>
-              <Skeleton width={96} height={32} variant="text" />
+      <Card mb={3} variant="default" sx={{ paddingX: 2 }}>
+        <Box pt={2.5}>
+          <Skeleton width={64} height={12} variant="rounded" />
+        </Box>
+        <Box py={1}>
+          {/* Token skeleton */}
+          <TransactionDetailsTokenSkeleton />
+          {/* Bridge skeleton */}
+          <Box py={1}>
+            <Box display="flex" flex={1} alignItems="center">
+              <Skeleton
+                variant="rounded"
+                width={32}
+                height={32}
+                sx={{
+                  borderRadius: '100%',
+                }}
+              />
+              <Box display="flex" flexDirection="column" flex={1} ml={2}>
+                <Skeleton width={96} height={32} variant="text" />
+              </Box>
             </Box>
+            <DetailedTextSkeleton />
+            <DetailedTextSkeleton />
           </Box>
-          <DetailedTextSkeleton />
-          <DetailedTextSkeleton />
-        </Box>
-        {/* Steps skeleton */}
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-          mb={2}
-        >
-          <CircularIcon height={32} width={32} status={'NOT_STARTED'}>
-            <DoneIcon
-              color="disabled"
+          {/* Steps skeleton */}
+          {Array.from({ length: 3 }).map((_, key) => (
+            <Box
               sx={{
-                position: 'absolute',
-                fontSize: '1rem',
+                display: 'flex',
+                alignItems: 'center',
               }}
-            />
-          </CircularIcon>
-          <Skeleton
-            sx={{
-              ml: 2,
-            }}
-            width={96}
-            height={32}
-            variant="text"
-          />
+              py={1}
+              key={key}
+            >
+              <Skeleton
+                variant="rounded"
+                width={32}
+                height={32}
+                sx={{
+                  borderRadius: '100%',
+                }}
+              />
+              <Skeleton
+                sx={{
+                  ml: 2,
+                }}
+                width={96}
+                height={32}
+                variant="text"
+              />
+            </Box>
+          ))}
+          {/* Receiving Token skeleton */}
+          <TransactionDetailsTokenSkeleton />
         </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-          mb={2}
-        >
-          <CircularIcon height={32} width={32} status={'NOT_STARTED'}>
-            <EvStationIcon
-              color={'disabled'}
-              sx={{
-                position: 'absolute',
-                fontSize: '1rem',
-              }}
-            />
-          </CircularIcon>
-          <Skeleton
-            sx={{
-              ml: 2,
-            }}
-            width={96}
-            height={32}
-            variant="text"
-          />
-        </Box>
-        {/* Receiving Token Skeleton */}
-        <TransactionDetailsTokenSkeleton />
       </Card>
     </Container>
   );
