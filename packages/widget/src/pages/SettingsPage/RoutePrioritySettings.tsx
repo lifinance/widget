@@ -49,6 +49,7 @@ export const RoutePrioritySettings: React.FC = () => {
         {Orders.map((order) => {
           return (
             <Tab
+              key={order}
               label={t(`main.tags.${order.toLowerCase()}` as any)}
               value={order}
             />
