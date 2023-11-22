@@ -119,10 +119,12 @@
     "message": {
       "allowanceRequired": "Le montant du transfert pour {{tokenSymbol}} dépasse votre allocation actuelle. Veuillez augmenter votre allocation et réessayer.",
       "insufficientFunds": "Vous n'avez pas assez de gaz pour couvrir le coût de la transaction.",
+      "signatureRejected": "Votre signature est requise pour compléter la transaction. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} sur {{chainName}} restent dans votre portefeuille.",
       "slippageThreshold": "L'effet de glissement est supérieur au seuil défini. Veuillez demander un nouvel itinéraire pour obtenir un nouveau devis.",
       "transactionFailed": "Veuillez consulter l'explorateur de blocs pour plus d'informations.",
-      "transactionNotSent": "La transaction n'a pas été envoyée. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} sur {{chainName}} restent dans votre portefeuille.",
-      "transactionRejected": "Votre signature est requise pour compléter la transaction. {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} sur {{chainName}} restent dans votre portefeuille.",
+      "transactionNotSent": "La transaction n'a pas été envoyée.",
+      "transactionCanceled": "La transaction a été annulée.",
+      "remainInYourWallet": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} sur {{chainName}} restent dans votre portefeuille.",
       "unknown": "Veuillez réessayer ou contacter le support."
     },
     "title": {
@@ -131,16 +133,17 @@
       "chainSwitch": "Changement de chaîne nécessaire.",
       "gasLimitIsTooLow": "La limite de gaz est trop basse.",
       "insufficientFunds": "Fonds insuffisants",
+      "signatureRejected": "Signature requise",
       "slippageNotMet": "Les conditions de l'effet de glissement ne sont pas remplies.",
       "transactionCanceled": "Transaction annulée.",
+      "exchangeRateUpdateCanceled": "Mise à jour du taux de change annulée",
       "transactionFailed": "La transaction a échoué.",
-      "transactionRejected": "Signature requise.",
       "transactionUnderpriced": "La transaction est sous-évaluée.",
       "transactionUnprepared": "Impossible de préparer la transaction.",
       "unknown": "Il y a eu un problème.",
       "walletAddressInvalid": "L'adresse du portefeuille n'est pas valide.",
       "walletAddressRequired": "L'adresse du portefeuille est nécessaire.",
-      "walletEnsAddressInvalid": "L'adresse du portefeuille n'est pas valide ou le réseau ne supporte pas l'ENS."
+      "walletEnsAddressInvalid": "L'adresse du portefeuille ou l'ENS est invalide, ou le réseau ne supporte pas l'ENS."
     }
   },
   "tooltip": {
