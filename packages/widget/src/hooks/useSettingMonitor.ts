@@ -36,10 +36,13 @@ export const useSettingMonitor = () => {
 
   const isGasPriceChanged = gasPrice !== defaultConfigurableSettings.gasPrice;
 
-  const isBridgesChanged = tools?.bridges?.length !== enabledBridges?.length;
+  const isBridgesChanged = tools?.bridges
+    ? tools?.bridges?.length !== enabledBridges?.length
+    : false;
 
-  const isExchangesChanged =
-    tools?.exchanges?.length !== enabledExchanges?.length;
+  const isExchangesChanged = tools?.exchanges
+    ? tools?.exchanges?.length !== enabledExchanges?.length
+    : false;
 
   const isCustomRouteSettings =
     isBridgesChanged ||
