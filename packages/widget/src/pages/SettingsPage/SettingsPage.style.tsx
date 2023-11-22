@@ -2,8 +2,9 @@ import type { MouseEventHandler, PropsWithChildren, ReactNode } from 'react';
 import { useId, useState } from 'react';
 import { Card } from '../../components/Card';
 import { styled } from '@mui/material/styles';
-import { Box, ButtonBase, Typography, Collapse } from '@mui/material';
+import { Box, ButtonBase, Button, Typography, Collapse } from '@mui/material';
 import { Badge } from '../../components/Badge';
+import { BadgeProps } from '@mui/material';
 
 export const SettingsList = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -57,19 +58,10 @@ export const SettingSummaryText = styled(Typography)({
   lineHeight: '1.25',
   fontWeight: 500,
 });
-// TODO: any better way to type color - do we have this anywhere else?
-export type BadgeColor =
-  | 'primary'
-  | 'secondary'
-  | 'default'
-  | 'error'
-  | 'info'
-  | 'success'
-  | 'warning';
 
 interface BadgedAdditionalInformationProps {
   showBadge: boolean;
-  badgeColor?: BadgeColor;
+  badgeColor?: BadgeProps['color'];
 }
 export const BadgedAdditionalInformation: React.FC<
   PropsWithChildren<BadgedAdditionalInformationProps>
@@ -77,6 +69,7 @@ export const BadgedAdditionalInformation: React.FC<
   showBadge && badgeColor ? (
     <Badge variant="dot" color={badgeColor}>
       <SettingSummaryText>{children}</SettingSummaryText>
+      <Button color={'info'} />
     </Badge>
   ) : (
     <SettingSummaryText>{children}</SettingSummaryText>
