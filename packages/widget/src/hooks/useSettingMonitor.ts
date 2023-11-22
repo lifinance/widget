@@ -36,14 +36,14 @@ export const useSettingMonitor = () => {
 
   const isGasPriceChanged = gasPrice !== defaultConfigurableSettings.gasPrice;
 
-  const isBridgesCustomised = tools?.bridges?.length !== enabledBridges?.length;
+  const isBridgesChanged = tools?.bridges?.length !== enabledBridges?.length;
 
-  const isExchangesCustomised =
+  const isExchangesChanged =
     tools?.exchanges?.length !== enabledExchanges?.length;
 
   const isCustomRouteSettings =
-    isBridgesCustomised ||
-    isExchangesCustomised ||
+    isBridgesChanged ||
+    isExchangesChanged ||
     isSlippageChanged ||
     isRoutePriorityChanged ||
     isGasPriceChanged;
@@ -63,8 +63,8 @@ export const useSettingMonitor = () => {
   };
 
   return {
-    isBridgesCustomised,
-    isExchangesCustomised,
+    isBridgesChanged,
+    isExchangesChanged,
     isSlippageChanged,
     isSlippageOutsideRecommendedLimits,
     isRoutePriorityChanged,

@@ -19,7 +19,7 @@ const supportedIcons = {
 export const BridgeAndExchangeSettings: React.FC<{
   type: 'Bridges' | 'Exchanges';
 }> = ({ type }) => {
-  const { isBridgesCustomised, isExchangesCustomised } = useSettingMonitor();
+  const { isBridgesChanged, isExchangesChanged } = useSettingMonitor();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [enabledTools, tools] = useSettingsStore((state) => {
@@ -28,8 +28,8 @@ export const BridgeAndExchangeSettings: React.FC<{
   }, shallow);
 
   const customisationLookUp = {
-    Bridges: isBridgesCustomised,
-    Exchanges: isExchangesCustomised,
+    Bridges: isBridgesChanged,
+    Exchanges: isExchangesChanged,
   };
 
   const handleClick = () => {
