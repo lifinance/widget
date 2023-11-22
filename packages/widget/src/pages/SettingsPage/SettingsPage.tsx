@@ -6,8 +6,8 @@ import { SendToWalletOptionSetting } from './SendToWalletOptionSetting';
 import { GasPriceSettings } from './GasPriceSettings';
 import { RoutePrioritySettings } from './RoutePrioritySettings';
 import { ThemeSettings } from './ThemeSettings';
-import { SettingsList } from './SettingsPage.style';
 import { SlippageSettings } from './SlippageSettings';
+import { SettingsList } from './SettingsCard';
 
 export const SettingsPage = () => {
   return (

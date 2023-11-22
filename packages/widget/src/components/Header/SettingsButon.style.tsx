@@ -13,13 +13,13 @@ export const SettingsIconButton = styled(IconButton)<SettingsIconButtonProps>(({
   const notificationStyles = {
     info: {
       backgroundColor: getInfoBackgroundColor(theme),
-      ['&:hover']: {
+      '&:hover': {
         backgroundColor: darken(getInfoBackgroundColor(theme), 0.2),
       },
     },
     warning: {
       backgroundColor: getWarningBackgroundColor(theme),
-      ['&:hover']: {
+      '&:hover': {
         backgroundColor: darken(getWarningBackgroundColor(theme), 0.2),
       },
     },

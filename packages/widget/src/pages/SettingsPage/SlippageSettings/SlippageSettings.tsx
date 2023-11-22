@@ -2,20 +2,20 @@ import type { ChangeEventHandler } from 'react';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import PercentIcon from '@mui/icons-material/Percent';
-import {
-  BadgedAdditionalInformation,
-  SettingCardExpandable,
-} from './SettingsPage.style';
-import { useSettings, useSettingsStore } from '../../stores';
+import { useSettings, useSettingsStore } from '../../../stores';
+import { useSettingMonitor } from '../../../hooks';
+import { formatSlippage } from '../../../utils';
 import {
   SettingsFieldSet,
   SlippageCustomInput,
   SlippageDefaultButton,
-  SlippageLimitsWarning,
 } from './SlippageSettings.style';
-import { formatSlippage } from '../../utils';
-import { useSettingMonitor } from '../../hooks';
+import { SlippageLimitsWarning } from './SlippageLimitsWarning';
 import { Box } from '@mui/material';
+import {
+  SettingCardExpandable,
+  BadgedAdditionalInformation,
+} from '../SettingsCard';
 
 const slippageDefault = '0.5';
 export const SlippageSettings: React.FC = () => {

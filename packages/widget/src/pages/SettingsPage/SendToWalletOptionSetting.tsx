@@ -9,7 +9,7 @@ import {
   useSettingsStore,
 } from '../../stores';
 import { HiddenUI } from '../../types';
-import { SettingCardComponent } from './SettingsPage.style';
+import { SettingCardContainer } from './SettingsCard';
 
 export const SendToWalletOptionSetting = () => {
   const { t } = useTranslation();
@@ -30,10 +30,11 @@ export const SendToWalletOptionSetting = () => {
   };
 
   return (
-    <SettingCardComponent
+    <SettingCardContainer
       icon={<WalletIcon />}
       title={t(`settings.showDestinationWallet`)}
-      component={<Switch checked={showDestinationWallet} onChange={onChange} />}
-    />
+    >
+      <Switch checked={showDestinationWallet} onChange={onChange} />
+    </SettingCardContainer>
   );
 };

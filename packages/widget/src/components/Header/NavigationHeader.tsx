@@ -1,6 +1,5 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
-import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, IconButton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { useAccount, useNavigateBack } from '../../hooks';
@@ -21,7 +20,7 @@ import { TransactionHistoryButton } from './TransactionHistoryButton';
 export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
   const { subvariant, hiddenUI, variant } = useWidgetConfig();
-  const { navigate, navigateBack } = useNavigateBack();
+  const { navigateBack } = useNavigateBack();
   const { account } = useAccount();
   const { element, title } = useHeaderStore((state) => state);
   const { pathname } = useLocation();

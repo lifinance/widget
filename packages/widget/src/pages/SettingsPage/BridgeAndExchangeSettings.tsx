@@ -5,14 +5,11 @@ import AirlineStopsIcon from '@mui/icons-material/AirlineStops';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import { useSettingsStore } from '../../stores';
 import { navigationRoutes } from '../../utils';
-import {
-  SettingCardButton,
-  BadgedAdditionalInformation,
-} from './SettingsPage.style';
 import { useSettingMonitor } from '../../hooks';
+import { SettingCardButton, BadgedAdditionalInformation } from './SettingsCard';
 
 const supportedIcons = {
-  Bridges: AirlineStopsIcon, // TODO: source the bridge icon
+  Bridges: AirlineStopsIcon,
   Exchanges: SwapHorizIcon,
 };
 
@@ -43,12 +40,11 @@ export const BridgeAndExchangeSettings: React.FC<{
       onClick={handleClick}
       icon={<Icon />}
       title={t(`settings.enabled${type}`)}
-      additionalInfo={
-        <BadgedAdditionalInformation
-          badgeColor="info"
-          showBadge={customisationLookUp[type]}
-        >{`${enabledTools}/${tools}`}</BadgedAdditionalInformation>
-      }
-    />
+    >
+      <BadgedAdditionalInformation
+        badgeColor="info"
+        showBadge={customisationLookUp[type]}
+      >{`${enabledTools}/${tools}`}</BadgedAdditionalInformation>
+    </SettingCardButton>
   );
 };

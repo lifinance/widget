@@ -7,10 +7,7 @@ import Nightlight from '@mui/icons-material/Nightlight';
 import { Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useAppearance } from '../../stores';
-import {
-  SettingCardExpandable,
-  SettingSummaryText,
-} from './SettingsPage.style';
+import { SettingCardExpandable, SettingSummaryText } from './SettingsCard';
 import { Tab, Tabs } from '../../components/Tabs';
 
 const themeIconLookUp = {

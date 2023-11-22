@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { FormKey } from '../../providers';
 import { useSplitSubvariantStore } from '../../stores';
 import { HeaderAppBar, SplitTabs } from './Header.style';
-import { Tabs, Tab } from '../Tabs';
+import { Tab } from '../Tabs';
 
 export const NavigationTabs = () => {
   const { t } = useTranslation();

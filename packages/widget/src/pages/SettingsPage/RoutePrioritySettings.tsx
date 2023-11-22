@@ -3,11 +3,11 @@ import RouteIcon from '@mui/icons-material/Route';
 import { Orders } from '@lifi/sdk';
 import { Tab, Tabs } from '../../components/Tabs';
 import { useSettings, useSettingsStore } from '../../stores';
-import {
-  BadgedAdditionalInformation,
-  SettingCardExpandable,
-} from './SettingsPage.style';
 import { useSettingMonitor } from '../../hooks';
+import {
+  SettingCardExpandable,
+  BadgedAdditionalInformation,
+} from './SettingsCard';
 
 type SupportedRoute = (typeof Orders)[number];
 
