@@ -26,9 +26,9 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
 
   const { getVirtualItems, getTotalSize, scrollToIndex } = useVirtualizer({
     count: tokens.length,
-    getScrollElement: () => scrollElementRef.current,
     overscan: 10,
     paddingEnd: 12,
+    getScrollElement: () => scrollElementRef.current,
     estimateSize: (index) => {
       // heigth of TokenListItem
       let size = 64;
@@ -53,6 +53,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   });
 
   useEffect(() => {
+    // Scroll to the top of the list when switching the chains
     if (getVirtualItems().length) {
       scrollToIndex(0, { align: 'start' });
     }

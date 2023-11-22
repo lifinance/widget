@@ -48,7 +48,6 @@ export const TransactionHistorySkeleton = () => {
   return (
     <Card
       style={{
-        marginRight: '24px',
         marginBottom: '16px',
       }}
     >

@@ -40,7 +40,6 @@ root.render(
       <WalletProvider>
         <BrowserRouter>
           <Routes>
-            {/* <Route path="/viem" element={<ViemTest />} /> */}
             <Route path="/*" element={<App />} />
           </Routes>
         </BrowserRouter>

@@ -64,12 +64,12 @@ export const TransactionHistoryItem: React.FC<{
     <Card
       onClick={handleClick}
       style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
         // height: `${size}px`,
         transform: `translateY(${start}px)`,
-        position: 'absolute',
-        right: '24px',
-        left: 0,
-        top: 0,
       }}
     >
       <Box
