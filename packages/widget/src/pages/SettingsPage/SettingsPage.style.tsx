@@ -53,19 +53,9 @@ export const SettingSummaryButton = styled(ButtonBase)({
   ...SettingSummaryBase,
 });
 
-interface SettingSummaryTextProps {
-  withBadge?: boolean;
-}
-export const SettingSummaryText = styled(Typography)<SettingSummaryTextProps>(({
-  withBadge,
-}) => {
-  const badgeCss = withBadge ? { marginRight: '17px' } : {};
-
-  return {
-    lineHeight: '1.25',
-    fontWeight: 500,
-    ...badgeCss,
-  };
+export const SettingSummaryText = styled(Typography)({
+  lineHeight: '1.25',
+  fontWeight: 500,
 });
 // TODO: any better way to type color - do we have this anywhere else?
 export type BadgeColor =
@@ -76,18 +66,6 @@ export type BadgeColor =
   | 'info'
   | 'success'
   | 'warning';
-interface SettingSummaryTextWithBadgeProps {
-  color: BadgeColor;
-}
-export const SettingSummaryTextWithBadge: React.FC<
-  PropsWithChildren<SettingSummaryTextWithBadgeProps>
-> = ({ color, children }) => {
-  return (
-    <Badge variant="dot" color={color}>
-      <SettingSummaryText withBadge>{children}</SettingSummaryText>
-    </Badge>
-  );
-};
 
 interface BadgedAdditionalInformationProps {
   showBadge: boolean;
@@ -97,9 +75,9 @@ export const BadgedAdditionalInformation: React.FC<
   PropsWithChildren<BadgedAdditionalInformationProps>
 > = ({ showBadge, badgeColor, children }) =>
   showBadge && badgeColor ? (
-    <SettingSummaryTextWithBadge color={badgeColor}>
-      {children}
-    </SettingSummaryTextWithBadge>
+    <Badge variant="dot" color={badgeColor}>
+      <SettingSummaryText>{children}</SettingSummaryText>
+    </Badge>
   ) : (
     <SettingSummaryText>{children}</SettingSummaryText>
   );
