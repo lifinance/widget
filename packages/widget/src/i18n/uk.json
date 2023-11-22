@@ -119,10 +119,12 @@
     "message": {
       "allowanceRequired": "Сума переказу для {{tokenSymbol}} перевищує поточну межу. Збільшіть доступну кількість у гаманці та спробуйте ще раз.",
       "insufficientFunds": "Не вистачає газу для покриття вартості транзакції.",
+      "signatureRejected": "Для завершення транзакції потрібен ваш підпис. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} на {{chainName}} залишаються у вашому гаманці.",
       "slippageThreshold": "Прослизання перевищує визначений поріг. Будь ласка, зробіть запит на новий маршрут, щоб отримати нову пропозицію.",
       "transactionFailed": "Будь ласка, перевірте провідник блоків для отримання додаткової інформації.",
-      "transactionNotSent": "Транзакція не була відправлена. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} на {{chainName}} все ще знаходяться у вашому гаманці.",
-      "transactionRejected": "Для завершення транзакції потрібен ваш підпис. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} на {{chainName}} залишаються у вашому гаманці.",
+      "transactionNotSent": "Транзакція не була надіслана.",
+      "transactionCanceled": "Транзакцію скасовано.",
+      "remainInYourWallet": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} на {{chainName}} все ще знаходяться у вашому гаманці.",
       "unknown": "Будь ласка, спробуйте ще раз або зверніться до служби підтримки."
     },
     "title": {
@@ -131,16 +133,17 @@
       "chainSwitch": "Потрібно переключити чейн.",
       "gasLimitIsTooLow": "Занадто низький ліміт газу",
       "insufficientFunds": "Недостатньо коштів",
+      "signatureRejected": "Підпис обов'язковий",
       "slippageNotMet": "Не виконані умови прослизання",
       "transactionCanceled": "Транзакцію скасовано",
+      "exchangeRateUpdateCanceled": "Оновлення обмінного курсу скасовано",
       "transactionFailed": "Транзакція не вдалася.",
-      "transactionRejected": "Підпис обов'язковий.",
       "transactionUnderpriced": "Транзакція є заниженою.",
       "transactionUnprepared": "Не вдалося підготувати транзакцію.",
       "unknown": "Щось пішло не так.",
       "walletAddressInvalid": "Адреса гаманця недійсна.",
       "walletAddressRequired": "Необхідно вказати адресу гаманця.",
-      "walletEnsAddressInvalid": "Адреса гаманця недійсна або мережа не підтримує ENS."
+      "walletEnsAddressInvalid": "Адреса гаманця або ENS невірна, або мережа не підтримує ENS."
     }
   },
   "tooltip": {

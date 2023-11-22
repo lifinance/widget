@@ -119,10 +119,12 @@
     "message": {
       "allowanceRequired": "{{tokenSymbol}} için verilen izinden fazla miktarda transfer yapılamaz. Token izinlerini arttırıp tekrar deneyiniz.",
       "insufficientFunds": "Bu işlemi gerçekleştirmek için yeterli gaz bulunmamaktadır.",
+      "signatureRejected": "İşlemi tamamlamak için imzanız gerekiyor. {{chainName}} üzerinde {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} cüzdanınızda bulunmaktadır.",
       "slippageThreshold": "Slipaj, tanımlanan eşikten daha büyük. Yeni bir fiyat teklifi almak için lütfen yeni bir rota isteyin.",
       "transactionFailed": "Daha fazla bilgi için ağ tarayıcısını kontrol edin.",
-      "transactionNotSent": "İşlem gönderilmedi. {{chainName}} üzerinde {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} cüzdanınızda bulunmaktadır.",
-      "transactionRejected": "İşlemi tamamlamak için imzanız gerekiyor. {{chainName}} üzerinde {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} cüzdanınızda bulunmaktadır.",
+      "transactionNotSent": "İşlem gönderilmedi.",
+      "transactionCanceled": "İşlem iptal edildi.",
+      "remainInYourWallet": "{{chainName}} üzerinde {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} cüzdanınızda bulunmaktadır.",
       "unknown": "Lütfen tekrar deneyin veya desteğe başvurun."
     },
     "title": {
@@ -131,16 +133,17 @@
       "chainSwitch": "Lütfen ağı değiştirin",
       "gasLimitIsTooLow": "Gaz limiti çok düşük",
       "insufficientFunds": "Yetersiz bakiye",
+      "signatureRejected": "İmza gerekiyor",
       "slippageNotMet": "Slipaj koşulları karşılanmadı",
       "transactionCanceled": "İşlem iptal edildi",
+      "exchangeRateUpdateCanceled": "Fiyat güncellemesi iptal edildi",
       "transactionFailed": "İşlem başarısız",
-      "transactionRejected": "İmza gerekiyor",
       "transactionUnderpriced": "İşlemin değeri düşük",
       "transactionUnprepared": "İşlem başlatılamıyor",
       "unknown": "Bir sorun oluştu",
       "walletAddressInvalid": "Cüzdan adresi geçersizdir.",
       "walletAddressRequired": "Cüzdan adresi gereklidir.",
-      "walletEnsAddressInvalid": "Cüzdan adresi geçerli değil veya ağ ENS desteklemiyor."
+      "walletEnsAddressInvalid": "Cüzdan adresi ya da ENS geçerli değil, veya bu ağ ENS'i desteklemiyor."
     }
   },
   "tooltip": {

@@ -119,10 +119,12 @@
     "message": {
       "allowanceRequired": "A quantidade a ser transferida para {{tokenSymbol}} excede a sua permissão atual. Por favor, aumente a sua permissão e tente novamente.",
       "insufficientFunds": "Você não tem gás suficiente para cobrir o custo da transação.",
+      "signatureRejected": "Sua assinatura é necessária para completar a transação. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} em {{chainName}} permanece na sua carteira.",
       "slippageThreshold": "A derrapagem é maior do que o limite definido. Solicite uma nova rota para obter uma nova cotação.",
       "transactionFailed": "Por favor, verifique o explorador de blocos para mais informações.",
-      "transactionNotSent": "A transação não foi enviada. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} na {{chainName}} permanece na sua carteira.",
-      "transactionRejected": "Sua assinatura é necessária para completar a transação. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} em {{chainName}} permanece na sua carteira.",
+      "transactionNotSent": "A transação não foi enviada.",
+      "transactionCanceled": "A transação foi cancelada.",
+      "remainInYourWallet": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} em {{chainName}} permanece na sua carteira.",
       "unknown": "Por favor, tente novamente ou fale com o suporte."
     },
     "title": {
@@ -131,16 +133,17 @@
       "chainSwitch": "Necessário mudança de rede",
       "gasLimitIsTooLow": "O limite de gás é muito baixo",
       "insufficientFunds": "Saldo insuficiente",
+      "signatureRejected": "Necessário assinatura",
       "slippageNotMet": "Condições de tolerância a discrepâncias não foram atendidas",
       "transactionCanceled": "Transação cancelada",
+      "exchangeRateUpdateCanceled": "Atualização da taxa de conversão cancelada",
       "transactionFailed": "Transação falhou",
-      "transactionRejected": "Necessário assinatura",
       "transactionUnderpriced": "Transação está abaixo do valor",
       "transactionUnprepared": "Não foi possível preparar a transação",
       "unknown": "Algo deu errado",
       "walletAddressInvalid": "Endereço da carteira é inválido.",
       "walletAddressRequired": "Endereço da carteira é necessário.",
-      "walletEnsAddressInvalid": "O endereço da carteira é inválido ou a rede não suporta ENS."
+      "walletEnsAddressInvalid": "O endereço da carteira ou ENS é inválido, ou a rede não suporta ENS."
     }
   },
   "tooltip": {
