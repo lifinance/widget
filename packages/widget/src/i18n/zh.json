@@ -119,10 +119,12 @@
     "message": {
       "allowanceRequired": "{{tokenSymbol}} 的转账金额超过了您设置的支出上限。请提高该代币的支出上限，然后重试。",
       "insufficientFunds": "您没有足够的燃气费支付该交易。",
+      "signatureRejected": "需要您签名来完成此次交易。不用担心，{{chainName}} 链上 {{amount, number(maximumFractionDigits: 9)}} 个 {{tokenSymbol}} 仍在您的钱包里。",
       "slippageThreshold": "滑点大于预设值，请选择其他路由并获取新的价格。",
       "transactionFailed": "请查看区块浏览器以了解更多信息。",
-      "transactionNotSent": "交易未发送，不用担心，{{chainName}} 链上{{amount, number(maximumFractionDigits: 9)}} 个{{tokenSymbol}} 仍在您的钱包里。",
-      "transactionRejected": "需要您签名来完成此次交易，资金是安全的，{{chainName}} 链上{{amount, number(maximumFractionDigits: 9)}} 个{{tokenSymbol}} 仍在您的钱包里。",
+      "transactionNotSent": "交易未能发送。",
+      "transactionCanceled": "交易已被取消。",
+      "remainInYourWallet": "{{chainName}} 链上 {{amount, number(maximumFractionDigits: 9)}} 个{{tokenSymbol}} 仍在您的钱包内。",
       "unknown": "请再试一次或者联系支持。"
     },
     "title": {
@@ -131,16 +133,17 @@
       "chainSwitch": "请切换当前网络",
       "gasLimitIsTooLow": "燃气费设置过低",
       "insufficientFunds": "资金不足",
+      "signatureRejected": "交易需要签名。",
       "slippageNotMet": "滑点未满足",
       "transactionCanceled": "交易取消",
+      "exchangeRateUpdateCanceled": "兑换率更新已取消",
       "transactionFailed": "交易失败",
-      "transactionRejected": "交易需要签名",
       "transactionUnderpriced": "交易定价过低",
       "transactionUnprepared": "无法开始该交易",
       "unknown": "未知错误",
       "walletAddressInvalid": "钱包地址无效。",
       "walletAddressRequired": "请输入钱包地址。",
-      "walletEnsAddressInvalid": "钱包地址无效或者当前网络不支持ENS。"
+      "walletEnsAddressInvalid": "钱包地址或 ENS 无效，或者当前网络不支持 ENS。"
     }
   },
   "tooltip": {
