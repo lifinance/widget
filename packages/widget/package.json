@@ -79,7 +79,7 @@
   },
   "devDependencies": {
     "cpy-cli": "^5.0.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.2"
   },
   "peerDependencies": {
     "@types/react": "^18.0.0",
