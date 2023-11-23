@@ -41,27 +41,38 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
               await navigator.clipboard.writeText(account.address ?? '');
               onClose();
             };
+            const avatar = (
+              <Avatar
+                src={account.connector?.icon}
+                alt={account.connector?.name}
+                sx={{
+                  width: 32,
+                  height: 32,
+                  marginRight: chain?.logoURI ? 0 : 1.5,
+                }}
+              >
+                {account.connector?.name[0]}
+              </Avatar>
+            );
             return (
               <MenuItem key={account.address}>
-                <Box flex={1}>
-                  <Badge
-                    overlap="circular"
-                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                    badgeContent={
-                      <SmallAvatar src={chain?.logoURI} alt={chain?.name}>
-                        {chain?.name[0]}
-                      </SmallAvatar>
-                    }
-                    sx={{ marginRight: 1.5 }}
-                  >
-                    <Avatar
-                      src={account.connector?.icon}
-                      alt={account.connector?.name}
-                      sx={{ width: 32, height: 32 }}
+                <Box flex={1} display="flex" alignItems="center">
+                  {chain?.logoURI ? (
+                    <Badge
+                      overlap="circular"
+                      anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                      badgeContent={
+                        <SmallAvatar src={chain?.logoURI} alt={chain?.name}>
+                          {chain?.name[0]}
+                        </SmallAvatar>
+                      }
+                      sx={{ marginRight: 1.5 }}
                     >
-                      {account.connector?.name[0]}
-                    </Avatar>
-                  </Badge>
+                      {avatar}
+                    </Badge>
+                  ) : (
+                    avatar
+                  )}
                   {walletAddress}
                 </Box>
                 <Box ml={1}>

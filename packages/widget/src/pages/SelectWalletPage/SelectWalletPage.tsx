@@ -19,31 +19,28 @@ import {
 import { WalletReadyState } from '@solana/wallet-adapter-base';
 import type { Wallet } from '@solana/wallet-adapter-react';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Connector } from 'wagmi';
-import { useConnect } from 'wagmi';
+import { useConnect, useAccount as useWagmiAccount } from 'wagmi';
 import { Dialog } from '../../components/Dialog';
 import { ListItemButton } from '../../components/ListItemButton';
 import { ListItemText } from '../../components/ListItemText';
 import { useNavigateBack, useWidgetEvents } from '../../hooks';
 import { WidgetEvent } from '../../types';
+import { walletComparator } from './utils';
 
 export const SelectWalletPage = () => {
   const { t } = useTranslation();
   const { navigateBack } = useNavigateBack();
   const emitter = useWidgetEvents();
+  const account = useWagmiAccount();
   const { connectAsync, connectors } = useConnect();
   const [walletIdentity, setWalletIdentity] = useState<{
     show: boolean;
     connector?: Connector;
   }>({ show: false });
-  const [wallets, setWallets] = useState<(Connector | Wallet)[]>();
-  const {
-    wallets: solanaWallets,
-    select,
-    connect: solanaConnect,
-  } = useWallet();
+  const { wallets: solanaWallets, select } = useWallet();
 
   const isDesktopView = useMediaQuery((theme: Theme) =>
     theme.breakpoints.up('sm'),
@@ -66,6 +63,7 @@ export const SelectWalletPage = () => {
         });
         return;
       }
+
       await connectAsync(
         { connector },
         {
@@ -88,40 +86,52 @@ export const SelectWalletPage = () => {
       select(wallet.adapter.name);
       // We use autoConnect on wallet selection
       // await solanaConnect();
-      // TODO: Check if this works fine for Solana autoConnect
-      emitter.emit(WidgetEvent.WalletConnected, {
-        address: wallet.adapter.publicKey?.toString(),
-        chainId: ChainId.SOL,
-        chainType: ChainType.SVM,
+      wallet.adapter.once('connect', (publicKey) => {
+        emitter.emit(WidgetEvent.WalletConnected, {
+          address: publicKey?.toString(),
+          chainId: ChainId.SOL,
+          chainType: ChainType.SVM,
+        });
       });
       navigateBack();
     },
     [emitter, navigateBack, select],
   );
 
-  useEffect(() => {
-    const evmInstalled = connectors.filter((connector) =>
-      isWalletInstalled(connector.id),
+  const wallets = useMemo(() => {
+    const evmInstalled = connectors.filter(
+      (connector) =>
+        isWalletInstalled(connector.id) &&
+        // We should not show already connected connectors
+        account.connector?.id !== connector.id,
     );
     const evmNotDetected = connectors.filter(
       (connector) => !isWalletInstalled(connector.id),
     );
     const svmInstalled = solanaWallets?.filter(
       (connector) =>
-        connector.adapter.readyState === WalletReadyState.Installed,
+        connector.adapter.readyState === WalletReadyState.Installed &&
+        // We should not show already connected connectors
+        !connector.adapter.connected,
     );
     const svmNotDetected = solanaWallets?.filter(
       (connector) =>
         connector.adapter.readyState !== WalletReadyState.Installed,
     );
 
-    const installedWallets = [...evmInstalled, ...svmInstalled];
+    const installedWallets = [...evmInstalled, ...svmInstalled].sort(
+      walletComparator,
+    );
 
     if (isDesktopView) {
-      installedWallets.push(...evmNotDetected, ...svmNotDetected);
+      const notDetectedWallets = [...evmNotDetected, ...svmNotDetected].sort(
+        walletComparator,
+      );
+      installedWallets.push(...notDetectedWallets);
     }
-    setWallets(installedWallets);
-  }, [connectors, isDesktopView, solanaWallets]);
+
+    return installedWallets;
+  }, [account.connector?.id, connectors, isDesktopView, solanaWallets]);
 
   const createEVMListItemButton = (connector: Connector) => (
     <ListItemButton
@@ -150,7 +160,7 @@ export const SelectWalletPage = () => {
           {wallet.adapter.name[0]}
         </Avatar>
       </ListItemAvatar>
-      <ListItemText primary={wallet.adapter.name} />
+      <ListItemText primary={`${wallet.adapter.name} (Solana)`} />
     </ListItemButton>
   );
 

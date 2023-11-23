@@ -14,11 +14,11 @@ import {
   hyperpay,
   imtoken,
   liquality,
-  metaMask,
   okx,
   oneinch,
   ownbit,
   rabby,
+  safe,
   safepal,
   status,
   taho,
@@ -36,13 +36,13 @@ import { WagmiProvider, createConfig, http } from 'wagmi';
 import { mainnet } from 'wagmi/chains';
 
 const connectors = [
-  metaMask,
   walletConnect,
   coinbase,
   bitget,
   gate,
   exodus,
   taho,
+  safe,
   binance,
   frontier,
   okx,

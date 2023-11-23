@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import type { EVMChain } from '@lifi/sdk';
 import { Avatar, Box, Skeleton, Tooltip, Typography } from '@mui/material';
+import { useEffect } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import type { FormTypeProps } from '../../providers';
@@ -24,11 +25,13 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
     name: [FormKeyHelper.getChainKey(formType)],
   });
 
-  const hasChainInOrderedList = chainOrder.includes(chainId);
-  // If we don't have a chain in the ordered chain list we should add it.
-  if (!hasChainInOrderedList) {
-    setChainOrder(chainId);
-  }
+  useEffect(() => {
+    const hasChainInOrderedList = chainOrder.includes(chainId);
+    // If we don't have a chain in the ordered chain list we should add it.
+    if (!hasChainInOrderedList) {
+      setChainOrder(chainId);
+    }
+  }, [chainId, chainOrder, setChainOrder]);
 
   const showAllChains = () => {
     navigate(navigationRoutes[`${formType}Chain`]);

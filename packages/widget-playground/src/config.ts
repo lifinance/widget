@@ -30,7 +30,7 @@ export const widgetBaseConfig: WidgetConfig = {
   // slippage: 0.003,
   insurance: true,
   sdkConfig: {
-    apiUrl: 'https://develop.li.quest/v1',
+    apiUrl: 'https://staging.li.quest/v1',
     rpcUrls: {
       [ChainId.SOL]: [
         'https://withered-lingering-frog.solana-mainnet.quiknode.pro/',

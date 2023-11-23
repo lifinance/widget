@@ -98,28 +98,36 @@ const ConnectedButton = ({ account }: { account: Account }) => {
     setAnchorEl(null);
   };
 
+  const avatar = (
+    <Avatar
+      src={account.connector?.icon}
+      alt={account.connector?.name}
+      sx={{ width: 24, height: 24 }}
+    >
+      {account.connector?.name[0]}
+    </Avatar>
+  );
+
   return (
     <>
       <WalletButton
         endIcon={<ExpandMoreIcon />}
         startIcon={
-          <Badge
-            overlap="circular"
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-            badgeContent={
-              <SmallAvatar src={chain?.logoURI} alt={chain?.name}>
-                {chain?.name[0]}
-              </SmallAvatar>
-            }
-          >
-            <Avatar
-              src={account.connector?.icon}
-              alt={account.connector?.name}
-              sx={{ width: 24, height: 24 }}
+          chain?.logoURI ? (
+            <Badge
+              overlap="circular"
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              badgeContent={
+                <SmallAvatar src={chain?.logoURI} alt={chain?.name}>
+                  {chain?.name[0]}
+                </SmallAvatar>
+              }
             >
-              {account.connector?.name[0]}
-            </Avatar>
-          </Badge>
+              {avatar}
+            </Badge>
+          ) : (
+            avatar
+          )
         }
         sx={{
           marginRight: subvariant === 'split' ? 0 : -1.25,

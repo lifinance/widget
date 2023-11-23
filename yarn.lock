@@ -3046,23 +3046,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lifi/sdk@npm:^3.0.0-alpha.35":
-  version: 3.0.0-alpha.35
-  resolution: "@lifi/sdk@npm:3.0.0-alpha.35"
+"@lifi/sdk@npm:^3.0.0-alpha.36":
+  version: 3.0.0-alpha.36
+  resolution: "@lifi/sdk@npm:3.0.0-alpha.36"
   dependencies:
-    "@lifi/types": "npm:10.0.0-alpha.29"
+    "@lifi/types": "npm:10.0.0-beta.0"
     "@solana/wallet-adapter-base": "npm:^0.9.23"
     "@solana/web3.js": "npm:^1.87.6"
     eth-rpc-errors: "npm:^4.0.3"
     viem: "npm:^2.0.0-beta.6"
-  checksum: 44b855b9fa9d233113af790bc01083043f4fabb48109451bc962a88599ff852e73aa9df909f9c98bb7a4337c5757a131857cf95c0781f66cf42feeda016656ca
+  checksum: 1d69028f55f9c88770ad6d987a7c2cfa86c9321e5ab011369666cbfdf872057208d924a56665cdf0bf2e5450e4f4dfe52b5cb0249dc7481e1e82a8c847995470
   languageName: node
   linkType: hard
 
-"@lifi/types@npm:10.0.0-alpha.29":
-  version: 10.0.0-alpha.29
-  resolution: "@lifi/types@npm:10.0.0-alpha.29"
-  checksum: 58a95bdd14d1ae807b4b715182facb06e3c236199ec96ea737c612a107c02e141adffce5f388bf0f518f63da37cf78a8302d0134a8c9033395310a9640cd5edd
+"@lifi/types@npm:10.0.0-beta.0":
+  version: 10.0.0-beta.0
+  resolution: "@lifi/types@npm:10.0.0-beta.0"
+  checksum: 022f198e79d054a0a69ff341e4dadeba770bdb980df58d65ee77d130fd5d12165a2fb20263b0c5be3b4d068c8ee49424a404774c03daa6f9223f05a64d1ee330
   languageName: node
   linkType: hard
 
@@ -3070,7 +3070,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@lifi/wallet-management@workspace:packages/wallet-management"
   dependencies:
-    "@lifi/sdk": "npm:^3.0.0-alpha.35"
+    "@lifi/sdk": "npm:^3.0.0-alpha.36"
     cpy-cli: "npm:^5.0.0"
     react: "npm:^18.2.0"
     typescript: "npm:^5.3.2"
@@ -3084,7 +3084,7 @@ __metadata:
   dependencies:
     "@ethersproject/abstract-signer": "npm:^5.7.0"
     "@ethersproject/providers": "npm:^5.7.2"
-    "@lifi/sdk": "npm:^3.0.0-alpha.35"
+    "@lifi/sdk": "npm:^3.0.0-alpha.36"
     "@lifi/wallet-management": "npm:^2.4.1"
     "@lifi/widget": "npm:^2.9.2"
     "@mui/icons-material": "npm:^5.14.18"
@@ -3098,7 +3098,7 @@ __metadata:
     events: "npm:^3.3.0"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
-    react-router-dom: "npm:^6.19.0"
+    react-router-dom: "npm:^6.20.0"
     typescript: "npm:^5.3.2"
     vite: "npm:^5.0.2"
     wagmi: "npm:^2.0.0-beta.5"
@@ -3110,7 +3110,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@lifi/widget-playground@workspace:packages/widget-playground"
   dependencies:
-    "@lifi/sdk": "npm:^3.0.0-alpha.35"
+    "@lifi/sdk": "npm:^3.0.0-alpha.36"
     "@lifi/wallet-management": "npm:^2.4.1"
     "@lifi/widget": "npm:^2.9.2"
     "@mui/icons-material": "npm:^5.14.18"
@@ -3122,7 +3122,7 @@ __metadata:
     events: "npm:^3.3.0"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
-    react-router-dom: "npm:^6.19.0"
+    react-router-dom: "npm:^6.20.0"
     source-map-explorer: "npm:^2.5.3"
     typescript: "npm:^5.3.2"
     viem: "npm:^2.0.0-beta.6"
@@ -3138,7 +3138,7 @@ __metadata:
   dependencies:
     "@emotion/react": "npm:^11.11.1"
     "@emotion/styled": "npm:^11.11.0"
-    "@lifi/sdk": "npm:^3.0.0-alpha.35"
+    "@lifi/sdk": "npm:^3.0.0-alpha.36"
     "@lifi/wallet-management": "npm:^2.4.1"
     "@mui/icons-material": "npm:^5.14.18"
     "@mui/lab": "npm:^5.0.0-alpha.153"
@@ -3158,7 +3158,7 @@ __metadata:
     react-hook-form: "npm:^7.48.2"
     react-i18next: "npm:^13.5.0"
     react-intersection-observer: "npm:^9.5.3"
-    react-router-dom: "npm:^6.19.0"
+    react-router-dom: "npm:^6.20.0"
     react-timer-hook: "npm:^3.0.7"
     typescript: "npm:^5.3.2"
     uuid: "npm:^9.0.1"
@@ -4360,10 +4360,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@remix-run/router@npm:1.12.0":
-  version: 1.12.0
-  resolution: "@remix-run/router@npm:1.12.0"
-  checksum: f984e42cfe855991e1d3067f686f857614f12e8c1c45168a2d98e3fc3a427e232fd0b6cf145173b7cd132faf070702b532c34230a825d933908c54c85077fc69
+"@remix-run/router@npm:1.13.0":
+  version: 1.13.0
+  resolution: "@remix-run/router@npm:1.13.0"
+  checksum: bb173a012d2036c5ee69babfe30c73975b970c2e5a0edaba138c302ae80d255e238e462e77365ab4efe819b6397e1a7f3a416d6200d17f9655f0ca1c51c4f45e
   languageName: node
   linkType: hard
 
@@ -14921,27 +14921,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:^6.19.0":
-  version: 6.19.0
-  resolution: "react-router-dom@npm:6.19.0"
+"react-router-dom@npm:^6.20.0":
+  version: 6.20.0
+  resolution: "react-router-dom@npm:6.20.0"
   dependencies:
-    "@remix-run/router": "npm:1.12.0"
-    react-router: "npm:6.19.0"
+    "@remix-run/router": "npm:1.13.0"
+    react-router: "npm:6.20.0"
   peerDependencies:
     react: ">=16.8"
     react-dom: ">=16.8"
-  checksum: 38312efc11d3ef688062301479a8257a1495a81cd8dd7039c1f81aba6774963df7d21aaee2ba1a3c152857b70f4fb9966a3ccff47aca12212e854dcd6fc4deab
+  checksum: 4b6741c545cedf5a5c4f996deb953679dcc985425e0664e27b97fdb9ab1387cbe1a6a12bfc7f7c38ec40b15759b4bf6396930ec26540a4a81ae16d154fd35049
   languageName: node
   linkType: hard
 
-"react-router@npm:6.19.0":
-  version: 6.19.0
-  resolution: "react-router@npm:6.19.0"
+"react-router@npm:6.20.0":
+  version: 6.20.0
+  resolution: "react-router@npm:6.20.0"
   dependencies:
-    "@remix-run/router": "npm:1.12.0"
+    "@remix-run/router": "npm:1.13.0"
   peerDependencies:
     react: ">=16.8"
-  checksum: 5454f4a4d65401430ded8f1033cebe4ccca771c3c827e8329c77dcfd73618ca9a32488fb58722bf6a07afef7d8e7ef22a710aae0f3337e5c20962bf6473d81a3
+  checksum: 2cdac5ad8b7a7bc230173b26768bcf3f6a9abc0a19983fa7b76b9ffdbeb44bfbd88fcc2033e9062defafef144db207859eb3162a9c9742d70cfce4e7166ff1e5
   languageName: node
   linkType: hard
 
