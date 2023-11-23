@@ -32,7 +32,7 @@ export const SendToWalletOptionSetting = () => {
   return (
     <SettingCardContainer
       icon={<WalletIcon />}
-      title={t(`settings.showDestinationWallet`)}
+      title={t(`settings.sendToWalletOption`)}
     >
       <Switch checked={showDestinationWallet} onChange={onChange} />
     </SettingCardContainer>
