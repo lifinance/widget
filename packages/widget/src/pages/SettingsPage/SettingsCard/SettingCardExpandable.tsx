@@ -1,5 +1,5 @@
 import type { PropsWithChildren, ReactNode } from 'react';
-import { useId, useState } from 'react';
+import { useId } from 'react';
 import { Collapse } from '@mui/material';
 import type { SettingCardTitle } from './SettingCard.types';
 import { SettingCard } from './SettingCard';
@@ -8,6 +8,7 @@ import {
   SettingSummaryText,
   SettingTitle,
 } from './SettingCard.style';
+import { useSettingsCardExpandable } from './SettingsAccordian';
 
 interface SettingCardExpandableProps extends SettingCardTitle {
   additionalInfo: ReactNode;
@@ -15,12 +16,9 @@ interface SettingCardExpandableProps extends SettingCardTitle {
 export const SettingCardExpandable: React.FC<
   PropsWithChildren<SettingCardExpandableProps>
 > = ({ icon, title, additionalInfo, children }) => {
-  const [expanded, setExpanded] = useState(false);
+  const { expanded, toggleExpanded } = useSettingsCardExpandable();
   const buttonId = useId();
   const collapseId = useId();
-  const toggleExpanded = () => {
-    setExpanded((currentExpanded) => !currentExpanded);
-  };
 
   return (
     <SettingCard>

@@ -7,13 +7,13 @@ import { GasPriceSettings } from './GasPriceSettings';
 import { RoutePrioritySettings } from './RoutePrioritySettings';
 import { ThemeSettings } from './ThemeSettings';
 import { SlippageSettings } from './SlippageSettings';
-import { SettingsList, SettingsAccordian } from './SettingsCard';
+import { SettingsList, SettingsCardAccordion } from './SettingsCard';
 
 export const SettingsPage = () => {
   return (
     <Container disableGutters>
-      <SettingsAccordian>
-        <SettingsList>
+      <SettingsList>
+        <SettingsCardAccordion>
           <ThemeSettings />
           <LanguageSetting />
           <RoutePrioritySettings />
@@ -22,8 +22,8 @@ export const SettingsPage = () => {
           <BridgeAndExchangeSettings type="Bridges" />
           <BridgeAndExchangeSettings type="Exchanges" />
           <SendToWalletOptionSetting />
-        </SettingsList>
-      </SettingsAccordian>
+        </SettingsCardAccordion>
+      </SettingsList>
       <ResetSettingsButton />
     </Container>
   );
