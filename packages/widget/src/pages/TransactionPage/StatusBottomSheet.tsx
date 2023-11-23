@@ -17,7 +17,7 @@ import {
 } from '../../hooks';
 import { FormKey, useWidgetConfig } from '../../providers';
 import type { RouteExecution } from '../../stores';
-import { RouteExecutionStatus } from '../../stores';
+import { RouteExecutionStatus, getSourceTxHash } from '../../stores';
 import {
   formatTokenAmount,
   hasEnumFlag,
@@ -95,8 +95,14 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
 
   const handleSeeDetails = () => {
     handleClose();
+
+    const transactionHash = getSourceTxHash(route);
+
     navigate(navigationRoutes.transactionDetails, {
-      state: { routeId: route.id },
+      state: {
+        routeId: route.id,
+        transactionHash,
+      },
       replace: true,
     });
   };

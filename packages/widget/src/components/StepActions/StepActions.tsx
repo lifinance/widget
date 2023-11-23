@@ -60,15 +60,11 @@ export const StepActions: React.FC<StepActionsProps> = ({
         <Badge
           overlap="circular"
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-          badgeContent={
-            <SmallAvatar>
-              <LiFiToolLogo />
-            </SmallAvatar>
-          }
+          badgeContent={<SmallAvatar src={LiFiToolLogo} />}
         >
           <StepAvatar
             variant="circular"
-            src={toolDetails.logoURI}
+            src={toolDetails.logoURI ?? LiFiToolLogo}
             alt={toolDetails.name}
           >
             {toolDetails.name[0]}

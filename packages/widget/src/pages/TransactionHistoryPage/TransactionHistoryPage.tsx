@@ -1,78 +1,62 @@
-import DeleteIcon from '@mui/icons-material/DeleteOutline';
-import {
-  Button,
-  Container,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  IconButton,
-  Stack,
-} from '@mui/material';
-import { useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Dialog } from '../../components/Dialog';
-import { useAccount } from '../../hooks';
-import { useHeaderStoreContext, useRouteExecutionStore } from '../../stores';
-import { useTransactionHistory } from '../../stores/routes';
+import type { FullStatusData } from '@lifi/sdk';
+import { Container, List } from '@mui/material';
+import { useVirtualizer } from '@tanstack/react-virtual';
+import { useRef } from 'react';
+import { useTransactionHistory } from '../../hooks/useTransactionHistory';
 import { TransactionHistoryEmpty } from './TransactionHistoryEmpty';
 import { TransactionHistoryItem } from './TransactionHistoryItem';
+import { TransactionHistorySkeleton } from './TransactionHistorySkeleton';
+import { minTransactionListHeight } from './constants';
 
 export const TransactionHistoryPage: React.FC = () => {
-  const { t } = useTranslation();
-  const { account } = useAccount();
-  const transactions = useTransactionHistory(account.address);
-  const headerStoreContext = useHeaderStoreContext();
-  const deleteRoutes = useRouteExecutionStore((store) => store.deleteRoutes);
-  const [open, setOpen] = useState(false);
+  // Parent ref and useVirtualizer should be in one file to avoid blank page (0 virtual items) issue
+  const parentRef = useRef<HTMLDivElement | null>(null);
+  const { data: transactions, isLoading } = useTransactionHistory();
 
-  const toggleDialog = useCallback(() => {
-    setOpen((open) => !open);
-  }, []);
+  const { getVirtualItems, getTotalSize } = useVirtualizer({
+    count: transactions.length,
+    overscan: 10,
+    paddingStart: 8,
+    paddingEnd: 12,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 194,
+    getItemKey: (index) =>
+      `${(transactions[index] as FullStatusData).transactionId}-${index}`,
+  });
 
-  useEffect(() => {
-    if (transactions.length) {
-      return headerStoreContext.getState().setAction(
-        <IconButton size="medium" edge="end" onClick={toggleDialog}>
-          <DeleteIcon />
-        </IconButton>,
-      );
-    }
-  }, [transactions.length, toggleDialog, headerStoreContext]);
-
-  if (!transactions.length) {
+  if (!transactions.length && !isLoading) {
     return <TransactionHistoryEmpty />;
   }
 
   return (
-    <Container>
-      <Stack spacing={2} mt={1}>
-        {transactions.length ? (
-          transactions.map(({ route }) => (
-            <TransactionHistoryItem key={route.id} route={route} />
-          ))
+    <Container
+      ref={parentRef}
+      style={{ height: minTransactionListHeight, overflow: 'auto' }}
+    >
+      <List
+        style={{ height: getTotalSize(), width: '100%', position: 'relative' }}
+        disablePadding
+      >
+        {isLoading ? (
+          <List disablePadding sx={{ paddingTop: 1 }}>
+            {Array.from({ length: 3 }).map((_, index) => (
+              <TransactionHistorySkeleton key={index} />
+            ))}
+          </List>
         ) : (
-          <TransactionHistoryEmpty />
+          getVirtualItems().map((item) => {
+            const transaction = transactions[item.index];
+            return (
+              <TransactionHistoryItem
+                key={item.key}
+                size={item.size}
+                start={item.start}
+                transaction={transaction}
+              />
+            );
+          })
         )}
-      </Stack>
-      <Dialog open={open} onClose={toggleDialog}>
-        <DialogTitle>{t('warning.title.deleteTransactionHistory')}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            {t('warning.message.deleteTransactionHistory')}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={toggleDialog}>{t('button.cancel')}</Button>
-          <Button
-            variant="contained"
-            onClick={() => deleteRoutes('completed')}
-            autoFocus
-          >
-            {t('button.delete')}
-          </Button>
-        </DialogActions>
-      </Dialog>
+      </List>
     </Container>
   );
 };

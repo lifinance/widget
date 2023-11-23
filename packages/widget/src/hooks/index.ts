@@ -25,4 +25,6 @@ export * from './useTokenBalances';
 export * from './useTokenSearch';
 export * from './useTokens';
 export * from './useTools';
+export * from './useTransactionDetails';
+export * from './useTransactionHistory';
 export * from './useWidgetEvents';

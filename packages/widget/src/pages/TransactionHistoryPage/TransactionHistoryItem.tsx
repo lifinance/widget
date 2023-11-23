@@ -1,5 +1,9 @@
-/* eslint-disable react/no-array-index-key */
-import type { RouteExtended } from '@lifi/sdk';
+import type {
+  ExtendedTransactionInfo,
+  FullStatusData,
+  StatusResponse,
+  TokenAmount,
+} from '@lifi/sdk';
 import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -8,27 +12,66 @@ import { Token, TokenDivider } from '../../components/Token';
 import { navigationRoutes } from '../../utils';
 
 export const TransactionHistoryItem: React.FC<{
-  route: RouteExtended;
-}> = ({ route }) => {
+  transaction: StatusResponse;
+  size: number;
+  start: number;
+}> = ({ transaction, size, start }) => {
   const { i18n } = useTranslation();
   const navigate = useNavigate();
 
+  const sending: ExtendedTransactionInfo =
+    transaction.sending as ExtendedTransactionInfo;
+  const receiving: ExtendedTransactionInfo =
+    transaction.receiving as ExtendedTransactionInfo;
+
   const handleClick = () => {
     navigate(navigationRoutes.transactionDetails, {
-      state: { routeId: route.id },
+      state: {
+        transactionHash: (transaction as FullStatusData).sending.txHash,
+      },
     });
   };
 
   const startedAt = new Date(
-    route.steps[0].execution?.process[0].startedAt ?? 0,
+    ((sending as ExtendedTransactionInfo).timestamp ?? 0) * 1000,
   );
-  const fromToken = { ...route.fromToken, amount: BigInt(route.fromAmount) };
-  const toToken = {
-    ...(route.steps.at(-1)?.execution?.toToken ?? route.toToken),
-    amount: BigInt(route.steps.at(-1)?.execution?.toAmount ?? route.toAmount),
+
+  if (!sending.token?.chainId || !receiving.token?.chainId) {
+    return null;
+  }
+
+  const fromToken: TokenAmount = {
+    ...sending.token,
+    amount: BigInt(sending.amount ?? '0'),
+    priceUSD: sending.token.priceUSD ?? '0',
+    symbol: sending.token?.symbol ?? '',
+    decimals: sending.token?.decimals ?? 0,
+    name: sending.token?.name ?? '',
+    chainId: sending.token?.chainId,
   };
+
+  const toToken: TokenAmount = {
+    ...receiving.token,
+    amount: BigInt(receiving.amount ?? '0'),
+    priceUSD: receiving.token.priceUSD ?? '0',
+    symbol: receiving.token?.symbol ?? '',
+    decimals: receiving.token?.decimals ?? 0,
+    name: receiving.token?.name ?? '',
+    chainId: receiving.token?.chainId,
+  };
+
   return (
-    <Card onClick={handleClick}>
+    <Card
+      onClick={handleClick}
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        // height: `${size}px`,
+        transform: `translateY(${start}px)`,
+      }}
+    >
       <Box
         sx={{
           display: 'flex',
