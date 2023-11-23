@@ -6,14 +6,12 @@ import {
   tabClasses,
   tabsClasses,
 } from '@mui/material';
-import { alpha, darken, styled } from '@mui/material/styles';
+import { alpha, styled } from '@mui/material/styles';
+import { getCardFieldsetBackgroundColor } from '../../utils';
 
 export const Tabs: StyledComponent<TabsProps> = styled(MuiTabs)(
   ({ theme }) => ({
-    backgroundColor:
-      theme.palette.mode === 'dark'
-        ? darken(theme.palette.background.paper, 0.2)
-        : alpha(theme.palette.common.black, 0.04),
+    backgroundColor: getCardFieldsetBackgroundColor(theme),
     borderRadius: Math.max(
       theme.shape.borderRadius,
       theme.shape.borderRadiusSecondary,

@@ -2,13 +2,11 @@ import { alpha, styled } from '@mui/material/styles';
 import { Box, ButtonBase, InputBase } from '@mui/material';
 import type { Theme } from '@mui/material';
 import { inputBaseClasses } from '@mui/material/InputBase';
+import { getCardFieldsetBackgroundColor } from '../../../utils';
 
 export const SettingsFieldSet = styled(Box)(({ theme }) => ({
   display: 'flex',
-  backgroundColor:
-    theme.palette.mode === 'dark'
-      ? theme.palette.background.paper
-      : alpha(theme.palette.common.black, 0.04),
+  backgroundColor: getCardFieldsetBackgroundColor(theme),
   borderRadius: Math.max(
     theme.shape.borderRadius,
     theme.shape.borderRadiusSecondary,

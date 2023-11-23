@@ -1,6 +1,6 @@
 import type { PaletteMode, Theme } from '@mui/material';
 import { common } from '@mui/material/colors';
-import { alpha, getContrastRatio } from '@mui/material/styles';
+import { alpha, darken, getContrastRatio } from '@mui/material/styles';
 
 export const getContrastAlphaColor = (
   mode: PaletteMode,
@@ -22,3 +22,8 @@ export const getInfoBackgroundColor = (theme: Theme) =>
   theme.palette.mode === 'light'
     ? alpha(theme.palette.info.main, 0.12)
     : alpha(theme.palette.info.main, 0.16);
+
+export const getCardFieldsetBackgroundColor = (theme: Theme) =>
+  theme.palette.mode === 'dark'
+    ? darken(theme.palette.background.paper, 0.2)
+    : alpha(theme.palette.common.black, 0.04);
