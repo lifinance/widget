@@ -25,5 +25,5 @@ export const getInfoBackgroundColor = (theme: Theme) =>
 
 export const getCardFieldsetBackgroundColor = (theme: Theme) =>
   theme.palette.mode === 'dark'
-    ? darken(theme.palette.background.paper, 0.2)
+    ? theme.palette.grey[800]
     : alpha(theme.palette.common.black, 0.04);
