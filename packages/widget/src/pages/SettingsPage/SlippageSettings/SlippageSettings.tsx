@@ -25,9 +25,7 @@ export const SlippageSettings: React.FC = () => {
   const { slippage } = useSettings(['slippage']);
   const setValue = useSettingsStore((state) => state.setValue);
   const defaultValue = useRef(slippage);
-
-  const [customFocused, setCustomFocused] = useState(false);
-  const [defaultFocused, setDefaultFocused] = useState(false);
+  const [focused, setFocused] = useState('');
 
   const handleDefaultClick = () => {
     setValue('slippage', formatSlippage(slippageDefault, defaultValue.current));
@@ -61,23 +59,31 @@ export const SlippageSettings: React.FC = () => {
       <Box mt={1.5}>
         <SettingsFieldSet>
           <SlippageDefaultButton
-            selected={slippageDefault === slippage && !customFocused}
-            onFocus={() => setDefaultFocused(true)}
-            onBlur={() => setDefaultFocused(false)}
+            selected={slippageDefault === slippage && focused !== 'input'}
+            onFocus={() => {
+              setFocused('button');
+            }}
+            onBlur={() => {
+              setFocused('');
+            }}
             onClick={handleDefaultClick}
             focusRipple
           >
             0.5
           </SlippageDefaultButton>
           <SlippageCustomInput
-            selected={slippageDefault !== slippage && !defaultFocused}
-            placeholder={customFocused ? '' : t('settings.custom')}
+            selected={slippageDefault !== slippage && focused !== 'button'}
+            placeholder={focused === 'input' ? '' : t('settings.custom')}
             inputProps={{
               inputMode: 'decimal',
             }}
             onChange={handleInputUpdate}
-            onFocus={() => setCustomFocused(true)}
-            onBlur={() => setCustomFocused(false)}
+            onFocus={() => {
+              setFocused('input');
+            }}
+            onBlur={() => {
+              setFocused('');
+            }}
             value={customInputValue}
             autoComplete="off"
           />
