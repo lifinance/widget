@@ -7,10 +7,10 @@ import Nightlight from '@mui/icons-material/Nightlight';
 import { Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useAppearance } from '../../stores';
-import { SettingCardExpandable, SettingSummaryText } from './SettingsCard';
+import { SettingCardExpandable, SummaryValue } from './SettingsCard';
 import { Tab, Tabs } from '../../components/Tabs';
 
-const themeIconLookUp = {
+const themeIcons = {
   light: LightModeIcon,
   dark: Nightlight,
   auto: BrightnessAuto,
@@ -31,7 +31,7 @@ const ThemeTab: React.FC<ThemeTabProps> = ({
   ...props
 }) => (
   <Tooltip title={title} arrow>
-    <Tab icon={Icon} value={value} {...props} />
+    <Tab icon={Icon} value={value} {...props} disableRipple />
   </Tooltip>
 );
 
@@ -44,7 +44,7 @@ export const ThemeSettings: React.FC = () => {
     return null;
   }
 
-  const ThemeIcon = themeIconLookUp[appearance];
+  const ThemeIcon = themeIcons[appearance];
 
   const handleThemeChange = (
     _: React.SyntheticEvent,
@@ -55,9 +55,7 @@ export const ThemeSettings: React.FC = () => {
 
   return (
     <SettingCardExpandable
-      additionalInfo={
-        <SettingSummaryText>{t(`button.${appearance}`)} </SettingSummaryText>
-      }
+      value={<SummaryValue>{t(`button.${appearance}`)} </SummaryValue>}
       icon={<ThemeIcon />}
       title={t('settings.theme')}
     >
@@ -68,7 +66,7 @@ export const ThemeSettings: React.FC = () => {
         onChange={handleThemeChange}
         sx={{ mt: 1.5 }}
       >
-        {Object.entries(themeIconLookUp).map(([theme, Icon]) => {
+        {Object.entries(themeIcons).map(([theme, Icon]) => {
           const supportedThemeOption = theme as Appearance;
 
           return (

@@ -3,7 +3,7 @@ import { Tooltip } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useNavigateBack, useSettingMonitor } from '../../hooks';
 import { navigationRoutes } from '../../utils';
-import { SettingsIconButton } from './SettingsButon.style';
+import { SettingsIconButton } from './SettingsButton.style';
 import { Badge } from '../../components/Badge';
 
 export const SettingsButton = () => {

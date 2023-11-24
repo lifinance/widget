@@ -22,11 +22,13 @@ export const SettingsIconButton = styled(IconButton, {
         backgroundColor: darken(getWarningBackgroundColor(theme), 0.2),
       },
     },
-    default: {},
+    default: {
+      marginRight: theme.spacing(-1.25),
+    },
   };
 
   return {
-    borderRadius: theme.shape.borderRadiusSecondary,
+    borderRadius: 20,
     ...notificationStyles[notification ?? 'default'],
   };
 });

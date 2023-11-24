@@ -1,5 +1,5 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Box, IconButton, Typography } from '@mui/material';
+import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { useAccount, useNavigateBack } from '../../hooks';
@@ -15,8 +15,24 @@ import { HeaderAppBar, HeaderControlsContainer } from './Header.style';
 import { NavigationTabs } from './NavigationTabs';
 import { WalletMenuButton } from './WalletHeader';
 import { SettingsButton } from './SettingsButton';
-import { TransactionHistoryButton } from './TransactionHistoryButton';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 
+export const TransactionHistoryButton = () => {
+  const { t } = useTranslation();
+  const { navigate } = useNavigateBack();
+
+  return (
+    <Tooltip title={t(`header.transactionHistory`)} enterDelay={400} arrow>
+      <IconButton
+        size="medium"
+        edge="start"
+        onClick={() => navigate(navigationRoutes.transactionHistory)}
+      >
+        <ReceiptLongIcon />
+      </IconButton>
+    </Tooltip>
+  );
+};
 export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
   const { subvariant, hiddenUI, variant } = useWidgetConfig();

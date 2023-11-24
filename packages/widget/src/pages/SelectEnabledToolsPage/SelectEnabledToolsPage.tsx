@@ -24,6 +24,7 @@ interface SelectAllCheckboxProps {
   onClick: MouseEventHandler;
   anyCheckboxesSelected: boolean;
 }
+
 const SelectAllCheckbox: React.FC<SelectAllCheckboxProps> = ({
   allCheckboxesSelected,
   anyCheckboxesSelected,

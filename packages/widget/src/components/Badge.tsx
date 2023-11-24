@@ -12,5 +12,6 @@ export const Badge = styled(MuiBadge)(({ theme }) => ({
     // the following removes MUI styling so we can position with the badge with flex
     position: 'relative',
     transform: 'translateX(0)',
+    borderRadius: '50%',
   },
 }));

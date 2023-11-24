@@ -4,10 +4,7 @@ import { Orders } from '@lifi/sdk';
 import { Tab, Tabs } from '../../components/Tabs';
 import { useSettings, useSettingsStore } from '../../stores';
 import { useSettingMonitor } from '../../hooks';
-import {
-  SettingCardExpandable,
-  BadgedAdditionalInformation,
-} from './SettingsCard';
+import { SettingCardExpandable, BadgedValue } from './SettingsCard';
 
 type SupportedRoute = (typeof Orders)[number];
 
@@ -27,13 +24,10 @@ export const RoutePrioritySettings: React.FC = () => {
 
   return (
     <SettingCardExpandable
-      additionalInfo={
-        <BadgedAdditionalInformation
-          badgeColor="info"
-          showBadge={isRoutePriorityChanged}
-        >
+      value={
+        <BadgedValue badgeColor="info" showBadge={isRoutePriorityChanged}>
           {t(`main.tags.${currentRoutePriority.toLowerCase()}` as any)}
-        </BadgedAdditionalInformation>
+        </BadgedValue>
       }
       icon={<RouteIcon />}
       title={t(`settings.routePriority`)}
@@ -52,6 +46,7 @@ export const RoutePrioritySettings: React.FC = () => {
               key={order}
               label={t(`main.tags.${order.toLowerCase()}` as any)}
               value={order}
+              disableRipple
             />
           );
         })}

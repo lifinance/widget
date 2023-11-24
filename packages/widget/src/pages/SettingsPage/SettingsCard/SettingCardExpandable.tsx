@@ -1,40 +1,41 @@
 import type { PropsWithChildren, ReactNode } from 'react';
 import { useId } from 'react';
 import { Collapse } from '@mui/material';
-import type { SettingCardTitle } from './SettingCard.types';
+import type { SettingCardTitle } from './types';
 import { SettingCard } from './SettingCard';
 import {
-  SettingSummaryButton,
-  SettingSummaryText,
-  SettingTitle,
+  SummaryRowButton,
+  SummaryValue,
+  SummaryTitleContainer,
 } from './SettingCard.style';
 import { useSettingsCardExpandable } from './SettingsAccordian';
 
 interface SettingCardExpandableProps extends SettingCardTitle {
-  additionalInfo: ReactNode;
+  value: ReactNode;
 }
+
 export const SettingCardExpandable: React.FC<
   PropsWithChildren<SettingCardExpandableProps>
-> = ({ icon, title, additionalInfo, children }) => {
+> = ({ icon, title, value, children }) => {
   const { expanded, toggleExpanded } = useSettingsCardExpandable();
   const buttonId = useId();
   const collapseId = useId();
 
   return (
     <SettingCard>
-      <SettingSummaryButton
+      <SummaryRowButton
         id={buttonId}
         aria-expanded={expanded}
         aria-controls={collapseId}
         onClick={toggleExpanded}
-        focusRipple
+        disableRipple
       >
-        <SettingTitle>
+        <SummaryTitleContainer>
           {icon}
-          <SettingSummaryText>{title}</SettingSummaryText>
-        </SettingTitle>
-        {!expanded && additionalInfo}
-      </SettingSummaryButton>
+          <SummaryValue>{title}</SummaryValue>
+        </SummaryTitleContainer>
+        {!expanded && value}
+      </SummaryRowButton>
       <Collapse
         id={collapseId}
         role="region"

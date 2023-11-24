@@ -25,7 +25,9 @@ export const Tabs: StyledComponent<TabsProps> = styled(MuiTabs)(
         theme.palette.mode === 'dark'
           ? theme.palette.background.default
           : theme.palette.common.white,
-      borderRadius: theme.shape.borderRadiusSecondary,
+      borderRadius:
+        Math.max(theme.shape.borderRadius, theme.shape.borderRadiusSecondary) -
+        4,
       boxShadow: `0px 2px 4px ${alpha(theme.palette.common.black, 0.04)}`,
     },
   }),

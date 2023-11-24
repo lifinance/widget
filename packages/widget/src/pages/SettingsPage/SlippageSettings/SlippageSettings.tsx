@@ -9,15 +9,14 @@ import {
   SettingsFieldSet,
   SlippageCustomInput,
   SlippageDefaultButton,
+  SlippageLimitsWarningContainer,
 } from './SlippageSettings.style';
-import { SlippageLimitsWarning } from './SlippageLimitsWarning';
-import { Box } from '@mui/material';
-import {
-  SettingCardExpandable,
-  BadgedAdditionalInformation,
-} from '../SettingsCard';
+import { Box, Typography } from '@mui/material';
+import { SettingCardExpandable, BadgedValue } from '../SettingsCard';
+import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 
 const slippageDefault = '0.5';
+
 export const SlippageSettings: React.FC = () => {
   const { t } = useTranslation();
   const { isSlippageOutsideRecommendedLimits, isSlippageChanged } =
@@ -25,7 +24,7 @@ export const SlippageSettings: React.FC = () => {
   const { slippage } = useSettings(['slippage']);
   const setValue = useSettingsStore((state) => state.setValue);
   const defaultValue = useRef(slippage);
-  const [focused, setFocused] = useState('');
+  const [focused, setFocused] = useState<'input' | 'button' | undefined>();
 
   const handleDefaultClick = () => {
     setValue('slippage', formatSlippage(slippageDefault, defaultValue.current));
@@ -47,11 +46,11 @@ export const SlippageSettings: React.FC = () => {
 
   return (
     <SettingCardExpandable
-      additionalInfo={
-        <BadgedAdditionalInformation
+      value={
+        <BadgedValue
           badgeColor={badgeColor}
           showBadge={!!badgeColor}
-        >{`${slippage}%`}</BadgedAdditionalInformation>
+        >{`${slippage}%`}</BadgedValue>
       }
       icon={<PercentIcon />}
       title={t(`settings.slippage`)}
@@ -64,12 +63,12 @@ export const SlippageSettings: React.FC = () => {
               setFocused('button');
             }}
             onBlur={() => {
-              setFocused('');
+              setFocused(undefined);
             }}
             onClick={handleDefaultClick}
-            focusRipple
+            disableRipple
           >
-            0.5
+            {slippageDefault}
           </SlippageDefaultButton>
           <SlippageCustomInput
             selected={slippageDefault !== slippage && focused !== 'button'}
@@ -82,16 +81,19 @@ export const SlippageSettings: React.FC = () => {
               setFocused('input');
             }}
             onBlur={() => {
-              setFocused('');
+              setFocused(undefined);
             }}
             value={customInputValue}
             autoComplete="off"
           />
         </SettingsFieldSet>
         {isSlippageOutsideRecommendedLimits && (
-          <SlippageLimitsWarning>
-            {t('warning.message.slippageOutsideRecommendedLimits')}
-          </SlippageLimitsWarning>
+          <SlippageLimitsWarningContainer>
+            <WarningRoundedIcon color="warning" />
+            <Typography fontSize={13} fontWeight={400}>
+              {t('warning.message.slippageOutsideRecommendedLimits')}
+            </Typography>
+          </SlippageLimitsWarningContainer>
         )}
       </Box>
     </SettingCardExpandable>

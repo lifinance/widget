@@ -6,7 +6,7 @@ import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import { useSettingsStore } from '../../stores';
 import { navigationRoutes } from '../../utils';
 import { useSettingMonitor } from '../../hooks';
-import { SettingCardButton, BadgedAdditionalInformation } from './SettingsCard';
+import { SettingCardButton, BadgedValue } from './SettingsCard';
 
 const supportedIcons = {
   Bridges: AirlineStopsIcon,
@@ -41,10 +41,10 @@ export const BridgeAndExchangeSettings: React.FC<{
       icon={<Icon />}
       title={t(`settings.enabled${type}`)}
     >
-      <BadgedAdditionalInformation
+      <BadgedValue
         badgeColor="info"
         showBadge={customisationLookUp[type]}
-      >{`${enabledTools}/${tools}`}</BadgedAdditionalInformation>
+      >{`${enabledTools}/${tools}`}</BadgedValue>
     </SettingCardButton>
   );
 };

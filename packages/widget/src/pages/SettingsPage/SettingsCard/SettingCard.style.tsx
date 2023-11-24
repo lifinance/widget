@@ -8,23 +8,20 @@ export const SettingsList = styled(Box)(({ theme }) => ({
   padding: theme.spacing(1, 3, 2),
 }));
 
-export const SettingTitle = styled(Box)(({ theme }) => ({
+export const SummaryTitleContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   gap: theme.spacing(1.5),
 }));
 
-const SettingSummaryBase = {
+export const SummaryRowContainer = styled(Box)({
   display: 'flex',
   width: '100%',
   justifyContent: 'space-between',
   alignItems: 'center',
-};
-export const SettingSummary = styled(Box)({
-  ...SettingSummaryBase,
 });
 
-export const SettingSummaryButton = styled(ButtonBase)({
+export const SummaryRowButton = styled(ButtonBase)({
   background: 'none',
   color: 'inherit',
   border: 'none',
@@ -32,10 +29,13 @@ export const SettingSummaryButton = styled(ButtonBase)({
   font: 'inherit',
   cursor: 'pointer',
   outline: 'inherit',
-  ...SettingSummaryBase,
+  display: 'flex',
+  width: '100%',
+  justifyContent: 'space-between',
+  alignItems: 'center',
 });
 
-export const SettingSummaryText = styled(Typography)({
+export const SummaryValue = styled(Typography)({
   lineHeight: '1.25',
   fontWeight: 500,
 });

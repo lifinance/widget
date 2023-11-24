@@ -3,10 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useSettings, useSettingsStore } from '../../stores';
 import { Tab, Tabs } from '../../components/Tabs';
 import { useSettingMonitor } from '../../hooks';
-import {
-  SettingCardExpandable,
-  BadgedAdditionalInformation,
-} from './SettingsCard';
+import { SettingCardExpandable, BadgedValue } from './SettingsCard';
 
 export const GasPriceSettings: React.FC = () => {
   const { t } = useTranslation();
@@ -20,13 +17,10 @@ export const GasPriceSettings: React.FC = () => {
 
   return (
     <SettingCardExpandable
-      additionalInfo={
-        <BadgedAdditionalInformation
-          badgeColor="info"
-          showBadge={isGasPriceChanged}
-        >
+      value={
+        <BadgedValue badgeColor="info" showBadge={isGasPriceChanged}>
           {t(`settings.gasPrice.${gasPrice}` as any)}
-        </BadgedAdditionalInformation>
+        </BadgedValue>
       }
       icon={<EvStationIcon />}
       title={t(`settings.gasPrice.title`)}
@@ -38,9 +32,13 @@ export const GasPriceSettings: React.FC = () => {
         onChange={handleGasPriceChange}
         sx={{ mt: 1.5 }}
       >
-        <Tab label={t(`settings.gasPrice.slow`)} value="slow" />
-        <Tab label={t(`settings.gasPrice.normal`)} value="normal" />
-        <Tab label={t(`settings.gasPrice.fast`)} value="fast" />
+        <Tab label={t(`settings.gasPrice.slow`)} value="slow" disableRipple />
+        <Tab
+          label={t(`settings.gasPrice.normal`)}
+          value="normal"
+          disableRipple
+        />
+        <Tab label={t(`settings.gasPrice.fast`)} value="fast" disableRipple />
       </Tabs>
     </SettingCardExpandable>
   );
