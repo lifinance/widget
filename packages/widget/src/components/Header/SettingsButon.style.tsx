@@ -6,10 +6,9 @@ interface SettingsIconButtonProps {
   notification?: 'info' | 'warning';
 }
 
-export const SettingsIconButton = styled(IconButton)<SettingsIconButtonProps>(({
-  theme,
-  notification,
-}) => {
+export const SettingsIconButton = styled(IconButton, {
+  shouldForwardProp: (props) => props !== 'notification',
+})<SettingsIconButtonProps>(({ theme, notification }) => {
   const notificationStyles = {
     info: {
       backgroundColor: getInfoBackgroundColor(theme),
