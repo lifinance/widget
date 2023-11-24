@@ -1,6 +1,6 @@
 import type { PaletteMode, Theme } from '@mui/material';
 import { common } from '@mui/material/colors';
-import { alpha, darken, getContrastRatio } from '@mui/material/styles';
+import { alpha, getContrastRatio } from '@mui/material/styles';
 
 export const getContrastAlphaColor = (
   mode: PaletteMode,
