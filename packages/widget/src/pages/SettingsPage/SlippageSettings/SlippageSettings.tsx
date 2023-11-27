@@ -1,4 +1,4 @@
-import type { ChangeEventHandler } from 'react';
+import type { ChangeEventHandler, FocusEventHandler } from 'react';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import PercentIcon from '@mui/icons-material/Percent';
@@ -32,7 +32,22 @@ export const SlippageSettings: React.FC = () => {
 
   const handleInputUpdate: ChangeEventHandler<HTMLInputElement> = (event) => {
     const { value } = event.target;
-    setValue('slippage', formatSlippage(value, defaultValue.current, true));
+
+    setValue(
+      'slippage',
+      formatSlippage(value || slippageDefault, defaultValue.current, true),
+    );
+  };
+
+  const handleInputBlur: FocusEventHandler<HTMLInputElement> = (event) => {
+    setFocused(undefined);
+
+    const { value } = event.target;
+
+    setValue(
+      'slippage',
+      formatSlippage(value || slippageDefault, defaultValue.current),
+    );
   };
 
   const customInputValue =
@@ -80,9 +95,7 @@ export const SlippageSettings: React.FC = () => {
             onFocus={() => {
               setFocused('input');
             }}
-            onBlur={() => {
-              setFocused(undefined);
-            }}
+            onBlur={handleInputBlur}
             value={customInputValue}
             autoComplete="off"
           />
