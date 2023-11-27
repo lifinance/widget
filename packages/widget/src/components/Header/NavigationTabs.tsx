@@ -2,8 +2,8 @@ import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { FormKey } from '../../providers';
 import { useSplitSubvariantStore } from '../../stores';
-import { HeaderAppBar } from './Header.style';
-import { NavbarTab, NavbarTabs } from './NavigationTabs.style';
+import { HeaderAppBar, SplitTabs } from './Header.style';
+import { Tab } from '../Tabs';
 
 export const NavigationTabs = () => {
   const { t } = useTranslation();
@@ -21,15 +21,15 @@ export const NavigationTabs = () => {
 
   return (
     <HeaderAppBar elevation={0} sx={{ py: 1 }}>
-      <NavbarTabs
+      <SplitTabs
         value={state === 'swap' ? 0 : 1}
         onChange={handleChange}
         aria-label="tabs"
         indicatorColor="primary"
       >
-        <NavbarTab label={t('header.swap')} disableRipple />
-        <NavbarTab label={t('header.bridge')} disableRipple />
-      </NavbarTabs>
+        <Tab label={t('header.swap')} disableRipple />
+        <Tab label={t('header.bridge')} disableRipple />
+      </SplitTabs>
     </HeaderAppBar>
   );
 };

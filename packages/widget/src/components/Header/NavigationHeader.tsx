@@ -1,6 +1,4 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
-import SettingsIcon from '@mui/icons-material/Settings';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Route, Routes, useLocation } from 'react-router-dom';
@@ -13,14 +11,32 @@ import {
   navigationRoutes,
   navigationRoutesValues,
 } from '../../utils';
-import { HeaderAppBar } from './Header.style';
+import { HeaderAppBar, HeaderControlsContainer } from './Header.style';
 import { NavigationTabs } from './NavigationTabs';
 import { WalletMenuButton } from './WalletHeader';
+import { SettingsButton } from './SettingsButton';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 
+export const TransactionHistoryButton = () => {
+  const { t } = useTranslation();
+  const { navigate } = useNavigateBack();
+
+  return (
+    <Tooltip title={t(`header.transactionHistory`)} enterDelay={400} arrow>
+      <IconButton
+        size="medium"
+        edge="start"
+        onClick={() => navigate(navigationRoutes.transactionHistory)}
+      >
+        <ReceiptLongIcon />
+      </IconButton>
+    </Tooltip>
+  );
+};
 export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
   const { subvariant, hiddenUI, variant } = useWidgetConfig();
-  const { navigate, navigateBack } = useNavigateBack();
+  const { navigateBack } = useNavigateBack();
   const { account } = useAccount();
   const { element, title } = useHeaderStore((state) => state);
   const { pathname } = useLocation();
@@ -43,6 +59,8 @@ export const NavigationHeader: React.FC = () => {
         return t(`settings.enabledBridges`);
       case navigationRoutes.exchanges:
         return t(`settings.enabledExchanges`);
+      case navigationRoutes.languages:
+        return t(`language.title`);
       case navigationRoutes.transactionHistory:
         return t(`header.transactionHistory`);
       case navigationRoutes.fromToken: {
@@ -115,41 +133,17 @@ export const NavigationHeader: React.FC = () => {
           <Route
             path={navigationRoutes.home}
             element={
-              <Box
+              <HeaderControlsContainer
                 paddingRight={
                   variant === 'drawer' && subvariant === 'split' ? 5 : 0
                 }
               >
                 {account.isConnected &&
                 !hiddenUI?.includes(HiddenUI.History) ? (
-                  <Tooltip
-                    title={t(`header.transactionHistory`)}
-                    enterDelay={400}
-                    arrow
-                  >
-                    <IconButton
-                      size="medium"
-                      edge="start"
-                      onClick={() =>
-                        navigate(navigationRoutes.transactionHistory)
-                      }
-                    >
-                      <ReceiptLongIcon />
-                    </IconButton>
-                  </Tooltip>
+                  <TransactionHistoryButton />
                 ) : null}
-                <Tooltip title={t(`header.settings`)} enterDelay={400} arrow>
-                  <IconButton
-                    size="medium"
-                    onClick={() => navigate(navigationRoutes.settings)}
-                    sx={{
-                      marginRight: -1.25,
-                    }}
-                  >
-                    <SettingsIcon />
-                  </IconButton>
-                </Tooltip>
-              </Box>
+                <SettingsButton />
+              </HeaderControlsContainer>
             }
           />
           <Route path="*" element={element || <Box width={28} height={40} />} />

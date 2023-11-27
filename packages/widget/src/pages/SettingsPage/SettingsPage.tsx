@@ -1,32 +1,29 @@
-import { Box, Container } from '@mui/material';
-import { ColorSchemeButtonGroup } from './ColorSchemeButtonGroup';
-import { EnabledToolsButton } from './EnabledToolsButton';
-import { GasPriceSelect } from './GasPriceSelect';
-import { LanguageSelect } from './LanguageSelect';
+import { Container } from '@mui/material';
+import { BridgeAndExchangeSettings } from './BridgeAndExchangeSettings';
+import { LanguageSetting } from './LanguageSetting';
 import { ResetSettingsButton } from './ResetSettingsButton';
-import { RoutePrioritySelect } from './RoutePrioritySelect';
-import { ShowDestinationWallet } from './ShowDestinationWallet';
-import { SlippageInput } from './SlippageInput';
+import { SendToWalletOptionSetting } from './SendToWalletOptionSetting';
+import { GasPriceSettings } from './GasPriceSettings';
+import { RoutePrioritySettings } from './RoutePrioritySettings';
+import { ThemeSettings } from './ThemeSettings';
+import { SlippageSettings } from './SlippageSettings';
+import { SettingsList, SettingsCardAccordion } from './SettingsCard';
 
 export const SettingsPage = () => {
   return (
     <Container disableGutters>
-      <Box px={3} pt={1}>
-        <ColorSchemeButtonGroup />
-        <LanguageSelect />
-        <RoutePrioritySelect />
-        <Box sx={{ display: 'flex', alignItems: 'center' }} mt={2}>
-          <Box pr={2} flex={1}>
-            <SlippageInput />
-          </Box>
-          <GasPriceSelect />
-        </Box>
-      </Box>
-      <ShowDestinationWallet />
-      <Box px={1.5}>
-        <EnabledToolsButton type="Bridges" />
-        <EnabledToolsButton type="Exchanges" />
-      </Box>
+      <SettingsList>
+        <SettingsCardAccordion>
+          <ThemeSettings />
+          <LanguageSetting />
+          <RoutePrioritySettings />
+          <GasPriceSettings />
+          <SlippageSettings />
+          <BridgeAndExchangeSettings type="Bridges" />
+          <BridgeAndExchangeSettings type="Exchanges" />
+          <SendToWalletOptionSetting />
+        </SettingsCardAccordion>
+      </SettingsList>
       <ResetSettingsButton />
     </Container>
   );

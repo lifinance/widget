@@ -2,6 +2,7 @@ import { Box } from '@mui/material';
 import { switchClasses } from '@mui/material/Switch';
 import { alpha, darken, lighten, styled } from '@mui/material/styles';
 import { Switch } from '../Switch';
+import { getInfoBackgroundColor, getWarningBackgroundColor } from '../../utils';
 
 const MessageCard = styled(Box)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
@@ -10,10 +11,7 @@ const MessageCard = styled(Box)(({ theme }) => ({
 }));
 
 export const WarningMessageCard = styled(MessageCard)(({ theme }) => ({
-  backgroundColor:
-    theme.palette.mode === 'light'
-      ? alpha(theme.palette.warning.main, 0.32)
-      : alpha(theme.palette.warning.main, 0.16),
+  backgroundColor: getWarningBackgroundColor(theme),
 }));
 
 export const WarningMessageCardTitle = styled(Box)(({ theme }) => ({
@@ -24,10 +22,7 @@ export const WarningMessageCardTitle = styled(Box)(({ theme }) => ({
 }));
 
 export const InfoMessageCard = styled(MessageCard)(({ theme }) => ({
-  backgroundColor:
-    theme.palette.mode === 'light'
-      ? alpha(theme.palette.info.main, 0.12)
-      : alpha(theme.palette.info.main, 0.16),
+  backgroundColor: getInfoBackgroundColor(theme),
 }));
 
 export const InfoMessageCardTitle = styled(Box)(({ theme }) => ({

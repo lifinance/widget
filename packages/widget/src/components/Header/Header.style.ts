@@ -1,6 +1,7 @@
 import { AppBar, Box, Button, badgeClasses } from '@mui/material';
 import { buttonClasses } from '@mui/material/Button';
 import { alpha, styled } from '@mui/material/styles';
+import { Tabs } from '../Tabs';
 
 export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: 'transparent',
@@ -62,4 +63,16 @@ export const DrawerWalletContainer = styled(Box)(() => ({
   '& > button': {
     marginLeft: '-0.5rem',
   },
+}));
+
+export const HeaderControlsContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  gap: theme.spacing(0.5),
+}));
+
+export const SplitTabs = styled(Tabs)(({ theme }) => ({
+  backgroundColor:
+    theme.palette.mode === 'dark'
+      ? theme.palette.background.paper
+      : alpha(theme.palette.common.black, 0.04),
 }));

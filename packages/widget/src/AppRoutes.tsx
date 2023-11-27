@@ -11,6 +11,7 @@ import { SettingsPage } from './pages/SettingsPage';
 import { TransactionDetailsPage } from './pages/TransactionDetailsPage';
 import { TransactionHistoryPage } from './pages/TransactionHistoryPage';
 import { TransactionPage } from './pages/TransactionPage';
+import { LanguagesPage } from './pages/LanguagesPage';
 import { navigationRoutes } from './utils';
 
 export const AppRoutes = () => {
@@ -30,6 +31,10 @@ export const AppRoutes = () => {
     {
       path: `${navigationRoutes.settings}/${navigationRoutes.exchanges}`,
       element: <SelectEnabledToolsPage type="Exchanges" />,
+    },
+    {
+      path: `${navigationRoutes.settings}/${navigationRoutes.languages}`,
+      element: <LanguagesPage />,
     },
     {
       path: navigationRoutes.fromToken,

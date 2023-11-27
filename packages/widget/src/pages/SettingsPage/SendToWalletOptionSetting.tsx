@@ -1,6 +1,6 @@
-import { Box, Typography } from '@mui/material';
 import type { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
+import WalletIcon from '@mui/icons-material/Wallet';
 import { Switch } from '../../components/Switch';
 import { useWidgetConfig } from '../../providers';
 import {
@@ -9,8 +9,14 @@ import {
   useSettingsStore,
 } from '../../stores';
 import { HiddenUI } from '../../types';
+import {
+  SettingCard,
+  SummaryRowContainer,
+  SummaryTitleContainer,
+  SummaryValue,
+} from './SettingsCard';
 
-export const ShowDestinationWallet = () => {
+export const SendToWalletOptionSetting = () => {
   const { t } = useTranslation();
   const { hiddenUI } = useWidgetConfig();
   const setSendToWallet = useSendToWalletStore(
@@ -29,25 +35,14 @@ export const ShowDestinationWallet = () => {
   };
 
   return (
-    <Box px={3} pt={2} pb={1.5}>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Typography
-            variant="subtitle1"
-            color="text.primary"
-            lineHeight="normal"
-          >
-            {t(`settings.showDestinationWallet`)}
-          </Typography>
-        </Box>
+    <SettingCard>
+      <SummaryRowContainer>
+        <SummaryTitleContainer>
+          <WalletIcon />
+          <SummaryValue>{t(`settings.sendToWalletOption`)}</SummaryValue>
+        </SummaryTitleContainer>
         <Switch checked={showDestinationWallet} onChange={onChange} />
-      </Box>
-    </Box>
+      </SummaryRowContainer>
+    </SettingCard>
   );
 };
