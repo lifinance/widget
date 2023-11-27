@@ -19,8 +19,12 @@ export const SettingsButton = () => {
       ? 'info'
       : undefined;
 
+  const tooltipMessage = notification
+    ? t(`tooltip.settingsModified`)
+    : t(`header.settings`);
+
   return (
-    <Tooltip title={t(`header.settings`)} enterDelay={400} arrow>
+    <Tooltip title={tooltipMessage} enterDelay={400} arrow>
       <SettingsIconButton
         size="medium"
         onClick={() => navigate(navigationRoutes.settings)}
