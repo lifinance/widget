@@ -18,7 +18,7 @@ export const useChains = () => {
     });
 
   const { data: filteredChains, isLoading: isLoadingFilteredChains } = useQuery(
-    ['filtered-chains', availableChains?.length, keyPrefix],
+    ['filtered-chains', availableChains?.length, keyPrefix, { chains }],
     async () => {
       if (!availableChains) {
         return;
