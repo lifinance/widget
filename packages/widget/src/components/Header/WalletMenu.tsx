@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import type { Connector } from 'wagmi';
 import { useDisconnect } from 'wagmi';
 import { useAccount, useAvailableChains } from '../../hooks';
@@ -22,6 +22,7 @@ import { SmallAvatar } from '../SmallAvatar';
 export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const { accounts } = useAccount();
   const { getChainById } = useAvailableChains();
   const connect = async () => {
@@ -98,16 +99,20 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
             );
           })}
       </Box>
-      <Button
-        onClick={connect}
-        fullWidth
-        startIcon={<PowerSettingsNewIcon />}
-        sx={{
-          marginTop: 1,
-        }}
-      >
-        {t(`button.connectWallet`)}
-      </Button>
+      {!pathname.includes(navigationRoutes.selectWallet) ? (
+        <Button
+          onClick={connect}
+          fullWidth
+          startIcon={<PowerSettingsNewIcon />}
+          sx={{
+            marginTop: 1,
+          }}
+        >
+          {accounts.filter((account) => account.isConnected).length > 1
+            ? t(`button.changeWallet`)
+            : t(`button.connectWallet`)}
+        </Button>
+      ) : null}
     </Box>
   );
 };

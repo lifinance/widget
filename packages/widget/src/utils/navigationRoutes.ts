@@ -7,7 +7,7 @@ export const navigationRoutes = {
   fromToken: 'from-token',
   languages: 'languages',
   routes: 'routes',
-  selectWallet: 'wallet',
+  selectWallet: 'select-wallet',
   settings: 'settings',
   toChain: 'to-chain',
   toToken: 'to-token',
