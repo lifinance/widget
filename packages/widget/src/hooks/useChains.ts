@@ -11,6 +11,7 @@ export const useChains = () => {
   const initializeChains = useChainOrderStore(
     (state) => state.initializeChains,
   );
+
   const { data: availableChains, isLoading: isLoadingAvailableChains } =
     useQuery(['chains'], async () => lifi.getChains(), {
       refetchInterval: 300000,
@@ -18,7 +19,7 @@ export const useChains = () => {
     });
 
   const { data: filteredChains, isLoading: isLoadingFilteredChains } = useQuery(
-    ['filtered-chains', availableChains?.length, keyPrefix, { chains }],
+    ['filtered-chains', { keyPrefix, availableChains, chains }],
     async () => {
       if (!availableChains) {
         return;
@@ -47,13 +48,7 @@ export const useChains = () => {
   );
 
   const getChainById = useCallback(
-    (chainId: number) => {
-      const chain = availableChains?.find((chain) => chain.id === chainId);
-      // if (!chain) {
-      //   throw new Error('Chain not found or chainId is invalid.');
-      // }
-      return chain;
-    },
+    (chainId: number) => availableChains?.find((chain) => chain.id === chainId),
     [availableChains],
   );
 
