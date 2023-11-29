@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { FormKey, isItemAllowed, useLiFi, useWidgetConfig } from '../providers';
 import { useChainOrderStore } from '../stores';
@@ -27,6 +27,16 @@ export const useChains = () => {
       const filteredChains = availableChains.filter((chain) =>
         isItemAllowed(chain.id, chains),
       );
+
+      return filteredChains;
+    },
+    {
+      enabled: Boolean(availableChains),
+    },
+  );
+
+  useEffect(() => {
+    if (filteredChains) {
       const chainOrder = initializeChains(
         filteredChains.map((chain) => chain.id),
       );
@@ -40,12 +50,8 @@ export const useChains = () => {
       if (!toChainValue) {
         setValue(FormKey.ToChain, chainOrder[0]);
       }
-      return filteredChains;
-    },
-    {
-      enabled: Boolean(availableChains),
-    },
-  );
+    }
+  }, [filteredChains]);
 
   const getChainById = useCallback(
     (chainId: number) => availableChains?.find((chain) => chain.id === chainId),
