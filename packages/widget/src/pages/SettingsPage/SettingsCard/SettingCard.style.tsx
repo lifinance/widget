@@ -1,6 +1,6 @@
+import { Box, ButtonBase, Badge as MuiBadge, Typography } from '@mui/material';
 import { badgeClasses } from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
-import { Badge as MuiBadge, Box, ButtonBase, Typography } from '@mui/material';
 
 export const SettingsList = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -48,7 +48,7 @@ export const Badge = styled(MuiBadge)(({ theme }) => ({
   [`.${badgeClasses.badge}`]: {
     width: 10,
     height: 10,
-    // the following removes MUI styling so we can position with the badge with flex
+    // the following removes MUI styling so we can position the badge with flex
     position: 'relative',
     transform: 'translateX(0)',
     borderRadius: '50%',
