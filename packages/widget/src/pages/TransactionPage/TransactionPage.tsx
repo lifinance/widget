@@ -129,7 +129,7 @@ export const TransactionPage: React.FC = () => {
     deleteRoute();
   };
 
-  const getButtonText = () => {
+  const getButtonText = (): string => {
     switch (status) {
       case RouteExecutionStatus.Idle:
         switch (subvariant) {
