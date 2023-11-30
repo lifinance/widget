@@ -1,6 +1,19 @@
 import { darken, styled } from '@mui/material/styles';
-import { IconButton } from '@mui/material';
+import { Badge as MuiBadge, IconButton } from '@mui/material';
 import { getInfoBackgroundColor, getWarningBackgroundColor } from '../../utils';
+import { badgeClasses } from '@mui/material/Badge';
+
+export const SettingsIconBadge = styled(MuiBadge)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: theme.spacing(1.25),
+  [`.${badgeClasses.badge}`]: {
+    width: 10,
+    height: 10,
+    borderRadius: '50%',
+    transform: 'translate(80%, -80%)',
+  },
+}));
 
 interface SettingsIconButtonProps {
   notification?: 'info' | 'warning';

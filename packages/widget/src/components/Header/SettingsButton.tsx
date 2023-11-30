@@ -3,8 +3,7 @@ import { Tooltip } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useNavigateBack, useSettingMonitor } from '../../hooks';
 import { navigationRoutes } from '../../utils';
-import { SettingsIconButton } from './SettingsButton.style';
-import { Badge } from '../../components/Badge';
+import { SettingsIconBadge, SettingsIconButton } from './SettingsButton.style';
 
 export const SettingsButton = () => {
   const { t } = useTranslation();
@@ -31,9 +30,9 @@ export const SettingsButton = () => {
         notification={notification}
       >
         {notification ? (
-          <Badge variant="dot" color={notification}>
+          <SettingsIconBadge variant="dot" color={notification}>
             <SettingsIcon />
-          </Badge>
+          </SettingsIconBadge>
         ) : (
           <SettingsIcon />
         )}
