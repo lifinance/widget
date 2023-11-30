@@ -18,9 +18,11 @@ export const StoreProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
       }
     >
       <HeaderStoreProvider namePrefix={config?.keyPrefix}>
-        <RouteExecutionStoreProvider namePrefix={config?.keyPrefix}>
-          {children}
-        </RouteExecutionStoreProvider>
+        <ChainOrderStoreProvider namePrefix={config?.keyPrefix}>
+          <RouteExecutionStoreProvider namePrefix={config?.keyPrefix}>
+            {children}
+          </RouteExecutionStoreProvider>
+        </ChainOrderStoreProvider>
       </HeaderStoreProvider>
     </SplitSubvariantStoreProvider>
   );

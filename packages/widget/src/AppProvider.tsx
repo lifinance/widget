@@ -13,7 +13,7 @@ import {
   WidgetProvider,
   useWidgetConfig,
 } from './providers';
-import { ChainOrderStoreProvider, StoreProvider } from './stores';
+import { StoreProvider } from './stores';
 import type { WidgetConfigProps } from './types';
 
 export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
@@ -22,23 +22,21 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
 }) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <StoreProvider config={config}>
-        <WidgetProvider config={config}>
-          <SDKProvider>
-            <ThemeProvider>
-              <I18nProvider>
-                <WalletProvider>
-                  <FormProvider>
-                    <ChainOrderStoreProvider namePrefix={config?.keyPrefix}>
-                      <AppRouter>{children}</AppRouter>
-                    </ChainOrderStoreProvider>
-                  </FormProvider>
-                </WalletProvider>
-              </I18nProvider>
-            </ThemeProvider>
-          </SDKProvider>
-        </WidgetProvider>
-      </StoreProvider>
+      <WidgetProvider config={config}>
+        <SDKProvider>
+          <ThemeProvider>
+            <I18nProvider>
+              <WalletProvider>
+                <FormProvider>
+                  <StoreProvider config={config}>
+                    <AppRouter>{children}</AppRouter>
+                  </StoreProvider>
+                </FormProvider>
+              </WalletProvider>
+            </I18nProvider>
+          </ThemeProvider>
+        </SDKProvider>
+      </WidgetProvider>
     </QueryClientProvider>
   );
 };
