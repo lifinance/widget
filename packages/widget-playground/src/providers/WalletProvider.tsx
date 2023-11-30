@@ -73,6 +73,11 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
     const _chains: [Chain, ...Chain[]] = chains?.length
       ? (chains.map(formatChain) as [Chain, ...Chain[]])
       : [mainnet];
+    // Add ENS contracts
+    const _mainnet = _chains.find((chain) => chain.id === mainnet.id);
+    if (_mainnet) {
+      _mainnet.contracts = mainnet.contracts;
+    }
     const wagmiConfig = createConfig({
       chains: _chains,
       connectors: connectors,

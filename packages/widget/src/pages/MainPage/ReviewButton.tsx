@@ -28,7 +28,7 @@ export const ReviewButton: React.FC = () => {
     }
   };
 
-  const getButtonText = () => {
+  const getButtonText = (): string => {
     if (currentRoute) {
       switch (subvariant) {
         case 'nft':

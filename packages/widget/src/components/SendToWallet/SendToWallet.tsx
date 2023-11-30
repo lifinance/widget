@@ -7,29 +7,26 @@ import { useTranslation } from 'react-i18next';
 import { isAddress } from 'viem';
 import { normalize } from 'viem/ens';
 import { useConfig } from 'wagmi';
-import { useAccount } from '../../hooks';
+import { useAccount, useRequiredToAddress } from '../../hooks';
 import { FormKey, useWidgetConfig } from '../../providers';
 import { useSendToWalletStore, useSettings } from '../../stores';
-import { DisabledUI, HiddenUI, RequiredUI } from '../../types';
+import { DisabledUI, HiddenUI } from '../../types';
+import { isSVMAddress } from '../../utils';
 import { Card, CardTitle } from '../Card';
 import { FormControl, Input } from './SendToWallet.style';
-import { useDifferentChainType } from './useDifferentChainType';
 
 export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
   const { t } = useTranslation();
   const { trigger, getValues, setValue, clearErrors } = useFormContext();
   const { account } = useAccount();
   const config = useConfig();
-  const { disabledUI, hiddenUI, requiredUI, toAddress } = useWidgetConfig();
+  const { disabledUI, hiddenUI, toAddress } = useWidgetConfig();
   const { showSendToWallet, showSendToWalletDirty } = useSendToWalletStore();
   const { showDestinationWallet } = useSettings(['showDestinationWallet']);
 
-  const differentChainType = useDifferentChainType();
-
   const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress);
   const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress);
-  const requiredToAddress =
-    requiredUI?.includes(RequiredUI.ToAddress) || differentChainType;
+  const requiredToAddress = useRequiredToAddress();
   const requiredToAddressRef = useRef(requiredToAddress);
 
   // We want to show toAddress field if it is set via widget configuration and not hidden
@@ -52,28 +49,22 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
         setValue(FormKey.ToAddress, e.target.value.trim());
       },
       validate: async (value: string) => {
-        return true;
         try {
-          if (!value || isAddress(value)) {
+          if (!value || isAddress(value) || isSVMAddress(value)) {
             return true;
           }
           const address = await getEnsAddress(config, {
+            chainId: getValues(FormKey.ToChain),
             name: normalize(value),
           });
           return Boolean(address);
-        } catch {
+        } catch (error) {
           return t('error.title.walletEnsAddressInvalid') as string;
         }
       },
       onBlur: () => trigger(FormKey.ToAddress),
     },
   });
-
-  // useEffect(() => {
-  //   if (showInstantly) {
-  //     setSendToWallet(true);
-  //   }
-  // }, [showInstantly, setSendToWallet]);
 
   useEffect(() => {
     const value = getValues(FormKey.ToAddress);

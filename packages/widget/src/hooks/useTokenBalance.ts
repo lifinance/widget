@@ -1,3 +1,4 @@
+import type { ExtendedChain } from '@lifi/sdk';
 import { getTokenBalances, type Token, type TokenAmount } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
@@ -5,10 +6,21 @@ import { useAccount } from './useAccount';
 
 const defaultRefetchInterval = 30_000;
 
-export const useTokenBalance = (token?: Token, accountAddress?: string) => {
+export const useTokenBalance = (
+  accountAddress?: string,
+  token?: Token,
+  chain?: ExtendedChain,
+) => {
   const { account } = useAccount();
   const queryClient = useQueryClient();
-  const walletAddress = accountAddress || account.address;
+  const walletAddress =
+    accountAddress ||
+    // When we provide chain we want to be sure that account address used is from the same ecosystem as token
+    !chain
+      ? account.address
+      : chain.chainType === account.chainType
+        ? account.address
+        : undefined;
 
   const tokenBalanceQueryKey = useMemo(
     () => ['token-balance', walletAddress, token?.chainId, token?.address],

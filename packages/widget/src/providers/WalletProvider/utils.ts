@@ -1,5 +1,5 @@
 import type { ExtendedChain } from '@lifi/sdk';
-import type { Chain } from 'viem';
+import type { Address, Chain } from 'viem';
 
 type ChainBlockExplorer = {
   name: string;
@@ -28,5 +28,10 @@ export const formatChain = (chain: ExtendedChain): Chain => ({
   rpcUrls: {
     default: { http: chain.metamask.rpcUrls },
     public: { http: chain.metamask.rpcUrls },
+  },
+  contracts: {
+    ...(chain.multicallAddress
+      ? { multicall3: { address: chain.multicallAddress as Address } }
+      : undefined),
   },
 });

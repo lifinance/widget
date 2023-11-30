@@ -52,7 +52,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   };
 
   const { token, refetch, refetchNewBalance, refetchAllBalances } =
-    useTokenBalance(toToken, route.toAddress);
+    useTokenBalance(route.toAddress, toToken);
 
   const clearFromAmount = () => {
     refetchAllBalances();
@@ -110,7 +110,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   const transactionType =
     route.fromChainId === route.toChainId ? 'swap' : 'bridge';
 
-  let title;
+  let title: string | undefined;
   let primaryMessage;
   let secondaryMessage;
   let handlePrimaryButton = handleDone;

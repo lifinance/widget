@@ -5,4 +5,5 @@ export * from './enum';
 export * from './format';
 export * from './input';
 export * from './navigationRoutes';
+export * from './svm';
 export * from './wallet';

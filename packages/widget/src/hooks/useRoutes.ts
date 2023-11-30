@@ -1,12 +1,16 @@
 import type { Route, RoutesResponse, Token } from '@lifi/sdk';
 import { LiFiErrorCode, getContractCallQuote, getRoutes } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { getEnsAddress } from '@wagmi/core';
 import { useWatch } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
-import { parseUnits } from 'viem';
-import { useDebouncedWatch, useGasRefuel, useToken } from '.';
+import { isAddress as isEVMAddress, parseUnits } from 'viem';
+import { normalize } from 'viem/ens';
+import { useConfig } from 'wagmi';
+import { useChain, useDebouncedWatch, useGasRefuel, useToken } from '.';
 import { FormKey, useWidgetConfig } from '../providers';
 import { useSettings } from '../stores';
+import { isSVMAddress } from '../utils';
 import { useAccount } from './useAccount';
 import { useSwapOnly } from './useSwapOnly';
 
@@ -20,6 +24,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
   const { subvariant, sdkConfig, insurance, contractTool } = useWidgetConfig();
   const { account } = useAccount();
   const queryClient = useQueryClient();
+  const config = useConfig();
   const swapOnly = useSwapOnly();
   const {
     slippage,
@@ -60,6 +65,8 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
   });
   const { token: fromToken } = useToken(fromChainId, fromTokenAddress);
   const { token: toToken } = useToken(toChainId, toTokenAddress);
+  const { chain: fromChain } = useChain(fromChainId);
+  const { chain: toChain } = useChain(toChainId);
   const { enabled: enabledRefuel, fromAmount: gasRecommendationFromAmount } =
     useGasRefuel();
 
@@ -72,6 +79,10 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
       ? Boolean(toContractAddress && toContractCallData && toContractGasLimit)
       : true;
 
+  // When we bridge between ecosystems we need to be sure toAddress is set
+  const isChainTypeSatisfied =
+    fromChain?.chainType !== toChain?.chainType ? Boolean(toAddress) : true;
+
   const isEnabled =
     !isNaN(fromChainId) &&
     !isNaN(toChainId) &&
@@ -79,11 +90,15 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
     Boolean(toToken?.address) &&
     !Number.isNaN(slippage) &&
     hasAmount &&
+    isChainTypeSatisfied &&
     contractCallQuoteEnabled;
+
+  const accountAddress =
+    fromChain?.chainType === account.chainType ? account.address : undefined;
 
   const queryKey = [
     'routes',
-    account.address,
+    accountAddress,
     fromChainId,
     fromToken?.address,
     fromTokenAmount,
@@ -137,18 +152,20 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
         signal,
       }) => {
         let toWalletAddress = toAddress || fromAddress;
-        // try {
-        //   // FIXME: resolve address in one place
-        //   toWalletAddress = !isAddress(toAddress)
-        //     ? await getEnsAddress(config, {
-        //         name: normalize(toAddress),
-        //       })
-        //     : isAddress(toAddress)
-        //     ? toAddress
-        //     : fromAddress;
-        // } catch {
-        //   toWalletAddress = isAddress(toAddress) ? toAddress : fromAddress;
-        // }
+        const isAddress = isEVMAddress(toAddress) || isSVMAddress(toAddress);
+        try {
+          // FIXME: resolve address in one place
+          toWalletAddress = !isAddress
+            ? await getEnsAddress(config, {
+                chainId: toChainId,
+                name: normalize(toAddress),
+              })
+            : isAddress
+              ? toAddress
+              : fromAddress;
+        } catch {
+          toWalletAddress = isAddress ? toAddress : fromAddress;
+        }
         const fromAmount = parseUnits(
           fromTokenAmount,
           fromToken!.decimals,
@@ -259,12 +276,12 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
           },
           { signal },
         );
-        if (data.routes[0]) {
+        if (data.routes[0] && fromAddress) {
           // Update local tokens cache to keep priceUSD in sync
           const { fromToken, toToken } = data.routes[0];
           [fromToken, toToken].forEach((token) => {
             queryClient.setQueriesData<Token[]>(
-              { queryKey: ['token-balances', account.address, token.chainId] },
+              { queryKey: ['token-balances', fromAddress, token.chainId] },
               (data) => {
                 if (data) {
                   const clonedData = [...data];

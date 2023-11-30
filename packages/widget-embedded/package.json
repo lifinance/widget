@@ -29,11 +29,11 @@
     "@lifi/sdk": "^3.0.0-alpha.36",
     "@lifi/wallet-management": "^2.4.1",
     "@lifi/widget": "^2.9.2",
-    "@mui/icons-material": "^5.14.18",
-    "@mui/lab": "^5.0.0-alpha.153",
-    "@mui/material": "^5.14.18",
+    "@mui/icons-material": "^5.14.19",
+    "@mui/lab": "^5.0.0-alpha.154",
+    "@mui/material": "^5.14.19",
     "@opensea/seaport-js": "2.0.8",
-    "@tanstack/react-query": "^5.8.9",
+    "@tanstack/react-query": "^5.10.0",
     "bignumber.js": "^9.1.2",
     "ethers": "^5.7.2",
     "events": "^3.3.0",
@@ -45,7 +45,7 @@
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.0",
     "typescript": "^5.3.2",
-    "vite": "^5.0.2",
+    "vite": "^5.0.4",
     "web-vitals": "^3.5.0"
   },
   "eslintConfig": {
