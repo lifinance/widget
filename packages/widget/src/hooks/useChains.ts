@@ -1,57 +1,8 @@
-import { useQuery } from '@tanstack/react-query';
-import { useCallback, useEffect } from 'react';
-import { useFormContext } from 'react-hook-form';
-import { FormKey, isItemAllowed, useLiFi, useWidgetConfig } from '../providers';
-import { useChainOrderStore } from '../stores';
+import { useCallback } from 'react';
+import { useChainValues } from '../stores/chains/ChainValuesProvider';
 
 export const useChains = () => {
-  const { chains, keyPrefix } = useWidgetConfig();
-  const lifi = useLiFi();
-  const { getValues, setValue } = useFormContext();
-  const initializeChains = useChainOrderStore(
-    (state) => state.initializeChains,
-  );
-
-  const { data: availableChains, isLoading: isLoadingAvailableChains } =
-    useQuery(['chains'], async () => lifi.getChains(), {
-      refetchInterval: 300000,
-      staleTime: 300000,
-    });
-
-  const { data: filteredChains, isLoading: isLoadingFilteredChains } = useQuery(
-    ['filtered-chains', { keyPrefix, availableChains, chains }],
-    async () => {
-      if (!availableChains) {
-        return;
-      }
-      const filteredChains = availableChains.filter((chain) =>
-        isItemAllowed(chain.id, chains),
-      );
-
-      return filteredChains;
-    },
-    {
-      enabled: Boolean(availableChains),
-    },
-  );
-
-  useEffect(() => {
-    if (filteredChains) {
-      const chainOrder = initializeChains(
-        filteredChains.map((chain) => chain.id),
-      );
-      const [fromChainValue, toChainValue] = getValues([
-        FormKey.FromChain,
-        FormKey.ToChain,
-      ]);
-      if (!fromChainValue) {
-        setValue(FormKey.FromChain, chainOrder[0]);
-      }
-      if (!toChainValue) {
-        setValue(FormKey.ToChain, chainOrder[0]);
-      }
-    }
-  }, [filteredChains]);
+  const { chains, availableChains, isLoading } = useChainValues();
 
   const getChainById = useCallback(
     (chainId: number) => availableChains?.find((chain) => chain.id === chainId),
@@ -59,8 +10,8 @@ export const useChains = () => {
   );
 
   return {
-    chains: filteredChains,
+    chains,
     getChainById,
-    isLoading: isLoadingAvailableChains || isLoadingFilteredChains,
+    isLoading,
   };
 };

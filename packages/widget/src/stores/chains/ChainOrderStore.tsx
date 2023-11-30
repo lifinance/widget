@@ -4,6 +4,7 @@ import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
 import type { PersistStoreProviderProps } from '../types';
 import { createChainOrderStore } from './createChainOrderStore';
 import type { ChainOrderState } from './types';
+import { ChainValuesProvider } from './ChainValuesProvider';
 
 export type ChainOrderStore = UseBoundStoreWithEqualityFn<
   StoreApi<ChainOrderState>
@@ -21,9 +22,10 @@ export function ChainOrderStoreProvider({
   if (!storeRef.current) {
     storeRef.current = createChainOrderStore(props);
   }
+
   return (
     <ChainOrderStoreContext.Provider value={storeRef.current}>
-      {children}
+      <ChainValuesProvider>{children}</ChainValuesProvider>
     </ChainOrderStoreContext.Provider>
   );
 }

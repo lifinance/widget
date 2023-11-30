@@ -13,7 +13,7 @@ import {
   WidgetProvider,
   useWidgetConfig,
 } from './providers';
-import { StoreProvider } from './stores';
+import { ChainOrderStoreProvider, StoreProvider } from './stores';
 import type { WidgetConfigProps } from './types';
 
 export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
@@ -29,7 +29,9 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
               <I18nProvider>
                 <WalletProvider>
                   <FormProvider>
-                    <AppRouter>{children}</AppRouter>
+                    <ChainOrderStoreProvider namePrefix={config?.keyPrefix}>
+                      <AppRouter>{children}</AppRouter>
+                    </ChainOrderStoreProvider>
                   </FormProvider>
                 </WalletProvider>
               </I18nProvider>
