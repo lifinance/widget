@@ -9,7 +9,7 @@ import {
   useScrollableOverflowHidden,
   useSwapOnly,
 } from '../../hooks';
-import type { FormTypeProps } from '../../providers';
+import { type FormTypeProps } from '../../providers';
 import { SearchTokenInput } from './SearchTokenInput';
 
 const minTokenListHeight = 360;

@@ -1,50 +1,22 @@
 import { useQuery } from '@tanstack/react-query';
-import { useCallback } from 'react';
-import { useFormContext } from 'react-hook-form';
-import { FormKey, isItemAllowed, useLiFi, useWidgetConfig } from '../providers';
-import { useChainOrderStore } from '../stores';
+import { useCallback, useMemo } from 'react';
+import { isItemAllowed, useLiFi, useWidgetConfig } from '../providers';
 
 export const useChains = () => {
-  const { chains, keyPrefix } = useWidgetConfig();
+  const { chains } = useWidgetConfig();
   const lifi = useLiFi();
-  const { getValues, setValue } = useFormContext();
-  const initializeChains = useChainOrderStore(
-    (state) => state.initializeChains,
-  );
   const { data: availableChains, isLoading: isLoadingAvailableChains } =
     useQuery(['chains'], async () => lifi.getChains(), {
       refetchInterval: 300000,
       staleTime: 300000,
     });
 
-  const { data: filteredChains, isLoading: isLoadingFilteredChains } = useQuery(
-    ['filtered-chains', availableChains?.length, keyPrefix],
-    async () => {
-      if (!availableChains) {
-        return;
-      }
-      const filteredChains = availableChains.filter((chain) =>
-        isItemAllowed(chain.id, chains),
-      );
-      const chainOrder = initializeChains(
-        filteredChains.map((chain) => chain.id),
-      );
-      const [fromChainValue, toChainValue] = getValues([
-        FormKey.FromChain,
-        FormKey.ToChain,
-      ]);
-      if (!fromChainValue) {
-        setValue(FormKey.FromChain, chainOrder[0]);
-      }
-      if (!toChainValue) {
-        setValue(FormKey.ToChain, chainOrder[0]);
-      }
-      return filteredChains;
-    },
-    {
-      enabled: Boolean(availableChains),
-    },
-  );
+  const filteredChains = useMemo(() => {
+    const filteredChains = availableChains?.filter((chain) =>
+      isItemAllowed(chain.id, chains),
+    );
+    return filteredChains;
+  }, [availableChains, chains]);
 
   const getChainById = useCallback(
     (chainId: number) => {
@@ -60,6 +32,6 @@ export const useChains = () => {
   return {
     chains: filteredChains,
     getChainById,
-    isLoading: isLoadingAvailableChains || isLoadingFilteredChains,
+    isLoading: isLoadingAvailableChains,
   };
 };

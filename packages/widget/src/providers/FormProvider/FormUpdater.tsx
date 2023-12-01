@@ -24,9 +24,11 @@ export const FormUpdater: React.FC<{
 
   // Set wallet chain as default if no chains are provided by config and if they were not changed during widget usage
   useEffect(() => {
-    const chainAllowed =
-      account.chainId && isItemAllowed(account.chainId, chains);
-    if (!account.isActive || !account.chainId || !chainAllowed) {
+    if (!account.isActive || !account.chainId) {
+      return;
+    }
+    const chainAllowed = isItemAllowed(account.chainId, chains);
+    if (!chainAllowed) {
       return;
     }
 

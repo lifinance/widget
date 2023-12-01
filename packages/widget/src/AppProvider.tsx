@@ -22,21 +22,21 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
 }) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <StoreProvider config={config}>
-        <WidgetProvider config={config}>
-          <SDKProvider>
-            <ThemeProvider>
-              <I18nProvider>
-                <WalletProvider>
-                  <FormProvider>
+      <WidgetProvider config={config}>
+        <SDKProvider>
+          <ThemeProvider>
+            <I18nProvider>
+              <WalletProvider>
+                <FormProvider>
+                  <StoreProvider config={config}>
                     <AppRouter>{children}</AppRouter>
-                  </FormProvider>
-                </WalletProvider>
-              </I18nProvider>
-            </ThemeProvider>
-          </SDKProvider>
-        </WidgetProvider>
-      </StoreProvider>
+                  </StoreProvider>
+                </FormProvider>
+              </WalletProvider>
+            </I18nProvider>
+          </ThemeProvider>
+        </SDKProvider>
+      </WidgetProvider>
     </QueryClientProvider>
   );
 };
