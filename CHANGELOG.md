@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.9.4](https://github.com/lifinance/widget/compare/v2.9.3...v2.9.4) (2023-12-01)
+
+
+### Bug Fixes
+
+* enable chains update from config ([#158](https://github.com/lifinance/widget/issues/158)) ([c16d623](https://github.com/lifinance/widget/commit/c16d6232edf70ead09758cc2df69fd3637a8266f))
+
 ### [2.9.3](https://github.com/lifinance/widget/compare/v2.9.2...v2.9.3) (2023-11-28)
 
 
