@@ -1,6 +1,7 @@
 import type { Route, Token } from '@lifi/sdk';
+import type { FeesBreakdown } from './types';
 
-export const getGasCostsBreakdown = (route: Route) => {
+export const getGasCostsBreakdown = (route: Route): FeesBreakdown[] => {
   return Object.values(
     route.steps.reduce(
       (groupedGasCosts, step) => {
@@ -42,7 +43,10 @@ export const getGasCostsBreakdown = (route: Route) => {
   );
 };
 
-export const getFeeCostsBreakdown = (route: Route, included?: boolean) => {
+export const getFeeCostsBreakdown = (
+  route: Route,
+  included?: boolean,
+): FeesBreakdown[] => {
   return Object.values(
     route.steps.reduce(
       (groupedFeeCosts, step) => {

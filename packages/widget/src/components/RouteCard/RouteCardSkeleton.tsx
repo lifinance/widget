@@ -42,10 +42,10 @@ export const RouteCardSkeleton: React.FC<RouteCardSkeletonProps & BoxProps> = ({
         </Box>
       </Box>
       <Box mt={2} display="flex" justifyContent="space-between">
-        <Skeleton variant="text" width={64} height={20} />
-        <Skeleton variant="text" width={64} height={20} />
-        <Skeleton variant="text" width={48} height={20} />
-        <Skeleton variant="text" width={32} height={20} />
+        <Skeleton variant="text" width={64} height={24} />
+        <Skeleton variant="text" width={48} height={24} />
+        <Skeleton variant="text" width={48} height={24} />
+        <Skeleton variant="text" width={56} height={24} />
       </Box>
     </Box>
   );

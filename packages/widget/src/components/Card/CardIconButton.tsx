@@ -8,6 +8,9 @@ export const CardIconButton = styled(MuiIconButton)(({ theme }) => {
       : theme.palette.common.white;
   return {
     padding: theme.spacing(0.5),
+    borderRadius: theme.shape.borderRadius,
+    height: 24,
+    width: 56,
     backgroundColor: alpha(backgroundColor, 0.04),
     '&:hover': {
       backgroundColor: alpha(backgroundColor, 0.08),
