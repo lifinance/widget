@@ -16,7 +16,7 @@
       "directory": "{workspaceRoot}/{projectRoot}/dist",
       "assets": [
         {
-          "from": "{workspaceRoot}/*.md",
+          "from": "../../*.md",
           "to": "./"
         }
       ]
