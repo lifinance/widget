@@ -3,16 +3,7 @@ const path = require('path');
 const fse = require('fs-extra');
 
 const packagePath = process.cwd();
-const buildPath = path.join(packagePath, './build');
-
-async function includeFileInBuild(file) {
-  const sourcePath = path.resolve(packagePath, file);
-  const targetPath = path.resolve(buildPath, path.basename(file));
-  if (fse.existsSync(sourcePath)) {
-    await fse.copy(sourcePath, targetPath);
-  }
-  console.log(`Copied ${sourcePath} to ${targetPath}`);
-}
+const buildPath = path.join(packagePath, './dist');
 
 async function createPackageFile() {
   const packageData = await fse.readFile(
@@ -25,19 +16,25 @@ async function createPackageFile() {
     devDependencies,
     workspaces,
     files,
+    eslintConfig,
+    ['lint-staged']: lintStaged,
     ...packageDataOther
   } = JSON.parse(packageData);
 
   const newPackageData = {
     ...packageDataOther,
     private: false,
-    ...(packageDataOther.main
-      ? {
-          main: './cjs/index.js',
-          module: './index.js',
-          types: './index.d.ts',
-        }
-      : {}),
+    exports: {
+      '.': {
+        types: './src/_esm/index.d.ts',
+        default: './src/_esm/index.js',
+      },
+      './package.json': './package.json',
+    },
+    main: './src/_esm/index.js',
+    module: './src/_esm/index.js',
+    types: './src/_esm/index.d.ts',
+    typings: './src/_esm/index.d.ts',
   };
 
   const targetPath = path.resolve(buildPath, './package.json');
@@ -55,17 +52,6 @@ async function createPackageFile() {
 async function run() {
   try {
     await createPackageFile();
-
-    await Promise.all(
-      ['../../README.md', './CHANGELOG.md', '../../LICENSE.md'].map((file) =>
-        includeFileInBuild(file),
-      ),
-    );
-
-    // TypeScript
-    // await typescriptCopy({ from: srcPath, to: buildPath });
-
-    // await createModulePackages({ from: srcPath, to: buildPath });
   } catch (err) {
     console.error(err);
     process.exit(1);

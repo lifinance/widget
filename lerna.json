@@ -1,10 +1,25 @@
 {
   "npmClient": "yarn",
-  "packages": ["packages/*"],
-  "ignoreChanges": ["**/*.md"],
+  "packages": [
+    "packages/*"
+  ],
+  "ignoreChanges": [
+    "**/*.md"
+  ],
   "command": {
     "version": {
-      "ignoreChanges": ["**/*.md"]
+      "ignoreChanges": [
+        "**/*.md"
+      ]
+    },
+    "publish": {
+      "directory": "{workspaceRoot}/{projectRoot}/dist",
+      "assets": [
+        {
+          "from": "{workspaceRoot}/*.md",
+          "to": "./"
+        }
+      ]
     }
   },
   "changelogPreset": "conventionalcommits",
