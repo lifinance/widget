@@ -1,4 +1,5 @@
-import { createInstance, i18n } from 'i18next';
+import type { i18n } from 'i18next';
+import { createInstance } from 'i18next';
 import { useMemo } from 'react';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import * as supportedLanguages from '../../i18n';

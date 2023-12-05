@@ -1,5 +1,5 @@
 import type { Theme } from '@mui/material';
-import { useMediaQuery } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { useWidgetConfig } from '../providers';
 
 const defaultExpandableWidth = 852;

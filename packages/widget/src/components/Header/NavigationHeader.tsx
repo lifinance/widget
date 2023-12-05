@@ -1,5 +1,7 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import { Box, Tooltip, Typography } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 import { useTranslation } from 'react-i18next';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { useAccount, useNavigateBack } from '../../hooks';
@@ -13,9 +15,8 @@ import {
 } from '../../utils';
 import { HeaderAppBar, HeaderControlsContainer } from './Header.style';
 import { NavigationTabs } from './NavigationTabs';
-import { WalletMenuButton } from './WalletHeader';
 import { SettingsButton } from './SettingsButton';
-import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import { WalletMenuButton } from './WalletHeader';
 
 export const TransactionHistoryButton = () => {
   const { t } = useTranslation();
