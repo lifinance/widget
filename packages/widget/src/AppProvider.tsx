@@ -14,6 +14,7 @@ import {
 } from './providers';
 import { StoreProvider } from './stores';
 import type { WidgetConfigProps } from './types';
+import { FormStoreProvider } from './stores/form/FormStore';
 
 export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
   children,
@@ -25,11 +26,13 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
         <ThemeProvider>
           <I18nProvider>
             <WalletProvider>
-              <FormProvider>
-                <StoreProvider config={config}>
-                  <AppRouter>{children}</AppRouter>
-                </StoreProvider>
-              </FormProvider>
+              <FormStoreProvider>
+                <FormProvider>
+                  <StoreProvider config={config}>
+                    <AppRouter>{children}</AppRouter>
+                  </StoreProvider>
+                </FormProvider>
+              </FormStoreProvider>
             </WalletProvider>
           </I18nProvider>
         </ThemeProvider>
