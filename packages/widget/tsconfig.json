@@ -4,8 +4,7 @@
     "composite": true,
     "declaration": true,
     "noEmit": false,
-    "sourceMap": true,
-    "outDir": "dist/src/_esm",
+    "outDir": "dist/_esm",
     "rootDir": "./src",
   },
   "include": [
