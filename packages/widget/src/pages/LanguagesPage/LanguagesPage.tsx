@@ -1,6 +1,6 @@
-import { useTranslation } from 'react-i18next';
-import CheckIcon from '@mui/icons-material/Check';
+import { default as CheckIcon } from '@mui/icons-material/Check';
 import { Container, List } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { ListItemText } from '../../components/ListItemText';
 import { SettingsListItemButton } from '../../components/SettingsListItemButton';
 import { useLanguages } from '../../hooks';

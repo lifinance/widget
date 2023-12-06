@@ -1,4 +1,4 @@
-import DeleteIcon from '@mui/icons-material/DeleteOutline';
+import { default as DeleteIcon } from '@mui/icons-material/DeleteOutline';
 import {
   Button,
   Container,

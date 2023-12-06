@@ -1,10 +1,10 @@
-import { useNavigate } from 'react-router-dom';
+import { default as LanguageIcon } from '@mui/icons-material/Language';
 import { useTranslation } from 'react-i18next';
-import LanguageIcon from '@mui/icons-material/Language';
+import { useNavigate } from 'react-router-dom';
+import { useLanguages } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
 import { HiddenUI } from '../../types';
 import { navigationRoutes } from '../../utils';
-import { useLanguages } from '../../hooks';
 import { SettingCardButton, SummaryValue } from './SettingsCard';
 
 export const LanguageSetting: React.FC = () => {

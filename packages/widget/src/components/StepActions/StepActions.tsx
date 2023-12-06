@@ -1,7 +1,7 @@
 import type { LiFiStep, Step, StepExtended } from '@lifi/sdk';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { default as ArrowForwardIcon } from '@mui/icons-material/ArrowForward';
+import { default as ExpandLessIcon } from '@mui/icons-material/ExpandLess';
+import { default as ExpandMoreIcon } from '@mui/icons-material/ExpandMore';
 import type { StepIconProps } from '@mui/material';
 import {
   Badge,

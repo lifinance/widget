@@ -1,6 +1,6 @@
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import { default as ExpandLessIcon } from '@mui/icons-material/ExpandLess';
+import { default as ExpandMoreIcon } from '@mui/icons-material/ExpandMore';
+import { default as VerifiedUserIcon } from '@mui/icons-material/VerifiedUser';
 import { Box, Collapse, Link, Typography } from '@mui/material';
 import type { ChangeEvent, MouseEventHandler } from 'react';
 import { useState } from 'react';

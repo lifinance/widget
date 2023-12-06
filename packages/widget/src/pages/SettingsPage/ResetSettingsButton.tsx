@@ -1,3 +1,4 @@
+import { default as InfoRounded } from '@mui/icons-material/InfoRounded';
 import {
   Box,
   Button,
@@ -11,7 +12,6 @@ import { useTranslation } from 'react-i18next';
 import { Dialog } from '../../components/Dialog';
 import { useSettingMonitor } from '../../hooks';
 import { ResetButtonContainer } from './ResetSettingsButton.style';
-import { InfoRounded } from '@mui/icons-material';
 
 export const ResetSettingsButton: React.FC = () => {
   const { t } = useTranslation();

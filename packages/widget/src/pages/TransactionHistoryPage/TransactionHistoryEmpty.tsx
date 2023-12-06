@@ -1,4 +1,4 @@
-import ReceiptLongRoundedIcon from '@mui/icons-material/ReceiptLongRounded';
+import { default as ReceiptLongRoundedIcon } from '@mui/icons-material/ReceiptLongRounded';
 import { Container, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 

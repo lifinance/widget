@@ -1,4 +1,4 @@
-import ContentCopyIcon from '@mui/icons-material/ContentCopyRounded';
+import { default as ContentCopyIcon } from '@mui/icons-material/ContentCopyRounded';
 import { Box, IconButton, Typography } from '@mui/material';
 import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';

@@ -1,5 +1,5 @@
 import type { LiFiStepExtended } from '@lifi/sdk';
-import EvStationIcon from '@mui/icons-material/EvStation';
+import { default as EvStationIcon } from '@mui/icons-material/EvStation';
 import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { CircularIcon } from './CircularProgress.style';

@@ -1,4 +1,4 @@
-import SettingsIcon from '@mui/icons-material/Settings';
+import { default as SettingsIcon } from '@mui/icons-material/Settings';
 import { Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigateBack, useSettingMonitor } from '../../hooks';

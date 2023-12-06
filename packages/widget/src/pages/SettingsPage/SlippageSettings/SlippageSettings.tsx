@@ -1,19 +1,19 @@
+import { default as PercentIcon } from '@mui/icons-material/Percent';
+import { default as WarningRoundedIcon } from '@mui/icons-material/WarningRounded';
+import { Box, Typography } from '@mui/material';
 import type { ChangeEventHandler, FocusEventHandler } from 'react';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import PercentIcon from '@mui/icons-material/Percent';
-import { useSettings, useSettingsStore } from '../../../stores';
 import { useSettingMonitor } from '../../../hooks';
+import { useSettings, useSettingsStore } from '../../../stores';
 import { formatSlippage } from '../../../utils';
+import { BadgedValue, SettingCardExpandable } from '../SettingsCard';
 import {
   SettingsFieldSet,
   SlippageCustomInput,
   SlippageDefaultButton,
   SlippageLimitsWarningContainer,
 } from './SlippageSettings.style';
-import { Box, Typography } from '@mui/material';
-import { SettingCardExpandable, BadgedValue } from '../SettingsCard';
-import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 
 const slippageDefault = '0.5';
 

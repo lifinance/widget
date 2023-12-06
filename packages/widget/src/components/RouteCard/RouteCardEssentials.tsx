@@ -1,7 +1,7 @@
-import AccessTimeIcon from '@mui/icons-material/AccessTimeFilled';
-import EvStationIcon from '@mui/icons-material/EvStation';
-import LayersIcon from '@mui/icons-material/Layers';
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import { default as AccessTimeIcon } from '@mui/icons-material/AccessTimeFilled';
+import { default as EvStationIcon } from '@mui/icons-material/EvStation';
+import { default as LayersIcon } from '@mui/icons-material/Layers';
+import { default as MonetizationOnIcon } from '@mui/icons-material/MonetizationOn';
 import { Box, Tooltip, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { formatUnits } from 'viem';

@@ -1,5 +1,5 @@
 import type { ExchangeRateUpdateParams } from '@lifi/sdk';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { default as DeleteIcon } from '@mui/icons-material/Delete';
 import { Box, Button, Tooltip } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';

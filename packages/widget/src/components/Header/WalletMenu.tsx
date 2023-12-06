@@ -1,7 +1,7 @@
 import { ChainType } from '@lifi/sdk';
-import ContentCopyIcon from '@mui/icons-material/ContentCopyRounded';
-import OpenInNewIcon from '@mui/icons-material/OpenInNewRounded';
-import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNewRounded';
+import { default as ContentCopyIcon } from '@mui/icons-material/ContentCopyRounded';
+import { default as OpenInNewIcon } from '@mui/icons-material/OpenInNewRounded';
+import { default as PowerSettingsNewIcon } from '@mui/icons-material/PowerSettingsNewRounded';
 import {
   Avatar,
   Badge,

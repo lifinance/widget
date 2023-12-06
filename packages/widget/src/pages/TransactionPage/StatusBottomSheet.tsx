@@ -1,7 +1,7 @@
-import DoneIcon from '@mui/icons-material/Done';
-import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
-import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
-import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
+import { default as DoneIcon } from '@mui/icons-material/Done';
+import { default as ErrorRoundedIcon } from '@mui/icons-material/ErrorRounded';
+import { default as InfoRoundedIcon } from '@mui/icons-material/InfoRounded';
+import { default as WarningRoundedIcon } from '@mui/icons-material/WarningRounded';
 import { Box, Button, Typography } from '@mui/material';
 import { useEffect, useRef } from 'react';
 import { useFormContext } from 'react-hook-form';

@@ -1,4 +1,4 @@
-import BlockIcon from '@mui/icons-material/Block';
+import { default as BlockIcon } from '@mui/icons-material/Block';
 import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 

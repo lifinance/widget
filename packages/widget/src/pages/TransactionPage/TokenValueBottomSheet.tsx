@@ -1,5 +1,5 @@
 import type { Route } from '@lifi/sdk';
-import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
+import { default as WarningRoundedIcon } from '@mui/icons-material/WarningRounded';
 import { Box, Button, Typography } from '@mui/material';
 import type { MutableRefObject } from 'react';
 import { forwardRef, useRef } from 'react';

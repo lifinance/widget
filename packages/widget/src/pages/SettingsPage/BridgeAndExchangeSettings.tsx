@@ -1,12 +1,12 @@
+import { default as AirlineStopsIcon } from '@mui/icons-material/AirlineStops';
+import { default as SwapHorizIcon } from '@mui/icons-material/SwapHoriz';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { shallow } from 'zustand/shallow';
-import AirlineStopsIcon from '@mui/icons-material/AirlineStops';
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import { useSettingMonitor } from '../../hooks';
 import { useSettingsStore } from '../../stores';
 import { navigationRoutes } from '../../utils';
-import { useSettingMonitor } from '../../hooks';
-import { SettingCardButton, BadgedValue } from './SettingsCard';
+import { BadgedValue, SettingCardButton } from './SettingsCard';
 
 const supportedIcons = {
   Bridges: AirlineStopsIcon,

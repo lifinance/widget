@@ -1,5 +1,5 @@
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import WalletIcon from '@mui/icons-material/Wallet';
+import { default as ExpandMoreIcon } from '@mui/icons-material/ExpandMore';
+import { default as WalletIcon } from '@mui/icons-material/Wallet';
 import { Avatar, Badge } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';

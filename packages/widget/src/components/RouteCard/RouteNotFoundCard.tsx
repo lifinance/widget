@@ -1,4 +1,4 @@
-import RouteIcon from '@mui/icons-material/Route';
+import { default as RouteIcon } from '@mui/icons-material/Route';
 import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 

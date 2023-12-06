@@ -1,10 +1,10 @@
-import { useTranslation } from 'react-i18next';
-import RouteIcon from '@mui/icons-material/Route';
 import { Orders } from '@lifi/sdk';
+import { default as RouteIcon } from '@mui/icons-material/Route';
+import { useTranslation } from 'react-i18next';
 import { Tab, Tabs } from '../../components/Tabs';
-import { useSettings, useSettingsStore } from '../../stores';
 import { useSettingMonitor } from '../../hooks';
-import { SettingCardExpandable, BadgedValue } from './SettingsCard';
+import { useSettings, useSettingsStore } from '../../stores';
+import { BadgedValue, SettingCardExpandable } from './SettingsCard';
 
 type SupportedRoute = (typeof Orders)[number];
 

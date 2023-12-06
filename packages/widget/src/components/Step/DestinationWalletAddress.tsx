@@ -1,6 +1,6 @@
 import type { LiFiStepExtended } from '@lifi/sdk';
-import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
-import WalletIcon from '@mui/icons-material/Wallet';
+import { default as LinkRoundedIcon } from '@mui/icons-material/LinkRounded';
+import { default as WalletIcon } from '@mui/icons-material/Wallet';
 import { Box, Link, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { CircularIcon } from './CircularProgress.style';

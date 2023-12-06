@@ -1,9 +1,9 @@
-import EvStationIcon from '@mui/icons-material/EvStation';
+import { default as EvStationIcon } from '@mui/icons-material/EvStation';
 import { useTranslation } from 'react-i18next';
-import { useSettings, useSettingsStore } from '../../stores';
 import { Tab, Tabs } from '../../components/Tabs';
 import { useSettingMonitor } from '../../hooks';
-import { SettingCardExpandable, BadgedValue } from './SettingsCard';
+import { useSettings, useSettingsStore } from '../../stores';
+import { BadgedValue, SettingCardExpandable } from './SettingsCard';
 
 export const GasPriceSettings: React.FC = () => {
   const { t } = useTranslation();
