@@ -1,13 +1,11 @@
 /* eslint-disable no-console */
-const path = require('path');
-const fse = require('fs-extra');
+import fsExtra from 'fs-extra';
+import { resolve } from 'path';
+const { readFile, writeFile } = fsExtra;
 
-const packagePath = process.cwd();
-const buildPath = path.join(packagePath, './dist');
-
-async function createPackageFile() {
-  const packageData = await fse.readFile(
-    path.resolve(packagePath, './package.json'),
+export async function createPackageFile(packagePath, path) {
+  const packageData = await readFile(
+    resolve(packagePath, './package.json'),
     'utf8',
   );
   const {
@@ -28,25 +26,9 @@ async function createPackageFile() {
     types: './_esm/index.d.ts',
   };
 
-  const targetPath = path.resolve(buildPath, './package.json');
+  const targetPath = resolve(path, './package.json');
 
-  await fse.writeFile(
-    targetPath,
-    JSON.stringify(newPackageData, null, 2),
-    'utf8',
-  );
-  console.log(`Created package.json in ${targetPath}.`);
+  await writeFile(targetPath, JSON.stringify(newPackageData, null, 2), 'utf8');
 
   return newPackageData;
 }
-
-async function run() {
-  try {
-    await createPackageFile();
-  } catch (err) {
-    console.error(err);
-    process.exit(1);
-  }
-}
-
-run();
