@@ -23,18 +23,9 @@ async function createPackageFile() {
 
   const newPackageData = {
     ...packageDataOther,
-    private: false,
-    exports: {
-      '.': {
-        types: './src/_esm/index.d.ts',
-        default: './src/_esm/index.js',
-      },
-      './package.json': './package.json',
-    },
-    main: './src/_esm/index.js',
+    main: './src/_cjs/index.js',
     module: './src/_esm/index.js',
     types: './src/_esm/index.d.ts',
-    typings: './src/_esm/index.d.ts',
   };
 
   const targetPath = path.resolve(buildPath, './package.json');

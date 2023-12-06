@@ -3,16 +3,17 @@
   "version": "3.0.0-alpha.1",
   "description": "LI.FI Wallet Management solution.",
   "type": "module",
-  "main": "./src/index.js",
-  "module": "./src/index.js",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
   "types": "./src/index.d.ts",
   "sideEffects": false,
   "scripts": {
     "watch": "tsc -w -p ./tsconfig.json",
-    "build": "yarn clean && yarn build:esm && yarn build:format-package-json && yarn build:clean",
-    "build:esm": "tsc --project ./tsconfig.json --module es2020",
+    "build": "yarn clean && yarn build:esm && yarn build:cjs && yarn build:format-package-json && yarn build:clean",
+    "build:esm": "tsc --build",
+    "build:cjs": "tsc --build ./tsconfig.cjs.json",
     "build:format-package-json": "node ../../scripts/format-package-json.js && cpy 'src/**/*' dist/src",
-    "build:clean": "rm -rf tsconfig.tsbuildinfo src/tsconfig.tsbuildinfo dist/src/tsconfig.tsbuildinfo",
+    "build:clean": "rm -rf tsconfig.tsbuildinfo dist/src/tsconfig.tsbuildinfo dist/src/tsconfig.cjs.tsbuildinfo",
     "clean": "yarn build:clean && rm -rf dist",
     "check:types": "tsc --noEmit",
     "pre-commit": "lint-staged",
@@ -53,7 +54,7 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "^3.0.0-alpha.36",
+    "@lifi/sdk": "^3.0.0-alpha.37",
     "react": "^18.2.0",
     "wagmi": "^2.0.0-beta.5"
   },

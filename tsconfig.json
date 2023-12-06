@@ -33,7 +33,7 @@
       ],
       "@lifi/widget/*": [
         "./packages/widget/src/*"
-      ]
+      ],
     }
   },
   "exclude": [

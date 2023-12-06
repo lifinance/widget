@@ -5,11 +5,12 @@
     "declaration": true,
     "noEmit": false,
     "sourceMap": true,
+    "sourceRoot": "../",
     "outDir": "dist/src/_esm",
-    "rootDir": "./src"
+    "rootDir": "./src",
   },
   "include": [
     "./src/**/*",
-    "./src/**/*.json"
+    "./src/**/*.json",
   ],
 }

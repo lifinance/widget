@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "outDir": "dist/src/_cjs",
+  },
+  "references": [
+    {
+      "path": "../wallet-management/tsconfig.json"
+    },
+  ]
+}

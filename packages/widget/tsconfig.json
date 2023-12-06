@@ -7,11 +7,10 @@
     "sourceMap": true,
     "outDir": "dist/src/_esm",
     "rootDir": "./src",
-    "baseUrl": "../../"
   },
   "include": [
     "./src/**/*",
-    "./src/**/*.json"
+    "./src/**/*.json",
   ],
   "references": [
     {
