@@ -1,5 +1,5 @@
 import type { ExchangeRateUpdateParams } from '@lifi/sdk';
-import { default as WarningRoundedIcon } from '@mui/icons-material/WarningRounded';
+import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import { Box, Button, Typography } from '@mui/material';
 import type { MutableRefObject } from 'react';
 import {

@@ -1,4 +1,4 @@
-import { default as EvStationIcon } from '@mui/icons-material/EvStation';
+import EvStationIcon from '@mui/icons-material/EvStation';
 import type { BoxProps } from '@mui/material';
 import { Box, Collapse, Typography } from '@mui/material';
 import type { ChangeEvent } from 'react';

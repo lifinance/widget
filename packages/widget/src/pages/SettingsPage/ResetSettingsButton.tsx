@@ -1,4 +1,4 @@
-import { default as InfoRounded } from '@mui/icons-material/InfoRounded';
+import InfoRounded from '@mui/icons-material/InfoRounded';
 import {
   Box,
   Button,

@@ -1,6 +1,6 @@
-import { default as CloseIcon } from '@mui/icons-material/CloseRounded';
-import { default as KeyboardArrowLeftIcon } from '@mui/icons-material/KeyboardArrowLeft';
-import { default as KeyboardArrowRightIcon } from '@mui/icons-material/KeyboardArrowRight';
+import CloseIcon from '@mui/icons-material/CloseRounded';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { Drawer } from '@mui/material';
 import {
   forwardRef,

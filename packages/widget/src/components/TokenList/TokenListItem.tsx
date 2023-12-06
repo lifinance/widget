@@ -1,4 +1,4 @@
-import { default as OpenInNewIcon } from '@mui/icons-material/OpenInNewRounded';
+import OpenInNewIcon from '@mui/icons-material/OpenInNewRounded';
 import {
   Avatar,
   Box,

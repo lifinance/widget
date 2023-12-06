@@ -1,4 +1,4 @@
-import { default as WarningRoundedIcon } from '@mui/icons-material/WarningRounded';
+import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import {

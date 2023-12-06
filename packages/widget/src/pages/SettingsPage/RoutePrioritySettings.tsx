@@ -1,5 +1,5 @@
 import { Orders } from '@lifi/sdk';
-import { default as RouteIcon } from '@mui/icons-material/Route';
+import RouteIcon from '@mui/icons-material/Route';
 import { useTranslation } from 'react-i18next';
 import { Tab, Tabs } from '../../components/Tabs';
 import { useSettingMonitor } from '../../hooks';

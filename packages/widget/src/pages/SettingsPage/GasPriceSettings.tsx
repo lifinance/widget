@@ -1,4 +1,4 @@
-import { default as EvStationIcon } from '@mui/icons-material/EvStation';
+import EvStationIcon from '@mui/icons-material/EvStation';
 import { useTranslation } from 'react-i18next';
 import { Tab, Tabs } from '../../components/Tabs';
 import { useSettingMonitor } from '../../hooks';

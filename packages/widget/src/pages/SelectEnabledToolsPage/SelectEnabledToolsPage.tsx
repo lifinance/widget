@@ -1,7 +1,7 @@
-import { default as CheckIcon } from '@mui/icons-material/Check';
-import { default as CheckBoxOutlineBlankOutlinedIcon } from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
-import { default as CheckBoxOutlinedIcon } from '@mui/icons-material/CheckBoxOutlined';
-import { default as IndeterminateCheckBoxOutlinedIcon } from '@mui/icons-material/IndeterminateCheckBoxOutlined';
+import CheckIcon from '@mui/icons-material/Check';
+import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
+import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
+import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
 import {
   Avatar,
   Container,

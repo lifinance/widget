@@ -1,5 +1,5 @@
-import { default as AirlineStopsIcon } from '@mui/icons-material/AirlineStops';
-import { default as SwapHorizIcon } from '@mui/icons-material/SwapHoriz';
+import AirlineStopsIcon from '@mui/icons-material/AirlineStops';
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { shallow } from 'zustand/shallow';

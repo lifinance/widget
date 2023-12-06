@@ -1,4 +1,4 @@
-import { default as LanguageIcon } from '@mui/icons-material/Language';
+import LanguageIcon from '@mui/icons-material/Language';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useLanguages } from '../../hooks';

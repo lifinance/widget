@@ -1,5 +1,5 @@
-import { default as ArrowBackIcon } from '@mui/icons-material/ArrowBack';
-import { default as ReceiptLongIcon } from '@mui/icons-material/ReceiptLong';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import { Box, Tooltip, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { useTranslation } from 'react-i18next';

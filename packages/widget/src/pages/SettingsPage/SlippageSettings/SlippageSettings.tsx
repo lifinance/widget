@@ -1,5 +1,5 @@
-import { default as PercentIcon } from '@mui/icons-material/Percent';
-import { default as WarningRoundedIcon } from '@mui/icons-material/WarningRounded';
+import PercentIcon from '@mui/icons-material/Percent';
+import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import { Box, Typography } from '@mui/material';
 import type { ChangeEventHandler, FocusEventHandler } from 'react';
 import { useRef, useState } from 'react';

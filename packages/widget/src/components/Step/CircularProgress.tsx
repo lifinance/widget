@@ -1,8 +1,8 @@
 import type { Process } from '@lifi/sdk';
-import { default as DoneIcon } from '@mui/icons-material/Done';
-import { default as ErrorRoundedIcon } from '@mui/icons-material/ErrorRounded';
-import { default as InfoRoundedIcon } from '@mui/icons-material/InfoRounded';
-import { default as WarningRoundedIcon } from '@mui/icons-material/WarningRounded';
+import DoneIcon from '@mui/icons-material/Done';
+import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
+import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
+import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import { darken } from '@mui/material/styles';
 import {
   CircularIcon,

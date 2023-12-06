@@ -1,4 +1,4 @@
-import { default as WalletIcon } from '@mui/icons-material/Wallet';
+import WalletIcon from '@mui/icons-material/Wallet';
 import type { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Switch } from '../../components/Switch';

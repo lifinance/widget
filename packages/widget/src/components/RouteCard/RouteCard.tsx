@@ -1,7 +1,7 @@
 import type { TokenAmount } from '@lifi/sdk';
-import { default as ExpandLessIcon } from '@mui/icons-material/ExpandLess';
-import { default as ExpandMoreIcon } from '@mui/icons-material/ExpandMore';
-import { default as VerifiedUserIcon } from '@mui/icons-material/VerifiedUser';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import type { TooltipProps } from '@mui/material';
 import { Box, Collapse, Tooltip, Typography } from '@mui/material';
 import type { MouseEventHandler } from 'react';

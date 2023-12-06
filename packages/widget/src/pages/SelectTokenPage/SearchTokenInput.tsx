@@ -1,4 +1,4 @@
-import { default as SearchIcon } from '@mui/icons-material/Search';
+import SearchIcon from '@mui/icons-material/Search';
 import { FormControl, InputAdornment } from '@mui/material';
 import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';

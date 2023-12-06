@@ -1,4 +1,4 @@
-import { default as EvStationIcon } from '@mui/icons-material/EvStation';
+import EvStationIcon from '@mui/icons-material/EvStation';
 import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { formatUnits } from 'viem';

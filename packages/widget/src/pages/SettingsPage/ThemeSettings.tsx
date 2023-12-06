@@ -1,6 +1,6 @@
-import { default as BrightnessAuto } from '@mui/icons-material/BrightnessAuto';
-import { default as LightModeIcon } from '@mui/icons-material/LightMode';
-import { default as Nightlight } from '@mui/icons-material/Nightlight';
+import BrightnessAutoIcon from '@mui/icons-material/BrightnessAuto';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import NightlightIcon from '@mui/icons-material/Nightlight';
 import { Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Tab, Tabs } from '../../components/Tabs';
@@ -12,8 +12,8 @@ import { SettingCardExpandable, SummaryValue } from './SettingsCard';
 
 const themeIcons = {
   light: LightModeIcon,
-  dark: Nightlight,
-  auto: BrightnessAuto,
+  dark: NightlightIcon,
+  auto: BrightnessAutoIcon,
 };
 
 interface ThemeTabProps {

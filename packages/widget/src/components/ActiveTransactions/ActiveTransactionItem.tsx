@@ -1,6 +1,6 @@
-import { default as ArrowForwardIcon } from '@mui/icons-material/ArrowForward';
-import { default as ErrorRoundedIcon } from '@mui/icons-material/ErrorRounded';
-import { default as InfoRoundedIcon } from '@mui/icons-material/InfoRounded';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
+import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import { ListItemAvatar, ListItemText, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useProcessMessage, useRouteExecution } from '../../hooks';

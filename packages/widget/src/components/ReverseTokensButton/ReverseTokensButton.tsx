@@ -1,5 +1,5 @@
-import { default as SwapHorizIcon } from '@mui/icons-material/SwapHoriz';
-import { default as SwapVertIcon } from '@mui/icons-material/SwapVert';
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { useFormContext } from 'react-hook-form';
 import { FormKey } from '../../providers';
 import { IconButton } from './ReverseTokensButton.style';
