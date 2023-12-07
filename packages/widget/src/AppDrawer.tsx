@@ -11,7 +11,7 @@ import {
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AppDefault } from './App';
+import { AppDefault } from './AppDefault';
 import {
   CloseButtonLayout,
   DrawerButton,
@@ -93,10 +93,12 @@ export const AppDrawer = forwardRef<WidgetDrawer, WidgetProps>(
           anchor="right"
           open={drawerOpen}
           onClose={closeDrawer}
-          BackdropProps={{
-            sx: {
-              backgroundColor: 'rgb(0 0 0 / 48%)',
-              backdropFilter: 'blur(3px)',
+          slotProps={{
+            backdrop: {
+              sx: {
+                backgroundColor: 'rgb(0 0 0 / 48%)',
+                backdropFilter: 'blur(3px)',
+              },
             },
           }}
           PaperProps={{

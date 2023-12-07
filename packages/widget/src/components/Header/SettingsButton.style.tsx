@@ -1,5 +1,6 @@
-import { IconButton, Badge as MuiBadge } from '@mui/material';
+import { Badge as MuiBadge } from '@mui/material';
 import { badgeClasses } from '@mui/material/Badge';
+import IconButton from '@mui/material/IconButton';
 import { darken, styled } from '@mui/material/styles';
 import { getInfoBackgroundColor, getWarningBackgroundColor } from '../../utils';
 
@@ -16,13 +17,13 @@ export const SettingsIconBadge = styled(MuiBadge)(({ theme }) => ({
 }));
 
 interface SettingsIconButtonProps {
-  notification?: 'info' | 'warning';
+  variant?: 'info' | 'warning';
 }
 
 export const SettingsIconButton = styled(IconButton, {
-  shouldForwardProp: (props) => props !== 'notification',
-})<SettingsIconButtonProps>(({ theme, notification }) => {
-  const notificationStyles = {
+  shouldForwardProp: (props) => props !== 'variant',
+})<SettingsIconButtonProps>(({ theme, variant }) => {
+  const variantStyles = {
     info: {
       backgroundColor: getInfoBackgroundColor(theme),
       '&:hover': {
@@ -42,6 +43,6 @@ export const SettingsIconButton = styled(IconButton, {
 
   return {
     borderRadius: 20,
-    ...notificationStyles[notification ?? 'default'],
+    ...variantStyles[variant ?? 'default'],
   };
 });

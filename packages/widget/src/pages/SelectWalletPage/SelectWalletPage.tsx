@@ -7,8 +7,8 @@ import {
   DialogContent,
   DialogContentText,
   List,
-  useMediaQuery,
 } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { WalletReadyState } from '@solana/wallet-adapter-base';
 import type { Wallet } from '@solana/wallet-adapter-react';
 import { useWallet } from '@solana/wallet-adapter-react';

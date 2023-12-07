@@ -6,7 +6,11 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
     "module": "ESNext",
     "moduleResolution": "Node",
     "noEmit": true,
@@ -18,11 +22,25 @@
     "composite": true,
     "baseUrl": "./",
     "paths": {
-      "@lifi/wallet-management": ["./packages/wallet-management/src"],
-      "@lifi/wallet-management/*": ["./packages/wallet-management/src/*"],
-      "@lifi/widget": ["./packages/widget/src"],
-      "@lifi/widget/*": ["./packages/widget/src/*"]
+      "@lifi/wallet-management": [
+        "./packages/wallet-management/src"
+      ],
+      "@lifi/wallet-management/*": [
+        "./packages/wallet-management/src/*"
+      ],
+      "@lifi/widget": [
+        "./packages/widget/src"
+      ],
+      "@lifi/widget/*": [
+        "./packages/widget/src/*"
+      ],
     }
   },
-  "exclude": ["**/.*/", "**/build", "**/dist", "node_modules", ".yarn"]
+  "exclude": [
+    "**/.*/",
+    "**/build",
+    "**/dist",
+    "node_modules",
+    ".yarn"
+  ]
 }

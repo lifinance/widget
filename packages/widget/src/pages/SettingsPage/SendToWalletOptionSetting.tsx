@@ -1,6 +1,6 @@
+import WalletIcon from '@mui/icons-material/Wallet';
 import type { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import WalletIcon from '@mui/icons-material/Wallet';
 import { Switch } from '../../components/Switch';
 import { useWidgetConfig } from '../../providers';
 import {

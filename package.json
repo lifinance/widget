@@ -1,7 +1,8 @@
 {
-  "version": "3.0.0-alpha.0",
+  "version": "3.0.0-alpha.8",
   "private": true,
   "sideEffects": false,
+  "type": "module",
   "packageManager": "yarn@4.0.2",
   "workspaces": [
     "packages/*"
@@ -17,9 +18,9 @@
     "release:version:before": "node scripts/private-version before",
     "release:version:after": "yarn release:build && node scripts/private-version after",
     "release:build": "lerna run build --no-private",
-    "release:publish": "lerna publish from-package --dist-tag latest --contents build --no-verify-access --yes",
-    "release:publish:alpha": "lerna publish from-package --dist-tag alpha --contents build --no-verify-access --yes",
-    "release:publish:beta": "lerna publish from-package --dist-tag beta --contents build --no-verify-access --yes"
+    "release:publish": "lerna publish from-package --dist-tag latest --no-verify-access --yes",
+    "release:publish:alpha": "lerna publish from-package --dist-tag alpha --no-verify-access --yes",
+    "release:publish:beta": "lerna publish from-package --dist-tag beta --no-verify-access --yes"
   },
   "standard-version": {
     "scripts": {
@@ -33,15 +34,15 @@
     "@testing-library/user-event": "^14.5.1",
     "@types/eslint": "^8.44.8",
     "@types/events": "^3.0.3",
-    "@types/node": "^20.10.1",
-    "@types/react": "^18.2.39",
+    "@types/node": "^20.10.3",
+    "@types/react": "^18.2.42",
     "@types/react-dom": "^18.2.17",
     "@types/uuid": "^9.0.7",
-    "@typescript-eslint/eslint-plugin": "^6.13.1",
-    "@typescript-eslint/parser": "^6.13.1",
+    "@typescript-eslint/eslint-plugin": "^6.13.2",
+    "@typescript-eslint/parser": "^6.13.2",
     "cpy-cli": "^5.0.0",
-    "eslint": "^8.54.0",
-    "eslint-config-prettier": "^9.0.0",
+    "eslint": "^8.55.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-flowtype": "^8.0.3",
     "eslint-plugin-import": "^2.29.0",

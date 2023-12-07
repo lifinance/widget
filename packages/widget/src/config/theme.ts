@@ -1,4 +1,5 @@
 import { loadingButtonClasses } from '@mui/lab/LoadingButton';
+import type {} from '@mui/lab/themeAugmentation';
 import type { PaletteMode, SimplePaletteColorOptions } from '@mui/material';
 import { touchRippleClasses } from '@mui/material/ButtonBase';
 import { dialogActionsClasses } from '@mui/material/DialogActions';
@@ -15,15 +16,6 @@ import {
 import type { ThemeConfig } from '../types';
 
 // https://mui.com/customization/palette/
-// declare module '@mui/material/styles' {
-//   interface Palette {
-//     appBar: Palette['primary'];
-//   }
-//   interface PaletteOptions {
-//     appBar?: PaletteOptions['primary'];
-//   }
-// }
-
 declare module '@mui/material/styles' {
   interface TypographyVariants {
     '@supports (font-variation-settings: normal)': React.CSSProperties;
