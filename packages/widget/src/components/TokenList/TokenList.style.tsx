@@ -1,4 +1,3 @@
-import type { StyledComponent } from '@emotion/styled';
 import type { IconButtonProps, LinkProps } from '@mui/material';
 import {
   IconButton as MuiIconButton,
@@ -37,25 +36,25 @@ export const ListItem = styled(MuiListItem)(({ theme }) => ({
   },
 }));
 
-export const IconButton: StyledComponent<IconButtonProps & LinkProps> = styled(
-  MuiIconButton,
-)<IconButtonProps & LinkProps>(({ theme }) => ({
-  lineHeight: 1,
-  fontSize: '0.75rem',
-  fontWeight: 400,
-  padding: theme.spacing(0.375, 0.375),
-  marginLeft: theme.spacing(0.25),
-  color: 'inherit',
-  backgroundColor: 'unset',
-  minWidth: 'unset',
-  borderRadius: '50%',
-  '&:hover': {
-    backgroundColor:
-      theme.palette.mode === 'light'
-        ? alpha(theme.palette.common.black, 0.04)
-        : alpha(theme.palette.common.white, 0.08),
-  },
-  svg: {
-    fontSize: '0.875rem',
-  },
-}));
+export const IconButton = styled(MuiIconButton)<IconButtonProps & LinkProps>(
+  ({ theme }) => ({
+    lineHeight: 1,
+    fontSize: '0.75rem',
+    fontWeight: 400,
+    padding: theme.spacing(0.375, 0.375),
+    marginLeft: theme.spacing(0.25),
+    color: 'inherit',
+    backgroundColor: 'unset',
+    minWidth: 'unset',
+    borderRadius: '50%',
+    '&:hover': {
+      backgroundColor:
+        theme.palette.mode === 'light'
+          ? alpha(theme.palette.common.black, 0.04)
+          : alpha(theme.palette.common.white, 0.08),
+    },
+    svg: {
+      fontSize: '0.875rem',
+    },
+  }),
+);

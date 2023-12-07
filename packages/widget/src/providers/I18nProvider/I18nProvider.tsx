@@ -1,3 +1,4 @@
+import type { i18n } from 'i18next';
 import { createInstance } from 'i18next';
 import { useMemo } from 'react';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
@@ -61,5 +62,5 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
     return i18n;
   }, [language, languageResources, languages]);
 
-  return <I18nextProvider i18n={i18n}>{children}</I18nextProvider>;
+  return <I18nextProvider i18n={i18n as i18n}>{children}</I18nextProvider>;
 };

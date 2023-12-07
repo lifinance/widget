@@ -1,6 +1,3 @@
-import type { MouseEventHandler } from 'react';
-import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import CheckIcon from '@mui/icons-material/Check';
 import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
@@ -13,11 +10,14 @@ import {
   ListItemAvatar,
   Tooltip,
 } from '@mui/material';
+import type { MouseEventHandler } from 'react';
+import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { shallow } from 'zustand/shallow';
 import { ListItemText } from '../../components/ListItemText';
+import { SettingsListItemButton } from '../../components/SettingsListItemButton';
 import { useTools } from '../../hooks';
 import { useHeaderStoreContext, useSettingsStore } from '../../stores';
-import { SettingsListItemButton } from '../../components/SettingsListItemButton';
 
 interface SelectAllCheckboxProps {
   allCheckboxesSelected: boolean;

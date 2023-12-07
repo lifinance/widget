@@ -1,5 +1,6 @@
 import WalletIcon from '@mui/icons-material/Wallet';
-import { Button, Tooltip } from '@mui/material';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useRequiredToAddress, useWidgetEvents } from '../../hooks';

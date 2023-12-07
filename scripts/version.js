@@ -1,16 +1,17 @@
-const path = require('path');
-const fs = require('fs-extra');
+import fsExtra from 'fs-extra';
+import { join } from 'path';
+const { readFile, writeFile } = fsExtra;
 
 async function run() {
-  const packagePath = path.join(process.cwd(), './package.json');
+  const packagePath = join(process.cwd(), './package.json');
 
-  const packageData = await fs.readFile(packagePath, 'utf8');
+  const packageData = await readFile(packagePath, 'utf8');
 
   const { version, name } = JSON.parse(packageData);
 
   const src = `export const name = '${name}';\nexport const version = '${version}';\n`;
 
-  await fs.writeFile(`${process.cwd()}/src/config/version.ts`, src, {
+  writeFile(`${process.cwd()}/src/config/version.ts`, src, {
     flat: 'w',
   });
 }

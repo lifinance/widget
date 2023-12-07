@@ -1,19 +1,19 @@
-import type { Appearance } from '../../types';
-import { HiddenUI } from '../../types';
-import { useWidgetConfig } from '../../providers';
+import BrightnessAutoIcon from '@mui/icons-material/BrightnessAuto';
 import LightModeIcon from '@mui/icons-material/LightMode';
-import BrightnessAuto from '@mui/icons-material/BrightnessAuto';
-import Nightlight from '@mui/icons-material/Nightlight';
+import NightlightIcon from '@mui/icons-material/Nightlight';
 import { Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useAppearance } from '../../stores';
-import { SettingCardExpandable, SummaryValue } from './SettingsCard';
 import { Tab, Tabs } from '../../components/Tabs';
+import { useWidgetConfig } from '../../providers';
+import { useAppearance } from '../../stores';
+import type { Appearance } from '../../types';
+import { HiddenUI } from '../../types';
+import { SettingCardExpandable, SummaryValue } from './SettingsCard';
 
 const themeIcons = {
   light: LightModeIcon,
-  dark: Nightlight,
-  auto: BrightnessAuto,
+  dark: NightlightIcon,
+  auto: BrightnessAutoIcon,
 };
 
 interface ThemeTabProps {

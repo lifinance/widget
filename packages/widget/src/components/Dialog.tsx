@@ -19,11 +19,13 @@ export const paperProps = {
   }),
 };
 
-export const backdropProps = {
-  sx: {
-    position: 'absolute',
-    backgroundColor: 'rgb(0 0 0 / 32%)',
-    backdropFilter: 'blur(3px)',
+export const slotProps = {
+  backdrop: {
+    sx: {
+      position: 'absolute',
+      backgroundColor: 'rgb(0 0 0 / 32%)',
+      backdropFilter: 'blur(3px)',
+    },
   },
 };
 
@@ -40,7 +42,7 @@ export const Dialog: React.FC<PropsWithChildren<DialogProps>> = ({
       onClose={onClose}
       sx={modalProps.sx}
       PaperProps={paperProps}
-      BackdropProps={backdropProps}
+      slotProps={slotProps}
     >
       {children}
     </MuiDialog>
