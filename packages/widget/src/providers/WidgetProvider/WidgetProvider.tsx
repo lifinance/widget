@@ -59,10 +59,10 @@ export const WidgetProvider: React.FC<
                 )?.toLowerCase() as ChainKey,
               )?.id
             : (searchParams.fromChain &&
-                  !isNaN(parseInt(searchParams.fromChain, 10))) ||
-                typeof fromChain === 'number'
-              ? parseInt(searchParams.fromChain, 10) || fromChain
-              : undefined,
+                !isNaN(parseInt(searchParams.fromChain, 10))) ||
+              typeof fromChain === 'number'
+            ? parseInt(searchParams.fromChain, 10) || fromChain
+            : undefined,
         toChain:
           (searchParams.toChain && isNaN(parseInt(searchParams.toChain, 10))) ||
           typeof toChain === 'string'
@@ -72,13 +72,12 @@ export const WidgetProvider: React.FC<
                 )?.toLowerCase() as ChainKey,
               )?.id
             : (searchParams.toChain &&
-                  !isNaN(parseInt(searchParams.toChain, 10))) ||
-                typeof toChain === 'number'
-              ? parseInt(searchParams.toChain, 10) || toChain
-              : undefined,
-        fromToken:
-          searchParams.fromToken?.toLowerCase() || fromToken?.toLowerCase(),
-        toToken: searchParams.toToken?.toLowerCase() || toToken?.toLowerCase(),
+                !isNaN(parseInt(searchParams.toChain, 10))) ||
+              typeof toChain === 'number'
+            ? parseInt(searchParams.toChain, 10) || toChain
+            : undefined,
+        fromToken: searchParams.fromToken || fromToken,
+        toToken: searchParams.toToken || toToken,
         fromAmount:
           typeof searchParams.fromAmount === 'string' &&
           !isNaN(parseFloat(searchParams.fromAmount))
