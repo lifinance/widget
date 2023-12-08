@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.9.5](https://github.com/lifinance/widget/compare/v2.9.4...v2.9.5) (2023-12-08)
+
+
+### Bug Fixes
+
+* remove lowercase addresses from config ([99dbcde](https://github.com/lifinance/widget/commit/99dbcde0577edfe2ecc997f2c312a4f0f4e640dc))
+
 ### [2.9.4](https://github.com/lifinance/widget/compare/v2.9.3...v2.9.4) (2023-12-01)
 
 
