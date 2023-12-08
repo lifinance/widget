@@ -2,7 +2,6 @@ import { isWalletInstalled } from '@lifi/wallet-management';
 import type { Theme } from '@mui/material';
 import {
   Button,
-  Container,
   DialogActions,
   DialogContent,
   DialogContentText,
@@ -17,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import type { Connector } from 'wagmi';
 import { useConnect, useAccount as useWagmiAccount } from 'wagmi';
 import { Dialog } from '../../components/Dialog';
+import { PageContainer } from '../../components/PageContainer';
 import { EVMListItemButton } from './EVMListItemButton';
 import { SVMListItemButton } from './SVMListItemButton';
 import { walletComparator } from './utils';
@@ -85,7 +85,7 @@ export const SelectWalletPage = () => {
   }, [account.connector?.id, connectors, isDesktopView, solanaWallets]);
 
   return (
-    <Container disableGutters>
+    <PageContainer disableGutters>
       <List
         sx={{
           paddingLeft: 1.5,
@@ -122,6 +122,6 @@ export const SelectWalletPage = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </Container>
+    </PageContainer>
   );
 };

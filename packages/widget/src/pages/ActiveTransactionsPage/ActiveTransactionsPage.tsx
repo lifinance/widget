@@ -1,7 +1,6 @@
 import DeleteIcon from '@mui/icons-material/DeleteOutline';
 import {
   Button,
-  Container,
   DialogActions,
   DialogContent,
   DialogContentText,
@@ -13,6 +12,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ActiveTransactionItem } from '../../components/ActiveTransactions';
 import { Dialog } from '../../components/Dialog';
+import { PageContainer } from '../../components/PageContainer';
 import { useAccount } from '../../hooks';
 import {
   useExecutingRoutesIds,
@@ -48,7 +48,7 @@ export const ActiveTransactionsPage = () => {
   }
 
   return (
-    <Container disableGutters>
+    <PageContainer disableGutters>
       <List
         sx={{
           paddingLeft: 1.5,
@@ -77,6 +77,6 @@ export const ActiveTransactionsPage = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </Container>
+    </PageContainer>
   );
 };

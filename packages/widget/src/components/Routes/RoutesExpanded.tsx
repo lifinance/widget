@@ -8,6 +8,7 @@ import { useRoutes } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
 import { useSetExecutableRoute } from '../../stores';
 import { navigationRoutes } from '../../utils';
+import { PageContainer } from '../PageContainer';
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate';
 import { RouteCard, RouteCardSkeleton, RouteNotFoundCard } from '../RouteCard';
 import {
@@ -86,31 +87,27 @@ export const RoutesExpandedElement = () => {
                 sx={{ marginRight: -1 }}
               />
             </Header>
-            <Stack
-              direction="column"
-              spacing={2}
-              flex={1}
-              paddingX={3}
-              paddingBottom={3}
-            >
-              {routeNotFound ? (
-                <RouteNotFoundCard />
-              ) : isLoading || (isFetching && !routes?.length) ? (
-                Array.from({ length: 3 }).map((_, index) => (
-                  <RouteCardSkeleton key={index} />
-                ))
-              ) : (
-                routes?.map((route: Route, index: number) => (
-                  <RouteCard
-                    key={route.id}
-                    route={route}
-                    onClick={() => handleRouteClick(route)}
-                    active={index === 0}
-                    expanded={routes?.length <= 2}
-                  />
-                ))
-              )}
-            </Stack>
+            <PageContainer>
+              <Stack direction="column" spacing={2} flex={1} paddingBottom={3}>
+                {routeNotFound ? (
+                  <RouteNotFoundCard />
+                ) : isLoading || (isFetching && !routes?.length) ? (
+                  Array.from({ length: 3 }).map((_, index) => (
+                    <RouteCardSkeleton key={index} />
+                  ))
+                ) : (
+                  routes?.map((route: Route, index: number) => (
+                    <RouteCard
+                      key={route.id}
+                      route={route}
+                      onClick={() => handleRouteClick(route)}
+                      active={index === 0}
+                      expanded={routes?.length <= 2}
+                    />
+                  ))
+                )}
+              </Stack>
+            </PageContainer>
           </ScrollableContainer>
         </Container>
       </Grow>

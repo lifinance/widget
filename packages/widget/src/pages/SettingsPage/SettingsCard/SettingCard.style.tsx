@@ -6,7 +6,7 @@ export const SettingsList = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: theme.spacing(1),
-  padding: theme.spacing(1, 3, 2),
+  padding: theme.spacing(1, 0, 1),
 }));
 
 export const SummaryTitleContainer = styled(Box)(({ theme }) => ({

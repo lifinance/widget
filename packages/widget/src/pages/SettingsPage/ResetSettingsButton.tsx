@@ -32,7 +32,7 @@ export const ResetSettingsButton: React.FC = () => {
   }
 
   return (
-    <Box px={3} mb={1}>
+    <Box my={1}>
       <ResetButtonContainer>
         <Box display="flex" marginBottom="12px">
           <InfoRounded

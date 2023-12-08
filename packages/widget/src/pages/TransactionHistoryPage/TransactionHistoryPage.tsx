@@ -1,7 +1,8 @@
 import type { FullStatusData } from '@lifi/sdk';
-import { Container, List } from '@mui/material';
+import { List } from '@mui/material';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useRef } from 'react';
+import { PageContainer } from '../../components/PageContainer';
 import { useTransactionHistory } from '../../hooks/useTransactionHistory';
 import { TransactionHistoryEmpty } from './TransactionHistoryEmpty';
 import { TransactionHistoryItem } from './TransactionHistoryItem';
@@ -29,7 +30,7 @@ export const TransactionHistoryPage: React.FC = () => {
   }
 
   return (
-    <Container
+    <PageContainer
       ref={parentRef}
       style={{ height: minTransactionListHeight, overflow: 'auto' }}
     >
@@ -38,7 +39,7 @@ export const TransactionHistoryPage: React.FC = () => {
         disablePadding
       >
         {isLoading ? (
-          <List disablePadding sx={{ paddingTop: 1 }}>
+          <List sx={{ paddingTop: 1, paddingBottom: 1 }}>
             {Array.from({ length: 3 }).map((_, index) => (
               <TransactionHistorySkeleton key={index} />
             ))}
@@ -57,6 +58,6 @@ export const TransactionHistoryPage: React.FC = () => {
           })
         )}
       </List>
-    </Container>
+    </PageContainer>
   );
 };

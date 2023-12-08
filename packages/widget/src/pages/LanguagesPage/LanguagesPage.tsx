@@ -1,7 +1,8 @@
 import CheckIcon from '@mui/icons-material/Check';
-import { Container, List } from '@mui/material';
+import { List } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { ListItemText } from '../../components/ListItemText';
+import { PageContainer } from '../../components/PageContainer';
 import { SettingsListItemButton } from '../../components/SettingsListItemButton';
 import { useLanguages } from '../../hooks';
 
@@ -16,7 +17,7 @@ export const LanguagesPage: React.FC = () => {
   }
 
   return (
-    <Container disableGutters>
+    <PageContainer disableGutters>
       <List
         sx={{
           paddingLeft: 1.5,
@@ -33,6 +34,6 @@ export const LanguagesPage: React.FC = () => {
           </SettingsListItemButton>
         ))}
       </List>
-    </Container>
+    </PageContainer>
   );
 };

@@ -1,5 +1,6 @@
-import { Box, Container, Skeleton } from '@mui/material';
+import { Box, Skeleton } from '@mui/material';
 import { Card } from '../../components/Card';
+import { PageContainer } from '../../components/PageContainer';
 
 const DetailedTextSkeleton = () => {
   return (
@@ -38,7 +39,7 @@ const TransactionDetailsTokenSkeleton = () => {
 
 export const TransactionDetailsSkeleton = () => {
   return (
-    <Container>
+    <PageContainer>
       <Box
         sx={{
           display: 'flex',
@@ -108,6 +109,6 @@ export const TransactionDetailsSkeleton = () => {
           <TransactionDetailsTokenSkeleton />
         </Box>
       </Card>
-    </Container>
+    </PageContainer>
   );
 };

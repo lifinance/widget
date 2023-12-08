@@ -1,7 +1,8 @@
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 import type { FC } from 'react';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { ChainSelect } from '../../components/ChainSelect';
+import { PageContainer } from '../../components/PageContainer';
 import { TokenList } from '../../components/TokenList';
 import {
   useContentHeight,
@@ -34,7 +35,7 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
   const hideChainSelect = swapOnly && formType === 'to';
 
   return (
-    <Container disableGutters>
+    <PageContainer disableGutters>
       <Box pt={1} pb={2} px={3} ref={headerRef}>
         {!hideChainSelect ? <ChainSelect formType={formType} /> : null}
         <Box mt={!hideChainSelect ? 2 : 0}>
@@ -46,6 +47,6 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
         onClick={navigateBack}
         formType={formType}
       />
-    </Container>
+    </PageContainer>
   );
 };

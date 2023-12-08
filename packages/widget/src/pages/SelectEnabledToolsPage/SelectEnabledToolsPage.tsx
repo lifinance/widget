@@ -4,7 +4,6 @@ import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
 import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
 import {
   Avatar,
-  Container,
   IconButton,
   List,
   ListItemAvatar,
@@ -15,6 +14,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { shallow } from 'zustand/shallow';
 import { ListItemText } from '../../components/ListItemText';
+import { PageContainer } from '../../components/PageContainer';
 import { SettingsListItemButton } from '../../components/SettingsListItemButton';
 import { useTools } from '../../hooks';
 import { useHeaderStoreContext, useSettingsStore } from '../../stores';
@@ -103,7 +103,7 @@ export const SelectEnabledToolsPage: React.FC<{
   }, [enabledTools.length, headerStoreContext, setTools, tools, type, typeKey]);
 
   return (
-    <Container disableGutters>
+    <PageContainer disableGutters>
       <List
         sx={{
           paddingLeft: 1.5,
@@ -125,6 +125,6 @@ export const SelectEnabledToolsPage: React.FC<{
           </SettingsListItemButton>
         ))}
       </List>
-    </Container>
+    </PageContainer>
   );
 };
