@@ -9,17 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@lifi/widget": "^3.0.0-alpha.8",
+    "@lifi/widget": "^3.0.0-alpha.9",
     "next": "14.0.4",
-    "react": "^18",
-    "react-dom": "^18"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "eslint": "^8",
+    "@types/node": "^20.10.4",
+    "@types/react": "^18.2.42",
+    "@types/react-dom": "^18.2.17",
+    "eslint": "^8.55.0",
     "eslint-config-next": "14.0.4",
-    "typescript": "^5"
+    "typescript": "^5.3.3"
   }
 }
