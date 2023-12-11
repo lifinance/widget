@@ -1,10 +1,9 @@
 import WalletIcon from '@mui/icons-material/Wallet';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
-import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useRequiredToAddress, useWidgetEvents } from '../../hooks';
-import { FormKey, useWidgetConfig } from '../../providers';
+import { useWidgetConfig } from '../../providers';
 import { useFormStore, useSendToWalletStore, useSettings } from '../../stores';
 import { DisabledUI, HiddenUI, WidgetEvent } from '../../types';
 

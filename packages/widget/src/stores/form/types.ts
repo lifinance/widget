@@ -40,18 +40,15 @@ export interface FormValues {
 
 export type FormFieldNames = keyof FormValues;
 
+export type TouchedFields = { [key in FormFieldNames]?: boolean };
 export interface FormProps {
   defaultValues: FormValues;
   userValues: FormValues;
+  touchedFields: { [key in FormFieldNames]?: boolean };
 }
 
 interface ResetOptions {
   defaultValue?: GenericFormValue;
-}
-
-interface SetOptions {
-  isDirty?: boolean;
-  isTouched?: boolean;
 }
 export interface FormValuesState extends FormProps {
   setDefaultValues: (formValues: DefaultValues) => void;
@@ -69,3 +66,8 @@ export interface FormValuesState extends FormProps {
 export type FormStoreStore = UseBoundStoreWithEqualityFn<
   StoreApi<FormValuesState>
 >;
+
+interface SetOptions {
+  isDirty?: boolean;
+  isTouched?: boolean;
+}

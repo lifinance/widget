@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
-import { useFormState } from 'react-hook-form';
 import { useLocation } from 'react-router-dom';
-import { FormFieldNames, useFieldValues } from '../../stores';
+import { FormFieldNames, useFieldValues, useFormStore } from '../../stores';
 
 const formValueKeys: FormFieldNames[] = [
   'fromAmount',
@@ -16,8 +15,8 @@ export const URLSearchParamsBuilder = () => {
   const { pathname } = useLocation();
   const {
     // Have to use touchedFields, because default values are not considered dirty
-    touchedFields: { ...touchedFields },
-  } = useFormState();
+    touchedFields,
+  } = useFormStore();
   const values = useFieldValues(...formValueKeys);
 
   useEffect(() => {

@@ -8,6 +8,7 @@ import {
   FormValueControl,
   FormValues,
   FormValuesState,
+  TouchedFields,
 } from './types';
 
 export const formDefaultValues: DefaultValues = {
@@ -36,6 +37,23 @@ const valuesToFormValues = (defaultValues: DefaultValues): FormValues => {
     {},
   ) as FormValues;
 };
+
+const getUpdatedTouchedFields = (
+  fieldName: FormFieldNames,
+  userValues: FormValues,
+  previousTouchedFields: TouchedFields,
+) => {
+  const isFieldInTouchedFields = previousTouchedFields[fieldName];
+  return !isFieldInTouchedFields
+    ? Object.keys(userValues).reduce(
+        (accum, key) =>
+          userValues[key as FormFieldNames]?.isTouched
+            ? { ...accum, [key]: true }
+            : accum,
+        {},
+      )
+    : previousTouchedFields;
+};
 const mergeDefaultFormValues = (
   userValues: FormValues,
   defaultValues: FormValues,
@@ -61,13 +79,13 @@ const mergeDefaultFormValues = (
     { ...valuesToFormValues(formDefaultValues) },
   );
 
-// TODO: supply touchedFields - see packages/widget/src/providers/FormProvider/URLSearchParamsBuilder.tsx
 // TODO: isValidating & isValid
 export const createFormStore = () => {
   const useFormStore: FormStoreStore = createWithEqualityFn<FormValuesState>(
     (set, get) => ({
       defaultValues: valuesToFormValues(formDefaultValues),
       userValues: valuesToFormValues(formDefaultValues),
+      touchedFields: {},
       setDefaultValues: (defaultValue) => {
         const defaultFormValues = valuesToFormValues(defaultValue);
         set((state) => ({
@@ -81,60 +99,94 @@ export const createFormStore = () => {
       isTouched: (fieldName: FormFieldNames) =>
         !!get().userValues[fieldName]?.isTouched,
       setAsTouched: (fieldName: FormFieldNames) => {
-        set((state) => ({
-          userValues: {
-            ...state.userValues,
-            [fieldName]: {
-              ...state.userValues[fieldName],
-              isTouched: true,
-            },
+        const userValues = {
+          ...get().userValues,
+          [fieldName]: {
+            ...get().userValues[fieldName],
+            isTouched: true,
           },
+        };
+
+        const touchedFields = getUpdatedTouchedFields(
+          fieldName,
+          userValues,
+          get().touchedFields,
+        );
+
+        set(() => ({
+          userValues,
+          touchedFields,
         }));
       },
       resetField: (fieldName, { defaultValue } = {}) => {
         if (defaultValue) {
-          set((state) => {
-            const fieldValues = {
-              ...state.defaultValues[fieldName],
-              value: defaultValue,
-            };
+          const fieldValues = {
+            ...get().defaultValues[fieldName],
+            value: defaultValue,
+          };
+          const defaultValues = {
+            ...get().defaultValues,
+            [fieldName]: { ...fieldValues },
+          };
+          const userValues = {
+            ...get().userValues,
+            [fieldName]: { ...fieldValues },
+          };
+          const touchedFields = getUpdatedTouchedFields(
+            fieldName,
+            userValues,
+            get().touchedFields,
+          );
 
+          set((state) => {
             return {
-              defaultValues: {
-                ...state.defaultValues,
-                [fieldName]: { ...fieldValues },
-              },
-              userValues: {
-                ...state.userValues,
-                [fieldName]: { ...fieldValues },
-              },
+              defaultValues,
+              userValues,
+              touchedFields,
             };
           });
         } else {
+          const userValues = {
+            ...get().userValues,
+            [fieldName]: { ...get().defaultValues[fieldName] },
+          };
+          const touchedFields = getUpdatedTouchedFields(
+            fieldName,
+            userValues,
+            get().touchedFields,
+          );
+
           set((state) => ({
-            userValues: {
-              ...state.userValues,
-              [fieldName]: { ...state.defaultValues[fieldName] },
-            },
+            userValues,
+            touchedFields,
           }));
         }
       },
       setFieldValue: (fieldName, value, { isDirty, isTouched } = {}) => {
-        set((state) => ({
-          userValues: {
-            ...state.userValues,
-            [fieldName]: {
-              value,
-              isDirty:
-                isDirty === undefined
-                  ? state.userValues[fieldName]?.isDirty
-                  : isDirty,
-              isTouched:
-                isTouched === undefined
-                  ? state.userValues[fieldName]?.isTouched
-                  : isTouched,
-            },
+        const userValues = {
+          ...get().userValues,
+          [fieldName]: {
+            value,
+            isDirty:
+              isDirty === undefined
+                ? get().userValues[fieldName]?.isDirty
+                : isDirty,
+            isTouched:
+              isTouched === undefined
+                ? get().userValues[fieldName]?.isTouched
+                : isTouched,
           },
+        };
+
+        const touchedFields = getUpdatedTouchedFields(
+          fieldName,
+          userValues,
+          get().touchedFields,
+        );
+
+        set(() => ({
+          userValues,
+          touchedFields,
         }));
       },
       getFieldValues: (...names) =>

@@ -55,7 +55,7 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
             return true;
           }
           const address = await getEnsAddress(config, {
-            chainId: getFieldValues('toChain'),
+            chainId: getFieldValues('toChain')[0],
             name: normalize(value),
           });
           return Boolean(address);
