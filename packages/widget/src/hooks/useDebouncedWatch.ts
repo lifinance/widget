@@ -1,28 +1,30 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useFieldValues } from '../stores';
 
 export const useDebouncedWatch = (name: any, delay: number) => {
-  const watchedValue = useFieldValues(...name);
+  const [watchedValue] = useFieldValues(...name);
   const [debouncedValue, setDebouncedValue] = useState(watchedValue);
   const debouncedValueRef = useRef<any>();
   const isMounted = useRef(false);
 
+  const memoisedWatchedValue = useMemo(() => watchedValue, [watchedValue]);
+
   useEffect(() => {
     if (isMounted.current) {
-      const hasWatchedValue = watchedValue.some((value) => value);
+      const hasWatchedValue = Boolean(memoisedWatchedValue);
       if (hasWatchedValue) {
         const handler = setTimeout(() => {
-          setDebouncedValue(watchedValue);
+          setDebouncedValue(memoisedWatchedValue);
         }, delay);
         return () => clearTimeout(handler);
       }
-      debouncedValueRef.current = watchedValue;
-      setDebouncedValue(watchedValue);
+      debouncedValueRef.current = memoisedWatchedValue;
+      setDebouncedValue(memoisedWatchedValue);
       return undefined;
     }
     isMounted.current = true;
     return undefined;
-  }, [delay, watchedValue]);
+  }, [delay, memoisedWatchedValue]);
 
   return debouncedValue;
 };
