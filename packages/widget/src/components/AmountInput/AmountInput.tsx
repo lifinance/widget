@@ -2,7 +2,6 @@ import type { Token } from '@lifi/sdk';
 import type { BoxProps } from '@mui/material';
 import type { ChangeEvent, ReactNode } from 'react';
 import { useLayoutEffect, useRef } from 'react';
-import { useController, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useToken } from '../../hooks';
 import type { FormTypeProps } from '../../providers';
@@ -19,18 +18,19 @@ import {
 import { AmountInputEndAdornment } from './AmountInputEndAdornment';
 import { AmountInputStartAdornment } from './AmountInputStartAdornment';
 import { FormPriceHelperText } from './FormPriceHelperText';
+import { useFieldController, useFieldValues } from '../../stores';
 
 export const AmountInput: React.FC<FormTypeProps & BoxProps> = ({
   formType,
   ...props
 }) => {
   const { disabledUI } = useWidgetConfig();
-  const [chainId, tokenAddress] = useWatch({
-    name: [
-      FormKeyHelper.getChainKey(formType),
-      FormKeyHelper.getTokenKey(formType),
-    ],
-  });
+
+  const [chainId, tokenAddress] = useFieldValues(
+    FormKeyHelper.getChainKey(formType),
+    FormKeyHelper.getTokenKey(formType),
+  );
+
   const { token } = useToken(chainId, tokenAddress);
   const disabled = disabledUI?.includes(DisabledUI.FromAmount);
   return (
@@ -68,11 +68,8 @@ export const AmountInputBase: React.FC<
 }) => {
   const { t } = useTranslation();
   const amountKey = FormKeyHelper.getAmountKey(formType);
-  const {
-    field: { onChange, onBlur, value },
-  } = useController({
-    name: amountKey,
-  });
+  const { onChange, onBlur, value } = useFieldController({ name: amountKey });
+
   const ref = useRef<HTMLInputElement>(null);
 
   const handleChange = (

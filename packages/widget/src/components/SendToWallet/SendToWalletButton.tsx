@@ -5,12 +5,12 @@ import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useRequiredToAddress, useWidgetEvents } from '../../hooks';
 import { FormKey, useWidgetConfig } from '../../providers';
-import { useSendToWalletStore, useSettings } from '../../stores';
+import { useFormStore, useSendToWalletStore, useSettings } from '../../stores';
 import { DisabledUI, HiddenUI, WidgetEvent } from '../../types';
 
 export const SendToWalletButton: React.FC = () => {
   const { t } = useTranslation();
-  const { setValue } = useFormContext();
+  const { setFieldValue } = useFormStore();
   const emitter = useWidgetEvents();
   const { disabledUI, hiddenUI } = useWidgetConfig();
   const { showSendToWallet, toggleSendToWallet } = useSendToWalletStore();
@@ -28,7 +28,7 @@ export const SendToWalletButton: React.FC = () => {
 
   const handleClick = () => {
     if (showSendToWallet && !disabledUI?.includes(DisabledUI.ToAddress)) {
-      setValue(FormKey.ToAddress, '', { shouldTouch: true });
+      setFieldValue('toAddress', '', { isTouched: true });
     }
     toggleSendToWallet();
     emitter.emit(

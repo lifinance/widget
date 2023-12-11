@@ -1,20 +1,17 @@
 import type { TokenAmount } from '@lifi/sdk';
 import { FormHelperText, Skeleton, Typography } from '@mui/material';
-import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useTokenAddressBalance } from '../../hooks';
 import type { FormTypeProps } from '../../providers';
 import { FormKeyHelper } from '../../providers';
 import { formatTokenAmount, formatTokenPrice } from '../../utils';
+import { useFieldValues } from '../../stores';
 
 export const FormPriceHelperText: React.FC<FormTypeProps> = ({ formType }) => {
-  const [chainId, tokenAddress] = useWatch({
-    name: [
-      FormKeyHelper.getChainKey(formType),
-      FormKeyHelper.getTokenKey(formType),
-    ],
-  });
-
+  const [chainId, tokenAddress] = useFieldValues(
+    FormKeyHelper.getChainKey(formType),
+    FormKeyHelper.getTokenKey(formType),
+  );
   const { token, isLoading } = useTokenAddressBalance(chainId, tokenAddress);
 
   return (
@@ -35,9 +32,7 @@ export const FormPriceHelperTextBase: React.FC<
   }
 > = ({ formType, isLoading, tokenAddress, token }) => {
   const { t } = useTranslation();
-  const amount = useWatch({
-    name: FormKeyHelper.getAmountKey(formType),
-  });
+  const [amount] = useFieldValues(FormKeyHelper.getAmountKey(formType));
 
   const fromAmountTokenPrice = formatTokenPrice(amount, token?.priceUSD);
 

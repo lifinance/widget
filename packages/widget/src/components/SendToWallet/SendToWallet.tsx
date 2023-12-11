@@ -9,7 +9,7 @@ import { normalize } from 'viem/ens';
 import { useConfig } from 'wagmi';
 import { useAccount, useRequiredToAddress } from '../../hooks';
 import { FormKey, useWidgetConfig } from '../../providers';
-import { useSendToWalletStore, useSettings } from '../../stores';
+import { useFormStore, useSendToWalletStore, useSettings } from '../../stores';
 import { DisabledUI, HiddenUI } from '../../types';
 import { isSVMAddress } from '../../utils';
 import { Card, CardTitle } from '../Card';
@@ -17,7 +17,8 @@ import { FormControl, Input } from './SendToWallet.style';
 
 export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
   const { t } = useTranslation();
-  const { trigger, getValues, setValue, clearErrors } = useFormContext();
+  const { getFieldValues, setFieldValue } = useFormStore();
+  const { trigger, clearErrors } = useFormContext();
   const { account } = useAccount();
   const config = useConfig();
   const { disabledUI, hiddenUI, toAddress } = useWidgetConfig();
@@ -46,7 +47,7 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
       required:
         requiredToAddress && (t('error.title.walletAddressRequired') as string),
       onChange: (e) => {
-        setValue(FormKey.ToAddress, e.target.value.trim());
+        setFieldValue('toAddress', e.target.value.trim());
       },
       validate: async (value: string) => {
         try {
@@ -54,7 +55,7 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
             return true;
           }
           const address = await getEnsAddress(config, {
-            chainId: getValues(FormKey.ToChain),
+            chainId: getFieldValues('toChain'),
             name: normalize(value),
           });
           return Boolean(address);
@@ -67,7 +68,7 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
   });
 
   useEffect(() => {
-    const value = getValues(FormKey.ToAddress);
+    const value = getFieldValues('toAddress');
     if (value) {
       trigger(FormKey.ToAddress);
       // Trigger validation if we change requiredToAddress in the runtime
@@ -75,7 +76,13 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
       requiredToAddressRef.current = requiredToAddress;
       trigger(FormKey.ToAddress).then(() => clearErrors(FormKey.ToAddress));
     }
-  }, [account.chainId, clearErrors, getValues, requiredToAddress, trigger]);
+  }, [
+    account.chainId,
+    clearErrors,
+    getFieldValues,
+    requiredToAddress,
+    trigger,
+  ]);
 
   if (hiddenToAddress && !requiredToAddress) {
     return null;

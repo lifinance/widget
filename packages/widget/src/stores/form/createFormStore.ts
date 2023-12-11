@@ -1,8 +1,10 @@
 import { createWithEqualityFn } from 'zustand/traditional';
+
 import {
   DefaultValues,
   FormFieldNames,
-  FormValue,
+  FormStoreStore,
+  GenericFormValue,
   FormValueControl,
   FormValues,
   FormValuesState,
@@ -20,8 +22,8 @@ export const formDefaultValues: DefaultValues = {
 };
 
 const defaultValueToFormValue = (
-  value: FormValue,
-): FormValueControl<FormValue> => ({
+  value: GenericFormValue,
+): FormValueControl<GenericFormValue> => ({
   isTouched: false,
   isDirty: false,
   value,
@@ -61,8 +63,8 @@ const mergeDefaultFormValues = (
 
 // TODO: supply touchedFields - see packages/widget/src/providers/FormProvider/URLSearchParamsBuilder.tsx
 // TODO: isValidating & isValid
-export const createFormStore = () =>
-  createWithEqualityFn<FormValuesState>(
+export const createFormStore = () => {
+  const useFormStore: FormStoreStore = createWithEqualityFn<FormValuesState>(
     (set, get) => ({
       defaultValues: valuesToFormValues(formDefaultValues),
       userValues: valuesToFormValues(formDefaultValues),
@@ -76,17 +78,25 @@ export const createFormStore = () =>
           ),
         }));
       },
-      isTouched: (fieldName: FormFieldNames) => {
-        return !!get().userValues[fieldName]?.isTouched;
+      isTouched: (fieldName: FormFieldNames) =>
+        !!get().userValues[fieldName]?.isTouched,
+      setAsTouched: (fieldName: FormFieldNames) => {
+        set((state) => ({
+          userValues: {
+            ...state.userValues,
+            [fieldName]: {
+              ...state.userValues[fieldName],
+              isTouched: true,
+            },
+          },
+        }));
       },
-      resetField: (fieldName, resetOptions) => {
-        const value = resetOptions?.defaultValue;
-
-        if (value) {
+      resetField: (fieldName, { defaultValue } = {}) => {
+        if (defaultValue) {
           set((state) => {
             const fieldValues = {
               ...state.defaultValues[fieldName],
-              value,
+              value: defaultValue,
             };
 
             return {
@@ -109,20 +119,29 @@ export const createFormStore = () =>
           }));
         }
       },
-      setFieldValue: (fieldName, value) => {
-        set((state) => {
-          return {
-            userValues: {
-              ...state.userValues,
-              [fieldName]: {
-                ...state.userValues[fieldName],
-                value,
-              },
+      setFieldValue: (fieldName, value, { isDirty, isTouched } = {}) => {
+        set((state) => ({
+          userValues: {
+            ...state.userValues,
+            [fieldName]: {
+              value,
+              isDirty:
+                isDirty === undefined
+                  ? state.userValues[fieldName]?.isDirty
+                  : isDirty,
+              isTouched:
+                isTouched === undefined
+                  ? state.userValues[fieldName]?.isTouched
+                  : isTouched,
             },
-          };
-        });
+          },
+        }));
       },
-      // getFieldValues: (listOfFields) => listOfValues
+      getFieldValues: (...names) =>
+        names.map((name) => get().userValues[name]?.value),
     }),
     Object.is,
   );
+
+  return useFormStore;
+};

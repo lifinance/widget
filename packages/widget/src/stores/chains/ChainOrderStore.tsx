@@ -1,12 +1,11 @@
 import { createContext, useContext, useEffect, useRef } from 'react';
-import { useFormContext } from 'react-hook-form';
 import type { StoreApi } from 'zustand';
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
 import { useChains } from '../../hooks';
-import { FormKey } from '../../providers';
 import type { PersistStoreProviderProps } from '../types';
 import { createChainOrderStore } from './createChainOrderStore';
 import type { ChainOrderState } from './types';
+import { useFormStore } from '../../stores';
 
 export type ChainOrderStore = UseBoundStoreWithEqualityFn<
   StoreApi<ChainOrderState>
@@ -22,7 +21,7 @@ export function ChainOrderStoreProvider({
 }: PersistStoreProviderProps) {
   const storeRef = useRef<ChainOrderStore>();
   const { chains: filteredChains } = useChains();
-  const { setValue, getValues } = useFormContext();
+  const { setFieldValue, getFieldValues } = useFormStore();
 
   if (!storeRef.current) {
     storeRef.current = createChainOrderStore(props);
@@ -34,19 +33,19 @@ export function ChainOrderStoreProvider({
         ?.getState()
         .initializeChains(filteredChains.map((chain) => chain.id));
       if (chainOrder) {
-        const [fromChainValue, toChainValue] = getValues([
-          FormKey.FromChain,
-          FormKey.ToChain,
-        ]);
+        const [fromChainValue, toChainValue] = getFieldValues(
+          'fromChain',
+          'toChain',
+        );
         if (!fromChainValue) {
-          setValue(FormKey.FromChain, chainOrder[0]);
+          setFieldValue('fromChain', chainOrder[0]);
         }
         if (!toChainValue) {
-          setValue(FormKey.ToChain, chainOrder[0]);
+          setFieldValue('toChain', chainOrder[0]);
         }
       }
     }
-  }, [filteredChains, getValues, setValue]);
+  }, [filteredChains, getFieldValues, setFieldValue]);
 
   return (
     <ChainOrderStoreContext.Provider value={storeRef.current}>

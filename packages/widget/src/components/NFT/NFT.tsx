@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
-import { useFormContext } from 'react-hook-form';
-import { FormKey } from '../../providers';
 import { NFTBase } from './NFTBase';
 import type { NFTProps } from './types';
+import { useFormStore } from '../../stores';
 
 export const NFT: React.FC<NFTProps> = ({
   imageUrl,
@@ -13,27 +12,28 @@ export const NFT: React.FC<NFTProps> = ({
   token,
   contract,
 }) => {
-  const { setValue } = useFormContext();
+  const { setFieldValue } = useFormStore();
+
   useEffect(() => {
     if (token) {
-      setValue(FormKey.ToChain, token.chainId, { shouldTouch: true });
-      setValue(FormKey.ToToken, token.address, { shouldTouch: true });
-      setValue(FormKey.ToAmount, token.amount?.toString(), {
-        shouldTouch: true,
+      setFieldValue('toChain', token.chainId, { isTouched: true });
+      setFieldValue('toToken', token.address, { isTouched: true });
+      setFieldValue('toAmount', token.amount?.toString(), {
+        isTouched: true,
       });
     }
     if (contract) {
-      setValue(FormKey.ToContractAddress, contract.address, {
-        shouldTouch: true,
+      setFieldValue('toContractAddress', contract.address, {
+        isTouched: true,
       });
-      setValue(FormKey.ToContractCallData, contract.callData, {
-        shouldTouch: true,
+      setFieldValue('toContractCallData', contract.callData, {
+        isTouched: true,
       });
-      setValue(FormKey.ToContractGasLimit, contract.gasLimit, {
-        shouldTouch: true,
+      setFieldValue('toContractGasLimit', contract.gasLimit, {
+        isTouched: true,
       });
     }
-  }, [contract, setValue, token]);
+  }, [contract, setFieldValue, token]);
   return (
     <NFTBase
       isLoading={isLoading}

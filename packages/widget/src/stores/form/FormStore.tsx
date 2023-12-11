@@ -1,25 +1,12 @@
 import type { PropsWithChildren } from 'react';
 import { createContext, useContext, useEffect, useRef } from 'react';
-import { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
 import { isItemAllowed, useWidgetConfig } from '../../providers/WidgetProvider';
-import { FormValuesState } from './types';
+import { FormStoreStore } from './types';
 import { createFormStore, formDefaultValues } from './createFormStore';
-import { StoreApi } from 'zustand';
 import { useAccount } from '@lifi/widget';
 
-export type FormStoreStore = UseBoundStoreWithEqualityFn<
-  StoreApi<FormValuesState>
->;
 export const FormStoreContext = createContext<FormStoreStore | null>(null);
 
-// TODO: needs to be removed - just using for testing
-const StoreOutput = () => {
-  const { defaultValues, userValues } = useFormStore();
-
-  console.log('StoreOutput', defaultValues, userValues);
-
-  return null;
-};
 export const FormStoreProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
@@ -99,12 +86,14 @@ export const FormStoreProvider: React.FC<PropsWithChildren> = ({
 
   return (
     <FormStoreContext.Provider value={storeRef.current}>
-      <StoreOutput />
       {children}
     </FormStoreContext.Provider>
   );
 };
 
+// TODO: needs to deal with errors, triggers (re trigger validation)
+//  clearErrors from React Hook Form is used - components/SendToWallet/SendToWallet.tsx
+//  trigger is used to trigger validation - components/SendToWallet/SendToWallet.tsx
 export const useFormStore = () => {
   const useStore = useContext(FormStoreContext);
 
@@ -116,9 +105,3 @@ export const useFormStore = () => {
 
   return useStore();
 };
-
-// TODO: to replace useController - for more complex considerations look at ./components/SendToWallet/SendToWallet.tsx
-//   also consider the register used in packages/widget/src/pages/SelectTokenPage/SearchTokenInput.tsx
-//   export const useFieldController
-// TODO: Question: hook to replace useWatch - check the performance as currently is
-//   zustand does have a subscription pattern might be able to apply this on a hook level

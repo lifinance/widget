@@ -1,13 +1,11 @@
-import { useWatch } from 'react-hook-form';
 import { useChain } from '../hooks';
-import { FormKey, useWidgetConfig } from '../providers';
+import { useWidgetConfig } from '../providers';
 import { RequiredUI } from '../types';
+import { useFieldValues } from '../stores';
 
 export const useRequiredToAddress = () => {
   const { requiredUI } = useWidgetConfig();
-  const [fromChainId, toChainId] = useWatch({
-    name: [FormKey.FromChain, FormKey.ToChain],
-  });
+  const [fromChainId, toChainId] = useFieldValues('fromChain', 'toChain');
 
   const { chain: fromChain } = useChain(fromChainId);
   const { chain: toChain } = useChain(toChainId);

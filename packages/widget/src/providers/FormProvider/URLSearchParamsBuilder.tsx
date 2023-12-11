@@ -1,24 +1,24 @@
 import { useEffect } from 'react';
-import { useFormState, useWatch } from 'react-hook-form';
+import { useFormState } from 'react-hook-form';
 import { useLocation } from 'react-router-dom';
-import { FormKey } from './types';
+import { FormFieldNames, useFieldValues } from '../../stores';
 
-const formValueKeys = [
-  FormKey.FromAmount,
-  FormKey.FromChain,
-  FormKey.FromToken,
-  FormKey.ToAddress,
-  FormKey.ToChain,
-  FormKey.ToToken,
+const formValueKeys: FormFieldNames[] = [
+  'fromAmount',
+  'fromChain',
+  'fromToken',
+  'toAddress',
+  'toChain',
+  'toToken',
 ];
-
+// TODO: pull out of FormProvider folder
 export const URLSearchParamsBuilder = () => {
   const { pathname } = useLocation();
   const {
     // Have to use touchedFields, because default values are not considered dirty
     touchedFields: { ...touchedFields },
   } = useFormState();
-  const values = useWatch({ name: formValueKeys });
+  const values = useFieldValues(...formValueKeys);
 
   useEffect(() => {
     const url = new URL(window.location as any);

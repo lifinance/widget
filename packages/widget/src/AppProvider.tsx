@@ -14,7 +14,7 @@ import {
 } from './providers';
 import { StoreProvider } from './stores';
 import type { WidgetConfigProps } from './types';
-import { FormStoreProvider } from './stores/form/FormStore';
+import { FormStoreProvider } from './stores/form';
 
 export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
   children,

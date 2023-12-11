@@ -1,5 +1,4 @@
 import { Skeleton } from '@mui/material';
-import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useChain, useSwapOnly, useToken } from '../../hooks';
@@ -9,6 +8,7 @@ import { navigationRoutes } from '../../utils';
 import { Card, CardTitle } from '../Card';
 import { TokenAvatar, TokenAvatarDefault } from '../TokenAvatar';
 import { SelectTokenCardHeader } from './SelectTokenButton.style';
+import { useFieldValues } from '../../stores';
 
 export const SelectTokenButton: React.FC<
   FormTypeProps & {
@@ -20,9 +20,10 @@ export const SelectTokenButton: React.FC<
   const { disabledUI, subvariant } = useWidgetConfig();
   const swapOnly = useSwapOnly();
   const tokenKey = FormKeyHelper.getTokenKey(formType);
-  const [chainId, tokenAddress] = useWatch({
-    name: [FormKeyHelper.getChainKey(formType), tokenKey],
-  });
+  const [chainId, tokenAddress] = useFieldValues(
+    FormKeyHelper.getChainKey(formType),
+    tokenKey,
+  );
   const { chain, isLoading: isChainLoading } = useChain(chainId);
   const { token, isLoading: isTokenLoading } = useToken(chainId, tokenAddress);
 
