@@ -95,9 +95,10 @@ export const FormStoreProvider: React.FC<PropsWithChildren> = ({
 //  clearErrors from React Hook Form is used - components/SendToWallet/SendToWallet.tsx
 //  trigger is used to trigger validation - components/SendToWallet/SendToWallet.tsx
 
-// TODO: Question: I think we should try to optimise in places by introducing and optional selector funciton here
+// TODO: Question: I think we should try to optimise in places by introducing and optional selector function here
+//  adding in a shallow equality check may improve rendering too
 //  useFormStore = (selectorFn = (store) => store) => { ...
-//  ... return useStore(selectorFn);
+//  ... return useStore(selectorFn, shallow);
 //  at points of user
 //  const userValues = useFormStore((store) =>  store.userValues);
 export const useFormStore = () => {
