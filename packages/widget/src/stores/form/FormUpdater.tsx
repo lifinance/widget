@@ -3,8 +3,8 @@ import { useEffect, useRef } from 'react';
 import type { FormFieldNames } from './types';
 import { useAccount } from '../../hooks';
 import { useFieldActions } from './useFieldActions';
-import { FormKey, isItemAllowed, useWidgetConfig } from '../../providers';
-import { DefaultValues } from './types';
+import { isItemAllowed, useWidgetConfig } from '../../providers';
+import { DefaultValues, FormKey } from './types';
 
 export const FormUpdater: React.FC<{
   defaultValues: Partial<DefaultValues>;

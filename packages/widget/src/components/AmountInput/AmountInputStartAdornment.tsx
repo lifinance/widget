@@ -1,8 +1,7 @@
 import { useChain, useToken } from '../../hooks';
-import type { FormTypeProps } from '../../providers';
-import { FormKeyHelper } from '../../providers';
+import type { FormTypeProps } from '../../stores';
 import { TokenAvatar, TokenAvatarDefault } from '../TokenAvatar';
-import { useFieldValues } from '../../stores';
+import { useFieldValues, FormKeyHelper } from '../../stores';
 
 export const AmountInputStartAdornment: React.FC<FormTypeProps> = ({
   formType,

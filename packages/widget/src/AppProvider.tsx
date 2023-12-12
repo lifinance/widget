@@ -4,7 +4,6 @@ import { Fragment } from 'react';
 import { MemoryRouter, useInRouterContext } from 'react-router-dom';
 import { queryClient } from './config/queryClient';
 import {
-  FormProvider,
   I18nProvider,
   ThemeProvider,
   WalletProvider,
@@ -29,11 +28,9 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
           <I18nProvider>
             <WalletProvider>
               <FormStoreProvider>
-                <FormProvider>
-                  <StoreProvider config={config}>
-                    <AppRouter>{children}</AppRouter>
-                  </StoreProvider>
-                </FormProvider>
+                <StoreProvider config={config}>
+                  <AppRouter>{children}</AppRouter>
+                </StoreProvider>
               </FormStoreProvider>
             </WalletProvider>
           </I18nProvider>

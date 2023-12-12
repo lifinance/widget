@@ -6,10 +6,9 @@ import {
   useGasRecommendation,
   useTokenAddressBalance,
 } from '../../hooks';
-import type { FormTypeProps } from '../../providers';
-import { FormKeyHelper } from '../../providers';
+import type { FormTypeProps } from '../../stores';
 import { Button } from './AmountInputAdornment.style';
-import { useFieldActions, useFieldValues } from '../../stores';
+import { useFieldActions, useFieldValues, FormKeyHelper } from '../../stores';
 
 export const AmountInputEndAdornment = ({ formType }: FormTypeProps) => {
   const { t } = useTranslation();

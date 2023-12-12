@@ -6,7 +6,6 @@ import { useRequiredToAddress, useWidgetEvents } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
 import {
   useFieldActions,
-  useFormStore,
   useSendToWalletStore,
   useSettings,
 } from '../../stores';

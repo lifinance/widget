@@ -9,7 +9,7 @@ export {
   useWidgetEvents,
   widgetEvents,
 } from './hooks';
-export * from './providers/FormProvider/types';
+export * from './stores/form/types';
 export { formatChain } from './providers/WalletProvider';
 export * from './types';
 

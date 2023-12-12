@@ -7,7 +7,7 @@ import { isAddress } from 'viem';
 import { normalize } from 'viem/ens';
 import { useConfig } from 'wagmi';
 import { useAccount, useRequiredToAddress } from '../../hooks';
-import { FormKey, useWidgetConfig } from '../../providers';
+import { useWidgetConfig } from '../../providers';
 import {
   useFieldActions,
   useFieldController,
@@ -76,7 +76,7 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
 
   const handlerInputBlur = () => {
     onBlur();
-    triggerFieldValidation(FormKey.ToAddress);
+    triggerFieldValidation('toAddress');
   };
 
   useEffect(() => {

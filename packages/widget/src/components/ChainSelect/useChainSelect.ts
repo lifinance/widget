@@ -1,11 +1,12 @@
 import type { EVMChain } from '@lifi/sdk';
 import { useChains, useSwapOnly } from '../../hooks';
-import type { FormType } from '../../providers';
-import { FormKey, FormKeyHelper, useWidgetConfig } from '../../providers';
+import type { FormType } from '../../stores';
+import { useWidgetConfig } from '../../providers';
 import {
   useChainOrder,
   useFieldActions,
   useFieldController,
+  FormKeyHelper,
 } from '../../stores';
 import { RequiredUI } from '../../types';
 
@@ -40,7 +41,7 @@ export const useChainSelect = (formType: FormType) => {
     }
     setFieldValue(FormKeyHelper.getTokenKey(formType), '');
     setFieldValue(FormKeyHelper.getAmountKey(formType), '');
-    setFieldValue(FormKey.TokenSearchFilter, '');
+    setFieldValue('tokenSearchFilter', '');
 
     const [fromChainId, toChainId] = getFieldValues('fromChain', 'toChain');
 
@@ -60,7 +61,7 @@ export const useChainSelect = (formType: FormType) => {
     // prevents cases when after we switch the chain from one type to another "Send to wallet" field hides,
     // but it keeps toAddress value set for the previous chain pair.
     if (!requiredToAddress) {
-      setFieldValue(FormKey.ToAddress, '');
+      setFieldValue('toAddress', '');
     }
     setChainOrder(chainId);
   };

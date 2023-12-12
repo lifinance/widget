@@ -8,13 +8,12 @@ import {
   useTokenBalances,
   useTokenSearch,
 } from '../../hooks';
-import { FormKey, FormKeyHelper } from '../../providers';
 import type { TokenAmount } from '../../types';
 import { TokenNotFound } from './TokenNotFound';
 import { VirtualizedTokenList } from './VirtualizedTokenList';
 import type { TokenListProps } from './types';
 import { useTokenSelect } from './useTokenSelect';
-import { useFieldValues } from '../../stores';
+import { useFieldValues, FormKey, FormKeyHelper } from '../../stores';
 
 export const TokenList: FC<TokenListProps> = ({
   formType,

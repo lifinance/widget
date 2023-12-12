@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-import { FormKey } from '../../providers';
 import { useSplitSubvariantStore, useFieldActions } from '../../stores';
 import { HeaderAppBar, SplitTabs } from './Header.style';
 import { Tab } from '../Tabs';
@@ -13,9 +12,9 @@ export const NavigationTabs = () => {
 
   const { setFieldValue } = useFieldActions();
   const handleChange = (_: React.SyntheticEvent, value: number) => {
-    setFieldValue(FormKey.FromAmount, '');
-    setFieldValue(FormKey.FromToken, '');
-    setFieldValue(FormKey.ToToken, '');
+    setFieldValue('fromAmount', '');
+    setFieldValue('fromToken', '');
+    setFieldValue('toToken', '');
     setState(value === 0 ? 'swap' : 'bridge');
   };
 

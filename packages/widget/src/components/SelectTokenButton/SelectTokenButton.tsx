@@ -2,13 +2,13 @@ import { Skeleton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useChain, useSwapOnly, useToken } from '../../hooks';
-import type { FormTypeProps } from '../../providers';
-import { FormKeyHelper, useWidgetConfig } from '../../providers';
+import type { FormTypeProps } from '../../stores';
+import { useWidgetConfig } from '../../providers';
 import { navigationRoutes } from '../../utils';
 import { Card, CardTitle } from '../Card';
 import { TokenAvatar, TokenAvatarDefault } from '../TokenAvatar';
 import { SelectTokenCardHeader } from './SelectTokenButton.style';
-import { useFieldValues } from '../../stores';
+import { useFieldValues, FormKeyHelper } from '../../stores';
 
 export const SelectTokenButton: React.FC<
   FormTypeProps & {

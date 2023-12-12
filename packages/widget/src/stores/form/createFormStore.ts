@@ -7,7 +7,6 @@ import {
   FormValueControl,
   FormValues,
   FormValuesState,
-  TouchedFields,
 } from './types';
 
 export const formDefaultValues: DefaultValues = {

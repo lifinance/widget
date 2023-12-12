@@ -102,3 +102,33 @@ interface SetOptions {
   isDirty?: boolean;
   isTouched?: boolean;
 }
+
+export enum FormKey {
+  ContractOutputsToken = 'contractOutputsToken',
+  FromAmount = 'fromAmount',
+  FromChain = 'fromChain',
+  FromToken = 'fromToken',
+  ToAddress = 'toAddress',
+  ToAmount = 'toAmount',
+  ToChain = 'toChain',
+  ToContractAddress = 'toContractAddress',
+  ToContractCallData = 'toContractCallData',
+  ToContractGasLimit = 'ToContractGasLimit',
+  ToToken = 'toToken',
+  TokenSearchFilter = 'tokenSearchFilter',
+}
+
+export type FormType = 'from' | 'to';
+
+export interface FormTypeProps {
+  formType: FormType;
+}
+
+export const FormKeyHelper = {
+  getChainKey: (formType: FormType): 'fromChain' | 'toChain' =>
+    `${formType}Chain`,
+  getTokenKey: (formType: FormType): 'fromToken' | 'toToken' =>
+    `${formType}Token`,
+  getAmountKey: (formType: FormType): 'fromAmount' | 'toAmount' =>
+    `${formType}Amount`,
+};
