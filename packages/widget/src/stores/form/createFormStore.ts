@@ -3,7 +3,6 @@ import { createWithEqualityFn } from 'zustand/traditional';
 import {
   DefaultValues,
   FormFieldNames,
-  FormStoreStore,
   GenericFormValue,
   FormValueControl,
   FormValues,
@@ -38,21 +37,14 @@ const valuesToFormValues = (defaultValues: DefaultValues): FormValues => {
   ) as FormValues;
 };
 
-const getUpdatedTouchedFields = (
-  fieldName: FormFieldNames,
-  userValues: FormValues,
-  previousTouchedFields: TouchedFields,
-) => {
-  const isFieldInTouchedFields = previousTouchedFields[fieldName];
-  return !isFieldInTouchedFields
-    ? Object.keys(userValues).reduce(
-        (accum, key) =>
-          userValues[key as FormFieldNames]?.isTouched
-            ? { ...accum, [key]: true }
-            : accum,
-        {},
-      )
-    : previousTouchedFields;
+const getUpdatedTouchedFields = (userValues: FormValues) => {
+  return Object.keys(userValues).reduce(
+    (accum, key) =>
+      userValues[key as FormFieldNames]?.isTouched
+        ? { ...accum, [key]: true }
+        : accum,
+    {},
+  );
 };
 const mergeDefaultFormValues = (
   userValues: FormValues,
@@ -80,8 +72,8 @@ const mergeDefaultFormValues = (
   );
 
 // TODO: isValidating & isValid
-export const createFormStore = () => {
-  const useFormStore: FormStoreStore = createWithEqualityFn<FormValuesState>(
+export const createFormStore = () =>
+  createWithEqualityFn<FormValuesState>(
     (set, get) => ({
       defaultValues: valuesToFormValues(formDefaultValues),
       userValues: valuesToFormValues(formDefaultValues),
@@ -107,11 +99,7 @@ export const createFormStore = () => {
           },
         };
 
-        const touchedFields = getUpdatedTouchedFields(
-          fieldName,
-          userValues,
-          get().touchedFields,
-        );
+        const touchedFields = getUpdatedTouchedFields(userValues);
 
         set(() => ({
           userValues,
@@ -132,13 +120,9 @@ export const createFormStore = () => {
             ...get().userValues,
             [fieldName]: { ...fieldValues },
           };
-          const touchedFields = getUpdatedTouchedFields(
-            fieldName,
-            userValues,
-            get().touchedFields,
-          );
+          const touchedFields = getUpdatedTouchedFields(userValues);
 
-          set((state) => {
+          set(() => {
             return {
               defaultValues,
               userValues,
@@ -150,13 +134,9 @@ export const createFormStore = () => {
             ...get().userValues,
             [fieldName]: { ...get().defaultValues[fieldName] },
           };
-          const touchedFields = getUpdatedTouchedFields(
-            fieldName,
-            userValues,
-            get().touchedFields,
-          );
+          const touchedFields = getUpdatedTouchedFields(userValues);
 
-          set((state) => ({
+          set(() => ({
             userValues,
             touchedFields,
           }));
@@ -178,11 +158,7 @@ export const createFormStore = () => {
           },
         };
 
-        const touchedFields = getUpdatedTouchedFields(
-          fieldName,
-          userValues,
-          get().touchedFields,
-        );
+        const touchedFields = getUpdatedTouchedFields(userValues);
 
         set(() => ({
           userValues,
@@ -194,6 +170,3 @@ export const createFormStore = () => {
     }),
     Object.is,
   );
-
-  return useFormStore;
-};

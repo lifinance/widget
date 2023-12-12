@@ -19,7 +19,7 @@ import type { RouteExecution } from '../../stores';
 import {
   RouteExecutionStatus,
   getSourceTxHash,
-  useFormStore,
+  useFieldActions,
 } from '../../stores';
 import {
   formatTokenAmount,
@@ -37,7 +37,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   const { navigateBack, navigate } = useNavigateBack();
   const ref = useRef<BottomSheetBase>(null);
   const { getChainById } = useAvailableChains();
-  const { setFieldValue } = useFormStore();
+  const { setFieldValue } = useFieldActions();
   const {
     subvariant,
     contractComponent,

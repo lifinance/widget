@@ -17,7 +17,7 @@ import {
 import { useWidgetConfig } from '../../providers';
 import {
   RouteExecutionStatus,
-  useFormStore,
+  useFieldActions,
   useHeaderStoreContext,
 } from '../../stores';
 import { WidgetEvent } from '../../types/events';
@@ -38,7 +38,7 @@ import { calcValueLoss } from './utils';
 
 export const TransactionPage: React.FC = () => {
   const { t } = useTranslation();
-  const { setFieldValue } = useFormStore();
+  const { setFieldValue } = useFieldActions();
   const emitter = useWidgetEvents();
   const { navigateBack } = useNavigateBack();
   const {

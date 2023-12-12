@@ -1,12 +1,12 @@
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { IconButton } from './ReverseTokensButton.style';
-import { useFormStore } from '../../stores';
+import { useFieldActions } from '../../stores';
 
 export const ReverseTokensButton: React.FC<{ vertical?: boolean }> = ({
   vertical,
 }) => {
-  const { setAsTouched, setFieldValue } = useFormStore();
+  const { setAsTouched, setFieldValue } = useFieldActions();
 
   const handleClick = () => {
     setFieldValue('fromAmount', '', { isTouched: true });

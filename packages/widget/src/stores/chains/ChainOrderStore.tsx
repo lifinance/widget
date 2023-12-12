@@ -5,7 +5,7 @@ import { useChains } from '../../hooks';
 import type { PersistStoreProviderProps } from '../types';
 import { createChainOrderStore } from './createChainOrderStore';
 import type { ChainOrderState } from './types';
-import { useFormStore } from '../../stores';
+import { useFieldActions } from '../../stores';
 
 export type ChainOrderStore = UseBoundStoreWithEqualityFn<
   StoreApi<ChainOrderState>
@@ -21,7 +21,7 @@ export function ChainOrderStoreProvider({
 }: PersistStoreProviderProps) {
   const storeRef = useRef<ChainOrderStore>();
   const { chains: filteredChains } = useChains();
-  const { setFieldValue, getFieldValues } = useFormStore();
+  const { setFieldValue, getFieldValues } = useFieldActions();
 
   if (!storeRef.current) {
     storeRef.current = createChainOrderStore(props);

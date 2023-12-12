@@ -1,14 +1,15 @@
 import { useCallback } from 'react';
-import { FormFieldNames } from './types';
-import { useFormStore } from './FormStore';
+import type { FormFieldNames } from './types';
+import { useFieldValues } from './useFieldValues';
+import { useFieldActions } from './useFieldActions';
 
 interface UseFieldControllerProps {
   name: FormFieldNames;
 }
 
 export const useFieldController = ({ name }: UseFieldControllerProps) => {
-  const { userValues, setFieldValue, setAsTouched } = useFormStore();
-  const fieldValue = userValues[name]?.value;
+  const [fieldValue] = useFieldValues(name);
+  const { setFieldValue, setAsTouched } = useFieldActions();
 
   const onChange = useCallback(
     (newValue: string | number | undefined) => {

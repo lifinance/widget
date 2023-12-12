@@ -2,12 +2,12 @@ import { WidgetEvent, useWidgetEvents } from '@lifi/widget';
 import { useCallback } from 'react';
 import type { FormType } from '../../providers';
 import { FormKeyHelper, useWidgetConfig } from '../../providers';
-import { useFieldController, useFormStore } from '../../stores';
+import { useFieldActions, useFieldController } from '../../stores';
 
 export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
   const tokenKey = FormKeyHelper.getTokenKey(formType);
   const { onChange, onBlur } = useFieldController({ name: tokenKey });
-  const { setFieldValue, getFieldValues } = useFormStore();
+  const { setFieldValue, getFieldValues } = useFieldActions();
   const { subvariant } = useWidgetConfig();
   const emitter = useWidgetEvents();
 

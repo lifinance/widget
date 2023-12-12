@@ -4,12 +4,17 @@ import Tooltip from '@mui/material/Tooltip';
 import { useTranslation } from 'react-i18next';
 import { useRequiredToAddress, useWidgetEvents } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
-import { useFormStore, useSendToWalletStore, useSettings } from '../../stores';
+import {
+  useFieldActions,
+  useFormStore,
+  useSendToWalletStore,
+  useSettings,
+} from '../../stores';
 import { DisabledUI, HiddenUI, WidgetEvent } from '../../types';
 
 export const SendToWalletButton: React.FC = () => {
   const { t } = useTranslation();
-  const { setFieldValue } = useFormStore();
+  const { setFieldValue } = useFieldActions();
   const emitter = useWidgetEvents();
   const { disabledUI, hiddenUI } = useWidgetConfig();
   const { showSendToWallet, toggleSendToWallet } = useSendToWalletStore();

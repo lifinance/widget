@@ -4,11 +4,15 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card } from '../../components/Card';
 import { Input } from './SearchTokenInput.style';
-import { useFieldController, useFormStore } from '../../stores';
+import {
+  useFieldActions,
+  useFieldController,
+  useFormStore,
+} from '../../stores';
 
 export const SearchTokenInput = () => {
   const { t } = useTranslation();
-  const { setFieldValue } = useFormStore();
+  const { setFieldValue } = useFieldActions();
   const { onChange, onBlur, name, value } = useFieldController({
     name: 'tokenSearchFilter',
   });

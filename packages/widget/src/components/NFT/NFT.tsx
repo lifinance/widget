@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { NFTBase } from './NFTBase';
 import type { NFTProps } from './types';
-import { useFormStore } from '../../stores';
+import { useFieldActions } from '../../stores';
 
 export const NFT: React.FC<NFTProps> = ({
   imageUrl,
@@ -12,7 +12,7 @@ export const NFT: React.FC<NFTProps> = ({
   token,
   contract,
 }) => {
-  const { setFieldValue } = useFormStore();
+  const { setFieldValue } = useFieldActions();
 
   useEffect(() => {
     if (token) {

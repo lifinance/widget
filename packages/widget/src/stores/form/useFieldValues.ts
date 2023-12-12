@@ -1,18 +1,12 @@
-import { FormFieldNames } from './types';
+import type { FormFieldNames } from './types';
 import { useFormStore } from './FormStore';
+import { shallow } from 'zustand/shallow';
 
-// TODO: Question: a memozised singlular useFieldValue would be very easy to write - worth doing? see below
 export const useFieldValues = (...names: FormFieldNames[]) => {
-  const { userValues } = useFormStore();
+  const values = useFormStore(
+    (store) => names.map((name) => store.userValues[name]?.value),
+    shallow,
+  );
 
-  return names.map((name) => userValues[name]?.value as any);
+  return values;
 };
-
-// export const useFieldValue = (name: FormFieldNames) => {
-//   const fieldValue = useFormStore((store) => store.userData[name]?.value);
-//
-//   // may not need useMemo if the right equality check is done in zustand?
-//   const memozisedFieldValue = useMemo(() => fieldValue, [fieldValue])
-//
-//   return memozisedFieldValue;
-// };

@@ -50,7 +50,8 @@ export interface FormProps {
 interface ResetOptions {
   defaultValue?: GenericFormValue;
 }
-export interface FormValuesState extends FormProps {
+
+export interface FormActions {
   setDefaultValues: (formValues: DefaultValues) => void;
   isTouched: (fieldName: FormFieldNames) => boolean;
   setAsTouched: (fieldName: FormFieldNames) => void;
@@ -62,6 +63,11 @@ export interface FormValuesState extends FormProps {
   ) => void;
   getFieldValues: (...names: FormFieldNames[]) => Array<any>;
 }
+
+export type FormActionsNames = keyof FormActions;
+export type FormActionsFunctions = Array<FormActions[FormActionsNames]>;
+
+export type FormValuesState = FormProps & FormActions;
 
 export type FormStoreStore = UseBoundStoreWithEqualityFn<
   StoreApi<FormValuesState>

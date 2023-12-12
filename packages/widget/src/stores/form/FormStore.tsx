@@ -1,9 +1,10 @@
 import type { PropsWithChildren } from 'react';
 import { createContext, useContext, useEffect, useRef } from 'react';
 import { isItemAllowed, useWidgetConfig } from '../../providers/WidgetProvider';
-import { FormStoreStore } from './types';
+import { FormStoreStore, FormValuesState } from './types';
 import { createFormStore, formDefaultValues } from './createFormStore';
 import { useAccount } from '@lifi/widget';
+import { shallow } from 'zustand/shallow';
 
 export const FormStoreContext = createContext<FormStoreStore | null>(null);
 
@@ -53,6 +54,7 @@ export const FormStoreProvider: React.FC<PropsWithChildren> = ({
     storeRef.current,
   ]);
 
+  // TODO: pull this out into a seperate component
   useEffect(() => {
     const chainAllowed =
       account.chainId && isItemAllowed(account.chainId, chains);
@@ -91,17 +93,10 @@ export const FormStoreProvider: React.FC<PropsWithChildren> = ({
   );
 };
 
-// TODO: needs to deal with errors, triggers (re trigger validation)
-//  clearErrors from React Hook Form is used - components/SendToWallet/SendToWallet.tsx
-//  trigger is used to trigger validation - components/SendToWallet/SendToWallet.tsx
-
-// TODO: Question: I think we should try to optimise in places by introducing and optional selector function here
-//  adding in a shallow equality check may improve rendering too
-//  useFormStore = (selectorFn = (store) => store) => { ...
-//  ... return useStore(selectorFn, shallow);
-//  at points of user
-//  const userValues = useFormStore((store) =>  store.userValues);
-export const useFormStore = () => {
+export const useFormStore = (
+  selector: (store: FormValuesState) => any,
+  equalityFunction = shallow,
+) => {
   const useStore = useContext(FormStoreContext);
 
   if (!useStore) {
@@ -110,5 +105,5 @@ export const useFormStore = () => {
     );
   }
 
-  return useStore();
+  return useStore(selector, equalityFunction);
 };

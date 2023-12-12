@@ -9,12 +9,12 @@ import {
 import type { FormTypeProps } from '../../providers';
 import { FormKeyHelper } from '../../providers';
 import { Button } from './AmountInputAdornment.style';
-import { useFieldValues, useFormStore } from '../../stores';
+import { useFieldActions, useFieldValues } from '../../stores';
 
 export const AmountInputEndAdornment = ({ formType }: FormTypeProps) => {
   const { t } = useTranslation();
   const { getChainById } = useAvailableChains();
-  const { setFieldValue } = useFormStore();
+  const { setFieldValue } = useFieldActions();
 
   const [chainId, tokenAddress] = useFieldValues(
     FormKeyHelper.getChainKey(formType),

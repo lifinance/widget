@@ -9,7 +9,11 @@ import { normalize } from 'viem/ens';
 import { useConfig } from 'wagmi';
 import { useAccount, useRequiredToAddress } from '../../hooks';
 import { FormKey, useWidgetConfig } from '../../providers';
-import { useFormStore, useSendToWalletStore, useSettings } from '../../stores';
+import {
+  useFieldActions,
+  useSendToWalletStore,
+  useSettings,
+} from '../../stores';
 import { DisabledUI, HiddenUI } from '../../types';
 import { isSVMAddress } from '../../utils';
 import { Card, CardTitle } from '../Card';
@@ -17,7 +21,7 @@ import { FormControl, Input } from './SendToWallet.style';
 
 export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
   const { t } = useTranslation();
-  const { getFieldValues, setFieldValue } = useFormStore();
+  const { getFieldValues, setFieldValue } = useFieldActions();
   const { trigger, clearErrors } = useFormContext();
   const { account } = useAccount();
   const config = useConfig();
