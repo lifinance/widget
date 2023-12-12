@@ -5,3 +5,4 @@ export * from './useFieldActions';
 export * from './useFieldController';
 export * from './useFieldValues';
 export * from './useTouchedFields';
+export * from './URLSearchParamsBuilder';
