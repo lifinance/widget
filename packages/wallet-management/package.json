@@ -56,7 +56,7 @@
   "dependencies": {
     "@lifi/sdk": "^3.0.0-alpha.38",
     "react": "^18.2.0",
-    "wagmi": "^2.0.0-beta.6"
+    "wagmi": "^2.0.0-beta.7"
   },
   "devDependencies": {
     "cpy-cli": "^5.0.0",

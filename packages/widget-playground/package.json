@@ -30,20 +30,20 @@
     "@mui/icons-material": "^5.14.19",
     "@mui/lab": "^5.0.0-alpha.155",
     "@mui/material": "^5.14.20",
-    "@tanstack/react-query": "^5.12.2",
+    "@tanstack/react-query": "^5.13.4",
     "ethers": "^5.7.2",
     "events": "^3.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.20.1",
     "viem": "^2.0.0-beta.15",
-    "wagmi": "^2.0.0-beta.6"
+    "wagmi": "^2.0.0-beta.7"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",
     "source-map-explorer": "^2.5.3",
     "typescript": "^5.3.3",
-    "vite": "^5.0.7",
+    "vite": "^5.0.8",
     "web-vitals": "^3.5.0"
   },
   "eslintConfig": {
