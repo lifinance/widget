@@ -1,7 +1,8 @@
 import type { BoxProps } from '@mui/material';
 import { Collapse, FormHelperText } from '@mui/material';
 import { getEnsAddress } from '@wagmi/core';
-import { ChangeEvent, forwardRef, useEffect, useRef } from 'react';
+import type { ChangeEvent } from 'react';
+import { forwardRef, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { isAddress } from 'viem';
 import { normalize } from 'viem/ens';
@@ -68,7 +69,7 @@ export const SendToWallet: React.FC<BoxProps> = forwardRef((props, ref) => {
         return t('error.title.walletEnsAddressInvalid') as string;
       }
     });
-  }, [addFieldValidation, requiredToAddress, getFieldValues]);
+  }, [addFieldValidation, requiredToAddress, getFieldValues, t, config]);
 
   const handlerInputChange = (e: ChangeEvent) => {
     onChange((e.target as HTMLInputElement).value.trim());

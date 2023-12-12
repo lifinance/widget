@@ -40,7 +40,7 @@ export const FormStoreProvider: React.FC<PropsWithChildren> = ({
     if (storeRef.current) {
       storeRef.current.getState().setDefaultValues(defaultValues);
     }
-  }, [defaultValues, storeRef.current]);
+  }, [defaultValues, storeRef]);
 
   return (
     <FormStoreContext.Provider value={storeRef.current}>

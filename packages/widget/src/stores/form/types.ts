@@ -1,5 +1,5 @@
-import { UseBoundStoreWithEqualityFn } from 'zustand/esm/traditional';
-import { StoreApi } from 'zustand/esm';
+import type { UseBoundStoreWithEqualityFn } from 'zustand/esm/traditional';
+import type { StoreApi } from 'zustand/esm';
 
 export interface DefaultValues {
   toAddress: string;

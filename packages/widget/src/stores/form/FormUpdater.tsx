@@ -4,7 +4,8 @@ import type { FormFieldNames } from './types';
 import { useAccount } from '../../hooks';
 import { useFieldActions } from './useFieldActions';
 import { isItemAllowed, useWidgetConfig } from '../../providers';
-import { DefaultValues, FormKey } from './types';
+import type { DefaultValues } from './types';
+import { FormKey } from './types';
 
 export const FormUpdater: React.FC<{
   defaultValues: Partial<DefaultValues>;

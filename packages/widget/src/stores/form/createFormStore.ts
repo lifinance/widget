@@ -1,6 +1,6 @@
 import { createWithEqualityFn } from 'zustand/traditional';
 
-import {
+import type {
   DefaultValues,
   FormFieldNames,
   GenericFormValue,

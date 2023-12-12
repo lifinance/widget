@@ -4,11 +4,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card } from '../../components/Card';
 import { Input } from './SearchTokenInput.style';
-import {
-  useFieldActions,
-  useFieldController,
-  useFormStore,
-} from '../../stores';
+import { useFieldActions, useFieldController } from '../../stores';
 
 export const SearchTokenInput = () => {
   const { t } = useTranslation();
