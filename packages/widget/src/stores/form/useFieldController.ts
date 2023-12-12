@@ -20,7 +20,7 @@ export const useFieldController = ({ name }: UseFieldControllerProps) => {
 
   const onBlur = useCallback(() => {
     setAsTouched(name);
-  }, [name, setFieldValue]);
+  }, [name, setAsTouched]);
 
   return {
     onChange,

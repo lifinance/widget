@@ -41,6 +41,28 @@ export interface FormValues {
 export type FormFieldNames = keyof FormValues;
 
 export type TouchedFields = { [key in FormFieldNames]?: boolean };
+
+type ValidationFn = (value: any) => Promise<boolean | string>;
+export interface ValidationProps {
+  isValid: boolean;
+  isValidating: boolean;
+  errors: {
+    [key in FormFieldNames]?: string;
+  };
+  validation: {
+    [key in FormFieldNames]?: ValidationFn;
+  };
+}
+
+export interface ValidationActions {
+  addFieldValidation: (
+    name: FormFieldNames,
+    validationFn: ValidationFn,
+  ) => void;
+  triggerFieldValidation: (name: FormFieldNames) => Promise<boolean>;
+  clearErrors: (name: FormFieldNames) => void;
+}
+
 export interface FormProps {
   defaultValues: FormValues;
   userValues: FormValues;
@@ -67,7 +89,10 @@ export interface FormActions {
 export type FormActionsNames = keyof FormActions;
 export type FormActionsFunctions = Array<FormActions[FormActionsNames]>;
 
-export type FormValuesState = FormProps & FormActions;
+export type FormValuesState = FormProps &
+  FormActions &
+  ValidationProps &
+  ValidationActions;
 
 export type FormStoreStore = UseBoundStoreWithEqualityFn<
   StoreApi<FormValuesState>

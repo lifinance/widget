@@ -1,6 +1,5 @@
 import type { BoxProps } from '@mui/material';
 import { Box, Button, Collapse } from '@mui/material';
-import { useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useRoutes } from '../../hooks';
@@ -9,12 +8,13 @@ import { navigationRoutes } from '../../utils';
 import { Card, CardTitle } from '../Card';
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate';
 import { RouteCard, RouteCardSkeleton, RouteNotFoundCard } from '../RouteCard';
+import { useValidation } from '../../stores';
 
 export const Routes: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { subvariant, useRecommendedRoute } = useWidgetConfig();
-  const { isValid, isValidating } = useFormState();
+  const { isValid, isValidating } = useValidation();
   const {
     routes,
     isLoading,

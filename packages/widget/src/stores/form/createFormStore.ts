@@ -37,6 +37,8 @@ const valuesToFormValues = (defaultValues: DefaultValues): FormValues => {
   ) as FormValues;
 };
 
+const isString = (str: any) => typeof str === 'string' || str instanceof String;
+
 const getUpdatedTouchedFields = (userValues: FormValues) => {
   return Object.keys(userValues).reduce(
     (accum, key) =>
@@ -167,6 +169,60 @@ export const createFormStore = () =>
       },
       getFieldValues: (...names) =>
         names.map((name) => get().userValues[name]?.value),
+
+      // The following a is a "placeholder" "for validation for toAddress
+      // is will be re-addressed in the next piece of work for Wallet Switching
+      isValid: true,
+      isValidating: false,
+      errors: {},
+      validation: {},
+      addFieldValidation: (name, validationFn) => {
+        set((state) => ({
+          validation: {
+            ...state.validation,
+            [name]: validationFn,
+          },
+        }));
+      },
+      triggerFieldValidation: async (name) => {
+        try {
+          let valid = true;
+          set(() => ({ isValidating: true }));
+
+          const validationFn = get().validation[name];
+
+          if (validationFn) {
+            const result = await validationFn(get().userValues?.[name]?.value);
+            if (isString(result)) {
+              valid = false;
+              set((state) => ({
+                errors: {
+                  ...state.errors,
+                  [name]: result,
+                },
+              }));
+            } else {
+              valid = result as boolean;
+            }
+          }
+
+          set(() => ({ isValid: valid }));
+          set(() => ({ isValidating: false }));
+          return valid;
+        } catch (err) {
+          set(() => ({ isValidating: false }));
+          throw err;
+        }
+      },
+      clearErrors: (name) => {
+        const newErrors = { ...get().errors };
+
+        delete newErrors[name];
+
+        set(() => ({
+          errors: newErrors,
+        }));
+      },
     }),
     Object.is,
   );
