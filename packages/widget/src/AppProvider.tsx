@@ -10,11 +10,7 @@ import {
   WidgetProvider,
   useWidgetConfig,
 } from './providers';
-import {
-  StoreProvider,
-  FormStoreProvider,
-  URLSearchParamsBuilder,
-} from './stores';
+import { StoreProvider, URLSearchParamsBuilder } from './stores';
 import type { WidgetConfigProps } from './types';
 
 export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
@@ -27,11 +23,9 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
         <ThemeProvider>
           <I18nProvider>
             <WalletProvider>
-              <FormStoreProvider>
-                <StoreProvider config={config}>
-                  <AppRouter>{children}</AppRouter>
-                </StoreProvider>
-              </FormStoreProvider>
+              <StoreProvider config={config}>
+                <AppRouter>{children}</AppRouter>
+              </StoreProvider>
             </WalletProvider>
           </I18nProvider>
         </ThemeProvider>
