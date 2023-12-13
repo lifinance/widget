@@ -1,20 +1,24 @@
 import type { ValidationActions } from './types';
 import { useFormStore } from './FormStore';
 import { shallow } from 'zustand/shallow';
-export const useValidationActions = (): ValidationActions => {
-  const [addFieldValidation, triggerFieldValidation, clearErrors] =
-    useFormStore(
-      (store) => [
-        store.clearErrors,
-        store.triggerFieldValidation,
-        store.clearErrors,
-      ],
-      shallow,
-    );
+import type { ValidationActionFunctions, ValidationActionNames } from './types';
 
-  return {
-    addFieldValidation,
-    triggerFieldValidation,
-    clearErrors,
-  };
+const validationFunctions: ValidationActionNames[] = [
+  'addFieldValidation',
+  'triggerFieldValidation',
+  'clearErrors',
+];
+export const useValidationActions = () => {
+  const actions: ValidationActionFunctions = useFormStore(
+    (store) => validationFunctions.map((actionName) => store[actionName]),
+    shallow,
+  );
+
+  return actions.reduce(
+    (accum, actionName, i) => ({
+      ...accum,
+      [validationFunctions[i]]: actionName,
+    }),
+    {},
+  ) as ValidationActions;
 };

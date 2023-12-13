@@ -62,6 +62,10 @@ export interface ValidationActions {
   triggerFieldValidation: (name: FormFieldNames) => Promise<boolean>;
   clearErrors: (name: FormFieldNames) => void;
 }
+export type ValidationActionNames = keyof ValidationActions;
+export type ValidationActionFunctions = Array<
+  ValidationActions[ValidationActionNames]
+>;
 
 export interface FormProps {
   defaultValues: FormValues;
@@ -86,8 +90,8 @@ export interface FormActions {
   getFieldValues: (...names: FormFieldNames[]) => Array<any>;
 }
 
-export type FormActionsNames = keyof FormActions;
-export type FormActionsFunctions = Array<FormActions[FormActionsNames]>;
+export type FormActionNames = keyof FormActions;
+export type FormActionFunctions = Array<FormActions[FormActionNames]>;
 
 export type FormValuesState = FormProps &
   FormActions &

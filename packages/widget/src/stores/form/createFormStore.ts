@@ -182,7 +182,7 @@ export const createFormStore = () =>
       triggerFieldValidation: async (name) => {
         try {
           let valid = true;
-          set(() => ({ isValidating: true }));
+          set(() => ({ isValid: false, isValidating: true }));
 
           const validationFn = get().validation[name];
 
@@ -198,11 +198,11 @@ export const createFormStore = () =>
               }));
             } else {
               valid = result as boolean;
+              if (valid) get().clearErrors(name);
             }
           }
 
-          set(() => ({ isValid: valid }));
-          set(() => ({ isValidating: false }));
+          set(() => ({ isValid: valid, isValidating: false }));
           return valid;
         } catch (err) {
           set(() => ({ isValidating: false }));

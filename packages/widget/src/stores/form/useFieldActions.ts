@@ -1,12 +1,12 @@
 import { shallow } from 'zustand/shallow';
 import type {
   FormActions,
-  FormActionsNames,
-  FormActionsFunctions,
+  FormActionNames,
+  FormActionFunctions,
 } from './types';
 import { useFormStore } from './FormStore';
 
-const actionFunctions: FormActionsNames[] = [
+const actionFunctions: FormActionNames[] = [
   'setDefaultValues',
   'isTouched',
   'setAsTouched',
@@ -15,8 +15,8 @@ const actionFunctions: FormActionsNames[] = [
   'getFieldValues',
 ];
 
-export const useFieldActions = (): FormActions => {
-  const actions: FormActionsFunctions = useFormStore(
+export const useFieldActions = () => {
+  const actions: FormActionFunctions = useFormStore(
     (store) => actionFunctions.map((actionName) => store[actionName]),
     shallow,
   );
