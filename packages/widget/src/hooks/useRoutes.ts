@@ -8,7 +8,7 @@ import { normalize } from 'viem/ens';
 import { useConfig } from 'wagmi';
 import { useChain, useDebouncedWatch, useGasRefuel, useToken } from '.';
 import { useWidgetConfig } from '../providers';
-import { useFieldValues, useSettings, FormKey } from '../stores';
+import { useFieldValues, useSettings } from '../stores';
 import { isSVMAddress } from '../utils';
 import { useAccount } from './useAccount';
 import { useSwapOnly } from './useSwapOnly';
@@ -38,7 +38,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
     'enabledBridges',
     'enabledExchanges',
   ]);
-  const [fromTokenAmount] = useDebouncedWatch([FormKey.FromAmount], 320);
+  const [fromTokenAmount] = useDebouncedWatch(['fromAmount'], 320);
   const [
     fromChainId,
     fromTokenAddress,

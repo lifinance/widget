@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { useFieldValues } from '../stores';
+import { FormFieldNames, useFieldValues } from '../stores';
 
-export const useDebouncedWatch = (name: any, delay: number) => {
+export const useDebouncedWatch = (name: FormFieldNames[], delay: number) => {
   const watchedValue = useFieldValues(...name);
   const [debouncedValue, setDebouncedValue] = useState(watchedValue);
   const debouncedValueRef = useRef<any>();
@@ -9,9 +9,9 @@ export const useDebouncedWatch = (name: any, delay: number) => {
 
   useEffect(() => {
     if (isMounted.current) {
-      const hasWatchedValue = Array.isArray(watchedValue)
-        ? watchedValue.some((value) => value)
-        : Boolean(watchedValue);
+      const hasWatchedValue = watchedValue.some(
+        (value: FormFieldNames) => value,
+      );
       if (hasWatchedValue) {
         const handler = setTimeout(() => {
           setDebouncedValue(watchedValue);

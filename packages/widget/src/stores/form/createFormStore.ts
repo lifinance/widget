@@ -72,7 +72,6 @@ const mergeDefaultFormValues = (
     { ...valuesToFormValues(formDefaultValues) },
   );
 
-// TODO: isValidating & isValid
 export const createFormStore = () =>
   createWithEqualityFn<FormValuesState>(
     (set, get) => ({
@@ -168,9 +167,6 @@ export const createFormStore = () =>
       },
       getFieldValues: (...names) =>
         names.map((name) => get().userValues[name]?.value),
-
-      // The following a is a "placeholder" "for validation for toAddress
-      // is will be re-addressed in the next piece of work for Wallet Switching
       isValid: true,
       isValidating: false,
       errors: {},

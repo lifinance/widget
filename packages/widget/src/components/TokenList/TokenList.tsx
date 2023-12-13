@@ -13,7 +13,7 @@ import { TokenNotFound } from './TokenNotFound';
 import { VirtualizedTokenList } from './VirtualizedTokenList';
 import type { TokenListProps } from './types';
 import { useTokenSelect } from './useTokenSelect';
-import { useFieldValues, FormKey, FormKeyHelper } from '../../stores';
+import { useFieldValues, FormKeyHelper } from '../../stores';
 
 export const TokenList: FC<TokenListProps> = ({
   formType,
@@ -24,7 +24,7 @@ export const TokenList: FC<TokenListProps> = ({
   const { account } = useAccount();
   const [selectedChainId] = useFieldValues(FormKeyHelper.getChainKey(formType));
   const [tokenSearchFilter]: string[] = useDebouncedWatch(
-    [FormKey.TokenSearchFilter],
+    ['tokenSearchFilter'],
     320,
   );
 
