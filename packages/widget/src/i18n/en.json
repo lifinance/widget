@@ -166,7 +166,6 @@
   "main": {
     "crossStepDetails": "Bridge from {{from}} to {{to}} via {{tool}}",
     "currentAmount": "Current amount",
-    "estimatedTime": "{{value}}m",
     "featuredTokens": "Featured tokens",
     "from": "From",
     "fromAmount": "You pay",

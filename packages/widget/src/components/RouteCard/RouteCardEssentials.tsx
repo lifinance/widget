@@ -1,31 +1,17 @@
 import AccessTimeIcon from '@mui/icons-material/AccessTimeFilled';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import LayersIcon from '@mui/icons-material/Layers';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import { Box, Tooltip, Typography } from '@mui/material';
 import type { TFunction } from 'i18next';
-import type { MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatUnits } from 'viem';
-import { CardIconButton } from '../Card';
 import { IconTypography } from './RouteCard.style';
 import type { FeesBreakdown, RouteCardEssentialsProps } from './types';
 import { getFeeCostsBreakdown, getGasCostsBreakdown } from './utils';
 
 export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
   route,
-  dense,
-  expanded,
-  onClick,
 }) => {
-  const { t } = useTranslation();
-
-  const handleExpand: MouseEventHandler<HTMLButtonElement> = (e) => {
-    e.stopPropagation();
-    onClick?.((expanded) => !expanded);
-  };
-
+  const { t, i18n } = useTranslation();
   const executionTimeMinutes = Math.ceil(
     route.steps
       .map((step) => step.estimate.executionDuration)
@@ -55,8 +41,8 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
         enterDelay={400}
         arrow
       >
-        <Box display="flex" alignItems="center" mr={dense ? 0 : 2}>
-          <IconTypography>
+        <Box display="flex" alignItems="center">
+          <IconTypography mr={0.5}>
             <MonetizationOnIcon fontSize="small" />
           </IconTypography>
           <Typography
@@ -77,8 +63,8 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
         enterDelay={400}
         arrow
       >
-        <Box display="flex" alignItems="center" mr={dense ? 0 : 2}>
-          <IconTypography>
+        <Box display="flex" alignItems="center">
+          <IconTypography mr={0.5}>
             <AccessTimeIcon fontSize="small" />
           </IconTypography>
           <Typography
@@ -87,37 +73,14 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
             fontWeight="500"
             lineHeight={1}
           >
-            {t('main.estimatedTime', {
-              value: executionTimeMinutes,
-            })}
+            {new Intl.NumberFormat(i18n.language, {
+              style: 'unit',
+              unit: 'minute',
+              unitDisplay: 'narrow',
+            }).format(executionTimeMinutes)}
           </Typography>
         </Box>
       </Tooltip>
-      <Tooltip
-        title={t(`tooltip.numberOfSteps`)}
-        placement="top"
-        enterDelay={400}
-        arrow
-      >
-        <Box display="flex" alignItems="center">
-          <IconTypography>
-            <LayersIcon fontSize="small" />
-          </IconTypography>
-          <Typography
-            fontSize={14}
-            color="text.primary"
-            fontWeight="500"
-            lineHeight={1}
-          >
-            {route.steps.length}
-          </Typography>
-        </Box>
-      </Tooltip>
-      {onClick ? (
-        <CardIconButton onClick={handleExpand} size="small">
-          {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-        </CardIconButton>
-      ) : null}
     </Box>
   );
 };
@@ -129,7 +92,8 @@ const getFeeBreakdownTypography = (fees: FeesBreakdown[], t: TFunction) =>
       fontWeight="500"
       key={`${gas.token.address}${index}`}
     >
+      {t(`format.currency`, { value: gas.amountUSD })} (
       {parseFloat(formatUnits(gas.amount, gas.token.decimals))?.toFixed(9)}{' '}
-      {gas.token.symbol} ({t(`format.currency`, { value: gas.amountUSD })})
+      {gas.token.symbol})
     </Typography>
   ));

@@ -102,7 +102,7 @@ export const RoutesExpandedElement = () => {
                       route={route}
                       onClick={() => handleRouteClick(route)}
                       active={index === 0}
-                      expanded={routes?.length <= 2}
+                      expanded={routes?.length === 1}
                     />
                   ))
                 )}

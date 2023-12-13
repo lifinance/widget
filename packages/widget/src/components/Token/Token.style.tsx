@@ -30,7 +30,7 @@ export const TextSecondary = styled(Typography, {
   color: dot
     ? alpha(theme.palette.text.secondary, 0.56)
     : theme.palette.text.secondary,
-  marginTop: connected ? 0 : theme.spacing(0.5),
+  paddingTop: connected ? 0 : theme.spacing(0.5),
 }));
 
 export const TokenDivider = styled(Box)(({ theme }) => ({

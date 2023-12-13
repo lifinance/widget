@@ -1,17 +1,21 @@
 import type { TokenAmount } from '@lifi/sdk';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import type { TooltipProps } from '@mui/material';
 import { Box, Collapse, Tooltip, Typography } from '@mui/material';
+import type { MouseEventHandler } from 'react';
 import { Fragment, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useWidgetConfig } from '../../providers';
 import { formatTokenAmount } from '../../utils';
 import type { CardProps } from '../Card';
-import { Card, CardLabel, CardLabelTypography } from '../Card';
+import { Card, CardIconButton, CardLabel, CardLabelTypography } from '../Card';
 import type { InsuredAmount } from '../Insurance';
 import { StepActions } from '../StepActions';
 import { Token } from '../Token';
 import { RouteCardEssentials } from './RouteCardEssentials';
+import { RouteCardEssentialsExpanded } from './RouteCardEssentialsExpanded';
 import type { RouteCardProps } from './types';
 
 export const RouteCard: React.FC<
@@ -26,6 +30,12 @@ export const RouteCard: React.FC<
   const { t } = useTranslation();
   const { subvariant } = useWidgetConfig();
   const [cardExpanded, setCardExpanded] = useState(defaulExpanded);
+
+  const handleExpand: MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.stopPropagation();
+    setCardExpanded((expanded) => !expanded);
+  };
+
   const insurable = route.insurance?.state === 'INSURABLE';
 
   const token: TokenAmount =
@@ -75,17 +85,27 @@ export const RouteCard: React.FC<
           ) : null}
         </Box>
       ) : null}
-      <Token token={token} step={!cardExpanded ? route.steps[0] : undefined} />
+      <Box display="flex" justifyContent="space-between" alignItems="start">
+        <Token
+          token={token}
+          step={route.steps[0]}
+          stepVisible={!cardExpanded}
+        />
+        {!defaulExpanded ? (
+          <CardIconButton onClick={handleExpand} size="small">
+            {cardExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          </CardIconButton>
+        ) : null}
+      </Box>
       <Collapse timeout={225} in={cardExpanded} mountOnEnter unmountOnExit>
         {route.steps.map((step) => (
           <StepActions key={step.id} step={step} mt={2} />
         ))}
+        <RouteCardEssentialsExpanded route={route} />
       </Collapse>
-      <RouteCardEssentials
-        route={route}
-        expanded={cardExpanded}
-        onClick={!defaulExpanded ? setCardExpanded : undefined}
-      />
+      <Collapse timeout={225} in={!cardExpanded} mountOnEnter unmountOnExit>
+        <RouteCardEssentials route={route} />
+      </Collapse>
     </Box>
   );
 
