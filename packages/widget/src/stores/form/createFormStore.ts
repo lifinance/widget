@@ -198,7 +198,9 @@ export const createFormStore = () =>
               }));
             } else {
               valid = result as boolean;
-              if (valid) get().clearErrors(name);
+              if (valid) {
+                get().clearErrors(name);
+              }
             }
           }
 
