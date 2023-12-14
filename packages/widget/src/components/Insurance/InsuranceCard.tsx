@@ -1,13 +1,11 @@
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import { Box, Collapse, Link, Typography } from '@mui/material';
-import type { ChangeEvent, MouseEventHandler } from 'react';
+import type { ChangeEvent } from 'react';
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { InsuraceLogo } from '../../icons';
 import { RouteExecutionStatus } from '../../stores';
-import { Card, CardIconButton, CardLabel, CardLabelTypography } from '../Card';
+import { Card, CardLabel, CardLabelTypography } from '../Card';
 import { Switch } from '../Switch';
 import type { InsuranceCardProps } from './types';
 
@@ -22,14 +20,6 @@ export const InsuranceCard: React.FC<InsuranceCardProps> = ({
 }) => {
   const { t } = useTranslation();
   const [enabled, setEnabled] = useState(false);
-  const [cardExpanded, setCardExpanded] = useState(
-    status === RouteExecutionStatus.Idle,
-  );
-
-  const handleExpand: MouseEventHandler<HTMLButtonElement> = (e) => {
-    e.stopPropagation();
-    setCardExpanded((expanded) => !expanded);
-  };
 
   const handleSwitch = (_: ChangeEvent<HTMLInputElement>, checked: boolean) => {
     setEnabled(checked);
@@ -47,17 +37,9 @@ export const InsuranceCard: React.FC<InsuranceCardProps> = ({
               : t('main.tags.insured')}
           </CardLabelTypography>
         </CardLabel>
-        {status === RouteExecutionStatus.Idle ? (
-          <Switch onChange={handleSwitch} value={enabled} />
-        ) : (
-          <Box my={-0.5}>
-            <CardIconButton onClick={handleExpand} size="small">
-              {cardExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-            </CardIconButton>
-          </Box>
-        )}
+        <Switch onChange={handleSwitch} value={enabled} />
       </Box>
-      <Collapse timeout={225} in={cardExpanded} mountOnEnter unmountOnExit>
+      <Collapse timeout={225} in={enabled} mountOnEnter unmountOnExit>
         <Box mt={2}>
           <Box
             display="flex"

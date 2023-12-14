@@ -50,30 +50,6 @@ export const RouteCard: React.FC<
     <Box flex={1}>
       {subvariant !== 'refuel' && (insurable || route.tags?.length) ? (
         <Box display="flex" alignItems="center" mb={2}>
-          {insurable ? (
-            <InsuranceTooltip
-              insuredAmount={formatTokenAmount(
-                BigInt(route.toAmountMin),
-                route.toToken.decimals,
-              )}
-              insuredTokenSymbol={route.toToken.symbol}
-            >
-              <CardLabel
-                type={
-                  route.tags?.length && !cardExpanded
-                    ? 'insurance-icon'
-                    : 'insurance'
-                }
-              >
-                <VerifiedUserIcon fontSize="inherit" />
-                {cardExpanded || !route.tags?.length ? (
-                  <CardLabelTypography type="icon">
-                    {t(`main.tags.insurable`)}
-                  </CardLabelTypography>
-                ) : null}
-              </CardLabel>
-            </InsuranceTooltip>
-          ) : null}
           {route.tags?.length ? (
             <RecommendedTagTooltip>
               <CardLabel type={active ? 'active' : undefined}>
@@ -82,6 +58,22 @@ export const RouteCard: React.FC<
                 </CardLabelTypography>
               </CardLabel>
             </RecommendedTagTooltip>
+          ) : null}
+          {insurable ? (
+            <InsuranceTooltip
+              insuredAmount={formatTokenAmount(
+                BigInt(route.toAmountMin),
+                route.toToken.decimals,
+              )}
+              insuredTokenSymbol={route.toToken.symbol}
+            >
+              <CardLabel type={'insurance'}>
+                <VerifiedUserIcon fontSize="inherit" />
+                <CardLabelTypography type="icon">
+                  {t(`main.tags.insurable`)}
+                </CardLabelTypography>
+              </CardLabel>
+            </InsuranceTooltip>
           ) : null}
         </Box>
       ) : null}

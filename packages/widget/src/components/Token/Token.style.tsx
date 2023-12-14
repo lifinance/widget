@@ -12,12 +12,12 @@ export const TextSecondaryContainer = styled(Box, {
       : theme.palette.grey[800],
   margin: connected
     ? theme.spacing(0.5, 0, 0, 1.875)
-    : theme.spacing(0, 0, 0, 6),
+    : theme.spacing(0.25, 0, 0, 6),
   padding: connected
     ? theme.spacing(0, 0, 0, 3.875)
     : theme.spacing(0, 0, 0, 0),
   display: 'flex',
-  alignItems: 'flex-start',
+  alignItems: 'center',
   flexWrap: 'wrap',
 }));
 
@@ -30,7 +30,6 @@ export const TextSecondary = styled(Typography, {
   color: dot
     ? alpha(theme.palette.text.secondary, 0.56)
     : theme.palette.text.secondary,
-  paddingTop: connected ? 0 : theme.spacing(0.5),
 }));
 
 export const TokenDivider = styled(Box)(({ theme }) => ({

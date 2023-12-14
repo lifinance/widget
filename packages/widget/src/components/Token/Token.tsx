@@ -1,8 +1,8 @@
 /* eslint-disable react/no-array-index-key */
 import type { LiFiStep, TokenAmount } from '@lifi/sdk';
 import type { BoxProps } from '@mui/material';
-import { Box, Skeleton, Slide } from '@mui/material';
-import { FC, PropsWithChildren, ReactElement, useRef } from 'react';
+import { Box, Grow, Skeleton } from '@mui/material';
+import { FC, PropsWithChildren, ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useChain, useToken } from '../../hooks';
 import { formatTokenAmount, formatTokenPrice } from '../../utils';
@@ -137,45 +137,35 @@ const TokenStep: FC<PropsWithChildren<Partial<TokenProps>>> = ({
   disableDescription,
   children,
 }) => {
-  const container = useRef(null);
-
   return (
-    <Box
-      position="relative"
-      width="50%"
-      overflow="hidden"
-      height={16}
-      ref={container}
-    >
-      <Slide
-        direction="down"
+    <Box position="relative" width="50%" overflow="hidden" height={16}>
+      <Grow
         in={!stepVisible && !disableDescription}
-        container={container.current}
         style={{
           position: 'absolute',
         }}
         appear={false}
+        timeout={225}
       >
-        {children as ReactElement}
-      </Slide>
-      <Slide
-        direction="up"
+        <Box display="flex" alignItems="center" height={16}>
+          {children as ReactElement}
+        </Box>
+      </Grow>
+      <Grow
         in={stepVisible}
-        container={container.current}
         style={{
           position: 'absolute',
         }}
         appear={false}
-        mountOnEnter
+        timeout={225}
       >
-        <Box display="flex" alignItems="flex-end" height={16} pt={0.5}>
-          <Box pr={0.75}>
+        <Box display="flex" alignItems="center" height={16}>
+          <Box mr={0.75} height={16}>
             <SmallAvatar
               src={step?.toolDetails.logoURI}
               alt={step?.toolDetails.name}
               sx={{
                 border: 0,
-                marginBottom: -0.25,
               }}
             >
               {step?.toolDetails.name[0]}
@@ -183,7 +173,7 @@ const TokenStep: FC<PropsWithChildren<Partial<TokenProps>>> = ({
           </Box>
           <TextSecondary connected>{step?.toolDetails.name}</TextSecondary>
         </Box>
-      </Slide>
+      </Grow>
     </Box>
   );
 };
