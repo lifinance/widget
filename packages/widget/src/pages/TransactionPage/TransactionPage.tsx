@@ -2,7 +2,6 @@ import type { ExchangeRateUpdateParams } from '@lifi/sdk';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Button, Tooltip } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import type { BottomSheetBase } from '../../components/BottomSheet';
@@ -15,8 +14,12 @@ import {
   useRouteExecution,
   useWidgetEvents,
 } from '../../hooks';
-import { FormKey, useWidgetConfig } from '../../providers';
-import { RouteExecutionStatus, useHeaderStoreContext } from '../../stores';
+import { useWidgetConfig } from '../../providers';
+import {
+  RouteExecutionStatus,
+  useFieldActions,
+  useHeaderStoreContext,
+} from '../../stores';
 import { WidgetEvent } from '../../types/events';
 import { formatTokenAmount } from '../../utils';
 import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet';
@@ -35,7 +38,7 @@ import { calcValueLoss } from './utils';
 
 export const TransactionPage: React.FC = () => {
   const { t } = useTranslation();
-  const { setValue } = useFormContext();
+  const { setFieldValue } = useFieldActions();
   const emitter = useWidgetEvents();
   const { navigateBack } = useNavigateBack();
   const {
@@ -104,10 +107,10 @@ export const TransactionPage: React.FC = () => {
     }
     tokenValueBottomSheetRef.current?.close();
     executeRoute();
-    setValue(FormKey.FromAmount, '');
+    setFieldValue('fromAmount', '');
     if (subvariant === 'nft') {
-      setValue(FormKey.FromToken, '');
-      setValue(FormKey.ToToken, '');
+      setFieldValue('fromToken', '');
+      setFieldValue('toToken', '');
     }
   };
 

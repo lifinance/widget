@@ -1,7 +1,7 @@
 import { Web3Provider } from '@ethersproject/providers';
 import type { ChainId, TokenAmount } from '@lifi/sdk';
 import type { NFTProps } from '@lifi/widget';
-import { FormKey, useAccount, useWatch } from '@lifi/widget';
+import { useAccount, useFieldValues } from '@lifi/widget';
 import { Seaport } from '@opensea/seaport-js';
 import { useQuery } from '@tanstack/react-query';
 import type { Connector } from 'wagmi';
@@ -15,9 +15,7 @@ export const useOpenSeaFulfillment = (
   tokenId: string | number,
 ) => {
   const { account } = useAccount();
-  const recipientAddress = useWatch({
-    name: FormKey.ToAddress,
-  });
+  const [recipientAddress] = useFieldValues('toAddress');
   const { data: order, isLoading: isOrderLoading } = useOpenSeaOrder(
     network,
     contractAddress,

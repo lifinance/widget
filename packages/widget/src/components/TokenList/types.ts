@@ -1,6 +1,6 @@
 import type { ExtendedChain } from '@lifi/sdk';
 import type { MutableRefObject } from 'react';
-import type { FormType } from '../../providers';
+import type { FormType } from '../../stores';
 import type { TokenAmount } from '../../types';
 
 export interface TokenListProps {

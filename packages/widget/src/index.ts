@@ -1,4 +1,4 @@
-export { useFormContext, useWatch } from 'react-hook-form';
+export { useFieldActions, useFieldValues } from './stores';
 export { App as LiFiWidget } from './App';
 export type { WidgetDrawer } from './AppDrawer';
 export * from './components/NFT';
@@ -9,7 +9,7 @@ export {
   useWidgetEvents,
   widgetEvents,
 } from './hooks';
-export * from './providers/FormProvider/types';
+export * from './stores/form/types';
 export { formatChain } from './providers/WalletProvider';
 export * from './types';
 

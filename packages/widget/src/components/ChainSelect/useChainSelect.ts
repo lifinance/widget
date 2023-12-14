@@ -1,18 +1,21 @@
 import type { EVMChain } from '@lifi/sdk';
-import { useController, useFormContext } from 'react-hook-form';
 import { useChains, useSwapOnly } from '../../hooks';
-import type { FormType } from '../../providers';
-import { FormKey, FormKeyHelper, useWidgetConfig } from '../../providers';
-import { useChainOrder } from '../../stores';
+import type { FormType } from '../../stores';
+import { useWidgetConfig } from '../../providers';
+import {
+  useChainOrder,
+  useFieldActions,
+  useFieldController,
+  FormKeyHelper,
+} from '../../stores';
 import { RequiredUI } from '../../types';
 
 export const useChainSelect = (formType: FormType) => {
   const { requiredUI } = useWidgetConfig();
   const chainKey = FormKeyHelper.getChainKey(formType);
-  const {
-    field: { onChange, onBlur },
-  } = useController({ name: chainKey });
-  const { setValue, getValues } = useFormContext();
+  const { onChange, onBlur } = useFieldController({ name: chainKey });
+
+  const { setFieldValue, getFieldValues } = useFieldActions();
   const { chains, isLoading, getChainById } = useChains();
   const [chainOrder, setChainOrder] = useChainOrder();
   const swapOnly = useSwapOnly();
@@ -32,18 +35,15 @@ export const useChainSelect = (formType: FormType) => {
     onChange(chainId);
     onBlur();
     if (swapOnly) {
-      setValue(FormKeyHelper.getChainKey('to'), chainId, {
-        shouldTouch: true,
+      setFieldValue(FormKeyHelper.getChainKey('to'), chainId, {
+        isTouched: true,
       });
     }
-    setValue(FormKeyHelper.getTokenKey(formType), '');
-    setValue(FormKeyHelper.getAmountKey(formType), '');
-    setValue(FormKey.TokenSearchFilter, '');
+    setFieldValue(FormKeyHelper.getTokenKey(formType), '');
+    setFieldValue(FormKeyHelper.getAmountKey(formType), '');
+    setFieldValue('tokenSearchFilter', '');
 
-    const [fromChainId, toChainId] = getValues([
-      FormKey.FromChain,
-      FormKey.ToChain,
-    ]);
+    const [fromChainId, toChainId] = getFieldValues('fromChain', 'toChain');
 
     const fromChain = getChainById(fromChainId);
     const toChain = getChainById(toChainId);
@@ -61,7 +61,7 @@ export const useChainSelect = (formType: FormType) => {
     // prevents cases when after we switch the chain from one type to another "Send to wallet" field hides,
     // but it keeps toAddress value set for the previous chain pair.
     if (!requiredToAddress) {
-      setValue(FormKey.ToAddress, '');
+      setFieldValue('toAddress', '');
     }
     setChainOrder(chainId);
   };

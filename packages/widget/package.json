@@ -72,7 +72,6 @@
     "mitt": "^3.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.49.0",
     "react-i18next": "^13.5.0",
     "react-intersection-observer": "^9.5.3",
     "react-router-dom": "^6.20.1",
