@@ -1,6 +1,6 @@
 {
   "name": "@lifi/wallet-management",
-  "version": "3.0.0-alpha.6",
+  "version": "3.0.0-alpha.7",
   "description": "LI.FI Wallet Management solution.",
   "type": "module",
   "main": "./src/index.ts",
@@ -54,9 +54,9 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "^3.0.0-alpha.38",
+    "@lifi/sdk": "^3.0.0-alpha.39",
     "react": "^18.2.0",
-    "wagmi": "^2.0.0-beta.7"
+    "wagmi": "^2.0.0-beta.8"
   },
   "devDependencies": {
     "cpy-cli": "^5.0.0",
