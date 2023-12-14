@@ -2,7 +2,7 @@
 import type { LiFiStep, TokenAmount } from '@lifi/sdk';
 import type { BoxProps } from '@mui/material';
 import { Box, Grow, Skeleton } from '@mui/material';
-import { FC, PropsWithChildren, ReactElement } from 'react';
+import type { FC, PropsWithChildren, ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useChain, useToken } from '../../hooks';
 import { formatTokenAmount, formatTokenPrice } from '../../utils';
