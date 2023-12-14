@@ -1,19 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
-import { useWatch } from 'react-hook-form';
+import type { FormFieldNames } from '../stores';
+import { useFieldValues } from '../stores';
 
-export const useDebouncedWatch = (name: any, delay: number) => {
-  const watchedValue = useWatch({
-    name,
-  });
+export const useDebouncedWatch = (name: FormFieldNames[], delay: number) => {
+  const watchedValue = useFieldValues(...name);
   const [debouncedValue, setDebouncedValue] = useState(watchedValue);
   const debouncedValueRef = useRef<any>();
   const isMounted = useRef(false);
 
   useEffect(() => {
     if (isMounted.current) {
-      const hasWatchedValue = Array.isArray(watchedValue)
-        ? watchedValue.some((value) => value)
-        : Boolean(watchedValue);
+      const hasWatchedValue = watchedValue.some(
+        (value: FormFieldNames) => value,
+      );
       if (hasWatchedValue) {
         const handler = setTimeout(() => {
           setDebouncedValue(watchedValue);

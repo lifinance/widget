@@ -1,16 +1,19 @@
-import { useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { BaseTransactionButton } from '../../components/BaseTransactionButton';
 import { useRoutes } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
-import { useSetExecutableRoute, useSplitSubvariantStore } from '../../stores';
+import {
+  useSetExecutableRoute,
+  useSplitSubvariantStore,
+  useValidation,
+} from '../../stores';
 import { navigationRoutes } from '../../utils';
 
 export const ReviewButton: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { isValid, isValidating } = useFormState();
+  const { isValid, isValidating } = useValidation();
   const setExecutableRoute = useSetExecutableRoute();
   const { subvariant } = useWidgetConfig();
   const splitState = useSplitSubvariantStore((state) => state.state);

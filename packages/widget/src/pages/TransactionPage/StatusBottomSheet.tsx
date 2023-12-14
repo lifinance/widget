@@ -4,7 +4,6 @@ import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import { Box, Button, Typography } from '@mui/material';
 import { useEffect, useRef } from 'react';
-import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import { BottomSheet } from '../../components/BottomSheet';
@@ -15,9 +14,13 @@ import {
   useNavigateBack,
   useTokenBalance,
 } from '../../hooks';
-import { FormKey, useWidgetConfig } from '../../providers';
+import { useWidgetConfig } from '../../providers';
 import type { RouteExecution } from '../../stores';
-import { RouteExecutionStatus, getSourceTxHash } from '../../stores';
+import {
+  RouteExecutionStatus,
+  getSourceTxHash,
+  useFieldActions,
+} from '../../stores';
 import {
   formatTokenAmount,
   hasEnumFlag,
@@ -34,7 +37,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   const { navigateBack, navigate } = useNavigateBack();
   const ref = useRef<BottomSheetBase>(null);
   const { getChainById } = useAvailableChains();
-  const { setValue } = useFormContext();
+  const { setFieldValue } = useFieldActions();
   const {
     subvariant,
     contractComponent,
@@ -56,8 +59,8 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
 
   const clearFromAmount = () => {
     refetchAllBalances();
-    setValue(FormKey.FromAmount, '');
-    setValue(FormKey.ToAmount, '');
+    setFieldValue('fromAmount', '');
+    setFieldValue('toAmount', '');
   };
 
   const handleDone = () => {
@@ -71,18 +74,18 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
       toToken.chainId !== route.toToken.chainId &&
       toToken.address !== route.toToken.address
     ) {
-      setValue(
-        FormKey.FromAmount,
+      setFieldValue(
+        'fromAmount',
         formatTokenAmount(toToken.amount, toToken.decimals),
-        { shouldTouch: true },
+        { isTouched: true },
       );
-      setValue(FormKey.FromChain, toToken.chainId, { shouldTouch: true });
-      setValue(FormKey.FromToken, toToken.address, { shouldTouch: true });
-      setValue(FormKey.ToChain, route.toToken.chainId, {
-        shouldTouch: true,
+      setFieldValue('fromChain', toToken.chainId, { isTouched: true });
+      setFieldValue('fromToken', toToken.address, { isTouched: true });
+      setFieldValue('toChain', route.toToken.chainId, {
+        isTouched: true,
       });
-      setValue(FormKey.ToToken, route.toToken.address, {
-        shouldTouch: true,
+      setFieldValue('toToken', route.toToken.address, {
+        isTouched: true,
       });
     }
     navigateBack();

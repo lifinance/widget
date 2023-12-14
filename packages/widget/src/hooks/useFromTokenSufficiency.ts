@@ -1,9 +1,7 @@
 import type { RouteExtended } from '@lifi/sdk';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { useWatch } from 'react-hook-form';
 import { parseUnits } from 'viem';
-import { FormKey } from '../providers';
-import { isRouteDone } from '../stores';
+import { isRouteDone, useFieldValues } from '../stores';
 import { useAccount } from './useAccount';
 import { useTokenAddressBalance } from './useTokenAddressBalance';
 import { getTokenBalancesWithRetry } from './useTokenBalance';
@@ -12,9 +10,11 @@ const refetchInterval = 30_000;
 
 export const useFromTokenSufficiency = (route?: RouteExtended) => {
   const { account } = useAccount();
-  const [fromChainId, fromTokenAddress, fromAmount] = useWatch({
-    name: [FormKey.FromChain, FormKey.FromToken, FormKey.FromAmount],
-  });
+  const [fromChainId, fromTokenAddress, fromAmount] = useFieldValues(
+    'fromChain',
+    'fromToken',
+    'fromAmount',
+  );
 
   let chainId = fromChainId;
   let tokenAddress = fromTokenAddress;

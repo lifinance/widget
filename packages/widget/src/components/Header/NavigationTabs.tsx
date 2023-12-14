@@ -1,7 +1,5 @@
-import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { FormKey } from '../../providers';
-import { useSplitSubvariantStore } from '../../stores';
+import { useSplitSubvariantStore, useFieldActions } from '../../stores';
 import { HeaderAppBar, SplitTabs } from './Header.style';
 import { Tab } from '../Tabs';
 
@@ -11,11 +9,12 @@ export const NavigationTabs = () => {
     state.state,
     state.setState,
   ]);
-  const { setValue } = useFormContext();
+
+  const { setFieldValue } = useFieldActions();
   const handleChange = (_: React.SyntheticEvent, value: number) => {
-    setValue(FormKey.FromAmount, '');
-    setValue(FormKey.FromToken, '');
-    setValue(FormKey.ToToken, '');
+    setFieldValue('fromAmount', '');
+    setFieldValue('fromToken', '');
+    setFieldValue('toToken', '');
     setState(value === 0 ? 'swap' : 'bridge');
   };
 

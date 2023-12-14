@@ -6,7 +6,7 @@ import { PageContainer } from '../../components/PageContainer';
 import { TokenAvatar } from '../../components/TokenAvatar';
 import { useTokenSelect } from '../../components/TokenList';
 import { useChains, useNavigateBack } from '../../hooks';
-import type { FormTypeProps } from '../../providers';
+import type { FormTypeProps } from '../../stores';
 
 export const SelectNativeTokenPage: React.FC<FormTypeProps> = ({
   formType,

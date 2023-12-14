@@ -1,12 +1,11 @@
 /* eslint-disable react/no-array-index-key */
 import type { Route } from '@lifi/sdk';
 import { Collapse, Grow, Stack, Typography } from '@mui/material';
-import { useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useMatch, useNavigate } from 'react-router-dom';
 import { useRoutes } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
-import { useSetExecutableRoute } from '../../stores';
+import { useSetExecutableRoute, useValidation } from '../../stores';
 import { navigationRoutes } from '../../utils';
 import { PageContainer } from '../PageContainer';
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate';
@@ -40,7 +39,7 @@ export const RoutesExpandedElement = () => {
   const navigate = useNavigate();
   const setExecutableRoute = useSetExecutableRoute();
   const { subvariant, containerStyle } = useWidgetConfig();
-  const { isValid, isValidating } = useFormState();
+  const { isValid, isValidating } = useValidation();
   const {
     routes,
     isLoading,

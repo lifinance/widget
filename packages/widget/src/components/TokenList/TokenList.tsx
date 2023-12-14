@@ -1,7 +1,6 @@
 import { Box } from '@mui/material';
 import type { FC } from 'react';
 import { useRef } from 'react';
-import { useWatch } from 'react-hook-form';
 import {
   useAccount,
   useChain,
@@ -9,12 +8,12 @@ import {
   useTokenBalances,
   useTokenSearch,
 } from '../../hooks';
-import { FormKey, FormKeyHelper } from '../../providers';
 import type { TokenAmount } from '../../types';
 import { TokenNotFound } from './TokenNotFound';
 import { VirtualizedTokenList } from './VirtualizedTokenList';
 import type { TokenListProps } from './types';
 import { useTokenSelect } from './useTokenSelect';
+import { useFieldValues, FormKeyHelper } from '../../stores';
 
 export const TokenList: FC<TokenListProps> = ({
   formType,
@@ -23,11 +22,9 @@ export const TokenList: FC<TokenListProps> = ({
 }) => {
   const parentRef = useRef<HTMLUListElement | null>(null);
   const { account } = useAccount();
-  const [selectedChainId] = useWatch({
-    name: [FormKeyHelper.getChainKey(formType)],
-  });
+  const [selectedChainId] = useFieldValues(FormKeyHelper.getChainKey(formType));
   const [tokenSearchFilter]: string[] = useDebouncedWatch(
-    [FormKey.TokenSearchFilter],
+    ['tokenSearchFilter'],
     320,
   );
 

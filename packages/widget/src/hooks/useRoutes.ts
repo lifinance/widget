@@ -2,14 +2,13 @@ import type { Route, RoutesResponse, Token } from '@lifi/sdk';
 import { LiFiErrorCode, getContractCallQuote, getRoutes } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getEnsAddress } from '@wagmi/core';
-import { useWatch } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 import { isAddress as isEVMAddress, parseUnits } from 'viem';
 import { normalize } from 'viem/ens';
 import { useConfig } from 'wagmi';
 import { useChain, useDebouncedWatch, useGasRefuel, useToken } from '.';
-import { FormKey, useWidgetConfig } from '../providers';
-import { useSettings } from '../stores';
+import { useWidgetConfig } from '../providers';
+import { useFieldValues, useSettings } from '../stores';
 import { isSVMAddress } from '../utils';
 import { useAccount } from './useAccount';
 import { useSwapOnly } from './useSwapOnly';
@@ -39,7 +38,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
     'enabledBridges',
     'enabledExchanges',
   ]);
-  const [fromTokenAmount] = useDebouncedWatch([FormKey.FromAmount], 320);
+  const [fromTokenAmount] = useDebouncedWatch(['fromAmount'], 320);
   const [
     fromChainId,
     fromTokenAddress,
@@ -50,19 +49,17 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
     toContractCallData,
     toContractGasLimit,
     toTokenAddress,
-  ] = useWatch({
-    name: [
-      FormKey.FromChain,
-      FormKey.FromToken,
-      FormKey.ToAddress,
-      FormKey.ToAmount,
-      FormKey.ToChain,
-      FormKey.ToContractAddress,
-      FormKey.ToContractCallData,
-      FormKey.ToContractGasLimit,
-      FormKey.ToToken,
-    ],
-  });
+  ] = useFieldValues(
+    'fromChain',
+    'fromToken',
+    'toAddress',
+    'toAmount',
+    'toChain',
+    'toContractAddress',
+    'toContractCallData',
+    'toContractGasLimit',
+    'toToken',
+  );
   const { token: fromToken } = useToken(fromChainId, fromTokenAddress);
   const { token: toToken } = useToken(toChainId, toTokenAddress);
   const { chain: fromChain } = useChain(fromChainId);

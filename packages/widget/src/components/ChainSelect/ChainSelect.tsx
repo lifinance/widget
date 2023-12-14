@@ -2,11 +2,9 @@
 import type { EVMChain } from '@lifi/sdk';
 import { Avatar, Box, Skeleton, Tooltip, Typography } from '@mui/material';
 import { useEffect } from 'react';
-import { useWatch } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import type { FormTypeProps } from '../../providers';
-import { FormKeyHelper } from '../../providers';
-import { maxChainToOrder } from '../../stores';
+import type { FormTypeProps } from '../../stores';
+import { maxChainToOrder, useFieldValues, FormKeyHelper } from '../../stores';
 import { navigationRoutes } from '../../utils';
 import { ChainCard, ChainContainer } from './ChainSelect.style';
 import { useChainSelect } from './useChainSelect';
@@ -21,9 +19,8 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
     setChainOrder,
     setCurrentChain,
   } = useChainSelect(formType);
-  const [chainId] = useWatch({
-    name: [FormKeyHelper.getChainKey(formType)],
-  });
+
+  const [chainId] = useFieldValues(FormKeyHelper.getChainKey(formType));
 
   useEffect(() => {
     const hasChainInOrderedList = chainOrder.includes(chainId);
