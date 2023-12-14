@@ -48,16 +48,16 @@
     "lifi"
   ],
   "dependencies": {
-    "@coinbase/wallet-sdk": "^3.7.2",
-    "@cyberlab/cyber-account": "^2.0.2",
-    "@cyberlab/cyber-app-sdk": "2.1.2",
+    "@coinbase/wallet-sdk": "^3.9.1",
+    "@cyberlab/cyber-account": "^2.2.5",
+    "@cyberlab/cyber-app-sdk": "2.4.4",
     "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/experimental": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
-    "@lifi/sdk": "^2.4.3",
-    "@safe-global/safe-apps-provider": "^0.18.0",
+    "@lifi/sdk": "^2.5.0",
+    "@safe-global/safe-apps-provider": "^0.18.1",
     "@safe-global/safe-apps-sdk": "^8.1.0",
-    "@walletconnect/ethereum-provider": "^2.10.2",
+    "@walletconnect/ethereum-provider": "^2.10.6",
     "@walletconnect/modal": "^2.6.2",
     "events": "^3.3.0",
     "react": "^18.2.0"
