@@ -2,9 +2,9 @@ import type { BoxProps } from '@mui/material';
 import { Box, Button, Collapse } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useRoutes } from '../../hooks';
+import { useRequiredToAddress, useRoutes } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
-import { useValidation } from '../../stores';
+import { useFieldValues } from '../../stores';
 import { navigationRoutes } from '../../utils';
 import { Card, CardTitle } from '../Card';
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate';
@@ -14,7 +14,8 @@ export const Routes: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { subvariant, useRecommendedRoute } = useWidgetConfig();
-  const { isValid, isValidating } = useValidation();
+  const [toAddress] = useFieldValues('toAddress');
+  const requiredToAddress = useRequiredToAddress();
   const {
     routes,
     isLoading,
@@ -69,7 +70,8 @@ export const Routes: React.FC<BoxProps> = (props) => {
           <Box mt={2}>
             <Button
               onClick={handleCardClick}
-              disabled={isValidating || !isValid}
+              // TODO: Question: does this look it should be enough in place of isValid?
+              disabled={requiredToAddress && !toAddress}
               fullWidth
             >
               {t('button.showAll')}

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useMatch, useNavigate } from 'react-router-dom';
 import { useRoutes } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
-import { useSetExecutableRoute, useValidation } from '../../stores';
+import { useSetExecutableRoute, useFieldValues } from '../../stores';
 import { navigationRoutes } from '../../utils';
 import { PageContainer } from '../PageContainer';
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate';
@@ -39,7 +39,7 @@ export const RoutesExpandedElement = () => {
   const navigate = useNavigate();
   const setExecutableRoute = useSetExecutableRoute();
   const { subvariant, containerStyle } = useWidgetConfig();
-  const { isValid, isValidating } = useValidation();
+  const [toAddress] = useFieldValues('toAddress');
   const {
     routes,
     isLoading,
@@ -53,7 +53,8 @@ export const RoutesExpandedElement = () => {
   const currentRoute = routes?.[0];
 
   const handleRouteClick = (route: Route) => {
-    if (isValid && !isValidating) {
+    // TODO: Question: is this enough in place of isValid?
+    if (toAddress) {
       setExecutableRoute(route);
       navigate(navigationRoutes.transactionExecution, {
         state: { routeId: route.id },

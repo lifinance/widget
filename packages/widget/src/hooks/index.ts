@@ -30,4 +30,5 @@ export * from './useTokens';
 export * from './useTools';
 export * from './useTransactionDetails';
 export * from './useTransactionHistory';
+export * from './useAddressAndENSValidation';
 export * from './useWidgetEvents';

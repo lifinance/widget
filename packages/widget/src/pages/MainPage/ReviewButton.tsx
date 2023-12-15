@@ -1,23 +1,23 @@
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { BaseTransactionButton } from '../../components/BaseTransactionButton';
-import { useRoutes } from '../../hooks';
+import { useRequiredToAddress, useRoutes } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
 import {
   useSetExecutableRoute,
   useSplitSubvariantStore,
-  useValidation,
+  useFieldValues,
 } from '../../stores';
 import { navigationRoutes } from '../../utils';
 
 export const ReviewButton: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { isValid, isValidating } = useValidation();
   const setExecutableRoute = useSetExecutableRoute();
   const { subvariant } = useWidgetConfig();
   const splitState = useSplitSubvariantStore((state) => state.state);
-
+  const [toAddress] = useFieldValues('toAddress');
+  const requiredToAddress = useRequiredToAddress();
   const { routes } = useRoutes();
 
   const currentRoute = routes?.[0];
@@ -66,7 +66,8 @@ export const ReviewButton: React.FC = () => {
     <BaseTransactionButton
       text={getButtonText()}
       onClick={handleClick}
-      disabled={currentRoute && (isValidating || !isValid)}
+      // TODO: Question: is this enough in place of isValid?
+      disabled={currentRoute && requiredToAddress && !toAddress}
     />
   );
 };

@@ -1,2 +1,2 @@
-export * from './SendToWallet';
 export * from './SendToWalletButton';
+export * from './SendToWalletExpandButton';
