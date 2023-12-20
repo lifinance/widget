@@ -1,4 +1,5 @@
 import { ChainType } from '@lifi/sdk';
+import { getWalletIcon } from '@lifi/wallet-management';
 import ContentCopyIcon from '@mui/icons-material/ContentCopyRounded';
 import OpenInNewIcon from '@mui/icons-material/OpenInNewRounded';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNewRounded';
@@ -44,11 +45,12 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
             };
             const avatar = (
               <Avatar
-                src={account.connector?.icon}
+                src={
+                  account.connector?.icon ||
+                  getWalletIcon((account.connector as Connector)?.id)
+                }
                 alt={account.connector?.name}
                 sx={{
-                  width: 32,
-                  height: 32,
                   marginRight: chain?.logoURI ? 0 : 1.5,
                 }}
               >

@@ -259,18 +259,11 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
       MuiAvatar: {
         styleOverrides: {
           root: {
-            height: 32,
-            width: 32,
+            height: 40,
+            width: 40,
           },
         },
         ...theme.components?.MuiAvatar,
-      },
-      MuiListItemAvatar: {
-        styleOverrides: {
-          root: {
-            minWidth: 48,
-          },
-        },
       },
       MuiListItemText: {
         styleOverrides: {

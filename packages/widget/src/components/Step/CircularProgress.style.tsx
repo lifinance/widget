@@ -34,13 +34,13 @@ export const CircularIcon = styled(Box, {
     borderStyle: 'solid',
     borderColor: getStatusColor(theme, status, substatus),
     borderWidth: !['ACTION_REQUIRED', 'DONE', 'FAILED'].includes(status)
-      ? 2
+      ? 3
       : 0,
     display: 'grid',
     position: 'relative',
     placeItems: 'center',
-    width: 32,
-    height: 32,
+    width: 40,
+    height: 40,
     borderRadius: '50%',
   }),
 );
@@ -69,7 +69,6 @@ export const CircularProgressPending = styled(MuiCircularProgress)`
       : theme.palette.primary.light};
   animation-duration: 3s;
   position: absolute;
-  left: -2px;
   .${circularProgressClasses.circle} {
     animation-duration: 2s;
     animation-timing-function: linear;

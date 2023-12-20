@@ -17,7 +17,8 @@ export const widgetBaseConfig: WidgetConfig = {
 
   variant: 'expandable',
   // subvariant: 'split',
-  integrator: 'li.fi-playground',
+  integrator: 'fee-demo',
+  fee: 0.001,
   chains: {
     allow: [], // 1, 1285, 10, 56, 137
     deny: [],

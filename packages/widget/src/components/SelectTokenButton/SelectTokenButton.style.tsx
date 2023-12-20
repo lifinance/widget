@@ -16,8 +16,9 @@ export const SelectTokenCardHeader = styled(CardHeader, {
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       width: compact ? 92 : 256,
-      fontWeight: selected ? 500 : 400,
-      fontSize: compact && !selected ? '1rem' : '1.125rem',
+      fontWeight: 500,
+      lineHeight: 1.3334,
+      fontSize: compact && !selected ? 16 : 18,
       [theme.breakpoints.down(392)]: {
         width: compact ? 92 : 224,
       },
@@ -26,6 +27,8 @@ export const SelectTokenCardHeader = styled(CardHeader, {
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
       overflow: 'hidden',
+      fontWeight: 500,
+      lineHeight: 1.3334,
       width: compact ? 92 : 256,
       [theme.breakpoints.down(392)]: {
         width: compact ? 92 : 224,

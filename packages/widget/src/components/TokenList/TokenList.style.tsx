@@ -26,10 +26,12 @@ export const ListItem = styled(MuiListItem)(({ theme }) => ({
   [`.${listItemSecondaryActionClasses.root}`]: {
     right: theme.spacing(3),
   },
-  [`& .${listItemTextClasses.primary}`]: {
-    height: 22,
+  [`& .${listItemTextClasses.secondary}`]: {
+    fontSize: 12,
+    fontWeight: 500,
   },
   [`& .${listItemTextClasses.primary}, & .${listItemTextClasses.secondary}`]: {
+    lineHeight: 1.3334,
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
@@ -39,10 +41,10 @@ export const ListItem = styled(MuiListItem)(({ theme }) => ({
 export const IconButton = styled(MuiIconButton)<IconButtonProps & LinkProps>(
   ({ theme }) => ({
     lineHeight: 1,
-    fontSize: '0.75rem',
+    fontSize: 12,
     fontWeight: 400,
     padding: theme.spacing(0.375, 0.375),
-    marginLeft: theme.spacing(0.25),
+    margin: theme.spacing(0, 0, 0, 0.25),
     color: 'inherit',
     backgroundColor: 'unset',
     minWidth: 'unset',
@@ -54,7 +56,7 @@ export const IconButton = styled(MuiIconButton)<IconButtonProps & LinkProps>(
           : alpha(theme.palette.common.white, 0.08),
     },
     svg: {
-      fontSize: '0.875rem',
+      fontSize: 14,
     },
   }),
 );

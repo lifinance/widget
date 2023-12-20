@@ -1,4 +1,4 @@
-import type { LiFiStep, Step, StepExtended } from '@lifi/sdk';
+import type { LiFiStep, StepExtended } from '@lifi/sdk';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -27,7 +27,10 @@ import {
   StepConnector,
   StepContent,
   StepLabel,
+  StepLabelTypography,
 } from './StepActions.style';
+import { StepFeeBreakdown } from './StepFeeBreakdown';
+import { StepFees } from './StepFees';
 import type { StepActionsProps, StepDetailsLabelProps } from './types';
 
 export const StepActions: React.FC<StepActionsProps> = ({
@@ -43,8 +46,6 @@ export const StepActions: React.FC<StepActionsProps> = ({
     e.stopPropagation();
     setCardExpanded((expanded) => !expanded);
   };
-
-  const hasCollapsedSteps = dense && step.includedSteps?.length > 1;
 
   // FIXME: step transaction request overrides step tool details, but not included step tool details
   const toolDetails =
@@ -70,20 +71,31 @@ export const StepActions: React.FC<StepActionsProps> = ({
             {toolDetails.name[0]}
           </StepAvatar>
         </Badge>
-        <Typography ml={2} fontSize={18} fontWeight="500" flex={1}>
-          {t(`main.stepDetails`, {
-            tool: toolDetails.name,
-          })}
-        </Typography>
-        {hasCollapsedSteps ? (
+        <Box flex={1}>
+          <Typography fontSize={18} fontWeight="500" lineHeight={1.3334} ml={2}>
+            {t(`main.stepDetails`, {
+              tool: toolDetails.name,
+            })}
+          </Typography>
+          <Collapse
+            timeout={225}
+            in={dense && !cardExpanded}
+            mountOnEnter
+            unmountOnExit
+          >
+            <StepFees ml={2} step={step} />
+          </Collapse>
+        </Box>
+        {dense ? (
           <CardIconButton onClick={handleExpand} size="small">
             {cardExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </CardIconButton>
         ) : null}
       </Box>
-      {hasCollapsedSteps ? (
+      {dense ? (
         <Collapse timeout={225} in={cardExpanded} mountOnEnter unmountOnExit>
           <IncludedSteps step={step} subvariant={subvariant} />
+          <StepFeeBreakdown step={step} />
         </Collapse>
       ) : (
         <IncludedSteps step={step} subvariant={subvariant} />
@@ -99,7 +111,6 @@ export const IncludedSteps: React.FC<{
   // eslint-disable-next-line react/no-unstable-nested-components
   const StepIconComponent = ({ icon }: StepIconProps) => {
     const tool = step.includedSteps?.[Number(icon) - 1];
-
     return tool ? (
       <SmallAvatar
         src={tool.toolDetails.logoURI}
@@ -112,21 +123,14 @@ export const IncludedSteps: React.FC<{
       </SmallAvatar>
     ) : null;
   };
-  const StepDetailsLabel =
-    step.tool === 'custom' && subvariant === 'nft'
-      ? CustomStepDetailsLabel
-      : step.type === 'lifi' &&
-          step.includedSteps.some((step) => step.type === 'cross')
-        ? CrossStepDetailsLabel
-        : SwapStepDetailsLabel;
-  return step.includedSteps.length > 1 ? (
-    <Box mt={1.5}>
+  return (
+    <Box mt={1}>
       <Stepper
         orientation="vertical"
         connector={<StepConnector />}
         activeStep={-1}
       >
-        {step.includedSteps.map((step, i) => (
+        {step.includedSteps.map((step, i, includedSteps) => (
           <MuiStep key={step.id} expanded>
             <StepLabel StepIconComponent={StepIconComponent}>
               {step.type === 'custom' && subvariant === 'nft' ? (
@@ -139,23 +143,12 @@ export const IncludedSteps: React.FC<{
                 <SwapStepDetailsLabel step={step} />
               )}
             </StepLabel>
-            <StepContent>
+            <StepContent last={i === includedSteps.length - 1}>
               <StepDetailsContent step={step} subvariant={subvariant} />
             </StepContent>
           </MuiStep>
         ))}
       </Stepper>
-    </Box>
-  ) : (
-    <Box ml={6}>
-      <StepDetailsLabel
-        step={step as unknown as Step}
-        subvariant={subvariant === 'nft' ? subvariant : undefined}
-      />
-      <StepDetailsContent
-        step={step as unknown as Step}
-        subvariant={subvariant}
-      />
     </Box>
   );
 };
@@ -195,18 +188,29 @@ export const StepDetailsContent: React.FC<{
   return (
     <Typography
       fontSize={12}
+      lineHeight={1}
       fontWeight="500"
       color="text.secondary"
       alignItems="center"
       display="flex"
     >
+      {!showToAmount ? (
+        <>
+          {formatUnits(
+            BigInt(step.estimate.fromAmount),
+            step.action.fromToken.decimals,
+          )}{' '}
+          {step.action.fromToken.symbol}
+          {' - '}
+        </>
+      ) : null}
       {t('format.number', {
         value: fromAmount,
       })}{' '}
       {step.action.fromToken.symbol}
       {showToAmount ? (
         <>
-          <ArrowForwardIcon sx={{ fontSize: 18, paddingX: 0.5 }} />
+          <ArrowForwardIcon sx={{ fontSize: 18, paddingX: 0.5, height: 12 }} />
           {t('format.number', {
             value: formatTokenAmount(
               BigInt(step.execution?.toAmount ?? step.estimate.toAmount),
@@ -215,7 +219,12 @@ export const StepDetailsContent: React.FC<{
           })}{' '}
           {step.execution?.toToken?.symbol ?? step.action.toToken.symbol}
         </>
-      ) : null}
+      ) : (
+        ` (${t('format.currency', {
+          value:
+            parseFloat(fromAmount) * parseFloat(step.action.fromToken.priceUSD),
+        })})`
+      )}
     </Typography>
   );
 };
@@ -240,11 +249,11 @@ export const CustomStepDetailsLabel: React.FC<StepDetailsLabelProps> = ({
       : step.toolDetails;
 
   return (
-    <Typography fontSize={12} fontWeight="500" color="text.secondary">
+    <StepLabelTypography>
       {t(`main.${subvariant}StepDetails`, {
         tool: toolDetails.name,
       })}
-    </Typography>
+    </StepLabelTypography>
   );
 };
 
@@ -254,13 +263,13 @@ export const CrossStepDetailsLabel: React.FC<
   const { t } = useTranslation();
   const { getChainById } = useAvailableChains();
   return (
-    <Typography fontSize={12} fontWeight="500" color="text.secondary">
+    <StepLabelTypography>
       {t('main.crossStepDetails', {
         from: getChainById(step.action.fromChainId)?.name,
         to: getChainById(step.action.toChainId)?.name,
         tool: step.toolDetails.name,
       })}
-    </Typography>
+    </StepLabelTypography>
   );
 };
 
@@ -270,12 +279,12 @@ export const SwapStepDetailsLabel: React.FC<
   const { t } = useTranslation();
   const { getChainById } = useAvailableChains();
   return (
-    <Typography fontSize={12} fontWeight="500" color="text.secondary">
+    <StepLabelTypography>
       {t('main.swapStepDetails', {
         chain: getChainById(step.action.fromChainId)?.name,
         tool: step.toolDetails.name,
       })}
-    </Typography>
+    </StepLabelTypography>
   );
 };
 
@@ -284,12 +293,12 @@ export const ProtocolStepDetailsLabel: React.FC<
 > = ({ step }) => {
   const { t } = useTranslation();
   return (
-    <Typography fontSize={12} fontWeight="500" color="text.secondary">
+    <StepLabelTypography>
       {step.toolDetails.key === 'lifuelProtocol'
         ? t('main.refuelStepDetails', {
             tool: step.toolDetails.name,
           })
         : step.toolDetails.name}
-    </Typography>
+    </StepLabelTypography>
   );
 };

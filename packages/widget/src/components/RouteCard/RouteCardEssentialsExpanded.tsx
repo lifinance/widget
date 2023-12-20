@@ -5,9 +5,9 @@ import { Box, Typography } from '@mui/material';
 import type { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { formatUnits } from 'viem';
+import { getFeeCostsBreakdown, getGasCostsBreakdown } from '../../utils';
 import { IconTypography } from './RouteCard.style';
 import type { FeesBreakdown, RouteCardEssentialsProps } from './types';
-import { getFeeCostsBreakdown, getGasCostsBreakdown } from './utils';
 
 export const RouteCardEssentialsExpanded: React.FC<
   RouteCardEssentialsProps
@@ -27,7 +27,7 @@ export const RouteCardEssentialsExpanded: React.FC<
     <Box flex={1} mt={2}>
       <Box>
         <Box display="flex" alignItems="center">
-          <IconTypography ml={0.5} mr={2.5}>
+          <IconTypography ml={1} mr={3}>
             <MonetizationOnIcon />
           </IconTypography>
           <Typography
@@ -41,14 +41,14 @@ export const RouteCardEssentialsExpanded: React.FC<
             })}
           </Typography>
         </Box>
-        <Box mt={0.5} ml={6}>
+        <Box mt={0.5} ml={7}>
           <Typography
             fontSize={12}
             color="text.secondary"
             fontWeight="500"
             lineHeight={1.125}
           >
-            {t(`tooltip.estimatedNetworkFee`)}
+            {t('main.fees.networkEstimated')}
           </Typography>
           {getFeeBreakdownTypography(gasCosts, t)}
           {feeCosts.length ? (
@@ -59,7 +59,7 @@ export const RouteCardEssentialsExpanded: React.FC<
                 fontWeight="500"
                 lineHeight={1.125}
               >
-                {t(`tooltip.additionalProviderFee`)}
+                {t('main.fees.providerEstimated')}
               </Typography>
               {getFeeBreakdownTypography(feeCosts, t)}
             </Box>
@@ -68,7 +68,7 @@ export const RouteCardEssentialsExpanded: React.FC<
       </Box>
       <Box mt={2}>
         <Box display="flex" alignItems="center">
-          <IconTypography ml={0.5} mr={2.5}>
+          <IconTypography ml={1} mr={3}>
             <LayersIcon />
           </IconTypography>
           <Typography
@@ -80,7 +80,7 @@ export const RouteCardEssentialsExpanded: React.FC<
             {route.steps.length}
           </Typography>
         </Box>
-        <Box mt={0.5} ml={6}>
+        <Box mt={0.5} ml={7}>
           <Typography
             fontSize={12}
             color="text.secondary"
@@ -92,7 +92,7 @@ export const RouteCardEssentialsExpanded: React.FC<
         </Box>
       </Box>
       <Box display="flex" alignItems="center" mt={2}>
-        <IconTypography ml={0.5} mr={2.5}>
+        <IconTypography ml={1} mr={3}>
           <AccessTimeIcon />
         </IconTypography>
         <Typography
@@ -113,15 +113,15 @@ export const RouteCardEssentialsExpanded: React.FC<
 };
 
 const getFeeBreakdownTypography = (fees: FeesBreakdown[], t: TFunction) =>
-  fees.map((gas, index) => (
+  fees.map((fee, index) => (
     <Typography
       fontSize={12}
       fontWeight="500"
       color="text.secondary"
-      key={`${gas.token.address}${index}`}
+      key={`${fee.token.address}${index}`}
     >
-      {t(`format.currency`, { value: gas.amountUSD })} (
-      {parseFloat(formatUnits(gas.amount, gas.token.decimals))?.toFixed(9)}{' '}
-      {gas.token.symbol})
+      {t(`format.currency`, { value: fee.amountUSD })} (
+      {parseFloat(formatUnits(fee.amount, fee.token.decimals))?.toFixed(9)}{' '}
+      {fee.token.symbol})
     </Typography>
   ));

@@ -4,11 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useRoutes } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
+import { useValidation } from '../../stores';
 import { navigationRoutes } from '../../utils';
 import { Card, CardTitle } from '../Card';
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate';
 import { RouteCard, RouteCardSkeleton, RouteNotFoundCard } from '../RouteCard';
-import { useValidation } from '../../stores';
 
 export const Routes: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation();

@@ -6,7 +6,7 @@ import { PageContainer } from '../../components/PageContainer';
 import { useTransactionHistory } from '../../hooks/useTransactionHistory';
 import { TransactionHistoryEmpty } from './TransactionHistoryEmpty';
 import { TransactionHistoryItem } from './TransactionHistoryItem';
-import { TransactionHistorySkeleton } from './TransactionHistorySkeleton';
+import { TransactionHistoryItemSkeleton } from './TransactionHistorySkeleton';
 import { minTransactionListHeight } from './constants';
 
 export const TransactionHistoryPage: React.FC = () => {
@@ -20,7 +20,7 @@ export const TransactionHistoryPage: React.FC = () => {
     paddingStart: 8,
     paddingEnd: 12,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 194,
+    estimateSize: () => 186,
     getItemKey: (index) =>
       `${(transactions[index] as FullStatusData).transactionId}-${index}`,
   });
@@ -41,7 +41,7 @@ export const TransactionHistoryPage: React.FC = () => {
         {isLoading ? (
           <List sx={{ paddingTop: 1, paddingBottom: 1 }}>
             {Array.from({ length: 3 }).map((_, index) => (
-              <TransactionHistorySkeleton key={index} />
+              <TransactionHistoryItemSkeleton key={index} />
             ))}
           </List>
         ) : (

@@ -14,6 +14,7 @@ import { Card, CardIconButton, CardLabel, CardLabelTypography } from '../Card';
 import type { InsuredAmount } from '../Insurance';
 import { StepActions } from '../StepActions';
 import { Token } from '../Token';
+import { TokenContainer } from './RouteCard.style';
 import { RouteCardEssentials } from './RouteCardEssentials';
 import { RouteCardEssentialsExpanded } from './RouteCardEssentialsExpanded';
 import type { RouteCardProps } from './types';
@@ -77,7 +78,7 @@ export const RouteCard: React.FC<
           ) : null}
         </Box>
       ) : null}
-      <Box display="flex" justifyContent="space-between" alignItems="start">
+      <TokenContainer>
         <Token
           token={token}
           step={route.steps[0]}
@@ -88,7 +89,7 @@ export const RouteCard: React.FC<
             {cardExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </CardIconButton>
         ) : null}
-      </Box>
+      </TokenContainer>
       <Collapse timeout={225} in={cardExpanded} mountOnEnter unmountOnExit>
         {route.steps.map((step) => (
           <StepActions key={step.id} step={step} mt={2} />

@@ -149,8 +149,6 @@
     }
   },
   "tooltip": {
-    "additionalProviderFee": "Additional bridges, DEXs, and service fees.",
-    "estimatedNetworkFee": "Estimated network fee.",
     "estimatedTime": "Estimated execution time in minutes.",
     "notFound": {
       "text": "We couldn't find this page.",
@@ -167,11 +165,17 @@
     "crossStepDetails": "Bridge from {{from}} to {{to}} via {{tool}}",
     "currentAmount": "Current amount",
     "featuredTokens": "Featured tokens",
+    "fees": {
+      "estimated": "estimated fees",
+      "networkEstimated": "Estimated network fees:",
+      "networkPaid": "Paid network fees:",
+      "paid": "paid fees",
+      "providerEstimated": "Bridge fees:",
+      "providerPaid": "Bridge fees:"
+    },
     "from": "From",
     "fromAmount": "You pay",
     "gasCost": "Gas cost",
-    "gasFeeEstimated": "estimated gas fee",
-    "gasFeePaid": "gas fee paid",
     "inProgress": "in progress",
     "nftStepDetails": "Purchase NFT via {{tool}}",
     "onChain": "on {{chainName}}",

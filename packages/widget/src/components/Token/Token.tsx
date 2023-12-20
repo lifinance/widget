@@ -8,12 +8,11 @@ import { useChain, useToken } from '../../hooks';
 import { formatTokenAmount, formatTokenPrice } from '../../utils';
 import { SmallAvatar } from '../SmallAvatar';
 import { TextFitter } from '../TextFitter';
-import { TokenAvatar } from '../TokenAvatar';
+import { TokenAvatar, TokenAvatarSkeleton } from '../TokenAvatar';
 import { TextSecondary, TextSecondaryContainer } from './Token.style';
 
 interface TokenProps {
   token: TokenAmount;
-  connected?: boolean;
   step?: LiFiStep;
   stepVisible?: boolean;
   disableDescription?: boolean;
@@ -48,7 +47,6 @@ export const TokenFallback: FC<TokenProps & BoxProps> = ({
 
 export const TokenBase: FC<TokenProps & BoxProps> = ({
   token,
-  connected,
   step,
   stepVisible,
   disableDescription,
@@ -62,7 +60,6 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
     return (
       <TokenSkeleton
         token={token}
-        connected={connected}
         step={step}
         disableDescription={disableDescription}
       />
@@ -76,7 +73,7 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
   );
 
   const tokenOnChain = !disableDescription ? (
-    <TextSecondary connected={connected}>
+    <TextSecondary>
       {t(`main.tokenOnChain`, {
         tokenSymbol: token.symbol,
         chainName: chain?.name,
@@ -85,48 +82,50 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
   ) : null;
 
   return (
-    <Box flex={1} {...other}>
-      <Box display="flex" flex={1} alignItems="center">
-        <TokenAvatar
-          token={token}
-          chain={chain}
-          isLoading={isLoading}
-          sx={{ marginRight: 2 }}
-        />
-        <TextFitter
-          height={30}
-          textStyle={{
-            fontWeight: 700,
-          }}
-        >
-          {t('format.number', {
-            value: formattedTokenAmount,
-          })}
-        </TextFitter>
-      </Box>
-      <TextSecondaryContainer connected={connected} component="span">
-        <TextSecondary connected={connected}>
-          {t(`format.currency`, {
-            value: formattedTokenPrice,
-          })}
-        </TextSecondary>
-        {!disableDescription ? (
-          <TextSecondary connected={connected} px={0.5} dot>
-            &#x2022;
-          </TextSecondary>
-        ) : null}
-        {step ? (
-          <TokenStep
-            step={step}
-            stepVisible={stepVisible}
-            disableDescription={disableDescription}
+    <Box flex={1} display="flex" alignItems="center" {...other}>
+      <TokenAvatar
+        token={token}
+        chain={chain}
+        isLoading={isLoading}
+        sx={{ marginRight: 2 }}
+      />
+      <Box flex={1}>
+        <Box mb={0.5} height={24} display="flex" alignItems="center">
+          <TextFitter
+            height={30}
+            textStyle={{
+              fontWeight: 700,
+            }}
           >
-            {tokenOnChain}
-          </TokenStep>
-        ) : (
-          tokenOnChain
-        )}
-      </TextSecondaryContainer>
+            {t('format.number', {
+              value: formattedTokenAmount,
+            })}
+          </TextFitter>
+        </Box>
+        <TextSecondaryContainer component="span">
+          <TextSecondary>
+            {t(`format.currency`, {
+              value: formattedTokenPrice,
+            })}
+          </TextSecondary>
+          {!disableDescription ? (
+            <TextSecondary px={0.5} dot>
+              &#x2022;
+            </TextSecondary>
+          ) : null}
+          {step ? (
+            <TokenStep
+              step={step}
+              stepVisible={stepVisible}
+              disableDescription={disableDescription}
+            >
+              {tokenOnChain}
+            </TokenStep>
+          ) : (
+            tokenOnChain
+          )}
+        </TextSecondaryContainer>
+      </Box>
     </Box>
   );
 };
@@ -138,7 +137,7 @@ const TokenStep: FC<PropsWithChildren<Partial<TokenProps>>> = ({
   children,
 }) => {
   return (
-    <Box position="relative" width="50%" overflow="hidden" height={16}>
+    <Box flex={1} position="relative" overflow="hidden" height={16}>
       <Grow
         in={!stepVisible && !disableDescription}
         style={{
@@ -165,22 +164,22 @@ const TokenStep: FC<PropsWithChildren<Partial<TokenProps>>> = ({
               src={step?.toolDetails.logoURI}
               alt={step?.toolDetails.name}
               sx={{
+                width: 16,
+                height: 16,
                 border: 0,
               }}
             >
               {step?.toolDetails.name[0]}
             </SmallAvatar>
           </Box>
-          <TextSecondary connected>{step?.toolDetails.name}</TextSecondary>
+          <TextSecondary>{step?.toolDetails.name}</TextSecondary>
         </Box>
       </Grow>
     </Box>
   );
 };
 
-export const TokenSkeleton: FC<TokenProps & BoxProps> = ({
-  token,
-  connected,
+export const TokenSkeleton: FC<Partial<TokenProps> & BoxProps> = ({
   step,
   disableDescription,
   ...other
@@ -188,30 +187,27 @@ export const TokenSkeleton: FC<TokenProps & BoxProps> = ({
   return (
     <Box flex={1} {...other}>
       <Box display="flex" flex={1} alignItems="center">
-        <TokenAvatar token={token} sx={{ marginRight: 2 }} isLoading />
-        {<Skeleton width={112} height={32} variant="text" />}
+        <TokenAvatarSkeleton sx={{ marginRight: 2 }} />
+        <Box flex={1}>
+          <Skeleton width={112} height={24} variant="text" />
+          <TextSecondaryContainer component="span">
+            <Skeleton
+              width={48}
+              height={12}
+              variant="rounded"
+              sx={{ marginTop: 0.5 }}
+            />
+            {!step && !disableDescription ? (
+              <Skeleton
+                width={96}
+                height={12}
+                variant="rounded"
+                sx={{ marginTop: 0.5, marginLeft: 1.5 }}
+              />
+            ) : null}
+          </TextSecondaryContainer>
+        </Box>
       </Box>
-      <TextSecondaryContainer connected={connected} component="span">
-        <Skeleton
-          width={48}
-          height={12}
-          variant="rounded"
-          sx={{ marginTop: 0.5 }}
-        />
-        {!disableDescription ? (
-          <TextSecondary connected={connected} px={0.5} dot>
-            &#x2022;
-          </TextSecondary>
-        ) : null}
-        {!step && !disableDescription ? (
-          <Skeleton
-            width={96}
-            height={12}
-            variant="rounded"
-            sx={{ marginTop: 0.5 }}
-          />
-        ) : null}
-      </TextSecondaryContainer>
     </Box>
   );
 };

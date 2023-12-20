@@ -1,41 +1,7 @@
 import { Box, Skeleton } from '@mui/material';
 import { Card } from '../../components/Card';
 import { PageContainer } from '../../components/PageContainer';
-
-const DetailedTextSkeleton = () => {
-  return (
-    <Box display="flex" ml={6}>
-      <Skeleton width={64} height={16} variant="text" />
-      <Skeleton
-        width={96}
-        height={16}
-        variant="text"
-        sx={{ marginLeft: 0.5 }}
-      />
-    </Box>
-  );
-};
-
-const TransactionDetailsTokenSkeleton = () => {
-  return (
-    <Box py={1}>
-      <Box display="flex" flex={1} alignItems="center">
-        <Skeleton
-          variant="rounded"
-          width={32}
-          height={32}
-          sx={{
-            borderRadius: '100%',
-          }}
-        />
-        <Box display="flex" flexDirection="column" flex={1} ml={2}>
-          <Skeleton width={64} height={32} variant="text" />
-        </Box>
-      </Box>
-      <DetailedTextSkeleton />
-    </Box>
-  );
-};
+import { TokenSkeleton } from '../../components/Token';
 
 export const TransactionDetailsSkeleton = () => {
   return (
@@ -58,24 +24,12 @@ export const TransactionDetailsSkeleton = () => {
         </Box>
         <Box py={1}>
           {/* Token skeleton */}
-          <TransactionDetailsTokenSkeleton />
+          <Box py={1}>
+            <TokenSkeleton />
+          </Box>
           {/* Bridge skeleton */}
           <Box py={1}>
-            <Box display="flex" flex={1} alignItems="center">
-              <Skeleton
-                variant="rounded"
-                width={32}
-                height={32}
-                sx={{
-                  borderRadius: '100%',
-                }}
-              />
-              <Box display="flex" flexDirection="column" flex={1} ml={2}>
-                <Skeleton width={96} height={32} variant="text" />
-              </Box>
-            </Box>
-            <DetailedTextSkeleton />
-            <DetailedTextSkeleton />
+            <TokenSkeleton disableDescription />
           </Box>
           {/* Steps skeleton */}
           {Array.from({ length: 3 }).map((_, key) => (
@@ -89,8 +43,8 @@ export const TransactionDetailsSkeleton = () => {
             >
               <Skeleton
                 variant="rounded"
-                width={32}
-                height={32}
+                width={40}
+                height={40}
                 sx={{
                   borderRadius: '100%',
                 }}
@@ -100,13 +54,15 @@ export const TransactionDetailsSkeleton = () => {
                   ml: 2,
                 }}
                 width={96}
-                height={32}
+                height={24}
                 variant="text"
               />
             </Box>
           ))}
           {/* Receiving Token skeleton */}
-          <TransactionDetailsTokenSkeleton />
+          <Box py={1}>
+            <TokenSkeleton />
+          </Box>
         </Box>
       </Card>
     </PageContainer>

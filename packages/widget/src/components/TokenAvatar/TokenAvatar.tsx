@@ -31,28 +31,26 @@ export const TokenAvatarBase: React.FC<{
   isLoading?: boolean;
   sx?: SxProps<Theme>;
 }> = ({ token, chain, isLoading, sx }) => {
-  return (
+  return isLoading ? (
+    <TokenAvatarSkeleton />
+  ) : (
     <Badge
       overlap="circular"
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       badgeContent={
-        chain && !isLoading ? (
+        chain ? (
           <SmallAvatar src={chain.logoURI} alt={chain.name}>
             {chain.name[0]}
           </SmallAvatar>
         ) : (
-          <SmallAvatarSkeleton />
+          <AvatarDefaultBadge />
         )
       }
       sx={sx}
     >
-      {isLoading ? (
-        <Skeleton width={32} height={32} variant="circular" />
-      ) : (
-        <Avatar src={token?.logoURI} alt={token?.symbol}>
-          {token?.symbol?.[0]}
-        </Avatar>
-      )}
+      <Avatar src={token?.logoURI} alt={token?.symbol}>
+        {token?.symbol?.[0]}
+      </Avatar>
     </Badge>
   );
 };
@@ -83,10 +81,25 @@ export const TokenAvatarDefault: React.FC<{
     <Badge
       overlap="circular"
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      badgeContent={<AvatarDefaultBadge width={16} height={16} />}
+      badgeContent={<AvatarDefaultBadge />}
       sx={sx}
     >
-      <AvatarDefault width={32} height={32} />
+      <AvatarDefault />
+    </Badge>
+  );
+};
+
+export const TokenAvatarSkeleton: React.FC<{
+  sx?: SxProps<Theme>;
+}> = ({ sx }) => {
+  return (
+    <Badge
+      overlap="circular"
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      badgeContent={<SmallAvatarSkeleton />}
+      sx={sx}
+    >
+      <Skeleton width={40} height={40} variant="circular" />
     </Badge>
   );
 };

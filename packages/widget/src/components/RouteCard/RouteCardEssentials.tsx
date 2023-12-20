@@ -4,9 +4,9 @@ import { Box, Tooltip, Typography } from '@mui/material';
 import type { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { formatUnits } from 'viem';
+import { getFeeCostsBreakdown, getGasCostsBreakdown } from '../../utils';
 import { IconTypography } from './RouteCard.style';
 import type { FeesBreakdown, RouteCardEssentialsProps } from './types';
-import { getFeeCostsBreakdown, getGasCostsBreakdown } from './utils';
 
 export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
   route,
@@ -27,11 +27,11 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
       <Tooltip
         title={
           <Box component="span">
-            {t(`tooltip.estimatedNetworkFee`)}
+            {t('main.fees.networkEstimated')}
             {getFeeBreakdownTypography(gasCosts, t)}
             {feeCosts.length ? (
               <Box mt={1}>
-                {t(`tooltip.additionalProviderFee`)}
+                {t('main.fees.providerEstimated')}
                 {getFeeBreakdownTypography(feeCosts, t)}
               </Box>
             ) : null}
@@ -86,14 +86,14 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
 };
 
 const getFeeBreakdownTypography = (fees: FeesBreakdown[], t: TFunction) =>
-  fees.map((gas, index) => (
+  fees.map((fee, index) => (
     <Typography
       fontSize={12}
       fontWeight="500"
-      key={`${gas.token.address}${index}`}
+      key={`${fee.token.address}${index}`}
     >
-      {t(`format.currency`, { value: gas.amountUSD })} (
-      {parseFloat(formatUnits(gas.amount, gas.token.decimals))?.toFixed(9)}{' '}
-      {gas.token.symbol})
+      {t(`format.currency`, { value: fee.amountUSD })} (
+      {parseFloat(formatUnits(fee.amount, fee.token.decimals))?.toFixed(9)}{' '}
+      {fee.token.symbol})
     </Typography>
   ));

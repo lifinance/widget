@@ -92,10 +92,12 @@ export const TransactionHistoryItem: React.FC<{
           }).format(startedAt)}
         </Typography>
       </Box>
-      <Box py={1}>
-        <Token token={fromToken} px={2} pt={1} connected />
-        <TokenDivider />
-        <Token token={toToken} px={2} pt={0.5} pb={1} />
+      <Box px={2} py={2}>
+        <Token token={fromToken} />
+        <Box pl={2.375} py={0.5}>
+          <TokenDivider />
+        </Box>
+        <Token token={toToken} />
       </Box>
     </Card>
   );

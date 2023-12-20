@@ -21,9 +21,9 @@ export const MainPage: React.FC = () => {
   const nft = subvariant === 'nft';
   return (
     <PageContainer>
-      <ActiveTransactions mt={1} mb={1} />
+      <ActiveTransactions mt={1} mb={2} />
       {nft ? (
-        <ContractComponent mt={1} mb={1}>
+        <ContractComponent mt={1} mb={2}>
           {contractComponent}
         </ContractComponent>
       ) : null}

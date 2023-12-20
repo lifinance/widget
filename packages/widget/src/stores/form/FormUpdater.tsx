@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useRef } from 'react';
-import type { FormFieldNames } from './types';
 import { useAccount } from '../../hooks';
-import { useFieldActions } from './useFieldActions';
 import { isItemAllowed, useWidgetConfig } from '../../providers';
-import type { DefaultValues } from './types';
-import { FormKey } from './types';
+import type { DefaultValues, FormFieldNames } from './types';
+import { useFieldActions } from './useFieldActions';
 
 export const FormUpdater: React.FC<{
   defaultValues: Partial<DefaultValues>;
@@ -54,7 +52,7 @@ export const FormUpdater: React.FC<{
         const value =
           defaultValues[key] ||
           // set the chain to the current user one if it is not present in the config
-          (key === FormKey.FromChain || key === FormKey.ToChain
+          (key === 'fromChain' || key === 'toChain'
             ? account.chainId || ''
             : '');
         setFieldValue(key, value);

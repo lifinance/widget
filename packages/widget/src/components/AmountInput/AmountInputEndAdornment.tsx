@@ -1,4 +1,4 @@
-import { InputAdornment, Skeleton } from '@mui/material';
+import { InputAdornment } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { formatUnits } from 'viem';
 import {
@@ -7,8 +7,8 @@ import {
   useTokenAddressBalance,
 } from '../../hooks';
 import type { FormTypeProps } from '../../stores';
-import { Button } from './AmountInputAdornment.style';
-import { useFieldActions, useFieldValues, FormKeyHelper } from '../../stores';
+import { FormKeyHelper, useFieldActions, useFieldValues } from '../../stores';
+import { MaxButton, MaxButtonSkeleton } from './AmountInputAdornment.style';
 
 export const AmountInputEndAdornment = ({ formType }: FormTypeProps) => {
   const { t } = useTranslation();
@@ -53,14 +53,9 @@ export const AmountInputEndAdornment = ({ formType }: FormTypeProps) => {
   return (
     <InputAdornment position="end">
       {isLoading && tokenAddress ? (
-        <Skeleton
-          variant="rectangular"
-          width={46}
-          height={24}
-          sx={{ borderRadius: 0.5 }}
-        />
+        <MaxButtonSkeleton variant="rectangular" />
       ) : formType === 'from' && token?.amount ? (
-        <Button onClick={handleMax}>{t('button.max')}</Button>
+        <MaxButton onClick={handleMax}>{t('button.max')}</MaxButton>
       ) : null}
     </InputAdornment>
   );

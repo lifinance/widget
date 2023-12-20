@@ -1,5 +1,5 @@
-import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
 import type { StoreApi } from 'zustand';
+import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
 
 export interface DefaultValues {
   toAddress: string;
@@ -105,21 +105,6 @@ export type FormStoreStore = UseBoundStoreWithEqualityFn<
 interface SetOptions {
   isDirty?: boolean;
   isTouched?: boolean;
-}
-
-export enum FormKey {
-  ContractOutputsToken = 'contractOutputsToken',
-  FromAmount = 'fromAmount',
-  FromChain = 'fromChain',
-  FromToken = 'fromToken',
-  ToAddress = 'toAddress',
-  ToAmount = 'toAmount',
-  ToChain = 'toChain',
-  ToContractAddress = 'toContractAddress',
-  ToContractCallData = 'toContractCallData',
-  ToContractGasLimit = 'ToContractGasLimit',
-  ToToken = 'toToken',
-  TokenSearchFilter = 'tokenSearchFilter',
 }
 
 export type FormType = 'from' | 'to';
