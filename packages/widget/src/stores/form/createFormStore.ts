@@ -3,10 +3,10 @@ import { createWithEqualityFn } from 'zustand/traditional';
 import type {
   DefaultValues,
   FormFieldNames,
-  GenericFormValue,
   FormValueControl,
   FormValues,
   FormValuesState,
+  GenericFormValue,
 } from './types';
 
 export const formDefaultValues: DefaultValues = {
@@ -27,6 +27,7 @@ const defaultValueToFormValue = (
   isDirty: false,
   value,
 });
+
 const valuesToFormValues = (defaultValues: DefaultValues): FormValues => {
   return (Object.keys(defaultValues) as FormFieldNames[]).reduce(
     (accum, key) => {
@@ -47,6 +48,7 @@ const getUpdatedTouchedFields = (userValues: FormValues) => {
     {},
   );
 };
+
 const mergeDefaultFormValues = (
   userValues: FormValues,
   defaultValues: FormValues,
@@ -72,12 +74,20 @@ const mergeDefaultFormValues = (
     { ...valuesToFormValues(formDefaultValues) },
   );
 
-export const createFormStore = () =>
-  createWithEqualityFn<FormValuesState>(
-    (set, get) => ({
-      defaultValues: valuesToFormValues(formDefaultValues),
-      userValues: valuesToFormValues(formDefaultValues),
+export const createFormStore = (defaultValues?: DefaultValues) =>
+  createWithEqualityFn<FormValuesState>((set, get) => {
+    const _defaultValues = valuesToFormValues({
+      ...formDefaultValues,
+      ...defaultValues,
+    });
+    return {
+      defaultValues: _defaultValues,
+      userValues: _defaultValues,
       touchedFields: {},
+      isValid: true,
+      isValidating: false,
+      errors: {},
+      validation: {},
       setDefaultValues: (defaultValue) => {
         const defaultFormValues = valuesToFormValues(defaultValue);
         set((state) => ({
@@ -167,10 +177,6 @@ export const createFormStore = () =>
       },
       getFieldValues: (...names) =>
         names.map((name) => get().userValues[name]?.value),
-      isValid: true,
-      isValidating: false,
-      errors: {},
-      validation: {},
       addFieldValidation: (name, validationFn) => {
         set((state) => ({
           validation: {
@@ -220,6 +226,5 @@ export const createFormStore = () =>
           errors: newErrors,
         }));
       },
-    }),
-    Object.is,
-  );
+    };
+  }, Object.is);

@@ -9,7 +9,7 @@ import {
   Slide,
   Typography,
 } from '@mui/material';
-import { useRef, useState } from 'react';
+import { MouseEventHandler, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatUnits } from 'viem';
 import {
@@ -31,7 +31,10 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
   startAdornment,
   endAdornment,
 }) => {
-  const handleClick = () => onClick?.(token.address);
+  const handleClick: MouseEventHandler<HTMLDivElement> = (e) => {
+    e.stopPropagation();
+    onClick?.(token.address);
+  };
   return (
     <ListItem
       disablePadding
@@ -155,7 +158,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
             ) : null}
             {tokenPrice ? (
               <Typography
-                fontWeight={400}
+                fontWeight={500}
                 fontSize={12}
                 color="text.secondary"
                 data-price={token.priceUSD}
@@ -182,14 +185,14 @@ export const TokenListItemSkeleton = () => {
       <ListItemAvatar>
         <Skeleton
           variant="circular"
-          width={32}
-          height={32}
+          width={40}
+          height={40}
           sx={{ marginLeft: 1.5, marginRight: 2 }}
         />
       </ListItemAvatar>
       <ListItemText
-        primary={<Skeleton variant="text" width={48} height={20} />}
-        secondary={<Skeleton variant="text" width={96} height={20} />}
+        primary={<Skeleton variant="text" width={56} height={24} />}
+        secondary={<Skeleton variant="text" width={96} height={16} />}
       />
     </ListItem>
   );
@@ -205,7 +208,7 @@ export const TokenAmountSkeleton: React.FC = () => {
       }}
     >
       <Skeleton variant="text" width={56} height={24} />
-      <Skeleton variant="text" width={48} height={18} />
+      <Skeleton variant="text" width={48} height={16} />
     </Box>
   );
 };

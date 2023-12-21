@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom';
 import { Card, CardTitle } from '../../components/Card';
 import { ContractComponent } from '../../components/ContractComponent';
 import { Insurance } from '../../components/Insurance';
+import { PageContainer } from '../../components/PageContainer';
 import { getStepList } from '../../components/Step';
 import { useNavigateBack, useTools, useTransactionDetails } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
@@ -13,7 +14,6 @@ import { getSourceTxHash, useRouteExecutionStore } from '../../stores';
 import { formatTokenAmount, navigationRoutes } from '../../utils';
 import { buildRouteFromTxHistory } from '../../utils/converters';
 import { ContactSupportButton } from './ContactSupportButton';
-import { Container } from './TransactionDetailsPage.style';
 import { TransactionDetailsSkeleton } from './TransactionDetailsSkeleton';
 
 export const TransactionDetailsPage: React.FC = () => {
@@ -72,7 +72,7 @@ export const TransactionDetailsPage: React.FC = () => {
   return isLoading && !storedRouteExecution ? (
     <TransactionDetailsSkeleton />
   ) : (
-    <Container>
+    <PageContainer topBottomGutters>
       <Box
         sx={{
           display: 'flex',
@@ -139,6 +139,6 @@ export const TransactionDetailsPage: React.FC = () => {
       <Box mt={2} mb={2.5}>
         <ContactSupportButton supportId={supportId} />
       </Box>
-    </Container>
+    </PageContainer>
   );
 };

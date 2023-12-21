@@ -26,7 +26,7 @@ export const DestinationWalletAddress: React.FC<{
             color={isDone ? 'success' : 'inherit'}
             sx={{
               position: 'absolute',
-              fontSize: '1rem',
+              fontSize: '1.25rem',
             }}
           />
         </CircularIcon>
@@ -40,8 +40,7 @@ export const DestinationWalletAddress: React.FC<{
               })}
         </Typography>
         <LinkButton
-          size="small"
-          edge="end"
+          size="medium"
           LinkComponent={Link}
           href={toAddressLink}
           target="_blank"

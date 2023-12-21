@@ -1,19 +1,21 @@
-import type { Route, Token } from '@lifi/sdk';
+import type { FeeCost, GasCost, Route, Token } from '@lifi/sdk';
 
-export const getGasCostsBreakdown = (route: Route) => {
+export interface FeesBreakdown {
+  amount: bigint;
+  amountUSD: number;
+  token: Token;
+}
+
+export const getGasCostsBreakdown = (route: Route): FeesBreakdown[] => {
   return Object.values(
     route.steps.reduce(
       (groupedGasCosts, step) => {
         if (step.estimate.gasCosts?.length) {
-          const { token } = step.estimate.gasCosts[0];
-          const gasCostAmount = step.estimate.gasCosts.reduce(
-            (amount, gasCost) => amount + BigInt(gasCost.amount || 0),
-            0n,
-          );
-          const gasCostAmountUSD = step.estimate.gasCosts.reduce(
-            (amount, gasCost) => amount + parseFloat(gasCost.amountUSD || '0'),
-            0,
-          );
+          const {
+            token,
+            amount: gasCostAmount,
+            amountUSD: gasCostAmountUSD,
+          } = getStepFeeCostsBreakdown(step.estimate.gasCosts);
           const groupedGasCost = groupedGasCosts[token.chainId];
           const amount = groupedGasCost
             ? groupedGasCost.amount + gasCostAmount
@@ -30,19 +32,15 @@ export const getGasCostsBreakdown = (route: Route) => {
         }
         return groupedGasCosts;
       },
-      {} as Record<
-        number,
-        {
-          amount: bigint;
-          amountUSD: number;
-          token: Token;
-        }
-      >,
+      {} as Record<number, FeesBreakdown>,
     ),
   );
 };
 
-export const getFeeCostsBreakdown = (route: Route, included?: boolean) => {
+export const getFeeCostsBreakdown = (
+  route: Route,
+  included?: boolean,
+): FeesBreakdown[] => {
   return Object.values(
     route.steps.reduce(
       (groupedFeeCosts, step) => {
@@ -53,15 +51,11 @@ export const getFeeCostsBreakdown = (route: Route, included?: boolean) => {
           );
         }
         if (feeCosts?.length) {
-          const { token } = feeCosts[0];
-          const feeCostAmount = feeCosts.reduce(
-            (amount, feeCost) => amount + BigInt(feeCost.amount || 0),
-            0n,
-          );
-          const feeCostAmountUSD = feeCosts.reduce(
-            (amount, feeCost) => amount + parseFloat(feeCost.amountUSD || '0'),
-            0,
-          );
+          const {
+            token,
+            amount: feeCostAmount,
+            amountUSD: feeCostAmountUSD,
+          } = getStepFeeCostsBreakdown(feeCosts);
           const groupedFeeCost = groupedFeeCosts[token.chainId];
           const amount = groupedFeeCost
             ? groupedFeeCost.amount + feeCostAmount
@@ -78,14 +72,26 @@ export const getFeeCostsBreakdown = (route: Route, included?: boolean) => {
         }
         return groupedFeeCosts;
       },
-      {} as Record<
-        number,
-        {
-          amount: bigint;
-          amountUSD: number;
-          token: Token;
-        }
-      >,
+      {} as Record<number, FeesBreakdown>,
     ),
   );
+};
+
+export const getStepFeeCostsBreakdown = (
+  feeCosts: FeeCost[] | GasCost[],
+): FeesBreakdown => {
+  const token = feeCosts[0].token;
+  const amount = feeCosts.reduce(
+    (amount, feeCost) => amount + BigInt(feeCost.amount || 0),
+    0n,
+  );
+  const amountUSD = feeCosts.reduce(
+    (amount, feeCost) => amount + parseFloat(feeCost.amountUSD || '0'),
+    0,
+  );
+  return {
+    amount,
+    amountUSD,
+    token,
+  };
 };

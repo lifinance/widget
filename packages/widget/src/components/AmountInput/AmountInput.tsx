@@ -4,13 +4,18 @@ import type { ChangeEvent, ReactNode } from 'react';
 import { useLayoutEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useToken } from '../../hooks';
-import type { FormTypeProps } from '../../stores';
-import { FormKeyHelper } from '../../stores';
 import { useWidgetConfig } from '../../providers';
+import type { FormTypeProps } from '../../stores';
+import {
+  FormKeyHelper,
+  useFieldController,
+  useFieldValues,
+} from '../../stores';
 import { DisabledUI } from '../../types';
 import { fitInputText, formatInputAmount } from '../../utils';
 import { Card, CardTitle } from '../Card';
 import {
+  FormContainer,
   FormControl,
   Input,
   maxInputFontSize,
@@ -18,8 +23,7 @@ import {
 } from './AmountInput.style';
 import { AmountInputEndAdornment } from './AmountInputEndAdornment';
 import { AmountInputStartAdornment } from './AmountInputStartAdornment';
-import { FormPriceHelperText } from './FormPriceHelperText';
-import { useFieldController, useFieldValues } from '../../stores';
+import { PriceFormHelperText } from './PriceFormHelperText';
 
 export const AmountInput: React.FC<FormTypeProps & BoxProps> = ({
   formType,
@@ -38,11 +42,10 @@ export const AmountInput: React.FC<FormTypeProps & BoxProps> = ({
     <AmountInputBase
       formType={formType}
       token={token}
-      startAdornment={<AmountInputStartAdornment formType={formType} />}
       endAdornment={
         !disabled ? <AmountInputEndAdornment formType={formType} /> : undefined
       }
-      bottomAdornment={<FormPriceHelperText formType={formType} />}
+      bottomAdornment={<PriceFormHelperText formType={formType} />}
       disabled={disabled}
       {...props}
     />
@@ -68,10 +71,9 @@ export const AmountInputBase: React.FC<
   ...props
 }) => {
   const { t } = useTranslation();
+  const ref = useRef<HTMLInputElement>(null);
   const amountKey = FormKeyHelper.getAmountKey(formType);
   const { onChange, onBlur, value } = useFieldController({ name: amountKey });
-
-  const ref = useRef<HTMLInputElement>(null);
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -99,26 +101,29 @@ export const AmountInputBase: React.FC<
   return (
     <Card {...props}>
       <CardTitle>{t('main.fromAmount')}</CardTitle>
-      <FormControl fullWidth>
-        <Input
-          inputRef={ref}
-          size="small"
-          autoComplete="off"
-          placeholder="0"
-          startAdornment={startAdornment}
-          endAdornment={endAdornment}
-          inputProps={{
-            inputMode: 'decimal',
-          }}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={value}
-          name={amountKey}
-          disabled={disabled}
-          required
-        />
-        {bottomAdornment}
-      </FormControl>
+      <FormContainer>
+        <AmountInputStartAdornment formType={formType} />
+        <FormControl fullWidth>
+          <Input
+            inputRef={ref}
+            size="small"
+            autoComplete="off"
+            placeholder="0"
+            startAdornment={startAdornment}
+            endAdornment={endAdornment}
+            inputProps={{
+              inputMode: 'decimal',
+            }}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={value}
+            name={amountKey}
+            disabled={disabled}
+            required
+          />
+          {bottomAdornment}
+        </FormControl>
+      </FormContainer>
     </Card>
   );
 };

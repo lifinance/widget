@@ -1,23 +1,33 @@
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
-import SwapVertIcon from '@mui/icons-material/SwapVert';
-import { IconButton } from './ReverseTokensButton.style';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useFieldActions } from '../../stores';
+import { IconButton } from './ReverseTokensButton.style';
 
 export const ReverseTokensButton: React.FC<{ vertical?: boolean }> = ({
   vertical,
 }) => {
-  const { setAsTouched, setFieldValue } = useFieldActions();
+  const { setFieldValue, getFieldValues } = useFieldActions();
 
   const handleClick = () => {
+    const [fromChain, fromToken, toChain, toToken] = getFieldValues(
+      'fromChain',
+      'fromToken',
+      'toChain',
+      'toToken',
+    );
     setFieldValue('fromAmount', '', { isTouched: true });
-    setAsTouched('fromChain');
-    setAsTouched('fromToken');
-    setAsTouched('toChain');
-    setAsTouched('toToken');
+    setFieldValue('fromChain', toChain, { isTouched: true });
+    setFieldValue('fromToken', toToken, { isTouched: true });
+    setFieldValue('toChain', fromChain, { isTouched: true });
+    setFieldValue('toToken', fromToken, { isTouched: true });
   };
   return (
-    <IconButton onClick={handleClick} size="small">
-      {vertical ? <SwapVertIcon /> : <SwapHorizIcon />}
+    <IconButton onClick={handleClick} size="medium">
+      {vertical ? (
+        <ArrowDownwardIcon fontSize="inherit" />
+      ) : (
+        <ArrowForwardIcon fontSize="inherit" />
+      )}
     </IconButton>
   );
 };

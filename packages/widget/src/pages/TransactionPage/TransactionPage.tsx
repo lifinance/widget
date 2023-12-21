@@ -8,6 +8,7 @@ import type { BottomSheetBase } from '../../components/BottomSheet';
 import { ContractComponent } from '../../components/ContractComponent';
 import { GasMessage } from '../../components/GasMessage';
 import { Insurance } from '../../components/Insurance';
+import { PageContainer } from '../../components/PageContainer';
 import { getStepList } from '../../components/Step';
 import {
   useNavigateBack,
@@ -33,7 +34,6 @@ import {
   TokenValueBottomSheet,
   getTokenValueLossThreshold,
 } from './TokenValueBottomSheet';
-import { Container } from './TransactionPage.style';
 import { calcValueLoss } from './utils';
 
 export const TransactionPage: React.FC = () => {
@@ -171,7 +171,7 @@ export const TransactionPage: React.FC = () => {
       .find((process) => process.txHash)?.txHash ?? route.fromAddress;
 
   return (
-    <Container>
+    <PageContainer topBottomGutters>
       {getStepList(route, subvariant)}
       {subvariant === 'nft' ? (
         <ContractComponent mt={2}>
@@ -234,6 +234,6 @@ export const TransactionPage: React.FC = () => {
         />
       ) : null}
       <ExchangeRateBottomSheet ref={exchangeRateBottomSheetRef} />
-    </Container>
+    </PageContainer>
   );
 };

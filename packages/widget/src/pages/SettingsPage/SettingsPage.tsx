@@ -1,17 +1,17 @@
-import { Container } from '@mui/material';
+import { PageContainer } from '../../components/PageContainer';
 import { BridgeAndExchangeSettings } from './BridgeAndExchangeSettings';
+import { GasPriceSettings } from './GasPriceSettings';
 import { LanguageSetting } from './LanguageSetting';
 import { ResetSettingsButton } from './ResetSettingsButton';
-import { SendToWalletOptionSetting } from './SendToWalletOptionSetting';
-import { GasPriceSettings } from './GasPriceSettings';
 import { RoutePrioritySettings } from './RoutePrioritySettings';
-import { ThemeSettings } from './ThemeSettings';
+import { SendToWalletOptionSetting } from './SendToWalletOptionSetting';
+import { SettingsCardAccordion, SettingsList } from './SettingsCard';
 import { SlippageSettings } from './SlippageSettings';
-import { SettingsList, SettingsCardAccordion } from './SettingsCard';
+import { ThemeSettings } from './ThemeSettings';
 
 export const SettingsPage = () => {
   return (
-    <Container disableGutters>
+    <PageContainer>
       <SettingsList>
         <SettingsCardAccordion>
           <ThemeSettings />
@@ -25,6 +25,6 @@ export const SettingsPage = () => {
         </SettingsCardAccordion>
       </SettingsList>
       <ResetSettingsButton />
-    </Container>
+    </PageContainer>
   );
 };

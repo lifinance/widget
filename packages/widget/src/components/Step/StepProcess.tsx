@@ -29,8 +29,7 @@ export const StepProcess: React.FC<{
         </Typography>
         {process.txLink ? (
           <LinkButton
-            size="small"
-            edge="end"
+            size="medium"
             LinkComponent={Link}
             href={process.txLink}
             target="_blank"
@@ -42,7 +41,7 @@ export const StepProcess: React.FC<{
       </Box>
       {message ? (
         <Typography
-          ml={6}
+          ml={7}
           fontSize={14}
           fontWeight={500}
           color="text.secondary"

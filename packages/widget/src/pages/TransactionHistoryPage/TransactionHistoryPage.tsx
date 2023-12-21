@@ -1,11 +1,12 @@
 import type { FullStatusData } from '@lifi/sdk';
-import { Container, List } from '@mui/material';
+import { List } from '@mui/material';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useRef } from 'react';
+import { PageContainer } from '../../components/PageContainer';
 import { useTransactionHistory } from '../../hooks/useTransactionHistory';
 import { TransactionHistoryEmpty } from './TransactionHistoryEmpty';
 import { TransactionHistoryItem } from './TransactionHistoryItem';
-import { TransactionHistorySkeleton } from './TransactionHistorySkeleton';
+import { TransactionHistoryItemSkeleton } from './TransactionHistorySkeleton';
 import { minTransactionListHeight } from './constants';
 
 export const TransactionHistoryPage: React.FC = () => {
@@ -19,7 +20,7 @@ export const TransactionHistoryPage: React.FC = () => {
     paddingStart: 8,
     paddingEnd: 12,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 194,
+    estimateSize: () => 186,
     getItemKey: (index) =>
       `${(transactions[index] as FullStatusData).transactionId}-${index}`,
   });
@@ -29,7 +30,7 @@ export const TransactionHistoryPage: React.FC = () => {
   }
 
   return (
-    <Container
+    <PageContainer
       ref={parentRef}
       style={{ height: minTransactionListHeight, overflow: 'auto' }}
     >
@@ -38,9 +39,9 @@ export const TransactionHistoryPage: React.FC = () => {
         disablePadding
       >
         {isLoading ? (
-          <List disablePadding sx={{ paddingTop: 1 }}>
+          <List sx={{ paddingTop: 1, paddingBottom: 1 }}>
             {Array.from({ length: 3 }).map((_, index) => (
-              <TransactionHistorySkeleton key={index} />
+              <TransactionHistoryItemSkeleton key={index} />
             ))}
           </List>
         ) : (
@@ -57,6 +58,6 @@ export const TransactionHistoryPage: React.FC = () => {
           })
         )}
       </List>
-    </Container>
+    </PageContainer>
   );
 };

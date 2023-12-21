@@ -9,7 +9,6 @@ import { useAvailableChains } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
 import { shortenAddress } from '../../utils';
 import { DestinationWalletAddress } from './DestinationWalletAddress';
-import { GasStepProcess } from './GasStepProcess';
 import { StepProcess } from './StepProcess';
 import { StepTimer } from './StepTimer';
 
@@ -81,7 +80,6 @@ export const Step: React.FC<{
         {step.execution?.process.map((process, index) => (
           <StepProcess key={index} step={step} process={process} />
         ))}
-        <GasStepProcess step={step} />
         {formattedToAddress && toAddressLink ? (
           <DestinationWalletAddress
             step={step}

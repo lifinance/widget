@@ -13,7 +13,7 @@ export const StepTimer: React.FC<{
   step: LiFiStepExtended;
   hideInProgress?: boolean;
 }> = ({ step, hideInProgress }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isExpired, setExpired] = useState(false);
   const [isExecutionStarted, setExecutionStarted] = useState(!!step.execution);
   const [expiryTimestamp] = useState(() => getExpiryTimestamp(step));
@@ -52,13 +52,11 @@ export const StepTimer: React.FC<{
   ]);
 
   if (!isExecutionStarted) {
-    return (
-      <>
-        {t('main.estimatedTime', {
-          value: Math.ceil(step.estimate.executionDuration / 60),
-        })}
-      </>
-    );
+    return new Intl.NumberFormat(i18n.language, {
+      style: 'unit',
+      unit: 'minute',
+      unitDisplay: 'narrow',
+    }).format(Math.ceil(step.estimate.executionDuration / 60));
   }
 
   const isTimerExpired = isExpired || (!minutes && !seconds);
@@ -71,10 +69,7 @@ export const StepTimer: React.FC<{
     return null;
   }
 
-  return isTimerExpired ? (
-    <>{t('main.inProgress')}</>
-  ) : (
-    // eslint-disable-next-line react/jsx-no-useless-fragment
-    <>{`${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`}</>
-  );
+  return isTimerExpired
+    ? t('main.inProgress')
+    : `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
 };

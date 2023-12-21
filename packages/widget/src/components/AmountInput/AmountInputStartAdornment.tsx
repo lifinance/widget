@@ -1,7 +1,7 @@
 import { useChain, useToken } from '../../hooks';
 import type { FormTypeProps } from '../../stores';
+import { FormKeyHelper, useFieldValues } from '../../stores';
 import { TokenAvatar, TokenAvatarDefault } from '../TokenAvatar';
-import { useFieldValues, FormKeyHelper } from '../../stores';
 
 export const AmountInputStartAdornment: React.FC<FormTypeProps> = ({
   formType,
@@ -16,8 +16,8 @@ export const AmountInputStartAdornment: React.FC<FormTypeProps> = ({
   const isSelected = !!(chain && token);
 
   return isSelected ? (
-    <TokenAvatar token={token} chain={chain} sx={{ marginLeft: 2 }} />
+    <TokenAvatar token={token} chain={chain} />
   ) : (
-    <TokenAvatarDefault sx={{ marginLeft: 2 }} />
+    <TokenAvatarDefault />
   );
 };

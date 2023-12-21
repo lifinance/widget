@@ -3,10 +3,10 @@ import { FormHelperText, Skeleton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useTokenAddressBalance } from '../../hooks';
 import type { FormTypeProps } from '../../stores';
+import { FormKeyHelper, useFieldValues } from '../../stores';
 import { formatTokenAmount, formatTokenPrice } from '../../utils';
-import { useFieldValues, FormKeyHelper } from '../../stores';
 
-export const FormPriceHelperText: React.FC<FormTypeProps> = ({ formType }) => {
+export const PriceFormHelperText: React.FC<FormTypeProps> = ({ formType }) => {
   const [chainId, tokenAddress] = useFieldValues(
     FormKeyHelper.getChainKey(formType),
     FormKeyHelper.getTokenKey(formType),
@@ -14,7 +14,7 @@ export const FormPriceHelperText: React.FC<FormTypeProps> = ({ formType }) => {
   const { token, isLoading } = useTokenAddressBalance(chainId, tokenAddress);
 
   return (
-    <FormPriceHelperTextBase
+    <PriceFormHelperTextBase
       formType={formType}
       isLoading={isLoading}
       tokenAddress={tokenAddress}
@@ -23,7 +23,7 @@ export const FormPriceHelperText: React.FC<FormTypeProps> = ({ formType }) => {
   );
 };
 
-export const FormPriceHelperTextBase: React.FC<
+export const PriceFormHelperTextBase: React.FC<
   FormTypeProps & {
     isLoading?: boolean;
     tokenAddress?: string;
@@ -38,14 +38,19 @@ export const FormPriceHelperTextBase: React.FC<
   return (
     <FormHelperText
       component="div"
-      sx={{ display: 'flex', justifyContent: 'space-between', margin: 0 }}
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        margin: 0,
+        marginLeft: 2,
+        marginTop: 0.75,
+      }}
     >
       <Typography
         color={fromAmountTokenPrice ? 'text.secondary' : 'grey.600'}
         fontWeight={400}
         fontSize={12}
-        marginLeft={8}
-        lineHeight={1.3334}
+        lineHeight={1}
         flex={1}
         sx={{
           wordBreak: 'break-word',
@@ -57,18 +62,13 @@ export const FormPriceHelperTextBase: React.FC<
         })}
       </Typography>
       {isLoading && tokenAddress ? (
-        <Skeleton
-          variant="text"
-          width={48}
-          height={16}
-          sx={{ borderRadius: 0.25 }}
-        />
+        <Skeleton variant="text" width={48} height={12} />
       ) : token?.amount ? (
         <Typography
           fontWeight={400}
           fontSize={12}
           color="text.secondary"
-          lineHeight={1.3334}
+          lineHeight={1}
           pl={0.25}
         >
           {`/ ${t(`format.number`, {

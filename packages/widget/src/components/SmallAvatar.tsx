@@ -3,15 +3,15 @@ import { styled } from '@mui/material/styles';
 
 export const SmallAvatar = styled(Avatar)(({ theme }) => ({
   background: theme.palette.background.paper,
-  width: 16,
-  height: 16,
+  width: 20,
+  height: 20,
   border: `2px solid ${theme.palette.background.paper}`,
 }));
 
 export const SmallAvatarSkeletonBase = styled(Skeleton)(({ theme }) => ({
   border: `2px solid ${theme.palette.background.paper}`,
-  width: 16,
-  height: 16,
+  width: 20,
+  height: 20,
 }));
 
 export const SmallAvatarSkeletonContainer = styled(Box)(({ theme }) => ({
