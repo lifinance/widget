@@ -1,5 +1,5 @@
 import type { Token } from '@lifi/sdk';
-import { FormControl, type BoxProps } from '@mui/material';
+import type { BoxProps } from '@mui/material';
 import type { ChangeEvent, ReactNode } from 'react';
 import { useLayoutEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -16,6 +16,7 @@ import { fitInputText, formatInputAmount } from '../../utils';
 import { Card, CardTitle } from '../Card';
 import {
   FormContainer,
+  FormControl,
   Input,
   maxInputFontSize,
   minInputFontSize,

@@ -7,7 +7,7 @@ export const SelectTokenCardHeader = styled(CardHeader, {
     !['selected', 'compact'].includes(prop as string),
 })<{ selected?: boolean; compact?: boolean }>(
   ({ theme, selected, compact }) => ({
-    height: 64,
+    padding: theme.spacing(2),
     [`.${cardHeaderClasses.title}`]: {
       color: selected
         ? theme.palette.text.primary
@@ -16,8 +16,6 @@ export const SelectTokenCardHeader = styled(CardHeader, {
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       width: compact ? 92 : 256,
-      fontWeight: 500,
-      lineHeight: 1.3334,
       fontSize: compact && !selected ? 16 : 18,
       [theme.breakpoints.down(392)]: {
         width: compact ? 92 : 224,
@@ -27,8 +25,6 @@ export const SelectTokenCardHeader = styled(CardHeader, {
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
       overflow: 'hidden',
-      fontWeight: 500,
-      lineHeight: 1.3334,
       width: compact ? 92 : 256,
       [theme.breakpoints.down(392)]: {
         width: compact ? 92 : 224,

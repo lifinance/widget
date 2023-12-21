@@ -1,5 +1,5 @@
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
-import SwapVertIcon from '@mui/icons-material/SwapVert';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useFieldActions } from '../../stores';
 import { IconButton } from './ReverseTokensButton.style';
 
@@ -22,8 +22,12 @@ export const ReverseTokensButton: React.FC<{ vertical?: boolean }> = ({
     setFieldValue('toToken', fromToken, { isTouched: true });
   };
   return (
-    <IconButton onClick={handleClick} size="small">
-      {vertical ? <SwapVertIcon /> : <SwapHorizIcon />}
+    <IconButton onClick={handleClick} size="medium">
+      {vertical ? (
+        <ArrowDownwardIcon fontSize="inherit" />
+      ) : (
+        <ArrowForwardIcon fontSize="inherit" />
+      )}
     </IconButton>
   );
 };

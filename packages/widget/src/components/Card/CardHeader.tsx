@@ -8,14 +8,15 @@ export const CardHeader = styled(MuiCardHeader)(({ theme }) => ({
     alignSelf: 'center',
   },
   [`.${cardHeaderClasses.title}`]: {
-    fontWeight: '500',
-    fontSize: '1.125rem',
-    lineHeight: '1.2778',
+    fontWeight: 500,
+    fontSize: 18,
+    lineHeight: 1.3334,
     color: theme.palette.text.primary,
   },
   [`.${cardHeaderClasses.subheader}`]: {
-    fontWeight: '400',
-    fontSize: '0.75rem',
+    fontWeight: 500,
+    fontSize: 12,
+    lineHeight: 1.3334,
     color: theme.palette.text.secondary,
   },
 }));
