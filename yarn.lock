@@ -3009,16 +3009,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lifi/sdk@npm:^3.0.0-alpha.40":
-  version: 3.0.0-alpha.40
-  resolution: "@lifi/sdk@npm:3.0.0-alpha.40"
+"@lifi/sdk@npm:^3.0.0-alpha.41":
+  version: 3.0.0-alpha.41
+  resolution: "@lifi/sdk@npm:3.0.0-alpha.41"
   dependencies:
     "@lifi/types": "npm:10.0.0-beta.1"
     "@solana/wallet-adapter-base": "npm:^0.9.23"
     "@solana/web3.js": "npm:^1.87.6"
     eth-rpc-errors: "npm:^4.0.3"
-    viem: "npm:^2.0.0-beta.16"
-  checksum: 469991ba2cccee83441f83f6fee64bb117588f3dd3855b0d068d89c2182a273a0e95fd5e90a1855a32fa7a0fe10ec2cfaaf5124404730efa5001979f07b6de57
+    viem: "npm:^2.0.0-rc.0"
+  checksum: f79033d3da424ed09c20bf770c94f8088859e660a89d23096da043b1ae246f191d6df2775e77c76e05bde00575bd6f8de7aed3074ef5b8998504df8da779824b
   languageName: node
   linkType: hard
 
@@ -3033,7 +3033,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@lifi/wallet-management@workspace:packages/wallet-management"
   dependencies:
-    "@lifi/sdk": "npm:^3.0.0-alpha.40"
+    "@lifi/sdk": "npm:^3.0.0-alpha.41"
     cpy-cli: "npm:^5.0.0"
     react: "npm:^18.2.0"
     typescript: "npm:^5.3.3"
@@ -3047,7 +3047,7 @@ __metadata:
   dependencies:
     "@ethersproject/abstract-signer": "npm:^5.7.0"
     "@ethersproject/providers": "npm:^5.7.2"
-    "@lifi/sdk": "npm:^3.0.0-alpha.40"
+    "@lifi/sdk": "npm:^3.0.0-alpha.41"
     "@lifi/wallet-management": "npm:^3.0.0-alpha.7"
     "@lifi/widget": "npm:^3.0.0-alpha.11"
     "@mui/icons-material": "npm:^5.15.1"
@@ -3073,7 +3073,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@lifi/widget-playground@workspace:packages/widget-playground"
   dependencies:
-    "@lifi/sdk": "npm:^3.0.0-alpha.40"
+    "@lifi/sdk": "npm:^3.0.0-alpha.41"
     "@lifi/wallet-management": "npm:^3.0.0-alpha.7"
     "@lifi/widget": "npm:^3.0.0-alpha.11"
     "@mui/icons-material": "npm:^5.15.1"
@@ -3088,7 +3088,7 @@ __metadata:
     react-router-dom: "npm:^6.21.0"
     source-map-explorer: "npm:^2.5.3"
     typescript: "npm:^5.3.3"
-    viem: "npm:^2.0.0-beta.16"
+    viem: "npm:^2.0.0-rc.0"
     vite: "npm:^5.0.10"
     wagmi: "npm:^2.0.0-beta.9"
     web-vitals: "npm:^3.5.0"
@@ -3101,7 +3101,7 @@ __metadata:
   dependencies:
     "@emotion/react": "npm:^11.11.1"
     "@emotion/styled": "npm:^11.11.0"
-    "@lifi/sdk": "npm:^3.0.0-alpha.40"
+    "@lifi/sdk": "npm:^3.0.0-alpha.41"
     "@lifi/wallet-management": "npm:^3.0.0-alpha.7"
     "@mui/icons-material": "npm:^5.15.1"
     "@mui/lab": "npm:^5.0.0-alpha.157"
@@ -3124,7 +3124,7 @@ __metadata:
     react-timer-hook: "npm:^3.0.7"
     typescript: "npm:^5.3.3"
     uuid: "npm:^9.0.1"
-    viem: "npm:^2.0.0-beta.16"
+    viem: "npm:^2.0.0-rc.0"
     wagmi: "npm:^2.0.0-beta.9"
     zustand: "npm:^4.4.7"
   peerDependencies:
@@ -17135,9 +17135,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"viem@npm:^2.0.0-beta.16":
-  version: 2.0.0-beta.16
-  resolution: "viem@npm:2.0.0-beta.16"
+"viem@npm:^2.0.0-rc.0":
+  version: 2.0.0-rc.0
+  resolution: "viem@npm:2.0.0-rc.0"
   dependencies:
     "@adraffy/ens-normalize": "npm:1.10.0"
     "@noble/curves": "npm:1.2.0"
@@ -17152,7 +17152,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: be624df34a7a14c1d52ffcbd90c523b9a7120e2d9eba192daad77556fd54ac4c745c44e014c89f1b12302c6a7b74504ac8687982b1ccb9a8e6ff1d9e466437f8
+  checksum: 242bf08e88845561106c6ae813a577d6d6bfbaa8883dd9b064bf88dfc65b856d2e8e6f69702c78ebb1b0c2ae20e80698c51ae28daad9db192796aab6d7e48ef3
   languageName: node
   linkType: hard
 

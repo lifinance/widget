@@ -26,7 +26,7 @@
   "dependencies": {
     "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
-    "@lifi/sdk": "^3.0.0-alpha.40",
+    "@lifi/sdk": "^3.0.0-alpha.41",
     "@lifi/wallet-management": "^3.0.0-alpha.7",
     "@lifi/widget": "^3.0.0-alpha.11",
     "@mui/icons-material": "^5.15.1",
