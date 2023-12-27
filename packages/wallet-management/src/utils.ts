@@ -8,7 +8,7 @@ export const isWalletInstalled = (id: string): boolean => {
     case 'walletConnect':
       return true;
     case 'coinbaseWalletSDK':
-      return (window as any)?.coinbaseWalletExtension;
+      return true;
     case 'app.phantom':
       return (window as any)?.phantom?.ethereum?.isPhantom;
     case 'gate':
