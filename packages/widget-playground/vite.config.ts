@@ -1,6 +1,6 @@
-// import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
+import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
 import react from '@vitejs/plugin-react';
-// import nodePolyfills from 'rollup-plugin-polyfill-node';
+import nodePolyfills from 'rollup-plugin-polyfill-node';
 import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
@@ -12,11 +12,11 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      // plugins: [
-      //   nodePolyfills({
-      //     include: null,
-      //   }),
-      // ],
+      plugins: [
+        nodePolyfills({
+          include: null,
+        }),
+      ],
     },
     sourcemap: true,
   },
@@ -25,12 +25,12 @@ export default defineConfig({
       define: {
         global: 'globalThis',
       },
-      // plugins: [
-      //   NodeGlobalsPolyfillPlugin({
-      //     process: true,
-      //     buffer: true,
-      //   }),
-      // ],
+      plugins: [
+        NodeGlobalsPolyfillPlugin({
+          process: true,
+          buffer: true,
+        }),
+      ],
     },
   },
   server: {
