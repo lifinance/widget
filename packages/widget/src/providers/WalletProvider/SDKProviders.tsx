@@ -15,8 +15,8 @@ export const SDKProviders = () => {
       EVM({
         getWalletClient: () => getWalletClient(wagmiConfig),
         switchChain: async (chainId: number) => {
-          await switchChain(wagmiConfig, { chainId });
-          return getWalletClient(wagmiConfig);
+          const chain = await switchChain(wagmiConfig, { chainId });
+          return getWalletClient(wagmiConfig, { chainId: chain.id });
         },
       }),
       Solana({
