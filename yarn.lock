@@ -196,7 +196,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adobe/css-tools@npm:^4.3.1":
+"@adobe/css-tools@npm:^4.3.2":
   version: 4.3.2
   resolution: "@adobe/css-tools@npm:4.3.2"
   checksum: 973dcb7ba5141f57ec726ddec2e94e8947361bb0c5f0e8ebd1e8aa3a84b28e66db4ad843908825f99730d59784ff3c43868b014a7268676a65950cdb850c42cc
@@ -3038,7 +3038,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lifi/wallet-management@npm:^3.0.0-alpha.7, @lifi/wallet-management@workspace:packages/wallet-management":
+"@lifi/wallet-management@npm:^3.0.0-alpha.8, @lifi/wallet-management@workspace:packages/wallet-management":
   version: 0.0.0-use.local
   resolution: "@lifi/wallet-management@workspace:packages/wallet-management"
   dependencies:
@@ -3046,7 +3046,7 @@ __metadata:
     cpy-cli: "npm:^5.0.0"
     react: "npm:^18.2.0"
     typescript: "npm:^5.3.3"
-    wagmi: "npm:^2.0.0-rc.1"
+    wagmi: "npm:^2.0.0-rc.2"
   languageName: unknown
   linkType: soft
 
@@ -3057,8 +3057,8 @@ __metadata:
     "@ethersproject/abstract-signer": "npm:^5.7.0"
     "@ethersproject/providers": "npm:^5.7.2"
     "@lifi/sdk": "npm:^3.0.0-alpha.42"
-    "@lifi/wallet-management": "npm:^3.0.0-alpha.7"
-    "@lifi/widget": "npm:^3.0.0-alpha.11"
+    "@lifi/wallet-management": "npm:^3.0.0-alpha.8"
+    "@lifi/widget": "npm:^3.0.0-alpha.12"
     "@mui/icons-material": "npm:^5.15.2"
     "@mui/lab": "npm:^5.0.0-alpha.158"
     "@mui/material": "npm:^5.15.2"
@@ -3073,7 +3073,7 @@ __metadata:
     react-router-dom: "npm:^6.21.1"
     typescript: "npm:^5.3.3"
     vite: "npm:^5.0.10"
-    wagmi: "npm:^2.0.0-rc.1"
+    wagmi: "npm:^2.0.0-rc.2"
     web-vitals: "npm:^3.5.0"
   languageName: unknown
   linkType: soft
@@ -3084,8 +3084,8 @@ __metadata:
   dependencies:
     "@esbuild-plugins/node-globals-polyfill": "npm:^0.2.3"
     "@lifi/sdk": "npm:^3.0.0-alpha.42"
-    "@lifi/wallet-management": "npm:^3.0.0-alpha.7"
-    "@lifi/widget": "npm:^3.0.0-alpha.11"
+    "@lifi/wallet-management": "npm:^3.0.0-alpha.8"
+    "@lifi/widget": "npm:^3.0.0-alpha.12"
     "@mui/icons-material": "npm:^5.15.2"
     "@mui/lab": "npm:^5.0.0-alpha.158"
     "@mui/material": "npm:^5.15.2"
@@ -3101,19 +3101,19 @@ __metadata:
     typescript: "npm:^5.3.3"
     viem: "npm:^2.0.0-rc.3"
     vite: "npm:^5.0.10"
-    wagmi: "npm:^2.0.0-rc.1"
+    wagmi: "npm:^2.0.0-rc.2"
     web-vitals: "npm:^3.5.0"
   languageName: unknown
   linkType: soft
 
-"@lifi/widget@npm:^3.0.0-alpha.11, @lifi/widget@workspace:packages/widget":
+"@lifi/widget@npm:^3.0.0-alpha.12, @lifi/widget@workspace:packages/widget":
   version: 0.0.0-use.local
   resolution: "@lifi/widget@workspace:packages/widget"
   dependencies:
     "@emotion/react": "npm:^11.11.3"
     "@emotion/styled": "npm:^11.11.0"
     "@lifi/sdk": "npm:^3.0.0-alpha.42"
-    "@lifi/wallet-management": "npm:^3.0.0-alpha.7"
+    "@lifi/wallet-management": "npm:^3.0.0-alpha.8"
     "@mui/icons-material": "npm:^5.15.2"
     "@mui/lab": "npm:^5.0.0-alpha.158"
     "@mui/material": "npm:^5.15.2"
@@ -3136,7 +3136,7 @@ __metadata:
     typescript: "npm:^5.3.3"
     uuid: "npm:^9.0.1"
     viem: "npm:^2.0.0-rc.3"
-    wagmi: "npm:^2.0.0-rc.1"
+    wagmi: "npm:^2.0.0-rc.2"
     zustand: "npm:^4.4.7"
   peerDependencies:
     "@types/react": ^18.0.0
@@ -5465,11 +5465,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/jest-dom@npm:^6.1.5":
-  version: 6.1.5
-  resolution: "@testing-library/jest-dom@npm:6.1.5"
+"@testing-library/jest-dom@npm:^6.1.6":
+  version: 6.1.6
+  resolution: "@testing-library/jest-dom@npm:6.1.6"
   dependencies:
-    "@adobe/css-tools": "npm:^4.3.1"
+    "@adobe/css-tools": "npm:^4.3.2"
     "@babel/runtime": "npm:^7.9.2"
     aria-query: "npm:^5.0.0"
     chalk: "npm:^3.0.0"
@@ -5491,7 +5491,7 @@ __metadata:
       optional: true
     vitest:
       optional: true
-  checksum: 3bc45dc9cb6dc49134e79ef636612b8639014bdd8c85c3741a78a92345147d03f9efeefc2f02ad306764a62f8c236b0e0ef3d5a68c16af1c51887be45d253f6b
+  checksum: 324a790c3c56a95b916ec602d239607f0f9f20691f1234b0dbbc6aec5d41a8fdedc67c1f0ca2121989d6268fe8044ffaa36c8637d4f4455d3f0359e8fceac31a
   languageName: node
   linkType: hard
 
@@ -6270,9 +6270,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wagmi/connectors@npm:4.0.0-rc.1":
-  version: 4.0.0-rc.1
-  resolution: "@wagmi/connectors@npm:4.0.0-rc.1"
+"@wagmi/connectors@npm:4.0.0-rc.2":
+  version: 4.0.0-rc.2
+  resolution: "@wagmi/connectors@npm:4.0.0-rc.2"
   dependencies:
     "@coinbase/wallet-sdk": "npm:3.9.1"
     "@metamask/sdk": "npm:0.14.1"
@@ -6281,19 +6281,19 @@ __metadata:
     "@walletconnect/ethereum-provider": "npm:2.10.6"
     "@walletconnect/modal": "npm:2.6.2"
   peerDependencies:
-    "@wagmi/core": 2.0.0-rc.1
+    "@wagmi/core": 2.0.0-rc.2
     typescript: ">=5.0.4"
-    viem: 2.0.0-rc.2
+    viem: 2.0.0-rc.3
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 527d3a44c40c6a0de2b4188f78f5b40b699d3dff35d00b5f92dfaea3da26a6bfbf6866cc59d90b49a4c82727e6877b3a928e8bb23712973f862861d0a93c4bb6
+  checksum: a2848d37f4da7ff17e1cb4d3db7034daeb1fd539995c8a8e1f1cd4594450cfd7d72608610706f665e9d24b541c52d14500fcffd4c5536645334c923bde1d1528
   languageName: node
   linkType: hard
 
-"@wagmi/core@npm:2.0.0-rc.1":
-  version: 2.0.0-rc.1
-  resolution: "@wagmi/core@npm:2.0.0-rc.1"
+"@wagmi/core@npm:2.0.0-rc.2":
+  version: 2.0.0-rc.2
+  resolution: "@wagmi/core@npm:2.0.0-rc.2"
   dependencies:
     eventemitter3: "npm:5.0.1"
     mipd: "npm:0.0.5"
@@ -6301,13 +6301,13 @@ __metadata:
   peerDependencies:
     "@tanstack/query-core": ">=5.0.0"
     typescript: ">=5.0.4"
-    viem: 2.0.0-rc.2
+    viem: 2.0.0-rc.3
   peerDependenciesMeta:
     "@tanstack/query-core":
       optional: true
     typescript:
       optional: true
-  checksum: f1adb14ceba2a30fd578a188704672186c3f9e769338cd60870401af46c814cf1986726d04ba57e428c234f3b2ef8fb911edb7c5f130c68edd5047d199c8552a
+  checksum: fb9af2fbe89eb8d64176252ab59cc41f2b43e0c9c3e9883658ea877b166d0a9b535b826ac9a02b65e7f53bff8e06d084b97bcc0a22066dcb19dabd1aef272fe2
   languageName: node
   linkType: hard
 
@@ -15325,7 +15325,7 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@testing-library/dom": "npm:^9.3.3"
-    "@testing-library/jest-dom": "npm:^6.1.5"
+    "@testing-library/jest-dom": "npm:^6.1.6"
     "@testing-library/react": "npm:^14.1.2"
     "@testing-library/user-event": "npm:^14.5.1"
     "@types/eslint": "npm:^8.56.0"
@@ -17106,22 +17106,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wagmi@npm:^2.0.0-rc.1":
-  version: 2.0.0-rc.1
-  resolution: "wagmi@npm:2.0.0-rc.1"
+"wagmi@npm:^2.0.0-rc.2":
+  version: 2.0.0-rc.2
+  resolution: "wagmi@npm:2.0.0-rc.2"
   dependencies:
-    "@wagmi/connectors": "npm:4.0.0-rc.1"
-    "@wagmi/core": "npm:2.0.0-rc.1"
+    "@wagmi/connectors": "npm:4.0.0-rc.2"
+    "@wagmi/core": "npm:2.0.0-rc.2"
     use-sync-external-store: "npm:1.2.0"
   peerDependencies:
     "@tanstack/react-query": ">=5.0.0"
     react: ">=18"
     typescript: ">=5.0.4"
-    viem: 2.0.0-rc.2
+    viem: 2.0.0-rc.3
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 121bc06bc2a3dde93cd13b3bfd1b77661c68a73f6f836698b1a579e30966c16ff5a10b5d62a404e5f6c9b03e355071b578974a8ef1a96e554b43634724c01da2
+  checksum: d950f40c232a27c24b3cb7025c9d731d589927bd4df35195bdc26f8515b2debd299d519929351d4729c3a8e2f7d076cc9342d67f18889675924f9391530638b0
   languageName: node
   linkType: hard
 
