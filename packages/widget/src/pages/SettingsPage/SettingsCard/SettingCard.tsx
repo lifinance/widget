@@ -7,7 +7,7 @@ export const SettingCard: React.FC<PropsWithChildren> = ({ children }) => {
       variant="default"
       selectionColor="primary"
       sx={{
-        p: 2,
+        p: 1,
       }}
     >
       {children}

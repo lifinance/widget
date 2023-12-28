@@ -15,18 +15,18 @@ export const SummaryTitleContainer = styled(Box)(({ theme }) => ({
   gap: theme.spacing(1.5),
 }));
 
-export const SummaryRowContainer = styled(Box)({
+export const SummaryRowContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   width: '100%',
   justifyContent: 'space-between',
   alignItems: 'center',
-});
+  padding: theme.spacing(1),
+}));
 
-export const SummaryRowButton = styled(ButtonBase)({
+export const SummaryRowButton = styled(ButtonBase)(({ theme }) => ({
   background: 'none',
   color: 'inherit',
   border: 'none',
-  padding: 0,
   font: 'inherit',
   cursor: 'pointer',
   outline: 'inherit',
@@ -34,7 +34,8 @@ export const SummaryRowButton = styled(ButtonBase)({
   width: '100%',
   justifyContent: 'space-between',
   alignItems: 'center',
-});
+  padding: theme.spacing(1),
+}));
 
 export const SummaryValue = styled(Typography)({
   lineHeight: '1.25',
