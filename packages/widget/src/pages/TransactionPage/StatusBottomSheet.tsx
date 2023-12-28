@@ -3,6 +3,7 @@ import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import { Box, Button, Typography } from '@mui/material';
+import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { BottomSheetBase } from '../../components/BottomSheet';
@@ -36,7 +37,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   const { t } = useTranslation();
   const { navigateBack, navigate } = useNavigateBack();
   const ref = useRef<BottomSheetBase>(null);
-  const { getChainById } = useAvailableChains();
+  const queryClient = useQueryClient();
   const { setFieldValue } = useFieldActions();
   const {
     subvariant,
@@ -44,6 +45,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
     contractSecondaryComponent,
     contractCompactComponent,
   } = useWidgetConfig();
+  const { getChainById } = useAvailableChains();
 
   const toToken = {
     ...(route.steps.at(-1)?.execution?.toToken ?? route.toToken),
@@ -57,19 +59,20 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   const { token, refetch, refetchNewBalance, refetchAllBalances } =
     useTokenBalance(route.toAddress, toToken);
 
-  const clearFromAmount = () => {
+  const invalidateQueries = () => {
     refetchAllBalances();
     setFieldValue('fromAmount', '');
     setFieldValue('toAmount', '');
+    queryClient.invalidateQueries({ queryKey: ['transaction-history'] });
   };
 
   const handleDone = () => {
-    clearFromAmount();
+    invalidateQueries();
     navigateBack();
   };
 
   const handlePartialDone = () => {
-    clearFromAmount();
+    invalidateQueries();
     if (
       toToken.chainId !== route.toToken.chainId &&
       toToken.address !== route.toToken.address
@@ -92,7 +95,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   };
 
   const handleClose = () => {
-    clearFromAmount();
+    invalidateQueries();
     ref.current?.close();
   };
 
