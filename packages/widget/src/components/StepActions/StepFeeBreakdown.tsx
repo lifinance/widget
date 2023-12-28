@@ -25,7 +25,7 @@ export const StepFeeBreakdown: React.FC<{
       : 0;
     fees += amountUSD;
     feeComponents.push(
-      <Box mt={0.5} ml={7} key="network">
+      <Box ml={7} key="network">
         <Typography
           fontSize={12}
           lineHeight={2}
@@ -59,7 +59,7 @@ export const StepFeeBreakdown: React.FC<{
         : 0;
       fees += amountUSD;
       feeComponents.push(
-        <Box mt={0.5} ml={7} key="bridge">
+        <Box mt={feeComponents.length ? 0.5 : 0} ml={7} key="bridge">
           <Typography
             fontSize={12}
             lineHeight={2}
