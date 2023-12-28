@@ -73,8 +73,16 @@ export const SelectTokenButton: React.FC<
             )
           }
           title={isSelected ? token.symbol : defaultPlaceholder}
-          subheader={
-            isSelected ? t(`main.onChain`, { chainName: chain.name }) : null
+          titleTypographyProps={{
+            title: isSelected ? token.symbol : defaultPlaceholder,
+          }}
+          subheader={isSelected ? chain.name : null}
+          subheaderTypographyProps={
+            isSelected
+              ? {
+                  title: chain.name,
+                }
+              : undefined
           }
           selected={isSelected}
           compact={compact}

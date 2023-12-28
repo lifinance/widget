@@ -15,19 +15,19 @@ export const SelectTokenCardHeader = styled(CardHeader, {
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
       overflow: 'hidden',
-      width: compact ? 92 : 256,
+      width: compact ? 88 : 256,
       fontSize: compact && !selected ? 16 : 18,
       [theme.breakpoints.down(392)]: {
-        width: compact ? 92 : 224,
+        width: compact ? 88 : 224,
       },
     },
     [`.${cardHeaderClasses.subheader}`]: {
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
       overflow: 'hidden',
-      width: compact ? 92 : 256,
+      width: compact ? 88 : 256,
       [theme.breakpoints.down(392)]: {
-        width: compact ? 92 : 224,
+        width: compact ? 88 : 224,
       },
     },
   }),
