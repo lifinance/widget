@@ -1,10 +1,12 @@
-import type { FormFieldNames } from './types';
-import { useFormStore } from './FormStore';
 import { shallow } from 'zustand/shallow';
+import { useFormStore } from './FormStore';
+import type { FormFieldArray, FormFieldNames } from './types';
 
-export const useFieldValues = (...names: FormFieldNames[]) => {
+// We should return a strongly-typed array based on the specific field names we pass to the function.
+export const useFieldValues = <T extends FormFieldNames[]>(...names: T) => {
   const values = useFormStore(
-    (store) => names.map((name) => store.userValues[name]?.value),
+    (store) =>
+      names.map((name) => store.userValues[name]!.value) as FormFieldArray<T>,
     shallow,
   );
 

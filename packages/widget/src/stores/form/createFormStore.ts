@@ -2,6 +2,7 @@ import { createWithEqualityFn } from 'zustand/traditional';
 
 import type {
   DefaultValues,
+  FormFieldArray,
   FormFieldNames,
   FormValueControl,
   FormValues,
@@ -175,8 +176,8 @@ export const createFormStore = (defaultValues?: DefaultValues) =>
           touchedFields,
         }));
       },
-      getFieldValues: (...names) =>
-        names.map((name) => get().userValues[name]?.value),
+      getFieldValues: <T extends FormFieldNames[]>(...names: T) =>
+        names.map((name) => get().userValues[name]?.value) as FormFieldArray<T>,
       addFieldValidation: (name, validationFn) => {
         set((state) => ({
           validation: {
