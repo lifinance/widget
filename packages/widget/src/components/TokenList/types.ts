@@ -15,7 +15,7 @@ export interface VirtualizedTokenListProps {
   scrollElementRef: MutableRefObject<HTMLElement | null>;
   isLoading: boolean;
   isBalanceLoading: boolean;
-  chainId: number;
+  chainId?: number;
   chain?: ExtendedChain;
   showBalance?: boolean;
   showFeatured?: boolean;

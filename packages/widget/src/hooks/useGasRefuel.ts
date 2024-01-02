@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import { useAvailableChains } from '.';
+import { useFieldValues } from '../stores';
 import { useGasRecommendation } from './useGasRecommendation';
 import { useTokenBalance } from './useTokenBalance';
-import { useFieldValues } from '../stores';
 
 export const useGasRefuel = () => {
   const { getChainById } = useAvailableChains();
@@ -19,7 +19,7 @@ export const useGasRefuel = () => {
 
   const { token: nativeToken } = useTokenBalance(
     toAddress,
-    toChainId && toChain?.nativeToken,
+    toChainId ? toChain?.nativeToken : undefined,
     toChain,
   );
 

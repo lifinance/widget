@@ -1,7 +1,7 @@
-import { alpha, styled } from '@mui/material/styles';
-import { Box, ButtonBase, InputBase } from '@mui/material';
 import type { Theme } from '@mui/material';
+import { Box, ButtonBase, InputBase } from '@mui/material';
 import { inputBaseClasses } from '@mui/material/InputBase';
+import { alpha, styled } from '@mui/material/styles';
 import { getCardFieldsetBackgroundColor } from '../../../utils';
 
 export const SettingsFieldSet = styled(Box)(({ theme }) => ({
@@ -28,6 +28,7 @@ const slippageControlSelected = (theme: Theme) => ({
 interface SlippageDefaultProps {
   selected?: boolean;
 }
+
 export const SlippageDefaultButton = styled(ButtonBase)<SlippageDefaultProps>(({
   theme,
   selected,

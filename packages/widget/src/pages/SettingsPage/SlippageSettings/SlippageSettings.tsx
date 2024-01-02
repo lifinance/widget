@@ -5,7 +5,11 @@ import type { ChangeEventHandler, FocusEventHandler } from 'react';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSettingMonitor } from '../../../hooks';
-import { useSettings, useSettingsStore } from '../../../stores';
+import {
+  defaultSlippage,
+  useSettings,
+  useSettingsStore,
+} from '../../../stores';
 import { formatSlippage } from '../../../utils';
 import { BadgedValue, SettingCardExpandable } from '../SettingsCard';
 import {
@@ -14,8 +18,6 @@ import {
   SlippageDefaultButton,
   SlippageLimitsWarningContainer,
 } from './SlippageSettings.style';
-
-const slippageDefault = '0.5';
 
 export const SlippageSettings: React.FC = () => {
   const { t } = useTranslation();
@@ -27,7 +29,7 @@ export const SlippageSettings: React.FC = () => {
   const [focused, setFocused] = useState<'input' | 'button' | undefined>();
 
   const handleDefaultClick = () => {
-    setValue('slippage', formatSlippage(slippageDefault, defaultValue.current));
+    setValue('slippage', formatSlippage(defaultSlippage, defaultValue.current));
   };
 
   const handleInputUpdate: ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -35,7 +37,7 @@ export const SlippageSettings: React.FC = () => {
 
     setValue(
       'slippage',
-      formatSlippage(value || slippageDefault, defaultValue.current, true),
+      formatSlippage(value || defaultSlippage, defaultValue.current, true),
     );
   };
 
@@ -46,12 +48,12 @@ export const SlippageSettings: React.FC = () => {
 
     setValue(
       'slippage',
-      formatSlippage(value || slippageDefault, defaultValue.current),
+      formatSlippage(value || defaultSlippage, defaultValue.current),
     );
   };
 
   const customInputValue =
-    !slippage || slippage === slippageDefault ? '' : slippage;
+    !slippage || slippage === defaultSlippage ? '' : slippage;
 
   const badgeColor = isSlippageOutsideRecommendedLimits
     ? 'warning'
@@ -73,7 +75,7 @@ export const SlippageSettings: React.FC = () => {
       <Box mt={1.5}>
         <SettingsFieldSet>
           <SlippageDefaultButton
-            selected={slippageDefault === slippage && focused !== 'input'}
+            selected={defaultSlippage === slippage && focused !== 'input'}
             onFocus={() => {
               setFocused('button');
             }}
@@ -83,10 +85,10 @@ export const SlippageSettings: React.FC = () => {
             onClick={handleDefaultClick}
             disableRipple
           >
-            {slippageDefault}
+            {defaultSlippage}
           </SlippageDefaultButton>
           <SlippageCustomInput
-            selected={slippageDefault !== slippage && focused !== 'button'}
+            selected={defaultSlippage !== slippage && focused !== 'button'}
             placeholder={focused === 'input' ? '' : t('settings.custom')}
             inputProps={{
               inputMode: 'decimal',

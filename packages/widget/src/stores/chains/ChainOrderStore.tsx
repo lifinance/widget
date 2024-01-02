@@ -2,10 +2,12 @@ import { createContext, useContext, useEffect, useRef } from 'react';
 import type { StoreApi } from 'zustand';
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
 import { useChains } from '../../hooks';
+import { isItemAllowed, useWidgetConfig } from '../../providers';
+import type { FormType } from '../form';
+import { useFieldActions } from '../form';
 import type { PersistStoreProviderProps } from '../types';
 import { createChainOrderStore } from './createChainOrderStore';
 import type { ChainOrderState } from './types';
-import { useFieldActions } from '../../stores';
 
 export type ChainOrderStore = UseBoundStoreWithEqualityFn<
   StoreApi<ChainOrderState>
@@ -19,8 +21,9 @@ export function ChainOrderStoreProvider({
   children,
   ...props
 }: PersistStoreProviderProps) {
+  const { chains: configChains } = useWidgetConfig();
   const storeRef = useRef<ChainOrderStore>();
-  const { chains: filteredChains } = useChains();
+  const { chains } = useChains();
   const { setFieldValue, getFieldValues } = useFieldActions();
 
   if (!storeRef.current) {
@@ -28,24 +31,24 @@ export function ChainOrderStoreProvider({
   }
 
   useEffect(() => {
-    if (filteredChains) {
-      const chainOrder = storeRef.current
-        ?.getState()
-        .initializeChains(filteredChains.map((chain) => chain.id));
-      if (chainOrder) {
-        const [fromChainValue, toChainValue] = getFieldValues(
-          'fromChain',
-          'toChain',
+    if (chains) {
+      (['from', 'to'] as FormType[]).forEach((key) => {
+        const filteredChains = configChains?.[key]
+          ? chains.filter((chain) => isItemAllowed(chain.id, configChains[key]))
+          : chains;
+        const chainOrder = storeRef.current?.getState().initializeChains(
+          filteredChains.map((chain) => chain.id),
+          key,
         );
-        if (!fromChainValue) {
-          setFieldValue('fromChain', chainOrder[0]);
+        if (chainOrder) {
+          const [chainValue] = getFieldValues(`${key}Chain`);
+          if (!chainValue) {
+            setFieldValue(`${key}Chain`, chainOrder[0]);
+          }
         }
-        if (!toChainValue) {
-          setFieldValue('toChain', chainOrder[0]);
-        }
-      }
+      });
     }
-  }, [filteredChains, getFieldValues, setFieldValue]);
+  }, [chains, configChains, getFieldValues, setFieldValue]);
 
   return (
     <ChainOrderStoreContext.Provider value={storeRef.current}>

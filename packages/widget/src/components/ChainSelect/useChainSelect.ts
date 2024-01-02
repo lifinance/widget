@@ -1,12 +1,12 @@
 import type { EVMChain } from '@lifi/sdk';
 import { useChains, useSwapOnly } from '../../hooks';
-import type { FormType } from '../../stores';
 import { useWidgetConfig } from '../../providers';
+import type { FormType } from '../../stores';
 import {
+  FormKeyHelper,
   useChainOrder,
   useFieldActions,
   useFieldController,
-  FormKeyHelper,
 } from '../../stores';
 import { RequiredUI } from '../../types';
 
@@ -16,8 +16,8 @@ export const useChainSelect = (formType: FormType) => {
   const { onChange, onBlur } = useFieldController({ name: chainKey });
 
   const { setFieldValue, getFieldValues } = useFieldActions();
-  const { chains, isLoading, getChainById } = useChains();
-  const [chainOrder, setChainOrder] = useChainOrder();
+  const { chains, isLoading, getChainById } = useChains(formType);
+  const [chainOrder, setChainOrder] = useChainOrder(formType);
   const swapOnly = useSwapOnly();
 
   const getChains = () => {
@@ -63,7 +63,7 @@ export const useChainSelect = (formType: FormType) => {
     if (!requiredToAddress) {
       setFieldValue('toAddress', '');
     }
-    setChainOrder(chainId);
+    setChainOrder(chainId, formType);
   };
 
   return {

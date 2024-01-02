@@ -5,12 +5,14 @@ import type { WidgetConfig } from '../../types';
 import type { SettingsProps, SettingsState } from './types';
 import { SettingsToolTypes } from './types';
 
+export const defaultSlippage = '0.5';
+
 export const defaultConfigurableSettings: Pick<
   SettingsState,
   'routePriority' | 'slippage' | 'gasPrice'
 > = {
   routePriority: 'RECOMMENDED',
-  slippage: '0.5',
+  slippage: defaultSlippage,
   gasPrice: 'normal',
 };
 

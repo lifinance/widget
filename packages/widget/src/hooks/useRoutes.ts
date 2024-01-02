@@ -8,7 +8,7 @@ import { normalize } from 'viem/ens';
 import { useConfig } from 'wagmi';
 import { useChain, useDebouncedWatch, useGasRefuel, useToken } from '.';
 import { useWidgetConfig } from '../providers';
-import { useFieldValues, useSettings } from '../stores';
+import { defaultSlippage, useFieldValues, useSettings } from '../stores';
 import { isSVMAddress } from '../utils';
 import { useAccount } from './useAccount';
 import { useSwapOnly } from './useSwapOnly';
@@ -38,7 +38,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
     'enabledBridges',
     'enabledExchanges',
   ]);
-  const [fromTokenAmount] = useDebouncedWatch(['fromAmount'], 320);
+  const [fromTokenAmount] = useDebouncedWatch(320, 'fromAmount');
   const [
     fromChainId,
     fromTokenAddress,
@@ -67,13 +67,19 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
   const { enabled: enabledRefuel, fromAmount: gasRecommendationFromAmount } =
     useGasRefuel();
 
-  const hasAmount =
-    (!isNaN(fromTokenAmount) && Number(fromTokenAmount) > 0) ||
-    (!isNaN(toTokenAmount) && Number(toTokenAmount) > 0);
+  const accountAddress =
+    fromChain?.chainType === account.chainType ? account.address : undefined;
+
+  const hasAmount = Number(fromTokenAmount) > 0 || Number(toTokenAmount) > 0;
 
   const contractCallQuoteEnabled: boolean =
     subvariant === 'nft'
-      ? Boolean(toContractAddress && toContractCallData && toContractGasLimit)
+      ? Boolean(
+          toContractAddress &&
+            toContractCallData &&
+            toContractGasLimit &&
+            accountAddress,
+        )
       : true;
 
   // When we bridge between ecosystems we need to be sure toAddress is set
@@ -81,8 +87,8 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
     fromChain?.chainType !== toChain?.chainType ? Boolean(toAddress) : true;
 
   const isEnabled =
-    !isNaN(fromChainId) &&
-    !isNaN(toChainId) &&
+    Boolean(Number(fromChainId)) &&
+    Boolean(Number(toChainId)) &&
     Boolean(fromToken?.address) &&
     Boolean(toToken?.address) &&
     !Number.isNaN(slippage) &&
@@ -90,18 +96,16 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
     isChainTypeSatisfied &&
     contractCallQuoteEnabled;
 
-  const accountAddress =
-    fromChain?.chainType === account.chainType ? account.address : undefined;
-
+  // Some values should be strictly typed and isEnabled ensures that
   const queryKey = [
     'routes',
     accountAddress,
-    fromChainId,
-    fromToken?.address,
+    fromChainId as number,
+    fromToken?.address as string,
     fromTokenAmount,
     toAddress,
-    toChainId,
-    toToken?.address,
+    toChainId as number,
+    toToken?.address as string,
     toTokenAmount,
     toContractAddress,
     toContractCallData,
@@ -116,7 +120,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
     gasRecommendationFromAmount,
     insurance,
     insurableRoute?.id,
-  ];
+  ] as const;
 
   const { data, isLoading, isFetching, isFetched, dataUpdatedAt, refetch } =
     useQuery({
@@ -135,7 +139,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
           toContractAddress,
           toContractCallData,
           toContractGasLimit,
-          slippage,
+          slippage = defaultSlippage,
           enabledBridges,
           enabledExchanges,
           routePriority,
@@ -153,10 +157,10 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
         try {
           // FIXME: resolve address in one place
           toWalletAddress = !isAddress
-            ? await getEnsAddress(config, {
+            ? (await getEnsAddress(config, {
                 chainId: toChainId,
                 name: normalize(toAddress),
-              })
+              })) || undefined
             : isAddress
               ? toAddress
               : fromAddress;
@@ -188,7 +192,8 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
         if (subvariant === 'nft') {
           const contractCallQuote = await getContractCallQuote(
             {
-              fromAddress,
+              // Contract calls are enabled only when fromAddress is set
+              fromAddress: fromAddress as string,
               fromChain: fromChainId,
               fromToken: fromTokenAddress,
               toAmount: toTokenAmount,
@@ -246,13 +251,13 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
 
         const data = await getRoutes(
           {
-            fromChainId,
+            fromAddress,
             fromAmount,
+            fromChainId,
             fromTokenAddress,
+            toAddress: toWalletAddress,
             toChainId,
             toTokenAddress,
-            fromAddress,
-            toAddress: toWalletAddress,
             fromAmountForGas:
               enabledRefuel && gasRecommendationFromAmount
                 ? gasRecommendationFromAmount
