@@ -19,10 +19,18 @@ export const widgetBaseConfig: WidgetConfig = {
   // subvariant: 'split',
   integrator: 'li.fi-playground',
   // fee: 0.01,
-  chains: {
-    allow: [], // 1, 1285, 10, 56, 137
-    deny: [],
-  },
+  // chains: {
+  //   allow: [], // 1, 1285, 10, 56, 137
+  //   deny: [],
+  //   from: {
+  //     allow: [],
+  //     deny: [],
+  //   },
+  //   to: {
+  //     allow: [],
+  //     deny: [],
+  //   },
+  // },
   // useRecommendedRoute: true,
   buildUrl: true,
   // hiddenUI: ['poweredBy', 'language', 'appearance', 'drawerButton'],

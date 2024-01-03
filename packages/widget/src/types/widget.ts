@@ -62,6 +62,11 @@ export interface WidgetWalletManagement {
   connect(): Promise<void>;
 }
 
+export interface AllowDeny<T> {
+  allow?: T[];
+  deny?: T[];
+}
+
 export interface WidgetSDKOptions
   extends Omit<
     SDKOptions,
@@ -131,29 +136,19 @@ export interface WidgetConfig {
   buildUrl?: boolean;
   keyPrefix?: string;
 
-  bridges?: {
-    allow?: string[];
-    deny?: string[];
-  };
-  exchanges?: {
-    allow?: string[];
-    deny?: string[];
-  };
+  bridges?: AllowDeny<string>;
+  exchanges?: AllowDeny<string>;
   chains?: {
-    allow?: number[];
-    deny?: number[];
-  };
+    from?: AllowDeny<number>;
+    to?: AllowDeny<number>;
+  } & AllowDeny<number>;
   tokens?: {
     featured?: StaticToken[];
     include?: Token[];
-    allow?: BaseToken[];
-    deny?: BaseToken[];
-  };
+  } & AllowDeny<BaseToken>;
   languages?: {
     default?: LanguageKey;
-    allow?: LanguageKey[];
-    deny?: LanguageKey[];
-  };
+  } & AllowDeny<LanguageKey>;
   languageResources?: LanguageResources;
 }
 

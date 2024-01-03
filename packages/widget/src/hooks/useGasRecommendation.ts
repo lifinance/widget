@@ -5,7 +5,7 @@ import { useAvailableChains } from './useAvailableChains';
 const refetchInterval = 60_000;
 
 export const useGasRecommendation = (
-  toChainId: ChainId,
+  toChainId?: ChainId,
   fromChain?: ChainId,
   fromToken?: string,
 ) => {

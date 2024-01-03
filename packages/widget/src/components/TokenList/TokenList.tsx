@@ -8,12 +8,12 @@ import {
   useTokenBalances,
   useTokenSearch,
 } from '../../hooks';
+import { FormKeyHelper, useFieldValues } from '../../stores';
 import type { TokenAmount } from '../../types';
 import { TokenNotFound } from './TokenNotFound';
 import { VirtualizedTokenList } from './VirtualizedTokenList';
 import type { TokenListProps } from './types';
 import { useTokenSelect } from './useTokenSelect';
-import { useFieldValues, FormKeyHelper } from '../../stores';
 
 export const TokenList: FC<TokenListProps> = ({
   formType,
@@ -24,8 +24,8 @@ export const TokenList: FC<TokenListProps> = ({
   const { account } = useAccount();
   const [selectedChainId] = useFieldValues(FormKeyHelper.getChainKey(formType));
   const [tokenSearchFilter]: string[] = useDebouncedWatch(
-    ['tokenSearchFilter'],
     320,
+    'tokenSearchFilter',
   );
 
   const { chain, isLoading: isChainLoading } = useChain(selectedChainId);

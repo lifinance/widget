@@ -1,11 +1,11 @@
 import { WidgetEvent, useWidgetEvents } from '@lifi/widget';
 import { useCallback } from 'react';
-import type { FormType } from '../../stores';
 import { useWidgetConfig } from '../../providers';
+import type { FormType } from '../../stores';
 import {
+  FormKeyHelper,
   useFieldActions,
   useFieldController,
-  FormKeyHelper,
 } from '../../stores';
 
 export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
@@ -48,10 +48,12 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
           ? WidgetEvent.SourceChainTokenSelected
           : WidgetEvent.DestinationChainTokenSelected;
 
-      emitter.emit(eventToEmit, {
-        chainId: selectedChainId,
-        tokenAddress,
-      });
+      if (selectedChainId) {
+        emitter.emit(eventToEmit, {
+          chainId: selectedChainId,
+          tokenAddress,
+        });
+      }
 
       onClick?.();
     },

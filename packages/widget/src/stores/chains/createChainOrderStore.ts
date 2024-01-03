@@ -5,16 +5,20 @@ import type { PersistStoreProps } from '../types';
 import type { ChainOrderState } from './types';
 
 export const maxChainToOrder = 9;
+const defaultChainState = {
+  from: [],
+  to: [],
+};
 
 export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
   createWithEqualityFn<ChainOrderState>(
     persist(
       (set, get) => ({
-        chainOrder: [],
-        availableChains: [],
-        initializeChains: (chainIds: number[]) => {
+        chainOrder: defaultChainState,
+        availableChains: defaultChainState,
+        initializeChains: (chainIds, type) => {
           set((state: ChainOrderState) => {
-            const chainOrder = state.chainOrder.filter((chainId) =>
+            const chainOrder = state.chainOrder[type].filter((chainId) =>
               chainIds.includes(chainId),
             );
             const chainsToAdd = chainIds.filter(
@@ -22,8 +26,14 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
             );
             if (chainOrder.length === maxChainToOrder || !chainsToAdd.length) {
               return {
-                availableChains: chainIds,
-                chainOrder,
+                availableChains: {
+                  ...state.availableChains,
+                  [type]: chainIds,
+                },
+                chainOrder: {
+                  ...state.chainOrder,
+                  [type]: chainOrder,
+                },
               };
             }
             const chainsToAddLength = maxChainToOrder - chainOrder.length;
@@ -31,35 +41,44 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
               chainOrder.push(chainsToAdd[index]);
             }
             return {
-              availableChains: chainIds,
-              chainOrder,
+              availableChains: {
+                ...state.availableChains,
+                [type]: chainIds,
+              },
+              chainOrder: {
+                ...state.chainOrder,
+                [type]: chainOrder,
+              },
             };
           });
-          return get().chainOrder;
+          return get().chainOrder[type];
         },
-        setChain: (chainId: number) => {
+        setChain: (chainId, type) => {
           const state = get();
           if (
-            state.chainOrder.includes(chainId) ||
-            !state.availableChains.includes(chainId)
+            state.chainOrder[type].includes(chainId) ||
+            !state.availableChains[type].includes(chainId)
           ) {
             return;
           }
           set((state: ChainOrderState) => {
-            const chainOrder = state.chainOrder.slice();
+            const chainOrder = state.chainOrder[type].slice();
             chainOrder.unshift(chainId);
             if (chainOrder.length > maxChainToOrder) {
               chainOrder.pop();
             }
             return {
-              chainOrder,
+              chainOrder: {
+                ...state.chainOrder,
+                [type]: chainOrder,
+              },
             };
           });
         },
       }),
       {
         name: `${namePrefix || 'li.fi'}-widget-chains-order`,
-        version: 0,
+        version: 1,
         partialize: (state) => ({ chainOrder: state.chainOrder }),
       },
     ) as StateCreator<ChainOrderState, [], [], ChainOrderState>,

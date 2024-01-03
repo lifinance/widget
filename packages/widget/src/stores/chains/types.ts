@@ -1,9 +1,17 @@
+import type { FormType } from '../form';
+
 export interface ChainOrderProps {
-  chainOrder: number[];
-  availableChains: number[];
+  chainOrder: {
+    from: number[];
+    to: number[];
+  };
+  availableChains: {
+    from: number[];
+    to: number[];
+  };
 }
 
 export interface ChainOrderState extends ChainOrderProps {
-  initializeChains(chainIds: number[]): number[];
-  setChain(chainId: number): void;
+  initializeChains(chainIds: number[], type: FormType): number[];
+  setChain(chainId: number, type: FormType): void;
 }
