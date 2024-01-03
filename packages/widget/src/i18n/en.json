@@ -252,8 +252,7 @@
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} on {{chainName}}",
     "tokenSearch": "Search by token name or address",
     "valueLoss": "Value loss",
-    "walletAddressOrEns": "Enter address or ENS",
-    "selectAddress": "Select address"
+    "walletAddressOrEns": "Enter address or ENS"
   },
   "insurance": {
     "bridgeExploits": "Bridge malfunctions, hacks or exploits",
@@ -276,6 +275,12 @@
     "slippage": "Slippage",
     "custom": "Custom",
     "resetSettings": "You're using custom setting limiting the number of available routes."
+  },
+  "sendToWallet" : {
+    "confirmWalletAddress": "Confirm wallet address",
+    "recentWallets": "Recent wallets",
+    "connectedWallets": "Connected wallets",
+    "bookmarkedWallets": "Bookmarked wallets"
   },
   "wallet": {
     "extensionNotFound": "Please make sure that only the {{name}} browser extension is active before choosing this wallet."

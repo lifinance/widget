@@ -85,7 +85,7 @@ export const SendToWalletButton = () => {
     ? isAddress(toAddressFieldValue)
       ? shortenAddress(toAddressFieldValue)
       : toAddressFieldValue
-    : t('main.selectAddress');
+    : t('main.walletAddressOrEns');
 
   return (
     <Collapse

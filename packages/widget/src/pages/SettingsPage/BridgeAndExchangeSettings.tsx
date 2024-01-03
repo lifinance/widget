@@ -6,7 +6,8 @@ import { shallow } from 'zustand/shallow';
 import { useSettingMonitor } from '../../hooks';
 import { useSettingsStore } from '../../stores';
 import { navigationRoutes } from '../../utils';
-import { BadgedValue, SettingCardButton } from './SettingsCard';
+import { CardButton } from '../../components/CardButton';
+import { BadgedValue } from './SettingsCard';
 
 const supportedIcons = {
   Bridges: AirlineStopsIcon,
@@ -36,7 +37,7 @@ export const BridgeAndExchangeSettings: React.FC<{
   const Icon = supportedIcons[type];
 
   return (
-    <SettingCardButton
+    <CardButton
       onClick={handleClick}
       icon={<Icon />}
       title={t(`settings.enabled${type}`)}
@@ -45,6 +46,6 @@ export const BridgeAndExchangeSettings: React.FC<{
         badgeColor="info"
         showBadge={customisationLookUp[type]}
       >{`${enabledTools}/${tools}`}</BadgedValue>
-    </SettingCardButton>
+    </CardButton>
   );
 };
