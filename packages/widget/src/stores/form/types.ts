@@ -2,18 +2,18 @@ import type { StoreApi } from 'zustand';
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
 
 export interface DefaultValues {
-  toAddress: string;
-  tokenSearchFilter: string;
   contractOutputsToken: string;
+  fromAmount: string;
+  fromChain?: number;
+  fromToken?: string;
+  toAddress: string;
+  toAmount: string;
+  toChain?: number;
   toContractAddress: string;
   toContractCallData: string;
   toContractGasLimit: string;
-  toAmount: string;
-  fromAmount: string;
-  toChain?: number;
-  fromChain?: number;
-  fromToken?: string;
-  toToken?: string | undefined;
+  toToken?: string;
+  tokenSearchFilter: string;
 }
 
 export type GenericFormValue = string | number | undefined;
@@ -24,21 +24,27 @@ export interface FormValueControl<T> {
 }
 
 export interface FormValues {
-  toAddress: FormValueControl<string>;
-  tokenSearchFilter: FormValueControl<string>;
   contractOutputsToken: FormValueControl<string>;
+  fromAmount: FormValueControl<string>;
+  fromChain?: FormValueControl<number | undefined>;
+  fromToken?: FormValueControl<string | undefined>;
+  toAddress: FormValueControl<string>;
+  toAmount: FormValueControl<string>;
+  toChain?: FormValueControl<number | undefined>;
   toContractAddress: FormValueControl<string>;
   toContractCallData: FormValueControl<string>;
   toContractGasLimit: FormValueControl<string>;
-  toAmount: FormValueControl<string>;
-  fromAmount: FormValueControl<string>;
-  fromToken?: FormValueControl<string | undefined>;
   toToken?: FormValueControl<string | undefined>;
-  toChain?: FormValueControl<number | undefined>;
-  fromChain?: FormValueControl<number | undefined>;
+  tokenSearchFilter: FormValueControl<string>;
 }
 
 export type FormFieldNames = keyof FormValues;
+export type ExtractValueType<T> = T extends FormValueControl<infer U>
+  ? U
+  : never;
+export type FormFieldArray<T extends FormFieldNames[]> = {
+  [K in keyof T]: ExtractValueType<FormValues[T[K]]>;
+};
 
 export type TouchedFields = { [key in FormFieldNames]?: boolean };
 
@@ -62,10 +68,6 @@ export interface ValidationActions {
   triggerFieldValidation: (name: FormFieldNames) => Promise<boolean>;
   clearErrors: (name: FormFieldNames) => void;
 }
-export type ValidationActionNames = keyof ValidationActions;
-export type ValidationActionFunctions = Array<
-  ValidationActions[ValidationActionNames]
->;
 
 export interface FormProps {
   defaultValues: FormValues;
@@ -87,11 +89,10 @@ export interface FormActions {
     value: GenericFormValue,
     options?: SetOptions,
   ) => void;
-  getFieldValues: (...names: FormFieldNames[]) => Array<any>;
+  getFieldValues: <T extends FormFieldNames[]>(
+    ...names: T
+  ) => FormFieldArray<T>;
 }
-
-export type FormActionNames = keyof FormActions;
-export type FormActionFunctions = Array<FormActions[FormActionNames]>;
 
 export type FormValuesState = FormProps &
   FormActions &

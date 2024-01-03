@@ -20,8 +20,9 @@ export const URLSearchParamsBuilder = () => {
   useEffect(() => {
     const url = new URL(window.location as any);
     formValueKeys.forEach((key, index) => {
-      if (touchedFields[key] && values[index]) {
-        url.searchParams.set(key, values[index]);
+      const value = values[index];
+      if (touchedFields[key] && value) {
+        url.searchParams.set(key, value.toString());
       } else if (url.searchParams.has(key) && !values[index]) {
         url.searchParams.delete(key);
       }

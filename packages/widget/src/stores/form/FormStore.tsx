@@ -43,10 +43,10 @@ export const FormStoreProvider: React.FC<PropsWithChildren> = ({
   );
 };
 
-export const useFormStore = (
-  selector: (store: FormValuesState) => any,
-  equalityFunction = shallow,
-) => {
+export function useFormStore<T>(
+  selector: (state: FormValuesState) => T,
+  equalityFn = shallow,
+): T {
   const useStore = useContext(FormStoreContext);
 
   if (!useStore) {
@@ -55,5 +55,5 @@ export const useFormStore = (
     );
   }
 
-  return useStore(selector, equalityFunction);
-};
+  return useStore(selector, equalityFn);
+}
