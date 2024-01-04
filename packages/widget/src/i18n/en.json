@@ -170,8 +170,8 @@
       "networkEstimated": "Estimated network fees:",
       "networkPaid": "Paid network fees:",
       "paid": "paid fees",
-      "providerEstimated": "Bridge fees:",
-      "providerPaid": "Bridge fees:"
+      "providerEstimated": "Estimated provider fees:",
+      "providerPaid": "Paid provider fees:"
     },
     "from": "From",
     "fromAmount": "You pay",
