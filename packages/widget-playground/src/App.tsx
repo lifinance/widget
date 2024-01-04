@@ -23,7 +23,7 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { WalletButtons } from './components/WalletButtons';
 import { WidgetEvents } from './components/WidgetEvents';
 import {
@@ -189,6 +189,11 @@ export const App = () => {
     }
   }, [darkMode, prefersDarkMode, primary, secondary, systemColor]);
 
+  const onCloseDrawer = useCallback(() => {
+    // eslint-disable-next-line no-console
+    console.log('Drawer has been closed!', drawerRef.current?.isOpen());
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <WidgetEvents />
@@ -348,8 +353,9 @@ export const App = () => {
           <LiFiWidget
             integrator={config.integrator}
             config={config}
-            open
             ref={drawerRef}
+            onClose={onCloseDrawer}
+            open
           />
         </Box>
       </Box>

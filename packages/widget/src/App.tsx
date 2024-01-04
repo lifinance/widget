@@ -18,7 +18,7 @@ import type { WidgetConfig, WidgetProps } from './types';
 import { ElementId, createElementId } from './utils';
 
 export const App = forwardRef<WidgetDrawer, WidgetProps>(
-  ({ elementRef, open, integrator, ...other }, ref) => {
+  ({ elementRef, open, onClose, integrator, ...other }, ref) => {
     const config: WidgetConfig = useMemo(
       () => ({ integrator, ...other, ...other.config }),
       [integrator, other],
@@ -34,6 +34,7 @@ export const App = forwardRef<WidgetDrawer, WidgetProps>(
         integrator={integrator}
         config={config}
         open={open}
+        onClose={onClose}
       />
     );
   },

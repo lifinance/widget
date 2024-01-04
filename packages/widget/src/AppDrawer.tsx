@@ -1,4 +1,3 @@
-import CloseIcon from '@mui/icons-material/CloseRounded';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { Drawer } from '@mui/material';
@@ -12,11 +11,9 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppDefault } from './App';
-import {
-  CloseButtonLayout,
-  DrawerButton,
-  DrawerButtonTypography,
-} from './AppDrawer.style';
+import { DrawerButton, DrawerButtonTypography } from './AppDrawer.style';
+import type { WidgetDrawerContext } from './AppDrawerContext';
+import { DrawerContext } from './AppDrawerContext';
 import { AppProvider } from './AppProvider';
 import type { WidgetConfig, WidgetProps, WidgetSubvariant } from './types';
 import { HiddenUI } from './types';
@@ -29,21 +26,30 @@ export interface WidgetDrawer {
 }
 
 export const AppDrawer = forwardRef<WidgetDrawer, WidgetProps>(
-  ({ elementRef, open, integrator, config }, ref) => {
-    const openRef = useRef(open);
+  ({ elementRef, open, onClose, integrator, config }, ref) => {
+    const openRef = useRef(Boolean(open));
     const [drawerOpen, setDrawerOpen] = useState(Boolean(open));
 
     const toggleDrawer = useCallback(() => {
-      setDrawerOpen((open) => !open);
-    }, []);
+      setDrawerOpen((open) => {
+        openRef.current = !open;
+        return openRef.current;
+      });
+      if (!openRef.current) {
+        onClose?.();
+      }
+    }, [onClose]);
 
     const openDrawer = useCallback(() => {
       setDrawerOpen(true);
+      openRef.current = true;
     }, []);
 
     const closeDrawer = useCallback(() => {
       setDrawerOpen(false);
-    }, []);
+      openRef.current = false;
+      onClose?.();
+    }, [onClose]);
 
     useImperativeHandle(
       ref,
@@ -68,52 +74,58 @@ export const AppDrawer = forwardRef<WidgetDrawer, WidgetProps>(
       [config, integrator],
     );
 
+    const drawerContext: WidgetDrawerContext = useMemo(
+      () => ({
+        closeDrawer,
+      }),
+      [closeDrawer],
+    );
+
     return (
-      <AppProvider config={widgetConfig}>
-        {!widgetConfig.hiddenUI?.includes(HiddenUI.DrawerButton) ? (
-          <DrawerButton
-            variant="contained"
-            onClick={toggleDrawer}
-            open={drawerOpen}
-            drawerProps={config?.containerStyle}
-          >
-            {drawerOpen ? (
-              <KeyboardArrowRightIcon />
-            ) : (
-              <KeyboardArrowLeftIcon />
-            )}
-            <DrawerButtonText
+      <DrawerContext.Provider value={drawerContext}>
+        <AppProvider config={widgetConfig}>
+          {!widgetConfig.hiddenUI?.includes(HiddenUI.DrawerButton) ? (
+            <DrawerButton
+              variant="contained"
+              onClick={toggleDrawer}
               open={drawerOpen}
-              subvariant={config?.subvariant}
-            />
-          </DrawerButton>
-        ) : null}
-        <Drawer
-          ref={elementRef}
-          anchor="right"
-          open={drawerOpen}
-          onClose={closeDrawer}
-          BackdropProps={{
-            sx: {
-              backgroundColor: 'rgb(0 0 0 / 48%)',
-              backdropFilter: 'blur(3px)',
-            },
-          }}
-          PaperProps={{
-            sx: {
-              width: config?.containerStyle?.width ?? '100%',
-              minWidth: config?.containerStyle?.minWidth ?? 360,
-              maxWidth: config?.containerStyle?.maxWidth ?? 392,
-            },
-          }}
-          keepMounted
-        >
-          <CloseButtonLayout onClick={closeDrawer} edge="end">
-            <CloseIcon />
-          </CloseButtonLayout>
-          <AppDefault />
-        </Drawer>
-      </AppProvider>
+              drawerProps={config?.containerStyle}
+            >
+              {drawerOpen ? (
+                <KeyboardArrowRightIcon />
+              ) : (
+                <KeyboardArrowLeftIcon />
+              )}
+              <DrawerButtonText
+                open={drawerOpen}
+                subvariant={config?.subvariant}
+              />
+            </DrawerButton>
+          ) : null}
+          <Drawer
+            ref={elementRef}
+            anchor="right"
+            open={drawerOpen}
+            onClose={closeDrawer}
+            BackdropProps={{
+              sx: {
+                backgroundColor: 'rgb(0 0 0 / 48%)',
+                backdropFilter: 'blur(3px)',
+              },
+            }}
+            PaperProps={{
+              sx: {
+                width: config?.containerStyle?.width ?? '100%',
+                minWidth: config?.containerStyle?.minWidth ?? 360,
+                maxWidth: config?.containerStyle?.maxWidth ?? 392,
+              },
+            }}
+            keepMounted
+          >
+            <AppDefault />
+          </Drawer>
+        </AppProvider>
+      </DrawerContext.Provider>
     );
   },
 );
