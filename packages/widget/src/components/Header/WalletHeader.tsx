@@ -9,7 +9,9 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useChain } from '../../hooks';
 import { useWallet, useWidgetConfig } from '../../providers';
+import { HiddenUI } from '../../types';
 import { navigationRoutes, shortenAddress } from '../../utils';
+import { CloseDrawerButton } from './CloseDrawerButton';
 import {
   DrawerWalletContainer,
   HeaderAppBar,
@@ -27,12 +29,16 @@ export const WalletHeader: React.FC = () => {
 
 export const WalletMenuButton: React.FC = () => {
   const { account } = useWallet();
-  const { variant } = useWidgetConfig();
+  const { variant, subvariant, hiddenUI } = useWidgetConfig();
 
   if (variant === 'drawer') {
     return (
       <DrawerWalletContainer>
         {account.isActive ? <ConnectedButton /> : <ConnectButton />}
+        {subvariant !== 'split' &&
+        !hiddenUI?.includes(HiddenUI.DrawerCloseButton) ? (
+          <CloseDrawerButton />
+        ) : null}
       </DrawerWalletContainer>
     );
   }

@@ -13,6 +13,7 @@ import {
   navigationRoutes,
   navigationRoutesValues,
 } from '../../utils';
+import { CloseDrawerButton } from './CloseDrawerButton';
 import { HeaderAppBar } from './Header.style';
 import { NavigationTabs } from './NavigationTabs';
 import { WalletMenuButton } from './WalletHeader';
@@ -86,6 +87,11 @@ export const NavigationHeader: React.FC = () => {
     }
   };
 
+  const showDrawerCloseButton =
+    variant === 'drawer' &&
+    subvariant === 'split' &&
+    !hiddenUI?.includes(HiddenUI.DrawerCloseButton);
+
   return (
     <>
       <HeaderAppBar elevation={0}>
@@ -115,11 +121,7 @@ export const NavigationHeader: React.FC = () => {
           <Route
             path={navigationRoutes.home}
             element={
-              <Box
-                paddingRight={
-                  variant === 'drawer' && subvariant === 'split' ? 5 : 0
-                }
-              >
+              <Box>
                 {account.isActive && !hiddenUI?.includes(HiddenUI.History) ? (
                   <Tooltip
                     title={t(`header.transactionHistory`)}
@@ -142,12 +144,19 @@ export const NavigationHeader: React.FC = () => {
                     size="medium"
                     onClick={() => navigate(navigationRoutes.settings)}
                     sx={{
-                      marginRight: -1.25,
+                      marginRight: showDrawerCloseButton ? 0 : -1.25,
                     }}
                   >
                     <SettingsIcon />
                   </IconButton>
                 </Tooltip>
+                {showDrawerCloseButton ? (
+                  <CloseDrawerButton
+                    sx={{
+                      marginRight: -1.25,
+                    }}
+                  />
+                ) : null}
               </Box>
             }
           />
