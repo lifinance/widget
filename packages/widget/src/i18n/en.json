@@ -105,7 +105,7 @@
       "insufficientGas": "You don't have enough gas to complete the transaction. You need to add at least:",
       "rateChanged": "The exchange rate has changed. By continuing the transaction, you'll accept the new rate.",
       "resetSettings": "This will reset your route priority, slippage, gas price, enabled bridges and exchanges.",
-      "slippageOutsideRecommendedLimits": "High tolerance may result in unfavorable trade caused by front running."
+      "slippageOutsideRecommendedLimits": "High slippage tolerance may result in unfavorable trade caused by front-running."
     },
     "title": {
       "deleteActiveTransactions": "Delete all active transactions?",
