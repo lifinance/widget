@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.10.0](https://github.com/lifinance/widget/compare/v2.9.5...v2.10.0) (2024-01-04)
+
+
+### Features
+
+* add onClose callback for drawer ([71ea75d](https://github.com/lifinance/widget/commit/71ea75d118d9bdbd2ded1f6c1f7b067b88c6f204))
+
+
+### Bug Fixes
+
+* make drawer close button position correctly ([ebff62f](https://github.com/lifinance/widget/commit/ebff62f17516a38bf6541337bc8c7d092105303e))
+
 ### [2.9.5](https://github.com/lifinance/widget/compare/v2.9.4...v2.9.5) (2023-12-08)
 
 
