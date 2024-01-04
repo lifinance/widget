@@ -11,6 +11,7 @@
     "auto": "Auto",
     "bridge": "Bridge",
     "bookmarks": "Bookmarks",
+    "bookmark": "Bookmark",
     "buy": "Buy",
     "buyNow": "Buy now",
     "cancel": "Cancel",
@@ -35,7 +36,9 @@
     "light": "Light",
     "max": "max",
     "ok": "Ok",
+    "options": "Options",
     "removeTransaction": "Remove transaction",
+    "remove": "Remove",
     "reset": "Reset",
     "resetSettings": "Reset settings",
     "reviewBridge": "Review bridge",
@@ -62,6 +65,7 @@
     "purchaseDetails": "Purchase details",
     "selectChain": "Select chain",
     "selectWallet": "Select your wallet",
+    "bookmarkedWallets": "Bookmarked wallets",
     "settings": "Settings",
     "swap": "Swap",
     "to": "Exchange to",
@@ -151,7 +155,8 @@
       "unknown": "Something went wrong",
       "walletAddressInvalid": "Wallet address is invalid.",
       "walletAddressRequired": "Wallet address is required.",
-      "walletEnsAddressInvalid": "Wallet address or ENS is invalid, or the network doesn't support ENS."
+      "walletEnsAddressInvalid": "Wallet address or ENS is invalid, or the network doesn't support ENS.",
+      "bookmarkNameRequired": "Bookmark name is required"
     }
   },
   "tooltip": {
@@ -251,8 +256,7 @@
     "tokenOnChain": "{{tokenSymbol}} on {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} on {{chainName}}",
     "tokenSearch": "Search by token name or address",
-    "valueLoss": "Value loss",
-    "walletAddressOrEns": "Enter address or ENS"
+    "valueLoss": "Value loss"
   },
   "insurance": {
     "bridgeExploits": "Bridge malfunctions, hacks or exploits",
@@ -277,10 +281,15 @@
     "resetSettings": "You're using custom setting limiting the number of available routes."
   },
   "sendToWallet" : {
+    "enterAddressOrENS": "Enter address or ENS",
+    "enterName": "Enter name",
     "confirmWalletAddress": "Confirm wallet address",
     "recentWallets": "Recent wallets",
     "connectedWallets": "Connected wallets",
-    "bookmarkedWallets": "Bookmarked wallets"
+    "bookmarkedWallets": "Bookmarked wallets",
+    "bookmarkWallet": "Bookmark wallet",
+    "addBookmark": "Add bookmark",
+    "noBookmarkedWallets": "No bookmarked wallets"
   },
   "wallet": {
     "extensionNotFound": "Please make sure that only the {{name}} browser extension is active before choosing this wallet."

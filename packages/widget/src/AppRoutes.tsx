@@ -10,7 +10,7 @@ import { SelectEnabledToolsPage } from './pages/SelectEnabledToolsPage';
 import { SelectTokenPage } from './pages/SelectTokenPage';
 import { SelectWalletPage } from './pages/SelectWalletPage';
 import { SettingsPage } from './pages/SettingsPage';
-import { SendToWalletPage } from './pages/SendToWalletPage';
+import { SendToWalletPage, BookmarkedWalletsPage } from './pages/SendToWallet';
 import { TransactionDetailsPage } from './pages/TransactionDetailsPage';
 import { TransactionHistoryPage } from './pages/TransactionHistoryPage';
 import { TransactionPage } from './pages/TransactionPage';
@@ -79,6 +79,10 @@ const routes: RouteObject[] = [
   {
     path: navigationRoutes.sendToWallet,
     element: <SendToWalletPage />,
+  },
+  {
+    path: `${navigationRoutes.sendToWallet}/${navigationRoutes.bookmarkedWallets}`,
+    element: <BookmarkedWalletsPage />,
   },
   {
     path: navigationRoutes.transactionHistory,

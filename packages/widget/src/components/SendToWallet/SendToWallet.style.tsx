@@ -39,8 +39,8 @@ export const WalletAvatarBase = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  width: '32px',
-  height: '32px',
+  width: '40px',
+  height: '40px',
   background:
     theme.palette.mode === 'light'
       ? theme.palette.grey[300]

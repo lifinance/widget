@@ -10,37 +10,41 @@ import {
   SendToWalletSheetButton,
   SendToWalletButtonRow,
   SendToWalletSheetContainer,
-  SheetIconContainer,
+  IconContainer,
   SheetTitle,
   SheetAddress,
-} from './SendToWalletPage.style';
+} from './SendToWallet.style';
 import { navigationRoutes } from '../../utils';
-import { useFieldActions } from '../../stores';
+import { Bookmark, useBookmarksActions, useFieldActions } from '../../stores';
 interface ConfirmAddressSheetProps {
   address: string;
+  bookmark?: Bookmark;
 }
 export const ConfirmAddressSheet = forwardRef<
   BottomSheetBase,
   ConfirmAddressSheetProps
->(({ address }, ref) => {
+>(({ address, bookmark }, ref) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { setFieldValue } = useFieldActions();
+  const { setSelectBookmark } = useBookmarksActions();
   const handleCancel = () => {
     (ref as MutableRefObject<BottomSheetBase>).current?.close();
   };
 
   const handleConfirm = () => {
+    (ref as MutableRefObject<BottomSheetBase>).current?.close();
     setFieldValue('toAddress', address);
+    setSelectBookmark(bookmark);
     navigate(navigationRoutes.home);
   };
 
   return (
     <BottomSheet ref={ref}>
       <SendToWalletSheetContainer>
-        <SheetIconContainer>
+        <IconContainer>
           <WalletIcon sx={{ fontSize: 48 }} />
-        </SheetIconContainer>
+        </IconContainer>
         <SheetTitle>{t('sendToWallet.confirmWalletAddress')}</SheetTitle>
         <SheetAddress>{address}</SheetAddress>
         <AlertSection severity="info" icon={<InfoIcon />}>

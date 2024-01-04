@@ -1,7 +1,7 @@
 import { Collapse } from '@mui/material';
 import ErrorIcon from '@mui/icons-material/Error';
 import WalletIcon from '@mui/icons-material/Wallet';
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { isAddress } from 'viem';
@@ -12,6 +12,7 @@ import {
 } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
 import {
+  useBookmarks,
   useFieldActions,
   useFieldValues,
   useSendToWalletStore,
@@ -22,10 +23,16 @@ import { DisabledUI, HiddenUI } from '../../types';
 import { navigationRoutes, shortenAddress } from '../../utils';
 import { Card, CardTitle } from '../Card';
 import { SendToWalletCardHeader, WalletAvatarBase } from './SendToWallet.style';
+// TODO: I should I pull bookmark styles out
+import {
+  BookmarkAddress,
+  BookmarkItemContainer,
+  BookmarkName,
+} from '../../pages/SendToWallet/SendToWallet.style';
 
-const WalletAvatar = () => (
+export const WalletAvatar = () => (
   <WalletAvatarBase>
-    <WalletIcon sx={{ fontSize: 16 }} />
+    <WalletIcon sx={{ fontSize: 20 }} />
   </WalletAvatarBase>
 );
 
@@ -38,6 +45,7 @@ export const SendToWalletButton = () => {
   const { showDestinationWallet } = useSettings(['showDestinationWallet']);
   const [toAddressFieldValue] = useFieldValues('toAddress');
   const { getFieldValues } = useFieldActions();
+  const { selectedBookmark } = useBookmarks();
 
   const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress);
   const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress);
@@ -54,7 +62,7 @@ export const SendToWalletButton = () => {
         !hiddenToAddress,
     ) || requiredToAddress;
 
-  const onClick = () => {
+  const handleOnClick = () => {
     if (!(toAddress && disabledToAddress)) {
       navigate(navigationRoutes.sendToWallet);
     }
@@ -81,11 +89,23 @@ export const SendToWalletButton = () => {
     validateAddressOrENS,
   ]);
 
-  const title = toAddressFieldValue
-    ? isAddress(toAddressFieldValue)
-      ? shortenAddress(toAddressFieldValue)
-      : toAddressFieldValue
-    : t('main.walletAddressOrEns');
+  let address: ReactNode;
+  if (selectedBookmark) {
+    address = (
+      <BookmarkItemContainer>
+        <BookmarkName>{selectedBookmark.name}</BookmarkName>
+        <BookmarkAddress>
+          {shortenAddress(selectedBookmark.address)}
+        </BookmarkAddress>
+      </BookmarkItemContainer>
+    );
+  } else {
+    address = toAddressFieldValue
+      ? isAddress(toAddressFieldValue)
+        ? shortenAddress(toAddressFieldValue)
+        : toAddressFieldValue
+      : t('sendToWallet.enterAddressOrENS');
+  }
 
   return (
     <Collapse
@@ -95,11 +115,11 @@ export const SendToWalletButton = () => {
       unmountOnExit
     >
       <>
-        <Card onClick={onClick} mb={2}>
+        <Card onClick={handleOnClick} mb={2}>
           <CardTitle>{t('header.sendToWallet')}</CardTitle>
           <SendToWalletCardHeader
             avatar={<WalletAvatar />}
-            title={title}
+            title={address}
             selected={
               !!toAddressFieldValue && !(toAddress && disabledToAddress)
             }
