@@ -55,6 +55,7 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
       detection: {
         caches: [],
       },
+      returnEmptyString: false,
     });
 
     i18n.use(initReactI18next).init();

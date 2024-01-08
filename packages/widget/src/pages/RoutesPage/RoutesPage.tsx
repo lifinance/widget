@@ -46,7 +46,6 @@ export const RoutesPage: React.FC<BoxProps> = () => {
           onClick={() => refetch()}
           sx={{ marginRight: -1 }}
           size="medium"
-          edge="end"
         />,
       );
   }, [dataUpdatedAt, headerStoreContext, isFetching, refetch, refetchTime]);

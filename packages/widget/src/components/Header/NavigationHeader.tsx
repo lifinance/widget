@@ -1,6 +1,5 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
-import { Box, Tooltip, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { useTranslation } from 'react-i18next';
 import { Route, Routes, useLocation } from 'react-router-dom';
@@ -13,27 +12,13 @@ import {
   navigationRoutes,
   navigationRoutesValues,
 } from '../../utils';
+import { CloseDrawerButton } from './CloseDrawerButton';
 import { HeaderAppBar, HeaderControlsContainer } from './Header.style';
 import { NavigationTabs } from './NavigationTabs';
 import { SettingsButton } from './SettingsButton';
+import { TransactionHistoryButton } from './TransactionHistoryButton';
 import { WalletMenuButton } from './WalletHeader';
 
-export const TransactionHistoryButton = () => {
-  const { t } = useTranslation();
-  const { navigate } = useNavigateBack();
-
-  return (
-    <Tooltip title={t(`header.transactionHistory`)} enterDelay={400} arrow>
-      <IconButton
-        size="medium"
-        edge="start"
-        onClick={() => navigate(navigationRoutes.transactionHistory)}
-      >
-        <ReceiptLongIcon />
-      </IconButton>
-    </Tooltip>
-  );
-};
 export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
   const { subvariant, hiddenUI, variant } = useWidgetConfig();
@@ -134,16 +119,17 @@ export const NavigationHeader: React.FC = () => {
           <Route
             path={navigationRoutes.home}
             element={
-              <HeaderControlsContainer
-                paddingRight={
-                  variant === 'drawer' && subvariant === 'split' ? 5 : 0
-                }
-              >
+              <HeaderControlsContainer>
                 {account.isConnected &&
                 !hiddenUI?.includes(HiddenUI.History) ? (
                   <TransactionHistoryButton />
                 ) : null}
                 <SettingsButton />
+                {variant === 'drawer' &&
+                subvariant === 'split' &&
+                !hiddenUI?.includes(HiddenUI.DrawerCloseButton) ? (
+                  <CloseDrawerButton />
+                ) : null}
               </HeaderControlsContainer>
             }
           />

@@ -9,8 +9,10 @@ import type { Connector } from 'wagmi';
 import type { Account } from '../../hooks';
 import { useAccount, useChain } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
+import { HiddenUI } from '../../types';
 import { navigationRoutes, shortenAddress } from '../../utils';
 import { SmallAvatar } from '../SmallAvatar';
+import { CloseDrawerButton } from './CloseDrawerButton';
 import {
   DrawerWalletContainer,
   HeaderAppBar,
@@ -29,7 +31,7 @@ export const WalletHeader: React.FC = () => {
 
 export const WalletMenuButton: React.FC = () => {
   const { account } = useAccount();
-  const { variant } = useWidgetConfig();
+  const { variant, subvariant, hiddenUI } = useWidgetConfig();
 
   if (variant === 'drawer') {
     return (
@@ -39,6 +41,10 @@ export const WalletMenuButton: React.FC = () => {
         ) : (
           <ConnectButton />
         )}
+        {subvariant !== 'split' &&
+        !hiddenUI?.includes(HiddenUI.DrawerCloseButton) ? (
+          <CloseDrawerButton />
+        ) : null}
       </DrawerWalletContainer>
     );
   }

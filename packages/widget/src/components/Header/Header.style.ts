@@ -55,19 +55,25 @@ export const WalletButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-export const DrawerWalletContainer = styled(Box)(() => ({
+export const DrawerWalletContainer = styled(Box)(({ theme }) => ({
   width: '100%',
   display: 'flex',
-  justifyItems: 'start',
+  justifyContent: 'space-between',
 
-  '& > button': {
-    marginLeft: '-0.5rem',
+  '& button:first-of-type': {
+    marginLeft: theme.spacing(-1),
+  },
+  '& button:last-of-type': {
+    marginRight: theme.spacing(-1.25),
   },
 }));
 
 export const HeaderControlsContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   gap: theme.spacing(0.5),
+  '& button:last-of-type': {
+    marginRight: theme.spacing(-1.25),
+  },
 }));
 
 export const SplitTabs = styled(Tabs)(({ theme }) => ({

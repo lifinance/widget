@@ -33,6 +33,7 @@ export type DisabledUIType = `${DisabledUI}`;
 export enum HiddenUI {
   Appearance = 'appearance',
   DrawerButton = 'drawerButton',
+  DrawerCloseButton = 'drawerCloseButton',
   History = 'history',
   Language = 'language',
   PoweredBy = 'poweredBy',
@@ -155,6 +156,10 @@ export interface WidgetConfig {
 export type WidgetDrawerProps = {
   elementRef?: RefObject<HTMLDivElement>;
   open?: boolean;
+  /**
+   * Make sure to make the onClose callback stable (e.g. using useCallback) to avoid causing re-renders of the entire widget
+   */
+  onClose?(): void;
 };
 
 export interface WidgetConfigProps {

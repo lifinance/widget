@@ -22,7 +22,7 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useAccount } from 'wagmi';
 import { WalletButtons } from './components/WalletButtons';
 import { WidgetEvents } from './components/WidgetEvents';
@@ -125,16 +125,16 @@ export const App = () => {
     variant,
   ]);
 
-  // useEffect(() => {
-  //   if (externalWallerManagement) {
-  //     setConfig((config) => ({
-  //       ...config,
-  //       walletManagement: {},
-  //     }));
-  //   } else {
-  //     setConfig((config) => ({ ...config, walletManagement: undefined }));
-  //   }
-  // }, [externalWallerManagement, account.address, account.connector]);
+  useEffect(() => {
+    if (externalWallerManagement) {
+      setConfig((config) => ({
+        ...config,
+        walletManagement: { async connect() {} },
+      }));
+    } else {
+      setConfig((config) => ({ ...config, walletManagement: undefined }));
+    }
+  }, [externalWallerManagement, account.address, account.connector]);
 
   useEffect(() => {
     setTheme(
@@ -158,6 +158,11 @@ export const App = () => {
       setDarkMode(systemColor && prefersDarkMode);
     }
   }, [darkMode, prefersDarkMode, primary, secondary, systemColor]);
+
+  const onCloseDrawer = useCallback(() => {
+    // eslint-disable-next-line no-console
+    console.log('Drawer has been closed!', drawerRef.current?.isOpen());
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -318,8 +323,9 @@ export const App = () => {
           <LiFiWidget
             integrator={config.integrator}
             config={config}
-            open
             ref={drawerRef}
+            onClose={onCloseDrawer}
+            open
           />
         </Box>
       </Box>

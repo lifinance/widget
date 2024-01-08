@@ -23,26 +23,22 @@ interface SettingsIconButtonProps {
 export const SettingsIconButton = styled(IconButton, {
   shouldForwardProp: (props) => props !== 'variant',
 })<SettingsIconButtonProps>(({ theme, variant }) => {
-  const variantStyles = {
-    info: {
-      backgroundColor: getInfoBackgroundColor(theme),
-      '&:hover': {
-        backgroundColor: darken(getInfoBackgroundColor(theme), 0.2),
-      },
-    },
-    warning: {
-      backgroundColor: getWarningBackgroundColor(theme),
-      '&:hover': {
-        backgroundColor: darken(getWarningBackgroundColor(theme), 0.2),
-      },
-    },
-    default: {
-      marginRight: theme.spacing(-1.25),
-    },
-  };
-
-  return {
-    borderRadius: 20,
-    ...variantStyles[variant ?? 'default'],
-  };
+  switch (variant) {
+    case 'info':
+      return {
+        backgroundColor: getInfoBackgroundColor(theme),
+        '&:hover': {
+          backgroundColor: darken(getInfoBackgroundColor(theme), 0.2),
+        },
+      };
+    case 'warning':
+      return {
+        backgroundColor: getWarningBackgroundColor(theme),
+        '&:hover': {
+          backgroundColor: darken(getWarningBackgroundColor(theme), 0.2),
+        },
+      };
+    default:
+      break;
+  }
 });
