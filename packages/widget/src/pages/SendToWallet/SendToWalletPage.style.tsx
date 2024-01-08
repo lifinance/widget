@@ -9,8 +9,10 @@ import {
 } from '@mui/material';
 import { inputBaseClasses } from '@mui/material/InputBase';
 import { styled } from '@mui/material/styles';
-import { Card } from '../../components/Card';
 import Menu, { MenuProps } from '@mui/material/Menu';
+import { Card } from '../../components/Card';
+import type { PageContainerProps } from '../../components/PageContainer';
+import { PageContainer } from '../../components/PageContainer';
 
 export const NameInput = styled(InputBase)(({ theme }) => ({
   alignItems: 'start',
@@ -31,11 +33,11 @@ export const BookmarkInputFields = styled(Box)(({ theme }) => ({
   width: '100%',
 }));
 
-//  TODO: Question : should this be using the PageContainer component instead?
-export const PageContainer = styled(Box)(({ theme }) => ({
+export const SendToWalletPageContainer = styled(
+  PageContainer,
+)<PageContainerProps>(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  padding: theme.spacing(1.5, 3),
   gap: theme.spacing(1),
 }));
 
@@ -59,11 +61,6 @@ export const SendToWalletButtonRow = styled(Box)(({ theme }) => ({
   display: 'flex',
   width: '100%',
   gap: theme.spacing(1),
-}));
-
-// TODO: Question: do we really need this?
-export const SendToWalletSheetButton = styled(Button)(({ theme }) => ({
-  width: '100%',
 }));
 
 const tertiaryButtonStyles = (theme: Theme) => ({
@@ -136,6 +133,7 @@ export const ListContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   minHeight: '362px',
+  gap: theme.spacing(2.25),
 }));
 
 export const ListItemContainer = styled(Box)(({ theme }) => ({
@@ -155,7 +153,6 @@ export const ListItemButton = styled(ButtonBase)(({ theme }) => ({
   margin: 0,
   justifyContent: 'flex-start',
   alignItems: 'center',
-  padding: theme.spacing(1),
   gap: theme.spacing(1.5),
 }));
 export const ListItemMenuButton = styled(IconButton)(({ theme }) => ({
@@ -213,26 +210,6 @@ export const ListMenu = styled((props: MenuProps) => (
   },
 }));
 
-export const BookmarkItemContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  gap: theme.spacing(0.5),
-  maxWidth: '240px',
-  overflowX: 'hidden',
-}));
-
-export const BookmarkName = styled(Typography)(() => ({
-  fontSize: '18px',
-  fontWeight: 500,
-  lineHeight: '24px',
-}));
-
-export const BookmarkAddress = styled(Typography)(() => ({
-  fontSize: '12px',
-  fontWeight: 500,
-  lineHeight: '16px',
-}));
 export const EmptyContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',

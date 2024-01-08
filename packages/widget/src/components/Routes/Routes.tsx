@@ -71,6 +71,7 @@ export const Routes: React.FC<BoxProps> = (props) => {
             <Button
               onClick={handleCardClick}
               // TODO: Question: does this look it should be enough in place of isValid?
+              //  should also check is toAddress is touched?
               disabled={requiredToAddress && !toAddress}
               fullWidth
             >

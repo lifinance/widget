@@ -8,21 +8,24 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MenuItem from '@mui/material/MenuItem';
 import {
+  BookmarkAddress,
+  BookmarkItemContainer,
+  BookmarkName,
+} from '../../components/SendToWallet/SendToWallet.style';
+import { WalletAvatar } from '../../components/SendToWallet';
+import {
   EmptyContainer,
   EmptyListMessage,
   IconContainer,
   ListContainer,
   ListItemContainer,
-  BookmarkAddress,
-  BookmarkItemContainer,
-  BookmarkName,
   ListItemButton,
   ListItemMenuButton,
-  PageContainer,
+  SendToWalletPageContainer,
   ListMenu,
-} from './SendToWallet.style';
+} from './SendToWalletPage.style';
+import { PageContainer } from '../../components/PageContainer';
 import { useTranslation } from 'react-i18next';
-import { WalletAvatar } from '../../components/SendToWallet';
 import { shortenAddress } from '../../utils';
 import { BottomSheetBase } from '../../components/BottomSheet';
 import { Bookmark, useBookmarks, useBookmarksActions } from '../../stores';
@@ -47,33 +50,31 @@ export const BookmarkedWalletsPage = () => {
   };
 
   return (
-    <>
-      <PageContainer>
-        <ListContainer>
-          {bookmarks.map((bookmark) => (
-            <ListItem
-              key={bookmark.id}
-              bookmark={bookmark}
-              onSelected={handleBookmarkSelected}
-            />
-          ))}
-          {!bookmarks.length && (
-            <EmptyList icon={<TurnedInIcon sx={{ fontSize: 48 }} />}>
-              {t('sendToWallet.noBookmarkedWallets')}
-            </EmptyList>
-          )}
-        </ListContainer>
-        <Button variant="contained" onClick={handleAddBookmark}>
-          {t('sendToWallet.addBookmark')}
-        </Button>
-        <BookmarkAddressSheet ref={bookmarkAddressSheetRef} />
-        <ConfirmAddressSheet
-          ref={confirmAddressSheetRef}
-          address={selectedBookmark?.address || ''}
-          bookmark={selectedBookmark}
-        />
-      </PageContainer>
-    </>
+    <SendToWalletPageContainer topBottomGutters>
+      <ListContainer>
+        {bookmarks.map((bookmark) => (
+          <ListItem
+            key={bookmark.id}
+            bookmark={bookmark}
+            onSelected={handleBookmarkSelected}
+          />
+        ))}
+        {!bookmarks.length && (
+          <EmptyList icon={<TurnedInIcon sx={{ fontSize: 48 }} />}>
+            {t('sendToWallet.noBookmarkedWallets')}
+          </EmptyList>
+        )}
+      </ListContainer>
+      <Button variant="contained" onClick={handleAddBookmark}>
+        {t('sendToWallet.addBookmark')}
+      </Button>
+      <BookmarkAddressSheet ref={bookmarkAddressSheetRef} />
+      <ConfirmAddressSheet
+        ref={confirmAddressSheetRef}
+        address={selectedBookmark?.address || ''}
+        bookmark={selectedBookmark}
+      />
+    </SendToWalletPageContainer>
   );
 };
 

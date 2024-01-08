@@ -54,6 +54,7 @@ export const RoutesExpandedElement = () => {
 
   const handleRouteClick = (route: Route) => {
     // TODO: Question: is this enough in place of isValid?
+    //  previously was 'if (isValid && !isValidating)' - also check is toAddress touched?
     if (toAddress) {
       setExecutableRoute(route);
       navigate(navigationRoutes.transactionExecution, {

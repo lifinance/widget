@@ -1,6 +1,5 @@
 import { Collapse } from '@mui/material';
 import ErrorIcon from '@mui/icons-material/Error';
-import WalletIcon from '@mui/icons-material/Wallet';
 import { ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -22,19 +21,13 @@ import { AlertSection } from '../AlertSection';
 import { DisabledUI, HiddenUI } from '../../types';
 import { navigationRoutes, shortenAddress } from '../../utils';
 import { Card, CardTitle } from '../Card';
-import { SendToWalletCardHeader, WalletAvatarBase } from './SendToWallet.style';
-// TODO: I should I pull bookmark styles out
+import { WalletAvatar } from './WallerAvatar';
 import {
+  SendToWalletCardHeader,
   BookmarkAddress,
   BookmarkItemContainer,
   BookmarkName,
-} from '../../pages/SendToWallet/SendToWallet.style';
-
-export const WalletAvatar = () => (
-  <WalletAvatarBase>
-    <WalletIcon sx={{ fontSize: 20 }} />
-  </WalletAvatarBase>
-);
+} from './SendToWallet.style';
 
 export const SendToWalletButton = () => {
   const { t } = useTranslation();

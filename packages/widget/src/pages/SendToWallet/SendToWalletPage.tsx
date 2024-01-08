@@ -13,13 +13,13 @@ import { CardButton } from '../../components/CardButton';
 import { useAddressAndENSValidation } from '../../hooks';
 import {
   AddressInput,
-  PageContainer,
+  SendToWalletPageContainer,
   SendToWalletButtonRow,
   SendToWalletCard,
   SendToWalletButton,
   WalletNumber,
   SendToWalletIconButton,
-} from './SendToWallet.style';
+} from './SendToWalletPage.style';
 import { ConfirmAddressSheet } from './ConfirmAddressSheet';
 import { BookmarkAddressSheet } from './BookmarkAddressSheet';
 import { useBookmarks } from '../../stores';
@@ -62,7 +62,7 @@ export const SendToWalletPage = () => {
   };
 
   return (
-    <PageContainer>
+    <SendToWalletPageContainer topBottomGutters>
       <SendToWalletCard mb={3}>
         <AddressInput
           size="small"
@@ -131,6 +131,6 @@ export const SendToWalletPage = () => {
       >
         {!!bookmarks.length && <WalletNumber>{bookmarks.length}</WalletNumber>}
       </CardButton>
-    </PageContainer>
+    </SendToWalletPageContainer>
   );
 };

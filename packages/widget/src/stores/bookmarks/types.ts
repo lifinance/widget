@@ -14,7 +14,7 @@ export interface BookmarksProps {
 export interface BookmarksActions {
   addBookmark: (name: string, address: string) => void;
   removeBookmark: (bookmark: Bookmark) => void;
-  setSelectBookmark: (bookmark?: Bookmark) => void;
+  setSelectedBookmark: (bookmark?: Bookmark) => void;
 }
 
 export type BookmarksActionNames = keyof BookmarksActions;

@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { CardHeader } from '../Card';
 import { cardHeaderClasses } from '@mui/material/CardHeader';
@@ -46,4 +46,25 @@ export const WalletAvatarBase = styled(Box)(({ theme }) => ({
       ? theme.palette.grey[300]
       : theme.palette.grey[800],
   borderRadius: '50%',
+}));
+
+export const BookmarkItemContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  gap: theme.spacing(0.5),
+  maxWidth: '240px',
+  overflowX: 'hidden',
+}));
+
+export const BookmarkName = styled(Typography)(() => ({
+  fontSize: '18px',
+  fontWeight: 500,
+  lineHeight: '24px',
+}));
+
+export const BookmarkAddress = styled(Typography)(() => ({
+  fontSize: '12px',
+  fontWeight: 500,
+  lineHeight: '16px',
 }));

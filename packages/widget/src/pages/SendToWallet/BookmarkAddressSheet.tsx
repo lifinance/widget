@@ -15,11 +15,11 @@ import {
   NameInput,
   SendToWalletButtonRow,
   SendToWalletCard,
-  SendToWalletSheetButton,
   SendToWalletSheetContainer,
   SheetAddress,
   SheetTitle,
-} from './SendToWallet.style';
+} from './SendToWalletPage.style';
+import { Button } from '@mui/material';
 
 interface BookmarkAddressProps {
   address?: string;
@@ -127,21 +127,23 @@ export const BookmarkAddressSheet = forwardRef<
           )}
         </BookmarkInputFields>
         <SendToWalletButtonRow>
-          <SendToWalletSheetButton
+          <Button
+            sx={{ flexGrow: 1 }}
             color="secondary"
             variant="contained"
             onClick={handleCancel}
             disableRipple
           >
             {t('button.cancel')}
-          </SendToWalletSheetButton>
-          <SendToWalletSheetButton
+          </Button>
+          <Button
+            sx={{ flexGrow: 1 }}
             variant="contained"
             onClick={handleBookmark}
             disableRipple
           >
             {t('button.bookmark')}
-          </SendToWalletSheetButton>
+          </Button>
         </SendToWalletButtonRow>
       </SendToWalletSheetContainer>
     </BottomSheet>

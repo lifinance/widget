@@ -7,15 +7,15 @@ import { forwardRef, MutableRefObject } from 'react';
 import { AlertSection } from '../../components/AlertSection';
 import WalletIcon from '@mui/icons-material/Wallet';
 import {
-  SendToWalletSheetButton,
   SendToWalletButtonRow,
   SendToWalletSheetContainer,
   IconContainer,
   SheetTitle,
   SheetAddress,
-} from './SendToWallet.style';
+} from './SendToWalletPage.style';
 import { navigationRoutes } from '../../utils';
 import { Bookmark, useBookmarksActions, useFieldActions } from '../../stores';
+import { Button } from '@mui/material';
 interface ConfirmAddressSheetProps {
   address: string;
   bookmark?: Bookmark;
@@ -27,7 +27,7 @@ export const ConfirmAddressSheet = forwardRef<
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { setFieldValue } = useFieldActions();
-  const { setSelectBookmark } = useBookmarksActions();
+  const { setSelectedBookmark } = useBookmarksActions();
   const handleCancel = () => {
     (ref as MutableRefObject<BottomSheetBase>).current?.close();
   };
@@ -35,7 +35,7 @@ export const ConfirmAddressSheet = forwardRef<
   const handleConfirm = () => {
     (ref as MutableRefObject<BottomSheetBase>).current?.close();
     setFieldValue('toAddress', address);
-    setSelectBookmark(bookmark);
+    setSelectedBookmark(bookmark);
     navigate(navigationRoutes.home);
   };
 
@@ -51,21 +51,23 @@ export const ConfirmAddressSheet = forwardRef<
           {t('info.message.fundsToExchange')}
         </AlertSection>
         <SendToWalletButtonRow>
-          <SendToWalletSheetButton
+          <Button
+            sx={{ flexGrow: 1 }}
             color="secondary"
             variant="contained"
             onClick={handleCancel}
             disableRipple
           >
             {t('button.cancel')}
-          </SendToWalletSheetButton>
-          <SendToWalletSheetButton
+          </Button>
+          <Button
+            sx={{ flexGrow: 1 }}
             variant="contained"
             onClick={handleConfirm}
             disableRipple
           >
             {t('button.confirm')}
-          </SendToWalletSheetButton>
+          </Button>
         </SendToWalletButtonRow>
       </SendToWalletSheetContainer>
     </BottomSheet>

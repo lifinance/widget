@@ -1,7 +1,7 @@
 import { Container } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-interface PageContainerProps {
+export interface PageContainerProps {
   halfGutters?: boolean;
   topBottomGutters?: boolean;
 }
