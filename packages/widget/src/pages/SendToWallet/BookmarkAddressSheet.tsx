@@ -1,12 +1,11 @@
-import { ChangeEvent, forwardRef, MutableRefObject, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import type { ChangeEvent, MutableRefObject } from 'react';
+import { forwardRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
 import ErrorIcon from '@mui/icons-material/Error';
-import { BottomSheet, BottomSheetBase } from '../../components/BottomSheet';
+import type { BottomSheetBase } from '../../components/BottomSheet';
+import { BottomSheet } from '../../components/BottomSheet';
 import { AlertSection } from '../../components/AlertSection';
-import { navigationRoutes } from '../../utils';
-import { useBookmarksActions } from '../../stores';
 import { useAddressAndENSValidation } from '../../hooks';
 import {
   AddressInput,
@@ -22,16 +21,14 @@ import {
 import { Button } from '@mui/material';
 
 interface BookmarkAddressProps {
+  onAddBookmark: (name: string, address: string) => void;
   address?: string;
 }
 export const BookmarkAddressSheet = forwardRef<
   BottomSheetBase,
   BookmarkAddressProps
->(({ address }, ref) => {
+>(({ address, onAddBookmark }, ref) => {
   const { t } = useTranslation();
-  const { addBookmark } = useBookmarksActions();
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
   const [nameValue, setNameValue] = useState('');
   const [addressValue, setAddressValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -57,11 +54,7 @@ export const BookmarkAddressSheet = forwardRef<
     if (nameValue && validAddress) {
       (ref as MutableRefObject<BottomSheetBase>).current?.close();
 
-      addBookmark(nameValue.trim(), address || addressValue);
-
-      if (!pathname.includes(navigationRoutes.bookmarkedWallets)) {
-        navigate(navigationRoutes.bookmarkedWallets);
-      }
+      onAddBookmark(nameValue.trim(), address || addressValue);
     }
   };
 

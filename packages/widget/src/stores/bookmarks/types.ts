@@ -1,20 +1,23 @@
 import { UseBoundStoreWithEqualityFn } from 'zustand/esm/traditional';
 import { StoreApi } from 'zustand';
 
-export interface Bookmark {
+export interface BookmarkedWallet {
   id: string;
   address: string;
   name?: string;
 }
 export interface BookmarksProps {
-  selectedBookmark?: Bookmark;
-  bookmarks: Bookmark[];
+  selectedBookmarkWallet?: BookmarkedWallet;
+  bookmarkedWallets: BookmarkedWallet[];
+  recentWallets: BookmarkedWallet[];
 }
 
 export interface BookmarksActions {
-  addBookmark: (name: string, address: string) => void;
-  removeBookmark: (bookmark: Bookmark) => void;
-  setSelectedBookmark: (bookmark?: Bookmark) => void;
+  addBookmarkedWallet: (name: string, address: string) => void;
+  removeBookmarkedWallet: (bookmarkedWallet: BookmarkedWallet) => void;
+  setSelectedBookmarkWallet: (bookmarkedWallet?: BookmarkedWallet) => void;
+  addRecentWallet: (address: string) => void;
+  removeRecentWallet: (bookmarkedWallet: BookmarkedWallet) => void;
 }
 
 export type BookmarksActionNames = keyof BookmarksActions;

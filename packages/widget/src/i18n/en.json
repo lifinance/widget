@@ -66,6 +66,7 @@
     "selectChain": "Select chain",
     "selectWallet": "Select your wallet",
     "bookmarkedWallets": "Bookmarked wallets",
+    "recentWallets": "Recent wallets",
     "settings": "Settings",
     "swap": "Swap",
     "to": "Exchange to",
@@ -286,10 +287,10 @@
     "confirmWalletAddress": "Confirm wallet address",
     "recentWallets": "Recent wallets",
     "connectedWallets": "Connected wallets",
-    "bookmarkedWallets": "Bookmarked wallets",
     "bookmarkWallet": "Bookmark wallet",
     "addBookmark": "Add bookmark",
-    "noBookmarkedWallets": "No bookmarked wallets"
+    "noBookmarkedWallets": "No bookmarked wallets",
+    "noRecentWallets": "No recent wallets"
   },
   "wallet": {
     "extensionNotFound": "Please make sure that only the {{name}} browser extension is active before choosing this wallet."

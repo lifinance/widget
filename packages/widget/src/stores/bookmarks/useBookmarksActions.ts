@@ -7,9 +7,11 @@ import {
 import { useBookmarksStore } from './BookmarksStore';
 
 const actionFunctions: BookmarksActionNames[] = [
-  'addBookmark',
-  'removeBookmark',
-  'setSelectedBookmark',
+  'addBookmarkedWallet',
+  'removeBookmarkedWallet',
+  'setSelectedBookmarkWallet',
+  'addRecentWallet',
+  'removeRecentWallet',
 ];
 
 export const useBookmarksActions = () => {

@@ -22,12 +22,13 @@ import {
 } from './SendToWalletPage.style';
 import { ConfirmAddressSheet } from './ConfirmAddressSheet';
 import { BookmarkAddressSheet } from './BookmarkAddressSheet';
-import { useBookmarks } from '../../stores';
+import { useBookmarks, useBookmarksActions } from '../../stores';
 
 export const SendToWalletPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { bookmarks } = useBookmarks();
+  const { bookmarkedWallets, recentWallets } = useBookmarks();
+  const { addBookmarkedWallet } = useBookmarksActions();
   const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null);
   const confirmAddressSheetRef = useRef<BottomSheetBase>(null);
   const [inputValue, setInputValue] = useState('');
@@ -57,7 +58,15 @@ export const SendToWalletPage = () => {
     }
   };
 
+  const handleRecentWalletsClick = () => {
+    navigate(navigationRoutes.recentWallets);
+  };
   const handleBookmarkedWalletsClick = () => {
+    navigate(navigationRoutes.bookmarkedWallets);
+  };
+
+  const handleAddBookmark = (name: string, address: string) => {
+    addBookmarkedWallet(name, address);
     navigate(navigationRoutes.bookmarkedWallets);
   };
 
@@ -105,15 +114,18 @@ export const SendToWalletPage = () => {
         <BookmarkAddressSheet
           ref={bookmarkAddressSheetRef}
           address={inputValue}
+          onAddBookmark={handleAddBookmark}
         />
       </SendToWalletCard>
 
       <CardButton
         title={t('sendToWallet.recentWallets')}
         icon={<HistoryIcon />}
-        onClick={() => {}}
+        onClick={handleRecentWalletsClick}
       >
-        <WalletNumber>3</WalletNumber>
+        {!!recentWallets.length && (
+          <WalletNumber>{recentWallets.length}</WalletNumber>
+        )}
       </CardButton>
 
       <CardButton
@@ -125,11 +137,13 @@ export const SendToWalletPage = () => {
       </CardButton>
 
       <CardButton
-        title={t('sendToWallet.bookmarkedWallets')}
+        title={t('header.bookmarkedWallets')}
         icon={<TurnedInIcon />}
         onClick={handleBookmarkedWalletsClick}
       >
-        {!!bookmarks.length && <WalletNumber>{bookmarks.length}</WalletNumber>}
+        {!!bookmarkedWallets.length && (
+          <WalletNumber>{bookmarkedWallets.length}</WalletNumber>
+        )}
       </CardButton>
     </SendToWalletPageContainer>
   );

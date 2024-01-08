@@ -9,33 +9,56 @@ export const createBookmarksStore = ({ namePrefix }: PersistStoreProps) =>
   createWithEqualityFn<BookmarksState>(
     persist(
       (set) => ({
-        selectedBookmark: undefined,
-        bookmarks: [],
-        addBookmark: (name, address) => {
+        selectedBookmarkWallet: undefined,
+        bookmarkedWallets: [],
+        recentWallets: [],
+        addBookmarkedWallet: (name, address) => {
           set((state) => ({
-            bookmarks: [
+            bookmarkedWallets: [
               { name, address, id: createSimpleUID() },
-              ...state.bookmarks,
+              ...state.bookmarkedWallets,
             ],
           }));
         },
-        removeBookmark: (bookmark) => {
+        removeBookmarkedWallet: (bookmarkedWallet) => {
           set((state) => ({
-            bookmarks: state.bookmarks.filter(
-              (storedBookmark) => storedBookmark.id !== bookmark.id,
+            bookmarkedWallets: state.bookmarkedWallets.filter(
+              (storedBookmark) => storedBookmark.id !== bookmarkedWallet.id,
             ),
           }));
         },
-        setSelectedBookmark: (bookmark) => {
+        setSelectedBookmarkWallet: (bookmark) => {
           set((state) => ({
-            selectedBookmark: bookmark,
+            selectedBookmarkWallet: bookmark,
+          }));
+        },
+        addRecentWallet: (address) => {
+          const recentLimit = 5;
+
+          set((state) => ({
+            recentWallets: [
+              { address, id: createSimpleUID() },
+              ...state.recentWallets.filter(
+                (recentWallet) => recentWallet.address !== address,
+              ),
+            ].slice(0, recentLimit),
+          }));
+        },
+        removeRecentWallet: (bookmark) => {
+          set((state) => ({
+            recentWallets: state.recentWallets.filter(
+              (storedRecent) => storedRecent.id !== bookmark.id,
+            ),
           }));
         },
       }),
       {
         name: `${namePrefix || 'li.fi'}-bookmarked-addresses`,
         version: 0,
-        partialize: (state) => ({ bookmarks: state.bookmarks }),
+        partialize: (state) => ({
+          bookmarkedWallets: state.bookmarkedWallets,
+          recentWallets: state.recentWallets,
+        }),
       },
     ) as StateCreator<BookmarksState, [], [], BookmarksState>,
     Object.is,

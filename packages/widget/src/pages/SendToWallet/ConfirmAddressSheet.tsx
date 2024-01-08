@@ -14,11 +14,15 @@ import {
   SheetAddress,
 } from './SendToWalletPage.style';
 import { navigationRoutes } from '../../utils';
-import { Bookmark, useBookmarksActions, useFieldActions } from '../../stores';
+import {
+  BookmarkedWallet,
+  useBookmarksActions,
+  useFieldActions,
+} from '../../stores';
 import { Button } from '@mui/material';
 interface ConfirmAddressSheetProps {
   address: string;
-  bookmark?: Bookmark;
+  bookmark?: BookmarkedWallet;
 }
 export const ConfirmAddressSheet = forwardRef<
   BottomSheetBase,
@@ -27,7 +31,7 @@ export const ConfirmAddressSheet = forwardRef<
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { setFieldValue } = useFieldActions();
-  const { setSelectedBookmark } = useBookmarksActions();
+  const { setSelectedBookmarkWallet, addRecentWallet } = useBookmarksActions();
   const handleCancel = () => {
     (ref as MutableRefObject<BottomSheetBase>).current?.close();
   };
@@ -35,7 +39,10 @@ export const ConfirmAddressSheet = forwardRef<
   const handleConfirm = () => {
     (ref as MutableRefObject<BottomSheetBase>).current?.close();
     setFieldValue('toAddress', address);
-    setSelectedBookmark(bookmark);
+    setSelectedBookmarkWallet(bookmark);
+    if (!bookmark) {
+      addRecentWallet(address);
+    }
     navigate(navigationRoutes.home);
   };
 

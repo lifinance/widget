@@ -38,7 +38,7 @@ export const SendToWalletButton = () => {
   const { showDestinationWallet } = useSettings(['showDestinationWallet']);
   const [toAddressFieldValue] = useFieldValues('toAddress');
   const { getFieldValues } = useFieldActions();
-  const { selectedBookmark } = useBookmarks();
+  const { selectedBookmarkWallet } = useBookmarks();
 
   const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress);
   const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress);
@@ -83,12 +83,12 @@ export const SendToWalletButton = () => {
   ]);
 
   let address: ReactNode;
-  if (selectedBookmark) {
+  if (selectedBookmarkWallet) {
     address = (
       <BookmarkItemContainer>
-        <BookmarkName>{selectedBookmark.name}</BookmarkName>
+        <BookmarkName>{selectedBookmarkWallet.name}</BookmarkName>
         <BookmarkAddress>
-          {shortenAddress(selectedBookmark.address)}
+          {shortenAddress(selectedBookmarkWallet.address)}
         </BookmarkAddress>
       </BookmarkItemContainer>
     );
