@@ -13,13 +13,21 @@ export const SendToWalletCardHeader = styled(CardHeader, {
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
+    width: 256,
     fontWeight: selected ? 500 : 400,
     fontSize: !selected ? '1rem' : '1.125rem',
+    [theme.breakpoints.down(392)]: {
+      width: 224,
+    },
   },
   [`.${cardHeaderClasses.subheader}`]: {
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
+    width: 256,
+    [theme.breakpoints.down(392)]: {
+      width: 224,
+    },
   },
 }));
 
