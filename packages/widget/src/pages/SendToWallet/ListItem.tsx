@@ -7,13 +7,13 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import DeleteIcon from '@mui/icons-material/Delete';
 import type { BookmarkedWallet } from '../../stores';
-import { WalletAvatar } from '../../components/SendToWallet';
-import { shortenAddress } from '../../utils';
 import {
+  WalletAvatar,
   BookmarkAddress,
   BookmarkItemContainer,
   BookmarkName,
-} from '../../components/SendToWallet/SendToWallet.style';
+} from '../../components/SendToWallet';
+import { shortenAddress } from '../../utils';
 import {
   ListItemButton,
   ListItemContainer,
