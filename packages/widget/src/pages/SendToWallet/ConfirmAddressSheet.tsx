@@ -58,8 +58,7 @@ export const ConfirmAddressSheet = forwardRef<
         <SendToWalletButtonRow>
           <Button
             sx={{ flexGrow: 1 }}
-            color="secondary"
-            variant="contained"
+            variant="text"
             onClick={handleCancel}
             disableRipple
           >

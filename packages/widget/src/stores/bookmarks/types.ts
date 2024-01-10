@@ -2,7 +2,6 @@ import type { UseBoundStoreWithEqualityFn } from 'zustand/esm/traditional';
 import type { StoreApi } from 'zustand';
 
 export interface BookmarkedWallet {
-  id: string;
   address: string;
   name?: string;
 }
@@ -13,6 +12,7 @@ export interface BookmarksProps {
 }
 
 export interface BookmarksActions {
+  getBookmarkedWallet: (address: string) => BookmarkedWallet | undefined;
   addBookmarkedWallet: (name: string, address: string) => void;
   removeBookmarkedWallet: (bookmarkedWallet: BookmarkedWallet) => void;
   setSelectedBookmarkWallet: (bookmarkedWallet?: BookmarkedWallet) => void;

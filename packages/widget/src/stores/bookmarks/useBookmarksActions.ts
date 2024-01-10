@@ -7,6 +7,7 @@ import type {
 import { useBookmarksStore } from './BookmarksStore';
 
 const actionFunctions: BookmarksActionNames[] = [
+  'getBookmarkedWallet',
   'addBookmarkedWallet',
   'removeBookmarkedWallet',
   'setSelectedBookmarkWallet',

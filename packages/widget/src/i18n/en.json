@@ -157,7 +157,8 @@
       "walletAddressInvalid": "Wallet address is invalid.",
       "walletAddressRequired": "Wallet address is required.",
       "walletEnsAddressInvalid": "Wallet address or ENS is invalid, or the network doesn't support ENS.",
-      "bookmarkNameRequired": "Bookmark name is required"
+      "bookmarkNameRequired": "Bookmark name is required",
+      "bookmarkAlreadyExists": "Wallet is already bookmarked as {{name}}"
     }
   },
   "tooltip": {

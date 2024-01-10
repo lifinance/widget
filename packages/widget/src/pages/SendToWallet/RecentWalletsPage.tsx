@@ -49,7 +49,7 @@ export const RecentWalletsPage = () => {
       <ListContainer sx={{ minHeight: 418 }}>
         {recentWallets.map((recentWallet) => (
           <ListItem
-            key={recentWallet.id}
+            key={recentWallet.address}
             bookmark={recentWallet}
             onSelected={handleRecentSelected}
             onRemove={removeRecentWallet}

@@ -8,22 +8,24 @@ import type { StateCreator } from 'zustand';
 export const createBookmarksStore = ({ namePrefix }: PersistStoreProps) =>
   createWithEqualityFn<BookmarksState>(
     persist(
-      (set) => ({
+      (set, get) => ({
         selectedBookmarkWallet: undefined,
         bookmarkedWallets: [],
         recentWallets: [],
+        getBookmarkedWallet: (address) =>
+          get().bookmarkedWallets.find(
+            (bookmarkedWallet) => bookmarkedWallet.address === address,
+          ),
         addBookmarkedWallet: (name, address) => {
           set((state) => ({
-            bookmarkedWallets: [
-              { name, address, id: createSimpleUID() },
-              ...state.bookmarkedWallets,
-            ],
+            bookmarkedWallets: [{ name, address }, ...state.bookmarkedWallets],
           }));
         },
         removeBookmarkedWallet: (bookmarkedWallet) => {
           set((state) => ({
             bookmarkedWallets: state.bookmarkedWallets.filter(
-              (storedBookmark) => storedBookmark.id !== bookmarkedWallet.id,
+              (storedBookmark) =>
+                storedBookmark.address !== bookmarkedWallet.address,
             ),
           }));
         },
@@ -47,7 +49,7 @@ export const createBookmarksStore = ({ namePrefix }: PersistStoreProps) =>
         removeRecentWallet: (bookmark) => {
           set((state) => ({
             recentWallets: state.recentWallets.filter(
-              (storedRecent) => storedRecent.id !== bookmark.id,
+              (storedRecent) => storedRecent.address !== bookmark.address,
             ),
           }));
         },

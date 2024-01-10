@@ -19,6 +19,7 @@ import {
   SheetTitle,
 } from './SendToWalletPage.style';
 import { Button } from '@mui/material';
+import { useBookmarksActions } from '../../stores';
 
 interface BookmarkAddressProps {
   onAddBookmark: (name: string, address: string) => void;
@@ -33,6 +34,7 @@ export const BookmarkAddressSheet = forwardRef<
   const [addressValue, setAddressValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const { validateAddressOrENS } = useAddressAndENSValidation();
+  const { getBookmarkedWallet } = useBookmarksActions();
   const handleCancel = () => {
     (ref as MutableRefObject<BottomSheetBase>).current?.close();
   };
@@ -46,9 +48,19 @@ export const BookmarkAddressSheet = forwardRef<
     //  If the address is supplied as a prop then we should assume the address has already been validated
     let validAddress = !!address;
     if (!address) {
-      const addressValidationCheck = await validateAddressOrENS(addressValue);
-      setErrorMessage(addressValidationCheck.error);
-      validAddress = addressValidationCheck.isValid;
+      const existingBookmarkWallet = getBookmarkedWallet(addressValue);
+      if (existingBookmarkWallet) {
+        setErrorMessage(
+          t('error.title.bookmarkAlreadyExists', {
+            name: existingBookmarkWallet.name,
+          }),
+        );
+        validAddress = false;
+      } else {
+        const addressValidationCheck = await validateAddressOrENS(addressValue);
+        setErrorMessage(addressValidationCheck.error);
+        validAddress = addressValidationCheck.isValid;
+      }
     }
 
     if (nameValue && validAddress) {
@@ -122,8 +134,7 @@ export const BookmarkAddressSheet = forwardRef<
         <SendToWalletButtonRow>
           <Button
             sx={{ flexGrow: 1 }}
-            color="secondary"
-            variant="contained"
+            variant="text"
             onClick={handleCancel}
             disableRipple
           >

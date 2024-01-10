@@ -24,7 +24,7 @@ export const NameInput = styled(InputBase)(({ theme }) => ({
   },
 }));
 export const AddressInput = styled(NameInput)(({ theme }) => ({
-  minHeight: '64px',
+  minHeight: 64,
 }));
 
 export const BookmarkInputFields = styled(Box)(({ theme }) => ({
@@ -66,8 +66,8 @@ export const SendToWalletButtonRow = styled(Box)(({ theme }) => ({
 
 const tertiaryButtonStyles = (theme: Theme) => ({
   color: theme.palette.text.primary,
-  height: '40px',
-  fontSize: '14px',
+  height: 40,
+  fontSize: 14,
   backgroundColor:
     theme.palette.mode === 'light'
       ? theme.palette.grey[200]
@@ -92,7 +92,8 @@ export const SendToWalletButton = styled(Button)(({ theme }) => ({
 export const SendToWalletIconButton = styled(IconButton)(({ theme }) => ({
   ...tertiaryButtonStyles(theme),
   borderRadius: theme.shape.borderRadiusSecondary,
-  height: '40px',
+  height: 40,
+  width: 40,
 }));
 
 export const WalletNumber = styled(Typography)(({ theme }) => ({
@@ -106,8 +107,8 @@ export const IconContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  width: '96px',
-  height: '96px',
+  width: 96,
+  height: 96,
   color:
     theme.palette.mode === 'light'
       ? theme.palette.grey[700]
@@ -120,7 +121,7 @@ export const IconContainer = styled(Box)(({ theme }) => ({
 }));
 
 export const SheetTitle = styled(Typography)(() => ({
-  fontSize: '18px',
+  fontSize: 18,
   fontWeight: 700,
 }));
 
@@ -133,8 +134,9 @@ export const SheetAddress = styled(Typography)(() => ({
 export const ListContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  minHeight: '362px',
+  minHeight: 362,
   gap: theme.spacing(2.25),
+  paddingBottom: theme.spacing(3),
 }));
 
 export const ListItemContainer = styled(Box)(({ theme }) => ({
@@ -221,7 +223,7 @@ export const EmptyContainer = styled(Box)(({ theme }) => ({
 }));
 
 export const EmptyListMessage = styled(Typography)(({ theme }) => ({
-  fontSize: '14px',
+  fontSize: 14,
   fontWeight: 700,
   color:
     theme.palette.mode === 'light'

@@ -28,7 +28,7 @@ export const SendToWalletPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { bookmarkedWallets, recentWallets } = useBookmarks();
-  const { addBookmarkedWallet } = useBookmarksActions();
+  const { addBookmarkedWallet, getBookmarkedWallet } = useBookmarksActions();
   const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null);
   const confirmAddressSheetRef = useRef<BottomSheetBase>(null);
   const [inputValue, setInputValue] = useState('');
@@ -49,6 +49,16 @@ export const SendToWalletPage = () => {
   };
 
   const handleBookmarkAddress = async () => {
+    const existingBookmarkWallet = getBookmarkedWallet(inputValue);
+    if (existingBookmarkWallet) {
+      setErrorMessage(
+        t('error.title.bookmarkAlreadyExists', {
+          name: existingBookmarkWallet.name,
+        }),
+      );
+      return;
+    }
+
     const validationCheck = await validateAddressOrENS(inputValue);
 
     setErrorMessage(validationCheck.error);

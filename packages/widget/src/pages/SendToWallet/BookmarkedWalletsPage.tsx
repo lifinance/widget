@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
 import {
   ListContainer,
@@ -37,7 +37,7 @@ export const BookmarkedWalletsPage = () => {
       <ListContainer>
         {bookmarkedWallets.map((bookmark) => (
           <ListItem
-            key={bookmark.id}
+            key={bookmark.address}
             bookmark={bookmark}
             onSelected={handleBookmarkSelected}
             onRemove={removeBookmarkedWallet}
@@ -49,7 +49,11 @@ export const BookmarkedWalletsPage = () => {
           </EmptyListIndicator>
         )}
       </ListContainer>
-      <Button variant="contained" onClick={handleAddBookmark}>
+      <Button
+        variant="contained"
+        onClick={handleAddBookmark}
+        sx={{ position: 'sticky', bottom: 16 }}
+      >
         {t('sendToWallet.addBookmark')}
       </Button>
       <BookmarkAddressSheet
