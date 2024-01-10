@@ -1,15 +1,16 @@
+import type { Theme } from '@mui/material';
 import {
   InputBase,
   Box,
   Button,
   Typography,
   IconButton,
-  Theme,
   ButtonBase,
 } from '@mui/material';
 import { inputBaseClasses } from '@mui/material/InputBase';
 import { styled } from '@mui/material/styles';
-import Menu, { MenuProps } from '@mui/material/Menu';
+import type { MenuProps } from '@mui/material/Menu';
+import Menu from '@mui/material/Menu';
 import { Card } from '../../components/Card';
 import type { PageContainerProps } from '../../components/PageContainer';
 import { PageContainer } from '../../components/PageContainer';

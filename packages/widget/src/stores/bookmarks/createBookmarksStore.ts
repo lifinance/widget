@@ -1,9 +1,9 @@
 import { createWithEqualityFn } from 'zustand/traditional';
 import { persist } from 'zustand/middleware';
-import { BookmarksState } from './types';
+import type { BookmarksState } from './types';
 import { createSimpleUID } from '../../utils';
-import { PersistStoreProps } from '@lifi/widget/stores/types';
-import { StateCreator } from 'zustand';
+import type { PersistStoreProps } from '@lifi/widget/stores/types';
+import type { StateCreator } from 'zustand';
 
 export const createBookmarksStore = ({ namePrefix }: PersistStoreProps) =>
   createWithEqualityFn<BookmarksState>(

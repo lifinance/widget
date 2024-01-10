@@ -1,6 +1,7 @@
 import { Collapse } from '@mui/material';
 import ErrorIcon from '@mui/icons-material/Error';
-import { ReactNode, useEffect, useState } from 'react';
+import type { ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { isAddress } from 'viem';

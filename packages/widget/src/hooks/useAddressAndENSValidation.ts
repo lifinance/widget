@@ -46,11 +46,6 @@ export const useAddressAndENSValidation = () => {
           error: t('error.title.walletEnsAddressInvalid'),
         };
       }
-
-      return {
-        isValid: false,
-        error: t('error.title.walletEnsAddressInvalid'),
-      };
     },
     [requiredToAddress, t, getFieldValues, config],
   );

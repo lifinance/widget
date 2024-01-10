@@ -6,12 +6,9 @@ import {
   SendToWalletPageContainer,
 } from './SendToWalletPage.style';
 import { useTranslation } from 'react-i18next';
-import { BottomSheetBase } from '../../components/BottomSheet';
-import {
-  BookmarkedWallet,
-  useBookmarks,
-  useBookmarksActions,
-} from '../../stores';
+import type { BottomSheetBase } from '../../components/BottomSheet';
+import type { BookmarkedWallet } from '../../stores';
+import { useBookmarks, useBookmarksActions } from '../../stores';
 import { BookmarkAddressSheet } from './BookmarkAddressSheet';
 import { ConfirmAddressSheet } from './ConfirmAddressSheet';
 import { EmptyListIndicator } from './EmptyListIndicator';

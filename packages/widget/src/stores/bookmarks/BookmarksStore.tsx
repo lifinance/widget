@@ -1,6 +1,6 @@
 import { createContext, useContext, useRef } from 'react';
 import { shallow } from 'zustand/shallow';
-import { BookmarksState, BookmarksStore } from './types';
+import type { BookmarksState, BookmarksStore } from './types';
 import { createBookmarksStore } from './createBookmarksStore';
 import type { PersistStoreProviderProps } from '../types';
 

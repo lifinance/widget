@@ -1,5 +1,5 @@
 import { shallow } from 'zustand/shallow';
-import {
+import type {
   BookmarksActionFunctions,
   BookmarksActionNames,
   BookmarksActions,

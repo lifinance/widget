@@ -9,7 +9,8 @@ import {
   Slide,
   Typography,
 } from '@mui/material';
-import { MouseEventHandler, useRef, useState } from 'react';
+import type { MouseEventHandler } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatUnits } from 'viem';
 import {

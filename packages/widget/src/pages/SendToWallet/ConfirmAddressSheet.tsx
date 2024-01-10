@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next';
 import InfoIcon from '@mui/icons-material/Info';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import { BottomSheet } from '../../components/BottomSheet';
-import { forwardRef, MutableRefObject } from 'react';
+import type { MutableRefObject } from 'react';
+import { forwardRef } from 'react';
 import { AlertSection } from '../../components/AlertSection';
 import WalletIcon from '@mui/icons-material/Wallet';
 import {
@@ -14,11 +15,8 @@ import {
   SheetAddress,
 } from './SendToWalletPage.style';
 import { navigationRoutes } from '../../utils';
-import {
-  BookmarkedWallet,
-  useBookmarksActions,
-  useFieldActions,
-} from '../../stores';
+import type { BookmarkedWallet } from '../../stores';
+import { useBookmarksActions, useFieldActions } from '../../stores';
 import { Button } from '@mui/material';
 interface ConfirmAddressSheetProps {
   address: string;

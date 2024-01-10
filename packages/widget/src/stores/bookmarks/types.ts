@@ -1,5 +1,5 @@
-import { UseBoundStoreWithEqualityFn } from 'zustand/esm/traditional';
-import { StoreApi } from 'zustand';
+import type { UseBoundStoreWithEqualityFn } from 'zustand/esm/traditional';
+import type { StoreApi } from 'zustand';
 
 export interface BookmarkedWallet {
   id: string;
