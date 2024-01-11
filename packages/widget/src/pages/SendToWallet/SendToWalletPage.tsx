@@ -9,7 +9,7 @@ import TurnedInIcon from '@mui/icons-material/TurnedIn';
 import { navigationRoutes } from '../../utils';
 import { AlertSection } from '../../components/AlertSection';
 import type { BottomSheetBase } from '../../components/BottomSheet';
-import { CardButton } from '../../components/CardButton';
+import { CardButton } from '../../components/Card';
 import { useAddressAndENSValidation } from '../../hooks';
 import {
   AddressInput,

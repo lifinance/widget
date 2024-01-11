@@ -6,7 +6,7 @@ import { shallow } from 'zustand/shallow';
 import { useSettingMonitor } from '../../hooks';
 import { useSettingsStore } from '../../stores';
 import { navigationRoutes } from '../../utils';
-import { CardButton } from '../../components/CardButton';
+import { CardButton } from '../../components/Card';
 import { BadgedValue } from './SettingsCard';
 
 const supportedIcons = {

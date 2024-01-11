@@ -1,6 +1,7 @@
 import type { PropsWithChildren } from 'react';
 import type { BadgeProps } from '@mui/material';
-import { SummaryValue, Badge } from './SettingCard.style';
+import { CardValue } from '../../../components/Card';
+import { Badge } from './SettingCard.style';
 
 interface BadgedValueProps {
   showBadge: boolean;
@@ -14,8 +15,8 @@ export const BadgedValue: React.FC<PropsWithChildren<BadgedValueProps>> = ({
 }) =>
   showBadge && badgeColor ? (
     <Badge variant="dot" color={badgeColor}>
-      <SummaryValue>{children}</SummaryValue>
+      <CardValue>{children}</CardValue>
     </Badge>
   ) : (
-    <SummaryValue>{children}</SummaryValue>
+    <CardValue>{children}</CardValue>
   );

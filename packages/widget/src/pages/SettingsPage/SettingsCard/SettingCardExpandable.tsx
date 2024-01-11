@@ -2,12 +2,12 @@ import type { PropsWithChildren, ReactNode } from 'react';
 import { useId } from 'react';
 import { Collapse } from '@mui/material';
 import type { SettingCardTitle } from './types';
-import { SettingCard } from './SettingCard';
 import {
-  SummaryRowButton,
-  SummaryValue,
-  SummaryTitleContainer,
-} from './SettingCard.style';
+  Card,
+  CardRowButton,
+  CardValue,
+  CardTitleContainer,
+} from '../../../components/Card';
 import { useSettingsCardExpandable } from './SettingsAccordian';
 
 interface SettingCardExpandableProps extends SettingCardTitle {
@@ -22,20 +22,21 @@ export const SettingCardExpandable: React.FC<
   const collapseId = useId();
 
   return (
-    <SettingCard>
-      <SummaryRowButton
+    <Card sx={{ p: 1 }}>
+      <CardRowButton
         id={buttonId}
         aria-expanded={expanded}
         aria-controls={collapseId}
         onClick={toggleExpanded}
         disableRipple
+        sx={{ p: 1 }}
       >
-        <SummaryTitleContainer>
+        <CardTitleContainer>
           {icon}
-          <SummaryValue>{title}</SummaryValue>
-        </SummaryTitleContainer>
+          <CardValue>{title}</CardValue>
+        </CardTitleContainer>
         {!expanded && value}
-      </SummaryRowButton>
+      </CardRowButton>
       <Collapse
         id={collapseId}
         role="region"
@@ -44,6 +45,6 @@ export const SettingCardExpandable: React.FC<
       >
         {children}
       </Collapse>
-    </SettingCard>
+    </Card>
   );
 };
