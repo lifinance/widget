@@ -1,4 +1,4 @@
-import type { Theme } from '@mui/material';
+import type { Theme, MenuProps } from '@mui/material';
 import {
   InputBase,
   Box,
@@ -6,11 +6,16 @@ import {
   Typography,
   IconButton,
   ButtonBase,
+  Menu,
+  menuClasses,
+  menuItemClasses,
+  svgIconClasses,
+  inputBaseClasses,
+  styled,
+  List,
+  ListItem as MuiListItem,
+  containerClasses,
 } from '@mui/material';
-import { inputBaseClasses } from '@mui/material/InputBase';
-import { styled } from '@mui/material/styles';
-import type { MenuProps } from '@mui/material/Menu';
-import Menu from '@mui/material/Menu';
 import { Card } from '../../components/Card';
 import type { PageContainerProps } from '../../components/PageContainer';
 import { PageContainer } from '../../components/PageContainer';
@@ -39,6 +44,8 @@ export const SendToWalletPageContainer = styled(
 )<PageContainerProps>(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
+  paddingLeft: theme.spacing(1),
+  paddingRight: theme.spacing(1),
   gap: theme.spacing(1),
 }));
 
@@ -131,48 +138,45 @@ export const SheetAddress = styled(Typography)(() => ({
   lineHeight: '20px',
 }));
 
-export const ListContainer = styled(Box)(({ theme }) => ({
+export const ListContainer = styled(List)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   minHeight: 362,
-  gap: theme.spacing(2.25),
+  gap: theme.spacing(1.5),
   paddingBottom: theme.spacing(3),
 }));
 
-export const ListItemContainer = styled(Box)(({ theme }) => ({
+export const BookmarkButtonContainer = styled(Box)(({ theme }) => ({
+  background: theme.palette.background.default,
   display: 'flex',
-  alignItems: 'center',
+  flexDirection: 'column',
+  flexGrow: 1,
+  position: 'sticky',
+  bottom: 0,
+  padding: theme.spacing(0, 1, 2),
+  marginBottom: theme.spacing(-1.5),
 }));
 
-export const ListItemButton = styled(ButtonBase)(({ theme }) => ({
-  background: 'none',
-  color: 'inherit',
-  border: 'none',
-  font: 'inherit',
-  cursor: 'pointer',
-  outline: 'inherit',
+export const ListItemContainer = styled(MuiListItem)(() => ({
+  position: 'relative',
+  padding: 0,
+}));
+
+export const ListItemInfoContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
-  flexGrow: 1,
   margin: 0,
   justifyContent: 'flex-start',
   alignItems: 'center',
   gap: theme.spacing(1.5),
 }));
 export const ListItemMenuButton = styled(IconButton)(({ theme }) => ({
-  background: 'none',
-  color: 'inherit',
-  border: 'none',
-  font: 'inherit',
-  cursor: 'pointer',
-  outline: 'inherit',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderRadius: 0,
-  height: 40,
-  padding: theme.spacing(1),
-  '&:hover': {
-    background: 'none',
+  position: 'absolute',
+  right: theme.spacing(2),
+  '&:hover, &:focus': {
+    background:
+      theme.palette.mode === 'light'
+        ? theme.palette.grey[200]
+        : theme.palette.grey[800],
   },
 }));
 
@@ -190,24 +194,20 @@ export const ListMenu = styled((props: MenuProps) => (
     {...props}
   />
 ))(({ theme }) => ({
-  '& .MuiPaper-root': {
+  [`& .${menuClasses.paper}`]: {
     borderRadius: theme.shape.borderRadius,
-    minWidth: 256,
-    boxShadow:
-      'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
-    '& .MuiMenu-list': {
-      padding: theme.spacing(3),
+    boxShadow: '0px 2px 4px rgb(0 0 0 / 8%), 0px 8px 16px rgb(0 0 0 / 8%)',
+    padding: theme.spacing(2),
+    [`& .${menuClasses.list}`]: {
+      padding: 0,
     },
-    '& .MuiMenuItem-root': {
-      paddingLeft: 0,
-      paddingRight: 0,
-      '& .MuiSvgIcon-root': {
-        fontSize: 24,
+    [`& .${menuItemClasses.root}`]: {
+      borderRadius: theme.shape.borderRadiusSecondary,
+      padding: theme.spacing(1, 2, 1, 1),
+      [`& .${svgIconClasses.root}`]: {
+        fontSize: 20,
         color: theme.palette.text.primary,
         marginRight: theme.spacing(1.5),
-      },
-      '&:hover': {
-        backgroundColor: 'transparent',
       },
     },
   },

@@ -1,8 +1,7 @@
 import WalletIcon from '@mui/icons-material/Wallet';
-import { WalletAvatarBase } from './SendToWallet.style';
-
+import { Avatar } from '@mui/material';
 export const WalletAvatar = () => (
-  <WalletAvatarBase>
+  <Avatar>
     <WalletIcon sx={{ fontSize: 20 }} />
-  </WalletAvatarBase>
+  </Avatar>
 );

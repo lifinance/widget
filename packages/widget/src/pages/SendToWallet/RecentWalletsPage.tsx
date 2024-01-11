@@ -45,7 +45,7 @@ export const RecentWalletsPage = () => {
   };
 
   return (
-    <SendToWalletPageContainer topBottomGutters>
+    <SendToWalletPageContainer disableGutters>
       <ListContainer sx={{ minHeight: 418 }}>
         {recentWallets.map((recentWallet) => (
           <ListItem

@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { Box, Button } from '@mui/material';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
 import {
+  BookmarkButtonContainer,
   ListContainer,
   SendToWalletPageContainer,
 } from './SendToWalletPage.style';
@@ -33,7 +34,7 @@ export const BookmarkedWalletsPage = () => {
   };
 
   return (
-    <SendToWalletPageContainer topBottomGutters>
+    <SendToWalletPageContainer disableGutters>
       <ListContainer>
         {bookmarkedWallets.map((bookmark) => (
           <ListItem
@@ -49,13 +50,11 @@ export const BookmarkedWalletsPage = () => {
           </EmptyListIndicator>
         )}
       </ListContainer>
-      <Button
-        variant="contained"
-        onClick={handleAddBookmark}
-        sx={{ position: 'sticky', bottom: 16 }}
-      >
-        {t('sendToWallet.addBookmark')}
-      </Button>
+      <BookmarkButtonContainer>
+        <Button variant="contained" onClick={handleAddBookmark}>
+          {t('sendToWallet.addBookmark')}
+        </Button>
+      </BookmarkButtonContainer>
       <BookmarkAddressSheet
         ref={bookmarkAddressSheetRef}
         onAddBookmark={addBookmarkedWallet}

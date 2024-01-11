@@ -15,11 +15,13 @@ import {
 } from '../../components/SendToWallet';
 import { shortenAddress } from '../../utils';
 import {
-  ListItemButton,
   ListItemContainer,
+  ListItemInfoContainer,
   ListItemMenuButton,
   ListMenu,
 } from './SendToWalletPage.style';
+import { ListItemButton } from '../../components/ListItemButton';
+import { IconButton } from '@mui/material';
 
 interface ListItemProps {
   bookmark: BookmarkedWallet;
@@ -81,16 +83,22 @@ export const ListItem = ({
 
   return (
     <ListItemContainer>
-      <ListItemButton onClick={handleSelected} disableRipple>
-        <WalletAvatar />
-        {bookmark.name ? (
-          <BookmarkItemContainer>
-            <BookmarkName>{bookmark.name}</BookmarkName>
-            <BookmarkAddress>{address}</BookmarkAddress>
-          </BookmarkItemContainer>
-        ) : (
-          <BookmarkName>{address}</BookmarkName>
-        )}
+      <ListItemButton
+        sx={{ display: 'flex', justifyContent: 'space-between' }}
+        onClick={handleSelected}
+        disableRipple
+      >
+        <ListItemInfoContainer>
+          <WalletAvatar />
+          {bookmark.name ? (
+            <BookmarkItemContainer>
+              <BookmarkName>{bookmark.name}</BookmarkName>
+              <BookmarkAddress>{address}</BookmarkAddress>
+            </BookmarkItemContainer>
+          ) : (
+            <BookmarkName>{address}</BookmarkName>
+          )}
+        </ListItemInfoContainer>
       </ListItemButton>
       <ListItemMenuButton
         aria-label={t('button.options')}

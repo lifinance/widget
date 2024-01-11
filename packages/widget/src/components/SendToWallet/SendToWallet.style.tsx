@@ -31,19 +31,6 @@ export const SendToWalletCardHeader = styled(CardHeader, {
   },
 }));
 
-export const WalletAvatarBase = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  width: '40px',
-  height: '40px',
-  background:
-    theme.palette.mode === 'light'
-      ? theme.palette.grey[300]
-      : theme.palette.grey[800],
-  borderRadius: '50%',
-}));
-
 export const BookmarkItemContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
