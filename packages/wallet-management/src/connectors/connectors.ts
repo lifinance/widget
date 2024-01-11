@@ -1,10 +1,5 @@
-import {
-  safe as _safe,
-  walletConnect as _walletConnect,
-  coinbaseWallet,
-  injected,
-} from '@wagmi/connectors';
-import { isWalletInstalled } from './utils';
+import { injected } from '@wagmi/connectors';
+import { isWalletInstalled } from '../utils/isWalletInstalled';
 
 export const metaMask = /*@__PURE__*/ injected({
   target: {
@@ -14,23 +9,6 @@ export const metaMask = /*@__PURE__*/ injected({
     provider: (window) => window?.ethereum,
   },
 }); // _metaMask();
-
-export const walletConnect = /*@__PURE__*/ _walletConnect({
-  projectId: '5432e3507d41270bee46b7b85bbc2ef8',
-  showQrModal: true,
-  qrModalOptions: {
-    themeVariables: {
-      '--w3m-z-index': '3000',
-    },
-  },
-});
-
-export const coinbase: ReturnType<typeof coinbaseWallet> =
-  /*@__PURE__*/ coinbaseWallet({
-    appName: 'LI.FI',
-  });
-
-export const safe = /*@__PURE__*/ _safe();
 
 // Unknown wallet that injects as metamask but is not metamask
 export const defaultWallet = /*@__PURE__*/ injected({
