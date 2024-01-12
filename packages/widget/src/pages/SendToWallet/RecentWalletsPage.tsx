@@ -3,6 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { ChainType } from '@lifi/sdk';
 import WalletIcon from '@mui/icons-material/Wallet';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import DeleteIcon from '@mui/icons-material/Delete';
+import TurnedInIcon from '@mui/icons-material/TurnedIn';
 import {
   ListContainer,
   SendToWalletPageContainer,
@@ -12,10 +16,11 @@ import { useBookmarks, useBookmarksActions } from '../../stores';
 import { ConfirmAddressSheet } from './ConfirmAddressSheet';
 import { BookmarkAddressSheet } from './BookmarkAddressSheet';
 import { EmptyListIndicator } from './EmptyListIndicator';
-import { ListItem } from './ListItem';
+import { ListItem } from '../../components/ListItem';
 import { navigationRoutes, shortenAddress } from '../../utils';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import { BookmarkName, WalletAvatar } from '../../components/SendToWallet';
+import { useChains } from '../../hooks';
 
 export const RecentWalletsPage = () => {
   const { t } = useTranslation();
@@ -32,6 +37,7 @@ export const RecentWalletsPage = () => {
     setSelectedBookmarkWallet,
     addRecentWallet,
   } = useBookmarksActions();
+  const { getFirstOfChainType } = useChains();
 
   const handleRecentSelected = (recentWallet: BookmarkedWallet) => {
     setSelectedRecent(recentWallet);
@@ -65,16 +71,68 @@ export const RecentWalletsPage = () => {
     );
   };
 
+  const handleCopyAddress = (bookmarkedWallet: BookmarkedWallet) => {
+    navigator.clipboard.writeText(bookmarkedWallet.address);
+  };
+
+  const handleViewOnExplorer = (bookmarkedWallet: BookmarkedWallet) => {
+    const chain = getFirstOfChainType(bookmarkedWallet.chainType);
+    window.open(
+      `${chain?.metamask.blockExplorerUrls[0]}address/${bookmarkedWallet.address}`,
+      '_blank',
+    );
+  };
+
+  const handleRemoveRecentWallet = (bookmarkedWallet: BookmarkedWallet) => {
+    removeRecentWallet(bookmarkedWallet);
+  };
+
   return (
     <SendToWalletPageContainer disableGutters>
       <ListContainer sx={{ minHeight: 418 }}>
         {recentWallets.map((recentWallet) => (
-          <ListItem
+          <ListItem<BookmarkedWallet>
             key={recentWallet.address}
-            bookmark={recentWallet}
+            itemData={recentWallet}
             onSelected={handleRecentSelected}
-            onRemove={removeRecentWallet}
-            onBookmark={handleOpenBookmarkSheet}
+            menuItems={[
+              {
+                children: (
+                  <>
+                    <ContentCopyIcon />
+                    {t('button.copyAddress')}
+                  </>
+                ),
+                action: handleCopyAddress,
+              },
+              {
+                children: (
+                  <>
+                    <OpenInNewIcon />
+                    {t('button.viewOnExplorer')}
+                  </>
+                ),
+                action: handleViewOnExplorer,
+              },
+              {
+                children: (
+                  <>
+                    <TurnedInIcon />
+                    {t('button.bookmark')}
+                  </>
+                ),
+                action: handleOpenBookmarkSheet,
+              },
+              {
+                children: (
+                  <>
+                    <DeleteIcon />
+                    {t('button.remove')}
+                  </>
+                ),
+                action: handleRemoveRecentWallet,
+              },
+            ]}
           >
             <WalletAvatar />
             <BookmarkName>

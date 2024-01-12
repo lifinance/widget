@@ -13,7 +13,7 @@ import { shortenAddress } from '../../utils';
 import { BookmarkAddressSheet } from './BookmarkAddressSheet';
 import { ConfirmAddressSheet } from './ConfirmAddressSheet';
 import { EmptyListIndicator } from './EmptyListIndicator';
-import { ListItem } from './ListItem';
+import { ListItem } from '../../components/ListItem';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import {
   BookmarkAddress,
@@ -22,9 +22,9 @@ import {
   WalletAvatar,
 } from '../../components/SendToWallet';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import MenuItem from '@mui/material/MenuItem';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useChains } from '../../hooks';
 export const BookmarkedWalletsPage = () => {
   const { t } = useTranslation();
   const [selectedBookmark, setSelectedBookmark] = useState<
@@ -38,6 +38,7 @@ export const BookmarkedWalletsPage = () => {
     removeBookmarkedWallet,
     setSelectedBookmarkWallet,
   } = useBookmarksActions();
+  const { getFirstOfChainType } = useChains();
 
   const handleAddBookmark = () => {
     bookmarkAddressSheetRef.current?.open();
@@ -51,16 +52,59 @@ export const BookmarkedWalletsPage = () => {
   const handleOnConfirm = (bookmark: BookmarkedWallet) => {
     setSelectedBookmarkWallet(bookmark);
   };
+  const handleCopyAddress = (bookmarkedWallet: BookmarkedWallet) => {
+    navigator.clipboard.writeText(bookmarkedWallet.address);
+  };
+
+  const handleViewOnExplorer = (bookmarkedWallet: BookmarkedWallet) => {
+    const chain = getFirstOfChainType(bookmarkedWallet.chainType);
+    window.open(
+      `${chain?.metamask.blockExplorerUrls[0]}address/${bookmarkedWallet.address}`,
+      '_blank',
+    );
+  };
+
+  const handleRemoveBookmark = (bookmarkedWallet: BookmarkedWallet) => {
+    removeBookmarkedWallet(bookmarkedWallet);
+  };
 
   return (
     <SendToWalletPageContainer disableGutters>
       <ListContainer>
         {bookmarkedWallets.map((bookmark) => (
-          <ListItem
+          <ListItem<BookmarkedWallet>
             key={bookmark.address}
-            bookmark={bookmark}
+            itemData={bookmark}
             onSelected={handleBookmarkSelected}
-            onRemove={removeBookmarkedWallet}
+            menuItems={[
+              {
+                children: (
+                  <>
+                    <ContentCopyIcon />
+                    {t('button.copyAddress')}
+                  </>
+                ),
+                action: handleCopyAddress,
+              },
+              {
+                children: (
+                  <>
+                    <OpenInNewIcon />
+                    {t('button.viewOnExplorer')}
+                  </>
+                ),
+                action: handleViewOnExplorer,
+              },
+              {
+                children: (
+                  <>
+                    <DeleteIcon />
+                    {t('button.remove')}
+                  </>
+                ),
+                action: handleRemoveBookmark,
+              },
+            ]}
           >
             <WalletAvatar />
             <BookmarkItemContainer>
