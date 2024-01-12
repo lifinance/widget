@@ -16,32 +16,30 @@ import {
 } from './SendToWalletPage.style';
 import { navigationRoutes } from '../../utils';
 import type { BookmarkedWallet } from '../../stores';
-import { useBookmarksActions, useFieldActions } from '../../stores';
+import { useFieldActions } from '../../stores';
 import { Button } from '@mui/material';
 interface ConfirmAddressSheetProps {
-  address: string;
-  bookmark?: BookmarkedWallet;
+  onConfirm: (wallet: BookmarkedWallet) => void;
+  validatedWallet?: BookmarkedWallet;
 }
 export const ConfirmAddressSheet = forwardRef<
   BottomSheetBase,
   ConfirmAddressSheetProps
->(({ address, bookmark }, ref) => {
+>(({ validatedWallet, onConfirm }, ref) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { setFieldValue } = useFieldActions();
-  const { setSelectedBookmarkWallet, addRecentWallet } = useBookmarksActions();
   const handleCancel = () => {
     (ref as MutableRefObject<BottomSheetBase>).current?.close();
   };
 
   const handleConfirm = () => {
-    (ref as MutableRefObject<BottomSheetBase>).current?.close();
-    setFieldValue('toAddress', address);
-    setSelectedBookmarkWallet(bookmark);
-    if (!bookmark) {
-      addRecentWallet(address);
+    if (validatedWallet) {
+      (ref as MutableRefObject<BottomSheetBase>).current?.close();
+      setFieldValue('toAddress', validatedWallet.address);
+      navigate(navigationRoutes.home);
+      onConfirm && onConfirm(validatedWallet);
     }
-    navigate(navigationRoutes.home);
   };
 
   return (
@@ -51,7 +49,7 @@ export const ConfirmAddressSheet = forwardRef<
           <WalletIcon sx={{ fontSize: 48 }} />
         </IconContainer>
         <SheetTitle>{t('sendToWallet.confirmWalletAddress')}</SheetTitle>
-        <SheetAddress>{address}</SheetAddress>
+        <SheetAddress>{validatedWallet?.address}</SheetAddress>
         <AlertSection severity="info" icon={<InfoIcon />}>
           {t('info.message.fundsToExchange')}
         </AlertSection>

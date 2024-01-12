@@ -20,7 +20,11 @@ import {
 } from '../../stores';
 import { AlertSection } from '../AlertSection';
 import { DisabledUI, HiddenUI } from '../../types';
-import { navigationRoutes, shortenAddress } from '../../utils';
+import {
+  getChainTypeFromAddress,
+  navigationRoutes,
+  shortenAddress,
+} from '../../utils';
 import { Card, CardTitle } from '../Card';
 import { WalletAvatar } from './WallerAvatar';
 import {
@@ -89,13 +93,15 @@ export const SendToWalletButton = () => {
       <BookmarkItemContainer>
         <BookmarkName>{selectedBookmarkWallet.name}</BookmarkName>
         <BookmarkAddress>
-          {shortenAddress(selectedBookmarkWallet.address)}
+          {selectedBookmarkWallet.addressType === 'address'
+            ? shortenAddress(selectedBookmarkWallet.address)
+            : selectedBookmarkWallet.address}
         </BookmarkAddress>
       </BookmarkItemContainer>
     );
   } else {
     address = toAddressFieldValue
-      ? isAddress(toAddressFieldValue)
+      ? getChainTypeFromAddress(toAddressFieldValue)
         ? shortenAddress(toAddressFieldValue)
         : toAddressFieldValue
       : t('sendToWallet.enterAddressOrENS');

@@ -3,6 +3,7 @@ import { forwardRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
 import ErrorIcon from '@mui/icons-material/Error';
+import type { ChainType } from '@lifi/sdk';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import { BottomSheet } from '../../components/BottomSheet';
 import { AlertSection } from '../../components/AlertSection';
@@ -19,16 +20,22 @@ import {
   SheetTitle,
 } from './SendToWalletPage.style';
 import { Button } from '@mui/material';
+import type { AddressType, BookmarkedWallet } from '../../stores';
 import { useBookmarksActions } from '../../stores';
 
 interface BookmarkAddressProps {
-  onAddBookmark: (name: string, address: string) => void;
-  address?: string;
+  onAddBookmark: (
+    name: string,
+    address: string,
+    addressType: AddressType,
+    chainType: ChainType,
+  ) => void;
+  validatedWallet?: BookmarkedWallet;
 }
 export const BookmarkAddressSheet = forwardRef<
   BottomSheetBase,
   BookmarkAddressProps
->(({ address, onAddBookmark }, ref) => {
+>(({ validatedWallet, onAddBookmark }, ref) => {
   const { t } = useTranslation();
   const [nameValue, setNameValue] = useState('');
   const [addressValue, setAddressValue] = useState('');
@@ -39,34 +46,62 @@ export const BookmarkAddressSheet = forwardRef<
     (ref as MutableRefObject<BottomSheetBase>).current?.close();
   };
 
+  const validateWithAddressFromInput = async () => {
+    const addressValidationCheck = await validateAddressOrENS(addressValue);
+    setErrorMessage(addressValidationCheck.error);
+    if (!addressValidationCheck.isValid) {
+      return;
+    }
+
+    return {
+      name: nameValue.trim(),
+      address: addressValue,
+      addressType: addressValidationCheck.addressType,
+      chainType: addressValidationCheck.chainType,
+    };
+  };
+
+  const validateWithValidatedWallet = () => {
+    setErrorMessage('');
+
+    return {
+      name: nameValue.trim(),
+      address: validatedWallet!.address,
+      addressType: validatedWallet!.addressType,
+      chainType: validatedWallet!.chainType,
+    };
+  };
   const handleBookmark = async () => {
     if (!nameValue) {
       setErrorMessage(t('error.title.bookmarkNameRequired'));
       return;
     }
 
-    //  If the address is supplied as a prop then we should assume the address has already been validated
-    let validAddress = !!address;
-    if (!address) {
-      const existingBookmarkWallet = getBookmarkedWallet(addressValue);
-      if (existingBookmarkWallet) {
-        setErrorMessage(
-          t('error.title.bookmarkAlreadyExists', {
-            name: existingBookmarkWallet.name,
-          }),
-        );
-        validAddress = false;
-      } else {
-        const addressValidationCheck = await validateAddressOrENS(addressValue);
-        setErrorMessage(addressValidationCheck.error);
-        validAddress = addressValidationCheck.isValid;
-      }
+    const existingBookmarkWallet = getBookmarkedWallet(addressValue);
+    if (existingBookmarkWallet) {
+      setErrorMessage(
+        t('error.title.bookmarkAlreadyExists', {
+          name: existingBookmarkWallet.name,
+        }),
+      );
+      return;
     }
 
-    if (nameValue && validAddress) {
+    //  If the validatedWallet is supplied as a prop then we should assume
+    //  the address has already been validated
+    const validatedBookmarkedWallet = validatedWallet
+      ? validateWithValidatedWallet()
+      : await validateWithAddressFromInput();
+
+    if (validatedBookmarkedWallet) {
       (ref as MutableRefObject<BottomSheetBase>).current?.close();
 
-      onAddBookmark(nameValue.trim(), address || addressValue);
+      onAddBookmark(
+        validatedBookmarkedWallet.name,
+        validatedBookmarkedWallet.address,
+        validatedBookmarkedWallet.addressType,
+        validatedBookmarkedWallet.chainType,
+      );
     }
   };
 
@@ -90,7 +125,9 @@ export const BookmarkAddressSheet = forwardRef<
           <TurnedInIcon sx={{ fontSize: 48 }} />
         </IconContainer>
         <SheetTitle>{t('sendToWallet.bookmarkWallet')}</SheetTitle>
-        {address && <SheetAddress>{address}</SheetAddress>}
+        {validatedWallet && (
+          <SheetAddress>{validatedWallet.address}</SheetAddress>
+        )}
         <BookmarkInputFields>
           <SendToWalletCard>
             <NameInput
@@ -105,7 +142,7 @@ export const BookmarkAddressSheet = forwardRef<
               aria-label={t('sendToWallet.enterName')}
             />
           </SendToWalletCard>
-          {!address && (
+          {!validatedWallet && (
             <SendToWalletCard>
               <AddressInput
                 size="small"

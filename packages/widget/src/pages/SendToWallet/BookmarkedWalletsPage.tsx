@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Box, Button } from '@mui/material';
+import { Button } from '@mui/material';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
 import {
   BookmarkButtonContainer,
@@ -7,13 +7,24 @@ import {
   SendToWalletPageContainer,
 } from './SendToWalletPage.style';
 import { useTranslation } from 'react-i18next';
-import type { BottomSheetBase } from '../../components/BottomSheet';
 import type { BookmarkedWallet } from '../../stores';
 import { useBookmarks, useBookmarksActions } from '../../stores';
+import { shortenAddress } from '../../utils';
 import { BookmarkAddressSheet } from './BookmarkAddressSheet';
 import { ConfirmAddressSheet } from './ConfirmAddressSheet';
 import { EmptyListIndicator } from './EmptyListIndicator';
 import { ListItem } from './ListItem';
+import type { BottomSheetBase } from '../../components/BottomSheet';
+import {
+  BookmarkAddress,
+  BookmarkItemContainer,
+  BookmarkName,
+  WalletAvatar,
+} from '../../components/SendToWallet';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import MenuItem from '@mui/material/MenuItem';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import DeleteIcon from '@mui/icons-material/Delete';
 export const BookmarkedWalletsPage = () => {
   const { t } = useTranslation();
   const [selectedBookmark, setSelectedBookmark] = useState<
@@ -22,7 +33,11 @@ export const BookmarkedWalletsPage = () => {
   const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null);
   const confirmAddressSheetRef = useRef<BottomSheetBase>(null);
   const { bookmarkedWallets } = useBookmarks();
-  const { addBookmarkedWallet, removeBookmarkedWallet } = useBookmarksActions();
+  const {
+    addBookmarkedWallet,
+    removeBookmarkedWallet,
+    setSelectedBookmarkWallet,
+  } = useBookmarksActions();
 
   const handleAddBookmark = () => {
     bookmarkAddressSheetRef.current?.open();
@@ -31,6 +46,10 @@ export const BookmarkedWalletsPage = () => {
   const handleBookmarkSelected = (bookmark: BookmarkedWallet) => {
     setSelectedBookmark(bookmark);
     confirmAddressSheetRef.current?.open();
+  };
+
+  const handleOnConfirm = (bookmark: BookmarkedWallet) => {
+    setSelectedBookmarkWallet(bookmark);
   };
 
   return (
@@ -42,7 +61,17 @@ export const BookmarkedWalletsPage = () => {
             bookmark={bookmark}
             onSelected={handleBookmarkSelected}
             onRemove={removeBookmarkedWallet}
-          />
+          >
+            <WalletAvatar />
+            <BookmarkItemContainer>
+              <BookmarkName>{bookmark.name}</BookmarkName>
+              <BookmarkAddress>
+                {bookmark.addressType === 'address'
+                  ? shortenAddress(bookmark.address)
+                  : bookmark.address}
+              </BookmarkAddress>
+            </BookmarkItemContainer>
+          </ListItem>
         ))}
         {!bookmarkedWallets.length && (
           <EmptyListIndicator icon={<TurnedInIcon sx={{ fontSize: 48 }} />}>
@@ -61,8 +90,8 @@ export const BookmarkedWalletsPage = () => {
       />
       <ConfirmAddressSheet
         ref={confirmAddressSheetRef}
-        address={selectedBookmark?.address || ''}
-        bookmark={selectedBookmark}
+        validatedWallet={selectedBookmark}
+        onConfirm={handleOnConfirm}
       />
     </SendToWalletPageContainer>
   );

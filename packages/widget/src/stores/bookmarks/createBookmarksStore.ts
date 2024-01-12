@@ -1,9 +1,9 @@
+import type { StateCreator } from 'zustand';
 import { createWithEqualityFn } from 'zustand/traditional';
 import { persist } from 'zustand/middleware';
 import type { BookmarksState } from './types';
-import { createSimpleUID } from '../../utils';
-import type { PersistStoreProps } from '@lifi/widget/stores/types';
-import type { StateCreator } from 'zustand';
+import type { PersistStoreProps } from '../../stores/types';
+import { AddressType } from './types';
 
 export const createBookmarksStore = ({ namePrefix }: PersistStoreProps) =>
   createWithEqualityFn<BookmarksState>(
@@ -16,9 +16,12 @@ export const createBookmarksStore = ({ namePrefix }: PersistStoreProps) =>
           get().bookmarkedWallets.find(
             (bookmarkedWallet) => bookmarkedWallet.address === address,
           ),
-        addBookmarkedWallet: (name, address) => {
+        addBookmarkedWallet: (name, address, addressType, chainType) => {
           set((state) => ({
-            bookmarkedWallets: [{ name, address }, ...state.bookmarkedWallets],
+            bookmarkedWallets: [
+              { name, address, addressType, chainType },
+              ...state.bookmarkedWallets,
+            ],
           }));
         },
         removeBookmarkedWallet: (bookmarkedWallet) => {
@@ -34,12 +37,12 @@ export const createBookmarksStore = ({ namePrefix }: PersistStoreProps) =>
             selectedBookmarkWallet: bookmark,
           }));
         },
-        addRecentWallet: (address) => {
+        addRecentWallet: (address, addressType, chainType) => {
           const recentLimit = 5;
 
           set((state) => ({
             recentWallets: [
-              { address, id: createSimpleUID() },
+              { address, addressType, chainType },
               ...state.recentWallets.filter(
                 (recentWallet) => recentWallet.address !== address,
               ),

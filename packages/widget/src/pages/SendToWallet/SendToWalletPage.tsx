@@ -6,6 +6,7 @@ import ErrorIcon from '@mui/icons-material/Error';
 import HistoryIcon from '@mui/icons-material/History';
 import WalletIcon from '@mui/icons-material/Wallet';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
+import type { ChainType } from '@lifi/sdk';
 import { navigationRoutes } from '../../utils';
 import { AlertSection } from '../../components/AlertSection';
 import type { BottomSheetBase } from '../../components/BottomSheet';
@@ -22,34 +23,52 @@ import {
 } from './SendToWalletPage.style';
 import { ConfirmAddressSheet } from './ConfirmAddressSheet';
 import { BookmarkAddressSheet } from './BookmarkAddressSheet';
-import { useBookmarks, useBookmarksActions } from '../../stores';
+import {
+  AddressType,
+  BookmarkedWallet,
+  useBookmarks,
+  useBookmarksActions,
+} from '../../stores';
 
 export const SendToWalletPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { bookmarkedWallets, recentWallets } = useBookmarks();
-  const { addBookmarkedWallet, getBookmarkedWallet } = useBookmarksActions();
+  const {
+    addBookmarkedWallet,
+    getBookmarkedWallet,
+    setSelectedBookmarkWallet,
+    addRecentWallet,
+  } = useBookmarksActions();
   const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null);
   const confirmAddressSheetRef = useRef<BottomSheetBase>(null);
-  const [inputValue, setInputValue] = useState('');
+  const [inputAddressValue, setInputAddressValue] = useState('');
+  const [validatedWallet, setValidatedWallet] = useState<
+    BookmarkedWallet | undefined
+  >();
   const [errorMessage, setErrorMessage] = useState('');
   const { validateAddressOrENS } = useAddressAndENSValidation();
 
   const handleInputChange = (e: ChangeEvent) => {
-    setInputValue((e.target as HTMLInputElement).value.trim());
+    setInputAddressValue((e.target as HTMLInputElement).value.trim());
   };
   const handleDone = async () => {
-    const validationCheck = await validateAddressOrENS(inputValue);
+    const validationCheck = await validateAddressOrENS(inputAddressValue);
 
     setErrorMessage(validationCheck.error);
 
     if (validationCheck.isValid) {
+      setValidatedWallet({
+        address: inputAddressValue,
+        addressType: validationCheck.addressType,
+        chainType: validationCheck.chainType,
+      });
       confirmAddressSheetRef.current?.open();
     }
   };
 
   const handleBookmarkAddress = async () => {
-    const existingBookmarkWallet = getBookmarkedWallet(inputValue);
+    const existingBookmarkWallet = getBookmarkedWallet(inputAddressValue);
     if (existingBookmarkWallet) {
       setErrorMessage(
         t('error.title.bookmarkAlreadyExists', {
@@ -59,11 +78,16 @@ export const SendToWalletPage = () => {
       return;
     }
 
-    const validationCheck = await validateAddressOrENS(inputValue);
+    const validationCheck = await validateAddressOrENS(inputAddressValue);
 
     setErrorMessage(validationCheck.error);
 
     if (validationCheck.isValid) {
+      setValidatedWallet({
+        address: inputAddressValue,
+        addressType: validationCheck.addressType,
+        chainType: validationCheck.chainType,
+      });
       bookmarkAddressSheetRef.current?.open();
     }
   };
@@ -75,9 +99,24 @@ export const SendToWalletPage = () => {
     navigate(navigationRoutes.bookmarkedWallets);
   };
 
-  const handleAddBookmark = (name: string, address: string) => {
-    addBookmarkedWallet(name, address);
+  const handleAddBookmark = (
+    name: string,
+    address: string,
+    addressType: AddressType,
+    chainType: ChainType,
+  ) => {
+    addBookmarkedWallet(name, address, addressType, chainType);
     navigate(navigationRoutes.bookmarkedWallets);
+  };
+
+  const handleOnConfirm = () => {
+    setSelectedBookmarkWallet();
+    console.log('validatedWallet', validatedWallet);
+    addRecentWallet(
+      validatedWallet!.address,
+      validatedWallet!.addressType,
+      validatedWallet!.chainType,
+    );
   };
 
   return (
@@ -90,7 +129,7 @@ export const SendToWalletPage = () => {
           autoCapitalize="off"
           spellCheck="false"
           onChange={handleInputChange}
-          value={inputValue}
+          value={inputAddressValue}
           placeholder={t('sendToWallet.enterAddressOrENS')}
           aria-label={t('sendToWallet.enterAddressOrENS')}
           multiline
@@ -119,11 +158,12 @@ export const SendToWalletPage = () => {
         </SendToWalletButtonRow>
         <ConfirmAddressSheet
           ref={confirmAddressSheetRef}
-          address={inputValue}
+          validatedWallet={validatedWallet}
+          onConfirm={handleOnConfirm}
         />
         <BookmarkAddressSheet
           ref={bookmarkAddressSheetRef}
-          address={inputValue}
+          validatedWallet={validatedWallet}
           onAddBookmark={handleAddBookmark}
         />
       </SendToWalletCard>

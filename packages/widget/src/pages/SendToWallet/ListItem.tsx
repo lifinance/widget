@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { useId, useState } from 'react';
+import { PropsWithChildren, useId, useState } from 'react';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import MenuItem from '@mui/material/MenuItem';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
@@ -8,22 +8,15 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import DeleteIcon from '@mui/icons-material/Delete';
 import type { BookmarkedWallet } from '../../stores';
 import {
-  WalletAvatar,
-  BookmarkAddress,
-  BookmarkItemContainer,
-  BookmarkName,
-} from '../../components/SendToWallet';
-import { shortenAddress } from '../../utils';
-import {
   ListItemContainer,
   ListItemInfoContainer,
   ListItemMenuButton,
   ListMenu,
 } from './SendToWalletPage.style';
 import { ListItemButton } from '../../components/ListItemButton';
-import { IconButton } from '@mui/material';
+import { useChains, useAvailableChains } from '../../hooks';
 
-interface ListItemProps {
+interface ListItemProps extends PropsWithChildren {
   bookmark: BookmarkedWallet;
   onSelected: (bookmark: BookmarkedWallet) => void;
   onBookmark?: (bookmark: BookmarkedWallet) => void;
@@ -35,12 +28,15 @@ export const ListItem = ({
   onSelected,
   onBookmark,
   onRemove,
+  children,
 }: ListItemProps) => {
   const { t } = useTranslation();
   const moreButtonId = useId();
   const moreMenuId = useId();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
+  const { getFirstOfChainType } = useChains();
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -56,11 +52,11 @@ export const ListItem = ({
   };
 
   const handleViewOnExplorer = () => {
-    // TODO: Question: not sure about what the url should be that the address gets added too
-    //  it looks like the WalletMenu is getting the accounts and chains info and then
-    //  doing something like ${chain?.metamask.blockExplorerUrls[0]}address/${account.address}`
-    //  but not sure if I should be doing that here or how I should be getting the url
-    window.open('http://www.google.com', '_blank');
+    const chain = getFirstOfChainType(bookmark.chainType);
+    window.open(
+      `${chain?.metamask.blockExplorerUrls[0]}address/${bookmark.address}`,
+      '_blank',
+    );
     closeMenu();
   };
 
@@ -79,8 +75,6 @@ export const ListItem = ({
     onSelected(bookmark);
   };
 
-  const address = shortenAddress(bookmark.address);
-
   return (
     <ListItemContainer>
       <ListItemButton
@@ -88,17 +82,7 @@ export const ListItem = ({
         onClick={handleSelected}
         disableRipple
       >
-        <ListItemInfoContainer>
-          <WalletAvatar />
-          {bookmark.name ? (
-            <BookmarkItemContainer>
-              <BookmarkName>{bookmark.name}</BookmarkName>
-              <BookmarkAddress>{address}</BookmarkAddress>
-            </BookmarkItemContainer>
-          ) : (
-            <BookmarkName>{address}</BookmarkName>
-          )}
-        </ListItemInfoContainer>
+        <ListItemInfoContainer>{children}</ListItemInfoContainer>
       </ListItemButton>
       <ListItemMenuButton
         aria-label={t('button.options')}
@@ -112,6 +96,15 @@ export const ListItem = ({
         <MoreHorizIcon fontSize="small" />
       </ListItemMenuButton>
       <ListMenu
+        elevation={0}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
         id={moreMenuId}
         MenuListProps={{
           'aria-labelledby': moreButtonId,

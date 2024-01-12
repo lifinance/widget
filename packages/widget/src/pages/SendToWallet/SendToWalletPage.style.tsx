@@ -180,20 +180,7 @@ export const ListItemMenuButton = styled(IconButton)(({ theme }) => ({
   },
 }));
 
-export const ListMenu = styled((props: MenuProps) => (
-  <Menu
-    elevation={0}
-    anchorOrigin={{
-      vertical: 'bottom',
-      horizontal: 'right',
-    }}
-    transformOrigin={{
-      vertical: 'top',
-      horizontal: 'right',
-    }}
-    {...props}
-  />
-))(({ theme }) => ({
+export const ListMenu = styled(Menu)(({ theme }) => ({
   [`& .${menuClasses.paper}`]: {
     borderRadius: theme.shape.borderRadius,
     boxShadow: '0px 2px 4px rgb(0 0 0 / 8%), 0px 8px 16px rgb(0 0 0 / 8%)',

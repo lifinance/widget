@@ -38,9 +38,19 @@ export const useAvailableChains = () => {
     [data],
   );
 
+  const getFirstOfChainType = useCallback(
+    (chainType: ChainType, chains: ExtendedChain[] | undefined = data) => {
+      const chain = chains?.find((chain) => chain.chainType === chainType);
+
+      return chain;
+    },
+    [data],
+  );
+
   return {
     chains: data,
     getChainById,
+    getFirstOfChainType,
     isLoading,
   };
 };

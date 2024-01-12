@@ -4,7 +4,7 @@ export * from './elements';
 export * from './enum';
 export * from './fees';
 export * from './format';
-export * from './id';
+export * from './chainType';
 export * from './input';
 export * from './item';
 export * from './navigationRoutes';
