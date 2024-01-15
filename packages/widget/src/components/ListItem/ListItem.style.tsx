@@ -8,10 +8,24 @@ import {
   styled,
   svgIconClasses,
 } from '@mui/material';
+import { listItemTextClasses } from '@mui/material/ListItemText';
 
-export const ListItemContainer = styled(MuiListItem)(() => ({
+export const ListItemContainer = styled(MuiListItem)(({ theme }) => ({
   position: 'relative',
   padding: 0,
+  height: 64,
+  [`& .${listItemTextClasses.primary}`]: {
+    fontSize: 18,
+    fontWeight: 500,
+    lineHeight: 1.5,
+  },
+  [`& .${listItemTextClasses.secondary}`]: {
+    fontSize: 12,
+    fontWeight: 500,
+  },
+  [`.${listItemTextClasses.primary} + .${listItemTextClasses.secondary}`]: {
+    marginTop: theme.spacing(0.5),
+  },
 }));
 
 export const ListItemInfoContainer = styled(Box)(({ theme }) => ({

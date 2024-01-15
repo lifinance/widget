@@ -49,11 +49,11 @@ export const ListItem = <ItemData extends unknown>({
   return (
     <ListItemContainer>
       <ListItemButton
-        sx={{ display: 'flex', justifyContent: 'space-between' }}
+        sx={{ display: 'flex', justifyContent: 'space-between', height: 64 }}
         onClick={handleSelected}
         disableRipple
       >
-        <ListItemInfoContainer>{children}</ListItemInfoContainer>
+        {children}
       </ListItemButton>
       {menuItems && (
         <>

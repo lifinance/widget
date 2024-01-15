@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Button } from '@mui/material';
+import { Button, ListItemAvatar, ListItemText } from '@mui/material';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
@@ -13,11 +13,6 @@ import { ConfirmAddressSheet } from './ConfirmAddressSheet';
 import { EmptyListIndicator } from './EmptyListIndicator';
 import { ListItem } from '../../components/ListItem';
 import type { BottomSheetBase } from '../../components/BottomSheet';
-import {
-  BookmarkAddress,
-  BookmarkItemContainer,
-  BookmarkName,
-} from '../../components/SendToWallet';
 import { AccountAvatar } from '../../components/AccountAvatar';
 import { useChains } from '../../hooks';
 import {
@@ -38,7 +33,7 @@ export const BookmarkedWalletsPage = () => {
     removeBookmarkedWallet,
     setSelectedBookmarkWallet,
   } = useBookmarksActions();
-  const { getDefaultChainByChainType } = useChains();
+  const { getChainById } = useChains();
 
   const handleAddBookmark = () => {
     bookmarkAddressSheetRef.current?.open();
@@ -57,7 +52,9 @@ export const BookmarkedWalletsPage = () => {
   };
 
   const handleViewOnExplorer = (bookmarkedWallet: BookmarkedWallet) => {
-    const chain = getDefaultChainByChainType(bookmarkedWallet.chainType);
+    const chain = getChainById(
+      defaultChainIdsByType[bookmarkedWallet.chainType],
+    );
     window.open(
       `${chain?.metamask.blockExplorerUrls[0]}address/${bookmarkedWallet.address}`,
       '_blank',
@@ -109,17 +106,19 @@ export const BookmarkedWalletsPage = () => {
               },
             ]}
           >
-            <AccountAvatar
-              chainId={defaultChainIdsByType[bookmark.chainType]}
-            />
-            <BookmarkItemContainer>
-              <BookmarkName>{bookmark.name}</BookmarkName>
-              <BookmarkAddress>
-                {bookmark.addressType === 'address'
+            <ListItemAvatar>
+              <AccountAvatar
+                chainId={defaultChainIdsByType[bookmark.chainType]}
+              />
+            </ListItemAvatar>
+            <ListItemText
+              primary={bookmark.name}
+              secondary={
+                bookmark.addressType === 'address'
                   ? shortenAddress(bookmark.address)
-                  : bookmark.address}
-              </BookmarkAddress>
-            </BookmarkItemContainer>
+                  : bookmark.address
+              }
+            />
           </ListItem>
         ))}
         {!bookmarkedWallets.length && (

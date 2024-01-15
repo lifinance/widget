@@ -17,12 +17,12 @@ export const NameInput = styled(InputBase)(() => ({
   alignItems: 'start',
   [`.${inputBaseClasses.input}`]: {
     fontWeight: 500,
-    lineHeight: '20px',
+    lineHeight: 1.25,
     paddingBottom: 0,
   },
 }));
 export const AddressInput = styled(NameInput)(() => ({
-  minHeight: 64,
+  minHeight: 48,
 }));
 
 export const BookmarkInputFields = styled(Box)(({ theme }) => ({

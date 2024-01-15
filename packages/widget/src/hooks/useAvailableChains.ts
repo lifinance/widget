@@ -38,17 +38,9 @@ export const useAvailableChains = () => {
     [data],
   );
 
-  // TODO: Does this function live in the correct place
-  const getDefaultChainByChainType = useCallback(
-    (chainType: ChainType, chains: ExtendedChain[] | undefined = data) =>
-      getChainById(defaultChainIdsByType[chainType]),
-    [data],
-  );
-
   return {
     chains: data,
     getChainById,
-    getDefaultChainByChainType,
     isLoading,
   };
 };

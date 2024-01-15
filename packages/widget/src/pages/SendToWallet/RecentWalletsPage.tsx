@@ -26,6 +26,7 @@ import { useChains } from '../../hooks';
 import { ConfirmAddressSheet } from './ConfirmAddressSheet';
 import { BookmarkAddressSheet } from './BookmarkAddressSheet';
 import { EmptyListIndicator } from './EmptyListIndicator';
+import { ListItemAvatar, ListItemText } from '@mui/material';
 
 export const RecentWalletsPage = () => {
   const { t } = useTranslation();
@@ -42,7 +43,7 @@ export const RecentWalletsPage = () => {
     setSelectedBookmarkWallet,
     addRecentWallet,
   } = useBookmarksActions();
-  const { getDefaultChainByChainType } = useChains();
+  const { getChainById } = useChains();
 
   const handleRecentSelected = (recentWallet: BookmarkedWallet) => {
     setSelectedRecent(recentWallet);
@@ -81,7 +82,9 @@ export const RecentWalletsPage = () => {
   };
 
   const handleViewOnExplorer = (bookmarkedWallet: BookmarkedWallet) => {
-    const chain = getDefaultChainByChainType(bookmarkedWallet.chainType);
+    const chain = getChainById(
+      defaultChainIdsByType[bookmarkedWallet.chainType],
+    );
     window.open(
       `${chain?.metamask.blockExplorerUrls[0]}address/${bookmarkedWallet.address}`,
       '_blank',
@@ -143,14 +146,26 @@ export const RecentWalletsPage = () => {
               },
             ]}
           >
-            <AccountAvatar
-              chainId={defaultChainIdsByType[recentWallet.chainType]}
+            {/*<AccountAvatar*/}
+            {/*  chainId={defaultChainIdsByType[recentWallet.chainType]}*/}
+            {/*/>*/}
+            {/*<BookmarkName>*/}
+            {/*  {recentWallet.addressType === 'address'*/}
+            {/*    ? shortenAddress(recentWallet.address)*/}
+            {/*    : recentWallet.address}*/}
+            {/*</BookmarkName>*/}
+            <ListItemAvatar>
+              <AccountAvatar
+                chainId={defaultChainIdsByType[recentWallet.chainType]}
+              />
+            </ListItemAvatar>
+            <ListItemText
+              primary={
+                recentWallet.addressType === 'address'
+                  ? shortenAddress(recentWallet.address)
+                  : recentWallet.address
+              }
             />
-            <BookmarkName>
-              {recentWallet.addressType === 'address'
-                ? shortenAddress(recentWallet.address)
-                : recentWallet.address}
-            </BookmarkName>
           </ListItem>
         ))}
         {!recentWallets.length && (

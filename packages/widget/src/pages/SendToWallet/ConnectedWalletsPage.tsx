@@ -6,22 +6,18 @@ import {
 } from './SendToWalletPage.style';
 import { useTranslation } from 'react-i18next';
 import type { BookmarkedWallet } from '../../stores';
-import { shortenAddress } from '../../utils';
+import { defaultChainIdsByType, shortenAddress } from '../../utils';
 import { ConfirmAddressSheet } from './ConfirmAddressSheet';
 import { EmptyListIndicator } from './EmptyListIndicator';
 import { ListItem } from '../../components/ListItem';
 import type { BottomSheetBase } from '../../components/BottomSheet';
-import {
-  BookmarkAddress,
-  BookmarkItemContainer,
-  BookmarkName,
-} from '../../components/SendToWallet';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import type { Account } from '../../hooks';
 import { useAccount, useChains } from '../../hooks';
 import { AccountAvatar } from '../../components/AccountAvatar';
 import { useBookmarksActions } from '../../stores';
+import { ListItemAvatar, ListItemText } from '@mui/material';
 export const ConnectedWalletsPage = () => {
   const { t } = useTranslation();
   const [selectedAccount, setSelectedAccount] = useState<Account | undefined>();
@@ -29,7 +25,7 @@ export const ConnectedWalletsPage = () => {
   const { accounts } = useAccount();
   const connectedWallets = accounts.filter((account) => account.isConnected);
   const { setSelectedBookmarkWallet } = useBookmarksActions();
-  const { getDefaultChainByChainType } = useChains();
+  const { getChainById } = useChains();
 
   const handleWalletSelected = (account: Account) => {
     setSelectedAccount(account);
@@ -46,7 +42,7 @@ export const ConnectedWalletsPage = () => {
   };
 
   const handleViewOnExplorer = (account: Account) => {
-    const chain = getDefaultChainByChainType(account.chainType);
+    const chain = getChainById(defaultChainIdsByType[account.chainType]);
     window.open(
       `${chain?.metamask.blockExplorerUrls[0]}address/${account.address}`,
       '_blank',
@@ -89,11 +85,13 @@ export const ConnectedWalletsPage = () => {
                 },
               ]}
             >
-              <AccountAvatar chainId={account.chainId} account={account} />
-              <BookmarkItemContainer>
-                <BookmarkName>{account.connector?.name}</BookmarkName>
-                <BookmarkAddress>{walletAddress}</BookmarkAddress>
-              </BookmarkItemContainer>
+              <ListItemAvatar>
+                <AccountAvatar chainId={account.chainId} account={account} />
+              </ListItemAvatar>
+              <ListItemText
+                primary={account.connector?.name}
+                secondary={walletAddress}
+              />
             </ListItem>
           );
         })}

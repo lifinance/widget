@@ -47,7 +47,6 @@ export const AccountAvatar = ({ chainId, account }: AccountAvatar) => {
           {chain?.name[0]}
         </SmallAvatar>
       }
-      sx={{ marginRight: 1.5 }}
     >
       {avatar}
     </Badge>
