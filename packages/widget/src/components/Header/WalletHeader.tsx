@@ -9,6 +9,7 @@ import type { Connector } from 'wagmi';
 import type { Account } from '../../hooks';
 import { useAccount, useChain } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
+import { useHasExternalWalletProvider } from '../../providers/WalletProvider';
 import { HiddenUI } from '../../types';
 import { navigationRoutes, shortenAddress } from '../../utils';
 import { SmallAvatar } from '../SmallAvatar';
@@ -22,11 +23,23 @@ import { WalletMenu } from './WalletMenu';
 import { WalletMenuContainer } from './WalletMenu.style';
 
 export const WalletHeader: React.FC = () => {
-  return (
+  const { subvariant, hiddenUI } = useWidgetConfig();
+  const { hasExternalProvider } = useHasExternalWalletProvider();
+  return !hasExternalProvider &&
+    subvariant !== 'split' &&
+    !hiddenUI?.includes(HiddenUI.WalletMenu) ? (
     <HeaderAppBar elevation={0} sx={{ justifyContent: 'flex-end' }}>
       <WalletMenuButton />
     </HeaderAppBar>
-  );
+  ) : null;
+};
+
+export const SplitWalletMenuButton: React.FC = () => {
+  const { hiddenUI } = useWidgetConfig();
+  const { hasExternalProvider } = useHasExternalWalletProvider();
+  return !hasExternalProvider && !hiddenUI?.includes(HiddenUI.WalletMenu) ? (
+    <WalletMenuButton />
+  ) : null;
 };
 
 export const WalletMenuButton: React.FC = () => {
@@ -58,11 +71,11 @@ export const WalletMenuButton: React.FC = () => {
 const ConnectButton = () => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
-  const { walletManagement, subvariant, variant } = useWidgetConfig();
+  const { walletConfig, subvariant, variant } = useWidgetConfig();
   const navigate = useNavigate();
   const connect = async () => {
-    if (walletManagement) {
-      await walletManagement.connect();
+    if (walletConfig?.onConnect) {
+      walletConfig.onConnect();
       return;
     }
     navigate(navigationRoutes.selectWallet);

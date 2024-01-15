@@ -5,7 +5,8 @@ import {
   bitpie,
   block,
   brave,
-  coinbase,
+  createCoinbaseConnector,
+  createWalletConnectConnector,
   dcent,
   exodus,
   frame,
@@ -25,7 +26,6 @@ import {
   tokenary,
   tokenpocket,
   trust,
-  walletConnect,
   xdefi,
 } from '@lifi/wallet-management';
 import { formatChain, useAvailableChains } from '@lifi/widget';
@@ -37,8 +37,10 @@ import { mainnet } from 'wagmi/chains';
 
 const connectors = [
   metaMask,
-  walletConnect,
-  coinbase,
+  createWalletConnectConnector({
+    projectId: import.meta.env.VITE_WALLET_CONNECT,
+  }),
+  createCoinbaseConnector({ appName: 'LI.FI NFT Demo' }),
   bitget,
   gate,
   exodus,

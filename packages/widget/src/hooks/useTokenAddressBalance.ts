@@ -5,7 +5,7 @@ export const useTokenAddressBalance = (
   chainId?: number,
   tokenAddress?: string,
 ) => {
-  const { tokens, tokensWithBalance, isBalanceLoading, refetch } =
+  const { tokens, tokensWithBalance, chain, isBalanceLoading, refetch } =
     useTokenBalances(chainId);
 
   const token = useMemo(() => {
@@ -19,6 +19,7 @@ export const useTokenAddressBalance = (
 
   return {
     token,
+    chain,
     isLoading: isBalanceLoading,
     refetch,
   };

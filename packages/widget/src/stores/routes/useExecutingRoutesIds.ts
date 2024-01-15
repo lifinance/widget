@@ -1,15 +1,18 @@
 import { shallow } from 'zustand/shallow';
+import { useAccount } from '../../hooks/useAccount';
 import { useRouteExecutionStore } from './RouteExecutionStore';
 import type { RouteExecution } from './types';
 import { RouteExecutionStatus } from './types';
 
-export const useExecutingRoutesIds = (address?: string) => {
+export const useExecutingRoutesIds = () => {
+  const { accounts } = useAccount();
+  const accountAddresses = accounts.map((account) => account.address);
   return useRouteExecutionStore(
     (state) =>
       (Object.values(state.routes) as RouteExecution[])
         .filter(
           (item) =>
-            item.route.fromAddress === address &&
+            accountAddresses.includes(item.route.fromAddress) &&
             (item.status === RouteExecutionStatus.Pending ||
               item.status === RouteExecutionStatus.Failed),
         )

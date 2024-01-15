@@ -31,7 +31,7 @@ export const useRouteExecution = ({
   onAcceptExchangeRateUpdate,
 }: RouteExecutionProps) => {
   const queryClient = useQueryClient();
-  const { account } = useAccount();
+  const { isConnected } = useAccount();
   const resumedAfterMount = useRef(false);
   const emitter = useWidgetEvents();
   const routeExecutionStoreContext = useRouteExecutionStoreContext();
@@ -87,7 +87,7 @@ export const useRouteExecution = ({
 
   const executeRouteMutation = useMutation({
     mutationFn: () => {
-      if (!account.isConnected) {
+      if (!isConnected) {
         throw Error('Account is not connected.');
       }
       if (!routeExecution?.route) {
@@ -111,7 +111,7 @@ export const useRouteExecution = ({
 
   const resumeRouteMutation = useMutation({
     mutationFn: (resumedRoute?: Route) => {
-      if (!account.isConnected) {
+      if (!isConnected) {
         throw Error('Account is not connected.');
       }
       if (!routeExecution?.route) {
@@ -170,14 +170,14 @@ export const useRouteExecution = ({
     // Check if route is eligible for automatic resuming
     if (
       isRouteActive(routeExecution?.route) &&
-      account.isConnected &&
+      isConnected &&
       !resumedAfterMount.current
     ) {
       resumedAfterMount.current = true;
       _resumeRoute();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account.isConnected]);
+  }, [isConnected]);
 
   useEffect(() => {
     return () => {

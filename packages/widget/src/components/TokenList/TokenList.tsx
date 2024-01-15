@@ -2,7 +2,6 @@ import { Box } from '@mui/material';
 import type { FC } from 'react';
 import { useRef } from 'react';
 import {
-  useAccount,
   useChain,
   useDebouncedWatch,
   useTokenBalances,
@@ -21,7 +20,6 @@ export const TokenList: FC<TokenListProps> = ({
   onClick,
 }) => {
   const parentRef = useRef<HTMLUListElement | null>(null);
-  const { account } = useAccount();
   const [selectedChainId] = useFieldValues(FormKeyHelper.getChainKey(formType));
   const [tokenSearchFilter]: string[] = useDebouncedWatch(
     320,
@@ -86,7 +84,6 @@ export const TokenList: FC<TokenListProps> = ({
         chain={chain}
         isLoading={isLoading}
         isBalanceLoading={isBalanceLoading}
-        showBalance={account.isConnected}
         showFeatured={!tokenSearchFilter}
         onClick={handleTokenClick}
       />

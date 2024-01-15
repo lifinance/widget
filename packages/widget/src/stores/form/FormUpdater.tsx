@@ -1,13 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import type { PropsWithChildren } from 'react';
 import { useEffect, useRef } from 'react';
 import { useAccount } from '../../hooks';
-import { isItemAllowed, useWidgetConfig } from '../../providers';
+import { useWidgetConfig } from '../../providers';
+import { isItemAllowed } from '../../utils';
 import type { DefaultValues, FormFieldNames } from './types';
 import { useFieldActions } from './useFieldActions';
 
-export const FormUpdater: React.FC<{
-  defaultValues: Partial<DefaultValues>;
-}> = ({ defaultValues }) => {
+export const FormUpdater: React.FC<
+  PropsWithChildren<{
+    defaultValues: Partial<DefaultValues>;
+  }>
+> = ({ defaultValues, children }) => {
   const { fromChain, toChain, chains } = useWidgetConfig();
   const { account } = useAccount();
   const { isTouched, resetField, setFieldValue, getFieldValues } =
@@ -18,6 +22,7 @@ export const FormUpdater: React.FC<{
   useEffect(() => {
     const chainAllowed =
       account.chainId && isItemAllowed(account.chainId, chains);
+
     if (!account.isConnected || !account.chainId || !chainAllowed) {
       return;
     }
@@ -63,5 +68,5 @@ export const FormUpdater: React.FC<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultValues, getFieldValues, resetField, setFieldValue]);
 
-  return null;
+  return children;
 };

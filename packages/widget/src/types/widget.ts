@@ -1,8 +1,9 @@
 import type {
   BaseToken,
+  ChainType,
   Order,
   RouteOptions,
-  SDKOptions,
+  SDKConfig,
   StaticToken,
   Token,
 } from '@lifi/sdk';
@@ -14,6 +15,10 @@ import type {
   Theme,
 } from '@mui/material';
 import type { TypographyOptions } from '@mui/material/styles/createTypography';
+import type {
+  CoinbaseWalletParameters,
+  WalletConnectParameters,
+} from '@wagmi/connectors';
 import type { CSSProperties, ReactNode, RefObject } from 'react';
 import type { LanguageKey, LanguageResources } from '../providers';
 import type { SplitSubvariantOptions } from '../stores';
@@ -59,8 +64,10 @@ export type ThemeConfig = {
   components?: Pick<Components<Omit<Theme, 'components'>>, 'MuiAvatar'>;
 };
 
-export interface WidgetWalletManagement {
-  connect(): Promise<void>;
+export interface WidgetWalletConfig {
+  onConnect(): void;
+  walletConnect?: WalletConnectParameters;
+  coinbase?: CoinbaseWalletParameters;
 }
 
 export interface AllowDeny<T> {
@@ -68,9 +75,9 @@ export interface AllowDeny<T> {
   deny?: T[];
 }
 
-export interface WidgetSDKOptions
+export interface WidgetSDKConfig
   extends Omit<
-    SDKOptions,
+    SDKConfig,
     | 'apiKey'
     | 'disableVersionCheck'
     | 'integrator'
@@ -131,8 +138,8 @@ export interface WidgetConfig {
   requiredUI?: RequiredUIType[];
   useRecommendedRoute?: boolean;
 
-  walletManagement?: WidgetWalletManagement;
-  sdkConfig?: WidgetSDKOptions;
+  walletConfig?: WidgetWalletConfig;
+  sdkConfig?: WidgetSDKConfig;
 
   buildUrl?: boolean;
   keyPrefix?: string;
@@ -142,6 +149,7 @@ export interface WidgetConfig {
   chains?: {
     from?: AllowDeny<number>;
     to?: AllowDeny<number>;
+    types?: AllowDeny<ChainType>;
   } & AllowDeny<number>;
   tokens?: {
     featured?: StaticToken[];

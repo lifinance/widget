@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
-import { isItemAllowed, useWidgetConfig } from '../providers';
+import { useWidgetConfig } from '../providers';
 import type { FormType } from '../stores';
+import { isItemAllowed } from '../utils';
 import { useAvailableChains } from './useAvailableChains';
 
 export const useChains = (type?: FormType) => {

@@ -17,7 +17,6 @@ export interface VirtualizedTokenListProps {
   isBalanceLoading: boolean;
   chainId?: number;
   chain?: ExtendedChain;
-  showBalance?: boolean;
   showFeatured?: boolean;
   onClick(tokenAddress: string): void;
 }

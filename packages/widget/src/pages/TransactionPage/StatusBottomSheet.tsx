@@ -56,8 +56,10 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
     ),
   };
 
+  const toChain = getChainById(toToken.chainId);
+
   const { token, refetch, refetchNewBalance, refetchAllBalances } =
-    useTokenBalance(route.toAddress, toToken);
+    useTokenBalance(route.toAddress, toToken, toChain);
 
   const invalidateQueries = () => {
     refetchAllBalances();
@@ -130,7 +132,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
         primaryMessage = t('success.message.exchangeSuccessful', {
           amount: formatTokenAmount(token.amount, token.decimals),
           tokenSymbol: token.symbol,
-          chainName: getChainById(token.chainId)?.name,
+          chainName: toChain?.name,
           walletAddress: shortenAddress(route.toAddress),
         });
       }
@@ -147,7 +149,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
         secondaryMessage = t('success.message.exchangeSuccessful', {
           amount: formatTokenAmount(token.amount, token.decimals),
           tokenSymbol: token.symbol,
-          chainName: getChainById(token.chainId)?.name,
+          chainName: toChain?.name,
           walletAddress: shortenAddress(route.toAddress),
         });
       }
@@ -164,7 +166,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
         secondaryMessage = t('success.message.exchangeSuccessful', {
           amount: formatTokenAmount(token.amount, token.decimals),
           tokenSymbol: token.symbol,
-          chainName: getChainById(token.chainId)?.name,
+          chainName: toChain?.name,
           walletAddress: shortenAddress(route.toAddress),
         });
       }

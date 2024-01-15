@@ -13,7 +13,6 @@ import { useTranslation } from 'react-i18next';
 import { ActiveTransactionItem } from '../../components/ActiveTransactions';
 import { Dialog } from '../../components/Dialog';
 import { PageContainer } from '../../components/PageContainer';
-import { useAccount } from '../../hooks';
 import {
   useExecutingRoutesIds,
   useHeaderStoreContext,
@@ -23,8 +22,7 @@ import { ActiveTransactionsEmpty } from './ActiveTransactionsEmpty';
 
 export const ActiveTransactionsPage = () => {
   const { t } = useTranslation();
-  const { account } = useAccount();
-  const executingRoutes = useExecutingRoutesIds(account.address);
+  const executingRoutes = useExecutingRoutesIds();
   const deleteRoutes = useRouteExecutionStore((store) => store.deleteRoutes);
   const headerStoreContext = useHeaderStoreContext();
   const [open, setOpen] = useState(false);

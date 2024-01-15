@@ -1,4 +1,4 @@
-import { config, createConfig, type SDKOptions } from '@lifi/sdk';
+import { config, createConfig, type SDKConfig } from '@lifi/sdk';
 import { createContext, useContext, useId, useMemo } from 'react';
 import { version } from '../../config/version';
 import { setDefaultSettings } from '../../stores';
@@ -69,7 +69,7 @@ export const WidgetProvider: React.FC<
       setDefaultSettings(value);
 
       // Configure SDK
-      const _config: SDKOptions = {
+      const _config: SDKConfig = {
         ...widgetConfig.sdkConfig,
         apiKey: widgetConfig.apiKey,
         integrator: widgetConfig.integrator ?? window?.location.hostname,

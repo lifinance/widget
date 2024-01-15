@@ -26,27 +26,27 @@
   "dependencies": {
     "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
-    "@lifi/sdk": "^3.0.0-alpha.42",
+    "@lifi/sdk": "^3.0.0-alpha.47",
     "@lifi/wallet-management": "^3.0.0-alpha.8",
     "@lifi/widget": "^3.0.0-alpha.12",
-    "@mui/icons-material": "^5.15.2",
-    "@mui/lab": "^5.0.0-alpha.158",
-    "@mui/material": "^5.15.2",
+    "@mui/icons-material": "^5.15.4",
+    "@mui/lab": "^5.0.0-alpha.160",
+    "@mui/material": "^5.15.4",
     "@opensea/seaport-js": "2.0.8",
-    "@tanstack/react-query": "^5.15.0",
+    "@tanstack/react-query": "^5.17.12",
     "bignumber.js": "^9.1.2",
     "ethers": "^5.7.2",
     "events": "^3.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.21.1",
-    "wagmi": "^2.0.0-rc.2"
+    "react-router-dom": "^6.21.2",
+    "wagmi": "^2.2.1"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",
     "typescript": "^5.3.3",
-    "vite": "^5.0.10",
-    "web-vitals": "^3.5.0"
+    "vite": "^5.0.11",
+    "web-vitals": "^3.5.1"
   },
   "eslintConfig": {
     "extends": "../../.eslintrc"

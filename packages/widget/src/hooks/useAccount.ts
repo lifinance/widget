@@ -4,7 +4,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { useMemo } from 'react';
 import type { Chain } from 'viem';
 import type { Connector } from 'wagmi';
-import { useDisconnect, useAccount as useWagmiAccount } from 'wagmi';
+import { useAccount as useWagmiAccount } from 'wagmi';
 
 export interface AccountBase {
   address?: string;
@@ -33,7 +33,11 @@ export type Account = EVMAccount | SVMAccount;
 
 export interface AccountResult {
   account: Account;
+  /**
+   * Connected accounts
+   */
   accounts: Account[];
+  isConnected: boolean;
 }
 
 export const useAccount = (): AccountResult => {
@@ -63,24 +67,12 @@ export const useAccount = (): AccountResult => {
         };
     const evm: Account = { ...account, chainType: ChainType.EVM };
 
+    const accounts = [evm, svm].filter((account) => account.isConnected);
     return {
       account: account.isConnected ? evm : svm,
-      accounts: [evm, svm],
+      // We need to return only connected account list
+      accounts,
+      isConnected: accounts.length > 0,
     };
   }, [account, wallet]);
-};
-
-export const useAccountDisconnect = () => {
-  const account = useWagmiAccount();
-  const { disconnect: wagmiDisconnect } = useDisconnect();
-  const { wallet, disconnect } = useWallet();
-
-  return () => {
-    if (account.isConnected) {
-      wagmiDisconnect();
-    }
-    if (wallet) {
-      disconnect();
-    }
-  };
 };

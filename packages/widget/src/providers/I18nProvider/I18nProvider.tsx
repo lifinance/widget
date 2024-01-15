@@ -4,8 +4,8 @@ import { useMemo } from 'react';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import * as supportedLanguages from '../../i18n';
 import { useSettings } from '../../stores';
-import { deepMerge } from '../../utils';
-import { isItemAllowed, useWidgetConfig } from '../WidgetProvider';
+import { deepMerge, isItemAllowed } from '../../utils';
+import { useWidgetConfig } from '../WidgetProvider';
 import type { LanguageKey, LanguageTranslationResources } from './types';
 
 export const I18nProvider: React.FC<React.PropsWithChildren> = ({

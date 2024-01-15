@@ -1,15 +1,15 @@
 import { type FC, type PropsWithChildren } from 'react';
 import { EVMProvider } from './EVMProvider';
 import { SDKProviders } from './SDKProviders';
-import { SolanaProvider } from './SolanaProvider';
+import { SVMProvider } from './SVMProvider';
 
 export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   return (
-    <SolanaProvider>
-      <EVMProvider>
+    <EVMProvider>
+      <SVMProvider>
         <SDKProviders />
         {children}
-      </EVMProvider>
-    </SolanaProvider>
+      </SVMProvider>
+    </EVMProvider>
   );
 };

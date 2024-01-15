@@ -83,6 +83,7 @@ export const useTokenBalances = (selectedChainId?: number) => {
     tokens,
     tokensWithBalance,
     featuredTokens,
+    chain,
     isLoading,
     isBalanceLoading: isBalanceLoading && isBalanceLoadingEnabled,
     refetch,

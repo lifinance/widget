@@ -37,8 +37,7 @@ export const FormStoreProvider: React.FC<PropsWithChildren> = ({
 
   return (
     <FormStoreContext.Provider value={storeRef.current}>
-      <FormUpdater defaultValues={defaultValues} />
-      {children}
+      <FormUpdater defaultValues={defaultValues}>{children}</FormUpdater>
     </FormStoreContext.Provider>
   );
 };

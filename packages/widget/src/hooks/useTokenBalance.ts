@@ -11,37 +11,27 @@ export const useTokenBalance = (
   token?: Token,
   chain?: ExtendedChain,
 ) => {
-  const { account } = useAccount();
+  const { account, accounts } = useAccount();
   const queryClient = useQueryClient();
   const walletAddress =
     accountAddress ||
     // When we provide chain we want to be sure that account address used is from the same ecosystem as token
-    !chain
-      ? account.address
-      : chain.chainType === account.chainType
-        ? account.address
-        : undefined;
+    (chain
+      ? accounts.find((account) => account.chainType === chain.chainType)
+          ?.address
+      : account.address);
 
   const tokenBalanceQueryKey = useMemo(
-    () => ['token-balance', walletAddress, token?.chainId, token?.address],
+    () =>
+      ['token-balance', walletAddress, token?.chainId, token?.address] as const,
     [token?.address, token?.chainId, walletAddress],
   );
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: tokenBalanceQueryKey,
-    queryFn: async ({ queryKey: [, accountAddress] }) => {
-      const cachedToken = queryClient
-        .getQueryData<Token[]>([
-          'token-balances',
-          accountAddress,
-          token!.chainId,
-        ])
-        ?.find((t) => t.address === token!.address);
-
-      if (cachedToken) {
-        return cachedToken as TokenAmount;
-      }
-
+    queryFn: async ({
+      queryKey: [, accountAddress, tokenChainId, tokenAddress],
+    }) => {
       const tokenBalances = await getTokenBalancesWithRetry(
         accountAddress as string,
         [token!],
@@ -64,12 +54,12 @@ export const useTokenBalance = (
       }
 
       queryClient.setQueriesData<TokenAmount[]>(
-        { queryKey: ['token-balances', accountAddress, token!.chainId] },
+        { queryKey: ['token-balances', accountAddress, tokenChainId] },
         (data) => {
           if (data) {
             const clonedData = [...data];
             const index = clonedData.findIndex(
-              (dataToken) => dataToken.address === token!.address,
+              (dataToken) => dataToken.address === tokenAddress,
             );
             clonedData[index] = {
               ...clonedData[index],

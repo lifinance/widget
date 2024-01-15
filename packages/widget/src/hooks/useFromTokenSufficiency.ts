@@ -9,7 +9,7 @@ import { getTokenBalancesWithRetry } from './useTokenBalance';
 const refetchInterval = 30_000;
 
 export const useFromTokenSufficiency = (route?: RouteExtended) => {
-  const { account } = useAccount();
+  const { accounts } = useAccount();
   const [fromChainId, fromTokenAddress, fromAmount] = useFieldValues(
     'fromChain',
     'fromToken',
@@ -23,19 +23,26 @@ export const useFromTokenSufficiency = (route?: RouteExtended) => {
     tokenAddress = route.fromToken.address;
   }
 
-  const { token, isLoading: isTokenAddressBalanceLoading } =
-    useTokenAddressBalance(chainId, tokenAddress);
+  const {
+    token,
+    chain,
+    isLoading: isTokenAddressBalanceLoading,
+  } = useTokenAddressBalance(chainId, tokenAddress);
+
+  const account = accounts.find(
+    (account) => account.chainType === chain?.chainType,
+  );
 
   const { data: insufficientFromToken, isLoading } = useQuery({
     queryKey: [
       'from-token-sufficiency-check',
-      account.address,
+      account?.address,
       chainId,
       tokenAddress,
       route?.id ?? fromAmount,
-    ],
-    queryFn: async () => {
-      if (!account.address || !token) {
+    ] as const,
+    queryFn: async ({ queryKey: [, accountAddress] }) => {
+      if (!accountAddress || !token) {
         return;
       }
       const parsedFromAmount = parseUnits(fromAmount, token.decimals);
@@ -60,7 +67,7 @@ export const useFromTokenSufficiency = (route?: RouteExtended) => {
         return insufficientFunds;
       }
 
-      const tokenBalances = await getTokenBalancesWithRetry(account.address, [
+      const tokenBalances = await getTokenBalancesWithRetry(accountAddress, [
         currentAction.fromToken,
       ]);
 
@@ -70,7 +77,9 @@ export const useFromTokenSufficiency = (route?: RouteExtended) => {
       return insufficientFunds;
     },
 
-    enabled: Boolean(account.address && token && !isTokenAddressBalanceLoading),
+    enabled: Boolean(
+      account?.address && token && !isTokenAddressBalanceLoading,
+    ),
     refetchInterval,
     staleTime: refetchInterval,
     placeholderData: keepPreviousData,

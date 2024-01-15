@@ -11,22 +11,22 @@ export const StoreProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
   config,
 }) => {
   return (
-    <FormStoreProvider>
-      <SplitSubvariantStoreProvider
-        state={
-          config.subvariant === 'split'
-            ? config.subvariantOptions || 'swap'
-            : undefined
-        }
-      >
-        <HeaderStoreProvider namePrefix={config?.keyPrefix}>
+    <SplitSubvariantStoreProvider
+      state={
+        config.subvariant === 'split'
+          ? config.subvariantOptions || 'swap'
+          : undefined
+      }
+    >
+      <HeaderStoreProvider namePrefix={config?.keyPrefix}>
+        <FormStoreProvider>
           <ChainOrderStoreProvider namePrefix={config?.keyPrefix}>
             <RouteExecutionStoreProvider namePrefix={config?.keyPrefix}>
               {children}
             </RouteExecutionStoreProvider>
           </ChainOrderStoreProvider>
-        </HeaderStoreProvider>
-      </SplitSubvariantStoreProvider>
-    </FormStoreProvider>
+        </FormStoreProvider>
+      </HeaderStoreProvider>
+    </SplitSubvariantStoreProvider>
   );
 };

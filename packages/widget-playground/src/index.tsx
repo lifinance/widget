@@ -3,7 +3,6 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { App } from './App';
-import { WalletProvider } from './providers/WalletProvider';
 import { reportWebVitals } from './reportWebVitals';
 
 const rootElement = document.getElementById('root');
@@ -17,7 +16,6 @@ export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       enabled: true,
-      staleTime: 3_600_000,
       refetchInterval: false,
       refetchIntervalInBackground: false,
       refetchOnWindowFocus: true,
@@ -37,13 +35,11 @@ export const queryClient = new QueryClient({
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <WalletProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/*" element={<App />} />
-          </Routes>
-        </BrowserRouter>
-      </WalletProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/*" element={<App />} />
+        </Routes>
+      </BrowserRouter>
     </QueryClientProvider>
   </React.StrictMode>,
 );

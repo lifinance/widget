@@ -17,16 +17,21 @@ export interface GasSufficiency {
 const refetchInterval = 30_000;
 
 export const useGasSufficiency = (route?: RouteExtended) => {
-  const { account } = useAccount();
+  const { accounts } = useAccount();
   const { getChainById } = useAvailableChains();
 
   const { enabledAutoRefuel } = useSettings(['enabledAutoRefuel']);
   const { enabled, isLoading: isRefuelLoading } = useGasRefuel();
   const enabledRefuel = enabled && enabledAutoRefuel;
 
+  const account = accounts.find(
+    (account) =>
+      account.chainType === getChainById(route?.fromChainId)?.chainType,
+  );
+
   const { data: insufficientGas, isLoading } = useQuery({
-    queryKey: ['gas-sufficiency-check', account.address, route?.id],
-    queryFn: async () => {
+    queryKey: ['gas-sufficiency-check', account?.address, route?.id],
+    queryFn: async ({ queryKey: [, accountAddress] }) => {
       // TODO: include LI.Fuel into calculation once steps and tools are properly typed
       // const refuelSteps = route.steps
       //   .flatMap((step) => step.includedSteps)
@@ -38,7 +43,7 @@ export const useGasSufficiency = (route?: RouteExtended) => {
           (groupedGasCosts, step) => {
             if (
               step.estimate.gasCosts &&
-              (account.connector as Connector)?.id !== 'safe'
+              (account?.connector as Connector)?.id !== 'safe'
             ) {
               const { token } = step.estimate.gasCosts[0];
               const gasCostAmount = step.estimate.gasCosts.reduce(
@@ -82,7 +87,7 @@ export const useGasSufficiency = (route?: RouteExtended) => {
       }
 
       const tokenBalances = await getTokenBalancesWithRetry(
-        account.address!,
+        accountAddress!,
         Object.values(gasCosts).map((item) => item.token),
       );
 
@@ -125,7 +130,7 @@ export const useGasSufficiency = (route?: RouteExtended) => {
       return gasCostResult;
     },
 
-    enabled: Boolean(account.address && route),
+    enabled: Boolean(account?.address && route),
     refetchInterval,
     staleTime: refetchInterval,
   });

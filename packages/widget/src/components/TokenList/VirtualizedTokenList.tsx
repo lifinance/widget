@@ -3,6 +3,7 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import type { FC } from 'react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAccount } from '../../hooks';
 import { TokenListItem, TokenListItemSkeleton } from './TokenListItem';
 import type { VirtualizedTokenListProps } from './types';
 
@@ -14,10 +15,10 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   chain,
   isLoading,
   isBalanceLoading,
-  showBalance,
   showFeatured,
   onClick,
 }) => {
+  const { isConnected } = useAccount();
   const { t } = useTranslation();
 
   const hasFeaturedTokens = !!featuredTokensLength && showFeatured;
@@ -83,7 +84,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
             token={token}
             chain={chain}
             isBalanceLoading={isBalanceLoading}
-            showBalance={showBalance}
+            showBalance={isConnected}
             startAdornment={
               hasFeaturedTokens && token.featured && item.index === 0 ? (
                 <Typography

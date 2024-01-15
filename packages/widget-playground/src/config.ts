@@ -19,18 +19,6 @@ export const widgetBaseConfig: WidgetConfig = {
   // subvariant: 'split',
   integrator: 'li.fi-playground',
   // fee: 0.01,
-  // chains: {
-  //   allow: [], // 1, 1285, 10, 56, 137
-  //   deny: [],
-  //   from: {
-  //     allow: [],
-  //     deny: [],
-  //   },
-  //   to: {
-  //     allow: [],
-  //     deny: [],
-  //   },
-  // },
   // useRecommendedRoute: true,
   buildUrl: true,
   // hiddenUI: ['poweredBy', 'language', 'appearance', 'drawerButton'],
@@ -65,6 +53,11 @@ export const widgetBaseConfig: WidgetConfig = {
   //       300: '#5C4219', // border light theme
   //       800: '#5C4219', // border dark theme
   //     },
+  //   },
+  // },
+  // chains: {
+  //   types: {
+  //     allow: [ChainType.SVM],
   //   },
   // },
   tokens: {
@@ -139,14 +132,14 @@ export const widgetBaseConfig: WidgetConfig = {
       // },
     ],
   },
-  bridges: {
-    // allow: ['stargate'],
-    // deny: ['connext'],
-  },
-  languages: {
-    // allow: ['uk'],
-    // deny: ['uk'],
-  },
+  // bridges: {
+  // allow: ['stargate'],
+  // deny: ['connext'],
+  // },
+  // languages: {
+  // allow: ['uk'],
+  // deny: ['uk'],
+  // },
   // languageResources: {
   //   en: {
   //     button: { exchange: 'Test' },

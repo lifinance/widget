@@ -17,13 +17,13 @@ import { HeaderAppBar, HeaderControlsContainer } from './Header.style';
 import { NavigationTabs } from './NavigationTabs';
 import { SettingsButton } from './SettingsButton';
 import { TransactionHistoryButton } from './TransactionHistoryButton';
-import { WalletMenuButton } from './WalletHeader';
+import { SplitWalletMenuButton } from './WalletHeader';
 
 export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
   const { subvariant, hiddenUI, variant } = useWidgetConfig();
   const { navigateBack } = useNavigateBack();
-  const { account } = useAccount();
+  const { isConnected } = useAccount();
   const { element, title } = useHeaderStore((state) => state);
   const { pathname } = useLocation();
 
@@ -100,9 +100,7 @@ export const NavigationHeader: React.FC = () => {
         ) : null}
         {splitSubvariant ? (
           <Box flex={1}>
-            {!hiddenUI?.includes(HiddenUI.WalletMenu) ? (
-              <WalletMenuButton />
-            ) : null}
+            <SplitWalletMenuButton />
           </Box>
         ) : (
           <Typography
@@ -120,8 +118,7 @@ export const NavigationHeader: React.FC = () => {
             path={navigationRoutes.home}
             element={
               <HeaderControlsContainer>
-                {account.isConnected &&
-                !hiddenUI?.includes(HiddenUI.History) ? (
+                {isConnected && !hiddenUI?.includes(HiddenUI.History) ? (
                   <TransactionHistoryButton />
                 ) : null}
                 <SettingsButton />

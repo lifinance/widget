@@ -14,21 +14,21 @@ export const BaseTransactionButton: React.FC<BaseTransactionButtonProps> = ({
 }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { walletManagement } = useWidgetConfig();
-  const { account } = useAccount();
+  const { walletConfig } = useWidgetConfig();
+  const { isConnected } = useAccount();
 
   const handleClick = async () => {
-    if (account.isConnected) {
+    if (isConnected) {
       onClick?.();
-    } else if (walletManagement) {
-      await walletManagement.connect();
+    } else if (walletConfig?.onConnect) {
+      walletConfig.onConnect();
     } else {
       navigate(navigationRoutes.selectWallet);
     }
   };
 
   const getButtonText = () => {
-    if (account.isConnected) {
+    if (isConnected) {
       if (text) {
         return text;
       }
