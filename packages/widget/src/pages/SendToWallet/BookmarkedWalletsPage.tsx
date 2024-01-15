@@ -1,15 +1,13 @@
 import { useRef, useState } from 'react';
 import { Button } from '@mui/material';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
-import {
-  BookmarkButtonContainer,
-  ListContainer,
-  SendToWalletPageContainer,
-} from './SendToWalletPage.style';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useTranslation } from 'react-i18next';
 import type { BookmarkedWallet } from '../../stores';
 import { useBookmarks, useBookmarksActions } from '../../stores';
-import { shortenAddress } from '../../utils';
+import { defaultChainIdsByType, shortenAddress } from '../../utils';
 import { BookmarkAddressSheet } from './BookmarkAddressSheet';
 import { ConfirmAddressSheet } from './ConfirmAddressSheet';
 import { EmptyListIndicator } from './EmptyListIndicator';
@@ -19,12 +17,14 @@ import {
   BookmarkAddress,
   BookmarkItemContainer,
   BookmarkName,
-  WalletAvatar,
 } from '../../components/SendToWallet';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { AccountAvatar } from '../../components/AccountAvatar';
 import { useChains } from '../../hooks';
+import {
+  BookmarkButtonContainer,
+  ListContainer,
+  SendToWalletPageContainer,
+} from './SendToWalletPage.style';
 export const BookmarkedWalletsPage = () => {
   const { t } = useTranslation();
   const [selectedBookmark, setSelectedBookmark] = useState<
@@ -38,7 +38,7 @@ export const BookmarkedWalletsPage = () => {
     removeBookmarkedWallet,
     setSelectedBookmarkWallet,
   } = useBookmarksActions();
-  const { getFirstOfChainType } = useChains();
+  const { getDefaultChainByChainType } = useChains();
 
   const handleAddBookmark = () => {
     bookmarkAddressSheetRef.current?.open();
@@ -57,7 +57,7 @@ export const BookmarkedWalletsPage = () => {
   };
 
   const handleViewOnExplorer = (bookmarkedWallet: BookmarkedWallet) => {
-    const chain = getFirstOfChainType(bookmarkedWallet.chainType);
+    const chain = getDefaultChainByChainType(bookmarkedWallet.chainType);
     window.open(
       `${chain?.metamask.blockExplorerUrls[0]}address/${bookmarkedWallet.address}`,
       '_blank',
@@ -78,6 +78,7 @@ export const BookmarkedWalletsPage = () => {
             onSelected={handleBookmarkSelected}
             menuItems={[
               {
+                id: 'copyAddressMenuItem',
                 children: (
                   <>
                     <ContentCopyIcon />
@@ -87,6 +88,7 @@ export const BookmarkedWalletsPage = () => {
                 action: handleCopyAddress,
               },
               {
+                id: 'viewOnExplorerMenuItem',
                 children: (
                   <>
                     <OpenInNewIcon />
@@ -96,6 +98,7 @@ export const BookmarkedWalletsPage = () => {
                 action: handleViewOnExplorer,
               },
               {
+                id: 'removeMenuItem',
                 children: (
                   <>
                     <DeleteIcon />
@@ -106,7 +109,9 @@ export const BookmarkedWalletsPage = () => {
               },
             ]}
           >
-            <WalletAvatar />
+            <AccountAvatar
+              chainId={defaultChainIdsByType[bookmark.chainType]}
+            />
             <BookmarkItemContainer>
               <BookmarkName>{bookmark.name}</BookmarkName>
               <BookmarkAddress>

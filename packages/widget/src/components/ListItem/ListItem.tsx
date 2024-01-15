@@ -11,6 +11,7 @@ import {
 import { ListItemButton } from '../ListItemButton';
 
 interface MenuItem<ItemData> {
+  id: string;
   children: ReactNode;
   action: (payload: ItemData) => void | (() => void);
 }
@@ -88,6 +89,7 @@ export const ListItem = <ItemData extends unknown>({
           >
             {menuItems.map((menuItem) => (
               <MenuItem
+                key={menuItem.id}
                 onClick={() => {
                   menuItem.action(itemData);
                   closeMenu();

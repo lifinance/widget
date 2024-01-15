@@ -21,12 +21,13 @@ import {
 import { AlertSection } from '../AlertSection';
 import { DisabledUI, HiddenUI } from '../../types';
 import {
+  defaultChainIdsByType,
   getChainTypeFromAddress,
   navigationRoutes,
   shortenAddress,
 } from '../../utils';
 import { Card, CardTitle } from '../Card';
-import { WalletAvatar } from './WallerAvatar';
+import { AccountAvatar } from '../AccountAvatar';
 import {
   SendToWalletCardHeader,
   BookmarkAddress,
@@ -44,7 +45,7 @@ export const SendToWalletButton = () => {
   const [toAddressFieldValue] = useFieldValues('toAddress');
   const { getFieldValues } = useFieldActions();
   const { selectedBookmarkWallet } = useBookmarks();
-
+  const { accounts } = useAccount();
   const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress);
   const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress);
   const requiredToAddress = useRequiredToAddress();
@@ -88,7 +89,7 @@ export const SendToWalletButton = () => {
   ]);
 
   let address: ReactNode;
-  if (selectedBookmarkWallet) {
+  if (selectedBookmarkWallet?.name) {
     address = (
       <BookmarkItemContainer>
         <BookmarkName>{selectedBookmarkWallet.name}</BookmarkName>
@@ -107,6 +108,13 @@ export const SendToWalletButton = () => {
       : t('sendToWallet.enterAddressOrENS');
   }
 
+  const matchingConnectedAccount = accounts.find(
+    (account) => account.address === toAddressFieldValue,
+  );
+  const chainId =
+    selectedBookmarkWallet?.chainType &&
+    defaultChainIdsByType[selectedBookmarkWallet?.chainType];
+
   return (
     <Collapse
       timeout={showInstantly ? 0 : 225}
@@ -118,7 +126,12 @@ export const SendToWalletButton = () => {
         <Card onClick={handleOnClick} mb={2}>
           <CardTitle>{t('header.sendToWallet')}</CardTitle>
           <SendToWalletCardHeader
-            avatar={<WalletAvatar />}
+            avatar={
+              <AccountAvatar
+                chainId={chainId}
+                account={matchingConnectedAccount}
+              />
+            }
             title={address}
             selected={
               !!toAddressFieldValue && !(toAddress && disabledToAddress)

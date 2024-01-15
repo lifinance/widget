@@ -13,14 +13,19 @@ import {
 } from './SendToWalletPage.style';
 import type { AddressType, BookmarkedWallet } from '../../stores';
 import { useBookmarks, useBookmarksActions } from '../../stores';
+import { ListItem } from '../../components/ListItem';
+import {
+  defaultChainIdsByType,
+  navigationRoutes,
+  shortenAddress,
+} from '../../utils';
+import type { BottomSheetBase } from '../../components/BottomSheet';
+import { BookmarkName } from '../../components/SendToWallet';
+import { AccountAvatar } from '../../components/AccountAvatar';
+import { useChains } from '../../hooks';
 import { ConfirmAddressSheet } from './ConfirmAddressSheet';
 import { BookmarkAddressSheet } from './BookmarkAddressSheet';
 import { EmptyListIndicator } from './EmptyListIndicator';
-import { ListItem } from '../../components/ListItem';
-import { navigationRoutes, shortenAddress } from '../../utils';
-import type { BottomSheetBase } from '../../components/BottomSheet';
-import { BookmarkName, WalletAvatar } from '../../components/SendToWallet';
-import { useChains } from '../../hooks';
 
 export const RecentWalletsPage = () => {
   const { t } = useTranslation();
@@ -37,7 +42,7 @@ export const RecentWalletsPage = () => {
     setSelectedBookmarkWallet,
     addRecentWallet,
   } = useBookmarksActions();
-  const { getFirstOfChainType } = useChains();
+  const { getDefaultChainByChainType } = useChains();
 
   const handleRecentSelected = (recentWallet: BookmarkedWallet) => {
     setSelectedRecent(recentWallet);
@@ -62,12 +67,12 @@ export const RecentWalletsPage = () => {
     });
   };
 
-  const handleOnConfirm = () => {
-    setSelectedBookmarkWallet();
+  const handleOnConfirm = (confirmedWallet: BookmarkedWallet) => {
+    setSelectedBookmarkWallet(confirmedWallet);
     addRecentWallet(
-      selectedRecent!.address,
-      selectedRecent!.addressType,
-      selectedRecent!.chainType,
+      confirmedWallet.address,
+      confirmedWallet.addressType,
+      confirmedWallet.chainType,
     );
   };
 
@@ -76,7 +81,7 @@ export const RecentWalletsPage = () => {
   };
 
   const handleViewOnExplorer = (bookmarkedWallet: BookmarkedWallet) => {
-    const chain = getFirstOfChainType(bookmarkedWallet.chainType);
+    const chain = getDefaultChainByChainType(bookmarkedWallet.chainType);
     window.open(
       `${chain?.metamask.blockExplorerUrls[0]}address/${bookmarkedWallet.address}`,
       '_blank',
@@ -97,6 +102,7 @@ export const RecentWalletsPage = () => {
             onSelected={handleRecentSelected}
             menuItems={[
               {
+                id: 'copyAddressMenuItem',
                 children: (
                   <>
                     <ContentCopyIcon />
@@ -106,6 +112,7 @@ export const RecentWalletsPage = () => {
                 action: handleCopyAddress,
               },
               {
+                id: 'viewOnExplorerMenuItem',
                 children: (
                   <>
                     <OpenInNewIcon />
@@ -115,6 +122,7 @@ export const RecentWalletsPage = () => {
                 action: handleViewOnExplorer,
               },
               {
+                id: 'bookmarkMenuItem',
                 children: (
                   <>
                     <TurnedInIcon />
@@ -124,6 +132,7 @@ export const RecentWalletsPage = () => {
                 action: handleOpenBookmarkSheet,
               },
               {
+                id: 'removeMenuItem',
                 children: (
                   <>
                     <DeleteIcon />
@@ -134,7 +143,9 @@ export const RecentWalletsPage = () => {
               },
             ]}
           >
-            <WalletAvatar />
+            <AccountAvatar
+              chainId={defaultChainIdsByType[recentWallet.chainType]}
+            />
             <BookmarkName>
               {recentWallet.addressType === 'address'
                 ? shortenAddress(recentWallet.address)
@@ -153,13 +164,11 @@ export const RecentWalletsPage = () => {
         validatedWallet={selectedRecent}
         onAddBookmark={handleAddBookmark}
       />
-      {selectedRecent && (
-        <ConfirmAddressSheet
-          ref={confirmAddressSheetRef}
-          validatedWallet={selectedRecent}
-          onConfirm={handleOnConfirm}
-        />
-      )}
+      <ConfirmAddressSheet
+        ref={confirmAddressSheetRef}
+        validatedWallet={selectedRecent}
+        onConfirm={handleOnConfirm}
+      />
     </SendToWalletPageContainer>
   );
 };

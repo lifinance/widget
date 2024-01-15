@@ -11,7 +11,7 @@ import { navigationRoutes } from '../../utils';
 import { AlertSection } from '../../components/AlertSection';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import { CardButton } from '../../components/Card';
-import { useAddressAndENSValidation } from '../../hooks';
+import { useAccount, useAddressAndENSValidation } from '../../hooks';
 import {
   AddressInput,
   SendToWalletPageContainer,
@@ -48,6 +48,8 @@ export const SendToWalletPage = () => {
   >();
   const [errorMessage, setErrorMessage] = useState('');
   const { validateAddressOrENS } = useAddressAndENSValidation();
+  const { accounts } = useAccount();
+  const connectedWallets = accounts.filter((account) => account.isConnected);
 
   const handleInputChange = (e: ChangeEvent) => {
     setInputAddressValue((e.target as HTMLInputElement).value.trim());
@@ -95,6 +97,10 @@ export const SendToWalletPage = () => {
   const handleRecentWalletsClick = () => {
     navigate(navigationRoutes.recentWallets);
   };
+
+  const handleConnectedWalletsClick = () => {
+    navigate(navigationRoutes.connectedWallets);
+  };
   const handleBookmarkedWalletsClick = () => {
     navigate(navigationRoutes.bookmarkedWallets);
   };
@@ -109,13 +115,12 @@ export const SendToWalletPage = () => {
     navigate(navigationRoutes.bookmarkedWallets);
   };
 
-  const handleOnConfirm = () => {
-    setSelectedBookmarkWallet();
-    console.log('validatedWallet', validatedWallet);
+  const handleOnConfirm = (confirmedWallet: BookmarkedWallet) => {
+    setSelectedBookmarkWallet(confirmedWallet);
     addRecentWallet(
-      validatedWallet!.address,
-      validatedWallet!.addressType,
-      validatedWallet!.chainType,
+      confirmedWallet.address,
+      confirmedWallet.addressType,
+      confirmedWallet.chainType,
     );
   };
 
@@ -181,9 +186,11 @@ export const SendToWalletPage = () => {
       <CardButton
         title={t('sendToWallet.connectedWallets')}
         icon={<WalletIcon />}
-        onClick={() => {}}
+        onClick={handleConnectedWalletsClick}
       >
-        <WalletNumber>3</WalletNumber>
+        {!!connectedWallets.length && (
+          <WalletNumber>{connectedWallets.length}</WalletNumber>
+        )}
       </CardButton>
 
       <CardButton

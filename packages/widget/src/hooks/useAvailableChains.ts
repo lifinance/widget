@@ -3,7 +3,7 @@ import { ChainType, config, getChains } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback } from 'react';
 import { useHasExternalWalletProvider, useWidgetConfig } from '../providers';
-import { isItemAllowed } from '../utils';
+import { isItemAllowed, defaultChainIdsByType } from '../utils';
 
 export const useAvailableChains = () => {
   const { chains } = useWidgetConfig();
@@ -38,19 +38,17 @@ export const useAvailableChains = () => {
     [data],
   );
 
-  const getFirstOfChainType = useCallback(
-    (chainType: ChainType, chains: ExtendedChain[] | undefined = data) => {
-      const chain = chains?.find((chain) => chain.chainType === chainType);
-
-      return chain;
-    },
+  // TODO: Does this function live in the correct place
+  const getDefaultChainByChainType = useCallback(
+    (chainType: ChainType, chains: ExtendedChain[] | undefined = data) =>
+      getChainById(defaultChainIdsByType[chainType]),
     [data],
   );
 
   return {
     chains: data,
     getChainById,
-    getFirstOfChainType,
+    getDefaultChainByChainType,
     isLoading,
   };
 };

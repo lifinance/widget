@@ -51,6 +51,8 @@ export const NavigationHeader: React.FC = () => {
         return t(`header.bookmarkedWallets`);
       case navigationRoutes.recentWallets:
         return t(`header.recentWallets`);
+      case navigationRoutes.connectedWallets:
+        return t(`sendToWallet.connectedWallets`);
       case navigationRoutes.languages:
         return t(`language.title`);
       case navigationRoutes.transactionHistory:

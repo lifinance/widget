@@ -10,7 +10,7 @@ export const useChains = (type?: FormType) => {
     chains: availableChains,
     isLoading: isLoadingAvailableChains,
     getChainById,
-    getFirstOfChainType,
+    getDefaultChainByChainType,
   } = useAvailableChains();
 
   const filteredChains = useMemo(() => {
@@ -27,7 +27,7 @@ export const useChains = (type?: FormType) => {
   return {
     chains: filteredChains,
     getChainById,
-    getFirstOfChainType,
+    getDefaultChainByChainType,
     isLoading: isLoadingAvailableChains,
   };
 };

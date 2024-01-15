@@ -291,6 +291,7 @@
     "bookmarkWallet": "Bookmark wallet",
     "addBookmark": "Add bookmark",
     "noBookmarkedWallets": "No bookmarked wallets",
+    "noConnectedWallets": "No connected wallets",
     "noRecentWallets": "No recent wallets"
   },
   "wallet": {
