@@ -10,7 +10,7 @@ export function useInSolanaContext(): boolean {
   const { chains } = useWidgetConfig();
   const context = useContext(ConnectionContext);
   return (
-    Boolean(context?.connection) || !isItemAllowed(ChainType.SVM, chains?.types)
+    Boolean(context?.connection) && isItemAllowed(ChainType.SVM, chains?.types)
   );
 }
 
