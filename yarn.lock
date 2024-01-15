@@ -3129,12 +3129,12 @@ __metadata:
     "@ethersproject/providers": "npm:^5.7.2"
     "@lifi/sdk": "npm:^3.0.0-alpha.47"
     "@lifi/wallet-management": "npm:^3.0.0-alpha.9"
-    "@lifi/widget": "npm:^3.0.0-alpha.14"
+    "@lifi/widget": "npm:^3.0.0-alpha.15"
     "@mui/icons-material": "npm:^5.15.4"
     "@mui/lab": "npm:^5.0.0-alpha.160"
     "@mui/material": "npm:^5.15.4"
     "@opensea/seaport-js": "npm:2.0.8"
-    "@tanstack/react-query": "npm:5.12.2"
+    "@tanstack/react-query": "npm:^5.17.12"
     "@vitejs/plugin-react": "npm:^4.2.1"
     bignumber.js: "npm:^9.1.2"
     ethers: "npm:^5.7.2"
@@ -3156,7 +3156,7 @@ __metadata:
     "@esbuild-plugins/node-globals-polyfill": "npm:^0.2.3"
     "@lifi/sdk": "npm:^3.0.0-alpha.47"
     "@lifi/wallet-management": "npm:^3.0.0-alpha.9"
-    "@lifi/widget": "npm:^3.0.0-alpha.14"
+    "@lifi/widget": "npm:^3.0.0-alpha.15"
     "@mui/icons-material": "npm:^5.15.4"
     "@mui/lab": "npm:^5.0.0-alpha.160"
     "@mui/material": "npm:^5.15.4"
@@ -3164,7 +3164,7 @@ __metadata:
     "@solana/wallet-adapter-react": "npm:^0.15.35"
     "@solana/wallet-adapter-wallets": "npm:^0.19.25"
     "@solana/web3.js": "npm:^1.89.0"
-    "@tanstack/react-query": "npm:5.12.2"
+    "@tanstack/react-query": "npm:^5.17.12"
     "@vitejs/plugin-react": "npm:^4.2.1"
     ethers: "npm:^5.7.2"
     events: "npm:^3.3.0"
@@ -3181,7 +3181,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@lifi/widget@npm:^3.0.0-alpha.14, @lifi/widget@workspace:packages/widget":
+"@lifi/widget@npm:^3.0.0-alpha.15, @lifi/widget@workspace:packages/widget":
   version: 0.0.0-use.local
   resolution: "@lifi/widget@workspace:packages/widget"
   dependencies:
@@ -3196,7 +3196,7 @@ __metadata:
     "@solana/wallet-adapter-react": "npm:^0.15.35"
     "@solana/wallet-adapter-wallets": "npm:^0.19.25"
     "@solana/web3.js": "npm:^1.89.0"
-    "@tanstack/react-query": "npm:5.12.2"
+    "@tanstack/react-query": "npm:^5.17.12"
     "@tanstack/react-virtual": "npm:^3.0.1"
     cpy-cli: "npm:^5.0.0"
     i18next: "npm:^23.7.16"
@@ -3214,9 +3214,11 @@ __metadata:
     wagmi: "npm:^2.2.1"
     zustand: "npm:^4.4.7"
   peerDependencies:
-    "@types/react": ^18.0.0
-    react: ^18.0.0
-    react-dom: ^18.0.0
+    "@tanstack/react-query": ^5.17.0
+    "@types/react": ^18.2.0
+    react: ^18.2.0
+    react-dom: ^18.2.0
+    wagmi: ^2.2.0
   peerDependenciesMeta:
     "@types/react":
       optional: true
@@ -5596,21 +5598,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.12.1":
-  version: 5.12.1
-  resolution: "@tanstack/query-core@npm:5.12.1"
-  checksum: 64b06563f8bb6abba2cd2fc8fb99b963da7dba5fa837d5bb6ebc0e0a01b5fa946be6e365bddabf895d533a9196611bb12a007c1d2fff4017b0226b1c06e822dc
+"@tanstack/query-core@npm:5.17.10":
+  version: 5.17.10
+  resolution: "@tanstack/query-core@npm:5.17.10"
+  checksum: 927298e5af72c88f5f47519a90f1ef2e2e868682e7338c25eab79ae3485b42664fad3581c0a4717b52e22a41f8e073c5ad50accb571ef80fbee5e1a9bbf80aa2
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:5.12.2":
-  version: 5.12.2
-  resolution: "@tanstack/react-query@npm:5.12.2"
+"@tanstack/react-query@npm:^5.17.12":
+  version: 5.17.12
+  resolution: "@tanstack/react-query@npm:5.17.12"
   dependencies:
-    "@tanstack/query-core": "npm:5.12.1"
+    "@tanstack/query-core": "npm:5.17.10"
   peerDependencies:
     react: ^18.0.0
-  checksum: bf954750cff2b38846136ef6fa3d79b6861eb886af80ff577f644ebdbe70840603bed4bb073c9cde34c4b9e61cadbb495dfea17344e5ec8c49bc1c7fcaf2f155
+  checksum: e11c0601209aa4e5ce297a0e67cec2e35a71226531ffa47956ba5549f770ec1a332e7c8cc84d0f22e293d12d31d3ac9ba6bd4dad55ac8bdd4e7f4b50b3d5f8f0
   languageName: node
   linkType: hard
 
