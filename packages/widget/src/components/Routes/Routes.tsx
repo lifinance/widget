@@ -14,8 +14,6 @@ export const Routes: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { subvariant, useRecommendedRoute } = useWidgetConfig();
-  const [toAddress] = useFieldValues('toAddress');
-  const requiredToAddress = useRequiredToAddress();
   const {
     routes,
     isLoading,
@@ -68,13 +66,7 @@ export const Routes: React.FC<BoxProps> = (props) => {
 
         <Collapse timeout={225} in={showAll} unmountOnExit mountOnEnter appear>
           <Box mt={2}>
-            <Button
-              onClick={handleCardClick}
-              // TODO: Question: does this look it should be enough in place of isValid?
-              //  should also check is toAddress is touched?
-              disabled={requiredToAddress && !toAddress}
-              fullWidth
-            >
+            <Button onClick={handleCardClick} fullWidth>
               {t('button.showAll')}
             </Button>
           </Box>

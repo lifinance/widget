@@ -39,7 +39,6 @@ export const RoutesExpandedElement = () => {
   const navigate = useNavigate();
   const setExecutableRoute = useSetExecutableRoute();
   const { subvariant, containerStyle } = useWidgetConfig();
-  const [toAddress] = useFieldValues('toAddress');
   const {
     routes,
     isLoading,
@@ -53,14 +52,10 @@ export const RoutesExpandedElement = () => {
   const currentRoute = routes?.[0];
 
   const handleRouteClick = (route: Route) => {
-    // TODO: Question: is this enough in place of isValid?
-    //  previously was 'if (isValid && !isValidating)' - also check is toAddress touched?
-    if (toAddress) {
-      setExecutableRoute(route);
-      navigate(navigationRoutes.transactionExecution, {
-        state: { routeId: route.id },
-      });
-    }
+    setExecutableRoute(route);
+    navigate(navigationRoutes.transactionExecution, {
+      state: { routeId: route.id },
+    });
   };
 
   const expanded = Boolean(
