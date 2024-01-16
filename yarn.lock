@@ -2735,14 +2735,14 @@ __metadata:
   linkType: hard
 
 "@floating-ui/react-dom@npm:^2.0.5":
-  version: 2.0.5
-  resolution: "@floating-ui/react-dom@npm:2.0.5"
+  version: 2.0.6
+  resolution: "@floating-ui/react-dom@npm:2.0.6"
   dependencies:
     "@floating-ui/dom": "npm:^1.5.4"
   peerDependencies:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: b4fc008c725149b9565949184d844c914a8fa2687636c3c1166a1d52ca58537b3ba9b0a0e2945cf424662c846e60b173df0d325af7e700a31550e5e0b346070a
+  checksum: 4a3f828370c1b14af0e4d24df18de7b2cfd6695c189532d5949daaa43cba13ce7f231c71783b47e8c54baefcc2542650d82a4a6cebcf3d9091673f2a53d3a2cb
   languageName: node
   linkType: hard
 
@@ -3089,17 +3089,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lifi/sdk@portal:/Users/Eugene/Projects/sdk::locator=root-workspace-0b6124%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@lifi/sdk@portal:/Users/Eugene/Projects/sdk::locator=root-workspace-0b6124%40workspace%3A."
+"@lifi/sdk@npm:^3.0.0-alpha.48":
+  version: 3.0.0-alpha.48
+  resolution: "@lifi/sdk@npm:3.0.0-alpha.48"
   dependencies:
     "@lifi/types": "npm:^11.0.0-beta.3"
     "@solana/wallet-adapter-base": "npm:^0.9.23"
     "@solana/web3.js": "npm:^1.89.1"
     eth-rpc-errors: "npm:^4.0.3"
     viem: "npm:^2.1.1"
+  checksum: 3a7e68d3ec141ce4f38c29060ba9d44b8b4aa53e22062f16fb8d3d525553ccaaecf43ff0443d97867c57c0d7e3c496359d4aece29b35df95116e1e85703ad8de
   languageName: node
-  linkType: soft
+  linkType: hard
 
 "@lifi/types@npm:^11.0.0-beta.3":
   version: 11.0.0-beta.3
