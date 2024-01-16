@@ -24,7 +24,7 @@ export const ListItemContainer = styled(MuiListItem)(({ theme }) => ({
     fontWeight: 500,
   },
   [`.${listItemTextClasses.primary} + .${listItemTextClasses.secondary}`]: {
-    marginTop: theme.spacing(0.5),
+    marginTop: theme.spacing(0.25),
   },
 }));
 

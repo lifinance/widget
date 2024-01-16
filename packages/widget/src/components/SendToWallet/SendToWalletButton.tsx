@@ -16,7 +16,7 @@ import {
   navigationRoutes,
   shortenAddress,
 } from '../../utils';
-import { Card, CardHeader, CardRowButton, CardTitle } from '../Card';
+import { Card, CardRowButton, CardTitle } from '../Card';
 import { AccountAvatar } from '../AccountAvatar';
 import { SendToWalletCardHeader } from './SendToWallet.style';
 
@@ -53,14 +53,15 @@ export const SendToWalletButton = () => {
       : toAddressFieldValue
     : t('sendToWallet.enterAddressOrENS');
 
-  // TODO: look at using useAccount so that the wallet updates when Metamask is updated
   const matchingConnectedAccount = accounts.find(
     (account) => account.address === toAddressFieldValue,
   );
 
-  const chainId =
-    selectedBookmarkWallet?.chainType &&
-    defaultChainIdsByType[selectedBookmarkWallet?.chainType];
+  const chainId = matchingConnectedAccount
+    ? matchingConnectedAccount.chainId
+    : selectedBookmarkWallet?.chainType
+      ? defaultChainIdsByType[selectedBookmarkWallet?.chainType]
+      : undefined;
 
   const headerTitle = selectedBookmarkWallet?.name || address;
   const headerSubheader = !!selectedBookmarkWallet?.name && address;
