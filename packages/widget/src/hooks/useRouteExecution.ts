@@ -168,18 +168,13 @@ export const useRouteExecution = ({
   // Resume route execution after page reload
   useEffect(() => {
     // Check if route is eligible for automatic resuming
-    if (
-      isRouteActive(routeExecution?.route) &&
-      isConnected &&
-      !resumedAfterMount.current
-    ) {
+    const route = routeExecutionStoreContext.getState().routes[routeId]?.route;
+    if (isRouteActive(route) && isConnected && !resumedAfterMount.current) {
       resumedAfterMount.current = true;
       _resumeRoute();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isConnected]);
 
-  useEffect(() => {
+    // Move execution to background on unmount
     return () => {
       const route =
         routeExecutionStoreContext.getState().routes[routeId]?.route;
@@ -190,7 +185,8 @@ export const useRouteExecution = ({
       console.log('Move route execution to background.', routeId);
       resumedAfterMount.current = false;
     };
-  }, [routeExecutionStoreContext, routeId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isConnected, routeExecutionStoreContext, routeId]);
 
   return {
     executeRoute: _executeRoute,
