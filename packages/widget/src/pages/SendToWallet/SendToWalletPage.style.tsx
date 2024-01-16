@@ -135,7 +135,6 @@ export const ListContainer = styled(List)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   minHeight: 362,
-  gap: theme.spacing(1.5),
   paddingBottom: theme.spacing(3),
 }));
 

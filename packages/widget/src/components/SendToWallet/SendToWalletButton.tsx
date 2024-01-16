@@ -26,7 +26,11 @@ export const SendToWalletButton = () => {
   const { disabledUI, hiddenUI, toAddress } = useWidgetConfig();
   const { showSendToWallet, showSendToWalletDirty } = useSendToWalletStore();
   const { showDestinationWallet } = useSettings(['showDestinationWallet']);
-  const [toAddressFieldValue] = useFieldValues('toAddress');
+  const [toAddressFieldValue, toChain, fromChain] = useFieldValues(
+    'toAddress',
+    'toChain',
+    'fromChain',
+  );
   const { selectedBookmarkWallet } = useBookmarks();
   const { accounts } = useAccount();
   const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress);
@@ -66,6 +70,8 @@ export const SendToWalletButton = () => {
   const headerTitle = selectedBookmarkWallet?.name || address;
   const headerSubheader = !!selectedBookmarkWallet?.name && address;
 
+  const isToAddressRequired = requiredToAddress;
+
   return (
     <Collapse
       timeout={showInstantly ? 0 : 225}
@@ -85,7 +91,7 @@ export const SendToWalletButton = () => {
             }}
             disabled={!!(toAddress && disabledToAddress)}
           >
-            <CardTitle required={requiredToAddress}>
+            <CardTitle required={isToAddressRequired}>
               {t('header.sendToWallet')}
             </CardTitle>
             <SendToWalletCardHeader
