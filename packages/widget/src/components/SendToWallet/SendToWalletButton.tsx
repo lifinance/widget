@@ -83,8 +83,11 @@ export const SendToWalletButton = () => {
               padding: 0,
               alignItems: 'flex-start',
             }}
+            disabled={!!(toAddress && disabledToAddress)}
           >
-            <CardTitle>{t('header.sendToWallet')}</CardTitle>
+            <CardTitle required={requiredToAddress}>
+              {t('header.sendToWallet')}
+            </CardTitle>
             <SendToWalletCardHeader
               avatar={
                 <AccountAvatar

@@ -49,8 +49,6 @@ export const ConnectedWalletsPage = () => {
     );
   };
 
-  // TODO: Question: do I need to exclude any account here? As in should the active wallet be disabled?
-  //  Is there a way to identify the active connected wallet (the one the funds will come from)
   return (
     <SendToWalletPageContainer disableGutters>
       <ListContainer>
