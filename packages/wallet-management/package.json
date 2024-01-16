@@ -54,7 +54,7 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "^3.0.0-alpha.47",
+    "@lifi/sdk": "^3.0.0-alpha.48",
     "react": "^18.2.0",
     "wagmi": "^2.2.1"
   },

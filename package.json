@@ -34,12 +34,12 @@
     "@testing-library/user-event": "^14.5.2",
     "@types/eslint": "^8.56.2",
     "@types/events": "^3.0.3",
-    "@types/node": "^20.11.2",
+    "@types/node": "^20.11.4",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
     "@types/uuid": "^9.0.7",
-    "@typescript-eslint/eslint-plugin": "^6.18.1",
-    "@typescript-eslint/parser": "^6.18.1",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
     "cpy-cli": "^5.0.0",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
@@ -56,5 +56,8 @@
     "react-dom": "^18.2.0",
     "standard-version": "^9.5.0",
     "typescript": "^5.3.3"
+  },
+  "resolutions": {
+    "@lifi/sdk": "portal:/Users/Eugene/Projects/sdk"
   }
 }

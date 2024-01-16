@@ -24,7 +24,7 @@
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
-    "@lifi/sdk": "^3.0.0-alpha.47",
+    "@lifi/sdk": "^3.0.0-alpha.48",
     "@lifi/wallet-management": "^3.0.0-alpha.9",
     "@lifi/widget": "^3.0.0-alpha.15",
     "@mui/icons-material": "^5.15.4",
@@ -33,14 +33,14 @@
     "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/wallet-adapter-react": "^0.15.35",
     "@solana/wallet-adapter-wallets": "^0.19.25",
-    "@solana/web3.js": "^1.89.0",
-    "@tanstack/react-query": "^5.17.12",
+    "@solana/web3.js": "^1.89.1",
+    "@tanstack/react-query": "^5.17.14",
     "ethers": "^5.7.2",
     "events": "^3.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.2",
-    "viem": "^2.0.10",
+    "viem": "^2.1.1",
     "wagmi": "^2.2.1"
   },
   "devDependencies": {
