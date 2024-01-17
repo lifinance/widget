@@ -5,6 +5,7 @@ import { ChainSelect } from '../../components/ChainSelect';
 import { PageContainer } from '../../components/PageContainer';
 import { TokenList } from '../../components/TokenList';
 import {
+  useAvailableChains,
   useContentHeight,
   useNavigateBack,
   useScrollableOverflowHidden,
@@ -12,6 +13,11 @@ import {
 } from '../../hooks';
 import type { FormTypeProps } from '../../stores';
 import { SearchTokenInput } from './SearchTokenInput';
+import {
+  useBookmarks,
+  useBookmarksActions,
+  useFieldActions,
+} from '../../stores';
 
 const minTokenListHeight = 360;
 
@@ -22,6 +28,10 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
   const contentHeight = useContentHeight();
   const [tokenListHeight, setTokenListHeight] = useState(0);
   const swapOnly = useSwapOnly();
+  const { getChainById } = useAvailableChains();
+  const { getFieldValues, resetField } = useFieldActions();
+  const { selectedBookmarkWallet } = useBookmarks();
+  const { setSelectedBookmarkWallet } = useBookmarksActions();
 
   useLayoutEffect(() => {
     setTokenListHeight(
@@ -34,6 +44,34 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
 
   const hideChainSelect = swapOnly && formType === 'to';
 
+  const ensureToAddressIsAlignedWithToChainType = () => {
+    const [toToken, fromToken, fromChainId, toChainId] = getFieldValues(
+      'toToken',
+      'fromToken',
+      'fromChain',
+      'toChain',
+    );
+
+    const fromChain = getChainById(fromChainId);
+    const toChain = getChainById(toChainId);
+
+    const requiredChainType =
+      !!fromToken && !!toToken && !!fromChain && !!toChain && toChain.chainType;
+
+    if (
+      requiredChainType &&
+      selectedBookmarkWallet &&
+      selectedBookmarkWallet.chainType !== requiredChainType
+    ) {
+      setSelectedBookmarkWallet();
+      resetField('toAddress');
+    }
+  };
+  const handleTokenListItemClick = () => {
+    ensureToAddressIsAlignedWithToChainType();
+    navigateBack();
+  };
+
   return (
     <PageContainer disableGutters>
       <Box pt={1} pb={2} px={3} ref={headerRef}>
@@ -44,7 +82,7 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
       </Box>
       <TokenList
         height={tokenListHeight}
-        onClick={navigateBack}
+        onClick={handleTokenListItemClick}
         formType={formType}
       />
     </PageContainer>

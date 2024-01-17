@@ -26,11 +26,7 @@ export const SendToWalletButton = () => {
   const { disabledUI, hiddenUI, toAddress } = useWidgetConfig();
   const { showSendToWallet, showSendToWalletDirty } = useSendToWalletStore();
   const { showDestinationWallet } = useSettings(['showDestinationWallet']);
-  const [toAddressFieldValue, toChain, fromChain] = useFieldValues(
-    'toAddress',
-    'toChain',
-    'fromChain',
-  );
+  const [toAddressFieldValue] = useFieldValues('toAddress');
   const { selectedBookmarkWallet } = useBookmarks();
   const { accounts } = useAccount();
   const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress);
