@@ -18,6 +18,7 @@ import {
   SendToWalletSheetContainer,
   SheetAddress,
   SheetTitle,
+  ValidationAlert,
 } from './SendToWalletPage.style';
 import { Button } from '@mui/material';
 import type { AddressType, BookmarkedWallet } from '../../stores';
@@ -159,29 +160,19 @@ export const BookmarkAddressSheet = forwardRef<
             </SendToWalletCard>
           )}
           {!!errorMessage && (
-            <AlertSection
-              severity="error"
-              icon={<ErrorIcon />}
-              sx={{ padding: '0' }}
-            >
+            <ValidationAlert icon={<ErrorIcon />}>
               {errorMessage}
-            </AlertSection>
+            </ValidationAlert>
           )}
         </BookmarkInputFields>
         <SendToWalletButtonRow>
-          <Button
-            sx={{ flexGrow: 1 }}
-            variant="text"
-            onClick={handleCancel}
-            disableRipple
-          >
+          <Button sx={{ flexGrow: 1 }} variant="text" onClick={handleCancel}>
             {t('button.cancel')}
           </Button>
           <Button
             sx={{ flexGrow: 1 }}
             variant="contained"
             onClick={handleBookmark}
-            disableRipple
           >
             {t('button.bookmark')}
           </Button>

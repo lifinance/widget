@@ -54,19 +54,13 @@ export const ConfirmAddressSheet = forwardRef<
           {t('info.message.fundsToExchange')}
         </AlertSection>
         <SendToWalletButtonRow>
-          <Button
-            sx={{ flexGrow: 1 }}
-            variant="text"
-            onClick={handleCancel}
-            disableRipple
-          >
+          <Button sx={{ flexGrow: 1 }} variant="text" onClick={handleCancel}>
             {t('button.cancel')}
           </Button>
           <Button
             sx={{ flexGrow: 1 }}
             variant="contained"
             onClick={handleConfirm}
-            disableRipple
           >
             {t('button.confirm')}
           </Button>

@@ -26,6 +26,7 @@ import {
   SendToWalletButton,
   WalletNumber,
   SendToWalletIconButton,
+  ValidationAlert,
 } from './SendToWalletPage.style';
 import { ConfirmAddressSheet } from './ConfirmAddressSheet';
 import { BookmarkAddressSheet } from './BookmarkAddressSheet';
@@ -164,28 +165,20 @@ export const SendToWalletPage = () => {
           multiline
         />
         {!!errorMessage && (
-          <AlertSection
-            severity="error"
-            icon={<ErrorIcon />}
-            sx={{ padding: '0' }}
-          >
+          <ValidationAlert icon={<ErrorIcon />} sx={{ pb: 2, paddingX: 2 }}>
             {errorMessage}
-          </AlertSection>
+          </ValidationAlert>
         )}
-        <SendToWalletButtonRow>
+        <SendToWalletButtonRow sx={{ paddingX: 2, paddingBottom: 2 }}>
           <SendToWalletButton
             variant="text"
             onClick={handleDone}
             sx={{ flexGrow: 1 }}
-            disableRipple
           >
             {t('button.done')}
           </SendToWalletButton>
           <Tooltip title={t('button.bookmark')} arrow>
-            <SendToWalletIconButton
-              onClick={handleBookmarkAddress}
-              disableRipple
-            >
+            <SendToWalletIconButton onClick={handleBookmarkAddress}>
               <TurnedInIcon fontSize="small" />
             </SendToWalletIconButton>
           </Tooltip>

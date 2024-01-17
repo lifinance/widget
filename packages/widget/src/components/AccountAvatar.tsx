@@ -2,8 +2,8 @@ import { Avatar, Badge } from '@mui/material';
 import WalletIcon from '@mui/icons-material/Wallet';
 import { getWalletIcon } from '@lifi/wallet-management';
 import { Connector } from 'wagmi';
-import { useAvailableChains } from '@lifi/widget';
-import { Account } from '../hooks';
+import type { Account } from '../hooks';
+import { useChain } from '../hooks';
 import { SmallAvatar } from './SmallAvatar';
 
 interface AccountAvatar {
@@ -18,8 +18,7 @@ const WalletAvatar = () => (
 );
 
 export const AccountAvatar = ({ chainId, account }: AccountAvatar) => {
-  const { getChainById } = useAvailableChains();
-  const chain = getChainById(chainId);
+  const { chain } = useChain(chainId);
 
   const avatar = account ? (
     <Avatar

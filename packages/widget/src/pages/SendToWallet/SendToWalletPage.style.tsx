@@ -1,6 +1,5 @@
 import type { Theme } from '@mui/material';
 import {
-  InputBase,
   Box,
   Button,
   Typography,
@@ -8,21 +7,27 @@ import {
   inputBaseClasses,
   styled,
   List,
+  Alert,
+  alertClasses,
 } from '@mui/material';
 import { Card } from '../../components/Card';
 import type { PageContainerProps } from '../../components/PageContainer';
 import { PageContainer } from '../../components/PageContainer';
+import { Input } from '../../components/Input';
 
-export const NameInput = styled(InputBase)(() => ({
-  alignItems: 'start',
+export const NameInput = styled(Input)(({ theme }) => ({
+  padding: 0,
+  minHeight: 57,
   [`.${inputBaseClasses.input}`]: {
-    fontWeight: 500,
-    lineHeight: 1.25,
-    paddingBottom: 0,
+    padding: theme.spacing(2),
   },
 }));
-export const AddressInput = styled(NameInput)(() => ({
-  minHeight: 48,
+export const AddressInput = styled(Input)(({ theme }) => ({
+  padding: 0,
+  [`.${inputBaseClasses.input}`]: {
+    padding: theme.spacing(2),
+    minHeight: 50,
+  },
 }));
 
 export const BookmarkInputFields = styled(Box)(({ theme }) => ({
@@ -45,9 +50,6 @@ export const SendToWalletPageContainer = styled(
 export const SendToWalletCard = styled(Card)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  gap: theme.spacing(2),
-  padding: theme.spacing(2),
-  flexGrow: 1,
 }));
 
 export const SendToWalletSheetContainer = styled(Box)(({ theme }) => ({
@@ -164,4 +166,19 @@ export const EmptyListMessage = styled(Typography)(({ theme }) => ({
     theme.palette.mode === 'light'
       ? theme.palette.grey[600]
       : theme.palette.grey[400],
+}));
+
+export const ValidationAlert = styled(Alert)(({ theme }) => ({
+  backgroundColor: 'transparent',
+  padding: 0,
+  color: theme.palette.text.primary,
+  [`.${alertClasses.icon}`]: {
+    padding: 0,
+    opacity: 0.8,
+    color:
+      theme.palette.mode === 'light'
+        ? theme.palette.error.light
+        : theme.palette.error.dark,
+  },
+  [`.${alertClasses.message}`]: { padding: 0 },
 }));
