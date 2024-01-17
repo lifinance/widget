@@ -14,7 +14,7 @@ import { EmptyListIndicator } from './EmptyListIndicator';
 import { ListItem } from '../../components/ListItem';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import { AccountAvatar } from '../../components/AccountAvatar';
-import { useChains } from '../../hooks';
+import { useChains, useToAddressRequirements } from '../../hooks';
 import {
   BookmarkButtonContainer,
   ListContainer,
@@ -28,6 +28,7 @@ export const BookmarkedWalletsPage = () => {
   const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null);
   const confirmAddressSheetRef = useRef<BottomSheetBase>(null);
   const { bookmarkedWallets } = useBookmarks();
+  const { requiredChainType } = useToAddressRequirements();
   const {
     addBookmarkedWallet,
     removeBookmarkedWallet,
@@ -72,6 +73,9 @@ export const BookmarkedWalletsPage = () => {
           <ListItem<BookmarkedWallet>
             key={bookmark.address}
             itemData={bookmark}
+            disabled={
+              requiredChainType && requiredChainType !== bookmark.chainType
+            }
             onSelected={handleBookmarkSelected}
             menuItems={[
               {

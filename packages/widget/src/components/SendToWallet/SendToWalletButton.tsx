@@ -1,7 +1,7 @@
 import { Collapse } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useAccount, useRequiredToAddress } from '../../hooks';
+import { useAccount, useToAddressRequirements } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
 import {
   useBookmarks,
@@ -35,7 +35,7 @@ export const SendToWalletButton = () => {
   const { accounts } = useAccount();
   const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress);
   const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress);
-  const requiredToAddress = useRequiredToAddress();
+  const { requiredToAddress } = useToAddressRequirements();
 
   const showInstantly =
     Boolean(
@@ -46,9 +46,7 @@ export const SendToWalletButton = () => {
     ) || requiredToAddress;
 
   const handleOnClick = () => {
-    if (!(toAddress && disabledToAddress)) {
-      navigate(navigationRoutes.sendToWallet);
-    }
+    navigate(navigationRoutes.sendToWallet);
   };
 
   const address = toAddressFieldValue
@@ -67,10 +65,12 @@ export const SendToWalletButton = () => {
       ? defaultChainIdsByType[selectedBookmarkWallet?.chainType]
       : undefined;
 
-  const headerTitle = selectedBookmarkWallet?.name || address;
-  const headerSubheader = !!selectedBookmarkWallet?.name && address;
-
-  const isToAddressRequired = requiredToAddress;
+  const headerTitle = selectedBookmarkWallet?.isConnectedAccount
+    ? matchingConnectedAccount?.connector?.name || address
+    : selectedBookmarkWallet?.name || address;
+  const headerSubheader = selectedBookmarkWallet?.isConnectedAccount
+    ? !!matchingConnectedAccount && address
+    : !!selectedBookmarkWallet?.name && address;
 
   return (
     <Collapse
@@ -89,9 +89,9 @@ export const SendToWalletButton = () => {
               padding: 0,
               alignItems: 'flex-start',
             }}
-            disabled={!!(toAddress && disabledToAddress)}
+            disabled={!!toAddress && disabledToAddress}
           >
-            <CardTitle required={isToAddressRequired}>
+            <CardTitle required={requiredToAddress}>
               {t('header.sendToWallet')}
             </CardTitle>
             <SendToWalletCardHeader

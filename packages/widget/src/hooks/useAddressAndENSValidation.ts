@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useConfig } from 'wagmi';
 import { ChainType } from '@lifi/sdk';
 import { getEnsAddress } from '@wagmi/core';
-import { useRequiredToAddress } from '../hooks';
+import { useToAddressRequirements } from '../hooks';
 import { normalize } from 'viem/ens';
 import { useFieldActions } from '../stores';
 import type { AddressType } from '../stores';
@@ -24,7 +24,7 @@ export const useAddressAndENSValidation = () => {
   const { t } = useTranslation();
   const { getFieldValues } = useFieldActions();
   const config = useConfig();
-  const requiredToAddress = useRequiredToAddress();
+  const requiredToAddress = useToAddressRequirements();
 
   const validateAddressOrENS = useCallback(
     async (value: string): Promise<ValidResponse | InvalidResponse> => {

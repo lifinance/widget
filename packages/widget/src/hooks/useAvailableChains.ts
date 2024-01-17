@@ -3,7 +3,7 @@ import { ChainType, config, getChains } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback } from 'react';
 import { useHasExternalWalletProvider, useWidgetConfig } from '../providers';
-import { isItemAllowed, defaultChainIdsByType } from '../utils';
+import { isItemAllowed } from '../utils';
 
 export const useAvailableChains = () => {
   const { chains } = useWidgetConfig();

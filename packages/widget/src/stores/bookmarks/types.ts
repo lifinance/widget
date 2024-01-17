@@ -9,6 +9,7 @@ export interface BookmarkedWallet {
   chainType: ChainType;
   addressType?: AddressType;
   name?: string;
+  isConnectedAccount?: boolean;
 }
 export interface BookmarksProps {
   selectedBookmarkWallet?: BookmarkedWallet;

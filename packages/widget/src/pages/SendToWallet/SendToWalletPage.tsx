@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import type { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { Tooltip } from '@mui/material';
 import ErrorIcon from '@mui/icons-material/Error';
 import HistoryIcon from '@mui/icons-material/History';
 import WalletIcon from '@mui/icons-material/Wallet';
@@ -11,7 +12,12 @@ import { navigationRoutes } from '../../utils';
 import { AlertSection } from '../../components/AlertSection';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import { CardButton } from '../../components/Card';
-import { useAccount, useAddressAndENSValidation } from '../../hooks';
+import {
+  useAccount,
+  useAddressAndENSValidation,
+  useChain,
+  useToAddressRequirements,
+} from '../../hooks';
 import {
   AddressInput,
   SendToWalletPageContainer,
@@ -28,6 +34,7 @@ import {
   BookmarkedWallet,
   useBookmarks,
   useBookmarksActions,
+  useFieldValues,
 } from '../../stores';
 
 export const SendToWalletPage = () => {
@@ -50,6 +57,9 @@ export const SendToWalletPage = () => {
   const { validateAddressOrENS } = useAddressAndENSValidation();
   const { accounts } = useAccount();
   const connectedWallets = accounts.filter((account) => account.isConnected);
+  const { requiredChainType } = useToAddressRequirements();
+  const [toChainId] = useFieldValues('toChain');
+  const { chain: toChain } = useChain(toChainId);
 
   const handleInputChange = (e: ChangeEvent) => {
     setInputAddressValue((e.target as HTMLInputElement).value.trim());
@@ -59,7 +69,21 @@ export const SendToWalletPage = () => {
 
     setErrorMessage(validationCheck.error);
 
-    if (validationCheck.isValid) {
+    let validChain = true;
+    if (
+      requiredChainType &&
+      validationCheck.isValid &&
+      validationCheck.chainType !== requiredChainType
+    ) {
+      validChain = false;
+      setErrorMessage(
+        t('error.title.walletChainTypeInvalid', {
+          chainName: toChain?.name,
+        }),
+      );
+    }
+
+    if (validChain && validationCheck.isValid) {
       setValidatedWallet({
         address: inputAddressValue,
         addressType: validationCheck.addressType,
@@ -126,7 +150,7 @@ export const SendToWalletPage = () => {
 
   return (
     <SendToWalletPageContainer topBottomGutters>
-      <SendToWalletCard mb={3}>
+      <SendToWalletCard mb={1.5}>
         <AddressInput
           size="small"
           autoComplete="off"
@@ -157,9 +181,14 @@ export const SendToWalletPage = () => {
           >
             {t('button.done')}
           </SendToWalletButton>
-          <SendToWalletIconButton onClick={handleBookmarkAddress} disableRipple>
-            <TurnedInIcon fontSize="small" />
-          </SendToWalletIconButton>
+          <Tooltip title={t('button.bookmark')} arrow>
+            <SendToWalletIconButton
+              onClick={handleBookmarkAddress}
+              disableRipple
+            >
+              <TurnedInIcon fontSize="small" />
+            </SendToWalletIconButton>
+          </Tooltip>
         </SendToWalletButtonRow>
         <ConfirmAddressSheet
           ref={confirmAddressSheetRef}

@@ -20,6 +20,7 @@ interface ListItemProps<ItemData> extends PropsWithChildren {
   itemData: ItemData;
   onSelected: (bookmark: ItemData) => void;
   menuItems?: MenuItem<ItemData>[];
+  disabled?: boolean;
 }
 
 export const ListItem = <ItemData extends unknown>({
@@ -27,6 +28,7 @@ export const ListItem = <ItemData extends unknown>({
   onSelected,
   menuItems,
   children,
+  disabled,
 }: ListItemProps<ItemData>) => {
   const { t } = useTranslation();
   const moreButtonId = useId();
@@ -49,8 +51,13 @@ export const ListItem = <ItemData extends unknown>({
   return (
     <ListItemContainer>
       <ListItemButton
-        sx={{ display: 'flex', justifyContent: 'space-between', height: 64 }}
-        onClick={handleSelected}
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          height: 64,
+        }}
+        onClick={!disabled ? handleSelected : undefined}
+        disabled={disabled}
         disableRipple
       >
         {children}
@@ -64,6 +71,7 @@ export const ListItem = <ItemData extends unknown>({
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
             onClick={handleMenuOpen}
+            sx={{ opacity: disabled ? 0.5 : 1 }}
             disableRipple
           >
             <MoreHorizIcon fontSize="small" />

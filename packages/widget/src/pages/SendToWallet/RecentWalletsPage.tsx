@@ -20,9 +20,8 @@ import {
   shortenAddress,
 } from '../../utils';
 import type { BottomSheetBase } from '../../components/BottomSheet';
-import { BookmarkName } from '../../components/SendToWallet';
 import { AccountAvatar } from '../../components/AccountAvatar';
-import { useChains } from '../../hooks';
+import { useChains, useToAddressRequirements } from '../../hooks';
 import { ConfirmAddressSheet } from './ConfirmAddressSheet';
 import { BookmarkAddressSheet } from './BookmarkAddressSheet';
 import { EmptyListIndicator } from './EmptyListIndicator';
@@ -37,6 +36,7 @@ export const RecentWalletsPage = () => {
   const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null);
   const confirmAddressSheetRef = useRef<BottomSheetBase>(null);
   const { recentWallets } = useBookmarks();
+  const { requiredChainType } = useToAddressRequirements();
   const {
     removeRecentWallet,
     addBookmarkedWallet,
@@ -102,6 +102,9 @@ export const RecentWalletsPage = () => {
           <ListItem<BookmarkedWallet>
             key={recentWallet.address}
             itemData={recentWallet}
+            disabled={
+              requiredChainType && requiredChainType !== recentWallet.chainType
+            }
             onSelected={handleRecentSelected}
             menuItems={[
               {
@@ -146,14 +149,6 @@ export const RecentWalletsPage = () => {
               },
             ]}
           >
-            {/*<AccountAvatar*/}
-            {/*  chainId={defaultChainIdsByType[recentWallet.chainType]}*/}
-            {/*/>*/}
-            {/*<BookmarkName>*/}
-            {/*  {recentWallet.addressType === 'address'*/}
-            {/*    ? shortenAddress(recentWallet.address)*/}
-            {/*    : recentWallet.address}*/}
-            {/*</BookmarkName>*/}
             <ListItemAvatar>
               <AccountAvatar
                 chainId={defaultChainIdsByType[recentWallet.chainType]}

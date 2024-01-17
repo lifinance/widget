@@ -15,7 +15,7 @@ export * from './useInitializer';
 export * from './useLanguages';
 export * from './useNavigateBack';
 export * from './useProcessMessage';
-export * from './useRequiredToAddress';
+export * from './useToAddressRequirements';
 export * from './useRouteExecution';
 export * from './useRoutes';
 export * from './useScrollableContainer';

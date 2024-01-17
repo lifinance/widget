@@ -14,7 +14,7 @@ import type { BottomSheetBase } from '../../components/BottomSheet';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import type { Account } from '../../hooks';
-import { useAccount, useChains } from '../../hooks';
+import { useAccount, useChains, useToAddressRequirements } from '../../hooks';
 import { AccountAvatar } from '../../components/AccountAvatar';
 import { useBookmarksActions } from '../../stores';
 import { ListItemAvatar, ListItemText } from '@mui/material';
@@ -26,6 +26,7 @@ export const ConnectedWalletsPage = () => {
   const connectedWallets = accounts.filter((account) => account.isConnected);
   const { setSelectedBookmarkWallet } = useBookmarksActions();
   const { getChainById } = useChains();
+  const { requiredChainType } = useToAddressRequirements();
 
   const handleWalletSelected = (account: Account) => {
     setSelectedAccount(account);
@@ -59,6 +60,9 @@ export const ConnectedWalletsPage = () => {
             <ListItem<Account>
               key={account.address}
               itemData={account}
+              disabled={
+                requiredChainType && requiredChainType !== account.chainType
+              }
               onSelected={handleWalletSelected}
               menuItems={[
                 {
@@ -107,6 +111,7 @@ export const ConnectedWalletsPage = () => {
             address: selectedAccount.address!,
             addressType: 'address',
             chainType: selectedAccount.chainType,
+            isConnectedAccount: true,
           }
         }
         onConfirm={handleOnConfirm}

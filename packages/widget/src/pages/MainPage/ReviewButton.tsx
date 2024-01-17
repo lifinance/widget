@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { BaseTransactionButton } from '../../components/BaseTransactionButton';
-import { useRequiredToAddress, useRoutes } from '../../hooks';
+import { useToAddressRequirements, useRoutes } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
 import {
   useSetExecutableRoute,
@@ -17,7 +17,7 @@ export const ReviewButton: React.FC = () => {
   const { subvariant } = useWidgetConfig();
   const splitState = useSplitSubvariantStore((state) => state.state);
   const [toAddress] = useFieldValues('toAddress');
-  const requiredToAddress = useRequiredToAddress();
+  const { requiredToAddress } = useToAddressRequirements();
   const { routes } = useRoutes();
 
   const currentRoute = routes?.[0];
