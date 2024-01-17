@@ -23,7 +23,7 @@ export const widgetBaseConfig: WidgetConfig = {
   buildUrl: true,
   // hiddenUI: ['poweredBy', 'language', 'appearance', 'drawerButton'],
   // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
-  requiredUI: ['toAddress'],
+  // requiredUI: ['toAddress'],
   // slippage: 0.003,
   insurance: true,
   sdkConfig: {
