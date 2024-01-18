@@ -43,7 +43,8 @@ export const TokenList: FC<TokenListProps> = ({
   let filteredTokens = (tokensWithBalance ??
     chainTokens ??
     []) as TokenAmount[];
-  const searchFilter = tokenSearchFilter?.toUpperCase() ?? '';
+  const searchFilter =
+    tokenSearchFilter?.replaceAll('$', '')?.toUpperCase() ?? '';
   filteredTokens = tokenSearchFilter
     ? filteredTokens.filter(
         (token) =>
