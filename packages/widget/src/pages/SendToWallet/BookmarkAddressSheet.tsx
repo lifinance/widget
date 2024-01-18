@@ -3,10 +3,10 @@ import { forwardRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
 import ErrorIcon from '@mui/icons-material/Error';
+import { Button } from '@mui/material';
 import type { ChainType } from '@lifi/sdk';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import { BottomSheet } from '../../components/BottomSheet';
-import { AlertSection } from '../../components/AlertSection';
 import { useAddressAndENSValidation } from '../../hooks';
 import {
   AddressInput,
@@ -20,7 +20,6 @@ import {
   SheetTitle,
   ValidationAlert,
 } from './SendToWalletPage.style';
-import { Button } from '@mui/material';
 import type { AddressType, BookmarkedWallet } from '../../stores';
 import { useBookmarksActions } from '../../stores';
 
@@ -173,6 +172,7 @@ export const BookmarkAddressSheet = forwardRef<
             sx={{ flexGrow: 1 }}
             variant="contained"
             onClick={handleBookmark}
+            focusRipple
           >
             {t('button.bookmark')}
           </Button>

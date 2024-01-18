@@ -147,7 +147,7 @@ export const BookmarkButtonContainer = styled(Box)(({ theme }) => ({
   flexGrow: 1,
   position: 'sticky',
   bottom: 0,
-  padding: theme.spacing(0, 1, 2),
+  padding: theme.spacing(0, 2, 2),
   marginBottom: theme.spacing(-1.5),
 }));
 export const EmptyContainer = styled(Box)(({ theme }) => ({
