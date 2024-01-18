@@ -7,5 +7,5 @@ export const MainGasMessage: React.FC<BoxProps> = (props) => {
 
   const currentRoute = routes?.[0];
 
-  return <GasMessage route={currentRoute} {...props} />;
+  return <GasMessage route={currentRoute} allowReducibleAmount {...props} />;
 };

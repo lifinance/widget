@@ -1,4 +1,4 @@
-import type { EVMChain, Route, Token } from '@lifi/sdk';
+import type { ExtendedChain, Route, Token } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
 import Big from 'big.js';
 import { useChains, useGasRefuel, useGetTokenBalancesWithRetry } from '.';
@@ -11,7 +11,7 @@ export interface GasSufficiency {
   insufficientAmount?: Big;
   insufficient?: boolean;
   token: Token;
-  chain?: EVMChain;
+  chain?: ExtendedChain;
 }
 
 const refetchInterval = 30_000;

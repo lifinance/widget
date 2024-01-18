@@ -7,9 +7,14 @@ import { GasSufficiencyMessage } from './GasSufficiencyMessage';
 
 interface GasMessageProps extends BoxProps {
   route?: Route;
+  allowReducibleAmount?: boolean;
 }
 
-export const GasMessage: React.FC<GasMessageProps> = ({ route, ...props }) => {
+export const GasMessage: React.FC<GasMessageProps> = ({
+  route,
+  allowReducibleAmount,
+  ...props
+}) => {
   const { insufficientGas } = useGasSufficiency(route);
   const { insufficientFromToken } = useFromTokenSufficiency(route);
 
@@ -26,7 +31,10 @@ export const GasMessage: React.FC<GasMessageProps> = ({ route, ...props }) => {
         {insufficientFromToken ? (
           <FundsSufficiencyMessage />
         ) : validInsufficientGas ? (
-          <GasSufficiencyMessage insufficientGas={insufficientGas} />
+          <GasSufficiencyMessage
+            insufficientGas={insufficientGas}
+            allowReducibleAmount={allowReducibleAmount}
+          />
         ) : null}
       </Box>
     </Collapse>
