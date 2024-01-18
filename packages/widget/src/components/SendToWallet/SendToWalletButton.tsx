@@ -16,9 +16,11 @@ import {
   navigationRoutes,
   shortenAddress,
 } from '../../utils';
-import { Card, CardRowButton, CardTitle } from '../Card';
+import { Card, CardRowContainer, CardTitle } from '../Card';
 import { AccountAvatar } from '../AccountAvatar';
 import { SendToWalletCardHeader } from './SendToWallet.style';
+
+const SendToWalletCard = Card.withComponent('button');
 
 export const SendToWalletButton = () => {
   const { t } = useTranslation();
@@ -76,16 +78,17 @@ export const SendToWalletButton = () => {
       unmountOnExit
     >
       <>
-        <Card mb={2}>
-          <CardRowButton
-            onClick={handleOnClick}
-            disableRipple
+        <SendToWalletCard
+          sx={{ mb: 2 }}
+          onClick={!!toAddress && disabledToAddress ? undefined : handleOnClick}
+          disabled={!!toAddress && disabledToAddress}
+        >
+          <CardRowContainer
             sx={{
               flexDirection: 'column',
               padding: 0,
               alignItems: 'flex-start',
             }}
-            disabled={!!toAddress && disabledToAddress}
           >
             <CardTitle required={requiredToAddress}>
               {t('header.sendToWallet')}
@@ -103,8 +106,8 @@ export const SendToWalletButton = () => {
                 !!toAddressFieldValue && !(toAddress && disabledToAddress)
               }
             />
-          </CardRowButton>
-        </Card>
+          </CardRowContainer>
+        </SendToWalletCard>
       </>
     </Collapse>
   );

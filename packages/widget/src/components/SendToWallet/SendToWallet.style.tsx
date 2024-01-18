@@ -1,4 +1,3 @@
-import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { CardHeader } from '../Card';
 import { cardHeaderClasses } from '@mui/material/CardHeader';
