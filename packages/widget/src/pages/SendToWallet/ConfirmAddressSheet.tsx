@@ -5,7 +5,7 @@ import type { BottomSheetBase } from '../../components/BottomSheet';
 import { BottomSheet } from '../../components/BottomSheet';
 import type { MutableRefObject } from 'react';
 import { forwardRef } from 'react';
-import { AlertSection } from '../../components/AlertSection';
+import { AlertMessage } from '../../components/AlertMessage';
 import WalletIcon from '@mui/icons-material/Wallet';
 import {
   SendToWalletButtonRow,
@@ -17,7 +17,7 @@ import {
 import { navigationRoutes } from '../../utils';
 import type { BookmarkedWallet } from '../../stores';
 import { useFieldActions } from '../../stores';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 interface ConfirmAddressSheetProps {
   onConfirm: (wallet: BookmarkedWallet) => void;
   validatedWallet?: BookmarkedWallet;
@@ -50,9 +50,14 @@ export const ConfirmAddressSheet = forwardRef<
         </IconContainer>
         <SheetTitle>{t('sendToWallet.confirmWalletAddress')}</SheetTitle>
         <SheetAddress>{validatedWallet?.address}</SheetAddress>
-        <AlertSection severity="info" icon={<InfoIcon />}>
-          {t('info.message.fundsToExchange')}
-        </AlertSection>
+        <AlertMessage
+          title={
+            <Typography variant="body2">
+              {t('info.message.fundsToExchange')}
+            </Typography>
+          }
+          icon={<InfoIcon />}
+        />
         <SendToWalletButtonRow>
           <Button sx={{ flexGrow: 1 }} variant="text" onClick={handleCancel}>
             {t('button.cancel')}
