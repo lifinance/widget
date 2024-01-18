@@ -103,7 +103,7 @@ export const BookmarkedWalletsPage = () => {
                 children: (
                   <>
                     <DeleteIcon />
-                    {t('button.remove')}
+                    {t('button.delete')}
                   </>
                 ),
                 action: handleRemoveBookmark,

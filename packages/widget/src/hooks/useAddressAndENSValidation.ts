@@ -66,7 +66,7 @@ export const useAddressAndENSValidation = () => {
       } catch {
         return {
           isValid: false,
-          error: t('error.title.walletEnsAddressInvalid'),
+          error: t('error.title.walletAddressOrENSInvalid'),
         };
       }
     },

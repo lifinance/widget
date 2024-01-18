@@ -195,7 +195,7 @@ export const SendToWalletPage = () => {
       </SendToWalletCard>
 
       <CardButton
-        title={t('sendToWallet.recentWallets')}
+        title={t('header.recentWallets')}
         icon={<HistoryIcon />}
         onClick={handleRecentWalletsClick}
       >

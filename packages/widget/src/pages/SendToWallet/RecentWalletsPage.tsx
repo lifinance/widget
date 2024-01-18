@@ -143,7 +143,7 @@ export const RecentWalletsPage = () => {
                 children: (
                   <>
                     <DeleteIcon />
-                    {t('button.remove')}
+                    {t('button.delete')}
                   </>
                 ),
                 action: handleRemoveRecentWallet,
