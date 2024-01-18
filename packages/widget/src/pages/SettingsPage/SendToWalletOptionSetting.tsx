@@ -9,8 +9,12 @@ import {
   useSettingsStore,
 } from '../../stores';
 import { HiddenUI } from '../../types';
-import { Card, CardTitleContainer, CardValue } from '../../components/Card';
-import { SummaryRowContainer } from './SettingsCard';
+import {
+  Card,
+  CardRowContainer,
+  CardTitleContainer,
+  CardValue,
+} from '../../components/Card';
 
 export const SendToWalletOptionSetting = () => {
   const { t } = useTranslation();
@@ -32,13 +36,13 @@ export const SendToWalletOptionSetting = () => {
 
   return (
     <Card>
-      <SummaryRowContainer>
+      <CardRowContainer>
         <CardTitleContainer>
           <WalletIcon />
           <CardValue>{t(`settings.sendToWalletOption`)}</CardValue>
         </CardTitleContainer>
         <Switch checked={showDestinationWallet} onChange={onChange} />
-      </SummaryRowContainer>
+      </CardRowContainer>
     </Card>
   );
 };

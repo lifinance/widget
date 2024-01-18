@@ -26,7 +26,7 @@ export const ConnectedWalletsPage = () => {
   const connectedWallets = accounts.filter((account) => account.isConnected);
   const { setSelectedBookmarkWallet } = useBookmarksActions();
   const { getChainById } = useChains();
-  const { requiredChainType } = useToAddressRequirements();
+  const { requiredToChainType } = useToAddressRequirements();
 
   const handleWalletSelected = (account: Account) => {
     setSelectedAccount(account);
@@ -61,7 +61,7 @@ export const ConnectedWalletsPage = () => {
               key={account.address}
               itemData={account}
               disabled={
-                requiredChainType && requiredChainType !== account.chainType
+                requiredToChainType && requiredToChainType !== account.chainType
               }
               onSelected={handleWalletSelected}
               menuItems={[

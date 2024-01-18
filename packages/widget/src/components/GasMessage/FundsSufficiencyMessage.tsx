@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { AlertMessage } from '../AlertMessage';
 import { styled } from '@mui/material/styles';
 
+// TODO: some of the styling currently used here doesn't align with usage in other places
+//  We might want to consider removing the padding and color here?
 const AlertTitle = styled(Typography)(({ theme }) => {
   return {
     ...theme.typography.body2,

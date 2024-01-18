@@ -36,7 +36,7 @@ export const RecentWalletsPage = () => {
   const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null);
   const confirmAddressSheetRef = useRef<BottomSheetBase>(null);
   const { recentWallets } = useBookmarks();
-  const { requiredChainType } = useToAddressRequirements();
+  const { requiredToChainType } = useToAddressRequirements();
   const {
     removeRecentWallet,
     addBookmarkedWallet,
@@ -103,7 +103,8 @@ export const RecentWalletsPage = () => {
             key={recentWallet.address}
             itemData={recentWallet}
             disabled={
-              requiredChainType && requiredChainType !== recentWallet.chainType
+              requiredToChainType &&
+              requiredToChainType !== recentWallet.chainType
             }
             onSelected={handleRecentSelected}
             menuItems={[

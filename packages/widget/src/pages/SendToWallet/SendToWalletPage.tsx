@@ -57,7 +57,7 @@ export const SendToWalletPage = () => {
   const { validateAddressOrENS } = useAddressAndENSValidation();
   const { accounts } = useAccount();
   const connectedWallets = accounts.filter((account) => account.isConnected);
-  const { requiredChainType } = useToAddressRequirements();
+  const { requiredToChainType } = useToAddressRequirements();
   const [toChainId] = useFieldValues('toChain');
   const { chain: toChain } = useChain(toChainId);
 
@@ -71,9 +71,9 @@ export const SendToWalletPage = () => {
 
     let validChain = true;
     if (
-      requiredChainType &&
+      requiredToChainType &&
       validationCheck.isValid &&
-      validationCheck.chainType !== requiredChainType
+      validationCheck.chainType !== requiredToChainType
     ) {
       validChain = false;
       setErrorMessage(

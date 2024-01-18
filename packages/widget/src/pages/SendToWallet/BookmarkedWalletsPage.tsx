@@ -28,7 +28,7 @@ export const BookmarkedWalletsPage = () => {
   const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null);
   const confirmAddressSheetRef = useRef<BottomSheetBase>(null);
   const { bookmarkedWallets } = useBookmarks();
-  const { requiredChainType } = useToAddressRequirements();
+  const { requiredToChainType } = useToAddressRequirements();
   const {
     addBookmarkedWallet,
     removeBookmarkedWallet,
@@ -74,7 +74,7 @@ export const BookmarkedWalletsPage = () => {
             key={bookmark.address}
             itemData={bookmark}
             disabled={
-              requiredChainType && requiredChainType !== bookmark.chainType
+              requiredToChainType && requiredToChainType !== bookmark.chainType
             }
             onSelected={handleBookmarkSelected}
             menuItems={[
