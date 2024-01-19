@@ -66,6 +66,7 @@ export const SendToWalletButton = () => {
   const headerTitle = selectedBookmarkWallet?.isConnectedAccount
     ? matchingConnectedAccount?.connector?.name || address
     : selectedBookmarkWallet?.name || address;
+
   const headerSubheader = selectedBookmarkWallet?.isConnectedAccount
     ? !!matchingConnectedAccount && address
     : !!selectedBookmarkWallet?.name && address;
