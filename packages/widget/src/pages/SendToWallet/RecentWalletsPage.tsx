@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useId, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { ChainType } from '@lifi/sdk';
@@ -7,13 +7,14 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import {
   ListContainer,
+  OptionsMenuButton,
   SendToWalletPageContainer,
 } from './SendToWalletPage.style';
 import type { AddressType, BookmarkedWallet } from '../../stores';
 import { useBookmarks, useBookmarksActions } from '../../stores';
-import { ListItem } from '../../components/ListItem';
 import {
   defaultChainIdsByType,
   navigationRoutes,
@@ -25,7 +26,9 @@ import { useChains, useToAddressRequirements } from '../../hooks';
 import { ConfirmAddressSheet } from './ConfirmAddressSheet';
 import { BookmarkAddressSheet } from './BookmarkAddressSheet';
 import { EmptyListIndicator } from './EmptyListIndicator';
-import { ListItemAvatar, ListItemText } from '@mui/material';
+import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material';
+import { ListItem, ListItemButton } from '../../components/ListItem';
+import { Menu } from '../../components/Menu';
 
 export const RecentWalletsPage = () => {
   const { t } = useTranslation();
@@ -50,11 +53,6 @@ export const RecentWalletsPage = () => {
     confirmAddressSheetRef.current?.open();
   };
 
-  const handleOpenBookmarkSheet = (recentWallet: BookmarkedWallet) => {
-    setSelectedRecent(recentWallet);
-    bookmarkAddressSheetRef.current?.open();
-  };
-
   const handleAddBookmark = (
     name: string,
     address: string,
@@ -77,91 +75,102 @@ export const RecentWalletsPage = () => {
     );
   };
 
-  const handleCopyAddress = (bookmarkedWallet: BookmarkedWallet) => {
-    navigator.clipboard.writeText(bookmarkedWallet.address);
+  const moreMenuId = useId();
+  const [moreMenuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>();
+  const open = Boolean(moreMenuAnchorEl);
+  const closeMenu = () => {
+    setMenuAnchorEl(null);
+  };
+  const handleMenuOpen = (
+    el: HTMLElement,
+    bookmarkedWallet: BookmarkedWallet,
+  ) => {
+    setMenuAnchorEl(el);
+    setSelectedRecent(bookmarkedWallet);
   };
 
-  const handleViewOnExplorer = (bookmarkedWallet: BookmarkedWallet) => {
-    const chain = getChainById(
-      defaultChainIdsByType[bookmarkedWallet.chainType],
-    );
-    window.open(
-      `${chain?.metamask.blockExplorerUrls[0]}address/${bookmarkedWallet.address}`,
-      '_blank',
-    );
+  const handleCopyAddress = () => {
+    if (selectedRecent) {
+      navigator.clipboard.writeText(selectedRecent.address);
+    }
+    closeMenu();
   };
 
-  const handleRemoveRecentWallet = (bookmarkedWallet: BookmarkedWallet) => {
-    removeRecentWallet(bookmarkedWallet);
+  const handleViewOnExplorer = () => {
+    if (selectedRecent) {
+      const chain = getChainById(
+        defaultChainIdsByType[selectedRecent.chainType],
+      );
+      window.open(
+        `${chain?.metamask.blockExplorerUrls[0]}address/${selectedRecent.address}`,
+        '_blank',
+      );
+    }
+    closeMenu();
   };
 
+  const handleOpenBookmarkSheet = () => {
+    if (selectedRecent) {
+      setSelectedRecent(selectedRecent);
+      bookmarkAddressSheetRef.current?.open();
+    }
+  };
+  const handleRemoveRecentWallet = () => {
+    if (selectedRecent) {
+      removeRecentWallet(selectedRecent);
+    }
+    closeMenu();
+  };
   return (
     <SendToWalletPageContainer disableGutters>
       <ListContainer sx={{ minHeight: 418 }}>
         {recentWallets.map((recentWallet) => (
-          <ListItem<BookmarkedWallet>
-            key={recentWallet.address}
-            itemData={recentWallet}
-            disabled={
-              requiredToChainType &&
-              requiredToChainType !== recentWallet.chainType
-            }
-            onSelected={handleRecentSelected}
-            menuItems={[
-              {
-                id: 'copyAddressMenuItem',
-                children: (
-                  <>
-                    <ContentCopyIcon />
-                    {t('button.copyAddress')}
-                  </>
-                ),
-                action: handleCopyAddress,
-              },
-              {
-                id: 'viewOnExplorerMenuItem',
-                children: (
-                  <>
-                    <OpenInNewIcon />
-                    {t('button.viewOnExplorer')}
-                  </>
-                ),
-                action: handleViewOnExplorer,
-              },
-              {
-                id: 'bookmarkMenuItem',
-                children: (
-                  <>
-                    <TurnedInIcon />
-                    {t('button.bookmark')}
-                  </>
-                ),
-                action: handleOpenBookmarkSheet,
-              },
-              {
-                id: 'removeMenuItem',
-                children: (
-                  <>
-                    <DeleteIcon />
-                    {t('button.delete')}
-                  </>
-                ),
-                action: handleRemoveRecentWallet,
-              },
-            ]}
-          >
-            <ListItemAvatar>
-              <AccountAvatar
-                chainId={defaultChainIdsByType[recentWallet.chainType]}
-              />
-            </ListItemAvatar>
-            <ListItemText
-              primary={
-                recentWallet.addressType === 'address'
-                  ? shortenAddress(recentWallet.address)
-                  : recentWallet.address
-              }
-            />
+          <ListItem key={recentWallet.address} sx={{ position: 'relative' }}>
+            <>
+              <ListItemButton
+                disabled={
+                  requiredToChainType &&
+                  requiredToChainType !== recentWallet.chainType
+                }
+                onClick={() => handleRecentSelected(recentWallet)}
+              >
+                <ListItemAvatar>
+                  <AccountAvatar
+                    chainId={defaultChainIdsByType[recentWallet.chainType]}
+                  />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
+                    recentWallet.addressType === 'address'
+                      ? shortenAddress(recentWallet.address)
+                      : recentWallet.address
+                  }
+                />
+              </ListItemButton>
+              <OptionsMenuButton
+                aria-label={t('button.options')}
+                aria-controls={
+                  open && recentWallet.address === selectedRecent?.address
+                    ? moreMenuId
+                    : undefined
+                }
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                onClick={(e) =>
+                  handleMenuOpen(e.target as HTMLElement, recentWallet)
+                }
+                sx={{
+                  opacity:
+                    requiredToChainType &&
+                    requiredToChainType !== recentWallet.chainType
+                      ? 0.5
+                      : 1,
+                }}
+                disableRipple
+              >
+                <MoreHorizIcon fontSize="small" />
+              </OptionsMenuButton>
+            </>
           </ListItem>
         ))}
         {!recentWallets.length && (
@@ -169,6 +178,38 @@ export const RecentWalletsPage = () => {
             {t('sendToWallet.noRecentWallets')}
           </EmptyListIndicator>
         )}
+        <Menu
+          id={moreMenuId}
+          elevation={0}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          anchorEl={moreMenuAnchorEl}
+          open={open}
+          onClose={closeMenu}
+        >
+          <MenuItem onClick={handleCopyAddress} disableRipple>
+            <ContentCopyIcon />
+            {t('button.copyAddress')}
+          </MenuItem>
+          <MenuItem onClick={handleViewOnExplorer} disableRipple>
+            <OpenInNewIcon />
+            {t('button.viewOnExplorer')}
+          </MenuItem>
+          <MenuItem onClick={handleOpenBookmarkSheet} disableRipple>
+            <TurnedInIcon />
+            {t('button.bookmark')}
+          </MenuItem>
+          <MenuItem onClick={handleRemoveRecentWallet} disableRipple>
+            <DeleteIcon />
+            {t('button.delete')}
+          </MenuItem>
+        </Menu>
       </ListContainer>
       <BookmarkAddressSheet
         ref={bookmarkAddressSheetRef}

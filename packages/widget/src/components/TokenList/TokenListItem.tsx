@@ -18,7 +18,8 @@ import {
   formatTokenPrice,
   shortenAddress,
 } from '../../utils';
-import { IconButton, ListItem, ListItemButton } from './TokenList.style';
+import { ListItemButton } from '../ListItem';
+import { IconButton, ListItem } from './TokenList.style';
 import type { TokenListItemButtonProps, TokenListItemProps } from './types';
 
 export const TokenListItem: React.FC<TokenListItemProps> = ({
@@ -38,7 +39,6 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
   };
   return (
     <ListItem
-      disablePadding
       style={{
         height: `${size}px`,
         transform: `translateY(${start}px)`,

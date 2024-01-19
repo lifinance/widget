@@ -42,8 +42,6 @@ export const SendToWalletPageContainer = styled(
 )<PageContainerProps>(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  paddingLeft: theme.spacing(1),
-  paddingRight: theme.spacing(1),
   gap: theme.spacing(1),
 }));
 
@@ -147,7 +145,7 @@ export const BookmarkButtonContainer = styled(Box)(({ theme }) => ({
   flexGrow: 1,
   position: 'sticky',
   bottom: 0,
-  padding: theme.spacing(0, 2, 2),
+  padding: theme.spacing(0, 3, 2),
   marginBottom: theme.spacing(-1.5),
 }));
 export const EmptyContainer = styled(Box)(({ theme }) => ({
@@ -181,4 +179,16 @@ export const ValidationAlert = styled(Alert)(({ theme }) => ({
         : theme.palette.error.dark,
   },
   [`.${alertClasses.message}`]: { padding: 0 },
+}));
+
+export const OptionsMenuButton = styled(IconButton)(({ theme }) => ({
+  position: 'absolute',
+  top: theme.spacing(1.75),
+  right: theme.spacing(2),
+  '&:hover, &:focus': {
+    background:
+      theme.palette.mode === 'light'
+        ? theme.palette.grey[200]
+        : theme.palette.grey[800],
+  },
 }));
