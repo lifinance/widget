@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { FocusEventHandler, useRef, useState } from 'react';
 import type { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +13,7 @@ import type { BottomSheetBase } from '../../components/BottomSheet';
 import { CardButton } from '../../components/Card';
 import {
   useAccount,
-  useAddressAndENSValidation,
+  useAddressValidation,
   useChain,
   useToAddressRequirements,
 } from '../../hooks';
@@ -49,12 +49,14 @@ export const SendToWalletPage = () => {
   } = useBookmarksActions();
   const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null);
   const confirmAddressSheetRef = useRef<BottomSheetBase>(null);
+  const doneButtonRef = useRef<HTMLButtonElement>(null);
+  const boomarkButtonRef = useRef<HTMLButtonElement>(null);
   const [inputAddressValue, setInputAddressValue] = useState('');
   const [validatedWallet, setValidatedWallet] = useState<
     BookmarkedWallet | undefined
   >();
   const [errorMessage, setErrorMessage] = useState('');
-  const { validateAddressOrENS } = useAddressAndENSValidation();
+  const { validateAddress, isValidating } = useAddressValidation();
   const { accounts } = useAccount();
   const connectedWallets = accounts.filter((account) => account.isConnected);
   const { requiredToChainType } = useToAddressRequirements();
@@ -64,57 +66,62 @@ export const SendToWalletPage = () => {
   const handleInputChange = (e: ChangeEvent) => {
     setInputAddressValue((e.target as HTMLInputElement).value.trim());
   };
+
   const handleDone = async () => {
-    const validationCheck = await validateAddressOrENS(inputAddressValue);
+    if (!isValidating) {
+      const validationCheck = await validateAddress(inputAddressValue);
 
-    setErrorMessage(validationCheck.error);
+      setErrorMessage(validationCheck.error);
 
-    let validChain = true;
-    if (
-      requiredToChainType &&
-      validationCheck.isValid &&
-      validationCheck.chainType !== requiredToChainType
-    ) {
-      validChain = false;
-      setErrorMessage(
-        t('error.title.walletChainTypeInvalid', {
-          chainName: toChain?.name,
-        }),
-      );
-    }
+      let validChain = true;
+      if (
+        requiredToChainType &&
+        validationCheck.isValid &&
+        validationCheck.chainType !== requiredToChainType
+      ) {
+        validChain = false;
+        setErrorMessage(
+          t('error.title.walletChainTypeInvalid', {
+            chainName: toChain?.name,
+          }),
+        );
+      }
 
-    if (validChain && validationCheck.isValid) {
-      setValidatedWallet({
-        address: inputAddressValue,
-        addressType: validationCheck.addressType,
-        chainType: validationCheck.chainType,
-      });
-      confirmAddressSheetRef.current?.open();
+      if (validChain && validationCheck.isValid) {
+        setValidatedWallet({
+          address: inputAddressValue,
+          addressType: validationCheck.addressType,
+          chainType: validationCheck.chainType,
+        });
+        confirmAddressSheetRef.current?.open();
+      }
     }
   };
 
   const handleBookmarkAddress = async () => {
-    const existingBookmarkWallet = getBookmarkedWallet(inputAddressValue);
-    if (existingBookmarkWallet) {
-      setErrorMessage(
-        t('error.title.bookmarkAlreadyExists', {
-          name: existingBookmarkWallet.name,
-        }),
-      );
-      return;
-    }
+    if (!isValidating) {
+      const existingBookmarkWallet = getBookmarkedWallet(inputAddressValue);
+      if (existingBookmarkWallet) {
+        setErrorMessage(
+          t('error.title.bookmarkAlreadyExists', {
+            name: existingBookmarkWallet.name,
+          }),
+        );
+        return;
+      }
 
-    const validationCheck = await validateAddressOrENS(inputAddressValue);
+      const validationCheck = await validateAddress(inputAddressValue);
 
-    setErrorMessage(validationCheck.error);
+      setErrorMessage(validationCheck.error);
 
-    if (validationCheck.isValid) {
-      setValidatedWallet({
-        address: inputAddressValue,
-        addressType: validationCheck.addressType,
-        chainType: validationCheck.chainType,
-      });
-      bookmarkAddressSheetRef.current?.open();
+      if (validationCheck.isValid) {
+        setValidatedWallet({
+          address: inputAddressValue,
+          addressType: validationCheck.addressType,
+          chainType: validationCheck.chainType,
+        });
+        bookmarkAddressSheetRef.current?.open();
+      }
     }
   };
 
@@ -148,6 +155,19 @@ export const SendToWalletPage = () => {
     );
   };
 
+  const handleOnBlur: FocusEventHandler = async (e) => {
+    if (
+      !(
+        e.relatedTarget === doneButtonRef.current ||
+        e.relatedTarget === boomarkButtonRef.current
+      ) &&
+      !isValidating
+    ) {
+      const validationCheck = await validateAddress(inputAddressValue);
+      setErrorMessage(validationCheck.error);
+    }
+  };
+
   return (
     <SendToWalletPageContainer topBottomGutters>
       <SendToWalletCard mb={1.5}>
@@ -158,6 +178,7 @@ export const SendToWalletPage = () => {
           autoCapitalize="off"
           spellCheck="false"
           onChange={handleInputChange}
+          onBlur={handleOnBlur}
           value={inputAddressValue}
           placeholder={t('sendToWallet.enterAddressOrENS')}
           aria-label={t('sendToWallet.enterAddressOrENS')}
@@ -170,6 +191,7 @@ export const SendToWalletPage = () => {
         )}
         <SendToWalletButtonRow sx={{ paddingX: 2, paddingBottom: 2 }}>
           <SendToWalletButton
+            ref={doneButtonRef}
             variant="text"
             onClick={handleDone}
             sx={{ flexGrow: 1 }}
@@ -177,7 +199,10 @@ export const SendToWalletPage = () => {
             {t('button.done')}
           </SendToWalletButton>
           <Tooltip title={t('button.bookmark')} arrow>
-            <SendToWalletIconButton onClick={handleBookmarkAddress}>
+            <SendToWalletIconButton
+              ref={boomarkButtonRef}
+              onClick={handleBookmarkAddress}
+            >
               <TurnedInIcon fontSize="small" />
             </SendToWalletIconButton>
           </Tooltip>
