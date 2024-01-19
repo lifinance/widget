@@ -1,8 +1,8 @@
 import { AlertMessageCard, AlertMessageCardTitle } from './AlertMessage.style';
 import type { Severity } from './types';
 import type { PropsWithChildren, ReactNode } from 'react';
-import { Theme as SystemTheme } from '@mui/system/createTheme/createTheme';
-import { SxProps } from '@mui/system/styleFunctionSx';
+import type { Theme as SystemTheme } from '@mui/system/createTheme/createTheme';
+import type { SxProps } from '@mui/system/styleFunctionSx';
 
 interface AlertMessageProps<Theme extends object = SystemTheme>
   extends PropsWithChildren {

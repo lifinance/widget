@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useMatch, useNavigate } from 'react-router-dom';
 import { useRoutes } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
-import { useSetExecutableRoute, useFieldValues } from '../../stores';
+import { useSetExecutableRoute } from '../../stores';
 import { navigationRoutes } from '../../utils';
 import { PageContainer } from '../PageContainer';
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate';

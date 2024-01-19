@@ -1,6 +1,6 @@
 import type { UseBoundStoreWithEqualityFn } from 'zustand/esm/traditional';
 import type { StoreApi } from 'zustand';
-import { ChainType } from '@lifi/sdk';
+import type { ChainType } from '@lifi/sdk';
 
 export type AddressType = 'address' | 'ENS' | undefined;
 

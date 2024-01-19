@@ -1,7 +1,6 @@
-import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useConfig } from 'wagmi';
-import { ChainType } from '@lifi/sdk';
+import type { ChainType } from '@lifi/sdk';
 import { getEnsAddress } from '@wagmi/core';
 import { useToAddressRequirements } from '../hooks';
 import { normalize } from 'viem/ens';

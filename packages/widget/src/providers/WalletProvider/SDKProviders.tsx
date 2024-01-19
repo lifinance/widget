@@ -1,4 +1,5 @@
-import { EVM, SDKProvider, Solana, config } from '@lifi/sdk';
+import type { SDKProvider } from '@lifi/sdk';
+import { EVM, Solana, config } from '@lifi/sdk';
 import type { WalletAdapter } from '@solana/wallet-adapter-base';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { getWalletClient, switchChain } from '@wagmi/core';

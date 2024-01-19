@@ -1,5 +1,5 @@
-import { FocusEventHandler, useRef, useState } from 'react';
-import type { ChangeEvent } from 'react';
+import { useRef, useState } from 'react';
+import type { ChangeEvent, FocusEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Tooltip } from '@mui/material';
@@ -29,9 +29,8 @@ import {
 } from './SendToWalletPage.style';
 import { ConfirmAddressSheet } from './ConfirmAddressSheet';
 import { BookmarkAddressSheet } from './BookmarkAddressSheet';
+import type { AddressType, BookmarkedWallet } from '../../stores';
 import {
-  AddressType,
-  BookmarkedWallet,
   useBookmarks,
   useBookmarksActions,
   useFieldValues,

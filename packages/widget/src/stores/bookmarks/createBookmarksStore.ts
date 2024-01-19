@@ -3,7 +3,6 @@ import { createWithEqualityFn } from 'zustand/traditional';
 import { persist } from 'zustand/middleware';
 import type { BookmarksState } from './types';
 import type { PersistStoreProps } from '../../stores/types';
-import { AddressType } from './types';
 
 export const createBookmarksStore = ({ namePrefix }: PersistStoreProps) =>
   createWithEqualityFn<BookmarksState>(
