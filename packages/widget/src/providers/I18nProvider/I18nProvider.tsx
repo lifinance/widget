@@ -1,7 +1,7 @@
 import type { i18n } from 'i18next';
 import { createInstance } from 'i18next';
 import { useMemo } from 'react';
-import { I18nextProvider, initReactI18next } from 'react-i18next';
+import { I18nextProvider } from 'react-i18next';
 import * as supportedLanguages from '../../i18n';
 import { useSettings } from '../../stores';
 import { deepMerge, isItemAllowed } from '../../utils';
@@ -58,7 +58,7 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
       returnEmptyString: false,
     });
 
-    i18n.use(initReactI18next).init();
+    i18n.init();
 
     return i18n;
   }, [language, languageResources, languages]);
