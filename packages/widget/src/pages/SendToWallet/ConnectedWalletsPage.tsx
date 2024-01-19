@@ -36,8 +36,8 @@ export const ConnectedWalletsPage = () => {
     confirmAddressSheetRef.current?.open();
   };
 
-  const handleOnConfirm = (accountWalletDetails: BookmarkedWallet) => {
-    setSelectedBookmarkWallet(accountWalletDetails);
+  const handleOnConfirm = (accountWallet: BookmarkedWallet) => {
+    setSelectedBookmarkWallet(accountWallet);
   };
 
   const moreMenuId = useId();
@@ -172,26 +172,3 @@ export const ConnectedWalletsPage = () => {
     </SendToWalletPageContainer>
   );
 };
-
-// [
-//   {
-//     id: 'copyAddressMenuItem',
-//     children: (
-//       <>
-//         <ContentCopyIcon />
-//         {t('button.copyAddress')}
-//       </>
-//     ),
-//     action: handleCopyAddress,
-//   },
-//   {
-//     id: 'viewOnExplorerMenuItem',
-//     children: (
-//       <>
-//         <OpenInNewIcon />
-//         {t('button.viewOnExplorer')}
-//       </>
-//     ),
-//     action: handleViewOnExplorer,
-//   },
-// ]

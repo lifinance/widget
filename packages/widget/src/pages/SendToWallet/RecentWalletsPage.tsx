@@ -81,12 +81,9 @@ export const RecentWalletsPage = () => {
   const closeMenu = () => {
     setMenuAnchorEl(null);
   };
-  const handleMenuOpen = (
-    el: HTMLElement,
-    bookmarkedWallet: BookmarkedWallet,
-  ) => {
+  const handleMenuOpen = (el: HTMLElement, recentWallet: BookmarkedWallet) => {
     setMenuAnchorEl(el);
-    setSelectedRecent(bookmarkedWallet);
+    setSelectedRecent(recentWallet);
   };
 
   const handleCopyAddress = () => {

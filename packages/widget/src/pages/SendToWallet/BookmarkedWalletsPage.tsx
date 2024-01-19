@@ -43,13 +43,13 @@ export const BookmarkedWalletsPage = () => {
     bookmarkAddressSheetRef.current?.open();
   };
 
-  const handleBookmarkSelected = (bookmark: BookmarkedWallet) => {
-    setSelectedBookmark(bookmark);
+  const handleBookmarkSelected = (bookmarkedWallet: BookmarkedWallet) => {
+    setSelectedBookmark(bookmarkedWallet);
     confirmAddressSheetRef.current?.open();
   };
 
-  const handleOnConfirm = (bookmark: BookmarkedWallet) => {
-    setSelectedBookmarkWallet(bookmark);
+  const handleOnConfirm = (confirmedWallet: BookmarkedWallet) => {
+    setSelectedBookmarkWallet(confirmedWallet);
   };
 
   const moreMenuId = useId();
