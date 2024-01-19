@@ -3,14 +3,13 @@ import type {
   FullStatusData,
   Process,
   Status,
-  StatusResponse,
   Substatus,
   TokenAmount,
   ToolsResponse,
 } from '@lifi/sdk';
 import type { RouteExecution } from '../stores';
 
-const buildProcessFromTxHistory = (tx: StatusResponse): Process[] => {
+const buildProcessFromTxHistory = (tx: FullStatusData): Process[] => {
   const sending = tx.sending as ExtendedTransactionInfo;
   const receiving = tx.receiving as ExtendedTransactionInfo;
 
@@ -65,7 +64,7 @@ const buildProcessFromTxHistory = (tx: StatusResponse): Process[] => {
 };
 
 export const buildRouteFromTxHistory = (
-  tx: StatusResponse,
+  tx: FullStatusData,
   tools?: ToolsResponse,
 ) => {
   const sending = tx.sending as ExtendedTransactionInfo;

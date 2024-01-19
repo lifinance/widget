@@ -19,10 +19,9 @@ export const TransactionHistoryItem: React.FC<{
   const { i18n } = useTranslation();
   const navigate = useNavigate();
 
-  const sending: ExtendedTransactionInfo =
-    transaction.sending as ExtendedTransactionInfo;
-  const receiving: ExtendedTransactionInfo =
-    transaction.receiving as ExtendedTransactionInfo;
+  const sending = transaction.sending as ExtendedTransactionInfo;
+  const receiving = (transaction as FullStatusData)
+    .receiving as ExtendedTransactionInfo;
 
   const handleClick = () => {
     navigate(navigationRoutes.transactionDetails, {
@@ -32,9 +31,7 @@ export const TransactionHistoryItem: React.FC<{
     });
   };
 
-  const startedAt = new Date(
-    ((sending as ExtendedTransactionInfo).timestamp ?? 0) * 1000,
-  );
+  const startedAt = new Date((sending.timestamp ?? 0) * 1000);
 
   if (!sending.token?.chainId || !receiving.token?.chainId) {
     return null;

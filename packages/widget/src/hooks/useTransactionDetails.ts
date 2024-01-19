@@ -56,10 +56,9 @@ export const useTransactionDetails = (transactionHash: string) => {
     enabled: Boolean(account.address),
     initialData: () => {
       const transaction = queryClient
-        .getQueryData<StatusResponse[]>([
-          'transaction-history',
-          account.address,
-        ])
+        .getQueryData<
+          StatusResponse[]
+        >(['transaction-history', account.address])
         ?.find((t) => t.sending.txHash === transactionHash);
 
       if (transaction) {
