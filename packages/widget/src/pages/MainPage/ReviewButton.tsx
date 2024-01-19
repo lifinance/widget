@@ -66,8 +66,6 @@ export const ReviewButton: React.FC = () => {
     <BaseTransactionButton
       text={getButtonText()}
       onClick={handleClick}
-      // TODO: Question: is this enough in place of isValid?
-      //   Maybe we need to be doing something like checking if values are touched
       disabled={currentRoute && requiredToAddress && !toAddress}
     />
   );
