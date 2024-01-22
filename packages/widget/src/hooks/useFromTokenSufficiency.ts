@@ -9,7 +9,6 @@ import { getTokenBalancesWithRetry } from './useTokenBalance';
 const refetchInterval = 30_000;
 
 export const useFromTokenSufficiency = (route?: RouteExtended) => {
-  const { accounts } = useAccount();
   const [fromChainId, fromTokenAddress, fromAmount] = useFieldValues(
     'fromChain',
     'fromToken',
@@ -29,14 +28,12 @@ export const useFromTokenSufficiency = (route?: RouteExtended) => {
     isLoading: isTokenAddressBalanceLoading,
   } = useTokenAddressBalance(chainId, tokenAddress);
 
-  const account = accounts.find(
-    (account) => account.chainType === chain?.chainType,
-  );
+  const { account } = useAccount({ chainType: chain?.chainType });
 
   const { data: insufficientFromToken, isLoading } = useQuery({
     queryKey: [
       'from-token-sufficiency-check',
-      account?.address,
+      account.address,
       chainId,
       tokenAddress,
       route?.id ?? fromAmount,
@@ -77,9 +74,7 @@ export const useFromTokenSufficiency = (route?: RouteExtended) => {
       return insufficientFunds;
     },
 
-    enabled: Boolean(
-      account?.address && token && !isTokenAddressBalanceLoading,
-    ),
+    enabled: Boolean(account.address && token && !isTokenAddressBalanceLoading),
     refetchInterval,
     staleTime: refetchInterval,
     placeholderData: keepPreviousData,

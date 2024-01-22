@@ -23,7 +23,7 @@ export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
   const { subvariant, hiddenUI, variant } = useWidgetConfig();
   const { navigateBack } = useNavigateBack();
-  const { isConnected } = useAccount();
+  const { account } = useAccount();
   const { element, title } = useHeaderStore((state) => state);
   const { pathname } = useLocation();
 
@@ -126,7 +126,8 @@ export const NavigationHeader: React.FC = () => {
             path={navigationRoutes.home}
             element={
               <HeaderControlsContainer>
-                {isConnected && !hiddenUI?.includes(HiddenUI.History) ? (
+                {account.isConnected &&
+                !hiddenUI?.includes(HiddenUI.History) ? (
                   <TransactionHistoryButton />
                 ) : null}
                 <SettingsButton />

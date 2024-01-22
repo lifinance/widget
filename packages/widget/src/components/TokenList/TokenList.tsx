@@ -39,7 +39,8 @@ export const TokenList: FC<TokenListProps> = ({
   let filteredTokens = (tokensWithBalance ??
     chainTokens ??
     []) as TokenAmount[];
-  const searchFilter = tokenSearchFilter?.toUpperCase() ?? '';
+  const normalizedSearchFilter = tokenSearchFilter?.replaceAll('$', '');
+  const searchFilter = normalizedSearchFilter?.toUpperCase() ?? '';
   filteredTokens = tokenSearchFilter
     ? filteredTokens.filter(
         (token) =>
@@ -56,7 +57,7 @@ export const TokenList: FC<TokenListProps> = ({
     !!selectedChainId;
 
   const { token: searchedToken, isLoading: isSearchedTokenLoading } =
-    useTokenSearch(selectedChainId, tokenSearchFilter, tokenSearchEnabled);
+    useTokenSearch(selectedChainId, normalizedSearchFilter, tokenSearchEnabled);
 
   const isLoading =
     isTokensLoading ||

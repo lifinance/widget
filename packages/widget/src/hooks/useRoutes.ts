@@ -21,7 +21,6 @@ interface RoutesProps {
 
 export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
   const { subvariant, sdkConfig, insurance, contractTool } = useWidgetConfig();
-  const { accounts } = useAccount();
   const queryClient = useQueryClient();
   const config = useConfig();
   const swapOnly = useSwapOnly();
@@ -67,10 +66,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
   const { enabled: enabledRefuel, fromAmount: gasRecommendationFromAmount } =
     useGasRefuel();
 
-  const accountAddress = fromChain?.chainType
-    ? accounts.find((account) => account.chainType === fromChain.chainType)
-        ?.address
-    : undefined;
+  const { account } = useAccount({ chainType: fromChain?.chainType });
 
   const hasAmount = Number(fromTokenAmount) > 0 || Number(toTokenAmount) > 0;
 
@@ -80,7 +76,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
           toContractAddress &&
             toContractCallData &&
             toContractGasLimit &&
-            accountAddress,
+            account.address,
         )
       : true;
 
@@ -101,7 +97,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
   // Some values should be strictly typed and isEnabled ensures that
   const queryKey = [
     'routes',
-    accountAddress,
+    account.address,
     fromChainId as number,
     fromToken?.address as string,
     fromTokenAmount,

@@ -1,3 +1,4 @@
+import { FullStatusData } from '@lifi/sdk';
 import ContentCopyIcon from '@mui/icons-material/ContentCopyRounded';
 import { Box, IconButton, Typography } from '@mui/material';
 import { useEffect, useMemo } from 'react';
@@ -39,7 +40,10 @@ export const TransactionDetailsPage: React.FC = () => {
       return;
     }
     if (transaction) {
-      const routeExecution = buildRouteFromTxHistory(transaction, tools);
+      const routeExecution = buildRouteFromTxHistory(
+        transaction as FullStatusData,
+        tools,
+      );
       return routeExecution;
     }
   }, [isLoading, storedRouteExecution, tools, transaction]);

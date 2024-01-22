@@ -1,4 +1,4 @@
-import type { StatusResponse } from '@lifi/sdk';
+import type { FullStatusData, StatusResponse } from '@lifi/sdk';
 import { getTransactionHistory, type ExtendedTransactionInfo } from '@lifi/sdk';
 import type { QueryFunction } from '@tanstack/react-query';
 import { useQueries } from '@tanstack/react-query';
@@ -37,7 +37,8 @@ export const useTransactionHistory = () => {
         .flatMap((result) => result.data)
         .filter(
           (transaction) =>
-            transaction?.receiving.chainId && transaction.sending.chainId,
+            (transaction as FullStatusData)?.receiving?.chainId &&
+            transaction?.sending.chainId,
         )
         .sort((a, b) => {
           return (
