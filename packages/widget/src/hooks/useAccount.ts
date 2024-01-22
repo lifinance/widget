@@ -29,7 +29,11 @@ export interface SVMAccount extends AccountBase {
   connector?: WalletAdapter;
 }
 
-export type Account = EVMAccount | SVMAccount;
+export interface DefaultAccount extends AccountBase {
+  connector?: never;
+}
+
+export type Account = EVMAccount | SVMAccount | DefaultAccount;
 
 export interface AccountResult {
   account: Account;
@@ -37,12 +41,32 @@ export interface AccountResult {
    * Connected accounts
    */
   accounts: Account[];
-  isConnected: boolean;
 }
 
-export const useAccount = (): AccountResult => {
+interface UseAccountArgs {
+  chainType?: ChainType;
+}
+
+const defaultAccount: AccountBase = {
+  isConnected: false,
+  isConnecting: false,
+  isReconnecting: false,
+  isDisconnected: true,
+  status: 'disconnected',
+};
+
+/**
+ *
+ * @param args When we provide args we want to return either account with corresponding chainType or default disconnected one
+ * @returns - Account result
+ */
+export const useAccount = (args?: UseAccountArgs): AccountResult => {
   const account = useWagmiAccount();
   const { wallet } = useWallet();
+
+  // We create a simple variable from the args object
+  // to avoid re-render useMemo on every object reference change.
+  const hasChainTypeArgs = Boolean(args);
 
   return useMemo(() => {
     const svm: Account = wallet?.adapter.publicKey
@@ -66,13 +90,17 @@ export const useAccount = (): AccountResult => {
           status: 'disconnected',
         };
     const evm: Account = { ...account, chainType: ChainType.EVM };
-
-    const accounts = [evm, svm].filter((account) => account.isConnected);
+    const accounts = [evm, svm];
+    const connectedAccounts = [evm, svm].filter(
+      (account) => account.isConnected,
+    );
     return {
-      account: account.isConnected ? evm : svm,
+      account: hasChainTypeArgs
+        ? accounts.find((account) => account.chainType === args?.chainType) ??
+          defaultAccount
+        : accounts.find((account) => account.isConnected) ?? defaultAccount,
       // We need to return only connected account list
-      accounts,
-      isConnected: accounts.length > 0,
+      accounts: connectedAccounts,
     };
-  }, [account, wallet]);
+  }, [account, args?.chainType, hasChainTypeArgs, wallet]);
 };

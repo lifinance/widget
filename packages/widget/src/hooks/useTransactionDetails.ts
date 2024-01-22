@@ -1,3 +1,4 @@
+import type { FullStatusData } from '@lifi/sdk';
 import { getStatus, type StatusResponse } from '@lifi/sdk';
 import {
   keepPreviousData,
@@ -7,42 +8,40 @@ import {
 import { useAccount } from './useAccount';
 
 export const useTransactionDetails = (transactionHash: string) => {
-  const { account } = useAccount();
+  const { account, accounts } = useAccount();
   const queryClient = useQueryClient();
 
   const { data, isLoading } = useQuery({
-    queryKey: ['transaction-history', account.address, transactionHash],
-    queryFn: async ({
-      queryKey: [, accountAddress, transactionHash],
-      signal,
-    }) => {
-      if (!accountAddress) {
-        return;
-      }
+    queryKey: ['transaction-history', transactionHash],
+    queryFn: async ({ queryKey: [, transactionHash], signal }) => {
       if (transactionHash) {
-        const cachedHistory = queryClient.getQueryData<StatusResponse[]>([
-          'transaction-history',
-          accountAddress,
-        ]);
+        for (const account of accounts) {
+          const cachedHistory = queryClient.getQueryData<StatusResponse[]>([
+            'transaction-history',
+            account.address,
+          ]);
 
-        let transaction = cachedHistory?.find(
-          (t) => t.sending.txHash === transactionHash,
-        );
+          const transaction = cachedHistory?.find(
+            (t) => t.sending.txHash === transactionHash,
+          );
 
-        if (transaction) {
-          return transaction;
+          if (transaction) {
+            return transaction;
+          }
         }
 
-        transaction = await getStatus(
+        const transaction = await getStatus(
           {
             txHash: transactionHash,
           },
           { signal },
         );
 
-        if (cachedHistory && transaction) {
+        const fromAddress = (transaction as FullStatusData)?.fromAddress;
+
+        if (fromAddress) {
           queryClient.setQueryData<StatusResponse[]>(
-            ['transaction-history', accountAddress],
+            ['transaction-history', fromAddress],
             (data) => {
               return [...data!, transaction!];
             },
@@ -53,16 +52,17 @@ export const useTransactionDetails = (transactionHash: string) => {
       }
     },
     refetchInterval: 300000,
-    enabled: Boolean(account.address),
+    enabled: Boolean(account.isConnected),
     initialData: () => {
-      const transaction = queryClient
-        .getQueryData<
-          StatusResponse[]
-        >(['transaction-history', account.address])
-        ?.find((t) => t.sending.txHash === transactionHash);
-
-      if (transaction) {
-        return transaction;
+      for (const account of accounts) {
+        const transaction = queryClient
+          .getQueryData<
+            StatusResponse[]
+          >(['transaction-history', account.address])
+          ?.find((t) => t.sending.txHash === transactionHash);
+        if (transaction) {
+          return transaction;
+        }
       }
     },
     placeholderData: keepPreviousData,

@@ -18,7 +18,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   showFeatured,
   onClick,
 }) => {
-  const { isConnected } = useAccount();
+  const { account } = useAccount({ chainType: chain?.chainType });
   const { t } = useTranslation();
 
   const hasFeaturedTokens = !!featuredTokensLength && showFeatured;
@@ -84,7 +84,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
             token={token}
             chain={chain}
             isBalanceLoading={isBalanceLoading}
-            showBalance={isConnected}
+            showBalance={account.isConnected}
             startAdornment={
               hasFeaturedTokens && token.featured && item.index === 0 ? (
                 <Typography

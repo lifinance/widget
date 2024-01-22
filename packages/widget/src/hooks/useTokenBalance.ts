@@ -11,15 +11,12 @@ export const useTokenBalance = (
   token?: Token,
   chain?: ExtendedChain,
 ) => {
-  const { account, accounts } = useAccount();
-  const queryClient = useQueryClient();
-  const walletAddress =
-    accountAddress ||
+  const { account } = useAccount(
     // When we provide chain we want to be sure that account address used is from the same ecosystem as token
-    (chain
-      ? accounts.find((account) => account.chainType === chain.chainType)
-          ?.address
-      : account.address);
+    chain ? { chainType: chain.chainType } : undefined,
+  );
+  const queryClient = useQueryClient();
+  const walletAddress = accountAddress || account.address;
 
   const tokenBalanceQueryKey = useMemo(
     () =>
