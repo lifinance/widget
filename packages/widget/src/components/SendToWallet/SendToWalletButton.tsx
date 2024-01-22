@@ -16,11 +16,9 @@ import {
   navigationRoutes,
   shortenAddress,
 } from '../../utils';
-import { Card, CardRowContainer, CardTitle } from '../Card';
 import { AccountAvatar } from '../AccountAvatar';
+import { Card, CardRowContainer, CardTitle } from '../Card';
 import { SendToWalletCardHeader } from './SendToWallet.style';
-
-const SendToWalletCard = Card.withComponent('button');
 
 export const SendToWalletButton = () => {
   const { t } = useTranslation();
@@ -29,7 +27,7 @@ export const SendToWalletButton = () => {
   const { showSendToWallet, showSendToWalletDirty } = useSendToWalletStore();
   const { showDestinationWallet } = useSettings(['showDestinationWallet']);
   const [toAddressFieldValue] = useFieldValues('toAddress');
-  const { selectedBookmarkWallet } = useBookmarks();
+  const { selectedBookmark } = useBookmarks();
   const { accounts } = useAccount();
   const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress);
   const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress);
@@ -51,7 +49,7 @@ export const SendToWalletButton = () => {
     ? getChainTypeFromAddress(toAddressFieldValue)
       ? shortenAddress(toAddressFieldValue)
       : toAddressFieldValue
-    : t('sendToWallet.enterAddressOrENS');
+    : t('sendToWallet.enterAddress');
 
   const matchingConnectedAccount = accounts.find(
     (account) => account.address === toAddressFieldValue,
@@ -59,17 +57,17 @@ export const SendToWalletButton = () => {
 
   const chainId = matchingConnectedAccount
     ? matchingConnectedAccount.chainId
-    : selectedBookmarkWallet?.chainType
-      ? defaultChainIdsByType[selectedBookmarkWallet?.chainType]
+    : selectedBookmark?.chainType
+      ? defaultChainIdsByType[selectedBookmark?.chainType]
       : undefined;
 
-  const headerTitle = selectedBookmarkWallet?.isConnectedAccount
+  const headerTitle = selectedBookmark?.isConnectedAccount
     ? matchingConnectedAccount?.connector?.name || address
-    : selectedBookmarkWallet?.name || address;
+    : selectedBookmark?.name || address;
 
-  const headerSubheader = selectedBookmarkWallet?.isConnectedAccount
+  const headerSubheader = selectedBookmark?.isConnectedAccount
     ? !!matchingConnectedAccount && address
-    : !!selectedBookmarkWallet?.name && address;
+    : !!selectedBookmark?.name && address;
 
   return (
     <Collapse
@@ -78,38 +76,36 @@ export const SendToWalletButton = () => {
       mountOnEnter
       unmountOnExit
     >
-      <>
-        <SendToWalletCard
-          sx={{ mb: 2 }}
-          onClick={!!toAddress && disabledToAddress ? undefined : handleOnClick}
-          disabled={!!toAddress && disabledToAddress}
+      <Card
+        component="button"
+        onClick={!!toAddress && disabledToAddress ? undefined : handleOnClick}
+        sx={{ mb: 2 }}
+      >
+        <CardRowContainer
+          sx={{
+            flexDirection: 'column',
+            padding: 0,
+            alignItems: 'flex-start',
+          }}
         >
-          <CardRowContainer
-            sx={{
-              flexDirection: 'column',
-              padding: 0,
-              alignItems: 'flex-start',
-            }}
-          >
-            <CardTitle required={requiredToAddress}>
-              {t('header.sendToWallet')}
-            </CardTitle>
-            <SendToWalletCardHeader
-              avatar={
-                <AccountAvatar
-                  chainId={chainId}
-                  account={matchingConnectedAccount}
-                />
-              }
-              title={headerTitle}
-              subheader={headerSubheader}
-              selected={
-                !!toAddressFieldValue && !(toAddress && disabledToAddress)
-              }
-            />
-          </CardRowContainer>
-        </SendToWalletCard>
-      </>
+          <CardTitle required={requiredToAddress}>
+            {t('header.sendToWallet')}
+          </CardTitle>
+          <SendToWalletCardHeader
+            avatar={
+              <AccountAvatar
+                chainId={chainId}
+                account={matchingConnectedAccount}
+              />
+            }
+            title={headerTitle}
+            subheader={headerSubheader}
+            selected={
+              !!toAddressFieldValue && !(toAddress && disabledToAddress)
+            }
+          />
+        </CardRowContainer>
+      </Card>
     </Collapse>
   );
 };

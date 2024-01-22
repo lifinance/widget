@@ -5,8 +5,8 @@ import type { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useGasRefuel } from '../../hooks';
 import { useSettings, useSettingsStore } from '../../stores';
-import { InfoMessageSwitch } from './GasMessage.style';
 import { AlertMessage } from '../AlertMessage';
+import { InfoMessageSwitch } from './GasMessage.style';
 
 export const GasRefuelMessage: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation();
@@ -29,7 +29,6 @@ export const GasRefuelMessage: React.FC<BoxProps> = (props) => {
       mountOnEnter
     >
       <AlertMessage
-        sx={{ mb: 2 }}
         icon={<EvStationIcon />}
         title={
           <Box
@@ -47,15 +46,15 @@ export const GasRefuelMessage: React.FC<BoxProps> = (props) => {
             />
           </Box>
         }
+        {...props}
       >
         <Collapse
           timeout={225}
           in={enabledAutoRefuel}
           unmountOnExit
           mountOnEnter
-          sx={{ pt: 2 }}
         >
-          <Typography variant="body2" px={2}>
+          <Typography variant="body2" px={2} pt={1}>
             {t(`info.message.autoRefuel`, {
               chainName: chain?.name,
             })}

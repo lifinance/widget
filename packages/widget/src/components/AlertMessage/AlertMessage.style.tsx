@@ -2,9 +2,11 @@ import { Box } from '@mui/material';
 import { alpha, darken, lighten, styled } from '@mui/material/styles';
 import { getInfoBackgroundColor, getWarningBackgroundColor } from '../../utils';
 import type { Severity } from './types';
+
 interface AlertSeverityProps {
   severity: Severity;
 }
+
 export const AlertMessageCard = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'severity',
 })<AlertSeverityProps>(({ theme, severity }) => ({

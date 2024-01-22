@@ -1,51 +1,51 @@
 import type { StateCreator } from 'zustand';
-import { createWithEqualityFn } from 'zustand/traditional';
 import { persist } from 'zustand/middleware';
-import type { BookmarksState } from './types';
-import type { PersistStoreProps } from '../../stores/types';
+import { createWithEqualityFn } from 'zustand/traditional';
+import type { PersistStoreProps } from '../types';
+import type { BookmarkState } from './types';
+
+const recentWalletsLimit = 5;
 
 export const createBookmarksStore = ({ namePrefix }: PersistStoreProps) =>
-  createWithEqualityFn<BookmarksState>(
+  createWithEqualityFn<BookmarkState>(
     persist(
       (set, get) => ({
-        selectedBookmarkWallet: undefined,
-        bookmarkedWallets: [],
+        selectedBookmark: undefined,
+        bookmarks: [],
         recentWallets: [],
-        getBookmarkedWallet: (address) =>
-          get().bookmarkedWallets.find(
+        getBookmark: (address) =>
+          get().bookmarks.find(
             (bookmarkedWallet) => bookmarkedWallet.address === address,
           ),
-        addBookmarkedWallet: (name, address, addressType, chainType) => {
+        addBookmark: (name, address, addressType, chainType) => {
           set((state) => ({
-            bookmarkedWallets: [
+            bookmarks: [
               { name, address, addressType, chainType },
-              ...state.bookmarkedWallets,
+              ...state.bookmarks,
             ],
           }));
         },
-        removeBookmarkedWallet: (bookmarkedWallet) => {
+        removeBookmark: (bookmarkedWallet) => {
           set((state) => ({
-            bookmarkedWallets: state.bookmarkedWallets.filter(
+            bookmarks: state.bookmarks.filter(
               (storedBookmark) =>
                 storedBookmark.address !== bookmarkedWallet.address,
             ),
           }));
         },
-        setSelectedBookmarkWallet: (bookmark) => {
+        setSelectedBookmark: (bookmark) => {
           set((state) => ({
-            selectedBookmarkWallet: bookmark,
+            selectedBookmark: bookmark,
           }));
         },
         addRecentWallet: (address, addressType, chainType) => {
-          const recentLimit = 5;
-
           set((state) => ({
             recentWallets: [
               { address, addressType, chainType },
               ...state.recentWallets.filter(
                 (recentWallet) => recentWallet.address !== address,
               ),
-            ].slice(0, recentLimit),
+            ].slice(0, recentWalletsLimit),
           }));
         },
         removeRecentWallet: (bookmark) => {
@@ -57,13 +57,13 @@ export const createBookmarksStore = ({ namePrefix }: PersistStoreProps) =>
         },
       }),
       {
-        name: `${namePrefix || 'li.fi'}-bookmarked-addresses`,
+        name: `${namePrefix || 'li.fi'}-bookmarks`,
         version: 0,
         partialize: (state) => ({
-          bookmarkedWallets: state.bookmarkedWallets,
+          bookmarks: state.bookmarks,
           recentWallets: state.recentWallets,
         }),
       },
-    ) as StateCreator<BookmarksState, [], [], BookmarksState>,
+    ) as StateCreator<BookmarkState, [], [], BookmarkState>,
     Object.is,
   );

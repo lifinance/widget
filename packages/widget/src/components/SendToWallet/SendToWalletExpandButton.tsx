@@ -5,36 +5,32 @@ import { useTranslation } from 'react-i18next';
 import { useToAddressRequirements, useWidgetEvents } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
 import {
-  useBookmarksActions,
+  useBookmarkActions,
   useFieldActions,
   useSendToWalletStore,
   useSettings,
 } from '../../stores';
-import { DisabledUI, HiddenUI, WidgetEvent } from '../../types';
+import { DisabledUI, WidgetEvent } from '../../types';
 
 export const SendToWalletExpandButton: React.FC = () => {
   const { t } = useTranslation();
   const { setFieldValue } = useFieldActions();
-  const { setSelectedBookmarkWallet } = useBookmarksActions();
+  const { setSelectedBookmark } = useBookmarkActions();
   const emitter = useWidgetEvents();
-  const { disabledUI, hiddenUI } = useWidgetConfig();
+  const { disabledUI } = useWidgetConfig();
   const { showSendToWallet, toggleSendToWallet } = useSendToWalletStore();
   const { showDestinationWallet } = useSettings(['showDestinationWallet']);
 
   const { requiredToAddress } = useToAddressRequirements();
 
-  if (
-    !showDestinationWallet ||
-    hiddenUI?.includes(HiddenUI.ToAddress) ||
-    requiredToAddress
-  ) {
+  if (!showDestinationWallet || requiredToAddress) {
     return null;
   }
 
   const handleClick = () => {
     if (showSendToWallet && !disabledUI?.includes(DisabledUI.ToAddress)) {
       setFieldValue('toAddress', '', { isTouched: true });
-      setSelectedBookmarkWallet();
+      setSelectedBookmark();
     }
     toggleSendToWallet();
     emitter.emit(

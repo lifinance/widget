@@ -15,7 +15,7 @@
     "buy": "Buy",
     "buyNow": "Buy now",
     "cancel": "Cancel",
-    "confirm":"Confirm",
+    "confirm": "Confirm",
     "changeWallet": "Change wallet",
     "close": "Close",
     "connectWallet": "Connect wallet",
@@ -72,7 +72,7 @@
     "transactionHistory": "Transaction history",
     "walletConnected": "Wallet connected",
     "youGet": "You get",
-    "sendToWallet":"Send to wallet"
+    "sendToWallet": "Send to wallet"
   },
   "info": {
     "message": {
@@ -81,7 +81,7 @@
       "emptyTokenList": "We couldn't find tokens on {{chainName}} chain or you don't have any. Please search by contract address if your token doesn't appear or choose another chain.",
       "emptyTransactionHistory": "Transaction history is only stored locally and will be deleted if you clear your browser data.",
       "routeNotFound": "Reasons for that could be: low liquidity, amount selected is too low, gas costs are too high or there are no routes for the selected combination.",
-      "fundsToExchange":"Funds sent to an exchange may be lost"
+      "fundsToExchange": "Funds sent to an exchange may be lost"
     },
     "title": {
       "autoRefuel": "Get gas",
@@ -152,9 +152,8 @@
       "transactionUnderpriced": "Transaction is underpriced",
       "transactionUnprepared": "Unable to prepare transaction",
       "unknown": "Something went wrong",
-      "walletAddressInvalid": "Wallet address is invalid.",
+      "walletAddressInvalid": "Wallet address or ENS is invalid, or the network doesn't support ENS.",
       "walletAddressRequired": "Wallet address is required.",
-      "walletAddressOrENSInvalid": "Wallet address or ENS is invalid, or the network doesn't support ENS.",
       "walletChainTypeInvalid": "Wallet address does not match the selected destination chain - {{chainName}}",
       "bookmarkNameRequired": "Bookmark name is required",
       "bookmarkAlreadyExists": "Wallet is already bookmarked as {{name}}"
@@ -281,8 +280,8 @@
     "custom": "Custom",
     "resetSettings": "You're using custom setting limiting the number of available routes."
   },
-  "sendToWallet" : {
-    "enterAddressOrENS": "Enter address or ENS",
+  "sendToWallet": {
+    "enterAddress": "Enter address or ENS",
     "enterName": "Enter name",
     "confirmWalletAddress": "Confirm wallet address",
     "connectedWallets": "Connected wallets",

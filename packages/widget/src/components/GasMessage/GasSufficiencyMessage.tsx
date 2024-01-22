@@ -27,13 +27,7 @@ export const GasSufficiencyMessage: React.FC<GasSufficiencyMessageProps> = ({
         {t(`warning.message.insufficientGas`)}
       </Typography>
       {insufficientGas?.map((item, index) => (
-        <Typography
-          // eslint-disable-next-line react/no-array-index-key
-          key={index}
-          variant="body2"
-          px={2}
-          pt={0.5}
-        >
+        <Typography key={index} variant="body2" px={2} pt={0.5}>
           {t(`main.tokenOnChainAmount`, {
             amount: formatUnits(
               item.insufficientAmount ?? 0n,

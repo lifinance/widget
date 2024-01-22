@@ -1,21 +1,17 @@
 import { shallow } from 'zustand/shallow';
-import { useBookmarksStore } from './BookmarksStore';
-import type { BookmarksProps } from './types';
+import { useBookmarkStore } from './BookmarkStore';
+import type { BookmarkProps } from './types';
 
-export const useBookmarks = (): BookmarksProps => {
+export const useBookmarks = (): BookmarkProps => {
   const [bookmarkedWallets, selectedBookmarkWallet, recentWallets] =
-    useBookmarksStore(
-      (store) => [
-        store.bookmarkedWallets,
-        store.selectedBookmarkWallet,
-        store.recentWallets,
-      ],
+    useBookmarkStore(
+      (store) => [store.bookmarks, store.selectedBookmark, store.recentWallets],
       shallow,
     );
 
   return {
-    bookmarkedWallets,
-    selectedBookmarkWallet,
+    bookmarks: bookmarkedWallets,
+    selectedBookmark: selectedBookmarkWallet,
     recentWallets,
   };
 };

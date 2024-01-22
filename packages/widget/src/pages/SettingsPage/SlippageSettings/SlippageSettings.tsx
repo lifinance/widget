@@ -26,7 +26,7 @@ export const SlippageSettings: React.FC = () => {
   const { slippage } = useSettings(['slippage']);
   const setValue = useSettingsStore((state) => state.setValue);
   const defaultValue = useRef(slippage);
-  const [focused, setFocused] = useState<'input' | 'button' | undefined>();
+  const [focused, setFocused] = useState<'input' | 'button'>();
 
   const handleDefaultClick = () => {
     setValue('slippage', formatSlippage(defaultSlippage, defaultValue.current));

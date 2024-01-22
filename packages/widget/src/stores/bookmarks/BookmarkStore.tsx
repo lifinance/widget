@@ -1,33 +1,33 @@
 import { createContext, useContext, useRef } from 'react';
 import { shallow } from 'zustand/shallow';
-import type { BookmarksState, BookmarksStore } from './types';
-import { createBookmarksStore } from './createBookmarksStore';
 import type { PersistStoreProviderProps } from '../types';
+import { createBookmarksStore } from './createBookmarkStore';
+import type { BookmarkState, BookmarkStore } from './types';
 
-export const BookmarksStoreContext = createContext<BookmarksStore | null>(null);
+export const BookmarkStoreContext = createContext<BookmarkStore | null>(null);
 
 export const BookmarkStoreProvider: React.FC<PersistStoreProviderProps> = ({
   children,
   ...props
 }) => {
-  const storeRef = useRef<BookmarksStore>();
+  const storeRef = useRef<BookmarkStore>();
 
   if (!storeRef.current) {
     storeRef.current = createBookmarksStore(props);
   }
 
   return (
-    <BookmarksStoreContext.Provider value={storeRef.current}>
+    <BookmarkStoreContext.Provider value={storeRef.current}>
       {children}
-    </BookmarksStoreContext.Provider>
+    </BookmarkStoreContext.Provider>
   );
 };
 
-export const useBookmarksStore = (
-  selector: (store: BookmarksState) => any,
+export function useBookmarkStore<T>(
+  selector: (store: BookmarkState) => T,
   equalityFunction = shallow,
-) => {
-  const useStore = useContext(BookmarksStoreContext);
+) {
+  const useStore = useContext(BookmarkStoreContext);
 
   if (!useStore) {
     throw new Error(
@@ -36,4 +36,4 @@ export const useBookmarksStore = (
   }
 
   return useStore(selector, equalityFunction);
-};
+}

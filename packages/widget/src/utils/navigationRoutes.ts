@@ -16,7 +16,7 @@ export const navigationRoutes = {
   transactionExecution: 'transaction-execution',
   transactionHistory: 'transaction-history',
   sendToWallet: 'send-to-wallet',
-  bookmarkedWallets: 'bookmarked-wallets',
+  bookmarks: 'bookmarks',
   recentWallets: 'recent-wallets',
   connectedWallets: 'connected-wallets',
 };
@@ -38,7 +38,7 @@ export const stickyHeaderRoutes = [
   navigationRoutes.transactionExecution,
   navigationRoutes.transactionHistory,
   navigationRoutes.sendToWallet,
-  navigationRoutes.bookmarkedWallets,
+  navigationRoutes.bookmarks,
   navigationRoutes.recentWallets,
   navigationRoutes.connectedWallets,
 ];
@@ -60,7 +60,7 @@ export const backButtonRoutes = [
   navigationRoutes.transactionExecution,
   navigationRoutes.transactionHistory,
   navigationRoutes.sendToWallet,
-  navigationRoutes.bookmarkedWallets,
+  navigationRoutes.bookmarks,
   navigationRoutes.recentWallets,
   navigationRoutes.connectedWallets,
 ];

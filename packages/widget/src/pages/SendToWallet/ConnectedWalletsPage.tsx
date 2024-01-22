@@ -1,46 +1,46 @@
-import { useId, useRef, useState } from 'react';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
+import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material';
+import { useId, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { AccountAvatar } from '../../components/AccountAvatar';
+import type { BottomSheetBase } from '../../components/BottomSheet';
+import { ListItem, ListItemButton } from '../../components/ListItem';
+import { Menu } from '../../components/Menu';
+import type { Account } from '../../hooks';
+import { useAccount, useChains, useToAddressRequirements } from '../../hooks';
+import type { Bookmark } from '../../stores';
+import { useBookmarkActions } from '../../stores';
+import { defaultChainIdsByType, shortenAddress } from '../../utils';
+import { ConfirmAddressSheet } from './ConfirmAddressSheet';
+import { EmptyListIndicator } from './EmptyListIndicator';
 import {
   ListContainer,
   OptionsMenuButton,
   SendToWalletPageContainer,
 } from './SendToWalletPage.style';
-import { useTranslation } from 'react-i18next';
-import type { BookmarkedWallet } from '../../stores';
-import { defaultChainIdsByType, shortenAddress } from '../../utils';
-import { ConfirmAddressSheet } from './ConfirmAddressSheet';
-import { EmptyListIndicator } from './EmptyListIndicator';
-import type { BottomSheetBase } from '../../components/BottomSheet';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import type { Account } from '../../hooks';
-import { useAccount, useChains, useToAddressRequirements } from '../../hooks';
-import { AccountAvatar } from '../../components/AccountAvatar';
-import { useBookmarksActions } from '../../stores';
-import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material';
-import { ListItem, ListItemButton } from '../../components/ListItem';
-import { Menu } from '../../components/Menu';
+
 export const ConnectedWalletsPage = () => {
   const { t } = useTranslation();
-  const [selectedAccount, setSelectedAccount] = useState<Account | undefined>();
+  const [selectedAccount, setSelectedAccount] = useState<Account>();
   const confirmAddressSheetRef = useRef<BottomSheetBase>(null);
   const { accounts } = useAccount();
-  const connectedWallets = accounts.filter((account) => account.isConnected);
-  const { setSelectedBookmarkWallet } = useBookmarksActions();
+  const { setSelectedBookmark } = useBookmarkActions();
   const { getChainById } = useChains();
   const { requiredToChainType } = useToAddressRequirements();
+  const moreMenuId = useId();
 
   const handleWalletSelected = (account: Account) => {
     setSelectedAccount(account);
     confirmAddressSheetRef.current?.open();
   };
 
-  const handleOnConfirm = (accountWallet: BookmarkedWallet) => {
-    setSelectedBookmarkWallet(accountWallet);
+  const handleOnConfirm = (accountWallet: Bookmark) => {
+    setSelectedBookmark(accountWallet);
   };
 
-  const moreMenuId = useId();
   const [moreMenuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>();
   const open = Boolean(moreMenuAnchorEl);
   const closeMenu = () => {
@@ -60,7 +60,7 @@ export const ConnectedWalletsPage = () => {
   };
 
   const handleViewOnExplorer = () => {
-    if (selectedAccount) {
+    if (selectedAccount?.chainType) {
       const chain = getChainById(
         defaultChainIdsByType[selectedAccount.chainType],
       );
@@ -75,58 +75,53 @@ export const ConnectedWalletsPage = () => {
   return (
     <SendToWalletPageContainer disableGutters>
       <ListContainer>
-        {connectedWallets.map((account) => {
+        {accounts.map((account) => {
           const walletAddress = shortenAddress(account.address);
 
           return (
             <ListItem key={account.address} sx={{ position: 'relative' }}>
-              <>
-                <ListItemButton
-                  onClick={() => handleWalletSelected(account)}
-                  disabled={
+              <ListItemButton
+                onClick={() => handleWalletSelected(account)}
+                disabled={
+                  requiredToChainType &&
+                  requiredToChainType !== account.chainType
+                }
+              >
+                <ListItemAvatar>
+                  <AccountAvatar chainId={account.chainId} account={account} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={account.connector?.name}
+                  secondary={walletAddress}
+                />
+              </ListItemButton>
+              <OptionsMenuButton
+                aria-label={t('button.options')}
+                aria-controls={
+                  open && account.address === selectedAccount?.address
+                    ? moreMenuId
+                    : undefined
+                }
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                onClick={(e) =>
+                  handleMenuOpen(e.target as HTMLElement, account)
+                }
+                sx={{
+                  opacity:
                     requiredToChainType &&
                     requiredToChainType !== account.chainType
-                  }
-                >
-                  <ListItemAvatar>
-                    <AccountAvatar
-                      chainId={account.chainId}
-                      account={account}
-                    />
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={account.connector?.name}
-                    secondary={walletAddress}
-                  />
-                </ListItemButton>
-                <OptionsMenuButton
-                  aria-label={t('button.options')}
-                  aria-controls={
-                    open && account.address === selectedAccount?.address
-                      ? moreMenuId
-                      : undefined
-                  }
-                  aria-haspopup="true"
-                  aria-expanded={open ? 'true' : undefined}
-                  onClick={(e) =>
-                    handleMenuOpen(e.target as HTMLElement, account)
-                  }
-                  sx={{
-                    opacity:
-                      requiredToChainType &&
-                      requiredToChainType !== account.chainType
-                        ? 0.5
-                        : 1,
-                  }}
-                  disableRipple
-                >
-                  <MoreHorizIcon fontSize="small" />
-                </OptionsMenuButton>
-              </>
+                      ? 0.5
+                      : 1,
+                }}
+                disableRipple
+              >
+                <MoreHorizIcon fontSize="small" />
+              </OptionsMenuButton>
             </ListItem>
           );
         })}
-        {!connectedWallets.length && (
+        {!accounts.length && (
           <EmptyListIndicator icon={<TurnedInIcon sx={{ fontSize: 48 }} />}>
             {t('sendToWallet.noConnectedWallets')}
           </EmptyListIndicator>
@@ -163,7 +158,7 @@ export const ConnectedWalletsPage = () => {
             name: selectedAccount.connector?.name,
             address: selectedAccount.address!,
             addressType: 'address',
-            chainType: selectedAccount.chainType,
+            chainType: selectedAccount.chainType!,
             isConnectedAccount: true,
           }
         }

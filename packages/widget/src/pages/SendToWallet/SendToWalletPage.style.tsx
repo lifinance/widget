@@ -1,19 +1,19 @@
 import type { Theme } from '@mui/material';
 import {
+  Alert,
   Box,
   Button,
-  Typography,
   IconButton,
+  List,
+  Typography,
+  alertClasses,
   inputBaseClasses,
   styled,
-  List,
-  Alert,
-  alertClasses,
 } from '@mui/material';
 import { Card } from '../../components/Card';
+import { Input } from '../../components/Input';
 import type { PageContainerProps } from '../../components/PageContainer';
 import { PageContainer } from '../../components/PageContainer';
-import { Input } from '../../components/Input';
 
 export const NameInput = styled(Input)(({ theme }) => ({
   padding: 0,
@@ -173,13 +173,9 @@ export const ValidationAlert = styled(Alert)(({ theme }) => ({
   color: theme.palette.text.primary,
   [`.${alertClasses.icon}`]: {
     padding: 0,
-    opacity: 0.8,
-    color:
-      theme.palette.mode === 'light'
-        ? theme.palette.error.light
-        : theme.palette.error.dark,
+    color: theme.palette.error.main,
   },
-  [`.${alertClasses.message}`]: { padding: 0 },
+  [`.${alertClasses.message}`]: { padding: theme.spacing(0.25, 0, 0, 0) },
 }));
 
 export const OptionsMenuButton = styled(IconButton)(({ theme }) => ({

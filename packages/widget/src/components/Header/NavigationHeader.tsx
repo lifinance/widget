@@ -47,7 +47,7 @@ export const NavigationHeader: React.FC = () => {
         return t(`settings.enabledExchanges`);
       case navigationRoutes.sendToWallet:
         return t(`header.sendToWallet`);
-      case navigationRoutes.bookmarkedWallets:
+      case navigationRoutes.bookmarks:
         return t(`header.bookmarkedWallets`);
       case navigationRoutes.recentWallets:
         return t(`header.recentWallets`);

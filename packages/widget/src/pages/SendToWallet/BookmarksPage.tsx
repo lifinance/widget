@@ -1,76 +1,51 @@
-import type { ChainType } from '@lifi/sdk';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
-import WalletIcon from '@mui/icons-material/Wallet';
-import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material';
+import { Button, ListItemAvatar, ListItemText, MenuItem } from '@mui/material';
 import { useId, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { AccountAvatar } from '../../components/AccountAvatar';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import { ListItem, ListItemButton } from '../../components/ListItem';
 import { Menu } from '../../components/Menu';
 import { useChains, useToAddressRequirements } from '../../hooks';
-import type { AddressType, Bookmark } from '../../stores';
+import type { Bookmark } from '../../stores';
 import { useBookmarkActions, useBookmarks } from '../../stores';
-import {
-  defaultChainIdsByType,
-  navigationRoutes,
-  shortenAddress,
-} from '../../utils';
+import { defaultChainIdsByType, shortenAddress } from '../../utils';
 import { BookmarkAddressSheet } from './BookmarkAddressSheet';
 import { ConfirmAddressSheet } from './ConfirmAddressSheet';
 import { EmptyListIndicator } from './EmptyListIndicator';
 import {
+  BookmarkButtonContainer,
   ListContainer,
   OptionsMenuButton,
   SendToWalletPageContainer,
 } from './SendToWalletPage.style';
 
-export const RecentWalletsPage = () => {
+export const BookmarksPage = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const [selectedRecent, setSelectedRecent] = useState<Bookmark>();
+  const [bookmark, setBookmark] = useState<Bookmark>();
   const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null);
   const confirmAddressSheetRef = useRef<BottomSheetBase>(null);
-  const { recentWallets } = useBookmarks();
+  const { bookmarks } = useBookmarks();
   const { requiredToChainType } = useToAddressRequirements();
-  const {
-    removeRecentWallet,
-    addBookmark,
-    setSelectedBookmark,
-    addRecentWallet,
-  } = useBookmarkActions();
+  const { addBookmark, removeBookmark, setSelectedBookmark } =
+    useBookmarkActions();
   const { getChainById } = useChains();
 
-  const handleRecentSelected = (recentWallet: Bookmark) => {
-    setSelectedRecent(recentWallet);
-    confirmAddressSheetRef.current?.open();
+  const handleAddBookmark = () => {
+    bookmarkAddressSheetRef.current?.open();
   };
 
-  const handleAddBookmark = (
-    name: string,
-    address: string,
-    addressType: AddressType,
-    chainType: ChainType,
-  ) => {
-    addBookmark(name, address, addressType, chainType);
-    navigate(`../${navigationRoutes.bookmarks}`, {
-      relative: 'path',
-      replace: true,
-    });
+  const handleBookmarkSelected = (bookmark: Bookmark) => {
+    setBookmark(bookmark);
+    confirmAddressSheetRef.current?.open();
   };
 
   const handleOnConfirm = (confirmedWallet: Bookmark) => {
     setSelectedBookmark(confirmedWallet);
-    addRecentWallet(
-      confirmedWallet.address,
-      confirmedWallet.addressType,
-      confirmedWallet.chainType,
-    );
   };
 
   const moreMenuId = useId();
@@ -79,84 +54,77 @@ export const RecentWalletsPage = () => {
   const closeMenu = () => {
     setMenuAnchorEl(null);
   };
-  const handleMenuOpen = (el: HTMLElement, recentWallet: Bookmark) => {
+
+  const handleMenuOpen = (el: HTMLElement, bookmark: Bookmark) => {
     setMenuAnchorEl(el);
-    setSelectedRecent(recentWallet);
+    setBookmark(bookmark);
   };
 
   const handleCopyAddress = () => {
-    if (selectedRecent) {
-      navigator.clipboard.writeText(selectedRecent.address);
+    if (bookmark) {
+      navigator.clipboard.writeText(bookmark.address);
     }
     closeMenu();
   };
 
   const handleViewOnExplorer = () => {
-    if (selectedRecent) {
-      const chain = getChainById(
-        defaultChainIdsByType[selectedRecent.chainType],
-      );
+    if (bookmark) {
+      const chain = getChainById(defaultChainIdsByType[bookmark.chainType]);
       window.open(
-        `${chain?.metamask.blockExplorerUrls[0]}address/${selectedRecent.address}`,
+        `${chain?.metamask.blockExplorerUrls[0]}address/${bookmark.address}`,
         '_blank',
       );
     }
     closeMenu();
   };
 
-  const handleOpenBookmarkSheet = () => {
-    if (selectedRecent) {
-      setSelectedRecent(selectedRecent);
-      bookmarkAddressSheetRef.current?.open();
-    }
-  };
-  const handleRemoveRecentWallet = () => {
-    if (selectedRecent) {
-      removeRecentWallet(selectedRecent);
+  const handleRemoveBookmark = () => {
+    if (bookmark) {
+      removeBookmark(bookmark);
     }
     closeMenu();
   };
+
   return (
     <SendToWalletPageContainer disableGutters>
-      <ListContainer sx={{ minHeight: 418 }}>
-        {recentWallets.map((recentWallet) => (
-          <ListItem key={recentWallet.address} sx={{ position: 'relative' }}>
+      <ListContainer>
+        {bookmarks.map((bookmark) => (
+          <ListItem key={bookmark.address} sx={{ position: 'relative' }}>
             <ListItemButton
+              onClick={() => handleBookmarkSelected(bookmark)}
               disabled={
                 requiredToChainType &&
-                requiredToChainType !== recentWallet.chainType
+                requiredToChainType !== bookmark.chainType
               }
-              onClick={() => handleRecentSelected(recentWallet)}
             >
               <ListItemAvatar>
                 <AccountAvatar
-                  chainId={defaultChainIdsByType[recentWallet.chainType]}
+                  chainId={defaultChainIdsByType[bookmark.chainType]}
                 />
               </ListItemAvatar>
               <ListItemText
-                primary={
-                  recentWallet.addressType === 'address'
-                    ? shortenAddress(recentWallet.address)
-                    : recentWallet.address
+                primary={bookmark.name}
+                secondary={
+                  bookmark.addressType === 'address'
+                    ? shortenAddress(bookmark.address)
+                    : bookmark.address
                 }
               />
             </ListItemButton>
             <OptionsMenuButton
               aria-label={t('button.options')}
               aria-controls={
-                open && recentWallet.address === selectedRecent?.address
+                open && bookmark.address === bookmark?.address
                   ? moreMenuId
                   : undefined
               }
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
-              onClick={(e) =>
-                handleMenuOpen(e.target as HTMLElement, recentWallet)
-              }
+              onClick={(e) => handleMenuOpen(e.target as HTMLElement, bookmark)}
               sx={{
                 opacity:
                   requiredToChainType &&
-                  requiredToChainType !== recentWallet.chainType
+                  requiredToChainType !== bookmark.chainType
                     ? 0.5
                     : 1,
               }}
@@ -166,9 +134,9 @@ export const RecentWalletsPage = () => {
             </OptionsMenuButton>
           </ListItem>
         ))}
-        {!recentWallets.length && (
-          <EmptyListIndicator icon={<WalletIcon sx={{ fontSize: 48 }} />}>
-            {t('sendToWallet.noRecentWallets')}
+        {!bookmarks.length && (
+          <EmptyListIndicator icon={<TurnedInIcon sx={{ fontSize: 48 }} />}>
+            {t('sendToWallet.noBookmarkedWallets')}
           </EmptyListIndicator>
         )}
         <Menu
@@ -194,24 +162,24 @@ export const RecentWalletsPage = () => {
             <OpenInNewIcon />
             {t('button.viewOnExplorer')}
           </MenuItem>
-          <MenuItem onClick={handleOpenBookmarkSheet} disableRipple>
-            <TurnedInIcon />
-            {t('button.bookmark')}
-          </MenuItem>
-          <MenuItem onClick={handleRemoveRecentWallet} disableRipple>
+          <MenuItem onClick={handleRemoveBookmark} disableRipple>
             <DeleteIcon />
             {t('button.delete')}
           </MenuItem>
         </Menu>
       </ListContainer>
+      <BookmarkButtonContainer>
+        <Button variant="contained" onClick={handleAddBookmark}>
+          {t('sendToWallet.addBookmark')}
+        </Button>
+      </BookmarkButtonContainer>
       <BookmarkAddressSheet
         ref={bookmarkAddressSheetRef}
-        validatedWallet={selectedRecent}
-        onAddBookmark={handleAddBookmark}
+        onAddBookmark={addBookmark}
       />
       <ConfirmAddressSheet
         ref={confirmAddressSheetRef}
-        validatedWallet={selectedRecent}
+        validatedWallet={bookmark}
         onConfirm={handleOnConfirm}
       />
     </SendToWalletPageContainer>
