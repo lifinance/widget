@@ -4,7 +4,6 @@ import { getEnsAddress } from '@wagmi/core';
 import { useTranslation } from 'react-i18next';
 import { normalize } from 'viem/ens';
 import { useConfig } from 'wagmi';
-import { useToAddressRequirements } from '../hooks';
 import { getChainTypeFromAddress } from '../utils';
 
 type AddressType = 'address' | 'ENS';
@@ -24,7 +23,6 @@ type InvalidResponse = {
 export const useAddressValidation = () => {
   const { t } = useTranslation();
   const config = useConfig();
-  const requiredToAddress = useToAddressRequirements();
 
   const { mutateAsync: validateAddress, isPending: isValidating } = useMutation(
     {
@@ -32,7 +30,7 @@ export const useAddressValidation = () => {
         value: string,
       ): Promise<ValidResponse | InvalidResponse> => {
         try {
-          if (!value || (!value && requiredToAddress)) {
+          if (!value) {
             throw new Error();
           }
 

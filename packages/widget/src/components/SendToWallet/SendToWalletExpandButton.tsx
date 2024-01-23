@@ -10,20 +10,24 @@ import {
   useSendToWalletStore,
   useSettings,
 } from '../../stores';
-import { DisabledUI, WidgetEvent } from '../../types';
+import { DisabledUI, HiddenUI, WidgetEvent } from '../../types';
 
 export const SendToWalletExpandButton: React.FC = () => {
   const { t } = useTranslation();
+  const { disabledUI, hiddenUI } = useWidgetConfig();
   const { setFieldValue } = useFieldActions();
   const { setSelectedBookmark } = useBookmarkActions();
   const emitter = useWidgetEvents();
-  const { disabledUI } = useWidgetConfig();
   const { showSendToWallet, toggleSendToWallet } = useSendToWalletStore();
   const { showDestinationWallet } = useSettings(['showDestinationWallet']);
 
   const { requiredToAddress } = useToAddressRequirements();
 
-  if (!showDestinationWallet || requiredToAddress) {
+  if (
+    !showDestinationWallet ||
+    requiredToAddress ||
+    hiddenUI?.includes(HiddenUI.ToAddress)
+  ) {
     return null;
   }
 

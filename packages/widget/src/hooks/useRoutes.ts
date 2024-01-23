@@ -1,15 +1,12 @@
 import type { Route, RoutesResponse, Token } from '@lifi/sdk';
 import { LiFiErrorCode, getContractCallQuote, getRoutes } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { getEnsAddress } from '@wagmi/core';
 import { v4 as uuidv4 } from 'uuid';
-import { isAddress as isEVMAddress, parseUnits } from 'viem';
-import { normalize } from 'viem/ens';
-import { useConfig } from 'wagmi';
+import { parseUnits } from 'viem';
 import { useChain, useDebouncedWatch, useGasRefuel, useToken } from '.';
 import { useWidgetConfig } from '../providers';
 import { defaultSlippage, useFieldValues, useSettings } from '../stores';
-import { isSVMAddress } from '../utils';
+import { getChainTypeFromAddress } from '../utils';
 import { useAccount } from './useAccount';
 import { useSwapOnly } from './useSwapOnly';
 
@@ -22,7 +19,6 @@ interface RoutesProps {
 export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
   const { subvariant, sdkConfig, insurance, contractTool } = useWidgetConfig();
   const queryClient = useQueryClient();
-  const config = useConfig();
   const swapOnly = useSwapOnly();
   const {
     slippage,
@@ -80,9 +76,20 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
         )
       : true;
 
-  // When we bridge between ecosystems we need to be sure toAddress is set
+  // If toAddress is set, it must have the same chainType as toChain
+  const hasToAddressAndChainTypeSatisfied =
+    toChain &&
+    Boolean(toAddress) &&
+    getChainTypeFromAddress(toAddress) === toChain.chainType;
+  // We need to check for toAddress only if it is set
+  const isToAddressSatisfied = toAddress
+    ? hasToAddressAndChainTypeSatisfied
+    : true;
+  // When we bridge between ecosystems we need to be sure toAddress is set and has the same chainType as toChain
   const isChainTypeSatisfied =
-    fromChain?.chainType !== toChain?.chainType ? Boolean(toAddress) : true;
+    fromChain && toChain && fromChain.chainType !== toChain.chainType
+      ? hasToAddressAndChainTypeSatisfied
+      : true;
 
   const isEnabled =
     Boolean(Number(fromChainId)) &&
@@ -91,6 +98,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
     Boolean(toToken?.address) &&
     !Number.isNaN(slippage) &&
     hasAmount &&
+    isToAddressSatisfied &&
     isChainTypeSatisfied &&
     contractCallQuoteEnabled;
 
@@ -150,21 +158,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
         ],
         signal,
       }) => {
-        let toWalletAddress = toAddress || fromAddress;
-        const isAddress = isEVMAddress(toAddress) || isSVMAddress(toAddress);
-        try {
-          // FIXME: resolve address in one place
-          toWalletAddress = !isAddress
-            ? (await getEnsAddress(config, {
-                chainId: toChainId,
-                name: normalize(toAddress),
-              })) || undefined
-            : isAddress
-              ? toAddress
-              : fromAddress;
-        } catch {
-          toWalletAddress = isAddress ? toAddress : fromAddress;
-        }
+        const toWalletAddress = toAddress || fromAddress;
         const fromAmount = parseUnits(
           fromTokenAmount,
           fromToken!.decimals,

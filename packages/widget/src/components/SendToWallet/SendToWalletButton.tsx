@@ -1,4 +1,5 @@
 import { Collapse } from '@mui/material';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAccount, useToAddressRequirements } from '../../hooks';
@@ -24,7 +25,8 @@ export const SendToWalletButton = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { disabledUI, hiddenUI, toAddress } = useWidgetConfig();
-  const { showSendToWallet, showSendToWalletDirty } = useSendToWalletStore();
+  const { showSendToWallet, showSendToWalletDirty, setSendToWallet } =
+    useSendToWalletStore();
   const { showDestinationWallet } = useSettings(['showDestinationWallet']);
   const [toAddressFieldValue] = useFieldValues('toAddress');
   const { selectedBookmark } = useBookmarks();
@@ -41,24 +43,25 @@ export const SendToWalletButton = () => {
         !hiddenToAddress,
     ) || requiredToAddress;
 
-  const handleOnClick = () => {
-    navigate(navigationRoutes.sendToWallet);
-  };
-
   const address = toAddressFieldValue
-    ? getChainTypeFromAddress(toAddressFieldValue)
-      ? shortenAddress(toAddressFieldValue)
-      : toAddressFieldValue
+    ? shortenAddress(toAddressFieldValue)
     : t('sendToWallet.enterAddress');
 
   const matchingConnectedAccount = accounts.find(
     (account) => account.address === toAddressFieldValue,
   );
 
+  const chainType = !matchingConnectedAccount
+    ? selectedBookmark?.chainType ||
+      (toAddressFieldValue
+        ? getChainTypeFromAddress(toAddressFieldValue)
+        : undefined)
+    : undefined;
+
   const chainId = matchingConnectedAccount
     ? matchingConnectedAccount.chainId
-    : selectedBookmark?.chainType
-      ? defaultChainIdsByType[selectedBookmark?.chainType]
+    : chainType
+      ? defaultChainIdsByType[chainType]
       : undefined;
 
   const headerTitle = selectedBookmark?.isConnectedAccount
@@ -68,6 +71,18 @@ export const SendToWalletButton = () => {
   const headerSubheader = selectedBookmark?.isConnectedAccount
     ? !!matchingConnectedAccount && address
     : !!selectedBookmark?.name && address;
+
+  const handleOnClick = () => {
+    navigate(navigationRoutes.sendToWallet);
+  };
+
+  // Sync SendToWalletExpandButton state
+  // TODO: find better way
+  useEffect(() => {
+    if (showInstantly) {
+      setSendToWallet(true);
+    }
+  }, [showInstantly, setSendToWallet]);
 
   return (
     <Collapse

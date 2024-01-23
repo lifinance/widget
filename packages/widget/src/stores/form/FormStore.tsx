@@ -2,6 +2,7 @@ import type { PropsWithChildren } from 'react';
 import { createContext, useContext, useMemo, useRef } from 'react';
 import { shallow } from 'zustand/shallow';
 import { useWidgetConfig } from '../../providers';
+import { HiddenUI } from '../../types';
 import { FormUpdater } from './FormUpdater';
 import { createFormStore, formDefaultValues } from './createFormStore';
 import type { FormStoreStore, FormValuesState } from './types';
@@ -11,9 +12,18 @@ export const FormStoreContext = createContext<FormStoreStore | null>(null);
 export const FormStoreProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
-  const { fromChain, fromToken, fromAmount, toChain, toToken, toAddress } =
-    useWidgetConfig();
+  const {
+    fromChain,
+    fromToken,
+    fromAmount,
+    toChain,
+    toToken,
+    toAddress,
+    hiddenUI,
+  } = useWidgetConfig();
   const storeRef = useRef<FormStoreStore>();
+
+  const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress);
 
   const defaultValues = useMemo(
     () => ({
@@ -26,9 +36,20 @@ export const FormStoreProvider: React.FC<PropsWithChildren> = ({
         (typeof fromAmount === 'number'
           ? fromAmount?.toPrecision()
           : fromAmount) || formDefaultValues.fromAmount,
-      toAddress: toAddress || formDefaultValues.toAddress,
+      // Prevent setting address when the field is hidden
+      toAddress: hiddenToAddress
+        ? formDefaultValues.toAddress
+        : toAddress || formDefaultValues.toAddress,
     }),
-    [fromAmount, fromChain, fromToken, toAddress, toChain, toToken],
+    [
+      fromAmount,
+      fromChain,
+      fromToken,
+      hiddenToAddress,
+      toAddress,
+      toChain,
+      toToken,
+    ],
   );
 
   if (!storeRef.current) {
