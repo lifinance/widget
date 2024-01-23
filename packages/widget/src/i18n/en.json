@@ -9,15 +9,15 @@
   },
   "button": {
     "auto": "Auto",
-    "bridge": "Bridge",
-    "bookmarks": "Bookmarks",
     "bookmark": "Bookmark",
+    "bookmarks": "Bookmarks",
+    "bridge": "Bridge",
     "buy": "Buy",
     "buyNow": "Buy now",
     "cancel": "Cancel",
-    "confirm": "Confirm",
     "changeWallet": "Change wallet",
     "close": "Close",
+    "confirm": "Confirm",
     "connectWallet": "Connect wallet",
     "contactSupport": "Contact support",
     "continue": "Continue",
@@ -53,6 +53,7 @@
   },
   "header": {
     "activeTransactions": "Active transactions",
+    "bookmarkedWallets": "Bookmarked wallets",
     "bridge": "Bridge",
     "checkout": "Checkout",
     "exchange": "Exchange",
@@ -61,18 +62,17 @@
     "payWith": "Pay with",
     "purchase": "Purchase",
     "purchaseDetails": "Purchase details",
+    "recentWallets": "Recent wallets",
     "selectChain": "Select chain",
     "selectWallet": "Select your wallet",
-    "bookmarkedWallets": "Bookmarked wallets",
-    "recentWallets": "Recent wallets",
+    "sendToWallet": "Send to wallet",
     "settings": "Settings",
     "swap": "Swap",
     "to": "Exchange to",
     "transactionDetails": "Transaction details",
     "transactionHistory": "Transaction history",
     "walletConnected": "Wallet connected",
-    "youGet": "You get",
-    "sendToWallet": "Send to wallet"
+    "youGet": "You get"
   },
   "info": {
     "message": {
@@ -139,24 +139,25 @@
       "unknown": "Please try again or contact support."
     },
     "title": {
+      "addressRequired": "Wallet address is required",
       "allowanceRequired": "Insufficient allowance",
       "balanceIsTooLow": "The balance is too low",
+      "bookmarkAlreadyExists": "Wallet is already bookmarked as {{name}}",
+      "bookmarkNameRequired": "Bookmark name is required",
       "chainSwitch": "Chain switch required",
+      "exchangeRateUpdateCanceled": "Exchange rate update canceled",
       "gasLimitIsTooLow": "The gas limit is too low",
       "insufficientFunds": "Insufficient funds",
       "signatureRejected": "Signature required",
       "slippageNotMet": "Slippage conditions not met",
       "transactionCanceled": "Transaction canceled",
-      "exchangeRateUpdateCanceled": "Exchange rate update canceled",
       "transactionFailed": "Transaction failed",
       "transactionUnderpriced": "Transaction is underpriced",
       "transactionUnprepared": "Unable to prepare transaction",
       "unknown": "Something went wrong",
       "walletAddressInvalid": "Wallet address or ENS is invalid, or the network doesn't support ENS.",
       "walletAddressRequired": "Wallet address is required.",
-      "walletChainTypeInvalid": "Wallet address does not match the selected destination chain - {{chainName}}",
-      "bookmarkNameRequired": "Bookmark name is required",
-      "bookmarkAlreadyExists": "Wallet is already bookmarked as {{name}}"
+      "walletChainTypeInvalid": "Wallet address does not match the selected destination chain - {{chainName}}"
     }
   },
   "tooltip": {

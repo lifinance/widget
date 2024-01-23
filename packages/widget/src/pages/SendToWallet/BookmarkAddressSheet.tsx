@@ -7,6 +7,7 @@ import { forwardRef, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import { BottomSheet } from '../../components/BottomSheet';
+import { Input } from '../../components/Input';
 import { useAddressValidation } from '../../hooks';
 import type { AddressType, Bookmark } from '../../stores';
 import { useBookmarkActions } from '../../stores';
@@ -14,7 +15,6 @@ import {
   AddressInput,
   BookmarkInputFields,
   IconContainer,
-  NameInput,
   SendToWalletButtonRow,
   SendToWalletCard,
   SendToWalletSheetContainer,
@@ -80,6 +80,10 @@ export const BookmarkAddressSheet = forwardRef<
       setErrorMessage(t('error.title.bookmarkNameRequired'));
       return;
     }
+    if (!addressValue) {
+      setErrorMessage(t('error.title.addressRequired'));
+      return;
+    }
 
     const existingBookmarkWallet = getBookmark(addressValue);
     if (existingBookmarkWallet) {
@@ -114,7 +118,7 @@ export const BookmarkAddressSheet = forwardRef<
   };
 
   const handleNameInputChange = (e: ChangeEvent) => {
-    setNameValue((e.target as HTMLInputElement).value);
+    setNameValue((e.target as HTMLInputElement).value.trim());
   };
 
   const resetValues = () => {
@@ -122,17 +126,12 @@ export const BookmarkAddressSheet = forwardRef<
     setAddressValue('');
   };
 
-  const handleNameInputOnBlur: FocusEventHandler = async (e) => {
-    if (!(e.relatedTarget === bookmarkButtonRef.current) && !isValidating) {
-      if (!nameValue) {
-        setErrorMessage(t('error.title.bookmarkNameRequired'));
-        return;
-      }
-    }
-  };
-
   const handleAddressInputOnBlur: FocusEventHandler = async (e) => {
     if (!(e.relatedTarget === bookmarkButtonRef.current) && !isValidating) {
+      if (!addressValue) {
+        return;
+      }
+
       const existingBookmarkWallet = getBookmark(addressValue);
       if (existingBookmarkWallet) {
         setErrorMessage(
@@ -162,14 +161,14 @@ export const BookmarkAddressSheet = forwardRef<
         )}
         <BookmarkInputFields>
           <SendToWalletCard>
-            <NameInput
+            <Input
               size="small"
               autoComplete="off"
               autoCorrect="off"
               autoCapitalize="off"
               spellCheck="false"
               onChange={handleNameInputChange}
-              onBlur={handleNameInputOnBlur}
+              // onBlur={handleNameInputOnBlur}
               value={nameValue}
               placeholder={t('sendToWallet.enterName')}
               aria-label={t('sendToWallet.enterName')}

@@ -128,7 +128,6 @@ export const BookmarksPage = () => {
                     ? 0.5
                     : 1,
               }}
-              disableRipple
             >
               <MoreHorizIcon fontSize="small" />
             </OptionsMenuButton>
@@ -154,15 +153,15 @@ export const BookmarksPage = () => {
           open={open}
           onClose={closeMenu}
         >
-          <MenuItem onClick={handleCopyAddress} disableRipple>
+          <MenuItem onClick={handleCopyAddress}>
             <ContentCopyIcon />
             {t('button.copyAddress')}
           </MenuItem>
-          <MenuItem onClick={handleViewOnExplorer} disableRipple>
+          <MenuItem onClick={handleViewOnExplorer}>
             <OpenInNewIcon />
             {t('button.viewOnExplorer')}
           </MenuItem>
-          <MenuItem onClick={handleRemoveBookmark} disableRipple>
+          <MenuItem onClick={handleRemoveBookmark}>
             <DeleteIcon />
             {t('button.delete')}
           </MenuItem>

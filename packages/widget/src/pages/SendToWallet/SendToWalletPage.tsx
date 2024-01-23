@@ -60,6 +60,10 @@ export const SendToWalletPage = () => {
     if (isValidating) {
       return;
     }
+    if (!inputAddressValue) {
+      setErrorMessage(t('error.title.addressRequired'));
+      return;
+    }
 
     const validationCheck = await validateAddress(inputAddressValue);
     if (!validationCheck.isValid) {
@@ -89,6 +93,10 @@ export const SendToWalletPage = () => {
 
   const handleBookmarkAddress = async () => {
     if (isValidating) {
+      return;
+    }
+    if (!inputAddressValue) {
+      setErrorMessage(t('error.title.addressRequired'));
       return;
     }
 
@@ -154,6 +162,9 @@ export const SendToWalletPage = () => {
       ) &&
       !isValidating
     ) {
+      if (!inputAddressValue) {
+        return;
+      }
       const validationCheck = await validateAddress(inputAddressValue);
       if (!validationCheck.isValid) {
         setErrorMessage(validationCheck.error);
@@ -211,7 +222,6 @@ export const SendToWalletPage = () => {
           onAddBookmark={handleAddBookmark}
         />
       </SendToWalletCard>
-
       <CardButton
         title={t('header.recentWallets')}
         icon={<HistoryIcon />}
@@ -221,7 +231,6 @@ export const SendToWalletPage = () => {
           <WalletNumber>{recentWallets.length}</WalletNumber>
         )}
       </CardButton>
-
       <CardButton
         title={t('sendToWallet.connectedWallets')}
         icon={<WalletIcon />}
@@ -231,7 +240,6 @@ export const SendToWalletPage = () => {
           <WalletNumber>{connectedWallets.length}</WalletNumber>
         )}
       </CardButton>
-
       <CardButton
         title={t('header.bookmarkedWallets')}
         icon={<TurnedInIcon />}

@@ -45,6 +45,9 @@ export const RecentWalletsPage = () => {
     addRecentWallet,
   } = useBookmarkActions();
   const { getChainById } = useChains();
+  const moreMenuId = useId();
+  const [moreMenuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>();
+  const open = Boolean(moreMenuAnchorEl);
 
   const handleRecentSelected = (recentWallet: Bookmark) => {
     setSelectedRecent(recentWallet);
@@ -73,12 +76,10 @@ export const RecentWalletsPage = () => {
     );
   };
 
-  const moreMenuId = useId();
-  const [moreMenuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>();
-  const open = Boolean(moreMenuAnchorEl);
   const closeMenu = () => {
     setMenuAnchorEl(null);
   };
+
   const handleMenuOpen = (el: HTMLElement, recentWallet: Bookmark) => {
     setMenuAnchorEl(el);
     setSelectedRecent(recentWallet);
@@ -109,13 +110,16 @@ export const RecentWalletsPage = () => {
       setSelectedRecent(selectedRecent);
       bookmarkAddressSheetRef.current?.open();
     }
+    closeMenu();
   };
+
   const handleRemoveRecentWallet = () => {
     if (selectedRecent) {
       removeRecentWallet(selectedRecent);
     }
     closeMenu();
   };
+
   return (
     <SendToWalletPageContainer disableGutters>
       <ListContainer sx={{ minHeight: 418 }}>
@@ -160,7 +164,6 @@ export const RecentWalletsPage = () => {
                     ? 0.5
                     : 1,
               }}
-              disableRipple
             >
               <MoreHorizIcon fontSize="small" />
             </OptionsMenuButton>
@@ -186,19 +189,19 @@ export const RecentWalletsPage = () => {
           open={open}
           onClose={closeMenu}
         >
-          <MenuItem onClick={handleCopyAddress} disableRipple>
+          <MenuItem onClick={handleCopyAddress}>
             <ContentCopyIcon />
             {t('button.copyAddress')}
           </MenuItem>
-          <MenuItem onClick={handleViewOnExplorer} disableRipple>
+          <MenuItem onClick={handleViewOnExplorer}>
             <OpenInNewIcon />
             {t('button.viewOnExplorer')}
           </MenuItem>
-          <MenuItem onClick={handleOpenBookmarkSheet} disableRipple>
+          <MenuItem onClick={handleOpenBookmarkSheet}>
             <TurnedInIcon />
             {t('button.bookmark')}
           </MenuItem>
-          <MenuItem onClick={handleRemoveRecentWallet} disableRipple>
+          <MenuItem onClick={handleRemoveRecentWallet}>
             <DeleteIcon />
             {t('button.delete')}
           </MenuItem>

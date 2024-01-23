@@ -13,7 +13,7 @@ import type { Account } from '../../hooks';
 import { useAccount, useChains, useToAddressRequirements } from '../../hooks';
 import type { Bookmark } from '../../stores';
 import { useBookmarkActions } from '../../stores';
-import { defaultChainIdsByType, shortenAddress } from '../../utils';
+import { shortenAddress } from '../../utils';
 import { ConfirmAddressSheet } from './ConfirmAddressSheet';
 import { EmptyListIndicator } from './EmptyListIndicator';
 import {
@@ -60,10 +60,8 @@ export const ConnectedWalletsPage = () => {
   };
 
   const handleViewOnExplorer = () => {
-    if (selectedAccount?.chainType) {
-      const chain = getChainById(
-        defaultChainIdsByType[selectedAccount.chainType],
-      );
+    if (selectedAccount?.chainId) {
+      const chain = getChainById(selectedAccount.chainId);
       window.open(
         `${chain?.metamask.blockExplorerUrls[0]}address/${selectedAccount.address}`,
         '_blank',
@@ -114,7 +112,6 @@ export const ConnectedWalletsPage = () => {
                       ? 0.5
                       : 1,
                 }}
-                disableRipple
               >
                 <MoreHorizIcon fontSize="small" />
               </OptionsMenuButton>
@@ -141,11 +138,11 @@ export const ConnectedWalletsPage = () => {
           open={open}
           onClose={closeMenu}
         >
-          <MenuItem onClick={handleCopyAddress} disableRipple>
+          <MenuItem onClick={handleCopyAddress}>
             <ContentCopyIcon />
             {t('button.copyAddress')}
           </MenuItem>
-          <MenuItem onClick={handleViewOnExplorer} disableRipple>
+          <MenuItem onClick={handleViewOnExplorer}>
             <OpenInNewIcon />
             {t('button.viewOnExplorer')}
           </MenuItem>

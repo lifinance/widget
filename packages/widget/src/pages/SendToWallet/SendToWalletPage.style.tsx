@@ -14,19 +14,13 @@ import { Card } from '../../components/Card';
 import { Input } from '../../components/Input';
 import type { PageContainerProps } from '../../components/PageContainer';
 import { PageContainer } from '../../components/PageContainer';
+import { getContrastAlphaColor } from '../../utils';
 
-export const NameInput = styled(Input)(({ theme }) => ({
-  padding: 0,
-  minHeight: 57,
-  [`.${inputBaseClasses.input}`]: {
-    padding: theme.spacing(2),
-  },
-}));
 export const AddressInput = styled(Input)(({ theme }) => ({
   padding: 0,
   [`.${inputBaseClasses.input}`]: {
     padding: theme.spacing(2),
-    minHeight: 50,
+    minHeight: 48,
   },
 }));
 
@@ -85,15 +79,15 @@ const tertiaryButtonStyles = (theme: Theme) => ({
         : theme.palette.grey[700],
   },
 });
+
 export const SendToWalletButton = styled(Button)(({ theme }) => ({
   ...tertiaryButtonStyles(theme),
 }));
 
-export const SendToWalletIconButton = styled(IconButton)(({ theme }) => ({
+export const SendToWalletIconButton = styled(Button)(({ theme }) => ({
   ...tertiaryButtonStyles(theme),
-  borderRadius: theme.shape.borderRadiusSecondary,
-  height: 40,
-  width: 40,
+  padding: theme.spacing(1.25),
+  minWidth: 40,
 }));
 
 export const WalletNumber = styled(Typography)(({ theme }) => ({
@@ -149,6 +143,7 @@ export const BookmarkButtonContainer = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(-1.5),
   zIndex: 2,
 }));
+
 export const EmptyContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
@@ -182,10 +177,7 @@ export const OptionsMenuButton = styled(IconButton)(({ theme }) => ({
   position: 'absolute',
   top: theme.spacing(1.75),
   right: theme.spacing(2),
-  '&:hover, &:focus': {
-    background:
-      theme.palette.mode === 'light'
-        ? theme.palette.grey[200]
-        : theme.palette.grey[800],
+  '&:hover': {
+    backgroundColor: getContrastAlphaColor(theme.palette.mode, '4%'),
   },
 }));
