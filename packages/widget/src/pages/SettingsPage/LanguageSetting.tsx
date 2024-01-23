@@ -5,7 +5,7 @@ import { useLanguages } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
 import { HiddenUI } from '../../types';
 import { navigationRoutes } from '../../utils';
-import { SettingCardButton, SummaryValue } from './SettingsCard';
+import { CardButton, CardValue } from '../../components/Card';
 
 export const LanguageSetting: React.FC = () => {
   const { t } = useTranslation();
@@ -22,12 +22,12 @@ export const LanguageSetting: React.FC = () => {
   };
 
   return (
-    <SettingCardButton
+    <CardButton
       onClick={handleClick}
       icon={<LanguageIcon />}
       title={t(`language.title`)}
     >
-      <SummaryValue>{selectedLanguageDisplayName}</SummaryValue>
-    </SettingCardButton>
+      <CardValue>{selectedLanguageDisplayName}</CardValue>
+    </CardButton>
   );
 };

@@ -9,6 +9,12 @@ import { SelectChainPage } from './pages/SelectChainPage';
 import { SelectEnabledToolsPage } from './pages/SelectEnabledToolsPage';
 import { SelectTokenPage } from './pages/SelectTokenPage';
 import { SelectWalletPage } from './pages/SelectWalletPage';
+import {
+  BookmarksPage,
+  ConnectedWalletsPage,
+  RecentWalletsPage,
+  SendToWalletPage,
+} from './pages/SendToWallet';
 import { SettingsPage } from './pages/SettingsPage';
 import { TransactionDetailsPage } from './pages/TransactionDetailsPage';
 import { TransactionHistoryPage } from './pages/TransactionHistoryPage';
@@ -74,6 +80,22 @@ const routes: RouteObject[] = [
   {
     path: navigationRoutes.activeTransactions,
     element: <ActiveTransactionsPage />,
+  },
+  {
+    path: navigationRoutes.sendToWallet,
+    element: <SendToWalletPage />,
+  },
+  {
+    path: `${navigationRoutes.sendToWallet}/${navigationRoutes.bookmarks}`,
+    element: <BookmarksPage />,
+  },
+  {
+    path: `${navigationRoutes.sendToWallet}/${navigationRoutes.recentWallets}`,
+    element: <RecentWalletsPage />,
+  },
+  {
+    path: `${navigationRoutes.sendToWallet}/${navigationRoutes.connectedWallets}`,
+    element: <ConnectedWalletsPage />,
   },
   {
     path: navigationRoutes.transactionHistory,

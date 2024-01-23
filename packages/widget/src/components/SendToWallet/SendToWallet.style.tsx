@@ -1,20 +1,30 @@
-import { FormControl as MuiFormControl, InputBase } from '@mui/material';
-import { inputBaseClasses } from '@mui/material/InputBase';
 import { styled } from '@mui/material/styles';
+import { CardHeader } from '../Card';
+import { cardHeaderClasses } from '@mui/material/CardHeader';
 
-export const FormControl = styled(MuiFormControl)(({ theme }) => ({
-  padding: theme.spacing(1.5, 2, 1.5, 0),
-}));
-
-export const Input = styled(InputBase)(({ theme }) => ({
-  [`.${inputBaseClasses.input}`]: {
-    height: 32,
-    padding: theme.spacing(0, 0, 0, 2),
+export const SendToWalletCardHeader = styled(CardHeader, {
+  shouldForwardProp: (prop) => !['selected'].includes(prop as string),
+})<{ selected?: boolean }>(({ theme, selected }) => ({
+  height: 64,
+  [`.${cardHeaderClasses.title}`]: {
+    color: selected ? theme.palette.text.primary : theme.palette.text.secondary,
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    width: 256,
+    textAlign: 'left',
+    [theme.breakpoints.down(392)]: {
+      width: 224,
+    },
   },
-  [`&.${inputBaseClasses.disabled}`]: {
-    color: 'inherit',
-  },
-  [`.${inputBaseClasses.input}.${inputBaseClasses.disabled}`]: {
-    WebkitTextFillColor: 'unset',
+  [`.${cardHeaderClasses.subheader}`]: {
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    width: 256,
+    textAlign: 'left',
+    [theme.breakpoints.down(392)]: {
+      width: 224,
+    },
   },
 }));

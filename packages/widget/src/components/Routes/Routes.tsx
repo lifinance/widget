@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useRoutes } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
-import { useValidation } from '../../stores';
 import { navigationRoutes } from '../../utils';
 import { Card, CardTitle } from '../Card';
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate';
@@ -14,7 +13,6 @@ export const Routes: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { subvariant, useRecommendedRoute } = useWidgetConfig();
-  const { isValid, isValidating } = useValidation();
   const {
     routes,
     isLoading,
@@ -67,11 +65,7 @@ export const Routes: React.FC<BoxProps> = (props) => {
 
         <Collapse timeout={225} in={showAll} unmountOnExit mountOnEnter appear>
           <Box mt={2}>
-            <Button
-              onClick={handleCardClick}
-              disabled={isValidating || !isValid}
-              fullWidth
-            >
+            <Button onClick={handleCardClick} fullWidth>
               {t('button.showAll')}
             </Button>
           </Box>

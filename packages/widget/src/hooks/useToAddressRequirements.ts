@@ -1,20 +1,23 @@
 import { useChain } from '../hooks';
 import { useWidgetConfig } from '../providers';
-import { RequiredUI } from '../types';
 import { useFieldValues } from '../stores';
+import { RequiredUI } from '../types';
 
-export const useRequiredToAddress = () => {
+export const useToAddressRequirements = () => {
   const { requiredUI } = useWidgetConfig();
   const [fromChainId, toChainId] = useFieldValues('fromChain', 'toChain');
 
   const { chain: fromChain } = useChain(fromChainId);
   const { chain: toChain } = useChain(toChainId);
 
-  const differentChainType =
+  const isDifferentChainType =
     fromChain && toChain && fromChain.chainType !== toChain.chainType;
 
   const requiredToAddress =
-    requiredUI?.includes(RequiredUI.ToAddress) || differentChainType;
+    requiredUI?.includes(RequiredUI.ToAddress) || isDifferentChainType;
 
-  return requiredToAddress;
+  return {
+    requiredToAddress,
+    requiredToChainType: toChain?.chainType,
+  };
 };

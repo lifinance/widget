@@ -1,4 +1,4 @@
-import { Box, ButtonBase, Badge as MuiBadge, Typography } from '@mui/material';
+import { Box, Badge as MuiBadge } from '@mui/material';
 import { badgeClasses } from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 
@@ -9,38 +9,13 @@ export const SettingsList = styled(Box)(({ theme }) => ({
   padding: theme.spacing(1, 0, 1),
 }));
 
-export const SummaryTitleContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: theme.spacing(1.5),
-}));
-
 export const SummaryRowContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   width: '100%',
   justifyContent: 'space-between',
   alignItems: 'center',
-  padding: theme.spacing(1),
+  padding: theme.spacing(2),
 }));
-
-export const SummaryRowButton = styled(ButtonBase)(({ theme }) => ({
-  background: 'none',
-  color: 'inherit',
-  border: 'none',
-  font: 'inherit',
-  cursor: 'pointer',
-  outline: 'inherit',
-  display: 'flex',
-  width: '100%',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  padding: theme.spacing(1),
-}));
-
-export const SummaryValue = styled(Typography)({
-  lineHeight: '1.25',
-  fontWeight: 500,
-});
 
 export const Badge = styled(MuiBadge)(({ theme }) => ({
   display: 'flex',

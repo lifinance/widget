@@ -39,9 +39,8 @@ export interface FormValues {
 }
 
 export type FormFieldNames = keyof FormValues;
-export type ExtractValueType<T> = T extends FormValueControl<infer U>
-  ? U
-  : never;
+export type ExtractValueType<T> =
+  T extends FormValueControl<infer U> ? U : never;
 export type FormFieldArray<T extends FormFieldNames[]> = {
   [K in keyof T]: ExtractValueType<FormValues[T[K]]>;
 };

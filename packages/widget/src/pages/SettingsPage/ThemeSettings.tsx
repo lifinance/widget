@@ -4,11 +4,12 @@ import NightlightIcon from '@mui/icons-material/Nightlight';
 import { Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Tab, Tabs } from '../../components/Tabs';
+import { CardValue } from '../../components/Card';
 import { useWidgetConfig } from '../../providers';
 import { useAppearance } from '../../stores';
 import type { Appearance } from '../../types';
 import { HiddenUI } from '../../types';
-import { SettingCardExpandable, SummaryValue } from './SettingsCard';
+import { SettingCardExpandable } from './SettingsCard';
 
 const themeIcons = {
   light: LightModeIcon,
@@ -55,7 +56,7 @@ export const ThemeSettings: React.FC = () => {
 
   return (
     <SettingCardExpandable
-      value={<SummaryValue>{t(`button.${appearance}`)} </SummaryValue>}
+      value={<CardValue>{t(`button.${appearance}`)} </CardValue>}
       icon={<ThemeIcon />}
       title={t('settings.theme')}
     >

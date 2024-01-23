@@ -9,12 +9,15 @@
   },
   "button": {
     "auto": "Auto",
+    "bookmark": "Bookmark",
+    "bookmarks": "Bookmarks",
     "bridge": "Bridge",
     "buy": "Buy",
     "buyNow": "Buy now",
     "cancel": "Cancel",
     "changeWallet": "Change wallet",
     "close": "Close",
+    "confirm": "Confirm",
     "connectWallet": "Connect wallet",
     "contactSupport": "Contact support",
     "continue": "Continue",
@@ -32,6 +35,7 @@
     "light": "Light",
     "max": "max",
     "ok": "Ok",
+    "options": "Options",
     "removeTransaction": "Remove transaction",
     "reset": "Reset",
     "resetSettings": "Reset settings",
@@ -49,6 +53,7 @@
   },
   "header": {
     "activeTransactions": "Active transactions",
+    "bookmarkedWallets": "Bookmarked wallets",
     "bridge": "Bridge",
     "checkout": "Checkout",
     "exchange": "Exchange",
@@ -57,8 +62,10 @@
     "payWith": "Pay with",
     "purchase": "Purchase",
     "purchaseDetails": "Purchase details",
+    "recentWallets": "Recent wallets",
     "selectChain": "Select chain",
     "selectWallet": "Select your wallet",
+    "sendToWallet": "Send to wallet",
     "settings": "Settings",
     "swap": "Swap",
     "to": "Exchange to",
@@ -73,7 +80,8 @@
       "emptyActiveTransactions": "Transactions in progress will appear here. Once completed, find them in transaction history.",
       "emptyTokenList": "We couldn't find tokens on {{chainName}} chain or you don't have any. Please search by contract address if your token doesn't appear or choose another chain.",
       "emptyTransactionHistory": "Transaction history is only stored locally and will be deleted if you clear your browser data.",
-      "routeNotFound": "Reasons for that could be: low liquidity, amount selected is too low, gas costs are too high or there are no routes for the selected combination."
+      "routeNotFound": "Reasons for that could be: low liquidity, amount selected is too low, gas costs are too high or there are no routes for the selected combination.",
+      "fundsToExchange": "Funds sent to an exchange may be lost"
     },
     "title": {
       "autoRefuel": "Get gas",
@@ -131,22 +139,25 @@
       "unknown": "Please try again or contact support."
     },
     "title": {
+      "addressRequired": "Wallet address is required",
       "allowanceRequired": "Insufficient allowance",
       "balanceIsTooLow": "The balance is too low",
+      "bookmarkAlreadyExists": "Wallet is already bookmarked as {{name}}",
+      "bookmarkNameRequired": "Bookmark name is required",
       "chainSwitch": "Chain switch required",
+      "exchangeRateUpdateCanceled": "Exchange rate update canceled",
       "gasLimitIsTooLow": "The gas limit is too low",
       "insufficientFunds": "Insufficient funds",
       "signatureRejected": "Signature required",
       "slippageNotMet": "Slippage conditions not met",
       "transactionCanceled": "Transaction canceled",
-      "exchangeRateUpdateCanceled": "Exchange rate update canceled",
       "transactionFailed": "Transaction failed",
       "transactionUnderpriced": "Transaction is underpriced",
       "transactionUnprepared": "Unable to prepare transaction",
       "unknown": "Something went wrong",
-      "walletAddressInvalid": "Wallet address is invalid.",
+      "walletAddressInvalid": "Wallet address or ENS is invalid, or the network doesn't support ENS.",
       "walletAddressRequired": "Wallet address is required.",
-      "walletEnsAddressInvalid": "Wallet address or ENS is invalid, or the network doesn't support ENS."
+      "walletChainTypeInvalid": "Wallet address does not match the selected destination chain - {{chainName}}"
     }
   },
   "tooltip": {
@@ -246,8 +257,7 @@
     "tokenOnChain": "{{tokenSymbol}} on {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} on {{chainName}}",
     "tokenSearch": "Search by token name or address",
-    "valueLoss": "Value loss",
-    "walletAddressOrEns": "Wallet address or ENS name"
+    "valueLoss": "Value loss"
   },
   "insurance": {
     "bridgeExploits": "Bridge malfunctions, hacks or exploits",
@@ -270,6 +280,17 @@
     "slippage": "Slippage",
     "custom": "Custom",
     "resetSettings": "You're using custom setting limiting the number of available routes."
+  },
+  "sendToWallet": {
+    "enterAddress": "Enter address or ENS",
+    "enterName": "Enter name",
+    "confirmWalletAddress": "Confirm wallet address",
+    "connectedWallets": "Connected wallets",
+    "bookmarkWallet": "Bookmark wallet",
+    "addBookmark": "Add bookmark",
+    "noBookmarkedWallets": "No bookmarked wallets",
+    "noConnectedWallets": "No connected wallets",
+    "noRecentWallets": "No recent wallets"
   },
   "wallet": {
     "extensionNotFound": "Please make sure that only the {{name}} browser extension is active before choosing this wallet."
