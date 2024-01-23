@@ -150,11 +150,10 @@ export const ConnectedWalletsPage = () => {
       </ListContainer>
       <ConfirmAddressSheet
         ref={confirmAddressSheetRef}
-        validatedWallet={
+        validatedBookmark={
           selectedAccount && {
             name: selectedAccount.connector?.name,
             address: selectedAccount.address!,
-            addressType: 'address',
             chainType: selectedAccount.chainType!,
             isConnectedAccount: true,
           }

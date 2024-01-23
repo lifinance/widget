@@ -5,24 +5,24 @@ import { useTranslation } from 'react-i18next';
 import { normalize } from 'viem/ens';
 import { useConfig } from 'wagmi';
 import { useToAddressRequirements } from '../hooks';
-import type { AddressType } from '../stores';
-import { useFieldActions } from '../stores';
 import { getChainTypeFromAddress } from '../utils';
 
+type AddressType = 'address' | 'ENS';
+
 type ValidResponse = {
-  isValid: true;
-  chainType: ChainType;
+  address: string;
   addressType: AddressType;
+  chainType: ChainType;
+  isValid: true;
 };
 
 type InvalidResponse = {
-  isValid: false;
   error: string;
+  isValid: false;
 };
 
 export const useAddressValidation = () => {
   const { t } = useTranslation();
-  const { getFieldValues } = useFieldActions();
   const config = useConfig();
   const requiredToAddress = useToAddressRequirements();
 
@@ -39,14 +39,15 @@ export const useAddressValidation = () => {
           const chainType = getChainTypeFromAddress(value);
           if (chainType) {
             return {
-              isValid: true,
-              chainType,
+              address: value,
               addressType: 'address',
+              chainType,
+              isValid: true,
             };
           }
 
           const address = await getEnsAddress(config, {
-            chainId: getFieldValues('toChain')[0],
+            chainId: 1,
             name: normalize(value),
           });
 
@@ -54,15 +55,16 @@ export const useAddressValidation = () => {
             const chainType = getChainTypeFromAddress(address);
             if (chainType) {
               return {
-                isValid: true,
-                chainType,
+                address: address,
                 addressType: 'ENS',
+                chainType,
+                isValid: true,
               };
             }
           }
 
           throw new Error();
-        } catch {
+        } catch (_) {
           return {
             isValid: false,
             error: t('error.title.walletAddressInvalid'),

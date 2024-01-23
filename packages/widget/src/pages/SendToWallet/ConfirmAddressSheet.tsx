@@ -15,19 +15,19 @@ import {
   IconContainer,
   SendToWalletButtonRow,
   SendToWalletSheetContainer,
-  SheetAddress,
+  SheetAddressContainer,
   SheetTitle,
 } from './SendToWalletPage.style';
 
 interface ConfirmAddressSheetProps {
   onConfirm: (wallet: Bookmark) => void;
-  validatedWallet?: Bookmark;
+  validatedBookmark?: Bookmark;
 }
 
 export const ConfirmAddressSheet = forwardRef<
   BottomSheetBase,
   ConfirmAddressSheetProps
->(({ validatedWallet, onConfirm }, ref) => {
+>(({ validatedBookmark, onConfirm }, ref) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { setFieldValue } = useFieldActions();
@@ -40,9 +40,9 @@ export const ConfirmAddressSheet = forwardRef<
   };
 
   const handleConfirm = () => {
-    if (validatedWallet) {
-      setFieldValue('toAddress', validatedWallet.address);
-      onConfirm?.(validatedWallet);
+    if (validatedBookmark) {
+      setFieldValue('toAddress', validatedBookmark.address);
+      onConfirm?.(validatedBookmark);
       setSendToWallet(true);
       handleClose();
       navigate(navigationRoutes.home);
@@ -56,7 +56,14 @@ export const ConfirmAddressSheet = forwardRef<
           <WalletIcon sx={{ fontSize: 48 }} />
         </IconContainer>
         <SheetTitle>{t('sendToWallet.confirmWalletAddress')}</SheetTitle>
-        <SheetAddress>{validatedWallet?.address}</SheetAddress>
+        <SheetAddressContainer>
+          {validatedBookmark?.name ? (
+            <Typography fontWeight={600} mb={0.5}>
+              {validatedBookmark?.name}
+            </Typography>
+          ) : null}
+          <Typography>{validatedBookmark?.address}</Typography>
+        </SheetAddressContainer>
         <AlertMessage
           title={
             <Typography variant="body2">

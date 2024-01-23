@@ -80,7 +80,7 @@ export const BookmarksPage = () => {
 
   const handleRemoveBookmark = () => {
     if (bookmark) {
-      removeBookmark(bookmark);
+      removeBookmark(bookmark.address);
     }
     closeMenu();
   };
@@ -104,11 +104,7 @@ export const BookmarksPage = () => {
               </ListItemAvatar>
               <ListItemText
                 primary={bookmark.name}
-                secondary={
-                  bookmark.addressType === 'address'
-                    ? shortenAddress(bookmark.address)
-                    : bookmark.address
-                }
+                secondary={shortenAddress(bookmark.address)}
               />
             </ListItemButton>
             <OptionsMenuButton
@@ -178,7 +174,7 @@ export const BookmarksPage = () => {
       />
       <ConfirmAddressSheet
         ref={confirmAddressSheetRef}
-        validatedWallet={bookmark}
+        validatedBookmark={bookmark}
         onConfirm={handleOnConfirm}
       />
     </SendToWalletPageContainer>

@@ -119,10 +119,9 @@ export const SheetTitle = styled(Typography)(() => ({
   fontWeight: 700,
 }));
 
-export const SheetAddress = styled(Typography)(() => ({
+export const SheetAddressContainer = styled(Box)(() => ({
   width: '100%',
   wordWrap: 'break-word',
-  lineHeight: '20px',
 }));
 
 export const ListContainer = styled(List)(({ theme }) => ({

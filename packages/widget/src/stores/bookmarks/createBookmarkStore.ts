@@ -14,22 +14,16 @@ export const createBookmarksStore = ({ namePrefix }: PersistStoreProps) =>
         bookmarks: [],
         recentWallets: [],
         getBookmark: (address) =>
-          get().bookmarks.find(
-            (bookmarkedWallet) => bookmarkedWallet.address === address,
-          ),
-        addBookmark: (name, address, addressType, chainType) => {
+          get().bookmarks.find((bookmark) => bookmark.address === address),
+        addBookmark: (bookmark) => {
           set((state) => ({
-            bookmarks: [
-              { name, address, addressType, chainType },
-              ...state.bookmarks,
-            ],
+            bookmarks: [bookmark, ...state.bookmarks],
           }));
         },
-        removeBookmark: (bookmarkedWallet) => {
+        removeBookmark: (address) => {
           set((state) => ({
             bookmarks: state.bookmarks.filter(
-              (storedBookmark) =>
-                storedBookmark.address !== bookmarkedWallet.address,
+              (storedBookmark) => storedBookmark.address !== address,
             ),
           }));
         },
@@ -38,20 +32,20 @@ export const createBookmarksStore = ({ namePrefix }: PersistStoreProps) =>
             selectedBookmark: bookmark,
           }));
         },
-        addRecentWallet: (address, addressType, chainType) => {
+        addRecentWallet: (bookmark) => {
           set((state) => ({
             recentWallets: [
-              { address, addressType, chainType },
+              bookmark,
               ...state.recentWallets.filter(
-                (recentWallet) => recentWallet.address !== address,
+                (recentWallet) => recentWallet.address !== bookmark.address,
               ),
             ].slice(0, recentWalletsLimit),
           }));
         },
-        removeRecentWallet: (bookmark) => {
+        removeRecentWallet: (address) => {
           set((state) => ({
             recentWallets: state.recentWallets.filter(
-              (storedRecent) => storedRecent.address !== bookmark.address,
+              (storedRecent) => storedRecent.address !== address,
             ),
           }));
         },

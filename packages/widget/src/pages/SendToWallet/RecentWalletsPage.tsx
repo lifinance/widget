@@ -1,4 +1,3 @@
-import type { ChainType } from '@lifi/sdk';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
@@ -14,7 +13,7 @@ import type { BottomSheetBase } from '../../components/BottomSheet';
 import { ListItem, ListItemButton } from '../../components/ListItem';
 import { Menu } from '../../components/Menu';
 import { useChains, useToAddressRequirements } from '../../hooks';
-import type { AddressType, Bookmark } from '../../stores';
+import type { Bookmark } from '../../stores';
 import { useBookmarkActions, useBookmarks } from '../../stores';
 import {
   defaultChainIdsByType,
@@ -54,26 +53,17 @@ export const RecentWalletsPage = () => {
     confirmAddressSheetRef.current?.open();
   };
 
-  const handleAddBookmark = (
-    name: string,
-    address: string,
-    addressType: AddressType,
-    chainType: ChainType,
-  ) => {
-    addBookmark(name, address, addressType, chainType);
+  const handleAddBookmark = (bookmark: Bookmark) => {
+    addBookmark(bookmark);
     navigate(`../${navigationRoutes.bookmarks}`, {
       relative: 'path',
       replace: true,
     });
   };
 
-  const handleOnConfirm = (confirmedWallet: Bookmark) => {
-    setSelectedBookmark(confirmedWallet);
-    addRecentWallet(
-      confirmedWallet.address,
-      confirmedWallet.addressType,
-      confirmedWallet.chainType,
-    );
+  const handleOnConfirm = (confirmedBookmark: Bookmark) => {
+    setSelectedBookmark(confirmedBookmark);
+    addRecentWallet(confirmedBookmark);
   };
 
   const closeMenu = () => {
@@ -115,7 +105,7 @@ export const RecentWalletsPage = () => {
 
   const handleRemoveRecentWallet = () => {
     if (selectedRecent) {
-      removeRecentWallet(selectedRecent);
+      removeRecentWallet(selectedRecent.address);
     }
     closeMenu();
   };
@@ -139,9 +129,12 @@ export const RecentWalletsPage = () => {
               </ListItemAvatar>
               <ListItemText
                 primary={
-                  recentWallet.addressType === 'address'
+                  recentWallet.name || shortenAddress(recentWallet.address)
+                }
+                secondary={
+                  recentWallet.name
                     ? shortenAddress(recentWallet.address)
-                    : recentWallet.address
+                    : undefined
                 }
               />
             </ListItemButton>
@@ -214,7 +207,7 @@ export const RecentWalletsPage = () => {
       />
       <ConfirmAddressSheet
         ref={confirmAddressSheetRef}
-        validatedWallet={selectedRecent}
+        validatedBookmark={selectedRecent}
         onConfirm={handleOnConfirm}
       />
     </SendToWalletPageContainer>
