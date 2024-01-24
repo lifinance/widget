@@ -56,7 +56,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
-    "@lifi/sdk": "^3.0.0-alpha.50",
+    "@lifi/sdk": "^3.0.0-alpha.51",
     "@lifi/wallet-management": "^3.0.0-alpha.12",
     "@mui/icons-material": "^5.15.6",
     "@mui/lab": "^5.0.0-alpha.162",
