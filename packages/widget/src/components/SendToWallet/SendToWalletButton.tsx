@@ -73,7 +73,11 @@ export const SendToWalletButton = () => {
     : !!selectedBookmark?.name && address;
 
   const handleOnClick = () => {
-    navigate(navigationRoutes.sendToWallet);
+    // TODO: add condition make the selection if curated wallets in config
+    // navigate(navigationRoutes.sendToWallet);
+    navigate(
+      `${navigationRoutes.sendToWallet}/${navigationRoutes.configuredWallets}`,
+    );
   };
 
   // Sync SendToWalletExpandButton state

@@ -14,6 +14,7 @@ import {
   ConnectedWalletsPage,
   RecentWalletsPage,
   SendToWalletPage,
+  SendToConfiguredWalletPage,
 } from './pages/SendToWallet';
 import { SettingsPage } from './pages/SettingsPage';
 import { TransactionDetailsPage } from './pages/TransactionDetailsPage';
@@ -96,6 +97,10 @@ const routes: RouteObject[] = [
   {
     path: `${navigationRoutes.sendToWallet}/${navigationRoutes.connectedWallets}`,
     element: <ConnectedWalletsPage />,
+  },
+  {
+    path: `${navigationRoutes.sendToWallet}/${navigationRoutes.configuredWallets}`,
+    element: <SendToConfiguredWalletPage />,
   },
   {
     path: navigationRoutes.transactionHistory,
