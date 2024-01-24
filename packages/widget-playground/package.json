@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-playground",
-  "version": "1.0.170",
+  "version": "1.0.171",
   "type": "module",
   "scripts": {
     "analyze": "source-map-explorer 'dist/assets/*.js' --no-border-checks",
@@ -24,12 +24,12 @@
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
-    "@lifi/sdk": "^3.0.0-alpha.49",
-    "@lifi/wallet-management": "^3.0.0-alpha.11",
-    "@lifi/widget": "^3.0.0-alpha.17",
-    "@mui/icons-material": "^5.15.5",
-    "@mui/lab": "^5.0.0-alpha.161",
-    "@mui/material": "^5.15.5",
+    "@lifi/sdk": "^3.0.0-alpha.50",
+    "@lifi/wallet-management": "^3.0.0-alpha.12",
+    "@lifi/widget": "^3.0.0-alpha.19",
+    "@mui/icons-material": "^5.15.6",
+    "@mui/lab": "^5.0.0-alpha.162",
+    "@mui/material": "^5.15.6",
     "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/wallet-adapter-react": "^0.15.35",
     "@solana/wallet-adapter-wallets": "^0.19.25",
@@ -40,8 +40,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.3",
-    "viem": "^2.4.1",
-    "wagmi": "^2.3.1"
+    "viem": "^2.5.0",
+    "wagmi": "^2.5.1"
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
