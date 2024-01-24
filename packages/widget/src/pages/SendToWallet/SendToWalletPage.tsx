@@ -3,7 +3,7 @@ import HistoryIcon from '@mui/icons-material/History';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
 import WalletIcon from '@mui/icons-material/Wallet';
 import { Tooltip } from '@mui/material';
-import type { ChangeEvent, FocusEventHandler } from 'react';
+import type { ChangeEvent } from 'react';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -39,8 +39,6 @@ export const SendToWalletPage = () => {
     useBookmarkActions();
   const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null);
   const confirmAddressSheetRef = useRef<BottomSheetBase>(null);
-  const doneButtonRef = useRef<HTMLButtonElement>(null);
-  const boomarkButtonRef = useRef<HTMLButtonElement>(null);
   const [inputAddressValue, setInputAddressValue] = useState('');
   const [validatedWallet, setValidatedWallet] = useState<Bookmark>();
   const [errorMessage, setErrorMessage] = useState('');
@@ -52,6 +50,9 @@ export const SendToWalletPage = () => {
   const { chain: toChain } = useChain(toChainId);
 
   const handleInputChange = (e: ChangeEvent) => {
+    if (errorMessage) {
+      setErrorMessage('');
+    }
     setInputAddressValue((e.target as HTMLInputElement).value.trim());
   };
 
@@ -148,27 +149,9 @@ export const SendToWalletPage = () => {
     addRecentWallet(confirmedWallet);
   };
 
-  const handleOnBlur: FocusEventHandler = async (e) => {
-    if (
-      !(
-        e.relatedTarget === doneButtonRef.current ||
-        e.relatedTarget === boomarkButtonRef.current
-      ) &&
-      !isValidating
-    ) {
-      if (!inputAddressValue) {
-        return;
-      }
-      const validationResult = await validateAddress(inputAddressValue);
-      if (!validationResult.isValid) {
-        setErrorMessage(validationResult.error);
-      }
-    }
-  };
-
   return (
     <SendToWalletPageContainer topBottomGutters>
-      <SendToWalletCard mb={1.5}>
+      <SendToWalletCard mb={6} variant={errorMessage ? 'error' : 'default'}>
         <AddressInput
           size="small"
           autoComplete="off"
@@ -176,20 +159,20 @@ export const SendToWalletPage = () => {
           autoCapitalize="off"
           spellCheck="false"
           onChange={handleInputChange}
-          onBlur={handleOnBlur}
           value={inputAddressValue}
           placeholder={t('sendToWallet.enterAddress')}
           aria-label={t('sendToWallet.enterAddress')}
+          maxRows={2}
+          inputProps={{ maxLength: 128 }}
           multiline
         />
-        {!!errorMessage && (
+        {errorMessage ? (
           <ValidationAlert icon={<ErrorIcon />} sx={{ pb: 2, paddingX: 2 }}>
             {errorMessage}
           </ValidationAlert>
-        )}
+        ) : null}
         <SendToWalletButtonRow sx={{ paddingX: 2, paddingBottom: 2 }}>
           <SendToWalletButton
-            ref={doneButtonRef}
             variant="text"
             onClick={handleDone}
             sx={{ flexGrow: 1 }}
@@ -197,10 +180,7 @@ export const SendToWalletPage = () => {
             {t('button.done')}
           </SendToWalletButton>
           <Tooltip title={t('button.bookmark')} arrow>
-            <SendToWalletIconButton
-              ref={boomarkButtonRef}
-              onClick={handleBookmarkAddress}
-            >
+            <SendToWalletIconButton onClick={handleBookmarkAddress}>
               <TurnedInIcon fontSize="small" />
             </SendToWalletIconButton>
           </Tooltip>

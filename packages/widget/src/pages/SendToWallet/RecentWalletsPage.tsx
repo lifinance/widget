@@ -112,7 +112,7 @@ export const RecentWalletsPage = () => {
 
   return (
     <SendToWalletPageContainer disableGutters>
-      <ListContainer sx={{ minHeight: 418 }}>
+      <ListContainer>
         {recentWallets.map((recentWallet) => (
           <ListItem key={recentWallet.address} sx={{ position: 'relative' }}>
             <ListItemButton

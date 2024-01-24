@@ -53,7 +53,7 @@ export const ConfirmAddressSheet = forwardRef<
     <BottomSheet ref={ref}>
       <SendToWalletSheetContainer>
         <IconContainer>
-          <WalletIcon sx={{ fontSize: 48 }} />
+          <WalletIcon sx={{ fontSize: 40 }} />
         </IconContainer>
         <SheetTitle>{t('sendToWallet.confirmWalletAddress')}</SheetTitle>
         <SheetAddressContainer>
@@ -73,14 +73,10 @@ export const ConfirmAddressSheet = forwardRef<
           icon={<InfoIcon />}
         />
         <SendToWalletButtonRow>
-          <Button sx={{ flexGrow: 1 }} variant="text" onClick={handleClose}>
+          <Button variant="text" onClick={handleClose} fullWidth>
             {t('button.cancel')}
           </Button>
-          <Button
-            sx={{ flexGrow: 1 }}
-            variant="contained"
-            onClick={handleConfirm}
-          >
+          <Button variant="contained" onClick={handleConfirm} fullWidth>
             {t('button.confirm')}
           </Button>
         </SendToWalletButtonRow>

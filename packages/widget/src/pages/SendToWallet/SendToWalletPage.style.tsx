@@ -48,8 +48,8 @@ export const SendToWalletSheetContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  padding: theme.spacing(6, 3, 3),
-  gap: theme.spacing(3),
+  padding: theme.spacing(4, 3, 3),
+  gap: theme.spacing(2),
 }));
 
 export const SendToWalletButtonRow = styled(Box)(({ theme }) => ({
@@ -101,8 +101,8 @@ export const IconContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  width: 96,
-  height: 96,
+  width: 80,
+  height: 80,
   color:
     theme.palette.mode === 'light'
       ? theme.palette.grey[700]
@@ -127,7 +127,7 @@ export const SheetAddressContainer = styled(Box)(() => ({
 export const ListContainer = styled(List)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  minHeight: 362,
+  minHeight: 400,
   paddingBottom: theme.spacing(3),
 }));
 
@@ -138,8 +138,8 @@ export const BookmarkButtonContainer = styled(Box)(({ theme }) => ({
   flexGrow: 1,
   position: 'sticky',
   bottom: 0,
-  padding: theme.spacing(0, 3, 2),
-  marginBottom: theme.spacing(-1.5),
+  padding: theme.spacing(0, 3, 3),
+  marginBottom: theme.spacing(-5.25),
   zIndex: 2,
 }));
 

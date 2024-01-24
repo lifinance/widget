@@ -37,6 +37,7 @@ export const SearchTokenInput = () => {
             onBlur,
             name,
             value,
+            maxLength: 128,
           }}
           autoComplete="off"
         />

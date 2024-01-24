@@ -1,8 +1,8 @@
 import ErrorIcon from '@mui/icons-material/Error';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
 import { Button, Typography } from '@mui/material';
-import type { ChangeEvent, FocusEventHandler, MutableRefObject } from 'react';
-import { forwardRef, useRef, useState } from 'react';
+import type { ChangeEvent, MutableRefObject } from 'react';
+import { forwardRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import { BottomSheet } from '../../components/BottomSheet';
@@ -21,6 +21,7 @@ import {
   SheetTitle,
   ValidationAlert,
 } from './SendToWalletPage.style';
+import type { BookmarkError } from './types';
 
 interface BookmarkAddressProps {
   onAddBookmark: (bookmark: Bookmark) => void;
@@ -32,10 +33,9 @@ export const BookmarkAddressSheet = forwardRef<
   BookmarkAddressProps
 >(({ validatedWallet, onAddBookmark }, ref) => {
   const { t } = useTranslation();
-  const bookmarkButtonRef = useRef<HTMLButtonElement>(null);
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [error, setError] = useState<BookmarkError>();
   const { validateAddress, isValidating } = useAddressValidation();
   const { getBookmark } = useBookmarkActions();
 
@@ -43,14 +43,14 @@ export const BookmarkAddressSheet = forwardRef<
   const addressValue = address || validatedWallet?.address || '';
 
   const handleCancel = () => {
-    setErrorMessage('');
+    setError(undefined);
     (ref as MutableRefObject<BottomSheetBase>).current?.close();
   };
 
   const validateWithAddressFromInput = async () => {
     const validationResult = await validateAddress(address);
     if (!validationResult.isValid) {
-      setErrorMessage(validationResult.error);
+      setError({ type: 'address', message: validationResult.error });
       return;
     }
 
@@ -62,8 +62,8 @@ export const BookmarkAddressSheet = forwardRef<
   };
 
   const validateWithValidatedWallet = () => {
-    if (errorMessage) {
-      setErrorMessage('');
+    if (error) {
+      setError(undefined);
     }
     return {
       name: nameValue.trim(),
@@ -73,22 +73,21 @@ export const BookmarkAddressSheet = forwardRef<
   };
 
   const handleBookmark = async () => {
+    if (isValidating) {
+      return;
+    }
     if (!nameValue) {
-      setErrorMessage(t('error.title.bookmarkNameRequired'));
+      setError({
+        type: 'name',
+        message: t('error.title.bookmarkNameRequired'),
+      });
       return;
     }
     if (!addressValue) {
-      setErrorMessage(t('error.title.addressRequired'));
-      return;
-    }
-
-    const existingBookmark = getBookmark(addressValue);
-    if (existingBookmark) {
-      setErrorMessage(
-        t('error.title.bookmarkAlreadyExists', {
-          name: existingBookmark.name,
-        }),
-      );
+      setError({
+        type: 'address',
+        message: t('error.title.addressRequired'),
+      });
       return;
     }
 
@@ -99,6 +98,17 @@ export const BookmarkAddressSheet = forwardRef<
       : await validateWithAddressFromInput();
 
     if (validatedBookmark) {
+      const existingBookmark = getBookmark(validatedBookmark.address);
+      if (existingBookmark) {
+        setError({
+          type: 'address',
+          message: t('error.title.bookmarkAlreadyExists', {
+            name: existingBookmark.name,
+          }),
+        });
+        return;
+      }
+
       (ref as MutableRefObject<BottomSheetBase>).current?.close();
 
       onAddBookmark({
@@ -110,10 +120,16 @@ export const BookmarkAddressSheet = forwardRef<
   };
 
   const handleAddressInputChange = (e: ChangeEvent) => {
+    if (error) {
+      setError(undefined);
+    }
     setAddress((e.target as HTMLInputElement).value.trim());
   };
 
   const handleNameInputChange = (e: ChangeEvent) => {
+    if (error) {
+      setError(undefined);
+    }
     setName((e.target as HTMLInputElement).value.trim());
   };
 
@@ -122,34 +138,11 @@ export const BookmarkAddressSheet = forwardRef<
     setAddress('');
   };
 
-  const handleAddressInputOnBlur: FocusEventHandler = async (e) => {
-    if (!(e.relatedTarget === bookmarkButtonRef.current) && !isValidating) {
-      if (!address) {
-        return;
-      }
-
-      const existingBookmark = getBookmark(address);
-      if (existingBookmark) {
-        setErrorMessage(
-          t('error.title.bookmarkAlreadyExists', {
-            name: existingBookmark.name,
-          }),
-        );
-        return;
-      }
-
-      const validationResult = await validateAddress(address);
-      if (!validationResult.isValid) {
-        setErrorMessage(validationResult.error);
-      }
-    }
-  };
-
   return (
     <BottomSheet ref={ref} onClose={resetValues}>
       <SendToWalletSheetContainer>
         <IconContainer>
-          <TurnedInIcon sx={{ fontSize: 48 }} />
+          <TurnedInIcon sx={{ fontSize: 40 }} />
         </IconContainer>
         <SheetTitle>{t('sendToWallet.bookmarkWallet')}</SheetTitle>
         {validatedWallet ? (
@@ -163,7 +156,9 @@ export const BookmarkAddressSheet = forwardRef<
           </SheetAddressContainer>
         ) : null}
         <BookmarkInputFields>
-          <SendToWalletCard>
+          <SendToWalletCard
+            variant={error?.type === 'name' ? 'error' : 'default'}
+          >
             <Input
               size="small"
               autoComplete="off"
@@ -174,10 +169,13 @@ export const BookmarkAddressSheet = forwardRef<
               value={name}
               placeholder={validatedWallet?.name || t('sendToWallet.enterName')}
               aria-label={validatedWallet?.name || t('sendToWallet.enterName')}
+              inputProps={{ maxLength: 128 }}
             />
           </SendToWalletCard>
           {!validatedWallet && (
-            <SendToWalletCard>
+            <SendToWalletCard
+              variant={error?.type === 'address' ? 'error' : 'default'}
+            >
               <AddressInput
                 size="small"
                 autoComplete="off"
@@ -185,29 +183,29 @@ export const BookmarkAddressSheet = forwardRef<
                 autoCapitalize="off"
                 spellCheck="false"
                 onChange={handleAddressInputChange}
-                onBlur={handleAddressInputOnBlur}
                 value={address}
                 placeholder={t('sendToWallet.enterAddress')}
                 aria-label={t('sendToWallet.enterAddress')}
+                maxRows={2}
+                inputProps={{ maxLength: 128 }}
                 multiline
               />
             </SendToWalletCard>
           )}
-          {!!errorMessage && (
+          {error ? (
             <ValidationAlert icon={<ErrorIcon />}>
-              {errorMessage}
+              {error.message}
             </ValidationAlert>
-          )}
+          ) : null}
         </BookmarkInputFields>
         <SendToWalletButtonRow>
-          <Button sx={{ flexGrow: 1 }} variant="text" onClick={handleCancel}>
+          <Button variant="text" onClick={handleCancel} fullWidth>
             {t('button.cancel')}
           </Button>
           <Button
-            ref={bookmarkButtonRef}
-            sx={{ flexGrow: 1 }}
             variant="contained"
             onClick={handleBookmark}
+            fullWidth
             focusRipple
           >
             {t('button.bookmark')}
