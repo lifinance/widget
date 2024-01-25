@@ -75,7 +75,7 @@ export const SendToWalletButton = () => {
   const handleOnClick = () => {
     navigate(
       toAddresses?.length
-        ? `${navigationRoutes.sendToWallet}/${navigationRoutes.configuredWallets}`
+        ? navigationRoutes.configuredWallets
         : navigationRoutes.sendToWallet,
     );
   };

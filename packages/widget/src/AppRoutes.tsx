@@ -99,7 +99,7 @@ const routes: RouteObject[] = [
     element: <ConnectedWalletsPage />,
   },
   {
-    path: `${navigationRoutes.sendToWallet}/${navigationRoutes.configuredWallets}`,
+    path: navigationRoutes.configuredWallets,
     element: <SendToConfiguredWalletPage />,
   },
   {
