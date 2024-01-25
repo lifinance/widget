@@ -4,6 +4,7 @@ import { version } from '../../config/version';
 import { setDefaultSettings } from '../../stores';
 import { formatInputAmount, getChainTypeFromAddress } from '../../utils';
 import type { WidgetContextProps, WidgetProviderProps } from './types';
+import type { WidgetConfig } from '../../types';
 
 const initialContext: WidgetContextProps = {
   elementId: '',
@@ -16,6 +17,30 @@ export const useWidgetConfig = (): WidgetContextProps =>
   useContext(WidgetContext);
 
 let sdkInitialized = false;
+
+const attemptToFindMatchingToAddressInConfig = (
+  address: string,
+  config: WidgetConfig,
+) => {
+  if (config.toAddress && config.toAddress.address === address) {
+    return config.toAddress;
+  }
+
+  if (config.toAddresses?.length) {
+    const matchingToAddress = config.toAddresses.find(
+      (toAddress) => toAddress.address === address,
+    );
+
+    if (matchingToAddress) {
+      return matchingToAddress;
+    }
+  }
+
+  return {
+    address: address,
+    chainType: getChainTypeFromAddress(address),
+  };
+};
 
 export const WidgetProvider: React.FC<
   React.PropsWithChildren<WidgetProviderProps>
@@ -60,13 +85,11 @@ export const WidgetProvider: React.FC<
           !isNaN(parseFloat(searchParams.fromAmount))
             ? formatInputAmount(searchParams.fromAmount)
             : widgetConfig.fromAmount,
-        //  TODO: Question: is using getChainTypeFromAddress ok here? Or do we have to start output
-        //   the name and the chainType to the querystring?
         toAddress: searchParams.toAddress
-          ? {
-              address: searchParams.toAddress,
-              chainType: getChainTypeFromAddress(searchParams.toAddress),
-            }
+          ? attemptToFindMatchingToAddressInConfig(
+              searchParams.toAddress,
+              widgetConfig,
+            )
           : widgetConfig.toAddress,
         integrator: widgetConfig.integrator,
         elementId,

@@ -38,7 +38,7 @@ export const SendToConfiguredWalletPage = () => {
 
   const handleCuratedSelected = (toAddress: ToAddress) => {
     setSelectedBookmark(toAddress);
-    setFieldValue('toAddress', toAddress.address);
+    setFieldValue('toAddress', toAddress.address, { isTouched: true });
     navigate(navigationRoutes.home);
   };
 
