@@ -2,7 +2,7 @@ import { config, createConfig, type SDKConfig } from '@lifi/sdk';
 import { createContext, useContext, useId, useMemo } from 'react';
 import { version } from '../../config/version';
 import { setDefaultSettings } from '../../stores';
-import { formatInputAmount } from '../../utils';
+import { formatInputAmount, getChainTypeFromAddress } from '../../utils';
 import type { WidgetContextProps, WidgetProviderProps } from './types';
 
 const initialContext: WidgetContextProps = {
@@ -60,7 +60,13 @@ export const WidgetProvider: React.FC<
           !isNaN(parseFloat(searchParams.fromAmount))
             ? formatInputAmount(searchParams.fromAmount)
             : widgetConfig.fromAmount,
-        toAddress: searchParams.toAddress || widgetConfig.toAddress,
+        // TODO: does this work? Never seen toAddress come in from the searchParams
+        toAddress: searchParams.toAddress
+          ? {
+              address: searchParams.toAddress,
+              chainType: getChainTypeFromAddress(searchParams.toAddress),
+            }
+          : widgetConfig.toAddress,
         integrator: widgetConfig.integrator,
         elementId,
       } as WidgetContextProps;
@@ -101,7 +107,6 @@ export const WidgetProvider: React.FC<
       };
     }
   }, [elementId, widgetConfig]);
-
   return (
     <WidgetContext.Provider value={value}>{children}</WidgetContext.Provider>
   );

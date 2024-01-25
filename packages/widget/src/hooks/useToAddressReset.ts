@@ -26,6 +26,9 @@ export const useToAddressReset = () => {
     // but it keeps toAddress value set for the previous chain pair.
     if (shouldResetToAddress) {
       setSelectedBookmark();
+      // TODO: question: this seems to be wiping the toAddress when selecting a chain
+      //  need to look at this and understand what the correct behaviour
+      //  for when the toAddress is set via config
       setFieldValue('toAddress', '');
     }
   };

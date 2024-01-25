@@ -1,11 +1,8 @@
-import type { ChainType } from '@lifi/sdk';
 import type { StoreApi } from 'zustand';
 import type { UseBoundStoreWithEqualityFn } from 'zustand/esm/traditional';
+import { ToAddress } from '../../types';
 
-export interface Bookmark {
-  address: string;
-  chainType: ChainType;
-  name?: string;
+export interface Bookmark extends ToAddress {
   isConnectedAccount?: boolean;
 }
 

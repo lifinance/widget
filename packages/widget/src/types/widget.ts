@@ -101,12 +101,17 @@ export interface WidgetContract {
   fallbackAddress?: string;
 }
 
+export interface ToAddress {
+  name?: string;
+  address: string;
+  chainType: ChainType;
+}
 export interface WidgetConfig {
   fromChain?: number;
   toChain?: number;
   fromToken?: string;
   toToken?: string;
-  toAddress?: string;
+  toAddress?: ToAddress;
   fromAmount?: number | string;
   toAmount?: number | string;
 
