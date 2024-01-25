@@ -1,4 +1,4 @@
-import { FullStatusData } from '@lifi/sdk';
+import type { FullStatusData } from '@lifi/sdk';
 import ContentCopyIcon from '@mui/icons-material/ContentCopyRounded';
 import { Box, IconButton, Typography } from '@mui/material';
 import { useEffect, useMemo } from 'react';

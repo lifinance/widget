@@ -1,6 +1,6 @@
 import type { StoreApi } from 'zustand';
 import type { UseBoundStoreWithEqualityFn } from 'zustand/esm/traditional';
-import { ToAddress } from '../../types';
+import type { ToAddress } from '../../types';
 
 export interface Bookmark extends ToAddress {
   isConnectedAccount?: boolean;
