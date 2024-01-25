@@ -60,7 +60,8 @@ export const WidgetProvider: React.FC<
           !isNaN(parseFloat(searchParams.fromAmount))
             ? formatInputAmount(searchParams.fromAmount)
             : widgetConfig.fromAmount,
-        // TODO: does this work? Never seen toAddress come in from the searchParams
+        //  TODO: Question: is using getChainTypeFromAddress ok here? Or do we have to start output
+        //   the name and the chainType to the querystring?
         toAddress: searchParams.toAddress
           ? {
               address: searchParams.toAddress,
