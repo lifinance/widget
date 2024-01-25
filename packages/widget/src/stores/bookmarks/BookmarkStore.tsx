@@ -1,8 +1,9 @@
-import { createContext, useContext, useRef } from 'react';
+import { createContext, useContext, useEffect, useRef } from 'react';
 import { shallow } from 'zustand/shallow';
 import type { PersistStoreProviderProps } from '../types';
 import { createBookmarksStore } from './createBookmarkStore';
 import type { BookmarkState, BookmarkStore } from './types';
+import { useWidgetConfig } from '../../providers';
 
 export const BookmarkStoreContext = createContext<BookmarkStore | null>(null);
 
@@ -10,11 +11,18 @@ export const BookmarkStoreProvider: React.FC<PersistStoreProviderProps> = ({
   children,
   ...props
 }) => {
+  const { toAddress } = useWidgetConfig();
   const storeRef = useRef<BookmarkStore>();
 
   if (!storeRef.current) {
     storeRef.current = createBookmarksStore(props);
   }
+
+  useEffect(() => {
+    if (storeRef?.current) {
+      storeRef.current.getState().setSelectedBookmark(toAddress);
+    }
+  }, [toAddress, storeRef]);
 
   return (
     <BookmarkStoreContext.Provider value={storeRef.current}>
