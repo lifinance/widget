@@ -9,8 +9,7 @@ import { AccountAvatar } from '../../components/AccountAvatar';
 import { ListItem, ListItemButton } from '../../components/ListItem';
 import { Menu } from '../../components/Menu';
 import { useChains, useToAddressRequirements } from '../../hooks';
-import type { Bookmark } from '../../stores';
-import { useBookmarkActions, useBookmarks } from '../../stores';
+import { useBookmarkActions, useFieldActions } from '../../stores';
 import {
   defaultChainIdsByType,
   navigationRoutes,
@@ -21,47 +20,51 @@ import {
   OptionsMenuButton,
   SendToWalletPageContainer,
 } from './SendToWalletPage.style';
+import { useWidgetConfig } from '../../providers';
+import type { ToAddress } from '../../types';
 
 export const SendToConfiguredWalletPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [selectedConfiguredWallet, setSelectedConfiguredWallet] =
-    useState<Bookmark>();
-  const { recentWallets: configuredWallets } = useBookmarks();
+  const { toAddresses } = useWidgetConfig();
+  const [selectedToAddress, setSelectedToAddress] = useState<ToAddress>();
   const { requiredToChainType } = useToAddressRequirements();
   const { setSelectedBookmark } = useBookmarkActions();
+  const { setFieldValue } = useFieldActions();
   const { getChainById } = useChains();
   const moreMenuId = useId();
   const [moreMenuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>();
   const open = Boolean(moreMenuAnchorEl);
 
-  const handleCuratedSelected = (configuredWallet: Bookmark) => {
-    setSelectedBookmark(configuredWallet);
+  const handleCuratedSelected = (toAddress: ToAddress) => {
+    setSelectedBookmark(toAddress);
+    setFieldValue('toAddress', toAddress.address);
+    navigate(navigationRoutes.home);
   };
 
   const closeMenu = () => {
     setMenuAnchorEl(null);
   };
 
-  const handleMenuOpen = (el: HTMLElement, configuredWallet: Bookmark) => {
+  const handleMenuOpen = (el: HTMLElement, toAddress: ToAddress) => {
     setMenuAnchorEl(el);
-    setSelectedConfiguredWallet(configuredWallet);
+    setSelectedToAddress(toAddress);
   };
 
   const handleCopyAddress = () => {
-    if (selectedConfiguredWallet) {
-      navigator.clipboard.writeText(selectedConfiguredWallet.address);
+    if (selectedToAddress) {
+      navigator.clipboard.writeText(selectedToAddress.address);
     }
     closeMenu();
   };
 
   const handleViewOnExplorer = () => {
-    if (selectedConfiguredWallet) {
+    if (selectedToAddress) {
       const chain = getChainById(
-        defaultChainIdsByType[selectedConfiguredWallet.chainType],
+        defaultChainIdsByType[selectedToAddress.chainType],
       );
       window.open(
-        `${chain?.metamask.blockExplorerUrls[0]}address/${selectedConfiguredWallet.address}`,
+        `${chain?.metamask.blockExplorerUrls[0]}address/${selectedToAddress.address}`,
         '_blank',
       );
     }
@@ -71,49 +74,43 @@ export const SendToConfiguredWalletPage = () => {
   return (
     <SendToWalletPageContainer disableGutters>
       <ListContainer sx={{ minHeight: 418 }}>
-        {configuredWallets.map((configredWallet) => (
-          <ListItem key={configredWallet.address} sx={{ position: 'relative' }}>
+        {toAddresses?.map((toAddress) => (
+          <ListItem key={toAddress.address} sx={{ position: 'relative' }}>
             <ListItemButton
               disabled={
                 requiredToChainType &&
-                requiredToChainType !== configredWallet.chainType
+                requiredToChainType !== toAddress.chainType
               }
-              onClick={() => handleCuratedSelected(configredWallet)}
+              onClick={() => handleCuratedSelected(toAddress)}
             >
               <ListItemAvatar>
                 <AccountAvatar
-                  chainId={defaultChainIdsByType[configredWallet.chainType]}
+                  chainId={defaultChainIdsByType[toAddress.chainType]}
                 />
               </ListItemAvatar>
               <ListItemText
-                primary={
-                  configredWallet.name ||
-                  shortenAddress(configredWallet.address)
-                }
+                primary={toAddress.name || shortenAddress(toAddress.address)}
                 secondary={
-                  configredWallet.name
-                    ? shortenAddress(configredWallet.address)
-                    : undefined
+                  toAddress.name ? shortenAddress(toAddress.address) : undefined
                 }
               />
             </ListItemButton>
             <OptionsMenuButton
               aria-label={t('button.options')}
               aria-controls={
-                open &&
-                configredWallet.address === selectedConfiguredWallet?.address
+                open && toAddress.address === selectedToAddress?.address
                   ? moreMenuId
                   : undefined
               }
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
               onClick={(e) =>
-                handleMenuOpen(e.target as HTMLElement, configredWallet)
+                handleMenuOpen(e.target as HTMLElement, toAddress)
               }
               sx={{
                 opacity:
                   requiredToChainType &&
-                  requiredToChainType !== configredWallet.chainType
+                  requiredToChainType !== toAddress.chainType
                     ? 0.5
                     : 1,
               }}

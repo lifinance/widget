@@ -24,7 +24,7 @@ import { SendToWalletCardHeader } from './SendToWallet.style';
 export const SendToWalletButton = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { disabledUI, hiddenUI, toAddress } = useWidgetConfig();
+  const { disabledUI, hiddenUI, toAddress, toAddresses } = useWidgetConfig();
   const { showSendToWallet, showSendToWalletDirty, setSendToWallet } =
     useSendToWalletStore();
   const { showDestinationWallet } = useSettings(['showDestinationWallet']);
@@ -73,10 +73,10 @@ export const SendToWalletButton = () => {
     : !!selectedBookmark?.name && address;
 
   const handleOnClick = () => {
-    // TODO: add condition make the selection if curated wallets in config
-    // navigate(navigationRoutes.sendToWallet);
     navigate(
-      `${navigationRoutes.sendToWallet}/${navigationRoutes.configuredWallets}`,
+      toAddresses?.length
+        ? `${navigationRoutes.sendToWallet}/${navigationRoutes.configuredWallets}`
+        : navigationRoutes.sendToWallet,
     );
   };
 

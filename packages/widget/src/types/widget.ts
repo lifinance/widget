@@ -112,6 +112,7 @@ export interface WidgetConfig {
   fromToken?: string;
   toToken?: string;
   toAddress?: ToAddress;
+  toAddresses?: ToAddress[];
   fromAmount?: number | string;
   toAmount?: number | string;
 
