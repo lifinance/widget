@@ -2,9 +2,9 @@ import { config, createConfig, type SDKConfig } from '@lifi/sdk';
 import { createContext, useContext, useId, useMemo } from 'react';
 import { version } from '../../config/version';
 import { setDefaultSettings } from '../../stores';
-import { formatInputAmount, getChainTypeFromAddress } from '../../utils';
+import { formatInputAmount } from '../../utils';
 import type { WidgetContextProps, WidgetProviderProps } from './types';
-import type { WidgetConfig } from '../../types';
+import { attemptToFindMatchingToAddressInConfig } from '../../providers/WidgetProvider/utils';
 
 const initialContext: WidgetContextProps = {
   elementId: '',
@@ -17,30 +17,6 @@ export const useWidgetConfig = (): WidgetContextProps =>
   useContext(WidgetContext);
 
 let sdkInitialized = false;
-
-const attemptToFindMatchingToAddressInConfig = (
-  address: string,
-  config: WidgetConfig,
-) => {
-  if (config.toAddress && config.toAddress.address === address) {
-    return config.toAddress;
-  }
-
-  if (config.toAddresses?.length) {
-    const matchingToAddress = config.toAddresses.find(
-      (toAddress) => toAddress.address === address,
-    );
-
-    if (matchingToAddress) {
-      return matchingToAddress;
-    }
-  }
-
-  return {
-    address: address,
-    chainType: getChainTypeFromAddress(address),
-  };
-};
 
 export const WidgetProvider: React.FC<
   React.PropsWithChildren<WidgetProviderProps>
