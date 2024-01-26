@@ -1,0 +1,298 @@
+{
+  "language": {
+    "name": "अंग्रेज़ी",
+    "title": "भाषा"
+  },
+  "format": {
+    "currency": "",
+    "number": ""
+  },
+  "button": {
+    "auto": "स्वतः",
+    "bookmark": "",
+    "bookmarks": "",
+    "bridge": "",
+    "buy": "",
+    "buyNow": "",
+    "cancel": "रद्द करें",
+    "changeWallet": "",
+    "close": "",
+    "confirm": "",
+    "connectWallet": "वॉलेट से जुड़ें?",
+    "contactSupport": "ग्राहक सेवा के लिए संपर्क करें",
+    "continue": "जारी रखें",
+    "copyAddress": "",
+    "dark": "अँधेरा",
+    "delete": "हटाएं",
+    "disconnect": "संपर्क तोड़ें",
+    "done": "समाप्त",
+    "exchange": "",
+    "getGas": "गेस शुल्क ले",
+    "hide": "छिपाएँ",
+    "learnMore": "",
+    "lifiCheckout": "",
+    "lifiExchange": "",
+    "light": "",
+    "max": "अधिकतम",
+    "ok": "ठीक है",
+    "options": "",
+    "removeTransaction": "",
+    "reset": "",
+    "resetSettings": "",
+    "reviewBridge": "",
+    "reviewPurchase": "",
+    "reviewSwap": "",
+    "seeDetails": "",
+    "showAll": "",
+    "startBridging": "",
+    "startSwapping": "",
+    "swap": "",
+    "tryAgain": "",
+    "viewCoverage": "",
+    "viewOnExplorer": ""
+  },
+  "header": {
+    "activeTransactions": "",
+    "bookmarkedWallets": "",
+    "bridge": "",
+    "checkout": "",
+    "exchange": "",
+    "from": "",
+    "gas": "गैस",
+    "payWith": "",
+    "purchase": "",
+    "purchaseDetails": "",
+    "recentWallets": "",
+    "selectChain": "चैन चुने",
+    "selectWallet": "वॉलेट चुनाव करे",
+    "sendToWallet": "",
+    "settings": "सेटिंग्स",
+    "swap": "",
+    "to": "",
+    "transactionDetails": "",
+    "transactionHistory": "",
+    "walletConnected": "",
+    "youGet": ""
+  },
+  "info": {
+    "message": {
+      "autoRefuel": "",
+      "emptyActiveTransactions": "",
+      "emptyTokenList": "",
+      "emptyTransactionHistory": "",
+      "routeNotFound": "",
+      "fundsToExchange": ""
+    },
+    "title": {
+      "autoRefuel": "गेस शुल्क ले",
+      "emptyActiveTransactions": "",
+      "emptyTransactionHistory": "",
+      "routeNotFound": ""
+    }
+  },
+  "success": {
+    "message": {
+      "exchangePartiallySuccessful": "",
+      "exchangeSuccessful": "",
+      "purchaseSuccessful": ""
+    },
+    "title": {
+      "bridgePartiallySuccessful": "",
+      "bridgeSuccessful": "",
+      "purchaseSuccessful": "",
+      "refundIssued": "",
+      "swapPartiallySuccessful": "",
+      "swapSuccessful": ""
+    }
+  },
+  "warning": {
+    "message": {
+      "deleteActiveTransactions": "",
+      "deleteTransactionHistory": "",
+      "highValueLoss": "",
+      "insufficientFunds": "",
+      "insufficientGas": "",
+      "rateChanged": "",
+      "resetSettings": "",
+      "slippageOutsideRecommendedLimits": ""
+    },
+    "title": {
+      "deleteActiveTransactions": "",
+      "deleteTransaction": "",
+      "deleteTransactionHistory": "",
+      "highValueLoss": "",
+      "insufficientGas": "",
+      "rateChanged": "",
+      "resetSettings": ""
+    }
+  },
+  "error": {
+    "message": {
+      "allowanceRequired": "",
+      "insufficientFunds": "",
+      "signatureRejected": "",
+      "slippageThreshold": "",
+      "transactionFailed": "",
+      "transactionNotSent": "",
+      "transactionCanceled": "",
+      "remainInYourWallet": "",
+      "unknown": ""
+    },
+    "title": {
+      "addressRequired": "",
+      "allowanceRequired": "",
+      "balanceIsTooLow": "",
+      "bookmarkAlreadyExists": "",
+      "bookmarkNameRequired": "",
+      "chainSwitch": "",
+      "exchangeRateUpdateCanceled": "",
+      "gasLimitIsTooLow": "",
+      "insufficientFunds": "",
+      "signatureRejected": "",
+      "slippageNotMet": "",
+      "transactionCanceled": "",
+      "transactionFailed": "",
+      "transactionUnderpriced": "",
+      "transactionUnprepared": "",
+      "unknown": "",
+      "walletAddressInvalid": "",
+      "walletAddressRequired": "",
+      "walletChainTypeInvalid": ""
+    }
+  },
+  "tooltip": {
+    "estimatedTime": "",
+    "notFound": {
+      "text": "",
+      "title": "404"
+    },
+    "numberOfSteps": "",
+    "progressToNextUpdate": "",
+    "recommended": "",
+    "settingsModified": "",
+    "selectAll": "",
+    "deselectAll": ""
+  },
+  "main": {
+    "crossStepDetails": "",
+    "currentAmount": "",
+    "featuredTokens": "",
+    "fees": {
+      "estimated": "",
+      "networkEstimated": "",
+      "networkPaid": "",
+      "paid": "",
+      "providerEstimated": "",
+      "providerPaid": ""
+    },
+    "from": "",
+    "fromAmount": "",
+    "gasCost": "",
+    "inProgress": "",
+    "nftStepDetails": "",
+    "onChain": "",
+    "otherTokens": "",
+    "ownedBy": "",
+    "process": {
+      "crossChain": {
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
+      },
+      "nft": {
+        "done": ""
+      },
+      "receivingChain": {
+        "done": "",
+        "partial": "",
+        "pending": "",
+        "refunded": ""
+      },
+      "swap": {
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
+      },
+      "switchChain": {
+        "actionRequired": "",
+        "done": ""
+      },
+      "tokenAllowance": {
+        "done": "",
+        "pending": "",
+        "started": ""
+      }
+    },
+    "quotedAmount": "",
+    "rateChange": "",
+    "receiving": "",
+    "refuelStepDetails": "",
+    "selectChain": "चैन चुने",
+    "selectChainAndToken": "",
+    "selectToken": "",
+    "sendToAddress": "",
+    "sendToWallet": "",
+    "sending": "",
+    "sentToAddress": "",
+    "stepBridge": "",
+    "stepBridgeAndBuy": "",
+    "stepDetails": "",
+    "stepSwap": "",
+    "stepSwapAndBridge": "",
+    "stepSwapAndBuy": "",
+    "supportId": "",
+    "swapStepDetails": "",
+    "tags": {
+      "cheapest": "",
+      "fastest": "",
+      "insurable": "",
+      "insurance": "",
+      "insured": "",
+      "recommended": "",
+      "safest": ""
+    },
+    "to": "",
+    "tokenOnChain": "",
+    "tokenOnChainAmount": "",
+    "tokenSearch": "",
+    "valueLoss": ""
+  },
+  "insurance": {
+    "bridgeExploits": "",
+    "insure": "",
+    "insured": "",
+    "slippageError": ""
+  },
+  "settings": {
+    "theme": "",
+    "enabledBridges": "",
+    "enabledExchanges": "",
+    "gasPrice": {
+      "fast": "",
+      "normal": "",
+      "slow": "",
+      "title": ""
+    },
+    "routePriority": "",
+    "sendToWalletOption": "",
+    "slippage": "",
+    "custom": "",
+    "resetSettings": ""
+  },
+  "sendToWallet": {
+    "enterAddress": "",
+    "enterName": "",
+    "confirmWalletAddress": "",
+    "connectedWallets": "",
+    "bookmarkWallet": "",
+    "addBookmark": "",
+    "noBookmarkedWallets": "",
+    "noConnectedWallets": "",
+    "noRecentWallets": ""
+  },
+  "wallet": {
+    "extensionNotFound": ""
+  }
+}
