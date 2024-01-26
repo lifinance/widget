@@ -9,10 +9,15 @@
   },
   "button": {
     "auto": "Otomatik",
+    "bookmark": "",
+    "bookmarks": "",
     "bridge": "Gönder",
     "buy": "Satın al",
     "buyNow": "Hemen satın al",
     "cancel": "İptal",
+    "changeWallet": "Cüzdan değiştir",
+    "close": "",
+    "confirm": "",
     "connectWallet": "Cüzdanı Bağla",
     "contactSupport": "Destek Ekibine Ulaş",
     "continue": "Devam et",
@@ -30,6 +35,7 @@
     "light": "Açık",
     "max": "maksimum",
     "ok": "Tamam",
+    "options": "",
     "removeTransaction": "İşlemi kaldır",
     "reset": "Sıfırla",
     "resetSettings": "Ayarları Sıfırla",
@@ -47,6 +53,7 @@
   },
   "header": {
     "activeTransactions": "Aktif işlemler",
+    "bookmarkedWallets": "",
     "bridge": "Gönder",
     "checkout": "Ödeme yap",
     "exchange": "Al-Sat",
@@ -55,8 +62,10 @@
     "payWith": "Şununla öde",
     "purchase": "Satın al",
     "purchaseDetails": "Satın Alma Detayları",
+    "recentWallets": "",
     "selectChain": "Zincir Seç",
     "selectWallet": "Bir Cüzdan Seçin",
+    "sendToWallet": "",
     "settings": "Ayarlar",
     "swap": "Takas",
     "to": "Şuna takas et",
@@ -71,7 +80,8 @@
       "emptyActiveTransactions": "Devam eden işlemler burada görünecek. Tamamlandığında, işlem geçmişinden bulabilirsiniz.",
       "emptyTokenList": "{{chainName}} ağında token bulamadık veya sizde hiç token yok. Lütfen tekrar aramayı deneyin veya başka bir ağ seçin.",
       "emptyTransactionHistory": "İşlem geçmişi yalnızca yerel olarak saklanır ve tarayıcı verilerinizi temizlerseniz silinir.",
-      "routeNotFound": "Muhtemel sebepler şunlar olabilir: Düşük likidite, seçilen miktarın çok düşük olması, gaz masrafının çok olması ya da seçilen kombinasyon için rota olmaması."
+      "routeNotFound": "Muhtemel sebepler şunlar olabilir: Düşük likidite, seçilen miktarın çok düşük olması, gaz masrafının çok olması ya da seçilen kombinasyon için rota olmaması.",
+      "fundsToExchange": ""
     },
     "title": {
       "autoRefuel": "Gaz al",
@@ -103,7 +113,8 @@
       "insufficientFunds": "Takas işlemini gerçekleştirmek için yeterli bakiyeniz bulunmamaktadır.",
       "insufficientGas": "En azından şunları eklemelisiniz:",
       "rateChanged": "Takas oranı değişti. İşleme devam ederek yeni oranı kabul etmiş olursunuz.",
-      "resetSettings": "Bu, rota önceliğinizi, slipajı, gaz fiyatını, etkin köprüleri ve takasları sıfırlayacaktır."
+      "resetSettings": "Bu, rota önceliğinizi, slipajı, gaz fiyatını, etkin köprüleri ve takasları sıfırlayacaktır.",
+      "slippageOutsideRecommendedLimits": "Yüksek slipaj, ani fiyat hareketleri nedeniyle zarara yol açabilir."
     },
     "title": {
       "deleteActiveTransactions": "Tüm aktif işlemleri sil?",
@@ -128,27 +139,28 @@
       "unknown": "Lütfen tekrar deneyin veya desteğe başvurun."
     },
     "title": {
+      "addressRequired": "",
       "allowanceRequired": "İzin miktarı yetersiz",
       "balanceIsTooLow": "Bakiye çok düşük",
+      "bookmarkAlreadyExists": "",
+      "bookmarkNameRequired": "",
       "chainSwitch": "Lütfen ağı değiştirin",
+      "exchangeRateUpdateCanceled": "Fiyat güncellemesi iptal edildi",
       "gasLimitIsTooLow": "Gaz limiti çok düşük",
       "insufficientFunds": "Yetersiz bakiye",
       "signatureRejected": "İmza gerekiyor",
       "slippageNotMet": "Slipaj koşulları karşılanmadı",
       "transactionCanceled": "İşlem iptal edildi",
-      "exchangeRateUpdateCanceled": "Fiyat güncellemesi iptal edildi",
       "transactionFailed": "İşlem başarısız",
       "transactionUnderpriced": "İşlemin değeri düşük",
       "transactionUnprepared": "İşlem başlatılamıyor",
       "unknown": "Bir sorun oluştu",
-      "walletAddressInvalid": "Cüzdan adresi geçersizdir.",
+      "walletAddressInvalid": "",
       "walletAddressRequired": "Cüzdan adresi gereklidir.",
-      "walletEnsAddressInvalid": "Cüzdan adresi ya da ENS geçerli değil, veya bu ağ ENS'i desteklemiyor."
+      "walletChainTypeInvalid": ""
     }
   },
   "tooltip": {
-    "additionalProviderFee": "Ek köprü, DEX'ler ve hizmet ücretleri.",
-    "estimatedNetworkFee": "Tahmini ağ ücreti.",
     "estimatedTime": "Dakika cinsinden tahmini işlem süresi.",
     "notFound": {
       "text": "Aradığınız sayfayı bulamadık.",
@@ -157,18 +169,25 @@
     "numberOfSteps": "İşlem birkaç adımdan oluşmaktadır. Her adım, imza gerektiren 1-2 işlem içerebilir.",
     "progressToNextUpdate": "Görüntülenen veriler, {{value}} saniye sonra otomatik olarak yenilenecektir. Manuel olarak güncellemek için burayı tıklayın.",
     "recommended": "Karmaşıklığı ve kullanım kolaylığını dengeleyen ucuz bir rota.",
-    "settingsModified": "Ayarlar (değiştirilen)"
+    "settingsModified": "Ayarlar (değiştirilen)",
+    "selectAll": "Tümünü seç",
+    "deselectAll": "Tüm seçimi kaldır"
   },
   "main": {
     "crossStepDetails": "{{from}} ile {{to}} ağları arasında {{tool}} ile gönderim sağlayın",
     "currentAmount": "Geçerli miktar",
-    "estimatedTime": "{{value}} dakika",
     "featuredTokens": "Öne çıkan jetonlar",
+    "fees": {
+      "estimated": "tahmini işlem ücretleri",
+      "networkEstimated": "Tahmini ağ ücreti:",
+      "networkPaid": "Ödenen ağ ücretleri",
+      "paid": "Ödenen ücretler",
+      "providerEstimated": "",
+      "providerPaid": ""
+    },
     "from": "Gönderen",
     "fromAmount": "Ödediğiniz",
     "gasCost": "Gaz Bedeli",
-    "gasFeeEstimated": "Tahmini Gaz Ücreti",
-    "gasFeePaid": "Ödenen Gaz ücreti",
     "inProgress": "işlem devam ediyor",
     "nftStepDetails": "{{tool}} aracılığıyla NFT satın alın",
     "onChain": "{{chainName}} üzerinde",
@@ -238,8 +257,7 @@
     "tokenOnChain": "{{chainName}} üzerindeki {{tokenSymbol}}",
     "tokenOnChainAmount": "{{chainName}} üzerindeki {{amount, number(maximumFractionDigits: 9)}}{{tokenSymbol}}",
     "tokenSearch": "Tokenlerinizi adres ve ya isim aracılığıyla arayın",
-    "valueLoss": "Değer kaybı",
-    "walletAddressOrEns": "Cüzdan adresi veya ENS alan adı"
+    "valueLoss": "Değer kaybı"
   },
   "insurance": {
     "bridgeExploits": "Köprü arızaları, hack veya istismarlar",
@@ -248,8 +266,9 @@
     "slippageError": "Alınan tokenlar için slipaj hatası"
   },
   "settings": {
-    "enabledBridges": "Etkin Köprüler",
-    "enabledExchanges": "Etkin platformlar",
+    "theme": "Tema",
+    "enabledBridges": "Köprüler",
+    "enabledExchanges": "Borsalar",
     "gasPrice": {
       "fast": "Hızlı",
       "normal": "Standard",
@@ -257,9 +276,21 @@
       "title": "Gaz ücreti"
     },
     "routePriority": "Rota önceliği",
-    "showDestinationWallet": "Hedef Adresi Göster",
+    "sendToWalletOption": "Cüzdana gönder",
     "slippage": "Sapma toleransı",
+    "custom": "Özel",
     "resetSettings": "Kullanılabilir rotaların sayısını sınırlayan özel bir ayar kullanıyorsunuz."
+  },
+  "sendToWallet": {
+    "enterAddress": "",
+    "enterName": "",
+    "confirmWalletAddress": "",
+    "connectedWallets": "",
+    "bookmarkWallet": "",
+    "addBookmark": "",
+    "noBookmarkedWallets": "",
+    "noConnectedWallets": "",
+    "noRecentWallets": ""
   },
   "wallet": {
     "extensionNotFound": "Lütfen bu cüzdanı seçmeden önce yalnızca {{name}} tarayıcı uzantısının etkin olduğundan emin olun."
