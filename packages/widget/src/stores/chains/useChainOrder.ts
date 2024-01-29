@@ -1,9 +1,12 @@
 import { shallow } from 'zustand/shallow';
-import { useChainOrderStore } from '.';
+import type { FormType } from '../form';
+import { useChainOrderStore } from './ChainOrderStore';
 
-export const useChainOrder = (): [number[], (chainId: number) => void] => {
+export const useChainOrder = (
+  type: FormType,
+): [number[], (chainId: number, type: FormType) => void] => {
   return useChainOrderStore(
-    (state) => [state.chainOrder, state.setChain],
+    (state) => [state.chainOrder[type], state.setChain],
     shallow,
   );
 };

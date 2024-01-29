@@ -1,18 +1,17 @@
 import AccessTimeIcon from '@mui/icons-material/AccessTimeFilled';
-import EvStationIcon from '@mui/icons-material/EvStation';
-import LayersIcon from '@mui/icons-material/Layers';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import { Box, Tooltip, Typography } from '@mui/material';
+import type { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
+import { formatUnits } from 'viem';
+import { getFeeCostsBreakdown, getGasCostsBreakdown } from '../../utils';
 import { IconTypography } from './RouteCard.style';
-import type { RouteCardEssentialsProps } from './types';
-import { getFeeCostsBreakdown, getGasCostsBreakdown } from './utils';
+import type { FeesBreakdown, RouteCardEssentialsProps } from './types';
 
 export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
   route,
-  dense,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const executionTimeMinutes = Math.ceil(
     route.steps
       .map((step) => step.estimate.executionDuration)
@@ -21,64 +20,29 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
   const gasCostUSD = parseFloat(route.gasCostUSD ?? '') || 0.01;
   const gasCosts = getGasCostsBreakdown(route);
   const feeCosts = getFeeCostsBreakdown(route, false);
+  const fees =
+    gasCostUSD + feeCosts.reduce((sum, feeCost) => sum + feeCost.amountUSD, 0);
   return (
     <Box display="flex" justifyContent={'space-between'} flex={1} mt={2}>
       <Tooltip
         title={
           <Box component="span">
-            {t(`tooltip.estimatedNetworkFee`)}
-            {gasCosts.map((gas, index) => (
-              <Typography
-                fontSize={12}
-                fontWeight="500"
-                key={`${gas.token.address}${index}`}
-              >
-                {gas.amount?.toFixed(9)} {gas.token.symbol} (
-                {t(`format.currency`, { value: gas.amountUSD })})
-              </Typography>
-            ))}
+            {t('main.fees.networkEstimated')}
+            {getFeeBreakdownTypography(gasCosts, t)}
+            {feeCosts.length ? (
+              <Box mt={1}>
+                {t('main.fees.providerEstimated')}
+                {getFeeBreakdownTypography(feeCosts, t)}
+              </Box>
+            ) : null}
           </Box>
         }
         placement="top"
         enterDelay={400}
         arrow
       >
-        <Box display="flex" alignItems="center" mr={dense ? 0 : 2}>
-          <IconTypography>
-            <EvStationIcon fontSize="small" />
-          </IconTypography>
-          <Typography
-            fontSize={14}
-            color="text.primary"
-            fontWeight="500"
-            lineHeight={1}
-          >
-            {t(`format.currency`, { value: gasCostUSD })}
-          </Typography>
-        </Box>
-      </Tooltip>
-      <Tooltip
-        title={
-          <Box component="span">
-            {t(`tooltip.additionalProviderFee`)}
-            {feeCosts.map((fee, index) => (
-              <Typography
-                fontSize={12}
-                fontWeight="500"
-                key={`${fee.token.address}${index}`}
-              >
-                {fee.amount?.toFixed(9)} {fee.token.symbol} (
-                {t(`format.currency`, { value: fee.amountUSD })})
-              </Typography>
-            ))}
-          </Box>
-        }
-        placement="top"
-        enterDelay={400}
-        arrow
-      >
-        <Box display="flex" alignItems="center" mr={dense ? 0 : 2}>
-          <IconTypography>
+        <Box display="flex" alignItems="center">
+          <IconTypography mr={0.5}>
             <MonetizationOnIcon fontSize="small" />
           </IconTypography>
           <Typography
@@ -88,10 +52,7 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
             lineHeight={1}
           >
             {t(`format.currency`, {
-              value: feeCosts.reduce(
-                (sum, feeCost) => sum + feeCost.amountUSD,
-                0,
-              ),
+              value: fees,
             })}
           </Typography>
         </Box>
@@ -102,8 +63,8 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
         enterDelay={400}
         arrow
       >
-        <Box display="flex" alignItems="center" mr={dense ? 0 : 2}>
-          <IconTypography>
+        <Box display="flex" alignItems="center">
+          <IconTypography mr={0.5}>
             <AccessTimeIcon fontSize="small" />
           </IconTypography>
           <Typography
@@ -112,32 +73,27 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
             fontWeight="500"
             lineHeight={1}
           >
-            {t('main.estimatedTime', {
-              value: executionTimeMinutes,
-            })}
-          </Typography>
-        </Box>
-      </Tooltip>
-      <Tooltip
-        title={t(`tooltip.numberOfSteps`)}
-        placement="top"
-        enterDelay={400}
-        arrow
-      >
-        <Box display="flex" alignItems="center">
-          <IconTypography>
-            <LayersIcon fontSize="small" />
-          </IconTypography>
-          <Typography
-            fontSize={14}
-            color="text.primary"
-            fontWeight="500"
-            lineHeight={1}
-          >
-            {route.steps.length}
+            {new Intl.NumberFormat(i18n.language, {
+              style: 'unit',
+              unit: 'minute',
+              unitDisplay: 'narrow',
+            }).format(executionTimeMinutes)}
           </Typography>
         </Box>
       </Tooltip>
     </Box>
   );
 };
+
+const getFeeBreakdownTypography = (fees: FeesBreakdown[], t: TFunction) =>
+  fees.map((fee, index) => (
+    <Typography
+      fontSize={12}
+      fontWeight="500"
+      key={`${fee.token.address}${index}`}
+    >
+      {t(`format.currency`, { value: fee.amountUSD })} (
+      {parseFloat(formatUnits(fee.amount, fee.token.decimals))?.toFixed(9)}{' '}
+      {fee.token.symbol})
+    </Typography>
+  ));

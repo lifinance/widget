@@ -2,22 +2,25 @@ import type { ExchangeRateUpdateParams } from '@lifi/sdk';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Button, Tooltip } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import { ContractComponent } from '../../components/ContractComponent';
 import { GasMessage } from '../../components/GasMessage';
-import { useHeaderStore } from '../../components/Header';
 import { Insurance } from '../../components/Insurance';
+import { PageContainer } from '../../components/PageContainer';
 import { getStepList } from '../../components/Step';
 import {
   useNavigateBack,
   useRouteExecution,
   useWidgetEvents,
 } from '../../hooks';
-import { FormKey, useWidgetConfig } from '../../providers';
-import { RouteExecutionStatus } from '../../stores';
+import { useWidgetConfig } from '../../providers';
+import {
+  RouteExecutionStatus,
+  useFieldActions,
+  useHeaderStoreContext,
+} from '../../stores';
 import { WidgetEvent } from '../../types/events';
 import { formatTokenAmount } from '../../utils';
 import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet';
@@ -31,12 +34,11 @@ import {
   TokenValueBottomSheet,
   getTokenValueLossThreshold,
 } from './TokenValueBottomSheet';
-import { Container } from './TransactionPage.style';
 import { calcValueLoss } from './utils';
 
 export const TransactionPage: React.FC = () => {
   const { t } = useTranslation();
-  const { setValue } = useFormContext();
+  const { setFieldValue } = useFieldActions();
   const emitter = useWidgetEvents();
   const { navigateBack } = useNavigateBack();
   const {
@@ -46,6 +48,7 @@ export const TransactionPage: React.FC = () => {
     contractSecondaryComponent,
   } = useWidgetConfig();
   const { state }: any = useLocation();
+  const headerStoreContext = useHeaderStoreContext();
   const stateRouteId = state?.routeId;
   const [routeId, setRouteId] = useState<string>(stateRouteId);
 
@@ -69,7 +72,7 @@ export const TransactionPage: React.FC = () => {
     if (route && subvariant !== 'nft') {
       const transactionType =
         route.fromChainId === route.toChainId ? 'Swap' : 'Bridge';
-      return useHeaderStore
+      return headerStoreContext
         .getState()
         .setTitle(
           status === RouteExecutionStatus.Idle
@@ -77,7 +80,15 @@ export const TransactionPage: React.FC = () => {
             : t(`header.${transactionType.toLowerCase() as 'swap' | 'bridge'}`),
         );
     }
-  }, [route, status, subvariant, t]);
+  }, [headerStoreContext, route, status, subvariant, t]);
+
+  useEffect(() => {
+    if (status === RouteExecutionStatus.Idle) {
+      emitter.emit(WidgetEvent.ReviewTransactionPageEntered, route);
+    }
+    // We want to emit event only when the page is mounted
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!route) {
     return null;
@@ -96,10 +107,10 @@ export const TransactionPage: React.FC = () => {
     }
     tokenValueBottomSheetRef.current?.close();
     executeRoute();
-    setValue(FormKey.FromAmount, '');
+    setFieldValue('fromAmount', '');
     if (subvariant === 'nft') {
-      setValue(FormKey.FromToken, '');
-      setValue(FormKey.ToToken, '');
+      setFieldValue('fromToken', '');
+      setFieldValue('toToken', '');
     }
   };
 
@@ -121,7 +132,7 @@ export const TransactionPage: React.FC = () => {
     deleteRoute();
   };
 
-  const getButtonText = () => {
+  const getButtonText = (): string => {
     switch (status) {
       case RouteExecutionStatus.Idle:
         switch (subvariant) {
@@ -160,7 +171,7 @@ export const TransactionPage: React.FC = () => {
       .find((process) => process.txHash)?.txHash ?? route.fromAddress;
 
   return (
-    <Container>
+    <PageContainer topBottomGutters>
       {getStepList(route, subvariant)}
       {subvariant === 'nft' ? (
         <ContractComponent mt={2}>
@@ -174,7 +185,7 @@ export const TransactionPage: React.FC = () => {
           insurableRouteId={stateRouteId}
           feeAmountUsd={route.insurance.feeAmountUsd}
           insuredAmount={formatTokenAmount(
-            route.toAmountMin,
+            BigInt(route.toAmountMin),
             route.toToken.decimals,
           )}
           insuredTokenSymbol={route.toToken.symbol}
@@ -223,6 +234,6 @@ export const TransactionPage: React.FC = () => {
         />
       ) : null}
       <ExchangeRateBottomSheet ref={exchangeRateBottomSheetRef} />
-    </Container>
+    </PageContainer>
   );
 };

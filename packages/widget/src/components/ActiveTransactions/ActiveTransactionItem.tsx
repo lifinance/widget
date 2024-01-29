@@ -20,11 +20,7 @@ export const ActiveTransactionItem: React.FC<{
     executeInBackground: true,
   });
 
-  // TODO: replace with ES2023 findLast
-  const lastActiveStep = route?.steps
-    .slice()
-    .reverse()
-    .find((step) => step.execution);
+  const lastActiveStep = route?.steps.findLast((step) => step.execution);
   const lastActiveProcess = lastActiveStep?.execution?.process.at(-1);
 
   const { title } = useProcessMessage(lastActiveStep, lastActiveProcess);

@@ -1,2 +1,3 @@
 export * from './WalletProvider';
-export * from './types';
+export * from './useHasExternalWalletProvider';
+export * from './utils';

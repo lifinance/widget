@@ -8,13 +8,13 @@ export const NFTOpenSea: React.FC<NFTOpenSeaProps> = ({
   contractAddress,
   tokenId,
 }) => {
-  const { data, order, isLoading, isOrderLoading } = useOpenSeaFulfillment(
+  const { data, order, isLoading } = useOpenSeaFulfillment(
     network,
     contractAddress,
     tokenId,
   );
 
-  return !data && !order && !isLoading && !isOrderLoading ? (
+  return !data && !order && !isLoading ? (
     <Box
       p={2}
       sx={{
@@ -40,7 +40,7 @@ export const NFTOpenSea: React.FC<NFTOpenSeaProps> = ({
       collectionName={data?.collectionName}
       assetName={data?.assetName}
       owner={data?.owner}
-      token={data?.token}
+      token={data?.token! ?? {}}
       contract={data?.contract}
     />
   );

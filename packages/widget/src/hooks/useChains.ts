@@ -1,54 +1,31 @@
-import { useQuery } from '@tanstack/react-query';
-import { useCallback } from 'react';
-import { useFormContext } from 'react-hook-form';
-import { FormKey, isItemAllowed, useLiFi, useWidgetConfig } from '../providers';
-import { useChainOrderStore } from '../stores';
+import { useMemo } from 'react';
+import { useWidgetConfig } from '../providers';
+import type { FormType } from '../stores';
+import { isItemAllowed } from '../utils';
+import { useAvailableChains } from './useAvailableChains';
 
-export const useChains = () => {
+export const useChains = (type?: FormType) => {
   const { chains } = useWidgetConfig();
-  const lifi = useLiFi();
-  const { getValues, setValue } = useFormContext();
-  const initializeChains = useChainOrderStore(
-    (state) => state.initializeChains,
-  );
-  const { data, isLoading } = useQuery(
-    ['chains'],
-    async () => {
-      const availableChains = await lifi.getChains();
-      const filteredChains = availableChains.filter((chain) =>
-        isItemAllowed(chain.id, chains),
-      );
-      const chainOrder = initializeChains(
-        filteredChains.map((chain) => chain.id),
-      );
-      const [fromChainValue, toChainValue] = getValues([
-        FormKey.FromChain,
-        FormKey.ToChain,
-      ]);
-      if (!fromChainValue) {
-        setValue(FormKey.FromChain, chainOrder[0]);
-      }
-      if (!toChainValue) {
-        setValue(FormKey.ToChain, chainOrder[0]);
-      }
-      return { availableChains, filteredChains };
-    },
-    {
-      refetchInterval: 180000,
-      staleTime: 180000,
-    },
-  );
+  const {
+    chains: availableChains,
+    isLoading: isLoadingAvailableChains,
+    getChainById,
+  } = useAvailableChains();
 
-  const getChainById = useCallback(
-    (chainId: number) => {
-      const chain = data?.availableChains.find((chain) => chain.id === chainId);
-      // if (!chain) {
-      //   throw new Error('Chain not found or chainId is invalid.');
-      // }
-      return chain;
-    },
-    [data],
-  );
+  const filteredChains = useMemo(() => {
+    const filteredChains = type
+      ? availableChains?.filter(
+          (chain) =>
+            isItemAllowed(chain.id, chains) &&
+            isItemAllowed(chain.id, chains?.[type]),
+        )
+      : availableChains?.filter((chain) => isItemAllowed(chain.id, chains));
+    return filteredChains;
+  }, [availableChains, chains, type]);
 
-  return { chains: data?.filteredChains, getChainById, isLoading };
+  return {
+    chains: filteredChains,
+    getChainById,
+    isLoading: isLoadingAvailableChains,
+  };
 };

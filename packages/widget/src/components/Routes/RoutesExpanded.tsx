@@ -1,13 +1,13 @@
 /* eslint-disable react/no-array-index-key */
 import type { Route } from '@lifi/sdk';
 import { Collapse, Grow, Stack, Typography } from '@mui/material';
-import { useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useMatch, useNavigate } from 'react-router-dom';
 import { useRoutes } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
 import { useSetExecutableRoute } from '../../stores';
 import { navigationRoutes } from '../../utils';
+import { PageContainer } from '../PageContainer';
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate';
 import { RouteCard, RouteCardSkeleton, RouteNotFoundCard } from '../RouteCard';
 import {
@@ -39,7 +39,6 @@ export const RoutesExpandedElement = () => {
   const navigate = useNavigate();
   const setExecutableRoute = useSetExecutableRoute();
   const { subvariant, containerStyle } = useWidgetConfig();
-  const { isValid, isValidating } = useFormState();
   const {
     routes,
     isLoading,
@@ -53,12 +52,10 @@ export const RoutesExpandedElement = () => {
   const currentRoute = routes?.[0];
 
   const handleRouteClick = (route: Route) => {
-    if (isValid && !isValidating) {
-      setExecutableRoute(route);
-      navigate(navigationRoutes.transactionExecution, {
-        state: { routeId: route.id },
-      });
-    }
+    setExecutableRoute(route);
+    navigate(navigationRoutes.transactionExecution, {
+      state: { routeId: route.id },
+    });
   };
 
   const expanded = Boolean(
@@ -86,31 +83,27 @@ export const RoutesExpandedElement = () => {
                 sx={{ marginRight: -1 }}
               />
             </Header>
-            <Stack
-              direction="column"
-              spacing={2}
-              flex={1}
-              paddingX={3}
-              paddingBottom={3}
-            >
-              {routeNotFound ? (
-                <RouteNotFoundCard />
-              ) : isLoading || (isFetching && !routes?.length) ? (
-                Array.from({ length: 3 }).map((_, index) => (
-                  <RouteCardSkeleton key={index} />
-                ))
-              ) : (
-                routes?.map((route: Route, index: number) => (
-                  <RouteCard
-                    key={route.id}
-                    route={route}
-                    onClick={() => handleRouteClick(route)}
-                    active={index === 0}
-                    expanded={routes?.length <= 2}
-                  />
-                ))
-              )}
-            </Stack>
+            <PageContainer>
+              <Stack direction="column" spacing={2} flex={1} paddingBottom={3}>
+                {routeNotFound ? (
+                  <RouteNotFoundCard />
+                ) : isLoading || (isFetching && !routes?.length) ? (
+                  Array.from({ length: 3 }).map((_, index) => (
+                    <RouteCardSkeleton key={index} />
+                  ))
+                ) : (
+                  routes?.map((route: Route, index: number) => (
+                    <RouteCard
+                      key={route.id}
+                      route={route}
+                      onClick={() => handleRouteClick(route)}
+                      active={index === 0}
+                      expanded={routes?.length === 1}
+                    />
+                  ))
+                )}
+              </Stack>
+            </PageContainer>
           </ScrollableContainer>
         </Container>
       </Grow>

@@ -1,11 +1,10 @@
 /* eslint-disable react/no-array-index-key */
 import type { EVMChain } from '@lifi/sdk';
 import { Avatar, Box, Skeleton, Tooltip, Typography } from '@mui/material';
-import { useWatch } from 'react-hook-form';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { FormTypeProps } from '../../providers';
-import { FormKeyHelper } from '../../providers';
-import { maxChainToOrder } from '../../stores';
+import type { FormTypeProps } from '../../stores';
+import { FormKeyHelper, maxChainToOrder, useFieldValues } from '../../stores';
 import { navigationRoutes } from '../../utils';
 import { ChainCard, ChainContainer } from './ChainSelect.style';
 import { useChainSelect } from './useChainSelect';
@@ -20,15 +19,18 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
     setChainOrder,
     setCurrentChain,
   } = useChainSelect(formType);
-  const [chainId] = useWatch({
-    name: [FormKeyHelper.getChainKey(formType)],
-  });
 
-  const hasChainInOrderedList = chainOrder.includes(chainId);
-  // If we don't have a chain in the ordered chain list we should add it.
-  if (!hasChainInOrderedList) {
-    setChainOrder(chainId);
-  }
+  const [chainId] = useFieldValues(FormKeyHelper.getChainKey(formType));
+
+  useEffect(() => {
+    if (chainId) {
+      const hasChainInOrderedList = chainOrder.includes(chainId);
+      // If we don't have a chain in the ordered chain list we should add it.
+      if (!hasChainInOrderedList) {
+        setChainOrder(chainId, formType);
+      }
+    }
+  }, [chainId, chainOrder, formType, setChainOrder]);
 
   const showAllChains = () => {
     navigate(navigationRoutes[`${formType}Chain`]);

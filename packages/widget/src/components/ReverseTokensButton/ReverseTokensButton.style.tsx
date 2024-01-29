@@ -2,6 +2,9 @@ import { IconButton as MuiIconButton } from '@mui/material';
 import { darken, lighten, styled } from '@mui/material/styles';
 
 export const IconButton = styled(MuiIconButton)(({ theme }) => ({
+  height: 32,
+  width: 32,
+  fontSize: 16,
   backgroundColor: theme.palette.background.paper,
   border: `1px solid`,
   borderColor:

@@ -1,9 +1,4 @@
-import Big from 'big.js';
-
-// JavaScript numbers use exponential notation for positive exponents of 21 and above. We need more.
-Big.PE = 42;
-// JavaScript numbers use exponential notation for negative exponents of -7 and below. We need more.
-Big.NE = -42;
+import { formatUnits } from 'viem';
 
 /**
  * Format token amount to at least 4 decimals.
@@ -11,16 +6,13 @@ Big.NE = -42;
  * @returns formatted amount.
  */
 export const formatTokenAmount = (
-  amount: string = '0',
-  decimals: number = 0,
+  amount: bigint = 0n,
+  decimals: number,
   decimalPlaces: number = 3,
 ) => {
-  let shiftedAmount = amount;
-  if (decimals) {
-    shiftedAmount = (Number(amount) / 10 ** decimals).toString();
-  }
-  const parsedAmount = parseFloat(shiftedAmount);
-  if (parsedAmount === 0 || isNaN(Number(shiftedAmount))) {
+  const formattedAmount = amount ? formatUnits(amount, decimals) : '0';
+  const parsedAmount = parseFloat(formattedAmount);
+  if (parsedAmount === 0 || isNaN(Number(formattedAmount))) {
     return '0';
   }
 

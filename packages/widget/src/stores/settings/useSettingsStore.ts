@@ -1,16 +1,19 @@
 import type { StateCreator } from 'zustand';
-import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { createWithEqualityFn } from 'zustand/traditional';
 import type { WidgetConfig } from '../../types';
 import type { SettingsProps, SettingsState } from './types';
 import { SettingsToolTypes } from './types';
 
+export const defaultSlippage = '0.5';
+
 export const defaultConfigurableSettings: Pick<
   SettingsState,
-  'routePriority' | 'slippage'
+  'routePriority' | 'slippage' | 'gasPrice'
 > = {
   routePriority: 'RECOMMENDED',
-  slippage: '0.5',
+  slippage: defaultSlippage,
+  gasPrice: 'normal',
 };
 
 export const defaultSettings: SettingsProps = {
@@ -22,7 +25,7 @@ export const defaultSettings: SettingsProps = {
   enabledExchanges: [],
 };
 
-export const useSettingsStore = create<SettingsState>(
+export const useSettingsStore = createWithEqualityFn<SettingsState>(
   persist(
     (set, get) => ({
       ...defaultSettings,
@@ -56,10 +59,13 @@ export const useSettingsStore = create<SettingsState>(
                     tool,
                   ),
               )
-              .reduce((values, tool) => {
-                values[tool] = true;
-                return values;
-              }, updatedState[`_enabled${toolType}`] as Record<string, boolean>);
+              .reduce(
+                (values, tool) => {
+                  values[tool] = true;
+                  return values;
+                },
+                updatedState[`_enabled${toolType}`] as Record<string, boolean>,
+              );
             // Filter tools we no longer have
             updatedState[`_enabled${toolType}`] = Object.fromEntries(
               Object.entries(enabledTools).filter(([key]) =>
@@ -86,16 +92,20 @@ export const useSettingsStore = create<SettingsState>(
       setTools: (toolType, tools, availableTools) =>
         set(() => ({
           [`enabled${toolType}`]: tools,
-          [`_enabled${toolType}`]: availableTools.reduce((values, toolKey) => {
-            values[toolKey] = tools.includes(toolKey);
-            return values;
-          }, {} as Record<string, boolean>),
+          [`_enabled${toolType}`]: availableTools.reduce(
+            (values, toolKey) => {
+              values[toolKey] = tools.includes(toolKey);
+              return values;
+            },
+            {} as Record<string, boolean>,
+          ),
         })),
       reset: (config, bridges, exchanges) => {
+        const { appearance, ...restDefaultSettings } = defaultSettings;
+
         set(() => ({
-          ...defaultSettings,
+          ...restDefaultSettings,
           ...defaultConfigurableSettings,
-          appearance: config.appearance ?? defaultSettings.appearance,
         }));
         get().initializeTools('Bridges', bridges, true);
         get().initializeTools('Exchanges', exchanges, true);
@@ -130,16 +140,16 @@ export const useSettingsStore = create<SettingsState>(
       },
     },
   ) as StateCreator<SettingsState, [], [], SettingsState>,
+  Object.is,
 );
 
 export const setDefaultSettings = (config?: WidgetConfig) => {
-  const { slippage, routePriority, setValue } = useSettingsStore.getState();
+  const { slippage, routePriority, setValue, gasPrice } =
+    useSettingsStore.getState();
   const defaultSlippage =
-    (config?.slippage ||
-      config?.sdkConfig?.defaultRouteOptions?.slippage ||
-      0) * 100;
+    (config?.slippage || config?.sdkConfig?.routeOptions?.slippage || 0) * 100;
   const defaultRoutePriority =
-    config?.routePriority || config?.sdkConfig?.defaultRouteOptions?.order;
+    config?.routePriority || config?.sdkConfig?.routeOptions?.order;
   defaultConfigurableSettings.slippage = (
     defaultSlippage || defaultConfigurableSettings.slippage
   )?.toString();
@@ -150,5 +160,8 @@ export const setDefaultSettings = (config?: WidgetConfig) => {
   }
   if (!routePriority) {
     setValue('routePriority', defaultConfigurableSettings.routePriority);
+  }
+  if (!gasPrice) {
+    setValue('gasPrice', defaultConfigurableSettings.gasPrice);
   }
 };

@@ -1,4 +1,3 @@
-import type { StaticToken } from '@lifi/sdk';
 import type {
   WidgetDrawer,
   WidgetSubvariant,
@@ -23,22 +22,20 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import React, { useEffect, useRef, useState } from 'react';
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { WalletButtons } from './components/WalletButtons';
 import { WidgetEvents } from './components/WidgetEvents';
 import {
-  METAMASK_WALLET,
   WidgetSubvariants,
   WidgetVariants,
   widgetBaseConfig,
   widgetConfig,
 } from './config';
 import './index.css';
-import { useWallet } from './providers/WalletProvider';
+import { WalletProvider as ExternalWalletProvider } from './providers/WalletProvider';
 
 export const App = () => {
   const drawerRef = useRef<WidgetDrawer>(null);
-  const { connect, disconnect, account } = useWallet();
   const [searchParams] = useState(() =>
     Object.fromEntries(new URLSearchParams(window?.location.search)),
   );
@@ -131,40 +128,12 @@ export const App = () => {
     if (externalWallerManagement) {
       setConfig((config) => ({
         ...config,
-        walletManagement: {
-          signer: account.signer,
-          connect: async () => {
-            await connect(METAMASK_WALLET);
-            return account.signer!;
-          },
-          disconnect: async () => {
-            disconnect(METAMASK_WALLET);
-          },
-          switchChain: async (reqChainId: number) => {
-            await METAMASK_WALLET!.switchChain(reqChainId);
-            if (account.signer) {
-              return account.signer!;
-            }
-            throw Error('No signer object after chain switch');
-          },
-          addToken: async (token: StaticToken, chainId: number) => {
-            await METAMASK_WALLET!.addToken(chainId, token);
-          },
-          addChain: async (chainId: number) => {
-            return METAMASK_WALLET!.addChain(chainId);
-          },
-        },
+        walletConfig: { async onConnect() {} },
       }));
     } else {
-      setConfig((config) => ({ ...config, walletManagement: undefined }));
+      setConfig((config) => ({ ...config, walletConfig: undefined }));
     }
-  }, [
-    externalWallerManagement,
-    account.signer,
-    account.address,
-    connect,
-    disconnect,
-  ]);
+  }, [externalWallerManagement]);
 
   useEffect(() => {
     setTheme(
@@ -189,171 +158,183 @@ export const App = () => {
     }
   }, [darkMode, prefersDarkMode, primary, secondary, systemColor]);
 
+  const onCloseDrawer = useCallback(() => {
+    // eslint-disable-next-line no-console
+    console.log('Drawer has been closed!', drawerRef.current?.isOpen());
+  }, []);
+
+  const WalletProvider = externalWallerManagement
+    ? ExternalWalletProvider
+    : Fragment;
+
   return (
-    <ThemeProvider theme={theme}>
-      <WidgetEvents />
-      <Box display="flex" height="100vh">
-        <CssBaseline />
-        <Drawer
-          sx={{
-            width: 288,
-            '& .MuiDrawer-paper': {
+    <WalletProvider>
+      <ThemeProvider theme={theme}>
+        <WidgetEvents />
+        <Box display="flex" height="100vh">
+          <CssBaseline />
+          <Drawer
+            sx={{
               width: 288,
-              boxSizing: 'border-box',
-            },
-          }}
-          variant="permanent"
-          anchor="left"
-        >
-          <Box p={2} flex={1}>
-            <Typography px={1} mb={2} variant="h6">
-              Widget Customization
-            </Typography>
+              '& .MuiDrawer-paper': {
+                width: 288,
+                boxSizing: 'border-box',
+              },
+            }}
+            variant="permanent"
+            anchor="left"
+          >
+            <Box p={2} flex={1}>
+              <Typography px={1} mb={2} variant="h6">
+                Widget Customization
+              </Typography>
 
-            <Box pb={2} flex={1}>
-              <FormControl size="small" fullWidth>
-                <InputLabel>Widget variant</InputLabel>
-                <Select
-                  value={variant}
-                  label="Widget variant"
-                  onChange={(event) =>
-                    setVariant(event.target.value as WidgetVariant)
-                  }
-                >
-                  {WidgetVariants.map((variant) => (
-                    <MenuItem key={variant} value={variant}>
-                      {variant}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
-            <Box pb={2} flex={1}>
-              <FormControl size="small" fullWidth>
-                <InputLabel>Widget subvariant</InputLabel>
-                <Select
-                  value={subvariant}
-                  label="Widget subvariant"
-                  onChange={(event) =>
-                    setSubvariant(event.target.value as WidgetSubvariant)
-                  }
-                >
-                  {WidgetSubvariants.map((variant) => (
-                    <MenuItem key={variant} value={variant}>
-                      {variant}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
-
-            <Box px={1} flex={1}>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={externalWallerManagement}
-                    onChange={() =>
-                      setExternalWalletManagement((state) => !state)
+              <Box pb={2} flex={1}>
+                <FormControl size="small" fullWidth>
+                  <InputLabel>Widget variant</InputLabel>
+                  <Select
+                    value={variant}
+                    label="Widget variant"
+                    onChange={(event) =>
+                      setVariant(event.target.value as WidgetVariant)
                     }
-                  />
-                }
-                label="Enable external wallet management"
-              />
-              {externalWallerManagement && <WalletButtons />}
+                  >
+                    {WidgetVariants.map((variant) => (
+                      <MenuItem key={variant} value={variant}>
+                        {variant}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Box>
+              <Box pb={2} flex={1}>
+                <FormControl size="small" fullWidth>
+                  <InputLabel>Widget subvariant</InputLabel>
+                  <Select
+                    value={subvariant}
+                    label="Widget subvariant"
+                    onChange={(event) =>
+                      setSubvariant(event.target.value as WidgetSubvariant)
+                    }
+                  >
+                    {WidgetSubvariants.map((variant) => (
+                      <MenuItem key={variant} value={variant}>
+                        {variant}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Box>
+
+              <Box px={1} flex={1}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={externalWallerManagement}
+                      onChange={() =>
+                        setExternalWalletManagement((state) => !state)
+                      }
+                    />
+                  }
+                  label="Enable external wallet management"
+                />
+                {externalWallerManagement && <WalletButtons />}
+              </Box>
+              <Box p={1} flex={1}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={systemColor}
+                      onChange={() => setSystemColor((system) => !system)}
+                    />
+                  }
+                  label="Auto"
+                />
+                <FormControlLabel
+                  control={
+                    <Switch
+                      disabled={systemColor}
+                      checked={darkMode}
+                      onChange={() => setDarkMode((dark) => !dark)}
+                    />
+                  }
+                  label="Dark theme"
+                />
+              </Box>
+              <Box px={1} pt={1} flex={1}>
+                <Typography gutterBottom>Border Radius</Typography>
+                <Slider
+                  valueLabelDisplay="auto"
+                  components={{
+                    ValueLabel: ValueLabelComponent,
+                  }}
+                  max={32}
+                  value={borderRadius}
+                  onChange={(_, value) => setBorderRadius(value as number)}
+                  sx={{ width: '100%' }}
+                />
+              </Box>
+              <Box p={1} flex={1}>
+                <Typography gutterBottom>Border Radius Secondary</Typography>
+                <Slider
+                  valueLabelDisplay="auto"
+                  components={{
+                    ValueLabel: ValueLabelComponent,
+                  }}
+                  max={32}
+                  value={borderRadiusSecondary}
+                  onChange={(_, value) =>
+                    setBorderRadiusSecondary(value as number)
+                  }
+                  sx={{ width: '100%' }}
+                />
+              </Box>
+              <Box p={1}>
+                <TextField
+                  value={fontFamily}
+                  label="Font Family"
+                  helperText="Should be loaded apart or has OS support"
+                  size="small"
+                  onChange={(event) => setFontFamily(event.target.value)}
+                  fullWidth
+                />
+              </Box>
+              <Box py={2} px={1}>
+                <TextField
+                  value={primary}
+                  label="Main Color"
+                  type="color"
+                  size="small"
+                  inputProps={{ sx: { cursor: 'pointer' } }}
+                  onChange={(event) => setPrimaryColor(event.target.value)}
+                  fullWidth
+                />
+              </Box>
+              <Box py={2} px={1}>
+                <TextField
+                  value={secondary}
+                  label="Secondary Color"
+                  type="color"
+                  size="small"
+                  inputProps={{ sx: { cursor: 'pointer' } }}
+                  onChange={(event) => setSecondaryColor(event.target.value)}
+                  fullWidth
+                />
+              </Box>
             </Box>
-            <Box p={1} flex={1}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={systemColor}
-                    onChange={() => setSystemColor((system) => !system)}
-                  />
-                }
-                label="Auto"
-              />
-              <FormControlLabel
-                control={
-                  <Switch
-                    disabled={systemColor}
-                    checked={darkMode}
-                    onChange={() => setDarkMode((dark) => !dark)}
-                  />
-                }
-                label="Dark theme"
-              />
-            </Box>
-            <Box px={1} pt={1} flex={1}>
-              <Typography gutterBottom>Border Radius</Typography>
-              <Slider
-                valueLabelDisplay="auto"
-                components={{
-                  ValueLabel: ValueLabelComponent,
-                }}
-                max={32}
-                value={borderRadius}
-                onChange={(_, value) => setBorderRadius(value as number)}
-                sx={{ width: '100%' }}
-              />
-            </Box>
-            <Box p={1} flex={1}>
-              <Typography gutterBottom>Border Radius Secondary</Typography>
-              <Slider
-                valueLabelDisplay="auto"
-                components={{
-                  ValueLabel: ValueLabelComponent,
-                }}
-                max={32}
-                value={borderRadiusSecondary}
-                onChange={(_, value) =>
-                  setBorderRadiusSecondary(value as number)
-                }
-                sx={{ width: '100%' }}
-              />
-            </Box>
-            <Box p={1}>
-              <TextField
-                value={fontFamily}
-                label="Font Family"
-                helperText="Should be loaded apart or has OS support"
-                size="small"
-                onChange={(event) => setFontFamily(event.target.value)}
-                fullWidth
-              />
-            </Box>
-            <Box py={2} px={1}>
-              <TextField
-                value={primary}
-                label="Main Color"
-                type="color"
-                size="small"
-                inputProps={{ sx: { cursor: 'pointer' } }}
-                onChange={(event) => setPrimaryColor(event.target.value)}
-                fullWidth
-              />
-            </Box>
-            <Box py={2} px={1}>
-              <TextField
-                value={secondary}
-                label="Secondary Color"
-                type="color"
-                size="small"
-                inputProps={{ sx: { cursor: 'pointer' } }}
-                onChange={(event) => setSecondaryColor(event.target.value)}
-                fullWidth
-              />
-            </Box>
+          </Drawer>
+          <Box flex={1} margin="auto">
+            <LiFiWidget
+              integrator={config.integrator}
+              config={config}
+              ref={drawerRef}
+              onClose={onCloseDrawer}
+              open
+            />
           </Box>
-        </Drawer>
-        <Box flex={1} margin="auto">
-          <LiFiWidget
-            integrator={config.integrator}
-            config={config}
-            open
-            ref={drawerRef}
-          />
         </Box>
-      </Box>
-    </ThemeProvider>
+      </ThemeProvider>
+    </WalletProvider>
   );
 };
 

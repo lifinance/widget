@@ -1,39 +1,38 @@
-import { supportedWallets } from '@lifi/wallet-management';
-import type { Wallet } from '@lifi/wallet-management';
+import { isWalletInstalled } from '@lifi/wallet-management';
+import type { Theme } from '@mui/material';
 import {
-  Avatar,
   Button,
-  Container,
   DialogActions,
   DialogContent,
   DialogContentText,
   List,
-  ListItemAvatar,
 } from '@mui/material';
-import { useCallback, useState } from 'react';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { WalletReadyState } from '@solana/wallet-adapter-base';
+import type { Wallet } from '@solana/wallet-adapter-react';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { Connector } from 'wagmi';
+import { useConnect, useAccount as useWagmiAccount } from 'wagmi';
 import { Dialog } from '../../components/Dialog';
-import { ListItemButton } from '../../components/ListItemButton';
-import { ListItemText } from '../../components/ListItemText';
-import { useNavigateBack } from '../../hooks';
-import { useWallet } from '../../providers';
+import { PageContainer } from '../../components/PageContainer';
+import { EVMListItemButton } from './EVMListItemButton';
+import { SVMListItemButton } from './SVMListItemButton';
+import { walletComparator } from './utils';
 
 export const SelectWalletPage = () => {
   const { t } = useTranslation();
-  const { navigateBack } = useNavigateBack();
-  const { connect } = useWallet();
+  const account = useWagmiAccount();
+  const { connectors } = useConnect();
   const [walletIdentity, setWalletIdentity] = useState<{
     show: boolean;
-    wallet?: Wallet;
+    connector?: Connector;
   }>({ show: false });
+  const { wallets: solanaWallets } = useWallet();
 
-  // separate into installed and not installed wallets
-  const installedWallets = supportedWallets.filter((wallet) =>
-    wallet.installed(),
-  );
-
-  const notInstalledWallets = supportedWallets.filter(
-    (wallet) => !wallet.installed() && wallet.name !== 'Default Wallet', // always remove Default Wallet from not installed Wallets
+  const isDesktopView = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.up('sm'),
   );
 
   const closeDialog = () => {
@@ -43,52 +42,77 @@ export const SelectWalletPage = () => {
     }));
   };
 
-  const handleConnect = useCallback(
-    async (wallet: Wallet) => {
-      const identityCheckPassed = wallet.installed();
-      if (!identityCheckPassed) {
-        setWalletIdentity({
-          show: true,
-          wallet,
-        });
-        return;
-      }
-      navigateBack();
-      await connect(wallet);
-    },
-    [connect, navigateBack],
-  );
+  const handleNotInstalled = useCallback(async (connector: Connector) => {
+    setWalletIdentity({
+      show: true,
+      connector,
+    });
+  }, []);
+
+  const wallets = useMemo(() => {
+    const evmInstalled = connectors.filter(
+      (connector) =>
+        isWalletInstalled(connector.id) &&
+        // We should not show already connected connectors
+        account.connector?.id !== connector.id,
+    );
+    const evmNotDetected = connectors.filter(
+      (connector) => !isWalletInstalled(connector.id),
+    );
+    const svmInstalled = solanaWallets?.filter(
+      (connector) =>
+        connector.adapter.readyState === WalletReadyState.Installed &&
+        // We should not show already connected connectors
+        !connector.adapter.connected,
+    );
+    const svmNotDetected = solanaWallets?.filter(
+      (connector) =>
+        connector.adapter.readyState !== WalletReadyState.Installed,
+    );
+
+    const installedWallets = [...evmInstalled, ...svmInstalled].sort(
+      walletComparator,
+    );
+
+    if (isDesktopView) {
+      const notDetectedWallets = [...evmNotDetected, ...svmNotDetected].sort(
+        walletComparator,
+      );
+      installedWallets.push(...notDetectedWallets);
+    }
+
+    return installedWallets;
+  }, [account.connector?.id, connectors, isDesktopView, solanaWallets]);
 
   return (
-    <Container disableGutters>
+    <PageContainer disableGutters>
       <List
         sx={{
           paddingLeft: 1.5,
           paddingRight: 1.5,
         }}
       >
-        {[...installedWallets, ...notInstalledWallets].map((wallet: Wallet) => (
-          <ListItemButton
-            key={wallet.name}
-            onClick={() => handleConnect(wallet)}
-          >
-            <ListItemAvatar>
-              <Avatar
-                src={(wallet.icon as any).src || wallet.icon}
-                alt={wallet.name}
-              >
-                {wallet.name[0]}
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={wallet.name} />
-          </ListItemButton>
-        ))}
+        {wallets?.map((connector) =>
+          (connector as Connector).uid ? (
+            <EVMListItemButton
+              key={(connector as Connector).uid}
+              connector={connector as Connector}
+              connectedConnector={account.connector}
+              onNotInstalled={handleNotInstalled}
+            />
+          ) : (
+            <SVMListItemButton
+              key={(connector as Wallet).adapter.name}
+              wallet={connector as Wallet}
+            />
+          ),
+        )}
       </List>
       <Dialog open={walletIdentity.show} onClose={closeDialog}>
         <DialogContent>
           <DialogContentText>
             {t('wallet.extensionNotFound', {
-              name: walletIdentity.wallet?.name,
+              name: walletIdentity.connector?.name,
             })}
           </DialogContentText>
         </DialogContent>
@@ -98,6 +122,6 @@ export const SelectWalletPage = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </Container>
+    </PageContainer>
   );
 };

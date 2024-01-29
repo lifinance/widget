@@ -1,17 +1,14 @@
 import SearchOffIcon from '@mui/icons-material/SearchOff';
 import { Box, Typography } from '@mui/material';
-import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useChains } from '../../hooks';
-import type { FormTypeProps } from '../../providers';
-import { FormKeyHelper } from '../../providers';
+import { useAvailableChains } from '../../hooks';
+import type { FormTypeProps } from '../../stores';
+import { useFieldValues, FormKeyHelper } from '../../stores';
 
 export const TokenNotFound: React.FC<FormTypeProps> = ({ formType }) => {
   const { t } = useTranslation();
-  const [selectedChainId] = useWatch({
-    name: [FormKeyHelper.getChainKey(formType)],
-  });
-  const { getChainById } = useChains();
+  const [selectedChainId] = useFieldValues(FormKeyHelper.getChainKey(formType));
+  const { getChainById } = useAvailableChains();
   return (
     <Box
       sx={{

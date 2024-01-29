@@ -1,33 +1,36 @@
+/* eslint-disable no-console */
 /* eslint-disable no-prototype-builtins */
-const fs = require('fs-extra');
-const path = require('path');
-const glob = require('fast-glob');
+import fastGlob from 'fast-glob';
+import fsExtra from 'fs-extra';
+import { dirname, join } from 'path';
+const { readFileSync, writeFile } = fsExtra;
+const { sync } = fastGlob;
 
 const privatePackages = ['@lifi/widget-playground', '@lifi/widget-embedded'];
-const packagesPath = path.join(process.cwd(), 'packages');
-const directoryPackages = glob
-  .sync('*/package.json', { cwd: path.join(process.cwd(), 'packages') })
-  .map(path.dirname);
+const packagesPath = join(process.cwd(), 'packages');
+const directoryPackages = sync('*/package.json', {
+  cwd: join(process.cwd(), 'packages'),
+}).map(dirname);
 
 async function run() {
   directoryPackages.forEach(async (directoryPackage) => {
-    const packageJsonPath = path.join(
+    const packageJsonPath = join(
       packagesPath,
       directoryPackage,
       'package.json',
     );
 
-    const json = JSON.parse(fs.readFileSync(packageJsonPath).toString());
+    const json = JSON.parse(readFileSync(packageJsonPath).toString());
 
     if (privatePackages.includes(json.name)) {
       if (process.argv[2] === 'before') {
-        await fs.writeFile(
+        await writeFile(
           packageJsonPath,
           JSON.stringify({ ...json, private: false }, null, 2),
         );
         console.log(`Change ${directoryPackage} private: false.`);
       } else {
-        await fs.writeFile(
+        await writeFile(
           packageJsonPath,
           JSON.stringify({ ...json, private: true }, null, 2),
         );

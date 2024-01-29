@@ -1,11 +1,11 @@
 import {
   Avatar,
+  Box,
   StepConnector as MuiStepConnector,
-  StepContent as MuiStepContent,
   StepLabel as MuiStepLabel,
+  Typography,
 } from '@mui/material';
 import { stepConnectorClasses } from '@mui/material/StepConnector';
-import { stepContentClasses } from '@mui/material/StepContent';
 import { stepLabelClasses } from '@mui/material/StepLabel';
 import { styled } from '@mui/material/styles';
 
@@ -27,7 +27,7 @@ export const StepConnector = styled(MuiStepConnector, {
   shouldForwardProp: (prop) =>
     !['active', 'completed', 'error'].includes(prop as string),
 })(({ theme }) => ({
-  marginLeft: theme.spacing(1.875),
+  marginLeft: theme.spacing(2.375),
   [`.${stepConnectorClasses.line}`]: {
     minHeight: 8,
     borderLeftWidth: 2,
@@ -43,30 +43,41 @@ export const StepLabel = styled(MuiStepLabel, {
     !['active', 'completed', 'error', 'disabled'].includes(prop as string),
 })(({ theme }) => ({
   padding: 0,
+  alignItems: 'flex-start',
   [`.${stepLabelClasses.iconContainer}`]: {
-    paddingLeft: theme.spacing(0.75),
-    paddingRight: theme.spacing(2.75),
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(3),
+  },
+  [`.${stepLabelClasses.labelContainer}`]: {
+    minHeight: 24,
+    display: 'flex',
+    alignItems: 'center',
   },
   [`&.${stepLabelClasses.disabled}`]: {
     cursor: 'inherit',
   },
 }));
 
-export const StepContent = styled(MuiStepContent, {
-  shouldForwardProp: (prop) =>
-    !['active', 'completed', 'error'].includes(prop as string),
-})(({ theme }) => ({
-  borderLeft: `2px solid ${
-    theme.palette.mode === 'light'
-      ? theme.palette.grey[300]
-      : theme.palette.grey[800]
-  }`,
-  marginLeft: theme.spacing(1.875),
-  paddingLeft: theme.spacing(3.875),
-  [`&.${stepContentClasses.last}`]: {
-    borderLeft: 'none',
-    paddingLeft: theme.spacing(4.1875),
-  },
+export const StepLabelTypography = styled(Typography)(({ theme }) => ({
+  fontSize: 12,
+  fontWeight: 500,
+  lineHeight: 1.325,
+  color: theme.palette.text.secondary,
+  padding: theme.spacing(0.5, 0),
+}));
+
+export const StepContent = styled(Box, {
+  shouldForwardProp: (prop) => !['last'].includes(prop as string),
+})<{ last: boolean }>(({ theme, last }) => ({
+  borderLeft: last
+    ? 'none'
+    : `2px solid ${
+        theme.palette.mode === 'light'
+          ? theme.palette.grey[300]
+          : theme.palette.grey[800]
+      }`,
+  margin: theme.spacing(0, 0, 0, 2.375),
+  paddingLeft: last ? theme.spacing(4.625) : theme.spacing(4.375),
 }));
 
 export const StepAvatar = styled(Avatar)(({ theme, variant }) => ({

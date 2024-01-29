@@ -3,21 +3,25 @@ import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import { Box, Button, Typography } from '@mui/material';
+import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useRef } from 'react';
-import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import type { BottomSheetBase } from '../../components/BottomSheet';
 import { BottomSheet } from '../../components/BottomSheet';
 import { Token } from '../../components/Token';
 import {
   getProcessMessage,
-  useChains,
+  useAvailableChains,
   useNavigateBack,
   useTokenBalance,
 } from '../../hooks';
-import { FormKey, useWidgetConfig } from '../../providers';
+import { useWidgetConfig } from '../../providers';
 import type { RouteExecution } from '../../stores';
-import { RouteExecutionStatus } from '../../stores';
+import {
+  RouteExecutionStatus,
+  getSourceTxHash,
+  useFieldActions,
+} from '../../stores';
 import {
   formatTokenAmount,
   hasEnumFlag,
@@ -33,69 +37,80 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   const { t } = useTranslation();
   const { navigateBack, navigate } = useNavigateBack();
   const ref = useRef<BottomSheetBase>(null);
-  const { getChainById } = useChains();
-  const { setValue } = useFormContext();
+  const queryClient = useQueryClient();
+  const { setFieldValue } = useFieldActions();
   const {
     subvariant,
     contractComponent,
     contractSecondaryComponent,
     contractCompactComponent,
   } = useWidgetConfig();
+  const { getChainById } = useAvailableChains();
 
   const toToken = {
     ...(route.steps.at(-1)?.execution?.toToken ?? route.toToken),
-    amount:
+    amount: BigInt(
       route.steps.at(-1)?.execution?.toAmount ??
-      route.steps.at(-1)?.estimate.toAmount ??
-      route.toAmount,
+        route.steps.at(-1)?.estimate.toAmount ??
+        route.toAmount,
+    ),
   };
 
-  const { token, refetch, refetchNewBalance, refetchAllBalances } =
-    useTokenBalance(toToken, route.toAddress);
+  const toChain = getChainById(toToken.chainId);
 
-  const clearFromAmount = () => {
+  const { token, refetch, refetchNewBalance, refetchAllBalances } =
+    useTokenBalance(route.toAddress, toToken, toChain);
+
+  const invalidateQueries = () => {
     refetchAllBalances();
-    setValue(FormKey.FromAmount, '');
-    setValue(FormKey.ToAmount, '');
+    setFieldValue('fromAmount', '');
+    setFieldValue('toAmount', '');
+    queryClient.invalidateQueries({ queryKey: ['transaction-history'] });
   };
 
   const handleDone = () => {
-    clearFromAmount();
+    invalidateQueries();
     navigateBack();
   };
 
   const handlePartialDone = () => {
-    clearFromAmount();
+    invalidateQueries();
     if (
       toToken.chainId !== route.toToken.chainId &&
       toToken.address !== route.toToken.address
     ) {
-      setValue(
-        FormKey.FromAmount,
+      setFieldValue(
+        'fromAmount',
         formatTokenAmount(toToken.amount, toToken.decimals),
-        { shouldTouch: true },
+        { isTouched: true },
       );
-      setValue(FormKey.FromChain, toToken.chainId, { shouldTouch: true });
-      setValue(FormKey.FromToken, toToken.address, { shouldTouch: true });
-      setValue(FormKey.ToChain, route.toToken.chainId, {
-        shouldTouch: true,
+      setFieldValue('fromChain', toToken.chainId, { isTouched: true });
+      setFieldValue('fromToken', toToken.address, { isTouched: true });
+      setFieldValue('toChain', route.toToken.chainId, {
+        isTouched: true,
       });
-      setValue(FormKey.ToToken, route.toToken.address, {
-        shouldTouch: true,
+      setFieldValue('toToken', route.toToken.address, {
+        isTouched: true,
       });
     }
     navigateBack();
   };
 
   const handleClose = () => {
-    clearFromAmount();
+    invalidateQueries();
     ref.current?.close();
   };
 
   const handleSeeDetails = () => {
     handleClose();
+
+    const transactionHash = getSourceTxHash(route);
+
     navigate(navigationRoutes.transactionDetails, {
-      state: { routeId: route.id },
+      state: {
+        routeId: route.id,
+        transactionHash,
+      },
       replace: true,
     });
   };
@@ -103,7 +118,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   const transactionType =
     route.fromChainId === route.toChainId ? 'swap' : 'bridge';
 
-  let title;
+  let title: string | undefined;
   let primaryMessage;
   let secondaryMessage;
   let handlePrimaryButton = handleDone;
@@ -115,9 +130,9 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
           : t(`success.title.${transactionType}Successful`);
       if (token) {
         primaryMessage = t('success.message.exchangeSuccessful', {
-          amount: formatTokenAmount(token.amount),
+          amount: formatTokenAmount(token.amount, token.decimals),
           tokenSymbol: token.symbol,
-          chainName: getChainById(token.chainId)?.name,
+          chainName: toChain?.name,
           walletAddress: shortenAddress(route.toAddress),
         });
       }
@@ -132,9 +147,9 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
       });
       if (token) {
         secondaryMessage = t('success.message.exchangeSuccessful', {
-          amount: formatTokenAmount(token.amount),
+          amount: formatTokenAmount(token.amount, token.decimals),
           tokenSymbol: token.symbol,
-          chainName: getChainById(token.chainId)?.name,
+          chainName: toChain?.name,
           walletAddress: shortenAddress(route.toAddress),
         });
       }
@@ -149,9 +164,9 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
       });
       if (token) {
         secondaryMessage = t('success.message.exchangeSuccessful', {
-          amount: formatTokenAmount(token.amount),
+          amount: formatTokenAmount(token.amount, token.decimals),
           tokenSymbol: token.symbol,
-          chainName: getChainById(token.chainId)?.name,
+          chainName: toChain?.name,
           walletAddress: shortenAddress(route.toAddress),
         });
       }

@@ -4,16 +4,13 @@ import { Fragment } from 'react';
 import { MemoryRouter, useInRouterContext } from 'react-router-dom';
 import { queryClient } from './config/queryClient';
 import {
-  FormProvider,
   I18nProvider,
-  SDKProvider,
   ThemeProvider,
-  URLSearchParamsBuilder,
   WalletProvider,
   WidgetProvider,
   useWidgetConfig,
 } from './providers';
-import { StoreProvider } from './stores';
+import { StoreProvider, URLSearchParamsBuilder } from './stores';
 import type { WidgetConfigProps } from './types';
 
 export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
@@ -22,21 +19,17 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
 }) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <StoreProvider config={config}>
-        <WidgetProvider config={config}>
-          <SDKProvider>
-            <ThemeProvider>
-              <I18nProvider>
-                <WalletProvider>
-                  <FormProvider>
-                    <AppRouter>{children}</AppRouter>
-                  </FormProvider>
-                </WalletProvider>
-              </I18nProvider>
-            </ThemeProvider>
-          </SDKProvider>
-        </WidgetProvider>
-      </StoreProvider>
+      <WidgetProvider config={config}>
+        <ThemeProvider>
+          <I18nProvider>
+            <WalletProvider>
+              <StoreProvider config={config}>
+                <AppRouter>{children}</AppRouter>
+              </StoreProvider>
+            </WalletProvider>
+          </I18nProvider>
+        </ThemeProvider>
+      </WidgetProvider>
     </QueryClientProvider>
   );
 };

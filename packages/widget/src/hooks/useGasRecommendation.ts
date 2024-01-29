@@ -1,36 +1,46 @@
-import type { ChainId } from '@lifi/sdk';
+import { getGasRecommendation, type ChainId } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
-import { useLiFi } from '../providers';
-import { useChains } from './useChains';
+import { useAvailableChains } from './useAvailableChains';
 
 const refetchInterval = 60_000;
 
 export const useGasRecommendation = (
-  chainId: ChainId,
+  toChainId?: ChainId,
   fromChain?: ChainId,
   fromToken?: string,
 ) => {
-  const lifi = useLiFi();
-  const { chains } = useChains();
+  const { chains } = useAvailableChains();
 
-  return useQuery(
-    ['gas-recommendation', chainId, fromChain, fromToken],
-    async ({ queryKey: [_, chainId, fromChain, fromToken] }) => {
-      if (!chains?.some((chain) => chain.id === chainId)) {
+  const checkRecommendationLiFuel =
+    Boolean(toChainId) &&
+    Boolean(fromChain) &&
+    Boolean(fromToken) &&
+    Boolean(chains?.length);
+
+  const checkRecommendationMaxButton =
+    Boolean(toChainId) && !fromChain && !fromToken && Boolean(chains?.length);
+
+  return useQuery({
+    queryKey: ['gas-recommendation', toChainId, fromChain, fromToken],
+    queryFn: async ({
+      queryKey: [_, toChainId, fromChain, fromToken],
+      signal,
+    }) => {
+      if (!chains?.some((chain) => chain.id === toChainId)) {
         return null;
       }
-      const gasRecommendation = await lifi.getGasRecommendation({
-        chainId: chainId as ChainId,
-        fromChain: fromChain as ChainId,
-        fromToken: fromToken as string,
-      });
+      const gasRecommendation = await getGasRecommendation(
+        {
+          chainId: toChainId as ChainId,
+          fromChain: fromChain as ChainId,
+          fromToken: fromToken as string,
+        },
+        { signal },
+      );
       return gasRecommendation;
     },
-    {
-      enabled: Boolean(chainId),
-      refetchInterval,
-      staleTime: refetchInterval,
-      cacheTime: refetchInterval,
-    },
-  );
+    enabled: checkRecommendationLiFuel || checkRecommendationMaxButton,
+    refetchInterval,
+    staleTime: refetchInterval,
+  });
 };

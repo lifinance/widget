@@ -13,14 +13,14 @@ export function CircularProgress({ process }: { process: Process }) {
   return (
     <CircularIcon status={process.status} substatus={process.substatus}>
       {process.status === 'STARTED' || process.status === 'PENDING' ? (
-        <CircularProgressPending size={32} thickness={3} />
+        <CircularProgressPending size={40} />
       ) : null}
       {process.status === 'ACTION_REQUIRED' ? (
         <InfoRoundedIcon
           color="info"
           sx={{
             position: 'absolute',
-            fontSize: '1rem',
+            fontSize: '1.5rem',
           }}
         />
       ) : null}
@@ -29,7 +29,7 @@ export function CircularProgress({ process }: { process: Process }) {
         <WarningRoundedIcon
           sx={(theme) => ({
             position: 'absolute',
-            fontSize: '1rem',
+            fontSize: '1.5rem',
             color: darken(theme.palette.warning.main, 0.32),
           })}
         />
@@ -38,7 +38,7 @@ export function CircularProgress({ process }: { process: Process }) {
           color="success"
           sx={{
             position: 'absolute',
-            fontSize: '1rem',
+            fontSize: '1.5rem',
           }}
         />
       ) : null}
@@ -47,7 +47,7 @@ export function CircularProgress({ process }: { process: Process }) {
           color="error"
           sx={{
             position: 'absolute',
-            fontSize: '1rem',
+            fontSize: '1.5rem',
           }}
         />
       ) : null}

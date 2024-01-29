@@ -1,5 +1,5 @@
 import { createContext, useContext, useRef } from 'react';
-import { create } from 'zustand';
+import { createWithEqualityFn } from 'zustand/traditional';
 import type {
   SplitSubvariantProps,
   SplitSubvariantProviderProps,
@@ -15,7 +15,7 @@ const shouldRecreateStore = (
   props: SplitSubvariantProps,
 ) => {
   const { state } = store.getState();
-  return (!state && props.state) || (state && !props.state);
+  return state !== props.state;
 };
 
 export function SplitSubvariantStoreProvider({
@@ -35,7 +35,6 @@ export function SplitSubvariantStoreProvider({
 
 export function useSplitSubvariantStore<T>(
   selector: (state: SplitSubvariantState) => T,
-  equalityFn?: (left: T, right: T) => boolean,
 ): T {
   const useStore = useContext(SplitSubvariantStoreContext);
   if (!useStore) {
@@ -43,7 +42,7 @@ export function useSplitSubvariantStore<T>(
       `You forgot to wrap your component in <${SplitSubvariantStoreProvider.name}>.`,
     );
   }
-  return useStore(selector, equalityFn);
+  return useStore(selector);
 }
 
 export function useSplitSubvariantStoreContext() {
@@ -57,11 +56,14 @@ export function useSplitSubvariantStoreContext() {
 }
 
 export const createSplitSubvariantStore = ({ state }: SplitSubvariantProps) =>
-  create<SplitSubvariantState>((set) => ({
-    state,
-    setState(state) {
-      set(() => ({
-        state,
-      }));
-    },
-  }));
+  createWithEqualityFn<SplitSubvariantState>(
+    (set) => ({
+      state,
+      setState(state) {
+        set(() => ({
+          state,
+        }));
+      },
+    }),
+    Object.is,
+  );

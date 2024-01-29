@@ -1,14 +1,14 @@
-import type { EVMChain, Route, Token } from '@lifi/sdk';
+import { type EVMChain, type RouteExtended, type Token } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
-import Big from 'big.js';
-import { useChains, useGasRefuel, useGetTokenBalancesWithRetry } from '.';
-import { useWallet } from '../providers';
+import type { Connector } from 'wagmi';
+import { getTokenBalancesWithRetry, useAvailableChains, useGasRefuel } from '.';
 import { useSettings } from '../stores';
+import { useAccount } from './useAccount';
 
 export interface GasSufficiency {
-  gasAmount: Big;
-  tokenAmount?: Big;
-  insufficientAmount?: Big;
+  gasAmount: bigint;
+  tokenAmount?: bigint;
+  insufficientAmount?: bigint;
   insufficient?: boolean;
   token: Token;
   chain?: EVMChain;
@@ -16,97 +16,104 @@ export interface GasSufficiency {
 
 const refetchInterval = 30_000;
 
-export const useGasSufficiency = (route?: Route) => {
-  const { account } = useWallet();
-  const { getChainById } = useChains();
-  const getTokenBalancesWithRetry = useGetTokenBalancesWithRetry(
-    account.signer?.provider,
-  );
-
+export const useGasSufficiency = (route?: RouteExtended) => {
+  const { getChainById } = useAvailableChains();
+  const { account } = useAccount({
+    chainType: getChainById(route?.fromChainId)?.chainType,
+  });
   const { enabledAutoRefuel } = useSettings(['enabledAutoRefuel']);
   const { enabled, isLoading: isRefuelLoading } = useGasRefuel();
   const enabledRefuel = enabled && enabledAutoRefuel;
 
-  const { data: insufficientGas, isInitialLoading } = useQuery(
-    ['gas-sufficiency-check', account.address, route?.id],
-    async () => {
-      if (!account.address || !route) {
-        return;
-      }
-
+  const { data: insufficientGas, isLoading } = useQuery({
+    queryKey: ['gas-sufficiency-check', account.address, route?.id],
+    queryFn: async ({ queryKey: [, accountAddress] }) => {
       // TODO: include LI.Fuel into calculation once steps and tools are properly typed
       // const refuelSteps = route.steps
       //   .flatMap((step) => step.includedSteps)
       //   .filter((includedStep) => includedStep.tool === 'lifuelProtocol');
 
-      const gasCosts = route.steps
+      const gasCosts = route!.steps
         .filter((step) => !step.execution || step.execution.status !== 'DONE')
-        .reduce((groupedGasCosts, step) => {
-          if (step.estimate.gasCosts) {
-            const { token } = step.estimate.gasCosts[0];
-            const gasCostAmount = step.estimate.gasCosts
-              .reduce(
-                (amount, gasCost) => amount.plus(Big(gasCost.amount || 0)),
-                Big(0),
-              )
-              .div(10 ** token.decimals);
-            const groupedGasCost = groupedGasCosts[token.chainId];
-            const gasAmount = groupedGasCost
-              ? groupedGasCost.gasAmount.plus(gasCostAmount)
-              : gasCostAmount;
-            groupedGasCosts[token.chainId] = {
-              gasAmount,
-              tokenAmount: gasAmount,
-              token,
-            };
+        .reduce(
+          (groupedGasCosts, step) => {
+            if (
+              step.estimate.gasCosts &&
+              (account.connector as Connector)?.id !== 'safe'
+            ) {
+              const { token } = step.estimate.gasCosts[0];
+              const gasCostAmount = step.estimate.gasCosts.reduce(
+                (amount, gasCost) => amount + BigInt(gasCost.amount),
+                0n,
+              );
+              groupedGasCosts[token.chainId] = {
+                gasAmount: groupedGasCosts[token.chainId]
+                  ? groupedGasCosts[token.chainId].gasAmount + gasCostAmount
+                  : gasCostAmount,
+                token,
+              };
+            }
+            // Add fees paid in native tokens to gas sufficiency check (included: false)
+            const nonIncludedFeeCosts = step.estimate.feeCosts?.filter(
+              (feeCost) => !feeCost.included,
+            );
+            if (nonIncludedFeeCosts?.length) {
+              const { token } = nonIncludedFeeCosts[0];
+              const feeCostAmount = nonIncludedFeeCosts.reduce(
+                (amount, feeCost) => amount + BigInt(feeCost.amount),
+                0n,
+              );
+              groupedGasCosts[token.chainId] = {
+                gasAmount: groupedGasCosts[token.chainId]
+                  ? groupedGasCosts[token.chainId].gasAmount + feeCostAmount
+                  : feeCostAmount,
+                token,
+              } as any;
+            }
             return groupedGasCosts;
-          }
-          return groupedGasCosts;
-        }, {} as Record<number, GasSufficiency>);
+          },
+          {} as Record<number, GasSufficiency>,
+        );
 
       if (
-        route.fromToken.address === gasCosts[route.fromChainId]?.token.address
+        route!.fromToken.address === gasCosts[route!.fromChainId]?.token.address
       ) {
-        gasCosts[route.fromChainId].tokenAmount = gasCosts[
-          route.fromChainId
-        ]?.gasAmount.plus(
-          Big(route.fromAmount).div(10 ** route.fromToken.decimals),
-        );
+        gasCosts[route!.fromChainId].tokenAmount =
+          gasCosts[route!.fromChainId]?.gasAmount + BigInt(route!.fromAmount);
       }
 
       const tokenBalances = await getTokenBalancesWithRetry(
-        account.address,
+        accountAddress!,
         Object.values(gasCosts).map((item) => item.token),
       );
 
       if (!tokenBalances?.length) {
-        return;
+        return [];
       }
 
-      [route.fromChainId, route.toChainId].forEach((chainId) => {
+      [route!.fromChainId, route!.toChainId].forEach((chainId) => {
         if (gasCosts[chainId]) {
-          const gasTokenBalance = Big(
+          const gasTokenBalance =
             tokenBalances?.find(
               (t) =>
                 t.chainId === gasCosts[chainId].token.chainId &&
                 t.address === gasCosts[chainId].token.address,
-            )?.amount ?? 0,
-          );
-
+            )?.amount ?? 0n;
           const insufficient =
-            gasTokenBalance.lte(0) ||
-            gasTokenBalance.lt(gasCosts[chainId].gasAmount ?? Big(0)) ||
-            gasTokenBalance.lt(gasCosts[chainId].tokenAmount ?? Big(0));
+            gasTokenBalance <= 0n ||
+            gasTokenBalance < gasCosts[chainId].gasAmount ||
+            gasTokenBalance < (gasCosts[chainId].tokenAmount ?? 0n);
 
           const insufficientAmount = insufficient
-            ? gasCosts[chainId].tokenAmount?.minus(gasTokenBalance) ??
-              gasCosts[chainId].gasAmount.minus(gasTokenBalance)
+            ? gasCosts[chainId].tokenAmount
+              ? gasCosts[chainId].tokenAmount! - gasTokenBalance
+              : gasCosts[chainId].gasAmount - gasTokenBalance
             : undefined;
 
           gasCosts[chainId] = {
             ...gasCosts[chainId],
             insufficient,
-            insufficientAmount: insufficientAmount?.round(5, Big.roundUp),
+            insufficientAmount,
             chain: insufficient ? getChainById(chainId) : undefined,
           };
         }
@@ -118,19 +125,17 @@ export const useGasSufficiency = (route?: Route) => {
 
       return gasCostResult;
     },
-    {
-      enabled: Boolean(account.address && route),
-      refetchInterval,
-      staleTime: refetchInterval,
-      cacheTime: refetchInterval,
-    },
-  );
+
+    enabled: Boolean(account.address && route),
+    refetchInterval,
+    staleTime: refetchInterval,
+  });
 
   const isInsufficientGas =
     Boolean(insufficientGas?.length) && !isRefuelLoading && !enabledRefuel;
 
   return {
     insufficientGas: isInsufficientGas ? insufficientGas : undefined,
-    isInitialLoading,
+    isLoading,
   };
 };

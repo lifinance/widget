@@ -9,50 +9,53 @@ import {
   Slide,
   Typography,
 } from '@mui/material';
-import { memo, useRef, useState } from 'react';
+import type { MouseEventHandler } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { formatUnits } from 'viem';
 import {
   formatTokenAmount,
   formatTokenPrice,
   shortenAddress,
 } from '../../utils';
-import { IconButton, ListItem, ListItemButton } from './TokenList.style';
+import { ListItemButton } from '../ListItem';
+import { IconButton, ListItem } from './TokenList.style';
 import type { TokenListItemButtonProps, TokenListItemProps } from './types';
 
-export const TokenListItem: React.FC<TokenListItemProps> = memo(
-  ({
-    onClick,
-    size,
-    start,
-    token,
-    chain,
-    showBalance,
-    isBalanceLoading,
-    startAdornment,
-    endAdornment,
-  }) => {
-    const handleClick = () => onClick?.(token.address);
-    return (
-      <ListItem
-        disablePadding
-        style={{
-          height: `${size}px`,
-          transform: `translateY(${start}px)`,
-        }}
-      >
-        {startAdornment}
-        <TokenListItemButton
-          token={token}
-          chain={chain}
-          showBalance={showBalance}
-          isBalanceLoading={isBalanceLoading}
-          onClick={handleClick}
-        />
-        {endAdornment}
-      </ListItem>
-    );
-  },
-);
+export const TokenListItem: React.FC<TokenListItemProps> = ({
+  onClick,
+  size,
+  start,
+  token,
+  chain,
+  showBalance,
+  isBalanceLoading,
+  startAdornment,
+  endAdornment,
+}) => {
+  const handleClick: MouseEventHandler<HTMLDivElement> = (e) => {
+    e.stopPropagation();
+    onClick?.(token.address);
+  };
+  return (
+    <ListItem
+      style={{
+        height: `${size}px`,
+        transform: `translateY(${start}px)`,
+      }}
+    >
+      {startAdornment}
+      <TokenListItemButton
+        token={token}
+        chain={chain}
+        showBalance={showBalance}
+        isBalanceLoading={isBalanceLoading}
+        onClick={handleClick}
+      />
+      {endAdornment}
+    </ListItem>
+  );
+};
 
 export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   onClick,
@@ -62,7 +65,12 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   isBalanceLoading,
 }) => {
   const { t } = useTranslation();
-  const tokenPrice = formatTokenPrice(token.amount, token.priceUSD);
+  const tokenPrice = token.amount
+    ? formatTokenPrice(
+        formatUnits(token.amount, token.decimals),
+        token.priceUSD,
+      )
+    : undefined;
   const container = useRef(null);
   const timeoutId = useRef<ReturnType<typeof setTimeout>>();
   const [showAddress, setShowAddress] = useState(false);
@@ -142,16 +150,16 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
           <TokenAmountSkeleton />
         ) : (
           <Box sx={{ textAlign: 'right' }}>
-            {Number(token.amount) ? (
+            {token.amount ? (
               <Typography variant="body1" noWrap>
                 {t('format.number', {
-                  value: formatTokenAmount(token.amount),
+                  value: formatTokenAmount(token.amount, token.decimals),
                 })}
               </Typography>
             ) : null}
             {tokenPrice ? (
               <Typography
-                fontWeight={400}
+                fontWeight={500}
                 fontSize={12}
                 color="text.secondary"
                 data-price={token.priceUSD}
@@ -178,14 +186,14 @@ export const TokenListItemSkeleton = () => {
       <ListItemAvatar>
         <Skeleton
           variant="circular"
-          width={32}
-          height={32}
+          width={40}
+          height={40}
           sx={{ marginLeft: 1.5, marginRight: 2 }}
         />
       </ListItemAvatar>
       <ListItemText
-        primary={<Skeleton variant="text" width={48} height={20} />}
-        secondary={<Skeleton variant="text" width={96} height={20} />}
+        primary={<Skeleton variant="text" width={56} height={24} />}
+        secondary={<Skeleton variant="text" width={96} height={16} />}
       />
     </ListItem>
   );
@@ -201,7 +209,7 @@ export const TokenAmountSkeleton: React.FC = () => {
       }}
     >
       <Skeleton variant="text" width={56} height={24} />
-      <Skeleton variant="text" width={48} height={18} />
+      <Skeleton variant="text" width={48} height={16} />
     </Box>
   );
 };

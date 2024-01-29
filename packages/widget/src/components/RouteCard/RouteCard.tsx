@@ -14,26 +14,35 @@ import { Card, CardIconButton, CardLabel, CardLabelTypography } from '../Card';
 import type { InsuredAmount } from '../Insurance';
 import { StepActions } from '../StepActions';
 import { Token } from '../Token';
+import { TokenContainer } from './RouteCard.style';
 import { RouteCardEssentials } from './RouteCardEssentials';
+import { RouteCardEssentialsExpanded } from './RouteCardEssentialsExpanded';
 import type { RouteCardProps } from './types';
 
 export const RouteCard: React.FC<
   RouteCardProps & Omit<CardProps, 'variant'>
-> = ({ route, active, variant = 'default', expanded, ...other }) => {
+> = ({
+  route,
+  active,
+  variant = 'default',
+  expanded: defaulExpanded,
+  ...other
+}) => {
   const { t } = useTranslation();
   const { subvariant } = useWidgetConfig();
-  const [cardExpanded, setCardExpanded] = useState(expanded);
-  const insurable = route.insurance?.state === 'INSURABLE';
+  const [cardExpanded, setCardExpanded] = useState(defaulExpanded);
 
   const handleExpand: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation();
     setCardExpanded((expanded) => !expanded);
   };
 
+  const insurable = route.insurance?.state === 'INSURABLE';
+
   const token: TokenAmount =
     subvariant === 'nft'
-      ? { ...route.fromToken, amount: route.fromAmount }
-      : { ...route.toToken, amount: route.toAmount };
+      ? { ...route.fromToken, amount: BigInt(route.fromAmount) }
+      : { ...route.toToken, amount: BigInt(route.toAmount) };
 
   const RecommendedTagTooltip =
     route.tags?.[0] === 'RECOMMENDED' ? RecommendedTooltip : Fragment;
@@ -42,30 +51,6 @@ export const RouteCard: React.FC<
     <Box flex={1}>
       {subvariant !== 'refuel' && (insurable || route.tags?.length) ? (
         <Box display="flex" alignItems="center" mb={2}>
-          {insurable ? (
-            <InsuranceTooltip
-              insuredAmount={formatTokenAmount(
-                route.toAmountMin,
-                route.toToken.decimals,
-              )}
-              insuredTokenSymbol={route.toToken.symbol}
-            >
-              <CardLabel
-                type={
-                  route.tags?.length && !cardExpanded
-                    ? 'insurance-icon'
-                    : 'insurance'
-                }
-              >
-                <VerifiedUserIcon fontSize="inherit" />
-                {cardExpanded || !route.tags?.length ? (
-                  <CardLabelTypography type="icon">
-                    {t(`main.tags.insurable`)}
-                  </CardLabelTypography>
-                ) : null}
-              </CardLabel>
-            </InsuranceTooltip>
-          ) : null}
           {route.tags?.length ? (
             <RecommendedTagTooltip>
               <CardLabel type={active ? 'active' : undefined}>
@@ -75,25 +60,45 @@ export const RouteCard: React.FC<
               </CardLabel>
             </RecommendedTagTooltip>
           ) : null}
+          {insurable ? (
+            <InsuranceTooltip
+              insuredAmount={formatTokenAmount(
+                BigInt(route.toAmountMin),
+                route.toToken.decimals,
+              )}
+              insuredTokenSymbol={route.toToken.symbol}
+            >
+              <CardLabel type={'insurance'}>
+                <VerifiedUserIcon fontSize="inherit" />
+                <CardLabelTypography type="icon">
+                  {t(`main.tags.insurable`)}
+                </CardLabelTypography>
+              </CardLabel>
+            </InsuranceTooltip>
+          ) : null}
         </Box>
       ) : null}
-      <Box display="flex" justifyContent="space-between" alignItems="start">
+      <TokenContainer>
         <Token
           token={token}
-          step={!cardExpanded ? route.steps[0] : undefined}
+          step={route.steps[0]}
+          stepVisible={!cardExpanded}
         />
-        {!expanded ? (
+        {!defaulExpanded ? (
           <CardIconButton onClick={handleExpand} size="small">
             {cardExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </CardIconButton>
         ) : null}
-      </Box>
+      </TokenContainer>
       <Collapse timeout={225} in={cardExpanded} mountOnEnter unmountOnExit>
         {route.steps.map((step) => (
           <StepActions key={step.id} step={step} mt={2} />
         ))}
+        <RouteCardEssentialsExpanded route={route} />
       </Collapse>
-      <RouteCardEssentials route={route} />
+      <Collapse timeout={225} in={!cardExpanded} mountOnEnter unmountOnExit>
+        <RouteCardEssentials route={route} />
+      </Collapse>
     </Box>
   );
 

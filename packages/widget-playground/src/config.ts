@@ -1,10 +1,7 @@
-import { supportedWallets } from '@lifi/wallet-management';
+import { ChainId } from '@lifi/sdk';
 import type { WidgetConfig } from '@lifi/widget';
+import './fonts/inter.css';
 import './index.css';
-
-export const METAMASK_WALLET = supportedWallets.find(
-  (wallet) => wallet.name === 'MetaMask',
-);
 
 export const WidgetVariants = ['default', 'expandable', 'drawer'] as const;
 
@@ -21,10 +18,7 @@ export const widgetBaseConfig: WidgetConfig = {
   variant: 'expandable',
   // subvariant: 'split',
   integrator: 'li.fi-playground',
-  chains: {
-    allow: [], // 1, 1285, 10, 56, 137
-    deny: [],
-  },
+  // fee: 0.01,
   // useRecommendedRoute: true,
   buildUrl: true,
   // hiddenUI: ['poweredBy', 'language', 'appearance', 'drawerButton'],
@@ -33,8 +27,13 @@ export const widgetBaseConfig: WidgetConfig = {
   // slippage: 0.003,
   insurance: true,
   sdkConfig: {
-    // apiUrl: 'https://develop.li.quest/v1',
-    defaultRouteOptions: {
+    apiUrl: 'https://li.quest/v1',
+    rpcUrls: {
+      [ChainId.SOL]: [
+        'https://withered-lingering-frog.solana-mainnet.quiknode.pro/',
+      ],
+    },
+    routeOptions: {
       maxPriceImpact: 0.4,
       // slippage: 0.03,
       // order: 'SAFEST',
@@ -44,9 +43,21 @@ export const widgetBaseConfig: WidgetConfig = {
   },
   // theme: {
   //   palette: {
+  //     primary: { main: '#FFCF7D' },
+  //     secondary: { main: '#FFCF7D' },
   //     background: {
-  //       paper: '#121212',
+  //       paper: 'rgba(14, 35, 48, 0.4)', // background cards
+  //       default: 'rgba(0, 0, 0, 0)', // background container
   //     },
+  //     grey: {
+  //       300: '#5C4219', // border light theme
+  //       800: '#5C4219', // border dark theme
+  //     },
+  //   },
+  // },
+  // chains: {
+  //   types: {
+  //     allow: [ChainType.SVM],
   //   },
   // },
   tokens: {
@@ -121,14 +132,14 @@ export const widgetBaseConfig: WidgetConfig = {
       // },
     ],
   },
-  bridges: {
-    // allow: ['stargate'],
-    // deny: ['connext'],
-  },
-  languages: {
-    // allow: ['uk'],
-    // deny: ['uk'],
-  },
+  // bridges: {
+  // allow: ['stargate'],
+  // deny: ['connext'],
+  // },
+  // languages: {
+  // allow: ['uk'],
+  // deny: ['uk'],
+  // },
   // languageResources: {
   //   en: {
   //     button: { exchange: 'Test' },
@@ -147,7 +158,6 @@ export const widgetConfig: WidgetConfig = {
     // }`,
     boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
     borderRadius: '16px',
-    minWidth: 300,
   },
   // theme: {
   //   components: {

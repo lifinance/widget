@@ -1,27 +1,27 @@
-import { InputAdornment, Skeleton } from '@mui/material';
-import Big from 'big.js';
-import { useFormContext, useWatch } from 'react-hook-form';
+import { InputAdornment } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { formatUnits } from 'viem';
 import {
-  useChains,
+  useAvailableChains,
   useGasRecommendation,
   useTokenAddressBalance,
 } from '../../hooks';
-import type { FormTypeProps } from '../../providers';
-import { FormKeyHelper } from '../../providers';
-import { formatTokenAmount } from '../../utils';
-import { Button } from './AmountInputAdornment.style';
+import type { FormTypeProps } from '../../stores';
+import { FormKeyHelper, useFieldActions, useFieldValues } from '../../stores';
+import { MaxButton, MaxButtonSkeleton } from './AmountInputAdornment.style';
 
 export const AmountInputEndAdornment = ({ formType }: FormTypeProps) => {
   const { t } = useTranslation();
-  const { setValue } = useFormContext();
-  const { getChainById } = useChains();
-  const [chainId, tokenAddress] = useWatch({
-    name: [
-      FormKeyHelper.getChainKey(formType),
-      FormKeyHelper.getTokenKey(formType),
-    ],
-  });
+  const { getChainById } = useAvailableChains();
+  const { setFieldValue } = useFieldActions();
+
+  const [chainId, tokenAddress] = useFieldValues(
+    FormKeyHelper.getChainKey(formType),
+    FormKeyHelper.getTokenKey(formType),
+  );
+
+  // We get gas recommendations for the source chain to make sure that after pressing the Max button
+  // the user will have enough funds remaining to cover gas costs
   const { data } = useGasRecommendation(chainId);
 
   const { token, isLoading } = useTokenAddressBalance(chainId, tokenAddress);
@@ -34,33 +34,28 @@ export const AmountInputEndAdornment = ({ formType }: FormTypeProps) => {
       data?.available &&
       data?.recommended
     ) {
-      const tokenAmount = Big(token?.amount ?? 0);
-      const recommendedAmount = Big(data.recommended.amount)
-        .div(10 ** data.recommended.token.decimals)
-        .div(2);
-      if (tokenAmount.gt(recommendedAmount)) {
-        maxAmount = formatTokenAmount(
-          tokenAmount.minus(recommendedAmount).toString(),
-        );
+      const tokenAmount = token?.amount ?? 0n;
+      const recommendedAmount = BigInt(data.recommended.amount) / 2n;
+      if (tokenAmount > recommendedAmount) {
+        maxAmount = tokenAmount - recommendedAmount;
       }
     }
 
-    setValue(FormKeyHelper.getAmountKey(formType), maxAmount || '', {
-      shouldTouch: true,
-    });
+    setFieldValue(
+      FormKeyHelper.getAmountKey(formType),
+      maxAmount && token ? formatUnits(maxAmount, token.decimals) : '',
+      {
+        isTouched: true,
+      },
+    );
   };
 
   return (
     <InputAdornment position="end">
       {isLoading && tokenAddress ? (
-        <Skeleton
-          variant="rectangular"
-          width={46}
-          height={24}
-          sx={{ borderRadius: 0.5 }}
-        />
+        <MaxButtonSkeleton variant="rectangular" />
       ) : formType === 'from' && token?.amount ? (
-        <Button onClick={handleMax}>{t('button.max')}</Button>
+        <MaxButton onClick={handleMax}>{t('button.max')}</MaxButton>
       ) : null}
     </InputAdornment>
   );

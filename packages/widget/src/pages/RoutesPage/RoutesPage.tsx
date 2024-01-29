@@ -2,7 +2,6 @@
 import type { Route } from '@lifi/sdk';
 import type { BoxProps } from '@mui/material';
 import { useEffect } from 'react';
-import { useHeaderStore } from '../../components/Header';
 import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate';
 import {
   RouteCard,
@@ -10,7 +9,7 @@ import {
   RouteNotFoundCard,
 } from '../../components/RouteCard';
 import { useNavigateBack, useRoutes } from '../../hooks';
-import { useSetExecutableRoute } from '../../stores';
+import { useHeaderStoreContext, useSetExecutableRoute } from '../../stores';
 import { navigationRoutes } from '../../utils';
 import { Stack } from './RoutesPage.style';
 
@@ -19,6 +18,7 @@ export const RoutesPage: React.FC<BoxProps> = () => {
   const { routes, isLoading, isFetching, dataUpdatedAt, refetchTime, refetch } =
     useRoutes();
   const setExecutableRoute = useSetExecutableRoute();
+  const headerStoreContext = useHeaderStoreContext();
 
   const handleRouteClick = (route: Route) => {
     setExecutableRoute(route);
@@ -36,7 +36,7 @@ export const RoutesPage: React.FC<BoxProps> = () => {
   }, []);
 
   useEffect(() => {
-    return useHeaderStore
+    return headerStoreContext
       .getState()
       .setAction(
         <ProgressToNextUpdate
@@ -46,10 +46,9 @@ export const RoutesPage: React.FC<BoxProps> = () => {
           onClick={() => refetch()}
           sx={{ marginRight: -1 }}
           size="medium"
-          edge="end"
         />,
       );
-  }, [dataUpdatedAt, isFetching, refetch, refetchTime]);
+  }, [dataUpdatedAt, headerStoreContext, isFetching, refetch, refetchTime]);
 
   const routeNotFound = !routes?.length && !isLoading && !isFetching;
 
@@ -68,7 +67,7 @@ export const RoutesPage: React.FC<BoxProps> = () => {
             route={route}
             onClick={() => handleRouteClick(route)}
             active={index === 0}
-            expanded={routes?.length <= 2}
+            expanded={routes?.length === 1}
           />
         ))
       )}

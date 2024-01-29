@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import type { PropsWithChildren } from 'react';
 import { useWidgetConfig } from '../providers';
 import type { WidgetVariant } from '../types';
-import { createElementId, ElementId } from '../utils';
+import { ElementId, createElementId } from '../utils';
 
 export const maxHeight = 680;
 
@@ -23,7 +23,7 @@ const RelativeContainer = styled(Box, {
   position: 'relative',
   boxSizing: 'content-box',
   width: '100%',
-  minWidth: 375,
+  minWidth: 360,
   maxWidth: 392,
   maxHeight: variant === 'drawer' ? 'none' : maxHeight,
   background: theme.palette.background.default,
@@ -56,7 +56,11 @@ export const AppContainer: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   // const ref = useRef<HTMLDivElement>(null);
   const { containerStyle, variant, elementId } = useWidgetConfig();
   return (
-    <RelativeContainer sx={containerStyle} variant={variant}>
+    <RelativeContainer
+      sx={containerStyle}
+      variant={variant}
+      id={createElementId(ElementId.RelativeContainer, elementId)}
+    >
       <CssBaselineContainer
         id={createElementId(ElementId.ScrollableContainer, elementId)}
         variant={variant}

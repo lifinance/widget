@@ -1,4 +1,3 @@
-import 'i18next';
 import en from './en.json';
 
 const defaultResource = { translation: en };

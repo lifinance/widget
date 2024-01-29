@@ -1,28 +1,30 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
-import SettingsIcon from '@mui/icons-material/Settings';
-import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 import { useTranslation } from 'react-i18next';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import { useNavigateBack } from '../../hooks';
-import { useWallet, useWidgetConfig } from '../../providers';
+import { useAccount, useNavigateBack } from '../../hooks';
+import { useWidgetConfig } from '../../providers';
+import { useHeaderStore } from '../../stores';
 import { HiddenUI } from '../../types';
 import {
   backButtonRoutes,
   navigationRoutes,
   navigationRoutesValues,
 } from '../../utils';
-import { HeaderAppBar } from './Header.style';
+import { CloseDrawerButton } from './CloseDrawerButton';
+import { HeaderAppBar, HeaderControlsContainer } from './Header.style';
 import { NavigationTabs } from './NavigationTabs';
-import { WalletMenuButton } from './WalletHeader';
-import { useHeaderStore } from './useHeaderStore';
+import { SettingsButton } from './SettingsButton';
+import { TransactionHistoryButton } from './TransactionHistoryButton';
+import { SplitWalletMenuButton } from './WalletHeader';
 
 export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
-  const { subvariant, hiddenUI } = useWidgetConfig();
-  const { navigate, navigateBack } = useNavigateBack();
-  const { account } = useWallet();
-  const { element, title } = useHeaderStore();
+  const { subvariant, hiddenUI, variant } = useWidgetConfig();
+  const { navigateBack } = useNavigateBack();
+  const { account } = useAccount();
+  const { element, title } = useHeaderStore((state) => state);
   const { pathname } = useLocation();
 
   const cleanedPathname = pathname.endsWith('/')
@@ -43,6 +45,16 @@ export const NavigationHeader: React.FC = () => {
         return t(`settings.enabledBridges`);
       case navigationRoutes.exchanges:
         return t(`settings.enabledExchanges`);
+      case navigationRoutes.sendToWallet:
+        return t(`header.sendToWallet`);
+      case navigationRoutes.bookmarks:
+        return t(`header.bookmarkedWallets`);
+      case navigationRoutes.recentWallets:
+        return t(`header.recentWallets`);
+      case navigationRoutes.connectedWallets:
+        return t(`sendToWallet.connectedWallets`);
+      case navigationRoutes.languages:
+        return t(`language.title`);
       case navigationRoutes.transactionHistory:
         return t(`header.transactionHistory`);
       case navigationRoutes.fromToken: {
@@ -96,9 +108,7 @@ export const NavigationHeader: React.FC = () => {
         ) : null}
         {splitSubvariant ? (
           <Box flex={1}>
-            {!hiddenUI?.includes(HiddenUI.WalletMenu) ? (
-              <WalletMenuButton />
-            ) : null}
+            <SplitWalletMenuButton />
           </Box>
         ) : (
           <Typography
@@ -115,36 +125,18 @@ export const NavigationHeader: React.FC = () => {
           <Route
             path={navigationRoutes.home}
             element={
-              <>
-                {account.isActive && !hiddenUI?.includes(HiddenUI.History) ? (
-                  <Tooltip
-                    title={t(`header.transactionHistory`)}
-                    enterDelay={400}
-                    arrow
-                  >
-                    <IconButton
-                      size="medium"
-                      edge="start"
-                      onClick={() =>
-                        navigate(navigationRoutes.transactionHistory)
-                      }
-                    >
-                      <ReceiptLongIcon />
-                    </IconButton>
-                  </Tooltip>
+              <HeaderControlsContainer>
+                {account.isConnected &&
+                !hiddenUI?.includes(HiddenUI.History) ? (
+                  <TransactionHistoryButton />
                 ) : null}
-                <Tooltip title={t(`header.settings`)} enterDelay={400} arrow>
-                  <IconButton
-                    size="medium"
-                    onClick={() => navigate(navigationRoutes.settings)}
-                    sx={{
-                      marginRight: -1.25,
-                    }}
-                  >
-                    <SettingsIcon />
-                  </IconButton>
-                </Tooltip>
-              </>
+                <SettingsButton />
+                {variant === 'drawer' &&
+                subvariant === 'split' &&
+                !hiddenUI?.includes(HiddenUI.DrawerCloseButton) ? (
+                  <CloseDrawerButton />
+                ) : null}
+              </HeaderControlsContainer>
             }
           />
           <Route path="*" element={element || <Box width={28} height={40} />} />

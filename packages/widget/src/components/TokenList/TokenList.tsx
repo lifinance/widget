@@ -1,14 +1,13 @@
 import { Box } from '@mui/material';
 import type { FC } from 'react';
 import { useRef } from 'react';
-import { useWatch } from 'react-hook-form';
 import {
   useChain,
   useDebouncedWatch,
   useTokenBalances,
   useTokenSearch,
 } from '../../hooks';
-import { FormKey, FormKeyHelper, useWallet } from '../../providers';
+import { FormKeyHelper, useFieldValues } from '../../stores';
 import type { TokenAmount } from '../../types';
 import { TokenNotFound } from './TokenNotFound';
 import { VirtualizedTokenList } from './VirtualizedTokenList';
@@ -21,13 +20,10 @@ export const TokenList: FC<TokenListProps> = ({
   onClick,
 }) => {
   const parentRef = useRef<HTMLUListElement | null>(null);
-  const { account } = useWallet();
-  const [selectedChainId] = useWatch({
-    name: [FormKeyHelper.getChainKey(formType)],
-  });
+  const [selectedChainId] = useFieldValues(FormKeyHelper.getChainKey(formType));
   const [tokenSearchFilter]: string[] = useDebouncedWatch(
-    [FormKey.TokenSearchFilter],
     320,
+    'tokenSearchFilter',
   );
 
   const { chain, isLoading: isChainLoading } = useChain(selectedChainId);
@@ -43,7 +39,8 @@ export const TokenList: FC<TokenListProps> = ({
   let filteredTokens = (tokensWithBalance ??
     chainTokens ??
     []) as TokenAmount[];
-  const searchFilter = tokenSearchFilter?.toUpperCase() ?? '';
+  const normalizedSearchFilter = tokenSearchFilter?.replaceAll('$', '');
+  const searchFilter = normalizedSearchFilter?.toUpperCase() ?? '';
   filteredTokens = tokenSearchFilter
     ? filteredTokens.filter(
         (token) =>
@@ -60,7 +57,7 @@ export const TokenList: FC<TokenListProps> = ({
     !!selectedChainId;
 
   const { token: searchedToken, isLoading: isSearchedTokenLoading } =
-    useTokenSearch(selectedChainId, tokenSearchFilter, tokenSearchEnabled);
+    useTokenSearch(selectedChainId, normalizedSearchFilter, tokenSearchEnabled);
 
   const isLoading =
     isTokensLoading ||
@@ -70,8 +67,8 @@ export const TokenList: FC<TokenListProps> = ({
   const tokens = filteredTokens.length
     ? filteredTokens
     : searchedToken
-    ? [searchedToken]
-    : filteredTokens;
+      ? [searchedToken]
+      : filteredTokens;
 
   const handleTokenClick = useTokenSelect(formType, onClick);
 
@@ -88,7 +85,6 @@ export const TokenList: FC<TokenListProps> = ({
         chain={chain}
         isLoading={isLoading}
         isBalanceLoading={isBalanceLoading}
-        showBalance={account.isActive}
         showFeatured={!tokenSearchFilter}
         onClick={handleTokenClick}
       />

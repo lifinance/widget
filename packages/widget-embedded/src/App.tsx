@@ -1,25 +1,19 @@
 import { LiFiWidget } from '@lifi/widget';
 import { Box, CssBaseline } from '@mui/material';
-import { useState } from 'react';
 import type { NFTNetwork } from './components/NFTOpenSea';
 import {
   NFTOpenSea,
   NFTOpenSeaSecondary,
   openSeaContractTool,
 } from './components/NFTOpenSea';
-import { WidgetEvents } from './components/WidgetEvents';
 import { widgetConfig } from './config';
 import './index.css';
 
 export const App = () => {
-  const [searchParams] = useState(() =>
-    Object.fromEntries(new URLSearchParams(window?.location.search)),
-  );
   const pathnameParams = window.location.pathname.substring(1).split('/');
 
   return (
     <Box display="flex" height="100vh">
-      <WidgetEvents />
       <CssBaseline />
       <Box flex={1} margin="auto">
         <LiFiWidget
@@ -31,6 +25,13 @@ export const App = () => {
             />
           }
           contractSecondaryComponent={
+            <NFTOpenSeaSecondary
+              network={pathnameParams[0] as NFTNetwork}
+              contractAddress={pathnameParams[1]}
+              tokenId={pathnameParams[2]}
+            />
+          }
+          contractCompactComponent={
             <NFTOpenSeaSecondary
               network={pathnameParams[0] as NFTNetwork}
               contractAddress={pathnameParams[1]}

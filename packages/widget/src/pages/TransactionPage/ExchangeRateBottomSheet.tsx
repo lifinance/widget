@@ -1,7 +1,6 @@
 import type { ExchangeRateUpdateParams } from '@lifi/sdk';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import { Box, Button, Typography } from '@mui/material';
-import Big from 'big.js';
 import type { MutableRefObject } from 'react';
 import {
   forwardRef,
@@ -97,7 +96,18 @@ const ExchangeRateBottomSheetContent: React.FC<
   const ref = useRef<HTMLElement>();
   useSetContentHeight(ref);
 
-  const oldAmount = Big(data?.oldToAmount || 1);
+  if (!data) {
+    return;
+  }
+
+  const oldAmount = BigInt(data.oldToAmount || 1);
+  const rateChange = (
+    (Number((BigInt(data.newToAmount || 0) * 1_000_000n) / oldAmount) /
+      1_000_000) *
+      100 -
+    100
+  ).toFixed(2);
+
   return (
     <Box p={3} ref={ref}>
       <CenterContainer>
@@ -114,8 +124,8 @@ const ExchangeRateBottomSheetContent: React.FC<
         <Typography fontWeight={600}>
           {t('format.number', {
             value: formatTokenAmount(
-              data?.oldToAmount,
-              data?.toToken.decimals,
+              BigInt(data.oldToAmount),
+              data.toToken.decimals,
               5,
             ),
           })}{' '}
@@ -127,7 +137,7 @@ const ExchangeRateBottomSheetContent: React.FC<
         <Typography fontWeight={600}>
           {t('format.number', {
             value: formatTokenAmount(
-              data?.newToAmount,
+              BigInt(data?.newToAmount),
               data?.toToken.decimals,
               5,
             ),
@@ -137,15 +147,7 @@ const ExchangeRateBottomSheetContent: React.FC<
       </Box>
       <Box display="flex" justifyContent="space-between" mt={0.25}>
         <Typography>{t('main.rateChange')}</Typography>
-        <Typography fontWeight={600}>
-          {Big(data?.newToAmount || 0)
-            .div(oldAmount.eq(0) ? Big(1) : oldAmount)
-            .minus(1)
-            .mul(100)
-            .round(2, Big.roundUp)
-            .toString()}
-          %
-        </Typography>
+        <Typography fontWeight={600}>{rateChange}%</Typography>
       </Box>
       <Box display="flex" mt={3}>
         <Button variant="text" onClick={onCancel} fullWidth>

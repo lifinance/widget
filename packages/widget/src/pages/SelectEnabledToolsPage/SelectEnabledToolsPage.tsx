@@ -1,22 +1,54 @@
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import CheckIcon from '@mui/icons-material/Check';
 import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
 import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
 import {
   Avatar,
-  Container,
   IconButton,
   List,
   ListItemAvatar,
+  Tooltip,
 } from '@mui/material';
-import { useHeaderStore } from '../../components/Header';
-
+import type { MouseEventHandler } from 'react';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { shallow } from 'zustand/shallow';
 import { ListItemText } from '../../components/ListItemText';
+import { PageContainer } from '../../components/PageContainer';
+import { SettingsListItemButton } from '../../components/SettingsListItemButton';
 import { useTools } from '../../hooks';
-import { useSettingsStore } from '../../stores';
-import { ListItemButton } from './SelectEnabledToolsPage.style';
+import { useHeaderStoreContext, useSettingsStore } from '../../stores';
+
+interface SelectAllCheckboxProps {
+  allCheckboxesSelected: boolean;
+  onClick: MouseEventHandler;
+  anyCheckboxesSelected: boolean;
+}
+
+const SelectAllCheckbox: React.FC<SelectAllCheckboxProps> = ({
+  allCheckboxesSelected,
+  anyCheckboxesSelected,
+  onClick,
+}) => {
+  const { t } = useTranslation();
+  const tooltipTitle = allCheckboxesSelected
+    ? t('tooltip.deselectAll')
+    : t('tooltip.selectAll');
+
+  return (
+    <Tooltip title={tooltipTitle} arrow>
+      <IconButton size="medium" edge="end" onClick={onClick}>
+        {allCheckboxesSelected ? (
+          <CheckBoxOutlinedIcon />
+        ) : anyCheckboxesSelected ? (
+          <IndeterminateCheckBoxOutlinedIcon />
+        ) : (
+          <CheckBoxOutlineBlankOutlinedIcon />
+        )}
+      </IconButton>
+    </Tooltip>
+  );
+};
 
 export const SelectEnabledToolsPage: React.FC<{
   type: 'Bridges' | 'Exchanges';
@@ -27,6 +59,7 @@ export const SelectEnabledToolsPage: React.FC<{
     (state) => [state[`enabled${type}`], state.setTools],
     shallow,
   );
+  const headerStoreContext = useHeaderStoreContext();
 
   const handleClick = (key: string) => {
     if (!tools) {
@@ -57,21 +90,20 @@ export const SelectEnabledToolsPage: React.FC<{
         setTools(type, toolKeys, toolKeys);
       }
     };
-    return useHeaderStore.getState().setAction(
-      <IconButton size="medium" edge="end" onClick={toggleCheckboxes}>
-        {allToolsSelected ? (
-          <CheckBoxOutlinedIcon />
-        ) : enabledTools.length ? (
-          <IndeterminateCheckBoxOutlinedIcon />
-        ) : (
-          <CheckBoxOutlineBlankOutlinedIcon />
-        )}
-      </IconButton>,
-    );
-  }, [enabledTools.length, setTools, tools, type, typeKey]);
+
+    return headerStoreContext
+      .getState()
+      .setAction(
+        <SelectAllCheckbox
+          allCheckboxesSelected={allToolsSelected}
+          anyCheckboxesSelected={!!enabledTools.length}
+          onClick={toggleCheckboxes}
+        />,
+      );
+  }, [enabledTools.length, headerStoreContext, setTools, tools, type, typeKey]);
 
   return (
-    <Container disableGutters>
+    <PageContainer disableGutters>
       <List
         sx={{
           paddingLeft: 1.5,
@@ -79,21 +111,20 @@ export const SelectEnabledToolsPage: React.FC<{
         }}
       >
         {tools?.[typeKey].map((tool) => (
-          <ListItemButton key={tool.name} onClick={() => handleClick(tool.key)}>
+          <SettingsListItemButton
+            key={tool.name}
+            onClick={() => handleClick(tool.key)}
+          >
             <ListItemAvatar>
               <Avatar src={tool.logoURI} alt={tool.name}>
                 {tool.name[0]}
               </Avatar>
             </ListItemAvatar>
             <ListItemText primary={tool.name} />
-            {enabledTools?.includes(tool.key) ? (
-              <CheckBoxIcon color="primary" />
-            ) : (
-              <CheckBoxOutlineBlankOutlinedIcon />
-            )}
-          </ListItemButton>
+            {enabledTools?.includes(tool.key) && <CheckIcon color="primary" />}
+          </SettingsListItemButton>
         ))}
       </List>
-    </Container>
+    </PageContainer>
   );
 };

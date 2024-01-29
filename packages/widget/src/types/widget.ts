@@ -1,10 +1,9 @@
-import type { Signer } from '@ethersproject/abstract-signer';
 import type {
   BaseToken,
-  ChainKey,
-  ConfigUpdate,
+  ChainType,
   Order,
   RouteOptions,
+  SDKConfig,
   StaticToken,
   Token,
 } from '@lifi/sdk';
@@ -16,8 +15,13 @@ import type {
   Theme,
 } from '@mui/material';
 import type { TypographyOptions } from '@mui/material/styles/createTypography';
+import type {
+  CoinbaseWalletParameters,
+  WalletConnectParameters,
+} from '@wagmi/connectors';
 import type { CSSProperties, ReactNode, RefObject } from 'react';
 import type { LanguageKey, LanguageResources } from '../providers';
+import type { SplitSubvariantOptions } from '../stores';
 
 export type WidgetVariant = 'default' | 'expandable' | 'drawer';
 
@@ -34,6 +38,7 @@ export type DisabledUIType = `${DisabledUI}`;
 export enum HiddenUI {
   Appearance = 'appearance',
   DrawerButton = 'drawerButton',
+  DrawerCloseButton = 'drawerCloseButton',
   History = 'history',
   Language = 'language',
   PoweredBy = 'poweredBy',
@@ -59,27 +64,27 @@ export type ThemeConfig = {
   components?: Pick<Components<Omit<Theme, 'components'>>, 'MuiAvatar'>;
 };
 
-export interface WidgetWalletManagement {
-  connect(): Promise<Signer>;
-  disconnect(): Promise<void>;
-  switchChain?(chainId: number): Promise<Signer>;
-  addToken?(token: StaticToken, chainId: number): Promise<void>;
-  addChain?(chainId: number): Promise<boolean>;
-  signer?: Signer;
+export interface WidgetWalletConfig {
+  onConnect(): void;
+  walletConnect?: WalletConnectParameters;
+  coinbase?: CoinbaseWalletParameters;
 }
 
-export interface SDKConfig
+export interface AllowDeny<T> {
+  allow?: T[];
+  deny?: T[];
+}
+
+export interface WidgetSDKConfig
   extends Omit<
-    ConfigUpdate,
-    | 'defaultExecutionSettings'
-    | 'defaultRouteOptions'
+    SDKConfig,
+    | 'apiKey'
     | 'disableVersionCheck'
     | 'integrator'
+    | 'routeOptions'
+    | 'widgetVersion'
   > {
-  defaultRouteOptions?: Omit<
-    RouteOptions,
-    'bridges' | 'exchanges' | 'insurance'
-  >;
+  routeOptions?: Omit<RouteOptions, 'bridges' | 'exchanges' | 'insurance'>;
 }
 
 export interface WidgetContractTool {
@@ -97,8 +102,8 @@ export interface WidgetContract {
 }
 
 export interface WidgetConfig {
-  fromChain?: `${ChainKey}` | number;
-  toChain?: `${ChainKey}` | number;
+  fromChain?: number;
+  toChain?: number;
   fromToken?: string;
   toToken?: string;
   toAddress?: string;
@@ -111,8 +116,9 @@ export interface WidgetConfig {
   contractCompactComponent?: ReactNode;
   contractTool?: WidgetContractTool;
 
-  fee?: number;
   integrator: string;
+  apiKey?: string;
+  fee?: number;
   referrer?: string;
 
   routePriority?: Order;
@@ -121,6 +127,7 @@ export interface WidgetConfig {
 
   variant?: WidgetVariant;
   subvariant?: WidgetSubvariant;
+  subvariantOptions?: SplitSubvariantOptions;
 
   appearance?: Appearance;
   theme?: ThemeConfig;
@@ -131,42 +138,36 @@ export interface WidgetConfig {
   requiredUI?: RequiredUIType[];
   useRecommendedRoute?: boolean;
 
-  walletManagement?: WidgetWalletManagement;
-  sdkConfig?: SDKConfig;
+  walletConfig?: WidgetWalletConfig;
+  sdkConfig?: WidgetSDKConfig;
 
   buildUrl?: boolean;
-  localStorageKeyPrefix?: string;
+  keyPrefix?: string;
 
-  bridges?: {
-    allow?: string[];
-    deny?: string[];
-  };
-  exchanges?: {
-    allow?: string[];
-    deny?: string[];
-  };
+  bridges?: AllowDeny<string>;
+  exchanges?: AllowDeny<string>;
   chains?: {
-    allow?: number[];
-    deny?: number[];
-  };
+    from?: AllowDeny<number>;
+    to?: AllowDeny<number>;
+    types?: AllowDeny<ChainType>;
+  } & AllowDeny<number>;
   tokens?: {
     featured?: StaticToken[];
     include?: Token[];
-    allow?: BaseToken[];
-    deny?: BaseToken[];
-  };
+  } & AllowDeny<BaseToken>;
   languages?: {
     default?: LanguageKey;
-    allow?: LanguageKey[];
-    deny?: LanguageKey[];
-  };
+  } & AllowDeny<LanguageKey>;
   languageResources?: LanguageResources;
-  disableLanguageDetector?: boolean;
 }
 
 export type WidgetDrawerProps = {
   elementRef?: RefObject<HTMLDivElement>;
   open?: boolean;
+  /**
+   * Make sure to make the onClose callback stable (e.g. using useCallback) to avoid causing re-renders of the entire widget
+   */
+  onClose?(): void;
 };
 
 export interface WidgetConfigProps {

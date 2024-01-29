@@ -1,8 +1,8 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { App } from './App';
-import { WalletProvider } from './providers/WalletProvider';
 import { reportWebVitals } from './reportWebVitals';
 
 const rootElement = document.getElementById('root');
@@ -12,15 +12,35 @@ if (!rootElement) {
 
 const root = createRoot(rootElement);
 
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      enabled: true,
+      refetchInterval: false,
+      refetchIntervalInBackground: false,
+      refetchOnWindowFocus: true,
+      refetchOnReconnect: true,
+      refetchOnMount: true,
+      retryOnMount: true,
+      // suspense: true,
+    },
+    mutations: {
+      onError: (error) => {
+        //
+      },
+    },
+  },
+});
+
 root.render(
   <React.StrictMode>
-    <WalletProvider>
+    <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
           <Route path="/*" element={<App />} />
         </Routes>
       </BrowserRouter>
-    </WalletProvider>
+    </QueryClientProvider>
   </React.StrictMode>,
 );
 
@@ -28,5 +48,6 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 if (import.meta.env.DEV) {
+  // eslint-disable-next-line no-console
   reportWebVitals(console.log);
 }

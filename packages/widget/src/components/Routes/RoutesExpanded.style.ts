@@ -1,5 +1,5 @@
 import { Box, ScopedCssBaseline } from '@mui/material';
-import { alpha, styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import { maxHeight } from '../AppContainer';
 
 export const CollapseContainer = styled(Box)(({ theme }) => ({
@@ -27,7 +27,7 @@ export const Container = styled(ScopedCssBaseline)(({ theme }) => ({
 }));
 
 export const Header = styled(Box)(({ theme }) => ({
-  backgroundColor: alpha(theme.palette.background.default, 0.84),
+  backgroundColor: theme.palette.background.default,
   backdropFilter: 'blur(12px)',
   display: 'flex',
   justifyContent: 'space-between',

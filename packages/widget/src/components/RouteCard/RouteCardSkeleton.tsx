@@ -2,6 +2,7 @@ import type { BoxProps } from '@mui/material';
 import { Box, Skeleton } from '@mui/material';
 import { useWidgetConfig } from '../../providers';
 import { Card } from '../Card';
+import { TokenSkeleton } from '../Token';
 import type { RouteCardSkeletonProps } from './types';
 
 export const RouteCardSkeleton: React.FC<RouteCardSkeletonProps & BoxProps> = ({
@@ -24,28 +25,10 @@ export const RouteCardSkeleton: React.FC<RouteCardSkeletonProps & BoxProps> = ({
           />
         </Box>
       ) : null}
-      <Box>
-        <Box display="flex" alignItems="center">
-          <Box mr={2}>
-            <Skeleton variant="circular" width={32} height={32} />
-          </Box>
-          <Skeleton variant="text" width={96} height={32} />
-        </Box>
-        <Box ml={6} display="flex" alignItems="center">
-          <Skeleton variant="text" width={102} height={16} />
-          <Skeleton
-            variant="text"
-            width={72}
-            height={16}
-            sx={{ marginLeft: 1 }}
-          />
-        </Box>
-      </Box>
+      <TokenSkeleton />
       <Box mt={2} display="flex" justifyContent="space-between">
         <Skeleton variant="text" width={64} height={20} />
-        <Skeleton variant="text" width={64} height={20} />
-        <Skeleton variant="text" width={48} height={20} />
-        <Skeleton variant="text" width={32} height={20} />
+        <Skeleton variant="text" width={56} height={20} />
       </Box>
     </Box>
   );

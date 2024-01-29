@@ -7,7 +7,7 @@ export interface NFTBaseProps {
   assetName?: string;
   isLoading?: boolean;
   owner?: NFTOwner;
-  token?: TokenAmount;
+  token: TokenAmount;
 }
 
 export interface NFTProps extends NFTBaseProps {

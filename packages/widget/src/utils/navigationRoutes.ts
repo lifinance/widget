@@ -5,8 +5,9 @@ export const navigationRoutes = {
   exchanges: 'exchanges',
   fromChain: 'from-chain',
   fromToken: 'from-token',
+  languages: 'languages',
   routes: 'routes',
-  selectWallet: 'wallet',
+  selectWallet: 'select-wallet',
   settings: 'settings',
   toChain: 'to-chain',
   toToken: 'to-token',
@@ -14,6 +15,10 @@ export const navigationRoutes = {
   transactionDetails: 'transaction-details',
   transactionExecution: 'transaction-execution',
   transactionHistory: 'transaction-history',
+  sendToWallet: 'send-to-wallet',
+  bookmarks: 'bookmarks',
+  recentWallets: 'recent-wallets',
+  connectedWallets: 'connected-wallets',
 };
 
 export const navigationRoutesValues = Object.values(navigationRoutes);
@@ -32,12 +37,17 @@ export const stickyHeaderRoutes = [
   navigationRoutes.transactionDetails,
   navigationRoutes.transactionExecution,
   navigationRoutes.transactionHistory,
+  navigationRoutes.sendToWallet,
+  navigationRoutes.bookmarks,
+  navigationRoutes.recentWallets,
+  navigationRoutes.connectedWallets,
 ];
 
 export const backButtonRoutes = [
   navigationRoutes.activeTransactions,
   navigationRoutes.bridges,
   navigationRoutes.exchanges,
+  navigationRoutes.languages,
   navigationRoutes.fromChain,
   navigationRoutes.fromToken,
   navigationRoutes.routes,
@@ -49,6 +59,10 @@ export const backButtonRoutes = [
   navigationRoutes.transactionDetails,
   navigationRoutes.transactionExecution,
   navigationRoutes.transactionHistory,
+  navigationRoutes.sendToWallet,
+  navigationRoutes.bookmarks,
+  navigationRoutes.recentWallets,
+  navigationRoutes.connectedWallets,
 ];
 
 export type NavigationRouteType = keyof typeof navigationRoutes;

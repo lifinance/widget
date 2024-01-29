@@ -1,6 +1,5 @@
 import type { BoxProps } from '@mui/material';
 import { Box, Button, Collapse } from '@mui/material';
-import { useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useRoutes } from '../../hooks';
@@ -14,7 +13,6 @@ export const Routes: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { subvariant, useRecommendedRoute } = useWidgetConfig();
-  const { isValid, isValidating } = useFormState();
   const {
     routes,
     isLoading,
@@ -67,11 +65,7 @@ export const Routes: React.FC<BoxProps> = (props) => {
 
         <Collapse timeout={225} in={showAll} unmountOnExit mountOnEnter appear>
           <Box mt={2}>
-            <Button
-              onClick={handleCardClick}
-              disabled={isValidating || !isValid}
-              fullWidth
-            >
+            <Button onClick={handleCardClick} fullWidth>
               {t('button.showAll')}
             </Button>
           </Box>

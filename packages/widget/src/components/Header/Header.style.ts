@@ -1,6 +1,7 @@
-import { AppBar, Box, Button } from '@mui/material';
+import { AppBar, Box, Button, badgeClasses } from '@mui/material';
 import { buttonClasses } from '@mui/material/Button';
 import { alpha, styled } from '@mui/material/styles';
+import { Tabs } from '../Tabs';
 
 export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: 'transparent',
@@ -19,7 +20,7 @@ export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
 export const Container = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'sticky',
 })<{ sticky?: boolean }>(({ theme, sticky }) => ({
-  backgroundColor: alpha(theme.palette.background.default, 0.84),
+  backgroundColor: theme.palette.background.default,
   backdropFilter: 'blur(12px)',
   position: sticky ? 'sticky' : 'relative',
   top: 0,
@@ -46,4 +47,38 @@ export const WalletButton = styled(Button)(({ theme }) => ({
   [`.${buttonClasses.startIcon} > *:nth-of-type(1)`]: {
     fontSize: '24px',
   },
+  [`&:hover .${badgeClasses.badge} > div`]: {
+    borderColor:
+      theme.palette.mode === 'light'
+        ? alpha(theme.palette.common.black, 0.04)
+        : alpha(theme.palette.common.white, 0.08),
+  },
+}));
+
+export const DrawerWalletContainer = styled(Box)(({ theme }) => ({
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'space-between',
+
+  '& button:first-of-type': {
+    marginLeft: theme.spacing(-1),
+  },
+  '& button:last-of-type': {
+    marginRight: theme.spacing(-1.25),
+  },
+}));
+
+export const HeaderControlsContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  gap: theme.spacing(0.5),
+  '& button:last-of-type': {
+    marginRight: theme.spacing(-1.25),
+  },
+}));
+
+export const SplitTabs = styled(Tabs)(({ theme }) => ({
+  backgroundColor:
+    theme.palette.mode === 'dark'
+      ? theme.palette.background.paper
+      : alpha(theme.palette.common.black, 0.04),
 }));

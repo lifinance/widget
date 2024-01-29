@@ -1,24 +1,24 @@
 import type { BoxProps, Theme } from '@mui/material';
-import { Box, useMediaQuery } from '@mui/material';
-import { useWatch } from 'react-hook-form';
+import { Box } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { ReverseTokensButton } from '../components/ReverseTokensButton';
 import { SelectTokenButton } from '../components/SelectTokenButton';
-import { FormKey, useWidgetConfig } from '../providers';
+import { useWidgetConfig } from '../providers';
 import { DisabledUI, HiddenUI } from '../types';
+import { useFieldValues } from '../stores/form';
 
 export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
   const prefersNarrowView = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('sm'),
   );
   const { disabledUI, hiddenUI, subvariant } = useWidgetConfig();
-  const [fromChain, toChain, fromToken, toToken] = useWatch({
-    name: [
-      FormKey.FromChain,
-      FormKey.ToChain,
-      FormKey.FromToken,
-      FormKey.ToToken,
-    ],
-  });
+
+  const [fromChain, toChain, fromToken, toToken] = useFieldValues(
+    'fromChain',
+    'toChain',
+    'fromToken',
+    'toToken',
+  );
 
   const hiddenReverse =
     subvariant === 'refuel' ||
@@ -30,12 +30,13 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
     subvariant === 'nft' || hiddenUI?.includes(HiddenUI.ToToken);
 
   const isCompact =
-    fromChain &&
-    toChain &&
-    fromToken &&
-    toToken &&
+    !!fromChain &&
+    !!toChain &&
+    !!fromToken &&
+    !!toToken &&
     !prefersNarrowView &&
     !hiddenToToken;
+
   return (
     <Box
       sx={{ display: 'flex', flexDirection: isCompact ? 'row' : 'column' }}

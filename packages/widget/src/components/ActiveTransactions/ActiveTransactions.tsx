@@ -2,7 +2,6 @@ import type { BoxProps } from '@mui/material';
 import { Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useWallet } from '../../providers';
 import { useExecutingRoutesIds } from '../../stores';
 import { navigationRoutes } from '../../utils';
 import { Card, CardTitle } from '../Card';
@@ -12,8 +11,7 @@ import { ShowAllButton } from './ActiveTransactions.style';
 export const ActiveTransactions: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { account } = useWallet();
-  const executingRoutes = useExecutingRoutesIds(account.address);
+  const executingRoutes = useExecutingRoutesIds();
 
   if (!executingRoutes?.length) {
     return null;

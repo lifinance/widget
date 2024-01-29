@@ -2,15 +2,20 @@ import type { Token } from '@lifi/sdk';
 import type { BoxProps } from '@mui/material';
 import type { ChangeEvent, ReactNode } from 'react';
 import { useLayoutEffect, useRef } from 'react';
-import { useController, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useToken } from '../../hooks';
-import type { FormTypeProps } from '../../providers';
-import { FormKeyHelper, useWidgetConfig } from '../../providers';
+import { useWidgetConfig } from '../../providers';
+import type { FormTypeProps } from '../../stores';
+import {
+  FormKeyHelper,
+  useFieldController,
+  useFieldValues,
+} from '../../stores';
 import { DisabledUI } from '../../types';
 import { fitInputText, formatInputAmount } from '../../utils';
 import { Card, CardTitle } from '../Card';
 import {
+  FormContainer,
   FormControl,
   Input,
   maxInputFontSize,
@@ -18,30 +23,29 @@ import {
 } from './AmountInput.style';
 import { AmountInputEndAdornment } from './AmountInputEndAdornment';
 import { AmountInputStartAdornment } from './AmountInputStartAdornment';
-import { FormPriceHelperText } from './FormPriceHelperText';
+import { PriceFormHelperText } from './PriceFormHelperText';
 
 export const AmountInput: React.FC<FormTypeProps & BoxProps> = ({
   formType,
   ...props
 }) => {
   const { disabledUI } = useWidgetConfig();
-  const [chainId, tokenAddress] = useWatch({
-    name: [
-      FormKeyHelper.getChainKey(formType),
-      FormKeyHelper.getTokenKey(formType),
-    ],
-  });
+
+  const [chainId, tokenAddress] = useFieldValues(
+    FormKeyHelper.getChainKey(formType),
+    FormKeyHelper.getTokenKey(formType),
+  );
+
   const { token } = useToken(chainId, tokenAddress);
   const disabled = disabledUI?.includes(DisabledUI.FromAmount);
   return (
     <AmountInputBase
       formType={formType}
       token={token}
-      startAdornment={<AmountInputStartAdornment formType={formType} />}
       endAdornment={
         !disabled ? <AmountInputEndAdornment formType={formType} /> : undefined
       }
-      bottomAdornment={<FormPriceHelperText formType={formType} />}
+      bottomAdornment={<PriceFormHelperText formType={formType} />}
       disabled={disabled}
       {...props}
     />
@@ -67,13 +71,9 @@ export const AmountInputBase: React.FC<
   ...props
 }) => {
   const { t } = useTranslation();
-  const amountKey = FormKeyHelper.getAmountKey(formType);
-  const {
-    field: { onChange, onBlur, value },
-  } = useController({
-    name: amountKey,
-  });
   const ref = useRef<HTMLInputElement>(null);
+  const amountKey = FormKeyHelper.getAmountKey(formType);
+  const { onChange, onBlur, value } = useFieldController({ name: amountKey });
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -101,26 +101,29 @@ export const AmountInputBase: React.FC<
   return (
     <Card {...props}>
       <CardTitle>{t('main.fromAmount')}</CardTitle>
-      <FormControl fullWidth>
-        <Input
-          inputRef={ref}
-          size="small"
-          autoComplete="off"
-          placeholder="0"
-          startAdornment={startAdornment}
-          endAdornment={endAdornment}
-          inputProps={{
-            inputMode: 'decimal',
-          }}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={value}
-          name={amountKey}
-          disabled={disabled}
-          required
-        />
-        {bottomAdornment}
-      </FormControl>
+      <FormContainer>
+        <AmountInputStartAdornment formType={formType} />
+        <FormControl fullWidth>
+          <Input
+            inputRef={ref}
+            size="small"
+            autoComplete="off"
+            placeholder="0"
+            startAdornment={startAdornment}
+            endAdornment={endAdornment}
+            inputProps={{
+              inputMode: 'decimal',
+            }}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={value}
+            name={amountKey}
+            disabled={disabled}
+            required
+          />
+          {bottomAdornment}
+        </FormControl>
+      </FormContainer>
     </Card>
   );
 };

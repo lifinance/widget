@@ -4,15 +4,17 @@
     "composite": true,
     "declaration": true,
     "noEmit": false,
-    "outDir": "build",
+    "sourceMap": true,
+    "outDir": "dist/_esm",
     "rootDir": "./src",
-    "baseUrl": "../../"
   },
   "include": [
     "./src/**/*",
-    "./src/**/*.json"
+    "./src/**/*.json",
   ],
   "references": [
-    { "path": "../wallet-management" },
+    {
+      "path": "../wallet-management"
+    },
   ]
 }

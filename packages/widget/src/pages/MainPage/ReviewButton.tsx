@@ -1,20 +1,23 @@
-import { useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { DefaultTransactionButton } from '../../components/DefaultTransactionButton';
-import { useRoutes } from '../../hooks';
+import { BaseTransactionButton } from '../../components/BaseTransactionButton';
+import { useToAddressRequirements, useRoutes } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
-import { useSetExecutableRoute, useSplitSubvariantStore } from '../../stores';
+import {
+  useSetExecutableRoute,
+  useSplitSubvariantStore,
+  useFieldValues,
+} from '../../stores';
 import { navigationRoutes } from '../../utils';
 
 export const ReviewButton: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { isValid, isValidating } = useFormState();
   const setExecutableRoute = useSetExecutableRoute();
   const { subvariant } = useWidgetConfig();
   const splitState = useSplitSubvariantStore((state) => state.state);
-
+  const [toAddress] = useFieldValues('toAddress');
+  const { requiredToAddress } = useToAddressRequirements();
   const { routes } = useRoutes();
 
   const currentRoute = routes?.[0];
@@ -28,7 +31,7 @@ export const ReviewButton: React.FC = () => {
     }
   };
 
-  const getButtonText = () => {
+  const getButtonText = (): string => {
     if (currentRoute) {
       switch (subvariant) {
         case 'nft':
@@ -60,10 +63,10 @@ export const ReviewButton: React.FC = () => {
   };
 
   return (
-    <DefaultTransactionButton
+    <BaseTransactionButton
       text={getButtonText()}
       onClick={handleClick}
-      disabled={currentRoute && (isValidating || !isValid)}
+      disabled={currentRoute && requiredToAddress && !toAddress}
     />
   );
 };

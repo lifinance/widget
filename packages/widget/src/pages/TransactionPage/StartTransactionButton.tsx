@@ -1,5 +1,9 @@
-import { DefaultTransactionButton } from '../../components/DefaultTransactionButton';
-import { useFundsSufficiency, useGasSufficiency, useRoutes } from '../../hooks';
+import { BaseTransactionButton } from '../../components/BaseTransactionButton';
+import {
+  useFromTokenSufficiency,
+  useGasSufficiency,
+  useRoutes,
+} from '../../hooks';
 import { useRouteExecutionStore } from '../../stores';
 import type { StartTransactionButtonProps } from './types';
 
@@ -9,17 +13,22 @@ export const StartTransactionButton: React.FC<StartTransactionButtonProps> = ({
   text,
   loading,
 }) => {
-  const { insufficientGas, isInitialLoading: isGasSufficiencyLoading } =
+  const { insufficientGas, isLoading: isGasSufficiencyLoading } =
     useGasSufficiency(route);
-  const { insufficientFunds, isInitialLoading: isFundsSufficiencyLoading } =
-    useFundsSufficiency(route);
+  const { insufficientFromToken, isLoading: isFromTokenSufficiencyLoading } =
+    useFromTokenSufficiency(route);
+
+  const shouldDisableButton =
+    insufficientFromToken || !!insufficientGas?.length;
 
   return (
-    <DefaultTransactionButton
+    <BaseTransactionButton
       onClick={onClick}
       text={text}
-      disabled={insufficientFunds || !!insufficientGas?.length}
-      loading={isFundsSufficiencyLoading || isGasSufficiencyLoading || loading}
+      disabled={shouldDisableButton}
+      loading={
+        isFromTokenSufficiencyLoading || isGasSufficiencyLoading || loading
+      }
     />
   );
 };

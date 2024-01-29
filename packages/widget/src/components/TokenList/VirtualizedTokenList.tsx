@@ -3,6 +3,7 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import type { FC } from 'react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAccount } from '../../hooks';
 import { TokenListItem, TokenListItemSkeleton } from './TokenListItem';
 import type { VirtualizedTokenListProps } from './types';
 
@@ -14,10 +15,10 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   chain,
   isLoading,
   isBalanceLoading,
-  showBalance,
   showFeatured,
   onClick,
 }) => {
+  const { account } = useAccount({ chainType: chain?.chainType });
   const { t } = useTranslation();
 
   const hasFeaturedTokens = !!featuredTokensLength && showFeatured;
@@ -26,9 +27,9 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
 
   const { getVirtualItems, getTotalSize, scrollToIndex } = useVirtualizer({
     count: tokens.length,
-    getScrollElement: () => scrollElementRef.current,
     overscan: 10,
     paddingEnd: 12,
+    getScrollElement: () => scrollElementRef.current,
     estimateSize: (index) => {
       // heigth of TokenListItem
       let size = 64;
@@ -53,6 +54,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   });
 
   useEffect(() => {
+    // Scroll to the top of the list when switching the chains
     if (getVirtualItems().length) {
       scrollToIndex(0, { align: 'start' });
     }
@@ -82,7 +84,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
             token={token}
             chain={chain}
             isBalanceLoading={isBalanceLoading}
-            showBalance={showBalance}
+            showBalance={account.isConnected}
             startAdornment={
               hasFeaturedTokens && token.featured && item.index === 0 ? (
                 <Typography

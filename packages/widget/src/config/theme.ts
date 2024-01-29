@@ -1,4 +1,5 @@
 import { loadingButtonClasses } from '@mui/lab/LoadingButton';
+import type {} from '@mui/lab/themeAugmentation';
 import type { PaletteMode, SimplePaletteColorOptions } from '@mui/material';
 import { touchRippleClasses } from '@mui/material/ButtonBase';
 import { dialogActionsClasses } from '@mui/material/DialogActions';
@@ -6,6 +7,7 @@ import { common } from '@mui/material/colors';
 import {
   alpha,
   createTheme as createMuiTheme,
+  css,
   darken,
   getContrastRatio,
   keyframes,
@@ -14,15 +16,6 @@ import {
 import type { ThemeConfig } from '../types';
 
 // https://mui.com/customization/palette/
-// declare module '@mui/material/styles' {
-//   interface Palette {
-//     appBar: Palette['primary'];
-//   }
-//   interface PaletteOptions {
-//     appBar?: PaletteOptions['primary'];
-//   }
-// }
-
 declare module '@mui/material/styles' {
   interface TypographyVariants {
     '@supports (font-variation-settings: normal)': React.CSSProperties;
@@ -183,17 +176,15 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
       },
       MuiButtonBase: {
         styleOverrides: {
-          root: {
-            [`& .${touchRippleClasses.ripple}.${touchRippleClasses.rippleVisible}`]:
-              {
-                animationName: `${enterKeyframe}`,
-              },
-            [`& .${touchRippleClasses.ripple}.${touchRippleClasses.rippleVisible}`]:
-              {
-                opacity: 0.1,
-                animationName: `${enterKeyframe}`,
-              },
-          },
+          // This `css()` function invokes keyframes. `styled-components` only supports keyframes
+          // in string templates. Do not convert these styles in JS object as it will break.
+          root: css`
+            &
+              .${touchRippleClasses.ripple}.${touchRippleClasses.rippleVisible} {
+              opacity: 0.1;
+              animation-name: ${enterKeyframe};
+            }
+          `,
         },
       },
       MuiButton: {
@@ -268,18 +259,11 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
       MuiAvatar: {
         styleOverrides: {
           root: {
-            height: 32,
-            width: 32,
+            height: 40,
+            width: 40,
           },
         },
         ...theme.components?.MuiAvatar,
-      },
-      MuiListItemAvatar: {
-        styleOverrides: {
-          root: {
-            minWidth: 48,
-          },
-        },
       },
       MuiListItemText: {
         styleOverrides: {

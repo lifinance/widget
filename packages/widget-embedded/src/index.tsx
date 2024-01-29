@@ -15,7 +15,6 @@ export const queryClient = new QueryClient({
     queries: {
       enabled: true,
       staleTime: 3_600_000,
-      cacheTime: Infinity,
       refetchInterval: false,
       refetchIntervalInBackground: false,
       refetchOnWindowFocus: true,
@@ -23,9 +22,6 @@ export const queryClient = new QueryClient({
       refetchOnMount: true,
       retryOnMount: true,
       // suspense: true,
-      onError: (error) => {
-        //
-      },
     },
     mutations: {
       onError: (error) => {
@@ -51,5 +47,6 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 if (import.meta.env.DEV) {
+  // eslint-disable-next-line no-console
   reportWebVitals(console.log);
 }

@@ -1,4 +1,4 @@
-import type { LifiStep } from '@lifi/sdk';
+import type { LiFiStepExtended } from '@lifi/sdk';
 import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
 import WalletIcon from '@mui/icons-material/Wallet';
 import { Box, Link, Typography } from '@mui/material';
@@ -7,7 +7,7 @@ import { CircularIcon } from './CircularProgress.style';
 import { LinkButton } from './StepProcess.style';
 
 export const DestinationWalletAddress: React.FC<{
-  step: LifiStep;
+  step: LiFiStepExtended;
   toAddress: string;
   toAddressLink: string;
 }> = ({ step, toAddress, toAddressLink }) => {
@@ -26,7 +26,7 @@ export const DestinationWalletAddress: React.FC<{
             color={isDone ? 'success' : 'inherit'}
             sx={{
               position: 'absolute',
-              fontSize: '1rem',
+              fontSize: '1.25rem',
             }}
           />
         </CircularIcon>
@@ -40,8 +40,7 @@ export const DestinationWalletAddress: React.FC<{
               })}
         </Typography>
         <LinkButton
-          size="small"
-          edge="end"
+          size="medium"
           LinkComponent={Link}
           href={toAddressLink}
           target="_blank"

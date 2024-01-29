@@ -1,8 +1,9 @@
+/* eslint-disable no-console */
 import type { ExchangeRateUpdateParams, Route } from '@lifi/sdk';
+import { executeRoute, resumeRoute, updateRouteExecution } from '@lifi/sdk';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useRef } from 'react';
 import { shallow } from 'zustand/shallow';
-import { useLiFi, useWallet } from '../providers';
 import {
   getUpdatedProcess,
   isRouteActive,
@@ -12,6 +13,7 @@ import {
   useRouteExecutionStoreContext,
 } from '../stores';
 import { WidgetEvent } from '../types/events';
+import { useAccount } from './useAccount';
 import { useWidgetEvents } from './useWidgetEvents';
 
 interface RouteExecutionProps {
@@ -28,9 +30,8 @@ export const useRouteExecution = ({
   executeInBackground,
   onAcceptExchangeRateUpdate,
 }: RouteExecutionProps) => {
-  const lifi = useLiFi();
   const queryClient = useQueryClient();
-  const { account, switchChain } = useWallet();
+  const { account } = useAccount();
   const resumedAfterMount = useRef(false);
   const emitter = useWidgetEvents();
   const routeExecutionStoreContext = useRouteExecutionStoreContext();
@@ -57,6 +58,7 @@ export const useRouteExecution = ({
         process,
       });
     }
+
     if (isRouteDone(clonedUpdatedRoute)) {
       emitter.emit(WidgetEvent.RouteExecutionCompleted, clonedUpdatedRoute);
     }
@@ -67,21 +69,6 @@ export const useRouteExecution = ({
       });
     }
     console.log('Route updated.', clonedUpdatedRoute);
-  };
-
-  const switchChainHook = async (requiredChainId: number) => {
-    if (!account.isActive || !account.signer) {
-      return account.signer;
-    }
-    const currentChainId = await account.signer.getChainId();
-    if (currentChainId !== requiredChainId) {
-      const signer = await switchChain(requiredChainId);
-      if (!signer) {
-        throw new Error('Chain was not switched.');
-      }
-      return signer;
-    }
-    return account.signer;
   };
 
   const acceptExchangeRateUpdateHook = async (
@@ -98,61 +85,51 @@ export const useRouteExecution = ({
     return accepted;
   };
 
-  const executeRouteMutation = useMutation(
-    () => {
-      if (!account.signer) {
-        throw Error('Account signer not found.');
+  const executeRouteMutation = useMutation({
+    mutationFn: () => {
+      if (!account.isConnected) {
+        throw Error('Account is not connected.');
       }
       if (!routeExecution?.route) {
         throw Error('Execution route not found.');
       }
-      queryClient.removeQueries(['routes'], { exact: false });
-      return lifi.executeRoute(account.signer, routeExecution.route, {
+      queryClient.removeQueries({ queryKey: ['routes'], exact: false });
+      return executeRoute(routeExecution.route, {
         updateRouteHook,
-        switchChainHook,
         acceptExchangeRateUpdateHook,
         infiniteApproval: false,
         executeInBackground,
       });
     },
-    {
-      onMutate: () => {
-        console.log('Execution started.', routeId);
-        if (routeExecution) {
-          emitter.emit(WidgetEvent.RouteExecutionStarted, routeExecution.route);
-        }
-      },
+    onMutate: () => {
+      console.log('Execution started.', routeId);
+      if (routeExecution) {
+        emitter.emit(WidgetEvent.RouteExecutionStarted, routeExecution.route);
+      }
     },
-  );
+  });
 
-  const resumeRouteMutation = useMutation(
-    (resumedRoute?: Route) => {
-      if (!account.signer) {
-        throw Error('Account signer not found.');
+  const resumeRouteMutation = useMutation({
+    mutationFn: (resumedRoute?: Route) => {
+      if (!account.isConnected) {
+        throw Error('Account is not connected.');
       }
       if (!routeExecution?.route) {
         throw Error('Execution route not found.');
       }
-      return lifi.resumeRoute(
-        account.signer,
-        resumedRoute ?? routeExecution.route,
-        {
-          updateRouteHook,
-          switchChainHook,
-          acceptExchangeRateUpdateHook,
-          infiniteApproval: false,
-          executeInBackground,
-        },
-      );
+      return resumeRoute(resumedRoute ?? routeExecution.route, {
+        updateRouteHook,
+        acceptExchangeRateUpdateHook,
+        infiniteApproval: false,
+        executeInBackground,
+      });
     },
-    {
-      onMutate: () => {
-        console.log('Resumed to execution.', routeId);
-      },
+    onMutate: () => {
+      console.log('Resumed to execution.', routeId);
     },
-  );
+  });
 
-  const executeRoute = useCallback(() => {
+  const _executeRoute = useCallback(() => {
     executeRouteMutation.mutateAsync(undefined, {
       onError: (error) => {
         console.warn('Execution failed!', routeId, error);
@@ -163,7 +140,7 @@ export const useRouteExecution = ({
     });
   }, [executeRouteMutation, routeId]);
 
-  const resumeRoute = useCallback(
+  const _resumeRoute = useCallback(
     (route?: Route) => {
       resumeRouteMutation.mutateAsync(route, {
         onError: (error) => {
@@ -179,9 +156,9 @@ export const useRouteExecution = ({
 
   const restartRouteMutation = useCallback(() => {
     restartRoute(routeId);
-    resumeRoute(routeExecution?.route);
+    _resumeRoute(routeExecution?.route);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resumeRoute, routeExecution?.route, routeId]);
+  }, [_resumeRoute, routeExecution?.route, routeId]);
 
   const deleteRouteMutation = useCallback(() => {
     deleteRoute(routeId);
@@ -191,32 +168,32 @@ export const useRouteExecution = ({
   // Resume route execution after page reload
   useEffect(() => {
     // Check if route is eligible for automatic resuming
+    const route = routeExecutionStoreContext.getState().routes[routeId]?.route;
     if (
-      isRouteActive(routeExecution?.route) &&
-      account.isActive &&
+      isRouteActive(route) &&
+      account.isConnected &&
       !resumedAfterMount.current
     ) {
       resumedAfterMount.current = true;
-      resumeRoute();
+      _resumeRoute();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account.isActive]);
 
-  useEffect(() => {
+    // Move execution to background on unmount
     return () => {
       const route =
         routeExecutionStoreContext.getState().routes[routeId]?.route;
       if (!route || !isRouteActive(route)) {
         return;
       }
-      lifi.updateRouteExecution(route, { executeInBackground: true });
+      updateRouteExecution(route, { executeInBackground: true });
       console.log('Move route execution to background.', routeId);
       resumedAfterMount.current = false;
     };
-  }, [lifi, routeExecutionStoreContext, routeId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [account.isConnected, routeExecutionStoreContext, routeId]);
 
   return {
-    executeRoute,
+    executeRoute: _executeRoute,
     restartRoute: restartRouteMutation,
     deleteRoute: deleteRouteMutation,
     route: routeExecution?.route,

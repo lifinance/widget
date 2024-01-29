@@ -1,13 +1,10 @@
 import { useMemo } from 'react';
-import { useChains } from './useChains';
+import { useAvailableChains } from './useAvailableChains';
 
 export const useChain = (chainId?: number) => {
-  const { chains, isLoading } = useChains();
+  const { isLoading, getChainById } = useAvailableChains();
 
-  const chain = useMemo(() => {
-    const chain = chains?.find((chain) => chain.id === chainId);
-    return chain;
-  }, [chainId, chains]);
+  const chain = useMemo(() => getChainById(chainId), [chainId, getChainById]);
 
   return {
     chain,

@@ -1,4 +1,4 @@
-import { useTheme } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import type { SVGProps } from 'react';
 
 export const InsuraceLogo = (props: SVGProps<SVGSVGElement>) => {

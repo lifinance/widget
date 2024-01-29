@@ -1,19 +1,22 @@
 import type { EVMChain } from '@lifi/sdk';
-import { useController, useFormContext } from 'react-hook-form';
-import { useChains, useSwapOnly } from '../../hooks';
-import type { FormType } from '../../providers';
-import { FormKey, FormKeyHelper } from '../../providers';
-import { useChainOrder } from '../../stores';
+import { useChains, useSwapOnly, useToAddressReset } from '../../hooks';
+import type { FormType } from '../../stores';
+import {
+  FormKeyHelper,
+  useChainOrder,
+  useFieldActions,
+  useFieldController,
+} from '../../stores';
 
 export const useChainSelect = (formType: FormType) => {
   const chainKey = FormKeyHelper.getChainKey(formType);
-  const {
-    field: { onChange, onBlur },
-  } = useController({ name: chainKey });
-  const { setValue } = useFormContext();
-  const { chains, isLoading } = useChains();
-  const [chainOrder, setChainOrder] = useChainOrder();
+  const { onChange, onBlur } = useFieldController({ name: chainKey });
+
+  const { setFieldValue, getFieldValues } = useFieldActions();
+  const { chains, isLoading, getChainById } = useChains(formType);
+  const [chainOrder, setChainOrder] = useChainOrder(formType);
   const swapOnly = useSwapOnly();
+  const { tryResetToAddress } = useToAddressReset();
 
   const getChains = () => {
     if (!chains) {
@@ -22,7 +25,6 @@ export const useChainSelect = (formType: FormType) => {
     const selectedChains = chainOrder
       .map((chainId) => chains.find((chain) => chain.id === chainId))
       .filter(Boolean) as EVMChain[];
-
     return selectedChains;
   };
 
@@ -30,14 +32,20 @@ export const useChainSelect = (formType: FormType) => {
     onChange(chainId);
     onBlur();
     if (swapOnly) {
-      setValue(FormKeyHelper.getChainKey('to'), chainId, {
-        shouldTouch: true,
+      setFieldValue(FormKeyHelper.getChainKey('to'), chainId, {
+        isTouched: true,
       });
     }
-    setValue(FormKeyHelper.getTokenKey(formType), '');
-    setValue(FormKeyHelper.getAmountKey(formType), '');
-    setValue(FormKey.TokenSearchFilter, '');
-    setChainOrder(chainId);
+    setFieldValue(FormKeyHelper.getTokenKey(formType), '');
+    setFieldValue(FormKeyHelper.getAmountKey(formType), '');
+    setFieldValue('tokenSearchFilter', '');
+
+    const [toChainId] = getFieldValues('toChain');
+    const toChain = getChainById(toChainId);
+    if (toChain) {
+      tryResetToAddress(toChain);
+    }
+    setChainOrder(chainId, formType);
   };
 
   return {

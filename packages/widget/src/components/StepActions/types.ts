@@ -1,9 +1,9 @@
-import type { LifiStep, Step } from '@lifi/sdk';
+import type { LiFiStep, Step } from '@lifi/sdk';
 import type { BoxProps } from '@mui/material';
 import type { WidgetSubvariant } from '../../types';
 
 export interface StepActionsProps extends BoxProps {
-  step: LifiStep;
+  step: LiFiStep;
   dense?: boolean;
 }
 

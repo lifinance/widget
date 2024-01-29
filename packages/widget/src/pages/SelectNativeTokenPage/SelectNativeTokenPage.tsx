@@ -1,11 +1,12 @@
-import { Container, List, ListItemAvatar } from '@mui/material';
+import { List, ListItemAvatar } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { ListItemButton } from '../../components/ListItemButton';
 import { ListItemText } from '../../components/ListItemText';
+import { PageContainer } from '../../components/PageContainer';
 import { TokenAvatar } from '../../components/TokenAvatar';
 import { useTokenSelect } from '../../components/TokenList';
 import { useChains, useNavigateBack } from '../../hooks';
-import type { FormTypeProps } from '../../providers';
+import type { FormTypeProps } from '../../stores';
 
 export const SelectNativeTokenPage: React.FC<FormTypeProps> = ({
   formType,
@@ -16,7 +17,7 @@ export const SelectNativeTokenPage: React.FC<FormTypeProps> = ({
   const selectToken = useTokenSelect(formType, navigateBack);
 
   return (
-    <Container disableGutters>
+    <PageContainer disableGutters>
       <List
         sx={{
           paddingLeft: 1.5,
@@ -38,6 +39,6 @@ export const SelectNativeTokenPage: React.FC<FormTypeProps> = ({
           </ListItemButton>
         ))}
       </List>
-    </Container>
+    </PageContainer>
   );
 };
