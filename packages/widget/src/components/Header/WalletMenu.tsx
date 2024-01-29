@@ -17,8 +17,8 @@ import type { Connector } from 'wagmi';
 import { useAccount, useAvailableChains } from '../../hooks';
 import { navigationRoutes, shortenAddress } from '../../utils';
 import { SmallAvatar } from '../SmallAvatar';
-import { EVMDisconnectIconButton } from './EVMDisconnectIconButton.js';
-import { SVMDisconnectIconButton } from './SVMDisconnectIconButton.js';
+import { EVMDisconnectIconButton } from './EVMDisconnectIconButton';
+import { SVMDisconnectIconButton } from './SVMDisconnectIconButton';
 
 export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
   const { t } = useTranslation();
