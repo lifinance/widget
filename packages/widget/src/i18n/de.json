@@ -9,10 +9,15 @@
   },
   "button": {
     "auto": "Auto",
+    "bookmark": "",
+    "bookmarks": "",
     "bridge": "Bridge",
     "buy": "Buy",
     "buyNow": "Jetzt kaufen",
     "cancel": "Abbrechen",
+    "changeWallet": "",
+    "close": "",
+    "confirm": "",
     "connectWallet": "Wallet verbinden",
     "contactSupport": "Support kontaktieren",
     "continue": "Fortsetzen",
@@ -30,6 +35,7 @@
     "light": "Hell",
     "max": "max",
     "ok": "OK",
+    "options": "",
     "removeTransaction": "Transaktion entfernen",
     "reset": "Zurücksetzen",
     "resetSettings": "Einstellungen zurücksetzen",
@@ -47,6 +53,7 @@
   },
   "header": {
     "activeTransactions": "Aktive Transaktion",
+    "bookmarkedWallets": "",
     "bridge": "Bridge",
     "checkout": "Zur Kasse",
     "exchange": "Exchange",
@@ -55,8 +62,10 @@
     "payWith": "Zahle mit",
     "purchase": "Kauf",
     "purchaseDetails": "Kaufdetails",
+    "recentWallets": "",
     "selectChain": "Chain auswählen",
     "selectWallet": "Wallet wählen",
+    "sendToWallet": "",
     "settings": "Einstellungen",
     "swap": "Swap",
     "to": "Swap zu",
@@ -71,7 +80,8 @@
       "emptyActiveTransactions": "Laufende Swaps werden hier angezeigt. Sobald Sie fertig sind, finden Sie sie in der Transaktionshistorie.",
       "emptyTokenList": "Es wurden keine Tokens auf der Chain {{chainName}} gefunden oder Sie haben keine. Bitte versuchen Sie die Suche erneut mit der Contract-Adresse falls Ihr Token nicht erscheint oder wechseln Sie die Chain.",
       "emptyTransactionHistory": "Die Transaktionshistorie wird nur lokal gespeichert und gelöscht, wenn Sie Ihre Browserdaten löschen.",
-      "routeNotFound": "Gründe dafür könnten lauten: geringe Liquidität, gewählter Betrag ist zu niedrig, die Gaskosten sind zu hoch oder es gibt keine Routen für die ausgewählte Kombination."
+      "routeNotFound": "Gründe dafür könnten lauten: geringe Liquidität, gewählter Betrag ist zu niedrig, die Gaskosten sind zu hoch oder es gibt keine Routen für die ausgewählte Kombination.",
+      "fundsToExchange": ""
     },
     "title": {
       "autoRefuel": "Gas erhalten",
@@ -103,7 +113,8 @@
       "insufficientFunds": "Sie haben nicht genug Token, um diesen Swap abzuschließen.",
       "insufficientGas": "Sie haben nicht genug Gas um diesen Swap abzuschließen. Sie müssen mindestens hinzufügen:",
       "rateChanged": "Der Wechselkurs hat sich geändert. Durch Fortsetzen des Swaps akzeptieren Sie den neuen Kurs.",
-      "resetSettings": "Dies wird Ihre Routenpriorität, Slippage, Gaspreis, aktivierte Brücken und Exchanges zurücksetzen."
+      "resetSettings": "Dies wird Ihre Routenpriorität, Slippage, Gaspreis, aktivierte Brücken und Exchanges zurücksetzen.",
+      "slippageOutsideRecommendedLimits": ""
     },
     "title": {
       "deleteActiveTransactions": "Alle aktiven Transaktionen entfernen?",
@@ -119,33 +130,37 @@
     "message": {
       "allowanceRequired": "Überweisungsbetrag für {{tokenSymbol}} überschreitet Ihre derzeitige Zulassung. Bitte erhöhen Sie das Limit und versuchen Sie es erneut.",
       "insufficientFunds": "Sie haben nicht genug Gas, um die Kosten der Transaktion zu decken.",
+      "signatureRejected": "",
       "slippageThreshold": "Die Slippage ist größer als der definierte Schwellenwert. Bitte fordern Sie eine neue Route an, um ein neues Angebot zu erhalten.",
       "transactionFailed": "Weitere Informationen finden Sie im Block-Explorer.",
-      "transactionNotSent": "Die Transaktion wurde nicht gesendet, Ihr Geld befindet sich noch in Ihrer Brieftasche ({{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} auf {{chainName}}).",
-      "transactionRejected": "Ihre Signatur ist erforderlich, um die Transaktion abzuschließen. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} auf {{chainName}} verbleiben in Ihrem Wallet.",
+      "transactionNotSent": "",
+      "transactionCanceled": "",
+      "remainInYourWallet": "",
       "unknown": "Bitte versuchen Sie es später noch einmal oder kontaktieren Sie den Support."
     },
     "title": {
+      "addressRequired": "",
       "allowanceRequired": "Unzureichende Erlaubnis",
       "balanceIsTooLow": "Ihr Guthaben ist zu gering",
+      "bookmarkAlreadyExists": "",
+      "bookmarkNameRequired": "",
       "chainSwitch": "Chainwechsel erforderlich",
+      "exchangeRateUpdateCanceled": "",
       "gasLimitIsTooLow": "Das Gaslimit ist zu niedrig",
       "insufficientFunds": "Unzureichendes Guthaben",
+      "signatureRejected": "",
       "slippageNotMet": "Slippagebedingungen nicht erfüllt",
       "transactionCanceled": "Transaktion abgebrochen",
       "transactionFailed": "Transaktion ist fehlgeschlagen.",
-      "transactionRejected": "Signatur benötigt.",
       "transactionUnderpriced": "Transaktion ist unterbewertet.",
       "transactionUnprepared": "Transaktion kann nicht vorbereitet werden.",
       "unknown": "Etwas ist schief gelaufen.",
-      "walletAddressInvalid": "Wallet-Adresse ist ungültig.",
+      "walletAddressInvalid": "",
       "walletAddressRequired": "Wallet-Adresse ist erforderlich.",
-      "walletEnsAddressInvalid": "Die Wallet-Adresse ist ungültig oder das Netzwerk unterstützt ENS nicht."
+      "walletChainTypeInvalid": ""
     }
   },
   "tooltip": {
-    "additionalProviderFee": "Zusätzliche Bridges, DEXs und Servicegebühren.",
-    "estimatedNetworkFee": "Geschätzte Netzwerkgebühr.",
     "estimatedTime": "Geschätzte Swap-Ausführungszeit in Minuten.",
     "notFound": {
       "text": "Wir konnten diese Seite nicht finden.",
@@ -154,18 +169,25 @@
     "numberOfSteps": "Eine Anzahl von Swap-Schritten. Jeder Schritt kann 2 Transaktionen enthalten, die eine Unterschrift erfordern.",
     "progressToNextUpdate": "Angezeigte Daten werden nach {{value}} Sekunden automatisch aktualisiert. Klicken Sie hier, um manuell zu aktualisieren.",
     "recommended": "Eine preiswerte Route, die Komplexität und Benutzerfreundlichkeit in Einklang bringt.",
-    "settingsModified": "Einstellungen (geändert)"
+    "settingsModified": "Einstellungen (geändert)",
+    "selectAll": "",
+    "deselectAll": ""
   },
   "main": {
     "crossStepDetails": "Bridgen von {{from}} nach {{to}} über {{tool}}",
     "currentAmount": "Aktueller Betrag",
-    "estimatedTime": "{{value}} m",
     "featuredTokens": "Ausgewählte Token",
+    "fees": {
+      "estimated": "",
+      "networkEstimated": "",
+      "networkPaid": "",
+      "paid": "",
+      "providerEstimated": "",
+      "providerPaid": ""
+    },
     "from": "Von",
     "fromAmount": "Sie bezahlen",
     "gasCost": "Gaskosten",
-    "gasFeeEstimated": "geschätzte Gasgebühr",
-    "gasFeePaid": "gezahlte Gasgebühr",
     "inProgress": "wird ausgeführt",
     "nftStepDetails": "NFT über {{tool}} kaufen",
     "onChain": "auf {{chainName}}",
@@ -235,8 +257,7 @@
     "tokenOnChain": "{{tokenSymbol}} auf {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} auf {{chainName}}",
     "tokenSearch": "Suchen Sie Ihren Token",
-    "valueLoss": "Wertverlust",
-    "walletAddressOrEns": "Wallet-Adresse oder ENS-Name"
+    "valueLoss": "Wertverlust"
   },
   "insurance": {
     "bridgeExploits": "Bridge-Fehlfunktionen, Hacks oder Exploits",
@@ -245,8 +266,9 @@
     "slippageError": "Fehler in Slippage für empfangene Token"
   },
   "settings": {
-    "enabledBridges": "Aktivierte Bridges",
-    "enabledExchanges": "Aktivierte Exchanges",
+    "theme": "",
+    "enabledBridges": "",
+    "enabledExchanges": "",
     "gasPrice": {
       "fast": "Schnell",
       "normal": "Normal",
@@ -254,9 +276,21 @@
       "title": "Gaspreis"
     },
     "routePriority": "Routenpriorität",
-    "showDestinationWallet": "Ziel Wallet anzeigen",
+    "sendToWalletOption": "",
     "slippage": "Slippage",
+    "custom": "",
     "resetSettings": "Sie verwenden benutzerdefinierte Einstellungen, die die Anzahl der verfügbaren Routen begrenzen."
+  },
+  "sendToWallet": {
+    "enterAddress": "",
+    "enterName": "",
+    "confirmWalletAddress": "",
+    "connectedWallets": "",
+    "bookmarkWallet": "",
+    "addBookmark": "",
+    "noBookmarkedWallets": "",
+    "noConnectedWallets": "",
+    "noRecentWallets": ""
   },
   "wallet": {
     "extensionNotFound": "Bitte stellen Sie sicher, dass nur die Browsererweiterung {{name}} aktiv ist, bevor Sie dieses Wallet auswählen."

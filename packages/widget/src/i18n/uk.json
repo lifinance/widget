@@ -9,10 +9,15 @@
   },
   "button": {
     "auto": "Авто",
+    "bookmark": "Додати в закладки",
+    "bookmarks": "Закладки",
     "bridge": "Бридж",
     "buy": "Придбати",
     "buyNow": "Придбати",
     "cancel": "Скасувати",
+    "changeWallet": "Змінити гаманець",
+    "close": "Закрити",
+    "confirm": "Підтвердити",
     "connectWallet": "Під'єднати гаманець",
     "contactSupport": "Служба підтримки",
     "continue": "Продовжити",
@@ -30,6 +35,7 @@
     "light": "Світла",
     "max": "макс",
     "ok": "Ок",
+    "options": "Опції",
     "removeTransaction": "Видалити транзакцію",
     "reset": "Скинути",
     "resetSettings": "Скинути налаштування",
@@ -47,6 +53,7 @@
   },
   "header": {
     "activeTransactions": "Активні транзакції",
+    "bookmarkedWallets": "Закладки гаманців",
     "bridge": "Бридж",
     "checkout": "Розрахунок",
     "exchange": "Обмін",
@@ -55,8 +62,10 @@
     "payWith": "Сплатити за допомогою",
     "purchase": "Купівля",
     "purchaseDetails": "Деталі покупки",
+    "recentWallets": "Останні гаманці",
     "selectChain": "Виберіть чейн",
     "selectWallet": "Виберіть свій гаманець",
+    "sendToWallet": "Відправити на гаманець",
     "settings": "Налаштування",
     "swap": "Своп",
     "to": "Своп на",
@@ -71,7 +80,8 @@
       "emptyActiveTransactions": "Тут показуються незавершені транзакції. Після завершення ви можете знайти їх в історії транзакцій.",
       "emptyTokenList": "Нам не вдалося знайти токени на {{chainName}}, або у вас їх немає. Будь ласка, спробуйте пошук за адресою контракту або виберіть інший чейн.",
       "emptyTransactionHistory": "Історія транзакцій зберігається лише локально та буде видалена, якщо ви очистите дані браузера.",
-      "routeNotFound": "Причинами цього можуть бути: низька ліквідність, вибрана надто низька сума, занадто високі витрати на газ або відсутність маршрутів для вибраної комбінації."
+      "routeNotFound": "Причинами цього можуть бути: низька ліквідність, вибрана надто низька сума, занадто високі витрати на газ або відсутність маршрутів для вибраної комбінації.",
+      "fundsToExchange": "Кошти, відправлені на біржі, можуть бути втрачені"
     },
     "title": {
       "autoRefuel": "Отримати газ",
@@ -103,7 +113,8 @@
       "insufficientFunds": "У вас недостатньо коштів для здійснення свопу.",
       "insufficientGas": "Для завершення свопа у вас недостатньо газу. Вам необхідно додати хоча б:",
       "rateChanged": "Курс обміну змінився. Продовжуючи своп, ви приймете новий курс.",
-      "resetSettings": "Це скине пріоритет вашого маршруту, прослизання, ціну газу, увімкнені бриджі та обмінники."
+      "resetSettings": "Це скине пріоритет вашого маршруту, прослизання, ціну газу, увімкнені бриджі та обмінники.",
+      "slippageOutsideRecommendedLimits": "Високий допуск до прослизання може призвести до несприятливої торгівлі через фронт-біг."
     },
     "title": {
       "deleteActiveTransactions": "Видалити всі активні транзакції?",
@@ -128,27 +139,28 @@
       "unknown": "Будь ласка, спробуйте ще раз або зверніться до служби підтримки."
     },
     "title": {
+      "addressRequired": "Необхідно вказати адресу гаманця",
       "allowanceRequired": "Недостатня дозволена кількість",
       "balanceIsTooLow": "Баланс занадто низький",
+      "bookmarkAlreadyExists": "Гаманець вже в закладках як {{name}}",
+      "bookmarkNameRequired": "Ім'я закладки є обов'язковим",
       "chainSwitch": "Потрібно переключити чейн.",
+      "exchangeRateUpdateCanceled": "Оновлення обмінного курсу скасовано",
       "gasLimitIsTooLow": "Занадто низький ліміт газу",
       "insufficientFunds": "Недостатньо коштів",
       "signatureRejected": "Підпис обов'язковий",
       "slippageNotMet": "Не виконані умови прослизання",
       "transactionCanceled": "Транзакцію скасовано",
-      "exchangeRateUpdateCanceled": "Оновлення обмінного курсу скасовано",
       "transactionFailed": "Транзакція не вдалася.",
       "transactionUnderpriced": "Транзакція є заниженою.",
       "transactionUnprepared": "Не вдалося підготувати транзакцію.",
       "unknown": "Щось пішло не так.",
-      "walletAddressInvalid": "Адреса гаманця недійсна.",
+      "walletAddressInvalid": "Адреса гаманця або ENS невірна, або мережа не підтримує ENS.",
       "walletAddressRequired": "Необхідно вказати адресу гаманця.",
-      "walletEnsAddressInvalid": "Адреса гаманця або ENS невірна, або мережа не підтримує ENS."
+      "walletChainTypeInvalid": "Адреса гаманця не відповідає обраному чейну призначення - {{chainName}}"
     }
   },
   "tooltip": {
-    "additionalProviderFee": "Додаткові комісії бриджів, обмінників та послуг.",
-    "estimatedNetworkFee": "Орієнтовна мережева плата.",
     "estimatedTime": "Орієнтовний час виконання свопу в хвилинах.",
     "notFound": {
       "text": "Ми не змогли знайти цю сторінку.",
@@ -157,18 +169,25 @@
     "numberOfSteps": "Кількість кроків свопу. Кожен крок може містити 1-3 транзакції, які потребують підпису.",
     "progressToNextUpdate": "Зображені дані автоматично оновляться через {{value}} секунд. Натисніть тут, щоб оновити вручну.",
     "recommended": "Дешевий маршрут, який балансує складність і легкість використання.",
-    "settingsModified": "Налаштування (змінено)"
+    "settingsModified": "Налаштування (змінено)",
+    "selectAll": "Вибрати все",
+    "deselectAll": "Скасувати вибір"
   },
   "main": {
     "crossStepDetails": "Бридж з {{from}} до {{to}} через {{tool}}",
     "currentAmount": "Поточна сума",
-    "estimatedTime": "{{value}}х",
     "featuredTokens": "Рекомендовані токени",
+    "fees": {
+      "estimated": "орієнтовні комісії",
+      "networkEstimated": "Орієнтовні мережеві комісії:",
+      "networkPaid": "Сплачені мережеві комісії:",
+      "paid": "сплачені комісії",
+      "providerEstimated": "Орієнтовні комісії провайдера:",
+      "providerPaid": "Сплачені комісії провайдера:"
+    },
     "from": "З",
     "fromAmount": "Ви платите",
     "gasCost": "Вартість газу",
-    "gasFeeEstimated": "орієнтована комісія за газ",
-    "gasFeePaid": "оплата за газ",
     "inProgress": "в процесі",
     "nftStepDetails": "Придбати NFT через {{tool}}",
     "onChain": "на {{chainName}}",
@@ -238,8 +257,7 @@
     "tokenOnChain": "{{tokenSymbol}} на {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} на {{chainName}}",
     "tokenSearch": "Шукати за ім'ям або адресою",
-    "valueLoss": "Втрата вартості",
-    "walletAddressOrEns": "Адреса гаманця або ім’я ENS"
+    "valueLoss": "Втрата вартості"
   },
   "insurance": {
     "bridgeExploits": "Збої в роботі бриджу, зломи чи експлойти",
@@ -248,8 +266,9 @@
     "slippageError": "Помилка в прослизанні для отриманих токенів"
   },
   "settings": {
-    "enabledBridges": "Увімкнені бриджі",
-    "enabledExchanges": "Увімкнені обмінники",
+    "theme": "Тема",
+    "enabledBridges": "Бриджі",
+    "enabledExchanges": "Обмінники",
     "gasPrice": {
       "fast": "Швидко",
       "normal": "Нормально",
@@ -257,9 +276,21 @@
       "title": "Ціна на газ"
     },
     "routePriority": "Пріоритет маршруту",
-    "showDestinationWallet": "Показати цільовий гаманець",
+    "sendToWalletOption": "Відправити на гаманець",
     "slippage": "Прослизання",
+    "custom": "Власне",
     "resetSettings": "Ви використовуєте налаштування які можуть обмежувати кількість доступних маршрутів."
+  },
+  "sendToWallet": {
+    "enterAddress": "Введіть адресу або ENS",
+    "enterName": "Введіть ім'я",
+    "confirmWalletAddress": "Підтвердження адреси гаманця",
+    "connectedWallets": "Підключені гаманці",
+    "bookmarkWallet": "Додати в закладки",
+    "addBookmark": "Додати до закладок",
+    "noBookmarkedWallets": "Немає гаманців в закладках",
+    "noConnectedWallets": "Немає підключених гаманців",
+    "noRecentWallets": "Немає недавніх гаманців"
   },
   "wallet": {
     "extensionNotFound": "Перш ніж вибрати цей гаманець, переконайтеся, що в браузері активне лише розширення {{name}}."

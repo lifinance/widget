@@ -1,6 +1,6 @@
 {
   "language": {
-    "name": "Português",
+    "name": "Inglês",
     "title": "Idioma"
   },
   "format": {
@@ -9,10 +9,15 @@
   },
   "button": {
     "auto": "Automático",
+    "bookmark": "Favorito",
+    "bookmarks": "Favoritos",
     "bridge": "Ponte",
     "buy": "Comprar",
     "buyNow": "Comprar agora",
     "cancel": "Cancelar",
+    "changeWallet": "Alterar carteira",
+    "close": "Fechar",
+    "confirm": "Confirmar",
     "connectWallet": "Conectar carteira",
     "contactSupport": "Falar com o suporte",
     "continue": "Continuar",
@@ -30,6 +35,7 @@
     "light": "Claro",
     "max": "máximo",
     "ok": "Tudo certo",
+    "options": "Opções",
     "removeTransaction": "Remover transação",
     "reset": "Redefinir",
     "resetSettings": "Redefinir as configurações",
@@ -47,6 +53,7 @@
   },
   "header": {
     "activeTransactions": "Transações ativas",
+    "bookmarkedWallets": "Carteiras favoritas",
     "bridge": "Ponte",
     "checkout": "Finalizar",
     "exchange": "Conversão",
@@ -55,8 +62,10 @@
     "payWith": "Pagar com",
     "purchase": "Compra",
     "purchaseDetails": "Detalhes da compra",
+    "recentWallets": "Carteiras recentes",
     "selectChain": "Selecionar uma rede",
     "selectWallet": "Selecionar sua carteira",
+    "sendToWallet": "Enviar para a Carteira",
     "settings": "Configurações",
     "swap": "Conversão",
     "to": "Converter para",
@@ -71,7 +80,8 @@
       "emptyActiveTransactions": "As transações em andamento aparecerão aqui. Uma vez concluídas, encontre-as no histórico de transações.",
       "emptyTokenList": "Não conseguimos encontrar tokens na rede {{chainName}} ou você não possui nenhum. Por favor, procure pelo endereço de contrato caso o token não apareça ou escolha outra rede.",
       "emptyTransactionHistory": "O histórico de transações é armazenado apenas localmente e será excluído se você limpar os dados do seu navegador.",
-      "routeNotFound": "Razões para isso podem ser: baixa liquidez, valor selecionado é muito baixo, os custos com gás são muito elevados ou não há rotas para a combinação selecionada."
+      "routeNotFound": "Razões para isso podem ser: baixa liquidez, valor selecionado é muito baixo, os custos com gás são muito elevados ou não há rotas para a combinação selecionada.",
+      "fundsToExchange": "Os fundos enviados para uma exchange podem ser perdidos"
     },
     "title": {
       "autoRefuel": "Obter gás",
@@ -103,7 +113,8 @@
       "insufficientFunds": "Você não possui fundos suficientes para completar a conversão.",
       "insufficientGas": "Você não tem gás suficiente para completar a conversão. É necessário adicionar pelo menos:",
       "rateChanged": "A taxa de câmbio mudou. Ao continuar a conversão, você aceitará a nova taxa.",
-      "resetSettings": "Isto redefinirá sua prioridade de rota, tolerância a derrapagem, preço de gás, pontes e trocas ativadas."
+      "resetSettings": "Isto redefinirá sua prioridade de rota, tolerância a derrapagem, preço de gás, pontes e trocas ativadas.",
+      "slippageOutsideRecommendedLimits": "Alta tolerância na derrapagem pode resultar em negociação desfavorável ​​causada pelo front-running."
     },
     "title": {
       "deleteActiveTransactions": "Excluir todas as transações ativas?",
@@ -128,27 +139,28 @@
       "unknown": "Por favor, tente novamente ou fale com o suporte."
     },
     "title": {
+      "addressRequired": "Endereço da carteira é necessário",
       "allowanceRequired": "Permissão insuficiente",
       "balanceIsTooLow": "O saldo é muito baixo",
+      "bookmarkAlreadyExists": "Carteira já está marcada como {{name}}",
+      "bookmarkNameRequired": "O nome do marcador é necessário",
       "chainSwitch": "Necessário mudança de rede",
+      "exchangeRateUpdateCanceled": "Atualização da taxa de conversão cancelada",
       "gasLimitIsTooLow": "O limite de gás é muito baixo",
       "insufficientFunds": "Saldo insuficiente",
       "signatureRejected": "Necessário assinatura",
       "slippageNotMet": "Condições de tolerância a discrepâncias não foram atendidas",
       "transactionCanceled": "Transação cancelada",
-      "exchangeRateUpdateCanceled": "Atualização da taxa de conversão cancelada",
       "transactionFailed": "Transação falhou",
       "transactionUnderpriced": "Transação está abaixo do valor",
       "transactionUnprepared": "Não foi possível preparar a transação",
       "unknown": "Algo deu errado",
-      "walletAddressInvalid": "Endereço da carteira é inválido.",
+      "walletAddressInvalid": "O endereço da carteira ou ENS é inválido, ou a rede não suporta ENS.",
       "walletAddressRequired": "Endereço da carteira é necessário.",
-      "walletEnsAddressInvalid": "O endereço da carteira ou ENS é inválido, ou a rede não suporta ENS."
+      "walletChainTypeInvalid": "O endereço da carteira não corresponde à cadeia de destino selecionada - {{chainName}}"
     }
   },
   "tooltip": {
-    "additionalProviderFee": "Pontes adicionais, DEXes e taxas de serviço.",
-    "estimatedNetworkFee": "Taxa de rede estimada.",
     "estimatedTime": "Tempo de execução da conversão estimado em minutos.",
     "notFound": {
       "text": "Não conseguimos encontrar esta página.",
@@ -157,18 +169,25 @@
     "numberOfSteps": "Um número de passos para a conversão. Cada etapa pode conter 1-2 transações que requerem uma assinatura.",
     "progressToNextUpdate": "Os dados exibidos serão atualizados automaticamente após {{value}} segundos. Clique aqui para atualizar manualmente.",
     "recommended": "Uma rota econômica que equilibra complexidade e facilidade de uso.",
-    "settingsModified": "Configurações (modificado)"
+    "settingsModified": "Configurações (modificado)",
+    "selectAll": "Selecionar tudo",
+    "deselectAll": "Desmarcar tudo"
   },
   "main": {
     "crossStepDetails": "Ponte de {{from}} para {{to}} via {{tool}}",
     "currentAmount": "Quantidade atual",
-    "estimatedTime": "{{value}}min",
     "featuredTokens": "Tokens em destaque",
+    "fees": {
+      "estimated": "taxas estimadas",
+      "networkEstimated": "Taxas de rede estimadas:",
+      "networkPaid": "Taxas pagas de rede:",
+      "paid": "taxas pagas",
+      "providerEstimated": "Taxas estimadas do provedor:",
+      "providerPaid": "Tarifas pagas do provedor:"
+    },
     "from": "De",
     "fromAmount": "Você paga",
     "gasCost": "Custo do gás",
-    "gasFeeEstimated": "Taxa de gás estimada",
-    "gasFeePaid": "taxa de gás paga",
     "inProgress": "em andamento",
     "nftStepDetails": "Comprar NFT via {{tool}}",
     "onChain": "em {{chainName}}",
@@ -238,8 +257,7 @@
     "tokenOnChain": "{{tokenSymbol}} na {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} na {{chainName}}",
     "tokenSearch": "Pesquisar pelo nome do token ou endereço",
-    "valueLoss": "Perda de Valor",
-    "walletAddressOrEns": "Endereço da carteira ou nome ENS"
+    "valueLoss": "Perda de Valor"
   },
   "insurance": {
     "bridgeExploits": "Mau funcionamento da ponte, hacks ou exploits",
@@ -248,8 +266,9 @@
     "slippageError": "Erro na discrepância para tokens recebidos"
   },
   "settings": {
-    "enabledBridges": "Pontes habilitadas",
-    "enabledExchanges": "Corretoras habilitadas",
+    "theme": "Tema",
+    "enabledBridges": "Pontes",
+    "enabledExchanges": "Conversões",
     "gasPrice": {
       "fast": "Rápido",
       "normal": "Normal",
@@ -257,9 +276,21 @@
       "title": "Preço do gás"
     },
     "routePriority": "Prioridade de rota / caminho",
-    "showDestinationWallet": "Mostrar carteira de destino",
+    "sendToWalletOption": "Opção, enviar para a carteira",
     "slippage": "Derrapagem",
+    "custom": "Personalizado",
     "resetSettings": "Você está usando a configuração personalizada que limita a quantidade de rotas disponíveis."
+  },
+  "sendToWallet": {
+    "enterAddress": "Insira o endereço ou ENS",
+    "enterName": "Insira o nome",
+    "confirmWalletAddress": "Confirme o endereço da carteira",
+    "connectedWallets": "Carteiras Conectadas",
+    "bookmarkWallet": "Carteiras favoritas",
+    "addBookmark": "Adicionar marcador",
+    "noBookmarkedWallets": "Sem carteiras favoritas",
+    "noConnectedWallets": "Sem carteiras conectadas",
+    "noRecentWallets": "Sem carteiras recentes"
   },
   "wallet": {
     "extensionNotFound": "Por favor, certifique-se de que apenas a extensão do navegador da {{name}} está ativa antes de escolher esta carteira."

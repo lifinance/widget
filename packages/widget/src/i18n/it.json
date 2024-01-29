@@ -9,10 +9,15 @@
   },
   "button": {
     "auto": "Auto",
+    "bookmark": "",
+    "bookmarks": "",
     "bridge": "Bridge",
     "buy": "Acquista",
     "buyNow": "Acquista subito",
     "cancel": "Annulla",
+    "changeWallet": "",
+    "close": "",
+    "confirm": "",
     "connectWallet": "Collega il portafoglio",
     "contactSupport": "Contatta l'assistenza",
     "continue": "Continua",
@@ -30,6 +35,7 @@
     "light": "Chiaro",
     "max": "massimo",
     "ok": "Ok",
+    "options": "",
     "removeTransaction": "Rimuovi transazione",
     "reset": "Ripristina",
     "resetSettings": "Ripristina impostazioni",
@@ -47,6 +53,7 @@
   },
   "header": {
     "activeTransactions": "Transazioni attive",
+    "bookmarkedWallets": "",
     "bridge": "Bridge",
     "checkout": "Checkout",
     "exchange": "Exchange",
@@ -55,8 +62,10 @@
     "payWith": "Paga con",
     "purchase": "Acquista",
     "purchaseDetails": "Dettagli di acquisto",
+    "recentWallets": "",
     "selectChain": "Seleziona la chain",
     "selectWallet": "Seleziona il tuo portafoglio",
+    "sendToWallet": "",
     "settings": "Impostazioni",
     "swap": "Scambio",
     "to": "Scambia a",
@@ -71,7 +80,8 @@
       "emptyActiveTransactions": "Le transazioni in corso appariranno qui. Una volta completate, potrai trovarle nella cronologia delle transazioni.",
       "emptyTokenList": "Non siamo riusciti a trovare token sulla chain {{chainName}} o non ne hai. Riprova o scegli un'altra chain.",
       "emptyTransactionHistory": "La cronologia delle transazioni è memorizzata solo localmente e verrà eliminata se si cancellano i dati del browser.",
-      "routeNotFound": "Le ragioni potrebbero essere: bassa liquidità, la quantità selezionata è troppo bassa, i costi del gas sono troppo elevati o non ci sono routes per la combinazione selezionata."
+      "routeNotFound": "Le ragioni potrebbero essere: bassa liquidità, la quantità selezionata è troppo bassa, i costi del gas sono troppo elevati o non ci sono routes per la combinazione selezionata.",
+      "fundsToExchange": ""
     },
     "title": {
       "autoRefuel": "Ottieni gas",
@@ -103,7 +113,8 @@
       "insufficientFunds": "Non hai abbastanza fondi per completare lo scambio.",
       "insufficientGas": "Non hai abbastanza gas per completare lo scambio. Devi aggiungere almeno:",
       "rateChanged": "Il tasso di scambio è cambiato. Se procedi, confermi di accettare il nuovo tasso.",
-      "resetSettings": "Questo porterà al ripristino della priorità di route, slittamento di prezzo, prezzo del gas, bridge abilitati ed exchanges."
+      "resetSettings": "Questo porterà al ripristino della priorità di route, slittamento di prezzo, prezzo del gas, bridge abilitati ed exchanges.",
+      "slippageOutsideRecommendedLimits": ""
     },
     "title": {
       "deleteActiveTransactions": "Eliminare tutte le transazioni attive?",
@@ -119,33 +130,37 @@
     "message": {
       "allowanceRequired": "L'importo di {{tokenSymbol}} supera la tua quota massima permessa. Aumenta la quota e riprova.",
       "insufficientFunds": "Non hai abbastanza gas per coprire il costo della transazione.",
+      "signatureRejected": "",
       "slippageThreshold": "Lo slittamento di prezzo è più alto della soglia definita. Si prega di richiedere una nuova route per ottenere una quota aggiornata.",
       "transactionFailed": "Per ulteriori informazioni, consultare il block explorer.",
-      "transactionNotSent": "La transazione non è stata inviata. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} su {{chainName}} sono ancora presenti nel tuo portafoglio.",
-      "transactionRejected": "Per completare la transazione è necessaria la tua firma. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} su {{chainName}} rimangono nel tuo portafoglio.",
+      "transactionNotSent": "",
+      "transactionCanceled": "",
+      "remainInYourWallet": "",
       "unknown": "Riprova o contatta il nostro supporto."
     },
     "title": {
+      "addressRequired": "",
       "allowanceRequired": "Quota massima insufficiente",
       "balanceIsTooLow": "Il saldo è troppo basso",
+      "bookmarkAlreadyExists": "",
+      "bookmarkNameRequired": "",
       "chainSwitch": "È necessario cambiare la chain",
+      "exchangeRateUpdateCanceled": "",
       "gasLimitIsTooLow": "Limite di gas troppo basso",
       "insufficientFunds": "Fondi insufficienti",
+      "signatureRejected": "",
       "slippageNotMet": "Condizioni di slittamento di prezzo non rispettate",
       "transactionCanceled": "Transazione cancellata",
       "transactionFailed": "Transazione fallita",
-      "transactionRejected": "Firma obbligatoria",
       "transactionUnderpriced": "L'operazione è sottostimata",
       "transactionUnprepared": "Impossibile preparare la transazione",
       "unknown": "Qualcosa è andato storto",
-      "walletAddressInvalid": "L'indirizzo del portafoglio non è valido.",
+      "walletAddressInvalid": "",
       "walletAddressRequired": "L'indirizzo è un campo obbligatorio.",
-      "walletEnsAddressInvalid": "L'indirizzo non è valido o la rete non supporta ENS."
+      "walletChainTypeInvalid": ""
     }
   },
   "tooltip": {
-    "additionalProviderFee": "Bridge aggiuntivi, DEX e spese di servizio.",
-    "estimatedNetworkFee": "Costo di rete stimato.",
     "estimatedTime": "Tempo di esecuzione dello scambio stimato in minuti.",
     "notFound": {
       "text": "Non siamo riusciti a trovare questa pagina.",
@@ -154,18 +169,25 @@
     "numberOfSteps": "Una serie di fasi di scambio. Ogni fase può contenere 1-3 transazioni che richiedono una firma.",
     "progressToNextUpdate": "I dati visualizzati si aggiorneranno automaticamente dopo {{value}} secondi. Fai click qui per aggiornare manualmente.",
     "recommended": "Una rotta economica che equilibra complessità e facilità di utilizzo.",
-    "settingsModified": "Impostazioni (modificate)"
+    "settingsModified": "Impostazioni (modificate)",
+    "selectAll": "",
+    "deselectAll": ""
   },
   "main": {
     "crossStepDetails": "Trasferisci da {{from}} a {{to}} tramite {{tool}}",
     "currentAmount": "Quantità corrente",
-    "estimatedTime": "{{value}}m",
     "featuredTokens": "Token in evidenza",
+    "fees": {
+      "estimated": "",
+      "networkEstimated": "",
+      "networkPaid": "",
+      "paid": "",
+      "providerEstimated": "",
+      "providerPaid": ""
+    },
     "from": "Da",
     "fromAmount": "Paghi",
     "gasCost": "Costo del gas",
-    "gasFeeEstimated": "tassa di gas stimata",
-    "gasFeePaid": "tassa di gas pagata",
     "inProgress": "in corso",
     "nftStepDetails": "Acquista NFT tramite {{tool}}",
     "onChain": "su {{chainName}}",
@@ -235,8 +257,7 @@
     "tokenOnChain": "{{tokenSymbol}} su {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} su {{chainName}}",
     "tokenSearch": "Cerca per nome token o indirizzo",
-    "valueLoss": "Perdita di valore",
-    "walletAddressOrEns": "Indirizzo del portafoglio o nome ENS"
+    "valueLoss": "Perdita di valore"
   },
   "insurance": {
     "bridgeExploits": "Malfunzionamenti, hack o exploit di bridge",
@@ -245,8 +266,9 @@
     "slippageError": "Errore nello slippage dei token ricevuti"
   },
   "settings": {
-    "enabledBridges": "Bridge abilitati",
-    "enabledExchanges": "Exchange abilitati",
+    "theme": "",
+    "enabledBridges": "",
+    "enabledExchanges": "",
     "gasPrice": {
       "fast": "Veloce",
       "normal": "Normale",
@@ -254,8 +276,21 @@
       "title": "Prezzo gas"
     },
     "routePriority": "Priorità di route",
-    "showDestinationWallet": "Mostra il portafoglio di destinazione",
-    "slippage": "Slittamento"
+    "sendToWalletOption": "",
+    "slippage": "Slittamento",
+    "custom": "",
+    "resetSettings": ""
+  },
+  "sendToWallet": {
+    "enterAddress": "",
+    "enterName": "",
+    "confirmWalletAddress": "",
+    "connectedWallets": "",
+    "bookmarkWallet": "",
+    "addBookmark": "",
+    "noBookmarkedWallets": "",
+    "noConnectedWallets": "",
+    "noRecentWallets": ""
   },
   "wallet": {
     "extensionNotFound": "Assicurati che solo l'estensione {{name}} del browser sia attiva prima di scegliere questo portafoglio."
