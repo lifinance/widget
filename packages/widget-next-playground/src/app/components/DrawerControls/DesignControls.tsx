@@ -1,9 +1,14 @@
-import { ControlsContainer } from '@/app/components/DrawerControls/DrawerControls.styles';
+import { TabContentContainer } from './DrawerControls.styles';
+import { ExpandableCardAccordion, ExpandableCard } from '../ExpandableCard';
+import { TabPanelProps } from '@mui/lab/TabPanel/TabPanel';
+import { AppearanceControl } from '@/app/components/AppearanceControl';
 
-export const DesignControls = () => {
+export const DesignControls = (props: TabPanelProps) => {
   return (
-    <ControlsContainer>
-      <p>Design controls</p>
-    </ControlsContainer>
+    <TabContentContainer {...props}>
+      <ExpandableCardAccordion>
+        <AppearanceControl />
+      </ExpandableCardAccordion>
+    </TabContentContainer>
   );
 };

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Tabs, Tab } from '../Tabs';
 import TabContext from '@mui/lab/TabContext';
-import TabPanel from '@mui/lab/TabPanel';
 import { Drawer, DrawerContentContainer } from './DrawerControls.styles';
 import { DesignControls } from './DesignControls';
 import { CodeControls } from './CodeControls';
@@ -28,12 +27,8 @@ export const DrawerControls = ({ open }: DrawerControlsProps) => {
           <Tab label={'Code'} value="code" disableRipple />
         </Tabs>
         <TabContext value={controlsTabsState}>
-          <TabPanel value="design">
-            <DesignControls />
-          </TabPanel>
-          <TabPanel value="code">
-            <CodeControls />
-          </TabPanel>
+          <DesignControls value="design" />
+          <CodeControls value="code" />
         </TabContext>
       </DrawerContentContainer>
     </Drawer>

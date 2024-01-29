@@ -1,9 +1,10 @@
-import { ControlsContainer } from '@/app/components/DrawerControls/DrawerControls.styles';
+import { TabContentContainer } from '@/app/components/DrawerControls/DrawerControls.styles';
+import { TabPanelProps } from '@mui/lab/TabPanel/TabPanel';
 
-export const CodeControls = () => {
+export const CodeControls = (props: TabPanelProps) => {
   return (
-    <ControlsContainer>
+    <TabContentContainer {...props}>
       <p>Code controls</p>
-    </ControlsContainer>
+    </TabContentContainer>
   );
 };

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Widget } from './components/Widget';
-import { Box, ThemeProvider } from '@mui/material';
+import { Box, CssBaseline, ThemeProvider } from '@mui/material';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import CloseIcon from '@mui/icons-material/Close';
 import { DrawerControls } from './components/DrawerControls';
@@ -17,6 +17,7 @@ export default function Home() {
   return (
     <WidgetConfigProvider>
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         <Box sx={{ display: 'flex' }}>
           <DrawerControls open={open} />
           <OpenButton

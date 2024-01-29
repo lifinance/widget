@@ -4,7 +4,8 @@ import { useWidgetConfigStore } from './WidgetConfigProvider';
 export const useConfigActions = () => {
   const actions = useWidgetConfigStore(
     (state) => ({
-      initialiseConfig: state.setConfig,
+      setConfig: state.setConfig,
+      setAppearance: state.setAppearance,
     }),
     shallow,
   );
