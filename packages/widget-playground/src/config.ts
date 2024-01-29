@@ -57,7 +57,7 @@ export const widgetBaseConfig: WidgetConfig = {
   // },
   // chains: {
   //   types: {
-  //     allow: [ChainType.SVM],
+  //     allow: [ChainType.EVM],
   //   },
   // },
   tokens: {
