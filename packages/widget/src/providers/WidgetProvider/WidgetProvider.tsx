@@ -4,7 +4,7 @@ import { version } from '../../config/version';
 import { setDefaultSettings } from '../../stores';
 import { formatInputAmount } from '../../utils';
 import type { WidgetContextProps, WidgetProviderProps } from './types';
-import { attemptToFindMatchingToAddressInConfig } from '../../providers/WidgetProvider/utils';
+import { attemptToFindMatchingToAddressInConfig } from './utils';
 
 const initialContext: WidgetContextProps = {
   elementId: '',
