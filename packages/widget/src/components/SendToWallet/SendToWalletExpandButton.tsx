@@ -14,11 +14,12 @@ import { DisabledUI, HiddenUI, WidgetEvent } from '../../types';
 
 export const SendToWalletExpandButton: React.FC = () => {
   const { t } = useTranslation();
-  const { disabledUI, hiddenUI } = useWidgetConfig();
+  const { disabledUI, hiddenUI, toAddress } = useWidgetConfig();
   const { setFieldValue } = useFieldActions();
   const { setSelectedBookmark } = useBookmarkActions();
   const emitter = useWidgetEvents();
-  const { showSendToWallet, toggleSendToWallet } = useSendToWalletStore();
+  const { showSendToWallet, showSendToWalletDirty, setSendToWallet } =
+    useSendToWalletStore();
   const { showDestinationWallet } = useSettings(['showDestinationWallet']);
 
   const { requiredToAddress } = useToAddressRequirements();
@@ -31,12 +32,15 @@ export const SendToWalletExpandButton: React.FC = () => {
     return null;
   }
 
+  const isActive =
+    showSendToWallet || Boolean(!showSendToWalletDirty && toAddress);
+
   const handleClick = () => {
-    if (showSendToWallet && !disabledUI?.includes(DisabledUI.ToAddress)) {
+    if (isActive && !disabledUI?.includes(DisabledUI.ToAddress)) {
       setFieldValue('toAddress', '', { isTouched: true });
       setSelectedBookmark();
     }
-    toggleSendToWallet();
+    setSendToWallet(!isActive);
     emitter.emit(
       WidgetEvent.SendToWalletToggled,
       useSendToWalletStore.getState().showSendToWallet,
@@ -51,7 +55,7 @@ export const SendToWalletExpandButton: React.FC = () => {
       arrow
     >
       <Button
-        variant={showSendToWallet ? 'contained' : 'text'}
+        variant={isActive ? 'contained' : 'text'}
         onClick={handleClick}
         sx={{
           minWidth: 48,
