@@ -14,6 +14,14 @@ export const DrawerContentContainer = styled(Box)(({ theme }) => ({
   width: 344,
   padding: theme.spacing(3),
   flexDirection: 'column',
-  alignItems: 'flex-start',
+  alignItems: 'stretch',
+  gap: theme.spacing(3),
+}));
+
+export const ControlsContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  width: 344,
+  flexDirection: 'column',
+  alignItems: 'stretch',
   gap: theme.spacing(3),
 }));
