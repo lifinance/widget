@@ -9,15 +9,15 @@
   },
   "button": {
     "auto": "Automático",
-    "bookmark": "",
-    "bookmarks": "",
+    "bookmark": "Favorito",
+    "bookmarks": "Favoritos",
     "bridge": "Ponte",
     "buy": "Comprar",
     "buyNow": "Comprar agora",
     "cancel": "Cancelar",
     "changeWallet": "Alterar carteira",
-    "close": "",
-    "confirm": "",
+    "close": "Fechar",
+    "confirm": "Confirmar",
     "connectWallet": "Conectar carteira",
     "contactSupport": "Falar com o suporte",
     "continue": "Continuar",
@@ -35,7 +35,7 @@
     "light": "Claro",
     "max": "máximo",
     "ok": "Tudo certo",
-    "options": "",
+    "options": "Opções",
     "removeTransaction": "Remover transação",
     "reset": "Redefinir",
     "resetSettings": "Redefinir as configurações",
@@ -53,7 +53,7 @@
   },
   "header": {
     "activeTransactions": "Transações ativas",
-    "bookmarkedWallets": "",
+    "bookmarkedWallets": "Carteiras favoritas",
     "bridge": "Ponte",
     "checkout": "Finalizar",
     "exchange": "Conversão",
@@ -62,10 +62,10 @@
     "payWith": "Pagar com",
     "purchase": "Compra",
     "purchaseDetails": "Detalhes da compra",
-    "recentWallets": "",
+    "recentWallets": "Carteiras recentes",
     "selectChain": "Selecionar uma rede",
     "selectWallet": "Selecionar sua carteira",
-    "sendToWallet": "",
+    "sendToWallet": "Enviar para a Carteira",
     "settings": "Configurações",
     "swap": "Conversão",
     "to": "Converter para",
@@ -81,7 +81,7 @@
       "emptyTokenList": "Não conseguimos encontrar tokens na rede {{chainName}} ou você não possui nenhum. Por favor, procure pelo endereço de contrato caso o token não apareça ou escolha outra rede.",
       "emptyTransactionHistory": "O histórico de transações é armazenado apenas localmente e será excluído se você limpar os dados do seu navegador.",
       "routeNotFound": "Razões para isso podem ser: baixa liquidez, valor selecionado é muito baixo, os custos com gás são muito elevados ou não há rotas para a combinação selecionada.",
-      "fundsToExchange": ""
+      "fundsToExchange": "Os fundos enviados para uma exchange podem ser perdidos"
     },
     "title": {
       "autoRefuel": "Obter gás",
@@ -139,11 +139,11 @@
       "unknown": "Por favor, tente novamente ou fale com o suporte."
     },
     "title": {
-      "addressRequired": "",
+      "addressRequired": "Endereço da carteira é necessário",
       "allowanceRequired": "Permissão insuficiente",
       "balanceIsTooLow": "O saldo é muito baixo",
-      "bookmarkAlreadyExists": "",
-      "bookmarkNameRequired": "",
+      "bookmarkAlreadyExists": "Carteira já está marcada como {{name}}",
+      "bookmarkNameRequired": "O nome do marcador é necessário",
       "chainSwitch": "Necessário mudança de rede",
       "exchangeRateUpdateCanceled": "Atualização da taxa de conversão cancelada",
       "gasLimitIsTooLow": "O limite de gás é muito baixo",
@@ -155,9 +155,9 @@
       "transactionUnderpriced": "Transação está abaixo do valor",
       "transactionUnprepared": "Não foi possível preparar a transação",
       "unknown": "Algo deu errado",
-      "walletAddressInvalid": "",
+      "walletAddressInvalid": "O endereço da carteira ou ENS é inválido, ou a rede não suporta ENS.",
       "walletAddressRequired": "Endereço da carteira é necessário.",
-      "walletChainTypeInvalid": ""
+      "walletChainTypeInvalid": "O endereço da carteira não corresponde à cadeia de destino selecionada - {{chainName}}"
     }
   },
   "tooltip": {
@@ -282,15 +282,15 @@
     "resetSettings": "Você está usando a configuração personalizada que limita a quantidade de rotas disponíveis."
   },
   "sendToWallet": {
-    "enterAddress": "",
-    "enterName": "",
-    "confirmWalletAddress": "",
-    "connectedWallets": "",
-    "bookmarkWallet": "",
-    "addBookmark": "",
-    "noBookmarkedWallets": "",
-    "noConnectedWallets": "",
-    "noRecentWallets": ""
+    "enterAddress": "Insira o endereço ou ENS",
+    "enterName": "Insira o nome",
+    "confirmWalletAddress": "Confirme o endereço da carteira",
+    "connectedWallets": "Carteiras Conectadas",
+    "bookmarkWallet": "Carteiras favoritas",
+    "addBookmark": "Adicionar marcador",
+    "noBookmarkedWallets": "Sem carteiras favoritas",
+    "noConnectedWallets": "Sem carteiras conectadas",
+    "noRecentWallets": "Sem carteiras recentes"
   },
   "wallet": {
     "extensionNotFound": "Por favor, certifique-se de que apenas a extensão do navegador da {{name}} está ativa antes de escolher esta carteira."
