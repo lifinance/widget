@@ -34,4 +34,37 @@ export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
         },
       });
     },
+    setBorderRadius: (radius) => {
+      set({
+        config: {
+          ...get().config,
+          theme: {
+            ...get().config?.theme,
+            shape: {
+              ...get().config?.theme?.shape,
+              borderRadius: radius,
+            },
+          },
+        } as WidgetConfig,
+      });
+    },
+    resetBorderRadius: () => {
+      const shape = get().config?.theme?.shape;
+
+      set({
+        config: {
+          ...get().config,
+          theme: {
+            ...get().config?.theme,
+            shape: {
+              ...(shape?.borderRadiusSecondary
+                ? {
+                    borderRadiusSecondary: shape?.borderRadiusSecondary,
+                  }
+                : {}),
+            },
+          },
+        } as WidgetConfig,
+      });
+    },
   }));

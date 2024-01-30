@@ -16,6 +16,8 @@ export interface WidgetConfigActions {
   setAppearance: (appearance: Appearance) => void;
   setVariant: (variant: WidgetVariant) => void;
   setSubvariant: (subvariant: WidgetSubvariant) => void;
+  setBorderRadius: (radius: number) => void;
+  resetBorderRadius: () => void;
 }
 
 export type WidgetConfigState = WidgetConfigValues & WidgetConfigActions;

@@ -3,10 +3,10 @@ import BrightnessAutoIcon from '@mui/icons-material/BrightnessAuto';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import NightlightIcon from '@mui/icons-material/Nightlight';
 import { Appearance } from '@lifi/widget';
-import { ExpandableCard } from './ExpandableCard';
-import { Tab, Tabs } from './Tabs';
-import { useConfigActions, useConfigAppearance } from '@/app/store';
-import { CardValue } from '@/app/components/ExpandableCard/ExpandableCard.styles';
+import { useConfigActions, useConfigAppearance } from '../../../store';
+import { ExpandableCard } from '../../ExpandableCard';
+import { Tab, Tabs } from '../../Tabs';
+import { CardValue } from '../../ExpandableCard/';
 
 const appearanceIcons = {
   light: LightModeIcon,
@@ -53,7 +53,7 @@ export const AppearanceControl = () => {
         aria-label="tabs"
         indicatorColor="primary"
         onChange={handleAppearanceChange}
-        sx={{ mt: 1.5 }}
+        sx={{ mt: 1 }}
       >
         {Object.entries(appearanceIcons).map(([appearance, Icon]) => {
           const supportedAppearance = appearance as Appearance;

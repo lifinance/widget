@@ -1,8 +1,8 @@
 import { WidgetSubvariant } from '@lifi/widget';
-import { ExpandableCard } from './ExpandableCard';
-import { Tab, Tabs } from './Tabs';
-import { useConfigActions, useConfigSubvariant } from '@/app/store';
-import { CardValue } from '@/app/components/ExpandableCard/ExpandableCard.styles';
+import { useConfigActions, useConfigSubvariant } from '../../../store';
+import { ExpandableCard } from '../../ExpandableCard';
+import { Tab, Tabs } from '../../Tabs';
+import { CardValue } from '../../ExpandableCard';
 
 export const SubvariantControl = () => {
   const { subvariant } = useConfigSubvariant();
@@ -26,8 +26,7 @@ export const SubvariantControl = () => {
         aria-label="tabs"
         indicatorColor="primary"
         onChange={handleSubvariantChange}
-        sx={{ mt: 1.5 }}
-        // orientation="vertical"
+        sx={{ mt: 0.5 }}
       >
         <Tab label="Default" value={'default'} disableRipple />
         <Tab label="Split" value={'split'} disableRipple />

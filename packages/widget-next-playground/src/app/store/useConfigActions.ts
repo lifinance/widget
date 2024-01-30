@@ -8,6 +8,8 @@ export const useConfigActions = () => {
       setAppearance: state.setAppearance,
       setVariant: state.setVariant,
       setSubvariant: state.setSubvariant,
+      setBorderRadius: state.setBorderRadius,
+      resetBorderRadius: state.resetBorderRadius,
     }),
     shallow,
   );

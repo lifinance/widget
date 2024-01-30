@@ -33,3 +33,14 @@ export const useConfigAppearance = () => {
     appearance: !appearance ? 'auto' : appearance,
   };
 };
+
+export const useConfigBorderRadius = () => {
+  const [borderRadius] = useWidgetConfigStore(
+    (store) => [store.config?.theme?.shape?.borderRadius],
+    shallow,
+  );
+
+  return {
+    borderRadius,
+  };
+};

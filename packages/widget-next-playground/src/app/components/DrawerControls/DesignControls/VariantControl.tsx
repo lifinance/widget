@@ -1,8 +1,8 @@
 import { WidgetVariant } from '@lifi/widget';
-import { ExpandableCard } from './ExpandableCard';
-import { Tab, Tabs } from './Tabs';
-import { useConfigActions, useConfigVariant } from '@/app/store';
-import { CardValue } from '@/app/components/ExpandableCard/ExpandableCard.styles';
+import { useConfigActions, useConfigVariant } from '../../../store';
+import { ExpandableCard } from '../../ExpandableCard';
+import { Tab, Tabs } from '../../Tabs';
+import { CardValue } from '../../ExpandableCard';
 
 export const VariantControl = () => {
   const { variant } = useConfigVariant();
@@ -26,7 +26,7 @@ export const VariantControl = () => {
         aria-label="tabs"
         indicatorColor="primary"
         onChange={handleVariantChange}
-        sx={{ mt: 1.5 }}
+        sx={{ mt: 0.5 }}
         orientation="vertical"
       >
         <Tab label="Default" value={'default'} disableRipple />
