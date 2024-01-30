@@ -1,9 +1,9 @@
 import { type EVMChain, type RouteExtended, type Token } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
 import type { Connector } from 'wagmi';
-import { getTokenBalancesWithRetry, useAvailableChains, useGasRefuel } from '.';
-import { useSettings } from '../stores';
 import { useAccount } from './useAccount';
+import { useAvailableChains } from './useAvailableChains';
+import { getTokenBalancesWithRetry } from './useTokenBalance';
 
 export interface GasSufficiency {
   gasAmount: bigint;
@@ -21,25 +21,26 @@ export const useGasSufficiency = (route?: RouteExtended) => {
   const { account } = useAccount({
     chainType: getChainById(route?.fromChainId)?.chainType,
   });
-  const { enabledAutoRefuel } = useSettings(['enabledAutoRefuel']);
-  const { enabled, isLoading: isRefuelLoading } = useGasRefuel();
-  const enabledRefuel = enabled && enabledAutoRefuel;
 
   const { data: insufficientGas, isLoading } = useQuery({
     queryKey: ['gas-sufficiency-check', account.address, route?.id],
     queryFn: async ({ queryKey: [, accountAddress] }) => {
-      // TODO: include LI.Fuel into calculation once steps and tools are properly typed
-      // const refuelSteps = route.steps
-      //   .flatMap((step) => step.includedSteps)
-      //   .filter((includedStep) => includedStep.tool === 'lifuelProtocol');
+      // We assume that LI.Fuel protocol always refuels the destination chain
+      const hasRefuelStep = route!.steps
+        .flatMap((step) => step.includedSteps)
+        .some((includedStep) => includedStep.tool === 'lifuelProtocol');
 
       const gasCosts = route!.steps
         .filter((step) => !step.execution || step.execution.status !== 'DONE')
         .reduce(
           (groupedGasCosts, step) => {
+            // We need to avoid destination chain step sufficiency check if we have LI.Fuel protocol sub-step
+            const skipDueToRefuel =
+              step.action.fromChainId === route?.toChainId && hasRefuelStep;
             if (
               step.estimate.gasCosts &&
-              (account.connector as Connector)?.id !== 'safe'
+              (account.connector as Connector)?.id !== 'safe' &&
+              !skipDueToRefuel
             ) {
               const { token } = step.estimate.gasCosts[0];
               const gasCostAmount = step.estimate.gasCosts.reduce(
@@ -75,6 +76,8 @@ export const useGasSufficiency = (route?: RouteExtended) => {
           {} as Record<number, GasSufficiency>,
         );
 
+      // Check whether we are sending a native token
+      // For native tokens we want to check for the total amount, including the network fee
       if (
         route!.fromToken.address === gasCosts[route!.fromChainId]?.token.address
       ) {
@@ -131,11 +134,8 @@ export const useGasSufficiency = (route?: RouteExtended) => {
     staleTime: refetchInterval,
   });
 
-  const isInsufficientGas =
-    Boolean(insufficientGas?.length) && !isRefuelLoading && !enabledRefuel;
-
   return {
-    insufficientGas: isInsufficientGas ? insufficientGas : undefined,
+    insufficientGas,
     isLoading,
   };
 };
