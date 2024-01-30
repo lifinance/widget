@@ -1,5 +1,4 @@
 import { Collapse } from '@mui/material';
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAccount, useToAddressRequirements } from '../../hooks';
@@ -25,8 +24,7 @@ export const SendToWalletButton = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { disabledUI, hiddenUI, toAddress, toAddresses } = useWidgetConfig();
-  const { showSendToWallet, showSendToWalletDirty, setSendToWallet } =
-    useSendToWalletStore();
+  const { showSendToWallet, showSendToWalletDirty } = useSendToWalletStore();
   const { showDestinationWallet } = useSettings(['showDestinationWallet']);
   const [toAddressFieldValue] = useFieldValues('toAddress');
   const { selectedBookmark } = useBookmarks();
@@ -79,14 +77,6 @@ export const SendToWalletButton = () => {
         : navigationRoutes.sendToWallet,
     );
   };
-
-  // Sync SendToWalletExpandButton state
-  // TODO: find better way
-  useEffect(() => {
-    if (showInstantly) {
-      setSendToWallet(true);
-    }
-  }, [showInstantly, setSendToWallet]);
 
   return (
     <Collapse
