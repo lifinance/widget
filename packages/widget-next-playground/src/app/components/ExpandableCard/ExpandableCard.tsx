@@ -32,7 +32,7 @@ export const ExpandableCard: React.FC<
         disableRipple
         sx={{ p: 1 }}
       >
-        <CardTitleContainer>
+        <CardTitleContainer sx={{ minHeight: 24 }}>
           {icon}
           <CardValue>{title}</CardValue>
         </CardTitleContainer>

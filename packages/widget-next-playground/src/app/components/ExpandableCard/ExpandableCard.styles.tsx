@@ -105,4 +105,5 @@ export const CardTitleContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   gap: theme.spacing(1.5),
+  minHeight: 24,
 }));

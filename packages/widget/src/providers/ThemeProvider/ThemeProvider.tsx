@@ -41,5 +41,6 @@ export const ThemeProvider: React.FC<React.PropsWithChildren<{}>> = ({
     () => createTheme(mode, themeConfig),
     [mode, themeConfig],
   );
+
   return <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>;
 };

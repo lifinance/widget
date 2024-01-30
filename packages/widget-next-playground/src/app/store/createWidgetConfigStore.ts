@@ -18,4 +18,12 @@ export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
         },
       });
     },
+    setVariant: (variant) => {
+      set({
+        config: {
+          ...get().config,
+          variant,
+        },
+      });
+    },
   }));
