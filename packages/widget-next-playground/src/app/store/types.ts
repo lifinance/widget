@@ -1,4 +1,9 @@
-import { Appearance, WidgetConfig, WidgetVariant } from '@lifi/widget';
+import {
+  Appearance,
+  WidgetConfig,
+  WidgetSubvariant,
+  WidgetVariant,
+} from '@lifi/widget';
 import { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
 import { StoreApi } from 'zustand';
 
@@ -10,6 +15,7 @@ export interface WidgetConfigActions {
   setConfig: (config: Partial<WidgetConfig>) => void;
   setAppearance: (appearance: Appearance) => void;
   setVariant: (variant: WidgetVariant) => void;
+  setSubvariant: (subvariant: WidgetSubvariant) => void;
 }
 
 export type WidgetConfigState = WidgetConfigValues & WidgetConfigActions;

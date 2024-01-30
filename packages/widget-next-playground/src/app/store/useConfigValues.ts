@@ -12,6 +12,17 @@ export const useConfigVariant = () => {
   };
 };
 
+export const useConfigSubvariant = () => {
+  const [subvariant] = useWidgetConfigStore(
+    (store) => [store.config?.subvariant],
+    shallow,
+  );
+
+  return {
+    subvariant: !subvariant ? 'default' : subvariant,
+  };
+};
+
 export const useConfigAppearance = () => {
   const [appearance] = useWidgetConfigStore(
     (store) => [store.config?.appearance],

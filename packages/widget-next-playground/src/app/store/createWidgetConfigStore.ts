@@ -26,4 +26,12 @@ export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
         },
       });
     },
+    setSubvariant: (subvariant) => {
+      set({
+        config: {
+          ...get().config,
+          subvariant,
+        },
+      });
+    },
   }));

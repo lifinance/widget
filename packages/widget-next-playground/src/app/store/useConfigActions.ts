@@ -7,6 +7,7 @@ export const useConfigActions = () => {
       setConfig: state.setConfig,
       setAppearance: state.setAppearance,
       setVariant: state.setVariant,
+      setSubvariant: state.setSubvariant,
     }),
     shallow,
   );

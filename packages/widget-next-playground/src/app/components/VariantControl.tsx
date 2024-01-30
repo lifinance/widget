@@ -1,4 +1,4 @@
-import { Appearance, WidgetVariant } from '@lifi/widget';
+import { WidgetVariant } from '@lifi/widget';
 import { ExpandableCard } from './ExpandableCard';
 import { Tab, Tabs } from './Tabs';
 import { useConfigActions, useConfigVariant } from '@/app/store';
@@ -7,7 +7,7 @@ import { CardValue } from '@/app/components/ExpandableCard/ExpandableCard.styles
 export const VariantControl = () => {
   const { variant } = useConfigVariant();
   const { setVariant } = useConfigActions();
-  const handleAppearanceChange = (
+  const handleVariantChange = (
     _: React.SyntheticEvent,
     value: WidgetVariant,
   ) => {
@@ -25,7 +25,7 @@ export const VariantControl = () => {
         value={variant}
         aria-label="tabs"
         indicatorColor="primary"
-        onChange={handleAppearanceChange}
+        onChange={handleVariantChange}
         sx={{ mt: 1.5 }}
         orientation="vertical"
       >
