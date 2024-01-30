@@ -41,7 +41,9 @@ export const ConfirmAddressSheet = forwardRef<
 
   const handleConfirm = () => {
     if (validatedBookmark) {
-      setFieldValue('toAddress', validatedBookmark.address);
+      setFieldValue('toAddress', validatedBookmark.address, {
+        isTouched: true,
+      });
       onConfirm?.(validatedBookmark);
       setSendToWallet(true);
       handleClose();

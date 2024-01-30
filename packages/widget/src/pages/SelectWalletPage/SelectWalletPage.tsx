@@ -1,3 +1,4 @@
+import { ChainType } from '@lifi/sdk';
 import { isWalletInstalled } from '@lifi/wallet-management';
 import type { Theme } from '@mui/material';
 import {
@@ -17,12 +18,15 @@ import type { Connector } from 'wagmi';
 import { useConnect, useAccount as useWagmiAccount } from 'wagmi';
 import { Dialog } from '../../components/Dialog';
 import { PageContainer } from '../../components/PageContainer';
+import { useWidgetConfig } from '../../providers';
+import { isItemAllowed } from '../../utils';
 import { EVMListItemButton } from './EVMListItemButton';
 import { SVMListItemButton } from './SVMListItemButton';
 import { walletComparator } from './utils';
 
 export const SelectWalletPage = () => {
   const { t } = useTranslation();
+  const { chains } = useWidgetConfig();
   const account = useWagmiAccount();
   const { connectors } = useConnect();
   const [walletIdentity, setWalletIdentity] = useState<{
@@ -50,25 +54,31 @@ export const SelectWalletPage = () => {
   }, []);
 
   const wallets = useMemo(() => {
-    const evmInstalled = connectors.filter(
-      (connector) =>
-        isWalletInstalled(connector.id) &&
-        // We should not show already connected connectors
-        account.connector?.id !== connector.id,
-    );
-    const evmNotDetected = connectors.filter(
-      (connector) => !isWalletInstalled(connector.id),
-    );
-    const svmInstalled = solanaWallets?.filter(
-      (connector) =>
-        connector.adapter.readyState === WalletReadyState.Installed &&
-        // We should not show already connected connectors
-        !connector.adapter.connected,
-    );
-    const svmNotDetected = solanaWallets?.filter(
-      (connector) =>
-        connector.adapter.readyState !== WalletReadyState.Installed,
-    );
+    const evmInstalled = isItemAllowed(ChainType.EVM, chains?.types)
+      ? connectors.filter(
+          (connector) =>
+            isWalletInstalled(connector.id) &&
+            // We should not show already connected connectors
+            account.connector?.id !== connector.id,
+        )
+      : [];
+    const evmNotDetected = isItemAllowed(ChainType.EVM, chains?.types)
+      ? connectors.filter((connector) => !isWalletInstalled(connector.id))
+      : [];
+    const svmInstalled = isItemAllowed(ChainType.SVM, chains?.types)
+      ? solanaWallets?.filter(
+          (connector) =>
+            connector.adapter.readyState === WalletReadyState.Installed &&
+            // We should not show already connected connectors
+            !connector.adapter.connected,
+        )
+      : [];
+    const svmNotDetected = isItemAllowed(ChainType.SVM, chains?.types)
+      ? solanaWallets?.filter(
+          (connector) =>
+            connector.adapter.readyState !== WalletReadyState.Installed,
+        )
+      : [];
 
     const installedWallets = [...evmInstalled, ...svmInstalled].sort(
       walletComparator,
@@ -82,7 +92,13 @@ export const SelectWalletPage = () => {
     }
 
     return installedWallets;
-  }, [account.connector?.id, connectors, isDesktopView, solanaWallets]);
+  }, [
+    account.connector?.id,
+    chains?.types,
+    connectors,
+    isDesktopView,
+    solanaWallets,
+  ]);
 
   return (
     <PageContainer disableGutters>

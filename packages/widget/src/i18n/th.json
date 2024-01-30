@@ -9,10 +9,15 @@
   },
   "button": {
     "auto": "อัตโนมัติ",
+    "bookmark": "",
+    "bookmarks": "",
     "bridge": "บริดจ์",
     "buy": "ซื้อ",
     "buyNow": "ซื้อตอนนี้",
     "cancel": "ยกเลิก",
+    "changeWallet": "",
+    "close": "",
+    "confirm": "",
     "connectWallet": "เชื่อมต่อ กระเป๋า",
     "contactSupport": "ติดต่อฝ่ายสนับสนุน",
     "continue": "ดำเนินการต่อ",
@@ -30,6 +35,7 @@
     "light": "สว่าง",
     "max": "สูงสุด",
     "ok": "ตกลง",
+    "options": "",
     "removeTransaction": "นำรายการออก",
     "reset": "ล้างข้อมูล",
     "resetSettings": "รีเซ็ตการตั้งค่า",
@@ -47,6 +53,7 @@
   },
   "header": {
     "activeTransactions": "ธุรกรรมมีผล",
+    "bookmarkedWallets": "",
     "bridge": "บริดจ์",
     "checkout": "เช็คเอาท์",
     "exchange": "แลกเปลี่ยน",
@@ -55,8 +62,10 @@
     "payWith": "ชำระด้วย",
     "purchase": "ซื้อ",
     "purchaseDetails": "รายละเอียดการซื้อ",
+    "recentWallets": "",
     "selectChain": "เลือกเชน",
     "selectWallet": "เลือกกระเป๋าของคุณ",
+    "sendToWallet": "",
     "settings": "ตั้งค่า",
     "swap": "แลกเปลี่ยน",
     "to": "แลกเปลี่ยนเป็น",
@@ -71,7 +80,8 @@
       "emptyActiveTransactions": "การแลกเปลี่ยนที่กำลังดำเนินการจะปรากฏที่นี่. เมื่อเสร็จสิ้น, จะพบประวัติการแลกเปลี่ยน.",
       "emptyTokenList": "เราไม่พบโทเค็นใน {{chainName}} เชนหรือคุณไม่มีโทเค็น. โปรดลองอีกครั้งหรือเลือกเชนอื่น.",
       "emptyTransactionHistory": "ประวัติการแลกเปลี่ยนจะถูกเก็บไว้ในเครื่องเท่านั้นและจะถูกลบหากคุณล้างข้อมูลเบราว์เซอร์ของคุณ.",
-      "routeNotFound": "เหตุผลที่อาจเกิดขึ้น : สภาพคล่องต่ำ , จำนวนที่เลือกน้อยเกินไป , ต้นทุนแก็สสูงหรือไม่มีเส้นทางที่ใช้งานได้"
+      "routeNotFound": "เหตุผลที่อาจเกิดขึ้น : สภาพคล่องต่ำ , จำนวนที่เลือกน้อยเกินไป , ต้นทุนแก็สสูงหรือไม่มีเส้นทางที่ใช้งานได้",
+      "fundsToExchange": ""
     },
     "title": {
       "autoRefuel": "รับแก็ส",
@@ -103,7 +113,8 @@
       "insufficientFunds": "คุณมีเงินไม่เพียงพอที่จะดำเนินการแลกเปลี่ยน.",
       "insufficientGas": "คุณมีแก๊สไม่เพียงพอที่จะแลกเปลี่ยนให้เสร็จสมบูรณ์ คุณต้องเพิ่มอย่างน้อย:",
       "rateChanged": "อัตราแลกเปลี่ยนมีการเปลี่ยนแปลง คุณจะยอมรับอัตราใหม่.",
-      "resetSettings": "การดำเนินการนี้จะรีเซ็ตลำดับความสำคัญของเส้นทาง การคลาดเลื่อน ค่าแก็ส บริดจ์ที่เปิดใช้งานและการแลกเปลี่ยน"
+      "resetSettings": "การดำเนินการนี้จะรีเซ็ตลำดับความสำคัญของเส้นทาง การคลาดเลื่อน ค่าแก็ส บริดจ์ที่เปิดใช้งานและการแลกเปลี่ยน",
+      "slippageOutsideRecommendedLimits": ""
     },
     "title": {
       "deleteActiveTransactions": "ลบ​รายการธุรกรรม​ทั้งหมด?",
@@ -119,33 +130,37 @@
     "message": {
       "allowanceRequired": "โอนด้วยจำนวน {{tokenSymbol}} ตามการอนุญาตของคุณ.ได้โปรดเพิ่มการอนุญาตของคุณอีกครั้ง",
       "insufficientFunds": "คุณมีแก็สไม่พอสำหรับการธุรกรรมนี้",
+      "signatureRejected": "",
       "slippageThreshold": "การคลาดเคลื่อนมีขนาดใหญ่กว่าเกณฑ์ที่กำหนด โปรดขอเส้นทางใหม่เพื่อได้รับการเสนอราคาใหม่.",
       "transactionFailed": "โปรดตรวจสอบบล็อกการสำรวจสำหรับข้อมูลเพิ่มเติม.",
-      "transactionNotSent": "ไม่ได้ส่งธุรกรรม. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} บน {{chainName}} ยังคงอยู่ในกระเป๋าเงินของคุณ.",
-      "transactionRejected": "จำเป็นต้องมีลายเซ็นของคุณเพื่อทำธุรกรมให้เสร็จสมบูรณ์. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} บน {{chainName}} ยังคงอยู่ในกระเป๋าเงินของคุณ.",
+      "transactionNotSent": "",
+      "transactionCanceled": "",
+      "remainInYourWallet": "",
       "unknown": "โปรดลองอีกครั้งหรือติดต่อฝ่ายสนับสนุน."
     },
     "title": {
+      "addressRequired": "",
       "allowanceRequired": "การอนุญาตไม่เพียงพอ",
       "balanceIsTooLow": "ยอดคงเหลือต่ำเกินไป",
+      "bookmarkAlreadyExists": "",
+      "bookmarkNameRequired": "",
       "chainSwitch": "จำเป็นต้องเปลี่ยนเชน",
+      "exchangeRateUpdateCanceled": "",
       "gasLimitIsTooLow": "แก๊สคงเหลือต่ำเกินไป",
       "insufficientFunds": "ยอดคงเหลือไม่เพียงพอ",
+      "signatureRejected": "",
       "slippageNotMet": "ความคลาดเคลื่อนของราคาไม่เป็นไปตามเงื่อนไข.",
       "transactionCanceled": "ธุรกรรมถูกยกเลิกแล้ว",
       "transactionFailed": "การทำธุรกรรมล้มเหลว",
-      "transactionRejected": "ต้องมีลายเซ็น",
       "transactionUnderpriced": "ราคาธุรกรรมต่ำเกินไป",
       "transactionUnprepared": "ไม่สามารถจัดทำธุรกรรมได้",
       "unknown": "มีบางอย่างผิดพลาด",
-      "walletAddressInvalid": "ที่อยู่กระเป๋าเงินไม่ถูกต้อง.",
+      "walletAddressInvalid": "",
       "walletAddressRequired": "กรุณากรอกที่อยู่กระเป๋าเงิน.",
-      "walletEnsAddressInvalid": "ที่อยู่กระเป๋าเงินไม่ถูกต้องหรือเครือข่ายไม่รองรับ ENS."
+      "walletChainTypeInvalid": ""
     }
   },
   "tooltip": {
-    "additionalProviderFee": "บริดจ์เพิ่มเติม DEX และค่าบริการ",
-    "estimatedNetworkFee": "ค่าธรรรมเนียมโดยประมาณของเครือข่าย",
     "estimatedTime": "เวลาดำเนินการแลกเปลี่ยนโดยประมาณเป็นนาที.",
     "notFound": {
       "text": "เราไม่พบหน้านี้.",
@@ -154,18 +169,25 @@
     "numberOfSteps": "ขั้นตอนการแลกเปลี่ยนหลายขั้นตอน แต่ละขั้นตอนสามารถมี 1-2 รายการที่ต้องใช้ลายเซ็น.",
     "progressToNextUpdate": "ข้อมูลที่แสดงจะรีเฟรชอัตโนมัติหลังจาก {{value}} วินาที คลิกที่นี่เพื่ออัปเดตด้วยตนเอง",
     "recommended": "เส้นทางที่ถูกมียอดคงเหลือที่เพียงพอและง่ายต่องการใช้งาน",
-    "settingsModified": "การตั้งค่า (แก้ไข)"
+    "settingsModified": "การตั้งค่า (แก้ไข)",
+    "selectAll": "",
+    "deselectAll": ""
   },
   "main": {
     "crossStepDetails": "บริดจ์จาก{{from}} to {{to}} โดย {{tool}}",
     "currentAmount": "จำนวนเงินปัจจุบัน",
-    "estimatedTime": "{{value}} นาที",
     "featuredTokens": "จุดเด่นของเหรียญ",
+    "fees": {
+      "estimated": "",
+      "networkEstimated": "",
+      "networkPaid": "",
+      "paid": "",
+      "providerEstimated": "",
+      "providerPaid": ""
+    },
     "from": "จาก",
     "fromAmount": "คุณจ่าย",
     "gasCost": "ค่าแก๊ส",
-    "gasFeeEstimated": "ค่าแก๊สโดยประมาณ",
-    "gasFeePaid": "จ่ายค่าทำเนียมแล้ว",
     "inProgress": "กำลังดำเนินการ",
     "nftStepDetails": "ซื้อ NFT ผ่าน {{tool}}",
     "onChain": "บน {{chainName}}",
@@ -235,8 +257,7 @@
     "tokenOnChain": "{{tokenSymbol}} บน {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}}{{tokenSymbol}} บน {{chainName}}",
     "tokenSearch": "ค้นหาชื่อของเหรียญ หรือ ที่อยู่",
-    "valueLoss": "มูลค่าที่สูญเสีย",
-    "walletAddressOrEns": "ที่อยู่กระเป๋าหรือชื่อENS"
+    "valueLoss": "มูลค่าที่สูญเสีย"
   },
   "insurance": {
     "bridgeExploits": "การบริดจ์ทำงานผิดปกติ แฮ็กหรือหาผลประโยชน์",
@@ -245,8 +266,9 @@
     "slippageError": "เกิดข้อผิดพลาดในการคลาดเคลื่อนของโทเค็นที่ได้รับ"
   },
   "settings": {
-    "enabledBridges": "เปิดการใช้งานบริดจ์",
-    "enabledExchanges": "เปิดการใช้งาน การแลกเปลี่ยน",
+    "theme": "",
+    "enabledBridges": "",
+    "enabledExchanges": "",
     "gasPrice": {
       "fast": "รวดเร็ว",
       "normal": "ปกติ",
@@ -254,8 +276,21 @@
       "title": "ค่าแก็ส"
     },
     "routePriority": "ลำดับสำคัญของเส้นทาง",
-    "showDestinationWallet": "แสดงกระเป๋าปลายทาง",
-    "slippage": "ความคลาดเคลื่อน"
+    "sendToWalletOption": "",
+    "slippage": "ความคลาดเคลื่อน",
+    "custom": "",
+    "resetSettings": ""
+  },
+  "sendToWallet": {
+    "enterAddress": "",
+    "enterName": "",
+    "confirmWalletAddress": "",
+    "connectedWallets": "",
+    "bookmarkWallet": "",
+    "addBookmark": "",
+    "noBookmarkedWallets": "",
+    "noConnectedWallets": "",
+    "noRecentWallets": ""
   },
   "wallet": {
     "extensionNotFound": "โปรดตรวจสอบว่ามีเพียงส่วนขยายของเบราว์เซอร์ {{name}} เท่านั้นที่ใช้งานได้ก่อนที่จะเลือกกระเป๋าเงินนี้."

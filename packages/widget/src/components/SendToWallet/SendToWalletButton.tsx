@@ -23,7 +23,7 @@ import { SendToWalletCardHeader } from './SendToWallet.style';
 export const SendToWalletButton = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { disabledUI, hiddenUI, toAddress } = useWidgetConfig();
+  const { disabledUI, hiddenUI, toAddress, toAddresses } = useWidgetConfig();
   const { showSendToWallet, showSendToWalletDirty } = useSendToWalletStore();
   const { showDestinationWallet } = useSettings(['showDestinationWallet']);
   const [toAddressFieldValue] = useFieldValues('toAddress');
@@ -71,7 +71,11 @@ export const SendToWalletButton = () => {
     : !!selectedBookmark?.name && address;
 
   const handleOnClick = () => {
-    navigate(navigationRoutes.sendToWallet);
+    navigate(
+      toAddresses?.length
+        ? navigationRoutes.configuredWallets
+        : navigationRoutes.sendToWallet,
+    );
   };
 
   return (

@@ -20,15 +20,15 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
   return (
     <QueryClientProvider client={queryClient}>
       <WidgetProvider config={config}>
-        <ThemeProvider>
-          <I18nProvider>
-            <WalletProvider>
+        <WalletProvider>
+          <ThemeProvider>
+            <I18nProvider>
               <StoreProvider config={config}>
                 <AppRouter>{children}</AppRouter>
               </StoreProvider>
-            </WalletProvider>
-          </I18nProvider>
-        </ThemeProvider>
+            </I18nProvider>
+          </ThemeProvider>
+        </WalletProvider>
       </WidgetProvider>
     </QueryClientProvider>
   );

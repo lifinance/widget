@@ -1,5 +1,5 @@
 import type { SDKProvider } from '@lifi/sdk';
-import { EVM, Solana, config } from '@lifi/sdk';
+import { ChainType, EVM, Solana, config } from '@lifi/sdk';
 import type { WalletAdapter } from '@solana/wallet-adapter-base';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { getWalletClient, switchChain } from '@wagmi/core';
@@ -14,16 +14,25 @@ export const SDKProviders = () => {
 
   useEffect(() => {
     // Configure SDK Providers
-    const providers: SDKProvider[] = [
-      EVM({
-        getWalletClient: () => getWalletClient(wagmiConfig),
-        switchChain: async (chainId: number) => {
-          const chain = await switchChain(wagmiConfig, { chainId });
-          return getWalletClient(wagmiConfig, { chainId: chain.id });
-        },
-      }),
-    ];
-    if (wallet?.adapter) {
+    const providers: SDKProvider[] = [];
+    const hasConfiguredEVMProvider = sdkConfig?.providers?.some(
+      (provider) => provider.type === ChainType.EVM,
+    );
+    const hasConfiguredSVMProvider = sdkConfig?.providers?.some(
+      (provider) => provider.type === ChainType.SVM,
+    );
+    if (!hasConfiguredEVMProvider) {
+      providers.push(
+        EVM({
+          getWalletClient: () => getWalletClient(wagmiConfig),
+          switchChain: async (chainId: number) => {
+            const chain = await switchChain(wagmiConfig, { chainId });
+            return getWalletClient(wagmiConfig, { chainId: chain.id });
+          },
+        }),
+      );
+    }
+    if (!hasConfiguredSVMProvider) {
       providers.push(
         Solana({
           async getWalletAdapter() {

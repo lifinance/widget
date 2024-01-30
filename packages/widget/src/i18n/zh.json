@@ -9,10 +9,15 @@
   },
   "button": {
     "auto": "自动",
+    "bookmark": "",
+    "bookmarks": "",
     "bridge": "跨链",
     "buy": "购买",
     "buyNow": "立即购买",
     "cancel": "取消",
+    "changeWallet": "更换钱包",
+    "close": "关闭",
+    "confirm": "",
     "connectWallet": "关联钱包",
     "contactSupport": "联系技术支持",
     "continue": "继续",
@@ -30,6 +35,7 @@
     "light": "浅色主题",
     "max": "最大",
     "ok": "确认",
+    "options": "",
     "removeTransaction": "删除交易",
     "reset": "重置",
     "resetSettings": "恢复默认设置",
@@ -47,6 +53,7 @@
   },
   "header": {
     "activeTransactions": "进行中的交易",
+    "bookmarkedWallets": "",
     "bridge": "跨链",
     "checkout": "支付",
     "exchange": "兑换",
@@ -55,8 +62,10 @@
     "payWith": "支付方式",
     "purchase": "购买",
     "purchaseDetails": "交易明细",
+    "recentWallets": "",
     "selectChain": "选择网络",
     "selectWallet": "选择你的钱包",
+    "sendToWallet": "",
     "settings": "设置",
     "swap": "兑换",
     "to": "兑换为",
@@ -71,7 +80,8 @@
       "emptyActiveTransactions": "正在进行的兑换将在这里显示。一旦完成，你可在兑换记录中找到它们。",
       "emptyTokenList": "我们无法在 {{chainName}} 链上找到这些代币，或者你的钱包内没有这些代币。请再次搜索或者选择其他链再试一次。",
       "emptyTransactionHistory": "交易记录只存储在本地，如果您清除浏览器数据，交易记录将被删除。",
-      "routeNotFound": "导致其的原因可能是：流动性低，所选定代币的数额太低，燃气费过高，或者当前没有合适的交易路径。"
+      "routeNotFound": "导致其的原因可能是：流动性低，所选定代币的数额太低，燃气费过高，或者当前没有合适的交易路径。",
+      "fundsToExchange": ""
     },
     "title": {
       "autoRefuel": "获得燃气费",
@@ -103,7 +113,8 @@
       "insufficientFunds": "你没有足够的资金来完成这笔交易。",
       "insufficientGas": "您没有足够的燃气费来完成此次交易。您至少需要添加：",
       "rateChanged": "兑换比例已经改变，如果继续兑换，您将接受新的兑换比例。",
-      "resetSettings": "这将重置您的路由优先级，滑点，燃气费，选中的跨链桥和链上交易所。"
+      "resetSettings": "这将重置您的路由优先级，滑点，燃气费，选中的跨链桥和链上交易所。",
+      "slippageOutsideRecommendedLimits": "过高的滑点可能会导致交易被抢跑，造成财产损失"
     },
     "title": {
       "deleteActiveTransactions": "确定要删除所有正在进行的交易吗？",
@@ -128,27 +139,28 @@
       "unknown": "请再试一次或者联系支持。"
     },
     "title": {
+      "addressRequired": "",
       "allowanceRequired": "余额不足",
       "balanceIsTooLow": "余额太低",
+      "bookmarkAlreadyExists": "",
+      "bookmarkNameRequired": "",
       "chainSwitch": "请切换当前网络",
+      "exchangeRateUpdateCanceled": "兑换率更新已取消",
       "gasLimitIsTooLow": "燃气费设置过低",
       "insufficientFunds": "资金不足",
       "signatureRejected": "交易需要签名。",
       "slippageNotMet": "滑点未满足",
       "transactionCanceled": "交易取消",
-      "exchangeRateUpdateCanceled": "兑换率更新已取消",
       "transactionFailed": "交易失败",
       "transactionUnderpriced": "交易定价过低",
       "transactionUnprepared": "无法开始该交易",
       "unknown": "未知错误",
-      "walletAddressInvalid": "钱包地址无效。",
+      "walletAddressInvalid": "",
       "walletAddressRequired": "请输入钱包地址。",
-      "walletEnsAddressInvalid": "钱包地址或 ENS 无效，或者当前网络不支持 ENS。"
+      "walletChainTypeInvalid": ""
     }
   },
   "tooltip": {
-    "additionalProviderFee": "跨链和交易所的手续费。",
-    "estimatedNetworkFee": "预估网络手续费。",
     "estimatedTime": "预计兑换的执行时间（分钟）。",
     "notFound": {
       "text": "我们找不到这个页面。",
@@ -157,18 +169,25 @@
     "numberOfSteps": "一系列的兑换步骤，每个步骤可能包含1-2个需要签名的交易。",
     "progressToNextUpdate": "数据将在{{value}} 秒后自动刷新，点击这里可以手动更新。",
     "recommended": "一个价格低廉但是兼顾复杂性和易用性的路由方案。",
-    "settingsModified": "设置(已修改)"
+    "settingsModified": "设置(已修改)",
+    "selectAll": "全选",
+    "deselectAll": "取消全选"
   },
   "main": {
     "crossStepDetails": "通过{{tool}}把资产从{{from}}链跨到{{to}}链上",
     "currentAmount": "当前余额",
-    "estimatedTime": "{{value}}分钟",
     "featuredTokens": "精选代币",
+    "fees": {
+      "estimated": "预估费用",
+      "networkEstimated": "预估网络费用:",
+      "networkPaid": "已支付网络费用：",
+      "paid": "已支付费用",
+      "providerEstimated": "预估流动性提供商费用：",
+      "providerPaid": "已支付流动性提供商费用："
+    },
     "from": "从",
     "fromAmount": "需要支付",
     "gasCost": "燃气费消耗",
-    "gasFeeEstimated": "预估燃气费",
-    "gasFeePaid": "已支付燃气费",
     "inProgress": "进行中",
     "nftStepDetails": "通过 {{tool}} 购买 NFT",
     "onChain": "在{{chainName}} 上",
@@ -238,8 +257,7 @@
     "tokenOnChain": "{{chainName}}链上的{{tokenSymbol}}",
     "tokenOnChainAmount": "{{chainName}} 链上{{amount, number(maximumFractionDigits: 9)}} 个{{tokenSymbol}}",
     "tokenSearch": "按代币名称或者地址搜索",
-    "valueLoss": "资金损失",
-    "walletAddressOrEns": "钱包地址或ENS名称"
+    "valueLoss": "资金损失"
   },
   "insurance": {
     "bridgeExploits": "跨链桥故障、被黑或者被利用漏洞",
@@ -248,8 +266,9 @@
     "slippageError": "目标链代币的滑点错误"
   },
   "settings": {
-    "enabledBridges": "已选中的跨链桥",
-    "enabledExchanges": "已选中的交易所",
+    "theme": "主题",
+    "enabledBridges": "跨链桥",
+    "enabledExchanges": "交易所",
     "gasPrice": {
       "fast": "快速",
       "normal": "正常",
@@ -257,9 +276,21 @@
       "title": "燃气费"
     },
     "routePriority": "路由优先级",
-    "showDestinationWallet": "显示收款钱包",
+    "sendToWalletOption": "发送到指定的钱包地址",
     "slippage": "滑点",
+    "custom": "自定义",
     "resetSettings": "您正在使用自定义设置过滤可用路由。"
+  },
+  "sendToWallet": {
+    "enterAddress": "",
+    "enterName": "",
+    "confirmWalletAddress": "",
+    "connectedWallets": "",
+    "bookmarkWallet": "",
+    "addBookmark": "",
+    "noBookmarkedWallets": "",
+    "noConnectedWallets": "",
+    "noRecentWallets": ""
   },
   "wallet": {
     "extensionNotFound": "在选择钱包之前，请确保只有{{name}} 浏览器的扩展应用处于激活状态。"
