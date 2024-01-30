@@ -1,4 +1,4 @@
-import { ChainId } from '@lifi/sdk';
+import { ChainId, ChainType } from '@lifi/sdk';
 import type { WidgetConfig } from '@lifi/widget';
 import './fonts/inter.css';
 import './index.css';
@@ -13,8 +13,27 @@ export const widgetBaseConfig: WidgetConfig = {
   // fromToken: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
   // toToken: '0x7f5c764cbc14f9669b88837ca1490cca17c31607', // 0x0000000000000000000000000000000000000000
   // fromAmount: '20',
-  // toAddress: '0x552008c0f6870c2f77e5cC1d2eb9bdff03e30Ea0',
-
+  // toAddress: {
+  //   name: 'Jenny',
+  //   address: '0xAB3Afc314e75dC1648A2E31c06861A07a048C050',
+  //   chainType: ChainType.EVM,
+  // },
+  // toAddresses: [
+  //   {
+  //     name: 'Lenny',
+  //     address: '0x552008c0f6870c2f77e5cC1d2eb9bdff03e30Ea9',
+  //     chainType: ChainType.EVM,
+  //   },
+  //   {
+  //     address: '0x552008c0f6870c2f77e5cC1d2eb9bdff03e30Ea0',
+  //     chainType: ChainType.EVM,
+  //   },
+  //   {
+  //     name: 'Sol',
+  //     address: '6AUWsSCRFSCbrHKH9s84wfzJXtD6mNzAHs11x6pGEcmJ',
+  //     chainType: ChainType.SVM,
+  //   },
+  // ],
   variant: 'expandable',
   // subvariant: 'split',
   integrator: 'li.fi-playground',

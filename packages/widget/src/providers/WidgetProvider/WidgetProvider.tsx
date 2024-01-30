@@ -4,6 +4,7 @@ import { version } from '../../config/version';
 import { setDefaultSettings } from '../../stores';
 import { formatInputAmount } from '../../utils';
 import type { WidgetContextProps, WidgetProviderProps } from './types';
+import { attemptToFindMatchingToAddressInConfig } from './utils';
 
 const initialContext: WidgetContextProps = {
   elementId: '',
@@ -60,7 +61,12 @@ export const WidgetProvider: React.FC<
           !isNaN(parseFloat(searchParams.fromAmount))
             ? formatInputAmount(searchParams.fromAmount)
             : widgetConfig.fromAmount,
-        toAddress: searchParams.toAddress || widgetConfig.toAddress,
+        toAddress: searchParams.toAddress
+          ? attemptToFindMatchingToAddressInConfig(
+              searchParams.toAddress,
+              widgetConfig,
+            )
+          : widgetConfig.toAddress,
         integrator: widgetConfig.integrator,
         elementId,
       } as WidgetContextProps;
@@ -101,7 +107,6 @@ export const WidgetProvider: React.FC<
       };
     }
   }, [elementId, widgetConfig]);
-
   return (
     <WidgetContext.Provider value={value}>{children}</WidgetContext.Provider>
   );

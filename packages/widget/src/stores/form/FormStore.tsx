@@ -39,7 +39,7 @@ export const FormStoreProvider: React.FC<PropsWithChildren> = ({
       // Prevent setting address when the field is hidden
       toAddress: hiddenToAddress
         ? formDefaultValues.toAddress
-        : toAddress || formDefaultValues.toAddress,
+        : toAddress?.address || formDefaultValues.toAddress,
     }),
     [
       fromAmount,
