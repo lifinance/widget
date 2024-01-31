@@ -6,9 +6,6 @@ export const drawerZIndex = 1201;
 export const Drawer = styled(MuiDrawer)(() => ({
   width: drawerWidth,
   flexShrink: 0,
-  '& .MuiDrawer-paper': {
-    width: drawerWidth,
-  },
   zIndex: drawerZIndex,
 }));
 
@@ -25,6 +22,6 @@ export const TabContentContainer = styled(TabPanel)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'stretch',
-  gap: theme.spacing(3),
+  gap: theme.spacing(2),
   padding: 0,
 }));

@@ -1,9 +1,19 @@
 import { useState } from 'react';
 import { Tabs, Tab } from '../Tabs';
 import TabContext from '@mui/lab/TabContext';
-import { Drawer, DrawerContentContainer } from './DrawerControls.styles';
-import { DesignControls } from './DesignControls';
-import { CodeControls } from './CodeControls';
+import {
+  Drawer,
+  DrawerContentContainer,
+  TabContentContainer,
+} from './DrawerControls.styles';
+import { ExpandableCardAccordion } from '../ExpandableCard';
+import {
+  AppearanceControl,
+  ButtonRadiusControl,
+  CardRadiusControl,
+  SubvariantControl,
+  VariantControl,
+} from './DesignControls';
 
 interface DrawerControlsProps {
   open: boolean;
@@ -27,8 +37,18 @@ export const DrawerControls = ({ open }: DrawerControlsProps) => {
           <Tab label={'Code'} value="code" disableRipple />
         </Tabs>
         <TabContext value={controlsTabsState}>
-          <DesignControls value="design" />
-          <CodeControls value="code" />
+          <TabContentContainer value="design">
+            <ExpandableCardAccordion>
+              <VariantControl />
+              <SubvariantControl />
+              <AppearanceControl />
+              <CardRadiusControl />
+              <ButtonRadiusControl />
+            </ExpandableCardAccordion>
+          </TabContentContainer>
+          <TabContentContainer value="code">
+            <p>TODO: code controls</p>
+          </TabContentContainer>
         </TabContext>
       </DrawerContentContainer>
     </Drawer>
