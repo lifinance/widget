@@ -1,5 +1,6 @@
 import type {
   ExtendedTransactionInfo,
+  FeeCost,
   FullStatusData,
   Process,
   Status,
@@ -7,6 +8,7 @@ import type {
   TokenAmount,
   ToolsResponse,
 } from '@lifi/sdk';
+import { formatUnits } from 'viem';
 import type { RouteExecution } from '../stores';
 
 const buildProcessFromTxHistory = (tx: FullStatusData): Process[] => {
@@ -108,6 +110,32 @@ export const buildRouteFromTxHistory = (
     chainId: receiving.token?.chainId,
   };
 
+  const sendingValue = sending.value ? BigInt(sending.value) : 0n;
+  const sendingFeeAmount =
+    sending.gasToken.address === sending.token.address && sending.amount
+      ? sendingValue - BigInt(sending.amount)
+      : sendingValue;
+  const sendingFeeAmountUsd =
+    sending.gasToken.priceUSD && sendingFeeAmount
+      ? parseFloat(formatUnits(sendingFeeAmount, sending.gasToken.decimals)) *
+        parseFloat(sending.gasToken.priceUSD)
+      : 0;
+
+  const feeCosts: FeeCost[] | undefined = sendingValue
+    ? [
+        {
+          amount: sendingFeeAmount.toString(),
+          amountUSD: sendingFeeAmountUsd.toFixed(2),
+          token: sending.gasToken,
+          included: false,
+          // Not used
+          description: '',
+          name: '',
+          percentage: '',
+        },
+      ]
+    : undefined;
+
   const routeExecution: RouteExecution = {
     status: 1,
     route: {
@@ -193,6 +221,7 @@ export const buildRouteFromTxHistory = (
                 type: 'SEND',
               },
             ],
+            feeCosts,
           },
         },
       ],
