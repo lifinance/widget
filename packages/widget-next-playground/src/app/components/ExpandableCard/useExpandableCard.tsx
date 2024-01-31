@@ -4,9 +4,7 @@ import { ExpandableCardAccordionContext } from './ExpandableCardAccordion';
 export const useExpandableCard = () => {
   const settingCardExpandableId = useId();
   const [expanded, setExpanded] = useState(false);
-  const { openCard, setOpenCard, independentPanels } = useContext(
-    ExpandableCardAccordionContext,
-  );
+  const { openCard, setOpenCard } = useContext(ExpandableCardAccordionContext);
   const toggleExpanded = () => {
     const newExpanded = !expanded;
     setExpanded(newExpanded);
@@ -17,7 +15,7 @@ export const useExpandableCard = () => {
   };
 
   useEffect(() => {
-    if (!independentPanels && openCard !== settingCardExpandableId) {
+    if (openCard !== settingCardExpandableId) {
       setExpanded(false);
     }
   }, [settingCardExpandableId, openCard]);

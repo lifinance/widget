@@ -1,5 +1,5 @@
 import { alpha, styled } from '@mui/material/styles';
-import { Box, ButtonBase, InputBase, Theme } from '@mui/material';
+import { Box, BoxProps, ButtonBase, InputBase, Theme } from '@mui/material';
 import { getCardFieldsetBackgroundColor } from '../../../utils';
 import { inputBaseClasses } from '@mui/material/InputBase';
 
@@ -79,3 +79,66 @@ export const TabCustomInput = styled(InputBase)<TabButtonProps>(({
     },
   };
 });
+
+export const ColorSwatches = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  gap: theme.spacing(1),
+}));
+
+interface ColorSwatchProps {
+  color: string;
+}
+export const ColorSwatch = styled(
+  (props: BoxProps) => <Box {...props}>&nbsp;</Box>,
+  {
+    shouldForwardProp: (prop) => prop !== 'color',
+  },
+)<ColorSwatchProps>(({ theme, color }) => ({
+  width: theme.spacing(3),
+  height: 'auto',
+  backgroundColor: color,
+  content: '" "',
+}));
+
+export const ColorSelectorContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  backgroundColor: getCardFieldsetBackgroundColor(theme),
+  borderRadius: Math.max(
+    theme.shape.borderRadius,
+    theme.shape.borderRadiusSecondary,
+  ),
+  padding: theme.spacing(0.5),
+  paddingLeft: theme.spacing(2.5),
+  gap: theme.spacing(0.5),
+  height: '3.5rem',
+}));
+
+export const ColorValueButton = styled('input')<
+  React.InputHTMLAttributes<HTMLInputElement>
+>(({ theme, value }) => ({
+  position: 'relative',
+  border: 'none',
+  height: '100%',
+  width: 97,
+  padding: 0,
+  backgroundColor: value as string,
+  borderRadius: theme.shape.borderRadiusSecondary,
+  ['&::-webkit-color-swatch']: {
+    border: 'none',
+  },
+  ['&::-moz-color-swatch']: {
+    border: 'none',
+  },
+  ['&::after']: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    content: `"${value}"`,
+    fontSize: '1rem',
+    fontWeight: 700,
+    color: theme.palette.getContrastText(value as string),
+  },
+}));

@@ -13,6 +13,7 @@ import {
   CardRadiusControl,
   SubvariantControl,
   VariantControl,
+  ColorControl,
 } from './DesignControls';
 
 interface DrawerControlsProps {
@@ -44,6 +45,7 @@ export const DrawerControls = ({ open }: DrawerControlsProps) => {
               <AppearanceControl />
               <CardRadiusControl />
               <ButtonRadiusControl />
+              <ColorControl />
             </ExpandableCardAccordion>
           </TabContentContainer>
           <TabContentContainer value="code">

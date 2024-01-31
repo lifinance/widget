@@ -1,5 +1,7 @@
 import { shallow } from 'zustand/shallow';
+import { WidgetConfig } from '@lifi/widget';
 import { useWidgetConfigStore } from './WidgetConfigProvider';
+import { valueFromPath } from '../utils/valueFromPath';
 
 export const useConfigVariant = () => {
   const [variant] = useWidgetConfigStore(
@@ -54,4 +56,14 @@ export const useConfigBorderRadiusSecondary = () => {
   return {
     borderRadiusSecondary,
   };
+};
+
+export const useConfigColorsFromPath = (...paths: string[]) => {
+  return useWidgetConfigStore(
+    (store) =>
+      paths.map((path) =>
+        valueFromPath<Partial<WidgetConfig>>(store.config, path),
+      ),
+    shallow,
+  ) as Array<string | undefined>;
 };
