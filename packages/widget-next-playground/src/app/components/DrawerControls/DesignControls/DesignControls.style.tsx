@@ -15,7 +15,7 @@ export const TabButtonsContainer = styled(Box)(({ theme }) => ({
   height: '3.5rem',
 }));
 
-const slippageControlSelected = (theme: Theme) => ({
+const controlSelected = (theme: Theme) => ({
   backgroundColor:
     theme.palette.mode === 'dark'
       ? theme.palette.background.default
@@ -33,9 +33,7 @@ export const TabButton = styled(ButtonBase)<TabButtonProps>(({
 }) => {
   const selectedStyle = selected
     ? {
-        '&:not(:focus)': {
-          ...slippageControlSelected(theme),
-        },
+        ...controlSelected(theme),
       }
     : {};
 
@@ -44,9 +42,6 @@ export const TabButton = styled(ButtonBase)<TabButtonProps>(({
     width: '100%',
     fontSize: '1rem',
     fontWeight: 700,
-    '&:focus': {
-      ...slippageControlSelected(theme),
-    },
     ...selectedStyle,
   };
 });
@@ -58,7 +53,7 @@ export const TabCustomInput = styled(InputBase)<TabButtonProps>(({
   const selectedStyle = selected
     ? {
         '&:not(:focus)': {
-          ...slippageControlSelected(theme),
+          ...controlSelected(theme),
         },
       }
     : {};
@@ -78,7 +73,7 @@ export const TabCustomInput = styled(InputBase)<TabButtonProps>(({
         opacity: 1,
       },
       '&:focus': {
-        ...slippageControlSelected(theme),
+        ...controlSelected(theme),
       },
       ...selectedStyle,
     },

@@ -44,3 +44,14 @@ export const useConfigBorderRadius = () => {
     borderRadius,
   };
 };
+
+export const useConfigBorderRadiusSecondary = () => {
+  const [borderRadiusSecondary] = useWidgetConfigStore(
+    (store) => [store.config?.theme?.shape?.borderRadiusSecondary],
+    shallow,
+  );
+
+  return {
+    borderRadiusSecondary,
+  };
+};

@@ -10,6 +10,8 @@ export const useConfigActions = () => {
       setSubvariant: state.setSubvariant,
       setBorderRadius: state.setBorderRadius,
       resetBorderRadius: state.resetBorderRadius,
+      setBorderRadiusSecondary: state.setBorderRadiusSecondary,
+      resetBorderRadiusSecondary: state.resetBorderRadiusSecondary,
     }),
     shallow,
   );

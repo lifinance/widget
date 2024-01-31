@@ -4,7 +4,7 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
   appearance: 'auto',
   theme: {
     shape: {
-      borderRadius: 12,
+      borderRadius: 123,
     },
   },
 } as WidgetConfig;

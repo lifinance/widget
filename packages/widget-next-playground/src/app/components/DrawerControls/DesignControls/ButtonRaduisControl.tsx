@@ -1,6 +1,9 @@
 import { ChangeEventHandler, useState } from 'react';
 import { ExpandableCard } from '../../ExpandableCard';
-import { useConfigActions, useConfigBorderRadius } from '../../../store';
+import {
+  useConfigActions,
+  useConfigBorderRadiusSecondary,
+} from '../../../store';
 import { CardValue } from '../../ExpandableCard';
 import {
   TabButton,
@@ -10,14 +13,16 @@ import {
 
 const clickableValues = [8, 12, 16];
 
-export const CardRadiusControl = () => {
-  const { borderRadius } = useConfigBorderRadius();
-  const { setBorderRadius, resetBorderRadius } = useConfigActions();
+export const ButtonRadiusControl = () => {
+  const { borderRadiusSecondary } = useConfigBorderRadiusSecondary();
+  const { setBorderRadiusSecondary, resetBorderRadiusSecondary } =
+    useConfigActions();
   const [focused, setFocused] = useState<'input' | 'button'>();
 
   const initialCustomInputValue =
-    Number.isFinite(borderRadius) && !clickableValues.includes(borderRadius!)
-      ? borderRadius!.toString()
+    Number.isFinite(borderRadiusSecondary) &&
+    !clickableValues.includes(borderRadiusSecondary!)
+      ? borderRadiusSecondary!.toString()
       : '';
   const [customValue, setCustomValue] = useState(initialCustomInputValue);
 
@@ -28,10 +33,10 @@ export const CardRadiusControl = () => {
 
     if (cleanedValue === '') {
       setCustomValue(cleanedValue);
-      resetBorderRadius();
+      resetBorderRadiusSecondary();
     } else if (Number.isFinite(radius)) {
       setCustomValue(cleanedValue);
-      setBorderRadius(radius);
+      setBorderRadiusSecondary(radius);
     }
   };
 
@@ -45,7 +50,7 @@ export const CardRadiusControl = () => {
 
   const handleButtonClick = (radius: number) => {
     setCustomValue('');
-    setBorderRadius(radius);
+    setBorderRadiusSecondary(radius);
   };
 
   const handleFocusInput = () => {
@@ -58,10 +63,10 @@ export const CardRadiusControl = () => {
 
   return (
     <ExpandableCard
-      title={'Card Radius'}
+      title={'Button Radius'}
       value={
         <CardValue sx={{ textTransform: 'capitalize' }}>
-          {borderRadius}
+          {borderRadiusSecondary}
         </CardValue>
       }
     >
@@ -70,7 +75,7 @@ export const CardRadiusControl = () => {
           return (
             <TabButton
               key={value.toString()}
-              selected={borderRadius === value && focused !== 'input'}
+              selected={borderRadiusSecondary === value && focused !== 'input'}
               onClick={() => handleButtonClick(value)}
               onFocus={handleFocusButton}
               disableRipple
@@ -82,8 +87,8 @@ export const CardRadiusControl = () => {
 
         <TabCustomInput
           selected={
-            borderRadius !== undefined &&
-            !clickableValues.includes(borderRadius)
+            borderRadiusSecondary !== undefined &&
+            !clickableValues.includes(borderRadiusSecondary)
           }
           onChange={handleChangeInput}
           onBlur={handleBlurInput}

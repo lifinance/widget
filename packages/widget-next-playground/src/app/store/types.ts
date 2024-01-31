@@ -18,6 +18,8 @@ export interface WidgetConfigActions {
   setSubvariant: (subvariant: WidgetSubvariant) => void;
   setBorderRadius: (radius: number) => void;
   resetBorderRadius: () => void;
+  setBorderRadiusSecondary: (radius: number) => void;
+  resetBorderRadiusSecondary: () => void;
 }
 
 export type WidgetConfigState = WidgetConfigValues & WidgetConfigActions;
