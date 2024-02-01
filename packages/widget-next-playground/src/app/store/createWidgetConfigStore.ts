@@ -1,5 +1,6 @@
 import { createWithEqualityFn } from 'zustand/traditional';
 import { WidgetConfig } from '@lifi/widget';
+import { addValueFromPath } from '../utils/setValueToPath';
 import { WidgetConfigState } from './types';
 
 export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
@@ -98,6 +99,15 @@ export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
             },
           },
         } as WidgetConfig,
+      });
+    },
+    setColor: (path, color) => {
+      set({
+        config: addValueFromPath<Partial<WidgetConfig>>(
+          get().config,
+          path,
+          color,
+        ),
       });
     },
   }));

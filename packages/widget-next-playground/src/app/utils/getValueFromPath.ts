@@ -1,4 +1,7 @@
-export const valueFromPath = <T>(object: T | undefined, path: string) => {
+export const getValueFromPath = <T>(
+  object: any | undefined,
+  path: string,
+): T | undefined => {
   if (!object) return undefined;
 
   const splitPath = path.split('.');
@@ -11,5 +14,5 @@ export const valueFromPath = <T>(object: T | undefined, path: string) => {
     }
   }
 
-  return value as typeof value;
+  return value as T;
 };

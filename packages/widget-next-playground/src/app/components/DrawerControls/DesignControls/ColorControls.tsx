@@ -1,49 +1,71 @@
-import { BoxProps, InputBase } from '@mui/material';
-import { useConfigColorsFromPath } from '../../../store';
+import { BoxProps } from '@mui/material';
+import { useConfigActions, useConfigColorsFromPath } from '../../../store';
 import { ExpandableCard } from '../../ExpandableCard';
 import {
   ColorSelectorContainer,
   ColorSwatch,
   ColorSwatches,
-  ColorValueButton,
-  TabButtonsContainer,
+  ColorInput,
 } from './DesignControls.style';
+import * as React from 'react';
+
+// NOTE: editable colors need to also feature in the default config for the color controls to appear
+//  see app/store/defaultWidgetConfig.ts
+const editableColors = {
+  primary: 'theme.palette.primary.main',
+  secondary: 'theme.palette.secondary.main',
+};
+
+export const ColorControl = () => {
+  return (
+    <ExpandableCard title={'Color'} value={<Swatches />}>
+      {Object.entries(editableColors).map(([colorName, colorConfigPath]) => (
+        <ColorSelector
+          key={colorConfigPath}
+          colorName={colorName}
+          colorPath={colorConfigPath}
+          mt={1}
+        />
+      ))}
+    </ExpandableCard>
+  );
+};
 
 interface ColorSelectorProps extends BoxProps {
   colorName: string;
-  colorValue?: string;
+  colorPath: string;
 }
-
 const ColorSelector = ({
   colorName,
-  colorValue,
+  colorPath,
+  onChange,
   ...rest
 }: ColorSelectorProps) => {
+  const [colorValue] = useConfigColorsFromPath(colorPath);
+  const { setColor } = useConfigActions();
+
   return colorValue ? (
     <ColorSelectorContainer {...rest}>
       {colorName}
-      <ColorValueButton type="color" value={colorValue} />
+      <ColorInput
+        type="color"
+        value={colorValue}
+        onChange={(e) => setColor(colorPath, e.target.value)}
+      />
     </ColorSelectorContainer>
   ) : null;
 };
 
-export const ColorControl = () => {
-  const [primary, secondary] = useConfigColorsFromPath(
-    'theme.palette.primary.main',
-    'theme.palette.secondary.main',
-  );
-
-  const swatches = (
-    <ColorSwatches>
-      {primary && <ColorSwatch color={primary} />}
-      {secondary && <ColorSwatch color={secondary} />}
-    </ColorSwatches>
-  );
+const Swatches = () => {
+  const colorValues = useConfigColorsFromPath(...Object.values(editableColors));
 
   return (
-    <ExpandableCard title={'Color'} value={swatches}>
-      <ColorSelector colorName="Primary" colorValue={primary} mt={1} />
-      <ColorSelector colorName="Secondary" colorValue={secondary} mt={1} />
-    </ExpandableCard>
+    <ColorSwatches>
+      {Object.entries(editableColors).map(([colorName, colorConfigPath], i) =>
+        colorValues[i] ? (
+          <ColorSwatch key={colorConfigPath} color={colorValues[i]!} />
+        ) : null,
+      )}
+    </ColorSwatches>
   );
 };

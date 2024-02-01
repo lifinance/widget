@@ -12,6 +12,7 @@ export const useConfigActions = () => {
       resetBorderRadius: state.resetBorderRadius,
       setBorderRadiusSecondary: state.setBorderRadiusSecondary,
       resetBorderRadiusSecondary: state.resetBorderRadiusSecondary,
+      setColor: state.setColor,
     }),
     shallow,
   );

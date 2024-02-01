@@ -1,7 +1,14 @@
 import { alpha, styled } from '@mui/material/styles';
-import { Box, BoxProps, ButtonBase, InputBase, Theme } from '@mui/material';
-import { getCardFieldsetBackgroundColor } from '../../../utils';
 import { inputBaseClasses } from '@mui/material/InputBase';
+import {
+  Box,
+  BoxProps,
+  ButtonBase,
+  InputBase,
+  InputBaseProps,
+  Theme,
+} from '@mui/material';
+import { getCardFieldsetBackgroundColor } from '../../../utils';
 
 export const TabButtonsContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -113,32 +120,37 @@ export const ColorSelectorContainer = styled(Box)(({ theme }) => ({
   paddingLeft: theme.spacing(2.5),
   gap: theme.spacing(0.5),
   height: '3.5rem',
+  textTransform: 'capitalize',
 }));
 
-export const ColorValueButton = styled('input')<
-  React.InputHTMLAttributes<HTMLInputElement>
->(({ theme, value }) => ({
-  position: 'relative',
-  border: 'none',
-  height: '100%',
-  width: 97,
-  padding: 0,
-  backgroundColor: value as string,
-  borderRadius: theme.shape.borderRadiusSecondary,
-  ['&::-webkit-color-swatch']: {
+export const ColorInput = styled(InputBase)<InputBaseProps>(
+  ({ theme, value }) => ({
+    position: 'relative',
     border: 'none',
-  },
-  ['&::-moz-color-swatch']: {
-    border: 'none',
-  },
-  ['&::after']: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    content: `"${value}"`,
-    fontSize: '1rem',
-    fontWeight: 700,
-    color: theme.palette.getContrastText(value as string),
-  },
-}));
+    height: '100%',
+    width: 97,
+    padding: 0,
+    backgroundColor: value as string,
+    borderRadius: theme.shape.borderRadiusSecondary,
+    [`& .${inputBaseClasses.input}`]: {
+      cursor: 'pointer',
+    },
+    [`& .${inputBaseClasses.input}::-webkit-color-swatch`]: {
+      border: 'none',
+    },
+    [`& .${inputBaseClasses.input}::-moz-color-swatch`]: {
+      border: 'none',
+    },
+    ['&::after']: {
+      pointerEvents: 'none',
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      content: `"${value}"`,
+      fontSize: '1rem',
+      fontWeight: 700,
+      color: theme.palette.getContrastText(value as string),
+    },
+  }),
+);

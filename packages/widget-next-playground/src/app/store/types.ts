@@ -20,6 +20,7 @@ export interface WidgetConfigActions {
   resetBorderRadius: () => void;
   setBorderRadiusSecondary: (radius: number) => void;
   resetBorderRadiusSecondary: () => void;
+  setColor: (path: string, color: string) => void;
 }
 
 export type WidgetConfigState = WidgetConfigValues & WidgetConfigActions;
