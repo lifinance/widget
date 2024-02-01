@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-embedded",
-  "version": "1.0.172",
+  "version": "1.0.173",
   "type": "module",
   "scripts": {
     "analyze": "source-map-explorer 'dist/assets/*.js' --no-border-checks",
@@ -27,8 +27,8 @@
     "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
     "@lifi/sdk": "^3.0.0-alpha.53",
-    "@lifi/wallet-management": "^3.0.0-alpha.13",
-    "@lifi/widget": "^3.0.0-alpha.20",
+    "@lifi/wallet-management": "^3.0.0-alpha.14",
+    "@lifi/widget": "^3.0.0-alpha.21",
     "@mui/icons-material": "^5.15.7",
     "@mui/lab": "^5.0.0-alpha.163",
     "@mui/material": "^5.15.7",
