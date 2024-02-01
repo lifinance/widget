@@ -4,17 +4,12 @@ import { Avatar, Badge } from '@mui/material';
 import type { Account } from '../hooks';
 import { useChain } from '../hooks';
 import { SmallAvatar } from './SmallAvatar';
+import { AvatarDefault } from './TokenAvatar';
 
 interface AccountAvatarProps {
   chainId?: number;
   account?: Account;
 }
-
-const WalletAvatar = () => (
-  <Avatar>
-    <WalletIcon sx={{ fontSize: 20 }} />
-  </Avatar>
-);
 
 export const AccountAvatar = ({ chainId, account }: AccountAvatarProps) => {
   const { chain } = useChain(chainId);
@@ -30,7 +25,9 @@ export const AccountAvatar = ({ chainId, account }: AccountAvatarProps) => {
       {account.connector?.name[0]}
     </Avatar>
   ) : (
-    <WalletAvatar />
+    <AvatarDefault>
+      <WalletIcon sx={{ fontSize: 20 }} />
+    </AvatarDefault>
   );
 
   return chainId && chain?.logoURI ? (

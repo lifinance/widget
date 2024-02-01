@@ -17,6 +17,9 @@ export const TokenAvatarGroup = styled(AvatarGroup)(({ theme }) => ({
 export const AvatarDefault = styled(Box)(({ theme }) => {
   const root = theme.components?.MuiAvatar?.styleOverrides?.root as CSSObject;
   return {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     background:
       theme.palette.mode === 'light'
         ? theme.palette.grey[300]
@@ -24,6 +27,7 @@ export const AvatarDefault = styled(Box)(({ theme }) => {
     borderRadius: '50%',
     height: root?.height,
     width: root?.width,
+    color: theme.palette.text.secondary,
   };
 });
 
