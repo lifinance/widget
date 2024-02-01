@@ -262,6 +262,9 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
             height: 40,
             width: 40,
           },
+          img: {
+            objectFit: 'contain',
+          },
         },
         ...theme.components?.MuiAvatar,
       },

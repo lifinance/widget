@@ -54,9 +54,10 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "^3.0.0-alpha.52",
+    "@lifi/sdk": "^3.0.0-alpha.53",
+    "@solana/wallet-adapter-base": "^0.9.23",
     "react": "^18.2.0",
-    "wagmi": "^2.5.4"
+    "wagmi": "^2.5.5"
   },
   "devDependencies": {
     "cpy-cli": "^5.0.0",

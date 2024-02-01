@@ -1,5 +1,5 @@
 import { ChainType } from '@lifi/sdk';
-import { getWalletIcon } from '@lifi/wallet-management';
+import { getConnectorIcon } from '@lifi/wallet-management';
 import ContentCopyIcon from '@mui/icons-material/ContentCopyRounded';
 import OpenInNewIcon from '@mui/icons-material/OpenInNewRounded';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNewRounded';
@@ -13,7 +13,6 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import type { Connector } from 'wagmi';
 import { useAccount, useAvailableChains } from '../../hooks';
 import { navigationRoutes, shortenAddress } from '../../utils';
 import { SmallAvatar } from '../SmallAvatar';
@@ -43,10 +42,7 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
           };
           const avatar = (
             <Avatar
-              src={
-                account.connector?.icon ||
-                getWalletIcon((account.connector as Connector)?.id)
-              }
+              src={getConnectorIcon(account.connector)}
               alt={account.connector?.name}
               sx={{
                 marginRight: chain?.logoURI ? 0 : 1.5,

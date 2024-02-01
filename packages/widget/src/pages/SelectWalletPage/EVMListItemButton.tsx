@@ -1,5 +1,8 @@
 import { ChainType } from '@lifi/sdk';
-import { getWalletIcon, isWalletInstalledAsync } from '@lifi/wallet-management';
+import {
+  getConnectorIcon,
+  isWalletInstalledAsync,
+} from '@lifi/wallet-management';
 import { Avatar, ListItemAvatar } from '@mui/material';
 import type { Connector } from 'wagmi';
 import { useConnect, useDisconnect } from 'wagmi';
@@ -51,10 +54,7 @@ export const EVMListItemButton = ({
   return (
     <ListItemButton key={connector.uid} onClick={handleEVMConnect}>
       <ListItemAvatar>
-        <Avatar
-          src={connector.icon || getWalletIcon(connector.id)}
-          alt={connector.name}
-        >
+        <Avatar src={getConnectorIcon(connector)} alt={connector.name}>
           {connector.name[0]}
         </Avatar>
       </ListItemAvatar>

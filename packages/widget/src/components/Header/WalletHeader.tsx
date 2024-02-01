@@ -1,11 +1,10 @@
-import { getWalletIcon } from '@lifi/wallet-management';
+import { getConnectorIcon } from '@lifi/wallet-management';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import WalletIcon from '@mui/icons-material/Wallet';
 import { Avatar, Badge } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import type { Connector } from 'wagmi';
 import type { Account } from '../../hooks';
 import { useAccount, useChain } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
@@ -121,10 +120,7 @@ const ConnectedButton = ({ account }: { account: Account }) => {
 
   const avatar = (
     <Avatar
-      src={
-        account.connector?.icon ||
-        getWalletIcon((account.connector as Connector)?.id)
-      }
+      src={getConnectorIcon(account.connector)}
       alt={account.connector?.name}
       sx={{ width: 24, height: 24 }}
     >
