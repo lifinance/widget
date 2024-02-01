@@ -5,6 +5,7 @@ import { isSVMAddress } from './svm';
 const chainTypeAddressValidation = {
   [ChainType.EVM]: isEVMAddress,
   [ChainType.SVM]: isSVMAddress,
+  [ChainType.UTXO]: () => false,
 };
 
 export const getChainTypeFromAddress = (
@@ -22,4 +23,5 @@ export const getChainTypeFromAddress = (
 export const defaultChainIdsByType = {
   [ChainType.EVM]: ChainId.ETH,
   [ChainType.SVM]: ChainId.SOL,
+  [ChainType.UTXO]: ChainId.BTC,
 };
