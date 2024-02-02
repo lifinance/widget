@@ -19,27 +19,26 @@ export const App = forwardRef<WidgetDrawer, WidgetProps>(
       return config;
     }, [integrator, other]);
 
-    const app = (
+    if (config.variant === 'drawer') {
+      return (
+        <AppProvider config={config}>
+          <AppDrawer
+            ref={ref}
+            elementRef={elementRef}
+            config={config}
+            open={open}
+            onClose={onClose}
+          >
+            <AppDefault />
+          </AppDrawer>
+        </AppProvider>
+      );
+    }
+
+    return (
       <AppProvider config={config}>
         <AppDefault />
       </AppProvider>
     );
-
-    if (config.variant === 'drawer') {
-      return (
-        <AppDrawer
-          ref={ref}
-          elementRef={elementRef}
-          integrator={integrator}
-          config={config}
-          open={open}
-          onClose={onClose}
-        >
-          {app}
-        </AppDrawer>
-      );
-    }
-
-    return app;
   },
 );

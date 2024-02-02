@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { DrawerButton, DrawerButtonTypography } from './AppDrawer.style';
 import type { WidgetDrawerContext } from './AppDrawerContext';
 import { DrawerContext } from './AppDrawerContext';
-import type { WidgetProps, WidgetSubvariant } from './types';
+import type { WidgetDrawerProps, WidgetSubvariant } from './types';
 import { HiddenUI } from './types';
 
 export interface WidgetDrawer {
@@ -26,7 +26,7 @@ export interface WidgetDrawer {
 
 export const AppDrawer = forwardRef<
   WidgetDrawer,
-  PropsWithChildren<WidgetProps>
+  PropsWithChildren<WidgetDrawerProps>
 >(({ elementRef, open, onClose, config, children }, ref) => {
   const openRef = useRef(Boolean(open));
   const [drawerOpen, setDrawerOpen] = useState(Boolean(open));

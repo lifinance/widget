@@ -167,15 +167,6 @@ export interface WidgetConfig {
   languageResources?: LanguageResources;
 }
 
-export type WidgetDrawerProps = {
-  elementRef?: RefObject<HTMLDivElement>;
-  open?: boolean;
-  /**
-   * Make sure to make the onClose callback stable (e.g. using useCallback) to avoid causing re-renders of the entire widget
-   */
-  onClose?(): void;
-};
-
 export interface WidgetConfigProps {
   config: WidgetConfig;
 }
@@ -187,3 +178,12 @@ export interface WidgetConfigPartialProps {
 export type WidgetProps = WidgetDrawerProps &
   WidgetConfig &
   WidgetConfigPartialProps;
+
+export interface WidgetDrawerProps extends WidgetConfigPartialProps {
+  elementRef?: RefObject<HTMLDivElement>;
+  open?: boolean;
+  /**
+   * Make sure to make the onClose callback stable (e.g. using useCallback) to avoid causing re-renders of the entire widget
+   */
+  onClose?(): void;
+}
