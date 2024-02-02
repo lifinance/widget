@@ -5,17 +5,20 @@ import { useCallback } from 'react';
 import { useHasExternalWalletProvider, useWidgetConfig } from '../providers';
 import { isItemAllowed } from '../utils';
 
+const supportedChainTypes = [ChainType.EVM, ChainType.SVM];
+
 export const useAvailableChains = () => {
   const { chains } = useWidgetConfig();
   const { providers } = useHasExternalWalletProvider();
   const { data, isLoading } = useQuery({
     queryKey: ['chains', providers, chains?.types] as const,
     queryFn: async ({ queryKey: [, providers, chainTypes] }) => {
+      const chainTypesRequest = (
+        providers.length > 0 ? providers : supportedChainTypes
+      ).filter((chainType) => isItemAllowed(chainType, chainTypes));
+
       const availableChains = await getChains({
-        chainTypes: (providers.length > 0
-          ? providers
-          : Object.values(ChainType)
-        ).filter((chainType) => isItemAllowed(chainType, chainTypes)),
+        chainTypes: chainTypesRequest,
       });
       config.setChains(availableChains);
       return availableChains;

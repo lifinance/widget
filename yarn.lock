@@ -3089,20 +3089,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lifi/sdk@npm:^3.0.0-alpha.53":
-  version: 3.0.0-alpha.53
-  resolution: "@lifi/sdk@npm:3.0.0-alpha.53"
+"@lifi/sdk@npm:^3.0.0-alpha.54":
+  version: 3.0.0-alpha.54
+  resolution: "@lifi/sdk@npm:3.0.0-alpha.54"
   dependencies:
-    "@lifi/types": "npm:^11.1.0"
+    "@lifi/types": "npm:^11.2.0"
     "@solana/wallet-adapter-base": "npm:^0.9.23"
     "@solana/web3.js": "npm:^1.89.1"
     eth-rpc-errors: "npm:^4.0.3"
     viem: "npm:^2.7.1"
-  checksum: d2c1036c6aa3b3c6465255f6f41aceb9dcc85a5c4846ce7c12adc927e42e854b2bdc6880f789c28ed9c103e252dd0bf0a0504496bc955faf587516a558a4e215
+  checksum: a42fd15de8fa0265fe01510aaf8cf867ab9e9a3d2b66c83cc794e3649fe5866495825269519c5e817eee15aa83dc3e85a1c8b04b2330c704dadb40e4843477e2
   languageName: node
   linkType: hard
 
-"@lifi/types@npm:^11.1.0":
+"@lifi/types@npm:^11.2.0":
   version: 11.2.0
   resolution: "@lifi/types@npm:11.2.0"
   checksum: 2686f9de3e46f55193aba41e2bb57d4fdce6575a0df338710fe9daa42af4245b4d18144da1ab19433a6a18f96ea5eb1fb552bfc58f80fa0ed7fb86a319b9b760
@@ -3113,7 +3113,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@lifi/wallet-management@workspace:packages/wallet-management"
   dependencies:
-    "@lifi/sdk": "npm:^3.0.0-alpha.53"
+    "@lifi/sdk": "npm:^3.0.0-alpha.54"
     "@solana/wallet-adapter-base": "npm:^0.9.23"
     cpy-cli: "npm:^5.0.0"
     react: "npm:^18.2.0"
@@ -3131,7 +3131,7 @@ __metadata:
   dependencies:
     "@ethersproject/abstract-signer": "npm:^5.7.0"
     "@ethersproject/providers": "npm:^5.7.2"
-    "@lifi/sdk": "npm:^3.0.0-alpha.53"
+    "@lifi/sdk": "npm:^3.0.0-alpha.54"
     "@lifi/wallet-management": "npm:^3.0.0-alpha.14"
     "@lifi/widget": "npm:^3.0.0-alpha.21"
     "@mui/icons-material": "npm:^5.15.7"
@@ -3145,7 +3145,7 @@ __metadata:
     events: "npm:^3.3.0"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
-    react-router-dom: "npm:^6.21.3"
+    react-router-dom: "npm:^6.22.0"
     typescript: "npm:^5.3.3"
     vite: "npm:^5.0.12"
     wagmi: "npm:^2.5.5"
@@ -3158,7 +3158,7 @@ __metadata:
   resolution: "@lifi/widget-playground@workspace:packages/widget-playground"
   dependencies:
     "@esbuild-plugins/node-globals-polyfill": "npm:^0.2.3"
-    "@lifi/sdk": "npm:^3.0.0-alpha.53"
+    "@lifi/sdk": "npm:^3.0.0-alpha.54"
     "@lifi/wallet-management": "npm:^3.0.0-alpha.14"
     "@lifi/widget": "npm:^3.0.0-alpha.21"
     "@mui/icons-material": "npm:^5.15.7"
@@ -3174,7 +3174,7 @@ __metadata:
     events: "npm:^3.3.0"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
-    react-router-dom: "npm:^6.21.3"
+    react-router-dom: "npm:^6.22.0"
     rollup-plugin-polyfill-node: "npm:^0.13.0"
     source-map-explorer: "npm:^2.5.3"
     typescript: "npm:^5.3.3"
@@ -3191,7 +3191,7 @@ __metadata:
   dependencies:
     "@emotion/react": "npm:^11.11.3"
     "@emotion/styled": "npm:^11.11.0"
-    "@lifi/sdk": "npm:^3.0.0-alpha.53"
+    "@lifi/sdk": "npm:^3.0.0-alpha.54"
     "@lifi/wallet-management": "npm:^3.0.0-alpha.14"
     "@mui/icons-material": "npm:^5.15.7"
     "@mui/lab": "npm:^5.0.0-alpha.163"
@@ -3210,7 +3210,7 @@ __metadata:
     react-dom: "npm:^18.2.0"
     react-i18next: "npm:^14.0.1"
     react-intersection-observer: "npm:^9.6.0"
-    react-router-dom: "npm:^6.21.3"
+    react-router-dom: "npm:^6.22.0"
     react-timer-hook: "npm:^3.0.7"
     typescript: "npm:^5.3.3"
     uuid: "npm:^9.0.1"
@@ -4495,10 +4495,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@remix-run/router@npm:1.14.2":
-  version: 1.14.2
-  resolution: "@remix-run/router@npm:1.14.2"
-  checksum: 422844e88b985f1e287301b302c6cf8169c9eea792f80d40464f97b25393bb2e697228ebd7a7b61444d5a51c5873c4a637aad20acde5886a5caf62e833c5ceee
+"@remix-run/router@npm:1.15.0":
+  version: 1.15.0
+  resolution: "@remix-run/router@npm:1.15.0"
+  checksum: 5cadae0c90874966ebd6b1b202284a337da32a68fc95af502859cd6158d3c254fbb4f76fa1844c837205dbc8a8120223360b9287a3d6aa0c747d02767c4c072c
   languageName: node
   linkType: hard
 
@@ -5765,9 +5765,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/react@npm:^14.2.0":
-  version: 14.2.0
-  resolution: "@testing-library/react@npm:14.2.0"
+"@testing-library/react@npm:^14.2.1":
+  version: 14.2.1
+  resolution: "@testing-library/react@npm:14.2.1"
   dependencies:
     "@babel/runtime": "npm:^7.12.5"
     "@testing-library/dom": "npm:^9.0.0"
@@ -5775,7 +5775,7 @@ __metadata:
   peerDependencies:
     react: ^18.0.0
     react-dom: ^18.0.0
-  checksum: e32b6958141215b8a0c0637df8f27efb01da8e7c311f9faedb32bb08ce976632a31b10df4e6d4c02d63e5bdf1974b0d04f3f375be0f26a86727cdd73619fffc2
+  checksum: e02b2f32ae79665a79fc4d8ee053fd3832bfcd4753aa1dba05cdece1a9f59c72a0fae91e0a9387597dcb686d631a722729f2878e38dc95e6f23b291ad8d09b6c
   languageName: node
   linkType: hard
 
@@ -6404,7 +6404,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>=13.7.0, @types/node@npm:^20.11.15":
+"@types/node@npm:*, @types/node@npm:>=13.7.0":
   version: 20.11.15
   resolution: "@types/node@npm:20.11.15"
   dependencies:
@@ -6417,6 +6417,15 @@ __metadata:
   version: 12.20.55
   resolution: "@types/node@npm:12.20.55"
   checksum: 1f916a06fff02faadb09a16ed6e31820ce170798b202ef0b14fc244bfbd721938c54a3a99836e185e4414ca461fe96c5bb5c67c3d248f153555b7e6347f061dd
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^20.11.16":
+  version: 20.11.16
+  resolution: "@types/node@npm:20.11.16"
+  dependencies:
+    undici-types: "npm:~5.26.4"
+  checksum: 751f50ec5c9332b11515e82fe37c71479ac4449b711280aa3c7910edf67b1e3f5ac00041512add543f9a892096a68356406998bf02a2c809a73d176c44c28414
   languageName: node
   linkType: hard
 
@@ -15633,27 +15642,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:^6.21.3":
-  version: 6.21.3
-  resolution: "react-router-dom@npm:6.21.3"
+"react-router-dom@npm:^6.22.0":
+  version: 6.22.0
+  resolution: "react-router-dom@npm:6.22.0"
   dependencies:
-    "@remix-run/router": "npm:1.14.2"
-    react-router: "npm:6.21.3"
+    "@remix-run/router": "npm:1.15.0"
+    react-router: "npm:6.22.0"
   peerDependencies:
     react: ">=16.8"
     react-dom: ">=16.8"
-  checksum: 6e23e35d02e5c83847c8e47d7912d1f6c2c42a35f2317802031bdd993a8205468138a045ff34f67fe807fe9f7dc9d0995ee05bab25aedc0bf978e620ac132815
+  checksum: 32ba0386d400354094116fa7dd98f1d23bc7cf683b0f4509694be5f730d4957fcb8cc73e35946576fc3f48b4d36743422f1b9bcdc37ad77f04bde0bde5d9102e
   languageName: node
   linkType: hard
 
-"react-router@npm:6.21.3":
-  version: 6.21.3
-  resolution: "react-router@npm:6.21.3"
+"react-router@npm:6.22.0":
+  version: 6.22.0
+  resolution: "react-router@npm:6.22.0"
   dependencies:
-    "@remix-run/router": "npm:1.14.2"
+    "@remix-run/router": "npm:1.15.0"
   peerDependencies:
     react: ">=16.8"
-  checksum: 3d5107cfdb440519d84e6ad6d95454e3bf41ec97677b95f7b2a7f281f8ddf191b765cf1b599ead951f3cd33ed4429f140590d74a01cfdf835dc2f812023a978a
+  checksum: 627c25533667da0c8008587208e0d5633409173969fd579de706cde355465f6d1245e2b1a7ca2adeb96201f2858932b59ce3402482786cd20c4bf278562976dd
   languageName: node
   linkType: hard
 
@@ -16285,11 +16294,11 @@ __metadata:
   dependencies:
     "@testing-library/dom": "npm:^9.3.4"
     "@testing-library/jest-dom": "npm:^6.4.1"
-    "@testing-library/react": "npm:^14.2.0"
+    "@testing-library/react": "npm:^14.2.1"
     "@testing-library/user-event": "npm:^14.5.2"
     "@types/eslint": "npm:^8.56.2"
     "@types/events": "npm:^3.0.3"
-    "@types/node": "npm:^20.11.15"
+    "@types/node": "npm:^20.11.16"
     "@types/react": "npm:^18.2.51"
     "@types/react-dom": "npm:^18.2.18"
     "@types/uuid": "npm:^9.0.8"
