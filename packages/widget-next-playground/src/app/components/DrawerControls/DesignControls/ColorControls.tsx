@@ -48,6 +48,7 @@ const ColorSelector = ({
     <ColorSelectorContainer {...rest}>
       {colorName}
       <ColorInput
+        aria-label={`${colorName} color selection`}
         type="color"
         value={colorValue}
         onChange={(e) => setColor(colorPath, e.target.value)}

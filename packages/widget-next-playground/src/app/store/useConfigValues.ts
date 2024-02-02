@@ -64,3 +64,14 @@ export const useConfigColorsFromPath = (...paths: string[]) => {
     shallow,
   ) as Array<string | undefined>;
 };
+
+export const useConfigFontFamily = () => {
+  const [fontFamily] = useWidgetConfigStore(
+    (store) => [store.config?.theme?.typography?.fontFamily],
+    shallow,
+  );
+
+  return {
+    fontFamily,
+  };
+};

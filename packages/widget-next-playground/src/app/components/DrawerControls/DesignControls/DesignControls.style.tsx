@@ -1,12 +1,15 @@
 import { alpha, styled } from '@mui/material/styles';
 import { inputBaseClasses } from '@mui/material/InputBase';
+import { autocompleteClasses } from '@mui/material/Autocomplete';
 import {
   Box,
   BoxProps,
   ButtonBase,
   InputBase,
   InputBaseProps,
+  Autocomplete as MuiAutocomplete,
   Theme,
+  AutocompleteProps,
 } from '@mui/material';
 import { getCardFieldsetBackgroundColor } from '../../../utils';
 
@@ -151,6 +154,38 @@ export const ColorInput = styled(InputBase)<InputBaseProps>(
       fontSize: '1rem',
       fontWeight: 700,
       color: theme.palette.getContrastText(value as string),
+      textTransform: 'none',
     },
   }),
 );
+
+// NOTE: this is a workaround for type issues when styling the autocomplete
+//  see - https://github.com/mui/material-ui/issues/21727
+const AutocompleteBase: any = styled(MuiAutocomplete)(({ theme }) => ({
+  border: 'none',
+  outline: 'none',
+  backgroundColor: getCardFieldsetBackgroundColor(theme),
+  borderRadius: theme.shape.borderRadiusSecondary,
+  width: '100%',
+  fontWeight: 700,
+  [`& .MuiOutlinedInput-notchedOutline`]: {
+    border: 'none',
+  },
+  [`& .${autocompleteClasses.inputRoot}`]: {
+    padding: theme.spacing(2, 3),
+  },
+  [`& .${autocompleteClasses.inputRoot} .${autocompleteClasses.input}`]: {
+    padding: 0,
+  },
+}));
+
+export const Autocomplete = <
+  T,
+  Multiple extends boolean | undefined = undefined,
+  DisableClearable extends boolean | undefined = undefined,
+  FreeSolo extends boolean | undefined = undefined,
+>(
+  props: AutocompleteProps<T, Multiple, DisableClearable, FreeSolo>,
+) => {
+  return <AutocompleteBase {...props} />;
+};

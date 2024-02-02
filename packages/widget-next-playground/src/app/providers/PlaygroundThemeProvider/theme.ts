@@ -1,9 +1,8 @@
 import { Inter } from 'next/font/google';
 import { createTheme } from '@mui/material';
-import { darken, lighten } from '@mui/material/styles';
 
 const inter = Inter({
-  weight: ['400', '500', '700'],
+  weight: ['400', '500', '600', '700'],
   style: ['normal'],
   subsets: ['latin'],
   display: 'swap',

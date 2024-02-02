@@ -110,4 +110,18 @@ export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
         ),
       });
     },
+    setFontFamily: (fontFamily) => {
+      set({
+        config: {
+          ...get().config,
+          theme: {
+            ...get().config?.theme,
+            typography: {
+              ...get().config?.theme?.typography,
+              fontFamily,
+            },
+          },
+        } as WidgetConfig,
+      });
+    },
   }));

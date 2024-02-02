@@ -11,5 +11,8 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
         main: '#F5B5FF',
       },
     },
+    typography: {
+      fontFamily: 'Inter, sans-serif',
+    },
   },
 } as WidgetConfig;

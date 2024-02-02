@@ -13,6 +13,7 @@ export const useConfigActions = () => {
       setBorderRadiusSecondary: state.setBorderRadiusSecondary,
       resetBorderRadiusSecondary: state.resetBorderRadiusSecondary,
       setColor: state.setColor,
+      setFontFamily: state.setFontFamily,
     }),
     shallow,
   );

@@ -1,20 +1,25 @@
 'use client';
 
 import React, { PropsWithChildren, useState } from 'react';
-import { Widget } from './components/Widget';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Box } from '@mui/material';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import CloseIcon from '@mui/icons-material/Close';
+import { Widget } from './components/Widget';
 import { DrawerControls } from './components/DrawerControls';
 import { Main, OpenButton } from './page.styles';
 import { WidgetConfigProvider } from './store';
 import { PlaygroundThemeProvider } from './providers';
 
+const queryClient = new QueryClient();
+
 const AppProvider = ({ children }: PropsWithChildren) => {
   return (
-    <WidgetConfigProvider>
-      <PlaygroundThemeProvider>{children}</PlaygroundThemeProvider>
-    </WidgetConfigProvider>
+    <QueryClientProvider client={queryClient}>
+      <WidgetConfigProvider>
+        <PlaygroundThemeProvider>{children}</PlaygroundThemeProvider>
+      </WidgetConfigProvider>
+    </QueryClientProvider>
   );
 };
 
