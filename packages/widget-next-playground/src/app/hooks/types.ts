@@ -8,6 +8,7 @@ export type FontFamilyDefinition = FontFile[];
 
 export interface Font {
   fontName: string;
-  fontSource: 'System fonts' | 'Google fonts';
+  fallbackFonts?: string;
+  fontSource: 'System fonts' | 'Google fonts' | 'Custom fonts';
   fontDefinition?: FontFamilyDefinition;
 }

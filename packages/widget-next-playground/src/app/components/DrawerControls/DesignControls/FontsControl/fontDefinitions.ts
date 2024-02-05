@@ -1,4 +1,4 @@
-import { Font } from '@/app/hooks';
+import { Font } from '../../../../hooks';
 
 export const defaultFont: Font = {
   fontName: 'Inter',
@@ -42,38 +42,47 @@ export const defaultFont: Font = {
 export const systemFonts: Font[] = [
   {
     fontName: 'Arial',
+    fallbackFonts: 'sans-serif',
     fontSource: 'System fonts',
   },
   {
     fontName: 'Verdana',
+    fallbackFonts: 'sans-serif',
     fontSource: 'System fonts',
   },
   {
     fontName: 'Tahoma',
+    fallbackFonts: 'sans-serif',
     fontSource: 'System fonts',
   },
   {
     fontName: 'Trebuchet MS',
+    fallbackFonts: 'sans-serif',
     fontSource: 'System fonts',
   },
   {
     fontName: 'Times New Roman',
+    fallbackFonts: 'serif',
     fontSource: 'System fonts',
   },
   {
     fontName: 'Georgia',
+    fallbackFonts: 'serif',
     fontSource: 'System fonts',
   },
   {
     fontName: 'Garamond',
+    fallbackFonts: 'serif',
     fontSource: 'System fonts',
   },
   {
     fontName: 'Courier New',
+    fallbackFonts: 'Courier, monospace',
     fontSource: 'System fonts',
   },
   {
     fontName: 'Brush Script MT',
+    fallbackFonts: 'serif',
     fontSource: 'System fonts',
   },
 ];
