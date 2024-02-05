@@ -1,11 +1,11 @@
+import { shallow } from 'zustand/shallow';
+import { useWidgetConfig } from '../providers';
 import {
   defaultConfigurableSettings,
   setDefaultSettings,
   useSettingsStore,
 } from '../stores';
-import { shallow } from 'zustand/shallow';
 import { useTools } from './useTools';
-import { useWidgetConfig } from '../providers';
 
 export const useSettingMonitor = () => {
   const [enabledBridges, enabledExchanges, routePriority, slippage, gasPrice] =
@@ -37,11 +37,11 @@ export const useSettingMonitor = () => {
   const isGasPriceChanged = gasPrice !== defaultConfigurableSettings.gasPrice;
 
   const isBridgesChanged = tools?.bridges
-    ? tools?.bridges?.length !== enabledBridges?.length
+    ? tools.bridges.length !== enabledBridges.length
     : false;
 
   const isExchangesChanged = tools?.exchanges
-    ? tools?.exchanges?.length !== enabledExchanges?.length
+    ? tools.exchanges.length !== enabledExchanges.length
     : false;
 
   const isCustomRouteSettings =
@@ -56,7 +56,6 @@ export const useSettingMonitor = () => {
   const reset = () => {
     if (tools) {
       resetSettings(
-        config,
         tools.bridges.map((tool) => tool.key),
         tools.exchanges.map((tool) => tool.key),
       );

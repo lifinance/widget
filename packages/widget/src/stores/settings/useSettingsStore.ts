@@ -100,7 +100,7 @@ export const useSettingsStore = createWithEqualityFn<SettingsState>(
             {} as Record<string, boolean>,
           ),
         })),
-      reset: (config, bridges, exchanges) => {
+      reset: (bridges, exchanges) => {
         const { appearance, ...restDefaultSettings } = defaultSettings;
 
         set(() => ({

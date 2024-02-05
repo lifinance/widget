@@ -2,7 +2,7 @@ import type { Order } from '@lifi/sdk';
 import type { PropsWithChildren } from 'react';
 import type { StoreApi } from 'zustand';
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
-import type { Appearance, WidgetConfig } from '../../types';
+import type { Appearance } from '../../types';
 
 export type ValueSetter<S> = <K extends keyof S>(
   key: K,
@@ -13,8 +13,8 @@ export type ValuesSetter<S> = <K extends keyof S>(
   values: Record<K, S[Extract<K, string>]>,
 ) => void;
 
-export type SettingsToolType = 'Bridges' | 'Exchanges';
-export const SettingsToolTypes: SettingsToolType[] = ['Bridges', 'Exchanges'];
+export const SettingsToolTypes = ['Bridges', 'Exchanges'] as const;
+export type SettingsToolType = (typeof SettingsToolTypes)[number];
 
 export interface SettingsProps {
   appearance: Appearance;
@@ -43,7 +43,7 @@ export interface SettingsState extends SettingsProps {
     tools: string[],
     availableTools: string[],
   ): void;
-  reset(config: WidgetConfig, bridges: string[], exchanges: string[]): void;
+  reset(bridges: string[], exchanges: string[]): void;
 }
 
 export interface SendToWalletState {

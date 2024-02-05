@@ -21,17 +21,21 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
   const queryClient = useQueryClient();
   const swapOnly = useSwapOnly();
   const {
-    slippage,
-    enabledBridges,
+    _enabledBridges,
+    _enabledExchanges,
     enabledAutoRefuel,
+    enabledBridges,
     enabledExchanges,
     routePriority,
+    slippage,
   } = useSettings([
-    'slippage',
-    'routePriority',
+    '_enabledBridges',
+    '_enabledExchanges',
     'enabledAutoRefuel',
     'enabledBridges',
     'enabledExchanges',
+    'routePriority',
+    'slippage',
   ]);
   const [fromTokenAmount] = useDebouncedWatch(320, 'fromAmount');
   const [
@@ -165,19 +169,33 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
         ).toString();
         const formattedSlippage = parseFloat(slippage) / 100;
 
+        // Check whether to send the allowed bridge to the backend
+        // We don't need to send them if all bridges/exchanges are enabled
+        const shouldSendBridges =
+          Object.keys(_enabledBridges ?? {}).length !== enabledBridges.length;
+        const shouldSendExchanges =
+          Object.keys(_enabledExchanges ?? {}).length !==
+          enabledExchanges.length;
+
         const allowedBridges: string[] = insurableRoute
           ? insurableRoute.steps.flatMap((step) =>
-              step.includedSteps
-                .filter((includedStep) => includedStep.type === 'cross')
-                .map((includedStep) => includedStep.toolDetails.key),
+              step.includedSteps.reduce((toolKeys, includedStep) => {
+                if (includedStep.type === 'cross') {
+                  toolKeys.push(includedStep.toolDetails.key);
+                }
+                return toolKeys;
+              }, [] as string[]),
             )
           : enabledBridges;
 
         const allowedExchanges: string[] = insurableRoute
           ? insurableRoute.steps.flatMap((step) =>
-              step.includedSteps
-                .filter((includedStep) => includedStep.type === 'swap')
-                .map((includedStep) => includedStep.toolDetails.key),
+              step.includedSteps.reduce((toolKeys, includedStep) => {
+                if (includedStep.type === 'swap') {
+                  toolKeys.push(includedStep.toolDetails.key);
+                }
+                return toolKeys;
+              }, [] as string[]),
             )
           : enabledExchanges;
 
@@ -194,7 +212,10 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
               toContractAddress,
               toContractCallData,
               toContractGasLimit,
-              allowBridges: allowedBridges,
+              allowBridges: shouldSendBridges ? allowedBridges : undefined,
+              allowExchanges: shouldSendExchanges
+                ? allowedExchanges
+                : undefined,
               toFallbackAddress: toWalletAddress,
               slippage: formattedSlippage,
             },
@@ -255,17 +276,17 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
                 ? gasRecommendationFromAmount
                 : undefined,
             options: {
-              slippage: formattedSlippage,
-              bridges: {
-                allow: allowedBridges,
-              },
-              exchanges: {
-                allow: allowedExchanges,
-              },
-              order: routePriority,
               allowSwitchChain:
                 subvariant === 'refuel' ? false : allowSwitchChain,
+              bridges: shouldSendBridges
+                ? { allow: allowedBridges }
+                : undefined,
+              exchanges: shouldSendExchanges
+                ? { allow: allowedExchanges }
+                : undefined,
               insurance: insurance ? Boolean(insurableRoute) : undefined,
+              order: routePriority,
+              slippage: formattedSlippage,
             },
           },
           { signal },
