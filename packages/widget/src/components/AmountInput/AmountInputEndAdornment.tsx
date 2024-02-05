@@ -27,27 +27,30 @@ export const AmountInputEndAdornment = ({ formType }: FormTypeProps) => {
   const { token, isLoading } = useTokenAddressBalance(chainId, tokenAddress);
 
   const handleMax = () => {
+    if (!token?.amount) {
+      return;
+    }
     const chain = getChainById(chainId);
-    let maxAmount = token?.amount;
+    let maxAmount = token.amount;
     if (
       chain?.nativeToken.address === tokenAddress &&
       data?.available &&
       data?.recommended
     ) {
-      const tokenAmount = token?.amount ?? 0n;
       const recommendedAmount = BigInt(data.recommended.amount) / 2n;
-      if (tokenAmount > recommendedAmount) {
-        maxAmount = tokenAmount - recommendedAmount;
+      if (token.amount > recommendedAmount) {
+        maxAmount = token.amount - recommendedAmount;
       }
     }
-
-    setFieldValue(
-      FormKeyHelper.getAmountKey(formType),
-      maxAmount && token ? formatUnits(maxAmount, token.decimals) : '',
-      {
-        isTouched: true,
-      },
-    );
+    if (maxAmount) {
+      setFieldValue(
+        FormKeyHelper.getAmountKey(formType),
+        formatUnits(maxAmount, token.decimals),
+        {
+          isTouched: true,
+        },
+      );
+    }
   };
 
   return (

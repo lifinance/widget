@@ -1,4 +1,4 @@
-import { ChainId, ChainType } from '@lifi/sdk';
+import { ChainId } from '@lifi/sdk';
 import type { WidgetConfig } from '@lifi/widget';
 import './fonts/inter.css';
 import './index.css';
@@ -81,15 +81,15 @@ export const widgetBaseConfig: WidgetConfig = {
   // },
   tokens: {
     featured: [
-      // {
-      //   address: '0xba98c0fbebc892f5b07a42b0febd606913ebc981',
-      //   symbol: 'MEH',
-      //   decimals: 18,
-      //   chainId: 1,
-      //   name: 'meh',
-      //   logoURI:
-      //     'https://s2.coinmarketcap.com/static/img/coins/64x64/22158.png',
-      // },
+      {
+        address: '0x0000000000000000000000000000000000000000',
+        symbol: 'BNB',
+        decimals: 18,
+        chainId: 56,
+        name: 'BNB',
+        logoURI:
+          'https://bscscan.com/assets/bsc/images/svg/logos/token-light.svg',
+      },
       {
         address: '0x195e3087ea4d7eec6e9c37e9640162fe32433d5e',
         symbol: '$ALTI',
@@ -100,15 +100,6 @@ export const widgetBaseConfig: WidgetConfig = {
           'https://s2.coinmarketcap.com/static/img/coins/64x64/21303.png',
       },
       {
-        address: '0x60d8d17d6b824e19f77eaccaf16ed7ba6fb209c2',
-        symbol: 'SERENE',
-        decimals: 18,
-        chainId: 250,
-        name: 'Serenity V2',
-        logoURI:
-          'https://static.debank.com/image/ftm_token/logo_url/0x60d8d17d6b824e19f77eaccaf16ed7ba6fb209c2/5842f60d05f1d9ce473d0c3f70917c86.png',
-      },
-      {
         address: '0x2fd6c9b869dea106730269e13113361b684f843a',
         symbol: 'CHH',
         decimals: 9,
@@ -116,6 +107,57 @@ export const widgetBaseConfig: WidgetConfig = {
         name: 'Chihuahua',
         logoURI:
           'https://s2.coinmarketcap.com/static/img/coins/64x64/21334.png',
+      },
+    ],
+    popular: [
+      {
+        address: '0x0000000000000000000000000000000000000000',
+        symbol: 'BNB',
+        decimals: 18,
+        chainId: 56,
+        name: 'BNB',
+        logoURI:
+          'https://bscscan.com/assets/bsc/images/svg/logos/token-light.svg',
+      },
+      {
+        address: '0xCC42724C6683B7E57334c4E856f4c9965ED682bD',
+        symbol: 'MATIC',
+        decimals: 18,
+        chainId: 56,
+        name: 'Matic',
+        logoURI: 'https://bscscan.com/token/images/polygonmatic_new_32.png',
+      },
+      {
+        address: '0x947950BcC74888a40Ffa2593C5798F11Fc9124C4',
+        symbol: 'SUSHI',
+        decimals: 18,
+        chainId: 56,
+        name: 'Sushi',
+      },
+      {
+        address: '0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3',
+        symbol: 'DAI',
+        decimals: 18,
+        chainId: 56,
+        name: 'DAI',
+        logoURI: 'https://bscscan.com/token/images/dai_32.png',
+      },
+      {
+        address: '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',
+        symbol: 'WETH',
+        decimals: 18,
+        chainId: 56,
+        name: 'Wrapped ETH',
+        logoURI: 'https://bscscan.com/token/images/ethereum_32.png',
+      },
+      {
+        address: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
+        symbol: 'WBNB',
+        decimals: 18,
+        chainId: 56,
+        name: 'Wrapped BNB',
+        logoURI:
+          'https://bscscan.com/assets/bsc/images/svg/logos/token-light.svg',
       },
     ],
     deny: [

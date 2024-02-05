@@ -7,7 +7,6 @@ export * from './useContentHeight';
 export * from './useDebouncedWatch';
 export * from './useDefaultElementId';
 export * from './useExpandableVariant';
-export * from './useFeaturedTokens';
 export * from './useFromTokenSufficiency';
 export * from './useGasRecommendation';
 export * from './useGasRefuel';
