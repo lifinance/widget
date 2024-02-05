@@ -24,10 +24,10 @@ export interface SettingsProps {
   enabledAutoRefuel: boolean;
   showDestinationWallet: boolean;
   slippage?: string;
-  enabledBridges: string[];
-  _enabledBridges?: Record<string, boolean>;
-  enabledExchanges: string[];
-  _enabledExchanges?: Record<string, boolean>;
+  disabledBridges: string[];
+  enabledBridges: Record<string, boolean>;
+  disabledExchanges: string[];
+  enabledExchanges: Record<string, boolean>;
 }
 
 export interface SettingsState extends SettingsProps {
@@ -38,11 +38,8 @@ export interface SettingsState extends SettingsProps {
     tools: string[],
     reset?: boolean,
   ): void;
-  setTools(
-    toolType: SettingsToolType,
-    tools: string[],
-    availableTools: string[],
-  ): void;
+  setToolValue(toolType: SettingsToolType, tool: string, value: boolean): void;
+  toggleTools(toolType: SettingsToolType): void;
   reset(bridges: string[], exchanges: string[]): void;
 }
 

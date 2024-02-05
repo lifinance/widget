@@ -3,10 +3,10 @@ import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { shallow } from 'zustand/shallow';
+import { CardButton } from '../../components/Card';
 import { useSettingMonitor } from '../../hooks';
 import { useSettingsStore } from '../../stores';
 import { navigationRoutes } from '../../utils';
-import { CardButton } from '../../components/Card';
 import { BadgedValue } from './SettingsCard';
 
 const supportedIcons = {
@@ -21,7 +21,7 @@ export const BridgeAndExchangeSettings: React.FC<{
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [enabledTools, tools] = useSettingsStore((state) => {
-    const enabledTools = Object.values(state[`_enabled${type}`] ?? {});
+    const enabledTools = Object.values(state[`enabled${type}`]);
     return [enabledTools.filter(Boolean).length, enabledTools.length];
   }, shallow);
 

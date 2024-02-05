@@ -8,17 +8,22 @@ import {
 import { useTools } from './useTools';
 
 export const useSettingMonitor = () => {
-  const [enabledBridges, enabledExchanges, routePriority, slippage, gasPrice] =
-    useSettingsStore(
-      (state) => [
-        state.enabledBridges,
-        state.enabledExchanges,
-        state.routePriority,
-        state.slippage,
-        state.gasPrice,
-      ],
-      shallow,
-    );
+  const [
+    disabledBridges,
+    disabledExchanges,
+    routePriority,
+    slippage,
+    gasPrice,
+  ] = useSettingsStore(
+    (state) => [
+      state.disabledBridges,
+      state.disabledExchanges,
+      state.routePriority,
+      state.slippage,
+      state.gasPrice,
+    ],
+    shallow,
+  );
   const { tools } = useTools();
   const resetSettings = useSettingsStore((state) => state.reset);
   const config = useWidgetConfig();
@@ -36,13 +41,8 @@ export const useSettingMonitor = () => {
 
   const isGasPriceChanged = gasPrice !== defaultConfigurableSettings.gasPrice;
 
-  const isBridgesChanged = tools?.bridges
-    ? tools.bridges.length !== enabledBridges.length
-    : false;
-
-  const isExchangesChanged = tools?.exchanges
-    ? tools.exchanges.length !== enabledExchanges.length
-    : false;
+  const isBridgesChanged = Boolean(disabledBridges.length);
+  const isExchangesChanged = Boolean(disabledExchanges.length);
 
   const isCustomRouteSettings =
     isBridgesChanged ||
