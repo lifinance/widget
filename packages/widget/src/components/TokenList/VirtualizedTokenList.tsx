@@ -3,27 +3,22 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import type { FC } from 'react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAccount } from '../../hooks';
+import type { TokenAmount } from '../../types';
 import { TokenListItem, TokenListItemSkeleton } from './TokenListItem';
 import type { VirtualizedTokenListProps } from './types';
 
 export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
+  account,
   tokens,
-  featuredTokensLength,
   scrollElementRef,
   chainId,
   chain,
   isLoading,
   isBalanceLoading,
-  showFeatured,
+  showCategories,
   onClick,
 }) => {
-  const { account } = useAccount({ chainType: chain?.chainType });
   const { t } = useTranslation();
-
-  const hasFeaturedTokens = !!featuredTokensLength && showFeatured;
-  const featuredTokensLastIndex = (featuredTokensLength ?? 0) - 1;
-  const tokensLastIndex = tokens.length - 1;
 
   const { getVirtualItems, getTotalSize, scrollToIndex } = useVirtualizer({
     count: tokens.length,
@@ -31,23 +26,31 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     paddingEnd: 12,
     getScrollElement: () => scrollElementRef.current,
     estimateSize: (index) => {
-      // heigth of TokenListItem
+      // Base size for TokenListItem
       let size = 64;
-      if (!hasFeaturedTokens) {
+      // Early return if categories are not shown
+      if (!showCategories) {
         return size;
       }
-      if (index === 0 && tokens[index]?.featured) {
-        // height of startAdornment
+
+      const currentToken = tokens[index];
+      const previousToken = tokens[index - 1];
+
+      // Adjust size for the first featured token
+      if (currentToken.featured && index === 0) {
         size += 24;
       }
-      if (
-        index === featuredTokensLastIndex &&
-        index !== tokensLastIndex &&
-        tokens[index]?.featured
-      ) {
-        // height of endAdornment
+
+      // Adjust size based on changes between the current and previous tokens
+      const isCategoryChanged =
+        (previousToken?.amount && !currentToken.amount) ||
+        (previousToken?.featured && !currentToken.featured) ||
+        (previousToken?.popular && !currentToken.popular);
+
+      if (isCategoryChanged) {
         size += 32;
       }
+
       return size;
     },
     getItemKey: (index) => `${tokens[index].address}-${index}`,
@@ -74,43 +77,62 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   return (
     <List style={{ height: getTotalSize() }} disablePadding>
       {getVirtualItems().map((item) => {
-        const token = tokens[item.index];
+        const currentToken = tokens[item.index];
+        const previousToken: TokenAmount | undefined = tokens[item.index - 1];
+
+        const isFirstFeaturedToken = currentToken.featured && item.index === 0;
+        const isTransitionFromFeaturedTokens =
+          previousToken?.featured && !currentToken.featured;
+        const isTransitionFromMyTokens =
+          previousToken?.amount && !currentToken.amount;
+        const isTransitionToMyTokens =
+          isTransitionFromFeaturedTokens && currentToken.amount;
+        const isTransitionToPopularTokens =
+          (isTransitionFromFeaturedTokens || isTransitionFromMyTokens) &&
+          currentToken.popular;
+        const shouldShowAllTokensCategory =
+          (isTransitionFromMyTokens ||
+            isTransitionFromFeaturedTokens ||
+            (previousToken?.popular && !currentToken.popular)) &&
+          showCategories;
+
+        const startAdornmentLabel = (() => {
+          if (isFirstFeaturedToken) {
+            return t('main.featuredTokens');
+          }
+          if (isTransitionToMyTokens) {
+            return t('main.myTokens');
+          }
+          if (isTransitionToPopularTokens) {
+            return t('main.popularTokens');
+          }
+          if (shouldShowAllTokensCategory) {
+            return t('main.allTokens');
+          }
+          return null;
+        })();
+
         return (
           <TokenListItem
             key={item.key}
             onClick={onClick}
             size={item.size}
             start={item.start}
-            token={token}
+            token={currentToken}
             chain={chain}
             isBalanceLoading={isBalanceLoading}
             showBalance={account.isConnected}
             startAdornment={
-              hasFeaturedTokens && token.featured && item.index === 0 ? (
+              startAdornmentLabel ? (
                 <Typography
                   fontSize={14}
                   fontWeight={600}
-                  lineHeight={1}
-                  px={2}
-                  pb={1.25}
+                  lineHeight="16px"
+                  px={1.5}
+                  pt={isFirstFeaturedToken ? 0 : 1}
+                  pb={1}
                 >
-                  {t('main.featuredTokens')}
-                </Typography>
-              ) : null
-            }
-            endAdornment={
-              hasFeaturedTokens &&
-              token.featured &&
-              item.index === featuredTokensLastIndex &&
-              item.index !== tokensLastIndex ? (
-                <Typography
-                  fontSize={14}
-                  fontWeight={600}
-                  lineHeight={1}
-                  px={2}
-                  py={1.25}
-                >
-                  {t('main.otherTokens')}
+                  {startAdornmentLabel}
                 </Typography>
               ) : null
             }

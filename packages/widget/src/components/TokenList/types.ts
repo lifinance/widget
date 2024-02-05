@@ -1,5 +1,6 @@
 import type { ExtendedChain } from '@lifi/sdk';
 import type { MouseEventHandler, MutableRefObject } from 'react';
+import type { Account } from '../../hooks';
 import type { FormType } from '../../stores';
 import type { TokenAmount } from '../../types';
 
@@ -10,14 +11,14 @@ export interface TokenListProps {
 }
 
 export interface VirtualizedTokenListProps {
+  account: Account;
   tokens: TokenAmount[];
-  featuredTokensLength?: number;
   scrollElementRef: MutableRefObject<HTMLElement | null>;
   isLoading: boolean;
   isBalanceLoading: boolean;
   chainId?: number;
   chain?: ExtendedChain;
-  showFeatured?: boolean;
+  showCategories?: boolean;
   onClick(tokenAddress: string): void;
 }
 

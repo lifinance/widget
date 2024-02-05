@@ -160,6 +160,7 @@ export interface WidgetConfig {
   tokens?: {
     featured?: StaticToken[];
     include?: Token[];
+    popular?: StaticToken[];
   } & AllowDeny<BaseToken>;
   languages?: {
     default?: LanguageKey;

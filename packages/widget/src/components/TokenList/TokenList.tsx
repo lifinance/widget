@@ -2,6 +2,7 @@ import { Box } from '@mui/material';
 import type { FC } from 'react';
 import { useRef } from 'react';
 import {
+  useAccount,
   useChain,
   useDebouncedWatch,
   useTokenBalances,
@@ -27,6 +28,7 @@ export const TokenList: FC<TokenListProps> = ({
   );
 
   const { chain, isLoading: isChainLoading } = useChain(selectedChainId);
+  const { account } = useAccount({ chainType: chain?.chainType });
 
   const {
     tokens: chainTokens,
@@ -34,6 +36,7 @@ export const TokenList: FC<TokenListProps> = ({
     isLoading: isTokensLoading,
     isBalanceLoading,
     featuredTokens,
+    popularTokens,
   } = useTokenBalances(selectedChainId);
 
   let filteredTokens = (tokensWithBalance ??
@@ -71,6 +74,9 @@ export const TokenList: FC<TokenListProps> = ({
       : filteredTokens;
 
   const handleTokenClick = useTokenSelect(formType, onClick);
+  const showCategories =
+    Boolean(featuredTokens?.length || popularTokens?.length) &&
+    !tokenSearchFilter;
 
   return (
     <Box ref={parentRef} style={{ height, overflow: 'auto' }}>
@@ -78,14 +84,14 @@ export const TokenList: FC<TokenListProps> = ({
         <TokenNotFound formType={formType} />
       ) : null}
       <VirtualizedTokenList
+        account={account}
         tokens={tokens}
-        featuredTokensLength={featuredTokens?.length}
         scrollElementRef={parentRef}
         chainId={selectedChainId}
         chain={chain}
         isLoading={isLoading}
         isBalanceLoading={isBalanceLoading}
-        showFeatured={!tokenSearchFilter}
+        showCategories={showCategories}
         onClick={handleTokenClick}
       />
     </Box>
