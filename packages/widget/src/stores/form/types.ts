@@ -23,20 +23,9 @@ export interface FormValueControl<T> {
   value: T;
 }
 
-export interface FormValues {
-  contractOutputsToken: FormValueControl<string>;
-  fromAmount: FormValueControl<string>;
-  fromChain?: FormValueControl<number | undefined>;
-  fromToken?: FormValueControl<string | undefined>;
-  toAddress: FormValueControl<string>;
-  toAmount: FormValueControl<string>;
-  toChain?: FormValueControl<number | undefined>;
-  toContractAddress: FormValueControl<string>;
-  toContractCallData: FormValueControl<string>;
-  toContractGasLimit: FormValueControl<string>;
-  toToken?: FormValueControl<string | undefined>;
-  tokenSearchFilter: FormValueControl<string>;
-}
+export type FormValues = {
+  [Property in keyof DefaultValues]: FormValueControl<DefaultValues[Property]>;
+};
 
 export type FormFieldNames = keyof FormValues;
 export type ExtractValueType<T> =
