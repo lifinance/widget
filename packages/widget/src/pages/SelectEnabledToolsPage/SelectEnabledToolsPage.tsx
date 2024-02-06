@@ -55,52 +55,33 @@ export const SelectEnabledToolsPage: React.FC<{
 }> = ({ type }) => {
   const typeKey = type.toLowerCase() as 'bridges' | 'exchanges';
   const { tools } = useTools();
-  const [enabledTools, setTools] = useSettingsStore(
-    (state) => [state[`enabled${type}`], state.setTools],
-    shallow,
-  );
+  const [enabledTools, disabledTools, setToolValue, toggleTools] =
+    useSettingsStore(
+      (state) => [
+        state[`enabled${type}`],
+        state[`disabled${type}`],
+        state.setToolValue,
+        state.toggleTools,
+      ],
+      shallow,
+    );
   const headerStoreContext = useHeaderStoreContext();
 
   const handleClick = (key: string) => {
-    if (!tools) {
-      return;
-    }
-    const toolKeys = tools[typeKey].map((tool) => tool.key);
-    if (enabledTools?.includes(key)) {
-      setTools(
-        type,
-        enabledTools.filter((toolKey) => toolKey !== key),
-        toolKeys,
-      );
-    } else {
-      setTools(type, [...enabledTools, key], toolKeys);
-    }
+    setToolValue(type, key, !enabledTools[key]);
   };
 
   useEffect(() => {
-    const allToolsSelected = tools?.[typeKey].length === enabledTools.length;
-    const toggleCheckboxes = () => {
-      if (!tools) {
-        return;
-      }
-      const toolKeys = tools[typeKey].map((tool) => tool.key);
-      if (allToolsSelected) {
-        setTools(type, [], toolKeys);
-      } else {
-        setTools(type, toolKeys, toolKeys);
-      }
-    };
-
     return headerStoreContext
       .getState()
       .setAction(
         <SelectAllCheckbox
-          allCheckboxesSelected={allToolsSelected}
-          anyCheckboxesSelected={!!enabledTools.length}
-          onClick={toggleCheckboxes}
+          allCheckboxesSelected={!disabledTools.length}
+          anyCheckboxesSelected={Boolean(disabledTools.length)}
+          onClick={() => toggleTools(type)}
         />,
       );
-  }, [enabledTools.length, headerStoreContext, setTools, tools, type, typeKey]);
+  }, [disabledTools.length, headerStoreContext, toggleTools, type]);
 
   return (
     <PageContainer disableGutters>
@@ -121,7 +102,7 @@ export const SelectEnabledToolsPage: React.FC<{
               </Avatar>
             </ListItemAvatar>
             <ListItemText primary={tool.name} />
-            {enabledTools?.includes(tool.key) && <CheckIcon color="primary" />}
+            {enabledTools[tool.key] && <CheckIcon color="primary" />}
           </SettingsListItemButton>
         ))}
       </List>

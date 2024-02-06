@@ -21,17 +21,17 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
   const queryClient = useQueryClient();
   const swapOnly = useSwapOnly();
   const {
-    slippage,
-    enabledBridges,
+    disabledBridges,
+    disabledExchanges,
     enabledAutoRefuel,
-    enabledExchanges,
     routePriority,
+    slippage,
   } = useSettings([
-    'slippage',
-    'routePriority',
+    'disabledBridges',
+    'disabledExchanges',
     'enabledAutoRefuel',
-    'enabledBridges',
-    'enabledExchanges',
+    'routePriority',
+    'slippage',
   ]);
   const [fromTokenAmount] = useDebouncedWatch(320, 'fromAmount');
   const [
@@ -117,8 +117,9 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
     toContractCallData,
     toContractGasLimit,
     slippage,
-    swapOnly ? [] : enabledBridges,
-    enabledExchanges,
+    swapOnly,
+    disabledBridges,
+    disabledExchanges,
     routePriority,
     subvariant,
     sdkConfig?.routeOptions?.allowSwitchChain,
@@ -146,8 +147,9 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
           toContractCallData,
           toContractGasLimit,
           slippage = defaultSlippage,
-          enabledBridges,
-          enabledExchanges,
+          swapOnly,
+          disabledBridges,
+          disabledExchanges,
           routePriority,
           subvariant,
           allowSwitchChain,
@@ -165,21 +167,29 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
         ).toString();
         const formattedSlippage = parseFloat(slippage) / 100;
 
-        const allowedBridges: string[] = insurableRoute
-          ? insurableRoute.steps.flatMap((step) =>
-              step.includedSteps
-                .filter((includedStep) => includedStep.type === 'cross')
-                .map((includedStep) => includedStep.toolDetails.key),
-            )
-          : enabledBridges;
+        const allowedBridges = swapOnly
+          ? []
+          : insurableRoute
+            ? insurableRoute.steps.flatMap((step) =>
+                step.includedSteps.reduce((toolKeys, includedStep) => {
+                  if (includedStep.type === 'cross') {
+                    toolKeys.push(includedStep.toolDetails.key);
+                  }
+                  return toolKeys;
+                }, [] as string[]),
+              )
+            : undefined;
 
-        const allowedExchanges: string[] = insurableRoute
+        const allowedExchanges = insurableRoute
           ? insurableRoute.steps.flatMap((step) =>
-              step.includedSteps
-                .filter((includedStep) => includedStep.type === 'swap')
-                .map((includedStep) => includedStep.toolDetails.key),
+              step.includedSteps.reduce((toolKeys, includedStep) => {
+                if (includedStep.type === 'swap') {
+                  toolKeys.push(includedStep.toolDetails.key);
+                }
+                return toolKeys;
+              }, [] as string[]),
             )
-          : enabledExchanges;
+          : undefined;
 
         if (subvariant === 'nft') {
           const contractCallQuote = await getContractCallQuote(
@@ -194,7 +204,12 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
               toContractAddress,
               toContractCallData,
               toContractGasLimit,
+              denyBridges: disabledBridges.length ? disabledBridges : undefined,
+              denyExchanges: disabledExchanges.length
+                ? disabledExchanges
+                : undefined,
               allowBridges: allowedBridges,
+              allowExchanges: allowedExchanges,
               toFallbackAddress: toWalletAddress,
               slippage: formattedSlippage,
             },
@@ -255,17 +270,29 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
                 ? gasRecommendationFromAmount
                 : undefined,
             options: {
-              slippage: formattedSlippage,
-              bridges: {
-                allow: allowedBridges,
-              },
-              exchanges: {
-                allow: allowedExchanges,
-              },
-              order: routePriority,
               allowSwitchChain:
                 subvariant === 'refuel' ? false : allowSwitchChain,
+              bridges:
+                allowedBridges?.length || disabledBridges.length
+                  ? {
+                      allow: allowedBridges,
+                      deny: disabledBridges.length
+                        ? disabledBridges
+                        : undefined,
+                    }
+                  : undefined,
+              exchanges:
+                allowedExchanges?.length || disabledExchanges.length
+                  ? {
+                      allow: allowedExchanges,
+                      deny: disabledExchanges.length
+                        ? disabledExchanges
+                        : undefined,
+                    }
+                  : undefined,
               insurance: insurance ? Boolean(insurableRoute) : undefined,
+              order: routePriority,
+              slippage: formattedSlippage,
             },
           },
           { signal },
