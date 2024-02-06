@@ -94,7 +94,7 @@ export const RoutesExpandedElement = () => {
                 ) : (
                   routes?.map((route: Route, index: number) => (
                     <RouteCard
-                      key={route.id}
+                      key={index}
                       route={route}
                       onClick={() => handleRouteClick(route)}
                       active={index === 0}
