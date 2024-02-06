@@ -33,7 +33,7 @@
     "@mui/lab": "^5.0.0-alpha.163",
     "@mui/material": "^5.15.7",
     "@opensea/seaport-js": "2.0.8",
-    "@tanstack/react-query": "^5.18.0",
+    "@tanstack/react-query": "^5.18.1",
     "bignumber.js": "^9.1.2",
     "ethers": "^5.7.2",
     "events": "^3.3.0",
