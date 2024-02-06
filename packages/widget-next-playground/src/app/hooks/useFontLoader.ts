@@ -12,17 +12,21 @@ export const useFontLoader = () => {
   const { mutateAsync: loadFont, isPending: isLoadingFont } = useMutation({
     mutationFn: async (font: Font) => {
       try {
-        if (font.fontDefinition && !loadedFontsList.includes(font.fontName)) {
-          const fontFaces = font.fontDefinition.map(
-            (font) =>
-              new FontFace(font.family, `url(${font.url})`, font.options),
+        if (font.fontFiles && !loadedFontsList.includes(font.family)) {
+          const fontFaces = font.fontFiles.map(
+            (fontFile) =>
+              new FontFace(
+                font.family,
+                `url(${fontFile.url})`,
+                fontFile.options,
+              ),
           );
 
           await Promise.all(
             fontFaces.map((fontFace) => loadFontFace(fontFace)),
           );
 
-          setLoadedFontsList([...loadedFontsList, font.fontName]);
+          setLoadedFontsList([...loadedFontsList, font.family]);
         }
 
         return;

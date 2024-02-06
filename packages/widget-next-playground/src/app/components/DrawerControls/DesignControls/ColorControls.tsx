@@ -1,6 +1,6 @@
 import { BoxProps } from '@mui/material';
 import { useConfigActions, useConfigColorsFromPath } from '../../../store';
-import { ExpandableCard } from '../../ExpandableCard';
+import { ExpandableCard } from '../../Card';
 import {
   ColorSelectorContainer,
   ColorSwatch,

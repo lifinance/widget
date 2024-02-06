@@ -6,3 +6,4 @@ export * from './DesignControls.style';
 export * from './FontsControl';
 export * from './SubvariantControl';
 export * from './VariantControl';
+export * from './WalletManagementControl';

@@ -1,8 +1,7 @@
 import { WidgetVariant } from '@lifi/widget';
 import { useConfigActions, useConfigVariant } from '../../../store';
-import { ExpandableCard } from '../../ExpandableCard';
 import { Tab, Tabs } from '../../Tabs';
-import { CardValue } from '../../ExpandableCard';
+import { CardValue, ExpandableCard } from '../../Card';
 
 export const VariantControl = () => {
   const { variant } = useConfigVariant();

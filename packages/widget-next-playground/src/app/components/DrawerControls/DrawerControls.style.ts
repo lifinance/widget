@@ -1,6 +1,5 @@
 import { Box, Drawer as MuiDrawer, styled } from '@mui/material';
 import TabPanel from '@mui/lab/TabPanel';
-
 export const drawerWidth = 392;
 export const drawerZIndex = 1201;
 export const Drawer = styled(MuiDrawer)(() => ({

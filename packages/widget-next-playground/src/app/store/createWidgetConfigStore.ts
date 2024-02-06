@@ -1,6 +1,6 @@
 import { createWithEqualityFn } from 'zustand/traditional';
 import { WidgetConfig } from '@lifi/widget';
-import { addValueFromPath } from '../utils/setValueToPath';
+import { addValueFromPath } from '../utils';
 import { WidgetConfigState } from './types';
 
 export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
@@ -121,6 +121,14 @@ export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
               fontFamily,
             },
           },
+        } as WidgetConfig,
+      });
+    },
+    setWalletConfig: (walletConfig?) => {
+      set({
+        config: {
+          ...get().config,
+          walletConfig,
         } as WidgetConfig,
       });
     },

@@ -3,6 +3,7 @@ import {
   WidgetConfig,
   WidgetSubvariant,
   WidgetVariant,
+  WidgetWalletConfig,
 } from '@lifi/widget';
 import { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
 import { StoreApi } from 'zustand';
@@ -22,6 +23,7 @@ export interface WidgetConfigActions {
   resetBorderRadiusSecondary: () => void;
   setColor: (path: string, color: string) => void;
   setFontFamily: (fontName: string) => void;
+  setWalletConfig: (walletConfig: WidgetWalletConfig) => void;
 }
 
 export type WidgetConfigState = WidgetConfigValues & WidgetConfigActions;

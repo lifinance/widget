@@ -1,14 +1,13 @@
 export interface FontFile {
-  family: string;
   url: string;
   options: FontFaceDescriptors;
 }
 
-export type FontFamilyDefinition = FontFile[];
+export type FontFiles = FontFile[];
 
 export interface Font {
-  fontName: string;
+  family: string;
   fallbackFonts?: string;
-  fontSource: 'System fonts' | 'Google fonts' | 'Custom fonts';
-  fontDefinition?: FontFamilyDefinition;
+  source: 'System fonts' | 'Google fonts' | 'Custom fonts';
+  fontFiles?: FontFiles;
 }

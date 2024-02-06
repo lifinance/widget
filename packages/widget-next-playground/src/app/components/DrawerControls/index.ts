@@ -1,2 +1,2 @@
 export * from './DrawerControls';
-export * from './DrawerControls.styles';
+export * from './DrawerControls.style';

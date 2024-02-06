@@ -1,7 +1,6 @@
 import { ChangeEventHandler, useState } from 'react';
-import { ExpandableCard } from '../../ExpandableCard';
 import { useConfigActions, useConfigBorderRadius } from '../../../store';
-import { CardValue } from '../../ExpandableCard';
+import { CardValue, ExpandableCard } from '../../Card';
 import {
   TabButton,
   TabButtonsContainer,

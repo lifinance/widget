@@ -1,6 +1,6 @@
 import { shallow } from 'zustand/shallow';
 import { useWidgetConfigStore } from './WidgetConfigProvider';
-import { getValueFromPath } from '../utils/getValueFromPath';
+import { getValueFromPath } from '../utils';
 
 export const useConfigVariant = () => {
   const [variant] = useWidgetConfigStore(

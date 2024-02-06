@@ -4,9 +4,8 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import NightlightIcon from '@mui/icons-material/Nightlight';
 import { Appearance } from '@lifi/widget';
 import { useConfigActions, useConfigAppearance } from '../../../store';
-import { ExpandableCard } from '../../ExpandableCard';
+import { ExpandableCard, CardValue } from '../../Card';
 import { Tab, Tabs } from '../../Tabs';
-import { CardValue } from '../../ExpandableCard/';
 
 const appearanceIcons = {
   light: LightModeIcon,

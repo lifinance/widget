@@ -1,8 +1,7 @@
 import { WidgetSubvariant } from '@lifi/widget';
 import { useConfigActions, useConfigSubvariant } from '../../../store';
-import { ExpandableCard } from '../../ExpandableCard';
 import { Tab, Tabs } from '../../Tabs';
-import { CardValue } from '../../ExpandableCard';
+import { CardValue, ExpandableCard } from '../../Card';
 
 export const SubvariantControl = () => {
   const { subvariant } = useConfigSubvariant();

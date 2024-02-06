@@ -5,8 +5,8 @@ import {
   Drawer,
   DrawerContentContainer,
   TabContentContainer,
-} from './DrawerControls.styles';
-import { ExpandableCardAccordion } from '../ExpandableCard';
+} from './DrawerControls.style';
+import { ExpandableCardAccordion } from '../Card';
 import {
   AppearanceControl,
   ButtonRadiusControl,
@@ -15,6 +15,7 @@ import {
   VariantControl,
   ColorControl,
   FontsControl,
+  WalletManagementControl,
 } from './DesignControls';
 
 interface DrawerControlsProps {
@@ -36,7 +37,7 @@ export const DrawerControls = ({ open }: DrawerControlsProps) => {
           onChange={(_, value) => setControlsTabsState(value)}
         >
           <Tab label={'Design'} value="design" disableRipple />
-          <Tab label={'Code'} value="code" disableRipple />
+          <Tab label={'Code'} value="code" disableRipple disabled />
         </Tabs>
         <TabContext value={controlsTabsState}>
           <TabContentContainer value="design">
@@ -48,6 +49,7 @@ export const DrawerControls = ({ open }: DrawerControlsProps) => {
               <ButtonRadiusControl />
               <ColorControl />
               <FontsControl />
+              <WalletManagementControl />
             </ExpandableCardAccordion>
           </TabContentContainer>
           <TabContentContainer value="code">

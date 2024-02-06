@@ -14,6 +14,7 @@ export const useConfigActions = () => {
       resetBorderRadiusSecondary: state.resetBorderRadiusSecondary,
       setColor: state.setColor,
       setFontFamily: state.setFontFamily,
+      setWalletConfig: state.setWalletConfig,
     }),
     shallow,
   );

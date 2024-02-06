@@ -1,21 +1,21 @@
-import { SyntheticEvent, useEffect, useState } from 'react';
+import { FocusEventHandler, SyntheticEvent, useEffect, useState } from 'react';
 import { Alert, CircularProgress, TextField } from '@mui/material';
 import { useConfigActions } from '../../../../store';
 import { Font, useFontLoader } from '../../../../hooks';
-import { ExpandableCard } from '../../../ExpandableCard';
+import { ExpandableCard } from '../../../Card';
 import { Autocomplete } from '../DesignControls.style';
 import { defaultFont, allFonts } from './fontDefinitions';
 
 const getCompleteFontFamily = (font: Font) =>
-  [font.fontName, font.fallbackFonts || 'sans-serif'].join(', ');
+  [font.family, font.fallbackFonts || 'sans-serif'].join(', ');
 export const FontsControl = () => {
   const [selectedFont, setSelectedFont] = useState<Font | undefined>();
   const { setFontFamily } = useConfigActions();
   const { loadFont, isLoadingFont } = useFontLoader();
 
-  const setAndLoadFont = (font: Font) => {
+  const setAndLoadFont = async (font: Font) => {
     setSelectedFont(font);
-    loadFont(font);
+    await loadFont(font);
     const webSafeFont = getCompleteFontFamily(font);
     setFontFamily(webSafeFont);
   };
@@ -26,12 +26,12 @@ export const FontsControl = () => {
     }
   }, [defaultFont, selectedFont, setSelectedFont, loadFont, setFontFamily]);
 
-  const handleAutocompleteChange = async (
+  const handleAutocompleteChange = (
     _: SyntheticEvent<Element, Event>,
     value: Font | string | null,
   ) => {
     if (typeof value === 'string') {
-      setSelectedFont({ fontName: value, fontSource: 'Custom fonts' });
+      setSelectedFont({ family: value, source: 'Custom fonts' });
       setFontFamily(value);
     } else {
       const font = value ? value : defaultFont;
@@ -39,10 +39,10 @@ export const FontsControl = () => {
     }
   };
 
-  const handleAutocompleteBlur = async (
-    event: SyntheticEvent<HTMLInputElement, FocusEvent>,
+  const handleAutocompleteBlur: FocusEventHandler<HTMLInputElement> = (
+    event,
   ) => {
-    const inputValue = (event.target as HTMLInputElement).value.trim();
+    const inputValue = event.target.value.trim();
 
     if (!selectedFont || inputValue !== getCompleteFontFamily(selectedFont)) {
       if (inputValue) {
@@ -54,7 +54,7 @@ export const FontsControl = () => {
         if (matchingFont) {
           setAndLoadFont(matchingFont);
         } else {
-          setSelectedFont({ fontName: inputValue, fontSource: 'Custom fonts' });
+          setSelectedFont({ family: inputValue, source: 'Custom fonts' });
           setFontFamily(inputValue);
         }
       }
@@ -62,12 +62,12 @@ export const FontsControl = () => {
   };
 
   const FontInfoMessage =
-    selectedFont?.fontSource === 'System fonts'
+    selectedFont?.source === 'System fonts'
       ? 'System font should be supported by the intended OS'
-      : selectedFont?.fontSource === 'Custom fonts'
+      : selectedFont?.source === 'Custom fonts'
         ? 'Fonts should be loaded separately'
-        : selectedFont?.fontSource === 'Google fonts' &&
-            selectedFont?.fontName !== defaultFont.fontName
+        : selectedFont?.source === 'Google fonts' &&
+            selectedFont?.family !== defaultFont.family
           ? 'Fonts should be loaded from Google Fonts separately'
           : 'Fonts should be loaded separately or be supported by OS';
 
@@ -81,7 +81,7 @@ export const FontsControl = () => {
           )}
         </>
       }
-      value={selectedFont?.fontName}
+      value={selectedFont?.family}
     >
       {selectedFont && (
         <Autocomplete
@@ -89,25 +89,25 @@ export const FontsControl = () => {
           sx={{ mt: 1 }}
           options={
             allFonts.sort((a, b) => {
-              let order = b.fontSource.localeCompare(a.fontSource);
+              let order = b.source.localeCompare(a.source);
               if (order === 0) {
-                order = b.fontName.localeCompare(a.fontName);
+                order = b.family.localeCompare(a.family);
               }
               return -order;
             }) as Font[]
           }
-          groupBy={(font) => font.fontSource}
+          groupBy={(font) => font.source}
           getOptionLabel={(font) => {
             if (typeof font === 'string') {
               return font;
             }
-            return font.fontSource === 'Custom fonts'
-              ? font.fontName
+            return font.source === 'Custom fonts'
+              ? font.family
               : getCompleteFontFamily(font);
           }}
           value={selectedFont}
           isOptionEqualToValue={(option, value) =>
-            option.fontName === value.fontName
+            option.family === value.family
           }
           onChange={handleAutocompleteChange}
           onBlur={handleAutocompleteBlur}

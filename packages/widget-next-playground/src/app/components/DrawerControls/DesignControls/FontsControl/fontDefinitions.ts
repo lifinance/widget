@@ -1,11 +1,10 @@
 import { Font } from '../../../../hooks';
 
 export const defaultFont: Font = {
-  fontName: 'Inter',
-  fontSource: 'Google fonts',
-  fontDefinition: [
+  family: 'Inter',
+  source: 'Google fonts',
+  fontFiles: [
     {
-      family: 'Inter',
       url: 'https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2',
       options: {
         weight: '400',
@@ -13,7 +12,6 @@ export const defaultFont: Font = {
       },
     },
     {
-      family: 'Inter',
       url: 'https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuI6fAZ9hiJ-Ek-_EeA.woff2',
       options: {
         weight: '500',
@@ -21,7 +19,6 @@ export const defaultFont: Font = {
       },
     },
     {
-      family: 'Inter',
       url: 'https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuGKYAZ9hiJ-Ek-_EeA.woff2',
       options: {
         weight: '600',
@@ -29,7 +26,6 @@ export const defaultFont: Font = {
       },
     },
     {
-      family: 'Inter',
       url: 'https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuFuYAZ9hiJ-Ek-_EeA.woff2',
       options: {
         weight: '700',
@@ -41,61 +37,60 @@ export const defaultFont: Font = {
 
 export const systemFonts: Font[] = [
   {
-    fontName: 'Arial',
+    family: 'Arial',
     fallbackFonts: 'sans-serif',
-    fontSource: 'System fonts',
+    source: 'System fonts',
   },
   {
-    fontName: 'Verdana',
+    family: 'Verdana',
     fallbackFonts: 'sans-serif',
-    fontSource: 'System fonts',
+    source: 'System fonts',
   },
   {
-    fontName: 'Tahoma',
+    family: 'Tahoma',
     fallbackFonts: 'sans-serif',
-    fontSource: 'System fonts',
+    source: 'System fonts',
   },
   {
-    fontName: 'Trebuchet MS',
+    family: 'Trebuchet MS',
     fallbackFonts: 'sans-serif',
-    fontSource: 'System fonts',
+    source: 'System fonts',
   },
   {
-    fontName: 'Times New Roman',
+    family: 'Times New Roman',
     fallbackFonts: 'serif',
-    fontSource: 'System fonts',
+    source: 'System fonts',
   },
   {
-    fontName: 'Georgia',
+    family: 'Georgia',
     fallbackFonts: 'serif',
-    fontSource: 'System fonts',
+    source: 'System fonts',
   },
   {
-    fontName: 'Garamond',
+    family: 'Garamond',
     fallbackFonts: 'serif',
-    fontSource: 'System fonts',
+    source: 'System fonts',
   },
   {
-    fontName: 'Courier New',
+    family: 'Courier New',
     fallbackFonts: 'Courier, monospace',
-    fontSource: 'System fonts',
+    source: 'System fonts',
   },
   {
-    fontName: 'Brush Script MT',
-    fallbackFonts: 'serif',
-    fontSource: 'System fonts',
+    family: 'Brush Script MT',
+    fallbackFonts: 'cursive',
+    source: 'System fonts',
   },
 ];
 
-// NOTE: could expore if you can use the Google fonts developer API to write a
+// NOTE: could explore if you can use the Google fonts developer API to write a
 //  script to auto generate this for more fonts
 export const googleFonts: Font[] = [
   {
-    fontName: 'Open Sans',
-    fontSource: 'Google fonts',
-    fontDefinition: [
+    family: 'Open Sans',
+    source: 'Google fonts',
+    fontFiles: [
       {
-        family: 'Open Sans',
         url: 'https://fonts.gstatic.com/s/opensans/v40/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVIUwaEQbjA.woff2',
         options: {
           weight: '400',
@@ -103,7 +98,6 @@ export const googleFonts: Font[] = [
         },
       },
       {
-        family: 'Open Sans',
         url: 'https://fonts.gstatic.com/s/opensans/v40/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjr0B4gaVIUwaEQbjA.woff2',
         options: {
           weight: '500',
@@ -111,7 +105,6 @@ export const googleFonts: Font[] = [
         },
       },
       {
-        family: 'Open Sans',
         url: 'https://fonts.gstatic.com/s/opensans/v40/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsgH1x4gaVIUwaEQbjA.woff2',
         options: {
           weight: '600',
@@ -119,7 +112,6 @@ export const googleFonts: Font[] = [
         },
       },
       {
-        family: 'Open Sans',
         url: 'https://fonts.gstatic.com/s/opensans/v40/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsg-1x4gaVIUwaEQbjA.woff2',
         options: {
           weight: '700',
