@@ -1,10 +1,17 @@
-import { FocusEventHandler, SyntheticEvent, useEffect, useState } from 'react';
+import {
+  FocusEventHandler,
+  SyntheticEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { Alert, CircularProgress, TextField } from '@mui/material';
 import { useConfigActions } from '../../../../store';
 import { Font, useFontLoader } from '../../../../hooks';
 import { ExpandableCard } from '../../../Card';
-import { Autocomplete } from '../DesignControls.style';
+import { Autocomplete, StyledPopper } from '../DesignControls.style';
 import { defaultFont, allFonts } from './fontDefinitions';
+import { styled } from '@mui/material/styles';
 
 const getCompleteFontFamily = (font: Font) =>
   [font.family, font.fallbackFonts || 'sans-serif'].join(', ');
@@ -13,18 +20,21 @@ export const FontsControl = () => {
   const { setFontFamily } = useConfigActions();
   const { loadFont, isLoadingFont } = useFontLoader();
 
-  const setAndLoadFont = async (font: Font) => {
-    setSelectedFont(font);
-    await loadFont(font);
-    const webSafeFont = getCompleteFontFamily(font);
-    setFontFamily(webSafeFont);
-  };
+  const setAndLoadFont = useCallback(
+    async (font: Font) => {
+      setSelectedFont(font);
+      await loadFont(font);
+      const webSafeFont = getCompleteFontFamily(font);
+      setFontFamily(webSafeFont);
+    },
+    [setSelectedFont, loadFont, setFontFamily],
+  );
 
   useEffect(() => {
     if (!selectedFont) {
       setAndLoadFont(defaultFont);
     }
-  }, [defaultFont, selectedFont, setSelectedFont, loadFont, setFontFamily]);
+  }, [selectedFont, setSelectedFont, loadFont, setFontFamily, setAndLoadFont]);
 
   const handleAutocompleteChange = (
     _: SyntheticEvent<Element, Event>,
@@ -87,6 +97,7 @@ export const FontsControl = () => {
         <Autocomplete
           freeSolo
           sx={{ mt: 1 }}
+          PopperComponent={StyledPopper}
           options={
             allFonts.sort((a, b) => {
               let order = b.source.localeCompare(a.source);

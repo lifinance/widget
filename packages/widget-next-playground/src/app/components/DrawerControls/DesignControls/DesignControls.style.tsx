@@ -10,8 +10,13 @@ import {
   Autocomplete as MuiAutocomplete,
   Theme,
   AutocompleteProps,
+  Popper,
 } from '@mui/material';
 import { getCardFieldsetBackgroundColor } from '../../../utils';
+import {
+  autocompletePopperZIndex,
+  drawerZIndex,
+} from '../DrawerControls.style';
 
 export const TabButtonsContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -177,6 +182,9 @@ const AutocompleteBase: any = styled(MuiAutocomplete)(({ theme }) => ({
   [`& .${autocompleteClasses.inputRoot} .${autocompleteClasses.input}`]: {
     padding: 0,
   },
+  [`& .${autocompleteClasses.popper}`]: {
+    zIndex: 1502,
+  },
 }));
 
 export const Autocomplete = <
@@ -189,3 +197,9 @@ export const Autocomplete = <
 ) => {
   return <AutocompleteBase {...props} />;
 };
+
+export const StyledPopper = styled(Popper)({
+  [`&.${autocompleteClasses.popper}`]: {
+    zIndex: autocompletePopperZIndex,
+  },
+});

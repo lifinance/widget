@@ -2,6 +2,7 @@ import { Box, Drawer as MuiDrawer, styled } from '@mui/material';
 import TabPanel from '@mui/lab/TabPanel';
 export const drawerWidth = 392;
 export const drawerZIndex = 1501;
+export const autocompletePopperZIndex = drawerZIndex + 1;
 export const Drawer = styled(MuiDrawer)(({ open }) => ({
   width: drawerWidth,
   // NOTE: setting the zIndex seems to prevent clicks underneath where the
