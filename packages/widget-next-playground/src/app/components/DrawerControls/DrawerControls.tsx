@@ -1,9 +1,17 @@
+import type { Dispatch, SetStateAction } from 'react';
 import { useState } from 'react';
-import { Tabs, Tab } from '../Tabs';
 import TabContext from '@mui/lab/TabContext';
+import CloseIcon from '@mui/icons-material/Close';
+import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
+import DesignServicesIcon from '@mui/icons-material/DesignServices';
+import { IconButton, Tooltip } from '@mui/material';
+import { Tabs, Tab } from '../Tabs';
 import {
   Drawer,
   DrawerContentContainer,
+  Header,
+  HeaderRow,
+  Subheader,
   TabContentContainer,
 } from './DrawerControls.style';
 import { ExpandableCardAccordion } from '../Card';
@@ -17,12 +25,17 @@ import {
   FontsControl,
   WalletManagementControl,
 } from './DesignControls';
+import { LifiLogo } from '../LifiLogo';
 
 interface DrawerControlsProps {
   open: boolean;
+  setDrawerOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export const DrawerControls = ({ open }: DrawerControlsProps) => {
+export const DrawerControls = ({
+  open,
+  setDrawerOpen,
+}: DrawerControlsProps) => {
   const [controlsTabsState, setControlsTabsState] = useState<'design' | 'code'>(
     'design',
   );
@@ -30,14 +43,38 @@ export const DrawerControls = ({ open }: DrawerControlsProps) => {
   return (
     <Drawer variant="persistent" anchor="left" open={open}>
       <DrawerContentContainer>
+        <HeaderRow>
+          <Header>
+            <LifiLogo />
+          </Header>
+          <Tooltip title="Close tools" arrow>
+            <IconButton onClick={() => setDrawerOpen(!open)}>
+              <CloseIcon />
+            </IconButton>
+          </Tooltip>
+        </HeaderRow>
+        <Subheader>Widget</Subheader>
         <Tabs
           value={controlsTabsState}
           aria-label="tabs"
           indicatorColor="primary"
           onChange={(_, value) => setControlsTabsState(value)}
         >
-          <Tab label={'Design'} value="design" disableRipple />
-          <Tab label={'Code'} value="code" disableRipple disabled />
+          <Tab
+            icon={<DesignServicesIcon />}
+            iconPosition="start"
+            label={'Design'}
+            value="design"
+            disableRipple
+          />
+          <Tab
+            icon={<IntegrationInstructionsIcon />}
+            iconPosition="start"
+            label={'Code'}
+            value="code"
+            disableRipple
+            disabled
+          />
         </Tabs>
         <TabContext value={controlsTabsState}>
           <TabContentContainer value="design">
@@ -45,10 +82,10 @@ export const DrawerControls = ({ open }: DrawerControlsProps) => {
               <VariantControl />
               <SubvariantControl />
               <AppearanceControl />
-              <CardRadiusControl />
-              <ButtonRadiusControl />
               <ColorControl />
               <FontsControl />
+              <CardRadiusControl />
+              <ButtonRadiusControl />
               <WalletManagementControl />
             </ExpandableCardAccordion>
           </TabContentContainer>

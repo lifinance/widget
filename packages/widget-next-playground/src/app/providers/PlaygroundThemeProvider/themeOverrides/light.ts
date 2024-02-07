@@ -8,10 +8,13 @@ export const lightPalette = {
   },
 };
 
+// TODO: look at moving the Baseline to the central theme?
 export const lightComponents = {
   MuiCssBaseline: {
     styleOverrides: (theme: Theme) => ({
       body: {
+        display: 'flex',
+        minHeight: '100vh',
         backgroundColor: theme.palette.grey[100],
       },
     }),

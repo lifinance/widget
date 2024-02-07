@@ -1,33 +1,14 @@
 import { IconButton, styled } from '@mui/material';
 import { drawerWidth, drawerZIndex } from './components/DrawerControls';
 
-export const OpenButton = styled(IconButton, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})<{
-  open?: boolean;
-}>(({ theme, open }) => ({
-  position: 'absolute',
-  top: 0,
-  transition: theme.transitions.create('left', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  left: 0,
-  ...(open && {
-    transition: theme.transitions.create('left', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    left: drawerWidth,
-  }),
-  zIndex: drawerZIndex,
-}));
-
 export const Main = styled('main', {
   shouldForwardProp: (prop) => prop !== 'open',
 })<{
   open?: boolean;
 }>(({ theme, open }) => ({
+  display: 'flex',
+  justifyContent: 'stretch',
+  position: 'relative',
   flexGrow: 1,
   padding: theme.spacing(3),
   transition: theme.transitions.create('margin', {

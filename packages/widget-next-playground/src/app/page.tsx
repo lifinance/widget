@@ -3,11 +3,9 @@
 import React, { PropsWithChildren, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Box } from '@mui/material';
-import MenuOpenIcon from '@mui/icons-material/MenuOpen';
-import CloseIcon from '@mui/icons-material/Close';
-import { Widget } from './components/Widget';
+import { WidgetView } from './components/Widget';
 import { DrawerControls } from './components/DrawerControls';
-import { Main, OpenButton } from './page.styles';
+import { Main } from './page.styles';
 import { WidgetConfigProvider } from './store';
 import { PlaygroundThemeProvider } from './providers';
 
@@ -24,17 +22,20 @@ const AppProvider = ({ children }: PropsWithChildren) => {
 };
 
 export default function Home() {
-  const [open, setOpen] = useState(true);
+  const [isDrawerControlsOpen, setIsDrawerControlsOpen] = useState(true);
 
   return (
     <AppProvider>
-      <Box sx={{ display: 'flex' }}>
-        <DrawerControls open={open} />
-        <OpenButton onClick={() => setOpen(!open)} open={open}>
-          {open ? <CloseIcon /> : <MenuOpenIcon />}
-        </OpenButton>
-        <Main open={open}>
-          <Widget />
+      <Box sx={{ display: 'flex', flexGrow: '1' }}>
+        <DrawerControls
+          open={isDrawerControlsOpen}
+          setDrawerOpen={setIsDrawerControlsOpen}
+        />
+        <Main open={isDrawerControlsOpen}>
+          <WidgetView
+            isDrawerOpen={isDrawerControlsOpen}
+            setDrawerOpen={setIsDrawerControlsOpen}
+          />
         </Main>
       </Box>
     </AppProvider>

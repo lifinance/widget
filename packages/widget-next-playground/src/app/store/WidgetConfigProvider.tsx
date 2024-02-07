@@ -1,9 +1,9 @@
-import { createContext, PropsWithChildren, useContext, useRef } from 'react';
+import type { PropsWithChildren } from 'react';
+import { createContext, useContext, useRef } from 'react';
 import { shallow } from 'zustand/shallow';
-import type { WidgetConfigStore } from './types';
-import { createWidgetConfigStore } from '@/app/store/createWidgetConfigStore';
-import { WidgetConfigState } from './types';
-import { defaultWidgetConfig } from './defaultWidgetConfig';
+import { defaultWidgetConfig } from '../defaultWidgetConfig';
+import type { WidgetConfigStore, WidgetConfigState } from './types';
+import { createWidgetConfigStore } from './createWidgetConfigStore';
 
 export const WidgetConfigContext = createContext<WidgetConfigStore | null>(
   null,

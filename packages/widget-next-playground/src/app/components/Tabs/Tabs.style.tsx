@@ -37,6 +37,7 @@ export const Tab = styled(MuiTab, {
   textTransform: 'none',
   fontSize: '1rem',
   fontWeight: 700,
+  minHeight: 48,
   color:
     theme.palette.mode === 'dark'
       ? theme.palette.common.white

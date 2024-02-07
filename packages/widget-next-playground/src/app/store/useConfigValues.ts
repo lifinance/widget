@@ -75,3 +75,14 @@ export const useConfigFontFamily = () => {
     fontFamily,
   };
 };
+
+export const useConfigWalletManagement = () => {
+  const [walletConfig] = useWidgetConfigStore(
+    (store) => [store.config?.walletConfig],
+    shallow,
+  );
+
+  return {
+    isExternalWalletManagement: !!walletConfig,
+  };
+};

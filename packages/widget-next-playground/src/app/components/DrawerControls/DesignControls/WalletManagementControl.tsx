@@ -6,19 +6,17 @@ import {
   CardValue,
 } from '../../Card';
 import { Switch } from '../../Switch';
-import { useConfigActions } from '../../../store';
+import { useConfigActions, useConfigWalletManagement } from '../../../store';
 import * as React from 'react';
 import { WidgetWalletConfig } from '@lifi/widget';
 
 export const WalletManagementControl = () => {
-  const [isWalletExternal, setIsWalletExternal] = useState(false);
+  const { isExternalWalletManagement } = useConfigWalletManagement();
   const { setWalletConfig } = useConfigActions();
   const handleSwitchChange: (
     _: React.ChangeEvent<HTMLInputElement>,
     checked: boolean,
   ) => void = (_, checked) => {
-    setIsWalletExternal(checked);
-
     const walletConfig = checked ? { async onConnect() {} } : undefined;
 
     setWalletConfig(walletConfig as WidgetWalletConfig);
@@ -31,7 +29,7 @@ export const WalletManagementControl = () => {
           <CardValue>Manage wallet externally</CardValue>
         </CardTitleContainer>
         <Switch
-          checked={isWalletExternal}
+          checked={isExternalWalletManagement}
           onChange={handleSwitchChange}
           aria-label="Enable external wallet management"
         />

@@ -18,7 +18,7 @@ const editableColors = {
 
 export const ColorControl = () => {
   return (
-    <ExpandableCard title={'Color'} value={<Swatches />}>
+    <ExpandableCard title={'Colors'} value={<Swatches />}>
       {Object.entries(editableColors).map(([colorName, colorConfigPath]) => (
         <ColorSelector
           key={colorConfigPath}

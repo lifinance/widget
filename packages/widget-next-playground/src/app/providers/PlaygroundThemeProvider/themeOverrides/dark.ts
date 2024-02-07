@@ -32,6 +32,8 @@ export const darkComponents = {
   MuiCssBaseline: {
     styleOverrides: (theme: Theme) => ({
       body: {
+        display: 'flex',
+        minHeight: '100vh',
         backgroundColor: theme.palette.common.black,
       },
     }),

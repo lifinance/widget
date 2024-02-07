@@ -36,7 +36,7 @@ export const PlaygroundThemeProvider = ({ children }: PropsWithChildren) => {
 
   return (
     <ThemeProvider theme={appTheme}>
-      <CssBaseline />
+      <CssBaseline enableColorScheme />
       {children}
     </ThemeProvider>
   );
