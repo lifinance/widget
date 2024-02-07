@@ -7,7 +7,6 @@ import { correctMuiIcons } from './mui-icons.js';
 const args = process.argv.slice(2);
 const packagePath = process.cwd();
 const esmDirectoryPath = join(packagePath, './dist/_esm');
-const cjsDirectoryPath = join(packagePath, './dist/_cjs');
 const distDirectoryPath = join(packagePath, './dist');
 
 createPackageFile(packagePath, distDirectoryPath).then(() =>
@@ -20,7 +19,6 @@ if (args[0] !== '--skip-mui') {
   );
 }
 
-Promise.all([
-  correctSourceMapsPaths(esmDirectoryPath),
-  correctSourceMapsPaths(cjsDirectoryPath),
-]).then(() => console.log('Source maps correction complete.'));
+Promise.all([correctSourceMapsPaths(esmDirectoryPath)]).then(() =>
+  console.log('Source maps correction complete.'),
+);

@@ -9,9 +9,8 @@
   "sideEffects": false,
   "scripts": {
     "watch": "tsc -w -p ./tsconfig.json",
-    "build": "yarn clean && yarn build:esm && yarn build:cjs && yarn build:postcompile && yarn build:clean",
+    "build": "yarn clean && yarn build:esm && yarn build:postcompile && yarn build:clean",
     "build:esm": "tsc --build",
-    "build:cjs": "tsc --build ./tsconfig.cjs.json",
     "build:postcompile": "node ../../scripts/postcompile.js --skip-mui && cpy 'src/**/*' dist",
     "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo ./dist/tsconfig.cjs.tsbuildinfo",
     "clean": "yarn build:clean && rm -rf dist",
