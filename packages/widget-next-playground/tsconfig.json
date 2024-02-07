@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2020",
     "lib": [
       "dom",
       "dom.iterable",
+      "es2020",
       "esnext"
     ],
     "allowJs": true,
@@ -37,7 +38,7 @@
       ],
       "@lifi/widget/*": [
         "./packages/widget/src/*"
-      ],
+      ]
     }
   },
   "references": [
@@ -55,9 +56,10 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "dist/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"
-  ],
+  ]
 }
