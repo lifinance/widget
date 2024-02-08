@@ -13,6 +13,7 @@ import {
   HeaderRow,
   Subheader,
   TabContentContainer,
+  tooltipPopperZIndex,
 } from './DrawerControls.style';
 import { ExpandableCardAccordion } from '../Card';
 import {
@@ -47,7 +48,11 @@ export const DrawerControls = ({
           <Header>
             <LifiLogo />
           </Header>
-          <Tooltip title="Close tools" arrow>
+          <Tooltip
+            title="Close tools"
+            PopperProps={{ style: { zIndex: tooltipPopperZIndex } }}
+            arrow
+          >
             <IconButton onClick={() => setDrawerOpen(!open)}>
               <CloseIcon />
             </IconButton>
