@@ -1,5 +1,4 @@
-import InfoIcon from '@mui/icons-material/Info';
-import WalletIcon from '@mui/icons-material/Wallet';
+import { Info, Wallet } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
 import type { MutableRefObject } from 'react';
 import { forwardRef } from 'react';
@@ -55,7 +54,7 @@ export const ConfirmAddressSheet = forwardRef<
     <BottomSheet ref={ref}>
       <SendToWalletSheetContainer>
         <IconContainer>
-          <WalletIcon sx={{ fontSize: 40 }} />
+          <Wallet sx={{ fontSize: 40 }} />
         </IconContainer>
         <SheetTitle>{t('sendToWallet.confirmWalletAddress')}</SheetTitle>
         <SheetAddressContainer>
@@ -72,7 +71,7 @@ export const ConfirmAddressSheet = forwardRef<
               {t('info.message.fundsToExchange')}
             </Typography>
           }
-          icon={<InfoIcon />}
+          icon={<Info />}
         />
         <SendToWalletButtonRow>
           <Button variant="text" onClick={handleClose} fullWidth>

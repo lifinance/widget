@@ -1,4 +1,4 @@
-import SettingsIcon from '@mui/icons-material/Settings';
+import { Settings } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigateBack, useSettingMonitor } from '../../hooks';
@@ -31,10 +31,10 @@ export const SettingsButton = () => {
       >
         {variant ? (
           <SettingsIconBadge variant="dot" color={variant}>
-            <SettingsIcon />
+            <Settings />
           </SettingsIconBadge>
         ) : (
-          <SettingsIcon />
+          <Settings />
         )}
       </SettingsIconButton>
     </Tooltip>

@@ -1,8 +1,10 @@
 import type { Process } from '@lifi/sdk';
-import DoneIcon from '@mui/icons-material/Done';
-import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
-import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
-import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
+import {
+  Done,
+  ErrorRounded,
+  InfoRounded,
+  WarningRounded,
+} from '@mui/icons-material';
 import { darken } from '@mui/material/styles';
 import {
   CircularIcon,
@@ -16,7 +18,7 @@ export function CircularProgress({ process }: { process: Process }) {
         <CircularProgressPending size={40} />
       ) : null}
       {process.status === 'ACTION_REQUIRED' ? (
-        <InfoRoundedIcon
+        <InfoRounded
           color="info"
           sx={{
             position: 'absolute',
@@ -26,7 +28,7 @@ export function CircularProgress({ process }: { process: Process }) {
       ) : null}
       {process.status === 'DONE' &&
       (process.substatus === 'PARTIAL' || process.substatus === 'REFUNDED') ? (
-        <WarningRoundedIcon
+        <WarningRounded
           sx={(theme) => ({
             position: 'absolute',
             fontSize: '1.5rem',
@@ -34,7 +36,7 @@ export function CircularProgress({ process }: { process: Process }) {
           })}
         />
       ) : process.status === 'DONE' ? (
-        <DoneIcon
+        <Done
           color="success"
           sx={{
             position: 'absolute',
@@ -43,7 +45,7 @@ export function CircularProgress({ process }: { process: Process }) {
         />
       ) : null}
       {process.status === 'FAILED' ? (
-        <ErrorRoundedIcon
+        <ErrorRounded
           color="error"
           sx={{
             position: 'absolute',

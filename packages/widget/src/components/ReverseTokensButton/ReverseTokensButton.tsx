@@ -1,5 +1,4 @@
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { ArrowDownward, ArrowForward } from '@mui/icons-material';
 import { useAvailableChains, useToAddressReset } from '../../hooks';
 import { useFieldActions } from '../../stores';
 import { IconButton } from './ReverseTokensButton.style';
@@ -33,9 +32,9 @@ export const ReverseTokensButton: React.FC<{ vertical?: boolean }> = ({
   return (
     <IconButton onClick={handleClick} size="medium">
       {vertical ? (
-        <ArrowDownwardIcon fontSize="inherit" />
+        <ArrowDownward fontSize="inherit" />
       ) : (
-        <ArrowForwardIcon fontSize="inherit" />
+        <ArrowForward fontSize="inherit" />
       )}
     </IconButton>
   );

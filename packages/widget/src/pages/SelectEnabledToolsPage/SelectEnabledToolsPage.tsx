@@ -1,7 +1,9 @@
-import CheckIcon from '@mui/icons-material/Check';
-import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
-import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
-import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
+import {
+  Check,
+  CheckBoxOutlineBlankOutlined,
+  CheckBoxOutlined,
+  IndeterminateCheckBoxOutlined,
+} from '@mui/icons-material';
 import {
   Avatar,
   IconButton,
@@ -39,11 +41,11 @@ const SelectAllCheckbox: React.FC<SelectAllCheckboxProps> = ({
     <Tooltip title={tooltipTitle} arrow>
       <IconButton size="medium" edge="end" onClick={onClick}>
         {allCheckboxesSelected ? (
-          <CheckBoxOutlinedIcon />
+          <CheckBoxOutlined />
         ) : anyCheckboxesSelected ? (
-          <IndeterminateCheckBoxOutlinedIcon />
+          <IndeterminateCheckBoxOutlined />
         ) : (
-          <CheckBoxOutlineBlankOutlinedIcon />
+          <CheckBoxOutlineBlankOutlined />
         )}
       </IconButton>
     </Tooltip>
@@ -102,7 +104,7 @@ export const SelectEnabledToolsPage: React.FC<{
               </Avatar>
             </ListItemAvatar>
             <ListItemText primary={tool.name} />
-            {enabledTools[tool.key] && <CheckIcon color="primary" />}
+            {enabledTools[tool.key] && <Check color="primary" />}
           </SettingsListItemButton>
         ))}
       </List>

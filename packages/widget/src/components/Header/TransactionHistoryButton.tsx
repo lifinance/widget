@@ -1,4 +1,4 @@
-import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import { ReceiptLong } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { useTranslation } from 'react-i18next';
@@ -16,7 +16,7 @@ export const TransactionHistoryButton = () => {
         edge="start"
         onClick={() => navigate(navigationRoutes.transactionHistory)}
       >
-        <ReceiptLongIcon />
+        <ReceiptLong />
       </IconButton>
     </Tooltip>
   );

@@ -1,8 +1,10 @@
 import { ChainType } from '@lifi/sdk';
 import { getConnectorIcon } from '@lifi/wallet-management';
-import ContentCopyIcon from '@mui/icons-material/ContentCopyRounded';
-import OpenInNewIcon from '@mui/icons-material/OpenInNewRounded';
-import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNewRounded';
+import {
+  ContentCopyRounded,
+  OpenInNewRounded,
+  PowerSettingsNewRounded,
+} from '@mui/icons-material';
 import {
   Avatar,
   Badge,
@@ -74,7 +76,7 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
               </Box>
               <Box ml={1}>
                 <IconButton size="medium" onClick={handleCopyAddress}>
-                  <ContentCopyIcon />
+                  <ContentCopyRounded />
                 </IconButton>
                 <IconButton
                   size="medium"
@@ -83,7 +85,7 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
                   href={`${chain?.metamask.blockExplorerUrls[0]}address/${account.address}`}
                   target="_blank"
                 >
-                  <OpenInNewIcon />
+                  <OpenInNewRounded />
                 </IconButton>
                 {account.chainType === ChainType.EVM ? (
                   <EVMDisconnectIconButton connector={account.connector} />
@@ -99,7 +101,7 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
         <Button
           onClick={connect}
           fullWidth
-          startIcon={<PowerSettingsNewIcon />}
+          startIcon={<PowerSettingsNewRounded />}
           sx={{
             marginTop: 1,
           }}

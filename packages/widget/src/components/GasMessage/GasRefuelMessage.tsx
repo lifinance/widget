@@ -1,4 +1,4 @@
-import EvStationIcon from '@mui/icons-material/EvStation';
+import { EvStation } from '@mui/icons-material';
 import type { BoxProps } from '@mui/material';
 import { Box, Collapse, Typography } from '@mui/material';
 import type { ChangeEvent } from 'react';
@@ -29,7 +29,7 @@ export const GasRefuelMessage: React.FC<BoxProps> = (props) => {
       mountOnEnter
     >
       <AlertMessage
-        icon={<EvStationIcon />}
+        icon={<EvStation />}
         title={
           <Box
             display="flex"

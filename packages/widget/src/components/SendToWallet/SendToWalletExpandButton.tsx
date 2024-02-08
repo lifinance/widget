@@ -1,4 +1,4 @@
-import WalletIcon from '@mui/icons-material/Wallet';
+import { Wallet } from '@mui/icons-material';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import { useTranslation } from 'react-i18next';
@@ -62,7 +62,7 @@ export const SendToWalletExpandButton: React.FC = () => {
           marginLeft: 1,
         }}
       >
-        <WalletIcon />
+        <Wallet />
       </Button>
     </Tooltip>
   );

@@ -1,6 +1,12 @@
-import WalletIcon from '@mui/icons-material/Wallet';
+import { Wallet } from '@mui/icons-material';
 import type { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
+import {
+  Card,
+  CardRowContainer,
+  CardTitleContainer,
+  CardValue,
+} from '../../components/Card';
 import { Switch } from '../../components/Switch';
 import { useWidgetConfig } from '../../providers';
 import {
@@ -9,12 +15,6 @@ import {
   useSettingsStore,
 } from '../../stores';
 import { HiddenUI } from '../../types';
-import {
-  Card,
-  CardRowContainer,
-  CardTitleContainer,
-  CardValue,
-} from '../../components/Card';
 
 export const SendToWalletOptionSetting = () => {
   const { t } = useTranslation();
@@ -38,7 +38,7 @@ export const SendToWalletOptionSetting = () => {
     <Card>
       <CardRowContainer>
         <CardTitleContainer>
-          <WalletIcon />
+          <Wallet />
           <CardValue>{t(`settings.sendToWalletOption`)}</CardValue>
         </CardTitleContainer>
         <Switch checked={showDestinationWallet} onChange={onChange} />

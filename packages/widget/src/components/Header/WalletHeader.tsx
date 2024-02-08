@@ -1,6 +1,5 @@
 import { getConnectorIcon } from '@lifi/wallet-management';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import WalletIcon from '@mui/icons-material/Wallet';
+import { ExpandMore, Wallet } from '@mui/icons-material';
 import { Avatar, Badge } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -82,13 +81,11 @@ const ConnectButton = () => {
   return (
     <WalletButton
       endIcon={
-        variant !== 'drawer' && subvariant !== 'split' ? (
-          <WalletIcon />
-        ) : undefined
+        variant !== 'drawer' && subvariant !== 'split' ? <Wallet /> : undefined
       }
       startIcon={
         variant === 'drawer' || subvariant === 'split' ? (
-          <WalletIcon sx={{ marginLeft: -0.25 }} />
+          <Wallet sx={{ marginLeft: -0.25 }} />
         ) : undefined
       }
       onClick={
@@ -131,7 +128,7 @@ const ConnectedButton = ({ account }: { account: Account }) => {
   return (
     <>
       <WalletButton
-        endIcon={<ExpandMoreIcon />}
+        endIcon={<ExpandMore />}
         startIcon={
           chain?.logoURI ? (
             <Badge

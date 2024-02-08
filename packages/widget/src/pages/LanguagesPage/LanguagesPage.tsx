@@ -1,4 +1,4 @@
-import CheckIcon from '@mui/icons-material/Check';
+import { Check } from '@mui/icons-material';
 import { List } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { ListItemText } from '../../components/ListItemText';
@@ -30,7 +30,7 @@ export const LanguagesPage: React.FC = () => {
             onClick={() => setLanguageWithCode(language)}
           >
             <ListItemText primary={t('language.name', { lng: language })} />
-            {selectedLanguageCode === language && <CheckIcon color="primary" />}
+            {selectedLanguageCode === language && <Check color="primary" />}
           </SettingsListItemButton>
         ))}
       </List>

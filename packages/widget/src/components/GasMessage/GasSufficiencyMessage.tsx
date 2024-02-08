@@ -1,4 +1,4 @@
-import EvStationIcon from '@mui/icons-material/EvStation';
+import { EvStation } from '@mui/icons-material';
 import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { formatUnits } from 'viem';
@@ -16,7 +16,7 @@ export const GasSufficiencyMessage: React.FC<GasSufficiencyMessageProps> = ({
   return (
     <AlertMessage
       severity="warning"
-      icon={<EvStationIcon />}
+      icon={<EvStation />}
       title={
         <Typography variant="body2" fontWeight={700}>
           {t(`warning.title.insufficientGas`)}

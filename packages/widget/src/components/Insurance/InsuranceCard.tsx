@@ -1,4 +1,4 @@
-import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import { VerifiedUser } from '@mui/icons-material';
 import { Box, Collapse, Link, Typography } from '@mui/material';
 import type { ChangeEvent } from 'react';
 import { useState } from 'react';
@@ -30,7 +30,7 @@ export const InsuranceCard: React.FC<InsuranceCardProps> = ({
     <Card selectionColor="secondary" indented {...props}>
       <Box display="flex" alignItems="center" justifyContent="space-between">
         <CardLabel type={'insurance'}>
-          <VerifiedUserIcon fontSize="inherit" />
+          <VerifiedUser fontSize="inherit" />
           <CardLabelTypography type="icon">
             {status === RouteExecutionStatus.Idle
               ? t('main.tags.insurance')

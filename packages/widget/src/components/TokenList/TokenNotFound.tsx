@@ -1,9 +1,9 @@
-import SearchOffIcon from '@mui/icons-material/SearchOff';
+import { SearchOff } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useAvailableChains } from '../../hooks';
 import type { FormTypeProps } from '../../stores';
-import { useFieldValues, FormKeyHelper } from '../../stores';
+import { FormKeyHelper, useFieldValues } from '../../stores';
 
 export const TokenNotFound: React.FC<FormTypeProps> = ({ formType }) => {
   const { t } = useTranslation();
@@ -21,7 +21,7 @@ export const TokenNotFound: React.FC<FormTypeProps> = ({ formType }) => {
       }}
     >
       <Typography fontSize={48} lineHeight={1}>
-        <SearchOffIcon fontSize="inherit" />
+        <SearchOff fontSize="inherit" />
       </Typography>
       <Typography
         fontSize={14}

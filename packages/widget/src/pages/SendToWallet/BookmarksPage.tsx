@@ -1,8 +1,10 @@
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import DeleteIcon from '@mui/icons-material/Delete';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import TurnedInIcon from '@mui/icons-material/TurnedIn';
+import {
+  ContentCopyRounded,
+  DeleteOutline,
+  MoreHoriz,
+  OpenInNewRounded,
+  TurnedIn,
+} from '@mui/icons-material';
 import { Button, ListItemAvatar, ListItemText, MenuItem } from '@mui/material';
 import { useId, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -125,12 +127,12 @@ export const BookmarksPage = () => {
                     : 1,
               }}
             >
-              <MoreHorizIcon fontSize="small" />
+              <MoreHoriz fontSize="small" />
             </OptionsMenuButton>
           </ListItem>
         ))}
         {!bookmarks.length && (
-          <EmptyListIndicator icon={<TurnedInIcon sx={{ fontSize: 48 }} />}>
+          <EmptyListIndicator icon={<TurnedIn sx={{ fontSize: 48 }} />}>
             {t('sendToWallet.noBookmarkedWallets')}
           </EmptyListIndicator>
         )}
@@ -150,15 +152,15 @@ export const BookmarksPage = () => {
           onClose={closeMenu}
         >
           <MenuItem onClick={handleCopyAddress}>
-            <ContentCopyIcon />
+            <ContentCopyRounded />
             {t('button.copyAddress')}
           </MenuItem>
           <MenuItem onClick={handleViewOnExplorer}>
-            <OpenInNewIcon />
+            <OpenInNewRounded />
             {t('button.viewOnExplorer')}
           </MenuItem>
           <MenuItem onClick={handleRemoveBookmark}>
-            <DeleteIcon />
+            <DeleteOutline />
             {t('button.delete')}
           </MenuItem>
         </Menu>

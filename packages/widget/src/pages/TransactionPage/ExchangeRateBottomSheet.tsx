@@ -1,5 +1,5 @@
 import type { ExchangeRateUpdateParams } from '@lifi/sdk';
-import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
+import { WarningRounded } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import type { MutableRefObject } from 'react';
 import {
@@ -112,7 +112,7 @@ const ExchangeRateBottomSheetContent: React.FC<
     <Box p={3} ref={ref}>
       <CenterContainer>
         <IconCircle status="warning" mb={1}>
-          <WarningRoundedIcon color="warning" />
+          <WarningRounded color="warning" />
         </IconCircle>
         <Typography py={1} fontSize={18} fontWeight={700}>
           {t('warning.title.rateChanged')}

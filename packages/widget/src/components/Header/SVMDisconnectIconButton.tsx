@@ -1,4 +1,4 @@
-import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNewRounded';
+import { PowerSettingsNewRounded } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import { useWallet } from '@solana/wallet-adapter-react';
 
@@ -13,7 +13,7 @@ export const SVMDisconnectIconButton = () => {
         disconnect();
       }}
     >
-      <PowerSettingsNewIcon />
+      <PowerSettingsNewRounded />
     </IconButton>
   );
 };

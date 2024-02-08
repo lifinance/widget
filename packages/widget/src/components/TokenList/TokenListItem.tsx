@@ -1,4 +1,4 @@
-import OpenInNewIcon from '@mui/icons-material/OpenInNewRounded';
+import { OpenInNewRounded } from '@mui/icons-material';
 import {
   Avatar,
   Box,
@@ -138,7 +138,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
                   rel="nofollow noreferrer"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <OpenInNewIcon />
+                  <OpenInNewRounded />
                 </IconButton>
               </Box>
             </Slide>

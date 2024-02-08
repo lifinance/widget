@@ -1,5 +1,4 @@
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 import { Drawer } from '@mui/material';
 import type { PropsWithChildren } from 'react';
 import {
@@ -79,7 +78,7 @@ export const AppDrawer = forwardRef<
           open={drawerOpen}
           drawerProps={config?.containerStyle}
         >
-          {drawerOpen ? <KeyboardArrowRightIcon /> : <KeyboardArrowLeftIcon />}
+          {drawerOpen ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
           <DrawerButtonText open={drawerOpen} subvariant={config?.subvariant} />
         </DrawerButton>
       ) : null}

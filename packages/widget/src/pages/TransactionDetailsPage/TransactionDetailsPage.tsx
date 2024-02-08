@@ -1,5 +1,5 @@
 import type { FullStatusData } from '@lifi/sdk';
-import ContentCopyIcon from '@mui/icons-material/ContentCopyRounded';
+import { ContentCopyRounded } from '@mui/icons-material';
 import { Box, IconButton, Typography } from '@mui/material';
 import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -126,7 +126,7 @@ export const TransactionDetailsPage: React.FC = () => {
           <CardTitle flex={1}>{t('main.supportId')}</CardTitle>
           <Box mr={1} mt={1}>
             <IconButton size="medium" onClick={copySupportId}>
-              <ContentCopyIcon fontSize="small" />
+              <ContentCopyRounded fontSize="small" />
             </IconButton>
           </Box>
         </Box>

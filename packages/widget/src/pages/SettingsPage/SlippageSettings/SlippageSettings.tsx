@@ -1,5 +1,4 @@
-import PercentIcon from '@mui/icons-material/Percent';
-import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
+import { Percent, WarningRounded } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import type { ChangeEventHandler, FocusEventHandler } from 'react';
 import { useRef, useState } from 'react';
@@ -69,7 +68,7 @@ export const SlippageSettings: React.FC = () => {
           showBadge={!!badgeColor}
         >{`${slippage}%`}</BadgedValue>
       }
-      icon={<PercentIcon />}
+      icon={<Percent />}
       title={t(`settings.slippage`)}
     >
       <Box mt={1.5}>
@@ -104,7 +103,7 @@ export const SlippageSettings: React.FC = () => {
         </SettingsFieldSet>
         {isSlippageOutsideRecommendedLimits && (
           <SlippageLimitsWarningContainer>
-            <WarningRoundedIcon color="warning" />
+            <WarningRounded color="warning" />
             <Typography fontSize={13} fontWeight={400}>
               {t('warning.message.slippageOutsideRecommendedLimits')}
             </Typography>

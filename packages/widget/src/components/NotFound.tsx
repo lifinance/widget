@@ -1,4 +1,4 @@
-import BlockIcon from '@mui/icons-material/Block';
+import { Block } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
@@ -16,7 +16,7 @@ export const NotFound: React.FC = () => {
       }}
     >
       <Typography fontSize={48}>
-        <BlockIcon fontSize="inherit" />
+        <Block fontSize="inherit" />
       </Typography>
       <Typography fontSize={18} fontWeight={700}>
         {t('tooltip.notFound.title')}

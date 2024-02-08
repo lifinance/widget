@@ -1,7 +1,4 @@
-import ErrorIcon from '@mui/icons-material/Error';
-import HistoryIcon from '@mui/icons-material/History';
-import TurnedInIcon from '@mui/icons-material/TurnedIn';
-import WalletIcon from '@mui/icons-material/Wallet';
+import { Error, History, TurnedIn, Wallet } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 import type { ChangeEvent } from 'react';
 import { useRef, useState } from 'react';
@@ -167,7 +164,7 @@ export const SendToWalletPage = () => {
           multiline
         />
         {errorMessage ? (
-          <ValidationAlert icon={<ErrorIcon />} sx={{ pb: 2, paddingX: 2 }}>
+          <ValidationAlert icon={<Error />} sx={{ pb: 2, paddingX: 2 }}>
             {errorMessage}
           </ValidationAlert>
         ) : null}
@@ -181,7 +178,7 @@ export const SendToWalletPage = () => {
           </SendToWalletButton>
           <Tooltip title={t('button.bookmark')} arrow>
             <SendToWalletIconButton onClick={handleBookmarkAddress}>
-              <TurnedInIcon fontSize="small" />
+              <TurnedIn fontSize="small" />
             </SendToWalletIconButton>
           </Tooltip>
         </SendToWalletButtonRow>
@@ -198,7 +195,7 @@ export const SendToWalletPage = () => {
       </SendToWalletCard>
       <CardButton
         title={t('header.recentWallets')}
-        icon={<HistoryIcon />}
+        icon={<History />}
         onClick={handleRecentWalletsClick}
       >
         {!!recentWallets.length && (
@@ -207,7 +204,7 @@ export const SendToWalletPage = () => {
       </CardButton>
       <CardButton
         title={t('sendToWallet.connectedWallets')}
-        icon={<WalletIcon />}
+        icon={<Wallet />}
         onClick={handleConnectedWalletsClick}
       >
         {!!connectedWallets.length && (
@@ -216,7 +213,7 @@ export const SendToWalletPage = () => {
       </CardButton>
       <CardButton
         title={t('header.bookmarkedWallets')}
-        icon={<TurnedInIcon />}
+        icon={<TurnedIn />}
         onClick={handleBookmarkedWalletsClick}
       >
         {!!bookmarks.length && <WalletNumber>{bookmarks.length}</WalletNumber>}

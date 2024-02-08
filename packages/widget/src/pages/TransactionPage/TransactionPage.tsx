@@ -1,5 +1,5 @@
 import type { ExchangeRateUpdateParams } from '@lifi/sdk';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Delete } from '@mui/icons-material';
 import { Box, Button, Tooltip } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -218,7 +218,7 @@ export const TransactionPage: React.FC = () => {
                     marginLeft: 1,
                   }}
                 >
-                  <DeleteIcon />
+                  <Delete />
                 </Button>
               </Tooltip>
             ) : null}

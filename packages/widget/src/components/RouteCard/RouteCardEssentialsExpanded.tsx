@@ -1,6 +1,4 @@
-import AccessTimeIcon from '@mui/icons-material/AccessTimeFilled';
-import LayersIcon from '@mui/icons-material/Layers';
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import { AccessTimeFilled, Layers, MonetizationOn } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import type { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
@@ -28,7 +26,7 @@ export const RouteCardEssentialsExpanded: React.FC<
       <Box>
         <Box display="flex" alignItems="center">
           <IconTypography ml={1} mr={3}>
-            <MonetizationOnIcon />
+            <MonetizationOn />
           </IconTypography>
           <Typography
             fontSize={16}
@@ -69,7 +67,7 @@ export const RouteCardEssentialsExpanded: React.FC<
       <Box mt={2}>
         <Box display="flex" alignItems="center">
           <IconTypography ml={1} mr={3}>
-            <LayersIcon />
+            <Layers />
           </IconTypography>
           <Typography
             fontSize={16}
@@ -93,7 +91,7 @@ export const RouteCardEssentialsExpanded: React.FC<
       </Box>
       <Box display="flex" alignItems="center" mt={2}>
         <IconTypography ml={1} mr={3}>
-          <AccessTimeIcon />
+          <AccessTimeFilled />
         </IconTypography>
         <Typography
           fontSize={16}

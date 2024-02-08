@@ -1,7 +1,5 @@
 import type { TokenAmount } from '@lifi/sdk';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import { ExpandLess, ExpandMore, VerifiedUser } from '@mui/icons-material';
 import type { TooltipProps } from '@mui/material';
 import { Box, Collapse, Tooltip, Typography } from '@mui/material';
 import type { MouseEventHandler } from 'react';
@@ -69,7 +67,7 @@ export const RouteCard: React.FC<
               insuredTokenSymbol={route.toToken.symbol}
             >
               <CardLabel type={'insurance'}>
-                <VerifiedUserIcon fontSize="inherit" />
+                <VerifiedUser fontSize="inherit" />
                 <CardLabelTypography type="icon">
                   {t(`main.tags.insurable`)}
                 </CardLabelTypography>
@@ -86,7 +84,7 @@ export const RouteCard: React.FC<
         />
         {!defaulExpanded ? (
           <CardIconButton onClick={handleExpand} size="small">
-            {cardExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            {cardExpanded ? <ExpandLess /> : <ExpandMore />}
           </CardIconButton>
         ) : null}
       </TokenContainer>

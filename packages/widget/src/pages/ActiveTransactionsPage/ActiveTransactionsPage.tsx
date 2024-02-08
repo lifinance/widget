@@ -1,4 +1,4 @@
-import DeleteIcon from '@mui/icons-material/DeleteOutline';
+import { DeleteOutline } from '@mui/icons-material';
 import {
   Button,
   DialogActions,
@@ -35,7 +35,7 @@ export const ActiveTransactionsPage = () => {
     if (executingRoutes.length) {
       return headerStoreContext.getState().setAction(
         <IconButton size="medium" edge="end" onClick={toggleDialog}>
-          <DeleteIcon />
+          <DeleteOutline />
         </IconButton>,
       );
     }

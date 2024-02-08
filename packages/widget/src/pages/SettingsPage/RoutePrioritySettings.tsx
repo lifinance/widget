@@ -1,5 +1,5 @@
 import { Orders } from '@lifi/sdk';
-import RouteIcon from '@mui/icons-material/Route';
+import { Route } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { Tab, Tabs } from '../../components/Tabs';
 import { useSettingMonitor } from '../../hooks';
@@ -29,7 +29,7 @@ export const RoutePrioritySettings: React.FC = () => {
           {t(`main.tags.${currentRoutePriority.toLowerCase()}` as any)}
         </BadgedValue>
       }
-      icon={<RouteIcon />}
+      icon={<Route />}
       title={t(`settings.routePriority`)}
     >
       <Tabs

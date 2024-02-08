@@ -1,5 +1,4 @@
-import ErrorIcon from '@mui/icons-material/Error';
-import TurnedInIcon from '@mui/icons-material/TurnedIn';
+import { Error, TurnedIn } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
 import type { ChangeEvent, MutableRefObject } from 'react';
 import { forwardRef, useState } from 'react';
@@ -142,7 +141,7 @@ export const BookmarkAddressSheet = forwardRef<
     <BottomSheet ref={ref} onClose={resetValues}>
       <SendToWalletSheetContainer>
         <IconContainer>
-          <TurnedInIcon sx={{ fontSize: 40 }} />
+          <TurnedIn sx={{ fontSize: 40 }} />
         </IconContainer>
         <SheetTitle>{t('sendToWallet.bookmarkWallet')}</SheetTitle>
         {validatedWallet ? (
@@ -193,9 +192,7 @@ export const BookmarkAddressSheet = forwardRef<
             </SendToWalletCard>
           )}
           {error ? (
-            <ValidationAlert icon={<ErrorIcon />}>
-              {error.message}
-            </ValidationAlert>
+            <ValidationAlert icon={<Error />}>{error.message}</ValidationAlert>
           ) : null}
         </BookmarkInputFields>
         <SendToWalletButtonRow>

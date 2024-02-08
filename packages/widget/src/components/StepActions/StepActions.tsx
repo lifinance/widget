@@ -1,7 +1,5 @@
 import type { LiFiStep, StepExtended } from '@lifi/sdk';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { ArrowForward, ExpandLess, ExpandMore } from '@mui/icons-material';
 import type { StepIconProps } from '@mui/material';
 import {
   Badge,
@@ -88,7 +86,7 @@ export const StepActions: React.FC<StepActionsProps> = ({
         </Box>
         {dense ? (
           <CardIconButton onClick={handleExpand} size="small">
-            {cardExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            {cardExpanded ? <ExpandLess /> : <ExpandMore />}
           </CardIconButton>
         ) : null}
       </Box>
@@ -210,7 +208,7 @@ export const StepDetailsContent: React.FC<{
       {step.action.fromToken.symbol}
       {showToAmount ? (
         <>
-          <ArrowForwardIcon sx={{ fontSize: 18, paddingX: 0.5, height: 12 }} />
+          <ArrowForward sx={{ fontSize: 18, paddingX: 0.5, height: 12 }} />
           {t('format.number', {
             value: formatTokenAmount(
               BigInt(step.execution?.toAmount ?? step.estimate.toAmount),

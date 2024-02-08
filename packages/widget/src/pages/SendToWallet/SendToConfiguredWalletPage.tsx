@@ -1,6 +1,8 @@
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import {
+  ContentCopyRounded,
+  MoreHoriz,
+  OpenInNewRounded,
+} from '@mui/icons-material';
 import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material';
 import { useId, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +11,9 @@ import { AccountAvatar } from '../../components/AccountAvatar';
 import { ListItem, ListItemButton } from '../../components/ListItem';
 import { Menu } from '../../components/Menu';
 import { useChains, useToAddressRequirements } from '../../hooks';
+import { useWidgetConfig } from '../../providers';
 import { useBookmarkActions, useFieldActions } from '../../stores';
+import type { ToAddress } from '../../types';
 import {
   defaultChainIdsByType,
   navigationRoutes,
@@ -20,8 +24,6 @@ import {
   OptionsMenuButton,
   SendToWalletPageContainer,
 } from './SendToWalletPage.style';
-import { useWidgetConfig } from '../../providers';
-import type { ToAddress } from '../../types';
 
 export const SendToConfiguredWalletPage = () => {
   const { t } = useTranslation();
@@ -115,7 +117,7 @@ export const SendToConfiguredWalletPage = () => {
                     : 1,
               }}
             >
-              <MoreHorizIcon fontSize="small" />
+              <MoreHoriz fontSize="small" />
             </OptionsMenuButton>
           </ListItem>
         ))}
@@ -135,11 +137,11 @@ export const SendToConfiguredWalletPage = () => {
           onClose={closeMenu}
         >
           <MenuItem onClick={handleCopyAddress}>
-            <ContentCopyIcon />
+            <ContentCopyRounded />
             {t('button.copyAddress')}
           </MenuItem>
           <MenuItem onClick={handleViewOnExplorer}>
-            <OpenInNewIcon />
+            <OpenInNewRounded />
             {t('button.viewOnExplorer')}
           </MenuItem>
         </Menu>

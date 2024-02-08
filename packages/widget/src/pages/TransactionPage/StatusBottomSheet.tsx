@@ -1,7 +1,9 @@
-import DoneIcon from '@mui/icons-material/Done';
-import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
-import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
-import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
+import {
+  Done,
+  ErrorRounded,
+  InfoRounded,
+  WarningRounded,
+} from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useRef } from 'react';
@@ -216,17 +218,17 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
           <CenterContainer>
             <IconCircle status={status} mb={1}>
               {status === RouteExecutionStatus.Idle ? (
-                <InfoRoundedIcon color="primary" />
+                <InfoRounded color="primary" />
               ) : null}
               {status === RouteExecutionStatus.Done ? (
-                <DoneIcon color="success" />
+                <Done color="success" />
               ) : null}
               {hasEnumFlag(status, RouteExecutionStatus.Partial) ||
               hasEnumFlag(status, RouteExecutionStatus.Refunded) ? (
-                <WarningRoundedIcon color="warning" />
+                <WarningRounded color="warning" />
               ) : null}
               {hasEnumFlag(status, RouteExecutionStatus.Failed) ? (
-                <ErrorRoundedIcon color="error" />
+                <ErrorRounded color="error" />
               ) : null}
             </IconCircle>
           </CenterContainer>

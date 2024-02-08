@@ -1,4 +1,4 @@
-import CloseIcon from '@mui/icons-material/CloseRounded';
+import { CloseRounded } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { useTranslation } from 'react-i18next';
@@ -11,7 +11,7 @@ export const CloseDrawerButton = () => {
   return (
     <Tooltip title={t('button.close')} enterDelay={400} arrow>
       <IconButton size="medium" onClick={closeDrawer}>
-        <CloseIcon />
+        <CloseRounded />
       </IconButton>
     </Tooltip>
   );

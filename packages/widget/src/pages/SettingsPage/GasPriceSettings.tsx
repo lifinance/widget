@@ -1,4 +1,4 @@
-import EvStationIcon from '@mui/icons-material/EvStation';
+import { EvStation } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { Tab, Tabs } from '../../components/Tabs';
 import { useSettingMonitor } from '../../hooks';
@@ -22,7 +22,7 @@ export const GasPriceSettings: React.FC = () => {
           {t(`settings.gasPrice.${gasPrice}` as any)}
         </BadgedValue>
       }
-      icon={<EvStationIcon />}
+      icon={<EvStation />}
       title={t(`settings.gasPrice.title`)}
     >
       <Tabs

@@ -1,5 +1,5 @@
 import { getConnectorIcon } from '@lifi/wallet-management';
-import WalletIcon from '@mui/icons-material/Wallet';
+import { Wallet } from '@mui/icons-material';
 import { Avatar, Badge } from '@mui/material';
 import type { Account } from '../hooks';
 import { useChain } from '../hooks';
@@ -26,7 +26,7 @@ export const AccountAvatar = ({ chainId, account }: AccountAvatarProps) => {
     </Avatar>
   ) : (
     <AvatarDefault>
-      <WalletIcon sx={{ fontSize: 20 }} />
+      <Wallet sx={{ fontSize: 20 }} />
     </AvatarDefault>
   );
 

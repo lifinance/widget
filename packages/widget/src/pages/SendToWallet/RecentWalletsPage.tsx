@@ -1,9 +1,11 @@
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import DeleteIcon from '@mui/icons-material/Delete';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import TurnedInIcon from '@mui/icons-material/TurnedIn';
-import WalletIcon from '@mui/icons-material/Wallet';
+import {
+  ContentCopyRounded,
+  DeleteOutline,
+  MoreHoriz,
+  OpenInNewRounded,
+  TurnedInNot,
+  Wallet,
+} from '@mui/icons-material';
 import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material';
 import { useId, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -158,12 +160,12 @@ export const RecentWalletsPage = () => {
                     : 1,
               }}
             >
-              <MoreHorizIcon fontSize="small" />
+              <MoreHoriz fontSize="small" />
             </OptionsMenuButton>
           </ListItem>
         ))}
         {!recentWallets.length && (
-          <EmptyListIndicator icon={<WalletIcon sx={{ fontSize: 48 }} />}>
+          <EmptyListIndicator icon={<Wallet sx={{ fontSize: 48 }} />}>
             {t('sendToWallet.noRecentWallets')}
           </EmptyListIndicator>
         )}
@@ -183,19 +185,19 @@ export const RecentWalletsPage = () => {
           onClose={closeMenu}
         >
           <MenuItem onClick={handleCopyAddress}>
-            <ContentCopyIcon />
+            <ContentCopyRounded />
             {t('button.copyAddress')}
           </MenuItem>
           <MenuItem onClick={handleViewOnExplorer}>
-            <OpenInNewIcon />
+            <OpenInNewRounded />
             {t('button.viewOnExplorer')}
           </MenuItem>
           <MenuItem onClick={handleOpenBookmarkSheet}>
-            <TurnedInIcon />
+            <TurnedInNot />
             {t('button.bookmark')}
           </MenuItem>
           <MenuItem onClick={handleRemoveRecentWallet}>
-            <DeleteIcon />
+            <DeleteOutline />
             {t('button.delete')}
           </MenuItem>
         </Menu>

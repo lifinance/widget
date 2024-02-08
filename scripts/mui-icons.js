@@ -5,9 +5,19 @@ const { stat: _stat, readFile, readdir, writeFile } = fsExtra;
 
 const replaceInFile = async (filePath) => {
   let content = await readFile(filePath, 'utf8');
-  const regex = /@mui\/icons-material\/(?!esm\/)([^;]+)/g;
-  const replacement = '@mui/icons-material/esm/$1';
-  content = content.replace(regex, replacement);
+  // Regular expression to find the import statement
+  const regex = /import {\s*([\w\s,]+)\s*} from '@mui\/icons-material';/gs;
+  // Replace the found import statement with individual import lines
+  content = content.replace(regex, (match, iconNames) => {
+    return iconNames
+      .split(',')
+      .map((name) => name.trim())
+      .filter((name) => name.length)
+      .map(
+        (name) => `import ${name} from '@mui/icons-material/esm/${name}.js';`,
+      )
+      .join('\n');
+  });
   await writeFile(filePath, content, 'utf8');
 };
 

@@ -1,6 +1,4 @@
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
-import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
+import { ArrowForward, ErrorRounded, InfoRounded } from '@mui/icons-material';
 import { ListItemAvatar, ListItemText, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useProcessMessage, useRouteExecution } from '../../hooks';
@@ -36,9 +34,9 @@ export const ActiveTransactionItem: React.FC<{
   const getStatusComponent = () => {
     switch (lastActiveProcess?.status) {
       case 'ACTION_REQUIRED':
-        return <InfoRoundedIcon color="info" fontSize="small" />;
+        return <InfoRounded color="info" fontSize="small" />;
       case 'FAILED':
-        return <ErrorRoundedIcon color="error" fontSize="small" />;
+        return <ErrorRounded color="error" fontSize="small" />;
       default:
         return (
           <Typography fontSize={14} fontWeight={500}>
@@ -73,7 +71,7 @@ export const ActiveTransactionItem: React.FC<{
             }}
           >
             {route.fromToken.symbol}
-            <ArrowForwardIcon sx={{ paddingX: 0.5 }} />
+            <ArrowForward sx={{ paddingX: 0.5 }} />
             {route.toToken.symbol}
           </Typography>
         }

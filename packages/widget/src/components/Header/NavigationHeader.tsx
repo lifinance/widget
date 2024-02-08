@@ -1,4 +1,4 @@
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { ArrowBack } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { useTranslation } from 'react-i18next';
@@ -104,7 +104,7 @@ export const NavigationHeader: React.FC = () => {
       <HeaderAppBar elevation={0}>
         {backButtonRoutes.includes(path) ? (
           <IconButton size="medium" edge="start" onClick={navigateBack}>
-            <ArrowBackIcon />
+            <ArrowBack />
           </IconButton>
         ) : null}
         {splitSubvariant ? (
