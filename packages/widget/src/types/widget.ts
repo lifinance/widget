@@ -14,18 +14,20 @@ import type {
   Shape,
   Theme,
 } from '@mui/material';
-import type { TypographyOptions } from '@mui/material/styles/createTypography';
+import type { TypographyOptions } from '@mui/material/styles/createTypography.js';
 import type {
   CoinbaseWalletParameters,
   WalletConnectParameters,
 } from '@wagmi/connectors';
 import type { CSSProperties, ReactNode, RefObject } from 'react';
-import type { LanguageKey, LanguageResources } from '../providers';
-import type { SplitSubvariantOptions } from '../stores';
+import type {
+  LanguageKey,
+  LanguageResources,
+} from '../providers/I18nProvider/types.js';
 
 export type WidgetVariant = 'default' | 'expandable' | 'drawer';
-
 export type WidgetSubvariant = 'default' | 'split' | 'nft' | 'refuel';
+export type SplitSubvariantOptions = 'bridge' | 'swap';
 
 export enum DisabledUI {
   FromAmount = 'fromAmount',

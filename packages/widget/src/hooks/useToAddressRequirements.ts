@@ -1,7 +1,7 @@
-import { useChain } from '../hooks';
-import { useWidgetConfig } from '../providers';
-import { useFieldValues } from '../stores';
-import { RequiredUI } from '../types';
+import { useChain } from '../hooks/useChain.js';
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
+import { useFieldValues } from '../stores/form/useFieldValues.js';
+import { RequiredUI } from '../types/widget.js';
 
 export const useToAddressRequirements = () => {
   const { requiredUI } = useWidgetConfig();

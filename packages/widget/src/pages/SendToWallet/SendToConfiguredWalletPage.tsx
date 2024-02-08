@@ -7,23 +7,24 @@ import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material';
 import { useId, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { AccountAvatar } from '../../components/AccountAvatar';
-import { ListItem, ListItemButton } from '../../components/ListItem';
-import { Menu } from '../../components/Menu';
-import { useChains, useToAddressRequirements } from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import { useBookmarkActions, useFieldActions } from '../../stores';
-import type { ToAddress } from '../../types';
-import {
-  defaultChainIdsByType,
-  navigationRoutes,
-  shortenAddress,
-} from '../../utils';
+import { AccountAvatar } from '../../components/AccountAvatar.js';
+import { ListItem } from '../../components/ListItem/ListItem.js';
+import { ListItemButton } from '../../components/ListItem/ListItemButton.js';
+import { Menu } from '../../components/Menu.js';
+import { useChains } from '../../hooks/useChains.js';
+import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
+import { useFieldActions } from '../../stores/form/useFieldActions.js';
+import type { ToAddress } from '../../types/widget.js';
+import { defaultChainIdsByType } from '../../utils/chainType.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { shortenAddress } from '../../utils/wallet.js';
 import {
   ListContainer,
   OptionsMenuButton,
   SendToWalletPageContainer,
-} from './SendToWalletPage.style';
+} from './SendToWalletPage.style.js';
 
 export const SendToConfiguredWalletPage = () => {
   const { t } = useTranslation();

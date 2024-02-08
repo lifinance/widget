@@ -1,1 +1,1 @@
-export * from './SelectChainPage';
+export * from './SelectChainPage.js';

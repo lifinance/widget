@@ -1,10 +1,10 @@
 import { config, createConfig, type SDKConfig } from '@lifi/sdk';
 import { createContext, useContext, useId, useMemo } from 'react';
-import { version } from '../../config/version';
-import { setDefaultSettings } from '../../stores';
-import { formatInputAmount } from '../../utils';
-import type { WidgetContextProps, WidgetProviderProps } from './types';
-import { attemptToFindMatchingToAddressInConfig } from './utils';
+import { version } from '../../config/version.js';
+import { setDefaultSettings } from '../../stores/settings/useSettingsStore.js';
+import { formatInputAmount } from '../../utils/format.js';
+import type { WidgetContextProps, WidgetProviderProps } from './types.js';
+import { attemptToFindMatchingToAddressInConfig } from './utils.js';
 
 const initialContext: WidgetContextProps = {
   elementId: '',

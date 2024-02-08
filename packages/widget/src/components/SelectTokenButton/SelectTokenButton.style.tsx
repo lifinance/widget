@@ -1,6 +1,6 @@
 import { cardHeaderClasses } from '@mui/material/CardHeader';
 import { styled } from '@mui/material/styles';
-import { CardHeader } from '../Card';
+import { CardHeader } from '../Card/CardHeader.js';
 
 export const SelectTokenCardHeader = styled(CardHeader, {
   shouldForwardProp: (prop) =>

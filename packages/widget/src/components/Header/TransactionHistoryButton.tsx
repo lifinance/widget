@@ -1,9 +1,8 @@
 import { ReceiptLong } from '@mui/icons-material';
-import { Tooltip } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
+import { IconButton, Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useNavigateBack } from '../../hooks';
-import { navigationRoutes } from '../../utils';
+import { useNavigateBack } from '../../hooks/useNavigateBack.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
 
 export const TransactionHistoryButton = () => {
   const { t } = useTranslation();

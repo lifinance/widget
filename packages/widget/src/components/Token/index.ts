@@ -1,2 +1,2 @@
-export * from './Token';
-export * from './Token.style';
+export * from './Token.js';
+export * from './Token.style.js';

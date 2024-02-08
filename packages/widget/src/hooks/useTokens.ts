@@ -1,9 +1,9 @@
 import { ChainType, getTokens } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
-import { useWidgetConfig } from '../providers';
-import type { TokenAmount } from '../types';
-import { useChains } from './useChains';
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
+import type { TokenAmount } from '../types/token.js';
+import { useChains } from './useChains.js';
 
 export const useTokens = (selectedChainId?: number) => {
   const { tokens: configTokens } = useWidgetConfig();

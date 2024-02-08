@@ -1,18 +1,22 @@
 import { Skeleton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useChain, useSwapOnly, useToken } from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import type { FormTypeProps } from '../../stores';
-import { FormKeyHelper, useFieldValues } from '../../stores';
-import { navigationRoutes } from '../../utils';
-import { Card, CardTitle } from '../Card';
+import { useChain } from '../../hooks/useChain.js';
+import { useSwapOnly } from '../../hooks/useSwapOnly.js';
+import { useToken } from '../../hooks/useToken.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import type { FormTypeProps } from '../../stores/form/types.js';
+import { FormKeyHelper } from '../../stores/form/types.js';
+import { useFieldValues } from '../../stores/form/useFieldValues.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { Card } from '../Card/Card.js';
+import { CardTitle } from '../Card/CardTitle.js';
 import {
   TokenAvatar,
   TokenAvatarDefault,
   TokenAvatarSkeleton,
-} from '../TokenAvatar';
-import { SelectTokenCardHeader } from './SelectTokenButton.style';
+} from '../TokenAvatar/TokenAvatar.js';
+import { SelectTokenCardHeader } from './SelectTokenButton.style.js';
 
 export const SelectTokenButton: React.FC<
   FormTypeProps & {

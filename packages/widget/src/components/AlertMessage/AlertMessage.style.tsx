@@ -1,7 +1,10 @@
 import { Box } from '@mui/material';
 import { alpha, darken, lighten, styled } from '@mui/material/styles';
-import { getInfoBackgroundColor, getWarningBackgroundColor } from '../../utils';
-import type { Severity } from './types';
+import {
+  getInfoBackgroundColor,
+  getWarningBackgroundColor,
+} from '../../utils/colors.js';
+import type { Severity } from './types.js';
 
 interface AlertSeverityProps {
   severity: Severity;

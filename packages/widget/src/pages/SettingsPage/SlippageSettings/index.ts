@@ -1,1 +1,1 @@
-export * from './SlippageSettings';
+export * from './SlippageSettings.js';

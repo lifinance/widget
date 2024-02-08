@@ -1,3 +1,3 @@
-export * from './SendToWalletButton';
-export * from './SendToWalletExpandButton';
-export * from './SendToWallet.style';
+export * from './SendToWalletButton.js';
+export * from './SendToWalletExpandButton.js';
+export * from './SendToWallet.style.js';

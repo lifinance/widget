@@ -2,11 +2,12 @@ import type { i18n } from 'i18next';
 import { createInstance } from 'i18next';
 import { useMemo } from 'react';
 import { I18nextProvider } from 'react-i18next';
-import * as supportedLanguages from '../../i18n';
-import { useSettings } from '../../stores';
-import { deepMerge, isItemAllowed } from '../../utils';
-import { useWidgetConfig } from '../WidgetProvider';
-import type { LanguageKey, LanguageTranslationResources } from './types';
+import * as supportedLanguages from '../../i18n/index.js';
+import { useSettings } from '../../stores/settings/useSettings.js';
+import { deepMerge } from '../../utils/deepMerge.js';
+import { isItemAllowed } from '../../utils/item.js';
+import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js';
+import type { LanguageKey, LanguageTranslationResources } from './types.js';
 
 export const I18nProvider: React.FC<React.PropsWithChildren> = ({
   children,

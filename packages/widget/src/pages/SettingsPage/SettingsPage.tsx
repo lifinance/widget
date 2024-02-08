@@ -1,13 +1,14 @@
-import { PageContainer } from '../../components/PageContainer';
-import { BridgeAndExchangeSettings } from './BridgeAndExchangeSettings';
-import { GasPriceSettings } from './GasPriceSettings';
-import { LanguageSetting } from './LanguageSetting';
-import { ResetSettingsButton } from './ResetSettingsButton';
-import { RoutePrioritySettings } from './RoutePrioritySettings';
-import { SendToWalletOptionSetting } from './SendToWalletOptionSetting';
-import { SettingsCardAccordion, SettingsList } from './SettingsCard';
-import { SlippageSettings } from './SlippageSettings';
-import { ThemeSettings } from './ThemeSettings';
+import { PageContainer } from '../../components/PageContainer.js';
+import { BridgeAndExchangeSettings } from './BridgeAndExchangeSettings.js';
+import { GasPriceSettings } from './GasPriceSettings.js';
+import { LanguageSetting } from './LanguageSetting.js';
+import { ResetSettingsButton } from './ResetSettingsButton.js';
+import { RoutePrioritySettings } from './RoutePrioritySettings.js';
+import { SendToWalletOptionSetting } from './SendToWalletOptionSetting.js';
+import { SettingsList } from './SettingsCard/SettingCard.style.js';
+import { SettingsCardAccordion } from './SettingsCard/SettingsAccordian.js';
+import { SlippageSettings } from './SlippageSettings/SlippageSettings.js';
+import { ThemeSettings } from './ThemeSettings.js';
 
 export const SettingsPage = () => {
   return (

@@ -2,11 +2,11 @@ import { AirlineStops, SwapHoriz } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { shallow } from 'zustand/shallow';
-import { CardButton } from '../../components/Card';
-import { useSettingMonitor } from '../../hooks';
-import { useSettingsStore } from '../../stores';
-import { navigationRoutes } from '../../utils';
-import { BadgedValue } from './SettingsCard';
+import { CardButton } from '../../components/Card/CardButton.js';
+import { useSettingMonitor } from '../../hooks/useSettingMonitor.js';
+import { useSettingsStore } from '../../stores/settings/useSettingsStore.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { BadgedValue } from './SettingsCard/BadgedValue.js';
 
 const supportedIcons = {
   Bridges: AirlineStops,

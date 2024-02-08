@@ -1,2 +1,2 @@
-export * from './BottomSheet';
-export * from './types';
+export * from './BottomSheet.js';
+export * from './types.js';

@@ -1,1 +1,1 @@
-export * from './StepDivider';
+export * from './StepDivider.js';

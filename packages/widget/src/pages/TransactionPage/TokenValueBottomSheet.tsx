@@ -4,11 +4,11 @@ import { Box, Button, Typography } from '@mui/material';
 import type { MutableRefObject } from 'react';
 import { forwardRef, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { BottomSheetBase } from '../../components/BottomSheet';
-import { BottomSheet } from '../../components/BottomSheet';
-import { useSetContentHeight } from '../../hooks';
-import { CenterContainer, IconCircle } from './StatusBottomSheet.style';
-import { calcValueLoss } from './utils';
+import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js';
+import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
+import { useSetContentHeight } from '../../hooks/useContentHeight.js';
+import { CenterContainer, IconCircle } from './StatusBottomSheet.style.js';
+import { calcValueLoss } from './utils.js';
 
 interface TokenValueBottomSheetProps {
   route: Route;

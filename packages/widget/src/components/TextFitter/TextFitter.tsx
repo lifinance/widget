@@ -2,7 +2,7 @@ import { useTheme } from '@mui/material/styles';
 import type { PropsWithChildren } from 'react';
 import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import type { TextFitterProps } from './types';
+import type { TextFitterProps } from './types.js';
 
 const initialState = {
   x: 0,

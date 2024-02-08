@@ -1,9 +1,9 @@
 import type { BoxProps } from '@mui/material';
 import { Box, Skeleton } from '@mui/material';
-import { useWidgetConfig } from '../../providers';
-import { Card } from '../Card';
-import { TokenSkeleton } from '../Token';
-import type { RouteCardSkeletonProps } from './types';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { Card } from '../Card/Card.js';
+import { TokenSkeleton } from '../Token/Token.js';
+import type { RouteCardSkeletonProps } from './types.js';
 
 export const RouteCardSkeleton: React.FC<RouteCardSkeletonProps & BoxProps> = ({
   variant,

@@ -1,13 +1,11 @@
 import { Collapse } from '@mui/material';
-import { useRoutes } from '../../hooks';
-import {
-  RouteExecutionStatus,
-  useRouteExecutionStore,
-  useSetExecutableRoute,
-} from '../../stores';
-import { formatTokenAmount } from '../../utils';
-import { InsuranceCard } from './InsuranceCard';
-import type { InsuranceProps } from './types';
+import { useRoutes } from '../../hooks/useRoutes.js';
+import { useRouteExecutionStore } from '../../stores/routes/RouteExecutionStore.js';
+import { RouteExecutionStatus } from '../../stores/routes/types.js';
+import { useSetExecutableRoute } from '../../stores/routes/useSetExecutableRoute.js';
+import { formatTokenAmount } from '../../utils/format.js';
+import { InsuranceCard } from './InsuranceCard.js';
+import type { InsuranceProps } from './types.js';
 
 export const InsuranceCollapsed: React.FC<InsuranceProps> = ({
   status,

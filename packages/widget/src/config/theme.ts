@@ -13,7 +13,7 @@ import {
   keyframes,
   lighten,
 } from '@mui/material/styles';
-import type { ThemeConfig } from '../types';
+import type { ThemeConfig } from '../types/widget.js';
 
 // https://mui.com/customization/palette/
 declare module '@mui/material/styles' {

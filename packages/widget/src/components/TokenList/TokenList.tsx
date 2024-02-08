@@ -1,19 +1,18 @@
 import { Box } from '@mui/material';
 import type { FC } from 'react';
 import { useRef } from 'react';
-import {
-  useAccount,
-  useChain,
-  useDebouncedWatch,
-  useTokenBalances,
-  useTokenSearch,
-} from '../../hooks';
-import { FormKeyHelper, useFieldValues } from '../../stores';
-import type { TokenAmount } from '../../types';
-import { TokenNotFound } from './TokenNotFound';
-import { VirtualizedTokenList } from './VirtualizedTokenList';
-import type { TokenListProps } from './types';
-import { useTokenSelect } from './useTokenSelect';
+import { useAccount } from '../../hooks/useAccount.js';
+import { useChain } from '../../hooks/useChain.js';
+import { useDebouncedWatch } from '../../hooks/useDebouncedWatch.js';
+import { useTokenBalances } from '../../hooks/useTokenBalances.js';
+import { useTokenSearch } from '../../hooks/useTokenSearch.js';
+import { FormKeyHelper } from '../../stores/form/types.js';
+import { useFieldValues } from '../../stores/form/useFieldValues.js';
+import type { TokenAmount } from '../../types/token.js';
+import { TokenNotFound } from './TokenNotFound.js';
+import { VirtualizedTokenList } from './VirtualizedTokenList.js';
+import type { TokenListProps } from './types.js';
+import { useTokenSelect } from './useTokenSelect.js';
 
 export const TokenList: FC<TokenListProps> = ({
   formType,

@@ -9,7 +9,7 @@ import { darken } from '@mui/material/styles';
 import {
   CircularIcon,
   CircularProgressPending,
-} from './CircularProgress.style';
+} from './CircularProgress.style.js';
 
 export function CircularProgress({ process }: { process: Process }) {
   return (

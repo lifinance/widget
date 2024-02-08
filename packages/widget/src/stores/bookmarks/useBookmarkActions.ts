@@ -1,6 +1,6 @@
 import { shallow } from 'zustand/shallow';
-import { useBookmarkStore } from './BookmarkStore';
-import type { BookmarkActions } from './types';
+import { useBookmarkStore } from './BookmarkStore.js';
+import type { BookmarkActions } from './types.js';
 
 export const useBookmarkActions = () => {
   const actions = useBookmarkStore<BookmarkActions>(

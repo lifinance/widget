@@ -1,2 +1,2 @@
-export * from './GasMessage';
-export * from './GasRefuelMessage';
+export * from './GasMessage.js';
+export * from './GasRefuelMessage.js';

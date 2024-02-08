@@ -13,23 +13,23 @@ import type { MouseEventHandler } from 'react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatUnits } from 'viem';
-import { useAvailableChains } from '../../hooks';
-import { LiFiToolLogo } from '../../icons';
-import { useWidgetConfig } from '../../providers';
-import type { WidgetSubvariant } from '../../types';
-import { formatTokenAmount } from '../../utils';
-import { CardIconButton } from '../Card';
-import { SmallAvatar } from '../SmallAvatar';
+import { useAvailableChains } from '../../hooks/useAvailableChains.js';
+import { LiFiToolLogo } from '../../icons/lifi.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import type { WidgetSubvariant } from '../../types/widget.js';
+import { formatTokenAmount } from '../../utils/format.js';
+import { CardIconButton } from '../Card/CardIconButton.js';
+import { SmallAvatar } from '../SmallAvatar.js';
 import {
   StepAvatar,
   StepConnector,
   StepContent,
   StepLabel,
   StepLabelTypography,
-} from './StepActions.style';
-import { StepFeeBreakdown } from './StepFeeBreakdown';
-import { StepFees } from './StepFees';
-import type { StepActionsProps, StepDetailsLabelProps } from './types';
+} from './StepActions.style.js';
+import { StepFeeBreakdown } from './StepFeeBreakdown.js';
+import { StepFees } from './StepFees.js';
+import type { StepActionsProps, StepDetailsLabelProps } from './types.js';
 
 export const StepActions: React.FC<StepActionsProps> = ({
   step,

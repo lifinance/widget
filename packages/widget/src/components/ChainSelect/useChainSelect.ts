@@ -1,12 +1,12 @@
 import type { EVMChain } from '@lifi/sdk';
-import { useChains, useSwapOnly, useToAddressReset } from '../../hooks';
-import type { FormType } from '../../stores';
-import {
-  FormKeyHelper,
-  useChainOrder,
-  useFieldActions,
-  useFieldController,
-} from '../../stores';
+import { useChains } from '../../hooks/useChains.js';
+import { useSwapOnly } from '../../hooks/useSwapOnly.js';
+import { useToAddressReset } from '../../hooks/useToAddressReset.js';
+import { useChainOrder } from '../../stores/chains/useChainOrder.js';
+import type { FormType } from '../../stores/form/types.js';
+import { FormKeyHelper } from '../../stores/form/types.js';
+import { useFieldActions } from '../../stores/form/useFieldActions.js';
+import { useFieldController } from '../../stores/form/useFieldController.js';
 
 export const useChainSelect = (formType: FormType) => {
   const chainKey = FormKeyHelper.getChainKey(formType);

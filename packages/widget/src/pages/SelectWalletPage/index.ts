@@ -1,1 +1,1 @@
-export * from './SelectWalletPage';
+export * from './SelectWalletPage.js';

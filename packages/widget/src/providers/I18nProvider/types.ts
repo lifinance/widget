@@ -1,4 +1,4 @@
-import type * as languages from '../../i18n';
+import type * as languages from '../../i18n/index.js';
 
 export type PartialResource<T> = T extends object
   ? {

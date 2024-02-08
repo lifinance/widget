@@ -15,11 +15,12 @@ import type { MouseEventHandler } from 'react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { shallow } from 'zustand/shallow';
-import { ListItemText } from '../../components/ListItemText';
-import { PageContainer } from '../../components/PageContainer';
-import { SettingsListItemButton } from '../../components/SettingsListItemButton';
-import { useTools } from '../../hooks';
-import { useHeaderStoreContext, useSettingsStore } from '../../stores';
+import { ListItemText } from '../../components/ListItemText.js';
+import { PageContainer } from '../../components/PageContainer.js';
+import { SettingsListItemButton } from '../../components/SettingsListItemButton.js';
+import { useTools } from '../../hooks/useTools.js';
+import { useHeaderStoreContext } from '../../stores/header/useHeaderStore.js';
+import { useSettingsStore } from '../../stores/settings/useSettingsStore.js';
 
 interface SelectAllCheckboxProps {
   allCheckboxesSelected: boolean;

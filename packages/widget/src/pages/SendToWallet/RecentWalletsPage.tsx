@@ -10,26 +10,27 @@ import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material';
 import { useId, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { AccountAvatar } from '../../components/AccountAvatar';
-import type { BottomSheetBase } from '../../components/BottomSheet';
-import { ListItem, ListItemButton } from '../../components/ListItem';
-import { Menu } from '../../components/Menu';
-import { useChains, useToAddressRequirements } from '../../hooks';
-import type { Bookmark } from '../../stores';
-import { useBookmarkActions, useBookmarks } from '../../stores';
-import {
-  defaultChainIdsByType,
-  navigationRoutes,
-  shortenAddress,
-} from '../../utils';
-import { BookmarkAddressSheet } from './BookmarkAddressSheet';
-import { ConfirmAddressSheet } from './ConfirmAddressSheet';
-import { EmptyListIndicator } from './EmptyListIndicator';
+import { AccountAvatar } from '../../components/AccountAvatar.js';
+import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
+import { ListItem } from '../../components/ListItem/ListItem.js';
+import { ListItemButton } from '../../components/ListItem/ListItemButton.js';
+import { Menu } from '../../components/Menu.js';
+import { useChains } from '../../hooks/useChains.js';
+import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
+import type { Bookmark } from '../../stores/bookmarks/types.js';
+import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
+import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js';
+import { defaultChainIdsByType } from '../../utils/chainType.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { shortenAddress } from '../../utils/wallet.js';
+import { BookmarkAddressSheet } from './BookmarkAddressSheet.js';
+import { ConfirmAddressSheet } from './ConfirmAddressSheet.js';
+import { EmptyListIndicator } from './EmptyListIndicator.js';
 import {
   ListContainer,
   OptionsMenuButton,
   SendToWalletPageContainer,
-} from './SendToWalletPage.style';
+} from './SendToWalletPage.style.js';
 
 export const RecentWalletsPage = () => {
   const { t } = useTranslation();

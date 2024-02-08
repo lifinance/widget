@@ -1,2 +1,2 @@
-export * from './InsuraceLogo';
-export * from './lifi';
+export * from './InsuraceLogo.js';
+export * from './lifi.js';

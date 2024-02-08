@@ -3,19 +3,21 @@ import type { Route } from '@lifi/sdk';
 import { Collapse, Grow, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useMatch, useNavigate } from 'react-router-dom';
-import { useRoutes } from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import { useSetExecutableRoute } from '../../stores';
-import { navigationRoutes } from '../../utils';
-import { PageContainer } from '../PageContainer';
-import { ProgressToNextUpdate } from '../ProgressToNextUpdate';
-import { RouteCard, RouteCardSkeleton, RouteNotFoundCard } from '../RouteCard';
+import { useRoutes } from '../../hooks/useRoutes.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useSetExecutableRoute } from '../../stores/routes/useSetExecutableRoute.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { PageContainer } from '../PageContainer.js';
+import { ProgressToNextUpdate } from '../ProgressToNextUpdate/ProgressToNextUpdate.js';
+import { RouteCard } from '../RouteCard/RouteCard.js';
+import { RouteCardSkeleton } from '../RouteCard/RouteCardSkeleton.js';
+import { RouteNotFoundCard } from '../RouteCard/RouteNotFoundCard.js';
 import {
   CollapseContainer,
   Container,
   Header,
   ScrollableContainer,
-} from './RoutesExpanded.style';
+} from './RoutesExpanded.style.js';
 
 const timeout = { enter: 225, exit: 225, appear: 0 };
 

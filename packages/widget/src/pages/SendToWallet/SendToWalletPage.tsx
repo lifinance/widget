@@ -4,19 +4,19 @@ import type { ChangeEvent } from 'react';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import type { BottomSheetBase } from '../../components/BottomSheet';
-import { CardButton } from '../../components/Card';
-import {
-  useAccount,
-  useAddressValidation,
-  useChain,
-  useToAddressRequirements,
-} from '../../hooks';
-import type { Bookmark } from '../../stores';
-import { useBookmarkActions, useBookmarks, useFieldValues } from '../../stores';
-import { navigationRoutes } from '../../utils';
-import { BookmarkAddressSheet } from './BookmarkAddressSheet';
-import { ConfirmAddressSheet } from './ConfirmAddressSheet';
+import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
+import { CardButton } from '../../components/Card/CardButton.js';
+import { useAccount } from '../../hooks/useAccount.js';
+import { useAddressValidation } from '../../hooks/useAddressValidation.js';
+import { useChain } from '../../hooks/useChain.js';
+import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
+import type { Bookmark } from '../../stores/bookmarks/types.js';
+import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
+import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js';
+import { useFieldValues } from '../../stores/form/useFieldValues.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { BookmarkAddressSheet } from './BookmarkAddressSheet.js';
+import { ConfirmAddressSheet } from './ConfirmAddressSheet.js';
 import {
   AddressInput,
   SendToWalletButton,
@@ -26,7 +26,7 @@ import {
   SendToWalletPageContainer,
   ValidationAlert,
   WalletNumber,
-} from './SendToWalletPage.style';
+} from './SendToWalletPage.style.js';
 
 export const SendToWalletPage = () => {
   const { t } = useTranslation();

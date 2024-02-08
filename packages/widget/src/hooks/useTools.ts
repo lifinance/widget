@@ -1,8 +1,8 @@
 import { getTools, type ToolsResponse } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
-import { useWidgetConfig } from '../providers';
-import { useSettingsStore } from '../stores';
-import { isItemAllowed } from '../utils';
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
+import { useSettingsStore } from '../stores/settings/useSettingsStore.js';
+import { isItemAllowed } from '../utils/item.js';
 
 export const useTools = () => {
   const { bridges, exchanges } = useWidgetConfig();

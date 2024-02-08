@@ -7,8 +7,8 @@ import {
   DialogContent,
   DialogContentText,
   List,
+  useMediaQuery,
 } from '@mui/material';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { WalletReadyState } from '@solana/wallet-adapter-base';
 import type { Wallet } from '@solana/wallet-adapter-react';
 import { useWallet } from '@solana/wallet-adapter-react';
@@ -16,13 +16,13 @@ import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Connector } from 'wagmi';
 import { useConnect, useAccount as useWagmiAccount } from 'wagmi';
-import { Dialog } from '../../components/Dialog';
-import { PageContainer } from '../../components/PageContainer';
-import { useWidgetConfig } from '../../providers';
-import { isItemAllowed } from '../../utils';
-import { EVMListItemButton } from './EVMListItemButton';
-import { SVMListItemButton } from './SVMListItemButton';
-import { walletComparator } from './utils';
+import { Dialog } from '../../components/Dialog.js';
+import { PageContainer } from '../../components/PageContainer.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { isItemAllowed } from '../../utils/item.js';
+import { EVMListItemButton } from './EVMListItemButton.js';
+import { SVMListItemButton } from './SVMListItemButton.js';
+import { walletComparator } from './utils.js';
 
 export const SelectWalletPage = () => {
   const { t } = useTranslation();

@@ -1,1 +1,1 @@
-export * from './SelectEnabledToolsPage';
+export * from './SelectEnabledToolsPage.js';

@@ -1,8 +1,7 @@
 import { CloseRounded } from '@mui/icons-material';
-import { Tooltip } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
+import { IconButton, Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useDrawer } from '../../AppDrawerContext';
+import { useDrawer } from '../../AppDrawerContext.js';
 
 export const CloseDrawerButton = () => {
   const { t } = useTranslation();

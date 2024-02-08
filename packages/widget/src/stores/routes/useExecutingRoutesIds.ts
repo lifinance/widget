@@ -1,8 +1,8 @@
 import { shallow } from 'zustand/shallow';
-import { useAccount } from '../../hooks/useAccount';
-import { useRouteExecutionStore } from './RouteExecutionStore';
-import type { RouteExecution } from './types';
-import { RouteExecutionStatus } from './types';
+import { useAccount } from '../../hooks/useAccount.js';
+import { useRouteExecutionStore } from './RouteExecutionStore.js';
+import type { RouteExecution } from './types.js';
+import { RouteExecutionStatus } from './types.js';
 
 export const useExecutingRoutesIds = () => {
   const { accounts } = useAccount();

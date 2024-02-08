@@ -1,10 +1,11 @@
 import type { TokenAmount } from '@lifi/sdk';
 import { FormHelperText, Skeleton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useTokenAddressBalance } from '../../hooks';
-import type { FormTypeProps } from '../../stores';
-import { FormKeyHelper, useFieldValues } from '../../stores';
-import { formatTokenAmount, formatTokenPrice } from '../../utils';
+import { useTokenAddressBalance } from '../../hooks/useTokenAddressBalance.js';
+import type { FormTypeProps } from '../../stores/form/types.js';
+import { FormKeyHelper } from '../../stores/form/types.js';
+import { useFieldValues } from '../../stores/form/useFieldValues.js';
+import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js';
 
 export const PriceFormHelperText: React.FC<FormTypeProps> = ({ formType }) => {
   const [chainId, tokenAddress] = useFieldValues(

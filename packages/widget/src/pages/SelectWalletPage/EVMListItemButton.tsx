@@ -6,10 +6,11 @@ import {
 import { Avatar, ListItemAvatar } from '@mui/material';
 import type { Connector } from 'wagmi';
 import { useConnect, useDisconnect } from 'wagmi';
-import { ListItemButton } from '../../components/ListItemButton';
-import { ListItemText } from '../../components/ListItemText';
-import { useNavigateBack, useWidgetEvents } from '../../hooks';
-import { WidgetEvent } from '../../types';
+import { ListItemButton } from '../../components/ListItemButton.js';
+import { ListItemText } from '../../components/ListItemText.js';
+import { useNavigateBack } from '../../hooks/useNavigateBack.js';
+import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
+import { WidgetEvent } from '../../types/events.js';
 
 interface EVMListItemButtonProps {
   connectedConnector?: Connector;

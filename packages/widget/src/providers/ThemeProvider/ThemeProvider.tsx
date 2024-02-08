@@ -1,10 +1,10 @@
 import type { PaletteMode } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { useEffect, useMemo, useState } from 'react';
-import { createTheme } from '../../config/theme';
-import { useAppearance } from '../../stores';
-import { useWidgetConfig } from '../WidgetProvider';
+import { createTheme } from '../../config/theme.js';
+import { useAppearance } from '../../stores/settings/useAppearance.js';
+import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js';
 
 export const ThemeProvider: React.FC<React.PropsWithChildren<{}>> = ({
   children,

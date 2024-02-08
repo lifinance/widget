@@ -10,11 +10,11 @@ import {
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { BottomSheetBase } from '../../components/BottomSheet';
-import { BottomSheet } from '../../components/BottomSheet';
-import { useSetContentHeight } from '../../hooks';
-import { formatTokenAmount } from '../../utils';
-import { CenterContainer, IconCircle } from './StatusBottomSheet.style';
+import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js';
+import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
+import { useSetContentHeight } from '../../hooks/useContentHeight.js';
+import { formatTokenAmount } from '../../utils/format.js';
+import { CenterContainer, IconCircle } from './StatusBottomSheet.style.js';
 
 export interface ExchangeRateBottomSheetBase {
   isOpen(): void;

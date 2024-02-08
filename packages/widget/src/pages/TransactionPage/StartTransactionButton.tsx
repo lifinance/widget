@@ -1,11 +1,9 @@
-import { BaseTransactionButton } from '../../components/BaseTransactionButton';
-import {
-  useFromTokenSufficiency,
-  useGasSufficiency,
-  useRoutes,
-} from '../../hooks';
-import { useRouteExecutionStore } from '../../stores';
-import type { StartTransactionButtonProps } from './types';
+import { BaseTransactionButton } from '../../components/BaseTransactionButton/BaseTransactionButton.js';
+import { useFromTokenSufficiency } from '../../hooks/useFromTokenSufficiency.js';
+import { useGasSufficiency } from '../../hooks/useGasSufficiency.js';
+import { useRoutes } from '../../hooks/useRoutes.js';
+import { useRouteExecutionStore } from '../../stores/routes/RouteExecutionStore.js';
+import type { StartTransactionButtonProps } from './types.js';
 
 export const StartTransactionButton: React.FC<StartTransactionButtonProps> = ({
   onClick,

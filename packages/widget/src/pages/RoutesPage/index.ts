@@ -1,1 +1,1 @@
-export * from './RoutesPage';
+export * from './RoutesPage.js';

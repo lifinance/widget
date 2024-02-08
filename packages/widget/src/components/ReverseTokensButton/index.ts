@@ -1,1 +1,1 @@
-export * from './ReverseTokensButton';
+export * from './ReverseTokensButton.js';

@@ -1,1 +1,1 @@
-export * from './ContractComponent';
+export * from './ContractComponent.js';

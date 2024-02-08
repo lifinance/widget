@@ -1,2 +1,2 @@
-export * from './WidgetProvider';
-export * from './types';
+export * from './WidgetProvider.js';
+export * from './types.js';

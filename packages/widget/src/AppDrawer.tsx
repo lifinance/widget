@@ -10,11 +10,11 @@ import {
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DrawerButton, DrawerButtonTypography } from './AppDrawer.style';
-import type { WidgetDrawerContext } from './AppDrawerContext';
-import { DrawerContext } from './AppDrawerContext';
-import type { WidgetDrawerProps, WidgetSubvariant } from './types';
-import { HiddenUI } from './types';
+import { DrawerButton, DrawerButtonTypography } from './AppDrawer.style.js';
+import type { WidgetDrawerContext } from './AppDrawerContext.js';
+import { DrawerContext } from './AppDrawerContext.js';
+import type { WidgetDrawerProps, WidgetSubvariant } from './types/widget.js';
+import { HiddenUI } from './types/widget.js';
 
 export interface WidgetDrawer {
   isOpen(): void;

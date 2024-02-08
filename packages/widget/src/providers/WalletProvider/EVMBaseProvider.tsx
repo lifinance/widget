@@ -33,11 +33,11 @@ import { createClient } from 'viem';
 import type { CreateConnectorFn } from 'wagmi';
 import { WagmiProvider, createConfig, http } from 'wagmi';
 import { mainnet } from 'wagmi/chains';
-import { defaultWalletConnectProjectId } from '../../config/walletConnect';
-import { useAvailableChains } from '../../hooks';
-import { LiFiToolLogo } from '../../icons';
-import { useWidgetConfig } from '../WidgetProvider';
-import { formatChain } from './utils';
+import { defaultWalletConnectProjectId } from '../../config/walletConnect.js';
+import { useAvailableChains } from '../../hooks/useAvailableChains.js';
+import { LiFiToolLogo } from '../../icons/lifi.js';
+import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js';
+import { formatChain } from './utils.js';
 
 const connectors: Record<string, CreateConnectorFn | undefined> = {
   walletConnect: undefined,

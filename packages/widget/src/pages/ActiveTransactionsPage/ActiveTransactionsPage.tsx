@@ -10,15 +10,13 @@ import {
 } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ActiveTransactionItem } from '../../components/ActiveTransactions';
-import { Dialog } from '../../components/Dialog';
-import { PageContainer } from '../../components/PageContainer';
-import {
-  useExecutingRoutesIds,
-  useHeaderStoreContext,
-  useRouteExecutionStore,
-} from '../../stores';
-import { ActiveTransactionsEmpty } from './ActiveTransactionsEmpty';
+import { ActiveTransactionItem } from '../../components/ActiveTransactions/ActiveTransactionItem.js';
+import { Dialog } from '../../components/Dialog.js';
+import { PageContainer } from '../../components/PageContainer.js';
+import { useHeaderStoreContext } from '../../stores/header/useHeaderStore.js';
+import { useRouteExecutionStore } from '../../stores/routes/RouteExecutionStore.js';
+import { useExecutingRoutesIds } from '../../stores/routes/useExecutingRoutesIds.js';
+import { ActiveTransactionsEmpty } from './ActiveTransactionsEmpty.js';
 
 export const ActiveTransactionsPage = () => {
   const { t } = useTranslation();

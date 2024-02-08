@@ -2,7 +2,7 @@ import { WarningRounded } from '@mui/icons-material';
 import { Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
-import { AlertMessage } from '../AlertMessage';
+import { AlertMessage } from '../AlertMessage/AlertMessage.js';
 
 // TODO: some of the styling currently used here doesn't align with usage in other places
 //  We might want to consider removing the padding and color here?

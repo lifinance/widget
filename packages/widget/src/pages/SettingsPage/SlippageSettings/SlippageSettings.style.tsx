@@ -2,7 +2,7 @@ import type { Theme } from '@mui/material';
 import { Box, ButtonBase, InputBase } from '@mui/material';
 import { inputBaseClasses } from '@mui/material/InputBase';
 import { alpha, styled } from '@mui/material/styles';
-import { getCardFieldsetBackgroundColor } from '../../../utils';
+import { getCardFieldsetBackgroundColor } from '../../../utils/colors.js';
 
 export const SettingsFieldSet = styled(Box)(({ theme }) => ({
   display: 'flex',

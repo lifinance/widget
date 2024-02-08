@@ -4,12 +4,16 @@ import type { BoxProps } from '@mui/material';
 import { Box, Grow, Skeleton } from '@mui/material';
 import type { FC, PropsWithChildren, ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useChain, useToken } from '../../hooks';
-import { formatTokenAmount, formatTokenPrice } from '../../utils';
-import { SmallAvatar } from '../SmallAvatar';
-import { TextFitter } from '../TextFitter';
-import { TokenAvatar, TokenAvatarSkeleton } from '../TokenAvatar';
-import { TextSecondary, TextSecondaryContainer } from './Token.style';
+import { useChain } from '../../hooks/useChain.js';
+import { useToken } from '../../hooks/useToken.js';
+import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js';
+import { SmallAvatar } from '../SmallAvatar.js';
+import { TextFitter } from '../TextFitter/TextFitter.js';
+import {
+  TokenAvatar,
+  TokenAvatarSkeleton,
+} from '../TokenAvatar/TokenAvatar.js';
+import { TextSecondary, TextSecondaryContainer } from './Token.style.js';
 
 interface TokenProps {
   token: TokenAmount;

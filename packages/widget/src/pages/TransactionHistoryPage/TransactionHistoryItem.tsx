@@ -7,9 +7,10 @@ import type {
 import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { Card } from '../../components/Card';
-import { Token, TokenDivider } from '../../components/Token';
-import { navigationRoutes } from '../../utils';
+import { Card } from '../../components/Card/Card.js';
+import { Token } from '../../components/Token/Token.js';
+import { TokenDivider } from '../../components/Token/Token.style.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
 
 export const TransactionHistoryItem: React.FC<{
   transaction: StatusResponse;

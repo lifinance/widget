@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
-import type { FormFieldNames } from './types';
-import { useFieldValues } from './useFieldValues';
-import { useFieldActions } from './useFieldActions';
+import type { FormFieldNames } from './types.js';
+import { useFieldValues } from './useFieldValues.js';
+import { useFieldActions } from './useFieldActions.js';
 
 interface UseFieldControllerProps {
   name: FormFieldNames;

@@ -1,7 +1,7 @@
 import { AppBar, Box, Button, badgeClasses } from '@mui/material';
 import { buttonClasses } from '@mui/material/Button';
 import { alpha, styled } from '@mui/material/styles';
-import { Tabs } from '../Tabs';
+import { Tabs } from '../Tabs/Tabs.style.js';
 
 export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: 'transparent',

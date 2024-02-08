@@ -1,16 +1,15 @@
 import { Wallet } from '@mui/icons-material';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
+import { Button, Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useToAddressRequirements, useWidgetEvents } from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import {
-  useBookmarkActions,
-  useFieldActions,
-  useSendToWalletStore,
-  useSettings,
-} from '../../stores';
-import { DisabledUI, HiddenUI, WidgetEvent } from '../../types';
+import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
+import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
+import { useFieldActions } from '../../stores/form/useFieldActions.js';
+import { useSendToWalletStore } from '../../stores/settings/useSendToWalletStore.js';
+import { useSettings } from '../../stores/settings/useSettings.js';
+import { WidgetEvent } from '../../types/events.js';
+import { DisabledUI, HiddenUI } from '../../types/widget.js';
 
 export const SendToWalletExpandButton: React.FC = () => {
   const { t } = useTranslation();

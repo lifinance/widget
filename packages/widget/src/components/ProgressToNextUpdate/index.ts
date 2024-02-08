@@ -1,1 +1,1 @@
-export * from './ProgressToNextUpdate';
+export * from './ProgressToNextUpdate.js';

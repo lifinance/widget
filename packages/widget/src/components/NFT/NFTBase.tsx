@@ -1,8 +1,8 @@
 import { Box, Link, Skeleton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { Token } from '../Token';
-import { PreviewAvatar } from './NFT.style';
-import type { NFTProps } from './types';
+import { Token } from '../Token/Token.js';
+import { PreviewAvatar } from './NFT.style.js';
+import type { NFTProps } from './types.js';
 
 export const NFTBase: React.FC<NFTProps> = ({
   imageUrl,

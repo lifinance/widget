@@ -1,1 +1,1 @@
-export * from './TransactionPage';
+export * from './TransactionPage.js';

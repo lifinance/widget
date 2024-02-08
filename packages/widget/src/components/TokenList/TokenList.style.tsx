@@ -1,7 +1,7 @@
 import type { IconButtonProps, LinkProps } from '@mui/material';
 import { IconButton as MuiIconButton } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
-import { ListItem as ListItemBase } from '../ListItem';
+import { ListItem as ListItemBase } from '../ListItem/ListItem.js';
 
 export const ListItem = styled(ListItemBase)(({ theme }) => ({
   position: 'absolute',

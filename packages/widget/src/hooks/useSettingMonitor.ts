@@ -1,11 +1,11 @@
 import { shallow } from 'zustand/shallow';
-import { useWidgetConfig } from '../providers';
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
 import {
   defaultConfigurableSettings,
   setDefaultSettings,
   useSettingsStore,
-} from '../stores';
-import { useTools } from './useTools';
+} from '../stores/settings/useSettingsStore.js';
+import { useTools } from './useTools.js';
 
 export const useSettingMonitor = () => {
   const [

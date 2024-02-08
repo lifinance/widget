@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
-import { useAvailableChains } from '.';
-import { useFieldValues } from '../stores';
-import { useGasRecommendation } from './useGasRecommendation';
-import { useTokenBalance } from './useTokenBalance';
+import { useFieldValues } from '../stores/form/useFieldValues.js';
+import { useAvailableChains } from './useAvailableChains.js';
+import { useGasRecommendation } from './useGasRecommendation.js';
+import { useTokenBalance } from './useTokenBalance.js';
 
 export const useGasRefuel = () => {
   const { getChainById } = useAvailableChains();

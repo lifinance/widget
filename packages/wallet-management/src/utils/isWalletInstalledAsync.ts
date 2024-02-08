@@ -1,4 +1,4 @@
-import { isWalletInstalled } from './isWalletInstalled';
+import { isWalletInstalled } from './isWalletInstalled.js';
 
 export const isWalletInstalledAsync = async (id: string): Promise<boolean> => {
   switch (id) {
@@ -10,7 +10,9 @@ export const isWalletInstalledAsync = async (id: string): Promise<boolean> => {
         return false;
       }
 
-      const sdk = new (await import('@safe-global/safe-apps-sdk')).default();
+      const SafeAppsSDK: any = (await import('@safe-global/safe-apps-sdk'))
+        .default;
+      const sdk = new SafeAppsSDK();
 
       try {
         const accountInfo = await Promise.race([

@@ -2,7 +2,7 @@ import type { ExtendedChain } from '@lifi/sdk';
 import { getTokenBalances, type Token, type TokenAmount } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
-import { useAccount } from './useAccount';
+import { useAccount } from './useAccount.js';
 
 const defaultRefetchInterval = 30_000;
 

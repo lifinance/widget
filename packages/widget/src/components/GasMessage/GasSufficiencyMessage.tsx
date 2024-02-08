@@ -2,8 +2,8 @@ import { EvStation } from '@mui/icons-material';
 import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { formatUnits } from 'viem';
-import type { GasSufficiency } from '../../hooks';
-import { AlertMessage } from '../AlertMessage';
+import type { GasSufficiency } from '../../hooks/useGasSufficiency.js';
+import { AlertMessage } from '../AlertMessage/AlertMessage.js';
 
 interface GasSufficiencyMessageProps {
   insufficientGas?: GasSufficiency[];

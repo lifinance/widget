@@ -15,11 +15,13 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAccount, useAvailableChains } from '../../hooks';
-import { navigationRoutes, shortenAddress } from '../../utils';
-import { SmallAvatar } from '../SmallAvatar';
-import { EVMDisconnectIconButton } from './EVMDisconnectIconButton';
-import { SVMDisconnectIconButton } from './SVMDisconnectIconButton';
+import { useAccount } from '../../hooks/useAccount.js';
+import { useAvailableChains } from '../../hooks/useAvailableChains.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { shortenAddress } from '../../utils/wallet.js';
+import { SmallAvatar } from '../SmallAvatar.js';
+import { EVMDisconnectIconButton } from './EVMDisconnectIconButton.js';
+import { SVMDisconnectIconButton } from './SVMDisconnectIconButton.js';
 
 export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
   const { t } = useTranslation();

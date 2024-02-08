@@ -4,7 +4,7 @@ import { getEnsAddress } from '@wagmi/core';
 import { useTranslation } from 'react-i18next';
 import { normalize } from 'viem/ens';
 import { useConfig } from 'wagmi';
-import { getChainTypeFromAddress } from '../utils';
+import { getChainTypeFromAddress } from '../utils/chainType.js';
 
 type AddressType = 'address' | 'ENS';
 

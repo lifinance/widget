@@ -1,9 +1,13 @@
 import { Settings } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useNavigateBack, useSettingMonitor } from '../../hooks';
-import { navigationRoutes } from '../../utils';
-import { SettingsIconBadge, SettingsIconButton } from './SettingsButton.style';
+import { useNavigateBack } from '../../hooks/useNavigateBack.js';
+import { useSettingMonitor } from '../../hooks/useSettingMonitor.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import {
+  SettingsIconBadge,
+  SettingsIconButton,
+} from './SettingsButton.style.js';
 
 export const SettingsButton = () => {
   const { t } = useTranslation();

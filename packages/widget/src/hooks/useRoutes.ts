@@ -3,12 +3,17 @@ import { LiFiErrorCode, getContractCallQuote, getRoutes } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { v4 as uuidv4 } from 'uuid';
 import { parseUnits } from 'viem';
-import { useChain, useDebouncedWatch, useGasRefuel, useToken } from '.';
-import { useWidgetConfig } from '../providers';
-import { defaultSlippage, useFieldValues, useSettings } from '../stores';
-import { getChainTypeFromAddress } from '../utils';
-import { useAccount } from './useAccount';
-import { useSwapOnly } from './useSwapOnly';
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
+import { useFieldValues } from '../stores/form/useFieldValues.js';
+import { useSettings } from '../stores/settings/useSettings.js';
+import { defaultSlippage } from '../stores/settings/useSettingsStore.js';
+import { getChainTypeFromAddress } from '../utils/chainType.js';
+import { useAccount } from './useAccount.js';
+import { useChain } from './useChain.js';
+import { useDebouncedWatch } from './useDebouncedWatch.js';
+import { useGasRefuel } from './useGasRefuel.js';
+import { useSwapOnly } from './useSwapOnly.js';
+import { useToken } from './useToken.js';
 
 const refetchTime = 60_000;
 

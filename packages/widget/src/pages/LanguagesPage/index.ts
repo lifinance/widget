@@ -1,1 +1,1 @@
-export * from './LanguagesPage';
+export * from './LanguagesPage.js';

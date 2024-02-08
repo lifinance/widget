@@ -1,1 +1,1 @@
-export * from './SettingsPage';
+export * from './SettingsPage.js';

@@ -1,1 +1,1 @@
-export * from './useHeaderStore';
+export * from './useHeaderStore.js';

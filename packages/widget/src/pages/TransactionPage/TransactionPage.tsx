@@ -4,37 +4,33 @@ import { Box, Button, Tooltip } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import type { BottomSheetBase } from '../../components/BottomSheet';
-import { ContractComponent } from '../../components/ContractComponent';
-import { GasMessage } from '../../components/GasMessage';
-import { Insurance } from '../../components/Insurance';
-import { PageContainer } from '../../components/PageContainer';
-import { getStepList } from '../../components/Step';
-import {
-  useNavigateBack,
-  useRouteExecution,
-  useWidgetEvents,
-} from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import {
-  RouteExecutionStatus,
-  useFieldActions,
-  useHeaderStoreContext,
-} from '../../stores';
-import { WidgetEvent } from '../../types/events';
-import { formatTokenAmount } from '../../utils';
-import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet';
-import { ExchangeRateBottomSheet } from './ExchangeRateBottomSheet';
+import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
+import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js';
+import { GasMessage } from '../../components/GasMessage/GasMessage.js';
+import { Insurance } from '../../components/Insurance/Insurance.js';
+import { PageContainer } from '../../components/PageContainer.js';
+import { getStepList } from '../../components/Step/StepList.js';
+import { useNavigateBack } from '../../hooks/useNavigateBack.js';
+import { useRouteExecution } from '../../hooks/useRouteExecution.js';
+import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useFieldActions } from '../../stores/form/useFieldActions.js';
+import { useHeaderStoreContext } from '../../stores/header/useHeaderStore.js';
+import { RouteExecutionStatus } from '../../stores/routes/types.js';
+import { WidgetEvent } from '../../types/events.js';
+import { formatTokenAmount } from '../../utils/format.js';
+import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet.js';
+import { ExchangeRateBottomSheet } from './ExchangeRateBottomSheet.js';
 import {
   StartInsurableTransactionButton,
   StartTransactionButton,
-} from './StartTransactionButton';
-import { StatusBottomSheet } from './StatusBottomSheet';
+} from './StartTransactionButton.js';
+import { StatusBottomSheet } from './StatusBottomSheet.js';
 import {
   TokenValueBottomSheet,
   getTokenValueLossThreshold,
-} from './TokenValueBottomSheet';
-import { calcValueLoss } from './utils';
+} from './TokenValueBottomSheet.js';
+import { calcValueLoss } from './utils.js';
 
 export const TransactionPage: React.FC = () => {
   const { t } = useTranslation();

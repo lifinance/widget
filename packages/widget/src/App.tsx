@@ -1,10 +1,10 @@
 'use client';
 import { forwardRef, useMemo } from 'react';
-import { AppDefault } from './AppDefault';
-import type { WidgetDrawer } from './AppDrawer';
-import { AppDrawer } from './AppDrawer';
-import { AppProvider } from './AppProvider';
-import type { WidgetConfig, WidgetProps } from './types';
+import { AppDefault } from './AppDefault.js';
+import type { WidgetDrawer } from './AppDrawer.js';
+import { AppDrawer } from './AppDrawer.js';
+import { AppProvider } from './AppProvider.js';
+import type { WidgetConfig, WidgetProps } from './types/widget.js';
 
 export const App = forwardRef<WidgetDrawer, WidgetProps>(
   ({ elementRef, open, onClose, integrator, ...other }, ref) => {

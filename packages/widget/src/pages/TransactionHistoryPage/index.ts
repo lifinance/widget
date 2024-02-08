@@ -1,1 +1,1 @@
-export * from './TransactionHistoryPage';
+export * from './TransactionHistoryPage.js';

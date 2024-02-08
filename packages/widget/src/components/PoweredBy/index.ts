@@ -1,1 +1,1 @@
-export { PoweredBy } from './PoweredBy';
+export { PoweredBy } from './PoweredBy.js';

@@ -1,1 +1,1 @@
-export * from './SelectNativeTokenPage';
+export * from './SelectNativeTokenPage.js';

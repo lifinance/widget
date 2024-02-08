@@ -9,7 +9,7 @@ import type {
   ToolsResponse,
 } from '@lifi/sdk';
 import { formatUnits } from 'viem';
-import type { RouteExecution } from '../stores';
+import type { RouteExecution } from '../stores/routes/types.js';
 
 const buildProcessFromTxHistory = (tx: FullStatusData): Process[] => {
   const sending = tx.sending as ExtendedTransactionInfo;

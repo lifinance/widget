@@ -1,1 +1,1 @@
-export * from './TextFitter';
+export * from './TextFitter.js';

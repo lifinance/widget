@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useWidgetEvents } from '../../hooks/';
-import { WidgetEvent } from '../../types/events';
+import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
+import { WidgetEvent } from '../../types/events.js';
 
 interface ContactSupportButtonProps {
   supportId?: string;

@@ -3,11 +3,12 @@ import { Box, Collapse, Link, Typography } from '@mui/material';
 import type { ChangeEvent } from 'react';
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { InsuraceLogo } from '../../icons';
-import { RouteExecutionStatus } from '../../stores';
-import { Card, CardLabel, CardLabelTypography } from '../Card';
-import { Switch } from '../Switch';
-import type { InsuranceCardProps } from './types';
+import { InsuraceLogo } from '../../icons/InsuraceLogo.js';
+import { RouteExecutionStatus } from '../../stores/routes/types.js';
+import { Card } from '../Card/Card.js';
+import { CardLabel, CardLabelTypography } from '../Card/CardLabel.js';
+import { Switch } from '../Switch.js';
+import type { InsuranceCardProps } from './types.js';
 
 export const InsuranceCard: React.FC<InsuranceCardProps> = ({
   status,

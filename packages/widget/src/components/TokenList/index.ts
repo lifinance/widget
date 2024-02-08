@@ -1,2 +1,2 @@
-export * from './TokenList';
-export * from './useTokenSelect';
+export * from './TokenList.js';
+export * from './useTokenSelect.js';

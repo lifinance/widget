@@ -1,20 +1,18 @@
 import { Wallet } from '@mui/icons-material';
 import type { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Card } from '../../components/Card/Card.js';
 import {
-  Card,
   CardRowContainer,
   CardTitleContainer,
   CardValue,
-} from '../../components/Card';
-import { Switch } from '../../components/Switch';
-import { useWidgetConfig } from '../../providers';
-import {
-  useSendToWalletStore,
-  useSettings,
-  useSettingsStore,
-} from '../../stores';
-import { HiddenUI } from '../../types';
+} from '../../components/Card/CardButton.style.js';
+import { Switch } from '../../components/Switch.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useSendToWalletStore } from '../../stores/settings/useSendToWalletStore.js';
+import { useSettings } from '../../stores/settings/useSettings.js';
+import { useSettingsStore } from '../../stores/settings/useSettingsStore.js';
+import { HiddenUI } from '../../types/widget.js';
 
 export const SendToWalletOptionSetting = () => {
   const { t } = useTranslation();

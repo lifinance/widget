@@ -1,8 +1,8 @@
 import type { RouteExtended, TokenAmount } from '@lifi/sdk';
 import { Fragment } from 'react';
-import { StepDivider } from '../../components/StepDivider';
-import type { WidgetSubvariant } from '../../types';
-import { Step } from './Step';
+import { StepDivider } from '../../components/StepDivider/StepDivider.js';
+import type { WidgetSubvariant } from '../../types/widget.js';
+import { Step } from './Step.js';
 
 export const getStepList = (
   route?: RouteExtended,

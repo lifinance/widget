@@ -5,7 +5,7 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import { useAccount } from './useAccount';
+import { useAccount } from './useAccount.js';
 
 export const useTransactionDetails = (transactionHash: string) => {
   const { account, accounts } = useAccount();

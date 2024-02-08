@@ -3,9 +3,12 @@ import { Box, Typography } from '@mui/material';
 import type { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { formatUnits } from 'viem';
-import { getFeeCostsBreakdown, getGasCostsBreakdown } from '../../utils';
-import { IconTypography } from './RouteCard.style';
-import type { FeesBreakdown, RouteCardEssentialsProps } from './types';
+import {
+  getFeeCostsBreakdown,
+  getGasCostsBreakdown,
+} from '../../utils/fees.js';
+import { IconTypography } from './RouteCard.style.js';
+import type { FeesBreakdown, RouteCardEssentialsProps } from './types.js';
 
 export const RouteCardEssentialsExpanded: React.FC<
   RouteCardEssentialsProps

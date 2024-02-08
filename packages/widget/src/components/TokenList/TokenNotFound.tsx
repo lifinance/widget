@@ -1,9 +1,10 @@
 import { SearchOff } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useAvailableChains } from '../../hooks';
-import type { FormTypeProps } from '../../stores';
-import { FormKeyHelper, useFieldValues } from '../../stores';
+import { useAvailableChains } from '../../hooks/useAvailableChains.js';
+import type { FormTypeProps } from '../../stores/form/types.js';
+import { FormKeyHelper } from '../../stores/form/types.js';
+import { useFieldValues } from '../../stores/form/useFieldValues.js';
 
 export const TokenNotFound: React.FC<FormTypeProps> = ({ formType }) => {
   const { t } = useTranslation();

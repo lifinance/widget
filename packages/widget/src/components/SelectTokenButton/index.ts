@@ -1,1 +1,1 @@
-export * from './SelectTokenButton';
+export * from './SelectTokenButton.js';

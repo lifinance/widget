@@ -1,7 +1,8 @@
 import { ArrowDownward, ArrowForward } from '@mui/icons-material';
-import { useAvailableChains, useToAddressReset } from '../../hooks';
-import { useFieldActions } from '../../stores';
-import { IconButton } from './ReverseTokensButton.style';
+import { useAvailableChains } from '../../hooks/useAvailableChains.js';
+import { useToAddressReset } from '../../hooks/useToAddressReset.js';
+import { useFieldActions } from '../../stores/form/useFieldActions.js';
+import { IconButton } from './ReverseTokensButton.style.js';
 
 export const ReverseTokensButton: React.FC<{ vertical?: boolean }> = ({
   vertical,

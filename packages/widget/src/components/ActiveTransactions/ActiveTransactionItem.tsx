@@ -1,12 +1,14 @@
 import { ArrowForward, ErrorRounded, InfoRounded } from '@mui/icons-material';
 import { ListItemAvatar, ListItemText, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useProcessMessage, useRouteExecution } from '../../hooks';
-import { RouteExecutionStatus } from '../../stores';
-import { navigationRoutes } from '../../utils';
-import { StepTimer } from '../Step/StepTimer';
-import { TokenAvatar, TokenAvatarGroup } from '../TokenAvatar';
-import { ListItem, ListItemButton } from './ActiveTransactions.style';
+import { useProcessMessage } from '../../hooks/useProcessMessage.js';
+import { useRouteExecution } from '../../hooks/useRouteExecution.js';
+import { RouteExecutionStatus } from '../../stores/routes/types.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { StepTimer } from '../Step/StepTimer.js';
+import { TokenAvatar } from '../TokenAvatar/TokenAvatar.js';
+import { TokenAvatarGroup } from '../TokenAvatar/TokenAvatar.style.js';
+import { ListItem, ListItemButton } from './ActiveTransactions.style.js';
 
 export const ActiveTransactionItem: React.FC<{
   routeId: string;

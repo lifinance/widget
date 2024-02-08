@@ -1,10 +1,10 @@
 import { getConnectorIcon } from '@lifi/wallet-management';
 import { Wallet } from '@mui/icons-material';
 import { Avatar, Badge } from '@mui/material';
-import type { Account } from '../hooks';
-import { useChain } from '../hooks';
-import { SmallAvatar } from './SmallAvatar';
-import { AvatarDefault } from './TokenAvatar';
+import type { Account } from '../hooks/useAccount.js';
+import { useChain } from '../hooks/useChain.js';
+import { SmallAvatar } from './SmallAvatar.js';
+import { AvatarDefault } from './TokenAvatar/TokenAvatar.style.js';
 
 interface AccountAvatarProps {
   chainId?: number;

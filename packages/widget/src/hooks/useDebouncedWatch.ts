@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import type { FormFieldNames } from '../stores';
-import { useFieldValues } from '../stores';
+import type { FormFieldNames } from '../stores/form/types.js';
+import { useFieldValues } from '../stores/form/useFieldValues.js';
 
 export const useDebouncedWatch = <T extends FormFieldNames[]>(
   delay: number,

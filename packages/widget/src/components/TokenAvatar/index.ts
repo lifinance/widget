@@ -1,2 +1,2 @@
-export * from './TokenAvatar';
-export * from './TokenAvatar.style';
+export * from './TokenAvatar.js';
+export * from './TokenAvatar.style.js';

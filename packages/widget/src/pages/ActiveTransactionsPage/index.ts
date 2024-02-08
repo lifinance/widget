@@ -1,1 +1,1 @@
-export * from './ActiveTransactionsPage';
+export * from './ActiveTransactionsPage.js';
