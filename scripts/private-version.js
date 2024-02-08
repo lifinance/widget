@@ -6,7 +6,11 @@ import { dirname, join } from 'path';
 const { readFileSync, writeFile } = fsExtra;
 const { sync } = fastGlob;
 
-const privatePackages = ['@lifi/widget-playground', '@lifi/widget-embedded'];
+const privatePackages = [
+  '@lifi/widget-next-playground',
+  '@lifi/widget-playground',
+  '@lifi/widget-embedded',
+];
 const packagesPath = join(process.cwd(), 'packages');
 const directoryPackages = sync('*/package.json', {
   cwd: join(process.cwd(), 'packages'),
