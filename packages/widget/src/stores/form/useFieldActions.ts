@@ -1,6 +1,6 @@
 import { shallow } from 'zustand/shallow';
-import { useFormStore } from './FormStore';
 import type { FormActions } from './types';
+import { useFormStore } from './useFormStore';
 
 export const useFieldActions = () => {
   const actions = useFormStore<FormActions>(

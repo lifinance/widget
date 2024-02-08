@@ -1,13 +1,11 @@
 import type { PropsWithChildren } from 'react';
-import { createContext, useContext, useMemo, useRef } from 'react';
-import { shallow } from 'zustand/shallow';
+import { useMemo, useRef } from 'react';
 import { useWidgetConfig } from '../../providers';
 import { HiddenUI } from '../../types';
+import { FormStoreContext } from './FormStoreContext';
 import { FormUpdater } from './FormUpdater';
 import { createFormStore, formDefaultValues } from './createFormStore';
-import type { FormStoreStore, FormValuesState } from './types';
-
-export const FormStoreContext = createContext<FormStoreStore | null>(null);
+import type { FormStoreStore } from './types';
 
 export const FormStoreProvider: React.FC<PropsWithChildren> = ({
   children,
@@ -62,18 +60,3 @@ export const FormStoreProvider: React.FC<PropsWithChildren> = ({
     </FormStoreContext.Provider>
   );
 };
-
-export function useFormStore<T>(
-  selector: (state: FormValuesState) => T,
-  equalityFn = shallow,
-): T {
-  const useStore = useContext(FormStoreContext);
-
-  if (!useStore) {
-    throw new Error(
-      `You forgot to wrap your component in <${FormStoreProvider.name}>.`,
-    );
-  }
-
-  return useStore(selector, equalityFn);
-}

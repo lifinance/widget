@@ -1,10 +1,10 @@
 import type { MouseEventHandler, PropsWithChildren } from 'react';
 import type { SettingCardTitle } from '../../pages/SettingsPage/SettingsCard/types';
-import { Card } from './index';
+import { Card } from './Card';
 import {
   CardRowButton,
-  CardValue,
   CardTitleContainer,
+  CardValue,
 } from './CardButton.style';
 
 interface SettingCardButtonProps extends SettingCardTitle {
