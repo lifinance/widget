@@ -1,5 +1,5 @@
 {
-  "name": "widget-next-playground",
+  "name": "@lifi/widget-next-playground",
   "version": "0.1.0",
   "private": true,
   "scripts": {
