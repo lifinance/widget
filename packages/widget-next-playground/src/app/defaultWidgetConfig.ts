@@ -1,4 +1,4 @@
-import { WidgetConfig } from '@lifi/widget';
+import type { WidgetConfig } from '@lifi/widget';
 
 // TODO: question do we want to move some of the sections of code we use
 //  for testing in the other playgrounds config into here?

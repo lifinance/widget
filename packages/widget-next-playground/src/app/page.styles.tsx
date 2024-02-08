@@ -1,5 +1,5 @@
-import { IconButton, styled } from '@mui/material';
-import { drawerWidth, drawerZIndex } from './components/DrawerControls';
+import { styled } from '@mui/material';
+import { drawerWidth } from './components/DrawerControls';
 
 export const Main = styled('main', {
   shouldForwardProp: (prop) => prop !== 'open',

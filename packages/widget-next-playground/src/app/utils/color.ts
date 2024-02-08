@@ -1,4 +1,4 @@
-import { Theme } from '@mui/material';
+import type { Theme } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 
 export const getCardFieldsetBackgroundColor = (theme: Theme) =>

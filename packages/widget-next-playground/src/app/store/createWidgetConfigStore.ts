@@ -1,7 +1,7 @@
 import { createWithEqualityFn } from 'zustand/traditional';
-import { WidgetConfig } from '@lifi/widget';
+import type { WidgetConfig } from '@lifi/widget';
 import { addValueFromPath } from '../utils';
-import { WidgetConfigState } from './types';
+import type { WidgetConfigState } from './types';
 
 export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
   createWithEqualityFn<WidgetConfigState>((set, get) => ({

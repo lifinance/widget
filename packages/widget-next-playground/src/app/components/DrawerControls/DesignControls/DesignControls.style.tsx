@@ -1,22 +1,21 @@
 import { alpha, styled } from '@mui/material/styles';
 import { inputBaseClasses } from '@mui/material/InputBase';
 import { autocompleteClasses } from '@mui/material/Autocomplete';
-import {
-  Box,
+import type {
   BoxProps,
-  ButtonBase,
-  InputBase,
   InputBaseProps,
-  Autocomplete as MuiAutocomplete,
   Theme,
   AutocompleteProps,
+} from '@mui/material';
+import {
+  Box,
+  ButtonBase,
+  InputBase,
+  Autocomplete as MuiAutocomplete,
   Popper,
 } from '@mui/material';
 import { getCardFieldsetBackgroundColor } from '../../../utils';
-import {
-  autocompletePopperZIndex,
-  drawerZIndex,
-} from '../DrawerControls.style';
+import { autocompletePopperZIndex } from '../DrawerControls.style';
 
 export const TabButtonsContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -149,7 +148,7 @@ export const ColorInput = styled(InputBase)<InputBaseProps>(
     [`& .${inputBaseClasses.input}::-moz-color-swatch`]: {
       border: 'none',
     },
-    ['&::after']: {
+    '&::after': {
       pointerEvents: 'none',
       position: 'absolute',
       top: '50%',

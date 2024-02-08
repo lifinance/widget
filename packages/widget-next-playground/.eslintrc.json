@@ -1,4 +1,15 @@
 {
   "root": true,
-  "extends": "next/core-web-vitals"
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended",
+    "next",
+    "../../.eslintrc.base"
+  ],
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "off",
+    "import/no-default-export": "off"
+  }
 }

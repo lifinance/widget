@@ -1,4 +1,4 @@
-import { Font } from '../../../../../hooks';
+import type { Font } from '../../../../../hooks';
 import { systemFonts } from './systemFonts';
 import { googleFonts } from './googleFonts';
 

@@ -1,4 +1,4 @@
-import { Font } from '../../../../../hooks';
+import type { Font } from '../../../../../hooks';
 
 // NOTE: We could explore using the Google fonts developer API to write a
 //  script to auto generate more fonts we could even consider a light Next API endpoint to serve a list

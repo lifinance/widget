@@ -1,4 +1,4 @@
-import type { PropsWithChildren } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 import { createContext, useContext, useRef } from 'react';
 import { shallow } from 'zustand/shallow';
 import { defaultWidgetConfig } from '../defaultWidgetConfig';
@@ -9,9 +9,7 @@ export const WidgetConfigContext = createContext<WidgetConfigStore | null>(
   null,
 );
 
-export const WidgetConfigProvider: React.FC<PropsWithChildren> = ({
-  children,
-}) => {
+export const WidgetConfigProvider: FC<PropsWithChildren> = ({ children }) => {
   const storeRef = useRef<WidgetConfigStore>();
 
   if (!storeRef.current) {

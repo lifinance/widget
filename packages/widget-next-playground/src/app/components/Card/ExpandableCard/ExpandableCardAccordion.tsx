@@ -1,7 +1,11 @@
-import { createContext, PropsWithChildren, useState } from 'react';
+import type { PropsWithChildren } from 'react';
+import { createContext, Dispatch, SetStateAction, useState } from 'react';
 
-export const ExpandableCardAccordionContext = createContext({
-  setOpenCard: (id: string) => {},
+export const ExpandableCardAccordionContext = createContext<{
+  setOpenCard: Dispatch<SetStateAction<string>>;
+  openCard: string;
+}>({
+  setOpenCard: () => {},
   openCard: '',
 });
 

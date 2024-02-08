@@ -1,4 +1,5 @@
-import React, { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
+import React from 'react';
 import { CssBaseline, ThemeProvider, useMediaQuery } from '@mui/material';
 import { theme } from '@/app/providers/PlaygroundThemeProvider/theme';
 import { useConfigAppearance } from '../../store';

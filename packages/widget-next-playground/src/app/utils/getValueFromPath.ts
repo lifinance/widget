@@ -2,7 +2,9 @@ export const getValueFromPath = <T>(
   object: any | undefined,
   path: string,
 ): T | undefined => {
-  if (!object) return undefined;
+  if (!object) {
+    return undefined;
+  }
 
   const splitPath = path.split('.');
 

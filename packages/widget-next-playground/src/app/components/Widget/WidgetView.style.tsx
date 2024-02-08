@@ -1,5 +1,6 @@
 import { alpha, styled } from '@mui/material/styles';
-import { Box, Button, IconButton, Theme } from '@mui/material';
+import type { Theme } from '@mui/material';
+import { Box, Button, IconButton } from '@mui/material';
 import { drawerZIndex } from '../DrawerControls';
 import { buttonClasses } from '@mui/material/Button';
 

@@ -1,4 +1,4 @@
-import type { PropsWithChildren, ReactNode } from 'react';
+import type { FC, PropsWithChildren, ReactNode } from 'react';
 import { useId } from 'react';
 import { Collapse } from '@mui/material';
 import {
@@ -15,9 +15,12 @@ interface ExpandableCardProps {
   value: ReactNode;
 }
 
-export const ExpandableCard: React.FC<
-  PropsWithChildren<ExpandableCardProps>
-> = ({ icon, title, value, children }) => {
+export const ExpandableCard: FC<PropsWithChildren<ExpandableCardProps>> = ({
+  icon,
+  title,
+  value,
+  children,
+}) => {
   const { expanded, toggleExpanded } = useExpandableCard();
   const buttonId = useId();
   const collapseId = useId();

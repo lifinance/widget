@@ -1,4 +1,4 @@
-import { BoxProps } from '@mui/material';
+import type { BoxProps } from '@mui/material';
 import { useConfigActions, useConfigColorsFromPath } from '../../../store';
 import { ExpandableCard } from '../../Card';
 import {
@@ -7,7 +7,6 @@ import {
   ColorSwatches,
   ColorInput,
 } from './DesignControls.style';
-import * as React from 'react';
 
 // NOTE: editable colors need to also feature in the default config for the color controls to appear
 //  see app/store/defaultWidgetConfig.ts
@@ -38,7 +37,6 @@ interface ColorSelectorProps extends BoxProps {
 const ColorSelector = ({
   colorName,
   colorPath,
-  onChange,
   ...rest
 }: ColorSelectorProps) => {
   const [colorValue] = useConfigColorsFromPath(colorPath);
@@ -62,7 +60,7 @@ const Swatches = () => {
 
   return (
     <ColorSwatches>
-      {Object.entries(editableColors).map(([colorName, colorConfigPath], i) =>
+      {Object.values(editableColors).map((colorConfigPath, i) =>
         colorValues[i] ? (
           <ColorSwatch key={colorConfigPath} color={colorValues[i]!} />
         ) : null,

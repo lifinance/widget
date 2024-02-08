@@ -1,4 +1,4 @@
-import { Font } from '../../../../../hooks';
+import type { Font } from '../../../../../hooks';
 
 export const systemFonts: Font[] = [
   {

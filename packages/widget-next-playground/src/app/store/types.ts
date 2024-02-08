@@ -1,12 +1,12 @@
-import {
+import type {
   Appearance,
   WidgetConfig,
   WidgetSubvariant,
   WidgetVariant,
   WidgetWalletConfig,
 } from '@lifi/widget';
-import { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
-import { StoreApi } from 'zustand';
+import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
+import type { StoreApi } from 'zustand';
 
 export interface WidgetConfigValues {
   config?: Partial<WidgetConfig>;

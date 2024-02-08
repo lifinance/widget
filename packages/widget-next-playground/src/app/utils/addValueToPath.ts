@@ -19,7 +19,9 @@ export const addValueFromPath = <ReturnType>(
   path: string,
   value: string,
 ) => {
-  if (!object) return undefined;
+  if (!object) {
+    return undefined;
+  }
 
   const nodes = path.split('.');
 

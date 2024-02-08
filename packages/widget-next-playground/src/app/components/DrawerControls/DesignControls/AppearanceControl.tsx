@@ -1,8 +1,9 @@
+import type { FC, ReactElement, SyntheticEvent } from 'react';
 import { Tooltip } from '@mui/material';
 import BrightnessAutoIcon from '@mui/icons-material/BrightnessAuto';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import NightlightIcon from '@mui/icons-material/Nightlight';
-import { Appearance } from '@lifi/widget';
+import type { Appearance } from '@lifi/widget';
 import { useConfigActions, useConfigAppearance } from '../../../store';
 import { ExpandableCard, CardValue } from '../../Card';
 import { Tab, Tabs } from '../../Tabs';
@@ -16,10 +17,10 @@ const appearanceIcons = {
 interface AppearanceTabProps {
   title: string;
   value: Appearance;
-  Icon: React.ReactElement;
+  Icon: ReactElement;
 }
 
-const AppearanceTab: React.FC<AppearanceTabProps> = ({
+const AppearanceTab: FC<AppearanceTabProps> = ({
   title,
   value,
   Icon,
@@ -33,10 +34,7 @@ const AppearanceTab: React.FC<AppearanceTabProps> = ({
 export const AppearanceControl = () => {
   const { appearance } = useConfigAppearance();
   const { setAppearance } = useConfigActions();
-  const handleAppearanceChange = (
-    _: React.SyntheticEvent,
-    value: Appearance,
-  ) => {
+  const handleAppearanceChange = (_: SyntheticEvent, value: Appearance) => {
     setAppearance(value);
   };
 

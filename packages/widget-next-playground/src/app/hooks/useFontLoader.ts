@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { Font } from './types';
+import type { Font } from './types';
 import { useState } from 'react';
 
 const loadFontFace = async (fontFace: FontFace) => {

@@ -1,17 +1,12 @@
-import {
-  FocusEventHandler,
-  SyntheticEvent,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import type { FocusEventHandler, SyntheticEvent } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Alert, CircularProgress, TextField } from '@mui/material';
 import { useConfigActions } from '../../../../store';
-import { Font, useFontLoader } from '../../../../hooks';
+import type { Font } from '../../../../hooks';
+import { useFontLoader } from '../../../../hooks';
 import { ExpandableCard } from '../../../Card';
 import { Autocomplete, StyledPopper } from '../DesignControls.style';
 import { defaultFont, allFonts } from './fontDefinitions';
-import { styled } from '@mui/material/styles';
 
 const getCompleteFontFamily = (font: Font) =>
   [font.family, font.fallbackFonts || 'sans-serif'].join(', ');

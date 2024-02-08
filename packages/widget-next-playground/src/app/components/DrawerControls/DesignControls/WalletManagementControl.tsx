@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   Card,
   CardRowContainer,
@@ -8,7 +7,7 @@ import {
 import { Switch } from '../../Switch';
 import { useConfigActions, useConfigWalletManagement } from '../../../store';
 import * as React from 'react';
-import { WidgetWalletConfig } from '@lifi/widget';
+import type { WidgetWalletConfig } from '@lifi/widget';
 
 export const WalletManagementControl = () => {
   const { isExternalWalletManagement } = useConfigWalletManagement();

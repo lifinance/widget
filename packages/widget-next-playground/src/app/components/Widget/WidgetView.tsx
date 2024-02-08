@@ -1,5 +1,6 @@
 import { LiFiWidget } from '@lifi/widget';
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useConfig } from '../../store';
 import { ExternalWalletProvider } from '../../providers';
 import { ConnectWalletButton } from './ConnectWalletButton';
