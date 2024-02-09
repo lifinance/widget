@@ -35,7 +35,7 @@ export const MainPage: React.FC = () => {
       <MainGasMessage mb={2} />
       <Box display="flex" mb={1}>
         <ReviewButton />
-        <SendToWalletExpandButton />
+        {/* <SendToWalletExpandButton /> */}
       </Box>
     </PageContainer>
   );

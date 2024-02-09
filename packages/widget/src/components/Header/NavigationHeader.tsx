@@ -127,10 +127,10 @@ export const NavigationHeader: React.FC = () => {
             path={navigationRoutes.home}
             element={
               <HeaderControlsContainer>
-                {account.isConnected &&
+                {/* {account.isConnected &&
                 !hiddenUI?.includes(HiddenUI.History) ? (
                   <TransactionHistoryButton />
-                ) : null}
+                ) : null} */}
                 <SettingsButton />
                 {variant === 'drawer' &&
                 subvariant === 'split' &&
