@@ -6,7 +6,10 @@ import type { FormTypeProps } from '../../stores';
 import { FormKeyHelper, useFieldValues } from '../../stores';
 import { formatTokenAmount, formatTokenPrice } from '../../utils';
 
-export const PriceFormHelperText: React.FC<FormTypeProps> = ({ formType }) => {
+export const PriceFormHelperText: React.FC<FormTypeProps> = ({
+  formType,
+  amountByPercent,
+}) => {
   const [chainId, tokenAddress] = useFieldValues(
     FormKeyHelper.getChainKey(formType),
     FormKeyHelper.getTokenKey(formType),
@@ -19,6 +22,7 @@ export const PriceFormHelperText: React.FC<FormTypeProps> = ({ formType }) => {
       isLoading={isLoading}
       tokenAddress={tokenAddress}
       token={token}
+      amountByPercent={amountByPercent}
     />
   );
 };
@@ -29,7 +33,7 @@ export const PriceFormHelperTextBase: React.FC<
     tokenAddress?: string;
     token?: TokenAmount;
   }
-> = ({ formType, isLoading, tokenAddress, token }) => {
+> = ({ formType, isLoading, tokenAddress, token, amountByPercent }) => {
   const { t } = useTranslation();
   const [amount] = useFieldValues(FormKeyHelper.getAmountKey(formType));
 
@@ -57,6 +61,7 @@ export const PriceFormHelperTextBase: React.FC<
           overflowWrap: 'break-word',
         }}
       >
+        ≈{' '}
         {t(`format.currency`, {
           value: fromAmountTokenPrice,
         })}
@@ -72,7 +77,7 @@ export const PriceFormHelperTextBase: React.FC<
           pl={0.25}
         >
           {`/ ${t(`format.number`, {
-            value: formatTokenAmount(token.amount, token.decimals),
+            value: amountByPercent,
           })}`}
         </Typography>
       ) : null}

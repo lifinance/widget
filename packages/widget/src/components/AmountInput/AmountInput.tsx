@@ -1,7 +1,7 @@
 import type { Token } from '@lifi/sdk';
 import type { BoxProps } from '@mui/material';
 import type { ChangeEvent, ReactNode } from 'react';
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useToken } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
@@ -38,17 +38,36 @@ export const AmountInput: React.FC<FormTypeProps & BoxProps> = ({
 
   const { token } = useToken(chainId, tokenAddress);
   const disabled = disabledUI?.includes(DisabledUI.FromAmount);
+  const [selectedAmount, setSelectedAmount] = useState<string>('0');
+
+  const handleSelectedAmount = (amount: string) => {
+    setSelectedAmount(amount);
+  };
+
   return (
-    <AmountInputBase
-      formType={formType}
-      token={token}
-      endAdornment={
-        !disabled ? <AmountInputEndAdornment formType={formType} /> : undefined
-      }
-      bottomAdornment={<PriceFormHelperText formType={formType} />}
-      disabled={disabled}
-      {...props}
-    />
+    <Card {...props}>
+      <AmountInputBase
+        formType={formType}
+        token={token}
+        endAdornment={undefined}
+        bottomAdornment={
+          <PriceFormHelperText
+            formType={formType}
+            amountByPercent={selectedAmount}
+          />
+        }
+        disabled={disabled}
+        {...props}
+      />
+      {!disabled ? (
+        <AmountInputEndAdornment
+          formType={formType}
+          selectedAmount={handleSelectedAmount}
+        />
+      ) : (
+        <></>
+      )}
+    </Card>
   );
 };
 
@@ -99,7 +118,7 @@ export const AmountInputBase: React.FC<
   }, [value, ref]);
 
   return (
-    <Card {...props}>
+    <>
       <CardTitle>{t('main.fromAmount')}</CardTitle>
       <FormContainer>
         <AmountInputStartAdornment formType={formType} />
@@ -124,6 +143,6 @@ export const AmountInputBase: React.FC<
           {bottomAdornment}
         </FormControl>
       </FormContainer>
-    </Card>
+    </>
   );
 };
