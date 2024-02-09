@@ -40,10 +40,11 @@ export const Routes: React.FC<BoxProps> = (props) => {
 
   return (
     <Card {...props}>
-      <CardTitle>
+      {/* <CardTitle>
         {subvariant === 'nft' ? t('main.fromAmount') : t('header.youGet')}
-      </CardTitle>
-      <ProgressToNextUpdate
+      </CardTitle> */}
+
+      {/* <ProgressToNextUpdate
         updatedAt={dataUpdatedAt || new Date().getTime()}
         timeToUpdate={refetchTime}
         isLoading={isFetching}
@@ -53,7 +54,8 @@ export const Routes: React.FC<BoxProps> = (props) => {
           top: 8,
           right: 8,
         }}
-      />
+      /> */}
+
       <Box p={2}>
         {isLoading ? (
           <RouteCardSkeleton variant="cardless" />
@@ -63,13 +65,13 @@ export const Routes: React.FC<BoxProps> = (props) => {
           <RouteCard route={currentRoute} variant="cardless" active />
         )}
 
-        <Collapse timeout={225} in={showAll} unmountOnExit mountOnEnter appear>
+        {/* <Collapse timeout={225} in={showAll} unmountOnExit mountOnEnter appear>
           <Box mt={2}>
             <Button onClick={handleCardClick} fullWidth>
               {t('button.showAll')}
             </Button>
           </Box>
-        </Collapse>
+        </Collapse> */}
       </Box>
     </Card>
   );

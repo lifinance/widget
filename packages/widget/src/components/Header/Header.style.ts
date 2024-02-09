@@ -70,6 +70,7 @@ export const DrawerWalletContainer = styled(Box)(({ theme }) => ({
 
 export const HeaderControlsContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
+  alignItems: 'center',
   gap: theme.spacing(0.5),
   '& button:last-of-type': {
     marginRight: theme.spacing(-1.25),

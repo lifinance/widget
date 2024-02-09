@@ -3,7 +3,12 @@ import { Box, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { useTranslation } from 'react-i18next';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import { useAccount, useNavigateBack } from '../../hooks';
+import {
+  useAccount,
+  useExpandableVariant,
+  useNavigateBack,
+  useRoutes,
+} from '../../hooks';
 import { useWidgetConfig } from '../../providers';
 import { useHeaderStore } from '../../stores';
 import { HiddenUI } from '../../types';
@@ -18,6 +23,7 @@ import { NavigationTabs } from './NavigationTabs';
 import { SettingsButton } from './SettingsButton';
 import { TransactionHistoryButton } from './TransactionHistoryButton';
 import { SplitWalletMenuButton } from './WalletHeader';
+import { ProgressToNextUpdate } from '../ProgressToNextUpdate';
 
 export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
@@ -99,6 +105,17 @@ export const NavigationHeader: React.FC = () => {
     }
   };
 
+  const {
+    routes,
+    isLoading,
+    isFetching,
+    isFetched,
+    dataUpdatedAt,
+    refetchTime,
+    refetch,
+  } = useRoutes();
+  const expandable = useExpandableVariant();
+
   return (
     <>
       <HeaderAppBar elevation={0}>
@@ -131,7 +148,18 @@ export const NavigationHeader: React.FC = () => {
                 !hiddenUI?.includes(HiddenUI.History) ? (
                   <TransactionHistoryButton />
                 ) : null} */}
+
+                {!expandable ? (
+                  <ProgressToNextUpdate
+                    updatedAt={dataUpdatedAt || new Date().getTime()}
+                    timeToUpdate={refetchTime}
+                    isLoading={isFetching}
+                    onClick={() => refetch()}
+                  />
+                ) : null}
+
                 <SettingsButton />
+
                 {variant === 'drawer' &&
                 subvariant === 'split' &&
                 !hiddenUI?.includes(HiddenUI.DrawerCloseButton) ? (
