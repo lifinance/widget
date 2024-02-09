@@ -10,10 +10,7 @@ import type { FormTypeProps } from '../../stores';
 import { FormKeyHelper, useFieldActions, useFieldValues } from '../../stores';
 import { MaxButton, MaxButtonSkeleton } from './AmountInputAdornment.style';
 
-export const AmountInputEndAdornment = ({
-  formType,
-  selectedAmount,
-}: FormTypeProps) => {
+export const AmountInputEndAdornment = ({ formType }: FormTypeProps) => {
   const { t } = useTranslation();
   const { getChainById } = useAvailableChains();
   const { setFieldValue } = useFieldActions();
@@ -61,7 +58,6 @@ export const AmountInputEndAdornment = ({
       }
     }
     if (maxAmount) {
-      selectedAmount(formatUnits(maxAmount, token.decimals));
       setFieldValue(
         FormKeyHelper.getAmountKey(formType),
         formatUnits(maxAmount, token.decimals),
@@ -90,7 +86,6 @@ export const AmountInputEndAdornment = ({
     }
     if (maxAmount) {
       const formatAmount = formatUnits(maxAmount, token.decimals);
-      selectedAmount((Number(formatAmount) * value).toString());
       setFieldValue(
         FormKeyHelper.getAmountKey(formType),
         (Number(formatAmount) * value).toString(),

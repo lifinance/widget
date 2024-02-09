@@ -114,7 +114,7 @@ export const NavigationHeader: React.FC = () => {
     refetchTime,
     refetch,
   } = useRoutes();
-  const expandable = useExpandableVariant();
+  const currentRoute = routes?.[0];
 
   return (
     <>
@@ -149,7 +149,7 @@ export const NavigationHeader: React.FC = () => {
                   <TransactionHistoryButton />
                 ) : null} */}
 
-                {!expandable ? (
+                {currentRoute && !isLoading ? (
                   <ProgressToNextUpdate
                     updatedAt={dataUpdatedAt || new Date().getTime()}
                     timeToUpdate={refetchTime}

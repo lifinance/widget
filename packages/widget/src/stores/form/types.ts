@@ -100,8 +100,6 @@ export type FormType = 'from' | 'to';
 
 export interface FormTypeProps {
   formType: FormType;
-  selectedAmount?: any;
-  amountByPercent?: string;
 }
 
 export const FormKeyHelper = {

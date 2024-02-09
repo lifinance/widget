@@ -18,6 +18,14 @@ import { TokenContainer } from './RouteCard.style';
 import { RouteCardEssentials } from './RouteCardEssentials';
 import { RouteCardEssentialsExpanded } from './RouteCardEssentialsExpanded';
 import type { RouteCardProps } from './types';
+import { useTokenAddressBalance } from '../../hooks';
+import { FormKeyHelper, useFieldValues } from '../../stores';
+import numeral from 'numeral';
+
+const calculateTokenToAmount = (fromUSD: any, toUSD: any) => {
+  const fromValue = 1 * Number(fromUSD);
+  return numeral(fromValue / Number(toUSD)).format('0,0.000000');
+};
 
 export const RouteCard: React.FC<
   RouteCardProps & Omit<CardProps, 'variant'>
@@ -47,19 +55,35 @@ export const RouteCard: React.FC<
   const RecommendedTagTooltip =
     route.tags?.[0] === 'RECOMMENDED' ? RecommendedTooltip : Fragment;
 
+  const [chainId, tokenAddress] = useFieldValues(
+    FormKeyHelper.getChainKey('from'),
+    FormKeyHelper.getTokenKey('from'),
+  );
+
+  const dataTokenFrom = useTokenAddressBalance(chainId, tokenAddress);
+
   const cardContent = (
     <Box flex={1}>
       {subvariant !== 'refuel' && (insurable || route.tags?.length) ? (
         <Box display="flex" alignItems="center" mb={2}>
           {route.tags?.length ? (
-            <RecommendedTagTooltip>
-              <CardLabel type={active ? 'active' : undefined}>
-                <CardLabelTypography>
-                  {t(`main.tags.${route.tags[0].toLowerCase()}` as any)}
-                </CardLabelTypography>
-              </CardLabel>
-            </RecommendedTagTooltip>
+            // <RecommendedTagTooltip>
+            //   <CardLabel type={active ? 'active' : undefined}>
+            //     <CardLabelTypography>
+            //       {t(`main.tags.${route.tags[0].toLowerCase()}` as any)}
+            //     </CardLabelTypography>
+            //   </CardLabel>
+            // </RecommendedTagTooltip>
+            <div>
+              1 {dataTokenFrom?.token?.symbol} ≈{' '}
+              {calculateTokenToAmount(
+                dataTokenFrom?.token?.priceUSD,
+                token?.priceUSD,
+              )}{' '}
+              {token.symbol}
+            </div>
           ) : null}
+
           {insurable ? (
             <InsuranceTooltip
               insuredAmount={formatTokenAmount(
@@ -78,6 +102,7 @@ export const RouteCard: React.FC<
           ) : null}
         </Box>
       ) : null}
+
       <TokenContainer>
         <Token
           token={token}
@@ -90,15 +115,19 @@ export const RouteCard: React.FC<
           </CardIconButton>
         ) : null}
       </TokenContainer>
+
       <Collapse timeout={225} in={cardExpanded} mountOnEnter unmountOnExit>
         {route.steps.map((step) => (
           <StepActions key={step.id} step={step} mt={2} />
         ))}
         <RouteCardEssentialsExpanded route={route} />
       </Collapse>
+
       <Collapse timeout={225} in={!cardExpanded} mountOnEnter unmountOnExit>
         <RouteCardEssentials route={route} />
       </Collapse>
+
+      <div>hello world</div>
     </Box>
   );
 

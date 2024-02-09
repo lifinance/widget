@@ -1,7 +1,7 @@
 import type { Token } from '@lifi/sdk';
 import type { BoxProps } from '@mui/material';
 import type { ChangeEvent, ReactNode } from 'react';
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useToken } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
@@ -38,11 +38,6 @@ export const AmountInput: React.FC<FormTypeProps & BoxProps> = ({
 
   const { token } = useToken(chainId, tokenAddress);
   const disabled = disabledUI?.includes(DisabledUI.FromAmount);
-  const [selectedAmount, setSelectedAmount] = useState<string>('0');
-
-  const handleSelectedAmount = (amount: string) => {
-    setSelectedAmount(amount);
-  };
 
   return (
     <Card {...props}>
@@ -50,23 +45,11 @@ export const AmountInput: React.FC<FormTypeProps & BoxProps> = ({
         formType={formType}
         token={token}
         endAdornment={undefined}
-        bottomAdornment={
-          <PriceFormHelperText
-            formType={formType}
-            amountByPercent={selectedAmount}
-          />
-        }
+        bottomAdornment={<PriceFormHelperText formType={formType} />}
         disabled={disabled}
         {...props}
       />
-      {!disabled ? (
-        <AmountInputEndAdornment
-          formType={formType}
-          selectedAmount={handleSelectedAmount}
-        />
-      ) : (
-        <></>
-      )}
+      {!disabled ? <AmountInputEndAdornment formType={formType} /> : <></>}
     </Card>
   );
 };
