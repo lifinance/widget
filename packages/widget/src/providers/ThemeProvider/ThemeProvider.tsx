@@ -1,6 +1,8 @@
 import type { PaletteMode } from '@mui/material';
-import { useMediaQuery } from '@mui/material';
-import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
+import {
+  ThemeProvider as MuiThemeProvider,
+  useMediaQuery,
+} from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import { createTheme } from '../../config/theme.js';
 import { useAppearance } from '../../stores/settings/useAppearance.js';

@@ -1,7 +1,12 @@
 import type { BoxProps, Theme } from '@mui/material';
-import { Box } from '@mui/material';
-import { badgeClasses } from '@mui/material/Badge';
-import { alpha, darken, lighten, styled } from '@mui/material/styles';
+import {
+  Box,
+  alpha,
+  badgeClasses,
+  darken,
+  lighten,
+  styled,
+} from '@mui/material';
 import type { MouseEventHandler } from 'react';
 
 type CardVariant = 'default' | 'selected' | 'error';

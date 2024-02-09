@@ -1,5 +1,4 @@
-import { cardHeaderClasses } from '@mui/material/CardHeader';
-import { styled } from '@mui/material/styles';
+import { cardHeaderClasses, styled } from '@mui/material';
 import { CardHeader } from '../Card/CardHeader.js';
 
 export const SelectTokenCardHeader = styled(CardHeader, {

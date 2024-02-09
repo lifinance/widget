@@ -1,6 +1,10 @@
-import { IconButton, Badge as MuiBadge } from '@mui/material';
-import { badgeClasses } from '@mui/material/Badge';
-import { darken, styled } from '@mui/material/styles';
+import {
+  IconButton,
+  Badge as MuiBadge,
+  badgeClasses,
+  darken,
+  styled,
+} from '@mui/material';
 import {
   getInfoBackgroundColor,
   getWarningBackgroundColor,

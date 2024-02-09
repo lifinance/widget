@@ -1,5 +1,9 @@
-import { IconButton as MuiIconButton } from '@mui/material';
-import { darken, lighten, styled } from '@mui/material/styles';
+import {
+  IconButton as MuiIconButton,
+  darken,
+  lighten,
+  styled,
+} from '@mui/material';
 
 export const IconButton = styled(MuiIconButton)(({ theme }) => ({
   height: 32,

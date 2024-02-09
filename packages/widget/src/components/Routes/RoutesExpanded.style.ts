@@ -1,5 +1,4 @@
-import { Box, ScopedCssBaseline } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Box, ScopedCssBaseline, styled } from '@mui/material';
 import { maxHeight } from '../AppContainer.js';
 
 export const CollapseContainer = styled(Box)(({ theme }) => ({

@@ -1,6 +1,5 @@
 import { WarningRounded } from '@mui/icons-material';
-import { Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Typography, styled } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { AlertMessage } from '../AlertMessage/AlertMessage.js';
 

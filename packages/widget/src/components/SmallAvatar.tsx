@@ -1,5 +1,4 @@
-import { Avatar, Box, Skeleton } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Avatar, Box, Skeleton, styled } from '@mui/material';
 
 export const SmallAvatar = styled(Avatar)(({ theme }) => ({
   background: theme.palette.background.paper,

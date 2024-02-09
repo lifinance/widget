@@ -1,6 +1,4 @@
-import { Box, Badge as MuiBadge } from '@mui/material';
-import { badgeClasses } from '@mui/material/Badge';
-import { styled } from '@mui/material/styles';
+import { Box, Badge as MuiBadge, badgeClasses, styled } from '@mui/material';
 
 export const SettingsList = styled(Box)(({ theme }) => ({
   display: 'flex',

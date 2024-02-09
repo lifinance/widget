@@ -1,9 +1,11 @@
-import { Select as MuiSelect } from '@mui/material';
-import { inputBaseClasses } from '@mui/material/InputBase';
-import { listItemIconClasses } from '@mui/material/ListItemIcon';
-import { outlinedInputClasses } from '@mui/material/OutlinedInput';
-import { selectClasses } from '@mui/material/Select';
-import { styled } from '@mui/material/styles';
+import {
+  Select as MuiSelect,
+  inputBaseClasses,
+  listItemIconClasses,
+  outlinedInputClasses,
+  selectClasses,
+  styled,
+} from '@mui/material';
 
 export const Select = styled(MuiSelect, {
   shouldForwardProp: (prop) => prop !== 'dense',

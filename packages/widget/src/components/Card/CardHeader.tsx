@@ -1,6 +1,8 @@
-import { CardHeader as MuiCardHeader } from '@mui/material';
-import { cardHeaderClasses } from '@mui/material/CardHeader';
-import { styled } from '@mui/material/styles';
+import {
+  CardHeader as MuiCardHeader,
+  cardHeaderClasses,
+  styled,
+} from '@mui/material';
 
 export const CardHeader = styled(MuiCardHeader)(({ theme }) => ({
   [`.${cardHeaderClasses.action}`]: {

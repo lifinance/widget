@@ -1,5 +1,4 @@
-import { Box } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Box, styled } from '@mui/material';
 import { Card } from '../../components/Card/Card.js';
 
 export const ChainCard = styled(Card)({

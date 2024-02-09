@@ -1,6 +1,12 @@
-import { AppBar, Box, Button, badgeClasses } from '@mui/material';
-import { buttonClasses } from '@mui/material/Button';
-import { alpha, styled } from '@mui/material/styles';
+import {
+  AppBar,
+  Box,
+  Button,
+  alpha,
+  badgeClasses,
+  buttonClasses,
+  styled,
+} from '@mui/material';
 import { Tabs } from '../Tabs/Tabs.style.js';
 
 export const HeaderAppBar = styled(AppBar)(({ theme }) => ({

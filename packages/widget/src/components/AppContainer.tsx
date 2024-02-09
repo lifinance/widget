@@ -1,5 +1,4 @@
-import { Box, Container, ScopedCssBaseline } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Box, Container, ScopedCssBaseline, styled } from '@mui/material';
 import type { PropsWithChildren } from 'react';
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
 import type { WidgetVariant } from '../types/widget.js';

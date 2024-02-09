@@ -5,7 +5,7 @@ import {
   InfoRounded,
   WarningRounded,
 } from '@mui/icons-material';
-import { darken } from '@mui/material/styles';
+import { darken } from '@mui/material';
 import {
   CircularIcon,
   CircularProgressPending,

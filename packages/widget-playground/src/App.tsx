@@ -17,11 +17,12 @@ import {
   Slider,
   Switch,
   TextField,
+  ThemeProvider,
   Tooltip,
   Typography,
+  createTheme,
   useMediaQuery,
 } from '@mui/material';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { WalletButtons } from './components/WalletButtons';
 import { WidgetEvents } from './components/WidgetEvents';

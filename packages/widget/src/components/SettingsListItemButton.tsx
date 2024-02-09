@@ -1,4 +1,4 @@
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material';
 import { ListItemButton as ListItemButtonBase } from './ListItemButton.js';
 
 export const SettingsListItemButton = styled(ListItemButtonBase)(

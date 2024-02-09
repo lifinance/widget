@@ -1,8 +1,10 @@
-import { Menu as MuiMenu } from '@mui/material';
-import { menuClasses } from '@mui/material/Menu';
-import { menuItemClasses } from '@mui/material/MenuItem';
-import { styled } from '@mui/material/styles';
-import { svgIconClasses } from '@mui/material/SvgIcon';
+import {
+  Menu as MuiMenu,
+  menuClasses,
+  menuItemClasses,
+  styled,
+  svgIconClasses,
+} from '@mui/material';
 
 export const WalletMenuContainer = styled(MuiMenu)(({ theme }) => ({
   [`& .${menuClasses.paper}`]: {

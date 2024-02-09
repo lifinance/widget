@@ -1,5 +1,4 @@
-import { Link as MuiLink } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Link as MuiLink, styled } from '@mui/material';
 
 export const Link = styled(MuiLink)(({ theme }) => ({
   display: 'flex',

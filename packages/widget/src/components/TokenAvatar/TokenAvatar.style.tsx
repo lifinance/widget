@@ -1,8 +1,11 @@
 import type { CSSObject } from '@mui/material';
-import { AvatarGroup, Box } from '@mui/material';
-import { avatarClasses } from '@mui/material/Avatar';
-import { badgeClasses } from '@mui/material/Badge';
-import { styled } from '@mui/material/styles';
+import {
+  AvatarGroup,
+  Box,
+  avatarClasses,
+  badgeClasses,
+  styled,
+} from '@mui/material';
 
 export const TokenAvatarGroup = styled(AvatarGroup)(({ theme }) => ({
   [`& .${badgeClasses.badge}:last-child .${avatarClasses.root}`]: {

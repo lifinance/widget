@@ -4,21 +4,25 @@ import { join } from 'path';
 const { stat: _stat, readFile, readdir, writeFile } = fsExtra;
 
 const replaceInFile = async (filePath) => {
-  let content = await readFile(filePath, 'utf8');
+  // let content = await readFile(filePath, 'utf8');
   // Regular expression to find the import statement
-  const regex = /import {\s*([\w\s,]+)\s*} from '@mui\/icons-material';/gs;
+  // const iconsMaterialRegex =
+  //   /import {\s*([\w\s,]+)\s*} from '@mui\/icons-material';/gs;
+  // const materialStyle = "from '@mui/material/styles'";
+  // const materialStyleReplace = "from '@mui/material/styles/index.js'";
   // Replace the found import statement with individual import lines
-  content = content.replace(regex, (match, iconNames) => {
-    return iconNames
-      .split(',')
-      .map((name) => name.trim())
-      .filter((name) => name.length)
-      .map(
-        (name) => `import ${name} from '@mui/icons-material/esm/${name}.js';`,
-      )
-      .join('\n');
-  });
-  await writeFile(filePath, content, 'utf8');
+  // content = content.replace(iconsMaterialRegex, (match, iconNames) => {
+  //   return iconNames
+  //     .split(',')
+  //     .map((name) => name.trim())
+  //     .filter((name) => name.length)
+  //     .map(
+  //       (name) => `import ${name} from '@mui/icons-material/esm/${name}.js';`,
+  //     )
+  //     .join('\n');
+  // });
+  // .replace(materialStyle, materialStyleReplace);
+  // await writeFile(filePath, content, 'utf8');
 };
 
 export const correctMuiIcons = async (dir) => {
