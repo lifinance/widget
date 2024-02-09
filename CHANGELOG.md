@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.10.1](https://github.com/lifinance/widget/compare/v2.10.0...v2.10.1) (2024-02-09)
+
+
+### Bug Fixes
+
+* expandable variant is not shown with a deep route tree ([#185](https://github.com/lifinance/widget/issues/185)) ([2949a3b](https://github.com/lifinance/widget/commit/2949a3b4984314819f776a7deb8d90e1bee9aad8))
+* support cashtags in token search ([677d527](https://github.com/lifinance/widget/commit/677d52713f0cfb2eb58e78211fd1d316da7ae068))
+
 ## [2.10.0](https://github.com/lifinance/widget/compare/v2.9.5...v2.10.0) (2024-01-04)
 
 

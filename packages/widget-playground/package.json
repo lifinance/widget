@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-playground",
-  "version": "1.0.159",
+  "version": "1.0.160",
   "type": "module",
   "scripts": {
     "analyze": "source-map-explorer 'dist/assets/*.js' --no-border-checks",
@@ -26,7 +26,7 @@
     "@ethersproject/providers": "^5.7.2",
     "@lifi/sdk": "^2.5.0",
     "@lifi/wallet-management": "^2.6.0",
-    "@lifi/widget": "^2.10.0",
+    "@lifi/widget": "^2.10.1",
     "@mui/icons-material": "^5.14.14",
     "@mui/lab": "^5.0.0-alpha.149",
     "@mui/material": "^5.14.14",
