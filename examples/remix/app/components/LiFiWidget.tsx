@@ -1,4 +1,5 @@
 import { Suspense, lazy } from 'react';
+import { Fallback } from './Fallback';
 
 const LiFiWidgetLazy = lazy(async () => {
   const module = await import('@lifi/widget');
@@ -8,7 +9,7 @@ const LiFiWidgetLazy = lazy(async () => {
 
 export function LiFiWidget() {
   return (
-    <Suspense fallback={<div style={{ textAlign: 'center' }}>Loading...</div>}>
+    <Suspense fallback={<Fallback />}>
       <LiFiWidgetLazy
         config={{
           containerStyle: {

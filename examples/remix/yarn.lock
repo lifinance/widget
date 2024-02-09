@@ -1370,9 +1370,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lifi/wallet-management@npm:^3.0.0-alpha.17":
-  version: 3.0.0-alpha.17
-  resolution: "@lifi/wallet-management@npm:3.0.0-alpha.17"
+"@lifi/wallet-management@npm:^3.0.0-alpha.18":
+  version: 3.0.0-alpha.18
+  resolution: "@lifi/wallet-management@npm:3.0.0-alpha.18"
   dependencies:
     "@lifi/sdk": "npm:^3.0.0-alpha.54"
     "@solana/wallet-adapter-base": "npm:^0.9.23"
@@ -1381,18 +1381,18 @@ __metadata:
   peerDependencies:
     "@tanstack/react-query": ^5.0.0
     viem: ^2.0.0
-  checksum: 9a295e7d59d8abab71d9869f54cf4eee0f318cfbe90aecf153614c296fc01c0f667a466bcd13d2f9cc34bc610d3e02e5a09e689032c8bb1f49a275c6c726bfca
+  checksum: 9119f5e3d7be8feeb4e98b7ab5fb602212634969b18d7682a05892fdf45f48c9349f3c7fb8a83043827594c3b7e984daa0f5c3bec6b3ae187af29bc1f1aa69b4
   languageName: node
   linkType: hard
 
-"@lifi/widget@npm:^3.0.0-alpha.25":
-  version: 3.0.0-alpha.25
-  resolution: "@lifi/widget@npm:3.0.0-alpha.25"
+"@lifi/widget@npm:3.0.0-alpha.26":
+  version: 3.0.0-alpha.26
+  resolution: "@lifi/widget@npm:3.0.0-alpha.26"
   dependencies:
     "@emotion/react": "npm:^11.11.3"
     "@emotion/styled": "npm:^11.11.0"
     "@lifi/sdk": "npm:^3.0.0-alpha.54"
-    "@lifi/wallet-management": "npm:^3.0.0-alpha.17"
+    "@lifi/wallet-management": "npm:^3.0.0-alpha.18"
     "@mui/icons-material": "npm:^5.15.8"
     "@mui/lab": "npm:^5.0.0-alpha.164"
     "@mui/material": "npm:^5.15.8"
@@ -1424,7 +1424,7 @@ __metadata:
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: 087ba0131039dcdadfd0242f68feaa51671966b540d5f7aacced63ca93386f932f619ed06282c6d8da0970d18b5e2dd359458d9d539db3c9bc1b5b4ed735c77c
+  checksum: 442dcc9260eaaaf6361e1a459ff31873ee6fc515413ee0c38fadc59545a5330cd4aebd28546ab49f772c568adb639d53ebd7f486337b134430bea6f519763edd
   languageName: node
   linkType: hard
 
@@ -4308,12 +4308,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^18.2.7":
-  version: 18.2.18
-  resolution: "@types/react-dom@npm:18.2.18"
+"@types/react-dom@npm:^18.2.19":
+  version: 18.2.19
+  resolution: "@types/react-dom@npm:18.2.19"
   dependencies:
     "@types/react": "npm:*"
-  checksum: 4ef7725b4cebd4a32e049097ddfdfd855a178e63ead97ab6d3084872e7d6c1acd71aa923488123cd1015f0e0b11489d2b44f674a1df8fe82d7827eabbec6dbf1
+  checksum: 98eb760ce78f1016d97c70f605f0b1a53873a548d3c2192b40c897f694fd9c8bb12baeada16581a9c7b26f5022c1d2613547be98284d8f1b82d1611b1e3e7df0
   languageName: node
   linkType: hard
 
@@ -4326,7 +4326,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^18.2.20":
+"@types/react@npm:*, @types/react@npm:^18.2.55":
   version: 18.2.55
   resolution: "@types/react@npm:18.2.55"
   dependencies:
@@ -4404,7 +4404,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^6.7.4":
+"@typescript-eslint/eslint-plugin@npm:^6.21.0":
   version: 6.21.0
   resolution: "@typescript-eslint/eslint-plugin@npm:6.21.0"
   dependencies:
@@ -7414,7 +7414,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:^9.0.0":
+"eslint-config-prettier@npm:^9.1.0":
   version: 9.1.0
   resolution: "eslint-config-prettier@npm:9.1.0"
   peerDependencies:
@@ -7466,7 +7466,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-import@npm:^2.28.1":
+"eslint-plugin-import@npm:^2.29.1":
   version: 2.29.1
   resolution: "eslint-plugin-import@npm:2.29.1"
   dependencies:
@@ -7493,7 +7493,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-jsx-a11y@npm:^6.7.1":
+"eslint-plugin-jsx-a11y@npm:^6.8.0":
   version: 6.8.0
   resolution: "eslint-plugin-jsx-a11y@npm:6.8.0"
   dependencies:
@@ -7571,7 +7571,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.38.0":
+"eslint@npm:^8.56.0":
   version: 8.56.0
   resolution: "eslint@npm:8.56.0"
   dependencies:
@@ -9403,7 +9403,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"isbot@npm:^4.1.0":
+"isbot@npm:^4.4.0":
   version: 4.4.0
   resolution: "isbot@npm:4.4.0"
   checksum: 8ebf10efc7c7e8ba07fc105cbd24c0d9539e41b4c8e4452909f1cd44752ad0c9b2381cb4e712c977a78e82a79827eb1b8e800f211046ee96eefedb29db2acb70
@@ -12672,30 +12672,73 @@ __metadata:
   languageName: node
   linkType: hard
 
+"remix-utils@npm:^7.5.0":
+  version: 7.5.0
+  resolution: "remix-utils@npm:7.5.0"
+  dependencies:
+    type-fest: "npm:^4.3.3"
+  peerDependencies:
+    "@remix-run/cloudflare": ^2.0.0
+    "@remix-run/deno": ^2.0.0
+    "@remix-run/node": ^2.0.0
+    "@remix-run/react": ^2.0.0
+    "@remix-run/router": ^1.7.2
+    crypto-js: ^4.1.1
+    intl-parse-accept-language: ^1.0.0
+    is-ip: ^5.0.1
+    react: ^18.0.0
+    zod: ^3.22.4
+  peerDependenciesMeta:
+    "@remix-run/cloudflare":
+      optional: true
+    "@remix-run/deno":
+      optional: true
+    "@remix-run/node":
+      optional: true
+    "@remix-run/react":
+      optional: true
+    "@remix-run/router":
+      optional: true
+    crypto-js:
+      optional: true
+    intl-parse-accept-language:
+      optional: true
+    is-ip:
+      optional: true
+    react:
+      optional: true
+    zod:
+      optional: true
+  checksum: 144cd89cedab3b109ff5c66b9c225c588d46ec54cff1ce65cb95e452459275853eb01e6ed5bda698d16e3259c758be6ebe714bcee0b87e49f349e65d23c3b365
+  languageName: node
+  linkType: hard
+
 "remix@workspace:.":
   version: 0.0.0-use.local
   resolution: "remix@workspace:."
   dependencies:
-    "@lifi/widget": "npm:^3.0.0-alpha.25"
+    "@lifi/widget": "npm:3.0.0-alpha.26"
     "@remix-run/css-bundle": "npm:^2.6.0"
     "@remix-run/dev": "npm:^2.6.0"
     "@remix-run/node": "npm:^2.6.0"
     "@remix-run/react": "npm:^2.6.0"
     "@remix-run/serve": "npm:^2.6.0"
-    "@types/react": "npm:^18.2.20"
-    "@types/react-dom": "npm:^18.2.7"
-    "@typescript-eslint/eslint-plugin": "npm:^6.7.4"
-    eslint: "npm:^8.38.0"
-    eslint-config-prettier: "npm:^9.0.0"
+    "@types/react": "npm:^18.2.55"
+    "@types/react-dom": "npm:^18.2.19"
+    "@typescript-eslint/eslint-plugin": "npm:^6.21.0"
+    eslint: "npm:^8.56.0"
+    eslint-config-prettier: "npm:^9.1.0"
     eslint-import-resolver-typescript: "npm:^3.6.1"
-    eslint-plugin-import: "npm:^2.28.1"
-    eslint-plugin-jsx-a11y: "npm:^6.7.1"
+    eslint-plugin-import: "npm:^2.29.1"
+    eslint-plugin-jsx-a11y: "npm:^6.8.0"
     eslint-plugin-react: "npm:^7.33.2"
     eslint-plugin-react-hooks: "npm:^4.6.0"
-    isbot: "npm:^4.1.0"
+    isbot: "npm:^4.4.0"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
-    typescript: "npm:^5.1.6"
+    react-router-dom: "npm:^6.22.0"
+    remix-utils: "npm:^7.5.0"
+    typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
 
@@ -13997,6 +14040,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"type-fest@npm:^4.3.3":
+  version: 4.10.2
+  resolution: "type-fest@npm:4.10.2"
+  checksum: 2b1ad1270d9fabeeb506ba831d513caeb05bfc852e5e012511d785ce9dc68d773fe0a42bddf857a362c7f3406244809c5b8a698b743bb7617d4a8c470672087f
+  languageName: node
+  linkType: hard
+
 "type-is@npm:~1.6.18":
   version: 1.6.18
   resolution: "type-is@npm:1.6.18"
@@ -14071,7 +14121,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.1.6":
+"typescript@npm:^5.3.3":
   version: 5.3.3
   resolution: "typescript@npm:5.3.3"
   bin:
@@ -14091,7 +14141,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^5.1.6#optional!builtin<compat/typescript>":
+"typescript@patch:typescript@npm%3A^5.3.3#optional!builtin<compat/typescript>":
   version: 5.3.3
   resolution: "typescript@patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"
   bin:
@@ -14613,7 +14663,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"viem@npm:^2.7.1, viem@npm:^2.7.6":
+"viem@npm:^2.7.1":
   version: 2.7.6
   resolution: "viem@npm:2.7.6"
   dependencies:
@@ -14631,6 +14681,27 @@ __metadata:
     typescript:
       optional: true
   checksum: 2903cc708ce9553aae8d072f6cce6b386139767fde3dc9d42619e92041882b9dec7f09b9f1b9a6c090814493fd08eee731dba1eb3ef0c1dc653dfb20eca7dc74
+  languageName: node
+  linkType: hard
+
+"viem@npm:^2.7.6":
+  version: 2.7.8
+  resolution: "viem@npm:2.7.8"
+  dependencies:
+    "@adraffy/ens-normalize": "npm:1.10.0"
+    "@noble/curves": "npm:1.2.0"
+    "@noble/hashes": "npm:1.3.2"
+    "@scure/bip32": "npm:1.3.2"
+    "@scure/bip39": "npm:1.2.1"
+    abitype: "npm:1.0.0"
+    isows: "npm:1.0.3"
+    ws: "npm:8.13.0"
+  peerDependencies:
+    typescript: ">=5.0.4"
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 8d94abf242fbe4d5791562d433fa5ce688d3a11e0614399c2558218f4eccfe1e6a5a86774ef01095f065c7319bbc3dd143a13a586e2ddb4049a36e3a16cea302
   languageName: node
   linkType: hard
 
