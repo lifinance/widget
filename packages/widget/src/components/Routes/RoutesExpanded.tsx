@@ -3,7 +3,8 @@ import type { Route } from '@lifi/sdk';
 import { Collapse, Grow, Stack, Typography } from '@mui/material';
 import { useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useMatch, useNavigate } from 'react-router-dom';
+import type { RouteObject } from 'react-router-dom';
+import { useRoutes as useDOMRoutes, useNavigate } from 'react-router-dom';
 import { useRoutes } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
 import { useSetExecutableRoute } from '../../stores';
@@ -19,12 +20,19 @@ import {
 
 const timeout = { enter: 225, exit: 225, appear: 0 };
 
+const routes: RouteObject[] = [
+  {
+    path: '/',
+    element: true,
+  },
+];
+
 export const RoutesExpanded = () => {
-  const element = useMatch('/');
+  const match = useDOMRoutes(routes);
   return (
     <CollapseContainer>
-      <Collapse timeout={timeout} in={!!element} orientation="horizontal">
-        <Grow timeout={timeout} in={!!element} mountOnEnter unmountOnExit>
+      <Collapse timeout={timeout} in={!!match} orientation="horizontal">
+        <Grow timeout={timeout} in={!!match} mountOnEnter unmountOnExit>
           <div>
             <RoutesExpandedElement />
           </div>
@@ -50,8 +58,6 @@ export const RoutesExpandedElement = () => {
     refetch,
   } = useRoutes();
 
-  const currentRoute = routes?.[0];
-
   const handleRouteClick = (route: Route) => {
     if (isValid && !isValidating) {
       setExecutableRoute(route);
@@ -60,6 +66,8 @@ export const RoutesExpandedElement = () => {
       });
     }
   };
+
+  const currentRoute = routes?.[0];
 
   const expanded = Boolean(
     currentRoute || isLoading || isFetching || isFetched,
