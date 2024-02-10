@@ -51,6 +51,7 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
             fontWeight="500"
             lineHeight={1}
           >
+            Gas fees{' '}
             {t(`format.currency`, {
               value: fees,
             })}
@@ -73,6 +74,7 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
             fontWeight="500"
             lineHeight={1}
           >
+            About{' '}
             {new Intl.NumberFormat(i18n.language, {
               style: 'unit',
               unit: 'minute',

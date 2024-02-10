@@ -10,7 +10,13 @@ import { Trans, useTranslation } from 'react-i18next';
 import { useWidgetConfig } from '../../providers';
 import { formatTokenAmount } from '../../utils';
 import type { CardProps } from '../Card';
-import { Card, CardIconButton, CardLabel, CardLabelTypography } from '../Card';
+import {
+  Card,
+  CardIconButton,
+  CardLabel,
+  CardLabelTypography,
+  CardTitle,
+} from '../Card';
 import type { InsuredAmount } from '../Insurance';
 import { StepActions } from '../StepActions';
 import { Token } from '../Token';
@@ -74,13 +80,14 @@ export const RouteCard: React.FC<
             //     </CardLabelTypography>
             //   </CardLabel>
             // </RecommendedTagTooltip>
-            <div>
-              1 {dataTokenFrom?.token?.symbol} ≈{' '}
-              {calculateTokenToAmount(
-                dataTokenFrom?.token?.priceUSD,
-                token?.priceUSD,
-              )}{' '}
-              {token.symbol}
+            <div
+              style={{
+                fontSize: 14,
+                lineHeight: 1,
+                fontWeight: 700,
+              }}
+            >
+              Receive
             </div>
           ) : null}
 
@@ -109,25 +116,53 @@ export const RouteCard: React.FC<
           step={route.steps[0]}
           stepVisible={!cardExpanded}
         />
-        {!defaulExpanded ? (
-          <CardIconButton onClick={handleExpand} size="small">
-            {cardExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-          </CardIconButton>
-        ) : null}
       </TokenContainer>
 
-      <Collapse timeout={225} in={cardExpanded} mountOnEnter unmountOnExit>
-        {route.steps.map((step) => (
-          <StepActions key={step.id} step={step} mt={2} />
-        ))}
-        <RouteCardEssentialsExpanded route={route} />
-      </Collapse>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginTop: 8,
+        }}
+      >
+        <div style={{ fontSize: 12, fontWeight: 400 }}>
+          1 {dataTokenFrom?.token?.symbol} ≈{' '}
+          {calculateTokenToAmount(
+            dataTokenFrom?.token?.priceUSD,
+            token?.priceUSD,
+          )}{' '}
+          {token.symbol}
+        </div>
 
-      <Collapse timeout={225} in={!cardExpanded} mountOnEnter unmountOnExit>
-        <RouteCardEssentials route={route} />
-      </Collapse>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 4,
+          }}
+        >
+          <div style={{ fontSize: 12, fontWeight: 500 }}>More Info</div>
+          {!defaulExpanded ? (
+            <CardIconButton onClick={handleExpand} size="small">
+              {cardExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            </CardIconButton>
+          ) : null}
+        </div>
+      </div>
 
-      <div>hello world</div>
+      <div style={{ marginTop: -8 }}>
+        <Collapse timeout={225} in={cardExpanded} mountOnEnter unmountOnExit>
+          {route.steps.map((step) => (
+            <StepActions key={step.id} step={step} mt={2} />
+          ))}
+          <RouteCardEssentialsExpanded route={route} />
+        </Collapse>
+
+        <Collapse timeout={225} in={!cardExpanded} mountOnEnter unmountOnExit>
+          <RouteCardEssentials route={route} />
+        </Collapse>
+      </div>
     </Box>
   );
 

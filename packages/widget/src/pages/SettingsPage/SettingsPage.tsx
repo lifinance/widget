@@ -14,14 +14,14 @@ export const SettingsPage = () => {
     <PageContainer>
       <SettingsList>
         <SettingsCardAccordion>
-          <ThemeSettings />
-          <LanguageSetting />
+          {/* <ThemeSettings /> */}
+          {/* <LanguageSetting /> */}
           <RoutePrioritySettings />
           <GasPriceSettings />
-          <SlippageSettings />
+          {/* <SlippageSettings /> */}
           <BridgeAndExchangeSettings type="Bridges" />
           <BridgeAndExchangeSettings type="Exchanges" />
-          <SendToWalletOptionSetting />
+          {/* <SendToWalletOptionSetting /> */}
         </SettingsCardAccordion>
       </SettingsList>
       <ResetSettingsButton />

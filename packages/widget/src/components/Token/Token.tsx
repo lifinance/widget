@@ -104,15 +104,18 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
         </Box>
         <TextSecondaryContainer component="span">
           <TextSecondary>
+            ≈{' '}
             {t(`format.currency`, {
               value: formattedTokenPrice,
             })}
           </TextSecondary>
-          {!disableDescription ? (
+
+          {/* {!disableDescription ? (
             <TextSecondary px={0.5} dot>
               &#x2022;
             </TextSecondary>
           ) : null}
+
           {step ? (
             <TokenStep
               step={step}
@@ -123,7 +126,7 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
             </TokenStep>
           ) : (
             tokenOnChain
-          )}
+          )} */}
         </TextSecondaryContainer>
       </Box>
     </Box>

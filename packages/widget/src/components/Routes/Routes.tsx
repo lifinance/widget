@@ -1,5 +1,5 @@
 import type { BoxProps } from '@mui/material';
-import { Box, Button, Collapse } from '@mui/material';
+import { Box, Button, Collapse, Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useRoutes } from '../../hooks';
@@ -8,6 +8,37 @@ import { navigationRoutes } from '../../utils';
 import { Card, CardTitle } from '../Card';
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate';
 import { RouteCard, RouteCardSkeleton, RouteNotFoundCard } from '../RouteCard';
+
+import PercentIcon from '@mui/icons-material/Percent';
+
+export const SlippageSettings = () => {
+  const { t } = useTranslation();
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 6,
+      }}
+    >
+      <Tooltip title="HELLO" placement="top" enterDelay={400} arrow>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+            width: 'max-content',
+          }}
+        >
+          <PercentIcon />
+          <div style={{ fontWeight: 600 }}>{t(`settings.slippage`)}</div>
+        </div>
+      </Tooltip>
+      <div>hello world</div>
+    </div>
+  );
+};
 
 export const Routes: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation();
@@ -39,40 +70,64 @@ export const Routes: React.FC<BoxProps> = (props) => {
     !onlyRecommendedRoute && !routeNotFound && (routes?.length ?? 0) > 1;
 
   return (
-    <Card {...props}>
-      {/* <CardTitle>
-        {subvariant === 'nft' ? t('main.fromAmount') : t('header.youGet')}
-      </CardTitle> */}
-
-      {/* <ProgressToNextUpdate
-        updatedAt={dataUpdatedAt || new Date().getTime()}
-        timeToUpdate={refetchTime}
-        isLoading={isFetching}
-        onClick={() => refetch()}
-        sx={{
-          position: 'absolute',
-          top: 8,
-          right: 8,
-        }}
-      /> */}
-
-      <Box p={2}>
-        {isLoading ? (
-          <RouteCardSkeleton variant="cardless" />
-        ) : !currentRoute ? (
-          <RouteNotFoundCard />
-        ) : (
-          <RouteCard route={currentRoute} variant="cardless" active />
-        )}
-
-        {/* <Collapse timeout={225} in={showAll} unmountOnExit mountOnEnter appear>
-          <Box mt={2}>
-            <Button onClick={handleCardClick} fullWidth>
-              {t('button.showAll')}
-            </Button>
+    <>
+      {isLoading ? (
+        <Card {...props}>
+          <Box p={2}>
+            <RouteCardSkeleton variant="cardless" />
           </Box>
-        </Collapse> */}
-      </Box>
-    </Card>
+        </Card>
+      ) : !currentRoute ? (
+        <Card {...props}>
+          <Box p={2}>
+            <RouteNotFoundCard />
+          </Box>
+        </Card>
+      ) : (
+        <>
+          <Card {...props}>
+            {/* <CardTitle>
+              {subvariant === 'nft' ? t('main.fromAmount') : t('header.youGet')}
+            </CardTitle>
+
+            <ProgressToNextUpdate
+              updatedAt={dataUpdatedAt || new Date().getTime()}
+              timeToUpdate={refetchTime}
+              isLoading={isFetching}
+              onClick={() => refetch()}
+              sx={{
+                position: 'absolute',
+                top: 8,
+                right: 8,
+              }}
+            /> */}
+
+            <Box p={2}>
+              <RouteCard route={currentRoute} variant="cardless" active />
+
+              {/* <Collapse
+                timeout={225}
+                in={showAll}
+                unmountOnExit
+                mountOnEnter
+                appear
+              >
+                <Box mt={2}>
+                  <Button onClick={handleCardClick} fullWidth>
+                    {t('button.showAll')}
+                  </Button>
+                </Box>
+              </Collapse> */}
+            </Box>
+          </Card>
+
+          <Card {...props}>
+            <Box p={2}>
+              <SlippageSettings />
+            </Box>
+          </Card>
+        </>
+      )}
+    </>
   );
 };
