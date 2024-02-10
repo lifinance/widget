@@ -42,6 +42,7 @@ export const SlippageDefaultButton = styled(ButtonBase)<SlippageDefaultProps>(({
     : {};
 
   return {
+    flex: 1,
     height: '100%',
     width: '100%',
     fontSize: '1rem',
@@ -68,6 +69,7 @@ export const SlippageCustomInput = styled(InputBase)<SlippageDefaultProps>(({
   return {
     height: '100%',
     width: '100%',
+    flex: 0.4,
 
     [`.${inputBaseClasses.input}`]: {
       height: '100%',

@@ -53,7 +53,13 @@ export const SlippageSettings: React.FC = () => {
   };
 
   const customInputValue =
-    !slippage || slippage === defaultSlippage ? '' : slippage;
+    !slippage ||
+    slippage === defaultSlippage ||
+    slippage === '1' ||
+    slippage === '0.3' ||
+    slippage === 'Auto'
+      ? ''
+      : slippage;
 
   const badgeColor = isSlippageOutsideRecommendedLimits
     ? 'warning'
@@ -62,18 +68,79 @@ export const SlippageSettings: React.FC = () => {
       : undefined;
 
   return (
-    <SettingCardExpandable
-      value={
-        <BadgedValue
-          badgeColor={badgeColor}
-          showBadge={!!badgeColor}
-        >{`${slippage}%`}</BadgedValue>
-      }
-      icon={<PercentIcon />}
-      title={t(`settings.slippage`)}
-    >
-      <Box mt={1.5}>
-        <SettingsFieldSet>
+    // <SettingCardExpandable
+    //   value={
+    //     <BadgedValue
+    //       badgeColor={badgeColor}
+    //       showBadge={!!badgeColor}
+    //     >{`${slippage}%`}</BadgedValue>
+    //   }
+    //   icon={<PercentIcon />}
+    //   title={t(`settings.slippage`)}
+    // >
+    //   <Box mt={1.5}>
+    //     <SettingsFieldSet>
+    //       <SlippageDefaultButton
+    //         selected={defaultSlippage === slippage && focused !== 'input'}
+    //         onFocus={() => {
+    //           setFocused('button');
+    //         }}
+    //         onBlur={() => {
+    //           setFocused(undefined);
+    //         }}
+    //         onClick={handleDefaultClick}
+    //         disableRipple
+    //       >
+    //         {defaultSlippage}
+    //       </SlippageDefaultButton>
+    //       <SlippageCustomInput
+    //         selected={defaultSlippage !== slippage && focused !== 'button'}
+    //         placeholder={focused === 'input' ? '' : t('settings.custom')}
+    //         inputProps={{
+    //           inputMode: 'decimal',
+    //         }}
+    //         onChange={handleInputUpdate}
+    //         onFocus={() => {
+    //           setFocused('input');
+    //         }}
+    //         onBlur={handleInputBlur}
+    //         value={customInputValue}
+    //         autoComplete="off"
+    //       />
+    //     </SettingsFieldSet>
+    //     {isSlippageOutsideRecommendedLimits && (
+    //       <SlippageLimitsWarningContainer>
+    //         <WarningRoundedIcon color="warning" />
+    //         <Typography fontSize={13} fontWeight={400}>
+    //           {t('warning.message.slippageOutsideRecommendedLimits')}
+    //         </Typography>
+    //       </SlippageLimitsWarningContainer>
+    //     )}
+    //   </Box>
+    // </SettingCardExpandable>
+
+    <>
+      <SettingsFieldSet>
+        <div style={{ display: 'flex', gap: 6, flex: 1 }}>
+          <SlippageDefaultButton
+            selected={'0.3' === slippage && focused !== 'input'}
+            onFocus={() => {
+              setFocused('button');
+            }}
+            onBlur={() => {
+              setFocused(undefined);
+            }}
+            onClick={() => {
+              setValue(
+                'slippage',
+                formatSlippage('0.3', defaultValue.current, true),
+              );
+            }}
+            disableRipple
+          >
+            0.3
+          </SlippageDefaultButton>
+
           <SlippageDefaultButton
             selected={defaultSlippage === slippage && focused !== 'input'}
             onFocus={() => {
@@ -82,35 +149,81 @@ export const SlippageSettings: React.FC = () => {
             onBlur={() => {
               setFocused(undefined);
             }}
-            onClick={handleDefaultClick}
+            onClick={() => {
+              setValue(
+                'slippage',
+                formatSlippage(defaultSlippage, defaultValue.current),
+              );
+            }}
             disableRipple
           >
             {defaultSlippage}
           </SlippageDefaultButton>
-          <SlippageCustomInput
-            selected={defaultSlippage !== slippage && focused !== 'button'}
-            placeholder={focused === 'input' ? '' : t('settings.custom')}
-            inputProps={{
-              inputMode: 'decimal',
-            }}
-            onChange={handleInputUpdate}
+
+          <SlippageDefaultButton
+            selected={'1' === slippage && focused !== 'input'}
             onFocus={() => {
-              setFocused('input');
+              setFocused('button');
             }}
-            onBlur={handleInputBlur}
-            value={customInputValue}
-            autoComplete="off"
-          />
-        </SettingsFieldSet>
-        {isSlippageOutsideRecommendedLimits && (
-          <SlippageLimitsWarningContainer>
-            <WarningRoundedIcon color="warning" />
-            <Typography fontSize={13} fontWeight={400}>
-              {t('warning.message.slippageOutsideRecommendedLimits')}
-            </Typography>
-          </SlippageLimitsWarningContainer>
-        )}
-      </Box>
-    </SettingCardExpandable>
+            onBlur={() => {
+              setFocused(undefined);
+            }}
+            onClick={() => {
+              setValue(
+                'slippage',
+                formatSlippage('1', defaultValue.current, true),
+              );
+            }}
+            disableRipple
+          >
+            1
+          </SlippageDefaultButton>
+
+          <SlippageDefaultButton
+            selected={'Auto' === slippage && focused !== 'input'}
+            onFocus={() => {
+              setFocused('button');
+            }}
+            onBlur={() => {
+              setFocused(undefined);
+            }}
+            onClick={() => {}}
+            disableRipple
+          >
+            Auto
+          </SlippageDefaultButton>
+        </div>
+
+        <SlippageCustomInput
+          selected={
+            defaultSlippage !== slippage &&
+            '1' !== slippage &&
+            '0.3' !== slippage &&
+            'Auto' !== slippage &&
+            focused !== 'button'
+          }
+          placeholder={focused === 'input' ? '' : t('settings.custom')}
+          inputProps={{
+            inputMode: 'decimal',
+          }}
+          onChange={handleInputUpdate}
+          onFocus={() => {
+            setFocused('input');
+          }}
+          onBlur={handleInputBlur}
+          value={customInputValue}
+          autoComplete="off"
+        />
+      </SettingsFieldSet>
+
+      {isSlippageOutsideRecommendedLimits && (
+        <SlippageLimitsWarningContainer>
+          <WarningRoundedIcon color="warning" />
+          <Typography fontSize={13} fontWeight={400}>
+            {t('warning.message.slippageOutsideRecommendedLimits')}
+          </Typography>
+        </SlippageLimitsWarningContainer>
+      )}
+    </>
   );
 };

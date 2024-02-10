@@ -1,44 +1,15 @@
 import type { BoxProps } from '@mui/material';
-import { Box, Button, Collapse, Tooltip } from '@mui/material';
+import { Box, Button, Collapse, Tooltip, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useRoutes } from '../../hooks';
+import { useRoutes, useSettingMonitor } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
-import { navigationRoutes } from '../../utils';
+import { navigationRoutes, formatSlippage } from '../../utils';
 import { Card, CardTitle } from '../Card';
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate';
 import { RouteCard, RouteCardSkeleton, RouteNotFoundCard } from '../RouteCard';
-
 import PercentIcon from '@mui/icons-material/Percent';
-
-export const SlippageSettings = () => {
-  const { t } = useTranslation();
-
-  return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 6,
-      }}
-    >
-      <Tooltip title="HELLO" placement="top" enterDelay={400} arrow>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 6,
-            width: 'max-content',
-          }}
-        >
-          <PercentIcon />
-          <div style={{ fontWeight: 600 }}>{t(`settings.slippage`)}</div>
-        </div>
-      </Tooltip>
-      <div>hello world</div>
-    </div>
-  );
-};
+import { SlippageSettings } from '../../pages/SettingsPage/SlippageSettings';
 
 export const Routes: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation();
@@ -123,7 +94,30 @@ export const Routes: React.FC<BoxProps> = (props) => {
 
           <Card {...props}>
             <Box p={2}>
-              <SlippageSettings />
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 6,
+                }}
+              >
+                <Tooltip title="HELLO" placement="top" enterDelay={400} arrow>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 6,
+                      width: 'max-content',
+                    }}
+                  >
+                    <PercentIcon />
+                    <div style={{ fontWeight: 600 }}>
+                      {t(`settings.slippage`)}
+                    </div>
+                  </div>
+                </Tooltip>
+                <SlippageSettings />
+              </div>
             </Box>
           </Card>
         </>
