@@ -27,6 +27,7 @@ export const SlippageSettings: React.FC = () => {
   const setValue = useSettingsStore((state) => state.setValue);
   const defaultValue = useRef(slippage);
   const [focused, setFocused] = useState<'input' | 'button'>();
+  const [isAuto, setIsAuto] = useState<boolean>(false);
 
   const handleDefaultClick = () => {
     setValue('slippage', formatSlippage(defaultSlippage, defaultValue.current));
@@ -35,6 +36,7 @@ export const SlippageSettings: React.FC = () => {
   const handleInputUpdate: ChangeEventHandler<HTMLInputElement> = (event) => {
     const { value } = event.target;
 
+    setIsAuto(false);
     setValue(
       'slippage',
       formatSlippage(value || defaultSlippage, defaultValue.current, true),
@@ -46,6 +48,7 @@ export const SlippageSettings: React.FC = () => {
 
     const { value } = event.target;
 
+    setIsAuto(false);
     setValue(
       'slippage',
       formatSlippage(value || defaultSlippage, defaultValue.current),
@@ -53,7 +56,7 @@ export const SlippageSettings: React.FC = () => {
   };
 
   const handleAutoSlippage = () => {
-    setValue('slippage', 'Auto');
+    setIsAuto(true);
   };
 
   const customInputValue =
@@ -61,7 +64,7 @@ export const SlippageSettings: React.FC = () => {
     slippage === defaultSlippage ||
     slippage === '1' ||
     slippage === '0.3' ||
-    slippage === 'Auto'
+    !isAuto
       ? ''
       : slippage;
 
@@ -127,7 +130,7 @@ export const SlippageSettings: React.FC = () => {
       <SettingsFieldSet>
         <div style={{ display: 'flex', gap: 6, flex: 1 }}>
           <SlippageDefaultButton
-            selected={'0.3' === slippage && focused !== 'input'}
+            selected={'0.3' === slippage && !isAuto && focused !== 'input'}
             onFocus={() => {
               setFocused('button');
             }}
@@ -135,6 +138,7 @@ export const SlippageSettings: React.FC = () => {
               setFocused(undefined);
             }}
             onClick={() => {
+              setIsAuto(false);
               setValue(
                 'slippage',
                 formatSlippage('0.3', defaultValue.current, true),
@@ -146,7 +150,9 @@ export const SlippageSettings: React.FC = () => {
           </SlippageDefaultButton>
 
           <SlippageDefaultButton
-            selected={defaultSlippage === slippage && focused !== 'input'}
+            selected={
+              defaultSlippage === slippage && !isAuto && focused !== 'input'
+            }
             onFocus={() => {
               setFocused('button');
             }}
@@ -154,6 +160,7 @@ export const SlippageSettings: React.FC = () => {
               setFocused(undefined);
             }}
             onClick={() => {
+              setIsAuto(false);
               setValue(
                 'slippage',
                 formatSlippage(defaultSlippage, defaultValue.current),
@@ -165,7 +172,7 @@ export const SlippageSettings: React.FC = () => {
           </SlippageDefaultButton>
 
           <SlippageDefaultButton
-            selected={'1' === slippage && focused !== 'input'}
+            selected={'1' === slippage && !isAuto && focused !== 'input'}
             onFocus={() => {
               setFocused('button');
             }}
@@ -173,6 +180,7 @@ export const SlippageSettings: React.FC = () => {
               setFocused(undefined);
             }}
             onClick={() => {
+              setIsAuto(false);
               setValue(
                 'slippage',
                 formatSlippage('1', defaultValue.current, true),
@@ -184,7 +192,7 @@ export const SlippageSettings: React.FC = () => {
           </SlippageDefaultButton>
 
           <SlippageDefaultButton
-            selected={'Auto' === slippage && focused !== 'input'}
+            selected={isAuto && focused !== 'input'}
             onFocus={() => {
               setFocused('button');
             }}
@@ -203,7 +211,7 @@ export const SlippageSettings: React.FC = () => {
             defaultSlippage !== slippage &&
             '1' !== slippage &&
             '0.3' !== slippage &&
-            'Auto' !== slippage &&
+            !isAuto &&
             focused !== 'button'
           }
           placeholder={focused === 'input' ? '' : t('settings.custom')}

@@ -1,6 +1,7 @@
 import AccessTimeIcon from '@mui/icons-material/AccessTimeFilled';
 import LayersIcon from '@mui/icons-material/Layers';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import BarChartIcon from '@mui/icons-material/BarChart';
 import { Box, Typography } from '@mui/material';
 import type { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
@@ -91,6 +92,41 @@ export const RouteCardEssentialsExpanded: React.FC<
           </Typography>
         </Box>
       </Box>
+
+      <Box mt={2}>
+        <Box display="flex" alignItems="center">
+          <IconTypography ml={1} mr={3}>
+            <BarChartIcon />
+          </IconTypography>
+          <Typography
+            fontSize={16}
+            color="text.primary"
+            fontWeight="600"
+            lineHeight={1.125}
+          >
+            $231
+          </Typography>
+        </Box>
+        <Box mt={0.5} ml={7}>
+          <Typography
+            fontSize={12}
+            color="text.secondary"
+            fontWeight="500"
+            lineHeight={1.125}
+          >
+            Your Profit and Loss receive:
+          </Typography>
+          <Typography
+            fontSize={12}
+            color="text.secondary"
+            fontWeight="500"
+            lineHeight={1.125}
+          >
+            $231 gain 10%
+          </Typography>
+        </Box>
+      </Box>
+
       <Box display="flex" alignItems="center" mt={2}>
         <IconTypography ml={1} mr={3}>
           <AccessTimeIcon />
@@ -106,6 +142,18 @@ export const RouteCardEssentialsExpanded: React.FC<
             unit: 'minute',
             unitDisplay: 'long',
           }).format(executionTimeMinutes)}
+        </Typography>
+      </Box>
+
+      <Box display="flex" alignItems="center" mt={2} gap={3.2}>
+        <div style={{ marginLeft: 12, fontSize: 18 }}>🔶</div>
+        <Typography
+          fontSize={16}
+          color="#e3a008"
+          fontWeight="600"
+          lineHeight={1.125}
+        >
+          1000 GM Point
         </Typography>
       </Box>
     </Box>

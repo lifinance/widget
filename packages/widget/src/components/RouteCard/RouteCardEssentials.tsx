@@ -1,5 +1,6 @@
 import AccessTimeIcon from '@mui/icons-material/AccessTimeFilled';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import BarChartIcon from '@mui/icons-material/BarChart';
 import { Box, Tooltip, Typography } from '@mui/material';
 import type { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
@@ -23,27 +24,71 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
   const fees =
     gasCostUSD + feeCosts.reduce((sum, feeCost) => sum + feeCost.amountUSD, 0);
   return (
-    <Box display="flex" justifyContent={'space-between'} flex={1} mt={2}>
-      <Tooltip
-        title={
-          <Box component="span">
-            {t('main.fees.networkEstimated')}
-            {getFeeBreakdownTypography(gasCosts, t)}
-            {feeCosts.length ? (
-              <Box mt={1}>
-                {t('main.fees.providerEstimated')}
-                {getFeeBreakdownTypography(feeCosts, t)}
-              </Box>
-            ) : null}
+    <>
+      <Box display="flex" justifyContent={'space-between'} flex={1} mt={2}>
+        <Tooltip
+          title={
+            <Box component="span">
+              {t('main.fees.networkEstimated')}
+              {getFeeBreakdownTypography(gasCosts, t)}
+              {feeCosts.length ? (
+                <Box mt={1}>
+                  {t('main.fees.providerEstimated')}
+                  {getFeeBreakdownTypography(feeCosts, t)}
+                </Box>
+              ) : null}
+            </Box>
+          }
+          placement="top"
+          enterDelay={400}
+          arrow
+        >
+          <Box display="flex" alignItems="center">
+            <IconTypography mr={0.5}>
+              <MonetizationOnIcon fontSize="small" />
+            </IconTypography>
+            <Typography
+              fontSize={14}
+              color="text.primary"
+              fontWeight="500"
+              lineHeight={1}
+            >
+              Gas fees{' '}
+              {t(`format.currency`, {
+                value: fees,
+              })}
+            </Typography>
           </Box>
-        }
-        placement="top"
-        enterDelay={400}
-        arrow
-      >
+        </Tooltip>
+        <Tooltip
+          title={t(`tooltip.estimatedTime`)}
+          placement="top"
+          enterDelay={400}
+          arrow
+        >
+          <Box display="flex" alignItems="center">
+            <IconTypography mr={0.5}>
+              <AccessTimeIcon fontSize="small" />
+            </IconTypography>
+            <Typography
+              fontSize={14}
+              color="text.primary"
+              fontWeight="500"
+              lineHeight={1}
+            >
+              {new Intl.NumberFormat(i18n.language, {
+                style: 'unit',
+                unit: 'minute',
+                unitDisplay: 'narrow',
+              }).format(executionTimeMinutes)}
+            </Typography>
+          </Box>
+        </Tooltip>
+      </Box>
+      <Box display="flex" justifyContent={'space-between'} flex={1} mt={1}>
         <Box display="flex" alignItems="center">
           <IconTypography mr={0.5}>
-            <MonetizationOnIcon fontSize="small" />
+            <BarChartIcon fontSize="small" />
           </IconTypography>
           <Typography
             fontSize={14}
@@ -51,39 +96,22 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
             fontWeight="500"
             lineHeight={1}
           >
-            Gas fees{' '}
-            {t(`format.currency`, {
-              value: fees,
-            })}
+            PnL $231 (10%)
           </Typography>
         </Box>
-      </Tooltip>
-      <Tooltip
-        title={t(`tooltip.estimatedTime`)}
-        placement="top"
-        enterDelay={400}
-        arrow
-      >
         <Box display="flex" alignItems="center">
-          <IconTypography mr={0.5}>
-            <AccessTimeIcon fontSize="small" />
-          </IconTypography>
+          <div style={{ marginRight: 5 }}>🔶</div>
           <Typography
             fontSize={14}
-            color="text.primary"
+            color="#e3a008"
             fontWeight="500"
             lineHeight={1}
           >
-            About{' '}
-            {new Intl.NumberFormat(i18n.language, {
-              style: 'unit',
-              unit: 'minute',
-              unitDisplay: 'narrow',
-            }).format(executionTimeMinutes)}
+            1000
           </Typography>
         </Box>
-      </Tooltip>
-    </Box>
+      </Box>
+    </>
   );
 };
 

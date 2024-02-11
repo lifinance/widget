@@ -207,6 +207,7 @@ export const App = () => {
                   </Select>
                 </FormControl>
               </Box>
+
               <Box pb={2} flex={1}>
                 <FormControl size="small" fullWidth>
                   <InputLabel>Widget subvariant</InputLabel>
@@ -240,6 +241,7 @@ export const App = () => {
                 />
                 {externalWallerManagement && <WalletButtons />}
               </Box>
+
               <Box p={1} flex={1}>
                 <FormControlLabel
                   control={
@@ -261,6 +263,7 @@ export const App = () => {
                   label="Dark theme"
                 />
               </Box>
+
               <Box px={1} pt={1} flex={1}>
                 <Typography gutterBottom>Border Radius</Typography>
                 <Slider
@@ -274,6 +277,7 @@ export const App = () => {
                   sx={{ width: '100%' }}
                 />
               </Box>
+
               <Box p={1} flex={1}>
                 <Typography gutterBottom>Border Radius Secondary</Typography>
                 <Slider
@@ -289,6 +293,7 @@ export const App = () => {
                   sx={{ width: '100%' }}
                 />
               </Box>
+
               <Box p={1}>
                 <TextField
                   value={fontFamily}
@@ -299,6 +304,7 @@ export const App = () => {
                   fullWidth
                 />
               </Box>
+
               <Box py={2} px={1}>
                 <TextField
                   value={primary}
@@ -310,6 +316,7 @@ export const App = () => {
                   fullWidth
                 />
               </Box>
+
               <Box py={2} px={1}>
                 <TextField
                   value={secondary}
