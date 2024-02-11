@@ -52,6 +52,10 @@ export const SlippageSettings: React.FC = () => {
     );
   };
 
+  const handleAutoSlippage = () => {
+    setValue('slippage', 'Auto');
+  };
+
   const customInputValue =
     !slippage ||
     slippage === defaultSlippage ||
@@ -187,7 +191,7 @@ export const SlippageSettings: React.FC = () => {
             onBlur={() => {
               setFocused(undefined);
             }}
-            onClick={() => {}}
+            onClick={handleAutoSlippage}
             disableRipple
           >
             Auto

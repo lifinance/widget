@@ -116,7 +116,9 @@ export const Routes: React.FC<BoxProps> = (props) => {
                     </div>
                   </div>
                 </Tooltip>
-                <SlippageSettings />
+                <div style={{ marginTop: 6 }}>
+                  <SlippageSettings />
+                </div>
               </div>
             </Box>
           </Card>
