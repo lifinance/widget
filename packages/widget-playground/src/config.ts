@@ -60,6 +60,7 @@ export const widgetBaseConfig: WidgetConfig = {
       // fee: 0.05
     },
   },
+  gmPoints: '0',
   // theme: {
   //   palette: {
   //     primary: { main: '#FFCF7D' },

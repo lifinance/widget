@@ -7,9 +7,9 @@ import { AppProvider } from './AppProvider';
 import type { WidgetConfig, WidgetProps } from './types';
 
 export const App = forwardRef<WidgetDrawer, WidgetProps>(
-  ({ elementRef, open, onClose, integrator, ...other }, ref) => {
+  ({ elementRef, open, onClose, integrator, gmPoints, ...other }, ref) => {
     const config: WidgetConfig = useMemo(() => {
-      const config = { integrator, ...other, ...other.config };
+      const config = { integrator, gmPoints, ...other, ...other.config };
       if (config.variant === 'drawer') {
         config.containerStyle = {
           height: '100%',
@@ -17,7 +17,7 @@ export const App = forwardRef<WidgetDrawer, WidgetProps>(
         };
       }
       return config;
-    }, [integrator, other]);
+    }, [integrator, gmPoints, other]);
 
     if (config.variant === 'drawer') {
       return (

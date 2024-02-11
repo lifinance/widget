@@ -48,6 +48,7 @@ export const App = () => {
   );
   const [subvariant, setSubvariant] = useState<WidgetSubvariant>('default');
   const [fontFamily, setFontFamily] = useState('Inter var, Inter, sans-serif');
+  const [gmPoint, setGmPoint] = useState('0');
   const [borderRadius, setBorderRadius] = useState(12);
   const [borderRadiusSecondary, setBorderRadiusSecondary] = useState(8);
   const [primary, setPrimaryColor] = useState('#3F49E1');
@@ -110,6 +111,7 @@ export const App = () => {
       },
       variant,
       subvariant,
+      gmPoints: gmPoint,
     }));
   }, [
     borderRadius,
@@ -122,6 +124,7 @@ export const App = () => {
     subvariant,
     systemColor,
     variant,
+    gmPoint,
   ]);
 
   useEffect(() => {
@@ -264,6 +267,17 @@ export const App = () => {
                 />
               </Box>
 
+              <Box p={1}>
+                <TextField
+                  value={gmPoint}
+                  label="GM Points"
+                  helperText=""
+                  size="small"
+                  onChange={(event) => setGmPoint(event.target.value)}
+                  fullWidth
+                />
+              </Box>
+
               <Box px={1} pt={1} flex={1}>
                 <Typography gutterBottom>Border Radius</Typography>
                 <Slider
@@ -334,6 +348,7 @@ export const App = () => {
             <LiFiWidget
               integrator={config.integrator}
               config={config}
+              gmPoints={gmPoint}
               ref={drawerRef}
               onClose={onCloseDrawer}
               open

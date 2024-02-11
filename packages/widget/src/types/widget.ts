@@ -135,6 +135,8 @@ export interface WidgetConfig {
   subvariant?: WidgetSubvariant;
   subvariantOptions?: SplitSubvariantOptions;
 
+  gmPoints: string;
+
   appearance?: Appearance;
   theme?: ThemeConfig;
   containerStyle?: CSSProperties;

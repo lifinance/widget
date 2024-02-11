@@ -20,6 +20,7 @@ export function App() {
         border: `1px solid rgb(234, 234, 234)`,
         borderRadius: '16px',
       },
+      gmPoints: '0',
       walletManagement: {
         signer: signer,
         connect: async () => {
@@ -44,7 +45,11 @@ export function App() {
   return (
     <Box>
       <WalletHeader />
-      <LiFiWidget integrator="vite-example" config={widgetConfig} />
+      <LiFiWidget
+        gmPoints={widgetConfig.gmPoints}
+        integrator="vite-example"
+        config={widgetConfig}
+      />
     </Box>
   );
 }

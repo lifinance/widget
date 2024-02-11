@@ -9,6 +9,7 @@ import { formatUnits } from 'viem';
 import { getFeeCostsBreakdown, getGasCostsBreakdown } from '../../utils';
 import { IconTypography } from './RouteCard.style';
 import type { FeesBreakdown, RouteCardEssentialsProps } from './types';
+import { useWidgetConfig } from '../../providers';
 
 export const RouteCardEssentialsExpanded: React.FC<
   RouteCardEssentialsProps
@@ -153,7 +154,7 @@ export const RouteCardEssentialsExpanded: React.FC<
           fontWeight="600"
           lineHeight={1.125}
         >
-          1000 GM Point
+          {useWidgetConfig().gmPoints} GM Points
         </Typography>
       </Box>
     </Box>

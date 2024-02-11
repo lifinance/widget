@@ -9,6 +9,7 @@ import { attemptToFindMatchingToAddressInConfig } from './utils';
 const initialContext: WidgetContextProps = {
   elementId: '',
   integrator: '',
+  gmPoints: '0',
 };
 
 const WidgetContext = createContext<WidgetContextProps>(initialContext);

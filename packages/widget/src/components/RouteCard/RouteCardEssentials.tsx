@@ -8,6 +8,7 @@ import { formatUnits } from 'viem';
 import { getFeeCostsBreakdown, getGasCostsBreakdown } from '../../utils';
 import { IconTypography } from './RouteCard.style';
 import type { FeesBreakdown, RouteCardEssentialsProps } from './types';
+import { useWidgetConfig } from '../../providers';
 
 export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
   route,
@@ -23,6 +24,7 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
   const feeCosts = getFeeCostsBreakdown(route, false);
   const fees =
     gasCostUSD + feeCosts.reduce((sum, feeCost) => sum + feeCost.amountUSD, 0);
+
   return (
     <>
       <Box display="flex" justifyContent={'space-between'} flex={1} mt={2}>
@@ -107,7 +109,7 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
             fontWeight="500"
             lineHeight={1}
           >
-            1000
+            {useWidgetConfig().gmPoints}
           </Typography>
         </Box>
       </Box>
