@@ -3142,7 +3142,7 @@ __metadata:
     "@ethersproject/providers": "npm:^5.7.2"
     "@lifi/sdk": "npm:^3.0.0-alpha.55"
     "@lifi/wallet-management": "npm:^3.0.0-alpha.19"
-    "@lifi/widget": "npm:^3.0.0-alpha.27"
+    "@lifi/widget": "npm:^3.0.0-alpha.28"
     "@mui/icons-material": "npm:^5.15.9"
     "@mui/lab": "npm:^5.0.0-alpha.165"
     "@mui/material": "npm:^5.15.9"
@@ -3169,7 +3169,7 @@ __metadata:
     "@esbuild-plugins/node-globals-polyfill": "npm:^0.2.3"
     "@lifi/sdk": "npm:^3.0.0-alpha.55"
     "@lifi/wallet-management": "npm:^3.0.0-alpha.19"
-    "@lifi/widget": "npm:^3.0.0-alpha.27"
+    "@lifi/widget": "npm:^3.0.0-alpha.28"
     "@mui/icons-material": "npm:^5.15.9"
     "@mui/lab": "npm:^5.0.0-alpha.165"
     "@mui/material": "npm:^5.15.9"
@@ -3194,7 +3194,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@lifi/widget@npm:^3.0.0-alpha.27, @lifi/widget@workspace:packages/widget":
+"@lifi/widget@npm:^3.0.0-alpha.28, @lifi/widget@workspace:packages/widget":
   version: 0.0.0-use.local
   resolution: "@lifi/widget@workspace:packages/widget"
   dependencies:
