@@ -86,7 +86,7 @@ export const EVMProvider: FC<PropsWithChildren> = ({ children }) => {
     }
     const wagmiConfig = createConfig({
       chains: _chains,
-      connectors: connectors,
+      connectors: connectors as any,
       client({ chain }) {
         return createClient({ chain, transport: http() });
       },

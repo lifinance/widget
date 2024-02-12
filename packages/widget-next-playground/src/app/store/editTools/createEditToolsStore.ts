@@ -1,7 +1,7 @@
-import { StateCreator } from 'zustand';
+import type { StateCreator } from 'zustand';
 import { createWithEqualityFn } from 'zustand/traditional';
 import { persist } from 'zustand/middleware';
-import { ToolsState } from './types';
+import type { ToolsState } from './types';
 
 export const createEditToolsStore = () =>
   createWithEqualityFn<ToolsState>(

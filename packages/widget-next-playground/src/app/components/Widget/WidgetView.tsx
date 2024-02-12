@@ -1,5 +1,4 @@
 import { LiFiWidget } from '@lifi/widget';
-import type { Dispatch, SetStateAction } from 'react';
 import React, { useEffect, useState } from 'react';
 import {
   useConfig,

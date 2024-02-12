@@ -2,7 +2,7 @@ import type { FC, PropsWithChildren } from 'react';
 import { createContext, useContext, useRef } from 'react';
 import { shallow } from 'zustand/shallow';
 import { createEditToolsStore } from './createEditToolsStore';
-import { ToolsState, ToolsStore } from './types';
+import type { ToolsState, ToolsStore } from './types';
 
 export const EditToolsContext = createContext<ToolsStore | null>(null);
 
