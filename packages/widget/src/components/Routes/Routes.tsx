@@ -7,7 +7,7 @@ import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.j
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { Card } from '../Card/Card.js';
 import { CardTitle } from '../Card/CardTitle.js';
-import { ProgressToNextUpdate } from '../ProgressToNextUpdate/ProgressToNextUpdate.js';
+import { ProgressToNextUpdate } from '../ProgressToNextUpdate.js';
 import { RouteCard } from '../RouteCard/RouteCard.js';
 import { RouteCardSkeleton } from '../RouteCard/RouteCardSkeleton.js';
 import { RouteNotFoundCard } from '../RouteCard/RouteNotFoundCard.js';

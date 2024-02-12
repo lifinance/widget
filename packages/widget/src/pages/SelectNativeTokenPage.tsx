@@ -1,13 +1,13 @@
 import { List, ListItemAvatar } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { ListItemButton } from '../../components/ListItemButton.js';
-import { ListItemText } from '../../components/ListItemText.js';
-import { PageContainer } from '../../components/PageContainer.js';
-import { TokenAvatar } from '../../components/TokenAvatar/TokenAvatar.js';
-import { useTokenSelect } from '../../components/TokenList/useTokenSelect.js';
-import { useChains } from '../../hooks/useChains.js';
-import { useNavigateBack } from '../../hooks/useNavigateBack.js';
-import type { FormTypeProps } from '../../stores/form/types.js';
+import { ListItemButton } from '../components/ListItemButton.js';
+import { ListItemText } from '../components/ListItemText.js';
+import { PageContainer } from '../components/PageContainer.js';
+import { TokenAvatar } from '../components/TokenAvatar/TokenAvatar.js';
+import { useTokenSelect } from '../components/TokenList/useTokenSelect.js';
+import { useChains } from '../hooks/useChains.js';
+import { useNavigateBack } from '../hooks/useNavigateBack.js';
+import type { FormTypeProps } from '../stores/form/types.js';
 
 export const SelectNativeTokenPage: React.FC<FormTypeProps> = ({
   formType,

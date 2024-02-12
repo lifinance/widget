@@ -8,7 +8,7 @@ import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.j
 import { useSetExecutableRoute } from '../../stores/routes/useSetExecutableRoute.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { PageContainer } from '../PageContainer.js';
-import { ProgressToNextUpdate } from '../ProgressToNextUpdate/ProgressToNextUpdate.js';
+import { ProgressToNextUpdate } from '../ProgressToNextUpdate.js';
 import { RouteCard } from '../RouteCard/RouteCard.js';
 import { RouteCardSkeleton } from '../RouteCard/RouteCardSkeleton.js';
 import { RouteNotFoundCard } from '../RouteCard/RouteNotFoundCard.js';

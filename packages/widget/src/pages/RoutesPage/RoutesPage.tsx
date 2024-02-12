@@ -2,7 +2,7 @@
 import type { Route } from '@lifi/sdk';
 import type { BoxProps } from '@mui/material';
 import { useEffect } from 'react';
-import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate/ProgressToNextUpdate.js';
+import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate.js';
 import { RouteCard } from '../../components/RouteCard/RouteCard.js';
 import { RouteCardSkeleton } from '../../components/RouteCard/RouteCardSkeleton.js';
 import { RouteNotFoundCard } from '../../components/RouteCard/RouteNotFoundCard.js';
