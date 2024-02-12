@@ -12,7 +12,6 @@ import {
   DrawerContentContainer,
   Header,
   HeaderRow,
-  Subheader,
   TabContentContainer,
   tooltipPopperZIndex,
 } from './DrawerControls.style';
@@ -26,7 +25,6 @@ import {
   FontsControl,
   WalletManagementControl,
 } from './DesignControls';
-import { LifiLogo } from '../LifiLogo';
 
 export const DrawerControls = () => {
   const [controlsTabsState, setControlsTabsState] = useState<'design' | 'code'>(
@@ -39,9 +37,7 @@ export const DrawerControls = () => {
     <Drawer variant="persistent" anchor="left" open={isDrawerOpen}>
       <DrawerContentContainer>
         <HeaderRow>
-          <Header>
-            <LifiLogo />
-          </Header>
+          <Header>Widget</Header>
           <Tooltip
             title="Close tools"
             PopperProps={{ style: { zIndex: tooltipPopperZIndex } }}
@@ -52,7 +48,6 @@ export const DrawerControls = () => {
             </IconButton>
           </Tooltip>
         </HeaderRow>
-        <Subheader>Widget</Subheader>
         <Tabs
           value={controlsTabsState}
           aria-label="tabs"

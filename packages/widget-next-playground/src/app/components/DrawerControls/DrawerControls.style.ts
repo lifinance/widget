@@ -13,13 +13,10 @@ export const Drawer = styled(MuiDrawer)(({ open }) => ({
 }));
 
 export const Header = styled('h1')({
+  fontSize: '1.5em',
   margin: 0,
   lineHeight: 0.8,
 });
-
-export const Subheader = styled('h2')(({ theme }) => ({
-  margin: theme.spacing(2, 0, 0),
-}));
 
 export const HeaderRow = styled(Box)({
   display: 'flex',
