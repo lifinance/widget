@@ -1,8 +1,10 @@
 /* eslint-disable react/no-array-index-key */
 import type { Route } from '@lifi/sdk';
 import { Collapse, Grow, Stack, Typography } from '@mui/material';
+import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useMatch, useNavigate } from 'react-router-dom';
+import type { RouteObject } from 'react-router-dom';
+import { useRoutes as useDOMRoutes, useNavigate } from 'react-router-dom';
 import { useRoutes } from '../../hooks/useRoutes.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { useSetExecutableRoute } from '../../stores/routes/useSetExecutableRoute.js';
@@ -21,12 +23,20 @@ import {
 
 const timeout = { enter: 225, exit: 225, appear: 0 };
 
+const routes: RouteObject[] = [
+  {
+    path: '/',
+    element: true,
+  },
+];
+
 export const RoutesExpanded = () => {
-  const element = useMatch('/');
+  const match = useDOMRoutes(routes);
+
   return (
     <CollapseContainer>
-      <Collapse timeout={timeout} in={!!element} orientation="horizontal">
-        <Grow timeout={timeout} in={!!element} mountOnEnter unmountOnExit>
+      <Collapse timeout={timeout} in={!!match} orientation="horizontal">
+        <Grow timeout={timeout} in={!!match} mountOnEnter unmountOnExit>
           <div>
             <RoutesExpandedElement />
           </div>
@@ -41,6 +51,8 @@ export const RoutesExpandedElement = () => {
   const navigate = useNavigate();
   const setExecutableRoute = useSetExecutableRoute();
   const { subvariant, containerStyle } = useWidgetConfig();
+  const routesRef = useRef<Route[]>();
+  const routesActiveRef = useRef(false);
   const {
     routes,
     isLoading,
@@ -51,8 +63,6 @@ export const RoutesExpandedElement = () => {
     refetch,
   } = useRoutes();
 
-  const currentRoute = routes?.[0];
-
   const handleRouteClick = (route: Route) => {
     setExecutableRoute(route);
     navigate(navigationRoutes.transactionExecution, {
@@ -60,14 +70,34 @@ export const RoutesExpandedElement = () => {
     });
   };
 
+  const onExit = () => {
+    // Clean routes cache on exit
+    routesRef.current = undefined;
+  };
+
+  // We cache routes results in ref for a better exit animation
+  if (routesRef.current && !routes?.length) {
+    routesActiveRef.current = false;
+  } else {
+    routesRef.current = routes;
+    routesActiveRef.current = Boolean(routes?.length);
+  }
+
+  const currentRoute = routesRef.current?.[0];
+
   const expanded = Boolean(
-    currentRoute || isLoading || isFetching || isFetched,
+    routesActiveRef.current || isLoading || isFetching || isFetched,
   );
 
   const routeNotFound = !currentRoute && !isLoading && !isFetching && expanded;
 
   return (
-    <Collapse timeout={timeout.enter} in={expanded} orientation="horizontal">
+    <Collapse
+      timeout={timeout.enter}
+      in={expanded}
+      orientation="horizontal"
+      onExited={onExit}
+    >
       <Grow timeout={timeout.enter} in={expanded} mountOnEnter unmountOnExit>
         <Container sx={containerStyle} enableColorScheme>
           <ScrollableContainer>
@@ -89,18 +119,18 @@ export const RoutesExpandedElement = () => {
               <Stack direction="column" spacing={2} flex={1} paddingBottom={3}>
                 {routeNotFound ? (
                   <RouteNotFoundCard />
-                ) : isLoading || (isFetching && !routes?.length) ? (
+                ) : isLoading || (isFetching && !routesRef.current?.length) ? (
                   Array.from({ length: 3 }).map((_, index) => (
                     <RouteCardSkeleton key={index} />
                   ))
                 ) : (
-                  routes?.map((route: Route, index: number) => (
+                  routesRef.current?.map((route: Route, index: number) => (
                     <RouteCard
                       key={index}
                       route={route}
                       onClick={() => handleRouteClick(route)}
                       active={index === 0}
-                      expanded={routes?.length === 1}
+                      expanded={routesRef.current?.length === 1}
                     />
                   ))
                 )}
