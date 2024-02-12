@@ -49,7 +49,7 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
             justifyContent: 'center',
             alignItems: 'center',
           }}
-          m={!hiddenReverse ? -1.125 : 1}
+          m={!hiddenReverse ? -1 : 1}
         >
           {!hiddenReverse ? (
             <ReverseTokensButton vertical={!isCompact} />
