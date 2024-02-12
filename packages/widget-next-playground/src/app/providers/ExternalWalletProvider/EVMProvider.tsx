@@ -34,15 +34,15 @@ import { createClient } from 'viem';
 import { WagmiProvider, createConfig, http } from 'wagmi';
 import { mainnet } from 'wagmi/chains';
 
-if (!process.env.NEXT_PUBLIC_VITE_WALLET_CONNECT) {
+if (!process.env.NEXT_PUBLIC_WALLET_CONNECT) {
   console.error(
-    'NEXT_PUBLIC_VITE_WALLET_CONNECT is required in the projects .env.local file',
+    'NEXT_PUBLIC_WALLET_CONNECT is required in the projects .env.local file',
   );
 }
 
 const connectors = [
   createWalletConnectConnector({
-    projectId: process.env.NEXT_PUBLIC_VITE_WALLET_CONNECT!,
+    projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT!,
   }),
   createCoinbaseConnector({ appName: 'LI.FI Playground' }),
   bitget,

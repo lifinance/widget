@@ -1,11 +1,12 @@
-import type { Dispatch, SetStateAction } from 'react';
 import { useState } from 'react';
 import TabContext from '@mui/lab/TabContext';
 import CloseIcon from '@mui/icons-material/Close';
 import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
 import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import { IconButton, Tooltip } from '@mui/material';
+import { useEditToolsActions, useEditToolsValues } from '../../store';
 import { Tabs, Tab } from '../Tabs';
+import { ExpandableCardAccordion } from '../Card';
 import {
   Drawer,
   DrawerContentContainer,
@@ -15,7 +16,6 @@ import {
   TabContentContainer,
   tooltipPopperZIndex,
 } from './DrawerControls.style';
-import { ExpandableCardAccordion } from '../Card';
 import {
   AppearanceControl,
   ButtonRadiusControl,
@@ -28,21 +28,15 @@ import {
 } from './DesignControls';
 import { LifiLogo } from '../LifiLogo';
 
-interface DrawerControlsProps {
-  open: boolean;
-  setDrawerOpen: Dispatch<SetStateAction<boolean>>;
-}
-
-export const DrawerControls = ({
-  open,
-  setDrawerOpen,
-}: DrawerControlsProps) => {
+export const DrawerControls = () => {
   const [controlsTabsState, setControlsTabsState] = useState<'design' | 'code'>(
     'design',
   );
+  const { isDrawerOpen } = useEditToolsValues();
+  const { setDrawerOpen } = useEditToolsActions();
 
   return (
-    <Drawer variant="persistent" anchor="left" open={open}>
+    <Drawer variant="persistent" anchor="left" open={isDrawerOpen}>
       <DrawerContentContainer>
         <HeaderRow>
           <Header>
@@ -53,7 +47,7 @@ export const DrawerControls = ({
             PopperProps={{ style: { zIndex: tooltipPopperZIndex } }}
             arrow
           >
-            <IconButton onClick={() => setDrawerOpen(!open)}>
+            <IconButton onClick={() => setDrawerOpen(!isDrawerOpen)}>
               <CloseIcon />
             </IconButton>
           </Tooltip>

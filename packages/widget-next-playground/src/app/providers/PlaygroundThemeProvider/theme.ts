@@ -9,6 +9,14 @@ const inter = Inter({
 });
 
 const initValues = {
+  palette: {
+    primary: {
+      main: '#3F49E1',
+    },
+    secondary: {
+      main: '#F5B5FF',
+    },
+  },
   typography: {
     fontFamily: [inter.style.fontFamily, 'sans-serif'].join(','),
   },

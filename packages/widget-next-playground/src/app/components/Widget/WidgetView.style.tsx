@@ -1,7 +1,7 @@
 import { alpha, styled } from '@mui/material/styles';
 import type { Theme } from '@mui/material';
 import { Box, Button, IconButton } from '@mui/material';
-import { drawerZIndex } from '../DrawerControls';
+import { drawerWidth, drawerZIndex } from '../DrawerControls';
 import { buttonClasses } from '@mui/material/Button';
 
 export const FloatingToolsContainer = styled(Box)(({ theme }) => ({
@@ -52,4 +52,28 @@ export const ConnectionWalletButtonBase = styled(Button)(({ theme }) => ({
   [`.${buttonClasses.startIcon} > *:nth-of-type(1)`]: {
     fontSize: '24px',
   },
+}));
+
+export const Main = styled('main', {
+  shouldForwardProp: (prop) => prop !== 'open',
+})<{
+  open?: boolean;
+}>(({ theme, open }) => ({
+  display: 'flex',
+  justifyContent: 'stretch',
+  position: 'relative',
+  flexGrow: 1,
+  padding: theme.spacing(3),
+  transition: theme.transitions.create('margin', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  marginLeft: `-${drawerWidth}px`,
+  ...(open && {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 0,
+  }),
 }));

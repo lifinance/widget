@@ -1,7 +1,7 @@
 import type { FC, PropsWithChildren } from 'react';
 import { createContext, useContext, useRef } from 'react';
 import { shallow } from 'zustand/shallow';
-import { defaultWidgetConfig } from '../defaultWidgetConfig';
+import { defaultWidgetConfig } from '../../defaultWidgetConfig';
 import type { WidgetConfigStore, WidgetConfigState } from './types';
 import { createWidgetConfigStore } from './createWidgetConfigStore';
 

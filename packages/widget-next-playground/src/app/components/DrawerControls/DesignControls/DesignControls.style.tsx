@@ -138,7 +138,8 @@ export const ColorInput = styled(InputBase)<InputBaseProps>(
     width: 97,
     padding: 0,
     backgroundColor: value as string,
-    borderRadius: theme.shape.borderRadiusSecondary,
+    borderRadius:
+      Math.max(theme.shape.borderRadius, theme.shape.borderRadiusSecondary) - 4,
     [`& .${inputBaseClasses.input}`]: {
       cursor: 'pointer',
     },
