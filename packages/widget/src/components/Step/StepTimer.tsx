@@ -1,8 +1,7 @@
 import type { LiFiStepExtended } from '@lifi/sdk';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import pkg from 'react-timer-hook';
-const { useTimer } = pkg;
+import { useTimer } from 'react-timer-hook';
 
 const getExpiryTimestamp = (step: LiFiStepExtended) =>
   new Date(
