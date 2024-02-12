@@ -1,15 +1,14 @@
-import ErrorIcon from '@mui/icons-material/Error';
-import TurnedInIcon from '@mui/icons-material/TurnedIn';
+import { Error, TurnedIn } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
 import type { ChangeEvent, MutableRefObject } from 'react';
 import { forwardRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { BottomSheetBase } from '../../components/BottomSheet';
-import { BottomSheet } from '../../components/BottomSheet';
-import { Input } from '../../components/Input';
-import { useAddressValidation } from '../../hooks';
-import type { Bookmark } from '../../stores';
-import { useBookmarkActions } from '../../stores';
+import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js';
+import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
+import { Input } from '../../components/Input.js';
+import { useAddressValidation } from '../../hooks/useAddressValidation.js';
+import type { Bookmark } from '../../stores/bookmarks/types.js';
+import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
 import {
   AddressInput,
   BookmarkInputFields,
@@ -20,8 +19,8 @@ import {
   SheetAddressContainer,
   SheetTitle,
   ValidationAlert,
-} from './SendToWalletPage.style';
-import type { BookmarkError } from './types';
+} from './SendToWalletPage.style.js';
+import type { BookmarkError } from './types.js';
 
 interface BookmarkAddressProps {
   onAddBookmark: (bookmark: Bookmark) => void;
@@ -142,7 +141,7 @@ export const BookmarkAddressSheet = forwardRef<
     <BottomSheet ref={ref} onClose={resetValues}>
       <SendToWalletSheetContainer>
         <IconContainer>
-          <TurnedInIcon sx={{ fontSize: 40 }} />
+          <TurnedIn sx={{ fontSize: 40 }} />
         </IconContainer>
         <SheetTitle>{t('sendToWallet.bookmarkWallet')}</SheetTitle>
         {validatedWallet ? (
@@ -193,9 +192,7 @@ export const BookmarkAddressSheet = forwardRef<
             </SendToWalletCard>
           )}
           {error ? (
-            <ValidationAlert icon={<ErrorIcon />}>
-              {error.message}
-            </ValidationAlert>
+            <ValidationAlert icon={<Error />}>{error.message}</ValidationAlert>
           ) : null}
         </BookmarkInputFields>
         <SendToWalletButtonRow>

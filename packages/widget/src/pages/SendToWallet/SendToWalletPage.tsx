@@ -1,25 +1,22 @@
-import ErrorIcon from '@mui/icons-material/Error';
-import HistoryIcon from '@mui/icons-material/History';
-import TurnedInIcon from '@mui/icons-material/TurnedIn';
-import WalletIcon from '@mui/icons-material/Wallet';
+import { Error, History, TurnedIn, Wallet } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 import type { ChangeEvent } from 'react';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import type { BottomSheetBase } from '../../components/BottomSheet';
-import { CardButton } from '../../components/Card';
-import {
-  useAccount,
-  useAddressValidation,
-  useChain,
-  useToAddressRequirements,
-} from '../../hooks';
-import type { Bookmark } from '../../stores';
-import { useBookmarkActions, useBookmarks, useFieldValues } from '../../stores';
-import { navigationRoutes } from '../../utils';
-import { BookmarkAddressSheet } from './BookmarkAddressSheet';
-import { ConfirmAddressSheet } from './ConfirmAddressSheet';
+import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
+import { CardButton } from '../../components/Card/CardButton.js';
+import { useAccount } from '../../hooks/useAccount.js';
+import { useAddressValidation } from '../../hooks/useAddressValidation.js';
+import { useChain } from '../../hooks/useChain.js';
+import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
+import type { Bookmark } from '../../stores/bookmarks/types.js';
+import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
+import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js';
+import { useFieldValues } from '../../stores/form/useFieldValues.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { BookmarkAddressSheet } from './BookmarkAddressSheet.js';
+import { ConfirmAddressSheet } from './ConfirmAddressSheet.js';
 import {
   AddressInput,
   SendToWalletButton,
@@ -29,7 +26,7 @@ import {
   SendToWalletPageContainer,
   ValidationAlert,
   WalletNumber,
-} from './SendToWalletPage.style';
+} from './SendToWalletPage.style.js';
 
 export const SendToWalletPage = () => {
   const { t } = useTranslation();
@@ -167,7 +164,7 @@ export const SendToWalletPage = () => {
           multiline
         />
         {errorMessage ? (
-          <ValidationAlert icon={<ErrorIcon />} sx={{ pb: 2, paddingX: 2 }}>
+          <ValidationAlert icon={<Error />} sx={{ pb: 2, paddingX: 2 }}>
             {errorMessage}
           </ValidationAlert>
         ) : null}
@@ -181,7 +178,7 @@ export const SendToWalletPage = () => {
           </SendToWalletButton>
           <Tooltip title={t('button.bookmark')} arrow>
             <SendToWalletIconButton onClick={handleBookmarkAddress}>
-              <TurnedInIcon fontSize="small" />
+              <TurnedIn fontSize="small" />
             </SendToWalletIconButton>
           </Tooltip>
         </SendToWalletButtonRow>
@@ -198,7 +195,7 @@ export const SendToWalletPage = () => {
       </SendToWalletCard>
       <CardButton
         title={t('header.recentWallets')}
-        icon={<HistoryIcon />}
+        icon={<History />}
         onClick={handleRecentWalletsClick}
       >
         {!!recentWallets.length && (
@@ -207,7 +204,7 @@ export const SendToWalletPage = () => {
       </CardButton>
       <CardButton
         title={t('sendToWallet.connectedWallets')}
-        icon={<WalletIcon />}
+        icon={<Wallet />}
         onClick={handleConnectedWalletsClick}
       >
         {!!connectedWallets.length && (
@@ -216,7 +213,7 @@ export const SendToWalletPage = () => {
       </CardButton>
       <CardButton
         title={t('header.bookmarkedWallets')}
-        icon={<TurnedInIcon />}
+        icon={<TurnedIn />}
         onClick={handleBookmarkedWalletsClick}
       >
         {!!bookmarks.length && <WalletNumber>{bookmarks.length}</WalletNumber>}

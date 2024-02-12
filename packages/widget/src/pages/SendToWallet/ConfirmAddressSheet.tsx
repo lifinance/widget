@@ -1,23 +1,23 @@
-import InfoIcon from '@mui/icons-material/Info';
-import WalletIcon from '@mui/icons-material/Wallet';
+import { Info, Wallet } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
 import type { MutableRefObject } from 'react';
 import { forwardRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { AlertMessage } from '../../components/AlertMessage';
-import type { BottomSheetBase } from '../../components/BottomSheet';
-import { BottomSheet } from '../../components/BottomSheet';
-import type { Bookmark } from '../../stores';
-import { useFieldActions, useSendToWalletStore } from '../../stores';
-import { navigationRoutes } from '../../utils';
+import { AlertMessage } from '../../components/AlertMessage/AlertMessage.js';
+import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js';
+import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
+import type { Bookmark } from '../../stores/bookmarks/types.js';
+import { useFieldActions } from '../../stores/form/useFieldActions.js';
+import { useSendToWalletStore } from '../../stores/settings/useSendToWalletStore.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import {
   IconContainer,
   SendToWalletButtonRow,
   SendToWalletSheetContainer,
   SheetAddressContainer,
   SheetTitle,
-} from './SendToWalletPage.style';
+} from './SendToWalletPage.style.js';
 
 interface ConfirmAddressSheetProps {
   onConfirm: (wallet: Bookmark) => void;
@@ -55,7 +55,7 @@ export const ConfirmAddressSheet = forwardRef<
     <BottomSheet ref={ref}>
       <SendToWalletSheetContainer>
         <IconContainer>
-          <WalletIcon sx={{ fontSize: 40 }} />
+          <Wallet sx={{ fontSize: 40 }} />
         </IconContainer>
         <SheetTitle>{t('sendToWallet.confirmWalletAddress')}</SheetTitle>
         <SheetAddressContainer>
@@ -72,7 +72,7 @@ export const ConfirmAddressSheet = forwardRef<
               {t('info.message.fundsToExchange')}
             </Typography>
           }
-          icon={<InfoIcon />}
+          icon={<Info />}
         />
         <SendToWalletButtonRow>
           <Button variant="text" onClick={handleClose} fullWidth>

@@ -2,15 +2,16 @@
 import type { LiFiStepExtended, TokenAmount } from '@lifi/sdk';
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { Card, CardTitle } from '../../components/Card';
-import { StepActions } from '../../components/StepActions';
-import { Token } from '../../components/Token';
-import { useAvailableChains } from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import { shortenAddress } from '../../utils';
-import { DestinationWalletAddress } from './DestinationWalletAddress';
-import { StepProcess } from './StepProcess';
-import { StepTimer } from './StepTimer';
+import { Card } from '../../components/Card/Card.js';
+import { CardTitle } from '../../components/Card/CardTitle.js';
+import { StepActions } from '../../components/StepActions/StepActions.js';
+import { Token } from '../../components/Token/Token.js';
+import { useAvailableChains } from '../../hooks/useAvailableChains.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { shortenAddress } from '../../utils/wallet.js';
+import { DestinationWalletAddress } from './DestinationWalletAddress.js';
+import { StepProcess } from './StepProcess.js';
+import { StepTimer } from './StepTimer.js';
 
 export const Step: React.FC<{
   step: LiFiStepExtended;

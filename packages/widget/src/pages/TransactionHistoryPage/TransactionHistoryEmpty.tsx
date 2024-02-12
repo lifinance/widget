@@ -1,4 +1,4 @@
-import ReceiptLongRoundedIcon from '@mui/icons-material/ReceiptLongRounded';
+import { ReceiptLongRounded } from '@mui/icons-material';
 import { Container, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
@@ -16,7 +16,7 @@ export const TransactionHistoryEmpty: React.FC = () => {
       }}
     >
       <Typography fontSize={48}>
-        <ReceiptLongRoundedIcon fontSize="inherit" />
+        <ReceiptLongRounded fontSize="inherit" />
       </Typography>
       <Typography fontSize={18} fontWeight={700}>
         {t('info.title.emptyTransactionHistory')}

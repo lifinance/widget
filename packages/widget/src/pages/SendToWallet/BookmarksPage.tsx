@@ -1,28 +1,34 @@
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import DeleteIcon from '@mui/icons-material/Delete';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import TurnedInIcon from '@mui/icons-material/TurnedIn';
+import {
+  ContentCopyRounded,
+  DeleteOutline,
+  MoreHoriz,
+  OpenInNewRounded,
+  TurnedIn,
+} from '@mui/icons-material';
 import { Button, ListItemAvatar, ListItemText, MenuItem } from '@mui/material';
 import { useId, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AccountAvatar } from '../../components/AccountAvatar';
-import type { BottomSheetBase } from '../../components/BottomSheet';
-import { ListItem, ListItemButton } from '../../components/ListItem';
-import { Menu } from '../../components/Menu';
-import { useChains, useToAddressRequirements } from '../../hooks';
-import type { Bookmark } from '../../stores';
-import { useBookmarkActions, useBookmarks } from '../../stores';
-import { defaultChainIdsByType, shortenAddress } from '../../utils';
-import { BookmarkAddressSheet } from './BookmarkAddressSheet';
-import { ConfirmAddressSheet } from './ConfirmAddressSheet';
-import { EmptyListIndicator } from './EmptyListIndicator';
+import { AccountAvatar } from '../../components/AccountAvatar.js';
+import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
+import { ListItemButton } from '../../components/ListItem//ListItemButton.js';
+import { ListItem } from '../../components/ListItem/ListItem.js';
+import { Menu } from '../../components/Menu.js';
+import { useChains } from '../../hooks/useChains.js';
+import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
+import type { Bookmark } from '../../stores/bookmarks/types.js';
+import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
+import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js';
+import { defaultChainIdsByType } from '../../utils/chainType.js';
+import { shortenAddress } from '../../utils/wallet.js';
+import { BookmarkAddressSheet } from './BookmarkAddressSheet.js';
+import { ConfirmAddressSheet } from './ConfirmAddressSheet.js';
+import { EmptyListIndicator } from './EmptyListIndicator.js';
 import {
   BookmarkButtonContainer,
   ListContainer,
   OptionsMenuButton,
   SendToWalletPageContainer,
-} from './SendToWalletPage.style';
+} from './SendToWalletPage.style.js';
 
 export const BookmarksPage = () => {
   const { t } = useTranslation();
@@ -125,12 +131,12 @@ export const BookmarksPage = () => {
                     : 1,
               }}
             >
-              <MoreHorizIcon fontSize="small" />
+              <MoreHoriz fontSize="small" />
             </OptionsMenuButton>
           </ListItem>
         ))}
         {!bookmarks.length && (
-          <EmptyListIndicator icon={<TurnedInIcon sx={{ fontSize: 48 }} />}>
+          <EmptyListIndicator icon={<TurnedIn sx={{ fontSize: 48 }} />}>
             {t('sendToWallet.noBookmarkedWallets')}
           </EmptyListIndicator>
         )}
@@ -150,15 +156,15 @@ export const BookmarksPage = () => {
           onClose={closeMenu}
         >
           <MenuItem onClick={handleCopyAddress}>
-            <ContentCopyIcon />
+            <ContentCopyRounded />
             {t('button.copyAddress')}
           </MenuItem>
           <MenuItem onClick={handleViewOnExplorer}>
-            <OpenInNewIcon />
+            <OpenInNewRounded />
             {t('button.viewOnExplorer')}
           </MenuItem>
           <MenuItem onClick={handleRemoveBookmark}>
-            <DeleteIcon />
+            <DeleteOutline />
             {t('button.delete')}
           </MenuItem>
         </Menu>

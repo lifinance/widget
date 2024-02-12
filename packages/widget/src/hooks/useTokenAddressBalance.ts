@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import type { TokenAmount } from '../types';
-import { useTokenBalances } from './useTokenBalances';
+import type { TokenAmount } from '../types/token.js';
+import { useTokenBalances } from './useTokenBalances.js';
 
 export const useTokenAddressBalance = (
   chainId?: number,

@@ -1,23 +1,23 @@
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Box, Typography } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
+import { ArrowBack } from '@mui/icons-material';
+import { Box, IconButton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import { useAccount, useNavigateBack } from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import { useHeaderStore } from '../../stores';
-import { HiddenUI } from '../../types';
+import { useAccount } from '../../hooks/useAccount.js';
+import { useNavigateBack } from '../../hooks/useNavigateBack.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useHeaderStore } from '../../stores/header/useHeaderStore.js';
+import { HiddenUI } from '../../types/widget.js';
 import {
   backButtonRoutes,
   navigationRoutes,
   navigationRoutesValues,
-} from '../../utils';
-import { CloseDrawerButton } from './CloseDrawerButton';
-import { HeaderAppBar, HeaderControlsContainer } from './Header.style';
-import { NavigationTabs } from './NavigationTabs';
-import { SettingsButton } from './SettingsButton';
-import { TransactionHistoryButton } from './TransactionHistoryButton';
-import { SplitWalletMenuButton } from './WalletHeader';
+} from '../../utils/navigationRoutes.js';
+import { CloseDrawerButton } from './CloseDrawerButton.js';
+import { HeaderAppBar, HeaderControlsContainer } from './Header.style.js';
+import { NavigationTabs } from './NavigationTabs.js';
+import { SettingsButton } from './SettingsButton.js';
+import { TransactionHistoryButton } from './TransactionHistoryButton.js';
+import { SplitWalletMenuButton } from './WalletHeader.js';
 
 export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
@@ -104,7 +104,7 @@ export const NavigationHeader: React.FC = () => {
       <HeaderAppBar elevation={0}>
         {backButtonRoutes.includes(path) ? (
           <IconButton size="medium" edge="start" onClick={navigateBack}>
-            <ArrowBackIcon />
+            <ArrowBack />
           </IconButton>
         ) : null}
         {splitSubvariant ? (

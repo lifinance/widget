@@ -2,16 +2,16 @@
 import type { Route } from '@lifi/sdk';
 import type { BoxProps } from '@mui/material';
 import { useEffect } from 'react';
-import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate';
-import {
-  RouteCard,
-  RouteCardSkeleton,
-  RouteNotFoundCard,
-} from '../../components/RouteCard';
-import { useNavigateBack, useRoutes } from '../../hooks';
-import { useHeaderStoreContext, useSetExecutableRoute } from '../../stores';
-import { navigationRoutes } from '../../utils';
-import { Stack } from './RoutesPage.style';
+import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate.js';
+import { RouteCard } from '../../components/RouteCard/RouteCard.js';
+import { RouteCardSkeleton } from '../../components/RouteCard/RouteCardSkeleton.js';
+import { RouteNotFoundCard } from '../../components/RouteCard/RouteNotFoundCard.js';
+import { useNavigateBack } from '../../hooks/useNavigateBack.js';
+import { useRoutes } from '../../hooks/useRoutes.js';
+import { useHeaderStoreContext } from '../../stores/header/useHeaderStore.js';
+import { useSetExecutableRoute } from '../../stores/routes/useSetExecutableRoute.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { Stack } from './RoutesPage.style.js';
 
 export const RoutesPage: React.FC<BoxProps> = () => {
   const { navigateBack, navigate } = useNavigateBack();

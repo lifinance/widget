@@ -1,20 +1,18 @@
-import WalletIcon from '@mui/icons-material/Wallet';
+import { Wallet } from '@mui/icons-material';
 import type { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Switch } from '../../components/Switch';
-import { useWidgetConfig } from '../../providers';
+import { Card } from '../../components/Card/Card.js';
 import {
-  useSendToWalletStore,
-  useSettings,
-  useSettingsStore,
-} from '../../stores';
-import { HiddenUI } from '../../types';
-import {
-  Card,
   CardRowContainer,
   CardTitleContainer,
   CardValue,
-} from '../../components/Card';
+} from '../../components/Card/CardButton.style.js';
+import { Switch } from '../../components/Switch.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useSendToWalletStore } from '../../stores/settings/useSendToWalletStore.js';
+import { useSettings } from '../../stores/settings/useSettings.js';
+import { useSettingsStore } from '../../stores/settings/useSettingsStore.js';
+import { HiddenUI } from '../../types/widget.js';
 
 export const SendToWalletOptionSetting = () => {
   const { t } = useTranslation();
@@ -38,7 +36,7 @@ export const SendToWalletOptionSetting = () => {
     <Card>
       <CardRowContainer>
         <CardTitleContainer>
-          <WalletIcon />
+          <Wallet />
           <CardValue>{t(`settings.sendToWalletOption`)}</CardValue>
         </CardTitleContainer>
         <Switch checked={showDestinationWallet} onChange={onChange} />

@@ -1,4 +1,4 @@
-import OpenInNewIcon from '@mui/icons-material/OpenInNewRounded';
+import { OpenInNewRounded } from '@mui/icons-material';
 import {
   Avatar,
   Box,
@@ -13,14 +13,11 @@ import type { MouseEventHandler } from 'react';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatUnits } from 'viem';
-import {
-  formatTokenAmount,
-  formatTokenPrice,
-  shortenAddress,
-} from '../../utils';
-import { ListItemButton } from '../ListItem';
-import { IconButton, ListItem } from './TokenList.style';
-import type { TokenListItemButtonProps, TokenListItemProps } from './types';
+import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js';
+import { shortenAddress } from '../../utils/wallet.js';
+import { ListItemButton } from '../ListItem/ListItemButton.js';
+import { IconButton, ListItem } from './TokenList.style.js';
+import type { TokenListItemButtonProps, TokenListItemProps } from './types.js';
 
 export const TokenListItem: React.FC<TokenListItemProps> = ({
   onClick,
@@ -138,7 +135,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
                   rel="nofollow noreferrer"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <OpenInNewIcon />
+                  <OpenInNewRounded />
                 </IconButton>
               </Box>
             </Slide>

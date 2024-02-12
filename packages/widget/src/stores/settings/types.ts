@@ -2,7 +2,7 @@ import type { Order } from '@lifi/sdk';
 import type { PropsWithChildren } from 'react';
 import type { StoreApi } from 'zustand';
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
-import type { Appearance } from '../../types';
+import type { Appearance, SplitSubvariantOptions } from '../../types/widget.js';
 
 export type ValueSetter<S> = <K extends keyof S>(
   key: K,
@@ -52,8 +52,6 @@ export interface SendToWalletStore extends SendToWalletState {
   toggleSendToWallet(): void;
   setSendToWallet(value: boolean): void;
 }
-
-export type SplitSubvariantOptions = 'bridge' | 'swap';
 
 export interface SplitSubvariantState {
   state?: SplitSubvariantOptions;

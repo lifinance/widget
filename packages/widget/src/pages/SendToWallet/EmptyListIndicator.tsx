@@ -3,7 +3,7 @@ import {
   EmptyContainer,
   EmptyListMessage,
   IconContainer,
-} from './SendToWalletPage.style';
+} from './SendToWalletPage.style.js';
 
 interface EmptyListIndicatorProps extends PropsWithChildren {
   icon: ReactNode;

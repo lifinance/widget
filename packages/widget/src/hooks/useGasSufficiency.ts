@@ -1,9 +1,9 @@
 import { type EVMChain, type RouteExtended, type Token } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
 import type { Connector } from 'wagmi';
-import { useAccount } from './useAccount';
-import { useAvailableChains } from './useAvailableChains';
-import { getTokenBalancesWithRetry } from './useTokenBalance';
+import { useAccount } from './useAccount.js';
+import { useAvailableChains } from './useAvailableChains.js';
+import { getTokenBalancesWithRetry } from './useTokenBalance.js';
 
 export interface GasSufficiency {
   gasAmount: bigint;

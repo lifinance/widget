@@ -1,26 +1,31 @@
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import TurnedInIcon from '@mui/icons-material/TurnedIn';
+import {
+  ContentCopyRounded,
+  MoreHoriz,
+  OpenInNewRounded,
+  TurnedIn,
+} from '@mui/icons-material';
 import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material';
 import { useId, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AccountAvatar } from '../../components/AccountAvatar';
-import type { BottomSheetBase } from '../../components/BottomSheet';
-import { ListItem, ListItemButton } from '../../components/ListItem';
-import { Menu } from '../../components/Menu';
-import type { Account } from '../../hooks';
-import { useAccount, useChains, useToAddressRequirements } from '../../hooks';
-import type { Bookmark } from '../../stores';
-import { useBookmarkActions } from '../../stores';
-import { shortenAddress } from '../../utils';
-import { ConfirmAddressSheet } from './ConfirmAddressSheet';
-import { EmptyListIndicator } from './EmptyListIndicator';
+import { AccountAvatar } from '../../components/AccountAvatar.js';
+import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
+import { ListItem } from '../../components/ListItem/ListItem.js';
+import { ListItemButton } from '../../components/ListItem/ListItemButton.js';
+import { Menu } from '../../components/Menu.js';
+import type { Account } from '../../hooks/useAccount.js';
+import { useAccount } from '../../hooks/useAccount.js';
+import { useChains } from '../../hooks/useChains.js';
+import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
+import type { Bookmark } from '../../stores/bookmarks/types.js';
+import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
+import { shortenAddress } from '../../utils/wallet.js';
+import { ConfirmAddressSheet } from './ConfirmAddressSheet.js';
+import { EmptyListIndicator } from './EmptyListIndicator.js';
 import {
   ListContainer,
   OptionsMenuButton,
   SendToWalletPageContainer,
-} from './SendToWalletPage.style';
+} from './SendToWalletPage.style.js';
 
 export const ConnectedWalletsPage = () => {
   const { t } = useTranslation();
@@ -113,13 +118,13 @@ export const ConnectedWalletsPage = () => {
                       : 1,
                 }}
               >
-                <MoreHorizIcon fontSize="small" />
+                <MoreHoriz fontSize="small" />
               </OptionsMenuButton>
             </ListItem>
           );
         })}
         {!accounts.length && (
-          <EmptyListIndicator icon={<TurnedInIcon sx={{ fontSize: 48 }} />}>
+          <EmptyListIndicator icon={<TurnedIn sx={{ fontSize: 48 }} />}>
             {t('sendToWallet.noConnectedWallets')}
           </EmptyListIndicator>
         )}
@@ -139,11 +144,11 @@ export const ConnectedWalletsPage = () => {
           onClose={closeMenu}
         >
           <MenuItem onClick={handleCopyAddress}>
-            <ContentCopyIcon />
+            <ContentCopyRounded />
             {t('button.copyAddress')}
           </MenuItem>
           <MenuItem onClick={handleViewOnExplorer}>
-            <OpenInNewIcon />
+            <OpenInNewRounded />
             {t('button.viewOnExplorer')}
           </MenuItem>
         </Menu>

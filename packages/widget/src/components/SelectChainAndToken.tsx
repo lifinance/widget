@@ -1,11 +1,10 @@
 import type { BoxProps, Theme } from '@mui/material';
-import { Box } from '@mui/material';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { ReverseTokensButton } from '../components/ReverseTokensButton';
-import { SelectTokenButton } from '../components/SelectTokenButton';
-import { useWidgetConfig } from '../providers';
-import { DisabledUI, HiddenUI } from '../types';
-import { useFieldValues } from '../stores/form';
+import { Box, useMediaQuery } from '@mui/material';
+import { ReverseTokensButton } from '../components/ReverseTokensButton/ReverseTokensButton.js';
+import { SelectTokenButton } from '../components/SelectTokenButton/SelectTokenButton.js';
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
+import { useFieldValues } from '../stores/form/useFieldValues.js';
+import { DisabledUI, HiddenUI } from '../types/widget.js';
 
 export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
   const prefersNarrowView = useMediaQuery((theme: Theme) =>

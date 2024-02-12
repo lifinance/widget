@@ -2,12 +2,15 @@ import type { BoxProps } from '@mui/material';
 import { Box, Button, Collapse } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useRoutes } from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import { navigationRoutes } from '../../utils';
-import { Card, CardTitle } from '../Card';
-import { ProgressToNextUpdate } from '../ProgressToNextUpdate';
-import { RouteCard, RouteCardSkeleton, RouteNotFoundCard } from '../RouteCard';
+import { useRoutes } from '../../hooks/useRoutes.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { Card } from '../Card/Card.js';
+import { CardTitle } from '../Card/CardTitle.js';
+import { ProgressToNextUpdate } from '../ProgressToNextUpdate.js';
+import { RouteCard } from '../RouteCard/RouteCard.js';
+import { RouteCardSkeleton } from '../RouteCard/RouteCardSkeleton.js';
+import { RouteNotFoundCard } from '../RouteCard/RouteNotFoundCard.js';
 
 export const Routes: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation();

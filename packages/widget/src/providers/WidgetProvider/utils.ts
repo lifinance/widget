@@ -1,5 +1,5 @@
-import type { WidgetConfig } from '../../types';
-import { getChainTypeFromAddress } from '../../utils';
+import type { WidgetConfig } from '../../types/widget.js';
+import { getChainTypeFromAddress } from '../../utils/chainType.js';
 
 export const attemptToFindMatchingToAddressInConfig = (
   address: string,

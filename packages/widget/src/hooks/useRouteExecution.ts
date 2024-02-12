@@ -5,16 +5,18 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useRef } from 'react';
 import { shallow } from 'zustand/shallow';
 import {
+  useRouteExecutionStore,
+  useRouteExecutionStoreContext,
+} from '../stores/routes/RouteExecutionStore.js';
+import {
   getUpdatedProcess,
   isRouteActive,
   isRouteDone,
   isRouteFailed,
-  useRouteExecutionStore,
-  useRouteExecutionStoreContext,
-} from '../stores';
-import { WidgetEvent } from '../types/events';
-import { useAccount } from './useAccount';
-import { useWidgetEvents } from './useWidgetEvents';
+} from '../stores/routes/utils.js';
+import { WidgetEvent } from '../types/events.js';
+import { useAccount } from './useAccount.js';
+import { useWidgetEvents } from './useWidgetEvents.js';
 
 interface RouteExecutionProps {
   routeId: string;

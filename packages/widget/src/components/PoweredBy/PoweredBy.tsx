@@ -1,10 +1,10 @@
 import { Box, Tooltip, Typography } from '@mui/material';
 import { useLocation } from 'react-router-dom';
-import { version } from '../../config/version';
-import { useWidgetConfig } from '../../providers';
-import { HiddenUI } from '../../types';
-import { navigationRoutes } from '../../utils';
-import { Link } from './PoweredBy.style';
+import { version } from '../../config/version.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { HiddenUI } from '../../types/widget.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { Link } from './PoweredBy.style.js';
 
 export const PoweredBy: React.FC = () => {
   const { hiddenUI } = useWidgetConfig();

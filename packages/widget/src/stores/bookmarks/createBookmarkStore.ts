@@ -1,9 +1,9 @@
 import type { StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { createWithEqualityFn } from 'zustand/traditional';
-import type { ToAddress } from '../../types';
-import type { PersistStoreProps } from '../types';
-import type { BookmarkState } from './types';
+import type { ToAddress } from '../../types/widget.js';
+import type { PersistStoreProps } from '../types.js';
+import type { BookmarkState } from './types.js';
 
 const recentWalletsLimit = 5;
 interface PersistBookmarkProps extends PersistStoreProps {

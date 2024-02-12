@@ -1,5 +1,4 @@
-import { Button, IconButton, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Button, IconButton, Typography, styled } from '@mui/material';
 
 const getButtonTransformWidth = (
   drawerWidth?: number | string,

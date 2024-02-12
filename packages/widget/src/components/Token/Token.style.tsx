@@ -1,5 +1,4 @@
-import { Box, Typography } from '@mui/material';
-import { alpha, styled } from '@mui/material/styles';
+import { Box, Typography, alpha, styled } from '@mui/material';
 
 export const TextSecondaryContainer = styled(Box)(() => ({
   display: 'flex',

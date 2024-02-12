@@ -1,12 +1,14 @@
-import AccessTimeIcon from '@mui/icons-material/AccessTimeFilled';
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import { AccessTimeFilled, MonetizationOn } from '@mui/icons-material';
 import { Box, Tooltip, Typography } from '@mui/material';
 import type { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { formatUnits } from 'viem';
-import { getFeeCostsBreakdown, getGasCostsBreakdown } from '../../utils';
-import { IconTypography } from './RouteCard.style';
-import type { FeesBreakdown, RouteCardEssentialsProps } from './types';
+import {
+  getFeeCostsBreakdown,
+  getGasCostsBreakdown,
+} from '../../utils/fees.js';
+import { IconTypography } from './RouteCard.style.js';
+import type { FeesBreakdown, RouteCardEssentialsProps } from './types.js';
 
 export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
   route,
@@ -43,7 +45,7 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
       >
         <Box display="flex" alignItems="center">
           <IconTypography mr={0.5}>
-            <MonetizationOnIcon fontSize="small" />
+            <MonetizationOn fontSize="small" />
           </IconTypography>
           <Typography
             fontSize={14}
@@ -65,7 +67,7 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
       >
         <Box display="flex" alignItems="center">
           <IconTypography mr={0.5}>
-            <AccessTimeIcon fontSize="small" />
+            <AccessTimeFilled fontSize="small" />
           </IconTypography>
           <Typography
             fontSize={14}

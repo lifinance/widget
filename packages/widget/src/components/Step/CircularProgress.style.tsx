@@ -1,8 +1,13 @@
 import type { Status, Substatus } from '@lifi/sdk';
 import type { Theme } from '@mui/material';
-import { Box, CircularProgress as MuiCircularProgress } from '@mui/material';
-import { circularProgressClasses } from '@mui/material/CircularProgress';
-import { alpha, keyframes, styled } from '@mui/material/styles';
+import {
+  Box,
+  CircularProgress as MuiCircularProgress,
+  alpha,
+  circularProgressClasses,
+  keyframes,
+  styled,
+} from '@mui/material';
 
 const getStatusColor = (
   theme: Theme,

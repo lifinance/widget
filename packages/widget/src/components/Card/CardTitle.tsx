@@ -1,5 +1,4 @@
-import { Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Typography, styled } from '@mui/material';
 
 export const CardTitle = styled(Typography, {
   shouldForwardProp: (prop) => !['required'].includes(prop as string),

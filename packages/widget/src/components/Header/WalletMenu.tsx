@@ -1,8 +1,10 @@
 import { ChainType } from '@lifi/sdk';
 import { getConnectorIcon } from '@lifi/wallet-management';
-import ContentCopyIcon from '@mui/icons-material/ContentCopyRounded';
-import OpenInNewIcon from '@mui/icons-material/OpenInNewRounded';
-import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNewRounded';
+import {
+  ContentCopyRounded,
+  OpenInNewRounded,
+  PowerSettingsNewRounded,
+} from '@mui/icons-material';
 import {
   Avatar,
   Badge,
@@ -13,11 +15,13 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAccount, useAvailableChains } from '../../hooks';
-import { navigationRoutes, shortenAddress } from '../../utils';
-import { SmallAvatar } from '../SmallAvatar';
-import { EVMDisconnectIconButton } from './EVMDisconnectIconButton';
-import { SVMDisconnectIconButton } from './SVMDisconnectIconButton';
+import { useAccount } from '../../hooks/useAccount.js';
+import { useAvailableChains } from '../../hooks/useAvailableChains.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { shortenAddress } from '../../utils/wallet.js';
+import { SmallAvatar } from '../SmallAvatar.js';
+import { EVMDisconnectIconButton } from './EVMDisconnectIconButton.js';
+import { SVMDisconnectIconButton } from './SVMDisconnectIconButton.js';
 
 export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
   const { t } = useTranslation();
@@ -74,7 +78,7 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
               </Box>
               <Box ml={1}>
                 <IconButton size="medium" onClick={handleCopyAddress}>
-                  <ContentCopyIcon />
+                  <ContentCopyRounded />
                 </IconButton>
                 <IconButton
                   size="medium"
@@ -83,7 +87,7 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
                   href={`${chain?.metamask.blockExplorerUrls[0]}address/${account.address}`}
                   target="_blank"
                 >
-                  <OpenInNewIcon />
+                  <OpenInNewRounded />
                 </IconButton>
                 {account.chainType === ChainType.EVM ? (
                   <EVMDisconnectIconButton connector={account.connector} />
@@ -99,7 +103,7 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
         <Button
           onClick={connect}
           fullWidth
-          startIcon={<PowerSettingsNewIcon />}
+          startIcon={<PowerSettingsNewRounded />}
           sx={{
             marginTop: 1,
           }}

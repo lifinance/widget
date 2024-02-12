@@ -1,10 +1,10 @@
 import { ChainType } from '@lifi/sdk';
 import { useContext, type FC, type PropsWithChildren } from 'react';
 import { WagmiContext } from 'wagmi';
-import { isItemAllowed } from '../../utils';
-import { useWidgetConfig } from '../WidgetProvider';
-import { EVMBaseProvider } from './EVMBaseProvider';
-import { EVMExternalContext } from './EVMExternalContext';
+import { isItemAllowed } from '../../utils/item.js';
+import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js';
+import { EVMBaseProvider } from './EVMBaseProvider.js';
+import { EVMExternalContext } from './EVMExternalContext.js';
 
 export function useInWagmiContext(): boolean {
   const { chains } = useWidgetConfig();

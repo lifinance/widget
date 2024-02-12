@@ -1,5 +1,4 @@
-import { styled } from '@mui/material/styles';
-import { Box, ButtonBase, Typography } from '@mui/material';
+import { Box, ButtonBase, Typography, styled } from '@mui/material';
 
 export const CardRowButton = styled(ButtonBase)(({ theme }) => ({
   background: 'none',

@@ -1,4 +1,4 @@
-import InfoRounded from '@mui/icons-material/InfoRounded';
+import { InfoRounded } from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -9,9 +9,9 @@ import {
 } from '@mui/material';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Dialog } from '../../components/Dialog';
-import { useSettingMonitor } from '../../hooks';
-import { ResetButtonContainer } from './ResetSettingsButton.style';
+import { Dialog } from '../../components/Dialog.js';
+import { useSettingMonitor } from '../../hooks/useSettingMonitor.js';
+import { ResetButtonContainer } from './ResetSettingsButton.style.js';
 
 export const ResetSettingsButton: React.FC = () => {
   const { t } = useTranslation();

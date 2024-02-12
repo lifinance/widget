@@ -1,6 +1,5 @@
-import { ListItemButton as MuiListItemButton } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { getContrastAlphaColor } from '../utils';
+import { ListItemButton as MuiListItemButton, styled } from '@mui/material';
+import { getContrastAlphaColor } from '../utils/colors.js';
 
 export const ListItemButton = styled(MuiListItemButton)(
   ({ theme, disabled }) => ({

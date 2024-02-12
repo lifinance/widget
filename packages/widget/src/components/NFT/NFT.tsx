@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { NFTBase } from './NFTBase';
-import type { NFTProps } from './types';
-import { useFieldActions } from '../../stores';
+import { useFieldActions } from '../../stores/form/useFieldActions.js';
+import { NFTBase } from './NFTBase.js';
+import type { NFTProps } from './types.js';
 
 export const NFT: React.FC<NFTProps> = ({
   imageUrl,

@@ -1,8 +1,8 @@
 import type { StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { createWithEqualityFn } from 'zustand/traditional';
-import type { PersistStoreProps } from '../types';
-import type { ChainOrderState } from './types';
+import type { PersistStoreProps } from '../types.js';
+import type { ChainOrderState } from './types.js';
 
 export const maxChainToOrder = 9;
 const defaultChainState = {

@@ -1,19 +1,21 @@
-import { loadingButtonClasses } from '@mui/lab/LoadingButton';
+import { loadingButtonClasses } from '@mui/lab';
 import type {} from '@mui/lab/themeAugmentation';
 import type { PaletteMode, SimplePaletteColorOptions } from '@mui/material';
-import { touchRippleClasses } from '@mui/material/ButtonBase';
-import { dialogActionsClasses } from '@mui/material/DialogActions';
-import { common } from '@mui/material/colors';
 import {
   alpha,
   createTheme as createMuiTheme,
   css,
   darken,
+  dialogActionsClasses,
   getContrastRatio,
   keyframes,
   lighten,
-} from '@mui/material/styles';
-import type { ThemeConfig } from '../types';
+  touchRippleClasses,
+} from '@mui/material';
+import type { ThemeConfig } from '../types/widget.js';
+
+// @mui/icons-material ESM issue
+// https://github.com/mui/material-ui/issues/30671
 
 // https://mui.com/customization/palette/
 declare module '@mui/material/styles' {
@@ -64,6 +66,10 @@ const palette = {
   info: {
     main: '#297EFF',
   },
+  common: {
+    black: '#000',
+    white: '#fff',
+  },
 };
 
 const paletteLight = {
@@ -110,13 +116,13 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
     0.2,
   );
   const contrastButtonColor =
-    getContrastRatio(common.white, primaryMainColor) >= 3
-      ? common.white
-      : common.black;
+    getContrastRatio(palette.common.white, primaryMainColor) >= 3
+      ? palette.common.white
+      : palette.common.black;
   const contrastTextButtonColor =
-    getContrastRatio(common.white, alpha(primaryMainColor, 0.08)) >= 3
-      ? common.white
-      : common.black;
+    getContrastRatio(palette.common.white, alpha(primaryMainColor, 0.08)) >= 3
+      ? palette.common.white
+      : palette.common.black;
   return createMuiTheme({
     typography: {
       fontFamily: 'Inter var, Inter, sans-serif',
@@ -200,8 +206,8 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
             [`&.Mui-disabled, &.Mui-disabled:hover`]: {
               color:
                 mode === 'light'
-                  ? alpha(common.black, 0.56)
-                  : alpha(common.white, 0.56),
+                  ? alpha(palette.common.black, 0.56)
+                  : alpha(palette.common.white, 0.56),
               cursor: 'not-allowed',
               pointerEvents: 'auto',
             },

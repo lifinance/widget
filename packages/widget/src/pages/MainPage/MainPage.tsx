@@ -1,19 +1,17 @@
 import { Box } from '@mui/material';
-import { ActiveTransactions } from '../../components/ActiveTransactions';
-import { AmountInput } from '../../components/AmountInput';
-import { ContractComponent } from '../../components/ContractComponent';
-import { GasRefuelMessage } from '../../components/GasMessage';
-import { PageContainer } from '../../components/PageContainer';
-import { Routes } from '../../components/Routes';
-import { SelectChainAndToken } from '../../components/SelectChainAndToken';
-import {
-  SendToWalletButton,
-  SendToWalletExpandButton,
-} from '../../components/SendToWallet';
-import { useExpandableVariant } from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import { MainGasMessage } from './MainGasMessage';
-import { ReviewButton } from './ReviewButton';
+import { ActiveTransactions } from '../../components/ActiveTransactions/ActiveTransactions.js';
+import { AmountInput } from '../../components/AmountInput/AmountInput.js';
+import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js';
+import { GasRefuelMessage } from '../../components/GasMessage/GasRefuelMessage.js';
+import { PageContainer } from '../../components/PageContainer.js';
+import { Routes } from '../../components/Routes/Routes.js';
+import { SelectChainAndToken } from '../../components/SelectChainAndToken.js';
+import { SendToWalletButton } from '../../components/SendToWallet/SendToWalletButton.js';
+import { SendToWalletExpandButton } from '../../components/SendToWallet/SendToWalletExpandButton.js';
+import { useExpandableVariant } from '../../hooks/useExpandableVariant.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { MainGasMessage } from './MainGasMessage.js';
+import { ReviewButton } from './ReviewButton.js';
 
 export const MainPage: React.FC = () => {
   const expandable = useExpandableVariant();

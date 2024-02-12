@@ -1,14 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { BaseTransactionButton } from '../../components/BaseTransactionButton';
-import { useToAddressRequirements, useRoutes } from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import {
-  useSetExecutableRoute,
-  useSplitSubvariantStore,
-  useFieldValues,
-} from '../../stores';
-import { navigationRoutes } from '../../utils';
+import { BaseTransactionButton } from '../../components/BaseTransactionButton/BaseTransactionButton.js';
+import { useRoutes } from '../../hooks/useRoutes.js';
+import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useFieldValues } from '../../stores/form/useFieldValues.js';
+import { useSetExecutableRoute } from '../../stores/routes/useSetExecutableRoute.js';
+import { useSplitSubvariantStore } from '../../stores/settings/useSplitSubvariantStore.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
 
 export const ReviewButton: React.FC = () => {
   const { t } = useTranslation();

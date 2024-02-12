@@ -1,4 +1,4 @@
-import { useSplitSubvariantStore } from '../stores';
+import { useSplitSubvariantStore } from '../stores/settings/useSplitSubvariantStore.js';
 
 export const useSwapOnly = () => {
   const state = useSplitSubvariantStore((state) => state.state);

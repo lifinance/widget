@@ -1,7 +1,9 @@
 import type { ExtendedChain } from '@lifi/sdk';
-import { useWidgetConfig } from '../providers';
-import { useBookmarkActions, useBookmarks, useFieldActions } from '../stores';
-import { RequiredUI } from '../types';
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
+import { useBookmarkActions } from '../stores/bookmarks/useBookmarkActions.js';
+import { useBookmarks } from '../stores/bookmarks/useBookmarks.js';
+import { useFieldActions } from '../stores/form/useFieldActions.js';
+import { RequiredUI } from '../types/widget.js';
 
 export const useToAddressReset = () => {
   const { requiredUI } = useWidgetConfig();

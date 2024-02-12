@@ -2,11 +2,12 @@ import type { TabProps } from '@mui/material';
 import {
   Tab as MuiTab,
   Tabs as MuiTabs,
+  alpha,
+  styled,
   tabClasses,
   tabsClasses,
 } from '@mui/material';
-import { alpha, styled } from '@mui/material/styles';
-import { getCardFieldsetBackgroundColor } from '../../utils';
+import { getCardFieldsetBackgroundColor } from '../../utils/colors.js';
 
 export const Tabs = styled(MuiTabs)(({ theme }) => ({
   backgroundColor: getCardFieldsetBackgroundColor(theme),

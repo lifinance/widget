@@ -5,7 +5,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { getWalletClient, switchChain } from '@wagmi/core';
 import { useEffect } from 'react';
 import { useConfig } from 'wagmi';
-import { useWidgetConfig } from '../WidgetProvider';
+import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js';
 
 export const SDKProviders = () => {
   const { sdkConfig } = useWidgetConfig();

@@ -3,11 +3,13 @@ import type { EVMChain } from '@lifi/sdk';
 import { Avatar, Box, Skeleton, Tooltip, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { FormTypeProps } from '../../stores';
-import { FormKeyHelper, maxChainToOrder, useFieldValues } from '../../stores';
-import { navigationRoutes } from '../../utils';
-import { ChainCard, ChainContainer } from './ChainSelect.style';
-import { useChainSelect } from './useChainSelect';
+import { maxChainToOrder } from '../../stores/chains/createChainOrderStore.js';
+import type { FormTypeProps } from '../../stores/form/types.js';
+import { FormKeyHelper } from '../../stores/form/types.js';
+import { useFieldValues } from '../../stores/form/useFieldValues.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { ChainCard, ChainContainer } from './ChainSelect.style.js';
+import { useChainSelect } from './useChainSelect.js';
 
 export const ChainSelect = ({ formType }: FormTypeProps) => {
   const navigate = useNavigate();

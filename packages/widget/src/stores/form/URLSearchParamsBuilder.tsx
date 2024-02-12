@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import type { FormFieldNames } from '../index';
-import { useFieldValues, useTouchedFields } from '../index';
+import type { FormFieldNames } from '../form/types.js';
+import { useFieldValues } from '../form/useFieldValues.js';
+import { useTouchedFields } from '../form/useTouchedFields.js';
 
 const formValueKeys: FormFieldNames[] = [
   'fromAmount',

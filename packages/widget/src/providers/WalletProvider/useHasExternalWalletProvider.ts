@@ -1,7 +1,7 @@
 import { ChainType } from '@lifi/sdk';
 import { useContext, useMemo } from 'react';
-import { EVMExternalContext } from './EVMExternalContext';
-import { SVMExternalContext } from './SVMExternalContext';
+import { EVMExternalContext } from './EVMExternalContext.js';
+import { SVMExternalContext } from './SVMExternalContext.js';
 
 interface ExternalWalletProvider {
   hasExternalProvider: boolean;

@@ -1,5 +1,4 @@
-import { Container } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Container, styled } from '@mui/material';
 
 export const FormContainer = styled(Container)({
   display: 'flex',

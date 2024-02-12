@@ -1,14 +1,14 @@
 import { createContext, useContext, useEffect, useRef } from 'react';
 import type { StoreApi } from 'zustand';
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
-import { useChains } from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import { isItemAllowed } from '../../utils';
-import type { FormType } from '../form';
-import { useFieldActions } from '../form';
-import type { PersistStoreProviderProps } from '../types';
-import { createChainOrderStore } from './createChainOrderStore';
-import type { ChainOrderState } from './types';
+import { useChains } from '../../hooks/useChains.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { isItemAllowed } from '../../utils/item.js';
+import type { FormType } from '../form/types.js';
+import { useFieldActions } from '../form/useFieldActions.js';
+import type { PersistStoreProviderProps } from '../types.js';
+import { createChainOrderStore } from './createChainOrderStore.js';
+import type { ChainOrderState } from './types.js';
 
 export type ChainOrderStore = UseBoundStoreWithEqualityFn<
   StoreApi<ChainOrderState>

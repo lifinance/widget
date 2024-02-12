@@ -1,6 +1,4 @@
-import { InputBase } from '@mui/material';
-import { inputBaseClasses } from '@mui/material/InputBase';
-import { styled } from '@mui/material/styles';
+import { InputBase, inputBaseClasses, styled } from '@mui/material';
 
 export const Input = styled(InputBase)(({ theme }) => ({
   backgroundColor:

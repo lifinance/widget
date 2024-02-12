@@ -1,9 +1,10 @@
 import type { Route } from '@lifi/sdk';
 import type { BoxProps } from '@mui/material';
 import { Box, Collapse } from '@mui/material';
-import { useFromTokenSufficiency, useGasSufficiency } from '../../hooks';
-import { FundsSufficiencyMessage } from './FundsSufficiencyMessage';
-import { GasSufficiencyMessage } from './GasSufficiencyMessage';
+import { useFromTokenSufficiency } from '../../hooks/useFromTokenSufficiency.js';
+import { useGasSufficiency } from '../../hooks/useGasSufficiency.js';
+import { FundsSufficiencyMessage } from './FundsSufficiencyMessage.js';
+import { GasSufficiencyMessage } from './GasSufficiencyMessage.js';
 
 interface GasMessageProps extends BoxProps {
   route?: Route;

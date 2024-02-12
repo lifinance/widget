@@ -1,5 +1,5 @@
 import type { BoxProps } from '@mui/material';
-import type { RouteExecutionStatus } from '../../stores';
+import type { RouteExecutionStatus } from '../../stores/routes/types.js';
 
 export interface InsuredAmount {
   insuredAmount: string;

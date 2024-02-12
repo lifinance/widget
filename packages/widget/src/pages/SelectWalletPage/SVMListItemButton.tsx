@@ -2,10 +2,11 @@ import { ChainId, ChainType } from '@lifi/sdk';
 import { Avatar, ListItemAvatar } from '@mui/material';
 import type { Wallet } from '@solana/wallet-adapter-react';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { ListItemButton } from '../../components/ListItemButton';
-import { ListItemText } from '../../components/ListItemText';
-import { useNavigateBack, useWidgetEvents } from '../../hooks';
-import { WidgetEvent } from '../../types';
+import { ListItemButton } from '../../components/ListItemButton.js';
+import { ListItemText } from '../../components/ListItemText.js';
+import { useNavigateBack } from '../../hooks/useNavigateBack.js';
+import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
+import { WidgetEvent } from '../../types/events.js';
 
 interface SVMListItemButtonProps {
   wallet: Wallet;

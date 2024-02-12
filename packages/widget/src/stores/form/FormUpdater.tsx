@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { PropsWithChildren } from 'react';
 import { useEffect, useRef } from 'react';
-import { useAccount } from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import { isItemAllowed } from '../../utils';
-import type { DefaultValues, FormFieldNames } from './types';
-import { useFieldActions } from './useFieldActions';
+import { useAccount } from '../../hooks/useAccount.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { isItemAllowed } from '../../utils/item.js';
+import type { DefaultValues, FormFieldNames } from './types.js';
+import { useFieldActions } from './useFieldActions.js';
 
 export const FormUpdater: React.FC<
   PropsWithChildren<{

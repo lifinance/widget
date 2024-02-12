@@ -1,21 +1,26 @@
 import type { FullStatusData } from '@lifi/sdk';
-import ContentCopyIcon from '@mui/icons-material/ContentCopyRounded';
+import { ContentCopyRounded } from '@mui/icons-material';
 import { Box, IconButton, Typography } from '@mui/material';
 import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { Card, CardTitle } from '../../components/Card';
-import { ContractComponent } from '../../components/ContractComponent';
-import { Insurance } from '../../components/Insurance';
-import { PageContainer } from '../../components/PageContainer';
-import { getStepList } from '../../components/Step';
-import { useNavigateBack, useTools, useTransactionDetails } from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import { getSourceTxHash, useRouteExecutionStore } from '../../stores';
-import { formatTokenAmount, navigationRoutes } from '../../utils';
-import { buildRouteFromTxHistory } from '../../utils/converters';
-import { ContactSupportButton } from './ContactSupportButton';
-import { TransactionDetailsSkeleton } from './TransactionDetailsSkeleton';
+import { Card } from '../../components/Card/Card.js';
+import { CardTitle } from '../../components/Card/CardTitle.js';
+import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js';
+import { Insurance } from '../../components/Insurance/Insurance.js';
+import { PageContainer } from '../../components/PageContainer.js';
+import { getStepList } from '../../components/Step/StepList.js';
+import { useNavigateBack } from '../../hooks/useNavigateBack.js';
+import { useTools } from '../../hooks/useTools.js';
+import { useTransactionDetails } from '../../hooks/useTransactionDetails.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useRouteExecutionStore } from '../../stores/routes/RouteExecutionStore.js';
+import { getSourceTxHash } from '../../stores/routes/utils.js';
+import { buildRouteFromTxHistory } from '../../utils/converters.js';
+import { formatTokenAmount } from '../../utils/format.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { ContactSupportButton } from './ContactSupportButton.js';
+import { TransactionDetailsSkeleton } from './TransactionDetailsSkeleton.js';
 
 export const TransactionDetailsPage: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -126,7 +131,7 @@ export const TransactionDetailsPage: React.FC = () => {
           <CardTitle flex={1}>{t('main.supportId')}</CardTitle>
           <Box mr={1} mt={1}>
             <IconButton size="medium" onClick={copySupportId}>
-              <ContentCopyIcon fontSize="small" />
+              <ContentCopyRounded fontSize="small" />
             </IconButton>
           </Box>
         </Box>

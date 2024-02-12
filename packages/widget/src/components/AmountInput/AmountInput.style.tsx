@@ -1,6 +1,10 @@
-import { Box, InputBase, FormControl as MuiFormControl } from '@mui/material';
-import { inputBaseClasses } from '@mui/material/InputBase';
-import { styled } from '@mui/material/styles';
+import {
+  Box,
+  InputBase,
+  FormControl as MuiFormControl,
+  inputBaseClasses,
+  styled,
+} from '@mui/material';
 
 export const maxInputFontSize = 24;
 export const minInputFontSize = 14;

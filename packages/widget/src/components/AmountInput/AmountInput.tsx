@@ -3,27 +3,26 @@ import type { BoxProps } from '@mui/material';
 import type { ChangeEvent, ReactNode } from 'react';
 import { useLayoutEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useToken } from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import type { FormTypeProps } from '../../stores';
-import {
-  FormKeyHelper,
-  useFieldController,
-  useFieldValues,
-} from '../../stores';
-import { DisabledUI } from '../../types';
-import { fitInputText, formatInputAmount } from '../../utils';
-import { Card, CardTitle } from '../Card';
+import { useToken } from '../../hooks/useToken.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { FormKeyHelper, type FormTypeProps } from '../../stores/form/types.js';
+import { useFieldController } from '../../stores/form/useFieldController.js';
+import { useFieldValues } from '../../stores/form/useFieldValues.js';
+import { DisabledUI } from '../../types/widget.js';
+import { formatInputAmount } from '../../utils/format.js';
+import { fitInputText } from '../../utils/input.js';
+import { Card } from '../Card/Card.js';
+import { CardTitle } from '../Card/CardTitle.js';
 import {
   FormContainer,
   FormControl,
   Input,
   maxInputFontSize,
   minInputFontSize,
-} from './AmountInput.style';
-import { AmountInputEndAdornment } from './AmountInputEndAdornment';
-import { AmountInputStartAdornment } from './AmountInputStartAdornment';
-import { PriceFormHelperText } from './PriceFormHelperText';
+} from './AmountInput.style.js';
+import { AmountInputEndAdornment } from './AmountInputEndAdornment.js';
+import { AmountInputStartAdornment } from './AmountInputStartAdornment.js';
+import { PriceFormHelperText } from './PriceFormHelperText.js';
 
 export const AmountInput: React.FC<FormTypeProps & BoxProps> = ({
   formType,

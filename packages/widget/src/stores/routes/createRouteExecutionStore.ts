@@ -2,16 +2,16 @@ import type { Route, RouteExtended } from '@lifi/sdk';
 import type { StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { createWithEqualityFn } from 'zustand/traditional';
-import { hasEnumFlag } from '../../utils';
-import type { PersistStoreProps } from '../types';
-import type { RouteExecutionState } from './types';
-import { RouteExecutionStatus } from './types';
+import { hasEnumFlag } from '../../utils/enum.js';
+import type { PersistStoreProps } from '../types.js';
+import type { RouteExecutionState } from './types.js';
+import { RouteExecutionStatus } from './types.js';
 import {
   isRouteDone,
   isRouteFailed,
   isRoutePartiallyDone,
   isRouteRefunded,
-} from './utils';
+} from './utils.js';
 
 export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
   createWithEqualityFn<RouteExecutionState>(

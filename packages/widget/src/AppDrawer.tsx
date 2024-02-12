@@ -1,5 +1,4 @@
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 import { Drawer } from '@mui/material';
 import type { PropsWithChildren } from 'react';
 import {
@@ -11,11 +10,11 @@ import {
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DrawerButton, DrawerButtonTypography } from './AppDrawer.style';
-import type { WidgetDrawerContext } from './AppDrawerContext';
-import { DrawerContext } from './AppDrawerContext';
-import type { WidgetDrawerProps, WidgetSubvariant } from './types';
-import { HiddenUI } from './types';
+import { DrawerButton, DrawerButtonTypography } from './AppDrawer.style.js';
+import type { WidgetDrawerContext } from './AppDrawerContext.js';
+import { DrawerContext } from './AppDrawerContext.js';
+import type { WidgetDrawerProps, WidgetSubvariant } from './types/widget.js';
+import { HiddenUI } from './types/widget.js';
 
 export interface WidgetDrawer {
   isOpen(): void;
@@ -79,7 +78,7 @@ export const AppDrawer = forwardRef<
           open={drawerOpen}
           drawerProps={config?.containerStyle}
         >
-          {drawerOpen ? <KeyboardArrowRightIcon /> : <KeyboardArrowLeftIcon />}
+          {drawerOpen ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
           <DrawerButtonText open={drawerOpen} subvariant={config?.subvariant} />
         </DrawerButton>
       ) : null}

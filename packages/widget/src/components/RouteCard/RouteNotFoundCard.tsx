@@ -1,4 +1,4 @@
-import RouteIcon from '@mui/icons-material/Route';
+import { Route } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
@@ -16,7 +16,7 @@ export const RouteNotFoundCard: React.FC = () => {
       py={1.625}
     >
       <Typography fontSize={48}>
-        <RouteIcon fontSize="inherit" />
+        <Route fontSize="inherit" />
       </Typography>
       <Typography fontSize={18} fontWeight={700}>
         {t('info.title.routeNotFound')}

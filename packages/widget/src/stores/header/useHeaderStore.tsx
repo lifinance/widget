@@ -1,7 +1,7 @@
 import { createContext, useContext, useRef } from 'react';
 import { createWithEqualityFn } from 'zustand/traditional';
-import type { PersistStoreProps, PersistStoreProviderProps } from '../types';
-import type { HeaderState, HeaderStore } from './types';
+import type { PersistStoreProps, PersistStoreProviderProps } from '../types.js';
+import type { HeaderState, HeaderStore } from './types.js';
 
 export const HeaderStoreContext = createContext<HeaderStore | null>(null);
 

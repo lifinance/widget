@@ -1,10 +1,10 @@
 import type { LiFiStepExtended } from '@lifi/sdk';
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import { MonetizationOn } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatUnits } from 'viem';
-import { getStepFeeCostsBreakdown } from '../../utils';
+import { getStepFeeCostsBreakdown } from '../../utils/fees.js';
 
 export const StepFeeBreakdown: React.FC<{
   step: LiFiStepExtended;
@@ -88,7 +88,7 @@ export const StepFeeBreakdown: React.FC<{
     <Box mt={1.5}>
       <Box display="flex" alignItems="center">
         <Typography ml={1} mr={3} height={24} color="text.secondary">
-          <MonetizationOnIcon />
+          <MonetizationOn />
         </Typography>
         <Typography
           fontSize={16}

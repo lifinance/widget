@@ -1,24 +1,25 @@
 import { Collapse } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useAccount, useToAddressRequirements } from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import {
-  useBookmarks,
-  useFieldValues,
-  useSendToWalletStore,
-  useSettings,
-} from '../../stores';
-import { DisabledUI, HiddenUI } from '../../types';
+import { useAccount } from '../../hooks/useAccount.js';
+import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js';
+import { useFieldValues } from '../../stores/form/useFieldValues.js';
+import { useSendToWalletStore } from '../../stores/settings/useSendToWalletStore.js';
+import { useSettings } from '../../stores/settings/useSettings.js';
+import { DisabledUI, HiddenUI } from '../../types/widget.js';
 import {
   defaultChainIdsByType,
   getChainTypeFromAddress,
-  navigationRoutes,
-  shortenAddress,
-} from '../../utils';
-import { AccountAvatar } from '../AccountAvatar';
-import { Card, CardRowContainer, CardTitle } from '../Card';
-import { SendToWalletCardHeader } from './SendToWallet.style';
+} from '../../utils/chainType.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { shortenAddress } from '../../utils/wallet.js';
+import { AccountAvatar } from '../AccountAvatar.js';
+import { Card } from '../Card/Card.js';
+import { CardRowContainer } from '../Card/CardButton.style.js';
+import { CardTitle } from '../Card/CardTitle.js';
+import { SendToWalletCardHeader } from './SendToWallet.style.js';
 
 export const SendToWalletButton = () => {
   const { t } = useTranslation();

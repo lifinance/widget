@@ -1,5 +1,5 @@
 import { Divider } from '@mui/material';
-import { Container } from './StepDivider.style';
+import { Container } from './StepDivider.style.js';
 
 export const StepDivider: React.FC = () => {
   return (

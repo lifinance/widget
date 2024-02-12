@@ -1,9 +1,9 @@
 import type { StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { createWithEqualityFn } from 'zustand/traditional';
-import type { WidgetConfig } from '../../types';
-import type { SettingsProps, SettingsState } from './types';
-import { SettingsToolTypes } from './types';
+import type { WidgetConfig } from '../../types/widget.js';
+import type { SettingsProps, SettingsState } from './types.js';
+import { SettingsToolTypes } from './types.js';
 
 export const defaultSlippage = '0.5';
 

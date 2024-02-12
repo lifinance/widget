@@ -1,7 +1,7 @@
 import { checkPackageUpdates } from '@lifi/sdk';
 import { useEffect } from 'react';
-import { name, version } from '../config/version';
-import { useTools } from './useTools';
+import { name, version } from '../config/version.js';
+import { useTools } from './useTools.js';
 
 let checkedPackageUpdates = false;
 

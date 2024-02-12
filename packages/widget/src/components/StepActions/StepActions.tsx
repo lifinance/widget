@@ -1,7 +1,5 @@
 import type { LiFiStep, StepExtended } from '@lifi/sdk';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { ArrowForward, ExpandLess, ExpandMore } from '@mui/icons-material';
 import type { StepIconProps } from '@mui/material';
 import {
   Badge,
@@ -15,23 +13,23 @@ import type { MouseEventHandler } from 'react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatUnits } from 'viem';
-import { useAvailableChains } from '../../hooks';
-import { LiFiToolLogo } from '../../icons';
-import { useWidgetConfig } from '../../providers';
-import type { WidgetSubvariant } from '../../types';
-import { formatTokenAmount } from '../../utils';
-import { CardIconButton } from '../Card';
-import { SmallAvatar } from '../SmallAvatar';
+import { useAvailableChains } from '../../hooks/useAvailableChains.js';
+import { LiFiToolLogo } from '../../icons/lifi.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import type { WidgetSubvariant } from '../../types/widget.js';
+import { formatTokenAmount } from '../../utils/format.js';
+import { CardIconButton } from '../Card/CardIconButton.js';
+import { SmallAvatar } from '../SmallAvatar.js';
 import {
   StepAvatar,
   StepConnector,
   StepContent,
   StepLabel,
   StepLabelTypography,
-} from './StepActions.style';
-import { StepFeeBreakdown } from './StepFeeBreakdown';
-import { StepFees } from './StepFees';
-import type { StepActionsProps, StepDetailsLabelProps } from './types';
+} from './StepActions.style.js';
+import { StepFeeBreakdown } from './StepFeeBreakdown.js';
+import { StepFees } from './StepFees.js';
+import type { StepActionsProps, StepDetailsLabelProps } from './types.js';
 
 export const StepActions: React.FC<StepActionsProps> = ({
   step,
@@ -88,7 +86,7 @@ export const StepActions: React.FC<StepActionsProps> = ({
         </Box>
         {dense ? (
           <CardIconButton onClick={handleExpand} size="small">
-            {cardExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            {cardExpanded ? <ExpandLess /> : <ExpandMore />}
           </CardIconButton>
         ) : null}
       </Box>
@@ -210,7 +208,7 @@ export const StepDetailsContent: React.FC<{
       {step.action.fromToken.symbol}
       {showToAmount ? (
         <>
-          <ArrowForwardIcon sx={{ fontSize: 18, paddingX: 0.5, height: 12 }} />
+          <ArrowForward sx={{ fontSize: 18, paddingX: 0.5, height: 12 }} />
           {t('format.number', {
             value: formatTokenAmount(
               BigInt(step.execution?.toAmount ?? step.estimate.toAmount),

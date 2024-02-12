@@ -1,6 +1,6 @@
 import { shallow } from 'zustand/shallow';
-import { useBookmarkStore } from './BookmarkStore';
-import type { BookmarkProps } from './types';
+import { useBookmarkStore } from './BookmarkStore.js';
+import type { BookmarkProps } from './types.js';
 
 export const useBookmarks = (): BookmarkProps => {
   const [bookmarks, selectedBookmark, recentWallets] = useBookmarkStore(

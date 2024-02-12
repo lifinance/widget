@@ -10,11 +10,11 @@ import {
   inputBaseClasses,
   styled,
 } from '@mui/material';
-import { Card } from '../../components/Card';
-import { Input } from '../../components/Input';
-import type { PageContainerProps } from '../../components/PageContainer';
-import { PageContainer } from '../../components/PageContainer';
-import { getContrastAlphaColor } from '../../utils';
+import { Card } from '../../components/Card/Card.js';
+import { Input } from '../../components/Input.js';
+import type { PageContainerProps } from '../../components/PageContainer.js';
+import { PageContainer } from '../../components/PageContainer.js';
+import { getContrastAlphaColor } from '../../utils/colors.js';
 
 export const AddressInput = styled(Input)(({ theme }) => ({
   padding: 0,

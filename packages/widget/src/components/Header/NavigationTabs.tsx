@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import { useSplitSubvariantStore, useFieldActions } from '../../stores';
-import { HeaderAppBar, SplitTabs } from './Header.style';
-import { Tab } from '../Tabs';
+import { useFieldActions } from '../../stores/form/useFieldActions.js';
+import { useSplitSubvariantStore } from '../../stores/settings/useSplitSubvariantStore.js';
+import { Tab } from '../Tabs/Tabs.style.js';
+import { HeaderAppBar, SplitTabs } from './Header.style.js';
 
 export const NavigationTabs = () => {
   const { t } = useTranslation();

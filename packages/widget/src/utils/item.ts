@@ -1,4 +1,4 @@
-import type { AllowDeny } from '../types';
+import type { AllowDeny } from '../types/widget.js';
 
 export const isItemAllowed = <T>(itemId: T, items?: AllowDeny<T>) => {
   if (items?.allow?.length) {

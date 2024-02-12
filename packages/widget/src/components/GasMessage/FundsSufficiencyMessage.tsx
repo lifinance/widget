@@ -1,8 +1,7 @@
-import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
-import { Typography } from '@mui/material';
+import { WarningRounded } from '@mui/icons-material';
+import { Typography, styled } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { AlertMessage } from '../AlertMessage';
-import { styled } from '@mui/material/styles';
+import { AlertMessage } from '../AlertMessage/AlertMessage.js';
 
 // TODO: some of the styling currently used here doesn't align with usage in other places
 //  We might want to consider removing the padding and color here?
@@ -19,7 +18,7 @@ export const FundsSufficiencyMessage = () => {
   return (
     <AlertMessage
       severity="warning"
-      icon={<WarningRoundedIcon />}
+      icon={<WarningRounded />}
       title={<AlertTitle>{t(`warning.message.insufficientFunds`)}</AlertTitle>}
       isMultilineTitle
     />

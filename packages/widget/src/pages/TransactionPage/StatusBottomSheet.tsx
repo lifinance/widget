@@ -1,34 +1,32 @@
-import DoneIcon from '@mui/icons-material/Done';
-import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
-import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
-import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
+import {
+  Done,
+  ErrorRounded,
+  InfoRounded,
+  WarningRounded,
+} from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { BottomSheetBase } from '../../components/BottomSheet';
-import { BottomSheet } from '../../components/BottomSheet';
-import { Token } from '../../components/Token';
-import {
-  getProcessMessage,
-  useAvailableChains,
-  useNavigateBack,
-  useTokenBalance,
-} from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import type { RouteExecution } from '../../stores';
+import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js';
+import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
+import { Token } from '../../components/Token/Token.js';
+import { useAvailableChains } from '../../hooks/useAvailableChains.js';
+import { useNavigateBack } from '../../hooks/useNavigateBack.js';
+import { getProcessMessage } from '../../hooks/useProcessMessage.js';
+import { useTokenBalance } from '../../hooks/useTokenBalance.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useFieldActions } from '../../stores/form/useFieldActions.js';
 import {
   RouteExecutionStatus,
-  getSourceTxHash,
-  useFieldActions,
-} from '../../stores';
-import {
-  formatTokenAmount,
-  hasEnumFlag,
-  navigationRoutes,
-  shortenAddress,
-} from '../../utils';
-import { CenterContainer, IconCircle } from './StatusBottomSheet.style';
+  type RouteExecution,
+} from '../../stores/routes/types.js';
+import { getSourceTxHash } from '../../stores/routes/utils.js';
+import { hasEnumFlag } from '../../utils/enum.js';
+import { formatTokenAmount } from '../../utils/format.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { shortenAddress } from '../../utils/wallet.js';
+import { CenterContainer, IconCircle } from './StatusBottomSheet.style.js';
 
 export const StatusBottomSheet: React.FC<RouteExecution> = ({
   status,
@@ -216,17 +214,17 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
           <CenterContainer>
             <IconCircle status={status} mb={1}>
               {status === RouteExecutionStatus.Idle ? (
-                <InfoRoundedIcon color="primary" />
+                <InfoRounded color="primary" />
               ) : null}
               {status === RouteExecutionStatus.Done ? (
-                <DoneIcon color="success" />
+                <Done color="success" />
               ) : null}
               {hasEnumFlag(status, RouteExecutionStatus.Partial) ||
               hasEnumFlag(status, RouteExecutionStatus.Refunded) ? (
-                <WarningRoundedIcon color="warning" />
+                <WarningRounded color="warning" />
               ) : null}
               {hasEnumFlag(status, RouteExecutionStatus.Failed) ? (
-                <ErrorRoundedIcon color="error" />
+                <ErrorRounded color="error" />
               ) : null}
             </IconCircle>
           </CenterContainer>

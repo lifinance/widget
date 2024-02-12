@@ -1,23 +1,23 @@
 import type { TokenAmount } from '@lifi/sdk';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import { ExpandLess, ExpandMore, VerifiedUser } from '@mui/icons-material';
 import type { TooltipProps } from '@mui/material';
 import { Box, Collapse, Tooltip, Typography } from '@mui/material';
 import type { MouseEventHandler } from 'react';
 import { Fragment, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { useWidgetConfig } from '../../providers';
-import { formatTokenAmount } from '../../utils';
-import type { CardProps } from '../Card';
-import { Card, CardIconButton, CardLabel, CardLabelTypography } from '../Card';
-import type { InsuredAmount } from '../Insurance';
-import { StepActions } from '../StepActions';
-import { Token } from '../Token';
-import { TokenContainer } from './RouteCard.style';
-import { RouteCardEssentials } from './RouteCardEssentials';
-import { RouteCardEssentialsExpanded } from './RouteCardEssentialsExpanded';
-import type { RouteCardProps } from './types';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { formatTokenAmount } from '../../utils/format.js';
+import type { CardProps } from '../Card/Card.js';
+import { Card } from '../Card/Card.js';
+import { CardIconButton } from '../Card/CardIconButton.js';
+import { CardLabel, CardLabelTypography } from '../Card/CardLabel.js';
+import type { InsuredAmount } from '../Insurance/types.js';
+import { StepActions } from '../StepActions/StepActions.js';
+import { Token } from '../Token/Token.js';
+import { TokenContainer } from './RouteCard.style.js';
+import { RouteCardEssentials } from './RouteCardEssentials.js';
+import { RouteCardEssentialsExpanded } from './RouteCardEssentialsExpanded.js';
+import type { RouteCardProps } from './types.js';
 
 export const RouteCard: React.FC<
   RouteCardProps & Omit<CardProps, 'variant'>
@@ -69,7 +69,7 @@ export const RouteCard: React.FC<
               insuredTokenSymbol={route.toToken.symbol}
             >
               <CardLabel type={'insurance'}>
-                <VerifiedUserIcon fontSize="inherit" />
+                <VerifiedUser fontSize="inherit" />
                 <CardLabelTypography type="icon">
                   {t(`main.tags.insurable`)}
                 </CardLabelTypography>
@@ -86,7 +86,7 @@ export const RouteCard: React.FC<
         />
         {!defaulExpanded ? (
           <CardIconButton onClick={handleExpand} size="small">
-            {cardExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            {cardExpanded ? <ExpandLess /> : <ExpandMore />}
           </CardIconButton>
         ) : null}
       </TokenContainer>

@@ -1,25 +1,26 @@
 import { getConnectorIcon } from '@lifi/wallet-management';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import WalletIcon from '@mui/icons-material/Wallet';
+import { ExpandMore, Wallet } from '@mui/icons-material';
 import { Avatar, Badge } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import type { Account } from '../../hooks';
-import { useAccount, useChain } from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import { useHasExternalWalletProvider } from '../../providers/WalletProvider';
-import { HiddenUI } from '../../types';
-import { navigationRoutes, shortenAddress } from '../../utils';
-import { SmallAvatar } from '../SmallAvatar';
-import { CloseDrawerButton } from './CloseDrawerButton';
+import type { Account } from '../../hooks/useAccount.js';
+import { useAccount } from '../../hooks/useAccount.js';
+import { useChain } from '../../hooks/useChain.js';
+import { useHasExternalWalletProvider } from '../../providers/WalletProvider/useHasExternalWalletProvider.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { HiddenUI } from '../../types/widget.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { shortenAddress } from '../../utils/wallet.js';
+import { SmallAvatar } from '../SmallAvatar.js';
+import { CloseDrawerButton } from './CloseDrawerButton.js';
 import {
   DrawerWalletContainer,
   HeaderAppBar,
   WalletButton,
-} from './Header.style';
-import { WalletMenu } from './WalletMenu';
-import { WalletMenuContainer } from './WalletMenu.style';
+} from './Header.style.js';
+import { WalletMenu } from './WalletMenu.js';
+import { WalletMenuContainer } from './WalletMenu.style.js';
 
 export const WalletHeader: React.FC = () => {
   const { subvariant, hiddenUI } = useWidgetConfig();
@@ -82,13 +83,11 @@ const ConnectButton = () => {
   return (
     <WalletButton
       endIcon={
-        variant !== 'drawer' && subvariant !== 'split' ? (
-          <WalletIcon />
-        ) : undefined
+        variant !== 'drawer' && subvariant !== 'split' ? <Wallet /> : undefined
       }
       startIcon={
         variant === 'drawer' || subvariant === 'split' ? (
-          <WalletIcon sx={{ marginLeft: -0.25 }} />
+          <Wallet sx={{ marginLeft: -0.25 }} />
         ) : undefined
       }
       onClick={
@@ -131,7 +130,7 @@ const ConnectedButton = ({ account }: { account: Account }) => {
   return (
     <>
       <WalletButton
-        endIcon={<ExpandMoreIcon />}
+        endIcon={<ExpandMore />}
         startIcon={
           chain?.logoURI ? (
             <Badge

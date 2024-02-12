@@ -1,8 +1,8 @@
 import type { MutableRefObject } from 'react';
 import { useLayoutEffect, useState } from 'react';
-import { ElementId, createElementId } from '../utils';
-import { useDefaultElementId } from './useDefaultElementId';
-import { getScrollableContainer } from './useScrollableContainer';
+import { ElementId, createElementId } from '../utils/elements.js';
+import { useDefaultElementId } from './useDefaultElementId.js';
+import { getScrollableContainer } from './useScrollableContainer.js';
 
 const getContentHeight = (elementId: string) => {
   const containerElement = document.getElementById(

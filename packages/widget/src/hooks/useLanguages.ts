@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import { useWidgetConfig } from '../providers';
-import { useSettings, useSettingsStore } from '../stores';
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
+import { useSettings } from '../stores/settings/useSettings.js';
+import { useSettingsStore } from '../stores/settings/useSettingsStore.js';
 
 export const useLanguages = () => {
   const { t, i18n } = useTranslation();

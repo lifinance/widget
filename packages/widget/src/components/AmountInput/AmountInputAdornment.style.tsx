@@ -1,5 +1,4 @@
-import { Button as MuiButton, Skeleton } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Button as MuiButton, Skeleton, styled } from '@mui/material';
 
 export const MaxButton = styled(MuiButton)(({ theme }) => ({
   padding: theme.spacing(0.5, 1, 0.625, 1),

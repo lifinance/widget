@@ -4,10 +4,10 @@ import {
   StepConnector as MuiStepConnector,
   StepLabel as MuiStepLabel,
   Typography,
+  stepConnectorClasses,
+  stepLabelClasses,
+  styled,
 } from '@mui/material';
-import { stepConnectorClasses } from '@mui/material/StepConnector';
-import { stepLabelClasses } from '@mui/material/StepLabel';
-import { styled } from '@mui/material/styles';
 
 export const StepIcon = styled('span', {
   shouldForwardProp: (prop) =>

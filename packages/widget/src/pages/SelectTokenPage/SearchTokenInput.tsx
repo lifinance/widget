@@ -1,10 +1,11 @@
-import SearchIcon from '@mui/icons-material/Search';
+import { Search } from '@mui/icons-material';
 import { FormControl, InputAdornment } from '@mui/material';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Card } from '../../components/Card';
-import { useFieldActions, useFieldController } from '../../stores';
-import { Input } from './SearchTokenInput.style';
+import { Card } from '../../components/Card/Card.js';
+import { useFieldActions } from '../../stores/form/useFieldActions.js';
+import { useFieldController } from '../../stores/form/useFieldController.js';
+import { Input } from './SearchTokenInput.style.js';
 
 export const SearchTokenInput = () => {
   const { t } = useTranslation();
@@ -28,7 +29,7 @@ export const SearchTokenInput = () => {
           placeholder={t(`main.tokenSearch`) as string}
           endAdornment={
             <InputAdornment position="end">
-              <SearchIcon />
+              <Search />
             </InputAdornment>
           }
           inputProps={{
