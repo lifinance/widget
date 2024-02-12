@@ -43,9 +43,6 @@
   },
   "references": [
     {
-      "path": "./tsconfig.node.json"
-    },
-    {
       "path": "../wallet-management"
     },
     {
