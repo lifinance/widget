@@ -28,6 +28,10 @@ const routes: RouteObject[] = [
     path: '/',
     element: true,
   },
+  {
+    path: '*',
+    element: null,
+  },
 ];
 
 export const RoutesExpanded = () => {
