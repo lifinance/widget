@@ -7,6 +7,7 @@ import { WidgetView } from './components/Widget';
 import { DrawerControls } from './components/DrawerControls';
 import { EditToolsProvider, WidgetConfigProvider } from './store';
 import { EnvVariablesProvider, PlaygroundThemeProvider } from './providers';
+import './fonts/inter.css';
 
 const queryClient = new QueryClient();
 
