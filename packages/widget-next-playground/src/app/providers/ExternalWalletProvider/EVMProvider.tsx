@@ -31,20 +31,13 @@ import {
 import { formatChain, useAvailableChains } from '@lifi/widget';
 import type { Chain } from 'viem';
 import { createClient } from 'viem';
-import { WagmiProvider, createConfig, http } from 'wagmi';
+import { WagmiProvider, createConfig, http, CreateConnectorFn } from 'wagmi';
 import { mainnet } from 'wagmi/chains';
+import { useEnvVariables } from '../../providers/EnvVariablesProvider';
 
-if (!process.env.NEXT_PUBLIC_WALLET_CONNECT) {
-  console.error(
-    'NEXT_PUBLIC_WALLET_CONNECT is required in the projects .env.local file',
-  );
-}
-
-const connectors = [
-  createWalletConnectConnector({
-    projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT!,
-  }),
-  createCoinbaseConnector({ appName: 'LI.FI Playground' }),
+const connectors: Record<string, CreateConnectorFn | undefined> = {
+  walletConnect: undefined,
+  coinbase: undefined,
   bitget,
   gate,
   exodus,
@@ -70,9 +63,10 @@ const connectors = [
   tokenary,
   safepal,
   rabby,
-];
+};
 
 export const EVMProvider: FC<PropsWithChildren> = ({ children }) => {
+  const { EVMWalletConnectId } = useEnvVariables();
   const { chains } = useAvailableChains();
 
   const wagmiConfig = useMemo(() => {
@@ -84,9 +78,22 @@ export const EVMProvider: FC<PropsWithChildren> = ({ children }) => {
     if (_mainnet) {
       _mainnet.contracts = mainnet.contracts;
     }
+
+    if (!connectors['walletConnect']) {
+      connectors['walletConnect'] = createWalletConnectConnector({
+        projectId: EVMWalletConnectId,
+      });
+    }
+
+    if (!connectors['coinbase']) {
+      connectors['coinbase'] = createCoinbaseConnector({
+        appName: 'LI.FI Playground',
+      });
+    }
+
     const wagmiConfig = createConfig({
       chains: _chains,
-      connectors: connectors as any,
+      connectors: Object.values(connectors) as CreateConnectorFn[],
       client({ chain }) {
         return createClient({ chain, transport: http() });
       },

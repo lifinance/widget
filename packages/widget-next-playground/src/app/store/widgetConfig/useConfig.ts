@@ -1,5 +1,5 @@
 import { shallow } from 'zustand/shallow';
-import { useWidgetConfigStore } from '@/app/store/widgetConfig/WidgetConfigProvider';
+import { useWidgetConfigStore } from './WidgetConfigProvider';
 
 export const useConfig = () => {
   const config = useWidgetConfigStore((state) => state.config, shallow);

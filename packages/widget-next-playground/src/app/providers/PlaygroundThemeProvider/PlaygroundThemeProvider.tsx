@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react';
 import React from 'react';
 import { CssBaseline, ThemeProvider, useMediaQuery } from '@mui/material';
-import { theme } from '@/app/providers/PlaygroundThemeProvider/theme';
+import { theme } from './theme';
 import { useConfigAppearance } from '../../store';
 import {
   lightPalette,

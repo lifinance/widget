@@ -6,19 +6,23 @@ import { Box } from '@mui/material';
 import { WidgetView } from './components/Widget';
 import { DrawerControls } from './components/DrawerControls';
 import { EditToolsProvider, WidgetConfigProvider } from './store';
-import { PlaygroundThemeProvider } from './providers';
+import { EnvVariablesProvider, PlaygroundThemeProvider } from './providers';
 
 const queryClient = new QueryClient();
 
 const AppProvider = ({ children }: PropsWithChildren) => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <EditToolsProvider>
-        <WidgetConfigProvider>
-          <PlaygroundThemeProvider>{children}</PlaygroundThemeProvider>
-        </WidgetConfigProvider>
-      </EditToolsProvider>
-    </QueryClientProvider>
+    <EnvVariablesProvider
+      EVMWalletConnectId={process.env.NEXT_PUBLIC_WALLET_CONNECT!}
+    >
+      <QueryClientProvider client={queryClient}>
+        <EditToolsProvider>
+          <WidgetConfigProvider>
+            <PlaygroundThemeProvider>{children}</PlaygroundThemeProvider>
+          </WidgetConfigProvider>
+        </EditToolsProvider>
+      </QueryClientProvider>
+    </EnvVariablesProvider>
   );
 };
 
@@ -30,5 +34,11 @@ export default function Home() {
         <WidgetView />
       </Box>
     </AppProvider>
+  );
+}
+
+if (!process.env.NEXT_PUBLIC_EVM_WALLET_CONNECT) {
+  console.error(
+    'NEXT_PUBLIC_EVM_WALLET_CONNECT is require in your .env.local file for external wallet management',
   );
 }
