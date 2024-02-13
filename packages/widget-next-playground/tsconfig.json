@@ -38,12 +38,21 @@
       ],
       "@lifi/widget/*": [
         "./packages/widget/src/*"
+      ],
+      "@lifi/widget-playground": [
+        "./packages/widget-playground/src"
+      ],
+      "@lifi/widget-playground/*": [
+        "./packages/widget-playground/src/*"
       ]
     }
   },
   "references": [
     {
       "path": "../wallet-management"
+    },
+    {
+      "path": "../widget-playground"
     },
     {
       "path": "../widget"

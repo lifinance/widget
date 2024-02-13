@@ -1,15 +1,22 @@
 import type { FC, PropsWithChildren } from 'react';
 import { createContext, useContext, useRef } from 'react';
 import { shallow } from 'zustand/shallow';
-import { defaultWidgetConfig } from '../../defaultWidgetConfig';
-import type { WidgetConfigStore, WidgetConfigState } from './types';
-import { createWidgetConfigStore } from './createWidgetConfigStore';
+import { WidgetConfig } from '@lifi/widget';
+import type { WidgetConfigStore, WidgetConfigState } from './types.js';
+import { createWidgetConfigStore } from './createWidgetConfigStore.js';
 
 export const WidgetConfigContext = createContext<WidgetConfigStore | null>(
   null,
 );
 
-export const WidgetConfigProvider: FC<PropsWithChildren> = ({ children }) => {
+interface WidgetConfigProviderProps extends PropsWithChildren {
+  defaultWidgetConfig: Partial<WidgetConfig>;
+}
+
+export const WidgetConfigProvider: FC<WidgetConfigProviderProps> = ({
+  children,
+  defaultWidgetConfig,
+}) => {
   const storeRef = useRef<WidgetConfigStore>();
 
   if (!storeRef.current) {

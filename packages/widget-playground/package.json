@@ -1,24 +1,26 @@
 {
-  "name": "@lifi/widget-next-playground",
-  "version": "0.1.0",
+  "name": "@lifi/widget-playground",
   "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.d.ts",
   "scripts": {
-    "dev": "next dev -p 3001",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "build": "yarn clean && yarn build:esm &&  yarn build:fonts && yarn build:clean",
+    "build:esm": "tsc --build",
+    "build:fonts": "cpy 'src/fonts/*' dist/fonts",
+    "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo ./dist/tsconfig.cjs.tsbuildinfo",
+    "clean": "yarn build:clean && rm -rf dist",
+    "types": "tsc --noEmit",
+    "lint": "eslint --ext .tsx --ext .ts ./src"
   },
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {
-    "@emotion/cache": "^11.11.0",
-    "@emotion/react": "^11.11.3",
-    "@emotion/styled": "^11.11.0",
+  "peerDependencies": {
     "@lifi/sdk": "^3.0.0-alpha.55",
     "@lifi/wallet-management": "^3.0.0-alpha.19",
     "@lifi/widget": "^3.0.0-alpha.28",
-    "@lifi/widget-playground": "^0.1.0",
     "@mui/icons-material": "^5.15.9",
     "@mui/material": "^5.15.7",
     "@mui/material-nextjs": "^5.15.6",
@@ -38,8 +40,13 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "cpy-cli": "^5.0.0",
     "eslint": "^8.56.0",
     "eslint-config-next": "14.1.0",
     "typescript": "^5"
+  },
+  "exports": {
+    ".": ["./dist/index.js", "./src/index.ts"],
+    "./fonts": ["./dist/fonts/inter.css", "./src/fonts/inter.css"]
   }
 }

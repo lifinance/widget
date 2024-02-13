@@ -1,0 +1,25 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "noEmit": false,
+    "sourceMap": true,
+    "outDir": "dist/_esm",
+    "rootDir": "./src",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+  },
+  "include": [
+    "./src/**/*",
+    "./src/**/*.json",
+  ],
+  "references": [
+    {
+      "path": "../wallet-management"
+    },
+    {
+      "path": "../widget"
+    }
+  ]
+}

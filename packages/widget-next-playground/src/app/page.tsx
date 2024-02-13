@@ -3,22 +3,30 @@
 import { type PropsWithChildren } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Box } from '@mui/material';
-import { WidgetView } from './components/Widget';
-import { DrawerControls } from './components/DrawerControls';
-import { EditToolsProvider, WidgetConfigProvider } from './store';
-import { EnvVariablesProvider, PlaygroundThemeProvider } from './providers';
-import './fonts/inter.css';
+
+import {
+  EnvVariablesProvider,
+  EditToolsProvider,
+  WidgetConfigProvider,
+  PlaygroundThemeProvider,
+  DrawerControls,
+  WidgetView,
+} from '@lifi/widget-playground';
+
+import '@lifi/widget-playground/fonts';
+
+import { defaultWidgetConfig } from './defaultWidgetConfig';
 
 const queryClient = new QueryClient();
 
 const AppProvider = ({ children }: PropsWithChildren) => {
   return (
     <EnvVariablesProvider
-      EVMWalletConnectId={process.env.NEXT_PUBLIC_WALLET_CONNECT!}
+      EVMWalletConnectId={process.env.NEXT_PUBLIC_EVM_WALLET_CONNECT!}
     >
       <QueryClientProvider client={queryClient}>
         <EditToolsProvider>
-          <WidgetConfigProvider>
+          <WidgetConfigProvider defaultWidgetConfig={defaultWidgetConfig}>
             <PlaygroundThemeProvider>{children}</PlaygroundThemeProvider>
           </WidgetConfigProvider>
         </EditToolsProvider>
