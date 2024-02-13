@@ -63,13 +63,16 @@ export const SendToWalletButton = () => {
       ? defaultChainIdsByType[chainType]
       : undefined;
 
-  const headerTitle = selectedBookmark?.isConnectedAccount
-    ? matchingConnectedAccount?.connector?.name || address
-    : selectedBookmark?.name || address;
+  const isConnectedAccount = selectedBookmark?.isConnectedAccount;
+  const connectedAccountName = matchingConnectedAccount?.connector?.name;
+  const bookmarkName = selectedBookmark?.name;
 
-  const headerSubheader = selectedBookmark?.isConnectedAccount
-    ? !!matchingConnectedAccount && address
-    : !!selectedBookmark?.name && address;
+  const headerTitle = isConnectedAccount
+    ? connectedAccountName || address
+    : bookmarkName || connectedAccountName || address;
+
+  const headerSubheader =
+    isConnectedAccount || bookmarkName || connectedAccountName ? address : null;
 
   const handleOnClick = () => {
     navigate(
