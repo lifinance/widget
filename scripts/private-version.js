@@ -8,7 +8,7 @@ const { sync } = fastGlob;
 
 const privatePackages = [
   '@lifi/widget-next-playground',
-  '@lifi/widget-playground',
+  '@lifi/widget-vite-playground',
   '@lifi/widget-embedded',
 ];
 const packagesPath = join(process.cwd(), 'packages');
