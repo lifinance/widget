@@ -139,7 +139,6 @@
       "unknown": "Please try again or contact support."
     },
     "title": {
-      "addressRequired": "Wallet address is required",
       "allowanceRequired": "Insufficient allowance",
       "balanceIsTooLow": "The balance is too low",
       "bookmarkAlreadyExists": "Wallet is already bookmarked as {{name}}",
@@ -155,9 +154,10 @@
       "transactionUnderpriced": "Transaction is underpriced",
       "transactionUnprepared": "Unable to prepare transaction",
       "unknown": "Something went wrong",
-      "walletAddressInvalid": "Wallet address or ENS is invalid, or the network doesn't support ENS.",
+      "walletAddressInvalid": "Wallet address or domain name is invalid",
       "walletAddressRequired": "Wallet address is required.",
-      "walletChainTypeInvalid": "Wallet address does not match the selected destination chain - {{chainName}}"
+      "walletAddressInvalid_chain": "Wallet address or domain name is invalid for selected destination chain {{chainName}}",
+      "walletChainTypeInvalid": "Wallet address doesn't match the selected destination chain {{chainName}}"
     }
   },
   "tooltip": {
@@ -284,7 +284,8 @@
     "resetSettings": "You're using custom setting limiting the number of available routes."
   },
   "sendToWallet": {
-    "enterAddress": "Enter address or ENS",
+    "enterAddress_short": "Enter wallet address",
+    "enterAddress_long": "Enter wallet address or domain name",
     "enterName": "Enter name",
     "confirmWalletAddress": "Confirm wallet address",
     "connectedWallets": "Connected wallets",

@@ -1,8 +1,8 @@
+import { LoadingButton, loadingButtonClasses } from '@mui/lab';
 import type { Theme } from '@mui/material';
 import {
   Alert,
   Box,
-  Button,
   IconButton,
   List,
   Typography,
@@ -66,25 +66,28 @@ const tertiaryButtonStyles = (theme: Theme) => ({
     theme.palette.mode === 'light'
       ? theme.palette.grey[200]
       : theme.palette.grey[800],
-  '&:hover': {
+  '&:hover, &:active': {
     backgroundColor:
       theme.palette.mode === 'light'
         ? theme.palette.grey[300]
         : theme.palette.grey[700],
   },
-  '&:active': {
+  [`&.${loadingButtonClasses.loading}:disabled`]: {
     backgroundColor:
       theme.palette.mode === 'light'
-        ? theme.palette.grey[300]
-        : theme.palette.grey[700],
+        ? theme.palette.grey[200]
+        : theme.palette.grey[800],
+  },
+  [`.${loadingButtonClasses.loadingIndicator}`]: {
+    color: theme.palette.text.primary,
   },
 });
 
-export const SendToWalletButton = styled(Button)(({ theme }) => ({
+export const SendToWalletButton = styled(LoadingButton)(({ theme }) => ({
   ...tertiaryButtonStyles(theme),
 }));
 
-export const SendToWalletIconButton = styled(Button)(({ theme }) => ({
+export const SendToWalletIconButton = styled(LoadingButton)(({ theme }) => ({
   ...tertiaryButtonStyles(theme),
   padding: theme.spacing(1.25),
   minWidth: 40,

@@ -9,7 +9,7 @@ import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js';
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
 import type { Bookmark } from '../../stores/bookmarks/types.js';
 import { useFieldActions } from '../../stores/form/useFieldActions.js';
-import { useSendToWalletStore } from '../../stores/settings/useSendToWalletStore.js';
+import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import {
   IconContainer,
@@ -31,9 +31,7 @@ export const ConfirmAddressSheet = forwardRef<
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { setFieldValue } = useFieldActions();
-  const setSendToWallet = useSendToWalletStore(
-    (state) => state.setSendToWallet,
-  );
+  const { setSendToWallet } = useSendToWalletActions();
 
   const handleClose = () => {
     (ref as MutableRefObject<BottomSheetBase>).current?.close();

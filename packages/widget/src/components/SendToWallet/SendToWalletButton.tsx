@@ -27,12 +27,16 @@ export const SendToWalletButton = () => {
   const { disabledUI, hiddenUI, toAddress, toAddresses } = useWidgetConfig();
   const { showSendToWallet, showSendToWalletDirty } = useSendToWalletStore();
   const { showDestinationWallet } = useSettings(['showDestinationWallet']);
-  const [toAddressFieldValue] = useFieldValues('toAddress');
+  const [toAddressFieldValue, toChainId, toTokenAddress] = useFieldValues(
+    'toAddress',
+    'toChain',
+    'toToken',
+  );
   const { selectedBookmark } = useBookmarks();
   const { accounts } = useAccount();
+  const { requiredToAddress } = useToAddressRequirements();
   const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress);
   const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress);
-  const { requiredToAddress } = useToAddressRequirements();
 
   const showInstantly =
     Boolean(
@@ -44,7 +48,9 @@ export const SendToWalletButton = () => {
 
   const address = toAddressFieldValue
     ? shortenAddress(toAddressFieldValue)
-    : t('sendToWallet.enterAddress');
+    : t('sendToWallet.enterAddress', {
+        context: 'short',
+      });
 
   const matchingConnectedAccount = accounts.find(
     (account) => account.address === toAddressFieldValue,
@@ -57,11 +63,14 @@ export const SendToWalletButton = () => {
         : undefined)
     : undefined;
 
-  const chainId = matchingConnectedAccount
-    ? matchingConnectedAccount.chainId
-    : chainType
-      ? defaultChainIdsByType[chainType]
-      : undefined;
+  const chainId =
+    toChainId && toTokenAddress
+      ? toChainId
+      : matchingConnectedAccount
+        ? matchingConnectedAccount.chainId
+        : chainType
+          ? defaultChainIdsByType[chainType]
+          : undefined;
 
   const headerTitle = selectedBookmark?.isConnectedAccount
     ? matchingConnectedAccount?.connector?.name || address

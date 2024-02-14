@@ -7,7 +7,10 @@ import { useNavigate } from 'react-router-dom';
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
 import { CardButton } from '../../components/Card/CardButton.js';
 import { useAccount } from '../../hooks/useAccount.js';
-import { useAddressValidation } from '../../hooks/useAddressValidation.js';
+import {
+  AddressType,
+  useAddressValidation,
+} from '../../hooks/useAddressValidation.js';
 import { useChain } from '../../hooks/useChain.js';
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
 import type { Bookmark } from '../../stores/bookmarks/types.js';
@@ -32,11 +35,18 @@ export const SendToWalletPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { bookmarks, recentWallets } = useBookmarks();
-  const { addBookmark, getBookmark, setSelectedBookmark, addRecentWallet } =
-    useBookmarkActions();
+  const {
+    addBookmark,
+    getBookmark,
+    setSelectedBookmark,
+    getSelectedBookmark,
+    addRecentWallet,
+  } = useBookmarkActions();
   const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null);
   const confirmAddressSheetRef = useRef<BottomSheetBase>(null);
-  const [inputAddressValue, setInputAddressValue] = useState('');
+  const [inputAddressValue, setInputAddressValue] = useState(
+    () => getSelectedBookmark()?.address ?? '',
+  );
   const [validatedWallet, setValidatedWallet] = useState<Bookmark>();
   const [errorMessage, setErrorMessage] = useState('');
   const { validateAddress, isValidating } = useAddressValidation();
@@ -45,6 +55,8 @@ export const SendToWalletPage = () => {
   const { requiredToChainType } = useToAddressRequirements();
   const [toChainId] = useFieldValues('toChain');
   const { chain: toChain } = useChain(toChainId);
+  const [isDoneButtonLoading, setIsDoneButtonLoading] = useState(false);
+  const [isBookmarkButtonLoading, setIsBookmarkButtonLoading] = useState(false);
 
   const handleInputChange = (e: ChangeEvent) => {
     if (errorMessage) {
@@ -58,11 +70,16 @@ export const SendToWalletPage = () => {
       return;
     }
     if (!inputAddressValue) {
-      setErrorMessage(t('error.title.addressRequired'));
+      setErrorMessage(t('error.title.walletAddressRequired'));
       return;
     }
-
-    const validationResult = await validateAddress(inputAddressValue);
+    setIsDoneButtonLoading(true);
+    const validationResult = await validateAddress({
+      value: inputAddressValue,
+      chainType: requiredToChainType,
+      chain: toChain,
+    });
+    setIsDoneButtonLoading(false);
     if (!validationResult.isValid) {
       setErrorMessage(validationResult.error);
       return;
@@ -82,7 +99,9 @@ export const SendToWalletPage = () => {
 
     setValidatedWallet({
       name:
-        validationResult.addressType === 'ENS' ? inputAddressValue : undefined,
+        validationResult.addressType === AddressType.NameService
+          ? inputAddressValue
+          : undefined,
       address: validationResult.address,
       chainType: validationResult.chainType,
     });
@@ -94,7 +113,7 @@ export const SendToWalletPage = () => {
       return;
     }
     if (!inputAddressValue) {
-      setErrorMessage(t('error.title.addressRequired'));
+      setErrorMessage(t('error.title.walletAddressRequired'));
       return;
     }
 
@@ -107,13 +126,16 @@ export const SendToWalletPage = () => {
       );
       return;
     }
-
-    const validationResult = await validateAddress(inputAddressValue);
+    setIsBookmarkButtonLoading(true);
+    const validationResult = await validateAddress({
+      value: inputAddressValue,
+    });
+    setIsBookmarkButtonLoading(false);
 
     if (validationResult.isValid) {
       setValidatedWallet({
         name:
-          validationResult.addressType === 'ENS'
+          validationResult.addressType === AddressType.NameService
             ? inputAddressValue
             : undefined,
         address: validationResult.address,
@@ -146,6 +168,10 @@ export const SendToWalletPage = () => {
     addRecentWallet(confirmedWallet);
   };
 
+  const placeholder = t('sendToWallet.enterAddress', {
+    context: 'long',
+  });
+
   return (
     <SendToWalletPageContainer topBottomGutters>
       <SendToWalletCard mb={6} variant={errorMessage ? 'error' : 'default'}>
@@ -157,8 +183,8 @@ export const SendToWalletPage = () => {
           spellCheck="false"
           onChange={handleInputChange}
           value={inputAddressValue}
-          placeholder={t('sendToWallet.enterAddress')}
-          aria-label={t('sendToWallet.enterAddress')}
+          placeholder={placeholder}
+          aria-label={placeholder}
           maxRows={2}
           inputProps={{ maxLength: 128 }}
           multiline
@@ -172,12 +198,18 @@ export const SendToWalletPage = () => {
           <SendToWalletButton
             variant="text"
             onClick={handleDone}
+            loading={isDoneButtonLoading}
+            loadingPosition="center"
             sx={{ flexGrow: 1 }}
           >
             {t('button.done')}
           </SendToWalletButton>
           <Tooltip title={t('button.bookmark')} arrow>
-            <SendToWalletIconButton onClick={handleBookmarkAddress}>
+            <SendToWalletIconButton
+              onClick={handleBookmarkAddress}
+              loading={isBookmarkButtonLoading}
+              loadingPosition="center"
+            >
               <TurnedIn fontSize="small" />
             </SendToWalletIconButton>
           </Tooltip>

@@ -9,6 +9,7 @@ export const useBookmarkActions = () => {
       addBookmark: store.addBookmark,
       removeBookmark: store.removeBookmark,
       setSelectedBookmark: store.setSelectedBookmark,
+      getSelectedBookmark: store.getSelectedBookmark,
       addRecentWallet: store.addRecentWallet,
       removeRecentWallet: store.removeRecentWallet,
     }),
