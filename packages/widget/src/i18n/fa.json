@@ -1,0 +1,300 @@
+{
+  "language": {
+    "name": "فارسی",
+    "title": "زبان"
+  },
+  "format": {
+    "currency": "{{value, currency(currency: USD)}}",
+    "number": "{{value, number(maximumFractionDigits: 9)}}"
+  },
+  "button": {
+    "auto": "خودکار",
+    "bookmark": "نشانک",
+    "bookmarks": "نشانک ها",
+    "bridge": "پل",
+    "buy": "خرید",
+    "buyNow": "خریدن",
+    "cancel": "لغو",
+    "changeWallet": "تغییر کیف پول",
+    "close": "بستن",
+    "confirm": "تایید",
+    "connectWallet": "اتصال کیف پول",
+    "contactSupport": "تماس با ما",
+    "continue": "ادامه",
+    "copyAddress": "کپی آدرس",
+    "dark": "تاریک",
+    "delete": "حذف",
+    "disconnect": "قطع کردن",
+    "done": "پایان",
+    "exchange": "تبادل",
+    "getGas": "دریافت gas",
+    "hide": "مخفی",
+    "learnMore": "بیشتر",
+    "lifiCheckout": "LI.FI پرداخت",
+    "lifiExchange": "LI.FI تبادل",
+    "light": "روشن",
+    "max": "حداکثر",
+    "ok": "تایید",
+    "options": "گزینه ها",
+    "removeTransaction": "حذف تراکنش",
+    "reset": "بازنشانی",
+    "resetSettings": "بازنشانی تنظیمات",
+    "reviewBridge": "مرور پل",
+    "reviewPurchase": "مرور خرید",
+    "reviewSwap": "مرور مبادله",
+    "seeDetails": "جزییات",
+    "showAll": "نمایش همه",
+    "startBridging": "شروع پل زدن",
+    "startSwapping": "شروع مبادله",
+    "swap": "مبادله",
+    "tryAgain": "امتحان مجدد",
+    "viewCoverage": "دیدن پوشش",
+    "viewOnExplorer": "دیدن برروی جستجوگر"
+  },
+  "header": {
+    "activeTransactions": "معاملات فعال",
+    "bookmarkedWallets": "کیف پول نشانک گذاری شده",
+    "bridge": "پل",
+    "checkout": "پرداخت",
+    "exchange": "تبادل",
+    "from": "تبادل از",
+    "gas": "Gas",
+    "payWith": "پرداخت با",
+    "purchase": "خرید",
+    "purchaseDetails": "جزئیات خرید",
+    "recentWallets": "کیف پول های اخیر",
+    "selectChain": "انتخاب چین",
+    "selectWallet": "انتخاب کیف پول",
+    "sendToWallet": "انتقال به کیف پول",
+    "settings": "تنظیمات",
+    "swap": "مبادله",
+    "to": "تبادل به",
+    "transactionDetails": "جزئیات معامله",
+    "transactionHistory": "تاریخچه معامله",
+    "walletConnected": "کیف پول متصل شد",
+    "youGet": "دریافت می کنید"
+  },
+  "info": {
+    "message": {
+      "autoRefuel": "مقدار (گز) شما برروی {{chainName}} کم است. با ادامه، مقدار کافی برای تکمیل معامله دریافت خواهید کرد.",
+      "emptyActiveTransactions": "تراکنش های در حال انجام در اینجا ظاهر می شوند. پس از تکمیل، آنها را در تاریخچه تراکنش پیدا کنید.",
+      "emptyTokenList": "نمیتوانیم توکتی برروی {{chainName}} پیدا کنیم یا شما ندارید. اگر رمز شما ظاهر نشد، لطفاً آدرس قرارداد را جستجو کنید یا چین دیگری را انتخاب کنید.",
+      "emptyTransactionHistory": "سابقه تراکنش فقط به صورت محلی ذخیره می شود و در صورت پاک کردن داده های مرورگر خود حذف می شود.",
+      "routeNotFound": "دلایل آن می تواند این باشد: نقدینگی کم، مقدار انتخاب شده خیلی کم است، هزینه های گز خیلی زیاد است یا هیچ مسیری برای ترکیب انتخابی وجود ندارد.",
+      "fundsToExchange": "ممکن است وجوه ارسال شده به صرافی از بین برود"
+    },
+    "title": {
+      "autoRefuel": "دریافت gas",
+      "emptyActiveTransactions": "تراکنش فعالی وجود ندارد",
+      "emptyTransactionHistory": "تراکنش اخیری وجود ندارد",
+      "routeNotFound": "هیچ مسیری در دسترس نیست"
+    }
+  },
+  "success": {
+    "message": {
+      "exchangePartiallySuccessful": "ما سعی کردیم تراکنش را تکمیل کنیم، اما نقدینگی {{tool}} برای توکن {{tokenSymbol}} تمام شد.",
+      "exchangeSuccessful": "اکنون {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} در کیف پول {{walletAddress}} در زنجیره {{chainName}} وجود دارد.",
+      "purchaseSuccessful": "شما اکنون مالک {{assetName}} در کیف پول {{walletAddress}} در زنجیره {{chainName}} هستید."
+    },
+    "title": {
+      "bridgePartiallySuccessful": "پل تا حدی موفق شد",
+      "bridgeSuccessful": "پل موفق شد",
+      "purchaseSuccessful": "خرید موفق",
+      "refundIssued": "بازپرداخت صادر شد",
+      "swapPartiallySuccessful": "مبادله تا حدی با موفقیت انجام شد",
+      "swapSuccessful": "مبادله با موفقیت انجام شد"
+    }
+  },
+  "warning": {
+    "message": {
+      "deleteActiveTransactions": "تراکنش‌ های فعال فقط به صورت محلی ذخیره می‌شوند و در صورت حذف آن‌ها قابل بازیابی نیستند.",
+      "deleteTransactionHistory": "تراکنش‌ های فعال فقط به صورت محلی ذخیره می‌شوند و در صورت حذف آن‌ها قابل بازیابی نیستند.",
+      "highValueLoss": "ارزش توکن های دریافتی به طور قابل توجهی کمتر از توکن های مبادله شده و هزینه تراکنش است.",
+      "insufficientFunds": "شما موجودی کافی برای تکمیل تراکنش ندارید.",
+      "insufficientGas": "گز کافی برای تکمیل معامله ندارید. حداقل باید اضافه کنید :",
+      "rateChanged": "نرخ ارز تغییر کرده است. با ادامه معامله، نرخ جدید را می پذیرید",
+      "resetSettings": "با این کار اولویت مسیر، لغزش، قیمت گاز، پل‌های فعال و مبادلات بازنشانی می‌شود.",
+      "slippageOutsideRecommendedLimits": "تحمل لغزش بالا ممکن است منجر به مبادله نامطلوب ناشی از پیشروی شود."
+    },
+    "title": {
+      "deleteActiveTransactions": "همه تراکنش های فعال حذف شود؟",
+      "deleteTransaction": "این تراکنش حذف شود؟",
+      "deleteTransactionHistory": "سابقه تراکنش حذف شود؟",
+      "highValueLoss": "از دست دادن ارزش بالا",
+      "insufficientGas": "گز ناکافی",
+      "rateChanged": "نرخ تغییر کرد",
+      "resetSettings": "تنظیمات بازنشانی شود؟"
+    }
+  },
+  "error": {
+    "message": {
+      "allowanceRequired": "مبلغ انتقال برای {{tokenSymbol}} از میزان مجاز فعلی شما بیشتر است. لطفا موجودی خود را افزایش دهید و دوباره امتحان کنید.",
+      "insufficientFunds": "شما گز کافی برای پوشش هزینه تراکنش ندارید.",
+      "signatureRejected": "امضای شما برای تکمیل معامله الزامی است. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} در {{chainName}} در کیف پول شما باقی می‌ماند.",
+      "slippageThreshold": "لغزش بزرگتر از مقدار تعریف شده است. لطفا یک مظنه جدید درخواست کنید.",
+      "transactionFailed": "لطفاً برای اطلاعات بیشتر جستجوگر بلوک را بررسی کنید.",
+      "transactionNotSent": "تراکنش ارسال نشد",
+      "transactionCanceled": "تراکنش لغو شد.",
+      "remainInYourWallet": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} در {{chainName}} در کیف پول شما باقی می‌ماند.",
+      "unknown": "لطفا دوباره امتحان کنید یا با پشتیبانی تماس بگیرید."
+    },
+    "title": {
+      "addressRequired": "آدرس کیف پول الزامی است",
+      "allowanceRequired": "موجودی ناکافی",
+      "balanceIsTooLow": "موجودی خیلی کم است",
+      "bookmarkAlreadyExists": "کیف پول قبلاً به عنوان {{name}} نشانک شده است",
+      "bookmarkNameRequired": "نام نشانک مورد نیاز است",
+      "chainSwitch": "تغییر چین الزامی است.",
+      "exchangeRateUpdateCanceled": "به‌روزرسانی نرخ ارز لغو شد",
+      "gasLimitIsTooLow": "حد گز خیلی کم است",
+      "insufficientFunds": "موجودی ناکافی",
+      "signatureRejected": "امضا لازم است",
+      "slippageNotMet": "شرایط لغزش رعایت نشده است",
+      "transactionCanceled": "معامله لغو شد",
+      "transactionFailed": "معامله ناموفق بود",
+      "transactionUnderpriced": "معامله زیر قیمت است",
+      "transactionUnprepared": "امکان آماده سازی معاملات وجود ندارد",
+      "unknown": "مشکلی پیش آمد",
+      "walletAddressInvalid": "آدرس کیف پول یا ENS نامعتبر است یا شبکه از ENS پشتیبانی نمی کند.",
+      "walletAddressRequired": "آدرس کیف پول الزامی است.",
+      "walletChainTypeInvalid": "آدرس کیف پول با چین مقصد انتخابی مطابقت ندارد - {{chainName}}"
+    }
+  },
+  "tooltip": {
+    "estimatedTime": "تخمین زمان اجرا بر حسب دقیقه",
+    "notFound": {
+      "text": "ما نتوانستیم این صفحه را پیدا کنیم.",
+      "title": "404"
+    },
+    "numberOfSteps": "تعدادی از مراحل مبادله هر مرحله می تواند شامل 1-2 تراکنش باشد که نیاز به امضا دارند.",
+    "progressToNextUpdate": "مظنه ها در {{value}} ثانیه به روز می شوند. <0/> برای به روز رسانی اکنون اینجا را کلیک کنید",
+    "recommended": "مسیری ارزان که پیچیدگی و سهولت استفاده را متعادل می کند.",
+    "settingsModified": "تنظیمات (اصلاح شده)",
+    "selectAll": "انتخاب همه",
+    "deselectAll": "همه را لغو انتخاب کنید"
+  },
+  "main": {
+    "allTokens": "همه توکن ها",
+    "crossStepDetails": "پل از {{from}} به {{to}} از طریق {{tool}}",
+    "currentAmount": "مبلغ فعلی",
+    "featuredTokens": "توکن های ویژه",
+    "fees": {
+      "estimated": "هزینه های برآورد شده",
+      "networkEstimated": "هزینه های تخمینی شبکه:",
+      "networkPaid": "هزینه های پرداخت شده شبکه:",
+      "paid": "هزینه های پرداخت شده",
+      "providerEstimated": "هزینه های تخمینی ارائه دهنده:",
+      "providerPaid": "هزینه های پرداخت شده ارائه دهنده:"
+    },
+    "from": "از",
+    "fromAmount": "شما پرداخت میکنید",
+    "gasCost": "هزینه گز",
+    "inProgress": "درحال انجام",
+    "myTokens": "توکن های من",
+    "nftStepDetails": "خرید NFT از طریق {{tool}}",
+    "onChain": "برروی {{chainName}}",
+    "ownedBy": "متعلق به",
+    "popularTokens": "توکن های محبوب",
+    "process": {
+      "crossChain": {
+        "actionRequired": "لطفا معامله را امضا کنید",
+        "done": "تراکنش پل تایید شد",
+        "pending": "در انتظار معامله پل",
+        "started": "آماده سازی تراکنش پل"
+      },
+      "nft": {
+        "done": "NFT خریداری شد"
+      },
+      "receivingChain": {
+        "done": "پل تکمیل شد",
+        "partial": "پل نیمه تمام است",
+        "pending": "در انتظار چین مقصد",
+        "refunded": "تراکنش پل بازپرداخت شد"
+      },
+      "swap": {
+        "actionRequired": "لطفا معامله را امضا کنید",
+        "done": "مبادله کامل شد",
+        "pending": "در انتظار معامله مبادله",
+        "started": "آماده سازی تراکنش مبادله"
+      },
+      "switchChain": {
+        "actionRequired": "تغییر چین الزامی است.",
+        "done": "چین با موفقیت تعویض شد"
+      },
+      "tokenAllowance": {
+        "done": "موجودی توکن تایید شد",
+        "pending": "در انتظار موجودی توکن",
+        "started": "تنظیم موجودی توکن"
+      }
+    },
+    "quotedAmount": "مبلغ نقل شده",
+    "rateChange": "تغییر نرخ",
+    "receiving": "در حال دریافت",
+    "refuelStepDetails": "دریافت گز از طریق {{tool}}",
+    "selectChain": "انتخاب چین",
+    "selectChainAndToken": "توکن و چین را انتخاب کنید",
+    "selectToken": "توکن را انتخاب کنید",
+    "sendToAddress": "ارسال به {{address}}",
+    "sendToWallet": "به کیف پول دیگری ارسال کنید",
+    "sending": "در حال ارسال",
+    "sentToAddress": "ارسال به {{address}}",
+    "stepBridge": "پل",
+    "stepBridgeAndBuy": "پل بزنید و بخرید",
+    "stepDetails": "{{tool}} از طريق LI.FI",
+    "stepSwap": "مبادله",
+    "stepSwapAndBridge": "پل بزنید و بخرید",
+    "stepSwapAndBuy": "مبادله و خرید کنید",
+    "supportId": "شناسه پشتیبانی",
+    "swapStepDetails": "مبادله برروی {{chain}} از طريق {{tool}}",
+    "tags": {
+      "cheapest": "ارزان",
+      "fastest": "سریع",
+      "insurable": "بیمه شدنی",
+      "insurance": "بیمه",
+      "insured": "بیمه شده",
+      "recommended": "توصیه شده",
+      "safest": "امن"
+    },
+    "to": "به",
+    "tokenOnChain": "{{tokenSymbol}} برروی {{chainName}}",
+    "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} برروی {{chainName}}",
+    "tokenSearch": "جستجو بر اساس نام توکن یا آدرس",
+    "valueLoss": "از دست دادن ارزش"
+  },
+  "insurance": {
+    "bridgeExploits": "خرابی پل، هک یا سوء استفاده",
+    "insure": "<0>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</0> را در حال انتقال بیمه کنید.",
+    "insured": "شما <0>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</0> را در حین حمل بیمه کرده اید:",
+    "slippageError": "خطا در لغزش برای توکن های دریافتی"
+  },
+  "settings": {
+    "theme": "تم",
+    "enabledBridges": "پل ها",
+    "enabledExchanges": "مبادلات",
+    "gasPrice": {
+      "fast": "سریع",
+      "normal": "طبیعی",
+      "slow": "آهسته",
+      "title": "قیمت گز"
+    },
+    "routePriority": "اولویت مسیر",
+    "sendToWalletOption": "گزینه ارسال به کیف پول",
+    "slippage": "لغزش",
+    "custom": "سفارشی",
+    "resetSettings": "شما از تنظیمات سفارشی استفاده می کنید که تعداد مسیرهای موجود را محدود می کند."
+  },
+  "sendToWallet": {
+    "enterAddress": "آدرس یا ENS را وارد کنید",
+    "enterName": "نام را وارد کنید",
+    "confirmWalletAddress": "آدرس کیف پول را تأیید کنید",
+    "connectedWallets": "کیف پول های متصل",
+    "bookmarkWallet": "نشانک گذاری کیف پول",
+    "addBookmark": "اضافه کردن نشانک",
+    "noBookmarkedWallets": "هیچ کیف پول نشانه گذاری شده ای وجود ندارد",
+    "noConnectedWallets": "بدون کیف پول متصل",
+    "noRecentWallets": "کیف پول اخیری وجود ندارد"
+  },
+  "wallet": {
+    "extensionNotFound": "لطفاً قبل از انتخاب این کیف پول مطمئن شوید که فقط پسوند مرورگر {{name}} فعال است."
+  }
+}
