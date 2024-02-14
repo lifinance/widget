@@ -33,12 +33,6 @@
       "@lifi/wallet-management/*": [
         "./packages/wallet-management/src/*"
       ],
-      "@lifi/widget": [
-        "./packages/widget/src"
-      ],
-      "@lifi/widget/*": [
-        "./packages/widget/src/*"
-      ],
       "@lifi/widget-playground": [
         "./packages/widget-playground/src"
       ],
@@ -53,9 +47,6 @@
     },
     {
       "path": "../widget-playground"
-    },
-    {
-      "path": "../widget"
     }
   ],
   "include": [
@@ -66,6 +57,7 @@
     "dist/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "**/hooks/useWidgetEvents.ts"
   ]
 }

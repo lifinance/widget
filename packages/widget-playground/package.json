@@ -46,7 +46,7 @@
     "typescript": "^5"
   },
   "exports": {
-    ".": ["./dist/index.js", "./src/index.ts"],
-    "./fonts": ["./dist/fonts/inter.css", "./src/fonts/inter.css"]
+    ".": "./src/index.ts",
+    "./fonts": "./src/fonts/inter.css"
   }
 }
