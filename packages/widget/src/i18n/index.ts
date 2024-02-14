@@ -12,5 +12,6 @@ import tr from './tr.json' assert { type: 'json' };
 import uk from './uk.json' assert { type: 'json' };
 import vi from './vi.json' assert { type: 'json' };
 import zh from './zh.json' assert { type: 'json' };
+import fa from './fa.json' assert { type: 'json' };
 
-export { bn, de, en, es, fr, id, it, ko, pt, th, tr, uk, vi, zh };
+export { bn, de, en, es, fr, id, it, ko, pt, th, tr, uk, vi, zh, fa };
