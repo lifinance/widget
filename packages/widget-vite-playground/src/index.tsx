@@ -1,9 +1,8 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { App } from './App';
 import { reportWebVitals } from './reportWebVitals';
+import './index.css';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -12,35 +11,9 @@ if (!rootElement) {
 
 const root = createRoot(rootElement);
 
-export const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      enabled: true,
-      refetchInterval: false,
-      refetchIntervalInBackground: false,
-      refetchOnWindowFocus: true,
-      refetchOnReconnect: true,
-      refetchOnMount: true,
-      retryOnMount: true,
-      // suspense: true,
-    },
-    mutations: {
-      onError: (error) => {
-        //
-      },
-    },
-  },
-});
-
 root.render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/*" element={<App />} />
-        </Routes>
-      </BrowserRouter>
-    </QueryClientProvider>
+    <App />
   </React.StrictMode>,
 );
 

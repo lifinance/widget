@@ -47,6 +47,9 @@
     },
     {
       "path": "../widget-playground"
+    },
+    {
+      "path": "../widget"
     }
   ],
   "include": [

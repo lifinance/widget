@@ -18,7 +18,10 @@
       "path": "../wallet-management"
     },
     {
+      "path": "../widget-playground"
+    },
+    {
       "path": "../widget"
     }
-  ]
+  ],
 }

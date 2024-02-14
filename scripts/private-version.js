@@ -7,6 +7,7 @@ const { readFileSync, writeFile } = fsExtra;
 const { sync } = fastGlob;
 
 const privatePackages = [
+  '@lifi/widget-playground',
   '@lifi/widget-next-playground',
   '@lifi/widget-vite-playground',
   '@lifi/widget-embedded',
