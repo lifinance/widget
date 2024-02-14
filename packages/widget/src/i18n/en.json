@@ -80,8 +80,8 @@
       "emptyActiveTransactions": "Transactions in progress will appear here. Once completed, find them in transaction history.",
       "emptyTokenList": "We couldn't find tokens on {{chainName}} chain or you don't have any. Please search by contract address if your token doesn't appear or choose another chain.",
       "emptyTransactionHistory": "Transaction history is only stored locally and will be deleted if you clear your browser data.",
-      "routeNotFound": "Reasons for that could be: low liquidity, amount selected is too low, gas costs are too high or there are no routes for the selected combination.",
-      "fundsToExchange": "Funds sent to an exchange may be lost"
+      "fundsToExchange": "Funds sent to an exchange may be lost",
+      "routeNotFound": "Reasons for that could be: low liquidity, amount selected is too low, gas costs are too high or there are no routes for the selected combination."
     },
     "title": {
       "autoRefuel": "Get gas",
@@ -130,12 +130,12 @@
     "message": {
       "allowanceRequired": "Transfer amount for {{tokenSymbol}} exceeds your current allowance. Please increase your allowance and try again.",
       "insufficientFunds": "You don't have enough gas to cover the cost of the transaction.",
+      "remainInYourWallet": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
       "signatureRejected": "Your signature is required to complete the transaction. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
       "slippageThreshold": "The slippage is larger than the defined threshold. Please request a new quote.",
+      "transactionCanceled": "Transaction was canceled.",
       "transactionFailed": "Please check the block explorer for more information.",
       "transactionNotSent": "Transaction was not sent.",
-      "transactionCanceled": "Transaction was canceled.",
-      "remainInYourWallet": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
       "unknown": "Please try again or contact support."
     },
     "title": {
@@ -155,8 +155,8 @@
       "transactionUnprepared": "Unable to prepare transaction",
       "unknown": "Something went wrong",
       "walletAddressInvalid": "Wallet address or domain name is invalid",
-      "walletAddressRequired": "Wallet address is required.",
       "walletAddressInvalid_chain": "Wallet address or domain name is invalid for selected destination chain {{chainName}}",
+      "walletAddressRequired": "Wallet address is required.",
       "walletChainTypeInvalid": "Wallet address doesn't match the selected destination chain {{chainName}}"
     }
   },
@@ -284,13 +284,13 @@
     "resetSettings": "You're using custom setting limiting the number of available routes."
   },
   "sendToWallet": {
-    "enterAddress_short": "Enter wallet address",
-    "enterAddress_long": "Enter wallet address or domain name",
-    "enterName": "Enter name",
+    "addBookmark": "Add bookmark",
+    "bookmarkWallet": "Bookmark wallet",
     "confirmWalletAddress": "Confirm wallet address",
     "connectedWallets": "Connected wallets",
-    "bookmarkWallet": "Bookmark wallet",
-    "addBookmark": "Add bookmark",
+    "enterAddress_long": "Enter wallet address or domain name",
+    "enterAddress_short": "Enter wallet address",
+    "enterName": "Enter name",
     "noBookmarkedWallets": "No bookmarked wallets",
     "noConnectedWallets": "No connected wallets",
     "noRecentWallets": "No recent wallets"
