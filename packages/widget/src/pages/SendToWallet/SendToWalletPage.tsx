@@ -16,6 +16,7 @@ import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.j
 import type { Bookmark } from '../../stores/bookmarks/types.js';
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
 import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js';
+import { useFieldActions } from '../../stores/form/useFieldActions.js';
 import { useFieldValues } from '../../stores/form/useFieldValues.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { BookmarkAddressSheet } from './BookmarkAddressSheet.js';
@@ -34,6 +35,8 @@ import {
 export const SendToWalletPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null);
+  const confirmAddressSheetRef = useRef<BottomSheetBase>(null);
   const { bookmarks, recentWallets } = useBookmarks();
   const {
     addBookmark,
@@ -42,8 +45,7 @@ export const SendToWalletPage = () => {
     getSelectedBookmark,
     addRecentWallet,
   } = useBookmarkActions();
-  const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null);
-  const confirmAddressSheetRef = useRef<BottomSheetBase>(null);
+  const { setFieldValue } = useFieldActions();
   const [inputAddressValue, setInputAddressValue] = useState(
     () => getSelectedBookmark()?.address ?? '',
   );
@@ -61,6 +63,10 @@ export const SendToWalletPage = () => {
   const handleInputChange = (e: ChangeEvent) => {
     if (errorMessage) {
       setErrorMessage('');
+    }
+    if (getSelectedBookmark()) {
+      setFieldValue('toAddress', '', { isTouched: true });
+      setSelectedBookmark();
     }
     setInputAddressValue((e.target as HTMLInputElement).value.trim());
   };
