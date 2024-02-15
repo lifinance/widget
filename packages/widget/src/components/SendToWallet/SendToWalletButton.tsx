@@ -7,7 +7,6 @@ import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.j
 import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js';
 import { useFieldValues } from '../../stores/form/useFieldValues.js';
 import { useSendToWalletStore } from '../../stores/settings/useSendToWalletStore.js';
-import { useSettings } from '../../stores/settings/useSettings.js';
 import { DisabledUI, HiddenUI } from '../../types/widget.js';
 import {
   defaultChainIdsByType,
@@ -26,7 +25,6 @@ export const SendToWalletButton = () => {
   const navigate = useNavigate();
   const { disabledUI, hiddenUI, toAddress, toAddresses } = useWidgetConfig();
   const { showSendToWallet, showSendToWalletDirty } = useSendToWalletStore();
-  const { showDestinationWallet } = useSettings(['showDestinationWallet']);
   const [toAddressFieldValue, toChainId, toTokenAddress] = useFieldValues(
     'toAddress',
     'toChain',
@@ -39,12 +37,8 @@ export const SendToWalletButton = () => {
   const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress);
 
   const showInstantly =
-    Boolean(
-      !showSendToWalletDirty &&
-        showDestinationWallet &&
-        toAddress &&
-        !hiddenToAddress,
-    ) || requiredToAddress;
+    Boolean(!showSendToWalletDirty && toAddress && !hiddenToAddress) ||
+    requiredToAddress;
 
   const address = toAddressFieldValue
     ? shortenAddress(toAddressFieldValue)

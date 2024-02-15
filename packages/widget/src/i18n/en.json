@@ -278,7 +278,6 @@
       "title": "Gas price"
     },
     "routePriority": "Route priority",
-    "sendToWalletOption": "Send to wallet option",
     "slippage": "Slippage",
     "custom": "Custom",
     "resetSettings": "You're using custom setting limiting the number of available routes."
