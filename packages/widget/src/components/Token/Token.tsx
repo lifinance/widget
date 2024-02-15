@@ -7,12 +7,10 @@ import { useTranslation } from 'react-i18next';
 import { useChain } from '../../hooks/useChain.js';
 import { useToken } from '../../hooks/useToken.js';
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js';
+import { AvatarBadgedSkeleton } from '../Avatar/Avatar.js';
+import { TokenAvatar } from '../Avatar/TokenAvatar.js';
 import { SmallAvatar } from '../SmallAvatar.js';
 import { TextFitter } from '../TextFitter/TextFitter.js';
-import {
-  TokenAvatar,
-  TokenAvatarSkeleton,
-} from '../TokenAvatar/TokenAvatar.js';
 import { TextSecondary, TextSecondaryContainer } from './Token.style.js';
 
 interface TokenProps {
@@ -191,7 +189,7 @@ export const TokenSkeleton: FC<Partial<TokenProps> & BoxProps> = ({
   return (
     <Box flex={1} {...other}>
       <Box display="flex" flex={1} alignItems="center">
-        <TokenAvatarSkeleton sx={{ marginRight: 2 }} />
+        <AvatarBadgedSkeleton sx={{ marginRight: 2 }} />
         <Box flex={1}>
           <Skeleton width={112} height={24} variant="text" />
           <TextSecondaryContainer component="span">

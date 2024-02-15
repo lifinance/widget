@@ -1,9 +1,9 @@
 import { List, ListItemAvatar } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { TokenAvatar } from '../components/Avatar/TokenAvatar.js';
 import { ListItemButton } from '../components/ListItemButton.js';
 import { ListItemText } from '../components/ListItemText.js';
 import { PageContainer } from '../components/PageContainer.js';
-import { TokenAvatar } from '../components/TokenAvatar/TokenAvatar.js';
 import { useTokenSelect } from '../components/TokenList/useTokenSelect.js';
 import { useChains } from '../hooks/useChains.js';
 import { useNavigateBack } from '../hooks/useNavigateBack.js';

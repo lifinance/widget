@@ -22,7 +22,6 @@ export interface SettingsProps {
   language?: string;
   routePriority?: Order;
   enabledAutoRefuel: boolean;
-  showDestinationWallet: boolean;
   slippage?: string;
   disabledBridges: string[];
   enabledBridges: Record<string, boolean>;

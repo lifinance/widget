@@ -1,12 +1,18 @@
-import type { ChainType } from '@lifi/sdk';
+import { Chain, getNameServiceAddress, type ChainType } from '@lifi/sdk';
 import { useMutation } from '@tanstack/react-query';
-import { getEnsAddress } from '@wagmi/core';
 import { useTranslation } from 'react-i18next';
-import { normalize } from 'viem/ens';
-import { useConfig } from 'wagmi';
 import { getChainTypeFromAddress } from '../utils/chainType.js';
 
-type AddressType = 'address' | 'ENS';
+export enum AddressType {
+  Address,
+  NameService,
+}
+
+type ValidationArgs = {
+  value: string;
+  chainType?: ChainType;
+  chain?: Chain;
+};
 
 type ValidResponse = {
   address: string;
@@ -22,40 +28,38 @@ type InvalidResponse = {
 
 export const useAddressValidation = () => {
   const { t } = useTranslation();
-  const config = useConfig();
 
   const { mutateAsync: validateAddress, isPending: isValidating } = useMutation(
     {
-      mutationFn: async (
-        value: string,
-      ): Promise<ValidResponse | InvalidResponse> => {
+      mutationFn: async ({
+        value,
+        chainType,
+        chain,
+      }: ValidationArgs): Promise<ValidResponse | InvalidResponse> => {
         try {
           if (!value) {
             throw new Error();
           }
 
-          const chainType = getChainTypeFromAddress(value);
-          if (chainType) {
+          const _chainType = getChainTypeFromAddress(value);
+          if (_chainType) {
             return {
               address: value,
-              addressType: 'address',
-              chainType,
+              addressType: AddressType.Address,
+              chainType: _chainType,
               isValid: true,
             };
           }
 
-          const address = await getEnsAddress(config, {
-            chainId: 1,
-            name: normalize(value),
-          });
+          const address = await getNameServiceAddress(value, chainType);
 
           if (address) {
-            const chainType = getChainTypeFromAddress(address);
-            if (chainType) {
+            const _chainType = getChainTypeFromAddress(address);
+            if (_chainType) {
               return {
                 address: address,
-                addressType: 'ENS',
-                chainType,
+                addressType: AddressType.NameService,
+                chainType: _chainType,
                 isValid: true,
               };
             }
@@ -65,7 +69,12 @@ export const useAddressValidation = () => {
         } catch (_) {
           return {
             isValid: false,
-            error: t('error.title.walletAddressInvalid'),
+            error: t(
+              'error.title.walletAddressInvalid',
+              chain?.name
+                ? { context: 'chain', chainName: chain.name }
+                : undefined,
+            ),
           };
         }
       },

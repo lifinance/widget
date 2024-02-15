@@ -33,6 +33,7 @@ export const createBookmarksStore = ({
             ),
           }));
         },
+        getSelectedBookmark: () => get().selectedBookmark,
         setSelectedBookmark: (bookmark) => {
           set((state) => ({
             selectedBookmark: bookmark,

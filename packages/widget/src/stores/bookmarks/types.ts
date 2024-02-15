@@ -17,6 +17,7 @@ export interface BookmarkActions {
   addBookmark: (bookmark: Bookmark) => void;
   removeBookmark: (address: string) => void;
   setSelectedBookmark: (bookmark?: Bookmark) => void;
+  getSelectedBookmark: () => Bookmark | undefined;
   addRecentWallet: (bookmark: Bookmark) => void;
   removeRecentWallet: (address: string) => void;
 }

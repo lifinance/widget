@@ -77,12 +77,6 @@ export const EVMBaseProvider: FC<PropsWithChildren> = ({ children }) => {
     const _chains: [Chain, ...Chain[]] = chains?.length
       ? (chains.map(formatChain) as [Chain, ...Chain[]])
       : [mainnet];
-    // Add ENS contracts
-    const _mainnet = _chains.find((chain) => chain.id === mainnet.id);
-    if (_mainnet) {
-      _mainnet.contracts = mainnet.contracts;
-    }
-
     if (!connectors['walletConnect']) {
       const params = walletConfig?.walletConnect ?? {
         projectId: defaultWalletConnectProjectId,

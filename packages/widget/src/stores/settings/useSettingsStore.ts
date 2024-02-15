@@ -20,7 +20,6 @@ export const defaultSettings: SettingsProps = {
   appearance: 'auto',
   gasPrice: 'normal',
   enabledAutoRefuel: true,
-  showDestinationWallet: true,
   disabledBridges: [],
   disabledExchanges: [],
   enabledBridges: {},

@@ -4,7 +4,6 @@ import { GasPriceSettings } from './GasPriceSettings.js';
 import { LanguageSetting } from './LanguageSetting.js';
 import { ResetSettingsButton } from './ResetSettingsButton.js';
 import { RoutePrioritySettings } from './RoutePrioritySettings.js';
-import { SendToWalletOptionSetting } from './SendToWalletOptionSetting.js';
 import { SettingsList } from './SettingsCard/SettingCard.style.js';
 import { SettingsCardAccordion } from './SettingsCard/SettingsAccordian.js';
 import { SlippageSettings } from './SlippageSettings/SlippageSettings.js';
@@ -22,7 +21,6 @@ export const SettingsPage = () => {
           <SlippageSettings />
           <BridgeAndExchangeSettings type="Bridges" />
           <BridgeAndExchangeSettings type="Exchanges" />
-          <SendToWalletOptionSetting />
         </SettingsCardAccordion>
       </SettingsList>
       <ResetSettingsButton />
