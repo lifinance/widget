@@ -17,4 +17,8 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
       fontFamily: 'Inter, sans-serif',
     },
   },
+  containerStyle: {
+    boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
+    borderRadius: '16px',
+  },
 } as WidgetConfig;
