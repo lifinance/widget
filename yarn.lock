@@ -3156,7 +3156,7 @@ __metadata:
     react-dom: "npm:^18.2.0"
     react-router-dom: "npm:^6.22.0"
     typescript: "npm:^5.3.3"
-    vite: "npm:^5.1.1"
+    vite: "npm:^5.1.2"
     wagmi: "npm:2.5.7"
     web-vitals: "npm:^3.5.2"
   languageName: unknown
@@ -3188,7 +3188,7 @@ __metadata:
     source-map-explorer: "npm:^2.5.3"
     typescript: "npm:^5.3.3"
     viem: "npm:^2.7.9"
-    vite: "npm:^5.1.1"
+    vite: "npm:^5.1.2"
     wagmi: "npm:2.5.7"
     web-vitals: "npm:^3.5.2"
   languageName: unknown
@@ -18932,9 +18932,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^5.1.1":
-  version: 5.1.1
-  resolution: "vite@npm:5.1.1"
+"vite@npm:^5.1.2":
+  version: 5.1.2
+  resolution: "vite@npm:5.1.2"
   dependencies:
     esbuild: "npm:^0.19.3"
     fsevents: "npm:~2.3.3"
@@ -18968,7 +18968,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: bdb8e683caddaa0a9adcbf40144ca8ea3660836b208862b07d43787ea867845919af16e58745365bd13ed3b7f66bbf9788a6869ee22cfaacac01645b59729c34
+  checksum: fbfc5a84ee33c01cd2c3109ba08c2f3822df9a85bee79179ba5a812757f895e2da234208881b9943291d48b0a4ef8fb90ffaa790d89888530a2ad6c70c169e12
   languageName: node
   linkType: hard
 
