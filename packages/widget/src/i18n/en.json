@@ -288,7 +288,7 @@
     "bookmarkWallet": "Bookmark wallet",
     "confirmWalletAddress": "Confirm wallet address",
     "connectedWallets": "Connected wallets",
-    "enterAddress_long": "Enter wallet address or domain name",
+    "enterAddress_long": "Enter address or wallet domain",
     "enterAddress_short": "Enter wallet address",
     "enterName": "Enter name",
     "noBookmarkedWallets": "No bookmarked wallets",
