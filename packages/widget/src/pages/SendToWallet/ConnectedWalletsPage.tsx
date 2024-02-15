@@ -8,7 +8,7 @@ import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material';
 import { useId, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { AccountAvatar } from '../../components/AccountAvatar.js';
+import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js';
 import { ListItem } from '../../components/ListItem/ListItem.js';
 import { ListItemButton } from '../../components/ListItem/ListItemButton.js';
 import { Menu } from '../../components/Menu.js';

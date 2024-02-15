@@ -5,9 +5,9 @@ import { useProcessMessage } from '../../hooks/useProcessMessage.js';
 import { useRouteExecution } from '../../hooks/useRouteExecution.js';
 import { RouteExecutionStatus } from '../../stores/routes/types.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { TokenAvatarGroup } from '../Avatar/Avatar.style.js';
+import { TokenAvatar } from '../Avatar/TokenAvatar.js';
 import { StepTimer } from '../Step/StepTimer.js';
-import { TokenAvatar } from '../TokenAvatar/TokenAvatar.js';
-import { TokenAvatarGroup } from '../TokenAvatar/TokenAvatar.style.js';
 import { ListItem, ListItemButton } from './ActiveTransactions.style.js';
 
 export const ActiveTransactionItem: React.FC<{

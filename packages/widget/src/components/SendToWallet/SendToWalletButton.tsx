@@ -14,7 +14,7 @@ import {
 } from '../../utils/chainType.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { shortenAddress } from '../../utils/wallet.js';
-import { AccountAvatar } from '../AccountAvatar.js';
+import { AccountAvatar } from '../Avatar/AccountAvatar.js';
 import { Card } from '../Card/Card.js';
 import { CardRowContainer } from '../Card/CardButton.style.js';
 import { CardTitle } from '../Card/CardTitle.js';
@@ -109,6 +109,7 @@ export const SendToWalletButton = () => {
               <AccountAvatar
                 chainId={chainId}
                 account={matchingConnectedAccount}
+                empty={!toAddressFieldValue}
               />
             }
             title={headerTitle}

@@ -3,7 +3,8 @@ import { useToken } from '../../hooks/useToken.js';
 import type { FormTypeProps } from '../../stores/form/types.js';
 import { FormKeyHelper } from '../../stores/form/types.js';
 import { useFieldValues } from '../../stores/form/useFieldValues.js';
-import { TokenAvatar, TokenAvatarDefault } from '../TokenAvatar/TokenAvatar.js';
+import { AvatarBadgedDefault } from '../Avatar/Avatar.js';
+import { TokenAvatar } from '../Avatar/TokenAvatar.js';
 
 export const AmountInputStartAdornment: React.FC<FormTypeProps> = ({
   formType,
@@ -20,6 +21,6 @@ export const AmountInputStartAdornment: React.FC<FormTypeProps> = ({
   return isSelected ? (
     <TokenAvatar token={token} chain={chain} />
   ) : (
-    <TokenAvatarDefault />
+    <AvatarBadgedDefault />
   );
 };

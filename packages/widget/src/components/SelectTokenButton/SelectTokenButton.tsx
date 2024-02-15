@@ -9,13 +9,10 @@ import type { FormTypeProps } from '../../stores/form/types.js';
 import { FormKeyHelper } from '../../stores/form/types.js';
 import { useFieldValues } from '../../stores/form/useFieldValues.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { AvatarBadgedDefault, AvatarBadgedSkeleton } from '../Avatar/Avatar.js';
+import { TokenAvatar } from '../Avatar/TokenAvatar.js';
 import { Card } from '../Card/Card.js';
 import { CardTitle } from '../Card/CardTitle.js';
-import {
-  TokenAvatar,
-  TokenAvatarDefault,
-  TokenAvatarSkeleton,
-} from '../TokenAvatar/TokenAvatar.js';
 import { SelectTokenCardHeader } from './SelectTokenButton.style.js';
 
 export const SelectTokenButton: React.FC<
@@ -62,7 +59,7 @@ export const SelectTokenButton: React.FC<
       <CardTitle>{cardTitle}</CardTitle>
       {chainId && tokenAddress && (isChainLoading || isTokenLoading) ? (
         <SelectTokenCardHeader
-          avatar={<TokenAvatarSkeleton />}
+          avatar={<AvatarBadgedSkeleton />}
           title={<Skeleton variant="text" width={64} height={24} />}
           subheader={<Skeleton variant="text" width={72} height={16} />}
           compact={compact}
@@ -73,7 +70,7 @@ export const SelectTokenButton: React.FC<
             isSelected ? (
               <TokenAvatar token={token} chain={chain} />
             ) : (
-              <TokenAvatarDefault />
+              <AvatarBadgedDefault />
             )
           }
           title={isSelected ? token.symbol : defaultPlaceholder}
