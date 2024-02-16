@@ -10,12 +10,12 @@ import {
   WidgetConfigProvider,
   PlaygroundThemeProvider,
   DrawerControls,
-  WidgetView,
 } from '@lifi/widget-playground';
 
 import { defaultWidgetConfig } from '@lifi/widget-playground/widget-config';
 
 import '@lifi/widget-playground/fonts';
+import { WidgetNextView } from '@/app/WidgetNextView';
 
 const queryClient = new QueryClient();
 
@@ -40,7 +40,7 @@ export default function Home() {
     <AppProvider>
       <Box sx={{ display: 'flex', flexGrow: '1' }}>
         <DrawerControls />
-        <WidgetView />
+        <WidgetNextView />
       </Box>
     </AppProvider>
   );

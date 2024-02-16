@@ -1,6 +1,7 @@
 import { alpha, styled } from '@mui/material/styles';
 import { inputBaseClasses } from '@mui/material/InputBase';
 import { autocompleteClasses } from '@mui/material/Autocomplete';
+import { alertClasses } from '@mui/material/Alert';
 import type {
   BoxProps,
   InputBaseProps,
@@ -13,6 +14,7 @@ import {
   InputBase,
   Autocomplete as MuiAutocomplete,
   Popper,
+  Alert as MuiAlert,
 } from '@mui/material';
 import { getCardFieldsetBackgroundColor } from '../../../utils';
 import { autocompletePopperZIndex } from '../DrawerControls.style';
@@ -203,3 +205,20 @@ export const StyledPopper = styled(Popper)({
     zIndex: autocompletePopperZIndex,
   },
 });
+
+export const Alert = styled(MuiAlert)(({ theme }) => ({
+  backgroundColor: 'transparent',
+  fontSize: `0.9rem`,
+  color:
+    theme.palette.mode === 'light'
+      ? theme.palette.grey[600]
+      : theme.palette.grey[300],
+  padding: 0,
+  [`& .${alertClasses.icon}`]: {
+    fontSize: `1.6rem`,
+    color:
+      theme.palette.mode === 'light'
+        ? theme.palette.grey[600]
+        : theme.palette.grey[300],
+  },
+}));

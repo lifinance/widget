@@ -1,6 +1,11 @@
 import { alpha, styled } from '@mui/material/styles';
 import type { Theme } from '@mui/material';
-import { Box, Button, IconButton } from '@mui/material';
+import {
+  Box,
+  Button,
+  IconButton,
+  Skeleton as MuiSkeleton,
+} from '@mui/material';
 import { drawerWidth, drawerZIndex } from '../DrawerControls';
 import { buttonClasses } from '@mui/material/Button';
 
@@ -17,6 +22,7 @@ export const WidgetContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexGrow: 1,
   alignItems: 'center',
+  justifyContent: 'center',
   paddingTop: theme.spacing(6),
 }));
 
@@ -76,4 +82,22 @@ export const Main = styled('main', {
     }),
     marginLeft: 0,
   }),
+}));
+
+export const WidgetSkeletonContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  transform: 'translateY(-56px)',
+  gap: theme.spacing(2),
+  backgroundColor: theme.palette.background.default,
+  padding: theme.spacing(8, 3, 6.25),
+  borderRadius: theme.shape.borderRadius,
+}));
+
+export const Skeleton = styled(MuiSkeleton)(({ theme }) => ({
+  backgroundColor:
+    theme.palette.mode === 'light'
+      ? theme.palette.grey[100]
+      : theme.palette.grey[900],
 }));

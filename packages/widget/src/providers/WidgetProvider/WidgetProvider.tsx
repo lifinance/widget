@@ -56,11 +56,11 @@ export const WidgetProvider: React.FC<
             : undefined,
         fromToken: searchParams.fromToken || widgetConfig.fromToken,
         toToken: searchParams.toToken || widgetConfig.toToken,
-        fromAmount:
-          typeof searchParams.fromAmount === 'string' &&
-          !isNaN(parseFloat(searchParams.fromAmount))
-            ? formatInputAmount(searchParams.fromAmount)
-            : widgetConfig.fromAmount,
+        // fromAmount:
+        //   typeof searchParams.fromAmount === 'string' &&
+        //   !isNaN(parseFloat(searchParams.fromAmount))
+        //     ? formatInputAmount(searchParams.fromAmount)
+        //     : widgetConfig.fromAmount,
         toAddress: searchParams.toAddress
           ? attemptToFindMatchingToAddressInConfig(
               searchParams.toAddress,

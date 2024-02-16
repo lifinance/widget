@@ -1,11 +1,12 @@
 import type { FocusEventHandler, SyntheticEvent } from 'react';
 import { useCallback, useEffect, useState } from 'react';
-import { Alert, CircularProgress, TextField } from '@mui/material';
+import { CircularProgress, TextField } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
 import { useConfigActions } from '../../../../store';
 import type { Font } from '../../../../hooks';
 import { useFontLoader } from '../../../../hooks';
 import { ExpandableCard } from '../../../Card';
-import { Autocomplete, StyledPopper } from '../DesignControls.style';
+import { Autocomplete, StyledPopper, Alert } from '../DesignControls.style';
 import { defaultFont, allFonts } from './fontDefinitions';
 
 const getCompleteFontFamily = (font: Font) =>
@@ -122,7 +123,11 @@ export const FontsControl = () => {
           )}
         />
       )}
-      <Alert severity="info" sx={{ mt: 1 }}>
+      <Alert
+        icon={<InfoIcon fontSize="inherit" />}
+        severity="info"
+        sx={{ mt: 1 }}
+      >
         {FontInfoMessage}
       </Alert>
     </ExpandableCard>
