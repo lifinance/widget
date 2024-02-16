@@ -1,13 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   typescript: {
-    // TODO: question: as we don't care about the production build for next.js is this ok for now?
-    //   yarn dev is uneffected by this and runs fine
-    //   No other attempts to exclude this file seem to work..
-    // NOTE: this is a workaround. In ../widget/src/hooks/useWidgetEvents.ts we have a a workaround for mitt
+    // NOTE: this is a workaround. In ../widget/src/hooks/useWidgetEvents.ts we have a workaround for mitt
         // https://github.com/developit/mitt/issues/191
         // const mitt = _mitt as unknown as typeof _mitt.default;
-    // this was causing an type error for the production build only
+    // this was causing a type error for the production build only
+    //   No other attempts to exclude this file seem to work. Once the mitt package has fixed its types we should be able to remove this
     // WARN: Allow production builds to successfully complete even if your project has type errors.
     ignoreBuildErrors: true,
   },
