@@ -32,20 +32,29 @@ export const useTransactionHistory = () => {
       enabled: Boolean(account.address),
     })),
     combine: (results) => {
-      const data = results
-        .filter((result) => result.data)
-        .flatMap((result) => result.data)
-        .filter(
-          (transaction) =>
-            (transaction as FullStatusData)?.receiving?.chainId &&
-            transaction?.sending.chainId,
-        )
-        .sort((a, b) => {
-          return (
-            ((b?.sending as ExtendedTransactionInfo)?.timestamp ?? 0) -
-            ((a?.sending as ExtendedTransactionInfo)?.timestamp ?? 0)
-          );
-        }) as StatusResponse[];
+      const uniqueTransactions = new Map();
+      results.forEach((result) => {
+        if (result.data) {
+          result.data.forEach((transaction) => {
+            if (
+              (transaction as FullStatusData)?.transactionId &&
+              (transaction as FullStatusData)?.receiving?.chainId &&
+              transaction?.sending.chainId
+            ) {
+              uniqueTransactions.set(
+                (transaction as FullStatusData).transactionId,
+                transaction,
+              );
+            }
+          });
+        }
+      });
+      const data = Array.from(uniqueTransactions.values()).sort((a, b) => {
+        return (
+          ((b?.sending as ExtendedTransactionInfo)?.timestamp ?? 0) -
+          ((a?.sending as ExtendedTransactionInfo)?.timestamp ?? 0)
+        );
+      }) as StatusResponse[];
       return {
         data: data,
         isLoading: results.some((result) => result.isLoading),
