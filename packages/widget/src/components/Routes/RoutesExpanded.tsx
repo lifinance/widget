@@ -35,12 +35,13 @@ const routes: RouteObject[] = [
 ];
 
 export const RoutesExpanded = () => {
-  const match = useDOMRoutes(routes);
+  const element = useDOMRoutes(routes);
+  const match = Boolean(element?.props?.children);
 
   return (
     <CollapseContainer>
-      <Collapse timeout={timeout} in={!!match} orientation="horizontal">
-        <Grow timeout={timeout} in={!!match} mountOnEnter unmountOnExit>
+      <Collapse timeout={timeout} in={match} orientation="horizontal">
+        <Grow timeout={timeout} in={match} mountOnEnter unmountOnExit>
           <div>
             <RoutesExpandedElement />
           </div>
