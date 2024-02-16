@@ -65,6 +65,6 @@ export const isWalletInstalled = (id: string): boolean => {
     case 'exodus':
       return (window as any).exodus?.ethereum;
     default:
-      return false;
+      return true;
   }
 };

@@ -19,7 +19,6 @@ import {
   okx,
   oneinch,
   ownbit,
-  rabby,
   safepal,
   status,
   taho,
@@ -65,7 +64,6 @@ const connectors = [
   oneinch,
   tokenary,
   safepal,
-  rabby,
 ];
 
 export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {

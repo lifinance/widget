@@ -18,7 +18,6 @@ import {
   okx,
   oneinch,
   ownbit,
-  rabby,
   safepal,
   status,
   taho,
@@ -66,7 +65,6 @@ const connectors: Record<string, CreateConnectorFn | undefined> = {
   oneinch,
   tokenary,
   safepal,
-  rabby,
 };
 
 export const EVMBaseProvider: FC<PropsWithChildren> = ({ children }) => {
