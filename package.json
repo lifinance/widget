@@ -11,6 +11,8 @@
     "start": "lerna run start",
     "build": "lerna run build",
     "clean": "lerna run clean",
+    "dev": "yarn workspace @lifi/widget-playground-vite dev",
+    "dev:next": "yarn workspace @lifi/widget-playground-next dev",
     "release": "yarn release:version:before && yarn release:version && yarn release:version:after && yarn standard-version -a",
     "release:alpha": "yarn release:version:before && yarn release:version --preid alpha && yarn release:version:after && yarn standard-version -a --prerelease alpha --skip.changelog",
     "release:beta": "yarn release:version:before && yarn release:version --preid beta && yarn release:version:after && yarn standard-version -a --prerelease beta --skip.changelog",

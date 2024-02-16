@@ -13,9 +13,9 @@ import {
   WidgetView,
 } from '@lifi/widget-playground';
 
-import '@lifi/widget-playground/fonts';
+import { defaultWidgetConfig } from '@lifi/widget-playground/widget-config';
 
-import { defaultWidgetConfig } from './defaultWidgetConfig';
+import '@lifi/widget-playground/fonts';
 
 const queryClient = new QueryClient();
 

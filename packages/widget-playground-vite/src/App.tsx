@@ -11,16 +11,16 @@ import {
   WidgetView,
 } from '@lifi/widget-playground';
 
-import '@lifi/widget-playground/fonts';
+import { defaultWidgetConfig } from '@lifi/widget-playground/widget-config';
 
-import { defaultWidgetConfig } from './defaultWidgetConfig';
+import '@lifi/widget-playground/fonts';
 
 const queryClient = new QueryClient();
 
 const AppProvider = ({ children }: PropsWithChildren) => {
   return (
     <EnvVariablesProvider
-      EVMWalletConnectId={import.meta.env.VITE_WALLET_CONNECT}
+      EVMWalletConnectId={import.meta.env.VITE_EVM_WALLET_CONNECT}
     >
       <QueryClientProvider client={queryClient}>
         <EditToolsProvider>

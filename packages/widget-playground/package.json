@@ -47,6 +47,7 @@
   },
   "exports": {
     ".": "./src/index.ts",
-    "./fonts": "./src/fonts/inter.css"
+    "./fonts": "./src/fonts/inter.css",
+    "./widget-config": "./src/defaultWidgetConfig.ts"
   }
 }

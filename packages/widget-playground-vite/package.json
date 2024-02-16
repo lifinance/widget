@@ -1,5 +1,5 @@
 {
-  "name": "@lifi/widget-vite-playground",
+  "name": "@lifi/widget-playground-vite",
   "version": "1.0.180",
   "type": "module",
   "scripts": {

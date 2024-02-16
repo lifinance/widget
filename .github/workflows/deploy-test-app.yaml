@@ -65,7 +65,7 @@ jobs:
                 body: JSON.stringify({
                   build_config: {
                     build_command: "yarn run build",
-                    destination_dir: "packages/widget-vite-playground/dist/",
+                    destination_dir: "packages/widget-playground-vite/dist/",
                     root_dir: "/",
                   },
                   canonical_deployment: null,
@@ -119,7 +119,7 @@ jobs:
           apiToken: ${{ secrets.CF_PAGES_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
           command: |
-            pages deploy ./packages/widget-vite-playground/dist/ --project-name ${{ env.PROJECT_NAME }} --branch ${{ env.BRANCH_NAME }}
+            pages deploy ./packages/widget-playground-vite/dist/ --project-name ${{ env.PROJECT_NAME }} --branch ${{ env.BRANCH_NAME }}
 
       - name: Comment Test Endpoint
         uses: actions/github-script@v6
