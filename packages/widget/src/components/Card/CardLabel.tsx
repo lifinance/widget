@@ -44,8 +44,4 @@ export const CardLabelTypography = styled(Typography, {
   fontSize: 12,
   lineHeight: 1,
   fontWeight: '600',
-  textTransform: 'lowercase',
-  '&::first-letter': {
-    textTransform: 'uppercase',
-  },
 }));

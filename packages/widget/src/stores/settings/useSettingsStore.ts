@@ -11,7 +11,7 @@ export const defaultConfigurableSettings: Pick<
   SettingsState,
   'routePriority' | 'slippage' | 'gasPrice'
 > = {
-  routePriority: 'RECOMMENDED',
+  routePriority: 'CHEAPEST',
   slippage: defaultSlippage,
   gasPrice: 'normal',
 };

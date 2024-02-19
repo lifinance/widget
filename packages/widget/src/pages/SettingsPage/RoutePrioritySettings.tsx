@@ -1,4 +1,4 @@
-import { Orders } from '@lifi/sdk';
+import type { Order } from '@lifi/sdk';
 import { Route } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { Tab, Tabs } from '../../components/Tabs/Tabs.style.js';
@@ -8,7 +8,7 @@ import { useSettingsStore } from '../../stores/settings/useSettingsStore.js';
 import { BadgedValue } from './SettingsCard/BadgedValue.js';
 import { SettingCardExpandable } from './SettingsCard/SettingCardExpandable.js';
 
-type SupportedRoute = (typeof Orders)[number];
+const Priorities: Order[] = ['CHEAPEST', 'RECOMMENDED', 'FASTEST'];
 
 export const RoutePrioritySettings: React.FC = () => {
   const { t } = useTranslation();
@@ -19,7 +19,7 @@ export const RoutePrioritySettings: React.FC = () => {
 
   const handleRoutePriorityChange = (
     _: React.SyntheticEvent,
-    routePriority: SupportedRoute,
+    routePriority: Order,
   ) => {
     setValue('routePriority', routePriority);
   };
@@ -42,12 +42,12 @@ export const RoutePrioritySettings: React.FC = () => {
         orientation="vertical"
         sx={{ mt: 1.5 }}
       >
-        {Orders.map((order) => {
+        {Priorities.map((priority) => {
           return (
             <Tab
-              key={order}
-              label={t(`main.tags.${order.toLowerCase()}` as any)}
-              value={order}
+              key={priority}
+              label={t(`main.tags.${priority.toLowerCase()}` as any)}
+              value={priority}
               disableRipple
             />
           );

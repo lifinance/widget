@@ -247,13 +247,12 @@
     "supportId": "Support ID",
     "swapStepDetails": "Swap on {{chain}} via {{tool}}",
     "tags": {
-      "cheapest": "Cheap",
+      "cheapest": "Best Return",
       "fastest": "Fast",
       "insurable": "Insurable",
       "insurance": "Insurance",
       "insured": "Insured",
-      "recommended": "Recommended",
-      "safest": "Safe"
+      "recommended": "Balanced"
     },
     "to": "To",
     "tokenOnChain": "{{tokenSymbol}} on {{chainName}}",
