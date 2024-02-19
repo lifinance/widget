@@ -14,6 +14,7 @@ export interface WidgetConfigValues {
 
 export interface WidgetConfigActions {
   setConfig: (config: Partial<WidgetConfig>) => void;
+  resetConfig: () => void;
   setAppearance: (appearance: Appearance) => void;
   setVariant: (variant: WidgetVariant) => void;
   setSubvariant: (subvariant: WidgetSubvariant) => void;

@@ -3,8 +3,13 @@ import TabContext from '@mui/lab/TabContext';
 import CloseIcon from '@mui/icons-material/Close';
 import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
 import DesignServicesIcon from '@mui/icons-material/DesignServices';
-import { IconButton, Tooltip } from '@mui/material';
-import { useEditToolsActions, useEditToolsValues } from '../../store';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import { Box, IconButton, Tooltip } from '@mui/material';
+import {
+  useConfigActions,
+  useEditToolsActions,
+  useEditToolsValues,
+} from '../../store';
 import { Tabs, Tab } from '../Tabs';
 import { ExpandableCardAccordion } from '../Card';
 import {
@@ -32,12 +37,24 @@ export const DrawerControls = () => {
   );
   const { isDrawerOpen } = useEditToolsValues();
   const { setDrawerOpen } = useEditToolsActions();
+  const { resetConfig } = useConfigActions();
 
   return (
     <Drawer variant="persistent" anchor="left" open={isDrawerOpen}>
       <DrawerContentContainer>
         <HeaderRow>
-          <Header>Widget</Header>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Header>Widget</Header>
+            <Tooltip
+              title="Reset config"
+              PopperProps={{ style: { zIndex: tooltipPopperZIndex } }}
+              arrow
+            >
+              <IconButton onClick={() => resetConfig()}>
+                <RestartAltIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
           <Tooltip
             title="Close tools"
             PopperProps={{ style: { zIndex: tooltipPopperZIndex } }}

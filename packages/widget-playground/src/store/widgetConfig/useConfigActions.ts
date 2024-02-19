@@ -5,6 +5,7 @@ export const useConfigActions = () => {
   const actions = useWidgetConfigStore(
     (state) => ({
       setConfig: state.setConfig,
+      resetConfig: state.resetConfig,
       setAppearance: state.setAppearance,
       setVariant: state.setVariant,
       setSubvariant: state.setSubvariant,

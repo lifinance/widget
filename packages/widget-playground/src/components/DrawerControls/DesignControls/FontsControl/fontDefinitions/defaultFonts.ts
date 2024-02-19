@@ -6,6 +6,7 @@ import { googleFonts } from './googleFonts';
 //  need to download the font files as they should already be downloaded - thus no fontFiles are defined
 export const defaultFont: Font = {
   family: 'Inter',
+  fallbackFonts: 'sans-serif',
   source: 'Google fonts',
 };
 
