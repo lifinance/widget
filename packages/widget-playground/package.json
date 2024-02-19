@@ -23,6 +23,7 @@
     "@lifi/widget": "^3.0.0-alpha.31",
     "@mui/icons-material": "^5.15.10",
     "@mui/material": "^5.15.10",
+    "@rainbow-me/rainbowkit": "^2.0.0",
     "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/wallet-adapter-react": "^0.15.35",
     "@solana/wallet-adapter-wallets": "^0.19.26",

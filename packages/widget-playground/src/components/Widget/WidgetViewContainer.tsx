@@ -6,7 +6,7 @@ import {
   useEditToolsValues,
 } from '../../store';
 import { ExternalWalletProvider } from '../../providers';
-import { ConnectWalletButton } from './ConnectWalletButton';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import {
   DrawerOpenButton,
@@ -34,7 +34,7 @@ export function WidgetViewContainer({ children }: PropsWithChildren) {
               </DrawerOpenButton>
             </Tooltip>
           ) : null}
-          {isWalletManagementExternal ? <ConnectWalletButton /> : null}
+          {isWalletManagementExternal ? <ConnectButton /> : null}
         </FloatingToolsContainer>
         <WidgetContainer>{children}</WidgetContainer>
       </ExternalWalletProvider>

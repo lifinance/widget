@@ -82,6 +82,10 @@ export const Main = styled('main', {
     }),
     marginLeft: 0,
   }),
+  ['& > [data-rk]']: {
+    display: 'flex',
+    flexGrow: '1',
+  },
 }));
 
 export const WidgetSkeletonContainer = styled(Box)(({ theme }) => ({
