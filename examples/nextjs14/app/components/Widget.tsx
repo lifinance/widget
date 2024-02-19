@@ -15,7 +15,7 @@ export function Widget() {
               borderRadius: '16px',
             },
           }}
-          integrator="li.fi-playground"
+          integrator="nextjs-example"
         />
       )}
     </main>
