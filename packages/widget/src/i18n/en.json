@@ -279,7 +279,7 @@
     "routePriority": "Route priority",
     "slippage": "Slippage",
     "custom": "Custom",
-    "resetSettings": "You're using custom setting limiting the number of available routes."
+    "resetSettings": "You're using custom settings that can affect the number or sorting of available routes."
   },
   "sendToWallet": {
     "addBookmark": "Add bookmark",
