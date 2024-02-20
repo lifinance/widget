@@ -1,19 +1,19 @@
+import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+import { Tooltip } from '@mui/material';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 import type { PropsWithChildren } from 'react';
+import { ExternalWalletProvider } from '../../providers';
 import {
   useConfig,
   useEditToolsActions,
   useEditToolsValues,
 } from '../../store';
-import { ExternalWalletProvider } from '../../providers';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import {
   DrawerOpenButton,
   FloatingToolsContainer,
   Main,
   WidgetContainer,
 } from './WidgetView.style';
-import { Tooltip } from '@mui/material';
 
 export function WidgetViewContainer({ children }: PropsWithChildren) {
   const { config } = useConfig();
@@ -33,7 +33,9 @@ export function WidgetViewContainer({ children }: PropsWithChildren) {
               </DrawerOpenButton>
             </Tooltip>
           ) : null}
-          {isWalletManagementExternal ? <ConnectButton /> : null}
+          {isWalletManagementExternal ? (
+            <ConnectButton chainStatus="none" showBalance={false} />
+          ) : null}
         </FloatingToolsContainer>
         <WidgetContainer>{children}</WidgetContainer>
       </ExternalWalletProvider>

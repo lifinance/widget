@@ -1,19 +1,19 @@
-import { useMemo, type FC, type PropsWithChildren } from 'react';
 import { formatChain, useAvailableChains } from '@lifi/widget';
-import type { Chain } from 'viem';
-import { WagmiProvider } from 'wagmi';
 import {
-  getDefaultConfig,
   RainbowKitProvider,
   darkTheme,
+  getDefaultConfig,
   lightTheme,
   type Theme as RainbowKitTheme,
 } from '@rainbow-me/rainbowkit';
+import '@rainbow-me/rainbowkit/styles.css';
+import { useMemo, type FC, type PropsWithChildren } from 'react';
+import type { Chain } from 'viem';
+import { WagmiProvider } from 'wagmi';
 import { mainnet } from 'wagmi/chains';
 import { useThemeMode } from '../../hooks';
 import { useEnvVariables } from '../../providers';
 import { theme } from '../PlaygroundThemeProvider/theme';
-import '@rainbow-me/rainbowkit/styles.css';
 
 const rkThemeColors = {
   accentColor: theme.palette.primary.main,
@@ -44,6 +44,7 @@ const RainbowKitModes = {
     radii: rkThemeRadii,
   },
 };
+
 export const EVMProvider: FC<PropsWithChildren> = ({ children }) => {
   const { EVMWalletConnectId } = useEnvVariables();
   const { chains } = useAvailableChains();

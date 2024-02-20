@@ -8,6 +8,7 @@ const EnvVariablesContext = createContext({
 interface EvnVariablesProviderProps extends PropsWithChildren {
   EVMWalletConnectId: string;
 }
+
 export const EnvVariablesProvider = ({
   children,
   EVMWalletConnectId,
