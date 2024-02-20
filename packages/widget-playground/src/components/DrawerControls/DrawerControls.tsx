@@ -30,6 +30,7 @@ import {
   TabContentContainer,
   tooltipPopperZIndex,
 } from './DrawerControls.style';
+import { CodeControls } from './CodeControls';
 
 export const DrawerControls = () => {
   const [controlsTabsState, setControlsTabsState] = useState<'design' | 'code'>(
@@ -84,7 +85,6 @@ export const DrawerControls = () => {
             label={'Code'}
             value="code"
             disableRipple
-            disabled
           />
         </Tabs>
         <TabContext value={controlsTabsState}>
@@ -101,7 +101,7 @@ export const DrawerControls = () => {
             </ExpandableCardAccordion>
           </TabContentContainer>
           <TabContentContainer value="code">
-            <p>TODO: code controls</p>
+            <CodeControls />
           </TabContentContainer>
         </TabContext>
       </DrawerContentContainer>
