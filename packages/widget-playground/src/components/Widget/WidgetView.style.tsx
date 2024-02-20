@@ -82,7 +82,7 @@ export const Main = styled('main', {
     }),
     marginLeft: 0,
   }),
-  ['& > [data-rk]']: {
+  '& > [data-rk]': {
     display: 'flex',
     flexGrow: '1',
   },

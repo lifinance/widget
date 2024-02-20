@@ -7,7 +7,7 @@ import {
   RainbowKitProvider,
   darkTheme,
   lightTheme,
-  Theme as RainbowKitTheme,
+  type Theme as RainbowKitTheme,
 } from '@rainbow-me/rainbowkit';
 import { mainnet } from 'wagmi/chains';
 import { useThemeMode } from '../../hooks';
@@ -32,7 +32,7 @@ const rkThemeRadii = {
   modalMobile: `${theme.shape.borderRadius}px`,
 };
 
-const RainbowKitTheme = {
+const RainbowKitModes = {
   dark: {
     ...darkTheme(rkThemeColors),
     fonts: rkThemeFonts,
@@ -62,14 +62,14 @@ export const EVMProvider: FC<PropsWithChildren> = ({ children }) => {
     });
 
     return wagmiConfig;
-  }, [chains]);
+  }, [chains, EVMWalletConnectId]);
 
   return (
     <WagmiProvider
       config={wagmiConfig}
       reconnectOnMount={Boolean(chains?.length)}
     >
-      <RainbowKitProvider theme={RainbowKitTheme[themeMode] as RainbowKitTheme}>
+      <RainbowKitProvider theme={RainbowKitModes[themeMode] as RainbowKitTheme}>
         {children}
       </RainbowKitProvider>
     </WagmiProvider>

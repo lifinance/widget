@@ -1,6 +1,6 @@
 import { createWithEqualityFn } from 'zustand/traditional';
 import type { WidgetConfig } from '@lifi/widget';
-import { StateCreator } from 'zustand';
+import type { StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { addValueFromPath } from '../../utils';
 import type { WidgetConfigState } from './types';

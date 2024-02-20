@@ -1,5 +1,4 @@
-import { LiFiWidget } from '@lifi/widget';
-import React, { PropsWithChildren, useEffect, useState } from 'react';
+import type { PropsWithChildren } from 'react';
 import {
   useConfig,
   useEditToolsActions,
