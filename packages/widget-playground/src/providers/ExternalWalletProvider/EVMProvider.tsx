@@ -7,6 +7,7 @@ import {
   RainbowKitProvider,
   darkTheme,
   lightTheme,
+  Theme as RainbowKitTheme,
 } from '@rainbow-me/rainbowkit';
 import { mainnet } from 'wagmi/chains';
 import { useThemeMode } from '../../hooks';
@@ -68,7 +69,7 @@ export const EVMProvider: FC<PropsWithChildren> = ({ children }) => {
       config={wagmiConfig}
       reconnectOnMount={Boolean(chains?.length)}
     >
-      <RainbowKitProvider theme={RainbowKitTheme[themeMode]}>
+      <RainbowKitProvider theme={RainbowKitTheme[themeMode] as RainbowKitTheme}>
         {children}
       </RainbowKitProvider>
     </WagmiProvider>
