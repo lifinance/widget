@@ -1,10 +1,15 @@
-import { Collapse } from '@mui/material';
+import { CloseRounded } from '@mui/icons-material';
+import type { BoxProps } from '@mui/material';
+import { Box, Collapse } from '@mui/material';
+import type { MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAccount } from '../../hooks/useAccount.js';
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
 import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js';
+import { useFieldActions } from '../../stores/form/useFieldActions.js';
 import { useFieldValues } from '../../stores/form/useFieldValues.js';
 import { useSendToWalletStore } from '../../stores/settings/useSendToWalletStore.js';
 import { DisabledUI, HiddenUI } from '../../types/widget.js';
@@ -16,11 +21,11 @@ import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { shortenAddress } from '../../utils/wallet.js';
 import { AccountAvatar } from '../Avatar/AccountAvatar.js';
 import { Card } from '../Card/Card.js';
-import { CardRowContainer } from '../Card/CardButton.style.js';
+import { CardIconButton } from '../Card/CardIconButton.js';
 import { CardTitle } from '../Card/CardTitle.js';
 import { SendToWalletCardHeader } from './SendToWallet.style.js';
 
-export const SendToWalletButton = () => {
+export const SendToWalletButton: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { disabledUI, hiddenUI, toAddress, toAddresses } = useWidgetConfig();
@@ -30,7 +35,9 @@ export const SendToWalletButton = () => {
     'toChain',
     'toToken',
   );
+  const { setFieldValue } = useFieldActions();
   const { selectedBookmark } = useBookmarks();
+  const { setSelectedBookmark } = useBookmarkActions();
   const { accounts } = useAccount();
   const { requiredToAddress } = useToAddressRequirements();
   const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress);
@@ -66,7 +73,9 @@ export const SendToWalletButton = () => {
           ? defaultChainIdsByType[chainType]
           : undefined;
 
-  const isConnectedAccount = selectedBookmark?.isConnectedAccount;
+  const isConnectedAccount =
+    selectedBookmark?.isConnectedAccount &&
+    matchingConnectedAccount?.isConnected;
   const connectedAccountName = matchingConnectedAccount?.connector?.name;
   const bookmarkName = selectedBookmark?.name;
 
@@ -77,12 +86,22 @@ export const SendToWalletButton = () => {
   const headerSubheader =
     isConnectedAccount || bookmarkName || connectedAccountName ? address : null;
 
+  const isSelected = !!toAddressFieldValue && !(toAddress && disabledToAddress);
+
+  const disabledForChanges = Boolean(toAddress) && disabledToAddress;
+
   const handleOnClick = () => {
     navigate(
       toAddresses?.length
         ? navigationRoutes.configuredWallets
         : navigationRoutes.sendToWallet,
     );
+  };
+
+  const clearSelectedBookmark: MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.stopPropagation();
+    setFieldValue('toAddress', '', { isTouched: true });
+    setSelectedBookmark();
   };
 
   return (
@@ -94,19 +113,14 @@ export const SendToWalletButton = () => {
     >
       <Card
         component="button"
-        onClick={!!toAddress && disabledToAddress ? undefined : handleOnClick}
-        sx={{ mb: 2 }}
+        onClick={disabledForChanges ? undefined : handleOnClick}
+        width="100%"
+        {...props}
       >
-        <CardRowContainer
-          sx={{
-            flexDirection: 'column',
-            padding: 0,
-            alignItems: 'flex-start',
-          }}
-        >
-          <CardTitle required={requiredToAddress}>
-            {t('header.sendToWallet')}
-          </CardTitle>
+        <CardTitle required={requiredToAddress}>
+          {t('header.sendToWallet')}
+        </CardTitle>
+        <Box display="flex" justifyContent="center" alignItems="center">
           <SendToWalletCardHeader
             avatar={
               <AccountAvatar
@@ -117,11 +131,16 @@ export const SendToWalletButton = () => {
             }
             title={headerTitle}
             subheader={headerSubheader}
-            selected={
-              !!toAddressFieldValue && !(toAddress && disabledToAddress)
+            selected={isSelected}
+            action={
+              isSelected && !disabledForChanges ? (
+                <CardIconButton onClick={clearSelectedBookmark} size="small">
+                  <CloseRounded fontSize="small" />
+                </CardIconButton>
+              ) : null
             }
           />
-        </CardRowContainer>
+        </Box>
       </Card>
     </Collapse>
   );

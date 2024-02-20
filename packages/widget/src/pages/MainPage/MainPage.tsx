@@ -28,7 +28,7 @@ export const MainPage: React.FC = () => {
       <SelectChainAndToken mt={1} mb={2} />
       {!nft ? <AmountInput formType="from" mb={2} /> : null}
       {!expandable ? <Routes mb={2} /> : null}
-      <SendToWalletButton />
+      <SendToWalletButton mb={2} />
       <GasRefuelMessage mb={2} />
       <MainGasMessage mb={2} />
       <Box display="flex" mb={1}>

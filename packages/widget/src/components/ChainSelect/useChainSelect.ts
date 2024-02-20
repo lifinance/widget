@@ -10,7 +10,7 @@ import { useFieldController } from '../../stores/form/useFieldController.js';
 
 export const useChainSelect = (formType: FormType) => {
   const chainKey = FormKeyHelper.getChainKey(formType);
-  const { onChange, onBlur } = useFieldController({ name: chainKey });
+  const { onChange } = useFieldController({ name: chainKey });
 
   const { setFieldValue, getFieldValues } = useFieldActions();
   const { chains, isLoading, getChainById } = useChains(formType);
@@ -30,7 +30,6 @@ export const useChainSelect = (formType: FormType) => {
 
   const setCurrentChain = (chainId: number) => {
     onChange(chainId);
-    onBlur();
     if (swapOnly) {
       setFieldValue(FormKeyHelper.getChainKey('to'), chainId, {
         isTouched: true,

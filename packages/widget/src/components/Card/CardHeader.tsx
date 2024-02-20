@@ -14,11 +14,13 @@ export const CardHeader = styled(MuiCardHeader)(({ theme }) => ({
     fontSize: 18,
     lineHeight: 1.3334,
     color: theme.palette.text.primary,
+    textAlign: 'left',
   },
   [`.${cardHeaderClasses.subheader}`]: {
     fontWeight: 500,
     fontSize: 12,
     lineHeight: 1.3334,
     color: theme.palette.text.secondary,
+    textAlign: 'left',
   },
 }));

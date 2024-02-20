@@ -9,7 +9,7 @@ import { WidgetEvent } from '../../types/events.js';
 
 export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
   const tokenKey = FormKeyHelper.getTokenKey(formType);
-  const { onChange, onBlur } = useFieldController({ name: tokenKey });
+  const { onChange } = useFieldController({ name: tokenKey });
   const { setFieldValue, getFieldValues } = useFieldActions();
   const { subvariant } = useWidgetConfig();
   const emitter = useWidgetEvents();
@@ -17,7 +17,6 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
   return useCallback(
     (tokenAddress: string, chainId?: number) => {
       onChange(tokenAddress);
-      onBlur();
       const selectedChainId =
         chainId ?? getFieldValues(FormKeyHelper.getChainKey(formType))[0];
       // Set chain again to trigger URL builder update
@@ -60,7 +59,6 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
       emitter,
       formType,
       getFieldValues,
-      onBlur,
       onChange,
       onClick,
       setFieldValue,
