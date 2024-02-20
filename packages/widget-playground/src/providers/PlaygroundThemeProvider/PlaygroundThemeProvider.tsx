@@ -1,8 +1,8 @@
 import type { PropsWithChildren } from 'react';
 import React from 'react';
-import { CssBaseline, ThemeProvider, useMediaQuery } from '@mui/material';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import { theme } from './theme';
-import { useConfigAppearance } from '../../store';
+import { useThemeMode } from '../../hooks';
 import {
   lightPalette,
   darkPalette,
@@ -11,27 +11,22 @@ import {
 } from './themeOverrides';
 
 const appearancePaletteOverrides = {
-  auto: {},
   light: lightPalette,
   dark: darkPalette,
 };
 
 export const PlaygroundThemeProvider = ({ children }: PropsWithChildren) => {
-  const { appearance } = useConfigAppearance();
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-
-  const adjustedAppearance =
-    appearance === 'auto' ? (prefersDarkMode ? 'dark' : 'light') : appearance;
+  const themeMode = useThemeMode();
 
   const appTheme = {
     ...theme,
     palette: {
       ...theme.palette,
-      ...appearancePaletteOverrides[adjustedAppearance],
+      ...appearancePaletteOverrides[themeMode],
     },
     components: {
       ...theme.components,
-      ...(adjustedAppearance === 'dark' ? darkComponents : lightComponents),
+      ...(themeMode === 'dark' ? darkComponents : lightComponents),
     },
   };
 
