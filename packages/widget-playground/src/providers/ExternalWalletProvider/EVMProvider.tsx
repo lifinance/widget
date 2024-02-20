@@ -11,23 +11,24 @@ import {
 import { mainnet } from 'wagmi/chains';
 import { useThemeMode } from '../../hooks';
 import { useEnvVariables } from '../../providers';
+import { theme } from '../PlaygroundThemeProvider/theme';
 import '@rainbow-me/rainbowkit/styles.css';
 
 const rkThemeColors = {
-  accentColor: '#3f49e1',
-  accentColorForeground: '#fff',
+  accentColor: theme.palette.primary.main,
+  accentColorForeground: theme.palette.common.white,
 };
 
 const rkThemeFonts = {
-  body: 'Inter, sans-serif',
+  body: theme.typography.fontFamily,
 };
 
 const rkThemeRadii = {
-  actionButton: '8px',
-  connectButton: '12px',
-  menuButton: '8px',
-  modal: '12px',
-  modalMobile: '12px',
+  actionButton: `${theme.shape.borderRadiusSecondary}px`,
+  connectButton: `${theme.shape.borderRadiusSecondary}px`,
+  menuButton: `${theme.shape.borderRadiusSecondary}px`,
+  modal: `${theme.shape.borderRadius}px`,
+  modalMobile: `${theme.shape.borderRadius}px`,
 };
 
 const RainbowKitTheme = {
