@@ -4,7 +4,7 @@ import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
 import type { WidgetVariant } from '../types/widget.js';
 import { ElementId, createElementId } from '../utils/elements.js';
 
-export const maxHeight = 680;
+export const maxHeight = 682;
 
 export const AppExpandedContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'variant',

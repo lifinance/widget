@@ -27,8 +27,8 @@ export const useToAddressReset = () => {
     // prevents cases when after we switch the chain from one type to another "Send to wallet" field hides,
     // but it keeps toAddress value set for the previous chain pair.
     if (shouldResetToAddress) {
-      setSelectedBookmark();
       setFieldValue('toAddress', '');
+      setSelectedBookmark();
     }
   };
 

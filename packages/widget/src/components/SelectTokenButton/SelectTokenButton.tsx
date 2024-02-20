@@ -55,7 +55,7 @@ export const SelectTokenButton: React.FC<
       ? t(`header.payWith`)
       : t(`main.${formType}`);
   return (
-    <Card flex={1} onClick={onClick}>
+    <Card component="button" flex={1} onClick={onClick}>
       <CardTitle>{cardTitle}</CardTitle>
       {chainId && tokenAddress && (isChainLoading || isTokenLoading) ? (
         <SelectTokenCardHeader
