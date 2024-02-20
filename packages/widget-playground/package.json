@@ -1,73 +1,52 @@
 {
   "name": "@lifi/widget-playground",
+  "private": true,
   "version": "1.0.183",
   "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.d.ts",
   "scripts": {
-    "analyze": "source-map-explorer 'dist/assets/*.js' --no-border-checks",
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "clean": "rm -rf dist tsconfig.tsbuildinfo",
-    "preview": "vite preview",
-    "pre-commit": "lint-staged",
-    "lint": "eslint --ext .tsx --ext .ts ./src",
-    "lint:fix": "eslint --ext .tsx --ext .ts ./src --fix",
-    "prettier:fix": "prettier --write ./src/."
-  },
-  "lint-staged": {
-    "src/**/*.{ts,tsx}": [
-      "yarn run lint:fix",
-      "yarn run prettier:fix"
-    ]
+    "build": "yarn clean && yarn build:esm &&  yarn build:fonts && yarn build:clean",
+    "build:esm": "tsc --build",
+    "build:fonts": "cpy 'src/fonts/*' dist/fonts",
+    "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo ./dist/tsconfig.cjs.tsbuildinfo",
+    "clean": "yarn build:clean && rm -rf dist",
+    "types": "tsc --noEmit",
+    "lint": "eslint --ext .tsx --ext .ts ./src"
   },
   "publishConfig": {
     "access": "public"
   },
-  "author": "Eugene Chybisov <eugene@li.finance>",
-  "dependencies": {
+  "peerDependencies": {
     "@lifi/sdk": "^3.0.0-alpha.56",
     "@lifi/wallet-management": "^3.0.0-alpha.21",
     "@lifi/widget": "^3.0.0-alpha.31",
     "@mui/icons-material": "^5.15.10",
-    "@mui/lab": "^5.0.0-alpha.165",
     "@mui/material": "^5.15.10",
+    "@rainbow-me/rainbowkit": "^2.0.0",
     "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/wallet-adapter-react": "^0.15.35",
     "@solana/wallet-adapter-wallets": "^0.19.26",
     "@solana/web3.js": "^1.90.0",
     "@tanstack/react-query": "^5.21.7",
-    "ethers": "^5.7.2",
-    "events": "^3.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.22.1",
     "viem": "^2.7.10",
-    "wagmi": "2.5.7"
+    "wagmi": "^2.5.7",
+    "zustand": "^4.5.0"
   },
   "devDependencies": {
-    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
-    "@vitejs/plugin-react": "^4.2.1",
-    "rollup-plugin-polyfill-node": "^0.13.0",
-    "source-map-explorer": "^2.5.3",
-    "typescript": "^5.3.3",
-    "vite": "^5.1.3",
-    "web-vitals": "^3.5.2"
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "cpy-cli": "^5.0.0",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "14.1.0",
+    "typescript": "^5"
   },
-  "eslintConfig": {
-    "extends": "../../.eslintrc"
-  },
-  "browserslist": {
-    "production": [
-      "> 1%",
-      "last 2 versions",
-      "not dead",
-      "not IE > 0",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "private": true
+  "exports": {
+    ".": "./src/index.ts",
+    "./fonts": "./src/fonts/inter.css",
+    "./widget-config": "./src/defaultWidgetConfig.ts"
+  }
 }

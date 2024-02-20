@@ -7,14 +7,6 @@ export const SettingsList = styled(Box)(({ theme }) => ({
   padding: theme.spacing(1, 0, 1),
 }));
 
-export const SummaryRowContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  width: '100%',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  padding: theme.spacing(2),
-}));
-
 export const Badge = styled(MuiBadge)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
