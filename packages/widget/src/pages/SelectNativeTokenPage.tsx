@@ -23,6 +23,7 @@ export const SelectNativeTokenPage: React.FC<FormTypeProps> = ({
         sx={{
           paddingLeft: 1.5,
           paddingRight: 1.5,
+          paddingBottom: 1.5,
         }}
       >
         {chains?.map((chain) => (

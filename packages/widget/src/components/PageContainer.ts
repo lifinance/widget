@@ -12,6 +12,11 @@ export const PageContainer = styled(Container, {
   ({ theme, disableGutters, halfGutters, topBottomGutters }) => ({
     padding: disableGutters
       ? 0
-      : theme.spacing(topBottomGutters ? 1 : 0, halfGutters ? 1.5 : 3),
+      : theme.spacing(
+          topBottomGutters ? 1 : 0,
+          halfGutters ? 1.5 : 3,
+          topBottomGutters ? 3 : 0,
+          halfGutters ? 1.5 : 3,
+        ),
   }),
 );

@@ -4,7 +4,6 @@ export const SettingsList = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: theme.spacing(1),
-  padding: theme.spacing(1, 0, 1),
 }));
 
 export const Badge = styled(MuiBadge)(({ theme }) => ({

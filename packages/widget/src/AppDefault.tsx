@@ -7,7 +7,6 @@ import {
 } from './components/AppContainer.js';
 import { Header } from './components/Header/Header.js';
 import { Initializer } from './components/Initializer.js';
-import { PoweredBy } from './components/PoweredBy/PoweredBy.js';
 import { RoutesExpanded } from './components/Routes/RoutesExpanded.js';
 import { useExpandableVariant } from './hooks/useExpandableVariant.js';
 import { useWidgetConfig } from './providers/WidgetProvider/WidgetProvider.js';
@@ -26,7 +25,6 @@ export const AppDefault = () => {
         <FlexContainer disableGutters>
           <AppRoutes />
         </FlexContainer>
-        <PoweredBy />
         <Initializer />
       </AppContainer>
       {expandable ? <RoutesExpanded /> : null}

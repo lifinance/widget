@@ -5,7 +5,8 @@ import type { ToAddress } from '../../types/widget.js';
 import type { PersistStoreProps } from '../types.js';
 import type { BookmarkState } from './types.js';
 
-const recentWalletsLimit = 5;
+const recentWalletsLimit = 10;
+
 interface PersistBookmarkProps extends PersistStoreProps {
   toAddress?: ToAddress;
 }

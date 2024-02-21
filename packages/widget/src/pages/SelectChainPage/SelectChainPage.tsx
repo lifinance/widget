@@ -31,6 +31,7 @@ export const SelectChainPage: React.FC<SelectChainPageProps> = ({
         sx={{
           paddingLeft: 1.5,
           paddingRight: 1.5,
+          paddingBottom: 1.5,
         }}
       >
         {chains?.map((chain) => (

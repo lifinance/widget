@@ -131,7 +131,7 @@ export const ListContainer = styled(List)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   minHeight: 400,
-  paddingBottom: theme.spacing(3),
+  paddingBottom: theme.spacing(1.5),
 }));
 
 export const BookmarkButtonContainer = styled(Box)(({ theme }) => ({

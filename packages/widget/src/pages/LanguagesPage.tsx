@@ -22,6 +22,7 @@ export const LanguagesPage: React.FC = () => {
         sx={{
           paddingLeft: 1.5,
           paddingRight: 1.5,
+          paddingBottom: 1.5,
         }}
       >
         {availableLanguages.map((language) => (
