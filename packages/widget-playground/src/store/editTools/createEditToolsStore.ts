@@ -8,7 +8,7 @@ export const createEditToolsStore = () =>
     persist(
       (set) => ({
         drawer: {
-          open: false,
+          open: true,
         },
         setDrawerOpen: (open) => {
           set({
