@@ -111,7 +111,7 @@ export const useSettingsStore = createWithEqualityFn<SettingsState>(
     }),
     {
       name: `li.fi-widget-settings`,
-      version: 3,
+      version: 4,
       partialize: (state) => {
         const { disabledBridges, disabledExchanges, ...partializedState } =
           state;
@@ -132,6 +132,9 @@ export const useSettingsStore = createWithEqualityFn<SettingsState>(
         }
         if (version === 1) {
           persistedState.slippage = defaultConfigurableSettings.slippage;
+        }
+        if (version <= 3) {
+          persistedState.routePriority = 'CHEAPEST';
         }
         return persistedState as SettingsState;
       },
