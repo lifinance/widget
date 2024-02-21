@@ -9,11 +9,13 @@ import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
 import type { StoreApi } from 'zustand';
 
 export interface WidgetConfigValues {
+  defaultConfig?: Partial<WidgetConfig>;
   config?: Partial<WidgetConfig>;
 }
 
 export interface WidgetConfigActions {
   setConfig: (config: Partial<WidgetConfig>) => void;
+  setDefaultConfig: (defaultConfig: Partial<WidgetConfig>) => void;
   resetConfig: () => void;
   setAppearance: (appearance: Appearance) => void;
   setVariant: (variant: WidgetVariant) => void;

@@ -28,7 +28,7 @@ export const widgetBaseConfig: WidgetConfig = {
   //     chainType: ChainType.SVM,
   //   },
   // ],
-  variant: 'expandable',
+  // variant: 'expandable',
   // subvariant: 'split',
   integrator: 'li.fi-playground',
   // fee: 0.01,
@@ -205,6 +205,7 @@ export const widgetBaseConfig: WidgetConfig = {
 export const defaultWidgetConfig: Partial<WidgetConfig> = {
   ...widgetBaseConfig,
   appearance: 'auto',
+  hiddenUI: ['poweredBy', 'language', 'appearance', 'toAddress'],
   theme: {
     palette: {
       primary: {

@@ -9,16 +9,24 @@ export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
   createWithEqualityFn<WidgetConfigState>(
     persist(
       (set, get) => ({
+        defaultConfig: undefined,
         config: initialConfig,
         setConfig: (config) => {
           set({
             config,
           });
         },
-        resetConfig: () => {
+        setDefaultConfig: (defaultConfig) => {
           set({
-            config: initialConfig,
+            defaultConfig,
           });
+        },
+        resetConfig: () => {
+          // I still seem to have values in the defaultConfig that don't match with the file
+          console.log('resetConfig', get().defaultConfig);
+          set((state) => ({
+            config: get().defaultConfig,
+          }));
         },
         setAppearance: (appearance) => {
           set({
