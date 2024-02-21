@@ -38,7 +38,8 @@ export const WidgetConfigProvider: FC<WidgetConfigProviderProps> = ({
       const differences = diff(updatedDefaultConfig, editorConfigUpdates);
 
       const mergedConfig = applyDifferencesToObject<Partial<WidgetConfig>>(
-        defaultWidgetConfig,
+        // TODO: question: do we have a good deep clone method in the codebase to replace this?
+        JSON.parse(JSON.stringify(defaultWidgetConfig)),
         differences,
       );
 
