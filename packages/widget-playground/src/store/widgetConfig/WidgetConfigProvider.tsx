@@ -6,8 +6,9 @@ import type { WidgetConfigStore, WidgetConfigState } from './types.js';
 import { createWidgetConfigStore } from './createWidgetConfigStore.js';
 import isEqual from 'lodash.isequal';
 import diff from 'microdiff';
-import { getWhitelistedEditableConfig } from './utils/getWhitelistedEditableConfig';
+import { getWhitelistedConfig } from './utils/getWhitelistedConfig';
 import { applyDifferencesToObject } from './utils/applyDifferencesToObject';
+import { cloneWithNonClonables } from './utils/cloneWithNonClonables';
 
 export const WidgetConfigContext = createContext<WidgetConfigStore | null>(
   null,
@@ -32,14 +33,12 @@ export const WidgetConfigProvider: FC<WidgetConfigProviderProps> = ({
 
     const currentConfig = storeRef.current?.getState().config;
     if (currentConfig && !isEqual(currentConfig, defaultWidgetConfig)) {
-      const updatedDefaultConfig =
-        getWhitelistedEditableConfig(defaultWidgetConfig);
-      const editorConfigUpdates = getWhitelistedEditableConfig(currentConfig);
-      const differences = diff(updatedDefaultConfig, editorConfigUpdates);
+      const editorConfigDefaults = getWhitelistedConfig(defaultWidgetConfig);
+      const editorConfigUpdates = getWhitelistedConfig(currentConfig);
+      const differences = diff(editorConfigDefaults, editorConfigUpdates);
 
       const mergedConfig = applyDifferencesToObject<Partial<WidgetConfig>>(
-        // TODO: question: do we have a good deep clone method in the codebase to replace this?
-        JSON.parse(JSON.stringify(defaultWidgetConfig)),
+        cloneWithNonClonables(defaultWidgetConfig),
         differences,
       );
 

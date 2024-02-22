@@ -2,6 +2,8 @@ import { Difference } from 'microdiff';
 
 type ObjectType = { [key: string]: any };
 type ArrayType = Array<any>;
+
+// TODO: can this be used in the add to
 const addValue = <T>(
   object: T,
   path: Array<string | number>,

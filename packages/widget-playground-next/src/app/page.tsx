@@ -1,5 +1,9 @@
 'use client';
 
+// This polyfill is only needed for the Next.js implementation
+// the lack of structureClone support for Next.js is currently a requested feature
+//   https://github.com/vercel/next.js/discussions/33189
+import 'core-js/actual/structured-clone';
 import { type PropsWithChildren } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Box } from '@mui/material';

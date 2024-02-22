@@ -4,13 +4,14 @@ import type { StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { addValueFromPath } from '../../utils';
 import type { WidgetConfigState } from './types';
+import { cloneWithNonClonables } from './utils/cloneWithNonClonables';
 
 export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
   createWithEqualityFn<WidgetConfigState>(
     persist(
       (set, get) => ({
-        defaultConfig: undefined,
-        config: initialConfig,
+        defaultConfig: initialConfig,
+        config: cloneWithNonClonables(initialConfig),
         setConfig: (config) => {
           set({
             config,
@@ -22,11 +23,9 @@ export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
           });
         },
         resetConfig: () => {
-          // I still seem to have values in the defaultConfig that don't match with the file
-          console.log('resetConfig', get().defaultConfig);
-          set((state) => ({
-            config: get().defaultConfig,
-          }));
+          set({
+            config: cloneWithNonClonables(get().defaultConfig!),
+          });
         },
         setAppearance: (appearance) => {
           set({
