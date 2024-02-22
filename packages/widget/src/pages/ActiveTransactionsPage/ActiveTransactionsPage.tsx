@@ -32,7 +32,7 @@ export const ActiveTransactionsPage = () => {
   useEffect(() => {
     if (executingRoutes.length) {
       return headerStoreContext.getState().setAction(
-        <IconButton size="medium" edge="end" onClick={toggleDialog}>
+        <IconButton size="medium" onClick={toggleDialog}>
           <DeleteOutline />
         </IconButton>,
       );

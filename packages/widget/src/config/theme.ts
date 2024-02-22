@@ -73,9 +73,9 @@ const palette = {
 };
 
 const paletteLight = {
-  // background: {
-  //   default: '#F5F6FF',
-  // },
+  background: {
+    default: '#F5F6FF',
+  },
   text: {
     primary: '#000000',
     secondary: '#747474',
@@ -260,17 +260,17 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
       MuiIconButton: {
         styleOverrides: {
           root: {
-            // backgroundColor: alpha(
-            //   mode === 'light' ? palette.common.black : palette.common.white,
-            //   0.04,
-            // ),
+            backgroundColor: alpha(
+              mode === 'light' ? palette.common.black : palette.common.white,
+              0.04,
+            ),
             color: 'inherit',
-            // borderRadius: borderRadiusSecondary,
+            borderRadius: borderRadiusSecondary,
             '&:hover': {
-              // backgroundColor: alpha(
-              //   mode === 'light' ? palette.common.black : palette.common.white,
-              //   0.08,
-              // ),
+              backgroundColor: alpha(
+                mode === 'light' ? palette.common.black : palette.common.white,
+                0.08,
+              ),
               color: 'inherit',
             },
           },

@@ -103,7 +103,7 @@ export const NavigationHeader: React.FC = () => {
     <>
       <HeaderAppBar elevation={0}>
         {backButtonRoutes.includes(path) ? (
-          <IconButton size="medium" edge="start" onClick={navigateBack}>
+          <IconButton size="medium" onClick={navigateBack}>
             <ArrowBack />
           </IconButton>
         ) : null}

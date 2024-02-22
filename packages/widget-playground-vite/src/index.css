@@ -1,4 +1,5 @@
 #root {
   display: flex;
   flex-grow: 1;
+  background-color: #E6E7F5;
 }

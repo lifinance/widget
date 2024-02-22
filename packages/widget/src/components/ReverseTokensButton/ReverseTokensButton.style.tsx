@@ -10,10 +10,10 @@ export const IconButton = styled(MuiIconButton)(({ theme }) => ({
   width: 32,
   fontSize: 16,
   backgroundColor: theme.palette.background.paper,
-  border: `1px solid`,
+  border: `4px solid`,
   borderColor:
     theme.palette.mode === 'light'
-      ? theme.palette.grey[300]
+      ? theme.palette.background.default
       : theme.palette.grey[800],
   zIndex: 1100,
   padding: theme.spacing(0.5),

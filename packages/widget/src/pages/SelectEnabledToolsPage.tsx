@@ -40,7 +40,7 @@ const SelectAllCheckbox: React.FC<SelectAllCheckboxProps> = ({
 
   return (
     <Tooltip title={tooltipTitle} arrow>
-      <IconButton size="medium" edge="end" onClick={onClick}>
+      <IconButton size="medium" onClick={onClick}>
         {allCheckboxesSelected ? (
           <CheckBoxOutlined />
         ) : anyCheckboxesSelected ? (
