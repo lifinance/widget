@@ -45,9 +45,9 @@ declare module '@mui/material/Typography' {
 
 const palette = {
   primary: {
-    main: '#3F49E1',
-    light: lighten('#3F49E1', 0.5),
-    dark: darken('#3F49E1', 0.2),
+    main: '#5C67FF',
+    light: lighten('#5C67FF', 0.5),
+    dark: darken('#5C67FF', 0.2),
   },
   secondary: {
     main: '#F5B5FF',
@@ -73,6 +73,9 @@ const palette = {
 };
 
 const paletteLight = {
+  // background: {
+  //   default: '#F5F6FF',
+  // },
   text: {
     primary: '#000000',
     secondary: '#747474',
@@ -87,7 +90,7 @@ const paletteDark = {
 
 const shape = {
   borderRadius: 12,
-  borderRadiusSecondary: 8,
+  borderRadiusSecondary: 12,
 };
 
 const enterKeyframe = keyframes`
@@ -123,6 +126,8 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
     getContrastRatio(palette.common.white, alpha(primaryMainColor, 0.08)) >= 3
       ? palette.common.white
       : palette.common.black;
+  const borderRadiusSecondary =
+    theme.shape?.borderRadiusSecondary ?? shape.borderRadiusSecondary;
   return createMuiTheme({
     typography: {
       fontFamily: 'Inter var, Inter, sans-serif',
@@ -160,8 +165,8 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
     },
     breakpoints: {
       values: {
-        xs: 0,
-        sm: 392,
+        xs: 360,
+        sm: 416,
         md: 900,
         lg: 1200,
         xl: 1536,
@@ -199,15 +204,15 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
         },
         styleOverrides: {
           root: {
-            borderRadius:
-              theme.shape?.borderRadiusSecondary ?? shape.borderRadiusSecondary,
+            borderRadius: borderRadiusSecondary,
             textTransform: 'none',
             fontSize: '1rem',
+            fontWeight: 600,
             [`&.Mui-disabled, &.Mui-disabled:hover`]: {
-              color:
-                mode === 'light'
-                  ? alpha(palette.common.black, 0.56)
-                  : alpha(palette.common.white, 0.56),
+              color: alpha(
+                mode === 'light' ? palette.common.black : palette.common.white,
+                0.56,
+              ),
               cursor: 'not-allowed',
               pointerEvents: 'auto',
             },
@@ -255,8 +260,17 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
       MuiIconButton: {
         styleOverrides: {
           root: {
+            // backgroundColor: alpha(
+            //   mode === 'light' ? palette.common.black : palette.common.white,
+            //   0.04,
+            // ),
             color: 'inherit',
+            // borderRadius: borderRadiusSecondary,
             '&:hover': {
+              // backgroundColor: alpha(
+              //   mode === 'light' ? palette.common.black : palette.common.white,
+              //   0.08,
+              // ),
               color: 'inherit',
             },
           },
@@ -277,13 +291,13 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
       MuiListItemText: {
         styleOverrides: {
           primary: ({ theme }) => ({
-            fontWeight: '500',
+            fontWeight: 600,
             fontSize: '1.125rem',
             lineHeight: '1.2778',
             color: theme.palette.text.primary,
           }),
           secondary: ({ theme }) => ({
-            fontWeight: '400',
+            fontWeight: 500,
             fontSize: '0.75rem',
             color: theme.palette.text.secondary,
           }),

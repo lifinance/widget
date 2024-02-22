@@ -8,6 +8,7 @@ import {
   useEditToolsActions,
   useEditToolsValues,
 } from '../../store';
+import { ToggleDrawerButton } from './ToggleDrawerButton';
 import {
   DrawerOpenButton,
   FloatingToolsContainer,
@@ -15,7 +16,14 @@ import {
   WidgetContainer,
 } from './WidgetView.style';
 
-export function WidgetViewContainer({ children }: PropsWithChildren) {
+interface WidgetViewContainerProps extends PropsWithChildren {
+  toggleDrawer(): void;
+}
+
+export function WidgetViewContainer({
+  children,
+  toggleDrawer,
+}: WidgetViewContainerProps) {
   const { config } = useConfig();
   const { isDrawerOpen } = useEditToolsValues();
   const { setDrawerOpen } = useEditToolsActions();
@@ -35,6 +43,9 @@ export function WidgetViewContainer({ children }: PropsWithChildren) {
           ) : null}
           {isWalletManagementExternal ? (
             <ConnectButton chainStatus="none" showBalance={false} />
+          ) : null}
+          {config?.variant === 'drawer' ? (
+            <ToggleDrawerButton onClick={toggleDrawer} />
           ) : null}
         </FloatingToolsContainer>
         <WidgetContainer>{children}</WidgetContainer>

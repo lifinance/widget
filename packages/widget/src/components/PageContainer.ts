@@ -10,6 +10,9 @@ export const PageContainer = styled(Container, {
     !['halfGutters', 'topBottomGutters'].includes(prop as string),
 })<PageContainerProps>(
   ({ theme, disableGutters, halfGutters, topBottomGutters }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
     padding: disableGutters
       ? 0
       : theme.spacing(

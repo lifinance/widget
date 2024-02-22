@@ -84,7 +84,7 @@ export const HeaderControlsContainer = styled(Box)(({ theme }) => ({
 
 export const SplitTabs = styled(Tabs)(({ theme }) => ({
   backgroundColor:
-    theme.palette.mode === 'dark'
-      ? theme.palette.background.paper
-      : alpha(theme.palette.common.black, 0.04),
+    theme.palette.mode === 'light'
+      ? alpha(theme.palette.common.black, 0.04)
+      : theme.palette.background.paper,
 }));

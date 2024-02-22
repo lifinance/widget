@@ -1,4 +1,3 @@
-import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 import { Drawer } from '@mui/material';
 import type { PropsWithChildren } from 'react';
 import {
@@ -9,12 +8,9 @@ import {
   useRef,
   useState,
 } from 'react';
-import { useTranslation } from 'react-i18next';
-import { DrawerButton, DrawerButtonTypography } from './AppDrawer.style.js';
 import type { WidgetDrawerContext } from './AppDrawerContext.js';
 import { DrawerContext } from './AppDrawerContext.js';
-import type { WidgetDrawerProps, WidgetSubvariant } from './types/widget.js';
-import { HiddenUI } from './types/widget.js';
+import type { WidgetDrawerProps } from './types/widget.js';
 
 export interface WidgetDrawer {
   isOpen(): void;
@@ -71,17 +67,6 @@ export const AppDrawer = forwardRef<
 
   return (
     <DrawerContext.Provider value={drawerContext}>
-      {!config?.hiddenUI?.includes(HiddenUI.DrawerButton) ? (
-        <DrawerButton
-          variant="contained"
-          onClick={toggleDrawer}
-          open={drawerOpen}
-          drawerProps={config?.containerStyle}
-        >
-          {drawerOpen ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-          <DrawerButtonText open={drawerOpen} subvariant={config?.subvariant} />
-        </DrawerButton>
-      ) : null}
       <Drawer
         ref={elementRef}
         anchor="right"
@@ -96,11 +81,13 @@ export const AppDrawer = forwardRef<
           },
         }}
         PaperProps={{
-          sx: {
+          sx: (theme) => ({
             width: config?.containerStyle?.width ?? '100%',
-            minWidth: config?.containerStyle?.minWidth ?? 360,
-            maxWidth: config?.containerStyle?.maxWidth ?? 392,
-          },
+            minWidth:
+              config?.containerStyle?.minWidth ?? theme.breakpoints.values.xs,
+            maxWidth:
+              config?.containerStyle?.maxWidth ?? theme.breakpoints.values.sm,
+          }),
         }}
         keepMounted
       >
@@ -109,23 +96,3 @@ export const AppDrawer = forwardRef<
     </DrawerContext.Provider>
   );
 });
-
-export const DrawerButtonText = ({
-  open,
-  subvariant,
-}: {
-  open: boolean;
-  subvariant?: WidgetSubvariant;
-}) => {
-  const { t } = useTranslation();
-
-  return (
-    <DrawerButtonTypography>
-      {open
-        ? t('button.hide')
-        : subvariant === 'nft'
-          ? t('button.lifiCheckout')
-          : t('button.lifiExchange')}
-    </DrawerButtonTypography>
-  );
-};

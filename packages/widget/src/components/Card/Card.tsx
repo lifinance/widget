@@ -42,7 +42,7 @@ export const Card = styled(Box, {
     ),
 })<CardProps>(({
   theme,
-  variant,
+  variant = 'default',
   selectionColor = 'primary',
   indented,
   pointerEvents,
@@ -56,7 +56,8 @@ export const Card = styled(Box, {
     : backgroundColor;
   return {
     backgroundColor,
-    border: `1px solid`,
+    // border: variant === 'default' ? 'none' : '1px solid',
+    border: '1px solid',
     borderColor:
       variant === 'error'
         ? theme.palette.error.main
@@ -68,6 +69,7 @@ export const Card = styled(Box, {
             ? theme.palette.grey[300]
             : theme.palette.grey[800],
     borderRadius: theme.shape.borderRadius,
+    // boxShadow: '0px 1px 4px 0px rgba(0, 0, 0, 0.04)',
     overflow: 'hidden',
     position: 'relative',
     padding: indented ? theme.spacing(2) : 0,

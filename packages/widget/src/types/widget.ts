@@ -39,7 +39,6 @@ export type DisabledUIType = `${DisabledUI}`;
 
 export enum HiddenUI {
   Appearance = 'appearance',
-  DrawerButton = 'drawerButton',
   DrawerCloseButton = 'drawerCloseButton',
   History = 'history',
   Language = 'language',

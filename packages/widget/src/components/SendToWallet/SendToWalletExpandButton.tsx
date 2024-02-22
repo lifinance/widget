@@ -52,7 +52,8 @@ export const SendToWalletExpandButton: React.FC = () => {
         onClick={handleClick}
         sx={{
           minWidth: 48,
-          marginLeft: 1,
+          width: 48,
+          height: 48,
         }}
       >
         <Wallet />

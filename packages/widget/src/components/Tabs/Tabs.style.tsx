@@ -20,32 +20,27 @@ export const Tabs = styled(MuiTabs)(({ theme }) => ({
   [`.${tabsClasses.indicator}`]: {
     height: '100%',
     width: '100%',
-    backgroundColor:
-      theme.palette.mode === 'dark'
-        ? theme.palette.background.default
-        : theme.palette.common.white,
+    backgroundColor: theme.palette.background.paper,
     borderRadius:
       Math.max(theme.shape.borderRadius, theme.shape.borderRadiusSecondary) - 4,
     boxShadow: `0px 2px 4px ${alpha(theme.palette.common.black, 0.04)}`,
   },
 }));
 
-export const Tab = styled(MuiTab, {
-  shouldForwardProp: (prop) => prop !== 'isDarkMode',
-})<TabProps>(({ theme }) => ({
+export const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
   zIndex: 1,
   flex: 1,
   textTransform: 'none',
   fontSize: '1rem',
   fontWeight: 700,
   color:
-    theme.palette.mode === 'dark'
-      ? theme.palette.common.white
-      : theme.palette.common.black,
+    theme.palette.mode === 'light'
+      ? theme.palette.common.black
+      : theme.palette.common.white,
   [`&.${tabClasses.selected}`]: {
     color:
-      theme.palette.mode === 'dark'
-        ? theme.palette.common.white
-        : theme.palette.common.black,
+      theme.palette.mode === 'light'
+        ? theme.palette.common.black
+        : theme.palette.common.white,
   },
 }));

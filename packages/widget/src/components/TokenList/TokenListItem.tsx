@@ -148,7 +148,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
         ) : (
           <Box sx={{ textAlign: 'right' }}>
             {token.amount ? (
-              <Typography variant="body1" noWrap>
+              <Typography fontWeight={600} noWrap>
                 {t('format.number', {
                   value: formatTokenAmount(token.amount, token.decimals),
                 })}

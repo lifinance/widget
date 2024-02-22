@@ -22,10 +22,7 @@ export const SettingsFieldSet = styled(Box)(({ theme }) => ({
 }));
 
 const slippageControlSelected = (theme: Theme) => ({
-  backgroundColor:
-    theme.palette.mode === 'dark'
-      ? theme.palette.background.default
-      : theme.palette.common.white,
+  backgroundColor: theme.palette.background.paper,
   borderRadius: theme.shape.borderRadiusSecondary,
   boxShadow: `0px 2px 4px ${alpha(theme.palette.common.black, 0.04)}`,
 });
