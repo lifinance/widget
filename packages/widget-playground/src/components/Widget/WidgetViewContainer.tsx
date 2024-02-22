@@ -17,7 +17,7 @@ import {
 } from './WidgetView.style';
 
 interface WidgetViewContainerProps extends PropsWithChildren {
-  toggleDrawer(): void;
+  toggleDrawer?(): void;
 }
 
 export function WidgetViewContainer({

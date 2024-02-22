@@ -95,6 +95,7 @@ export const WidgetSkeletonContainer = styled(Box)(({ theme }) => ({
   gap: theme.spacing(2),
   backgroundColor: theme.palette.background.default,
   padding: theme.spacing(8, 3, 6.25),
+  boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
   borderRadius: theme.shape.borderRadius,
 }));
 
