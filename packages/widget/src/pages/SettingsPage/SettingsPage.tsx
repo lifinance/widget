@@ -11,7 +11,7 @@ import { ThemeSettings } from './ThemeSettings.js';
 
 export const SettingsPage = () => {
   return (
-    <PageContainer>
+    <PageContainer topBottomGutters>
       <SettingsList>
         <SettingsCardAccordion>
           <ThemeSettings />

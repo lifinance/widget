@@ -145,7 +145,7 @@ export const TransactionDetailsPage: React.FC = () => {
           {supportId}
         </Typography>
       </Card>
-      <Box mt={2} mb={2.5}>
+      <Box mt={2}>
         <ContactSupportButton supportId={supportId} />
       </Box>
     </PageContainer>
