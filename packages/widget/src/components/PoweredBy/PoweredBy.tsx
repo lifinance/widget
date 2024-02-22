@@ -7,6 +7,7 @@ export const PoweredBy: React.FC = () => {
     <Box
       pt={1}
       pb={2}
+      flex={1}
       sx={{
         display: 'flex',
         alignItems: 'flex-end',
@@ -28,7 +29,7 @@ export const PoweredBy: React.FC = () => {
           >
             Powered by
           </Typography>
-          <Typography color="text.primary" fontSize={12} fontWeight={500}>
+          <Typography color="text.primary" fontSize={12} fontWeight={600}>
             LI.FI
           </Typography>
         </Link>

@@ -1,17 +1,27 @@
-import { useState } from 'react';
-import TabContext from '@mui/lab/TabContext';
 import CloseIcon from '@mui/icons-material/Close';
-import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
 import DesignServicesIcon from '@mui/icons-material/DesignServices';
+import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import TabContext from '@mui/lab/TabContext';
 import { Box, IconButton, Tooltip } from '@mui/material';
+import { useState } from 'react';
 import {
   useConfigActions,
   useEditToolsActions,
   useEditToolsValues,
 } from '../../store';
-import { Tabs, Tab } from '../Tabs';
 import { ExpandableCardAccordion } from '../Card';
+import { Tab, Tabs } from '../Tabs';
+import {
+  AppearanceControl,
+  ButtonRadiusControl,
+  CardRadiusControl,
+  ColorControl,
+  FontsControl,
+  SubvariantControl,
+  VariantControl,
+  WalletManagementControl,
+} from './DesignControls';
 import {
   Drawer,
   DrawerContentContainer,
@@ -20,16 +30,6 @@ import {
   TabContentContainer,
   tooltipPopperZIndex,
 } from './DrawerControls.style';
-import {
-  AppearanceControl,
-  ButtonRadiusControl,
-  CardRadiusControl,
-  SubvariantControl,
-  VariantControl,
-  ColorControl,
-  FontsControl,
-  WalletManagementControl,
-} from './DesignControls';
 
 export const DrawerControls = () => {
   const [controlsTabsState, setControlsTabsState] = useState<'design' | 'code'>(
@@ -43,8 +43,8 @@ export const DrawerControls = () => {
     <Drawer variant="persistent" anchor="left" open={isDrawerOpen}>
       <DrawerContentContainer>
         <HeaderRow>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Header>Widget</Header>
+          <Header>LI.FI Widget</Header>
+          <Box>
             <Tooltip
               title="Reset config"
               PopperProps={{ style: { zIndex: tooltipPopperZIndex } }}
@@ -54,16 +54,16 @@ export const DrawerControls = () => {
                 <RestartAltIcon />
               </IconButton>
             </Tooltip>
+            <Tooltip
+              title="Close tools"
+              PopperProps={{ style: { zIndex: tooltipPopperZIndex } }}
+              arrow
+            >
+              <IconButton onClick={() => setDrawerOpen(!isDrawerOpen)}>
+                <CloseIcon />
+              </IconButton>
+            </Tooltip>
           </Box>
-          <Tooltip
-            title="Close tools"
-            PopperProps={{ style: { zIndex: tooltipPopperZIndex } }}
-            arrow
-          >
-            <IconButton onClick={() => setDrawerOpen(!isDrawerOpen)}>
-              <CloseIcon />
-            </IconButton>
-          </Tooltip>
         </HeaderRow>
         <Tabs
           value={controlsTabsState}

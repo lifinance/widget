@@ -208,7 +208,7 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
   theme: {
     palette: {
       primary: {
-        main: '#3F49E1',
+        main: '#5C67FF',
       },
       secondary: {
         main: '#F5B5FF',

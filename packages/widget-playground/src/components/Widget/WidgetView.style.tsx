@@ -1,4 +1,3 @@
-import { alpha, styled } from '@mui/material/styles';
 import type { Theme } from '@mui/material';
 import {
   Box,
@@ -6,16 +5,17 @@ import {
   IconButton,
   Skeleton as MuiSkeleton,
 } from '@mui/material';
-import { drawerWidth, drawerZIndex } from '../DrawerControls';
 import { buttonClasses } from '@mui/material/Button';
+import { alpha, styled } from '@mui/material/styles';
+import { drawerWidth, drawerZIndex } from '../DrawerControls';
 
 export const FloatingToolsContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
-  gap: theme.spacing(1),
+  gap: theme.spacing(2),
   position: 'absolute',
   zIndex: drawerZIndex,
-  top: theme.spacing(3),
-  left: theme.spacing(3),
+  padding: theme.spacing(3),
+  width: '100%',
 }));
 
 export const WidgetContainer = styled(Box)(({ theme }) => ({
@@ -69,7 +69,6 @@ export const Main = styled('main', {
   justifyContent: 'stretch',
   position: 'relative',
   flexGrow: 1,
-  padding: theme.spacing(3),
   transition: theme.transitions.create('margin', {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -96,6 +95,7 @@ export const WidgetSkeletonContainer = styled(Box)(({ theme }) => ({
   gap: theme.spacing(2),
   backgroundColor: theme.palette.background.default,
   padding: theme.spacing(8, 3, 6.25),
+  boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
   borderRadius: theme.shape.borderRadius,
 }));
 

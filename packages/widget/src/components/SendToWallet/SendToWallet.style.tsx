@@ -10,8 +10,9 @@ export const SendToWalletCardHeader = styled(CardHeader, {
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
+    fontWeight: selected ? 600 : 500,
     width: selected ? 224 : 254,
-    [theme.breakpoints.down(392)]: {
+    [theme.breakpoints.down(theme.breakpoints.values.sm)]: {
       width: selected ? 192 : 224,
     },
   },
@@ -20,7 +21,7 @@ export const SendToWalletCardHeader = styled(CardHeader, {
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     width: selected ? 224 : 254,
-    [theme.breakpoints.down(392)]: {
+    [theme.breakpoints.down(theme.breakpoints.values.sm)]: {
       width: selected ? 192 : 224,
     },
   },

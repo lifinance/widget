@@ -48,8 +48,8 @@ export const PriceFormHelperTextBase: React.FC<
       }}
     >
       <Typography
-        color={fromAmountTokenPrice ? 'text.secondary' : 'grey.600'}
-        fontWeight={400}
+        color="text.secondary"
+        fontWeight={500}
         fontSize={12}
         lineHeight={1}
         flex={1}
@@ -66,7 +66,7 @@ export const PriceFormHelperTextBase: React.FC<
         <Skeleton variant="text" width={48} height={12} />
       ) : token?.amount ? (
         <Typography
-          fontWeight={400}
+          fontWeight={500}
           fontSize={12}
           color="text.secondary"
           lineHeight={1}

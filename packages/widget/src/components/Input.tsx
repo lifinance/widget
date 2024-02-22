@@ -11,4 +11,5 @@ export const Input = styled(InputBase)(({ theme }) => ({
     height: '2.875em',
     boxSizing: 'inherit',
   },
+  fontWeight: 500,
 }));

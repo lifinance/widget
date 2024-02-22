@@ -10,7 +10,7 @@ export const CardHeader = styled(MuiCardHeader)(({ theme }) => ({
     alignSelf: 'center',
   },
   [`.${cardHeaderClasses.title}`]: {
-    fontWeight: 500,
+    fontWeight: 600,
     fontSize: 18,
     lineHeight: 1.3334,
     color: theme.palette.text.primary,
