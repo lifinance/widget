@@ -33,8 +33,7 @@ export const deleteValue = <T>(object: T, path: Array<string | number>) => {
   nodes.reduceRight<(string | number)[]>(
     (accum, node, i, arr) => {
       const pathSection = accum.pop();
-
-      if (pathSection) {
+      if (pathSection !== undefined) {
         if (i === arr.length - 1) {
           deleteNode(node as ObjectType | ArrayType, pathSection);
         } else {

@@ -1,11 +1,11 @@
 import type { FC, PropsWithChildren } from 'react';
+import diff from 'microdiff';
 import { createContext, useContext, useEffect, useRef } from 'react';
 import { shallow } from 'zustand/shallow';
 import type { WidgetConfig } from '@lifi/widget';
 import type { WidgetConfigStore, WidgetConfigState } from './types.js';
 import { createWidgetConfigStore } from './createWidgetConfigStore.js';
 import isEqual from 'lodash.isequal';
-import diff from 'microdiff';
 import { getWhitelistedConfig } from './utils/getWhitelistedConfig';
 import { applyDifferencesToObject } from './utils/applyDifferencesToObject';
 import { cloneWithNonClonables } from './utils/cloneWithNonClonables';
