@@ -64,6 +64,7 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
         token={token}
         step={step}
         disableDescription={disableDescription}
+        {...other}
       />
     );
   }
