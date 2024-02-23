@@ -3,7 +3,7 @@ import { ExpandLess, ExpandMore, VerifiedUser } from '@mui/icons-material';
 import type { TooltipProps } from '@mui/material';
 import { Box, Collapse, Tooltip, Typography } from '@mui/material';
 import type { MouseEventHandler } from 'react';
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { formatTokenAmount } from '../../utils/format.js';
@@ -44,21 +44,20 @@ export const RouteCard: React.FC<
       ? { ...route.fromToken, amount: BigInt(route.fromAmount) }
       : { ...route.toToken, amount: BigInt(route.toAmount) };
 
-  const RecommendedTagTooltip =
-    route.tags?.[0] === 'RECOMMENDED' ? RecommendedTooltip : Fragment;
+  const tags = route.tags?.filter(
+    (tag) => tag === 'CHEAPEST' || tag === 'FASTEST',
+  );
 
   const cardContent = (
     <Box flex={1}>
       {subvariant !== 'refuel' && (insurable || route.tags?.length) ? (
         <Box display="flex" alignItems="center" mb={2}>
-          {route.tags?.length ? (
-            <RecommendedTagTooltip>
-              <CardLabel type={active ? 'active' : undefined}>
-                <CardLabelTypography>
-                  {t(`main.tags.${route.tags[0].toLowerCase()}` as any)}
-                </CardLabelTypography>
-              </CardLabel>
-            </RecommendedTagTooltip>
+          {tags?.length ? (
+            <CardLabel type={active ? 'active' : undefined}>
+              <CardLabelTypography>
+                {t(`main.tags.${tags[0].toLowerCase()}` as any)}
+              </CardLabelTypography>
+            </CardLabel>
           ) : null}
           {insurable ? (
             <InsuranceTooltip
@@ -149,22 +148,6 @@ const InsuranceTooltip: React.FC<
           </Box>
         </Box>
       }
-      placement="top"
-      enterDelay={400}
-      arrow
-    >
-      {children}
-    </Tooltip>
-  );
-};
-
-const RecommendedTooltip: React.FC<Pick<TooltipProps, 'children'>> = ({
-  children,
-}) => {
-  const { t } = useTranslation();
-  return (
-    <Tooltip
-      title={t('tooltip.recommended')}
       placement="top"
       enterDelay={400}
       arrow

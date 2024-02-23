@@ -8,7 +8,7 @@ import { useSettingsStore } from '../../stores/settings/useSettingsStore.js';
 import { BadgedValue } from './SettingsCard/BadgedValue.js';
 import { SettingCardExpandable } from './SettingsCard/SettingCardExpandable.js';
 
-const Priorities: Order[] = ['CHEAPEST', 'RECOMMENDED', 'FASTEST'];
+const Priorities: Order[] = ['CHEAPEST', 'FASTEST'];
 
 export const RoutePrioritySettings: React.FC = () => {
   const { t } = useTranslation();

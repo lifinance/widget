@@ -165,7 +165,6 @@
     },
     "numberOfSteps": "A number of exchange steps. Each step can contain 1-2 transactions that require a signature.",
     "progressToNextUpdate": "Quotes will update in {{value}} seconds. <0/> Click here to update now.",
-    "recommended": "A cheap route that balances complexity and ease of use.",
     "settingsModified": "Settings (modified)",
     "selectAll": "Select all",
     "deselectAll": "Deselect all"
@@ -245,11 +244,10 @@
     "swapStepDetails": "Swap on {{chain}} via {{tool}}",
     "tags": {
       "cheapest": "Best Return",
-      "fastest": "Fast",
+      "fastest": "Fastest",
       "insurable": "Insurable",
       "insurance": "Insurance",
-      "insured": "Insured",
-      "recommended": "Balanced"
+      "insured": "Insured"
     },
     "to": "To",
     "tokenOnChain": "{{tokenSymbol}} on {{chainName}}",
