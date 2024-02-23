@@ -3,7 +3,7 @@ const walletPriority: Record<string, number> = {
   walletConnect: 2,
   tokenpocket: 3,
   safepal: 4,
-  oneinch: 5,
+  '1inch': 5,
   safe: 6,
   okx: 7,
   coinbaseWalletSDK: 8,

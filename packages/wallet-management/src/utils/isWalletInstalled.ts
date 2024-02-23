@@ -56,7 +56,7 @@ export const isWalletInstalled = (id: string): boolean => {
         (window as any)?.ethereum?.isTokenPocket &&
         !(window as any).ethereum?.isTp
       );
-    case 'oneinch':
+    case '1inch':
       return (window as any)?.ethereum?.isOneInchIOSWallet;
     case 'tokenary':
       return (window as any).ethereum?.isTokenary;
