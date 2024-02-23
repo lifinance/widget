@@ -1,9 +1,7 @@
-import { WidgetConfig } from '@lifi/widget';
+import type { WidgetConfig } from '@lifi/widget';
+import type { ObjectType } from '../../../types';
 
 const nonClonableList = ['walletConfig'];
-
-// TODO: deduplicate this
-type ObjectType = { [key: string]: any };
 
 const nonClonables = () => {
   const nonClonablesDictionary: ObjectType = {};
@@ -38,13 +36,17 @@ const nonClonables = () => {
   };
 };
 
-// Some parts of the config use functions which can't easily be cloned, converted to JSON or output to
-// localstorage.This function should help to temporary substitute those values when we clone and restore those
-// values afterwards.
-// This is only currently to support the basic case of walletConfig = { async onConnect() {} }
-// We might want to flush this out more in future for other values.
-// NOTE: any nonClonables are not treated as deep copies - the reference in the config is different
-// but the object of that reference with be share between the original and the clone
+/**
+ * Some parts of the config use functions which can't easily be cloned, converted to JSON or output to
+ * localstorage. This function should help to temporary substitute those values when we clone and restore
+ * those values afterwards.
+ * This only currently supports the basic case of walletConfig = { async onConnect() {} }
+ * We might want to flush this out more in future for other values.
+ * NOTE: any nonClonables are not treated as deep copies - the reference in the configs is different
+ * but the object of that reference with be share between the original and the cloned config.
+ *
+ * @param original The config object that you want to clone
+ */
 export const cloneWithNonClonables = (original: Partial<WidgetConfig>) => {
   const { substituteNonClonables, rehydrateNonClonables } = nonClonables();
 

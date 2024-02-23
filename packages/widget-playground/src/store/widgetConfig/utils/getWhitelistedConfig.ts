@@ -1,11 +1,15 @@
-import { SimplePaletteColorOptions } from '@mui/material';
-import { WidgetConfig } from '@lifi/widget';
+import type { SimplePaletteColorOptions } from '@mui/material';
+import type { WidgetConfig } from '@lifi/widget';
 
-// This utility is useful when looking to merge local development config with
-// local config overrides that have been made locally using the playground edit tools.
-// The tools in the playground currently only allow editing of a small subset of the
-// widget config so when merging changes of the local config we only need to be concerned about
-// that small subset.
+/**
+ * This utility is useful when looking to merge local development config with
+ * local config overrides that have been made locally using the playground edit tools.
+ * The tools in the playground currently only allow editing of a small subset of the
+ * widget config so when merging changes of the local config we only need to be concerned about
+ * that small subset.
+ *
+ * @param config The config object that to create the editor subset from
+ */
 export const getWhitelistedConfig = (
   config: Partial<WidgetConfig>,
 ): Partial<WidgetConfig> => {

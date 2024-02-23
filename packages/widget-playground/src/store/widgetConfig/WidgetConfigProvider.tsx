@@ -29,10 +29,10 @@ export const WidgetConfigProvider: FC<WidgetConfigProviderProps> = ({
   }
 
   useEffect(() => {
-    storeRef.current?.getState().setDefaultConfig(defaultWidgetConfig);
-
     const currentConfig = storeRef.current?.getState().config;
     if (currentConfig && !isEqual(currentConfig, defaultWidgetConfig)) {
+      storeRef.current?.getState().setDefaultConfig(defaultWidgetConfig);
+
       const editorConfigDefaults = getWhitelistedConfig(defaultWidgetConfig);
       const editorConfigUpdates = getWhitelistedConfig(currentConfig);
       const differences = diff(editorConfigDefaults, editorConfigUpdates);

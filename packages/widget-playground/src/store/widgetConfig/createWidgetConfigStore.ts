@@ -2,7 +2,7 @@ import { createWithEqualityFn } from 'zustand/traditional';
 import type { WidgetConfig } from '@lifi/widget';
 import type { StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { addValueFromPath } from '../../utils';
+import { addValueFromPathString } from '../../utils';
 import type { WidgetConfigState } from './types';
 import { cloneWithNonClonables } from './utils/cloneWithNonClonables';
 
@@ -119,7 +119,7 @@ export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
         },
         setColor: (path, color) => {
           set({
-            config: addValueFromPath<Partial<WidgetConfig>>(
+            config: addValueFromPathString<Partial<WidgetConfig>>(
               get().config,
               path,
               color,
