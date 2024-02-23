@@ -1,10 +1,10 @@
-import { Web3Provider } from '@ethersproject/providers';
 import type { ChainId, TokenAmount } from '@lifi/sdk';
 import type { NFTProps } from '@lifi/widget';
 import { useAccount, useFieldValues } from '@lifi/widget';
 import { Seaport } from '@opensea/seaport-js';
 import { useQuery } from '@tanstack/react-query';
-import type { Connector } from 'wagmi';
+import { useConfig, type Connector } from 'wagmi';
+import { getEthersSigner } from './getEthersSigner';
 import type { FulfillmentDataResponse, NFTNetwork } from './types';
 import { ChainId as OpenSeaChainId } from './types';
 import { useOpenSeaOrder } from './useOpenSeaOrder';
@@ -15,6 +15,7 @@ export const useOpenSeaFulfillment = (
   tokenId: string | number,
 ) => {
   const { account } = useAccount();
+  const config = useConfig();
   const [recipientAddress] = useFieldValues('toAddress');
   const { data: order, isLoading: isOrderLoading } = useOpenSeaOrder(
     network,
@@ -61,14 +62,7 @@ export const useOpenSeaFulfillment = (
 
       const fulfillOrder = async () => {
         try {
-          const wagmiProvider = await (
-            account.connector as Connector
-          ).getProvider?.();
-          if (!wagmiProvider) {
-            throw new Error('Provider not found');
-          }
-          const provider = new Web3Provider(wagmiProvider, 'any');
-          const signer = provider.getSigner(account.address);
+          const signer = await getEthersSigner(config);
 
           const seaport = new Seaport(signer, {
             seaportVersion: '1.5',

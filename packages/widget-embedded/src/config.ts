@@ -7,7 +7,7 @@ export const widgetBaseConfig: WidgetConfig = {
   hiddenUI: ['history'],
   // buildUrl: true,
   sdkConfig: {
-    apiUrl: 'https://staging.li.quest/v1',
+    apiUrl: 'https://li.quest/v1',
     routeOptions: {
       // maxPriceImpact: 0.4,
     },
