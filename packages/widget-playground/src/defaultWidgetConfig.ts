@@ -205,7 +205,6 @@ export const widgetBaseConfig: WidgetConfig = {
 export const defaultWidgetConfig: Partial<WidgetConfig> = {
   ...widgetBaseConfig,
   appearance: 'auto',
-  hiddenUI: ['poweredBy', 'language', 'appearance', 'toAddress'],
   theme: {
     palette: {
       primary: {
