@@ -10,13 +10,14 @@ import * as React from 'react';
 import type { WidgetWalletConfig } from '@lifi/widget';
 
 export const WalletManagementControl = () => {
-  const { isExternalWalletManagement } = useConfigWalletManagement();
+  const { isExternalWalletManagement, replacementWalletConfig } =
+    useConfigWalletManagement();
   const { setWalletConfig } = useConfigActions();
   const handleSwitchChange: (
     _: React.ChangeEvent<HTMLInputElement>,
     checked: boolean,
   ) => void = (_, checked) => {
-    const walletConfig = checked ? { async onConnect() {} } : undefined;
+    const walletConfig = checked ? replacementWalletConfig : undefined;
 
     setWalletConfig(walletConfig as WidgetWalletConfig);
   };

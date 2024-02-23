@@ -155,6 +155,18 @@ export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
         partialize: (state) => ({
           config: state?.config,
         }),
+        onRehydrateStorage: () => {
+          return (state) => {
+            if (state) {
+              if (state.config?.walletConfig) {
+                const walletConfig = state.defaultConfig?.walletConfig
+                  ? state.defaultConfig?.walletConfig
+                  : { async onConnect() {} };
+                state.setWalletConfig(walletConfig);
+              }
+            }
+          };
+        },
       },
     ) as StateCreator<WidgetConfigState, [], [], WidgetConfigState>,
     Object.is,

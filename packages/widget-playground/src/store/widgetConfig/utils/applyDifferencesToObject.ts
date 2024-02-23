@@ -1,9 +1,63 @@
-import { Difference } from 'microdiff';
+import type { Difference } from 'microdiff';
 
-type ObjectType = { [key: string]: any };
+type Indexable = Record<string | number, any>;
+type ObjectType = Record<string, any>;
 type ArrayType = Array<any>;
 
-// TODO: can this be used in the add to
+const deleteNode = (
+  node: ObjectType | ArrayType,
+  pathSection: string | number,
+) => {
+  if (Array.isArray(node)) {
+    node.splice(pathSection as number, 1);
+  } else {
+    delete node[pathSection];
+  }
+};
+
+export const deleteValue = <T>(object: T, path: Array<string | number>) => {
+  const nodes = path.reduce(
+    (accum, pathSection, i, arr) => {
+      if (i !== arr.length - 1) {
+        const lastNode = accum[accum.length - 1] as ObjectType | ArrayType;
+        accum.push((lastNode as Indexable)[pathSection]);
+      }
+      return accum;
+    },
+    [object],
+  );
+
+  nodes.reduceRight<(string | number)[]>(
+    (accum, node, i, arr) => {
+      const pathSection = accum.pop();
+
+      if (pathSection) {
+        if (i === arr.length - 1) {
+          deleteNode(node as ObjectType | ArrayType, pathSection);
+        } else {
+          if (Array.isArray((node as Indexable)[pathSection])) {
+            const hasChildren = !!(node as Indexable)[pathSection].length;
+            if (!hasChildren) {
+              deleteNode(node as ArrayType, pathSection);
+            }
+          } else {
+            const hasChildren = !!Object.keys((node as Indexable)[pathSection])
+              .length;
+            if (!hasChildren) {
+              deleteNode(node as ObjectType, pathSection);
+            }
+          }
+        }
+      }
+
+      return accum;
+    },
+    [...path],
+  );
+
+  return object;
+};
+
 const addValue = <T>(
   object: T,
   path: Array<string | number>,
@@ -42,7 +96,6 @@ const addValue = <T>(
   }, lastNode);
 };
 
-// TODO: add type === "REMOVE" case to support walletConfig property
 export const applyDifferencesToObject = <T>(
   object: T,
   differences: Difference[],
@@ -51,6 +104,9 @@ export const applyDifferencesToObject = <T>(
     (accum, difference) => {
       if (difference.type === 'CREATE' || difference.type === 'CHANGE') {
         return addValue<T>(accum, difference.path, difference.value);
+      }
+      if (difference.type === 'REMOVE') {
+        return deleteValue<T>(accum, difference.path);
       }
       return accum;
     },

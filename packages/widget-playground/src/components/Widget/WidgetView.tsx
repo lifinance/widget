@@ -12,6 +12,8 @@ export function WidgetView() {
     drawerRef?.current?.toggleDrawer();
   }, []);
 
+  console.log('WidgetView', config);
+
   return (
     <WidgetViewContainer toggleDrawer={toggleDrawer}>
       <LiFiWidget

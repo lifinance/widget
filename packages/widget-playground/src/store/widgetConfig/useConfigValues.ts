@@ -77,12 +77,17 @@ export const useConfigFontFamily = () => {
 };
 
 export const useConfigWalletManagement = () => {
-  const [walletConfig] = useWidgetConfigStore(
-    (store) => [store.config?.walletConfig],
+  const [walletConfig, defaultWalletConfig] = useWidgetConfigStore(
+    (store) => [store.config?.walletConfig, store.defaultConfig?.walletConfig],
     shallow,
   );
 
+  const replacementWalletConfig = defaultWalletConfig
+    ? defaultWalletConfig
+    : { async onConnect() {} };
+
   return {
     isExternalWalletManagement: !!walletConfig,
+    replacementWalletConfig,
   };
 };
