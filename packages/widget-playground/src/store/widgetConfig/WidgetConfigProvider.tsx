@@ -7,8 +7,8 @@ import type { WidgetConfigStore, WidgetConfigState } from './types.js';
 import { createWidgetConfigStore } from './createWidgetConfigStore.js';
 import isEqual from 'lodash.isequal';
 import { getWhitelistedConfig } from './utils/getWhitelistedConfig';
-import { applyDifferencesToObject } from './utils/applyDifferencesToObject';
 import { cloneWithNonClonables } from './utils/cloneWithNonClonables';
+import { patch } from '../../utils';
 
 export const WidgetConfigContext = createContext<WidgetConfigStore | null>(
   null,
@@ -37,10 +37,10 @@ export const WidgetConfigProvider: FC<WidgetConfigProviderProps> = ({
       const editorConfigUpdates = getWhitelistedConfig(currentConfig);
       const differences = diff(editorConfigDefaults, editorConfigUpdates);
 
-      const mergedConfig = applyDifferencesToObject<Partial<WidgetConfig>>(
+      const mergedConfig = patch(
         cloneWithNonClonables(defaultWidgetConfig),
         differences,
-      );
+      ) as Partial<WidgetConfig>;
 
       storeRef.current?.getState().setConfig(mergedConfig);
     }

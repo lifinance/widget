@@ -1,5 +1,6 @@
 import type { WidgetConfig } from '@lifi/widget';
-import type { ObjectType } from '../../../types';
+
+export type ObjectType = Record<string, any>;
 
 const nonClonableList = ['walletConfig'];
 
