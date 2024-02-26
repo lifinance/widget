@@ -1,10 +1,14 @@
 import { getConnectorIcon } from '@lifi/wallet-management';
 import { Wallet } from '@mui/icons-material';
-import { Avatar, Badge } from '@mui/material';
+import { Badge } from '@mui/material';
 import type { Account } from '../../hooks/useAccount.js';
 import { useChain } from '../../hooks/useChain.js';
 import { SmallAvatar } from '../SmallAvatar.js';
-import { AvatarDefault, AvatarDefaultBadge } from './Avatar.style.js';
+import {
+  AvatarDefault,
+  AvatarDefaultBadge,
+  AvatarMasked,
+} from './Avatar.style.js';
 
 interface AccountAvatarProps {
   chainId?: number;
@@ -20,7 +24,7 @@ export const AccountAvatar = ({
   const { chain } = useChain(chainId);
 
   const avatar = account ? (
-    <Avatar
+    <AvatarMasked
       src={getConnectorIcon(account.connector)}
       alt={account.connector?.name}
       sx={{
@@ -28,7 +32,7 @@ export const AccountAvatar = ({
       }}
     >
       {account.connector?.name[0]}
-    </Avatar>
+    </AvatarMasked>
   ) : empty ? (
     <AvatarDefault />
   ) : (

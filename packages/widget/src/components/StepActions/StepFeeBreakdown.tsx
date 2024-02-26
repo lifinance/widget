@@ -5,6 +5,7 @@ import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatUnits } from 'viem';
 import { getStepFeeCostsBreakdown } from '../../utils/fees.js';
+import { IconTypography } from './StepActions.style.js';
 
 export const StepFeeBreakdown: React.FC<{
   step: LiFiStepExtended;
@@ -87,9 +88,9 @@ export const StepFeeBreakdown: React.FC<{
   return (
     <Box mt={1.5}>
       <Box display="flex" alignItems="center">
-        <Typography ml={1} mr={3} height={24} color="text.secondary">
+        <IconTypography ml={1} mr={3} height={24}>
           <MonetizationOn />
-        </Typography>
+        </IconTypography>
         <Typography
           fontSize={16}
           color="text.primary"

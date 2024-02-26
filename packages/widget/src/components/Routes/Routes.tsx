@@ -1,10 +1,11 @@
 import type { BoxProps } from '@mui/material';
-import { Box, Button, Collapse } from '@mui/material';
+import { Box, Collapse } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useRoutes } from '../../hooks/useRoutes.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { ButtonTertiary } from '../ButtonTertiary.js';
 import { Card } from '../Card/Card.js';
 import { CardTitle } from '../Card/CardTitle.js';
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate.js';
@@ -68,9 +69,9 @@ export const Routes: React.FC<BoxProps> = (props) => {
 
         <Collapse timeout={225} in={showAll} unmountOnExit mountOnEnter appear>
           <Box mt={2}>
-            <Button onClick={handleCardClick} fullWidth>
+            <ButtonTertiary onClick={handleCardClick} fullWidth>
               {t('button.showAll')}
-            </Button>
+            </ButtonTertiary>
           </Box>
         </Collapse>
       </Box>

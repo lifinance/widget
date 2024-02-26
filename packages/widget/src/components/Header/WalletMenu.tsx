@@ -19,6 +19,7 @@ import { useAccount } from '../../hooks/useAccount.js';
 import { useAvailableChains } from '../../hooks/useAvailableChains.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { shortenAddress } from '../../utils/wallet.js';
+import { AvatarMasked } from '../Avatar/Avatar.style.js';
 import { SmallAvatar } from '../SmallAvatar.js';
 import { EVMDisconnectIconButton } from './EVMDisconnectIconButton.js';
 import { SVMDisconnectIconButton } from './SVMDisconnectIconButton.js';
@@ -44,17 +45,7 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
             await navigator.clipboard.writeText(account.address ?? '');
             onClose();
           };
-          const avatar = (
-            <Avatar
-              src={getConnectorIcon(account.connector)}
-              alt={account.connector?.name}
-              sx={{
-                marginRight: chain?.logoURI ? 0 : 1.5,
-              }}
-            >
-              {account.connector?.name[0]}
-            </Avatar>
-          );
+
           return (
             <MenuItem key={account.address}>
               <Box flex={1} display="flex" alignItems="center">
@@ -69,10 +60,26 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
                     }
                     sx={{ marginRight: 1.5 }}
                   >
-                    {avatar}
+                    <AvatarMasked
+                      src={getConnectorIcon(account.connector)}
+                      alt={account.connector?.name}
+                      sx={{
+                        marginRight: chain?.logoURI ? 0 : 1.5,
+                      }}
+                    >
+                      {account.connector?.name[0]}
+                    </AvatarMasked>
                   </Badge>
                 ) : (
-                  avatar
+                  <Avatar
+                    src={getConnectorIcon(account.connector)}
+                    alt={account.connector?.name}
+                    sx={{
+                      marginRight: chain?.logoURI ? 0 : 1.5,
+                    }}
+                  >
+                    {account.connector?.name[0]}
+                  </Avatar>
                 )}
                 {walletAddress}
               </Box>

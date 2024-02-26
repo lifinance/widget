@@ -11,18 +11,14 @@ import { getCardFieldsetBackgroundColor } from '../../utils/colors.js';
 
 export const Tabs = styled(MuiTabs)(({ theme }) => ({
   backgroundColor: getCardFieldsetBackgroundColor(theme),
-  borderRadius: Math.max(
-    theme.shape.borderRadius,
-    theme.shape.borderRadiusSecondary,
-  ),
+  borderRadius: theme.shape.borderRadius,
   padding: theme.spacing(0.5),
   flex: 1,
   [`.${tabsClasses.indicator}`]: {
     height: '100%',
     width: '100%',
     backgroundColor: theme.palette.background.paper,
-    borderRadius:
-      Math.max(theme.shape.borderRadius, theme.shape.borderRadiusSecondary) - 4,
+    borderRadius: theme.shape.borderRadius - 4,
     boxShadow: `0px 2px 4px ${alpha(theme.palette.common.black, 0.04)}`,
   },
 }));

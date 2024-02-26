@@ -113,9 +113,7 @@ export const IncludedSteps: React.FC<{
       <SmallAvatar
         src={tool.toolDetails.logoURI}
         alt={tool.toolDetails.name}
-        sx={{
-          boxSizing: 'content-box',
-        }}
+        sx={{ width: 20, height: 20 }}
       >
         {tool.toolDetails.name[0]}
       </SmallAvatar>
