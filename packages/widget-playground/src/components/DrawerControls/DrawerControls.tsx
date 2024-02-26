@@ -3,7 +3,7 @@ import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import TabContext from '@mui/lab/TabContext';
-import { Box, IconButton, Tooltip } from '@mui/material';
+import { Box, IconButton, Tooltip, Typography, Link } from '@mui/material';
 import { useState } from 'react';
 import {
   useConfigActions,
@@ -101,6 +101,15 @@ export const DrawerControls = () => {
             </ExpandableCardAccordion>
           </TabContentContainer>
           <TabContentContainer value="code">
+            <Typography variant="body2">
+              More examples of how to use the widget can be found in our{' '}
+              <Link
+                href="https://github.com/lifinance/widget/tree/main/examples"
+                rel="nofollow"
+              >
+                github repo
+              </Link>
+            </Typography>
             <CodeControls />
           </TabContentContainer>
         </TabContext>

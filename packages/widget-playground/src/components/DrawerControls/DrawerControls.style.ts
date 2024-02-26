@@ -40,16 +40,30 @@ export const TabContentContainer = styled(TabPanel)(({ theme }) => ({
   alignItems: 'stretch',
   gap: theme.spacing(2),
   padding: 0,
+  '&[hidden]': {
+    display: 'none',
+  },
 }));
 
 export const CodeContainer = styled(Box)(({ theme }) => ({
   position: 'relative',
+  marginTop: theme.spacing(1),
 }));
 
 export const CodeCopyButton = styled(IconButton)(({ theme }) => ({
   position: 'absolute',
   right: '4px',
   top: '4px',
+  background:
+    theme.palette.mode === 'light'
+      ? theme.palette.grey[200]
+      : theme.palette.grey[800],
+  '&:hover': {
+    background:
+      theme.palette.mode === 'light'
+        ? theme.palette.grey[300]
+        : theme.palette.grey[700],
+  },
 }));
 
 export const Pre = styled('pre')(({ theme }) => ({
@@ -65,5 +79,5 @@ export const Pre = styled('pre')(({ theme }) => ({
 
 export const Code = styled('code')(({ theme }) => ({
   fontFamily: 'Courier, monospace',
-  fontSize: '0.9em',
+  fontSize: '0.8em',
 }));
