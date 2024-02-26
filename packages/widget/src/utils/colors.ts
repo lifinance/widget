@@ -1,11 +1,10 @@
-import type { PaletteMode, Theme } from '@mui/material';
+import type { Theme } from '@mui/material';
 import { alpha } from '@mui/material';
 
-export const getContrastAlphaColor = (
-  mode: PaletteMode,
-  alpha: string | number,
-) =>
-  mode === 'light' ? `rgb(0 0 0 / ${alpha})` : `rgb(255 255 255 / ${alpha})`;
+export const getContrastAlphaColor = (theme: Theme, value: number) =>
+  theme.palette.mode === 'light'
+    ? alpha(theme.palette.common.black, value)
+    : alpha(theme.palette.common.white, value);
 
 export const getWarningBackgroundColor = (theme: Theme) =>
   theme.palette.mode === 'light'

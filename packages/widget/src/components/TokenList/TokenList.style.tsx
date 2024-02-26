@@ -1,5 +1,6 @@
 import type { IconButtonProps, LinkProps } from '@mui/material';
-import { IconButton as MuiIconButton, alpha, styled } from '@mui/material';
+import { IconButton as MuiIconButton, styled } from '@mui/material';
+import { getContrastAlphaColor } from '../../utils/colors.js';
 import { ListItem as ListItemBase } from '../ListItem/ListItem.js';
 
 export const ListItem = styled(ListItemBase)(({ theme }) => ({
@@ -20,10 +21,7 @@ export const IconButton = styled(MuiIconButton)<IconButtonProps & LinkProps>(
     minWidth: 'unset',
     borderRadius: '50%',
     '&:hover': {
-      backgroundColor:
-        theme.palette.mode === 'light'
-          ? alpha(theme.palette.common.black, 0.04)
-          : alpha(theme.palette.common.white, 0.08),
+      backgroundColor: getContrastAlphaColor(theme, 0.04),
     },
     svg: {
       fontSize: 14,

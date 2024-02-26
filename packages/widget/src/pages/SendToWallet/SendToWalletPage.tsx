@@ -1,10 +1,11 @@
 import { Error, History, TurnedIn, Wallet } from '@mui/icons-material';
-import { Tooltip } from '@mui/material';
+import { Tooltip, Typography } from '@mui/material';
 import type { ChangeEvent } from 'react';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
+import { ButtonTertiary } from '../../components/ButtonTertiary.js';
 import { CardButton } from '../../components/Card/CardButton.js';
 import { useAccount } from '../../hooks/useAccount.js';
 import {
@@ -23,13 +24,11 @@ import { BookmarkAddressSheet } from './BookmarkAddressSheet.js';
 import { ConfirmAddressSheet } from './ConfirmAddressSheet.js';
 import {
   AddressInput,
-  SendToWalletButton,
   SendToWalletButtonRow,
   SendToWalletCard,
   SendToWalletIconButton,
   SendToWalletPageContainer,
   ValidationAlert,
-  WalletNumber,
 } from './SendToWalletPage.style.js';
 
 export const SendToWalletPage = () => {
@@ -201,7 +200,7 @@ export const SendToWalletPage = () => {
           </ValidationAlert>
         ) : null}
         <SendToWalletButtonRow sx={{ paddingX: 2, paddingBottom: 2 }}>
-          <SendToWalletButton
+          <ButtonTertiary
             variant="text"
             onClick={handleDone}
             loading={isDoneButtonLoading}
@@ -209,7 +208,7 @@ export const SendToWalletPage = () => {
             sx={{ flexGrow: 1 }}
           >
             {t('button.done')}
-          </SendToWalletButton>
+          </ButtonTertiary>
           <Tooltip title={t('button.bookmark')} arrow>
             <SendToWalletIconButton
               onClick={handleBookmarkAddress}
@@ -237,7 +236,7 @@ export const SendToWalletPage = () => {
         onClick={handleRecentWalletsClick}
       >
         {!!recentWallets.length && (
-          <WalletNumber>{recentWallets.length}</WalletNumber>
+          <Typography color="text.secondary">{recentWallets.length}</Typography>
         )}
       </CardButton>
       <CardButton
@@ -246,7 +245,9 @@ export const SendToWalletPage = () => {
         onClick={handleConnectedWalletsClick}
       >
         {!!connectedWallets.length && (
-          <WalletNumber>{connectedWallets.length}</WalletNumber>
+          <Typography color="text.secondary">
+            {connectedWallets.length}
+          </Typography>
         )}
       </CardButton>
       <CardButton
@@ -254,7 +255,9 @@ export const SendToWalletPage = () => {
         icon={<TurnedIn />}
         onClick={handleBookmarkedWalletsClick}
       >
-        {!!bookmarks.length && <WalletNumber>{bookmarks.length}</WalletNumber>}
+        {!!bookmarks.length && (
+          <Typography color="text.secondary">{bookmarks.length}</Typography>
+        )}
       </CardButton>
     </SendToWalletPageContainer>
   );

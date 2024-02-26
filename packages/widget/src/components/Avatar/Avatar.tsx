@@ -1,7 +1,11 @@
 import type { SxProps, Theme } from '@mui/material';
-import { Badge, Skeleton } from '@mui/material';
+import { Badge } from '@mui/material';
 import { SmallAvatarSkeleton } from '../SmallAvatar.js';
-import { AvatarDefault, AvatarDefaultBadge } from './Avatar.style.js';
+import {
+  AvatarDefault,
+  AvatarDefaultBadge,
+  AvatarSkeleton,
+} from './Avatar.style.js';
 
 export const AvatarBadgedDefault: React.FC<{
   sx?: SxProps<Theme>;
@@ -28,7 +32,7 @@ export const AvatarBadgedSkeleton: React.FC<{
       badgeContent={<SmallAvatarSkeleton />}
       sx={sx}
     >
-      <Skeleton width={40} height={40} variant="circular" />
+      <AvatarSkeleton width={40} height={40} variant="circular" />
     </Badge>
   );
 };

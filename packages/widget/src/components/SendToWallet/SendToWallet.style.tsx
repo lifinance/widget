@@ -28,4 +28,7 @@ export const SendToWalletCardHeader = styled(CardHeader, {
   [`.${cardHeaderClasses.action}`]: {
     marginRight: 0,
   },
+  [`.${cardHeaderClasses.action} > button`]: {
+    fontSize: 16,
+  },
 }));

@@ -135,7 +135,7 @@ export const SendToWalletButton: React.FC<BoxProps> = (props) => {
             action={
               isSelected && !disabledForChanges ? (
                 <CardIconButton onClick={clearSelectedBookmark} size="small">
-                  <CloseRounded fontSize="small" />
+                  <CloseRounded fontSize="inherit" />
                 </CardIconButton>
               ) : null
             }

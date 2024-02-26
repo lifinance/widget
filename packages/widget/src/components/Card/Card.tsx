@@ -2,6 +2,7 @@ import type { BoxProps, Theme } from '@mui/material';
 import {
   Box,
   alpha,
+  avatarClasses,
   badgeClasses,
   darken,
   lighten,
@@ -69,7 +70,7 @@ export const Card = styled(Box, {
             ? theme.palette.grey[300]
             : theme.palette.grey[800],
     borderRadius: theme.shape.borderRadius,
-    // boxShadow: '0px 1px 4px 0px rgba(0, 0, 0, 0.04)',
+    // boxShadow: '0px 1px 8px 0px rgba(0, 0, 0, 0.04)',
     overflow: 'hidden',
     position: 'relative',
     padding: indented ? theme.spacing(2) : 0,
@@ -78,13 +79,16 @@ export const Card = styled(Box, {
       cursor: onClick ? 'pointer' : 'default',
       backgroundColor: backgroundHoverColor,
     },
-    [`&:hover .${badgeClasses.badge} > div`]: {
+    [`&:hover .${badgeClasses.badge} > .${avatarClasses.root}`]: {
       borderColor: backgroundHoverColor,
     },
-    transition: theme.transitions.create(['background-color'], {
-      duration: theme.transitions.duration.enteringScreen,
-      easing: theme.transitions.easing.easeOut,
-    }),
+    transition: theme.transitions.create(
+      ['background-color', 'box-shadow', 'border-color'],
+      {
+        duration: theme.transitions.duration.enteringScreen,
+        easing: theme.transitions.easing.easeOut,
+      },
+    ),
     pointerEvents,
   };
 });

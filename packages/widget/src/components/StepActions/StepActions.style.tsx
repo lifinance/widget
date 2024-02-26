@@ -1,27 +1,14 @@
 import {
-  Avatar,
   Box,
   StepConnector as MuiStepConnector,
   StepLabel as MuiStepLabel,
   Typography,
+  alpha,
   stepConnectorClasses,
   stepLabelClasses,
   styled,
 } from '@mui/material';
-
-export const StepIcon = styled('span', {
-  shouldForwardProp: (prop) =>
-    !['active', 'completed', 'error'].includes(prop as string),
-})(({ theme }) => ({
-  width: 12,
-  height: 12,
-  borderRadius: '50%',
-  border: `2px solid ${
-    theme.palette.mode === 'light'
-      ? theme.palette.grey[300]
-      : theme.palette.grey[800]
-  }`,
-}));
+import { AvatarMasked } from '../Avatar/Avatar.style.js';
 
 export const StepConnector = styled(MuiStepConnector, {
   shouldForwardProp: (prop) =>
@@ -43,10 +30,10 @@ export const StepLabel = styled(MuiStepLabel, {
     !['active', 'completed', 'error', 'disabled'].includes(prop as string),
 })(({ theme }) => ({
   padding: 0,
-  alignItems: 'flex-start',
+  alignItems: 'center',
   [`.${stepLabelClasses.iconContainer}`]: {
-    paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(3),
+    paddingLeft: theme.spacing(1.25),
+    paddingRight: theme.spacing(3.25),
   },
   [`.${stepLabelClasses.labelContainer}`]: {
     minHeight: 24,
@@ -80,7 +67,15 @@ export const StepContent = styled(Box, {
   paddingLeft: last ? theme.spacing(4.625) : theme.spacing(4.375),
 }));
 
-export const StepAvatar = styled(Avatar)(({ theme, variant }) => ({
+export const StepAvatar = styled(AvatarMasked)(({ theme }) => ({
   color: theme.palette.text.primary,
   backgroundColor: 'transparent',
+}));
+
+export const IconTypography = styled(Typography)(({ theme }) => ({
+  color:
+    theme.palette.mode === 'light'
+      ? alpha(theme.palette.common.black, 0.32)
+      : alpha(theme.palette.common.white, 0.4),
+  lineHeight: 0,
 }));

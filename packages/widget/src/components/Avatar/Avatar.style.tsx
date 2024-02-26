@@ -2,10 +2,21 @@ import type { CSSObject } from '@mui/material';
 import {
   AvatarGroup,
   Box,
+  Avatar as MuiAvatar,
+  Skeleton,
   avatarClasses,
   badgeClasses,
   styled,
 } from '@mui/material';
+import { avatarMask16 } from './utils.js';
+
+export const AvatarMasked = styled(MuiAvatar)(({ theme }) => ({
+  mask: avatarMask16,
+}));
+
+export const AvatarSkeleton = styled(Skeleton)(({ theme }) => ({
+  mask: avatarMask16,
+}));
 
 export const TokenAvatarGroup = styled(AvatarGroup)(({ theme }) => ({
   [`& .${badgeClasses.badge}:last-child .${avatarClasses.root}`]: {
@@ -31,19 +42,18 @@ export const AvatarDefault = styled(Box)(({ theme }) => {
     height: root?.height,
     width: root?.width,
     color: theme.palette.text.secondary,
+    mask: avatarMask16,
   };
 });
 
 export const AvatarDefaultBadge = styled(Box)(({ theme }) => {
-  const root = theme.components?.MuiAvatar?.styleOverrides?.root as CSSObject;
   return {
     background:
       theme.palette.mode === 'light'
         ? theme.palette.grey[300]
         : theme.palette.grey[800],
-    border: `2px solid ${theme.palette.background.paper}`,
     borderRadius: '50%',
-    height: ((root?.height ?? 40) as number) / 2,
-    width: ((root?.width ?? 40) as number) / 2,
+    height: 16,
+    width: 16,
   };
 });

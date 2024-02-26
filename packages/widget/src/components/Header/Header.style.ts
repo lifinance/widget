@@ -1,12 +1,16 @@
 import {
   AppBar,
+  Avatar,
   Box,
   Button,
   alpha,
+  avatarClasses,
   badgeClasses,
   buttonClasses,
   styled,
 } from '@mui/material';
+import { getContrastAlphaColor } from '../../utils/colors.js';
+import { avatarMask12 } from '../Avatar/utils.js';
 import { Tabs } from '../Tabs/Tabs.style.js';
 
 export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
@@ -42,10 +46,7 @@ export const WalletButton = styled(Button)(({ theme }) => ({
   fontWeight: 600,
   borderRadius: theme.shape.borderRadius * 2,
   '&:hover': {
-    backgroundColor:
-      theme.palette.mode === 'light'
-        ? alpha(theme.palette.common.black, 0.04)
-        : alpha(theme.palette.common.white, 0.08),
+    backgroundColor: getContrastAlphaColor(theme, 0.04),
   },
   [`.${buttonClasses.endIcon} > *:nth-of-type(1)`]: {
     fontSize: '24px',
@@ -53,11 +54,8 @@ export const WalletButton = styled(Button)(({ theme }) => ({
   [`.${buttonClasses.startIcon} > *:nth-of-type(1)`]: {
     fontSize: '24px',
   },
-  [`&:hover .${badgeClasses.badge} > div`]: {
-    borderColor:
-      theme.palette.mode === 'light'
-        ? alpha(theme.palette.common.black, 0.04)
-        : alpha(theme.palette.common.white, 0.08),
+  [`&:hover .${badgeClasses.badge} > .${avatarClasses.root}`]: {
+    borderColor: getContrastAlphaColor(theme, 0.04),
   },
 }));
 
@@ -87,4 +85,10 @@ export const SplitTabs = styled(Tabs)(({ theme }) => ({
     theme.palette.mode === 'light'
       ? alpha(theme.palette.common.black, 0.04)
       : theme.palette.background.paper,
+}));
+
+export const WalletAvatar = styled(Avatar)(({ theme }) => ({
+  mask: avatarMask12,
+  width: 24,
+  height: 24,
 }));

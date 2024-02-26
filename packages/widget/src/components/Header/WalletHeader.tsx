@@ -17,6 +17,7 @@ import { CloseDrawerButton } from './CloseDrawerButton.js';
 import {
   DrawerWalletContainer,
   HeaderAppBar,
+  WalletAvatar,
   WalletButton,
 } from './Header.style.js';
 import { WalletMenu } from './WalletMenu.js';
@@ -117,16 +118,6 @@ const ConnectedButton = ({ account }: { account: Account }) => {
     setAnchorEl(null);
   };
 
-  const avatar = (
-    <Avatar
-      src={getConnectorIcon(account.connector)}
-      alt={account.connector?.name}
-      sx={{ width: 24, height: 24 }}
-    >
-      {account.connector?.name[0]}
-    </Avatar>
-  );
-
   return (
     <>
       <WalletButton
@@ -140,16 +131,27 @@ const ConnectedButton = ({ account }: { account: Account }) => {
                 <SmallAvatar
                   src={chain?.logoURI}
                   alt={chain?.name}
-                  sx={{ width: 16, height: 16 }}
+                  sx={{ width: 12, height: 12 }}
                 >
                   {chain?.name[0]}
                 </SmallAvatar>
               }
             >
-              {avatar}
+              <WalletAvatar
+                src={getConnectorIcon(account.connector)}
+                alt={account.connector?.name}
+              >
+                {account.connector?.name[0]}
+              </WalletAvatar>
             </Badge>
           ) : (
-            avatar
+            <Avatar
+              src={getConnectorIcon(account.connector)}
+              alt={account.connector?.name}
+              sx={{ width: 24, height: 24 }}
+            >
+              {account.connector?.name[0]}
+            </Avatar>
           )
         }
         sx={{

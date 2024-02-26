@@ -74,7 +74,7 @@ const palette = {
 
 const paletteLight = {
   // background: {
-  //   default: '#F5F6FF',
+  //   default: '#F5F5F5',
   // },
   text: {
     primary: '#000000',
@@ -206,7 +206,7 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
           root: {
             borderRadius: borderRadiusSecondary,
             textTransform: 'none',
-            fontSize: '1rem',
+            fontSize: 16,
             fontWeight: 600,
             [`&.Mui-disabled, &.Mui-disabled:hover`]: {
               color: alpha(

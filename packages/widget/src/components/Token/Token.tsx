@@ -166,11 +166,6 @@ const TokenStep: FC<PropsWithChildren<Partial<TokenProps>>> = ({
             <SmallAvatar
               src={step?.toolDetails.logoURI}
               alt={step?.toolDetails.name}
-              sx={{
-                width: 16,
-                height: 16,
-                border: 0,
-              }}
             >
               {step?.toolDetails.name[0]}
             </SmallAvatar>
