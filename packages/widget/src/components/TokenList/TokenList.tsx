@@ -43,10 +43,11 @@ export const TokenList: FC<TokenListProps> = ({
     []) as TokenAmount[];
   const normalizedSearchFilter = tokenSearchFilter?.replaceAll('$', '');
   const searchFilter = normalizedSearchFilter?.toUpperCase() ?? '';
+
   filteredTokens = tokenSearchFilter
     ? filteredTokens.filter(
         (token) =>
-          token.name.toUpperCase().includes(searchFilter) ||
+          token.name?.toUpperCase().includes(searchFilter) ||
           token.symbol.toUpperCase().includes(searchFilter) ||
           token.address.toUpperCase().includes(searchFilter),
       )
