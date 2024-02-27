@@ -4,14 +4,14 @@ import type { StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { addValueFromPathString } from '../../utils';
 import type { WidgetConfigState } from './types';
-import { cloneWithNonClonables } from './utils/cloneWithNonClonables';
+import { cloneStructuredConfig } from './utils/cloneStructuredConfig';
 
 export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
   createWithEqualityFn<WidgetConfigState>(
     persist(
       (set, get) => ({
         defaultConfig: initialConfig,
-        config: cloneWithNonClonables(initialConfig),
+        config: cloneStructuredConfig(initialConfig),
         setConfig: (config) => {
           set({
             config,
@@ -24,7 +24,7 @@ export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
         },
         resetConfig: () => {
           set({
-            config: cloneWithNonClonables(get().defaultConfig!),
+            config: cloneStructuredConfig(get().defaultConfig!),
           });
         },
         setAppearance: (appearance) => {

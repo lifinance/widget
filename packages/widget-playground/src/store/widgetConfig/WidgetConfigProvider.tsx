@@ -7,14 +7,14 @@ import type { WidgetConfigStore, WidgetConfigState } from './types.js';
 import { createWidgetConfigStore } from './createWidgetConfigStore.js';
 import isEqual from 'lodash.isequal';
 import { getWhitelistedConfig } from './utils/getWhitelistedConfig';
-import { cloneWithNonClonables } from './utils/cloneWithNonClonables';
+import { cloneStructuredConfig } from './utils/cloneStructuredConfig';
 import { patch } from '../../utils';
 
 export const WidgetConfigContext = createContext<WidgetConfigStore | null>(
   null,
 );
 
-interface WidgetConfigProviderProps extends PropsWithChildren {
+export interface WidgetConfigProviderProps extends PropsWithChildren {
   defaultWidgetConfig: Partial<WidgetConfig>;
 }
 
@@ -38,7 +38,7 @@ export const WidgetConfigProvider: FC<WidgetConfigProviderProps> = ({
       const differences = diff(editorConfigDefaults, editorConfigUpdates);
 
       const mergedConfig = patch(
-        cloneWithNonClonables(defaultWidgetConfig),
+        cloneStructuredConfig(defaultWidgetConfig),
         differences,
       ) as Partial<WidgetConfig>;
 

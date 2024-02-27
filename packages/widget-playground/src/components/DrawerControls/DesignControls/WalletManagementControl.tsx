@@ -7,7 +7,6 @@ import {
 import { Switch } from '../../Switch';
 import { useConfigActions, useConfigWalletManagement } from '../../../store';
 import * as React from 'react';
-import type { WidgetWalletConfig } from '@lifi/widget';
 
 export const WalletManagementControl = () => {
   const { isExternalWalletManagement, replacementWalletConfig } =
@@ -19,7 +18,7 @@ export const WalletManagementControl = () => {
   ) => void = (_, checked) => {
     const walletConfig = checked ? replacementWalletConfig : undefined;
 
-    setWalletConfig(walletConfig as WidgetWalletConfig);
+    setWalletConfig(walletConfig);
   };
 
   return (

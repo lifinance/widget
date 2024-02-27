@@ -2,28 +2,26 @@ import type { WidgetConfig } from '@lifi/widget';
 
 export type ObjectType = Record<string, any>;
 
-const nonClonableList = ['walletConfig'];
+const supportedShallowReferences = ['walletConfig'];
 
-const nonClonables = () => {
-  const nonClonablesDictionary: ObjectType = {};
-  const substituteNonClonables = (
+const shallowReferences = () => {
+  const referencesDictionary: ObjectType = {};
+  const substituteShallowReferences = (
     config: Partial<WidgetConfig>,
   ): Partial<WidgetConfig> => {
-    nonClonableList.forEach((nonClonable) => {
+    supportedShallowReferences.forEach((nonClonable) => {
       if ((config as ObjectType)[nonClonable]) {
-        nonClonablesDictionary[nonClonable] = (config as ObjectType)[
-          nonClonable
-        ];
+        referencesDictionary[nonClonable] = (config as ObjectType)[nonClonable];
         (config as ObjectType)[nonClonable] = {};
       }
     });
     return config;
   };
 
-  const rehydrateNonClonables = (
+  const rehydrateShallowReferences = (
     config: Partial<WidgetConfig>,
   ): Partial<WidgetConfig> => {
-    Object.entries(nonClonablesDictionary).forEach(
+    Object.entries(referencesDictionary).forEach(
       ([nonClonableKey, nonClonableValue]) => {
         (config as ObjectType)[nonClonableKey] = nonClonableValue;
       },
@@ -32,8 +30,8 @@ const nonClonables = () => {
     return config;
   };
   return {
-    substituteNonClonables,
-    rehydrateNonClonables,
+    substituteShallowReferences,
+    rehydrateShallowReferences,
   };
 };
 
@@ -42,21 +40,22 @@ const nonClonables = () => {
  * localstorage. This function should help to temporary substitute those values when we clone and restore
  * those values afterwards.
  * This only currently supports the basic case of walletConfig = { async onConnect() {} }
- * We might want to flush this out more in future for other values.
- * NOTE: any nonClonables are not treated as deep copies - the reference in the configs is different
+ * We might want to flesh this out more in future for other values.
+ * NOTE: any shallow references like walletConfig are not treated as deep copies - the reference in the configs is different
  * but the object of that reference with be share between the original and the cloned config.
  *
  * @param original The config object that you want to clone
  */
-export const cloneWithNonClonables = (original: Partial<WidgetConfig>) => {
-  const { substituteNonClonables, rehydrateNonClonables } = nonClonables();
+export const cloneStructuredConfig = (original: Partial<WidgetConfig>) => {
+  const { substituteShallowReferences, rehydrateShallowReferences } =
+    shallowReferences();
 
-  const clone = rehydrateNonClonables(
-    structuredClone(substituteNonClonables(original)),
+  const clone = rehydrateShallowReferences(
+    structuredClone(substituteShallowReferences(original)),
   );
 
   // we need restore the original as well
-  rehydrateNonClonables(original);
+  rehydrateShallowReferences(original);
 
   return clone;
 };

@@ -28,7 +28,7 @@ export const widgetBaseConfig: WidgetConfig = {
   //     chainType: ChainType.SVM,
   //   },
   // ],
-  // variant: 'expandable',
+  variant: 'expandable',
   // subvariant: 'split',
   integrator: 'li.fi-playground',
   // fee: 0.01,

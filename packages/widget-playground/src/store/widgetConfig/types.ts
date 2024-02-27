@@ -26,7 +26,7 @@ export interface WidgetConfigActions {
   resetBorderRadiusSecondary: () => void;
   setColor: (path: string, color: string) => void;
   setFontFamily: (fontName: string) => void;
-  setWalletConfig: (walletConfig: WidgetWalletConfig) => void;
+  setWalletConfig: (walletConfig?: WidgetWalletConfig) => void;
 }
 
 export type WidgetConfigState = WidgetConfigValues & WidgetConfigActions;
