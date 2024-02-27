@@ -38,7 +38,6 @@
     "zustand": "^4.5.1"
   },
   "devDependencies": {
-    "@testing-library/react-hooks": "^8.0.1",
     "@types/lodash.isequal": "^4.5.8",
     "@types/node": "^20.11.20",
     "@types/react": "^18.2.57",
