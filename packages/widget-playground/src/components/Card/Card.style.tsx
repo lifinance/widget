@@ -1,6 +1,5 @@
 import type { BoxProps, Theme } from '@mui/material';
-import { Box, ButtonBase, Typography, avatarClasses } from '@mui/material';
-import { badgeClasses } from '@mui/material/Badge';
+import { Box, ButtonBase, Typography } from '@mui/material';
 import { alpha, darken, lighten, styled } from '@mui/material/styles';
 import type { MouseEventHandler } from 'react';
 
@@ -70,9 +69,6 @@ export const Card = styled(Box, {
     '&:hover': {
       cursor: onClick ? 'pointer' : 'default',
       backgroundColor: backgroundHoverColor,
-    },
-    [`&:hover .${badgeClasses.badge} > .${avatarClasses.root}`]: {
-      borderColor: backgroundHoverColor,
     },
     transition: theme.transitions.create(['background-color'], {
       duration: theme.transitions.duration.enteringScreen,

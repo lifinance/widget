@@ -4,8 +4,6 @@ import {
   Box,
   Button,
   alpha,
-  avatarClasses,
-  badgeClasses,
   buttonClasses,
   styled,
 } from '@mui/material';
@@ -53,9 +51,6 @@ export const WalletButton = styled(Button)(({ theme }) => ({
   },
   [`.${buttonClasses.startIcon} > *:nth-of-type(1)`]: {
     fontSize: '24px',
-  },
-  [`&:hover .${badgeClasses.badge} > .${avatarClasses.root}`]: {
-    borderColor: getContrastAlphaColor(theme, 0.04),
   },
 }));
 

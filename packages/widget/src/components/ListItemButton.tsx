@@ -1,9 +1,4 @@
-import {
-  ListItemButton as MuiListItemButton,
-  avatarClasses,
-  badgeClasses,
-  styled,
-} from '@mui/material';
+import { ListItemButton as MuiListItemButton, styled } from '@mui/material';
 import { getContrastAlphaColor } from '../utils/colors.js';
 
 export const ListItemButton = styled(MuiListItemButton)(({
@@ -17,9 +12,6 @@ export const ListItemButton = styled(MuiListItemButton)(({
     height: 56,
     '&:hover': {
       backgroundColor: !disabled && backgroundHoverColor,
-    },
-    [`&:hover .${badgeClasses.badge} > .${avatarClasses.root}`]: {
-      borderColor: backgroundHoverColor,
     },
     ...(disabled ? { opacity: 0.5, cursor: 'auto' } : {}),
   };

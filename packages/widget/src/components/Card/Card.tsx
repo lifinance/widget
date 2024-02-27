@@ -1,13 +1,5 @@
 import type { BoxProps, Theme } from '@mui/material';
-import {
-  Box,
-  alpha,
-  avatarClasses,
-  badgeClasses,
-  darken,
-  lighten,
-  styled,
-} from '@mui/material';
+import { Box, alpha, darken, lighten, styled } from '@mui/material';
 import type { MouseEventHandler } from 'react';
 
 type CardVariant = 'default' | 'selected' | 'error';
@@ -78,9 +70,6 @@ export const Card = styled(Box, {
     '&:hover': {
       cursor: onClick ? 'pointer' : 'default',
       backgroundColor: backgroundHoverColor,
-    },
-    [`&:hover .${badgeClasses.badge} > .${avatarClasses.root}`]: {
-      borderColor: backgroundHoverColor,
     },
     transition: theme.transitions.create(
       ['background-color', 'box-shadow', 'border-color'],
