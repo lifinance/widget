@@ -1,7 +1,6 @@
 {
   "name": "@lifi/widget-playground",
-  "private": true,
-  "version": "1.0.183",
+  "version": "1.0.184",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.d.ts",
@@ -48,5 +47,6 @@
     ".": "./src/index.ts",
     "./fonts": "./src/fonts/inter.css",
     "./widget-config": "./src/defaultWidgetConfig.ts"
-  }
+  },
+  "private": true
 }
