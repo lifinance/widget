@@ -31,6 +31,7 @@ import {
   tooltipPopperZIndex,
 } from './DrawerControls.style';
 import { CodeControls } from './CodeControls';
+import { FontEmbedPrompt } from './FontEmbedPrompt';
 
 export const DrawerControls = () => {
   const [controlsTabsState, setControlsTabsState] = useState<'design' | 'code'>(
