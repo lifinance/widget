@@ -2,22 +2,29 @@ import { createWithEqualityFn } from 'zustand/traditional';
 import type { WidgetConfig } from '@lifi/widget';
 import type { StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { addValueFromPath } from '../../utils';
+import { addValueFromPathString } from '../../utils';
 import type { WidgetConfigState } from './types';
+import { cloneStructuredConfig } from './utils/cloneStructuredConfig';
 
 export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
   createWithEqualityFn<WidgetConfigState>(
     persist(
       (set, get) => ({
-        config: initialConfig,
+        defaultConfig: initialConfig,
+        config: cloneStructuredConfig(initialConfig),
         setConfig: (config) => {
           set({
             config,
           });
         },
+        setDefaultConfig: (defaultConfig) => {
+          set({
+            defaultConfig,
+          });
+        },
         resetConfig: () => {
           set({
-            config: initialConfig,
+            config: cloneStructuredConfig(get().defaultConfig!),
           });
         },
         setAppearance: (appearance) => {
@@ -112,7 +119,7 @@ export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
         },
         setColor: (path, color) => {
           set({
-            config: addValueFromPath<Partial<WidgetConfig>>(
+            config: addValueFromPathString<Partial<WidgetConfig>>(
               get().config,
               path,
               color,
@@ -148,6 +155,18 @@ export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
         partialize: (state) => ({
           config: state?.config,
         }),
+        onRehydrateStorage: () => {
+          return (state) => {
+            if (state) {
+              if (state.config?.walletConfig) {
+                const walletConfig = state.defaultConfig?.walletConfig
+                  ? state.defaultConfig?.walletConfig
+                  : { async onConnect() {} };
+                state.setWalletConfig(walletConfig);
+              }
+            }
+          };
+        },
       },
     ) as StateCreator<WidgetConfigState, [], [], WidgetConfigState>,
     Object.is,

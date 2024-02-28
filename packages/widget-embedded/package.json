@@ -43,7 +43,7 @@
     "wagmi": "2.5.7"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.2.1",
+    "@vitejs/plugin-react-swc": "^3.6.0",
     "typescript": "^5.3.3",
     "vite": "^5.1.4",
     "web-vitals": "^3.5.2"

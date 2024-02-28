@@ -1,15 +1,20 @@
 import type { FC, PropsWithChildren } from 'react';
-import { createContext, useContext, useRef } from 'react';
+import diff from 'microdiff';
+import { createContext, useContext, useEffect, useRef } from 'react';
 import { shallow } from 'zustand/shallow';
 import type { WidgetConfig } from '@lifi/widget';
 import type { WidgetConfigStore, WidgetConfigState } from './types.js';
 import { createWidgetConfigStore } from './createWidgetConfigStore.js';
+import isEqual from 'lodash.isequal';
+import { getWhitelistedConfig } from './utils/getWhitelistedConfig';
+import { cloneStructuredConfig } from './utils/cloneStructuredConfig';
+import { patch } from '../../utils';
 
 export const WidgetConfigContext = createContext<WidgetConfigStore | null>(
   null,
 );
 
-interface WidgetConfigProviderProps extends PropsWithChildren {
+export interface WidgetConfigProviderProps extends PropsWithChildren {
   defaultWidgetConfig: Partial<WidgetConfig>;
 }
 
@@ -22,6 +27,24 @@ export const WidgetConfigProvider: FC<WidgetConfigProviderProps> = ({
   if (!storeRef.current) {
     storeRef.current = createWidgetConfigStore(defaultWidgetConfig);
   }
+
+  useEffect(() => {
+    const currentConfig = storeRef.current?.getState().config;
+    if (currentConfig && !isEqual(currentConfig, defaultWidgetConfig)) {
+      storeRef.current?.getState().setDefaultConfig(defaultWidgetConfig);
+
+      const editorConfigDefaults = getWhitelistedConfig(defaultWidgetConfig);
+      const editorConfigUpdates = getWhitelistedConfig(currentConfig);
+      const differences = diff(editorConfigDefaults, editorConfigUpdates);
+
+      const mergedConfig = patch(
+        cloneStructuredConfig(defaultWidgetConfig),
+        differences,
+      ) as Partial<WidgetConfig>;
+
+      storeRef.current?.getState().setConfig(mergedConfig);
+    }
+  }, [defaultWidgetConfig]);
 
   return (
     <WidgetConfigContext.Provider value={storeRef.current}>

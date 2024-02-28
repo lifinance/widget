@@ -43,8 +43,8 @@ export const App = () => {
   );
 };
 
-if (!import.meta.env.VITE_WALLET_CONNECT) {
+if (!import.meta.env.VITE_EVM_WALLET_CONNECT) {
   console.error(
-    'VITE_WALLET_CONNECT is require in your .env.local file for external wallet management',
+    'VITE_EVM_WALLET_CONNECT is require in your .env.local file for external wallet management',
   );
 }

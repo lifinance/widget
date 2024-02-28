@@ -10,11 +10,12 @@
  *     }
  *   }
  * }
+ * Current only supports object syntax, not arrays
  * @param object The object you want to add the value too
- * @param path The location within that object, e.g. 'theme.palette.primary.main'
+ * @param path The location within that object as a string, e.g. 'theme.palette.primary.main'
  * @param value The value to be added at that location
  */
-export const addValueFromPath = <ReturnType>(
+export const addValueFromPathString = <ReturnType>(
   object: ReturnType | undefined,
   path: string,
   value: string,
