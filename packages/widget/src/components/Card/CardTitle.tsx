@@ -8,6 +8,7 @@ export const CardTitle = styled(Typography, {
   fontWeight: 700,
   padding: theme.spacing(2, 2, 0, 2),
   textAlign: 'left',
+  color: theme.palette.text.primary,
   '&:after': {
     content: required ? '" *"' : 'none',
     color: theme.palette.error.main,
