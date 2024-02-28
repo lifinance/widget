@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-playground",
-  "version": "1.0.184",
+  "version": "1.0.185",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.d.ts",
@@ -39,12 +39,12 @@
   },
   "devDependencies": {
     "@types/lodash.isequal": "^4.5.8",
-    "@types/node": "^20.11.20",
-    "@types/react": "^18.2.57",
+    "@types/node": "^20.11.21",
+    "@types/react": "^18.2.60",
     "@types/react-dom": "^18.2.19",
     "@vitejs/plugin-react-swc": "^3.6.0",
     "cpy-cli": "^5.0.0",
-    "eslint": "^8.56.0",
+    "eslint": "^8.57.0",
     "eslint-config-next": "14.1.0",
     "jsdom": "^24.0.0",
     "typescript": "^5.3.3",

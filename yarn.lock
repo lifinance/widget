@@ -1704,7 +1704,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/react@npm:^11.10.6, @emotion/react@npm:^11.11.3":
+"@emotion/react@npm:^11.10.6, @emotion/react@npm:^11.11.4":
   version: 11.11.4
   resolution: "@emotion/react@npm:11.11.4"
   dependencies:
@@ -2796,12 +2796,12 @@ __metadata:
     "@ethersproject/providers": "npm:^5.7.2"
     "@lifi/sdk": "npm:^3.0.0-alpha.56"
     "@lifi/wallet-management": "npm:^3.0.0-alpha.22"
-    "@lifi/widget": "npm:^3.0.0-alpha.32"
-    "@mui/icons-material": "npm:^5.15.10"
-    "@mui/lab": "npm:^5.0.0-alpha.165"
-    "@mui/material": "npm:^5.15.10"
+    "@lifi/widget": "npm:^3.0.0-alpha.33"
+    "@mui/icons-material": "npm:^5.15.11"
+    "@mui/lab": "npm:^5.0.0-alpha.166"
+    "@mui/material": "npm:^5.15.11"
     "@opensea/seaport-js": "npm:3.0.2"
-    "@tanstack/react-query": "npm:^5.22.2"
+    "@tanstack/react-query": "npm:^5.24.1"
     "@vitejs/plugin-react-swc": "npm:^3.6.0"
     bignumber.js: "npm:^9.1.2"
     ethers: "npm:^6.11.1"
@@ -2821,26 +2821,26 @@ __metadata:
   resolution: "@lifi/widget-playground-next@workspace:packages/widget-playground-next"
   dependencies:
     "@emotion/cache": "npm:^11.11.0"
-    "@emotion/react": "npm:^11.11.3"
+    "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.0"
     "@lifi/sdk": "npm:^3.0.0-alpha.56"
     "@lifi/wallet-management": "npm:^3.0.0-alpha.22"
-    "@lifi/widget": "npm:^3.0.0-alpha.32"
-    "@lifi/widget-playground": "npm:^1.0.184"
-    "@mui/icons-material": "npm:^5.15.10"
-    "@mui/material": "npm:^5.15.10"
+    "@lifi/widget": "npm:^3.0.0-alpha.33"
+    "@lifi/widget-playground": "npm:^1.0.185"
+    "@mui/icons-material": "npm:^5.15.11"
+    "@mui/material": "npm:^5.15.11"
     "@mui/material-nextjs": "npm:^5.15.11"
     "@rainbow-me/rainbowkit": "npm:^2.0.1"
     "@solana/wallet-adapter-base": "npm:^0.9.23"
     "@solana/wallet-adapter-react": "npm:^0.15.35"
     "@solana/wallet-adapter-wallets": "npm:^0.19.26"
     "@solana/web3.js": "npm:^1.90.0"
-    "@tanstack/react-query": "npm:^5.22.2"
-    "@types/node": "npm:^20.11.20"
-    "@types/react": "npm:^18.2.57"
+    "@tanstack/react-query": "npm:^5.24.1"
+    "@types/node": "npm:^20.11.21"
+    "@types/react": "npm:^18.2.60"
     "@types/react-dom": "npm:^18.2.19"
     core-js: "npm:^3.36.0"
-    eslint: "npm:^8.56.0"
+    eslint: "npm:^8.57.0"
     eslint-config-next: "npm:14.1.0"
     lodash.isequal: "npm:^4.5.0"
     microdiff: "npm:^1.3.2"
@@ -2848,7 +2848,7 @@ __metadata:
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     typescript: "npm:^5.3.3"
-    viem: "npm:^2.7.13"
+    viem: "npm:^2.7.15"
     wagmi: "npm:^2.5.7"
     zustand: "npm:^4.5.1"
   languageName: unknown
@@ -2861,16 +2861,16 @@ __metadata:
     "@esbuild-plugins/node-globals-polyfill": "npm:^0.2.3"
     "@lifi/sdk": "npm:^3.0.0-alpha.56"
     "@lifi/wallet-management": "npm:^3.0.0-alpha.22"
-    "@lifi/widget": "npm:^3.0.0-alpha.32"
-    "@lifi/widget-playground": "npm:^1.0.184"
-    "@mui/icons-material": "npm:^5.15.10"
-    "@mui/material": "npm:^5.15.10"
+    "@lifi/widget": "npm:^3.0.0-alpha.33"
+    "@lifi/widget-playground": "npm:^1.0.185"
+    "@mui/icons-material": "npm:^5.15.11"
+    "@mui/material": "npm:^5.15.11"
     "@rainbow-me/rainbowkit": "npm:^2.0.1"
     "@solana/wallet-adapter-base": "npm:^0.9.23"
     "@solana/wallet-adapter-react": "npm:^0.15.35"
     "@solana/wallet-adapter-wallets": "npm:^0.19.26"
     "@solana/web3.js": "npm:^1.90.0"
-    "@tanstack/react-query": "npm:^5.22.2"
+    "@tanstack/react-query": "npm:^5.24.1"
     "@vitejs/plugin-react-swc": "npm:^3.6.0"
     lodash.isequal: "npm:^4.5.0"
     microdiff: "npm:^1.3.2"
@@ -2879,7 +2879,7 @@ __metadata:
     rollup-plugin-polyfill-node: "npm:^0.13.0"
     source-map-explorer: "npm:^2.5.3"
     typescript: "npm:^5.3.3"
-    viem: "npm:^2.7.13"
+    viem: "npm:^2.7.15"
     vite: "npm:^5.1.4"
     wagmi: "npm:2.5.7"
     web-vitals: "npm:^3.5.2"
@@ -2887,17 +2887,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@lifi/widget-playground@npm:^1.0.184, @lifi/widget-playground@workspace:packages/widget-playground":
+"@lifi/widget-playground@npm:^1.0.185, @lifi/widget-playground@workspace:packages/widget-playground":
   version: 0.0.0-use.local
   resolution: "@lifi/widget-playground@workspace:packages/widget-playground"
   dependencies:
     "@types/lodash.isequal": "npm:^4.5.8"
-    "@types/node": "npm:^20.11.20"
-    "@types/react": "npm:^18.2.57"
+    "@types/node": "npm:^20.11.21"
+    "@types/react": "npm:^18.2.60"
     "@types/react-dom": "npm:^18.2.19"
     "@vitejs/plugin-react-swc": "npm:^3.6.0"
     cpy-cli: "npm:^5.0.0"
-    eslint: "npm:^8.56.0"
+    eslint: "npm:^8.57.0"
     eslint-config-next: "npm:14.1.0"
     jsdom: "npm:^24.0.0"
     typescript: "npm:^5.3.3"
@@ -2925,23 +2925,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@lifi/widget@npm:^3.0.0-alpha.32, @lifi/widget@workspace:packages/widget":
+"@lifi/widget@npm:^3.0.0-alpha.33, @lifi/widget@workspace:packages/widget":
   version: 0.0.0-use.local
   resolution: "@lifi/widget@workspace:packages/widget"
   dependencies:
-    "@emotion/react": "npm:^11.11.3"
+    "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.0"
     "@lifi/sdk": "npm:^3.0.0-alpha.56"
     "@lifi/wallet-management": "npm:^3.0.0-alpha.22"
-    "@mui/icons-material": "npm:^5.15.10"
-    "@mui/lab": "npm:^5.0.0-alpha.165"
-    "@mui/material": "npm:^5.15.10"
+    "@mui/icons-material": "npm:^5.15.11"
+    "@mui/lab": "npm:^5.0.0-alpha.166"
+    "@mui/material": "npm:^5.15.11"
     "@solana/wallet-adapter-base": "npm:^0.9.23"
     "@solana/wallet-adapter-react": "npm:^0.15.35"
     "@solana/wallet-adapter-wallets": "npm:^0.19.26"
     "@solana/web3.js": "npm:^1.90.0"
-    "@tanstack/react-query": "npm:^5.22.2"
-    "@tanstack/react-virtual": "npm:^3.1.2"
+    "@tanstack/react-query": "npm:^5.24.1"
+    "@tanstack/react-virtual": "npm:^3.1.3"
     cpy-cli: "npm:^5.0.0"
     i18next: "npm:^23.10.0"
     madge: "npm:^6.1.0"
@@ -2955,7 +2955,7 @@ __metadata:
     react-timer-hook: "npm:^3.0.7"
     typescript: "npm:^5.3.3"
     uuid: "npm:^9.0.1"
-    viem: "npm:^2.7.13"
+    viem: "npm:^2.7.15"
     wagmi: "npm:2.5.7"
     zustand: "npm:^4.5.1"
   peerDependencies:
@@ -3314,7 +3314,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/icons-material@npm:^5.15.10":
+"@mui/icons-material@npm:^5.15.11":
   version: 5.15.11
   resolution: "@mui/icons-material@npm:5.15.11"
   dependencies:
@@ -3330,7 +3330,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/lab@npm:^5.0.0-alpha.165":
+"@mui/lab@npm:^5.0.0-alpha.166":
   version: 5.0.0-alpha.166
   resolution: "@mui/lab@npm:5.0.0-alpha.166"
   dependencies:
@@ -3382,7 +3382,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/material@npm:^5.15.10":
+"@mui/material@npm:^5.15.11":
   version: 5.15.11
   resolution: "@mui/material@npm:5.15.11"
   dependencies:
@@ -5722,7 +5722,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.22.2":
+"@tanstack/react-query@npm:^5.24.1":
   version: 5.24.1
   resolution: "@tanstack/react-query@npm:5.24.1"
   dependencies:
@@ -5733,7 +5733,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-virtual@npm:^3.1.2":
+"@tanstack/react-virtual@npm:^3.1.3":
   version: 3.1.3
   resolution: "@tanstack/react-virtual@npm:3.1.3"
   dependencies:
@@ -6301,13 +6301,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:^8.56.3":
-  version: 8.56.3
-  resolution: "@types/eslint@npm:8.56.3"
+"@types/eslint@npm:^8.56.4":
+  version: 8.56.4
+  resolution: "@types/eslint@npm:8.56.4"
   dependencies:
     "@types/estree": "npm:*"
     "@types/json-schema": "npm:*"
-  checksum: 10/b5a006c24b5d3a2dba5acc12f21f96c960836beb08544cfedbbbd5b7770b6c951b41204d676b73d7d9065bef3435e5b4cb3796c57f66df21c12fd86018993a16
+  checksum: 10/bb8018f0c27839dd0b8c515ac4e6fac39500c36ba20007a6ecca2fe5e5f81cbecca2be8f6f649bdafd5556b8c6d5285d8506ae61cc8570f71fd4e6b07042f641
   languageName: node
   linkType: hard
 
@@ -6399,12 +6399,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>=13.7.0, @types/node@npm:^20.11.20":
-  version: 20.11.20
-  resolution: "@types/node@npm:20.11.20"
+"@types/node@npm:*, @types/node@npm:>=13.7.0, @types/node@npm:^20.11.21":
+  version: 20.11.21
+  resolution: "@types/node@npm:20.11.21"
   dependencies:
     undici-types: "npm:~5.26.4"
-  checksum: 10/ff449bdc94810dadb54e0f77dd587c6505ef79ffa5a208c16eb29b223365b188f4c935a3abaf0906a01d05257c3da1f72465594a841d35bcf7b6deac7a6938fb
+  checksum: 10/a31ecc6a3c615bca310ffe7dea23613153ff9e1e175c09d14198402b2cef9b1bb1bf3912aff6ffc6cb01b99a025ec6dd6474c797bfb0aaf83daf4edaea063760
   languageName: node
   linkType: hard
 
@@ -6461,7 +6461,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^18.2.57":
+"@types/react@npm:*, @types/react@npm:^18.2.60":
   version: 18.2.60
   resolution: "@types/react@npm:18.2.60"
   dependencies:
@@ -6563,7 +6563,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^7.0.2":
+"@typescript-eslint/eslint-plugin@npm:^7.1.0":
   version: 7.1.0
   resolution: "@typescript-eslint/eslint-plugin@npm:7.1.0"
   dependencies:
@@ -6634,7 +6634,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^7.0.2":
+"@typescript-eslint/parser@npm:^7.1.0":
   version: 7.1.0
   resolution: "@typescript-eslint/parser@npm:7.1.0"
   dependencies:
@@ -10507,9 +10507,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.668":
-  version: 1.4.682
-  resolution: "electron-to-chromium@npm:1.4.682"
-  checksum: 10/ae36e6e5c6c1d8e78fbc7f64baa51a8c58bd483e15bde8c65f5b2f62b490769b80644a389132095803bc553aef52581e7dc1d611f43ac64d6987100bcafd2aec
+  version: 1.4.685
+  resolution: "electron-to-chromium@npm:1.4.685"
+  checksum: 10/8067c77260c94dee9117da963cc2d4cab13854ce6da97b310cc2c23da3dbde82fd94b5c3c352e86ca522b8491bf9cc621d61d8b58ff94a46f7c0a60dc64c4fcf
   languageName: node
   linkType: hard
 
@@ -11243,7 +11243,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.56.0":
+"eslint@npm:^8.57.0":
   version: 8.57.0
   resolution: "eslint@npm:8.57.0"
   dependencies:
@@ -12219,7 +12219,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:10.3.10, glob@npm:^10.2.2, glob@npm:^10.3.10":
+"glob@npm:10.3.10, glob@npm:^10.2.2, glob@npm:^10.3.10, glob@npm:^10.3.7":
   version: 10.3.10
   resolution: "glob@npm:10.3.10"
   dependencies:
@@ -15585,12 +15585,12 @@ __metadata:
   linkType: hard
 
 "object-is@npm:^1.1.5":
-  version: 1.1.5
-  resolution: "object-is@npm:1.1.5"
+  version: 1.1.6
+  resolution: "object-is@npm:1.1.6"
   dependencies:
-    call-bind: "npm:^1.0.2"
-    define-properties: "npm:^1.1.3"
-  checksum: 10/75365aff5da4bebad5d20efd9f9a7a13597e603f5eb03d89da8f578c3f3937fe01c6cb5fce86c0611c48795c0841401fd37c943821db0de703c7b30a290576ad
+    call-bind: "npm:^1.0.7"
+    define-properties: "npm:^1.2.1"
+  checksum: 10/4f6f544773a595da21c69a7531e0e1d6250670f4e09c55f47eb02c516035cfcb1b46ceb744edfd3ecb362309dbccb6d7f88e43bf42e4d4595ac10a329061053a
   languageName: node
   linkType: hard
 
@@ -17522,7 +17522,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rimraf@npm:^3.0.0, rimraf@npm:^3.0.2":
+"rimraf@npm:^3.0.2":
   version: 3.0.2
   resolution: "rimraf@npm:3.0.2"
   dependencies:
@@ -17541,6 +17541,17 @@ __metadata:
   bin:
     rimraf: dist/cjs/src/bin.js
   checksum: 10/218ef9122145ccce9d0a71124d36a3894537de46600b37fae7dba26ccff973251eaa98aa63c2c5855a05fa04bca7cbbd7a92d4b29f2875d2203e72530ecf6ede
+  languageName: node
+  linkType: hard
+
+"rimraf@npm:^5.0.5":
+  version: 5.0.5
+  resolution: "rimraf@npm:5.0.5"
+  dependencies:
+    glob: "npm:^10.3.7"
+  bin:
+    rimraf: dist/esm/bin.mjs
+  checksum: 10/a612c7184f96258b7d1328c486b12ca7b60aa30e04229a08bbfa7e964486deb1e9a1b52d917809311bdc39a808a4055c0f950c0280fba194ba0a09e6f0d404f6
   languageName: node
   linkType: hard
 
@@ -17723,16 +17734,16 @@ __metadata:
     "@testing-library/jest-dom": "npm:^6.4.2"
     "@testing-library/react": "npm:^14.2.1"
     "@testing-library/user-event": "npm:^14.5.2"
-    "@types/eslint": "npm:^8.56.3"
+    "@types/eslint": "npm:^8.56.4"
     "@types/events": "npm:^3.0.3"
-    "@types/node": "npm:^20.11.20"
-    "@types/react": "npm:^18.2.57"
+    "@types/node": "npm:^20.11.21"
+    "@types/react": "npm:^18.2.60"
     "@types/react-dom": "npm:^18.2.19"
     "@types/uuid": "npm:^9.0.8"
-    "@typescript-eslint/eslint-plugin": "npm:^7.0.2"
-    "@typescript-eslint/parser": "npm:^7.0.2"
+    "@typescript-eslint/eslint-plugin": "npm:^7.1.0"
+    "@typescript-eslint/parser": "npm:^7.1.0"
     cpy-cli: "npm:^5.0.0"
-    eslint: "npm:^8.56.0"
+    eslint: "npm:^8.57.0"
     eslint-config-prettier: "npm:^9.1.0"
     eslint-config-react-app: "npm:^7.0.1"
     eslint-plugin-flowtype: "npm:^8.0.3"
@@ -18956,11 +18967,11 @@ __metadata:
   linkType: hard
 
 "tmp@npm:~0.2.1":
-  version: 0.2.1
-  resolution: "tmp@npm:0.2.1"
+  version: 0.2.2
+  resolution: "tmp@npm:0.2.2"
   dependencies:
-    rimraf: "npm:^3.0.0"
-  checksum: 10/445148d72df3ce99356bc89a7857a0c5c3b32958697a14e50952c6f7cf0a8016e746ababe9a74c1aa52f04c526661992f14659eba34d3c6701d49ba2f3cf781b
+    rimraf: "npm:^5.0.5"
+  checksum: 10/3846df33156475c74922435ae9bd2c434c1fc4fe6a6bb215d5d1190a0bdd2f5a1f64dce4c326611c97ce95fc78c6fe254e970fa74b96254b52e98a23f4966a82
   languageName: node
   linkType: hard
 
@@ -19804,7 +19815,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"viem@npm:^2.7.13, viem@npm:^2.7.9":
+"viem@npm:^2.7.15, viem@npm:^2.7.9":
   version: 2.7.15
   resolution: "viem@npm:2.7.15"
   dependencies:
