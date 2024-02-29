@@ -1,14 +1,28 @@
-import { Box, Drawer as MuiDrawer, IconButton, styled } from '@mui/material';
+import type {
+  ButtonBaseProps,
+  DrawerProps as MuiDrawerProps,
+} from '@mui/material';
+import {
+  Box,
+  ButtonBase,
+  Drawer as MuiDrawer,
+  IconButton,
+  styled,
+} from '@mui/material';
 import TabPanel from '@mui/lab/TabPanel';
-export const drawerWidth = 392;
 export const drawerZIndex = 1501;
 export const autocompletePopperZIndex = drawerZIndex + 1;
 export const tooltipPopperZIndex = drawerZIndex + 2;
 
-export const Drawer = styled(MuiDrawer)(({ open }) => ({
+interface DrawerProps extends MuiDrawerProps {
+  drawerWidth: number;
+}
+export const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => !['drawerWidth'].includes(prop as string),
+})<DrawerProps>(({ open, drawerWidth }) => ({
   width: drawerWidth,
   // NOTE: setting the zIndex seems to prevent clicks underneath where the
-  //  draw was when closed - so we ony want to set eh zIndex when its open
+  //  draw was when closed - so we ony want to se the zIndex when its open
   ...(open ? { zIndex: drawerZIndex } : {}),
 }));
 
@@ -24,7 +38,11 @@ export const HeaderRow = styled(Box)({
   alignItems: 'center',
 });
 
-export const DrawerContentContainer = styled(Box)(({ theme }) => ({
+export const DrawerContentContainer = styled(Box, {
+  shouldForwardProp: (prop) => !['drawerWidth'].includes(prop as string),
+})<{
+  drawerWidth: number;
+}>(({ theme, drawerWidth }) => ({
   display: 'flex',
   width: drawerWidth,
   padding: theme.spacing(3),
@@ -80,4 +98,31 @@ export const Pre = styled('pre')(({ theme }) => ({
 export const Code = styled('code')(({ theme }) => ({
   fontFamily: 'Courier, monospace',
   fontSize: '0.8em',
+}));
+
+interface DrawerHandleProps extends ButtonBaseProps {
+  drawerWidth: number;
+}
+export const DrawerHandleButton = styled(
+  (props: DrawerHandleProps) => (
+    <ButtonBase {...props} disableRipple>
+      &nbsp;
+    </ButtonBase>
+  ),
+  {
+    shouldForwardProp: (prop) => !['drawerWidth'].includes(prop as string),
+  },
+)(({ theme, drawerWidth }) => ({
+  background: 'none',
+  color: 'inherit',
+  border: 'none',
+  font: 'inherit',
+  outline: 'inherit',
+  height: '100%',
+  width: theme.spacing(1.75),
+  cursor: 'col-resize',
+  position: 'absolute',
+  transform: 'translateX(-8px)',
+  left: drawerWidth,
+  zIndex: drawerZIndex + 1,
 }));
