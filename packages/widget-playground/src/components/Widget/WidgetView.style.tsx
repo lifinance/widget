@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import { buttonClasses } from '@mui/material/Button';
 import { alpha, styled } from '@mui/material/styles';
-import { drawerWidth, drawerZIndex } from '../DrawerControls';
+import { drawerZIndex } from '../DrawerControls';
 
 export const FloatingToolsContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -61,10 +61,12 @@ export const ConnectionWalletButtonBase = styled(Button)(({ theme }) => ({
 }));
 
 export const Main = styled('main', {
-  shouldForwardProp: (prop) => prop !== 'open',
+  shouldForwardProp: (prop) =>
+    !['drawerWidth', 'open'].includes(prop as string),
 })<{
+  drawerWidth: number;
   open?: boolean;
-}>(({ theme, open }) => ({
+}>(({ theme, open, drawerWidth }) => ({
   display: 'flex',
   justifyContent: 'stretch',
   position: 'relative',

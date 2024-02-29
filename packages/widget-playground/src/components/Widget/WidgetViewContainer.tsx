@@ -4,6 +4,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import type { PropsWithChildren } from 'react';
 import { ExternalWalletProvider } from '../../providers';
 import {
+  defaultDrawerWidth,
   useConfig,
   useEditToolsActions,
   useEditToolsValues,
@@ -25,13 +26,16 @@ export function WidgetViewContainer({
   toggleDrawer,
 }: WidgetViewContainerProps) {
   const { config } = useConfig();
-  const { isDrawerOpen } = useEditToolsValues();
+  const { isDrawerOpen, codeDrawerWidth, visibleControls } =
+    useEditToolsValues();
   const { setDrawerOpen } = useEditToolsActions();
 
   const isWalletManagementExternal = !!config?.walletConfig;
+  const drawerWidth =
+    visibleControls === 'code' ? codeDrawerWidth : defaultDrawerWidth;
 
   return (
-    <Main open={isDrawerOpen}>
+    <Main open={isDrawerOpen} drawerWidth={drawerWidth}>
       <ExternalWalletProvider isExternalProvider={isWalletManagementExternal}>
         <FloatingToolsContainer>
           {!isDrawerOpen ? (

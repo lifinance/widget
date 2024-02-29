@@ -7,7 +7,7 @@ import {
   tooltipPopperZIndex,
 } from './DrawerControls.style';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import { WidgetConfig } from '@lifi/widget';
+import type { WidgetConfig } from '@lifi/widget';
 import { useConfig } from '../../store';
 import { getValueFromPath } from '../../utils';
 import { Box, Tooltip, Typography } from '@mui/material';
@@ -80,6 +80,7 @@ export const CodeControls = () => {
         aria-label="tabs"
         indicatorColor="primary"
         onChange={(_, value) => setCodeTabsState(value)}
+        sx={{ maxWidth: 326 }}
       >
         <Tab label={'Config'} value="config" disableRipple />
         <Tab label={'React'} value="react" disableRipple />

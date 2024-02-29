@@ -2,9 +2,18 @@ import { shallow } from 'zustand/shallow';
 import { useEditToolsStore } from './EditToolsProvider';
 
 export const useEditToolsValues = () => {
-  const [open] = useEditToolsStore((store) => [store.drawer?.open], shallow);
+  const [isDrawerOpen, codeDrawerWidth, visibleControls] = useEditToolsStore(
+    (store) => [
+      store.drawer.open,
+      store.drawer.codeDrawerWidth,
+      store.drawer.visibleControls,
+    ],
+    shallow,
+  );
 
   return {
-    isDrawerOpen: open,
+    isDrawerOpen,
+    codeDrawerWidth,
+    visibleControls,
   };
 };
