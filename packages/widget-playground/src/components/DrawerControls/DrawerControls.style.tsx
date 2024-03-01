@@ -7,11 +7,13 @@ import {
   ButtonBase,
   Drawer as MuiDrawer,
   IconButton,
+  Modal as MuiModal,
   styled,
 } from '@mui/material';
 import TabPanel from '@mui/lab/TabPanel';
 export const drawerZIndex = 1501;
 export const autocompletePopperZIndex = drawerZIndex + 1;
+export const modalZIndex = drawerZIndex + 1;
 export const tooltipPopperZIndex = drawerZIndex + 2;
 
 interface DrawerProps extends MuiDrawerProps {
@@ -125,4 +127,16 @@ export const DrawerHandleButton = styled(
   transform: 'translateX(-8px)',
   left: drawerWidth,
   zIndex: drawerZIndex + 1,
+}));
+
+export const Modal = styled(MuiModal)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  width: '95%',
+  height: '95%',
+  zIndex: modalZIndex,
+  backgroundColor: theme.palette.background.paper,
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
 }));

@@ -86,7 +86,7 @@ export const DrawerControls = () => {
             aria-label="tabs"
             indicatorColor="primary"
             onChange={(_, value) => setVisibleControls(value)}
-            sx={{ maxWidth: 336 }}
+            sx={{ maxWidth: 348 }}
           >
             <Tab
               icon={<DesignServicesIcon />}
@@ -117,15 +117,6 @@ export const DrawerControls = () => {
               </ExpandableCardAccordion>
             </TabContentContainer>
             <TabContentContainer value="code">
-              <Typography variant="body2">
-                More examples of how to use the widget can be found in our{' '}
-                <Link
-                  href="https://github.com/lifinance/widget/tree/main/examples"
-                  rel="nofollow"
-                >
-                  github repo
-                </Link>
-              </Typography>
               <CodeControls />
             </TabContentContainer>
           </TabContext>

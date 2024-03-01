@@ -4,15 +4,19 @@ import {
   CodeContainer,
   CodeCopyButton,
   Pre,
+  TabContentContainer,
   tooltipPopperZIndex,
+  Modal,
 } from './DrawerControls.style';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import type { WidgetConfig } from '@lifi/widget';
 import { useConfig } from '../../store';
 import { getValueFromPath } from '../../utils';
-import { Box, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Tooltip, Typography } from '@mui/material';
 import { Tab, Tabs } from '../Tabs';
 import React, { useState } from 'react';
+import TabContext from '@mui/lab/TabContext';
+import { CodesandBoxEmbed } from './CodesandBoxEmbed';
 
 const reactTemplate = (config?: string) =>
   config
@@ -73,6 +77,18 @@ export const CodeControls = () => {
     }
   };
 
+  const [codeSandboxExample, setCodeSandboxExample] = useState<
+    'vite' | undefined
+  >();
+
+  const handleReactExampleClick = () => {
+    setCodeSandboxExample('vite');
+  };
+
+  const handleCloseCodeSandbox = () => {
+    setCodeSandboxExample(undefined);
+  };
+
   return (
     <Card sx={{ p: 1 }}>
       <Tabs
@@ -83,27 +99,43 @@ export const CodeControls = () => {
         sx={{ maxWidth: 326 }}
       >
         <Tab label={'Config'} value="config" disableRipple />
-        <Tab label={'React'} value="react" disableRipple />
+        <Tab label={'CodeSandbox'} value="react" disableRipple />
       </Tabs>
-      {code ? (
-        <Box sx={{ marginTop: 1 }}>
-          <Typography variant="caption">{message}</Typography>
-          <CodeContainer>
-            <Tooltip
-              title="Copy code"
-              PopperProps={{ style: { zIndex: tooltipPopperZIndex } }}
-              arrow
-            >
-              <CodeCopyButton onClick={handleCopyCode}>
-                <ContentCopyIcon fontSize={'small'} />
-              </CodeCopyButton>
-            </Tooltip>
-            <Pre>
-              <Code>{code}</Code>
-            </Pre>
-          </CodeContainer>
-        </Box>
-      ) : null}
+      <TabContext value={codeTabsState}>
+        <TabContentContainer value="config">
+          {code ? (
+            <Box sx={{ marginTop: 1 }}>
+              <Typography variant="caption">{message}</Typography>
+              <CodeContainer>
+                <Tooltip
+                  title="Copy code"
+                  PopperProps={{ style: { zIndex: tooltipPopperZIndex } }}
+                  arrow
+                >
+                  <CodeCopyButton onClick={handleCopyCode}>
+                    <ContentCopyIcon fontSize={'small'} />
+                  </CodeCopyButton>
+                </Tooltip>
+                <Pre>
+                  <Code>{code}</Code>
+                </Pre>
+              </CodeContainer>
+            </Box>
+          ) : null}
+        </TabContentContainer>
+        <TabContentContainer value="react">
+          <Button
+            variant="contained"
+            sx={{ marginTop: 2 }}
+            onClick={handleReactExampleClick}
+          >
+            React Example
+          </Button>
+          <Modal open={!!codeSandboxExample}>
+            <CodesandBoxEmbed onClose={handleCloseCodeSandbox} />
+          </Modal>
+        </TabContentContainer>
+      </TabContext>
     </Card>
   );
 };

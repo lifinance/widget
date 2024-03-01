@@ -17,6 +17,7 @@ export function WidgetView() {
       <LiFiWidget
         config={config}
         ref={drawerRef}
+        keyPrefix="c4443ab1e73b0457e3c9959cc5ca516e"
         integrator="li.fi-playground"
         open
       />
