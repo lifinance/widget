@@ -12,6 +12,7 @@ export enum WidgetEvent {
   SendToWalletToggled = 'sendToWalletToggled',
   ReviewTransactionPageEntered = 'reviewTransactionPageEntered',
   WalletConnected = 'walletConnected',
+  WidgetExpanded = 'widgetExpanded',
 }
 
 export type WidgetEvents = {
@@ -26,6 +27,7 @@ export type WidgetEvents = {
   sendToWalletToggled: boolean;
   reviewTransactionPageEntered?: Route;
   walletConnected: WalletConnected;
+  widgetExpanded: boolean;
 };
 
 export interface ContactSupport {
