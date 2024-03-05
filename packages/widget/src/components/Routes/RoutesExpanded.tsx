@@ -97,11 +97,11 @@ export const RoutesExpandedElement = () => {
     routesActiveRef.current || isLoading || isFetching || isFetched,
   );
 
+  const routeNotFound = !currentRoute && !isLoading && !isFetching && expanded;
+
   useEffect(() => {
     emitter.emit(WidgetEvent.WidgetExpanded, expanded);
   }, [emitter, expanded]);
-
-  const routeNotFound = !currentRoute && !isLoading && !isFetching && expanded;
 
   return (
     <Collapse
