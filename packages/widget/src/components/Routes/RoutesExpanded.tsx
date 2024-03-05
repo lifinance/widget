@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import type { Route } from '@lifi/sdk';
 import { Collapse, Grow, Stack, Typography } from '@mui/material';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { RouteObject } from 'react-router-dom';
 import { useRoutes as useDOMRoutes, useNavigate } from 'react-router-dom';
@@ -97,7 +97,9 @@ export const RoutesExpandedElement = () => {
     routesActiveRef.current || isLoading || isFetching || isFetched,
   );
 
-  emitter.emit(WidgetEvent.WidgetExpanded, expanded);
+  useEffect(() => {
+    emitter.emit(WidgetEvent.WidgetExpanded, expanded);
+  }, [emitter, expanded]);
 
   const routeNotFound = !currentRoute && !isLoading && !isFetching && expanded;
 
