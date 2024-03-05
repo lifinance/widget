@@ -1,32 +1,26 @@
 import { Card } from '../Card';
 import {
-  Code,
   CodeContainer,
   CodeCopyButton,
-  Pre,
   tooltipPopperZIndex,
+  TabContentContainer,
 } from './DrawerControls.style';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import type { WidgetConfig } from '@lifi/widget';
-import { useConfig } from '../../store';
+import {
+  useConfig,
+  useEditToolsActions,
+  useEditToolsValues,
+} from '../../store';
 import { getValueFromPath } from '../../utils';
-import { Box, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Tooltip, Typography } from '@mui/material';
 import { Tab, Tabs } from '../Tabs';
 import React, { useState } from 'react';
+import TabContext from '@mui/lab/TabContext';
+import { CodeEditor } from '../CodeEditor';
 
-const reactTemplate = (config?: string) =>
-  config
-    ? `import { LiFiWidget } from '@lifi/widget';
-
-export function Widget() {
-  const config = ${config.replace(/\n/g, '\n  ')}
-
-  return (
-      <LiFiWidget config={config} integrator="li.fi-playground" open />
-  );
-}
-  `
-    : null;
+const configTemplate = (config?: string) =>
+  config ? `const config = ${config}` : null;
 
 const substitions = {
   walletConfig: {
@@ -53,19 +47,10 @@ const configToStringWithSubstitions = (
 
 export const CodeControls = () => {
   const { config } = useConfig();
-  const [codeTabsState, setCodeTabsState] = useState<'config' | 'react'>(
-    'config',
-  );
+  const { codeControlTab } = useEditToolsValues();
+  const { setCodeControlTab } = useEditToolsActions();
 
-  const code =
-    codeTabsState === 'config'
-      ? configToStringWithSubstitions(config)
-      : reactTemplate(configToStringWithSubstitions(config));
-
-  const message =
-    codeTabsState === 'config'
-      ? 'Add this configuration to your widget'
-      : 'Ensure that @lifi/widget is installed in your project';
+  const code = configTemplate(configToStringWithSubstitions(config));
 
   const handleCopyCode = () => {
     if (code) {
@@ -74,36 +59,83 @@ export const CodeControls = () => {
   };
 
   return (
-    <Card sx={{ p: 1 }}>
-      <Tabs
-        value={codeTabsState}
-        aria-label="tabs"
-        indicatorColor="primary"
-        onChange={(_, value) => setCodeTabsState(value)}
-        sx={{ maxWidth: 326 }}
-      >
-        <Tab label={'Config'} value="config" disableRipple />
-        <Tab label={'React'} value="react" disableRipple />
-      </Tabs>
-      {code ? (
-        <Box sx={{ marginTop: 1 }}>
-          <Typography variant="caption">{message}</Typography>
-          <CodeContainer>
-            <Tooltip
-              title="Copy code"
-              PopperProps={{ style: { zIndex: tooltipPopperZIndex } }}
-              arrow
+    <Card
+      sx={{
+        p: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        flexGrow: codeControlTab === 'config' ? 1 : 0,
+      }}
+    >
+      <Box sx={{ maxWidth: 326, height: 56 }}>
+        <Tabs
+          value={codeControlTab}
+          aria-label="tabs"
+          indicatorColor="primary"
+          onChange={(_, value) => setCodeControlTab(value)}
+        >
+          <Tab label={'Config'} value="config" disableRipple />
+          <Tab label={'Examples'} value="examples" disableRipple />
+        </Tabs>
+      </Box>
+      <TabContext value={codeControlTab}>
+        <TabContentContainer value="config" sx={{ flexGrow: 1 }}>
+          {code ? (
+            <Box
+              id={'A BOX'}
+              sx={{
+                marginTop: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                flexGrow: 1,
+              }}
             >
-              <CodeCopyButton onClick={handleCopyCode}>
-                <ContentCopyIcon fontSize={'small'} />
-              </CodeCopyButton>
-            </Tooltip>
-            <Pre>
-              <Code>{code}</Code>
-            </Pre>
-          </CodeContainer>
-        </Box>
-      ) : null}
+              <Typography variant="caption">
+                Add this configuration to your widget
+              </Typography>
+              <CodeContainer>
+                <Tooltip
+                  title="Copy code"
+                  PopperProps={{ style: { zIndex: tooltipPopperZIndex } }}
+                  arrow
+                >
+                  <CodeCopyButton onClick={handleCopyCode}>
+                    <ContentCopyIcon fontSize={'small'} />
+                  </CodeCopyButton>
+                </Tooltip>
+                <CodeEditor code={code} />
+              </CodeContainer>
+            </Box>
+          ) : null}
+        </TabContentContainer>
+        <TabContentContainer value="examples">
+          <Typography variant="caption" sx={{ marginTop: 1.5 }}>
+            Examples of widget in different projects
+          </Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+            <Button variant="text">Create-React-App</Button>
+            <Button variant="text">Gatsby</Button>
+            <Button variant="text">Next.js</Button>
+            <Button variant="text">Remix</Button>
+            <Button variant="text">Svelte</Button>
+            <Button variant="text">Vite</Button>
+            <Button variant="text">Vue</Button>
+          </Box>
+          <Typography variant="caption">
+            Example of widget with external wallet connection
+          </Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 1,
+              marginBottom: 1.5,
+            }}
+          >
+            <Button variant="text">Rainbowkit</Button>
+          </Box>
+        </TabContentContainer>
+      </TabContext>
     </Card>
   );
 };

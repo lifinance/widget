@@ -13,6 +13,9 @@ export const createEditToolsStore = () =>
           visibleControls: 'design',
           codeDrawerWidth: defaultDrawerWidth,
         },
+        codeControl: {
+          openTab: 'config',
+        },
         setDrawerOpen: (open) => {
           set({
             drawer: {
@@ -37,12 +40,23 @@ export const createEditToolsStore = () =>
             },
           });
         },
+        setCodeControlTab: (openTab) => {
+          set({
+            codeControl: {
+              ...get().codeControl,
+              openTab,
+            },
+          });
+        },
         resetEditTools: () => {
           set({
             drawer: {
               open: true,
               visibleControls: 'design',
               codeDrawerWidth: defaultDrawerWidth,
+            },
+            codeControl: {
+              openTab: 'config',
             },
           });
         },

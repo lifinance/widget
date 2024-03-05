@@ -10,6 +10,7 @@ import {
   styled,
 } from '@mui/material';
 import TabPanel from '@mui/lab/TabPanel';
+import MonancoEditor from '@monaco-editor/react';
 export const drawerZIndex = 1501;
 export const autocompletePopperZIndex = drawerZIndex + 1;
 export const tooltipPopperZIndex = drawerZIndex + 2;
@@ -47,7 +48,7 @@ export const DrawerContentContainer = styled(Box, {
   width: drawerWidth,
   padding: theme.spacing(3),
   flexDirection: 'column',
-  alignItems: 'stretch',
+  flexGrow: 1,
   gap: theme.spacing(2),
   zIndex: 1200,
 }));
@@ -66,11 +67,14 @@ export const TabContentContainer = styled(TabPanel)(({ theme }) => ({
 export const CodeContainer = styled(Box)(({ theme }) => ({
   position: 'relative',
   marginTop: theme.spacing(1),
+  display: 'flex',
+  flexDirection: 'column',
+  flexGrow: 1,
 }));
 
 export const CodeCopyButton = styled(IconButton)(({ theme }) => ({
   position: 'absolute',
-  right: '4px',
+  right: '16px',
   top: '4px',
   background:
     theme.palette.mode === 'light'
@@ -82,6 +86,7 @@ export const CodeCopyButton = styled(IconButton)(({ theme }) => ({
         ? theme.palette.grey[300]
         : theme.palette.grey[700],
   },
+  zIndex: 2000,
 }));
 
 export const Pre = styled('pre')(({ theme }) => ({
@@ -125,4 +130,11 @@ export const DrawerHandleButton = styled(
   transform: 'translateX(-8px)',
   left: drawerWidth,
   zIndex: drawerZIndex + 1,
+}));
+
+export const EditorContainer = styled(Box)(({ theme }) => ({
+  borderRadius: theme.shape.borderRadius,
+  overflow: 'hidden',
+  flexGrow: 1,
+  height: '100%',
 }));

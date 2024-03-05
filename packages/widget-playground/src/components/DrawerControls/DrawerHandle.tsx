@@ -11,12 +11,9 @@ export const DrawerHandle = () => {
   const [isDrawerResizing, setIsDrawerResizing] = useState(false);
   const [drawResizeStartX, setDrawResizeStartX] = useState(0);
 
-  const { isDrawerOpen, visibleControls, codeDrawerWidth } =
+  const { isDrawerOpen, drawerWidth, visibleControls, codeControlTab } =
     useEditToolsValues();
   const { setCodeDrawerWidth } = useEditToolsActions();
-
-  const drawerWidth =
-    visibleControls === 'code' ? codeDrawerWidth : defaultDrawerWidth;
 
   const drawerHandleOnMouseDown: MouseEventHandler<HTMLButtonElement> = (e) => {
     setIsDrawerResizing(true);
@@ -35,9 +32,12 @@ export const DrawerHandle = () => {
       }
 
       const newDrawerWidth = drawResizeStartX + (e.clientX - drawResizeStartX);
-      if (newDrawerWidth >= defaultDrawerWidth) {
-        setCodeDrawerWidth(drawResizeStartX + (e.clientX - drawResizeStartX));
-      }
+
+      setCodeDrawerWidth(
+        newDrawerWidth >= defaultDrawerWidth
+          ? drawResizeStartX + (e.clientX - drawResizeStartX)
+          : defaultDrawerWidth,
+      );
     };
     document.addEventListener('mousemove', handleMousemove);
     document.addEventListener('mouseup', drawerHandleOnMouseUp);
@@ -47,7 +47,9 @@ export const DrawerHandle = () => {
     };
   }, [isDrawerResizing, drawResizeStartX, setCodeDrawerWidth]);
 
-  return visibleControls === 'code' && isDrawerOpen ? (
+  return visibleControls === 'code' &&
+    codeControlTab === 'config' &&
+    isDrawerOpen ? (
     <DrawerHandleButton
       drawerWidth={drawerWidth}
       onMouseDown={drawerHandleOnMouseDown}

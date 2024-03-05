@@ -34,7 +34,7 @@ import { CodeControls } from './CodeControls';
 import { DrawerHandle } from './DrawerHandle';
 
 export const DrawerControls = () => {
-  const { isDrawerOpen, visibleControls, codeDrawerWidth } =
+  const { isDrawerOpen, drawerWidth, visibleControls, codeDrawerWidth } =
     useEditToolsValues();
   const { setDrawerOpen, setVisibleControls, resetEditTools } =
     useEditToolsActions();
@@ -44,9 +44,6 @@ export const DrawerControls = () => {
     resetConfig();
     resetEditTools();
   };
-
-  const drawerWidth =
-    visibleControls === 'code' ? codeDrawerWidth : defaultDrawerWidth;
 
   return (
     <>
@@ -81,28 +78,29 @@ export const DrawerControls = () => {
               </Tooltip>
             </Box>
           </HeaderRow>
-          <Tabs
-            value={visibleControls}
-            aria-label="tabs"
-            indicatorColor="primary"
-            onChange={(_, value) => setVisibleControls(value)}
-            sx={{ maxWidth: 336 }}
-          >
-            <Tab
-              icon={<DesignServicesIcon />}
-              iconPosition="start"
-              label={'Design'}
-              value="design"
-              disableRipple
-            />
-            <Tab
-              icon={<IntegrationInstructionsIcon />}
-              iconPosition="start"
-              label={'Code'}
-              value="code"
-              disableRipple
-            />
-          </Tabs>
+          <Box sx={{ maxWidth: 344, height: 56 }}>
+            <Tabs
+              value={visibleControls}
+              aria-label="tabs"
+              indicatorColor="primary"
+              onChange={(_, value) => setVisibleControls(value)}
+            >
+              <Tab
+                icon={<DesignServicesIcon />}
+                iconPosition="start"
+                label={'Design'}
+                value="design"
+                disableRipple
+              />
+              <Tab
+                icon={<IntegrationInstructionsIcon />}
+                iconPosition="start"
+                label={'Code'}
+                value="code"
+                disableRipple
+              />
+            </Tabs>
+          </Box>
           <TabContext value={visibleControls}>
             <TabContentContainer value="design">
               <ExpandableCardAccordion>
@@ -116,16 +114,10 @@ export const DrawerControls = () => {
                 <WalletManagementControl />
               </ExpandableCardAccordion>
             </TabContentContainer>
-            <TabContentContainer value="code">
-              <Typography variant="body2">
-                More examples of how to use the widget can be found in our{' '}
-                <Link
-                  href="https://github.com/lifinance/widget/tree/main/examples"
-                  rel="nofollow"
-                >
-                  github repo
-                </Link>
-              </Typography>
+            <TabContentContainer
+              value="code"
+              sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}
+            >
               <CodeControls />
             </TabContentContainer>
           </TabContext>

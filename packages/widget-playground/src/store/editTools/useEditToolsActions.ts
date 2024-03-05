@@ -7,6 +7,7 @@ export const useEditToolsActions = () => {
       setDrawerOpen: state.setDrawerOpen,
       setCodeDrawerWidth: state.setCodeDrawerWidth,
       setVisibleControls: state.setVisibleControls,
+      setCodeControlTab: state.setCodeControlTab,
       resetEditTools: state.resetEditTools,
     }),
     shallow,

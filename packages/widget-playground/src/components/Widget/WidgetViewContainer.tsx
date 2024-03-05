@@ -26,13 +26,10 @@ export function WidgetViewContainer({
   toggleDrawer,
 }: WidgetViewContainerProps) {
   const { config } = useConfig();
-  const { isDrawerOpen, codeDrawerWidth, visibleControls } =
-    useEditToolsValues();
+  const { isDrawerOpen, drawerWidth } = useEditToolsValues();
   const { setDrawerOpen } = useEditToolsActions();
 
   const isWalletManagementExternal = !!config?.walletConfig;
-  const drawerWidth =
-    visibleControls === 'code' ? codeDrawerWidth : defaultDrawerWidth;
 
   return (
     <Main open={isDrawerOpen} drawerWidth={drawerWidth}>
