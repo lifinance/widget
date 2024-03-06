@@ -1,23 +1,22 @@
-import { Card } from '../Card';
+import { Card } from '../../Card';
 import {
   CodeContainer,
   CodeCopyButton,
   tooltipPopperZIndex,
   TabContentContainer,
-} from './DrawerControls.style';
+} from '../DrawerControls.style';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import type { WidgetConfig } from '@lifi/widget';
 import {
   useConfig,
   useEditToolsActions,
   useEditToolsValues,
-} from '../../store';
-import { getValueFromPath } from '../../utils';
+} from '../../../store';
+import { getValueFromPath } from '../../../utils';
 import { Box, Button, Tooltip, Typography } from '@mui/material';
-import { Tab, Tabs } from '../Tabs';
-import React, { useState } from 'react';
+import { Tab, Tabs } from '../../Tabs';
 import TabContext from '@mui/lab/TabContext';
-import { CodeEditor } from '../CodeEditor';
+import { CodeEditor } from './CodeEditor';
 
 const configTemplate = (config?: string) =>
   config ? `const config = ${config}` : null;
@@ -45,7 +44,7 @@ const configToStringWithSubstitions = (
   return stringifiedConfig.replace(/"([^"]+)":/g, '$1:');
 };
 
-export const CodeControls = () => {
+export const CodeControl = () => {
   const { config } = useConfig();
   const { codeControlTab } = useEditToolsValues();
   const { setCodeControlTab } = useEditToolsActions();

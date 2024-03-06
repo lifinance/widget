@@ -3,9 +3,8 @@ import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import TabContext from '@mui/lab/TabContext';
-import { Box, IconButton, Tooltip, Typography, Link } from '@mui/material';
+import { Box, IconButton, Tooltip } from '@mui/material';
 import {
-  defaultDrawerWidth,
   useConfigActions,
   useEditToolsActions,
   useEditToolsValues,
@@ -30,12 +29,11 @@ import {
   TabContentContainer,
   tooltipPopperZIndex,
 } from './DrawerControls.style';
-import { CodeControls } from './CodeControls';
+import { CodeControl } from './CodeControl';
 import { DrawerHandle } from './DrawerHandle';
 
 export const DrawerControls = () => {
-  const { isDrawerOpen, drawerWidth, visibleControls, codeDrawerWidth } =
-    useEditToolsValues();
+  const { isDrawerOpen, drawerWidth, visibleControls } = useEditToolsValues();
   const { setDrawerOpen, setVisibleControls, resetEditTools } =
     useEditToolsActions();
   const { resetConfig } = useConfigActions();
@@ -118,7 +116,7 @@ export const DrawerControls = () => {
               value="code"
               sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}
             >
-              <CodeControls />
+              <CodeControl />
             </TabContentContainer>
           </TabContext>
         </DrawerContentContainer>

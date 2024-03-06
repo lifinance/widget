@@ -10,7 +10,6 @@ import {
   styled,
 } from '@mui/material';
 import TabPanel from '@mui/lab/TabPanel';
-import MonancoEditor from '@monaco-editor/react';
 export const drawerZIndex = 1501;
 export const autocompletePopperZIndex = drawerZIndex + 1;
 export const tooltipPopperZIndex = drawerZIndex + 2;
@@ -74,8 +73,8 @@ export const CodeContainer = styled(Box)(({ theme }) => ({
 
 export const CodeCopyButton = styled(IconButton)(({ theme }) => ({
   position: 'absolute',
-  right: '16px',
-  top: '4px',
+  right: theme.spacing(2),
+  top: theme.spacing(0.5),
   background:
     theme.palette.mode === 'light'
       ? theme.palette.grey[200]
@@ -86,7 +85,7 @@ export const CodeCopyButton = styled(IconButton)(({ theme }) => ({
         ? theme.palette.grey[300]
         : theme.palette.grey[700],
   },
-  zIndex: 2000,
+  zIndex: tooltipPopperZIndex,
 }));
 
 export const Pre = styled('pre')(({ theme }) => ({

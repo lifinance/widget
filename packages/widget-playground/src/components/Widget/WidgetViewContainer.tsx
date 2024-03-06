@@ -4,7 +4,6 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import type { PropsWithChildren } from 'react';
 import { ExternalWalletProvider } from '../../providers';
 import {
-  defaultDrawerWidth,
   useConfig,
   useEditToolsActions,
   useEditToolsValues,

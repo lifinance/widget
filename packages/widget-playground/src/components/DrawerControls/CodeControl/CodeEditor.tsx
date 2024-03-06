@@ -1,9 +1,9 @@
 import type { BeforeMount, OnMount } from '@monaco-editor/react';
 import Editor from '@monaco-editor/react';
-import React, { useEffect, useRef, useState } from 'react';
-import { useThemeMode } from '../hooks';
+import { useEffect, useRef, useState } from 'react';
+import { useThemeMode } from '../../../hooks';
 import { useTheme } from '@mui/material';
-import { EditorContainer } from './DrawerControls';
+import { EditorContainer } from '../index';
 
 interface MonacoEditor {
   layout: (dimensions: { width: number; height: number }) => void;
@@ -71,7 +71,7 @@ export const CodeEditor = ({ code }: CodeEditorProps) => {
         observer.disconnect();
       }
     };
-  }, [editor, editorContainerRef.current]);
+  }, [editor, editorContainerRef]);
 
   return (
     <EditorContainer ref={editorContainerRef}>
