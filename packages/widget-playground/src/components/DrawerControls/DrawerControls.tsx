@@ -34,13 +34,11 @@ import { DrawerHandle } from './DrawerHandle';
 
 export const DrawerControls = () => {
   const { isDrawerOpen, drawerWidth, visibleControls } = useEditToolsValues();
-  const { setDrawerOpen, setVisibleControls, resetEditTools } =
-    useEditToolsActions();
+  const { setDrawerOpen, setVisibleControls } = useEditToolsActions();
   const { resetConfig } = useConfigActions();
 
   const handleReset = () => {
     resetConfig();
-    resetEditTools();
   };
 
   return (

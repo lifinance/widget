@@ -1,11 +1,5 @@
 import { Card } from '../../Card';
-import {
-  CodeContainer,
-  CodeCopyButton,
-  tooltipPopperZIndex,
-  TabContentContainer,
-} from '../DrawerControls.style';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { TabContentContainer } from '../DrawerControls.style';
 import type { WidgetConfig } from '@lifi/widget';
 import {
   useConfig,
@@ -17,6 +11,17 @@ import { Box, Button, Tooltip, Typography } from '@mui/material';
 import { Tab, Tabs } from '../../Tabs';
 import TabContext from '@mui/lab/TabContext';
 import { CodeEditor } from './CodeEditor';
+import {
+  CRALogo,
+  GatsbyLogo,
+  NextLogo,
+  RainbowKitLogo,
+  RemixLogo,
+  SvelteLogo,
+  ViteLogo,
+  VueLogo,
+} from '../../../logo';
+import { ProjectButton } from './CodeControl.style';
 
 const configTemplate = (config?: string) =>
   config ? `const config = ${config}` : null;
@@ -51,18 +56,13 @@ export const CodeControl = () => {
 
   const code = configTemplate(configToStringWithSubstitions(config));
 
-  const handleCopyCode = () => {
-    if (code) {
-      navigator.clipboard.writeText(code);
-    }
-  };
-
   return (
     <Card
       sx={{
         p: 1,
         display: 'flex',
         flexDirection: 'column',
+        gap: 1.5,
         flexGrow: codeControlTab === 'config' ? 1 : 0,
       }}
     >
@@ -78,61 +78,95 @@ export const CodeControl = () => {
         </Tabs>
       </Box>
       <TabContext value={codeControlTab}>
-        <TabContentContainer value="config" sx={{ flexGrow: 1 }}>
+        <TabContentContainer value="config" sx={{ flexGrow: 1, gap: 1 }}>
           {code ? (
-            <Box
-              id={'A BOX'}
-              sx={{
-                marginTop: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                flexGrow: 1,
-              }}
-            >
+            <>
               <Typography variant="caption">
                 Add this configuration to your widget
               </Typography>
-              <CodeContainer>
-                <Tooltip
-                  title="Copy code"
-                  PopperProps={{ style: { zIndex: tooltipPopperZIndex } }}
-                  arrow
-                >
-                  <CodeCopyButton onClick={handleCopyCode}>
-                    <ContentCopyIcon fontSize={'small'} />
-                  </CodeCopyButton>
-                </Tooltip>
-                <CodeEditor code={code} />
-              </CodeContainer>
-            </Box>
+              <CodeEditor code={code} />
+            </>
           ) : null}
         </TabContentContainer>
-        <TabContentContainer value="examples">
-          <Typography variant="caption" sx={{ marginTop: 1.5 }}>
-            Examples of widget in different projects
-          </Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-            <Button variant="text">Create-React-App</Button>
-            <Button variant="text">Gatsby</Button>
-            <Button variant="text">Next.js</Button>
-            <Button variant="text">Remix</Button>
-            <Button variant="text">Svelte</Button>
-            <Button variant="text">Vite</Button>
-            <Button variant="text">Vue</Button>
-          </Box>
+        <TabContentContainer value="examples" sx={{ gap: 1 }}>
           <Typography variant="caption">
-            Example of widget with external wallet connection
+            Examples of widget used in different projects
           </Typography>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 1,
-              marginBottom: 1.5,
-            }}
+          <ProjectButton
+            href="https://github.com/lifinance/widget/tree/main/examples/create-react-app"
+            rel="nofollow"
+            target="_blank"
+            variant="text"
+            startIcon={<CRALogo />}
           >
-            <Button variant="text">Rainbowkit</Button>
-          </Box>
+            Create-React-App
+          </ProjectButton>
+          <ProjectButton
+            href="https://github.com/lifinance/widget/tree/main/examples/gatsby"
+            rel="nofollow"
+            target="_blank"
+            variant="text"
+            startIcon={<GatsbyLogo />}
+          >
+            Gatsby
+          </ProjectButton>
+          <ProjectButton
+            href="https://github.com/lifinance/widget/tree/main/examples/nextjs14"
+            rel="nofollow"
+            target="_blank"
+            variant="text"
+            startIcon={<NextLogo />}
+          >
+            Next.js
+          </ProjectButton>
+          <ProjectButton
+            href="https://github.com/lifinance/widget/tree/main/examples/remix"
+            rel="nofollow"
+            target="_blank"
+            variant="text"
+            startIcon={<RemixLogo />}
+          >
+            Remix
+          </ProjectButton>
+          <ProjectButton
+            href="https://github.com/lifinance/widget/tree/main/examples/svelte"
+            rel="nofollow"
+            target="_blank"
+            variant="text"
+            startIcon={<SvelteLogo />}
+          >
+            Svelte
+          </ProjectButton>
+          <ProjectButton
+            href="https://github.com/lifinance/widget/tree/main/examples/vite"
+            rel="nofollow"
+            target="_blank"
+            variant="text"
+            startIcon={<ViteLogo />}
+          >
+            Vite
+          </ProjectButton>
+          <ProjectButton
+            href="https://github.com/lifinance/widget/tree/main/examples/vue"
+            rel="nofollow"
+            target="_blank"
+            variant="text"
+            startIcon={<VueLogo />}
+          >
+            Vue
+          </ProjectButton>
+          <Typography variant="caption">
+            Example of widget with external wallet management
+          </Typography>
+          <ProjectButton
+            href="https://github.com/lifinance/widget/tree/main/examples/rainbowkit"
+            rel="nofollow"
+            target="_blank"
+            variant="text"
+            startIcon={<RainbowKitLogo />}
+          >
+            Rainbowkit
+          </ProjectButton>
         </TabContentContainer>
       </TabContext>
     </Card>

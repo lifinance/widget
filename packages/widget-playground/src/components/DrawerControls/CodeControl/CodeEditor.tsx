@@ -1,9 +1,15 @@
 import type { BeforeMount, OnMount } from '@monaco-editor/react';
-import Editor from '@monaco-editor/react';
+import Editor, { OnChange } from '@monaco-editor/react';
 import { useEffect, useRef, useState } from 'react';
 import { useThemeMode } from '../../../hooks';
-import { useTheme } from '@mui/material';
-import { EditorContainer } from '../index';
+import { Tooltip, useTheme } from '@mui/material';
+import {
+  CodeContainer,
+  EditorContainer,
+  CodeCopyButton,
+} from './CodeControl.style';
+import { tooltipPopperZIndex } from '../DrawerControls.style';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 interface MonacoEditor {
   layout: (dimensions: { width: number; height: number }) => void;
@@ -11,13 +17,20 @@ interface MonacoEditor {
 
 interface CodeEditorProps {
   code: string;
+  onChange?: (code: string | undefined) => void;
 }
 
-export const CodeEditor = ({ code }: CodeEditorProps) => {
+export const CodeEditor = ({ code, onChange }: CodeEditorProps) => {
+  const [editorContent, setEditorContent] = useState('');
   const [editor, setEditor] = useState();
   const editorContainerRef = useRef(null);
   const theme = useTheme();
   const themeMode = useThemeMode();
+
+  useEffect(() => {
+    setEditorContent(code);
+  }, [code]);
+
   const handleEditorWillMount: BeforeMount = (monaco) => {
     monaco.editor.defineTheme('lifi-monaco-dark', {
       base: 'vs-dark',
@@ -38,10 +51,17 @@ export const CodeEditor = ({ code }: CodeEditorProps) => {
       },
     });
   };
+
+  const handleEditorChange: OnChange = (content) => {
+    setEditorContent(content ? content : '');
+    onChange?.(content);
+  };
   const handleEditorDidMount: OnMount = (editor, monaco) => {
     setEditor(editor);
   };
 
+  // The Monaco editor isn't great for layout
+  // This ensures the editor fills the EditorContainer
   useEffect(() => {
     const resizeEditor = () => {
       if (editor && editorContainerRef.current) {
@@ -73,24 +93,46 @@ export const CodeEditor = ({ code }: CodeEditorProps) => {
     };
   }, [editor, editorContainerRef]);
 
+  const handleCopyCode = () => {
+    if (editorContent) {
+      navigator.clipboard.writeText(editorContent);
+    }
+  };
+
   return (
-    <EditorContainer ref={editorContainerRef}>
-      <Editor
-        loading=""
-        defaultLanguage="typescript"
-        defaultValue={code}
-        options={{
-          lineNumbers: 'off',
-          glyphMargin: false,
-          folding: false,
-          minimap: { enabled: false },
-          scrollBeyondLastLine: false,
-          automaticLayout: false,
-        }}
-        theme={themeMode === 'light' ? 'lifi-monaco-light' : 'lifi-monaco-dark'}
-        beforeMount={handleEditorWillMount}
-        onMount={handleEditorDidMount}
-      />
-    </EditorContainer>
+    <CodeContainer>
+      <Tooltip
+        title="Copy code"
+        PopperProps={{ style: { zIndex: tooltipPopperZIndex } }}
+        arrow
+      >
+        <CodeCopyButton onClick={handleCopyCode}>
+          <ContentCopyIcon fontSize={'small'} />
+        </CodeCopyButton>
+      </Tooltip>
+      <EditorContainer ref={editorContainerRef}>
+        <Editor
+          loading=""
+          defaultLanguage="typescript"
+          value={editorContent}
+          onChange={handleEditorChange}
+          options={{
+            lineNumbers: 'off',
+            glyphMargin: false,
+            folding: false,
+            minimap: { enabled: false },
+            scrollBeyondLastLine: false,
+            automaticLayout: false,
+            contextmenu: false,
+            readOnly: true,
+          }}
+          theme={
+            themeMode === 'light' ? 'lifi-monaco-light' : 'lifi-monaco-dark'
+          }
+          beforeMount={handleEditorWillMount}
+          onMount={handleEditorDidMount}
+        />
+      </EditorContainer>
+    </CodeContainer>
   );
 };

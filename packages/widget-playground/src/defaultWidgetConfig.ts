@@ -217,6 +217,9 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
     typography: {
       fontFamily: 'Inter, sans-serif',
     },
+    shape: {
+      borderRadius: 24,
+    },
   },
   containerStyle: {
     boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',

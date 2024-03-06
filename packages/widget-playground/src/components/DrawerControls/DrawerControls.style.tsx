@@ -107,33 +107,19 @@ export const Code = styled('code')(({ theme }) => ({
 interface DrawerHandleProps extends ButtonBaseProps {
   drawerWidth: number;
 }
-export const DrawerHandleButton = styled(
-  (props: DrawerHandleProps) => (
-    <ButtonBase {...props} disableRipple>
-      &nbsp;
-    </ButtonBase>
-  ),
-  {
-    shouldForwardProp: (prop) => !['drawerWidth'].includes(prop as string),
-  },
-)(({ theme, drawerWidth }) => ({
+export const DrawerHandleButton = styled((props: DrawerHandleProps) => (
+  <ButtonBase {...props} disableRipple>
+    &nbsp;
+  </ButtonBase>
+))({
   background: 'none',
   color: 'inherit',
   border: 'none',
   font: 'inherit',
   outline: 'inherit',
   height: '100%',
-  width: theme.spacing(1.75),
   cursor: 'col-resize',
-  position: 'absolute',
+  position: 'fixed',
   transform: 'translateX(-8px)',
-  left: drawerWidth,
   zIndex: drawerZIndex + 1,
-}));
-
-export const EditorContainer = styled(Box)(({ theme }) => ({
-  borderRadius: theme.shape.borderRadius,
-  overflow: 'hidden',
-  flexGrow: 1,
-  height: '100%',
-}));
+});
