@@ -1,5 +1,5 @@
-import type { BeforeMount, OnMount } from '@monaco-editor/react';
-import Editor, { OnChange } from '@monaco-editor/react';
+import type { BeforeMount, OnMount, OnChange } from '@monaco-editor/react';
+import Editor from '@monaco-editor/react';
 import { useEffect, useRef, useState } from 'react';
 import { useThemeMode } from '../../../hooks';
 import { Tooltip, useTheme } from '@mui/material';

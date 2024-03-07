@@ -1,8 +1,5 @@
 import { Card } from '../../Card';
-import {
-  TabContentContainer,
-  tooltipPopperZIndex,
-} from '../DrawerControls.style';
+import { TabContentContainer } from '../DrawerControls.style';
 import type { WidgetConfig } from '@lifi/widget';
 import {
   useConfig,
@@ -10,7 +7,7 @@ import {
   useEditToolsValues,
 } from '../../../store';
 import { getValueFromPath } from '../../../utils';
-import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { Tab, Tabs } from '../../Tabs';
 import TabContext from '@mui/lab/TabContext';
 import { CodeEditor } from './CodeEditor';

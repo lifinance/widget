@@ -1,13 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import type { Font } from './types';
-import {
-  createContext,
-  Dispatch,
-  PropsWithChildren,
-  SetStateAction,
-  useContext,
-  useState,
-} from 'react';
+import type { Dispatch, PropsWithChildren, SetStateAction } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 interface FontLoadingContextProps {
   loadedFonts: string[];
