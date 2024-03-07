@@ -1,4 +1,11 @@
-import { Box, Button, ButtonProps, IconButton, styled } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  ButtonProps,
+  IconButton,
+  styled,
+} from '@mui/material';
 import { tooltipPopperZIndex } from '../DrawerControls.style';
 
 export const CodeContainer = styled(Box)(({ theme }) => ({
@@ -39,8 +46,17 @@ export const EditorContainer = styled(Box)(({ theme }) => ({
 interface ProjectButton extends ButtonProps {
   target: string;
 }
-export const ProjectButton = styled(Button)<ProjectButton>(({ theme }) => ({
+export const ProjectButtonBase = styled(Button)<ProjectButton>(({ theme }) => ({
   justifyContent: 'flex-start',
   padding: theme.spacing(1, 3, 1),
   gap: theme.spacing(0.5),
+  fontSize: 16,
+  textTransform: 'none',
+}));
+
+export const ProjectAvatar = styled(Avatar)(({ theme }) => ({
+  width: 40,
+  height: 40,
+  backgroundColor:
+    theme.palette.mode === 'light' ? 'transparent' : theme.palette.common.white,
 }));

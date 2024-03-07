@@ -104,10 +104,7 @@ export const Code = styled('code')(({ theme }) => ({
   fontSize: '0.8em',
 }));
 
-interface DrawerHandleProps extends ButtonBaseProps {
-  drawerWidth: number;
-}
-export const DrawerHandleButton = styled((props: DrawerHandleProps) => (
+export const DrawerHandleButton = styled((props: ButtonBaseProps) => (
   <ButtonBase {...props} disableRipple>
     &nbsp;
   </ButtonBase>

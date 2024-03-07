@@ -51,7 +51,6 @@ export const DrawerHandle = () => {
     codeControlTab === 'config' &&
     isDrawerOpen ? (
     <DrawerHandleButton
-      drawerWidth={drawerWidth}
       onMouseDown={drawerHandleOnMouseDown}
       sx={{
         width: isDrawerResizing ? 400 : 16,

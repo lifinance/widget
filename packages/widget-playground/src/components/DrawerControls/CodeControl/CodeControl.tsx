@@ -7,7 +7,7 @@ import {
   useEditToolsValues,
 } from '../../../store';
 import { getValueFromPath } from '../../../utils';
-import { Box, Button, Tooltip, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { Tab, Tabs } from '../../Tabs';
 import TabContext from '@mui/lab/TabContext';
 import { CodeEditor } from './CodeEditor';
@@ -21,7 +21,8 @@ import {
   ViteLogo,
   VueLogo,
 } from '../../../logo';
-import { ProjectButton } from './CodeControl.style';
+import { getWhitelistedConfig } from '../../../store/widgetConfig/utils/getWhitelistedConfig';
+import { ProjectButton } from './ProjectButton';
 
 const configTemplate = (config?: string) =>
   config ? `const config = ${config}` : null;
@@ -54,7 +55,11 @@ export const CodeControl = () => {
   const { codeControlTab } = useEditToolsValues();
   const { setCodeControlTab } = useEditToolsActions();
 
-  const code = configTemplate(configToStringWithSubstitions(config));
+  const code = config
+    ? configTemplate(
+        configToStringWithSubstitions(getWhitelistedConfig(config)),
+      )
+    : null;
 
   return (
     <Card
@@ -88,70 +93,49 @@ export const CodeControl = () => {
             </>
           ) : null}
         </TabContentContainer>
-        <TabContentContainer value="examples" sx={{ gap: 1 }}>
+        <TabContentContainer value="examples" sx={{ gap: 1, paddingBottom: 1 }}>
           <Typography variant="caption">
             Examples of widget used in different projects
           </Typography>
           <ProjectButton
             href="https://github.com/lifinance/widget/tree/main/examples/create-react-app"
-            rel="nofollow"
-            target="_blank"
-            variant="text"
-            startIcon={<CRALogo />}
+            icon={<CRALogo />}
           >
             Create-React-App
           </ProjectButton>
           <ProjectButton
             href="https://github.com/lifinance/widget/tree/main/examples/gatsby"
-            rel="nofollow"
-            target="_blank"
-            variant="text"
-            startIcon={<GatsbyLogo />}
+            icon={<GatsbyLogo />}
           >
             Gatsby
           </ProjectButton>
           <ProjectButton
             href="https://github.com/lifinance/widget/tree/main/examples/nextjs14"
-            rel="nofollow"
-            target="_blank"
-            variant="text"
-            startIcon={<NextLogo />}
+            icon={<NextLogo />}
           >
             Next.js
           </ProjectButton>
           <ProjectButton
             href="https://github.com/lifinance/widget/tree/main/examples/remix"
-            rel="nofollow"
-            target="_blank"
-            variant="text"
-            startIcon={<RemixLogo />}
+            icon={<RemixLogo />}
           >
             Remix
           </ProjectButton>
           <ProjectButton
             href="https://github.com/lifinance/widget/tree/main/examples/svelte"
-            rel="nofollow"
-            target="_blank"
-            variant="text"
-            startIcon={<SvelteLogo />}
+            icon={<SvelteLogo />}
           >
             Svelte
           </ProjectButton>
           <ProjectButton
             href="https://github.com/lifinance/widget/tree/main/examples/vite"
-            rel="nofollow"
-            target="_blank"
-            variant="text"
-            startIcon={<ViteLogo />}
+            icon={<ViteLogo />}
           >
             Vite
           </ProjectButton>
           <ProjectButton
             href="https://github.com/lifinance/widget/tree/main/examples/vue"
-            rel="nofollow"
-            target="_blank"
-            variant="text"
-            startIcon={<VueLogo />}
+            icon={<VueLogo />}
           >
             Vue
           </ProjectButton>
@@ -160,10 +144,7 @@ export const CodeControl = () => {
           </Typography>
           <ProjectButton
             href="https://github.com/lifinance/widget/tree/main/examples/rainbowkit"
-            rel="nofollow"
-            target="_blank"
-            variant="text"
-            startIcon={<RainbowKitLogo />}
+            icon={<RainbowKitLogo />}
           >
             Rainbowkit
           </ProjectButton>
