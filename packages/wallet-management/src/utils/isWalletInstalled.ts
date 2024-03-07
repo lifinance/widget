@@ -1,16 +1,5 @@
 export const isWalletInstalled = (id: string): boolean => {
   switch (id) {
-    case 'default':
-      return (window as any).ethereum && !(window as any).ethereum?.isMetaMask;
-    case 'io.metamask':
-    case 'metaMaskSDK':
-      return (window as any)?.ethereum?.isMetaMask;
-    case 'walletConnect':
-      return true;
-    case 'coinbaseWalletSDK':
-      return true;
-    case 'app.phantom':
-      return (window as any)?.phantom?.ethereum?.isPhantom;
     case 'gate':
       return (window as any)?.gatewallet;
     case 'bitget':
@@ -65,6 +54,9 @@ export const isWalletInstalled = (id: string): boolean => {
     case 'exodus':
       return (window as any).exodus?.ethereum;
     default:
+      /**
+       * Return true if the wallet is not in the list of explicitly supported or self-injected wallet
+       */
       return true;
   }
 };
