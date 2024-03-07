@@ -40,7 +40,7 @@ export const isWalletInstalled = (id: string): boolean => {
     case 'dcent':
       return (window as any)?.ethereum?.isDcentWallet;
     case 'frame':
-      return (window as any)?.frame;
+      return (window as any)?.ethereum?.isFrame;
     case 'hyperpay':
       return (window as any)?.ethereum?.hiWallet;
     case 'imtoken':
