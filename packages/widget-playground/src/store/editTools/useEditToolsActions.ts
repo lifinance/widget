@@ -9,6 +9,7 @@ export const useEditToolsActions = () => {
       setVisibleControls: state.setVisibleControls,
       setCodeControlTab: state.setCodeControlTab,
       resetEditTools: state.resetEditTools,
+      setSelectedFont: state.setSelectedFont,
     }),
     shallow,
   );

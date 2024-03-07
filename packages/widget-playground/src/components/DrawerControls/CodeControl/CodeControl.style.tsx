@@ -4,9 +4,11 @@ import {
   Button,
   ButtonProps,
   IconButton,
+  Link,
   styled,
 } from '@mui/material';
-import { tooltipPopperZIndex } from '../DrawerControls.style';
+import { popperZIndex, tooltipPopperZIndex } from '../DrawerControls.style';
+import { darken, lighten } from '@mui/material/styles';
 
 export const CodeContainer = styled(Box)(({ theme }) => ({
   position: 'relative',
@@ -59,4 +61,43 @@ export const ProjectAvatar = styled(Avatar)(({ theme }) => ({
   height: 40,
   backgroundColor:
     theme.palette.mode === 'light' ? 'transparent' : theme.palette.common.white,
+}));
+
+export const FontEmbedPopperContainer = styled(Box)(({ theme }) => ({
+  position: 'relative',
+  display: 'flex',
+  flexDirection: 'column',
+  width: 450,
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor:
+    theme.palette.mode === 'light'
+      ? theme.palette.grey[300]
+      : theme.palette.grey[700],
+  gap: theme.spacing(1),
+  padding: theme.spacing(4),
+}));
+
+export const GoogleFontLink = styled(Link)(({ theme }) => ({
+  color:
+    theme.palette.mode === 'light'
+      ? theme.palette.primary.main
+      : lighten(theme.palette.primary.main, 0.5),
+  textDecorationColor:
+    theme.palette.mode === 'light'
+      ? theme.palette.primary.main
+      : lighten(theme.palette.primary.main, 0.5),
+  fontWeight: 600,
+}));
+
+export const FontMessageCloseButton = styled(IconButton)(({ theme }) => ({
+  position: 'absolute',
+  right: 0,
+  top: 0,
+  backgroundColor: 'transparent',
+  '&:hover': {
+    backgroundColor: 'transparent',
+  },
+  width: 32,
+  height: 32,
+  zIndex: popperZIndex,
 }));

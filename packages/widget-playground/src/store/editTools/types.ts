@@ -1,5 +1,6 @@
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
 import type { StoreApi } from 'zustand';
+import { Font } from '../../hooks';
 
 type ControlType = 'design' | 'code';
 type CodeControlTab = 'config' | 'examples';
@@ -12,6 +13,9 @@ export interface EditToolsValues {
   codeControl: {
     openTab: CodeControlTab;
   };
+  fontControl: {
+    selectedFont: Font | undefined;
+  };
 }
 
 export interface EditToolsActions {
@@ -20,6 +24,7 @@ export interface EditToolsActions {
   setVisibleControls: (controls: ControlType) => void;
   setCodeControlTab: (tab: CodeControlTab) => void;
   resetEditTools: () => void;
+  setSelectedFont: (font: Font) => void;
 }
 
 export type ToolsState = EditToolsValues & EditToolsActions;

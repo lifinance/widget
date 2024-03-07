@@ -2,7 +2,12 @@ import type { FocusEventHandler, SyntheticEvent } from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import { CircularProgress, TextField } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
-import { useConfigActions, useConfigFontFamily } from '../../../../store';
+import {
+  useConfigActions,
+  useConfigFontFamily,
+  useEditToolsActions,
+  useEditToolsValues,
+} from '../../../../store';
 import type { Font } from '../../../../hooks';
 import { useFontLoader } from '../../../../hooks';
 import { ExpandableCard } from '../../../Card';
@@ -16,7 +21,8 @@ const getCompleteFontFamily = (font: Font) =>
 export const FontsControl = () => {
   const { fontFamily } = useConfigFontFamily();
   const { setFontFamily } = useConfigActions();
-  const [selectedFont, setSelectedFont] = useState<Font | undefined>();
+  const { selectedFont } = useEditToolsValues();
+  const { setSelectedFont } = useEditToolsActions();
   const { loadFont, isLoadingFont } = useFontLoader();
 
   const setAndLoadFont = useCallback(
@@ -28,6 +34,7 @@ export const FontsControl = () => {
     [setSelectedFont, loadFont, setFontFamily],
   );
 
+  // TODO: this logic needs to be moved to its own hook and be called higher up in the render tree
   useEffect(() => {
     if (fontFamily) {
       const family = fontFamily.includes(', ')

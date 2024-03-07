@@ -1,5 +1,8 @@
 import { Card } from '../../Card';
-import { TabContentContainer } from '../DrawerControls.style';
+import {
+  TabContentContainer,
+  tooltipPopperZIndex,
+} from '../DrawerControls.style';
 import type { WidgetConfig } from '@lifi/widget';
 import {
   useConfig,
@@ -7,7 +10,7 @@ import {
   useEditToolsValues,
 } from '../../../store';
 import { getValueFromPath } from '../../../utils';
-import { Box, Typography } from '@mui/material';
+import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { Tab, Tabs } from '../../Tabs';
 import TabContext from '@mui/lab/TabContext';
 import { CodeEditor } from './CodeEditor';
@@ -23,6 +26,7 @@ import {
 } from '../../../logo';
 import { getWhitelistedConfig } from '../../../store/widgetConfig/utils/getWhitelistedConfig';
 import { ProjectButton } from './ProjectButton';
+import { FontEmbedInfo } from './FontEmbedInfo';
 
 const configTemplate = (config?: string) =>
   config ? `const config = ${config}` : null;
@@ -90,12 +94,13 @@ export const CodeControl = () => {
                 Add this configuration to your widget
               </Typography>
               <CodeEditor code={code} />
+              <FontEmbedInfo />
             </>
           ) : null}
         </TabContentContainer>
         <TabContentContainer value="examples" sx={{ gap: 1, paddingBottom: 1 }}>
           <Typography variant="caption">
-            Examples of widget used in different projects
+            Examples of the widget used in different projects
           </Typography>
           <ProjectButton
             href="https://github.com/lifinance/widget/tree/main/examples/create-react-app"
@@ -140,7 +145,7 @@ export const CodeControl = () => {
             Vue
           </ProjectButton>
           <Typography variant="caption">
-            Example of widget with external wallet management
+            Example of the widget with external wallet management
           </Typography>
           <ProjectButton
             href="https://github.com/lifinance/widget/tree/main/examples/rainbowkit"

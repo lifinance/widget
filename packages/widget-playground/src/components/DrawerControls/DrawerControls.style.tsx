@@ -13,6 +13,7 @@ import TabPanel from '@mui/lab/TabPanel';
 export const drawerZIndex = 1501;
 export const autocompletePopperZIndex = drawerZIndex + 1;
 export const tooltipPopperZIndex = drawerZIndex + 2;
+export const popperZIndex = drawerZIndex + 3;
 
 interface DrawerProps extends MuiDrawerProps {
   drawerWidth: number;

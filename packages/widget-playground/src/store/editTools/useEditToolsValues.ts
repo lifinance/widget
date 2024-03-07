@@ -3,16 +3,22 @@ import { useEditToolsStore } from './EditToolsProvider';
 import { defaultDrawerWidth } from './constants';
 
 export const useEditToolsValues = () => {
-  const [isDrawerOpen, codeDrawerWidth, visibleControls, codeControlTab] =
-    useEditToolsStore(
-      (store) => [
-        store.drawer.open,
-        store.drawer.codeDrawerWidth,
-        store.drawer.visibleControls,
-        store.codeControl.openTab,
-      ],
-      shallow,
-    );
+  const [
+    isDrawerOpen,
+    codeDrawerWidth,
+    visibleControls,
+    codeControlTab,
+    selectedFont,
+  ] = useEditToolsStore(
+    (store) => [
+      store.drawer.open,
+      store.drawer.codeDrawerWidth,
+      store.drawer.visibleControls,
+      store.codeControl.openTab,
+      store.fontControl.selectedFont,
+    ],
+    shallow,
+  );
 
   const drawerWidth =
     visibleControls === 'code' && codeControlTab === 'config'
@@ -25,5 +31,6 @@ export const useEditToolsValues = () => {
     visibleControls,
     drawerWidth,
     codeControlTab,
+    selectedFont,
   };
 };

@@ -16,6 +16,9 @@ export const createEditToolsStore = () =>
         codeControl: {
           openTab: 'config',
         },
+        fontControl: {
+          selectedFont: undefined,
+        },
         setDrawerOpen: (open) => {
           set({
             drawer: {
@@ -57,6 +60,13 @@ export const createEditToolsStore = () =>
             },
             codeControl: {
               openTab: 'config',
+            },
+          });
+        },
+        setSelectedFont: (selectedFont) => {
+          set({
+            fontControl: {
+              selectedFont,
             },
           });
         },
