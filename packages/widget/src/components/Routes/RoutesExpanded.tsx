@@ -1,13 +1,15 @@
 /* eslint-disable react/no-array-index-key */
 import type { Route } from '@lifi/sdk';
 import { Collapse, Grow, Stack, Typography } from '@mui/material';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { RouteObject } from 'react-router-dom';
 import { useRoutes as useDOMRoutes, useNavigate } from 'react-router-dom';
 import { useRoutes } from '../../hooks/useRoutes.js';
+import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { useSetExecutableRoute } from '../../stores/routes/useSetExecutableRoute.js';
+import { WidgetEvent } from '../../types/events.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { PageContainer } from '../PageContainer.js';
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate.js';
@@ -57,6 +59,7 @@ export const RoutesExpandedElement = () => {
   const setExecutableRoute = useSetExecutableRoute();
   const { subvariant, containerStyle } = useWidgetConfig();
   const routesRef = useRef<Route[]>();
+  const emitter = useWidgetEvents();
   const routesActiveRef = useRef(false);
   const {
     routes,
@@ -95,6 +98,10 @@ export const RoutesExpandedElement = () => {
   );
 
   const routeNotFound = !currentRoute && !isLoading && !isFetching && expanded;
+
+  useEffect(() => {
+    emitter.emit(WidgetEvent.WidgetExpanded, expanded);
+  }, [emitter, expanded]);
 
   return (
     <Collapse
