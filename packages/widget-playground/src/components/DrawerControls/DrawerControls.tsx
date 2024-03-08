@@ -31,11 +31,14 @@ import {
 } from './DrawerControls.style';
 import { CodeControl } from './CodeControl';
 import { DrawerHandle } from './DrawerHandle';
+import { useFontInitialisation } from '../../providers';
 
 export const DrawerControls = () => {
   const { isDrawerOpen, drawerWidth, visibleControls } = useEditToolsValues();
   const { setDrawerOpen, setVisibleControls } = useEditToolsActions();
   const { resetConfig } = useConfigActions();
+
+  useFontInitialisation();
 
   const handleReset = () => {
     resetConfig();

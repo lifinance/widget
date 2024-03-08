@@ -55,7 +55,7 @@ const CustomFontMessage = ({ fontFamily }: FontMessageProps) => (
       the widget.
     </Typography>
     <Typography variant="body2">
-      Font embedding will not be handled by the widget and you will need to make
+      Font embedding will not be handled by the widget. You will need to make
       sure the font is embedded correctly in your application.
     </Typography>
     <Typography variant="body2">
@@ -94,7 +94,7 @@ export const FontEmbedInfo = () => {
         PopperProps={{ style: { zIndex: tooltipPopperZIndex } }}
         arrow
       >
-        <IconButton onClick={handleClick}>
+        <IconButton aria-describedby={id} onClick={handleClick}>
           <InfoIcon />
         </IconButton>
       </Tooltip>

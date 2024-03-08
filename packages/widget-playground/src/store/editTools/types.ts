@@ -1,6 +1,6 @@
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
 import type { StoreApi } from 'zustand';
-import type { Font } from '../../hooks';
+import type { Font } from '../../providers';
 
 type ControlType = 'design' | 'code';
 type CodeControlTab = 'config' | 'examples';
