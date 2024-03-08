@@ -23,7 +23,7 @@ export const Drawer = styled(MuiDrawer, {
 })<DrawerProps>(({ open, drawerWidth }) => ({
   width: drawerWidth,
   // NOTE: setting the zIndex seems to prevent clicks underneath where the
-  //  draw was when closed - so we ony want to se the zIndex when its open
+  //  draw was when closed - so we ony want to see the zIndex when its open
   ...(open ? { zIndex: drawerZIndex } : {}),
 }));
 

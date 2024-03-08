@@ -1,7 +1,7 @@
 import type { ButtonProps } from '@mui/material';
 import { Avatar, Box, Button, IconButton, Link, styled } from '@mui/material';
-import { popperZIndex, tooltipPopperZIndex } from '../DrawerControls.style';
 import { lighten } from '@mui/material/styles';
+import { popperZIndex, tooltipPopperZIndex } from '../DrawerControls.style';
 
 export const CodeContainer = styled(Box)(({ theme }) => ({
   position: 'relative',

@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import TabContext from '@mui/lab/TabContext';
-import { useEditToolsActions, useCodeToolsValues } from '../../../store';
+import { useEditToolsActions, useCodeToolValues } from '../../../store';
 import {
   CRALogo,
   GatsbyLogo,
@@ -19,7 +19,7 @@ import { ProjectButton } from './ProjectButton';
 import { FontEmbedInfo } from './FontEmbedInfo';
 
 export const CodeControl = () => {
-  const { codeControlTab } = useCodeToolsValues();
+  const { codeControlTab } = useCodeToolValues();
   const { setCodeControlTab } = useEditToolsActions();
 
   return (

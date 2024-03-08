@@ -1,10 +1,10 @@
-import type { UseMutateAsyncFunction } from '@tanstack/react-query';
-import { useMutation } from '@tanstack/react-query';
-import type { Font } from './types';
 import type { PropsWithChildren } from 'react';
 import { createContext, useContext, useEffect, useState } from 'react';
-import { allFonts } from '../../components/DrawerControls/DesignControls/FontsControl/fontDefinitions';
+import type { UseMutateAsyncFunction } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import { allFonts } from '../../components/DrawerControls/DesignControls';
 import { useConfigFontFamily, useEditToolsActions } from '../../store';
+import type { Font } from './types';
 
 interface FontLoadingContextProps {
   loadFont: UseMutateAsyncFunction<void, Error, Font, unknown>;

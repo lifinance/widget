@@ -1,11 +1,11 @@
 import type { MouseEventHandler } from 'react';
 import { useEffect, useState } from 'react';
-import { DrawerHandleButton } from './DrawerControls.style';
 import {
   defaultDrawerWidth,
   useDrawerToolValues,
   useEditToolsActions,
 } from '../../store';
+import { DrawerHandleButton } from './DrawerControls.style';
 
 export const DrawerHandle = () => {
   const [isDrawerResizing, setIsDrawerResizing] = useState(false);

@@ -3,7 +3,7 @@ import { CircularProgress, Tooltip, useTheme } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import type { BeforeMount, OnMount, OnChange } from '@monaco-editor/react';
 import Editor from '@monaco-editor/react';
-import { WidgetConfig } from '@lifi/widget';
+import type { WidgetConfig } from '@lifi/widget';
 import { useThemeMode } from '../../../hooks';
 import { tooltipPopperZIndex } from '../DrawerControls.style';
 import {

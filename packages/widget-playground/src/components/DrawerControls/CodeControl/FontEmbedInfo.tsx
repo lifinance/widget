@@ -8,16 +8,16 @@ import {
   ClickAwayListener,
   Box,
 } from '@mui/material';
-import { popperZIndex, tooltipPopperZIndex } from '../DrawerControls.style';
 import InfoIcon from '@mui/icons-material/Info';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import CloseIcon from '@mui/icons-material/Close';
+import { popperZIndex, tooltipPopperZIndex } from '../DrawerControls.style';
 import {
   FontEmbedPopperContainer,
   FontMessageCloseButton,
   GoogleFontLink,
 } from './CodeControl.style';
-import { useFontToolsValues } from '../../../store';
+import { useFontToolValues } from '../../../store';
 
 interface FontMessageProps {
   fontFamily: string;
@@ -67,7 +67,7 @@ const CustomFontMessage = ({ fontFamily }: FontMessageProps) => (
 );
 
 export const FontEmbedInfo = () => {
-  const { selectedFont } = useFontToolsValues();
+  const { selectedFont } = useFontToolValues();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = !!anchorEl;
 

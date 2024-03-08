@@ -1,7 +1,7 @@
 import { shallow } from 'zustand/shallow';
 import { useEditToolsStore } from './EditToolsProvider';
 
-export const useCodeToolsValues = () => {
+export const useCodeToolValues = () => {
   const [codeControlTab] = useEditToolsStore(
     (store) => [store.codeControl.openTab],
     shallow,
