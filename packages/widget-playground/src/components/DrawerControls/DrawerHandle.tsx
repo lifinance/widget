@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { DrawerHandleButton } from './DrawerControls.style';
 import {
   defaultDrawerWidth,
-  useEditToolsValues,
+  useDrawerToolValues,
   useEditToolsActions,
 } from '../../store';
 
@@ -12,7 +12,7 @@ export const DrawerHandle = () => {
   const [drawResizeStartX, setDrawResizeStartX] = useState(0);
 
   const { isDrawerOpen, drawerWidth, visibleControls, codeControlTab } =
-    useEditToolsValues();
+    useDrawerToolValues();
   const { setCodeDrawerWidth } = useEditToolsActions();
 
   const drawerHandleOnMouseDown: MouseEventHandler<HTMLButtonElement> = (e) => {

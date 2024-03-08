@@ -5,7 +5,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import {
   useConfigActions,
   useEditToolsActions,
-  useEditToolsValues,
+  useFontToolsValues,
 } from '../../../../store';
 import type { Font } from '../../../../providers';
 import { useFontLoader } from '../../../../providers';
@@ -19,7 +19,7 @@ const getCompleteFontFamily = (font: Font) =>
     : font.family;
 export const FontsControl = () => {
   const { setFontFamily } = useConfigActions();
-  const { selectedFont } = useEditToolsValues();
+  const { selectedFont } = useFontToolsValues();
   const { setSelectedFont } = useEditToolsActions();
 
   const { loadFont, isLoadingFont } = useFontLoader();

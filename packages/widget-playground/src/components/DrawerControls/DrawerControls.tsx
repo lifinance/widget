@@ -7,7 +7,7 @@ import { Box, IconButton, Tooltip } from '@mui/material';
 import {
   useConfigActions,
   useEditToolsActions,
-  useEditToolsValues,
+  useDrawerToolValues,
 } from '../../store';
 import { ExpandableCardAccordion } from '../Card';
 import { Tab, Tabs } from '../Tabs';
@@ -34,7 +34,7 @@ import { DrawerHandle } from './DrawerHandle';
 import { useFontInitialisation } from '../../providers';
 
 export const DrawerControls = () => {
-  const { isDrawerOpen, drawerWidth, visibleControls } = useEditToolsValues();
+  const { isDrawerOpen, drawerWidth, visibleControls } = useDrawerToolValues();
   const { setDrawerOpen, setVisibleControls } = useEditToolsActions();
   const { resetConfig } = useConfigActions();
 

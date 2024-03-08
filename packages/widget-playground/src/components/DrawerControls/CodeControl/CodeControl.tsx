@@ -1,16 +1,6 @@
-import { Card } from '../../Card';
-import { TabContentContainer } from '../DrawerControls.style';
-import type { WidgetConfig } from '@lifi/widget';
-import {
-  useConfig,
-  useEditToolsActions,
-  useEditToolsValues,
-} from '../../../store';
-import { getValueFromPath } from '../../../utils';
 import { Box, Typography } from '@mui/material';
-import { Tab, Tabs } from '../../Tabs';
 import TabContext from '@mui/lab/TabContext';
-import { CodeEditor } from './CodeEditor';
+import { useEditToolsActions, useCodeToolsValues } from '../../../store';
 import {
   CRALogo,
   GatsbyLogo,
@@ -21,46 +11,16 @@ import {
   ViteLogo,
   VueLogo,
 } from '../../../logo';
-import { getWhitelistedConfig } from '../../../store/widgetConfig/utils/getWhitelistedConfig';
+import { Card } from '../../Card';
+import { Tab, Tabs } from '../../Tabs';
+import { TabContentContainer } from '../DrawerControls.style';
+import { CodeEditor } from './CodeEditor';
 import { ProjectButton } from './ProjectButton';
 import { FontEmbedInfo } from './FontEmbedInfo';
 
-const configTemplate = (config?: string) =>
-  config ? `const config = ${config}` : null;
-
-const substitions = {
-  walletConfig: {
-    '"walletConfig": {}': '"walletConfig": { async onConnect() {} }',
-  },
-};
-const configToStringWithSubstitions = (
-  config?: Partial<WidgetConfig>,
-): string | undefined => {
-  if (!config) {
-    return undefined;
-  }
-  let stringifiedConfig = JSON.stringify(config, null, 2);
-
-  Object.entries(substitions).forEach(([property, substition]) => {
-    if (getValueFromPath(config, property)) {
-      const [[find, replace]] = Object.entries(substition);
-      stringifiedConfig = stringifiedConfig.replace(find, replace);
-    }
-  });
-
-  return stringifiedConfig.replace(/"([^"]+)":/g, '$1:');
-};
-
 export const CodeControl = () => {
-  const { config } = useConfig();
-  const { codeControlTab } = useEditToolsValues();
+  const { codeControlTab } = useCodeToolsValues();
   const { setCodeControlTab } = useEditToolsActions();
-
-  const code = config
-    ? configTemplate(
-        configToStringWithSubstitions(getWhitelistedConfig(config)),
-      )
-    : null;
 
   return (
     <Card
@@ -85,15 +45,11 @@ export const CodeControl = () => {
       </Box>
       <TabContext value={codeControlTab}>
         <TabContentContainer value="config" sx={{ flexGrow: 1, gap: 1 }}>
-          {code ? (
-            <>
-              <Typography variant="caption">
-                Add this configuration to your widget
-              </Typography>
-              <CodeEditor code={code} />
-              <FontEmbedInfo />
-            </>
-          ) : null}
+          <Typography variant="caption">
+            Add this configuration to your widget
+          </Typography>
+          <CodeEditor />
+          <FontEmbedInfo />
         </TabContentContainer>
         <TabContentContainer value="examples" sx={{ gap: 1, paddingBottom: 1 }}>
           <Typography variant="caption">

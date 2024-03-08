@@ -1,34 +1,72 @@
+import { useEffect, useRef, useState } from 'react';
+import { CircularProgress, Tooltip, useTheme } from '@mui/material';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import type { BeforeMount, OnMount, OnChange } from '@monaco-editor/react';
 import Editor from '@monaco-editor/react';
-import { useEffect, useRef, useState } from 'react';
+import { WidgetConfig } from '@lifi/widget';
 import { useThemeMode } from '../../../hooks';
-import { Tooltip, useTheme } from '@mui/material';
+import { tooltipPopperZIndex } from '../DrawerControls.style';
 import {
   CodeContainer,
   EditorContainer,
   CodeCopyButton,
 } from './CodeControl.style';
-import { tooltipPopperZIndex } from '../DrawerControls.style';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { getWhitelistedConfig, useConfig } from '../../../store';
+import { getValueFromPath } from '../../../utils';
 
 interface MonacoEditor {
   layout: (dimensions: { width: number; height: number }) => void;
 }
 
+const configTemplate = (config?: string) =>
+  config ? `const config = ${config}` : null;
+
+const substitions = {
+  walletConfig: {
+    '"walletConfig": {}': '"walletConfig": { async onConnect() {} }',
+  },
+};
+const configToStringWithSubstitions = (
+  config?: Partial<WidgetConfig>,
+): string | undefined => {
+  if (!config) {
+    return undefined;
+  }
+  let stringifiedConfig = JSON.stringify(config, null, 2);
+
+  Object.entries(substitions).forEach(([property, substition]) => {
+    if (getValueFromPath(config, property)) {
+      const [[find, replace]] = Object.entries(substition);
+      stringifiedConfig = stringifiedConfig.replace(find, replace);
+    }
+  });
+
+  return stringifiedConfig.replace(/"([^"]+)":/g, '$1:');
+};
+
 interface CodeEditorProps {
-  code: string;
   onChange?: (code: string | undefined) => void;
 }
 
-export const CodeEditor = ({ code, onChange }: CodeEditorProps) => {
+export const CodeEditor = ({ onChange }: CodeEditorProps) => {
+  const { config } = useConfig();
+
   const [editorContent, setEditorContent] = useState('');
   const [editor, setEditor] = useState();
   const editorContainerRef = useRef(null);
   const theme = useTheme();
   const themeMode = useThemeMode();
 
+  const code = config
+    ? configTemplate(
+        configToStringWithSubstitions(getWhitelistedConfig(config)),
+      )
+    : null;
+
   useEffect(() => {
-    setEditorContent(code);
+    if (code) {
+      setEditorContent(code);
+    }
   }, [code]);
 
   const handleEditorWillMount: BeforeMount = (monaco) => {
@@ -112,7 +150,7 @@ export const CodeEditor = ({ code, onChange }: CodeEditorProps) => {
       </Tooltip>
       <EditorContainer ref={editorContainerRef}>
         <Editor
-          loading=""
+          loading={<CircularProgress />}
           defaultLanguage="typescript"
           value={editorContent}
           onChange={handleEditorChange}

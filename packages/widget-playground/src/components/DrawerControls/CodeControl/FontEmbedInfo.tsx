@@ -17,7 +17,7 @@ import {
   FontMessageCloseButton,
   GoogleFontLink,
 } from './CodeControl.style';
-import { useEditToolsValues } from '../../../store';
+import { useFontToolsValues } from '../../../store';
 
 interface FontMessageProps {
   fontFamily: string;
@@ -67,7 +67,7 @@ const CustomFontMessage = ({ fontFamily }: FontMessageProps) => (
 );
 
 export const FontEmbedInfo = () => {
-  const { selectedFont } = useEditToolsValues();
+  const { selectedFont } = useFontToolsValues();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = !!anchorEl;
 
