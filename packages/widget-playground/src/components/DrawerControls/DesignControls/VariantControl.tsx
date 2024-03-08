@@ -26,8 +26,8 @@ export const VariantControl = () => {
         sx={{ mt: 0.5 }}
         orientation="vertical"
       >
-        <Tab label="Default" value={'default'} disableRipple />
-        <Tab label="Expandable" value={'expandable'} disableRipple />
+        <Tab label="Compact" value={'compact'} disableRipple />
+        <Tab label="Wide" value={'wide'} disableRipple />
         <Tab label="Drawer" value={'drawer'} disableRipple />
       </Tabs>
     </ExpandableCard>
