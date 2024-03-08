@@ -1,31 +1,21 @@
 import type { WidgetConfig } from '@lifi/widget';
-
-export type ObjectType = Record<string, any>;
-
-const supportedShallowReferences = ['walletConfig'];
+import { substituteFunctions } from './substituteFunctions';
+import { rehydrateFunctions } from './rehydrateFunctions';
+import { FunctionReference } from './types';
 
 const shallowReferences = () => {
-  const referencesDictionary: ObjectType = {};
+  let referencesDictionary: FunctionReference[] = [];
   const substituteShallowReferences = (
     config: Partial<WidgetConfig>,
   ): Partial<WidgetConfig> => {
-    supportedShallowReferences.forEach((nonClonable) => {
-      if ((config as ObjectType)[nonClonable]) {
-        referencesDictionary[nonClonable] = (config as ObjectType)[nonClonable];
-        (config as ObjectType)[nonClonable] = {};
-      }
-    });
+    referencesDictionary = substituteFunctions(config);
     return config;
   };
 
   const rehydrateShallowReferences = (
     config: Partial<WidgetConfig>,
   ): Partial<WidgetConfig> => {
-    Object.entries(referencesDictionary).forEach(
-      ([nonClonableKey, nonClonableValue]) => {
-        (config as ObjectType)[nonClonableKey] = nonClonableValue;
-      },
-    );
+    rehydrateFunctions(config, referencesDictionary);
 
     return config;
   };
