@@ -2,6 +2,7 @@ import type { MouseEventHandler } from 'react';
 import { useEffect, useState } from 'react';
 import {
   defaultDrawerWidth,
+  useCodeToolValues,
   useDrawerToolValues,
   useEditToolsActions,
 } from '../../store';
@@ -10,9 +11,8 @@ import { DrawerHandleButton } from './DrawerControls.style';
 export const DrawerHandle = () => {
   const [isDrawerResizing, setIsDrawerResizing] = useState(false);
   const [drawResizeStartX, setDrawResizeStartX] = useState(0);
-
-  const { isDrawerOpen, drawerWidth, visibleControls, codeControlTab } =
-    useDrawerToolValues();
+  const { codeControlTab } = useCodeToolValues();
+  const { isDrawerOpen, drawerWidth, visibleControls } = useDrawerToolValues();
   const { setCodeDrawerWidth } = useEditToolsActions();
 
   const drawerHandleOnMouseDown: MouseEventHandler<HTMLButtonElement> = (e) => {
