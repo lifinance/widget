@@ -13,6 +13,7 @@ import { TokenNotFound } from './TokenNotFound.js';
 import { VirtualizedTokenList } from './VirtualizedTokenList.js';
 import type { TokenListProps } from './types.js';
 import { useTokenSelect } from './useTokenSelect.js';
+import { filteredTokensComparator } from './utils.js';
 
 export const TokenList: FC<TokenListProps> = ({
   formType,
@@ -45,12 +46,14 @@ export const TokenList: FC<TokenListProps> = ({
   const searchFilter = normalizedSearchFilter?.toUpperCase() ?? '';
 
   filteredTokens = tokenSearchFilter
-    ? filteredTokens.filter(
-        (token) =>
-          token.name?.toUpperCase().includes(searchFilter) ||
-          token.symbol.toUpperCase().includes(searchFilter) ||
-          token.address.toUpperCase().includes(searchFilter),
-      )
+    ? filteredTokens
+        .filter(
+          (token) =>
+            token.name?.toUpperCase().includes(searchFilter) ||
+            token.symbol.toUpperCase().includes(searchFilter) ||
+            token.address.toUpperCase().includes(searchFilter),
+        )
+        .sort(filteredTokensComparator(searchFilter))
     : filteredTokens;
 
   const tokenSearchEnabled =

@@ -81,36 +81,42 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
         const previousToken: TokenAmount | undefined = tokens[item.index - 1];
 
         const isFirstFeaturedToken = currentToken.featured && item.index === 0;
+
         const isTransitionFromFeaturedTokens =
           previousToken?.featured && !currentToken.featured;
+
         const isTransitionFromMyTokens =
           previousToken?.amount && !currentToken.amount;
+
         const isTransitionToMyTokens =
           isTransitionFromFeaturedTokens && currentToken.amount;
+
         const isTransitionToPopularTokens =
           (isTransitionFromFeaturedTokens || isTransitionFromMyTokens) &&
           currentToken.popular;
-        const shouldShowAllTokensCategory =
-          (isTransitionFromMyTokens ||
-            isTransitionFromFeaturedTokens ||
-            (previousToken?.popular && !currentToken.popular)) &&
-          showCategories;
 
-        const startAdornmentLabel = (() => {
-          if (isFirstFeaturedToken) {
-            return t('main.featuredTokens');
-          }
-          if (isTransitionToMyTokens) {
-            return t('main.myTokens');
-          }
-          if (isTransitionToPopularTokens) {
-            return t('main.popularTokens');
-          }
-          if (shouldShowAllTokensCategory) {
-            return t('main.allTokens');
-          }
-          return null;
-        })();
+        const shouldShowAllTokensCategory =
+          isTransitionFromMyTokens ||
+          isTransitionFromFeaturedTokens ||
+          (previousToken?.popular && !currentToken.popular);
+
+        const startAdornmentLabel = showCategories
+          ? (() => {
+              if (isFirstFeaturedToken) {
+                return t('main.featuredTokens');
+              }
+              if (isTransitionToMyTokens) {
+                return t('main.myTokens');
+              }
+              if (isTransitionToPopularTokens) {
+                return t('main.popularTokens');
+              }
+              if (shouldShowAllTokensCategory) {
+                return t('main.allTokens');
+              }
+              return null;
+            })()
+          : null;
 
         return (
           <TokenListItem
