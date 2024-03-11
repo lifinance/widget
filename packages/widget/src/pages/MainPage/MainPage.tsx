@@ -9,14 +9,14 @@ import { Routes } from '../../components/Routes/Routes.js';
 import { SelectChainAndToken } from '../../components/SelectChainAndToken.js';
 import { SendToWalletButton } from '../../components/SendToWallet/SendToWalletButton.js';
 import { SendToWalletExpandButton } from '../../components/SendToWallet/SendToWalletExpandButton.js';
-import { useExpandableVariant } from '../../hooks/useExpandableVariant.js';
+import { useWideVariant } from '../../hooks/useWideVariant.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { HiddenUI } from '../../types/widget.js';
 import { MainGasMessage } from './MainGasMessage.js';
 import { ReviewButton } from './ReviewButton.js';
 
 export const MainPage: React.FC = () => {
-  const expandable = useExpandableVariant();
+  const wideVariant = useWideVariant();
   const { subvariant, contractComponent, hiddenUI } = useWidgetConfig();
   const nft = subvariant === 'nft';
   const showPoweredBy = !hiddenUI?.includes(HiddenUI.PoweredBy);
@@ -31,7 +31,7 @@ export const MainPage: React.FC = () => {
       ) : null}
       <SelectChainAndToken mt={1} mb={2} />
       {!nft ? <AmountInput formType="from" mb={2} /> : null}
-      {!expandable ? <Routes mb={2} /> : null}
+      {!wideVariant ? <Routes mb={2} /> : null}
       <SendToWalletButton mb={2} />
       <GasRefuelMessage mb={2} />
       <MainGasMessage mb={2} />
