@@ -101,7 +101,6 @@ export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
         },
         resetBorderRadiusSecondary: () => {
           const shape = get().config?.theme?.shape;
-          a;
 
           set({
             config: {
