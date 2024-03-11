@@ -53,7 +53,7 @@ export const CodeEditor = ({ onChange }: CodeEditorProps) => {
   const { config } = useConfig();
 
   const [editor, setEditor] = useState();
-  const editorContainerRef = useRef(null);
+  const editorContainerRef = useRef<HTMLElement | null>(null);
   const theme = useTheme();
   const themeMode = useThemeMode();
 
@@ -97,9 +97,7 @@ export const CodeEditor = ({ onChange }: CodeEditorProps) => {
           width: 0,
           height: 0,
         });
-        const rect = (
-          editorContainerRef.current as HTMLElement
-        ).getBoundingClientRect();
+        const rect = editorContainerRef.current.getBoundingClientRect();
         (editor as MonacoEditor).layout({
           width: rect.width,
           height: rect.height,
