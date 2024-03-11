@@ -68,12 +68,14 @@ export const DrawerHandle = () => {
           left: drawerWidth - 4,
         }}
       />
-      <DrawerIconLeft
-        fontSize="small"
-        sx={{
-          left: drawerWidth,
-        }}
-      />
+      {drawerWidth !== defaultDrawerWidth ? (
+        <DrawerIconLeft
+          fontSize="small"
+          sx={{
+            left: drawerWidth,
+          }}
+        />
+      ) : null}
     </>
   ) : null;
 };

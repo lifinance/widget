@@ -62,7 +62,7 @@ export const DrawerContentContainer = styled(Box, {
         borderRightColor:
           theme.palette.mode === 'light'
             ? theme.palette.grey[400]
-            : theme.palette.grey[500],
+            : theme.palette.grey[600],
         paddingRight: theme.spacing(2.5),
       }
     : {}),
@@ -99,7 +99,7 @@ export const DrawerHandleButton = styled((props: ButtonBaseProps) => (
 export const DrawerIconRight = styled(KeyboardArrowRightIcon)(({ theme }) => ({
   color:
     theme.palette.mode === 'light'
-      ? theme.palette.grey[500]
+      ? theme.palette.grey[400]
       : theme.palette.grey[600],
   position: 'fixed',
   top: '50%',
@@ -111,7 +111,7 @@ export const DrawerIconRight = styled(KeyboardArrowRightIcon)(({ theme }) => ({
 export const DrawerIconLeft = styled(KeyboardArrowLeftIcon)(({ theme }) => ({
   color:
     theme.palette.mode === 'light'
-      ? theme.palette.grey[500]
+      ? theme.palette.grey[400]
       : theme.palette.grey[600],
   position: 'fixed',
   top: '50%',
