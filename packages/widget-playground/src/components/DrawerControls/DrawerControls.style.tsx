@@ -9,6 +9,8 @@ import {
   IconButton,
   styled,
 } from '@mui/material';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import TabPanel from '@mui/lab/TabPanel';
 export const drawerZIndex = 1501;
 export const autocompletePopperZIndex = drawerZIndex + 1;
@@ -40,10 +42,12 @@ export const HeaderRow = styled(Box)({
 });
 
 export const DrawerContentContainer = styled(Box, {
-  shouldForwardProp: (prop) => !['drawerWidth'].includes(prop as string),
+  shouldForwardProp: (prop) =>
+    !['drawerWidth', 'resizeableIndicator'].includes(prop as string),
 })<{
   drawerWidth: number;
-}>(({ theme, drawerWidth }) => ({
+  resizeableIndicator?: boolean;
+}>(({ theme, drawerWidth, resizeableIndicator }) => ({
   display: 'flex',
   width: drawerWidth,
   padding: theme.spacing(3),
@@ -51,6 +55,17 @@ export const DrawerContentContainer = styled(Box, {
   flexGrow: 1,
   gap: theme.spacing(2),
   zIndex: 1200,
+  ...(resizeableIndicator
+    ? {
+        borderRightStyle: 'solid',
+        borderRightWidth: theme.spacing(0.5),
+        borderRightColor:
+          theme.palette.mode === 'light'
+            ? theme.palette.grey[400]
+            : theme.palette.grey[500],
+        paddingRight: theme.spacing(2.5),
+      }
+    : {}),
 }));
 
 export const TabContentContainer = styled(TabPanel)(({ theme }) => ({
@@ -62,47 +77,6 @@ export const TabContentContainer = styled(TabPanel)(({ theme }) => ({
   '&[hidden]': {
     display: 'none',
   },
-}));
-
-export const CodeContainer = styled(Box)(({ theme }) => ({
-  position: 'relative',
-  marginTop: theme.spacing(1),
-  display: 'flex',
-  flexDirection: 'column',
-  flexGrow: 1,
-}));
-
-export const CodeCopyButton = styled(IconButton)(({ theme }) => ({
-  position: 'absolute',
-  right: theme.spacing(2),
-  top: theme.spacing(0.5),
-  background:
-    theme.palette.mode === 'light'
-      ? theme.palette.grey[200]
-      : theme.palette.grey[800],
-  '&:hover': {
-    background:
-      theme.palette.mode === 'light'
-        ? theme.palette.grey[300]
-        : theme.palette.grey[700],
-  },
-  zIndex: tooltipPopperZIndex,
-}));
-
-export const Pre = styled('pre')(({ theme }) => ({
-  backgroundColor:
-    theme.palette.mode === 'light'
-      ? theme.palette.grey[200]
-      : theme.palette.grey[800],
-  margin: 0,
-  padding: theme.spacing(1),
-  borderRadius: theme.shape.borderRadius - 4,
-  overflowX: 'scroll',
-}));
-
-export const Code = styled('code')(({ theme }) => ({
-  fontFamily: 'Courier, monospace',
-  fontSize: '0.8em',
 }));
 
 export const DrawerHandleButton = styled((props: ButtonBaseProps) => (
@@ -121,3 +95,27 @@ export const DrawerHandleButton = styled((props: ButtonBaseProps) => (
   transform: 'translateX(-8px)',
   zIndex: drawerZIndex + 1,
 });
+
+export const DrawerIconRight = styled(KeyboardArrowRightIcon)(({ theme }) => ({
+  color:
+    theme.palette.mode === 'light'
+      ? theme.palette.grey[500]
+      : theme.palette.grey[600],
+  position: 'fixed',
+  top: '50%',
+  transform: 'translateY(-50%)',
+  pointerEvents: 'none',
+  zIndex: drawerZIndex + 1,
+}));
+
+export const DrawerIconLeft = styled(KeyboardArrowLeftIcon)(({ theme }) => ({
+  color:
+    theme.palette.mode === 'light'
+      ? theme.palette.grey[500]
+      : theme.palette.grey[600],
+  position: 'fixed',
+  top: '50%',
+  transform: 'translate(-100%, -50%)',
+  pointerEvents: 'none',
+  zIndex: drawerZIndex + 1,
+}));

@@ -8,6 +8,7 @@ import {
   useConfigActions,
   useEditToolsActions,
   useDrawerToolValues,
+  useCodeToolValues,
 } from '../../store';
 import { ExpandableCardAccordion } from '../Card';
 import { Tab, Tabs } from '../Tabs';
@@ -35,10 +36,14 @@ import { useFontInitialisation } from '../../providers';
 
 export const DrawerControls = () => {
   const { isDrawerOpen, drawerWidth, visibleControls } = useDrawerToolValues();
+  const { codeControlTab } = useCodeToolValues();
   const { setDrawerOpen, setVisibleControls } = useEditToolsActions();
   const { resetConfig } = useConfigActions();
 
   useFontInitialisation();
+
+  const showResizeIndicator =
+    visibleControls === 'code' && codeControlTab === 'config';
 
   const handleReset = () => {
     resetConfig();
@@ -53,7 +58,10 @@ export const DrawerControls = () => {
         open={isDrawerOpen}
         drawerWidth={drawerWidth}
       >
-        <DrawerContentContainer drawerWidth={drawerWidth}>
+        <DrawerContentContainer
+          drawerWidth={drawerWidth}
+          resizeableIndicator={showResizeIndicator}
+        >
           <HeaderRow>
             <Header>LI.FI Widget</Header>
             <Box>
