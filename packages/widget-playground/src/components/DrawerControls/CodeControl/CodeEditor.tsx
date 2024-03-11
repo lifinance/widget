@@ -19,7 +19,7 @@ interface MonacoEditor {
 }
 
 const configTemplate = (config?: string) =>
-  config ? `const config = ${config}` : null;
+  config ? `const config = ${config}` : undefined;
 
 const substitions = {
   walletConfig: {
@@ -51,7 +51,6 @@ interface CodeEditorProps {
 export const CodeEditor = ({ onChange }: CodeEditorProps) => {
   const { config } = useConfig();
 
-  const [editorContent, setEditorContent] = useState('');
   const [editor, setEditor] = useState();
   const editorContainerRef = useRef(null);
   const theme = useTheme();
@@ -61,13 +60,7 @@ export const CodeEditor = ({ onChange }: CodeEditorProps) => {
     ? configTemplate(
         configToStringWithSubstitions(getWhitelistedConfig(config)),
       )
-    : null;
-
-  useEffect(() => {
-    if (code) {
-      setEditorContent(code);
-    }
-  }, [code]);
+    : undefined;
 
   const handleEditorWillMount: BeforeMount = (monaco) => {
     monaco.editor.defineTheme('lifi-monaco-dark', {
@@ -90,10 +83,6 @@ export const CodeEditor = ({ onChange }: CodeEditorProps) => {
     });
   };
 
-  const handleEditorChange: OnChange = (content) => {
-    setEditorContent(content ? content : '');
-    onChange?.(content);
-  };
   const handleEditorDidMount: OnMount = (editor, monaco) => {
     setEditor(editor);
   };
@@ -132,8 +121,8 @@ export const CodeEditor = ({ onChange }: CodeEditorProps) => {
   }, [editor, editorContainerRef]);
 
   const handleCopyCode = () => {
-    if (editorContent) {
-      navigator.clipboard.writeText(editorContent);
+    if (code) {
+      navigator.clipboard.writeText(code);
     }
   };
 
@@ -152,8 +141,7 @@ export const CodeEditor = ({ onChange }: CodeEditorProps) => {
         <Editor
           loading={<CircularProgress />}
           defaultLanguage="typescript"
-          value={editorContent}
-          onChange={handleEditorChange}
+          value={code}
           options={{
             lineNumbers: 'off',
             glyphMargin: false,
