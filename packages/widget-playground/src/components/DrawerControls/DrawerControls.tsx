@@ -4,11 +4,10 @@ import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstruct
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import TabContext from '@mui/lab/TabContext';
 import { Box, IconButton, Tooltip } from '@mui/material';
-import { useState } from 'react';
 import {
   useConfigActions,
   useEditToolsActions,
-  useEditToolsValues,
+  useDrawerToolValues,
 } from '../../store';
 import { ExpandableCardAccordion } from '../Card';
 import { Tab, Tabs } from '../Tabs';
@@ -30,81 +29,99 @@ import {
   TabContentContainer,
   tooltipPopperZIndex,
 } from './DrawerControls.style';
+import { CodeControl } from './CodeControl';
+import { DrawerHandle } from './DrawerHandle';
+import { useFontInitialisation } from '../../providers';
 
 export const DrawerControls = () => {
-  const [controlsTabsState, setControlsTabsState] = useState<'design' | 'code'>(
-    'design',
-  );
-  const { isDrawerOpen } = useEditToolsValues();
-  const { setDrawerOpen } = useEditToolsActions();
+  const { isDrawerOpen, drawerWidth, visibleControls } = useDrawerToolValues();
+  const { setDrawerOpen, setVisibleControls } = useEditToolsActions();
   const { resetConfig } = useConfigActions();
 
+  useFontInitialisation();
+
+  const handleReset = () => {
+    resetConfig();
+  };
+
   return (
-    <Drawer variant="persistent" anchor="left" open={isDrawerOpen}>
-      <DrawerContentContainer>
-        <HeaderRow>
-          <Header>LI.FI Widget</Header>
-          <Box>
-            <Tooltip
-              title="Reset config"
-              PopperProps={{ style: { zIndex: tooltipPopperZIndex } }}
-              arrow
+    <>
+      <DrawerHandle />
+      <Drawer
+        variant="persistent"
+        anchor="left"
+        open={isDrawerOpen}
+        drawerWidth={drawerWidth}
+      >
+        <DrawerContentContainer drawerWidth={drawerWidth}>
+          <HeaderRow>
+            <Header>LI.FI Widget</Header>
+            <Box>
+              <Tooltip
+                title="Reset config"
+                PopperProps={{ style: { zIndex: tooltipPopperZIndex } }}
+                arrow
+              >
+                <IconButton onClick={handleReset}>
+                  <RestartAltIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip
+                title="Close tools"
+                PopperProps={{ style: { zIndex: tooltipPopperZIndex } }}
+                arrow
+              >
+                <IconButton onClick={() => setDrawerOpen(!isDrawerOpen)}>
+                  <CloseIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          </HeaderRow>
+          <Box sx={{ maxWidth: 344, height: 56 }}>
+            <Tabs
+              value={visibleControls}
+              aria-label="tabs"
+              indicatorColor="primary"
+              onChange={(_, value) => setVisibleControls(value)}
             >
-              <IconButton onClick={() => resetConfig()}>
-                <RestartAltIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip
-              title="Close tools"
-              PopperProps={{ style: { zIndex: tooltipPopperZIndex } }}
-              arrow
-            >
-              <IconButton onClick={() => setDrawerOpen(!isDrawerOpen)}>
-                <CloseIcon />
-              </IconButton>
-            </Tooltip>
+              <Tab
+                icon={<DesignServicesIcon />}
+                iconPosition="start"
+                label={'Design'}
+                value="design"
+                disableRipple
+              />
+              <Tab
+                icon={<IntegrationInstructionsIcon />}
+                iconPosition="start"
+                label={'Code'}
+                value="code"
+                disableRipple
+              />
+            </Tabs>
           </Box>
-        </HeaderRow>
-        <Tabs
-          value={controlsTabsState}
-          aria-label="tabs"
-          indicatorColor="primary"
-          onChange={(_, value) => setControlsTabsState(value)}
-        >
-          <Tab
-            icon={<DesignServicesIcon />}
-            iconPosition="start"
-            label={'Design'}
-            value="design"
-            disableRipple
-          />
-          <Tab
-            icon={<IntegrationInstructionsIcon />}
-            iconPosition="start"
-            label={'Code'}
-            value="code"
-            disableRipple
-            disabled
-          />
-        </Tabs>
-        <TabContext value={controlsTabsState}>
-          <TabContentContainer value="design">
-            <ExpandableCardAccordion>
-              <VariantControl />
-              <SubvariantControl />
-              <AppearanceControl />
-              <ColorControl />
-              <FontsControl />
-              <CardRadiusControl />
-              <ButtonRadiusControl />
-              <WalletManagementControl />
-            </ExpandableCardAccordion>
-          </TabContentContainer>
-          <TabContentContainer value="code">
-            <p>TODO: code controls</p>
-          </TabContentContainer>
-        </TabContext>
-      </DrawerContentContainer>
-    </Drawer>
+          <TabContext value={visibleControls}>
+            <TabContentContainer value="design">
+              <ExpandableCardAccordion>
+                <VariantControl />
+                <SubvariantControl />
+                <AppearanceControl />
+                <ColorControl />
+                <FontsControl />
+                <CardRadiusControl />
+                <ButtonRadiusControl />
+                <WalletManagementControl />
+              </ExpandableCardAccordion>
+            </TabContentContainer>
+            <TabContentContainer
+              value="code"
+              sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}
+            >
+              <CodeControl />
+            </TabContentContainer>
+          </TabContext>
+        </DrawerContentContainer>
+      </Drawer>
+    </>
   );
 };

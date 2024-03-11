@@ -5,6 +5,11 @@ export const useEditToolsActions = () => {
   const actions = useEditToolsStore(
     (state) => ({
       setDrawerOpen: state.setDrawerOpen,
+      setCodeDrawerWidth: state.setCodeDrawerWidth,
+      setVisibleControls: state.setVisibleControls,
+      setCodeControlTab: state.setCodeControlTab,
+      resetEditTools: state.resetEditTools,
+      setSelectedFont: state.setSelectedFont,
     }),
     shallow,
   );

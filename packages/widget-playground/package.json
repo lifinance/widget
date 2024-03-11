@@ -56,5 +56,8 @@
     "./fonts": "./src/fonts/inter.css",
     "./widget-config": "./src/defaultWidgetConfig.ts"
   },
-  "private": true
+  "private": true,
+  "dependencies": {
+    "@monaco-editor/react": "^4.6.0"
+  }
 }

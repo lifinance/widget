@@ -1,10 +1,14 @@
 import type { FocusEventHandler, SyntheticEvent } from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import { CircularProgress, TextField } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
-import { useConfigActions, useConfigFontFamily } from '../../../../store';
-import type { Font } from '../../../../hooks';
-import { useFontLoader } from '../../../../hooks';
+import {
+  useConfigActions,
+  useEditToolsActions,
+  useFontToolValues,
+} from '../../../../store';
+import type { Font } from '../../../../providers';
+import { useFontLoader } from '../../../../providers';
 import { ExpandableCard } from '../../../Card';
 import { Autocomplete, StyledPopper, Alert } from '../DesignControls.style';
 import { defaultFont, allFonts } from './fontDefinitions';
@@ -14,11 +18,11 @@ const getCompleteFontFamily = (font: Font) =>
     ? [font.family, font.fallbackFonts].join(', ')
     : font.family;
 export const FontsControl = () => {
-  const { fontFamily } = useConfigFontFamily();
   const { setFontFamily } = useConfigActions();
-  const [selectedFont, setSelectedFont] = useState<Font | undefined>();
-  const { loadFont, isLoadingFont } = useFontLoader();
+  const { selectedFont } = useFontToolValues();
+  const { setSelectedFont } = useEditToolsActions();
 
+  const { loadFont, isLoadingFont } = useFontLoader();
   const setAndLoadFont = useCallback(
     async (font: Font) => {
       setSelectedFont(font);
@@ -27,32 +31,6 @@ export const FontsControl = () => {
     },
     [setSelectedFont, loadFont, setFontFamily],
   );
-
-  useEffect(() => {
-    if (fontFamily) {
-      const family = fontFamily.includes(', ')
-        ? fontFamily.substring(0, fontFamily.indexOf(', ')).trim()
-        : fontFamily.trim();
-      const fallbackFonts = fontFamily.includes(', ')
-        ? fontFamily.substring(fontFamily.indexOf(', ') + 2).trim()
-        : undefined;
-
-      const matchingFont = allFonts.find((font) => {
-        return font.family === family && font.fallbackFonts === fallbackFonts;
-      });
-
-      const font = matchingFont
-        ? matchingFont
-        : ({
-            family,
-            fallbackFonts,
-            source: 'Custom fonts',
-          } as Font);
-
-      setSelectedFont(font);
-      loadFont(font);
-    }
-  }, [fontFamily, setSelectedFont, loadFont]);
 
   const handleAutocompleteChange = (
     _: SyntheticEvent<Element, Event>,

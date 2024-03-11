@@ -14,6 +14,7 @@ import {
   WidgetConfigProvider,
   PlaygroundThemeProvider,
   DrawerControls,
+  FontLoaderProvider,
 } from '@lifi/widget-playground';
 
 import { defaultWidgetConfig } from '@lifi/widget-playground/widget-config';
@@ -31,7 +32,9 @@ const AppProvider = ({ children }: PropsWithChildren) => {
       <QueryClientProvider client={queryClient}>
         <EditToolsProvider>
           <WidgetConfigProvider defaultWidgetConfig={defaultWidgetConfig}>
-            <PlaygroundThemeProvider>{children}</PlaygroundThemeProvider>
+            <PlaygroundThemeProvider>
+              <FontLoaderProvider>{children}</FontLoaderProvider>
+            </PlaygroundThemeProvider>
           </WidgetConfigProvider>
         </EditToolsProvider>
       </QueryClientProvider>

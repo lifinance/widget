@@ -6,7 +6,7 @@ import { ExternalWalletProvider } from '../../providers';
 import {
   useConfig,
   useEditToolsActions,
-  useEditToolsValues,
+  useDrawerToolValues,
 } from '../../store';
 import { ToggleDrawerButton } from './ToggleDrawerButton';
 import {
@@ -25,13 +25,13 @@ export function WidgetViewContainer({
   toggleDrawer,
 }: WidgetViewContainerProps) {
   const { config } = useConfig();
-  const { isDrawerOpen } = useEditToolsValues();
+  const { isDrawerOpen, drawerWidth } = useDrawerToolValues();
   const { setDrawerOpen } = useEditToolsActions();
 
   const isWalletManagementExternal = !!config?.walletConfig;
 
   return (
-    <Main open={isDrawerOpen}>
+    <Main open={isDrawerOpen} drawerWidth={drawerWidth}>
       <ExternalWalletProvider isExternalProvider={isWalletManagementExternal}>
         <FloatingToolsContainer>
           {!isDrawerOpen ? (
