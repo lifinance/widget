@@ -1,4 +1,8 @@
-import { Collection, FunctionReference, ObjectWithFunctions } from './types';
+import type {
+  Collection,
+  FunctionReference,
+  ObjectWithFunctions,
+} from './types';
 
 export function substituteFunctions(
   obj: ObjectWithFunctions,

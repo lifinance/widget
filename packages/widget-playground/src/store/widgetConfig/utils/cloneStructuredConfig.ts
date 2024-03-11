@@ -1,7 +1,7 @@
 import type { WidgetConfig } from '@lifi/widget';
 import { substituteFunctions } from './substituteFunctions';
 import { rehydrateFunctions } from './rehydrateFunctions';
-import { FunctionReference } from './types';
+import type { FunctionReference } from './types';
 
 const shallowReferences = () => {
   let referencesDictionary: FunctionReference[] = [];
