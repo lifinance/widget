@@ -5,6 +5,7 @@ import { persist } from 'zustand/middleware';
 import { addValueFromPathString } from '../../utils';
 import type { WidgetConfigState } from './types';
 import { cloneStructuredConfig } from './utils/cloneStructuredConfig';
+import { getWhitelistedConfig } from './utils/getWhitelistedConfig';
 
 export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
   createWithEqualityFn<WidgetConfigState>(
@@ -153,7 +154,9 @@ export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
         name: `'li.fi-playground-config`,
         version: 0,
         partialize: (state) => ({
-          config: state?.config,
+          config: state?.config
+            ? getWhitelistedConfig(state.config)
+            : undefined,
         }),
         onRehydrateStorage: () => {
           return (state) => {
