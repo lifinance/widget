@@ -1,17 +1,17 @@
-import { expect, test, describe } from 'vitest';
-import { getWhitelistedConfig } from './getWhitelistedConfig';
 import type { WidgetConfig } from '@lifi/widget';
+import { describe, expect, test } from 'vitest';
+import { getWhitelistedConfig } from './getWhitelistedConfig';
 
 describe('getWhitelistConfig', () => {
   test('presents copy of the config with a variant property if present', () => {
     const config = {
-      variant: 'expandable',
+      variant: 'wide',
     } as Partial<WidgetConfig>;
 
     const whitelistedConfig = getWhitelistedConfig(config);
 
     expect(whitelistedConfig).toEqual({
-      variant: 'expandable',
+      variant: 'wide',
     });
   });
 
