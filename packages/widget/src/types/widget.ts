@@ -25,7 +25,7 @@ import type {
   LanguageResources,
 } from '../providers/I18nProvider/types.js';
 
-export type WidgetVariant = 'default' | 'expandable' | 'drawer';
+export type WidgetVariant = 'compact' | 'wide' | 'drawer';
 export type WidgetSubvariant = 'default' | 'split' | 'nft' | 'refuel';
 export type SplitSubvariantOptions = 'bridge' | 'swap';
 
