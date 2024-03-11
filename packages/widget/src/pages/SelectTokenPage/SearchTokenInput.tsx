@@ -2,7 +2,7 @@ import { Search } from '@mui/icons-material';
 import { FormControl, InputAdornment } from '@mui/material';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Card } from '../../components/Card/Card.js';
+import { InputCard } from '../../components/Card/InputCard.js';
 import { useFieldActions } from '../../stores/form/useFieldActions.js';
 import { useFieldController } from '../../stores/form/useFieldController.js';
 import { Input } from './SearchTokenInput.style.js';
@@ -22,7 +22,7 @@ export const SearchTokenInput = () => {
   );
 
   return (
-    <Card>
+    <InputCard>
       <FormControl fullWidth>
         <Input
           size="small"
@@ -43,6 +43,6 @@ export const SearchTokenInput = () => {
           autoComplete="off"
         />
       </FormControl>
-    </Card>
+    </InputCard>
   );
 };

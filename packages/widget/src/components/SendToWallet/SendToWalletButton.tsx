@@ -1,5 +1,4 @@
 import { CloseRounded } from '@mui/icons-material';
-import type { BoxProps } from '@mui/material';
 import { Box, Collapse } from '@mui/material';
 import type { MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -20,12 +19,13 @@ import {
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { shortenAddress } from '../../utils/wallet.js';
 import { AccountAvatar } from '../Avatar/AccountAvatar.js';
+import type { CardProps } from '../Card/Card.js';
 import { Card } from '../Card/Card.js';
 import { CardIconButton } from '../Card/CardIconButton.js';
 import { CardTitle } from '../Card/CardTitle.js';
 import { SendToWalletCardHeader } from './SendToWallet.style.js';
 
-export const SendToWalletButton: React.FC<BoxProps> = (props) => {
+export const SendToWalletButton: React.FC<CardProps> = (props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { disabledUI, hiddenUI, toAddress, toAddresses } = useWidgetConfig();
@@ -114,8 +114,7 @@ export const SendToWalletButton: React.FC<BoxProps> = (props) => {
       <Card
         component="button"
         onClick={disabledForChanges ? undefined : handleOnClick}
-        width="100%"
-        {...props}
+        sx={{ width: '100%', ...props.sx }}
       >
         <CardTitle required={requiredToAddress}>
           {t('header.sendToWallet')}

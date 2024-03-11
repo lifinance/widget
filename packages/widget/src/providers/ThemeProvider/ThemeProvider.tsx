@@ -4,8 +4,8 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
-import { createTheme } from '../../config/theme.js';
 import { useAppearance } from '../../stores/settings/useAppearance.js';
+import { createTheme } from '../../themes/createTheme.js';
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js';
 
 export const ThemeProvider: React.FC<React.PropsWithChildren<{}>> = ({

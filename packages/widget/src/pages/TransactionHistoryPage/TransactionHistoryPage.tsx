@@ -17,7 +17,6 @@ export const TransactionHistoryPage: React.FC = () => {
   const { getVirtualItems, getTotalSize } = useVirtualizer({
     count: transactions.length,
     overscan: 10,
-    paddingStart: 8,
     paddingEnd: 12,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 186,
@@ -34,18 +33,22 @@ export const TransactionHistoryPage: React.FC = () => {
       ref={parentRef}
       style={{ height: minTransactionListHeight, overflow: 'auto' }}
     >
-      <List
-        style={{ height: getTotalSize(), width: '100%', position: 'relative' }}
-        disablePadding
-      >
-        {isLoading ? (
-          <List sx={{ paddingTop: 1, paddingBottom: 1 }}>
-            {Array.from({ length: 3 }).map((_, index) => (
-              <TransactionHistoryItemSkeleton key={index} />
-            ))}
-          </List>
-        ) : (
-          getVirtualItems().map((item) => {
+      {isLoading ? (
+        <List disablePadding>
+          {Array.from({ length: 3 }).map((_, index) => (
+            <TransactionHistoryItemSkeleton key={index} />
+          ))}
+        </List>
+      ) : (
+        <List
+          style={{
+            height: getTotalSize(),
+            width: '100%',
+            position: 'relative',
+          }}
+          disablePadding
+        >
+          {getVirtualItems().map((item) => {
             const transaction = transactions[item.index];
             return (
               <TransactionHistoryItem
@@ -55,9 +58,9 @@ export const TransactionHistoryPage: React.FC = () => {
                 transaction={transaction}
               />
             );
-          })
-        )}
-      </List>
+          })}
+        </List>
+      )}
     </PageContainer>
   );
 };

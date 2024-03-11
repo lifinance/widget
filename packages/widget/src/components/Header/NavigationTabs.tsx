@@ -20,7 +20,7 @@ export const NavigationTabs = () => {
   };
 
   return (
-    <HeaderAppBar elevation={0} sx={{ py: 1 }}>
+    <HeaderAppBar elevation={0} sx={{ paddingTop: 1, paddingBottom: 0.5 }}>
       <SplitTabs
         value={state === 'swap' ? 0 : 1}
         onChange={handleChange}

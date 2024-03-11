@@ -202,6 +202,7 @@ export const widgetBaseConfig: WidgetConfig = {
   //   es,
   // },
 };
+
 export const defaultWidgetConfig: Partial<WidgetConfig> = {
   ...widgetBaseConfig,
   appearance: 'auto',
@@ -217,9 +218,11 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
     typography: {
       fontFamily: 'Inter, sans-serif',
     },
-  },
-  containerStyle: {
-    boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
-    borderRadius: '16px',
+    container: {
+      boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
+      borderRadius: '16px',
+    },
+    // ...windows95Theme,
+    // ...jumperTheme,
   },
 } as WidgetConfig;

@@ -1,5 +1,5 @@
 import type { Token } from '@lifi/sdk';
-import type { BoxProps } from '@mui/material';
+import type { CardProps } from '@mui/material';
 import type { ChangeEvent, ReactNode } from 'react';
 import { useLayoutEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -11,8 +11,8 @@ import { useFieldValues } from '../../stores/form/useFieldValues.js';
 import { DisabledUI } from '../../types/widget.js';
 import { formatInputAmount } from '../../utils/format.js';
 import { fitInputText } from '../../utils/input.js';
-import { Card } from '../Card/Card.js';
 import { CardTitle } from '../Card/CardTitle.js';
+import { InputCard } from '../Card/InputCard.js';
 import {
   FormContainer,
   FormControl,
@@ -24,7 +24,7 @@ import { AmountInputEndAdornment } from './AmountInputEndAdornment.js';
 import { AmountInputStartAdornment } from './AmountInputStartAdornment.js';
 import { PriceFormHelperText } from './PriceFormHelperText.js';
 
-export const AmountInput: React.FC<FormTypeProps & BoxProps> = ({
+export const AmountInput: React.FC<FormTypeProps & CardProps> = ({
   formType,
   ...props
 }) => {
@@ -53,7 +53,7 @@ export const AmountInput: React.FC<FormTypeProps & BoxProps> = ({
 
 export const AmountInputBase: React.FC<
   FormTypeProps &
-    BoxProps & {
+    CardProps & {
       token?: Token;
       startAdornment?: ReactNode;
       endAdornment?: ReactNode;
@@ -98,7 +98,7 @@ export const AmountInputBase: React.FC<
   }, [value, ref]);
 
   return (
-    <Card {...props}>
+    <InputCard {...props}>
       <CardTitle>{t('main.fromAmount')}</CardTitle>
       <FormContainer>
         <AmountInputStartAdornment formType={formType} />
@@ -123,6 +123,6 @@ export const AmountInputBase: React.FC<
           {bottomAdornment}
         </FormControl>
       </FormContainer>
-    </Card>
+    </InputCard>
   );
 };

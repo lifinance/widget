@@ -1,4 +1,4 @@
-import type { BoxProps } from '@mui/material';
+import type { CardProps } from '@mui/material';
 import type { RouteExecutionStatus } from '../../stores/routes/types.js';
 
 export interface InsuredAmount {
@@ -12,13 +12,13 @@ interface Insurance extends InsuredAmount {
   status?: RouteExecutionStatus;
 }
 
-export interface InsuranceProps extends Insurance, Omit<BoxProps, 'onChange'> {
+export interface InsuranceProps extends Insurance, Omit<CardProps, 'onChange'> {
   insurableRouteId: string;
   onChange?: (routeId: string) => void;
 }
 
 export interface InsuranceCardProps
   extends Insurance,
-    Omit<BoxProps, 'onChange'> {
+    Omit<CardProps, 'onChange'> {
   onChange?: (checked: boolean) => void;
 }

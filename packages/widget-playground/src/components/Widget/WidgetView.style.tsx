@@ -15,7 +15,6 @@ export const FloatingToolsContainer = styled(Box)(({ theme }) => ({
   position: 'absolute',
   zIndex: drawerZIndex,
   padding: theme.spacing(3),
-  width: '100%',
 }));
 
 export const WidgetContainer = styled(Box)(({ theme }) => ({

@@ -23,16 +23,16 @@ export const MainPage: React.FC = () => {
 
   return (
     <PageContainer>
-      <ActiveTransactions mt={1} mb={2} />
+      <ActiveTransactions sx={{ marginBottom: 2 }} />
       {nft ? (
-        <ContractComponent mt={1} mb={2}>
+        <ContractComponent sx={{ marginBottom: 2 }}>
           {contractComponent}
         </ContractComponent>
       ) : null}
-      <SelectChainAndToken mt={1} mb={2} />
-      {!nft ? <AmountInput formType="from" mb={2} /> : null}
-      {!expandable ? <Routes mb={2} /> : null}
-      <SendToWalletButton mb={2} />
+      <SelectChainAndToken mb={2} />
+      {!nft ? <AmountInput formType="from" sx={{ marginBottom: 2 }} /> : null}
+      {!expandable ? <Routes sx={{ marginBottom: 2 }} /> : null}
+      <SendToWalletButton sx={{ marginBottom: 2 }} />
       <GasRefuelMessage mb={2} />
       <MainGasMessage mb={2} />
       <Box display="flex" mb={showPoweredBy ? 1 : 3} gap={1.5}>

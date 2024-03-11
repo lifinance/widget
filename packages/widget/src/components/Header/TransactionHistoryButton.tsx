@@ -12,7 +12,6 @@ export const TransactionHistoryButton = () => {
     <Tooltip title={t(`header.transactionHistory`)} enterDelay={400} arrow>
       <IconButton
         size="medium"
-        edge="start"
         onClick={() => navigate(navigationRoutes.transactionHistory)}
       >
         <ReceiptLong />

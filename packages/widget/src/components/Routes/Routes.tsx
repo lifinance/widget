@@ -1,4 +1,3 @@
-import type { BoxProps } from '@mui/material';
 import { Box, Collapse } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -6,6 +5,7 @@ import { useRoutes } from '../../hooks/useRoutes.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { ButtonTertiary } from '../ButtonTertiary.js';
+import type { CardProps } from '../Card/Card.js';
 import { Card } from '../Card/Card.js';
 import { CardTitle } from '../Card/CardTitle.js';
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate.js';
@@ -13,7 +13,7 @@ import { RouteCard } from '../RouteCard/RouteCard.js';
 import { RouteCardSkeleton } from '../RouteCard/RouteCardSkeleton.js';
 import { RouteNotFoundCard } from '../RouteCard/RouteNotFoundCard.js';
 
-export const Routes: React.FC<BoxProps> = (props) => {
+export const Routes: React.FC<CardProps> = (props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { subvariant, useRecommendedRoute } = useWidgetConfig();

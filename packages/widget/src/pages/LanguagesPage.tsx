@@ -20,6 +20,7 @@ export const LanguagesPage: React.FC = () => {
     <PageContainer disableGutters>
       <List
         sx={{
+          paddingTop: 0,
           paddingLeft: 1.5,
           paddingRight: 1.5,
           paddingBottom: 1.5,

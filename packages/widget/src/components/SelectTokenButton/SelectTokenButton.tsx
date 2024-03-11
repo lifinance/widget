@@ -11,9 +11,12 @@ import { useFieldValues } from '../../stores/form/useFieldValues.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { AvatarBadgedDefault, AvatarBadgedSkeleton } from '../Avatar/Avatar.js';
 import { TokenAvatar } from '../Avatar/TokenAvatar.js';
-import { Card } from '../Card/Card.js';
 import { CardTitle } from '../Card/CardTitle.js';
-import { SelectTokenCardHeader } from './SelectTokenButton.style.js';
+import {
+  CardContent,
+  SelectTokenCard,
+  SelectTokenCardHeader,
+} from './SelectTokenButton.style.js';
 
 export const SelectTokenButton: React.FC<
   FormTypeProps & {
@@ -55,40 +58,42 @@ export const SelectTokenButton: React.FC<
       ? t(`header.payWith`)
       : t(`main.${formType}`);
   return (
-    <Card component="button" flex={1} onClick={onClick}>
-      <CardTitle>{cardTitle}</CardTitle>
-      {chainId && tokenAddress && (isChainLoading || isTokenLoading) ? (
-        <SelectTokenCardHeader
-          avatar={<AvatarBadgedSkeleton />}
-          title={<Skeleton variant="text" width={64} height={24} />}
-          subheader={<Skeleton variant="text" width={72} height={16} />}
-          compact={compact}
-        />
-      ) : (
-        <SelectTokenCardHeader
-          avatar={
-            isSelected ? (
-              <TokenAvatar token={token} chain={chain} />
-            ) : (
-              <AvatarBadgedDefault />
-            )
-          }
-          title={isSelected ? token.symbol : defaultPlaceholder}
-          titleTypographyProps={{
-            title: isSelected ? token.symbol : defaultPlaceholder,
-          }}
-          subheader={isSelected ? chain.name : null}
-          subheaderTypographyProps={
-            isSelected
-              ? {
-                  title: chain.name,
-                }
-              : undefined
-          }
-          selected={isSelected}
-          compact={compact}
-        />
-      )}
-    </Card>
+    <SelectTokenCard component="button" onClick={onClick}>
+      <CardContent formType={formType} compact={compact}>
+        <CardTitle>{cardTitle}</CardTitle>
+        {chainId && tokenAddress && (isChainLoading || isTokenLoading) ? (
+          <SelectTokenCardHeader
+            avatar={<AvatarBadgedSkeleton />}
+            title={<Skeleton variant="text" width={64} height={24} />}
+            subheader={<Skeleton variant="text" width={72} height={16} />}
+            compact={compact}
+          />
+        ) : (
+          <SelectTokenCardHeader
+            avatar={
+              isSelected ? (
+                <TokenAvatar token={token} chain={chain} />
+              ) : (
+                <AvatarBadgedDefault />
+              )
+            }
+            title={isSelected ? token.symbol : defaultPlaceholder}
+            titleTypographyProps={{
+              title: isSelected ? token.symbol : defaultPlaceholder,
+            }}
+            subheader={isSelected ? chain.name : null}
+            subheaderTypographyProps={
+              isSelected
+                ? {
+                    title: chain.name,
+                  }
+                : undefined
+            }
+            selected={isSelected}
+            compact={compact}
+          />
+        )}
+      </CardContent>
+    </SelectTokenCard>
   );
 };

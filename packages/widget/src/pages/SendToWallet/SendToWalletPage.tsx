@@ -178,8 +178,13 @@ export const SendToWalletPage = () => {
   });
 
   return (
-    <SendToWalletPageContainer topBottomGutters>
-      <SendToWalletCard mb={6} variant={errorMessage ? 'error' : 'default'}>
+    <SendToWalletPageContainer bottomGutters>
+      <SendToWalletCard
+        type={errorMessage ? 'error' : 'default'}
+        sx={{
+          marginBottom: 6,
+        }}
+      >
         <AddressInput
           size="small"
           autoComplete="off"

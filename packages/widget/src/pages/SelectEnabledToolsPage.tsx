@@ -10,6 +10,7 @@ import {
   List,
   ListItemAvatar,
   Tooltip,
+  useTheme,
 } from '@mui/material';
 import type { MouseEventHandler } from 'react';
 import { useEffect } from 'react';
@@ -34,13 +35,18 @@ const SelectAllCheckbox: React.FC<SelectAllCheckboxProps> = ({
   onClick,
 }) => {
   const { t } = useTranslation();
+  const theme = useTheme();
   const tooltipTitle = allCheckboxesSelected
     ? t('tooltip.deselectAll')
     : t('tooltip.selectAll');
 
   return (
     <Tooltip title={tooltipTitle} arrow>
-      <IconButton size="medium" edge="end" onClick={onClick}>
+      <IconButton
+        size="medium"
+        edge={theme?.navigation?.edge ? 'end' : false}
+        onClick={onClick}
+      >
         {allCheckboxesSelected ? (
           <CheckBoxOutlined />
         ) : anyCheckboxesSelected ? (
@@ -90,6 +96,7 @@ export const SelectEnabledToolsPage: React.FC<{
     <PageContainer disableGutters>
       <List
         sx={{
+          paddingTop: 0,
           paddingLeft: 1.5,
           paddingRight: 1.5,
           paddingBottom: 1.5,

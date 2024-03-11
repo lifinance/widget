@@ -18,7 +18,7 @@ export const TransactionDetailsSkeleton = () => {
         <Skeleton width={96} height={20} variant="text" />
         <Skeleton width={40} height={20} variant="text" />
       </Box>
-      <Card mb={3} variant="default" sx={{ paddingX: 2 }}>
+      <Card sx={{ paddingX: 2, marginBottom: 3 }}>
         <Box pt={2.5}>
           <Skeleton width={64} height={12} variant="rounded" />
         </Box>

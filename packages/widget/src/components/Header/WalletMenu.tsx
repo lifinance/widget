@@ -36,7 +36,7 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
   };
 
   return (
-    <Box>
+    <>
       <Box display="flex" flexDirection="column">
         {accounts.map((account) => {
           const chain = getChainById(account.chainId);
@@ -120,6 +120,6 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
             : t(`button.connectWallet`)}
         </Button>
       ) : null}
-    </Box>
+    </>
   );
 };
