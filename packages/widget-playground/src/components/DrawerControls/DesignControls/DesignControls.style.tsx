@@ -15,6 +15,8 @@ import {
   Autocomplete as MuiAutocomplete,
   Popper,
   Alert as MuiAlert,
+  Select as MuiSelect,
+  selectClasses,
 } from '@mui/material';
 import { getCardFieldsetBackgroundColor } from '../../../utils';
 import { autocompletePopperZIndex } from '../DrawerControls.style';
@@ -220,5 +222,16 @@ export const Alert = styled(MuiAlert)(({ theme }) => ({
       theme.palette.mode === 'light'
         ? theme.palette.grey[600]
         : theme.palette.grey[300],
+  },
+}));
+
+export const Select = styled(MuiSelect)(({ theme }) => ({
+  border: 'none',
+  outline: 'none',
+  backgroundColor: getCardFieldsetBackgroundColor(theme),
+  borderRadius: theme.shape.borderRadiusSecondary,
+  width: '100%',
+  [`& .MuiOutlinedInput-notchedOutline`]: {
+    border: 'none',
   },
 }));

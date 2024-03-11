@@ -16,6 +16,9 @@ export interface EditToolsValues {
   fontControl: {
     selectedFont: Font | undefined;
   };
+  playgroundSettings: {
+    viewportColor?: string;
+  };
 }
 
 export interface EditToolsActions {
@@ -25,6 +28,7 @@ export interface EditToolsActions {
   setCodeControlTab: (tab: CodeControlTab) => void;
   resetEditTools: () => void;
   setSelectedFont: (font: Font) => void;
+  setViewportBackgroundColor: (color: string) => void;
 }
 
 export type ToolsState = EditToolsValues & EditToolsActions;

@@ -19,6 +19,7 @@ import {
   ColorControl,
   FontsControl,
   SubvariantControl,
+  ThemeControl,
   VariantControl,
   WalletManagementControl,
 } from './DesignControls';
@@ -108,6 +109,7 @@ export const DrawerControls = () => {
                 <VariantControl />
                 <SubvariantControl />
                 <AppearanceControl />
+                <ThemeControl />
                 <ColorControl />
                 <FontsControl />
                 <CardRadiusControl />

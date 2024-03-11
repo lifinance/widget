@@ -19,6 +19,9 @@ export const createEditToolsStore = () =>
         fontControl: {
           selectedFont: undefined,
         },
+        playgroundSettings: {
+          viewportBackground: undefined,
+        },
         setDrawerOpen: (open) => {
           set({
             drawer: {
@@ -75,6 +78,14 @@ export const createEditToolsStore = () =>
           set({
             fontControl: {
               selectedFont,
+            },
+          });
+        },
+        setViewportBackgroundColor: (viewportColor?: string) => {
+          set({
+            playgroundSettings: {
+              ...get().playgroundSettings,
+              viewportColor,
             },
           });
         },

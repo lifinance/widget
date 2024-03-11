@@ -9,6 +9,7 @@ import {
   darkComponents,
   lightComponents,
 } from './themeOverrides';
+import { usePlaygroundSettingValues } from '../../store/editTools/usePlaygroundSettingValues';
 
 const appearancePaletteOverrides = {
   light: lightPalette,
@@ -17,9 +18,17 @@ const appearancePaletteOverrides = {
 
 export const PlaygroundThemeProvider = ({ children }: PropsWithChildren) => {
   const themeMode = useThemeMode();
+  const { viewportColor } = usePlaygroundSettingValues();
 
   const appTheme = {
     ...theme,
+    ...(viewportColor
+      ? {
+          playground: {
+            background: viewportColor,
+          },
+        }
+      : {}),
     palette: {
       ...theme.palette,
       ...appearancePaletteOverrides[themeMode],

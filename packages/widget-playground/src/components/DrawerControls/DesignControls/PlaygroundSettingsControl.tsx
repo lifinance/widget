@@ -15,7 +15,7 @@ const editableColors = {
   secondary: 'theme.palette.secondary.main',
 };
 
-export const ColorControl = () => {
+export const PlaygroundColors = () => {
   return (
     <ExpandableCard title={'Colors'} value={<Swatches />}>
       {Object.entries(editableColors).map(([colorName, colorConfigPath]) => (
@@ -34,7 +34,7 @@ interface ColorSelectorProps extends BoxProps {
   colorName: string;
   colorPath: string;
 }
-export const ColorSelector = ({
+const ColorSelector = ({
   colorName,
   colorPath,
   ...rest
@@ -55,7 +55,7 @@ export const ColorSelector = ({
   ) : null;
 };
 
-export const Swatches = () => {
+const Swatches = () => {
   const colorValues = useConfigColorsFromPath(...Object.values(editableColors));
 
   return (

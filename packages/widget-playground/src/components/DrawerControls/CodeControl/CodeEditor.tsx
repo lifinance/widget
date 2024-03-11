@@ -14,6 +14,7 @@ import {
 } from './CodeControl.style';
 import { getWhitelistedConfig, useConfig } from '../../../store';
 import { getValueFromPath } from '../../../utils';
+import { getConfigOutput } from './getConfigOutput';
 
 interface MonacoEditor {
   layout: (dimensions: { width: number; height: number }) => void;
@@ -58,9 +59,7 @@ export const CodeEditor = ({ onChange }: CodeEditorProps) => {
   const themeMode = useThemeMode();
 
   const code = config
-    ? configTemplate(
-        configToStringWithSubstitions(getWhitelistedConfig(config)),
-      )
+    ? configTemplate(configToStringWithSubstitions(getConfigOutput(config)))
     : undefined;
 
   const handleEditorWillMount: BeforeMount = (monaco) => {

@@ -141,6 +141,14 @@ export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
             } as WidgetConfig,
           });
         },
+        setConfigTheme: (theme) => {
+          set({
+            config: {
+              ...get().config,
+              theme,
+            },
+          });
+        },
         setWalletConfig: (walletConfig?) => {
           set({
             config: {
