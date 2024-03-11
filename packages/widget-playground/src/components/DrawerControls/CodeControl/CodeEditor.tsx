@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { CircularProgress, Tooltip, useTheme } from '@mui/material';
+import { Tooltip, useTheme } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import type { BeforeMount, OnMount, OnChange } from '@monaco-editor/react';
+import type { BeforeMount, OnMount } from '@monaco-editor/react';
 import Editor from '@monaco-editor/react';
 import type { WidgetConfig } from '@lifi/widget';
 import { useThemeMode } from '../../../hooks';
@@ -10,6 +10,7 @@ import {
   CodeContainer,
   EditorContainer,
   CodeCopyButton,
+  EditorSkeleton,
 } from './CodeControl.style';
 import { getWhitelistedConfig, useConfig } from '../../../store';
 import { getValueFromPath } from '../../../utils';
@@ -139,7 +140,9 @@ export const CodeEditor = ({ onChange }: CodeEditorProps) => {
       </Tooltip>
       <EditorContainer ref={editorContainerRef}>
         <Editor
-          loading={<CircularProgress />}
+          loading={
+            <EditorSkeleton variant="rounded" width="100%" height="100%" />
+          }
           defaultLanguage="typescript"
           value={code}
           options={{

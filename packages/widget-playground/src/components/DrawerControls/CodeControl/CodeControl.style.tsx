@@ -1,5 +1,13 @@
 import type { ButtonProps } from '@mui/material';
-import { Avatar, Box, Button, IconButton, Link, styled } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  IconButton,
+  Link,
+  Skeleton as MuiSkeleton,
+  styled,
+} from '@mui/material';
 import { lighten } from '@mui/material/styles';
 import { popperZIndex, tooltipPopperZIndex } from '../DrawerControls.style';
 
@@ -93,4 +101,11 @@ export const FontMessageCloseButton = styled(IconButton)(({ theme }) => ({
   width: 32,
   height: 32,
   zIndex: popperZIndex,
+}));
+
+export const EditorSkeleton = styled(MuiSkeleton)(({ theme }) => ({
+  backgroundColor:
+    theme.palette.mode === 'light'
+      ? theme.palette.grey[100]
+      : theme.palette.grey[800],
 }));
