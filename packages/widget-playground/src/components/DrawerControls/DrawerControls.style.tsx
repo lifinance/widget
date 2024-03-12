@@ -42,12 +42,10 @@ export const HeaderRow = styled(Box)({
 });
 
 export const DrawerContentContainer = styled(Box, {
-  shouldForwardProp: (prop) =>
-    !['drawerWidth', 'resizeableIndicator'].includes(prop as string),
+  shouldForwardProp: (prop) => !['drawerWidth'].includes(prop as string),
 })<{
   drawerWidth: number;
-  resizeableIndicator?: boolean;
-}>(({ theme, drawerWidth, resizeableIndicator }) => ({
+}>(({ theme, drawerWidth }) => ({
   display: 'flex',
   width: drawerWidth,
   padding: theme.spacing(3),
@@ -55,17 +53,6 @@ export const DrawerContentContainer = styled(Box, {
   flexGrow: 1,
   gap: theme.spacing(2),
   zIndex: 1200,
-  ...(resizeableIndicator
-    ? {
-        borderRightStyle: 'solid',
-        borderRightWidth: theme.spacing(0.5),
-        borderRightColor:
-          theme.palette.mode === 'light'
-            ? theme.palette.grey[400]
-            : theme.palette.grey[600],
-        paddingRight: theme.spacing(2.5),
-      }
-    : {}),
 }));
 
 export const TabContentContainer = styled(TabPanel)(({ theme }) => ({
@@ -115,7 +102,7 @@ export const DrawerIconLeft = styled(KeyboardArrowLeftIcon)(({ theme }) => ({
       : theme.palette.grey[600],
   position: 'fixed',
   top: '50%',
-  transform: 'translate(-100%, -50%)',
+  transform: 'translate(-75%, -50%)',
   pointerEvents: 'none',
   zIndex: drawerZIndex + 1,
 }));
