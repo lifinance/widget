@@ -57,7 +57,7 @@ export const RoutesExpandedElement = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const setExecutableRoute = useSetExecutableRoute();
-  const { subvariant, containerStyle } = useWidgetConfig();
+  const { subvariant } = useWidgetConfig();
   const routesRef = useRef<Route[]>();
   const emitter = useWidgetEvents();
   const routesActiveRef = useRef(false);
@@ -111,7 +111,7 @@ export const RoutesExpandedElement = () => {
       onExited={onExit}
     >
       <Grow timeout={timeout.enter} in={expanded} mountOnEnter unmountOnExit>
-        <Container sx={containerStyle} enableColorScheme>
+        <Container enableColorScheme>
           <ScrollableContainer>
             <Header>
               <Typography fontSize={18} fontWeight="700" flex={1} noWrap>

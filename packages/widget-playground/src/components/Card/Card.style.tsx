@@ -10,7 +10,6 @@ export type CardProps = {
   selectionColor?: 'primary' | 'secondary';
   indented?: boolean;
   onClick?: MouseEventHandler<HTMLDivElement>;
-  pointerEvents?: 'auto' | 'none';
 } & BoxProps;
 
 const getBackgroundColor = (
@@ -31,15 +30,12 @@ const getBackgroundColor = (
 
 export const Card = styled(Box, {
   shouldForwardProp: (prop) =>
-    !['variant', 'indented', 'selectionColor', 'pointerEvents'].includes(
-      prop as string,
-    ),
+    !['variant', 'indented', 'selectionColor'].includes(prop as string),
 })<CardProps>(({
   theme,
   variant,
   selectionColor = 'primary',
   indented,
-  pointerEvents,
   onClick,
 }) => {
   const backgroundColor = getBackgroundColor(theme, variant, selectionColor);
@@ -74,7 +70,6 @@ export const Card = styled(Box, {
       duration: theme.transitions.duration.enteringScreen,
       easing: theme.transitions.easing.easeOut,
     }),
-    pointerEvents,
   };
 });
 

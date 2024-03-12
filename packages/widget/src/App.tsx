@@ -11,9 +11,12 @@ export const App = forwardRef<WidgetDrawer, WidgetProps>(
     const config: WidgetConfig = useMemo(() => {
       const config = { integrator, ...other, ...other.config };
       if (config.variant === 'drawer') {
-        config.containerStyle = {
-          height: '100%',
-          ...config?.containerStyle,
+        config.theme = {
+          ...config.theme,
+          container: {
+            height: '100%',
+            ...config.theme?.container,
+          },
         };
       }
       return config;

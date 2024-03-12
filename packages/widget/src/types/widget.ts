@@ -29,6 +29,41 @@ export type WidgetVariant = 'compact' | 'wide' | 'drawer';
 export type WidgetSubvariant = 'default' | 'split' | 'nft' | 'refuel';
 export type SplitSubvariantOptions = 'bridge' | 'swap';
 
+export type Appearance = PaletteMode | 'auto';
+export interface NavigationProps {
+  /**
+   * If given, uses a negative margin to counteract the padding on sides for navigation elements like icon buttons.
+   * @default true
+   */
+  edge?: boolean;
+  /**
+   * If true, makes navigation header components compact.
+   * @default true
+   */
+  dense?: boolean;
+}
+export type WidgetThemeComponents = Pick<
+  Components<Theme>,
+  | 'MuiAppBar'
+  | 'MuiAvatar'
+  | 'MuiButton'
+  | 'MuiCard'
+  | 'MuiIconButton'
+  | 'MuiInputCard'
+>;
+export type WidgetTheme = {
+  palette?: Pick<
+    PaletteOptions,
+    'background' | 'grey' | 'primary' | 'secondary' | 'text'
+  >;
+  shape?: Shape;
+  typography?: TypographyOptions;
+  components?: WidgetThemeComponents;
+  container?: CSSProperties;
+  playground?: CSSProperties;
+  navigation?: NavigationProps;
+};
+
 export enum DisabledUI {
   FromAmount = 'fromAmount',
   FromToken = 'fromToken',
@@ -54,26 +89,10 @@ export enum RequiredUI {
 }
 export type RequiredUIType = `${RequiredUI}`;
 
-export type Appearance = PaletteMode | 'auto';
-export type ThemeConfig = {
-  palette?: Pick<
-    PaletteOptions,
-    'background' | 'grey' | 'primary' | 'secondary' | 'text'
-  >;
-  shape?: Shape;
-  typography?: TypographyOptions;
-  components?: Pick<Components<Omit<Theme, 'components'>>, 'MuiAvatar'>;
-};
-
 export interface WidgetWalletConfig {
   onConnect(): void;
   walletConnect?: WalletConnectParameters;
   coinbase?: CoinbaseWalletParameters;
-}
-
-export interface AllowDeny<T> {
-  allow?: T[];
-  deny?: T[];
 }
 
 export interface WidgetSDKConfig
@@ -107,6 +126,12 @@ export interface ToAddress {
   address: string;
   chainType: ChainType;
 }
+
+export interface AllowDeny<T> {
+  allow?: T[];
+  deny?: T[];
+}
+
 export interface WidgetConfig {
   fromChain?: number;
   toChain?: number;
@@ -137,8 +162,7 @@ export interface WidgetConfig {
   subvariantOptions?: SplitSubvariantOptions;
 
   appearance?: Appearance;
-  theme?: ThemeConfig;
-  containerStyle?: CSSProperties;
+  theme?: WidgetTheme;
 
   disabledUI?: DisabledUIType[];
   hiddenUI?: HiddenUIType[];

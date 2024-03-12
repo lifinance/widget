@@ -23,6 +23,7 @@ export const Container = styled(ScopedCssBaseline)(({ theme }) => ({
   marginLeft: theme.spacing(3),
   display: 'flex',
   flexDirection: 'column',
+  ...theme.container,
 }));
 
 export const Header = styled(Box)(({ theme }) => ({

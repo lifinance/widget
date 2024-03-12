@@ -82,11 +82,9 @@ export const AppDrawer = forwardRef<
         }}
         PaperProps={{
           sx: (theme) => ({
-            width: config?.containerStyle?.width ?? '100%',
-            minWidth:
-              config?.containerStyle?.minWidth ?? theme.breakpoints.values.xs,
-            maxWidth:
-              config?.containerStyle?.maxWidth ?? theme.breakpoints.values.sm,
+            width: theme?.container?.width ?? '100%',
+            minWidth: theme?.container?.minWidth ?? theme.breakpoints.values.xs,
+            maxWidth: theme?.container?.maxWidth ?? theme.breakpoints.values.sm,
           }),
         }}
         keepMounted

@@ -45,7 +45,7 @@ export const SplitWalletMenuButton: React.FC = () => {
 
 export const WalletMenuButton: React.FC = () => {
   const { account } = useAccount();
-  const { variant, subvariant, hiddenUI } = useWidgetConfig();
+  const { variant, hiddenUI } = useWidgetConfig();
 
   if (variant === 'drawer') {
     return (
@@ -55,9 +55,8 @@ export const WalletMenuButton: React.FC = () => {
         ) : (
           <ConnectButton />
         )}
-        {subvariant !== 'split' &&
-        !hiddenUI?.includes(HiddenUI.DrawerCloseButton) ? (
-          <CloseDrawerButton />
+        {!hiddenUI?.includes(HiddenUI.DrawerCloseButton) ? (
+          <CloseDrawerButton header="wallet" />
         ) : null}
       </DrawerWalletContainer>
     );
@@ -83,6 +82,7 @@ const ConnectButton = () => {
   };
   return (
     <WalletButton
+      subvariant={subvariant}
       endIcon={
         variant !== 'drawer' && subvariant !== 'split' ? <Wallet /> : undefined
       }
@@ -94,10 +94,6 @@ const ConnectButton = () => {
       onClick={
         !pathname.includes(navigationRoutes.selectWallet) ? connect : undefined
       }
-      sx={{
-        marginRight: subvariant === 'split' ? 0 : -1.25,
-        marginLeft: subvariant === 'split' ? -1.25 : 0,
-      }}
     >
       {t(`button.connectWallet`)}
     </WalletButton>
@@ -121,6 +117,7 @@ const ConnectedButton = ({ account }: { account: Account }) => {
   return (
     <>
       <WalletButton
+        subvariant={subvariant}
         endIcon={<ExpandMore />}
         startIcon={
           chain?.logoURI ? (
@@ -154,10 +151,6 @@ const ConnectedButton = ({ account }: { account: Account }) => {
             </Avatar>
           )
         }
-        sx={{
-          marginRight: subvariant === 'split' ? 0 : -1.25,
-          marginLeft: subvariant === 'split' ? -1 : 0,
-        }}
         onClick={handleClick}
       >
         {walletAddress}

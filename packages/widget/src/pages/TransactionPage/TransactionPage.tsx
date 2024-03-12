@@ -167,16 +167,15 @@ export const TransactionPage: React.FC = () => {
       .find((process) => process.txHash)?.txHash ?? route.fromAddress;
 
   return (
-    <PageContainer topBottomGutters>
+    <PageContainer bottomGutters>
       {getStepList(route, subvariant)}
       {subvariant === 'nft' ? (
-        <ContractComponent mt={2}>
+        <ContractComponent sx={{ marginTop: 2 }}>
           {contractSecondaryComponent || contractComponent}
         </ContractComponent>
       ) : null}
       {insuranceAvailable ? (
         <Insurance
-          mt={2}
           status={status}
           insurableRouteId={stateRouteId}
           feeAmountUsd={route.insurance.feeAmountUsd}
@@ -187,6 +186,7 @@ export const TransactionPage: React.FC = () => {
           insuredTokenSymbol={route.toToken.symbol}
           insuranceCoverageId={getInsuranceCoverageId()}
           onChange={setRouteId}
+          sx={{ marginTop: 2 }}
         />
       ) : null}
       {status === RouteExecutionStatus.Idle ||

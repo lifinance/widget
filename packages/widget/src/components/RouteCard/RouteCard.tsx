@@ -105,7 +105,7 @@ export const RouteCard: React.FC<
     cardContent
   ) : (
     <Card
-      variant={active ? 'selected' : 'default'}
+      type={active ? 'selected' : 'default'}
       selectionColor="secondary"
       indented
       {...other}

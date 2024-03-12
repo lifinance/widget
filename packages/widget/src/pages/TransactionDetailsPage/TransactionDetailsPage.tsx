@@ -81,7 +81,7 @@ export const TransactionDetailsPage: React.FC = () => {
   return isLoading && !storedRouteExecution ? (
     <TransactionDetailsSkeleton />
   ) : (
-    <PageContainer topBottomGutters>
+    <PageContainer bottomGutters>
       <Box
         sx={{
           display: 'flex',
@@ -103,13 +103,12 @@ export const TransactionDetailsPage: React.FC = () => {
       </Box>
       {getStepList(routeExecution?.route, subvariant)}
       {subvariant === 'nft' ? (
-        <ContractComponent mt={2}>
+        <ContractComponent sx={{ marginTop: 2 }}>
           {contractSecondaryComponent || contractComponent}
         </ContractComponent>
       ) : null}
       {routeExecution?.route?.insurance?.state === 'INSURED' ? (
         <Insurance
-          mt={2}
           status={routeExecution.status}
           feeAmountUsd={routeExecution.route.insurance.feeAmountUsd}
           insuredAmount={formatTokenAmount(
@@ -119,9 +118,10 @@ export const TransactionDetailsPage: React.FC = () => {
           insuredTokenSymbol={routeExecution.route.toToken.symbol}
           insurableRouteId={routeExecution.route.id}
           insuranceCoverageId={insuranceCoverageId}
+          sx={{ marginTop: 2 }}
         />
       ) : null}
-      <Card mt={2}>
+      <Card sx={{ marginTop: 2 }}>
         <Box
           sx={{
             display: 'flex',

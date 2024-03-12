@@ -64,7 +64,7 @@ export const Step: React.FC<{
     : undefined;
 
   return (
-    <Card variant={stepHasError ? 'error' : 'default'}>
+    <Card type={stepHasError ? 'error' : 'default'}>
       <Box
         sx={{
           display: 'flex',

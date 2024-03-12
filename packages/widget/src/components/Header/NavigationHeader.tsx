@@ -1,5 +1,4 @@
-import { ArrowBack } from '@mui/icons-material';
-import { Box, IconButton, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { useAccount } from '../../hooks/useAccount.js';
@@ -12,6 +11,7 @@ import {
   navigationRoutes,
   navigationRoutesValues,
 } from '../../utils/navigationRoutes.js';
+import { BackButton } from './BackButton.js';
 import { CloseDrawerButton } from './CloseDrawerButton.js';
 import { HeaderAppBar, HeaderControlsContainer } from './Header.style.js';
 import { NavigationTabs } from './NavigationTabs.js';
@@ -103,9 +103,7 @@ export const NavigationHeader: React.FC = () => {
     <>
       <HeaderAppBar elevation={0}>
         {backButtonRoutes.includes(path) ? (
-          <IconButton size="medium" edge="start" onClick={navigateBack}>
-            <ArrowBack />
-          </IconButton>
+          <BackButton onClick={navigateBack} />
         ) : null}
         {splitSubvariant ? (
           <Box flex={1}>
@@ -133,9 +131,8 @@ export const NavigationHeader: React.FC = () => {
                 ) : null}
                 <SettingsButton />
                 {variant === 'drawer' &&
-                subvariant === 'split' &&
                 !hiddenUI?.includes(HiddenUI.DrawerCloseButton) ? (
-                  <CloseDrawerButton />
+                  <CloseDrawerButton header="navigation" />
                 ) : null}
               </HeaderControlsContainer>
             }

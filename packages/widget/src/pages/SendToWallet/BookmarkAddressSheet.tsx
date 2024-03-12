@@ -157,9 +157,7 @@ export const BookmarkAddressSheet = forwardRef<
           </SheetAddressContainer>
         ) : null}
         <BookmarkInputFields>
-          <SendToWalletCard
-            variant={error?.type === 'name' ? 'error' : 'default'}
-          >
+          <SendToWalletCard type={error?.type === 'name' ? 'error' : 'default'}>
             <Input
               size="small"
               autoComplete="off"
@@ -175,7 +173,7 @@ export const BookmarkAddressSheet = forwardRef<
           </SendToWalletCard>
           {!validatedWallet && (
             <SendToWalletCard
-              variant={error?.type === 'address' ? 'error' : 'default'}
+              type={error?.type === 'address' ? 'error' : 'default'}
             >
               <AddressInput
                 size="small"

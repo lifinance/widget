@@ -19,7 +19,7 @@ export const IconButton = styled(MuiIconButton)<IconButtonProps & LinkProps>(
     color: 'inherit',
     backgroundColor: 'unset',
     minWidth: 'unset',
-    borderRadius: '50%',
+    borderRadius: theme.shape.borderRadiusTertiary,
     '&:hover': {
       backgroundColor: getContrastAlphaColor(theme, 0.04),
     },

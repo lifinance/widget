@@ -29,6 +29,7 @@ const RelativeContainer = styled(Box, {
   overflow: 'auto',
   flex: 1,
   zIndex: 0,
+  ...theme.container,
 }));
 
 const CssBaselineContainer = styled(ScopedCssBaseline, {
@@ -53,10 +54,9 @@ export const FlexContainer = styled(Container)({
 
 export const AppContainer: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   // const ref = useRef<HTMLDivElement>(null);
-  const { containerStyle, variant, elementId } = useWidgetConfig();
+  const { variant, elementId } = useWidgetConfig();
   return (
     <RelativeContainer
-      sx={containerStyle}
       variant={variant}
       id={createElementId(ElementId.RelativeContainer, elementId)}
     >

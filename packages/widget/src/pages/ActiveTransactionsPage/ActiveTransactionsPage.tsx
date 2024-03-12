@@ -1,4 +1,5 @@
 import { DeleteOutline } from '@mui/icons-material';
+import type { IconButtonProps } from '@mui/material';
 import {
   Button,
   DialogActions,
@@ -7,6 +8,7 @@ import {
   DialogTitle,
   IconButton,
   List,
+  useTheme,
 } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -17,6 +19,20 @@ import { useHeaderStoreContext } from '../../stores/header/useHeaderStore.js';
 import { useRouteExecutionStore } from '../../stores/routes/RouteExecutionStore.js';
 import { useExecutingRoutesIds } from '../../stores/routes/useExecutingRoutesIds.js';
 import { ActiveTransactionsEmpty } from './ActiveTransactionsEmpty.js';
+
+const DeleteIconButton: React.FC<IconButtonProps> = ({ onClick }) => {
+  const theme = useTheme();
+
+  return (
+    <IconButton
+      size="medium"
+      edge={theme?.navigation?.edge ? 'end' : false}
+      onClick={onClick}
+    >
+      <DeleteOutline />
+    </IconButton>
+  );
+};
 
 export const ActiveTransactionsPage = () => {
   const { t } = useTranslation();
@@ -31,11 +47,9 @@ export const ActiveTransactionsPage = () => {
 
   useEffect(() => {
     if (executingRoutes.length) {
-      return headerStoreContext.getState().setAction(
-        <IconButton size="medium" edge="end" onClick={toggleDialog}>
-          <DeleteOutline />
-        </IconButton>,
-      );
+      return headerStoreContext
+        .getState()
+        .setAction(<DeleteIconButton onClick={toggleDialog} />);
     }
   }, [executingRoutes.length, headerStoreContext, toggleDialog]);
 
@@ -47,6 +61,7 @@ export const ActiveTransactionsPage = () => {
     <PageContainer disableGutters>
       <List
         sx={{
+          paddingTop: 0,
           paddingLeft: 1.5,
           paddingRight: 1.5,
           paddingBottom: 1.5,

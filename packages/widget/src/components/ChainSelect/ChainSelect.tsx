@@ -58,11 +58,15 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
               title={chain.name}
               placement="top"
               enterDelay={400}
+              enterNextDelay={100}
+              disableInteractive
               arrow
             >
               <ChainCard
+                component="button"
                 onClick={() => setCurrentChain(chain.id)}
-                variant={chainId === chain.id ? 'selected' : 'default'}
+                type={chainId === chain.id ? 'selected' : 'default'}
+                selectionColor="primary"
               >
                 <Avatar
                   src={chain.logoURI}
@@ -75,7 +79,7 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
             </Tooltip>
           ))}
       {chainsToHide > 0 ? (
-        <ChainCard onClick={showAllChains}>
+        <ChainCard component="button" onClick={showAllChains}>
           <Box
             sx={{
               width: 40,

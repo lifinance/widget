@@ -1,4 +1,4 @@
-import type { BoxProps } from '@mui/material';
+import type { CardProps } from '@mui/material';
 import { Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +9,7 @@ import { CardTitle } from '../Card/CardTitle.js';
 import { ActiveTransactionItem } from './ActiveTransactionItem.js';
 import { ShowAllButton } from './ActiveTransactions.style.js';
 
-export const ActiveTransactions: React.FC<BoxProps> = (props) => {
+export const ActiveTransactions: React.FC<CardProps> = (props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const executingRoutes = useExecutingRoutesIds();
@@ -25,7 +25,7 @@ export const ActiveTransactions: React.FC<BoxProps> = (props) => {
   const hasShowAll = executingRoutes?.length > 2;
 
   return (
-    <Card variant="selected" selectionColor="secondary" {...props}>
+    <Card type="selected" selectionColor="secondary" {...props}>
       <CardTitle>{t('header.activeTransactions')}</CardTitle>
       <Stack spacing={1.5} pt={1.5} pb={hasShowAll ? 0 : 2}>
         {executingRoutes.slice(0, 2).map((routeId) => (

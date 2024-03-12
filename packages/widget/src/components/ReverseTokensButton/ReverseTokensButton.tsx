@@ -2,7 +2,7 @@ import { ArrowDownward, ArrowForward } from '@mui/icons-material';
 import { useAvailableChains } from '../../hooks/useAvailableChains.js';
 import { useToAddressReset } from '../../hooks/useToAddressReset.js';
 import { useFieldActions } from '../../stores/form/useFieldActions.js';
-import { IconButton } from './ReverseTokensButton.style.js';
+import { IconCard, ReverseContainer } from './ReverseTokensButton.style.js';
 
 export const ReverseTokensButton: React.FC<{ vertical?: boolean }> = ({
   vertical,
@@ -31,12 +31,14 @@ export const ReverseTokensButton: React.FC<{ vertical?: boolean }> = ({
     }
   };
   return (
-    <IconButton onClick={handleClick} size="medium">
-      {vertical ? (
-        <ArrowDownward fontSize="inherit" />
-      ) : (
-        <ArrowForward fontSize="inherit" />
-      )}
-    </IconButton>
+    <ReverseContainer>
+      <IconCard onClick={handleClick}>
+        {vertical ? (
+          <ArrowDownward fontSize="inherit" />
+        ) : (
+          <ArrowForward fontSize="inherit" />
+        )}
+      </IconCard>
+    </ReverseContainer>
   );
 };

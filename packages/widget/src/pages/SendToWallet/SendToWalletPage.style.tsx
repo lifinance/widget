@@ -9,7 +9,7 @@ import {
   styled,
 } from '@mui/material';
 import { ButtonTertiary } from '../../components/ButtonTertiary.js';
-import { Card } from '../../components/Card/Card.js';
+import { InputCard } from '../../components/Card/InputCard.js';
 import { Input } from '../../components/Input.js';
 import type { PageContainerProps } from '../../components/PageContainer.js';
 import { PageContainer } from '../../components/PageContainer.js';
@@ -38,7 +38,7 @@ export const SendToWalletPageContainer = styled(
   gap: theme.spacing(1),
 }));
 
-export const SendToWalletCard = styled(Card)({
+export const SendToWalletCard = styled(InputCard)({
   display: 'flex',
   flexDirection: 'column',
 });
@@ -93,6 +93,7 @@ export const ListContainer = styled(List)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   minHeight: 400,
+  paddingTop: 0,
   paddingBottom: theme.spacing(1.5),
 }));
 
