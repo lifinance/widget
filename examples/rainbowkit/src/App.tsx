@@ -21,9 +21,11 @@ export default function App() {
       >
         <LiFiWidget
           config={{
-            containerStyle: {
-              boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
-              borderRadius: '16px',
+            theme: {
+              container: {
+                boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
+                borderRadius: '16px',
+              },
             },
           }}
           integrator="rainbowkit-example"
