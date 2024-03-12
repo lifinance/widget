@@ -14,7 +14,7 @@ import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { Stack } from './RoutesPage.style.js';
 
 export const RoutesPage: React.FC<BoxProps> = () => {
-  const { navigateBack, navigate } = useNavigateBack();
+  const { navigate } = useNavigateBack();
   const { routes, isLoading, isFetching, dataUpdatedAt, refetchTime, refetch } =
     useRoutes();
   const setExecutableRoute = useSetExecutableRoute();
@@ -26,14 +26,6 @@ export const RoutesPage: React.FC<BoxProps> = () => {
       state: { routeId: route.id },
     });
   };
-
-  useEffect(() => {
-    if (!routes?.length && !isLoading && !isFetching) {
-      navigateBack();
-    }
-    // redirect to the home page if no routes are found on page reload
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     return headerStoreContext

@@ -25,8 +25,7 @@ import { TransactionDetailsSkeleton } from './TransactionDetailsSkeleton.js';
 export const TransactionDetailsPage: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { navigate } = useNavigateBack();
-  const { subvariant, contractComponent, contractSecondaryComponent } =
-    useWidgetConfig();
+  const { subvariant, contractSecondaryComponent } = useWidgetConfig();
   const { state }: any = useLocation();
   const { tools } = useTools();
   const storedRouteExecution = useRouteExecutionStore(
@@ -102,9 +101,9 @@ export const TransactionDetailsPage: React.FC = () => {
         </Typography>
       </Box>
       {getStepList(routeExecution?.route, subvariant)}
-      {subvariant === 'nft' ? (
+      {subvariant === 'custom' && contractSecondaryComponent ? (
         <ContractComponent sx={{ marginTop: 2 }}>
-          {contractSecondaryComponent || contractComponent}
+          {contractSecondaryComponent}
         </ContractComponent>
       ) : null}
       {routeExecution?.route?.insurance?.state === 'INSURED' ? (

@@ -12,7 +12,7 @@ export const RouteCardSkeleton: React.FC<
 
   const cardContent = (
     <Box flex={1}>
-      {subvariant !== 'refuel' && subvariant !== 'nft' ? (
+      {subvariant !== 'refuel' && subvariant !== 'custom' ? (
         <Box display="flex" alignItems="center" mb={2}>
           <Skeleton
             variant="rectangular"

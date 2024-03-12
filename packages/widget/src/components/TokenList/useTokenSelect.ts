@@ -33,7 +33,7 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
       if (
         selectedOppositeToken === tokenAddress &&
         selectedOppositeChainId === selectedChainId &&
-        subvariant !== 'nft'
+        subvariant !== 'custom'
       ) {
         setFieldValue(FormKeyHelper.getTokenKey(oppositeFormType), '', {
           isDirty: true,

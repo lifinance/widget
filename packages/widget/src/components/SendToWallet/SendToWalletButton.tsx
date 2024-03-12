@@ -86,9 +86,9 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
   const headerSubheader =
     isConnectedAccount || bookmarkName || connectedAccountName ? address : null;
 
-  const isSelected = !!toAddressFieldValue && !(toAddress && disabledToAddress);
-
   const disabledForChanges = Boolean(toAddress) && disabledToAddress;
+
+  const isSelected = !!toAddressFieldValue && !disabledForChanges;
 
   const handleOnClick = () => {
     navigate(
@@ -125,14 +125,15 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
               <AccountAvatar
                 chainId={chainId}
                 account={matchingConnectedAccount}
+                toAddress={toAddress}
                 empty={!toAddressFieldValue}
               />
             }
             title={headerTitle}
             subheader={headerSubheader}
-            selected={isSelected}
+            selected={isSelected || disabledForChanges}
             action={
-              isSelected && !disabledForChanges ? (
+              isSelected ? (
                 <CardIconButton onClick={clearSelectedBookmark} size="small">
                   <CloseRounded fontSize="inherit" />
                 </CardIconButton>

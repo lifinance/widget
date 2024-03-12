@@ -27,7 +27,7 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
     hiddenUI?.includes(HiddenUI.ToToken);
 
   const hiddenToToken =
-    subvariant === 'nft' || hiddenUI?.includes(HiddenUI.ToToken);
+    subvariant === 'custom' || hiddenUI?.includes(HiddenUI.ToToken);
 
   const isCompact =
     !!fromChain &&

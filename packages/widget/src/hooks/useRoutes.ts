@@ -1,5 +1,5 @@
 import type { Route, RoutesResponse, Token } from '@lifi/sdk';
-import { LiFiErrorCode, getContractCallQuote, getRoutes } from '@lifi/sdk';
+import { LiFiErrorCode, getContractCallsQuote, getRoutes } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { v4 as uuidv4 } from 'uuid';
 import { parseUnits } from 'viem';
@@ -45,20 +45,16 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
     toAddress,
     toTokenAmount,
     toChainId,
-    toContractAddress,
-    toContractCallData,
-    toContractGasLimit,
     toTokenAddress,
+    contractCalls,
   ] = useFieldValues(
     'fromChain',
     'fromToken',
     'toAddress',
     'toAmount',
     'toChain',
-    'toContractAddress',
-    'toContractCallData',
-    'toContractGasLimit',
     'toToken',
+    'contractCalls',
   );
   const { token: fromToken } = useToken(fromChainId, fromTokenAddress);
   const { token: toToken } = useToken(toChainId, toTokenAddress);
@@ -72,19 +68,12 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
   const hasAmount = Number(fromTokenAmount) > 0 || Number(toTokenAmount) > 0;
 
   const contractCallQuoteEnabled: boolean =
-    subvariant === 'nft'
-      ? Boolean(
-          toContractAddress &&
-            toContractCallData &&
-            toContractGasLimit &&
-            account.address,
-        )
-      : true;
+    subvariant === 'custom' ? Boolean(contractCalls && account.address) : true;
 
   // If toAddress is set, it must have the same chainType as toChain
-  const hasToAddressAndChainTypeSatisfied =
-    toChain &&
-    Boolean(toAddress) &&
+  const hasToAddressAndChainTypeSatisfied: boolean =
+    !!toChain &&
+    !!toAddress &&
     getChainTypeFromAddress(toAddress) === toChain.chainType;
   // We need to check for toAddress only if it is set
   const isToAddressSatisfied = toAddress
@@ -118,9 +107,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
     toChainId as number,
     toToken?.address as string,
     toTokenAmount,
-    toContractAddress,
-    toContractCallData,
-    toContractGasLimit,
+    contractCalls,
     slippage,
     swapOnly,
     disabledBridges,
@@ -148,9 +135,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
           toChainId,
           toTokenAddress,
           toTokenAmount,
-          toContractAddress,
-          toContractCallData,
-          toContractGasLimit,
+          contractCalls,
           slippage = defaultSlippage,
           swapOnly,
           disabledBridges,
@@ -196,8 +181,8 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
             )
           : undefined;
 
-        if (subvariant === 'nft') {
-          const contractCallQuote = await getContractCallQuote(
+        if (subvariant === 'custom' && contractCalls && toTokenAmount) {
+          const contractCallQuote = await getContractCallsQuote(
             {
               // Contract calls are enabled only when fromAddress is set
               fromAddress: fromAddress as string,
@@ -206,9 +191,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
               toAmount: toTokenAmount,
               toChain: toChainId,
               toToken: toTokenAddress,
-              toContractAddress,
-              toContractCallData,
-              toContractGasLimit,
+              contractCalls,
               denyBridges: disabledBridges.length ? disabledBridges : undefined,
               denyExchanges: disabledExchanges.length
                 ? disabledExchanges
@@ -224,7 +207,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
           contractCallQuote.action.toToken = toToken!;
 
           const customStep =
-            subvariant === 'nft'
+            subvariant === 'custom'
               ? contractCallQuote.includedSteps?.find(
                   (step) => step.type === 'custom',
                 )

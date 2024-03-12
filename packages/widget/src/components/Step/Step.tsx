@@ -30,27 +30,27 @@ export const Step: React.FC<{
   const getCardTitle = () => {
     switch (step.type) {
       case 'lifi':
-        const hasCrossStep = step.includedSteps.some(
+        const hasBridgeStep = step.includedSteps.some(
           (step) => step.type === 'cross',
         );
         const hasSwapStep = step.includedSteps.some(
           (step) => step.type === 'swap',
         );
-        if (hasCrossStep && hasSwapStep) {
-          return subvariant === 'nft'
+        if (hasBridgeStep && hasSwapStep) {
+          return subvariant === 'custom'
             ? t('main.stepBridgeAndBuy')
             : t('main.stepSwapAndBridge');
         }
-        if (hasCrossStep) {
-          return subvariant === 'nft'
+        if (hasBridgeStep) {
+          return subvariant === 'custom'
             ? t('main.stepBridgeAndBuy')
             : t('main.stepBridge');
         }
-        return subvariant === 'nft'
+        return subvariant === 'custom'
           ? t('main.stepSwapAndBuy')
           : t('main.stepSwap');
       default:
-        return subvariant === 'nft'
+        return subvariant === 'custom'
           ? t('main.stepSwapAndBuy')
           : t('main.stepSwap');
     }

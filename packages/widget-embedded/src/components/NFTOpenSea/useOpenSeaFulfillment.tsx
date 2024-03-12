@@ -1,4 +1,4 @@
-import type { ChainId, TokenAmount } from '@lifi/sdk';
+import type { ChainId, ContractCall, TokenAmount } from '@lifi/sdk';
 import type { NFTProps } from '@lifi/widget';
 import { useAccount, useFieldValues } from '@lifi/widget';
 import { Seaport } from '@opensea/seaport-js';
@@ -60,7 +60,7 @@ export const useOpenSeaFulfillment = (
       const orderV2 = { ...order };
       orderV2.protocolData = fulfillmentDataResponse.fulfillment_data.orders[0];
 
-      const fulfillOrder = async () => {
+      const fulfillOrder = async (): Promise<ContractCall | undefined> => {
         try {
           const signer = await getEthersSigner(config);
 
@@ -80,9 +80,11 @@ export const useOpenSeaFulfillment = (
             await actions[0].transactionMethods.estimateGas();
 
           return {
-            address: transaction.to,
-            callData: transaction.data,
-            gasLimit: estimatedGas.toString(),
+            fromAmount: orderV2?.currentPrice,
+            fromTokenAddress: orderV2?.takerAssetBundle.assets[0].tokenAddress!,
+            toContractAddress: transaction.to,
+            toContractCallData: transaction.data,
+            toContractGasLimit: estimatedGas.toString(),
           };
         } catch (error: any) {
           if (error.code === 'CALL_EXCEPTION') {
@@ -127,7 +129,7 @@ export const useOpenSeaFulfillment = (
         assetName: asset?.name,
         owner: owner,
         token: token,
-        contract: contract,
+        contractCall: contract,
       };
 
       return result;

@@ -15,7 +15,7 @@ export const StoreProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
     <SplitSubvariantStoreProvider
       state={
         config.subvariant === 'split'
-          ? config.subvariantOptions || 'swap'
+          ? config.subvariantOptions?.split || 'swap'
           : undefined
       }
     >

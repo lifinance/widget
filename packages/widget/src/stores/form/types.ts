@@ -1,22 +1,20 @@
+import type { ContractCall } from '@lifi/sdk';
 import type { StoreApi } from 'zustand';
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
 
 export interface DefaultValues {
-  contractOutputsToken: string;
+  contractCalls?: ContractCall[];
   fromAmount: string;
   fromChain?: number;
   fromToken?: string;
-  toAddress: string;
+  toAddress?: string;
   toAmount: string;
   toChain?: number;
-  toContractAddress: string;
-  toContractCallData: string;
-  toContractGasLimit: string;
   toToken?: string;
   tokenSearchFilter: string;
 }
 
-export type GenericFormValue = string | number | undefined;
+export type GenericFormValue = string | number | ContractCall[] | undefined;
 export interface FormValueControl<T> {
   isTouched: boolean;
   isDirty: boolean;

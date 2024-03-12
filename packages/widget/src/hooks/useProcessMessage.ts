@@ -11,24 +11,38 @@ import { LiFiErrorCode } from '@lifi/sdk';
 import type { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
-import type { WidgetSubvariant } from '../types/widget.js';
+import type { SubvariantOptions, WidgetSubvariant } from '../types/widget.js';
 import { formatTokenAmount } from '../utils/format.js';
 import { useAvailableChains } from './useAvailableChains.js';
 
 export const useProcessMessage = (step?: LiFiStep, process?: Process) => {
-  const { subvariant } = useWidgetConfig();
+  const { subvariant, subvariantOptions } = useWidgetConfig();
   const { t } = useTranslation();
   const { getChainById } = useAvailableChains();
   if (!step || !process) {
     return {};
   }
-  return getProcessMessage(t, getChainById, step, process, subvariant);
+  return getProcessMessage(
+    t,
+    getChainById,
+    step,
+    process,
+    subvariant,
+    subvariantOptions,
+  );
 };
 
 const processStatusMessages: Record<
   ProcessType,
   Partial<
-    Record<Status, (t: TFunction, subvariant?: WidgetSubvariant) => string>
+    Record<
+      Status,
+      (
+        t: TFunction,
+        subvariant?: WidgetSubvariant,
+        subvariantOptions?: SubvariantOptions,
+      ) => string
+    >
   >
 > = {
   TOKEN_ALLOWANCE: {
@@ -45,22 +59,26 @@ const processStatusMessages: Record<
     STARTED: (t) => t(`main.process.swap.started`),
     ACTION_REQUIRED: (t) => t(`main.process.swap.actionRequired`),
     PENDING: (t) => t(`main.process.swap.pending`),
-    DONE: (t, subvariant) =>
-      subvariant === 'nft'
-        ? t(`main.process.nft.done`)
+    DONE: (t, subvariant, subvariantOptions) =>
+      subvariant === 'custom'
+        ? subvariantOptions?.custom
+          ? t(`main.process.${subvariantOptions?.custom}.done`)
+          : t(`main.process.checkout.done`)
         : t(`main.process.swap.done`),
   },
   CROSS_CHAIN: {
-    STARTED: (t) => t(`main.process.crossChain.started`),
-    ACTION_REQUIRED: (t) => t(`main.process.crossChain.actionRequired`),
-    PENDING: (t) => t(`main.process.crossChain.pending`),
-    DONE: (t) => t(`main.process.crossChain.done`),
+    STARTED: (t) => t(`main.process.bridge.started`),
+    ACTION_REQUIRED: (t) => t(`main.process.bridge.actionRequired`),
+    PENDING: (t) => t(`main.process.bridge.pending`),
+    DONE: (t) => t(`main.process.bridge.done`),
   },
   RECEIVING_CHAIN: {
     PENDING: (t) => t(`main.process.receivingChain.pending`),
-    DONE: (t, subvariant) =>
-      subvariant === 'nft'
-        ? t(`main.process.nft.done`)
+    DONE: (t, subvariant, subvariantOptions) =>
+      subvariant === 'custom'
+        ? subvariantOptions?.custom
+          ? t(`main.process.${subvariantOptions?.custom}.done`)
+          : t(`main.process.checkout.done`)
         : t(`main.process.receivingChain.done`),
   },
   TRANSACTION: {},
@@ -102,6 +120,7 @@ export function getProcessMessage(
   step: LiFiStep,
   process: Process,
   subvariant?: WidgetSubvariant,
+  subvariantOptions?: SubvariantOptions,
 ): {
   title?: string;
   message?: string;
@@ -197,6 +216,10 @@ export function getProcessMessage(
     processSubstatusMessages[process.status as StatusMessage]?.[
       process.substatus!
     ]?.(t) ??
-    processStatusMessages[process.type]?.[process.status]?.(t, subvariant);
+    processStatusMessages[process.type]?.[process.status]?.(
+      t,
+      subvariant,
+      subvariantOptions,
+    );
   return { title };
 }

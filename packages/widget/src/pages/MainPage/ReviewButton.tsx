@@ -33,7 +33,7 @@ export const ReviewButton: React.FC = () => {
   const getButtonText = (): string => {
     if (currentRoute) {
       switch (subvariant) {
-        case 'nft':
+        case 'custom':
           return t(`button.reviewPurchase`);
         case 'refuel':
           return t(`button.reviewBridge`);
@@ -46,7 +46,7 @@ export const ReviewButton: React.FC = () => {
       }
     } else {
       switch (subvariant) {
-        case 'nft':
+        case 'custom':
           return t(`button.buy`);
         case 'refuel':
           return t(`button.getGas`);

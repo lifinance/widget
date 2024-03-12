@@ -45,7 +45,7 @@ export const Routes: React.FC<CardProps> = (props) => {
   return (
     <Card {...props}>
       <CardTitle>
-        {subvariant === 'nft' ? t('main.fromAmount') : t('header.youGet')}
+        {subvariant === 'custom' ? t('main.fromAmount') : t('header.youGet')}
       </CardTitle>
       <ProgressToNextUpdate
         updatedAt={dataUpdatedAt || new Date().getTime()}

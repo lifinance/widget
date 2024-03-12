@@ -1,6 +1,7 @@
 import type {
   BaseToken,
   ChainType,
+  ContractCall,
   Order,
   RouteOptions,
   SDKConfig,
@@ -26,8 +27,13 @@ import type {
 } from '../providers/I18nProvider/types.js';
 
 export type WidgetVariant = 'compact' | 'wide' | 'drawer';
-export type WidgetSubvariant = 'default' | 'split' | 'nft' | 'refuel';
-export type SplitSubvariantOptions = 'bridge' | 'swap';
+export type WidgetSubvariant = 'default' | 'split' | 'custom' | 'refuel';
+export type SplitSubvariant = 'bridge' | 'swap';
+export type CustomSubvariant = 'checkout' | 'deposit';
+export interface SubvariantOptions {
+  split?: SplitSubvariant;
+  custom?: CustomSubvariant;
+}
 
 export type Appearance = PaletteMode | 'auto';
 export interface NavigationProps {
@@ -112,19 +118,11 @@ export interface WidgetContractTool {
   name: string;
 }
 
-export interface WidgetContract {
-  address?: string;
-  callData?: string;
-  gasLimit?: string;
-  approvalAddress?: string;
-  outputToken?: string;
-  fallbackAddress?: string;
-}
-
 export interface ToAddress {
   name?: string;
   address: string;
   chainType: ChainType;
+  logoURI?: string;
 }
 
 export interface AllowDeny<T> {
@@ -142,7 +140,7 @@ export interface WidgetConfig {
   fromAmount?: number | string;
   toAmount?: number | string;
 
-  contract?: WidgetContract;
+  contractCalls?: ContractCall[];
   contractComponent?: ReactNode;
   contractSecondaryComponent?: ReactNode;
   contractCompactComponent?: ReactNode;
@@ -159,7 +157,7 @@ export interface WidgetConfig {
 
   variant?: WidgetVariant;
   subvariant?: WidgetSubvariant;
-  subvariantOptions?: SplitSubvariantOptions;
+  subvariantOptions?: SubvariantOptions;
 
   appearance?: Appearance;
   theme?: WidgetTheme;

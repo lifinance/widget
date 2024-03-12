@@ -41,7 +41,7 @@ export const NFTOpenSea: React.FC<NFTOpenSeaProps> = ({
       assetName={data?.assetName}
       owner={data?.owner}
       token={data?.token! ?? {}}
-      contract={data?.contract}
+      contractCall={data?.contractCall}
     />
   );
 };

@@ -37,12 +37,8 @@ export const TransactionPage: React.FC = () => {
   const { setFieldValue } = useFieldActions();
   const emitter = useWidgetEvents();
   const { navigateBack } = useNavigateBack();
-  const {
-    subvariant,
-    insurance,
-    contractComponent,
-    contractSecondaryComponent,
-  } = useWidgetConfig();
+  const { subvariant, insurance, contractSecondaryComponent } =
+    useWidgetConfig();
   const { state }: any = useLocation();
   const headerStoreContext = useHeaderStoreContext();
   const stateRouteId = state?.routeId;
@@ -65,7 +61,7 @@ export const TransactionPage: React.FC = () => {
     });
 
   useEffect(() => {
-    if (route && subvariant !== 'nft') {
+    if (route && subvariant !== 'custom') {
       const transactionType =
         route.fromChainId === route.toChainId ? 'Swap' : 'Bridge';
       return headerStoreContext
@@ -104,7 +100,7 @@ export const TransactionPage: React.FC = () => {
     tokenValueBottomSheetRef.current?.close();
     executeRoute();
     setFieldValue('fromAmount', '');
-    if (subvariant === 'nft') {
+    if (subvariant === 'custom') {
       setFieldValue('fromToken', '');
       setFieldValue('toToken', '');
     }
@@ -112,7 +108,7 @@ export const TransactionPage: React.FC = () => {
 
   const handleStartClick = async () => {
     if (status === RouteExecutionStatus.Idle) {
-      if (tokenValueLossThresholdExceeded && subvariant !== 'nft') {
+      if (tokenValueLossThresholdExceeded && subvariant !== 'custom') {
         tokenValueBottomSheetRef.current?.open();
       } else {
         handleExecuteRoute();
@@ -132,7 +128,7 @@ export const TransactionPage: React.FC = () => {
     switch (status) {
       case RouteExecutionStatus.Idle:
         switch (subvariant) {
-          case 'nft':
+          case 'custom':
             return t('button.buyNow');
           case 'refuel':
             return t('button.startBridging');
@@ -169,9 +165,9 @@ export const TransactionPage: React.FC = () => {
   return (
     <PageContainer bottomGutters>
       {getStepList(route, subvariant)}
-      {subvariant === 'nft' ? (
+      {subvariant === 'custom' && contractSecondaryComponent ? (
         <ContractComponent sx={{ marginTop: 2 }}>
-          {contractSecondaryComponent || contractComponent}
+          {contractSecondaryComponent}
         </ContractComponent>
       ) : null}
       {insuranceAvailable ? (
@@ -222,7 +218,7 @@ export const TransactionPage: React.FC = () => {
         </>
       ) : null}
       {status ? <StatusBottomSheet status={status} route={route} /> : null}
-      {tokenValueLossThresholdExceeded && subvariant !== 'nft' ? (
+      {tokenValueLossThresholdExceeded && subvariant !== 'custom' ? (
         <TokenValueBottomSheet
           route={route}
           ref={tokenValueBottomSheetRef}
