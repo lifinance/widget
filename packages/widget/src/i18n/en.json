@@ -171,8 +171,10 @@
   },
   "main": {
     "allTokens": "All tokens",
-    "crossStepDetails": "Bridge from {{from}} to {{to}} via {{tool}}",
+    "bridgeStepDetails": "Bridge from {{from}} to {{to}} via {{tool}}",
+    "checkoutStepDetails": "Purchase via {{tool}}",
     "currentAmount": "Current amount",
+    "depositStepDetails": "Deposit via {{tool}}",
     "featuredTokens": "Featured tokens",
     "fees": {
       "estimated": "estimated fees",
@@ -187,19 +189,21 @@
     "gasCost": "Gas cost",
     "inProgress": "in progress",
     "myTokens": "My tokens",
-    "nftStepDetails": "Purchase NFT via {{tool}}",
     "onChain": "on {{chainName}}",
     "ownedBy": "Owned by",
     "popularTokens": "Popular tokens",
     "process": {
-      "crossChain": {
+      "bridge": {
         "actionRequired": "Please sign the transaction",
         "done": "Bridge transaction confirmed",
         "pending": "Waiting for bridge transaction",
         "started": "Preparing bridge transaction"
       },
-      "nft": {
-        "done": "NFT purchased"
+      "checkout": {
+        "done": "Purchase completed"
+      },
+      "deposit": {
+        "done": "Deposit completed"
       },
       "receivingChain": {
         "done": "Bridge completed",

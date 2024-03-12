@@ -6,7 +6,7 @@ import { useFormStore } from './useFormStore.js';
 export const useFieldValues = <T extends FormFieldNames[]>(...names: T) => {
   const values = useFormStore(
     (store) =>
-      names.map((name) => store.userValues[name]!.value) as FormFieldArray<T>,
+      names.map((name) => store.userValues[name]?.value) as FormFieldArray<T>,
     shallow,
   );
 

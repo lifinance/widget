@@ -59,7 +59,7 @@ export const NavigationHeader: React.FC = () => {
       case navigationRoutes.transactionHistory:
         return t(`header.transactionHistory`);
       case navigationRoutes.fromToken: {
-        if (subvariant === 'nft') {
+        if (subvariant === 'custom') {
           return t(`header.payWith`);
         }
         return t(`header.from`);
@@ -75,20 +75,20 @@ export const NavigationHeader: React.FC = () => {
       case navigationRoutes.activeTransactions:
         return t(`header.activeTransactions`);
       case navigationRoutes.transactionExecution: {
-        if (subvariant === 'nft') {
+        if (subvariant === 'custom') {
           return t(`header.purchase`);
         }
         return t(`header.exchange`);
       }
       case navigationRoutes.transactionDetails: {
-        if (subvariant === 'nft') {
+        if (subvariant === 'custom') {
           return t(`header.purchaseDetails`);
         }
         return t(`header.transactionDetails`);
       }
       default: {
         switch (subvariant) {
-          case 'nft':
+          case 'custom':
             return t(`header.checkout`);
           case 'refuel':
             return t(`header.gas`);

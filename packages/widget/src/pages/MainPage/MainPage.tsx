@@ -18,19 +18,21 @@ import { ReviewButton } from './ReviewButton.js';
 export const MainPage: React.FC = () => {
   const wideVariant = useWideVariant();
   const { subvariant, contractComponent, hiddenUI } = useWidgetConfig();
-  const nft = subvariant === 'nft';
+  const custom = subvariant === 'custom';
   const showPoweredBy = !hiddenUI?.includes(HiddenUI.PoweredBy);
 
   return (
     <PageContainer>
       <ActiveTransactions sx={{ marginBottom: 2 }} />
-      {nft ? (
+      {custom ? (
         <ContractComponent sx={{ marginBottom: 2 }}>
           {contractComponent}
         </ContractComponent>
       ) : null}
       <SelectChainAndToken mb={2} />
-      {!nft ? <AmountInput formType="from" sx={{ marginBottom: 2 }} /> : null}
+      {!custom ? (
+        <AmountInput formType="from" sx={{ marginBottom: 2 }} />
+      ) : null}
       {!wideVariant ? <Routes sx={{ marginBottom: 2 }} /> : null}
       <SendToWalletButton sx={{ marginBottom: 2 }} />
       <GasRefuelMessage mb={2} />

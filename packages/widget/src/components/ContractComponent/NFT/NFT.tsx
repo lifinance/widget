@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useFieldActions } from '../../stores/form/useFieldActions.js';
+import { useFieldActions } from '../../../stores/form/useFieldActions.js';
 import { NFTBase } from './NFTBase.js';
 import type { NFTProps } from './types.js';
 
@@ -10,7 +10,7 @@ export const NFT: React.FC<NFTProps> = ({
   assetName,
   owner,
   token,
-  contract,
+  contractCall,
 }) => {
   const { setFieldValue } = useFieldActions();
 
@@ -22,18 +22,12 @@ export const NFT: React.FC<NFTProps> = ({
         isTouched: true,
       });
     }
-    if (contract) {
-      setFieldValue('toContractAddress', contract.address, {
-        isTouched: true,
-      });
-      setFieldValue('toContractCallData', contract.callData, {
-        isTouched: true,
-      });
-      setFieldValue('toContractGasLimit', contract.gasLimit, {
+    if (contractCall) {
+      setFieldValue('contractCalls', [contractCall], {
         isTouched: true,
       });
     }
-  }, [contract, setFieldValue, token]);
+  }, [contractCall, setFieldValue, token]);
   return (
     <NFTBase
       isLoading={isLoading}

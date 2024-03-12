@@ -20,7 +20,7 @@ export const getStepList = (
             ...(step.execution?.toToken ?? step.action?.toToken),
             amount: step.execution?.toAmount
               ? BigInt(step.execution.toAmount)
-              : subvariant === 'nft'
+              : subvariant === 'custom'
                 ? BigInt(route.toAmount)
                 : BigInt(step.estimate.toAmount),
           }

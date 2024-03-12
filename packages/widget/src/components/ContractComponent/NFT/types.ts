@@ -1,5 +1,4 @@
-import type { TokenAmount } from '@lifi/sdk';
-import type { WidgetContract } from '../../types/widget.js';
+import type { ContractCall, TokenAmount } from '@lifi/sdk';
 
 export interface NFTBaseProps {
   imageUrl?: string;
@@ -11,7 +10,7 @@ export interface NFTBaseProps {
 }
 
 export interface NFTProps extends NFTBaseProps {
-  contract?: WidgetContract;
+  contractCall?: ContractCall;
 }
 
 export interface NFTOwner {

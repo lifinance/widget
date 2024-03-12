@@ -11,13 +11,8 @@ import type {
 
 export const formDefaultValues: DefaultValues = {
   fromAmount: '',
-  toAddress: '',
-  tokenSearchFilter: '',
-  contractOutputsToken: '',
-  toContractAddress: '',
-  toContractCallData: '',
-  toContractGasLimit: '',
   toAmount: '',
+  tokenSearchFilter: '',
 };
 
 const defaultValueToFormValue = <T>(value: T): FormValueControl<T> => ({

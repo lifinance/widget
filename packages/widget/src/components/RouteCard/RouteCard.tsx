@@ -40,7 +40,7 @@ export const RouteCard: React.FC<
   const insurable = route.insurance?.state === 'INSURABLE';
 
   const token: TokenAmount =
-    subvariant === 'nft'
+    subvariant === 'custom'
       ? { ...route.fromToken, amount: BigInt(route.fromAmount) }
       : { ...route.toToken, amount: BigInt(route.toAmount) };
 

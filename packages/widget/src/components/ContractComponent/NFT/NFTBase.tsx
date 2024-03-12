@@ -1,6 +1,6 @@
 import { Box, Link, Skeleton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { Token } from '../Token/Token.js';
+import { Token } from '../../Token/Token.js';
 import { PreviewAvatar } from './NFT.style.js';
 import type { NFTProps } from './types.js';
 

@@ -89,6 +89,7 @@ export const SendToConfiguredWalletPage = () => {
               <ListItemAvatar>
                 <AccountAvatar
                   chainId={defaultChainIdsByType[toAddress.chainType]}
+                  toAddress={toAddress}
                 />
               </ListItemAvatar>
               <ListItemText

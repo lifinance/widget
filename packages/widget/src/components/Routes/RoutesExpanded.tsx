@@ -115,7 +115,7 @@ export const RoutesExpandedElement = () => {
           <ScrollableContainer>
             <Header>
               <Typography fontSize={18} fontWeight="700" flex={1} noWrap>
-                {subvariant === 'nft'
+                {subvariant === 'custom'
                   ? t('main.fromAmount')
                   : t('header.youGet')}
               </Typography>

@@ -2,7 +2,7 @@ import type { WidgetConfig } from '@lifi/widget';
 import './index.css';
 
 export const widgetBaseConfig: WidgetConfig = {
-  subvariant: 'nft',
+  subvariant: 'custom',
   integrator: 'li.fi-playground',
   hiddenUI: ['history'],
   // buildUrl: true,
