@@ -2902,7 +2902,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lifi/wallet-management@npm:^3.0.0-alpha.22, @lifi/wallet-management@workspace:packages/wallet-management":
+"@lifi/wallet-management@npm:^3.0.0-alpha.23, @lifi/wallet-management@workspace:packages/wallet-management":
   version: 0.0.0-use.local
   resolution: "@lifi/wallet-management@workspace:packages/wallet-management"
   dependencies:
@@ -2925,13 +2925,13 @@ __metadata:
     "@ethersproject/abstract-signer": "npm:^5.7.0"
     "@ethersproject/providers": "npm:^5.7.2"
     "@lifi/sdk": "npm:^3.0.0-alpha.57"
-    "@lifi/wallet-management": "npm:^3.0.0-alpha.22"
-    "@lifi/widget": "npm:^3.0.0-alpha.33"
+    "@lifi/wallet-management": "npm:^3.0.0-alpha.23"
+    "@lifi/widget": "npm:^3.0.0-alpha.34"
     "@mui/icons-material": "npm:^5.15.12"
     "@mui/lab": "npm:^5.0.0-alpha.167"
     "@mui/material": "npm:^5.15.12"
     "@opensea/seaport-js": "npm:3.0.2"
-    "@tanstack/react-query": "npm:^5.27.3"
+    "@tanstack/react-query": "npm:^5.27.5"
     "@vitejs/plugin-react-swc": "npm:^3.6.0"
     bignumber.js: "npm:^9.1.2"
     ethers: "npm:^6.11.1"
@@ -2954,9 +2954,9 @@ __metadata:
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.0"
     "@lifi/sdk": "npm:^3.0.0-alpha.57"
-    "@lifi/wallet-management": "npm:^3.0.0-alpha.22"
-    "@lifi/widget": "npm:^3.0.0-alpha.33"
-    "@lifi/widget-playground": "npm:^1.0.185"
+    "@lifi/wallet-management": "npm:^3.0.0-alpha.23"
+    "@lifi/widget": "npm:^3.0.0-alpha.34"
+    "@lifi/widget-playground": "npm:^1.0.186"
     "@mui/icons-material": "npm:^5.15.12"
     "@mui/material": "npm:^5.15.12"
     "@mui/material-nextjs": "npm:^5.15.11"
@@ -2965,7 +2965,7 @@ __metadata:
     "@solana/wallet-adapter-react": "npm:^0.15.35"
     "@solana/wallet-adapter-wallets": "npm:^0.19.31"
     "@solana/web3.js": "npm:^1.91.0"
-    "@tanstack/react-query": "npm:^5.27.3"
+    "@tanstack/react-query": "npm:^5.27.5"
     "@types/node": "npm:^20.11.26"
     "@types/react": "npm:^18.2.65"
     "@types/react-dom": "npm:^18.2.21"
@@ -2990,9 +2990,9 @@ __metadata:
   dependencies:
     "@esbuild-plugins/node-globals-polyfill": "npm:^0.2.3"
     "@lifi/sdk": "npm:^3.0.0-alpha.57"
-    "@lifi/wallet-management": "npm:^3.0.0-alpha.22"
-    "@lifi/widget": "npm:^3.0.0-alpha.33"
-    "@lifi/widget-playground": "npm:^1.0.185"
+    "@lifi/wallet-management": "npm:^3.0.0-alpha.23"
+    "@lifi/widget": "npm:^3.0.0-alpha.34"
+    "@lifi/widget-playground": "npm:^1.0.186"
     "@mui/icons-material": "npm:^5.15.12"
     "@mui/material": "npm:^5.15.12"
     "@rainbow-me/rainbowkit": "npm:^2.0.2"
@@ -3000,7 +3000,7 @@ __metadata:
     "@solana/wallet-adapter-react": "npm:^0.15.35"
     "@solana/wallet-adapter-wallets": "npm:^0.19.31"
     "@solana/web3.js": "npm:^1.91.0"
-    "@tanstack/react-query": "npm:^5.27.3"
+    "@tanstack/react-query": "npm:^5.27.5"
     "@vitejs/plugin-react-swc": "npm:^3.6.0"
     lodash.isequal: "npm:^4.5.0"
     microdiff: "npm:^1.3.2"
@@ -3017,7 +3017,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@lifi/widget-playground@npm:^1.0.185, @lifi/widget-playground@workspace:packages/widget-playground":
+"@lifi/widget-playground@npm:^1.0.186, @lifi/widget-playground@workspace:packages/widget-playground":
   version: 0.0.0-use.local
   resolution: "@lifi/widget-playground@workspace:packages/widget-playground"
   dependencies:
@@ -3056,14 +3056,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@lifi/widget@npm:^3.0.0-alpha.33, @lifi/widget@workspace:packages/widget":
+"@lifi/widget@npm:^3.0.0-alpha.34, @lifi/widget@workspace:packages/widget":
   version: 0.0.0-use.local
   resolution: "@lifi/widget@workspace:packages/widget"
   dependencies:
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.0"
     "@lifi/sdk": "npm:^3.0.0-alpha.57"
-    "@lifi/wallet-management": "npm:^3.0.0-alpha.22"
+    "@lifi/wallet-management": "npm:^3.0.0-alpha.23"
     "@mui/icons-material": "npm:^5.15.12"
     "@mui/lab": "npm:^5.0.0-alpha.167"
     "@mui/material": "npm:^5.15.12"
@@ -3071,7 +3071,7 @@ __metadata:
     "@solana/wallet-adapter-react": "npm:^0.15.35"
     "@solana/wallet-adapter-wallets": "npm:^0.19.31"
     "@solana/web3.js": "npm:^1.91.0"
-    "@tanstack/react-query": "npm:^5.27.3"
+    "@tanstack/react-query": "npm:^5.27.5"
     "@tanstack/react-virtual": "npm:^3.1.3"
     cpy-cli: "npm:^5.0.0"
     i18next: "npm:^23.10.1"
@@ -5877,21 +5877,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.27.3":
-  version: 5.27.3
-  resolution: "@tanstack/query-core@npm:5.27.3"
-  checksum: 10/1753579709cbc20364d777feab8da4bd39a47f61b318ac1904561690b50180972b80dbb01839fa297f9e85ab137f018f27ea1607cedce57b68dbf82caec2c8c9
+"@tanstack/query-core@npm:5.27.5":
+  version: 5.27.5
+  resolution: "@tanstack/query-core@npm:5.27.5"
+  checksum: 10/3c947b7d9711b7b99c0c5ad7df101a87e75968477674eb719222ec619da13da0b4cb730166afed469c4bf903105a7138c4c3f24655fbcde6737dba9935bb7450
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.27.3":
-  version: 5.27.3
-  resolution: "@tanstack/react-query@npm:5.27.3"
+"@tanstack/react-query@npm:^5.27.5":
+  version: 5.27.5
+  resolution: "@tanstack/react-query@npm:5.27.5"
   dependencies:
-    "@tanstack/query-core": "npm:5.27.3"
+    "@tanstack/query-core": "npm:5.27.5"
   peerDependencies:
     react: ^18.0.0
-  checksum: 10/bdbacc5161ddcbe8ab025b79d53236d263404f2f5305b4b1555aecbcce7b05ba002268cb67d5ee477663d7cc212e14ae02fcc45c4479347179c9d0a2eb7267a8
+  checksum: 10/db2e75c1e0e849820121de68d3fe9a894dc6f0541234430cc39ab7ff9100cf321cd39412a420eba656aa39644c48227ea7ed44d10d237fb00ca1ccea06596fab
   languageName: node
   linkType: hard
 

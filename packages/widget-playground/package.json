@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-playground",
-  "version": "1.0.185",
+  "version": "1.0.186",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.d.ts",
@@ -56,8 +56,8 @@
     "./fonts": "./src/fonts/inter.css",
     "./widget-config": "./src/defaultWidgetConfig.ts"
   },
-  "private": true,
   "dependencies": {
     "@monaco-editor/react": "^4.6.0"
-  }
+  },
+  "private": true
 }
