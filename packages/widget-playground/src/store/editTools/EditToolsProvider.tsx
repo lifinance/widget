@@ -5,6 +5,7 @@ import { createEditToolsStore } from './createEditToolsStore';
 import type { ToolsState, ToolsStore } from './types';
 import { themeItems } from './themes';
 import { useDefaultTheme } from '../widgetConfig/useDefaultTheme';
+import isEqual from 'lodash.isequal';
 
 export const EditToolsContext = createContext<ToolsStore | null>(null);
 
@@ -21,7 +22,22 @@ export const EditToolsProvider: FC<PropsWithChildren> = ({ children }) => {
     });
   }
 
-  // TODO need to update the themeItems if defaultTheme changes
+  useEffect(() => {
+    const currentDefaultTheme = storeRef.current
+      ?.getState()
+      .themeControl.widgetThemeItems.find(
+        (themeItem) => themeItem.id === 'default',
+      )?.theme;
+
+    if (currentDefaultTheme && !isEqual(currentDefaultTheme, defaultTheme)) {
+      storeRef.current
+        ?.getState()
+        .setAvailableThemes([
+          { id: 'default', name: 'Default', theme: defaultTheme },
+          ...themeItems,
+        ]);
+    }
+  }, [defaultTheme]);
 
   return (
     <EditToolsContext.Provider value={storeRef.current}>
