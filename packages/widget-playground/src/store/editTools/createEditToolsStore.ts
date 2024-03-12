@@ -42,6 +42,10 @@ export const createEditToolsStore = () =>
               visibleControls,
             },
           });
+
+          if (visibleControls !== 'code') {
+            get().setCodeDrawerWidth(defaultDrawerWidth);
+          }
         },
         setCodeControlTab: (openTab) => {
           set({
@@ -50,6 +54,10 @@ export const createEditToolsStore = () =>
               openTab,
             },
           });
+
+          if (openTab !== 'config') {
+            get().setCodeDrawerWidth(defaultDrawerWidth);
+          }
         },
         resetEditTools: () => {
           set({
@@ -73,11 +81,11 @@ export const createEditToolsStore = () =>
       }),
       {
         name: `'li.fi-playground-tools`,
-        version: 0,
+        version: 1,
         partialize: (state) => ({
           drawer: {
+            ...state.drawer,
             open: state.drawer.open,
-            codeDrawerWidth: state.drawer.codeDrawerWidth || defaultDrawerWidth,
             visibleControls: state.drawer.visibleControls || 'design',
           },
         }),

@@ -6,7 +6,11 @@ import {
   useDrawerToolValues,
   useEditToolsActions,
 } from '../../store';
-import { DrawerHandleButton } from './DrawerControls.style';
+import {
+  DrawerHandleButton,
+  DrawerIconLeft,
+  DrawerIconRight,
+} from './DrawerControls.style';
 
 export const DrawerHandle = () => {
   const [isDrawerResizing, setIsDrawerResizing] = useState(false);
@@ -50,12 +54,28 @@ export const DrawerHandle = () => {
   return visibleControls === 'code' &&
     codeControlTab === 'config' &&
     isDrawerOpen ? (
-    <DrawerHandleButton
-      onMouseDown={drawerHandleOnMouseDown}
-      sx={{
-        width: isDrawerResizing ? 400 : 16,
-        left: isDrawerResizing ? drawerWidth - 200 : drawerWidth,
-      }}
-    />
+    <>
+      <DrawerHandleButton
+        onMouseDown={drawerHandleOnMouseDown}
+        sx={{
+          width: isDrawerResizing ? 400 : 16,
+          left: isDrawerResizing ? drawerWidth - 200 : drawerWidth,
+        }}
+      />
+      <DrawerIconRight
+        fontSize="small"
+        sx={{
+          left: drawerWidth - 4,
+        }}
+      />
+      {drawerWidth !== defaultDrawerWidth ? (
+        <DrawerIconLeft
+          fontSize="small"
+          sx={{
+            left: drawerWidth,
+          }}
+        />
+      ) : null}
+    </>
   ) : null;
 };

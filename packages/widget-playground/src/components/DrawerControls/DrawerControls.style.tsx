@@ -2,13 +2,9 @@ import type {
   ButtonBaseProps,
   DrawerProps as MuiDrawerProps,
 } from '@mui/material';
-import {
-  Box,
-  ButtonBase,
-  Drawer as MuiDrawer,
-  IconButton,
-  styled,
-} from '@mui/material';
+import { Box, ButtonBase, Drawer as MuiDrawer, styled } from '@mui/material';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import TabPanel from '@mui/lab/TabPanel';
 export const drawerZIndex = 1501;
 export const autocompletePopperZIndex = drawerZIndex + 1;
@@ -64,47 +60,6 @@ export const TabContentContainer = styled(TabPanel)(({ theme }) => ({
   },
 }));
 
-export const CodeContainer = styled(Box)(({ theme }) => ({
-  position: 'relative',
-  marginTop: theme.spacing(1),
-  display: 'flex',
-  flexDirection: 'column',
-  flexGrow: 1,
-}));
-
-export const CodeCopyButton = styled(IconButton)(({ theme }) => ({
-  position: 'absolute',
-  right: theme.spacing(2),
-  top: theme.spacing(0.5),
-  background:
-    theme.palette.mode === 'light'
-      ? theme.palette.grey[200]
-      : theme.palette.grey[800],
-  '&:hover': {
-    background:
-      theme.palette.mode === 'light'
-        ? theme.palette.grey[300]
-        : theme.palette.grey[700],
-  },
-  zIndex: tooltipPopperZIndex,
-}));
-
-export const Pre = styled('pre')(({ theme }) => ({
-  backgroundColor:
-    theme.palette.mode === 'light'
-      ? theme.palette.grey[200]
-      : theme.palette.grey[800],
-  margin: 0,
-  padding: theme.spacing(1),
-  borderRadius: theme.shape.borderRadius - 4,
-  overflowX: 'scroll',
-}));
-
-export const Code = styled('code')(({ theme }) => ({
-  fontFamily: 'Courier, monospace',
-  fontSize: '0.8em',
-}));
-
 export const DrawerHandleButton = styled((props: ButtonBaseProps) => (
   <ButtonBase {...props} disableRipple>
     &nbsp;
@@ -121,3 +76,27 @@ export const DrawerHandleButton = styled((props: ButtonBaseProps) => (
   transform: 'translateX(-8px)',
   zIndex: drawerZIndex + 1,
 });
+
+export const DrawerIconRight = styled(KeyboardArrowRightIcon)(({ theme }) => ({
+  color:
+    theme.palette.mode === 'light'
+      ? theme.palette.grey[400]
+      : theme.palette.grey[600],
+  position: 'fixed',
+  top: '50%',
+  transform: 'translateY(-50%)',
+  pointerEvents: 'none',
+  zIndex: drawerZIndex + 1,
+}));
+
+export const DrawerIconLeft = styled(KeyboardArrowLeftIcon)(({ theme }) => ({
+  color:
+    theme.palette.mode === 'light'
+      ? theme.palette.grey[400]
+      : theme.palette.grey[600],
+  position: 'fixed',
+  top: '50%',
+  transform: 'translate(-75%, -50%)',
+  pointerEvents: 'none',
+  zIndex: drawerZIndex + 1,
+}));
