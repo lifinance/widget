@@ -2,13 +2,7 @@ import type {
   ButtonBaseProps,
   DrawerProps as MuiDrawerProps,
 } from '@mui/material';
-import {
-  Box,
-  ButtonBase,
-  Drawer as MuiDrawer,
-  IconButton,
-  styled,
-} from '@mui/material';
+import { Box, ButtonBase, Drawer as MuiDrawer, styled } from '@mui/material';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import TabPanel from '@mui/lab/TabPanel';

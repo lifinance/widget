@@ -42,9 +42,6 @@ export const DrawerControls = () => {
 
   useFontInitialisation();
 
-  const showResizeIndicator =
-    visibleControls === 'code' && codeControlTab === 'config';
-
   const handleReset = () => {
     resetConfig();
   };
@@ -58,10 +55,7 @@ export const DrawerControls = () => {
         open={isDrawerOpen}
         drawerWidth={drawerWidth}
       >
-        <DrawerContentContainer
-          drawerWidth={drawerWidth}
-          resizeableIndicator={showResizeIndicator}
-        >
+        <DrawerContentContainer drawerWidth={drawerWidth}>
           <HeaderRow>
             <Header>LI.FI Widget</Header>
             <Box>
