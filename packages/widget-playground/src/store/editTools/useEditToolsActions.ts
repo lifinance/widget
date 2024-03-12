@@ -11,6 +11,7 @@ export const useEditToolsActions = () => {
       resetEditTools: state.resetEditTools,
       setSelectedFont: state.setSelectedFont,
       setViewportBackgroundColor: state.setViewportBackgroundColor,
+      setSelectedTheme: state.setSelectedTheme,
     }),
     shallow,
   );

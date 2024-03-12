@@ -8,7 +8,6 @@ import {
   useConfigActions,
   useEditToolsActions,
   useDrawerToolValues,
-  useCodeToolValues,
 } from '../../store';
 import { ExpandableCardAccordion } from '../Card';
 import { Tab, Tabs } from '../Tabs';
@@ -37,14 +36,15 @@ import { useFontInitialisation } from '../../providers';
 
 export const DrawerControls = () => {
   const { isDrawerOpen, drawerWidth, visibleControls } = useDrawerToolValues();
-  const { codeControlTab } = useCodeToolValues();
   const { setDrawerOpen, setVisibleControls } = useEditToolsActions();
   const { resetConfig } = useConfigActions();
+  const { resetEditTools } = useEditToolsActions();
 
   useFontInitialisation();
 
   const handleReset = () => {
     resetConfig();
+    resetEditTools();
   };
 
   return (

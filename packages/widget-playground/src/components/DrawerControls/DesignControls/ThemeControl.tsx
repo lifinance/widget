@@ -1,33 +1,30 @@
 import { CardValue, ExpandableCard } from '../../Card';
 import type { SelectChangeEvent } from '@mui/material';
 import { MenuItem } from '@mui/material';
-import { useState } from 'react';
-import { useDefaultTheme } from '../../../store/widgetConfig/useDefaultTheme';
-import { windows95Theme } from '@lifi/widget';
 import { popperZIndex } from '../DrawerControls.style';
 import { Select } from './DesignControls.style';
 import { useConfigActions, useEditToolsActions } from '../../../store';
-
-const widgetThemeItems = [{ name: 'Windows 95', theme: windows95Theme }];
+import { useThemeToolValues } from '../../../store/editTools/useThemeToolValues';
 
 export const ThemeControl = () => {
-  const { defaultTheme } = useDefaultTheme();
   const { setConfigTheme } = useConfigActions();
-  const { setViewportBackgroundColor } = useEditToolsActions();
-  const defaultThemeItem = { name: 'Default', theme: defaultTheme };
-  const [theme, setTheme] = useState(defaultThemeItem);
-
-  const allThemes = [defaultThemeItem, ...widgetThemeItems];
+  const { selectedThemeId, selectedTheme, allThemeItems } =
+    useThemeToolValues();
+  const { setViewportBackgroundColor, setSelectedTheme } =
+    useEditToolsActions();
 
   const handleChange = (event: SelectChangeEvent<any>) => {
-    const themeItem = allThemes.find(
-      (themeItem) => themeItem.name === event.target.value,
+    setSelectedTheme(event.target.value);
+
+    const themeItem = allThemeItems?.find(
+      (themeItem) => themeItem.id === event.target.value,
     );
 
     if (themeItem) {
-      setTheme(themeItem);
-      setConfigTheme(structuredClone(themeItem.theme));
-      setViewportBackgroundColor(themeItem.theme.playground?.background);
+      setConfigTheme(themeItem.theme);
+      setViewportBackgroundColor(
+        themeItem.theme.playground?.background as string | undefined,
+      );
     }
   };
 
@@ -35,18 +32,20 @@ export const ThemeControl = () => {
     <ExpandableCard
       title={'Base theme'}
       value={
-        <CardValue sx={{ textTransform: 'capitalize' }}>{theme.name}</CardValue>
+        <CardValue sx={{ textTransform: 'capitalize' }}>
+          {selectedTheme?.name ? selectedTheme?.name : 'default'}
+        </CardValue>
       }
     >
       <Select
-        value={theme.name}
+        value={selectedThemeId}
         onChange={handleChange}
         aria-label="Theme"
         MenuProps={{ sx: { zIndex: popperZIndex } }}
       >
-        {allThemes.map(({ name }) => {
+        {allThemeItems?.map(({ name, id }) => {
           return (
-            <MenuItem id={name} value={name} key={name}>
+            <MenuItem value={id} key={id}>
               {name}
             </MenuItem>
           );
