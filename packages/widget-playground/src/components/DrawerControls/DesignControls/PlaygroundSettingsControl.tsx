@@ -1,9 +1,16 @@
+import type { BoxProps } from '@mui/material';
+import { useTheme } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
+import {
+  useEditToolsActions,
+  usePlaygroundSettingValues,
+} from '../../../store';
 import { ExpandableCard } from '../../Card';
-import { useEditToolsActions } from '../../../store';
-import { ColorInput, ColorSelectorContainer } from './DesignControls.style';
-import { usePlaygroundSettingValues } from '../../../store/editTools/usePlaygroundSettingValues';
-import { BoxProps, useTheme } from '@mui/material';
+import {
+  CapitalizeFirstLetter,
+  ColorInput,
+  ColorSelectorContainer,
+} from './DesignControls.style';
 
 export const PlaygroundSettingsControl = () => {
   return (
@@ -29,7 +36,7 @@ export const ViewportColorSelector = ({ ...rest }: BoxProps) => {
 
   return (
     <ColorSelectorContainer {...rest}>
-      Viewport background
+      <CapitalizeFirstLetter>Viewport background</CapitalizeFirstLetter>
       <ColorInput
         aria-label={`Viewport background color selection`}
         type="color"

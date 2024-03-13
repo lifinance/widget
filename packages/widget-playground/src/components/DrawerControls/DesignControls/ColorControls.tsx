@@ -6,6 +6,7 @@ import {
   ColorSwatch,
   ColorSwatches,
   ColorInput,
+  CapitalizeFirstLetter,
 } from './DesignControls.style';
 
 // NOTE: editable colors need to also feature in the default config for the color controls to appear
@@ -34,7 +35,7 @@ interface ColorSelectorProps extends BoxProps {
   colorName: string;
   colorPath: string;
 }
-export const ColorSelector = ({
+const ColorSelector = ({
   colorName,
   colorPath,
   ...rest
@@ -44,7 +45,7 @@ export const ColorSelector = ({
 
   return colorValue ? (
     <ColorSelectorContainer {...rest}>
-      {colorName}
+      <CapitalizeFirstLetter>{colorName}</CapitalizeFirstLetter>
       <ColorInput
         aria-label={`${colorName} color selection`}
         type="color"
@@ -55,7 +56,7 @@ export const ColorSelector = ({
   ) : null;
 };
 
-export const Swatches = () => {
+const Swatches = () => {
   const colorValues = useConfigColorsFromPath(...Object.values(editableColors));
 
   return (

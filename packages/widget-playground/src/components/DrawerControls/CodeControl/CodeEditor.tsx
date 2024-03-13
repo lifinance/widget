@@ -12,9 +12,8 @@ import {
   CodeCopyButton,
   EditorSkeleton,
 } from './CodeControl.style';
-import { getWhitelistedConfig, useConfig } from '../../../store';
+import { useConfig, getConfigOutput } from '../../../store';
 import { getValueFromPath } from '../../../utils';
-import { getConfigOutput } from './getConfigOutput';
 
 interface MonacoEditor {
   layout: (dimensions: { width: number; height: number }) => void;

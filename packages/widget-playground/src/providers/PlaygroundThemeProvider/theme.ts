@@ -19,9 +19,6 @@ const initValues: WidgetTheme = {
     borderRadiusSecondary: 12,
     borderRadiusTertiary: 24,
   },
-  // playground: {
-  //   background: '#008080',
-  // },
 };
 
 export const theme = createTheme(initValues);

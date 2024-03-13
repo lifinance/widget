@@ -1,5 +1,5 @@
 import { windows95Theme } from '@lifi/widget';
-import { ThemeItem } from './types';
+import type { ThemeItem } from './types';
 
 export const themeItems: ThemeItem[] = [
   {

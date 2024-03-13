@@ -16,7 +16,6 @@ import {
   Popper,
   Alert as MuiAlert,
   Select as MuiSelect,
-  selectClasses,
   Typography,
   Badge as MuiBadge,
   badgeClasses,
@@ -134,7 +133,6 @@ export const ColorSelectorContainer = styled(Box)(({ theme }) => ({
   paddingLeft: theme.spacing(2.5),
   gap: theme.spacing(0.5),
   height: '3.5rem',
-  textTransform: 'capitalize',
 }));
 
 export const ColorInput = styled(InputBase)<InputBaseProps>(
@@ -240,7 +238,6 @@ export const Select = styled(MuiSelect)(({ theme }) => ({
 }));
 
 export const CapitalizeFirstLetter = styled(Typography)(({ theme }) => ({
-  paddingLeft: theme.spacing(1),
   '&::first-letter': {
     textTransform: 'capitalize',
   },

@@ -1,5 +1,5 @@
-import { WidgetTheme } from '@lifi/widget';
-import { Theme } from '@mui/material';
+import type { WidgetTheme } from '@lifi/widget';
+import type { Theme } from '@mui/material';
 
 export const darkPalette = {
   mode: 'dark',

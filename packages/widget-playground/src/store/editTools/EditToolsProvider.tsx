@@ -1,10 +1,10 @@
 import type { FC, PropsWithChildren } from 'react';
 import { createContext, useContext, useEffect, useRef } from 'react';
 import { shallow } from 'zustand/shallow';
+import { useDefaultTheme } from '../widgetConfig';
 import { createEditToolsStore } from './createEditToolsStore';
 import type { ToolsState, ToolsStore } from './types';
 import { themeItems } from './themes';
-import { useDefaultTheme } from '../widgetConfig/useDefaultTheme';
 import isEqual from 'lodash.isequal';
 
 export const EditToolsContext = createContext<ToolsStore | null>(null);

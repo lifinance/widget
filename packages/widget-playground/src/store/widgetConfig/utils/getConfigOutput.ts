@@ -1,6 +1,5 @@
 import type { WidgetConfig, WidgetTheme } from '@lifi/widget';
 
-// need to remove the
 export const getConfigOutput = (
   config: Partial<WidgetConfig>,
 ): Partial<WidgetConfig> => {

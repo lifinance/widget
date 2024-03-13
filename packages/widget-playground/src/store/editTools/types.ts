@@ -1,7 +1,7 @@
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
 import type { StoreApi } from 'zustand';
 import type { Font } from '../../providers';
-import { Appearance, WidgetTheme } from '@lifi/widget';
+import type { Appearance, WidgetTheme } from '@lifi/widget';
 
 type ControlType = 'design' | 'code';
 type CodeControlTab = 'config' | 'examples';
@@ -44,7 +44,7 @@ export interface EditToolsActions {
   resetEditTools: () => void;
   setSelectedFont: (font: Font) => void;
   setViewportBackgroundColor: (color: string | undefined) => void;
-  setAvailableThemes: (themeItems: ThemeItem[]) => void; //TODO to use for dynamic update of defalt
+  setAvailableThemes: (themeItems: ThemeItem[]) => void;
   setSelectedTheme: (selectedThemeId: string) => void;
 }
 

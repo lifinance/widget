@@ -4,8 +4,9 @@ import type {
   ReactElement,
   SyntheticEvent,
 } from 'react';
+import { useEffect } from 'react';
 import type { TabProps } from '@mui/material';
-import { BadgeProps, Box, Tooltip } from '@mui/material';
+import { Box, Tooltip } from '@mui/material';
 import BrightnessAutoIcon from '@mui/icons-material/BrightnessAuto';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import NightlightIcon from '@mui/icons-material/Nightlight';
@@ -17,8 +18,7 @@ import {
 } from '../../../store';
 import { ExpandableCard, CardValue } from '../../Card';
 import { Tab, Tabs } from '../../Tabs';
-import { useThemeToolValues } from '../../../store/editTools/useThemeToolValues';
-import { useEffect } from 'react';
+import { useThemeToolValues } from '../../../store';
 import { Badge, CapitalizeFirstLetter } from './DesignControls.style';
 
 const appearanceIcons = {
@@ -70,7 +70,7 @@ export const AppearanceControl = () => {
     if (selectedTheme?.options?.restrictAppearance) {
       setAppearance(selectedTheme?.options?.restrictAppearance);
     }
-  }, [selectedTheme]);
+  }, [selectedTheme, setAppearance]);
   const handleAppearanceChange = (_: SyntheticEvent, value: Appearance) => {
     setAppearance(value);
     setViewportBackgroundColor(undefined);
@@ -87,7 +87,7 @@ export const AppearanceControl = () => {
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
         {restricted ? (
-          <CapitalizeFirstLetter variant="caption">
+          <CapitalizeFirstLetter variant="caption" sx={{ paddingLeft: 1 }}>
             {appearance} mode is recommended for this theme
           </CapitalizeFirstLetter>
         ) : null}

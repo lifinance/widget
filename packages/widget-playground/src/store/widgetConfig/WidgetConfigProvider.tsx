@@ -8,7 +8,7 @@ import { createWidgetConfigStore } from './createWidgetConfigStore.js';
 import isEqual from 'lodash.isequal';
 import { cloneStructuredConfig } from './utils/cloneStructuredConfig';
 import { patch } from '../../utils';
-import { getConfigOutput } from '../../components/DrawerControls/CodeControl/getConfigOutput';
+import { getConfigOutput } from './utils/getConfigOutput';
 
 export const WidgetConfigContext = createContext<WidgetConfigStore | null>(
   null,
