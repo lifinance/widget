@@ -110,7 +110,6 @@ export const createTheme = (
     container: widgetTheme.container,
     navigation: {
       edge: true,
-      dense: true,
       ...widgetTheme.navigation,
     },
     typography: {
