@@ -28,6 +28,9 @@ export const windows95Theme: WidgetTheme = {
   container: {
     border: '1px solid #0a0a0a',
   },
+  navigation: {
+    edge: false,
+  },
   playground: {
     background: '#008080',
   },
