@@ -1,7 +1,7 @@
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
 import type { StoreApi } from 'zustand';
 import type { Font } from '../../providers';
-import { WidgetTheme } from '@lifi/widget';
+import { Appearance, WidgetTheme } from '@lifi/widget';
 
 type ControlType = 'design' | 'code';
 type CodeControlTab = 'config' | 'examples';
@@ -10,6 +10,10 @@ export interface ThemeItem {
   id: string;
   name: string;
   theme: WidgetTheme;
+  options?: {
+    // sets and locks the appearance control to this appearance for a theme
+    restrictAppearance?: Appearance;
+  };
 }
 export interface EditToolsValues {
   drawer: {

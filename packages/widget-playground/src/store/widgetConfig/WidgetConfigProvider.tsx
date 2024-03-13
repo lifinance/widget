@@ -6,7 +6,6 @@ import type { WidgetConfig } from '@lifi/widget';
 import type { WidgetConfigStore, WidgetConfigState } from './types.js';
 import { createWidgetConfigStore } from './createWidgetConfigStore.js';
 import isEqual from 'lodash.isequal';
-import { getWhitelistedConfig } from './utils/getWhitelistedConfig';
 import { cloneStructuredConfig } from './utils/cloneStructuredConfig';
 import { patch } from '../../utils';
 import { getConfigOutput } from '../../components/DrawerControls/CodeControl/getConfigOutput';

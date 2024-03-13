@@ -17,6 +17,9 @@ import {
   Alert as MuiAlert,
   Select as MuiSelect,
   selectClasses,
+  Typography,
+  Badge as MuiBadge,
+  badgeClasses,
 } from '@mui/material';
 import { getCardFieldsetBackgroundColor } from '../../../utils';
 import { autocompletePopperZIndex } from '../DrawerControls.style';
@@ -233,5 +236,26 @@ export const Select = styled(MuiSelect)(({ theme }) => ({
   width: '100%',
   [`& .MuiOutlinedInput-notchedOutline`]: {
     border: 'none',
+  },
+}));
+
+export const CapitalizeFirstLetter = styled(Typography)(({ theme }) => ({
+  paddingLeft: theme.spacing(1),
+  '&::first-letter': {
+    textTransform: 'capitalize',
+  },
+}));
+
+export const Badge = styled(MuiBadge)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: theme.spacing(1.25),
+  [`.${badgeClasses.badge}`]: {
+    width: 10,
+    height: 10,
+    // the following removes MUI styling so we can position the badge with flex
+    position: 'relative',
+    transform: 'translateX(0)',
+    borderRadius: '50%',
   },
 }));
