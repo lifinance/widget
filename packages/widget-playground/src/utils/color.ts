@@ -1,6 +1,21 @@
 import type { Theme } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 
+// Converts any 3 digit colors to 6 digit hex colors
+// - needed as the color input breaks with 3 digit hex colors
+export const safe6DigitHexColor = (color: string) => {
+  if (color.startsWith('#') && color.length === 4) {
+    return `#${color
+      .substring(1)
+      .split('')
+      .map(function (hex: string) {
+        return hex + hex;
+      })
+      .join('')}`;
+  }
+  return color;
+};
+
 export const getCardFieldsetBackgroundColor = (theme: Theme) =>
   theme.palette.mode === 'dark'
     ? theme.palette.grey[800]

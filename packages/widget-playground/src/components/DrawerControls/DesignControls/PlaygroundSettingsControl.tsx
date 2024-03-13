@@ -1,6 +1,7 @@
 import type { BoxProps } from '@mui/material';
 import { useTheme } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { safe6DigitHexColor } from '../../../utils';
 import {
   useEditToolsActions,
   usePlaygroundSettingValues,
@@ -40,7 +41,7 @@ export const ViewportColorSelector = ({ ...rest }: BoxProps) => {
       <ColorInput
         aria-label={`Viewport background color selection`}
         type="color"
-        value={viewportColor || defaultColor}
+        value={safe6DigitHexColor(viewportColor || defaultColor)}
         onChange={(e) => setViewportBackgroundColor(e.target.value)}
       />
     </ColorSelectorContainer>

@@ -102,7 +102,7 @@ export const TabCustomInput = styled(InputBase)<TabButtonProps>(({
 
 export const ColorSwatches = styled(Box)(({ theme }) => ({
   display: 'flex',
-  gap: theme.spacing(1),
+  maxWidth: 200,
 }));
 
 interface ColorSwatchProps {
