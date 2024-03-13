@@ -88,7 +88,7 @@ export const AppearanceControl = () => {
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
         {restricted ? (
           <CapitalizeFirstLetter variant="caption">
-            {appearance} appearance is recommended for this theme
+            {appearance} mode is recommended for this theme
           </CapitalizeFirstLetter>
         ) : null}
 

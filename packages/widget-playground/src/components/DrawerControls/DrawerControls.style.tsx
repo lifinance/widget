@@ -35,6 +35,12 @@ export const HeaderRow = styled(Box)({
   alignItems: 'center',
 });
 
+export const WidgetConfigControls = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(2),
+}));
+
 export const DrawerContentContainer = styled(Box, {
   shouldForwardProp: (prop) => !['drawerWidth'].includes(prop as string),
 })<{
@@ -54,6 +60,7 @@ export const TabContentContainer = styled(TabPanel)(({ theme }) => ({
   flexDirection: 'column',
   alignItems: 'stretch',
   gap: theme.spacing(2),
+  flexGrow: 1,
   padding: 0,
   '&[hidden]': {
     display: 'none',
