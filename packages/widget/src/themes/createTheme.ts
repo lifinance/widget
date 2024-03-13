@@ -3,6 +3,7 @@ import type {} from '@mui/lab/themeAugmentation';
 import type {
   CSSObject,
   PaletteMode,
+  Shape,
   SimplePaletteColorOptions,
 } from '@mui/material';
 import {
@@ -66,7 +67,7 @@ const paletteDark = {
   },
 };
 
-const shape = {
+const shape: Shape = {
   borderRadius: 12,
   borderRadiusSecondary: 12,
   borderRadiusTertiary: 24,
