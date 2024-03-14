@@ -4,9 +4,13 @@ export const windows95Theme: WidgetTheme = {
   palette: {
     primary: {
       main: '#0000ff',
+      light: '#d6d6ff',
+      dark: '#0000cc',
     },
     secondary: {
       main: '#f7c303',
+      light: '#fdf5d6',
+      dark: '#c59c02',
     },
     text: {
       primary: '#30313d',

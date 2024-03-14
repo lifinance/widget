@@ -45,11 +45,6 @@ export const createTheme = (
   const primaryMainColor =
     (widgetTheme.palette?.primary as SimplePaletteColorOptions)?.main ??
     palette.primary.main;
-  const primaryLightColor = lighten(primaryMainColor, 0.84);
-  const primaryDarkColor = darken(primaryMainColor, 0.2);
-  const secondaryMainColor =
-    (widgetTheme.palette?.secondary as SimplePaletteColorOptions)?.main ??
-    palette.secondary.main;
   const contrastButtonColor =
     getContrastRatio(palette.common.white, primaryMainColor) >= 3
       ? palette.common.white
@@ -76,16 +71,6 @@ export const createTheme = (
       ...palette,
       ...(mode === 'light' ? paletteLight : paletteDark),
       ...widgetTheme.palette,
-      primary: {
-        main: primaryMainColor,
-        light: primaryLightColor,
-        dark: primaryDarkColor,
-      },
-      secondary: {
-        main: secondaryMainColor,
-        light: lighten(secondaryMainColor, 0.84),
-        dark: darken(secondaryMainColor, 0.2),
-      },
     },
     shape: {
       ...shape,
