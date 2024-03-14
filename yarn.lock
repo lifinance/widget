@@ -2926,7 +2926,7 @@ __metadata:
     "@ethersproject/providers": "npm:^5.7.2"
     "@lifi/sdk": "npm:^3.0.0-alpha.57"
     "@lifi/wallet-management": "npm:^3.0.0-alpha.23"
-    "@lifi/widget": "npm:^3.0.0-alpha.34"
+    "@lifi/widget": "npm:^3.0.0-alpha.35"
     "@mui/icons-material": "npm:^5.15.12"
     "@mui/lab": "npm:^5.0.0-alpha.167"
     "@mui/material": "npm:^5.15.12"
@@ -2955,8 +2955,8 @@ __metadata:
     "@emotion/styled": "npm:^11.11.0"
     "@lifi/sdk": "npm:^3.0.0-alpha.57"
     "@lifi/wallet-management": "npm:^3.0.0-alpha.23"
-    "@lifi/widget": "npm:^3.0.0-alpha.34"
-    "@lifi/widget-playground": "npm:^1.0.186"
+    "@lifi/widget": "npm:^3.0.0-alpha.35"
+    "@lifi/widget-playground": "npm:^1.0.187"
     "@mui/icons-material": "npm:^5.15.12"
     "@mui/material": "npm:^5.15.12"
     "@mui/material-nextjs": "npm:^5.15.11"
@@ -2991,8 +2991,8 @@ __metadata:
     "@esbuild-plugins/node-globals-polyfill": "npm:^0.2.3"
     "@lifi/sdk": "npm:^3.0.0-alpha.57"
     "@lifi/wallet-management": "npm:^3.0.0-alpha.23"
-    "@lifi/widget": "npm:^3.0.0-alpha.34"
-    "@lifi/widget-playground": "npm:^1.0.186"
+    "@lifi/widget": "npm:^3.0.0-alpha.35"
+    "@lifi/widget-playground": "npm:^1.0.187"
     "@mui/icons-material": "npm:^5.15.12"
     "@mui/material": "npm:^5.15.12"
     "@rainbow-me/rainbowkit": "npm:^2.0.2"
@@ -3017,7 +3017,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@lifi/widget-playground@npm:^1.0.186, @lifi/widget-playground@workspace:packages/widget-playground":
+"@lifi/widget-playground@npm:^1.0.187, @lifi/widget-playground@workspace:packages/widget-playground":
   version: 0.0.0-use.local
   resolution: "@lifi/widget-playground@workspace:packages/widget-playground"
   dependencies:
@@ -3056,7 +3056,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@lifi/widget@npm:^3.0.0-alpha.34, @lifi/widget@workspace:packages/widget":
+"@lifi/widget@npm:^3.0.0-alpha.35, @lifi/widget@workspace:packages/widget":
   version: 0.0.0-use.local
   resolution: "@lifi/widget@workspace:packages/widget"
   dependencies:
