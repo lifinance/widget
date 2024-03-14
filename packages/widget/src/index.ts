@@ -12,6 +12,7 @@ export { formatChain } from './providers/WalletProvider/utils.js';
 export * from './stores/form/types.js';
 export { useFieldActions } from './stores/form/useFieldActions.js';
 export { useFieldValues } from './stores/form/useFieldValues.js';
+export * from './themes/palettes.js';
 export { jumperTheme } from './themes/jumper.js';
 export { windows95Theme } from './themes/windows95.js';
 export * from './types/events.js';

@@ -1,6 +1,8 @@
 import { shallow } from 'zustand/shallow';
+import { palette, paletteDark, paletteLight } from '@lifi/widget';
 import { useWidgetConfigStore } from './WidgetConfigProvider';
-import { getValueFromPath } from '../../utils/index.js';
+import { getValueFromPath } from '../../utils';
+import { useThemeMode } from '../../hooks';
 
 export const useConfigVariant = () => {
   const [variant] = useWidgetConfigStore(
@@ -58,11 +60,28 @@ export const useConfigBorderRadiusSecondary = () => {
 };
 
 export const useConfigColorsFromPath = (...paths: string[]) => {
-  return useWidgetConfigStore(
+  const themeMode = useThemeMode();
+  const colors = useWidgetConfigStore(
     (store) =>
       paths.map((path) => getValueFromPath<string>(store.config, path)),
     shallow,
   ) as Array<string | undefined>;
+
+  const defaultThemePalette = {
+    theme: {
+      palette: {
+        ...palette,
+        ...(themeMode === 'light' ? paletteLight : paletteDark),
+      },
+    },
+  };
+
+  return colors.map((color, i) => {
+    if (!color) {
+      return getValueFromPath<string>(defaultThemePalette, paths[i]);
+    }
+    return color;
+  });
 };
 
 export const useConfigFontFamily = () => {
