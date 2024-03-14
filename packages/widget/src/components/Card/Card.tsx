@@ -33,16 +33,16 @@ export const Card = styled(MuiCard, {
       selectionColor === 'secondary' && {
         backgroundColor:
           theme.palette.mode === 'light'
-            ? lighten(theme.palette.secondary.main, 0.9)
-            : darken(theme.palette.secondary.main, 0.85),
+            ? lighten(theme.palette.secondary.main, 0.85)
+            : darken(theme.palette.secondary.main, 0.76),
         borderWidth: 1,
         borderStyle: 'solid',
-        borderColor: alpha(theme.palette.secondary.main, 0.32),
+        borderColor: alpha(theme.palette.secondary.main, 0.2),
         '&:hover': {
           backgroundColor:
             theme.palette.mode === 'light'
-              ? lighten(theme.palette.secondary.main, 0.85)
-              : darken(theme.palette.secondary.main, 0.8),
+              ? lighten(theme.palette.secondary.main, 0.8)
+              : darken(theme.palette.secondary.main, 0.72),
         },
       }),
     ...(type === 'error' && {

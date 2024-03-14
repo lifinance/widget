@@ -57,7 +57,7 @@ export type WidgetTheme = {
     PaletteOptions,
     'background' | 'grey' | 'primary' | 'secondary' | 'text'
   >;
-  shape?: Shape;
+  shape?: Partial<Shape>;
   typography?: TypographyOptions;
   components?: WidgetThemeComponents;
   container?: CSSProperties;
