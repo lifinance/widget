@@ -10,6 +10,7 @@ export const drawerZIndex = 1501;
 export const autocompletePopperZIndex = drawerZIndex + 1;
 export const tooltipPopperZIndex = drawerZIndex + 2;
 export const popperZIndex = drawerZIndex + 3;
+export const headerZIndex = tooltipPopperZIndex;
 
 interface DrawerProps extends MuiDrawerProps {
   drawerWidth: number;
@@ -29,11 +30,23 @@ export const Header = styled('h1')({
   lineHeight: 0.8,
 });
 
-export const HeaderRow = styled(Box)({
+export const HeaderRow = styled(Box)(({ theme }) => ({
+  position: 'sticky',
+  top: 0,
+  zIndex: headerZIndex,
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-});
+  backgroundColor: theme.palette.background.paper,
+  padding: theme.spacing(1),
+  margin: theme.spacing(-1),
+}));
+
+export const WidgetConfigControls = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(2),
+}));
 
 export const DrawerContentContainer = styled(Box, {
   shouldForwardProp: (prop) => !['drawerWidth'].includes(prop as string),
@@ -54,6 +67,7 @@ export const TabContentContainer = styled(TabPanel)(({ theme }) => ({
   flexDirection: 'column',
   alignItems: 'stretch',
   gap: theme.spacing(2),
+  flexGrow: 1,
   padding: 0,
   '&[hidden]': {
     display: 'none',

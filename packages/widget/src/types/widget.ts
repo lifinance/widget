@@ -42,11 +42,6 @@ export interface NavigationProps {
    * @default true
    */
   edge?: boolean;
-  /**
-   * If true, makes navigation header components compact.
-   * @default true
-   */
-  dense?: boolean;
 }
 export type WidgetThemeComponents = Pick<
   Components<Theme>,

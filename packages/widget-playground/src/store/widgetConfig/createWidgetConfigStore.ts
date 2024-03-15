@@ -5,7 +5,7 @@ import { persist } from 'zustand/middleware';
 import { addValueFromPathString } from '../../utils';
 import type { WidgetConfigState } from './types';
 import { cloneStructuredConfig } from './utils/cloneStructuredConfig';
-import { getWhitelistedConfig } from './utils/getWhitelistedConfig';
+import { getConfigOutput } from './utils/getConfigOutput';
 
 export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
   createWithEqualityFn<WidgetConfigState>(
@@ -141,6 +141,14 @@ export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
             } as WidgetConfig,
           });
         },
+        setConfigTheme: (theme) => {
+          set({
+            config: {
+              ...get().config,
+              theme: structuredClone(theme),
+            },
+          });
+        },
         setWalletConfig: (walletConfig?) => {
           set({
             config: {
@@ -152,11 +160,9 @@ export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
       }),
       {
         name: `'li.fi-playground-config`,
-        version: 0,
+        version: 1,
         partialize: (state) => ({
-          config: state?.config
-            ? getWhitelistedConfig(state.config)
-            : undefined,
+          config: state?.config ? getConfigOutput(state.config) : undefined,
         }),
         onRehydrateStorage: () => {
           return (state) => {

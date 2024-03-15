@@ -2,6 +2,7 @@ import type {
   Appearance,
   WidgetConfig,
   WidgetSubvariant,
+  WidgetTheme,
   WidgetVariant,
   WidgetWalletConfig,
 } from '@lifi/widget';
@@ -27,6 +28,7 @@ export interface WidgetConfigActions {
   setColor: (path: string, color: string) => void;
   setFontFamily: (fontName: string) => void;
   setWalletConfig: (walletConfig?: WidgetWalletConfig) => void;
+  setConfigTheme: (theme: WidgetTheme) => void;
 }
 
 export type WidgetConfigState = WidgetConfigValues & WidgetConfigActions;

@@ -10,6 +10,8 @@ export const useEditToolsActions = () => {
       setCodeControlTab: state.setCodeControlTab,
       resetEditTools: state.resetEditTools,
       setSelectedFont: state.setSelectedFont,
+      setViewportBackgroundColor: state.setViewportBackgroundColor,
+      setSelectedTheme: state.setSelectedTheme,
     }),
     shallow,
   );

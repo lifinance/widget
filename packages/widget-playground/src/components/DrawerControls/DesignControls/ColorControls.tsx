@@ -1,4 +1,5 @@
 import type { BoxProps } from '@mui/material';
+import { safe6DigitHexColor } from '../../../utils';
 import { useConfigActions, useConfigColorsFromPath } from '../../../store';
 import { ExpandableCard } from '../../Card';
 import {
@@ -6,13 +7,26 @@ import {
   ColorSwatch,
   ColorSwatches,
   ColorInput,
+  CapitalizeFirstLetter,
 } from './DesignControls.style';
 
-// NOTE: editable colors need to also feature in the default config for the color controls to appear
-//  see app/store/defaultWidgetConfig.ts
 const editableColors = {
   primary: 'theme.palette.primary.main',
   secondary: 'theme.palette.secondary.main',
+  background: 'theme.palette.background.default',
+  paper: 'theme.palette.background.paper',
+  'text primary': 'theme.palette.text.primary',
+  'text secondary': 'theme.palette.text.secondary',
+  success: 'theme.palette.success.main',
+  warning: 'theme.palette.warning.main',
+  error: 'theme.palette.error.main',
+  info: 'theme.palette.info.main',
+  black: 'theme.palette.common.black',
+  white: 'theme.palette.common.white',
+  'grey 200': 'theme.palette.grey.200',
+  'grey 300': 'theme.palette.grey.300',
+  'grey 700': 'theme.palette.grey.700',
+  'grey 800': 'theme.palette.grey.800',
 };
 
 export const ColorControl = () => {
@@ -44,11 +58,11 @@ const ColorSelector = ({
 
   return colorValue ? (
     <ColorSelectorContainer {...rest}>
-      {colorName}
+      <CapitalizeFirstLetter>{colorName}</CapitalizeFirstLetter>
       <ColorInput
         aria-label={`${colorName} color selection`}
         type="color"
-        value={colorValue}
+        value={safe6DigitHexColor(colorValue).toUpperCase()}
         onChange={(e) => setColor(colorPath, e.target.value)}
       />
     </ColorSelectorContainer>

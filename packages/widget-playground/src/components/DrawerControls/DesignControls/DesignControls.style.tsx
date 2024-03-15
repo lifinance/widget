@@ -15,6 +15,10 @@ import {
   Autocomplete as MuiAutocomplete,
   Popper,
   Alert as MuiAlert,
+  Select as MuiSelect,
+  Typography,
+  Badge as MuiBadge,
+  badgeClasses,
 } from '@mui/material';
 import { getCardFieldsetBackgroundColor } from '../../../utils';
 import { autocompletePopperZIndex } from '../DrawerControls.style';
@@ -98,7 +102,8 @@ export const TabCustomInput = styled(InputBase)<TabButtonProps>(({
 
 export const ColorSwatches = styled(Box)(({ theme }) => ({
   display: 'flex',
-  gap: theme.spacing(1),
+  justifyContent: 'flex-end',
+  width: 240,
 }));
 
 interface ColorSwatchProps {
@@ -110,8 +115,8 @@ export const ColorSwatch = styled(
     shouldForwardProp: (prop) => prop !== 'color',
   },
 )<ColorSwatchProps>(({ theme, color }) => ({
-  width: theme.spacing(3),
-  height: 'auto',
+  width: theme.spacing(1.75),
+  height: theme.spacing(1.75),
   backgroundColor: color,
   content: '" "',
 }));
@@ -129,7 +134,6 @@ export const ColorSelectorContainer = styled(Box)(({ theme }) => ({
   paddingLeft: theme.spacing(2.5),
   gap: theme.spacing(0.5),
   height: '3.5rem',
-  textTransform: 'capitalize',
 }));
 
 export const ColorInput = styled(InputBase)<InputBaseProps>(
@@ -220,5 +224,36 @@ export const Alert = styled(MuiAlert)(({ theme }) => ({
       theme.palette.mode === 'light'
         ? theme.palette.grey[600]
         : theme.palette.grey[300],
+  },
+}));
+
+export const Select = styled(MuiSelect)(({ theme }) => ({
+  border: 'none',
+  outline: 'none',
+  backgroundColor: getCardFieldsetBackgroundColor(theme),
+  borderRadius: theme.shape.borderRadiusSecondary,
+  width: '100%',
+  [`& .MuiOutlinedInput-notchedOutline`]: {
+    border: 'none',
+  },
+}));
+
+export const CapitalizeFirstLetter = styled(Typography)(({ theme }) => ({
+  '&::first-letter': {
+    textTransform: 'capitalize',
+  },
+}));
+
+export const Badge = styled(MuiBadge)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: theme.spacing(1.25),
+  [`.${badgeClasses.badge}`]: {
+    width: 10,
+    height: 10,
+    // the following removes MUI styling so we can position the badge with flex
+    position: 'relative',
+    transform: 'translateX(0)',
+    borderRadius: '50%',
   },
 }));

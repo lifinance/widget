@@ -44,7 +44,7 @@ export const CodeControl = () => {
         </Tabs>
       </Box>
       <TabContext value={codeControlTab}>
-        <TabContentContainer value="config" sx={{ flexGrow: 1, gap: 1 }}>
+        <TabContentContainer value="config" sx={{ gap: 1 }}>
           <Typography variant="caption">
             Add this configuration to your widget
           </Typography>

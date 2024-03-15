@@ -13,6 +13,7 @@ interface ExpandableCardProps {
   icon?: ReactNode;
   title: ReactNode;
   value: ReactNode;
+  alwaysShowTitleValue?: boolean;
 }
 
 export const ExpandableCard: FC<PropsWithChildren<ExpandableCardProps>> = ({
@@ -20,6 +21,7 @@ export const ExpandableCard: FC<PropsWithChildren<ExpandableCardProps>> = ({
   title,
   value,
   children,
+  alwaysShowTitleValue,
 }) => {
   const { expanded, toggleExpanded } = useExpandableCard();
   const buttonId = useId();
@@ -39,7 +41,7 @@ export const ExpandableCard: FC<PropsWithChildren<ExpandableCardProps>> = ({
           {icon}
           <CardValue>{title}</CardValue>
         </CardTitleContainer>
-        {!expanded && value}
+        {!expanded || alwaysShowTitleValue ? value : null}
       </CardRowButton>
       <Collapse
         id={collapseId}

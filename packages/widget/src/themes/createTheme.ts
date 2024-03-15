@@ -20,52 +20,7 @@ import {
 import type { WidgetTheme } from '../types/widget.js';
 import type {} from './types.js';
 import { getStyleOverrides } from './utils.js';
-
-const palette = {
-  primary: {
-    main: '#5C67FF',
-    light: lighten('#5C67FF', 0.84),
-    dark: darken('#5C67FF', 0.2),
-  },
-  secondary: {
-    main: '#F5B5FF',
-    light: lighten('#F5B5FF', 0.84),
-    dark: darken('#F5B5FF', 0.2),
-  },
-  success: {
-    main: '#0AA65B',
-  },
-  warning: {
-    main: '#FFCC00',
-  },
-  error: {
-    main: '#E5452F',
-  },
-  info: {
-    main: '#297EFF',
-  },
-  common: {
-    black: '#000',
-    white: '#fff',
-  },
-};
-
-const paletteLight = {
-  background: {
-    // default: '#c0c9d2',
-    // paper: '#dfdfdf',
-  },
-  text: {
-    primary: '#000000',
-    secondary: '#747474',
-  },
-};
-
-const paletteDark = {
-  background: {
-    paper: '#212121',
-  },
-};
+import { palette, paletteLight, paletteDark } from './palettes.js';
 
 const shape: Shape = {
   borderRadius: 12,
@@ -111,7 +66,6 @@ export const createTheme = (
     container: widgetTheme.container,
     navigation: {
       edge: true,
-      dense: true,
       ...widgetTheme.navigation,
     },
     typography: {

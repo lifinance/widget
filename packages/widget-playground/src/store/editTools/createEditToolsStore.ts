@@ -1,10 +1,14 @@
 import type { StateCreator } from 'zustand';
 import { createWithEqualityFn } from 'zustand/traditional';
 import { persist } from 'zustand/middleware';
-import type { ToolsState } from './types';
+import type { ThemeItem, ToolsState } from './types';
 import { defaultDrawerWidth } from './constants';
 
-export const createEditToolsStore = () =>
+interface EditToolsStoreProps {
+  themeItems: ThemeItem[];
+}
+
+export const createEditToolsStore = ({ themeItems }: EditToolsStoreProps) =>
   createWithEqualityFn<ToolsState>(
     persist(
       (set, get) => ({
@@ -18,6 +22,13 @@ export const createEditToolsStore = () =>
         },
         fontControl: {
           selectedFont: undefined,
+        },
+        themeControl: {
+          selectedThemeId: 'default',
+          widgetThemeItems: themeItems,
+        },
+        playgroundSettings: {
+          viewportColor: undefined,
         },
         setDrawerOpen: (open) => {
           set({
@@ -61,13 +72,12 @@ export const createEditToolsStore = () =>
         },
         resetEditTools: () => {
           set({
-            drawer: {
-              open: true,
-              visibleControls: 'design',
-              codeDrawerWidth: defaultDrawerWidth,
+            themeControl: {
+              ...get().themeControl,
+              selectedThemeId: 'default',
             },
-            codeControl: {
-              openTab: 'config',
+            playgroundSettings: {
+              viewportColor: undefined,
             },
           });
         },
@@ -78,17 +88,54 @@ export const createEditToolsStore = () =>
             },
           });
         },
+        setViewportBackgroundColor: (viewportColor) => {
+          set({
+            playgroundSettings: {
+              ...get().playgroundSettings,
+              viewportColor,
+            },
+          });
+        },
+        setAvailableThemes: (themeItems) => {
+          set({
+            themeControl: {
+              ...get().themeControl,
+              widgetThemeItems: themeItems,
+            },
+          });
+        },
+        setSelectedTheme: (selectedThemeId) => {
+          set({
+            themeControl: {
+              ...get().themeControl,
+              selectedThemeId: selectedThemeId,
+            },
+          });
+        },
       }),
       {
         name: `'li.fi-playground-tools`,
         version: 1,
         partialize: (state) => ({
           drawer: {
-            ...state.drawer,
             open: state.drawer.open,
             visibleControls: state.drawer.visibleControls || 'design',
           },
+          themeControl: {
+            selectedThemeId: state.themeControl?.selectedThemeId || 'default',
+          },
+          playgroundSettings: {
+            viewportColor: state.playgroundSettings?.viewportColor,
+          },
         }),
+        onRehydrateStorage: () => {
+          return (state) => {
+            if (state) {
+              state.setCodeDrawerWidth(defaultDrawerWidth);
+              state.setAvailableThemes(themeItems);
+            }
+          };
+        },
       },
     ) as StateCreator<ToolsState, [], [], ToolsState>,
     Object.is,

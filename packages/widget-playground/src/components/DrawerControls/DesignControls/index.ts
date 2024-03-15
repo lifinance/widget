@@ -4,6 +4,8 @@ export * from './CardRadiusControl';
 export * from './ColorControls';
 export * from './DesignControls.style';
 export * from './FontsControl';
+export * from './PlaygroundSettingsControl';
 export * from './SubvariantControl';
+export * from './ThemeControl';
 export * from './VariantControl';
 export * from './WalletManagementControl';

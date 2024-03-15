@@ -6,9 +6,9 @@ import type { WidgetConfig } from '@lifi/widget';
 import type { WidgetConfigStore, WidgetConfigState } from './types.js';
 import { createWidgetConfigStore } from './createWidgetConfigStore.js';
 import isEqual from 'lodash.isequal';
-import { getWhitelistedConfig } from './utils/getWhitelistedConfig';
 import { cloneStructuredConfig } from './utils/cloneStructuredConfig';
 import { patch } from '../../utils';
+import { getConfigOutput } from './utils/getConfigOutput';
 
 export const WidgetConfigContext = createContext<WidgetConfigStore | null>(
   null,
@@ -33,8 +33,8 @@ export const WidgetConfigProvider: FC<WidgetConfigProviderProps> = ({
     if (currentConfig && !isEqual(currentConfig, defaultWidgetConfig)) {
       storeRef.current?.getState().setDefaultConfig(defaultWidgetConfig);
 
-      const editorConfigDefaults = getWhitelistedConfig(defaultWidgetConfig);
-      const editorConfigUpdates = getWhitelistedConfig(currentConfig);
+      const editorConfigDefaults = getConfigOutput(defaultWidgetConfig);
+      const editorConfigUpdates = getConfigOutput(currentConfig);
       const differences = diff(editorConfigDefaults, editorConfigUpdates);
 
       const mergedConfig = patch(

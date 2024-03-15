@@ -1,8 +1,9 @@
 import type { PropsWithChildren } from 'react';
 import React from 'react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { theme } from './theme';
+import { usePlaygroundSettingValues } from '../../store';
 import { useThemeMode } from '../../hooks';
+import { theme } from './theme';
 import {
   lightPalette,
   darkPalette,
@@ -17,9 +18,17 @@ const appearancePaletteOverrides = {
 
 export const PlaygroundThemeProvider = ({ children }: PropsWithChildren) => {
   const themeMode = useThemeMode();
+  const { viewportColor } = usePlaygroundSettingValues();
 
   const appTheme = {
     ...theme,
+    ...(viewportColor
+      ? {
+          playground: {
+            background: viewportColor,
+          },
+        }
+      : {}),
     palette: {
       ...theme.palette,
       ...appearancePaletteOverrides[themeMode],

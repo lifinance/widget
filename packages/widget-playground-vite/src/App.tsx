@@ -24,13 +24,13 @@ const AppProvider = ({ children }: PropsWithChildren) => {
       EVMWalletConnectId={import.meta.env.VITE_EVM_WALLET_CONNECT}
     >
       <QueryClientProvider client={queryClient}>
-        <EditToolsProvider>
-          <WidgetConfigProvider defaultWidgetConfig={defaultWidgetConfig}>
+        <WidgetConfigProvider defaultWidgetConfig={defaultWidgetConfig}>
+          <EditToolsProvider>
             <PlaygroundThemeProvider>
               <FontLoaderProvider>{children}</FontLoaderProvider>
             </PlaygroundThemeProvider>
-          </WidgetConfigProvider>
-        </EditToolsProvider>
+          </EditToolsProvider>
+        </WidgetConfigProvider>
       </QueryClientProvider>
     </EnvVariablesProvider>
   );

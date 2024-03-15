@@ -8,7 +8,6 @@ import {
   useConfigActions,
   useEditToolsActions,
   useDrawerToolValues,
-  useCodeToolValues,
 } from '../../store';
 import { ExpandableCardAccordion } from '../Card';
 import { Tab, Tabs } from '../Tabs';
@@ -18,7 +17,9 @@ import {
   CardRadiusControl,
   ColorControl,
   FontsControl,
+  PlaygroundSettingsControl,
   SubvariantControl,
+  ThemeControl,
   VariantControl,
   WalletManagementControl,
 } from './DesignControls';
@@ -29,6 +30,7 @@ import {
   HeaderRow,
   TabContentContainer,
   tooltipPopperZIndex,
+  WidgetConfigControls,
 } from './DrawerControls.style';
 import { CodeControl } from './CodeControl';
 import { DrawerHandle } from './DrawerHandle';
@@ -36,14 +38,15 @@ import { useFontInitialisation } from '../../providers';
 
 export const DrawerControls = () => {
   const { isDrawerOpen, drawerWidth, visibleControls } = useDrawerToolValues();
-  const { codeControlTab } = useCodeToolValues();
   const { setDrawerOpen, setVisibleControls } = useEditToolsActions();
   const { resetConfig } = useConfigActions();
+  const { resetEditTools } = useEditToolsActions();
 
   useFontInitialisation();
 
   const handleReset = () => {
     resetConfig();
+    resetEditTools();
   };
 
   return (
@@ -103,22 +106,26 @@ export const DrawerControls = () => {
             </Tabs>
           </Box>
           <TabContext value={visibleControls}>
-            <TabContentContainer value="design">
+            <TabContentContainer
+              value="design"
+              sx={{ justifyContent: 'space-between' }}
+            >
               <ExpandableCardAccordion>
-                <VariantControl />
-                <SubvariantControl />
-                <AppearanceControl />
-                <ColorControl />
-                <FontsControl />
-                <CardRadiusControl />
-                <ButtonRadiusControl />
-                <WalletManagementControl />
+                <WidgetConfigControls>
+                  <VariantControl />
+                  <SubvariantControl />
+                  <AppearanceControl />
+                  <ThemeControl />
+                  <ColorControl />
+                  <FontsControl />
+                  <CardRadiusControl />
+                  <ButtonRadiusControl />
+                  <WalletManagementControl />
+                </WidgetConfigControls>
+                <PlaygroundSettingsControl />
               </ExpandableCardAccordion>
             </TabContentContainer>
-            <TabContentContainer
-              value="code"
-              sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}
-            >
+            <TabContentContainer value="code">
               <CodeControl />
             </TabContentContainer>
           </TabContext>

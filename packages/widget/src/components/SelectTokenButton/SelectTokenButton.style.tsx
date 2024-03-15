@@ -64,6 +64,10 @@ export const CardContent = styled(MuiCardContent, {
   const vertical = compact ? '50%' : direction;
   return {
     padding: 0,
+    transition: theme.transitions.create(['background-color'], {
+      duration: theme.transitions.duration.enteringScreen,
+      easing: theme.transitions.easing.easeOut,
+    }),
     '&:last-child': {
       paddingBottom: 0,
     },
