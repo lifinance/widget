@@ -4,26 +4,23 @@ import { CardValue, ExpandableCard } from '../../Card';
 import {
   useConfigActions,
   useEditToolsActions,
-  useThemeToolValues,
+  useThemeValues,
 } from '../../../store';
 import { popperZIndex } from '../DrawerControls.style';
 import { Select } from './DesignControls.style';
+import type { ThemeItem } from '../../../store/editTools/types';
 export const ThemeControl = () => {
   const { setConfigTheme } = useConfigActions();
-  const { selectedThemeId, selectedTheme, allThemeItems } =
-    useThemeToolValues();
-  const { setViewportBackgroundColor, setSelectedTheme } =
-    useEditToolsActions();
+  const { selectedThemeId, selectedTheme, allThemesItems } = useThemeValues();
+  const { setViewportBackgroundColor } = useEditToolsActions();
 
   const handleChange = (event: SelectChangeEvent<any>) => {
-    setSelectedTheme(event.target.value);
-
-    const themeItem = allThemeItems?.find(
+    const themeItem = allThemesItems?.find(
       (themeItem) => themeItem.id === event.target.value,
     );
 
     if (themeItem) {
-      setConfigTheme(themeItem.theme);
+      setConfigTheme(themeItem.theme, event.target.value);
       setViewportBackgroundColor(
         themeItem.theme.playground?.background as string | undefined,
       );
@@ -45,7 +42,7 @@ export const ThemeControl = () => {
         aria-label="Theme"
         MenuProps={{ sx: { zIndex: popperZIndex } }}
       >
-        {allThemeItems?.map(({ name, id }) => {
+        {allThemesItems?.map(({ name, id }: ThemeItem) => {
           return (
             <MenuItem value={id} key={id}>
               {name}

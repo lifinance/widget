@@ -25,12 +25,11 @@ export interface EditToolsValues {
     openTab: CodeControlTab;
   };
   fontControl: {
-    selectedFont: Font | undefined;
+    selectedFont: Font | undefined; // move to config
   };
-  themeControl: {
-    selectedThemeId: string;
-    widgetThemeItems: ThemeItem[];
-  };
+  // themeControl: {
+  //   selectedThemeId: string;
+  // };
   playgroundSettings: {
     viewportColor?: string | undefined;
   };
@@ -44,8 +43,8 @@ export interface EditToolsActions {
   resetEditTools: () => void;
   setSelectedFont: (font: Font) => void;
   setViewportBackgroundColor: (color: string | undefined) => void;
-  setAvailableThemes: (themeItems: ThemeItem[]) => void;
-  setSelectedTheme: (selectedThemeId: string) => void;
+  // setAvailableThemes: (themeItems: ThemeItem[]) => void;
+  // setSelectedTheme: (selectedThemeId: string) => void;
 }
 
 export type ToolsState = EditToolsValues & EditToolsActions;

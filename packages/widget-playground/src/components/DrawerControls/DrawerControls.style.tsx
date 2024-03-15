@@ -37,7 +37,7 @@ export const HeaderRow = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  backgroundColor: theme.palette.background.paper,
+  backgroundColor: theme.palette.background.default,
   padding: theme.spacing(1),
   margin: theme.spacing(-1),
 }));

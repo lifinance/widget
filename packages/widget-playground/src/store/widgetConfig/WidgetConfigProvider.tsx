@@ -9,6 +9,7 @@ import isEqual from 'lodash.isequal';
 import { cloneStructuredConfig } from './utils/cloneStructuredConfig';
 import { patch } from '../../utils';
 import { getConfigOutput } from './utils/getConfigOutput';
+import { themeItems } from './themes';
 
 export const WidgetConfigContext = createContext<WidgetConfigStore | null>(
   null,
@@ -25,7 +26,15 @@ export const WidgetConfigProvider: FC<WidgetConfigProviderProps> = ({
   const storeRef = useRef<WidgetConfigStore>();
 
   if (!storeRef.current) {
-    storeRef.current = createWidgetConfigStore(defaultWidgetConfig);
+    const themes = [
+      {
+        id: 'default',
+        name: 'Default',
+        theme: defaultWidgetConfig?.theme || {},
+      },
+      ...themeItems,
+    ];
+    storeRef.current = createWidgetConfigStore(defaultWidgetConfig, themes);
   }
 
   useEffect(() => {
@@ -38,11 +47,29 @@ export const WidgetConfigProvider: FC<WidgetConfigProviderProps> = ({
       const differences = diff(editorConfigDefaults, editorConfigUpdates);
 
       const mergedConfig = patch(
-        cloneStructuredConfig(defaultWidgetConfig),
+        cloneStructuredConfig<Partial<WidgetConfig>>(defaultWidgetConfig),
         differences,
       ) as Partial<WidgetConfig>;
 
       storeRef.current?.getState().setConfig(mergedConfig);
+
+      // handling theme updated in the default config files
+      const defaultTheme = defaultWidgetConfig.theme;
+
+      const currentDefaultTheme = storeRef.current
+        ?.getState()
+        .widgetThemeItems.find(
+          (themeItem) => themeItem.id === 'default',
+        )?.theme;
+
+      if (currentDefaultTheme && !isEqual(currentDefaultTheme, defaultTheme)) {
+        storeRef.current
+          ?.getState()
+          .setAvailableThemes([
+            { id: 'default', name: 'Default', theme: defaultTheme || {} },
+            ...themeItems,
+          ]);
+      }
     }
   }, [defaultWidgetConfig]);
 

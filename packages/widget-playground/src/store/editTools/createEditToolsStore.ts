@@ -1,14 +1,10 @@
 import type { StateCreator } from 'zustand';
 import { createWithEqualityFn } from 'zustand/traditional';
 import { persist } from 'zustand/middleware';
-import type { ThemeItem, ToolsState } from './types';
+import type { ToolsState } from './types';
 import { defaultDrawerWidth } from './constants';
 
-interface EditToolsStoreProps {
-  themeItems: ThemeItem[];
-}
-
-export const createEditToolsStore = ({ themeItems }: EditToolsStoreProps) =>
+export const createEditToolsStore = () =>
   createWithEqualityFn<ToolsState>(
     persist(
       (set, get) => ({
@@ -22,10 +18,6 @@ export const createEditToolsStore = ({ themeItems }: EditToolsStoreProps) =>
         },
         fontControl: {
           selectedFont: undefined,
-        },
-        themeControl: {
-          selectedThemeId: 'default',
-          widgetThemeItems: themeItems,
         },
         playgroundSettings: {
           viewportColor: undefined,
@@ -72,10 +64,6 @@ export const createEditToolsStore = ({ themeItems }: EditToolsStoreProps) =>
         },
         resetEditTools: () => {
           set({
-            themeControl: {
-              ...get().themeControl,
-              selectedThemeId: 'default',
-            },
             playgroundSettings: {
               viewportColor: undefined,
             },
@@ -96,22 +84,6 @@ export const createEditToolsStore = ({ themeItems }: EditToolsStoreProps) =>
             },
           });
         },
-        setAvailableThemes: (themeItems) => {
-          set({
-            themeControl: {
-              ...get().themeControl,
-              widgetThemeItems: themeItems,
-            },
-          });
-        },
-        setSelectedTheme: (selectedThemeId) => {
-          set({
-            themeControl: {
-              ...get().themeControl,
-              selectedThemeId: selectedThemeId,
-            },
-          });
-        },
       }),
       {
         name: `'li.fi-playground-tools`,
@@ -121,9 +93,6 @@ export const createEditToolsStore = ({ themeItems }: EditToolsStoreProps) =>
             open: state.drawer.open,
             visibleControls: state.drawer.visibleControls || 'design',
           },
-          themeControl: {
-            selectedThemeId: state.themeControl?.selectedThemeId || 'default',
-          },
           playgroundSettings: {
             viewportColor: state.playgroundSettings?.viewportColor,
           },
@@ -132,7 +101,6 @@ export const createEditToolsStore = ({ themeItems }: EditToolsStoreProps) =>
           return (state) => {
             if (state) {
               state.setCodeDrawerWidth(defaultDrawerWidth);
-              state.setAvailableThemes(themeItems);
             }
           };
         },

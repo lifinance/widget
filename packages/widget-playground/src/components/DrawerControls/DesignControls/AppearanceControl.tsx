@@ -15,10 +15,10 @@ import {
   useConfigActions,
   useConfigAppearance,
   useEditToolsActions,
+  useThemeValues,
 } from '../../../store';
 import { ExpandableCard, CardValue } from '../../Card';
 import { Tab, Tabs } from '../../Tabs';
-import { useThemeToolValues } from '../../../store';
 import { Badge, CapitalizeFirstLetter } from './DesignControls.style';
 
 const appearanceIcons = {
@@ -62,7 +62,7 @@ export const AppearanceControl = () => {
   const { appearance } = useConfigAppearance();
   const { setAppearance } = useConfigActions();
   const { setViewportBackgroundColor } = useEditToolsActions();
-  const { selectedTheme } = useThemeToolValues();
+  const { selectedTheme } = useThemeValues();
 
   const restricted = !!selectedTheme?.options?.restrictAppearance;
 
