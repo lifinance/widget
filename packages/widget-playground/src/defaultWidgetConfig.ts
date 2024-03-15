@@ -222,7 +222,5 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
       boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
       borderRadius: '16px',
     },
-    // ...windows95Theme,
-    // ...jumperTheme,
   },
 } as WidgetConfig;
