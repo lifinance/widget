@@ -18,8 +18,8 @@ export const palette = {
     main: '#297EFF',
   },
   common: {
-    black: '#000',
-    white: '#fff',
+    black: '#000000',
+    white: '#ffffff',
   },
   grey: {
     '200': '#eeeeee',

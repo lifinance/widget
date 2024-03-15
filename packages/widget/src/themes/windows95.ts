@@ -17,7 +17,7 @@ export const windows95Theme: WidgetTheme = {
       paper: '#dfdfdf',
     },
     grey: {
-      300: '#bbb',
+      300: '#bbbbbb',
     },
   },
   shape: {
@@ -58,7 +58,7 @@ export const windows95Theme: WidgetTheme = {
           borderWidth: 0,
           '&:hover': {
             cursor: 'pointer',
-            backgroundColor: '#ccc',
+            backgroundColor: '#cccccc',
           },
         },
       },
@@ -74,7 +74,7 @@ export const windows95Theme: WidgetTheme = {
     MuiInputCard: {
       styleOverrides: {
         root: {
-          backgroundColor: '#fff',
+          backgroundColor: '#ffffff',
           boxShadow:
             'inset -1px -1px #ffffff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080',
         },
@@ -92,7 +92,7 @@ export const windows95Theme: WidgetTheme = {
           backgroundColor: '#dfdfdf',
           '&:hover': {
             color: 'inherit',
-            backgroundColor: '#ccc',
+            backgroundColor: '#cccccc',
           },
         },
       },
