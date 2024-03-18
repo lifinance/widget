@@ -1,7 +1,6 @@
 import type { WidgetConfig, WidgetTheme } from '@lifi/widget/dist/_esm';
 import diff from 'microdiff';
-import { patch } from '../../../utils';
-import { cloneStructuredConfig } from './cloneStructuredConfig';
+import { cloneStructuredConfig, patch } from '../../../utils';
 import { getLocalStorageOutput } from './getLocalStorageOutput';
 
 export const replayLocalStorageChangesOnTheme = (

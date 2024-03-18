@@ -37,12 +37,16 @@ const AppearanceTab: FC<AppearanceTabProps> = ({
   title,
   value,
   Icon,
+  disabled,
   ...props
-}) => (
-  <Tooltip title={title} arrow>
-    <Tab icon={Icon} value={value} {...props} disableRipple />
-  </Tooltip>
-);
+}) =>
+  disabled ? (
+    <Tab icon={Icon} value={value} {...props} />
+  ) : (
+    <Tooltip title={title} arrow>
+      <Tab icon={Icon} value={value} {...props} />
+    </Tooltip>
+  );
 
 interface BadgableCardValueProps extends PropsWithChildren {
   showBadge: boolean;

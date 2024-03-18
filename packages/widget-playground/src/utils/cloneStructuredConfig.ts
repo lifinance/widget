@@ -1,7 +1,6 @@
 import { substituteFunctions } from './substituteFunctions';
-import { rehydrateFunctions } from './rehydrateFunctions';
-import type { FunctionReference } from './types';
-import type { ObjectWithFunctions } from './types';
+import { rehydrateFunctions } from '../store/widgetConfig/utils/rehydrateFunctions';
+import type { FunctionReference, ObjectWithFunctions } from '../types';
 
 const shallowReferences = () => {
   let referencesDictionary: FunctionReference[] = [];
