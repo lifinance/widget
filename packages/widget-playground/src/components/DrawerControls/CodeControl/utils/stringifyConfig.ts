@@ -1,4 +1,4 @@
-import { WidgetConfig } from '@lifi/widget';
+import type { WidgetConfig } from '@lifi/widget';
 import { cloneStructuredConfig, substituteFunctions } from '../../../../utils';
 import { addFunctionsAsStrings } from './addFunctionsAsStrings';
 

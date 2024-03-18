@@ -1,4 +1,4 @@
-import { FunctionReference } from '../../../../types';
+import type { FunctionReference } from '../../../../types';
 
 export const addFunctionsAsStrings = (
   configAsString: string,
@@ -14,7 +14,7 @@ export const addFunctionsAsStrings = (
 
     const functionKey = item.path[item.path.length - 1];
 
-    if (funcString.trim().startsWith(`async ${functionKey} () {}`)) {
+    if (funcString.trim().startsWith(`async ${functionKey}`)) {
       stringifiedConfig = stringifiedConfig.replace(
         `"${functionKey}": "${item.substituteId}"`,
         funcString,
@@ -33,7 +33,7 @@ export const addFunctionsAsStrings = (
 // This function corrects the indentation in functions to point in the
 // config code that its embedded.
 // NOTE: If formatting this output becomes anymore complicated we
-// should consider using https://github.com/beautifier/js-beautify
+// should consider using https://prettier.io/docs/en/browser
 const adaptFuncIndentationToInsertionPoint = (
   stringifiedConfig: string,
   item: FunctionReference,

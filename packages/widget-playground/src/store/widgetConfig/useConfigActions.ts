@@ -17,7 +17,6 @@ export const useConfigActions = () => {
       setFontFamily: state.setFontFamily,
       setWalletConfig: state.setWalletConfig,
       setConfigTheme: state.setConfigTheme,
-      setThemeId: state.setThemeId,
     }),
     shallow,
   );
