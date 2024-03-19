@@ -10,6 +10,7 @@ import { cloneStructuredConfig } from '../../utils/cloneStructuredConfig';
 import { patch } from '../../utils';
 import { getConfigOutput } from './utils/getConfigOutput';
 import { themeItems } from './themes';
+import { useMediaQuery } from '@mui/material';
 
 export const WidgetConfigContext = createContext<WidgetConfigStore | null>(
   null,
@@ -24,17 +25,25 @@ export const WidgetConfigProvider: FC<WidgetConfigProviderProps> = ({
   defaultWidgetConfig,
 }) => {
   const storeRef = useRef<WidgetConfigStore>();
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
   if (!storeRef.current) {
     const themes = [
       {
         id: 'default',
         name: 'Default',
-        theme: defaultWidgetConfig?.theme || {},
+        theme: {
+          light: defaultWidgetConfig?.theme || {},
+          dark: defaultWidgetConfig?.theme || {},
+        },
       },
       ...themeItems,
     ];
-    storeRef.current = createWidgetConfigStore(defaultWidgetConfig, themes);
+    storeRef.current = createWidgetConfigStore(
+      defaultWidgetConfig,
+      themes,
+      prefersDarkMode,
+    );
   }
 
   useEffect(() => {
@@ -63,12 +72,14 @@ export const WidgetConfigProvider: FC<WidgetConfigProviderProps> = ({
         )?.theme;
 
       if (currentDefaultTheme && !isEqual(currentDefaultTheme, defaultTheme)) {
-        storeRef.current
-          ?.getState()
-          .setAvailableThemes([
-            { id: 'default', name: 'Default', theme: defaultTheme || {} },
-            ...themeItems,
-          ]);
+        storeRef.current?.getState().setAvailableThemes([
+          {
+            id: 'default',
+            name: 'Default',
+            theme: { light: defaultTheme || {}, dark: defaultTheme || {} },
+          },
+          ...themeItems,
+        ]);
       }
     }
   }, [defaultWidgetConfig]);

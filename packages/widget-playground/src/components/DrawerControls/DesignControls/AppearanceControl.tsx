@@ -20,6 +20,7 @@ import {
 import { ExpandableCard, CardValue } from '../../Card';
 import { Tab, Tabs } from '../../Tabs';
 import { Badge, CapitalizeFirstLetter } from './DesignControls.style';
+import { useThemeMode } from '../../../hooks';
 
 const appearanceIcons = {
   light: LightModeIcon,
@@ -64,20 +65,32 @@ const BadgableCardValue = ({ children, showBadge }: BadgableCardValueProps) => {
 
 export const AppearanceControl = () => {
   const { appearance } = useConfigAppearance();
-  const { setAppearance } = useConfigActions();
+  const themeMode = useThemeMode();
+  const { setAppearance, setConfigTheme } = useConfigActions();
   const { setViewportBackgroundColor } = useEditToolsActions();
   const { selectedTheme } = useThemeValues();
 
-  const restricted = !!selectedTheme?.options?.restrictAppearance;
+  const restricted = !!(
+    selectedTheme && Object.keys(selectedTheme.theme).length < 2
+  );
 
   useEffect(() => {
-    if (selectedTheme?.options?.restrictAppearance) {
-      setAppearance(selectedTheme?.options?.restrictAppearance);
+    if (restricted) {
+      setAppearance(Object.keys(selectedTheme.theme)[0] as Appearance);
     }
-  }, [selectedTheme, setAppearance]);
+  }, [selectedTheme, setAppearance, restricted]);
   const handleAppearanceChange = (_: SyntheticEvent, value: Appearance) => {
     setAppearance(value);
-    setViewportBackgroundColor(undefined);
+
+    if (selectedTheme) {
+      const themeForAppearance = value === 'auto' ? themeMode : value;
+      setConfigTheme(selectedTheme.theme[themeForAppearance], selectedTheme.id);
+      setViewportBackgroundColor(
+        selectedTheme.theme[themeForAppearance]?.playground?.background as
+          | string
+          | undefined,
+      );
+    }
   };
 
   return (

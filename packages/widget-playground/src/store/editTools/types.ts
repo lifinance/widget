@@ -1,19 +1,31 @@
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
 import type { StoreApi } from 'zustand';
 import type { Font } from '../../providers';
-import type { Appearance, WidgetTheme } from '@lifi/widget';
+import type { WidgetTheme } from '@lifi/widget';
 
 type ControlType = 'design' | 'code';
 type CodeControlTab = 'config' | 'examples';
 
+export type AppearanceTheme =
+  | {
+      light: WidgetTheme;
+    }
+  | {
+      dark: WidgetTheme;
+    }
+  | {
+      light: WidgetTheme;
+      dark: WidgetTheme;
+    };
+
+interface AppearanceThemeIndexable {
+  [key: string]: WidgetTheme;
+}
+
 export interface ThemeItem {
   id: string;
   name: string;
-  theme: WidgetTheme;
-  options?: {
-    // sets and locks the appearance control to this appearance for a theme
-    restrictAppearance?: Appearance;
-  };
+  theme: AppearanceTheme & AppearanceThemeIndexable;
 }
 export interface EditToolsValues {
   drawer: {

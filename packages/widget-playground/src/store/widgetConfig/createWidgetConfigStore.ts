@@ -11,6 +11,7 @@ import { replayLocalStorageChangesOnTheme } from './utils/replayLocalStorageChan
 export const createWidgetConfigStore = (
   initialConfig: Partial<WidgetConfig>,
   themeItems: ThemeItem[],
+  prefersDarkMode: boolean,
 ) =>
   createWithEqualityFn<WidgetConfigState>(
     persist(
@@ -191,13 +192,31 @@ export const createWidgetConfigStore = (
                   : { async onConnect() {} };
                 state.setWalletConfig(walletConfig);
               }
+
+              // TODO: I think this is really brittle and needs some work
               const themeId = state.themeId ? state.themeId : 'default';
 
-              let theme = state.widgetThemeItems.find(
+              let appearance =
+                state.config?.appearance === 'auto' || !state.config?.appearance
+                  ? prefersDarkMode
+                    ? 'dark'
+                    : 'light'
+                  : state.config.appearance;
+
+              let appearanceThemes = state.widgetThemeItems.find(
                 (themeItem) => themeItem.id === themeId,
               )!.theme;
 
-              if (theme && state.config) {
+              let theme: WidgetTheme;
+              if (appearanceThemes[appearance]) {
+                theme = appearanceThemes[appearance];
+              } else {
+                appearance = appearance === 'light' ? 'dark' : 'light';
+                theme = appearanceThemes[appearance];
+                state.setAppearance(appearance);
+              }
+
+              if (theme && state.config?.theme) {
                 theme = replayLocalStorageChangesOnTheme(theme, state.config);
               }
 

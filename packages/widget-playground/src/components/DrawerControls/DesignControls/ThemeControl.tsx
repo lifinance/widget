@@ -9,8 +9,10 @@ import {
 import { popperZIndex } from '../DrawerControls.style';
 import { Select } from './DesignControls.style';
 import type { ThemeItem } from '../../../store/editTools/types';
+import { useThemeMode } from '../../../hooks';
 export const ThemeControl = () => {
   const { setConfigTheme } = useConfigActions();
+  const themeMode = useThemeMode();
   const { selectedThemeId, selectedTheme, allThemesItems } = useThemeValues();
   const { setViewportBackgroundColor } = useEditToolsActions();
 
@@ -20,9 +22,10 @@ export const ThemeControl = () => {
     );
 
     if (themeItem) {
-      setConfigTheme(themeItem.theme, event.target.value);
+      const theme = themeItem.theme[themeMode];
+      setConfigTheme(theme, event.target.value);
       setViewportBackgroundColor(
-        themeItem.theme.playground?.background as string | undefined,
+        theme.playground?.background as string | undefined,
       );
     }
   };
