@@ -1,4 +1,3 @@
-import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import { defineConfig } from 'vite';
