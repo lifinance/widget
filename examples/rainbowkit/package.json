@@ -10,24 +10,25 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/widget": "^3.0.0-alpha.34",
+    "@lifi/widget": "^3.0.0-alpha.35",
     "@rainbow-me/rainbowkit": "^2.0.2",
-    "@tanstack/react-query": "^5.27.5",
+    "@tanstack/react-query": "^5.28.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "viem": "^2.8.4",
-    "wagmi": "^2.5.8"
+    "viem": "^2.8.14",
+    "wagmi": "^2.5.11"
   },
   "devDependencies": {
-    "@types/react": "^18.2.65",
-    "@types/react-dom": "^18.2.21",
-    "@typescript-eslint/eslint-plugin": "^7.2.0",
-    "@typescript-eslint/parser": "^7.2.0",
+    "@types/react": "^18.2.67",
+    "@types/react-dom": "^18.2.22",
+    "@typescript-eslint/eslint-plugin": "^7.3.1",
+    "@typescript-eslint/parser": "^7.3.1",
     "@vitejs/plugin-react-swc": "^3.6.0",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.5",
+    "eslint-plugin-react-refresh": "^0.4.6",
     "typescript": "^5.4.2",
-    "vite": "^5.1.6"
+    "vite": "^5.2.0",
+    "vite-plugin-node-polyfills": "^0.21.0"
   }
 }
