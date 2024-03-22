@@ -46,3 +46,7 @@ next-env.d.ts
 # vercel
 .vercel
 
+# nuxt
+/.nuxt/
+/.output/
+

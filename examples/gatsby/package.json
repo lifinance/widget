@@ -16,27 +16,28 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@lifi/widget": "^2.9.5",
-    "@mdx-js/react": "^2.3.0",
+    "@lifi/widget": "^3.0.0-alpha.35",
+    "@mdx-js/react": "^3.0.1",
     "babel-plugin-styled-components": "^2.1.4",
-    "gatsby": "^5.12.12",
-    "gatsby-plugin-image": "^3.12.3",
-    "gatsby-plugin-manifest": "^5.12.3",
-    "gatsby-plugin-mdx": "^5.12.3",
-    "gatsby-plugin-sharp": "^5.12.3",
-    "gatsby-plugin-sitemap": "^6.12.3",
-    "gatsby-plugin-styled-components": "^6.12.0",
-    "gatsby-source-filesystem": "^5.12.1",
-    "gatsby-transformer-remark": "^6.12.3",
-    "gatsby-transformer-sharp": "^5.12.3",
+    "gatsby": "^5.13.3",
+    "gatsby-plugin-image": "^3.13.1",
+    "gatsby-plugin-manifest": "^5.13.1",
+    "gatsby-plugin-mdx": "^5.13.1",
+    "gatsby-plugin-sharp": "^5.13.1",
+    "gatsby-plugin-sitemap": "^6.13.1",
+    "gatsby-plugin-styled-components": "^6.13.1",
+    "gatsby-source-filesystem": "^5.13.1",
+    "gatsby-transformer-remark": "^6.13.1",
+    "gatsby-transformer-sharp": "^5.13.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "styled-components": "^6.1.1"
+    "styled-components": "^6.1.8"
   },
   "devDependencies": {
-    "@types/node": "^20.10.4",
-    "@types/react": "^18.2.45",
-    "@types/react-dom": "^18.2.17",
-    "typescript": "^5.3.3"
+    "@types/node": "^20.11.30",
+    "@types/react": "^18.2.67",
+    "@types/react-dom": "^18.2.22",
+    "buffer": "^6.0.3",
+    "typescript": "^5.4.2"
   }
 }

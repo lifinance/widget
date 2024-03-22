@@ -1,9 +1,11 @@
-<script>
+<script lang="ts">
   import { createElement } from 'react';
+  import type { Root } from 'react-dom/client';
   import { createRoot } from 'react-dom/client';
   import { onDestroy, onMount } from 'svelte';
 
-  let container, root;
+  let container: HTMLDivElement;
+  let root: Root;
 
   onMount(() => {
     const { element, children, class: _, ...props } = $$props;

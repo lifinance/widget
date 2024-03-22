@@ -1,0 +1,20 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@lifi/widget": "^3.0.0-alpha.35",
+    "nuxt": "^3.11.1",
+    "veaury": "^2.3.16",
+    "vite-plugin-node-polyfills": "^0.21.0",
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.0"
+  }
+}

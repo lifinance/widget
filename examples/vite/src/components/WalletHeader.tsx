@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
 import { Box, Button, Typography } from '@mui/material';
-import { useAccount, useConnect, useDisconnect } from 'wagmi';
+import { useConnect, useDisconnect, useAccount } from 'wagmi';
 
 export function WalletHeader() {
   const { address, isConnected } = useAccount();
-  const { connectAsync, connectors } = useConnect();
   const { disconnect } = useDisconnect();
+  const { connectors, connectAsync } = useConnect();
 
   return (
     <Box
@@ -25,6 +25,7 @@ export function WalletHeader() {
           <Button
             variant="contained"
             disableElevation
+            // onClick={handleDisconnect}
             onClick={() => connectAsync({ connector: connectors[0] })}
           >
             Connect
