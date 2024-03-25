@@ -119,7 +119,7 @@ export const useThemeValues = () => {
 
   return {
     selectedThemeId,
-    selectedTheme: allThemesItems.find(
+    selectedThemeItem: allThemesItems.find(
       (themeItem) => themeItem.id === selectedThemeId,
     ),
     allThemesItems,

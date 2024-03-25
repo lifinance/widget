@@ -3,14 +3,16 @@ import { createContext, useContext, useRef } from 'react';
 import { shallow } from 'zustand/shallow';
 import type { ToolsState, ToolsStore } from './types';
 import { createEditToolsStore } from './createEditToolsStore';
+import { useConfigActions } from '../widgetConfig';
 
 export const EditToolsContext = createContext<ToolsStore | null>(null);
 
 export const EditToolsProvider: FC<PropsWithChildren> = ({ children }) => {
   const storeRef = useRef<ToolsStore>();
+  const { getCurrentThemePreset } = useConfigActions();
 
   if (!storeRef.current) {
-    storeRef.current = createEditToolsStore();
+    storeRef.current = createEditToolsStore(getCurrentThemePreset());
   }
 
   return (

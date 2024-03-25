@@ -13,7 +13,8 @@ import { useThemeMode } from '../../../hooks';
 export const ThemeControl = () => {
   const { setConfigTheme } = useConfigActions();
   const themeMode = useThemeMode();
-  const { selectedThemeId, selectedTheme, allThemesItems } = useThemeValues();
+  const { selectedThemeId, selectedThemeItem, allThemesItems } =
+    useThemeValues();
   const { setViewportBackgroundColor } = useEditToolsActions();
 
   const handleChange = (event: SelectChangeEvent<any>) => {
@@ -35,7 +36,7 @@ export const ThemeControl = () => {
       title={'Base theme'}
       value={
         <CardValue sx={{ textTransform: 'capitalize' }}>
-          {selectedTheme?.name ? selectedTheme?.name : 'default'}
+          {selectedThemeItem?.name ? selectedThemeItem?.name : 'default'}
         </CardValue>
       }
     >

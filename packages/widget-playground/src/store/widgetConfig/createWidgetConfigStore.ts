@@ -6,7 +6,7 @@ import { addValueFromPathString, cloneStructuredConfig } from '../../utils';
 import type { WidgetConfigState } from './types';
 import { getLocalStorageOutput } from './utils/getLocalStorageOutput';
 import type { ThemeItem } from '../editTools/types';
-import { replayLocalStorageChangesOnTheme } from './utils/replayLocalStorageChangesOnTheme';
+import { setThemeAppearanceWithFallback } from './utils/setThemeWithFallback';
 
 export const createWidgetConfigStore = (
   initialConfig: Partial<WidgetConfig>,
@@ -173,6 +173,25 @@ export const createWidgetConfigStore = (
             widgetThemeItems: themeItems,
           });
         },
+        getCurrentThemePreset: (useDarkMode) => {
+          const selectedThemeItem = get().widgetThemeItems.find(
+            (themeItem) => themeItem.id === get().themeId,
+          );
+
+          if (!selectedThemeItem) {
+            return;
+          }
+
+          const appearance = (
+            !!get().config?.appearance && get().config?.appearance !== 'auto'
+              ? get().config?.appearance
+              : useDarkMode || prefersDarkMode
+                ? 'dark'
+                : 'light'
+          ) as string;
+
+          return selectedThemeItem.theme[appearance];
+        },
       }),
       {
         name: `'li.fi-playground-config`,
@@ -193,34 +212,7 @@ export const createWidgetConfigStore = (
                 state.setWalletConfig(walletConfig);
               }
 
-              // TODO: I think this is really brittle and needs some work
-              const themeId = state.themeId ? state.themeId : 'default';
-
-              let appearance =
-                state.config?.appearance === 'auto' || !state.config?.appearance
-                  ? prefersDarkMode
-                    ? 'dark'
-                    : 'light'
-                  : state.config.appearance;
-
-              let appearanceThemes = state.widgetThemeItems.find(
-                (themeItem) => themeItem.id === themeId,
-              )!.theme;
-
-              let theme: WidgetTheme;
-              if (appearanceThemes[appearance]) {
-                theme = appearanceThemes[appearance];
-              } else {
-                appearance = appearance === 'light' ? 'dark' : 'light';
-                theme = appearanceThemes[appearance];
-                state.setAppearance(appearance);
-              }
-
-              if (theme && state.config?.theme) {
-                theme = replayLocalStorageChangesOnTheme(theme, state.config);
-              }
-
-              state.setConfigTheme(theme, themeId);
+              setThemeAppearanceWithFallback(state, prefersDarkMode);
             }
           };
         },

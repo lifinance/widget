@@ -1,10 +1,11 @@
 import type { StateCreator } from 'zustand';
 import { createWithEqualityFn } from 'zustand/traditional';
 import { persist } from 'zustand/middleware';
+import type { WidgetTheme } from '@lifi/widget';
 import type { ToolsState } from './types';
 import { defaultDrawerWidth } from './constants';
 
-export const createEditToolsStore = () =>
+export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
   createWithEqualityFn<ToolsState>(
     persist(
       (set, get) => ({
@@ -101,6 +102,12 @@ export const createEditToolsStore = () =>
           return (state) => {
             if (state) {
               state.setCodeDrawerWidth(defaultDrawerWidth);
+
+              if (initialTheme) {
+                if (!initialTheme.playground?.background) {
+                  state.setViewportBackgroundColor(undefined);
+                }
+              }
             }
           };
         },

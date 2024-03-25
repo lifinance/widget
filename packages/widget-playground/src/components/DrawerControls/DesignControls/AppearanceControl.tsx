@@ -68,28 +68,33 @@ export const AppearanceControl = () => {
   const themeMode = useThemeMode();
   const { setAppearance, setConfigTheme } = useConfigActions();
   const { setViewportBackgroundColor } = useEditToolsActions();
-  const { selectedTheme } = useThemeValues();
+  const { selectedThemeItem } = useThemeValues();
 
   const restricted = !!(
-    selectedTheme && Object.keys(selectedTheme.theme).length < 2
+    selectedThemeItem && Object.keys(selectedThemeItem.theme).length < 2
   );
 
   useEffect(() => {
     if (restricted) {
-      setAppearance(Object.keys(selectedTheme.theme)[0] as Appearance);
+      const restrictedAppearance = Object.keys(
+        selectedThemeItem.theme,
+      )[0] as Appearance;
+      setAppearance(restrictedAppearance);
     }
-  }, [selectedTheme, setAppearance, restricted]);
+  }, [selectedThemeItem, setAppearance, restricted]);
   const handleAppearanceChange = (_: SyntheticEvent, value: Appearance) => {
     setAppearance(value);
 
-    if (selectedTheme) {
-      const themeForAppearance = value === 'auto' ? themeMode : value;
-      setConfigTheme(selectedTheme.theme[themeForAppearance], selectedTheme.id);
-      setViewportBackgroundColor(
-        selectedTheme.theme[themeForAppearance]?.playground?.background as
-          | string
-          | undefined,
+    if (selectedThemeItem) {
+      const newAppearance = value === 'auto' ? themeMode : value;
+      setConfigTheme(
+        selectedThemeItem.theme[newAppearance],
+        selectedThemeItem.id,
       );
+
+      const viewportBackground =
+        selectedThemeItem.theme[newAppearance]?.playground?.background;
+      setViewportBackgroundColor(viewportBackground as string | undefined);
     }
   };
 

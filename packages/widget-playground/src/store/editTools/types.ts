@@ -6,7 +6,7 @@ import type { WidgetTheme } from '@lifi/widget';
 type ControlType = 'design' | 'code';
 type CodeControlTab = 'config' | 'examples';
 
-export type AppearanceTheme =
+export type ThemeAppearances =
   | {
       light: WidgetTheme;
     }
@@ -18,14 +18,14 @@ export type AppearanceTheme =
       dark: WidgetTheme;
     };
 
-interface AppearanceThemeIndexable {
+interface ThemeAppearancesIndexable {
   [key: string]: WidgetTheme;
 }
 
 export interface ThemeItem {
   id: string;
   name: string;
-  theme: AppearanceTheme & AppearanceThemeIndexable;
+  theme: ThemeAppearances & ThemeAppearancesIndexable;
 }
 export interface EditToolsValues {
   drawer: {

@@ -62,7 +62,7 @@ export const WidgetConfigProvider: FC<WidgetConfigProviderProps> = ({
 
       storeRef.current?.getState().setConfig(mergedConfig);
 
-      // handling theme updated in the default config files
+      // handling theme updated from the default config files
       const defaultTheme = defaultWidgetConfig.theme;
 
       const currentDefaultTheme = storeRef.current

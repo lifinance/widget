@@ -33,6 +33,7 @@ export interface WidgetConfigActions {
   setWalletConfig: (walletConfig?: WidgetWalletConfig) => void;
   setConfigTheme: (theme: WidgetTheme, themeId: string) => void;
   setAvailableThemes: (themeItems: ThemeItem[]) => void;
+  getCurrentThemePreset: (useDarkMode?: boolean) => WidgetTheme | undefined;
 }
 
 export type WidgetConfigState = WidgetConfigValues & WidgetConfigActions;
