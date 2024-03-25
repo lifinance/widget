@@ -4,28 +4,35 @@ import { CardValue, ExpandableCard } from '../../Card';
 import {
   useConfigActions,
   useEditToolsActions,
-  useThemeToolValues,
+  useThemeValues,
 } from '../../../store';
 import { popperZIndex } from '../DrawerControls.style';
 import { Select } from './DesignControls.style';
+import type { ThemeItem } from '../../../store';
+import { useThemeMode } from '../../../hooks';
 export const ThemeControl = () => {
   const { setConfigTheme } = useConfigActions();
-  const { selectedThemeId, selectedTheme, allThemeItems } =
-    useThemeToolValues();
-  const { setViewportBackgroundColor, setSelectedTheme } =
-    useEditToolsActions();
+  const themeMode = useThemeMode();
+  const { selectedThemeId, selectedThemeItem, allThemesItems } =
+    useThemeValues();
+  const { setViewportBackgroundColor } = useEditToolsActions();
 
   const handleChange = (event: SelectChangeEvent<any>) => {
-    setSelectedTheme(event.target.value);
-
-    const themeItem = allThemeItems?.find(
+    const themeItem = allThemesItems?.find(
       (themeItem) => themeItem.id === event.target.value,
     );
 
     if (themeItem) {
-      setConfigTheme(themeItem.theme);
+      let theme = themeItem.theme[themeMode];
+
+      if (!theme) {
+        const altThemeMode = themeMode === 'dark' ? 'light' : 'dark';
+        theme = themeItem.theme[altThemeMode];
+      }
+
+      setConfigTheme(theme, event.target.value);
       setViewportBackgroundColor(
-        themeItem.theme.playground?.background as string | undefined,
+        theme.playground?.background as string | undefined,
       );
     }
   };
@@ -35,7 +42,7 @@ export const ThemeControl = () => {
       title={'Base theme'}
       value={
         <CardValue sx={{ textTransform: 'capitalize' }}>
-          {selectedTheme?.name ? selectedTheme?.name : 'default'}
+          {selectedThemeItem?.name ? selectedThemeItem?.name : 'default'}
         </CardValue>
       }
     >
@@ -45,7 +52,7 @@ export const ThemeControl = () => {
         aria-label="Theme"
         MenuProps={{ sx: { zIndex: popperZIndex } }}
       >
-        {allThemeItems?.map(({ name, id }) => {
+        {allThemesItems?.map(({ name, id }: ThemeItem) => {
           return (
             <MenuItem value={id} key={id}>
               {name}

@@ -1,19 +1,31 @@
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
 import type { StoreApi } from 'zustand';
 import type { Font } from '../../providers';
-import type { Appearance, WidgetTheme } from '@lifi/widget';
+import type { WidgetTheme } from '@lifi/widget';
 
 type ControlType = 'design' | 'code';
 type CodeControlTab = 'config' | 'examples';
 
+export type ThemeAppearances =
+  | {
+      light: WidgetTheme;
+    }
+  | {
+      dark: WidgetTheme;
+    }
+  | {
+      light: WidgetTheme;
+      dark: WidgetTheme;
+    };
+
+interface ThemeAppearancesIndexable {
+  [key: string]: WidgetTheme;
+}
+
 export interface ThemeItem {
   id: string;
   name: string;
-  theme: WidgetTheme;
-  options?: {
-    // sets and locks the appearance control to this appearance for a theme
-    restrictAppearance?: Appearance;
-  };
+  theme: ThemeAppearances & ThemeAppearancesIndexable;
 }
 export interface EditToolsValues {
   drawer: {
@@ -25,11 +37,7 @@ export interface EditToolsValues {
     openTab: CodeControlTab;
   };
   fontControl: {
-    selectedFont: Font | undefined;
-  };
-  themeControl: {
-    selectedThemeId: string;
-    widgetThemeItems: ThemeItem[];
+    selectedFont: Font | undefined; // move to config
   };
   playgroundSettings: {
     viewportColor?: string | undefined;
@@ -44,8 +52,6 @@ export interface EditToolsActions {
   resetEditTools: () => void;
   setSelectedFont: (font: Font) => void;
   setViewportBackgroundColor: (color: string | undefined) => void;
-  setAvailableThemes: (themeItems: ThemeItem[]) => void;
-  setSelectedTheme: (selectedThemeId: string) => void;
 }
 
 export type ToolsState = EditToolsValues & EditToolsActions;

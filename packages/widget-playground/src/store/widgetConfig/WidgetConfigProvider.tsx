@@ -6,9 +6,11 @@ import type { WidgetConfig } from '@lifi/widget';
 import type { WidgetConfigStore, WidgetConfigState } from './types.js';
 import { createWidgetConfigStore } from './createWidgetConfigStore.js';
 import isEqual from 'lodash.isequal';
-import { cloneStructuredConfig } from './utils/cloneStructuredConfig';
+import { cloneStructuredConfig } from '../../utils/cloneStructuredConfig';
 import { patch } from '../../utils';
 import { getConfigOutput } from './utils/getConfigOutput';
+import { themeItems } from './themes';
+import { useMediaQuery } from '@mui/material';
 
 export const WidgetConfigContext = createContext<WidgetConfigStore | null>(
   null,
@@ -23,9 +25,25 @@ export const WidgetConfigProvider: FC<WidgetConfigProviderProps> = ({
   defaultWidgetConfig,
 }) => {
   const storeRef = useRef<WidgetConfigStore>();
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
   if (!storeRef.current) {
-    storeRef.current = createWidgetConfigStore(defaultWidgetConfig);
+    const themes = [
+      {
+        id: 'default',
+        name: 'Default',
+        theme: {
+          light: defaultWidgetConfig?.theme || {},
+          dark: defaultWidgetConfig?.theme || {},
+        },
+      },
+      ...themeItems,
+    ];
+    storeRef.current = createWidgetConfigStore(
+      defaultWidgetConfig,
+      themes,
+      prefersDarkMode,
+    );
   }
 
   useEffect(() => {
@@ -38,11 +56,31 @@ export const WidgetConfigProvider: FC<WidgetConfigProviderProps> = ({
       const differences = diff(editorConfigDefaults, editorConfigUpdates);
 
       const mergedConfig = patch(
-        cloneStructuredConfig(defaultWidgetConfig),
+        cloneStructuredConfig<Partial<WidgetConfig>>(defaultWidgetConfig),
         differences,
       ) as Partial<WidgetConfig>;
 
       storeRef.current?.getState().setConfig(mergedConfig);
+
+      // handling theme updated from the default config files
+      const defaultTheme = defaultWidgetConfig.theme;
+
+      const currentDefaultTheme = storeRef.current
+        ?.getState()
+        .widgetThemeItems.find(
+          (themeItem) => themeItem.id === 'default',
+        )?.theme;
+
+      if (currentDefaultTheme && !isEqual(currentDefaultTheme, defaultTheme)) {
+        storeRef.current?.getState().setAvailableThemes([
+          {
+            id: 'default',
+            name: 'Default',
+            theme: { light: defaultTheme || {}, dark: defaultTheme || {} },
+          },
+          ...themeItems,
+        ]);
+      }
     }
   }, [defaultWidgetConfig]);
 

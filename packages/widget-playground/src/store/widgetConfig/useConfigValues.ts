@@ -110,3 +110,18 @@ export const useConfigWalletManagement = () => {
     replacementWalletConfig,
   };
 };
+
+export const useThemeValues = () => {
+  const [selectedThemeId, allThemesItems] = useWidgetConfigStore(
+    (store) => [store.themeId, store.widgetThemeItems],
+    shallow,
+  );
+
+  return {
+    selectedThemeId,
+    selectedThemeItem: allThemesItems.find(
+      (themeItem) => themeItem.id === selectedThemeId,
+    ),
+    allThemesItems,
+  };
+};

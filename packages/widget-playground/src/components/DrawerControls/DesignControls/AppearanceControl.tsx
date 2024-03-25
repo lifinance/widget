@@ -10,16 +10,21 @@ import { Box, Tooltip } from '@mui/material';
 import BrightnessAutoIcon from '@mui/icons-material/BrightnessAuto';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import NightlightIcon from '@mui/icons-material/Nightlight';
-import type { Appearance } from '@lifi/widget';
+import diff from 'microdiff';
+import type { Appearance, WidgetTheme } from '@lifi/widget';
 import {
   useConfigActions,
   useConfigAppearance,
   useEditToolsActions,
+  useThemeValues,
 } from '../../../store';
 import { ExpandableCard, CardValue } from '../../Card';
 import { Tab, Tabs } from '../../Tabs';
-import { useThemeToolValues } from '../../../store';
 import { Badge, CapitalizeFirstLetter } from './DesignControls.style';
+import type { ThemeItem } from '../../../store';
+import type { ThemeMode } from '../../../hooks';
+import { useThemeMode } from '../../../hooks';
+import { cloneStructuredConfig, patch } from '../../../utils';
 
 const appearanceIcons = {
   light: LightModeIcon,
@@ -37,12 +42,16 @@ const AppearanceTab: FC<AppearanceTabProps> = ({
   title,
   value,
   Icon,
+  disabled,
   ...props
-}) => (
-  <Tooltip title={title} arrow>
-    <Tab icon={Icon} value={value} {...props} disableRipple />
-  </Tooltip>
-);
+}) =>
+  disabled ? (
+    <Tab icon={Icon} value={value} disabled={disabled} {...props} />
+  ) : (
+    <Tooltip title={title} arrow>
+      <Tab icon={Icon} value={value} {...props} />
+    </Tooltip>
+  );
 
 interface BadgableCardValueProps extends PropsWithChildren {
   showBadge: boolean;
@@ -58,22 +67,72 @@ const BadgableCardValue = ({ children, showBadge }: BadgableCardValueProps) => {
   );
 };
 
+const getUserChangesToTheme = (
+  selectedThemeItem: ThemeItem,
+  appearance: Appearance,
+  themeMode: ThemeMode,
+  getCurrentConfigTheme: () => WidgetTheme | undefined,
+) => {
+  if (selectedThemeItem) {
+    const normalisedAppearance = appearance === 'auto' ? themeMode : appearance;
+    const themePreset = selectedThemeItem.theme[normalisedAppearance];
+    const currentTheme = getCurrentConfigTheme();
+
+    if (themePreset && currentTheme) {
+      return diff(themePreset, currentTheme);
+    }
+  }
+};
+
 export const AppearanceControl = () => {
   const { appearance } = useConfigAppearance();
-  const { setAppearance } = useConfigActions();
+  const themeMode = useThemeMode();
+  const { setAppearance, setConfigTheme, getCurrentConfigTheme } =
+    useConfigActions();
   const { setViewportBackgroundColor } = useEditToolsActions();
-  const { selectedTheme } = useThemeToolValues();
+  const { selectedThemeItem } = useThemeValues();
 
-  const restricted = !!selectedTheme?.options?.restrictAppearance;
+  const restricted = !!(
+    selectedThemeItem && Object.keys(selectedThemeItem.theme).length < 2
+  );
 
   useEffect(() => {
-    if (selectedTheme?.options?.restrictAppearance) {
-      setAppearance(selectedTheme?.options?.restrictAppearance);
+    if (restricted) {
+      const restrictedAppearance = Object.keys(
+        selectedThemeItem.theme,
+      )[0] as Appearance;
+      setAppearance(restrictedAppearance);
     }
-  }, [selectedTheme, setAppearance]);
+  }, [selectedThemeItem, setAppearance, restricted]);
+
   const handleAppearanceChange = (_: SyntheticEvent, value: Appearance) => {
+    if (selectedThemeItem) {
+      const userChangesToTheme = getUserChangesToTheme(
+        selectedThemeItem,
+        appearance,
+        themeMode,
+        getCurrentConfigTheme,
+      );
+
+      const newAppearance = value === 'auto' ? themeMode : value;
+
+      const newTheme = userChangesToTheme
+        ? (patch(
+            cloneStructuredConfig<WidgetTheme>(
+              selectedThemeItem.theme[newAppearance],
+            ),
+            userChangesToTheme,
+          ) as WidgetTheme)
+        : selectedThemeItem.theme[newAppearance];
+
+      setConfigTheme(newTheme, selectedThemeItem.id);
+
+      const viewportBackground =
+        selectedThemeItem.theme[newAppearance].playground?.background;
+      setViewportBackgroundColor(viewportBackground as string | undefined);
+    }
+
     setAppearance(value);
-    setViewportBackgroundColor(undefined);
   };
 
   return (

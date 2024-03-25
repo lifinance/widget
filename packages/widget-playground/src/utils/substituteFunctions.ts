@@ -2,11 +2,15 @@ import type {
   Collection,
   FunctionReference,
   ObjectWithFunctions,
-} from './types';
+} from '../types';
 
 export function substituteFunctions(
   obj: ObjectWithFunctions,
+  substituteMode: 'object' | 'id' = 'object',
 ): FunctionReference[] {
+  let id = 0;
+  const getSubstitutionId = () => `substitution::id::${(id += 1)}`;
+
   const stack: { obj: ObjectWithFunctions; path: (string | number)[] }[] = [
     { obj, path: [] },
   ];
@@ -23,11 +27,15 @@ export function substituteFunctions(
         : [...currentPath, key];
 
       if (typeof value === 'function') {
-        // Substitute the function with an empty object in the original object
-        (currentObj as Collection)[key] = {};
+        // Substitute the function with an empty object or id in the original object
+        const substituteId = substituteMode === 'id' ? getSubstitutionId() : {};
+        (currentObj as Collection)[key] = substituteId;
+
         result.push({
           path: newPath,
           funcRef: value,
+          substituteId:
+            typeof substituteId === 'string' ? substituteId : undefined,
         });
       } else if (Array.isArray(value)) {
         stack.push({ obj: value, path: newPath });

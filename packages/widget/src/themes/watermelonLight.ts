@@ -1,4 +1,6 @@
 import type { WidgetTheme } from '../types/widget.js';
+import { alpha } from '@mui/material';
+import { palette } from '@lifi/widget';
 
 export const watermelonLightTheme: WidgetTheme = {
   palette: {
@@ -22,6 +24,13 @@ export const watermelonLightTheme: WidgetTheme = {
       700: '#7A666B',
       800: '#58373F',
     },
+    // This was the cause of an error
+    // The  MuiIconButton.styleOverrides.root was trying to use common colors
+    // but the getStyleOverrides function packages/widget/src/themes/utils.ts
+    // didn't have access to them when trying to process this file
+    common: {
+      ...palette.common,
+    },
   },
   shape: {
     borderRadius: 16,
@@ -42,28 +51,23 @@ export const watermelonLightTheme: WidgetTheme = {
     MuiCard: {
       defaultProps: { variant: 'elevation' },
     },
-    // MuiIconButton: {
-    //   styleOverrides: {
-    //     root: ({ theme }) => ({
-    //       backgroundColor: alpha(
-    //         theme.palette.mode === 'light'
-    //           ? theme.palette.common.black
-    //           : theme.palette.common.white,
-    //         0.04,
-    //       ),
-    //       color: 'inherit',
-    //       borderRadius: theme.shape.borderRadiusSecondary,
-    //       '&:hover': {
-    //         backgroundColor: alpha(
-    //           theme.palette.mode === 'light'
-    //             ? theme.palette.common.black
-    //             : theme.palette.common.white,
-    //           0.08,
-    //         ),
-    //         color: 'inherit',
-    //       },
-    //     }),
-    //   },
-    // },
+    MuiIconButton: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          backgroundColor: alpha(theme.palette.common.white, 0.04),
+          color: 'inherit',
+          borderRadius: theme.shape.borderRadiusSecondary,
+          '&:hover': {
+            backgroundColor: alpha(
+              theme.palette.mode === 'light'
+                ? theme.palette.common.black
+                : theme.palette.common.white,
+              0.08,
+            ),
+            color: 'inherit',
+          },
+        }),
+      },
+    },
   },
-};
+} as WidgetTheme;

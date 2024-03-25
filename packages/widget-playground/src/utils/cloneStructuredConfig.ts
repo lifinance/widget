@@ -1,24 +1,20 @@
-import type { WidgetConfig } from '@lifi/widget';
 import { substituteFunctions } from './substituteFunctions';
-import { rehydrateFunctions } from './rehydrateFunctions';
-import type { FunctionReference } from './types';
+import { rehydrateFunctions } from '../store/widgetConfig/utils/rehydrateFunctions';
+import type { FunctionReference, ObjectWithFunctions } from '../types';
 
 const shallowReferences = () => {
   let referencesDictionary: FunctionReference[] = [];
-  const substituteShallowReferences = (
-    config: Partial<WidgetConfig>,
-  ): Partial<WidgetConfig> => {
-    referencesDictionary = substituteFunctions(config);
+  const substituteShallowReferences = <T>(config: T): T => {
+    referencesDictionary = substituteFunctions(config as ObjectWithFunctions);
     return config;
   };
 
-  const rehydrateShallowReferences = (
-    config: Partial<WidgetConfig>,
-  ): Partial<WidgetConfig> => {
-    rehydrateFunctions(config, referencesDictionary);
+  const rehydrateShallowReferences = <T>(config: T): T => {
+    rehydrateFunctions(config as ObjectWithFunctions, referencesDictionary);
 
     return config;
   };
+
   return {
     substituteShallowReferences,
     rehydrateShallowReferences,
@@ -29,14 +25,12 @@ const shallowReferences = () => {
  * Some parts of the config use functions which can't easily be cloned, converted to JSON or output to
  * localstorage. This function should help to temporary substitute those values when we clone and restore
  * those values afterwards.
- * This only currently supports the basic case of walletConfig = { async onConnect() {} }
- * We might want to flesh this out more in future for other values.
- * NOTE: any shallow references like walletConfig are not treated as deep copies - the reference in the configs is different
+ * NOTE: any shallow references like walletConfig.onConnect are not treated as deep copies - the reference in the configs is different
  * but the object of that reference with be share between the original and the cloned config.
  *
- * @param original The config object that you want to clone
+ * @param original The object that you want to clone
  */
-export const cloneStructuredConfig = (original: Partial<WidgetConfig>) => {
+export const cloneStructuredConfig = <T>(original: T) => {
   const { substituteShallowReferences, rehydrateShallowReferences } =
     shallowReferences();
 
@@ -47,5 +41,5 @@ export const cloneStructuredConfig = (original: Partial<WidgetConfig>) => {
   // we need restore the original as well
   rehydrateShallowReferences(original);
 
-  return clone;
+  return clone as T;
 };
