@@ -8,7 +8,7 @@ import {
 } from '../../../store';
 import { popperZIndex } from '../DrawerControls.style';
 import { Select } from './DesignControls.style';
-import type { ThemeItem } from '../../../store/editTools/types';
+import type { ThemeItem } from '../../../store';
 import { useThemeMode } from '../../../hooks';
 export const ThemeControl = () => {
   const { setConfigTheme } = useConfigActions();
@@ -23,7 +23,13 @@ export const ThemeControl = () => {
     );
 
     if (themeItem) {
-      const theme = themeItem.theme[themeMode];
+      let theme = themeItem.theme[themeMode];
+
+      if (!theme) {
+        const altThemeMode = themeMode === 'dark' ? 'light' : 'dark';
+        theme = themeItem.theme[altThemeMode];
+      }
+
       setConfigTheme(theme, event.target.value);
       setViewportBackgroundColor(
         theme.playground?.background as string | undefined,

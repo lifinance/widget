@@ -18,6 +18,7 @@ export const useConfigActions = () => {
       setWalletConfig: state.setWalletConfig,
       setConfigTheme: state.setConfigTheme,
       getCurrentThemePreset: state.getCurrentThemePreset,
+      getCurrentConfigTheme: state.getCurrentConfigTheme,
     }),
     shallow,
   );

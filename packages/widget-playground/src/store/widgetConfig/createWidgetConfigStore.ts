@@ -192,6 +192,9 @@ export const createWidgetConfigStore = (
 
           return selectedThemeItem.theme[appearance];
         },
+        getCurrentConfigTheme: () => {
+          return get().config?.theme;
+        },
       }),
       {
         name: `'li.fi-playground-config`,

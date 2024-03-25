@@ -34,6 +34,7 @@ export interface WidgetConfigActions {
   setConfigTheme: (theme: WidgetTheme, themeId: string) => void;
   setAvailableThemes: (themeItems: ThemeItem[]) => void;
   getCurrentThemePreset: (useDarkMode?: boolean) => WidgetTheme | undefined;
+  getCurrentConfigTheme: () => WidgetTheme | undefined;
 }
 
 export type WidgetConfigState = WidgetConfigValues & WidgetConfigActions;
