@@ -5,7 +5,8 @@
     "dev": "next dev -p 3001",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "pre-commit:validate": "next lint --fix"
   },
   "publishConfig": {
     "access": "public"

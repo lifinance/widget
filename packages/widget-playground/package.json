@@ -12,7 +12,11 @@
     "clean": "yarn build:clean && rm -rf dist",
     "types": "tsc --noEmit",
     "lint": "eslint --ext .tsx --ext .ts ./src",
-    "test": "vitest"
+    "check:types": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "pre-commit:validate": "yarn lint --fix",
+    "pre-push:validate": "yarn check:types && yarn test"
   },
   "publishConfig": {
     "access": "public"

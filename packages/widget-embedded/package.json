@@ -6,18 +6,12 @@
     "analyze": "source-map-explorer 'dist/assets/*.js' --no-border-checks",
     "dev": "vite",
     "build": "tsc && vite build",
+    "check:types": "tsc --noEmit",
     "clean": "rm -rf dist tsconfig.tsbuildinfo",
     "preview": "vite preview",
-    "pre-commit": "lint-staged",
     "lint": "eslint --ext .tsx --ext .ts ./src",
-    "lint:fix": "eslint --ext .tsx --ext .ts ./src --fix",
-    "prettier:fix": "prettier --write ./src/."
-  },
-  "lint-staged": {
-    "src/**/*.{ts,tsx}": [
-      "yarn run lint:fix",
-      "yarn run prettier:fix"
-    ]
+    "pre-commit:validate": "yarn lint --fix",
+    "pre-push:validate": "yarn check:types"
   },
   "publishConfig": {
     "access": "public"
