@@ -1,4 +1,5 @@
-import { Chain, getNameServiceAddress, type ChainType } from '@lifi/sdk';
+import type { Chain, ChainType } from '@lifi/sdk';
+import { getNameServiceAddress } from '@lifi/sdk';
 import { useMutation } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { getChainTypeFromAddress } from '../utils/chainType.js';
