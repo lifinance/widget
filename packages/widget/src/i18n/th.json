@@ -28,10 +28,7 @@
     "done": "เสร็จสิ้น",
     "exchange": "แลกเปลี่ยน",
     "getGas": "รับแก็ส",
-    "hide": "ซ่อน",
     "learnMore": "เรียนรู้เพิ่มเติม",
-    "lifiCheckout": "Li.Fi. ตรวจสอบ",
-    "lifiExchange": "LI.FI Exchange",
     "light": "สว่าง",
     "max": "สูงสุด",
     "ok": "ตกลง",
@@ -80,8 +77,8 @@
       "emptyActiveTransactions": "การแลกเปลี่ยนที่กำลังดำเนินการจะปรากฏที่นี่. เมื่อเสร็จสิ้น, จะพบประวัติการแลกเปลี่ยน.",
       "emptyTokenList": "เราไม่พบโทเค็นใน {{chainName}} เชนหรือคุณไม่มีโทเค็น. โปรดลองอีกครั้งหรือเลือกเชนอื่น.",
       "emptyTransactionHistory": "ประวัติการแลกเปลี่ยนจะถูกเก็บไว้ในเครื่องเท่านั้นและจะถูกลบหากคุณล้างข้อมูลเบราว์เซอร์ของคุณ.",
-      "routeNotFound": "เหตุผลที่อาจเกิดขึ้น : สภาพคล่องต่ำ , จำนวนที่เลือกน้อยเกินไป , ต้นทุนแก็สสูงหรือไม่มีเส้นทางที่ใช้งานได้",
-      "fundsToExchange": ""
+      "fundsToExchange": "",
+      "routeNotFound": "เหตุผลที่อาจเกิดขึ้น : สภาพคล่องต่ำ , จำนวนที่เลือกน้อยเกินไป , ต้นทุนแก็สสูงหรือไม่มีเส้นทางที่ใช้งานได้"
     },
     "title": {
       "autoRefuel": "รับแก็ส",
@@ -130,16 +127,15 @@
     "message": {
       "allowanceRequired": "โอนด้วยจำนวน {{tokenSymbol}} ตามการอนุญาตของคุณ.ได้โปรดเพิ่มการอนุญาตของคุณอีกครั้ง",
       "insufficientFunds": "คุณมีแก็สไม่พอสำหรับการธุรกรรมนี้",
+      "remainInYourWallet": "",
       "signatureRejected": "",
       "slippageThreshold": "การคลาดเคลื่อนมีขนาดใหญ่กว่าเกณฑ์ที่กำหนด โปรดขอเส้นทางใหม่เพื่อได้รับการเสนอราคาใหม่.",
+      "transactionCanceled": "",
       "transactionFailed": "โปรดตรวจสอบบล็อกการสำรวจสำหรับข้อมูลเพิ่มเติม.",
       "transactionNotSent": "",
-      "transactionCanceled": "",
-      "remainInYourWallet": "",
       "unknown": "โปรดลองอีกครั้งหรือติดต่อฝ่ายสนับสนุน."
     },
     "title": {
-      "addressRequired": "",
       "allowanceRequired": "การอนุญาตไม่เพียงพอ",
       "balanceIsTooLow": "ยอดคงเหลือต่ำเกินไป",
       "bookmarkAlreadyExists": "",
@@ -156,6 +152,7 @@
       "transactionUnprepared": "ไม่สามารถจัดทำธุรกรรมได้",
       "unknown": "มีบางอย่างผิดพลาด",
       "walletAddressInvalid": "",
+      "walletAddressInvalid_chain": "",
       "walletAddressRequired": "กรุณากรอกที่อยู่กระเป๋าเงิน.",
       "walletChainTypeInvalid": ""
     }
@@ -168,14 +165,16 @@
     },
     "numberOfSteps": "ขั้นตอนการแลกเปลี่ยนหลายขั้นตอน แต่ละขั้นตอนสามารถมี 1-2 รายการที่ต้องใช้ลายเซ็น.",
     "progressToNextUpdate": "ข้อมูลที่แสดงจะรีเฟรชอัตโนมัติหลังจาก {{value}} วินาที คลิกที่นี่เพื่ออัปเดตด้วยตนเอง",
-    "recommended": "เส้นทางที่ถูกมียอดคงเหลือที่เพียงพอและง่ายต่องการใช้งาน",
     "settingsModified": "การตั้งค่า (แก้ไข)",
     "selectAll": "",
     "deselectAll": ""
   },
   "main": {
-    "crossStepDetails": "บริดจ์จาก{{from}} to {{to}} โดย {{tool}}",
+    "allTokens": "",
+    "bridgeStepDetails": "",
+    "checkoutStepDetails": "",
     "currentAmount": "จำนวนเงินปัจจุบัน",
+    "depositStepDetails": "",
     "featuredTokens": "จุดเด่นของเหรียญ",
     "fees": {
       "estimated": "",
@@ -189,19 +188,22 @@
     "fromAmount": "คุณจ่าย",
     "gasCost": "ค่าแก๊ส",
     "inProgress": "กำลังดำเนินการ",
-    "nftStepDetails": "ซื้อ NFT ผ่าน {{tool}}",
+    "myTokens": "",
     "onChain": "บน {{chainName}}",
-    "otherTokens": "โทเค็นอื่น",
     "ownedBy": "เป็นเจ้าของโดย",
+    "popularTokens": "",
     "process": {
-      "crossChain": {
-        "actionRequired": "กรุณาเซ็นชื่อในการทำธุรกรรม",
-        "done": "ธุรกรรมข้ามเชนได้รับการยืนยันแล้ว",
-        "pending": "รอสำหรับการทำรายการบริดจ์",
-        "started": "เตรียมการทำรายการบริดจ์"
+      "bridge": {
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
       },
-      "nft": {
-        "done": "ซื้อ NFT แล้ว"
+      "checkout": {
+        "done": ""
+      },
+      "deposit": {
+        "done": ""
       },
       "receivingChain": {
         "done": "ข้ามเชนเสร็จสมบูรณ์",
@@ -245,13 +247,11 @@
     "supportId": "หมายเลขที่สนับสนุน",
     "swapStepDetails": "แลกเปลี่ยนบน {{chain}} ผ่าน {{tool}}",
     "tags": {
-      "cheapest": "ราคาถูก",
-      "fastest": "รวดเร็ว",
+      "cheapest": "",
+      "fastest": "",
       "insurable": "การประกัน",
       "insurance": "การประกัน",
-      "insured": "ประกัน",
-      "recommended": "แนะนำ",
-      "safest": "ปลอดภัย"
+      "insured": "ประกัน"
     },
     "to": "ถึง",
     "tokenOnChain": "{{tokenSymbol}} บน {{chainName}}",
@@ -276,18 +276,18 @@
       "title": "ค่าแก็ส"
     },
     "routePriority": "ลำดับสำคัญของเส้นทาง",
-    "sendToWalletOption": "",
     "slippage": "ความคลาดเคลื่อน",
     "custom": "",
     "resetSettings": ""
   },
   "sendToWallet": {
-    "enterAddress": "",
-    "enterName": "",
+    "addBookmark": "",
+    "bookmarkWallet": "",
     "confirmWalletAddress": "",
     "connectedWallets": "",
-    "bookmarkWallet": "",
-    "addBookmark": "",
+    "enterAddress_long": "",
+    "enterAddress_short": "",
+    "enterName": "",
     "noBookmarkedWallets": "",
     "noConnectedWallets": "",
     "noRecentWallets": ""
