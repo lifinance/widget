@@ -9,15 +9,15 @@
   },
   "button": {
     "auto": "自动",
-    "bookmark": "",
-    "bookmarks": "",
+    "bookmark": "收藏",
+    "bookmarks": "收藏夹",
     "bridge": "跨链",
     "buy": "购买",
     "buyNow": "立即购买",
     "cancel": "取消",
     "changeWallet": "更换钱包",
     "close": "关闭",
-    "confirm": "",
+    "confirm": "确认",
     "connectWallet": "关联钱包",
     "contactSupport": "联系技术支持",
     "continue": "继续",
@@ -25,17 +25,14 @@
     "dark": "深色主题",
     "delete": "删除",
     "disconnect": "断开连接",
-    "done": "已完成",
+    "done": "确认",
     "exchange": "兑换",
     "getGas": "开始兑换燃气费",
-    "hide": "隐藏",
     "learnMore": "了解更多",
-    "lifiCheckout": "LI.FI 结算",
-    "lifiExchange": "LI.FI 兑换",
     "light": "浅色主题",
     "max": "最大",
     "ok": "确认",
-    "options": "",
+    "options": "选项",
     "removeTransaction": "删除交易",
     "reset": "重置",
     "resetSettings": "恢复默认设置",
@@ -53,7 +50,7 @@
   },
   "header": {
     "activeTransactions": "进行中的交易",
-    "bookmarkedWallets": "",
+    "bookmarkedWallets": "已收藏的钱包",
     "bridge": "跨链",
     "checkout": "支付",
     "exchange": "兑换",
@@ -62,10 +59,10 @@
     "payWith": "支付方式",
     "purchase": "购买",
     "purchaseDetails": "交易明细",
-    "recentWallets": "",
+    "recentWallets": "最近使用的钱包",
     "selectChain": "选择网络",
     "selectWallet": "选择你的钱包",
-    "sendToWallet": "",
+    "sendToWallet": "发送到该钱包",
     "settings": "设置",
     "swap": "兑换",
     "to": "兑换为",
@@ -80,8 +77,8 @@
       "emptyActiveTransactions": "正在进行的兑换将在这里显示。一旦完成，你可在兑换记录中找到它们。",
       "emptyTokenList": "我们无法在 {{chainName}} 链上找到这些代币，或者你的钱包内没有这些代币。请再次搜索或者选择其他链再试一次。",
       "emptyTransactionHistory": "交易记录只存储在本地，如果您清除浏览器数据，交易记录将被删除。",
-      "routeNotFound": "导致其的原因可能是：流动性低，所选定代币的数额太低，燃气费过高，或者当前没有合适的交易路径。",
-      "fundsToExchange": ""
+      "fundsToExchange": "发送到交易所的资金可能会丢失",
+      "routeNotFound": "导致其的原因可能是：流动性低，所选定代币的数额太低，燃气费过高，或者当前没有合适的交易路径。"
     },
     "title": {
       "autoRefuel": "获得燃气费",
@@ -130,20 +127,19 @@
     "message": {
       "allowanceRequired": "{{tokenSymbol}} 的转账金额超过了您设置的支出上限。请提高该代币的支出上限，然后重试。",
       "insufficientFunds": "您没有足够的燃气费支付该交易。",
+      "remainInYourWallet": "{{chainName}} 链上 {{amount, number(maximumFractionDigits: 9)}} 个{{tokenSymbol}} 仍在您的钱包内。",
       "signatureRejected": "需要您签名来完成此次交易。不用担心，{{chainName}} 链上 {{amount, number(maximumFractionDigits: 9)}} 个 {{tokenSymbol}} 仍在您的钱包里。",
       "slippageThreshold": "滑点大于预设值，请选择其他路由并获取新的价格。",
+      "transactionCanceled": "交易已被取消。",
       "transactionFailed": "请查看区块浏览器以了解更多信息。",
       "transactionNotSent": "交易未能发送。",
-      "transactionCanceled": "交易已被取消。",
-      "remainInYourWallet": "{{chainName}} 链上 {{amount, number(maximumFractionDigits: 9)}} 个{{tokenSymbol}} 仍在您的钱包内。",
       "unknown": "请再试一次或者联系支持。"
     },
     "title": {
-      "addressRequired": "",
       "allowanceRequired": "余额不足",
       "balanceIsTooLow": "余额太低",
-      "bookmarkAlreadyExists": "",
-      "bookmarkNameRequired": "",
+      "bookmarkAlreadyExists": "钱包: {{name}}，已被收藏",
+      "bookmarkNameRequired": "请输入收藏钱包的名称",
       "chainSwitch": "请切换当前网络",
       "exchangeRateUpdateCanceled": "兑换率更新已取消",
       "gasLimitIsTooLow": "燃气费设置过低",
@@ -156,6 +152,7 @@
       "transactionUnprepared": "无法开始该交易",
       "unknown": "未知错误",
       "walletAddressInvalid": "",
+      "walletAddressInvalid_chain": "",
       "walletAddressRequired": "请输入钱包地址。",
       "walletChainTypeInvalid": ""
     }
@@ -168,14 +165,16 @@
     },
     "numberOfSteps": "一系列的兑换步骤，每个步骤可能包含1-2个需要签名的交易。",
     "progressToNextUpdate": "数据将在{{value}} 秒后自动刷新，点击这里可以手动更新。",
-    "recommended": "一个价格低廉但是兼顾复杂性和易用性的路由方案。",
     "settingsModified": "设置(已修改)",
     "selectAll": "全选",
     "deselectAll": "取消全选"
   },
   "main": {
-    "crossStepDetails": "通过{{tool}}把资产从{{from}}链跨到{{to}}链上",
+    "allTokens": "所有代币",
+    "bridgeStepDetails": "",
+    "checkoutStepDetails": "",
     "currentAmount": "当前余额",
+    "depositStepDetails": "",
     "featuredTokens": "精选代币",
     "fees": {
       "estimated": "预估费用",
@@ -189,19 +188,22 @@
     "fromAmount": "需要支付",
     "gasCost": "燃气费消耗",
     "inProgress": "进行中",
-    "nftStepDetails": "通过 {{tool}} 购买 NFT",
+    "myTokens": "我的代币",
     "onChain": "在{{chainName}} 上",
-    "otherTokens": "其他代币",
     "ownedBy": "属于",
+    "popularTokens": "热门代币",
     "process": {
-      "crossChain": {
-        "actionRequired": "请签署此交易",
-        "done": "跨链交易已确认",
-        "pending": "跨链交易进行中",
-        "started": "准备执行跨链交易"
+      "bridge": {
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
       },
-      "nft": {
-        "done": "NFT 已购买"
+      "checkout": {
+        "done": ""
+      },
+      "deposit": {
+        "done": ""
       },
       "receivingChain": {
         "done": "跨链完成",
@@ -245,13 +247,11 @@
     "supportId": "支持ID",
     "swapStepDetails": "通过{{tool}}在{{chain}}链上兑换代币",
     "tags": {
-      "cheapest": "便宜的",
-      "fastest": "快速的",
+      "cheapest": "",
+      "fastest": "",
       "insurable": "可投保",
       "insurance": "保险",
-      "insured": "受保中",
-      "recommended": "建议的",
-      "safest": "最佳/安全"
+      "insured": "受保中"
     },
     "to": "到",
     "tokenOnChain": "{{chainName}}链上的{{tokenSymbol}}",
@@ -276,21 +276,21 @@
       "title": "燃气费"
     },
     "routePriority": "路由优先级",
-    "sendToWalletOption": "发送到指定的钱包地址",
     "slippage": "滑点",
     "custom": "自定义",
-    "resetSettings": "您正在使用自定义设置过滤可用路由。"
+    "resetSettings": ""
   },
   "sendToWallet": {
-    "enterAddress": "",
-    "enterName": "",
-    "confirmWalletAddress": "",
-    "connectedWallets": "",
-    "bookmarkWallet": "",
-    "addBookmark": "",
-    "noBookmarkedWallets": "",
-    "noConnectedWallets": "",
-    "noRecentWallets": ""
+    "addBookmark": "添加到收藏",
+    "bookmarkWallet": "已收藏的钱包",
+    "confirmWalletAddress": "确认钱包地址",
+    "connectedWallets": "已连接的钱包",
+    "enterAddress_long": "",
+    "enterAddress_short": "",
+    "enterName": "输入名称",
+    "noBookmarkedWallets": "没有收藏的钱包",
+    "noConnectedWallets": "没有已连接的钱包",
+    "noRecentWallets": "没有最近使用的钱包"
   },
   "wallet": {
     "extensionNotFound": "在选择钱包之前，请确保只有{{name}} 浏览器的扩展应用处于激活状态。"

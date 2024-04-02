@@ -9,15 +9,15 @@
   },
   "button": {
     "auto": "Auto",
-    "bookmark": "",
-    "bookmarks": "",
+    "bookmark": "Favori",
+    "bookmarks": "Favoris",
     "bridge": "Bridge",
     "buy": "Acheter",
     "buyNow": "Acheter maintenant",
     "cancel": "Annuler",
     "changeWallet": "Changer de portefeuille",
-    "close": "",
-    "confirm": "",
+    "close": "Fermer",
+    "confirm": "Confirmer",
     "connectWallet": "Connecter un portefeuille",
     "contactSupport": "Contacter le support",
     "continue": "Continuer",
@@ -28,14 +28,11 @@
     "done": "Terminé",
     "exchange": "Échanger",
     "getGas": "Obtenir du gaz",
-    "hide": "Cacher",
     "learnMore": "Plus d'info",
-    "lifiCheckout": "Paiement LI.FI",
-    "lifiExchange": "Échange LI.FI",
     "light": "Clair",
     "max": "max",
     "ok": "Ok",
-    "options": "",
+    "options": "Options",
     "removeTransaction": "Supprimer la transaction",
     "reset": "Réinitialiser",
     "resetSettings": "Réinitialiser les paramètres",
@@ -53,7 +50,7 @@
   },
   "header": {
     "activeTransactions": "Transactions actives",
-    "bookmarkedWallets": "",
+    "bookmarkedWallets": "Portefeuilles favoris",
     "bridge": "Bridge",
     "checkout": "Paiement",
     "exchange": "Échanger",
@@ -62,10 +59,10 @@
     "payWith": "Payer avec",
     "purchase": "Acheter",
     "purchaseDetails": "Détails de l'achat",
-    "recentWallets": "",
+    "recentWallets": "Portefeuilles récents",
     "selectChain": "Sélectionner la chaîne",
     "selectWallet": "Sélectionnez votre portefeuille",
-    "sendToWallet": "",
+    "sendToWallet": "Envoyer vers le portefeuille",
     "settings": "Paramètres",
     "swap": "Échanger",
     "to": "Échanger pour",
@@ -80,8 +77,8 @@
       "emptyActiveTransactions": "Les transactions en cours apparaîtront ici. Une fois terminées, retrouvez-les dans l'historique des transactions.",
       "emptyTokenList": "Nous n'avons pas pu trouver de jetons sur la chaîne {{chainName}} ou vous n'en avez pas. Veuillez rechercher par adresse de contrat si votre jeton n'apparaît pas ou choisissez une autre chaîne.",
       "emptyTransactionHistory": "L'historique de transaction est uniquement stocké au niveau local et sera supprimé si vous effacez les données de votre navigateur.",
-      "routeNotFound": "Raisons possibles : faible liquidité, le montant sélectionné est trop faible, les coûts de gaz sont trop élevés ou il n'y a pas de routes pour la combinaison sélectionnée.",
-      "fundsToExchange": ""
+      "fundsToExchange": "Les fonds envoyés à un échange peuvent être perdus",
+      "routeNotFound": "Raisons possibles : faible liquidité, le montant sélectionné est trop faible, les coûts de gaz sont trop élevés ou il n'y a pas de routes pour la combinaison sélectionnée."
     },
     "title": {
       "autoRefuel": "Obtenir du gaz",
@@ -130,20 +127,19 @@
     "message": {
       "allowanceRequired": "Le montant du transfert pour {{tokenSymbol}} dépasse votre allocation actuelle. Veuillez augmenter votre allocation et réessayer.",
       "insufficientFunds": "Vous n'avez pas assez de gaz pour couvrir le coût de la transaction.",
+      "remainInYourWallet": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} sur {{chainName}} restent dans votre portefeuille.",
       "signatureRejected": "Votre signature est requise pour compléter la transaction. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} sur {{chainName}} restent dans votre portefeuille.",
       "slippageThreshold": "L'effet de glissement est supérieur au seuil défini. Veuillez demander un nouvel itinéraire pour obtenir un nouveau devis.",
+      "transactionCanceled": "La transaction a été annulée.",
       "transactionFailed": "Veuillez consulter l'explorateur de blocs pour plus d'informations.",
       "transactionNotSent": "La transaction n'a pas été envoyée.",
-      "transactionCanceled": "La transaction a été annulée.",
-      "remainInYourWallet": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} sur {{chainName}} restent dans votre portefeuille.",
       "unknown": "Veuillez réessayer ou contacter le support."
     },
     "title": {
-      "addressRequired": "",
       "allowanceRequired": "Allocation insuffisante",
       "balanceIsTooLow": "Le solde est trop bas.",
-      "bookmarkAlreadyExists": "",
-      "bookmarkNameRequired": "",
+      "bookmarkAlreadyExists": "Le portefeuille est déjà marqué en tant que {{name}}",
+      "bookmarkNameRequired": "Le nom du marque-page est requis",
       "chainSwitch": "Changement de chaîne nécessaire.",
       "exchangeRateUpdateCanceled": "Mise à jour du taux de change annulée",
       "gasLimitIsTooLow": "La limite de gaz est trop basse.",
@@ -155,9 +151,10 @@
       "transactionUnderpriced": "La transaction est sous-évaluée.",
       "transactionUnprepared": "Impossible de préparer la transaction.",
       "unknown": "Il y a eu un problème.",
-      "walletAddressInvalid": "",
+      "walletAddressInvalid": "L'adresse du portefeuille ou le nom de domaine est invalide",
+      "walletAddressInvalid_chain": "L'adresse du portefeuille ou le nom de domaine est invalide pour la chaîne de destination sélectionnée {{chainName}}",
       "walletAddressRequired": "L'adresse du portefeuille est nécessaire.",
-      "walletChainTypeInvalid": ""
+      "walletChainTypeInvalid": "L'adresse du portefeuille ne correspond pas à la chaîne de destination sélectionnée - {{chainName}}"
     }
   },
   "tooltip": {
@@ -168,14 +165,16 @@
     },
     "numberOfSteps": "Un certain nombre d'étapes d'échange. Chaque étape peut contenir 1 à 2 transactions nécessitant une signature.",
     "progressToNextUpdate": "Les données affichées seront automatiquement actualisées après {{value}} secondes. Cliquez ici pour les mettre à jour manuellement.",
-    "recommended": "Une voie bon marché qui équilibre complexité et facilité d'utilisation.",
     "settingsModified": "Paramètres (modifiés)",
     "selectAll": "Tout sélectionner",
     "deselectAll": "Tout désélectionner"
   },
   "main": {
-    "crossStepDetails": "Passer de {{from}} à {{to}} via {{tool}}",
+    "allTokens": "Tous les tokens",
+    "bridgeStepDetails": "",
+    "checkoutStepDetails": "",
     "currentAmount": "Montant actuel",
+    "depositStepDetails": "",
     "featuredTokens": "Jetons en vedette",
     "fees": {
       "estimated": "frais estimés",
@@ -189,19 +188,22 @@
     "fromAmount": "Vous payez",
     "gasCost": "Coût du gaz",
     "inProgress": "en cours",
-    "nftStepDetails": "Acheter un NFT via {{tool}}",
+    "myTokens": "Mes jetons",
     "onChain": "sur {{chainName}}",
-    "otherTokens": "Autres jetons",
     "ownedBy": "Propriétaire",
+    "popularTokens": "Jetons populaires",
     "process": {
-      "crossChain": {
-        "actionRequired": "Veuillez signer la transaction.",
-        "done": "Transaction Bridge confirmée",
-        "pending": "En attente de la transaction bridge",
-        "started": "Préparation de la transaction bridge"
+      "bridge": {
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
       },
-      "nft": {
-        "done": "NFT acheté"
+      "checkout": {
+        "done": ""
+      },
+      "deposit": {
+        "done": ""
       },
       "receivingChain": {
         "done": "Bridge complété",
@@ -245,13 +247,11 @@
     "supportId": "ID de support",
     "swapStepDetails": "Échanger sur {{chain}} via {{tool}}",
     "tags": {
-      "cheapest": "Pas cher",
-      "fastest": "Rapide",
+      "cheapest": "Meilleur Retour",
+      "fastest": "",
       "insurable": "Assurable",
       "insurance": "Assurance",
-      "insured": "Assuré",
-      "recommended": "Recommandé",
-      "safest": "Sûr"
+      "insured": "Assuré"
     },
     "to": "À",
     "tokenOnChain": "{{tokenSymbol}} sur {{chainName}}",
@@ -276,21 +276,21 @@
       "title": "Prix du gaz"
     },
     "routePriority": "Priorité de l'itinéraire",
-    "sendToWalletOption": "Option d'envoi vers le portefeuille",
     "slippage": "Effet de glissement",
     "custom": "Personnalisé",
-    "resetSettings": "Vous utilisez des paramètres personnalisés limitant le nombre de routes disponibles."
+    "resetSettings": ""
   },
   "sendToWallet": {
-    "enterAddress": "",
-    "enterName": "",
-    "confirmWalletAddress": "",
-    "connectedWallets": "",
-    "bookmarkWallet": "",
-    "addBookmark": "",
-    "noBookmarkedWallets": "",
-    "noConnectedWallets": "",
-    "noRecentWallets": ""
+    "addBookmark": "Ajouter un favori",
+    "bookmarkWallet": "Portefeuille de favoris",
+    "confirmWalletAddress": "Confirmer l'adresse du portefeuille",
+    "connectedWallets": "Portefeuilles connectés",
+    "enterAddress_long": "Entrez l'adresse ou le domaine du portefeuille",
+    "enterAddress_short": "Entrez l'adresse du portefeuille",
+    "enterName": "Saisir un nom",
+    "noBookmarkedWallets": "Aucun portefeuille favori",
+    "noConnectedWallets": "Aucun portefeuille connecté",
+    "noRecentWallets": "Aucun portefeuille récent"
   },
   "wallet": {
     "extensionNotFound": "Veuillez vous assurer que seule l'extension de navigateur {{name}} est active avant de choisir ce portefeuille."

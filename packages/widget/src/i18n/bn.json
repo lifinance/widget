@@ -28,10 +28,7 @@
     "done": "সম্পন্ন হয়েছে",
     "exchange": "",
     "getGas": "গ্যাস পান",
-    "hide": "গোপন করুন",
     "learnMore": "আরও জানুন",
-    "lifiCheckout": "",
-    "lifiExchange": "",
     "light": "লাইট",
     "max": "সর্বোচ্চ",
     "ok": "ঠিক আছে",
@@ -80,8 +77,8 @@
       "emptyActiveTransactions": "",
       "emptyTokenList": "",
       "emptyTransactionHistory": "",
-      "routeNotFound": "",
-      "fundsToExchange": ""
+      "fundsToExchange": "",
+      "routeNotFound": ""
     },
     "title": {
       "autoRefuel": "গ্যাস পান",
@@ -130,16 +127,15 @@
     "message": {
       "allowanceRequired": "",
       "insufficientFunds": "",
+      "remainInYourWallet": "",
       "signatureRejected": "",
       "slippageThreshold": "স্লিপেজ সংজ্ঞায়িত থ্রেশহোল্ডের চেয়ে বড়। একটি নতুন উদ্ধৃতি পেতে একটি নতুন রুট অনুরোধ করুন।",
+      "transactionCanceled": "",
       "transactionFailed": "আরও তথ্যের জন্য ব্লক এক্সপ্লোরার চেক করুন।",
       "transactionNotSent": "",
-      "transactionCanceled": "",
-      "remainInYourWallet": "",
       "unknown": "অনুগ্রহ করে আবার চেষ্টা করুন বা সাপোর্ট এর সাথে যোগাযোগ করুন।"
     },
     "title": {
-      "addressRequired": "",
       "allowanceRequired": "",
       "balanceIsTooLow": "ব্যালেন্স খুব কম",
       "bookmarkAlreadyExists": "",
@@ -156,6 +152,7 @@
       "transactionUnprepared": "লেনদেন প্রস্তুত করতে অক্ষম",
       "unknown": "কিছু ভুল হয়েছে",
       "walletAddressInvalid": "",
+      "walletAddressInvalid_chain": "",
       "walletAddressRequired": "ওয়ালেট ঠিকানা প্রয়োজন।",
       "walletChainTypeInvalid": ""
     }
@@ -168,14 +165,16 @@
     },
     "numberOfSteps": "সোওয়াপ পদক্ষেপ একটি সংখ্যা. প্রতিটি ধাপে ১-২ টি লেনদেন থাকতে পারে যার জন্য একটি স্বাক্ষর প্রয়োজন।",
     "progressToNextUpdate": "প্রদর্শিত ডেটা {{value}} সেকেন্ড পরে স্বয়ংক্রিয়ভাবে রিফ্রেশ হবে। ম্যানুয়ালি আপডেট করতে এখানে ক্লিক করুন।",
-    "recommended": "",
     "settingsModified": "সেটিংস (পরিবর্তিত)",
     "selectAll": "",
     "deselectAll": ""
   },
   "main": {
-    "crossStepDetails": "{{tool}} হয়ে {{from}} থেকে {{to}} পর্যন্ত ব্রিজ",
+    "allTokens": "",
+    "bridgeStepDetails": "",
+    "checkoutStepDetails": "",
     "currentAmount": "বর্তমান পরিমাণ",
+    "depositStepDetails": "",
     "featuredTokens": "বৈশিষ্ট্যযুক্ত টোকেন",
     "fees": {
       "estimated": "",
@@ -189,18 +188,21 @@
     "fromAmount": "আপনি টাকা পাঠান",
     "gasCost": "গ্যাস খরচ",
     "inProgress": "প্রক্রিয়াধীন",
-    "nftStepDetails": "{{tool}} এর মাধ্যমে এনএফটি কিনুন",
+    "myTokens": "",
     "onChain": "{{chainName}} -এ",
-    "otherTokens": "অন্যান্য টোকেন",
     "ownedBy": "মালিক",
+    "popularTokens": "",
     "process": {
-      "crossChain": {
-        "actionRequired": "দয়াকরে লেনদেন স্বাক্ষর করুন",
-        "done": "ব্রিজ লেনদেন নিশ্চিত করা হয়েছে",
-        "pending": "ব্রিজ লেনদেনের জন্য অপেক্ষা করছে",
-        "started": "ব্রিজ লেনদেনের প্রস্তুতি"
+      "bridge": {
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
       },
-      "nft": {
+      "checkout": {
+        "done": ""
+      },
+      "deposit": {
         "done": ""
       },
       "receivingChain": {
@@ -245,13 +247,11 @@
     "supportId": "সাপোর্ট আইডি",
     "swapStepDetails": "{{tool}} এর মাধ্যমে {{chain}} এ সোওয়াপ করুন",
     "tags": {
-      "cheapest": "সস্তা",
-      "fastest": "দ্রুত",
+      "cheapest": "",
+      "fastest": "",
       "insurable": "বীমাযোগ্য",
       "insurance": "বীমা",
-      "insured": "বীমাকৃত",
-      "recommended": "",
-      "safest": "নিরাপদ"
+      "insured": "বীমাকৃত"
     },
     "to": "প্রতি",
     "tokenOnChain": "{{chainName}} -এ {{tokenSymbol}}",
@@ -276,18 +276,18 @@
       "title": "গ্যাসের দাম"
     },
     "routePriority": "রুট অগ্রাধিকার",
-    "sendToWalletOption": "",
     "slippage": "স্লিপেজ",
     "custom": "",
     "resetSettings": ""
   },
   "sendToWallet": {
-    "enterAddress": "",
-    "enterName": "",
+    "addBookmark": "",
+    "bookmarkWallet": "",
     "confirmWalletAddress": "",
     "connectedWallets": "",
-    "bookmarkWallet": "",
-    "addBookmark": "",
+    "enterAddress_long": "",
+    "enterAddress_short": "",
+    "enterName": "",
     "noBookmarkedWallets": "",
     "noConnectedWallets": "",
     "noRecentWallets": ""
