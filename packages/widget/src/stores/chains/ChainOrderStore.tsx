@@ -58,19 +58,6 @@ export function ChainOrderStoreProvider({
   );
 }
 
-export function useChainOrderStore<T>(
-  selector: (state: ChainOrderState) => T,
-  equalityFn?: (left: T, right: T) => boolean,
-): T {
-  const useStore = useContext(ChainOrderStoreContext);
-  if (!useStore) {
-    throw new Error(
-      `You forgot to wrap your component in <${ChainOrderStoreProvider.name}>.`,
-    );
-  }
-  return useStore(selector, equalityFn);
-}
-
 export function useChainOrderStoreContext() {
   const useStore = useContext(ChainOrderStoreContext);
   if (!useStore) {
@@ -79,4 +66,12 @@ export function useChainOrderStoreContext() {
     );
   }
   return useStore;
+}
+
+export function useChainOrderStore<T>(
+  selector: (state: ChainOrderState) => T,
+  equalityFn?: (left: T, right: T) => boolean,
+): T {
+  const useStore = useChainOrderStoreContext();
+  return useStore(selector, equalityFn);
 }

@@ -1,19 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import type { PropsWithChildren } from 'react';
 import { useEffect, useRef } from 'react';
 import { useAccount } from '../../hooks/useAccount.js';
+import { useChains } from '../../hooks/useChains.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
-import { isItemAllowed } from '../../utils/item.js';
 import type { DefaultValues, FormFieldNames } from './types.js';
 import { useFieldActions } from './useFieldActions.js';
 
-export const FormUpdater: React.FC<
-  PropsWithChildren<{
-    defaultValues: Partial<DefaultValues>;
-  }>
-> = ({ defaultValues, children }) => {
-  const { fromChain, toChain, chains } = useWidgetConfig();
+export const FormUpdater: React.FC<{
+  defaultValues: Partial<DefaultValues>;
+}> = ({ defaultValues }) => {
+  const { fromChain, toChain } = useWidgetConfig();
   const { account } = useAccount();
+  const { chains } = useChains();
   const { isTouched, resetField, setFieldValue, getFieldValues } =
     useFieldActions();
   const previousDefaultValues = useRef(defaultValues);
@@ -21,7 +19,7 @@ export const FormUpdater: React.FC<
   // Set wallet chain as default if no chains are provided by config and if they were not changed during widget usage
   useEffect(() => {
     const chainAllowed =
-      account.chainId && isItemAllowed(account.chainId, chains);
+      account.chainId && chains?.some((chain) => chain.id === account.chainId);
 
     if (!account.isConnected || !account.chainId || !chainAllowed) {
       return;
@@ -68,5 +66,5 @@ export const FormUpdater: React.FC<
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultValues, getFieldValues, resetField, setFieldValue]);
 
-  return children;
+  return null;
 };

@@ -27,19 +27,6 @@ export function RouteExecutionStoreProvider({
   );
 }
 
-export function useRouteExecutionStore<T>(
-  selector: (state: RouteExecutionState) => T,
-  equalityFn?: (left: T, right: T) => boolean,
-): T {
-  const useStore = useContext(RouteExecutionStoreContext);
-  if (!useStore) {
-    throw new Error(
-      `You forgot to wrap your component in <${RouteExecutionStoreProvider.name}>.`,
-    );
-  }
-  return useStore(selector, equalityFn);
-}
-
 export function useRouteExecutionStoreContext() {
   const useStore = useContext(RouteExecutionStoreContext);
   if (!useStore) {
@@ -48,4 +35,12 @@ export function useRouteExecutionStoreContext() {
     );
   }
   return useStore;
+}
+
+export function useRouteExecutionStore<T>(
+  selector: (state: RouteExecutionState) => T,
+  equalityFn?: (left: T, right: T) => boolean,
+): T {
+  const useStore = useRouteExecutionStoreContext();
+  return useStore(selector, equalityFn);
 }
