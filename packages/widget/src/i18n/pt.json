@@ -171,10 +171,10 @@
   },
   "main": {
     "allTokens": "Todos os tokens",
-    "bridgeStepDetails": "",
-    "checkoutStepDetails": "",
+    "bridgeStepDetails": "Ponte de {{from}} para {{to}} via {{tool}}",
+    "checkoutStepDetails": "Comprar via {{tool}}",
     "currentAmount": "Quantidade atual",
-    "depositStepDetails": "",
+    "depositStepDetails": "Depositar via {{tool}}",
     "featuredTokens": "Tokens em destaque",
     "fees": {
       "estimated": "taxas estimadas",
@@ -194,16 +194,16 @@
     "popularTokens": "Tokens populares",
     "process": {
       "bridge": {
-        "actionRequired": "",
-        "done": "",
-        "pending": "",
-        "started": ""
+        "actionRequired": "Por favor, assine a transação",
+        "done": "Transação da ponte confirmada",
+        "pending": "Aguardando a transação da ponte",
+        "started": "Preparando a transação da ponte"
       },
       "checkout": {
-        "done": ""
+        "done": "Compra concluída"
       },
       "deposit": {
-        "done": ""
+        "done": "Depósito concluído"
       },
       "receivingChain": {
         "done": "Ponte concluída",
