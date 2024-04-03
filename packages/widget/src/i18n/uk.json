@@ -171,10 +171,10 @@
   },
   "main": {
     "allTokens": "Всі токени",
-    "bridgeStepDetails": "",
-    "checkoutStepDetails": "",
+    "bridgeStepDetails": "Бридж з {{from}} до {{to}} через {{tool}}",
+    "checkoutStepDetails": "Купівля через {{tool}}",
     "currentAmount": "Поточна сума",
-    "depositStepDetails": "",
+    "depositStepDetails": "Поповнення через {{tool}}",
     "featuredTokens": "Рекомендовані токени",
     "fees": {
       "estimated": "орієнтовні комісії",
@@ -194,16 +194,16 @@
     "popularTokens": "Популярні токени",
     "process": {
       "bridge": {
-        "actionRequired": "",
-        "done": "",
-        "pending": "",
-        "started": ""
+        "actionRequired": "Будь ласка, підпишіть транзакцію",
+        "done": "Бридж транзакцію схвалено",
+        "pending": "Очікування бридж транзакції",
+        "started": "Підготовка бридж транзакції"
       },
       "checkout": {
-        "done": ""
+        "done": "Покупку завершено"
       },
       "deposit": {
-        "done": ""
+        "done": "Поповнення завершено"
       },
       "receivingChain": {
         "done": "Бридж завершено",
