@@ -64,9 +64,7 @@ export const useOpenSeaFulfillment = (
         try {
           const signer = await getEthersSigner(config);
 
-          const seaport = new Seaport(signer, {
-            seaportVersion: '1.5',
-          });
+          const seaport = new Seaport(signer);
 
           const { actions } = await seaport.fulfillOrder({
             order: orderV2.protocolData,
