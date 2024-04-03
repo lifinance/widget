@@ -43,9 +43,12 @@
     "wagmi": "^2.5.18"
   },
   "devDependencies": {
+    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@vitejs/plugin-react-swc": "^3.6.0",
+    "source-map-explorer": "^2.5.3",
     "typescript": "^5.4.3",
     "vite": "^5.2.7",
+    "vite-plugin-node-polyfills": "^0.21.0",
     "web-vitals": "^3.5.2"
   },
   "eslintConfig": {
