@@ -1,7 +1,8 @@
 import { LiFiWidget } from '@lifi/widget';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { ConnectButton, useConnectModal } from '@rainbow-me/rainbowkit';
 
 export default function App() {
+  const { openConnectModal } = useConnectModal();
   return (
     <div>
       <div
@@ -21,6 +22,11 @@ export default function App() {
       >
         <LiFiWidget
           config={{
+            walletConfig: {
+              onConnect() {
+                openConnectModal?.();
+              },
+            },
             theme: {
               container: {
                 boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
