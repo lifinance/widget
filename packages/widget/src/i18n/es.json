@@ -28,10 +28,7 @@
     "done": "Hecho",
     "exchange": "Intercambio",
     "getGas": "Obtener gas",
-    "hide": "Esconder",
     "learnMore": "Aprender más",
-    "lifiCheckout": "",
-    "lifiExchange": "Intercambio LI.FI",
     "light": "Luz",
     "max": "máximo",
     "ok": "Ok",
@@ -80,8 +77,8 @@
       "emptyActiveTransactions": "Las transacciones en progreso aparecerán aquí. Una vez completadas, encuéntralas en el historial de transacciones.",
       "emptyTokenList": "No pudimos encontrar tokens en la cadena {{chainName}} o no tienes ninguno. Por favor, busque por dirección de contrato si su token no aparece o elija otra cadena.",
       "emptyTransactionHistory": "El historial de intercambio solo se almacena localmente y se eliminará si borra los datos de su navegador.",
-      "routeNotFound": "Razones para eso: baja liquidez, cantidad seleccionada es demasiado baja, Los costos de gas son demasiado altos o no hay rutas para la combinación seleccionada.",
-      "fundsToExchange": ""
+      "fundsToExchange": "",
+      "routeNotFound": "Razones para eso: baja liquidez, cantidad seleccionada es demasiado baja, Los costos de gas son demasiado altos o no hay rutas para la combinación seleccionada."
     },
     "title": {
       "autoRefuel": "Obtener gas",
@@ -130,16 +127,15 @@
     "message": {
       "allowanceRequired": "",
       "insufficientFunds": "",
+      "remainInYourWallet": "",
       "signatureRejected": "",
       "slippageThreshold": "El slippage es mayor que el umbral definido. Por favor, solicite una nueva ruta para obtener un presupuesto nuevo.",
+      "transactionCanceled": "",
       "transactionFailed": "Por favor consulte el explorador de bloques para obtener mas información",
       "transactionNotSent": "",
-      "transactionCanceled": "",
-      "remainInYourWallet": "",
       "unknown": "Inténtalo de nuevo o ponte en contacto con soporte."
     },
     "title": {
-      "addressRequired": "",
       "allowanceRequired": "",
       "balanceIsTooLow": "El balance es demasiado bajo",
       "bookmarkAlreadyExists": "",
@@ -156,6 +152,7 @@
       "transactionUnprepared": "No se puede preparar la transacción.",
       "unknown": "Algo salió mal.",
       "walletAddressInvalid": "",
+      "walletAddressInvalid_chain": "",
       "walletAddressRequired": "Dirección de billetera es requerida.",
       "walletChainTypeInvalid": ""
     }
@@ -168,14 +165,16 @@
     },
     "numberOfSteps": "Una serie de pasos de intercambio. Cada paso puede contener 1-2 transacciones que requieren una firma.",
     "progressToNextUpdate": "Los datos mostrados se actualizarán automáticamente después de {{value}} segundos. Haga clic aquí para actualizar manualmente.",
-    "recommended": "Una ruta barata que equilibra complejidad y facilidad de uso.",
     "settingsModified": "Ajustes (modificados)",
     "selectAll": "",
     "deselectAll": ""
   },
   "main": {
-    "crossStepDetails": "Mover fondos de {{from}} {{to}} {{tool}}",
+    "allTokens": "",
+    "bridgeStepDetails": "",
+    "checkoutStepDetails": "",
     "currentAmount": "Cantidad actual",
+    "depositStepDetails": "",
     "featuredTokens": "Tokens destacados",
     "fees": {
       "estimated": "",
@@ -189,19 +188,22 @@
     "fromAmount": "Usted paga",
     "gasCost": "Costo de gas",
     "inProgress": "en progreso",
-    "nftStepDetails": "Compra NFT a través de {{tool}}",
+    "myTokens": "",
     "onChain": "en {{chainName}}",
-    "otherTokens": "Otros tokens",
     "ownedBy": "Propiedad de",
+    "popularTokens": "",
     "process": {
-      "crossChain": {
-        "actionRequired": "Por favor firme la transacción.",
-        "done": "Transacción aprobada.",
-        "pending": "Esperando transacción.",
-        "started": "Preparando transacción."
+      "bridge": {
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
       },
-      "nft": {
-        "done": "NFT comprado"
+      "checkout": {
+        "done": ""
+      },
+      "deposit": {
+        "done": ""
       },
       "receivingChain": {
         "done": "Fondos recibidos.",
@@ -245,13 +247,11 @@
     "supportId": "ID de soporte",
     "swapStepDetails": "Intercambiar en {{chain}} a través de {{tool}}",
     "tags": {
-      "cheapest": "Barato",
-      "fastest": "Rápido",
+      "cheapest": "",
+      "fastest": "",
       "insurable": "Asegurable",
       "insurance": "Aseguranza",
-      "insured": "Asegurado",
-      "recommended": "Recomendado",
-      "safest": "Seguro"
+      "insured": "Asegurado"
     },
     "to": "A",
     "tokenOnChain": "{{tokenSymbol}} en {{chainName}}",
@@ -276,18 +276,18 @@
       "title": "Precio de gas"
     },
     "routePriority": "Prioridad de ruta",
-    "sendToWalletOption": "",
     "slippage": "Diferencial",
     "custom": "",
     "resetSettings": ""
   },
   "sendToWallet": {
-    "enterAddress": "",
-    "enterName": "",
+    "addBookmark": "",
+    "bookmarkWallet": "",
     "confirmWalletAddress": "",
     "connectedWallets": "",
-    "bookmarkWallet": "",
-    "addBookmark": "",
+    "enterAddress_long": "",
+    "enterAddress_short": "",
+    "enterName": "",
     "noBookmarkedWallets": "",
     "noConnectedWallets": "",
     "noRecentWallets": ""

@@ -28,10 +28,7 @@
     "done": "Selesai",
     "exchange": "Pertukaran",
     "getGas": "Dapatkan gas",
-    "hide": "Sembunyikan",
     "learnMore": "Pelajari lebih lanjut",
-    "lifiCheckout": "Pembayaran LI.FI",
-    "lifiExchange": "Pertukaran LI.FI",
     "light": "Terang",
     "max": "maks",
     "ok": "Ya",
@@ -80,8 +77,8 @@
       "emptyActiveTransactions": "Transaksi yang sedang berlangsung akan muncul di sini. Setelah selesai, temukan di riwayat transaksi.",
       "emptyTokenList": "Kami tidak dapat menemukan token di jaringan {{chainName}} atau Anda tidak memilikinya. Silakan cari berdasarkan alamat kontrak jika token Anda tidak muncul atau pilih jaringan lain.",
       "emptyTransactionHistory": "Riwayat transaksi hanya disimpan secara lokal dan akan dihapus jika Anda menghapus data browser.",
-      "routeNotFound": "Alasannya mungkin: likuiditas rendah, jumlah yang dipilih terlalu rendah, biaya gas terlalu tinggi, atau tidak ada rute untuk kombinasi yang dipilih.",
-      "fundsToExchange": ""
+      "fundsToExchange": "",
+      "routeNotFound": "Alasannya mungkin: likuiditas rendah, jumlah yang dipilih terlalu rendah, biaya gas terlalu tinggi, atau tidak ada rute untuk kombinasi yang dipilih."
     },
     "title": {
       "autoRefuel": "Dapatkan gas",
@@ -130,16 +127,15 @@
     "message": {
       "allowanceRequired": "Jumlah transfer untuk {{tokenSymbol}} melebihi jatah Anda saat ini. Tingkatkan jatah Anda dan coba lagi.",
       "insufficientFunds": "Anda tidak memiliki cukup gas untuk menutup biaya transaksi.",
+      "remainInYourWallet": "",
       "signatureRejected": "",
       "slippageThreshold": "Slippage lebih besar dari ambang batas yang ditentukan. Silakan minta rute baru untuk mendapatkan penawaran baru.",
+      "transactionCanceled": "",
       "transactionFailed": "Silakan periksa block explorer untuk informasi lebih lanjut.",
       "transactionNotSent": "",
-      "transactionCanceled": "",
-      "remainInYourWallet": "",
       "unknown": "Silakan coba lagi atau hubungi bagian dukungan."
     },
     "title": {
-      "addressRequired": "",
       "allowanceRequired": "Saldo tidak mencukupi",
       "balanceIsTooLow": "Saldo Anda terlalu sedikit",
       "bookmarkAlreadyExists": "",
@@ -156,6 +152,7 @@
       "transactionUnprepared": "Tidak dapat menguraikan transaksi",
       "unknown": "Terjadi kesalahan",
       "walletAddressInvalid": "",
+      "walletAddressInvalid_chain": "",
       "walletAddressRequired": "Alamat dompet diperlukan.",
       "walletChainTypeInvalid": ""
     }
@@ -168,14 +165,16 @@
     },
     "numberOfSteps": "Sejumlah langkah swap. Setiap langkah dapat berisi 1-2 transaksi yang memerlukan tanda tangan.",
     "progressToNextUpdate": "Data yang ditampilkan akan disegarkan secara otomatis setelah {{value}} detik. Klik di sini untuk memperbarui secara manual.",
-    "recommended": "Rute murah yang menyeimbangkan kerumitan dan kemudahan penggunaan.",
     "settingsModified": "Pengaturan (diubah)",
     "selectAll": "",
     "deselectAll": ""
   },
   "main": {
-    "crossStepDetails": "Bridge dari {{from}} to {{to}} via {{tool}}",
+    "allTokens": "",
+    "bridgeStepDetails": "",
+    "checkoutStepDetails": "",
     "currentAmount": "Jumlah saat ini",
+    "depositStepDetails": "",
     "featuredTokens": "Token unggulan",
     "fees": {
       "estimated": "",
@@ -189,19 +188,22 @@
     "fromAmount": "Anda membayar",
     "gasCost": "Biaya Gas",
     "inProgress": "dalam proses",
-    "nftStepDetails": "Beli NFT melalui {{tool}}",
+    "myTokens": "",
     "onChain": "di {{chainName}}",
-    "otherTokens": "Token lainnya",
     "ownedBy": "Dimiliki oleh",
+    "popularTokens": "",
     "process": {
-      "crossChain": {
-        "actionRequired": "Mohon konfirmasi transaksi",
-        "done": "Bridge dikonfirmasi",
-        "pending": "Menunggu transaksi bridge",
-        "started": "Mempersiapkan transaksi bridge"
+      "bridge": {
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
       },
-      "nft": {
-        "done": "NFT dibeli"
+      "checkout": {
+        "done": ""
+      },
+      "deposit": {
+        "done": ""
       },
       "receivingChain": {
         "done": "Bridge selesai",
@@ -245,13 +247,11 @@
     "supportId": "ID dukungan",
     "swapStepDetails": "Swap di {{chain}} melalui {{tool}}",
     "tags": {
-      "cheapest": "Murah",
-      "fastest": "Cepat",
+      "cheapest": "",
+      "fastest": "",
       "insurable": "Dapat diasuransikan",
       "insurance": "Asuransi",
-      "insured": "Diasuransikan",
-      "recommended": "Direkomendasikan",
-      "safest": "Aman"
+      "insured": "Diasuransikan"
     },
     "to": "Kepada",
     "tokenOnChain": "{{tokenSymbol}} di {{chainName}}",
@@ -276,18 +276,18 @@
       "title": "Harga gas"
     },
     "routePriority": "Prioritas rute",
-    "sendToWalletOption": "",
     "slippage": "Slippage",
     "custom": "",
     "resetSettings": ""
   },
   "sendToWallet": {
-    "enterAddress": "",
-    "enterName": "",
+    "addBookmark": "",
+    "bookmarkWallet": "",
     "confirmWalletAddress": "",
     "connectedWallets": "",
-    "bookmarkWallet": "",
-    "addBookmark": "",
+    "enterAddress_long": "",
+    "enterAddress_short": "",
+    "enterName": "",
     "noBookmarkedWallets": "",
     "noConnectedWallets": "",
     "noRecentWallets": ""

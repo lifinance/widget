@@ -28,10 +28,7 @@
     "done": "समाप्त",
     "exchange": "",
     "getGas": "गेस शुल्क ले",
-    "hide": "छिपाएँ",
     "learnMore": "",
-    "lifiCheckout": "",
-    "lifiExchange": "",
     "light": "",
     "max": "अधिकतम",
     "ok": "ठीक है",
@@ -80,8 +77,8 @@
       "emptyActiveTransactions": "",
       "emptyTokenList": "",
       "emptyTransactionHistory": "",
-      "routeNotFound": "",
-      "fundsToExchange": ""
+      "fundsToExchange": "",
+      "routeNotFound": ""
     },
     "title": {
       "autoRefuel": "गेस शुल्क ले",
@@ -130,16 +127,15 @@
     "message": {
       "allowanceRequired": "",
       "insufficientFunds": "",
+      "remainInYourWallet": "",
       "signatureRejected": "",
       "slippageThreshold": "",
+      "transactionCanceled": "",
       "transactionFailed": "",
       "transactionNotSent": "",
-      "transactionCanceled": "",
-      "remainInYourWallet": "",
       "unknown": ""
     },
     "title": {
-      "addressRequired": "",
       "allowanceRequired": "",
       "balanceIsTooLow": "",
       "bookmarkAlreadyExists": "",
@@ -156,6 +152,7 @@
       "transactionUnprepared": "",
       "unknown": "",
       "walletAddressInvalid": "",
+      "walletAddressInvalid_chain": "",
       "walletAddressRequired": "",
       "walletChainTypeInvalid": ""
     }
@@ -168,14 +165,16 @@
     },
     "numberOfSteps": "",
     "progressToNextUpdate": "",
-    "recommended": "",
     "settingsModified": "",
     "selectAll": "",
     "deselectAll": ""
   },
   "main": {
-    "crossStepDetails": "",
+    "allTokens": "",
+    "bridgeStepDetails": "",
+    "checkoutStepDetails": "",
     "currentAmount": "",
+    "depositStepDetails": "",
     "featuredTokens": "",
     "fees": {
       "estimated": "",
@@ -189,18 +188,21 @@
     "fromAmount": "",
     "gasCost": "",
     "inProgress": "",
-    "nftStepDetails": "",
+    "myTokens": "",
     "onChain": "",
-    "otherTokens": "",
     "ownedBy": "",
+    "popularTokens": "",
     "process": {
-      "crossChain": {
+      "bridge": {
         "actionRequired": "",
         "done": "",
         "pending": "",
         "started": ""
       },
-      "nft": {
+      "checkout": {
+        "done": ""
+      },
+      "deposit": {
         "done": ""
       },
       "receivingChain": {
@@ -249,9 +251,7 @@
       "fastest": "",
       "insurable": "",
       "insurance": "",
-      "insured": "",
-      "recommended": "",
-      "safest": ""
+      "insured": ""
     },
     "to": "",
     "tokenOnChain": "",
@@ -276,18 +276,18 @@
       "title": ""
     },
     "routePriority": "",
-    "sendToWalletOption": "",
     "slippage": "",
     "custom": "",
     "resetSettings": ""
   },
   "sendToWallet": {
-    "enterAddress": "",
-    "enterName": "",
+    "addBookmark": "",
+    "bookmarkWallet": "",
     "confirmWalletAddress": "",
     "connectedWallets": "",
-    "bookmarkWallet": "",
-    "addBookmark": "",
+    "enterAddress_long": "",
+    "enterAddress_short": "",
+    "enterName": "",
     "noBookmarkedWallets": "",
     "noConnectedWallets": "",
     "noRecentWallets": ""

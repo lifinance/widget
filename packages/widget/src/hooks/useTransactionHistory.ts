@@ -20,8 +20,8 @@ export const useTransactionHistory = () => {
         const response = await getTransactionHistory(
           {
             wallet: accountAddress,
-            fromTimestamp: date.getTime() / 1000,
-            toTimestamp: Date.now() / 1000,
+            fromTimestamp: Math.floor(date.getTime() / 1000),
+            toTimestamp: Math.floor(Date.now() / 1000),
           },
           { signal },
         );

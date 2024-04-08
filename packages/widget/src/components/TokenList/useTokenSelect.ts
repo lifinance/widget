@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useChainOrderStoreContext } from '../../stores/chains/ChainOrderStore.js';
 import type { FormType } from '../../stores/form/types.js';
 import { FormKeyHelper } from '../../stores/form/types.js';
 import { useFieldActions } from '../../stores/form/useFieldActions.js';
@@ -8,11 +9,12 @@ import { useFieldController } from '../../stores/form/useFieldController.js';
 import { WidgetEvent } from '../../types/events.js';
 
 export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
-  const tokenKey = FormKeyHelper.getTokenKey(formType);
-  const { onChange } = useFieldController({ name: tokenKey });
-  const { setFieldValue, getFieldValues } = useFieldActions();
   const { subvariant } = useWidgetConfig();
   const emitter = useWidgetEvents();
+  const { setFieldValue, getFieldValues } = useFieldActions();
+  const tokenKey = FormKeyHelper.getTokenKey(formType);
+  const { onChange } = useFieldController({ name: tokenKey });
+  const chainOrderStore = useChainOrderStoreContext();
 
   return useCallback(
     (tokenAddress: string, chainId?: number) => {
@@ -36,6 +38,20 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
         subvariant !== 'custom'
       ) {
         setFieldValue(FormKeyHelper.getTokenKey(oppositeFormType), '', {
+          isDirty: true,
+          isTouched: true,
+        });
+      }
+
+      // Check if the selected source chain matches any chain on the destination chain selection view (chainOrder array).
+      // If a match exists and the destination token is not selected, update the destination chain to match the source.
+      if (
+        formType === 'from' &&
+        !selectedOppositeToken &&
+        selectedChainId &&
+        chainOrderStore.getState().chainOrder.to.includes(selectedChainId)
+      ) {
+        setFieldValue(FormKeyHelper.getChainKey('to'), selectedChainId, {
           isDirty: true,
           isTouched: true,
         });
