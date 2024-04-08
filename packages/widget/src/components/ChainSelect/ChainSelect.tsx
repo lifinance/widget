@@ -38,12 +38,18 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
     navigate(navigationRoutes[`${formType}Chain`]);
   };
 
-  const chainsToHide = (chains?.length ?? 0) - maxChainToOrder;
+  // We check if we can accommodate all the chains on the grid
+  // If there are more chains we slice the last one to show the number of hidden chains
+  const chainsToHide =
+    chains?.length === maxChainToOrder
+      ? 0
+      : (chains?.length ?? 0) - (maxChainToOrder - 1);
+  const sliceValue = chainsToHide > 0 ? -1 : maxChainToOrder;
 
   return (
     <ChainContainer>
       {isLoading
-        ? Array.from({ length: maxChainToOrder + 1 }).map((_, index) => (
+        ? Array.from({ length: maxChainToOrder }).map((_, index) => (
             <Skeleton
               key={index}
               variant="rectangular"
@@ -52,32 +58,34 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
               sx={{ borderRadius: 1 }}
             />
           ))
-        : getChains().map((chain: EVMChain) => (
-            <Tooltip
-              key={chain.id}
-              title={chain.name}
-              placement="top"
-              enterDelay={400}
-              enterNextDelay={100}
-              disableInteractive
-              arrow
-            >
-              <ChainCard
-                component="button"
-                onClick={() => setCurrentChain(chain.id)}
-                type={chainId === chain.id ? 'selected' : 'default'}
-                selectionColor="primary"
+        : getChains()
+            .slice(0, sliceValue)
+            .map((chain: EVMChain) => (
+              <Tooltip
+                key={chain.id}
+                title={chain.name}
+                placement="top"
+                enterDelay={400}
+                enterNextDelay={100}
+                disableInteractive
+                arrow
               >
-                <Avatar
-                  src={chain.logoURI}
-                  alt={chain.key}
-                  sx={{ width: 40, height: 40 }}
+                <ChainCard
+                  component="button"
+                  onClick={() => setCurrentChain(chain.id)}
+                  type={chainId === chain.id ? 'selected' : 'default'}
+                  selectionColor="primary"
                 >
-                  {chain.name[0]}
-                </Avatar>
-              </ChainCard>
-            </Tooltip>
-          ))}
+                  <Avatar
+                    src={chain.logoURI}
+                    alt={chain.key}
+                    sx={{ width: 40, height: 40 }}
+                  >
+                    {chain.name[0]}
+                  </Avatar>
+                </ChainCard>
+              </Tooltip>
+            ))}
       {chainsToHide > 0 ? (
         <ChainCard component="button" onClick={showAllChains}>
           <Box

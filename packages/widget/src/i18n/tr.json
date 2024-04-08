@@ -9,15 +9,15 @@
   },
   "button": {
     "auto": "Otomatik",
-    "bookmark": "",
-    "bookmarks": "",
+    "bookmark": "Yer İşareti",
+    "bookmarks": "Yer işaretleri",
     "bridge": "Gönder",
     "buy": "Satın al",
     "buyNow": "Hemen satın al",
     "cancel": "İptal",
     "changeWallet": "Cüzdan değiştir",
-    "close": "",
-    "confirm": "",
+    "close": "Kapat",
+    "confirm": "Onayla",
     "connectWallet": "Cüzdanı Bağla",
     "contactSupport": "Destek Ekibine Ulaş",
     "continue": "Devam et",
@@ -28,14 +28,11 @@
     "done": "Tamamlandı",
     "exchange": "Al-Sat",
     "getGas": "Gaz al",
-    "hide": "Gizle",
     "learnMore": "Daha fazla bilgi edinin",
-    "lifiCheckout": "İşlem sonucu",
-    "lifiExchange": "LI-FI Al-Sat",
     "light": "Açık",
     "max": "maksimum",
     "ok": "Tamam",
-    "options": "",
+    "options": "Ayarlar",
     "removeTransaction": "İşlemi kaldır",
     "reset": "Sıfırla",
     "resetSettings": "Ayarları Sıfırla",
@@ -53,7 +50,7 @@
   },
   "header": {
     "activeTransactions": "Aktif işlemler",
-    "bookmarkedWallets": "",
+    "bookmarkedWallets": "Kayıtlı cüzdanlar",
     "bridge": "Gönder",
     "checkout": "Ödeme yap",
     "exchange": "Al-Sat",
@@ -62,10 +59,10 @@
     "payWith": "Şununla öde",
     "purchase": "Satın al",
     "purchaseDetails": "Satın Alma Detayları",
-    "recentWallets": "",
+    "recentWallets": "Son kullanılan cüzdanlar",
     "selectChain": "Zincir Seç",
     "selectWallet": "Bir Cüzdan Seçin",
-    "sendToWallet": "",
+    "sendToWallet": "Cüzdana gönder",
     "settings": "Ayarlar",
     "swap": "Takas",
     "to": "Şuna takas et",
@@ -80,8 +77,9 @@
       "emptyActiveTransactions": "Devam eden işlemler burada görünecek. Tamamlandığında, işlem geçmişinden bulabilirsiniz.",
       "emptyTokenList": "{{chainName}} ağında token bulamadık veya sizde hiç token yok. Lütfen tekrar aramayı deneyin veya başka bir ağ seçin.",
       "emptyTransactionHistory": "İşlem geçmişi yalnızca yerel olarak saklanır ve tarayıcı verilerinizi temizlerseniz silinir.",
-      "routeNotFound": "Muhtemel sebepler şunlar olabilir: Düşük likidite, seçilen miktarın çok düşük olması, gaz masrafının çok olması ya da seçilen kombinasyon için rota olmaması.",
-      "fundsToExchange": ""
+      "fundsToExchange": "Borsa hesabına göndermek fonlarınızı kaybetmenize yol açabilir",
+      "toAddressIsRequired": "",
+      "routeNotFound": "Muhtemel sebepler şunlar olabilir: Düşük likidite, seçilen miktarın çok düşük olması, gaz masrafının çok olması ya da seçilen kombinasyon için rota olmaması."
     },
     "title": {
       "autoRefuel": "Gaz al",
@@ -130,20 +128,19 @@
     "message": {
       "allowanceRequired": "{{tokenSymbol}} için verilen izinden fazla miktarda transfer yapılamaz. Token izinlerini arttırıp tekrar deneyiniz.",
       "insufficientFunds": "Bu işlemi gerçekleştirmek için yeterli gaz bulunmamaktadır.",
+      "remainInYourWallet": "{{chainName}} üzerinde {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} cüzdanınızda bulunmaktadır.",
       "signatureRejected": "İşlemi tamamlamak için imzanız gerekiyor. {{chainName}} üzerinde {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} cüzdanınızda bulunmaktadır.",
       "slippageThreshold": "Slipaj, tanımlanan eşikten daha büyük. Yeni bir fiyat teklifi almak için lütfen yeni bir rota isteyin.",
+      "transactionCanceled": "İşlem iptal edildi.",
       "transactionFailed": "Daha fazla bilgi için ağ tarayıcısını kontrol edin.",
       "transactionNotSent": "İşlem gönderilmedi.",
-      "transactionCanceled": "İşlem iptal edildi.",
-      "remainInYourWallet": "{{chainName}} üzerinde {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} cüzdanınızda bulunmaktadır.",
       "unknown": "Lütfen tekrar deneyin veya desteğe başvurun."
     },
     "title": {
-      "addressRequired": "",
       "allowanceRequired": "İzin miktarı yetersiz",
       "balanceIsTooLow": "Bakiye çok düşük",
-      "bookmarkAlreadyExists": "",
-      "bookmarkNameRequired": "",
+      "bookmarkAlreadyExists": "Bu cüzdan daha önce {{name}} adıyla kaydedilmiş",
+      "bookmarkNameRequired": "Yer işareti için isim gereklidir",
       "chainSwitch": "Lütfen ağı değiştirin",
       "exchangeRateUpdateCanceled": "Fiyat güncellemesi iptal edildi",
       "gasLimitIsTooLow": "Gaz limiti çok düşük",
@@ -155,9 +152,10 @@
       "transactionUnderpriced": "İşlemin değeri düşük",
       "transactionUnprepared": "İşlem başlatılamıyor",
       "unknown": "Bir sorun oluştu",
-      "walletAddressInvalid": "",
+      "walletAddressInvalid": "Cüzdan adresi ya da domain adı geçersiz",
+      "walletAddressInvalid_chain": "Cüzdan adresi ya da domain adı {{chainName}} hedef ağında geçerli değil",
       "walletAddressRequired": "Cüzdan adresi gereklidir.",
-      "walletChainTypeInvalid": ""
+      "walletChainTypeInvalid": "Cüzdan adresi ile {{chainName}} hedef ağ eşleşmiyor"
     }
   },
   "tooltip": {
@@ -168,40 +166,45 @@
     },
     "numberOfSteps": "İşlem birkaç adımdan oluşmaktadır. Her adım, imza gerektiren 1-2 işlem içerebilir.",
     "progressToNextUpdate": "Görüntülenen veriler, {{value}} saniye sonra otomatik olarak yenilenecektir. Manuel olarak güncellemek için burayı tıklayın.",
-    "recommended": "Karmaşıklığı ve kullanım kolaylığını dengeleyen ucuz bir rota.",
     "settingsModified": "Ayarlar (değiştirilen)",
     "selectAll": "Tümünü seç",
     "deselectAll": "Tüm seçimi kaldır"
   },
   "main": {
-    "crossStepDetails": "{{from}} ile {{to}} ağları arasında {{tool}} ile gönderim sağlayın",
+    "allTokens": "Tüm varlıklar",
+    "bridgeStepDetails": "",
+    "checkoutStepDetails": "",
     "currentAmount": "Geçerli miktar",
+    "depositStepDetails": "",
     "featuredTokens": "Öne çıkan jetonlar",
     "fees": {
       "estimated": "tahmini işlem ücretleri",
       "networkEstimated": "Tahmini ağ ücreti:",
       "networkPaid": "Ödenen ağ ücretleri",
       "paid": "Ödenen ücretler",
-      "providerEstimated": "",
-      "providerPaid": ""
+      "providerEstimated": "Tahmini sağlayıcı ücreti:",
+      "providerPaid": "Ödenen sağlayıcı ücreti:"
     },
     "from": "Gönderen",
     "fromAmount": "Ödediğiniz",
     "gasCost": "Gaz Bedeli",
     "inProgress": "işlem devam ediyor",
-    "nftStepDetails": "{{tool}} aracılığıyla NFT satın alın",
+    "myTokens": "Varlıklarım",
     "onChain": "{{chainName}} üzerinde",
-    "otherTokens": "Diğer jetonlar",
     "ownedBy": "Tarafından sahip olunan",
+    "popularTokens": "Popüler varlıklar",
     "process": {
-      "crossChain": {
-        "actionRequired": "Lütfen işlemi onaylayın",
-        "done": "Köprü işlemi teyit edildi",
-        "pending": "Köprü işlemi bekleniyor",
-        "started": "Köprü işlemi hazırlanıyor"
+      "bridge": {
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
       },
-      "nft": {
-        "done": "NFT satın alındı"
+      "checkout": {
+        "done": ""
+      },
+      "deposit": {
+        "done": ""
       },
       "receivingChain": {
         "done": "Köprü işlemi tamamlandı",
@@ -245,13 +248,11 @@
     "supportId": "Destek",
     "swapStepDetails": "{{chain}} üzerinde {{tool}} aracılığıyla takas et",
     "tags": {
-      "cheapest": "Ucuz",
-      "fastest": "Hızlı",
+      "cheapest": "En iyi sonuç",
+      "fastest": "En Hızlı",
       "insurable": "Sigortalanabilir",
       "insurance": "Sigorta",
-      "insured": "Sigortalı",
-      "recommended": "Önerilen",
-      "safest": "Güvenli"
+      "insured": "Sigortalı"
     },
     "to": "Şuna",
     "tokenOnChain": "{{chainName}} üzerindeki {{tokenSymbol}}",
@@ -276,21 +277,21 @@
       "title": "Gaz ücreti"
     },
     "routePriority": "Rota önceliği",
-    "sendToWalletOption": "Cüzdana gönder",
     "slippage": "Sapma toleransı",
     "custom": "Özel",
-    "resetSettings": "Kullanılabilir rotaların sayısını sınırlayan özel bir ayar kullanıyorsunuz."
+    "resetSettings": "Kullanılabilir rotaların sayısını etkileyebilecek özel bir ayar kullanıyorsunuz."
   },
   "sendToWallet": {
-    "enterAddress": "",
-    "enterName": "",
-    "confirmWalletAddress": "",
-    "connectedWallets": "",
-    "bookmarkWallet": "",
-    "addBookmark": "",
-    "noBookmarkedWallets": "",
-    "noConnectedWallets": "",
-    "noRecentWallets": ""
+    "addBookmark": "Yer işareti ekle",
+    "bookmarkWallet": "Cüzdanı kaydet",
+    "confirmWalletAddress": "Cüzdan adresini doğrula",
+    "connectedWallets": "Bağlı cüzdanlar",
+    "enterAddress_long": "Adres veya domain girin",
+    "enterAddress_short": "Cüzdan adresini girin",
+    "enterName": "İsim girin",
+    "noBookmarkedWallets": "Kayıtlı cüzdan bulunamadı",
+    "noConnectedWallets": "Bağlı cüzdan bulunamadı",
+    "noRecentWallets": "Son kullanılan cüzdan bulunamadı"
   },
   "wallet": {
     "extensionNotFound": "Lütfen bu cüzdanı seçmeden önce yalnızca {{name}} tarayıcı uzantısının etkin olduğundan emin olun."

@@ -78,6 +78,7 @@
       "emptyTokenList": "We couldn't find tokens on {{chainName}} chain or you don't have any. Please search by contract address if your token doesn't appear or choose another chain.",
       "emptyTransactionHistory": "Transaction history is only stored locally and will be deleted if you clear your browser data.",
       "fundsToExchange": "Funds sent to an exchange may be lost",
+      "toAddressIsRequired": "Please provide the destination wallet address to which the funds will be transferred.",
       "routeNotFound": "Reasons for that could be: low liquidity, amount selected is too low, gas costs are too high or there are no routes for the selected combination."
     },
     "title": {

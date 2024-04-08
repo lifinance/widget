@@ -4,7 +4,7 @@ import { createWithEqualityFn } from 'zustand/traditional';
 import type { PersistStoreProps } from '../types.js';
 import type { ChainOrderState } from './types.js';
 
-export const maxChainToOrder = 9;
+export const maxChainToOrder = 10;
 const defaultChainState = {
   from: [],
   to: [],

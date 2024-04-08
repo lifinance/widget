@@ -39,6 +39,7 @@ export const useGasRefuel = () => {
       // If a user runs out of gas, he can't send a source chain transaction.
       fromChainId === toChainId ||
       !gasRecommendation?.available ||
+      !gasRecommendation?.recommended ||
       !nativeToken ||
       !isChainTypeSatisfied
     ) {

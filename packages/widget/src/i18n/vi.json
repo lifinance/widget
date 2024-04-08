@@ -28,10 +28,7 @@
     "done": "Hoàn thành",
     "exchange": "Hoán đổi",
     "getGas": "Thiết lập gas",
-    "hide": "Ẩn",
     "learnMore": "Xem thêm",
-    "lifiCheckout": "LI.FI Checkout",
-    "lifiExchange": "LI.FI Exchange",
     "light": "Sáng",
     "max": "Tối đa",
     "ok": "Ok",
@@ -80,8 +77,9 @@
       "emptyActiveTransactions": "Các lệnh swap đang xử lý sẽ được hiện ở đây. Khi nào lệnh hoàn tất, bạn có thể kiểm tra lại tại mục lịch sử swap.",
       "emptyTokenList": "Chúng tôi không thể tìm được token ở {{chainName}} hoặc số dư của bạn không có. Vui lòng thử tìm kiếm lại hoặc chọn một chain khác.",
       "emptyTransactionHistory": "Lịch sử Swap chỉ được lưu trữ cục bộ và sẽ bị xóa nếu bạn xóa dữ liệu trình duyệt của mình.",
-      "routeNotFound": "Lý do cho điều đó có thể là: tính thanh khoản thấp, số tiền được chọn quá thấp, chi phí gas quá cao hoặc không có lộ trình cho cặp giao dịch đã chọn.",
-      "fundsToExchange": ""
+      "fundsToExchange": "",
+      "toAddressIsRequired": "",
+      "routeNotFound": "Lý do cho điều đó có thể là: tính thanh khoản thấp, số tiền được chọn quá thấp, chi phí gas quá cao hoặc không có lộ trình cho cặp giao dịch đã chọn."
     },
     "title": {
       "autoRefuel": "Thiết lập Gas",
@@ -130,16 +128,15 @@
     "message": {
       "allowanceRequired": "Chuyển số lượng {{tokenSymbol}} vượt quá mức cho phép hiện tại của bạn. Vui lòng tăng mức độ cho phép sử dụng token và thử lại.",
       "insufficientFunds": "Bạn không có đủ gas để chi trả cho chi phí giao dịch.",
+      "remainInYourWallet": "",
       "signatureRejected": "",
       "slippageThreshold": "Độ trượt giá lớn hơn ngưỡng xác định. Vui lòng yêu cầu một tuyến đường mới để nhận báo giá mới.",
+      "transactionCanceled": "",
       "transactionFailed": "Vui lòng kiểm tra block explorer để biết thêm thông tin.",
       "transactionNotSent": "",
-      "transactionCanceled": "",
-      "remainInYourWallet": "",
       "unknown": "Vui lòng thử lại hoặc liên hệ hỗ trợ."
     },
     "title": {
-      "addressRequired": "",
       "allowanceRequired": "Sự cho phép không đủ",
       "balanceIsTooLow": "Số dư quá thấp",
       "bookmarkAlreadyExists": "",
@@ -156,6 +153,7 @@
       "transactionUnprepared": "Không thể tải giao dịch",
       "unknown": "Xảy ra lỗi",
       "walletAddressInvalid": "",
+      "walletAddressInvalid_chain": "",
       "walletAddressRequired": "Yêu cầu địa chỉ ví.",
       "walletChainTypeInvalid": ""
     }
@@ -168,14 +166,16 @@
     },
     "numberOfSteps": "Một số bước swap. Mỗi bước có thể chứa 1-2 giao dịch yêu cầu chữ ký.",
     "progressToNextUpdate": "Thông tin hiển thị sẽ tự động làm mới sau {{value}} giây. Bấm vào đây để cập nhật thủ công.",
-    "recommended": "Một tuyến đường giá rẻ cân bằng giữa sự phức tạp và dễ sử dụng.",
     "settingsModified": "Thiết lập (Đã điều chỉnh)",
     "selectAll": "",
     "deselectAll": ""
   },
   "main": {
-    "crossStepDetails": "Chuyển từ {{from}} đến {{to}} thông qua {{tool}}",
+    "allTokens": "",
+    "bridgeStepDetails": "",
+    "checkoutStepDetails": "",
     "currentAmount": "Số lượng hiện tại",
+    "depositStepDetails": "",
     "featuredTokens": "Featured tokens",
     "fees": {
       "estimated": "",
@@ -189,19 +189,22 @@
     "fromAmount": "Yêu cầu",
     "gasCost": "Phí Gas",
     "inProgress": "đang xử lý",
-    "nftStepDetails": "Mua NFT thông qua {{tool}}",
+    "myTokens": "",
     "onChain": "tại {{chainName}}",
-    "otherTokens": "Token khác",
     "ownedBy": "Được sở hữu bởi",
+    "popularTokens": "",
     "process": {
-      "crossChain": {
-        "actionRequired": "Vui lòng ký hoàn thành giao dịch",
-        "done": "Giao dịch bridge đã được xác nhận",
-        "pending": "Chờ giao dịch Bridge",
-        "started": "Chuẩn bị giao dịch Bridge"
+      "bridge": {
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
       },
-      "nft": {
-        "done": "NFT đã mua"
+      "checkout": {
+        "done": ""
+      },
+      "deposit": {
+        "done": ""
       },
       "receivingChain": {
         "done": "Bridge thành công",
@@ -245,13 +248,11 @@
     "supportId": "Mã ID yêu cầu hỗ trợ",
     "swapStepDetails": "Swap tại {{chain}} thông qua {{tool}}",
     "tags": {
-      "cheapest": "Rẻ",
-      "fastest": "Nhanh",
+      "cheapest": "",
+      "fastest": "",
       "insurable": "Bảo hiểm",
       "insurance": "Bảo hiểm",
-      "insured": "An toàn",
-      "recommended": "Khuyến nghị",
-      "safest": "An toàn"
+      "insured": "An toàn"
     },
     "to": "Đến",
     "tokenOnChain": "{{tokenSymbol}} tại {{chainName}}",
@@ -276,18 +277,18 @@
       "title": "Giá gas"
     },
     "routePriority": "Tuyền đường ưu tiên",
-    "sendToWalletOption": "",
     "slippage": "Trượt giá",
     "custom": "",
     "resetSettings": ""
   },
   "sendToWallet": {
-    "enterAddress": "",
-    "enterName": "",
+    "addBookmark": "",
+    "bookmarkWallet": "",
     "confirmWalletAddress": "",
     "connectedWallets": "",
-    "bookmarkWallet": "",
-    "addBookmark": "",
+    "enterAddress_long": "",
+    "enterAddress_short": "",
+    "enterName": "",
     "noBookmarkedWallets": "",
     "noConnectedWallets": "",
     "noRecentWallets": ""
