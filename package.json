@@ -26,7 +26,8 @@
     "pre-commit": "lint-staged",
     "pre-commit:validate": "yarn workspaces foreach -Apt run pre-commit:validate",
     "pre-push": "yarn workspaces foreach -Apt run pre-push:validate",
-    "prepare": "husky"
+    "prepare": "husky",
+    "postinstall": "husky"
   },
   "standard-version": {
     "scripts": {
