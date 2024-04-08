@@ -92,7 +92,6 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
     !Number.isNaN(slippage) &&
     hasAmount &&
     isToAddressSatisfied &&
-    // isChainTypeSatisfied &&
     contractCallQuoteEnabled;
 
   // Some values should be strictly typed and isEnabled ensures that
