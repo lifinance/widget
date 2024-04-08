@@ -78,6 +78,7 @@
       "emptyTokenList": "Chúng tôi không thể tìm được token ở {{chainName}} hoặc số dư của bạn không có. Vui lòng thử tìm kiếm lại hoặc chọn một chain khác.",
       "emptyTransactionHistory": "Lịch sử Swap chỉ được lưu trữ cục bộ và sẽ bị xóa nếu bạn xóa dữ liệu trình duyệt của mình.",
       "fundsToExchange": "",
+      "toAddressIsRequired": "",
       "routeNotFound": "Lý do cho điều đó có thể là: tính thanh khoản thấp, số tiền được chọn quá thấp, chi phí gas quá cao hoặc không có lộ trình cho cặp giao dịch đã chọn."
     },
     "title": {

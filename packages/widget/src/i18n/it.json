@@ -78,6 +78,7 @@
       "emptyTokenList": "Non siamo riusciti a trovare token sulla chain {{chainName}} o non ne hai. Riprova o scegli un'altra chain.",
       "emptyTransactionHistory": "La cronologia delle transazioni è memorizzata solo localmente e verrà eliminata se si cancellano i dati del browser.",
       "fundsToExchange": "",
+      "toAddressIsRequired": "",
       "routeNotFound": "Le ragioni potrebbero essere: bassa liquidità, la quantità selezionata è troppo bassa, i costi del gas sono troppo elevati o non ci sono routes per la combinazione selezionata."
     },
     "title": {

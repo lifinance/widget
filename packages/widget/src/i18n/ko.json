@@ -78,6 +78,7 @@
       "emptyTokenList": "{{chainName}} 체인에서 토큰을 찾을 수 없거나 보유 중인 토큰이 아닙니다. 다시 검색하거나 다른 체인을 선택하십시오.",
       "emptyTransactionHistory": "스왑 기록은 로컬에만 저장되며 브라우저 데이터를 지우면 삭제됩니다.",
       "fundsToExchange": "",
+      "toAddressIsRequired": "",
       "routeNotFound": "이유: 낮은 유동성, 선택된 수량이 너무 적음, 가스비가 너무 비싸거나 경로가 존재하지 않음"
     },
     "title": {

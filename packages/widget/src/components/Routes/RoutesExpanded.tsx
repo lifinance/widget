@@ -5,9 +5,12 @@ import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { RouteObject } from 'react-router-dom';
 import { useRoutes as useDOMRoutes, useNavigate } from 'react-router-dom';
+import { useAccount } from '../../hooks/useAccount.js';
 import { useRoutes } from '../../hooks/useRoutes.js';
+import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useFieldValues } from '../../stores/form/useFieldValues.js';
 import { useSetExecutableRoute } from '../../stores/routes/useSetExecutableRoute.js';
 import { WidgetEvent } from '../../types/events.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
@@ -69,7 +72,11 @@ export const RoutesExpandedElement = () => {
     dataUpdatedAt,
     refetchTime,
     refetch,
+    fromChain,
   } = useRoutes();
+  const { account } = useAccount({ chainType: fromChain?.chainType });
+  const [toAddress] = useFieldValues('toAddress');
+  const { requiredToAddress } = useToAddressRequirements();
 
   const handleRouteClick = (route: Route) => {
     setExecutableRoute(route);
@@ -98,6 +105,9 @@ export const RoutesExpandedElement = () => {
   );
 
   const routeNotFound = !currentRoute && !isLoading && !isFetching && expanded;
+
+  const toAddressUnsatisfied = currentRoute && requiredToAddress && !toAddress;
+  const allowInteraction = account.isConnected && !toAddressUnsatisfied;
 
   useEffect(() => {
     emitter.emit(WidgetEvent.WidgetExpanded, expanded);
@@ -140,7 +150,11 @@ export const RoutesExpandedElement = () => {
                     <RouteCard
                       key={index}
                       route={route}
-                      onClick={() => handleRouteClick(route)}
+                      onClick={
+                        allowInteraction
+                          ? () => handleRouteClick(route)
+                          : undefined
+                      }
                       active={index === 0}
                       expanded={routesRef.current?.length === 1}
                     />

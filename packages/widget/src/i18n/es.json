@@ -78,6 +78,7 @@
       "emptyTokenList": "No pudimos encontrar tokens en la cadena {{chainName}} o no tienes ninguno. Por favor, busque por dirección de contrato si su token no aparece o elija otra cadena.",
       "emptyTransactionHistory": "El historial de intercambio solo se almacena localmente y se eliminará si borra los datos de su navegador.",
       "fundsToExchange": "",
+      "toAddressIsRequired": "",
       "routeNotFound": "Razones para eso: baja liquidez, cantidad seleccionada es demasiado baja, Los costos de gas son demasiado altos o no hay rutas para la combinación seleccionada."
     },
     "title": {
