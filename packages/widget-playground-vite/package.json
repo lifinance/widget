@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "check:types": "tsc --noEmit",
     "lint": "eslint --ext .tsx --ext .ts ./src",
-    "pre-commit:validate": "yarn lint --fix",
+    "pre-commit:validate": "yarn lint --fix --max-warnings=0",
     "pre-push:validate": "yarn workspace @lifi/widget-playground build && yarn check:types"
   },
   "publishConfig": {

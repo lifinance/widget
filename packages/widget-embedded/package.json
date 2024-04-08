@@ -10,7 +10,7 @@
     "clean": "rm -rf dist tsconfig.tsbuildinfo",
     "preview": "vite preview",
     "lint": "eslint --ext .tsx --ext .ts ./src",
-    "pre-commit:validate": "yarn lint --fix",
+    "pre-commit:validate": "yarn lint --fix --max-warnings=0",
     "pre-push:validate": "yarn check:types"
   },
   "publishConfig": {

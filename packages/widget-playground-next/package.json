@@ -6,7 +6,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "pre-commit:validate": "next lint --fix"
+    "pre-commit:validate": "next lint --fix --max-warnings=0"
   },
   "publishConfig": {
     "access": "public"
