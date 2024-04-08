@@ -12,7 +12,7 @@ import { SendToWalletExpandButton } from '../../components/SendToWallet/SendToWa
 import { useWideVariant } from '../../hooks/useWideVariant.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { HiddenUI } from '../../types/widget.js';
-import { MainGasMessage } from './MainGasMessage.js';
+import { MainMessages } from './MainMessages.js';
 import { ReviewButton } from './ReviewButton.js';
 
 export const MainPage: React.FC = () => {
@@ -36,7 +36,7 @@ export const MainPage: React.FC = () => {
       {!wideVariant ? <Routes sx={{ marginBottom: 2 }} /> : null}
       <SendToWalletButton sx={{ marginBottom: 2 }} />
       <GasRefuelMessage mb={2} />
-      <MainGasMessage mb={2} />
+      <MainMessages mb={2} />
       <Box display="flex" mb={showPoweredBy ? 1 : 3} gap={1.5}>
         <ReviewButton />
         <SendToWalletExpandButton />
