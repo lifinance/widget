@@ -70,6 +70,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
   const contractCallQuoteEnabled: boolean =
     subvariant === 'custom' ? Boolean(contractCalls && account.address) : true;
 
+  // When we bridge between ecosystems we need to be sure toAddress is set and has the same chainType as toChain
   // If toAddress is set, it must have the same chainType as toChain
   const hasToAddressAndChainTypeSatisfied: boolean =
     !!toChain &&
@@ -79,11 +80,9 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
   const isToAddressSatisfied = toAddress
     ? hasToAddressAndChainTypeSatisfied
     : true;
-  // When we bridge between ecosystems we need to be sure toAddress is set and has the same chainType as toChain
-  const isChainTypeSatisfied =
-    fromChain && toChain && fromChain.chainType !== toChain.chainType
-      ? hasToAddressAndChainTypeSatisfied
-      : true;
+
+  // toAddress might be an empty string, but we need to pass undefined if there is no value
+  const toWalletAddress = toAddress || undefined;
 
   const isEnabled =
     Boolean(Number(fromChainId)) &&
@@ -93,7 +92,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
     !Number.isNaN(slippage) &&
     hasAmount &&
     isToAddressSatisfied &&
-    isChainTypeSatisfied &&
+    // isChainTypeSatisfied &&
     contractCallQuoteEnabled;
 
   // Some values should be strictly typed and isEnabled ensures that
@@ -103,7 +102,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
     fromChainId as number,
     fromToken?.address as string,
     fromTokenAmount,
-    toAddress,
+    toWalletAddress,
     toChainId as number,
     toToken?.address as string,
     toTokenAmount,
@@ -150,7 +149,6 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
         ],
         signal,
       }) => {
-        const toWalletAddress = toAddress || fromAddress;
         const fromAmount = parseUnits(
           fromTokenAmount,
           fromToken!.decimals,
@@ -198,7 +196,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
                 : undefined,
               allowBridges: allowedBridges,
               allowExchanges: allowedExchanges,
-              toFallbackAddress: toWalletAddress,
+              toFallbackAddress: toAddress,
               slippage: formattedSlippage,
             },
             { signal },
@@ -235,7 +233,9 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
             toAmount: toTokenAmount,
             toAmountMin: toTokenAmount,
             toToken: toToken!,
-            toAddress: toWalletAddress,
+            toAddress:
+              contractCallQuote.action.toAddress ||
+              contractCallQuote.action.fromAddress,
             gasCostUSD: contractCallQuote.estimate.gasCosts?.[0].amountUSD,
             steps: [contractCallQuote],
             insurance: { state: 'NOT_INSURABLE', feeAmountUsd: '0' },
@@ -250,7 +250,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
             fromAmount,
             fromChainId,
             fromTokenAddress,
-            toAddress: toWalletAddress,
+            toAddress,
             toChainId,
             toTokenAddress,
             fromAmountForGas:
@@ -333,5 +333,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
     dataUpdatedAt,
     refetchTime,
     refetch,
+    fromChain,
+    toChain,
   };
 };

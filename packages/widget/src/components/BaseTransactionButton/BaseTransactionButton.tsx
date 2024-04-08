@@ -45,7 +45,7 @@ export const BaseTransactionButton: React.FC<BaseTransactionButtonProps> = ({
       variant="contained"
       color="primary"
       onClick={handleClick}
-      disabled={disabled}
+      disabled={account.isConnected && disabled}
       loading={loading}
       loadingPosition="center"
       fullWidth
