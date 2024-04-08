@@ -6,6 +6,7 @@ import {
   alpha,
   buttonClasses,
   styled,
+  tabsClasses,
 } from '@mui/material';
 import type { WidgetSubvariant } from '../../types/widget.js';
 import { getContrastAlphaColor } from '../../utils/colors.js';
@@ -89,6 +90,12 @@ export const SplitTabs = styled(Tabs)(({ theme }) => ({
     theme.palette.mode === 'light'
       ? alpha(theme.palette.common.black, 0.04)
       : theme.palette.background.paper,
+  [`.${tabsClasses.indicator}`]: {
+    backgroundColor:
+      theme.palette.mode === 'light'
+        ? theme.palette.background.paper
+        : theme.palette.common.black,
+  },
 }));
 
 export const WalletAvatar = styled(Avatar)(({ theme }) => ({
