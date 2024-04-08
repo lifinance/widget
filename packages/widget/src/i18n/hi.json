@@ -78,6 +78,7 @@
       "emptyTokenList": "",
       "emptyTransactionHistory": "",
       "fundsToExchange": "",
+      "toAddressIsRequired": "",
       "routeNotFound": ""
     },
     "title": {
