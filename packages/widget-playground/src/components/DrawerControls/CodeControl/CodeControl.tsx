@@ -5,6 +5,7 @@ import {
   CRALogo,
   GatsbyLogo,
   NextLogo,
+  NuxtLogo,
   RainbowKitLogo,
   RemixLogo,
   SvelteLogo,
@@ -72,6 +73,12 @@ export const CodeControl = () => {
             icon={<NextLogo />}
           >
             Next.js
+          </ProjectButton>
+          <ProjectButton
+            href="https://github.com/lifinance/widget/tree/main/examples/nuxt"
+            icon={<NuxtLogo />}
+          >
+            Nuxt
           </ProjectButton>
           <ProjectButton
             href="https://github.com/lifinance/widget/tree/main/examples/remix"
