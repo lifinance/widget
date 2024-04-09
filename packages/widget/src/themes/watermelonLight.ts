@@ -1,6 +1,4 @@
 import type { WidgetTheme } from '../types/widget.js';
-import { alpha } from '@mui/material';
-import { palette } from '@lifi/widget';
 
 export const watermelonLightTheme: WidgetTheme = {
   palette: {
