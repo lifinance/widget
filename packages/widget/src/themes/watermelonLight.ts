@@ -1,4 +1,6 @@
 import type { WidgetTheme } from '../types/widget.js';
+import { alpha } from '@mui/material';
+import { palette } from '@lifi/widget';
 
 export const watermelonLightTheme: WidgetTheme = {
   palette: {
@@ -45,12 +47,7 @@ export const watermelonLightTheme: WidgetTheme = {
     // MuiIconButton: {
     //   styleOverrides: {
     //     root: ({ theme }) => ({
-    //       backgroundColor: alpha(
-    //         theme.palette.mode === 'light'
-    //           ? theme.palette.common.black
-    //           : theme.palette.common.white,
-    //         0.04,
-    //       ),
+    //       backgroundColor: alpha(theme.palette.common.white, 0.04),
     //       color: 'inherit',
     //       borderRadius: theme.shape.borderRadiusSecondary,
     //       '&:hover': {
@@ -66,4 +63,4 @@ export const watermelonLightTheme: WidgetTheme = {
     //   },
     // },
   },
-};
+} as WidgetTheme;
