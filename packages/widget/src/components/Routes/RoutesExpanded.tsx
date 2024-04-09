@@ -91,11 +91,11 @@ export const RoutesExpandedElement = () => {
   };
 
   // We cache routes results in ref for a better exit animation
-  if (routesRef.current && !routes?.length) {
+  if (routesRef.current && !routes) {
     routesActiveRef.current = false;
   } else {
     routesRef.current = routes;
-    routesActiveRef.current = Boolean(routes?.length);
+    routesActiveRef.current = Boolean(routes);
   }
 
   const currentRoute = routesRef.current?.[0];
