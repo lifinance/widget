@@ -14,16 +14,10 @@ export const themeItems: ThemeItem[] = [
     },
   },
   {
-    id: 'watermelon',
-    name: 'Watermelon',
+    id: 'watermelonLight',
+    name: 'Watermelon Light',
     theme: {
       light: watermelonLightTheme,
-      dark: {
-        ...watermelonLightTheme,
-        playground: {
-          background: '#A80027',
-        },
-      },
     },
   },
   {
