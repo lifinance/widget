@@ -72,6 +72,7 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
       onClick?.();
     },
     [
+      chainOrderStore,
       emitter,
       formType,
       getFieldValues,
