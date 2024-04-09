@@ -1,4 +1,4 @@
-import type { FunctionReference, ObjectWithFunctions } from './types';
+import type { FunctionReference, ObjectWithFunctions } from '../../../types';
 
 export function rehydrateFunctions(
   obj: ObjectWithFunctions,

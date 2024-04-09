@@ -8,10 +8,13 @@ import type {
 } from '@lifi/widget';
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
 import type { StoreApi } from 'zustand';
+import type { ThemeItem } from '../editTools/types';
 
 export interface WidgetConfigValues {
   defaultConfig?: Partial<WidgetConfig>;
   config?: Partial<WidgetConfig>;
+  themeId: string;
+  widgetThemeItems: ThemeItem[];
 }
 
 export interface WidgetConfigActions {
@@ -28,7 +31,10 @@ export interface WidgetConfigActions {
   setColor: (path: string, color: string) => void;
   setFontFamily: (fontName: string) => void;
   setWalletConfig: (walletConfig?: WidgetWalletConfig) => void;
-  setConfigTheme: (theme: WidgetTheme) => void;
+  setConfigTheme: (theme: WidgetTheme, themeId: string) => void;
+  setAvailableThemes: (themeItems: ThemeItem[]) => void;
+  getCurrentThemePreset: (useDarkMode?: boolean) => WidgetTheme | undefined;
+  getCurrentConfigTheme: () => WidgetTheme | undefined;
 }
 
 export type WidgetConfigState = WidgetConfigValues & WidgetConfigActions;

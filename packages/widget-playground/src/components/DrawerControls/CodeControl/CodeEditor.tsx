@@ -3,7 +3,6 @@ import { Tooltip, useTheme } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import type { BeforeMount, OnMount } from '@monaco-editor/react';
 import Editor from '@monaco-editor/react';
-import type { WidgetConfig } from '@lifi/widget';
 import { useThemeMode } from '../../../hooks';
 import { tooltipPopperZIndex } from '../DrawerControls.style';
 import {
@@ -13,37 +12,11 @@ import {
   EditorSkeleton,
 } from './CodeControl.style';
 import { useConfig, getConfigOutput } from '../../../store';
-import { getValueFromPath } from '../../../utils';
+import { stringifyConfig } from './utils/stringifyConfig';
 
 interface MonacoEditor {
   layout: (dimensions: { width: number; height: number }) => void;
 }
-
-const configTemplate = (config?: string) =>
-  config ? `const config = ${config}` : undefined;
-
-const substitions = {
-  walletConfig: {
-    '"walletConfig": {}': '"walletConfig": { async onConnect() {} }',
-  },
-};
-const configToStringWithSubstitions = (
-  config?: Partial<WidgetConfig>,
-): string | undefined => {
-  if (!config) {
-    return undefined;
-  }
-  let stringifiedConfig = JSON.stringify(config, null, 2);
-
-  Object.entries(substitions).forEach(([property, substition]) => {
-    if (getValueFromPath(config, property)) {
-      const [[find, replace]] = Object.entries(substition);
-      stringifiedConfig = stringifiedConfig.replace(find, replace);
-    }
-  });
-
-  return stringifiedConfig.replace(/"([^"]+)":/g, '$1:');
-};
 
 interface CodeEditorProps {
   onChange?: (code: string | undefined) => void;
@@ -57,9 +30,7 @@ export const CodeEditor = ({ onChange }: CodeEditorProps) => {
   const theme = useTheme();
   const themeMode = useThemeMode();
 
-  const code = config
-    ? configTemplate(configToStringWithSubstitions(getConfigOutput(config)))
-    : undefined;
+  const code = config ? stringifyConfig(getConfigOutput(config)) : undefined;
 
   const handleEditorWillMount: BeforeMount = (monaco) => {
     monaco.editor.defineTheme('lifi-monaco-dark', {
