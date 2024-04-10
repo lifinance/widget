@@ -15,7 +15,10 @@ import { useRouteExecution } from '../../hooks/useRouteExecution.js';
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { useFieldActions } from '../../stores/form/useFieldActions.js';
-import { useHeaderStoreContext } from '../../stores/header/useHeaderStore.js';
+import {
+  useHeaderStoreContext,
+  useHeaderTitle,
+} from '../../stores/header/useHeaderStore.js';
 import { RouteExecutionStatus } from '../../stores/routes/types.js';
 import { WidgetEvent } from '../../types/events.js';
 import { formatTokenAmount } from '../../utils/format.js';
@@ -46,6 +49,10 @@ export const TransactionPage: React.FC = () => {
 
   const tokenValueBottomSheetRef = useRef<BottomSheetBase>(null);
   const exchangeRateBottomSheetRef = useRef<ExchangeRateBottomSheetBase>(null);
+
+  const title =
+    subvariant === 'custom' ? t(`header.purchase`) : t(`header.exchange`);
+  useHeaderTitle({ title });
 
   const onAcceptExchangeRateUpdate = (
     resolver: (value: boolean) => void,

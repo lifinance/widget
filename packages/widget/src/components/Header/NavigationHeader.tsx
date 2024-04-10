@@ -1,5 +1,4 @@
 import { Box, Typography } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { useAccount } from '../../hooks/useAccount.js';
 import { useNavigateBack } from '../../hooks/useNavigateBack.js';
@@ -20,7 +19,6 @@ import { TransactionHistoryButton } from './TransactionHistoryButton.js';
 import { SplitWalletMenuButton } from './WalletHeader.js';
 
 export const NavigationHeader: React.FC = () => {
-  const { t } = useTranslation();
   const { subvariant, hiddenUI, variant } = useWidgetConfig();
   const { navigateBack } = useNavigateBack();
   const { account } = useAccount();
@@ -34,70 +32,6 @@ export const NavigationHeader: React.FC = () => {
   const hasPath = navigationRoutesValues.includes(path);
 
   const splitSubvariant = subvariant === 'split' && !hasPath;
-
-  const handleHeaderTitle = () => {
-    switch (path) {
-      case navigationRoutes.selectWallet:
-        return t(`header.selectWallet`);
-      case navigationRoutes.settings:
-        return t(`header.settings`);
-      case navigationRoutes.bridges:
-        return t(`settings.enabledBridges`);
-      case navigationRoutes.exchanges:
-        return t(`settings.enabledExchanges`);
-      case navigationRoutes.sendToWallet:
-      case navigationRoutes.configuredWallets:
-        return t(`header.sendToWallet`);
-      case navigationRoutes.bookmarks:
-        return t(`header.bookmarkedWallets`);
-      case navigationRoutes.recentWallets:
-        return t(`header.recentWallets`);
-      case navigationRoutes.connectedWallets:
-        return t(`sendToWallet.connectedWallets`);
-      case navigationRoutes.languages:
-        return t(`language.title`);
-      case navigationRoutes.transactionHistory:
-        return t(`header.transactionHistory`);
-      case navigationRoutes.fromToken: {
-        if (subvariant === 'custom') {
-          return t(`header.payWith`);
-        }
-        return t(`header.from`);
-      }
-      case navigationRoutes.toToken:
-        return t(`header.to`);
-      case navigationRoutes.fromChain:
-      case navigationRoutes.toChain:
-      case navigationRoutes.toTokenNative:
-        return t(`header.selectChain`);
-      case navigationRoutes.routes:
-        return t(`header.youGet`);
-      case navigationRoutes.activeTransactions:
-        return t(`header.activeTransactions`);
-      case navigationRoutes.transactionExecution: {
-        if (subvariant === 'custom') {
-          return t(`header.purchase`);
-        }
-        return t(`header.exchange`);
-      }
-      case navigationRoutes.transactionDetails: {
-        if (subvariant === 'custom') {
-          return t(`header.purchaseDetails`);
-        }
-        return t(`header.transactionDetails`);
-      }
-      default: {
-        switch (subvariant) {
-          case 'custom':
-            return t(`header.checkout`);
-          case 'refuel':
-            return t(`header.gas`);
-          default:
-            return t(`header.exchange`);
-        }
-      }
-    }
-  };
 
   return (
     <>
@@ -117,7 +51,7 @@ export const NavigationHeader: React.FC = () => {
             flex={1}
             noWrap
           >
-            {title || handleHeaderTitle()}
+            {title}
           </Typography>
         )}
         <Routes>

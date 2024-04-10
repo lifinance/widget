@@ -15,7 +15,10 @@ import { useTranslation } from 'react-i18next';
 import { ActiveTransactionItem } from '../../components/ActiveTransactions/ActiveTransactionItem.js';
 import { Dialog } from '../../components/Dialog.js';
 import { PageContainer } from '../../components/PageContainer.js';
-import { useHeaderStoreContext } from '../../stores/header/useHeaderStore.js';
+import {
+  useHeaderStoreContext,
+  useHeaderTitle,
+} from '../../stores/header/useHeaderStore.js';
 import { useRouteExecutionStore } from '../../stores/routes/RouteExecutionStore.js';
 import { useExecutingRoutesIds } from '../../stores/routes/useExecutingRoutesIds.js';
 import { ActiveTransactionsEmpty } from './ActiveTransactionsEmpty.js';
@@ -40,6 +43,8 @@ export const ActiveTransactionsPage = () => {
   const deleteRoutes = useRouteExecutionStore((store) => store.deleteRoutes);
   const headerStoreContext = useHeaderStoreContext();
   const [open, setOpen] = useState(false);
+
+  useHeaderTitle({ title: t(`header.activeTransactions`) });
 
   const toggleDialog = useCallback(() => {
     setOpen((open) => !open);

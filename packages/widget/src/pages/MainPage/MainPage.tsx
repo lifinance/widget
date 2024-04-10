@@ -11,15 +11,26 @@ import { SendToWalletButton } from '../../components/SendToWallet/SendToWalletBu
 import { SendToWalletExpandButton } from '../../components/SendToWallet/SendToWalletExpandButton.js';
 import { useWideVariant } from '../../hooks/useWideVariant.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useHeaderTitle } from '../../stores/header/useHeaderStore.js';
 import { HiddenUI } from '../../types/widget.js';
 import { MainMessages } from './MainMessages.js';
 import { ReviewButton } from './ReviewButton.js';
+import { useTranslation } from 'react-i18next';
 
 export const MainPage: React.FC = () => {
+  const { t } = useTranslation();
   const wideVariant = useWideVariant();
   const { subvariant, contractComponent, hiddenUI } = useWidgetConfig();
   const custom = subvariant === 'custom';
   const showPoweredBy = !hiddenUI?.includes(HiddenUI.PoweredBy);
+
+  const title =
+    subvariant === 'custom'
+      ? t(`header.checkout`)
+      : subvariant === 'refuel'
+        ? t(`header.gas`)
+        : t(`header.exchange`);
+  useHeaderTitle({ title });
 
   return (
     <PageContainer>

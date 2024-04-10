@@ -19,6 +19,7 @@ import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js
 import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js';
 import { useFieldActions } from '../../stores/form/useFieldActions.js';
 import { useFieldValues } from '../../stores/form/useFieldValues.js';
+import { useHeaderTitle } from '../../stores/header/useHeaderStore.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { BookmarkAddressSheet } from './BookmarkAddressSheet.js';
 import { ConfirmAddressSheet } from './ConfirmAddressSheet.js';
@@ -58,6 +59,8 @@ export const SendToWalletPage = () => {
   const { chain: toChain } = useChain(toChainId);
   const [isDoneButtonLoading, setIsDoneButtonLoading] = useState(false);
   const [isBookmarkButtonLoading, setIsBookmarkButtonLoading] = useState(false);
+
+  useHeaderTitle({ title: t(`header.sendToWallet`) });
 
   const handleInputChange = (e: ChangeEvent) => {
     if (errorMessage) {

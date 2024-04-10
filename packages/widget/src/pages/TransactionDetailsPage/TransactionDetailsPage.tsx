@@ -21,6 +21,7 @@ import { formatTokenAmount } from '../../utils/format.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { ContactSupportButton } from './ContactSupportButton.js';
 import { TransactionDetailsSkeleton } from './TransactionDetailsSkeleton.js';
+import { useHeaderTitle } from '../../stores/header/useHeaderStore.js';
 
 export const TransactionDetailsPage: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -35,6 +36,12 @@ export const TransactionDetailsPage: React.FC = () => {
   const { transaction, isLoading } = useTransactionDetails(
     state?.transactionHash,
   );
+
+  const title =
+    subvariant === 'custom'
+      ? t(`header.purchaseDetails`)
+      : t(`header.transactionDetails`);
+  useHeaderTitle({ title });
 
   const routeExecution = useMemo(() => {
     if (storedRouteExecution) {

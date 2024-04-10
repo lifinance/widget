@@ -20,7 +20,10 @@ import { ListItemText } from '../components/ListItemText.js';
 import { PageContainer } from '../components/PageContainer.js';
 import { SettingsListItemButton } from '../components/SettingsListItemButton.js';
 import { useTools } from '../hooks/useTools.js';
-import { useHeaderStoreContext } from '../stores/header/useHeaderStore.js';
+import {
+  useHeaderStoreContext,
+  useHeaderTitle,
+} from '../stores/header/useHeaderStore.js';
 import { useSettingsStore } from '../stores/settings/useSettingsStore.js';
 
 interface SelectAllCheckboxProps {
@@ -75,6 +78,9 @@ export const SelectEnabledToolsPage: React.FC<{
       shallow,
     );
   const headerStoreContext = useHeaderStoreContext();
+  const { t } = useTranslation();
+
+  useHeaderTitle({ title: t(`settings.enabled${type}`) });
 
   const handleClick = (key: string) => {
     setToolValue(type, key, !enabledTools[key]);

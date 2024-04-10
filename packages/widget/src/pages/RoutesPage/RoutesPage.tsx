@@ -11,10 +11,14 @@ import { useNavigateBack } from '../../hooks/useNavigateBack.js';
 import { useRoutes } from '../../hooks/useRoutes.js';
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
 import { useFieldValues } from '../../stores/form/useFieldValues.js';
-import { useHeaderStoreContext } from '../../stores/header/useHeaderStore.js';
+import {
+  useHeaderStoreContext,
+  useHeaderTitle,
+} from '../../stores/header/useHeaderStore.js';
 import { useSetExecutableRoute } from '../../stores/routes/useSetExecutableRoute.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { Stack } from './RoutesPage.style.js';
+import { useTranslation } from 'react-i18next';
 
 export const RoutesPage: React.FC<BoxProps> = () => {
   const { navigate } = useNavigateBack();
@@ -32,6 +36,9 @@ export const RoutesPage: React.FC<BoxProps> = () => {
   const { account } = useAccount({ chainType: fromChain?.chainType });
   const [toAddress] = useFieldValues('toAddress');
   const { requiredToAddress } = useToAddressRequirements();
+
+  const { t } = useTranslation();
+  useHeaderTitle({ title: t(`header.youGet`) });
 
   const handleRouteClick = (route: Route) => {
     setExecutableRoute(route);

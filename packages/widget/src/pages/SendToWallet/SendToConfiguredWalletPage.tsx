@@ -16,6 +16,7 @@ import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.j
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
 import { useFieldActions } from '../../stores/form/useFieldActions.js';
+import { useHeaderTitle } from '../../stores/header/useHeaderStore.js';
 import type { ToAddress } from '../../types/widget.js';
 import { defaultChainIdsByType } from '../../utils/chainType.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
@@ -38,6 +39,8 @@ export const SendToConfiguredWalletPage = () => {
   const moreMenuId = useId();
   const [moreMenuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>();
   const open = Boolean(moreMenuAnchorEl);
+
+  useHeaderTitle({ title: t(`header.sendToWallet`) });
 
   const handleCuratedSelected = (toAddress: ToAddress) => {
     setSelectedBookmark(toAddress);

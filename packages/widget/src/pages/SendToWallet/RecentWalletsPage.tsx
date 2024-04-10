@@ -22,6 +22,7 @@ import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js
 import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js';
 import { useFieldActions } from '../../stores/form/useFieldActions.js';
 import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js';
+import { useHeaderTitle } from '../../stores/header/useHeaderStore.js';
 import { defaultChainIdsByType } from '../../utils/chainType.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { shortenAddress } from '../../utils/wallet.js';
@@ -52,6 +53,8 @@ export const RecentWalletsPage = () => {
   const moreMenuId = useId();
   const [moreMenuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>();
   const open = Boolean(moreMenuAnchorEl);
+
+  useHeaderTitle({ title: t(`header.recentWallets`) });
 
   const handleRecentSelected = (recentWallet: Bookmark) => {
     addRecentWallet(recentWallet);
