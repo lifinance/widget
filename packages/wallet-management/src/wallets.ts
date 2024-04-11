@@ -45,7 +45,7 @@ const walletConnect: Wallet = new WalletConnectConnector({
     showQrModal: true,
     qrModalOptions: {
       themeVariables: {
-        '--w3m-z-index': '3000',
+        '--wcm-z-index': '3000',
       },
     },
   },
