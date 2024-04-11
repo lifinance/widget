@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 
 export const SettingsPage = () => {
   const { t } = useTranslation();
-  useHeaderTitle({ title: t(`header.settings`) });
+  useHeaderTitle(t(`header.settings`));
 
   return (
     <PageContainer bottomGutters>

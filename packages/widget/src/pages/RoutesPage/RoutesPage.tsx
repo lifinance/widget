@@ -38,7 +38,7 @@ export const RoutesPage: React.FC<BoxProps> = () => {
   const { requiredToAddress } = useToAddressRequirements();
 
   const { t } = useTranslation();
-  useHeaderTitle({ title: t(`header.youGet`) });
+  useHeaderTitle(t(`header.youGet`));
 
   const handleRouteClick = (route: Route) => {
     setExecutableRoute(route);

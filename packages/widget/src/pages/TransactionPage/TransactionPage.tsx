@@ -52,7 +52,7 @@ export const TransactionPage: React.FC = () => {
 
   const title =
     subvariant === 'custom' ? t(`header.purchase`) : t(`header.exchange`);
-  useHeaderTitle({ title });
+  useHeaderTitle(title);
 
   const onAcceptExchangeRateUpdate = (
     resolver: (value: boolean) => void,

@@ -19,7 +19,7 @@ export const SelectChainPage: React.FC<SelectChainPageProps> = ({
   const selectToken = useTokenSelect(formType, navigateBack);
 
   const { t } = useTranslation();
-  useHeaderTitle({ title: t('header.selectChain') });
+  useHeaderTitle(t('header.selectChain'));
 
   const handleClick = async (chain: ExtendedChain) => {
     if (selectNativeToken) {

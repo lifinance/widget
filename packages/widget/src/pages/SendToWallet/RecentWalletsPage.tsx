@@ -54,7 +54,7 @@ export const RecentWalletsPage = () => {
   const [moreMenuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>();
   const open = Boolean(moreMenuAnchorEl);
 
-  useHeaderTitle({ title: t(`header.recentWallets`) });
+  useHeaderTitle(t(`header.recentWallets`));
 
   const handleRecentSelected = (recentWallet: Bookmark) => {
     addRecentWallet(recentWallet);

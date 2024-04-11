@@ -40,7 +40,7 @@ export const SendToConfiguredWalletPage = () => {
   const [moreMenuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>();
   const open = Boolean(moreMenuAnchorEl);
 
-  useHeaderTitle({ title: t(`header.sendToWallet`) });
+  useHeaderTitle(t(`header.sendToWallet`));
 
   const handleCuratedSelected = (toAddress: ToAddress) => {
     setSelectedBookmark(toAddress);

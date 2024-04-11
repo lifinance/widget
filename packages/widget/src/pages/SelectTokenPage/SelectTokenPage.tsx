@@ -33,7 +33,7 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
         : t(`header.from`)
       : t(`header.to`);
 
-  useHeaderTitle({ title });
+  useHeaderTitle(title);
 
   useLayoutEffect(() => {
     setTokenListHeight(

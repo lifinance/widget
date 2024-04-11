@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useRef, useMemo } from 'react';
+import { createContext, useContext, useEffect, useRef } from 'react';
 import { createWithEqualityFn } from 'zustand/traditional';
 import type { PersistStoreProps, PersistStoreProviderProps } from '../types.js';
 import type { HeaderState, HeaderStore } from './types.js';
@@ -35,19 +35,15 @@ export function useHeaderStore<T>(selector: (state: HeaderState) => T): T {
   return useStore(selector);
 }
 
-interface UseHeaderTitleProps {
-  title: string;
-}
-export function useHeaderTitle({ title }: UseHeaderTitleProps) {
-  const headerTitle = useMemo(() => title, [title]);
+export function useHeaderTitle(title: string) {
   const { setTitle, removeTitle } = useHeaderStore((state) => state);
 
   useEffect(() => {
-    setTitle(headerTitle);
+    setTitle(title);
     return () => {
       removeTitle();
     };
-  }, [setTitle, removeTitle, headerTitle]);
+  }, [setTitle, removeTitle, title]);
 }
 
 export const createHeaderStore = ({ namePrefix }: PersistStoreProps) =>

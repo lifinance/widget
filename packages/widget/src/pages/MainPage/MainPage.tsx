@@ -30,7 +30,7 @@ export const MainPage: React.FC = () => {
       : subvariant === 'refuel'
         ? t(`header.gas`)
         : t(`header.exchange`);
-  useHeaderTitle({ title });
+  useHeaderTitle(title);
 
   return (
     <PageContainer>

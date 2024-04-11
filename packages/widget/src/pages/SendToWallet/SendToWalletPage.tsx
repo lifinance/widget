@@ -60,7 +60,7 @@ export const SendToWalletPage = () => {
   const [isDoneButtonLoading, setIsDoneButtonLoading] = useState(false);
   const [isBookmarkButtonLoading, setIsBookmarkButtonLoading] = useState(false);
 
-  useHeaderTitle({ title: t(`header.sendToWallet`) });
+  useHeaderTitle(t(`header.sendToWallet`));
 
   const handleInputChange = (e: ChangeEvent) => {
     if (errorMessage) {

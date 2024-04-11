@@ -17,7 +17,7 @@ export const TransactionHistoryPage: React.FC = () => {
   const { data: transactions, isLoading } = useTransactionHistory();
 
   const { t } = useTranslation();
-  useHeaderTitle({ title: t(`header.transactionHistory`) });
+  useHeaderTitle(t(`header.transactionHistory`));
 
   const { getVirtualItems, getTotalSize } = useVirtualizer({
     count: transactions.length,

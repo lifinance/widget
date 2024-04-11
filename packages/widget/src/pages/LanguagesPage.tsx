@@ -12,7 +12,7 @@ export const LanguagesPage: React.FC = () => {
   const { selectedLanguageCode, availableLanguages, setLanguageWithCode } =
     useLanguages();
 
-  useHeaderTitle({ title: t(`language.title`) });
+  useHeaderTitle(t(`language.title`));
 
   if (availableLanguages.length < 1) {
     return null;

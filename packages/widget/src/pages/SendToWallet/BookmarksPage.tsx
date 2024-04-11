@@ -47,7 +47,7 @@ export const BookmarksPage = () => {
   const { setFieldValue } = useFieldActions();
   const { setSendToWallet } = useSendToWalletActions();
 
-  useHeaderTitle({ title: t(`header.bookmarkedWallets`) });
+  useHeaderTitle(t(`header.bookmarkedWallets`));
 
   const handleAddBookmark = () => {
     bookmarkAddressSheetRef.current?.open();

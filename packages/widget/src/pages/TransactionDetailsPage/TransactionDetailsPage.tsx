@@ -41,7 +41,7 @@ export const TransactionDetailsPage: React.FC = () => {
     subvariant === 'custom'
       ? t(`header.purchaseDetails`)
       : t(`header.transactionDetails`);
-  useHeaderTitle({ title });
+  useHeaderTitle(title);
 
   const routeExecution = useMemo(() => {
     if (storedRouteExecution) {

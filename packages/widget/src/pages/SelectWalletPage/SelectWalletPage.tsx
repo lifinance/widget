@@ -36,7 +36,7 @@ export const SelectWalletPage = () => {
   }>({ show: false });
   const { wallets: solanaWallets } = useWallet();
 
-  useHeaderTitle({ title: t(`header.selectWallet`) });
+  useHeaderTitle(t(`header.selectWallet`));
 
   const isDesktopView = useMediaQuery((theme: Theme) =>
     theme.breakpoints.up('sm'),

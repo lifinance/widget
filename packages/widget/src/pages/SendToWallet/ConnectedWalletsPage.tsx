@@ -43,7 +43,7 @@ export const ConnectedWalletsPage = () => {
   const moreMenuId = useId();
   const open = Boolean(moreMenuAnchorEl);
 
-  useHeaderTitle({ title: t('sendToWallet.connectedWallets') });
+  useHeaderTitle(t('sendToWallet.connectedWallets'));
   const handleWalletSelected = (account: Account) => {
     setFieldValue('toAddress', account.address!, {
       isTouched: true,

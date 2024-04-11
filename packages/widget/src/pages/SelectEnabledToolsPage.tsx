@@ -80,7 +80,7 @@ export const SelectEnabledToolsPage: React.FC<{
   const headerStoreContext = useHeaderStoreContext();
   const { t } = useTranslation();
 
-  useHeaderTitle({ title: t(`settings.enabled${type}`) });
+  useHeaderTitle(t(`settings.enabled${type}`));
 
   const handleClick = (key: string) => {
     setToolValue(type, key, !enabledTools[key]);

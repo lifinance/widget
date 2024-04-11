@@ -44,7 +44,7 @@ export const ActiveTransactionsPage = () => {
   const headerStoreContext = useHeaderStoreContext();
   const [open, setOpen] = useState(false);
 
-  useHeaderTitle({ title: t(`header.activeTransactions`) });
+  useHeaderTitle(t(`header.activeTransactions`));
 
   const toggleDialog = useCallback(() => {
     setOpen((open) => !open);
