@@ -1,7 +1,7 @@
 import {
   Box,
-  InputBase,
   FormControl as MuiFormControl,
+  InputBase,
   inputBaseClasses,
   styled,
 } from '@mui/material';

@@ -4,13 +4,15 @@ import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstruct
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import TabContext from '@mui/lab/TabContext';
 import { Box, IconButton, Tooltip } from '@mui/material';
+import { useFontInitialisation } from '../../providers';
 import {
   useConfigActions,
-  useEditToolsActions,
   useDrawerToolValues,
+  useEditToolsActions,
 } from '../../store';
 import { ExpandableCardAccordion } from '../Card';
 import { Tab, Tabs } from '../Tabs';
+import { CodeControl } from './CodeControl';
 import {
   AppearanceControl,
   ButtonRadiusControl,
@@ -32,9 +34,7 @@ import {
   tooltipPopperZIndex,
   WidgetConfigControls,
 } from './DrawerControls.style';
-import { CodeControl } from './CodeControl';
 import { DrawerHandle } from './DrawerHandle';
-import { useFontInitialisation } from '../../providers';
 
 export const DrawerControls = () => {
   const { isDrawerOpen, drawerWidth, visibleControls } = useDrawerToolValues();

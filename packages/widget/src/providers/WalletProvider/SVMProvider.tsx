@@ -1,6 +1,6 @@
 import { ChainType } from '@lifi/sdk';
 import { ConnectionContext } from '@solana/wallet-adapter-react';
-import { useContext, type FC, type PropsWithChildren } from 'react';
+import { type FC, type PropsWithChildren, useContext } from 'react';
 import { isItemAllowed } from '../../utils/item.js';
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js';
 import { SVMBaseProvider } from './SVMBaseProvider.js';

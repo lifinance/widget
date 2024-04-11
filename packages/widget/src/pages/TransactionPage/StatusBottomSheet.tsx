@@ -19,8 +19,8 @@ import { useTokenBalance } from '../../hooks/useTokenBalance.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { useFieldActions } from '../../stores/form/useFieldActions.js';
 import {
-  RouteExecutionStatus,
   type RouteExecution,
+  RouteExecutionStatus,
 } from '../../stores/routes/types.js';
 import { getSourceTxHash } from '../../stores/routes/utils.js';
 import { hasEnumFlag } from '../../utils/enum.js';

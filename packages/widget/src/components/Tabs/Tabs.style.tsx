@@ -1,10 +1,10 @@
 import type { TabProps } from '@mui/material';
 import {
-  Tab as MuiTab,
-  Tabs as MuiTabs,
   alpha,
   styled,
+  Tab as MuiTab,
   tabClasses,
+  Tabs as MuiTabs,
   tabsClasses,
 } from '@mui/material';
 import { getCardFieldsetBackgroundColor } from '../../utils/colors.js';

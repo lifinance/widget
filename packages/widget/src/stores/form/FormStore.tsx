@@ -2,9 +2,9 @@ import type { PropsWithChildren } from 'react';
 import { useMemo, useRef } from 'react';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { HiddenUI } from '../../types/widget.js';
+import { createFormStore, formDefaultValues } from './createFormStore.js';
 import { FormStoreContext } from './FormStoreContext.js';
 import { FormUpdater } from './FormUpdater.js';
-import { createFormStore, formDefaultValues } from './createFormStore.js';
 import type { FormStoreStore } from './types.js';
 
 export const FormStoreProvider: React.FC<PropsWithChildren> = ({

@@ -1,12 +1,12 @@
 import {
+  alpha,
   Box,
   StepConnector as MuiStepConnector,
-  StepLabel as MuiStepLabel,
-  Typography,
-  alpha,
   stepConnectorClasses,
+  StepLabel as MuiStepLabel,
   stepLabelClasses,
   styled,
+  Typography,
 } from '@mui/material';
 import { AvatarMasked } from '../Avatar/Avatar.style.js';
 

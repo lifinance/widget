@@ -13,7 +13,15 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
+  "plugins": ["simple-import-sort"],
   "rules": {
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [["^\\u0000", "^@?\\w", "^[^.]", "^\\."]]
+      }
+    ],
+    "simple-import-sort/exports": "error",
     "@typescript-eslint/consistent-type-imports": "warn",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-shadow": "off",

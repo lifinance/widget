@@ -1,3 +1,4 @@
+import './index.css';
 import { LiFiWidget } from '@lifi/widget';
 import { Box, CssBaseline } from '@mui/material';
 import type { NFTNetwork } from './components/NFTOpenSea';
@@ -7,7 +8,6 @@ import {
   openSeaContractTool,
 } from './components/NFTOpenSea';
 import { widgetConfig } from './config';
-import './index.css';
 
 export const App = () => {
   const pathnameParams = window.location.pathname.substring(1).split('/');

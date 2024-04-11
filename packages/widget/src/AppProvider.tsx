@@ -7,11 +7,11 @@ import { I18nProvider } from './providers/I18nProvider/I18nProvider.js';
 import { ThemeProvider } from './providers/ThemeProvider/ThemeProvider.js';
 import { WalletProvider } from './providers/WalletProvider/WalletProvider.js';
 import {
-  WidgetProvider,
   useWidgetConfig,
+  WidgetProvider,
 } from './providers/WidgetProvider/WidgetProvider.js';
-import { StoreProvider } from './stores/StoreProvider.js';
 import { URLSearchParamsBuilder } from './stores/form/URLSearchParamsBuilder.js';
+import { StoreProvider } from './stores/StoreProvider.js';
 import type { WidgetConfigProps } from './types/widget.js';
 
 export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
