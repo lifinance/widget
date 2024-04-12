@@ -1,7 +1,7 @@
 import { Check } from '@mui/icons-material';
 import { List } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useHeaderTitle } from '../stores/header/useHeaderStore.js';
+import { useHeader } from '../stores/header/useHeaderStore.js';
 import { ListItemText } from '../components/ListItemText.js';
 import { PageContainer } from '../components/PageContainer.js';
 import { SettingsListItemButton } from '../components/SettingsListItemButton.js';
@@ -12,7 +12,7 @@ export const LanguagesPage: React.FC = () => {
   const { selectedLanguageCode, availableLanguages, setLanguageWithCode } =
     useLanguages();
 
-  useHeaderTitle(t(`language.title`));
+  useHeader(t(`language.title`));
 
   if (availableLanguages.length < 1) {
     return null;

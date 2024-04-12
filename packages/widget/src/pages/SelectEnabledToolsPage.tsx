@@ -13,17 +13,14 @@ import {
   useTheme,
 } from '@mui/material';
 import type { MouseEventHandler } from 'react';
-import { useEffect } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { shallow } from 'zustand/shallow';
 import { ListItemText } from '../components/ListItemText.js';
 import { PageContainer } from '../components/PageContainer.js';
 import { SettingsListItemButton } from '../components/SettingsListItemButton.js';
 import { useTools } from '../hooks/useTools.js';
-import {
-  useHeaderStoreContext,
-  useHeaderTitle,
-} from '../stores/header/useHeaderStore.js';
+import { useHeader } from '../stores/header/useHeaderStore.js';
 import { useSettingsStore } from '../stores/settings/useSettingsStore.js';
 
 interface SelectAllCheckboxProps {
@@ -77,26 +74,25 @@ export const SelectEnabledToolsPage: React.FC<{
       ],
       shallow,
     );
-  const headerStoreContext = useHeaderStoreContext();
+
   const { t } = useTranslation();
 
-  useHeaderTitle(t(`settings.enabled${type}`));
+  const headerAction = useMemo(
+    () => (
+      <SelectAllCheckbox
+        allCheckboxesSelected={!disabledTools.length}
+        anyCheckboxesSelected={Boolean(disabledTools.length)}
+        onClick={() => toggleTools(type)}
+      />
+    ),
+    [disabledTools.length, toggleTools, type],
+  );
+
+  useHeader(t(`settings.enabled${type}`), headerAction);
 
   const handleClick = (key: string) => {
     setToolValue(type, key, !enabledTools[key]);
   };
-
-  useEffect(() => {
-    return headerStoreContext
-      .getState()
-      .setAction(
-        <SelectAllCheckbox
-          allCheckboxesSelected={!disabledTools.length}
-          anyCheckboxesSelected={Boolean(disabledTools.length)}
-          onClick={() => toggleTools(type)}
-        />,
-      );
-  }, [disabledTools.length, headerStoreContext, toggleTools, type]);
 
   return (
     <PageContainer disableGutters>

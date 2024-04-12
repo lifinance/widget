@@ -23,7 +23,7 @@ import { isItemAllowed } from '../../utils/item.js';
 import { EVMListItemButton } from './EVMListItemButton.js';
 import { SVMListItemButton } from './SVMListItemButton.js';
 import { walletComparator } from './utils.js';
-import { useHeaderTitle } from '../../stores/header/useHeaderStore.js';
+import { useHeader } from '../../stores/header/useHeaderStore.js';
 
 export const SelectWalletPage = () => {
   const { t } = useTranslation();
@@ -36,7 +36,7 @@ export const SelectWalletPage = () => {
   }>({ show: false });
   const { wallets: solanaWallets } = useWallet();
 
-  useHeaderTitle(t(`header.selectWallet`));
+  useHeader(t(`header.selectWallet`));
 
   const isDesktopView = useMediaQuery((theme: Theme) =>
     theme.breakpoints.up('sm'),

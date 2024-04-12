@@ -21,7 +21,7 @@ import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js
 import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js';
 import { useFieldActions } from '../../stores/form/useFieldActions.js';
 import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js';
-import { useHeaderTitle } from '../../stores/header/useHeaderStore.js';
+import { useHeader } from '../../stores/header/useHeaderStore.js';
 import { defaultChainIdsByType } from '../../utils/chainType.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { shortenAddress } from '../../utils/wallet.js';
@@ -47,7 +47,7 @@ export const BookmarksPage = () => {
   const { setFieldValue } = useFieldActions();
   const { setSendToWallet } = useSendToWalletActions();
 
-  useHeaderTitle(t(`header.bookmarkedWallets`));
+  useHeader(t(`header.bookmarkedWallets`));
 
   const handleAddBookmark = () => {
     bookmarkAddressSheetRef.current?.open();

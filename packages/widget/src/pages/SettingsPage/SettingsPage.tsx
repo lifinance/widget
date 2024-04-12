@@ -8,12 +8,12 @@ import { SettingsList } from './SettingsCard/SettingCard.style.js';
 import { SettingsCardAccordion } from './SettingsCard/SettingsAccordian.js';
 import { SlippageSettings } from './SlippageSettings/SlippageSettings.js';
 import { ThemeSettings } from './ThemeSettings.js';
-import { useHeaderTitle } from '../../stores/header/useHeaderStore.js';
+import { useHeader } from '../../stores/header/useHeaderStore.js';
 import { useTranslation } from 'react-i18next';
 
 export const SettingsPage = () => {
   const { t } = useTranslation();
-  useHeaderTitle(t(`header.settings`));
+  useHeader(t(`header.settings`));
 
   return (
     <PageContainer bottomGutters>

@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import type { FC } from 'react';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
-import { useHeaderTitle } from '../../stores/header/useHeaderStore.js';
+import { useHeader } from '../../stores/header/useHeaderStore.js';
 import { ChainSelect } from '../../components/ChainSelect/ChainSelect.js';
 import { PageContainer } from '../../components/PageContainer.js';
 import { TokenList } from '../../components/TokenList/TokenList.js';
@@ -33,7 +33,7 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
         : t(`header.from`)
       : t(`header.to`);
 
-  useHeaderTitle(title);
+  useHeader(title);
 
   useLayoutEffect(() => {
     setTokenListHeight(

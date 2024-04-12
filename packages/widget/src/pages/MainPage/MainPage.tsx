@@ -11,7 +11,7 @@ import { SendToWalletButton } from '../../components/SendToWallet/SendToWalletBu
 import { SendToWalletExpandButton } from '../../components/SendToWallet/SendToWalletExpandButton.js';
 import { useWideVariant } from '../../hooks/useWideVariant.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
-import { useHeaderTitle } from '../../stores/header/useHeaderStore.js';
+import { useHeader } from '../../stores/header/useHeaderStore.js';
 import { HiddenUI } from '../../types/widget.js';
 import { MainMessages } from './MainMessages.js';
 import { ReviewButton } from './ReviewButton.js';
@@ -30,7 +30,7 @@ export const MainPage: React.FC = () => {
       : subvariant === 'refuel'
         ? t(`header.gas`)
         : t(`header.exchange`);
-  useHeaderTitle(title);
+  useHeader(title);
 
   return (
     <PageContainer>

@@ -1,6 +1,6 @@
 import type { ExtendedChain } from '@lifi/sdk';
 import { Avatar, List, ListItemAvatar } from '@mui/material';
-import { useHeaderTitle } from '../../stores/header/useHeaderStore.js';
+import { useHeader } from '../../stores/header/useHeaderStore.js';
 import { useChainSelect } from '../../components/ChainSelect/useChainSelect.js';
 import { ListItemButton } from '../../components/ListItemButton.js';
 import { ListItemText } from '../../components/ListItemText.js';
@@ -19,7 +19,7 @@ export const SelectChainPage: React.FC<SelectChainPageProps> = ({
   const selectToken = useTokenSelect(formType, navigateBack);
 
   const { t } = useTranslation();
-  useHeaderTitle(t('header.selectChain'));
+  useHeader(t('header.selectChain'));
 
   const handleClick = async (chain: ExtendedChain) => {
     if (selectNativeToken) {

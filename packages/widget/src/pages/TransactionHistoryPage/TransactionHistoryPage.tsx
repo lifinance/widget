@@ -2,7 +2,7 @@ import type { FullStatusData } from '@lifi/sdk';
 import { List } from '@mui/material';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useRef } from 'react';
-import { useHeaderTitle } from '../../stores/header/useHeaderStore.js';
+import { useHeader } from '../../stores/header/useHeaderStore.js';
 import { PageContainer } from '../../components/PageContainer.js';
 import { useTransactionHistory } from '../../hooks/useTransactionHistory.js';
 import { TransactionHistoryEmpty } from './TransactionHistoryEmpty.js';
@@ -17,7 +17,7 @@ export const TransactionHistoryPage: React.FC = () => {
   const { data: transactions, isLoading } = useTransactionHistory();
 
   const { t } = useTranslation();
-  useHeaderTitle(t(`header.transactionHistory`));
+  useHeader(t(`header.transactionHistory`));
 
   const { getVirtualItems, getTotalSize } = useVirtualizer({
     count: transactions.length,

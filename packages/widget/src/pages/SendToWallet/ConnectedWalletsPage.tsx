@@ -19,7 +19,7 @@ import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.j
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
 import { useFieldActions } from '../../stores/form/useFieldActions.js';
 import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js';
-import { useHeaderTitle } from '../../stores/header/useHeaderStore.js';
+import { useHeader } from '../../stores/header/useHeaderStore.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { shortenAddress } from '../../utils/wallet.js';
 import { EmptyListIndicator } from './EmptyListIndicator.js';
@@ -43,7 +43,7 @@ export const ConnectedWalletsPage = () => {
   const moreMenuId = useId();
   const open = Boolean(moreMenuAnchorEl);
 
-  useHeaderTitle(t('sendToWallet.connectedWallets'));
+  useHeader(t('sendToWallet.connectedWallets'));
   const handleWalletSelected = (account: Account) => {
     setFieldValue('toAddress', account.address!, {
       isTouched: true,
