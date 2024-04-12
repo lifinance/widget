@@ -2,7 +2,7 @@ import { BrightnessAuto, LightMode, Nightlight } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { CardValue } from '../../components/Card/CardButton.style.js';
-import { Tab, Tabs } from '../../components/Tabs/Tabs.style.js';
+import { CardTabs, Tab } from '../../components/Tabs/Tabs.style.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { useAppearance } from '../../stores/settings/useAppearance.js';
 import type { Appearance } from '../../types/widget.js';
@@ -58,7 +58,7 @@ export const ThemeSettings: React.FC = () => {
       icon={<ThemeIcon />}
       title={t('settings.theme')}
     >
-      <Tabs
+      <CardTabs
         value={appearance}
         aria-label="tabs"
         indicatorColor="primary"
@@ -77,7 +77,7 @@ export const ThemeSettings: React.FC = () => {
             />
           );
         })}
-      </Tabs>
+      </CardTabs>
     </SettingCardExpandable>
   );
 };

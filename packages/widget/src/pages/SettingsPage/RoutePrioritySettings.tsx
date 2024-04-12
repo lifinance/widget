@@ -1,7 +1,7 @@
 import type { Order } from '@lifi/sdk';
 import { Route } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
-import { Tab, Tabs } from '../../components/Tabs/Tabs.style.js';
+import { CardTabs, Tab } from '../../components/Tabs/Tabs.style.js';
 import { useSettingMonitor } from '../../hooks/useSettingMonitor.js';
 import { useSettings } from '../../stores/settings/useSettings.js';
 import { useSettingsStore } from '../../stores/settings/useSettingsStore.js';
@@ -34,7 +34,7 @@ export const RoutePrioritySettings: React.FC = () => {
       icon={<Route />}
       title={t(`settings.routePriority`)}
     >
-      <Tabs
+      <CardTabs
         value={currentRoutePriority}
         aria-label="tabs"
         indicatorColor="primary"
@@ -52,7 +52,7 @@ export const RoutePrioritySettings: React.FC = () => {
             />
           );
         })}
-      </Tabs>
+      </CardTabs>
     </SettingCardExpandable>
   );
 };

@@ -7,23 +7,30 @@ import {
   tabClasses,
   tabsClasses,
 } from '@mui/material';
-import { getCardFieldsetBackgroundColor } from '../../utils/colors.js';
 
 export const Tabs = styled(MuiTabs)(({ theme }) => ({
-  backgroundColor: getCardFieldsetBackgroundColor(theme),
-  borderRadius: theme.shape.borderRadius,
   flex: 1,
   [`.${tabsClasses.indicator}`]: {
     top: theme.spacing(0.5),
     left: theme.spacing(0.5),
     height: `calc(100% - ${theme.spacing(1)})`,
     width: `calc(100% - ${theme.spacing(1)})`,
-    backgroundColor: theme.palette.background.paper,
-    borderRadius: theme.shape.borderRadius - 4,
-    boxShadow: `0px 2px 4px ${alpha(theme.palette.common.black, 0.04)}`,
   },
   [`.${tabsClasses.fixed}`]: {
     padding: theme.spacing(0.5),
+  },
+}));
+
+export const CardTabs = styled(Tabs)(({ theme }) => ({
+  backgroundColor:
+    theme.palette.mode === 'light'
+      ? alpha(theme.palette.common.black, 0.04)
+      : alpha(theme.palette.common.white, 0.08),
+  [`.${tabsClasses.indicator}`]: {
+    backgroundColor:
+      theme.palette.mode === 'light'
+        ? theme.palette.background.paper
+        : alpha(theme.palette.common.black, 0.56),
   },
 }));
 

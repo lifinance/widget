@@ -15,12 +15,13 @@ import {
   getContrastRatio,
   keyframes,
   lighten,
+  tabsClasses,
   touchRippleClasses,
 } from '@mui/material';
 import type { WidgetTheme } from '../types/widget.js';
+import { palette, paletteDark, paletteLight } from './palettes.js';
 import type {} from './types.js';
 import { getStyleOverrides } from './utils.js';
-import { palette, paletteLight, paletteDark } from './palettes.js';
 
 const shape: Shape = {
   borderRadius: 12,
@@ -363,6 +364,40 @@ export const createTheme = (
           paper: ({ theme }) => ({
             backgroundColor: theme.palette.background.default,
           }),
+        },
+      },
+      MuiTabs: {
+        ...widgetTheme.components?.MuiTabs,
+        styleOverrides: {
+          ...widgetTheme.components?.MuiTabs?.styleOverrides,
+          root: ({ theme, ownerState }) => {
+            const rootStyleOverrides = getStyleOverrides(
+              'MuiTabs',
+              'root',
+              widgetTheme,
+              ownerState,
+            );
+            return {
+              backgroundColor:
+                theme.palette.mode === 'light'
+                  ? alpha(theme.palette.common.black, 0.04)
+                  : alpha(theme.palette.common.white, 0.08),
+              borderRadius: theme.shape.borderRadius,
+              ...rootStyleOverrides,
+              [`.${tabsClasses.indicator}`]: {
+                backgroundColor:
+                  theme.palette.mode === 'light'
+                    ? theme.palette.background.paper
+                    : alpha(theme.palette.common.black, 0.56),
+                borderRadius:
+                  theme.shape.borderRadius > 0
+                    ? theme.shape.borderRadius - 4
+                    : theme.shape.borderRadius,
+                boxShadow: `0px 2px 4px ${alpha(theme.palette.common.black, 0.04)}`,
+                ...rootStyleOverrides?.[`.${tabsClasses.indicator}`],
+              },
+            };
+          },
         },
       },
     },

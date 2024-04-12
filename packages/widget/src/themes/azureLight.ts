@@ -1,3 +1,4 @@
+import { tabsClasses } from '@mui/material';
 import type { WidgetTheme } from '../types/widget.js';
 
 export const azureLightTheme: WidgetTheme = {
@@ -41,6 +42,17 @@ export const azureLightTheme: WidgetTheme = {
   components: {
     MuiCard: {
       defaultProps: { variant: 'filled' },
+    },
+    // Used only for 'split' subvariant and can be safely removed if not used
+    MuiTabs: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#f8f8fa',
+          [`.${tabsClasses.indicator}`]: {
+            backgroundColor: '#ffffff',
+          },
+        },
+      },
     },
   },
 };

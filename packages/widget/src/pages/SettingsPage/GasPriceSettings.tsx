@@ -1,6 +1,6 @@
 import { EvStation } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
-import { Tab, Tabs } from '../../components/Tabs/Tabs.style.js';
+import { CardTabs, Tab } from '../../components/Tabs/Tabs.style.js';
 import { useSettingMonitor } from '../../hooks/useSettingMonitor.js';
 import { useSettings } from '../../stores/settings/useSettings.js';
 import { useSettingsStore } from '../../stores/settings/useSettingsStore.js';
@@ -27,7 +27,7 @@ export const GasPriceSettings: React.FC = () => {
       icon={<EvStation />}
       title={t(`settings.gasPrice.title`)}
     >
-      <Tabs
+      <CardTabs
         value={gasPrice}
         aria-label="tabs"
         indicatorColor="primary"
@@ -41,7 +41,7 @@ export const GasPriceSettings: React.FC = () => {
           disableRipple
         />
         <Tab label={t(`settings.gasPrice.fast`)} value="fast" disableRipple />
-      </Tabs>
+      </CardTabs>
     </SettingCardExpandable>
   );
 };
