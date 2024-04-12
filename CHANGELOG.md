@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.10.2](https://github.com/lifinance/widget/compare/v2.10.1...v2.10.2) (2024-04-12)
+
+
+### Bug Fixes
+
+* adjust z-index key for walletConnect modal ([#233](https://github.com/lifinance/widget/issues/233)) ([58dbdf8](https://github.com/lifinance/widget/commit/58dbdf8fe364264be867eda06af369f0302aab31))
+
 ### [2.10.1](https://github.com/lifinance/widget/compare/v2.10.0...v2.10.1) (2024-02-09)
 
 
