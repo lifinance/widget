@@ -1,5 +1,5 @@
-import './index.css';
 import type { WidgetConfig } from '@lifi/widget';
+import './index.css';
 
 export const widgetBaseConfig: WidgetConfig = {
   subvariant: 'custom',

@@ -1,8 +1,8 @@
 import {
+  Select as MuiSelect,
   inputBaseClasses,
   listItemIconClasses,
   outlinedInputClasses,
-  Select as MuiSelect,
   selectClasses,
   styled,
 } from '@mui/material';

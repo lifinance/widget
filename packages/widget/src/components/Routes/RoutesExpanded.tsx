@@ -4,7 +4,7 @@ import { Collapse, Grow, Stack, Typography } from '@mui/material';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { RouteObject } from 'react-router-dom';
-import { useNavigate, useRoutes as useDOMRoutes } from 'react-router-dom';
+import { useRoutes as useDOMRoutes, useNavigate } from 'react-router-dom';
 import { useAccount } from '../../hooks/useAccount.js';
 import { useRoutes } from '../../hooks/useRoutes.js';
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';

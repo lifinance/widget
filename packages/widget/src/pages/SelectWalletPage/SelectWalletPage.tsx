@@ -15,7 +15,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Connector } from 'wagmi';
-import { useAccount as useWagmiAccount, useConnect } from 'wagmi';
+import { useConnect, useAccount as useWagmiAccount } from 'wagmi';
 import { Dialog } from '../../components/Dialog.js';
 import { PageContainer } from '../../components/PageContainer.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';

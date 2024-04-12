@@ -1,8 +1,8 @@
-import type { WidgetSubvariant } from '@lifi/widget';
 import type { SyntheticEvent } from 'react';
+import type { WidgetSubvariant } from '@lifi/widget';
 import { useConfigActions, useConfigSubvariant } from '../../../store';
-import { CardValue, ExpandableCard } from '../../Card';
 import { Tab, Tabs } from '../../Tabs';
+import { CardValue, ExpandableCard } from '../../Card';
 
 export const SubvariantControl = () => {
   const { subvariant } = useConfigSubvariant();

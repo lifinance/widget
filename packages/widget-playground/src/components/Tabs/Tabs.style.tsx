@@ -1,8 +1,8 @@
 import type { TabProps } from '@mui/material';
 import {
   Tab as MuiTab,
-  tabClasses,
   Tabs as MuiTabs,
+  tabClasses,
   tabsClasses,
 } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';

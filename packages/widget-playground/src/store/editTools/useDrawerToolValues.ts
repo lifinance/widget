@@ -1,6 +1,6 @@
 import { shallow } from 'zustand/shallow';
-import { defaultDrawerWidth } from './constants';
 import { useEditToolsStore } from './EditToolsProvider';
+import { defaultDrawerWidth } from './constants';
 
 export const useDrawerToolValues = () => {
   const [isDrawerOpen, codeDrawerWidth, visibleControls, codeControlTab] =

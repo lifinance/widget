@@ -1,4 +1,4 @@
-import { type ChainId, getToken, type TokensResponse } from '@lifi/sdk';
+import { getToken, type ChainId, type TokensResponse } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import type { TokenAmount } from '../types/token.js';
 

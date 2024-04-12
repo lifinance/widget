@@ -1,9 +1,9 @@
-import type { WidgetTheme } from '@lifi/widget';
 import type { StateCreator } from 'zustand';
-import { persist } from 'zustand/middleware';
 import { createWithEqualityFn } from 'zustand/traditional';
-import { defaultDrawerWidth } from './constants';
+import { persist } from 'zustand/middleware';
+import type { WidgetTheme } from '@lifi/widget';
 import type { ToolsState } from './types';
+import { defaultDrawerWidth } from './constants';
 
 export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
   createWithEqualityFn<ToolsState>(

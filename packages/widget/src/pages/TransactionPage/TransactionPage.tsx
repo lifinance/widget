@@ -27,8 +27,8 @@ import {
 } from './StartTransactionButton.js';
 import { StatusBottomSheet } from './StatusBottomSheet.js';
 import {
-  getTokenValueLossThreshold,
   TokenValueBottomSheet,
+  getTokenValueLossThreshold,
 } from './TokenValueBottomSheet.js';
 import { calcValueLoss } from './utils.js';
 

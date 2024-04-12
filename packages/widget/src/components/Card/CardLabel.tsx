@@ -1,9 +1,9 @@
 import {
   Box,
+  Typography,
   getContrastRatio,
   lighten,
   styled,
-  Typography,
 } from '@mui/material';
 import { blend } from '../../utils/colors.js';
 
