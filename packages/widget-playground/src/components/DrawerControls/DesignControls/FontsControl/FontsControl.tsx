@@ -1,17 +1,17 @@
+import InfoIcon from '@mui/icons-material/Info';
+import { CircularProgress, TextField } from '@mui/material';
 import type { FocusEventHandler, SyntheticEvent } from 'react';
 import { useCallback } from 'react';
-import { CircularProgress, TextField } from '@mui/material';
-import InfoIcon from '@mui/icons-material/Info';
+import type { Font } from '../../../../providers';
+import { useFontLoader } from '../../../../providers';
 import {
   useConfigActions,
   useEditToolsActions,
   useFontToolValues,
 } from '../../../../store';
-import type { Font } from '../../../../providers';
-import { useFontLoader } from '../../../../providers';
 import { ExpandableCard } from '../../../Card';
-import { Autocomplete, StyledPopper, Alert } from '../DesignControls.style';
-import { defaultFont, allFonts } from './fontDefinitions';
+import { Alert, Autocomplete, StyledPopper } from '../DesignControls.style';
+import { allFonts, defaultFont } from './fontDefinitions';
 
 const getCompleteFontFamily = (font: Font) =>
   font.fallbackFonts

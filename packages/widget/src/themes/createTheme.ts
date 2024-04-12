@@ -19,8 +19,8 @@ import {
 } from '@mui/material';
 import type { WidgetTheme } from '../types/widget.js';
 import type {} from './types.js';
+import { palette, paletteDark, paletteLight } from './palettes.js';
 import { getStyleOverrides } from './utils.js';
-import { palette, paletteLight, paletteDark } from './palettes.js';
 
 const shape: Shape = {
   borderRadius: 12,

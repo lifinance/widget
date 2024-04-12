@@ -10,10 +10,10 @@ import { FormKeyHelper } from '../../stores/form/types.js';
 import { useFieldValues } from '../../stores/form/useFieldValues.js';
 import type { TokenAmount } from '../../types/token.js';
 import { TokenNotFound } from './TokenNotFound.js';
-import { VirtualizedTokenList } from './VirtualizedTokenList.js';
 import type { TokenListProps } from './types.js';
 import { useTokenSelect } from './useTokenSelect.js';
 import { filteredTokensComparator } from './utils.js';
+import { VirtualizedTokenList } from './VirtualizedTokenList.js';
 
 export const TokenList: FC<TokenListProps> = ({
   formType,

@@ -1,11 +1,11 @@
+import { Collapse } from '@mui/material';
 import type { FC, PropsWithChildren, ReactNode } from 'react';
 import { useId } from 'react';
-import { Collapse } from '@mui/material';
 import {
   Card,
   CardRowButton,
-  CardValue,
   CardTitleContainer,
+  CardValue,
 } from '../Card.style';
 import { useExpandableCard } from './useExpandableCard';
 

@@ -1,4 +1,4 @@
-import { config, createConfig, type SDKConfig } from '@lifi/sdk';
+import { type SDKConfig, config, createConfig } from '@lifi/sdk';
 import { createContext, useContext, useId, useMemo } from 'react';
 import { version } from '../../config/version.js';
 import { setDefaultSettings } from '../../stores/settings/useSettingsStore.js';

@@ -10,8 +10,8 @@ import {
   WidgetProvider,
   useWidgetConfig,
 } from './providers/WidgetProvider/WidgetProvider.js';
-import { StoreProvider } from './stores/StoreProvider.js';
 import { URLSearchParamsBuilder } from './stores/form/URLSearchParamsBuilder.js';
+import { StoreProvider } from './stores/StoreProvider.js';
 import type { WidgetConfigProps } from './types/widget.js';
 
 export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({

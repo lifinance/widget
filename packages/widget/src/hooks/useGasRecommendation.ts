@@ -1,4 +1,4 @@
-import { getGasRecommendation, type ChainId } from '@lifi/sdk';
+import { type ChainId, getGasRecommendation } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
 import { useAvailableChains } from './useAvailableChains.js';
 

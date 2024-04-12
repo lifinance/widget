@@ -1,15 +1,15 @@
 import type { SelectChangeEvent } from '@mui/material';
 import { MenuItem } from '@mui/material';
-import { CardValue, ExpandableCard } from '../../Card';
+import { useThemeMode } from '../../../hooks';
 import {
   useConfigActions,
   useEditToolsActions,
   useThemeValues,
 } from '../../../store';
+import type { ThemeItem } from '../../../store';
+import { CardValue, ExpandableCard } from '../../Card';
 import { popperZIndex } from '../DrawerControls.style';
 import { Select } from './DesignControls.style';
-import type { ThemeItem } from '../../../store';
-import { useThemeMode } from '../../../hooks';
 export const ThemeControl = () => {
   const { setConfigTheme } = useConfigActions();
   const themeMode = useThemeMode();

@@ -1,3 +1,10 @@
+import type { Appearance, WidgetTheme } from '@lifi/widget';
+import BrightnessAutoIcon from '@mui/icons-material/BrightnessAuto';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import NightlightIcon from '@mui/icons-material/Nightlight';
+import type { TabProps } from '@mui/material';
+import { Box, Tooltip } from '@mui/material';
+import diff from 'microdiff';
 import type {
   FC,
   PropsWithChildren,
@@ -5,26 +12,19 @@ import type {
   SyntheticEvent,
 } from 'react';
 import { useEffect } from 'react';
-import type { TabProps } from '@mui/material';
-import { Box, Tooltip } from '@mui/material';
-import BrightnessAutoIcon from '@mui/icons-material/BrightnessAuto';
-import LightModeIcon from '@mui/icons-material/LightMode';
-import NightlightIcon from '@mui/icons-material/Nightlight';
-import diff from 'microdiff';
-import type { Appearance, WidgetTheme } from '@lifi/widget';
+import type { ThemeMode } from '../../../hooks';
+import { useThemeMode } from '../../../hooks';
 import {
   useConfigActions,
   useConfigAppearance,
   useEditToolsActions,
   useThemeValues,
 } from '../../../store';
-import { ExpandableCard, CardValue } from '../../Card';
+import type { ThemeItem } from '../../../store';
+import { cloneStructuredConfig, patch } from '../../../utils';
+import { CardValue, ExpandableCard } from '../../Card';
 import { Tab, Tabs } from '../../Tabs';
 import { Badge, CapitalizeFirstLetter } from './DesignControls.style';
-import type { ThemeItem } from '../../../store';
-import type { ThemeMode } from '../../../hooks';
-import { useThemeMode } from '../../../hooks';
-import { cloneStructuredConfig, patch } from '../../../utils';
 
 const appearanceIcons = {
   light: LightModeIcon,
