@@ -21,7 +21,7 @@ import { formatTokenAmount } from '../../utils/format.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { ContactSupportButton } from './ContactSupportButton.js';
 import { TransactionDetailsSkeleton } from './TransactionDetailsSkeleton.js';
-import { useHeader } from '../../stores/header/useHeaderStore.js';
+import { useHeader } from '../../hooks/useHeader.js';
 
 export const TransactionDetailsPage: React.FC = () => {
   const { t, i18n } = useTranslation();

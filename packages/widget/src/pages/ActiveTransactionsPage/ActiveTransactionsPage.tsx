@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { ActiveTransactionItem } from '../../components/ActiveTransactions/ActiveTransactionItem.js';
 import { Dialog } from '../../components/Dialog.js';
 import { PageContainer } from '../../components/PageContainer.js';
-import { useHeader } from '../../stores/header/useHeaderStore.js';
+import { useHeader } from '../../hooks/useHeader.js';
 import { useRouteExecutionStore } from '../../stores/routes/RouteExecutionStore.js';
 import { useExecutingRoutesIds } from '../../stores/routes/useExecutingRoutesIds.js';
 import { ActiveTransactionsEmpty } from './ActiveTransactionsEmpty.js';

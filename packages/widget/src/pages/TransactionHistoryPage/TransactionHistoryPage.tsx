@@ -2,7 +2,7 @@ import type { FullStatusData } from '@lifi/sdk';
 import { List } from '@mui/material';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useRef } from 'react';
-import { useHeader } from '../../stores/header/useHeaderStore.js';
+import { useHeader } from '../../hooks/useHeader.js';
 import { PageContainer } from '../../components/PageContainer.js';
 import { useTransactionHistory } from '../../hooks/useTransactionHistory.js';
 import { TransactionHistoryEmpty } from './TransactionHistoryEmpty.js';

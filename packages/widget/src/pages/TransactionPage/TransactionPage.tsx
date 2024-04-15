@@ -15,7 +15,7 @@ import { useRouteExecution } from '../../hooks/useRouteExecution.js';
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { useFieldActions } from '../../stores/form/useFieldActions.js';
-import { useHeader } from '../../stores/header/useHeaderStore.js';
+import { useHeader } from '../../hooks/useHeader.js';
 import { RouteExecutionStatus } from '../../stores/routes/types.js';
 import { WidgetEvent } from '../../types/events.js';
 import { formatTokenAmount } from '../../utils/format.js';
@@ -79,20 +79,6 @@ export const TransactionPage: React.FC = () => {
   const title = getHeaderTitle();
 
   useHeader(title);
-
-  // useEffect(() => {
-  //   if (route && subvariant !== 'custom') {
-  //     const transactionType =
-  //       route.fromChainId === route.toChainId ? 'Swap' : 'Bridge';
-  //     return headerStoreContext
-  //       .getState()
-  //       .setTitle(
-  //         status === RouteExecutionStatus.Idle
-  //           ? t(`button.review${transactionType}`)
-  //           : t(`header.${transactionType.toLowerCase() as 'swap' | 'bridge'}`),
-  //       );
-  //   }
-  // }, [headerStoreContext, route, status, subvariant, t]);
 
   useEffect(() => {
     if (status === RouteExecutionStatus.Idle) {

@@ -23,7 +23,7 @@ import { isItemAllowed } from '../../utils/item.js';
 import { EVMListItemButton } from './EVMListItemButton.js';
 import { SVMListItemButton } from './SVMListItemButton.js';
 import { walletComparator } from './utils.js';
-import { useHeader } from '../../stores/header/useHeaderStore.js';
+import { useHeader } from '../../hooks/useHeader.js';
 
 export const SelectWalletPage = () => {
   const { t } = useTranslation();

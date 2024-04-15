@@ -1,5 +1,4 @@
-import type { ReactNode } from 'react';
-import { createContext, useContext, useEffect, useRef } from 'react';
+import { createContext, useContext, useRef } from 'react';
 import { createWithEqualityFn } from 'zustand/traditional';
 import type { PersistStoreProps, PersistStoreProviderProps } from '../types.js';
 import type { HeaderState, HeaderStore } from './types.js';
@@ -35,22 +34,6 @@ export function useHeaderStore<T>(selector: (state: HeaderState) => T): T {
   const useStore = useHeaderStoreContext();
   return useStore(selector);
 }
-
-export function useHeader(title: string, action?: ReactNode) {
-  const { setTitle, setAction } = useHeaderStore((state) => state);
-
-  useEffect(() => {
-    const removeTitle = setTitle(title);
-    const removeAction = action ? setAction(action) : undefined;
-    return () => {
-      removeTitle();
-      if (removeAction) {
-        removeAction();
-      }
-    };
-  }, [setTitle, setAction, action, title]);
-}
-
 export const createHeaderStore = ({ namePrefix }: PersistStoreProps) =>
   createWithEqualityFn<HeaderState>(
     (set, get) => ({

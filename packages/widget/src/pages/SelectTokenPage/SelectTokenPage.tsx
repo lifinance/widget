@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import type { FC } from 'react';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
-import { useHeader } from '../../stores/header/useHeaderStore.js';
+import { useHeader } from '../../hooks/useHeader.js';
 import { ChainSelect } from '../../components/ChainSelect/ChainSelect.js';
 import { PageContainer } from '../../components/PageContainer.js';
 import { TokenList } from '../../components/TokenList/TokenList.js';

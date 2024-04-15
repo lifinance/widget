@@ -1,6 +1,6 @@
 import type { ExtendedChain } from '@lifi/sdk';
 import { Avatar, List, ListItemAvatar } from '@mui/material';
-import { useHeader } from '../../stores/header/useHeaderStore.js';
+import { useHeader } from '../../hooks/useHeader.js';
 import { useChainSelect } from '../../components/ChainSelect/useChainSelect.js';
 import { ListItemButton } from '../../components/ListItemButton.js';
 import { ListItemText } from '../../components/ListItemText.js';

@@ -20,7 +20,7 @@ import { ListItemText } from '../components/ListItemText.js';
 import { PageContainer } from '../components/PageContainer.js';
 import { SettingsListItemButton } from '../components/SettingsListItemButton.js';
 import { useTools } from '../hooks/useTools.js';
-import { useHeader } from '../stores/header/useHeaderStore.js';
+import { useHeader } from '../hooks/useHeader.js';
 import { useSettingsStore } from '../stores/settings/useSettingsStore.js';
 
 interface SelectAllCheckboxProps {

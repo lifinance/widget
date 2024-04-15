@@ -11,7 +11,7 @@ import { useNavigateBack } from '../../hooks/useNavigateBack.js';
 import { useRoutes } from '../../hooks/useRoutes.js';
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
 import { useFieldValues } from '../../stores/form/useFieldValues.js';
-import { useHeader } from '../../stores/header/useHeaderStore.js';
+import { useHeader } from '../../hooks/useHeader.js';
 import { useSetExecutableRoute } from '../../stores/routes/useSetExecutableRoute.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { Stack } from './RoutesPage.style.js';

@@ -1,7 +1,7 @@
 import { Check } from '@mui/icons-material';
 import { List } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useHeader } from '../stores/header/useHeaderStore.js';
+import { useHeader } from '../hooks/useHeader.js';
 import { ListItemText } from '../components/ListItemText.js';
 import { PageContainer } from '../components/PageContainer.js';
 import { SettingsListItemButton } from '../components/SettingsListItemButton.js';
