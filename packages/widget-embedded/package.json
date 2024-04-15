@@ -27,7 +27,7 @@
     "@mui/lab": "^5.0.0-alpha.170",
     "@mui/material": "^5.15.15",
     "@opensea/seaport-js": "4.0.0",
-    "@tanstack/react-query": "^5.29.0",
+    "@tanstack/react-query": "^5.29.2",
     "bignumber.js": "^9.1.2",
     "ethers": "^6.11.1",
     "events": "^3.3.0",
@@ -40,7 +40,7 @@
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@vitejs/plugin-react-swc": "^3.6.0",
     "source-map-explorer": "^2.5.3",
-    "typescript": "^5.4.4",
+    "typescript": "^5.4.5",
     "vite": "^5.2.8",
     "vite-plugin-node-polyfills": "^0.21.0",
     "web-vitals": "^3.5.2"

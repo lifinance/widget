@@ -11,22 +11,22 @@
   },
   "dependencies": {
     "@ethersproject/providers": "^5.7.2",
-    "@lifi/widget": "^3.0.0-alpha.35",
-    "@mui/material": "^5.15.14",
-    "@tanstack/react-query": "^5.28.6",
+    "@lifi/widget": "^3.0.0-alpha.37",
+    "@mui/material": "^5.15.15",
+    "@tanstack/react-query": "^5.29.2",
     "events": "^3.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "wagmi": "^2.5.12"
+    "wagmi": "^2.5.19"
   },
   "devDependencies": {
     "@types/events": "^3.0.3",
-    "@types/node": "^20.11.30",
-    "@types/react": "^18.2.67",
-    "@types/react-dom": "^18.2.22",
+    "@types/node": "^20.12.7",
+    "@types/react": "^18.2.78",
+    "@types/react-dom": "^18.2.25",
     "@vitejs/plugin-react": "^4.2.1",
-    "typescript": "^5.4.3",
-    "vite": "^5.2.2",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.8",
     "vite-plugin-node-polyfills": "^0.21.0"
   }
 }
