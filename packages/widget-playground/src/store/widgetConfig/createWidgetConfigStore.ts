@@ -1,18 +1,25 @@
 import { createWithEqualityFn } from 'zustand/traditional';
-import type { WidgetConfig } from '@lifi/widget';
+import type { WidgetConfig, WidgetTheme } from '@lifi/widget';
 import type { StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { addValueFromPathString } from '../../utils';
+import { addValueFromPathString, cloneStructuredConfig } from '../../utils';
 import type { WidgetConfigState } from './types';
-import { cloneStructuredConfig } from './utils/cloneStructuredConfig';
-import { getConfigOutput } from './utils/getConfigOutput';
+import { getLocalStorageOutput } from './utils/getLocalStorageOutput';
+import type { ThemeItem } from '../editTools/types';
+import { setThemeAppearanceWithFallback } from './utils/setThemeWithFallback';
 
-export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
+export const createWidgetConfigStore = (
+  initialConfig: Partial<WidgetConfig>,
+  themeItems: ThemeItem[],
+  prefersDarkMode: boolean,
+) =>
   createWithEqualityFn<WidgetConfigState>(
     persist(
       (set, get) => ({
         defaultConfig: initialConfig,
-        config: cloneStructuredConfig(initialConfig),
+        config: cloneStructuredConfig<Partial<WidgetConfig>>(initialConfig),
+        themeId: 'default',
+        widgetThemeItems: themeItems,
         setConfig: (config) => {
           set({
             config,
@@ -25,7 +32,10 @@ export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
         },
         resetConfig: () => {
           set({
-            config: cloneStructuredConfig(get().defaultConfig!),
+            themeId: 'default',
+            config: cloneStructuredConfig<Partial<WidgetConfig>>(
+              get().defaultConfig!,
+            ),
           });
         },
         setAppearance: (appearance) => {
@@ -141,11 +151,12 @@ export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
             } as WidgetConfig,
           });
         },
-        setConfigTheme: (theme) => {
+        setConfigTheme: (theme, themeId) => {
           set({
+            themeId,
             config: {
               ...get().config,
-              theme: structuredClone(theme),
+              theme: cloneStructuredConfig<Partial<WidgetTheme>>(theme),
             },
           });
         },
@@ -157,12 +168,42 @@ export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
             } as WidgetConfig,
           });
         },
+        setAvailableThemes: (themeItems) => {
+          set({
+            widgetThemeItems: themeItems,
+          });
+        },
+        getCurrentThemePreset: (useDarkMode) => {
+          const selectedThemeItem = get().widgetThemeItems.find(
+            (themeItem) => themeItem.id === get().themeId,
+          );
+
+          if (!selectedThemeItem) {
+            return;
+          }
+
+          const appearance = (
+            !!get().config?.appearance && get().config?.appearance !== 'auto'
+              ? get().config?.appearance
+              : useDarkMode || prefersDarkMode
+                ? 'dark'
+                : 'light'
+          ) as string;
+
+          return selectedThemeItem.theme[appearance];
+        },
+        getCurrentConfigTheme: () => {
+          return get().config?.theme;
+        },
       }),
       {
         name: `'li.fi-playground-config`,
         version: 1,
         partialize: (state) => ({
-          config: state?.config ? getConfigOutput(state.config) : undefined,
+          config: state?.config
+            ? getLocalStorageOutput(state.config)
+            : undefined,
+          themeId: state.themeId,
         }),
         onRehydrateStorage: () => {
           return (state) => {
@@ -173,6 +214,8 @@ export const createWidgetConfigStore = (initialConfig: Partial<WidgetConfig>) =>
                   : { async onConnect() {} };
                 state.setWalletConfig(walletConfig);
               }
+
+              setThemeAppearanceWithFallback(state, prefersDarkMode);
             }
           };
         },

@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget",
-  "version": "3.0.0-alpha.36",
+  "version": "3.0.0-alpha.37",
   "description": "LI.FI Widget for cross-chain bridging and swapping. It will drive your multi-chain strategy and attract new users from everywhere.",
   "type": "module",
   "main": "./src/index.ts",
@@ -17,16 +17,9 @@
     "check:types": "tsc --noEmit",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
     "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg",
-    "pre-commit": "lint-staged",
     "lint": "eslint --ext .tsx --ext .ts ./src",
-    "lint:fix": "eslint --ext .tsx --ext .ts ./src --fix",
-    "prettier:fix": "prettier --write ./src/."
-  },
-  "lint-staged": {
-    "src/**/*.{ts,tsx}": [
-      "yarn run lint:fix",
-      "yarn run prettier:fix"
-    ]
+    "pre-commit:validate": "yarn lint --fix",
+    "pre-push:validate": "yarn check:types & yarn check:circular-deps"
   },
   "publishConfig": {
     "access": "public"
@@ -65,26 +58,26 @@
     "@solana/wallet-adapter-react": "^0.15.35",
     "@solana/wallet-adapter-wallets": "^0.19.32",
     "@solana/web3.js": "^1.91.4",
-    "@tanstack/react-query": "^5.29.0",
-    "@tanstack/react-virtual": "^3.2.0",
-    "i18next": "^23.10.1",
+    "@tanstack/react-query": "^5.29.2",
+    "@tanstack/react-virtual": "^3.2.1",
+    "i18next": "^23.11.1",
     "microdiff": "^1.4.0",
     "mitt": "^3.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^14.1.0",
-    "react-intersection-observer": "^9.8.1",
+    "react-intersection-observer": "^9.8.2",
     "react-router-dom": "^6.22.3",
     "react-timer-hook": "^3.0.7",
     "uuid": "^9.0.1",
-    "viem": "^2.9.13",
+    "viem": "^2.9.16",
     "wagmi": "^2.5.19",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
     "cpy-cli": "^5.0.0",
-    "madge": "^6.1.0",
-    "typescript": "^5.4.4"
+    "madge": "^7.0.0",
+    "typescript": "^5.4.5"
   },
   "peerDependencies": {
     "@tanstack/react-query": "^5.17.0",

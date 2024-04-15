@@ -14,16 +14,9 @@
     "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo ./dist/tsconfig.cjs.tsbuildinfo",
     "clean": "yarn build:clean && rm -rf dist",
     "check:types": "tsc --noEmit",
-    "pre-commit": "lint-staged",
     "lint": "eslint --ext .tsx --ext .ts ./src",
-    "lint:fix": "eslint --ext .tsx --ext .ts ./src --fix",
-    "prettier:fix": "prettier --write ./src/."
-  },
-  "lint-staged": {
-    "src/**/*.{ts,tsx}": [
-      "yarn run lint:fix",
-      "yarn run prettier:fix"
-    ]
+    "pre-commit:validate": "yarn lint --fix --max-warnings=0",
+    "pre-push:validate": "yarn check:types"
   },
   "publishConfig": {
     "access": "public"
@@ -59,7 +52,7 @@
   },
   "devDependencies": {
     "cpy-cli": "^5.0.0",
-    "typescript": "^5.4.4"
+    "typescript": "^5.4.5"
   },
   "peerDependencies": {
     "@tanstack/react-query": "^5.0.0",

@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-playground-vite",
-  "version": "1.0.188",
+  "version": "1.0.189",
   "type": "module",
   "scripts": {
     "analyze": "source-map-explorer 'dist/assets/*.js' --no-border-checks",
@@ -8,16 +8,9 @@
     "build": "tsc && vite build",
     "clean": "rm -rf dist tsconfig.tsbuildinfo",
     "preview": "vite preview",
-    "pre-commit": "lint-staged",
+    "check:types": "tsc --noEmit",
     "lint": "eslint --ext .tsx --ext .ts ./src",
-    "lint:fix": "eslint --ext .tsx --ext .ts ./src --fix",
-    "prettier:fix": "prettier --write ./src/."
-  },
-  "lint-staged": {
-    "src/**/*.{ts,tsx}": [
-      "yarn run lint:fix",
-      "yarn run prettier:fix"
-    ]
+    "pre-commit:validate": "yarn lint --fix --max-warnings=0"
   },
   "publishConfig": {
     "access": "public"
@@ -26,8 +19,8 @@
   "dependencies": {
     "@lifi/sdk": "^3.0.0-alpha.58",
     "@lifi/wallet-management": "^3.0.0-alpha.24",
-    "@lifi/widget": "^3.0.0-alpha.36",
-    "@lifi/widget-playground": "^1.0.188",
+    "@lifi/widget": "^3.0.0-alpha.37",
+    "@lifi/widget-playground": "^1.0.189",
     "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.15",
     "@rainbow-me/rainbowkit": "^2.0.5",
@@ -35,12 +28,12 @@
     "@solana/wallet-adapter-react": "^0.15.35",
     "@solana/wallet-adapter-wallets": "^0.19.32",
     "@solana/web3.js": "^1.91.4",
-    "@tanstack/react-query": "^5.29.0",
+    "@tanstack/react-query": "^5.29.2",
     "lodash.isequal": "^4.5.0",
     "microdiff": "^1.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "viem": "^2.9.13",
+    "viem": "^2.9.16",
     "wagmi": "^2.5.19",
     "zustand": "^4.5.2"
   },
@@ -49,7 +42,7 @@
     "@vitejs/plugin-react-swc": "^3.6.0",
     "rollup-plugin-polyfill-node": "^0.13.0",
     "source-map-explorer": "^2.5.3",
-    "typescript": "^5.4.4",
+    "typescript": "^5.4.5",
     "vite": "^5.2.8",
     "vite-plugin-node-polyfills": "^0.21.0",
     "web-vitals": "^3.5.2"
