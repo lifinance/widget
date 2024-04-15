@@ -17,7 +17,7 @@
     "check:types": "tsc --noEmit",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
     "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg",
-    "lint": "eslint --ext .tsx --ext .ts ./src",
+    "lint": "eslint -c ../../eslint.config.js ./src",
     "pre-commit:validate": "yarn lint --fix",
     "pre-push:validate": "yarn check:types & yarn check:circular-deps"
   },
