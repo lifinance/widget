@@ -51,6 +51,7 @@ export type WidgetThemeComponents = Pick<
   | 'MuiCard'
   | 'MuiIconButton'
   | 'MuiInputCard'
+  | 'MuiTabs'
 >;
 export type WidgetTheme = {
   palette?: Pick<

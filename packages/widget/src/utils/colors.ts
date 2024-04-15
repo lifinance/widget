@@ -16,11 +16,6 @@ export const getInfoBackgroundColor = (theme: Theme) =>
     ? alpha(theme.palette.info.main, 0.12)
     : alpha(theme.palette.info.main, 0.16);
 
-export const getCardFieldsetBackgroundColor = (theme: Theme) =>
-  theme.palette.mode === 'light'
-    ? alpha(theme.palette.common.black, 0.04)
-    : theme.palette.grey[800];
-
 /**
  * https://github.com/mui/material-ui/blob/next/packages/mui-system/src/colorManipulator/colorManipulator.js
  * Blend a transparent overlay color with a background color, resulting in a single

@@ -3,14 +3,12 @@ import {
   Avatar,
   Box,
   Button,
-  alpha,
   buttonClasses,
   styled,
 } from '@mui/material';
 import type { WidgetSubvariant } from '../../types/widget.js';
 import { getContrastAlphaColor } from '../../utils/colors.js';
 import { avatarMask12 } from '../Avatar/utils.js';
-import { Tabs } from '../Tabs/Tabs.style.js';
 
 export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: 'transparent',
@@ -82,13 +80,6 @@ export const HeaderControlsContainer = styled(Box)(({ theme }) => ({
       marginRight: theme.spacing(-1.25),
     },
   }),
-}));
-
-export const SplitTabs = styled(Tabs)(({ theme }) => ({
-  backgroundColor:
-    theme.palette.mode === 'light'
-      ? alpha(theme.palette.common.black, 0.04)
-      : theme.palette.background.paper,
 }));
 
 export const WalletAvatar = styled(Avatar)(({ theme }) => ({
