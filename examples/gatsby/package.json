@@ -16,10 +16,10 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@lifi/widget": "^3.0.0-alpha.35",
+    "@lifi/widget": "^3.0.0-alpha.37",
     "@mdx-js/react": "^3.0.1",
     "babel-plugin-styled-components": "^2.1.4",
-    "gatsby": "^5.13.3",
+    "gatsby": "^5.13.4",
     "gatsby-plugin-image": "^3.13.1",
     "gatsby-plugin-manifest": "^5.13.1",
     "gatsby-plugin-mdx": "^5.13.1",
@@ -34,10 +34,10 @@
     "styled-components": "^6.1.8"
   },
   "devDependencies": {
-    "@types/node": "^20.11.30",
-    "@types/react": "^18.2.67",
-    "@types/react-dom": "^18.2.22",
+    "@types/node": "^20.12.7",
+    "@types/react": "^18.2.78",
+    "@types/react-dom": "^18.2.25",
     "buffer": "^6.0.3",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.5"
   }
 }
