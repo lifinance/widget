@@ -34,7 +34,6 @@ export function useHeaderStore<T>(selector: (state: HeaderState) => T): T {
   const useStore = useHeaderStoreContext();
   return useStore(selector);
 }
-
 export const createHeaderStore = ({ namePrefix }: PersistStoreProps) =>
   createWithEqualityFn<HeaderState>(
     (set, get) => ({

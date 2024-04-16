@@ -1,6 +1,8 @@
 import { Box } from '@mui/material';
 import type { FC } from 'react';
 import { useLayoutEffect, useRef, useState } from 'react';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useHeader } from '../../hooks/useHeader.js';
 import { ChainSelect } from '../../components/ChainSelect/ChainSelect.js';
 import { PageContainer } from '../../components/PageContainer.js';
 import { TokenList } from '../../components/TokenList/TokenList.js';
@@ -10,6 +12,7 @@ import { useScrollableOverflowHidden } from '../../hooks/useScrollableContainer.
 import { useSwapOnly } from '../../hooks/useSwapOnly.js';
 import type { FormTypeProps } from '../../stores/form/types.js';
 import { SearchTokenInput } from './SearchTokenInput.js';
+import { useTranslation } from 'react-i18next';
 
 const minTokenListHeight = 360;
 
@@ -20,6 +23,17 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
   const contentHeight = useContentHeight();
   const [tokenListHeight, setTokenListHeight] = useState(0);
   const swapOnly = useSwapOnly();
+
+  const { subvariant } = useWidgetConfig();
+  const { t } = useTranslation();
+  const title =
+    formType === 'from'
+      ? subvariant === 'custom'
+        ? t(`header.payWith`)
+        : t(`header.from`)
+      : t(`header.to`);
+
+  useHeader(title);
 
   useLayoutEffect(() => {
     setTokenListHeight(

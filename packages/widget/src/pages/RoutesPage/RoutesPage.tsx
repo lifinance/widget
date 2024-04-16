@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import type { Route } from '@lifi/sdk';
 import type { BoxProps } from '@mui/material';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate.js';
 import { RouteCard } from '../../components/RouteCard/RouteCard.js';
 import { RouteCardSkeleton } from '../../components/RouteCard/RouteCardSkeleton.js';
@@ -11,15 +11,15 @@ import { useNavigateBack } from '../../hooks/useNavigateBack.js';
 import { useRoutes } from '../../hooks/useRoutes.js';
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
 import { useFieldValues } from '../../stores/form/useFieldValues.js';
-import { useHeaderStoreContext } from '../../stores/header/useHeaderStore.js';
+import { useHeader } from '../../hooks/useHeader.js';
 import { useSetExecutableRoute } from '../../stores/routes/useSetExecutableRoute.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { Stack } from './RoutesPage.style.js';
+import { useTranslation } from 'react-i18next';
 
 export const RoutesPage: React.FC<BoxProps> = () => {
   const { navigate } = useNavigateBack();
   const setExecutableRoute = useSetExecutableRoute();
-  const headerStoreContext = useHeaderStoreContext();
   const {
     routes,
     isLoading,
@@ -33,27 +33,30 @@ export const RoutesPage: React.FC<BoxProps> = () => {
   const [toAddress] = useFieldValues('toAddress');
   const { requiredToAddress } = useToAddressRequirements();
 
+  const { t } = useTranslation();
+
+  const headerAction = useMemo(
+    () => (
+      <ProgressToNextUpdate
+        updatedAt={dataUpdatedAt || new Date().getTime()}
+        timeToUpdate={refetchTime}
+        isLoading={isFetching}
+        onClick={() => refetch()}
+        sx={{ marginRight: -1 }}
+        size="medium"
+      />
+    ),
+    [dataUpdatedAt, isFetching, refetch, refetchTime],
+  );
+
+  useHeader(t(`header.youGet`), headerAction);
+
   const handleRouteClick = (route: Route) => {
     setExecutableRoute(route);
     navigate(navigationRoutes.transactionExecution, {
       state: { routeId: route.id },
     });
   };
-
-  useEffect(() => {
-    return headerStoreContext
-      .getState()
-      .setAction(
-        <ProgressToNextUpdate
-          updatedAt={dataUpdatedAt || new Date().getTime()}
-          timeToUpdate={refetchTime}
-          isLoading={isFetching}
-          onClick={() => refetch()}
-          sx={{ marginRight: -1 }}
-          size="medium"
-        />,
-      );
-  }, [dataUpdatedAt, headerStoreContext, isFetching, refetch, refetchTime]);
 
   const routeNotFound = !routes?.length && !isLoading && !isFetching;
 

@@ -15,7 +15,7 @@ import { useRouteExecution } from '../../hooks/useRouteExecution.js';
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { useFieldActions } from '../../stores/form/useFieldActions.js';
-import { useHeaderStoreContext } from '../../stores/header/useHeaderStore.js';
+import { useHeader } from '../../hooks/useHeader.js';
 import { RouteExecutionStatus } from '../../stores/routes/types.js';
 import { WidgetEvent } from '../../types/events.js';
 import { formatTokenAmount } from '../../utils/format.js';
@@ -40,7 +40,6 @@ export const TransactionPage: React.FC = () => {
   const { subvariant, insurance, contractSecondaryComponent } =
     useWidgetConfig();
   const { state }: any = useLocation();
-  const headerStoreContext = useHeaderStoreContext();
   const stateRouteId = state?.routeId;
   const [routeId, setRouteId] = useState<string>(stateRouteId);
 
@@ -60,19 +59,26 @@ export const TransactionPage: React.FC = () => {
       onAcceptExchangeRateUpdate,
     });
 
-  useEffect(() => {
-    if (route && subvariant !== 'custom') {
-      const transactionType =
-        route.fromChainId === route.toChainId ? 'Swap' : 'Bridge';
-      return headerStoreContext
-        .getState()
-        .setTitle(
-          status === RouteExecutionStatus.Idle
-            ? t(`button.review${transactionType}`)
-            : t(`header.${transactionType.toLowerCase() as 'swap' | 'bridge'}`),
-        );
+  const getHeaderTitle = () => {
+    if (subvariant === 'custom') {
+      return t(`header.purchase`);
+    } else {
+      if (route) {
+        const transactionType =
+          route.fromChainId === route.toChainId ? 'Swap' : 'Bridge';
+
+        return status === RouteExecutionStatus.Idle
+          ? t(`button.review${transactionType}`)
+          : t(`header.${transactionType.toLowerCase() as 'swap' | 'bridge'}`);
+      }
     }
-  }, [headerStoreContext, route, status, subvariant, t]);
+
+    return t(`header.exchange`);
+  };
+
+  const title = getHeaderTitle();
+
+  useHeader(title);
 
   useEffect(() => {
     if (status === RouteExecutionStatus.Idle) {
