@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import type { Route } from '@lifi/sdk';
 import type { BoxProps } from '@mui/material';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate.js';
 import { RouteCard } from '../../components/RouteCard/RouteCard.js';
 import { RouteCardSkeleton } from '../../components/RouteCard/RouteCardSkeleton.js';
