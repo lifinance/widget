@@ -4,7 +4,7 @@ import {
   InfoRounded,
   WarningRounded,
 } from '@mui/icons-material';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Skeleton, Typography } from '@mui/material';
 import { useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -27,11 +27,22 @@ import { hasEnumFlag } from '../../utils/enum.js';
 import { formatTokenAmount } from '../../utils/format.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { shortenAddress } from '../../utils/wallet.js';
-import { CenterContainer, IconCircle } from './StatusBottomSheet.style.js';
+import {
+  CenterContainer,
+  IconCircle,
+  MessageSkeletonContainer,
+} from './StatusBottomSheet.style.js';
 
 interface StatusBottomSheetContentProps extends RouteExecution {
   onClose(): void;
 }
+
+const MessageSkeleton = () => (
+  <MessageSkeletonContainer>
+    <Skeleton height={24} variant="text" />
+    <Skeleton height={24} variant="text" />
+  </MessageSkeletonContainer>
+);
 
 export const StatusBottomSheet: React.FC<RouteExecution> = ({
   status,
@@ -270,7 +281,11 @@ export const StatusBottomSheetContent: React.FC<
         </CenterContainer>
       )}
       {!showContractComponent ? (
-        <Typography py={1}>{primaryMessage}</Typography>
+        primaryMessage ? (
+          <Typography py={1}>{primaryMessage}</Typography>
+        ) : (
+          <MessageSkeleton />
+        )
       ) : null}
       {secondaryMessage ? (
         <Typography py={1}>{secondaryMessage}</Typography>
