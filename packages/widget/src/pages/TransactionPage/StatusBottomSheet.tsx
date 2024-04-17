@@ -39,8 +39,8 @@ interface StatusBottomSheetContentProps extends RouteExecution {
 
 const MessageSkeleton = () => (
   <MessageSkeletonContainer>
-    <Skeleton height={24} variant="text" />
-    <Skeleton height={24} variant="text" />
+    <Skeleton height={24} variant="text" width="92%" />
+    <Skeleton height={24} variant="text" width="56%" />
   </MessageSkeletonContainer>
 );
 
