@@ -1,4 +1,5 @@
 'use client';
+
 import { AppRoutes } from './AppRoutes.js';
 import {
   AppContainer,

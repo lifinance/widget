@@ -1,6 +1,6 @@
 import { Switch as MuiSwitch } from '@mui/material';
-import { alpha, styled } from '@mui/material/styles';
 import { switchClasses } from '@mui/material/Switch';
+import { alpha, styled } from '@mui/material/styles';
 
 export const Switch = styled(MuiSwitch)(({ theme }) => ({
   width: 42,

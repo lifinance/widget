@@ -1,13 +1,13 @@
 import type { BoxProps } from '@mui/material';
-import { safe6DigitHexColor } from '../../../utils';
 import { useConfigActions, useConfigColorsFromPath } from '../../../store';
+import { safe6DigitHexColor } from '../../../utils';
 import { ExpandableCard } from '../../Card';
 import {
+  CapitalizeFirstLetter,
+  ColorInput,
   ColorSelectorContainer,
   ColorSwatch,
   ColorSwatches,
-  ColorInput,
-  CapitalizeFirstLetter,
 } from './DesignControls.style';
 
 const editableColors = {

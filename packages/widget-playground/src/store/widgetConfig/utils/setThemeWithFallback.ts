@@ -1,6 +1,6 @@
 import type { WidgetTheme } from '@lifi/widget';
-import { replayLocalStorageChangesOnTheme } from './replayLocalStorageChangesOnTheme';
 import type { WidgetConfigState } from '../types';
+import { replayLocalStorageChangesOnTheme } from './replayLocalStorageChangesOnTheme';
 
 export const setThemeAppearanceWithFallback = (
   state: WidgetConfigState,

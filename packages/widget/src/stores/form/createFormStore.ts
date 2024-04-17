@@ -1,5 +1,4 @@
 import { createWithEqualityFn } from 'zustand/traditional';
-
 import type {
   DefaultValues,
   FormFieldArray,

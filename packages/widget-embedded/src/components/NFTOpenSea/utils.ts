@@ -11,8 +11,8 @@ import type {
   OpenSeaUser,
   Order,
   OrderJSON,
-  OrdersQueryOptions,
   OrderV2,
+  OrdersQueryOptions,
   SerializedOrderV2,
   Transaction,
 } from './types';

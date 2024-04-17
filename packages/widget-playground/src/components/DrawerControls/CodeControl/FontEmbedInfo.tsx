@@ -1,23 +1,23 @@
-import type { MouseEventHandler } from 'react';
-import { useState } from 'react';
+import CloseIcon from '@mui/icons-material/Close';
+import InfoIcon from '@mui/icons-material/Info';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import {
+  Box,
+  ClickAwayListener,
   IconButton,
   Popper,
   Tooltip,
   Typography,
-  ClickAwayListener,
-  Box,
 } from '@mui/material';
-import InfoIcon from '@mui/icons-material/Info';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import CloseIcon from '@mui/icons-material/Close';
+import type { MouseEventHandler } from 'react';
+import { useState } from 'react';
+import { useFontToolValues } from '../../../store';
 import { popperZIndex, tooltipPopperZIndex } from '../DrawerControls.style';
 import {
   FontEmbedPopperContainer,
   FontMessageCloseButton,
   GoogleFontLink,
 } from './CodeControl.style';
-import { useFontToolValues } from '../../../store';
 
 interface FontMessageProps {
   fontFamily: string;
