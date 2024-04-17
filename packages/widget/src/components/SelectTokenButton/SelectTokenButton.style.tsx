@@ -1,8 +1,8 @@
 import {
-  CardContent as MuiCardContent,
   cardHeaderClasses,
   darken,
   lighten,
+  CardContent as MuiCardContent,
   styled,
 } from '@mui/material';
 import type { FormType } from '../../stores/form/types.js';

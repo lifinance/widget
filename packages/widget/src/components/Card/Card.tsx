@@ -1,5 +1,5 @@
 import type { CardProps as MuiCardProps } from '@mui/material';
-import { Card as MuiCard, alpha, darken, lighten, styled } from '@mui/material';
+import { alpha, darken, lighten, Card as MuiCard, styled } from '@mui/material';
 
 export interface CardProps extends MuiCardProps {
   type?: 'default' | 'selected' | 'error';

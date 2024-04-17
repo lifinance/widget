@@ -30,7 +30,7 @@ import { useMemo, type FC, type PropsWithChildren } from 'react';
 import type { Chain } from 'viem';
 import { createClient } from 'viem';
 import type { CreateConnectorFn } from 'wagmi';
-import { WagmiProvider, createConfig, http } from 'wagmi';
+import { createConfig, http, WagmiProvider } from 'wagmi';
 import { mainnet } from 'wagmi/chains';
 import { defaultWalletConnectProjectId } from '../../config/walletConnect.js';
 import { useAvailableChains } from '../../hooks/useAvailableChains.js';

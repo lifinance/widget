@@ -1,11 +1,11 @@
 import type { Status, Substatus } from '@lifi/sdk';
 import type { Theme } from '@mui/material';
 import {
-  Box,
-  CircularProgress as MuiCircularProgress,
   alpha,
+  Box,
   circularProgressClasses,
   keyframes,
+  CircularProgress as MuiCircularProgress,
   styled,
 } from '@mui/material';
 

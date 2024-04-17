@@ -1,7 +1,7 @@
 import {
-  Menu as MuiMenu,
   menuClasses,
   menuItemClasses,
+  Menu as MuiMenu,
   styled,
   svgIconClasses,
 } from '@mui/material';

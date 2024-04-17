@@ -1,4 +1,4 @@
-import { Box, alpha, darken, lighten, styled } from '@mui/material';
+import { alpha, Box, darken, lighten, styled } from '@mui/material';
 import {
   getInfoBackgroundColor,
   getWarningBackgroundColor,

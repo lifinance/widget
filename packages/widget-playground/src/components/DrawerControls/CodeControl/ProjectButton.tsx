@@ -1,5 +1,5 @@
 import type { PropsWithChildren, ReactNode } from 'react';
-import { ProjectButtonBase, ProjectAvatar } from './CodeControl.style';
+import { ProjectAvatar, ProjectButtonBase } from './CodeControl.style';
 
 interface ProjectButtonProps extends PropsWithChildren {
   href: string;

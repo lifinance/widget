@@ -1,8 +1,8 @@
 import {
-  IconButton,
-  Badge as MuiBadge,
   badgeClasses,
   darken,
+  IconButton,
+  Badge as MuiBadge,
   styled,
 } from '@mui/material';
 import {

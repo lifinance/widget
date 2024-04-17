@@ -1,4 +1,5 @@
 'use client';
+
 import { AppRoutes } from './AppRoutes.js';
 import {
   AppContainer,
@@ -10,7 +11,7 @@ import { Initializer } from './components/Initializer.js';
 import { RoutesExpanded } from './components/Routes/RoutesExpanded.js';
 import { useWideVariant } from './hooks/useWideVariant.js';
 import { useWidgetConfig } from './providers/WidgetProvider/WidgetProvider.js';
-import { ElementId, createElementId } from './utils/elements.js';
+import { createElementId, ElementId } from './utils/elements.js';
 
 export const AppDefault = () => {
   const { elementId } = useWidgetConfig();

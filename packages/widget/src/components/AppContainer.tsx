@@ -2,7 +2,7 @@ import { Box, Container, ScopedCssBaseline, styled } from '@mui/material';
 import type { PropsWithChildren } from 'react';
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
 import type { WidgetVariant } from '../types/widget.js';
-import { ElementId, createElementId } from '../utils/elements.js';
+import { createElementId, ElementId } from '../utils/elements.js';
 
 export const maxHeight = 682;
 

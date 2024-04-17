@@ -1,6 +1,5 @@
-import { Box, Typography } from '@mui/material';
 import TabContext from '@mui/lab/TabContext';
-import { useEditToolsActions, useCodeToolValues } from '../../../store';
+import { Box, Typography } from '@mui/material';
 import {
   CRALogo,
   GatsbyLogo,
@@ -12,12 +11,13 @@ import {
   ViteLogo,
   VueLogo,
 } from '../../../logo';
+import { useCodeToolValues, useEditToolsActions } from '../../../store';
 import { Card } from '../../Card';
 import { Tab, Tabs } from '../../Tabs';
 import { TabContentContainer } from '../DrawerControls.style';
 import { CodeEditor } from './CodeEditor';
-import { ProjectButton } from './ProjectButton';
 import { FontEmbedInfo } from './FontEmbedInfo';
+import { ProjectButton } from './ProjectButton';
 
 export const CodeControl = () => {
   const { codeControlTab } = useCodeToolValues();

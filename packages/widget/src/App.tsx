@@ -1,4 +1,5 @@
 'use client';
+
 import { forwardRef, useMemo } from 'react';
 import { AppDefault } from './AppDefault.js';
 import type { WidgetDrawer } from './AppDrawer.js';
