@@ -1,11 +1,11 @@
-import SettingsIcon from '@mui/icons-material/Settings';
 import type { BoxProps } from '@mui/material';
 import { useTheme } from '@mui/material';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { safe6DigitHexColor } from '../../../utils';
 import {
   useEditToolsActions,
   usePlaygroundSettingValues,
 } from '../../../store';
-import { safe6DigitHexColor } from '../../../utils';
 import { ExpandableCard } from '../../Card';
 import {
   CapitalizeFirstLetter,

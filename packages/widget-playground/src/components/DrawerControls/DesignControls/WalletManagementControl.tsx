@@ -1,5 +1,3 @@
-import * as React from 'react';
-import { useConfigActions, useConfigWalletManagement } from '../../../store';
 import {
   Card,
   CardRowContainer,
@@ -7,6 +5,8 @@ import {
   CardValue,
 } from '../../Card';
 import { Switch } from '../../Switch';
+import { useConfigActions, useConfigWalletManagement } from '../../../store';
+import * as React from 'react';
 
 export const WalletManagementControl = () => {
   const { isExternalWalletManagement, replacementWalletConfig } =

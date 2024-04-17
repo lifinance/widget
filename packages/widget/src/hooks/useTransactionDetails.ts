@@ -1,5 +1,5 @@
 import type { FullStatusData } from '@lifi/sdk';
-import { type StatusResponse, getStatus } from '@lifi/sdk';
+import { getStatus, type StatusResponse } from '@lifi/sdk';
 import {
   keepPreviousData,
   useQuery,

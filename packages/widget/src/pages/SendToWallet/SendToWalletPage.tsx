@@ -13,13 +13,13 @@ import {
   useAddressValidation,
 } from '../../hooks/useAddressValidation.js';
 import { useChain } from '../../hooks/useChain.js';
-import { useHeader } from '../../hooks/useHeader.js';
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
 import type { Bookmark } from '../../stores/bookmarks/types.js';
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
 import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js';
 import { useFieldActions } from '../../stores/form/useFieldActions.js';
 import { useFieldValues } from '../../stores/form/useFieldValues.js';
+import { useHeader } from '../../hooks/useHeader.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { BookmarkAddressSheet } from './BookmarkAddressSheet.js';
 import { ConfirmAddressSheet } from './ConfirmAddressSheet.js';

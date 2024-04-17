@@ -5,8 +5,8 @@ import type { PropsWithChildren } from 'react';
 import { ExternalWalletProvider } from '../../providers';
 import {
   useConfig,
-  useDrawerToolValues,
   useEditToolsActions,
+  useDrawerToolValues,
 } from '../../store';
 import { ToggleDrawerButton } from './ToggleDrawerButton';
 import {

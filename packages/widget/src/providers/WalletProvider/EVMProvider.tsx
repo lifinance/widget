@@ -1,5 +1,5 @@
 import { ChainType } from '@lifi/sdk';
-import { type FC, type PropsWithChildren, useContext } from 'react';
+import { useContext, type FC, type PropsWithChildren } from 'react';
 import { WagmiContext } from 'wagmi';
 import { isItemAllowed } from '../../utils/item.js';
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js';

@@ -28,7 +28,7 @@ import {
   xdefi,
 } from '@lifi/wallet-management';
 import { formatChain, useAvailableChains } from '@lifi/widget';
-import { type FC, type PropsWithChildren, useMemo } from 'react';
+import { useMemo, type FC, type PropsWithChildren } from 'react';
 import type { Chain } from 'viem';
 import { createClient } from 'viem';
 import { WagmiProvider, createConfig, http } from 'wagmi';

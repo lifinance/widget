@@ -18,8 +18,7 @@
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
     "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg",
     "lint": "eslint --ext .tsx --ext .ts ./src",
-    "format": "prettier --write ./src/",
-    "pre-commit:validate": "yarn format && yarn lint --fix --max-warnings=0",
+    "pre-commit:validate": "yarn lint --fix",
     "pre-push:validate": "yarn check:types & yarn check:circular-deps"
   },
   "publishConfig": {

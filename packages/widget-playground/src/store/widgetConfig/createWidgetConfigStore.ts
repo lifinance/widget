@@ -1,11 +1,11 @@
+import { createWithEqualityFn } from 'zustand/traditional';
 import type { WidgetConfig, WidgetTheme } from '@lifi/widget';
 import type { StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { createWithEqualityFn } from 'zustand/traditional';
 import { addValueFromPathString, cloneStructuredConfig } from '../../utils';
-import type { ThemeItem } from '../editTools/types';
 import type { WidgetConfigState } from './types';
 import { getLocalStorageOutput } from './utils/getLocalStorageOutput';
+import type { ThemeItem } from '../editTools/types';
 import { setThemeAppearanceWithFallback } from './utils/setThemeWithFallback';
 
 export const createWidgetConfigStore = (

@@ -1,17 +1,17 @@
+import { useEffect, useRef, useState } from 'react';
+import { Tooltip, useTheme } from '@mui/material';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import type { BeforeMount, OnMount } from '@monaco-editor/react';
 import Editor from '@monaco-editor/react';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import { Tooltip, useTheme } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
 import { useThemeMode } from '../../../hooks';
-import { getConfigOutput, useConfig } from '../../../store';
 import { tooltipPopperZIndex } from '../DrawerControls.style';
 import {
   CodeContainer,
-  CodeCopyButton,
   EditorContainer,
+  CodeCopyButton,
   EditorSkeleton,
 } from './CodeControl.style';
+import { useConfig, getConfigOutput } from '../../../store';
 import { stringifyConfig } from './utils/stringifyConfig';
 
 interface MonacoEditor {

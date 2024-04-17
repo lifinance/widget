@@ -10,7 +10,6 @@ import { ContractComponent } from '../../components/ContractComponent/ContractCo
 import { Insurance } from '../../components/Insurance/Insurance.js';
 import { PageContainer } from '../../components/PageContainer.js';
 import { getStepList } from '../../components/Step/StepList.js';
-import { useHeader } from '../../hooks/useHeader.js';
 import { useNavigateBack } from '../../hooks/useNavigateBack.js';
 import { useTools } from '../../hooks/useTools.js';
 import { useTransactionDetails } from '../../hooks/useTransactionDetails.js';
@@ -22,6 +21,7 @@ import { formatTokenAmount } from '../../utils/format.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { ContactSupportButton } from './ContactSupportButton.js';
 import { TransactionDetailsSkeleton } from './TransactionDetailsSkeleton.js';
+import { useHeader } from '../../hooks/useHeader.js';
 
 export const TransactionDetailsPage: React.FC = () => {
   const { t, i18n } = useTranslation();

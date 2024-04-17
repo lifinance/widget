@@ -1,13 +1,13 @@
 import { formatChain, useAvailableChains } from '@lifi/widget';
 import {
   RainbowKitProvider,
-  type Theme as RainbowKitTheme,
   darkTheme,
   getDefaultConfig,
   lightTheme,
+  type Theme as RainbowKitTheme,
 } from '@rainbow-me/rainbowkit';
 import '@rainbow-me/rainbowkit/styles.css';
-import { type FC, type PropsWithChildren, useMemo } from 'react';
+import { useMemo, type FC, type PropsWithChildren } from 'react';
 import type { Chain } from 'viem';
 import { WagmiProvider } from 'wagmi';
 import { mainnet } from 'wagmi/chains';

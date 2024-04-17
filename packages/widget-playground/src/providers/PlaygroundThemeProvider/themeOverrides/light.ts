@@ -1,5 +1,4 @@
 import type { WidgetTheme } from '@lifi/widget';
-
 export const lightPalette = {
   mode: 'light',
   text: {

@@ -1,7 +1,7 @@
-import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
-import WalletIcon from '@mui/icons-material/Wallet';
 import { Box } from '@mui/material';
 import { useAccount, useConnect, useConnectors, useDisconnect } from 'wagmi';
+import WalletIcon from '@mui/icons-material/Wallet';
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import { shortenAddress } from '../../utils';
 import { ConnectionWalletButtonBase } from './WidgetView.style';
 
