@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-playground-next",
-  "version": "1.0.189",
+  "version": "1.0.190",
   "scripts": {
     "dev": "next dev -p 3001",
     "build": "next build",
@@ -16,9 +16,9 @@
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@lifi/sdk": "^3.0.0-alpha.59",
-    "@lifi/wallet-management": "^3.0.0-alpha.24",
-    "@lifi/widget": "^3.0.0-alpha.37",
-    "@lifi/widget-playground": "^1.0.189",
+    "@lifi/wallet-management": "^3.0.0-alpha.25",
+    "@lifi/widget": "^3.0.0-alpha.38",
+    "@lifi/widget-playground": "^1.0.190",
     "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.15",
     "@mui/material-nextjs": "^5.15.11",
