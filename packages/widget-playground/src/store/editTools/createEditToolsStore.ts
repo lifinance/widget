@@ -23,6 +23,10 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
         playgroundSettings: {
           viewportColor: undefined,
         },
+        skeletonControl: {
+          show: false,
+          sideBySide: false,
+        },
         setDrawerOpen: (open) => {
           set({
             drawer: {
@@ -82,6 +86,22 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
             playgroundSettings: {
               ...get().playgroundSettings,
               viewportColor,
+            },
+          });
+        },
+        setSkeletonShow: (show) => {
+          set({
+            skeletonControl: {
+              show,
+              sideBySide: !show ? false : get().skeletonControl.sideBySide,
+            },
+          });
+        },
+        setSkeletonSideBySide: (sideBySide) => {
+          set({
+            skeletonControl: {
+              sideBySide,
+              show: sideBySide ? true : get().skeletonControl.show,
             },
           });
         },

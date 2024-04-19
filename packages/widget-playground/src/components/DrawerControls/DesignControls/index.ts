@@ -9,3 +9,4 @@ export * from './SubvariantControl';
 export * from './ThemeControl';
 export * from './VariantControl';
 export * from './WalletManagementControl';
+export * from './SkeletonControl';
