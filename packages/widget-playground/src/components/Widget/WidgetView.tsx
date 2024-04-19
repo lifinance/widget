@@ -1,5 +1,5 @@
 import type { WidgetDrawer } from '@lifi/widget';
-import { LiFiWidget } from '@lifi/widget';
+import { LiFiWidget, WidgetSkeleton } from '@lifi/widget';
 import { useCallback, useRef } from 'react';
 import { useConfig } from '../../store';
 import { WidgetViewContainer } from './WidgetViewContainer';
@@ -20,6 +20,7 @@ export function WidgetView() {
         integrator="li.fi-playground"
         open
       />
+      <WidgetSkeleton config={config!} />
     </WidgetViewContainer>
   );
 }

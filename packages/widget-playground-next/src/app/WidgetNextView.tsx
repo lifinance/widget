@@ -1,10 +1,6 @@
 import type { WidgetDrawer } from '@lifi/widget';
-import { LiFiWidget } from '@lifi/widget';
-import {
-  WidgetSkeleton,
-  WidgetViewContainer,
-  useConfig,
-} from '@lifi/widget-playground';
+import { LiFiWidget, WidgetSkeleton } from '@lifi/widget';
+import { useConfig, WidgetViewContainer } from '@lifi/widget-playground';
 import { useCallback, useRef } from 'react';
 import { ClientOnly } from './ClientOnly';
 
@@ -18,7 +14,7 @@ export function WidgetNextView() {
 
   return (
     <WidgetViewContainer toggleDrawer={toggleDrawer}>
-      <ClientOnly fallback={<WidgetSkeleton />}>
+      <ClientOnly fallback={<WidgetSkeleton config={config!} />}>
         <LiFiWidget
           config={config}
           integrator="li.fi-playground"
