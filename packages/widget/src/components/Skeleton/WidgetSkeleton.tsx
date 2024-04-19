@@ -1,4 +1,8 @@
-import type { WidgetConfig } from '../../types/widget.js';
+import { type Theme, Box, Skeleton, useMediaQuery } from '@mui/material';
+import { useMemo } from 'react';
+import type { WidgetConfig, WidgetTheme } from '../../types/widget.js';
+import { AppExpandedContainer, FlexContainer } from '../AppContainer.js';
+import { createTheme } from '../../themes/createTheme.js';
 import {
   SkeletonCard,
   SkeletonCardRow,
@@ -10,11 +14,6 @@ import {
   SkeletonSendToWalletButton,
   SkeletonWalletMenuButtonContainer,
 } from './WidgetSkeleton.style.js';
-import { AppExpandedContainer, FlexContainer } from '../AppContainer.js';
-import React, { useMemo } from 'react';
-import { type Theme, Box, Skeleton, useMediaQuery } from '@mui/material';
-import { createTheme } from '../../themes/createTheme.js';
-import type { WidgetTheme } from '../../types/widget.js';
 
 interface SkeletonComponentProps {
   skeletonTheme: Partial<WidgetTheme & Theme>;
@@ -32,19 +31,27 @@ const SkeletonWalletMenuButton = ({
   </SkeletonWalletMenuButtonContainer>
 );
 
-const SkeletonSelectCard = ({ skeletonTheme }: SkeletonComponentProps) => (
+interface SkeletonSelectCardProps extends SkeletonComponentProps {
+  titleWidth?: number;
+  placeholderWidth?: number;
+}
+const SkeletonSelectCard = ({
+  skeletonTheme,
+  titleWidth = 36,
+  placeholderWidth = 195,
+}: SkeletonSelectCardProps) => (
   <SkeletonCard skeletonTheme={skeletonTheme} elevation={0}>
-    <Skeleton width={36} height={22} variant="text" />
+    <Skeleton width={titleWidth} height={22} variant="text" />
     <SkeletonCardRow skeletonTheme={skeletonTheme}>
       <Skeleton width={40} height={40} variant="circular" />
-      <Skeleton width={195} height={27} variant="text" />
+      <Skeleton width={placeholderWidth} height={27} variant="text" />
     </SkeletonCardRow>
   </SkeletonCard>
 );
 
 const SkeletonYouPayCard = ({ skeletonTheme }: SkeletonComponentProps) => (
   <SkeletonInputCard skeletonTheme={skeletonTheme} elevation={0}>
-    <Skeleton width={58} height={22} variant="text" />
+    <Skeleton width={55} height={22} variant="text" />
     <SkeletonCardRow skeletonTheme={skeletonTheme}>
       <Skeleton width={40} height={40} variant="circular" />
       <Box
@@ -52,20 +59,17 @@ const SkeletonYouPayCard = ({ skeletonTheme }: SkeletonComponentProps) => (
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
+          height: 40,
+          overflowY: 'hidden',
         }}
       >
         <Skeleton
-          width={20}
+          width={16}
           height={37}
           variant="text"
-          sx={{ marginTop: -1.25 }}
+          sx={{ marginTop: -0.75 }}
         />
-        <Skeleton
-          width={37}
-          height={12}
-          variant="text"
-          sx={{ marginTop: -0.25 }}
-        />
+        <Skeleton width={30} height={12} variant="text" />
       </Box>
     </SkeletonCardRow>
   </SkeletonInputCard>
@@ -76,7 +80,7 @@ interface WidgetSkeletonProps {
 }
 
 export const WidgetSkeleton = ({ config }: WidgetSkeletonProps) => {
-  const { appearance, hiddenUI, subvariant } = config;
+  const { appearance, hiddenUI, requiredUI, subvariant } = config;
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const appearanceMode =
     !appearance || appearance === 'auto'
@@ -113,8 +117,15 @@ export const WidgetSkeleton = ({ config }: WidgetSkeletonProps) => {
         </SkeletonHeaderContainer>
         <FlexContainer sx={{ gap: 2 }}>
           <SkeletonSelectCard skeletonTheme={theme} />
-          <SkeletonSelectCard skeletonTheme={theme} />
+          <SkeletonSelectCard skeletonTheme={theme} titleWidth={18} />
           <SkeletonYouPayCard skeletonTheme={theme} />
+          {requiredUI?.includes('toAddress') ? (
+            <SkeletonSelectCard
+              skeletonTheme={theme}
+              titleWidth={104}
+              placeholderWidth={175}
+            />
+          ) : null}
           <Box
             sx={{
               display: 'flex',
@@ -126,14 +137,16 @@ export const WidgetSkeleton = ({ config }: WidgetSkeletonProps) => {
             <SkeletonReviewButton skeletonTheme={theme} fullWidth disabled>
               &nbsp;
             </SkeletonReviewButton>
-            <SkeletonSendToWalletButton
-              variant="text"
-              skeletonTheme={theme}
-              fullWidth
-              disabled
-            >
-              &nbsp;
-            </SkeletonSendToWalletButton>
+            {!requiredUI?.includes('toAddress') ? (
+              <SkeletonSendToWalletButton
+                variant="text"
+                skeletonTheme={theme}
+                fullWidth
+                disabled
+              >
+                &nbsp;
+              </SkeletonSendToWalletButton>
+            ) : null}
           </Box>
           {!hiddenUI?.includes('poweredBy') ? (
             <Box
@@ -143,7 +156,7 @@ export const WidgetSkeleton = ({ config }: WidgetSkeletonProps) => {
                 marginBottom: 2,
               }}
             >
-              <Skeleton width={76} height={18} variant="text" />
+              <Skeleton width={96} height={18} variant="text" />
             </Box>
           ) : null}
         </FlexContainer>

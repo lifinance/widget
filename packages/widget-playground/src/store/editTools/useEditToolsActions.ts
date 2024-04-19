@@ -11,6 +11,8 @@ export const useEditToolsActions = () => {
       resetEditTools: state.resetEditTools,
       setSelectedFont: state.setSelectedFont,
       setViewportBackgroundColor: state.setViewportBackgroundColor,
+      setSkeletonShow: state.setSkeletonShow,
+      setSkeletonSideBySide: state.setSkeletonSideBySide,
     }),
     shallow,
   );

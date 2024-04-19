@@ -1,4 +1,5 @@
 'use client';
+
 import { LiFiWidget } from '@lifi/widget';
 import { useEffect, useState } from 'react';
 

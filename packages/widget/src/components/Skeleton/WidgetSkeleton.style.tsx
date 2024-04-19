@@ -6,7 +6,7 @@ import type {
   CSSObject,
 } from '@mui/material';
 import { Box, Card as MuiCard, Container, styled, Button } from '@mui/material';
-import type { WidgetTheme, WidgetVariant } from '@lifi/widget';
+import type { WidgetTheme, WidgetVariant } from '../../types/widget.js';
 import { maxHeight } from '../../components/AppContainer.js';
 import { InputCard } from '../../components/Card/InputCard.js';
 
@@ -21,7 +21,7 @@ export const SkeletonRelativeContainer = styled(Box, {
     maxWidth: skeletonTheme.breakpoints?.values.sm,
     maxHeight: variant === 'drawer' ? 'none' : maxHeight,
     background: skeletonTheme.palette?.background.default,
-    overflow: 'auto',
+    overflow: 'clip',
     flex: 1,
     zIndex: 0,
     ...skeletonTheme.container,
@@ -55,6 +55,7 @@ export const SkeletonHeaderAppBar = styled(Box, {
   alignItems: 'center',
   position: 'relative',
   color: skeletonTheme.palette?.text.primary,
+  paddingRight: skeletonTheme.navigation?.edge ? 0 : skeletonTheme.spacing?.(1),
 }));
 
 export const SkeletonWalletMenuButtonContainer = styled(Box, {

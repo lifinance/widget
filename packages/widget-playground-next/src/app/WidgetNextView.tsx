@@ -1,12 +1,17 @@
 import type { WidgetDrawer } from '@lifi/widget';
 import { LiFiWidget, WidgetSkeleton } from '@lifi/widget';
-import { useConfig, WidgetViewContainer } from '@lifi/widget-playground';
+import {
+  useConfig,
+  WidgetViewContainer,
+  useSkeletonToolValues,
+} from '@lifi/widget-playground';
 import { useCallback, useRef } from 'react';
 import { ClientOnly } from './ClientOnly';
 
 export function WidgetNextView() {
   const { config } = useConfig();
   const drawerRef = useRef<WidgetDrawer>(null);
+  const { isSkeletonShown, isSkeletonSideBySide } = useSkeletonToolValues();
 
   const toggleDrawer = useCallback(() => {
     drawerRef?.current?.toggleDrawer();
@@ -14,14 +19,17 @@ export function WidgetNextView() {
 
   return (
     <WidgetViewContainer toggleDrawer={toggleDrawer}>
-      <ClientOnly fallback={<WidgetSkeleton config={config!} />}>
-        <LiFiWidget
-          config={config}
-          integrator="li.fi-playground"
-          ref={drawerRef}
-          open
-        />
-      </ClientOnly>
+      {!isSkeletonShown || isSkeletonSideBySide ? (
+        <ClientOnly fallback={<WidgetSkeleton config={config!} />}>
+          <LiFiWidget
+            config={config}
+            integrator="li.fi-playground"
+            ref={drawerRef}
+            open
+          />
+        </ClientOnly>
+      ) : null}
+      {isSkeletonShown ? <WidgetSkeleton config={config!} /> : null}
     </WidgetViewContainer>
   );
 }
