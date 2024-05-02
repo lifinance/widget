@@ -1,19 +1,25 @@
-import { Box, Skeleton, useMediaQuery, ThemeProvider } from '@mui/material';
+import { Skeleton, useMediaQuery, ThemeProvider } from '@mui/material';
 import { useMemo } from 'react';
 import type { WidgetConfig } from '../../types/widget.js';
-import { AppExpandedContainer, FlexContainer } from '../AppContainer.js';
+import {
+  AppExpandedContainer,
+  FlexContainer,
+  RelativeContainer,
+} from '../AppContainer.js';
 import { createTheme } from '../../themes/createTheme.js';
 import {
+  SkeletonAmountContainer,
   SkeletonCard,
   SkeletonCardRow,
   SkeletonHeaderAppBar,
-  SkeletonHeaderContainer,
   SkeletonInputCard,
-  SkeletonRelativeContainer,
+  SkeletonPoweredByContainer,
   SkeletonReviewButton,
+  SkeletonReviewButtonContainer,
   SkeletonSendToWalletButton,
   SkeletonWalletMenuButtonContainer,
 } from './WidgetSkeleton.style.js';
+import { Container as HeaderContainer } from '../Header/Header.style.js';
 
 const SkeletonIcon = () => (
   <Skeleton width={24} height={24} variant="rounded" />
@@ -47,15 +53,7 @@ const SkeletonYouPayCard = () => (
     <Skeleton width={55} height={22} variant="text" />
     <SkeletonCardRow>
       <Skeleton width={40} height={40} variant="circular" />
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          height: 40,
-          overflowY: 'hidden',
-        }}
-      >
+      <SkeletonAmountContainer>
         <Skeleton
           width={16}
           height={37}
@@ -63,7 +61,7 @@ const SkeletonYouPayCard = () => (
           sx={{ marginTop: -0.75 }}
         />
         <Skeleton width={30} height={12} variant="text" />
-      </Box>
+      </SkeletonAmountContainer>
     </SkeletonCardRow>
   </SkeletonInputCard>
 );
@@ -90,8 +88,8 @@ export const WidgetSkeleton = ({ config }: WidgetSkeletonProps) => {
   return (
     <ThemeProvider theme={theme}>
       <AppExpandedContainer>
-        <SkeletonRelativeContainer>
-          <SkeletonHeaderContainer>
+        <RelativeContainer>
+          <HeaderContainer>
             {!hiddenUI?.includes('walletMenu') ? (
               <SkeletonHeaderAppBar>
                 <SkeletonWalletMenuButton />
@@ -107,22 +105,20 @@ export const WidgetSkeleton = ({ config }: WidgetSkeletonProps) => {
               />
               <SkeletonIcon />
             </SkeletonHeaderAppBar>
-          </SkeletonHeaderContainer>
-          <FlexContainer sx={{ gap: 2 }}>
+          </HeaderContainer>
+          <FlexContainer
+            sx={{
+              gap: 2,
+              paddingBottom: hiddenUI?.includes('poweredBy') ? 3 : 2,
+            }}
+          >
             <SkeletonSelectCard />
             <SkeletonSelectCard titleWidth={18} />
             <SkeletonYouPayCard />
             {requiredUI?.includes('toAddress') ? (
               <SkeletonSelectCard titleWidth={104} placeholderWidth={175} />
             ) : null}
-            <Box
-              sx={{
-                display: 'flex',
-                gap: 1.5,
-                alignItems: 'center',
-                marginBottom: hiddenUI?.includes('poweredBy') ? 3 : 0,
-              }}
-            >
+            <SkeletonReviewButtonContainer>
               <SkeletonReviewButton variant="contained" fullWidth>
                 &nbsp;
               </SkeletonReviewButton>
@@ -131,20 +127,14 @@ export const WidgetSkeleton = ({ config }: WidgetSkeletonProps) => {
                   &nbsp;
                 </SkeletonSendToWalletButton>
               ) : null}
-            </Box>
+            </SkeletonReviewButtonContainer>
             {!hiddenUI?.includes('poweredBy') ? (
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  marginBottom: 2,
-                }}
-              >
+              <SkeletonPoweredByContainer>
                 <Skeleton width={96} height={18} variant="text" />
-              </Box>
+              </SkeletonPoweredByContainer>
             ) : null}
           </FlexContainer>
-        </SkeletonRelativeContainer>
+        </RelativeContainer>
       </AppExpandedContainer>
     </ThemeProvider>
   );
