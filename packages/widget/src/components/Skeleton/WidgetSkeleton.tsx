@@ -1,6 +1,6 @@
-import { type Theme, Box, Skeleton, useMediaQuery } from '@mui/material';
+import { Box, Skeleton, useMediaQuery, ThemeProvider } from '@mui/material';
 import { useMemo } from 'react';
-import type { WidgetConfig, WidgetTheme } from '../../types/widget.js';
+import type { WidgetConfig } from '../../types/widget.js';
 import { AppExpandedContainer, FlexContainer } from '../AppContainer.js';
 import { createTheme } from '../../themes/createTheme.js';
 import {
@@ -15,44 +15,37 @@ import {
   SkeletonWalletMenuButtonContainer,
 } from './WidgetSkeleton.style.js';
 
-interface SkeletonComponentProps {
-  skeletonTheme: Partial<WidgetTheme & Theme>;
-}
-
 const SkeletonIcon = () => (
   <Skeleton width={24} height={24} variant="rounded" />
 );
-const SkeletonWalletMenuButton = ({
-  skeletonTheme,
-}: SkeletonComponentProps) => (
-  <SkeletonWalletMenuButtonContainer skeletonTheme={skeletonTheme}>
+const SkeletonWalletMenuButton = () => (
+  <SkeletonWalletMenuButtonContainer>
     <Skeleton width={98} height={19} variant="text" />
     <SkeletonIcon />
   </SkeletonWalletMenuButtonContainer>
 );
 
-interface SkeletonSelectCardProps extends SkeletonComponentProps {
+interface SkeletonSelectCardProps {
   titleWidth?: number;
   placeholderWidth?: number;
 }
 const SkeletonSelectCard = ({
-  skeletonTheme,
   titleWidth = 36,
   placeholderWidth = 195,
 }: SkeletonSelectCardProps) => (
-  <SkeletonCard skeletonTheme={skeletonTheme} elevation={0}>
+  <SkeletonCard elevation={0}>
     <Skeleton width={titleWidth} height={22} variant="text" />
-    <SkeletonCardRow skeletonTheme={skeletonTheme}>
+    <SkeletonCardRow>
       <Skeleton width={40} height={40} variant="circular" />
       <Skeleton width={placeholderWidth} height={27} variant="text" />
     </SkeletonCardRow>
   </SkeletonCard>
 );
 
-const SkeletonYouPayCard = ({ skeletonTheme }: SkeletonComponentProps) => (
-  <SkeletonInputCard skeletonTheme={skeletonTheme} elevation={0}>
+const SkeletonYouPayCard = () => (
+  <SkeletonInputCard elevation={0}>
     <Skeleton width={55} height={22} variant="text" />
-    <SkeletonCardRow skeletonTheme={skeletonTheme}>
+    <SkeletonCardRow>
       <Skeleton width={40} height={40} variant="circular" />
       <Box
         sx={{
@@ -95,72 +88,64 @@ export const WidgetSkeleton = ({ config }: WidgetSkeletonProps) => {
   );
 
   return (
-    <AppExpandedContainer>
-      <SkeletonRelativeContainer skeletonTheme={theme}>
-        <SkeletonHeaderContainer skeletonTheme={theme}>
-          {!hiddenUI?.includes('walletMenu') ? (
-            <SkeletonHeaderAppBar skeletonTheme={theme}>
-              <SkeletonWalletMenuButton skeletonTheme={theme} />
-            </SkeletonHeaderAppBar>
-          ) : null}
-          <SkeletonHeaderAppBar
-            skeletonTheme={theme}
-            sx={{ justifyContent: 'space-between', height: 40 }}
-          >
-            <Skeleton
-              width={subvariant === 'refuel' ? 42 : 126}
-              height={34}
-              variant="text"
-            />
-            <SkeletonIcon />
-          </SkeletonHeaderAppBar>
-        </SkeletonHeaderContainer>
-        <FlexContainer sx={{ gap: 2 }}>
-          <SkeletonSelectCard skeletonTheme={theme} />
-          <SkeletonSelectCard skeletonTheme={theme} titleWidth={18} />
-          <SkeletonYouPayCard skeletonTheme={theme} />
-          {requiredUI?.includes('toAddress') ? (
-            <SkeletonSelectCard
-              skeletonTheme={theme}
-              titleWidth={104}
-              placeholderWidth={175}
-            />
-          ) : null}
-          <Box
-            sx={{
-              display: 'flex',
-              gap: 1.5,
-              alignItems: 'center',
-              marginBottom: hiddenUI?.includes('poweredBy') ? 3 : 0,
-            }}
-          >
-            <SkeletonReviewButton skeletonTheme={theme} fullWidth disabled>
-              &nbsp;
-            </SkeletonReviewButton>
-            {!requiredUI?.includes('toAddress') ? (
-              <SkeletonSendToWalletButton
-                variant="text"
-                skeletonTheme={theme}
-                fullWidth
-                disabled
-              >
-                &nbsp;
-              </SkeletonSendToWalletButton>
+    <ThemeProvider theme={theme}>
+      <AppExpandedContainer>
+        <SkeletonRelativeContainer>
+          <SkeletonHeaderContainer>
+            {!hiddenUI?.includes('walletMenu') ? (
+              <SkeletonHeaderAppBar>
+                <SkeletonWalletMenuButton />
+              </SkeletonHeaderAppBar>
             ) : null}
-          </Box>
-          {!hiddenUI?.includes('poweredBy') ? (
+            <SkeletonHeaderAppBar
+              sx={{ justifyContent: 'space-between', height: 40 }}
+            >
+              <Skeleton
+                width={subvariant === 'refuel' ? 42 : 126}
+                height={34}
+                variant="text"
+              />
+              <SkeletonIcon />
+            </SkeletonHeaderAppBar>
+          </SkeletonHeaderContainer>
+          <FlexContainer sx={{ gap: 2 }}>
+            <SkeletonSelectCard />
+            <SkeletonSelectCard titleWidth={18} />
+            <SkeletonYouPayCard />
+            {requiredUI?.includes('toAddress') ? (
+              <SkeletonSelectCard titleWidth={104} placeholderWidth={175} />
+            ) : null}
             <Box
               sx={{
                 display: 'flex',
-                justifyContent: 'flex-end',
-                marginBottom: 2,
+                gap: 1.5,
+                alignItems: 'center',
+                marginBottom: hiddenUI?.includes('poweredBy') ? 3 : 0,
               }}
             >
-              <Skeleton width={96} height={18} variant="text" />
+              <SkeletonReviewButton variant="contained" fullWidth>
+                &nbsp;
+              </SkeletonReviewButton>
+              {!requiredUI?.includes('toAddress') ? (
+                <SkeletonSendToWalletButton variant="text" fullWidth>
+                  &nbsp;
+                </SkeletonSendToWalletButton>
+              ) : null}
             </Box>
-          ) : null}
-        </FlexContainer>
-      </SkeletonRelativeContainer>
-    </AppExpandedContainer>
+            {!hiddenUI?.includes('poweredBy') ? (
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  marginBottom: 2,
+                }}
+              >
+                <Skeleton width={96} height={18} variant="text" />
+              </Box>
+            ) : null}
+          </FlexContainer>
+        </SkeletonRelativeContainer>
+      </AppExpandedContainer>
+    </ThemeProvider>
   );
 };
