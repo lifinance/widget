@@ -1,9 +1,9 @@
 import type { WidgetDrawer } from '@lifi/widget';
 import { LiFiWidget } from '@lifi/widget';
 import {
-  useConfig,
   WidgetSkeleton,
   WidgetViewContainer,
+  useConfig,
 } from '@lifi/widget-playground';
 import { useCallback, useRef } from 'react';
 import { ClientOnly } from './ClientOnly';

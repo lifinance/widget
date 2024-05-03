@@ -1,6 +1,6 @@
 import type { MutableRefObject } from 'react';
 import { useLayoutEffect, useState } from 'react';
-import { createElementId, ElementId } from '../utils/elements.js';
+import { ElementId, createElementId } from '../utils/elements.js';
 import { useDefaultElementId } from './useDefaultElementId.js';
 import { getScrollableContainer } from './useScrollableContainer.js';
 

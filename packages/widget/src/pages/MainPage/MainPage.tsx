@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import { ActiveTransactions } from '../../components/ActiveTransactions/ActiveTransactions.js';
 import { AmountInput } from '../../components/AmountInput/AmountInput.js';
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js';
@@ -10,12 +9,13 @@ import { Routes } from '../../components/Routes/Routes.js';
 import { SelectChainAndToken } from '../../components/SelectChainAndToken.js';
 import { SendToWalletButton } from '../../components/SendToWallet/SendToWalletButton.js';
 import { SendToWalletExpandButton } from '../../components/SendToWallet/SendToWalletExpandButton.js';
-import { useHeader } from '../../hooks/useHeader.js';
 import { useWideVariant } from '../../hooks/useWideVariant.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useHeader } from '../../hooks/useHeader.js';
 import { HiddenUI } from '../../types/widget.js';
 import { MainMessages } from './MainMessages.js';
 import { ReviewButton } from './ReviewButton.js';
+import { useTranslation } from 'react-i18next';
 
 export const MainPage: React.FC = () => {
   const { t } = useTranslation();

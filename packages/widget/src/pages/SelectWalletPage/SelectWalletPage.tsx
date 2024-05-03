@@ -18,12 +18,12 @@ import type { Connector } from 'wagmi';
 import { useConnect, useAccount as useWagmiAccount } from 'wagmi';
 import { Dialog } from '../../components/Dialog.js';
 import { PageContainer } from '../../components/PageContainer.js';
-import { useHeader } from '../../hooks/useHeader.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { isItemAllowed } from '../../utils/item.js';
 import { EVMListItemButton } from './EVMListItemButton.js';
 import { SVMListItemButton } from './SVMListItemButton.js';
 import { walletComparator } from './utils.js';
+import { useHeader } from '../../hooks/useHeader.js';
 
 export const SelectWalletPage = () => {
   const { t } = useTranslation();

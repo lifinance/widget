@@ -1,9 +1,9 @@
 import { formatChain, useAvailableChains } from '@lifi/widget';
 import {
+  RainbowKitProvider,
   darkTheme,
   getDefaultConfig,
   lightTheme,
-  RainbowKitProvider,
   type Theme as RainbowKitTheme,
 } from '@rainbow-me/rainbowkit';
 import '@rainbow-me/rainbowkit/styles.css';

@@ -1,18 +1,18 @@
 import { Box } from '@mui/material';
 import type { FC } from 'react';
 import { useLayoutEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useHeader } from '../../hooks/useHeader.js';
 import { ChainSelect } from '../../components/ChainSelect/ChainSelect.js';
 import { PageContainer } from '../../components/PageContainer.js';
 import { TokenList } from '../../components/TokenList/TokenList.js';
 import { useContentHeight } from '../../hooks/useContentHeight.js';
-import { useHeader } from '../../hooks/useHeader.js';
 import { useNavigateBack } from '../../hooks/useNavigateBack.js';
 import { useScrollableOverflowHidden } from '../../hooks/useScrollableContainer.js';
 import { useSwapOnly } from '../../hooks/useSwapOnly.js';
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import type { FormTypeProps } from '../../stores/form/types.js';
 import { SearchTokenInput } from './SearchTokenInput.js';
+import { useTranslation } from 'react-i18next';
 
 const minTokenListHeight = 360;
 

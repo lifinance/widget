@@ -1,7 +1,7 @@
 import type { FC, PropsWithChildren } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useDefaultElementId } from '../../hooks/useDefaultElementId.js';
-import { createElementId, ElementId } from '../../utils/elements.js';
+import { ElementId, createElementId } from '../../utils/elements.js';
 import { stickyHeaderRoutes } from '../../utils/navigationRoutes.js';
 import { Container } from './Header.style.js';
 import { NavigationHeader } from './NavigationHeader.js';

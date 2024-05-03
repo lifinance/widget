@@ -6,8 +6,8 @@ import type {
   WidgetVariant,
   WidgetWalletConfig,
 } from '@lifi/widget';
-import type { StoreApi } from 'zustand';
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
+import type { StoreApi } from 'zustand';
 import type { ThemeItem } from '../editTools/types';
 
 export interface WidgetConfigValues {

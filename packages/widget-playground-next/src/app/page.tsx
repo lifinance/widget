@@ -4,20 +4,23 @@
 // the lack of structureClone support for Next.js is currently a requested feature
 //   https://github.com/vercel/next.js/discussions/33189
 import 'core-js/actual/structured-clone';
-import {
-  DrawerControls,
-  EditToolsProvider,
-  EnvVariablesProvider,
-  FontLoaderProvider,
-  PlaygroundThemeProvider,
-  WidgetConfigProvider,
-} from '@lifi/widget-playground';
-import { defaultWidgetConfig } from '@lifi/widget-playground/widget-config';
-import { Box } from '@mui/material';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { type PropsWithChildren } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Box } from '@mui/material';
+
+import {
+  EnvVariablesProvider,
+  EditToolsProvider,
+  WidgetConfigProvider,
+  PlaygroundThemeProvider,
+  DrawerControls,
+  FontLoaderProvider,
+} from '@lifi/widget-playground';
+
+import { defaultWidgetConfig } from '@lifi/widget-playground/widget-config';
+
 import '@lifi/widget-playground/fonts';
-import { WidgetNextView } from './WidgetNextView';
+import { WidgetNextView } from '@/app/WidgetNextView';
 
 const queryClient = new QueryClient();
 

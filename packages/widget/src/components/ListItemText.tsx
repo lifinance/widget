@@ -1,6 +1,6 @@
 import {
-  listItemTextClasses,
   ListItemText as MuiListItemText,
+  listItemTextClasses,
   styled,
 } from '@mui/material';
 

@@ -1,5 +1,5 @@
-import { styled } from '@mui/material';
 import type { FC, SVGProps } from 'react';
+import { styled } from '@mui/material';
 
 const LifiLogoBase: FC<SVGProps<SVGSVGElement>> = (props) => {
   return (

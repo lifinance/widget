@@ -1,4 +1,4 @@
-import { alpha, Box, styled, Typography } from '@mui/material';
+import { Box, Typography, alpha, styled } from '@mui/material';
 
 export const IconTypography = styled(Typography)(({ theme }) => ({
   color:

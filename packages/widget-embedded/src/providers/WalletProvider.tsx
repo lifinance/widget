@@ -31,7 +31,7 @@ import { formatChain, useAvailableChains } from '@lifi/widget';
 import { useMemo, type FC, type PropsWithChildren } from 'react';
 import type { Chain } from 'viem';
 import { createClient } from 'viem';
-import { createConfig, http, WagmiProvider } from 'wagmi';
+import { WagmiProvider, createConfig, http } from 'wagmi';
 import { mainnet } from 'wagmi/chains';
 
 const connectors = [

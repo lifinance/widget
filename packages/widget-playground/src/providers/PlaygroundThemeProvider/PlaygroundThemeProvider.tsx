@@ -1,14 +1,14 @@
-import { CssBaseline, ThemeProvider } from '@mui/material';
 import type { PropsWithChildren } from 'react';
 import React from 'react';
-import { useThemeMode } from '../../hooks';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import { usePlaygroundSettingValues } from '../../store';
+import { useThemeMode } from '../../hooks';
 import { theme } from './theme';
 import {
-  darkComponents,
-  darkPalette,
-  lightComponents,
   lightPalette,
+  darkPalette,
+  darkComponents,
+  lightComponents,
 } from './themeOverrides';
 
 const appearancePaletteOverrides = {

@@ -1,6 +1,6 @@
 import {
-  alpha,
   Switch as MuiSwitch,
+  alpha,
   styled,
   switchClasses,
 } from '@mui/material';

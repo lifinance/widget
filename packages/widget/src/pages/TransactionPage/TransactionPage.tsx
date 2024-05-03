@@ -10,12 +10,12 @@ import { GasMessage } from '../../components/GasMessage/GasMessage.js';
 import { Insurance } from '../../components/Insurance/Insurance.js';
 import { PageContainer } from '../../components/PageContainer.js';
 import { getStepList } from '../../components/Step/StepList.js';
-import { useHeader } from '../../hooks/useHeader.js';
 import { useNavigateBack } from '../../hooks/useNavigateBack.js';
 import { useRouteExecution } from '../../hooks/useRouteExecution.js';
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { useFieldActions } from '../../stores/form/useFieldActions.js';
+import { useHeader } from '../../hooks/useHeader.js';
 import { RouteExecutionStatus } from '../../stores/routes/types.js';
 import { WidgetEvent } from '../../types/events.js';
 import { formatTokenAmount } from '../../utils/format.js';
@@ -27,8 +27,8 @@ import {
 } from './StartTransactionButton.js';
 import { StatusBottomSheet } from './StatusBottomSheet.js';
 import {
-  getTokenValueLossThreshold,
   TokenValueBottomSheet,
+  getTokenValueLossThreshold,
 } from './TokenValueBottomSheet.js';
 import { calcValueLoss } from './utils.js';
 
