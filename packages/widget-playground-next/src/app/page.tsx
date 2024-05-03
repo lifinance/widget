@@ -1,26 +1,26 @@
 'use client';
 
-// This polyfill is only needed for the Next.js implementation
+import { Box } from '@mui/material';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+// The core-js/actual/structured-clone polyfill is only needed for the Next.js implementation
 // the lack of structureClone support for Next.js is currently a requested feature
 //   https://github.com/vercel/next.js/discussions/33189
 import 'core-js/actual/structured-clone';
 import { type PropsWithChildren } from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Box } from '@mui/material';
 
 import {
-  EnvVariablesProvider,
-  EditToolsProvider,
-  WidgetConfigProvider,
-  PlaygroundThemeProvider,
   DrawerControls,
+  EditToolsProvider,
+  EnvVariablesProvider,
   FontLoaderProvider,
+  PlaygroundThemeProvider,
+  WidgetConfigProvider,
 } from '@lifi/widget-playground';
 
 import { defaultWidgetConfig } from '@lifi/widget-playground/widget-config';
 
-import '@lifi/widget-playground/fonts';
 import { WidgetNextView } from '@/app/WidgetNextView';
+import '@lifi/widget-playground/fonts';
 
 const queryClient = new QueryClient();
 
