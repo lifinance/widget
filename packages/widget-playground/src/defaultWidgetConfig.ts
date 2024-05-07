@@ -43,7 +43,7 @@ export const widgetBaseConfig: WidgetConfig = {
     apiUrl: 'https://li.quest/v1',
     rpcUrls: {
       [ChainId.SOL]: [
-        'https://withered-lingering-frog.solana-mainnet.quiknode.pro/',
+        'https://chaotic-restless-putty.solana-mainnet.quiknode.pro/',
       ],
     },
     routeOptions: {
