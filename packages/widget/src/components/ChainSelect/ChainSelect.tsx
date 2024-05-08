@@ -3,7 +3,10 @@ import type { EVMChain } from '@lifi/sdk';
 import { Avatar, Box, Skeleton, Tooltip, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { maxChainToOrder } from '../../stores/chains/createChainOrderStore.js';
+import {
+  maxChainsToOrder,
+  maxChainsToShow,
+} from '../../stores/chains/createChainOrderStore.js';
 import type { FormTypeProps } from '../../stores/form/types.js';
 import { FormKeyHelper } from '../../stores/form/types.js';
 import { useFieldValues } from '../../stores/form/useFieldValues.js';
@@ -39,17 +42,19 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
   };
 
   // We check if we can accommodate all the chains on the grid
-  // If there are more chains we slice the last one to show the number of hidden chains
+  // If there are more than 10 chains we show the number of hidden chains as the last one tile
   const chainsToHide =
-    chains?.length === maxChainToOrder
+    chains?.length === maxChainsToShow
       ? 0
-      : (chains?.length ?? 0) - (maxChainToOrder - 1);
-  const sliceValue = chainsToHide > 0 ? -1 : maxChainToOrder;
+      : (chains?.length ?? 0) - maxChainsToOrder;
+
+  // When there is less than 10 chains we don't care about the order
+  const chainsToShow = chainsToHide > 0 ? getChains() : chains;
 
   return (
     <ChainContainer>
       {isLoading
-        ? Array.from({ length: maxChainToOrder }).map((_, index) => (
+        ? Array.from({ length: maxChainsToOrder }).map((_, index) => (
             <Skeleton
               key={index}
               variant="rectangular"
@@ -58,34 +63,32 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
               sx={{ borderRadius: 1 }}
             />
           ))
-        : getChains()
-            .slice(0, sliceValue)
-            .map((chain: EVMChain) => (
-              <Tooltip
-                key={chain.id}
-                title={chain.name}
-                placement="top"
-                enterDelay={400}
-                enterNextDelay={100}
-                disableInteractive
-                arrow
+        : chainsToShow?.map((chain: EVMChain) => (
+            <Tooltip
+              key={chain.id}
+              title={chain.name}
+              placement="top"
+              enterDelay={400}
+              enterNextDelay={100}
+              disableInteractive
+              arrow
+            >
+              <ChainCard
+                component="button"
+                onClick={() => setCurrentChain(chain.id)}
+                type={chainId === chain.id ? 'selected' : 'default'}
+                selectionColor="primary"
               >
-                <ChainCard
-                  component="button"
-                  onClick={() => setCurrentChain(chain.id)}
-                  type={chainId === chain.id ? 'selected' : 'default'}
-                  selectionColor="primary"
+                <Avatar
+                  src={chain.logoURI}
+                  alt={chain.key}
+                  sx={{ width: 40, height: 40 }}
                 >
-                  <Avatar
-                    src={chain.logoURI}
-                    alt={chain.key}
-                    sx={{ width: 40, height: 40 }}
-                  >
-                    {chain.name[0]}
-                  </Avatar>
-                </ChainCard>
-              </Tooltip>
-            ))}
+                  {chain.name[0]}
+                </Avatar>
+              </ChainCard>
+            </Tooltip>
+          ))}
       {chainsToHide > 0 ? (
         <ChainCard component="button" onClick={showAllChains}>
           <Box
