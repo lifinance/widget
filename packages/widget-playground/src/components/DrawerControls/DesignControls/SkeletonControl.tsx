@@ -1,11 +1,11 @@
-import { CardRowContainer, CardValue, ExpandableCard } from '../../Card';
-import { Switch } from '../../Switch';
 import { useEffect } from 'react';
 import {
   useConfigVariant,
   useEditToolsActions,
   useSkeletonToolValues,
 } from '../../../store';
+import { CardRowContainer, CardValue, ExpandableCard } from '../../Card';
+import { Switch } from '../../Switch';
 
 export const SkeletonControl = () => {
   const { isSkeletonShown, isSkeletonSideBySide } = useSkeletonToolValues();

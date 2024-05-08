@@ -1,12 +1,12 @@
-import { Skeleton, useMediaQuery, ThemeProvider } from '@mui/material';
+import { Skeleton, ThemeProvider, useMediaQuery } from '@mui/material';
 import { useMemo } from 'react';
+import { createTheme } from '../../themes/createTheme.js';
+import type { WidgetConfigPartialProps } from '../../types/widget.js';
 import {
   AppExpandedContainer,
   FlexContainer,
   RelativeContainer,
 } from '../AppContainer.js';
-import { createTheme } from '../../themes/createTheme.js';
-import type { WidgetConfigPartialProps } from '../../types/widget.js';
 import { Container as HeaderContainer } from '../Header/Header.style.js';
 import {
   SkeletonAmountContainer,
