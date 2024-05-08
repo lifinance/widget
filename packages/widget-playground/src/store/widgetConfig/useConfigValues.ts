@@ -1,8 +1,8 @@
-import { shallow } from 'zustand/shallow';
 import { palette, paletteDark, paletteLight } from '@lifi/widget';
-import { useWidgetConfigStore } from './WidgetConfigProvider';
-import { getValueFromPath } from '../../utils';
+import { shallow } from 'zustand/shallow';
 import { useThemeMode } from '../../hooks';
+import { getValueFromPath } from '../../utils';
+import { useWidgetConfigStore } from './WidgetConfigProvider';
 
 export const useConfigVariant = () => {
   const [variant] = useWidgetConfigStore(

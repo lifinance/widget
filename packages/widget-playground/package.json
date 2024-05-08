@@ -15,7 +15,8 @@
     "check:types": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "pre-commit:validate": "yarn lint --fix --max-warnings=0",
+    "format": "prettier --write ./src/",
+    "pre-commit:validate": "yarn format && yarn lint --fix --max-warnings=0",
     "pre-push:validate": "yarn check:types & yarn test"
   },
   "publishConfig": {

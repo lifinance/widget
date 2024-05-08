@@ -1,16 +1,16 @@
-import type { FC, PropsWithChildren } from 'react';
+import type { WidgetConfig } from '@lifi/widget';
+import { useMediaQuery } from '@mui/material';
+import isEqual from 'lodash.isequal';
 import diff from 'microdiff';
+import type { FC, PropsWithChildren } from 'react';
 import { createContext, useContext, useEffect, useRef } from 'react';
 import { shallow } from 'zustand/shallow';
-import type { WidgetConfig } from '@lifi/widget';
-import type { WidgetConfigStore, WidgetConfigState } from './types.js';
-import { createWidgetConfigStore } from './createWidgetConfigStore.js';
-import isEqual from 'lodash.isequal';
-import { cloneStructuredConfig } from '../../utils/cloneStructuredConfig';
 import { patch } from '../../utils';
-import { getConfigOutput } from './utils/getConfigOutput';
+import { cloneStructuredConfig } from '../../utils/cloneStructuredConfig';
+import { createWidgetConfigStore } from './createWidgetConfigStore.js';
 import { themeItems } from './themes';
-import { useMediaQuery } from '@mui/material';
+import type { WidgetConfigState, WidgetConfigStore } from './types.js';
+import { getConfigOutput } from './utils/getConfigOutput';
 
 export const WidgetConfigContext = createContext<WidgetConfigStore | null>(
   null,

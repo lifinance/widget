@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "check:types": "tsc --noEmit",
     "lint": "eslint --ext .tsx --ext .ts ./src",
-    "pre-commit:validate": "yarn lint --fix --max-warnings=0"
+    "format": "prettier --write ./src/",
+    "pre-commit:validate": "yarn format && yarn lint --fix --max-warnings=0"
   },
   "publishConfig": {
     "access": "public"

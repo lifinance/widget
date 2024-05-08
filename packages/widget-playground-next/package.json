@@ -6,7 +6,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "pre-commit:validate": "next lint --fix --max-warnings=0"
+    "format": "prettier --write ./src/",
+    "pre-commit:validate": "yarn format && next lint --fix --max-warnings=0"
   },
   "publishConfig": {
     "access": "public"

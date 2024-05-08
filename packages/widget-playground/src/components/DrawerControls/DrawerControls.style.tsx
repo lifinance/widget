@@ -1,11 +1,11 @@
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import TabPanel from '@mui/lab/TabPanel';
 import type {
   ButtonBaseProps,
   DrawerProps as MuiDrawerProps,
 } from '@mui/material';
 import { Box, ButtonBase, Drawer as MuiDrawer, styled } from '@mui/material';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import TabPanel from '@mui/lab/TabPanel';
 export const drawerZIndex = 1501;
 export const autocompletePopperZIndex = drawerZIndex + 1;
 export const tooltipPopperZIndex = drawerZIndex + 2;
