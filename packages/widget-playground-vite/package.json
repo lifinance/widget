@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-playground-vite",
-  "version": "1.0.189",
+  "version": "1.0.190",
   "type": "module",
   "scripts": {
     "analyze": "source-map-explorer 'dist/assets/*.js' --no-border-checks",
@@ -18,23 +18,23 @@
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
-    "@lifi/sdk": "^3.0.0-alpha.58",
-    "@lifi/wallet-management": "^3.0.0-alpha.24",
-    "@lifi/widget": "^3.0.0-alpha.37",
-    "@lifi/widget-playground": "^1.0.189",
+    "@lifi/sdk": "^3.0.0-alpha.59",
+    "@lifi/wallet-management": "^3.0.0-alpha.25",
+    "@lifi/widget": "^3.0.0-alpha.38",
+    "@lifi/widget-playground": "^1.0.190",
     "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.15",
     "@rainbow-me/rainbowkit": "^2.0.5",
     "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/wallet-adapter-react": "^0.15.35",
-    "@solana/web3.js": "^1.91.4",
+    "@solana/web3.js": "^1.91.6",
     "@tanstack/react-query": "^5.29.2",
     "lodash.isequal": "^4.5.0",
     "microdiff": "^1.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "viem": "^2.9.17",
-    "wagmi": "^2.5.19",
+    "viem": "^2.9.21",
+    "wagmi": "^2.5.20",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
@@ -43,7 +43,7 @@
     "rollup-plugin-polyfill-node": "^0.13.0",
     "source-map-explorer": "^2.5.3",
     "typescript": "^5.4.5",
-    "vite": "^5.2.8",
+    "vite": "^5.2.9",
     "vite-plugin-node-polyfills": "^0.21.0",
     "web-vitals": "^3.5.2"
   },
