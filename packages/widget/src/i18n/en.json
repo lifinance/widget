@@ -134,7 +134,8 @@
       "transactionCanceled": "Transaction was canceled.",
       "transactionFailed": "Please check the block explorer for more information.",
       "transactionNotSent": "Transaction was not sent.",
-      "unknown": "Please try again or contact support."
+      "unknown": "Please try again or contact support.",
+      "walletChangedDuringExecution": "The wallet address that requested the quote does not match the wallet address attempting to sign the transaction. Please ensure the same wallet address is used throughout the entire transaction execution."
     },
     "title": {
       "allowanceRequired": "Insufficient allowance",
@@ -155,7 +156,8 @@
       "walletAddressInvalid": "Wallet address or domain name is invalid",
       "walletAddressInvalid_chain": "Wallet address or domain name is invalid for selected destination chain {{chainName}}",
       "walletAddressRequired": "Wallet address is required.",
-      "walletChainTypeInvalid": "Wallet address doesn't match the selected destination chain {{chainName}}"
+      "walletChainTypeInvalid": "Wallet address doesn't match the selected destination chain {{chainName}}",
+      "walletMismatch": "Wallet address mismatch"
     }
   },
   "tooltip": {
