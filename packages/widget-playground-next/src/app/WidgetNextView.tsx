@@ -20,7 +20,7 @@ export function WidgetNextView() {
   return (
     <WidgetViewContainer toggleDrawer={toggleDrawer}>
       {!isSkeletonShown || isSkeletonSideBySide ? (
-        <ClientOnly fallback={<WidgetSkeleton config={config!} />}>
+        <ClientOnly fallback={<WidgetSkeleton config={config} />}>
           <LiFiWidget
             config={config}
             integrator="li.fi-playground"

@@ -1,12 +1,13 @@
 import { Skeleton, useMediaQuery, ThemeProvider } from '@mui/material';
 import { useMemo } from 'react';
-import type { WidgetConfig } from '../../types/widget.js';
 import {
   AppExpandedContainer,
   FlexContainer,
   RelativeContainer,
 } from '../AppContainer.js';
 import { createTheme } from '../../themes/createTheme.js';
+import type { WidgetConfigPartialProps } from '../../types/widget.js';
+import { Container as HeaderContainer } from '../Header/Header.style.js';
 import {
   SkeletonAmountContainer,
   SkeletonCard,
@@ -19,7 +20,6 @@ import {
   SkeletonSendToWalletButton,
   SkeletonWalletMenuButtonContainer,
 } from './WidgetSkeleton.style.js';
-import { Container as HeaderContainer } from '../Header/Header.style.js';
 
 const SkeletonIcon = () => (
   <Skeleton width={24} height={24} variant="rounded" />
@@ -55,23 +55,22 @@ const SkeletonYouPayCard = () => (
       <Skeleton width={40} height={40} variant="circular" />
       <SkeletonAmountContainer>
         <Skeleton
-          width={16}
+          width={48}
           height={37}
           variant="text"
           sx={{ marginTop: -0.75 }}
         />
-        <Skeleton width={30} height={12} variant="text" />
+        <Skeleton width={48} height={12} variant="text" />
       </SkeletonAmountContainer>
     </SkeletonCardRow>
   </SkeletonInputCard>
 );
 
-interface WidgetSkeletonProps {
-  config: Partial<WidgetConfig>;
-}
-
-export const WidgetSkeleton = ({ config }: WidgetSkeletonProps) => {
-  const { appearance, hiddenUI, requiredUI, subvariant } = config;
+export const WidgetSkeleton = ({ config }: WidgetConfigPartialProps) => {
+  const appearance = config?.appearance;
+  const hiddenUI = config?.hiddenUI || [];
+  const requiredUI = config?.requiredUI || [];
+  const configTheme = config?.theme;
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const appearanceMode =
     !appearance || appearance === 'auto'
@@ -81,8 +80,8 @@ export const WidgetSkeleton = ({ config }: WidgetSkeletonProps) => {
       : appearance;
 
   const theme = useMemo(
-    () => createTheme(appearanceMode, config.theme),
-    [appearanceMode, config.theme],
+    () => createTheme(appearanceMode, configTheme),
+    [appearanceMode, configTheme],
   );
 
   return (
@@ -90,7 +89,7 @@ export const WidgetSkeleton = ({ config }: WidgetSkeletonProps) => {
       <AppExpandedContainer>
         <RelativeContainer>
           <HeaderContainer>
-            {!hiddenUI?.includes('walletMenu') ? (
+            {!hiddenUI.includes('walletMenu') ? (
               <SkeletonHeaderAppBar>
                 <SkeletonWalletMenuButton />
               </SkeletonHeaderAppBar>
@@ -98,37 +97,33 @@ export const WidgetSkeleton = ({ config }: WidgetSkeletonProps) => {
             <SkeletonHeaderAppBar
               sx={{ justifyContent: 'space-between', height: 40 }}
             >
-              <Skeleton
-                width={subvariant === 'refuel' ? 42 : 126}
-                height={34}
-                variant="text"
-              />
+              <Skeleton width={126} height={34} variant="text" />
               <SkeletonIcon />
             </SkeletonHeaderAppBar>
           </HeaderContainer>
           <FlexContainer
             sx={{
               gap: 2,
-              paddingBottom: hiddenUI?.includes('poweredBy') ? 3 : 2,
+              paddingBottom: hiddenUI.includes('poweredBy') ? 3 : 2,
             }}
           >
             <SkeletonSelectCard />
-            <SkeletonSelectCard titleWidth={18} />
+            <SkeletonSelectCard />
             <SkeletonYouPayCard />
-            {requiredUI?.includes('toAddress') ? (
+            {requiredUI.includes('toAddress') ? (
               <SkeletonSelectCard titleWidth={104} placeholderWidth={175} />
             ) : null}
             <SkeletonReviewButtonContainer>
               <SkeletonReviewButton variant="contained" fullWidth>
                 &nbsp;
               </SkeletonReviewButton>
-              {!requiredUI?.includes('toAddress') ? (
+              {!requiredUI.includes('toAddress') ? (
                 <SkeletonSendToWalletButton variant="text" fullWidth>
                   &nbsp;
                 </SkeletonSendToWalletButton>
               ) : null}
             </SkeletonReviewButtonContainer>
-            {!hiddenUI?.includes('poweredBy') ? (
+            {!hiddenUI.includes('poweredBy') ? (
               <SkeletonPoweredByContainer>
                 <Skeleton width={96} height={18} variant="text" />
               </SkeletonPoweredByContainer>

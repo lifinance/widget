@@ -23,7 +23,7 @@ export function WidgetView() {
           open
         />
       ) : null}
-      {isSkeletonShown ? <WidgetSkeleton config={config!} /> : null}
+      {isSkeletonShown ? <WidgetSkeleton config={config} /> : null}
     </WidgetViewContainer>
   );
 }
