@@ -108,8 +108,5 @@
   },
   "eslintConfig": {
     "extends": "../../.eslintrc"
-  },
-  "exports": {
-    ".": ["./dist/_esm/index.js","./src/index.ts"]
   }
 }
