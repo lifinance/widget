@@ -173,6 +173,10 @@ export function getProcessMessage(
         title = t(`error.title.transactionFailed`);
         message = t(`error.message.transactionFailed`);
         break;
+      case LiFiErrorCode.WalletChangedDuringExecution:
+        title = t(`error.title.walletMismatch`);
+        message = t(`error.message.walletChangedDuringExecution`);
+        break;
       case LiFiErrorCode.TransactionUnderpriced:
         title = t(`error.title.transactionUnderpriced`);
         message = getDefaultErrorMessage();
