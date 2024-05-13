@@ -30,6 +30,9 @@ export async function createPackageFile(packagePath, path) {
         default: './_esm/index.js',
       },
       './package.json': './package.json',
+      ...(packageDataOther.name === '@lifi/widget'
+        ? { './skeleton': './_esm/components/Skeleton/WidgetSkeleton.js' }
+        : {}),
     },
   };
 
