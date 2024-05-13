@@ -2,12 +2,9 @@
 
 import type { WidgetConfig } from '@lifi/widget';
 import { LiFiWidget, WidgetSkeleton } from '@lifi/widget';
-import { useEffect, useState } from 'react';
+import { ClientOnly } from './ClientOnly';
 
 export function Widget() {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-
   const config = {
     appearance: 'light',
     theme: {
@@ -20,11 +17,9 @@ export function Widget() {
 
   return (
     <main>
-      {mounted ? (
+      <ClientOnly fallback={<WidgetSkeleton config={config} />}>
         <LiFiWidget config={config} integrator="nextjs-example" />
-      ) : (
-        <WidgetSkeleton config={config} />
-      )}
+      </ClientOnly>
     </main>
   );
 }
