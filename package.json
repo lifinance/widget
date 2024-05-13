@@ -1,9 +1,9 @@
 {
-  "version": "3.0.0-alpha.38",
+  "version": "3.0.0-alpha.39",
   "private": true,
   "sideEffects": false,
   "type": "module",
-  "packageManager": "yarn@4.2.1",
+  "packageManager": "yarn@4.2.2",
   "workspaces": [
     "packages/*"
   ],
