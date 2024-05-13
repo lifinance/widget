@@ -16,7 +16,7 @@ export const AppExpandedContainer = styled(Box, {
   height: variant === 'drawer' ? 'none' : maxHeight,
 }));
 
-const RelativeContainer = styled(Box, {
+export const RelativeContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'variant',
 })<{ variant?: WidgetVariant }>(({ theme, variant }) => ({
   position: 'relative',

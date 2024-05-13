@@ -42,6 +42,10 @@ export interface EditToolsValues {
   playgroundSettings: {
     viewportColor?: string | undefined;
   };
+  skeletonControl: {
+    show: boolean;
+    sideBySide: boolean;
+  };
 }
 
 export interface EditToolsActions {
@@ -52,6 +56,8 @@ export interface EditToolsActions {
   resetEditTools: () => void;
   setSelectedFont: (font: Font) => void;
   setViewportBackgroundColor: (color: string | undefined) => void;
+  setSkeletonShow: (show: boolean) => void;
+  setSkeletonSideBySide: (sideBySide: boolean) => void;
 }
 
 export type ToolsState = EditToolsValues & EditToolsActions;

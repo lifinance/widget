@@ -20,6 +20,7 @@ import {
   ColorControl,
   FontsControl,
   PlaygroundSettingsControl,
+  SkeletonControl,
   SubvariantControl,
   ThemeControl,
   VariantControl,
@@ -121,6 +122,7 @@ export const DrawerControls = () => {
                   <CardRadiusControl />
                   <ButtonRadiusControl />
                   <WalletManagementControl />
+                  <SkeletonControl />
                 </WidgetConfigControls>
                 <PlaygroundSettingsControl />
               </ExpandableCardAccordion>

@@ -4,6 +4,7 @@ export * from './components/ContractComponent/ItemPrice.js';
 export * from './components/ContractComponent/NFT/NFT.js';
 export * from './components/ContractComponent/NFT/NFTBase.js';
 export * from './components/ContractComponent/NFT/types.js';
+export * from './components/Skeleton/WidgetSkeleton.js';
 export * from './config/version.js';
 export { useAccount } from './hooks/useAccount.js';
 export { useAvailableChains } from './hooks/useAvailableChains.js';
