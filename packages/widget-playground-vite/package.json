@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-playground-vite",
-  "version": "1.0.191",
+  "version": "1.0.192",
   "type": "module",
   "scripts": {
     "analyze": "source-map-explorer 'dist/assets/*.js' --no-border-checks",
@@ -20,8 +20,8 @@
   "dependencies": {
     "@lifi/sdk": "^3.0.0-alpha.61",
     "@lifi/wallet-management": "^3.0.0-alpha.26",
-    "@lifi/widget": "^3.0.0-alpha.39",
-    "@lifi/widget-playground": "^1.0.191",
+    "@lifi/widget": "^3.0.0-alpha.40",
+    "@lifi/widget-playground": "^1.0.192",
     "@mui/icons-material": "^5.15.17",
     "@mui/material": "^5.15.17",
     "@rainbow-me/rainbowkit": "^2.0.7",
