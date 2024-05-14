@@ -92,7 +92,7 @@ export enum RequiredUI {
 export type RequiredUIType = `${RequiredUI}`;
 
 export interface WidgetWalletConfig {
-  onConnect(): void;
+  onConnect?(): void;
   walletConnect?: WalletConnectParameters;
   coinbase?: CoinbaseWalletParameters;
 }
