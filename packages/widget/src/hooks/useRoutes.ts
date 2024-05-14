@@ -316,7 +316,10 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
           refetchTime,
         );
       },
-      retry(_, error: any) {
+      retry(failureCount, error: any) {
+        if (failureCount >= 5) {
+          return false;
+        }
         if (error?.code === LiFiErrorCode.NotFound) {
           return false;
         }
