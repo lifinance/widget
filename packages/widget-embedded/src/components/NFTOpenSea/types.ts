@@ -20,6 +20,7 @@ export enum ChainId {
   klaytn = 8217,
   matic = 137,
   optimism = 10,
+  base = 8453,
 }
 
 export type NFTNetwork =
@@ -29,7 +30,8 @@ export type NFTNetwork =
   | 'goerli'
   | 'klaytn'
   | 'matic'
-  | 'optimism';
+  | 'optimism'
+  | 'base';
 
 // Protocol data
 type OrderProtocolToProtocolData = {
