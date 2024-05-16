@@ -112,7 +112,7 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
       unmountOnExit
     >
       <Card
-        component="button"
+        role="button"
         onClick={disabledForChanges ? undefined : handleOnClick}
         sx={{ width: '100%', ...props.sx }}
       >
