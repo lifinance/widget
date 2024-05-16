@@ -1,10 +1,11 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { createConfig, http, WagmiProvider } from 'wagmi';
-import { App } from './App';
+import { WagmiProvider, createConfig, http } from 'wagmi';
 import { base, mainnet } from 'wagmi/chains';
 import { injected, safe, walletConnect } from 'wagmi/connectors';
+import { App } from './App';
+import { WalletHeader } from './components/WalletHeader';
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <WagmiProvider config={config}>
+        <WalletHeader />
         <App />
       </WagmiProvider>
     </QueryClientProvider>

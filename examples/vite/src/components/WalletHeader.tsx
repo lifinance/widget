@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { Box, Button, Typography } from '@mui/material';
-import { useConnect, useDisconnect, useAccount } from 'wagmi';
+import { useAccount, useConnect, useDisconnect } from 'wagmi';
 
 export function WalletHeader() {
   const { address, isConnected } = useAccount();
