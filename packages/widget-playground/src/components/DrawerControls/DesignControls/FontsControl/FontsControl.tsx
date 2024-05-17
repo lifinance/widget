@@ -13,7 +13,7 @@ import { ExpandableCard } from '../../../Card';
 import { Alert, Autocomplete, StyledPopper } from '../DesignControls.style';
 import { allFonts, defaultFont } from './fontDefinitions';
 
-const santiseInputString = (value: string) => value.replace(/['"`]/g, '');
+const sanitiseInputString = (value: string) => value.replace(/['"`]/g, '');
 
 const getCompleteFontFamily = (font: Font) =>
   font.fallbackFonts
@@ -39,7 +39,7 @@ export const FontsControl = () => {
     value: Font | string | null,
   ) => {
     if (typeof value === 'string') {
-      const cleanValue = santiseInputString(value);
+      const cleanValue = sanitiseInputString(value);
       setSelectedFont({ family: cleanValue, source: 'Custom fonts' });
       setFontFamily(cleanValue);
     } else {
@@ -51,7 +51,7 @@ export const FontsControl = () => {
   const handleAutocompleteBlur: FocusEventHandler<HTMLInputElement> = (
     event,
   ) => {
-    const inputValue = santiseInputString(event.target.value.trim());
+    const inputValue = sanitiseInputString(event.target.value.trim());
 
     if (!selectedFont || inputValue !== getCompleteFontFamily(selectedFont)) {
       if (inputValue) {
