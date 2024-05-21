@@ -26,24 +26,23 @@ export const AccountAvatar = ({
 }: AccountAvatarProps) => {
   const { chain } = useChain(chainId);
 
-  const avatar =
-    account?.connector || toAddress?.logoURI ? (
-      <AvatarMasked
-        src={toAddress?.logoURI || getConnectorIcon(account?.connector)}
-        alt={toAddress?.name || account?.connector?.name}
-        sx={{
-          marginRight: chain?.logoURI ? 0 : 1.5,
-        }}
-      >
-        {(toAddress?.name || account?.connector?.name)?.[0]}
-      </AvatarMasked>
-    ) : empty ? (
-      <AvatarDefault />
-    ) : (
-      <AvatarDefault>
-        <Wallet sx={{ fontSize: 20 }} />
-      </AvatarDefault>
-    );
+  const avatar = empty ? (
+    <AvatarDefault />
+  ) : account?.connector || toAddress?.logoURI ? (
+    <AvatarMasked
+      src={toAddress?.logoURI || getConnectorIcon(account?.connector)}
+      alt={toAddress?.name || account?.connector?.name}
+      sx={{
+        marginRight: chain?.logoURI ? 0 : 1.5,
+      }}
+    >
+      {(toAddress?.name || account?.connector?.name)?.[0]}
+    </AvatarMasked>
+  ) : (
+    <AvatarDefault>
+      <Wallet sx={{ fontSize: 20 }} />
+    </AvatarDefault>
+  );
 
   return (
     <Badge
