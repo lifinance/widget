@@ -63,9 +63,6 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
                     <AvatarMasked
                       src={getConnectorIcon(account.connector)}
                       alt={account.connector?.name}
-                      sx={{
-                        marginRight: chain?.logoURI ? 0 : 1.5,
-                      }}
                     >
                       {account.connector?.name[0]}
                     </AvatarMasked>
@@ -75,7 +72,7 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
                     src={getConnectorIcon(account.connector)}
                     alt={account.connector?.name}
                     sx={{
-                      marginRight: chain?.logoURI ? 0 : 1.5,
+                      marginRight: 1.5,
                     }}
                   >
                     {account.connector?.name[0]}
