@@ -6,6 +6,7 @@ import { addValueFromPathString, cloneStructuredConfig } from '../../utils';
 import type { ThemeItem } from '../editTools/types';
 import type { WidgetConfigState } from './types';
 import { getLocalStorageOutput } from './utils/getLocalStorageOutput';
+import { getRehydratedConfigWithDefaultValues } from './utils/getRehydratedConfigWithDefaultValues';
 import { setThemeAppearanceWithFallback } from './utils/setThemeWithFallback';
 
 export const createWidgetConfigStore = (
@@ -208,6 +209,19 @@ export const createWidgetConfigStore = (
         onRehydrateStorage: () => {
           return (state) => {
             if (state) {
+              // state.config = the values taken from local storage by the partialize function
+              // state.defaultConfig = the values from the default config file
+              // The Partialize function only deals with values that the design interface can set
+              //   so we need to restore values from the default config.
+              if (state.config && state.defaultConfig) {
+                const rehydratedConfigWithDefaultValues =
+                  getRehydratedConfigWithDefaultValues(
+                    state.config,
+                    state.defaultConfig,
+                  );
+                state.setConfig(rehydratedConfigWithDefaultValues);
+              }
+
               if (state.config?.walletConfig) {
                 const walletConfig = state.defaultConfig?.walletConfig
                   ? state.defaultConfig?.walletConfig
