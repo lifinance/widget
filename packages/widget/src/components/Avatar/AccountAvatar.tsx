@@ -32,9 +32,6 @@ export const AccountAvatar = ({
     <AvatarMasked
       src={toAddress?.logoURI || getConnectorIcon(account?.connector)}
       alt={toAddress?.name || account?.connector?.name}
-      sx={{
-        marginRight: chain?.logoURI ? 0 : 1.5,
-      }}
     >
       {(toAddress?.name || account?.connector?.name)?.[0]}
     </AvatarMasked>
