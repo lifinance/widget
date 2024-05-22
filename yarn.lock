@@ -3240,9 +3240,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lifi/sdk@npm:^2.5.0":
-  version: 2.5.0
-  resolution: "@lifi/sdk@npm:2.5.0"
+"@lifi/sdk@npm:^2.5.2":
+  version: 2.5.2
+  resolution: "@lifi/sdk@npm:2.5.2"
   dependencies:
     "@ethersproject/abi": "npm:^5.7.0"
     "@ethersproject/contracts": "npm:^5.7.0"
@@ -3250,7 +3250,7 @@ __metadata:
     bignumber.js: "npm:^9.1.2"
     eth-rpc-errors: "npm:^4.0.3"
     ethers: "npm:^5.7.2"
-  checksum: 7a68a9cebe01e4692babc350e0532b0ace72a241ae04e0f3c2aa0c339216cf4dedd7a33c911b3816389de321ba8ef911be142f1dbd7535aa5e5727026910d3db
+  checksum: 687875d9f76d508d9cc90ef044bf5e97e7461f33f39be7fb1b2ac3844fa8247882b5916358690455558275d7eec6566700fa3d2c2a558b5b7afcfbb5931c40b2
   languageName: node
   linkType: hard
 
@@ -3273,7 +3273,7 @@ __metadata:
     "@ethersproject/abstract-signer": "npm:^5.7.0"
     "@ethersproject/experimental": "npm:^5.7.0"
     "@ethersproject/providers": "npm:^5.7.2"
-    "@lifi/sdk": "npm:^2.5.0"
+    "@lifi/sdk": "npm:^2.5.2"
     "@safe-global/safe-apps-provider": "npm:^0.18.1"
     "@safe-global/safe-apps-sdk": "npm:^8.1.0"
     "@walletconnect/ethereum-provider": "npm:^2.12.2"
@@ -3291,7 +3291,7 @@ __metadata:
   dependencies:
     "@esbuild-plugins/node-globals-polyfill": "npm:^0.2.3"
     "@ethersproject/abstract-signer": "npm:^5.7.0"
-    "@lifi/sdk": "npm:^2.5.0"
+    "@lifi/sdk": "npm:^2.5.2"
     "@lifi/wallet-management": "npm:^2.6.1"
     "@lifi/widget": "npm:^2.10.2"
     "@mui/icons-material": "npm:^5.14.14"
@@ -3322,7 +3322,7 @@ __metadata:
   dependencies:
     "@esbuild-plugins/node-globals-polyfill": "npm:^0.2.3"
     "@ethersproject/providers": "npm:^5.7.2"
-    "@lifi/sdk": "npm:^2.5.0"
+    "@lifi/sdk": "npm:^2.5.2"
     "@lifi/wallet-management": "npm:^2.6.1"
     "@lifi/widget": "npm:^2.10.2"
     "@mui/icons-material": "npm:^5.14.14"
@@ -3353,7 +3353,7 @@ __metadata:
     "@ethersproject/address": "npm:^5.7.0"
     "@ethersproject/experimental": "npm:^5.7.0"
     "@ethersproject/providers": "npm:^5.7.2"
-    "@lifi/sdk": "npm:^2.5.0"
+    "@lifi/sdk": "npm:^2.5.2"
     "@lifi/wallet-management": "npm:^2.6.1"
     "@mui/icons-material": "npm:^5.14.14"
     "@mui/lab": "npm:^5.0.0-alpha.149"
