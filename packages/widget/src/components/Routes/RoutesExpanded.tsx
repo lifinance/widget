@@ -114,7 +114,7 @@ export const RoutesExpandedElement = () => {
       !isFetching &&
       isFetched &&
       emitter.emit(WidgetEvent.RoutesAvailable, routesAvailable);
-  }, [routesAvailable, emitter, isLoading, isFetching, isFetched, routes]);
+  }, [routesAvailable, emitter, isLoading, isFetching, isFetched]);
 
   useEffect(() => {
     emitter.emit(WidgetEvent.WidgetExpanded, expanded);
