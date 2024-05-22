@@ -6,6 +6,7 @@ export enum WidgetEvent {
   RouteExecutionCompleted = 'routeExecutionCompleted',
   RouteExecutionFailed = 'routeExecutionFailed',
   RouteHighValueLoss = 'routeHighValueLoss',
+  RoutesAvailable = 'routesAvailable',
   ContactSupport = 'contactSupport',
   SourceChainTokenSelected = 'sourceChainTokenSelected',
   DestinationChainTokenSelected = 'destinationChainTokenSelected',
@@ -21,6 +22,7 @@ export type WidgetEvents = {
   routeExecutionCompleted: Route;
   routeExecutionFailed: RouteExecutionUpdate;
   routeHighValueLoss: RouteHighValueLossUpdate;
+  routesAvailable: boolean;
   contactSupport: ContactSupport;
   sourceChainTokenSelected: ChainTokenSelected;
   destinationChainTokenSelected: ChainTokenSelected;
