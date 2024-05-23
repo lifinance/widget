@@ -1,12 +1,14 @@
 import type { Route, RoutesResponse, Token } from '@lifi/sdk';
 import { LiFiErrorCode, getContractCallsQuote, getRoutes } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { parseUnits } from 'viem';
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
 import { useFieldValues } from '../stores/form/useFieldValues.js';
 import { useSettings } from '../stores/settings/useSettings.js';
 import { defaultSlippage } from '../stores/settings/useSettingsStore.js';
+import { WidgetEvent } from '../types/events.js';
 import { getChainTypeFromAddress } from '../utils/chainType.js';
 import { useAccount } from './useAccount.js';
 import { useChain } from './useChain.js';
@@ -14,6 +16,7 @@ import { useDebouncedWatch } from './useDebouncedWatch.js';
 import { useGasRefuel } from './useGasRefuel.js';
 import { useSwapOnly } from './useSwapOnly.js';
 import { useToken } from './useToken.js';
+import { useWidgetEvents } from './useWidgetEvents.js';
 
 const refetchTime = 60_000;
 
@@ -24,6 +27,7 @@ interface RoutesProps {
 export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
   const { subvariant, sdkConfig, insurance, contractTool } = useWidgetConfig();
   const queryClient = useQueryClient();
+  const emitter = useWidgetEvents();
   const swapOnly = useSwapOnly();
   const {
     disabledBridges,
@@ -326,6 +330,12 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
         return true;
       },
     });
+
+  useEffect(() => {
+    if (!isLoading && !isFetching && isFetched) {
+      emitter.emit(WidgetEvent.AvailableRoutes, data?.routes || []);
+    }
+  }, [data?.routes, emitter, isFetched, isFetching, isLoading]);
 
   return {
     routes: data?.routes,

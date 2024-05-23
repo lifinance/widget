@@ -105,16 +105,8 @@ export const RoutesExpandedElement = () => {
   );
 
   const routeNotFound = !currentRoute && !isLoading && !isFetching && expanded;
-  const routesAvailable = (routes && routes?.length > 0) || false;
   const toAddressUnsatisfied = currentRoute && requiredToAddress && !toAddress;
   const allowInteraction = account.isConnected && !toAddressUnsatisfied;
-
-  useEffect(() => {
-    !isLoading &&
-      !isFetching &&
-      isFetched &&
-      emitter.emit(WidgetEvent.RoutesAvailable, routesAvailable);
-  }, [routesAvailable, emitter, isLoading, isFetching, isFetched]);
 
   useEffect(() => {
     emitter.emit(WidgetEvent.WidgetExpanded, expanded);
