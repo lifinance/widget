@@ -1,7 +1,6 @@
 import type { Route, RoutesResponse, Token } from '@lifi/sdk';
 import { LiFiErrorCode, getContractCallsQuote, getRoutes } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { parseUnits } from 'viem';
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
@@ -309,7 +308,9 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
               },
             );
           });
+          emitter.emit(WidgetEvent.AvailableRoutes, data?.routes || []);
         }
+
         return data;
       },
       enabled: isEnabled,
@@ -330,12 +331,6 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
         return true;
       },
     });
-
-  useEffect(() => {
-    if (!isLoading && !isFetching && isFetched) {
-      emitter.emit(WidgetEvent.AvailableRoutes, data?.routes || []);
-    }
-  }, [data?.routes, emitter, isFetched, isFetching, isLoading]);
 
   return {
     routes: data?.routes,
