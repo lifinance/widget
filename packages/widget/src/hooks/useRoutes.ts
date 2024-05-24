@@ -38,7 +38,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
     'routePriority',
     'slippage',
   ]);
-  const [fromTokenAmount] = useDebouncedWatch(320, 'fromAmount');
+  const [fromTokenAmount] = useDebouncedWatch(500, 'fromAmount');
   const [
     fromChainId,
     fromTokenAddress,
