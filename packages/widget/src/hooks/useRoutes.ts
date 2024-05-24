@@ -309,8 +309,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
             );
           });
         }
-        emitter.emit(WidgetEvent.AvailableRoutes, data?.routes);
-
+        emitter.emit(WidgetEvent.AvailableRoutes, data.routes);
         return data;
       },
       enabled: isEnabled,
