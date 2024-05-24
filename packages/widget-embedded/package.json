@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-embedded",
-  "version": "1.0.192",
+  "version": "1.0.193",
   "type": "module",
   "scripts": {
     "analyze": "source-map-explorer 'dist/assets/*.js' --no-border-checks",
@@ -20,8 +20,8 @@
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
     "@lifi/sdk": "^3.0.0-alpha.63",
-    "@lifi/wallet-management": "^3.0.0-alpha.26",
-    "@lifi/widget": "^3.0.0-alpha.40",
+    "@lifi/wallet-management": "^3.0.0-alpha.27",
+    "@lifi/widget": "^3.0.0-alpha.41",
     "@mui/icons-material": "^5.15.18",
     "@mui/lab": "^5.0.0-alpha.170",
     "@mui/material": "^5.15.18",
