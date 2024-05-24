@@ -105,7 +105,6 @@ export const RoutesExpandedElement = () => {
   );
 
   const routeNotFound = !currentRoute && !isLoading && !isFetching && expanded;
-
   const toAddressUnsatisfied = currentRoute && requiredToAddress && !toAddress;
   const allowInteraction = account.isConnected && !toAddressUnsatisfied;
 

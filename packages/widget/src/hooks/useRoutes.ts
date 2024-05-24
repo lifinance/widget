@@ -7,6 +7,7 @@ import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
 import { useFieldValues } from '../stores/form/useFieldValues.js';
 import { useSettings } from '../stores/settings/useSettings.js';
 import { defaultSlippage } from '../stores/settings/useSettingsStore.js';
+import { WidgetEvent } from '../types/events.js';
 import { getChainTypeFromAddress } from '../utils/chainType.js';
 import { useAccount } from './useAccount.js';
 import { useChain } from './useChain.js';
@@ -14,6 +15,7 @@ import { useDebouncedWatch } from './useDebouncedWatch.js';
 import { useGasRefuel } from './useGasRefuel.js';
 import { useSwapOnly } from './useSwapOnly.js';
 import { useToken } from './useToken.js';
+import { useWidgetEvents } from './useWidgetEvents.js';
 
 const refetchTime = 60_000;
 
@@ -24,6 +26,7 @@ interface RoutesProps {
 export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
   const { subvariant, sdkConfig, insurance, contractTool } = useWidgetConfig();
   const queryClient = useQueryClient();
+  const emitter = useWidgetEvents();
   const swapOnly = useSwapOnly();
   const {
     disabledBridges,
@@ -306,6 +309,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
             );
           });
         }
+        emitter.emit(WidgetEvent.AvailableRoutes, data.routes);
         return data;
       },
       enabled: isEnabled,
