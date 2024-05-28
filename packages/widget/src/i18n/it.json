@@ -134,7 +134,8 @@
       "transactionCanceled": "",
       "transactionFailed": "Per ulteriori informazioni, consultare il block explorer.",
       "transactionNotSent": "",
-      "unknown": "Riprova o contatta il nostro supporto."
+      "unknown": "Riprova o contatta il nostro supporto.",
+      "walletChangedDuringExecution": ""
     },
     "title": {
       "allowanceRequired": "Quota massima insufficiente",
@@ -155,7 +156,8 @@
       "walletAddressInvalid": "",
       "walletAddressInvalid_chain": "",
       "walletAddressRequired": "L'indirizzo è un campo obbligatorio.",
-      "walletChainTypeInvalid": ""
+      "walletChainTypeInvalid": "",
+      "walletMismatch": ""
     }
   },
   "tooltip": {
