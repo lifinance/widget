@@ -134,7 +134,8 @@
       "transactionCanceled": "",
       "transactionFailed": "Weitere Informationen finden Sie im Block-Explorer.",
       "transactionNotSent": "",
-      "unknown": "Bitte versuchen Sie es später noch einmal oder kontaktieren Sie den Support."
+      "unknown": "Bitte versuchen Sie es später noch einmal oder kontaktieren Sie den Support.",
+      "walletChangedDuringExecution": ""
     },
     "title": {
       "allowanceRequired": "Unzureichende Erlaubnis",
@@ -155,7 +156,8 @@
       "walletAddressInvalid": "",
       "walletAddressInvalid_chain": "",
       "walletAddressRequired": "Wallet-Adresse ist erforderlich.",
-      "walletChainTypeInvalid": ""
+      "walletChainTypeInvalid": "",
+      "walletMismatch": ""
     }
   },
   "tooltip": {

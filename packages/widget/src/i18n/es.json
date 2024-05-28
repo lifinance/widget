@@ -134,7 +134,8 @@
       "transactionCanceled": "",
       "transactionFailed": "Por favor consulte el explorador de bloques para obtener mas información",
       "transactionNotSent": "",
-      "unknown": "Inténtalo de nuevo o ponte en contacto con soporte."
+      "unknown": "Inténtalo de nuevo o ponte en contacto con soporte.",
+      "walletChangedDuringExecution": ""
     },
     "title": {
       "allowanceRequired": "",
@@ -155,7 +156,8 @@
       "walletAddressInvalid": "",
       "walletAddressInvalid_chain": "",
       "walletAddressRequired": "Dirección de billetera es requerida.",
-      "walletChainTypeInvalid": ""
+      "walletChainTypeInvalid": "",
+      "walletMismatch": ""
     }
   },
   "tooltip": {

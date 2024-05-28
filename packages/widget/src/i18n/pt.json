@@ -78,7 +78,7 @@
       "emptyTokenList": "Não conseguimos encontrar tokens na rede {{chainName}} ou você não possui nenhum. Por favor, procure pelo endereço de contrato caso o token não apareça ou escolha outra rede.",
       "emptyTransactionHistory": "O histórico de transações é armazenado apenas localmente e será excluído se você limpar os dados do seu navegador.",
       "fundsToExchange": "Os fundos enviados para uma exchange podem ser perdidos",
-      "toAddressIsRequired": "",
+      "toAddressIsRequired": "Por favor, forneça o endereço da carteira de destino, para o qual os fundos serão transferidos.",
       "routeNotFound": "Razões para isso podem ser: baixa liquidez, valor selecionado é muito baixo, os custos com gás são muito elevados ou não há rotas para a combinação selecionada."
     },
     "title": {
@@ -134,7 +134,8 @@
       "transactionCanceled": "A transação foi cancelada.",
       "transactionFailed": "Por favor, verifique o explorador de blocos para mais informações.",
       "transactionNotSent": "A transação não foi enviada.",
-      "unknown": "Por favor, tente novamente ou fale com o suporte."
+      "unknown": "Por favor, tente novamente ou fale com o suporte.",
+      "walletChangedDuringExecution": ""
     },
     "title": {
       "allowanceRequired": "Permissão insuficiente",
@@ -155,7 +156,8 @@
       "walletAddressInvalid": "O endereço da carteira ou o nome de domínio é inválido",
       "walletAddressInvalid_chain": "O endereço da carteira ou o nome de domínio é inválido para a rede de destino selecionada {{chainName}}",
       "walletAddressRequired": "Endereço da carteira é necessário.",
-      "walletChainTypeInvalid": "O endereço da carteira não corresponde à rede de destino selecionada - {{chainName}}"
+      "walletChainTypeInvalid": "O endereço da carteira não corresponde à rede de destino selecionada - {{chainName}}",
+      "walletMismatch": ""
     }
   },
   "tooltip": {

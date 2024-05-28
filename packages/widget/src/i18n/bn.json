@@ -134,7 +134,8 @@
       "transactionCanceled": "",
       "transactionFailed": "আরও তথ্যের জন্য ব্লক এক্সপ্লোরার চেক করুন।",
       "transactionNotSent": "",
-      "unknown": "অনুগ্রহ করে আবার চেষ্টা করুন বা সাপোর্ট এর সাথে যোগাযোগ করুন।"
+      "unknown": "অনুগ্রহ করে আবার চেষ্টা করুন বা সাপোর্ট এর সাথে যোগাযোগ করুন।",
+      "walletChangedDuringExecution": ""
     },
     "title": {
       "allowanceRequired": "",
@@ -155,7 +156,8 @@
       "walletAddressInvalid": "",
       "walletAddressInvalid_chain": "",
       "walletAddressRequired": "ওয়ালেট ঠিকানা প্রয়োজন।",
-      "walletChainTypeInvalid": ""
+      "walletChainTypeInvalid": "",
+      "walletMismatch": ""
     }
   },
   "tooltip": {

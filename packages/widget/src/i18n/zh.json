@@ -78,7 +78,7 @@
       "emptyTokenList": "我们无法在 {{chainName}} 链上找到这些代币，或者你的钱包内没有这些代币。请再次搜索或者选择其他链再试一次。",
       "emptyTransactionHistory": "交易记录只存储在本地，如果您清除浏览器数据，交易记录将被删除。",
       "fundsToExchange": "发送到交易所的资金可能会丢失",
-      "toAddressIsRequired": "",
+      "toAddressIsRequired": "请提供收款的钱包地址。",
       "routeNotFound": "导致其的原因可能是：流动性低，所选定代币的数额太低，燃气费过高，或者当前没有合适的交易路径。"
     },
     "title": {
@@ -134,7 +134,8 @@
       "transactionCanceled": "交易已被取消。",
       "transactionFailed": "请查看区块浏览器以了解更多信息。",
       "transactionNotSent": "交易未能发送。",
-      "unknown": "请再试一次或者联系支持。"
+      "unknown": "请再试一次或者联系支持。",
+      "walletChangedDuringExecution": ""
     },
     "title": {
       "allowanceRequired": "余额不足",
@@ -155,7 +156,8 @@
       "walletAddressInvalid": "钱包地址或域名无效",
       "walletAddressInvalid_chain": "钱包地址或者域名在所选中的 {{chainName}} 链无效",
       "walletAddressRequired": "请输入钱包地址。",
-      "walletChainTypeInvalid": "钱包地址与所选中目标的 {{chainName}} 链不匹配"
+      "walletChainTypeInvalid": "钱包地址与所选中目标的 {{chainName}} 链不匹配",
+      "walletMismatch": ""
     }
   },
   "tooltip": {
@@ -196,15 +198,15 @@
     "process": {
       "bridge": {
         "actionRequired": "请签署此交易",
-        "done": "",
-        "pending": "",
-        "started": ""
+        "done": "跨链交易已确认",
+        "pending": "跨链交易进行中",
+        "started": "准备执行跨链交易"
       },
       "checkout": {
-        "done": ""
+        "done": "购买完成"
       },
       "deposit": {
-        "done": ""
+        "done": "已完成存款"
       },
       "receivingChain": {
         "done": "跨链完成",
@@ -248,8 +250,8 @@
     "supportId": "支持ID",
     "swapStepDetails": "通过{{tool}}在{{chain}}链上兑换代币",
     "tags": {
-      "cheapest": "",
-      "fastest": "",
+      "cheapest": "最佳报价",
+      "fastest": "速度最坏",
       "insurable": "可投保",
       "insurance": "保险",
       "insured": "受保中"
@@ -279,15 +281,15 @@
     "routePriority": "路由优先级",
     "slippage": "滑点",
     "custom": "自定义",
-    "resetSettings": ""
+    "resetSettings": "您正在使用自定义设置来过滤可用路由。"
   },
   "sendToWallet": {
     "addBookmark": "添加到收藏",
     "bookmarkWallet": "已收藏的钱包",
     "confirmWalletAddress": "确认钱包地址",
     "connectedWallets": "已连接的钱包",
-    "enterAddress_long": "",
-    "enterAddress_short": "",
+    "enterAddress_long": "请输入地址或钱包域名",
+    "enterAddress_short": "请输入钱包地址",
     "enterName": "输入名称",
     "noBookmarkedWallets": "没有收藏的钱包",
     "noConnectedWallets": "没有已连接的钱包",

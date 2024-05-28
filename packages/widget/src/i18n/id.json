@@ -134,7 +134,8 @@
       "transactionCanceled": "",
       "transactionFailed": "Silakan periksa block explorer untuk informasi lebih lanjut.",
       "transactionNotSent": "",
-      "unknown": "Silakan coba lagi atau hubungi bagian dukungan."
+      "unknown": "Silakan coba lagi atau hubungi bagian dukungan.",
+      "walletChangedDuringExecution": ""
     },
     "title": {
       "allowanceRequired": "Saldo tidak mencukupi",
@@ -155,7 +156,8 @@
       "walletAddressInvalid": "",
       "walletAddressInvalid_chain": "",
       "walletAddressRequired": "Alamat dompet diperlukan.",
-      "walletChainTypeInvalid": ""
+      "walletChainTypeInvalid": "",
+      "walletMismatch": ""
     }
   },
   "tooltip": {
