@@ -134,7 +134,8 @@
       "transactionCanceled": "",
       "transactionFailed": "",
       "transactionNotSent": "",
-      "unknown": ""
+      "unknown": "",
+      "walletChangedDuringExecution": ""
     },
     "title": {
       "allowanceRequired": "",
@@ -155,7 +156,8 @@
       "walletAddressInvalid": "",
       "walletAddressInvalid_chain": "",
       "walletAddressRequired": "",
-      "walletChainTypeInvalid": ""
+      "walletChainTypeInvalid": "",
+      "walletMismatch": ""
     }
   },
   "tooltip": {
