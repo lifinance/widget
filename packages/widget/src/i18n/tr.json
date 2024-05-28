@@ -78,7 +78,7 @@
       "emptyTokenList": "{{chainName}} ağında token bulamadık veya sizde hiç token yok. Lütfen tekrar aramayı deneyin veya başka bir ağ seçin.",
       "emptyTransactionHistory": "İşlem geçmişi yalnızca yerel olarak saklanır ve tarayıcı verilerinizi temizlerseniz silinir.",
       "fundsToExchange": "Borsa hesabına göndermek fonlarınızı kaybetmenize yol açabilir",
-      "toAddressIsRequired": "",
+      "toAddressIsRequired": "Lütfen varlıklarınızı göndermek istediğiniz hedef adresi girin.",
       "routeNotFound": "Muhtemel sebepler şunlar olabilir: Düşük likidite, seçilen miktarın çok düşük olması, gaz masrafının çok olması ya da seçilen kombinasyon için rota olmaması."
     },
     "title": {
@@ -134,7 +134,8 @@
       "transactionCanceled": "İşlem iptal edildi.",
       "transactionFailed": "Daha fazla bilgi için ağ tarayıcısını kontrol edin.",
       "transactionNotSent": "İşlem gönderilmedi.",
-      "unknown": "Lütfen tekrar deneyin veya desteğe başvurun."
+      "unknown": "Lütfen tekrar deneyin veya desteğe başvurun.",
+      "walletChangedDuringExecution": ""
     },
     "title": {
       "allowanceRequired": "İzin miktarı yetersiz",
@@ -155,7 +156,8 @@
       "walletAddressInvalid": "Cüzdan adresi ya da domain adı geçersiz",
       "walletAddressInvalid_chain": "Cüzdan adresi ya da domain adı {{chainName}} hedef ağında geçerli değil",
       "walletAddressRequired": "Cüzdan adresi gereklidir.",
-      "walletChainTypeInvalid": "Cüzdan adresi ile {{chainName}} hedef ağ eşleşmiyor"
+      "walletChainTypeInvalid": "Cüzdan adresi ile {{chainName}} hedef ağ eşleşmiyor",
+      "walletMismatch": ""
     }
   },
   "tooltip": {
@@ -172,10 +174,10 @@
   },
   "main": {
     "allTokens": "Tüm varlıklar",
-    "bridgeStepDetails": "",
-    "checkoutStepDetails": "",
+    "bridgeStepDetails": "{{tool}} aracılığıyla {{from}} ağından {{to}} ağına köprüle",
+    "checkoutStepDetails": "{{tool}} aracılığıyla alım yap",
     "currentAmount": "Geçerli miktar",
-    "depositStepDetails": "",
+    "depositStepDetails": "{{tool}} aracılığıyla yatır",
     "featuredTokens": "Öne çıkan jetonlar",
     "fees": {
       "estimated": "tahmini işlem ücretleri",
@@ -195,16 +197,16 @@
     "popularTokens": "Popüler varlıklar",
     "process": {
       "bridge": {
-        "actionRequired": "",
-        "done": "",
-        "pending": "",
-        "started": ""
+        "actionRequired": "Lütfen işlemi onaylayın",
+        "done": "Köprü işlemi teyit edildi",
+        "pending": "Köprü işlemi bekleniyor",
+        "started": "Köprü işlemi hazırlanıyor"
       },
       "checkout": {
-        "done": ""
+        "done": "Satın alma tamamlandı"
       },
       "deposit": {
-        "done": ""
+        "done": "Yatırma işlemi tamamlandı"
       },
       "receivingChain": {
         "done": "Köprü işlemi tamamlandı",
