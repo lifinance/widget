@@ -134,7 +134,8 @@
       "transactionCanceled": "Транзакцію скасовано.",
       "transactionFailed": "Будь ласка, перевірте провідник блоків для отримання додаткової інформації.",
       "transactionNotSent": "Транзакція не була надіслана.",
-      "unknown": "Будь ласка, спробуйте ще раз або зверніться до служби підтримки."
+      "unknown": "Будь ласка, спробуйте ще раз або зверніться до служби підтримки.",
+      "walletChangedDuringExecution": ""
     },
     "title": {
       "allowanceRequired": "Недостатня дозволена кількість",
@@ -155,7 +156,8 @@
       "walletAddressInvalid": "Адреса гаманця або доменне ім'я є недійсним",
       "walletAddressInvalid_chain": "Адреса гаманця не відповідає обраному чейну призначення - {{chainName}}",
       "walletAddressRequired": "Необхідно вказати адресу гаманця.",
-      "walletChainTypeInvalid": "Адреса гаманця не відповідає обраному чейну призначення - {{chainName}}"
+      "walletChainTypeInvalid": "Адреса гаманця не відповідає обраному чейну призначення - {{chainName}}",
+      "walletMismatch": ""
     }
   },
   "tooltip": {
