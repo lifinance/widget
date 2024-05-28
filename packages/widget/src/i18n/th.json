@@ -9,15 +9,15 @@
   },
   "button": {
     "auto": "อัตโนมัติ",
-    "bookmark": "",
-    "bookmarks": "",
+    "bookmark": "บุ๊คมาร์ก",
+    "bookmarks": "บุ๊กมาร์ก",
     "bridge": "บริดจ์",
     "buy": "ซื้อ",
     "buyNow": "ซื้อตอนนี้",
     "cancel": "ยกเลิก",
-    "changeWallet": "",
-    "close": "",
-    "confirm": "",
+    "changeWallet": "เปลี่ยนกระเป๋า",
+    "close": "ปิด",
+    "confirm": "ยืนยัน",
     "connectWallet": "เชื่อมต่อ กระเป๋า",
     "contactSupport": "ติดต่อฝ่ายสนับสนุน",
     "continue": "ดำเนินการต่อ",
@@ -32,7 +32,7 @@
     "light": "สว่าง",
     "max": "สูงสุด",
     "ok": "ตกลง",
-    "options": "",
+    "options": "การตั้งค่า",
     "removeTransaction": "นำรายการออก",
     "reset": "ล้างข้อมูล",
     "resetSettings": "รีเซ็ตการตั้งค่า",
@@ -50,7 +50,7 @@
   },
   "header": {
     "activeTransactions": "ธุรกรรมมีผล",
-    "bookmarkedWallets": "",
+    "bookmarkedWallets": "กระเป๋าเงินที่ Bokkmark ไว้แล้ว",
     "bridge": "บริดจ์",
     "checkout": "เช็คเอาท์",
     "exchange": "แลกเปลี่ยน",
@@ -59,10 +59,10 @@
     "payWith": "ชำระด้วย",
     "purchase": "ซื้อ",
     "purchaseDetails": "รายละเอียดการซื้อ",
-    "recentWallets": "",
+    "recentWallets": "กระเป๋าเงินล่าสุด",
     "selectChain": "เลือกเชน",
     "selectWallet": "เลือกกระเป๋าของคุณ",
-    "sendToWallet": "",
+    "sendToWallet": "ส่งไปยังกระเป๋าเงิน",
     "settings": "ตั้งค่า",
     "swap": "แลกเปลี่ยน",
     "to": "แลกเปลี่ยนเป็น",
@@ -77,8 +77,8 @@
       "emptyActiveTransactions": "การแลกเปลี่ยนที่กำลังดำเนินการจะปรากฏที่นี่. เมื่อเสร็จสิ้น, จะพบประวัติการแลกเปลี่ยน.",
       "emptyTokenList": "เราไม่พบโทเค็นใน {{chainName}} เชนหรือคุณไม่มีโทเค็น. โปรดลองอีกครั้งหรือเลือกเชนอื่น.",
       "emptyTransactionHistory": "ประวัติการแลกเปลี่ยนจะถูกเก็บไว้ในเครื่องเท่านั้นและจะถูกลบหากคุณล้างข้อมูลเบราว์เซอร์ของคุณ.",
-      "fundsToExchange": "",
-      "toAddressIsRequired": "",
+      "fundsToExchange": "เงินที่ส่งไปยัง Exchange อาจหายไป",
+      "toAddressIsRequired": "กรุณาระบุที่อยู่ของวอลเล็ตปลายทางที่ต้องการโอนเงินไป",
       "routeNotFound": "เหตุผลที่อาจเกิดขึ้น : สภาพคล่องต่ำ , จำนวนที่เลือกน้อยเกินไป , ต้นทุนแก็สสูงหรือไม่มีเส้นทางที่ใช้งานได้"
     },
     "title": {
@@ -112,7 +112,7 @@
       "insufficientGas": "คุณมีแก๊สไม่เพียงพอที่จะแลกเปลี่ยนให้เสร็จสมบูรณ์ คุณต้องเพิ่มอย่างน้อย:",
       "rateChanged": "อัตราแลกเปลี่ยนมีการเปลี่ยนแปลง คุณจะยอมรับอัตราใหม่.",
       "resetSettings": "การดำเนินการนี้จะรีเซ็ตลำดับความสำคัญของเส้นทาง การคลาดเลื่อน ค่าแก็ส บริดจ์ที่เปิดใช้งานและการแลกเปลี่ยน",
-      "slippageOutsideRecommendedLimits": ""
+      "slippageOutsideRecommendedLimits": "การยอมรับความผิดปกติในการสลิปเพจสูงอาจส่งผลให้เกิดการซื้อขายที่ไม่คุ้มค่า ซึ่งเกิดจากการดำเนินการขายก่อน"
     },
     "title": {
       "deleteActiveTransactions": "ลบ​รายการธุรกรรม​ทั้งหมด?",
@@ -128,34 +128,36 @@
     "message": {
       "allowanceRequired": "โอนด้วยจำนวน {{tokenSymbol}} ตามการอนุญาตของคุณ.ได้โปรดเพิ่มการอนุญาตของคุณอีกครั้ง",
       "insufficientFunds": "คุณมีแก็สไม่พอสำหรับการธุรกรรมนี้",
-      "remainInYourWallet": "",
-      "signatureRejected": "",
+      "remainInYourWallet": "{{amount, number(maximumFractionDigits: 9)}}{{tokenSymbol}} บน {{chainName}}  ยังคงอยู่ในกระเป๋าเงินของคุ",
+      "signatureRejected": "จำเป็นต้องมีลายเซ็นของคุณเพื่อทำธุรกรมให้เสร็จสมบูรณ์. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} บน {{chainName}} ยังคงอยู่ในกระเป๋าเงินของคุณ.",
       "slippageThreshold": "การคลาดเคลื่อนมีขนาดใหญ่กว่าเกณฑ์ที่กำหนด โปรดขอเส้นทางใหม่เพื่อได้รับการเสนอราคาใหม่.",
-      "transactionCanceled": "",
+      "transactionCanceled": "ธุรกรรมได้ถูกยกเลิกแล้ว",
       "transactionFailed": "โปรดตรวจสอบบล็อกการสำรวจสำหรับข้อมูลเพิ่มเติม.",
-      "transactionNotSent": "",
-      "unknown": "โปรดลองอีกครั้งหรือติดต่อฝ่ายสนับสนุน."
+      "transactionNotSent": "ธุรกรรมไม่ได้ถูกส่ง",
+      "unknown": "โปรดลองอีกครั้งหรือติดต่อฝ่ายสนับสนุน.",
+      "walletChangedDuringExecution": "ที่อยู่ของวอลเล็ตที่ร้องขอให้ใช้ในการขอราคาไม่ตรงกับที่อยู่ของวอลเล็ตที่พยายามลงนามธุรกรรม โปรดตรวจสอบให้แน่ใจว่าใช้ที่อยู่เดียวกันตลอดการดำเนินการทั้งหมดของธุรกรรม"
     },
     "title": {
       "allowanceRequired": "การอนุญาตไม่เพียงพอ",
       "balanceIsTooLow": "ยอดคงเหลือต่ำเกินไป",
-      "bookmarkAlreadyExists": "",
-      "bookmarkNameRequired": "",
+      "bookmarkAlreadyExists": "กระเป๋าเงินถูก bookmark แล้วในชื่อ {{name}}",
+      "bookmarkNameRequired": "จำเป็นต้องมีชื่อ Bookmark ",
       "chainSwitch": "จำเป็นต้องเปลี่ยนเชน",
-      "exchangeRateUpdateCanceled": "",
+      "exchangeRateUpdateCanceled": "การอัปเดตอัตราแลกเปลี่ยนถูกยกเลิก",
       "gasLimitIsTooLow": "แก๊สคงเหลือต่ำเกินไป",
       "insufficientFunds": "ยอดคงเหลือไม่เพียงพอ",
-      "signatureRejected": "",
+      "signatureRejected": "ต้องมีลายเซ็น",
       "slippageNotMet": "ความคลาดเคลื่อนของราคาไม่เป็นไปตามเงื่อนไข.",
       "transactionCanceled": "ธุรกรรมถูกยกเลิกแล้ว",
       "transactionFailed": "การทำธุรกรรมล้มเหลว",
       "transactionUnderpriced": "ราคาธุรกรรมต่ำเกินไป",
       "transactionUnprepared": "ไม่สามารถจัดทำธุรกรรมได้",
       "unknown": "มีบางอย่างผิดพลาด",
-      "walletAddressInvalid": "",
-      "walletAddressInvalid_chain": "",
+      "walletAddressInvalid": "ที่อยู่ของกระเป๋าเงินหรือชื่อโดเมนไม่ถูกต้อง",
+      "walletAddressInvalid_chain": "ที่อยู่กระเป๋าเงินหรือชื่อโดเมนไม่ถูกต้องสำหรับเครือข่ายปลายทางที่เลือก {{chainName}}",
       "walletAddressRequired": "กรุณากรอกที่อยู่กระเป๋าเงิน.",
-      "walletChainTypeInvalid": ""
+      "walletChainTypeInvalid": "ที่อยู่กระเป๋าเงินหรือชื่อโดเมนไม่ถูกต้องสำหรับเครือข่ายปลายทางที่เลือก {{chainName}}",
+      "walletMismatch": "ที่อยู่ของกระเป๋าเงินไม่ตรงกัน"
     }
   },
   "tooltip": {
@@ -167,44 +169,44 @@
     "numberOfSteps": "ขั้นตอนการแลกเปลี่ยนหลายขั้นตอน แต่ละขั้นตอนสามารถมี 1-2 รายการที่ต้องใช้ลายเซ็น.",
     "progressToNextUpdate": "ข้อมูลที่แสดงจะรีเฟรชอัตโนมัติหลังจาก {{value}} วินาที คลิกที่นี่เพื่ออัปเดตด้วยตนเอง",
     "settingsModified": "การตั้งค่า (แก้ไข)",
-    "selectAll": "",
-    "deselectAll": ""
+    "selectAll": "เลือกทั้งหมด",
+    "deselectAll": "ยกเลิกการเลือกทั้งหมด"
   },
   "main": {
-    "allTokens": "",
-    "bridgeStepDetails": "",
-    "checkoutStepDetails": "",
+    "allTokens": "โทเคนทั้งหมด",
+    "bridgeStepDetails": "บริดจ์จาก{{from}} ไปยัง {{to}} โดย {{tool}}",
+    "checkoutStepDetails": "ซื้อผ่าน {{tool}}",
     "currentAmount": "จำนวนเงินปัจจุบัน",
-    "depositStepDetails": "",
+    "depositStepDetails": "ฝากผ่าน {{tool}}",
     "featuredTokens": "จุดเด่นของเหรียญ",
     "fees": {
-      "estimated": "",
-      "networkEstimated": "",
-      "networkPaid": "",
-      "paid": "",
-      "providerEstimated": "",
-      "providerPaid": ""
+      "estimated": "ประเมินค่าธรรมเนียม",
+      "networkEstimated": "ค่าธรรรมเนียมโดยประมาณของเครือข่าย",
+      "networkPaid": "จ่ายค่าธรรมเนียมเครือข่าย",
+      "paid": "จ่ายค่าธรรมเนียม",
+      "providerEstimated": "ค่าบริการที่ต้องจ่ายโดยประมาณ:",
+      "providerPaid": "ค่าบริการที่ต้องจ่าย:"
     },
     "from": "จาก",
     "fromAmount": "คุณจ่าย",
     "gasCost": "ค่าแก๊ส",
     "inProgress": "กำลังดำเนินการ",
-    "myTokens": "",
+    "myTokens": "โทเคนของฉัน",
     "onChain": "บน {{chainName}}",
     "ownedBy": "เป็นเจ้าของโดย",
-    "popularTokens": "",
+    "popularTokens": "โทเค็นยอดนิยม",
     "process": {
       "bridge": {
-        "actionRequired": "",
-        "done": "",
-        "pending": "",
-        "started": ""
+        "actionRequired": "กรุณาเซ็นชื่อในการทำธุรกรรม",
+        "done": "ธุรกรรมข้ามเชนได้รับการยืนยันแล้ว",
+        "pending": "รอสำหรับการทำรายการบริดจ์",
+        "started": "เตรียมการทำรายการบริดจ์"
       },
       "checkout": {
-        "done": ""
+        "done": "ซื้อเสร็จสมบูรณ์"
       },
       "deposit": {
-        "done": ""
+        "done": "ฝากเงินสำเร็จ"
       },
       "receivingChain": {
         "done": "ข้ามเชนเสร็จสมบูรณ์",
@@ -248,8 +250,8 @@
     "supportId": "หมายเลขที่สนับสนุน",
     "swapStepDetails": "แลกเปลี่ยนบน {{chain}} ผ่าน {{tool}}",
     "tags": {
-      "cheapest": "",
-      "fastest": "",
+      "cheapest": "ผลตอบแทนที่ดีที่สุด",
+      "fastest": "รวดเร็วที่สุด",
       "insurable": "การประกัน",
       "insurance": "การประกัน",
       "insured": "ประกัน"
@@ -267,9 +269,9 @@
     "slippageError": "เกิดข้อผิดพลาดในการคลาดเคลื่อนของโทเค็นที่ได้รับ"
   },
   "settings": {
-    "theme": "",
-    "enabledBridges": "",
-    "enabledExchanges": "",
+    "theme": "ธีม",
+    "enabledBridges": "บริดจ์",
+    "enabledExchanges": "แลกเปลี่ยน",
     "gasPrice": {
       "fast": "รวดเร็ว",
       "normal": "ปกติ",
@@ -278,20 +280,20 @@
     },
     "routePriority": "ลำดับสำคัญของเส้นทาง",
     "slippage": "ความคลาดเคลื่อน",
-    "custom": "",
-    "resetSettings": ""
+    "custom": "กำหนดเอง",
+    "resetSettings": "คุณกำลังใช้การตั้งค่าที่กำหนดเองซึ่งอาจมีผลต่อจำนวนหรือการเรียงลำดับของเส้นทางที่ใช้ได้"
   },
   "sendToWallet": {
-    "addBookmark": "",
-    "bookmarkWallet": "",
-    "confirmWalletAddress": "",
-    "connectedWallets": "",
-    "enterAddress_long": "",
-    "enterAddress_short": "",
-    "enterName": "",
-    "noBookmarkedWallets": "",
-    "noConnectedWallets": "",
-    "noRecentWallets": ""
+    "addBookmark": "เพิ่มบุ๊กมาร์ก",
+    "bookmarkWallet": "Bookmark กระเป๋าเงิน",
+    "confirmWalletAddress": "ยืนยันที่อยู่กระเป๋าเงิน",
+    "connectedWallets": "เชื่อมต่อกระเป๋าเงินแล้ว",
+    "enterAddress_long": "ระบุที่อยู่หรือโดเมนของกระเป๋าเงิน",
+    "enterAddress_short": "ป้อนที่อยู่กระเป๋าเงิน",
+    "enterName": "ใส่ชื่อ",
+    "noBookmarkedWallets": "ไม่มีกระเป๋าเงินที่ bookmark ไว้",
+    "noConnectedWallets": "ไม่มีกระเป๋าเงินที่เชื่อมต่อไว้",
+    "noRecentWallets": "ไม่พบกระเป๋าเงินล่าสุด"
   },
   "wallet": {
     "extensionNotFound": "โปรดตรวจสอบว่ามีเพียงส่วนขยายของเบราว์เซอร์ {{name}} เท่านั้นที่ใช้งานได้ก่อนที่จะเลือกกระเป๋าเงินนี้."
