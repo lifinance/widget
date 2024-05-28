@@ -1,0 +1,301 @@
+{
+  "language": {
+    "name": "",
+    "title": ""
+  },
+  "format": {
+    "currency": "",
+    "number": ""
+  },
+  "button": {
+    "auto": "",
+    "bookmark": "",
+    "bookmarks": "",
+    "bridge": "",
+    "buy": "",
+    "buyNow": "",
+    "cancel": "",
+    "changeWallet": "",
+    "close": "",
+    "confirm": "",
+    "connectWallet": "",
+    "contactSupport": "",
+    "continue": "",
+    "copyAddress": "",
+    "dark": "",
+    "delete": "",
+    "disconnect": "",
+    "done": "",
+    "exchange": "",
+    "getGas": "",
+    "learnMore": "",
+    "light": "",
+    "max": "",
+    "ok": "",
+    "options": "",
+    "removeTransaction": "",
+    "reset": "",
+    "resetSettings": "",
+    "reviewBridge": "",
+    "reviewPurchase": "",
+    "reviewSwap": "",
+    "seeDetails": "",
+    "showAll": "",
+    "startBridging": "",
+    "startSwapping": "",
+    "swap": "",
+    "tryAgain": "",
+    "viewCoverage": "",
+    "viewOnExplorer": ""
+  },
+  "header": {
+    "activeTransactions": "",
+    "bookmarkedWallets": "",
+    "bridge": "",
+    "checkout": "",
+    "exchange": "",
+    "from": "",
+    "gas": "",
+    "payWith": "",
+    "purchase": "",
+    "purchaseDetails": "",
+    "recentWallets": "",
+    "selectChain": "",
+    "selectWallet": "",
+    "sendToWallet": "",
+    "settings": "",
+    "swap": "",
+    "to": "",
+    "transactionDetails": "",
+    "transactionHistory": "",
+    "walletConnected": "",
+    "youGet": ""
+  },
+  "info": {
+    "message": {
+      "autoRefuel": "",
+      "emptyActiveTransactions": "",
+      "emptyTokenList": "",
+      "emptyTransactionHistory": "",
+      "fundsToExchange": "",
+      "toAddressIsRequired": "",
+      "routeNotFound": ""
+    },
+    "title": {
+      "autoRefuel": "",
+      "emptyActiveTransactions": "",
+      "emptyTransactionHistory": "",
+      "routeNotFound": ""
+    }
+  },
+  "success": {
+    "message": {
+      "exchangePartiallySuccessful": "",
+      "exchangeSuccessful": "",
+      "purchaseSuccessful": ""
+    },
+    "title": {
+      "bridgePartiallySuccessful": "",
+      "bridgeSuccessful": "",
+      "purchaseSuccessful": "",
+      "refundIssued": "",
+      "swapPartiallySuccessful": "",
+      "swapSuccessful": ""
+    }
+  },
+  "warning": {
+    "message": {
+      "deleteActiveTransactions": "",
+      "deleteTransactionHistory": "",
+      "highValueLoss": "",
+      "insufficientFunds": "",
+      "insufficientGas": "",
+      "rateChanged": "",
+      "resetSettings": "",
+      "slippageOutsideRecommendedLimits": ""
+    },
+    "title": {
+      "deleteActiveTransactions": "",
+      "deleteTransaction": "",
+      "deleteTransactionHistory": "",
+      "highValueLoss": "",
+      "insufficientGas": "",
+      "rateChanged": "",
+      "resetSettings": ""
+    }
+  },
+  "error": {
+    "message": {
+      "allowanceRequired": "",
+      "insufficientFunds": "",
+      "remainInYourWallet": "",
+      "signatureRejected": "",
+      "slippageThreshold": "",
+      "transactionCanceled": "",
+      "transactionFailed": "",
+      "transactionNotSent": "",
+      "unknown": "",
+      "walletChangedDuringExecution": ""
+    },
+    "title": {
+      "allowanceRequired": "",
+      "balanceIsTooLow": "",
+      "bookmarkAlreadyExists": "",
+      "bookmarkNameRequired": "",
+      "chainSwitch": "",
+      "exchangeRateUpdateCanceled": "",
+      "gasLimitIsTooLow": "",
+      "insufficientFunds": "",
+      "signatureRejected": "",
+      "slippageNotMet": "",
+      "transactionCanceled": "",
+      "transactionFailed": "",
+      "transactionUnderpriced": "",
+      "transactionUnprepared": "",
+      "unknown": "",
+      "walletAddressInvalid": "",
+      "walletAddressInvalid_chain": "",
+      "walletAddressRequired": "",
+      "walletChainTypeInvalid": "",
+      "walletMismatch": ""
+    }
+  },
+  "tooltip": {
+    "estimatedTime": "",
+    "notFound": {
+      "text": "",
+      "title": ""
+    },
+    "numberOfSteps": "",
+    "progressToNextUpdate": "",
+    "settingsModified": "",
+    "selectAll": "",
+    "deselectAll": ""
+  },
+  "main": {
+    "allTokens": "",
+    "bridgeStepDetails": "",
+    "checkoutStepDetails": "",
+    "currentAmount": "",
+    "depositStepDetails": "",
+    "featuredTokens": "",
+    "fees": {
+      "estimated": "",
+      "networkEstimated": "",
+      "networkPaid": "",
+      "paid": "",
+      "providerEstimated": "",
+      "providerPaid": ""
+    },
+    "from": "",
+    "fromAmount": "",
+    "gasCost": "",
+    "inProgress": "",
+    "myTokens": "",
+    "onChain": "",
+    "ownedBy": "",
+    "popularTokens": "",
+    "process": {
+      "bridge": {
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
+      },
+      "checkout": {
+        "done": ""
+      },
+      "deposit": {
+        "done": ""
+      },
+      "receivingChain": {
+        "done": "",
+        "partial": "",
+        "pending": "",
+        "refunded": ""
+      },
+      "swap": {
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
+      },
+      "switchChain": {
+        "actionRequired": "",
+        "done": ""
+      },
+      "tokenAllowance": {
+        "done": "",
+        "pending": "",
+        "started": ""
+      }
+    },
+    "quotedAmount": "",
+    "rateChange": "",
+    "receiving": "",
+    "refuelStepDetails": "",
+    "selectChain": "",
+    "selectChainAndToken": "",
+    "selectToken": "",
+    "sendToAddress": "",
+    "sendToWallet": "",
+    "sending": "",
+    "sentToAddress": "",
+    "stepBridge": "",
+    "stepBridgeAndBuy": "",
+    "stepDetails": "",
+    "stepSwap": "",
+    "stepSwapAndBridge": "",
+    "stepSwapAndBuy": "",
+    "supportId": "",
+    "swapStepDetails": "",
+    "tags": {
+      "cheapest": "",
+      "fastest": "",
+      "insurable": "",
+      "insurance": "",
+      "insured": ""
+    },
+    "to": "",
+    "tokenOnChain": "",
+    "tokenOnChainAmount": "",
+    "tokenSearch": "",
+    "valueLoss": ""
+  },
+  "insurance": {
+    "bridgeExploits": "",
+    "insure": "",
+    "insured": "",
+    "slippageError": ""
+  },
+  "settings": {
+    "theme": "",
+    "enabledBridges": "",
+    "enabledExchanges": "",
+    "gasPrice": {
+      "fast": "",
+      "normal": "",
+      "slow": "",
+      "title": ""
+    },
+    "routePriority": "",
+    "slippage": "",
+    "custom": "",
+    "resetSettings": ""
+  },
+  "sendToWallet": {
+    "addBookmark": "",
+    "bookmarkWallet": "",
+    "confirmWalletAddress": "",
+    "connectedWallets": "",
+    "enterAddress_long": "",
+    "enterAddress_short": "",
+    "enterName": "",
+    "noBookmarkedWallets": "",
+    "noConnectedWallets": "",
+    "noRecentWallets": ""
+  },
+  "wallet": {
+    "extensionNotFound": ""
+  }
+}
