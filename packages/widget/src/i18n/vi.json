@@ -134,7 +134,8 @@
       "transactionCanceled": "",
       "transactionFailed": "Vui lòng kiểm tra block explorer để biết thêm thông tin.",
       "transactionNotSent": "",
-      "unknown": "Vui lòng thử lại hoặc liên hệ hỗ trợ."
+      "unknown": "Vui lòng thử lại hoặc liên hệ hỗ trợ.",
+      "walletChangedDuringExecution": ""
     },
     "title": {
       "allowanceRequired": "Sự cho phép không đủ",
@@ -155,7 +156,8 @@
       "walletAddressInvalid": "",
       "walletAddressInvalid_chain": "",
       "walletAddressRequired": "Yêu cầu địa chỉ ví.",
-      "walletChainTypeInvalid": ""
+      "walletChainTypeInvalid": "",
+      "walletMismatch": ""
     }
   },
   "tooltip": {
