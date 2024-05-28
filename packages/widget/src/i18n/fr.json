@@ -134,7 +134,8 @@
       "transactionCanceled": "La transaction a été annulée.",
       "transactionFailed": "Veuillez consulter l'explorateur de blocs pour plus d'informations.",
       "transactionNotSent": "La transaction n'a pas été envoyée.",
-      "unknown": "Veuillez réessayer ou contacter le support."
+      "unknown": "Veuillez réessayer ou contacter le support.",
+      "walletChangedDuringExecution": "L'adresse du portefeuille qui a demandé le devis ne correspond pas à l'adresse du portefeuille tentant de signer la transaction. Veuillez vous assurer que la même adresse de portefeuille est utilisée tout au long de l'exécution de la transaction."
     },
     "title": {
       "allowanceRequired": "Allocation insuffisante",
@@ -155,7 +156,8 @@
       "walletAddressInvalid": "L'adresse du portefeuille ou le nom de domaine est invalide",
       "walletAddressInvalid_chain": "L'adresse du portefeuille ou le nom de domaine est invalide pour la chaîne de destination sélectionnée {{chainName}}",
       "walletAddressRequired": "L'adresse du portefeuille est nécessaire.",
-      "walletChainTypeInvalid": "L'adresse du portefeuille ne correspond pas à la chaîne de destination sélectionnée - {{chainName}}"
+      "walletChainTypeInvalid": "L'adresse du portefeuille ne correspond pas à la chaîne de destination sélectionnée - {{chainName}}",
+      "walletMismatch": "Incompatibilité de l'adresse du portefeuille"
     }
   },
   "tooltip": {
