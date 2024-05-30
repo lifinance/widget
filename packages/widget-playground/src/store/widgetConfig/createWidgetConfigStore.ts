@@ -198,7 +198,7 @@ export const createWidgetConfigStore = (
         },
       }),
       {
-        name: `'li.fi-playground-config`,
+        name: 'li.fi-playground-config',
         version: 1,
         partialize: (state) => ({
           config: state?.config
