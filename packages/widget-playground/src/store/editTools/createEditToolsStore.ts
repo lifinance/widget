@@ -107,7 +107,7 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
         },
       }),
       {
-        name: `'li.fi-playground-tools`,
+        name: 'li.fi-playground-tools',
         version: 1,
         partialize: (state) => ({
           drawer: {
