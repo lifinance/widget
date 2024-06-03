@@ -3,14 +3,13 @@ import { Button, Typography } from '@mui/material';
 import type { MutableRefObject } from 'react';
 import { forwardRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { AlertMessage } from '../../components/AlertMessage/AlertMessage.js';
 import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js';
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
+import { useNavigateBack } from '../../hooks/useNavigateBack.js';
 import type { Bookmark } from '../../stores/bookmarks/types.js';
 import { useFieldActions } from '../../stores/form/useFieldActions.js';
 import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js';
-import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import {
   IconContainer,
   SendToWalletButtonRow,
@@ -29,7 +28,7 @@ export const ConfirmAddressSheet = forwardRef<
   ConfirmAddressSheetProps
 >(({ validatedBookmark, onConfirm }, ref) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  const { navigateBack } = useNavigateBack();
   const { setFieldValue } = useFieldActions();
   const { setSendToWallet } = useSendToWalletActions();
 
@@ -45,7 +44,7 @@ export const ConfirmAddressSheet = forwardRef<
       onConfirm?.(validatedBookmark);
       setSendToWallet(true);
       handleClose();
-      navigate(navigationRoutes.home);
+      navigateBack();
     }
   };
 

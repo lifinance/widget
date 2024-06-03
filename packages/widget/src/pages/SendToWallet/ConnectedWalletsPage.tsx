@@ -20,7 +20,6 @@ import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.j
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
 import { useFieldActions } from '../../stores/form/useFieldActions.js';
 import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js';
-import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { shortenAddress } from '../../utils/wallet.js';
 import { EmptyListIndicator } from './EmptyListIndicator.js';
 import {
@@ -44,6 +43,7 @@ export const ConnectedWalletsPage = () => {
   const open = Boolean(moreMenuAnchorEl);
 
   useHeader(t('sendToWallet.connectedWallets'));
+
   const handleWalletSelected = (account: Account) => {
     setFieldValue('toAddress', account.address!, {
       isTouched: true,
@@ -55,7 +55,10 @@ export const ConnectedWalletsPage = () => {
       isConnectedAccount: true,
     });
     setSendToWallet(true);
-    navigate(navigationRoutes.home);
+    navigate(`../../`, {
+      relative: 'path',
+      replace: true,
+    });
   };
 
   const closeMenu = () => {
