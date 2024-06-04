@@ -1,6 +1,6 @@
 import type { SDKProvider } from '@lifi/sdk';
 import { ChainType, EVM, Solana, config } from '@lifi/sdk';
-import type { WalletAdapter } from '@solana/wallet-adapter-base';
+import type { SignerWalletAdapter } from '@solana/wallet-adapter-base';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { getWalletClient, switchChain } from '@wagmi/core';
 import { useEffect } from 'react';
@@ -36,7 +36,7 @@ export const SDKProviders = () => {
       providers.push(
         Solana({
           async getWalletAdapter() {
-            return wallet?.adapter as WalletAdapter;
+            return wallet?.adapter as SignerWalletAdapter;
           },
         }),
       );
