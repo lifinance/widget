@@ -5,6 +5,7 @@ import es from './es.json';
 import fr from './fr.json';
 import id from './id.json';
 import it from './it.json';
+import ja from './ja.json';
 import ko from './ko.json';
 import pt from './pt.json';
 import th from './th.json';
@@ -13,4 +14,4 @@ import uk from './uk.json';
 import vi from './vi.json';
 import zh from './zh.json';
 
-export { bn, de, en, es, fr, id, it, ko, pt, th, tr, uk, vi, zh };
+export { bn, de, en, es, fr, id, it, ja, ko, pt, th, tr, uk, vi, zh };
