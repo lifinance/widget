@@ -107,7 +107,7 @@ export const EVMBaseProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [chains, connectors, wagmiConfig]);
 
   return (
-    <WagmiProvider config={wagmiConfig} reconnectOnMount={false}>
+    <WagmiProvider config={wagmiConfig} reconnectOnMount={true}>
       {children}
     </WagmiProvider>
   );
