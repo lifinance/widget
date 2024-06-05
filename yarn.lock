@@ -2570,6 +2570,7 @@ __metadata:
     microdiff: "npm:^1.4.0"
     react: "npm:^18.3.1"
     react-dom: "npm:^18.3.1"
+    react-router-dom: "npm:^6.23.1"
     rollup-plugin-polyfill-node: "npm:^0.13.0"
     source-map-explorer: "npm:^2.5.3"
     typescript: "npm:^5.4.5"

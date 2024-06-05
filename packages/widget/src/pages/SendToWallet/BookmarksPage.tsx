@@ -23,7 +23,6 @@ import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js';
 import { useFieldActions } from '../../stores/form/useFieldActions.js';
 import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js';
 import { defaultChainIdsByType } from '../../utils/chainType.js';
-import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { shortenAddress } from '../../utils/wallet.js';
 import { BookmarkAddressSheet } from './BookmarkAddressSheet.js';
 import { EmptyListIndicator } from './EmptyListIndicator.js';
@@ -59,7 +58,10 @@ export const BookmarksPage = () => {
     });
     setSelectedBookmark(bookmark);
     setSendToWallet(true);
-    navigate(navigationRoutes.home);
+    navigate(`../../`, {
+      relative: 'path',
+      replace: true,
+    });
   };
 
   const moreMenuId = useId();

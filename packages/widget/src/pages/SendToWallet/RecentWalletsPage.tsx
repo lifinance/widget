@@ -63,7 +63,10 @@ export const RecentWalletsPage = () => {
     });
     setSelectedBookmark(recentWallet);
     setSendToWallet(true);
-    navigate(navigationRoutes.home);
+    navigate(`../../`, {
+      relative: 'path',
+      replace: true,
+    });
   };
 
   const handleAddBookmark = (bookmark: Bookmark) => {
