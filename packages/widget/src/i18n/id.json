@@ -9,15 +9,15 @@
   },
   "button": {
     "auto": "Otomatis",
-    "bookmark": "",
-    "bookmarks": "",
+    "bookmark": "Bookmark",
+    "bookmarks": "Penanda",
     "bridge": "Bridge",
     "buy": "Beli",
     "buyNow": "Beli sekarang",
     "cancel": "Batal",
-    "changeWallet": "",
-    "close": "",
-    "confirm": "",
+    "changeWallet": "Ubah Dompet",
+    "close": "Tutup",
+    "confirm": "Konfirmasi",
     "connectWallet": "Hubungkan dompet",
     "contactSupport": "Kontak bantuan",
     "continue": "Lanjutkan",
@@ -32,7 +32,7 @@
     "light": "Terang",
     "max": "maks",
     "ok": "Ya",
-    "options": "",
+    "options": "Opsi",
     "removeTransaction": "Hapus transaksi",
     "reset": "Atur ulang",
     "resetSettings": "Setel ulang pengaturan",
@@ -50,7 +50,7 @@
   },
   "header": {
     "activeTransactions": "Transaksi aktif",
-    "bookmarkedWallets": "",
+    "bookmarkedWallets": "Dompet yang ditandai",
     "bridge": "Bridge",
     "checkout": "Checkout",
     "exchange": "Pertukaran",
@@ -59,10 +59,10 @@
     "payWith": "Bayar dengan",
     "purchase": "Pembelian",
     "purchaseDetails": "Detail pembelian",
-    "recentWallets": "",
+    "recentWallets": "Dompet terbaru",
     "selectChain": "Pilih jaringan",
     "selectWallet": "Pilih dompet",
-    "sendToWallet": "",
+    "sendToWallet": "Kirim ke dompet",
     "settings": "Pengaturan",
     "swap": "Swap",
     "to": "Swap ke",
@@ -77,8 +77,8 @@
       "emptyActiveTransactions": "Transaksi yang sedang berlangsung akan muncul di sini. Setelah selesai, temukan di riwayat transaksi.",
       "emptyTokenList": "Kami tidak dapat menemukan token di jaringan {{chainName}} atau Anda tidak memilikinya. Silakan cari berdasarkan alamat kontrak jika token Anda tidak muncul atau pilih jaringan lain.",
       "emptyTransactionHistory": "Riwayat transaksi hanya disimpan secara lokal dan akan dihapus jika Anda menghapus data browser.",
-      "fundsToExchange": "",
-      "toAddressIsRequired": "",
+      "fundsToExchange": "Dana yang dikirim ke exchange mungkin akan hilang",
+      "toAddressIsRequired": "Harap berikan alamat dompet tujuan ke mana dana akan ditransfer.",
       "routeNotFound": "Alasannya mungkin: likuiditas rendah, jumlah yang dipilih terlalu rendah, biaya gas terlalu tinggi, atau tidak ada rute untuk kombinasi yang dipilih."
     },
     "title": {
@@ -112,7 +112,7 @@
       "insufficientGas": "Anda tidak memiliki cukup gas untuk menyelesaikan penukaran. Anda perlu menambahkan setidaknya:",
       "rateChanged": "Nilai tukar telah berubah. Dengan melanjutkan penukaran, Anda akan menerima tarif baru.",
       "resetSettings": "Ini akan mengatur ulang prioritas rute Anda, slippage, harga gas, jembatan yang diaktifkan, dan pertukaran.",
-      "slippageOutsideRecommendedLimits": ""
+      "slippageOutsideRecommendedLimits": "Toleransi selip yang tinggi dapat mengakibatkan perdagangan yang tidak menguntungkan yang disebabkan oleh front-running."
     },
     "title": {
       "deleteActiveTransactions": "Hapus seluruh transaksi aktif?",
@@ -128,36 +128,36 @@
     "message": {
       "allowanceRequired": "Jumlah transfer untuk {{tokenSymbol}} melebihi jatah Anda saat ini. Tingkatkan jatah Anda dan coba lagi.",
       "insufficientFunds": "Anda tidak memiliki cukup gas untuk menutup biaya transaksi.",
-      "remainInYourWallet": "",
-      "signatureRejected": "",
+      "remainInYourWallet": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} di {{chainName}} tetap ada di dompet Anda.",
+      "signatureRejected": "Tanda tangan Anda diperlukan untuk menyelesaikan transaksi. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} di {{chainName}} tetap ada di dompet Anda.",
       "slippageThreshold": "Slippage lebih besar dari ambang batas yang ditentukan. Silakan minta rute baru untuk mendapatkan penawaran baru.",
-      "transactionCanceled": "",
+      "transactionCanceled": "Transaksi dibatalkan.",
       "transactionFailed": "Silakan periksa block explorer untuk informasi lebih lanjut.",
-      "transactionNotSent": "",
+      "transactionNotSent": "Transaksi tidak terkirim.",
       "unknown": "Silakan coba lagi atau hubungi bagian dukungan.",
-      "walletChangedDuringExecution": ""
+      "walletChangedDuringExecution": "Alamat dompet yang meminta penawaran tidak cocok dengan alamat dompet yang mencoba menandatangani transaksi ini. Harap gunakan alamat dompet yang sama untuk digunakan di seluruh transaksi."
     },
     "title": {
       "allowanceRequired": "Saldo tidak mencukupi",
       "balanceIsTooLow": "Saldo Anda terlalu sedikit",
-      "bookmarkAlreadyExists": "",
-      "bookmarkNameRequired": "",
+      "bookmarkAlreadyExists": "Dompet telah di tandai dengan nama {{name}}",
+      "bookmarkNameRequired": "Nama bookmark di perlukan",
       "chainSwitch": "Penggantian jaringan diperlukan",
-      "exchangeRateUpdateCanceled": "",
+      "exchangeRateUpdateCanceled": "Pembaruan nilai tukar dibatalkan",
       "gasLimitIsTooLow": "Gas limit terlalu rendah",
       "insufficientFunds": "Dana tidak mencukupi",
-      "signatureRejected": "",
+      "signatureRejected": "Tanda tangan diperlukan",
       "slippageNotMet": "Kondisi slippage tidak terpenuhi",
       "transactionCanceled": "Transaksi dibatalkan",
       "transactionFailed": "Transaksi gagal",
       "transactionUnderpriced": "Transaksi di bawah harga",
       "transactionUnprepared": "Tidak dapat menguraikan transaksi",
       "unknown": "Terjadi kesalahan",
-      "walletAddressInvalid": "",
-      "walletAddressInvalid_chain": "",
+      "walletAddressInvalid": "Alamat dompet atau nama domain tidak valid",
+      "walletAddressInvalid_chain": "Alamat dompet atau nama domain tidak valid untuk jaringan tujuan yang dipilih {{chainName}}",
       "walletAddressRequired": "Alamat dompet diperlukan.",
-      "walletChainTypeInvalid": "",
-      "walletMismatch": ""
+      "walletChainTypeInvalid": "Alamat dompet tidak cocok dengan jaringan tujuan yang dipilih {{chainName}}",
+      "walletMismatch": "Alamat dompet tidak cocok"
     }
   },
   "tooltip": {
@@ -169,44 +169,44 @@
     "numberOfSteps": "Sejumlah langkah swap. Setiap langkah dapat berisi 1-2 transaksi yang memerlukan tanda tangan.",
     "progressToNextUpdate": "Data yang ditampilkan akan disegarkan secara otomatis setelah {{value}} detik. Klik di sini untuk memperbarui secara manual.",
     "settingsModified": "Pengaturan (diubah)",
-    "selectAll": "",
-    "deselectAll": ""
+    "selectAll": "Pilih semua",
+    "deselectAll": "Hapus semua"
   },
   "main": {
-    "allTokens": "",
-    "bridgeStepDetails": "",
-    "checkoutStepDetails": "",
+    "allTokens": "Semua Token",
+    "bridgeStepDetails": "Bridge dari {{from}} to {{to}} via {{tool}}",
+    "checkoutStepDetails": "Dapatkan melalui {{tool}}",
     "currentAmount": "Jumlah saat ini",
-    "depositStepDetails": "",
+    "depositStepDetails": "Dapatkan melalui {{tool}}",
     "featuredTokens": "Token unggulan",
     "fees": {
-      "estimated": "",
-      "networkEstimated": "",
-      "networkPaid": "",
-      "paid": "",
-      "providerEstimated": "",
-      "providerPaid": ""
+      "estimated": "estimasi biaya",
+      "networkEstimated": "Perkiraan biaya jaringan:",
+      "networkPaid": "Biaya jaringan berbayar:",
+      "paid": "biaya yang dibayar",
+      "providerEstimated": "Perkiraan biaya penyedia:",
+      "providerPaid": "Perkiraan biaya penyedia:"
     },
     "from": "Dari",
     "fromAmount": "Anda membayar",
     "gasCost": "Biaya Gas",
     "inProgress": "dalam proses",
-    "myTokens": "",
+    "myTokens": "Token saya",
     "onChain": "di {{chainName}}",
     "ownedBy": "Dimiliki oleh",
-    "popularTokens": "",
+    "popularTokens": "Token populer",
     "process": {
       "bridge": {
-        "actionRequired": "",
-        "done": "",
-        "pending": "",
-        "started": ""
+        "actionRequired": "Silakan tandatangani transaksi ini",
+        "done": "Tranksaksi bridge dikonfirmasi",
+        "pending": "Menunggu transaksi bridge",
+        "started": "Mempersiapkan transaksi bridge"
       },
       "checkout": {
-        "done": ""
+        "done": "Pembelian selesai"
       },
       "deposit": {
-        "done": ""
+        "done": "Setoran Selesai"
       },
       "receivingChain": {
         "done": "Bridge selesai",
@@ -250,8 +250,8 @@
     "supportId": "ID dukungan",
     "swapStepDetails": "Swap di {{chain}} melalui {{tool}}",
     "tags": {
-      "cheapest": "",
-      "fastest": "",
+      "cheapest": "Pengembalian terbaik",
+      "fastest": "Tercepat",
       "insurable": "Dapat diasuransikan",
       "insurance": "Asuransi",
       "insured": "Diasuransikan"
@@ -269,9 +269,9 @@
     "slippageError": "Kesalahan dalam slippage untuk token yang diterima"
   },
   "settings": {
-    "theme": "",
-    "enabledBridges": "",
-    "enabledExchanges": "",
+    "theme": "Tema",
+    "enabledBridges": "Bridge",
+    "enabledExchanges": "Bursa",
     "gasPrice": {
       "fast": "Cepat",
       "normal": "Normal",
@@ -280,20 +280,20 @@
     },
     "routePriority": "Prioritas rute",
     "slippage": "Slippage",
-    "custom": "",
-    "resetSettings": ""
+    "custom": "Kustom",
+    "resetSettings": "Anda menggunakan pengaturan khusus yang dapat memengaruhi jumlah atau pengurutan rute yang tersedia."
   },
   "sendToWallet": {
-    "addBookmark": "",
-    "bookmarkWallet": "",
-    "confirmWalletAddress": "",
-    "connectedWallets": "",
-    "enterAddress_long": "",
-    "enterAddress_short": "",
-    "enterName": "",
-    "noBookmarkedWallets": "",
-    "noConnectedWallets": "",
-    "noRecentWallets": ""
+    "addBookmark": "Tambahkan bookmark",
+    "bookmarkWallet": "Dompet yang ditandai",
+    "confirmWalletAddress": "Konfirmasi alamat dompet",
+    "connectedWallets": "Hubungkan dompet",
+    "enterAddress_long": "Masukkan domain atau alamat dompet",
+    "enterAddress_short": "Masukkan alamat dompet",
+    "enterName": "Masukkan nama",
+    "noBookmarkedWallets": "Tidak ada dompet yang ditandai",
+    "noConnectedWallets": "Tida ada dompet yang di hubungkan",
+    "noRecentWallets": "Tidak ada dompet terakhir yang digunakan"
   },
   "wallet": {
     "extensionNotFound": "Pastikan hanya ekstensi browser {{name}} yang aktif sebelum memilih dompet ini."
