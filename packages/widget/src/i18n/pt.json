@@ -135,7 +135,7 @@
       "transactionFailed": "Por favor, verifique o explorador de blocos para mais informações.",
       "transactionNotSent": "A transação não foi enviada.",
       "unknown": "Por favor, tente novamente ou fale com o suporte.",
-      "walletChangedDuringExecution": ""
+      "walletChangedDuringExecution": "O endereço da carteira que requisitou a cotação não corresponde ao endereço da carteira tentando assinar a transação. Por favor, certifique-se de que o mesmo endereço de carteira é usado durante toda a execução da transação."
     },
     "title": {
       "allowanceRequired": "Permissão insuficiente",
@@ -157,7 +157,7 @@
       "walletAddressInvalid_chain": "O endereço da carteira ou o nome de domínio é inválido para a rede de destino selecionada {{chainName}}",
       "walletAddressRequired": "Endereço da carteira é necessário.",
       "walletChainTypeInvalid": "O endereço da carteira não corresponde à rede de destino selecionada - {{chainName}}",
-      "walletMismatch": ""
+      "walletMismatch": "Incompatibilidade de endereço da carteira"
     }
   },
   "tooltip": {
