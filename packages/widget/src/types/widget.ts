@@ -106,7 +106,7 @@ export interface WidgetSDKConfig
     | 'routeOptions'
     | 'widgetVersion'
   > {
-  routeOptions?: Omit<RouteOptions, 'bridges' | 'exchanges' | 'insurance'>;
+  routeOptions?: Omit<RouteOptions, 'bridges' | 'exchanges'>;
 }
 
 export interface WidgetContractTool {
@@ -149,7 +149,6 @@ export interface WidgetConfig {
 
   routePriority?: Order;
   slippage?: number;
-  insurance?: boolean;
 
   variant?: WidgetVariant;
   subvariant?: WidgetSubvariant;

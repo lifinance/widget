@@ -7,7 +7,6 @@ import { useLocation } from 'react-router-dom';
 import { Card } from '../../components/Card/Card.js';
 import { CardTitle } from '../../components/Card/CardTitle.js';
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js';
-import { Insurance } from '../../components/Insurance/Insurance.js';
 import { PageContainer } from '../../components/PageContainer.js';
 import { getStepList } from '../../components/Step/StepList.js';
 import { useHeader } from '../../hooks/useHeader.js';
@@ -18,7 +17,6 @@ import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.j
 import { useRouteExecutionStore } from '../../stores/routes/RouteExecutionStore.js';
 import { getSourceTxHash } from '../../stores/routes/utils.js';
 import { buildRouteFromTxHistory } from '../../utils/converters.js';
-import { formatTokenAmount } from '../../utils/format.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { ContactSupportButton } from './ContactSupportButton.js';
 import { TransactionDetailsSkeleton } from './TransactionDetailsSkeleton.js';
@@ -71,8 +69,6 @@ export const TransactionDetailsPage: React.FC = () => {
 
   const sourceTxHash = getSourceTxHash(routeExecution?.route);
 
-  const insuranceCoverageId = sourceTxHash ?? routeExecution?.route.fromAddress;
-
   let supportId = sourceTxHash ?? routeExecution?.route.id ?? '';
 
   if (process.env.NODE_ENV === 'development') {
@@ -112,20 +108,6 @@ export const TransactionDetailsPage: React.FC = () => {
         <ContractComponent sx={{ marginTop: 2 }}>
           {contractSecondaryComponent}
         </ContractComponent>
-      ) : null}
-      {routeExecution?.route?.insurance?.state === 'INSURED' ? (
-        <Insurance
-          status={routeExecution.status}
-          feeAmountUsd={routeExecution.route.insurance.feeAmountUsd}
-          insuredAmount={formatTokenAmount(
-            BigInt(routeExecution.route.toAmountMin),
-            routeExecution.route.toToken.decimals,
-          )}
-          insuredTokenSymbol={routeExecution.route.toToken.symbol}
-          insurableRouteId={routeExecution.route.id}
-          insuranceCoverageId={insuranceCoverageId}
-          sx={{ marginTop: 2 }}
-        />
       ) : null}
       <Card sx={{ marginTop: 2 }}>
         <Box
