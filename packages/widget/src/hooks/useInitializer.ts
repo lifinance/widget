@@ -8,7 +8,7 @@ let checkedPackageUpdates = false;
 export const useInitializer = () => {
   useTools();
   useEffect(() => {
-    if (!checkedPackageUpdates) {
+    if (!checkedPackageUpdates && process.env.NODE_ENV === 'development') {
       checkedPackageUpdates = true;
       checkPackageUpdates(name, version);
     }
