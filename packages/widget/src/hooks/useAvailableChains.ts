@@ -12,7 +12,15 @@ export const useAvailableChains = () => {
   const { chains } = useWidgetConfig();
   const { providers } = useHasExternalWalletProvider();
   const { data, isLoading } = useQuery({
-    queryKey: ['chains', providers, chains?.types] as const,
+    queryKey: [
+      'chains',
+      providers,
+      chains?.types,
+      chains?.allow,
+      chains?.deny,
+      chains?.from,
+      chains?.to,
+    ] as const,
     queryFn: async ({ queryKey: [, providers, chainTypes] }) => {
       const chainTypesRequest = (
         providers.length > 0 ? providers : supportedChainTypes
@@ -25,7 +33,6 @@ export const useAvailableChains = () => {
       return availableChains;
     },
     refetchInterval: 300000,
-    staleTime: 300000,
   });
 
   const getChainById = useCallback(

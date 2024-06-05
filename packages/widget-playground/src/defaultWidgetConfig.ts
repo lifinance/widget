@@ -38,7 +38,6 @@ export const widgetBaseConfig: WidgetConfig = {
   // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
   // requiredUI: ['toAddress'],
   // slippage: 0.003,
-  insurance: true,
   sdkConfig: {
     apiUrl: 'https://li.quest/v1',
     rpcUrls: {
@@ -72,6 +71,7 @@ export const widgetBaseConfig: WidgetConfig = {
   //   types: {
   //     allow: [ChainType.EVM],
   //   },
+  //   allow: [ChainId.ETH, ChainId.OPT],
   // },
   tokens: {
     featured: [
@@ -188,12 +188,12 @@ export const widgetBaseConfig: WidgetConfig = {
     ],
   },
   // bridges: {
-  // allow: ['stargate'],
-  // deny: ['connext'],
+  //   allow: ['stargate'],
+  //   deny: ['connext'],
   // },
   // languages: {
-  // allow: ['uk'],
-  // deny: ['uk'],
+  //   allow: ['uk'],
+  //   deny: ['uk'],
   // },
   // languageResources: {
   //   en: {
