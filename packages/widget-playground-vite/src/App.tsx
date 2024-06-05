@@ -18,6 +18,18 @@ import '@lifi/widget-playground/fonts';
 
 const queryClient = new QueryClient();
 
+// const router = createBrowserRouter([
+//   {
+//     path: '/test/*',
+//     element: (
+//       <Box sx={{ display: 'flex', flexGrow: '1' }}>
+//         <DrawerControls />
+//         <WidgetView />
+//       </Box>
+//     ),
+//   },
+// ]);
+
 const AppProvider = ({ children }: PropsWithChildren) => {
   return (
     <EnvVariablesProvider
@@ -35,9 +47,11 @@ const AppProvider = ({ children }: PropsWithChildren) => {
     </EnvVariablesProvider>
   );
 };
+
 export const App = () => {
   return (
     <AppProvider>
+      {/* <RouterProvider router={router} /> */}
       <Box sx={{ display: 'flex', flexGrow: '1' }}>
         <DrawerControls />
         <WidgetView />
