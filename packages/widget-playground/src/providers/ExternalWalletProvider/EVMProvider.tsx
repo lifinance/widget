@@ -1,4 +1,5 @@
-import { formatChain, useAvailableChains } from '@lifi/widget';
+import { convertExtendedChain } from '@lifi/wallet-management';
+import { useAvailableChains } from '@lifi/widget';
 import {
   RainbowKitProvider,
   darkTheme,
@@ -52,7 +53,7 @@ export const EVMProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const wagmiConfig = useMemo(() => {
     const _chains: [Chain, ...Chain[]] = chains?.length
-      ? (chains.map(formatChain) as [Chain, ...Chain[]])
+      ? (chains.map(convertExtendedChain) as [Chain, ...Chain[]])
       : [mainnet];
 
     const wagmiConfig = getDefaultConfig({
