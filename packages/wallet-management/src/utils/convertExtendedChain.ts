@@ -11,7 +11,7 @@ type ChainBlockExplorers = {
   default: ChainBlockExplorer;
 };
 
-export const formatChain = (chain: ExtendedChain): Chain => ({
+export const convertExtendedChain = (chain: ExtendedChain): Chain => ({
   ...chain,
   ...chain.metamask,
   blockExplorers: chain.metamask.blockExplorerUrls.reduce(
