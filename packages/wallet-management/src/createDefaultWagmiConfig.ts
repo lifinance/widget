@@ -53,7 +53,7 @@ export interface DefaultWagmiConfigResult {
 }
 
 /**
- * Creates default Wagmi config that can be later synced with chains fetched from LI.FI API using useSyncWagmiConfig hook.
+ * Creates default Wagmi config that can be later synced (via useSyncWagmiConfig) with chains fetched from LI.FI API.
  * @param props Properties to setup connectors. {@link DefaultWagmiConfigProps}
  * @returns Wagmi config and connectors. {@link DefaultWagmiConfigResult}
  * @example
