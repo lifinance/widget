@@ -2451,35 +2451,35 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lifi/sdk@npm:^3.0.0-alpha.63":
-  version: 3.0.0-alpha.63
-  resolution: "@lifi/sdk@npm:3.0.0-alpha.63"
+"@lifi/sdk@npm:^3.0.0-beta.0":
+  version: 3.0.0-beta.0
+  resolution: "@lifi/sdk@npm:3.0.0-beta.0"
   dependencies:
-    "@lifi/types": "npm:^13.7.1"
+    "@lifi/types": "npm:^13.12.0"
     "@solana/wallet-adapter-base": "npm:^0.9.23"
-    "@solana/web3.js": "npm:^1.91.8"
+    "@solana/web3.js": "npm:^1.92.2"
     eth-rpc-errors: "npm:^4.0.3"
-    viem: "npm:^2.12.1"
+    viem: "npm:^2.13.7"
   peerDependencies:
     "@solana/wallet-adapter-base": ^0.9.0
     "@solana/web3.js": ^1.91.0
     viem: ^2.10.0
-  checksum: 10/c1cb9cab1ba8bb8fec1bd24ed0fa20a15d97516a1ebb283a38e9f06ef53022ef58afff65141f1c27368104d19239e8f58a585a02cb5a24b373ae1581e78f8e8b
+  checksum: 10/1c397e5e2947f0aebd4cabdf48447667886d236cd25bc5a6c255c494cec15b081868ded8ac0e6e7e3d28283b338070f7a442d3d19e220ff9b1c9e8e39bd59543
   languageName: node
   linkType: hard
 
-"@lifi/types@npm:^13.7.1":
+"@lifi/types@npm:^13.12.0":
   version: 13.12.0
   resolution: "@lifi/types@npm:13.12.0"
   checksum: 10/0bcc218a10263926f3717640d6596a9724ddfb31ef5955fa448d76f1e7a6fbc84e972a9ad1ac41761a7cc0e93845fff0b3b1d8b66ab965b2e494985776ef5314
   languageName: node
   linkType: hard
 
-"@lifi/wallet-management@npm:^3.0.0-alpha.27, @lifi/wallet-management@workspace:packages/wallet-management":
+"@lifi/wallet-management@npm:^3.0.0-beta.0, @lifi/wallet-management@workspace:packages/wallet-management":
   version: 0.0.0-use.local
   resolution: "@lifi/wallet-management@workspace:packages/wallet-management"
   dependencies:
-    "@lifi/sdk": "npm:^3.0.0-alpha.63"
+    "@lifi/sdk": "npm:^3.0.0-beta.0"
     "@solana/wallet-adapter-base": "npm:^0.9.23"
     cpy-cli: "npm:^5.0.0"
     react: "npm:^18.3.1"
@@ -2498,24 +2498,24 @@ __metadata:
   resolution: "@lifi/widget-embedded@workspace:packages/widget-embedded"
   dependencies:
     "@esbuild-plugins/node-globals-polyfill": "npm:^0.2.3"
-    "@lifi/sdk": "npm:^3.0.0-alpha.63"
-    "@lifi/wallet-management": "npm:^3.0.0-alpha.27"
-    "@lifi/widget": "npm:^3.0.0-alpha.41"
-    "@mui/icons-material": "npm:^5.15.18"
+    "@lifi/sdk": "npm:^3.0.0-beta.0"
+    "@lifi/wallet-management": "npm:^3.0.0-beta.0"
+    "@lifi/widget": "npm:^3.0.0-beta.0"
+    "@mui/icons-material": "npm:^5.15.19"
     "@mui/lab": "npm:^5.0.0-alpha.170"
-    "@mui/material": "npm:^5.15.18"
-    "@opensea/seaport-js": "npm:4.0.0"
-    "@tanstack/react-query": "npm:^5.37.1"
+    "@mui/material": "npm:^5.15.19"
+    "@opensea/seaport-js": "npm:4.0.1"
+    "@tanstack/react-query": "npm:^5.40.1"
     "@vitejs/plugin-react-swc": "npm:^3.7.0"
     bignumber.js: "npm:^9.1.2"
-    ethers: "npm:^6.12.1"
+    ethers: "npm:^6.13.0"
     events: "npm:^3.3.0"
     react: "npm:^18.3.1"
     react-dom: "npm:^18.3.1"
     react-router-dom: "npm:^6.23.1"
     source-map-explorer: "npm:^2.5.3"
     typescript: "npm:^5.4.5"
-    vite: "npm:^5.2.11"
+    vite: "npm:^5.2.12"
     vite-plugin-node-polyfills: "npm:^0.22.0"
     wagmi: "npm:^2.9.9"
     web-vitals: "npm:^3.5.2"
@@ -2529,19 +2529,19 @@ __metadata:
     "@emotion/cache": "npm:^11.11.0"
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.5"
-    "@lifi/sdk": "npm:^3.0.0-alpha.63"
-    "@lifi/wallet-management": "npm:^3.0.0-alpha.27"
-    "@lifi/widget": "npm:^3.0.0-alpha.41"
-    "@lifi/widget-playground": "npm:^1.0.193"
-    "@mui/icons-material": "npm:^5.15.18"
-    "@mui/material": "npm:^5.15.18"
+    "@lifi/sdk": "npm:^3.0.0-beta.0"
+    "@lifi/wallet-management": "npm:^3.0.0-beta.0"
+    "@lifi/widget": "npm:^3.0.0-beta.0"
+    "@lifi/widget-playground": "npm:^1.0.194"
+    "@mui/icons-material": "npm:^5.15.19"
+    "@mui/material": "npm:^5.15.19"
     "@mui/material-nextjs": "npm:^5.15.11"
-    "@rainbow-me/rainbowkit": "npm:^2.1.1"
+    "@rainbow-me/rainbowkit": "npm:^2.1.2"
     "@solana/wallet-adapter-base": "npm:^0.9.23"
     "@solana/wallet-adapter-react": "npm:^0.15.35"
-    "@solana/web3.js": "npm:^1.91.8"
-    "@tanstack/react-query": "npm:^5.37.1"
-    "@types/node": "npm:^20.12.12"
+    "@solana/web3.js": "npm:^1.92.2"
+    "@tanstack/react-query": "npm:^5.40.1"
+    "@types/node": "npm:^20.14.2"
     "@types/react": "npm:^18.3.3"
     "@types/react-dom": "npm:^18.3.0"
     core-js: "npm:^3.37.1"
@@ -2564,17 +2564,17 @@ __metadata:
   resolution: "@lifi/widget-playground-vite@workspace:packages/widget-playground-vite"
   dependencies:
     "@esbuild-plugins/node-globals-polyfill": "npm:^0.2.3"
-    "@lifi/sdk": "npm:^3.0.0-alpha.63"
-    "@lifi/wallet-management": "npm:^3.0.0-alpha.27"
-    "@lifi/widget": "npm:^3.0.0-alpha.41"
-    "@lifi/widget-playground": "npm:^1.0.193"
-    "@mui/icons-material": "npm:^5.15.18"
-    "@mui/material": "npm:^5.15.18"
-    "@rainbow-me/rainbowkit": "npm:^2.1.1"
+    "@lifi/sdk": "npm:^3.0.0-beta.0"
+    "@lifi/wallet-management": "npm:^3.0.0-beta.0"
+    "@lifi/widget": "npm:^3.0.0-beta.0"
+    "@lifi/widget-playground": "npm:^1.0.194"
+    "@mui/icons-material": "npm:^5.15.19"
+    "@mui/material": "npm:^5.15.19"
+    "@rainbow-me/rainbowkit": "npm:^2.1.2"
     "@solana/wallet-adapter-base": "npm:^0.9.23"
     "@solana/wallet-adapter-react": "npm:^0.15.35"
-    "@solana/web3.js": "npm:^1.91.8"
-    "@tanstack/react-query": "npm:^5.37.1"
+    "@solana/web3.js": "npm:^1.92.2"
+    "@tanstack/react-query": "npm:^5.40.1"
     "@vitejs/plugin-react-swc": "npm:^3.7.0"
     lodash.isequal: "npm:^4.5.0"
     microdiff: "npm:^1.4.0"
@@ -2585,7 +2585,7 @@ __metadata:
     source-map-explorer: "npm:^2.5.3"
     typescript: "npm:^5.4.5"
     viem: "npm:^2.13.7"
-    vite: "npm:^5.2.11"
+    vite: "npm:^5.2.12"
     vite-plugin-node-polyfills: "npm:^0.22.0"
     wagmi: "npm:^2.9.9"
     web-vitals: "npm:^3.5.2"
@@ -2593,20 +2593,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@lifi/widget-playground@npm:^1.0.193, @lifi/widget-playground@workspace:packages/widget-playground":
+"@lifi/widget-playground@npm:^1.0.194, @lifi/widget-playground@workspace:packages/widget-playground":
   version: 0.0.0-use.local
   resolution: "@lifi/widget-playground@workspace:packages/widget-playground"
   dependencies:
     "@monaco-editor/react": "npm:^4.6.0"
     "@types/lodash.isequal": "npm:^4.5.8"
-    "@types/node": "npm:^20.12.12"
+    "@types/node": "npm:^20.14.2"
     "@types/react": "npm:^18.3.3"
     "@types/react-dom": "npm:^18.3.0"
     "@vitejs/plugin-react-swc": "npm:^3.7.0"
     cpy-cli: "npm:^5.0.0"
-    jsdom: "npm:^24.0.0"
+    jsdom: "npm:^24.1.0"
     typescript: "npm:^5.4.5"
-    vite: "npm:^5.2.11"
+    vite: "npm:^5.2.12"
     vitest: "npm:^1.6.0"
   peerDependencies:
     "@lifi/sdk": ^3.0.0-alpha.56
@@ -2629,22 +2629,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@lifi/widget@npm:^3.0.0-alpha.41, @lifi/widget@workspace:packages/widget":
+"@lifi/widget@npm:^3.0.0-beta.0, @lifi/widget@workspace:packages/widget":
   version: 0.0.0-use.local
   resolution: "@lifi/widget@workspace:packages/widget"
   dependencies:
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.5"
-    "@lifi/sdk": "npm:^3.0.0-alpha.63"
-    "@lifi/wallet-management": "npm:^3.0.0-alpha.27"
-    "@mui/icons-material": "npm:^5.15.18"
+    "@lifi/sdk": "npm:^3.0.0-beta.0"
+    "@lifi/wallet-management": "npm:^3.0.0-beta.0"
+    "@mui/icons-material": "npm:^5.15.19"
     "@mui/lab": "npm:^5.0.0-alpha.170"
-    "@mui/material": "npm:^5.15.18"
+    "@mui/material": "npm:^5.15.19"
     "@solana/wallet-adapter-base": "npm:^0.9.23"
     "@solana/wallet-adapter-react": "npm:^0.15.35"
-    "@solana/web3.js": "npm:^1.91.8"
-    "@tanstack/react-query": "npm:^5.37.1"
-    "@tanstack/react-virtual": "npm:^3.5.0"
+    "@solana/web3.js": "npm:^1.92.2"
+    "@tanstack/react-query": "npm:^5.40.1"
+    "@tanstack/react-virtual": "npm:^3.5.1"
     cpy-cli: "npm:^5.0.0"
     i18next: "npm:^23.11.5"
     madge: "npm:^7.0.0"
@@ -2653,7 +2653,7 @@ __metadata:
     react: "npm:^18.3.1"
     react-dom: "npm:^18.3.1"
     react-i18next: "npm:^14.1.2"
-    react-intersection-observer: "npm:^9.10.2"
+    react-intersection-observer: "npm:^9.10.3"
     react-router-dom: "npm:^6.23.1"
     react-timer-hook: "npm:^3.0.7"
     typescript: "npm:^5.4.5"
@@ -3047,7 +3047,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/icons-material@npm:^5.15.18":
+"@mui/icons-material@npm:^5.15.19":
   version: 5.15.19
   resolution: "@mui/icons-material@npm:5.15.19"
   dependencies:
@@ -3115,7 +3115,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/material@npm:^5.15.18":
+"@mui/material@npm:^5.15.19":
   version: 5.15.19
   resolution: "@mui/material@npm:5.15.19"
   dependencies:
@@ -3783,13 +3783,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opensea/seaport-js@npm:4.0.0":
-  version: 4.0.0
-  resolution: "@opensea/seaport-js@npm:4.0.0"
+"@opensea/seaport-js@npm:4.0.1":
+  version: 4.0.1
+  resolution: "@opensea/seaport-js@npm:4.0.1"
   dependencies:
     ethers: "npm:^6.9.0"
     merkletreejs: "npm:^0.3.11"
-  checksum: 10/7497e0f4d9d4f2bce7e4e4d0cbdca561a1cd1522bbe927fdd38387bf2f1babb813183cd62492d09fba7f59202300b957667dda3dfa9d1a076f8492feafceead5
+  checksum: 10/0bc6f360889a89f97bce2f09386077da12d40f15a7b20015dcae4fec3d14c967734b8783ca8f3936c030663c21f8840da39a9c6fc4a149e36d8a08608ff930f5
   languageName: node
   linkType: hard
 
@@ -3959,7 +3959,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rainbow-me/rainbowkit@npm:^2.1.1":
+"@rainbow-me/rainbowkit@npm:^2.1.2":
   version: 2.1.2
   resolution: "@rainbow-me/rainbowkit@npm:2.1.2"
   dependencies:
@@ -4511,7 +4511,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@solana/web3.js@npm:^1.91.8":
+"@solana/web3.js@npm:^1.92.2":
   version: 1.92.2
   resolution: "@solana/web3.js@npm:1.92.2"
   dependencies:
@@ -4853,7 +4853,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.37.1":
+"@tanstack/react-query@npm:^5.40.1":
   version: 5.40.1
   resolution: "@tanstack/react-query@npm:5.40.1"
   dependencies:
@@ -4864,7 +4864,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-virtual@npm:^3.5.0":
+"@tanstack/react-virtual@npm:^3.5.1":
   version: 3.5.1
   resolution: "@tanstack/react-virtual@npm:3.5.1"
   dependencies:
@@ -5116,7 +5116,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^20.12.12":
+"@types/node@npm:*, @types/node@npm:^20.14.2":
   version: 20.14.2
   resolution: "@types/node@npm:20.14.2"
   dependencies:
@@ -5251,7 +5251,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^7.10.0":
+"@typescript-eslint/eslint-plugin@npm:^7.12.0":
   version: 7.12.0
   resolution: "@typescript-eslint/eslint-plugin@npm:7.12.0"
   dependencies:
@@ -5320,7 +5320,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^7.10.0":
+"@typescript-eslint/parser@npm:^7.12.0":
   version: 7.12.0
   resolution: "@typescript-eslint/parser@npm:7.12.0"
   dependencies:
@@ -9538,7 +9538,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react@npm:^7.27.1, eslint-plugin-react@npm:^7.33.2, eslint-plugin-react@npm:^7.34.1":
+"eslint-plugin-react@npm:^7.27.1, eslint-plugin-react@npm:^7.33.2, eslint-plugin-react@npm:^7.34.2":
   version: 7.34.2
   resolution: "eslint-plugin-react@npm:7.34.2"
   dependencies:
@@ -9801,7 +9801,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:^6.12.1, ethers@npm:^6.9.0":
+"ethers@npm:^6.13.0, ethers@npm:^6.9.0":
   version: 6.13.0
   resolution: "ethers@npm:6.13.0"
   dependencies:
@@ -12057,7 +12057,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsdom@npm:^24.0.0":
+"jsdom@npm:^24.1.0":
   version: 24.1.0
   resolution: "jsdom@npm:24.1.0"
   dependencies:
@@ -12440,7 +12440,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:^15.2.4":
+"lint-staged@npm:^15.2.5":
   version: 15.2.5
   resolution: "lint-staged@npm:15.2.5"
   dependencies:
@@ -14958,7 +14958,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^3.2.5":
+"prettier@npm:^3.3.1":
   version: 3.3.1
   resolution: "prettier@npm:3.3.1"
   bin:
@@ -15315,7 +15315,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-intersection-observer@npm:^9.10.2":
+"react-intersection-observer@npm:^9.10.3":
   version: 9.10.3
   resolution: "react-intersection-observer@npm:9.10.3"
   peerDependencies:
@@ -16049,12 +16049,12 @@ __metadata:
     "@testing-library/user-event": "npm:^14.5.2"
     "@types/eslint": "npm:^8.56.10"
     "@types/events": "npm:^3.0.3"
-    "@types/node": "npm:^20.12.12"
+    "@types/node": "npm:^20.14.2"
     "@types/react": "npm:^18.3.3"
     "@types/react-dom": "npm:^18.3.0"
     "@types/uuid": "npm:^9.0.8"
-    "@typescript-eslint/eslint-plugin": "npm:^7.10.0"
-    "@typescript-eslint/parser": "npm:^7.10.0"
+    "@typescript-eslint/eslint-plugin": "npm:^7.12.0"
+    "@typescript-eslint/parser": "npm:^7.12.0"
     cpy-cli: "npm:^5.0.0"
     eslint: "npm:^8.57.0"
     eslint-config-prettier: "npm:^9.1.0"
@@ -16063,12 +16063,12 @@ __metadata:
     eslint-plugin-import: "npm:^2.29.1"
     eslint-plugin-jsx-a11y: "npm:^6.8.0"
     eslint-plugin-prettier: "npm:^5.1.3"
-    eslint-plugin-react: "npm:^7.34.1"
+    eslint-plugin-react: "npm:^7.34.2"
     eslint-plugin-react-hooks: "npm:^4.6.2"
     husky: "npm:^9.0.11"
     lerna: "npm:8.1.3"
-    lint-staged: "npm:^15.2.4"
-    prettier: "npm:^3.2.5"
+    lint-staged: "npm:^15.2.5"
+    prettier: "npm:^3.3.1"
     prettier-plugin-organize-imports: "npm:^3.2.4"
     react: "npm:^18.3.1"
     react-dom: "npm:^18.3.1"
@@ -18005,7 +18005,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"viem@npm:^2.12.1, viem@npm:^2.13.7":
+"viem@npm:^2.13.7":
   version: 2.13.7
   resolution: "viem@npm:2.13.7"
   dependencies:
@@ -18053,7 +18053,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^5.0.0, vite@npm:^5.2.11":
+"vite@npm:^5.0.0, vite@npm:^5.2.12":
   version: 5.2.12
   resolution: "vite@npm:5.2.12"
   dependencies:
