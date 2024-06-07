@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-playground",
-  "version": "1.0.195",
+  "version": "1.0.196",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.d.ts",
