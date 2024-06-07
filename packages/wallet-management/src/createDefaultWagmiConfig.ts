@@ -45,6 +45,7 @@ export interface DefaultWagmiConfigProps {
   wagmiConfig?: {
     ssr?: boolean;
   };
+  connectors?: CreateConnectorFn[];
 }
 
 export interface DefaultWagmiConfigResult {
@@ -73,6 +74,7 @@ export interface DefaultWagmiConfigResult {
  *    );
  *  };
  */
+
 export function createDefaultWagmiConfig(
   props?: DefaultWagmiConfigProps,
 ): DefaultWagmiConfigResult {
@@ -101,6 +103,7 @@ export function createDefaultWagmiConfig(
     oneinch,
     tokenary,
     safepal,
+    ...(props?.connectors ?? []),
   ];
 
   if (props?.coinbase) {
