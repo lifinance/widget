@@ -66,7 +66,11 @@ export interface DefaultWagmiConfigResult {
  *  export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
  *    const { chains } = useAvailableChains();
  *    useSyncWagmiConfig(config, connectors, chains);
- *    return <WagmiProvider config={config}>{children}</WagmiProvider>;
+ *    return (
+ *      <WagmiProvider config={wagmi.config} reconnectOnMount={false}>
+ *        {children}
+ *      </WagmiProvider>
+ *    );
  *  };
  */
 export function createDefaultWagmiConfig(

@@ -26,5 +26,9 @@ export const EVMBaseProvider: FC<PropsWithChildren> = ({ children }) => {
 
   useSyncWagmiConfig(wagmi.config, wagmi.connectors, chains);
 
-  return <WagmiProvider config={wagmi.config}>{children}</WagmiProvider>;
+  return (
+    <WagmiProvider config={wagmi.config} reconnectOnMount={false}>
+      {children}
+    </WagmiProvider>
+  );
 };

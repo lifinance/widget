@@ -18,5 +18,9 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
 
   useSyncWagmiConfig(config, connectors, chains);
 
-  return <WagmiProvider config={config}>{children}</WagmiProvider>;
+  return (
+    <WagmiProvider config={config} reconnectOnMount={false}>
+      {children}
+    </WagmiProvider>
+  );
 };
