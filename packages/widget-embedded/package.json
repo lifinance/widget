@@ -19,30 +19,30 @@
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
-    "@lifi/sdk": "^3.0.0-beta.0",
+    "@lifi/sdk": "^3.0.0-beta.1",
     "@lifi/wallet-management": "^3.0.0-beta.3",
     "@lifi/widget": "^3.0.0-beta.3",
-    "@mui/icons-material": "^5.15.19",
+    "@mui/icons-material": "^5.15.20",
     "@mui/lab": "^5.0.0-alpha.170",
-    "@mui/material": "^5.15.19",
-    "@opensea/seaport-js": "4.0.1",
-    "@tanstack/react-query": "^5.40.1",
+    "@mui/material": "^5.15.20",
+    "@opensea/seaport-js": "4.0.2",
+    "@tanstack/react-query": "^5.45.1",
     "bignumber.js": "^9.1.2",
-    "ethers": "^6.13.0",
+    "ethers": "^6.13.1",
     "events": "^3.3.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.23.1",
-    "wagmi": "^2.9.9"
+    "wagmi": "^2.10.2"
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@vitejs/plugin-react-swc": "^3.7.0",
     "source-map-explorer": "^2.5.3",
     "typescript": "^5.4.5",
-    "vite": "^5.2.12",
+    "vite": "^5.3.1",
     "vite-plugin-node-polyfills": "^0.22.0",
-    "web-vitals": "^3.5.2"
+    "web-vitals": "^4.1.1"
   },
   "eslintConfig": {
     "extends": "../../.eslintrc"

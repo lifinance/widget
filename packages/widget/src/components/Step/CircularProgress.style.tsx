@@ -1,4 +1,4 @@
-import type { Status, Substatus } from '@lifi/sdk';
+import type { ProcessStatus, Substatus } from '@lifi/sdk';
 import type { Theme } from '@mui/material';
 import {
   Box,
@@ -11,7 +11,7 @@ import {
 
 const getStatusColor = (
   theme: Theme,
-  status: Status,
+  status?: ProcessStatus,
   substatus?: Substatus,
 ) => {
   switch (status) {
@@ -31,14 +31,14 @@ const getStatusColor = (
 
 export const CircularIcon = styled(Box, {
   shouldForwardProp: (prop: string) => !['status', 'substatus'].includes(prop),
-})<{ status: Status; substatus?: Substatus }>(
+})<{ status?: ProcessStatus; substatus?: Substatus }>(
   ({ theme, status, substatus }) => ({
-    backgroundColor: ['ACTION_REQUIRED', 'DONE', 'FAILED'].includes(status)
+    backgroundColor: ['ACTION_REQUIRED', 'DONE', 'FAILED'].includes(status!)
       ? getStatusColor(theme, status, substatus)
       : theme.palette.background.paper,
     borderStyle: 'solid',
     borderColor: getStatusColor(theme, status, substatus),
-    borderWidth: !['ACTION_REQUIRED', 'DONE', 'FAILED'].includes(status)
+    borderWidth: !['ACTION_REQUIRED', 'DONE', 'FAILED'].includes(status!)
       ? 3
       : 0,
     display: 'grid',
