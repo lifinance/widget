@@ -1,13 +1,12 @@
 import type { ExchangeRateUpdateParams } from '@lifi/sdk';
 import { Delete } from '@mui/icons-material';
 import { Box, Button, Tooltip } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js';
 import { GasMessage } from '../../components/GasMessage/GasMessage.js';
-import { Insurance } from '../../components/Insurance/Insurance.js';
 import { PageContainer } from '../../components/PageContainer.js';
 import { getStepList } from '../../components/Step/StepList.js';
 import { useHeader } from '../../hooks/useHeader.js';
@@ -18,13 +17,9 @@ import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.j
 import { useFieldActions } from '../../stores/form/useFieldActions.js';
 import { RouteExecutionStatus } from '../../stores/routes/types.js';
 import { WidgetEvent } from '../../types/events.js';
-import { formatTokenAmount } from '../../utils/format.js';
 import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet.js';
 import { ExchangeRateBottomSheet } from './ExchangeRateBottomSheet.js';
-import {
-  StartInsurableTransactionButton,
-  StartTransactionButton,
-} from './StartTransactionButton.js';
+import { StartTransactionButton } from './StartTransactionButton.js';
 import { StatusBottomSheet } from './StatusBottomSheet.js';
 import {
   TokenValueBottomSheet,
@@ -37,11 +32,8 @@ export const TransactionPage: React.FC = () => {
   const { setFieldValue } = useFieldActions();
   const emitter = useWidgetEvents();
   const { navigateBack } = useNavigateBack();
-  const { subvariant, insurance, contractSecondaryComponent } =
-    useWidgetConfig();
+  const { subvariant, contractSecondaryComponent } = useWidgetConfig();
   const { state }: any = useLocation();
-  const stateRouteId = state?.routeId;
-  const [routeId, setRouteId] = useState<string>(stateRouteId);
 
   const tokenValueBottomSheetRef = useRef<BottomSheetBase>(null);
   const exchangeRateBottomSheetRef = useRef<ExchangeRateBottomSheetBase>(null);
@@ -55,7 +47,7 @@ export const TransactionPage: React.FC = () => {
 
   const { route, status, executeRoute, restartRoute, deleteRoute } =
     useRouteExecution({
-      routeId: routeId,
+      routeId: state?.routeId,
       onAcceptExchangeRateUpdate,
     });
 
@@ -150,24 +142,6 @@ export const TransactionPage: React.FC = () => {
     }
   };
 
-  const insuredRoute = route.insurance?.state === 'INSURED';
-  const insurableRoute =
-    insurance &&
-    subvariant !== 'refuel' &&
-    status === RouteExecutionStatus.Idle &&
-    route.insurance?.state === 'INSURABLE';
-
-  const insuranceAvailable = insuredRoute || insurableRoute;
-
-  const StartButton = insurableRoute
-    ? StartInsurableTransactionButton
-    : StartTransactionButton;
-
-  const getInsuranceCoverageId = () =>
-    route.steps[0].execution?.process
-      .filter((process) => process.type !== 'TOKEN_ALLOWANCE')
-      .find((process) => process.txHash)?.txHash ?? route.fromAddress;
-
   return (
     <PageContainer bottomGutters>
       {getStepList(route, subvariant)}
@@ -176,31 +150,15 @@ export const TransactionPage: React.FC = () => {
           {contractSecondaryComponent}
         </ContractComponent>
       ) : null}
-      {insuranceAvailable ? (
-        <Insurance
-          status={status}
-          insurableRouteId={stateRouteId}
-          feeAmountUsd={route.insurance.feeAmountUsd}
-          insuredAmount={formatTokenAmount(
-            BigInt(route.toAmountMin),
-            route.toToken.decimals,
-          )}
-          insuredTokenSymbol={route.toToken.symbol}
-          insuranceCoverageId={getInsuranceCoverageId()}
-          onChange={setRouteId}
-          sx={{ marginTop: 2 }}
-        />
-      ) : null}
       {status === RouteExecutionStatus.Idle ||
       status === RouteExecutionStatus.Failed ? (
         <>
           <GasMessage mt={2} route={route} />
           <Box mt={2} display="flex">
-            <StartButton
+            <StartTransactionButton
               text={getButtonText()}
               onClick={handleStartClick}
               route={route}
-              insurableRouteId={stateRouteId}
             />
             {status === RouteExecutionStatus.Failed ? (
               <Tooltip

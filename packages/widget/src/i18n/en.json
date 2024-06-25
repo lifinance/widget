@@ -251,22 +251,13 @@
     "swapStepDetails": "Swap on {{chain}} via {{tool}}",
     "tags": {
       "cheapest": "Best Return",
-      "fastest": "Fastest",
-      "insurable": "Insurable",
-      "insurance": "Insurance",
-      "insured": "Insured"
+      "fastest": "Fastest"
     },
     "to": "To",
     "tokenOnChain": "{{tokenSymbol}} on {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} on {{chainName}}",
     "tokenSearch": "Search by token name or address",
     "valueLoss": "Value loss"
-  },
-  "insurance": {
-    "bridgeExploits": "Bridge malfunctions, hacks or exploits",
-    "insure": "Insure <0>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</0> in transit.",
-    "insured": "You've insured <0>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</0> in transit:",
-    "slippageError": "Error in slippage for tokens received"
   },
   "settings": {
     "theme": "Theme",

@@ -4,5 +4,4 @@ import type { BaseTransactionButtonProps } from '../../components/BaseTransactio
 export interface StartTransactionButtonProps
   extends BaseTransactionButtonProps {
   route?: Route;
-  insurableRouteId: string;
 }

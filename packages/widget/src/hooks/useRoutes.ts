@@ -19,12 +19,8 @@ import { useWidgetEvents } from './useWidgetEvents.js';
 
 const refetchTime = 60_000;
 
-interface RoutesProps {
-  insurableRoute?: Route;
-}
-
-export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
-  const { subvariant, sdkConfig, insurance, contractTool } = useWidgetConfig();
+export const useRoutes = () => {
+  const { subvariant, sdkConfig, contractTool } = useWidgetConfig();
   const queryClient = useQueryClient();
   const emitter = useWidgetEvents();
   const swapOnly = useSwapOnly();
@@ -118,8 +114,6 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
     sdkConfig?.routeOptions?.allowSwitchChain,
     enabledRefuel && enabledAutoRefuel,
     gasRecommendationFromAmount,
-    insurance,
-    insurableRoute?.id,
   ] as const;
 
   const { data, isLoading, isFetching, isFetched, dataUpdatedAt, refetch } =
@@ -146,8 +140,6 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
           allowSwitchChain,
           enabledRefuel,
           gasRecommendationFromAmount,
-          insurance,
-          insurableRouteId,
         ],
         signal,
       }) => {
@@ -157,29 +149,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
         ).toString();
         const formattedSlippage = parseFloat(slippage) / 100;
 
-        const allowedBridges = swapOnly
-          ? []
-          : insurableRoute
-            ? insurableRoute.steps.flatMap((step) =>
-                step.includedSteps.reduce((toolKeys, includedStep) => {
-                  if (includedStep.type === 'cross') {
-                    toolKeys.push(includedStep.toolDetails.key);
-                  }
-                  return toolKeys;
-                }, [] as string[]),
-              )
-            : undefined;
-
-        const allowedExchanges = insurableRoute
-          ? insurableRoute.steps.flatMap((step) =>
-              step.includedSteps.reduce((toolKeys, includedStep) => {
-                if (includedStep.type === 'swap') {
-                  toolKeys.push(includedStep.toolDetails.key);
-                }
-                return toolKeys;
-              }, [] as string[]),
-            )
-          : undefined;
+        const allowedBridges = swapOnly ? [] : undefined;
 
         if (subvariant === 'custom' && contractCalls && toTokenAmount) {
           const contractCallQuote = await getContractCallsQuote(
@@ -197,7 +167,6 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
                 ? disabledExchanges
                 : undefined,
               allowBridges: allowedBridges,
-              allowExchanges: allowedExchanges,
               toFallbackAddress: toAddress,
               slippage: formattedSlippage,
             },
@@ -262,25 +231,17 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
             options: {
               allowSwitchChain:
                 subvariant === 'refuel' ? false : allowSwitchChain,
-              bridges:
-                allowedBridges?.length || disabledBridges.length
-                  ? {
-                      allow: allowedBridges,
-                      deny: disabledBridges.length
-                        ? disabledBridges
-                        : undefined,
-                    }
-                  : undefined,
-              exchanges:
-                allowedExchanges?.length || disabledExchanges.length
-                  ? {
-                      allow: allowedExchanges,
-                      deny: disabledExchanges.length
-                        ? disabledExchanges
-                        : undefined,
-                    }
-                  : undefined,
-              insurance: insurance ? Boolean(insurableRoute) : undefined,
+              ...((allowedBridges || disabledBridges.length) && {
+                bridges: {
+                  allow: allowedBridges,
+                  deny: disabledBridges.length ? disabledBridges : undefined,
+                },
+              }),
+              ...(disabledExchanges.length && {
+                exchanges: {
+                  deny: disabledExchanges,
+                },
+              }),
               order: routePriority,
               slippage: formattedSlippage,
             },
