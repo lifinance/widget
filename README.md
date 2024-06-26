@@ -10,11 +10,20 @@
 
 <h1 align="center">LI.FI Widget</h1>
 
-This repository contains LI.FI Widget and supporting libraries.
+[**LI.FI Widget**](https://docs.li.fi/integrate-li.fi-widget/li.fi-widget-overview) is a set of prebuilt UI components that will help you integrate a secure cross-chain bridging and swapping experience that can be styled to match your web app design perfectly and helps drive your multi-chain strategy and attract new users from everywhere.
 
-- [_LI.FI Widget_](https://li.fi/widget/) for cross-chain bridging and swapping. It will drive your multi-chain strategy and attract new users from everywhere.
+[**LI.FI Widget**](https://docs.li.fi/integrate-li.fi-widget/li.fi-widget-overview) features include:
 
-- [_LI.FI Wallet Management_](https://www.npmjs.com/package/@lifi/wallet-management) is our library of hooks that can help you gain complete control over your app's wallet management.
+- All ecosystems, chains, bridges, exchanges, and solvers that LI.FI supports
+- Embeddable variants - compact, wide, and drawer
+- Options to allow or deny certain chains, tokens, bridges, and exchanges
+- Pre-configured themes and lots of customization options with dark mode support so you can match the look and feel of your web app 
+- Wallet management UI with the option to opt-out and use your own ([Wagmi](https://wagmi.sh/) and [Solana Wallet Standard](https://github.com/anza-xyz/wallet-standard) support)
+- View of transactions in progress and transaction history
+- Curated wallet lists and wallet bookmarks
+- Route settings for advanced users (stored locally)
+- Complete UI translations to match your customer’s preferred language
+- Compatibility tested with React, Next.js, Vue, Nuxt.js, Svelte, Remix, Gatsby, Vite, CRA, RainbowKit
 
 ## Installation
 
@@ -75,7 +84,7 @@ export const WidgetPage = () => {
 
 ## Examples
 
-Visit our [playground](https://playground.li.fi) to see how you can customize your [LI.FI Widget](https://www.npmjs.com/package/@lifi/widget) experience.
+Visit our [playground](https://playground.li.fi) to see how you can customize your [LI.FI Widget](https://www.npmjs.com/package/@lifi/widget) experience. Additionaly, see [examples](https://github.com/lifinance/widget/tree/main/examples) folder in this repository.
 
 ## Documentation
 
