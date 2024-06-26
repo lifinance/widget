@@ -84,11 +84,19 @@ export const WidgetPage = () => {
 
 ## Examples
 
-Visit our [playground](https://playground.li.fi) to see how you can customize your [LI.FI Widget](https://www.npmjs.com/package/@lifi/widget) experience. Additionaly, see [examples](https://github.com/lifinance/widget/tree/main/examples) folder in this repository.
+Visit our [playground](https://playground.li.fi) to see how you can customize your [LI.FI Widget](https://www.npmjs.com/package/@lifi/widget) experience. Additionaly, see [examples](/examples) folder in this repository.
 
 ## Documentation
 
-[LI.FI Widget Documentation](https://docs.li.fi/integrate-li.fi-widget/li.fi-widget-overview)
+Please visit [LI.FI Widget Documentation](https://docs.li.fi/integrate-li.fi-widget/li.fi-widget-overview).
+
+## Contributing Translations
+
+We appreciate your interest in helping translate our project!
+
+If you'd like to contribute translations, please visit our Crowdin project page at [Crowdin LI.FI Widget](https://crowdin.com/project/lifi-widget). Register on Crowdin and you can start translating the project into your preferred language. Your contributions will help make our project accessible to a wider audience around the world.
+
+Thank you for your support!
 
 ## Changelog
 
