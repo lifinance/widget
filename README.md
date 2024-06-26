@@ -58,9 +58,11 @@ Here is an example of a basic app using LI.FI Widget:
 import { LiFiWidget, WidgetConfig } from '@lifi/widget';
 
 const widgetConfig: WidgetConfig = {
-  containerStyle: {
-    border: '1px solid rgb(234, 234, 234)',
-    borderRadius: '16px',
+  theme: {
+    container: {
+      border: '1px solid rgb(234, 234, 234)',
+      borderRadius: '16px',
+    },
   },
 };
 
