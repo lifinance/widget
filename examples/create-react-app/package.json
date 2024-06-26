@@ -3,18 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@lifi/widget": "^3.0.0-beta.1",
-    "@testing-library/jest-dom": "^6.4.5",
+    "@lifi/widget": "^3.0.0",
+    "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^14.3.1",
     "@testing-library/user-event": "^14.5.2",
     "@types/jest": "^29.5.12",
-    "@types/node": "^20.14.2",
+    "@types/node": "^20.14.9",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
-    "typescript": "^5.4.5",
+    "typescript": "^5.5.2",
     "web-vitals": "^3.5.2"
   },
   "scripts": {
