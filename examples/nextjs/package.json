@@ -11,7 +11,7 @@
   "dependencies": {
     "@lifi/sdk": "^3.0.0",
     "@lifi/widget": "^3.0.0",
-    "next": "14.2.4",
+    "next": "^14.2.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

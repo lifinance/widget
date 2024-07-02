@@ -1,5 +1,5 @@
-import { Widget } from './components/Widget';
-import { WidgetEvents } from './components/WidgetEvents';
+import { Widget } from '@/components/Widget';
+import { WidgetEvents } from '@/components/WidgetEvents';
 
 export default function Home() {
   return (
