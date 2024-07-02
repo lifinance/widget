@@ -6099,7 +6099,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next@npm:14.2.4":
+"next@npm:^14.2.4":
   version: 14.2.4
   resolution: "next@npm:14.2.4"
   dependencies:
@@ -6168,7 +6168,7 @@ __metadata:
     "@types/react-dom": "npm:^18.3.0"
     eslint: "npm:^8.57.0"
     eslint-config-next: "npm:14.2.4"
-    next: "npm:14.2.4"
+    next: "npm:^14.2.4"
     react: "npm:^18.3.1"
     react-dom: "npm:^18.3.1"
     typescript: "npm:^5.5.2"
