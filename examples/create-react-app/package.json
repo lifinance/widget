@@ -18,7 +18,7 @@
     "web-vitals": "^3.5.2"
   },
   "scripts": {
-    "start": "react-app-rewired start",
+    "start": "react-app-rewired start --no-cache",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"
@@ -42,7 +42,12 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.24.7",
+    "@babel/plugin-syntax-import-assertions": "^7.24.7",
+    "@types/babel__core": "^7",
+    "@types/customize-cra": "^1",
     "buffer": "^6.0.3",
+    "customize-cra": "^1.0.0",
     "react-app-rewired": "^2.2.1"
   }
 }

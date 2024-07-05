@@ -1,6 +1,9 @@
 const webpack = require('webpack');
+const path = require('path');
 
-module.exports = function override(config) {
+const { override, useBabelRc, addWebpackModuleRule } = require('customize-cra');
+
+function projectOverrides(config) {
   const fallback = config.resolve.fallback || {};
   Object.assign(fallback, {
     buffer: require.resolve('buffer'),
@@ -21,4 +24,13 @@ module.exports = function override(config) {
     },
   });
   return config;
-};
+}
+
+module.exports = override(
+  projectOverrides,
+  useBabelRc(),
+  addWebpackModuleRule({
+    test: /\.js$/,
+    include: [path.resolve(__dirname, 'node_modules', '@lifi', 'widget')],
+  }),
+);
