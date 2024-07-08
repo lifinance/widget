@@ -5,7 +5,8 @@ const nextConfig = {
     config.externals.push('pino-pretty', 'lokijs', 'encoding');
     return config;
   },
-  // transpilePackages: ['@lifi/widget', '@lifi/wallet-management'],
+  reactStrictMode: true,
+  swcMinify: true,
 };
 
 module.exports = nextConfig;
