@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.2](https://github.com/lifinance/widget/compare/v3.0.0...v3.0.2) (2024-07-08)
+
+
+### Bug Fixes
+
+* allowed bridges option doesn't applied correctly ([1e00fb4](https://github.com/lifinance/widget/commit/1e00fb4da805c6001369d8b1806949c52632b0ce))
+
 ## [3.0.0](https://github.com/lifinance/widget/compare/v3.0.0-beta.4...v3.0.0) (2024-06-26)
 
 ## [2.8.0](https://github.com/lifinance/widget/compare/v2.7.1...v2.8.0) (2023-10-30)
