@@ -2,8 +2,8 @@ import type {
   EVMChain,
   LiFiStep,
   Process,
+  ProcessStatus,
   ProcessType,
-  Status,
   StatusMessage,
   Substatus,
 } from '@lifi/sdk';
@@ -36,7 +36,7 @@ const processStatusMessages: Record<
   ProcessType,
   Partial<
     Record<
-      Status,
+      ProcessStatus,
       (
         t: TFunction,
         subvariant?: WidgetSubvariant,

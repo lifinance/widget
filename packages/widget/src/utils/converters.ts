@@ -3,7 +3,7 @@ import type {
   FeeCost,
   FullStatusData,
   Process,
-  Status,
+  ProcessStatus,
   Substatus,
   TokenAmount,
   ToolsResponse,
@@ -19,7 +19,7 @@ const buildProcessFromTxHistory = (tx: FullStatusData): Process[] => {
     return [];
   }
 
-  const processStatus: Status = tx.status === 'DONE' ? 'DONE' : 'FAILED';
+  const processStatus: ProcessStatus = tx.status === 'DONE' ? 'DONE' : 'FAILED';
   const substatus: Substatus =
     processStatus === 'FAILED' ? 'UNKNOWN_ERROR' : 'COMPLETED';
 

@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-playground",
-  "version": "1.0.193",
+  "version": "1.0.200",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.d.ts",
@@ -23,9 +23,9 @@
     "access": "public"
   },
   "peerDependencies": {
-    "@lifi/sdk": "^3.0.0-alpha.56",
-    "@lifi/wallet-management": "^3.0.0-alpha.21",
-    "@lifi/widget": "^3.0.0-alpha.31",
+    "@lifi/sdk": "^3.0.0-beta.0",
+    "@lifi/wallet-management": "^3.0.0-beta.0",
+    "@lifi/widget": "^3.0.0-beta.0",
     "@mui/icons-material": "^5.15.10",
     "@mui/material": "^5.15.10",
     "@rainbow-me/rainbowkit": "^2.0.1",
@@ -43,14 +43,14 @@
   },
   "devDependencies": {
     "@types/lodash.isequal": "^4.5.8",
-    "@types/node": "^20.12.12",
+    "@types/node": "^20.14.9",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react-swc": "^3.7.0",
     "cpy-cli": "^5.0.0",
-    "jsdom": "^24.0.0",
-    "typescript": "^5.4.5",
-    "vite": "^5.2.11",
+    "jsdom": "^24.1.0",
+    "typescript": "^5.5.2",
+    "vite": "^5.3.1",
     "vitest": "^1.6.0"
   },
   "exports": {

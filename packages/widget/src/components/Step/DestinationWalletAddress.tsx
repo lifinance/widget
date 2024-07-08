@@ -20,7 +20,7 @@ export const DestinationWalletAddress: React.FC<{
           alignItems: 'center',
         }}
       >
-        <CircularIcon status={isDone ? 'DONE' : 'NOT_STARTED'}>
+        <CircularIcon status={isDone ? 'DONE' : undefined}>
           <Wallet
             color={isDone ? 'success' : 'inherit'}
             sx={{

@@ -20,19 +20,24 @@ import { useWidgetEvents } from './useWidgetEvents.js';
 const refetchTime = 60_000;
 
 export const useRoutes = () => {
-  const { subvariant, sdkConfig, contractTool } = useWidgetConfig();
+  const { subvariant, sdkConfig, contractTool, bridges, exchanges } =
+    useWidgetConfig();
   const queryClient = useQueryClient();
   const emitter = useWidgetEvents();
   const swapOnly = useSwapOnly();
   const {
     disabledBridges,
     disabledExchanges,
+    enabledBridges,
+    enabledExchanges,
     enabledAutoRefuel,
     routePriority,
     slippage,
   } = useSettings([
     'disabledBridges',
     'disabledExchanges',
+    'enabledBridges',
+    'enabledExchanges',
     'enabledAutoRefuel',
     'routePriority',
     'slippage',
@@ -83,6 +88,16 @@ export const useRoutes = () => {
   // toAddress might be an empty string, but we need to pass undefined if there is no value
   const toWalletAddress = toAddress || undefined;
 
+  // We need to send the full allowed tools array if custom tool settings are applied
+  const allowedBridges =
+    bridges?.allow?.length || bridges?.deny?.length
+      ? enabledBridges
+      : undefined;
+  const allowedExchanges =
+    exchanges?.allow?.length || exchanges?.deny?.length
+      ? enabledExchanges
+      : undefined;
+
   const isEnabled =
     Boolean(Number(fromChainId)) &&
     Boolean(Number(toChainId)) &&
@@ -109,6 +124,8 @@ export const useRoutes = () => {
     swapOnly,
     disabledBridges,
     disabledExchanges,
+    allowedBridges,
+    allowedExchanges,
     routePriority,
     subvariant,
     sdkConfig?.routeOptions?.allowSwitchChain,
@@ -135,6 +152,8 @@ export const useRoutes = () => {
           swapOnly,
           disabledBridges,
           disabledExchanges,
+          allowedBridges,
+          allowedExchanges,
           routePriority,
           subvariant,
           allowSwitchChain,
@@ -149,7 +168,9 @@ export const useRoutes = () => {
         ).toString();
         const formattedSlippage = parseFloat(slippage) / 100;
 
-        const allowedBridges = swapOnly ? [] : undefined;
+        const allowBridges = swapOnly ? [] : allowedBridges;
+
+        const allowExchanges = allowedExchanges;
 
         if (subvariant === 'custom' && contractCalls && toTokenAmount) {
           const contractCallQuote = await getContractCallsQuote(
@@ -166,7 +187,8 @@ export const useRoutes = () => {
               denyExchanges: disabledExchanges.length
                 ? disabledExchanges
                 : undefined,
-              allowBridges: allowedBridges,
+              allowBridges,
+              allowExchanges,
               toFallbackAddress: toAddress,
               slippage: formattedSlippage,
             },
@@ -231,17 +253,24 @@ export const useRoutes = () => {
             options: {
               allowSwitchChain:
                 subvariant === 'refuel' ? false : allowSwitchChain,
-              ...((allowedBridges || disabledBridges.length) && {
-                bridges: {
-                  allow: allowedBridges,
-                  deny: disabledBridges.length ? disabledBridges : undefined,
-                },
-              }),
-              ...(disabledExchanges.length && {
-                exchanges: {
-                  deny: disabledExchanges,
-                },
-              }),
+              bridges:
+                allowBridges?.length || disabledBridges.length
+                  ? {
+                      allow: allowBridges,
+                      deny: disabledBridges.length
+                        ? disabledBridges
+                        : undefined,
+                    }
+                  : undefined,
+              exchanges:
+                allowExchanges?.length || disabledExchanges.length
+                  ? {
+                      allow: allowExchanges,
+                      deny: disabledExchanges.length
+                        ? disabledExchanges
+                        : undefined,
+                    }
+                  : undefined,
               order: routePriority,
               slippage: formattedSlippage,
             },
