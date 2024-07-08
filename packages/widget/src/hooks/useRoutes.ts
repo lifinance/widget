@@ -19,12 +19,8 @@ import { useWidgetEvents } from './useWidgetEvents.js';
 
 const refetchTime = 60_000;
 
-interface RoutesProps {
-  insurableRoute?: Route;
-}
-
-export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
-  const { subvariant, sdkConfig, insurance, contractTool, bridges, exchanges } =
+export const useRoutes = () => {
+  const { subvariant, sdkConfig, contractTool, bridges, exchanges } =
     useWidgetConfig();
   const queryClient = useQueryClient();
   const emitter = useWidgetEvents();
@@ -135,8 +131,6 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
     sdkConfig?.routeOptions?.allowSwitchChain,
     enabledRefuel && enabledAutoRefuel,
     gasRecommendationFromAmount,
-    insurance,
-    insurableRoute?.id,
   ] as const;
 
   const { data, isLoading, isFetching, isFetched, dataUpdatedAt, refetch } =
@@ -165,8 +159,6 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
           allowSwitchChain,
           enabledRefuel,
           gasRecommendationFromAmount,
-          insurance,
-          insurableRouteId,
         ],
         signal,
       }) => {
@@ -176,29 +168,9 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
         ).toString();
         const formattedSlippage = parseFloat(slippage) / 100;
 
-        const allowBridges = swapOnly
-          ? []
-          : insurableRoute
-            ? insurableRoute.steps.flatMap((step) =>
-                step.includedSteps.reduce((toolKeys, includedStep) => {
-                  if (includedStep.type === 'cross') {
-                    toolKeys.push(includedStep.toolDetails.key);
-                  }
-                  return toolKeys;
-                }, [] as string[]),
-              )
-            : allowedBridges;
+        const allowBridges = swapOnly ? [] : allowedBridges;
 
-        const allowExchanges = insurableRoute
-          ? insurableRoute.steps.flatMap((step) =>
-              step.includedSteps.reduce((toolKeys, includedStep) => {
-                if (includedStep.type === 'swap') {
-                  toolKeys.push(includedStep.toolDetails.key);
-                }
-                return toolKeys;
-              }, [] as string[]),
-            )
-          : allowedExchanges;
+        const allowExchanges = allowedExchanges;
 
         if (subvariant === 'custom' && contractCalls && toTokenAmount) {
           const contractCallQuote = await getContractCallsQuote(
@@ -299,7 +271,6 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
                         : undefined,
                     }
                   : undefined,
-              insurance: insurance ? Boolean(insurableRoute) : undefined,
               order: routePriority,
               slippage: formattedSlippage,
             },
