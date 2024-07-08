@@ -18,7 +18,7 @@
     "web-vitals": "^3.5.2"
   },
   "scripts": {
-    "start": "react-app-rewired start --no-cache",
+    "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"
