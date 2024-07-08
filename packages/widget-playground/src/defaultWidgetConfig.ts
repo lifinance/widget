@@ -189,7 +189,7 @@ export const widgetBaseConfig: WidgetConfig = {
   },
   // bridges: {
   //   allow: ['stargate'],
-  //   deny: ['connext'],
+  //   deny: ['amarok'],
   // },
   // languages: {
   //   allow: ['uk'],

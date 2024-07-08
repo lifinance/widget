@@ -24,9 +24,11 @@ export interface SettingsProps {
   enabledAutoRefuel: boolean;
   slippage?: string;
   disabledBridges: string[];
-  enabledBridges: Record<string, boolean>;
+  enabledBridges: string[];
+  _enabledBridges: Record<string, boolean>;
   disabledExchanges: string[];
-  enabledExchanges: Record<string, boolean>;
+  enabledExchanges: string[];
+  _enabledExchanges: Record<string, boolean>;
 }
 
 export interface SettingsState extends SettingsProps {
