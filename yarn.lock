@@ -2513,7 +2513,7 @@ __metadata:
     "@esbuild-plugins/node-globals-polyfill": "npm:^0.2.3"
     "@lifi/sdk": "npm:^3.0.0"
     "@lifi/wallet-management": "npm:^3.0.0"
-    "@lifi/widget": "npm:^3.0.0"
+    "@lifi/widget": "npm:^3.0.2"
     "@mui/icons-material": "npm:^5.15.20"
     "@mui/lab": "npm:^5.0.0-alpha.170"
     "@mui/material": "npm:^5.15.20"
@@ -2544,8 +2544,8 @@ __metadata:
     "@emotion/styled": "npm:^11.11.5"
     "@lifi/sdk": "npm:^3.0.0"
     "@lifi/wallet-management": "npm:^3.0.0"
-    "@lifi/widget": "npm:^3.0.0"
-    "@lifi/widget-playground": "npm:^1.0.199"
+    "@lifi/widget": "npm:^3.0.2"
+    "@lifi/widget-playground": "npm:^1.0.200"
     "@mui/icons-material": "npm:^5.15.20"
     "@mui/material": "npm:^5.15.20"
     "@mui/material-nextjs": "npm:^5.15.11"
@@ -2579,8 +2579,8 @@ __metadata:
     "@esbuild-plugins/node-globals-polyfill": "npm:^0.2.3"
     "@lifi/sdk": "npm:^3.0.0"
     "@lifi/wallet-management": "npm:^3.0.0"
-    "@lifi/widget": "npm:^3.0.0"
-    "@lifi/widget-playground": "npm:^1.0.199"
+    "@lifi/widget": "npm:^3.0.2"
+    "@lifi/widget-playground": "npm:^1.0.200"
     "@mui/icons-material": "npm:^5.15.20"
     "@mui/material": "npm:^5.15.20"
     "@rainbow-me/rainbowkit": "npm:^2.1.2"
@@ -2606,7 +2606,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@lifi/widget-playground@npm:^1.0.199, @lifi/widget-playground@workspace:packages/widget-playground":
+"@lifi/widget-playground@npm:^1.0.200, @lifi/widget-playground@workspace:packages/widget-playground":
   version: 0.0.0-use.local
   resolution: "@lifi/widget-playground@workspace:packages/widget-playground"
   dependencies:
@@ -2642,7 +2642,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@lifi/widget@npm:^3.0.0, @lifi/widget@workspace:packages/widget":
+"@lifi/widget@npm:^3.0.2, @lifi/widget@workspace:packages/widget":
   version: 0.0.0-use.local
   resolution: "@lifi/widget@workspace:packages/widget"
   dependencies:

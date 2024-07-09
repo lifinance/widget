@@ -1,15 +1,9 @@
-import {
-  Box,
-  Typography,
-  getContrastRatio,
-  lighten,
-  styled,
-} from '@mui/material';
+import { Box, Typography, getContrastRatio, styled } from '@mui/material';
 import { blend } from '../../utils/colors.js';
 
 export const CardLabel = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'type',
-})<{ type?: 'active' | 'insurance' | 'insurance-icon' }>(({ theme, type }) => {
+})<{ type?: 'active' }>(({ theme, type }) => {
   const backgroundColor =
     type === 'active'
       ? theme.palette.mode === 'light'
@@ -19,35 +13,25 @@ export const CardLabel = styled(Box, {
             theme.palette.secondary.main,
             0.8,
           )
-      : type?.includes('insurance')
+      : theme.palette.mode === 'light'
         ? blend(
             theme.palette.background.paper,
-            theme.palette.success.main,
-            theme.palette.mode === 'light' ? 0.12 : 0.24,
+            theme.palette.common.black,
+            0.12,
           )
-        : theme.palette.mode === 'light'
-          ? blend(
-              theme.palette.background.paper,
-              theme.palette.common.black,
-              0.12,
-            )
-          : blend(
-              theme.palette.background.paper,
-              theme.palette.common.white,
-              0.16,
-            );
+        : blend(
+            theme.palette.background.paper,
+            theme.palette.common.white,
+            0.16,
+          );
   return {
     backgroundColor,
     borderRadius: theme.shape.borderRadius,
-    color: type?.includes('insurance')
-      ? lighten(
-          theme.palette.success.main,
-          theme.palette.mode === 'light' ? 0 : 0.24,
-        )
-      : getContrastRatio(theme.palette.common.white, backgroundColor) >= 3
+    color:
+      getContrastRatio(theme.palette.common.white, backgroundColor) >= 3
         ? theme.palette.common.white
         : theme.palette.common.black,
-    padding: type === 'insurance' ? theme.spacing(0, 1.5) : 0,
+    padding: 0,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

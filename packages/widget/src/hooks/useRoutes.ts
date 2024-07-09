@@ -19,24 +19,25 @@ import { useWidgetEvents } from './useWidgetEvents.js';
 
 const refetchTime = 60_000;
 
-interface RoutesProps {
-  insurableRoute?: Route;
-}
-
-export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
-  const { subvariant, sdkConfig, insurance, contractTool } = useWidgetConfig();
+export const useRoutes = () => {
+  const { subvariant, sdkConfig, contractTool, bridges, exchanges } =
+    useWidgetConfig();
   const queryClient = useQueryClient();
   const emitter = useWidgetEvents();
   const swapOnly = useSwapOnly();
   const {
     disabledBridges,
     disabledExchanges,
+    enabledBridges,
+    enabledExchanges,
     enabledAutoRefuel,
     routePriority,
     slippage,
   } = useSettings([
     'disabledBridges',
     'disabledExchanges',
+    'enabledBridges',
+    'enabledExchanges',
     'enabledAutoRefuel',
     'routePriority',
     'slippage',
@@ -87,6 +88,16 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
   // toAddress might be an empty string, but we need to pass undefined if there is no value
   const toWalletAddress = toAddress || undefined;
 
+  // We need to send the full allowed tools array if custom tool settings are applied
+  const allowedBridges =
+    bridges?.allow?.length || bridges?.deny?.length
+      ? enabledBridges
+      : undefined;
+  const allowedExchanges =
+    exchanges?.allow?.length || exchanges?.deny?.length
+      ? enabledExchanges
+      : undefined;
+
   const isEnabled =
     Boolean(Number(fromChainId)) &&
     Boolean(Number(toChainId)) &&
@@ -113,13 +124,13 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
     swapOnly,
     disabledBridges,
     disabledExchanges,
+    allowedBridges,
+    allowedExchanges,
     routePriority,
     subvariant,
     sdkConfig?.routeOptions?.allowSwitchChain,
     enabledRefuel && enabledAutoRefuel,
     gasRecommendationFromAmount,
-    insurance,
-    insurableRoute?.id,
   ] as const;
 
   const { data, isLoading, isFetching, isFetched, dataUpdatedAt, refetch } =
@@ -141,13 +152,13 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
           swapOnly,
           disabledBridges,
           disabledExchanges,
+          allowedBridges,
+          allowedExchanges,
           routePriority,
           subvariant,
           allowSwitchChain,
           enabledRefuel,
           gasRecommendationFromAmount,
-          insurance,
-          insurableRouteId,
         ],
         signal,
       }) => {
@@ -157,29 +168,9 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
         ).toString();
         const formattedSlippage = parseFloat(slippage) / 100;
 
-        const allowedBridges = swapOnly
-          ? []
-          : insurableRoute
-            ? insurableRoute.steps.flatMap((step) =>
-                step.includedSteps.reduce((toolKeys, includedStep) => {
-                  if (includedStep.type === 'cross') {
-                    toolKeys.push(includedStep.toolDetails.key);
-                  }
-                  return toolKeys;
-                }, [] as string[]),
-              )
-            : undefined;
+        const allowBridges = swapOnly ? [] : allowedBridges;
 
-        const allowedExchanges = insurableRoute
-          ? insurableRoute.steps.flatMap((step) =>
-              step.includedSteps.reduce((toolKeys, includedStep) => {
-                if (includedStep.type === 'swap') {
-                  toolKeys.push(includedStep.toolDetails.key);
-                }
-                return toolKeys;
-              }, [] as string[]),
-            )
-          : undefined;
+        const allowExchanges = allowedExchanges;
 
         if (subvariant === 'custom' && contractCalls && toTokenAmount) {
           const contractCallQuote = await getContractCallsQuote(
@@ -196,8 +187,8 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
               denyExchanges: disabledExchanges.length
                 ? disabledExchanges
                 : undefined,
-              allowBridges: allowedBridges,
-              allowExchanges: allowedExchanges,
+              allowBridges,
+              allowExchanges,
               toFallbackAddress: toAddress,
               slippage: formattedSlippage,
             },
@@ -263,24 +254,23 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
               allowSwitchChain:
                 subvariant === 'refuel' ? false : allowSwitchChain,
               bridges:
-                allowedBridges?.length || disabledBridges.length
+                allowBridges?.length || disabledBridges.length
                   ? {
-                      allow: allowedBridges,
+                      allow: allowBridges,
                       deny: disabledBridges.length
                         ? disabledBridges
                         : undefined,
                     }
                   : undefined,
               exchanges:
-                allowedExchanges?.length || disabledExchanges.length
+                allowExchanges?.length || disabledExchanges.length
                   ? {
-                      allow: allowedExchanges,
+                      allow: allowExchanges,
                       deny: disabledExchanges.length
                         ? disabledExchanges
                         : undefined,
                     }
                   : undefined,
-              insurance: insurance ? Boolean(insurableRoute) : undefined,
               order: routePriority,
               slippage: formattedSlippage,
             },

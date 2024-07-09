@@ -67,7 +67,7 @@ export const SelectEnabledToolsPage: React.FC<{
   const [enabledTools, disabledTools, setToolValue, toggleTools] =
     useSettingsStore(
       (state) => [
-        state[`enabled${type}`],
+        state[`_enabled${type}`],
         state[`disabled${type}`],
         state.setToolValue,
         state.toggleTools,
