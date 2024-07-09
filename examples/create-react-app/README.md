@@ -8,7 +8,7 @@
 > We are using a mix of `react-app-rewired`, `customize-cra` and `@babel/plugin-syntax-import-assertions` 
 > dev dependencies to get the Widget to work in Create React App. Take a look at the scripts in the 
 > package.json, the contents of the config-overrides.js file and the addition of the .babelrc file to understand the 
-> changes that are needed
+> changes that are needed.
 > 
 > If you are currently maintaining a CRA project it might be worth considering migrating to a better supported build tool like [Vite](https://vitejs.dev/).
 
