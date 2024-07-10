@@ -1,5 +1,15 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+> **_NOTE:_** If you are using Next 13 be sure to look at the examples in `examples/nextjs-page-router` 
+> which have been written with Next.js 13 specifically in mind.
+
+Examples can be seen on the following paths
+
+- http://localhost:3000/ - the shows the use of \<ClientOnly \/\> to import and used the Widget in the App Router
+- http://localhost:3000/pages-example - the shows the use of \<ClientOnly \/\> to import and used the Widget in the Pages Router
+- http://localhost:3000/dynamic-import - the shows the use of `next/dynamic` API to import and use the Widget
+
+
 ## Getting Started
 
 First, run the development server:

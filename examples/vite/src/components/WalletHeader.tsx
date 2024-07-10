@@ -25,8 +25,7 @@ export function WalletHeader() {
           <Button
             variant="contained"
             disableElevation
-            // onClick={handleDisconnect}
-            onClick={() => connectAsync({ connector: connectors[0] })}
+            onClick={() => connectAsync({ connector: connectors[1] })}
           >
             Connect
           </Button>

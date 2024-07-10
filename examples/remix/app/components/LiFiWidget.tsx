@@ -1,5 +1,5 @@
+import { type WidgetConfig, WidgetSkeleton } from '@lifi/widget';
 import { Suspense, lazy } from 'react';
-import { Fallback } from './Fallback';
 
 const LiFiWidgetLazy = lazy(async () => {
   const module = await import('@lifi/widget');
@@ -8,19 +8,19 @@ const LiFiWidgetLazy = lazy(async () => {
 });
 
 export function LiFiWidget() {
+  const config = {
+    appearance: 'light',
+    theme: {
+      container: {
+        boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
+        borderRadius: '16px',
+      },
+    },
+  } as Partial<WidgetConfig>;
+
   return (
-    <Suspense fallback={<Fallback />}>
-      <LiFiWidgetLazy
-        config={{
-          theme: {
-            container: {
-              boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
-              borderRadius: '16px',
-            },
-          },
-        }}
-        integrator="remix-example"
-      />
+    <Suspense fallback={<WidgetSkeleton config={config} />}>
+      <LiFiWidgetLazy config={config} integrator="remix-example" />
     </Suspense>
   );
 }
