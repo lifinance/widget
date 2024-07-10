@@ -80,14 +80,12 @@ export const TransactionHistoryItem: React.FC<{
         px={2}
       >
         <Typography fontSize={12}>
-          {new Intl.DateTimeFormat(i18n.language, { dateStyle: 'long' }).format(
-            startedAt,
-          )}
+          {startedAt.toLocaleString(i18n.language, { dateStyle: 'long' })}
         </Typography>
         <Typography fontSize={12}>
-          {new Intl.DateTimeFormat(i18n.language, {
+          {startedAt.toLocaleString(i18n.language, {
             timeStyle: 'short',
-          }).format(startedAt)}
+          })}
         </Typography>
       </Box>
       <Box px={2} py={2}>

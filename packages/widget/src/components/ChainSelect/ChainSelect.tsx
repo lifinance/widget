@@ -64,15 +64,7 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
             />
           ))
         : chainsToShow?.map((chain: EVMChain) => (
-            <Tooltip
-              key={chain.id}
-              title={chain.name}
-              placement="top"
-              enterDelay={400}
-              enterNextDelay={100}
-              disableInteractive
-              arrow
-            >
+            <Tooltip key={chain.id} title={chain.name} enterNextDelay={100}>
               <ChainCard
                 component="button"
                 onClick={() => setCurrentChain(chain.id)}

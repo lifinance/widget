@@ -11,7 +11,6 @@ import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.j
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { useFieldValues } from '../../stores/form/useFieldValues.js';
-import { useSetExecutableRoute } from '../../stores/routes/useSetExecutableRoute.js';
 import { WidgetEvent } from '../../types/events.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { PageContainer } from '../PageContainer.js';
@@ -59,7 +58,6 @@ export const RoutesExpanded = () => {
 export const RoutesExpandedElement = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const setExecutableRoute = useSetExecutableRoute();
   const { subvariant } = useWidgetConfig();
   const routesRef = useRef<Route[]>();
   const emitter = useWidgetEvents();
@@ -71,15 +69,16 @@ export const RoutesExpandedElement = () => {
     isFetched,
     dataUpdatedAt,
     refetchTime,
-    refetch,
     fromChain,
+    refetch,
+    setReviewableRoute,
   } = useRoutes();
   const { account } = useAccount({ chainType: fromChain?.chainType });
   const [toAddress] = useFieldValues('toAddress');
   const { requiredToAddress } = useToAddressRequirements();
 
   const handleRouteClick = (route: Route) => {
-    setExecutableRoute(route);
+    setReviewableRoute(route);
     navigate(navigationRoutes.transactionExecution, {
       state: { routeId: route.id },
     });

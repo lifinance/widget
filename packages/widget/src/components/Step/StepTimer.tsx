@@ -52,11 +52,14 @@ export const StepTimer: React.FC<{
   ]);
 
   if (!isExecutionStarted) {
-    return new Intl.NumberFormat(i18n.language, {
-      style: 'unit',
-      unit: 'minute',
-      unitDisplay: 'narrow',
-    }).format(Math.ceil(step.estimate.executionDuration / 60));
+    return Math.ceil(step.estimate.executionDuration / 60).toLocaleString(
+      i18n.language,
+      {
+        style: 'unit',
+        unit: 'minute',
+        unitDisplay: 'narrow',
+      },
+    );
   }
 
   const isTimerExpired = isExpired || (!minutes && !seconds);

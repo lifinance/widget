@@ -7,6 +7,7 @@ import { useSettings } from '../../stores/settings/useSettings.js';
 import { deepMerge } from '../../utils/deepMerge.js';
 import { isItemAllowed } from '../../utils/item.js';
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js';
+import { currencyExtendedFormatter } from './currencyExtendedFormatter.js';
 import type { LanguageKey, LanguageTranslationResources } from './types.js';
 
 export const I18nProvider: React.FC<React.PropsWithChildren> = ({
@@ -60,6 +61,11 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
     });
 
     i18n.init();
+
+    i18n.services.formatter?.addCached(
+      'currencyExt',
+      currencyExtendedFormatter,
+    );
 
     return i18n;
   }, [language, languageResources, languages]);

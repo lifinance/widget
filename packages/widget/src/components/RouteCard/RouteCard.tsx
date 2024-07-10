@@ -38,6 +38,10 @@ export const RouteCard: React.FC<
     subvariant === 'custom'
       ? { ...route.fromToken, amount: BigInt(route.fromAmount) }
       : { ...route.toToken, amount: BigInt(route.toAmount) };
+  const impactToken: TokenAmount | undefined =
+    subvariant !== 'custom'
+      ? { ...route.fromToken, amount: BigInt(route.fromAmount) }
+      : undefined;
 
   const tags = route.tags?.filter(
     (tag) => tag === 'CHEAPEST' || tag === 'FASTEST',
@@ -59,12 +63,17 @@ export const RouteCard: React.FC<
       <TokenContainer>
         <Token
           token={token}
+          impactToken={impactToken}
           step={route.steps[0]}
           stepVisible={!cardExpanded}
         />
         {!defaulExpanded ? (
           <CardIconButton onClick={handleExpand} size="small">
-            {cardExpanded ? <ExpandLess /> : <ExpandMore />}
+            {cardExpanded ? (
+              <ExpandLess fontSize="inherit" />
+            ) : (
+              <ExpandMore fontSize="inherit" />
+            )}
           </CardIconButton>
         ) : null}
       </TokenContainer>
@@ -74,9 +83,7 @@ export const RouteCard: React.FC<
         ))}
         <RouteCardEssentialsExpanded route={route} />
       </Collapse>
-      <Collapse timeout={225} in={!cardExpanded} mountOnEnter unmountOnExit>
-        <RouteCardEssentials route={route} />
-      </Collapse>
+      <RouteCardEssentials route={route} />
     </Box>
   );
 

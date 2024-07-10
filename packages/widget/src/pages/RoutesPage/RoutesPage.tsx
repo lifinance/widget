@@ -13,21 +13,20 @@ import { useNavigateBack } from '../../hooks/useNavigateBack.js';
 import { useRoutes } from '../../hooks/useRoutes.js';
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
 import { useFieldValues } from '../../stores/form/useFieldValues.js';
-import { useSetExecutableRoute } from '../../stores/routes/useSetExecutableRoute.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { Stack } from './RoutesPage.style.js';
 
 export const RoutesPage: React.FC<BoxProps> = () => {
   const { navigate } = useNavigateBack();
-  const setExecutableRoute = useSetExecutableRoute();
   const {
     routes,
     isLoading,
     isFetching,
     dataUpdatedAt,
     refetchTime,
-    refetch,
     fromChain,
+    refetch,
+    setReviewableRoute,
   } = useRoutes();
   const { account } = useAccount({ chainType: fromChain?.chainType });
   const [toAddress] = useFieldValues('toAddress');
@@ -52,7 +51,7 @@ export const RoutesPage: React.FC<BoxProps> = () => {
   useHeader(t(`header.youGet`), headerAction);
 
   const handleRouteClick = (route: Route) => {
-    setExecutableRoute(route);
+    setReviewableRoute(route);
     navigate(navigationRoutes.transactionExecution, {
       state: { routeId: route.id },
     });

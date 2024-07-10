@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { parseUnits } from 'viem';
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
 import { useFieldValues } from '../stores/form/useFieldValues.js';
+import { useSetExecutableRoute } from '../stores/routes/useSetExecutableRoute.js';
 import { useSettings } from '../stores/settings/useSettings.js';
 import { defaultSlippage } from '../stores/settings/useSettingsStore.js';
 import { WidgetEvent } from '../types/events.js';
@@ -19,9 +20,14 @@ import { useWidgetEvents } from './useWidgetEvents.js';
 
 const refetchTime = 60_000;
 
-export const useRoutes = () => {
+interface RoutesProps {
+  observableRoute?: Route;
+}
+
+export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
   const { subvariant, sdkConfig, contractTool, bridges, exchanges } =
     useWidgetConfig();
+  const setExecutableRoute = useSetExecutableRoute();
   const queryClient = useQueryClient();
   const emitter = useWidgetEvents();
   const swapOnly = useSwapOnly();
@@ -131,6 +137,7 @@ export const useRoutes = () => {
     sdkConfig?.routeOptions?.allowSwitchChain,
     enabledRefuel && enabledAutoRefuel,
     gasRecommendationFromAmount,
+    observableRoute?.id,
   ] as const;
 
   const { data, isLoading, isFetching, isFetched, dataUpdatedAt, refetch } =
@@ -159,6 +166,7 @@ export const useRoutes = () => {
           allowSwitchChain,
           enabledRefuel,
           gasRecommendationFromAmount,
+          observableRouteId,
         ],
         signal,
       }) => {
@@ -168,9 +176,28 @@ export const useRoutes = () => {
         ).toString();
         const formattedSlippage = parseFloat(slippage) / 100;
 
-        const allowBridges = swapOnly ? [] : allowedBridges;
-
-        const allowExchanges = allowedExchanges;
+        const allowBridges = swapOnly
+          ? []
+          : observableRoute
+            ? observableRoute.steps.flatMap((step) =>
+                step.includedSteps.reduce((toolKeys, includedStep) => {
+                  if (includedStep.type === 'cross') {
+                    toolKeys.push(includedStep.toolDetails.key);
+                  }
+                  return toolKeys;
+                }, [] as string[]),
+              )
+            : allowedBridges;
+        const allowExchanges = observableRoute
+          ? observableRoute.steps.flatMap((step) =>
+              step.includedSteps.reduce((toolKeys, includedStep) => {
+                if (includedStep.type === 'swap') {
+                  toolKeys.push(includedStep.toolDetails.key);
+                }
+                return toolKeys;
+              }, [] as string[]),
+            )
+          : allowedExchanges;
 
         if (subvariant === 'custom' && contractCalls && toTokenAmount) {
           const contractCallQuote = await getContractCallsQuote(
@@ -321,6 +348,16 @@ export const useRoutes = () => {
       },
     });
 
+  const setReviewableRoute = (route: Route) => {
+    const queryDataKey = queryKey.toSpliced(queryKey.length - 1, 1, route.id);
+    queryClient.setQueryData(
+      queryDataKey,
+      { routes: [route] },
+      { updatedAt: dataUpdatedAt },
+    );
+    setExecutableRoute(route);
+  };
+
   return {
     routes: data?.routes,
     isLoading: isEnabled && isLoading,
@@ -331,5 +368,7 @@ export const useRoutes = () => {
     refetch,
     fromChain,
     toChain,
+    queryKey,
+    setReviewableRoute,
   };
 };

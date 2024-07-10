@@ -1,7 +1,7 @@
 import type { ExchangeRateUpdateParams } from '@lifi/sdk';
 import { Delete } from '@mui/icons-material';
 import { Box, Button, Tooltip } from '@mui/material';
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
@@ -9,6 +9,7 @@ import { ContractComponent } from '../../components/ContractComponent/ContractCo
 import { GasMessage } from '../../components/GasMessage/GasMessage.js';
 import { PageContainer } from '../../components/PageContainer.js';
 import { getStepList } from '../../components/Step/StepList.js';
+import { TransactionDetails } from '../../components/TransactionDetails.js';
 import { useHeader } from '../../hooks/useHeader.js';
 import { useNavigateBack } from '../../hooks/useNavigateBack.js';
 import { useRouteExecution } from '../../hooks/useRouteExecution.js';
@@ -19,6 +20,7 @@ import { RouteExecutionStatus } from '../../stores/routes/types.js';
 import { WidgetEvent } from '../../types/events.js';
 import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet.js';
 import { ExchangeRateBottomSheet } from './ExchangeRateBottomSheet.js';
+import { RouteTracker } from './RouteTracker.js';
 import { StartTransactionButton } from './StartTransactionButton.js';
 import { StatusBottomSheet } from './StatusBottomSheet.js';
 import {
@@ -34,6 +36,9 @@ export const TransactionPage: React.FC = () => {
   const { navigateBack } = useNavigateBack();
   const { subvariant, contractSecondaryComponent } = useWidgetConfig();
   const { state }: any = useLocation();
+  const stateRouteId = state?.routeId;
+  const [routeId, setRouteId] = useState<string>(stateRouteId);
+  const [routeRefreshing, setRouteRefreshing] = useState(false);
 
   const tokenValueBottomSheetRef = useRef<BottomSheetBase>(null);
   const exchangeRateBottomSheetRef = useRef<ExchangeRateBottomSheetBase>(null);
@@ -47,7 +52,7 @@ export const TransactionPage: React.FC = () => {
 
   const { route, status, executeRoute, restartRoute, deleteRoute } =
     useRouteExecution({
-      routeId: state?.routeId,
+      routeId: routeId,
       onAcceptExchangeRateUpdate,
     });
 
@@ -68,9 +73,19 @@ export const TransactionPage: React.FC = () => {
     return t(`header.exchange`);
   };
 
-  const title = getHeaderTitle();
+  const headerAction = useMemo(
+    () =>
+      status === RouteExecutionStatus.Idle ? (
+        <RouteTracker
+          observableRouteId={stateRouteId}
+          onChange={setRouteId}
+          onFetching={setRouteRefreshing}
+        />
+      ) : undefined,
+    [stateRouteId, status],
+  );
 
-  useHeader(title);
+  useHeader(getHeaderTitle(), headerAction);
 
   useEffect(() => {
     if (status === RouteExecutionStatus.Idle) {
@@ -150,6 +165,7 @@ export const TransactionPage: React.FC = () => {
           {contractSecondaryComponent}
         </ContractComponent>
       ) : null}
+      <TransactionDetails route={route} sx={{ marginTop: 2 }} />
       {status === RouteExecutionStatus.Idle ||
       status === RouteExecutionStatus.Failed ? (
         <>
@@ -159,13 +175,12 @@ export const TransactionPage: React.FC = () => {
               text={getButtonText()}
               onClick={handleStartClick}
               route={route}
+              loading={routeRefreshing}
             />
             {status === RouteExecutionStatus.Failed ? (
               <Tooltip
                 title={t('button.removeTransaction')}
                 placement="bottom-end"
-                enterDelay={400}
-                arrow
               >
                 <Button
                   onClick={handleRemoveRoute}

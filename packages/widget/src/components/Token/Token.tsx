@@ -15,6 +15,7 @@ import { TextSecondary, TextSecondaryContainer } from './Token.style.js';
 
 interface TokenProps {
   token: TokenAmount;
+  impactToken?: TokenAmount;
   step?: LiFiStep;
   stepVisible?: boolean;
   disableDescription?: boolean;
@@ -49,6 +50,7 @@ export const TokenFallback: FC<TokenProps & BoxProps> = ({
 
 export const TokenBase: FC<TokenProps & BoxProps> = ({
   token,
+  impactToken,
   step,
   stepVisible,
   disableDescription,
@@ -69,11 +71,29 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
     );
   }
 
-  const formattedTokenAmount = formatTokenAmount(token.amount, token.decimals);
-  const formattedTokenPrice = formatTokenPrice(
-    formattedTokenAmount,
-    token.priceUSD,
-  );
+  const tokenAmount = formatTokenAmount(token.amount, token.decimals);
+  const tokenPrice = formatTokenPrice(tokenAmount, token.priceUSD);
+
+  let priceImpact;
+  if (impactToken) {
+    const impactTokenAmount = formatTokenAmount(
+      impactToken.amount,
+      impactToken.decimals,
+    );
+    const impactTokenPrice =
+      formatTokenPrice(impactTokenAmount, impactToken.priceUSD) ?? 0.01;
+
+    const impact = (tokenPrice / impactTokenPrice - 1) * 100;
+
+    priceImpact = impact.toLocaleString('en', {
+      notation: 'standard',
+      roundingPriority: 'morePrecision',
+      maximumSignificantDigits: 2,
+      maximumFractionDigits: 2,
+      useGrouping: false,
+      roundingMode: 'trunc',
+    });
+  }
 
   const tokenOnChain = !disableDescription ? (
     <TextSecondary>
@@ -101,16 +121,29 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
             }}
           >
             {t('format.number', {
-              value: formattedTokenAmount,
+              value: tokenAmount,
             })}
           </TextFitter>
         </Box>
         <TextSecondaryContainer component="span">
           <TextSecondary>
             {t(`format.currency`, {
-              value: formattedTokenPrice,
+              value: tokenPrice,
             })}
           </TextSecondary>
+          {impactToken ? (
+            <TextSecondary px={0.5} dot>
+              &#x2022;
+            </TextSecondary>
+          ) : null}
+          {impactToken ? (
+            <TextSecondary>
+              {t(`format.number`, {
+                value: priceImpact,
+              })}
+              %
+            </TextSecondary>
+          ) : null}
           {!disableDescription ? (
             <TextSecondary px={0.5} dot>
               &#x2022;

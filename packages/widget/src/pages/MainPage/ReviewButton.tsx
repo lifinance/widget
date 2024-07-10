@@ -5,25 +5,23 @@ import { useRoutes } from '../../hooks/useRoutes.js';
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { useFieldValues } from '../../stores/form/useFieldValues.js';
-import { useSetExecutableRoute } from '../../stores/routes/useSetExecutableRoute.js';
 import { useSplitSubvariantStore } from '../../stores/settings/useSplitSubvariantStore.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 
 export const ReviewButton: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const setExecutableRoute = useSetExecutableRoute();
   const { subvariant } = useWidgetConfig();
   const splitState = useSplitSubvariantStore((state) => state.state);
   const [toAddress] = useFieldValues('toAddress');
   const { requiredToAddress } = useToAddressRequirements();
-  const { routes } = useRoutes();
+  const { routes, setReviewableRoute } = useRoutes();
 
   const currentRoute = routes?.[0];
 
   const handleClick = async () => {
     if (currentRoute) {
-      setExecutableRoute(currentRoute);
+      setReviewableRoute(currentRoute);
       navigate(navigationRoutes.transactionExecution, {
         state: { routeId: currentRoute.id },
       });

@@ -41,7 +41,7 @@ const SelectAllCheckbox: React.FC<SelectAllCheckboxProps> = ({
     : t('tooltip.selectAll');
 
   return (
-    <Tooltip title={tooltipTitle} arrow>
+    <Tooltip title={tooltipTitle}>
       <IconButton
         size="medium"
         edge={theme?.navigation?.edge ? 'end' : false}

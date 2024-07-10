@@ -1,4 +1,4 @@
-import type { FeeCost, GasCost, Route, Token } from '@lifi/sdk';
+import type { FeeCost, GasCost, RouteExtended, Token } from '@lifi/sdk';
 
 export interface FeesBreakdown {
   amount: bigint;
@@ -6,45 +6,45 @@ export interface FeesBreakdown {
   token: Token;
 }
 
-export const getGasCostsBreakdown = (route: Route): FeesBreakdown[] => {
-  return Object.values(
-    route.steps.reduce(
-      (groupedGasCosts, step) => {
-        if (step.estimate.gasCosts?.length) {
+export const getGasCostsBreakdown = (route: RouteExtended): FeesBreakdown[] => {
+  return Array.from(
+    route.steps
+      .reduce((groupedGasCosts, step) => {
+        const gasCosts = step.execution?.gasCosts ?? step.estimate.gasCosts;
+        if (gasCosts?.length) {
           const {
             token,
             amount: gasCostAmount,
             amountUSD: gasCostAmountUSD,
-          } = getStepFeeCostsBreakdown(step.estimate.gasCosts);
-          const groupedGasCost = groupedGasCosts[token.chainId];
+          } = getStepFeeCostsBreakdown(gasCosts);
+          const groupedGasCost = groupedGasCosts.get(token.chainId);
           const amount = groupedGasCost
             ? groupedGasCost.amount + gasCostAmount
             : gasCostAmount;
           const amountUSD = groupedGasCost
             ? groupedGasCost.amountUSD + gasCostAmountUSD
             : gasCostAmountUSD;
-          groupedGasCosts[token.chainId] = {
+          groupedGasCosts.set(token.chainId, {
             amount,
             amountUSD,
             token,
-          };
+          });
           return groupedGasCosts;
         }
         return groupedGasCosts;
-      },
-      {} as Record<number, FeesBreakdown>,
-    ),
+      }, new Map<number, FeesBreakdown>())
+      .values(),
   );
 };
 
 export const getFeeCostsBreakdown = (
-  route: Route,
+  route: RouteExtended,
   included?: boolean,
 ): FeesBreakdown[] => {
-  return Object.values(
-    route.steps.reduce(
-      (groupedFeeCosts, step) => {
-        let feeCosts = step.estimate.feeCosts;
+  return Array.from(
+    route.steps
+      .reduce((groupedFeeCosts, step) => {
+        let feeCosts = step.execution?.feeCosts ?? step.estimate.feeCosts;
         if (typeof included === 'boolean') {
           feeCosts = feeCosts?.filter(
             (feeCost) => feeCost.included === included,
@@ -56,24 +56,23 @@ export const getFeeCostsBreakdown = (
             amount: feeCostAmount,
             amountUSD: feeCostAmountUSD,
           } = getStepFeeCostsBreakdown(feeCosts);
-          const groupedFeeCost = groupedFeeCosts[token.chainId];
+          const groupedFeeCost = groupedFeeCosts.get(token.chainId);
           const amount = groupedFeeCost
             ? groupedFeeCost.amount + feeCostAmount
             : feeCostAmount;
           const amountUSD = groupedFeeCost
             ? groupedFeeCost.amountUSD + feeCostAmountUSD
             : feeCostAmountUSD;
-          groupedFeeCosts[token.chainId] = {
+          groupedFeeCosts.set(token.chainId, {
             amount,
             amountUSD,
             token,
-          };
+          });
           return groupedFeeCosts;
         }
         return groupedFeeCosts;
-      },
-      {} as Record<number, FeesBreakdown>,
-    ),
+      }, new Map<number, FeesBreakdown>())
+      .values(),
   );
 };
 

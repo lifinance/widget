@@ -8,5 +8,6 @@ export const CardIconButton = styled(MuiIconButton)(({ theme }) => {
     '&:hover': {
       backgroundColor: getContrastAlphaColor(theme, 0.08),
     },
+    fontSize: '1rem',
   };
 });

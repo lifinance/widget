@@ -28,7 +28,7 @@ export const useTransactionHistory = () => {
 
         return response.transfers;
       }) as QueryFunction<StatusResponse[], (string | undefined)[], never>,
-      refetchInterval: 300000,
+      refetchInterval: 300_000,
       enabled: Boolean(account.address),
     })),
     combine: (results) => {

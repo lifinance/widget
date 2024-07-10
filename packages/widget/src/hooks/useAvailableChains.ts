@@ -32,7 +32,8 @@ export const useAvailableChains = () => {
       config.setChains(availableChains);
       return availableChains;
     },
-    refetchInterval: 300000,
+    refetchInterval: 300_000,
+    staleTime: 300_000,
   });
 
   const getChainById = useCallback(

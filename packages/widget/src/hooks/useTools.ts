@@ -35,7 +35,8 @@ export const useTools = () => {
       );
       return result;
     },
-    refetchInterval: 180000,
+    refetchInterval: 180_000,
+    staleTime: 180_000,
   });
 
   return { tools: data };

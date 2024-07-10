@@ -121,7 +121,7 @@ export const buildRouteFromTxHistory = (
         parseFloat(sending.gasToken.priceUSD)
       : 0;
 
-  const feeCosts: FeeCost[] | undefined = sendingValue
+  const feeCosts: FeeCost[] | undefined = sendingFeeAmount
     ? [
         {
           amount: sendingFeeAmount.toString(),
@@ -151,6 +151,7 @@ export const buildRouteFromTxHistory = (
       toChainId: receiving.chainId,
       fromToken,
       toToken,
+      gasCostUSD: sending.gasAmountUSD,
       steps: [
         {
           id: '',

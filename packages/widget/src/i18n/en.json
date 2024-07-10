@@ -4,7 +4,7 @@
     "title": "Language"
   },
   "format": {
-    "currency": "{{value, currency(currency: USD)}}",
+    "currency": "{{value, currencyExt(currency: USD)}}",
     "number": "{{value, number(maximumFractionDigits: 9)}}"
   },
   "button": {
@@ -166,7 +166,7 @@
       "text": "We couldn't find this page.",
       "title": "404"
     },
-    "numberOfSteps": "A number of exchange steps. Each step can contain 1-2 transactions that require a signature.",
+    "numberOfSteps": "Each exchange step can contain 1-2 transactions that require a signature.",
     "progressToNextUpdate": "Quotes will update in {{value}} seconds. <0/> Click here to update now.",
     "settingsModified": "Settings (modified)",
     "selectAll": "Select all",
@@ -180,21 +180,22 @@
     "depositStepDetails": "Deposit via {{tool}}",
     "featuredTokens": "Featured tokens",
     "fees": {
-      "estimated": "estimated fees",
-      "networkEstimated": "Estimated network fees:",
-      "networkPaid": "Paid network fees:",
-      "paid": "paid fees",
-      "providerEstimated": "Estimated provider fees:",
-      "providerPaid": "Paid provider fees:"
+      "estimated": "estimated costs",
+      "network": "Network cost",
+      "paid": "paid costs",
+      "provider": "Provider fee"
     },
     "from": "From",
     "fromAmount": "You pay",
     "gasCost": "Gas cost",
     "inProgress": "in progress",
+    "maxSlippage": "Max. slippage",
+    "minReceived": "Min. received",
     "myTokens": "My tokens",
     "onChain": "on {{chainName}}",
     "ownedBy": "Owned by",
     "popularTokens": "Popular tokens",
+    "priceImpact": "Price impact",
     "process": {
       "bridge": {
         "actionRequired": "Please sign the transaction",
