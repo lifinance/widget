@@ -1,3 +1,4 @@
+export * from '@lifi/types';
 export { App as LiFiWidget } from './App.js';
 export type { WidgetDrawer } from './AppDrawer.js';
 export * from './components/ContractComponent/ItemPrice.js';
@@ -18,9 +19,5 @@ export * from './themes/palettes.js';
 export { watermelonLightTheme } from './themes/watermelonLight.js';
 export { windows95Theme } from './themes/windows95.js';
 export * from './types/events.js';
-export * from './types/token.js';
+export type { TokenAmount } from './types/token.js';
 export * from './types/widget.js';
-
-// ClassNameGenerator.configure((componentName) =>
-//   componentName.replace('Mui', 'LiFi'),
-// );
