@@ -27,17 +27,25 @@ export const RouteTracker = ({
   );
   const currentRoute = routes?.[0];
 
+  /**
+   * The reviewable route is the route that the user currently sees on the review page.
+   * The observable route is the route for which we track bridges and exchanges.
+   * This allows us to query the route using the same tool each time we refresh.
+   * The observable and reviewable routes can be the same when we first enter the review page.
+   */
   useEffect(() => {
     if (
       observableRouteIdRef.current &&
       currentRoute &&
       observableRouteIdRef.current !== currentRoute.id
     ) {
+      const reviewableRouteId = observableRouteIdRef.current;
       observableRouteIdRef.current = currentRoute.id;
-      setExecutableRoute(currentRoute);
+      setExecutableRoute(currentRoute, [observableRouteId, reviewableRouteId]);
       onChange(currentRoute.id);
     }
-  }, [currentRoute, observableRouteIdRef, onChange, setExecutableRoute]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentRoute?.id, observableRouteId]);
 
   useEffect(() => {
     onFetching(isFetching);
