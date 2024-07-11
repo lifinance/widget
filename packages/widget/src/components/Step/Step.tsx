@@ -91,7 +91,13 @@ export const Step: React.FC<{
           />
         ) : null}
         {toToken ? (
-          <Token token={toToken} impactToken={impactToken} px={2} py={1} />
+          <Token
+            token={toToken}
+            impactToken={impactToken}
+            enableImpactTokenTooltip
+            px={2}
+            py={1}
+          />
         ) : null}
       </Box>
     </Card>

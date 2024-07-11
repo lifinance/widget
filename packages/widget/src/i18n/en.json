@@ -162,14 +162,16 @@
   },
   "tooltip": {
     "estimatedTime": "Estimated execution time in minutes.",
+    "minReceived": "The estimated minimum amount may change until the swapping/bridging transaction is signed. For 2-step transfers, this applies until the second step transaction is signed.",
     "notFound": {
       "text": "We couldn't find this page.",
       "title": "404"
     },
     "numberOfSteps": "Each exchange step can contain 1-2 transactions that require a signature.",
+    "priceImpact": "The estimated value difference between the source and destination tokens.",
     "progressToNextUpdate": "Quotes will update in {{value}} seconds. <0/> Click here to update now.",
-    "settingsModified": "Settings (modified)",
     "selectAll": "Select all",
+    "settingsModified": "Settings (modified)",
     "deselectAll": "Deselect all"
   },
   "main": {

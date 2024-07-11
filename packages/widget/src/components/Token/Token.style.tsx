@@ -16,6 +16,7 @@ export const TextSecondary = styled(Typography, {
   color: dot
     ? alpha(theme.palette.text.secondary, 0.56)
     : theme.palette.text.secondary,
+  whiteSpace: 'nowrap',
 }));
 
 export const TokenDivider = styled(Box)(({ theme }) => ({

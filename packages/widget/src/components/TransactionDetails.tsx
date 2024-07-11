@@ -5,7 +5,7 @@ import {
   LocalGasStationRounded,
 } from '@mui/icons-material';
 import type { CardProps } from '@mui/material';
-import { Box, Collapse, Typography } from '@mui/material';
+import { Box, Collapse, Tooltip, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { isRouteDone } from '../stores/routes/utils.js';
@@ -122,15 +122,20 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
               </Box>
               <Box display="flex" justifyContent="space-between">
                 <Typography variant="body2">{t('main.minReceived')}</Typography>
-                <Typography variant="body2">
-                  {t('format.number', {
-                    value: formatTokenAmount(
-                      BigInt(route.toAmountMin),
-                      route.toToken.decimals,
-                    ),
-                  })}{' '}
-                  {route.toToken.symbol}
-                </Typography>
+                <Tooltip
+                  title={t('tooltip.minReceived')}
+                  sx={{ cursor: 'help' }}
+                >
+                  <Typography variant="body2">
+                    {t('format.number', {
+                      value: formatTokenAmount(
+                        BigInt(route.toAmountMin),
+                        route.toToken.decimals,
+                      ),
+                    })}{' '}
+                    {route.toToken.symbol}
+                  </Typography>
+                </Tooltip>
               </Box>
             </>
           ) : null}

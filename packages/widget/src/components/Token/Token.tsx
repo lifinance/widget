@@ -1,12 +1,16 @@
 /* eslint-disable react/no-array-index-key */
 import type { LiFiStep, TokenAmount } from '@lifi/sdk';
 import type { BoxProps } from '@mui/material';
-import { Box, Grow, Skeleton } from '@mui/material';
+import { Box, Grow, Skeleton, Tooltip } from '@mui/material';
 import type { FC, PropsWithChildren, ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useChain } from '../../hooks/useChain.js';
 import { useToken } from '../../hooks/useToken.js';
-import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js';
+import {
+  convertToSubscriptFormat,
+  formatTokenAmount,
+  formatTokenPrice,
+} from '../../utils/format.js';
 import { AvatarBadgedSkeleton } from '../Avatar/Avatar.js';
 import { TokenAvatar } from '../Avatar/TokenAvatar.js';
 import { SmallAvatar } from '../SmallAvatar.js';
@@ -16,6 +20,7 @@ import { TextSecondary, TextSecondaryContainer } from './Token.style.js';
 interface TokenProps {
   token: TokenAmount;
   impactToken?: TokenAmount;
+  enableImpactTokenTooltip?: boolean;
   step?: LiFiStep;
   stepVisible?: boolean;
   disableDescription?: boolean;
@@ -51,6 +56,7 @@ export const TokenFallback: FC<TokenProps & BoxProps> = ({
 export const TokenBase: FC<TokenProps & BoxProps> = ({
   token,
   impactToken,
+  enableImpactTokenTooltip,
   step,
   stepVisible,
   disableDescription,
@@ -81,11 +87,11 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
       impactToken.decimals,
     );
     const impactTokenPrice =
-      formatTokenPrice(impactTokenAmount, impactToken.priceUSD) ?? 0.01;
+      formatTokenPrice(impactTokenAmount, impactToken.priceUSD) || 0.01;
 
     const impact = (tokenPrice / impactTokenPrice - 1) * 100;
 
-    priceImpact = impact.toLocaleString('en', {
+    priceImpact = convertToSubscriptFormat(impact, {
       notation: 'standard',
       roundingPriority: 'morePrecision',
       maximumSignificantDigits: 2,
@@ -137,12 +143,13 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
             </TextSecondary>
           ) : null}
           {impactToken ? (
-            <TextSecondary>
-              {t(`format.number`, {
-                value: priceImpact,
-              })}
-              %
-            </TextSecondary>
+            enableImpactTokenTooltip ? (
+              <Tooltip title={t('tooltip.priceImpact')} sx={{ cursor: 'help' }}>
+                <TextSecondary>{priceImpact}%</TextSecondary>
+              </Tooltip>
+            ) : (
+              <TextSecondary>{priceImpact}%</TextSecondary>
+            )
           ) : null}
           {!disableDescription ? (
             <TextSecondary px={0.5} dot>
