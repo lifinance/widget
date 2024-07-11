@@ -2668,7 +2668,6 @@ __metadata:
     react-i18next: "npm:^14.1.2"
     react-intersection-observer: "npm:^9.10.3"
     react-router-dom: "npm:^6.24.0"
-    react-timer-hook: "npm:^3.0.7"
     typescript: "npm:^5.5.2"
     uuid: "npm:^10.0.0"
     viem: "npm:^2.16.2"
@@ -15365,15 +15364,6 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 10/80c58fd6aac3594e351e2e7b048d8a5b09508adb21031a38b3c40911fe58295572eddc640d4b20a7be364842c8ed1120fe30097e22ea055316b375b88d4ff02a
-  languageName: node
-  linkType: hard
-
-"react-timer-hook@npm:^3.0.7":
-  version: 3.0.7
-  resolution: "react-timer-hook@npm:3.0.7"
-  peerDependencies:
-    react: ">=16.8.0"
-  checksum: 10/36807a32245ca7d840805bc5e727951584cb40304331374b27e7b49ba77e820262ecaac90f6d0f1931991f7c9d3b6050cb89384a446812a4463ce890b1547332
   languageName: node
   linkType: hard
 
