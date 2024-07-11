@@ -21,7 +21,7 @@ export const CloseDrawerButton = ({ header }: CloseDrawerButtonProps) => {
   const showInWalletHeader = header === 'wallet' && subvariant !== 'split';
 
   return showInNavigationHeader || showInWalletHeader ? (
-    <Tooltip title={t('button.close')} enterDelay={400} arrow>
+    <Tooltip title={t('button.close')}>
       <IconButton size="medium" onClick={closeDrawer}>
         <CloseRounded />
       </IconButton>

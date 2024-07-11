@@ -126,7 +126,6 @@ const ExchangeRateBottomSheetContent: React.FC<
             value: formatTokenAmount(
               BigInt(data.oldToAmount),
               data.toToken.decimals,
-              5,
             ),
           })}{' '}
           {data?.toToken.symbol}
@@ -139,7 +138,6 @@ const ExchangeRateBottomSheetContent: React.FC<
             value: formatTokenAmount(
               BigInt(data?.newToAmount),
               data?.toToken.decimals,
-              5,
             ),
           })}{' '}
           {data?.toToken.symbol}

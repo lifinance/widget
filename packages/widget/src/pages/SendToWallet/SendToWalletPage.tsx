@@ -217,7 +217,7 @@ export const SendToWalletPage = () => {
           >
             {t('button.done')}
           </ButtonTertiary>
-          <Tooltip title={t('button.bookmark')} arrow>
+          <Tooltip title={t('button.bookmark')}>
             <SendToWalletIconButton
               onClick={handleBookmarkAddress}
               loading={isBookmarkButtonLoading}

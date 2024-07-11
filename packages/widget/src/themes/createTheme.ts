@@ -347,6 +347,12 @@ export const createTheme = (
         },
       },
       MuiTooltip: {
+        defaultProps: {
+          enterDelay: 400,
+          disableInteractive: true,
+          arrow: true,
+          placement: 'top',
+        },
         styleOverrides: {
           tooltip: ({ theme }) => ({
             backgroundColor: 'rgb(0 0 0 / 64%)',

@@ -9,6 +9,7 @@ import { CardTitle } from '../../components/Card/CardTitle.js';
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js';
 import { PageContainer } from '../../components/PageContainer.js';
 import { getStepList } from '../../components/Step/StepList.js';
+import { TransactionDetails } from '../../components/TransactionDetails.js';
 import { useHeader } from '../../hooks/useHeader.js';
 import { useNavigateBack } from '../../hooks/useNavigateBack.js';
 import { useTools } from '../../hooks/useTools.js';
@@ -32,7 +33,7 @@ export const TransactionDetailsPage: React.FC = () => {
   );
 
   const { transaction, isLoading } = useTransactionDetails(
-    state?.transactionHash,
+    !storedRouteExecution && state?.transactionHash,
   );
 
   const title =
@@ -93,14 +94,14 @@ export const TransactionDetailsPage: React.FC = () => {
         pb={1}
       >
         <Typography fontSize={12}>
-          {new Intl.DateTimeFormat(i18n.language, {
+          {startedAt.toLocaleString(i18n.language, {
             dateStyle: 'long',
-          }).format(startedAt)}
+          })}
         </Typography>
         <Typography fontSize={12}>
-          {new Intl.DateTimeFormat(i18n.language, {
+          {startedAt.toLocaleString(i18n.language, {
             timeStyle: 'short',
-          }).format(startedAt)}
+          })}
         </Typography>
       </Box>
       {getStepList(routeExecution?.route, subvariant)}
@@ -108,6 +109,12 @@ export const TransactionDetailsPage: React.FC = () => {
         <ContractComponent sx={{ marginTop: 2 }}>
           {contractSecondaryComponent}
         </ContractComponent>
+      ) : null}
+      {routeExecution?.route ? (
+        <TransactionDetails
+          route={routeExecution?.route}
+          sx={{ marginTop: 2 }}
+        />
       ) : null}
       <Card sx={{ marginTop: 2 }}>
         <Box

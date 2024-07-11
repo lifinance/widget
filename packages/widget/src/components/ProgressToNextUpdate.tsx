@@ -52,9 +52,6 @@ export const ProgressToNextUpdate: React.FC<
             components={[<br />]}
           />
         }
-        placement="top"
-        enterDelay={400}
-        arrow
       >
         <Box
           sx={{

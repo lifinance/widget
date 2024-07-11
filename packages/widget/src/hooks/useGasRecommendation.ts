@@ -41,5 +41,6 @@ export const useGasRecommendation = (
     },
     enabled: checkRecommendationLiFuel || checkRecommendationMaxButton,
     refetchInterval,
+    staleTime: refetchInterval,
   });
 };

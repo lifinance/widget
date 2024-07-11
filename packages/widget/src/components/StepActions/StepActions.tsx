@@ -26,7 +26,6 @@ import {
   StepLabel,
   StepLabelTypography,
 } from './StepActions.style.js';
-import { StepFeeBreakdown } from './StepFeeBreakdown.js';
 import { StepFees } from './StepFees.js';
 import type {
   IncludedStepsProps,
@@ -74,22 +73,21 @@ export const StepActions: React.FC<StepActionsProps> = ({
         </Badge>
         <Box flex={1}>
           <Typography fontSize={18} fontWeight={600} lineHeight={1.3334} ml={2}>
-            {t(`main.stepDetails`, {
-              tool: toolDetails.name,
-            })}
+            {toolDetails.name?.includes('LI.FI')
+              ? toolDetails.name
+              : t(`main.stepDetails`, {
+                  tool: toolDetails.name,
+                })}
           </Typography>
-          <Collapse
-            timeout={225}
-            in={dense && !cardExpanded}
-            mountOnEnter
-            unmountOnExit
-          >
-            <StepFees ml={2} step={step} />
-          </Collapse>
+          <StepFees ml={2} step={step} />
         </Box>
         {dense ? (
           <CardIconButton onClick={handleExpand} size="small">
-            {cardExpanded ? <ExpandLess /> : <ExpandMore />}
+            {cardExpanded ? (
+              <ExpandLess fontSize="inherit" />
+            ) : (
+              <ExpandMore fontSize="inherit" />
+            )}
           </CardIconButton>
         ) : null}
       </Box>
@@ -100,7 +98,6 @@ export const StepActions: React.FC<StepActionsProps> = ({
             subvariant={subvariant}
             subvariantOptions={subvariantOptions}
           />
-          <StepFeeBreakdown step={step} />
         </Collapse>
       ) : (
         <IncludedSteps

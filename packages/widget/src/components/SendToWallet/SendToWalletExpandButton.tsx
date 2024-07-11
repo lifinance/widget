@@ -41,12 +41,7 @@ export const SendToWalletExpandButton: React.FC = () => {
   };
 
   return (
-    <Tooltip
-      title={t('main.sendToWallet')}
-      placement="bottom-end"
-      enterDelay={400}
-      arrow
-    >
+    <Tooltip title={t('main.sendToWallet')} placement="bottom-end">
       <Button
         variant={isActive ? 'contained' : 'text'}
         onClick={handleClick}

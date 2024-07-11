@@ -9,7 +9,7 @@ export const TransactionHistoryButton = () => {
   const { navigate } = useNavigateBack();
 
   return (
-    <Tooltip title={t(`header.transactionHistory`)} enterDelay={400} arrow>
+    <Tooltip title={t(`header.transactionHistory`)}>
       <IconButton
         size="medium"
         onClick={() => navigate(navigationRoutes.transactionHistory)}

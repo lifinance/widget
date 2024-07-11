@@ -29,7 +29,7 @@ const ThemeTab: React.FC<ThemeTabProps> = ({
   Icon,
   ...props
 }) => (
-  <Tooltip title={title} arrow>
+  <Tooltip title={title}>
     <Tab icon={Icon} value={value} {...props} disableRipple />
   </Tooltip>
 );

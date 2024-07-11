@@ -12,19 +12,27 @@ export const getStepList = (
     const lastIndex = steps.length - 1;
     const fromToken: TokenAmount | undefined =
       index === 0
-        ? { ...step.action.fromToken, amount: BigInt(step.action.fromAmount) }
-        : undefined;
-    const toToken: TokenAmount | undefined =
-      index === lastIndex
         ? {
-            ...(step.execution?.toToken ?? step.action?.toToken),
-            amount: step.execution?.toAmount
-              ? BigInt(step.execution.toAmount)
-              : subvariant === 'custom'
-                ? BigInt(route.toAmount)
-                : BigInt(step.estimate.toAmount),
+            ...step.action.fromToken,
+            amount: BigInt(step.action.fromAmount),
           }
         : undefined;
+    let toToken: TokenAmount | undefined;
+    let impactToken: TokenAmount | undefined;
+    if (index === lastIndex) {
+      toToken = {
+        ...(step.execution?.toToken ?? step.action.toToken),
+        amount: step.execution?.toAmount
+          ? BigInt(step.execution.toAmount)
+          : subvariant === 'custom'
+            ? BigInt(route.toAmount)
+            : BigInt(step.estimate.toAmount),
+      };
+      impactToken = {
+        ...steps[0].action.fromToken,
+        amount: BigInt(steps[0].action.fromAmount),
+      };
+    }
     const toAddress =
       index === lastIndex && route.fromAddress !== route.toAddress
         ? route.toAddress
@@ -35,6 +43,7 @@ export const getStepList = (
           step={step}
           fromToken={fromToken}
           toToken={toToken}
+          impactToken={impactToken}
           toAddress={toAddress}
         />
         {steps.length > 1 && index !== steps.length - 1 ? (

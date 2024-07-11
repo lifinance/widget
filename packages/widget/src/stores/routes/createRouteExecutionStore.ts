@@ -18,7 +18,7 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
     persist(
       (set, get) => ({
         routes: {},
-        setExecutableRoute: (route: Route) => {
+        setExecutableRoute: (route: Route, observableRouteIds?: string[]) => {
           if (!get().routes[route.id]) {
             set((state: RouteExecutionState) => {
               const routes = { ...state.routes };
@@ -26,10 +26,11 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
               Object.keys(routes)
                 .filter(
                   (routeId) =>
-                    hasEnumFlag(
-                      routes[routeId]!.status,
-                      RouteExecutionStatus.Idle,
-                    ) ||
+                    (!observableRouteIds?.includes(routeId) &&
+                      hasEnumFlag(
+                        routes[routeId]!.status,
+                        RouteExecutionStatus.Idle,
+                      )) ||
                     hasEnumFlag(
                       routes[routeId]!.status,
                       RouteExecutionStatus.Done,

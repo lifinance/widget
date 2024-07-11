@@ -17,8 +17,9 @@ export const Step: React.FC<{
   step: LiFiStepExtended;
   fromToken?: TokenAmount;
   toToken?: TokenAmount;
+  impactToken?: TokenAmount;
   toAddress?: string;
-}> = ({ step, fromToken, toToken, toAddress }) => {
+}> = ({ step, fromToken, toToken, impactToken, toAddress }) => {
   const { t } = useTranslation();
   const { getChainById } = useAvailableChains();
   const { subvariant } = useWidgetConfig();
@@ -89,7 +90,15 @@ export const Step: React.FC<{
             toAddressLink={toAddressLink}
           />
         ) : null}
-        {toToken ? <Token token={toToken} px={2} py={1} /> : null}
+        {toToken ? (
+          <Token
+            token={toToken}
+            impactToken={impactToken}
+            enableImpactTokenTooltip
+            px={2}
+            py={1}
+          />
+        ) : null}
       </Box>
     </Card>
   );
