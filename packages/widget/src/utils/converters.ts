@@ -8,6 +8,7 @@ import type {
   TokenAmount,
   ToolsResponse,
 } from '@lifi/sdk';
+import { v4 as uuidv4 } from 'uuid';
 import { formatUnits } from 'viem';
 import type { RouteExecution } from '../stores/routes/types.js';
 
@@ -93,21 +94,11 @@ export const buildRouteFromTxHistory = (
   const fromToken: TokenAmount = {
     ...sending.token,
     amount: BigInt(sending.amount ?? 0),
-    priceUSD: sending.amountUSD ?? '0',
-    symbol: sending.token?.symbol ?? '',
-    decimals: sending.token?.decimals ?? 0,
-    name: sending.token?.name ?? '',
-    chainId: sending.token?.chainId,
   };
 
   const toToken: TokenAmount = {
     ...receiving.token,
     amount: BigInt(receiving.amount ?? 0),
-    priceUSD: receiving.amountUSD ?? '0',
-    symbol: receiving.token?.symbol ?? '',
-    decimals: receiving.token?.decimals ?? 0,
-    name: receiving.token?.name ?? '',
-    chainId: receiving.token?.chainId,
   };
 
   const sendingValue = sending.value ? BigInt(sending.value) : 0n;
@@ -154,7 +145,7 @@ export const buildRouteFromTxHistory = (
       gasCostUSD: sending.gasAmountUSD,
       steps: [
         {
-          id: '',
+          id: uuidv4(),
           type: 'lifi',
           tool: tx.tool,
           toolDetails: usedTool,
@@ -204,7 +195,7 @@ export const buildRouteFromTxHistory = (
               toolDetails: usedTool,
             },
           ],
-          integrator: '',
+          integrator: tx.metadata?.integrator ?? '',
           execution: {
             status: 'DONE', // can be FAILED
             process: buildProcessFromTxHistory(tx),

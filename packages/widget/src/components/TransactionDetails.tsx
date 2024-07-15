@@ -10,7 +10,11 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { isRouteDone } from '../stores/routes/utils.js';
 import { getFeeCostsBreakdown, getGasCostsBreakdown } from '../utils/fees.js';
-import { formatTokenAmount } from '../utils/format.js';
+import {
+  convertToSubscriptFormat,
+  formatTokenAmount,
+  formatTokenPrice,
+} from '../utils/format.js';
 import { Card } from './Card/Card.js';
 import { CardIconButton } from './Card/CardIconButton.js';
 import { FeeBreakdownTooltip } from './FeeBreakdownTooltip.js';
@@ -43,6 +47,32 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
     0,
   );
   const fees = gasCostUSD + feeCostUSD;
+
+  const fromTokenAmount = formatTokenAmount(
+    BigInt(route.fromAmount),
+    route.fromToken.decimals,
+  );
+  const fromTokenPrice = formatTokenPrice(
+    fromTokenAmount,
+    route.fromToken.priceUSD,
+  );
+  const toTokenAmount = formatTokenAmount(
+    BigInt(route.toAmount),
+    route.toToken.decimals,
+  );
+  const toTokenPrice =
+    formatTokenPrice(toTokenAmount, route.toToken.priceUSD) || 0.01;
+
+  const impact = (toTokenPrice / fromTokenPrice - 1) * 100;
+
+  const priceImpact = convertToSubscriptFormat(impact, {
+    notation: 'standard',
+    roundingPriority: 'morePrecision',
+    maximumSignificantDigits: 2,
+    maximumFractionDigits: 2,
+    useGrouping: false,
+    roundingMode: 'trunc',
+  });
 
   return (
     <Card selectionColor="secondary" {...props}>
@@ -112,6 +142,12 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
               </FeeBreakdownTooltip>
             </Box>
           ) : null}
+          <Box display="flex" justifyContent="space-between" mb={0.5}>
+            <Typography variant="body2">{t('main.priceImpact')}</Typography>
+            <Tooltip title={t('tooltip.priceImpact')} sx={{ cursor: 'help' }}>
+              <Typography variant="body2">{priceImpact}%</Typography>
+            </Tooltip>
+          </Box>
           {!isRouteDone(route) ? (
             <>
               <Box display="flex" justifyContent="space-between" mb={0.5}>
