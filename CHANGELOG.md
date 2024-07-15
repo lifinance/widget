@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/lifinance/widget/compare/v3.0.2...v3.1.0) (2024-07-15)
+
+
+### Features
+
+* add price impact to transaction details ([#273](https://github.com/lifinance/widget/issues/273)) ([d983b91](https://github.com/lifinance/widget/commit/d983b91d697b45803e67d06dc92fbcf3f5b82d0f))
+* improve review page with route tracker, added new fee card and improved route card ([#268](https://github.com/lifinance/widget/issues/268)) ([258c5d3](https://github.com/lifinance/widget/commit/258c5d32cad0e7f306e49288f03921264bdcef73))
+
+
+### Bug Fixes
+
+* adjust partial transfer message ([#274](https://github.com/lifinance/widget/issues/274)) ([0354930](https://github.com/lifinance/widget/commit/0354930c2036a18c50687c86372b43674b0b24ce))
+* import for common js lib react-timer-hook ([#269](https://github.com/lifinance/widget/issues/269)) ([f8075fd](https://github.com/lifinance/widget/commit/f8075fd2678e53e3e1db5d2b9e8f2708919a0ae0))
+* json assertions ([#267](https://github.com/lifinance/widget/issues/267)) ([1c0c157](https://github.com/lifinance/widget/commit/1c0c15781ca04ddd059d53324f09ac2b27832d5a))
+* remove wagmi warnings ([#271](https://github.com/lifinance/widget/issues/271)) ([6048ef0](https://github.com/lifinance/widget/commit/6048ef022d50ec4ffa35b47aa602bfe851e52a20))
+
 ### [3.0.2](https://github.com/lifinance/widget/compare/v3.0.0...v3.0.2) (2024-07-08)
 
 
