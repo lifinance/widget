@@ -90,7 +90,7 @@
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": "We've tried to complete the transaction, but {{tool}} ran out of liquidity for {{tokenSymbol}} token.",
+      "exchangePartiallySuccessful": "We've tried to complete the transaction, but {{tool}} couldn't proceed due to either slippage settings or lack of liquidity for the {{tokenSymbol}} token.",
       "exchangeSuccessful": "There are now {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} in {{walletAddress}} wallet on {{chainName}} chain.",
       "purchaseSuccessful": "You now own {{assetName}} in {{walletAddress}} wallet on {{chainName}} chain."
     },
