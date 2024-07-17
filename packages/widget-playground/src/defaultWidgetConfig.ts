@@ -39,7 +39,7 @@ export const widgetBaseConfig: WidgetConfig = {
   // requiredUI: ['toAddress'],
   // slippage: 0.003,
   sdkConfig: {
-    apiUrl: 'https://develop.li.quest/v1',
+    apiUrl: 'https://staging.li.quest/v1',
     rpcUrls: {
       [ChainId.SOL]: [
         'https://chaotic-restless-putty.solana-mainnet.quiknode.pro/',
