@@ -46,7 +46,7 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "^3.0.1",
+    "@lifi/sdk": "^3.0.2-beta.0",
     "@solana/wallet-adapter-base": "^0.9.23",
     "react": "^18.3.1",
     "viem": "^2.17.4",

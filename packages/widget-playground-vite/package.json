@@ -18,7 +18,7 @@
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
-    "@lifi/sdk": "^3.0.1",
+    "@lifi/sdk": "^3.0.2-beta.0",
     "@lifi/wallet-management": "^3.0.1",
     "@lifi/widget": "^3.1.0",
     "@lifi/widget-playground": "^1.0.201",
