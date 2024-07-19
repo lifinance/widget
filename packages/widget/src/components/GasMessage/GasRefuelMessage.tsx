@@ -39,7 +39,7 @@ export const GasRefuelMessage: React.FC<BoxProps> = (props) => {
             flexGrow={1}
           >
             <Typography variant="body2" fontWeight={700}>
-              {t(`info.title.autoRefuel`)}
+              {t(`info.title.autoRefuel`, { chainName: chain?.name ?? '' })}
             </Typography>
             <InfoMessageSwitch
               checked={enabledAutoRefuel}
