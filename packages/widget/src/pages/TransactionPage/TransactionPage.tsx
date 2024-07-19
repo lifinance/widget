@@ -34,7 +34,8 @@ export const TransactionPage: React.FC = () => {
   const { setFieldValue } = useFieldActions();
   const emitter = useWidgetEvents();
   const { navigateBack } = useNavigateBack();
-  const { subvariant, contractSecondaryComponent } = useWidgetConfig();
+  const { subvariant, contractSecondaryComponent, mobileLayout } =
+    useWidgetConfig();
   const { state }: any = useLocation();
   const stateRouteId = state?.routeId;
   const [routeId, setRouteId] = useState<string>(stateRouteId);
@@ -158,17 +159,33 @@ export const TransactionPage: React.FC = () => {
   };
 
   return (
-    <PageContainer bottomGutters>
-      {getStepList(route, subvariant)}
-      {subvariant === 'custom' && contractSecondaryComponent ? (
-        <ContractComponent sx={{ marginTop: 2 }}>
-          {contractSecondaryComponent}
-        </ContractComponent>
-      ) : null}
-      <TransactionDetails route={route} sx={{ marginTop: 2 }} />
+    <PageContainer
+      bottomGutters
+      sx={mobileLayout ? { justifyContent: 'space-between' } : undefined}
+    >
+      <Box>
+        {getStepList(route, subvariant)}
+        {subvariant === 'custom' && contractSecondaryComponent ? (
+          <ContractComponent sx={{ marginTop: 2 }}>
+            {contractSecondaryComponent}
+          </ContractComponent>
+        ) : null}
+        <TransactionDetails route={route} sx={{ marginTop: 2 }} />
+      </Box>
       {status === RouteExecutionStatus.Idle ||
       status === RouteExecutionStatus.Failed ? (
-        <>
+        <Box
+          sx={
+            !mobileLayout
+              ? {
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  flex: 1,
+                }
+              : undefined
+          }
+        >
           <GasMessage mt={2} route={route} />
           <Box mt={2} display="flex">
             <StartTransactionButton
@@ -194,7 +211,7 @@ export const TransactionPage: React.FC = () => {
               </Tooltip>
             ) : null}
           </Box>
-        </>
+        </Box>
       ) : null}
       {status ? <StatusBottomSheet status={status} route={route} /> : null}
       {tokenValueLossThresholdExceeded && subvariant !== 'custom' ? (

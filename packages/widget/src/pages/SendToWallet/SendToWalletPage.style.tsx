@@ -1,6 +1,7 @@
 import {
   Alert,
   Box,
+  type BoxProps,
   IconButton,
   List,
   Typography,
@@ -92,21 +93,27 @@ export const SheetAddressContainer = styled(Box)(() => ({
 export const ListContainer = styled(List)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  minHeight: 400,
   paddingTop: 0,
   paddingBottom: theme.spacing(1.5),
+  minHeight: 400,
 }));
 
-export const BookmarkButtonContainer = styled(Box)(({ theme }) => ({
+interface BookmarkButtonContainerProps extends BoxProps {
+  mobileLayout?: boolean;
+}
+
+export const BookmarkButtonContainer = styled(
+  Box,
+)<BookmarkButtonContainerProps>(({ theme, mobileLayout }) => ({
   background: theme.palette.background.default,
   display: 'flex',
   flexDirection: 'column',
-  flexGrow: 1,
-  position: 'sticky',
   bottom: 0,
   padding: theme.spacing(0, 3, 3),
-  marginBottom: theme.spacing(-5.25),
   zIndex: 2,
+  ...(mobileLayout
+    ? { position: 'absolute', width: '100%' }
+    : { flexGrow: 1, position: 'sticky', marginBottom: theme.spacing(-5.25) }),
 }));
 
 export const EmptyContainer = styled(Box)(({ theme }) => ({

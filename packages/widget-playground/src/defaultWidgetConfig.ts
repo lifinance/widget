@@ -206,6 +206,7 @@ export const widgetBaseConfig: WidgetConfig = {
 export const defaultWidgetConfig: Partial<WidgetConfig> = {
   ...widgetBaseConfig,
   appearance: 'auto',
+  mobileLayout: true,
   theme: {
     palette: {
       primary: {
@@ -219,8 +220,11 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
       fontFamily: 'Inter, sans-serif',
     },
     container: {
+      // paddingTop: 80,
+      // boxSizing: 'border-box',
+      height: '100vh',
       boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
-      borderRadius: '16px',
+      // borderRadius: '16px',
     },
   },
 } as WidgetConfig;

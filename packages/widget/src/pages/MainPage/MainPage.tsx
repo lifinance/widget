@@ -20,7 +20,8 @@ import { ReviewButton } from './ReviewButton.js';
 export const MainPage: React.FC = () => {
   const { t } = useTranslation();
   const wideVariant = useWideVariant();
-  const { subvariant, contractComponent, hiddenUI } = useWidgetConfig();
+  const { subvariant, contractComponent, hiddenUI, mobileLayout } =
+    useWidgetConfig();
   const custom = subvariant === 'custom';
   const showPoweredBy = !hiddenUI?.includes(HiddenUI.PoweredBy);
 
@@ -33,26 +34,42 @@ export const MainPage: React.FC = () => {
   useHeader(title);
 
   return (
-    <PageContainer>
-      <ActiveTransactions sx={{ marginBottom: 2 }} />
-      {custom ? (
-        <ContractComponent sx={{ marginBottom: 2 }}>
-          {contractComponent}
-        </ContractComponent>
-      ) : null}
-      <SelectChainAndToken mb={2} />
-      {!custom ? (
-        <AmountInput formType="from" sx={{ marginBottom: 2 }} />
-      ) : null}
-      {!wideVariant ? <Routes sx={{ marginBottom: 2 }} /> : null}
-      <SendToWalletButton sx={{ marginBottom: 2 }} />
-      <GasRefuelMessage mb={2} />
-      <MainMessages mb={2} />
-      <Box display="flex" mb={showPoweredBy ? 1 : 3} gap={1.5}>
-        <ReviewButton />
-        <SendToWalletExpandButton />
+    <PageContainer
+      sx={mobileLayout ? { justifyContent: 'space-between' } : undefined}
+    >
+      <Box>
+        <ActiveTransactions sx={{ marginBottom: 2 }} />
+        {custom ? (
+          <ContractComponent sx={{ marginBottom: 2 }}>
+            {contractComponent}
+          </ContractComponent>
+        ) : null}
+        <SelectChainAndToken mb={2} />
+        {!custom ? (
+          <AmountInput formType="from" sx={{ marginBottom: 2 }} />
+        ) : null}
+        {!wideVariant ? <Routes sx={{ marginBottom: 2 }} /> : null}
+        <SendToWalletButton sx={{ marginBottom: 2 }} />
+        <GasRefuelMessage mb={2} />
+        <MainMessages mb={2} />
       </Box>
-      {showPoweredBy ? <PoweredBy /> : null}
+      <Box
+        sx={
+          !mobileLayout
+            ? {
+                display: 'flex',
+                flexDirection: 'column',
+                flex: 1,
+              }
+            : undefined
+        }
+      >
+        <Box display="flex" mb={showPoweredBy ? 1 : 3} gap={1.5}>
+          <ReviewButton />
+          <SendToWalletExpandButton />
+        </Box>
+        {showPoweredBy ? <PoweredBy /> : null}
+      </Box>
     </PageContainer>
   );
 };

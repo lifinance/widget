@@ -25,7 +25,8 @@ import { TransactionDetailsSkeleton } from './TransactionDetailsSkeleton.js';
 export const TransactionDetailsPage: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { navigate } = useNavigateBack();
-  const { subvariant, contractSecondaryComponent } = useWidgetConfig();
+  const { subvariant, contractSecondaryComponent, mobileLayout } =
+    useWidgetConfig();
   const { state }: any = useLocation();
   const { tools } = useTools();
   const storedRouteExecution = useRouteExecutionStore(
@@ -84,64 +85,70 @@ export const TransactionDetailsPage: React.FC = () => {
   return isLoading && !storedRouteExecution ? (
     <TransactionDetailsSkeleton />
   ) : (
-    <PageContainer bottomGutters>
-      <Box
-        sx={{
-          display: 'flex',
-          flex: 1,
-          justifyContent: 'space-between',
-        }}
-        pb={1}
-      >
-        <Typography fontSize={12}>
-          {startedAt.toLocaleString(i18n.language, {
-            dateStyle: 'long',
-          })}
-        </Typography>
-        <Typography fontSize={12}>
-          {startedAt.toLocaleString(i18n.language, {
-            timeStyle: 'short',
-          })}
-        </Typography>
-      </Box>
-      {getStepList(routeExecution?.route, subvariant)}
-      {subvariant === 'custom' && contractSecondaryComponent ? (
-        <ContractComponent sx={{ marginTop: 2 }}>
-          {contractSecondaryComponent}
-        </ContractComponent>
-      ) : null}
-      {routeExecution?.route ? (
-        <TransactionDetails
-          route={routeExecution?.route}
-          sx={{ marginTop: 2 }}
-        />
-      ) : null}
-      <Card sx={{ marginTop: 2 }}>
+    <PageContainer
+      bottomGutters
+      sx={mobileLayout ? { justifyContent: 'space-between' } : {}}
+    >
+      <Box>
         <Box
           sx={{
             display: 'flex',
-            flex: 1,
+            justifyContent: 'space-between',
           }}
+          pb={1}
         >
-          <CardTitle flex={1}>{t('main.supportId')}</CardTitle>
-          <Box mr={1} mt={1}>
-            <IconButton size="medium" onClick={copySupportId}>
-              <ContentCopyRounded fontSize="small" />
-            </IconButton>
-          </Box>
+          <Typography fontSize={12}>
+            {startedAt.toLocaleString(i18n.language, {
+              dateStyle: 'long',
+            })}
+          </Typography>
+          <Typography fontSize={12}>
+            {startedAt.toLocaleString(i18n.language, {
+              timeStyle: 'short',
+            })}
+          </Typography>
         </Box>
-        <Typography
-          variant="body2"
-          pt={1}
-          pb={2}
-          px={2}
-          sx={{ wordBreak: 'break-all' }}
-        >
-          {supportId}
-        </Typography>
-      </Card>
-      <Box mt={2}>
-        <ContactSupportButton supportId={supportId} />
+        {getStepList(routeExecution?.route, subvariant)}
+        {subvariant === 'custom' && contractSecondaryComponent ? (
+          <ContractComponent sx={{ marginTop: 2 }}>
+            {contractSecondaryComponent}
+          </ContractComponent>
+        ) : null}
+        {routeExecution?.route ? (
+          <TransactionDetails
+            route={routeExecution?.route}
+            sx={{ marginTop: 2 }}
+          />
+        ) : null}
+      </Box>
+      <Box>
+        <Card sx={{ marginTop: 2 }}>
+          <Box
+            sx={{
+              display: 'flex',
+              flex: 1,
+            }}
+          >
+            <CardTitle flex={1}>{t('main.supportId')}</CardTitle>
+            <Box mr={1} mt={1}>
+              <IconButton size="medium" onClick={copySupportId}>
+                <ContentCopyRounded fontSize="small" />
+              </IconButton>
+            </Box>
+          </Box>
+          <Typography
+            variant="body2"
+            pt={1}
+            pb={2}
+            px={2}
+            sx={{ wordBreak: 'break-all' }}
+          >
+            {supportId}
+          </Typography>
+        </Card>
+        <Box mt={2}>
+          <ContactSupportButton supportId={supportId} />
+        </Box>
       </Box>
     </PageContainer>
   );

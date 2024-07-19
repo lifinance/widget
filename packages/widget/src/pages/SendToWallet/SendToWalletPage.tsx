@@ -1,5 +1,5 @@
 import { Error, History, TurnedIn, Wallet } from '@mui/icons-material';
-import { Tooltip, Typography } from '@mui/material';
+import { Box, Tooltip, Typography } from '@mui/material';
 import type { ChangeEvent } from 'react';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -15,6 +15,7 @@ import {
 import { useChain } from '../../hooks/useChain.js';
 import { useHeader } from '../../hooks/useHeader.js';
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import type { Bookmark } from '../../stores/bookmarks/types.js';
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
 import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js';
@@ -35,6 +36,7 @@ import {
 export const SendToWalletPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { mobileLayout } = useWidgetConfig();
   const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null);
   const confirmAddressSheetRef = useRef<BottomSheetBase>(null);
   const { bookmarks, recentWallets } = useBookmarks();
@@ -181,7 +183,10 @@ export const SendToWalletPage = () => {
   });
 
   return (
-    <SendToWalletPageContainer bottomGutters>
+    <SendToWalletPageContainer
+      bottomGutters
+      sx={mobileLayout ? { justifyContent: 'space-between' } : undefined}
+    >
       <SendToWalletCard
         type={errorMessage ? 'error' : 'default'}
         sx={{
@@ -238,35 +243,39 @@ export const SendToWalletPage = () => {
           onAddBookmark={handleAddBookmark}
         />
       </SendToWalletCard>
-      <CardButton
-        title={t('header.recentWallets')}
-        icon={<History />}
-        onClick={handleRecentWalletsClick}
-      >
-        {!!recentWallets.length && (
-          <Typography color="text.secondary">{recentWallets.length}</Typography>
-        )}
-      </CardButton>
-      <CardButton
-        title={t('sendToWallet.connectedWallets')}
-        icon={<Wallet />}
-        onClick={handleConnectedWalletsClick}
-      >
-        {!!connectedWallets.length && (
-          <Typography color="text.secondary">
-            {connectedWallets.length}
-          </Typography>
-        )}
-      </CardButton>
-      <CardButton
-        title={t('header.bookmarkedWallets')}
-        icon={<TurnedIn />}
-        onClick={handleBookmarkedWalletsClick}
-      >
-        {!!bookmarks.length && (
-          <Typography color="text.secondary">{bookmarks.length}</Typography>
-        )}
-      </CardButton>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+        <CardButton
+          title={t('header.recentWallets')}
+          icon={<History />}
+          onClick={handleRecentWalletsClick}
+        >
+          {!!recentWallets.length && (
+            <Typography color="text.secondary">
+              {recentWallets.length}
+            </Typography>
+          )}
+        </CardButton>
+        <CardButton
+          title={t('sendToWallet.connectedWallets')}
+          icon={<Wallet />}
+          onClick={handleConnectedWalletsClick}
+        >
+          {!!connectedWallets.length && (
+            <Typography color="text.secondary">
+              {connectedWallets.length}
+            </Typography>
+          )}
+        </CardButton>
+        <CardButton
+          title={t('header.bookmarkedWallets')}
+          icon={<TurnedIn />}
+          onClick={handleBookmarkedWalletsClick}
+        >
+          {!!bookmarks.length && (
+            <Typography color="text.secondary">{bookmarks.length}</Typography>
+          )}
+        </CardButton>
+      </Box>
     </SendToWalletPageContainer>
   );
 };

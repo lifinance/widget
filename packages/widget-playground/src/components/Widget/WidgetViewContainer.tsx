@@ -48,7 +48,11 @@ export function WidgetViewContainer({
             <ToggleDrawerButton onClick={toggleDrawer} />
           ) : null}
         </FloatingToolsContainer>
-        <WidgetContainer>{children}</WidgetContainer>
+        <WidgetContainer
+          mobileView={config?.theme?.container?.height === '100vh'}
+        >
+          {children}
+        </WidgetContainer>
       </ExternalWalletProvider>
     </Main>
   );

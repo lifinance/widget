@@ -1,4 +1,4 @@
-import type { Theme } from '@mui/material';
+import type { BoxProps, Theme } from '@mui/material';
 import {
   Box,
   Button,
@@ -17,13 +17,22 @@ export const FloatingToolsContainer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(3),
 }));
 
-export const WidgetContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexGrow: 1,
-  alignItems: 'center',
-  justifyContent: 'center',
-  paddingTop: theme.spacing(6),
-}));
+interface WidgetContainerProps extends BoxProps {
+  mobileView: boolean;
+}
+
+export const WidgetContainer = styled(Box)<WidgetContainerProps>(({
+  theme,
+  mobileView,
+}) => {
+  return {
+    display: 'flex',
+    flexGrow: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: mobileView ? 0 : theme.spacing(6),
+  };
+});
 
 const floatingToolButtonColors = (theme: Theme) => ({
   color: theme.palette.text.primary,
