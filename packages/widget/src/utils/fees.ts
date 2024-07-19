@@ -1,4 +1,5 @@
 import type { FeeCost, GasCost, RouteExtended, Token } from '@lifi/sdk';
+import { formatUnits } from 'viem';
 
 export interface FeesBreakdown {
   amount: bigint;
@@ -85,7 +86,12 @@ export const getStepFeeCostsBreakdown = (
     0n,
   );
   const amountUSD = feeCosts.reduce(
-    (amount, feeCost) => amount + parseFloat(feeCost.amountUSD || '0'),
+    (amount, feeCost) =>
+      amount +
+      parseFloat(feeCost.token.priceUSD || '0') *
+        parseFloat(
+          formatUnits(BigInt(feeCost.amount || 0), feeCost.token.decimals),
+        ),
     0,
   );
   return {
