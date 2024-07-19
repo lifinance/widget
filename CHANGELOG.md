@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.2.0](https://github.com/lifinance/widget/compare/v3.1.1...v3.2.0) (2024-07-19)
+
+
+### Features
+
+* bump sdk ([b85059f](https://github.com/lifinance/widget/commit/b85059f4bb265b305c887601442dcc6f368bc193))
+
 ### [3.1.1](https://github.com/lifinance/widget/compare/v3.1.0...v3.1.1) (2024-07-19)
 
 
