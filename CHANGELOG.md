@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.1](https://github.com/lifinance/widget/compare/v3.1.0...v3.1.1) (2024-07-19)
+
+
+### Bug Fixes
+
+* add new error messages for Solana ([3370507](https://github.com/lifinance/widget/commit/3370507fb0f8132fd1c298fe1439916cebc99f67))
+* adjust fees amount USD calculation ([d479ecd](https://github.com/lifinance/widget/commit/d479ecda93e61c45a6ba6ffe7b28eaa55fadebc8))
+* adjust get gas title ([ccc11e1](https://github.com/lifinance/widget/commit/ccc11e1cd036f99df6b9f28472455080babd560a))
+* adjust step connector color ([f8694cc](https://github.com/lifinance/widget/commit/f8694cc3e60c5be3815b57f0cc742631c90c5e1f))
+
 ## [3.1.0](https://github.com/lifinance/widget/compare/v3.0.2...v3.1.0) (2024-07-15)
 
 
