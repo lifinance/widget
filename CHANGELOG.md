@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.2.1](https://github.com/lifinance/widget/compare/v3.2.0...v3.2.1) (2024-07-22)
+
+
+### Bug Fixes
+
+* add slippage tooltip ([9624fd1](https://github.com/lifinance/widget/commit/9624fd165fb76f698371afd7569854c4a687cece))
+* change send and receive wording ([6585723](https://github.com/lifinance/widget/commit/6585723b8fd9cc88e5e8bad68b1216960d6518f0))
+* refuel variant should show get gas review button ([587bbda](https://github.com/lifinance/widget/commit/587bbda834aed5a5599481d40864797707261c0a))
+* show correct number of available tools ([da893cc](https://github.com/lifinance/widget/commit/da893cc50cdc266850358628524d6ed7c04185c3))
+
 ## [3.2.0](https://github.com/lifinance/widget/compare/v3.1.1...v3.2.0) (2024-07-19)
 
 
