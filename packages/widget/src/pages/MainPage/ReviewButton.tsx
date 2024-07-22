@@ -33,6 +33,8 @@ export const ReviewButton: React.FC = () => {
       switch (subvariant) {
         case 'custom':
           return t(`button.reviewPurchase`);
+        case 'refuel':
+          return t(`button.getGas`);
         default:
           const transactionType =
             currentRoute.fromChainId === currentRoute.toChainId
