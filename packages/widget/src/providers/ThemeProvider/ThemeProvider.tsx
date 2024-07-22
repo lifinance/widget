@@ -15,7 +15,7 @@ export const ThemeProvider: React.FC<React.PropsWithChildren<{}>> = ({
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const [appearance, setAppearance] = useAppearance();
   const [mode, setMode] = useState<PaletteMode>(
-    colorSchemeMode ?? appearance === 'auto'
+    (colorSchemeMode ?? appearance === 'auto')
       ? prefersDarkMode
         ? 'dark'
         : 'light'

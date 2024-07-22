@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { getFeeCostsBreakdown } from '../../utils/fees.js';
 import { FeeBreakdownTooltip } from '../FeeBreakdownTooltip.js';
 import { IconTypography } from '../IconTypography.js';
-import { TokenRate } from '../TokenRate.js';
+import { TokenRate } from '../TokenRate/TokenRate.js';
 import type { RouteCardEssentialsProps } from './types.js';
 
 export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({

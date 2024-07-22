@@ -19,7 +19,7 @@ import { Card } from './Card/Card.js';
 import { CardIconButton } from './Card/CardIconButton.js';
 import { FeeBreakdownTooltip } from './FeeBreakdownTooltip.js';
 import { IconTypography } from './IconTypography.js';
-import { TokenRate } from './TokenRate.js';
+import { TokenRate } from './TokenRate/TokenRate.js';
 
 interface TransactionDetailsProps extends CardProps {
   route: RouteExtended;
