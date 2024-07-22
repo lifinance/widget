@@ -152,9 +152,11 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
             <>
               <Box display="flex" justifyContent="space-between" mb={0.5}>
                 <Typography variant="body2">{t('main.maxSlippage')}</Typography>
-                <Typography variant="body2">
-                  {route.steps[0].action.slippage * 100}%
-                </Typography>
+                <Tooltip title={t('tooltip.slippage')} sx={{ cursor: 'help' }}>
+                  <Typography variant="body2">
+                    {route.steps[0].action.slippage * 100}%
+                  </Typography>
+                </Tooltip>
               </Box>
               <Box display="flex" justifyContent="space-between">
                 <Typography variant="body2">{t('main.minReceived')}</Typography>

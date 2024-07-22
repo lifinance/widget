@@ -165,6 +165,7 @@
     }
   },
   "tooltip": {
+    "deselectAll": "Deselect all",
     "estimatedTime": "Estimated execution time in minutes.",
     "minReceived": "The estimated minimum amount may change until the swapping/bridging transaction is signed. For 2-step transfers, this applies until the second step transaction is signed.",
     "notFound": {
@@ -176,7 +177,7 @@
     "progressToNextUpdate": "Quotes will update in {{value}} seconds. <0/> Click here to update now.",
     "selectAll": "Select all",
     "settingsModified": "Settings (modified)",
-    "deselectAll": "Deselect all"
+    "slippage": "The maximum percentage difference between the expected price, and the actual price at which a transfer is executed. This value can be changed in settings."
   },
   "main": {
     "allTokens": "All tokens",
@@ -277,7 +278,7 @@
       "title": "Gas price"
     },
     "routePriority": "Route priority",
-    "slippage": "Slippage",
+    "slippage": "Max. slippage",
     "custom": "Custom",
     "resetSettings": "You're using custom settings that can affect the number or sorting of available routes."
   },
