@@ -59,17 +59,20 @@
     "payWith": "Pay with",
     "purchase": "Purchase",
     "purchaseDetails": "Purchase details",
+    "receive": "Receive",
     "recentWallets": "Recent wallets",
     "selectChain": "Select chain",
     "selectWallet": "Select your wallet",
     "sendToWallet": "Send to wallet",
     "settings": "Settings",
     "swap": "Swap",
+    "send": "Send",
     "to": "Exchange to",
     "transactionDetails": "Transaction details",
     "transactionHistory": "Transaction history",
     "walletConnected": "Wallet connected",
-    "youGet": "You get"
+    "youGet": "You get",
+    "youPay": "You pay"
   },
   "info": {
     "message": {
@@ -193,7 +196,6 @@
       "provider": "Provider fee"
     },
     "from": "From",
-    "fromAmount": "You pay",
     "gasCost": "Gas cost",
     "inProgress": "in progress",
     "maxSlippage": "Max. slippage",

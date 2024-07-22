@@ -48,7 +48,7 @@ export const RoutesPage: React.FC<BoxProps> = () => {
     [dataUpdatedAt, isFetching, refetch, refetchTime],
   );
 
-  useHeader(t(`header.youGet`), headerAction);
+  useHeader(t(`header.receive`), headerAction);
 
   const handleRouteClick = (route: Route) => {
     setReviewableRoute(route);
