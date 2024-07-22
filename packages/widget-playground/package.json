@@ -48,10 +48,10 @@
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react-swc": "^3.7.0",
     "cpy-cli": "^5.0.0",
-    "jsdom": "^24.1.0",
+    "jsdom": "^24.1.1",
     "typescript": "^5.5.3",
     "vite": "^5.3.4",
-    "vitest": "^2.0.3"
+    "vitest": "^2.0.4"
   },
   "exports": {
     ".": "./src/index.ts",
