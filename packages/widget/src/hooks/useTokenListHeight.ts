@@ -2,7 +2,6 @@ import type { MutableRefObject } from 'react';
 import { useLayoutEffect, useState } from 'react';
 import { ElementId, createElementId } from '../utils/elements.js';
 import { useDefaultElementId } from './useDefaultElementId.js';
-import { getScrollableContainer } from './useScrollableContainer.js';
 
 const getContentHeight = (
   elementId: string,
@@ -17,7 +16,7 @@ const getContentHeight = (
   let oldHeight;
 
   // This covers the case where in full height flex mode when the browser height is reduced
-  // - this allows the virtualised token list can be made smaller
+  // - this allows the virtualised token list to be made smaller
   if (listParentElement) {
     oldHeight = listParentElement.style.height;
     listParentElement.style.height = '0';
@@ -36,7 +35,7 @@ const getContentHeight = (
   const { height: headerHeight } = headerElement.getBoundingClientRect();
 
   // This covers the case where in full height flex mode when the browser height is reduced the
-  // - this allows the virtualised token list tobe set to minimum size
+  // - this allows the virtualised token list to be set to minimum size
   if (listParentElement && oldHeight) {
     listParentElement.style.height = oldHeight;
   }
@@ -46,9 +45,15 @@ const getContentHeight = (
 
 interface UseContentHeightProps {
   listParentRef: MutableRefObject<HTMLUListElement | null>;
+  headerRef: MutableRefObject<HTMLElement | null>;
 }
 
-export const useContentHeight = ({ listParentRef }: UseContentHeightProps) => {
+const minTokenListHeight = 360;
+
+export const useTokenListHeight = ({
+  listParentRef,
+  headerRef,
+}: UseContentHeightProps) => {
   const elementId = useDefaultElementId();
   const [contentHeight, setContentHeight] = useState<number>(0);
 
@@ -66,25 +71,8 @@ export const useContentHeight = ({ listParentRef }: UseContentHeightProps) => {
     };
   }, [elementId, listParentRef]);
 
-  return contentHeight;
-};
-
-export const useSetContentHeight = (
-  ref: MutableRefObject<HTMLElement | undefined>,
-) => {
-  const elementId = useDefaultElementId();
-  useLayoutEffect(() => {
-    const scrollableContainer = getScrollableContainer(elementId);
-    if (
-      !scrollableContainer ||
-      !ref.current ||
-      ref.current?.clientHeight <= scrollableContainer?.clientHeight
-    ) {
-      return;
-    }
-    scrollableContainer.style.height = `${ref.current.clientHeight}px`;
-    return () => {
-      scrollableContainer.style.removeProperty('height');
-    };
-  }, [elementId, ref]);
+  return Math.max(
+    contentHeight - (headerRef.current?.offsetHeight ?? 0),
+    minTokenListHeight,
+  );
 };
