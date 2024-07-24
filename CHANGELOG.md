@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.2.2](https://github.com/lifinance/widget/compare/v3.2.1...v3.2.2) (2024-07-24)
+
+
+### Bug Fixes
+
+* allow syncing with mixed chains ([#277](https://github.com/lifinance/widget/issues/277)) ([b32287f](https://github.com/lifinance/widget/commit/b32287fab518e89c90ec5bfd95e0c2781fdc48b0))
+
 ### [3.2.1](https://github.com/lifinance/widget/compare/v3.2.0...v3.2.1) (2024-07-22)
 
 
