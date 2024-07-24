@@ -8,6 +8,7 @@ const getContentHeight = (elementId: string) => {
   const containerElement = document.getElementById(
     createElementId(ElementId.ScrollableContainer, elementId),
   );
+
   const headerElement = document.getElementById(
     createElementId(ElementId.Header, elementId),
   );
@@ -25,10 +26,20 @@ const getContentHeight = (elementId: string) => {
 export const useContentHeight = () => {
   const elementId = useDefaultElementId();
   const [contentHeight, setContentHeight] = useState<number>(0);
+
   useLayoutEffect(() => {
+    const handleResize = () => {
+      setContentHeight(getContentHeight(elementId));
+    };
+
     setContentHeight(getContentHeight(elementId));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [elementId]);
   return contentHeight;
 };
 

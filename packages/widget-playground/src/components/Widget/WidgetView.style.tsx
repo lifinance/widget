@@ -14,7 +14,7 @@ export const FloatingToolsContainer = styled(Box)(({ theme }) => ({
   gap: theme.spacing(2),
   position: 'absolute',
   zIndex: drawerZIndex,
-  padding: theme.spacing(3),
+  padding: theme.spacing(3, 0, 0, 3),
 }));
 
 interface WidgetContainerProps extends BoxProps {
