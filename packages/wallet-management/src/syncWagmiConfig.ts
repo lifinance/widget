@@ -3,17 +3,22 @@ import type { Chain } from 'viem';
 import { mainnet } from 'viem/chains';
 import type { Config, CreateConnectorFn } from 'wagmi';
 import { reconnect } from 'wagmi/actions';
-import { convertExtendedChain } from './utils/convertExtendedChain.js';
+import {
+  convertExtendedChain,
+  isExtendedChain,
+} from './utils/convertExtendedChain.js';
 
 export const syncWagmiConfig = (
   wagmiConfig: Config,
   connectors: CreateConnectorFn[],
-  chains: ExtendedChain[],
+  chains: (ExtendedChain | Chain)[],
 ) => {
-  const _chains = chains.map(convertExtendedChain) as [Chain, ...Chain[]];
+  const _chains = chains.map((chain) =>
+    isExtendedChain(chain) ? convertExtendedChain(chain) : chain,
+  ) as [Chain, ...Chain[]];
   const _mainnet = _chains.find((chain) => chain.id === mainnet.id);
   if (_mainnet) {
-    _mainnet.contracts = mainnet.contracts;
+    _mainnet.contracts = { ...mainnet.contracts, ..._mainnet.contracts };
   }
   wagmiConfig._internal.chains.setState(_chains);
   wagmiConfig._internal.connectors.setState(() =>
