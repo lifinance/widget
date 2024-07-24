@@ -25,8 +25,7 @@ export const RelativeContainer = styled(Box, {
   minWidth: theme.breakpoints.values.xs,
   maxWidth: theme.breakpoints.values.sm,
   maxHeight:
-    variant === 'drawer' ||
-    (theme.container?.display === 'flex' && theme.container?.height === '100%')
+    variant === 'drawer' || theme.container?.display === 'flex'
       ? 'none'
       : theme.container?.height || maxHeight,
   background: theme.palette.background.default,
@@ -46,8 +45,7 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
   margin: 0,
   width: '100%',
   maxHeight:
-    variant === 'drawer' ||
-    (theme.container?.display === 'flex' && theme.container?.height === '100%')
+    variant === 'drawer' || theme.container?.display === 'flex'
       ? 'none'
       : theme.container?.height || maxHeight,
   overflowY: 'auto',

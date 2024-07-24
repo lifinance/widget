@@ -53,6 +53,7 @@ export function WidgetViewContainer({
             config?.theme?.container?.height === '100vh' ||
             config?.theme?.container?.height === '100%'
           }
+          alignTop={config?.theme?.container?.display === 'flex'}
         >
           {children}
         </WidgetContainer>
