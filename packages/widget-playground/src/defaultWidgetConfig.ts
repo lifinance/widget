@@ -220,7 +220,7 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
       fontFamily: 'Inter, sans-serif',
     },
     container: {
-      display: 'flex',
+      // display: 'flex',
       // height: '100%',
       // paddingTop: 80,
       // boxSizing: 'border-box',

@@ -1,7 +1,6 @@
 import {
   Alert,
   Box,
-  type BoxProps,
   IconButton,
   List,
   Typography,
@@ -98,22 +97,15 @@ export const ListContainer = styled(List)(({ theme }) => ({
   minHeight: 400,
 }));
 
-interface BookmarkButtonContainerProps extends BoxProps {
-  mobileLayout?: boolean;
-}
-
-export const BookmarkButtonContainer = styled(
-  Box,
-)<BookmarkButtonContainerProps>(({ theme, mobileLayout }) => ({
+export const BookmarkButtonContainer = styled(Box)(({ theme }) => ({
   background: theme.palette.background.default,
   display: 'flex',
   flexDirection: 'column',
   bottom: 0,
   padding: theme.spacing(0, 3, 3),
   zIndex: 2,
-  ...(mobileLayout
-    ? { position: 'absolute', width: '100%' }
-    : { flexGrow: 1, position: 'sticky', marginBottom: theme.spacing(-5.25) }),
+  position: 'absolute',
+  width: '100%',
 }));
 
 export const EmptyContainer = styled(Box)(({ theme }) => ({

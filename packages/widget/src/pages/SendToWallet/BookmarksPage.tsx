@@ -109,7 +109,7 @@ export const BookmarksPage = () => {
       disableGutters
       sx={mobileLayout ? { justifyContent: 'space-between' } : undefined}
     >
-      <ListContainer>
+      <ListContainer sx={{ minHeight: 440, paddingBottom: 9 }}>
         {bookmarks.map((bookmark) => (
           <ListItem key={bookmark.address} sx={{ position: 'relative' }}>
             <ListItemButton
