@@ -49,7 +49,10 @@ export function WidgetViewContainer({
           ) : null}
         </FloatingToolsContainer>
         <WidgetContainer
-          mobileView={config?.theme?.container?.height === '100vh'}
+          fullHeightView={
+            config?.theme?.container?.height === '100vh' ||
+            config?.theme?.container?.height === '100%'
+          }
         >
           {children}
         </WidgetContainer>

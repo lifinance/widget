@@ -20,7 +20,10 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
   useScrollableOverflowHidden();
   const { navigateBack } = useNavigateBack();
   const headerRef = useRef<HTMLElement>(null);
-  const contentHeight = useContentHeight();
+  const listParentRef = useRef<HTMLUListElement | null>(null);
+  const contentHeight = useContentHeight({ listParentRef });
+
+  // TODO: question: can we move this in to useContentHeightHook
   const [tokenListHeight, setTokenListHeight] = useState(0);
   const swapOnly = useSwapOnly();
 
@@ -35,6 +38,7 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
 
   useHeader(title);
 
+  // TODO: question: can we move this in to useContentHeightHook
   useLayoutEffect(() => {
     setTokenListHeight(
       Math.max(
@@ -55,6 +59,7 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
         </Box>
       </Box>
       <TokenList
+        parentRef={listParentRef}
         height={tokenListHeight}
         onClick={navigateBack}
         formType={formType}

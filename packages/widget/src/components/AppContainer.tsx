@@ -14,6 +14,15 @@ export const AppExpandedContainer = styled(Box, {
   alignItems: 'start',
   flex: 1,
   height: variant === 'drawer' ? 'none' : theme.container?.height || maxHeight,
+  ...(variant !== 'drawer' &&
+  theme.container?.height === 'flex' &&
+  theme.container?.height === '100%'
+    ? {
+        flexDirection: 'column',
+        alignItems: 'center',
+        height: '100%',
+      }
+    : {}),
 }));
 
 export const RelativeContainer = styled(Box, {
@@ -25,7 +34,10 @@ export const RelativeContainer = styled(Box, {
   minWidth: theme.breakpoints.values.xs,
   maxWidth: theme.breakpoints.values.sm,
   maxHeight:
-    variant === 'drawer' ? 'none' : theme.container?.height || maxHeight,
+    variant === 'drawer' ||
+    (theme.container?.height === 'flex' && theme.container?.height === '100%')
+      ? 'none'
+      : theme.container?.height || maxHeight,
   background: theme.palette.background.default,
   overflow: 'auto',
   flex: 1,
@@ -43,7 +55,10 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
   margin: 0,
   width: '100%',
   maxHeight:
-    variant === 'drawer' ? 'none' : theme.container?.height || maxHeight,
+    variant === 'drawer' ||
+    (theme.container?.height === 'flex' && theme.container?.height === '100%')
+      ? 'none'
+      : theme.container?.height || maxHeight,
   overflowY: 'auto',
   height: '100%',
 }));
