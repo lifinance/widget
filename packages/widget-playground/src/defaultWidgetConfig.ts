@@ -206,7 +206,8 @@ export const widgetBaseConfig: WidgetConfig = {
 export const defaultWidgetConfig: Partial<WidgetConfig> = {
   ...widgetBaseConfig,
   appearance: 'auto',
-  // mobileLayout: true,
+  mobileLayout: true,
+  // bookmarkListHeight: 800,
   theme: {
     palette: {
       primary: {
@@ -220,8 +221,8 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
       fontFamily: 'Inter, sans-serif',
     },
     container: {
-      // display: 'flex',
-      // height: '100%',
+      display: 'flex',
+      height: '100%',
       // paddingTop: 80,
       // boxSizing: 'border-box',
       // height: '100vh',

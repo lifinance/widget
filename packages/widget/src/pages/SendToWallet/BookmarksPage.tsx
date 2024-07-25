@@ -37,7 +37,7 @@ import {
 
 export const BookmarksPage = () => {
   const { t } = useTranslation();
-  const { mobileLayout } = useWidgetConfig();
+  const { mobileLayout, bookmarkListHeight, theme } = useWidgetConfig();
   const [bookmark, setBookmark] = useState<Bookmark>();
   const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null);
   const { bookmarks } = useBookmarks();
@@ -109,7 +109,19 @@ export const BookmarksPage = () => {
       disableGutters
       sx={mobileLayout ? { justifyContent: 'space-between' } : undefined}
     >
-      <ListContainer sx={{ minHeight: 440, paddingBottom: 9 }}>
+      <ListContainer
+        sx={
+          bookmarkListHeight &&
+          theme?.container?.display === 'flex' &&
+          theme?.container?.display !== '100%'
+            ? {
+                minHeight: 440,
+                maxHeight: bookmarkListHeight,
+                overflow: 'auto',
+              }
+            : { minHeight: 440, paddingBottom: 9 }
+        }
+      >
         {bookmarks.map((bookmark) => (
           <ListItem key={bookmark.address} sx={{ position: 'relative' }}>
             <ListItemButton
