@@ -1,3 +1,4 @@
+import type { BoxProps } from '@mui/material';
 import {
   Alert,
   Box,
@@ -97,14 +98,26 @@ export const ListContainer = styled(List)(({ theme }) => ({
   minHeight: 400,
 }));
 
-export const BookmarkButtonContainer = styled(Box)(({ theme }) => ({
+interface BookmarkButtonContainerProps extends BoxProps {
+  mobileLayout?: boolean;
+}
+
+export const BookmarkButtonContainer = styled(
+  Box,
+)<BookmarkButtonContainerProps>(({ theme, mobileLayout }) => ({
   background: theme.palette.background.default,
   display: 'flex',
   flexDirection: 'column',
   bottom: 0,
   padding: theme.spacing(0, 3, 3),
   zIndex: 2,
-  position: 'absolute',
+  ...(mobileLayout
+    ? {
+        position: 'fixed',
+        minWidth: theme.breakpoints.values.xs,
+        maxWidth: theme.breakpoints.values.sm,
+      }
+    : { position: 'sticky' }),
   width: '100%',
 }));
 
