@@ -11,11 +11,13 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
   route,
 }) => {
   const { t, i18n } = useTranslation();
-  const executionTimeMinutes = Math.ceil(
-    route.steps
-      .map((step) => step.estimate.executionDuration)
-      .reduce((duration, x) => duration + x, 0) / 60,
+  const executionTimeSeconds = Math.ceil(
+    route.steps.reduce(
+      (duration, step) => duration + step.estimate.executionDuration,
+      0,
+    ),
   );
+  const executionTimeMinutes = Math.ceil(executionTimeSeconds / 60);
   const gasCostUSD = parseFloat(route.gasCostUSD || '0');
   const feeCosts = getFeeCostsBreakdown(route, false);
   const fees =
@@ -58,9 +60,12 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
               fontWeight="500"
               lineHeight={1}
             >
-              {executionTimeMinutes.toLocaleString(i18n.language, {
+              {(executionTimeSeconds < 60
+                ? executionTimeSeconds
+                : executionTimeMinutes
+              ).toLocaleString(i18n.language, {
                 style: 'unit',
-                unit: 'minute',
+                unit: executionTimeSeconds < 60 ? 'second' : 'minute',
                 unitDisplay: 'narrow',
               })}
             </Typography>
