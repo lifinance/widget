@@ -1,9 +1,20 @@
-import { Box, ScopedCssBaseline, styled } from '@mui/material';
+import type { ScopedCssBaselineProps } from '@mui/material';
+import { Box, Collapse, Grow, ScopedCssBaseline, styled } from '@mui/material';
 import { maxHeight } from '../AppContainer.js';
 
 export const CollapseContainer = styled(Box)(({ theme }) => ({
-  height: maxHeight,
   zIndex: 0,
+  ...(theme.container.display === 'flex'
+    ? { display: 'flex', height: '100%' }
+    : {}),
+}));
+
+export const RoutesExpandedCollapse = styled(Collapse)(({ theme }) => ({
+  ...(theme.container?.display === 'flex' ? { height: '100%' } : {}),
+}));
+
+export const RouteGrow = styled(Grow)(({ theme }) => ({
+  ...(theme.container?.display === 'flex' ? { height: '100%' } : {}),
 }));
 
 export const ScrollableContainer = styled(Box)({
@@ -15,16 +26,24 @@ export const ScrollableContainer = styled(Box)({
   flexDirection: 'column',
 });
 
-export const Container = styled(ScopedCssBaseline)(({ theme }) => ({
-  backgroundColor: theme.palette.background.default,
-  overflow: 'auto',
-  width: 436,
-  maxHeight,
-  marginLeft: theme.spacing(3),
-  display: 'flex',
-  flexDirection: 'column',
-  ...theme.container,
-}));
+interface ContainerProps extends ScopedCssBaselineProps {
+  isLoading: boolean;
+}
+
+export const Container = styled(ScopedCssBaseline)<ContainerProps>(
+  ({ theme, isLoading }) => ({
+    backgroundColor: theme.palette.background.default,
+    overflow: 'auto',
+    width: 436,
+    marginLeft: theme.spacing(3),
+    display: 'flex',
+    flexDirection: 'column',
+    ...(theme.container?.display !== 'flex'
+      ? { maxHeight }
+      : { height: isLoading ? 'auto' : '100%' }),
+    ...theme.container,
+  }),
+);
 
 export const Header = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.default,

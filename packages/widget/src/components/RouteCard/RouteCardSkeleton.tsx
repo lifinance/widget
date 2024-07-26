@@ -11,7 +11,7 @@ export const RouteCardSkeleton: React.FC<
   const { subvariant } = useWidgetConfig();
 
   const cardContent = (
-    <Box flex={1}>
+    <Box flex={1} id="skeleton-container">
       {subvariant !== 'refuel' && subvariant !== 'custom' ? (
         <Box display="flex" alignItems="center" mb={2}>
           <Skeleton

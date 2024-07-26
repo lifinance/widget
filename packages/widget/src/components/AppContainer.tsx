@@ -13,7 +13,12 @@ export const AppExpandedContainer = styled(Box, {
   justifyContent: 'center',
   alignItems: 'start',
   flex: 1,
-  height: variant === 'drawer' ? 'none' : theme.container?.height || maxHeight,
+  height:
+    variant === 'drawer'
+      ? 'none'
+      : theme.container?.display === 'flex'
+        ? '100%'
+        : theme.container?.height || maxHeight,
 }));
 
 export const RelativeContainer = styled(Box, {

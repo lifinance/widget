@@ -22,6 +22,8 @@ import {
   CollapseContainer,
   Container,
   Header,
+  RouteGrow,
+  RoutesExpandedCollapse,
   ScrollableContainer,
 } from './RoutesExpanded.style.js';
 
@@ -45,11 +47,11 @@ export const RoutesExpanded = () => {
   return (
     <CollapseContainer>
       <Collapse timeout={timeout} in={match} orientation="horizontal">
-        <Grow timeout={timeout} in={match} mountOnEnter unmountOnExit>
+        <RouteGrow timeout={timeout} in={match} mountOnEnter unmountOnExit>
           <div>
             <RoutesExpandedElement />
           </div>
-        </Grow>
+        </RouteGrow>
       </Collapse>
     </CollapseContainer>
   );
@@ -112,14 +114,14 @@ export const RoutesExpandedElement = () => {
   }, [emitter, expanded]);
 
   return (
-    <Collapse
+    <RoutesExpandedCollapse
       timeout={timeout.enter}
       in={expanded}
       orientation="horizontal"
       onExited={onExit}
     >
       <Grow timeout={timeout.enter} in={expanded} mountOnEnter unmountOnExit>
-        <Container enableColorScheme>
+        <Container enableColorScheme isLoading={isLoading}>
           <ScrollableContainer>
             <Header>
               <Typography fontSize={18} fontWeight="700" flex={1} noWrap>
@@ -163,6 +165,6 @@ export const RoutesExpandedElement = () => {
           </ScrollableContainer>
         </Container>
       </Grow>
-    </Collapse>
+    </RoutesExpandedCollapse>
   );
 };

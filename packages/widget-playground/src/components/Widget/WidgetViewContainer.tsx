@@ -63,6 +63,7 @@ export function WidgetViewContainer({
         >
           {showMockHeader ? <MockElement>Mock header</MockElement> : null}
           <WidgetContainerRow
+            // sx={{ maxHeight: 800 }} // constraint used to test the routes in flex mode
             alignTop={config?.theme?.container?.display === 'flex'}
           >
             {children}
