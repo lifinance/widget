@@ -1,4 +1,4 @@
-// import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
+import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
 import react from '@vitejs/plugin-react-swc';
 import { defineConfig } from 'vite';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
@@ -13,19 +13,19 @@ export default defineConfig({
   build: {
     sourcemap: true,
   },
-  // optimizeDeps: {
-  //   esbuildOptions: {
-  //     define: {
-  //       global: 'globalThis',
-  //     },
-  //     plugins: [
-  //       NodeGlobalsPolyfillPlugin({
-  //         process: true,
-  //         buffer: true,
-  //       }),
-  //     ],
-  //   },
-  // },
+  optimizeDeps: {
+    esbuildOptions: {
+      define: {
+        global: 'globalThis',
+      },
+      plugins: [
+        NodeGlobalsPolyfillPlugin({
+          process: true,
+          buffer: true,
+        }),
+      ],
+    },
+  },
   server: {
     port: 3000,
     open: true,
