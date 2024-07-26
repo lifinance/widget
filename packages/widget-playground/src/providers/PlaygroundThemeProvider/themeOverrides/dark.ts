@@ -34,7 +34,7 @@ export const darkComponents = {
     styleOverrides: (theme: WidgetTheme & Theme) => ({
       body: {
         display: 'flex',
-        minHeight: '100vh',
+        minHeight: '100dvh',
         backgroundColor:
           theme.playground?.background || theme.palette?.common?.black,
       },

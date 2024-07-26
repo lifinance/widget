@@ -30,9 +30,25 @@ export const WidgetContainer = styled(Box)<WidgetContainerProps>(({
   return {
     display: 'flex',
     flexGrow: 1,
-    alignItems: alignTop ? 'flex-start' : 'center',
-    justifyContent: 'center',
+    justifyContent: alignTop ? 'flex-start' : 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
     paddingTop: fullHeightView ? 0 : theme.spacing(6),
+  };
+});
+
+interface WidgetContainerRowProps extends BoxProps {
+  alignTop?: boolean;
+}
+
+export const WidgetContainerRow = styled(Box)<WidgetContainerRowProps>(({
+  alignTop,
+}) => {
+  return {
+    display: 'flex',
+    alignItems: alignTop ? 'flex-start' : 'center',
+    flexGrow: 1,
+    width: '100%',
   };
 });
 

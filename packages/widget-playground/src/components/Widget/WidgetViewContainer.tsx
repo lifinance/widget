@@ -8,13 +8,18 @@ import {
   useDrawerToolValues,
   useEditToolsActions,
 } from '../../store';
+import { MockElement } from '../Mock';
 import { ToggleDrawerButton } from './ToggleDrawerButton';
 import {
   DrawerOpenButton,
   FloatingToolsContainer,
   Main,
   WidgetContainer,
+  WidgetContainerRow,
 } from './WidgetView.style';
+
+const showMockHeader = false;
+const showMockFooter = false;
 
 interface WidgetViewContainerProps extends PropsWithChildren {
   toggleDrawer?(): void;
@@ -49,13 +54,20 @@ export function WidgetViewContainer({
           ) : null}
         </FloatingToolsContainer>
         <WidgetContainer
+          id="widget-container"
           fullHeightView={
             config?.theme?.container?.height === '100vh' ||
             config?.theme?.container?.height === '100%'
           }
           alignTop={config?.theme?.container?.display === 'flex'}
         >
-          {children}
+          {showMockHeader ? <MockElement>Mock header</MockElement> : null}
+          <WidgetContainerRow
+            alignTop={config?.theme?.container?.display === 'flex'}
+          >
+            {children}
+          </WidgetContainerRow>
+          {showMockFooter ? <MockElement>Mock footer</MockElement> : null}
         </WidgetContainer>
       </ExternalWalletProvider>
     </Main>
