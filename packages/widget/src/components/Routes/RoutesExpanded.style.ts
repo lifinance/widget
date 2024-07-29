@@ -5,7 +5,7 @@ import { maxHeight } from '../AppContainer.js';
 export const CollapseContainer = styled(Box)(({ theme }) => ({
   zIndex: 0,
   ...(theme.container.display === 'flex'
-    ? { display: 'flex', height: '100%' }
+    ? { display: 'flex', maxHeight: '100%' }
     : {}),
 }));
 
