@@ -6,9 +6,11 @@ import { forwardRef, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js';
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
+import { FeeBreakdownTooltip } from '../../components/FeeBreakdownTooltip.js';
 import { useSetContentHeight } from '../../hooks/useContentHeight.js';
+import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js';
 import { CenterContainer, IconCircle } from './StatusBottomSheet.style.js';
-import { calcValueLoss } from './utils.js';
+import { calculateValueLossPercentage } from './utils.js';
 
 interface TokenValueBottomSheetProps {
   route: Route;
@@ -44,6 +46,10 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
   const { t } = useTranslation();
   const ref = useRef<HTMLElement>();
   useSetContentHeight(ref);
+  const { gasCosts, feeCosts, gasCostUSD, feeCostUSD } =
+    getAccumulatedFeeCostsBreakdown(route);
+  const fromAmountUSD = parseFloat(route.fromAmountUSD);
+  const toAmountUSD = parseFloat(route.toAmountUSD);
   return (
     <Box p={3} ref={ref}>
       <CenterContainer>
@@ -62,11 +68,23 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
         </Typography>
       </Box>
       <Box display="flex" justifyContent="space-between" mt={0.25}>
-        <Typography>{t('main.gasCost')}</Typography>
-        <Typography fontWeight={600}>
-          {t('format.currency', { value: route.gasCostUSD })}
-        </Typography>
+        <Typography>{t('main.fees.network')}</Typography>
+        <FeeBreakdownTooltip gasCosts={gasCosts}>
+          <Typography fontWeight={600}>
+            {t('format.currency', { value: gasCostUSD })}
+          </Typography>
+        </FeeBreakdownTooltip>
       </Box>
+      {feeCostUSD ? (
+        <Box display="flex" justifyContent="space-between" mt={0.25}>
+          <Typography>{t('main.fees.provider')}</Typography>
+          <FeeBreakdownTooltip feeCosts={feeCosts}>
+            <Typography fontWeight={600}>
+              {t('format.currency', { value: feeCostUSD })}
+            </Typography>
+          </FeeBreakdownTooltip>
+        </Box>
+      ) : null}
       <Box display="flex" justifyContent="space-between" mt={0.25}>
         <Typography>{t('main.receiving')}</Typography>
         <Typography fontWeight={600}>
@@ -75,7 +93,15 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
       </Box>
       <Box display="flex" justifyContent="space-between" mt={0.25}>
         <Typography>{t('main.valueLoss')}</Typography>
-        <Typography fontWeight={600}>{calcValueLoss(route)}</Typography>
+        <Typography fontWeight={600}>
+          {calculateValueLossPercentage(
+            fromAmountUSD,
+            toAmountUSD,
+            gasCostUSD,
+            feeCostUSD,
+          )}
+          %
+        </Typography>
       </Box>
       <Box display="flex" mt={3}>
         <Button variant="text" onClick={onCancel} fullWidth>
@@ -88,17 +114,4 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
       </Box>
     </Box>
   );
-};
-
-export const getTokenValueLossThreshold = (route?: Route) => {
-  if (!route) {
-    return false;
-  }
-  const fromAmountUSD = Number(route.fromAmountUSD || 0);
-  const toAmountUSD = Number(route.toAmountUSD || 0);
-  const gasCostUSD = Number(route.gasCostUSD || 0);
-  if (!fromAmountUSD && !toAmountUSD) {
-    return false;
-  }
-  return toAmountUSD / (fromAmountUSD + gasCostUSD) < 0.9;
 };

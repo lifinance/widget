@@ -37,10 +37,11 @@ export interface ContactSupport {
 }
 
 export interface RouteHighValueLossUpdate {
-  fromAmountUsd: string;
-  gasCostUSD?: string;
-  toAmountUSD: string;
-  valueLoss: string;
+  fromAmountUSD: number;
+  toAmountUSD: number;
+  gasCostUSD?: number;
+  feeCostUSD?: number;
+  valueLoss: number;
 }
 
 export interface RouteExecutionUpdate {

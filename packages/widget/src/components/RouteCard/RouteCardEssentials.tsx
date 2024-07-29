@@ -1,7 +1,7 @@
 import { AccessTimeFilled, LocalGasStationRounded } from '@mui/icons-material';
 import { Box, Tooltip, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { getFeeCostsBreakdown } from '../../utils/fees.js';
+import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js';
 import { FeeBreakdownTooltip } from '../FeeBreakdownTooltip.js';
 import { IconTypography } from '../IconTypography.js';
 import { TokenRate } from '../TokenRate/TokenRate.js';
@@ -11,17 +11,15 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
   route,
 }) => {
   const { t, i18n } = useTranslation();
-  const executionTimeSeconds = Math.ceil(
+  const executionTimeSeconds = Math.floor(
     route.steps.reduce(
       (duration, step) => duration + step.estimate.executionDuration,
       0,
     ),
   );
-  const executionTimeMinutes = Math.ceil(executionTimeSeconds / 60);
-  const gasCostUSD = parseFloat(route.gasCostUSD || '0');
-  const feeCosts = getFeeCostsBreakdown(route, false);
-  const fees =
-    gasCostUSD + feeCosts.reduce((sum, feeCost) => sum + feeCost.amountUSD, 0);
+  const executionTimeMinutes = Math.floor(executionTimeSeconds / 60);
+  const { gasCosts, feeCosts, combinedFeesUSD } =
+    getAccumulatedFeeCostsBreakdown(route);
   return (
     <Box
       display="flex"
@@ -32,7 +30,7 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
     >
       <TokenRate route={route} />
       <Box display="flex" alignItems="center">
-        <FeeBreakdownTooltip route={route} feeCosts={feeCosts}>
+        <FeeBreakdownTooltip gasCosts={gasCosts} feeCosts={feeCosts}>
           <Box display="flex" mr={1.5} alignItems="center">
             <IconTypography mr={0.5} fontSize={16}>
               <LocalGasStationRounded fontSize="inherit" />
@@ -40,11 +38,12 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
             <Typography
               fontSize={14}
               color="text.primary"
-              fontWeight="500"
+              fontWeight={600}
               lineHeight={1}
+              data-value={combinedFeesUSD}
             >
               {t(`format.currency`, {
-                value: fees,
+                value: combinedFeesUSD,
               })}
             </Typography>
           </Box>
@@ -57,7 +56,7 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
             <Typography
               fontSize={14}
               color="text.primary"
-              fontWeight="500"
+              fontWeight={600}
               lineHeight={1}
             >
               {(executionTimeSeconds < 60

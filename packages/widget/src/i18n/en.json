@@ -196,7 +196,6 @@
       "provider": "Provider fee"
     },
     "from": "From",
-    "gasCost": "Gas cost",
     "inProgress": "in progress",
     "maxSlippage": "Max. slippage",
     "minReceived": "Min. received",
