@@ -30,9 +30,11 @@ export const RelativeContainer = styled(Box, {
   minWidth: theme.breakpoints.values.xs,
   maxWidth: theme.breakpoints.values.sm,
   maxHeight:
-    variant === 'drawer' || theme.container?.display === 'flex'
+    variant === 'drawer'
       ? 'none'
-      : theme.container?.height || maxHeight,
+      : theme.container?.display === 'flex'
+        ? '100%'
+        : theme.container?.height || maxHeight,
   background: theme.palette.background.default,
   overflow: 'auto',
   flex: 1,
@@ -54,7 +56,7 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
       ? 'none'
       : theme.container?.height || maxHeight,
   overflowY: 'auto',
-  height: '100%',
+  height: theme.container?.display === 'flex' ? 'auto' : '100%',
 }));
 
 export const FlexContainer = styled(Container)({

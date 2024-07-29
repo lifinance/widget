@@ -57,13 +57,13 @@ export function WidgetViewContainer({
           id="widget-container"
           fullHeightView={
             config?.theme?.container?.height === '100vh' ||
-            config?.theme?.container?.height === '100%'
+            config?.theme?.container?.height === '100%' ||
+            config?.theme?.container?.display === 'flex'
           }
           alignTop={config?.theme?.container?.display === 'flex'}
         >
           {showMockHeader ? <MockElement>Mock header</MockElement> : null}
           <WidgetContainerRow
-            // sx={{ maxHeight: 800 }} // constraint used to test the routes in flex mode
             alignTop={config?.theme?.container?.display === 'flex'}
           >
             {children}
