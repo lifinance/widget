@@ -32,7 +32,7 @@ export const RelativeContainer = styled(Box, {
   maxHeight:
     variant === 'drawer'
       ? 'none'
-      : theme.container?.display === 'flex'
+      : theme.container?.display === 'flex' && !theme.container?.height
         ? '100%'
         : theme.container?.height || maxHeight,
   background: theme.palette.background.default,

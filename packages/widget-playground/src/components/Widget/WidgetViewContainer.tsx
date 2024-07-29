@@ -18,8 +18,8 @@ import {
   WidgetContainerRow,
 } from './WidgetView.style';
 
-const showMockHeader = false;
-const showMockFooter = false;
+const showMockHeader = true;
+const showMockFooter = true;
 
 interface WidgetViewContainerProps extends PropsWithChildren {
   toggleDrawer?(): void;
@@ -64,6 +64,7 @@ export function WidgetViewContainer({
         >
           {showMockHeader ? <MockElement>Mock header</MockElement> : null}
           <WidgetContainerRow
+            sx={{ maxHeight: 900 }} // for sticky headers to work there needs to be an ancester with fixed height
             alignTop={config?.theme?.container?.display === 'flex'}
           >
             {children}

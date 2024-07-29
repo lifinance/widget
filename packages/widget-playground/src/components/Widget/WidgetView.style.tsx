@@ -49,8 +49,6 @@ export const WidgetContainerRow = styled(Box)<WidgetContainerRowProps>(({
     alignItems: alignTop ? 'flex-start' : 'center',
     flexGrow: 1,
     width: '100%',
-    // note: this is needed to keep the sticky headers working
-    height: 0,
   };
 });
 

@@ -6,7 +6,7 @@ export const CollapseContainer = styled(Box)(({ theme }) => ({
   zIndex: 0,
   ...(theme.container.display === 'flex'
     ? { display: 'flex', maxHeight: '100%' }
-    : {}),
+    : { height: maxHeight }),
 }));
 
 export const RoutesExpandedCollapse = styled(Collapse)(({ theme }) => ({

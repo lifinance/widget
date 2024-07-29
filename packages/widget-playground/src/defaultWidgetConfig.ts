@@ -222,6 +222,7 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
     },
     container: {
       display: 'flex',
+      // height: 800,
       // height: '100%',
       // paddingTop: 80,
       // boxSizing: 'border-box',
