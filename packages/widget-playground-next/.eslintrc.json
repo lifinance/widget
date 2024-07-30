@@ -6,10 +6,9 @@
     "plugin:react/recommended",
     "plugin:prettier/recommended",
     "next",
-    "../../.eslintrc.base"
+    "../../.eslintrc.base.json"
   ],
   "rules": {
-    "@typescript-eslint/no-explicit-any": "off",
-    "import/no-default-export": "off"
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }
