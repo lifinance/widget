@@ -1,9 +1,9 @@
 import type { LiFiStep, Process } from '@lifi/sdk';
-import { LinkRounded } from '@mui/icons-material';
+import { OpenInNewRounded } from '@mui/icons-material';
 import { Box, Link, Typography } from '@mui/material';
 import { useProcessMessage } from '../../hooks/useProcessMessage.js';
+import { CardIconButton } from '../Card/CardIconButton.js';
 import { CircularProgress } from './CircularProgress.js';
-import { LinkButton } from './StepProcess.style.js';
 
 export const StepProcess: React.FC<{
   step: LiFiStep;
@@ -28,15 +28,15 @@ export const StepProcess: React.FC<{
           {title}
         </Typography>
         {process.txLink ? (
-          <LinkButton
-            size="medium"
+          <CardIconButton
+            size="small"
             LinkComponent={Link}
             href={process.txLink}
             target="_blank"
             rel="nofollow noreferrer"
           >
-            <LinkRounded />
-          </LinkButton>
+            <OpenInNewRounded fontSize="inherit" />
+          </CardIconButton>
         ) : null}
       </Box>
       {message ? (

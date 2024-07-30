@@ -1,10 +1,11 @@
 import type { FullStatusData } from '@lifi/sdk';
 import { ContentCopyRounded } from '@mui/icons-material';
-import { Box, IconButton, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { Card } from '../../components/Card/Card.js';
+import { CardIconButton } from '../../components/Card/CardIconButton.js';
 import { CardTitle } from '../../components/Card/CardTitle.js';
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js';
 import { PageContainer } from '../../components/PageContainer.js';
@@ -124,10 +125,10 @@ export const TransactionDetailsPage: React.FC = () => {
           }}
         >
           <CardTitle flex={1}>{t('main.supportId')}</CardTitle>
-          <Box mr={1} mt={1}>
-            <IconButton size="medium" onClick={copySupportId}>
-              <ContentCopyRounded fontSize="small" />
-            </IconButton>
+          <Box mr={2} mt={1}>
+            <CardIconButton size="small" onClick={copySupportId}>
+              <ContentCopyRounded fontSize="inherit" />
+            </CardIconButton>
           </Box>
         </Box>
         <Typography

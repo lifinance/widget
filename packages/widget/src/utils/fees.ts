@@ -7,6 +7,30 @@ export interface FeesBreakdown {
   token: Token;
 }
 
+export const getAccumulatedFeeCostsBreakdown = (
+  route: RouteExtended,
+  included: boolean = false,
+) => {
+  const gasCosts = getGasCostsBreakdown(route);
+  const feeCosts = getFeeCostsBreakdown(route, included);
+  const gasCostUSD = gasCosts.reduce(
+    (sum, gasCost) => sum + gasCost.amountUSD,
+    0,
+  );
+  const feeCostUSD = feeCosts.reduce(
+    (sum, feeCost) => sum + feeCost.amountUSD,
+    0,
+  );
+  const combinedFeesUSD = gasCostUSD + feeCostUSD;
+  return {
+    gasCosts,
+    feeCosts,
+    gasCostUSD,
+    feeCostUSD,
+    combinedFeesUSD,
+  };
+};
+
 export const getGasCostsBreakdown = (route: RouteExtended): FeesBreakdown[] => {
   return Array.from(
     route.steps

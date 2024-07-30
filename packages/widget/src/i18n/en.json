@@ -169,7 +169,7 @@
   },
   "tooltip": {
     "deselectAll": "Deselect all",
-    "estimatedTime": "Estimated execution time in minutes.",
+    "estimatedTime": "Estimated time to complete the swap or bridge transaction, excluding chain switching and token approval.",
     "minReceived": "The estimated minimum amount may change until the swapping/bridging transaction is signed. For 2-step transfers, this applies until the second step transaction is signed.",
     "notFound": {
       "text": "We couldn't find this page.",
@@ -196,7 +196,6 @@
       "provider": "Provider fee"
     },
     "from": "From",
-    "gasCost": "Gas cost",
     "inProgress": "in progress",
     "maxSlippage": "Max. slippage",
     "minReceived": "Min. received",

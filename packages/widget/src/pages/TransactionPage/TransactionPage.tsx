@@ -18,16 +18,17 @@ import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.j
 import { useFieldActions } from '../../stores/form/useFieldActions.js';
 import { RouteExecutionStatus } from '../../stores/routes/types.js';
 import { WidgetEvent } from '../../types/events.js';
+import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js';
 import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet.js';
 import { ExchangeRateBottomSheet } from './ExchangeRateBottomSheet.js';
 import { RouteTracker } from './RouteTracker.js';
 import { StartTransactionButton } from './StartTransactionButton.js';
 import { StatusBottomSheet } from './StatusBottomSheet.js';
+import { TokenValueBottomSheet } from './TokenValueBottomSheet.js';
 import {
-  TokenValueBottomSheet,
+  calculateValueLossPercentage,
   getTokenValueLossThreshold,
-} from './TokenValueBottomSheet.js';
-import { calcValueLoss } from './utils.js';
+} from './utils.js';
 
 export const TransactionPage: React.FC = () => {
   const { t } = useTranslation();
@@ -99,15 +100,22 @@ export const TransactionPage: React.FC = () => {
     return null;
   }
 
-  const tokenValueLossThresholdExceeded = getTokenValueLossThreshold(route);
-
   const handleExecuteRoute = () => {
     if (tokenValueBottomSheetRef.current?.isOpen()) {
+      const { gasCostUSD, feeCostUSD } = getAccumulatedFeeCostsBreakdown(route);
+      const fromAmountUSD = parseFloat(route.fromAmountUSD);
+      const toAmountUSD = parseFloat(route.toAmountUSD);
       emitter.emit(WidgetEvent.RouteHighValueLoss, {
-        fromAmountUsd: route.fromAmountUSD,
-        gasCostUSD: route.gasCostUSD,
-        toAmountUSD: route.toAmountUSD,
-        valueLoss: calcValueLoss(route),
+        fromAmountUSD,
+        toAmountUSD,
+        gasCostUSD,
+        feeCostUSD,
+        valueLoss: calculateValueLossPercentage(
+          fromAmountUSD,
+          toAmountUSD,
+          gasCostUSD,
+          feeCostUSD,
+        ),
       });
     }
     tokenValueBottomSheetRef.current?.close();
@@ -121,6 +129,15 @@ export const TransactionPage: React.FC = () => {
 
   const handleStartClick = async () => {
     if (status === RouteExecutionStatus.Idle) {
+      const { gasCostUSD, feeCostUSD } = getAccumulatedFeeCostsBreakdown(route);
+      const fromAmountUSD = parseFloat(route.fromAmountUSD);
+      const toAmountUSD = parseFloat(route.toAmountUSD);
+      const tokenValueLossThresholdExceeded = getTokenValueLossThreshold(
+        fromAmountUSD,
+        toAmountUSD,
+        gasCostUSD,
+        feeCostUSD,
+      );
       if (tokenValueLossThresholdExceeded && subvariant !== 'custom') {
         tokenValueBottomSheetRef.current?.open();
       } else {
@@ -197,7 +214,7 @@ export const TransactionPage: React.FC = () => {
         </>
       ) : null}
       {status ? <StatusBottomSheet status={status} route={route} /> : null}
-      {tokenValueLossThresholdExceeded && subvariant !== 'custom' ? (
+      {subvariant !== 'custom' ? (
         <TokenValueBottomSheet
           route={route}
           ref={tokenValueBottomSheetRef}
