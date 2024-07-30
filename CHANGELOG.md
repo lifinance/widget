@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.3.0](https://github.com/lifinance/widget/compare/v3.2.2...v3.3.0) (2024-07-30)
+
+
+### Features
+
+* improve the display of estimated duration and fees ([#278](https://github.com/lifinance/widget/issues/278)) ([5180526](https://github.com/lifinance/widget/commit/5180526154371c5378c38224592894933d1cc313))
+
+
+### Bug Fixes
+
+* change assert to with ([#279](https://github.com/lifinance/widget/issues/279)) ([5d6ac56](https://github.com/lifinance/widget/commit/5d6ac569e239317edb288a42918ead107369d1ae))
+
 ### [3.2.2](https://github.com/lifinance/widget/compare/v3.2.1...v3.2.2) (2024-07-24)
 
 
