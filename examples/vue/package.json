@@ -9,17 +9,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/widget": "^3.0.0",
-    "veaury": "^2.4.0",
-    "vue": "^3.4.30"
+    "@lifi/widget": "^3.3.0",
+    "veaury": "^2.4.2",
+    "vue": "^3.4.34"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.1",
-    "@vitejs/plugin-vue": "^5.0.5",
+    "@vitejs/plugin-vue": "^5.1.1",
     "@vitejs/plugin-vue-jsx": "^4.0.0",
-    "typescript": "^5.5.2",
-    "vite": "^5.3.1",
+    "typescript": "^5.5.4",
+    "vite": "^5.3.5",
     "vite-plugin-node-polyfills": "^0.22.0",
-    "vue-tsc": "^2.0.22"
+    "vue-tsc": "^2.0.29"
   }
 }
