@@ -18,9 +18,6 @@ import {
   WidgetContainerRow,
 } from './WidgetView.style';
 
-const showMockHeader = true;
-const showMockFooter = true;
-
 interface WidgetViewContainerProps extends PropsWithChildren {
   toggleDrawer?(): void;
 }
@@ -56,12 +53,14 @@ export function WidgetViewContainer({
         <WidgetContainer
           id="widget-container"
           fullHeightView={
-            (config?.theme?.container?.height === '100%' && !showMockHeader) ||
-            (config?.theme?.container?.display === 'flex' && !showMockHeader)
+            (config?.theme?.container?.height === '100%' &&
+              !config.mobileLayout) ||
+            (config?.theme?.container?.display === 'flex' &&
+              !config.mobileLayout)
           }
           alignTop={config?.theme?.container?.display === 'flex'}
         >
-          {showMockHeader ? (
+          {config?.mobileLayout ? (
             <MockElement sx={{ position: 'fixed', zIndex: 1, top: 0 }}>
               Mock header
             </MockElement>
@@ -72,7 +71,7 @@ export function WidgetViewContainer({
           >
             {children}
           </WidgetContainerRow>
-          {showMockFooter ? <MockElement>Mock footer</MockElement> : null}
+          {config?.mobileLayout ? <MockElement>Mock footer</MockElement> : null}
         </WidgetContainer>
       </ExternalWalletProvider>
     </Main>

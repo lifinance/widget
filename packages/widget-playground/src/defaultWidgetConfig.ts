@@ -220,15 +220,15 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
     typography: {
       fontFamily: 'Inter, sans-serif',
     },
-    // allows for positioning to accomodate navigation bar
-    header: {
-      position: 'fixed',
-      top: 48,
-    },
+    // allows for positioning to accommodate navigation bar
+    // header: {
+    //   position: 'fixed',
+    //   top: 48,
+    // },
     container: {
-      display: 'flex',
-      // height: 800,
-      height: '100%',
+      // display: 'flex',
+      // height: '100%',
+      // height: 1000,
       // paddingTop: 80,
       // boxSizing: 'border-box',
       // height: '100vh',

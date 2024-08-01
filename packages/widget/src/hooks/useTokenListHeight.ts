@@ -1,5 +1,6 @@
 import type { MutableRefObject } from 'react';
 import { useLayoutEffect, useState } from 'react';
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
 import { ElementId, createElementId } from '../utils/elements.js';
 import { useDefaultElementId } from './useDefaultElementId.js';
 
@@ -49,6 +50,7 @@ interface UseContentHeightProps {
 }
 
 const minTokenListHeight = 360;
+const minMobileTokenListHeight = 160;
 
 export const useTokenListHeight = ({
   listParentRef,
@@ -56,6 +58,7 @@ export const useTokenListHeight = ({
 }: UseContentHeightProps) => {
   const elementId = useDefaultElementId();
   const [contentHeight, setContentHeight] = useState<number>(0);
+  const { mobileLayout } = useWidgetConfig();
 
   useLayoutEffect(() => {
     const handleResize = () => {
@@ -71,8 +74,12 @@ export const useTokenListHeight = ({
     };
   }, [elementId, listParentRef]);
 
+  const minListHeight = mobileLayout
+    ? minMobileTokenListHeight
+    : minTokenListHeight;
+
   return Math.max(
     contentHeight - (headerRef.current?.offsetHeight ?? 0),
-    minTokenListHeight,
+    minListHeight,
   );
 };
