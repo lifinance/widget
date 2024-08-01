@@ -9,7 +9,7 @@ import {
 } from '@remix-run/react';
 
 // Note: at the time of writing Remix's suggestion for dealing with global polyfills
-// did seem to work. Have put this in place as a workaround.
+// didn't seem to work. Have put this in place as a workaround.
 import { Buffer as BufferPolyfill } from 'buffer';
 globalThis.Buffer = BufferPolyfill;
 
