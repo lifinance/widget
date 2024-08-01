@@ -56,15 +56,18 @@ export function WidgetViewContainer({
         <WidgetContainer
           id="widget-container"
           fullHeightView={
-            config?.theme?.container?.height === '100vh' ||
-            config?.theme?.container?.height === '100%' ||
-            config?.theme?.container?.display === 'flex'
+            (config?.theme?.container?.height === '100%' && !showMockHeader) ||
+            (config?.theme?.container?.display === 'flex' && !showMockHeader)
           }
           alignTop={config?.theme?.container?.display === 'flex'}
         >
-          {showMockHeader ? <MockElement>Mock header</MockElement> : null}
+          {showMockHeader ? (
+            <MockElement sx={{ position: 'fixed', zIndex: 1, top: 0 }}>
+              Mock header
+            </MockElement>
+          ) : null}
           <WidgetContainerRow
-            sx={{ maxHeight: 900 }} // for sticky headers to work there needs to be an ancester with fixed height
+            // sx={{ maxHeight: 900 }} // for sticky headers to work there needs to be an ancester with fixed height
             alignTop={config?.theme?.container?.display === 'flex'}
           >
             {children}
