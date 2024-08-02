@@ -129,7 +129,6 @@ export interface AllowDeny<T> {
 
 export interface WidgetConfig {
   mobileLayout?: boolean;
-  bookmarkListHeight?: number;
   fromChain?: number;
   toChain?: number;
   fromToken?: string;

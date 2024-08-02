@@ -206,8 +206,7 @@ export const widgetBaseConfig: WidgetConfig = {
 export const defaultWidgetConfig: Partial<WidgetConfig> = {
   ...widgetBaseConfig,
   appearance: 'auto',
-  // mobileLayout: true,
-  // bookmarkListHeight: 800,
+  mobileLayout: true,
   theme: {
     palette: {
       primary: {
@@ -220,14 +219,14 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
     typography: {
       fontFamily: 'Inter, sans-serif',
     },
-    // allows for positioning to accommodate navigation bar
-    // header: {
-    //   position: 'fixed',
-    //   top: 48,
-    // },
+    // allows for positioning of header to accommodate navigation bar
+    header: {
+      position: 'fixed',
+      top: 48,
+    },
     container: {
-      // display: 'flex',
-      // height: '100%',
+      display: 'flex',
+      height: '100%',
       // height: 1000,
       // paddingTop: 80,
       // boxSizing: 'border-box',

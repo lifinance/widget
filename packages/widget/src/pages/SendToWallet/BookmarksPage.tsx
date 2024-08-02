@@ -35,9 +35,11 @@ import {
   SendToWalletPageContainer,
 } from './SendToWalletPage.style.js';
 
+const mobileMinListHeight = 360;
+
 export const BookmarksPage = () => {
   const { t } = useTranslation();
-  const { mobileLayout, bookmarkListHeight, theme } = useWidgetConfig();
+  const { mobileLayout } = useWidgetConfig();
   const [bookmark, setBookmark] = useState<Bookmark>();
   const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null);
   const { bookmarks } = useBookmarks();
@@ -107,19 +109,25 @@ export const BookmarksPage = () => {
   return (
     <SendToWalletPageContainer
       disableGutters
-      sx={mobileLayout ? { justifyContent: 'space-between' } : undefined}
+      sx={
+        mobileLayout
+          ? {
+              justifyContent: 'space-between',
+              height: '100%',
+            }
+          : undefined
+      }
     >
       <ListContainer
         sx={
-          bookmarkListHeight &&
-          theme?.container?.display === 'flex' &&
-          theme?.container?.display !== '100%'
+          mobileLayout && bookmarks.length
             ? {
-                minHeight: 440,
-                maxHeight: bookmarkListHeight,
+                minHeight: mobileMinListHeight,
+                height: mobileMinListHeight,
+                flexGrow: 1,
                 overflow: 'auto',
               }
-            : { minHeight: 440, paddingBottom: 9 }
+            : { minHeight: 440 }
         }
       >
         {bookmarks.map((bookmark) => (
@@ -197,7 +205,7 @@ export const BookmarksPage = () => {
           </MenuItem>
         </Menu>
       </ListContainer>
-      <BookmarkButtonContainer mobileLayout={mobileLayout}>
+      <BookmarkButtonContainer>
         <Button variant="contained" onClick={handleAddBookmark}>
           {t('sendToWallet.addBookmark')}
         </Button>

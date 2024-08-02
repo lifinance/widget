@@ -1,8 +1,8 @@
 import type { MutableRefObject } from 'react';
 import { useLayoutEffect, useState } from 'react';
-import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
-import { ElementId, createElementId } from '../utils/elements.js';
-import { useDefaultElementId } from './useDefaultElementId.js';
+import { useDefaultElementId } from '../../hooks/useDefaultElementId.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { ElementId, createElementId } from '../../utils/elements.js';
 
 const getContentHeight = (
   elementId: string,
@@ -10,6 +10,10 @@ const getContentHeight = (
 ) => {
   const containerElement = document.getElementById(
     createElementId(ElementId.ScrollableContainer, elementId),
+  );
+
+  const headerElement = document.getElementById(
+    createElementId(ElementId.Header, elementId),
   );
 
   const listParentElement = listParentRef?.current;
@@ -23,9 +27,6 @@ const getContentHeight = (
     listParentElement.style.height = '0';
   }
 
-  const headerElement = document.getElementById(
-    createElementId(ElementId.Header, elementId),
-  );
   if (!containerElement || !headerElement) {
     console.warn(
       `Can't find ${ElementId.ScrollableContainer} or ${ElementId.Header} id.`,

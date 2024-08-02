@@ -1,4 +1,3 @@
-import type { BoxProps } from '@mui/material';
 import {
   Alert,
   Box,
@@ -93,31 +92,18 @@ export const SheetAddressContainer = styled(Box)(() => ({
 export const ListContainer = styled(List)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  paddingTop: 0,
-  paddingBottom: theme.spacing(1.5),
+  padding: 0,
   minHeight: 400,
 }));
 
-interface BookmarkButtonContainerProps extends BoxProps {
-  mobileLayout?: boolean;
-}
-
-export const BookmarkButtonContainer = styled(
-  Box,
-)<BookmarkButtonContainerProps>(({ theme, mobileLayout }) => ({
+export const BookmarkButtonContainer = styled(Box)(({ theme }) => ({
   background: theme.palette.background.default,
   display: 'flex',
   flexDirection: 'column',
   bottom: 0,
   padding: theme.spacing(0, 3, 3),
   zIndex: 2,
-  ...(mobileLayout
-    ? {
-        position: 'fixed',
-        minWidth: theme.breakpoints.values.xs,
-        maxWidth: theme.breakpoints.values.sm,
-      }
-    : { position: 'sticky' }),
+  position: 'sticky',
   width: '100%',
 }));
 

@@ -9,10 +9,10 @@ import { useHeader } from '../../hooks/useHeader.js';
 import { useNavigateBack } from '../../hooks/useNavigateBack.js';
 import { useScrollableOverflowHidden } from '../../hooks/useScrollableContainer.js';
 import { useSwapOnly } from '../../hooks/useSwapOnly.js';
-import { useTokenListHeight } from '../../hooks/useTokenListHeight.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import type { FormTypeProps } from '../../stores/form/types.js';
 import { SearchTokenInput } from './SearchTokenInput.js';
+import { useTokenListHeight } from './useTokenListHeight.js';
 
 export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
   useScrollableOverflowHidden();
