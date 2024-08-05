@@ -16,6 +16,7 @@ import { formatUnits } from 'viem';
 import { useAvailableChains } from '../../hooks/useAvailableChains.js';
 import { LiFiToolLogo } from '../../icons/lifi.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { HiddenUI } from '../../types/widget.js';
 import { formatTokenAmount } from '../../utils/format.js';
 import { CardIconButton } from '../Card/CardIconButton.js';
 import { SmallAvatar } from '../SmallAvatar.js';
@@ -39,7 +40,7 @@ export const StepActions: React.FC<StepActionsProps> = ({
   ...other
 }) => {
   const { t } = useTranslation();
-  const { subvariant, subvariantOptions } = useWidgetConfig();
+  const { subvariant } = useWidgetConfig();
   const [cardExpanded, setCardExpanded] = useState(false);
 
   const handleExpand: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -93,41 +94,53 @@ export const StepActions: React.FC<StepActionsProps> = ({
       </Box>
       {dense ? (
         <Collapse timeout={225} in={cardExpanded} mountOnEnter unmountOnExit>
-          <IncludedSteps
-            step={step}
-            subvariant={subvariant}
-            subvariantOptions={subvariantOptions}
-          />
+          <IncludedSteps step={step} />
         </Collapse>
       ) : (
-        <IncludedSteps
-          step={step}
-          subvariant={subvariant}
-          subvariantOptions={subvariantOptions}
-        />
+        <IncludedSteps step={step} />
       )}
     </Box>
   );
 };
 
-export const IncludedSteps: React.FC<IncludedStepsProps> = ({
-  step,
-  subvariant,
-  subvariantOptions,
-}) => {
+export const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
+  const { subvariant, subvariantOptions, feeTool, hiddenUI } =
+    useWidgetConfig();
+
+  let includedSteps = step.includedSteps;
+  if (hiddenUI?.includes(HiddenUI.FeeCollectionStepDetails)) {
+    const feeCollectionStep = includedSteps.find(
+      (step) => step.tool === 'feeCollection',
+    );
+    if (feeCollectionStep) {
+      includedSteps = structuredClone(
+        includedSteps.filter((step) => step.tool !== 'feeCollection'),
+      );
+      includedSteps[0].estimate.fromAmount =
+        feeCollectionStep.estimate.fromAmount;
+    }
+  }
+
   // eslint-disable-next-line react/no-unstable-nested-components
   const StepIconComponent = ({ icon }: StepIconProps) => {
-    const tool = step.includedSteps?.[Number(icon) - 1];
+    const includedStep = includedSteps?.[Number(icon) - 1];
+    const tool =
+      includedStep?.type === 'protocol' &&
+      includedStep?.tool === 'feeCollection' &&
+      feeTool
+        ? feeTool
+        : includedStep?.toolDetails;
     return tool ? (
       <SmallAvatar
-        src={tool.toolDetails.logoURI}
-        alt={tool.toolDetails.name}
+        src={tool.logoURI}
+        alt={tool.name}
         sx={{ width: 20, height: 20 }}
       >
-        {tool.toolDetails.name[0]}
+        {tool.name?.[0]}
       </SmallAvatar>
     ) : null;
   };
+
   return (
     <Box mt={1}>
       <Stepper
@@ -135,7 +148,7 @@ export const IncludedSteps: React.FC<IncludedStepsProps> = ({
         connector={<StepConnector />}
         activeStep={-1}
       >
-        {step.includedSteps.map((step, i, includedSteps) => (
+        {includedSteps.map((step, i, includedSteps) => (
           <MuiStep key={step.id} expanded>
             <StepLabel StepIconComponent={StepIconComponent}>
               {step.type === 'custom' && subvariant === 'custom' ? (
@@ -147,7 +160,7 @@ export const IncludedSteps: React.FC<IncludedStepsProps> = ({
               ) : step.type === 'cross' ? (
                 <BridgeStepDetailsLabel step={step} />
               ) : step.type === 'protocol' ? (
-                <ProtocolStepDetailsLabel step={step} />
+                <ProtocolStepDetailsLabel step={step} feeTool={feeTool} />
               ) : (
                 <SwapStepDetailsLabel step={step} />
               )}
@@ -302,15 +315,19 @@ export const SwapStepDetailsLabel: React.FC<
 
 export const ProtocolStepDetailsLabel: React.FC<
   Omit<StepDetailsLabelProps, 'variant'>
-> = ({ step }) => {
+> = ({ step, feeTool }) => {
   const { t } = useTranslation();
   return (
     <StepLabelTypography>
-      {step.toolDetails.key === 'lifuelProtocol'
-        ? t('main.refuelStepDetails', {
-            tool: step.toolDetails.name,
-          })
-        : step.toolDetails.name}
+      {step.toolDetails.key === 'feeCollection'
+        ? feeTool?.name
+          ? t('main.fees.integrator', { tool: feeTool.name })
+          : t('main.fees.defaultIntegrator')
+        : step.toolDetails.key === 'lifuelProtocol'
+          ? t('main.refuelStepDetails', {
+              tool: step.toolDetails.name,
+            })
+          : step.toolDetails.name}
     </StepLabelTypography>
   );
 };
