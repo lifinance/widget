@@ -26,8 +26,7 @@ import { TransactionDetailsSkeleton } from './TransactionDetailsSkeleton.js';
 export const TransactionDetailsPage: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { navigate } = useNavigateBack();
-  const { subvariant, contractSecondaryComponent, mobileLayout } =
-    useWidgetConfig();
+  const { subvariant, contractSecondaryComponent } = useWidgetConfig();
   const { state }: any = useLocation();
   const { tools } = useTools();
   const storedRouteExecution = useRouteExecutionStore(
@@ -86,14 +85,10 @@ export const TransactionDetailsPage: React.FC = () => {
   return isLoading && !storedRouteExecution ? (
     <TransactionDetailsSkeleton />
   ) : (
-    <PageContainer
-      bottomGutters
-      sx={mobileLayout ? { justifyContent: 'space-between' } : {}}
-    >
+    <PageContainer bottomGutters>
       <Box
         sx={{
           display: 'flex',
-          flex: 1,
           justifyContent: 'space-between',
         }}
         pb={1}
