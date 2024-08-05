@@ -1,6 +1,6 @@
 {
   "name": "@lifi/wallet-management",
-  "version": "3.0.7-beta.0",
+  "version": "3.0.7-beta.1",
   "description": "LI.FI Wallet Management solution.",
   "type": "module",
   "main": "./src/index.ts",
@@ -22,14 +22,14 @@
   "publishConfig": {
     "access": "public"
   },
-  "author": "Adrian Weniger <adrian@li.finance>",
-  "homepage": "https://github.com/lifinance/wallet-management",
+  "author": "Eugene Chybisov <eugene@li.finance>",
+  "homepage": "https://github.com/lifinance/widget",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/lifinance/wallet-management.git"
+    "url": "git+ssh://git@github.com/lifinance/widget.git"
   },
   "bugs": {
-    "url": "https://github.com/lifinance/wallet-management/issues"
+    "url": "https://github.com/lifinance/widget/issues"
   },
   "license": "Apache-2.0",
   "keywords": [
