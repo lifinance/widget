@@ -83,7 +83,7 @@ export enum HiddenUI {
   ToAddress = 'toAddress',
   ToToken = 'toToken',
   WalletMenu = 'walletMenu',
-  FeeCollectionStepDetails = 'feeCollectionStepDetails',
+  IntegratorStepDetails = 'integratorStepDetails',
 }
 export type HiddenUIType = `${HiddenUI}`;
 

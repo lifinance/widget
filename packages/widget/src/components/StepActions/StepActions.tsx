@@ -108,7 +108,7 @@ export const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
     useWidgetConfig();
 
   let includedSteps = step.includedSteps;
-  if (hiddenUI?.includes(HiddenUI.FeeCollectionStepDetails)) {
+  if (hiddenUI?.includes(HiddenUI.IntegratorStepDetails)) {
     const feeCollectionStep = includedSteps.find(
       (step) => step.tool === 'feeCollection',
     );
