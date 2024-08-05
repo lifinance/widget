@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ChainSelect } from '../../components/ChainSelect/ChainSelect.js';
+import { MobileChainSelect } from '../../components/ChainSelect/MobileChainSelect.js';
 import { PageContainer } from '../../components/PageContainer.js';
 import { TokenList } from '../../components/TokenList/TokenList.js';
 import { useHeader } from '../../hooks/useHeader.js';
@@ -23,7 +24,7 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
 
   const swapOnly = useSwapOnly();
 
-  const { subvariant } = useWidgetConfig();
+  const { subvariant, mobileLayout } = useWidgetConfig();
   const { t } = useTranslation();
   const title =
     formType === 'from'
@@ -39,7 +40,13 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
   return (
     <PageContainer disableGutters>
       <Box pb={2} px={3} ref={headerRef}>
-        {!hideChainSelect ? <ChainSelect formType={formType} /> : null}
+        {!hideChainSelect ? (
+          mobileLayout ? (
+            <MobileChainSelect formType={formType} />
+          ) : (
+            <ChainSelect formType={formType} />
+          )
+        ) : null}
         <Box mt={!hideChainSelect ? 2 : 0}>
           <SearchTokenInput />
         </Box>
