@@ -4,6 +4,7 @@ import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstruct
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import TabContext from '@mui/lab/TabContext';
 import { Box, IconButton, Tooltip } from '@mui/material';
+import { useDevView } from '../../hooks';
 import { useFontInitialisation } from '../../providers';
 import {
   useConfigActions,
@@ -19,6 +20,7 @@ import {
   CardRadiusControl,
   ColorControl,
   FontsControl,
+  LayoutControls,
   PlaygroundSettingsControl,
   SkeletonControl,
   SubvariantControl,
@@ -42,6 +44,7 @@ export const DrawerControls = () => {
   const { setDrawerOpen, setVisibleControls } = useEditToolsActions();
   const { resetConfig } = useConfigActions();
   const { resetEditTools } = useEditToolsActions();
+  const { isDevView } = useDevView();
 
   useFontInitialisation();
 
@@ -123,6 +126,7 @@ export const DrawerControls = () => {
                   <ButtonRadiusControl />
                   <WalletManagementControl />
                   <SkeletonControl />
+                  {isDevView ? <LayoutControls /> : null}
                 </WidgetConfigControls>
                 <PlaygroundSettingsControl />
               </ExpandableCardAccordion>
