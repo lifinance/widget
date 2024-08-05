@@ -8,6 +8,8 @@ import type { CardProps } from '@mui/material';
 import { Box, Collapse, Tooltip, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { formatUnits } from 'viem';
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
 import { isRouteDone } from '../stores/routes/utils.js';
 import { getAccumulatedFeeCostsBreakdown } from '../utils/fees.js';
 import {
@@ -30,6 +32,7 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
   ...props
 }) => {
   const { t } = useTranslation();
+  const { feeTool } = useWidgetConfig();
   const [cardExpanded, setCardExpanded] = useState(false);
 
   const toggleCard = () => {
@@ -64,35 +67,58 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
     roundingMode: 'trunc',
   });
 
+  const feeCollectionStep = route.steps[0].includedSteps.find(
+    (includedStep) => includedStep.tool === 'feeCollection',
+  );
+
+  let feeAmountUSD: number = 0;
+
+  if (feeCollectionStep) {
+    const estimatedFromAmount =
+      BigInt(feeCollectionStep.estimate.fromAmount) -
+      BigInt(feeCollectionStep.estimate.toAmount);
+
+    const feeAmount = formatUnits(
+      estimatedFromAmount,
+      feeCollectionStep.action.fromToken.decimals,
+    );
+
+    feeAmountUSD =
+      parseFloat(feeAmount) *
+      parseFloat(feeCollectionStep.action.fromToken.priceUSD);
+  }
+
   return (
     <Card selectionColor="secondary" {...props}>
       <Box display="flex" alignItems="center" px={2} py={1.75}>
         <Box display="flex" flex={1} alignItems="center" justifyContent="left">
           <TokenRate route={route} />
         </Box>
-        <FeeBreakdownTooltip gasCosts={gasCosts} feeCosts={feeCosts}>
-          <Box
-            display="flex"
-            alignItems="center"
-            onClick={toggleCard}
-            role="button"
-            sx={{ cursor: 'pointer' }}
-            px={1}
-          >
-            <IconTypography mr={0.5} fontSize={16}>
-              <LocalGasStationRounded fontSize="inherit" />
-            </IconTypography>
-            <Typography
-              fontSize={14}
-              color="text.primary"
-              fontWeight="600"
-              lineHeight={1.429}
-              data-value={combinedFeesUSD}
+        <Collapse timeout={100} in={!cardExpanded} mountOnEnter>
+          <FeeBreakdownTooltip gasCosts={gasCosts} feeCosts={feeCosts}>
+            <Box
+              display="flex"
+              alignItems="center"
+              onClick={toggleCard}
+              role="button"
+              sx={{ cursor: 'pointer' }}
+              px={1}
             >
-              {t(`format.currency`, { value: combinedFeesUSD })}
-            </Typography>
-          </Box>
-        </FeeBreakdownTooltip>
+              <IconTypography mr={0.5} fontSize={16}>
+                <LocalGasStationRounded fontSize="inherit" />
+              </IconTypography>
+              <Typography
+                fontSize={14}
+                color="text.primary"
+                fontWeight="600"
+                lineHeight={1.429}
+                data-value={combinedFeesUSD}
+              >
+                {t(`format.currency`, { value: combinedFeesUSD })}
+              </Typography>
+            </Box>
+          </FeeBreakdownTooltip>
+        </Collapse>
         <CardIconButton onClick={toggleCard} size="small">
           {cardExpanded ? (
             <ExpandLess fontSize="inherit" />
@@ -123,6 +149,33 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                   })}
                 </Typography>
               </FeeBreakdownTooltip>
+            </Box>
+          ) : null}
+          {feeAmountUSD ? (
+            <Box display="flex" justifyContent="space-between" mb={0.5}>
+              <Typography variant="body2">
+                {feeTool?.name
+                  ? t('main.fees.integrator', { tool: feeTool.name })
+                  : t('main.fees.defaultIntegrator')}
+              </Typography>
+              {feeTool?.name ? (
+                <Tooltip
+                  title={t('tooltip.feeCollection', { tool: feeTool.name })}
+                  sx={{ cursor: 'help' }}
+                >
+                  <Typography variant="body2">
+                    {t(`format.currency`, {
+                      value: feeAmountUSD,
+                    })}
+                  </Typography>
+                </Tooltip>
+              ) : (
+                <Typography variant="body2">
+                  {t(`format.currency`, {
+                    value: feeAmountUSD,
+                  })}
+                </Typography>
+              )}
             </Box>
           ) : null}
           <Box display="flex" justifyContent="space-between" mb={0.5}>
