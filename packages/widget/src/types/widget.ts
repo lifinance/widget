@@ -83,6 +83,7 @@ export enum HiddenUI {
   ToAddress = 'toAddress',
   ToToken = 'toToken',
   WalletMenu = 'walletMenu',
+  FeeCollectionStepDetails = 'feeCollectionStepDetails',
 }
 export type HiddenUIType = `${HiddenUI}`;
 
@@ -110,6 +111,11 @@ export interface WidgetSDKConfig
 }
 
 export interface WidgetContractTool {
+  logoURI: string;
+  name: string;
+}
+
+export interface WidgetFeeTool {
   logoURI: string;
   name: string;
 }
@@ -145,6 +151,7 @@ export interface WidgetConfig {
   integrator: string;
   apiKey?: string;
   fee?: number;
+  feeTool?: WidgetFeeTool;
   referrer?: string;
 
   routePriority?: Order;
