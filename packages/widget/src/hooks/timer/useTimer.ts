@@ -23,10 +23,12 @@ export function useTimer({
   autoStart = true,
 }: UseTimerProps) {
   const [expiryTimestamp, setExpiryTimestamp] = useState(expiry);
-  const [seconds, setSeconds] = useState(getSecondsFromExpiry(expiryTimestamp));
+  const [seconds, setSeconds] = useState(() =>
+    getSecondsFromExpiry(expiryTimestamp),
+  );
   const [isRunning, setIsRunning] = useState(autoStart);
   const [didStart, setDidStart] = useState(autoStart);
-  const [delay, setDelay] = useState(
+  const [delay, setDelay] = useState(() =>
     getDelayFromExpiryTimestamp(expiryTimestamp, DEFAULT_DELAY),
   );
 

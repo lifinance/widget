@@ -2,6 +2,52 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.3.0](https://github.com/lifinance/widget/compare/v3.2.2...v3.3.0) (2024-07-30)
+
+
+### Features
+
+* improve the display of estimated duration and fees ([#278](https://github.com/lifinance/widget/issues/278)) ([5180526](https://github.com/lifinance/widget/commit/5180526154371c5378c38224592894933d1cc313))
+
+
+### Bug Fixes
+
+* change assert to with ([#279](https://github.com/lifinance/widget/issues/279)) ([5d6ac56](https://github.com/lifinance/widget/commit/5d6ac569e239317edb288a42918ead107369d1ae))
+
+### [3.2.2](https://github.com/lifinance/widget/compare/v3.2.1...v3.2.2) (2024-07-24)
+
+
+### Bug Fixes
+
+* allow syncing with mixed chains ([#277](https://github.com/lifinance/widget/issues/277)) ([b32287f](https://github.com/lifinance/widget/commit/b32287fab518e89c90ec5bfd95e0c2781fdc48b0))
+
+### [3.2.1](https://github.com/lifinance/widget/compare/v3.2.0...v3.2.1) (2024-07-22)
+
+
+### Bug Fixes
+
+* add slippage tooltip ([9624fd1](https://github.com/lifinance/widget/commit/9624fd165fb76f698371afd7569854c4a687cece))
+* change send and receive wording ([6585723](https://github.com/lifinance/widget/commit/6585723b8fd9cc88e5e8bad68b1216960d6518f0))
+* refuel variant should show get gas review button ([587bbda](https://github.com/lifinance/widget/commit/587bbda834aed5a5599481d40864797707261c0a))
+* show correct number of available tools ([da893cc](https://github.com/lifinance/widget/commit/da893cc50cdc266850358628524d6ed7c04185c3))
+
+## [3.2.0](https://github.com/lifinance/widget/compare/v3.1.1...v3.2.0) (2024-07-19)
+
+
+### Features
+
+* bump sdk ([b85059f](https://github.com/lifinance/widget/commit/b85059f4bb265b305c887601442dcc6f368bc193))
+
+### [3.1.1](https://github.com/lifinance/widget/compare/v3.1.0...v3.1.1) (2024-07-19)
+
+
+### Bug Fixes
+
+* add new error messages for Solana ([3370507](https://github.com/lifinance/widget/commit/3370507fb0f8132fd1c298fe1439916cebc99f67))
+* adjust fees amount USD calculation ([d479ecd](https://github.com/lifinance/widget/commit/d479ecda93e61c45a6ba6ffe7b28eaa55fadebc8))
+* adjust get gas title ([ccc11e1](https://github.com/lifinance/widget/commit/ccc11e1cd036f99df6b9f28472455080babd560a))
+* adjust step connector color ([f8694cc](https://github.com/lifinance/widget/commit/f8694cc3e60c5be3815b57f0cc742631c90c5e1f))
+
 ## [3.1.0](https://github.com/lifinance/widget/compare/v3.0.2...v3.1.0) (2024-07-15)
 
 

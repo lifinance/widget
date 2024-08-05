@@ -1,10 +1,35 @@
 import type { FeeCost, GasCost, RouteExtended, Token } from '@lifi/sdk';
+import { formatUnits } from 'viem';
 
 export interface FeesBreakdown {
   amount: bigint;
   amountUSD: number;
   token: Token;
 }
+
+export const getAccumulatedFeeCostsBreakdown = (
+  route: RouteExtended,
+  included: boolean = false,
+) => {
+  const gasCosts = getGasCostsBreakdown(route);
+  const feeCosts = getFeeCostsBreakdown(route, included);
+  const gasCostUSD = gasCosts.reduce(
+    (sum, gasCost) => sum + gasCost.amountUSD,
+    0,
+  );
+  const feeCostUSD = feeCosts.reduce(
+    (sum, feeCost) => sum + feeCost.amountUSD,
+    0,
+  );
+  const combinedFeesUSD = gasCostUSD + feeCostUSD;
+  return {
+    gasCosts,
+    feeCosts,
+    gasCostUSD,
+    feeCostUSD,
+    combinedFeesUSD,
+  };
+};
 
 export const getGasCostsBreakdown = (route: RouteExtended): FeesBreakdown[] => {
   return Array.from(
@@ -85,7 +110,12 @@ export const getStepFeeCostsBreakdown = (
     0n,
   );
   const amountUSD = feeCosts.reduce(
-    (amount, feeCost) => amount + parseFloat(feeCost.amountUSD || '0'),
+    (amount, feeCost) =>
+      amount +
+      parseFloat(feeCost.token.priceUSD || '0') *
+        parseFloat(
+          formatUnits(BigInt(feeCost.amount || 0), feeCost.token.decimals),
+        ),
     0,
   );
   return {

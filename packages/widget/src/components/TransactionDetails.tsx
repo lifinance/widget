@@ -9,7 +9,7 @@ import { Box, Collapse, Tooltip, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { isRouteDone } from '../stores/routes/utils.js';
-import { getFeeCostsBreakdown, getGasCostsBreakdown } from '../utils/fees.js';
+import { getAccumulatedFeeCostsBreakdown } from '../utils/fees.js';
 import {
   convertToSubscriptFormat,
   formatTokenAmount,
@@ -19,7 +19,7 @@ import { Card } from './Card/Card.js';
 import { CardIconButton } from './Card/CardIconButton.js';
 import { FeeBreakdownTooltip } from './FeeBreakdownTooltip.js';
 import { IconTypography } from './IconTypography.js';
-import { TokenRate } from './TokenRate.js';
+import { TokenRate } from './TokenRate/TokenRate.js';
 
 interface TransactionDetailsProps extends CardProps {
   route: RouteExtended;
@@ -35,18 +35,8 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
   const toggleCard = () => {
     setCardExpanded((cardExpanded) => !cardExpanded);
   };
-
-  const gasCosts = getGasCostsBreakdown(route);
-  const feeCosts = getFeeCostsBreakdown(route, false);
-  const gasCostUSD = gasCosts.reduce(
-    (sum, gasCost) => sum + gasCost.amountUSD,
-    0,
-  );
-  const feeCostUSD = feeCosts.reduce(
-    (sum, feeCost) => sum + feeCost.amountUSD,
-    0,
-  );
-  const fees = gasCostUSD + feeCostUSD;
+  const { gasCosts, feeCosts, gasCostUSD, feeCostUSD, combinedFeesUSD } =
+    getAccumulatedFeeCostsBreakdown(route);
 
   const fromTokenAmount = formatTokenAmount(
     BigInt(route.fromAmount),
@@ -80,11 +70,7 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
         <Box display="flex" flex={1} alignItems="center" justifyContent="left">
           <TokenRate route={route} />
         </Box>
-        <FeeBreakdownTooltip
-          route={route}
-          gasCosts={gasCosts}
-          feeCosts={feeCosts}
-        >
+        <FeeBreakdownTooltip gasCosts={gasCosts} feeCosts={feeCosts}>
           <Box
             display="flex"
             alignItems="center"
@@ -101,8 +87,9 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
               color="text.primary"
               fontWeight="600"
               lineHeight={1.429}
+              data-value={combinedFeesUSD}
             >
-              {t(`format.currency`, { value: fees })}
+              {t(`format.currency`, { value: combinedFeesUSD })}
             </Typography>
           </Box>
         </FeeBreakdownTooltip>
@@ -118,7 +105,7 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
         <Box px={2} pb={2}>
           <Box display="flex" justifyContent="space-between" mb={0.5}>
             <Typography variant="body2">{t('main.fees.network')}</Typography>
-            <FeeBreakdownTooltip route={route} feeCosts={[]}>
+            <FeeBreakdownTooltip gasCosts={gasCosts}>
               <Typography variant="body2">
                 {t(`format.currency`, {
                   value: gasCostUSD,
@@ -129,11 +116,7 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
           {feeCosts.length ? (
             <Box display="flex" justifyContent="space-between" mb={0.5}>
               <Typography variant="body2">{t('main.fees.provider')}</Typography>
-              <FeeBreakdownTooltip
-                route={route}
-                gasCosts={[]}
-                feeCosts={feeCosts}
-              >
+              <FeeBreakdownTooltip feeCosts={feeCosts}>
                 <Typography variant="body2">
                   {t(`format.currency`, {
                     value: feeCostUSD,
@@ -152,9 +135,11 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
             <>
               <Box display="flex" justifyContent="space-between" mb={0.5}>
                 <Typography variant="body2">{t('main.maxSlippage')}</Typography>
-                <Typography variant="body2">
-                  {route.steps[0].action.slippage * 100}%
-                </Typography>
+                <Tooltip title={t('tooltip.slippage')} sx={{ cursor: 'help' }}>
+                  <Typography variant="body2">
+                    {route.steps[0].action.slippage * 100}%
+                  </Typography>
+                </Tooltip>
               </Box>
               <Box display="flex" justifyContent="space-between">
                 <Typography variant="body2">{t('main.minReceived')}</Typography>

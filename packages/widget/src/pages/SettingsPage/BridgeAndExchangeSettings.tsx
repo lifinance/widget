@@ -20,7 +20,7 @@ export const BridgeAndExchangeSettings: React.FC<{
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [enabledTools, tools] = useSettingsStore((state) => {
-    const enabledTools = Object.values(state[`enabled${type}`]);
+    const enabledTools = Object.values(state[`_enabled${type}`]);
     return [enabledTools.filter(Boolean).length, enabledTools.length];
   }, shallow);
 

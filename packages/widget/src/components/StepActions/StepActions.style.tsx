@@ -20,8 +20,8 @@ export const StepConnector = styled(MuiStepConnector, {
     borderLeftWidth: 2,
     borderColor:
       theme.palette.mode === 'light'
-        ? theme.palette.grey[300]
-        : theme.palette.grey[800],
+        ? alpha(theme.palette.common.black, 0.12)
+        : alpha(theme.palette.common.white, 0.16),
   },
 }));
 
@@ -60,8 +60,8 @@ export const StepContent = styled(Box, {
     ? 'none'
     : `2px solid ${
         theme.palette.mode === 'light'
-          ? theme.palette.grey[300]
-          : theme.palette.grey[800]
+          ? alpha(theme.palette.common.black, 0.12)
+          : alpha(theme.palette.common.white, 0.16)
       }`,
   margin: theme.spacing(0, 0, 0, 2.375),
   paddingLeft: last ? theme.spacing(4.625) : theme.spacing(4.375),
@@ -70,12 +70,4 @@ export const StepContent = styled(Box, {
 export const StepAvatar = styled(AvatarMasked)(({ theme }) => ({
   color: theme.palette.text.primary,
   backgroundColor: 'transparent',
-}));
-
-export const IconTypography = styled(Typography)(({ theme }) => ({
-  color:
-    theme.palette.mode === 'light'
-      ? alpha(theme.palette.common.black, 0.32)
-      : alpha(theme.palette.common.white, 0.4),
-  lineHeight: 0,
 }));

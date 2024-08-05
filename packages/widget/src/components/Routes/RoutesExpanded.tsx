@@ -126,8 +126,8 @@ export const RoutesExpandedElement = () => {
             <Header>
               <Typography fontSize={18} fontWeight="700" flex={1} noWrap>
                 {subvariant === 'custom'
-                  ? t('main.fromAmount')
-                  : t('header.youGet')}
+                  ? t('header.youPay')
+                  : t('header.receive')}
               </Typography>
               <ProgressToNextUpdate
                 updatedAt={dataUpdatedAt || new Date().getTime()}

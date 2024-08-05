@@ -1,13 +1,13 @@
 import type { RouteExtended } from '@lifi/sdk';
 import type { TypographyProps } from '@mui/material';
-import { Typography } from '@mui/material';
 import type { MouseEventHandler } from 'react';
 import { formatUnits } from 'viem';
 import { create } from 'zustand';
 import {
   convertToSubscriptFormat,
   precisionFormatter,
-} from '../utils/format.js';
+} from '../../utils/format.js';
+import { TokenRateTypography } from './TokenRate.style.js';
 
 interface TokenRateProps extends TypographyProps {
   route: RouteExtended;
@@ -23,7 +23,7 @@ const useTokenRateStore = create<TokenRateState>((set) => ({
   toggleIsForward: () => set((state) => ({ isForward: !state.isForward })),
 }));
 
-export const TokenRate: React.FC<TokenRateProps> = ({ route, ...props }) => {
+export const TokenRate: React.FC<TokenRateProps> = ({ route }) => {
   const { isForward, toggleIsForward } = useTokenRateStore();
 
   const toggleRate: MouseEventHandler<HTMLSpanElement> = (e) => {
@@ -62,18 +62,8 @@ export const TokenRate: React.FC<TokenRateProps> = ({ route, ...props }) => {
     : `1 ${toToken.symbol} ≈ ${precisionFormatter.format(toFromRate)} ${fromToken.symbol}`;
 
   return (
-    <Typography
-      fontSize={14}
-      lineHeight={1.429}
-      color="text.secondary"
-      fontWeight="500"
-      onClick={toggleRate}
-      role="button"
-      sx={{ cursor: 'pointer' }}
-      title={rateTitle}
-      {...props}
-    >
+    <TokenRateTypography onClick={toggleRate} role="button" title={rateTitle}>
       {rateText}
-    </Typography>
+    </TokenRateTypography>
   );
 };

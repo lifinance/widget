@@ -1,6 +1,6 @@
-import { Typography, alpha, styled } from '@mui/material';
+import { alpha, Box, styled } from '@mui/material';
 
-export const IconTypography = styled(Typography)(({ theme }) => ({
+export const IconTypography = styled(Box)(({ theme }) => ({
   color:
     theme.palette.mode === 'light'
       ? alpha(theme.palette.common.black, 0.32)

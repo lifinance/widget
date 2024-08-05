@@ -41,7 +41,7 @@ export const ActiveTransactionItem: React.FC<{
         return <ErrorRounded color="error" fontSize="small" />;
       default:
         return (
-          <Typography fontSize={14} fontWeight={500}>
+          <Typography fontSize={14} fontWeight={600}>
             <StepTimer step={lastActiveStep} hideInProgress />
           </Typography>
         );

@@ -59,17 +59,20 @@
     "payWith": "Pay with",
     "purchase": "Purchase",
     "purchaseDetails": "Purchase details",
+    "receive": "Receive",
     "recentWallets": "Recent wallets",
     "selectChain": "Select chain",
     "selectWallet": "Select your wallet",
     "sendToWallet": "Send to wallet",
     "settings": "Settings",
     "swap": "Swap",
+    "send": "Send",
     "to": "Exchange to",
     "transactionDetails": "Transaction details",
     "transactionHistory": "Transaction history",
     "walletConnected": "Wallet connected",
-    "youGet": "You get"
+    "youGet": "You get",
+    "youPay": "You pay"
   },
   "info": {
     "message": {
@@ -82,7 +85,7 @@
       "routeNotFound": "Reasons for that could be: low liquidity, amount selected is too low, gas costs are too high or there are no routes for the selected combination."
     },
     "title": {
-      "autoRefuel": "Get gas",
+      "autoRefuel": "Get {{chainName}} gas",
       "emptyActiveTransactions": "No active transactions",
       "emptyTransactionHistory": "No recent transactions",
       "routeNotFound": "No routes available"
@@ -132,8 +135,10 @@
       "signatureRejected": "Your signature is required to complete the transaction. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
       "slippageThreshold": "The slippage is larger than the defined threshold. Please request a new quote.",
       "transactionCanceled": "Transaction was canceled.",
+      "transactionExpired": "The block height has exceeded the maximum allowed limit or blockhash is no longer recent enough.",
       "transactionFailed": "Please check the block explorer for more information.",
       "transactionNotSent": "Transaction was not sent.",
+      "transactionSimulationFailed": "The transaction could not be executed in simulation.",
       "unknown": "Please try again or contact support.",
       "walletChangedDuringExecution": "The wallet address that requested the quote does not match the wallet address attempting to sign the transaction. Please ensure the same wallet address is used throughout the entire transaction execution."
     },
@@ -149,7 +154,9 @@
       "signatureRejected": "Signature required",
       "slippageNotMet": "Slippage conditions not met",
       "transactionCanceled": "Transaction canceled",
+      "transactionExpired": "Transaction expired",
       "transactionFailed": "Transaction failed",
+      "transactionSimulationFailed": "Transaction simulation failed",
       "transactionUnderpriced": "Transaction is underpriced",
       "transactionUnprepared": "Unable to prepare transaction",
       "unknown": "Something went wrong",
@@ -161,7 +168,8 @@
     }
   },
   "tooltip": {
-    "estimatedTime": "Estimated execution time in minutes.",
+    "deselectAll": "Deselect all",
+    "estimatedTime": "Estimated time to complete the swap or bridge transaction, excluding chain switching and token approval.",
     "minReceived": "The estimated minimum amount may change until the swapping/bridging transaction is signed. For 2-step transfers, this applies until the second step transaction is signed.",
     "notFound": {
       "text": "We couldn't find this page.",
@@ -172,7 +180,7 @@
     "progressToNextUpdate": "Quotes will update in {{value}} seconds. <0/> Click here to update now.",
     "selectAll": "Select all",
     "settingsModified": "Settings (modified)",
-    "deselectAll": "Deselect all"
+    "slippage": "The maximum percentage difference between the expected price, and the actual price at which a transfer is executed. This value can be changed in settings."
   },
   "main": {
     "allTokens": "All tokens",
@@ -188,8 +196,6 @@
       "provider": "Provider fee"
     },
     "from": "From",
-    "fromAmount": "You pay",
-    "gasCost": "Gas cost",
     "inProgress": "in progress",
     "maxSlippage": "Max. slippage",
     "minReceived": "Min. received",
@@ -273,7 +279,7 @@
       "title": "Gas price"
     },
     "routePriority": "Route priority",
-    "slippage": "Slippage",
+    "slippage": "Max. slippage",
     "custom": "Custom",
     "resetSettings": "You're using custom settings that can affect the number or sorting of available routes."
   },

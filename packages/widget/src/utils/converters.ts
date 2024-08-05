@@ -167,7 +167,7 @@ export const buildRouteFromTxHistory = (
             toAmountMin: receiving.amount ?? '',
             toAmount: receiving.amount ?? '',
             toAmountUSD: receiving.amountUSD ?? '',
-            executionDuration: 30,
+            executionDuration: 0,
           },
           includedSteps: [
             {

@@ -1,7 +1,7 @@
 import { injected } from '@wagmi/connectors';
 import { isWalletInstalled } from '../utils/isWalletInstalled.js';
 
-export const metaMask = /*@__PURE__*/ injected({
+export const metaMask = /*#__PURE__*/ injected({
   target: {
     id: 'metaMaskSDK',
     name: 'MetaMask',
@@ -11,7 +11,7 @@ export const metaMask = /*@__PURE__*/ injected({
 }); // _metaMask();
 
 // Unknown wallet that injects as metamask but is not metamask
-export const defaultWallet = /*@__PURE__*/ injected({
+export const defaultWallet = /*#__PURE__*/ injected({
   target: {
     id: 'default',
     name: 'Default Wallet',
@@ -20,7 +20,7 @@ export const defaultWallet = /*@__PURE__*/ injected({
   },
 });
 
-export const bitget = /*@__PURE__*/ injected({
+export const bitget = /*#__PURE__*/ injected({
   target: {
     id: 'bitget',
     name: 'Bitget Wallet',
@@ -29,7 +29,7 @@ export const bitget = /*@__PURE__*/ injected({
   },
 });
 
-export const gate = /*@__PURE__*/ injected({
+export const gate = /*#__PURE__*/ injected({
   target: {
     id: 'gate',
     name: 'Gate Wallet',
@@ -38,7 +38,7 @@ export const gate = /*@__PURE__*/ injected({
   },
 });
 
-export const frontier = /*@__PURE__*/ injected({
+export const frontier = /*#__PURE__*/ injected({
   target: {
     id: 'frontier',
     name: 'Frontier',
@@ -47,7 +47,7 @@ export const frontier = /*@__PURE__*/ injected({
   },
 });
 
-export const safepal = /*@__PURE__*/ injected({
+export const safepal = /*#__PURE__*/ injected({
   target: {
     id: 'safepal',
     name: 'SafePal',
@@ -57,7 +57,7 @@ export const safepal = /*@__PURE__*/ injected({
   },
 });
 
-export const brave = /*@__PURE__*/ injected({
+export const brave = /*#__PURE__*/ injected({
   target: {
     id: 'brave',
     name: 'Brave',
@@ -67,7 +67,7 @@ export const brave = /*@__PURE__*/ injected({
   },
 });
 
-export const taho = /*@__PURE__*/ injected({
+export const taho = /*#__PURE__*/ injected({
   target: {
     id: 'taho',
     name: 'Taho',
@@ -76,7 +76,7 @@ export const taho = /*@__PURE__*/ injected({
   },
 });
 
-export const block = /*@__PURE__*/ injected({
+export const block = /*#__PURE__*/ injected({
   target: {
     id: 'block',
     name: 'BlockWallet',
@@ -86,7 +86,7 @@ export const block = /*@__PURE__*/ injected({
   },
 });
 
-export const binance = /*@__PURE__*/ injected({
+export const binance = /*#__PURE__*/ injected({
   target: {
     id: 'binance',
     name: 'Binance',
@@ -95,7 +95,7 @@ export const binance = /*@__PURE__*/ injected({
   },
 });
 
-export const trust = /*@__PURE__*/ injected({
+export const trust = /*#__PURE__*/ injected({
   target: {
     id: 'trust',
     name: 'Trust',
@@ -104,7 +104,7 @@ export const trust = /*@__PURE__*/ injected({
   },
 });
 
-export const status = /*@__PURE__*/ injected({
+export const status = /*#__PURE__*/ injected({
   target: {
     id: 'status',
     name: 'Status',
@@ -114,7 +114,7 @@ export const status = /*@__PURE__*/ injected({
   },
 });
 
-export const alpha = /*@__PURE__*/ injected({
+export const alpha = /*#__PURE__*/ injected({
   target: {
     id: 'alpha',
     name: 'AlphaWallet',
@@ -124,7 +124,7 @@ export const alpha = /*@__PURE__*/ injected({
   },
 });
 
-export const bitpie = /*@__PURE__*/ injected({
+export const bitpie = /*#__PURE__*/ injected({
   target: {
     id: 'bitpie',
     name: 'Bitpie',
@@ -134,7 +134,7 @@ export const bitpie = /*@__PURE__*/ injected({
   },
 });
 
-export const dcent = /*@__PURE__*/ injected({
+export const dcent = /*#__PURE__*/ injected({
   target: {
     id: 'dcent',
     name: 'Dcent',
@@ -144,7 +144,7 @@ export const dcent = /*@__PURE__*/ injected({
   },
 });
 
-export const frame = /*@__PURE__*/ injected({
+export const frame = /*#__PURE__*/ injected({
   target: {
     id: 'frame',
     name: 'Frame',
@@ -154,7 +154,7 @@ export const frame = /*@__PURE__*/ injected({
   },
 });
 
-export const hyperpay = /*@__PURE__*/ injected({
+export const hyperpay = /*#__PURE__*/ injected({
   target: {
     id: 'hyperpay',
     name: 'HyperPay',
@@ -164,7 +164,7 @@ export const hyperpay = /*@__PURE__*/ injected({
   },
 });
 
-export const imtoken = /*@__PURE__*/ injected({
+export const imtoken = /*#__PURE__*/ injected({
   target: {
     id: 'imtoken',
     name: 'ImToken',
@@ -174,7 +174,7 @@ export const imtoken = /*@__PURE__*/ injected({
   },
 });
 
-export const liquality = /*@__PURE__*/ injected({
+export const liquality = /*#__PURE__*/ injected({
   target: {
     id: 'liquality',
     name: 'Liquality',
@@ -183,7 +183,7 @@ export const liquality = /*@__PURE__*/ injected({
   },
 });
 
-export const ownbit = /*@__PURE__*/ injected({
+export const ownbit = /*#__PURE__*/ injected({
   target: {
     id: 'ownbit',
     name: 'OwnBit',
@@ -193,7 +193,7 @@ export const ownbit = /*@__PURE__*/ injected({
   },
 });
 
-export const tokenpocket = /*@__PURE__*/ injected({
+export const tokenpocket = /*#__PURE__*/ injected({
   target: {
     id: 'tokenpocket',
     name: 'TokenPocket',
@@ -203,7 +203,7 @@ export const tokenpocket = /*@__PURE__*/ injected({
   },
 });
 
-export const xdefi = /*@__PURE__*/ injected({
+export const xdefi = /*#__PURE__*/ injected({
   target: {
     id: 'xdefi',
     name: 'XDEFI',
@@ -213,7 +213,7 @@ export const xdefi = /*@__PURE__*/ injected({
   },
 });
 
-export const oneinch = /*@__PURE__*/ injected({
+export const oneinch = /*#__PURE__*/ injected({
   target: {
     id: '1inch',
     name: '1inch',
@@ -223,7 +223,7 @@ export const oneinch = /*@__PURE__*/ injected({
   },
 });
 
-export const tokenary = /*@__PURE__*/ injected({
+export const tokenary = /*#__PURE__*/ injected({
   target: {
     id: 'tokenary',
     name: 'Tokenary',
@@ -233,7 +233,7 @@ export const tokenary = /*@__PURE__*/ injected({
   },
 });
 
-export const okx = /*@__PURE__*/ injected({
+export const okx = /*#__PURE__*/ injected({
   target: {
     id: 'okx',
     name: 'OKX',
@@ -242,7 +242,7 @@ export const okx = /*@__PURE__*/ injected({
   },
 });
 
-export const exodus = /*@__PURE__*/ injected({
+export const exodus = /*#__PURE__*/ injected({
   target: {
     id: 'exodus',
     name: 'Exodus',

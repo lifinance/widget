@@ -15,10 +15,10 @@ export interface RouteExecutionState {
 }
 
 export enum RouteExecutionStatus {
-  Idle = 0,
-  Pending = 1 << 0,
-  Done = 1 << 1,
-  Failed = 1 << 2,
-  Partial = 1 << 3,
-  Refunded = 1 << 4,
+  Idle = 1 << 0,
+  Pending = 1 << 1,
+  Done = 1 << 2,
+  Failed = 1 << 3,
+  Partial = 1 << 4,
+  Refunded = 1 << 5,
 }

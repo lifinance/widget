@@ -99,7 +99,7 @@ export const AmountInputBase: React.FC<
 
   return (
     <InputCard {...props}>
-      <CardTitle>{t('main.fromAmount')}</CardTitle>
+      <CardTitle>{t('header.send')}</CardTitle>
       <FormContainer>
         <AmountInputStartAdornment formType={formType} />
         <FormControl fullWidth>
