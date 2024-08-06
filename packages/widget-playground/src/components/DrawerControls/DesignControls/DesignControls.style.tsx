@@ -100,6 +100,31 @@ export const TabCustomInput = styled(InputBase)<TabButtonProps>(({
   };
 });
 
+export const Input = styled(InputBase)(({ theme }) => {
+  return {
+    minHeight: 56,
+    width: '100%',
+
+    [`.${inputBaseClasses.input}`]: {
+      minHeight: 56,
+      width: '100%',
+      padding: 0,
+      textAlign: 'center',
+      '&::placeholder': {
+        fontSize: '1rem',
+        fontWeight: 700,
+        opacity: 1,
+      },
+      '&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
+        display: 'none',
+      },
+    },
+    backgroundColor: getCardFieldsetBackgroundColor(theme),
+    borderRadius: theme.shape.borderRadiusSecondary,
+    boxShadow: `0px 2px 4px ${alpha(theme.palette.common.black, 0.04)}`,
+  };
+});
+
 export const ColorSwatches = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'flex-end',
