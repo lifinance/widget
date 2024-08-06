@@ -1,10 +1,11 @@
+import type { CreateConnectorFnExtended } from '@lifi/wallet-management';
 import { getWalletPriority } from '@lifi/wallet-management';
 import type { Wallet } from '@solana/wallet-adapter-react';
 import type { Connector } from 'wagmi';
 
 export const walletComparator = (
-  a: Connector | Wallet,
-  b: Connector | Wallet,
+  a: CreateConnectorFnExtended | Connector | Wallet,
+  b: CreateConnectorFnExtended | Connector | Wallet,
 ) => {
   let aId = (a as Connector).id || (a as Wallet).adapter?.name;
   let bId = (b as Connector).id || (b as Wallet).adapter?.name;

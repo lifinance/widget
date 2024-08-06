@@ -18,6 +18,7 @@ import type {
 import type { TypographyOptions } from '@mui/material/styles/createTypography.js';
 import type {
   CoinbaseWalletParameters,
+  MetaMaskParameters,
   WalletConnectParameters,
 } from '@wagmi/connectors';
 import type { CSSProperties, ReactNode, RefObject } from 'react';
@@ -96,6 +97,7 @@ export interface WidgetWalletConfig {
   onConnect?(): void;
   walletConnect?: WalletConnectParameters;
   coinbase?: CoinbaseWalletParameters;
+  metaMask?: MetaMaskParameters;
 }
 
 export interface WidgetSDKConfig

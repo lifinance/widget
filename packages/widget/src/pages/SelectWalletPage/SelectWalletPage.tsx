@@ -1,5 +1,11 @@
 import { ChainType } from '@lifi/sdk';
-import { isWalletInstalled } from '@lifi/wallet-management';
+import type { CreateConnectorFnExtended } from '@lifi/wallet-management';
+import {
+  createCoinbaseConnector,
+  createMetaMaskConnector,
+  createWalletConnectConnector,
+  isWalletInstalled,
+} from '@lifi/wallet-management';
 import type { Theme } from '@mui/material';
 import {
   Button,
@@ -18,6 +24,9 @@ import type { Connector } from 'wagmi';
 import { useConnect, useAccount as useWagmiAccount } from 'wagmi';
 import { Dialog } from '../../components/Dialog.js';
 import { PageContainer } from '../../components/PageContainer.js';
+import { defaultCoinbaseConfig } from '../../config/coinbase.js';
+import { defaultMetaMaskConfig } from '../../config/metaMask.js';
+import { defaultWalletConnectConfig } from '../../config/walletConnect.js';
 import { useHeader } from '../../hooks/useHeader.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { isItemAllowed } from '../../utils/item.js';
@@ -27,7 +36,7 @@ import { walletComparator } from './utils.js';
 
 export const SelectWalletPage = () => {
   const { t } = useTranslation();
-  const { chains } = useWidgetConfig();
+  const { chains, walletConfig } = useWidgetConfig();
   const account = useWagmiAccount();
   const { connectors } = useConnect();
   const [walletIdentity, setWalletIdentity] = useState<{
@@ -57,16 +66,53 @@ export const SelectWalletPage = () => {
   }, []);
 
   const wallets = useMemo(() => {
+    const evmConnectors: (CreateConnectorFnExtended | Connector)[] =
+      Array.from(connectors);
+    if (
+      !connectors.some((connector) =>
+        connector.id.toLowerCase().includes('walletconnect'),
+      )
+    ) {
+      evmConnectors.unshift(
+        createWalletConnectConnector(
+          walletConfig?.walletConnect ?? defaultWalletConnectConfig,
+        ),
+      );
+    }
+    if (
+      !connectors.some((connector) =>
+        connector.id.toLowerCase().includes('coinbase'),
+      ) &&
+      !isWalletInstalled('coinbase')
+    ) {
+      evmConnectors.unshift(
+        createCoinbaseConnector(
+          walletConfig?.coinbase ?? defaultCoinbaseConfig,
+        ),
+      );
+    }
+    if (
+      !connectors.some((connector) =>
+        connector.id.toLowerCase().includes('metamask'),
+      ) &&
+      !isWalletInstalled('metaMask')
+    ) {
+      evmConnectors.unshift(
+        createMetaMaskConnector(
+          walletConfig?.metaMask ?? defaultMetaMaskConfig,
+        ),
+      );
+    }
     const evmInstalled = isItemAllowed(ChainType.EVM, chains?.types)
-      ? connectors.filter(
+      ? evmConnectors.filter(
           (connector) =>
-            isWalletInstalled(connector.id) &&
+            isWalletInstalled(connector.id!) &&
             // We should not show already connected connectors
             account.connector?.id !== connector.id,
         )
       : [];
     const evmNotDetected = isItemAllowed(ChainType.EVM, chains?.types)
-      ? connectors.filter((connector) => !isWalletInstalled(connector.id))
+      ? evmConnectors.filter((connector) => !isWalletInstalled(connector.id!))
       : [];
     const svmInstalled = isItemAllowed(ChainType.SVM, chains?.types)
       ? solanaWallets?.filter(
@@ -101,6 +147,9 @@ export const SelectWalletPage = () => {
     connectors,
     isDesktopView,
     solanaWallets,
+    walletConfig?.coinbase,
+    walletConfig?.metaMask,
+    walletConfig?.walletConnect,
   ]);
 
   return (
@@ -114,9 +163,9 @@ export const SelectWalletPage = () => {
         }}
       >
         {wallets?.map((connector) =>
-          (connector as Connector).uid ? (
+          (connector as Connector).id ? (
             <EVMListItemButton
-              key={(connector as Connector).uid}
+              key={(connector as Connector).id}
               connector={connector as Connector}
               connectedConnector={account.connector}
               onNotInstalled={handleNotInstalled}
