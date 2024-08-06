@@ -9,6 +9,7 @@ export * from './components/Skeleton/WidgetSkeleton.js';
 export * from './config/version.js';
 export { useAccount } from './hooks/useAccount.js';
 export { useAvailableChains } from './hooks/useAvailableChains.js';
+export { useWallets, walletComparator } from './hooks/useWallets.js';
 export { useWidgetEvents, widgetEvents } from './hooks/useWidgetEvents.js';
 export * from './stores/form/types.js';
 export { useFieldActions } from './stores/form/useFieldActions.js';

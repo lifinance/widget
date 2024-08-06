@@ -134,6 +134,22 @@ export interface AllowDeny<T> {
   deny?: T[];
 }
 
+export type WidgetChains = {
+  from?: AllowDeny<number>;
+  to?: AllowDeny<number>;
+  types?: AllowDeny<ChainType>;
+} & AllowDeny<number>;
+
+export type WidgetTokens = {
+  featured?: StaticToken[];
+  include?: Token[];
+  popular?: StaticToken[];
+} & AllowDeny<BaseToken>;
+
+export type WidgetLanguages = {
+  default?: LanguageKey;
+} & AllowDeny<LanguageKey>;
+
 export interface WidgetConfig {
   fromChain?: number;
   toChain?: number;
@@ -179,19 +195,9 @@ export interface WidgetConfig {
 
   bridges?: AllowDeny<string>;
   exchanges?: AllowDeny<string>;
-  chains?: {
-    from?: AllowDeny<number>;
-    to?: AllowDeny<number>;
-    types?: AllowDeny<ChainType>;
-  } & AllowDeny<number>;
-  tokens?: {
-    featured?: StaticToken[];
-    include?: Token[];
-    popular?: StaticToken[];
-  } & AllowDeny<BaseToken>;
-  languages?: {
-    default?: LanguageKey;
-  } & AllowDeny<LanguageKey>;
+  chains?: WidgetChains;
+  tokens?: WidgetTokens;
+  languages?: WidgetLanguages;
   languageResources?: LanguageResources;
 }
 
