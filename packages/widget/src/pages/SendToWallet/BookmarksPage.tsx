@@ -9,7 +9,6 @@ import { Button, ListItemAvatar, ListItemText, MenuItem } from '@mui/material';
 import { useId, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 
 import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js';
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
@@ -19,6 +18,7 @@ import { Menu } from '../../components/Menu.js';
 import { useChains } from '../../hooks/useChains.js';
 import { useHeader } from '../../hooks/useHeader.js';
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import type { Bookmark } from '../../stores/bookmarks/types.js';
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
 import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js';
@@ -30,16 +30,13 @@ import { BookmarkAddressSheet } from './BookmarkAddressSheet.js';
 import { EmptyListIndicator } from './EmptyListIndicator.js';
 import {
   BookmarkButtonContainer,
-  ListContainer,
+  BookmarksListContainer,
+  FullHeightAdjustablePageContainer,
   OptionsMenuButton,
-  SendToWalletPageContainer,
 } from './SendToWalletPage.style.js';
-
-const mobileMinListHeight = 360;
 
 export const BookmarksPage = () => {
   const { t } = useTranslation();
-  const { mobileLayout } = useWidgetConfig();
   const [bookmark, setBookmark] = useState<Bookmark>();
   const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null);
   const { bookmarks } = useBookmarks();
@@ -50,6 +47,7 @@ export const BookmarksPage = () => {
   const navigate = useNavigate();
   const { setFieldValue } = useFieldActions();
   const { setSendToWallet } = useSendToWalletActions();
+  const { variant } = useWidgetConfig();
 
   useHeader(t(`header.bookmarkedWallets`));
 
@@ -107,29 +105,11 @@ export const BookmarksPage = () => {
   };
 
   return (
-    <SendToWalletPageContainer
+    <FullHeightAdjustablePageContainer
       disableGutters
-      sx={
-        mobileLayout
-          ? {
-              justifyContent: 'space-between',
-              height: '100%',
-            }
-          : undefined
-      }
+      enableFullHeight={variant !== 'drawer'}
     >
-      <ListContainer
-        sx={
-          mobileLayout && bookmarks.length
-            ? {
-                minHeight: mobileMinListHeight,
-                height: mobileMinListHeight,
-                flexGrow: 1,
-                overflow: 'auto',
-              }
-            : { minHeight: 440 }
-        }
-      >
+      <BookmarksListContainer>
         {bookmarks.map((bookmark) => (
           <ListItem key={bookmark.address} sx={{ position: 'relative' }}>
             <ListItemButton
@@ -204,7 +184,7 @@ export const BookmarksPage = () => {
             {t('button.delete')}
           </MenuItem>
         </Menu>
-      </ListContainer>
+      </BookmarksListContainer>
       <BookmarkButtonContainer>
         <Button variant="contained" onClick={handleAddBookmark}>
           {t('sendToWallet.addBookmark')}
@@ -214,6 +194,6 @@ export const BookmarksPage = () => {
         ref={bookmarkAddressSheetRef}
         onAddBookmark={addBookmark}
       />
-    </SendToWalletPageContainer>
+    </FullHeightAdjustablePageContainer>
   );
 };

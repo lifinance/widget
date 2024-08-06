@@ -128,7 +128,6 @@ export interface AllowDeny<T> {
 }
 
 export interface WidgetConfig {
-  mobileLayout?: boolean;
   fromChain?: number;
   toChain?: number;
   fromToken?: string;

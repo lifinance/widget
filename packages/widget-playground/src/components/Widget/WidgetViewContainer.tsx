@@ -32,6 +32,9 @@ export function WidgetViewContainer({
 
   const isWalletManagementExternal = !!config?.walletConfig;
 
+  const showMockHeader = config?.theme?.container?.height === '100%' && true;
+  const showMockFooter = config?.theme?.container?.height === '100%' && true;
+
   return (
     <Main open={isDrawerOpen} drawerWidth={drawerWidth}>
       <ExternalWalletProvider isExternalProvider={isWalletManagementExternal}>
@@ -52,15 +55,13 @@ export function WidgetViewContainer({
         </FloatingToolsContainer>
         <WidgetContainer
           id="widget-container"
-          fullHeightView={
-            (config?.theme?.container?.height === '100%' &&
-              !config.mobileLayout) ||
-            (config?.theme?.container?.display === 'flex' &&
-              !config.mobileLayout)
+          removePaddingTop={
+            (config?.theme?.container?.height === '100%' && !showMockHeader) ||
+            (config?.theme?.container?.display === 'flex' && !showMockHeader)
           }
           alignTop={config?.theme?.container?.display === 'flex'}
         >
-          {config?.mobileLayout ? (
+          {showMockHeader ? (
             <MockElement sx={{ position: 'fixed', zIndex: 1, top: 0 }}>
               Mock header
             </MockElement>
@@ -71,7 +72,7 @@ export function WidgetViewContainer({
           >
             {children}
           </WidgetContainerRow>
-          {config?.mobileLayout ? <MockElement>Mock footer</MockElement> : null}
+          {showMockFooter ? <MockElement>Mock footer</MockElement> : null}
         </WidgetContainer>
       </ExternalWalletProvider>
     </Main>

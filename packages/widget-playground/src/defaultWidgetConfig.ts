@@ -206,7 +206,6 @@ export const widgetBaseConfig: WidgetConfig = {
 export const defaultWidgetConfig: Partial<WidgetConfig> = {
   ...widgetBaseConfig,
   appearance: 'auto',
-  mobileLayout: true,
   theme: {
     palette: {
       primary: {

@@ -1,7 +1,7 @@
+import { useTheme } from '@mui/material';
 import type { MutableRefObject } from 'react';
 import { useLayoutEffect, useState } from 'react';
 import { useDefaultElementId } from '../../hooks/useDefaultElementId.js';
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { ElementId, createElementId } from '../../utils/elements.js';
 
 const getContentHeight = (
@@ -59,7 +59,7 @@ export const useTokenListHeight = ({
 }: UseContentHeightProps) => {
   const elementId = useDefaultElementId();
   const [contentHeight, setContentHeight] = useState<number>(0);
-  const { mobileLayout } = useWidgetConfig();
+  const theme = useTheme();
 
   useLayoutEffect(() => {
     const handleResize = () => {
@@ -75,9 +75,10 @@ export const useTokenListHeight = ({
     };
   }, [elementId, listParentRef]);
 
-  const minListHeight = mobileLayout
-    ? minMobileTokenListHeight
-    : minTokenListHeight;
+  const minListHeight =
+    theme.container?.height === '100%'
+      ? minMobileTokenListHeight
+      : minTokenListHeight;
 
   return Math.max(
     contentHeight - (headerRef.current?.offsetHeight ?? 0),

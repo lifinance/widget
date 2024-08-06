@@ -18,13 +18,13 @@ export const FloatingToolsContainer = styled(Box)(({ theme }) => ({
 }));
 
 interface WidgetContainerProps extends BoxProps {
-  fullHeightView?: boolean;
+  removePaddingTop?: boolean;
   alignTop?: boolean;
 }
 
 export const WidgetContainer = styled(Box)<WidgetContainerProps>(({
   theme,
-  fullHeightView,
+  removePaddingTop,
   alignTop,
 }) => {
   return {
@@ -33,7 +33,7 @@ export const WidgetContainer = styled(Box)<WidgetContainerProps>(({
     justifyContent: alignTop ? 'flex-start' : 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    paddingTop: fullHeightView ? 0 : theme.spacing(6),
+    paddingTop: removePaddingTop ? 0 : theme.spacing(6),
   };
 });
 

@@ -26,17 +26,16 @@ import { BookmarkAddressSheet } from './BookmarkAddressSheet.js';
 import { ConfirmAddressSheet } from './ConfirmAddressSheet.js';
 import {
   AddressInput,
+  FullHeightAdjustablePageContainer,
   SendToWalletButtonRow,
   SendToWalletCard,
   SendToWalletIconButton,
-  SendToWalletPageContainer,
   ValidationAlert,
 } from './SendToWalletPage.style.js';
 
 export const SendToWalletPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { mobileLayout } = useWidgetConfig();
   const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null);
   const confirmAddressSheetRef = useRef<BottomSheetBase>(null);
   const { bookmarks, recentWallets } = useBookmarks();
@@ -61,6 +60,7 @@ export const SendToWalletPage = () => {
   const { chain: toChain } = useChain(toChainId);
   const [isDoneButtonLoading, setIsDoneButtonLoading] = useState(false);
   const [isBookmarkButtonLoading, setIsBookmarkButtonLoading] = useState(false);
+  const { variant } = useWidgetConfig();
 
   useHeader(t(`header.sendToWallet`));
 
@@ -183,9 +183,9 @@ export const SendToWalletPage = () => {
   });
 
   return (
-    <SendToWalletPageContainer
+    <FullHeightAdjustablePageContainer
       bottomGutters
-      sx={mobileLayout ? { justifyContent: 'space-between' } : undefined}
+      enableFullHeight={variant !== 'drawer'}
     >
       <SendToWalletCard
         type={errorMessage ? 'error' : 'default'}
@@ -276,6 +276,6 @@ export const SendToWalletPage = () => {
           )}
         </CardButton>
       </Box>
-    </SendToWalletPageContainer>
+    </FullHeightAdjustablePageContainer>
   );
 };
