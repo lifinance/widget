@@ -32,7 +32,7 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
   ...props
 }) => {
   const { t } = useTranslation();
-  const { feeTool } = useWidgetConfig();
+  const { feeConfig } = useWidgetConfig();
   const [cardExpanded, setCardExpanded] = useState(false);
 
   const toggleCard = () => {
@@ -154,13 +154,13 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
           {feeAmountUSD ? (
             <Box display="flex" justifyContent="space-between" mb={0.5}>
               <Typography variant="body2">
-                {feeTool?.name
-                  ? t('main.fees.integrator', { tool: feeTool.name })
+                {feeConfig?.name
+                  ? t('main.fees.integrator', { tool: feeConfig.name })
                   : t('main.fees.defaultIntegrator')}
               </Typography>
-              {feeTool?.name ? (
+              {feeConfig?.name ? (
                 <Tooltip
-                  title={t('tooltip.feeCollection', { tool: feeTool.name })}
+                  title={t('tooltip.feeCollection', { tool: feeConfig.name })}
                   sx={{ cursor: 'help' }}
                 >
                   <Typography variant="body2">

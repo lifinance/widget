@@ -104,7 +104,7 @@ export const StepActions: React.FC<StepActionsProps> = ({
 };
 
 export const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
-  const { subvariant, subvariantOptions, feeTool, hiddenUI } =
+  const { subvariant, subvariantOptions, feeConfig, hiddenUI } =
     useWidgetConfig();
 
   let includedSteps = step.includedSteps;
@@ -127,8 +127,8 @@ export const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
     const tool =
       includedStep?.type === 'protocol' &&
       includedStep?.tool === 'feeCollection' &&
-      feeTool
-        ? feeTool
+      feeConfig
+        ? feeConfig
         : includedStep?.toolDetails;
     return tool ? (
       <SmallAvatar
@@ -160,7 +160,7 @@ export const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
               ) : step.type === 'cross' ? (
                 <BridgeStepDetailsLabel step={step} />
               ) : step.type === 'protocol' ? (
-                <ProtocolStepDetailsLabel step={step} feeTool={feeTool} />
+                <ProtocolStepDetailsLabel step={step} feeConfig={feeConfig} />
               ) : (
                 <SwapStepDetailsLabel step={step} />
               )}
@@ -315,13 +315,13 @@ export const SwapStepDetailsLabel: React.FC<
 
 export const ProtocolStepDetailsLabel: React.FC<
   Omit<StepDetailsLabelProps, 'variant'>
-> = ({ step, feeTool }) => {
+> = ({ step, feeConfig }) => {
   const { t } = useTranslation();
   return (
     <StepLabelTypography>
       {step.toolDetails.key === 'feeCollection'
-        ? feeTool?.name
-          ? t('main.fees.integrator', { tool: feeTool.name })
+        ? feeConfig?.name
+          ? t('main.fees.integrator', { tool: feeConfig.name })
           : t('main.fees.defaultIntegrator')
         : step.toolDetails.key === 'lifuelProtocol'
           ? t('main.refuelStepDetails', {
