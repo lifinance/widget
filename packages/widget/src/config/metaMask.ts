@@ -4,7 +4,10 @@ import { LiFiToolLogo } from '../icons/lifi.js';
 export const defaultMetaMaskConfig: MetaMaskParameters = {
   dappMetadata: {
     name: 'LI.FI',
-    url: (window as any)?.location.href || 'https://li.fi/',
+    url:
+      typeof window !== 'undefined'
+        ? (window as any)?.location.href
+        : 'https://li.fi/',
     base64Icon: LiFiToolLogo,
   },
 };
