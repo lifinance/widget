@@ -138,7 +138,7 @@ export interface WidgetFeeConfig {
    * @param params Object containing the fee calculation parameters
    * @returns A promise that resolves to the calculated fee as a number (e.g., 0.03 represents a 3% fee)
    */
-  calculateFee?(params: CalculateFeeParams): Promise<number>;
+  calculateFee?(params: CalculateFeeParams): Promise<number | undefined>;
 }
 
 export interface ToAddress {
