@@ -112,8 +112,8 @@ export const Input = styled(InputBase)(({ theme }) => {
       textAlign: 'center',
       '&::placeholder': {
         fontSize: '1rem',
-        fontWeight: 700,
-        opacity: 1,
+        fontWeight: 400,
+        opacity: 0.5,
       },
       '&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
         display: 'none',

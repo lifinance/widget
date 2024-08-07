@@ -67,6 +67,7 @@ export function WidgetViewContainer({
             </MockElement>
           ) : null}
           <WidgetContainerRow
+            id="widget-row-container"
             // sx={{ maxHeight: 682 }} // for sticky headers to work there needs to be an ancester with fixed height
             alignTop={config?.theme?.container?.display === 'flex'}
           >

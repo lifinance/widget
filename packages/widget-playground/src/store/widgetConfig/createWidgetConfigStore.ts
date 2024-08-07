@@ -196,6 +196,28 @@ export const createWidgetConfigStore = (
         getCurrentConfigTheme: () => {
           return get().config?.theme;
         },
+        setHeader: (header) => {
+          set({
+            config: {
+              ...get().config,
+              theme: {
+                ...get().config?.theme,
+                header,
+              },
+            },
+          });
+        },
+        setContainer: (container) => {
+          set({
+            config: {
+              ...get().config,
+              theme: {
+                ...get().config?.theme,
+                container,
+              },
+            },
+          });
+        },
       }),
       {
         name: 'li.fi-playground-config',

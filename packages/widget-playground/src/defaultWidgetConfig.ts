@@ -219,14 +219,16 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
       fontFamily: 'Inter, sans-serif',
     },
     // allows for positioning of header to accommodate navigation bar
-    header: {
-      position: 'fixed',
-      top: 48,
-    },
+    // header: {
+    //   position: 'fixed',
+    //   top: 48,
+    // },
     container: {
-      display: 'flex',
-      height: '100%',
-      // height: 1000,
+      // display: 'flex',
+      // height: '100%',
+      // height: 800,
+      maxHeight: 900,
+      //
       // paddingTop: 80,
       // boxSizing: 'border-box',
       // height: '100vh',

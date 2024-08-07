@@ -18,7 +18,9 @@ export const AppExpandedContainer = styled(Box, {
       ? 'none'
       : theme.container?.display === 'flex'
         ? '100%'
-        : theme.container?.height || maxHeight,
+        : theme.container?.maxHeight
+          ? theme.container?.maxHeight
+          : theme.container?.height || maxHeight,
 }));
 
 export const RelativeContainer = styled(Box, {
@@ -34,7 +36,9 @@ export const RelativeContainer = styled(Box, {
       ? 'none'
       : theme.container?.display === 'flex' && !theme.container?.height
         ? '100%'
-        : theme.container?.height || maxHeight,
+        : theme.container?.maxHeight
+          ? theme.container?.maxHeight
+          : theme.container?.height || maxHeight,
   background: theme.palette.background.default,
   overflow: 'auto',
   flex: 1,
@@ -54,7 +58,9 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
   maxHeight:
     variant === 'drawer' || theme.container?.display === 'flex'
       ? 'none'
-      : theme.container?.height || maxHeight,
+      : theme.container?.maxHeight
+        ? theme.container?.maxHeight
+        : theme.container?.height || maxHeight,
   overflowY: 'auto',
   height: theme.container?.display === 'flex' ? 'auto' : '100%',
 }));

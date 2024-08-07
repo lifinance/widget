@@ -19,6 +19,8 @@ export const useConfigActions = () => {
       setConfigTheme: state.setConfigTheme,
       getCurrentThemePreset: state.getCurrentThemePreset,
       getCurrentConfigTheme: state.getCurrentConfigTheme,
+      setHeader: state.setHeader,
+      setContainer: state.setContainer,
     }),
     shallow,
   );

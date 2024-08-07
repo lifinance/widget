@@ -22,11 +22,10 @@ interface WidgetContainerProps extends BoxProps {
   alignTop?: boolean;
 }
 
-export const WidgetContainer = styled(Box)<WidgetContainerProps>(({
-  theme,
-  removePaddingTop,
-  alignTop,
-}) => {
+export const WidgetContainer = styled(Box, {
+  shouldForwardProp: (prop) =>
+    !['removePaddingTop', 'alignTop'].includes(prop as string),
+})<WidgetContainerProps>(({ theme, removePaddingTop, alignTop }) => {
   return {
     display: 'flex',
     flexGrow: 1,
@@ -41,9 +40,9 @@ interface WidgetContainerRowProps extends BoxProps {
   alignTop?: boolean;
 }
 
-export const WidgetContainerRow = styled(Box)<WidgetContainerRowProps>(({
-  alignTop,
-}) => {
+export const WidgetContainerRow = styled(Box, {
+  shouldForwardProp: (prop) => !['alignTop'].includes(prop as string),
+})<WidgetContainerRowProps>(({ alignTop }) => {
   return {
     display: 'flex',
     alignItems: alignTop ? 'flex-start' : 'center',
