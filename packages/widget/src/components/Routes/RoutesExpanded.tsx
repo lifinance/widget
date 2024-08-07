@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import type { Route } from '@lifi/sdk';
-import { Collapse, Grow, Stack, Typography } from '@mui/material';
+import { Collapse, Stack, Typography } from '@mui/material';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { RouteObject } from 'react-router-dom';
@@ -22,7 +22,8 @@ import {
   CollapseContainer,
   Container,
   Header,
-  RouteGrow,
+  RouteNestedGrow,
+  RouteTopLevelGrow,
   RoutesExpandedCollapse,
   ScrollableContainer,
 } from './RoutesExpanded.style.js';
@@ -47,11 +48,16 @@ export const RoutesExpanded = () => {
   return (
     <CollapseContainer>
       <Collapse timeout={timeout} in={match} orientation="horizontal">
-        <RouteGrow timeout={timeout} in={match} mountOnEnter unmountOnExit>
+        <RouteTopLevelGrow
+          timeout={timeout}
+          in={match}
+          mountOnEnter
+          unmountOnExit
+        >
           <div>
             <RoutesExpandedElement />
           </div>
-        </RouteGrow>
+        </RouteTopLevelGrow>
       </Collapse>
     </CollapseContainer>
   );
@@ -120,7 +126,12 @@ export const RoutesExpandedElement = () => {
       orientation="horizontal"
       onExited={onExit}
     >
-      <Grow timeout={timeout.enter} in={expanded} mountOnEnter unmountOnExit>
+      <RouteNestedGrow
+        timeout={timeout.enter}
+        in={expanded}
+        mountOnEnter
+        unmountOnExit
+      >
         <Container enableColorScheme isLoading={isLoading}>
           <ScrollableContainer>
             <Header>
@@ -164,7 +175,7 @@ export const RoutesExpandedElement = () => {
             </PageContainer>
           </ScrollableContainer>
         </Container>
-      </Grow>
+      </RouteNestedGrow>
     </RoutesExpandedCollapse>
   );
 };

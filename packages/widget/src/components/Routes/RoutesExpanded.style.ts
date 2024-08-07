@@ -13,8 +13,14 @@ export const RoutesExpandedCollapse = styled(Collapse)(({ theme }) => ({
   ...(theme.container?.display === 'flex' ? { height: '100%' } : {}),
 }));
 
-export const RouteGrow = styled(Grow)(({ theme }) => ({
+export const RouteTopLevelGrow = styled(Grow)(({ theme }) => ({
   ...(theme.container?.display === 'flex' ? { height: '100%' } : {}),
+}));
+
+export const RouteNestedGrow = styled(Grow)(({ theme }) => ({
+  ...(!theme.container?.height && !theme.container?.maxHeight
+    ? { height: 682 }
+    : {}),
 }));
 
 export const ScrollableContainer = styled(Box)({
@@ -30,20 +36,20 @@ interface ContainerProps extends ScopedCssBaselineProps {
   isLoading: boolean;
 }
 
-export const Container = styled(ScopedCssBaseline)<ContainerProps>(
-  ({ theme, isLoading }) => ({
-    backgroundColor: theme.palette.background.default,
-    overflow: 'auto',
-    width: 436,
-    marginLeft: theme.spacing(3),
-    display: 'flex',
-    flexDirection: 'column',
-    ...(theme.container?.display !== 'flex'
-      ? { maxHeight }
-      : { height: isLoading ? 'auto' : '100%' }),
-    ...theme.container,
-  }),
-);
+export const Container = styled(ScopedCssBaseline, {
+  shouldForwardProp: (prop) => !['isLoading'].includes(prop as string),
+})<ContainerProps>(({ theme, isLoading }) => ({
+  backgroundColor: theme.palette.background.default,
+  overflow: 'auto',
+  width: 436,
+  marginLeft: theme.spacing(3),
+  display: 'flex',
+  flexDirection: 'column',
+  ...(theme.container?.display !== 'flex'
+    ? { maxHeight }
+    : { height: isLoading ? 'auto' : '100%' }),
+  ...theme.container,
+}));
 
 export const Header = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
