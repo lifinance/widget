@@ -1,16 +1,22 @@
 import { MenuItem, type SelectChangeEvent } from '@mui/material';
-import { type ChangeEventHandler, useState } from 'react';
+import { type ChangeEventHandler, useEffect, useState } from 'react';
 import { useConfig, useConfigActions } from '../../../store';
 import { CardRowContainer, CardValue, ExpandableCard } from '../../Card';
 import { popperZIndex } from '../DrawerControls.style';
 import { CapitalizeFirstLetter, Input, Select } from './DesignControls.style';
 
+type Layout =
+  | 'default'
+  | 'restricted-height'
+  | 'restricted-max-height'
+  | 'full-height';
+
 interface LayoutOption {
-  id: string;
+  id: Layout;
   name: string;
 }
 
-const layoutOptions = [
+const layoutOptions: LayoutOption[] = [
   {
     id: 'default',
     name: 'Default',
@@ -45,45 +51,48 @@ export const LayoutControls = () => {
   const { setHeader, setContainer, getCurrentConfigTheme, setVariant } =
     useConfigActions();
 
-  const [selectedLayoutId, setSelectedLayoutId] = useState(
-    'restricted-max-height',
-  );
+  const [selectedLayoutId, setSelectedLayoutId] = useState<Layout>('default');
   const [heightValue, setHeightValue] = useState<number | undefined>();
 
-  // TODO: on mount establish the Layout mode
+  useEffect(() => {
+    const container = config?.theme?.container;
+
+    if (
+      container &&
+      container?.display === 'flex' &&
+      container?.height === '100%'
+    ) {
+      setSelectedLayoutId('full-height');
+    } else if (container && Number.isFinite(container?.height)) {
+      setSelectedLayoutId('restricted-height');
+      setHeightValue(container.height as number);
+    } else if (container && Number.isFinite(container?.maxHeight)) {
+      setSelectedLayoutId('restricted-max-height');
+      setHeightValue(container.maxHeight as number);
+    } else {
+      setSelectedLayoutId('default');
+    }
+  }, [config?.theme?.container]);
 
   const handleSelectChange = (event: SelectChangeEvent<any>) => {
     const newLayoutId = event.target.value;
 
-    setSelectedLayoutId(newLayoutId);
-    setHeightValue(682);
-
     switch (newLayoutId) {
       case 'restricted-height':
-        const newHeight = config?.theme?.container?.height;
-        if (Number.isFinite(newHeight) || newHeight === undefined) {
-          setHeightValue(newHeight as number | undefined);
-        }
-
         setHeader();
         setContainer({
           ...(getCurrentConfigTheme()?.container ?? {}),
-          height: Number.isFinite(newHeight) ? newHeight : undefined,
+          height: defaultHeight,
           display: undefined,
           maxHeight: undefined,
         });
 
         break;
       case 'restricted-max-height':
-        const newMaxHeight = config?.theme?.container?.maxHeight;
-        if (Number.isFinite(newMaxHeight) || newMaxHeight === undefined) {
-          setHeightValue(newMaxHeight as number | undefined);
-        }
-
         setHeader();
         setContainer({
           ...(getCurrentConfigTheme()?.container ?? {}),
-          maxHeight: Number.isFinite(newMaxHeight) ? newMaxHeight : undefined,
+          maxHeight: defaultHeight,
           display: undefined,
           height: undefined,
         });
@@ -132,12 +141,14 @@ export const LayoutControls = () => {
           setHeader();
         }
 
-        const containerWithMaxHeight = {
-          ...(getCurrentConfigTheme()?.container ?? {}),
-          height: height ? Math.max(height, defaultHeight) : undefined,
-        };
+        if (height && height >= defaultHeight) {
+          const containerWithMaxHeight = {
+            ...(getCurrentConfigTheme()?.container ?? {}),
+            height,
+          };
 
-        setContainer(containerWithMaxHeight);
+          setContainer(containerWithMaxHeight);
+        }
         break;
       case 'restricted-max-height':
       default:
@@ -145,12 +156,14 @@ export const LayoutControls = () => {
           setHeader();
         }
 
-        const newContainer = {
-          ...(getCurrentConfigTheme()?.container ?? {}),
-          maxHeight: height ? Math.max(height, defaultHeight) : undefined,
-        };
+        if (height && height >= defaultHeight) {
+          const newContainer = {
+            ...(getCurrentConfigTheme()?.container ?? {}),
+            maxHeight: height,
+          };
 
-        setContainer(newContainer);
+          setContainer(newContainer);
+        }
     }
   };
 
@@ -196,7 +209,7 @@ export const LayoutControls = () => {
             <label htmlFor="layout-height-input">
               {inputLabel[selectedLayoutId]}
             </label>
-            {(heightValue && heightValue <= 682) || !heightValue ? (
+            {(heightValue && heightValue < 682) || !heightValue ? (
               <CapitalizeFirstLetter variant="caption" sx={{ paddingLeft: 1 }}>
                 682px minimum
               </CapitalizeFirstLetter>

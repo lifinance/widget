@@ -11,7 +11,20 @@ export const getConfigOutput = (
     ...(config.appearance ? { appearance: config.appearance } : {}),
     ...(theme
       ? {
-          theme,
+          theme: {
+            ...theme,
+            ...(theme.container
+              ? {
+                  container: {
+                    ...theme.container,
+                    ...(theme.container.maxHeight &&
+                    theme.container.maxHeight !== 682
+                      ? { maxHeight: theme.container.maxHeight }
+                      : { maxHeight: undefined }),
+                  },
+                }
+              : {}),
+          },
         }
       : {}),
     ...(config.walletConfig ? { walletConfig: config.walletConfig } : {}),
