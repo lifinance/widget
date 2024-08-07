@@ -124,19 +124,24 @@ export const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
   // eslint-disable-next-line react/no-unstable-nested-components
   const StepIconComponent = ({ icon }: StepIconProps) => {
     const includedStep = includedSteps?.[Number(icon) - 1];
-    const tool =
+    const feeCollectionStep =
       includedStep?.type === 'protocol' &&
-      includedStep?.tool === 'feeCollection' &&
-      feeConfig
-        ? feeConfig
-        : includedStep?.toolDetails;
-    return tool ? (
+      includedStep?.tool === 'feeCollection';
+    const toolName =
+      feeCollectionStep && feeConfig?.name
+        ? feeConfig?.name
+        : includedStep?.toolDetails.name;
+    const toolLogoURI =
+      feeCollectionStep && feeConfig?.logoURI
+        ? feeConfig?.logoURI
+        : includedStep?.toolDetails.logoURI;
+    return toolLogoURI ? (
       <SmallAvatar
-        src={tool.logoURI}
-        alt={tool.name}
+        src={toolLogoURI}
+        alt={toolName}
         sx={{ width: 20, height: 20 }}
       >
-        {tool.name?.[0]}
+        {toolName?.[0]}
       </SmallAvatar>
     ) : null;
   };
