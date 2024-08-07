@@ -1,4 +1,5 @@
 import type { WidgetConfig, WidgetTheme } from '@lifi/widget';
+import { defaultMaxHeight } from '@lifi/widget';
 
 export const getConfigOutput = (
   config: Partial<WidgetConfig>,
@@ -18,7 +19,7 @@ export const getConfigOutput = (
                   container: {
                     ...theme.container,
                     ...(theme.container.maxHeight &&
-                    theme.container.maxHeight !== 682
+                    theme.container.maxHeight !== defaultMaxHeight
                       ? { maxHeight: theme.container.maxHeight }
                       : { maxHeight: undefined }),
                   },

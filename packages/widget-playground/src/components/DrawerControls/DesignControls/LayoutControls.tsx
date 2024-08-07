@@ -1,3 +1,4 @@
+import { defaultMaxHeight } from '@lifi/widget';
 import { MenuItem, type SelectChangeEvent } from '@mui/material';
 import { type ChangeEventHandler, useEffect, useState } from 'react';
 import { useConfig, useConfigActions } from '../../../store';
@@ -22,12 +23,12 @@ const layoutOptions: LayoutOption[] = [
     name: 'Default',
   },
   {
-    id: 'restricted-height',
-    name: 'Restricted Height',
-  },
-  {
     id: 'restricted-max-height',
     name: 'Restricted Max Height',
+  },
+  {
+    id: 'restricted-height',
+    name: 'Restricted Height',
   },
   {
     id: 'full-height',
@@ -43,8 +44,6 @@ const inputLabel: InputLabel = {
   'restricted-height': 'Set height',
   'restricted-max-height': 'Set max height',
 };
-
-const defaultHeight = 682;
 
 export const LayoutControls = () => {
   const { config } = useConfig();
@@ -82,7 +81,7 @@ export const LayoutControls = () => {
         setHeader();
         setContainer({
           ...(getCurrentConfigTheme()?.container ?? {}),
-          height: defaultHeight,
+          height: defaultMaxHeight,
           display: undefined,
           maxHeight: undefined,
         });
@@ -92,7 +91,7 @@ export const LayoutControls = () => {
         setHeader();
         setContainer({
           ...(getCurrentConfigTheme()?.container ?? {}),
-          maxHeight: defaultHeight,
+          maxHeight: defaultMaxHeight,
           display: undefined,
           height: undefined,
         });
@@ -141,7 +140,7 @@ export const LayoutControls = () => {
           setHeader();
         }
 
-        if (height && height >= defaultHeight) {
+        if (height && height >= defaultMaxHeight) {
           const containerWithMaxHeight = {
             ...(getCurrentConfigTheme()?.container ?? {}),
             height,
@@ -156,7 +155,7 @@ export const LayoutControls = () => {
           setHeader();
         }
 
-        if (height && height >= defaultHeight) {
+        if (height && height >= defaultMaxHeight) {
           const newContainer = {
             ...(getCurrentConfigTheme()?.container ?? {}),
             maxHeight: height,
@@ -209,9 +208,9 @@ export const LayoutControls = () => {
             <label htmlFor="layout-height-input">
               {inputLabel[selectedLayoutId]}
             </label>
-            {(heightValue && heightValue < 682) || !heightValue ? (
+            {(heightValue && heightValue < defaultMaxHeight) || !heightValue ? (
               <CapitalizeFirstLetter variant="caption" sx={{ paddingLeft: 1 }}>
-                682px minimum
+                {`${defaultMaxHeight}px minimum`}
               </CapitalizeFirstLetter>
             ) : null}
           </CardRowContainer>
@@ -219,7 +218,7 @@ export const LayoutControls = () => {
             id="layout-height-input"
             type="number"
             value={heightValue ?? ''}
-            placeholder={`${defaultHeight}`}
+            placeholder={`${defaultMaxHeight}`}
             onChange={handleInputChange}
           />
         </CardRowContainer>

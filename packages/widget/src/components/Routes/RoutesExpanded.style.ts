@@ -1,12 +1,12 @@
 import type { ScopedCssBaselineProps } from '@mui/material';
 import { Box, Collapse, Grow, ScopedCssBaseline, styled } from '@mui/material';
-import { maxHeight } from '../AppContainer.js';
+import { defaultMaxHeight } from '../../config/constants.js';
 
 export const CollapseContainer = styled(Box)(({ theme }) => ({
   zIndex: 0,
   ...(theme.container.display === 'flex'
     ? { display: 'flex', maxHeight: '100%' }
-    : { height: maxHeight }),
+    : { height: defaultMaxHeight }),
 }));
 
 export const RoutesExpandedCollapse = styled(Collapse)(({ theme }) => ({
@@ -19,7 +19,7 @@ export const RouteTopLevelGrow = styled(Grow)(({ theme }) => ({
 
 export const RouteNestedGrow = styled(Grow)(({ theme }) => ({
   ...(!theme.container?.height && !theme.container?.maxHeight
-    ? { height: 682 }
+    ? { height: defaultMaxHeight }
     : {}),
 }));
 
@@ -46,7 +46,7 @@ export const Container = styled(ScopedCssBaseline, {
   display: 'flex',
   flexDirection: 'column',
   ...(theme.container?.display !== 'flex'
-    ? { maxHeight }
+    ? { maxHeight: defaultMaxHeight }
     : { height: isLoading ? 'auto' : '100%' }),
   ...theme.container,
 }));

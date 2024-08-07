@@ -1,10 +1,9 @@
 import { Box, Container, ScopedCssBaseline, styled } from '@mui/material';
 import type { PropsWithChildren } from 'react';
+import { defaultMaxHeight } from '../config/constants.js';
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
 import type { WidgetVariant } from '../types/widget.js';
 import { ElementId, createElementId } from '../utils/elements.js';
-
-export const maxHeight = 682;
 
 export const AppExpandedContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'variant',
@@ -20,7 +19,7 @@ export const AppExpandedContainer = styled(Box, {
         ? '100%'
         : theme.container?.maxHeight
           ? theme.container?.maxHeight
-          : theme.container?.height || maxHeight,
+          : theme.container?.height || defaultMaxHeight,
 }));
 
 export const RelativeContainer = styled(Box, {
@@ -38,7 +37,7 @@ export const RelativeContainer = styled(Box, {
         ? '100%'
         : theme.container?.maxHeight
           ? theme.container?.maxHeight
-          : theme.container?.height || maxHeight,
+          : theme.container?.height || defaultMaxHeight,
   background: theme.palette.background.default,
   overflow: 'auto',
   flex: 1,
@@ -60,7 +59,7 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
       ? 'none'
       : theme.container?.maxHeight
         ? theme.container?.maxHeight
-        : theme.container?.height || maxHeight,
+        : theme.container?.height || defaultMaxHeight,
   overflowY: 'auto',
   height: theme.container?.display === 'flex' ? 'auto' : '100%',
 }));

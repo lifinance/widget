@@ -231,7 +231,6 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
       //
       // paddingTop: 80,
       // boxSizing: 'border-box',
-      // height: '100vh',
       boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
       // borderRadius: '16px',
     },
