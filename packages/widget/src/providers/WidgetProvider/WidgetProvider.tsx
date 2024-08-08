@@ -80,7 +80,7 @@ export const WidgetProvider: React.FC<
         apiKey: widgetConfig.apiKey,
         integrator: widgetConfig.integrator ?? window?.location.hostname,
         routeOptions: {
-          fee: widgetConfig.fee,
+          fee: widgetConfig.feeConfig?.fee || widgetConfig.fee,
           referrer: widgetConfig.referrer,
           order: widgetConfig.routePriority,
           slippage: widgetConfig.slippage,

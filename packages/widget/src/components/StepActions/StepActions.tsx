@@ -104,7 +104,7 @@ export const StepActions: React.FC<StepActionsProps> = ({
 };
 
 export const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
-  const { subvariant, subvariantOptions, feeTool, hiddenUI } =
+  const { subvariant, subvariantOptions, feeConfig, hiddenUI } =
     useWidgetConfig();
 
   let includedSteps = step.includedSteps;
@@ -124,19 +124,24 @@ export const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
   // eslint-disable-next-line react/no-unstable-nested-components
   const StepIconComponent = ({ icon }: StepIconProps) => {
     const includedStep = includedSteps?.[Number(icon) - 1];
-    const tool =
+    const feeCollectionStep =
       includedStep?.type === 'protocol' &&
-      includedStep?.tool === 'feeCollection' &&
-      feeTool
-        ? feeTool
-        : includedStep?.toolDetails;
-    return tool ? (
+      includedStep?.tool === 'feeCollection';
+    const toolName =
+      feeCollectionStep && feeConfig?.name
+        ? feeConfig?.name
+        : includedStep?.toolDetails.name;
+    const toolLogoURI =
+      feeCollectionStep && feeConfig?.logoURI
+        ? feeConfig?.logoURI
+        : includedStep?.toolDetails.logoURI;
+    return toolLogoURI ? (
       <SmallAvatar
-        src={tool.logoURI}
-        alt={tool.name}
+        src={toolLogoURI}
+        alt={toolName}
         sx={{ width: 20, height: 20 }}
       >
-        {tool.name?.[0]}
+        {toolName?.[0]}
       </SmallAvatar>
     ) : null;
   };
@@ -160,7 +165,7 @@ export const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
               ) : step.type === 'cross' ? (
                 <BridgeStepDetailsLabel step={step} />
               ) : step.type === 'protocol' ? (
-                <ProtocolStepDetailsLabel step={step} feeTool={feeTool} />
+                <ProtocolStepDetailsLabel step={step} feeConfig={feeConfig} />
               ) : (
                 <SwapStepDetailsLabel step={step} />
               )}
@@ -315,13 +320,13 @@ export const SwapStepDetailsLabel: React.FC<
 
 export const ProtocolStepDetailsLabel: React.FC<
   Omit<StepDetailsLabelProps, 'variant'>
-> = ({ step, feeTool }) => {
+> = ({ step, feeConfig }) => {
   const { t } = useTranslation();
   return (
     <StepLabelTypography>
       {step.toolDetails.key === 'feeCollection'
-        ? feeTool?.name
-          ? t('main.fees.integrator', { tool: feeTool.name })
+        ? feeConfig?.name
+          ? t('main.fees.integrator', { tool: feeConfig.name })
           : t('main.fees.defaultIntegrator')
         : step.toolDetails.key === 'lifuelProtocol'
           ? t('main.refuelStepDetails', {

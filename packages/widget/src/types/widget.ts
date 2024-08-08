@@ -111,13 +111,34 @@ export interface WidgetSDKConfig
 }
 
 export interface WidgetContractTool {
-  logoURI: string;
   name: string;
+  logoURI: string;
 }
 
-export interface WidgetFeeTool {
-  logoURI: string;
-  name: string;
+export interface CalculateFeeParams {
+  fromChainId: number;
+  toChainId: number;
+  fromTokenAddress: string;
+  toTokenAddress: string;
+  fromAddress?: string;
+  toAddress?: string;
+  fromAmount: bigint;
+  slippage: number;
+}
+
+export interface WidgetFeeConfig {
+  name?: string;
+  logoURI?: string;
+  fee?: number;
+  /**
+   * Function to calculate fees before fetching quotes.
+   * If provided, this function will be used instead of the `fee` parameter.
+   * Only one of `fee` or `calculateFee` should be used.
+   *
+   * @param params Object containing the fee calculation parameters
+   * @returns A promise that resolves to the calculated fee as a number (e.g., 0.03 represents a 3% fee)
+   */
+  calculateFee?(params: CalculateFeeParams): Promise<number | undefined>;
 }
 
 export interface ToAddress {
@@ -150,8 +171,11 @@ export interface WidgetConfig {
 
   integrator: string;
   apiKey?: string;
+  /**
+   * @deprecated Use `feeConfig` instead.
+   */
   fee?: number;
-  feeTool?: WidgetFeeTool;
+  feeConfig?: WidgetFeeConfig;
   referrer?: string;
 
   routePriority?: Order;
