@@ -46,6 +46,10 @@ export interface EditToolsValues {
     show: boolean;
     sideBySide: boolean;
   };
+  headerAndFooterControl: {
+    showMockHeader: boolean;
+    showMockFooter: boolean;
+  };
 }
 
 export interface EditToolsActions {
@@ -58,6 +62,8 @@ export interface EditToolsActions {
   setViewportBackgroundColor: (color: string | undefined) => void;
   setSkeletonShow: (show: boolean) => void;
   setSkeletonSideBySide: (sideBySide: boolean) => void;
+  setHeaderShow: (show: boolean) => void;
+  setFooterShow: (show: boolean) => void;
 }
 
 export type ToolsState = EditToolsValues & EditToolsActions;

@@ -61,10 +61,10 @@ export const BookmarkStoreControls = () => {
     <ColorSelectorContainer sx={{ marginTop: 1 }}>
       <CapitalizeFirstLetter>Bookmark store</CapitalizeFirstLetter>
       <Box sx={{ display: 'flex', gap: 1, pr: 1 }}>
-        <Button variant="outlined" onClick={handleFill}>
+        <Button variant="contained" onClick={handleFill}>
           Fill
         </Button>
-        <Button variant="outlined" onClick={handleEmpty}>
+        <Button variant="contained" onClick={handleEmpty}>
           Empty
         </Button>
       </Box>

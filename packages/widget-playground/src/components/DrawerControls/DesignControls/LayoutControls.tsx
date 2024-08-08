@@ -1,7 +1,11 @@
 import { defaultMaxHeight } from '@lifi/widget';
 import { MenuItem, type SelectChangeEvent } from '@mui/material';
 import { type ChangeEventHandler, useEffect, useState } from 'react';
-import { useConfig, useConfigActions } from '../../../store';
+import {
+  useConfig,
+  useConfigActions,
+  useHeaderAndFooterToolValues,
+} from '../../../store';
 import { CardRowContainer, CardValue, ExpandableCard } from '../../Card';
 import { popperZIndex } from '../DrawerControls.style';
 import { CapitalizeFirstLetter, Input, Select } from './DesignControls.style';
@@ -47,6 +51,7 @@ const inputLabel: InputLabel = {
 
 export const LayoutControls = () => {
   const { config } = useConfig();
+  const { showMockHeader } = useHeaderAndFooterToolValues();
   const { setHeader, setContainer, getCurrentConfigTheme, setVariant } =
     useConfigActions();
 
@@ -102,8 +107,7 @@ export const LayoutControls = () => {
 
         setHeader({
           position: 'fixed',
-          // TODO: top defaults to 0 but if header is visible make it 48
-          top: 48,
+          top: showMockHeader ? 48 : 0,
         });
 
         const newContainer = {

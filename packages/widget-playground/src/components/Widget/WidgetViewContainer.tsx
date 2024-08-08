@@ -7,6 +7,7 @@ import {
   useConfig,
   useDrawerToolValues,
   useEditToolsActions,
+  useHeaderAndFooterToolValues,
 } from '../../store';
 import { MockElement } from '../Mock';
 import { ToggleDrawerButton } from './ToggleDrawerButton';
@@ -29,11 +30,16 @@ export function WidgetViewContainer({
   const { config } = useConfig();
   const { isDrawerOpen, drawerWidth } = useDrawerToolValues();
   const { setDrawerOpen } = useEditToolsActions();
+  const { showMockHeader, showMockFooter } = useHeaderAndFooterToolValues();
 
   const isWalletManagementExternal = !!config?.walletConfig;
 
-  const showMockHeader = config?.theme?.container?.height === '100%' && true;
-  const showMockFooter = config?.theme?.container?.height === '100%' && true;
+  const isFullHeightLayout =
+    config?.theme?.container?.height === '100%' &&
+    config?.theme?.container?.display === 'flex';
+
+  const showHeader = isFullHeightLayout && showMockHeader;
+  const showFooter = isFullHeightLayout && showMockFooter;
 
   return (
     <Main open={isDrawerOpen} drawerWidth={drawerWidth}>
@@ -55,12 +61,12 @@ export function WidgetViewContainer({
         </FloatingToolsContainer>
         <WidgetContainer
           removePaddingTop={
-            (config?.theme?.container?.height === '100%' && !showMockHeader) ||
-            (config?.theme?.container?.display === 'flex' && !showMockHeader)
+            (config?.theme?.container?.height === '100%' && !showHeader) ||
+            (config?.theme?.container?.display === 'flex' && !showHeader)
           }
           alignTop={config?.theme?.container?.display === 'flex'}
         >
-          {showMockHeader ? (
+          {showHeader ? (
             <MockElement sx={{ position: 'fixed', zIndex: 1, top: 0 }}>
               Mock header
             </MockElement>
@@ -70,7 +76,7 @@ export function WidgetViewContainer({
           >
             {children}
           </WidgetContainerRow>
-          {showMockFooter ? <MockElement>Mock footer</MockElement> : null}
+          {showFooter ? <MockElement>Mock footer</MockElement> : null}
         </WidgetContainer>
       </ExternalWalletProvider>
     </Main>

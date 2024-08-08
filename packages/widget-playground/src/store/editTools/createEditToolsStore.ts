@@ -27,6 +27,10 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
           show: false,
           sideBySide: false,
         },
+        headerAndFooterControl: {
+          showMockHeader: false,
+          showMockFooter: false,
+        },
         setDrawerOpen: (open) => {
           set({
             drawer: {
@@ -102,6 +106,22 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
             skeletonControl: {
               sideBySide,
               show: sideBySide ? true : get().skeletonControl.show,
+            },
+          });
+        },
+        setHeaderShow: (show) => {
+          set({
+            headerAndFooterControl: {
+              ...get().headerAndFooterControl,
+              showMockHeader: show,
+            },
+          });
+        },
+        setFooterShow: (show) => {
+          set({
+            headerAndFooterControl: {
+              ...get().headerAndFooterControl,
+              showMockFooter: show,
             },
           });
         },

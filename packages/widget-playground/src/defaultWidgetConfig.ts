@@ -224,8 +224,8 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
     //   top: 48,
     // },
     container: {
-      // display: 'flex',
-      // height: '100%',
+      display: 'flex',
+      height: '100%',
       // height: 800,
       // maxHeight: 900,
       //

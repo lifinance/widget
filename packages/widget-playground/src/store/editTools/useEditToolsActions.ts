@@ -13,6 +13,8 @@ export const useEditToolsActions = () => {
       setViewportBackgroundColor: state.setViewportBackgroundColor,
       setSkeletonShow: state.setSkeletonShow,
       setSkeletonSideBySide: state.setSkeletonSideBySide,
+      setHeaderShow: state.setHeaderShow,
+      setFooterShow: state.setFooterShow,
     }),
     shallow,
   );
