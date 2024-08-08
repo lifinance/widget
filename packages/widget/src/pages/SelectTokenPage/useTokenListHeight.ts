@@ -4,6 +4,16 @@ import { useLayoutEffect, useState } from 'react';
 import { useDefaultElementId } from '../../hooks/useDefaultElementId.js';
 import { ElementId, createElementId } from '../../utils/elements.js';
 
+const debounce = (func: Function, timeout = 300) => {
+  let timer: ReturnType<typeof setTimeout>;
+  return (...args: any[]) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      func.apply(this, args);
+    }, timeout);
+  };
+};
+
 const getContentHeight = (
   elementId: string,
   listParentRef: MutableRefObject<HTMLUListElement | null>,
@@ -66,14 +76,24 @@ export const useTokenListHeight = ({
       setContentHeight(getContentHeight(elementId, listParentRef));
     };
 
-    setContentHeight(getContentHeight(elementId, listParentRef));
+    const processResize = debounce(() => handleResize(), 40);
 
-    window.addEventListener('resize', handleResize);
+    const appContainer = document.getElementById(
+      createElementId(ElementId.AppExpandedContainer, elementId),
+    );
+
+    let resizeObserver: ResizeObserver;
+    if (appContainer) {
+      resizeObserver = new ResizeObserver(processResize);
+      resizeObserver.observe(appContainer);
+    }
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
     };
-  }, [elementId, listParentRef, theme.container.height]);
+  }, [elementId, listParentRef]);
 
   const minListHeight =
     theme.container?.height === '100%'

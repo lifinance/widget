@@ -47,7 +47,7 @@ export const BookmarkStoreControls = () => {
   const { isDevView } = useDevView();
 
   const handleFill = () => {
-    const newState = fillRecents(fillBookmarks(store, 50), 50);
+    const newState = fillRecents(fillBookmarks(store, 5), 50);
     localStorage.setItem('li.fi-bookmarks', JSON.stringify(newState));
     window.location.reload();
   };
