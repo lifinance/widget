@@ -33,12 +33,12 @@ export const ScrollableContainer = styled(Box)({
 });
 
 interface ContainerProps extends ScopedCssBaselineProps {
-  isLoading: boolean;
+  minimumHeight: boolean;
 }
 
 export const Container = styled(ScopedCssBaseline, {
-  shouldForwardProp: (prop) => !['isLoading'].includes(prop as string),
-})<ContainerProps>(({ theme, isLoading }) => ({
+  shouldForwardProp: (prop) => !['minimumHeight'].includes(prop as string),
+})<ContainerProps>(({ theme, minimumHeight }) => ({
   backgroundColor: theme.palette.background.default,
   overflow: 'auto',
   width: 436,
@@ -46,8 +46,14 @@ export const Container = styled(ScopedCssBaseline, {
   display: 'flex',
   flexDirection: 'column',
   ...(theme.container?.display !== 'flex'
-    ? { maxHeight: defaultMaxHeight }
-    : { height: isLoading ? 'auto' : '100%' }),
+    ? {
+        maxHeight:
+          theme.container?.maxHeight ??
+          theme.container?.height ??
+          defaultMaxHeight,
+        ...(minimumHeight ? { '&': { height: 'auto' } } : {}),
+      }
+    : { height: minimumHeight ? 'auto' : '100%' }),
   ...theme.container,
 }));
 

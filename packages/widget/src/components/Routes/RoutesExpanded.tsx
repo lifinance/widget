@@ -132,8 +132,8 @@ export const RoutesExpandedElement = () => {
         mountOnEnter
         unmountOnExit
       >
-        <Container enableColorScheme isLoading={isLoading}>
-          <ScrollableContainer>
+        <Container enableColorScheme minimumHeight={isLoading}>
+          <ScrollableContainer id="ScrollableContainer">
             <Header>
               <Typography fontSize={18} fontWeight="700" flex={1} noWrap>
                 {subvariant === 'custom'
