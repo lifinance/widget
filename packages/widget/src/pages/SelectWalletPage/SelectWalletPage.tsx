@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   DialogActions,
   DialogContent,
@@ -47,6 +48,9 @@ export const SelectWalletPage = () => {
 
   return (
     <PageContainer disableGutters>
+      {wallets.map((wallet: any) => (
+        <Box>{wallet?.id}</Box>
+      ))}
       <List
         sx={{
           paddingTop: 0,
