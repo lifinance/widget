@@ -5,5 +5,6 @@ export * from './useCodeToolValues';
 export * from './useDrawerToolValues';
 export * from './useEditToolsActions';
 export * from './useFontToolValues';
+export * from './useHeaderAndFooterToolValues';
 export * from './usePlaygroundSettingValues';
 export * from './useSkeletonToolValues';

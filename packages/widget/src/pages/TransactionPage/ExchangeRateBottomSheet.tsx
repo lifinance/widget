@@ -12,7 +12,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js';
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
-import { useSetContentHeight } from '../../hooks/useContentHeight.js';
+import { useSetContentHeight } from '../../hooks/useSetContentHeight.js';
 import { formatTokenAmount } from '../../utils/format.js';
 import { CenterContainer, IconCircle } from './StatusBottomSheet.style.js';
 

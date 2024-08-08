@@ -38,6 +38,22 @@ export const SendToWalletPageContainer = styled(
   gap: theme.spacing(1),
 }));
 
+interface FullHeightAdjustablePageContainerProps extends PageContainerProps {
+  enableFullHeight?: boolean;
+}
+
+export const FullHeightAdjustablePageContainer = styled(
+  SendToWalletPageContainer,
+)<FullHeightAdjustablePageContainerProps>(({ theme, enableFullHeight }) => ({
+  justifyContent: 'space-between',
+  ...(enableFullHeight && theme.container?.height === '100%'
+    ? {
+        justifyContent: 'space-between',
+        height: '100%',
+      }
+    : {}),
+}));
+
 export const SendToWalletCard = styled(InputCard)({
   display: 'flex',
   flexDirection: 'column',
@@ -92,21 +108,25 @@ export const SheetAddressContainer = styled(Box)(() => ({
 export const ListContainer = styled(List)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
+  padding: 0,
   minHeight: 400,
-  paddingTop: 0,
-  paddingBottom: theme.spacing(1.5),
+}));
+
+export const BookmarksListContainer = styled(ListContainer)(({ theme }) => ({
+  ...(theme.container?.height === '100%'
+    ? { minHeight: 360, height: 360, flexGrow: 1, overflow: 'auto' }
+    : { minHeight: 440 }),
 }));
 
 export const BookmarkButtonContainer = styled(Box)(({ theme }) => ({
   background: theme.palette.background.default,
   display: 'flex',
   flexDirection: 'column',
-  flexGrow: 1,
-  position: 'sticky',
   bottom: 0,
   padding: theme.spacing(0, 3, 3),
-  marginBottom: theme.spacing(-5.25),
   zIndex: 2,
+  position: 'sticky',
+  width: '100%',
 }));
 
 export const EmptyContainer = styled(Box)(({ theme }) => ({

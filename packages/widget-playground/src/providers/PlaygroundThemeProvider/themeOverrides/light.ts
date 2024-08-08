@@ -14,7 +14,7 @@ export const lightComponents = {
     styleOverrides: (theme: WidgetTheme) => ({
       body: {
         display: 'flex',
-        minHeight: '100vh',
+        minHeight: '100dvh',
         backgroundColor:
           theme.playground?.background || theme.palette?.grey?.[100],
       },

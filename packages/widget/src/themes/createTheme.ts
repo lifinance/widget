@@ -65,6 +65,7 @@ export const createTheme = (
 
   return createMuiTheme({
     container: widgetTheme.container,
+    header: widgetTheme.header,
     navigation: {
       edge: true,
       ...widgetTheme.navigation,

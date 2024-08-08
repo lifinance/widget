@@ -6,6 +6,7 @@ import type {
   WidgetVariant,
   WidgetWalletConfig,
 } from '@lifi/widget';
+import type { CSSProperties } from 'react';
 import type { StoreApi } from 'zustand';
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
 import type { ThemeItem } from '../editTools/types';
@@ -35,6 +36,8 @@ export interface WidgetConfigActions {
   setAvailableThemes: (themeItems: ThemeItem[]) => void;
   getCurrentThemePreset: (useDarkMode?: boolean) => WidgetTheme | undefined;
   getCurrentConfigTheme: () => WidgetTheme | undefined;
+  setHeader: (header?: CSSProperties) => void;
+  setContainer: (container?: CSSProperties) => void;
 }
 
 export type WidgetConfigState = WidgetConfigValues & WidgetConfigActions;

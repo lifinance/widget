@@ -62,6 +62,7 @@ export type WidgetTheme = {
   typography?: TypographyOptions;
   components?: WidgetThemeComponents;
   container?: CSSProperties;
+  header?: CSSProperties;
   playground?: CSSProperties;
   navigation?: NavigationProps;
 };
