@@ -73,7 +73,7 @@ export const useTokenListHeight = ({
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [elementId, listParentRef]);
+  }, [elementId, listParentRef, theme.container.height]);
 
   const minListHeight =
     theme.container?.height === '100%'
