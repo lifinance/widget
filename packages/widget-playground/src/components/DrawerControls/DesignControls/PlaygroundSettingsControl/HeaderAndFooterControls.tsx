@@ -6,7 +6,7 @@ import {
   useHeaderAndFooterToolValues,
 } from '../../../../store';
 import { Switch } from '../../../Switch';
-import { ColorSelectorContainer } from '../DesignControls.style';
+import { ControlContainer } from '../DesignControls.style';
 
 export const HeaderAndFooterControls = () => {
   const { showMockHeader, showMockFooter } = useHeaderAndFooterToolValues();
@@ -40,22 +40,22 @@ export const HeaderAndFooterControls = () => {
 
   return isDevView && showControls ? (
     <>
-      <ColorSelectorContainer sx={{ marginTop: 1 }}>
+      <ControlContainer>
         Show mock header
         <Switch
           checked={showMockHeader}
           onChange={handleShowHideHeaderChange}
           aria-label="Show the mock header"
         />
-      </ColorSelectorContainer>
-      <ColorSelectorContainer sx={{ marginTop: 1 }}>
+      </ControlContainer>
+      <ControlContainer>
         Show mock footer
         <Switch
           checked={showMockFooter}
           onChange={handleShowHideFooterChange}
           aria-label="Show the mock footer"
         />
-      </ColorSelectorContainer>
+      </ControlContainer>
     </>
   ) : null;
 };

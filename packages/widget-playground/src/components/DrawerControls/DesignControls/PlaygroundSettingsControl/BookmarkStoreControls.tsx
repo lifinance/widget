@@ -4,7 +4,7 @@ import { Box, Button } from '@mui/material';
 import { useDevView } from '../../../../hooks';
 import {
   CapitalizeFirstLetter,
-  ColorSelectorContainer,
+  ControlContainer,
 } from '../DesignControls.style';
 
 interface StoreProp {
@@ -58,7 +58,7 @@ export const BookmarkStoreControls = () => {
   };
 
   return isDevView ? (
-    <ColorSelectorContainer sx={{ marginTop: 1 }}>
+    <ControlContainer>
       <CapitalizeFirstLetter>Bookmark store</CapitalizeFirstLetter>
       <Box sx={{ display: 'flex', gap: 1, pr: 1 }}>
         <Button variant="contained" onClick={handleFill}>
@@ -68,6 +68,6 @@ export const BookmarkStoreControls = () => {
           Empty
         </Button>
       </Box>
-    </ColorSelectorContainer>
+    </ControlContainer>
   ) : null;
 };

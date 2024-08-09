@@ -5,9 +5,9 @@ import { ExpandableCard } from '../../Card';
 import {
   CapitalizeFirstLetter,
   ColorInput,
-  ColorSelectorContainer,
   ColorSwatch,
   ColorSwatches,
+  ControlContainer,
 } from './DesignControls.style';
 
 const editableColors = {
@@ -57,7 +57,7 @@ const ColorSelector = ({
   const { setColor } = useConfigActions();
 
   return colorValue ? (
-    <ColorSelectorContainer {...rest}>
+    <ControlContainer {...rest}>
       <CapitalizeFirstLetter>{colorName}</CapitalizeFirstLetter>
       <ColorInput
         aria-label={`${colorName} color selection`}
@@ -65,7 +65,7 @@ const ColorSelector = ({
         value={safe6DigitHexColor(colorValue).toUpperCase()}
         onChange={(e) => setColor(colorPath, e.target.value)}
       />
-    </ColorSelectorContainer>
+    </ControlContainer>
   ) : null;
 };
 

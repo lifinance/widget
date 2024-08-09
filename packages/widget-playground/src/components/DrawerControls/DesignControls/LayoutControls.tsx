@@ -6,9 +6,19 @@ import {
   useConfigActions,
   useHeaderAndFooterToolValues,
 } from '../../../store';
-import { CardRowContainer, CardValue, ExpandableCard } from '../../Card';
+import {
+  CardRowColumn,
+  CardRowContainer,
+  CardValue,
+  ExpandableCard,
+} from '../../Card';
 import { popperZIndex } from '../DrawerControls.style';
-import { CapitalizeFirstLetter, Input, Select } from './DesignControls.style';
+import {
+  CapitalizeFirstLetter,
+  ControlRowContainer,
+  Input,
+  Select,
+} from './DesignControls.style';
 
 type Layout =
   | 'default'
@@ -48,6 +58,8 @@ const inputLabel: InputLabel = {
   'restricted-height': 'Set height',
   'restricted-max-height': 'Set max height',
 };
+
+const layoutsWithoutHeightControls = ['default', 'full-height'];
 
 export const LayoutControls = () => {
   const { config } = useConfig();
@@ -180,7 +192,7 @@ export const LayoutControls = () => {
         </CardValue>
       }
     >
-      <CardRowContainer
+      <ControlRowContainer
         sx={selectedLayoutId !== 'default' ? { paddingBottom: 0 } : undefined}
       >
         <Select
@@ -197,18 +209,10 @@ export const LayoutControls = () => {
             );
           })}
         </Select>
-      </CardRowContainer>
-      {selectedLayoutId !== 'full-height' && selectedLayoutId !== 'default' ? (
+      </ControlRowContainer>
+      {!layoutsWithoutHeightControls.includes(selectedLayoutId) ? (
         <CardRowContainer>
-          <CardRowContainer
-            sx={{
-              flexGrow: 3,
-              flexDirection: 'column',
-              alignItems: 'center',
-              paddingTop: 0,
-              paddingBottom: 0,
-            }}
-          >
+          <CardRowColumn>
             <label htmlFor="layout-height-input">
               {inputLabel[selectedLayoutId]}
             </label>
@@ -217,7 +221,7 @@ export const LayoutControls = () => {
                 {`${defaultMaxHeight}px minimum`}
               </CapitalizeFirstLetter>
             ) : null}
-          </CardRowContainer>
+          </CardRowColumn>
           <Input
             id="layout-height-input"
             type="number"
@@ -228,11 +232,11 @@ export const LayoutControls = () => {
         </CardRowContainer>
       ) : null}
       {selectedLayoutId === 'full-height' ? (
-        <CardRowContainer>
+        <ControlRowContainer>
           <CapitalizeFirstLetter variant="caption" sx={{ paddingLeft: 1 }}>
             full height should be used with the compact variant
           </CapitalizeFirstLetter>
-        </CardRowContainer>
+        </ControlRowContainer>
       ) : null}
     </ExpandableCard>
   );

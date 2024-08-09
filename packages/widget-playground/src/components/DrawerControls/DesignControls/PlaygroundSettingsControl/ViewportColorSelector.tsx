@@ -8,7 +8,7 @@ import { safe6DigitHexColor } from '../../../../utils';
 import {
   CapitalizeFirstLetter,
   ColorInput,
-  ColorSelectorContainer,
+  ControlContainer,
 } from '../DesignControls.style';
 
 export const ViewportColorSelector = ({ ...rest }: BoxProps) => {
@@ -22,7 +22,7 @@ export const ViewportColorSelector = ({ ...rest }: BoxProps) => {
       : theme.palette.common.black;
 
   return (
-    <ColorSelectorContainer {...rest}>
+    <ControlContainer {...rest}>
       <CapitalizeFirstLetter>Viewport background</CapitalizeFirstLetter>
       <ColorInput
         aria-label={`Viewport background color selection`}
@@ -30,6 +30,6 @@ export const ViewportColorSelector = ({ ...rest }: BoxProps) => {
         value={safe6DigitHexColor(viewportColor || defaultColor)}
         onChange={(e) => setViewportBackgroundColor(e.target.value)}
       />
-    </ColorSelectorContainer>
+    </ControlContainer>
   );
 };

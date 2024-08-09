@@ -21,6 +21,7 @@ import { autocompleteClasses } from '@mui/material/Autocomplete';
 import { inputBaseClasses } from '@mui/material/InputBase';
 import { alpha, styled } from '@mui/material/styles';
 import { getCardFieldsetBackgroundColor } from '../../../utils';
+import { CardRowContainer } from '../../Card';
 import { autocompletePopperZIndex } from '../DrawerControls.style';
 
 export const TabButtonsContainer = styled(Box)(({ theme }) => ({
@@ -146,7 +147,7 @@ export const ColorSwatch = styled(
   content: '" "',
 }));
 
-export const ColorSelectorContainer = styled(Box)(({ theme }) => ({
+export const ControlContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
@@ -159,6 +160,18 @@ export const ColorSelectorContainer = styled(Box)(({ theme }) => ({
   paddingLeft: theme.spacing(2.5),
   gap: theme.spacing(0.5),
   height: '3.5rem',
+}));
+
+export const PlaygroundControlsContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(1),
+  marginTop: theme.spacing(1),
+}));
+
+export const ControlRowContainer = styled(CardRowContainer)(({ theme }) => ({
+  paddingLeft: 0,
+  paddingRight: 0,
 }));
 
 export const ColorInput = styled(InputBase)<InputBaseProps>(
