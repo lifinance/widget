@@ -5,6 +5,11 @@ import type { Font } from '../../providers';
 
 type ControlType = 'design' | 'code';
 type CodeControlTab = 'config' | 'examples';
+export type Layout =
+  | 'default'
+  | 'restricted-height'
+  | 'restricted-max-height'
+  | 'full-height';
 
 export type ThemeAppearances =
   | {
@@ -51,6 +56,9 @@ export interface EditToolsValues {
     showMockFooter: boolean;
     isFooterFixed: boolean;
   };
+  layoutControl: {
+    selectedLayoutId: Layout;
+  };
 }
 
 export interface EditToolsActions {
@@ -66,6 +74,7 @@ export interface EditToolsActions {
   setHeaderShow: (show: boolean) => void;
   setFooterShow: (show: boolean) => void;
   setFooterFixed: (isFixed: boolean) => void;
+  setSelectedLayoutId: (layoutId: Layout) => void;
 }
 
 export type ToolsState = EditToolsValues & EditToolsActions;

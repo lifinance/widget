@@ -22,8 +22,8 @@ export const AppExpandedContainer = styled(Box, {
       : theme.container?.display === 'flex'
         ? '100%'
         : theme.container?.maxHeight
-          ? theme.container?.maxHeight
-          : theme.container?.height || defaultMaxHeight,
+          ? 'auto'
+          : theme.container?.height || 'auto',
 }));
 
 export const RelativeContainer = styled(Box, {

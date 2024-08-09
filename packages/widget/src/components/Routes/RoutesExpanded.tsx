@@ -46,7 +46,7 @@ export const RoutesExpanded = () => {
   const match = Boolean(element?.props?.children);
 
   return (
-    <CollapseContainer>
+    <CollapseContainer id="CollapseContainer">
       <Collapse timeout={timeout} in={match} orientation="horizontal">
         <RouteTopLevelGrow
           timeout={timeout}

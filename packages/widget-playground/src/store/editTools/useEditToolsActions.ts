@@ -16,6 +16,7 @@ export const useEditToolsActions = () => {
       setHeaderShow: state.setHeaderShow,
       setFooterShow: state.setFooterShow,
       setFooterFixed: state.setFooterFixed,
+      setSelectedLayoutId: state.setSelectedLayoutId,
     }),
     shallow,
   );

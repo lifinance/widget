@@ -2,9 +2,12 @@ import { defaultMaxHeight } from '@lifi/widget';
 import { MenuItem, type SelectChangeEvent } from '@mui/material';
 import { type ChangeEventHandler, useEffect, useState } from 'react';
 import {
+  type Layout,
   useConfig,
   useConfigActions,
+  useEditToolsActions,
   useHeaderAndFooterToolValues,
+  useLayoutValues,
 } from '../../../store';
 import {
   CardRowColumn,
@@ -19,12 +22,6 @@ import {
   Input,
   Select,
 } from './DesignControls.style';
-
-type Layout =
-  | 'default'
-  | 'restricted-height'
-  | 'restricted-max-height'
-  | 'full-height';
 
 interface LayoutOption {
   id: Layout;
@@ -67,7 +64,9 @@ export const LayoutControls = () => {
   const { setHeader, setContainer, getCurrentConfigTheme, setVariant } =
     useConfigActions();
 
-  const [selectedLayoutId, setSelectedLayoutId] = useState<Layout>('default');
+  // const [selectedLayoutId, setSelectedLayoutId] = useState<Layout>('default');
+  const { selectedLayoutId } = useLayoutValues();
+  const { setSelectedLayoutId } = useEditToolsActions();
   const [heightValue, setHeightValue] = useState<number | undefined>();
 
   useEffect(() => {
@@ -88,7 +87,7 @@ export const LayoutControls = () => {
     } else {
       setSelectedLayoutId('default');
     }
-  }, [config?.theme?.container]);
+  }, [config?.theme?.container, setSelectedLayoutId]);
 
   const handleSelectChange = (event: SelectChangeEvent<any>) => {
     const newLayoutId = event.target.value;

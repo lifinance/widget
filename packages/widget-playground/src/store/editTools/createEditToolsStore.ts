@@ -32,6 +32,9 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
           showMockFooter: false,
           isFooterFixed: false,
         },
+        layoutControl: {
+          selectedLayoutId: 'default',
+        },
         setDrawerOpen: (open) => {
           set({
             drawer: {
@@ -131,6 +134,14 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
             headerAndFooterControl: {
               ...get().headerAndFooterControl,
               isFooterFixed: isFixed,
+            },
+          });
+        },
+        setSelectedLayoutId: (selectedLayoutId) => {
+          set({
+            layoutControl: {
+              ...get().layoutControl,
+              selectedLayoutId,
             },
           });
         },
