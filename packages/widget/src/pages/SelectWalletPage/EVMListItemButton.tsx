@@ -1,4 +1,5 @@
 import { ChainType } from '@lifi/sdk';
+import type { CreateConnectorFnExtended } from '@lifi/wallet-management';
 import {
   getConnectorIcon,
   isWalletInstalledAsync,
@@ -14,7 +15,7 @@ import { WidgetEvent } from '../../types/events.js';
 
 interface EVMListItemButtonProps {
   connectedConnector?: Connector;
-  connector: Connector;
+  connector: CreateConnectorFnExtended | Connector;
   onNotInstalled(connector: Connector): void;
 }
 
@@ -29,9 +30,11 @@ export const EVMListItemButton = ({
   const { disconnectAsync } = useDisconnect();
 
   const handleEVMConnect = async () => {
-    const identityCheckPassed = await isWalletInstalledAsync(connector.id);
+    const identityCheckPassed = await isWalletInstalledAsync(
+      (connector as Connector).id,
+    );
     if (!identityCheckPassed) {
-      onNotInstalled(connector);
+      onNotInstalled(connector as Connector);
       return;
     }
     if (connectedConnector) {
@@ -52,14 +55,20 @@ export const EVMListItemButton = ({
     navigateBack();
   };
 
+  const connectorName: string =
+    (connector as CreateConnectorFnExtended).displayName || connector.name;
+
   return (
-    <ListItemButton key={connector.uid} onClick={handleEVMConnect}>
+    <ListItemButton key={connector.id} onClick={handleEVMConnect}>
       <ListItemAvatar>
-        <Avatar src={getConnectorIcon(connector)} alt={connector.name}>
-          {connector.name[0]}
+        <Avatar
+          src={getConnectorIcon(connector as Connector)}
+          alt={connectorName}
+        >
+          {connectorName?.[0]}
         </Avatar>
       </ListItemAvatar>
-      <ListItemText primary={connector.name} />
+      <ListItemText primary={connectorName} />
     </ListItemButton>
   );
 };

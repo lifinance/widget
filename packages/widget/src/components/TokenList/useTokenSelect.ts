@@ -7,9 +7,10 @@ import { FormKeyHelper } from '../../stores/form/types.js';
 import { useFieldActions } from '../../stores/form/useFieldActions.js';
 import { useFieldController } from '../../stores/form/useFieldController.js';
 import { WidgetEvent } from '../../types/events.js';
+import type { DisabledUI } from '../../types/widget.js';
 
 export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
-  const { subvariant } = useWidgetConfig();
+  const { subvariant, disabledUI } = useWidgetConfig();
   const emitter = useWidgetEvents();
   const { setFieldValue, getFieldValues } = useFieldActions();
   const tokenKey = FormKeyHelper.getTokenKey(formType);
@@ -26,12 +27,16 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
         isDirty: true,
         isTouched: true,
       });
-      setFieldValue(FormKeyHelper.getAmountKey(formType), '');
+      const amountKey = FormKeyHelper.getAmountKey(formType);
+      if (!disabledUI?.includes(amountKey as DisabledUI)) {
+        setFieldValue(amountKey, '');
+      }
       const oppositeFormType = formType === 'from' ? 'to' : 'from';
       const [selectedOppositeToken, selectedOppositeChainId] = getFieldValues(
         FormKeyHelper.getTokenKey(oppositeFormType),
         FormKeyHelper.getChainKey(oppositeFormType),
       );
+      // TODO: remove when we enable same chain/token transfers
       if (
         selectedOppositeToken === tokenAddress &&
         selectedOppositeChainId === selectedChainId &&
@@ -73,6 +78,7 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
     },
     [
       chainOrderStore,
+      disabledUI,
       emitter,
       formType,
       getFieldValues,

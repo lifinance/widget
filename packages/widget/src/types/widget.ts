@@ -18,6 +18,7 @@ import type {
 import type { TypographyOptions } from '@mui/material/styles/createTypography.js';
 import type {
   CoinbaseWalletParameters,
+  MetaMaskParameters,
   WalletConnectParameters,
 } from '@wagmi/connectors';
 import type { CSSProperties, ReactNode, RefObject } from 'react';
@@ -84,6 +85,7 @@ export enum HiddenUI {
   ToAddress = 'toAddress',
   ToToken = 'toToken',
   WalletMenu = 'walletMenu',
+  IntegratorStepDetails = 'integratorStepDetails',
 }
 export type HiddenUIType = `${HiddenUI}`;
 
@@ -96,6 +98,7 @@ export interface WidgetWalletConfig {
   onConnect?(): void;
   walletConnect?: WalletConnectParameters;
   coinbase?: CoinbaseWalletParameters;
+  metaMask?: MetaMaskParameters;
 }
 
 export interface WidgetSDKConfig
@@ -111,8 +114,34 @@ export interface WidgetSDKConfig
 }
 
 export interface WidgetContractTool {
-  logoURI: string;
   name: string;
+  logoURI: string;
+}
+
+export interface CalculateFeeParams {
+  fromChainId: number;
+  toChainId: number;
+  fromTokenAddress: string;
+  toTokenAddress: string;
+  fromAddress?: string;
+  toAddress?: string;
+  fromAmount: bigint;
+  slippage: number;
+}
+
+export interface WidgetFeeConfig {
+  name?: string;
+  logoURI?: string;
+  fee?: number;
+  /**
+   * Function to calculate fees before fetching quotes.
+   * If provided, this function will be used instead of the `fee` parameter.
+   * Only one of `fee` or `calculateFee` should be used.
+   *
+   * @param params Object containing the fee calculation parameters
+   * @returns A promise that resolves to the calculated fee as a number (e.g., 0.03 represents a 3% fee)
+   */
+  calculateFee?(params: CalculateFeeParams): Promise<number | undefined>;
 }
 
 export interface ToAddress {
@@ -126,6 +155,22 @@ export interface AllowDeny<T> {
   allow?: T[];
   deny?: T[];
 }
+
+export type WidgetChains = {
+  from?: AllowDeny<number>;
+  to?: AllowDeny<number>;
+  types?: AllowDeny<ChainType>;
+} & AllowDeny<number>;
+
+export type WidgetTokens = {
+  featured?: StaticToken[];
+  include?: Token[];
+  popular?: StaticToken[];
+} & AllowDeny<BaseToken>;
+
+export type WidgetLanguages = {
+  default?: LanguageKey;
+} & AllowDeny<LanguageKey>;
 
 export interface WidgetConfig {
   fromChain?: number;
@@ -145,7 +190,11 @@ export interface WidgetConfig {
 
   integrator: string;
   apiKey?: string;
+  /**
+   * @deprecated Use `feeConfig` instead.
+   */
   fee?: number;
+  feeConfig?: WidgetFeeConfig;
   referrer?: string;
 
   routePriority?: Order;
@@ -171,19 +220,9 @@ export interface WidgetConfig {
 
   bridges?: AllowDeny<string>;
   exchanges?: AllowDeny<string>;
-  chains?: {
-    from?: AllowDeny<number>;
-    to?: AllowDeny<number>;
-    types?: AllowDeny<ChainType>;
-  } & AllowDeny<number>;
-  tokens?: {
-    featured?: StaticToken[];
-    include?: Token[];
-    popular?: StaticToken[];
-  } & AllowDeny<BaseToken>;
-  languages?: {
-    default?: LanguageKey;
-  } & AllowDeny<LanguageKey>;
+  chains?: WidgetChains;
+  tokens?: WidgetTokens;
+  languages?: WidgetLanguages;
   languageResources?: LanguageResources;
 }
 

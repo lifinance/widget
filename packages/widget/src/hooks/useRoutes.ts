@@ -25,8 +25,15 @@ interface RoutesProps {
 }
 
 export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
-  const { subvariant, sdkConfig, contractTool, bridges, exchanges } =
-    useWidgetConfig();
+  const {
+    subvariant,
+    sdkConfig,
+    contractTool,
+    bridges,
+    exchanges,
+    fee,
+    feeConfig,
+  } = useWidgetConfig();
   const setExecutableRoute = useSetExecutableRoute();
   const queryClient = useQueryClient();
   const emitter = useWidgetEvents();
@@ -137,6 +144,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
     sdkConfig?.routeOptions?.allowSwitchChain,
     enabledRefuel && enabledAutoRefuel,
     gasRecommendationFromAmount,
+    feeConfig?.fee || fee,
     observableRoute?.id,
   ] as const;
 
@@ -166,14 +174,12 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           allowSwitchChain,
           enabledRefuel,
           gasRecommendationFromAmount,
+          fee,
           observableRouteId,
         ],
         signal,
       }) => {
-        const fromAmount = parseUnits(
-          fromTokenAmount,
-          fromToken!.decimals,
-        ).toString();
+        const fromAmount = parseUnits(fromTokenAmount, fromToken!.decimals);
         const formattedSlippage = parseFloat(slippage) / 100;
 
         const allowBridges = swapOnly
@@ -199,6 +205,17 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
             )
           : allowedExchanges;
 
+        const calculatedFee = await feeConfig?.calculateFee?.({
+          fromChainId,
+          toChainId,
+          fromTokenAddress,
+          toTokenAddress,
+          fromAddress,
+          toAddress,
+          fromAmount,
+          slippage: formattedSlippage,
+        });
+
         if (subvariant === 'custom' && contractCalls && toTokenAmount) {
           const contractCallQuote = await getContractCallsQuote(
             {
@@ -218,6 +235,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
               allowExchanges,
               toFallbackAddress: toAddress,
               slippage: formattedSlippage,
+              fee: calculatedFee || fee,
             },
             { signal },
           );
@@ -267,7 +285,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
         const data = await getRoutes(
           {
             fromAddress,
-            fromAmount,
+            fromAmount: fromAmount.toString(),
             fromChainId,
             fromTokenAddress,
             toAddress,
@@ -300,6 +318,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
                   : undefined,
               order: routePriority,
               slippage: formattedSlippage,
+              fee: calculatedFee || fee,
             },
           },
           { signal },
