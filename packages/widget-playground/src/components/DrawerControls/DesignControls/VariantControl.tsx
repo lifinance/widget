@@ -6,9 +6,48 @@ import { Tab, Tabs } from '../../Tabs';
 
 export const VariantControl = () => {
   const { variant } = useConfigVariant();
-  const { setVariant } = useConfigActions();
+  const { setVariant, setHeader, setContainer, getCurrentConfigTheme } =
+    useConfigActions();
+
   const handleVariantChange = (_: SyntheticEvent, value: WidgetVariant) => {
     setVariant(value);
+
+    switch (value) {
+      case 'drawer':
+        setHeader();
+
+        const containerForDrawer = {
+          ...getCurrentConfigTheme()?.container,
+          maxHeight: undefined,
+          display: undefined,
+          height: undefined,
+        };
+
+        delete containerForDrawer.display;
+        delete containerForDrawer.height;
+        delete containerForDrawer.maxHeight;
+
+        setContainer(containerForDrawer);
+        break;
+      case 'wide':
+        setHeader();
+
+        const containerForWide = {
+          ...getCurrentConfigTheme()?.container,
+        };
+
+        if (
+          containerForWide.display === 'flex' &&
+          containerForWide.height === '100%'
+        ) {
+          delete containerForWide.display;
+          delete containerForWide.height;
+        }
+
+        setContainer(containerForWide);
+        break;
+      default:
+    }
   };
 
   return (
