@@ -45,9 +45,15 @@ export const RelativeContainer = styled(Box, {
   ...theme.container,
 }));
 
+interface CssBaselineContainerProps {
+  variant?: WidgetVariant;
+  paddingTopAdjustment: number;
+}
+
 const CssBaselineContainer = styled(ScopedCssBaseline, {
-  shouldForwardProp: (prop) => prop !== 'variant',
-})<{ variant?: WidgetVariant }>(({ theme, variant }) => ({
+  shouldForwardProp: (prop) =>
+    !['variant', 'paddingTopAdjustment'].includes(prop as string),
+})<CssBaselineContainerProps>(({ theme, variant, paddingTopAdjustment }) => ({
   display: 'flex',
   flex: 1,
   flexDirection: 'column',
@@ -62,17 +68,26 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
         : theme.container?.height || defaultMaxHeight,
   overflowY: 'auto',
   height: theme.container?.display === 'flex' ? 'auto' : '100%',
+  paddingTop: theme.spacing(paddingTopAdjustment),
 }));
 
-export const FlexContainer = styled(Container)({
+export const FlexContainer = styled(Container)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   flex: 1,
-});
+}));
 
 export const AppContainer: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   // const ref = useRef<HTMLDivElement>(null);
-  const { variant, elementId } = useWidgetConfig();
+  const { variant, elementId, hiddenUI, theme } = useWidgetConfig();
+
+  const positionFixedAdjustment =
+    theme?.header?.position === 'fixed'
+      ? hiddenUI?.includes('walletMenu')
+        ? 8 // '64px'
+        : 13.5 // '108px'
+      : 0;
+
   return (
     <RelativeContainer
       variant={variant}
@@ -82,9 +97,12 @@ export const AppContainer: React.FC<PropsWithChildren<{}>> = ({ children }) => {
         id={createElementId(ElementId.ScrollableContainer, elementId)}
         variant={variant}
         enableColorScheme
+        paddingTopAdjustment={positionFixedAdjustment}
         // ref={ref}
       >
-        <FlexContainer disableGutters>{children}</FlexContainer>
+        <FlexContainer disableGutters id="app-level-flex-container">
+          {children}
+        </FlexContainer>
       </CssBaselineContainer>
       {/* <ScrollToLocation elementRef={ref} /> */}
     </RelativeContainer>
