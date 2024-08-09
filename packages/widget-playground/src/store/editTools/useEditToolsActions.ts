@@ -15,6 +15,7 @@ export const useEditToolsActions = () => {
       setSkeletonSideBySide: state.setSkeletonSideBySide,
       setHeaderShow: state.setHeaderShow,
       setFooterShow: state.setFooterShow,
+      setFooterFixed: state.setFooterFixed,
     }),
     shallow,
   );

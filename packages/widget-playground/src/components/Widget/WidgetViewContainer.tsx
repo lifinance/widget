@@ -30,7 +30,8 @@ export function WidgetViewContainer({
   const { config } = useConfig();
   const { isDrawerOpen, drawerWidth } = useDrawerToolValues();
   const { setDrawerOpen } = useEditToolsActions();
-  const { showMockHeader, showMockFooter } = useHeaderAndFooterToolValues();
+  const { showMockHeader, showMockFooter, isFooterFixed } =
+    useHeaderAndFooterToolValues();
 
   const isWalletManagementExternal = !!config?.walletConfig;
 
@@ -72,11 +73,26 @@ export function WidgetViewContainer({
             </MockElement>
           ) : null}
           <WidgetContainerRow
+            sx={
+              isFullHeightLayout && isFooterFixed
+                ? { marginBottom: 6 }
+                : undefined
+            }
             alignTop={config?.theme?.container?.display === 'flex'}
           >
             {children}
           </WidgetContainerRow>
-          {showFooter ? <MockElement>Mock footer</MockElement> : null}
+          {showFooter ? (
+            <MockElement
+              sx={
+                isFullHeightLayout && isFooterFixed
+                  ? { position: 'fixed', zIndex: 1, bottom: 0 }
+                  : undefined
+              }
+            >
+              Mock footer
+            </MockElement>
+          ) : null}
         </WidgetContainer>
       </ExternalWalletProvider>
     </Main>

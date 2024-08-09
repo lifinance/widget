@@ -207,7 +207,6 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
   ...widgetBaseConfig,
   appearance: 'auto',
   variant: 'compact',
-  hiddenUI: ['walletMenu'],
   theme: {
     palette: {
       primary: {

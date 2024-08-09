@@ -4,7 +4,7 @@ import { Box, Button } from '@mui/material';
 import { useDevView } from '../../../../hooks';
 import {
   CapitalizeFirstLetter,
-  ControlContainer,
+  ColorControlContainer,
 } from '../DesignControls.style';
 
 interface StoreProp {
@@ -47,7 +47,7 @@ export const BookmarkStoreControls = () => {
   const { isDevView } = useDevView();
 
   const handleFill = () => {
-    const newState = fillRecents(fillBookmarks(store, 5), 50);
+    const newState = fillRecents(fillBookmarks(store, 50), 50);
     localStorage.setItem('li.fi-bookmarks', JSON.stringify(newState));
     window.location.reload();
   };
@@ -58,7 +58,7 @@ export const BookmarkStoreControls = () => {
   };
 
   return isDevView ? (
-    <ControlContainer>
+    <ColorControlContainer>
       <CapitalizeFirstLetter>Bookmark store</CapitalizeFirstLetter>
       <Box sx={{ display: 'flex', gap: 1, pr: 1 }}>
         <Button variant="contained" onClick={handleFill}>
@@ -68,6 +68,6 @@ export const BookmarkStoreControls = () => {
           Empty
         </Button>
       </Box>
-    </ControlContainer>
+    </ColorControlContainer>
   ) : null;
 };

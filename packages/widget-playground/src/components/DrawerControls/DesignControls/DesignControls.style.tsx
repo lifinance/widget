@@ -156,10 +156,14 @@ export const ControlContainer = styled(Box)(({ theme }) => ({
     theme.shape.borderRadius,
     theme.shape.borderRadiusSecondary,
   ),
-  padding: theme.spacing(0.5),
-  paddingLeft: theme.spacing(2.5),
+  padding: theme.spacing(0.5, 2.5),
   gap: theme.spacing(0.5),
-  height: '3.5rem',
+  minHeight: theme.spacing(7),
+}));
+
+export const ColorControlContainer = styled(ControlContainer)(({ theme }) => ({
+  height: theme.spacing(7),
+  paddingRight: theme.spacing(0.5),
 }));
 
 export const PlaygroundControlsContainer = styled(Box)(({ theme }) => ({

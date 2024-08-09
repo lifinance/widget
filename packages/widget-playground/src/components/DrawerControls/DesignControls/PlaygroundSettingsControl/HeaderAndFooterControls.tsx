@@ -5,12 +5,15 @@ import {
   useEditToolsActions,
   useHeaderAndFooterToolValues,
 } from '../../../../store';
+import { CardRowColumn } from '../../../Card';
 import { Switch } from '../../../Switch';
-import { ControlContainer } from '../DesignControls.style';
+import { ControlContainer, ControlRowContainer } from '../DesignControls.style';
 
 export const HeaderAndFooterControls = () => {
-  const { showMockHeader, showMockFooter } = useHeaderAndFooterToolValues();
-  const { setHeaderShow, setFooterShow } = useEditToolsActions();
+  const { showMockHeader, showMockFooter, isFooterFixed } =
+    useHeaderAndFooterToolValues();
+  const { setHeaderShow, setFooterShow, setFooterFixed } =
+    useEditToolsActions();
   const { setHeader } = useConfigActions();
 
   const { config } = useConfig();
@@ -32,6 +35,19 @@ export const HeaderAndFooterControls = () => {
     checked: boolean,
   ) => void = (_, checked) => {
     setFooterShow(checked);
+    if (!checked) {
+      setFooterFixed(false);
+    }
+  };
+
+  const handleFooterFixedChange: (
+    _: React.ChangeEvent<HTMLInputElement>,
+    checked: boolean,
+  ) => void = (_, checked) => {
+    setFooterFixed(checked);
+    if (checked) {
+      setFooterShow(true);
+    }
   };
 
   const showControls =
@@ -49,12 +65,24 @@ export const HeaderAndFooterControls = () => {
         />
       </ControlContainer>
       <ControlContainer>
-        Show mock footer
-        <Switch
-          checked={showMockFooter}
-          onChange={handleShowHideFooterChange}
-          aria-label="Show the mock footer"
-        />
+        <CardRowColumn>
+          <ControlRowContainer>
+            Show mock footer
+            <Switch
+              checked={showMockFooter}
+              onChange={handleShowHideFooterChange}
+              aria-label="Show the mock footer"
+            />
+          </ControlRowContainer>
+          <ControlRowContainer sx={{ paddingTop: 0 }}>
+            Make footer fixed
+            <Switch
+              checked={isFooterFixed}
+              onChange={handleFooterFixedChange}
+              aria-label="Show the mock footer"
+            />
+          </ControlRowContainer>
+        </CardRowColumn>
       </ControlContainer>
     </>
   ) : null;

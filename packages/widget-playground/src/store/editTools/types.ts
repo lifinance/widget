@@ -49,6 +49,7 @@ export interface EditToolsValues {
   headerAndFooterControl: {
     showMockHeader: boolean;
     showMockFooter: boolean;
+    isFooterFixed: boolean;
   };
 }
 
@@ -64,6 +65,7 @@ export interface EditToolsActions {
   setSkeletonSideBySide: (sideBySide: boolean) => void;
   setHeaderShow: (show: boolean) => void;
   setFooterShow: (show: boolean) => void;
+  setFooterFixed: (isFixed: boolean) => void;
 }
 
 export type ToolsState = EditToolsValues & EditToolsActions;

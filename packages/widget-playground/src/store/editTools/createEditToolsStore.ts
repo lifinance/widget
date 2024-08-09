@@ -30,6 +30,7 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
         headerAndFooterControl: {
           showMockHeader: false,
           showMockFooter: false,
+          isFooterFixed: false,
         },
         setDrawerOpen: (open) => {
           set({
@@ -122,6 +123,14 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
             headerAndFooterControl: {
               ...get().headerAndFooterControl,
               showMockFooter: show,
+            },
+          });
+        },
+        setFooterFixed: (isFixed) => {
+          set({
+            headerAndFooterControl: {
+              ...get().headerAndFooterControl,
+              isFooterFixed: isFixed,
             },
           });
         },
