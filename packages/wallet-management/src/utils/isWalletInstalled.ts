@@ -1,5 +1,20 @@
 export const isWalletInstalled = (id: string): boolean => {
   switch (id) {
+    case 'metaMask':
+      return (
+        (window as any)?.ethereum?.isMetaMask ||
+        (window as any)?.ethereum?.providers?.some(
+          (provider: any) => provider.isMetaMask,
+        )
+      );
+    case 'coinbase':
+      return (
+        (window as any)?.ethereum?.isCoinbaseWallet ||
+        (window as any)?.coinbaseWalletExtension?.isCoinbaseWallet ||
+        (window as any)?.ethereum?.providers?.some(
+          (provider: any) => provider.isCoinbaseWallet,
+        )
+      );
     case 'gate':
       return (window as any)?.gatewallet;
     case 'bitget':

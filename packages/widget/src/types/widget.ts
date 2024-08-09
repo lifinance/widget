@@ -18,6 +18,7 @@ import type {
 import type { TypographyOptions } from '@mui/material/styles/createTypography.js';
 import type {
   CoinbaseWalletParameters,
+  MetaMaskParameters,
   WalletConnectParameters,
 } from '@wagmi/connectors';
 import type { CSSProperties, ReactNode, RefObject } from 'react';
@@ -96,6 +97,7 @@ export interface WidgetWalletConfig {
   onConnect?(): void;
   walletConnect?: WalletConnectParameters;
   coinbase?: CoinbaseWalletParameters;
+  metaMask?: MetaMaskParameters;
 }
 
 export interface WidgetSDKConfig
@@ -153,6 +155,22 @@ export interface AllowDeny<T> {
   deny?: T[];
 }
 
+export type WidgetChains = {
+  from?: AllowDeny<number>;
+  to?: AllowDeny<number>;
+  types?: AllowDeny<ChainType>;
+} & AllowDeny<number>;
+
+export type WidgetTokens = {
+  featured?: StaticToken[];
+  include?: Token[];
+  popular?: StaticToken[];
+} & AllowDeny<BaseToken>;
+
+export type WidgetLanguages = {
+  default?: LanguageKey;
+} & AllowDeny<LanguageKey>;
+
 export interface WidgetConfig {
   fromChain?: number;
   toChain?: number;
@@ -201,19 +219,9 @@ export interface WidgetConfig {
 
   bridges?: AllowDeny<string>;
   exchanges?: AllowDeny<string>;
-  chains?: {
-    from?: AllowDeny<number>;
-    to?: AllowDeny<number>;
-    types?: AllowDeny<ChainType>;
-  } & AllowDeny<number>;
-  tokens?: {
-    featured?: StaticToken[];
-    include?: Token[];
-    popular?: StaticToken[];
-  } & AllowDeny<BaseToken>;
-  languages?: {
-    default?: LanguageKey;
-  } & AllowDeny<LanguageKey>;
+  chains?: WidgetChains;
+  tokens?: WidgetTokens;
+  languages?: WidgetLanguages;
   languageResources?: LanguageResources;
 }
 

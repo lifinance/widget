@@ -3,7 +3,7 @@ import { isWalletInstalled } from './isWalletInstalled.js';
 export const isWalletInstalledAsync = async (id: string): Promise<boolean> => {
   switch (id) {
     case 'safe': {
-      // in Multisig env, window.parent is not equal to window
+      // In Safe iframe env, window.parent is not equal to window
       const isIFrameEnvironment = window?.parent !== window;
 
       if (!isIFrameEnvironment) {
@@ -17,7 +17,7 @@ export const isWalletInstalledAsync = async (id: string): Promise<boolean> => {
       try {
         const accountInfo = await Promise.race([
           sdk.safe.getInfo(),
-          new Promise<undefined>((resolve) => setTimeout(resolve, 200)),
+          new Promise((resolve) => setTimeout(resolve, 500)),
         ]);
 
         return !!accountInfo?.safeAddress;
