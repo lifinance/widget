@@ -1,5 +1,9 @@
 import { Box, Container, ScopedCssBaseline, styled } from '@mui/material';
 import type { PropsWithChildren } from 'react';
+import {
+  maxHeaderHeight,
+  minHeaderHeight,
+} from '../components/Header/Header.js';
 import { defaultMaxHeight } from '../config/constants.js';
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
 import type { WidgetVariant } from '../types/widget.js';
@@ -68,7 +72,7 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
         : theme.container?.height || defaultMaxHeight,
   overflowY: 'auto',
   height: theme.container?.display === 'flex' ? 'auto' : '100%',
-  paddingTop: theme.spacing(paddingTopAdjustment),
+  paddingTop: paddingTopAdjustment,
 }));
 
 export const FlexContainer = styled(Container)(({ theme }) => ({
@@ -84,8 +88,8 @@ export const AppContainer: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   const positionFixedAdjustment =
     theme?.header?.position === 'fixed'
       ? hiddenUI?.includes('walletMenu')
-        ? 8 // '64px'
-        : 13.5 // '108px'
+        ? minHeaderHeight
+        : maxHeaderHeight
       : 0;
 
   return (
