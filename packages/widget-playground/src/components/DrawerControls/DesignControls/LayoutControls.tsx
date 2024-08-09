@@ -96,22 +96,32 @@ export const LayoutControls = () => {
     switch (newLayoutId) {
       case 'restricted-height':
         setHeader();
-        setContainer({
+
+        const heightContainer = {
           ...(getCurrentConfigTheme()?.container ?? {}),
           height: defaultMaxHeight,
           display: undefined,
           maxHeight: undefined,
-        });
+        };
+        delete heightContainer.display;
+        delete heightContainer.maxHeight;
+
+        setContainer(heightContainer);
 
         break;
       case 'restricted-max-height':
         setHeader();
-        setContainer({
+
+        const maxHeightContainer = {
           ...(getCurrentConfigTheme()?.container ?? {}),
           maxHeight: defaultMaxHeight,
           display: undefined,
           height: undefined,
-        });
+        };
+        delete maxHeightContainer.display;
+        delete maxHeightContainer.height;
+
+        setContainer(maxHeightContainer);
 
         break;
       case 'full-height':
@@ -122,24 +132,31 @@ export const LayoutControls = () => {
           top: showMockHeader ? 48 : 0,
         });
 
-        const newContainer = {
+        const fullHeightContainer = {
           ...(getCurrentConfigTheme()?.container ?? {}),
           display: 'flex',
           height: '100%',
           maxHeight: undefined,
         };
+        delete fullHeightContainer.maxHeight;
 
-        setContainer(newContainer);
+        setContainer(fullHeightContainer);
         break;
       default:
         setHeightValue(undefined);
         setHeader();
-        setContainer({
+
+        const defaultContainer = {
           ...(getCurrentConfigTheme()?.container ?? {}),
           maxHeight: undefined,
           display: undefined,
           height: undefined,
-        });
+        };
+        delete defaultContainer.display;
+        delete defaultContainer.height;
+        delete defaultContainer.maxHeight;
+
+        setContainer(defaultContainer);
     }
   };
 

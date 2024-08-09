@@ -8,6 +8,7 @@ import { useDevView } from '../../hooks';
 import { useFontInitialisation } from '../../providers';
 import {
   useConfigActions,
+  useConfigVariant,
   useDrawerToolValues,
   useEditToolsActions,
 } from '../../store';
@@ -42,6 +43,7 @@ import { DrawerHandle } from './DrawerHandle';
 export const DrawerControls = () => {
   const { isDrawerOpen, drawerWidth, visibleControls } = useDrawerToolValues();
   const { setDrawerOpen, setVisibleControls } = useEditToolsActions();
+  const { variant } = useConfigVariant();
   const { resetConfig } = useConfigActions();
   const { resetEditTools } = useEditToolsActions();
   const { isDevView } = useDevView();
@@ -126,7 +128,9 @@ export const DrawerControls = () => {
                   <ButtonRadiusControl />
                   <WalletManagementControl />
                   <SkeletonControl />
-                  {isDevView ? <LayoutControls /> : null}
+                  {isDevView && variant !== 'drawer' ? (
+                    <LayoutControls />
+                  ) : null}
                 </WidgetConfigControls>
                 <PlaygroundSettingsControl />
               </ExpandableCardAccordion>

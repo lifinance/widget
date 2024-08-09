@@ -206,7 +206,7 @@ export const widgetBaseConfig: WidgetConfig = {
 export const defaultWidgetConfig: Partial<WidgetConfig> = {
   ...widgetBaseConfig,
   appearance: 'auto',
-  variant: 'compact',
+  // variant: 'compact',
   theme: {
     palette: {
       primary: {
@@ -220,13 +220,13 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
       fontFamily: 'Inter, sans-serif',
     },
     // allows for positioning of header to accommodate navigation bar
-    header: {
-      position: 'fixed',
-      top: 0,
-    },
+    // header: {
+    //   position: 'fixed',
+    //   top: 0,
+    // },
     container: {
-      display: 'flex',
-      height: '100%',
+      // display: 'flex',
+      // height: '100%',
       // height: 800,
       // maxHeight: 900,
       // paddingTop: 80,

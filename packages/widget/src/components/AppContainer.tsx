@@ -28,26 +28,34 @@ export const AppExpandedContainer = styled(Box, {
 
 export const RelativeContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'variant',
-})<{ variant?: WidgetVariant }>(({ theme, variant }) => ({
-  position: 'relative',
-  boxSizing: 'content-box',
-  width: '100%',
-  minWidth: theme.breakpoints.values.xs,
-  maxWidth: theme.breakpoints.values.sm,
-  maxHeight:
-    variant === 'drawer'
-      ? 'none'
-      : theme.container?.display === 'flex' && !theme.container?.height
-        ? '100%'
-        : theme.container?.maxHeight
-          ? theme.container?.maxHeight
-          : theme.container?.height || defaultMaxHeight,
-  background: theme.palette.background.default,
-  overflow: 'auto',
-  flex: 1,
-  zIndex: 0,
-  ...theme.container,
-}));
+})<{ variant?: WidgetVariant }>(({ theme, variant }) => {
+  const container = { ...theme.container };
+
+  if (variant === 'drawer') {
+    container.height = '100%';
+  }
+
+  return {
+    position: 'relative',
+    boxSizing: 'content-box',
+    width: '100%',
+    minWidth: theme.breakpoints.values.xs,
+    maxWidth: theme.breakpoints.values.sm,
+    background: theme.palette.background.default,
+    overflow: 'auto',
+    flex: 1,
+    zIndex: 0,
+    ...container,
+    maxHeight:
+      variant === 'drawer'
+        ? 'none'
+        : theme.container?.display === 'flex' && !theme.container?.height
+          ? '100%'
+          : theme.container?.maxHeight
+            ? theme.container?.maxHeight
+            : theme.container?.height || defaultMaxHeight,
+  };
+});
 
 interface CssBaselineContainerProps {
   variant?: WidgetVariant;
