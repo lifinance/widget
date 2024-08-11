@@ -87,6 +87,7 @@ export function WidgetViewContainer({
               config?.theme?.container?.display === 'flex' ||
               topAlignedLayouts.includes(selectedLayoutId)
             }
+            widgetContainer={config?.theme?.container}
           >
             {children}
           </WidgetContainerRow>

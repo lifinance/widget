@@ -1,3 +1,4 @@
+import { defaultMaxHeight } from '@lifi/widget';
 import type { BoxProps, Theme } from '@mui/material';
 import {
   Box,
@@ -7,6 +8,7 @@ import {
 } from '@mui/material';
 import { buttonClasses } from '@mui/material/Button';
 import { alpha, styled } from '@mui/material/styles';
+import type { CSSProperties } from 'react';
 import { drawerZIndex } from '../DrawerControls';
 
 export const FloatingToolsContainer = styled(Box)(({ theme }) => ({
@@ -38,16 +40,22 @@ export const WidgetContainer = styled(Box, {
 
 interface WidgetContainerRowProps extends BoxProps {
   alignTop?: boolean;
+  widgetContainer?: CSSProperties;
 }
 
 export const WidgetContainerRow = styled(Box, {
-  shouldForwardProp: (prop) => !['alignTop'].includes(prop as string),
-})<WidgetContainerRowProps>(({ alignTop }) => {
+  shouldForwardProp: (prop) =>
+    !['alignTop', 'widgetContainer'].includes(prop as string),
+})<WidgetContainerRowProps>(({ theme, alignTop, widgetContainer }) => {
   return {
     display: 'flex',
     alignItems: alignTop ? 'flex-start' : 'center',
     flexGrow: 1,
     width: '100%',
+    maxHeight:
+      widgetContainer?.maxHeight || !widgetContainer?.height
+        ? (widgetContainer?.maxHeight ?? defaultMaxHeight)
+        : 'none',
   };
 });
 
