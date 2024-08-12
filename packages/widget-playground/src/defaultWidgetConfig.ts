@@ -202,10 +202,6 @@ export const widgetBaseConfig: WidgetConfig = {
   //   es,
   // },
   // allows for positioning of header to accommodate navigation bar
-  // header: {
-  //   position: 'fixed',
-  //   top: 0,
-  // },
 };
 
 export const defaultWidgetConfig: Partial<WidgetConfig> = {
@@ -223,6 +219,10 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
     typography: {
       fontFamily: 'Inter, sans-serif',
     },
+    // header: {
+    //   position: 'fixed',
+    //   top: 0,
+    // },
     container: {
       boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
       borderRadius: '16px',
