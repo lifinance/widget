@@ -59,6 +59,7 @@ export interface EditToolsValues {
   layoutControl: {
     selectedLayoutId: Layout;
   };
+  isDevView: boolean;
 }
 
 export interface EditToolsActions {
@@ -75,6 +76,7 @@ export interface EditToolsActions {
   setFooterVisibility: (show: boolean) => void;
   setFixedFooter: (isFixed: boolean) => void;
   setSelectedLayoutId: (layoutId: Layout) => void;
+  setIsDevView: (isDevView: boolean) => void;
 }
 
 export type ToolsState = EditToolsValues & EditToolsActions;

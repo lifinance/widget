@@ -35,6 +35,7 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
         layoutControl: {
           selectedLayoutId: 'default',
         },
+        isDevView: false,
         setDrawerOpen: (open) => {
           set({
             drawer: {
@@ -143,6 +144,11 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
               ...get().layoutControl,
               selectedLayoutId,
             },
+          });
+        },
+        setIsDevView: (isDevView) => {
+          set({
+            isDevView,
           });
         },
       }),

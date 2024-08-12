@@ -17,6 +17,7 @@ export const useEditToolsActions = () => {
       setFooterVisibility: state.setFooterVisibility,
       setFixedFooter: state.setFixedFooter,
       setSelectedLayoutId: state.setSelectedLayoutId,
+      setIsDevView: state.setIsDevView,
     }),
     shallow,
   );

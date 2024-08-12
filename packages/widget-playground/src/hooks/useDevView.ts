@@ -1,22 +1,30 @@
-import { useEffect, useState } from 'react';
+import { shallow } from 'zustand/shallow';
+import { useEditToolsActions, useEditToolsStore } from '../store';
 
-const getQueryStringParam = () => {
-  // Client-side-only code
-  if (typeof window !== 'undefined') {
-    const urlParams = new URLSearchParams(window.location.search);
-    return !!urlParams.get('devView') || false;
+const queryStringKey = 'devView';
+
+const setQueryStringParam = (value: boolean) => {
+  const url = new URL(window.location.href);
+  if (value) {
+    url.searchParams.set(queryStringKey, value.toString());
+  } else {
+    url.searchParams.delete(queryStringKey);
   }
-  return false;
+  window.history.pushState(null, '', url.toString());
 };
 
 export const useDevView = () => {
-  const [isDevView, setIsDevView] = useState(false);
+  const [isDevView] = useEditToolsStore((store) => [store.isDevView], shallow);
+  const { setIsDevView } = useEditToolsActions();
 
-  useEffect(() => {
-    setIsDevView(getQueryStringParam());
-  }, []);
+  const toggleDevView = () => {
+    const newDevViewValue = !isDevView;
+    setQueryStringParam(newDevViewValue);
+    setIsDevView(newDevViewValue);
+  };
 
   return {
     isDevView,
+    toggleDevView,
   };
 };
