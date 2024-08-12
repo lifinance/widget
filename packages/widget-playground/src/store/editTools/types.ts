@@ -71,9 +71,9 @@ export interface EditToolsActions {
   setViewportBackgroundColor: (color: string | undefined) => void;
   setSkeletonShow: (show: boolean) => void;
   setSkeletonSideBySide: (sideBySide: boolean) => void;
-  setHeaderShow: (show: boolean) => void;
-  setFooterShow: (show: boolean) => void;
-  setFooterFixed: (isFixed: boolean) => void;
+  setHeaderVisibility: (show: boolean) => void;
+  setFooterVisibility: (show: boolean) => void;
+  setFixedFooter: (isFixed: boolean) => void;
   setSelectedLayoutId: (layoutId: Layout) => void;
 }
 

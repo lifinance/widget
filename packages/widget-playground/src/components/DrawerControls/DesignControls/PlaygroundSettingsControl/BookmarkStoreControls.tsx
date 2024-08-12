@@ -20,6 +20,9 @@ const store = {
   version: 0,
 };
 
+// This function will populate the bookmarks with fake wallet data.
+// These are not real wallet addresses and this data is only used to check
+// the visual appearance of the bookmark list
 const fillBookmarks = (store: StoreProp, num: number) => {
   for (let i = 0; i < num; i++) {
     store.state.bookmarks.push({
@@ -32,6 +35,9 @@ const fillBookmarks = (store: StoreProp, num: number) => {
   return store;
 };
 
+// This function will populate the recent wallets with fake wallet data.
+// These are not real wallet addresses and this data is only used to check
+// the visual appearance of the recent wallets list
 const fillRecents = (store: StoreProp, num: number) => {
   for (let i = 0; i < num; i++) {
     store.state.recentWallets.push({

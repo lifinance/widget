@@ -12,31 +12,31 @@ import { ControlContainer, ControlRowContainer } from '../DesignControls.style';
 export const HeaderAndFooterControls = () => {
   const { showMockHeader, showMockFooter, isFooterFixed } =
     useHeaderAndFooterToolValues();
-  const { setHeaderShow, setFooterShow, setFooterFixed } =
+  const { setHeaderVisibility, setFooterVisibility, setFixedFooter } =
     useEditToolsActions();
   const { setHeader } = useConfigActions();
 
   const { config } = useConfig();
   const { isDevView } = useDevView();
 
-  const handleShowHideHeaderChange: (
+  const handleHeaderVisibilityChange: (
     _: React.ChangeEvent<HTMLInputElement>,
     checked: boolean,
   ) => void = (_, checked) => {
-    setHeaderShow(checked);
+    setHeaderVisibility(checked);
 
     if (config?.theme?.header?.position === 'fixed') {
       setHeader({ position: 'fixed', top: checked ? 48 : 0 });
     }
   };
 
-  const handleShowHideFooterChange: (
+  const handleFooterVisibilityChange: (
     _: React.ChangeEvent<HTMLInputElement>,
     checked: boolean,
   ) => void = (_, checked) => {
-    setFooterShow(checked);
+    setFooterVisibility(checked);
     if (!checked) {
-      setFooterFixed(false);
+      setFixedFooter(false);
     }
   };
 
@@ -44,9 +44,9 @@ export const HeaderAndFooterControls = () => {
     _: React.ChangeEvent<HTMLInputElement>,
     checked: boolean,
   ) => void = (_, checked) => {
-    setFooterFixed(checked);
+    setFixedFooter(checked);
     if (checked) {
-      setFooterShow(true);
+      setFooterVisibility(true);
     }
   };
 
@@ -60,7 +60,7 @@ export const HeaderAndFooterControls = () => {
         Show mock header
         <Switch
           checked={showMockHeader}
-          onChange={handleShowHideHeaderChange}
+          onChange={handleHeaderVisibilityChange}
           aria-label="Show the mock header"
         />
       </ControlContainer>
@@ -70,7 +70,7 @@ export const HeaderAndFooterControls = () => {
             Show mock footer
             <Switch
               checked={showMockFooter}
-              onChange={handleShowHideFooterChange}
+              onChange={handleFooterVisibilityChange}
               aria-label="Show the mock footer"
             />
           </ControlRowContainer>

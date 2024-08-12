@@ -113,7 +113,7 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
             },
           });
         },
-        setHeaderShow: (show) => {
+        setHeaderVisibility: (show) => {
           set({
             headerAndFooterControl: {
               ...get().headerAndFooterControl,
@@ -121,7 +121,7 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
             },
           });
         },
-        setFooterShow: (show) => {
+        setFooterVisibility: (show) => {
           set({
             headerAndFooterControl: {
               ...get().headerAndFooterControl,
@@ -129,7 +129,7 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
             },
           });
         },
-        setFooterFixed: (isFixed) => {
+        setFixedFooter: (isFixed) => {
           set({
             headerAndFooterControl: {
               ...get().headerAndFooterControl,
