@@ -17,12 +17,6 @@ export const RouteTopLevelGrow = styled(Grow)(({ theme }) => ({
   ...(theme.container?.display === 'flex' ? { height: '100%' } : {}),
 }));
 
-export const RouteNestedGrow = styled(Grow)(({ theme }) => ({
-  ...(!theme.container?.height && !theme.container?.maxHeight
-    ? { height: defaultMaxHeight }
-    : {}),
-}));
-
 export const ScrollableContainer = styled(Box)({
   overflowY: 'auto',
   height: '100%',
