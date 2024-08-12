@@ -45,19 +45,13 @@ export const RoutesExpanded = () => {
   const match = Boolean(element?.props?.children);
 
   return (
-    <CollapseContainer id="CollapseContainer">
-      <Collapse
-        timeout={timeout}
-        in={match}
-        orientation="horizontal"
-        id="TopLevelCollapse"
-      >
+    <CollapseContainer>
+      <Collapse timeout={timeout} in={match} orientation="horizontal">
         <RouteTopLevelGrow
           timeout={timeout}
           in={match}
           mountOnEnter
           unmountOnExit
-          id="RouteTopLevelGrow"
         >
           <div>
             <RoutesExpandedElement />
@@ -130,17 +124,10 @@ export const RoutesExpandedElement = () => {
       in={expanded}
       orientation="horizontal"
       onExited={onExit}
-      id="RoutesExpandedCollapse"
     >
-      <Grow
-        timeout={timeout.enter}
-        in={expanded}
-        mountOnEnter
-        unmountOnExit
-        id="RouteNestedGrow"
-      >
+      <Grow timeout={timeout.enter} in={expanded} mountOnEnter unmountOnExit>
         <Container enableColorScheme minimumHeight={isLoading}>
-          <ScrollableContainer id="ScrollableContainer">
+          <ScrollableContainer>
             <Header>
               <Typography fontSize={18} fontWeight="700" flex={1} noWrap>
                 {subvariant === 'custom'
