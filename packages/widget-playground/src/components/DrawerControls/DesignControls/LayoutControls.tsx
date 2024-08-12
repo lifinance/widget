@@ -1,5 +1,6 @@
 import { defaultMaxHeight } from '@lifi/widget';
 import { MenuItem, type SelectChangeEvent } from '@mui/material';
+import type { CSSProperties } from 'react';
 import { type ChangeEventHandler, useEffect, useState } from 'react';
 import {
   type Layout,
@@ -56,7 +57,26 @@ const inputLabel: InputLabel = {
   'restricted-max-height': 'Set max height',
 };
 
-const layoutsWithoutHeightControls = ['default', 'full-height'];
+const layoutsWithHeightControls: Layout[] = [
+  'restricted-height',
+  'restricted-max-height',
+];
+
+const getLayoutMode = (container?: CSSProperties) => {
+  let layoutMode: Layout = 'default';
+  if (
+    container &&
+    container?.display === 'flex' &&
+    container?.height === '100%'
+  ) {
+    layoutMode = 'full-height';
+  } else if (container && Number.isFinite(container?.height)) {
+    layoutMode = 'restricted-height';
+  } else if (container && Number.isFinite(container?.maxHeight)) {
+    layoutMode = 'restricted-max-height';
+  }
+  return layoutMode;
+};
 
 export const LayoutControls = () => {
   const { config } = useConfig();
@@ -64,29 +84,12 @@ export const LayoutControls = () => {
   const { setHeader, setContainer, getCurrentConfigTheme, setVariant } =
     useConfigActions();
 
-  // const [selectedLayoutId, setSelectedLayoutId] = useState<Layout>('default');
   const { selectedLayoutId } = useLayoutValues();
   const { setSelectedLayoutId } = useEditToolsActions();
   const [heightValue, setHeightValue] = useState<number | undefined>();
 
   useEffect(() => {
-    const container = config?.theme?.container;
-
-    if (
-      container &&
-      container?.display === 'flex' &&
-      container?.height === '100%'
-    ) {
-      setSelectedLayoutId('full-height');
-    } else if (container && Number.isFinite(container?.height)) {
-      setSelectedLayoutId('restricted-height');
-      setHeightValue(container.height as number);
-    } else if (container && Number.isFinite(container?.maxHeight)) {
-      setSelectedLayoutId('restricted-max-height');
-      setHeightValue(container.maxHeight as number);
-    } else {
-      setSelectedLayoutId('default');
-    }
+    setSelectedLayoutId(getLayoutMode(config?.theme?.container));
   }, [config?.theme?.container, setSelectedLayoutId]);
 
   const handleSelectChange = (event: SelectChangeEvent<any>) => {
@@ -160,8 +163,9 @@ export const LayoutControls = () => {
   };
 
   const handleInputChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    const height = Number.isFinite(parseInt(e.target.value, 10))
-      ? parseInt(e.target.value, 10)
+    const valueConvertedToNumber = parseInt(e.target.value, 10);
+    const height = Number.isFinite(valueConvertedToNumber)
+      ? valueConvertedToNumber
       : undefined;
 
     setHeightValue(height);
@@ -191,6 +195,15 @@ export const LayoutControls = () => {
           const newContainer = {
             ...(getCurrentConfigTheme()?.container ?? {}),
             maxHeight: height,
+          };
+
+          setContainer(newContainer);
+        }
+
+        if (!height) {
+          const newContainer = {
+            ...(getCurrentConfigTheme()?.container ?? {}),
+            maxHeight: defaultMaxHeight,
           };
 
           setContainer(newContainer);
@@ -226,7 +239,7 @@ export const LayoutControls = () => {
           })}
         </Select>
       </ControlRowContainer>
-      {!layoutsWithoutHeightControls.includes(selectedLayoutId) ? (
+      {layoutsWithHeightControls.includes(selectedLayoutId) ? (
         <CardRowContainer>
           <CardRowColumn>
             <label htmlFor="layout-height-input">
