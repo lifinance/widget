@@ -201,12 +201,16 @@ export const widgetBaseConfig: WidgetConfig = {
   //   },
   //   es,
   // },
+  // allows for positioning of header to accommodate navigation bar
+  // header: {
+  //   position: 'fixed',
+  //   top: 0,
+  // },
 };
 
 export const defaultWidgetConfig: Partial<WidgetConfig> = {
   ...widgetBaseConfig,
   appearance: 'auto',
-  // variant: 'compact',
   theme: {
     palette: {
       primary: {
@@ -219,20 +223,9 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
     typography: {
       fontFamily: 'Inter, sans-serif',
     },
-    // allows for positioning of header to accommodate navigation bar
-    // header: {
-    //   position: 'fixed',
-    //   top: 0,
-    // },
     container: {
-      // display: 'flex',
-      // height: '100%',
-      // height: 800,
-      // maxHeight: 900,
-      // paddingTop: 80,
-      // boxSizing: 'border-box',
       boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
-      // borderRadius: '16px',
+      borderRadius: '16px',
     },
   },
 } as WidgetConfig;
