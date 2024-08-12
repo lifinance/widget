@@ -112,9 +112,7 @@ export const AppContainer: React.FC<PropsWithChildren<{}>> = ({ children }) => {
         paddingTopAdjustment={positionFixedAdjustment}
         // ref={ref}
       >
-        <FlexContainer disableGutters id="app-level-flex-container">
-          {children}
-        </FlexContainer>
+        <FlexContainer disableGutters>{children}</FlexContainer>
       </CssBaselineContainer>
       {/* <ScrollToLocation elementRef={ref} /> */}
     </RelativeContainer>

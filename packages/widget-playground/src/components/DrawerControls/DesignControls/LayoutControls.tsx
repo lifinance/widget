@@ -1,7 +1,7 @@
 import { defaultMaxHeight } from '@lifi/widget';
 import { MenuItem, type SelectChangeEvent } from '@mui/material';
 import type { CSSProperties } from 'react';
-import { type ChangeEventHandler, useEffect, useState } from 'react';
+import { type ChangeEventHandler, useEffect, useId, useState } from 'react';
 import {
   type Layout,
   useConfig,
@@ -80,6 +80,7 @@ const getLayoutMode = (container?: CSSProperties) => {
 };
 
 export const LayoutControls = () => {
+  const inputId = useId();
   const { config } = useConfig();
   const { variant } = useConfigVariant();
   const { showMockHeader } = useHeaderAndFooterToolValues();
@@ -245,17 +246,15 @@ export const LayoutControls = () => {
       {layoutsWithHeightControls.includes(selectedLayoutId) ? (
         <CardRowContainer>
           <CardRowColumn>
-            <label htmlFor="layout-height-input">
-              {inputLabel[selectedLayoutId]}
-            </label>
+            <label htmlFor={inputId}>{inputLabel[selectedLayoutId]}</label>
             {(heightValue && heightValue < defaultMaxHeight) || !heightValue ? (
-              <CapitalizeFirstLetter variant="caption" sx={{ paddingLeft: 1 }}>
+              <CapitalizeFirstLetter variant="caption">
                 {`${defaultMaxHeight}px minimum`}
               </CapitalizeFirstLetter>
             ) : null}
           </CardRowColumn>
           <Input
-            id="layout-height-input"
+            id={inputId}
             type="number"
             value={heightValue ?? ''}
             placeholder={`${defaultMaxHeight}`}

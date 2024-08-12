@@ -81,11 +81,7 @@ export const TokenList: FC<TokenListProps> = ({
     !tokenSearchFilter;
 
   return (
-    <Box
-      ref={parentRef}
-      style={{ height, overflow: 'auto' }}
-      id="token-list-parent"
-    >
+    <Box ref={parentRef} style={{ height, overflow: 'auto' }}>
       {!tokens.length && !isLoading ? (
         <TokenNotFound formType={formType} />
       ) : null}
