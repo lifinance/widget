@@ -6,6 +6,7 @@ import {
   type Layout,
   useConfig,
   useConfigActions,
+  useConfigVariant,
   useEditToolsActions,
   useHeaderAndFooterToolValues,
   useLayoutValues,
@@ -80,6 +81,7 @@ const getLayoutMode = (container?: CSSProperties) => {
 
 export const LayoutControls = () => {
   const { config } = useConfig();
+  const { variant } = useConfigVariant();
   const { showMockHeader } = useHeaderAndFooterToolValues();
   const { setHeader, setContainer, getCurrentConfigTheme, setVariant } =
     useConfigActions();
@@ -229,6 +231,7 @@ export const LayoutControls = () => {
           onChange={handleSelectChange}
           aria-label="Layout"
           MenuProps={{ sx: { zIndex: popperZIndex } }}
+          disabled={variant === 'drawer'}
         >
           {layoutOptions?.map(({ name, id }: LayoutOption) => {
             return (
