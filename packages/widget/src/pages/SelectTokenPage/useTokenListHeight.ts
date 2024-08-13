@@ -60,8 +60,8 @@ interface UseContentHeightProps {
   headerRef: MutableRefObject<HTMLElement | null>;
 }
 
-const minTokenListHeight = 360;
-const minMobileTokenListHeight = 160;
+export const minTokenListHeight = 360;
+export const minMobileTokenListHeight = 160;
 
 export const useTokenListHeight = ({
   listParentRef,
@@ -100,8 +100,13 @@ export const useTokenListHeight = ({
       ? minMobileTokenListHeight
       : minTokenListHeight;
 
-  return Math.max(
+  const tokenListHeight = Math.max(
     contentHeight - (headerRef.current?.offsetHeight ?? 0),
     minListHeight,
   );
+
+  return {
+    minListHeight,
+    tokenListHeight,
+  };
 };

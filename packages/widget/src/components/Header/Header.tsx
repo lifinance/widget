@@ -22,7 +22,6 @@ export const HeaderContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
 
   return (
     <PositionContainer
-      id="postion-container"
       sticky={stickyHeaderRoutes.some((route) => pathname.includes(route))}
       maxHeight={headerHeight}
     >

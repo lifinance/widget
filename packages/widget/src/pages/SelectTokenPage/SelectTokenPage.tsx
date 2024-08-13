@@ -19,7 +19,10 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
   const { navigateBack } = useNavigateBack();
   const headerRef = useRef<HTMLElement>(null);
   const listParentRef = useRef<HTMLUListElement | null>(null);
-  const tokenListHeight = useTokenListHeight({ listParentRef, headerRef });
+  const { tokenListHeight, minListHeight } = useTokenListHeight({
+    listParentRef,
+    headerRef,
+  });
 
   const swapOnly = useSwapOnly();
 
@@ -44,12 +47,14 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
           <SearchTokenInput />
         </Box>
       </Box>
-      <TokenList
-        parentRef={listParentRef}
-        height={tokenListHeight}
-        onClick={navigateBack}
-        formType={formType}
-      />
+      <Box height={minListHeight}>
+        <TokenList
+          parentRef={listParentRef}
+          height={tokenListHeight}
+          onClick={navigateBack}
+          formType={formType}
+        />
+      </Box>
     </PageContainer>
   );
 };
