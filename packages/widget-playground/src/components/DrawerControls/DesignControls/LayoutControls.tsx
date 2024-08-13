@@ -2,6 +2,7 @@ import { defaultMaxHeight } from '@lifi/widget';
 import { MenuItem, type SelectChangeEvent } from '@mui/material';
 import type { CSSProperties } from 'react';
 import { type ChangeEventHandler, useEffect, useId, useState } from 'react';
+import { useDefaultViewportColor } from '../../../hooks';
 import {
   type Layout,
   useConfig,
@@ -84,6 +85,7 @@ export const LayoutControls = () => {
   const inputId = useId();
   const { config } = useConfig();
   const { viewportColor } = usePlaygroundSettingValues();
+  const { defaultColor } = useDefaultViewportColor();
 
   const { variant } = useConfigVariant();
   const { showMockHeader } = useHeaderAndFooterToolValues();
@@ -138,7 +140,7 @@ export const LayoutControls = () => {
         setHeader({
           position: 'fixed',
           top: showMockHeader ? 48 : 0,
-          pageBackground: viewportColor,
+          pageBackground: viewportColor ?? defaultColor,
           ...(getCurrentConfigTheme()?.container?.borderRadius
             ? {
                 borderTopLeftRadius:
