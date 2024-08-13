@@ -4,7 +4,7 @@ import { useDefaultElementId } from '../../hooks/useDefaultElementId.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { ElementId, createElementId } from '../../utils/elements.js';
 import { stickyHeaderRoutes } from '../../utils/navigationRoutes.js';
-import { Container, PositionContainer } from './Header.style.js';
+import { Container } from './Header.style.js';
 import { NavigationHeader } from './NavigationHeader.js';
 import { WalletHeader } from './WalletHeader.js';
 
@@ -21,17 +21,13 @@ export const HeaderContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
     : maxHeaderHeight;
 
   return (
-    <PositionContainer
+    <Container
+      id={createElementId(ElementId.Header, elementId)}
       sticky={stickyHeaderRoutes.some((route) => pathname.includes(route))}
       maxHeight={headerHeight}
     >
-      <Container
-        id={createElementId(ElementId.Header, elementId)}
-        maxHeight={headerHeight}
-      >
-        {children}
-      </Container>
-    </PositionContainer>
+      {children}
+    </Container>
   );
 };
 

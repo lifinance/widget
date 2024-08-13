@@ -1,6 +1,5 @@
 import type {
   Appearance,
-  HeaderCSSProperties,
   WidgetConfig,
   WidgetSubvariant,
   WidgetTheme,
@@ -37,7 +36,7 @@ export interface WidgetConfigActions {
   setAvailableThemes: (themeItems: ThemeItem[]) => void;
   getCurrentThemePreset: (useDarkMode?: boolean) => WidgetTheme | undefined;
   getCurrentConfigTheme: () => WidgetTheme | undefined;
-  setHeader: (header?: HeaderCSSProperties) => void;
+  setHeader: (header?: CSSProperties) => void;
   setContainer: (container?: CSSProperties) => void;
 }
 

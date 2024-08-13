@@ -8,5 +8,4 @@ export * from './useFontToolValues';
 export * from './useHeaderAndFooterToolValues';
 export * from './useLayoutValues';
 export * from './usePlaygroundSettingValues';
-export * from './useSetViewportBackgroundColor';
 export * from './useSkeletonToolValues';

@@ -13,12 +13,12 @@ import type {
 } from 'react';
 import { useEffect } from 'react';
 import type { ThemeMode } from '../../../hooks';
-import { useDefaultViewportColorForMode, useThemeMode } from '../../../hooks';
+import { useThemeMode } from '../../../hooks';
 import type { ThemeItem } from '../../../store';
 import {
   useConfigActions,
   useConfigAppearance,
-  useSetViewportBackgroundColor,
+  useEditToolsActions,
   useThemeValues,
 } from '../../../store';
 import { cloneStructuredConfig, patch } from '../../../utils';
@@ -89,9 +89,8 @@ export const AppearanceControl = () => {
   const themeMode = useThemeMode();
   const { setAppearance, setConfigTheme, getCurrentConfigTheme } =
     useConfigActions();
-  const { setViewportBackgroundColor } = useSetViewportBackgroundColor();
+  const { setViewportBackgroundColor } = useEditToolsActions();
   const { selectedThemeItem } = useThemeValues();
-  const { getDefaultViewportForAppearance } = useDefaultViewportColorForMode();
 
   const restricted = !!(
     selectedThemeItem && Object.keys(selectedThemeItem.theme).length < 2
@@ -129,8 +128,7 @@ export const AppearanceControl = () => {
       setConfigTheme(newTheme, selectedThemeItem.id);
 
       const viewportBackground =
-        selectedThemeItem.theme[newAppearance].playground?.background ??
-        getDefaultViewportForAppearance(value);
+        selectedThemeItem.theme[newAppearance].playground?.background;
       setViewportBackgroundColor(viewportBackground as string | undefined);
     }
 

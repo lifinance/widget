@@ -55,10 +55,6 @@ export type WidgetThemeComponents = Pick<
   | 'MuiTabs'
 >;
 
-export interface HeaderCSSProperties extends CSSProperties {
-  pageBackground?: string;
-}
-
 export type WidgetTheme = {
   palette?: Pick<
     PaletteOptions,
@@ -68,7 +64,7 @@ export type WidgetTheme = {
   typography?: TypographyOptions;
   components?: WidgetThemeComponents;
   container?: CSSProperties;
-  header?: HeaderCSSProperties;
+  header?: CSSProperties;
   playground?: CSSProperties;
   navigation?: NavigationProps;
 };
