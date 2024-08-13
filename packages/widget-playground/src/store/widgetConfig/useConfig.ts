@@ -8,3 +8,14 @@ export const useConfig = () => {
     config,
   };
 };
+
+export const useThemeHeader = () => {
+  const header = useWidgetConfigStore(
+    (state) => state.config?.theme?.header,
+    shallow,
+  );
+
+  return {
+    header,
+  };
+};

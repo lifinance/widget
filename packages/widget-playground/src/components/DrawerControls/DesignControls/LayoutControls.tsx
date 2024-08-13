@@ -10,6 +10,7 @@ import {
   useEditToolsActions,
   useHeaderAndFooterToolValues,
   useLayoutValues,
+  usePlaygroundSettingValues,
 } from '../../../store';
 import {
   CardRowColumn,
@@ -82,6 +83,8 @@ const getLayoutMode = (container?: CSSProperties) => {
 export const LayoutControls = () => {
   const inputId = useId();
   const { config } = useConfig();
+  const { viewportColor } = usePlaygroundSettingValues();
+
   const { variant } = useConfigVariant();
   const { showMockHeader } = useHeaderAndFooterToolValues();
   const { setHeader, setContainer, getCurrentConfigTheme, setVariant } =
@@ -135,6 +138,15 @@ export const LayoutControls = () => {
         setHeader({
           position: 'fixed',
           top: showMockHeader ? 48 : 0,
+          pageBackground: viewportColor,
+          ...(getCurrentConfigTheme()?.container?.borderRadius
+            ? {
+                borderTopLeftRadius:
+                  getCurrentConfigTheme()?.container?.borderRadius,
+                borderTopRightRadius:
+                  getCurrentConfigTheme()?.container?.borderRadius,
+              }
+            : {}),
         });
 
         const fullHeightContainer = {

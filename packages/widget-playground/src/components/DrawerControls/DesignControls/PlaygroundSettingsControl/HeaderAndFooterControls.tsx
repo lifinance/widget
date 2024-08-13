@@ -3,12 +3,14 @@ import {
   useConfigActions,
   useEditToolsActions,
   useHeaderAndFooterToolValues,
+  useThemeHeader,
 } from '../../../../store';
 import { CardRowColumn } from '../../../Card';
 import { Switch } from '../../../Switch';
 import { ControlContainer, ControlRowContainer } from '../DesignControls.style';
 
 export const HeaderAndFooterControls = () => {
+  const { header } = useThemeHeader();
   const { showMockHeader, showMockFooter, isFooterFixed } =
     useHeaderAndFooterToolValues();
   const { setHeaderVisibility, setFooterVisibility, setFixedFooter } =
@@ -23,8 +25,8 @@ export const HeaderAndFooterControls = () => {
   ) => void = (_, checked) => {
     setHeaderVisibility(checked);
 
-    if (config?.theme?.header?.position === 'fixed') {
-      setHeader({ position: 'fixed', top: checked ? 48 : 0 });
+    if (header?.position === 'fixed') {
+      setHeader({ ...header, top: checked ? 48 : 0 });
     }
   };
 

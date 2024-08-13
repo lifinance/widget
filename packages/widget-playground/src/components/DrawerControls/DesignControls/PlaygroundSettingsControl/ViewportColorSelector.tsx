@@ -1,8 +1,8 @@
 import type { BoxProps } from '@mui/material';
-import { useTheme } from '@mui/material';
+import { useDefaultViewportColor } from '../../../../hooks';
 import {
-  useEditToolsActions,
   usePlaygroundSettingValues,
+  useSetViewportBackgroundColor,
 } from '../../../../store';
 import { safe6DigitHexColor } from '../../../../utils';
 import {
@@ -12,14 +12,9 @@ import {
 } from '../DesignControls.style';
 
 export const ViewportColorSelector = ({ ...rest }: BoxProps) => {
-  const theme = useTheme();
+  const { defaultColor } = useDefaultViewportColor();
   const { viewportColor } = usePlaygroundSettingValues();
-  const { setViewportBackgroundColor } = useEditToolsActions();
-
-  const defaultColor =
-    theme.palette.mode === 'light'
-      ? theme.palette.grey[100]
-      : theme.palette.common.black;
+  const { setViewportBackgroundColor } = useSetViewportBackgroundColor();
 
   return (
     <ColorControlContainer {...rest}>
