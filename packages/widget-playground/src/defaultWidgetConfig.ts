@@ -223,7 +223,10 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
     header: {
       position: 'fixed',
       top: 0,
-      borderRadius: '16px',
+      borderTopLeftRadius: '16px',
+      borderTopRightRadius: '16px',
+      boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
+      pageBackground: '#F5F5F5',
     },
     container: {
       display: 'flex',

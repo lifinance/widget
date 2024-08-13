@@ -6,7 +6,10 @@ import {
   buttonClasses,
   styled,
 } from '@mui/material';
-import type { WidgetSubvariant } from '../../types/widget.js';
+import type {
+  HeaderCSSProperties,
+  WidgetSubvariant,
+} from '../../types/widget.js';
 import { getContrastAlphaColor } from '../../utils/colors.js';
 import { avatarMask12 } from '../Avatar/utils.js';
 
@@ -18,16 +21,38 @@ export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
   position: 'relative',
 }));
 
-export const Container = styled(Box, {
+export const PositionContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'sticky',
 })<{ sticky?: boolean }>(({ theme, sticky }) => {
+  const header = (theme.header ? theme.header : {}) as HeaderCSSProperties;
+
+  return {
+    display: 'flex',
+    flexDirection: 'column',
+    position:
+      header.position === 'fixed' ? 'fixed' : sticky ? 'sticky' : 'relative',
+    top: header.top ? header.top : 0,
+    zIndex: 1200,
+    overflow: 'hidden',
+    ...(header.position === 'fixed'
+      ? {
+          minWidth: theme.breakpoints.values.xs,
+          maxWidth: theme.breakpoints.values.sm,
+          width: '100%',
+        }
+      : {}),
+    ...(header.pageBackground ? { background: header.pageBackground } : {}),
+  };
+});
+
+export const Container = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'sticky',
+})(({ theme }) => {
   return {
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: theme.palette.background.default,
     backdropFilter: 'blur(12px)',
-    position: sticky ? 'sticky' : 'relative',
-    top: 0,
     zIndex: 1200,
     gap: theme.spacing(0.5),
     padding: theme.spacing(1.5, 3, 1.5, 3),
@@ -40,6 +65,7 @@ export const Container = styled(Box, {
           width: '100%',
         }
       : {}),
+    position: 'static',
   };
 });
 

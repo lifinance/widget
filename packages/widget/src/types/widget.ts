@@ -54,6 +54,11 @@ export type WidgetThemeComponents = Pick<
   | 'MuiInputCard'
   | 'MuiTabs'
 >;
+
+export interface HeaderCSSProperties extends CSSProperties {
+  pageBackground?: string;
+}
+
 export type WidgetTheme = {
   palette?: Pick<
     PaletteOptions,
@@ -63,7 +68,7 @@ export type WidgetTheme = {
   typography?: TypographyOptions;
   components?: WidgetThemeComponents;
   container?: CSSProperties;
-  header?: CSSProperties;
+  header?: HeaderCSSProperties;
   playground?: CSSProperties;
   navigation?: NavigationProps;
 };
