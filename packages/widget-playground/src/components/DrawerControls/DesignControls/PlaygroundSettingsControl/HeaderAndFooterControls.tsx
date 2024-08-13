@@ -1,4 +1,3 @@
-import { useDevView } from '../../../../hooks';
 import {
   useConfig,
   useConfigActions,
@@ -17,7 +16,6 @@ export const HeaderAndFooterControls = () => {
   const { setHeader } = useConfigActions();
 
   const { config } = useConfig();
-  const { isDevView } = useDevView();
 
   const handleHeaderVisibilityChange: (
     _: React.ChangeEvent<HTMLInputElement>,
@@ -54,7 +52,7 @@ export const HeaderAndFooterControls = () => {
     config?.theme?.container?.display === 'flex' &&
     config?.theme?.container?.height === '100%';
 
-  return isDevView && showControls ? (
+  return showControls ? (
     <>
       <ControlContainer>
         Show mock header

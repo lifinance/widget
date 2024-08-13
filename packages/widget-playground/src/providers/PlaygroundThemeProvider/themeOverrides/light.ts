@@ -1,4 +1,6 @@
 import type { WidgetTheme } from '@lifi/widget';
+import { body } from './body';
+
 export const lightPalette = {
   mode: 'light',
   text: {
@@ -13,8 +15,7 @@ export const lightComponents = {
   MuiCssBaseline: {
     styleOverrides: (theme: WidgetTheme) => ({
       body: {
-        display: 'flex',
-        minHeight: '100dvh',
+        ...body,
         backgroundColor:
           theme.playground?.background || theme.palette?.grey?.[100],
       },

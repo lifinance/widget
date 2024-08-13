@@ -206,7 +206,8 @@ export const widgetBaseConfig: WidgetConfig = {
 
 export const defaultWidgetConfig: Partial<WidgetConfig> = {
   ...widgetBaseConfig,
-  appearance: 'auto',
+  appearance: 'light',
+  variant: 'compact',
   theme: {
     palette: {
       primary: {
@@ -219,11 +220,14 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
     typography: {
       fontFamily: 'Inter, sans-serif',
     },
-    // header: {
-    //   position: 'fixed',
-    //   top: 0,
-    // },
+    header: {
+      position: 'fixed',
+      top: 0,
+      borderRadius: '16px',
+    },
     container: {
+      display: 'flex',
+      height: '100%',
       boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
       borderRadius: '16px',
     },

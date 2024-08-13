@@ -1,5 +1,6 @@
 import type { WidgetTheme } from '@lifi/widget';
 import type { Theme } from '@mui/material';
+import { body } from './body';
 
 export const darkPalette = {
   mode: 'dark',
@@ -33,8 +34,7 @@ export const darkComponents = {
   MuiCssBaseline: {
     styleOverrides: (theme: WidgetTheme & Theme) => ({
       body: {
-        display: 'flex',
-        minHeight: '100dvh',
+        ...body,
         backgroundColor:
           theme.playground?.background || theme.palette?.common?.black,
       },
