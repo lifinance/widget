@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.4.0](https://github.com/lifinance/widget/compare/v3.4.0-beta.3...v3.4.0) (2024-08-14)
+
+
+### Features
+
+* changing height and present widget better for mobile ([#276](https://github.com/lifinance/widget/issues/276)) ([d2f3ec8](https://github.com/lifinance/widget/commit/d2f3ec880c492e3f3671ca2f6b268de12fdbe174))
+* improved fee configuration ([#284](https://github.com/lifinance/widget/issues/284)) ([e7ba200](https://github.com/lifinance/widget/commit/e7ba2002b920905b65a5dcc9a420ffbc247ccb9a))
+* optimize wallet sdks handling ([#283](https://github.com/lifinance/widget/issues/283)) ([eee87aa](https://github.com/lifinance/widget/commit/eee87aa1b5e029ff104f38a9598178094c7cd0cd))
+
+
+### Bug Fixes
+
+* add subvariant deposit key ([abe9ba0](https://github.com/lifinance/widget/commit/abe9ba0b8ae317ddee2e8195dcfb65d4f5c44df4))
+* avoid from amount/token reset if they are disabled ([#285](https://github.com/lifinance/widget/issues/285)) ([86820c9](https://github.com/lifinance/widget/commit/86820c96b08064c3ee7224c7f47f1a386a68f78b))
+
 ## [3.3.0](https://github.com/lifinance/widget/compare/v3.2.2...v3.3.0) (2024-07-30)
 
 
