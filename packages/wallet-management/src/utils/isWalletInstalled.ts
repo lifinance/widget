@@ -1,73 +1,71 @@
 export const isWalletInstalled = (id: string): boolean => {
+  const anyWidnow = typeof window !== 'undefined' ? (window as any) : undefined;
   switch (id) {
     case 'metaMask':
       return (
-        (window as any)?.ethereum?.isMetaMask ||
-        (window as any)?.ethereum?.providers?.some(
+        anyWidnow?.ethereum?.isMetaMask ||
+        anyWidnow?.ethereum?.providers?.some(
           (provider: any) => provider.isMetaMask,
         )
       );
     case 'coinbase':
       return (
-        (window as any)?.ethereum?.isCoinbaseWallet ||
-        (window as any)?.coinbaseWalletExtension?.isCoinbaseWallet ||
-        (window as any)?.ethereum?.providers?.some(
+        anyWidnow?.ethereum?.isCoinbaseWallet ||
+        anyWidnow?.coinbaseWalletExtension?.isCoinbaseWallet ||
+        anyWidnow?.ethereum?.providers?.some(
           (provider: any) => provider.isCoinbaseWallet,
         )
       );
     case 'gate':
-      return (window as any)?.gatewallet;
+      return anyWidnow?.gatewallet;
     case 'bitget':
-      return (window as any).bitkeep?.ethereum;
+      return anyWidnow.bitkeep?.ethereum;
     case 'frontier':
-      return (window as any)?.frontier;
+      return anyWidnow?.frontier;
     case 'math':
-      return (window as any)?.ethereum?.isMathWallet;
+      return anyWidnow?.ethereum?.isMathWallet;
     case 'brave':
-      return (navigator as any)?.brave && (window as any)._web3Ref;
+      return (navigator as any)?.brave && anyWidnow._web3Ref;
     case 'safepal':
-      return (window as any)?.safepal;
+      return anyWidnow?.safepal;
     case 'taho':
-      return (window as any)?.tally && (window as any).tally?.isTally;
+      return anyWidnow?.tally && anyWidnow.tally?.isTally;
     case 'block':
-      return (window as any)?.ethereum?.isBlockWallet;
+      return anyWidnow?.ethereum?.isBlockWallet;
     case 'binance':
-      return (window as any)?.BinanceChain;
+      return anyWidnow?.BinanceChain;
     case 'trust':
-      return (window as any)?.trustWallet;
+      return anyWidnow?.trustWallet;
     case 'status':
-      return (window as any)?.ethereum?.isStatus;
+      return anyWidnow?.ethereum?.isStatus;
     case 'alpha':
-      return (window as any)?.ethereum?.isAlphaWallet;
+      return anyWidnow?.ethereum?.isAlphaWallet;
     case 'bitpie':
-      return (window as any)?.ethereum?.Bitpie;
+      return anyWidnow?.ethereum?.Bitpie;
     case 'dcent':
-      return (window as any)?.ethereum?.isDcentWallet;
+      return anyWidnow?.ethereum?.isDcentWallet;
     case 'frame':
-      return (window as any)?.ethereum?.isFrame;
+      return anyWidnow?.ethereum?.isFrame;
     case 'hyperpay':
-      return (window as any)?.ethereum?.hiWallet;
+      return anyWidnow?.ethereum?.hiWallet;
     case 'imtoken':
-      return (window as any)?.ethereum?.isImToken;
+      return anyWidnow?.ethereum?.isImToken;
     case 'liquality':
-      return (window as any)?.liquality;
+      return anyWidnow?.liquality;
     case 'ownbit':
-      return (window as any)?.ethereum?.isOwnbit;
+      return anyWidnow?.ethereum?.isOwnbit;
     case 'xdefi':
-      return (window as any)?.ethereum?.__XDEFI;
+      return anyWidnow?.ethereum?.__XDEFI;
     case 'tokenpocket':
-      return (
-        (window as any)?.ethereum?.isTokenPocket &&
-        !(window as any).ethereum?.isTp
-      );
+      return anyWidnow?.ethereum?.isTokenPocket && !anyWidnow.ethereum?.isTp;
     case '1inch':
-      return (window as any)?.ethereum?.isOneInchIOSWallet;
+      return anyWidnow?.ethereum?.isOneInchIOSWallet;
     case 'tokenary':
-      return (window as any).ethereum?.isTokenary;
+      return anyWidnow.ethereum?.isTokenary;
     case 'okx':
-      return (window as any).okxwallet;
+      return anyWidnow.okxwallet;
     case 'exodus':
-      return (window as any).exodus?.ethereum;
+      return anyWidnow.exodus?.ethereum;
     default:
       /**
        * Return true if the wallet is not in the list of explicitly supported or self-injected wallet
