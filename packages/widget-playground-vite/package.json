@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-playground-vite",
-  "version": "1.0.214",
+  "version": "1.0.215",
   "type": "module",
   "scripts": {
     "analyze": "source-map-explorer 'dist/assets/*.js' --no-border-checks",
@@ -19,9 +19,9 @@
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
     "@lifi/sdk": "^3.1.5",
-    "@lifi/wallet-management": "^3.1.1",
-    "@lifi/widget": "^3.4.1",
-    "@lifi/widget-playground": "^1.0.214",
+    "@lifi/wallet-management": "^3.1.2",
+    "@lifi/widget": "^3.4.2",
+    "@lifi/widget-playground": "^1.0.215",
     "@mui/icons-material": "^5.16.7",
     "@mui/material": "^5.16.7",
     "@rainbow-me/rainbowkit": "^2.1.4",
