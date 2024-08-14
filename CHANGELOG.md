@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.4.1](https://github.com/lifinance/widget/compare/v3.4.0...v3.4.1) (2024-08-14)
+
+
+### Bug Fixes
+
+* check for window in next.js ([d873c49](https://github.com/lifinance/widget/commit/d873c49110c2be58cf06d83cbabc2e9817528a4c))
+
 ## [3.4.0](https://github.com/lifinance/widget/compare/v3.4.0-beta.3...v3.4.0) (2024-08-14)
 
 
