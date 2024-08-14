@@ -1,6 +1,5 @@
 import { Box } from '@mui/material';
 import type { FC } from 'react';
-import { useRef } from 'react';
 import { useAccount } from '../../hooks/useAccount.js';
 import { useChain } from '../../hooks/useChain.js';
 import { useDebouncedWatch } from '../../hooks/useDebouncedWatch.js';
@@ -17,10 +16,10 @@ import { filteredTokensComparator } from './utils.js';
 
 export const TokenList: FC<TokenListProps> = ({
   formType,
+  parentRef,
   height,
   onClick,
 }) => {
-  const parentRef = useRef<HTMLUListElement | null>(null);
   const [selectedChainId] = useFieldValues(FormKeyHelper.getChainKey(formType));
   const [tokenSearchFilter]: string[] = useDebouncedWatch(
     320,

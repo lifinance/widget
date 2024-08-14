@@ -96,6 +96,14 @@ export const CardRowContainer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
 }));
 
+export const CardRowColumn = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  width: '100%',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  padding: 0,
+}));
+
 export const CardValue = styled(Typography)({
   lineHeight: '1.25',
   fontWeight: 500,

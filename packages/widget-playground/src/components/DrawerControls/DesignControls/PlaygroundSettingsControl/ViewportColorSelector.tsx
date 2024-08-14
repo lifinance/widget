@@ -1,29 +1,15 @@
-import SettingsIcon from '@mui/icons-material/Settings';
 import type { BoxProps } from '@mui/material';
 import { useTheme } from '@mui/material';
 import {
   useEditToolsActions,
   usePlaygroundSettingValues,
-} from '../../../store';
-import { safe6DigitHexColor } from '../../../utils';
-import { ExpandableCard } from '../../Card';
+} from '../../../../store';
+import { safe6DigitHexColor } from '../../../../utils';
 import {
   CapitalizeFirstLetter,
+  ColorControlContainer,
   ColorInput,
-  ColorSelectorContainer,
-} from './DesignControls.style';
-
-export const PlaygroundSettingsControl = () => {
-  return (
-    <ExpandableCard
-      title={'Playground settings'}
-      value={<SettingsIcon />}
-      alwaysShowTitleValue
-    >
-      <ViewportColorSelector sx={{ marginTop: 1 }} />
-    </ExpandableCard>
-  );
-};
+} from '../DesignControls.style';
 
 export const ViewportColorSelector = ({ ...rest }: BoxProps) => {
   const theme = useTheme();
@@ -36,7 +22,7 @@ export const ViewportColorSelector = ({ ...rest }: BoxProps) => {
       : theme.palette.common.black;
 
   return (
-    <ColorSelectorContainer {...rest}>
+    <ColorControlContainer {...rest}>
       <CapitalizeFirstLetter>Viewport background</CapitalizeFirstLetter>
       <ColorInput
         aria-label={`Viewport background color selection`}
@@ -44,6 +30,6 @@ export const ViewportColorSelector = ({ ...rest }: BoxProps) => {
         value={safe6DigitHexColor(viewportColor || defaultColor)}
         onChange={(e) => setViewportBackgroundColor(e.target.value)}
       />
-    </ColorSelectorContainer>
+    </ColorControlContainer>
   );
 };

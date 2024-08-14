@@ -20,17 +20,34 @@ export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
 
 export const Container = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'sticky',
-})<{ sticky?: boolean }>(({ theme, sticky }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  backgroundColor: theme.palette.background.default,
-  backdropFilter: 'blur(12px)',
-  position: sticky ? 'sticky' : 'relative',
-  top: 0,
-  zIndex: 1200,
-  gap: theme.spacing(0.5),
-  padding: theme.spacing(1.5, 3, 1.5, 3),
-}));
+})<{ sticky?: boolean }>(({ theme, sticky }) => {
+  return {
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: theme.palette.background.default,
+    backdropFilter: 'blur(12px)',
+    position: sticky ? 'sticky' : 'relative',
+    top: 0,
+    zIndex: 1200,
+    gap: theme.spacing(0.5),
+    padding: theme.spacing(1.5, 3, 1.5, 3),
+    overflow: 'auto',
+    ...theme.header,
+    ...(theme.header?.position === 'fixed'
+      ? {
+          minWidth: theme.breakpoints.values.xs,
+          maxWidth: theme.breakpoints.values.sm,
+          width: '100%',
+        }
+      : {}),
+  };
+});
+
+export const ContainerPlaceholder = styled(Box)(({ theme }) => {
+  return {
+    ...(theme.header?.position === 'fixed' ? {} : { display: 'none' }),
+  };
+});
 
 export const WalletButton = styled(Button, {
   shouldForwardProp: (prop) => prop !== 'subvariant',

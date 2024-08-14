@@ -89,7 +89,6 @@ export const TransactionDetailsPage: React.FC = () => {
       <Box
         sx={{
           display: 'flex',
-          flex: 1,
           justifyContent: 'space-between',
         }}
         pb={1}

@@ -21,6 +21,7 @@ import { autocompleteClasses } from '@mui/material/Autocomplete';
 import { inputBaseClasses } from '@mui/material/InputBase';
 import { alpha, styled } from '@mui/material/styles';
 import { getCardFieldsetBackgroundColor } from '../../../utils';
+import { CardRowContainer } from '../../Card';
 import { autocompletePopperZIndex } from '../DrawerControls.style';
 
 export const TabButtonsContainer = styled(Box)(({ theme }) => ({
@@ -100,6 +101,31 @@ export const TabCustomInput = styled(InputBase)<TabButtonProps>(({
   };
 });
 
+export const Input = styled(InputBase)(({ theme }) => {
+  return {
+    minHeight: 56,
+    width: '100%',
+
+    [`.${inputBaseClasses.input}`]: {
+      minHeight: 56,
+      width: '100%',
+      padding: 0,
+      textAlign: 'center',
+      '&::placeholder': {
+        fontSize: '1rem',
+        fontWeight: 400,
+        opacity: 0.5,
+      },
+      '&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
+        display: 'none',
+      },
+    },
+    backgroundColor: getCardFieldsetBackgroundColor(theme),
+    borderRadius: theme.shape.borderRadiusSecondary,
+    boxShadow: `0px 2px 4px ${alpha(theme.palette.common.black, 0.04)}`,
+  };
+});
+
 export const ColorSwatches = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'flex-end',
@@ -121,7 +147,7 @@ export const ColorSwatch = styled(
   content: '" "',
 }));
 
-export const ColorSelectorContainer = styled(Box)(({ theme }) => ({
+export const ControlContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
@@ -130,10 +156,26 @@ export const ColorSelectorContainer = styled(Box)(({ theme }) => ({
     theme.shape.borderRadius,
     theme.shape.borderRadiusSecondary,
   ),
-  padding: theme.spacing(0.5),
-  paddingLeft: theme.spacing(2.5),
+  padding: theme.spacing(0.5, 2.5),
   gap: theme.spacing(0.5),
-  height: '3.5rem',
+  minHeight: theme.spacing(7),
+}));
+
+export const ColorControlContainer = styled(ControlContainer)(({ theme }) => ({
+  height: theme.spacing(7),
+  paddingRight: theme.spacing(0.5),
+}));
+
+export const PlaygroundControlsContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(1),
+  marginTop: theme.spacing(1),
+}));
+
+export const ControlRowContainer = styled(CardRowContainer)(({ theme }) => ({
+  paddingLeft: 0,
+  paddingRight: 0,
 }));
 
 export const ColorInput = styled(InputBase)<InputBaseProps>(

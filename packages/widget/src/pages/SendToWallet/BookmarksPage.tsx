@@ -9,6 +9,7 @@ import { Button, ListItemAvatar, ListItemText, MenuItem } from '@mui/material';
 import { useId, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+
 import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js';
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
 import { ListItemButton } from '../../components/ListItem//ListItemButton.js';
@@ -17,6 +18,7 @@ import { Menu } from '../../components/Menu.js';
 import { useChains } from '../../hooks/useChains.js';
 import { useHeader } from '../../hooks/useHeader.js';
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import type { Bookmark } from '../../stores/bookmarks/types.js';
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
 import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js';
@@ -28,9 +30,9 @@ import { BookmarkAddressSheet } from './BookmarkAddressSheet.js';
 import { EmptyListIndicator } from './EmptyListIndicator.js';
 import {
   BookmarkButtonContainer,
-  ListContainer,
+  BookmarksListContainer,
+  FullHeightAdjustablePageContainer,
   OptionsMenuButton,
-  SendToWalletPageContainer,
 } from './SendToWalletPage.style.js';
 
 export const BookmarksPage = () => {
@@ -45,6 +47,7 @@ export const BookmarksPage = () => {
   const navigate = useNavigate();
   const { setFieldValue } = useFieldActions();
   const { setSendToWallet } = useSendToWalletActions();
+  const { variant } = useWidgetConfig();
 
   useHeader(t(`header.bookmarkedWallets`));
 
@@ -102,8 +105,11 @@ export const BookmarksPage = () => {
   };
 
   return (
-    <SendToWalletPageContainer disableGutters>
-      <ListContainer>
+    <FullHeightAdjustablePageContainer
+      disableGutters
+      enableFullHeight={variant !== 'drawer'}
+    >
+      <BookmarksListContainer>
         {bookmarks.map((bookmark) => (
           <ListItem key={bookmark.address} sx={{ position: 'relative' }}>
             <ListItemButton
@@ -178,7 +184,7 @@ export const BookmarksPage = () => {
             {t('button.delete')}
           </MenuItem>
         </Menu>
-      </ListContainer>
+      </BookmarksListContainer>
       <BookmarkButtonContainer>
         <Button variant="contained" onClick={handleAddBookmark}>
           {t('sendToWallet.addBookmark')}
@@ -188,6 +194,6 @@ export const BookmarksPage = () => {
         ref={bookmarkAddressSheetRef}
         onAddBookmark={addBookmark}
       />
-    </SendToWalletPageContainer>
+    </FullHeightAdjustablePageContainer>
   );
 };

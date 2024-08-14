@@ -5,6 +5,7 @@ import type { FormType } from '../../stores/form/types.js';
 import type { TokenAmount } from '../../types/token.js';
 
 export interface TokenListProps {
+  parentRef: MutableRefObject<HTMLElement | null>;
   formType: FormType;
   height: number;
   onClick?(): void;

@@ -1,5 +1,5 @@
 import { Error, History, TurnedIn, Wallet } from '@mui/icons-material';
-import { Tooltip, Typography } from '@mui/material';
+import { Box, Tooltip, Typography } from '@mui/material';
 import type { ChangeEvent } from 'react';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -15,6 +15,7 @@ import {
 import { useChain } from '../../hooks/useChain.js';
 import { useHeader } from '../../hooks/useHeader.js';
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import type { Bookmark } from '../../stores/bookmarks/types.js';
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
 import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js';
@@ -25,10 +26,10 @@ import { BookmarkAddressSheet } from './BookmarkAddressSheet.js';
 import { ConfirmAddressSheet } from './ConfirmAddressSheet.js';
 import {
   AddressInput,
+  FullHeightAdjustablePageContainer,
   SendToWalletButtonRow,
   SendToWalletCard,
   SendToWalletIconButton,
-  SendToWalletPageContainer,
   ValidationAlert,
 } from './SendToWalletPage.style.js';
 
@@ -59,6 +60,7 @@ export const SendToWalletPage = () => {
   const { chain: toChain } = useChain(toChainId);
   const [isDoneButtonLoading, setIsDoneButtonLoading] = useState(false);
   const [isBookmarkButtonLoading, setIsBookmarkButtonLoading] = useState(false);
+  const { variant } = useWidgetConfig();
 
   useHeader(t(`header.sendToWallet`));
 
@@ -181,7 +183,10 @@ export const SendToWalletPage = () => {
   });
 
   return (
-    <SendToWalletPageContainer bottomGutters>
+    <FullHeightAdjustablePageContainer
+      bottomGutters
+      enableFullHeight={variant !== 'drawer'}
+    >
       <SendToWalletCard
         type={errorMessage ? 'error' : 'default'}
         sx={{
@@ -238,35 +243,39 @@ export const SendToWalletPage = () => {
           onAddBookmark={handleAddBookmark}
         />
       </SendToWalletCard>
-      <CardButton
-        title={t('header.recentWallets')}
-        icon={<History />}
-        onClick={handleRecentWalletsClick}
-      >
-        {!!recentWallets.length && (
-          <Typography color="text.secondary">{recentWallets.length}</Typography>
-        )}
-      </CardButton>
-      <CardButton
-        title={t('sendToWallet.connectedWallets')}
-        icon={<Wallet />}
-        onClick={handleConnectedWalletsClick}
-      >
-        {!!connectedWallets.length && (
-          <Typography color="text.secondary">
-            {connectedWallets.length}
-          </Typography>
-        )}
-      </CardButton>
-      <CardButton
-        title={t('header.bookmarkedWallets')}
-        icon={<TurnedIn />}
-        onClick={handleBookmarkedWalletsClick}
-      >
-        {!!bookmarks.length && (
-          <Typography color="text.secondary">{bookmarks.length}</Typography>
-        )}
-      </CardButton>
-    </SendToWalletPageContainer>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+        <CardButton
+          title={t('header.recentWallets')}
+          icon={<History />}
+          onClick={handleRecentWalletsClick}
+        >
+          {!!recentWallets.length && (
+            <Typography color="text.secondary">
+              {recentWallets.length}
+            </Typography>
+          )}
+        </CardButton>
+        <CardButton
+          title={t('sendToWallet.connectedWallets')}
+          icon={<Wallet />}
+          onClick={handleConnectedWalletsClick}
+        >
+          {!!connectedWallets.length && (
+            <Typography color="text.secondary">
+              {connectedWallets.length}
+            </Typography>
+          )}
+        </CardButton>
+        <CardButton
+          title={t('header.bookmarkedWallets')}
+          icon={<TurnedIn />}
+          onClick={handleBookmarkedWalletsClick}
+        >
+          {!!bookmarks.length && (
+            <Typography color="text.secondary">{bookmarks.length}</Typography>
+          )}
+        </CardButton>
+      </Box>
+    </FullHeightAdjustablePageContainer>
   );
 };

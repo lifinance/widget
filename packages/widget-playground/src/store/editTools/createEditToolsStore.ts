@@ -27,6 +27,15 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
           show: false,
           sideBySide: false,
         },
+        headerAndFooterControl: {
+          showMockHeader: false,
+          showMockFooter: false,
+          isFooterFixed: false,
+        },
+        layoutControl: {
+          selectedLayoutId: 'default',
+        },
+        isDevView: false,
         setDrawerOpen: (open) => {
           set({
             drawer: {
@@ -103,6 +112,43 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
               sideBySide,
               show: sideBySide ? true : get().skeletonControl.show,
             },
+          });
+        },
+        setHeaderVisibility: (show) => {
+          set({
+            headerAndFooterControl: {
+              ...get().headerAndFooterControl,
+              showMockHeader: show,
+            },
+          });
+        },
+        setFooterVisibility: (show) => {
+          set({
+            headerAndFooterControl: {
+              ...get().headerAndFooterControl,
+              showMockFooter: show,
+            },
+          });
+        },
+        setFixedFooter: (isFixed) => {
+          set({
+            headerAndFooterControl: {
+              ...get().headerAndFooterControl,
+              isFooterFixed: isFixed,
+            },
+          });
+        },
+        setSelectedLayoutId: (selectedLayoutId) => {
+          set({
+            layoutControl: {
+              ...get().layoutControl,
+              selectedLayoutId,
+            },
+          });
+        },
+        setIsDevView: (isDevView) => {
+          set({
+            isDevView,
           });
         },
       }),

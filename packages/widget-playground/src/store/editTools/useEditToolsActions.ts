@@ -13,6 +13,11 @@ export const useEditToolsActions = () => {
       setViewportBackgroundColor: state.setViewportBackgroundColor,
       setSkeletonShow: state.setSkeletonShow,
       setSkeletonSideBySide: state.setSkeletonSideBySide,
+      setHeaderVisibility: state.setHeaderVisibility,
+      setFooterVisibility: state.setFooterVisibility,
+      setFixedFooter: state.setFixedFooter,
+      setSelectedLayoutId: state.setSelectedLayoutId,
+      setIsDevView: state.setIsDevView,
     }),
     shallow,
   );

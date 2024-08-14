@@ -26,11 +26,13 @@ declare module '@mui/material/styles' {
   interface Theme {
     shape: Shape;
     container: CSSProperties;
+    header: CSSProperties;
     navigation: NavigationProps;
   }
   interface ThemeOptions {
     shape?: Partial<Shape>;
     container?: CSSProperties;
+    header?: CSSProperties;
     navigation?: NavigationProps;
   }
   interface ComponentNameToClassKey {

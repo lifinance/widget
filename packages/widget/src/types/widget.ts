@@ -54,6 +54,7 @@ export type WidgetThemeComponents = Pick<
   | 'MuiInputCard'
   | 'MuiTabs'
 >;
+
 export type WidgetTheme = {
   palette?: Pick<
     PaletteOptions,
@@ -63,6 +64,7 @@ export type WidgetTheme = {
   typography?: TypographyOptions;
   components?: WidgetThemeComponents;
   container?: CSSProperties;
+  header?: CSSProperties;
   playground?: CSSProperties;
   navigation?: NavigationProps;
 };

@@ -5,6 +5,11 @@ import type { Font } from '../../providers';
 
 type ControlType = 'design' | 'code';
 type CodeControlTab = 'config' | 'examples';
+export type Layout =
+  | 'default'
+  | 'restricted-height'
+  | 'restricted-max-height'
+  | 'full-height';
 
 export type ThemeAppearances =
   | {
@@ -46,6 +51,15 @@ export interface EditToolsValues {
     show: boolean;
     sideBySide: boolean;
   };
+  headerAndFooterControl: {
+    showMockHeader: boolean;
+    showMockFooter: boolean;
+    isFooterFixed: boolean;
+  };
+  layoutControl: {
+    selectedLayoutId: Layout;
+  };
+  isDevView: boolean;
 }
 
 export interface EditToolsActions {
@@ -58,6 +72,11 @@ export interface EditToolsActions {
   setViewportBackgroundColor: (color: string | undefined) => void;
   setSkeletonShow: (show: boolean) => void;
   setSkeletonSideBySide: (sideBySide: boolean) => void;
+  setHeaderVisibility: (show: boolean) => void;
+  setFooterVisibility: (show: boolean) => void;
+  setFixedFooter: (isFixed: boolean) => void;
+  setSelectedLayoutId: (layoutId: Layout) => void;
+  setIsDevView: (isDevView: boolean) => void;
 }
 
 export type ToolsState = EditToolsValues & EditToolsActions;

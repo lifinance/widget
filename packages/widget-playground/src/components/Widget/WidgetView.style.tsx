@@ -1,4 +1,5 @@
-import type { Theme } from '@mui/material';
+import { defaultMaxHeight } from '@lifi/widget';
+import type { BoxProps, Theme } from '@mui/material';
 import {
   Box,
   Button,
@@ -7,6 +8,7 @@ import {
 } from '@mui/material';
 import { buttonClasses } from '@mui/material/Button';
 import { alpha, styled } from '@mui/material/styles';
+import type { CSSProperties } from 'react';
 import { drawerZIndex } from '../DrawerControls';
 
 export const FloatingToolsContainer = styled(Box)(({ theme }) => ({
@@ -14,16 +16,48 @@ export const FloatingToolsContainer = styled(Box)(({ theme }) => ({
   gap: theme.spacing(2),
   position: 'absolute',
   zIndex: drawerZIndex,
-  padding: theme.spacing(3),
+  padding: theme.spacing(3, 0, 0, 3),
 }));
 
-export const WidgetContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexGrow: 1,
-  alignItems: 'center',
-  justifyContent: 'center',
-  paddingTop: theme.spacing(6),
-}));
+interface WidgetContainerProps extends BoxProps {
+  removePaddingTop?: boolean;
+  alignTop?: boolean;
+}
+
+export const WidgetContainer = styled(Box, {
+  shouldForwardProp: (prop) =>
+    !['removePaddingTop', 'alignTop'].includes(prop as string),
+})<WidgetContainerProps>(({ theme, removePaddingTop, alignTop }) => {
+  return {
+    display: 'flex',
+    flexGrow: 1,
+    justifyContent: alignTop ? 'flex-start' : 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    paddingTop: removePaddingTop ? 0 : theme.spacing(6),
+  };
+});
+
+interface WidgetContainerRowProps extends BoxProps {
+  alignTop?: boolean;
+  widgetContainer?: CSSProperties;
+}
+
+export const WidgetContainerRow = styled(Box, {
+  shouldForwardProp: (prop) =>
+    !['alignTop', 'widgetContainer'].includes(prop as string),
+})<WidgetContainerRowProps>(({ theme, alignTop, widgetContainer }) => {
+  return {
+    display: 'flex',
+    alignItems: alignTop ? 'flex-start' : 'center',
+    flexGrow: 1,
+    width: '100%',
+    maxHeight:
+      widgetContainer?.maxHeight || !widgetContainer?.height
+        ? (widgetContainer?.maxHeight ?? defaultMaxHeight)
+        : 'none',
+  };
+});
 
 const floatingToolButtonColors = (theme: Theme) => ({
   color: theme.palette.text.primary,

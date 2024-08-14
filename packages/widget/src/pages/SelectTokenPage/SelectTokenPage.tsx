@@ -1,11 +1,10 @@
 import { Box } from '@mui/material';
 import type { FC } from 'react';
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ChainSelect } from '../../components/ChainSelect/ChainSelect.js';
 import { PageContainer } from '../../components/PageContainer.js';
 import { TokenList } from '../../components/TokenList/TokenList.js';
-import { useContentHeight } from '../../hooks/useContentHeight.js';
 import { useHeader } from '../../hooks/useHeader.js';
 import { useNavigateBack } from '../../hooks/useNavigateBack.js';
 import { useScrollableOverflowHidden } from '../../hooks/useScrollableContainer.js';
@@ -13,15 +12,18 @@ import { useSwapOnly } from '../../hooks/useSwapOnly.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import type { FormTypeProps } from '../../stores/form/types.js';
 import { SearchTokenInput } from './SearchTokenInput.js';
-
-const minTokenListHeight = 360;
+import { useTokenListHeight } from './useTokenListHeight.js';
 
 export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
   useScrollableOverflowHidden();
   const { navigateBack } = useNavigateBack();
   const headerRef = useRef<HTMLElement>(null);
-  const contentHeight = useContentHeight();
-  const [tokenListHeight, setTokenListHeight] = useState(0);
+  const listParentRef = useRef<HTMLUListElement | null>(null);
+  const { tokenListHeight, minListHeight } = useTokenListHeight({
+    listParentRef,
+    headerRef,
+  });
+
   const swapOnly = useSwapOnly();
 
   const { subvariant } = useWidgetConfig();
@@ -35,15 +37,6 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
 
   useHeader(title);
 
-  useLayoutEffect(() => {
-    setTokenListHeight(
-      Math.max(
-        contentHeight - (headerRef.current?.offsetHeight ?? 0),
-        minTokenListHeight,
-      ),
-    );
-  }, [contentHeight]);
-
   const hideChainSelect = swapOnly && formType === 'to';
 
   return (
@@ -54,11 +47,14 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
           <SearchTokenInput />
         </Box>
       </Box>
-      <TokenList
-        height={tokenListHeight}
-        onClick={navigateBack}
-        formType={formType}
-      />
+      <Box height={minListHeight}>
+        <TokenList
+          parentRef={listParentRef}
+          height={tokenListHeight}
+          onClick={navigateBack}
+          formType={formType}
+        />
+      </Box>
     </PageContainer>
   );
 };
