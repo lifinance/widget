@@ -121,10 +121,13 @@ export function createDefaultWagmiConfig(
     ...props?.wagmiConfig,
   });
 
+  const localStorage =
+    typeof window !== 'undefined' ? window.localStorage : undefined;
+
   // Check if WalletConnect properties exist in the props
   if (props?.walletConnect) {
     // Retrieve the ID of the most recently connected wallet connector from storage
-    const recentConnectorId = (window as any)?.localStorage.getItem(
+    const recentConnectorId = localStorage?.getItem(
       `${config.storage?.key}.recentConnectorId`,
     );
     // If WalletConnect is the most recently connected wallet or lazy loading is disabled,
@@ -135,7 +138,7 @@ export function createDefaultWagmiConfig(
   }
 
   if (!props?.lazy && props?.coinbase && !isWalletInstalled('coinbase')) {
-    const recentConnectorId = (window as any)?.localStorage.getItem(
+    const recentConnectorId = localStorage?.getItem(
       `${config.storage?.key}.recentConnectorId`,
     );
     if (recentConnectorId?.includes?.('coinbaseWalletSDK') || !props.lazy) {
@@ -144,7 +147,7 @@ export function createDefaultWagmiConfig(
   }
 
   if (props?.metaMask && !isWalletInstalled('metaMask')) {
-    const recentConnectorId = (window as any)?.localStorage.getItem(
+    const recentConnectorId = localStorage?.getItem(
       `${config.storage?.key}.recentConnectorId`,
     );
     if (recentConnectorId?.includes?.('metaMaskSDK') || !props.lazy) {
