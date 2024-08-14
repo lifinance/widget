@@ -20,13 +20,14 @@ import { ReviewButton } from './ReviewButton.js';
 export const MainPage: React.FC = () => {
   const { t } = useTranslation();
   const wideVariant = useWideVariant();
-  const { subvariant, contractComponent, hiddenUI } = useWidgetConfig();
+  const { subvariant, subvariantOptions, contractComponent, hiddenUI } =
+    useWidgetConfig();
   const custom = subvariant === 'custom';
   const showPoweredBy = !hiddenUI?.includes(HiddenUI.PoweredBy);
 
   const title =
     subvariant === 'custom'
-      ? t(`header.checkout`)
+      ? t(`header.${subvariantOptions?.custom ?? 'checkout'}`)
       : subvariant === 'refuel'
         ? t(`header.gas`)
         : t(`header.exchange`);
