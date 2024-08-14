@@ -201,7 +201,6 @@ export const widgetBaseConfig: WidgetConfig = {
   //   },
   //   es,
   // },
-  // allows for positioning of header to accommodate navigation bar
 };
 
 export const defaultWidgetConfig: Partial<WidgetConfig> = {
