@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.4.3](https://github.com/lifinance/widget/compare/v3.4.2...v3.4.3) (2024-08-15)
+
+
+### Bug Fixes
+
+* add check for coinbase browser ([1899e6d](https://github.com/lifinance/widget/commit/1899e6df451e3e8cf90f58a4011262f0bfc3a26f))
+* rename coinbase wallet ([070ce5b](https://github.com/lifinance/widget/commit/070ce5b59a26a426d9064cf352d0ae71d3808a6e))
+* window typo ([bbbf91e](https://github.com/lifinance/widget/commit/bbbf91eabd2422c4675df5cdef589a76ae312d3f))
+
 ### [3.4.2](https://github.com/lifinance/widget/compare/v3.4.1...v3.4.2) (2024-08-14)
 
 
