@@ -61,9 +61,7 @@ const processStatusMessages: Record<
     PENDING: (t) => t(`main.process.swap.pending`),
     DONE: (t, subvariant, subvariantOptions) =>
       subvariant === 'custom'
-        ? subvariantOptions?.custom
-          ? t(`main.process.${subvariantOptions?.custom}.done`)
-          : t(`main.process.checkout.done`)
+        ? t(`main.process.${subvariantOptions?.custom ?? 'checkout'}.done`)
         : t(`main.process.swap.done`),
   },
   CROSS_CHAIN: {
@@ -76,9 +74,7 @@ const processStatusMessages: Record<
     PENDING: (t) => t(`main.process.receivingChain.pending`),
     DONE: (t, subvariant, subvariantOptions) =>
       subvariant === 'custom'
-        ? subvariantOptions?.custom
-          ? t(`main.process.${subvariantOptions?.custom}.done`)
-          : t(`main.process.checkout.done`)
+        ? t(`main.process.${subvariantOptions?.custom ?? 'checkout'}.done`)
         : t(`main.process.receivingChain.done`),
   },
   TRANSACTION: {},

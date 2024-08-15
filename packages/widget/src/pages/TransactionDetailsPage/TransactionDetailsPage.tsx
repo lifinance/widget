@@ -26,7 +26,8 @@ import { TransactionDetailsSkeleton } from './TransactionDetailsSkeleton.js';
 export const TransactionDetailsPage: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { navigate } = useNavigateBack();
-  const { subvariant, contractSecondaryComponent } = useWidgetConfig();
+  const { subvariant, subvariantOptions, contractSecondaryComponent } =
+    useWidgetConfig();
   const { state }: any = useLocation();
   const { tools } = useTools();
   const storedRouteExecution = useRouteExecutionStore(
@@ -39,7 +40,7 @@ export const TransactionDetailsPage: React.FC = () => {
 
   const title =
     subvariant === 'custom'
-      ? t(`header.purchaseDetails`)
+      ? t(`header.${subvariantOptions?.custom ?? 'checkout'}Details`)
       : t(`header.transactionDetails`);
   useHeader(title);
 

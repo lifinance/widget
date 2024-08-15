@@ -11,7 +11,7 @@ import { navigationRoutes } from '../../utils/navigationRoutes.js';
 export const ReviewButton: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { subvariant } = useWidgetConfig();
+  const { subvariant, subvariantOptions } = useWidgetConfig();
   const splitState = useSplitSubvariantStore((state) => state.state);
   const [toAddress] = useFieldValues('toAddress');
   const { requiredToAddress } = useToAddressRequirements();
@@ -32,20 +32,22 @@ export const ReviewButton: React.FC = () => {
     if (currentRoute) {
       switch (subvariant) {
         case 'custom':
-          return t(`button.reviewPurchase`);
+          return t(`button.${subvariantOptions?.custom ?? 'checkout'}Review`);
         case 'refuel':
           return t(`button.getGas`);
         default:
           const transactionType =
             currentRoute.fromChainId === currentRoute.toChainId
-              ? 'Swap'
-              : 'Bridge';
-          return t(`button.review${transactionType}`);
+              ? 'swap'
+              : 'bridge';
+          return t(`button.${transactionType}Review`);
       }
     } else {
       switch (subvariant) {
         case 'custom':
-          return t(`button.buy`);
+          return subvariantOptions?.custom === 'deposit'
+            ? t(`button.deposit`)
+            : t(`button.buy`);
         case 'refuel':
           return t(`button.getGas`);
         case 'split':

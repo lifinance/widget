@@ -80,8 +80,12 @@ export const StatusBottomSheetContent: React.FC<
   const { navigateBack, navigate } = useNavigateBack();
   const queryClient = useQueryClient();
   const { setFieldValue } = useFieldActions();
-  const { subvariant, contractSecondaryComponent, contractCompactComponent } =
-    useWidgetConfig();
+  const {
+    subvariant,
+    subvariantOptions,
+    contractSecondaryComponent,
+    contractCompactComponent,
+  } = useWidgetConfig();
   const { getChainById } = useAvailableChains();
 
   const ref = useRef<HTMLElement>();
@@ -166,7 +170,9 @@ export const StatusBottomSheetContent: React.FC<
     case RouteExecutionStatus.Done: {
       title =
         subvariant === 'custom'
-          ? t('success.title.purchaseSuccessful')
+          ? t(
+              `success.title.${subvariantOptions?.custom ?? 'checkout'}Successful`,
+            )
           : t(`success.title.${transactionType}Successful`);
       if (token) {
         primaryMessage = t('success.message.exchangeSuccessful', {

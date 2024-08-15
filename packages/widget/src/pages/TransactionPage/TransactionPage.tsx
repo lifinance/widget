@@ -35,7 +35,8 @@ export const TransactionPage: React.FC = () => {
   const { setFieldValue } = useFieldActions();
   const emitter = useWidgetEvents();
   const { navigateBack } = useNavigateBack();
-  const { subvariant, contractSecondaryComponent } = useWidgetConfig();
+  const { subvariant, subvariantOptions, contractSecondaryComponent } =
+    useWidgetConfig();
   const { state }: any = useLocation();
   const stateRouteId = state?.routeId;
   const [routeId, setRouteId] = useState<string>(stateRouteId);
@@ -59,15 +60,14 @@ export const TransactionPage: React.FC = () => {
 
   const getHeaderTitle = () => {
     if (subvariant === 'custom') {
-      return t(`header.purchase`);
+      return t(`header.${subvariantOptions?.custom ?? 'checkout'}`);
     } else {
       if (route) {
         const transactionType =
-          route.fromChainId === route.toChainId ? 'Swap' : 'Bridge';
-
+          route.fromChainId === route.toChainId ? 'swap' : 'bridge';
         return status === RouteExecutionStatus.Idle
-          ? t(`button.review${transactionType}`)
-          : t(`header.${transactionType.toLowerCase() as 'swap' | 'bridge'}`);
+          ? t(`button.${transactionType}Review`)
+          : t(`header.${transactionType}`);
       }
     }
 
@@ -159,7 +159,9 @@ export const TransactionPage: React.FC = () => {
       case RouteExecutionStatus.Idle:
         switch (subvariant) {
           case 'custom':
-            return t('button.buyNow');
+            return subvariantOptions?.custom === 'deposit'
+              ? t(`button.deposit`)
+              : t(`button.buy`);
           case 'refuel':
             return t('button.startBridging');
           default:

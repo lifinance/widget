@@ -22,7 +22,7 @@ export const Step: React.FC<{
 }> = ({ step, fromToken, toToken, impactToken, toAddress }) => {
   const { t } = useTranslation();
   const { getChainById } = useAvailableChains();
-  const { subvariant } = useWidgetConfig();
+  const { subvariant, subvariantOptions } = useWidgetConfig();
 
   const stepHasError = step.execution?.process.some(
     (process) => process.status === 'FAILED',
@@ -39,20 +39,28 @@ export const Step: React.FC<{
         );
         if (hasBridgeStep && hasSwapStep) {
           return subvariant === 'custom'
-            ? t('main.stepBridgeAndBuy')
+            ? subvariantOptions?.custom === 'deposit'
+              ? t('main.stepBridgeAndDeposit')
+              : t('main.stepBridgeAndBuy')
             : t('main.stepSwapAndBridge');
         }
         if (hasBridgeStep) {
           return subvariant === 'custom'
-            ? t('main.stepBridgeAndBuy')
+            ? subvariantOptions?.custom === 'deposit'
+              ? t('main.stepBridgeAndDeposit')
+              : t('main.stepBridgeAndBuy')
             : t('main.stepBridge');
         }
         return subvariant === 'custom'
-          ? t('main.stepSwapAndBuy')
+          ? subvariantOptions?.custom === 'deposit'
+            ? t('main.stepSwapAndDeposit')
+            : t('main.stepSwapAndBuy')
           : t('main.stepSwap');
       default:
         return subvariant === 'custom'
-          ? t('main.stepSwapAndBuy')
+          ? subvariantOptions?.custom === 'deposit'
+            ? t('main.stepSwapAndDeposit')
+            : t('main.stepSwapAndBuy')
           : t('main.stepSwap');
     }
   };
