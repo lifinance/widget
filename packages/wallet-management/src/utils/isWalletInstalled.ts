@@ -10,7 +10,10 @@ export const isWalletInstalled = (id: string): boolean => {
       );
     case 'coinbase':
       return (
-        anyWindow?.ethereum?.isCoinbaseWallet ||
+        // Coinbase Browser doesn't inject itself automatically
+        // We should not consider Coinbase Browser as installed wallet so we can fallback to Coinbase SDK
+        (anyWindow?.ethereum?.isCoinbaseWallet &&
+          !anyWindow?.ethereum?.isCoinbaseBrowser) ||
         anyWindow?.coinbaseWalletExtension?.isCoinbaseWallet ||
         anyWindow?.ethereum?.providers?.some(
           (provider: any) => provider.isCoinbaseWallet,
