@@ -8,5 +8,5 @@ export const createCoinbaseConnector = /*#__PURE__*/ (
   extendConnector(
     coinbaseWallet(params),
     'coinbaseWalletSDK',
-    'Coinbase Smart Wallet',
+    'Coinbase Wallet',
   );
