@@ -282,6 +282,11 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           return { routes: [route] } as RoutesResponse;
         }
 
+        // Prevent sending a request for the same chain token combinations.
+        if (fromChainId === toChainId && fromTokenAddress === toTokenAddress) {
+          return;
+        }
+
         const data = await getRoutes(
           {
             fromAddress,
