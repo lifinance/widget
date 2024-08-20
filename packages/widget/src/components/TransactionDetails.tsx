@@ -12,11 +12,7 @@ import { formatUnits } from 'viem';
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
 import { isRouteDone } from '../stores/routes/utils.js';
 import { getAccumulatedFeeCostsBreakdown } from '../utils/fees.js';
-import {
-  convertToSubscriptFormat,
-  formatTokenAmount,
-  formatTokenPrice,
-} from '../utils/format.js';
+import { formatTokenAmount, formatTokenPrice } from '../utils/format.js';
 import { Card } from './Card/Card.js';
 import { CardIconButton } from './Card/CardIconButton.js';
 import { FeeBreakdownTooltip } from './FeeBreakdownTooltip.js';
@@ -56,16 +52,7 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
   const toTokenPrice =
     formatTokenPrice(toTokenAmount, route.toToken.priceUSD) || 0.01;
 
-  const impact = (toTokenPrice / fromTokenPrice - 1) * 100;
-
-  const priceImpact = convertToSubscriptFormat(impact, {
-    notation: 'standard',
-    roundingPriority: 'morePrecision',
-    maximumSignificantDigits: 2,
-    maximumFractionDigits: 2,
-    useGrouping: false,
-    roundingMode: 'trunc',
-  });
+  const priceImpact = toTokenPrice / fromTokenPrice - 1;
 
   const feeCollectionStep = route.steps[0].includedSteps.find(
     (includedStep) => includedStep.tool === 'feeCollection',
@@ -181,7 +168,9 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
           <Box display="flex" justifyContent="space-between" mb={0.5}>
             <Typography variant="body2">{t('main.priceImpact')}</Typography>
             <Tooltip title={t('tooltip.priceImpact')} sx={{ cursor: 'help' }}>
-              <Typography variant="body2">{priceImpact}%</Typography>
+              <Typography variant="body2">
+                {t('format.percent', { value: priceImpact })}
+              </Typography>
             </Tooltip>
           </Box>
           {!isRouteDone(route) ? (
@@ -190,7 +179,9 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                 <Typography variant="body2">{t('main.maxSlippage')}</Typography>
                 <Tooltip title={t('tooltip.slippage')} sx={{ cursor: 'help' }}>
                   <Typography variant="body2">
-                    {route.steps[0].action.slippage * 100}%
+                    {t('format.percent', {
+                      value: route.steps[0].action.slippage,
+                    })}
                   </Typography>
                 </Tooltip>
               </Box>
