@@ -6,11 +6,7 @@ import type { FC, PropsWithChildren, ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useChain } from '../../hooks/useChain.js';
 import { useToken } from '../../hooks/useToken.js';
-import {
-  convertToSubscriptFormat,
-  formatTokenAmount,
-  formatTokenPrice,
-} from '../../utils/format.js';
+import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js';
 import { AvatarBadgedSkeleton } from '../Avatar/Avatar.js';
 import { TokenAvatar } from '../Avatar/TokenAvatar.js';
 import { SmallAvatar } from '../SmallAvatar.js';
@@ -63,7 +59,7 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
   isLoading,
   ...other
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { chain } = useChain(token?.chainId);
 
   if (isLoading) {
@@ -81,6 +77,7 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
   const tokenPrice = formatTokenPrice(tokenAmount, token.priceUSD);
 
   let priceImpact;
+  let priceImpactPercent;
   if (impactToken) {
     const impactTokenAmount = formatTokenAmount(
       impactToken.amount,
@@ -89,16 +86,8 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
     const impactTokenPrice =
       formatTokenPrice(impactTokenAmount, impactToken.priceUSD) || 0.01;
 
-    const impact = (tokenPrice / impactTokenPrice - 1) * 100;
-
-    priceImpact = convertToSubscriptFormat(impact, {
-      notation: 'standard',
-      roundingPriority: 'morePrecision',
-      maximumSignificantDigits: 2,
-      maximumFractionDigits: 2,
-      useGrouping: false,
-      roundingMode: 'trunc',
-    });
+    priceImpact = tokenPrice / impactTokenPrice - 1;
+    priceImpactPercent = priceImpact * 100;
   }
 
   const tokenOnChain = !disableDescription ? (
@@ -145,10 +134,18 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
           {impactToken ? (
             enableImpactTokenTooltip ? (
               <Tooltip title={t('tooltip.priceImpact')} sx={{ cursor: 'help' }}>
-                <TextSecondary>{priceImpact}%</TextSecondary>
+                <TextSecondary>
+                  {t('format.percent', { value: priceImpact })}
+                </TextSecondary>
               </Tooltip>
             ) : (
-              <TextSecondary>{priceImpact}%</TextSecondary>
+              <TextSecondary
+                title={priceImpactPercent?.toLocaleString(i18n.language, {
+                  maximumFractionDigits: 9,
+                })}
+              >
+                {t('format.percent', { value: priceImpact })}
+              </TextSecondary>
             )
           ) : null}
           {!disableDescription ? (
