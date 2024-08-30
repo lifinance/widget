@@ -60,28 +60,40 @@ export const RelativeContainer = styled(Box, {
 interface CssBaselineContainerProps {
   variant?: WidgetVariant;
   paddingTopAdjustment: number;
+  elementId: string;
 }
 
 const CssBaselineContainer = styled(ScopedCssBaseline, {
   shouldForwardProp: (prop) =>
-    !['variant', 'paddingTopAdjustment'].includes(prop as string),
-})<CssBaselineContainerProps>(({ theme, variant, paddingTopAdjustment }) => ({
-  display: 'flex',
-  flex: 1,
-  flexDirection: 'column',
-  overflowX: 'clip',
-  margin: 0,
-  width: '100%',
-  maxHeight:
-    variant === 'drawer' || theme.container?.display === 'flex'
-      ? 'none'
-      : theme.container?.maxHeight
-        ? theme.container?.maxHeight
-        : theme.container?.height || defaultMaxHeight,
-  overflowY: 'auto',
-  height: theme.container?.display === 'flex' ? 'auto' : '100%',
-  paddingTop: paddingTopAdjustment,
-}));
+    !['variant', 'paddingTopAdjustment', 'elementId'].includes(prop as string),
+})<CssBaselineContainerProps>(
+  ({ theme, variant, paddingTopAdjustment, elementId }) => ({
+    display: 'flex',
+    flex: 1,
+    flexDirection: 'column',
+    overflowX: 'clip',
+    margin: 0,
+    width: '100%',
+    maxHeight:
+      variant === 'drawer' || theme.container?.display === 'flex'
+        ? 'none'
+        : theme.container?.maxHeight
+          ? theme.container?.maxHeight
+          : theme.container?.height || defaultMaxHeight,
+    overflowY: 'auto',
+    height: theme.container?.display === 'flex' ? 'auto' : '100%',
+    paddingTop: paddingTopAdjustment,
+    // The following allows for the token list to always fill the available height
+    // use of CSS.escape here is to deal with characters such as ':' returned by reacts useId hook
+    //   related issue - https://github.com/facebook/react/issues/26839
+    [`&:has(#${CSS.escape(createElementId(ElementId.TokenList, elementId))})`]:
+      {
+        height: theme.container?.maxHeight
+          ? theme.container?.maxHeight
+          : theme.container?.height || defaultMaxHeight,
+      },
+  }),
+);
 
 export const FlexContainer = styled(Container)(({ theme }) => ({
   display: 'flex',
@@ -110,6 +122,7 @@ export const AppContainer: React.FC<PropsWithChildren<{}>> = ({ children }) => {
         variant={variant}
         enableColorScheme
         paddingTopAdjustment={positionFixedAdjustment}
+        elementId={elementId}
         // ref={ref}
       >
         <FlexContainer disableGutters>{children}</FlexContainer>
