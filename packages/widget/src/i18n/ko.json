@@ -4,18 +4,20 @@
     "title": "언어"
   },
   "format": {
-    "currency": "{{value, currency(currency: USD)}}",
-    "number": "{{value, number(maximumFractionDigits: 9)}}"
+    "currency": "",
+    "number": "{{value, number(maximumFractionDigits: 9)}}",
+    "percent": ""
   },
   "button": {
     "auto": "자동",
     "bookmark": "",
     "bookmarks": "",
     "bridge": "브릿지",
+    "bridgeReview": "",
     "buy": "매수",
-    "buyNow": "즉시 매수",
     "cancel": "취소",
     "changeWallet": "지갑 변경",
+    "checkoutReview": "",
     "close": "",
     "confirm": "",
     "connectWallet": "지갑 연결",
@@ -24,6 +26,8 @@
     "copyAddress": "주소 복사",
     "dark": "어둡게",
     "delete": "삭제",
+    "deposit": "",
+    "depositReview": "",
     "disconnect": "연결 해제",
     "done": "완료",
     "exchange": "교환",
@@ -36,14 +40,12 @@
     "removeTransaction": "거래 지우기",
     "reset": "초기화",
     "resetSettings": "설정 초기화",
-    "reviewBridge": "브릿지 리뷰",
-    "reviewPurchase": "매수 검토",
-    "reviewSwap": "스왑 검토",
     "seeDetails": "자세히 보기",
     "showAll": "모두 보기",
     "startBridging": "브릿지 시작하기",
     "startSwapping": "스왑 시작하기",
     "swap": "스왑",
+    "swapReview": "",
     "tryAgain": "다시 시도",
     "viewCoverage": "보장 범위",
     "viewOnExplorer": "탐색기에서 보기"
@@ -53,15 +55,18 @@
     "bookmarkedWallets": "",
     "bridge": "브릿지",
     "checkout": "주문",
+    "checkoutDetails": "",
+    "deposit": "",
+    "depositDetails": "",
     "exchange": "교환",
     "from": "다음에서 스왑",
     "gas": "가스",
     "payWith": "결제 수단",
-    "purchase": "구입",
-    "purchaseDetails": "주문 세부사항",
+    "receive": "",
     "recentWallets": "",
     "selectChain": "체인 선택",
     "selectWallet": "지갑 선택",
+    "send": "",
     "sendToWallet": "",
     "settings": "설정",
     "swap": "스왑",
@@ -69,7 +74,8 @@
     "transactionDetails": "거래 세부사항",
     "transactionHistory": "거래 내역",
     "walletConnected": "지갑 연결됨",
-    "youGet": "받는 수량"
+    "youGet": "받는 수량",
+    "youPay": ""
   },
   "info": {
     "message": {
@@ -82,7 +88,7 @@
       "routeNotFound": "이유: 낮은 유동성, 선택된 수량이 너무 적음, 가스비가 너무 비싸거나 경로가 존재하지 않음"
     },
     "title": {
-      "autoRefuel": "가스 받기",
+      "autoRefuel": "",
       "emptyActiveTransactions": "활성화된 거래가 없음",
       "emptyTransactionHistory": "최근 거래 없음",
       "routeNotFound": "가능한 경로가 없음"
@@ -90,14 +96,15 @@
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": "스왑을 시도했지만, {{tokenSymbol}} 토큰에 대한 {{tool}}의 유동성이 부족합니다.",
+      "exchangePartiallySuccessful": "",
       "exchangeSuccessful": "{{walletAddress}} 지갑의 {{chainName}} 체인에 {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}이(가) 있습니다.",
-      "purchaseSuccessful": "{{walletAddress}} 지갑의 {{chainName}} 체인에 {{assetName}} 을 획득하셨습니다."
+      "checkoutSuccessful": ""
     },
     "title": {
       "bridgePartiallySuccessful": "부분 스왑 성공",
       "bridgeSuccessful": "브릿지 성공",
-      "purchaseSuccessful": "구입 성공",
+      "depositSuccessful": "",
+      "checkoutSuccessful": "",
       "refundIssued": "환불되었습니다",
       "swapPartiallySuccessful": "부분 스왑 성공",
       "swapSuccessful": "스왑 성공"
@@ -132,8 +139,10 @@
       "signatureRejected": "트랜잭션 완료를 위해 서명이 필요합니다. {{chainName}}의 {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}이 지갑에 남아있습니다.",
       "slippageThreshold": "슬리피지가 한계점보다 큽니다. 새로운 견적을 얻기 위해 새 경로를 요청하십시오.",
       "transactionCanceled": "거래가 취소되었습니다.",
+      "transactionExpired": "",
       "transactionFailed": "자세한 정보는 블록 탐색기에서 확인하세요.",
       "transactionNotSent": "트랜잭션이 전송되지 않았습니다.",
+      "transactionSimulationFailed": "",
       "unknown": "다시 시도하거나 고객 센터에 문의하십시오.",
       "walletChangedDuringExecution": ""
     },
@@ -149,7 +158,9 @@
       "signatureRejected": "서명이 필요합니다.",
       "slippageNotMet": "슬리피지 조건을 충족하지 못했습니다.",
       "transactionCanceled": "거래가 취소되었습니다",
+      "transactionExpired": "",
       "transactionFailed": "거래가 실패하였습니다",
+      "transactionSimulationFailed": "",
       "transactionUnderpriced": "거래 가격이 너무 낮습니다",
       "transactionUnprepared": "트랜잭션을 진행할 수 없습니다.",
       "unknown": "문제가 발생했습니다",
@@ -161,16 +172,20 @@
     }
   },
   "tooltip": {
-    "estimatedTime": "예상 스왑 시간(분)",
+    "deselectAll": "전체 선택 해제",
+    "estimatedTime": "",
+    "feeCollection": "",
+    "minReceived": "",
     "notFound": {
       "text": "페이지를 찾을 수 없습니다.",
       "title": "404"
     },
-    "numberOfSteps": "여러 스왑 단계. 각 단계 진행을 위해서는 1-2개의 트랜잭션 서명이 필요할 수 있습니다.",
+    "numberOfSteps": "",
+    "priceImpact": "",
     "progressToNextUpdate": "표시된 데이터가 {{value}} 초 후에 자동 새로고침 됩니다. 수동으로 업데이트 하려면 여기를 클릭하십시오.",
-    "settingsModified": "설정 (수정됨)",
     "selectAll": "전체 선택",
-    "deselectAll": "전체 선택 해제"
+    "settingsModified": "설정 (수정됨)",
+    "slippage": ""
   },
   "main": {
     "allTokens": "",
@@ -180,21 +195,22 @@
     "depositStepDetails": "",
     "featuredTokens": "주요 토큰",
     "fees": {
+      "defaultIntegrator": "",
       "estimated": "",
-      "networkEstimated": "",
-      "networkPaid": "",
+      "integrator": "",
+      "network": "",
       "paid": "",
-      "providerEstimated": "",
-      "providerPaid": ""
+      "provider": ""
     },
     "from": "[Value] 를",
-    "fromAmount": "지불 수량",
-    "gasCost": "가스비",
     "inProgress": "진행 중",
+    "maxSlippage": "",
+    "minReceived": "",
     "myTokens": "",
     "onChain": "{{chainName}} 에서",
     "ownedBy": "소유자: ",
     "popularTokens": "",
+    "priceImpact": "",
     "process": {
       "bridge": {
         "actionRequired": "",
@@ -243,30 +259,23 @@
     "sentToAddress": "{{address}}로 전송",
     "stepBridge": "브릿지",
     "stepBridgeAndBuy": "브릿지 그리고 매수",
+    "stepBridgeAndDeposit": "",
     "stepDetails": "LI.FI 를 통한 {{tool}}",
     "stepSwap": "스왑",
     "stepSwapAndBridge": "스왑 그리고 브릿지",
     "stepSwapAndBuy": "스왑 그리고 매수",
+    "stepSwapAndDeposit": "",
     "supportId": "서포트 ID",
     "swapStepDetails": "{{tool}}로 {{chain}}에서 스왑",
     "tags": {
       "cheapest": "",
-      "fastest": "",
-      "insurable": "보험 적용 가능한",
-      "insurance": "보험",
-      "insured": "보험 적용됨"
+      "fastest": ""
     },
     "to": "도착",
     "tokenOnChain": "{{chainName}}의 {{tokenSymbol}}",
     "tokenOnChainAmount": "{{chainName}}의 {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}",
     "tokenSearch": "이름 또는 컨트랙트 주소를 통해 검색",
     "valueLoss": "가치 손실"
-  },
-  "insurance": {
-    "bridgeExploits": "브릿지 오류, 해킹, 취약점 공격",
-    "insure": "브릿지 중인 <0>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</0> 보험 적용",
-    "insured": "브릿지 중인 <0>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</0> 보험 적용 완료",
-    "slippageError": "받을 토큰의 슬리피지 오류가 발생했습니다."
   },
   "settings": {
     "theme": "테마",
@@ -279,7 +288,7 @@
       "title": "가스 가격"
     },
     "routePriority": "우선 경로",
-    "slippage": "슬리피지",
+    "slippage": "",
     "custom": "사용자 정의",
     "resetSettings": ""
   },
