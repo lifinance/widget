@@ -4,18 +4,20 @@
     "title": "Bahasa"
   },
   "format": {
-    "currency": "{{value, currency(currency: USD)}}",
-    "number": "{{value, number(maximumFractionDigits: 9)}}"
+    "currency": "{{value, currencyExt(currency: USD)}}",
+    "number": "{{value, number(maximumFractionDigits: 9)}}",
+    "percent": ""
   },
   "button": {
     "auto": "Otomatis",
     "bookmark": "Bookmark",
     "bookmarks": "Penanda",
     "bridge": "Bridge",
+    "bridgeReview": "",
     "buy": "Beli",
-    "buyNow": "Beli sekarang",
     "cancel": "Batal",
     "changeWallet": "Ubah Dompet",
+    "checkoutReview": "",
     "close": "Tutup",
     "confirm": "Konfirmasi",
     "connectWallet": "Hubungkan dompet",
@@ -24,6 +26,8 @@
     "copyAddress": "Salin alamat",
     "dark": "Gelap",
     "delete": "Hapus",
+    "deposit": "",
+    "depositReview": "",
     "disconnect": "Tidak terkoneksi",
     "done": "Selesai",
     "exchange": "Pertukaran",
@@ -36,14 +40,12 @@
     "removeTransaction": "Hapus transaksi",
     "reset": "Atur ulang",
     "resetSettings": "Setel ulang pengaturan",
-    "reviewBridge": "Peninjauan bridge",
-    "reviewPurchase": "Tinjau pembelian",
-    "reviewSwap": "Tinjau swap",
     "seeDetails": "Lihat rinciannya",
     "showAll": "Tampilkan semua",
     "startBridging": "Mulai bridge",
     "startSwapping": "Mulai swap",
     "swap": "Swap",
+    "swapReview": "",
     "tryAgain": "Coba lagi",
     "viewCoverage": "Melihat cakupan",
     "viewOnExplorer": "Lihat di explorer"
@@ -53,15 +55,18 @@
     "bookmarkedWallets": "Dompet yang ditandai",
     "bridge": "Bridge",
     "checkout": "Checkout",
+    "checkoutDetails": "",
+    "deposit": "",
+    "depositDetails": "",
     "exchange": "Pertukaran",
     "from": "Swap dari",
     "gas": "Gas",
     "payWith": "Bayar dengan",
-    "purchase": "Pembelian",
-    "purchaseDetails": "Detail pembelian",
+    "receive": "Menerima",
     "recentWallets": "Dompet terbaru",
     "selectChain": "Pilih jaringan",
     "selectWallet": "Pilih dompet",
+    "send": "Kirim",
     "sendToWallet": "Kirim ke dompet",
     "settings": "Pengaturan",
     "swap": "Swap",
@@ -69,7 +74,8 @@
     "transactionDetails": "Rincian transaksi",
     "transactionHistory": "Riwayat transaksi",
     "walletConnected": "Dompet terhubung",
-    "youGet": "Anda mendapatkan"
+    "youGet": "Anda mendapatkan",
+    "youPay": "Anda membayar"
   },
   "info": {
     "message": {
@@ -82,7 +88,7 @@
       "routeNotFound": "Alasannya mungkin: likuiditas rendah, jumlah yang dipilih terlalu rendah, biaya gas terlalu tinggi, atau tidak ada rute untuk kombinasi yang dipilih."
     },
     "title": {
-      "autoRefuel": "Dapatkan gas",
+      "autoRefuel": "Dapatkan gas di {{chainName}}",
       "emptyActiveTransactions": "Tidak ada transaksi yang aktif",
       "emptyTransactionHistory": "Tidak ada transaksi terbaru",
       "routeNotFound": "Rute tidak tersedia"
@@ -90,14 +96,15 @@
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": "Kami telah mencoba menyelesaikan transaksi, tetapi {{tool}} kehabisan likuiditas untuk token {{tokenSymbol}}.",
+      "exchangePartiallySuccessful": "Kami sudah mencoba menyelesaikan transaksi, tapi {{tool}} tidak dapat melanjutkan karena pengaturan slippage atau kurangnya likuiditas untuk token {{tokenSymbol}}.",
       "exchangeSuccessful": "Sekarang ada {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} di dompet {{walletAddress}} pada jaringan {{chainName}}.",
-      "purchaseSuccessful": "Anda sekarang memiliki {{assetName}} di dompet {{walletAddress}} di chain {{chainName}}."
+      "checkoutSuccessful": ""
     },
     "title": {
       "bridgePartiallySuccessful": "Bridge sebagian berhasil",
       "bridgeSuccessful": "Bridge berhasil",
-      "purchaseSuccessful": "Pembelian berhasil",
+      "depositSuccessful": "",
+      "checkoutSuccessful": "",
       "refundIssued": "Pengembalian dana diterbitkan",
       "swapPartiallySuccessful": "Swap sebagian berhasil",
       "swapSuccessful": "Swap berhasil"
@@ -132,8 +139,10 @@
       "signatureRejected": "Tanda tangan Anda diperlukan untuk menyelesaikan transaksi. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} di {{chainName}} tetap ada di dompet Anda.",
       "slippageThreshold": "Slippage lebih besar dari ambang batas yang ditentukan. Silakan minta rute baru untuk mendapatkan penawaran baru.",
       "transactionCanceled": "Transaksi dibatalkan.",
+      "transactionExpired": "Ketinggian blok telah melebihi batas maksimum yang diperbolehkan atau blockhash tidak lagi cukup baru.",
       "transactionFailed": "Silakan periksa block explorer untuk informasi lebih lanjut.",
       "transactionNotSent": "Transaksi tidak terkirim.",
+      "transactionSimulationFailed": "Transaksi tidak dapat dieksekusi dalam simulasi.",
       "unknown": "Silakan coba lagi atau hubungi bagian dukungan.",
       "walletChangedDuringExecution": "Alamat dompet yang meminta penawaran tidak cocok dengan alamat dompet yang mencoba menandatangani transaksi ini. Harap gunakan alamat dompet yang sama untuk digunakan di seluruh transaksi."
     },
@@ -149,7 +158,9 @@
       "signatureRejected": "Tanda tangan diperlukan",
       "slippageNotMet": "Kondisi slippage tidak terpenuhi",
       "transactionCanceled": "Transaksi dibatalkan",
+      "transactionExpired": "Transaksi berakhir",
       "transactionFailed": "Transaksi gagal",
+      "transactionSimulationFailed": "Verifikasi transaksi gagal",
       "transactionUnderpriced": "Transaksi di bawah harga",
       "transactionUnprepared": "Tidak dapat menguraikan transaksi",
       "unknown": "Terjadi kesalahan",
@@ -161,16 +172,20 @@
     }
   },
   "tooltip": {
-    "estimatedTime": "Perkiraan waktu eksekusi swap dalam hitungan menit.",
+    "deselectAll": "Hapus semua",
+    "estimatedTime": "",
+    "feeCollection": "",
+    "minReceived": "Perkiraan jumlah minimum dapat berubah hingga transaksi swapping/bridging ditandatangani. Untuk transfer 2 langkah, ini berlaku hingga transaksi langkah kedua ditandatangani.",
     "notFound": {
       "text": "Kami tidak dapat menemukan halaman ini.",
       "title": "404"
     },
     "numberOfSteps": "Sejumlah langkah swap. Setiap langkah dapat berisi 1-2 transaksi yang memerlukan tanda tangan.",
+    "priceImpact": "Perkiraan perbedaan nilai antara token sumber dan tujuan.",
     "progressToNextUpdate": "Data yang ditampilkan akan disegarkan secara otomatis setelah {{value}} detik. Klik di sini untuk memperbarui secara manual.",
-    "settingsModified": "Pengaturan (diubah)",
     "selectAll": "Pilih semua",
-    "deselectAll": "Hapus semua"
+    "settingsModified": "Pengaturan (diubah)",
+    "slippage": "Perbedaan persentase maksimum antara harga yang diharapkan dan harga sebenarnya saat transfer dilakukan. Nilai ini dapat diubah dalam pengaturan."
   },
   "main": {
     "allTokens": "Semua Token",
@@ -180,21 +195,22 @@
     "depositStepDetails": "Dapatkan melalui {{tool}}",
     "featuredTokens": "Token unggulan",
     "fees": {
+      "defaultIntegrator": "",
       "estimated": "estimasi biaya",
-      "networkEstimated": "Perkiraan biaya jaringan:",
-      "networkPaid": "Biaya jaringan berbayar:",
+      "integrator": "",
+      "network": "Biaya jaringan",
       "paid": "biaya yang dibayar",
-      "providerEstimated": "Perkiraan biaya penyedia:",
-      "providerPaid": "Perkiraan biaya penyedia:"
+      "provider": "Biaya penyedia"
     },
     "from": "Dari",
-    "fromAmount": "Anda membayar",
-    "gasCost": "Biaya Gas",
     "inProgress": "dalam proses",
+    "maxSlippage": "Slip maksimum",
+    "minReceived": "Minimal. diterima",
     "myTokens": "Token saya",
     "onChain": "di {{chainName}}",
     "ownedBy": "Dimiliki oleh",
     "popularTokens": "Token populer",
+    "priceImpact": "Dampak terhadap harga",
     "process": {
       "bridge": {
         "actionRequired": "Silakan tandatangani transaksi ini",
@@ -243,30 +259,23 @@
     "sentToAddress": "Dikirim ke {{address}}",
     "stepBridge": "Bridge",
     "stepBridgeAndBuy": "Bridge dan beli",
+    "stepBridgeAndDeposit": "",
     "stepDetails": "{{tool}} melalui LI.FI",
     "stepSwap": "Swap",
     "stepSwapAndBridge": "Swap dan bridge",
     "stepSwapAndBuy": "Swap dan beli",
+    "stepSwapAndDeposit": "",
     "supportId": "ID dukungan",
     "swapStepDetails": "Swap di {{chain}} melalui {{tool}}",
     "tags": {
       "cheapest": "Pengembalian terbaik",
-      "fastest": "Tercepat",
-      "insurable": "Dapat diasuransikan",
-      "insurance": "Asuransi",
-      "insured": "Diasuransikan"
+      "fastest": "Tercepat"
     },
     "to": "Kepada",
     "tokenOnChain": "{{tokenSymbol}} di {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} di {{chainName}}",
     "tokenSearch": "Cari berdasarkan nama atau alamat token",
     "valueLoss": "Kehilangan nilai"
-  },
-  "insurance": {
-    "bridgeExploits": "Malfungsi jembatan, peretasan, atau eksploitasi",
-    "insure": "Asuransikan <0>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</0> dalam perjalanan.",
-    "insured": "Anda telah mengasuransikan <0>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</0> dalam perjalanan:",
-    "slippageError": "Kesalahan dalam slippage untuk token yang diterima"
   },
   "settings": {
     "theme": "Tema",
@@ -279,7 +288,7 @@
       "title": "Harga gas"
     },
     "routePriority": "Prioritas rute",
-    "slippage": "Slippage",
+    "slippage": "Slip maksimum",
     "custom": "Kustom",
     "resetSettings": "Anda menggunakan pengaturan khusus yang dapat memengaruhi jumlah atau pengurutan rute yang tersedia."
   },
