@@ -97,6 +97,7 @@ export const LayoutControls = () => {
   }, [config?.theme?.container, setSelectedLayoutId]);
 
   const handleSelectChange = (event: SelectChangeEvent<any>) => {
+    setHeightValue(undefined);
     const newLayoutId = event.target.value;
 
     switch (newLayoutId) {
