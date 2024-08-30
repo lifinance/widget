@@ -4,18 +4,20 @@
     "title": "言語"
   },
   "format": {
-    "currency": "{{value, currency(currency: USD)}}",
-    "number": "{{value, number(maximumFractionDigits: 9)}}"
+    "currency": "",
+    "number": "{{value, number(maximumFractionDigits: 9)}}",
+    "percent": ""
   },
   "button": {
     "auto": "OSに同期",
     "bookmark": "ブックマーク",
     "bookmarks": "ブックマーク",
     "bridge": "ブリッジ",
+    "bridgeReview": "",
     "buy": "購入",
-    "buyNow": "今すぐ購入",
     "cancel": "キャンセル",
     "changeWallet": "ウォレットを変更",
+    "checkoutReview": "",
     "close": "閉じる",
     "confirm": "確認する",
     "connectWallet": "ウォレットを接続",
@@ -24,6 +26,8 @@
     "copyAddress": "アドレスをコピーする",
     "dark": "ダーク",
     "delete": "削除する",
+    "deposit": "",
+    "depositReview": "",
     "disconnect": "接続を解除",
     "done": "完了！",
     "exchange": "スワップ",
@@ -36,14 +40,12 @@
     "removeTransaction": "トランザクションを削除",
     "reset": "リセット",
     "resetSettings": "設定をリセット",
-    "reviewBridge": "ブリッジを確認する",
-    "reviewPurchase": "購入内容を確認",
-    "reviewSwap": "スワップの内容確認",
     "seeDetails": "詳細を表示",
     "showAll": "すべて表示する",
     "startBridging": "ブリッジを開始",
     "startSwapping": "スワップを開始",
     "swap": "スワップ",
+    "swapReview": "",
     "tryAgain": "再試行する",
     "viewCoverage": "適用範囲を表示",
     "viewOnExplorer": "エクスプローラーで表示"
@@ -53,15 +55,18 @@
     "bookmarkedWallets": "ブックマークされたウォレット",
     "bridge": "ブリッジ",
     "checkout": "支払い",
+    "checkoutDetails": "",
+    "deposit": "",
+    "depositDetails": "",
     "exchange": "スワップ",
     "from": "交換元",
     "gas": "ガス",
     "payWith": "お支払い方法",
-    "purchase": "購入する",
-    "purchaseDetails": "購入の明細",
+    "receive": "",
     "recentWallets": "最近使ったウォレット",
     "selectChain": "チェーン選択",
     "selectWallet": "ウォレットを選択",
+    "send": "",
     "sendToWallet": "ウォレットに送金する",
     "settings": "設定",
     "swap": "スワップ",
@@ -69,7 +74,8 @@
     "transactionDetails": "トランザクション詳細",
     "transactionHistory": "トランザクション履歴",
     "walletConnected": "ウォレットに接続",
-    "youGet": "スワップルート確認"
+    "youGet": "スワップルート確認",
+    "youPay": ""
   },
   "info": {
     "message": {
@@ -82,7 +88,7 @@
       "routeNotFound": "考えられる理由：流動性が低い、選択された金額が低すぎる、ガスコストが高すぎる、選択した組み合わせがルート上にない、以上の理由の複合。"
     },
     "title": {
-      "autoRefuel": "ガス代を入手",
+      "autoRefuel": "",
       "emptyActiveTransactions": "アクティブなトランザクションはありません",
       "emptyTransactionHistory": "最近のトランザクションはありません",
       "routeNotFound": "利用可能なルートがありません"
@@ -90,14 +96,15 @@
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": "トランザクションを完了させようとしましたが、 {{tool}} 上の {{tokenSymbol}} トークンの流動性が不足していました。",
+      "exchangePartiallySuccessful": "",
       "exchangeSuccessful": "現在、ウォレット {{walletAddress}} に {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} （{{chainName}} チェーン）あります",
-      "purchaseSuccessful": "ウォレット {{walletAddress}} で {{chainName}} チェーンの {{assetName}} を保有しています。"
+      "checkoutSuccessful": ""
     },
     "title": {
       "bridgePartiallySuccessful": "ブリッジは部分的に成功しました",
       "bridgeSuccessful": "ブリッジ成功",
-      "purchaseSuccessful": "購入完了",
+      "depositSuccessful": "",
+      "checkoutSuccessful": "",
       "refundIssued": "払い戻しが発行されました",
       "swapPartiallySuccessful": "スワップは部分的に成功しました",
       "swapSuccessful": "スワップ成功"
@@ -132,8 +139,10 @@
       "signatureRejected": "トランザクションを完了するには署名が必要です。{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}（{{chainName}}）はウォレットに残ります。",
       "slippageThreshold": "スリップページが定義されたしきい値よりも大きいです。新しい見積もりをリクエストしてください。",
       "transactionCanceled": "トランザクションがキャンセルされました。",
+      "transactionExpired": "",
       "transactionFailed": "詳細については、ブロックエクスプローラをご確認ください。",
       "transactionNotSent": "トランザクションは送信されませんでした。",
+      "transactionSimulationFailed": "",
       "unknown": "再度お試しいただくか、サポートまでお問い合わせください",
       "walletChangedDuringExecution": "見積もりを要求したウォレットアドレスがトランザクションに署名しようとしているウォレットアドレスと一致しません。 トランザクションの実行中は、同じウォレットアドレスが使用されていることを確認してください。"
     },
@@ -149,7 +158,9 @@
       "signatureRejected": "署名が必要です",
       "slippageNotMet": "スリッページの条件が満たされていません",
       "transactionCanceled": "トランザクションはキャンセルされました",
+      "transactionExpired": "",
       "transactionFailed": "トランザクションが失敗しました",
+      "transactionSimulationFailed": "",
       "transactionUnderpriced": "トランザクションは通常より低価格です",
       "transactionUnprepared": "トランザクションの準備ができませんでした",
       "unknown": "何らかのエラーが発生しました",
@@ -161,16 +172,20 @@
     }
   },
   "tooltip": {
-    "estimatedTime": "分単位の推定実行時間",
+    "deselectAll": "すべての選択を解除",
+    "estimatedTime": "",
+    "feeCollection": "",
+    "minReceived": "",
     "notFound": {
       "text": "このページは見つかりませんでした。",
       "title": "404"
     },
-    "numberOfSteps": "交換の合計ステップ数。各ステップに署名が必要なトランザクションが1-2個含まれます。",
+    "numberOfSteps": "",
+    "priceImpact": "",
     "progressToNextUpdate": "見積もりは {{value}} 秒後に更新されます。<0/>今すぐ更新するにはここをクリックしてください。",
-    "settingsModified": "設定 (変更済み)",
     "selectAll": "すべてを選択",
-    "deselectAll": "すべての選択を解除"
+    "settingsModified": "設定 (変更済み)",
+    "slippage": ""
   },
   "main": {
     "allTokens": "すべてのトークン",
@@ -180,21 +195,22 @@
     "depositStepDetails": "{{tool}} 経由で入金する",
     "featuredTokens": "注目のトークン",
     "fees": {
-      "estimated": "推定手数料",
-      "networkEstimated": "推定ネットワーク手数料:",
-      "networkPaid": "支払い済みネットワーク手数料:",
-      "paid": "支払い済み手数料",
-      "providerEstimated": "推定プロバイダ手数料:",
-      "providerPaid": "支払い済みプロバイダ手数料:"
+      "defaultIntegrator": "",
+      "estimated": "",
+      "integrator": "",
+      "network": "",
+      "paid": "",
+      "provider": ""
     },
     "from": "From",
-    "fromAmount": "支払い金額",
-    "gasCost": "ガス代",
     "inProgress": "進行中",
+    "maxSlippage": "",
+    "minReceived": "",
     "myTokens": "自分のトークン",
     "onChain": "（{{chainName}}）",
     "ownedBy": "所有者",
     "popularTokens": "人気のトークン",
+    "priceImpact": "",
     "process": {
       "bridge": {
         "actionRequired": "トランザクションに署名してください",
@@ -243,30 +259,23 @@
     "sentToAddress": "{{address}} に送信しました",
     "stepBridge": "ブリッジ",
     "stepBridgeAndBuy": "ブリッジと購入",
+    "stepBridgeAndDeposit": "",
     "stepDetails": "LI.FI経由の{{tool}}",
     "stepSwap": "スワップ",
     "stepSwapAndBridge": "スワップとブリッジ",
     "stepSwapAndBuy": "スワップと購入",
+    "stepSwapAndDeposit": "",
     "supportId": "サポートID",
     "swapStepDetails": "{{chain}} で {{tool}} 経由のスワップ",
     "tags": {
       "cheapest": "最良",
-      "fastest": "最速",
-      "insurable": "保険可",
-      "insurance": "保険",
-      "insured": "保険済み"
+      "fastest": "最速"
     },
     "to": "To",
     "tokenOnChain": "{{chainName}} の {{tokenSymbol}}",
     "tokenOnChainAmount": "{{chainName}} の {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}",
     "tokenSearch": "トークン名またはアドレスで検索",
     "valueLoss": "損失額"
-  },
-  "insurance": {
-    "bridgeExploits": "ブリッジの不具合、ハッキング、またはエクスプロイト",
-    "insure": "<0>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</0>の送金処理に保険をかける",
-    "insured": "<0>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</0>の送金処理に保険をかけました",
-    "slippageError": "トークン受取り時のスリッページエラー"
   },
   "settings": {
     "theme": "テーマ",
@@ -279,7 +288,7 @@
       "title": "ガス価格"
     },
     "routePriority": "ルート優先度",
-    "slippage": "スリッページ",
+    "slippage": "",
     "custom": "カスタム設定",
     "resetSettings": "利用可能なルートの数とソートに影響する可能性があるカスタム設定を使用しています。"
   },
