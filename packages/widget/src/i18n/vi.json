@@ -4,18 +4,20 @@
     "title": "Ngôn ngữ"
   },
   "format": {
-    "currency": "{{value, currency(currency: USD)}}",
-    "number": "{{value, number(maximumFractionDigits: 9)}}"
+    "currency": "",
+    "number": "{{value, number(maximumFractionDigits: 9)}}",
+    "percent": ""
   },
   "button": {
     "auto": "Tự động",
     "bookmark": "Đánh dấu",
     "bookmarks": "Dấu trang",
     "bridge": "Cầu",
+    "bridgeReview": "",
     "buy": "Mua",
-    "buyNow": "Mua ngay bây giờ",
     "cancel": "Huỷ bỏ",
     "changeWallet": "Thay đổi ví",
+    "checkoutReview": "",
     "close": "Đóng",
     "confirm": "Xác nhận",
     "connectWallet": "Kết nối ví",
@@ -24,6 +26,8 @@
     "copyAddress": "Sao chép địa chỉ",
     "dark": "Tối",
     "delete": "Xóa",
+    "deposit": "",
+    "depositReview": "",
     "disconnect": "Ngắt kết nối",
     "done": "Hoàn thành",
     "exchange": "Hoán đổi",
@@ -36,14 +40,12 @@
     "removeTransaction": "Xoá giao dịch",
     "reset": "Đặt lại",
     "resetSettings": "Đặt lại cài đặt",
-    "reviewBridge": "Xem xét cầu",
-    "reviewPurchase": "Đánh giá thanh toán",
-    "reviewSwap": "Xem lại Swap",
     "seeDetails": "Xem chi tiết",
     "showAll": "Hiển thị tất cả",
     "startBridging": "Bắt đầu đi cầu",
     "startSwapping": "Bắt đầu Swap",
     "swap": "Swap",
+    "swapReview": "",
     "tryAgain": "Thử lại",
     "viewCoverage": "Xem phạm vi bảo hiểm",
     "viewOnExplorer": "Xem tại Explorer"
@@ -53,15 +55,18 @@
     "bookmarkedWallets": "Ví được đánh dấu",
     "bridge": "Cầu",
     "checkout": "Thanh toán",
+    "checkoutDetails": "",
+    "deposit": "",
+    "depositDetails": "",
     "exchange": "Hoán đổi",
     "from": "Swap từ",
     "gas": "Gas",
     "payWith": "Thanh toán bằng",
-    "purchase": "Thanh toán",
-    "purchaseDetails": "Thông tin chi tiết",
+    "receive": "",
     "recentWallets": "Các ví đã dùng gần đây",
     "selectChain": "Chọn chain",
     "selectWallet": "Chọn ví",
+    "send": "",
     "sendToWallet": "Chuyển đến ví",
     "settings": "Cài đặt",
     "swap": "Swap",
@@ -69,7 +74,8 @@
     "transactionDetails": "Chi tiết giao dịch",
     "transactionHistory": "Lịch sử giao dịch",
     "walletConnected": "Wallet connected",
-    "youGet": "Bạn nhận"
+    "youGet": "Bạn nhận",
+    "youPay": ""
   },
   "info": {
     "message": {
@@ -82,7 +88,7 @@
       "routeNotFound": "Lý do cho điều đó có thể là: tính thanh khoản thấp, số tiền được chọn quá thấp, chi phí gas quá cao hoặc không có lộ trình cho cặp giao dịch đã chọn."
     },
     "title": {
-      "autoRefuel": "Thiết lập Gas",
+      "autoRefuel": "",
       "emptyActiveTransactions": "Không có thông tin giao dịch hiện tại",
       "emptyTransactionHistory": "Chưa có giao dịch",
       "routeNotFound": "Không có đường đi"
@@ -90,14 +96,15 @@
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": "Chúng tôi đã cố gắng hoàn thành việc hoán đổi, nhưng {{tool}} đã cạn thanh khoản cho token {{tokenSymbol}}.",
+      "exchangePartiallySuccessful": "",
       "exchangeSuccessful": "Hiện tại {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} trong ví {{walletAddress}} tại {{chainName}} chain.",
-      "purchaseSuccessful": "Hiện tại bạn đang nắm giữ {{assetName}} tại ví {{walletAddress}} trên chain {{chainName}}."
+      "checkoutSuccessful": ""
     },
     "title": {
       "bridgePartiallySuccessful": "Swap thành công một phần",
       "bridgeSuccessful": "Bridge thành công",
-      "purchaseSuccessful": "Mua thành công",
+      "depositSuccessful": "",
+      "checkoutSuccessful": "",
       "refundIssued": "Đã Refund",
       "swapPartiallySuccessful": "Swap thành công một phần",
       "swapSuccessful": "Swap thành công"
@@ -132,8 +139,10 @@
       "signatureRejected": "Cần có chữ ký để hoàn tất giao dịch. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} tại {{chainName}} vẫn còn trong ví của bạn.",
       "slippageThreshold": "Độ trượt giá lớn hơn ngưỡng xác định. Vui lòng yêu cầu một tuyến đường mới để nhận báo giá mới.",
       "transactionCanceled": "Giao dịch đã bị huỷ.",
+      "transactionExpired": "",
       "transactionFailed": "Vui lòng kiểm tra block explorer để biết thêm thông tin.",
       "transactionNotSent": "Giao dịch không được gửi.",
+      "transactionSimulationFailed": "",
       "unknown": "Vui lòng thử lại hoặc liên hệ hỗ trợ.",
       "walletChangedDuringExecution": "Địa chỉ ví yêu cầu báo giá không khớp với địa chỉ ví đang cố gắng ký giao dịch. Vui lòng đảm bảo sử dụng cùng một địa chỉ ví trong toàn bộ quá trình thực hiện giao dịch."
     },
@@ -149,7 +158,9 @@
       "signatureRejected": "Yêu cầu chữ ký",
       "slippageNotMet": "Điều kiện trượt giá không được đáp ứng",
       "transactionCanceled": "Giao dịch bị huỷ",
+      "transactionExpired": "",
       "transactionFailed": "Giao dịch không thành công",
+      "transactionSimulationFailed": "",
       "transactionUnderpriced": "Giao dịch bị định giá thấp",
       "transactionUnprepared": "Không thể tải giao dịch",
       "unknown": "Xảy ra lỗi",
@@ -161,16 +172,20 @@
     }
   },
   "tooltip": {
-    "estimatedTime": "Thời gian thực hiện lệnh swap (phút).",
+    "deselectAll": "Bỏ chọn tất cả",
+    "estimatedTime": "",
+    "feeCollection": "",
+    "minReceived": "",
     "notFound": {
       "text": "Chúng tôi không thể tìm thấy trang này.",
       "title": "404"
     },
-    "numberOfSteps": "Một số bước swap. Mỗi bước có thể chứa 1-2 giao dịch yêu cầu chữ ký.",
+    "numberOfSteps": "",
+    "priceImpact": "",
     "progressToNextUpdate": "Thông tin hiển thị sẽ tự động làm mới sau {{value}} giây. Bấm vào đây để cập nhật thủ công.",
-    "settingsModified": "Thiết lập (Đã điều chỉnh)",
     "selectAll": "Chọn tất cả",
-    "deselectAll": "Bỏ chọn tất cả"
+    "settingsModified": "Thiết lập (Đã điều chỉnh)",
+    "slippage": ""
   },
   "main": {
     "allTokens": "Tất cả mã thông báo",
@@ -180,21 +195,22 @@
     "depositStepDetails": "Nạp thông qua {{tool}}",
     "featuredTokens": "Featured tokens",
     "fees": {
-      "estimated": "chi phí ước tính",
-      "networkEstimated": "Phí mạng lưới ước tính:",
-      "networkPaid": "Phí mạng phải trả:",
-      "paid": "phí đã trả",
-      "providerEstimated": "Phí nhà cung cấp ước tính:",
-      "providerPaid": "Phí nhà cung cấp phải trả:"
+      "defaultIntegrator": "",
+      "estimated": "",
+      "integrator": "",
+      "network": "",
+      "paid": "",
+      "provider": ""
     },
     "from": "Từ",
-    "fromAmount": "Yêu cầu",
-    "gasCost": "Phí Gas",
     "inProgress": "đang xử lý",
+    "maxSlippage": "",
+    "minReceived": "",
     "myTokens": "Mã thông báo của tôi",
     "onChain": "tại {{chainName}}",
     "ownedBy": "Được sở hữu bởi",
     "popularTokens": "Mã thông báo phổ biến",
+    "priceImpact": "",
     "process": {
       "bridge": {
         "actionRequired": "Vui lòng ký hoàn thành giao dịch",
@@ -243,30 +259,23 @@
     "sentToAddress": "Gửi đến {{address}}",
     "stepBridge": "Cầu",
     "stepBridgeAndBuy": "Chuyển và mua",
+    "stepBridgeAndDeposit": "",
     "stepDetails": "{{tool}} thông qua LI.FI",
     "stepSwap": "Swap",
     "stepSwapAndBridge": "Swap và Bridge",
     "stepSwapAndBuy": "Hoán đổi và mua",
+    "stepSwapAndDeposit": "",
     "supportId": "Mã ID yêu cầu hỗ trợ",
     "swapStepDetails": "Swap tại {{chain}} thông qua {{tool}}",
     "tags": {
       "cheapest": "Lợi nhuận tốt nhất",
-      "fastest": "Nhanh nhất",
-      "insurable": "Bảo hiểm",
-      "insurance": "Bảo hiểm",
-      "insured": "An toàn"
+      "fastest": "Nhanh nhất"
     },
     "to": "Đến",
     "tokenOnChain": "{{tokenSymbol}} tại {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} tại {{chainName}}",
     "tokenSearch": "Tìm kiếm bằng tên token hoặc địa chỉ",
     "valueLoss": "Bạn sẽ mất"
-  },
-  "insurance": {
-    "bridgeExploits": "Cầu trục trặc, bị hack hoặc bị khai thác",
-    "insure": "Bảo hiểm <0>{{amount, number(maximumFractionDigits: 9)}}{{tokenSymbol}}</0> trong quá trình vận chuyển.",
-    "insured": "Bạn đã bảo hiểm <0>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</0> trong quá trình vận chuyển:",
-    "slippageError": "Lỗi trượt giá đối với token nhận được"
   },
   "settings": {
     "theme": "Giao diện",
@@ -279,7 +288,7 @@
       "title": "Giá gas"
     },
     "routePriority": "Tuyền đường ưu tiên",
-    "slippage": "Trượt giá",
+    "slippage": "",
     "custom": "Tuỳ chỉnh",
     "resetSettings": "Bạn đang sử dụng cài đặt tùy chỉnh có thể ảnh hưởng đến số lượng hoặc cách sắp xếp các tuyến đường có sẵn."
   },
