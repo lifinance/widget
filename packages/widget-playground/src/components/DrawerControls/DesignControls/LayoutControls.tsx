@@ -1,6 +1,6 @@
 import { defaultMaxHeight } from '@lifi/widget';
 import { MenuItem, type SelectChangeEvent } from '@mui/material';
-import type { CSSProperties } from 'react';
+import type { CSSProperties, FocusEventHandler } from 'react';
 import { type ChangeEventHandler, useEffect, useId, useState } from 'react';
 import {
   type Layout,
@@ -96,11 +96,8 @@ export const LayoutControls = () => {
     setSelectedLayoutId(getLayoutMode(config?.theme?.container));
   }, [config?.theme?.container, setSelectedLayoutId]);
 
-  const handleSelectChange = (event: SelectChangeEvent<any>) => {
-    setHeightValue(undefined);
-    const newLayoutId = event.target.value;
-
-    switch (newLayoutId) {
+  const setInitialLayout = (layoutId: Layout) => {
+    switch (layoutId) {
       case 'restricted-height':
         setHeader();
 
@@ -164,6 +161,21 @@ export const LayoutControls = () => {
         delete defaultContainer.maxHeight;
 
         setContainer(defaultContainer);
+    }
+  };
+
+  const handleSelectChange = (event: SelectChangeEvent<any>) => {
+    setHeightValue(undefined);
+    const newLayoutId = event.target.value;
+    setInitialLayout(newLayoutId);
+  };
+
+  const handleInputBlur: FocusEventHandler<HTMLInputElement> = (e) => {
+    const valueConvertedToNumber = parseInt(e.target.value, 10);
+
+    if (valueConvertedToNumber < defaultMaxHeight) {
+      setHeightValue(undefined);
+      setInitialLayout(selectedLayoutId);
     }
   };
 
@@ -261,6 +273,7 @@ export const LayoutControls = () => {
             value={heightValue ?? ''}
             placeholder={`${defaultMaxHeight}`}
             onChange={handleInputChange}
+            onBlur={handleInputBlur}
           />
         </CardRowContainer>
       ) : null}
