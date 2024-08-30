@@ -4,18 +4,20 @@
     "title": "Idioma"
   },
   "format": {
-    "currency": "{{value, currency(currency: USD)}}",
-    "number": "{{value, number(maximumFractionDigits: 9)}}"
+    "currency": "{{value, currencyExt(currency: USD)}}",
+    "number": "{{value, number(maximumFractionDigits: 9)}}",
+    "percent": "{{value, percent(maximumFractionDigits: 2)}}"
   },
   "button": {
     "auto": "Automático",
     "bookmark": "Favorito",
     "bookmarks": "Favoritos",
     "bridge": "Ponte",
+    "bridgeReview": "Revisar ponte",
     "buy": "Comprar",
-    "buyNow": "Comprar agora",
     "cancel": "Cancelar",
     "changeWallet": "Alterar carteira",
+    "checkoutReview": "Revisar compra",
     "close": "Fechar",
     "confirm": "Confirmar",
     "connectWallet": "Conectar carteira",
@@ -24,6 +26,8 @@
     "copyAddress": "Copiar endereço",
     "dark": "Escuro",
     "delete": "Apagar",
+    "deposit": "Depósito",
+    "depositReview": "Revisar depósito",
     "disconnect": "Desconectar",
     "done": "Concluído",
     "exchange": "Conversão",
@@ -36,14 +40,12 @@
     "removeTransaction": "Remover transação",
     "reset": "Redefinir",
     "resetSettings": "Redefinir as configurações",
-    "reviewBridge": "Revisar ponte",
-    "reviewPurchase": "Revisar compra",
-    "reviewSwap": "Rever conversão",
     "seeDetails": "Ver detalhes",
     "showAll": "Mostrar tudo",
     "startBridging": "Iniciar ponte",
     "startSwapping": "Iniciar conversão",
     "swap": "Conversão",
+    "swapReview": "Revisar conversão",
     "tryAgain": "Tente novamente",
     "viewCoverage": "Ver cobertura",
     "viewOnExplorer": "Ver no explorador"
@@ -53,15 +55,18 @@
     "bookmarkedWallets": "Carteiras favoritas",
     "bridge": "Ponte",
     "checkout": "Finalizar",
+    "checkoutDetails": "Detalhes de pagamento",
+    "deposit": "Depósito",
+    "depositDetails": "Detalhes do depósito",
     "exchange": "Conversão",
     "from": "Converter a partir de",
     "gas": "Gás",
     "payWith": "Pagar com",
-    "purchase": "Compra",
-    "purchaseDetails": "Detalhes da compra",
+    "receive": "Receber",
     "recentWallets": "Carteiras recentes",
     "selectChain": "Selecionar uma rede",
     "selectWallet": "Selecionar sua carteira",
+    "send": "Enviar",
     "sendToWallet": "Enviar para a Carteira",
     "settings": "Configurações",
     "swap": "Conversão",
@@ -69,7 +74,8 @@
     "transactionDetails": "Detalhes da transação",
     "transactionHistory": "Histórico de transações",
     "walletConnected": "Carteira conectada",
-    "youGet": "Você recebe"
+    "youGet": "Você recebe",
+    "youPay": "Você paga"
   },
   "info": {
     "message": {
@@ -82,7 +88,7 @@
       "routeNotFound": "Razões para isso podem ser: baixa liquidez, valor selecionado é muito baixo, os custos com gás são muito elevados ou não há rotas para a combinação selecionada."
     },
     "title": {
-      "autoRefuel": "Obter gás",
+      "autoRefuel": "Obtenha gás {{chainName}}",
       "emptyActiveTransactions": "Nenhuma transação ativa",
       "emptyTransactionHistory": "Nenhuma transação recente",
       "routeNotFound": "Nenhuma rota disponível"
@@ -90,14 +96,15 @@
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": "Tentamos completar a transação, mas {{tool}} ficou sem liquidez com o token {{tokenSymbol}}.",
+      "exchangePartiallySuccessful": "Tentamos completar a transação, mas {{tool}} não conseguimos prosseguir devido a configurações de diferença no valor ou falta de liquidez para o token {{tokenSymbol}}.",
       "exchangeSuccessful": "Agora há {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} na carteira {{walletAddress}} na rede {{chainName}}.",
-      "purchaseSuccessful": "Agora você tem {{assetName}} na carteira {{walletAddress}} na cadeia {{chainName}}"
+      "checkoutSuccessful": "Agora você possui {{assetName}} na carteira {{walletAddress}} na cadeia {{chainName}}."
     },
     "title": {
       "bridgePartiallySuccessful": "Ponte parcialmente concluída",
       "bridgeSuccessful": "Ponte bem sucedida",
-      "purchaseSuccessful": "Compra efetuada com sucesso",
+      "depositSuccessful": "Depósito realizado com sucesso",
+      "checkoutSuccessful": "Compra efetuada com sucesso",
       "refundIssued": "Reembolso emitido",
       "swapPartiallySuccessful": "Conversão parcialmente bem sucedida",
       "swapSuccessful": "Conversão bem sucedida"
@@ -132,8 +139,10 @@
       "signatureRejected": "Sua assinatura é necessária para completar a transação. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} em {{chainName}} permanece na sua carteira.",
       "slippageThreshold": "A derrapagem é maior do que o limite definido. Solicite uma nova rota para obter uma nova cotação.",
       "transactionCanceled": "A transação foi cancelada.",
+      "transactionExpired": "O tamanho do bloco excedeu o limite máximo permitido ou o blockhash não é mais recente o suficiente.",
       "transactionFailed": "Por favor, verifique o explorador de blocos para mais informações.",
       "transactionNotSent": "A transação não foi enviada.",
+      "transactionSimulationFailed": "A transação não pôde ser executada na simulação.",
       "unknown": "Por favor, tente novamente ou fale com o suporte.",
       "walletChangedDuringExecution": "O endereço da carteira que requisitou a cotação não corresponde ao endereço da carteira tentando assinar a transação. Por favor, certifique-se de que o mesmo endereço de carteira é usado durante toda a execução da transação."
     },
@@ -149,7 +158,9 @@
       "signatureRejected": "Necessário assinatura",
       "slippageNotMet": "Condições de tolerância a discrepâncias não foram atendidas",
       "transactionCanceled": "Transação cancelada",
+      "transactionExpired": "Transação expirada",
       "transactionFailed": "Transação falhou",
+      "transactionSimulationFailed": "Simulação da transação falhou",
       "transactionUnderpriced": "Transação está abaixo do valor",
       "transactionUnprepared": "Não foi possível preparar a transação",
       "unknown": "Algo deu errado",
@@ -161,16 +172,20 @@
     }
   },
   "tooltip": {
-    "estimatedTime": "Tempo de execução da conversão estimado em minutos.",
+    "deselectAll": "Desmarcar tudo",
+    "estimatedTime": "Tempo estimado para completar a transação de conversão ou ponte, excluindo a troca de rede e aprovação de token.",
+    "feeCollection": "A taxa é aplicada aos pares de tokens selecionados e garante a melhor experiência com {{tool}}.",
+    "minReceived": "O valor mínimo estimado pode ser alterado até que a transação de conversão/ponte seja assinada. Para transferências em duas etapas, isto aplica-se até que a segunda etapa da transação seja assinada.",
     "notFound": {
       "text": "Não conseguimos encontrar esta página.",
       "title": "404"
     },
-    "numberOfSteps": "Um número de passos para a conversão. Cada etapa pode conter 1-2 transações que requerem uma assinatura.",
+    "numberOfSteps": "Cada etapa da conversão pode conter 1-2 transações que requerem assinatura.",
+    "priceImpact": "A diferença de valor estimado entre os tokens de origem e de destino.",
     "progressToNextUpdate": "Os dados exibidos serão atualizados automaticamente após {{value}} segundos. Clique aqui para atualizar manualmente.",
-    "settingsModified": "Configurações (modificado)",
     "selectAll": "Selecionar tudo",
-    "deselectAll": "Desmarcar tudo"
+    "settingsModified": "Configurações (modificado)",
+    "slippage": "A diferença percentual máxima entre o preço esperado, e o preço atual pelo qual a transferência é executada. Esse valor pode ser alterado nas configurações."
   },
   "main": {
     "allTokens": "Todos os tokens",
@@ -180,21 +195,22 @@
     "depositStepDetails": "Depositar via {{tool}}",
     "featuredTokens": "Tokens em destaque",
     "fees": {
-      "estimated": "taxas estimadas",
-      "networkEstimated": "Taxas de rede estimadas:",
-      "networkPaid": "Taxas pagas de rede:",
-      "paid": "taxas pagas",
-      "providerEstimated": "Taxas estimadas do provedor:",
-      "providerPaid": "Tarifas pagas do provedor:"
+      "defaultIntegrator": "Taxa de integrador",
+      "estimated": "custos estimados",
+      "integrator": "Taxa da(o) {{tool}}",
+      "network": "Custo da rede",
+      "paid": "custos pagos",
+      "provider": "Taxa de provedor"
     },
     "from": "De",
-    "fromAmount": "Você paga",
-    "gasCost": "Custo do gás",
     "inProgress": "em andamento",
+    "maxSlippage": "Diferença máxima",
+    "minReceived": "Mínimo recebido",
     "myTokens": "Meus tokens",
     "onChain": "em {{chainName}}",
     "ownedBy": "Possuído por",
     "popularTokens": "Tokens populares",
+    "priceImpact": "Impacto no preço",
     "process": {
       "bridge": {
         "actionRequired": "Por favor, assine a transação",
@@ -243,30 +259,23 @@
     "sentToAddress": "Enviar para",
     "stepBridge": "Ponte",
     "stepBridgeAndBuy": "Transfira e compre",
+    "stepBridgeAndDeposit": "Ponte e depósito",
     "stepDetails": "{{tool}} via LI.FI",
     "stepSwap": "Conversão",
     "stepSwapAndBridge": "Converter e enviar pela ponte",
     "stepSwapAndBuy": "Converta e compre",
+    "stepSwapAndDeposit": "Converter e depositar",
     "supportId": "ID de suporte",
     "swapStepDetails": "Converter na {{chain}} via {{tool}}",
     "tags": {
       "cheapest": "Melhor retorno",
-      "fastest": "Mais rápido",
-      "insurable": "Assegurável",
-      "insurance": "Seguro",
-      "insured": "Segurado"
+      "fastest": "Mais rápido"
     },
     "to": "Para",
     "tokenOnChain": "{{tokenSymbol}} na {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} na {{chainName}}",
     "tokenSearch": "Pesquisar pelo nome do token ou endereço",
     "valueLoss": "Perda de Valor"
-  },
-  "insurance": {
-    "bridgeExploits": "Mau funcionamento da ponte, hacks ou exploits",
-    "insure": "Contratar seguro para <0>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</0> em trânsito.",
-    "insured": "Você contratou seguro para <0>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</0> em trânsito:",
-    "slippageError": "Erro na discrepância para tokens recebidos"
   },
   "settings": {
     "theme": "Tema",
@@ -279,7 +288,7 @@
       "title": "Preço do gás"
     },
     "routePriority": "Prioridade de rota / caminho",
-    "slippage": "Derrapagem",
+    "slippage": "Diferença máxima",
     "custom": "Personalizado",
     "resetSettings": "Você está usando configurações personalizadas que podem afetar o número ou a classificação das rotas disponíveis."
   },
