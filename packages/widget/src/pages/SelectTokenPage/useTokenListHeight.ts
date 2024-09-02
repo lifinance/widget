@@ -78,6 +78,9 @@ export const useTokenListHeight = ({
 
     const processResize = debounce(() => handleResize(), 40);
 
+    // calling this on initial mount prevents the lists resizing appearing glitchy
+    handleResize();
+
     const appContainer = document.getElementById(
       createElementId(ElementId.AppExpandedContainer, elementId),
     );
