@@ -10,6 +10,7 @@ export const getConfigOutput = (
     ...(config.variant ? { variant: config.variant } : {}),
     ...(config.subvariant ? { subvariant: config.subvariant } : {}),
     ...(config.appearance ? { appearance: config.appearance } : {}),
+    ...(config.explorerUrl ? { explorerUrl: config.explorerUrl } : {}),
     ...(theme
       ? {
           theme: {
