@@ -4,18 +4,20 @@
     "title": "Langue"
   },
   "format": {
-    "currency": "{{value, currency(currency: USD)}}",
-    "number": "{{value, number(maximumFractionDigits: 4)}}"
+    "currency": "",
+    "number": "{{value, number(maximumFractionDigits: 4)}}",
+    "percent": ""
   },
   "button": {
     "auto": "Auto",
     "bookmark": "Favori",
     "bookmarks": "Favoris",
     "bridge": "Bridge",
+    "bridgeReview": "",
     "buy": "Acheter",
-    "buyNow": "Acheter maintenant",
     "cancel": "Annuler",
     "changeWallet": "Changer de portefeuille",
+    "checkoutReview": "",
     "close": "Fermer",
     "confirm": "Confirmer",
     "connectWallet": "Connecter un portefeuille",
@@ -24,6 +26,8 @@
     "copyAddress": "Copier l’adresse",
     "dark": "Sombre",
     "delete": "Supprimer",
+    "deposit": "",
+    "depositReview": "",
     "disconnect": "Déconnecter",
     "done": "Terminé",
     "exchange": "Échanger",
@@ -36,14 +40,12 @@
     "removeTransaction": "Supprimer la transaction",
     "reset": "Réinitialiser",
     "resetSettings": "Réinitialiser les paramètres",
-    "reviewBridge": "Revoir le pont",
-    "reviewPurchase": "Vérifiez votre achat",
-    "reviewSwap": "Vérifier l'échange",
     "seeDetails": "Voir les détails",
     "showAll": "Afficher tout",
     "startBridging": "Commencer le pont",
     "startSwapping": "Commencer à échanger",
     "swap": "Échanger",
+    "swapReview": "",
     "tryAgain": "Réessayer",
     "viewCoverage": "Voir la couverture",
     "viewOnExplorer": "Voir sur l'explorateur"
@@ -53,15 +55,18 @@
     "bookmarkedWallets": "Portefeuilles favoris",
     "bridge": "Bridge",
     "checkout": "Paiement",
+    "checkoutDetails": "",
+    "deposit": "",
+    "depositDetails": "",
     "exchange": "Échanger",
     "from": "Échanger de",
     "gas": "Gaz",
     "payWith": "Payer avec",
-    "purchase": "Acheter",
-    "purchaseDetails": "Détails de l'achat",
+    "receive": "",
     "recentWallets": "Portefeuilles récents",
     "selectChain": "Sélectionner la chaîne",
     "selectWallet": "Sélectionnez votre portefeuille",
+    "send": "",
     "sendToWallet": "Envoyer vers le portefeuille",
     "settings": "Paramètres",
     "swap": "Échanger",
@@ -69,7 +74,8 @@
     "transactionDetails": "Détails de la transaction",
     "transactionHistory": "Historique de transaction",
     "walletConnected": "Portefeuille connecté",
-    "youGet": "Vous obtenez"
+    "youGet": "Vous obtenez",
+    "youPay": ""
   },
   "info": {
     "message": {
@@ -82,7 +88,7 @@
       "routeNotFound": "Raisons possibles : faible liquidité, le montant sélectionné est trop faible, les coûts de gaz sont trop élevés ou il n'y a pas de routes pour la combinaison sélectionnée."
     },
     "title": {
-      "autoRefuel": "Obtenir du gaz",
+      "autoRefuel": "",
       "emptyActiveTransactions": "Pas de transactions actives",
       "emptyTransactionHistory": "Pas de transactions récentes",
       "routeNotFound": "Aucun itinéraire disponible"
@@ -90,14 +96,15 @@
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": "Nous avons essayé de compléter la transaction, mais {{tool}} a manqué de liquidité pour le jeton {{tokenSymbol}}.",
+      "exchangePartiallySuccessful": "",
       "exchangeSuccessful": "Il y a maintenant {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} dans le portefeuille {{walletAddress}} sur la chaîne {{chainName}}.",
-      "purchaseSuccessful": "Vous possédez maintenant {{assetName}} dans le portefeuille {{walletAddress}} sur la chaîne {{chainName}}."
+      "checkoutSuccessful": ""
     },
     "title": {
       "bridgePartiallySuccessful": "Pont partiellement réussi",
       "bridgeSuccessful": "Pont réussi",
-      "purchaseSuccessful": "Achat effectué",
+      "depositSuccessful": "",
+      "checkoutSuccessful": "",
       "refundIssued": "Remboursement émis",
       "swapPartiallySuccessful": "Échange partiellement réussi",
       "swapSuccessful": "Échange réussi"
@@ -132,8 +139,10 @@
       "signatureRejected": "Votre signature est requise pour compléter la transaction. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} sur {{chainName}} restent dans votre portefeuille.",
       "slippageThreshold": "L'effet de glissement est supérieur au seuil défini. Veuillez demander un nouvel itinéraire pour obtenir un nouveau devis.",
       "transactionCanceled": "La transaction a été annulée.",
+      "transactionExpired": "",
       "transactionFailed": "Veuillez consulter l'explorateur de blocs pour plus d'informations.",
       "transactionNotSent": "La transaction n'a pas été envoyée.",
+      "transactionSimulationFailed": "",
       "unknown": "Veuillez réessayer ou contacter le support.",
       "walletChangedDuringExecution": "L'adresse du portefeuille qui a demandé le devis ne correspond pas à l'adresse du portefeuille tentant de signer la transaction. Veuillez vous assurer que la même adresse de portefeuille est utilisée tout au long de l'exécution de la transaction."
     },
@@ -149,7 +158,9 @@
       "signatureRejected": "Signature requise",
       "slippageNotMet": "Les conditions de l'effet de glissement ne sont pas remplies.",
       "transactionCanceled": "Transaction annulée.",
+      "transactionExpired": "",
       "transactionFailed": "La transaction a échoué.",
+      "transactionSimulationFailed": "",
       "transactionUnderpriced": "La transaction est sous-évaluée.",
       "transactionUnprepared": "Impossible de préparer la transaction.",
       "unknown": "Il y a eu un problème.",
@@ -161,16 +172,20 @@
     }
   },
   "tooltip": {
-    "estimatedTime": "Durée d'exécution de l'échange estimé en minutes.",
+    "deselectAll": "Tout désélectionner",
+    "estimatedTime": "",
+    "feeCollection": "",
+    "minReceived": "",
     "notFound": {
       "text": "Nous n'avons pas trouvé cette page.",
       "title": "404"
     },
-    "numberOfSteps": "Un certain nombre d'étapes d'échange. Chaque étape peut contenir 1 à 2 transactions nécessitant une signature.",
+    "numberOfSteps": "",
+    "priceImpact": "",
     "progressToNextUpdate": "Les données affichées seront automatiquement actualisées après {{value}} secondes. Cliquez ici pour les mettre à jour manuellement.",
-    "settingsModified": "Paramètres (modifiés)",
     "selectAll": "Tout sélectionner",
-    "deselectAll": "Tout désélectionner"
+    "settingsModified": "Paramètres (modifiés)",
+    "slippage": ""
   },
   "main": {
     "allTokens": "Tous les tokens",
@@ -180,21 +195,22 @@
     "depositStepDetails": "Dépôt via {{tool}}",
     "featuredTokens": "Jetons en vedette",
     "fees": {
-      "estimated": "frais estimés",
-      "networkEstimated": "Frais de réseau estimés:",
-      "networkPaid": "Frais de réseau payés :",
-      "paid": "frais payés",
-      "providerEstimated": "Frais de fournisseur estimés :",
-      "providerPaid": "Frais de fournisseur payés :"
+      "defaultIntegrator": "",
+      "estimated": "",
+      "integrator": "",
+      "network": "",
+      "paid": "",
+      "provider": ""
     },
     "from": "De",
-    "fromAmount": "Vous payez",
-    "gasCost": "Coût du gaz",
     "inProgress": "en cours",
+    "maxSlippage": "",
+    "minReceived": "",
     "myTokens": "Mes jetons",
     "onChain": "sur {{chainName}}",
     "ownedBy": "Propriétaire",
     "popularTokens": "Jetons populaires",
+    "priceImpact": "",
     "process": {
       "bridge": {
         "actionRequired": "Veuillez signer la transaction.",
@@ -243,30 +259,23 @@
     "sentToAddress": "Envoyé à {{address}}",
     "stepBridge": "Bridge",
     "stepBridgeAndBuy": "Bridge et acheter",
+    "stepBridgeAndDeposit": "",
     "stepDetails": "{{tool}} via LI.FI",
     "stepSwap": "Échanger",
     "stepSwapAndBridge": "Échange et Bridge",
     "stepSwapAndBuy": "Échanger et acheter",
+    "stepSwapAndDeposit": "",
     "supportId": "ID de support",
     "swapStepDetails": "Échanger sur {{chain}} via {{tool}}",
     "tags": {
       "cheapest": "Meilleur Retour",
-      "fastest": "Le plus rapide",
-      "insurable": "Assurable",
-      "insurance": "Assurance",
-      "insured": "Assuré"
+      "fastest": "Le plus rapide"
     },
     "to": "À",
     "tokenOnChain": "{{tokenSymbol}} sur {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} sur {{chainName}}",
     "tokenSearch": "Recherche par nom de jeton ou adresse",
     "valueLoss": "Perte de valeur"
-  },
-  "insurance": {
-    "bridgeExploits": "Des dysfonctionnements de pont, des hacks ou des exploits",
-    "insure": "Assurer <0>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</0> en transit :",
-    "insured": "Vous avez assuré <0>{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}</0> en transit :",
-    "slippageError": "Erreur dans le slippage pour les jetons reçus"
   },
   "settings": {
     "theme": "Thème",
@@ -279,7 +288,7 @@
       "title": "Prix du gaz"
     },
     "routePriority": "Priorité de l'itinéraire",
-    "slippage": "Effet de glissement",
+    "slippage": "",
     "custom": "Personnalisé",
     "resetSettings": "Vous utilisez des paramètres personnalisés pouvant affecter le nombre ou le tri des routes disponibles."
   },
