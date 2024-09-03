@@ -265,7 +265,7 @@
     "stepSwapAndBridge": "Swap and bridge",
     "stepSwapAndBuy": "Swap and buy",
     "stepSwapAndDeposit": "Swap and deposit",
-    "supportId": "Support ID",
+    "transferId": "Transfer ID",
     "swapStepDetails": "Swap on {{chain}} via {{tool}}",
     "tags": {
       "cheapest": "Best Return",
