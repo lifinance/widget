@@ -6,6 +6,8 @@ import { CardIconButton } from '../../components/Card/CardIconButton.js';
 import { CardTitle } from '../../components/Card/CardTitle.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 
+const lifiExplorerUrl = 'https://scan.li.fi';
+
 interface SupportIdCardProps {
   supportId: string;
 }
@@ -26,7 +28,8 @@ export const SupportIdCard = ({ supportId }: SupportIdCardProps) => {
 
   const openSupportIdInExplorer = () => {
     const txHash = getTxHash(supportId);
-    window.open(`${explorerUrl}${txHash}`, '_blank');
+    const urlBase = explorerUrl ?? lifiExplorerUrl;
+    window.open(`${urlBase}/tx/${txHash}`, '_blank');
   };
 
   return (
@@ -49,11 +52,9 @@ export const SupportIdCard = ({ supportId }: SupportIdCardProps) => {
           <CardIconButton size="small" onClick={copySupportId}>
             <ContentCopyRounded fontSize="inherit" />
           </CardIconButton>
-          {explorerUrl ? (
-            <CardIconButton size="small" onClick={openSupportIdInExplorer}>
-              <OpenInNew fontSize="inherit" />
-            </CardIconButton>
-          ) : null}
+          <CardIconButton size="small" onClick={openSupportIdInExplorer}>
+            <OpenInNew fontSize="inherit" />
+          </CardIconButton>
         </Box>
       </Box>
       <Typography
