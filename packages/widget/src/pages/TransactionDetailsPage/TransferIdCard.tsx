@@ -7,26 +7,26 @@ import { CardTitle } from '../../components/Card/CardTitle.js';
 import { lifiExplorerUrl } from '../../config/constants.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 
-interface SupportIdCardProps {
-  supportId: string;
+interface TransferIdCardProps {
+  transferId: string;
 }
 
-const getTxHash = (supportId: string) =>
-  supportId.indexOf('_') !== -1
-    ? supportId.substring(0, supportId.indexOf('_'))
-    : supportId;
+const getTxHash = (transferId: string) =>
+  transferId.indexOf('_') !== -1
+    ? transferId.substring(0, transferId.indexOf('_'))
+    : transferId;
 
-export const SupportIdCard = ({ supportId }: SupportIdCardProps) => {
+export const TransferIdCard = ({ transferId }: TransferIdCardProps) => {
   const { t } = useTranslation();
 
   const { explorerUrl } = useWidgetConfig();
 
-  const copySupportId = async () => {
-    await navigator.clipboard.writeText(supportId);
+  const copyTransferId = async () => {
+    await navigator.clipboard.writeText(transferId);
   };
 
-  const openSupportIdInExplorer = () => {
-    const txHash = getTxHash(supportId);
+  const openTransferIdInExplorer = () => {
+    const txHash = getTxHash(transferId);
     const urlBase = explorerUrl ?? lifiExplorerUrl;
     window.open(`${urlBase}/tx/${txHash}`, '_blank');
   };
@@ -39,7 +39,7 @@ export const SupportIdCard = ({ supportId }: SupportIdCardProps) => {
           flex: 1,
         }}
       >
-        <CardTitle flex={1}>{t('main.supportId')}</CardTitle>
+        <CardTitle flex={1}>{t('main.transferId')}</CardTitle>
         <Box
           sx={{
             gap: 1,
@@ -48,10 +48,10 @@ export const SupportIdCard = ({ supportId }: SupportIdCardProps) => {
             marginTop: 1,
           }}
         >
-          <CardIconButton size="small" onClick={copySupportId}>
+          <CardIconButton size="small" onClick={copyTransferId}>
             <ContentCopyRounded fontSize="inherit" />
           </CardIconButton>
-          <CardIconButton size="small" onClick={openSupportIdInExplorer}>
+          <CardIconButton size="small" onClick={openTransferIdInExplorer}>
             <OpenInNew fontSize="inherit" />
           </CardIconButton>
         </Box>
@@ -63,7 +63,7 @@ export const SupportIdCard = ({ supportId }: SupportIdCardProps) => {
         px={2}
         sx={{ wordBreak: 'break-all' }}
       >
-        {supportId}
+        {transferId}
       </Typography>
     </Card>
   );

@@ -11,7 +11,6 @@ import { useHeader } from '../../hooks/useHeader.js';
 import { useNavigateBack } from '../../hooks/useNavigateBack.js';
 import { useTools } from '../../hooks/useTools.js';
 import { useTransactionDetails } from '../../hooks/useTransactionDetails.js';
-import { SupportIdCard } from '../../pages/TransactionDetailsPage/SupportIdCard.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { useRouteExecutionStore } from '../../stores/routes/RouteExecutionStore.js';
 import { getSourceTxHash } from '../../stores/routes/utils.js';
@@ -19,6 +18,7 @@ import { buildRouteFromTxHistory } from '../../utils/converters.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { ContactSupportButton } from './ContactSupportButton.js';
 import { TransactionDetailsSkeleton } from './TransactionDetailsSkeleton.js';
+import { TransferIdCard } from './TransferIdCard.js';
 
 export const TransactionDetailsPage: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -110,7 +110,7 @@ export const TransactionDetailsPage: React.FC = () => {
           sx={{ marginTop: 2 }}
         />
       ) : null}
-      <SupportIdCard supportId={supportId} />
+      <TransferIdCard transferId={supportId} />
       <Box mt={2}>
         <ContactSupportButton supportId={supportId} />
       </Box>
