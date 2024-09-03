@@ -4,9 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { Card } from '../../components/Card/Card.js';
 import { CardIconButton } from '../../components/Card/CardIconButton.js';
 import { CardTitle } from '../../components/Card/CardTitle.js';
+import { lifiExplorerUrl } from '../../config/constants.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
-
-const lifiExplorerUrl = 'https://scan.li.fi';
 
 interface SupportIdCardProps {
   supportId: string;
