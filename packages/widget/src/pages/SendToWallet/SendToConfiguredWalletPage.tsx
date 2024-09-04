@@ -10,7 +10,7 @@ import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js';
 import { ListItem } from '../../components/ListItem/ListItem.js';
 import { ListItemButton } from '../../components/ListItem/ListItemButton.js';
 import { Menu } from '../../components/Menu.js';
-import { useChains } from '../../hooks/useChains.js';
+import { useExplorer } from '../../hooks/useExplorer.js';
 import { useHeader } from '../../hooks/useHeader.js';
 import { useNavigateBack } from '../../hooks/useNavigateBack.js';
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
@@ -34,10 +34,10 @@ export const SendToConfiguredWalletPage = () => {
   const { requiredToChainType } = useToAddressRequirements();
   const { setSelectedBookmark } = useBookmarkActions();
   const { setFieldValue } = useFieldActions();
-  const { getChainById } = useChains();
   const moreMenuId = useId();
   const [moreMenuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>();
   const open = Boolean(moreMenuAnchorEl);
+  const { getAddressLinkByChainId } = useExplorer();
 
   useHeader(t(`header.sendToWallet`));
 
@@ -65,11 +65,11 @@ export const SendToConfiguredWalletPage = () => {
 
   const handleViewOnExplorer = () => {
     if (selectedToAddress) {
-      const chain = getChainById(
-        defaultChainIdsByType[selectedToAddress.chainType],
-      );
       window.open(
-        `${chain?.metamask.blockExplorerUrls[0]}address/${selectedToAddress.address}`,
+        getAddressLinkByChainId(
+          selectedToAddress.address,
+          defaultChainIdsByType[selectedToAddress.chainType],
+        ),
         '_blank',
       );
     }

@@ -6,7 +6,7 @@ import { Card } from '../../components/Card/Card.js';
 import { CardTitle } from '../../components/Card/CardTitle.js';
 import { StepActions } from '../../components/StepActions/StepActions.js';
 import { Token } from '../../components/Token/Token.js';
-import { useAvailableChains } from '../../hooks/useAvailableChains.js';
+import { useExplorer } from '../../hooks/useExplorer.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { shortenAddress } from '../../utils/wallet.js';
 import { DestinationWalletAddress } from './DestinationWalletAddress.js';
@@ -21,9 +21,8 @@ export const Step: React.FC<{
   toAddress?: string;
 }> = ({ step, fromToken, toToken, impactToken, toAddress }) => {
   const { t } = useTranslation();
-  const { getChainById } = useAvailableChains();
   const { subvariant, subvariantOptions } = useWidgetConfig();
-
+  const { getAddressLinkByChainId } = useExplorer();
   const stepHasError = step.execution?.process.some(
     (process) => process.status === 'FAILED',
   );
@@ -67,9 +66,7 @@ export const Step: React.FC<{
 
   const formattedToAddress = shortenAddress(toAddress);
   const toAddressLink = toAddress
-    ? `${
-        getChainById(step.action.toChainId)?.metamask.blockExplorerUrls[0]
-      }address/${toAddress}`
+    ? getAddressLinkByChainId(toAddress, step.action.toChainId)
     : undefined;
 
   return (

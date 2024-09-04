@@ -225,6 +225,7 @@ export interface WidgetConfig {
   languages?: WidgetLanguages;
   languageResources?: LanguageResources;
   explorerUrl?: string;
+  explorerUrls?: Record<number | 'internal', string[]>;
 }
 
 export interface WidgetConfigProps {

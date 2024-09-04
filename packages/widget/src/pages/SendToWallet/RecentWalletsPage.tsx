@@ -15,7 +15,7 @@ import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
 import { ListItem } from '../../components/ListItem/ListItem.js';
 import { ListItemButton } from '../../components/ListItem/ListItemButton.js';
 import { Menu } from '../../components/Menu.js';
-import { useChains } from '../../hooks/useChains.js';
+import { useExplorer } from '../../hooks/useExplorer.js';
 import { useHeader } from '../../hooks/useHeader.js';
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
 import type { Bookmark } from '../../stores/bookmarks/types.js';
@@ -47,12 +47,12 @@ export const RecentWalletsPage = () => {
     setSelectedBookmark,
     addRecentWallet,
   } = useBookmarkActions();
-  const { getChainById } = useChains();
   const { setFieldValue } = useFieldActions();
   const { setSendToWallet } = useSendToWalletActions();
   const moreMenuId = useId();
   const [moreMenuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>();
   const open = Boolean(moreMenuAnchorEl);
+  const { getAddressLinkByChainId } = useExplorer();
 
   useHeader(t(`header.recentWallets`));
 
@@ -95,11 +95,11 @@ export const RecentWalletsPage = () => {
 
   const handleViewOnExplorer = () => {
     if (selectedRecent) {
-      const chain = getChainById(
-        defaultChainIdsByType[selectedRecent.chainType],
-      );
       window.open(
-        `${chain?.metamask.blockExplorerUrls[0]}address/${selectedRecent.address}`,
+        getAddressLinkByChainId(
+          selectedRecent.address,
+          defaultChainIdsByType[selectedRecent.chainType],
+        ),
         '_blank',
       );
     }
