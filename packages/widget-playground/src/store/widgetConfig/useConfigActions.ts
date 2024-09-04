@@ -21,6 +21,8 @@ export const useConfigActions = () => {
       getCurrentConfigTheme: state.getCurrentConfigTheme,
       setHeader: state.setHeader,
       setContainer: state.setContainer,
+      setChainsAndTokens: state.setChainsAndTokens,
+      removeChainsAndTokens: state.removeChainsAndTokens,
     }),
     shallow,
   );

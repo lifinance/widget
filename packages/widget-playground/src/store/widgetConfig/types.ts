@@ -18,6 +18,13 @@ export interface WidgetConfigValues {
   widgetThemeItems: ThemeItem[];
 }
 
+export interface ChainsAndTokens {
+  fromChain?: number;
+  fromToken?: string;
+  toChain?: number;
+  toToken?: string;
+}
+
 export interface WidgetConfigActions {
   setConfig: (config: Partial<WidgetConfig>) => void;
   setDefaultConfig: (defaultConfig: Partial<WidgetConfig>) => void;
@@ -38,6 +45,8 @@ export interface WidgetConfigActions {
   getCurrentConfigTheme: () => WidgetTheme | undefined;
   setHeader: (header?: CSSProperties) => void;
   setContainer: (container?: CSSProperties) => void;
+  setChainsAndTokens: (chainsAndTokens: ChainsAndTokens) => void;
+  removeChainsAndTokens: () => void;
 }
 
 export type WidgetConfigState = WidgetConfigValues & WidgetConfigActions;

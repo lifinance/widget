@@ -218,6 +218,32 @@ export const createWidgetConfigStore = (
             },
           });
         },
+        setChainsAndTokens: (chainsAndTokens) => {
+          set({
+            config: {
+              ...get().config,
+              ...chainsAndTokens,
+            },
+          });
+        },
+        removeChainsAndTokens: () => {
+          const config = {
+            ...get().config,
+            fromChain: undefined,
+            fromToken: undefined,
+            toChain: undefined,
+            toToken: undefined,
+          };
+
+          delete config.fromChain;
+          delete config.fromToken;
+          delete config.toChain;
+          delete config.toToken;
+
+          set({
+            config,
+          });
+        },
       }),
       {
         name: 'li.fi-playground-config',
