@@ -52,7 +52,7 @@ export const RecentWalletsPage = () => {
   const moreMenuId = useId();
   const [moreMenuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>();
   const open = Boolean(moreMenuAnchorEl);
-  const { getAddressLinkByChainId } = useExplorer();
+  const { getAddressLink } = useExplorer();
 
   useHeader(t(`header.recentWallets`));
 
@@ -96,7 +96,7 @@ export const RecentWalletsPage = () => {
   const handleViewOnExplorer = () => {
     if (selectedRecent) {
       window.open(
-        getAddressLinkByChainId(
+        getAddressLink(
           selectedRecent.address,
           defaultChainIdsByType[selectedRecent.chainType],
         ),

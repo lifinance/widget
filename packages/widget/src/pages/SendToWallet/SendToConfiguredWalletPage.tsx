@@ -37,7 +37,7 @@ export const SendToConfiguredWalletPage = () => {
   const moreMenuId = useId();
   const [moreMenuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>();
   const open = Boolean(moreMenuAnchorEl);
-  const { getAddressLinkByChainId } = useExplorer();
+  const { getAddressLink } = useExplorer();
 
   useHeader(t(`header.sendToWallet`));
 
@@ -66,7 +66,7 @@ export const SendToConfiguredWalletPage = () => {
   const handleViewOnExplorer = () => {
     if (selectedToAddress) {
       window.open(
-        getAddressLinkByChainId(
+        getAddressLink(
           selectedToAddress.address,
           defaultChainIdsByType[selectedToAddress.chainType],
         ),

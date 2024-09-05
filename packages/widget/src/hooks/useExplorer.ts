@@ -17,7 +17,10 @@ export const useExplorer = () => {
     return sanitiseBaseUrl(baseUrl);
   };
 
-  const getTransactionLink = (txHash: string, chain?: Chain) => {
+  const resolveChain = (chain: Chain | number) =>
+    Number.isFinite(chain) ? getChainById(chain as number) : (chain as Chain);
+
+  const getTransactionLink = (txHash: string, chain?: Chain | number) => {
     if (!chain) {
       const baseUrl = explorerUrls?.internal?.[0]
         ? sanitiseBaseUrl(explorerUrls?.internal[0])
@@ -25,31 +28,24 @@ export const useExplorer = () => {
       return `${baseUrl}/tx/${txHash}`;
     }
 
-    return `${getBaseUrl(chain)}/tx/${txHash}`;
+    const resolvedChain = resolveChain(chain);
+    return `${resolvedChain ? getBaseUrl(resolvedChain) : lifiExplorerUrl}/tx/${txHash}`;
   };
 
-  const getTransactionLinkByChainId = (txHash: string, chainId: number) => {
-    return getTransactionLink(txHash, getChainById(chainId));
-  };
-
-  const getAddressLink = (address: string, chain?: Chain) => {
-    // TODO: consider here that LiFi explorer supports /wallet/ rather than /address/
-    if (!chain && explorerUrls?.internal?.[0]) {
-      const baseUrl = sanitiseBaseUrl(explorerUrls?.internal[0]);
+  const getAddressLink = (address: string, chain?: Chain | number) => {
+    if (!chain) {
+      const baseUrl = explorerUrls?.internal?.[0]
+        ? sanitiseBaseUrl(explorerUrls?.internal[0])
+        : lifiExplorerUrl;
       return `${baseUrl}/address/${address}`;
     }
 
-    return chain ? `${getBaseUrl(chain)}/address/${address}` : undefined;
-  };
-
-  const getAddressLinkByChainId = (address: string, chainId: number) => {
-    return getAddressLink(address, getChainById(chainId));
+    const resolvedChain = resolveChain(chain);
+    return `${resolvedChain ? getBaseUrl(resolvedChain) : lifiExplorerUrl}/address/${address}`;
   };
 
   return {
     getTransactionLink,
-    getTransactionLinkByChainId,
     getAddressLink,
-    getAddressLinkByChainId,
   };
 };

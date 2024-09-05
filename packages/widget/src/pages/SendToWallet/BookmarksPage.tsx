@@ -47,7 +47,7 @@ export const BookmarksPage = () => {
   const { setFieldValue } = useFieldActions();
   const { setSendToWallet } = useSendToWalletActions();
   const { variant } = useWidgetConfig();
-  const { getAddressLinkByChainId } = useExplorer();
+  const { getAddressLink } = useExplorer();
 
   useHeader(t(`header.bookmarkedWallets`));
 
@@ -89,7 +89,7 @@ export const BookmarksPage = () => {
   const handleViewOnExplorer = () => {
     if (bookmark) {
       window.open(
-        getAddressLinkByChainId(
+        getAddressLink(
           bookmark.address,
           defaultChainIdsByType[bookmark.chainType],
         ),

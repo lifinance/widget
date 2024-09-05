@@ -40,7 +40,7 @@ export const ConnectedWalletsPage = () => {
   const [moreMenuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>();
   const moreMenuId = useId();
   const open = Boolean(moreMenuAnchorEl);
-  const { getAddressLinkByChainId } = useExplorer();
+  const { getAddressLink } = useExplorer();
 
   useHeader(t('sendToWallet.connectedWallets'));
 
@@ -81,10 +81,7 @@ export const ConnectedWalletsPage = () => {
     if (selectedAccount?.chainId) {
       if (selectedAccount.address) {
         window.open(
-          getAddressLinkByChainId(
-            selectedAccount.address,
-            selectedAccount.chainId,
-          ),
+          getAddressLink(selectedAccount.address, selectedAccount.chainId),
           '_blank',
         );
       }

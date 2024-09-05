@@ -201,10 +201,10 @@ export const widgetBaseConfig: WidgetConfig = {
   //   },
   //   es,
   // },
-  explorerUrls: {
-    42161: ['https://scan.li.fi'], // Arbitrum
-    internal: ['https://jumper.exchange/scan'], // Transder ID Card
-  },
+  // explorerUrls: {
+  //   42161: ['https://scan.li.fi'], // Arbitrum
+  //   internal: ['https://jumper.exchange/scan'], // Transder ID Card
+  // },
 };
 
 export const defaultWidgetConfig: Partial<WidgetConfig> = {

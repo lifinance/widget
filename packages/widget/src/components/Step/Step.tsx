@@ -22,7 +22,7 @@ export const Step: React.FC<{
 }> = ({ step, fromToken, toToken, impactToken, toAddress }) => {
   const { t } = useTranslation();
   const { subvariant, subvariantOptions } = useWidgetConfig();
-  const { getAddressLinkByChainId } = useExplorer();
+  const { getAddressLink } = useExplorer();
   const stepHasError = step.execution?.process.some(
     (process) => process.status === 'FAILED',
   );
@@ -66,7 +66,7 @@ export const Step: React.FC<{
 
   const formattedToAddress = shortenAddress(toAddress);
   const toAddressLink = toAddress
-    ? getAddressLinkByChainId(toAddress, step.action.toChainId)
+    ? getAddressLink(toAddress, step.action.toChainId)
     : undefined;
 
   return (

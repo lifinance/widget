@@ -11,7 +11,7 @@ export const StepProcess: React.FC<{
   process: Process;
 }> = ({ step, process }) => {
   const { title, message } = useProcessMessage(step, process);
-  const { getTransactionLinkByChainId } = useExplorer();
+  const { getTransactionLink } = useExplorer();
 
   return (
     <Box px={2} py={1}>
@@ -34,10 +34,7 @@ export const StepProcess: React.FC<{
           <CardIconButton
             size="small"
             LinkComponent={Link}
-            href={getTransactionLinkByChainId(
-              process.txHash,
-              step.action.fromChainId,
-            )}
+            href={getTransactionLink(process.txHash, step.action.fromChainId)}
             target="_blank"
             rel="nofollow noreferrer"
           >
