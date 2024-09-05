@@ -30,6 +30,8 @@ export const WidgetProvider: React.FC<
   const value = useMemo((): WidgetContextProps => {
     try {
       // Get search params from URL
+      // TODO: question: searchParams are only used to update the form values, can this be moved to the FormProvider?
+      // TODO: question: is there a user case where this is still needed to be applied to the config?
       const searchParams = Object.fromEntries(
         new URLSearchParams(window?.location.search),
       );

@@ -94,6 +94,15 @@ export const createFormStore = (defaultValues?: DefaultValues) =>
           ),
         }));
       },
+      setUserAndDefaultValues: (defaultValues) => {
+        const currentUserValues = get().userValues;
+        (Object.keys(defaultValues) as FormFieldNames[]).forEach((key) => {
+          if (defaultValues[key] !== currentUserValues[key]?.value) {
+            get().setFieldValue(key, defaultValues[key]);
+            get().resetField(key, { defaultValue: defaultValues[key] });
+          }
+        });
+      },
       isTouched: (fieldName: FormFieldNames) =>
         !!get().userValues[fieldName]?.isTouched,
       setAsTouched: (fieldName: FormFieldNames) => {
