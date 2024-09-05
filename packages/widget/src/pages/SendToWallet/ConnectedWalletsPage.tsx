@@ -14,7 +14,7 @@ import { ListItemButton } from '../../components/ListItem/ListItemButton.js';
 import { Menu } from '../../components/Menu.js';
 import type { Account } from '../../hooks/useAccount.js';
 import { useAccount } from '../../hooks/useAccount.js';
-import { useChains } from '../../hooks/useChains.js';
+import { useExplorer } from '../../hooks/useExplorer.js';
 import { useHeader } from '../../hooks/useHeader.js';
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
@@ -33,7 +33,6 @@ export const ConnectedWalletsPage = () => {
   const [selectedAccount, setSelectedAccount] = useState<Account>();
   const { accounts } = useAccount();
   const { setSelectedBookmark } = useBookmarkActions();
-  const { getChainById } = useChains();
   const { requiredToChainType } = useToAddressRequirements();
   const navigate = useNavigate();
   const { setFieldValue } = useFieldActions();
@@ -41,6 +40,7 @@ export const ConnectedWalletsPage = () => {
   const [moreMenuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>();
   const moreMenuId = useId();
   const open = Boolean(moreMenuAnchorEl);
+  const { getAddressLink } = useExplorer();
 
   useHeader(t('sendToWallet.connectedWallets'));
 
@@ -79,11 +79,12 @@ export const ConnectedWalletsPage = () => {
 
   const handleViewOnExplorer = () => {
     if (selectedAccount?.chainId) {
-      const chain = getChainById(selectedAccount.chainId);
-      window.open(
-        `${chain?.metamask.blockExplorerUrls[0]}address/${selectedAccount.address}`,
-        '_blank',
-      );
+      if (selectedAccount.address) {
+        window.open(
+          getAddressLink(selectedAccount.address, selectedAccount.chainId),
+          '_blank',
+        );
+      }
     }
     closeMenu();
   };

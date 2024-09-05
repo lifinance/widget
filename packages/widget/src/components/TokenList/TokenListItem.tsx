@@ -13,6 +13,7 @@ import type { MouseEventHandler } from 'react';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatUnits } from 'viem';
+import { useExplorer } from '../../hooks/useExplorer.js';
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js';
 import { shortenAddress } from '../../utils/wallet.js';
 import { ListItemButton } from '../ListItem/ListItemButton.js';
@@ -62,6 +63,8 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   isBalanceLoading,
 }) => {
   const { t } = useTranslation();
+  const { getAddressLink } = useExplorer();
+
   const tokenPrice = token.amount
     ? formatTokenPrice(
         formatUnits(token.amount, token.decimals),
@@ -130,7 +133,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
                 <IconButton
                   size="small"
                   LinkComponent={Link}
-                  href={`${chain?.metamask.blockExplorerUrls[0]}address/${token.address}`}
+                  href={getAddressLink(token.address, chain)}
                   target="_blank"
                   rel="nofollow noreferrer"
                   onClick={(e) => e.stopPropagation()}

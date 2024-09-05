@@ -4,8 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Card } from '../../components/Card/Card.js';
 import { CardIconButton } from '../../components/Card/CardIconButton.js';
 import { CardTitle } from '../../components/Card/CardTitle.js';
-import { lifiExplorerUrl } from '../../config/constants.js';
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useExplorer } from '../../hooks/useExplorer.js';
 
 interface TransferIdCardProps {
   transferId: string;
@@ -18,8 +17,7 @@ const getTxHash = (transferId: string) =>
 
 export const TransferIdCard = ({ transferId }: TransferIdCardProps) => {
   const { t } = useTranslation();
-
-  const { explorerUrl } = useWidgetConfig();
+  const { getTransactionLink } = useExplorer();
 
   const copyTransferId = async () => {
     await navigator.clipboard.writeText(transferId);
@@ -27,8 +25,7 @@ export const TransferIdCard = ({ transferId }: TransferIdCardProps) => {
 
   const openTransferIdInExplorer = () => {
     const txHash = getTxHash(transferId);
-    const urlBase = explorerUrl ?? lifiExplorerUrl;
-    window.open(`${urlBase}/tx/${txHash}`, '_blank');
+    window.open(getTransactionLink(txHash), '_blank');
   };
 
   return (
