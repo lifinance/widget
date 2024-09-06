@@ -62,6 +62,8 @@ export const FormUpdater: React.FC<{
     // TODO: consider using null in the config to specify when a value should be set to its default
     //  look at using formDefaultValues for this
     // TODO: if toAddress is set the Send to wallet section should be open
+    // TODO: remove all console.logs
+    // TODO: test with values set in config
     setUserAndDefaultValues(removeEmptyValuesProperties(defaultValues));
   }, [
     defaultValues,
