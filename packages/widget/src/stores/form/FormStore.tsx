@@ -10,44 +10,28 @@ import type { FormStoreStore } from './types.js';
 export const FormStoreProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
-  const {
-    fromChain,
-    fromToken,
-    fromAmount,
-    toChain,
-    toToken,
-    toAddress,
-    hiddenUI,
-  } = useWidgetConfig();
+  const config = useWidgetConfig();
   const storeRef = useRef<FormStoreStore>();
 
-  const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress);
+  const hiddenToAddress = config.hiddenUI?.includes(HiddenUI.ToAddress);
 
   const defaultValues = useMemo(
     () => ({
       ...formDefaultValues,
-      fromChain,
-      fromToken,
-      toChain,
-      toToken,
+      fromChain: config.fromChain,
+      fromToken: config.fromToken,
+      toChain: config.toChain,
+      toToken: config.toToken,
       fromAmount:
-        (typeof fromAmount === 'number'
-          ? fromAmount?.toPrecision()
-          : fromAmount) || formDefaultValues.fromAmount,
+        (typeof config.fromAmount === 'number'
+          ? config.fromAmount?.toPrecision()
+          : config.fromAmount) || formDefaultValues.fromAmount,
       // Prevent setting address when the field is hidden
       toAddress: hiddenToAddress
         ? formDefaultValues.toAddress
-        : toAddress?.address || formDefaultValues.toAddress,
+        : config.toAddress?.address || formDefaultValues.toAddress,
     }),
-    [
-      fromAmount,
-      fromChain,
-      fromToken,
-      hiddenToAddress,
-      toAddress,
-      toChain,
-      toToken,
-    ],
+    [config, hiddenToAddress],
   );
 
   if (!storeRef.current) {

@@ -3,6 +3,7 @@ import { shallow } from 'zustand/shallow';
 import { useThemeMode } from '../../hooks';
 import { getValueFromPath } from '../../utils';
 import { useWidgetConfigStore } from './WidgetConfigProvider';
+import type { FormValues } from './types';
 
 export const useConfigVariant = () => {
   const [variant] = useWidgetConfigStore(
@@ -13,6 +14,30 @@ export const useConfigVariant = () => {
   return {
     variant: !variant ? 'default' : variant,
   };
+};
+
+export const useConfigFormValues = () => {
+  const [fromChain, fromToken, fromAmount, toChain, toToken, toAddress] =
+    useWidgetConfigStore(
+      (store) => [
+        store.config?.fromChain,
+        store.config?.fromToken,
+        store.config?.fromAmount,
+        store.config?.toChain,
+        store.config?.toToken,
+        store.config?.toAddress,
+      ],
+      shallow,
+    );
+
+  return {
+    fromChain,
+    fromToken,
+    toChain,
+    toToken,
+    fromAmount,
+    toAddress,
+  } as FormValues;
 };
 
 export const useConfigSubvariant = () => {

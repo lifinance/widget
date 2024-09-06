@@ -14,18 +14,23 @@ import type { ThemeItem } from '../editTools/types';
 
 export interface WidgetConfigValues {
   defaultConfig?: Partial<WidgetConfig>;
-  config?: Partial<WidgetConfig>;
+  config?: UpdatableWidgetConfig;
   themeId: string;
   widgetThemeItems: ThemeItem[];
 }
 
 export interface FormValues {
-  fromChain?: number;
-  fromToken?: string;
-  toChain?: number;
-  toToken?: string;
-  toAddress?: string | number | ToAddress;
-  fromAmount?: number | string;
+  fromChain?: number | null;
+  fromToken?: string | null;
+  toChain?: number | null;
+  toToken?: string | null;
+  toAddress?: string | number | ToAddress | null;
+  fromAmount?: number | string | null;
+  formUpdateKey?: string;
+}
+
+export interface UpdatableWidgetConfig extends Partial<WidgetConfig> {
+  formUpdateKey?: string;
 }
 
 export interface WidgetConfigActions {

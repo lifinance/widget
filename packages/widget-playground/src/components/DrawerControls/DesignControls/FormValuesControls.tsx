@@ -2,6 +2,7 @@ import { ChainType } from '@lifi/types';
 import { Button } from '@mui/material';
 import { useConfigActions } from '../../../store';
 import type { FormValues } from '../../../store/widgetConfig/types';
+import { useConfigFormValues } from '../../../store/widgetConfig/useConfigValues';
 import { CardRowContainer, ExpandableCard } from '../../Card';
 import { CapitalizeFirstLetter } from './DesignControls.style';
 
@@ -64,14 +65,29 @@ const AmountLookUp: FormValuesLookUp = {
   },
 };
 
+const forceConfigOutputIfValuesAreUnchanged = (
+  nextValue: FormValues,
+  currentValues: FormValues,
+): FormValues =>
+  Object.keys(nextValue).every(
+    (key) =>
+      nextValue[key as keyof FormValues] ===
+      currentValues[key as keyof FormValues],
+  )
+    ? { ...nextValue, formUpdateKey: new Date().valueOf().toString() }
+    : nextValue;
+
 export const FormValuesControl = () => {
   const { setFormValues } = useConfigActions();
+  const formValues = useConfigFormValues();
 
   const handleChainAndTokenChange = (value: string) => {
     const chainsAndTokens = ChainsAndTokensLookUp[value];
 
     if (chainsAndTokens) {
-      setFormValues(chainsAndTokens);
+      setFormValues(
+        forceConfigOutputIfValuesAreUnchanged(chainsAndTokens, formValues),
+      );
     }
   };
 
@@ -79,7 +95,9 @@ export const FormValuesControl = () => {
     const addressValue = AddressLookUp[value];
 
     if (addressValue) {
-      setFormValues(addressValue);
+      setFormValues(
+        forceConfigOutputIfValuesAreUnchanged(addressValue, formValues),
+      );
     }
   };
 
@@ -87,7 +105,9 @@ export const FormValuesControl = () => {
     const amountValue = AmountLookUp[value];
 
     if (amountValue) {
-      setFormValues(amountValue);
+      setFormValues(
+        forceConfigOutputIfValuesAreUnchanged(amountValue, formValues),
+      );
     }
   };
 
