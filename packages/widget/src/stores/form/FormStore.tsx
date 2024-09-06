@@ -1,7 +1,6 @@
 import type { PropsWithChildren } from 'react';
-import { useEffect, useMemo, useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
-// import { URLSearchParamsBuilder } from '../../stores/form/URLSearchParamsBuilder.js';
 import { HiddenUI } from '../../types/widget.js';
 import { formatInputAmount } from '../../utils/format.js';
 import { FormStoreContext } from './FormStoreContext.js';
@@ -84,20 +83,10 @@ export const FormStoreProvider: React.FC<PropsWithChildren> = ({
     storeRef.current = createFormStore(defaultValues);
   }
 
-  // TODO: try setting the values from the URL Search Params here with useEffect as we only want that to happen once
-  useEffect(() => {
-    const store = storeRef.current?.getState();
-
-    const formValues = getDefaultValuesFromQueryString();
-
-    store?.setUserAndDefaultValues(formValues);
-  }, []);
-
   return (
     <FormStoreContext.Provider value={storeRef.current}>
       {children}
       <FormUpdater defaultValues={defaultValues} />
-      {/*{buildUrl ? <URLSearchParamsBuilder /> : null}*/}
     </FormStoreContext.Provider>
   );
 };

@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useAccount } from '../../hooks/useAccount.js';
 import { useChains } from '../../hooks/useChains.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { formDefaultValues } from '../../stores/form/createFormStore.js';
 import type { DefaultValues } from './types.js';
 import { useFieldActions } from './useFieldActions.js';
 
@@ -53,8 +54,15 @@ export const FormUpdater: React.FC<{
   // Makes widget config options reactive to changes
   // should update userValues when defaultValues updates and includes additional logic for chains
   useEffect(() => {
-    setUserAndDefaultValues(defaultValues);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    console.log(
+      'set values from config: formupdater',
+      removeEmptyValuesProperties(defaultValues),
+    );
+
+    // TODO: consider using null in the config to specify when a value should be set to its default
+    //  look at using formDefaultValues for this
+    // TODO: if toAddress is set the Send to wallet section should be open
+    setUserAndDefaultValues(removeEmptyValuesProperties(defaultValues));
   }, [
     defaultValues,
     getFieldValues,
@@ -64,4 +72,15 @@ export const FormUpdater: React.FC<{
   ]);
 
   return null;
+};
+
+const removeEmptyValuesProperties = (defaultValues: Partial<DefaultValues>) => {
+  const result: Partial<DefaultValues> = { ...defaultValues };
+  for (const key in result) {
+    const k = key as keyof DefaultValues;
+    if (result[k] === formDefaultValues[k]) {
+      delete result[k];
+    }
+  }
+  return result;
 };
