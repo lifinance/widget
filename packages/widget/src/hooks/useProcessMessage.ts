@@ -211,7 +211,7 @@ export function getProcessMessage(
       case LiFiErrorCode.ProviderUnavailable:
       default:
         title = t(`error.title.unknown`);
-        if (process.txLink) {
+        if (process.txHash) {
           message = t(`error.message.transactionFailed`);
         } else {
           message = process.error.message || t(`error.message.unknown`);

@@ -15,7 +15,7 @@ import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
 import { ListItemButton } from '../../components/ListItem//ListItemButton.js';
 import { ListItem } from '../../components/ListItem/ListItem.js';
 import { Menu } from '../../components/Menu.js';
-import { useChains } from '../../hooks/useChains.js';
+import { useExplorer } from '../../hooks/useExplorer.js';
 import { useHeader } from '../../hooks/useHeader.js';
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
@@ -43,11 +43,11 @@ export const BookmarksPage = () => {
   const { requiredToChainType } = useToAddressRequirements();
   const { addBookmark, removeBookmark, setSelectedBookmark } =
     useBookmarkActions();
-  const { getChainById } = useChains();
   const navigate = useNavigate();
   const { setFieldValue } = useFieldActions();
   const { setSendToWallet } = useSendToWalletActions();
   const { variant } = useWidgetConfig();
+  const { getAddressLink } = useExplorer();
 
   useHeader(t(`header.bookmarkedWallets`));
 
@@ -88,9 +88,11 @@ export const BookmarksPage = () => {
 
   const handleViewOnExplorer = () => {
     if (bookmark) {
-      const chain = getChainById(defaultChainIdsByType[bookmark.chainType]);
       window.open(
-        `${chain?.metamask.blockExplorerUrls[0]}address/${bookmark.address}`,
+        getAddressLink(
+          bookmark.address,
+          defaultChainIdsByType[bookmark.chainType],
+        ),
         '_blank',
       );
     }
