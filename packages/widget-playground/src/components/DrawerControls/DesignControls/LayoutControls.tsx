@@ -260,6 +260,7 @@ export const LayoutControls = () => {
       {layoutsWithHeightControls.includes(selectedLayoutId) ? (
         <CardRowContainer sx={{ padding: 0 }}>
           <CardRowColumn>
+            <label htmlFor={inputId}>{inputLabel[selectedLayoutId]}</label>
             {(heightValue && heightValue < defaultMaxHeight) || !heightValue ? (
               <CapitalizeFirstLetter variant="caption">
                 {`${defaultMaxHeight}px minimum`}

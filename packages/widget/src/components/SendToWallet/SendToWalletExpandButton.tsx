@@ -6,34 +6,33 @@ import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
 import { useFieldActions } from '../../stores/form/useFieldActions.js';
+import { useFieldValues } from '../../stores/form/useFieldValues.js';
 import { useSendToWalletStore } from '../../stores/settings/useSendToWalletStore.js';
 import { WidgetEvent } from '../../types/events.js';
 import { DisabledUI, HiddenUI } from '../../types/widget.js';
 
 export const SendToWalletExpandButton: React.FC = () => {
   const { t } = useTranslation();
-  const { disabledUI, hiddenUI, toAddress } = useWidgetConfig();
+  const { disabledUI, hiddenUI } = useWidgetConfig();
   const { setFieldValue } = useFieldActions();
   const { setSelectedBookmark } = useBookmarkActions();
   const emitter = useWidgetEvents();
-  const { showSendToWallet, showSendToWalletDirty, setSendToWallet } =
-    useSendToWalletStore();
-
+  const { showSendToWallet, setSendToWallet } = useSendToWalletStore();
+  const [toAddressFieldValue] = useFieldValues('toAddress');
   const { requiredToAddress } = useToAddressRequirements();
 
   if (requiredToAddress || hiddenUI?.includes(HiddenUI.ToAddress)) {
     return null;
   }
 
-  const isActive =
-    showSendToWallet || Boolean(!showSendToWalletDirty && toAddress);
+  const isActive = showSendToWallet || Boolean(toAddressFieldValue);
 
   const handleClick = () => {
-    if (isActive && !disabledUI?.includes(DisabledUI.ToAddress)) {
+    if (showSendToWallet && !disabledUI?.includes(DisabledUI.ToAddress)) {
       setFieldValue('toAddress', '', { isTouched: true });
       setSelectedBookmark();
     }
-    setSendToWallet(!isActive);
+    setSendToWallet(!showSendToWallet);
     emitter.emit(
       WidgetEvent.SendToWalletToggled,
       useSendToWalletStore.getState().showSendToWallet,

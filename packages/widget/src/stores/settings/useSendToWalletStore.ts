@@ -16,6 +16,10 @@ export const useSendToWalletStore = createWithEqualityFn<SendToWalletStore>(
         showSendToWallet: value,
         showSendToWalletDirty: true,
       }),
+    initialiseSendToWallet: (value) =>
+      set({
+        showSendToWallet: value,
+      }),
   }),
   Object.is,
 );
@@ -25,6 +29,7 @@ export const useSendToWalletActions = () => {
     (store) => ({
       toggleSendToWallet: store.toggleSendToWallet,
       setSendToWallet: store.setSendToWallet,
+      initialiseSendToWallet: store.initialiseSendToWallet,
     }),
     shallow,
   );

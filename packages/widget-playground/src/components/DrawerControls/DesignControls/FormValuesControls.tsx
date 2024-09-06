@@ -98,7 +98,7 @@ export const FormValuesControl = () => {
           This tool allows you to set the values in the config for fromChain,
           fromToken, toChain, toToken, toAddress and fromAmount. You should see
           the values update in the Widget and when the buildUrl property is not
-          set as false in the query string
+          set as false changes should be reflected in the query string
         </CapitalizeFirstLetter>
       </CardRowContainer>
       <CardRowContainer sx={{ paddingBottom: 1, paddingLeft: 1 }}>

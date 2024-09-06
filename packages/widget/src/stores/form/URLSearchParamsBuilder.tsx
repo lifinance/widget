@@ -1,8 +1,9 @@
-import { type DefaultValues, useFieldActions } from '@lifi/widget';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useSendToWalletStore } from '../../stores/settings/useSendToWalletStore.js';
 import { formatInputAmount } from '../../utils/format.js';
-import type { FormFieldNames } from '../form/types.js';
+import type { DefaultValues, FormFieldNames } from '../form/types.js';
+import { useFieldActions } from '../form/useFieldActions.js';
 import { useFieldValues } from '../form/useFieldValues.js';
 import { useTouchedFields } from '../form/useTouchedFields.js';
 
@@ -47,8 +48,8 @@ export const URLSearchParamsBuilder = () => {
   const { pathname } = useLocation();
   const touchedFields = useTouchedFields();
   const values = useFieldValues(...formValueKeys);
+  const { initialiseSendToWallet } = useSendToWalletStore();
 
-  // TODO: remove this, its not true
   // Using these methods as trying to use the touchedFields and values above
   // often has a lag that can effect the widgets initialisation sequence
   // accidentally cause values to be wiped from the query string
@@ -56,24 +57,21 @@ export const URLSearchParamsBuilder = () => {
     useFieldActions();
 
   useEffect(() => {
-    console.log(
-      'get the  initial values from the querysting: URLSearchParamsBuilder: setUserAndDefaultValues',
-    );
+    // get the  initial values from the querysting
     const formValues = getDefaultValuesFromQueryString();
 
+    if (formValues.toAddress) {
+      initialiseSendToWallet(true);
+    }
+
     setUserAndDefaultValues(formValues);
-  }, [setUserAndDefaultValues]);
+  }, [setUserAndDefaultValues, initialiseSendToWallet]);
 
   useEffect(() => {
-    console.log(
-      'set the values on the querysting: URLSearchParamsBuilder: setUserAndDefaultValues',
-    );
+    // set the values on the querysting
     const url = new URL(window.location as any);
     formValueKeys.forEach((key, index) => {
       const value = getFieldValues(key)[0];
-
-      console.log('----', key, value, isTouched(key));
-
       if (isTouched(key) && value) {
         url.searchParams.set(key, value.toString());
       } else if (url.searchParams.has(key) && !value) {

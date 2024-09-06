@@ -44,8 +44,7 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
   const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress);
 
   const showInstantly =
-    Boolean(!showSendToWalletDirty && toAddress && !hiddenToAddress) ||
-    requiredToAddress;
+    Boolean(toAddressFieldValue && !hiddenToAddress) || requiredToAddress;
 
   const address = toAddressFieldValue
     ? shortenAddress(toAddressFieldValue)
@@ -86,7 +85,7 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
   const headerSubheader =
     isConnectedAccount || bookmarkName || connectedAccountName ? address : null;
 
-  const disabledForChanges = Boolean(toAddress) && disabledToAddress;
+  const disabledForChanges = Boolean(toAddressFieldValue) && disabledToAddress;
 
   const isSelected = !!toAddressFieldValue && !disabledForChanges;
 
@@ -104,10 +103,14 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
     setSelectedBookmark();
   };
 
+  const openCollapse = disabledToAddress
+    ? showSendToWallet || (showInstantly && !showSendToWalletDirty)
+    : showSendToWallet || showInstantly;
+
   return (
     <Collapse
       timeout={showInstantly ? 0 : 225}
-      in={showSendToWallet || showInstantly}
+      in={openCollapse}
       mountOnEnter
       unmountOnExit
     >

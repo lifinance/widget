@@ -99,7 +99,6 @@ export const createFormStore = (defaultValues?: DefaultValues) =>
         (Object.keys(defaultValues) as FormFieldNames[]).forEach((key) => {
           // TODO: if the value is null get the default value from formDefaultValues
           if (defaultValues[key] !== currentUserValues[key]?.value) {
-            console.log('---', key, defaultValues[key]);
             get().resetField(key, { defaultValue: defaultValues[key] });
             get().setFieldValue(key, defaultValues[key], { isTouched: true });
           }
