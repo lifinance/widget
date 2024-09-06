@@ -1,5 +1,6 @@
 import type {
   Appearance,
+  ToAddress,
   WidgetConfig,
   WidgetSubvariant,
   WidgetTheme,
@@ -18,11 +19,13 @@ export interface WidgetConfigValues {
   widgetThemeItems: ThemeItem[];
 }
 
-export interface ChainsAndTokens {
+export interface FormValues {
   fromChain?: number;
   fromToken?: string;
   toChain?: number;
   toToken?: string;
+  toAddress?: string | number | ToAddress;
+  fromAmount?: number | string;
 }
 
 export interface WidgetConfigActions {
@@ -45,8 +48,7 @@ export interface WidgetConfigActions {
   getCurrentConfigTheme: () => WidgetTheme | undefined;
   setHeader: (header?: CSSProperties) => void;
   setContainer: (container?: CSSProperties) => void;
-  setChainsAndTokens: (chainsAndTokens: ChainsAndTokens) => void;
-  removeChainsAndTokens: () => void;
+  setFormValues: (formValues: FormValues) => void;
 }
 
 export type WidgetConfigState = WidgetConfigValues & WidgetConfigActions;

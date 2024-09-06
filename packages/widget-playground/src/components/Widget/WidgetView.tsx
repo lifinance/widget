@@ -9,6 +9,8 @@ export function WidgetView() {
   const drawerRef = useRef<WidgetDrawer>(null);
   const { isSkeletonShown, isSkeletonSideBySide } = useSkeletonToolValues();
 
+  console.log(config);
+
   const toggleDrawer = useCallback(() => {
     drawerRef?.current?.toggleDrawer();
   }, []);

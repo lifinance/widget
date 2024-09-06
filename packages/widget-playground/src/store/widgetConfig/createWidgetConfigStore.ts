@@ -218,30 +218,12 @@ export const createWidgetConfigStore = (
             },
           });
         },
-        setChainsAndTokens: (chainsAndTokens) => {
+        setFormValues: (formValues) => {
           set({
             config: {
               ...get().config,
-              ...chainsAndTokens,
+              ...(formValues as Partial<WidgetConfig>),
             },
-          });
-        },
-        removeChainsAndTokens: () => {
-          const config = {
-            ...get().config,
-            fromChain: undefined,
-            fromToken: undefined,
-            toChain: undefined,
-            toToken: undefined,
-          };
-
-          delete config.fromChain;
-          delete config.fromToken;
-          delete config.toChain;
-          delete config.toToken;
-
-          set({
-            config,
           });
         },
       }),
