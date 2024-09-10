@@ -76,8 +76,15 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   const timeoutId = useRef<ReturnType<typeof setTimeout>>();
   const [showAddress, setShowAddress] = useState(false);
 
+  const tokenAddress =
+    chain?.chainType === ChainType.UTXO ? accountAddress : token.address;
+
   const onMouseEnter = () => {
-    timeoutId.current = setTimeout(() => setShowAddress(true), 350);
+    timeoutId.current = setTimeout(() => {
+      if (tokenAddress) {
+        setShowAddress(true);
+      }
+    }, 350);
   };
 
   const onMouseLeave = () => {
@@ -86,9 +93,6 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
       setShowAddress(false);
     }
   };
-
-  const tokenAddress =
-    chain?.chainType === ChainType.UTXO ? accountAddress : token.address;
 
   return (
     <ListItemButton
