@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAccount } from '../../hooks/useAccount.js';
 import { useAvailableChains } from '../../hooks/useAvailableChains.js';
+import { useExplorer } from '../../hooks/useExplorer.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { shortenAddress } from '../../utils/wallet.js';
 import { AvatarMasked } from '../Avatar/Avatar.style.js';
@@ -35,6 +36,7 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
     navigate(navigationRoutes.selectWallet);
     onClose();
   };
+  const { getAddressLink } = useExplorer();
 
   return (
     <>
@@ -89,7 +91,11 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
                   size="medium"
                   component="a"
                   onClick={onClose}
-                  href={`${chain?.metamask.blockExplorerUrls[0]}address/${account.address}`}
+                  href={
+                    account.address
+                      ? getAddressLink(account.address, chain)
+                      : undefined
+                  }
                   target="_blank"
                 >
                   <OpenInNewRounded />

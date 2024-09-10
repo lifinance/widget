@@ -1,12 +1,8 @@
 import type { FullStatusData } from '@lifi/sdk';
-import { ContentCopyRounded } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { Card } from '../../components/Card/Card.js';
-import { CardIconButton } from '../../components/Card/CardIconButton.js';
-import { CardTitle } from '../../components/Card/CardTitle.js';
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js';
 import { PageContainer } from '../../components/PageContainer.js';
 import { getStepList } from '../../components/Step/StepList.js';
@@ -22,6 +18,7 @@ import { buildRouteFromTxHistory } from '../../utils/converters.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { ContactSupportButton } from './ContactSupportButton.js';
 import { TransactionDetailsSkeleton } from './TransactionDetailsSkeleton.js';
+import { TransferIdCard } from './TransferIdCard.js';
 
 export const TransactionDetailsPage: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -65,10 +62,6 @@ export const TransactionDetailsPage: React.FC = () => {
       navigate(navigationRoutes.home);
     }
   }, [isLoading, navigate, routeExecution]);
-
-  const copySupportId = async () => {
-    await navigator.clipboard.writeText(supportId);
-  };
 
   const sourceTxHash = getSourceTxHash(routeExecution?.route);
 
@@ -117,30 +110,7 @@ export const TransactionDetailsPage: React.FC = () => {
           sx={{ marginTop: 2 }}
         />
       ) : null}
-      <Card sx={{ marginTop: 2 }}>
-        <Box
-          sx={{
-            display: 'flex',
-            flex: 1,
-          }}
-        >
-          <CardTitle flex={1}>{t('main.supportId')}</CardTitle>
-          <Box mr={2} mt={1}>
-            <CardIconButton size="small" onClick={copySupportId}>
-              <ContentCopyRounded fontSize="inherit" />
-            </CardIconButton>
-          </Box>
-        </Box>
-        <Typography
-          variant="body2"
-          pt={1}
-          pb={2}
-          px={2}
-          sx={{ wordBreak: 'break-all' }}
-        >
-          {supportId}
-        </Typography>
-      </Card>
+      <TransferIdCard transferId={supportId} />
       <Box mt={2}>
         <ContactSupportButton supportId={supportId} />
       </Box>

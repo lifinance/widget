@@ -5,17 +5,19 @@
   },
   "format": {
     "currency": "",
-    "number": ""
+    "number": "",
+    "percent": ""
   },
   "button": {
     "auto": "स्वतः",
     "bookmark": "",
     "bookmarks": "",
     "bridge": "",
+    "bridgeReview": "",
     "buy": "",
-    "buyNow": "",
     "cancel": "रद्द करें",
     "changeWallet": "",
+    "checkoutReview": "",
     "close": "",
     "confirm": "",
     "connectWallet": "वॉलेट से जुड़ें?",
@@ -24,6 +26,8 @@
     "copyAddress": "",
     "dark": "अँधेरा",
     "delete": "हटाएं",
+    "deposit": "",
+    "depositReview": "",
     "disconnect": "संपर्क तोड़ें",
     "done": "समाप्त",
     "exchange": "",
@@ -36,14 +40,12 @@
     "removeTransaction": "",
     "reset": "",
     "resetSettings": "",
-    "reviewBridge": "",
-    "reviewPurchase": "",
-    "reviewSwap": "",
     "seeDetails": "",
     "showAll": "",
     "startBridging": "",
     "startSwapping": "",
     "swap": "",
+    "swapReview": "",
     "tryAgain": "",
     "viewCoverage": "",
     "viewOnExplorer": ""
@@ -53,15 +55,18 @@
     "bookmarkedWallets": "",
     "bridge": "",
     "checkout": "",
+    "checkoutDetails": "",
+    "deposit": "",
+    "depositDetails": "",
     "exchange": "",
     "from": "",
     "gas": "गैस",
     "payWith": "",
-    "purchase": "",
-    "purchaseDetails": "",
+    "receive": "",
     "recentWallets": "",
     "selectChain": "चैन चुने",
     "selectWallet": "वॉलेट चुनाव करे",
+    "send": "",
     "sendToWallet": "",
     "settings": "सेटिंग्स",
     "swap": "",
@@ -69,7 +74,8 @@
     "transactionDetails": "",
     "transactionHistory": "",
     "walletConnected": "",
-    "youGet": ""
+    "youGet": "",
+    "youPay": ""
   },
   "info": {
     "message": {
@@ -82,7 +88,7 @@
       "routeNotFound": ""
     },
     "title": {
-      "autoRefuel": "गेस शुल्क ले",
+      "autoRefuel": "",
       "emptyActiveTransactions": "",
       "emptyTransactionHistory": "",
       "routeNotFound": ""
@@ -92,12 +98,13 @@
     "message": {
       "exchangePartiallySuccessful": "",
       "exchangeSuccessful": "",
-      "purchaseSuccessful": ""
+      "checkoutSuccessful": ""
     },
     "title": {
       "bridgePartiallySuccessful": "",
       "bridgeSuccessful": "",
-      "purchaseSuccessful": "",
+      "depositSuccessful": "",
+      "checkoutSuccessful": "",
       "refundIssued": "",
       "swapPartiallySuccessful": "",
       "swapSuccessful": ""
@@ -132,8 +139,10 @@
       "signatureRejected": "",
       "slippageThreshold": "",
       "transactionCanceled": "",
+      "transactionExpired": "",
       "transactionFailed": "",
       "transactionNotSent": "",
+      "transactionSimulationFailed": "",
       "unknown": "",
       "walletChangedDuringExecution": ""
     },
@@ -149,7 +158,9 @@
       "signatureRejected": "",
       "slippageNotMet": "",
       "transactionCanceled": "",
+      "transactionExpired": "",
       "transactionFailed": "",
+      "transactionSimulationFailed": "",
       "transactionUnderpriced": "",
       "transactionUnprepared": "",
       "unknown": "",
@@ -161,16 +172,20 @@
     }
   },
   "tooltip": {
+    "deselectAll": "",
     "estimatedTime": "",
+    "feeCollection": "",
+    "minReceived": "",
     "notFound": {
       "text": "",
       "title": "404"
     },
     "numberOfSteps": "",
+    "priceImpact": "",
     "progressToNextUpdate": "",
-    "settingsModified": "",
     "selectAll": "",
-    "deselectAll": ""
+    "settingsModified": "",
+    "slippage": ""
   },
   "main": {
     "allTokens": "",
@@ -180,21 +195,22 @@
     "depositStepDetails": "",
     "featuredTokens": "",
     "fees": {
+      "defaultIntegrator": "",
       "estimated": "",
-      "networkEstimated": "",
-      "networkPaid": "",
+      "integrator": "",
+      "network": "",
       "paid": "",
-      "providerEstimated": "",
-      "providerPaid": ""
+      "provider": ""
     },
     "from": "",
-    "fromAmount": "",
-    "gasCost": "",
     "inProgress": "",
+    "maxSlippage": "",
+    "minReceived": "",
     "myTokens": "",
     "onChain": "",
     "ownedBy": "",
     "popularTokens": "",
+    "priceImpact": "",
     "process": {
       "bridge": {
         "actionRequired": "",
@@ -243,30 +259,23 @@
     "sentToAddress": "",
     "stepBridge": "",
     "stepBridgeAndBuy": "",
+    "stepBridgeAndDeposit": "",
     "stepDetails": "",
     "stepSwap": "",
     "stepSwapAndBridge": "",
     "stepSwapAndBuy": "",
+    "stepSwapAndDeposit": "",
     "supportId": "",
     "swapStepDetails": "",
     "tags": {
       "cheapest": "",
-      "fastest": "",
-      "insurable": "",
-      "insurance": "",
-      "insured": ""
+      "fastest": ""
     },
     "to": "",
     "tokenOnChain": "",
     "tokenOnChainAmount": "",
     "tokenSearch": "",
     "valueLoss": ""
-  },
-  "insurance": {
-    "bridgeExploits": "",
-    "insure": "",
-    "insured": "",
-    "slippageError": ""
   },
   "settings": {
     "theme": "",

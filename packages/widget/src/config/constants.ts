@@ -1,1 +1,3 @@
-export const defaultMaxHeight = 682;
+export const defaultMaxHeight = 686;
+
+export const lifiExplorerUrl = 'https://scan.li.fi';

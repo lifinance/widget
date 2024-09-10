@@ -188,7 +188,6 @@ export interface WidgetConfig {
   contractSecondaryComponent?: ReactNode;
   contractCompactComponent?: ReactNode;
   contractTool?: WidgetContractTool;
-
   integrator: string;
   apiKey?: string;
   /**
@@ -225,6 +224,7 @@ export interface WidgetConfig {
   tokens?: WidgetTokens;
   languages?: WidgetLanguages;
   languageResources?: LanguageResources;
+  explorerUrls?: Record<number | 'internal', string[]>;
 }
 
 export interface WidgetConfigProps {
