@@ -1,56 +1,46 @@
 import type { ExchangeRateUpdateParams } from '@lifi/sdk';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Delete } from '@mui/icons-material';
 import { Box, Button, Tooltip } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import type { BottomSheetBase } from '../../components/BottomSheet';
-import { ContractComponent } from '../../components/ContractComponent';
-import { GasMessage } from '../../components/GasMessage';
-import { Insurance } from '../../components/Insurance';
-import { PageContainer } from '../../components/PageContainer';
-import { getStepList } from '../../components/Step';
+import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
+import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js';
+import { GasMessage } from '../../components/GasMessage/GasMessage.js';
+import { PageContainer } from '../../components/PageContainer.js';
+import { getStepList } from '../../components/Step/StepList.js';
+import { TransactionDetails } from '../../components/TransactionDetails.js';
+import { useHeader } from '../../hooks/useHeader.js';
+import { useNavigateBack } from '../../hooks/useNavigateBack.js';
+import { useRouteExecution } from '../../hooks/useRouteExecution.js';
+import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useFieldActions } from '../../stores/form/useFieldActions.js';
+import { RouteExecutionStatus } from '../../stores/routes/types.js';
+import { WidgetEvent } from '../../types/events.js';
+import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js';
+import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet.js';
+import { ExchangeRateBottomSheet } from './ExchangeRateBottomSheet.js';
+import { RouteTracker } from './RouteTracker.js';
+import { StartTransactionButton } from './StartTransactionButton.js';
+import { StatusBottomSheet } from './StatusBottomSheet.js';
+import { TokenValueBottomSheet } from './TokenValueBottomSheet.js';
 import {
-  useNavigateBack,
-  useRouteExecution,
-  useWidgetEvents,
-} from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import {
-  RouteExecutionStatus,
-  useFieldActions,
-  useHeaderStoreContext,
-} from '../../stores';
-import { WidgetEvent } from '../../types/events';
-import { formatTokenAmount } from '../../utils';
-import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet';
-import { ExchangeRateBottomSheet } from './ExchangeRateBottomSheet';
-import {
-  StartInsurableTransactionButton,
-  StartTransactionButton,
-} from './StartTransactionButton';
-import { StatusBottomSheet } from './StatusBottomSheet';
-import {
-  TokenValueBottomSheet,
+  calculateValueLossPercentage,
   getTokenValueLossThreshold,
-} from './TokenValueBottomSheet';
-import { calcValueLoss } from './utils';
+} from './utils.js';
 
 export const TransactionPage: React.FC = () => {
   const { t } = useTranslation();
   const { setFieldValue } = useFieldActions();
   const emitter = useWidgetEvents();
   const { navigateBack } = useNavigateBack();
-  const {
-    subvariant,
-    insurance,
-    contractComponent,
-    contractSecondaryComponent,
-  } = useWidgetConfig();
+  const { subvariant, subvariantOptions, contractSecondaryComponent } =
+    useWidgetConfig();
   const { state }: any = useLocation();
-  const headerStoreContext = useHeaderStoreContext();
   const stateRouteId = state?.routeId;
   const [routeId, setRouteId] = useState<string>(stateRouteId);
+  const [routeRefreshing, setRouteRefreshing] = useState(false);
 
   const tokenValueBottomSheetRef = useRef<BottomSheetBase>(null);
   const exchangeRateBottomSheetRef = useRef<ExchangeRateBottomSheetBase>(null);
@@ -68,19 +58,35 @@ export const TransactionPage: React.FC = () => {
       onAcceptExchangeRateUpdate,
     });
 
-  useEffect(() => {
-    if (route && subvariant !== 'nft') {
-      const transactionType =
-        route.fromChainId === route.toChainId ? 'Swap' : 'Bridge';
-      return headerStoreContext
-        .getState()
-        .setTitle(
-          status === RouteExecutionStatus.Idle
-            ? t(`button.review${transactionType}`)
-            : t(`header.${transactionType.toLowerCase() as 'swap' | 'bridge'}`),
-        );
+  const getHeaderTitle = () => {
+    if (subvariant === 'custom') {
+      return t(`header.${subvariantOptions?.custom ?? 'checkout'}`);
+    } else {
+      if (route) {
+        const transactionType =
+          route.fromChainId === route.toChainId ? 'swap' : 'bridge';
+        return status === RouteExecutionStatus.Idle
+          ? t(`button.${transactionType}Review`)
+          : t(`header.${transactionType}`);
+      }
     }
-  }, [headerStoreContext, route, status, subvariant, t]);
+
+    return t(`header.exchange`);
+  };
+
+  const headerAction = useMemo(
+    () =>
+      status === RouteExecutionStatus.Idle ? (
+        <RouteTracker
+          observableRouteId={stateRouteId}
+          onChange={setRouteId}
+          onFetching={setRouteRefreshing}
+        />
+      ) : undefined,
+    [stateRouteId, status],
+  );
+
+  useHeader(getHeaderTitle(), headerAction);
 
   useEffect(() => {
     if (status === RouteExecutionStatus.Idle) {
@@ -94,21 +100,28 @@ export const TransactionPage: React.FC = () => {
     return null;
   }
 
-  const tokenValueLossThresholdExceeded = getTokenValueLossThreshold(route);
-
   const handleExecuteRoute = () => {
     if (tokenValueBottomSheetRef.current?.isOpen()) {
+      const { gasCostUSD, feeCostUSD } = getAccumulatedFeeCostsBreakdown(route);
+      const fromAmountUSD = parseFloat(route.fromAmountUSD);
+      const toAmountUSD = parseFloat(route.toAmountUSD);
       emitter.emit(WidgetEvent.RouteHighValueLoss, {
-        fromAmountUsd: route.fromAmountUSD,
-        gasCostUSD: route.gasCostUSD,
-        toAmountUSD: route.toAmountUSD,
-        valueLoss: calcValueLoss(route),
+        fromAmountUSD,
+        toAmountUSD,
+        gasCostUSD,
+        feeCostUSD,
+        valueLoss: calculateValueLossPercentage(
+          fromAmountUSD,
+          toAmountUSD,
+          gasCostUSD,
+          feeCostUSD,
+        ),
       });
     }
     tokenValueBottomSheetRef.current?.close();
     executeRoute();
     setFieldValue('fromAmount', '');
-    if (subvariant === 'nft') {
+    if (subvariant === 'custom') {
       setFieldValue('fromToken', '');
       setFieldValue('toToken', '');
     }
@@ -116,7 +129,16 @@ export const TransactionPage: React.FC = () => {
 
   const handleStartClick = async () => {
     if (status === RouteExecutionStatus.Idle) {
-      if (tokenValueLossThresholdExceeded && subvariant !== 'nft') {
+      const { gasCostUSD, feeCostUSD } = getAccumulatedFeeCostsBreakdown(route);
+      const fromAmountUSD = parseFloat(route.fromAmountUSD);
+      const toAmountUSD = parseFloat(route.toAmountUSD);
+      const tokenValueLossThresholdExceeded = getTokenValueLossThreshold(
+        fromAmountUSD,
+        toAmountUSD,
+        gasCostUSD,
+        feeCostUSD,
+      );
+      if (tokenValueLossThresholdExceeded && subvariant !== 'custom') {
         tokenValueBottomSheetRef.current?.open();
       } else {
         handleExecuteRoute();
@@ -136,8 +158,10 @@ export const TransactionPage: React.FC = () => {
     switch (status) {
       case RouteExecutionStatus.Idle:
         switch (subvariant) {
-          case 'nft':
-            return t('button.buyNow');
+          case 'custom':
+            return subvariantOptions?.custom === 'deposit'
+              ? t(`button.deposit`)
+              : t(`button.buy`);
           case 'refuel':
             return t('button.startBridging');
           default:
@@ -152,64 +176,30 @@ export const TransactionPage: React.FC = () => {
     }
   };
 
-  const insuredRoute = route.insurance?.state === 'INSURED';
-  const insurableRoute =
-    insurance &&
-    subvariant !== 'refuel' &&
-    status === RouteExecutionStatus.Idle &&
-    route.insurance?.state === 'INSURABLE';
-
-  const insuranceAvailable = insuredRoute || insurableRoute;
-
-  const StartButton = insurableRoute
-    ? StartInsurableTransactionButton
-    : StartTransactionButton;
-
-  const getInsuranceCoverageId = () =>
-    route.steps[0].execution?.process
-      .filter((process) => process.type !== 'TOKEN_ALLOWANCE')
-      .find((process) => process.txHash)?.txHash ?? route.fromAddress;
-
   return (
-    <PageContainer topBottomGutters>
+    <PageContainer bottomGutters>
       {getStepList(route, subvariant)}
-      {subvariant === 'nft' ? (
-        <ContractComponent mt={2}>
-          {contractSecondaryComponent || contractComponent}
+      {subvariant === 'custom' && contractSecondaryComponent ? (
+        <ContractComponent sx={{ marginTop: 2 }}>
+          {contractSecondaryComponent}
         </ContractComponent>
       ) : null}
-      {insuranceAvailable ? (
-        <Insurance
-          mt={2}
-          status={status}
-          insurableRouteId={stateRouteId}
-          feeAmountUsd={route.insurance.feeAmountUsd}
-          insuredAmount={formatTokenAmount(
-            BigInt(route.toAmountMin),
-            route.toToken.decimals,
-          )}
-          insuredTokenSymbol={route.toToken.symbol}
-          insuranceCoverageId={getInsuranceCoverageId()}
-          onChange={setRouteId}
-        />
-      ) : null}
+      <TransactionDetails route={route} sx={{ marginTop: 2 }} />
       {status === RouteExecutionStatus.Idle ||
       status === RouteExecutionStatus.Failed ? (
         <>
           <GasMessage mt={2} route={route} />
           <Box mt={2} display="flex">
-            <StartButton
+            <StartTransactionButton
               text={getButtonText()}
               onClick={handleStartClick}
               route={route}
-              insurableRouteId={stateRouteId}
+              loading={routeRefreshing}
             />
             {status === RouteExecutionStatus.Failed ? (
               <Tooltip
                 title={t('button.removeTransaction')}
                 placement="bottom-end"
-                enterDelay={400}
-                arrow
               >
                 <Button
                   onClick={handleRemoveRoute}
@@ -218,7 +208,7 @@ export const TransactionPage: React.FC = () => {
                     marginLeft: 1,
                   }}
                 >
-                  <DeleteIcon />
+                  <Delete />
                 </Button>
               </Tooltip>
             ) : null}
@@ -226,7 +216,7 @@ export const TransactionPage: React.FC = () => {
         </>
       ) : null}
       {status ? <StatusBottomSheet status={status} route={route} /> : null}
-      {tokenValueLossThresholdExceeded && subvariant !== 'nft' ? (
+      {subvariant !== 'custom' ? (
         <TokenValueBottomSheet
           route={route}
           ref={tokenValueBottomSheetRef}

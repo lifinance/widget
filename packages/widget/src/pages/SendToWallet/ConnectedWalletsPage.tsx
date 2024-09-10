@@ -1,48 +1,66 @@
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import TurnedInIcon from '@mui/icons-material/TurnedIn';
+import {
+  ContentCopyRounded,
+  MoreHoriz,
+  OpenInNewRounded,
+  TurnedIn,
+} from '@mui/icons-material';
 import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material';
-import { useId, useRef, useState } from 'react';
+import { useId, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AccountAvatar } from '../../components/AccountAvatar';
-import type { BottomSheetBase } from '../../components/BottomSheet';
-import { ListItem, ListItemButton } from '../../components/ListItem';
-import { Menu } from '../../components/Menu';
-import type { Account } from '../../hooks';
-import { useAccount, useChains, useToAddressRequirements } from '../../hooks';
-import type { Bookmark } from '../../stores';
-import { useBookmarkActions } from '../../stores';
-import { shortenAddress } from '../../utils';
-import { ConfirmAddressSheet } from './ConfirmAddressSheet';
-import { EmptyListIndicator } from './EmptyListIndicator';
+import { useNavigate } from 'react-router-dom';
+import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js';
+import { ListItem } from '../../components/ListItem/ListItem.js';
+import { ListItemButton } from '../../components/ListItem/ListItemButton.js';
+import { Menu } from '../../components/Menu.js';
+import type { Account } from '../../hooks/useAccount.js';
+import { useAccount } from '../../hooks/useAccount.js';
+import { useExplorer } from '../../hooks/useExplorer.js';
+import { useHeader } from '../../hooks/useHeader.js';
+import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
+import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
+import { useFieldActions } from '../../stores/form/useFieldActions.js';
+import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js';
+import { shortenAddress } from '../../utils/wallet.js';
+import { EmptyListIndicator } from './EmptyListIndicator.js';
 import {
   ListContainer,
   OptionsMenuButton,
   SendToWalletPageContainer,
-} from './SendToWalletPage.style';
+} from './SendToWalletPage.style.js';
 
 export const ConnectedWalletsPage = () => {
   const { t } = useTranslation();
   const [selectedAccount, setSelectedAccount] = useState<Account>();
-  const confirmAddressSheetRef = useRef<BottomSheetBase>(null);
   const { accounts } = useAccount();
   const { setSelectedBookmark } = useBookmarkActions();
-  const { getChainById } = useChains();
   const { requiredToChainType } = useToAddressRequirements();
+  const navigate = useNavigate();
+  const { setFieldValue } = useFieldActions();
+  const { setSendToWallet } = useSendToWalletActions();
+  const [moreMenuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>();
   const moreMenuId = useId();
+  const open = Boolean(moreMenuAnchorEl);
+  const { getAddressLink } = useExplorer();
+
+  useHeader(t('sendToWallet.connectedWallets'));
 
   const handleWalletSelected = (account: Account) => {
-    setSelectedAccount(account);
-    confirmAddressSheetRef.current?.open();
+    setFieldValue('toAddress', account.address!, {
+      isTouched: true,
+    });
+    setSelectedBookmark({
+      name: account.connector?.name,
+      address: account.address!,
+      chainType: account.chainType!,
+      isConnectedAccount: true,
+    });
+    setSendToWallet(true);
+    navigate(`../../`, {
+      relative: 'path',
+      replace: true,
+    });
   };
 
-  const handleOnConfirm = (accountWallet: Bookmark) => {
-    setSelectedBookmark(accountWallet);
-  };
-
-  const [moreMenuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>();
-  const open = Boolean(moreMenuAnchorEl);
   const closeMenu = () => {
     setMenuAnchorEl(null);
   };
@@ -61,11 +79,12 @@ export const ConnectedWalletsPage = () => {
 
   const handleViewOnExplorer = () => {
     if (selectedAccount?.chainId) {
-      const chain = getChainById(selectedAccount.chainId);
-      window.open(
-        `${chain?.metamask.blockExplorerUrls[0]}address/${selectedAccount.address}`,
-        '_blank',
-      );
+      if (selectedAccount.address) {
+        window.open(
+          getAddressLink(selectedAccount.address, selectedAccount.chainId),
+          '_blank',
+        );
+      }
     }
     closeMenu();
   };
@@ -113,13 +132,13 @@ export const ConnectedWalletsPage = () => {
                       : 1,
                 }}
               >
-                <MoreHorizIcon fontSize="small" />
+                <MoreHoriz fontSize="small" />
               </OptionsMenuButton>
             </ListItem>
           );
         })}
         {!accounts.length && (
-          <EmptyListIndicator icon={<TurnedInIcon sx={{ fontSize: 48 }} />}>
+          <EmptyListIndicator icon={<TurnedIn sx={{ fontSize: 48 }} />}>
             {t('sendToWallet.noConnectedWallets')}
           </EmptyListIndicator>
         )}
@@ -139,27 +158,15 @@ export const ConnectedWalletsPage = () => {
           onClose={closeMenu}
         >
           <MenuItem onClick={handleCopyAddress}>
-            <ContentCopyIcon />
+            <ContentCopyRounded />
             {t('button.copyAddress')}
           </MenuItem>
           <MenuItem onClick={handleViewOnExplorer}>
-            <OpenInNewIcon />
+            <OpenInNewRounded />
             {t('button.viewOnExplorer')}
           </MenuItem>
         </Menu>
       </ListContainer>
-      <ConfirmAddressSheet
-        ref={confirmAddressSheetRef}
-        validatedBookmark={
-          selectedAccount && {
-            name: selectedAccount.connector?.name,
-            address: selectedAccount.address!,
-            chainType: selectedAccount.chainType!,
-            isConnectedAccount: true,
-          }
-        }
-        onConfirm={handleOnConfirm}
-      />
     </SendToWalletPageContainer>
   );
 };

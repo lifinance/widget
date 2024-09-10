@@ -1,12 +1,13 @@
-import EvStationIcon from '@mui/icons-material/EvStation';
+import { EvStation } from '@mui/icons-material';
 import type { BoxProps } from '@mui/material';
 import { Box, Collapse, Typography } from '@mui/material';
 import type { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useGasRefuel } from '../../hooks';
-import { useSettings, useSettingsStore } from '../../stores';
-import { AlertMessage } from '../AlertMessage';
-import { InfoMessageSwitch } from './GasMessage.style';
+import { useGasRefuel } from '../../hooks/useGasRefuel.js';
+import { useSettings } from '../../stores/settings/useSettings.js';
+import { useSettingsStore } from '../../stores/settings/useSettingsStore.js';
+import { AlertMessage } from '../AlertMessage/AlertMessage.js';
+import { InfoMessageSwitch } from './GasMessage.style.js';
 
 export const GasRefuelMessage: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation();
@@ -29,7 +30,7 @@ export const GasRefuelMessage: React.FC<BoxProps> = (props) => {
       mountOnEnter
     >
       <AlertMessage
-        icon={<EvStationIcon />}
+        icon={<EvStation />}
         title={
           <Box
             display="flex"
@@ -38,7 +39,7 @@ export const GasRefuelMessage: React.FC<BoxProps> = (props) => {
             flexGrow={1}
           >
             <Typography variant="body2" fontWeight={700}>
-              {t(`info.title.autoRefuel`)}
+              {t(`info.title.autoRefuel`, { chainName: chain?.name ?? '' })}
             </Typography>
             <InfoMessageSwitch
               checked={enabledAutoRefuel}

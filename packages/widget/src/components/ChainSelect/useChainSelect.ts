@@ -1,17 +1,19 @@
 import type { EVMChain } from '@lifi/sdk';
-import { useChains, useSwapOnly, useToAddressReset } from '../../hooks';
-import type { FormType } from '../../stores';
-import {
-  FormKeyHelper,
-  useChainOrder,
-  useFieldActions,
-  useFieldController,
-} from '../../stores';
+import { useChains } from '../../hooks/useChains.js';
+import { useSwapOnly } from '../../hooks/useSwapOnly.js';
+import { useToAddressReset } from '../../hooks/useToAddressReset.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useChainOrder } from '../../stores/chains/useChainOrder.js';
+import type { FormType } from '../../stores/form/types.js';
+import { FormKeyHelper } from '../../stores/form/types.js';
+import { useFieldActions } from '../../stores/form/useFieldActions.js';
+import { useFieldController } from '../../stores/form/useFieldController.js';
+import type { DisabledUI } from '../../types/widget.js';
 
 export const useChainSelect = (formType: FormType) => {
+  const { disabledUI } = useWidgetConfig();
   const chainKey = FormKeyHelper.getChainKey(formType);
-  const { onChange, onBlur } = useFieldController({ name: chainKey });
-
+  const { onChange } = useFieldController({ name: chainKey });
   const { setFieldValue, getFieldValues } = useFieldActions();
   const { chains, isLoading, getChainById } = useChains(formType);
   const [chainOrder, setChainOrder] = useChainOrder(formType);
@@ -30,14 +32,19 @@ export const useChainSelect = (formType: FormType) => {
 
   const setCurrentChain = (chainId: number) => {
     onChange(chainId);
-    onBlur();
     if (swapOnly) {
       setFieldValue(FormKeyHelper.getChainKey('to'), chainId, {
         isTouched: true,
       });
     }
-    setFieldValue(FormKeyHelper.getTokenKey(formType), '');
-    setFieldValue(FormKeyHelper.getAmountKey(formType), '');
+    const tokenKey = FormKeyHelper.getTokenKey(formType);
+    if (!disabledUI?.includes(tokenKey as DisabledUI)) {
+      setFieldValue(tokenKey, '');
+    }
+    const amountKey = FormKeyHelper.getAmountKey(formType);
+    if (!disabledUI?.includes(amountKey as DisabledUI)) {
+      setFieldValue(amountKey, '');
+    }
     setFieldValue('tokenSearchFilter', '');
 
     const [toChainId] = getFieldValues('toChain');

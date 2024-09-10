@@ -1,4 +1,4 @@
-import en from './en.json';
+import en from './en.json' with { type: 'json' };
 
 const defaultResource = { translation: en };
 

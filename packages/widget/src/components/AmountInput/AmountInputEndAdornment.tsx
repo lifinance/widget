@@ -1,14 +1,14 @@
 import { InputAdornment } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { formatUnits } from 'viem';
-import {
-  useAvailableChains,
-  useGasRecommendation,
-  useTokenAddressBalance,
-} from '../../hooks';
-import type { FormTypeProps } from '../../stores';
-import { FormKeyHelper, useFieldActions, useFieldValues } from '../../stores';
-import { MaxButton, MaxButtonSkeleton } from './AmountInputAdornment.style';
+import { useAvailableChains } from '../../hooks/useAvailableChains.js';
+import { useGasRecommendation } from '../../hooks/useGasRecommendation.js';
+import { useTokenAddressBalance } from '../../hooks/useTokenAddressBalance.js';
+import type { FormTypeProps } from '../../stores/form/types.js';
+import { FormKeyHelper } from '../../stores/form/types.js';
+import { useFieldActions } from '../../stores/form/useFieldActions.js';
+import { useFieldValues } from '../../stores/form/useFieldValues.js';
+import { MaxButton, MaxButtonSkeleton } from './AmountInputAdornment.style.js';
 
 export const AmountInputEndAdornment = ({ formType }: FormTypeProps) => {
   const { t } = useTranslation();
@@ -27,27 +27,30 @@ export const AmountInputEndAdornment = ({ formType }: FormTypeProps) => {
   const { token, isLoading } = useTokenAddressBalance(chainId, tokenAddress);
 
   const handleMax = () => {
+    if (!token?.amount) {
+      return;
+    }
     const chain = getChainById(chainId);
-    let maxAmount = token?.amount;
+    let maxAmount = token.amount;
     if (
       chain?.nativeToken.address === tokenAddress &&
       data?.available &&
       data?.recommended
     ) {
-      const tokenAmount = token?.amount ?? 0n;
       const recommendedAmount = BigInt(data.recommended.amount) / 2n;
-      if (tokenAmount > recommendedAmount) {
-        maxAmount = tokenAmount - recommendedAmount;
+      if (token.amount > recommendedAmount) {
+        maxAmount = token.amount - recommendedAmount;
       }
     }
-
-    setFieldValue(
-      FormKeyHelper.getAmountKey(formType),
-      maxAmount && token ? formatUnits(maxAmount, token.decimals) : '',
-      {
-        isTouched: true,
-      },
-    );
+    if (maxAmount) {
+      setFieldValue(
+        FormKeyHelper.getAmountKey(formType),
+        formatUnits(maxAmount, token.decimals),
+        {
+          isTouched: true,
+        },
+      );
+    }
   };
 
   return (

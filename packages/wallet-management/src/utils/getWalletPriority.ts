@@ -1,12 +1,15 @@
 const walletPriority: Record<string, number> = {
+  metaMaskSDK: 1,
   'io.metamask': 1,
-  walletConnect: 2,
-  tokenpocket: 3,
-  safepal: 4,
-  oneinch: 5,
-  safe: 6,
-  okx: 7,
-  coinbaseWalletSDK: 8,
+  'io.metamask.mobile': 1,
+  coinbaseWalletSDK: 2,
+  'com.coinbase.wallet': 2,
+  walletConnect: 3,
+  tokenpocket: 4,
+  safepal: 5,
+  '1inch': 6,
+  safe: 7,
+  okx: 8,
   bitget: 9,
 };
 

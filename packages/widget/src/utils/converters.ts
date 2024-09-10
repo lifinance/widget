@@ -1,13 +1,16 @@
 import type {
   ExtendedTransactionInfo,
+  FeeCost,
   FullStatusData,
   Process,
-  Status,
+  ProcessStatus,
   Substatus,
   TokenAmount,
   ToolsResponse,
 } from '@lifi/sdk';
-import type { RouteExecution } from '../stores';
+import { v4 as uuidv4 } from 'uuid';
+import { formatUnits } from 'viem';
+import type { RouteExecution } from '../stores/routes/types.js';
 
 const buildProcessFromTxHistory = (tx: FullStatusData): Process[] => {
   const sending = tx.sending as ExtendedTransactionInfo;
@@ -17,7 +20,7 @@ const buildProcessFromTxHistory = (tx: FullStatusData): Process[] => {
     return [];
   }
 
-  const processStatus: Status = tx.status === 'DONE' ? 'DONE' : 'FAILED';
+  const processStatus: ProcessStatus = tx.status === 'DONE' ? 'DONE' : 'FAILED';
   const substatus: Substatus =
     processStatus === 'FAILED' ? 'UNKNOWN_ERROR' : 'COMPLETED';
 
@@ -91,22 +94,38 @@ export const buildRouteFromTxHistory = (
   const fromToken: TokenAmount = {
     ...sending.token,
     amount: BigInt(sending.amount ?? 0),
-    priceUSD: sending.amountUSD ?? '0',
-    symbol: sending.token?.symbol ?? '',
-    decimals: sending.token?.decimals ?? 0,
-    name: sending.token?.name ?? '',
-    chainId: sending.token?.chainId,
   };
 
   const toToken: TokenAmount = {
     ...receiving.token,
     amount: BigInt(receiving.amount ?? 0),
-    priceUSD: receiving.amountUSD ?? '0',
-    symbol: receiving.token?.symbol ?? '',
-    decimals: receiving.token?.decimals ?? 0,
-    name: receiving.token?.name ?? '',
-    chainId: receiving.token?.chainId,
   };
+
+  const sendingValue = sending.value ? BigInt(sending.value) : 0n;
+  const sendingFeeAmount =
+    sending.gasToken.address === sending.token.address && sending.amount
+      ? sendingValue - BigInt(sending.amount)
+      : sendingValue;
+  const sendingFeeAmountUsd =
+    sending.gasToken.priceUSD && sendingFeeAmount
+      ? parseFloat(formatUnits(sendingFeeAmount, sending.gasToken.decimals)) *
+        parseFloat(sending.gasToken.priceUSD)
+      : 0;
+
+  const feeCosts: FeeCost[] | undefined = sendingFeeAmount
+    ? [
+        {
+          amount: sendingFeeAmount.toString(),
+          amountUSD: sendingFeeAmountUsd.toFixed(2),
+          token: sending.gasToken,
+          included: false,
+          // Not used
+          description: '',
+          name: '',
+          percentage: '',
+        },
+      ]
+    : undefined;
 
   const routeExecution: RouteExecution = {
     status: 1,
@@ -123,9 +142,10 @@ export const buildRouteFromTxHistory = (
       toChainId: receiving.chainId,
       fromToken,
       toToken,
+      gasCostUSD: sending.gasAmountUSD,
       steps: [
         {
-          id: '',
+          id: uuidv4(),
           type: 'lifi',
           tool: tx.tool,
           toolDetails: usedTool,
@@ -147,7 +167,7 @@ export const buildRouteFromTxHistory = (
             toAmountMin: receiving.amount ?? '',
             toAmount: receiving.amount ?? '',
             toAmountUSD: receiving.amountUSD ?? '',
-            executionDuration: 30,
+            executionDuration: 0,
           },
           includedSteps: [
             {
@@ -175,7 +195,7 @@ export const buildRouteFromTxHistory = (
               toolDetails: usedTool,
             },
           ],
-          integrator: '',
+          integrator: tx.metadata?.integrator ?? '',
           execution: {
             status: 'DONE', // can be FAILED
             process: buildProcessFromTxHistory(tx),
@@ -193,6 +213,7 @@ export const buildRouteFromTxHistory = (
                 type: 'SEND',
               },
             ],
+            feeCosts,
           },
         },
       ],

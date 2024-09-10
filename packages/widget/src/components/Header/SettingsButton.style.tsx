@@ -1,8 +1,14 @@
-import { Badge as MuiBadge } from '@mui/material';
-import { badgeClasses } from '@mui/material/Badge';
-import IconButton from '@mui/material/IconButton';
-import { darken, styled } from '@mui/material/styles';
-import { getInfoBackgroundColor, getWarningBackgroundColor } from '../../utils';
+import {
+  IconButton,
+  Badge as MuiBadge,
+  badgeClasses,
+  darken,
+  styled,
+} from '@mui/material';
+import {
+  getInfoBackgroundColor,
+  getWarningBackgroundColor,
+} from '../../utils/colors.js';
 
 export const SettingsIconBadge = styled(MuiBadge)(({ theme }) => ({
   display: 'flex',

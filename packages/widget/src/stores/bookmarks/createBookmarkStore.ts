@@ -1,16 +1,23 @@
 import type { StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { createWithEqualityFn } from 'zustand/traditional';
-import type { PersistStoreProps } from '../types';
-import type { BookmarkState } from './types';
+import type { ToAddress } from '../../types/widget.js';
+import type { PersistStoreProps } from '../types.js';
+import type { BookmarkState } from './types.js';
 
-const recentWalletsLimit = 5;
+const recentWalletsLimit = 10;
 
-export const createBookmarksStore = ({ namePrefix }: PersistStoreProps) =>
+interface PersistBookmarkProps extends PersistStoreProps {
+  toAddress?: ToAddress;
+}
+export const createBookmarksStore = ({
+  namePrefix,
+  toAddress,
+}: PersistBookmarkProps) =>
   createWithEqualityFn<BookmarkState>(
     persist(
       (set, get) => ({
-        selectedBookmark: undefined,
+        selectedBookmark: toAddress,
         bookmarks: [],
         recentWallets: [],
         getBookmark: (address) =>
@@ -27,6 +34,7 @@ export const createBookmarksStore = ({ namePrefix }: PersistStoreProps) =>
             ),
           }));
         },
+        getSelectedBookmark: () => get().selectedBookmark,
         setSelectedBookmark: (bookmark) => {
           set((state) => ({
             selectedBookmark: bookmark,
@@ -57,6 +65,16 @@ export const createBookmarksStore = ({ namePrefix }: PersistStoreProps) =>
           bookmarks: state.bookmarks,
           recentWallets: state.recentWallets,
         }),
+        onRehydrateStorage: () => {
+          return (state) => {
+            if (state && toAddress && !toAddress.name) {
+              const existingBookmark = state.getBookmark(toAddress.address);
+              if (existingBookmark) {
+                state.setSelectedBookmark(existingBookmark);
+              }
+            }
+          };
+        },
       },
     ) as StateCreator<BookmarkState, [], [], BookmarkState>,
     Object.is,

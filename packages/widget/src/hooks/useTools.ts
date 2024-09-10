@@ -1,13 +1,19 @@
 import { getTools, type ToolsResponse } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
-import { useWidgetConfig } from '../providers';
-import { useSettingsStore } from '../stores';
-import { isItemAllowed } from '../utils';
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
+import { useSettingsStore } from '../stores/settings/useSettingsStore.js';
+import { isItemAllowed } from '../utils/item.js';
 
 export const useTools = () => {
   const { bridges, exchanges } = useWidgetConfig();
   const { data } = useQuery({
-    queryKey: ['tools'],
+    queryKey: [
+      'tools',
+      bridges?.allow,
+      bridges?.deny,
+      exchanges?.allow,
+      exchanges?.deny,
+    ],
     queryFn: async (): Promise<ToolsResponse> => {
       const tools = await getTools();
       const result = {
@@ -29,8 +35,8 @@ export const useTools = () => {
       );
       return result;
     },
-    refetchInterval: 180000,
-    staleTime: 180000,
+    refetchInterval: 180_000,
+    staleTime: 180_000,
   });
 
   return { tools: data };

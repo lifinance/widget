@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
 import fsExtra from 'fs-extra';
 import { resolve } from 'path';
@@ -15,15 +16,24 @@ export async function createPackageFile(packagePath, path) {
     workspaces,
     files,
     eslintConfig,
-    ['lint-staged']: lintStaged,
+    'lint-staged': lintStaged,
     ...packageDataOther
   } = JSON.parse(packageData);
 
   const newPackageData = {
     ...packageDataOther,
-    main: './_cjs/index.js',
-    module: './_esm/index.js',
+    main: './_esm/index.js',
     types: './_esm/index.d.ts',
+    exports: {
+      '.': {
+        types: './_esm/index.d.ts',
+        default: './_esm/index.js',
+      },
+      './package.json': './package.json',
+      ...(packageDataOther.name === '@lifi/widget'
+        ? { './skeleton': './_esm/components/Skeleton/WidgetSkeleton.js' }
+        : {}),
+    },
   };
 
   const targetPath = resolve(path, './package.json');

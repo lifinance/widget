@@ -1,51 +1,57 @@
-import { Collapse } from '@mui/material';
-import { useEffect } from 'react';
+import { CloseRounded } from '@mui/icons-material';
+import { Box, Collapse } from '@mui/material';
+import type { MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useAccount, useToAddressRequirements } from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import {
-  useBookmarks,
-  useFieldValues,
-  useSendToWalletStore,
-  useSettings,
-} from '../../stores';
-import { DisabledUI, HiddenUI } from '../../types';
+import { useAccount } from '../../hooks/useAccount.js';
+import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
+import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js';
+import { useFieldActions } from '../../stores/form/useFieldActions.js';
+import { useFieldValues } from '../../stores/form/useFieldValues.js';
+import { useSendToWalletStore } from '../../stores/settings/useSendToWalletStore.js';
+import { DisabledUI, HiddenUI } from '../../types/widget.js';
 import {
   defaultChainIdsByType,
   getChainTypeFromAddress,
-  navigationRoutes,
-  shortenAddress,
-} from '../../utils';
-import { AccountAvatar } from '../AccountAvatar';
-import { Card, CardRowContainer, CardTitle } from '../Card';
-import { SendToWalletCardHeader } from './SendToWallet.style';
+} from '../../utils/chainType.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { shortenAddress } from '../../utils/wallet.js';
+import { AccountAvatar } from '../Avatar/AccountAvatar.js';
+import type { CardProps } from '../Card/Card.js';
+import { Card } from '../Card/Card.js';
+import { CardIconButton } from '../Card/CardIconButton.js';
+import { CardTitle } from '../Card/CardTitle.js';
+import { SendToWalletCardHeader } from './SendToWallet.style.js';
 
-export const SendToWalletButton = () => {
+export const SendToWalletButton: React.FC<CardProps> = (props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { disabledUI, hiddenUI, toAddress } = useWidgetConfig();
-  const { showSendToWallet, showSendToWalletDirty, setSendToWallet } =
-    useSendToWalletStore();
-  const { showDestinationWallet } = useSettings(['showDestinationWallet']);
-  const [toAddressFieldValue] = useFieldValues('toAddress');
+  const { disabledUI, hiddenUI, toAddress, toAddresses } = useWidgetConfig();
+  const { showSendToWallet, showSendToWalletDirty } = useSendToWalletStore();
+  const [toAddressFieldValue, toChainId, toTokenAddress] = useFieldValues(
+    'toAddress',
+    'toChain',
+    'toToken',
+  );
+  const { setFieldValue } = useFieldActions();
   const { selectedBookmark } = useBookmarks();
+  const { setSelectedBookmark } = useBookmarkActions();
   const { accounts } = useAccount();
+  const { requiredToAddress } = useToAddressRequirements();
   const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress);
   const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress);
-  const { requiredToAddress } = useToAddressRequirements();
 
   const showInstantly =
-    Boolean(
-      !showSendToWalletDirty &&
-        showDestinationWallet &&
-        toAddress &&
-        !hiddenToAddress,
-    ) || requiredToAddress;
+    Boolean(!showSendToWalletDirty && toAddress && !hiddenToAddress) ||
+    requiredToAddress;
 
   const address = toAddressFieldValue
     ? shortenAddress(toAddressFieldValue)
-    : t('sendToWallet.enterAddress');
+    : t('sendToWallet.enterAddress', {
+        context: 'short',
+      });
 
   const matchingConnectedAccount = accounts.find(
     (account) => account.address === toAddressFieldValue,
@@ -58,31 +64,45 @@ export const SendToWalletButton = () => {
         : undefined)
     : undefined;
 
-  const chainId = matchingConnectedAccount
-    ? matchingConnectedAccount.chainId
-    : chainType
-      ? defaultChainIdsByType[chainType]
-      : undefined;
+  const chainId =
+    toChainId && toTokenAddress
+      ? toChainId
+      : matchingConnectedAccount
+        ? matchingConnectedAccount.chainId
+        : chainType
+          ? defaultChainIdsByType[chainType]
+          : undefined;
 
-  const headerTitle = selectedBookmark?.isConnectedAccount
-    ? matchingConnectedAccount?.connector?.name || address
-    : selectedBookmark?.name || address;
+  const isConnectedAccount =
+    selectedBookmark?.isConnectedAccount &&
+    matchingConnectedAccount?.isConnected;
+  const connectedAccountName = matchingConnectedAccount?.connector?.name;
+  const bookmarkName = selectedBookmark?.name;
 
-  const headerSubheader = selectedBookmark?.isConnectedAccount
-    ? !!matchingConnectedAccount && address
-    : !!selectedBookmark?.name && address;
+  const headerTitle = isConnectedAccount
+    ? connectedAccountName || address
+    : bookmarkName || connectedAccountName || address;
+
+  const headerSubheader =
+    isConnectedAccount || bookmarkName || connectedAccountName ? address : null;
+
+  const disabledForChanges = Boolean(toAddress) && disabledToAddress;
+
+  const isSelected = !!toAddressFieldValue && !disabledForChanges;
 
   const handleOnClick = () => {
-    navigate(navigationRoutes.sendToWallet);
+    navigate(
+      toAddresses?.length
+        ? navigationRoutes.configuredWallets
+        : navigationRoutes.sendToWallet,
+    );
   };
 
-  // Sync SendToWalletExpandButton state
-  // TODO: find better way
-  useEffect(() => {
-    if (showInstantly) {
-      setSendToWallet(true);
-    }
-  }, [showInstantly, setSendToWallet]);
+  const clearSelectedBookmark: MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.stopPropagation();
+    setFieldValue('toAddress', '', { isTouched: true });
+    setSelectedBookmark();
+  };
 
   return (
     <Collapse
@@ -92,34 +112,35 @@ export const SendToWalletButton = () => {
       unmountOnExit
     >
       <Card
-        component="button"
-        onClick={!!toAddress && disabledToAddress ? undefined : handleOnClick}
-        sx={{ mb: 2 }}
+        role="button"
+        onClick={disabledForChanges ? undefined : handleOnClick}
+        sx={{ width: '100%', ...props.sx }}
       >
-        <CardRowContainer
-          sx={{
-            flexDirection: 'column',
-            padding: 0,
-            alignItems: 'flex-start',
-          }}
-        >
-          <CardTitle required={requiredToAddress}>
-            {t('header.sendToWallet')}
-          </CardTitle>
+        <CardTitle required={requiredToAddress}>
+          {t('header.sendToWallet')}
+        </CardTitle>
+        <Box display="flex" justifyContent="center" alignItems="center">
           <SendToWalletCardHeader
             avatar={
               <AccountAvatar
                 chainId={chainId}
                 account={matchingConnectedAccount}
+                toAddress={toAddress}
+                empty={!toAddressFieldValue}
               />
             }
             title={headerTitle}
             subheader={headerSubheader}
-            selected={
-              !!toAddressFieldValue && !(toAddress && disabledToAddress)
+            selected={isSelected || disabledForChanges}
+            action={
+              isSelected ? (
+                <CardIconButton onClick={clearSelectedBookmark} size="small">
+                  <CloseRounded fontSize="inherit" />
+                </CardIconButton>
+              ) : null
             }
           />
-        </CardRowContainer>
+        </Box>
       </Card>
     </Collapse>
   );

@@ -1,12 +1,14 @@
 import type { ExtendedChain } from '@lifi/sdk';
 import { Avatar, List, ListItemAvatar } from '@mui/material';
-import { useChainSelect } from '../../components/ChainSelect';
-import { ListItemButton } from '../../components/ListItemButton';
-import { ListItemText } from '../../components/ListItemText';
-import { PageContainer } from '../../components/PageContainer';
-import { useTokenSelect } from '../../components/TokenList';
-import { useNavigateBack } from '../../hooks';
-import type { SelectChainPageProps } from './types';
+import { useTranslation } from 'react-i18next';
+import { useChainSelect } from '../../components/ChainSelect/useChainSelect.js';
+import { ListItemButton } from '../../components/ListItemButton.js';
+import { ListItemText } from '../../components/ListItemText.js';
+import { PageContainer } from '../../components/PageContainer.js';
+import { useTokenSelect } from '../../components/TokenList/useTokenSelect.js';
+import { useHeader } from '../../hooks/useHeader.js';
+import { useNavigateBack } from '../../hooks/useNavigateBack.js';
+import type { SelectChainPageProps } from './types.js';
 
 export const SelectChainPage: React.FC<SelectChainPageProps> = ({
   formType,
@@ -15,6 +17,9 @@ export const SelectChainPage: React.FC<SelectChainPageProps> = ({
   const { navigateBack } = useNavigateBack();
   const { chains, setCurrentChain } = useChainSelect(formType);
   const selectToken = useTokenSelect(formType, navigateBack);
+
+  const { t } = useTranslation();
+  useHeader(t('header.selectChain'));
 
   const handleClick = async (chain: ExtendedChain) => {
     if (selectNativeToken) {
@@ -29,8 +34,10 @@ export const SelectChainPage: React.FC<SelectChainPageProps> = ({
     <PageContainer disableGutters>
       <List
         sx={{
+          paddingTop: 0,
           paddingLeft: 1.5,
           paddingRight: 1.5,
+          paddingBottom: 1.5,
         }}
       >
         {chains?.map((chain) => (

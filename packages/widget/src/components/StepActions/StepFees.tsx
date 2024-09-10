@@ -2,7 +2,7 @@ import type { LiFiStepExtended } from '@lifi/sdk';
 import type { TypographyProps } from '@mui/material';
 import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { getStepFeeCostsBreakdown } from '../../utils';
+import { getStepFeeCostsBreakdown } from '../../utils/fees.js';
 
 export const StepFees: React.FC<
   TypographyProps & {

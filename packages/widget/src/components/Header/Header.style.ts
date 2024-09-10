@@ -1,7 +1,14 @@
-import { AppBar, Box, Button, badgeClasses } from '@mui/material';
-import { buttonClasses } from '@mui/material/Button';
-import { alpha, styled } from '@mui/material/styles';
-import { Tabs } from '../Tabs';
+import {
+  AppBar,
+  Avatar,
+  Box,
+  Button,
+  buttonClasses,
+  styled,
+} from '@mui/material';
+import type { WidgetSubvariant } from '../../types/widget.js';
+import { getContrastAlphaColor } from '../../utils/colors.js';
+import { avatarMask12 } from '../Avatar/utils.js';
 
 export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: 'transparent',
@@ -9,25 +16,42 @@ export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
   flexDirection: 'row',
   alignItems: 'center',
   position: 'relative',
-  minHeight: 40,
-  padding: theme.spacing(0, 3, 0, 3),
-  ':first-of-type': {
-    paddingTop: theme.spacing(1.5),
-    paddingBottom: theme.spacing(0.5),
-  },
 }));
 
 export const Container = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'sticky',
-})<{ sticky?: boolean }>(({ theme, sticky }) => ({
-  backgroundColor: theme.palette.background.default,
-  backdropFilter: 'blur(12px)',
-  position: sticky ? 'sticky' : 'relative',
-  top: 0,
-  zIndex: 1200,
-}));
+})<{ sticky?: boolean }>(({ theme, sticky }) => {
+  return {
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: theme.palette.background.default,
+    backdropFilter: 'blur(12px)',
+    position: sticky ? 'sticky' : 'relative',
+    top: 0,
+    zIndex: 1200,
+    gap: theme.spacing(0.5),
+    padding: theme.spacing(1.5, 3, 1.5, 3),
+    overflow: 'auto',
+    ...theme.header,
+    ...(theme.header?.position === 'fixed'
+      ? {
+          minWidth: theme.breakpoints.values.xs,
+          maxWidth: theme.breakpoints.values.sm,
+          width: '100%',
+        }
+      : {}),
+  };
+});
 
-export const WalletButton = styled(Button)(({ theme }) => ({
+export const ContainerPlaceholder = styled(Box)(({ theme }) => {
+  return {
+    ...(theme.header?.position === 'fixed' ? {} : { display: 'none' }),
+  };
+});
+
+export const WalletButton = styled(Button, {
+  shouldForwardProp: (prop) => prop !== 'subvariant',
+})<{ subvariant?: WidgetSubvariant }>(({ subvariant, theme }) => ({
   color: theme.palette.text.primary,
   backgroundColor: 'transparent',
   padding: theme.spacing(1, 1.5),
@@ -36,10 +60,7 @@ export const WalletButton = styled(Button)(({ theme }) => ({
   fontWeight: 600,
   borderRadius: theme.shape.borderRadius * 2,
   '&:hover': {
-    backgroundColor:
-      theme.palette.mode === 'light'
-        ? alpha(theme.palette.common.black, 0.04)
-        : alpha(theme.palette.common.white, 0.08),
+    backgroundColor: getContrastAlphaColor(theme, 0.04),
   },
   [`.${buttonClasses.endIcon} > *:nth-of-type(1)`]: {
     fontSize: '24px',
@@ -47,12 +68,10 @@ export const WalletButton = styled(Button)(({ theme }) => ({
   [`.${buttonClasses.startIcon} > *:nth-of-type(1)`]: {
     fontSize: '24px',
   },
-  [`&:hover .${badgeClasses.badge} > div`]: {
-    borderColor:
-      theme.palette.mode === 'light'
-        ? alpha(theme.palette.common.black, 0.04)
-        : alpha(theme.palette.common.white, 0.08),
-  },
+  ...(theme.navigation.edge && {
+    marginRight: subvariant === 'split' ? 0 : theme.spacing(-1.25),
+    marginLeft: subvariant === 'split' ? theme.spacing(-1) : 0,
+  }),
 }));
 
 export const DrawerWalletContainer = styled(Box)(({ theme }) => ({
@@ -60,25 +79,28 @@ export const DrawerWalletContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
 
-  '& button:first-of-type': {
-    marginLeft: theme.spacing(-1),
-  },
-  '& button:last-of-type': {
-    marginRight: theme.spacing(-1.25),
-  },
+  ...(theme.navigation.edge && {
+    '& button:first-of-type': {
+      marginLeft: theme.spacing(-1),
+    },
+    '& button:last-of-type': {
+      marginRight: theme.spacing(-1.25),
+    },
+  }),
 }));
 
 export const HeaderControlsContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   gap: theme.spacing(0.5),
-  '& button:last-of-type': {
-    marginRight: theme.spacing(-1.25),
-  },
+  ...(theme.navigation.edge && {
+    '& button:last-of-type': {
+      marginRight: theme.spacing(-1.25),
+    },
+  }),
 }));
 
-export const SplitTabs = styled(Tabs)(({ theme }) => ({
-  backgroundColor:
-    theme.palette.mode === 'dark'
-      ? theme.palette.background.paper
-      : alpha(theme.palette.common.black, 0.04),
+export const WalletAvatar = styled(Avatar)(({ theme }) => ({
+  mask: avatarMask12,
+  width: 24,
+  height: 24,
 }));

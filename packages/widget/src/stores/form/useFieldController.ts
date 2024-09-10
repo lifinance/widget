@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
-import type { FormFieldNames } from './types';
-import { useFieldValues } from './useFieldValues';
-import { useFieldActions } from './useFieldActions';
+import type { FormFieldNames } from './types.js';
+import { useFieldActions } from './useFieldActions.js';
+import { useFieldValues } from './useFieldValues.js';
 
 interface UseFieldControllerProps {
   name: FormFieldNames;
@@ -13,7 +13,7 @@ export const useFieldController = ({ name }: UseFieldControllerProps) => {
 
   const onChange = useCallback(
     (newValue: string | number | undefined) => {
-      setFieldValue(name, newValue, { isDirty: true });
+      setFieldValue(name, newValue, { isDirty: true, isTouched: true });
     },
     [name, setFieldValue],
   );

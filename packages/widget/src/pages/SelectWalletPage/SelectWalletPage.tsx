@@ -1,5 +1,3 @@
-import { isWalletInstalled } from '@lifi/wallet-management';
-import type { Theme } from '@mui/material';
 import {
   Button,
   DialogActions,
@@ -7,33 +5,29 @@ import {
   DialogContentText,
   List,
 } from '@mui/material';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { WalletReadyState } from '@solana/wallet-adapter-base';
 import type { Wallet } from '@solana/wallet-adapter-react';
-import { useWallet } from '@solana/wallet-adapter-react';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Connector } from 'wagmi';
-import { useConnect, useAccount as useWagmiAccount } from 'wagmi';
-import { Dialog } from '../../components/Dialog';
-import { PageContainer } from '../../components/PageContainer';
-import { EVMListItemButton } from './EVMListItemButton';
-import { SVMListItemButton } from './SVMListItemButton';
-import { walletComparator } from './utils';
+import { useAccount as useWagmiAccount } from 'wagmi';
+import { Dialog } from '../../components/Dialog.js';
+import { PageContainer } from '../../components/PageContainer.js';
+import { useHeader } from '../../hooks/useHeader.js';
+import { useWallets } from '../../hooks/useWallets.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { EVMListItemButton } from './EVMListItemButton.js';
+import { SVMListItemButton } from './SVMListItemButton.js';
 
 export const SelectWalletPage = () => {
   const { t } = useTranslation();
+  const { chains, walletConfig } = useWidgetConfig();
   const account = useWagmiAccount();
-  const { connectors } = useConnect();
   const [walletIdentity, setWalletIdentity] = useState<{
     show: boolean;
     connector?: Connector;
   }>({ show: false });
-  const { wallets: solanaWallets } = useWallet();
 
-  const isDesktopView = useMediaQuery((theme: Theme) =>
-    theme.breakpoints.up('sm'),
-  );
+  useHeader(t(`header.selectWallet`));
 
   const closeDialog = () => {
     setWalletIdentity((state) => ({
@@ -49,53 +43,22 @@ export const SelectWalletPage = () => {
     });
   }, []);
 
-  const wallets = useMemo(() => {
-    const evmInstalled = connectors.filter(
-      (connector) =>
-        isWalletInstalled(connector.id) &&
-        // We should not show already connected connectors
-        account.connector?.id !== connector.id,
-    );
-    const evmNotDetected = connectors.filter(
-      (connector) => !isWalletInstalled(connector.id),
-    );
-    const svmInstalled = solanaWallets?.filter(
-      (connector) =>
-        connector.adapter.readyState === WalletReadyState.Installed &&
-        // We should not show already connected connectors
-        !connector.adapter.connected,
-    );
-    const svmNotDetected = solanaWallets?.filter(
-      (connector) =>
-        connector.adapter.readyState !== WalletReadyState.Installed,
-    );
-
-    const installedWallets = [...evmInstalled, ...svmInstalled].sort(
-      walletComparator,
-    );
-
-    if (isDesktopView) {
-      const notDetectedWallets = [...evmNotDetected, ...svmNotDetected].sort(
-        walletComparator,
-      );
-      installedWallets.push(...notDetectedWallets);
-    }
-
-    return installedWallets;
-  }, [account.connector?.id, connectors, isDesktopView, solanaWallets]);
+  const wallets = useWallets(walletConfig, chains);
 
   return (
     <PageContainer disableGutters>
       <List
         sx={{
+          paddingTop: 0,
           paddingLeft: 1.5,
           paddingRight: 1.5,
+          paddingBottom: 1.5,
         }}
       >
         {wallets?.map((connector) =>
-          (connector as Connector).uid ? (
+          (connector as Connector).id ? (
             <EVMListItemButton
-              key={(connector as Connector).uid}
+              key={(connector as Connector).id}
               connector={connector as Connector}
               connectedConnector={account.connector}
               onNotInstalled={handleNotInstalled}

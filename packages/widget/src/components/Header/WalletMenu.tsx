@@ -1,8 +1,10 @@
 import { ChainType } from '@lifi/sdk';
-import { getWalletIcon } from '@lifi/wallet-management';
-import ContentCopyIcon from '@mui/icons-material/ContentCopyRounded';
-import OpenInNewIcon from '@mui/icons-material/OpenInNewRounded';
-import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNewRounded';
+import { getConnectorIcon } from '@lifi/wallet-management';
+import {
+  ContentCopyRounded,
+  OpenInNewRounded,
+  PowerSettingsNewRounded,
+} from '@mui/icons-material';
 import {
   Avatar,
   Badge,
@@ -13,12 +15,15 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import type { Connector } from 'wagmi';
-import { useAccount, useAvailableChains } from '../../hooks';
-import { navigationRoutes, shortenAddress } from '../../utils';
-import { SmallAvatar } from '../SmallAvatar';
-import { EVMDisconnectIconButton } from './EVMDisconnectIconButton';
-import { SVMDisconnectIconButton } from './SVMDisconnectIconButton';
+import { useAccount } from '../../hooks/useAccount.js';
+import { useAvailableChains } from '../../hooks/useAvailableChains.js';
+import { useExplorer } from '../../hooks/useExplorer.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { shortenAddress } from '../../utils/wallet.js';
+import { AvatarMasked } from '../Avatar/Avatar.style.js';
+import { SmallAvatar } from '../SmallAvatar.js';
+import { EVMDisconnectIconButton } from './EVMDisconnectIconButton.js';
+import { SVMDisconnectIconButton } from './SVMDisconnectIconButton.js';
 
 export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
   const { t } = useTranslation();
@@ -30,9 +35,10 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
     navigate(navigationRoutes.selectWallet);
     onClose();
   };
+  const { getAddressLink } = useExplorer();
 
   return (
-    <Box>
+    <>
       <Box display="flex" flexDirection="column">
         {accounts.map((account) => {
           const chain = getChainById(account.chainId);
@@ -41,20 +47,7 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
             await navigator.clipboard.writeText(account.address ?? '');
             onClose();
           };
-          const avatar = (
-            <Avatar
-              src={
-                account.connector?.icon ||
-                getWalletIcon((account.connector as Connector)?.id)
-              }
-              alt={account.connector?.name}
-              sx={{
-                marginRight: chain?.logoURI ? 0 : 1.5,
-              }}
-            >
-              {account.connector?.name[0]}
-            </Avatar>
-          );
+
           return (
             <MenuItem key={account.address}>
               <Box flex={1} display="flex" alignItems="center">
@@ -69,25 +62,42 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
                     }
                     sx={{ marginRight: 1.5 }}
                   >
-                    {avatar}
+                    <AvatarMasked
+                      src={getConnectorIcon(account.connector)}
+                      alt={account.connector?.name}
+                    >
+                      {account.connector?.name[0]}
+                    </AvatarMasked>
                   </Badge>
                 ) : (
-                  avatar
+                  <Avatar
+                    src={getConnectorIcon(account.connector)}
+                    alt={account.connector?.name}
+                    sx={{
+                      marginRight: 1.5,
+                    }}
+                  >
+                    {account.connector?.name[0]}
+                  </Avatar>
                 )}
                 {walletAddress}
               </Box>
               <Box ml={1}>
                 <IconButton size="medium" onClick={handleCopyAddress}>
-                  <ContentCopyIcon />
+                  <ContentCopyRounded />
                 </IconButton>
                 <IconButton
                   size="medium"
                   component="a"
                   onClick={onClose}
-                  href={`${chain?.metamask.blockExplorerUrls[0]}address/${account.address}`}
+                  href={
+                    account.address
+                      ? getAddressLink(account.address, chain)
+                      : undefined
+                  }
                   target="_blank"
                 >
-                  <OpenInNewIcon />
+                  <OpenInNewRounded />
                 </IconButton>
                 {account.chainType === ChainType.EVM ? (
                   <EVMDisconnectIconButton connector={account.connector} />
@@ -103,7 +113,7 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
         <Button
           onClick={connect}
           fullWidth
-          startIcon={<PowerSettingsNewIcon />}
+          startIcon={<PowerSettingsNewRounded />}
           sx={{
             marginTop: 1,
           }}
@@ -113,6 +123,6 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
             : t(`button.connectWallet`)}
         </Button>
       ) : null}
-    </Box>
+    </>
   );
 };

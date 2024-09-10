@@ -1,43 +1,35 @@
 {
   "name": "@lifi/wallet-management",
-  "version": "3.0.0-alpha.13",
+  "version": "3.1.3",
   "description": "LI.FI Wallet Management solution.",
   "type": "module",
   "main": "./src/index.ts",
-  "module": "./src/index.ts",
   "types": "./src/index.d.ts",
   "sideEffects": false,
   "scripts": {
     "watch": "tsc -w -p ./tsconfig.json",
-    "build": "yarn clean && yarn build:esm && yarn build:cjs && yarn build:postcompile && yarn build:clean",
+    "build": "yarn clean && yarn build:esm && yarn build:postcompile && yarn build:clean",
     "build:esm": "tsc --build",
-    "build:cjs": "tsc --build ./tsconfig.cjs.json",
-    "build:postcompile": "node ../../scripts/postcompile.js --skip-mui && cpy 'src/**/*' dist",
+    "build:postcompile": "node ../../scripts/postcompile.js && cpy 'src/**/*' dist",
     "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo ./dist/tsconfig.cjs.tsbuildinfo",
     "clean": "yarn build:clean && rm -rf dist",
     "check:types": "tsc --noEmit",
-    "pre-commit": "lint-staged",
     "lint": "eslint --ext .tsx --ext .ts ./src",
-    "lint:fix": "eslint --ext .tsx --ext .ts ./src --fix",
-    "prettier:fix": "prettier --write ./src/."
-  },
-  "lint-staged": {
-    "src/**/*.{ts,tsx}": [
-      "yarn run lint:fix",
-      "yarn run prettier:fix"
-    ]
+    "format": "prettier --write ./src/",
+    "pre-commit:validate": "yarn format &&  yarn lint --fix --max-warnings=0",
+    "pre-push:validate": "yarn check:types"
   },
   "publishConfig": {
     "access": "public"
   },
-  "author": "Adrian Weniger <adrian@li.finance>",
-  "homepage": "https://github.com/lifinance/wallet-management",
+  "author": "Eugene Chybisov <eugene@li.finance>",
+  "homepage": "https://github.com/lifinance/widget",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/lifinance/wallet-management.git"
+    "url": "git+ssh://git@github.com/lifinance/widget.git"
   },
   "bugs": {
-    "url": "https://github.com/lifinance/wallet-management/issues"
+    "url": "https://github.com/lifinance/widget/issues"
   },
   "license": "Apache-2.0",
   "keywords": [
@@ -54,17 +46,23 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "^3.0.0-alpha.51",
-    "react": "^18.2.0",
-    "wagmi": "^2.5.1"
+    "@lifi/sdk": "^3.2.0",
+    "@solana/wallet-adapter-base": "^0.9.23",
+    "react": "^18.3.1",
+    "viem": "^2.21.4",
+    "wagmi": "^2.12.9"
   },
   "devDependencies": {
     "cpy-cli": "^5.0.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.6.2"
   },
   "peerDependencies": {
+    "@solana/wallet-adapter-base": "^0.9.0",
     "@tanstack/react-query": "^5.0.0",
-    "viem": "^2.0.0"
+    "react": ">=18",
+    "react-dom": ">=18",
+    "viem": "^2.17.0",
+    "wagmi": "^2.11.0"
   },
   "eslintConfig": {
     "extends": "../../.eslintrc"

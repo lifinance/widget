@@ -1,25 +1,24 @@
 import type { RouteObject } from 'react-router-dom';
 import { useLocation, useRoutes } from 'react-router-dom';
-import { NotFound } from './components/NotFound';
-import { ActiveTransactionsPage } from './pages/ActiveTransactionsPage';
-import { LanguagesPage } from './pages/LanguagesPage';
-import { MainPage } from './pages/MainPage';
-import { RoutesPage } from './pages/RoutesPage';
-import { SelectChainPage } from './pages/SelectChainPage';
-import { SelectEnabledToolsPage } from './pages/SelectEnabledToolsPage';
-import { SelectTokenPage } from './pages/SelectTokenPage';
-import { SelectWalletPage } from './pages/SelectWalletPage';
-import {
-  BookmarksPage,
-  ConnectedWalletsPage,
-  RecentWalletsPage,
-  SendToWalletPage,
-} from './pages/SendToWallet';
-import { SettingsPage } from './pages/SettingsPage';
-import { TransactionDetailsPage } from './pages/TransactionDetailsPage';
-import { TransactionHistoryPage } from './pages/TransactionHistoryPage';
-import { TransactionPage } from './pages/TransactionPage';
-import { navigationRoutes } from './utils';
+import { NotFound } from './components/NotFound.js';
+import { ActiveTransactionsPage } from './pages/ActiveTransactionsPage/ActiveTransactionsPage.js';
+import { LanguagesPage } from './pages/LanguagesPage.js';
+import { MainPage } from './pages/MainPage/MainPage.js';
+import { RoutesPage } from './pages/RoutesPage/RoutesPage.js';
+import { SelectChainPage } from './pages/SelectChainPage/SelectChainPage.js';
+import { SelectEnabledToolsPage } from './pages/SelectEnabledToolsPage.js';
+import { SelectTokenPage } from './pages/SelectTokenPage/SelectTokenPage.js';
+import { SelectWalletPage } from './pages/SelectWalletPage/SelectWalletPage.js';
+import { BookmarksPage } from './pages/SendToWallet/BookmarksPage.js';
+import { ConnectedWalletsPage } from './pages/SendToWallet/ConnectedWalletsPage.js';
+import { RecentWalletsPage } from './pages/SendToWallet/RecentWalletsPage.js';
+import { SendToConfiguredWalletPage } from './pages/SendToWallet/SendToConfiguredWalletPage.js';
+import { SendToWalletPage } from './pages/SendToWallet/SendToWalletPage.js';
+import { SettingsPage } from './pages/SettingsPage/SettingsPage.js';
+import { TransactionDetailsPage } from './pages/TransactionDetailsPage/TransactionDetailsPage.js';
+import { TransactionHistoryPage } from './pages/TransactionHistoryPage/TransactionHistoryPage.js';
+import { TransactionPage } from './pages/TransactionPage/TransactionPage.js';
+import { navigationRoutes } from './utils/navigationRoutes.js';
 
 // SelectWalletPage should be accessible from every page and this handler helps avoid creating multiple paths.
 // Avoid using it for anything else, we need to come up with a better solution once we have one more page accessible from everywhere.
@@ -96,6 +95,10 @@ const routes: RouteObject[] = [
   {
     path: `${navigationRoutes.sendToWallet}/${navigationRoutes.connectedWallets}`,
     element: <ConnectedWalletsPage />,
+  },
+  {
+    path: navigationRoutes.configuredWallets,
+    element: <SendToConfiguredWalletPage />,
   },
   {
     path: navigationRoutes.transactionHistory,

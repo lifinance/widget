@@ -1,10 +1,11 @@
 import type { TokenAmount } from '@lifi/sdk';
 import { FormHelperText, Skeleton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useTokenAddressBalance } from '../../hooks';
-import type { FormTypeProps } from '../../stores';
-import { FormKeyHelper, useFieldValues } from '../../stores';
-import { formatTokenAmount, formatTokenPrice } from '../../utils';
+import { useTokenAddressBalance } from '../../hooks/useTokenAddressBalance.js';
+import type { FormTypeProps } from '../../stores/form/types.js';
+import { FormKeyHelper } from '../../stores/form/types.js';
+import { useFieldValues } from '../../stores/form/useFieldValues.js';
+import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js';
 
 export const PriceFormHelperText: React.FC<FormTypeProps> = ({ formType }) => {
   const [chainId, tokenAddress] = useFieldValues(
@@ -47,8 +48,8 @@ export const PriceFormHelperTextBase: React.FC<
       }}
     >
       <Typography
-        color={fromAmountTokenPrice ? 'text.secondary' : 'grey.600'}
-        fontWeight={400}
+        color="text.secondary"
+        fontWeight={500}
         fontSize={12}
         lineHeight={1}
         flex={1}
@@ -65,7 +66,7 @@ export const PriceFormHelperTextBase: React.FC<
         <Skeleton variant="text" width={48} height={12} />
       ) : token?.amount ? (
         <Typography
-          fontWeight={400}
+          fontWeight={500}
           fontSize={12}
           color="text.secondary"
           lineHeight={1}

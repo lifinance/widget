@@ -1,12 +1,14 @@
-import { Orders } from '@lifi/sdk';
-import RouteIcon from '@mui/icons-material/Route';
+import type { Order } from '@lifi/sdk';
+import { Route } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
-import { Tab, Tabs } from '../../components/Tabs';
-import { useSettingMonitor } from '../../hooks';
-import { useSettings, useSettingsStore } from '../../stores';
-import { BadgedValue, SettingCardExpandable } from './SettingsCard';
+import { CardTabs, Tab } from '../../components/Tabs/Tabs.style.js';
+import { useSettingMonitor } from '../../hooks/useSettingMonitor.js';
+import { useSettings } from '../../stores/settings/useSettings.js';
+import { useSettingsStore } from '../../stores/settings/useSettingsStore.js';
+import { BadgedValue } from './SettingsCard/BadgedValue.js';
+import { SettingCardExpandable } from './SettingsCard/SettingCardExpandable.js';
 
-type SupportedRoute = (typeof Orders)[number];
+const Priorities: Order[] = ['CHEAPEST', 'FASTEST'];
 
 export const RoutePrioritySettings: React.FC = () => {
   const { t } = useTranslation();
@@ -17,7 +19,7 @@ export const RoutePrioritySettings: React.FC = () => {
 
   const handleRoutePriorityChange = (
     _: React.SyntheticEvent,
-    routePriority: SupportedRoute,
+    routePriority: Order,
   ) => {
     setValue('routePriority', routePriority);
   };
@@ -29,10 +31,10 @@ export const RoutePrioritySettings: React.FC = () => {
           {t(`main.tags.${currentRoutePriority.toLowerCase()}` as any)}
         </BadgedValue>
       }
-      icon={<RouteIcon />}
+      icon={<Route />}
       title={t(`settings.routePriority`)}
     >
-      <Tabs
+      <CardTabs
         value={currentRoutePriority}
         aria-label="tabs"
         indicatorColor="primary"
@@ -40,17 +42,17 @@ export const RoutePrioritySettings: React.FC = () => {
         orientation="vertical"
         sx={{ mt: 1.5 }}
       >
-        {Orders.map((order) => {
+        {Priorities.map((priority) => {
           return (
             <Tab
-              key={order}
-              label={t(`main.tags.${order.toLowerCase()}` as any)}
-              value={order}
+              key={priority}
+              label={t(`main.tags.${priority.toLowerCase()}` as any)}
+              value={priority}
               disableRipple
             />
           );
         })}
-      </Tabs>
+      </CardTabs>
     </SettingCardExpandable>
   );
 };

@@ -2,10 +2,10 @@ import {
   Button,
   ListItem as MuiListItem,
   ListItemButton as MuiListItemButton,
+  listItemSecondaryActionClasses,
+  styled,
 } from '@mui/material';
-import { listItemSecondaryActionClasses } from '@mui/material/ListItemSecondaryAction';
-import { styled } from '@mui/material/styles';
-import { getContrastAlphaColor } from '../../utils';
+import { getContrastAlphaColor } from '../../utils/colors.js';
 
 export const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
@@ -13,7 +13,7 @@ export const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
   paddingRight: theme.spacing(1.5),
   height: 64,
   '&:hover': {
-    backgroundColor: getContrastAlphaColor(theme.palette.mode, '4%'),
+    backgroundColor: getContrastAlphaColor(theme, 0.04),
   },
 }));
 

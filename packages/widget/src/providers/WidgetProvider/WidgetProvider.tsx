@@ -1,9 +1,10 @@
 import { config, createConfig, type SDKConfig } from '@lifi/sdk';
 import { createContext, useContext, useId, useMemo } from 'react';
-import { version } from '../../config/version';
-import { setDefaultSettings } from '../../stores';
-import { formatInputAmount } from '../../utils';
-import type { WidgetContextProps, WidgetProviderProps } from './types';
+import { version } from '../../config/version.js';
+import { setDefaultSettings } from '../../stores/settings/useSettingsStore.js';
+import { formatInputAmount } from '../../utils/format.js';
+import type { WidgetContextProps, WidgetProviderProps } from './types.js';
+import { attemptToFindMatchingToAddressInConfig } from './utils.js';
 
 const initialContext: WidgetContextProps = {
   elementId: '',
@@ -60,7 +61,12 @@ export const WidgetProvider: React.FC<
           !isNaN(parseFloat(searchParams.fromAmount))
             ? formatInputAmount(searchParams.fromAmount)
             : widgetConfig.fromAmount,
-        toAddress: searchParams.toAddress || widgetConfig.toAddress,
+        toAddress: searchParams.toAddress
+          ? attemptToFindMatchingToAddressInConfig(
+              searchParams.toAddress,
+              widgetConfig,
+            )
+          : widgetConfig.toAddress,
         integrator: widgetConfig.integrator,
         elementId,
       } as WidgetContextProps;
@@ -74,7 +80,7 @@ export const WidgetProvider: React.FC<
         apiKey: widgetConfig.apiKey,
         integrator: widgetConfig.integrator ?? window?.location.hostname,
         routeOptions: {
-          fee: widgetConfig.fee,
+          fee: widgetConfig.feeConfig?.fee || widgetConfig.fee,
           referrer: widgetConfig.referrer,
           order: widgetConfig.routePriority,
           slippage: widgetConfig.slippage,
@@ -101,7 +107,6 @@ export const WidgetProvider: React.FC<
       };
     }
   }, [elementId, widgetConfig]);
-
   return (
     <WidgetContext.Provider value={value}>{children}</WidgetContext.Provider>
   );

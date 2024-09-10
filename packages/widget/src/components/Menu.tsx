@@ -1,8 +1,8 @@
-import { styled } from '@mui/material/styles';
 import {
   Menu as MuiMenu,
   menuClasses,
   menuItemClasses,
+  styled,
   svgIconClasses,
 } from '@mui/material';
 

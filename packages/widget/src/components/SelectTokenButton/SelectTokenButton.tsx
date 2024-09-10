@@ -1,18 +1,22 @@
 import { Skeleton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useChain, useSwapOnly, useToken } from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import type { FormTypeProps } from '../../stores';
-import { FormKeyHelper, useFieldValues } from '../../stores';
-import { navigationRoutes } from '../../utils';
-import { Card, CardTitle } from '../Card';
+import { useChain } from '../../hooks/useChain.js';
+import { useSwapOnly } from '../../hooks/useSwapOnly.js';
+import { useToken } from '../../hooks/useToken.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import type { FormTypeProps } from '../../stores/form/types.js';
+import { FormKeyHelper } from '../../stores/form/types.js';
+import { useFieldValues } from '../../stores/form/useFieldValues.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { AvatarBadgedDefault, AvatarBadgedSkeleton } from '../Avatar/Avatar.js';
+import { TokenAvatar } from '../Avatar/TokenAvatar.js';
+import { CardTitle } from '../Card/CardTitle.js';
 import {
-  TokenAvatar,
-  TokenAvatarDefault,
-  TokenAvatarSkeleton,
-} from '../TokenAvatar';
-import { SelectTokenCardHeader } from './SelectTokenButton.style';
+  CardContent,
+  SelectTokenCard,
+  SelectTokenCardHeader,
+} from './SelectTokenButton.style.js';
 
 export const SelectTokenButton: React.FC<
   FormTypeProps & {
@@ -50,44 +54,46 @@ export const SelectTokenButton: React.FC<
         ? t('main.selectToken')
         : t('main.selectChainAndToken');
   const cardTitle: string =
-    formType === 'from' && subvariant === 'nft'
+    formType === 'from' && subvariant === 'custom'
       ? t(`header.payWith`)
       : t(`main.${formType}`);
   return (
-    <Card flex={1} onClick={onClick}>
-      <CardTitle>{cardTitle}</CardTitle>
-      {chainId && tokenAddress && (isChainLoading || isTokenLoading) ? (
-        <SelectTokenCardHeader
-          avatar={<TokenAvatarSkeleton />}
-          title={<Skeleton variant="text" width={64} height={24} />}
-          subheader={<Skeleton variant="text" width={72} height={16} />}
-          compact={compact}
-        />
-      ) : (
-        <SelectTokenCardHeader
-          avatar={
-            isSelected ? (
-              <TokenAvatar token={token} chain={chain} />
-            ) : (
-              <TokenAvatarDefault />
-            )
-          }
-          title={isSelected ? token.symbol : defaultPlaceholder}
-          titleTypographyProps={{
-            title: isSelected ? token.symbol : defaultPlaceholder,
-          }}
-          subheader={isSelected ? chain.name : null}
-          subheaderTypographyProps={
-            isSelected
-              ? {
-                  title: chain.name,
-                }
-              : undefined
-          }
-          selected={isSelected}
-          compact={compact}
-        />
-      )}
-    </Card>
+    <SelectTokenCard component="button" onClick={onClick}>
+      <CardContent formType={formType} compact={compact}>
+        <CardTitle>{cardTitle}</CardTitle>
+        {chainId && tokenAddress && (isChainLoading || isTokenLoading) ? (
+          <SelectTokenCardHeader
+            avatar={<AvatarBadgedSkeleton />}
+            title={<Skeleton variant="text" width={64} height={24} />}
+            subheader={<Skeleton variant="text" width={72} height={16} />}
+            compact={compact}
+          />
+        ) : (
+          <SelectTokenCardHeader
+            avatar={
+              isSelected ? (
+                <TokenAvatar token={token} chain={chain} />
+              ) : (
+                <AvatarBadgedDefault />
+              )
+            }
+            title={isSelected ? token.symbol : defaultPlaceholder}
+            titleTypographyProps={{
+              title: isSelected ? token.symbol : defaultPlaceholder,
+            }}
+            subheader={isSelected ? chain.name : null}
+            subheaderTypographyProps={
+              isSelected
+                ? {
+                    title: chain.name,
+                  }
+                : undefined
+            }
+            selected={isSelected}
+            compact={compact}
+          />
+        )}
+      </CardContent>
+    </SelectTokenCard>
   );
 };

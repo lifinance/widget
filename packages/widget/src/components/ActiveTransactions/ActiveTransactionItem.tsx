@@ -1,14 +1,14 @@
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
-import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
+import { ArrowForward, ErrorRounded, InfoRounded } from '@mui/icons-material';
 import { ListItemAvatar, ListItemText, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useProcessMessage, useRouteExecution } from '../../hooks';
-import { RouteExecutionStatus } from '../../stores';
-import { navigationRoutes } from '../../utils';
-import { StepTimer } from '../Step/StepTimer';
-import { TokenAvatar, TokenAvatarGroup } from '../TokenAvatar';
-import { ListItem, ListItemButton } from './ActiveTransactions.style';
+import { useProcessMessage } from '../../hooks/useProcessMessage.js';
+import { useRouteExecution } from '../../hooks/useRouteExecution.js';
+import { RouteExecutionStatus } from '../../stores/routes/types.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { TokenAvatarGroup } from '../Avatar/Avatar.style.js';
+import { TokenAvatar } from '../Avatar/TokenAvatar.js';
+import { StepTimer } from '../Step/StepTimer.js';
+import { ListItem, ListItemButton } from './ActiveTransactions.style.js';
 
 export const ActiveTransactionItem: React.FC<{
   routeId: string;
@@ -36,12 +36,12 @@ export const ActiveTransactionItem: React.FC<{
   const getStatusComponent = () => {
     switch (lastActiveProcess?.status) {
       case 'ACTION_REQUIRED':
-        return <InfoRoundedIcon color="info" fontSize="small" />;
+        return <InfoRounded color="info" fontSize="small" />;
       case 'FAILED':
-        return <ErrorRoundedIcon color="error" fontSize="small" />;
+        return <ErrorRounded color="error" fontSize="small" />;
       default:
         return (
-          <Typography fontSize={14} fontWeight={500}>
+          <Typography fontSize={14} fontWeight={600}>
             <StepTimer step={lastActiveStep} hideInProgress />
           </Typography>
         );
@@ -73,7 +73,7 @@ export const ActiveTransactionItem: React.FC<{
             }}
           >
             {route.fromToken.symbol}
-            <ArrowForwardIcon sx={{ paddingX: 0.5 }} />
+            <ArrowForward sx={{ paddingX: 0.5 }} />
             {route.toToken.symbol}
           </Typography>
         }

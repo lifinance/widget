@@ -2,7 +2,7 @@ import type { Order } from '@lifi/sdk';
 import type { PropsWithChildren } from 'react';
 import type { StoreApi } from 'zustand';
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
-import type { Appearance, WidgetConfig } from '../../types';
+import type { Appearance, SplitSubvariant } from '../../types/widget.js';
 
 export type ValueSetter<S> = <K extends keyof S>(
   key: K,
@@ -13,8 +13,8 @@ export type ValuesSetter<S> = <K extends keyof S>(
   values: Record<K, S[Extract<K, string>]>,
 ) => void;
 
-export type SettingsToolType = 'Bridges' | 'Exchanges';
-export const SettingsToolTypes: SettingsToolType[] = ['Bridges', 'Exchanges'];
+export const SettingsToolTypes = ['Bridges', 'Exchanges'] as const;
+export type SettingsToolType = (typeof SettingsToolTypes)[number];
 
 export interface SettingsProps {
   appearance: Appearance;
@@ -22,12 +22,13 @@ export interface SettingsProps {
   language?: string;
   routePriority?: Order;
   enabledAutoRefuel: boolean;
-  showDestinationWallet: boolean;
   slippage?: string;
+  disabledBridges: string[];
   enabledBridges: string[];
-  _enabledBridges?: Record<string, boolean>;
+  _enabledBridges: Record<string, boolean>;
+  disabledExchanges: string[];
   enabledExchanges: string[];
-  _enabledExchanges?: Record<string, boolean>;
+  _enabledExchanges: Record<string, boolean>;
 }
 
 export interface SettingsState extends SettingsProps {
@@ -38,12 +39,9 @@ export interface SettingsState extends SettingsProps {
     tools: string[],
     reset?: boolean,
   ): void;
-  setTools(
-    toolType: SettingsToolType,
-    tools: string[],
-    availableTools: string[],
-  ): void;
-  reset(config: WidgetConfig, bridges: string[], exchanges: string[]): void;
+  setToolValue(toolType: SettingsToolType, tool: string, value: boolean): void;
+  toggleTools(toolType: SettingsToolType): void;
+  reset(bridges: string[], exchanges: string[]): void;
 }
 
 export interface SendToWalletState {
@@ -56,11 +54,9 @@ export interface SendToWalletStore extends SendToWalletState {
   setSendToWallet(value: boolean): void;
 }
 
-export type SplitSubvariantOptions = 'bridge' | 'swap';
-
 export interface SplitSubvariantState {
-  state?: SplitSubvariantOptions;
-  setState(state: SplitSubvariantOptions): void;
+  state?: SplitSubvariant;
+  setState(state: SplitSubvariant): void;
 }
 
 export type SplitSubvariantStore = UseBoundStoreWithEqualityFn<
@@ -68,7 +64,7 @@ export type SplitSubvariantStore = UseBoundStoreWithEqualityFn<
 >;
 
 export interface SplitSubvariantProps {
-  state?: SplitSubvariantOptions;
+  state?: SplitSubvariant;
 }
 
 export type SplitSubvariantProviderProps =

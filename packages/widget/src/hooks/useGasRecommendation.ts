@@ -1,6 +1,6 @@
 import { getGasRecommendation, type ChainId } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
-import { useAvailableChains } from './useAvailableChains';
+import { useAvailableChains } from './useAvailableChains.js';
 
 const refetchInterval = 60_000;
 

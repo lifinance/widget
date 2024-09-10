@@ -1,6 +1,6 @@
 import { shallow } from 'zustand/shallow';
-import type { Appearance } from '../../types';
-import { useSettingsStore } from './useSettingsStore';
+import type { Appearance } from '../../types/widget.js';
+import { useSettingsStore } from './useSettingsStore.js';
 
 export const useAppearance = (): [
   Appearance,

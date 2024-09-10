@@ -10,12 +10,12 @@ on:
 
 jobs:
   release:
-    runs-on: ubuntu-latest
     permissions:
       contents: write
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -28,9 +28,12 @@ jobs:
           prerelease: false
 
   publish:
+    permissions:
+      contents: write
+      id-token: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install dependencies
         uses: ./.github/actions/yarn-install
       - name: Build
@@ -40,3 +43,4 @@ jobs:
           yarn release:publish${{ contains(github.ref_name, 'alpha') && ':alpha' || contains(github.ref_name, 'beta') && ':beta' || '' }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true

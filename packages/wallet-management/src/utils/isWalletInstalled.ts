@@ -1,70 +1,78 @@
 export const isWalletInstalled = (id: string): boolean => {
+  const anyWindow = typeof window !== 'undefined' ? (window as any) : undefined;
   switch (id) {
-    case 'default':
-      return (window as any).ethereum && !(window as any).ethereum?.isMetaMask;
-    case 'io.metamask':
-    case 'metaMaskSDK':
-      return (window as any)?.ethereum?.isMetaMask;
-    case 'walletConnect':
-      return true;
-    case 'coinbaseWalletSDK':
-      return true;
-    case 'app.phantom':
-      return (window as any)?.phantom?.ethereum?.isPhantom;
-    case 'gate':
-      return (window as any)?.gatewallet;
-    case 'bitget':
-      return (window as any).bitkeep?.ethereum;
-    case 'frontier':
-      return (window as any)?.frontier;
-    case 'math':
-      return (window as any)?.ethereum?.isMathWallet;
-    case 'brave':
-      return (navigator as any)?.brave && (window as any)._web3Ref;
-    case 'safepal':
-      return (window as any)?.safepal;
-    case 'taho':
-      return (window as any)?.tally && (window as any).tally?.isTally;
-    case 'block':
-      return (window as any)?.ethereum?.isBlockWallet;
-    case 'binance':
-      return (window as any)?.BinanceChain;
-    case 'trust':
-      return (window as any)?.trustWallet;
-    case 'status':
-      return (window as any)?.ethereum?.isStatus;
-    case 'alpha':
-      return (window as any)?.ethereum?.isAlphaWallet;
-    case 'bitpie':
-      return (window as any)?.ethereum?.Bitpie;
-    case 'dcent':
-      return (window as any)?.ethereum?.isDcentWallet;
-    case 'frame':
-      return (window as any)?.frame;
-    case 'hyperpay':
-      return (window as any)?.ethereum?.hiWallet;
-    case 'imtoken':
-      return (window as any)?.ethereum?.isImToken;
-    case 'liquality':
-      return (window as any)?.liquality;
-    case 'ownbit':
-      return (window as any)?.ethereum?.isOwnbit;
-    case 'xdefi':
-      return (window as any)?.ethereum?.__XDEFI;
-    case 'tokenpocket':
+    case 'metaMask':
       return (
-        (window as any)?.ethereum?.isTokenPocket &&
-        !(window as any).ethereum?.isTp
+        anyWindow?.ethereum?.isMetaMask ||
+        anyWindow?.ethereum?.providers?.some(
+          (provider: any) => provider.isMetaMask,
+        )
       );
-    case 'oneinch':
-      return (window as any)?.ethereum?.isOneInchIOSWallet;
+    case 'coinbase':
+      return (
+        // Coinbase Browser doesn't inject itself automatically
+        // We should not consider Coinbase Browser as installed wallet so we can fallback to Coinbase SDK
+        (anyWindow?.ethereum?.isCoinbaseWallet &&
+          !anyWindow?.ethereum?.isCoinbaseBrowser) ||
+        anyWindow?.coinbaseWalletExtension?.isCoinbaseWallet ||
+        anyWindow?.ethereum?.providers?.some(
+          (provider: any) => provider.isCoinbaseWallet,
+        )
+      );
+    case 'gate':
+      return anyWindow?.gatewallet;
+    case 'bitget':
+      return anyWindow.bitkeep?.ethereum;
+    case 'frontier':
+      return anyWindow?.frontier;
+    case 'math':
+      return anyWindow?.ethereum?.isMathWallet;
+    case 'brave':
+      return (navigator as any)?.brave && anyWindow._web3Ref;
+    case 'safepal':
+      return anyWindow?.safepal;
+    case 'taho':
+      return anyWindow?.tally && anyWindow.tally?.isTally;
+    case 'block':
+      return anyWindow?.ethereum?.isBlockWallet;
+    case 'binance':
+      return anyWindow?.BinanceChain;
+    case 'trust':
+      return anyWindow?.trustWallet;
+    case 'status':
+      return anyWindow?.ethereum?.isStatus;
+    case 'alpha':
+      return anyWindow?.ethereum?.isAlphaWallet;
+    case 'bitpie':
+      return anyWindow?.ethereum?.Bitpie;
+    case 'dcent':
+      return anyWindow?.ethereum?.isDcentWallet;
+    case 'frame':
+      return anyWindow?.ethereum?.isFrame;
+    case 'hyperpay':
+      return anyWindow?.ethereum?.hiWallet;
+    case 'imtoken':
+      return anyWindow?.ethereum?.isImToken;
+    case 'liquality':
+      return anyWindow?.liquality;
+    case 'ownbit':
+      return anyWindow?.ethereum?.isOwnbit;
+    case 'xdefi':
+      return anyWindow?.ethereum?.__XDEFI;
+    case 'tokenpocket':
+      return anyWindow?.ethereum?.isTokenPocket && !anyWindow.ethereum?.isTp;
+    case '1inch':
+      return anyWindow?.ethereum?.isOneInchIOSWallet;
     case 'tokenary':
-      return (window as any).ethereum?.isTokenary;
+      return anyWindow.ethereum?.isTokenary;
     case 'okx':
-      return (window as any).okxwallet;
+      return anyWindow.okxwallet;
     case 'exodus':
-      return (window as any).exodus?.ethereum;
+      return anyWindow.exodus?.ethereum;
     default:
-      return false;
+      /**
+       * Return true if the wallet is not in the list of explicitly supported or self-injected wallet
+       */
+      return true;
   }
 };

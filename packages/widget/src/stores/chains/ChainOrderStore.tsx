@@ -1,14 +1,14 @@
 import { createContext, useContext, useEffect, useRef } from 'react';
 import type { StoreApi } from 'zustand';
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
-import { useChains } from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import { isItemAllowed } from '../../utils';
-import type { FormType } from '../form';
-import { useFieldActions } from '../form';
-import type { PersistStoreProviderProps } from '../types';
-import { createChainOrderStore } from './createChainOrderStore';
-import type { ChainOrderState } from './types';
+import { useChains } from '../../hooks/useChains.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { isItemAllowed } from '../../utils/item.js';
+import type { FormType } from '../form/types.js';
+import { useFieldActions } from '../form/useFieldActions.js';
+import type { PersistStoreProviderProps } from '../types.js';
+import { createChainOrderStore } from './createChainOrderStore.js';
+import type { ChainOrderState } from './types.js';
 
 export type ChainOrderStore = UseBoundStoreWithEqualityFn<
   StoreApi<ChainOrderState>
@@ -58,19 +58,6 @@ export function ChainOrderStoreProvider({
   );
 }
 
-export function useChainOrderStore<T>(
-  selector: (state: ChainOrderState) => T,
-  equalityFn?: (left: T, right: T) => boolean,
-): T {
-  const useStore = useContext(ChainOrderStoreContext);
-  if (!useStore) {
-    throw new Error(
-      `You forgot to wrap your component in <${ChainOrderStoreProvider.name}>.`,
-    );
-  }
-  return useStore(selector, equalityFn);
-}
-
 export function useChainOrderStoreContext() {
   const useStore = useContext(ChainOrderStoreContext);
   if (!useStore) {
@@ -79,4 +66,12 @@ export function useChainOrderStoreContext() {
     );
   }
   return useStore;
+}
+
+export function useChainOrderStore<T>(
+  selector: (state: ChainOrderState) => T,
+  equalityFn?: (left: T, right: T) => boolean,
+): T {
+  const useStore = useChainOrderStoreContext();
+  return useStore(selector, equalityFn);
 }

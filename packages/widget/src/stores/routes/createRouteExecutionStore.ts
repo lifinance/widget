@@ -2,23 +2,23 @@ import type { Route, RouteExtended } from '@lifi/sdk';
 import type { StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { createWithEqualityFn } from 'zustand/traditional';
-import { hasEnumFlag } from '../../utils';
-import type { PersistStoreProps } from '../types';
-import type { RouteExecutionState } from './types';
-import { RouteExecutionStatus } from './types';
+import { hasEnumFlag } from '../../utils/enum.js';
+import type { PersistStoreProps } from '../types.js';
+import type { RouteExecutionState } from './types.js';
+import { RouteExecutionStatus } from './types.js';
 import {
   isRouteDone,
   isRouteFailed,
   isRoutePartiallyDone,
   isRouteRefunded,
-} from './utils';
+} from './utils.js';
 
 export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
   createWithEqualityFn<RouteExecutionState>(
     persist(
       (set, get) => ({
         routes: {},
-        setExecutableRoute: (route: Route, insurableRouteId?: string) => {
+        setExecutableRoute: (route: Route, observableRouteIds?: string[]) => {
           if (!get().routes[route.id]) {
             set((state: RouteExecutionState) => {
               const routes = { ...state.routes };
@@ -26,7 +26,7 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
               Object.keys(routes)
                 .filter(
                   (routeId) =>
-                    (routeId !== insurableRouteId &&
+                    (!observableRouteIds?.includes(routeId) &&
                       hasEnumFlag(
                         routes[routeId]!.status,
                         RouteExecutionStatus.Idle,
@@ -131,7 +131,7 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
       }),
       {
         name: `${namePrefix || 'li.fi'}-widget-routes`,
-        version: 1,
+        version: 2,
         partialize: (state) => ({ routes: state.routes }),
         merge: (persistedState: any, currentState: RouteExecutionState) => {
           const state = {

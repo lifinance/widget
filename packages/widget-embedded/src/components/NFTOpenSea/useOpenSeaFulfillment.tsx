@@ -1,10 +1,10 @@
-import { Web3Provider } from '@ethersproject/providers';
-import type { ChainId, TokenAmount } from '@lifi/sdk';
+import type { ChainId, ContractCall, TokenAmount } from '@lifi/sdk';
 import type { NFTProps } from '@lifi/widget';
 import { useAccount, useFieldValues } from '@lifi/widget';
 import { Seaport } from '@opensea/seaport-js';
 import { useQuery } from '@tanstack/react-query';
-import type { Connector } from 'wagmi';
+import { useConfig, type Connector } from 'wagmi';
+import { getEthersSigner } from './getEthersSigner';
 import type { FulfillmentDataResponse, NFTNetwork } from './types';
 import { ChainId as OpenSeaChainId } from './types';
 import { useOpenSeaOrder } from './useOpenSeaOrder';
@@ -15,6 +15,7 @@ export const useOpenSeaFulfillment = (
   tokenId: string | number,
 ) => {
   const { account } = useAccount();
+  const config = useConfig();
   const [recipientAddress] = useFieldValues('toAddress');
   const { data: order, isLoading: isOrderLoading } = useOpenSeaOrder(
     network,
@@ -59,20 +60,11 @@ export const useOpenSeaFulfillment = (
       const orderV2 = { ...order };
       orderV2.protocolData = fulfillmentDataResponse.fulfillment_data.orders[0];
 
-      const fulfillOrder = async () => {
+      const fulfillOrder = async (): Promise<ContractCall | undefined> => {
         try {
-          const wagmiProvider = await (
-            account.connector as Connector
-          ).getProvider?.();
-          if (!wagmiProvider) {
-            throw new Error('Provider not found');
-          }
-          const provider = new Web3Provider(wagmiProvider, 'any');
-          const signer = provider.getSigner(account.address);
+          const signer = await getEthersSigner(config);
 
-          const seaport = new Seaport(signer, {
-            seaportVersion: '1.5',
-          });
+          const seaport = new Seaport(signer);
 
           const { actions } = await seaport.fulfillOrder({
             order: orderV2.protocolData,
@@ -86,9 +78,11 @@ export const useOpenSeaFulfillment = (
             await actions[0].transactionMethods.estimateGas();
 
           return {
-            address: transaction.to,
-            callData: transaction.data,
-            gasLimit: estimatedGas.toString(),
+            fromAmount: orderV2?.currentPrice,
+            fromTokenAddress: orderV2?.takerAssetBundle.assets[0].tokenAddress!,
+            toContractAddress: transaction.to,
+            toContractCallData: transaction.data,
+            toContractGasLimit: estimatedGas.toString(),
           };
         } catch (error: any) {
           if (error.code === 'CALL_EXCEPTION') {
@@ -133,7 +127,7 @@ export const useOpenSeaFulfillment = (
         assetName: asset?.name,
         owner: owner,
         token: token,
-        contract: contract,
+        contractCall: contract,
       };
 
       return result;

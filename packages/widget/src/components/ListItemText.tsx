@@ -1,9 +1,11 @@
-import { ListItemText as MuiListItemText } from '@mui/material';
-import { listItemTextClasses } from '@mui/material/ListItemText';
-import { styled } from '@mui/material/styles';
+import {
+  ListItemText as MuiListItemText,
+  listItemTextClasses,
+  styled,
+} from '@mui/material';
 
 export const ListItemText = styled(MuiListItemText)(({ theme }) => ({
   [`.${listItemTextClasses.primary}`]: {
-    fontWeight: 400,
+    fontWeight: 500,
   },
 }));

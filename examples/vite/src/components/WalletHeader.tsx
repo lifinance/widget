@@ -4,8 +4,8 @@ import { useAccount, useConnect, useDisconnect } from 'wagmi';
 
 export function WalletHeader() {
   const { address, isConnected } = useAccount();
-  const { connectAsync, connectors } = useConnect();
   const { disconnect } = useDisconnect();
+  const { connectors, connectAsync } = useConnect();
 
   return (
     <Box

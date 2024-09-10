@@ -3,11 +3,16 @@ import type { EVMChain } from '@lifi/sdk';
 import { Avatar, Box, Skeleton, Tooltip, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { FormTypeProps } from '../../stores';
-import { FormKeyHelper, maxChainToOrder, useFieldValues } from '../../stores';
-import { navigationRoutes } from '../../utils';
-import { ChainCard, ChainContainer } from './ChainSelect.style';
-import { useChainSelect } from './useChainSelect';
+import {
+  maxChainsToOrder,
+  maxChainsToShow,
+} from '../../stores/chains/createChainOrderStore.js';
+import type { FormTypeProps } from '../../stores/form/types.js';
+import { FormKeyHelper } from '../../stores/form/types.js';
+import { useFieldValues } from '../../stores/form/useFieldValues.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { ChainCard, ChainContainer } from './ChainSelect.style.js';
+import { useChainSelect } from './useChainSelect.js';
 
 export const ChainSelect = ({ formType }: FormTypeProps) => {
   const navigate = useNavigate();
@@ -36,12 +41,20 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
     navigate(navigationRoutes[`${formType}Chain`]);
   };
 
-  const chainsToHide = (chains?.length ?? 0) - maxChainToOrder;
+  // We check if we can accommodate all the chains on the grid
+  // If there are more than 10 chains we show the number of hidden chains as the last one tile
+  const chainsToHide =
+    chains?.length === maxChainsToShow
+      ? 0
+      : (chains?.length ?? 0) - maxChainsToOrder;
+
+  // When there is less than 10 chains we don't care about the order
+  const chainsToShow = chainsToHide > 0 ? getChains() : chains;
 
   return (
     <ChainContainer>
       {isLoading
-        ? Array.from({ length: maxChainToOrder + 1 }).map((_, index) => (
+        ? Array.from({ length: maxChainsToOrder }).map((_, index) => (
             <Skeleton
               key={index}
               variant="rectangular"
@@ -50,17 +63,13 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
               sx={{ borderRadius: 1 }}
             />
           ))
-        : getChains().map((chain: EVMChain) => (
-            <Tooltip
-              key={chain.id}
-              title={chain.name}
-              placement="top"
-              enterDelay={400}
-              arrow
-            >
+        : chainsToShow?.map((chain: EVMChain) => (
+            <Tooltip key={chain.id} title={chain.name} enterNextDelay={100}>
               <ChainCard
+                component="button"
                 onClick={() => setCurrentChain(chain.id)}
-                variant={chainId === chain.id ? 'selected' : 'default'}
+                type={chainId === chain.id ? 'selected' : 'default'}
+                selectionColor="primary"
               >
                 <Avatar
                   src={chain.logoURI}
@@ -73,7 +82,7 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
             </Tooltip>
           ))}
       {chainsToHide > 0 ? (
-        <ChainCard onClick={showAllChains}>
+        <ChainCard component="button" onClick={showAllChains}>
           <Box
             sx={{
               width: 40,

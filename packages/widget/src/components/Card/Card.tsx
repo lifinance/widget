@@ -1,83 +1,54 @@
-import type { BoxProps, Theme } from '@mui/material';
-import { Box } from '@mui/material';
-import { badgeClasses } from '@mui/material/Badge';
-import { alpha, darken, lighten, styled } from '@mui/material/styles';
-import type { MouseEventHandler } from 'react';
+import type { CardProps as MuiCardProps } from '@mui/material';
+import { Card as MuiCard, alpha, darken, lighten, styled } from '@mui/material';
 
-type CardVariant = 'default' | 'selected' | 'error';
-
-export type CardProps = {
-  variant?: CardVariant;
+export interface CardProps extends MuiCardProps {
+  type?: 'default' | 'selected' | 'error';
   selectionColor?: 'primary' | 'secondary';
   indented?: boolean;
-  onClick?: MouseEventHandler<HTMLDivElement>;
-  pointerEvents?: 'auto' | 'none';
-} & BoxProps;
+}
 
-const getBackgroundColor = (
-  theme: Theme,
-  variant?: CardVariant,
-  selectionColor?: 'primary' | 'secondary',
-) =>
-  variant === 'selected'
-    ? selectionColor === 'primary'
-      ? theme.palette.mode === 'light'
-        ? alpha(theme.palette.primary.main, 0.04)
-        : alpha(theme.palette.primary.main, 0.42)
-      : alpha(
-          theme.palette.secondary.main,
-          theme.palette.mode === 'light' ? 0.08 : 0.12,
-        )
-    : theme.palette.background.paper;
-
-export const Card = styled(Box, {
+export const Card = styled(MuiCard, {
   shouldForwardProp: (prop) =>
-    !['variant', 'indented', 'selectionColor', 'pointerEvents'].includes(
-      prop as string,
-    ),
-})<CardProps>(({
-  theme,
-  variant,
-  selectionColor = 'primary',
-  indented,
-  pointerEvents,
-  onClick,
-}) => {
-  const backgroundColor = getBackgroundColor(theme, variant, selectionColor);
-  const backgroundHoverColor = onClick
-    ? theme.palette.mode === 'light'
-      ? darken(backgroundColor, 0.02)
-      : lighten(backgroundColor, 0.02)
-    : backgroundColor;
+    !['type', 'indented', 'selectionColor'].includes(prop as string),
+})<CardProps>(({ theme, indented, selectionColor, type }) => {
   return {
-    backgroundColor,
-    border: `1px solid`,
-    borderColor:
-      variant === 'error'
-        ? theme.palette.error.main
-        : variant === 'selected'
-          ? selectionColor === 'primary'
-            ? theme.palette.primary.main
-            : alpha(theme.palette.secondary.main, 0.48)
-          : theme.palette.mode === 'light'
-            ? theme.palette.grey[300]
-            : theme.palette.grey[800],
-    borderRadius: theme.shape.borderRadius,
-    overflow: 'hidden',
-    position: 'relative',
     padding: indented ? theme.spacing(2) : 0,
-    boxSizing: 'border-box',
-    '&:hover': {
-      cursor: onClick ? 'pointer' : 'default',
-      backgroundColor: backgroundHoverColor,
-    },
-    [`&:hover .${badgeClasses.badge} > div`]: {
-      borderColor: backgroundHoverColor,
-    },
-    transition: theme.transitions.create(['background-color'], {
-      duration: theme.transitions.duration.enteringScreen,
-      easing: theme.transitions.easing.easeOut,
+    ...(type === 'selected' &&
+      selectionColor === 'primary' && {
+        backgroundColor:
+          theme.palette.mode === 'light'
+            ? lighten(theme.palette.primary.main, 0.95)
+            : darken(theme.palette.primary.main, 0.65),
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: theme.palette.primary.main,
+        '&:hover': {
+          backgroundColor:
+            theme.palette.mode === 'light'
+              ? lighten(theme.palette.primary.main, 0.9)
+              : darken(theme.palette.primary.main, 0.6),
+        },
+      }),
+    ...(type === 'selected' &&
+      selectionColor === 'secondary' && {
+        backgroundColor:
+          theme.palette.mode === 'light'
+            ? lighten(theme.palette.secondary.main, 0.85)
+            : darken(theme.palette.secondary.main, 0.76),
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: alpha(theme.palette.secondary.main, 0.2),
+        '&:hover': {
+          backgroundColor:
+            theme.palette.mode === 'light'
+              ? lighten(theme.palette.secondary.main, 0.8)
+              : darken(theme.palette.secondary.main, 0.72),
+        },
+      }),
+    ...(type === 'error' && {
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderColor: theme.palette.error.main,
     }),
-    pointerEvents,
   };
 });

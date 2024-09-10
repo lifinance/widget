@@ -2,6 +2,122 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.4.4](https://github.com/lifinance/widget/compare/v3.4.3...v3.4.4) (2024-08-15)
+
+
+### Bug Fixes
+
+* improve deposit flow text ([ee5f178](https://github.com/lifinance/widget/commit/ee5f17871a89befa03e920e63ab307b820c6479d))
+
+### [3.4.3](https://github.com/lifinance/widget/compare/v3.4.2...v3.4.3) (2024-08-15)
+
+
+### Bug Fixes
+
+* add check for coinbase browser ([1899e6d](https://github.com/lifinance/widget/commit/1899e6df451e3e8cf90f58a4011262f0bfc3a26f))
+* rename coinbase wallet ([070ce5b](https://github.com/lifinance/widget/commit/070ce5b59a26a426d9064cf352d0ae71d3808a6e))
+* window typo ([bbbf91e](https://github.com/lifinance/widget/commit/bbbf91eabd2422c4675df5cdef589a76ae312d3f))
+
+### [3.4.2](https://github.com/lifinance/widget/compare/v3.4.1...v3.4.2) (2024-08-14)
+
+
+### Bug Fixes
+
+* check for window in next.js ([f9a134f](https://github.com/lifinance/widget/commit/f9a134fa7238aa3ef020c9fededf1d97332ecdbb))
+
+### [3.4.1](https://github.com/lifinance/widget/compare/v3.4.0...v3.4.1) (2024-08-14)
+
+
+### Bug Fixes
+
+* check for window in next.js ([d873c49](https://github.com/lifinance/widget/commit/d873c49110c2be58cf06d83cbabc2e9817528a4c))
+
+## [3.4.0](https://github.com/lifinance/widget/compare/v3.4.0-beta.3...v3.4.0) (2024-08-14)
+
+
+### Features
+
+* changing height and present widget better for mobile ([#276](https://github.com/lifinance/widget/issues/276)) ([d2f3ec8](https://github.com/lifinance/widget/commit/d2f3ec880c492e3f3671ca2f6b268de12fdbe174))
+* improved fee configuration ([#284](https://github.com/lifinance/widget/issues/284)) ([e7ba200](https://github.com/lifinance/widget/commit/e7ba2002b920905b65a5dcc9a420ffbc247ccb9a))
+* optimize wallet sdks handling ([#283](https://github.com/lifinance/widget/issues/283)) ([eee87aa](https://github.com/lifinance/widget/commit/eee87aa1b5e029ff104f38a9598178094c7cd0cd))
+
+
+### Bug Fixes
+
+* add subvariant deposit key ([abe9ba0](https://github.com/lifinance/widget/commit/abe9ba0b8ae317ddee2e8195dcfb65d4f5c44df4))
+* avoid from amount/token reset if they are disabled ([#285](https://github.com/lifinance/widget/issues/285)) ([86820c9](https://github.com/lifinance/widget/commit/86820c96b08064c3ee7224c7f47f1a386a68f78b))
+
+## [3.3.0](https://github.com/lifinance/widget/compare/v3.2.2...v3.3.0) (2024-07-30)
+
+
+### Features
+
+* improve the display of estimated duration and fees ([#278](https://github.com/lifinance/widget/issues/278)) ([5180526](https://github.com/lifinance/widget/commit/5180526154371c5378c38224592894933d1cc313))
+
+
+### Bug Fixes
+
+* change assert to with ([#279](https://github.com/lifinance/widget/issues/279)) ([5d6ac56](https://github.com/lifinance/widget/commit/5d6ac569e239317edb288a42918ead107369d1ae))
+
+### [3.2.2](https://github.com/lifinance/widget/compare/v3.2.1...v3.2.2) (2024-07-24)
+
+
+### Bug Fixes
+
+* allow syncing with mixed chains ([#277](https://github.com/lifinance/widget/issues/277)) ([b32287f](https://github.com/lifinance/widget/commit/b32287fab518e89c90ec5bfd95e0c2781fdc48b0))
+
+### [3.2.1](https://github.com/lifinance/widget/compare/v3.2.0...v3.2.1) (2024-07-22)
+
+
+### Bug Fixes
+
+* add slippage tooltip ([9624fd1](https://github.com/lifinance/widget/commit/9624fd165fb76f698371afd7569854c4a687cece))
+* change send and receive wording ([6585723](https://github.com/lifinance/widget/commit/6585723b8fd9cc88e5e8bad68b1216960d6518f0))
+* refuel variant should show get gas review button ([587bbda](https://github.com/lifinance/widget/commit/587bbda834aed5a5599481d40864797707261c0a))
+* show correct number of available tools ([da893cc](https://github.com/lifinance/widget/commit/da893cc50cdc266850358628524d6ed7c04185c3))
+
+## [3.2.0](https://github.com/lifinance/widget/compare/v3.1.1...v3.2.0) (2024-07-19)
+
+
+### Features
+
+* bump sdk ([b85059f](https://github.com/lifinance/widget/commit/b85059f4bb265b305c887601442dcc6f368bc193))
+
+### [3.1.1](https://github.com/lifinance/widget/compare/v3.1.0...v3.1.1) (2024-07-19)
+
+
+### Bug Fixes
+
+* add new error messages for Solana ([3370507](https://github.com/lifinance/widget/commit/3370507fb0f8132fd1c298fe1439916cebc99f67))
+* adjust fees amount USD calculation ([d479ecd](https://github.com/lifinance/widget/commit/d479ecda93e61c45a6ba6ffe7b28eaa55fadebc8))
+* adjust get gas title ([ccc11e1](https://github.com/lifinance/widget/commit/ccc11e1cd036f99df6b9f28472455080babd560a))
+* adjust step connector color ([f8694cc](https://github.com/lifinance/widget/commit/f8694cc3e60c5be3815b57f0cc742631c90c5e1f))
+
+## [3.1.0](https://github.com/lifinance/widget/compare/v3.0.2...v3.1.0) (2024-07-15)
+
+
+### Features
+
+* add price impact to transaction details ([#273](https://github.com/lifinance/widget/issues/273)) ([d983b91](https://github.com/lifinance/widget/commit/d983b91d697b45803e67d06dc92fbcf3f5b82d0f))
+* improve review page with route tracker, added new fee card and improved route card ([#268](https://github.com/lifinance/widget/issues/268)) ([258c5d3](https://github.com/lifinance/widget/commit/258c5d32cad0e7f306e49288f03921264bdcef73))
+
+
+### Bug Fixes
+
+* adjust partial transfer message ([#274](https://github.com/lifinance/widget/issues/274)) ([0354930](https://github.com/lifinance/widget/commit/0354930c2036a18c50687c86372b43674b0b24ce))
+* import for common js lib react-timer-hook ([#269](https://github.com/lifinance/widget/issues/269)) ([f8075fd](https://github.com/lifinance/widget/commit/f8075fd2678e53e3e1db5d2b9e8f2708919a0ae0))
+* json assertions ([#267](https://github.com/lifinance/widget/issues/267)) ([1c0c157](https://github.com/lifinance/widget/commit/1c0c15781ca04ddd059d53324f09ac2b27832d5a))
+* remove wagmi warnings ([#271](https://github.com/lifinance/widget/issues/271)) ([6048ef0](https://github.com/lifinance/widget/commit/6048ef022d50ec4ffa35b47aa602bfe851e52a20))
+
+### [3.0.2](https://github.com/lifinance/widget/compare/v3.0.0...v3.0.2) (2024-07-08)
+
+
+### Bug Fixes
+
+* allowed bridges option doesn't applied correctly ([1e00fb4](https://github.com/lifinance/widget/commit/1e00fb4da805c6001369d8b1806949c52632b0ce))
+
+## [3.0.0](https://github.com/lifinance/widget/compare/v3.0.0-beta.4...v3.0.0) (2024-06-26)
+
 ## [2.8.0](https://github.com/lifinance/widget/compare/v2.7.1...v2.8.0) (2023-10-30)
 
 

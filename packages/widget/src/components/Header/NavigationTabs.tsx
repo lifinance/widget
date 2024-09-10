@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import { useSplitSubvariantStore, useFieldActions } from '../../stores';
-import { HeaderAppBar, SplitTabs } from './Header.style';
-import { Tab } from '../Tabs';
+import { useFieldActions } from '../../stores/form/useFieldActions.js';
+import { useSplitSubvariantStore } from '../../stores/settings/useSplitSubvariantStore.js';
+import { Tab, Tabs } from '../Tabs/Tabs.style.js';
+import { HeaderAppBar } from './Header.style.js';
 
 export const NavigationTabs = () => {
   const { t } = useTranslation();
@@ -19,8 +20,8 @@ export const NavigationTabs = () => {
   };
 
   return (
-    <HeaderAppBar elevation={0} sx={{ py: 1 }}>
-      <SplitTabs
+    <HeaderAppBar elevation={0} sx={{ paddingTop: 1, paddingBottom: 0.5 }}>
+      <Tabs
         value={state === 'swap' ? 0 : 1}
         onChange={handleChange}
         aria-label="tabs"
@@ -28,7 +29,7 @@ export const NavigationTabs = () => {
       >
         <Tab label={t('header.swap')} disableRipple />
         <Tab label={t('header.bridge')} disableRipple />
-      </SplitTabs>
+      </Tabs>
     </HeaderAppBar>
   );
 };

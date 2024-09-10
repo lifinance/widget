@@ -1,34 +1,62 @@
 /* eslint-disable react/no-array-index-key */
 import type { Route } from '@lifi/sdk';
 import { Collapse, Grow, Stack, Typography } from '@mui/material';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useMatch, useNavigate } from 'react-router-dom';
-import { useRoutes } from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import { useSetExecutableRoute } from '../../stores';
-import { navigationRoutes } from '../../utils';
-import { PageContainer } from '../PageContainer';
-import { ProgressToNextUpdate } from '../ProgressToNextUpdate';
-import { RouteCard, RouteCardSkeleton, RouteNotFoundCard } from '../RouteCard';
+import type { RouteObject } from 'react-router-dom';
+import { useRoutes as useDOMRoutes, useNavigate } from 'react-router-dom';
+import { useAccount } from '../../hooks/useAccount.js';
+import { useRoutes } from '../../hooks/useRoutes.js';
+import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
+import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useFieldValues } from '../../stores/form/useFieldValues.js';
+import { WidgetEvent } from '../../types/events.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { PageContainer } from '../PageContainer.js';
+import { ProgressToNextUpdate } from '../ProgressToNextUpdate.js';
+import { RouteCard } from '../RouteCard/RouteCard.js';
+import { RouteCardSkeleton } from '../RouteCard/RouteCardSkeleton.js';
+import { RouteNotFoundCard } from '../RouteCard/RouteNotFoundCard.js';
 import {
   CollapseContainer,
   Container,
   Header,
+  RouteTopLevelGrow,
+  RoutesExpandedCollapse,
   ScrollableContainer,
-} from './RoutesExpanded.style';
+} from './RoutesExpanded.style.js';
 
 const timeout = { enter: 225, exit: 225, appear: 0 };
 
+const routes: RouteObject[] = [
+  {
+    path: '/',
+    element: true,
+  },
+  {
+    path: '*',
+    element: null,
+  },
+];
+
 export const RoutesExpanded = () => {
-  const element = useMatch('/');
+  const element = useDOMRoutes(routes);
+  const match = Boolean(element?.props?.children);
+
   return (
     <CollapseContainer>
-      <Collapse timeout={timeout} in={!!element} orientation="horizontal">
-        <Grow timeout={timeout} in={!!element} mountOnEnter unmountOnExit>
+      <Collapse timeout={timeout} in={match} orientation="horizontal">
+        <RouteTopLevelGrow
+          timeout={timeout}
+          in={match}
+          mountOnEnter
+          unmountOnExit
+        >
           <div>
             <RoutesExpandedElement />
           </div>
-        </Grow>
+        </RouteTopLevelGrow>
       </Collapse>
     </CollapseContainer>
   );
@@ -37,8 +65,10 @@ export const RoutesExpanded = () => {
 export const RoutesExpandedElement = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const setExecutableRoute = useSetExecutableRoute();
-  const { subvariant, containerStyle } = useWidgetConfig();
+  const { subvariant } = useWidgetConfig();
+  const routesRef = useRef<Route[]>();
+  const emitter = useWidgetEvents();
+  const routesActiveRef = useRef(false);
   const {
     routes,
     isLoading,
@@ -46,34 +76,63 @@ export const RoutesExpandedElement = () => {
     isFetched,
     dataUpdatedAt,
     refetchTime,
+    fromChain,
     refetch,
+    setReviewableRoute,
   } = useRoutes();
-
-  const currentRoute = routes?.[0];
+  const { account } = useAccount({ chainType: fromChain?.chainType });
+  const [toAddress] = useFieldValues('toAddress');
+  const { requiredToAddress } = useToAddressRequirements();
 
   const handleRouteClick = (route: Route) => {
-    setExecutableRoute(route);
+    setReviewableRoute(route);
     navigate(navigationRoutes.transactionExecution, {
       state: { routeId: route.id },
     });
   };
 
+  const onExit = () => {
+    // Clean routes cache on exit
+    routesRef.current = undefined;
+  };
+
+  // We cache routes results in ref for a better exit animation
+  if (routesRef.current && !routes) {
+    routesActiveRef.current = false;
+  } else {
+    routesRef.current = routes;
+    routesActiveRef.current = Boolean(routes);
+  }
+
+  const currentRoute = routesRef.current?.[0];
+
   const expanded = Boolean(
-    currentRoute || isLoading || isFetching || isFetched,
+    routesActiveRef.current || isLoading || isFetching || isFetched,
   );
 
   const routeNotFound = !currentRoute && !isLoading && !isFetching && expanded;
+  const toAddressUnsatisfied = currentRoute && requiredToAddress && !toAddress;
+  const allowInteraction = account.isConnected && !toAddressUnsatisfied;
+
+  useEffect(() => {
+    emitter.emit(WidgetEvent.WidgetExpanded, expanded);
+  }, [emitter, expanded]);
 
   return (
-    <Collapse timeout={timeout.enter} in={expanded} orientation="horizontal">
+    <RoutesExpandedCollapse
+      timeout={timeout.enter}
+      in={expanded}
+      orientation="horizontal"
+      onExited={onExit}
+    >
       <Grow timeout={timeout.enter} in={expanded} mountOnEnter unmountOnExit>
-        <Container sx={containerStyle} enableColorScheme>
+        <Container enableColorScheme minimumHeight={isLoading}>
           <ScrollableContainer>
             <Header>
               <Typography fontSize={18} fontWeight="700" flex={1} noWrap>
-                {subvariant === 'nft'
-                  ? t('main.fromAmount')
-                  : t('header.youGet')}
+                {subvariant === 'custom'
+                  ? t('header.youPay')
+                  : t('header.receive')}
               </Typography>
               <ProgressToNextUpdate
                 updatedAt={dataUpdatedAt || new Date().getTime()}
@@ -87,18 +146,22 @@ export const RoutesExpandedElement = () => {
               <Stack direction="column" spacing={2} flex={1} paddingBottom={3}>
                 {routeNotFound ? (
                   <RouteNotFoundCard />
-                ) : isLoading || (isFetching && !routes?.length) ? (
+                ) : isLoading || (isFetching && !routesRef.current?.length) ? (
                   Array.from({ length: 3 }).map((_, index) => (
                     <RouteCardSkeleton key={index} />
                   ))
                 ) : (
-                  routes?.map((route: Route, index: number) => (
+                  routesRef.current?.map((route: Route, index: number) => (
                     <RouteCard
-                      key={route.id}
+                      key={index}
                       route={route}
-                      onClick={() => handleRouteClick(route)}
+                      onClick={
+                        allowInteraction
+                          ? () => handleRouteClick(route)
+                          : undefined
+                      }
                       active={index === 0}
-                      expanded={routes?.length === 1}
+                      expanded={routesRef.current?.length === 1}
                     />
                   ))
                 )}
@@ -107,6 +170,6 @@ export const RoutesExpandedElement = () => {
           </ScrollableContainer>
         </Container>
       </Grow>
-    </Collapse>
+    </RoutesExpandedCollapse>
   );
 };

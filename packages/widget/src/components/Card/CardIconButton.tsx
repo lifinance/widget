@@ -1,16 +1,16 @@
-import { IconButton as MuiIconButton } from '@mui/material';
-import { alpha, styled } from '@mui/material/styles';
+import type { IconButtonProps, LinkProps } from '@mui/material';
+import { IconButton as MuiIconButton, styled } from '@mui/material';
+import { getContrastAlphaColor } from '../../utils/colors.js';
 
-export const CardIconButton = styled(MuiIconButton)(({ theme }) => {
-  const backgroundColor =
-    theme.palette.mode === 'light'
-      ? theme.palette.common.black
-      : theme.palette.common.white;
+export const CardIconButton = styled(MuiIconButton)<
+  IconButtonProps & Pick<LinkProps, 'href' | 'target' | 'rel'>
+>(({ theme }) => {
   return {
     padding: theme.spacing(0.5),
-    backgroundColor: alpha(backgroundColor, 0.04),
+    backgroundColor: getContrastAlphaColor(theme, 0.04),
     '&:hover': {
-      backgroundColor: alpha(backgroundColor, 0.08),
+      backgroundColor: getContrastAlphaColor(theme, 0.08),
     },
+    fontSize: '1rem',
   };
 });

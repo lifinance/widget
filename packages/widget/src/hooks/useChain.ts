@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useAvailableChains } from './useAvailableChains';
+import { useAvailableChains } from './useAvailableChains.js';
 
 export const useChain = (chainId?: number) => {
   const { isLoading, getChainById } = useAvailableChains();

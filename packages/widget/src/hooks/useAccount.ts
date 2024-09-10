@@ -92,13 +92,16 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
     const evm: Account = { ...account, chainType: ChainType.EVM };
     const accounts = [evm, svm];
     const connectedAccounts = [evm, svm].filter(
-      (account) => account.isConnected,
+      (account) => account.isConnected && account.address,
     );
     return {
-      account: hasChainTypeArgs
-        ? accounts.find((account) => account.chainType === args?.chainType) ??
-          defaultAccount
-        : accounts.find((account) => account.isConnected) ?? defaultAccount,
+      account:
+        accounts.find(
+          (account) =>
+            (!hasChainTypeArgs || account.chainType === args?.chainType) &&
+            account.isConnected &&
+            account.address,
+        ) ?? defaultAccount,
       // We need to return only connected account list
       accounts: connectedAccounts,
     };

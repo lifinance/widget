@@ -2,26 +2,27 @@
 import type { LiFiStepExtended, TokenAmount } from '@lifi/sdk';
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { Card, CardTitle } from '../../components/Card';
-import { StepActions } from '../../components/StepActions';
-import { Token } from '../../components/Token';
-import { useAvailableChains } from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import { shortenAddress } from '../../utils';
-import { DestinationWalletAddress } from './DestinationWalletAddress';
-import { StepProcess } from './StepProcess';
-import { StepTimer } from './StepTimer';
+import { Card } from '../../components/Card/Card.js';
+import { CardTitle } from '../../components/Card/CardTitle.js';
+import { StepActions } from '../../components/StepActions/StepActions.js';
+import { Token } from '../../components/Token/Token.js';
+import { useExplorer } from '../../hooks/useExplorer.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { shortenAddress } from '../../utils/wallet.js';
+import { DestinationWalletAddress } from './DestinationWalletAddress.js';
+import { StepProcess } from './StepProcess.js';
+import { StepTimer } from './StepTimer.js';
 
 export const Step: React.FC<{
   step: LiFiStepExtended;
   fromToken?: TokenAmount;
   toToken?: TokenAmount;
+  impactToken?: TokenAmount;
   toAddress?: string;
-}> = ({ step, fromToken, toToken, toAddress }) => {
+}> = ({ step, fromToken, toToken, impactToken, toAddress }) => {
   const { t } = useTranslation();
-  const { getChainById } = useAvailableChains();
-  const { subvariant } = useWidgetConfig();
-
+  const { subvariant, subvariantOptions } = useWidgetConfig();
+  const { getAddressLink } = useExplorer();
   const stepHasError = step.execution?.process.some(
     (process) => process.status === 'FAILED',
   );
@@ -29,40 +30,47 @@ export const Step: React.FC<{
   const getCardTitle = () => {
     switch (step.type) {
       case 'lifi':
-        const hasCrossStep = step.includedSteps.some(
+        const hasBridgeStep = step.includedSteps.some(
           (step) => step.type === 'cross',
         );
         const hasSwapStep = step.includedSteps.some(
           (step) => step.type === 'swap',
         );
-        if (hasCrossStep && hasSwapStep) {
-          return subvariant === 'nft'
-            ? t('main.stepBridgeAndBuy')
+        if (hasBridgeStep && hasSwapStep) {
+          return subvariant === 'custom'
+            ? subvariantOptions?.custom === 'deposit'
+              ? t('main.stepBridgeAndDeposit')
+              : t('main.stepBridgeAndBuy')
             : t('main.stepSwapAndBridge');
         }
-        if (hasCrossStep) {
-          return subvariant === 'nft'
-            ? t('main.stepBridgeAndBuy')
+        if (hasBridgeStep) {
+          return subvariant === 'custom'
+            ? subvariantOptions?.custom === 'deposit'
+              ? t('main.stepBridgeAndDeposit')
+              : t('main.stepBridgeAndBuy')
             : t('main.stepBridge');
         }
-        return subvariant === 'nft'
-          ? t('main.stepSwapAndBuy')
+        return subvariant === 'custom'
+          ? subvariantOptions?.custom === 'deposit'
+            ? t('main.stepSwapAndDeposit')
+            : t('main.stepSwapAndBuy')
           : t('main.stepSwap');
       default:
-        return subvariant === 'nft'
-          ? t('main.stepSwapAndBuy')
+        return subvariant === 'custom'
+          ? subvariantOptions?.custom === 'deposit'
+            ? t('main.stepSwapAndDeposit')
+            : t('main.stepSwapAndBuy')
           : t('main.stepSwap');
     }
   };
 
   const formattedToAddress = shortenAddress(toAddress);
   const toAddressLink = toAddress
-    ? `${getChainById(step.action.toChainId)?.metamask
-        .blockExplorerUrls[0]}address/${toAddress}`
+    ? getAddressLink(toAddress, step.action.toChainId)
     : undefined;
 
   return (
-    <Card variant={stepHasError ? 'error' : 'default'}>
+    <Card type={stepHasError ? 'error' : 'default'}>
       <Box
         sx={{
           display: 'flex',
@@ -70,7 +78,7 @@ export const Step: React.FC<{
         }}
       >
         <CardTitle flex={1}>{getCardTitle()}</CardTitle>
-        <CardTitle sx={{ fontWeight: 500 }}>
+        <CardTitle sx={{ fontWeight: 600 }}>
           <StepTimer step={step} />
         </CardTitle>
       </Box>
@@ -87,7 +95,15 @@ export const Step: React.FC<{
             toAddressLink={toAddressLink}
           />
         ) : null}
-        {toToken ? <Token token={toToken} px={2} py={1} /> : null}
+        {toToken ? (
+          <Token
+            token={toToken}
+            impactToken={impactToken}
+            enableImpactTokenTooltip
+            px={2}
+            py={1}
+          />
+        ) : null}
       </Box>
     </Card>
   );

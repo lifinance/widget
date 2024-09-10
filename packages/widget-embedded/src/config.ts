@@ -2,12 +2,12 @@ import type { WidgetConfig } from '@lifi/widget';
 import './index.css';
 
 export const widgetBaseConfig: WidgetConfig = {
-  subvariant: 'nft',
+  subvariant: 'custom',
   integrator: 'li.fi-playground',
   hiddenUI: ['history'],
   // buildUrl: true,
   sdkConfig: {
-    apiUrl: 'https://staging.li.quest/v1',
+    apiUrl: 'https://li.quest/v1',
     routeOptions: {
       // maxPriceImpact: 0.4,
     },
@@ -16,8 +16,10 @@ export const widgetBaseConfig: WidgetConfig = {
 
 export const widgetConfig: WidgetConfig = {
   ...widgetBaseConfig,
-  containerStyle: {
-    boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
-    borderRadius: '16px',
+  theme: {
+    container: {
+      boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
+      borderRadius: '16px',
+    },
   },
 };

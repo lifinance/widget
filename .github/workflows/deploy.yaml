@@ -12,23 +12,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::403372804574:role/github-actions
           role-session-name: github-actions-role-session
           aws-region: us-east-2
       - name: Amazon ECR login
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@v2
       - name: Install dependencies
         uses: ./.github/actions/yarn-install
       - name: Build React App
         env:
-          NODE_OPTIONS: "--max_old_space_size=4096"
+          NODE_OPTIONS: '--max_old_space_size=4096'
         run: yarn build
       - name: Deploy app build to S3 bucket
         run: |
-          aws s3 sync ./packages/widget-playground/dist/ s3://playground.li.fi --delete
+          aws s3 sync ./packages/widget-playground-vite/dist/ s3://playground.li.fi --delete
           aws s3 sync ./packages/widget-embedded/dist/ s3://widget.li.fi --delete

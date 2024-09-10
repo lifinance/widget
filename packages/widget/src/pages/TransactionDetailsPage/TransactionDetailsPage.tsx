@@ -1,26 +1,29 @@
-import { FullStatusData } from '@lifi/sdk';
-import ContentCopyIcon from '@mui/icons-material/ContentCopyRounded';
-import { Box, IconButton, Typography } from '@mui/material';
+import type { FullStatusData } from '@lifi/sdk';
+import { Box, Typography } from '@mui/material';
 import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { Card, CardTitle } from '../../components/Card';
-import { ContractComponent } from '../../components/ContractComponent';
-import { Insurance } from '../../components/Insurance';
-import { PageContainer } from '../../components/PageContainer';
-import { getStepList } from '../../components/Step';
-import { useNavigateBack, useTools, useTransactionDetails } from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import { getSourceTxHash, useRouteExecutionStore } from '../../stores';
-import { formatTokenAmount, navigationRoutes } from '../../utils';
-import { buildRouteFromTxHistory } from '../../utils/converters';
-import { ContactSupportButton } from './ContactSupportButton';
-import { TransactionDetailsSkeleton } from './TransactionDetailsSkeleton';
+import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js';
+import { PageContainer } from '../../components/PageContainer.js';
+import { getStepList } from '../../components/Step/StepList.js';
+import { TransactionDetails } from '../../components/TransactionDetails.js';
+import { useHeader } from '../../hooks/useHeader.js';
+import { useNavigateBack } from '../../hooks/useNavigateBack.js';
+import { useTools } from '../../hooks/useTools.js';
+import { useTransactionDetails } from '../../hooks/useTransactionDetails.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useRouteExecutionStore } from '../../stores/routes/RouteExecutionStore.js';
+import { getSourceTxHash } from '../../stores/routes/utils.js';
+import { buildRouteFromTxHistory } from '../../utils/converters.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { ContactSupportButton } from './ContactSupportButton.js';
+import { TransactionDetailsSkeleton } from './TransactionDetailsSkeleton.js';
+import { TransferIdCard } from './TransferIdCard.js';
 
 export const TransactionDetailsPage: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { navigate } = useNavigateBack();
-  const { subvariant, contractComponent, contractSecondaryComponent } =
+  const { subvariant, subvariantOptions, contractSecondaryComponent } =
     useWidgetConfig();
   const { state }: any = useLocation();
   const { tools } = useTools();
@@ -29,8 +32,14 @@ export const TransactionDetailsPage: React.FC = () => {
   );
 
   const { transaction, isLoading } = useTransactionDetails(
-    state?.transactionHash,
+    !storedRouteExecution && state?.transactionHash,
   );
+
+  const title =
+    subvariant === 'custom'
+      ? t(`header.${subvariantOptions?.custom ?? 'checkout'}Details`)
+      : t(`header.transactionDetails`);
+  useHeader(title);
 
   const routeExecution = useMemo(() => {
     if (storedRouteExecution) {
@@ -54,13 +63,7 @@ export const TransactionDetailsPage: React.FC = () => {
     }
   }, [isLoading, navigate, routeExecution]);
 
-  const copySupportId = async () => {
-    await navigator.clipboard.writeText(supportId);
-  };
-
   const sourceTxHash = getSourceTxHash(routeExecution?.route);
-
-  const insuranceCoverageId = sourceTxHash ?? routeExecution?.route.fromAddress;
 
   let supportId = sourceTxHash ?? routeExecution?.route.id ?? '';
 
@@ -76,71 +79,39 @@ export const TransactionDetailsPage: React.FC = () => {
   return isLoading && !storedRouteExecution ? (
     <TransactionDetailsSkeleton />
   ) : (
-    <PageContainer topBottomGutters>
+    <PageContainer bottomGutters>
       <Box
         sx={{
           display: 'flex',
-          flex: 1,
           justifyContent: 'space-between',
         }}
         pb={1}
       >
         <Typography fontSize={12}>
-          {new Intl.DateTimeFormat(i18n.language, {
+          {startedAt.toLocaleString(i18n.language, {
             dateStyle: 'long',
-          }).format(startedAt)}
+          })}
         </Typography>
         <Typography fontSize={12}>
-          {new Intl.DateTimeFormat(i18n.language, {
+          {startedAt.toLocaleString(i18n.language, {
             timeStyle: 'short',
-          }).format(startedAt)}
+          })}
         </Typography>
       </Box>
       {getStepList(routeExecution?.route, subvariant)}
-      {subvariant === 'nft' ? (
-        <ContractComponent mt={2}>
-          {contractSecondaryComponent || contractComponent}
+      {subvariant === 'custom' && contractSecondaryComponent ? (
+        <ContractComponent sx={{ marginTop: 2 }}>
+          {contractSecondaryComponent}
         </ContractComponent>
       ) : null}
-      {routeExecution?.route?.insurance?.state === 'INSURED' ? (
-        <Insurance
-          mt={2}
-          status={routeExecution.status}
-          feeAmountUsd={routeExecution.route.insurance.feeAmountUsd}
-          insuredAmount={formatTokenAmount(
-            BigInt(routeExecution.route.toAmountMin),
-            routeExecution.route.toToken.decimals,
-          )}
-          insuredTokenSymbol={routeExecution.route.toToken.symbol}
-          insurableRouteId={routeExecution.route.id}
-          insuranceCoverageId={insuranceCoverageId}
+      {routeExecution?.route ? (
+        <TransactionDetails
+          route={routeExecution?.route}
+          sx={{ marginTop: 2 }}
         />
       ) : null}
-      <Card mt={2}>
-        <Box
-          sx={{
-            display: 'flex',
-            flex: 1,
-          }}
-        >
-          <CardTitle flex={1}>{t('main.supportId')}</CardTitle>
-          <Box mr={1} mt={1}>
-            <IconButton size="medium" onClick={copySupportId}>
-              <ContentCopyIcon fontSize="small" />
-            </IconButton>
-          </Box>
-        </Box>
-        <Typography
-          variant="body2"
-          pt={1}
-          pb={2}
-          px={2}
-          sx={{ wordBreak: 'break-all' }}
-        >
-          {supportId}
-        </Typography>
-      </Card>
-      <Box mt={2} mb={2.5}>
+      <TransferIdCard transferId={supportId} />
+      <Box mt={2}>
         <ContactSupportButton supportId={supportId} />
       </Box>
     </PageContainer>

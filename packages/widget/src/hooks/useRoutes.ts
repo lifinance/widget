@@ -1,59 +1,77 @@
 import type { Route, RoutesResponse, Token } from '@lifi/sdk';
-import { LiFiErrorCode, getContractCallQuote, getRoutes } from '@lifi/sdk';
+import { LiFiErrorCode, getContractCallsQuote, getRoutes } from '@lifi/sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { v4 as uuidv4 } from 'uuid';
 import { parseUnits } from 'viem';
-import { useChain, useDebouncedWatch, useGasRefuel, useToken } from '.';
-import { useWidgetConfig } from '../providers';
-import { defaultSlippage, useFieldValues, useSettings } from '../stores';
-import { getChainTypeFromAddress } from '../utils';
-import { useAccount } from './useAccount';
-import { useSwapOnly } from './useSwapOnly';
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
+import { useFieldValues } from '../stores/form/useFieldValues.js';
+import { useSetExecutableRoute } from '../stores/routes/useSetExecutableRoute.js';
+import { useSettings } from '../stores/settings/useSettings.js';
+import { defaultSlippage } from '../stores/settings/useSettingsStore.js';
+import { WidgetEvent } from '../types/events.js';
+import { getChainTypeFromAddress } from '../utils/chainType.js';
+import { useAccount } from './useAccount.js';
+import { useChain } from './useChain.js';
+import { useDebouncedWatch } from './useDebouncedWatch.js';
+import { useGasRefuel } from './useGasRefuel.js';
+import { useSwapOnly } from './useSwapOnly.js';
+import { useToken } from './useToken.js';
+import { useWidgetEvents } from './useWidgetEvents.js';
 
 const refetchTime = 60_000;
 
 interface RoutesProps {
-  insurableRoute?: Route;
+  observableRoute?: Route;
 }
 
-export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
-  const { subvariant, sdkConfig, insurance, contractTool } = useWidgetConfig();
+export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
+  const {
+    subvariant,
+    sdkConfig,
+    contractTool,
+    bridges,
+    exchanges,
+    fee,
+    feeConfig,
+  } = useWidgetConfig();
+  const setExecutableRoute = useSetExecutableRoute();
   const queryClient = useQueryClient();
+  const emitter = useWidgetEvents();
   const swapOnly = useSwapOnly();
   const {
-    slippage,
+    disabledBridges,
+    disabledExchanges,
     enabledBridges,
-    enabledAutoRefuel,
     enabledExchanges,
+    enabledAutoRefuel,
     routePriority,
+    slippage,
   } = useSettings([
-    'slippage',
-    'routePriority',
-    'enabledAutoRefuel',
+    'disabledBridges',
+    'disabledExchanges',
     'enabledBridges',
     'enabledExchanges',
+    'enabledAutoRefuel',
+    'routePriority',
+    'slippage',
   ]);
-  const [fromTokenAmount] = useDebouncedWatch(320, 'fromAmount');
+  const [fromTokenAmount] = useDebouncedWatch(500, 'fromAmount');
   const [
     fromChainId,
     fromTokenAddress,
     toAddress,
     toTokenAmount,
     toChainId,
-    toContractAddress,
-    toContractCallData,
-    toContractGasLimit,
     toTokenAddress,
+    contractCalls,
   ] = useFieldValues(
     'fromChain',
     'fromToken',
     'toAddress',
     'toAmount',
     'toChain',
-    'toContractAddress',
-    'toContractCallData',
-    'toContractGasLimit',
     'toToken',
+    'contractCalls',
   );
   const { token: fromToken } = useToken(fromChainId, fromTokenAddress);
   const { token: toToken } = useToken(toChainId, toTokenAddress);
@@ -67,29 +85,31 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
   const hasAmount = Number(fromTokenAmount) > 0 || Number(toTokenAmount) > 0;
 
   const contractCallQuoteEnabled: boolean =
-    subvariant === 'nft'
-      ? Boolean(
-          toContractAddress &&
-            toContractCallData &&
-            toContractGasLimit &&
-            account.address,
-        )
-      : true;
+    subvariant === 'custom' ? Boolean(contractCalls && account.address) : true;
 
+  // When we bridge between ecosystems we need to be sure toAddress is set and has the same chainType as toChain
   // If toAddress is set, it must have the same chainType as toChain
-  const hasToAddressAndChainTypeSatisfied =
-    toChain &&
-    Boolean(toAddress) &&
+  const hasToAddressAndChainTypeSatisfied: boolean =
+    !!toChain &&
+    !!toAddress &&
     getChainTypeFromAddress(toAddress) === toChain.chainType;
   // We need to check for toAddress only if it is set
   const isToAddressSatisfied = toAddress
     ? hasToAddressAndChainTypeSatisfied
     : true;
-  // When we bridge between ecosystems we need to be sure toAddress is set and has the same chainType as toChain
-  const isChainTypeSatisfied =
-    fromChain && toChain && fromChain.chainType !== toChain.chainType
-      ? hasToAddressAndChainTypeSatisfied
-      : true;
+
+  // toAddress might be an empty string, but we need to pass undefined if there is no value
+  const toWalletAddress = toAddress || undefined;
+
+  // We need to send the full allowed tools array if custom tool settings are applied
+  const allowedBridges =
+    bridges?.allow?.length || bridges?.deny?.length
+      ? enabledBridges
+      : undefined;
+  const allowedExchanges =
+    exchanges?.allow?.length || exchanges?.deny?.length
+      ? enabledExchanges
+      : undefined;
 
   const isEnabled =
     Boolean(Number(fromChainId)) &&
@@ -99,7 +119,6 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
     !Number.isNaN(slippage) &&
     hasAmount &&
     isToAddressSatisfied &&
-    isChainTypeSatisfied &&
     contractCallQuoteEnabled;
 
   // Some values should be strictly typed and isEnabled ensures that
@@ -109,23 +128,24 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
     fromChainId as number,
     fromToken?.address as string,
     fromTokenAmount,
-    toAddress,
+    toWalletAddress,
     toChainId as number,
     toToken?.address as string,
     toTokenAmount,
-    toContractAddress,
-    toContractCallData,
-    toContractGasLimit,
+    contractCalls,
     slippage,
-    swapOnly ? [] : enabledBridges,
-    enabledExchanges,
+    swapOnly,
+    disabledBridges,
+    disabledExchanges,
+    allowedBridges,
+    allowedExchanges,
     routePriority,
     subvariant,
     sdkConfig?.routeOptions?.allowSwitchChain,
     enabledRefuel && enabledAutoRefuel,
     gasRecommendationFromAmount,
-    insurance,
-    insurableRoute?.id,
+    feeConfig?.fee || fee,
+    observableRoute?.id,
   ] as const;
 
   const { data, isLoading, isFetching, isFetched, dataUpdatedAt, refetch } =
@@ -142,47 +162,62 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
           toChainId,
           toTokenAddress,
           toTokenAmount,
-          toContractAddress,
-          toContractCallData,
-          toContractGasLimit,
+          contractCalls,
           slippage = defaultSlippage,
-          enabledBridges,
-          enabledExchanges,
+          swapOnly,
+          disabledBridges,
+          disabledExchanges,
+          allowedBridges,
+          allowedExchanges,
           routePriority,
           subvariant,
           allowSwitchChain,
           enabledRefuel,
           gasRecommendationFromAmount,
-          insurance,
-          insurableRouteId,
+          fee,
+          observableRouteId,
         ],
         signal,
       }) => {
-        const toWalletAddress = toAddress || fromAddress;
-        const fromAmount = parseUnits(
-          fromTokenAmount,
-          fromToken!.decimals,
-        ).toString();
+        const fromAmount = parseUnits(fromTokenAmount, fromToken!.decimals);
         const formattedSlippage = parseFloat(slippage) / 100;
 
-        const allowedBridges: string[] = insurableRoute
-          ? insurableRoute.steps.flatMap((step) =>
-              step.includedSteps
-                .filter((includedStep) => includedStep.type === 'cross')
-                .map((includedStep) => includedStep.toolDetails.key),
+        const allowBridges = swapOnly
+          ? []
+          : observableRoute
+            ? observableRoute.steps.flatMap((step) =>
+                step.includedSteps.reduce((toolKeys, includedStep) => {
+                  if (includedStep.type === 'cross') {
+                    toolKeys.push(includedStep.toolDetails.key);
+                  }
+                  return toolKeys;
+                }, [] as string[]),
+              )
+            : allowedBridges;
+        const allowExchanges = observableRoute
+          ? observableRoute.steps.flatMap((step) =>
+              step.includedSteps.reduce((toolKeys, includedStep) => {
+                if (includedStep.type === 'swap') {
+                  toolKeys.push(includedStep.toolDetails.key);
+                }
+                return toolKeys;
+              }, [] as string[]),
             )
-          : enabledBridges;
+          : allowedExchanges;
 
-        const allowedExchanges: string[] = insurableRoute
-          ? insurableRoute.steps.flatMap((step) =>
-              step.includedSteps
-                .filter((includedStep) => includedStep.type === 'swap')
-                .map((includedStep) => includedStep.toolDetails.key),
-            )
-          : enabledExchanges;
+        const calculatedFee = await feeConfig?.calculateFee?.({
+          fromChainId,
+          toChainId,
+          fromTokenAddress,
+          toTokenAddress,
+          fromAddress,
+          toAddress,
+          fromAmount,
+          slippage: formattedSlippage,
+        });
 
-        if (subvariant === 'nft') {
-          const contractCallQuote = await getContractCallQuote(
+        if (subvariant === 'custom' && contractCalls && toTokenAmount) {
+          const contractCallQuote = await getContractCallsQuote(
             {
               // Contract calls are enabled only when fromAddress is set
               fromAddress: fromAddress as string,
@@ -191,12 +226,16 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
               toAmount: toTokenAmount,
               toChain: toChainId,
               toToken: toTokenAddress,
-              toContractAddress,
-              toContractCallData,
-              toContractGasLimit,
-              allowBridges: allowedBridges,
-              toFallbackAddress: toWalletAddress,
+              contractCalls,
+              denyBridges: disabledBridges.length ? disabledBridges : undefined,
+              denyExchanges: disabledExchanges.length
+                ? disabledExchanges
+                : undefined,
+              allowBridges,
+              allowExchanges,
+              toFallbackAddress: toAddress,
               slippage: formattedSlippage,
+              fee: calculatedFee || fee,
             },
             { signal },
           );
@@ -204,7 +243,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
           contractCallQuote.action.toToken = toToken!;
 
           const customStep =
-            subvariant === 'nft'
+            subvariant === 'custom'
               ? contractCallQuote.includedSteps?.find(
                   (step) => step.type === 'custom',
                 )
@@ -232,7 +271,9 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
             toAmount: toTokenAmount,
             toAmountMin: toTokenAmount,
             toToken: toToken!,
-            toAddress: toWalletAddress,
+            toAddress:
+              contractCallQuote.action.toAddress ||
+              contractCallQuote.action.fromAddress,
             gasCostUSD: contractCallQuote.estimate.gasCosts?.[0].amountUSD,
             steps: [contractCallQuote],
             insurance: { state: 'NOT_INSURABLE', feeAmountUsd: '0' },
@@ -241,13 +282,18 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
           return { routes: [route] } as RoutesResponse;
         }
 
+        // Prevent sending a request for the same chain token combinations.
+        if (fromChainId === toChainId && fromTokenAddress === toTokenAddress) {
+          return;
+        }
+
         const data = await getRoutes(
           {
             fromAddress,
-            fromAmount,
+            fromAmount: fromAmount.toString(),
             fromChainId,
             fromTokenAddress,
-            toAddress: toWalletAddress,
+            toAddress,
             toChainId,
             toTokenAddress,
             fromAmountForGas:
@@ -255,17 +301,29 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
                 ? gasRecommendationFromAmount
                 : undefined,
             options: {
-              slippage: formattedSlippage,
-              bridges: {
-                allow: allowedBridges,
-              },
-              exchanges: {
-                allow: allowedExchanges,
-              },
-              order: routePriority,
               allowSwitchChain:
                 subvariant === 'refuel' ? false : allowSwitchChain,
-              insurance: insurance ? Boolean(insurableRoute) : undefined,
+              bridges:
+                allowBridges?.length || disabledBridges.length
+                  ? {
+                      allow: allowBridges,
+                      deny: disabledBridges.length
+                        ? disabledBridges
+                        : undefined,
+                    }
+                  : undefined,
+              exchanges:
+                allowExchanges?.length || disabledExchanges.length
+                  ? {
+                      allow: allowExchanges,
+                      deny: disabledExchanges.length
+                        ? disabledExchanges
+                        : undefined,
+                    }
+                  : undefined,
+              order: routePriority,
+              slippage: formattedSlippage,
+              fee: calculatedFee || fee,
             },
           },
           { signal },
@@ -292,6 +350,7 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
             );
           });
         }
+        emitter.emit(WidgetEvent.AvailableRoutes, data.routes);
         return data;
       },
       enabled: isEnabled,
@@ -302,13 +361,26 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
           refetchTime,
         );
       },
-      retry(_, error: any) {
+      retry(failureCount, error: any) {
+        if (failureCount >= 5) {
+          return false;
+        }
         if (error?.code === LiFiErrorCode.NotFound) {
           return false;
         }
         return true;
       },
     });
+
+  const setReviewableRoute = (route: Route) => {
+    const queryDataKey = queryKey.toSpliced(queryKey.length - 1, 1, route.id);
+    queryClient.setQueryData(
+      queryDataKey,
+      { routes: [route] },
+      { updatedAt: dataUpdatedAt },
+    );
+    setExecutableRoute(route);
+  };
 
   return {
     routes: data?.routes,
@@ -318,5 +390,9 @@ export const useRoutes = ({ insurableRoute }: RoutesProps = {}) => {
     dataUpdatedAt,
     refetchTime,
     refetch,
+    fromChain,
+    toChain,
+    queryKey,
+    setReviewableRoute,
   };
 };

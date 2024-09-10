@@ -1,5 +1,5 @@
 {
-  "name": "next-app",
+  "name": "nextjs14",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,18 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@lifi/sdk": "^2.5.0",
-    "@lifi/widget": "^2.9.5",
-    "next": "13.5.6",
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "@lifi/sdk": "^3.1.3",
+    "@lifi/widget": "^3.3.0",
+    "next": "^14.2.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@types/node": "20.10.4",
-    "@types/react": "18.2.45",
-    "@types/react-dom": "18.2.17",
-    "eslint": "8.55.0",
-    "eslint-config-next": "13.5.6",
-    "typescript": "5.3.3"
+    "@types/node": "^22.0.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "14.2.5",
+    "typescript": "^5.5.4"
   }
 }

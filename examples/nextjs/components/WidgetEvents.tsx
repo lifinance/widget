@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+'use client';
 import type { Route } from '@lifi/sdk';
 import type {
   RouteExecutionUpdate,

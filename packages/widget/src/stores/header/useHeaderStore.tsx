@@ -1,7 +1,7 @@
 import { createContext, useContext, useRef } from 'react';
 import { createWithEqualityFn } from 'zustand/traditional';
-import type { PersistStoreProps, PersistStoreProviderProps } from '../types';
-import type { HeaderState, HeaderStore } from './types';
+import type { PersistStoreProps, PersistStoreProviderProps } from '../types.js';
+import type { HeaderState, HeaderStore } from './types.js';
 
 export const HeaderStoreContext = createContext<HeaderStore | null>(null);
 
@@ -20,16 +20,6 @@ export function HeaderStoreProvider({
   );
 }
 
-export function useHeaderStore<T>(selector: (state: HeaderState) => T): T {
-  const useStore = useContext(HeaderStoreContext);
-  if (!useStore) {
-    throw new Error(
-      `You forgot to wrap your component in <${HeaderStoreProvider.name}>.`,
-    );
-  }
-  return useStore(selector);
-}
-
 export function useHeaderStoreContext() {
   const useStore = useContext(HeaderStoreContext);
   if (!useStore) {
@@ -40,6 +30,10 @@ export function useHeaderStoreContext() {
   return useStore;
 }
 
+export function useHeaderStore<T>(selector: (state: HeaderState) => T): T {
+  const useStore = useHeaderStoreContext();
+  return useStore(selector);
+}
 export const createHeaderStore = ({ namePrefix }: PersistStoreProps) =>
   createWithEqualityFn<HeaderState>(
     (set, get) => ({

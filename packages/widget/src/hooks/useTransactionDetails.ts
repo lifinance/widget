@@ -5,9 +5,9 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import { useAccount } from './useAccount';
+import { useAccount } from './useAccount.js';
 
-export const useTransactionDetails = (transactionHash: string) => {
+export const useTransactionDetails = (transactionHash?: string) => {
   const { account, accounts } = useAccount();
   const queryClient = useQueryClient();
 
@@ -51,8 +51,8 @@ export const useTransactionDetails = (transactionHash: string) => {
         return transaction;
       }
     },
-    refetchInterval: 300000,
-    enabled: Boolean(account.isConnected),
+    refetchInterval: 300_000,
+    enabled: account.isConnected && Boolean(transactionHash),
     initialData: () => {
       for (const account of accounts) {
         const transaction = queryClient

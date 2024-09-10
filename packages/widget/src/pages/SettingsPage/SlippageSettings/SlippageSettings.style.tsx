@@ -1,16 +1,20 @@
 import type { Theme } from '@mui/material';
-import { Box, ButtonBase, InputBase } from '@mui/material';
-import { inputBaseClasses } from '@mui/material/InputBase';
-import { alpha, styled } from '@mui/material/styles';
-import { getCardFieldsetBackgroundColor } from '../../../utils';
+import {
+  Box,
+  ButtonBase,
+  InputBase,
+  alpha,
+  inputBaseClasses,
+  styled,
+} from '@mui/material';
 
 export const SettingsFieldSet = styled(Box)(({ theme }) => ({
   display: 'flex',
-  backgroundColor: getCardFieldsetBackgroundColor(theme),
-  borderRadius: Math.max(
-    theme.shape.borderRadius,
-    theme.shape.borderRadiusSecondary,
-  ),
+  backgroundColor:
+    theme.palette.mode === 'light'
+      ? alpha(theme.palette.common.black, 0.04)
+      : alpha(theme.palette.common.white, 0.08),
+  borderRadius: theme.shape.borderRadius,
   padding: theme.spacing(0.5),
   gap: theme.spacing(0.5),
   height: '3.5rem',
@@ -18,10 +22,10 @@ export const SettingsFieldSet = styled(Box)(({ theme }) => ({
 
 const slippageControlSelected = (theme: Theme) => ({
   backgroundColor:
-    theme.palette.mode === 'dark'
-      ? theme.palette.background.default
-      : theme.palette.common.white,
-  borderRadius: theme.shape.borderRadiusSecondary,
+    theme.palette.mode === 'light'
+      ? theme.palette.background.paper
+      : alpha(theme.palette.common.black, 0.56),
+  borderRadius: theme.shape.borderRadius - 4,
   boxShadow: `0px 2px 4px ${alpha(theme.palette.common.black, 0.04)}`,
 });
 

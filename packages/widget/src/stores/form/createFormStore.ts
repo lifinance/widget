@@ -7,23 +7,15 @@ import type {
   FormValueControl,
   FormValues,
   FormValuesState,
-  GenericFormValue,
-} from './types';
+} from './types.js';
 
 export const formDefaultValues: DefaultValues = {
   fromAmount: '',
-  toAddress: '',
-  tokenSearchFilter: '',
-  contractOutputsToken: '',
-  toContractAddress: '',
-  toContractCallData: '',
-  toContractGasLimit: '',
   toAmount: '',
+  tokenSearchFilter: '',
 };
 
-const defaultValueToFormValue = (
-  value: GenericFormValue,
-): FormValueControl<GenericFormValue> => ({
+const defaultValueToFormValue = <T>(value: T): FormValueControl<T> => ({
   isTouched: false,
   isDirty: false,
   value,
@@ -31,22 +23,25 @@ const defaultValueToFormValue = (
 
 const valuesToFormValues = (defaultValues: DefaultValues): FormValues => {
   return (Object.keys(defaultValues) as FormFieldNames[]).reduce(
-    (accum, key) => {
-      return { ...accum, [key]: defaultValueToFormValue(defaultValues[key]) };
-    },
-    {},
-  ) as FormValues;
+    (accum, key) => ({
+      ...accum,
+      [key]: defaultValueToFormValue(defaultValues[key]),
+    }),
+    {} as FormValues,
+  );
 };
 
 const isString = (str: any) => typeof str === 'string' || str instanceof String;
 
 const getUpdatedTouchedFields = (userValues: FormValues) => {
-  return Object.keys(userValues).reduce(
-    (accum, key) =>
-      userValues[key as FormFieldNames]?.isTouched
-        ? { ...accum, [key]: true }
-        : accum,
-    {},
+  return (Object.keys(userValues) as FormFieldNames[]).reduce(
+    (accum, key) => {
+      if (userValues[key]?.isTouched) {
+        accum[key] = true;
+      }
+      return accum;
+    },
+    {} as Record<FormFieldNames, boolean>,
   );
 };
 

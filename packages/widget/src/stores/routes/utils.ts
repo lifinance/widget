@@ -6,20 +6,14 @@ export const isRouteDone = (route: RouteExtended) => {
 };
 
 export const isRoutePartiallyDone = (route: RouteExtended) => {
-  return route.steps.some(
-    (step) =>
-      step.execution?.process.some(
-        (process) => process.substatus === 'PARTIAL',
-      ),
+  return route.steps.some((step) =>
+    step.execution?.process.some((process) => process.substatus === 'PARTIAL'),
   );
 };
 
 export const isRouteRefunded = (route: RouteExtended) => {
-  return route.steps.some(
-    (step) =>
-      step.execution?.process.some(
-        (process) => process.substatus === 'REFUNDED',
-      ),
+  return route.steps.some((step) =>
+    step.execution?.process.some((process) => process.substatus === 'REFUNDED'),
   );
 };
 
@@ -47,10 +41,16 @@ export const getUpdatedProcess = (
   if (!processDiff) {
     return undefined;
   }
-  // e.g. ['steps', 0, 'execution', 'process', 0]
-  const process = processDiff.path
-    .slice(0, processDiff.path.findIndex((path) => path === 'process') + 2)
-    .reduce((obj, path) => obj[path], updatedRoute as any) as Process;
+  // Find process index in the diff array so we can slice the complete rpocess object
+  // e.g. ['steps', 0, 'execution', 'process', 0, 'message']
+  const processDiffIndex =
+    processDiff.path.findIndex((path) => path === 'process') + 2;
+  const processPathSlice = processDiff.path.slice(0, processDiffIndex);
+  // Reduce updated route using the diff path to get updated process
+  const process = processPathSlice.reduce(
+    (obj, path) => obj[path],
+    updatedRoute as any,
+  ) as Process;
   return process;
 };
 

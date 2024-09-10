@@ -1,16 +1,21 @@
 import { ChainType } from '@lifi/sdk';
-import { getWalletIcon, isWalletInstalledAsync } from '@lifi/wallet-management';
+import type { CreateConnectorFnExtended } from '@lifi/wallet-management';
+import {
+  getConnectorIcon,
+  isWalletInstalledAsync,
+} from '@lifi/wallet-management';
 import { Avatar, ListItemAvatar } from '@mui/material';
 import type { Connector } from 'wagmi';
 import { useConnect, useDisconnect } from 'wagmi';
-import { ListItemButton } from '../../components/ListItemButton';
-import { ListItemText } from '../../components/ListItemText';
-import { useNavigateBack, useWidgetEvents } from '../../hooks';
-import { WidgetEvent } from '../../types';
+import { ListItemButton } from '../../components/ListItemButton.js';
+import { ListItemText } from '../../components/ListItemText.js';
+import { useNavigateBack } from '../../hooks/useNavigateBack.js';
+import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
+import { WidgetEvent } from '../../types/events.js';
 
 interface EVMListItemButtonProps {
   connectedConnector?: Connector;
-  connector: Connector;
+  connector: CreateConnectorFnExtended | Connector;
   onNotInstalled(connector: Connector): void;
 }
 
@@ -25,9 +30,11 @@ export const EVMListItemButton = ({
   const { disconnectAsync } = useDisconnect();
 
   const handleEVMConnect = async () => {
-    const identityCheckPassed = await isWalletInstalledAsync(connector.id);
+    const identityCheckPassed = await isWalletInstalledAsync(
+      (connector as Connector).id,
+    );
     if (!identityCheckPassed) {
-      onNotInstalled(connector);
+      onNotInstalled(connector as Connector);
       return;
     }
     if (connectedConnector) {
@@ -48,17 +55,20 @@ export const EVMListItemButton = ({
     navigateBack();
   };
 
+  const connectorName: string =
+    (connector as CreateConnectorFnExtended).displayName || connector.name;
+
   return (
-    <ListItemButton key={connector.uid} onClick={handleEVMConnect}>
+    <ListItemButton key={connector.id} onClick={handleEVMConnect}>
       <ListItemAvatar>
         <Avatar
-          src={connector.icon || getWalletIcon(connector.id)}
-          alt={connector.name}
+          src={getConnectorIcon(connector as Connector)}
+          alt={connectorName}
         >
-          {connector.name[0]}
+          {connectorName?.[0]}
         </Avatar>
       </ListItemAvatar>
-      <ListItemText primary={connector.name} />
+      <ListItemText primary={connectorName} />
     </ListItemButton>
   );
 };

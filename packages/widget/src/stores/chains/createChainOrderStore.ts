@@ -1,10 +1,11 @@
 import type { StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { createWithEqualityFn } from 'zustand/traditional';
-import type { PersistStoreProps } from '../types';
-import type { ChainOrderState } from './types';
+import type { PersistStoreProps } from '../types.js';
+import type { ChainOrderState } from './types.js';
 
-export const maxChainToOrder = 9;
+export const maxChainsToOrder = 9;
+export const maxChainsToShow = 10;
 const defaultChainState = {
   from: [],
   to: [],
@@ -24,7 +25,7 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
             const chainsToAdd = chainIds.filter(
               (chainId) => !chainOrder.includes(chainId),
             );
-            if (chainOrder.length === maxChainToOrder || !chainsToAdd.length) {
+            if (chainOrder.length === maxChainsToOrder || !chainsToAdd.length) {
               return {
                 availableChains: {
                   ...state.availableChains,
@@ -36,7 +37,7 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
                 },
               };
             }
-            const chainsToAddLength = maxChainToOrder - chainOrder.length;
+            const chainsToAddLength = maxChainsToOrder - chainOrder.length;
             for (let index = 0; index < chainsToAddLength; index++) {
               chainOrder.push(chainsToAdd[index]);
             }
@@ -64,7 +65,7 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
           set((state: ChainOrderState) => {
             const chainOrder = state.chainOrder[type].slice();
             chainOrder.unshift(chainId);
-            if (chainOrder.length > maxChainToOrder) {
+            if (chainOrder.length > maxChainsToOrder) {
               chainOrder.pop();
             }
             return {
@@ -78,7 +79,7 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
       }),
       {
         name: `${namePrefix || 'li.fi'}-widget-chains-order`,
-        version: 1,
+        version: 2,
         partialize: (state) => ({ chainOrder: state.chainOrder }),
       },
     ) as StateCreator<ChainOrderState, [], [], ChainOrderState>,

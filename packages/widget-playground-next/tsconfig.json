@@ -1,0 +1,66 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "es2020",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "@lifi/wallet-management": [
+        "./packages/wallet-management/src"
+      ],
+      "@lifi/wallet-management/*": [
+        "./packages/wallet-management/src/*"
+      ],
+      "@lifi/widget-playground": [
+        "./packages/widget-playground/src"
+      ],
+      "@lifi/widget-playground/*": [
+        "./packages/widget-playground/src/*"
+      ]
+    }
+  },
+  "references": [
+    {
+      "path": "../wallet-management"
+    },
+    {
+      "path": "../widget-playground"
+    },
+    {
+      "path": "../widget"
+    }
+  ],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "dist/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/hooks/useWidgetEvents.ts"
+  ]
+}

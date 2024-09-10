@@ -1,4 +1,4 @@
-import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNewRounded';
+import { PowerSettingsNewRounded } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import type { Connector } from 'wagmi';
 import { useDisconnect } from 'wagmi';
@@ -18,7 +18,7 @@ export const EVMDisconnectIconButton = ({
         disconnect({ connector });
       }}
     >
-      <PowerSettingsNewIcon />
+      <PowerSettingsNewRounded />
     </IconButton>
   );
 };

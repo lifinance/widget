@@ -6,12 +6,14 @@ export enum WidgetEvent {
   RouteExecutionCompleted = 'routeExecutionCompleted',
   RouteExecutionFailed = 'routeExecutionFailed',
   RouteHighValueLoss = 'routeHighValueLoss',
+  AvailableRoutes = 'availableRoutes',
   ContactSupport = 'contactSupport',
   SourceChainTokenSelected = 'sourceChainTokenSelected',
   DestinationChainTokenSelected = 'destinationChainTokenSelected',
   SendToWalletToggled = 'sendToWalletToggled',
   ReviewTransactionPageEntered = 'reviewTransactionPageEntered',
   WalletConnected = 'walletConnected',
+  WidgetExpanded = 'widgetExpanded',
 }
 
 export type WidgetEvents = {
@@ -20,12 +22,14 @@ export type WidgetEvents = {
   routeExecutionCompleted: Route;
   routeExecutionFailed: RouteExecutionUpdate;
   routeHighValueLoss: RouteHighValueLossUpdate;
+  availableRoutes: Route[];
   contactSupport: ContactSupport;
   sourceChainTokenSelected: ChainTokenSelected;
   destinationChainTokenSelected: ChainTokenSelected;
   sendToWalletToggled: boolean;
   reviewTransactionPageEntered?: Route;
   walletConnected: WalletConnected;
+  widgetExpanded: boolean;
 };
 
 export interface ContactSupport {
@@ -33,10 +37,11 @@ export interface ContactSupport {
 }
 
 export interface RouteHighValueLossUpdate {
-  fromAmountUsd: string;
-  gasCostUSD?: string;
-  toAmountUSD: string;
-  valueLoss: string;
+  fromAmountUSD: number;
+  toAmountUSD: number;
+  gasCostUSD?: number;
+  feeCostUSD?: number;
+  valueLoss: number;
 }
 
 export interface RouteExecutionUpdate {

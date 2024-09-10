@@ -1,9 +1,13 @@
-import SettingsIcon from '@mui/icons-material/Settings';
+import { Settings } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useNavigateBack, useSettingMonitor } from '../../hooks';
-import { navigationRoutes } from '../../utils';
-import { SettingsIconBadge, SettingsIconButton } from './SettingsButton.style';
+import { useNavigateBack } from '../../hooks/useNavigateBack.js';
+import { useSettingMonitor } from '../../hooks/useSettingMonitor.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import {
+  SettingsIconBadge,
+  SettingsIconButton,
+} from './SettingsButton.style.js';
 
 export const SettingsButton = () => {
   const { t } = useTranslation();
@@ -23,7 +27,7 @@ export const SettingsButton = () => {
     : t(`header.settings`);
 
   return (
-    <Tooltip title={tooltipMessage} enterDelay={400} arrow>
+    <Tooltip title={tooltipMessage}>
       <SettingsIconButton
         size="medium"
         onClick={() => navigate(navigationRoutes.settings)}
@@ -31,10 +35,10 @@ export const SettingsButton = () => {
       >
         {variant ? (
           <SettingsIconBadge variant="dot" color={variant}>
-            <SettingsIcon />
+            <Settings />
           </SettingsIconBadge>
         ) : (
-          <SettingsIcon />
+          <Settings />
         )}
       </SettingsIconButton>
     </Tooltip>

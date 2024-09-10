@@ -1,13 +1,12 @@
-import { Box } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { getContrastAlphaColor } from '../../utils';
+import { Box, styled } from '@mui/material';
+import { getContrastAlphaColor } from '../../utils/colors.js';
 
 export const ResetButtonContainer = styled(Box)(({ theme }) => ({
-  background: getContrastAlphaColor(theme.palette.mode, '4%'),
+  background: getContrastAlphaColor(theme, 0.04),
   borderRadius: '16px',
   padding: '16px',
 
   [`svg`]: {
-    fill: getContrastAlphaColor(theme.palette.mode, '40%'),
+    fill: getContrastAlphaColor(theme, 0.4),
   },
 }));

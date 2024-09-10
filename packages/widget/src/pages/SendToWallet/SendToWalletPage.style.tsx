@@ -1,8 +1,6 @@
-import type { Theme } from '@mui/material';
 import {
   Alert,
   Box,
-  Button,
   IconButton,
   List,
   Typography,
@@ -10,11 +8,12 @@ import {
   inputBaseClasses,
   styled,
 } from '@mui/material';
-import { Card } from '../../components/Card';
-import { Input } from '../../components/Input';
-import type { PageContainerProps } from '../../components/PageContainer';
-import { PageContainer } from '../../components/PageContainer';
-import { getContrastAlphaColor } from '../../utils';
+import { ButtonTertiary } from '../../components/ButtonTertiary.js';
+import { InputCard } from '../../components/Card/InputCard.js';
+import { Input } from '../../components/Input.js';
+import type { PageContainerProps } from '../../components/PageContainer.js';
+import { PageContainer } from '../../components/PageContainer.js';
+import { getContrastAlphaColor } from '../../utils/colors.js';
 
 export const AddressInput = styled(Input)(({ theme }) => ({
   padding: 0,
@@ -39,10 +38,29 @@ export const SendToWalletPageContainer = styled(
   gap: theme.spacing(1),
 }));
 
-export const SendToWalletCard = styled(Card)(({ theme }) => ({
+interface FullHeightAdjustablePageContainerProps extends PageContainerProps {
+  enableFullHeight?: boolean;
+}
+
+export const FullHeightAdjustablePageContainer = styled(
+  SendToWalletPageContainer,
+  {
+    shouldForwardProp: (prop) => prop !== 'enableFullHeight',
+  },
+)<FullHeightAdjustablePageContainerProps>(({ theme, enableFullHeight }) => ({
+  justifyContent: 'space-between',
+  ...(enableFullHeight && theme.container?.height === '100%'
+    ? {
+        justifyContent: 'space-between',
+        height: '100%',
+      }
+    : {}),
+}));
+
+export const SendToWalletCard = styled(InputCard)({
   display: 'flex',
   flexDirection: 'column',
-}));
+});
 
 export const SendToWalletSheetContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -58,43 +76,9 @@ export const SendToWalletButtonRow = styled(Box)(({ theme }) => ({
   gap: theme.spacing(1),
 }));
 
-const tertiaryButtonStyles = (theme: Theme) => ({
-  color: theme.palette.text.primary,
-  height: 40,
-  fontSize: 14,
-  backgroundColor:
-    theme.palette.mode === 'light'
-      ? theme.palette.grey[200]
-      : theme.palette.grey[800],
-  '&:hover': {
-    backgroundColor:
-      theme.palette.mode === 'light'
-        ? theme.palette.grey[300]
-        : theme.palette.grey[700],
-  },
-  '&:active': {
-    backgroundColor:
-      theme.palette.mode === 'light'
-        ? theme.palette.grey[300]
-        : theme.palette.grey[700],
-  },
-});
-
-export const SendToWalletButton = styled(Button)(({ theme }) => ({
-  ...tertiaryButtonStyles(theme),
-}));
-
-export const SendToWalletIconButton = styled(Button)(({ theme }) => ({
-  ...tertiaryButtonStyles(theme),
+export const SendToWalletIconButton = styled(ButtonTertiary)(({ theme }) => ({
   padding: theme.spacing(1.25),
   minWidth: 40,
-}));
-
-export const WalletNumber = styled(Typography)(({ theme }) => ({
-  color:
-    theme.palette.mode === 'light'
-      ? theme.palette.grey[600]
-      : theme.palette.grey[400],
 }));
 
 export const IconContainer = styled(Box)(({ theme }) => ({
@@ -127,20 +111,25 @@ export const SheetAddressContainer = styled(Box)(() => ({
 export const ListContainer = styled(List)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
+  padding: 0,
   minHeight: 400,
-  paddingBottom: theme.spacing(3),
+}));
+
+export const BookmarksListContainer = styled(ListContainer)(({ theme }) => ({
+  ...(theme.container?.height === '100%'
+    ? { minHeight: 360, height: 360, flexGrow: 1, overflow: 'auto' }
+    : { minHeight: 440 }),
 }));
 
 export const BookmarkButtonContainer = styled(Box)(({ theme }) => ({
   background: theme.palette.background.default,
   display: 'flex',
   flexDirection: 'column',
-  flexGrow: 1,
-  position: 'sticky',
   bottom: 0,
   padding: theme.spacing(0, 3, 3),
-  marginBottom: theme.spacing(-5.25),
   zIndex: 2,
+  position: 'sticky',
+  width: '100%',
 }));
 
 export const EmptyContainer = styled(Box)(({ theme }) => ({
@@ -150,15 +139,6 @@ export const EmptyContainer = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   flexGrow: 1,
   gap: theme.spacing(2),
-}));
-
-export const EmptyListMessage = styled(Typography)(({ theme }) => ({
-  fontSize: 14,
-  fontWeight: 700,
-  color:
-    theme.palette.mode === 'light'
-      ? theme.palette.grey[600]
-      : theme.palette.grey[400],
 }));
 
 export const ValidationAlert = styled(Alert)(({ theme }) => ({
@@ -177,6 +157,6 @@ export const OptionsMenuButton = styled(IconButton)(({ theme }) => ({
   top: theme.spacing(1.75),
   right: theme.spacing(2),
   '&:hover': {
-    backgroundColor: getContrastAlphaColor(theme.palette.mode, '4%'),
+    backgroundColor: getContrastAlphaColor(theme, 0.04),
   },
 }));

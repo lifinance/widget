@@ -1,11 +1,11 @@
 import type { BoxProps, Theme } from '@mui/material';
-import { Box } from '@mui/material';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { ReverseTokensButton } from '../components/ReverseTokensButton';
-import { SelectTokenButton } from '../components/SelectTokenButton';
-import { useWidgetConfig } from '../providers';
-import { DisabledUI, HiddenUI } from '../types';
-import { useFieldValues } from '../stores/form';
+import { Box, useMediaQuery } from '@mui/material';
+import { ReverseTokensButton } from '../components/ReverseTokensButton/ReverseTokensButton.js';
+import { SelectTokenButton } from '../components/SelectTokenButton/SelectTokenButton.js';
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
+import { useFieldValues } from '../stores/form/useFieldValues.js';
+import { DisabledUI, HiddenUI } from '../types/widget.js';
+import { ReverseTokensButtonEmpty } from './ReverseTokensButton/ReverseTokensButton.style.js';
 
 export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
   const prefersNarrowView = useMediaQuery((theme: Theme) =>
@@ -27,7 +27,7 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
     hiddenUI?.includes(HiddenUI.ToToken);
 
   const hiddenToToken =
-    subvariant === 'nft' || hiddenUI?.includes(HiddenUI.ToToken);
+    subvariant === 'custom' || hiddenUI?.includes(HiddenUI.ToToken);
 
   const isCompact =
     !!fromChain &&
@@ -44,18 +44,11 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
     >
       <SelectTokenButton formType="from" compact={isCompact} />
       {!hiddenToToken ? (
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-          m={!hiddenReverse ? -1.125 : 1}
-        >
-          {!hiddenReverse ? (
-            <ReverseTokensButton vertical={!isCompact} />
-          ) : null}
-        </Box>
+        !hiddenReverse ? (
+          <ReverseTokensButton vertical={!isCompact} />
+        ) : (
+          <ReverseTokensButtonEmpty />
+        )
       ) : null}
       {!hiddenToToken ? (
         <SelectTokenButton formType="to" compact={isCompact} />

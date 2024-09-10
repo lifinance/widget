@@ -1,7 +1,9 @@
 import type { ExtendedChain } from '@lifi/sdk';
-import { useWidgetConfig } from '../providers';
-import { useBookmarkActions, useBookmarks, useFieldActions } from '../stores';
-import { RequiredUI } from '../types';
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
+import { useBookmarkActions } from '../stores/bookmarks/useBookmarkActions.js';
+import { useBookmarks } from '../stores/bookmarks/useBookmarks.js';
+import { useFieldActions } from '../stores/form/useFieldActions.js';
+import { RequiredUI } from '../types/widget.js';
 
 export const useToAddressReset = () => {
   const { requiredUI } = useWidgetConfig();
@@ -25,8 +27,8 @@ export const useToAddressReset = () => {
     // prevents cases when after we switch the chain from one type to another "Send to wallet" field hides,
     // but it keeps toAddress value set for the previous chain pair.
     if (shouldResetToAddress) {
-      setSelectedBookmark();
       setFieldValue('toAddress', '');
+      setSelectedBookmark();
     }
   };
 

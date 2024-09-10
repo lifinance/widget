@@ -1,45 +1,47 @@
 'use client';
 import { forwardRef, useMemo } from 'react';
-import { AppDefault } from './AppDefault';
-import type { WidgetDrawer } from './AppDrawer';
-import { AppDrawer } from './AppDrawer';
-import { AppProvider } from './AppProvider';
-import type { WidgetConfig, WidgetProps } from './types';
+import { AppDefault } from './AppDefault.js';
+import type { WidgetDrawer } from './AppDrawer.js';
+import { AppDrawer } from './AppDrawer.js';
+import { AppProvider } from './AppProvider.js';
+import type { WidgetConfig, WidgetProps } from './types/widget.js';
 
 export const App = forwardRef<WidgetDrawer, WidgetProps>(
   ({ elementRef, open, onClose, integrator, ...other }, ref) => {
     const config: WidgetConfig = useMemo(() => {
       const config = { integrator, ...other, ...other.config };
       if (config.variant === 'drawer') {
-        config.containerStyle = {
-          height: '100%',
-          ...config?.containerStyle,
+        config.theme = {
+          ...config.theme,
+          container: {
+            height: '100%',
+            ...config.theme?.container,
+          },
         };
       }
       return config;
     }, [integrator, other]);
 
-    const app = (
+    if (config.variant === 'drawer') {
+      return (
+        <AppProvider config={config}>
+          <AppDrawer
+            ref={ref}
+            elementRef={elementRef}
+            config={config}
+            open={open}
+            onClose={onClose}
+          >
+            <AppDefault />
+          </AppDrawer>
+        </AppProvider>
+      );
+    }
+
+    return (
       <AppProvider config={config}>
         <AppDefault />
       </AppProvider>
     );
-
-    if (config.variant === 'drawer') {
-      return (
-        <AppDrawer
-          ref={ref}
-          elementRef={elementRef}
-          integrator={integrator}
-          config={config}
-          open={open}
-          onClose={onClose}
-        >
-          {app}
-        </AppDrawer>
-      );
-    }
-
-    return app;
   },
 );

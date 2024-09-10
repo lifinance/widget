@@ -1,56 +1,66 @@
 /* eslint-disable react/no-array-index-key */
 import type { Route } from '@lifi/sdk';
 import type { BoxProps } from '@mui/material';
-import { useEffect } from 'react';
-import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate';
-import {
-  RouteCard,
-  RouteCardSkeleton,
-  RouteNotFoundCard,
-} from '../../components/RouteCard';
-import { useNavigateBack, useRoutes } from '../../hooks';
-import { useHeaderStoreContext, useSetExecutableRoute } from '../../stores';
-import { navigationRoutes } from '../../utils';
-import { Stack } from './RoutesPage.style';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate.js';
+import { RouteCard } from '../../components/RouteCard/RouteCard.js';
+import { RouteCardSkeleton } from '../../components/RouteCard/RouteCardSkeleton.js';
+import { RouteNotFoundCard } from '../../components/RouteCard/RouteNotFoundCard.js';
+import { useAccount } from '../../hooks/useAccount.js';
+import { useHeader } from '../../hooks/useHeader.js';
+import { useNavigateBack } from '../../hooks/useNavigateBack.js';
+import { useRoutes } from '../../hooks/useRoutes.js';
+import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
+import { useFieldValues } from '../../stores/form/useFieldValues.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { Stack } from './RoutesPage.style.js';
 
 export const RoutesPage: React.FC<BoxProps> = () => {
-  const { navigateBack, navigate } = useNavigateBack();
-  const { routes, isLoading, isFetching, dataUpdatedAt, refetchTime, refetch } =
-    useRoutes();
-  const setExecutableRoute = useSetExecutableRoute();
-  const headerStoreContext = useHeaderStoreContext();
+  const { navigate } = useNavigateBack();
+  const {
+    routes,
+    isLoading,
+    isFetching,
+    dataUpdatedAt,
+    refetchTime,
+    fromChain,
+    refetch,
+    setReviewableRoute,
+  } = useRoutes();
+  const { account } = useAccount({ chainType: fromChain?.chainType });
+  const [toAddress] = useFieldValues('toAddress');
+  const { requiredToAddress } = useToAddressRequirements();
+
+  const { t } = useTranslation();
+
+  const headerAction = useMemo(
+    () => (
+      <ProgressToNextUpdate
+        updatedAt={dataUpdatedAt || new Date().getTime()}
+        timeToUpdate={refetchTime}
+        isLoading={isFetching}
+        onClick={() => refetch()}
+        sx={{ marginRight: -1 }}
+        size="medium"
+      />
+    ),
+    [dataUpdatedAt, isFetching, refetch, refetchTime],
+  );
+
+  useHeader(t(`header.receive`), headerAction);
 
   const handleRouteClick = (route: Route) => {
-    setExecutableRoute(route);
+    setReviewableRoute(route);
     navigate(navigationRoutes.transactionExecution, {
       state: { routeId: route.id },
     });
   };
 
-  useEffect(() => {
-    if (!routes?.length && !isLoading && !isFetching) {
-      navigateBack();
-    }
-    // redirect to the home page if no routes are found on page reload
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    return headerStoreContext
-      .getState()
-      .setAction(
-        <ProgressToNextUpdate
-          updatedAt={dataUpdatedAt || new Date().getTime()}
-          timeToUpdate={refetchTime}
-          isLoading={isFetching}
-          onClick={() => refetch()}
-          sx={{ marginRight: -1 }}
-          size="medium"
-        />,
-      );
-  }, [dataUpdatedAt, headerStoreContext, isFetching, refetch, refetchTime]);
-
   const routeNotFound = !routes?.length && !isLoading && !isFetching;
+
+  const toAddressUnsatisfied = routes?.[0] && requiredToAddress && !toAddress;
+  const allowInteraction = account.isConnected && !toAddressUnsatisfied;
 
   return (
     <Stack direction="column" spacing={2} flex={1}>
@@ -63,9 +73,11 @@ export const RoutesPage: React.FC<BoxProps> = () => {
       ) : (
         routes?.map((route: Route, index: number) => (
           <RouteCard
-            key={route.id}
+            key={index}
             route={route}
-            onClick={() => handleRouteClick(route)}
+            onClick={
+              allowInteraction ? () => handleRouteClick(route) : undefined
+            }
             active={index === 0}
             expanded={routes?.length === 1}
           />

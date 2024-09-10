@@ -1,11 +1,8 @@
-import type { ChainType } from '@lifi/sdk';
 import type { StoreApi } from 'zustand';
-import type { UseBoundStoreWithEqualityFn } from 'zustand/esm/traditional';
+import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
+import type { ToAddress } from '../../types/widget.js';
 
-export interface Bookmark {
-  address: string;
-  chainType: ChainType;
-  name?: string;
+export interface Bookmark extends ToAddress {
   isConnectedAccount?: boolean;
 }
 
@@ -20,6 +17,7 @@ export interface BookmarkActions {
   addBookmark: (bookmark: Bookmark) => void;
   removeBookmark: (address: string) => void;
   setSelectedBookmark: (bookmark?: Bookmark) => void;
+  getSelectedBookmark: () => Bookmark | undefined;
   addRecentWallet: (bookmark: Bookmark) => void;
   removeRecentWallet: (address: string) => void;
 }

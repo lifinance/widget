@@ -1,11 +1,12 @@
-import LoadingButton from '@mui/lab/LoadingButton';
+import { LoadingButton } from '@mui/lab';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useAccount, useChain } from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import { useFieldValues } from '../../stores';
-import { navigationRoutes } from '../../utils';
-import type { BaseTransactionButtonProps } from './types';
+import { useAccount } from '../../hooks/useAccount.js';
+import { useChain } from '../../hooks/useChain.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useFieldValues } from '../../stores/form/useFieldValues.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import type { BaseTransactionButtonProps } from './types.js';
 
 export const BaseTransactionButton: React.FC<BaseTransactionButtonProps> = ({
   onClick,
@@ -44,7 +45,7 @@ export const BaseTransactionButton: React.FC<BaseTransactionButtonProps> = ({
       variant="contained"
       color="primary"
       onClick={handleClick}
-      disabled={disabled}
+      disabled={account.isConnected && disabled}
       loading={loading}
       loadingPosition="center"
       fullWidth

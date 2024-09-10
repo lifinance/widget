@@ -1,18 +1,22 @@
 /* eslint-disable react/no-array-index-key */
 import type { LiFiStep, TokenAmount } from '@lifi/sdk';
 import type { BoxProps } from '@mui/material';
-import { Box, Grow, Skeleton } from '@mui/material';
+import { Box, Grow, Skeleton, Tooltip } from '@mui/material';
 import type { FC, PropsWithChildren, ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useChain, useToken } from '../../hooks';
-import { formatTokenAmount, formatTokenPrice } from '../../utils';
-import { SmallAvatar } from '../SmallAvatar';
-import { TextFitter } from '../TextFitter';
-import { TokenAvatar, TokenAvatarSkeleton } from '../TokenAvatar';
-import { TextSecondary, TextSecondaryContainer } from './Token.style';
+import { useChain } from '../../hooks/useChain.js';
+import { useToken } from '../../hooks/useToken.js';
+import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js';
+import { AvatarBadgedSkeleton } from '../Avatar/Avatar.js';
+import { TokenAvatar } from '../Avatar/TokenAvatar.js';
+import { SmallAvatar } from '../SmallAvatar.js';
+import { TextFitter } from '../TextFitter/TextFitter.js';
+import { TextSecondary, TextSecondaryContainer } from './Token.style.js';
 
 interface TokenProps {
   token: TokenAmount;
+  impactToken?: TokenAmount;
+  enableImpactTokenTooltip?: boolean;
   step?: LiFiStep;
   stepVisible?: boolean;
   disableDescription?: boolean;
@@ -47,13 +51,15 @@ export const TokenFallback: FC<TokenProps & BoxProps> = ({
 
 export const TokenBase: FC<TokenProps & BoxProps> = ({
   token,
+  impactToken,
+  enableImpactTokenTooltip,
   step,
   stepVisible,
   disableDescription,
   isLoading,
   ...other
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { chain } = useChain(token?.chainId);
 
   if (isLoading) {
@@ -62,15 +68,27 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
         token={token}
         step={step}
         disableDescription={disableDescription}
+        {...other}
       />
     );
   }
 
-  const formattedTokenAmount = formatTokenAmount(token.amount, token.decimals);
-  const formattedTokenPrice = formatTokenPrice(
-    formattedTokenAmount,
-    token.priceUSD,
-  );
+  const tokenAmount = formatTokenAmount(token.amount, token.decimals);
+  const tokenPrice = formatTokenPrice(tokenAmount, token.priceUSD);
+
+  let priceImpact;
+  let priceImpactPercent;
+  if (impactToken) {
+    const impactTokenAmount = formatTokenAmount(
+      impactToken.amount,
+      impactToken.decimals,
+    );
+    const impactTokenPrice =
+      formatTokenPrice(impactTokenAmount, impactToken.priceUSD) || 0.01;
+
+    priceImpact = tokenPrice / impactTokenPrice - 1;
+    priceImpactPercent = priceImpact * 100;
+  }
 
   const tokenOnChain = !disableDescription ? (
     <TextSecondary>
@@ -98,16 +116,38 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
             }}
           >
             {t('format.number', {
-              value: formattedTokenAmount,
+              value: tokenAmount,
             })}
           </TextFitter>
         </Box>
         <TextSecondaryContainer component="span">
           <TextSecondary>
             {t(`format.currency`, {
-              value: formattedTokenPrice,
+              value: tokenPrice,
             })}
           </TextSecondary>
+          {impactToken ? (
+            <TextSecondary px={0.5} dot>
+              &#x2022;
+            </TextSecondary>
+          ) : null}
+          {impactToken ? (
+            enableImpactTokenTooltip ? (
+              <Tooltip title={t('tooltip.priceImpact')} sx={{ cursor: 'help' }}>
+                <TextSecondary>
+                  {t('format.percent', { value: priceImpact })}
+                </TextSecondary>
+              </Tooltip>
+            ) : (
+              <TextSecondary
+                title={priceImpactPercent?.toLocaleString(i18n.language, {
+                  maximumFractionDigits: 9,
+                })}
+              >
+                {t('format.percent', { value: priceImpact })}
+              </TextSecondary>
+            )
+          ) : null}
           {!disableDescription ? (
             <TextSecondary px={0.5} dot>
               &#x2022;
@@ -163,11 +203,6 @@ const TokenStep: FC<PropsWithChildren<Partial<TokenProps>>> = ({
             <SmallAvatar
               src={step?.toolDetails.logoURI}
               alt={step?.toolDetails.name}
-              sx={{
-                width: 16,
-                height: 16,
-                border: 0,
-              }}
             >
               {step?.toolDetails.name[0]}
             </SmallAvatar>
@@ -187,7 +222,7 @@ export const TokenSkeleton: FC<Partial<TokenProps> & BoxProps> = ({
   return (
     <Box flex={1} {...other}>
       <Box display="flex" flex={1} alignItems="center">
-        <TokenAvatarSkeleton sx={{ marginRight: 2 }} />
+        <AvatarBadgedSkeleton sx={{ marginRight: 2 }} />
         <Box flex={1}>
           <Skeleton width={112} height={24} variant="text" />
           <TextSecondaryContainer component="span">

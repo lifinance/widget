@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
-import { useTokenBalances } from './useTokenBalances';
+import type { TokenAmount } from '../types/token.js';
+import { useTokenBalances } from './useTokenBalances.js';
 
 export const useTokenAddressBalance = (
   chainId?: number,
@@ -13,7 +14,7 @@ export const useTokenAddressBalance = (
       const token = (tokensWithBalance ?? tokens)?.find(
         (token) => token.address === tokenAddress && token.chainId === chainId,
       );
-      return token;
+      return token as TokenAmount;
     }
   }, [chainId, tokenAddress, tokens, tokensWithBalance]);
 

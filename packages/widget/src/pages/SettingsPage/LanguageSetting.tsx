@@ -1,11 +1,12 @@
-import LanguageIcon from '@mui/icons-material/Language';
+import { Language } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useLanguages } from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import { HiddenUI } from '../../types';
-import { navigationRoutes } from '../../utils';
-import { CardButton, CardValue } from '../../components/Card';
+import { CardButton } from '../../components/Card/CardButton.js';
+import { CardValue } from '../../components/Card/CardButton.style.js';
+import { useLanguages } from '../../hooks/useLanguages.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { HiddenUI } from '../../types/widget.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
 
 export const LanguageSetting: React.FC = () => {
   const { t } = useTranslation();
@@ -24,7 +25,7 @@ export const LanguageSetting: React.FC = () => {
   return (
     <CardButton
       onClick={handleClick}
-      icon={<LanguageIcon />}
+      icon={<Language />}
       title={t(`language.title`)}
     >
       <CardValue>{selectedLanguageDisplayName}</CardValue>

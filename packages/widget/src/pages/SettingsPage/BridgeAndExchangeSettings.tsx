@@ -1,17 +1,16 @@
-import AirlineStopsIcon from '@mui/icons-material/AirlineStops';
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import { AirlineStops, SwapHoriz } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { shallow } from 'zustand/shallow';
-import { useSettingMonitor } from '../../hooks';
-import { useSettingsStore } from '../../stores';
-import { navigationRoutes } from '../../utils';
-import { CardButton } from '../../components/Card';
-import { BadgedValue } from './SettingsCard';
+import { CardButton } from '../../components/Card/CardButton.js';
+import { useSettingMonitor } from '../../hooks/useSettingMonitor.js';
+import { useSettingsStore } from '../../stores/settings/useSettingsStore.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { BadgedValue } from './SettingsCard/BadgedValue.js';
 
 const supportedIcons = {
-  Bridges: AirlineStopsIcon,
-  Exchanges: SwapHorizIcon,
+  Bridges: AirlineStops,
+  Exchanges: SwapHoriz,
 };
 
 export const BridgeAndExchangeSettings: React.FC<{
@@ -21,7 +20,7 @@ export const BridgeAndExchangeSettings: React.FC<{
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [enabledTools, tools] = useSettingsStore((state) => {
-    const enabledTools = Object.values(state[`_enabled${type}`] ?? {});
+    const enabledTools = Object.values(state[`_enabled${type}`]);
     return [enabledTools.filter(Boolean).length, enabledTools.length];
   }, shallow);
 

@@ -1,4 +1,4 @@
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import { SwapHoriz } from '@mui/icons-material';
 import { Container, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
@@ -16,7 +16,7 @@ export const ActiveTransactionsEmpty: React.FC = () => {
       }}
     >
       <Typography fontSize={48}>
-        <SwapHorizIcon fontSize="inherit" />
+        <SwapHoriz fontSize="inherit" />
       </Typography>
       <Typography fontSize={18} fontWeight={700}>
         {t('info.title.emptyActiveTransactions')}

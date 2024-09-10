@@ -2,22 +2,26 @@ import type { FullStatusData } from '@lifi/sdk';
 import { List } from '@mui/material';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useRef } from 'react';
-import { PageContainer } from '../../components/PageContainer';
-import { useTransactionHistory } from '../../hooks/useTransactionHistory';
-import { TransactionHistoryEmpty } from './TransactionHistoryEmpty';
-import { TransactionHistoryItem } from './TransactionHistoryItem';
-import { TransactionHistoryItemSkeleton } from './TransactionHistorySkeleton';
-import { minTransactionListHeight } from './constants';
+import { useTranslation } from 'react-i18next';
+import { PageContainer } from '../../components/PageContainer.js';
+import { useHeader } from '../../hooks/useHeader.js';
+import { useTransactionHistory } from '../../hooks/useTransactionHistory.js';
+import { TransactionHistoryEmpty } from './TransactionHistoryEmpty.js';
+import { TransactionHistoryItem } from './TransactionHistoryItem.js';
+import { TransactionHistoryItemSkeleton } from './TransactionHistorySkeleton.js';
+import { minTransactionListHeight } from './constants.js';
 
 export const TransactionHistoryPage: React.FC = () => {
   // Parent ref and useVirtualizer should be in one file to avoid blank page (0 virtual items) issue
   const parentRef = useRef<HTMLDivElement | null>(null);
   const { data: transactions, isLoading } = useTransactionHistory();
 
+  const { t } = useTranslation();
+  useHeader(t(`header.transactionHistory`));
+
   const { getVirtualItems, getTotalSize } = useVirtualizer({
     count: transactions.length,
     overscan: 10,
-    paddingStart: 8,
     paddingEnd: 12,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 186,
@@ -34,18 +38,22 @@ export const TransactionHistoryPage: React.FC = () => {
       ref={parentRef}
       style={{ height: minTransactionListHeight, overflow: 'auto' }}
     >
-      <List
-        style={{ height: getTotalSize(), width: '100%', position: 'relative' }}
-        disablePadding
-      >
-        {isLoading ? (
-          <List sx={{ paddingTop: 1, paddingBottom: 1 }}>
-            {Array.from({ length: 3 }).map((_, index) => (
-              <TransactionHistoryItemSkeleton key={index} />
-            ))}
-          </List>
-        ) : (
-          getVirtualItems().map((item) => {
+      {isLoading ? (
+        <List disablePadding>
+          {Array.from({ length: 3 }).map((_, index) => (
+            <TransactionHistoryItemSkeleton key={index} />
+          ))}
+        </List>
+      ) : (
+        <List
+          style={{
+            height: getTotalSize(),
+            width: '100%',
+            position: 'relative',
+          }}
+          disablePadding
+        >
+          {getVirtualItems().map((item) => {
             const transaction = transactions[item.index];
             return (
               <TransactionHistoryItem
@@ -55,9 +63,9 @@ export const TransactionHistoryPage: React.FC = () => {
                 transaction={transaction}
               />
             );
-          })
-        )}
-      </List>
+          })}
+        </List>
+      )}
     </PageContainer>
   );
 };

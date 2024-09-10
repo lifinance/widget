@@ -1,10 +1,12 @@
 import type { PaletteMode } from '@mui/material';
-import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import {
+  ThemeProvider as MuiThemeProvider,
+  useMediaQuery,
+} from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
-import { createTheme } from '../../config/theme';
-import { useAppearance } from '../../stores';
-import { useWidgetConfig } from '../WidgetProvider';
+import { useAppearance } from '../../stores/settings/useAppearance.js';
+import { createTheme } from '../../themes/createTheme.js';
+import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js';
 
 export const ThemeProvider: React.FC<React.PropsWithChildren<{}>> = ({
   children,
@@ -13,7 +15,7 @@ export const ThemeProvider: React.FC<React.PropsWithChildren<{}>> = ({
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const [appearance, setAppearance] = useAppearance();
   const [mode, setMode] = useState<PaletteMode>(
-    colorSchemeMode ?? appearance === 'auto'
+    (colorSchemeMode ?? appearance === 'auto')
       ? prefersDarkMode
         ? 'dark'
         : 'light'

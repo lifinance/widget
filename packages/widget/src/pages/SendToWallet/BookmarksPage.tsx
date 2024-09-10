@@ -1,51 +1,70 @@
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import DeleteIcon from '@mui/icons-material/Delete';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import TurnedInIcon from '@mui/icons-material/TurnedIn';
+import {
+  ContentCopyRounded,
+  DeleteOutline,
+  MoreHoriz,
+  OpenInNewRounded,
+  TurnedIn,
+} from '@mui/icons-material';
 import { Button, ListItemAvatar, ListItemText, MenuItem } from '@mui/material';
 import { useId, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AccountAvatar } from '../../components/AccountAvatar';
-import type { BottomSheetBase } from '../../components/BottomSheet';
-import { ListItem, ListItemButton } from '../../components/ListItem';
-import { Menu } from '../../components/Menu';
-import { useChains, useToAddressRequirements } from '../../hooks';
-import type { Bookmark } from '../../stores';
-import { useBookmarkActions, useBookmarks } from '../../stores';
-import { defaultChainIdsByType, shortenAddress } from '../../utils';
-import { BookmarkAddressSheet } from './BookmarkAddressSheet';
-import { ConfirmAddressSheet } from './ConfirmAddressSheet';
-import { EmptyListIndicator } from './EmptyListIndicator';
+import { useNavigate } from 'react-router-dom';
+
+import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js';
+import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
+import { ListItemButton } from '../../components/ListItem//ListItemButton.js';
+import { ListItem } from '../../components/ListItem/ListItem.js';
+import { Menu } from '../../components/Menu.js';
+import { useExplorer } from '../../hooks/useExplorer.js';
+import { useHeader } from '../../hooks/useHeader.js';
+import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import type { Bookmark } from '../../stores/bookmarks/types.js';
+import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
+import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js';
+import { useFieldActions } from '../../stores/form/useFieldActions.js';
+import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js';
+import { defaultChainIdsByType } from '../../utils/chainType.js';
+import { shortenAddress } from '../../utils/wallet.js';
+import { BookmarkAddressSheet } from './BookmarkAddressSheet.js';
+import { EmptyListIndicator } from './EmptyListIndicator.js';
 import {
   BookmarkButtonContainer,
-  ListContainer,
+  BookmarksListContainer,
+  FullHeightAdjustablePageContainer,
   OptionsMenuButton,
-  SendToWalletPageContainer,
-} from './SendToWalletPage.style';
+} from './SendToWalletPage.style.js';
 
 export const BookmarksPage = () => {
   const { t } = useTranslation();
   const [bookmark, setBookmark] = useState<Bookmark>();
   const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null);
-  const confirmAddressSheetRef = useRef<BottomSheetBase>(null);
   const { bookmarks } = useBookmarks();
   const { requiredToChainType } = useToAddressRequirements();
   const { addBookmark, removeBookmark, setSelectedBookmark } =
     useBookmarkActions();
-  const { getChainById } = useChains();
+  const navigate = useNavigate();
+  const { setFieldValue } = useFieldActions();
+  const { setSendToWallet } = useSendToWalletActions();
+  const { variant } = useWidgetConfig();
+  const { getAddressLink } = useExplorer();
+
+  useHeader(t(`header.bookmarkedWallets`));
 
   const handleAddBookmark = () => {
     bookmarkAddressSheetRef.current?.open();
   };
 
   const handleBookmarkSelected = (bookmark: Bookmark) => {
-    setBookmark(bookmark);
-    confirmAddressSheetRef.current?.open();
-  };
-
-  const handleOnConfirm = (confirmedWallet: Bookmark) => {
-    setSelectedBookmark(confirmedWallet);
+    setFieldValue('toAddress', bookmark.address, {
+      isTouched: true,
+    });
+    setSelectedBookmark(bookmark);
+    setSendToWallet(true);
+    navigate(`../../`, {
+      relative: 'path',
+      replace: true,
+    });
   };
 
   const moreMenuId = useId();
@@ -69,9 +88,11 @@ export const BookmarksPage = () => {
 
   const handleViewOnExplorer = () => {
     if (bookmark) {
-      const chain = getChainById(defaultChainIdsByType[bookmark.chainType]);
       window.open(
-        `${chain?.metamask.blockExplorerUrls[0]}address/${bookmark.address}`,
+        getAddressLink(
+          bookmark.address,
+          defaultChainIdsByType[bookmark.chainType],
+        ),
         '_blank',
       );
     }
@@ -86,8 +107,11 @@ export const BookmarksPage = () => {
   };
 
   return (
-    <SendToWalletPageContainer disableGutters>
-      <ListContainer>
+    <FullHeightAdjustablePageContainer
+      disableGutters
+      enableFullHeight={variant !== 'drawer'}
+    >
+      <BookmarksListContainer>
         {bookmarks.map((bookmark) => (
           <ListItem key={bookmark.address} sx={{ position: 'relative' }}>
             <ListItemButton
@@ -125,12 +149,12 @@ export const BookmarksPage = () => {
                     : 1,
               }}
             >
-              <MoreHorizIcon fontSize="small" />
+              <MoreHoriz fontSize="small" />
             </OptionsMenuButton>
           </ListItem>
         ))}
         {!bookmarks.length && (
-          <EmptyListIndicator icon={<TurnedInIcon sx={{ fontSize: 48 }} />}>
+          <EmptyListIndicator icon={<TurnedIn sx={{ fontSize: 48 }} />}>
             {t('sendToWallet.noBookmarkedWallets')}
           </EmptyListIndicator>
         )}
@@ -150,19 +174,19 @@ export const BookmarksPage = () => {
           onClose={closeMenu}
         >
           <MenuItem onClick={handleCopyAddress}>
-            <ContentCopyIcon />
+            <ContentCopyRounded />
             {t('button.copyAddress')}
           </MenuItem>
           <MenuItem onClick={handleViewOnExplorer}>
-            <OpenInNewIcon />
+            <OpenInNewRounded />
             {t('button.viewOnExplorer')}
           </MenuItem>
           <MenuItem onClick={handleRemoveBookmark}>
-            <DeleteIcon />
+            <DeleteOutline />
             {t('button.delete')}
           </MenuItem>
         </Menu>
-      </ListContainer>
+      </BookmarksListContainer>
       <BookmarkButtonContainer>
         <Button variant="contained" onClick={handleAddBookmark}>
           {t('sendToWallet.addBookmark')}
@@ -172,11 +196,6 @@ export const BookmarksPage = () => {
         ref={bookmarkAddressSheetRef}
         onAddBookmark={addBookmark}
       />
-      <ConfirmAddressSheet
-        ref={confirmAddressSheetRef}
-        validatedBookmark={bookmark}
-        onConfirm={handleOnConfirm}
-      />
-    </SendToWalletPageContainer>
+    </FullHeightAdjustablePageContainer>
   );
 };

@@ -1,13 +1,11 @@
 import type { PropsWithChildren } from 'react';
-import { createContext, useContext, useMemo, useRef } from 'react';
-import { shallow } from 'zustand/shallow';
-import { useWidgetConfig } from '../../providers';
-import { HiddenUI } from '../../types';
-import { FormUpdater } from './FormUpdater';
-import { createFormStore, formDefaultValues } from './createFormStore';
-import type { FormStoreStore, FormValuesState } from './types';
-
-export const FormStoreContext = createContext<FormStoreStore | null>(null);
+import { useMemo, useRef } from 'react';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { HiddenUI } from '../../types/widget.js';
+import { FormStoreContext } from './FormStoreContext.js';
+import { FormUpdater } from './FormUpdater.js';
+import { createFormStore, formDefaultValues } from './createFormStore.js';
+import type { FormStoreStore } from './types.js';
 
 export const FormStoreProvider: React.FC<PropsWithChildren> = ({
   children,
@@ -39,7 +37,7 @@ export const FormStoreProvider: React.FC<PropsWithChildren> = ({
       // Prevent setting address when the field is hidden
       toAddress: hiddenToAddress
         ? formDefaultValues.toAddress
-        : toAddress || formDefaultValues.toAddress,
+        : toAddress?.address || formDefaultValues.toAddress,
     }),
     [
       fromAmount,
@@ -58,22 +56,8 @@ export const FormStoreProvider: React.FC<PropsWithChildren> = ({
 
   return (
     <FormStoreContext.Provider value={storeRef.current}>
-      <FormUpdater defaultValues={defaultValues}>{children}</FormUpdater>
+      {children}
+      <FormUpdater defaultValues={defaultValues} />
     </FormStoreContext.Provider>
   );
 };
-
-export function useFormStore<T>(
-  selector: (state: FormValuesState) => T,
-  equalityFn = shallow,
-): T {
-  const useStore = useContext(FormStoreContext);
-
-  if (!useStore) {
-    throw new Error(
-      `You forgot to wrap your component in <${FormStoreProvider.name}>.`,
-    );
-  }
-
-  return useStore(selector, equalityFn);
-}

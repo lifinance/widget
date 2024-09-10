@@ -1,5 +1,4 @@
-import { Container as MuiContainer } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Container as MuiContainer, styled } from '@mui/material';
 
 export const Container = styled(MuiContainer)(({ theme }) => ({
   display: 'flex',

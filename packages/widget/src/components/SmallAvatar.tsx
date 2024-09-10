@@ -1,17 +1,14 @@
-import { Avatar, Box, Skeleton } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Avatar, Box, Skeleton, styled } from '@mui/material';
 
 export const SmallAvatar = styled(Avatar)(({ theme }) => ({
   background: theme.palette.background.paper,
-  width: 20,
-  height: 20,
-  border: `2px solid ${theme.palette.background.paper}`,
+  width: 16,
+  height: 16,
 }));
 
 export const SmallAvatarSkeletonBase = styled(Skeleton)(({ theme }) => ({
-  border: `2px solid ${theme.palette.background.paper}`,
-  width: 20,
-  height: 20,
+  width: 16,
+  height: 16,
 }));
 
 export const SmallAvatarSkeletonContainer = styled(Box)(({ theme }) => ({

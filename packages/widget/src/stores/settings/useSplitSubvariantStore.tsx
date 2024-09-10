@@ -5,7 +5,7 @@ import type {
   SplitSubvariantProviderProps,
   SplitSubvariantState,
   SplitSubvariantStore,
-} from './types';
+} from './types.js';
 
 export const SplitSubvariantStoreContext =
   createContext<SplitSubvariantStore | null>(null);
@@ -33,18 +33,6 @@ export function SplitSubvariantStoreProvider({
   );
 }
 
-export function useSplitSubvariantStore<T>(
-  selector: (state: SplitSubvariantState) => T,
-): T {
-  const useStore = useContext(SplitSubvariantStoreContext);
-  if (!useStore) {
-    throw new Error(
-      `You forgot to wrap your component in <${SplitSubvariantStoreProvider.name}>.`,
-    );
-  }
-  return useStore(selector);
-}
-
 export function useSplitSubvariantStoreContext() {
   const useStore = useContext(SplitSubvariantStoreContext);
   if (!useStore) {
@@ -53,6 +41,13 @@ export function useSplitSubvariantStoreContext() {
     );
   }
   return useStore;
+}
+
+export function useSplitSubvariantStore<T>(
+  selector: (state: SplitSubvariantState) => T,
+): T {
+  const useStore = useSplitSubvariantStoreContext();
+  return useStore(selector);
 }
 
 export const createSplitSubvariantStore = ({ state }: SplitSubvariantProps) =>

@@ -1,40 +1,39 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-**node_modules**
-**dist**
+/node_modules
 /.pnp
 .pnp.js
+.yarn/install-state.gz
 
 # testing
 /coverage
 
+# next.js
+/.next/
+/out/
+
 # production
-**build**
+/build
 
 # misc
 .DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+*.pem
 
+# debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-.next
-.cache
+# local env files
+.env*.local
 
-# yarn v3
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
+# vercel
+.vercel
 
-# Swap the comments on the following lines if you wish to use zero-installs
-# Documentation here: https://yarnpkg.com/features/zero-installs
-# !.yarn/cache
-.pnp.*
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# yarn
+.yarn

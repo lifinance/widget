@@ -1,13 +1,14 @@
 import { LiFiWidget } from '@lifi/widget';
-import './App.css';
 
 function App() {
   return (
     <LiFiWidget
       config={{
-        containerStyle: {
-          border: `1px solid rgb(234, 234, 234)`,
-          borderRadius: '16px',
+        theme: {
+          container: {
+            boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
+            borderRadius: '16px',
+          },
         },
       }}
       integrator="cra-example"

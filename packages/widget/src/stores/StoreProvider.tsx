@@ -1,11 +1,11 @@
 import type { PropsWithChildren } from 'react';
-import type { WidgetConfigProps } from '../types';
-import { ChainOrderStoreProvider } from './chains';
-import { FormStoreProvider } from './form';
-import { HeaderStoreProvider } from './header';
-import { RouteExecutionStoreProvider } from './routes';
-import { SplitSubvariantStoreProvider } from './settings';
-import { BookmarkStoreProvider } from './bookmarks';
+import type { WidgetConfigProps } from '../types/widget.js';
+import { BookmarkStoreProvider } from './bookmarks/BookmarkStore.js';
+import { ChainOrderStoreProvider } from './chains/ChainOrderStore.js';
+import { FormStoreProvider } from './form/FormStore.js';
+import { HeaderStoreProvider } from './header/useHeaderStore.js';
+import { RouteExecutionStoreProvider } from './routes/RouteExecutionStore.js';
+import { SplitSubvariantStoreProvider } from './settings/useSplitSubvariantStore.js';
 
 export const StoreProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
   children,
@@ -15,7 +15,7 @@ export const StoreProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
     <SplitSubvariantStoreProvider
       state={
         config.subvariant === 'split'
-          ? config.subvariantOptions || 'swap'
+          ? config.subvariantOptions?.split || 'swap'
           : undefined
       }
     >

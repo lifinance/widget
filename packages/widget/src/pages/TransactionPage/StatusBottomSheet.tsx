@@ -1,51 +1,95 @@
-import DoneIcon from '@mui/icons-material/Done';
-import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
-import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
-import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
-import { Box, Button, Typography } from '@mui/material';
-import { useQueryClient } from '@tanstack/react-query';
-import { useEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-import type { BottomSheetBase } from '../../components/BottomSheet';
-import { BottomSheet } from '../../components/BottomSheet';
-import { Token } from '../../components/Token';
 import {
-  getProcessMessage,
-  useAvailableChains,
-  useNavigateBack,
-  useTokenBalance,
-} from '../../hooks';
-import { useWidgetConfig } from '../../providers';
-import type { RouteExecution } from '../../stores';
+  Done,
+  ErrorRounded,
+  InfoRounded,
+  WarningRounded,
+} from '@mui/icons-material';
+import { Box, Button, Skeleton, Typography } from '@mui/material';
+import { useQueryClient } from '@tanstack/react-query';
+import { useCallback, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js';
+import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
+import { Token } from '../../components/Token/Token.js';
+import { useAvailableChains } from '../../hooks/useAvailableChains.js';
+import { useNavigateBack } from '../../hooks/useNavigateBack.js';
+import { getProcessMessage } from '../../hooks/useProcessMessage.js';
+import { useSetContentHeight } from '../../hooks/useSetContentHeight.js';
+import { useTokenBalance } from '../../hooks/useTokenBalance.js';
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useFieldActions } from '../../stores/form/useFieldActions.js';
 import {
   RouteExecutionStatus,
-  getSourceTxHash,
-  useFieldActions,
-} from '../../stores';
+  type RouteExecution,
+} from '../../stores/routes/types.js';
+import { getSourceTxHash } from '../../stores/routes/utils.js';
+import { hasEnumFlag } from '../../utils/enum.js';
+import { formatTokenAmount } from '../../utils/format.js';
+import { navigationRoutes } from '../../utils/navigationRoutes.js';
+import { shortenAddress } from '../../utils/wallet.js';
 import {
-  formatTokenAmount,
-  hasEnumFlag,
-  navigationRoutes,
-  shortenAddress,
-} from '../../utils';
-import { CenterContainer, IconCircle } from './StatusBottomSheet.style';
+  CenterContainer,
+  IconCircle,
+  MessageSkeletonContainer,
+} from './StatusBottomSheet.style.js';
+
+interface StatusBottomSheetContentProps extends RouteExecution {
+  onClose(): void;
+}
+
+const MessageSkeleton = () => (
+  <MessageSkeletonContainer>
+    <Skeleton height={24} variant="text" width="92%" />
+    <Skeleton height={24} variant="text" width="56%" />
+  </MessageSkeletonContainer>
+);
 
 export const StatusBottomSheet: React.FC<RouteExecution> = ({
   status,
   route,
 }) => {
+  const ref = useRef<BottomSheetBase>(null);
+
+  const onClose = useCallback(() => {
+    ref.current?.close();
+  }, []);
+
+  useEffect(() => {
+    const hasSuccessFlag = hasEnumFlag(status, RouteExecutionStatus.Done);
+    const hasFailedFlag = hasEnumFlag(status, RouteExecutionStatus.Failed);
+    if ((hasSuccessFlag || hasFailedFlag) && !ref.current?.isOpen()) {
+      ref.current?.open();
+    }
+  }, [status]);
+
+  return (
+    <BottomSheet ref={ref}>
+      <StatusBottomSheetContent
+        status={status}
+        route={route}
+        onClose={onClose}
+      />
+    </BottomSheet>
+  );
+};
+
+export const StatusBottomSheetContent: React.FC<
+  StatusBottomSheetContentProps
+> = ({ status, route, onClose }) => {
   const { t } = useTranslation();
   const { navigateBack, navigate } = useNavigateBack();
-  const ref = useRef<BottomSheetBase>(null);
   const queryClient = useQueryClient();
   const { setFieldValue } = useFieldActions();
   const {
     subvariant,
-    contractComponent,
+    subvariantOptions,
     contractSecondaryComponent,
     contractCompactComponent,
   } = useWidgetConfig();
   const { getChainById } = useAvailableChains();
+
+  const ref = useRef<HTMLElement>();
+  useSetContentHeight(ref);
 
   const toToken = {
     ...(route.steps.at(-1)?.execution?.toToken ?? route.toToken),
@@ -98,7 +142,7 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
 
   const handleClose = () => {
     invalidateQueries();
-    ref.current?.close();
+    onClose();
   };
 
   const handleSeeDetails = () => {
@@ -125,8 +169,10 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   switch (status) {
     case RouteExecutionStatus.Done: {
       title =
-        subvariant === 'nft'
-          ? t('success.title.purchaseSuccessful')
+        subvariant === 'custom'
+          ? t(
+              `success.title.${subvariantOptions?.custom ?? 'checkout'}Successful`,
+            )
           : t(`success.title.${transactionType}Successful`);
       if (token) {
         primaryMessage = t('success.message.exchangeSuccessful', {
@@ -194,84 +240,80 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
 
   useEffect(() => {
     const hasSuccessFlag = hasEnumFlag(status, RouteExecutionStatus.Done);
-    if (
-      (hasSuccessFlag || hasEnumFlag(status, RouteExecutionStatus.Failed)) &&
-      !ref.current?.isOpen()
-    ) {
-      if (hasSuccessFlag) {
-        refetchNewBalance();
-        refetch();
-      }
-      ref.current?.open();
+    if (hasSuccessFlag) {
+      refetchNewBalance();
+      refetch();
     }
   }, [refetch, refetchNewBalance, status]);
 
   const showContractComponent =
-    subvariant === 'nft' && hasEnumFlag(status, RouteExecutionStatus.Done);
+    subvariant === 'custom' &&
+    hasEnumFlag(status, RouteExecutionStatus.Done) &&
+    (contractCompactComponent || contractSecondaryComponent);
 
   return (
-    <BottomSheet ref={ref}>
-      <Box p={3}>
-        {!showContractComponent ? (
-          <CenterContainer>
-            <IconCircle status={status} mb={1}>
-              {status === RouteExecutionStatus.Idle ? (
-                <InfoRoundedIcon color="primary" />
-              ) : null}
-              {status === RouteExecutionStatus.Done ? (
-                <DoneIcon color="success" />
-              ) : null}
-              {hasEnumFlag(status, RouteExecutionStatus.Partial) ||
-              hasEnumFlag(status, RouteExecutionStatus.Refunded) ? (
-                <WarningRoundedIcon color="warning" />
-              ) : null}
-              {hasEnumFlag(status, RouteExecutionStatus.Failed) ? (
-                <ErrorRoundedIcon color="error" />
-              ) : null}
-            </IconCircle>
-          </CenterContainer>
-        ) : null}
+    <Box p={3} ref={ref}>
+      {!showContractComponent ? (
         <CenterContainer>
-          <Typography py={1} fontSize={18} fontWeight={700}>
-            {title}
-          </Typography>
-        </CenterContainer>
-        {showContractComponent ? (
-          contractCompactComponent ||
-          contractSecondaryComponent ||
-          contractComponent
-        ) : (
-          <CenterContainer>
-            {hasEnumFlag(status, RouteExecutionStatus.Done) ? (
-              <Token token={toToken} py={1} disableDescription />
+          <IconCircle status={status} mb={1}>
+            {status === RouteExecutionStatus.Idle ? (
+              <InfoRounded color="primary" />
             ) : null}
-          </CenterContainer>
-        )}
-        {!showContractComponent ? (
+            {status === RouteExecutionStatus.Done ? (
+              <Done color="success" />
+            ) : null}
+            {hasEnumFlag(status, RouteExecutionStatus.Partial) ||
+            hasEnumFlag(status, RouteExecutionStatus.Refunded) ? (
+              <WarningRounded color="warning" />
+            ) : null}
+            {hasEnumFlag(status, RouteExecutionStatus.Failed) ? (
+              <ErrorRounded color="error" />
+            ) : null}
+          </IconCircle>
+        </CenterContainer>
+      ) : null}
+      <CenterContainer>
+        <Typography py={1} fontSize={18} fontWeight={700}>
+          {title}
+        </Typography>
+      </CenterContainer>
+      {showContractComponent ? (
+        contractCompactComponent || contractSecondaryComponent
+      ) : (
+        <CenterContainer>
+          {hasEnumFlag(status, RouteExecutionStatus.Done) ? (
+            <Token token={toToken} py={1} disableDescription />
+          ) : null}
+        </CenterContainer>
+      )}
+      {!showContractComponent ? (
+        primaryMessage ? (
           <Typography py={1}>{primaryMessage}</Typography>
-        ) : null}
-        {secondaryMessage ? (
-          <Typography py={1}>{secondaryMessage}</Typography>
-        ) : null}
+        ) : (
+          <MessageSkeleton />
+        )
+      ) : null}
+      {secondaryMessage ? (
+        <Typography py={1}>{secondaryMessage}</Typography>
+      ) : null}
+      <Box mt={2}>
+        <Button variant="contained" fullWidth onClick={handlePrimaryButton}>
+          {status === RouteExecutionStatus.Idle ? t('button.ok') : null}
+          {hasEnumFlag(status, RouteExecutionStatus.Done)
+            ? t('button.done')
+            : null}
+          {status === RouteExecutionStatus.Failed
+            ? t('button.seeDetails')
+            : null}
+        </Button>
+      </Box>
+      {hasEnumFlag(status, RouteExecutionStatus.Done) ? (
         <Box mt={2}>
-          <Button variant="contained" fullWidth onClick={handlePrimaryButton}>
-            {status === RouteExecutionStatus.Idle ? t('button.ok') : null}
-            {hasEnumFlag(status, RouteExecutionStatus.Done)
-              ? t('button.done')
-              : null}
-            {status === RouteExecutionStatus.Failed
-              ? t('button.seeDetails')
-              : null}
+          <Button variant="text" onClick={handleSeeDetails} fullWidth>
+            {t('button.seeDetails')}
           </Button>
         </Box>
-        {hasEnumFlag(status, RouteExecutionStatus.Done) ? (
-          <Box mt={2}>
-            <Button variant="text" onClick={handleSeeDetails} fullWidth>
-              {t('button.seeDetails')}
-            </Button>
-          </Box>
-        ) : null}
-      </Box>
-    </BottomSheet>
+      ) : null}
+    </Box>
   );
 };

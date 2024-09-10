@@ -1,15 +1,18 @@
 import type { LiFiStep, Process } from '@lifi/sdk';
-import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
+import { OpenInNewRounded } from '@mui/icons-material';
 import { Box, Link, Typography } from '@mui/material';
-import { useProcessMessage } from '../../hooks';
-import { CircularProgress } from './CircularProgress';
-import { LinkButton } from './StepProcess.style';
+import { useExplorer } from '../../hooks/useExplorer.js';
+import { useProcessMessage } from '../../hooks/useProcessMessage.js';
+import { CardIconButton } from '../Card/CardIconButton.js';
+import { CircularProgress } from './CircularProgress.js';
 
 export const StepProcess: React.FC<{
   step: LiFiStep;
   process: Process;
 }> = ({ step, process }) => {
   const { title, message } = useProcessMessage(step, process);
+  const { getTransactionLink } = useExplorer();
+
   return (
     <Box px={2} py={1}>
       <Box
@@ -27,16 +30,16 @@ export const StepProcess: React.FC<{
         >
           {title}
         </Typography>
-        {process.txLink ? (
-          <LinkButton
-            size="medium"
+        {process.txHash ? (
+          <CardIconButton
+            size="small"
             LinkComponent={Link}
-            href={process.txLink}
+            href={getTransactionLink(process.txHash, step.action.fromChainId)}
             target="_blank"
             rel="nofollow noreferrer"
           >
-            <LinkRoundedIcon />
-          </LinkButton>
+            <OpenInNewRounded fontSize="inherit" />
+          </CardIconButton>
         ) : null}
       </Box>
       {message ? (

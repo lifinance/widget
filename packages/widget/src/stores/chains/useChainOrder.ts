@@ -1,6 +1,6 @@
 import { shallow } from 'zustand/shallow';
-import type { FormType } from '../form';
-import { useChainOrderStore } from './ChainOrderStore';
+import type { FormType } from '../form/types.js';
+import { useChainOrderStore } from './ChainOrderStore.js';
 
 export const useChainOrder = (
   type: FormType,

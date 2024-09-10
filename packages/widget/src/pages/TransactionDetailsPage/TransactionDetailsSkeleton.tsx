@@ -1,7 +1,7 @@
 import { Box, Skeleton } from '@mui/material';
-import { Card } from '../../components/Card';
-import { PageContainer } from '../../components/PageContainer';
-import { TokenSkeleton } from '../../components/Token';
+import { Card } from '../../components/Card/Card.js';
+import { PageContainer } from '../../components/PageContainer.js';
+import { TokenSkeleton } from '../../components/Token/Token.js';
 
 export const TransactionDetailsSkeleton = () => {
   return (
@@ -18,7 +18,7 @@ export const TransactionDetailsSkeleton = () => {
         <Skeleton width={96} height={20} variant="text" />
         <Skeleton width={40} height={20} variant="text" />
       </Box>
-      <Card mb={3} variant="default" sx={{ paddingX: 2 }}>
+      <Card sx={{ paddingX: 2, marginBottom: 3 }}>
         <Box pt={2.5}>
           <Skeleton width={64} height={12} variant="rounded" />
         </Box>

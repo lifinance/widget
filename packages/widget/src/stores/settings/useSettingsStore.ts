@@ -1,9 +1,9 @@
 import type { StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { createWithEqualityFn } from 'zustand/traditional';
-import type { WidgetConfig } from '../../types';
-import type { SettingsProps, SettingsState } from './types';
-import { SettingsToolTypes } from './types';
+import type { WidgetConfig } from '../../types/widget.js';
+import type { SettingsProps, SettingsState } from './types.js';
+import { SettingsToolTypes } from './types.js';
 
 export const defaultSlippage = '0.5';
 
@@ -11,7 +11,7 @@ export const defaultConfigurableSettings: Pick<
   SettingsState,
   'routePriority' | 'slippage' | 'gasPrice'
 > = {
-  routePriority: 'RECOMMENDED',
+  routePriority: 'CHEAPEST',
   slippage: defaultSlippage,
   gasPrice: 'normal',
 };
@@ -20,9 +20,12 @@ export const defaultSettings: SettingsProps = {
   appearance: 'auto',
   gasPrice: 'normal',
   enabledAutoRefuel: true,
-  showDestinationWallet: true,
+  disabledBridges: [],
+  disabledExchanges: [],
   enabledBridges: [],
   enabledExchanges: [],
+  _enabledBridges: {},
+  _enabledExchanges: {},
 };
 
 export const useSettingsStore = createWithEqualityFn<SettingsState>(
@@ -49,60 +52,68 @@ export const useSettingsStore = createWithEqualityFn<SettingsState>(
         }
         set((state) => {
           const updatedState = { ...state };
-          if (updatedState[`_enabled${toolType}`] && !reset) {
+          if (!reset) {
             // Add new tools
-            const enabledTools = tools
-              .filter(
-                (tool) =>
-                  !Object.hasOwn(
-                    updatedState[`_enabled${toolType}`] as object,
-                    tool,
-                  ),
-              )
-              .reduce(
-                (values, tool) => {
-                  values[tool] = true;
-                  return values;
-                },
-                updatedState[`_enabled${toolType}`] as Record<string, boolean>,
-              );
+            tools.forEach((tool) => {
+              if (!Object.hasOwn(updatedState[`_enabled${toolType}`], tool)) {
+                updatedState[`_enabled${toolType}`][tool] = true;
+              }
+            });
             // Filter tools we no longer have
             updatedState[`_enabled${toolType}`] = Object.fromEntries(
-              Object.entries(enabledTools).filter(([key]) =>
-                tools.includes(key),
+              Object.entries(updatedState[`_enabled${toolType}`]).filter(
+                ([key]) => tools.includes(key),
               ),
             );
           } else {
-            updatedState[`_enabled${toolType}`] = tools.reduce(
-              (values, tool) => {
-                values[tool] = true;
-                return values;
-              },
-              {} as Record<string, boolean>,
-            );
+            tools.forEach((tool) => {
+              updatedState[`_enabled${toolType}`][tool] = true;
+            });
           }
-          updatedState[`enabled${toolType}`] = Object.entries(
-            updatedState[`_enabled${toolType}`]!,
-          )
-            .filter(([_, value]) => value)
-            .map(([key]) => key);
+          const enabledToolKeys = Object.keys(
+            updatedState[`_enabled${toolType}`],
+          );
+          updatedState[`enabled${toolType}`] = enabledToolKeys.filter(
+            (key) => updatedState[`_enabled${toolType}`][key],
+          );
+          updatedState[`disabled${toolType}`] = enabledToolKeys.filter(
+            (key) => !updatedState[`_enabled${toolType}`][key],
+          );
           return updatedState;
         });
       },
-      setTools: (toolType, tools, availableTools) =>
-        set(() => ({
-          [`enabled${toolType}`]: tools,
-          [`_enabled${toolType}`]: availableTools.reduce(
-            (values, toolKey) => {
-              values[toolKey] = tools.includes(toolKey);
-              return values;
-            },
-            {} as Record<string, boolean>,
-          ),
-        })),
-      reset: (config, bridges, exchanges) => {
+      setToolValue: (toolType, tool, value) =>
+        set((state) => {
+          const enabledTools = {
+            ...state[`_enabled${toolType}`],
+            [tool]: value,
+          };
+          const enabledToolKeys = Object.keys(enabledTools);
+          return {
+            [`_enabled${toolType}`]: enabledTools,
+            [`enabled${toolType}`]: enabledToolKeys.filter(
+              (key) => enabledTools[key],
+            ),
+            [`disabled${toolType}`]: enabledToolKeys.filter(
+              (key) => !enabledTools[key],
+            ),
+          };
+        }),
+      toggleTools: (toolType) =>
+        set((state) => {
+          const enabledTools = { ...state[`_enabled${toolType}`] };
+          const enableAll = Boolean(state[`disabled${toolType}`].length);
+          for (const toolKey in enabledTools) {
+            enabledTools[toolKey] = enableAll;
+          }
+          return {
+            [`_enabled${toolType}`]: enabledTools,
+            [`enabled${toolType}`]: enableAll ? Object.keys(enabledTools) : [],
+            [`disabled${toolType}`]: enableAll ? [] : Object.keys(enabledTools),
+          };
+        }),
+      reset: (bridges, exchanges) => {
         const { appearance, ...restDefaultSettings } = defaultSettings;
-
         set(() => ({
           ...restDefaultSettings,
           ...defaultConfigurableSettings,
@@ -113,19 +124,29 @@ export const useSettingsStore = createWithEqualityFn<SettingsState>(
     }),
     {
       name: `li.fi-widget-settings`,
-      version: 2,
+      version: 4,
       partialize: (state) => {
-        const { enabledBridges, enabledExchanges, ...partializedState } = state;
+        const {
+          disabledBridges,
+          disabledExchanges,
+          enabledBridges,
+          enabledExchanges,
+          ...partializedState
+        } = state;
         return partializedState;
       },
       merge: (persistedState: any, currentState: SettingsState) => {
         const state = { ...currentState, ...persistedState };
         SettingsToolTypes.forEach((toolType) => {
-          state[`enabled${toolType}`] = Object.entries(
+          const enabledToolKeys = Object.keys(
             persistedState[`_enabled${toolType}`],
-          )
-            .filter(([_, value]) => value)
-            .map(([key]) => key);
+          );
+          state[`enabled${toolType}`] = enabledToolKeys.filter(
+            (key) => persistedState[`_enabled${toolType}`][key],
+          );
+          state[`disabled${toolType}`] = enabledToolKeys.filter(
+            (key) => !persistedState[`_enabled${toolType}`][key],
+          );
         });
         return state;
       },
@@ -135,6 +156,9 @@ export const useSettingsStore = createWithEqualityFn<SettingsState>(
         }
         if (version === 1) {
           persistedState.slippage = defaultConfigurableSettings.slippage;
+        }
+        if (version <= 3) {
+          persistedState.routePriority = 'CHEAPEST';
         }
         return persistedState as SettingsState;
       },
