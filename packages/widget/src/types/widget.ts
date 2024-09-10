@@ -3,6 +3,7 @@ import type {
   ChainType,
   ContractCall,
   Order,
+  RouteExtended,
   RouteOptions,
   SDKConfig,
   StaticToken,
@@ -21,7 +22,7 @@ import type {
   MetaMaskParameters,
   WalletConnectParameters,
 } from '@wagmi/connectors';
-import type { CSSProperties, ReactNode, RefObject } from 'react';
+import type { CSSProperties, FC, ReactNode, RefObject } from 'react';
 import type {
   LanguageKey,
   LanguageResources,
@@ -143,6 +144,10 @@ export interface WidgetFeeConfig {
    * @returns A promise that resolves to the calculated fee as a number (e.g., 0.03 represents a 3% fee)
    */
   calculateFee?(params: CalculateFeeParams): Promise<number | undefined>;
+  /**
+   * @internal
+   */
+  _vcComponent: FC<{ route: RouteExtended }>;
 }
 
 export interface ToAddress {
