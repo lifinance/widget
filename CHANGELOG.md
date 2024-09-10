@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.5.1](https://github.com/lifinance/widget/compare/v3.5.0...v3.5.1) (2024-09-10)
+
+
+### Bug Fixes
+
+* make internal explorer optional ([a0f51c6](https://github.com/lifinance/widget/commit/a0f51c6d7664824543ad3f2a6ab672d01ca0a91b))
+
 ## [3.5.0](https://github.com/lifinance/widget/compare/v3.4.4...v3.5.0) (2024-09-10)
 
 
