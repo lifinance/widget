@@ -51,10 +51,12 @@
     "@solana/wallet-adapter-base": "^0.9.23",
     "react": "^18.3.1",
     "sats-connect": "^2.8.0",
+    "use-sync-external-store": "^1.2.2",
     "viem": "^2.21.4",
     "wagmi": "^2.12.9"
   },
   "devDependencies": {
+    "@types/use-sync-external-store": "^0.0.6",
     "cpy-cli": "^5.0.0",
     "typescript": "^5.6.2"
   },

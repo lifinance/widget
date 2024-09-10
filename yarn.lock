@@ -2829,10 +2829,12 @@ __metadata:
     "@dynamic-labs/bitcoin": "npm:alpha"
     "@lifi/sdk": "npm:^3.3.0-alpha.0"
     "@solana/wallet-adapter-base": "npm:^0.9.23"
+    "@types/use-sync-external-store": "npm:^0.0.6"
     cpy-cli: "npm:^5.0.0"
     react: "npm:^18.3.1"
     sats-connect: "npm:^2.8.0"
     typescript: "npm:^5.6.2"
+    use-sync-external-store: "npm:^1.2.2"
     viem: "npm:^2.21.4"
     wagmi: "npm:^2.12.9"
   peerDependencies:
@@ -5851,6 +5853,13 @@ __metadata:
   version: 2.0.7
   resolution: "@types/trusted-types@npm:2.0.7"
   checksum: 10/8e4202766a65877efcf5d5a41b7dd458480b36195e580a3b1085ad21e948bc417d55d6f8af1fd2a7ad008015d4117d5fdfe432731157da3c68678487174e4ba3
+  languageName: node
+  linkType: hard
+
+"@types/use-sync-external-store@npm:^0.0.6":
+  version: 0.0.6
+  resolution: "@types/use-sync-external-store@npm:0.0.6"
+  checksum: 10/a95ce330668501ad9b1c5b7f2b14872ad201e552a0e567787b8f1588b22c7040c7c3d80f142cbb9f92d13c4ea41c46af57a20f2af4edf27f224d352abcfe4049
   languageName: node
   linkType: hard
 
@@ -18873,7 +18882,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"use-sync-external-store@npm:1.2.2":
+"use-sync-external-store@npm:1.2.2, use-sync-external-store@npm:^1.2.2":
   version: 1.2.2
   resolution: "use-sync-external-store@npm:1.2.2"
   peerDependencies:
