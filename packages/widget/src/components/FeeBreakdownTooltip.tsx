@@ -54,7 +54,10 @@ export const getFeeBreakdownTypography = (
       key={`${fee.token.address}${index}`}
     >
       {t(`format.currency`, { value: fee.amountUSD })} (
-      {parseFloat(formatUnits(fee.amount, fee.token.decimals))?.toFixed(9)}{' '}
+      {t(`format.number`, {
+        value: parseFloat(formatUnits(fee.amount, fee.token.decimals)),
+        maximumFractionDigits: Math.min(fee.token.decimals, 9),
+      })}{' '}
       {fee.token.symbol})
     </Typography>
   ));

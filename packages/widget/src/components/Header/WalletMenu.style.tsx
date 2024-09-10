@@ -17,10 +17,14 @@ export const WalletMenuContainer = styled(MuiMenu)(({ theme }) => ({
     },
     [`& .${menuItemClasses.root}`]: {
       borderRadius: theme.shape.borderRadiusSecondary,
-      padding: theme.spacing(1, 2, 1, 1),
+      padding: theme.spacing(1, 0, 1, 1),
       [`& .${svgIconClasses.root}`]: {
         fontSize: 20,
         color: theme.palette.text.primary,
+      },
+      ':hover': {
+        background: 'none',
+        cursor: 'default',
       },
     },
   },

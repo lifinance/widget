@@ -1,17 +1,19 @@
 import { ChainId, ChainType } from '@lifi/sdk';
+import { useConfig as useBigmiConfig } from '@lifi/wallet-management';
 import type { WalletAdapter } from '@solana/wallet-adapter-base';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useMemo } from 'react';
 import type { Chain } from 'viem';
 import type { Connector } from 'wagmi';
-import { useAccount as useWagmiAccount } from 'wagmi';
+import { useAccount as useAccountInternal } from 'wagmi';
 
-export interface AccountBase {
+export interface AccountBase<CT extends ChainType, ConnectorType = undefined> {
   address?: string;
   addresses?: readonly string[];
   chain?: Chain;
   chainId?: number;
-  chainType?: ChainType;
+  chainType: CT;
+  connector?: ConnectorType;
   isConnected: boolean;
   isConnecting: boolean;
   isDisconnected: boolean;
@@ -19,21 +21,12 @@ export interface AccountBase {
   status: 'connected' | 'reconnecting' | 'connecting' | 'disconnected';
 }
 
-export interface EVMAccount extends AccountBase {
-  chainType: ChainType.EVM;
-  connector?: Connector;
-}
+export type EVMAccount = AccountBase<ChainType.EVM, Connector>;
+export type SVMAccount = AccountBase<ChainType.SVM, WalletAdapter>;
+export type UTXOAccount = AccountBase<ChainType.UTXO, Connector>;
+export type DefaultAccount = AccountBase<ChainType>;
 
-export interface SVMAccount extends AccountBase {
-  chainType: ChainType.SVM;
-  connector?: WalletAdapter;
-}
-
-export interface DefaultAccount extends AccountBase {
-  connector?: never;
-}
-
-export type Account = EVMAccount | SVMAccount | DefaultAccount;
+export type Account = EVMAccount | SVMAccount | UTXOAccount | DefaultAccount;
 
 export interface AccountResult {
   account: Account;
@@ -47,7 +40,8 @@ interface UseAccountArgs {
   chainType?: ChainType;
 }
 
-const defaultAccount: AccountBase = {
+const defaultAccount: AccountBase<ChainType> = {
+  chainType: ChainType.EVM,
   isConnected: false,
   isConnecting: false,
   isReconnecting: false,
@@ -61,7 +55,10 @@ const defaultAccount: AccountBase = {
  * @returns - Account result
  */
 export const useAccount = (args?: UseAccountArgs): AccountResult => {
-  const account = useWagmiAccount();
+  const bigmiConfig = useBigmiConfig();
+  const bigmiAccount = useAccountInternal({ config: bigmiConfig });
+  const wagmiAccount = useAccountInternal();
+
   const { wallet } = useWallet();
 
   // We create a simple variable from the args object
@@ -89,9 +86,10 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
           isDisconnected: true,
           status: 'disconnected',
         };
-    const evm: Account = { ...account, chainType: ChainType.EVM };
-    const accounts = [evm, svm];
-    const connectedAccounts = [evm, svm].filter(
+    const evm: Account = { ...wagmiAccount, chainType: ChainType.EVM };
+    const utxo: Account = { ...bigmiAccount, chainType: ChainType.UTXO };
+    const accounts = [evm, svm, utxo];
+    const connectedAccounts = [evm, svm, utxo].filter(
       (account) => account.isConnected && account.address,
     );
     return {
@@ -105,5 +103,5 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
       // We need to return only connected account list
       accounts: connectedAccounts,
     };
-  }, [account, args?.chainType, hasChainTypeArgs, wallet]);
+  }, [wallet, wagmiAccount, bigmiAccount, hasChainTypeArgs, args?.chainType]);
 };

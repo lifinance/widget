@@ -2,6 +2,7 @@ import { ChainType } from '@lifi/sdk';
 import { useContext, useMemo } from 'react';
 import { EVMExternalContext } from './EVMExternalContext.js';
 import { SVMExternalContext } from './SVMExternalContext.js';
+import { UTXOExternalContext } from './UTXOExternalContext.js';
 
 interface ExternalWalletProvider {
   hasExternalProvider: boolean;
@@ -11,6 +12,7 @@ interface ExternalWalletProvider {
 export function useHasExternalWalletProvider(): ExternalWalletProvider {
   const hasExternalEVMContext = useContext(EVMExternalContext);
   const hasExternalSVMContext = useContext(SVMExternalContext);
+  const hasExternalUTXOContext = useContext(UTXOExternalContext);
 
   const providers = useMemo(() => {
     const providers = [];
@@ -20,8 +22,11 @@ export function useHasExternalWalletProvider(): ExternalWalletProvider {
     if (hasExternalSVMContext) {
       providers.push(ChainType.SVM);
     }
+    if (hasExternalUTXOContext) {
+      providers.push(ChainType.UTXO);
+    }
     return providers;
-  }, [hasExternalEVMContext, hasExternalSVMContext]);
+  }, [hasExternalEVMContext, hasExternalSVMContext, hasExternalUTXOContext]);
 
   return {
     hasExternalProvider: hasExternalEVMContext || hasExternalSVMContext,

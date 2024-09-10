@@ -1,11 +1,10 @@
-import { ChainId, ChainType } from '@lifi/sdk';
+import { ChainId, ChainType, isSVMAddress, isUTXOAddress } from '@lifi/sdk';
 import { isAddress as isEVMAddress } from 'viem';
-import { isSVMAddress } from './svm.js';
 
 const chainTypeAddressValidation = {
   [ChainType.EVM]: isEVMAddress,
   [ChainType.SVM]: isSVMAddress,
-  [ChainType.UTXO]: () => false,
+  [ChainType.UTXO]: isUTXOAddress,
 };
 
 export const getChainTypeFromAddress = (

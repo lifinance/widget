@@ -68,5 +68,8 @@
     "react-dom": "^18.3.1",
     "standard-version": "^9.5.0",
     "typescript": "^5.5.4"
+  },
+  "resolutions": {
+    "@lifi/sdk": "portal:/Users/Eugene/Projects/sdk"
   }
 }

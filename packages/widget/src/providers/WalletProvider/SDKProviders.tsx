@@ -1,16 +1,24 @@
 import type { SDKProvider } from '@lifi/sdk';
-import { ChainType, EVM, Solana, config } from '@lifi/sdk';
+import { ChainType, EVM, Solana, UTXO, config } from '@lifi/sdk';
+import {
+  getConnectorClient as getBigmiConnectorClient,
+  useConfig as useBigmiConfig,
+} from '@lifi/wallet-management';
 import type { SignerWalletAdapter } from '@solana/wallet-adapter-base';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { getWalletClient, switchChain } from '@wagmi/core';
+import {
+  getConnectorClient as getWagmiConnectorClient,
+  switchChain,
+} from '@wagmi/core';
 import { useEffect } from 'react';
-import { useConfig } from 'wagmi';
+import { useConfig as useWagmiConfig } from 'wagmi';
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js';
 
 export const SDKProviders = () => {
   const { sdkConfig } = useWidgetConfig();
   const { wallet } = useWallet();
-  const wagmiConfig = useConfig();
+  const wagmiConfig = useWagmiConfig();
+  const bigmiConfig = useBigmiConfig();
 
   useEffect(() => {
     // Configure SDK Providers
@@ -21,13 +29,16 @@ export const SDKProviders = () => {
     const hasConfiguredSVMProvider = sdkConfig?.providers?.some(
       (provider) => provider.type === ChainType.SVM,
     );
+    const hasConfiguredUTXOProvider = sdkConfig?.providers?.some(
+      (provider) => provider.type === ChainType.UTXO,
+    );
     if (!hasConfiguredEVMProvider) {
       providers.push(
         EVM({
-          getWalletClient: () => getWalletClient(wagmiConfig),
+          getWalletClient: () => getWagmiConnectorClient(wagmiConfig),
           switchChain: async (chainId: number) => {
             const chain = await switchChain(wagmiConfig, { chainId });
-            return getWalletClient(wagmiConfig, { chainId: chain.id });
+            return getWagmiConnectorClient(wagmiConfig, { chainId: chain.id });
           },
         }),
       );
@@ -41,11 +52,18 @@ export const SDKProviders = () => {
         }),
       );
     }
+    if (!hasConfiguredUTXOProvider) {
+      providers.push(
+        UTXO({
+          getWalletClient: () => getBigmiConnectorClient(bigmiConfig),
+        }),
+      );
+    }
     if (sdkConfig?.providers?.length) {
       providers.push(...sdkConfig?.providers);
     }
     config.setProviders(providers);
-  }, [sdkConfig?.providers, wagmiConfig, wallet?.adapter]);
+  }, [bigmiConfig, sdkConfig?.providers, wagmiConfig, wallet?.adapter]);
 
   return null;
 };

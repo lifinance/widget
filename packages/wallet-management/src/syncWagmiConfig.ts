@@ -8,7 +8,7 @@ import {
   isExtendedChain,
 } from './utils/convertExtendedChain.js';
 
-export const syncWagmiConfig = (
+export const syncWagmiConfig = async (
   wagmiConfig: Config,
   connectors: CreateConnectorFn[],
   chains: (ExtendedChain | Chain)[],

@@ -30,7 +30,7 @@ export interface TokenListItemBaseProps {
 }
 
 export interface TokenListItemProps extends TokenListItemBaseProps {
-  showBalance?: boolean;
+  accountAddress?: string;
   token: TokenAmount;
   chain?: ExtendedChain;
   isBalanceLoading?: boolean;
@@ -40,7 +40,7 @@ export interface TokenListItemProps extends TokenListItemBaseProps {
 
 export interface TokenListItemButtonProps {
   onClick?: MouseEventHandler<HTMLDivElement>;
-  showBalance?: boolean;
+  accountAddress?: string;
   token: TokenAmount;
   chain?: ExtendedChain;
   isBalanceLoading?: boolean;

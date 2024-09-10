@@ -3,44 +3,14 @@ import type {
   MetaMaskParameters,
   WalletConnectParameters,
 } from '@wagmi/connectors';
-import type { Chain, Transport } from 'viem';
 import { createClient, http } from 'viem';
 import { mainnet } from 'viem/chains';
 import type { Config, CreateConnectorFn } from 'wagmi';
 import { createConfig } from 'wagmi';
 import { createCoinbaseConnector } from './connectors/coinbase.js';
-import {
-  alpha,
-  binance,
-  bitget,
-  bitpie,
-  block,
-  brave,
-  dcent,
-  exodus,
-  frame,
-  frontier,
-  gate,
-  hyperpay,
-  imtoken,
-  liquality,
-  okx,
-  oneinch,
-  ownbit,
-  safepal,
-  status,
-  taho,
-  tokenary,
-  tokenpocket,
-  trust,
-  xdefi,
-} from './connectors/connectors.js';
 import { createMetaMaskConnector } from './connectors/metaMask.js';
 import { createWalletConnectConnector } from './connectors/walletConnect.js';
 import { isWalletInstalled } from './utils/isWalletInstalled.js';
-
-export type _chains = readonly [Chain, ...Chain[]];
-export type _transports = Record<_chains[number]['id'], Transport>;
 
 export interface DefaultWagmiConfigProps {
   walletConnect?: WalletConnectParameters;
@@ -48,6 +18,7 @@ export interface DefaultWagmiConfigProps {
   metaMask?: MetaMaskParameters;
   wagmiConfig?: {
     ssr?: boolean;
+    multiInjectedProviderDiscovery?: boolean;
   };
   connectors?: CreateConnectorFn[];
   /**
@@ -85,33 +56,7 @@ export interface DefaultWagmiConfigResult {
 export function createDefaultWagmiConfig(
   props?: DefaultWagmiConfigProps,
 ): DefaultWagmiConfigResult {
-  const connectors: CreateConnectorFn[] = [
-    bitget,
-    gate,
-    exodus,
-    taho,
-    binance,
-    frontier,
-    okx,
-    trust,
-    status,
-    alpha,
-    block,
-    bitpie,
-    brave,
-    dcent,
-    frame,
-    hyperpay,
-    imtoken,
-    liquality,
-    ownbit,
-    tokenpocket,
-    xdefi,
-    oneinch,
-    tokenary,
-    safepal,
-    ...(props?.connectors ?? []),
-  ];
+  const connectors: CreateConnectorFn[] = [...(props?.connectors ?? [])];
 
   const config = createConfig({
     chains: [mainnet],

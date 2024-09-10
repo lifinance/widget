@@ -127,7 +127,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
             token={currentToken}
             chain={chain}
             isBalanceLoading={isBalanceLoading}
-            showBalance={account.isConnected}
+            accountAddress={account.address}
             startAdornment={
               startAdornmentLabel ? (
                 <Typography

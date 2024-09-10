@@ -1,10 +1,10 @@
+import { useConfig } from '@lifi/wallet-management';
 import { PowerSettingsNewRounded } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import type { Connector } from 'wagmi';
-import { useConfig } from 'wagmi';
 import { disconnect } from 'wagmi/actions';
 
-export const EVMDisconnectIconButton = ({
+export const UTXODisconnectIconButton = ({
   connector,
 }: {
   connector?: Connector;

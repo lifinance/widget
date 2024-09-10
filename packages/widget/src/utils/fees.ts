@@ -104,20 +104,22 @@ export const getFeeCostsBreakdown = (
 export const getStepFeeCostsBreakdown = (
   feeCosts: FeeCost[] | GasCost[],
 ): FeesBreakdown => {
-  const token = feeCosts[0].token;
-  const amount = feeCosts.reduce(
-    (amount, feeCost) => amount + BigInt(feeCost.amount || 0),
-    0n,
+  const { token } = feeCosts[0];
+
+  const { amount, amountUSD } = feeCosts.reduce(
+    (acc, feeCost) => {
+      const feeAmount = BigInt(Number(feeCost.amount).toFixed(0) || 0);
+      const amountUSD =
+        parseFloat(feeCost.token.priceUSD || '0') *
+        parseFloat(formatUnits(feeAmount, feeCost.token.decimals));
+
+      acc.amount += feeAmount;
+      acc.amountUSD += amountUSD;
+      return acc;
+    },
+    { amount: 0n, amountUSD: 0 },
   );
-  const amountUSD = feeCosts.reduce(
-    (amount, feeCost) =>
-      amount +
-      parseFloat(feeCost.token.priceUSD || '0') *
-        parseFloat(
-          formatUnits(BigInt(feeCost.amount || 0), feeCost.token.decimals),
-        ),
-    0,
-  );
+
   return {
     amount,
     amountUSD,

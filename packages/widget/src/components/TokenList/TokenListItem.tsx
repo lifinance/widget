@@ -1,3 +1,4 @@
+import { ChainType } from '@lifi/sdk';
 import { OpenInNewRounded } from '@mui/icons-material';
 import {
   Avatar,
@@ -25,7 +26,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
   start,
   token,
   chain,
-  showBalance,
+  accountAddress,
   isBalanceLoading,
   startAdornment,
   endAdornment,
@@ -45,7 +46,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
       <TokenListItemButton
         token={token}
         chain={chain}
-        showBalance={showBalance}
+        accountAddress={accountAddress}
         isBalanceLoading={isBalanceLoading}
         onClick={handleClick}
       />
@@ -58,7 +59,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   onClick,
   token,
   chain,
-  showBalance,
+  accountAddress,
   isBalanceLoading,
 }) => {
   const { t } = useTranslation();
@@ -82,6 +83,9 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
       setShowAddress(false);
     }
   };
+
+  const tokenAddress =
+    chain?.chainType === ChainType.UTXO ? accountAddress : token.address;
 
   return (
     <ListItemButton
@@ -125,12 +129,12 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
             >
               <Box display="flex">
                 <Box display="flex" alignItems="center" pt={0.125}>
-                  {shortenAddress(token.address)}
+                  {shortenAddress(tokenAddress)}
                 </Box>
                 <IconButton
                   size="small"
                   LinkComponent={Link}
-                  href={`${chain?.metamask.blockExplorerUrls[0]}address/${token.address}`}
+                  href={`${chain?.metamask.blockExplorerUrls[0]}address/${tokenAddress}`}
                   target="_blank"
                   rel="nofollow noreferrer"
                   onClick={(e) => e.stopPropagation()}
@@ -142,7 +146,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
           </Box>
         }
       />
-      {showBalance ? (
+      {accountAddress ? (
         isBalanceLoading ? (
           <TokenAmountSkeleton />
         ) : (

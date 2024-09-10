@@ -9,7 +9,8 @@ export const useTokens = (selectedChainId?: number) => {
   const { tokens: configTokens } = useWidgetConfig();
   const { data, isLoading } = useQuery({
     queryKey: ['tokens'],
-    queryFn: () => getTokens({ chainTypes: [ChainType.EVM, ChainType.SVM] }),
+    queryFn: () =>
+      getTokens({ chainTypes: [ChainType.EVM, ChainType.SVM, ChainType.UTXO] }),
     refetchInterval: 3_600_000,
     staleTime: 3_600_000,
   });

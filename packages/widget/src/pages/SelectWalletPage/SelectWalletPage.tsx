@@ -1,3 +1,4 @@
+import { ChainType } from '@lifi/sdk';
 import {
   Button,
   DialogActions,
@@ -9,7 +10,6 @@ import type { Wallet } from '@solana/wallet-adapter-react';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Connector } from 'wagmi';
-import { useAccount as useWagmiAccount } from 'wagmi';
 import { Dialog } from '../../components/Dialog.js';
 import { PageContainer } from '../../components/PageContainer.js';
 import { useHeader } from '../../hooks/useHeader.js';
@@ -17,11 +17,11 @@ import { useWallets } from '../../hooks/useWallets.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { EVMListItemButton } from './EVMListItemButton.js';
 import { SVMListItemButton } from './SVMListItemButton.js';
+import { UTXOListItemButton } from './UTXOListItemButton.js';
 
 export const SelectWalletPage = () => {
   const { t } = useTranslation();
   const { chains, walletConfig } = useWidgetConfig();
-  const account = useWagmiAccount();
   const [walletIdentity, setWalletIdentity] = useState<{
     show: boolean;
     connector?: Connector;
@@ -56,11 +56,16 @@ export const SelectWalletPage = () => {
         }}
       >
         {wallets?.map((connector) =>
-          (connector as Connector).id ? (
+          (connector as Connector).type === ChainType.UTXO ? (
+            <UTXOListItemButton
+              key={(connector as Connector).id}
+              connector={connector as Connector}
+              onNotInstalled={handleNotInstalled}
+            />
+          ) : (connector as Connector).id ? (
             <EVMListItemButton
               key={(connector as Connector).id}
               connector={connector as Connector}
-              connectedConnector={account.connector}
               onNotInstalled={handleNotInstalled}
             />
           ) : (

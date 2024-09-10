@@ -3,10 +3,10 @@ import type { CreateConnectorFnExtended } from '@lifi/wallet-management';
 import {
   getConnectorIcon,
   isWalletInstalledAsync,
+  useConfig,
 } from '@lifi/wallet-management';
 import { Avatar, ListItemAvatar } from '@mui/material';
 import type { Connector } from 'wagmi';
-import { useConfig } from 'wagmi';
 import { connect, disconnect, getAccount } from 'wagmi/actions';
 import { ListItemButton } from '../../components/ListItemButton.js';
 import { ListItemText } from '../../components/ListItemText.js';
@@ -14,20 +14,20 @@ import { useNavigateBack } from '../../hooks/useNavigateBack.js';
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
 import { WidgetEvent } from '../../types/events.js';
 
-interface EVMListItemButtonProps {
+interface UTXOListItemButtonProps {
   connector: CreateConnectorFnExtended | Connector;
   onNotInstalled(connector: Connector): void;
 }
 
-export const EVMListItemButton = ({
+export const UTXOListItemButton = ({
   connector,
   onNotInstalled,
-}: EVMListItemButtonProps) => {
+}: UTXOListItemButtonProps) => {
   const { navigateBack } = useNavigateBack();
   const emitter = useWidgetEvents();
   const config = useConfig();
 
-  const handleEVMConnect = async () => {
+  const handleUTXOConnect = async () => {
     const identityCheckPassed = await isWalletInstalledAsync(
       (connector as Connector).id,
     );
@@ -43,7 +43,7 @@ export const EVMListItemButton = ({
     emitter.emit(WidgetEvent.WalletConnected, {
       address: data.accounts[0],
       chainId: data.chainId,
-      chainType: ChainType.EVM,
+      chainType: ChainType.UTXO,
     });
     navigateBack();
   };
@@ -52,7 +52,7 @@ export const EVMListItemButton = ({
     (connector as CreateConnectorFnExtended).displayName || connector.name;
 
   return (
-    <ListItemButton key={connector.id} onClick={handleEVMConnect}>
+    <ListItemButton key={connector.id} onClick={handleUTXOConnect}>
       <ListItemAvatar>
         <Avatar
           src={getConnectorIcon(connector as Connector)}
@@ -61,7 +61,7 @@ export const EVMListItemButton = ({
           {connectorName?.[0]}
         </Avatar>
       </ListItemAvatar>
-      <ListItemText primary={connectorName} />
+      <ListItemText primary={`${connectorName} (Bitcoin)`} />
     </ListItemButton>
   );
 };

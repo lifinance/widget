@@ -44,7 +44,8 @@ export const useGasSufficiency = (route?: RouteExtended) => {
             ) {
               const { token } = step.estimate.gasCosts[0];
               const gasCostAmount = step.estimate.gasCosts.reduce(
-                (amount, gasCost) => amount + BigInt(gasCost.amount),
+                (amount, gasCost) =>
+                  amount + BigInt(Number(gasCost.amount).toFixed(0)),
                 0n,
               );
               groupedGasCosts[token.chainId] = {
@@ -61,7 +62,8 @@ export const useGasSufficiency = (route?: RouteExtended) => {
             if (nonIncludedFeeCosts?.length) {
               const { token } = nonIncludedFeeCosts[0];
               const feeCostAmount = nonIncludedFeeCosts.reduce(
-                (amount, feeCost) => amount + BigInt(feeCost.amount),
+                (amount, feeCost) =>
+                  amount + BigInt(Number(feeCost.amount).toFixed(0)),
                 0n,
               );
               groupedGasCosts[token.chainId] = {

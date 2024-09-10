@@ -2,32 +2,31 @@ import type { ExtendedChain } from '@lifi/sdk';
 import { ChainType, config, getChains } from '@lifi/sdk';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback } from 'react';
-import { useHasExternalWalletProvider } from '../providers/WalletProvider/useHasExternalWalletProvider.js';
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
 import { isItemAllowed } from '../utils/item.js';
 
-const supportedChainTypes = [ChainType.EVM, ChainType.SVM];
+const supportedChainTypes = [ChainType.EVM, ChainType.SVM, ChainType.UTXO];
 
-export const useAvailableChains = () => {
+export const useAvailableChains = (chainTypes?: ChainType[]) => {
   const { chains } = useWidgetConfig();
-  const { providers } = useHasExternalWalletProvider();
+  // const { providers } = useHasExternalWalletProvider();
   const { data, isLoading } = useQuery({
     queryKey: [
       'chains',
-      providers,
+      // providers,
       chains?.types,
       chains?.allow,
       chains?.deny,
       chains?.from,
       chains?.to,
     ] as const,
-    queryFn: async ({ queryKey: [, providers, chainTypes] }) => {
-      const chainTypesRequest = (
-        providers.length > 0 ? providers : supportedChainTypes
-      ).filter((chainType) => isItemAllowed(chainType, chainTypes));
+    queryFn: async ({ queryKey: [, chainTypesConfig] }) => {
+      const chainTypesRequest = supportedChainTypes
+        // providers.length > 0 ? providers : supportedChainTypes
+        .filter((chainType) => isItemAllowed(chainType, chainTypesConfig));
 
       const availableChains = await getChains({
-        chainTypes: chainTypesRequest,
+        chainTypes: chainTypes || chainTypesRequest,
       });
       config.setChains(availableChains);
       return availableChains;

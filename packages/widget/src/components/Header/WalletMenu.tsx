@@ -23,6 +23,7 @@ import { AvatarMasked } from '../Avatar/Avatar.style.js';
 import { SmallAvatar } from '../SmallAvatar.js';
 import { EVMDisconnectIconButton } from './EVMDisconnectIconButton.js';
 import { SVMDisconnectIconButton } from './SVMDisconnectIconButton.js';
+import { UTXODisconnectIconButton } from './UTXODisconnectIconButton.js';
 
 export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
   const { t } = useTranslation();
@@ -47,7 +48,7 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
           };
 
           return (
-            <MenuItem key={account.address}>
+            <MenuItem key={account.address} disableTouchRipple>
               <Box flex={1} display="flex" alignItems="center">
                 {chain?.logoURI ? (
                   <Badge
@@ -80,7 +81,7 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
                 )}
                 {walletAddress}
               </Box>
-              <Box ml={1}>
+              <Box ml={2}>
                 <IconButton size="medium" onClick={handleCopyAddress}>
                   <ContentCopyRounded />
                 </IconButton>
@@ -97,6 +98,8 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
                   <EVMDisconnectIconButton connector={account.connector} />
                 ) : account.chainType === ChainType.SVM ? (
                   <SVMDisconnectIconButton />
+                ) : account.chainType === ChainType.UTXO ? (
+                  <UTXODisconnectIconButton connector={account.connector} />
                 ) : null}
               </Box>
             </MenuItem>
@@ -112,9 +115,7 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
             marginTop: 1,
           }}
         >
-          {accounts.length > 1
-            ? t(`button.changeWallet`)
-            : t(`button.connectWallet`)}
+          {t(`button.connectAnotherWallet`)}
         </Button>
       ) : null}
     </>

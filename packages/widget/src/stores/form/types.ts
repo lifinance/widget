@@ -32,17 +32,17 @@ export type FormFieldArray<T extends FormFieldNames[]> = {
   [K in keyof T]: ExtractValueType<FormValues[T[K]]>;
 };
 
-export type TouchedFields = { [key in FormFieldNames]?: boolean };
+export type TouchedFields = { [K in FormFieldNames]?: boolean };
 
 type ValidationFn = (value: any) => Promise<boolean | string>;
 export interface ValidationProps {
   isValid: boolean;
   isValidating: boolean;
   errors: {
-    [key in FormFieldNames]?: string;
+    [K in FormFieldNames]?: string;
   };
   validation: {
-    [key in FormFieldNames]?: ValidationFn;
+    [K in FormFieldNames]?: ValidationFn;
   };
 }
 
@@ -58,7 +58,7 @@ export interface ValidationActions {
 export interface FormProps {
   defaultValues: FormValues;
   userValues: FormValues;
-  touchedFields: { [key in FormFieldNames]?: boolean };
+  touchedFields: { [K in FormFieldNames]?: boolean };
 }
 
 interface ResetOptions {

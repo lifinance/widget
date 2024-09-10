@@ -6,6 +6,7 @@ import {
   createWalletConnectConnector,
   getWalletPriority,
   isWalletInstalled,
+  useConfig as useBigmiConfig,
 } from '@lifi/wallet-management';
 import type { Theme } from '@mui/material';
 import { useMediaQuery } from '@mui/material';
@@ -14,7 +15,7 @@ import type { Wallet } from '@solana/wallet-adapter-react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useMemo } from 'react';
 import type { Connector } from 'wagmi';
-import { useConnect, useAccount as useWagmiAccount } from 'wagmi';
+import { useAccount, useConnect } from 'wagmi';
 import { defaultCoinbaseConfig } from '../config/coinbase.js';
 import { defaultMetaMaskConfig } from '../config/metaMask.js';
 import { defaultWalletConnectConfig } from '../config/walletConnect.js';
@@ -25,8 +26,11 @@ export const useWallets = (
   walletConfig?: WidgetWalletConfig,
   chains?: WidgetChains,
 ) => {
-  const account = useWagmiAccount();
-  const { connectors } = useConnect();
+  const bigmiConfig = useBigmiConfig();
+  const wagmiAccount = useAccount();
+  const bigmiAccount = useAccount({ config: bigmiConfig });
+  const { connectors: wagmiConnectors } = useConnect();
+  const { connectors: bigmiConnectors } = useConnect({ config: bigmiConfig });
   const { wallets: solanaWallets } = useWallet();
 
   const isDesktopView = useMediaQuery((theme: Theme) =>
@@ -35,9 +39,9 @@ export const useWallets = (
 
   const wallets = useMemo(() => {
     const evmConnectors: (CreateConnectorFnExtended | Connector)[] =
-      Array.from(connectors);
+      Array.from(wagmiConnectors);
     if (
-      !connectors.some((connector) =>
+      !wagmiConnectors.some((connector) =>
         connector.id.toLowerCase().includes('walletconnect'),
       )
     ) {
@@ -48,7 +52,7 @@ export const useWallets = (
       );
     }
     if (
-      !connectors.some((connector) =>
+      !wagmiConnectors.some((connector) =>
         connector.id.toLowerCase().includes('coinbase'),
       ) &&
       !isWalletInstalled('coinbase')
@@ -60,7 +64,7 @@ export const useWallets = (
       );
     }
     if (
-      !connectors.some((connector) =>
+      !wagmiConnectors.some((connector) =>
         connector.id.toLowerCase().includes('metamask'),
       ) &&
       !isWalletInstalled('metaMask')
@@ -71,16 +75,27 @@ export const useWallets = (
         ),
       );
     }
+    const utxoInstalled = isItemAllowed(ChainType.UTXO, chains?.types)
+      ? bigmiConnectors.filter(
+          (connector) =>
+            isWalletInstalled(connector.id) &&
+            // We should not show already connected connectors
+            bigmiAccount.connector?.id !== connector.id,
+        )
+      : [];
+    const utxoNotDetected = isItemAllowed(ChainType.UTXO, chains?.types)
+      ? bigmiConnectors.filter((connector) => !isWalletInstalled(connector.id!))
+      : [];
     const evmInstalled = isItemAllowed(ChainType.EVM, chains?.types)
       ? evmConnectors.filter(
           (connector) =>
-            isWalletInstalled(connector.id!) &&
+            isWalletInstalled(connector.id) &&
             // We should not show already connected connectors
-            account.connector?.id !== connector.id,
+            wagmiAccount.connector?.id !== connector.id,
         )
       : [];
     const evmNotDetected = isItemAllowed(ChainType.EVM, chains?.types)
-      ? evmConnectors.filter((connector) => !isWalletInstalled(connector.id!))
+      ? evmConnectors.filter((connector) => !isWalletInstalled(connector.id))
       : [];
     const svmInstalled = isItemAllowed(ChainType.SVM, chains?.types)
       ? solanaWallets?.filter(
@@ -97,27 +112,33 @@ export const useWallets = (
         )
       : [];
 
-    const installedWallets = [...evmInstalled, ...svmInstalled].sort(
-      walletComparator,
-    );
+    const installedWallets = [
+      ...evmInstalled,
+      ...svmInstalled,
+      ...utxoInstalled,
+    ].sort(walletComparator);
 
     if (isDesktopView) {
-      const notDetectedWallets = [...evmNotDetected, ...svmNotDetected].sort(
-        walletComparator,
-      );
+      const notDetectedWallets = [
+        ...evmNotDetected,
+        ...svmNotDetected,
+        ...utxoNotDetected,
+      ].sort(walletComparator);
       installedWallets.push(...notDetectedWallets);
     }
 
     return installedWallets;
   }, [
-    account.connector?.id,
+    wagmiConnectors,
     chains?.types,
-    connectors,
-    isDesktopView,
+    bigmiConnectors,
     solanaWallets,
+    isDesktopView,
+    walletConfig?.walletConnect,
     walletConfig?.coinbase,
     walletConfig?.metaMask,
-    walletConfig?.walletConnect,
+    bigmiAccount.connector?.id,
+    wagmiAccount.connector?.id,
   ]);
 
   return wallets;
