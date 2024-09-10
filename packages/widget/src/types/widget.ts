@@ -224,7 +224,8 @@ export interface WidgetConfig {
   tokens?: WidgetTokens;
   languages?: WidgetLanguages;
   languageResources?: LanguageResources;
-  explorerUrls?: Record<number | 'internal', string[]>;
+  explorerUrls?: Record<number, string[]> &
+    Partial<Record<'internal', string[]>>;
 }
 
 export interface WidgetConfigProps {
