@@ -1,13 +1,14 @@
-import type {
-  BtcAccount,
-  SignPsbtParameters,
-  UTXOWalletProvider,
+import {
+  ChainId,
+  type BtcAccount,
+  type SignPsbtParameters,
+  type UTXOWalletProvider,
 } from '@lifi/sdk';
 import {
-  type Address,
   MethodNotSupportedRpcError,
   UserRejectedRequestError,
   withRetry,
+  type Address,
 } from 'viem';
 import { createConnector, ProviderNotFoundError } from 'wagmi';
 import type { UTXOConnectorParameters } from './types.js';
@@ -164,10 +165,7 @@ export function phantom(parameters: UTXOConnectorParameters = {}) {
         .map((account) => account.address as Address);
     },
     async getChainId() {
-      return (
-        chainId ||
-        0x000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f
-      );
+      return chainId || ChainId.BTC;
     },
     async isAuthorized() {
       try {

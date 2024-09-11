@@ -63,7 +63,7 @@ export const createTheme = (
   const borderRadiusSecondary =
     widgetTheme.shape?.borderRadiusSecondary ?? shape.borderRadiusSecondary;
 
-  return createMuiTheme({
+  const theme = createMuiTheme({
     container: widgetTheme.container,
     header: widgetTheme.header,
     navigation: {
@@ -409,4 +409,6 @@ export const createTheme = (
       },
     },
   });
+
+  return theme;
 };

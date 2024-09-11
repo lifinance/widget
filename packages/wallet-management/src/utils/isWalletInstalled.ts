@@ -25,6 +25,8 @@ export const isWalletInstalled = (id: string): boolean => {
       return anyWindow.XverseProviders?.BitcoinProvider;
     case 'unisat':
       return anyWindow.unisat;
+    case 'io.xdefi.bitcoin':
+      return anyWindow.xfi?.bitcoin;
     default:
       /**
        * Return true if the wallet is not in the list of explicitly supported or self-injected wallet

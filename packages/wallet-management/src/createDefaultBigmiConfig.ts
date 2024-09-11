@@ -1,7 +1,7 @@
-import { ChainId } from '@lifi/sdk';
 import { createClient, http } from 'viem';
 import type { Config, CreateConnectorFn } from 'wagmi';
 import { bitcoin } from './utxo/chains/bitcoin.js';
+import { ctrl } from './utxo/connectors/ctrl.js';
 import { phantom } from './utxo/connectors/phantom.js';
 import { unisat } from './utxo/connectors/unisat.js';
 import { xverse } from './utxo/connectors/xverse.js';
@@ -46,9 +46,10 @@ export function createDefaultBigmiConfig(
   },
 ): DefaultBigmiConfigResult {
   const connectors: CreateConnectorFn[] = [
-    phantom({ chainId: ChainId.BTC }),
-    xverse({ chainId: ChainId.BTC }),
-    unisat({ chainId: ChainId.BTC }),
+    phantom(),
+    xverse(),
+    unisat(),
+    ctrl(),
     ...(props?.connectors ?? []),
   ];
 

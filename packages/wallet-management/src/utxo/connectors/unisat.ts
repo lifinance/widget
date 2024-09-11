@@ -1,4 +1,8 @@
-import type { SignPsbtParameters, UTXOWalletProvider } from '@lifi/sdk';
+import {
+  ChainId,
+  type SignPsbtParameters,
+  type UTXOWalletProvider,
+} from '@lifi/sdk';
 import {
   type Address,
   MethodNotSupportedRpcError,
@@ -31,6 +35,7 @@ type UnisatConnectorProperties = {
 
 type UnisatBitcoinProvider = {
   requestAccounts(): Promise<Address[]>;
+  getAccounts(): Promise<Address[]>;
   signPsbt(
     psbtHex: string,
     options: {
@@ -113,7 +118,7 @@ export function unisat(parameters: UTXOConnectorParameters = {}) {
         throw new ProviderNotFoundError();
       }
       try {
-        const accounts = await this.getAccounts();
+        const accounts = await provider.requestAccounts();
         const chainId = await this.getChainId();
 
         if (!accountsChanged) {
@@ -151,14 +156,11 @@ export function unisat(parameters: UTXOConnectorParameters = {}) {
       if (!provider) {
         throw new ProviderNotFoundError();
       }
-      const accounts = await provider.requestAccounts();
+      const accounts = await provider.getAccounts();
       return accounts as Address[];
     },
     async getChainId() {
-      return (
-        chainId ||
-        0x000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f
-      );
+      return chainId || ChainId.BTC;
     },
     async isAuthorized() {
       try {
