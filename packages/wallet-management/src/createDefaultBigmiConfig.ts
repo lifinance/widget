@@ -8,7 +8,7 @@ import { xverse } from './utxo/connectors/xverse.js';
 import { createConfig } from './utxo/createConfig.js';
 
 export interface DefaultBigmiConfigProps {
-  wagmiConfig?: {
+  bigmiConfig?: {
     ssr?: boolean;
     multiInjectedProviderDiscovery?: boolean;
   };
@@ -42,7 +42,7 @@ export interface DefaultBigmiConfigResult {
  */
 export function createDefaultBigmiConfig(
   props: DefaultBigmiConfigProps = {
-    wagmiConfig: { multiInjectedProviderDiscovery: false },
+    bigmiConfig: { multiInjectedProviderDiscovery: false },
   },
 ): DefaultBigmiConfigResult {
   const connectors: CreateConnectorFn[] = [
@@ -59,7 +59,7 @@ export function createDefaultBigmiConfig(
     client({ chain }) {
       return createClient({ chain, transport: http() });
     },
-    ...props?.wagmiConfig,
+    ...props?.bigmiConfig,
   });
 
   return {

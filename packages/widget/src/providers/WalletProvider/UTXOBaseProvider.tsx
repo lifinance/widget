@@ -11,7 +11,7 @@ export const UTXOBaseProvider: FC<PropsWithChildren> = ({ children }) => {
 
   if (!bigmi.current) {
     bigmi.current = createDefaultBigmiConfig({
-      wagmiConfig: {
+      bigmiConfig: {
         ssr: true,
         multiInjectedProviderDiscovery: false,
       },
