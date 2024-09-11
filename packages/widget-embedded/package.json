@@ -19,7 +19,7 @@
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
-    "@lifi/sdk": "^3.3.0-alpha.0",
+    "@lifi/sdk": "^3.3.0-alpha.1",
     "@lifi/wallet-management": "^3.1.4",
     "@lifi/widget": "^3.5.2",
     "@mui/icons-material": "^5.16.7",
@@ -33,14 +33,14 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2",
-    "wagmi": "^2.12.9"
+    "wagmi": "^2.12.10"
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@vitejs/plugin-react-swc": "^3.7.0",
     "source-map-explorer": "^2.5.3",
     "typescript": "^5.6.2",
-    "vite": "^5.4.3",
+    "vite": "^5.4.4",
     "vite-plugin-node-polyfills": "^0.22.0",
     "web-vitals": "^4.2.3"
   },

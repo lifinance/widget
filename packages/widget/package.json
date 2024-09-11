@@ -50,7 +50,7 @@
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
-    "@lifi/sdk": "^3.3.0-alpha.0",
+    "@lifi/sdk": "^3.3.0-alpha.1",
     "@lifi/wallet-management": "^3.1.4",
     "@mui/icons-material": "^5.16.7",
     "@mui/lab": "^5.0.0-alpha.173",
@@ -69,8 +69,8 @@
     "react-intersection-observer": "^9.13.1",
     "react-router-dom": "^6.26.2",
     "uuid": "^10.0.0",
-    "viem": "^2.21.4",
-    "wagmi": "^2.12.9",
+    "viem": "^2.21.5",
+    "wagmi": "^2.12.10",
     "zustand": "^4.5.5"
   },
   "devDependencies": {
