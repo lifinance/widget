@@ -1,10 +1,7 @@
 import { Box, Container, ScopedCssBaseline, styled } from '@mui/material';
 import type { PropsWithChildren } from 'react';
-import {
-  maxHeaderHeight,
-  minHeaderHeight,
-} from '../components/Header/Header.js';
 import { defaultMaxHeight } from '../config/constants.js';
+import { useHeaderHeight } from '../hooks/useHeaderHeight.js';
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
 import type { WidgetVariant } from '../types/widget.js';
 import { ElementId, createElementId } from '../utils/elements.js';
@@ -103,14 +100,10 @@ export const FlexContainer = styled(Container)(({ theme }) => ({
 
 export const AppContainer: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   // const ref = useRef<HTMLDivElement>(null);
-  const { variant, elementId, hiddenUI, theme } = useWidgetConfig();
-
+  const { variant, elementId, theme } = useWidgetConfig();
+  const { headerHeight } = useHeaderHeight();
   const positionFixedAdjustment =
-    theme?.header?.position === 'fixed'
-      ? hiddenUI?.includes('walletMenu')
-        ? minHeaderHeight
-        : maxHeaderHeight
-      : 0;
+    theme?.header?.position === 'fixed' ? headerHeight : 0;
 
   return (
     <RelativeContainer
