@@ -1,10 +1,11 @@
+import type { ChainType } from '@lifi/sdk';
 import { useMemo } from 'react';
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
 import type { FormType } from '../stores/form/types.js';
 import { isItemAllowed } from '../utils/item.js';
 import { useAvailableChains } from './useAvailableChains.js';
 
-export const useChains = (type?: FormType) => {
+export const useChains = (type?: FormType, chainTypes?: ChainType[]) => {
   const { chains } = useWidgetConfig();
   const {
     chains: availableChains,
@@ -17,11 +18,13 @@ export const useChains = (type?: FormType) => {
       ? availableChains?.filter(
           (chain) =>
             isItemAllowed(chain.id, chains) &&
-            isItemAllowed(chain.id, chains?.[type]),
+            isItemAllowed(chain.id, chains?.[type]) &&
+            // Check against chain types if they are provided
+            (chainTypes?.includes(chain.chainType) ?? true),
         )
       : availableChains?.filter((chain) => isItemAllowed(chain.id, chains));
     return filteredChains;
-  }, [availableChains, chains, type]);
+  }, [availableChains, chainTypes, chains, type]);
 
   return {
     chains: filteredChains,

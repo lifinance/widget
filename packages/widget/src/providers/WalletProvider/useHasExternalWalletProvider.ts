@@ -6,7 +6,7 @@ import { UTXOExternalContext } from './UTXOExternalContext.js';
 
 interface ExternalWalletProvider {
   hasExternalProvider: boolean;
-  providers: ChainType[];
+  availableChainTypes: ChainType[];
 }
 
 export function useHasExternalWalletProvider(): ExternalWalletProvider {
@@ -15,7 +15,7 @@ export function useHasExternalWalletProvider(): ExternalWalletProvider {
   const hasExternalUTXOContext = useContext(UTXOExternalContext);
 
   const providers = useMemo(() => {
-    const providers = [];
+    const providers: ChainType[] = [];
     if (hasExternalEVMContext) {
       providers.push(ChainType.EVM);
     }
@@ -29,7 +29,8 @@ export function useHasExternalWalletProvider(): ExternalWalletProvider {
   }, [hasExternalEVMContext, hasExternalSVMContext, hasExternalUTXOContext]);
 
   return {
-    hasExternalProvider: hasExternalEVMContext || hasExternalSVMContext,
-    providers,
+    hasExternalProvider:
+      hasExternalEVMContext || hasExternalSVMContext || hasExternalUTXOContext,
+    availableChainTypes: providers,
   };
 }

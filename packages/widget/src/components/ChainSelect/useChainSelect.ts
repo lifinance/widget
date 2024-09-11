@@ -2,6 +2,7 @@ import type { EVMChain } from '@lifi/sdk';
 import { useChains } from '../../hooks/useChains.js';
 import { useSwapOnly } from '../../hooks/useSwapOnly.js';
 import { useToAddressReset } from '../../hooks/useToAddressReset.js';
+import { useHasExternalWalletProvider } from '../../providers/WalletProvider/useHasExternalWalletProvider.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { useChainOrder } from '../../stores/chains/useChainOrder.js';
 import type { FormType } from '../../stores/form/types.js';
@@ -15,7 +16,11 @@ export const useChainSelect = (formType: FormType) => {
   const chainKey = FormKeyHelper.getChainKey(formType);
   const { onChange } = useFieldController({ name: chainKey });
   const { setFieldValue, getFieldValues } = useFieldActions();
-  const { chains, isLoading, getChainById } = useChains(formType);
+  const { availableChainTypes } = useHasExternalWalletProvider();
+  const { chains, isLoading, getChainById } = useChains(
+    formType,
+    formType === 'from' ? availableChainTypes : undefined,
+  );
   const [chainOrder, setChainOrder] = useChainOrder(formType);
   const swapOnly = useSwapOnly();
   const { tryResetToAddress } = useToAddressReset();
