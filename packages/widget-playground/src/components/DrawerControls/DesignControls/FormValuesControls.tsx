@@ -1,5 +1,6 @@
 import { ChainType } from '@lifi/types';
 import { Button } from '@mui/material';
+import { useDevView } from '../../../hooks';
 import { useConfigActions } from '../../../store';
 import type { FormValues } from '../../../store/widgetConfig/types';
 import { useConfigFormValues } from '../../../store/widgetConfig/useConfigValues';
@@ -27,9 +28,9 @@ const ChainsAndTokensLookUp: FormValuesLookUp = {
     fromChain: 10,
     fromToken: '0x94b008aA00579c1307B0EF2c499aD98a8ce58e58',
   },
-  'From: Aurora-EMPTY': {
-    fromChain: 1313161554,
-    fromToken: '0x368EBb46ACa6b8D0787C96B2b20bD3CC3F2c45F7',
+  'From: ARB-DAI': {
+    fromChain: 42161,
+    fromToken: '0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1',
   },
   'To: POL-WMATIC': {
     toChain: 137,
@@ -100,6 +101,7 @@ const forceConfigOutputIfValuesAreUnchanged = (
 export const FormValuesControl = () => {
   const { setFormValues } = useConfigActions();
   const formValues = useConfigFormValues();
+  const { isDevView } = useDevView();
 
   const handleChainAndTokenChange = (value: string) => {
     const chainsAndTokens = ChainsAndTokensLookUp[value];
@@ -131,7 +133,7 @@ export const FormValuesControl = () => {
     }
   };
 
-  return (
+  return isDevView ? (
     <ExpandableCard title={'Form values'} value=" ">
       <CardRowContainer sx={{ paddingBottom: 1, paddingLeft: 1 }}>
         <CapitalizeFirstLetter variant="caption">
@@ -185,5 +187,5 @@ export const FormValuesControl = () => {
         </Button>
       ))}
     </ExpandableCard>
-  );
+  ) : null;
 };
