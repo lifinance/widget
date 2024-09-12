@@ -81,7 +81,7 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
   const { wallet } = useWallet();
   const { lastConnectedAccount } = useLastConnectedAccount();
 
-  const result = useMemo(() => {
+  return useMemo(() => {
     const svm: Account = wallet?.adapter.publicKey
       ? {
           address: wallet?.adapter.publicKey.toString(),
@@ -139,13 +139,18 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
       // We need to return only connected account list
       accounts: connectedAccounts,
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     wallet,
-    wagmiAccount,
-    bigmiAccount,
+    wagmiAccount.connector?.uid,
+    wagmiAccount.connector?.id,
+    wagmiAccount.status,
+    wagmiAccount.address,
+    bigmiAccount.connector?.uid,
+    bigmiAccount.connector?.id,
+    bigmiAccount.status,
+    bigmiAccount.address,
     args?.chainType,
     lastConnectedAccount,
   ]);
-
-  return result;
 };
