@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-embedded",
-  "version": "1.0.220",
+  "version": "1.0.221",
   "type": "module",
   "scripts": {
     "analyze": "source-map-explorer 'dist/assets/*.js' --no-border-checks",
@@ -21,7 +21,7 @@
   "dependencies": {
     "@lifi/sdk": "^3.2.0",
     "@lifi/wallet-management": "^3.1.5-beta.0",
-    "@lifi/widget": "^3.5.1-beta.1",
+    "@lifi/widget": "^3.5.1-beta.2",
     "@mui/icons-material": "^5.16.7",
     "@mui/lab": "^5.0.0-alpha.173",
     "@mui/material": "^5.16.7",
