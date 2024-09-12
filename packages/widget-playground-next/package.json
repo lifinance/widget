@@ -16,7 +16,7 @@
     "@emotion/cache": "^11.13.1",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
-    "@lifi/sdk": "^3.3.0-alpha.2",
+    "@lifi/sdk": "^3.3.0-alpha.3",
     "@lifi/wallet-management": "^3.2.0-alpha.3",
     "@lifi/widget": "^3.6.0-alpha.3",
     "@lifi/widget-playground": "^1.0.224",
