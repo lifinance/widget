@@ -10,28 +10,48 @@ import type { FormStoreStore } from './types.js';
 export const FormStoreProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
-  const config = useWidgetConfig();
+  const {
+    fromChain,
+    fromToken,
+    fromAmount,
+    toChain,
+    toToken,
+    toAddress,
+    hiddenUI,
+    formUpdateKey,
+  } = useWidgetConfig();
   const storeRef = useRef<FormStoreStore>();
 
-  const hiddenToAddress = config.hiddenUI?.includes(HiddenUI.ToAddress);
+  const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress);
 
   const defaultValues = useMemo(
     () => ({
       ...formDefaultValues,
-      fromChain: config.fromChain,
-      fromToken: config.fromToken,
-      toChain: config.toChain,
-      toToken: config.toToken,
+      fromChain,
+      fromToken,
+      toChain,
+      toToken,
       fromAmount:
-        (typeof config.fromAmount === 'number'
-          ? config.fromAmount?.toPrecision()
-          : config.fromAmount) || formDefaultValues.fromAmount,
+        (typeof fromAmount === 'number'
+          ? fromAmount?.toPrecision()
+          : fromAmount) || formDefaultValues.fromAmount,
       // Prevent setting address when the field is hidden
       toAddress: hiddenToAddress
         ? formDefaultValues.toAddress
-        : config.toAddress?.address || formDefaultValues.toAddress,
+        : toAddress?.address || formDefaultValues.toAddress,
     }),
-    [config, hiddenToAddress],
+    // Using a randomly assigned unique key for formUpdateKey will force updates for the following field values
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      fromAmount,
+      fromChain,
+      fromToken,
+      hiddenToAddress,
+      toAddress,
+      toChain,
+      toToken,
+      formUpdateKey,
+    ],
   );
 
   if (!storeRef.current) {

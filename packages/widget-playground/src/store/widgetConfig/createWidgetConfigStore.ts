@@ -4,7 +4,7 @@ import { persist } from 'zustand/middleware';
 import { createWithEqualityFn } from 'zustand/traditional';
 import { addValueFromPathString, cloneStructuredConfig } from '../../utils';
 import type { ThemeItem } from '../editTools/types';
-import type { UpdatableWidgetConfig, WidgetConfigState } from './types';
+import type { WidgetConfigState } from './types';
 import { getLocalStorageOutput } from './utils/getLocalStorageOutput';
 import { getRehydratedConfigWithDefaultValues } from './utils/getRehydratedConfigWithDefaultValues';
 import { setThemeAppearanceWithFallback } from './utils/setThemeWithFallback';
@@ -18,7 +18,7 @@ export const createWidgetConfigStore = (
     persist(
       (set, get) => ({
         defaultConfig: initialConfig,
-        config: cloneStructuredConfig<UpdatableWidgetConfig>(initialConfig),
+        config: cloneStructuredConfig<Partial<WidgetConfig>>(initialConfig),
         themeId: 'default',
         widgetThemeItems: themeItems,
         setConfig: (config) => {

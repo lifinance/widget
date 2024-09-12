@@ -182,6 +182,7 @@ export interface WidgetConfig {
   fromAmount?: number | string | null;
   toAmount?: number | string;
   toAddresses?: ToAddress[];
+  formUpdateKey?: string;
 
   contractCalls?: ContractCall[];
   contractComponent?: ReactNode;

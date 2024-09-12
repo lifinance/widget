@@ -14,7 +14,7 @@ import type { ThemeItem } from '../editTools/types';
 
 export interface WidgetConfigValues {
   defaultConfig?: Partial<WidgetConfig>;
-  config?: UpdatableWidgetConfig;
+  config?: Partial<WidgetConfig>;
   themeId: string;
   widgetThemeItems: ThemeItem[];
 }
@@ -26,10 +26,6 @@ export interface FormValues {
   toToken?: string | null;
   toAddress?: string | number | ToAddress | null;
   fromAmount?: number | string | null;
-  formUpdateKey?: string;
-}
-
-export interface UpdatableWidgetConfig extends Partial<WidgetConfig> {
   formUpdateKey?: string;
 }
 
