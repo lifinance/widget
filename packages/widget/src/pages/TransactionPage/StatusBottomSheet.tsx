@@ -252,7 +252,8 @@ export const StatusBottomSheetContent: React.FC<
     hasEnumFlag(status, RouteExecutionStatus.Done) &&
     (contractCompactComponent || contractSecondaryComponent);
 
-  const VcComponent = feeConfig?._vcComponent;
+  const VcComponent =
+    status === RouteExecutionStatus.Done ? feeConfig?._vcComponent : undefined;
 
   return (
     <Box p={3} ref={ref}>
