@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.5.2](https://github.com/lifinance/widget/compare/v3.5.1...v3.5.2) (2024-09-11)
+
+
+### Bug Fixes
+
+* widget header with subvariant split ([#298](https://github.com/lifinance/widget/issues/298)) ([c33d42a](https://github.com/lifinance/widget/commit/c33d42abcabaa80c533caae915384dd6d2bc36ab))
+
+### [3.5.1](https://github.com/lifinance/widget/compare/v3.5.0...v3.5.1) (2024-09-10)
+
+
+### Bug Fixes
+
+* make internal explorer optional ([a0f51c6](https://github.com/lifinance/widget/commit/a0f51c6d7664824543ad3f2a6ab672d01ca0a91b))
+
 ## [3.5.0](https://github.com/lifinance/widget/compare/v3.4.4...v3.5.0) (2024-09-10)
 
 
