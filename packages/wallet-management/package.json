@@ -1,6 +1,6 @@
 {
   "name": "@lifi/wallet-management",
-  "version": "3.1.5-beta.0",
+  "version": "3.1.5-beta.1",
   "description": "LI.FI Wallet Management solution.",
   "type": "module",
   "main": "./src/index.ts",
@@ -49,8 +49,8 @@
     "@lifi/sdk": "^3.2.0",
     "@solana/wallet-adapter-base": "^0.9.23",
     "react": "^18.3.1",
-    "viem": "^2.21.4",
-    "wagmi": "^2.12.9"
+    "viem": "^2.21.6",
+    "wagmi": "^2.12.11"
   },
   "devDependencies": {
     "cpy-cli": "^5.0.0",

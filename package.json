@@ -1,5 +1,5 @@
 {
-  "version": "3.5.2",
+  "version": "3.5.3-beta.0",
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -35,8 +35,8 @@
     }
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.4.1",
-    "@commitlint/config-conventional": "^19.4.1",
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^16.0.1",
@@ -57,9 +57,9 @@
     "eslint-plugin-import": "^2.30.0",
     "eslint-plugin-jsx-a11y": "^6.10.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-react": "^7.35.2",
+    "eslint-plugin-react": "^7.36.0",
     "eslint-plugin-react-hooks": "^4.6.2",
-    "husky": "^9.1.5",
+    "husky": "^9.1.6",
     "lerna": "8.1.8",
     "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
