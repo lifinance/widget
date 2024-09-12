@@ -2,6 +2,27 @@ import type { ContractCall } from '@lifi/sdk';
 import type { StoreApi } from 'zustand';
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
 
+// The values stated here can be set to null
+// Setting the values to null in the config should see that form field set to its empty state
+// These values also coincide with the values that can be set on the query string
+export interface NullableDefaultValues
+  extends Omit<
+    DefaultValues,
+    | 'fromAmount'
+    | 'fromChain'
+    | 'fromToken'
+    | 'toAddress'
+    | 'toChain'
+    | 'toToken'
+  > {
+  fromAmount: string | null;
+  fromChain?: number | null;
+  fromToken?: string | null;
+  toAddress?: string | null;
+  toChain?: number | null;
+  toToken?: string | null;
+}
+
 export interface DefaultValues {
   contractCalls?: ContractCall[];
   fromAmount: string;
@@ -15,6 +36,7 @@ export interface DefaultValues {
 }
 
 export type GenericFormValue = string | number | ContractCall[] | undefined;
+
 export interface FormValueControl<T> {
   isTouched: boolean;
   isDirty: boolean;
@@ -67,7 +89,7 @@ interface ResetOptions {
 
 export interface FormActions {
   setDefaultValues: (formValues: DefaultValues) => void;
-  setUserAndDefaultValues: (formValues: Partial<DefaultValues>) => void;
+  setUserAndDefaultValues: (formValues: Partial<NullableDefaultValues>) => void;
   isTouched: (fieldName: FormFieldNames) => boolean;
   setAsTouched: (fieldName: FormFieldNames) => void;
   resetField: (fieldName: FormFieldNames, resetOptions?: ResetOptions) => void;

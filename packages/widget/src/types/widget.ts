@@ -174,14 +174,14 @@ export type WidgetLanguages = {
 } & AllowDeny<LanguageKey>;
 
 export interface WidgetConfig {
-  fromChain?: number;
-  toChain?: number;
-  fromToken?: string;
-  toToken?: string;
-  toAddress?: ToAddress;
-  toAddresses?: ToAddress[];
-  fromAmount?: number | string;
+  fromChain?: number | null;
+  toChain?: number | null;
+  fromToken?: string | null;
+  toToken?: string | null;
+  toAddress?: ToAddress | null;
+  fromAmount?: number | string | null;
   toAmount?: number | string;
+  toAddresses?: ToAddress[];
 
   contractCalls?: ContractCall[];
   contractComponent?: ReactNode;

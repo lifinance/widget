@@ -7,6 +7,7 @@ import type {
   FormValueControl,
   FormValues,
   FormValuesState,
+  NullableDefaultValues,
 } from './types.js';
 
 export const formDefaultValues: DefaultValues = {
@@ -25,7 +26,11 @@ const valuesToFormValues = (defaultValues: DefaultValues): FormValues => {
   return (Object.keys(defaultValues) as FormFieldNames[]).reduce(
     (accum, key) => ({
       ...accum,
-      [key]: defaultValueToFormValue(defaultValues[key]),
+      [key]: defaultValueToFormValue(
+        defaultValues[key] === null
+          ? formDefaultValues[key]
+          : defaultValues[key],
+      ),
     }),
     {} as FormValues,
   );
@@ -70,11 +75,31 @@ const mergeDefaultFormValues = (
     { ...valuesToFormValues(formDefaultValues) },
   );
 
-export const createFormStore = (defaultValues?: DefaultValues) =>
+// When initialising the form state we don't care about the null values
+// The form state values should only ever be the default state as represetned on formDefaultValues
+// or value defined in config or by user interaction.
+const nullableDefaultValuesToDefaultValues = (
+  nullableDefaults: NullableDefaultValues,
+) =>
+  Object.keys(nullableDefaults).reduce<Partial<DefaultValues>>((accum, key) => {
+    const k = key as keyof DefaultValues;
+
+    return {
+      ...accum,
+      [k]:
+        nullableDefaults[k] === null
+          ? formDefaultValues[k]
+          : nullableDefaults[k],
+    };
+  }, {}) as DefaultValues;
+
+export const createFormStore = (defaultValues?: NullableDefaultValues) =>
   createWithEqualityFn<FormValuesState>((set, get) => {
     const _defaultValues = valuesToFormValues({
       ...formDefaultValues,
-      ...defaultValues,
+      ...(defaultValues
+        ? nullableDefaultValuesToDefaultValues(defaultValues)
+        : undefined),
     });
     return {
       defaultValues: _defaultValues,
@@ -97,8 +122,13 @@ export const createFormStore = (defaultValues?: DefaultValues) =>
       setUserAndDefaultValues: (defaultValues) => {
         const currentUserValues = get().userValues;
         (Object.keys(defaultValues) as FormFieldNames[]).forEach((key) => {
-          // TODO: if the value is null get the default value from formDefaultValues
-          if (defaultValues[key] !== currentUserValues[key]?.value) {
+          // if the incoming value is null the form value will be actively set to its default value
+          if (defaultValues[key] === null) {
+            get().resetField(key, { defaultValue: formDefaultValues[key] });
+            get().setFieldValue(key, formDefaultValues[key], {
+              isTouched: false,
+            });
+          } else if (defaultValues[key] !== currentUserValues[key]?.value) {
             get().resetField(key, { defaultValue: defaultValues[key] });
             get().setFieldValue(key, defaultValues[key], { isTouched: true });
           }

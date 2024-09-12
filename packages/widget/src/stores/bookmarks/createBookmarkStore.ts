@@ -8,7 +8,7 @@ import type { BookmarkState } from './types.js';
 const recentWalletsLimit = 10;
 
 interface PersistBookmarkProps extends PersistStoreProps {
-  toAddress?: ToAddress;
+  toAddress?: ToAddress | null;
 }
 export const createBookmarksStore = ({
   namePrefix,
@@ -17,7 +17,7 @@ export const createBookmarksStore = ({
   createWithEqualityFn<BookmarkState>(
     persist(
       (set, get) => ({
-        selectedBookmark: toAddress,
+        selectedBookmark: toAddress === null ? undefined : toAddress,
         bookmarks: [],
         recentWallets: [],
         getBookmark: (address) =>

@@ -5,11 +5,11 @@ import { useChains } from '../../hooks/useChains.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { formDefaultValues } from '../../stores/form/createFormStore.js';
 import { useSendToWalletStore } from '../../stores/settings/useSendToWalletStore.js';
-import type { DefaultValues } from './types.js';
+import type { DefaultValues, NullableDefaultValues } from './types.js';
 import { useFieldActions } from './useFieldActions.js';
 
 export const FormUpdater: React.FC<{
-  defaultValues: Partial<DefaultValues>;
+  defaultValues: Partial<NullableDefaultValues>;
 }> = ({ defaultValues }) => {
   const { fromChain, toChain } = useWidgetConfig();
   const { account } = useAccount();
@@ -62,8 +62,6 @@ export const FormUpdater: React.FC<{
       initialiseSendToWallet(true);
     }
 
-    // TODO: consider using null in the config to specify when a value should be set to its default
-    //  look at using formDefaultValues for this
     setUserAndDefaultValues(
       removeEmptyValuesProperties(defaultValues, account.chainId),
     );
@@ -80,10 +78,10 @@ export const FormUpdater: React.FC<{
 };
 
 const removeEmptyValuesProperties = (
-  defaultValues: Partial<DefaultValues>,
+  defaultValues: Partial<NullableDefaultValues>,
   chainId?: number,
 ) => {
-  const result: Partial<DefaultValues> = { ...defaultValues };
+  const result: Partial<NullableDefaultValues> = { ...defaultValues };
   for (const key in result) {
     const k = key as keyof DefaultValues;
     if (result[k] === formDefaultValues[k]) {

@@ -39,6 +39,20 @@ const ChainsAndTokensLookUp: FormValuesLookUp = {
     toChain: 43114,
     toToken: '0x0000000000000000000000000000000000000000',
   },
+  RESET: {
+    fromChain: null,
+    fromToken: null,
+    toChain: null,
+    toToken: null,
+  },
+  'RESET:From': {
+    fromChain: null,
+    fromToken: null,
+  },
+  'RESET:To': {
+    toChain: null,
+    toToken: null,
+  },
 };
 
 const AddressLookUp: FormValuesLookUp = {
@@ -54,6 +68,9 @@ const AddressLookUp: FormValuesLookUp = {
       chainType: ChainType.EVM,
     },
   },
+  RESET: {
+    toAddress: null,
+  },
 };
 
 const AmountLookUp: FormValuesLookUp = {
@@ -62,6 +79,9 @@ const AmountLookUp: FormValuesLookUp = {
   },
   '0.5': {
     fromAmount: '0.5',
+  },
+  RESET: {
+    fromAmount: null,
   },
 };
 
