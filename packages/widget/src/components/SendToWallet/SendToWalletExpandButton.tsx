@@ -25,8 +25,6 @@ export const SendToWalletExpandButton: React.FC = () => {
     return null;
   }
 
-  const isActive = showSendToWallet || Boolean(toAddressFieldValue);
-
   const handleClick = () => {
     if (showSendToWallet && !disabledUI?.includes(DisabledUI.ToAddress)) {
       setFieldValue('toAddress', '', { isTouched: true });
@@ -39,10 +37,13 @@ export const SendToWalletExpandButton: React.FC = () => {
     );
   };
 
+  const buttonVariant =
+    showSendToWallet || Boolean(toAddressFieldValue) ? 'contained' : 'text';
+
   return (
     <Tooltip title={t('main.sendToWallet')} placement="bottom-end">
       <Button
-        variant={isActive ? 'contained' : 'text'}
+        variant={buttonVariant}
         onClick={handleClick}
         sx={{
           minWidth: 48,

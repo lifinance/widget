@@ -1,4 +1,4 @@
-import { ChainId } from '@lifi/sdk';
+import { ChainId, ChainType } from '@lifi/sdk';
 import type { WidgetConfig } from '@lifi/widget';
 
 export const widgetBaseConfig: WidgetConfig = {
@@ -12,22 +12,22 @@ export const widgetBaseConfig: WidgetConfig = {
   //   address: '0xAB3Afc314e75dC1648A2E31c06861A07a048C050',
   //   chainType: ChainType.EVM,
   // },
-  // toAddresses: [
-  //   {
-  //     name: 'Lenny',
-  //     address: '0x552008c0f6870c2f77e5cC1d2eb9bdff03e30Ea9',
-  //     chainType: ChainType.EVM,
-  //   },
-  //   {
-  //     address: '0x552008c0f6870c2f77e5cC1d2eb9bdff03e30Ea0',
-  //     chainType: ChainType.EVM,
-  //   },
-  //   {
-  //     name: 'Sol',
-  //     address: '6AUWsSCRFSCbrHKH9s84wfzJXtD6mNzAHs11x6pGEcmJ',
-  //     chainType: ChainType.SVM,
-  //   },
-  // ],
+  toAddresses: [
+    {
+      name: 'Lenny',
+      address: '0x552008c0f6870c2f77e5cC1d2eb9bdff03e30Ea9',
+      chainType: ChainType.EVM,
+    },
+    {
+      address: '0x552008c0f6870c2f77e5cC1d2eb9bdff03e30Ea0',
+      chainType: ChainType.EVM,
+    },
+    {
+      name: 'Sol',
+      address: '6AUWsSCRFSCbrHKH9s84wfzJXtD6mNzAHs11x6pGEcmJ',
+      chainType: ChainType.SVM,
+    },
+  ],
   variant: 'wide',
   // subvariant: 'split',
   integrator: 'li.fi-playground',
@@ -36,7 +36,9 @@ export const widgetBaseConfig: WidgetConfig = {
   buildUrl: true,
   // hiddenUI: ['poweredBy', 'language', 'appearance', 'drawerButton'],
   // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
+  // disabledUI: ['toAddress'],
   // requiredUI: ['toAddress'],
+  // hiddenUI: ['toAddress'],
   // slippage: 0.003,
   sdkConfig: {
     apiUrl: 'https://li.quest/v1',

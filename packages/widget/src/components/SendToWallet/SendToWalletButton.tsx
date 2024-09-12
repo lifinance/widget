@@ -1,6 +1,6 @@
 import { CloseRounded } from '@mui/icons-material';
 import { Box, Collapse } from '@mui/material';
-import type { MouseEventHandler } from 'react';
+import { useEffect, useState, type MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAccount } from '../../hooks/useAccount.js';
@@ -29,7 +29,7 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { disabledUI, hiddenUI, toAddress, toAddresses } = useWidgetConfig();
-  const { showSendToWallet, showSendToWalletDirty } = useSendToWalletStore();
+  const { showSendToWallet } = useSendToWalletStore();
   const [toAddressFieldValue, toChainId, toTokenAddress] = useFieldValues(
     'toAddress',
     'toChain',
@@ -42,9 +42,6 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
   const { requiredToAddress } = useToAddressRequirements();
   const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress);
   const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress);
-
-  const showInstantly =
-    Boolean(toAddressFieldValue && !hiddenToAddress) || requiredToAddress;
 
   const address = toAddressFieldValue
     ? shortenAddress(toAddressFieldValue)
@@ -87,8 +84,6 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
 
   const disabledForChanges = Boolean(toAddressFieldValue) && disabledToAddress;
 
-  const isSelected = !!toAddressFieldValue && !disabledForChanges;
-
   const handleOnClick = () => {
     navigate(
       toAddresses?.length
@@ -103,14 +98,23 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
     setSelectedBookmark();
   };
 
-  const openCollapse = disabledToAddress
-    ? showSendToWallet || (showInstantly && !showSendToWalletDirty)
-    : showSendToWallet || showInstantly;
+  // The collapse opens instantly on first page load/component mount when there is an address to display
+  // After which it needs an animated transition for open and closing.
+  // collapseTransitionTime is used specify the tranistion time for opening and closing
+  const [collapseTransitionTime, setCollapseTransitionTime] = useState(0);
+
+  useEffect(() => {
+    // this should fire after the collapse have been opened instantly
+    setCollapseTransitionTime(225);
+  }, [setCollapseTransitionTime]);
+
+  const isOpenCollapse =
+    requiredToAddress || (showSendToWallet && !hiddenToAddress);
 
   return (
     <Collapse
-      timeout={showInstantly ? 0 : 225}
-      in={openCollapse}
+      timeout={collapseTransitionTime}
+      in={isOpenCollapse}
       mountOnEnter
       unmountOnExit
     >
@@ -134,9 +138,9 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
             }
             title={headerTitle}
             subheader={headerSubheader}
-            selected={isSelected || disabledForChanges}
+            selected={!!toAddressFieldValue || disabledToAddress}
             action={
-              isSelected ? (
+              !!toAddressFieldValue && !disabledForChanges ? (
                 <CardIconButton onClick={clearSelectedBookmark} size="small">
                   <CloseRounded fontSize="inherit" />
                 </CardIconButton>
