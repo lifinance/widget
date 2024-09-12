@@ -10,6 +10,7 @@ import type { Connector } from 'wagmi';
 import { connect, disconnect, getAccount } from 'wagmi/actions';
 import { ListItemButton } from '../../components/ListItemButton.js';
 import { ListItemText } from '../../components/ListItemText.js';
+import { useLastConnectedAccount } from '../../hooks/useAccount.js';
 import { useNavigateBack } from '../../hooks/useNavigateBack.js';
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
 import { WidgetEvent } from '../../types/events.js';
@@ -26,6 +27,7 @@ export const UTXOListItemButton = ({
   const { navigateBack } = useNavigateBack();
   const emitter = useWidgetEvents();
   const config = useConfig();
+  const { setLastConnectedAccount } = useLastConnectedAccount();
 
   const handleUTXOConnect = async () => {
     const identityCheckPassed = await isWalletInstalledAsync(
@@ -40,6 +42,7 @@ export const UTXOListItemButton = ({
       await disconnect(config, { connector: connectedAccount.connector });
     }
     const data = await connect(config, { connector });
+    setLastConnectedAccount(connector);
     emitter.emit(WidgetEvent.WalletConnected, {
       address: data.accounts[0],
       chainId: data.chainId,

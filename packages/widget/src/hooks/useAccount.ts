@@ -1,4 +1,5 @@
 import { ChainId, ChainType } from '@lifi/sdk';
+import type { CreateConnectorFnExtended } from '@lifi/wallet-management';
 import { useConfig as useBigmiConfig } from '@lifi/wallet-management';
 import type { WalletAdapter } from '@solana/wallet-adapter-base';
 import { useWallet } from '@solana/wallet-adapter-react';
@@ -6,6 +7,7 @@ import { useMemo } from 'react';
 import type { Chain } from 'viem';
 import type { Connector } from 'wagmi';
 import { useAccount as useAccountInternal } from 'wagmi';
+import { create } from 'zustand';
 
 export interface AccountBase<CT extends ChainType, ConnectorType = undefined> {
   address?: string;
@@ -49,8 +51,26 @@ const defaultAccount: AccountBase<ChainType> = {
   status: 'disconnected',
 };
 
+export type LastConnectedAccount =
+  | WalletAdapter
+  | Connector
+  | CreateConnectorFnExtended
+  | null;
+
+interface LastConnectedAccountStore {
+  lastConnectedAccount: LastConnectedAccount;
+  setLastConnectedAccount: (account: LastConnectedAccount) => void;
+}
+
+export const useLastConnectedAccount = create<LastConnectedAccountStore>(
+  (set) => ({
+    lastConnectedAccount: null,
+    setLastConnectedAccount: (account) =>
+      set({ lastConnectedAccount: account }),
+  }),
+);
+
 /**
- *
  * @param args When we provide args we want to return either account with corresponding chainType or default disconnected one
  * @returns - Account result
  */
@@ -58,14 +78,10 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
   const bigmiConfig = useBigmiConfig();
   const bigmiAccount = useAccountInternal({ config: bigmiConfig });
   const wagmiAccount = useAccountInternal();
-
   const { wallet } = useWallet();
+  const { lastConnectedAccount } = useLastConnectedAccount();
 
-  // We create a simple variable from the args object
-  // to avoid re-render useMemo on every object reference change.
-  const hasChainTypeArgs = Boolean(args);
-
-  return useMemo(() => {
+  const result = useMemo(() => {
     const svm: Account = wallet?.adapter.publicKey
       ? {
           address: wallet?.adapter.publicKey.toString(),
@@ -89,19 +105,47 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
     const evm: Account = { ...wagmiAccount, chainType: ChainType.EVM };
     const utxo: Account = { ...bigmiAccount, chainType: ChainType.UTXO };
     const accounts = [evm, svm, utxo];
-    const connectedAccounts = [evm, svm, utxo].filter(
+    const connectedAccounts = accounts.filter(
       (account) => account.isConnected && account.address,
     );
+
+    // If a chainType argument is provided, attempt to find a connected account with the matching chainType.
+    // If no matching account is found, fallback to the default account.
+    // If no chainType argument, selectedAccount should be used.
+    const selectedChainTypeAccount = args?.chainType
+      ? connectedAccounts.find(
+          (account) => account.chainType === args?.chainType,
+        ) || defaultAccount
+      : undefined;
+
+    // If lastConnectedAccount exists, attempt to find a connected account with a matching connector ID or name.
+    // If no matching account is found, fallback to the first connected account.
+    // If lastConnectedAccount is not present, simply select the first connected account.
+    const selectedAccount = lastConnectedAccount
+      ? connectedAccounts.find((account) => {
+          const connectorIdMatch =
+            (lastConnectedAccount as Connector)?.id ===
+            (account.connector as Connector)?.id;
+          const connectorNameMatch =
+            !(lastConnectedAccount as Connector)?.id &&
+            (lastConnectedAccount as WalletAdapter)?.name ===
+              account.connector?.name;
+          return connectorIdMatch || connectorNameMatch;
+        }) || connectedAccounts[0]
+      : connectedAccounts[0];
+
     return {
-      account:
-        accounts.find(
-          (account) =>
-            (!hasChainTypeArgs || account.chainType === args?.chainType) &&
-            account.isConnected &&
-            account.address,
-        ) ?? defaultAccount,
+      account: selectedChainTypeAccount || selectedAccount || defaultAccount,
       // We need to return only connected account list
       accounts: connectedAccounts,
     };
-  }, [wallet, wagmiAccount, bigmiAccount, hasChainTypeArgs, args?.chainType]);
+  }, [
+    wallet,
+    wagmiAccount,
+    bigmiAccount,
+    args?.chainType,
+    lastConnectedAccount,
+  ]);
+
+  return result;
 };

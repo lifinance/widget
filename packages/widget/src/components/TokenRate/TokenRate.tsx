@@ -18,13 +18,13 @@ interface TokenRateState {
   toggleIsForward(): void;
 }
 
-const useTokenRateStore = create<TokenRateState>((set) => ({
+const useTokenRate = create<TokenRateState>((set) => ({
   isForward: true,
   toggleIsForward: () => set((state) => ({ isForward: !state.isForward })),
 }));
 
 export const TokenRate: React.FC<TokenRateProps> = ({ route }) => {
-  const { isForward, toggleIsForward } = useTokenRateStore();
+  const { isForward, toggleIsForward } = useTokenRate();
 
   const toggleRate: MouseEventHandler<HTMLSpanElement> = (e) => {
     e.stopPropagation();

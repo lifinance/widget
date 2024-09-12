@@ -4,6 +4,7 @@ import type { Wallet } from '@solana/wallet-adapter-react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { ListItemButton } from '../../components/ListItemButton.js';
 import { ListItemText } from '../../components/ListItemText.js';
+import { useLastConnectedAccount } from '../../hooks/useAccount.js';
 import { useNavigateBack } from '../../hooks/useNavigateBack.js';
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
 import { WidgetEvent } from '../../types/events.js';
@@ -16,6 +17,7 @@ export const SVMListItemButton = ({ wallet }: SVMListItemButtonProps) => {
   const { navigateBack } = useNavigateBack();
   const emitter = useWidgetEvents();
   const { select, disconnect, connected } = useWallet();
+  const { setLastConnectedAccount } = useLastConnectedAccount();
 
   const connect = async () => {
     if (connected) {
@@ -25,6 +27,7 @@ export const SVMListItemButton = ({ wallet }: SVMListItemButtonProps) => {
     // We use autoConnect on wallet selection
     // await solanaConnect();
     wallet.adapter.once('connect', (publicKey) => {
+      setLastConnectedAccount(wallet.adapter);
       emitter.emit(WidgetEvent.WalletConnected, {
         address: publicKey?.toString(),
         chainId: ChainId.SOL,
