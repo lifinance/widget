@@ -75,17 +75,6 @@ export const useWallets = (
         ),
       );
     }
-    const utxoInstalled = isItemAllowed(ChainType.UTXO, chains?.types)
-      ? bigmiConnectors.filter(
-          (connector) =>
-            isWalletInstalled(connector.id) &&
-            // We should not show already connected connectors
-            bigmiAccount.connector?.id !== connector.id,
-        )
-      : [];
-    const utxoNotDetected = isItemAllowed(ChainType.UTXO, chains?.types)
-      ? bigmiConnectors.filter((connector) => !isWalletInstalled(connector.id!))
-      : [];
     const evmInstalled = isItemAllowed(ChainType.EVM, chains?.types)
       ? evmConnectors.filter(
           (connector) =>
@@ -96,6 +85,17 @@ export const useWallets = (
       : [];
     const evmNotDetected = isItemAllowed(ChainType.EVM, chains?.types)
       ? evmConnectors.filter((connector) => !isWalletInstalled(connector.id))
+      : [];
+    const utxoInstalled = isItemAllowed(ChainType.UTXO, chains?.types)
+      ? bigmiConnectors.filter(
+          (connector) =>
+            isWalletInstalled(connector.id) &&
+            // We should not show already connected connectors
+            bigmiAccount.connector?.id !== connector.id,
+        )
+      : [];
+    const utxoNotDetected = isItemAllowed(ChainType.UTXO, chains?.types)
+      ? bigmiConnectors.filter((connector) => !isWalletInstalled(connector.id!))
       : [];
     const svmInstalled = isItemAllowed(ChainType.SVM, chains?.types)
       ? solanaWallets?.filter(

@@ -16,11 +16,15 @@ export const useChainSelect = (formType: FormType) => {
   const chainKey = FormKeyHelper.getChainKey(formType);
   const { onChange } = useFieldController({ name: chainKey });
   const { setFieldValue, getFieldValues } = useFieldActions();
-  const { availableChainTypes } = useHasExternalWalletProvider();
+  const { hasExternalProvider, availableChainTypes } =
+    useHasExternalWalletProvider();
   const { chains, isLoading, getChainById } = useChains(
     formType,
-    formType === 'from' ? availableChainTypes : undefined,
+    formType === 'from' && hasExternalProvider
+      ? availableChainTypes
+      : undefined,
   );
+
   const [chainOrder, setChainOrder] = useChainOrder(formType);
   const swapOnly = useSwapOnly();
   const { tryResetToAddress } = useToAddressReset();
