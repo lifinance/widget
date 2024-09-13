@@ -105,7 +105,7 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
 
   useEffect(() => {
     // timeout is needed here to push the collapseTransitionTime update to the back of the event loop
-    // so that it doesn't fired to quickly
+    // so that it doesn't fired too quickly
     setTimeout(() => {
       collapseTransitionTime.current = 225;
     }, 0);
