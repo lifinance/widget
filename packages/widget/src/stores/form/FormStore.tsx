@@ -55,7 +55,7 @@ export const FormStoreProvider: React.FC<PropsWithChildren> = ({
 
   // We use the presence/absence of a property to decide if the form values in state need to be updated
   // We only build and set a property on the memoized form values here if they are included in the
-  // config - undefined is consider a valid value that will reset that form field
+  // config - undefined is considered a valid value that will reset that form field
   const reactiveFormValues = useMemo(
     () => ({
       ...(configHasFromChain ? { fromChain } : undefined),

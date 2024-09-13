@@ -69,6 +69,13 @@ const AddressLookUp: FormValuesLookUp = {
       chainType: ChainType.EVM,
     },
   },
+  Lenny: {
+    toAddress: {
+      name: 'Lenny',
+      address: '0x552008c0f6870c2f77e5cC1d2eb9bdff03e30Ea9',
+      chainType: ChainType.EVM,
+    },
+  },
   RESET: {
     toAddress: undefined,
   },

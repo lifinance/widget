@@ -1,4 +1,4 @@
-import { createContext, useContext, useRef } from 'react';
+import { createContext, useContext, useEffect, useRef } from 'react';
 import { shallow } from 'zustand/shallow';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import type { PersistStoreProviderProps } from '../types.js';
@@ -11,12 +11,18 @@ export const BookmarkStoreProvider: React.FC<PersistStoreProviderProps> = ({
   children,
   ...props
 }) => {
-  const { toAddress } = useWidgetConfig();
+  const { toAddress, formUpdateKey } = useWidgetConfig();
   const storeRef = useRef<BookmarkStore>();
 
   if (!storeRef.current) {
     storeRef.current = createBookmarksStore({ ...props, toAddress });
   }
+
+  useEffect(() => {
+    storeRef?.current?.getState()?.setSelectedBookmark(toAddress);
+    // formUpdateKey is a unique key used to force updates for the form field values
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [toAddress, formUpdateKey]);
 
   return (
     <BookmarkStoreContext.Provider value={storeRef.current}>
