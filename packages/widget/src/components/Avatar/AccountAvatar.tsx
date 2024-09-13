@@ -14,7 +14,7 @@ import {
 interface AccountAvatarProps {
   chainId?: number;
   account?: Account;
-  toAddress?: ToAddress | null;
+  toAddress?: ToAddress;
   empty?: boolean;
 }
 

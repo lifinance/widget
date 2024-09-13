@@ -41,18 +41,18 @@ const ChainsAndTokensLookUp: FormValuesLookUp = {
     toToken: '0x0000000000000000000000000000000000000000',
   },
   RESET: {
-    fromChain: null,
-    fromToken: null,
-    toChain: null,
-    toToken: null,
+    fromChain: undefined,
+    fromToken: undefined,
+    toChain: undefined,
+    toToken: undefined,
   },
-  'RESET:From': {
-    fromChain: null,
-    fromToken: null,
+  'RESET From': {
+    fromChain: undefined,
+    fromToken: undefined,
   },
-  'RESET:To': {
-    toChain: null,
-    toToken: null,
+  'RESET To': {
+    toChain: undefined,
+    toToken: undefined,
   },
 };
 
@@ -70,7 +70,7 @@ const AddressLookUp: FormValuesLookUp = {
     },
   },
   RESET: {
-    toAddress: null,
+    toAddress: undefined,
   },
 };
 
@@ -82,21 +82,17 @@ const AmountLookUp: FormValuesLookUp = {
     fromAmount: '0.5',
   },
   RESET: {
-    fromAmount: null,
+    fromAmount: undefined,
   },
 };
 
-const forceConfigOutputIfValuesAreUnchanged = (
+const forceConfigUpdate = (
   nextValue: FormValues,
   currentValues: FormValues,
-): FormValues =>
-  Object.keys(nextValue).every(
-    (key) =>
-      nextValue[key as keyof FormValues] ===
-      currentValues[key as keyof FormValues],
-  )
-    ? { ...nextValue, formUpdateKey: new Date().valueOf().toString() }
-    : nextValue;
+): FormValues => ({
+  ...nextValue,
+  formUpdateKey: new Date().valueOf().toString(),
+});
 
 export const FormValuesControl = () => {
   const { setFormValues } = useConfigActions();
@@ -107,9 +103,7 @@ export const FormValuesControl = () => {
     const chainsAndTokens = ChainsAndTokensLookUp[value];
 
     if (chainsAndTokens) {
-      setFormValues(
-        forceConfigOutputIfValuesAreUnchanged(chainsAndTokens, formValues),
-      );
+      setFormValues(forceConfigUpdate(chainsAndTokens, formValues));
     }
   };
 
@@ -117,9 +111,7 @@ export const FormValuesControl = () => {
     const addressValue = AddressLookUp[value];
 
     if (addressValue) {
-      setFormValues(
-        forceConfigOutputIfValuesAreUnchanged(addressValue, formValues),
-      );
+      setFormValues(forceConfigUpdate(addressValue, formValues));
     }
   };
 
@@ -127,9 +119,7 @@ export const FormValuesControl = () => {
     const amountValue = AmountLookUp[value];
 
     if (amountValue) {
-      setFormValues(
-        forceConfigOutputIfValuesAreUnchanged(amountValue, formValues),
-      );
+      setFormValues(forceConfigUpdate(amountValue, formValues));
     }
   };
 

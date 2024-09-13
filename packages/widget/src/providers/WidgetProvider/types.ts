@@ -1,8 +1,8 @@
 import type { WidgetConfig } from '../../types/widget.js';
 
 export type WidgetContextProps = WidgetConfig & {
-  fromChain?: number | null;
-  toChain?: number | null;
+  fromChain?: number;
+  toChain?: number;
   elementId: string;
 };
 
