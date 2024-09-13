@@ -33,7 +33,7 @@ export const widgetBaseConfig: WidgetConfig = {
   integrator: 'li.fi-playground',
   // fee: 0.01,
   // useRecommendedRoute: true,
-  // buildUrl: true,
+  buildUrl: true,
   // hiddenUI: ['poweredBy', 'language', 'appearance', 'drawerButton', 'toAddress'],
   // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
   // requiredUI: ['toAddress'],
