@@ -44,6 +44,9 @@ interface FullHeightAdjustablePageContainerProps extends PageContainerProps {
 
 export const FullHeightAdjustablePageContainer = styled(
   SendToWalletPageContainer,
+  {
+    shouldForwardProp: (prop) => prop !== 'enableFullHeight',
+  },
 )<FullHeightAdjustablePageContainerProps>(({ theme, enableFullHeight }) => ({
   justifyContent: 'space-between',
   ...(enableFullHeight && theme.container?.height === '100%'

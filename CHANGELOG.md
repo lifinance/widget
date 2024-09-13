@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.5.3](https://github.com/lifinance/widget/compare/v3.5.2...v3.5.3) (2024-09-12)
+
+### [3.5.2](https://github.com/lifinance/widget/compare/v3.5.1...v3.5.2) (2024-09-11)
+
+
+### Bug Fixes
+
+* widget header with subvariant split ([#298](https://github.com/lifinance/widget/issues/298)) ([c33d42a](https://github.com/lifinance/widget/commit/c33d42abcabaa80c533caae915384dd6d2bc36ab))
+
+### [3.5.1](https://github.com/lifinance/widget/compare/v3.5.0...v3.5.1) (2024-09-10)
+
+
+### Bug Fixes
+
+* make internal explorer optional ([a0f51c6](https://github.com/lifinance/widget/commit/a0f51c6d7664824543ad3f2a6ab672d01ca0a91b))
+
+## [3.5.0](https://github.com/lifinance/widget/compare/v3.4.4...v3.5.0) (2024-09-10)
+
+
+### Features
+
+* add explorer link to the support card ([#292](https://github.com/lifinance/widget/issues/292)) ([0792c15](https://github.com/lifinance/widget/commit/0792c158aa39b9c1b05139a494e5ec9483473733))
+* allow configuration of explorer links ([#293](https://github.com/lifinance/widget/issues/293)) ([c173546](https://github.com/lifinance/widget/commit/c1735465580e9199e448167dc1445b58246f569e))
+
+
+### Bug Fixes
+
+* add percent formatter to improve display of price impact ([#287](https://github.com/lifinance/widget/issues/287)) ([2061012](https://github.com/lifinance/widget/commit/20610129dedb4fefd23a145b173eeee2bb4f7066))
+* allow the token list to fill the full height available and default max height to 686px ([#289](https://github.com/lifinance/widget/issues/289)) ([4882755](https://github.com/lifinance/widget/commit/48827559ac5db87140669247c1728083ace7a94e))
+* container should not forward prop ([6e326cd](https://github.com/lifinance/widget/commit/6e326cd27efb965058923830c4831395365b802a))
+* prevent sending a request for the same chain token combinations ([282bdf0](https://github.com/lifinance/widget/commit/282bdf046c01025b61057887613129647ad3d50d))
+
 ### [3.4.4](https://github.com/lifinance/widget/compare/v3.4.3...v3.4.4) (2024-08-15)
 
 
