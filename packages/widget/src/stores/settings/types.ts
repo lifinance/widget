@@ -50,7 +50,6 @@ export interface SendToWalletState {
 
 export interface SendToWalletStore extends SendToWalletState {
   setSendToWallet(value: boolean): void;
-  initialiseSendToWallet(value: boolean): void;
 }
 
 export interface SplitSubvariantState {

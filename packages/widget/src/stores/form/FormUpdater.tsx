@@ -14,7 +14,7 @@ export const FormUpdater: React.FC<{
   const { fromChain, toChain } = useWidgetConfig();
   const { account } = useAccount();
   const { chains } = useChains();
-  const { initialiseSendToWallet } = useSendToWalletStore();
+  const { setSendToWallet } = useSendToWalletStore();
 
   const {
     isTouched,
@@ -59,7 +59,7 @@ export const FormUpdater: React.FC<{
   useEffect(() => {
     // set values from config
     if (reactiveFormValues.toAddress) {
-      initialiseSendToWallet(true);
+      setSendToWallet(true);
     }
 
     setUserAndDefaultValues(
@@ -72,6 +72,7 @@ export const FormUpdater: React.FC<{
     resetField,
     setFieldValue,
     setUserAndDefaultValues,
+    setSendToWallet,
   ]);
 
   return null;

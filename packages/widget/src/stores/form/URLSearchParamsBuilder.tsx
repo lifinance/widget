@@ -48,7 +48,7 @@ export const URLSearchParamsBuilder = () => {
   const { pathname } = useLocation();
   const touchedFields = useTouchedFields();
   const values = useFieldValues(...formValueKeys);
-  const { initialiseSendToWallet } = useSendToWalletStore();
+  const { setSendToWallet } = useSendToWalletStore();
 
   // Using these methods as trying to use the touchedFields and values above
   // often has a lag that can effect the widgets initialisation sequence
@@ -61,11 +61,11 @@ export const URLSearchParamsBuilder = () => {
     const formValues = getDefaultValuesFromQueryString();
 
     if (formValues.toAddress) {
-      initialiseSendToWallet(true);
+      setSendToWallet(true);
     }
 
     setUserAndDefaultValues(formValues);
-  }, [setUserAndDefaultValues, initialiseSendToWallet]);
+  }, [setUserAndDefaultValues, setSendToWallet]);
 
   useEffect(() => {
     // set the values on the querysting

@@ -20,12 +20,12 @@ export interface WidgetConfigValues {
 }
 
 export interface FormValues {
-  fromChain?: number | null;
-  fromToken?: string | null;
-  toChain?: number | null;
-  toToken?: string | null;
-  toAddress?: string | number | ToAddress | null;
-  fromAmount?: number | string | null;
+  fromChain?: number;
+  fromToken?: string;
+  toChain?: number;
+  toToken?: string;
+  toAddress?: string | number | ToAddress;
+  fromAmount?: number | string;
   formUpdateKey?: string;
 }
 
