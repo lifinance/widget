@@ -1,6 +1,6 @@
 import { CloseRounded } from '@mui/icons-material';
 import { Box, Collapse } from '@mui/material';
-import { useEffect, useState, type MouseEventHandler } from 'react';
+import { useEffect, useRef, type MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAccount } from '../../hooks/useAccount.js';
@@ -100,20 +100,23 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
 
   // The collapse opens instantly on first page load/component mount when there is an address to display
   // After which it needs an animated transition for open and closing.
-  // collapseTransitionTime is used specify the tranistion time for opening and closing
-  const [collapseTransitionTime, setCollapseTransitionTime] = useState(0);
+  // collapseTransitionTime is used specify the transition time for opening and closing
+  const collapseTransitionTime = useRef(0);
 
   useEffect(() => {
-    // this should fire after the collapse have been opened instantly
-    setCollapseTransitionTime(225);
-  }, [setCollapseTransitionTime]);
+    // timeout is needed here to push the collapseTransitionTime update to the back of the event loop
+    // so that it doesn't fired to quickly
+    setTimeout(() => {
+      collapseTransitionTime.current = 225;
+    }, 0);
+  }, [collapseTransitionTime]);
 
   const isOpenCollapse =
     requiredToAddress || (showSendToWallet && !hiddenToAddress);
 
   return (
     <Collapse
-      timeout={collapseTransitionTime}
+      timeout={collapseTransitionTime.current}
       in={isOpenCollapse}
       mountOnEnter
       unmountOnExit
