@@ -8,6 +8,7 @@ import type {
   StaticToken,
   Token,
 } from '@lifi/sdk';
+import type { SetFieldValue } from '@lifi/widget/stores/form/types.js';
 import type {
   Components,
   PaletteMode,
@@ -21,7 +22,12 @@ import type {
   MetaMaskParameters,
   WalletConnectParameters,
 } from '@wagmi/connectors';
-import type { CSSProperties, ReactNode, RefObject } from 'react';
+import type {
+  CSSProperties,
+  MutableRefObject,
+  ReactNode,
+  RefObject,
+} from 'react';
 import type {
   LanguageKey,
   LanguageResources,
@@ -229,7 +235,19 @@ export interface WidgetConfig {
     Partial<Record<'internal', string[]>>;
 }
 
-export interface WidgetConfigProps {
+export type FormApiRefType =
+  | {
+      setFieldValue: SetFieldValue;
+    }
+  | undefined;
+
+export type FormApiRef = MutableRefObject<FormApiRefType>;
+
+export interface FormApiRefProp {
+  formApiRef?: FormApiRef;
+}
+
+export interface WidgetConfigProps extends FormApiRefProp {
   config: WidgetConfig;
 }
 
@@ -239,7 +257,8 @@ export interface WidgetConfigPartialProps {
 
 export type WidgetProps = WidgetDrawerProps &
   WidgetConfig &
-  WidgetConfigPartialProps;
+  WidgetConfigPartialProps &
+  FormApiRefProp;
 
 export interface WidgetDrawerProps extends WidgetConfigPartialProps {
   elementRef?: RefObject<HTMLDivElement>;

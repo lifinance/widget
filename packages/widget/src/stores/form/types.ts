@@ -65,17 +65,19 @@ interface ResetOptions {
   defaultValue?: GenericFormValue;
 }
 
+export type SetFieldValue = (
+  fieldName: FormFieldNames,
+  value: GenericFormValue,
+  options?: SetOptions,
+) => void;
+
 export interface FormActions {
   setDefaultValues: (formValues: DefaultValues) => void;
   setUserAndDefaultValues: (formValues: Partial<DefaultValues>) => void;
   isTouched: (fieldName: FormFieldNames) => boolean;
   setAsTouched: (fieldName: FormFieldNames) => void;
   resetField: (fieldName: FormFieldNames, resetOptions?: ResetOptions) => void;
-  setFieldValue: (
-    fieldName: FormFieldNames,
-    value: GenericFormValue,
-    options?: SetOptions,
-  ) => void;
+  setFieldValue: SetFieldValue;
   getFieldValues: <T extends FormFieldNames[]>(
     ...names: T
   ) => FormFieldArray<T>;
@@ -90,7 +92,7 @@ export type FormStoreStore = UseBoundStoreWithEqualityFn<
   StoreApi<FormValuesState>
 >;
 
-interface SetOptions {
+export interface SetOptions {
   isDirty?: boolean;
   isTouched?: boolean;
 }

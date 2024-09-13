@@ -17,6 +17,7 @@ import type { WidgetConfigProps } from './types/widget.js';
 export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
   children,
   config,
+  formApiRef,
 }) => {
   return (
     <QueryClientProvider client={queryClient}>
@@ -24,7 +25,7 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
         <WalletProvider>
           <ThemeProvider>
             <I18nProvider>
-              <StoreProvider config={config}>
+              <StoreProvider config={config} formApiRef={formApiRef}>
                 <AppRouter>{children}</AppRouter>
               </StoreProvider>
             </I18nProvider>

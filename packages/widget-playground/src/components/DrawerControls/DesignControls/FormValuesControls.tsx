@@ -1,11 +1,16 @@
 import { ChainType } from '@lifi/types';
 import { Button } from '@mui/material';
+import { useState } from 'react';
 import { useDevView } from '../../../hooks';
-import { useConfigActions } from '../../../store';
+import { useConfigActions, useEditToolsActions } from '../../../store';
 import type { FormValues } from '../../../store/widgetConfig/types';
 import { useConfigFormValues } from '../../../store/widgetConfig/useConfigValues';
 import { CardRowContainer, ExpandableCard } from '../../Card';
-import { CapitalizeFirstLetter } from './DesignControls.style';
+import { Switch } from '../../Switch';
+import {
+  CapitalizeFirstLetter,
+  ColorControlContainer,
+} from './DesignControls.style';
 
 interface FormValuesLookUp {
   [key: string]: FormValues;
@@ -102,9 +107,18 @@ const forceConfigUpdate = (
 });
 
 export const FormValuesControl = () => {
-  const { setFormValues } = useConfigActions();
+  const { setFormValues: setFormValuesViaConfig } = useConfigActions();
+  const { setFormValues: setFormValuesViaFormApiRef } = useEditToolsActions();
   const formValues = useConfigFormValues();
   const { isDevView } = useDevView();
+  const [formUpdateMethod, setFormUpdateMethod] = useState<
+    'formApi' | 'config'
+  >('config');
+
+  const setFormValues =
+    formUpdateMethod === 'formApi'
+      ? setFormValuesViaFormApiRef
+      : setFormValuesViaConfig;
 
   const handleChainAndTokenChange = (value: string) => {
     const chainsAndTokens = ChainsAndTokensLookUp[value];
@@ -140,6 +154,22 @@ export const FormValuesControl = () => {
           set as false changes should be reflected in the query string
         </CapitalizeFirstLetter>
       </CardRowContainer>
+      <ColorControlContainer sx={{ marginBottom: 1, paddingRight: 2 }}>
+        Use reactive config
+        <Switch
+          checked={formUpdateMethod === 'config'}
+          onChange={() => setFormUpdateMethod('config')}
+          aria-label="Set form values using reactive config"
+        />
+      </ColorControlContainer>
+      <ColorControlContainer sx={{ marginBottom: 1, paddingRight: 2 }}>
+        Use form API Ref
+        <Switch
+          checked={formUpdateMethod === 'formApi'}
+          onChange={() => setFormUpdateMethod('formApi')}
+          aria-label="Set form values using formApiRef"
+        />
+      </ColorControlContainer>
       <CardRowContainer sx={{ paddingBottom: 1, paddingLeft: 1 }}>
         Chains And Tokens
       </CardRowContainer>

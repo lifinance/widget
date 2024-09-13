@@ -1,12 +1,17 @@
 import type { PropsWithChildren } from 'react';
 import { useMemo, useRef } from 'react';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
-import type { ToAddress } from '../../types/widget.js';
+import { useSendToWalletStore } from '../../stores/settings/useSendToWalletStore.js';
+import type { FormApiRef, ToAddress } from '../../types/widget.js';
 import { HiddenUI } from '../../types/widget.js';
 import { FormStoreContext } from './FormStoreContext.js';
 import { FormUpdater } from './FormUpdater.js';
 import { createFormStore, formDefaultValues } from './createFormStore.js';
-import type { DefaultValues, FormStoreStore } from './types.js';
+import type {
+  DefaultValues,
+  FormStoreStore,
+  GenericFormValue,
+} from './types.js';
 
 // decorates and initialise the form date for use in the form store
 const intialiseDefaultValues = (
@@ -26,10 +31,16 @@ const intialiseDefaultValues = (
     : toAddress?.address || formDefaultValues.toAddress,
 });
 
-export const FormStoreProvider: React.FC<PropsWithChildren> = ({
+interface FormStoreProviderProps extends PropsWithChildren {
+  formApiRef?: FormApiRef;
+}
+
+export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
   children,
+  formApiRef,
 }) => {
   const widgetConfig = useWidgetConfig();
+  const { setSendToWallet } = useSendToWalletStore();
 
   const {
     fromChain,
@@ -107,6 +118,39 @@ export const FormStoreProvider: React.FC<PropsWithChildren> = ({
         hiddenToAddress,
       ),
     );
+
+    if (formApiRef) {
+      const santiseValue: {
+        [key: string]: (value: any) => GenericFormValue;
+      } = {
+        fromAmount: (value) =>
+          (typeof value === 'number' ? value?.toPrecision() : value) ||
+          formDefaultValues.fromAmount,
+        toAddress: (value) => {
+          const address = hiddenToAddress
+            ? formDefaultValues.toAddress
+            : value || formDefaultValues.toAddress;
+
+          if (address) {
+            setSendToWallet(address);
+          }
+
+          return address;
+        },
+      };
+
+      formApiRef.current = {
+        setFieldValue: (fieldName, value, options) => {
+          const santisedValue = santiseValue[fieldName]
+            ? santiseValue[fieldName](value)
+            : value;
+
+          storeRef.current
+            ?.getState()
+            .setFieldValue(fieldName, santisedValue, options);
+        },
+      };
+    }
   }
 
   return (
