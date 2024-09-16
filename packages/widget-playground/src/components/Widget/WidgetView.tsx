@@ -1,9 +1,4 @@
-import type {
-  FormApiRefType,
-  FormFieldNames,
-  FormFieldValue,
-  WidgetDrawer,
-} from '@lifi/widget';
+import type { FieldNames, FormFunctions, WidgetDrawer } from '@lifi/widget';
 import { LiFiWidget, WidgetSkeleton } from '@lifi/widget';
 import { useCallback, useEffect, useRef } from 'react';
 import { useConfig, useSkeletonToolValues } from '../../store';
@@ -13,7 +8,7 @@ import { WidgetViewContainer } from './WidgetViewContainer';
 export function WidgetView() {
   const { config } = useConfig();
   const drawerRef = useRef<WidgetDrawer>(null);
-  const formRef = useRef<FormApiRefType>();
+  const formRef = useRef<FormFunctions>();
   const { isSkeletonShown, isSkeletonSideBySide } = useSkeletonToolValues();
   const { formValues } = useFormValues();
 
@@ -25,13 +20,9 @@ export function WidgetView() {
     if (formRef.current && formValues) {
       Object.entries(formValues).forEach(([fieldName, fieldValue]) => {
         if (fieldName !== 'formUpdateKey') {
-          formRef.current?.setFieldValue(
-            fieldName as FormFieldNames,
-            fieldValue as FormFieldValue,
-            {
-              setURLSearchParam: true,
-            },
-          );
+          formRef.current?.setFieldValue(fieldName as FieldNames, fieldValue, {
+            setUrlSearchParam: true,
+          });
         }
       });
     }

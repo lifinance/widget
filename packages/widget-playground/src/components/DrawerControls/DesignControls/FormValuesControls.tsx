@@ -155,7 +155,7 @@ export const FormValuesControl = () => {
         </CapitalizeFirstLetter>
       </CardRowContainer>
       <ColorControlContainer sx={{ marginBottom: 1, paddingRight: 2 }}>
-        Use reactive config
+        Use config
         <Switch
           checked={formUpdateMethod === 'config'}
           onChange={() => setFormUpdateMethod('config')}
@@ -163,7 +163,7 @@ export const FormValuesControl = () => {
         />
       </ColorControlContainer>
       <ColorControlContainer sx={{ marginBottom: 1, paddingRight: 2 }}>
-        Use form API Ref
+        Use formRef
         <Switch
           checked={formUpdateMethod === 'formApi'}
           onChange={() => setFormUpdateMethod('formApi')}

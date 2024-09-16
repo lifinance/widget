@@ -1,10 +1,11 @@
-import type { FormRef, FormValuesState, GenericFormValue } from '@lifi/widget';
-import { HiddenUI } from '@lifi/widget';
 import { useImperativeHandle } from 'react';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
 import { formDefaultValues } from '../../stores/form/createFormStore.js';
 import { useSendToWalletStore } from '../../stores/settings/useSendToWalletStore.js';
+import type { FormRef } from '../../types/widget.js';
+import { HiddenUI } from '../../types/widget.js';
+import type { FormValuesState, GenericFormValue } from './types.js';
 
 export const useFormRef = (formStore: FormValuesState, formRef?: FormRef) => {
   const { setSendToWallet } = useSendToWalletStore();
@@ -13,7 +14,7 @@ export const useFormRef = (formStore: FormValuesState, formRef?: FormRef) => {
 
   const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress);
 
-  const santiseValue: {
+  const santizeValue: {
     [key: string]: (value: any) => GenericFormValue;
   } = {
     fromAmount: (value) =>
@@ -50,15 +51,15 @@ export const useFormRef = (formStore: FormValuesState, formRef?: FormRef) => {
   useImperativeHandle(formRef, () => {
     return {
       setFieldValue: (fieldName, value, options) => {
-        const santisedValue = (
-          santiseValue[fieldName] ? santiseValue[fieldName](value) : value
+        const santizedValue = (
+          santizeValue[fieldName] ? santizeValue[fieldName](value) : value
         ) as GenericFormValue;
 
-        const fieldValueOptions = options
-          ? { isTouched: options.setURLSearchParam }
+        const fieldValueOptions = options?.setUrlSearchParam
+          ? { isTouched: options?.setUrlSearchParam }
           : undefined;
 
-        formStore.setFieldValue(fieldName, santisedValue, fieldValueOptions);
+        formStore.setFieldValue(fieldName, santizedValue, fieldValueOptions);
       },
     };
   });

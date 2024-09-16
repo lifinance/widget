@@ -9,10 +9,6 @@ import type {
   Token,
 } from '@lifi/sdk';
 import type {
-  FormFieldNames,
-  GenericFormValue,
-} from '@lifi/widget/stores/form/types.js';
-import type {
   Components,
   PaletteMode,
   PaletteOptions,
@@ -238,25 +234,40 @@ export interface WidgetConfig {
     Partial<Record<'internal', string[]>>;
 }
 
-export type FormFieldValue = GenericFormValue | ToAddress;
-
 export interface FormFieldOptions {
-  setURLSearchParam: boolean;
+  setUrlSearchParam: boolean;
 }
 
-export type SetFieldValueFunc = (
-  fieldName: FormFieldNames,
-  value: FormFieldValue,
+export type FieldNames =
+  | 'fromChain'
+  | 'toChain'
+  | 'fromToken'
+  | 'toToken'
+  | 'fromAmount'
+  | 'toAddress';
+
+export type FieldValues = {
+  fromChain: number | undefined;
+  fromToken: string | undefined;
+  toChain: number | undefined;
+  toToken: string | undefined;
+  fromAmount: number | string | undefined;
+  toAddress: ToAddress | string | undefined;
+};
+
+export type SetFieldValueFunc = <K extends FieldNames>(
+  key: K,
+  value: FieldValues[K],
   options?: FormFieldOptions,
 ) => void;
 
-export type FormApiRefType =
+export type FormFunctions =
   | {
       setFieldValue: SetFieldValueFunc;
     }
   | undefined;
 
-export type FormRef = MutableRefObject<FormApiRefType>;
+export type FormRef = MutableRefObject<FormFunctions>;
 
 export interface FormRefProp {
   formRef?: FormRef;
