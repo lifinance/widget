@@ -68,7 +68,7 @@ const AddressLookUp: FormValuesLookUp = {
       chainType: ChainType.EVM,
     },
   },
-  '0x457...2CE07': {
+  '0x457...22CE0': {
     toAddress: {
       address: '0x4577a46A3eCf44E0ed44410B7793977ffbe22CE0',
       chainType: ChainType.EVM,

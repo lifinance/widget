@@ -1,6 +1,7 @@
 import type { PropsWithChildren } from 'react';
 import { useMemo, useRef } from 'react';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
 import { useSendToWalletStore } from '../../stores/settings/useSendToWalletStore.js';
 import type { FormApiRef, ToAddress } from '../../types/widget.js';
 import { HiddenUI } from '../../types/widget.js';
@@ -41,6 +42,7 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
 }) => {
   const widgetConfig = useWidgetConfig();
   const { setSendToWallet } = useSendToWalletStore();
+  const { setSelectedBookmark } = useBookmarkActions();
 
   const {
     fromChain,
@@ -127,12 +129,27 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
           (typeof value === 'number' ? value?.toPrecision() : value) ||
           formDefaultValues.fromAmount,
         toAddress: (value) => {
-          const address = hiddenToAddress
-            ? formDefaultValues.toAddress
-            : value || formDefaultValues.toAddress;
+          if (hiddenToAddress) {
+            return formDefaultValues.toAddress;
+          }
 
+          const isToAddressObj = typeof value !== 'string';
+
+          const address =
+            (isToAddressObj ? value?.address : value) ||
+            formDefaultValues.toAddress;
+
+          // sets the send to wallet button state to be open
+          // if there is an address to display
           if (address) {
             setSendToWallet(address);
+          }
+
+          // we can assume that the toAddress has been passed as ToAddress object
+          // and display it accordingly - this ensures that if a name is included
+          // that it is displayed in the Send To Wallet form field correctly
+          if (isToAddressObj) {
+            setSelectedBookmark(value);
           }
 
           return address;
@@ -141,13 +158,17 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
 
       formApiRef.current = {
         setFieldValue: (fieldName, value, options) => {
-          const santisedValue = santiseValue[fieldName]
-            ? santiseValue[fieldName](value)
-            : value;
+          const santisedValue = (
+            santiseValue[fieldName] ? santiseValue[fieldName](value) : value
+          ) as GenericFormValue;
+
+          const fieldValueOptions = options
+            ? { isTouched: options.setURLSearchParam }
+            : undefined;
 
           storeRef.current
             ?.getState()
-            .setFieldValue(fieldName, santisedValue, options);
+            .setFieldValue(fieldName, santisedValue, fieldValueOptions);
         },
       };
     }

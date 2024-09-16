@@ -65,19 +65,17 @@ interface ResetOptions {
   defaultValue?: GenericFormValue;
 }
 
-export type SetFieldValue = (
-  fieldName: FormFieldNames,
-  value: GenericFormValue,
-  options?: SetOptions,
-) => void;
-
 export interface FormActions {
   setDefaultValues: (formValues: DefaultValues) => void;
   setUserAndDefaultValues: (formValues: Partial<DefaultValues>) => void;
   isTouched: (fieldName: FormFieldNames) => boolean;
   setAsTouched: (fieldName: FormFieldNames) => void;
   resetField: (fieldName: FormFieldNames, resetOptions?: ResetOptions) => void;
-  setFieldValue: SetFieldValue;
+  setFieldValue: (
+    fieldName: FormFieldNames,
+    value: GenericFormValue,
+    options?: SetOptions,
+  ) => void;
   getFieldValues: <T extends FormFieldNames[]>(
     ...names: T
   ) => FormFieldArray<T>;

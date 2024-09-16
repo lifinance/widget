@@ -21,15 +21,15 @@ export const StoreProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
       }
     >
       <HeaderStoreProvider namePrefix={config?.keyPrefix}>
-        <FormStoreProvider formApiRef={formApiRef}>
-          <BookmarkStoreProvider namePrefix={config?.keyPrefix}>
+        <BookmarkStoreProvider namePrefix={config?.keyPrefix}>
+          <FormStoreProvider formApiRef={formApiRef}>
             <ChainOrderStoreProvider namePrefix={config?.keyPrefix}>
               <RouteExecutionStoreProvider namePrefix={config?.keyPrefix}>
                 {children}
               </RouteExecutionStoreProvider>
             </ChainOrderStoreProvider>
-          </BookmarkStoreProvider>
-        </FormStoreProvider>
+          </FormStoreProvider>
+        </BookmarkStoreProvider>
       </HeaderStoreProvider>
     </SplitSubvariantStoreProvider>
   );

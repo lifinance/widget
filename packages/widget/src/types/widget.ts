@@ -8,7 +8,10 @@ import type {
   StaticToken,
   Token,
 } from '@lifi/sdk';
-import type { SetFieldValue } from '@lifi/widget/stores/form/types.js';
+import type {
+  FormFieldNames,
+  GenericFormValue,
+} from '@lifi/widget/stores/form/types.js';
 import type {
   Components,
   PaletteMode,
@@ -235,9 +238,21 @@ export interface WidgetConfig {
     Partial<Record<'internal', string[]>>;
 }
 
+export type FormFieldValue = GenericFormValue | ToAddress;
+
+export interface FormFieldOptions {
+  setURLSearchParam: boolean;
+}
+
+export type SetFieldValueFunc = (
+  fieldName: FormFieldNames,
+  value: FormFieldValue,
+  options?: FormFieldOptions,
+) => void;
+
 export type FormApiRefType =
   | {
-      setFieldValue: SetFieldValue;
+      setFieldValue: SetFieldValueFunc;
     }
   | undefined;
 

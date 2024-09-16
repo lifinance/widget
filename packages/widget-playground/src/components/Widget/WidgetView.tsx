@@ -1,8 +1,7 @@
 import type {
   FormApiRefType,
   FormFieldNames,
-  GenericFormValue,
-  ToAddress,
+  FormFieldValue,
   WidgetDrawer,
 } from '@lifi/widget';
 import { LiFiWidget, WidgetSkeleton } from '@lifi/widget';
@@ -26,16 +25,11 @@ export function WidgetView() {
     if (formApiRef.current && formValues) {
       Object.entries(formValues).forEach(([fieldName, fieldValue]) => {
         if (fieldName !== 'formUpdateKey') {
-          const checkedValue =
-            fieldName === 'toAddress' && fieldValue
-              ? (fieldValue as ToAddress).address
-              : fieldValue;
-
           formApiRef.current?.setFieldValue(
             fieldName as FormFieldNames,
-            checkedValue as GenericFormValue,
+            fieldValue as FormFieldValue,
             {
-              isTouched: true,
+              setURLSearchParam: true,
             },
           );
         }
