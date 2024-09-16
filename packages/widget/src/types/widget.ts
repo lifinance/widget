@@ -255,7 +255,7 @@ export type FieldValues = {
   toAddress: ToAddress | string | undefined;
 };
 
-export type SetFieldValueFunc = <K extends FieldNames>(
+export type SetFieldValueFunction = <K extends FieldNames>(
   key: K,
   value: FieldValues[K],
   options?: FormFieldOptions,
@@ -263,17 +263,17 @@ export type SetFieldValueFunc = <K extends FieldNames>(
 
 export type FormFunctions =
   | {
-      setFieldValue: SetFieldValueFunc;
+      setFieldValue: SetFieldValueFunction;
     }
   | undefined;
 
 export type FormRef = MutableRefObject<FormFunctions>;
 
-export interface FormRefProp {
+export interface FormRefProps {
   formRef?: FormRef;
 }
 
-export interface WidgetConfigProps extends FormRefProp {
+export interface WidgetConfigProps extends FormRefProps {
   config: WidgetConfig;
 }
 
@@ -284,7 +284,7 @@ export interface WidgetConfigPartialProps {
 export type WidgetProps = WidgetDrawerProps &
   WidgetConfig &
   WidgetConfigPartialProps &
-  FormRefProp;
+  FormRefProps;
 
 export interface WidgetDrawerProps extends WidgetConfigPartialProps {
   elementRef?: RefObject<HTMLDivElement>;

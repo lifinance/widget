@@ -115,7 +115,7 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
     );
   }
 
-  useFormRef(storeRef.current.getState(), formRef);
+  useFormRef(storeRef.current, formRef);
 
   return (
     <FormStoreContext.Provider value={storeRef.current}>
