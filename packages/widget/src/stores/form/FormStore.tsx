@@ -1,18 +1,13 @@
 import type { PropsWithChildren } from 'react';
 import { useMemo, useRef } from 'react';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
-import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
-import { useSendToWalletStore } from '../../stores/settings/useSendToWalletStore.js';
-import type { FormApiRef, ToAddress } from '../../types/widget.js';
+import type { FormRef, ToAddress } from '../../types/widget.js';
 import { HiddenUI } from '../../types/widget.js';
 import { FormStoreContext } from './FormStoreContext.js';
 import { FormUpdater } from './FormUpdater.js';
 import { createFormStore, formDefaultValues } from './createFormStore.js';
-import type {
-  DefaultValues,
-  FormStoreStore,
-  GenericFormValue,
-} from './types.js';
+import type { DefaultValues, FormStoreStore } from './types.js';
+import { useFormRef } from './useFormRef.js';
 
 // decorates and initialise the form date for use in the form store
 const intialiseDefaultValues = (
@@ -33,16 +28,14 @@ const intialiseDefaultValues = (
 });
 
 interface FormStoreProviderProps extends PropsWithChildren {
-  formApiRef?: FormApiRef;
+  formRef?: FormRef;
 }
 
 export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
   children,
-  formApiRef,
+  formRef,
 }) => {
   const widgetConfig = useWidgetConfig();
-  const { setSendToWallet } = useSendToWalletStore();
-  const { setSelectedBookmark } = useBookmarkActions();
 
   const {
     fromChain,
@@ -120,59 +113,9 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
         hiddenToAddress,
       ),
     );
-
-    if (formApiRef) {
-      const santiseValue: {
-        [key: string]: (value: any) => GenericFormValue;
-      } = {
-        fromAmount: (value) =>
-          (typeof value === 'number' ? value?.toPrecision() : value) ||
-          formDefaultValues.fromAmount,
-        toAddress: (value) => {
-          if (hiddenToAddress) {
-            return formDefaultValues.toAddress;
-          }
-
-          const isToAddressObj = typeof value !== 'string';
-
-          const address =
-            (isToAddressObj ? value?.address : value) ||
-            formDefaultValues.toAddress;
-
-          // sets the send to wallet button state to be open
-          // if there is an address to display
-          if (address) {
-            setSendToWallet(address);
-          }
-
-          // we can assume that the toAddress has been passed as ToAddress object
-          // and display it accordingly - this ensures that if a name is included
-          // that it is displayed in the Send To Wallet form field correctly
-          if (isToAddressObj) {
-            setSelectedBookmark(value);
-          }
-
-          return address;
-        },
-      };
-
-      formApiRef.current = {
-        setFieldValue: (fieldName, value, options) => {
-          const santisedValue = (
-            santiseValue[fieldName] ? santiseValue[fieldName](value) : value
-          ) as GenericFormValue;
-
-          const fieldValueOptions = options
-            ? { isTouched: options.setURLSearchParam }
-            : undefined;
-
-          storeRef.current
-            ?.getState()
-            .setFieldValue(fieldName, santisedValue, fieldValueOptions);
-        },
-      };
-    }
   }
+
+  useFormRef(storeRef.current.getState(), formRef);
 
   return (
     <FormStoreContext.Provider value={storeRef.current}>

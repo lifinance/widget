@@ -256,13 +256,13 @@ export type FormApiRefType =
     }
   | undefined;
 
-export type FormApiRef = MutableRefObject<FormApiRefType>;
+export type FormRef = MutableRefObject<FormApiRefType>;
 
-export interface FormApiRefProp {
-  formApiRef?: FormApiRef;
+export interface FormRefProp {
+  formRef?: FormRef;
 }
 
-export interface WidgetConfigProps extends FormApiRefProp {
+export interface WidgetConfigProps extends FormRefProp {
   config: WidgetConfig;
 }
 
@@ -273,7 +273,7 @@ export interface WidgetConfigPartialProps {
 export type WidgetProps = WidgetDrawerProps &
   WidgetConfig &
   WidgetConfigPartialProps &
-  FormApiRefProp;
+  FormRefProp;
 
 export interface WidgetDrawerProps extends WidgetConfigPartialProps {
   elementRef?: RefObject<HTMLDivElement>;

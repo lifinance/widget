@@ -91,7 +91,7 @@ const AmountLookUp: FormValuesLookUp = {
     fromAmount: '1',
   },
   '0.5': {
-    fromAmount: '0.5',
+    fromAmount: 0.5,
   },
   RESET: {
     fromAmount: undefined,
@@ -167,7 +167,7 @@ export const FormValuesControl = () => {
         <Switch
           checked={formUpdateMethod === 'formApi'}
           onChange={() => setFormUpdateMethod('formApi')}
-          aria-label="Set form values using formApiRef"
+          aria-label="Set form values using formRef"
         />
       </ColorControlContainer>
       <CardRowContainer sx={{ paddingBottom: 1, paddingLeft: 1 }}>

@@ -7,7 +7,7 @@ import { AppProvider } from './AppProvider.js';
 import type { WidgetConfig, WidgetProps } from './types/widget.js';
 
 export const App = forwardRef<WidgetDrawer, WidgetProps>(
-  ({ elementRef, open, onClose, integrator, formApiRef, ...other }, ref) => {
+  ({ elementRef, open, onClose, integrator, formRef, ...other }, ref) => {
     const config: WidgetConfig = useMemo(() => {
       const config = { integrator, ...other, ...other.config };
       if (config.variant === 'drawer') {
@@ -24,7 +24,7 @@ export const App = forwardRef<WidgetDrawer, WidgetProps>(
 
     if (config.variant === 'drawer') {
       return (
-        <AppProvider config={config} formApiRef={formApiRef}>
+        <AppProvider config={config} formRef={formRef}>
           <AppDrawer
             ref={ref}
             elementRef={elementRef}
@@ -39,7 +39,7 @@ export const App = forwardRef<WidgetDrawer, WidgetProps>(
     }
 
     return (
-      <AppProvider config={config} formApiRef={formApiRef}>
+      <AppProvider config={config} formRef={formRef}>
         <AppDefault />
       </AppProvider>
     );

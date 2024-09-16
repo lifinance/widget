@@ -10,7 +10,7 @@ import { SplitSubvariantStoreProvider } from './settings/useSplitSubvariantStore
 export const StoreProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
   children,
   config,
-  formApiRef,
+  formRef,
 }) => {
   return (
     <SplitSubvariantStoreProvider
@@ -22,7 +22,7 @@ export const StoreProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
     >
       <HeaderStoreProvider namePrefix={config?.keyPrefix}>
         <BookmarkStoreProvider namePrefix={config?.keyPrefix}>
-          <FormStoreProvider formApiRef={formApiRef}>
+          <FormStoreProvider formRef={formRef}>
             <ChainOrderStoreProvider namePrefix={config?.keyPrefix}>
               <RouteExecutionStoreProvider namePrefix={config?.keyPrefix}>
                 {children}

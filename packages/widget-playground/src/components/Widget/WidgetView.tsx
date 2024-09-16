@@ -13,7 +13,7 @@ import { WidgetViewContainer } from './WidgetViewContainer';
 export function WidgetView() {
   const { config } = useConfig();
   const drawerRef = useRef<WidgetDrawer>(null);
-  const formApiRef = useRef<FormApiRefType>();
+  const formRef = useRef<FormApiRefType>();
   const { isSkeletonShown, isSkeletonSideBySide } = useSkeletonToolValues();
   const { formValues } = useFormValues();
 
@@ -22,10 +22,10 @@ export function WidgetView() {
   }, []);
 
   useEffect(() => {
-    if (formApiRef.current && formValues) {
+    if (formRef.current && formValues) {
       Object.entries(formValues).forEach(([fieldName, fieldValue]) => {
         if (fieldName !== 'formUpdateKey') {
-          formApiRef.current?.setFieldValue(
+          formRef.current?.setFieldValue(
             fieldName as FormFieldNames,
             fieldValue as FormFieldValue,
             {
@@ -35,7 +35,7 @@ export function WidgetView() {
         }
       });
     }
-  }, [formApiRef, formValues]);
+  }, [formRef, formValues]);
 
   return (
     <WidgetViewContainer toggleDrawer={toggleDrawer}>
@@ -44,7 +44,7 @@ export function WidgetView() {
           config={config}
           ref={drawerRef}
           integrator="li.fi-playground"
-          formApiRef={formApiRef}
+          formRef={formRef}
           open
         />
       ) : null}
