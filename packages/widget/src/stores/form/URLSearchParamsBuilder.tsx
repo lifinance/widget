@@ -52,7 +52,7 @@ export const URLSearchParamsBuilder = () => {
 
   // Using these methods as trying to use the touchedFields and values above
   // often has a lag that can effect the widgets initialisation sequence
-  // accidentally cause values to be wiped from the query string
+  // and accidentally cause values to be wiped from the query string
   const { getFieldValues, isTouched, setUserAndDefaultValues } =
     useFieldActions();
 

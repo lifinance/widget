@@ -221,8 +221,8 @@ export const createWidgetConfigStore = (
         setFormValues: (formValues) => {
           const config = get().config ?? {};
 
-          // we remove the updatable form values as we only want properties to pass
-          // updated values that are specified in the config (even if that a value of undefined)
+          // we remove the updatable form values as we only want pass properties with
+          // updated values. Only updated values should be specified in the config (even if that a value of undefined)
           [
             'fromAmount',
             'fromChain',
