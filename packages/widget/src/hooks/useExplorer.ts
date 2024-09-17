@@ -5,6 +5,17 @@ import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
 
 const sanitiseBaseUrl = (baseUrl: string) => baseUrl.trim().replace(/\/+$/, '');
 
+export type TransactionLinkProps = { chain?: Chain | number } & (
+  | {
+      txHash: string;
+      txLink?: never;
+    }
+  | {
+      txHash?: never;
+      txLink: string;
+    }
+);
+
 export const useExplorer = () => {
   const { explorerUrls } = useWidgetConfig();
   const { getChainById } = useAvailableChains();
@@ -20,14 +31,20 @@ export const useExplorer = () => {
   const resolveChain = (chain: Chain | number) =>
     Number.isFinite(chain) ? getChainById(chain as number) : (chain as Chain);
 
-  const getTransactionLink = (txHash: string, chain?: Chain | number) => {
+  const getTransactionLink = ({
+    txHash,
+    txLink,
+    chain,
+  }: TransactionLinkProps) => {
+    if (!txHash && txLink) {
+      return txLink;
+    }
     if (!chain) {
       const baseUrl = explorerUrls?.internal?.[0]
         ? sanitiseBaseUrl(explorerUrls?.internal[0])
         : lifiExplorerUrl;
       return `${baseUrl}/tx/${txHash}`;
     }
-
     const resolvedChain = resolveChain(chain);
     return `${resolvedChain ? getBaseUrl(resolvedChain) : lifiExplorerUrl}/tx/${txHash}`;
   };

@@ -30,11 +30,21 @@ export const StepProcess: React.FC<{
         >
           {title}
         </Typography>
-        {process.txHash ? (
+        {process.txHash || process.txLink ? (
           <CardIconButton
             size="small"
             LinkComponent={Link}
-            href={getTransactionLink(process.txHash, step.action.fromChainId)}
+            href={
+              process.txHash
+                ? getTransactionLink({
+                    txHash: process.txHash,
+                    chain: process.chainId,
+                  })
+                : getTransactionLink({
+                    txLink: process.txLink!,
+                    chain: process.chainId,
+                  })
+            }
             target="_blank"
             rel="nofollow noreferrer"
           >

@@ -25,7 +25,7 @@ export const TransferIdCard = ({ transferId }: TransferIdCardProps) => {
 
   const openTransferIdInExplorer = () => {
     const txHash = getTxHash(transferId);
-    window.open(getTransactionLink(txHash), '_blank');
+    window.open(getTransactionLink({ txHash }), '_blank');
   };
 
   return (
