@@ -19,6 +19,9 @@ export const useFormRef = (formStore: FormStoreStore, formRef?: FormRef) => {
       fromAmount: (value) =>
         (typeof value === 'number' ? value?.toPrecision() : value) ||
         formDefaultValues.fromAmount,
+      toAmount: (value) =>
+        (typeof value === 'number' ? value?.toPrecision() : value) ||
+        formDefaultValues.toAmount,
       toAddress: (value) => {
         if (hiddenUI?.includes(HiddenUI.ToAddress)) {
           return formDefaultValues.toAddress;

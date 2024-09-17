@@ -86,7 +86,7 @@ const AddressLookUp: FormValuesLookUp = {
   },
 };
 
-const AmountLookUp: FormValuesLookUp = {
+const fromAmountLookUp: FormValuesLookUp = {
   '1': {
     fromAmount: '1',
   },
@@ -95,6 +95,18 @@ const AmountLookUp: FormValuesLookUp = {
   },
   RESET: {
     fromAmount: undefined,
+  },
+};
+
+const toAmountLookUp: FormValuesLookUp = {
+  '1': {
+    toAmount: '1',
+  },
+  '0.5': {
+    toAmount: 0.5,
+  },
+  RESET: {
+    toAmount: undefined,
   },
 };
 
@@ -137,7 +149,15 @@ export const FormValuesControl = () => {
   };
 
   const handleFromAmountChange = (value: string) => {
-    const amountValue = AmountLookUp[value];
+    const amountValue = fromAmountLookUp[value];
+
+    if (amountValue) {
+      setFormValues(forceConfigUpdate(amountValue, formValues));
+    }
+  };
+
+  const handleToAmountChange = (value: string) => {
+    const amountValue = toAmountLookUp[value];
 
     if (amountValue) {
       setFormValues(forceConfigUpdate(amountValue, formValues));
@@ -184,14 +204,30 @@ export const FormValuesControl = () => {
           {key}
         </Button>
       ))}
+
       <CardRowContainer sx={{ paddingBottom: 1, paddingLeft: 1 }}>
-        Amount
+        From Amount
       </CardRowContainer>
-      {Object.keys(AmountLookUp).map((key) => (
+      {Object.keys(fromAmountLookUp).map((key) => (
         <Button
           key={key}
           variant="outlined"
           onClick={() => handleFromAmountChange(key)}
+          sx={{ marginBottom: 1 }}
+          fullWidth
+        >
+          {key}
+        </Button>
+      ))}
+
+      <CardRowContainer sx={{ paddingBottom: 1, paddingLeft: 1 }}>
+        To Amount
+      </CardRowContainer>
+      {Object.keys(toAmountLookUp).map((key) => (
+        <Button
+          key={key}
+          variant="outlined"
+          onClick={() => handleToAmountChange(key)}
           sx={{ marginBottom: 1 }}
           fullWidth
         >

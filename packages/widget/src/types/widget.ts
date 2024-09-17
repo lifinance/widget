@@ -31,6 +31,7 @@ import type {
   LanguageKey,
   LanguageResources,
 } from '../providers/I18nProvider/types.js';
+import type { DefaultFieldValues } from '../stores/form/types.js';
 
 export type WidgetVariant = 'compact' | 'wide' | 'drawer';
 export type WidgetSubvariant = 'default' | 'split' | 'custom' | 'refuel';
@@ -238,22 +239,14 @@ export interface FormFieldOptions {
   setUrlSearchParam: boolean;
 }
 
-export type FieldNames =
-  | 'fromChain'
-  | 'toChain'
-  | 'fromToken'
-  | 'toToken'
-  | 'fromAmount'
-  | 'toAddress';
+export interface FieldValues
+  extends Omit<DefaultFieldValues, 'fromAmount' | 'toAmount' | 'toAddress'> {
+  fromAmount?: number | string;
+  toAmount?: number | string;
+  toAddress?: ToAddress | string;
+}
 
-export type FieldValues = {
-  fromChain: number | undefined;
-  fromToken: string | undefined;
-  toChain: number | undefined;
-  toToken: string | undefined;
-  fromAmount: number | string | undefined;
-  toAddress: ToAddress | string | undefined;
-};
+export type FieldNames = keyof FieldValues;
 
 export type SetFieldValueFunction = <K extends FieldNames>(
   key: K,
@@ -261,11 +254,11 @@ export type SetFieldValueFunction = <K extends FieldNames>(
   options?: FormFieldOptions,
 ) => void;
 
-export type FormFunctions = {
+export type FormState = {
   setFieldValue: SetFieldValueFunction;
 };
 
-export type FormRef = MutableRefObject<FormFunctions | undefined>;
+export type FormRef = MutableRefObject<FormState | null>;
 
 export interface FormRefProps {
   formRef?: FormRef;

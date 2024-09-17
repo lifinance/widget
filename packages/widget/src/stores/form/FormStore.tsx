@@ -1,6 +1,7 @@
 import type { PropsWithChildren } from 'react';
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
 import type { FormRef, ToAddress } from '../../types/widget.js';
 import { HiddenUI } from '../../types/widget.js';
 import { FormStoreContext } from './FormStoreContext.js';
@@ -13,6 +14,7 @@ import { useFormRef } from './useFormRef.js';
 const intialiseDefaultValues = (
   defaultValues: Partial<DefaultValues>,
   fromAmount?: number | string,
+  toAmount?: number | string,
   toAddress?: ToAddress,
   hiddenToAddress?: boolean,
 ) => ({
@@ -21,6 +23,9 @@ const intialiseDefaultValues = (
   fromAmount:
     (typeof fromAmount === 'number' ? fromAmount?.toPrecision() : fromAmount) ||
     formDefaultValues.fromAmount,
+  toAmount:
+    (typeof toAmount === 'number' ? toAmount?.toPrecision() : toAmount) ||
+    formDefaultValues.toAmount,
   // Prevent setting address when the field is hidden
   toAddress: hiddenToAddress
     ? formDefaultValues.toAddress
@@ -40,9 +45,10 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
   const {
     fromChain,
     fromToken,
-    fromAmount,
     toChain,
     toToken,
+    fromAmount,
+    toAmount,
     toAddress,
     hiddenUI,
     formUpdateKey,
@@ -50,11 +56,20 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
 
   const storeRef = useRef<FormStoreStore>();
 
+  const { setSelectedBookmark } = useBookmarkActions();
+
+  useEffect(() => {
+    setSelectedBookmark(toAddress);
+    // formUpdateKey is a unique key used to force updates for the form field values
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [toAddress, formUpdateKey, setSelectedBookmark]);
+
   const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress);
 
   const configHasFromChain = widgetConfig.hasOwnProperty('fromChain');
   const configHasFromToken = widgetConfig.hasOwnProperty('fromToken');
   const configHasFromAmount = widgetConfig.hasOwnProperty('fromAmount');
+  const configHasToAmount = widgetConfig.hasOwnProperty('toAmount');
   const configHasToAddress = widgetConfig.hasOwnProperty('toAddress');
   const configHasToChain = widgetConfig.hasOwnProperty('toChain');
   const configHasToToken = widgetConfig.hasOwnProperty('toToken');
@@ -74,6 +89,14 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
                 : fromAmount) || formDefaultValues.fromAmount,
           }
         : undefined),
+      ...(configHasFromAmount
+        ? {
+            toAmount:
+              (typeof toAmount === 'number'
+                ? toAmount?.toPrecision()
+                : toAmount) || formDefaultValues.toAmount,
+          }
+        : undefined),
       ...(configHasToChain ? { toChain } : undefined),
       ...(configHasToToken ? { toToken } : undefined),
       ...(configHasToAddress
@@ -87,6 +110,7 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       fromAmount,
+      toAmount,
       fromChain,
       fromToken,
       hiddenToAddress,
@@ -98,6 +122,7 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
       configHasFromChain,
       configHasFromToken,
       configHasFromAmount,
+      configHasToAmount,
       configHasToAddress,
       configHasToChain,
       configHasToToken,
@@ -109,6 +134,7 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
       intialiseDefaultValues(
         reactiveFormValues,
         fromAmount,
+        toAmount,
         toAddress,
         hiddenToAddress,
       ),

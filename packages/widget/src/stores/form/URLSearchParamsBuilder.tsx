@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useSendToWalletStore } from '../../stores/settings/useSendToWalletStore.js';
+import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js';
 import { formatInputAmount } from '../../utils/format.js';
 import type { DefaultValues, FormFieldNames } from '../form/types.js';
 import { useFieldActions } from '../form/useFieldActions.js';
@@ -48,7 +48,7 @@ export const URLSearchParamsBuilder = () => {
   const { pathname } = useLocation();
   const touchedFields = useTouchedFields();
   const values = useFieldValues(...formValueKeys);
-  const { setSendToWallet } = useSendToWalletStore();
+  const { setSendToWallet } = useSendToWalletActions();
 
   // Using these methods as trying to use the touchedFields and values above
   // often has a lag that can effect the widgets initialisation sequence

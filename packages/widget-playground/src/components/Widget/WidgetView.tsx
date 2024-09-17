@@ -1,4 +1,4 @@
-import type { FieldNames, FormFunctions, WidgetDrawer } from '@lifi/widget';
+import type { FieldNames, FormState, WidgetDrawer } from '@lifi/widget';
 import { LiFiWidget, WidgetSkeleton } from '@lifi/widget';
 import { useCallback, useEffect, useRef } from 'react';
 import { useConfig, useSkeletonToolValues } from '../../store';
@@ -8,7 +8,7 @@ import { WidgetViewContainer } from './WidgetViewContainer';
 export function WidgetView() {
   const { config } = useConfig();
   const drawerRef = useRef<WidgetDrawer>(null);
-  const formRef = useRef<FormFunctions | undefined>();
+  const formRef = useRef<FormState>(null);
   const { isSkeletonShown, isSkeletonSideBySide } = useSkeletonToolValues();
   const { formValues } = useFormValues();
 

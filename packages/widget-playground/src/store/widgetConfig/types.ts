@@ -1,6 +1,6 @@
 import type {
   Appearance,
-  ToAddress,
+  FieldValues,
   WidgetConfig,
   WidgetSubvariant,
   WidgetTheme,
@@ -19,13 +19,7 @@ export interface WidgetConfigValues {
   widgetThemeItems: ThemeItem[];
 }
 
-export interface FormValues {
-  fromChain?: number;
-  fromToken?: string;
-  toChain?: number;
-  toToken?: string;
-  toAddress?: string | number | ToAddress;
-  fromAmount?: number | string;
+export interface FormValues extends FieldValues {
   formUpdateKey?: string;
 }
 

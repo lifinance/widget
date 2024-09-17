@@ -4,7 +4,7 @@ import { useAccount } from '../../hooks/useAccount.js';
 import { useChains } from '../../hooks/useChains.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { formDefaultValues } from '../../stores/form/createFormStore.js';
-import { useSendToWalletStore } from '../../stores/settings/useSendToWalletStore.js';
+import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js';
 import type { DefaultValues } from './types.js';
 import { useFieldActions } from './useFieldActions.js';
 
@@ -14,7 +14,7 @@ export const FormUpdater: React.FC<{
   const { fromChain, toChain } = useWidgetConfig();
   const { account } = useAccount();
   const { chains } = useChains();
-  const { setSendToWallet } = useSendToWalletStore();
+  const { setSendToWallet } = useSendToWalletActions();
 
   const {
     isTouched,

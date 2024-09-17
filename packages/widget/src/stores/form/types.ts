@@ -2,15 +2,18 @@ import type { ContractCall } from '@lifi/sdk';
 import type { StoreApi } from 'zustand';
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
 
-export interface DefaultValues {
-  contractCalls?: ContractCall[];
-  fromAmount: string;
+export interface DefaultFieldValues {
   fromChain?: number;
   fromToken?: string;
-  toAddress?: string;
-  toAmount: string;
   toChain?: number;
   toToken?: string;
+  toAddress?: string;
+  fromAmount: string;
+  toAmount: string;
+}
+
+export interface DefaultValues extends DefaultFieldValues {
+  contractCalls?: ContractCall[];
   tokenSearchFilter: string;
 }
 

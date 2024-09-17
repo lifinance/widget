@@ -7,7 +7,10 @@ import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.j
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
 import { useFieldActions } from '../../stores/form/useFieldActions.js';
 import { useFieldValues } from '../../stores/form/useFieldValues.js';
-import { useSendToWalletStore } from '../../stores/settings/useSendToWalletStore.js';
+import {
+  useSendToWalletActions,
+  useSendToWalletStore,
+} from '../../stores/settings/useSendToWalletStore.js';
 import { WidgetEvent } from '../../types/events.js';
 import { DisabledUI, HiddenUI } from '../../types/widget.js';
 
@@ -17,7 +20,8 @@ export const SendToWalletExpandButton: React.FC = () => {
   const { setFieldValue } = useFieldActions();
   const { setSelectedBookmark } = useBookmarkActions();
   const emitter = useWidgetEvents();
-  const { showSendToWallet, setSendToWallet } = useSendToWalletStore();
+  const { showSendToWallet } = useSendToWalletStore();
+  const { setSendToWallet } = useSendToWalletActions();
   const [toAddressFieldValue] = useFieldValues('toAddress');
   const { requiredToAddress } = useToAddressRequirements();
 
