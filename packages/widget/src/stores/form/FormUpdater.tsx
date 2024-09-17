@@ -59,10 +59,11 @@ export const FormUpdater: React.FC<{
   // Makes widget config options reactive to changes
   // should update userValues when defaultValues updates and includes additional logic for chains
   useEffect(() => {
-    if (toAddress) {
-      setSelectedBookmark(toAddress);
+    if (reactiveFormValues.toAddress) {
       setSendToWallet(true);
     }
+
+    setSelectedBookmark(toAddress);
 
     setUserAndDefaultValues(
       accountForChainId(reactiveFormValues, account.chainId),
