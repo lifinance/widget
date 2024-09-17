@@ -1,7 +1,6 @@
 import type { PropsWithChildren } from 'react';
-import { useEffect, useMemo, useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
-import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
 import type { FormRef, ToAddress } from '../../types/widget.js';
 import { HiddenUI } from '../../types/widget.js';
 import { FormStoreContext } from './FormStoreContext.js';
@@ -55,14 +54,6 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
   } = widgetConfig;
 
   const storeRef = useRef<FormStoreStore>();
-
-  const { setSelectedBookmark } = useBookmarkActions();
-
-  useEffect(() => {
-    setSelectedBookmark(toAddress);
-    // formUpdateKey is a unique key used to force updates for the form field values
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [toAddress, formUpdateKey, setSelectedBookmark]);
 
   const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress);
 

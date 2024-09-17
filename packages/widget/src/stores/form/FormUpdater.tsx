@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useAccount } from '../../hooks/useAccount.js';
 import { useChains } from '../../hooks/useChains.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
 import { formDefaultValues } from '../../stores/form/createFormStore.js';
 import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js';
 import type { DefaultValues } from './types.js';
@@ -11,10 +12,11 @@ import { useFieldActions } from './useFieldActions.js';
 export const FormUpdater: React.FC<{
   reactiveFormValues: Partial<DefaultValues>;
 }> = ({ reactiveFormValues }) => {
-  const { fromChain, toChain } = useWidgetConfig();
+  const { fromChain, toChain, toAddress } = useWidgetConfig();
   const { account } = useAccount();
   const { chains } = useChains();
   const { setSendToWallet } = useSendToWalletActions();
+  const { setSelectedBookmark } = useBookmarkActions();
 
   const {
     isTouched,
@@ -57,8 +59,8 @@ export const FormUpdater: React.FC<{
   // Makes widget config options reactive to changes
   // should update userValues when defaultValues updates and includes additional logic for chains
   useEffect(() => {
-    // set values from config
-    if (reactiveFormValues.toAddress) {
+    if (toAddress) {
+      setSelectedBookmark(toAddress);
       setSendToWallet(true);
     }
 
@@ -67,12 +69,14 @@ export const FormUpdater: React.FC<{
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
+    toAddress,
     reactiveFormValues,
     getFieldValues,
     resetField,
     setFieldValue,
     setUserAndDefaultValues,
     setSendToWallet,
+    setSelectedBookmark,
   ]);
 
   return null;
