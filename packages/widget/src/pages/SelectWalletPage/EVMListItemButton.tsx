@@ -1,3 +1,4 @@
+import type { Chain } from '@lifi/sdk';
 import { ChainType } from '@lifi/sdk';
 import type { CreateConnectorFnExtended } from '@lifi/wallet-management';
 import {
@@ -16,11 +17,13 @@ import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
 import { WidgetEvent } from '../../types/events.js';
 
 interface EVMListItemButtonProps {
+  chain?: Chain;
   connector: CreateConnectorFnExtended | Connector;
   onNotInstalled(connector: Connector): void;
 }
 
 export const EVMListItemButton = ({
+  chain,
   connector,
   onNotInstalled,
 }: EVMListItemButtonProps) => {
@@ -52,13 +55,15 @@ export const EVMListItemButton = ({
   };
 
   const connectorName: string =
-    (connector as CreateConnectorFnExtended).displayName || connector.name;
+    chain?.name ||
+    (connector as CreateConnectorFnExtended).displayName ||
+    connector.name;
 
   return (
     <ListItemButton key={connector.id} onClick={handleEVMConnect}>
       <ListItemAvatar>
         <Avatar
-          src={getConnectorIcon(connector as Connector)}
+          src={chain?.logoURI || getConnectorIcon(connector as Connector)}
           alt={connectorName}
         >
           {connectorName?.[0]}

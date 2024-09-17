@@ -1,6 +1,7 @@
+import type { Chain } from '@lifi/sdk';
 import { ChainId, ChainType } from '@lifi/sdk';
 import { Avatar, ListItemAvatar } from '@mui/material';
-import type { Wallet } from '@solana/wallet-adapter-react';
+import type { WalletAdapter } from '@solana/wallet-adapter-base';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { ListItemButton } from '../../components/ListItemButton.js';
 import { ListItemText } from '../../components/ListItemText.js';
@@ -10,10 +11,14 @@ import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
 import { WidgetEvent } from '../../types/events.js';
 
 interface SVMListItemButtonProps {
-  wallet: Wallet;
+  chain?: Chain;
+  walletAdapter: WalletAdapter;
 }
 
-export const SVMListItemButton = ({ wallet }: SVMListItemButtonProps) => {
+export const SVMListItemButton = ({
+  chain,
+  walletAdapter,
+}: SVMListItemButtonProps) => {
   const { navigateBack } = useNavigateBack();
   const emitter = useWidgetEvents();
   const { select, disconnect, connected } = useWallet();
@@ -23,11 +28,11 @@ export const SVMListItemButton = ({ wallet }: SVMListItemButtonProps) => {
     if (connected) {
       await disconnect();
     }
-    select(wallet.adapter.name);
+    select(walletAdapter.name);
     // We use autoConnect on wallet selection
     // await solanaConnect();
-    wallet.adapter.once('connect', (publicKey) => {
-      setLastConnectedAccount(wallet.adapter);
+    walletAdapter.once('connect', (publicKey) => {
+      setLastConnectedAccount(walletAdapter);
       emitter.emit(WidgetEvent.WalletConnected, {
         address: publicKey?.toString(),
         chainId: ChainId.SOL,
@@ -37,14 +42,16 @@ export const SVMListItemButton = ({ wallet }: SVMListItemButtonProps) => {
     navigateBack();
   };
 
+  const connectorName: string = chain?.name || walletAdapter.name;
+
   return (
-    <ListItemButton key={wallet.adapter.name} onClick={connect}>
+    <ListItemButton key={connectorName} onClick={connect}>
       <ListItemAvatar>
-        <Avatar src={wallet.adapter.icon} alt={wallet.adapter.name}>
-          {wallet.adapter.name[0]}
+        <Avatar src={chain?.logoURI || walletAdapter.icon} alt={connectorName}>
+          {connectorName[0]}
         </Avatar>
       </ListItemAvatar>
-      <ListItemText primary={`${wallet.adapter.name} (Solana)`} />
+      <ListItemText primary={connectorName} />
     </ListItemButton>
   );
 };

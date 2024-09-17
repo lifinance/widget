@@ -128,7 +128,10 @@ export function unisat(parameters: UTXOConnectorParameters = {}) {
 
         // Remove disconnected shim if it exists
         if (shimDisconnect) {
-          await config.storage?.removeItem(`${this.id}.disconnected`);
+          await Promise.all([
+            config.storage?.setItem(`${this.id}.connected`, true),
+            config.storage?.removeItem(`${this.id}.disconnected`),
+          ]);
         }
         return { accounts, chainId };
       } catch (error: any) {
@@ -148,7 +151,10 @@ export function unisat(parameters: UTXOConnectorParameters = {}) {
 
       // Add shim signalling connector is disconnected
       if (shimDisconnect) {
-        await config.storage?.setItem(`${this.id}.disconnected`, true);
+        await Promise.all([
+          config.storage?.setItem(`${this.id}.disconnected`, true),
+          config.storage?.removeItem(`${this.id}.connected`),
+        ]);
       }
     },
     async getAccounts() {
