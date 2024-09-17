@@ -261,13 +261,11 @@ export type SetFieldValueFunction = <K extends FieldNames>(
   options?: FormFieldOptions,
 ) => void;
 
-export type FormFunctions =
-  | {
-      setFieldValue: SetFieldValueFunction;
-    }
-  | undefined;
+export type FormFunctions = {
+  setFieldValue: SetFieldValueFunction;
+};
 
-export type FormRef = MutableRefObject<FormFunctions>;
+export type FormRef = MutableRefObject<FormFunctions | undefined>;
 
 export interface FormRefProps {
   formRef?: FormRef;

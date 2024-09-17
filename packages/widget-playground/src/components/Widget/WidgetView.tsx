@@ -8,7 +8,7 @@ import { WidgetViewContainer } from './WidgetViewContainer';
 export function WidgetView() {
   const { config } = useConfig();
   const drawerRef = useRef<WidgetDrawer>(null);
-  const formRef = useRef<FormFunctions>();
+  const formRef = useRef<FormFunctions | undefined>();
   const { isSkeletonShown, isSkeletonSideBySide } = useSkeletonToolValues();
   const { formValues } = useFormValues();
 
