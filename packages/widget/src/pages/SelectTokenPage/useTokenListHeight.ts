@@ -2,7 +2,12 @@ import { useTheme } from '@mui/material';
 import type { MutableRefObject } from 'react';
 import { useLayoutEffect, useState } from 'react';
 import { useDefaultElementId } from '../../hooks/useDefaultElementId.js';
-import { ElementId, createElementId } from '../../utils/elements.js';
+import {
+  ElementId,
+  getAppContainer,
+  getHeaderElement,
+  getScrollableContainer,
+} from '../../utils/elements.js';
 
 const debounce = (func: Function, timeout = 300) => {
   let timer: ReturnType<typeof setTimeout>;
@@ -18,13 +23,9 @@ const getContentHeight = (
   elementId: string,
   listParentRef: MutableRefObject<HTMLUListElement | null>,
 ) => {
-  const containerElement = document.getElementById(
-    createElementId(ElementId.ScrollableContainer, elementId),
-  );
+  const containerElement = getScrollableContainer(elementId);
 
-  const headerElement = document.getElementById(
-    createElementId(ElementId.Header, elementId),
-  );
+  const headerElement = getHeaderElement(elementId);
 
   const listParentElement = listParentRef?.current;
 
@@ -81,9 +82,7 @@ export const useTokenListHeight = ({
     // calling this on initial mount prevents the lists resizing appearing glitchy
     handleResize();
 
-    const appContainer = document.getElementById(
-      createElementId(ElementId.AppExpandedContainer, elementId),
-    );
+    const appContainer = getAppContainer(elementId);
 
     let resizeObserver: ResizeObserver;
     if (appContainer) {
