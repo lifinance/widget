@@ -49,7 +49,7 @@
     "@lifi/sdk": "^3.2.3",
     "@solana/wallet-adapter-base": "^0.9.23",
     "react": "^18.3.1",
-    "viem": "^2.21.8",
+    "viem": "^2.21.9",
     "wagmi": "^2.12.12"
   },
   "devDependencies": {
