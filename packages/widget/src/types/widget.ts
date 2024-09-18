@@ -22,11 +22,18 @@ import type {
   MetaMaskParameters,
   WalletConnectParameters,
 } from '@wagmi/connectors';
-import type { CSSProperties, FC, ReactNode, RefObject } from 'react';
+import type {
+  CSSProperties,
+  FC,
+  MutableRefObject,
+  ReactNode,
+  RefObject,
+} from 'react';
 import type {
   LanguageKey,
   LanguageResources,
 } from '../providers/I18nProvider/types.js';
+import type { DefaultFieldValues } from '../stores/form/types.js';
 
 export type WidgetVariant = 'compact' | 'wide' | 'drawer';
 export type WidgetSubvariant = 'default' | 'split' | 'custom' | 'refuel';
@@ -187,6 +194,7 @@ export interface WidgetConfig {
   toAddresses?: ToAddress[];
   fromAmount?: number | string;
   toAmount?: number | string;
+  formUpdateKey?: string;
 
   contractCalls?: ContractCall[];
   contractComponent?: ReactNode;
@@ -233,7 +241,36 @@ export interface WidgetConfig {
     Partial<Record<'internal', string[]>>;
 }
 
-export interface WidgetConfigProps {
+export interface FormFieldOptions {
+  setUrlSearchParam: boolean;
+}
+
+export interface FieldValues
+  extends Omit<DefaultFieldValues, 'fromAmount' | 'toAmount' | 'toAddress'> {
+  fromAmount?: number | string;
+  toAmount?: number | string;
+  toAddress?: ToAddress | string;
+}
+
+export type FieldNames = keyof FieldValues;
+
+export type SetFieldValueFunction = <K extends FieldNames>(
+  key: K,
+  value: FieldValues[K],
+  options?: FormFieldOptions,
+) => void;
+
+export type FormState = {
+  setFieldValue: SetFieldValueFunction;
+};
+
+export type FormRef = MutableRefObject<FormState | null>;
+
+export interface FormRefProps {
+  formRef?: FormRef;
+}
+
+export interface WidgetConfigProps extends FormRefProps {
   config: WidgetConfig;
 }
 
@@ -243,7 +280,8 @@ export interface WidgetConfigPartialProps {
 
 export type WidgetProps = WidgetDrawerProps &
   WidgetConfig &
-  WidgetConfigPartialProps;
+  WidgetConfigPartialProps &
+  FormRefProps;
 
 export interface WidgetDrawerProps extends WidgetConfigPartialProps {
   elementRef?: RefObject<HTMLDivElement>;

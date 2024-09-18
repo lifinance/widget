@@ -2,6 +2,7 @@ import type { WidgetTheme } from '@lifi/widget';
 import type { StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { createWithEqualityFn } from 'zustand/traditional';
+import type { FormValues } from '../widgetConfig/types';
 import { defaultDrawerWidth } from './constants';
 import type { ToolsState } from './types';
 
@@ -9,6 +10,7 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
   createWithEqualityFn<ToolsState>(
     persist(
       (set, get) => ({
+        formValues: undefined,
         drawer: {
           open: true,
           visibleControls: 'design',
@@ -149,6 +151,11 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
         setIsDevView: (isDevView) => {
           set({
             isDevView,
+          });
+        },
+        setFormValues: (formValues: FormValues) => {
+          set({
+            formValues,
           });
         },
       }),
