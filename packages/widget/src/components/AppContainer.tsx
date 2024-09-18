@@ -6,6 +6,14 @@ import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
 import type { WidgetVariant } from '../types/widget.js';
 import { ElementId, createElementId } from '../utils/elements.js';
 
+// NOTE: the setting of the height in AppExpandedContainer, RelativeContainer and CssBaselineContainer has a
+//  dynamic element as it can be specified by values in the config - namely the config.theme.container values display, maxHeight and height
+//  A Number of other components and hooks work with height that is sometimes set on or derived from these elements
+//  if there are changes to how the height works here you should also check the functionality of these hooks and there point of use
+//    - useTokenListHeight
+//    - useSetContentHeight
+//  Also consider checking any code that is using the methods from elements.ts utils file
+
 export const AppExpandedContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'variant',
 })<{ variant?: WidgetVariant }>(({ theme, variant }) => ({

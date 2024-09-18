@@ -9,6 +9,10 @@ export enum ElementId {
 export const createElementId = (ElementId: ElementId, elementId: string) =>
   elementId ? `${ElementId}-${elementId}` : ElementId;
 
+// NOTE: The getter functions here are often used with code that can have implications for css in the
+//   AppContainer.ts files AppExpandedContainer, RelativeContainer and CssBaselineContainer components
+//   CSS changes in those components could for these functions point for use
+
 export const getAppContainer = (elementId: string) =>
   document.getElementById(
     createElementId(ElementId.AppExpandedContainer, elementId),
