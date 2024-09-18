@@ -43,12 +43,6 @@ export const Container = styled(Box, {
   };
 });
 
-export const ContainerPlaceholder = styled(Box)(({ theme }) => {
-  return {
-    ...(theme.header?.position === 'fixed' ? {} : { display: 'none' }),
-  };
-});
-
 export const WalletButton = styled(Button, {
   shouldForwardProp: (prop) => prop !== 'subvariant',
 })<{ subvariant?: WidgetSubvariant }>(({ subvariant, theme }) => ({
