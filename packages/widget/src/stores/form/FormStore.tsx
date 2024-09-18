@@ -10,7 +10,7 @@ import type { DefaultValues, FormStoreStore } from './types.js';
 import { useFormRef } from './useFormRef.js';
 
 // decorates and initialise the form date for use in the form store
-const intialiseDefaultValues = (
+const initialiseDefaultValues = (
   defaultValues: Partial<DefaultValues>,
   fromAmount?: number | string,
   toAmount?: number | string,
@@ -122,7 +122,7 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
 
   if (!storeRef.current) {
     storeRef.current = createFormStore(
-      intialiseDefaultValues(
+      initialiseDefaultValues(
         reactiveFormValues,
         fromAmount,
         toAmount,
