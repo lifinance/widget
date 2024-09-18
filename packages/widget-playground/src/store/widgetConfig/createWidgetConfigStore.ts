@@ -218,6 +218,29 @@ export const createWidgetConfigStore = (
             },
           });
         },
+        setFormValues: (formValues) => {
+          const config = get().config ?? {};
+
+          // we remove the updatable form values as we only want pass properties with
+          // updated values. Only updated values should be specified in the config (even if that a value of undefined)
+          [
+            'fromAmount',
+            'fromChain',
+            'fromToken',
+            'toAddress',
+            'toChain',
+            'toToken',
+          ].forEach((key) => {
+            delete config[key as keyof WidgetConfig];
+          });
+
+          set({
+            config: {
+              ...get().config,
+              ...(formValues as Partial<WidgetConfig>),
+            },
+          });
+        },
       }),
       {
         name: 'li.fi-playground-config',

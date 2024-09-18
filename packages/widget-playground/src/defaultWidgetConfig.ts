@@ -9,7 +9,7 @@ export const widgetBaseConfig: WidgetConfig = {
   // fromAmount: '20',
   // toAddress: {
   //   name: 'Jenny',
-  //   address: '0xAB3Afc314e75dC1648A2E31c06861A07a048C050',
+  //   address: '0xb9c0dE368BECE5e76B52545a8E377a4C118f597B',
   //   chainType: ChainType.EVM,
   // },
   // toAddresses: [
@@ -34,7 +34,7 @@ export const widgetBaseConfig: WidgetConfig = {
   // fee: 0.01,
   // useRecommendedRoute: true,
   buildUrl: true,
-  // hiddenUI: ['poweredBy', 'language', 'appearance', 'drawerButton'],
+  // hiddenUI: ['poweredBy', 'language', 'appearance', 'drawerButton', 'toAddress'],
   // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
   // requiredUI: ['toAddress'],
   // slippage: 0.003,

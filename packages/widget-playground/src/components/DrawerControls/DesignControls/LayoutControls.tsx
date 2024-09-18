@@ -258,7 +258,7 @@ export const LayoutControls = () => {
         </Select>
       </ControlRowContainer>
       {layoutsWithHeightControls.includes(selectedLayoutId) ? (
-        <CardRowContainer>
+        <CardRowContainer sx={{ padding: 0 }}>
           <CardRowColumn>
             <label htmlFor={inputId}>{inputLabel[selectedLayoutId]}</label>
             {(heightValue && heightValue < defaultMaxHeight) || !heightValue ? (

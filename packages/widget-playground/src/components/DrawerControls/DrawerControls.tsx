@@ -27,6 +27,7 @@ import {
   VariantControl,
   WalletManagementControl,
 } from './DesignControls';
+import { FormValuesControl } from './DesignControls/FormValuesControls';
 import {
   Drawer,
   DrawerContentContainer,
@@ -122,6 +123,7 @@ export const DrawerControls = () => {
                   <FontsControl />
                   <CardRadiusControl />
                   <ButtonRadiusControl />
+                  <FormValuesControl />
                   <WalletManagementControl />
                   <SkeletonControl />
                   <LayoutControls />

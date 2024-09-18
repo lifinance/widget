@@ -21,6 +21,7 @@ export const useConfigActions = () => {
       getCurrentConfigTheme: state.getCurrentConfigTheme,
       setHeader: state.setHeader,
       setContainer: state.setContainer,
+      setFormValues: state.setFormValues,
     }),
     shallow,
   );

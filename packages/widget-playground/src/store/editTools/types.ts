@@ -2,6 +2,7 @@ import type { WidgetTheme } from '@lifi/widget';
 import type { StoreApi } from 'zustand';
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
 import type { Font } from '../../providers';
+import type { FormValues } from '../widgetConfig/types';
 
 type ControlType = 'design' | 'code';
 type CodeControlTab = 'config' | 'examples';
@@ -60,6 +61,7 @@ export interface EditToolsValues {
     selectedLayoutId: Layout;
   };
   isDevView: boolean;
+  formValues?: Partial<FormValues>;
 }
 
 export interface EditToolsActions {
@@ -77,6 +79,7 @@ export interface EditToolsActions {
   setFixedFooter: (isFixed: boolean) => void;
   setSelectedLayoutId: (layoutId: Layout) => void;
   setIsDevView: (isDevView: boolean) => void;
+  setFormValues: (formValues: FormValues) => void;
 }
 
 export type ToolsState = EditToolsValues & EditToolsActions;

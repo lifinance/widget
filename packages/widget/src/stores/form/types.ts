@@ -2,15 +2,18 @@ import type { ContractCall } from '@lifi/sdk';
 import type { StoreApi } from 'zustand';
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional';
 
-export interface DefaultValues {
-  contractCalls?: ContractCall[];
-  fromAmount: string;
+export interface DefaultFieldValues {
   fromChain?: number;
   fromToken?: string;
-  toAddress?: string;
-  toAmount: string;
   toChain?: number;
   toToken?: string;
+  toAddress?: string;
+  fromAmount: string;
+  toAmount: string;
+}
+
+export interface DefaultValues extends DefaultFieldValues {
+  contractCalls?: ContractCall[];
   tokenSearchFilter: string;
 }
 
@@ -67,6 +70,7 @@ interface ResetOptions {
 
 export interface FormActions {
   setDefaultValues: (formValues: DefaultValues) => void;
+  setUserAndDefaultValues: (formValues: Partial<DefaultValues>) => void;
   isTouched: (fieldName: FormFieldNames) => boolean;
   setAsTouched: (fieldName: FormFieldNames) => void;
   resetField: (fieldName: FormFieldNames, resetOptions?: ResetOptions) => void;
@@ -89,7 +93,7 @@ export type FormStoreStore = UseBoundStoreWithEqualityFn<
   StoreApi<FormValuesState>
 >;
 
-interface SetOptions {
+export interface SetOptions {
   isDirty?: boolean;
   isTouched?: boolean;
 }

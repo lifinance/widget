@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.6.0](https://github.com/lifinance/widget/compare/v3.5.3...v3.6.0) (2024-09-18)
+
+
+### Features
+
+* add voluntary contribution component ([#301](https://github.com/lifinance/widget/issues/301)) ([d0453a7](https://github.com/lifinance/widget/commit/d0453a76b1a429580adafed5e6289bda10c49f8d))
+
+
+### Bug Fixes
+
+* factor external wallet management into header height calculations ([#300](https://github.com/lifinance/widget/issues/300)) ([b31aaa7](https://github.com/lifinance/widget/commit/b31aaa717fe2a49747b159c2d07b78f6099003df))
+* reactive chain and token properties from config ([#294](https://github.com/lifinance/widget/issues/294)) ([1ff7cfc](https://github.com/lifinance/widget/commit/1ff7cfcc99569c52f05d29a9929f1be06ff53170))
+* use process tx link if no tx hash is available ([#299](https://github.com/lifinance/widget/issues/299)) ([8c59d31](https://github.com/lifinance/widget/commit/8c59d313defdeea4a59df6f06ef40edd5e36c329))
+
+### [3.5.3](https://github.com/lifinance/widget/compare/v3.5.2...v3.5.3) (2024-09-12)
+
 ### [3.5.2](https://github.com/lifinance/widget/compare/v3.5.1...v3.5.2) (2024-09-11)
 
 

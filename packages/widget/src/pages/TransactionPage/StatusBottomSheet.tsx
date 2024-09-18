@@ -85,6 +85,7 @@ export const StatusBottomSheetContent: React.FC<
     subvariantOptions,
     contractSecondaryComponent,
     contractCompactComponent,
+    feeConfig,
   } = useWidgetConfig();
   const { getChainById } = useAvailableChains();
 
@@ -251,6 +252,9 @@ export const StatusBottomSheetContent: React.FC<
     hasEnumFlag(status, RouteExecutionStatus.Done) &&
     (contractCompactComponent || contractSecondaryComponent);
 
+  const VcComponent =
+    status === RouteExecutionStatus.Done ? feeConfig?._vcComponent : undefined;
+
   return (
     <Box p={3} ref={ref}>
       {!showContractComponent ? (
@@ -296,6 +300,7 @@ export const StatusBottomSheetContent: React.FC<
       {secondaryMessage ? (
         <Typography py={1}>{secondaryMessage}</Typography>
       ) : null}
+      {VcComponent ? <VcComponent route={route} /> : null}
       <Box mt={2}>
         <Button variant="contained" fullWidth onClick={handlePrimaryButton}>
           {status === RouteExecutionStatus.Idle ? t('button.ok') : null}
