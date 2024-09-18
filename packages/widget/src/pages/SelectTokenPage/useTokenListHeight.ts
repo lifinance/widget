@@ -64,9 +64,9 @@ interface UseContentHeightProps {
 export const minTokenListHeight = 360;
 export const minMobileTokenListHeight = 160;
 
-// NOTE: this hook is implicitly tied to the widgets height functionality in the
-//   AppExpandedContainer, RelativeContainer and CssBaselineContainer components defined AppContainer.ts
-//   CSS changes in those components could have implications for the functionality in this hook
+// NOTE: this hook is implicitly tied to the widget height functionality in the
+//   AppExpandedContainer, RelativeContainer and CssBaselineContainer components as defined in AppContainer.ts
+//   CSS changes in those components can have implications for the functionality in this hook
 
 export const useTokenListHeight = ({
   listParentRef,
