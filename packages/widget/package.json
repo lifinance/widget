@@ -69,7 +69,7 @@
     "react-intersection-observer": "^9.13.1",
     "react-router-dom": "^6.26.2",
     "uuid": "^10.0.0",
-    "viem": "^2.21.8",
+    "viem": "^2.21.9",
     "wagmi": "^2.12.12",
     "zustand": "^4.5.5"
   },

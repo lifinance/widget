@@ -75,6 +75,9 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
       parseFloat(feeCollectionStep.action.fromToken.priceUSD);
   }
 
+  const showIntegratorFeeCollectionDetails =
+    feeAmountUSD || Number.isFinite(feeConfig?.fee);
+
   return (
     <Card selectionColor="secondary" {...props}>
       <Box display="flex" alignItems="center" px={2} py={1.75}>
@@ -138,7 +141,7 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
               </FeeBreakdownTooltip>
             </Box>
           ) : null}
-          {feeAmountUSD ? (
+          {showIntegratorFeeCollectionDetails ? (
             <Box display="flex" justifyContent="space-between" mb={0.5}>
               <Typography variant="body2">
                 {feeConfig?.name

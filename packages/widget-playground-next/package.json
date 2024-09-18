@@ -31,10 +31,10 @@
     "core-js": "^3.38.1",
     "lodash.isequal": "^4.5.0",
     "microdiff": "^1.4.0",
-    "next": "14.2.11",
+    "next": "14.2.12",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "viem": "^2.21.8",
+    "viem": "^2.21.9",
     "wagmi": "^2.12.12",
     "zustand": "^4.5.5"
   },
@@ -43,7 +43,7 @@
     "@types/react": "^18.3.7",
     "@types/react-dom": "^18.3.0",
     "eslint": "^8.57.1",
-    "eslint-config-next": "14.2.11",
+    "eslint-config-next": "14.2.12",
     "typescript": "^5.6.2"
   },
   "private": true
