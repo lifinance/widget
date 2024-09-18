@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.6.1](https://github.com/lifinance/widget/compare/v3.6.0...v3.6.1) (2024-09-18)
+
+
+### Bug Fixes
+
+* trim amount input ([66eed73](https://github.com/lifinance/widget/commit/66eed7386826e7cf0c249ebd2fdc1930ab550f6c))
+
 ## [3.6.0](https://github.com/lifinance/widget/compare/v3.5.3...v3.6.0) (2024-09-18)
 
 
