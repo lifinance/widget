@@ -11,6 +11,7 @@ export const useFieldActions = () => {
       setAsTouched: store.setAsTouched,
       setDefaultValues: store.setDefaultValues,
       setFieldValue: store.setFieldValue,
+      setUserAndDefaultValues: store.setUserAndDefaultValues,
     }),
     shallow,
   );

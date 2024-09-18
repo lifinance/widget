@@ -1,5 +1,6 @@
 import type {
   Appearance,
+  FieldValues,
   WidgetConfig,
   WidgetSubvariant,
   WidgetTheme,
@@ -16,6 +17,10 @@ export interface WidgetConfigValues {
   config?: Partial<WidgetConfig>;
   themeId: string;
   widgetThemeItems: ThemeItem[];
+}
+
+export interface FormValues extends FieldValues {
+  formUpdateKey?: string;
 }
 
 export interface WidgetConfigActions {
@@ -38,6 +43,7 @@ export interface WidgetConfigActions {
   getCurrentConfigTheme: () => WidgetTheme | undefined;
   setHeader: (header?: CSSProperties) => void;
   setContainer: (container?: CSSProperties) => void;
+  setFormValues: (formValues: FormValues) => void;
 }
 
 export type WidgetConfigState = WidgetConfigValues & WidgetConfigActions;

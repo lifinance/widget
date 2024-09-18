@@ -1,17 +1,32 @@
-import type { WidgetDrawer } from '@lifi/widget';
+import type { FieldNames, FormState, WidgetDrawer } from '@lifi/widget';
 import { LiFiWidget, WidgetSkeleton } from '@lifi/widget';
-import { useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useConfig, useSkeletonToolValues } from '../../store';
+import { useFormValues } from '../../store/editTools/uesFormValues';
 import { WidgetViewContainer } from './WidgetViewContainer';
 
 export function WidgetView() {
   const { config } = useConfig();
   const drawerRef = useRef<WidgetDrawer>(null);
+  const formRef = useRef<FormState>(null);
   const { isSkeletonShown, isSkeletonSideBySide } = useSkeletonToolValues();
+  const { formValues } = useFormValues();
 
   const toggleDrawer = useCallback(() => {
     drawerRef?.current?.toggleDrawer();
   }, []);
+
+  useEffect(() => {
+    if (formRef.current && formValues) {
+      Object.entries(formValues).forEach(([fieldName, fieldValue]) => {
+        if (fieldName !== 'formUpdateKey') {
+          formRef.current?.setFieldValue(fieldName as FieldNames, fieldValue, {
+            setUrlSearchParam: true,
+          });
+        }
+      });
+    }
+  }, [formRef, formValues]);
 
   return (
     <WidgetViewContainer toggleDrawer={toggleDrawer}>
@@ -20,6 +35,7 @@ export function WidgetView() {
           config={config}
           ref={drawerRef}
           integrator="li.fi-playground"
+          formRef={formRef}
           open
         />
       ) : null}

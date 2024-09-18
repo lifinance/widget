@@ -18,6 +18,7 @@ export const useEditToolsActions = () => {
       setFixedFooter: state.setFixedFooter,
       setSelectedLayoutId: state.setSelectedLayoutId,
       setIsDevView: state.setIsDevView,
+      setFormValues: state.setFormValues,
     }),
     shallow,
   );
