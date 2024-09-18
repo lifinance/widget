@@ -60,7 +60,7 @@ export function formatInputAmount(
   if (!amount) {
     return amount;
   }
-  let formattedAmount = amount.replaceAll(',', '.');
+  let formattedAmount = amount.trim().replaceAll(',', '.');
   if (formattedAmount.startsWith('.')) {
     formattedAmount = '0' + formattedAmount;
   }
