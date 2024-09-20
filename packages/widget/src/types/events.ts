@@ -14,6 +14,7 @@ export enum WidgetEvent {
   ReviewTransactionPageEntered = 'reviewTransactionPageEntered',
   WalletConnected = 'walletConnected',
   WidgetExpanded = 'widgetExpanded',
+  Page = 'page',
 }
 
 export type WidgetEvents = {
@@ -30,6 +31,7 @@ export type WidgetEvents = {
   reviewTransactionPageEntered?: Route;
   walletConnected: WalletConnected;
   widgetExpanded: boolean;
+  page: string;
 };
 
 export interface ContactSupport {
