@@ -1,16 +1,9 @@
 import type { FieldNames, FormState, WidgetDrawer } from '@lifi/widget';
 import { LiFiWidget, WidgetSkeleton } from '@lifi/widget';
-import { Box } from '@mui/material';
 import { useCallback, useEffect, useRef } from 'react';
 import { useConfig, useSkeletonToolValues } from '../../store';
 import { useFormValues } from '../../store/editTools/uesFormValues';
 import { WidgetViewContainer } from './WidgetViewContainer';
-
-const Placeholder = () => {
-  return (
-    <Box sx={{ width: '100%', height: 400, backgroundColor: 'red' }}>hello</Box>
-  );
-};
 
 export function WidgetView() {
   const { config } = useConfig();
@@ -44,11 +37,6 @@ export function WidgetView() {
           integrator="li.fi-playground"
           formRef={formRef}
           open
-          feeConfig={{
-            name: 'Flexible fee',
-            fee: 0,
-            _vcComponent: Placeholder,
-          }}
         />
       ) : null}
       {isSkeletonShown ? <WidgetSkeleton config={config} /> : null}
