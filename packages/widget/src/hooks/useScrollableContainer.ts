@@ -1,11 +1,6 @@
 import { useCallback, useLayoutEffect, useState } from 'react';
-import { ElementId, createElementId } from '../utils/elements.js';
+import { getScrollableContainer } from '../utils/elements.js';
 import { useDefaultElementId } from './useDefaultElementId.js';
-
-export const getScrollableContainer = (elementId: string) =>
-  document.getElementById(
-    createElementId(ElementId.ScrollableContainer, elementId),
-  );
 
 export const useGetScrollableContainer = () => {
   const elementId = useDefaultElementId();
