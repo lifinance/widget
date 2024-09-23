@@ -82,6 +82,7 @@
       "autoRefuel": "You're low on {{chainName}} gas. By continuing, you'll get enough gas to complete the transaction.",
       "emptyActiveTransactions": "Transactions in progress will appear here. Once completed, find them in transaction history.",
       "emptyTokenList": "We couldn't find tokens on {{chainName}} chain or you don't have any. Please search by contract address if your token doesn't appear or choose another chain.",
+      "emptyChainList": "We couldn't find chains with a name that matches your search",
       "emptyTransactionHistory": "Transaction history is only stored locally and will be deleted if you clear your browser data.",
       "fundsToExchange": "Funds sent to an exchange may be lost",
       "toAddressIsRequired": "Please provide the destination wallet address to which the funds will be transferred.",
@@ -275,7 +276,8 @@
     "tokenOnChain": "{{tokenSymbol}} on {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} on {{chainName}}",
     "tokenSearch": "Search by token name or address",
-    "valueLoss": "Value loss"
+    "valueLoss": "Value loss",
+    "chainSearch": "Search by chain name"
   },
   "settings": {
     "theme": "Theme",

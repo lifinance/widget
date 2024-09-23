@@ -1,8 +1,8 @@
 import { useTheme } from '@mui/material';
 import { useEffect } from 'react';
-import { defaultMaxHeight } from '../../config/constants.js';
-import { useDefaultElementId } from '../../hooks/useDefaultElementId.js';
-import { getRelativeContainer } from '../../utils/elements.js';
+import { defaultMaxHeight } from '../config/constants.js';
+import { getRelativeContainer } from '../utils/elements.js';
+import { useDefaultElementId } from './useDefaultElementId.js';
 
 // When the Widgets layout is set to use max height or in its default height mode the default behaviour
 // is for pages to use only the minimum height that they need to show their content.
