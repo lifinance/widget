@@ -2,7 +2,8 @@ import { Search } from '@mui/icons-material';
 import { FormControl, InputAdornment } from '@mui/material';
 import type { FocusEventHandler, FormEventHandler } from 'react';
 import { InputCard } from '../../components/Card/InputCard.js';
-import { Input } from './SearchInput.style.js';
+import { useHeaderHeight } from '../../hooks/useHeaderHeight.js';
+import { Input, SearchStickyContainer } from './SearchInput.style.js';
 
 interface SearchInputProps {
   name?: string;
@@ -43,5 +44,15 @@ export const SearchInput = ({
         />
       </FormControl>
     </InputCard>
+  );
+};
+
+export const StickySearchInput = ({ ...rest }: SearchInputProps) => {
+  const { headerHeight } = useHeaderHeight();
+
+  return (
+    <SearchStickyContainer headerHeight={headerHeight}>
+      <SearchInput {...rest} />
+    </SearchStickyContainer>
   );
 };

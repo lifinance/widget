@@ -1,16 +1,18 @@
 import type { ExtendedChain } from '@lifi/sdk';
-import { Avatar, Box, List, ListItemAvatar } from '@mui/material';
+import { Avatar, ListItemAvatar } from '@mui/material';
 import { type FormEventHandler, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useChainSelect } from '../../components/ChainSelect/useChainSelect.js';
 import { ListItemButton } from '../../components/ListItemButton.js';
 import { ListItemText } from '../../components/ListItemText.js';
 import { PageContainer } from '../../components/PageContainer.js';
-import { SearchInput } from '../../components/SearchInput/SearchInput.js';
+import { StickySearchInput } from '../../components/SearchInput/SearchInput.js';
+import { SearchList } from '../../components/SearchInput/SearchInput.style.js';
 import { useTokenSelect } from '../../components/TokenList/useTokenSelect.js';
 import { useHeader } from '../../hooks/useHeader.js';
 import { useNavigateBack } from '../../hooks/useNavigateBack.js';
 import type { SelectChainPageProps } from './types.js';
+import { useFullPageAtMaxHeight } from './useFullPageAtMaxHeight.js';
 
 export const SelectChainPage: React.FC<SelectChainPageProps> = ({
   formType,
@@ -37,11 +39,9 @@ export const SelectChainPage: React.FC<SelectChainPageProps> = ({
     chains ?? [],
   );
 
-  // TODO: no matches
-  // TODO: set the pages minimum height?
-  // TODO: try doing this with the header in mind - setting the headers children?
-  //   this may also need to change the header adjustment code
+  useFullPageAtMaxHeight();
 
+  // TODO: should we debounce this?
   const handleSearchInputChange: FormEventHandler<HTMLInputElement> = (e) => {
     const value = (e.target as HTMLInputElement).value;
 
@@ -59,23 +59,12 @@ export const SelectChainPage: React.FC<SelectChainPageProps> = ({
   };
 
   return (
-    <PageContainer
-      disableGutters
-      id="chains-page"
-      // sx={{ minHeight: 686 - 108 }} // TODO: need to establish min height, might be a way to do this with header height
-    >
-      {/*TODO: sticky won't work in full height mode - needs a work around*/}
-      <Box sx={{ position: 'sticky', top: 108, zIndex: 1 }}>
-        <SearchInput onChange={handleSearchInputChange} />
-      </Box>
-      <List
-        sx={{
-          paddingTop: 0,
-          paddingLeft: 1.5,
-          paddingRight: 1.5,
-          paddingBottom: 1.5,
-        }}
-      >
+    <PageContainer disableGutters>
+      <StickySearchInput
+        onChange={handleSearchInputChange}
+        placeholder="Search by chain name" // TODO: move this to translations
+      />
+      <SearchList>
         {filterChains?.map((chain) => (
           <ListItemButton key={chain.id} onClick={() => handleClick(chain)}>
             <ListItemAvatar>
@@ -86,7 +75,7 @@ export const SelectChainPage: React.FC<SelectChainPageProps> = ({
             <ListItemText primary={chain.name} />
           </ListItemButton>
         ))}
-      </List>
+      </SearchList>
     </PageContainer>
   );
 };
