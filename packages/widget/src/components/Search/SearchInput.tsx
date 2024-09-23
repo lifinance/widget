@@ -13,7 +13,6 @@ interface SearchInputProps {
   onBlur?: FocusEventHandler<HTMLInputElement>;
 }
 
-// TODO: make sure this gets used on teh Token selection page as well
 export const SearchInput = ({
   name,
   placeholder,
