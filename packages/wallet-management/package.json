@@ -46,12 +46,12 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "^3.3.0-alpha.3",
+    "@lifi/sdk": "^3.3.0-beta.0",
     "@solana/wallet-adapter-base": "^0.9.23",
     "react": "^18.3.1",
     "use-sync-external-store": "^1.2.2",
-    "viem": "^2.21.9",
-    "wagmi": "^2.12.12"
+    "viem": "^2.21.12",
+    "wagmi": "^2.12.13"
   },
   "devDependencies": {
     "@types/use-sync-external-store": "^0.0.6",
