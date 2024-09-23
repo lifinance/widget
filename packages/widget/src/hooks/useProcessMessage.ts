@@ -193,6 +193,10 @@ export function getProcessMessage(
         title = t(`error.title.transactionCanceled`);
         message = getDefaultErrorMessage('error.message.transactionCanceled');
         break;
+      case LiFiErrorCode.TransactionConflict:
+        title = t(`error.title.transactionConflict`);
+        message = getDefaultErrorMessage('error.message.transactionConflict');
+        break;
       case LiFiErrorCode.ExchangeRateUpdateCanceled:
         title = t(`error.title.exchangeRateUpdateCanceled`);
         message = getDefaultErrorMessage();
