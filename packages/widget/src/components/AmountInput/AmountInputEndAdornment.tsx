@@ -32,11 +32,7 @@ export const AmountInputEndAdornment = ({ formType }: FormTypeProps) => {
     }
     const chain = getChainById(chainId);
     let maxAmount = token.amount;
-    if (
-      chain?.nativeToken.address === tokenAddress &&
-      data?.available &&
-      data?.recommended
-    ) {
+    if (chain?.nativeToken.address === tokenAddress && data?.recommended) {
       const recommendedAmount = BigInt(data.recommended.amount) / 2n;
       if (token.amount > recommendedAmount) {
         maxAmount = token.amount - recommendedAmount;

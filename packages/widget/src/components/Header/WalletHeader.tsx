@@ -12,7 +12,7 @@ import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.j
 import { HiddenUI } from '../../types/widget.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { shortenAddress } from '../../utils/wallet.js';
-import { SmallAvatar } from '../SmallAvatar.js';
+import { SmallAvatar } from '../Avatar/SmallAvatar.js';
 import { CloseDrawerButton } from './CloseDrawerButton.js';
 import {
   DrawerWalletContainer,

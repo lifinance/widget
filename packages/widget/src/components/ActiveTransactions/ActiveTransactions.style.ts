@@ -20,7 +20,7 @@ export const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
 export const ListItem = styled(MuiListItem, {
   shouldForwardProp: (prop) => prop !== 'disableRipple',
 })(({ theme }) => ({
-  padding: theme.spacing(0, 1.5),
+  padding: theme.spacing(0, 2),
   [`.${listItemSecondaryActionClasses.root}`]: {
     right: theme.spacing(3),
   },

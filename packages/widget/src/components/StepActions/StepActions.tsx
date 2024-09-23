@@ -18,8 +18,8 @@ import { LiFiToolLogo } from '../../icons/lifi.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { HiddenUI } from '../../types/widget.js';
 import { formatTokenAmount } from '../../utils/format.js';
+import { SmallAvatar } from '../Avatar/SmallAvatar.js';
 import { CardIconButton } from '../Card/CardIconButton.js';
-import { SmallAvatar } from '../SmallAvatar.js';
 import {
   StepAvatar,
   StepConnector,

@@ -21,7 +21,7 @@ import { useExplorer } from '../../hooks/useExplorer.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { shortenAddress } from '../../utils/wallet.js';
 import { AvatarMasked } from '../Avatar/Avatar.style.js';
-import { SmallAvatar } from '../SmallAvatar.js';
+import { SmallAvatar } from '../Avatar/SmallAvatar.js';
 import { EVMDisconnectIconButton } from './EVMDisconnectIconButton.js';
 import { SVMDisconnectIconButton } from './SVMDisconnectIconButton.js';
 import { UTXODisconnectIconButton } from './UTXODisconnectIconButton.js';

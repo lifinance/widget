@@ -3,9 +3,9 @@ import type { SxProps, Theme } from '@mui/material';
 import { Badge } from '@mui/material';
 import { useChain } from '../../hooks/useChain.js';
 import { useToken } from '../../hooks/useToken.js';
-import { SmallAvatar } from '../SmallAvatar.js';
 import { AvatarBadgedSkeleton } from './Avatar.js';
 import { AvatarDefaultBadge, AvatarMasked } from './Avatar.style.js';
+import { SmallAvatar } from './SmallAvatar.js';
 
 export const TokenAvatar: React.FC<{
   token?: StaticToken;

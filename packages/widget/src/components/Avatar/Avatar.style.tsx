@@ -3,7 +3,6 @@ import {
   AvatarGroup,
   Box,
   Avatar as MuiAvatar,
-  Skeleton,
   avatarClasses,
   badgeClasses,
   styled,
@@ -14,17 +13,20 @@ export const AvatarMasked = styled(MuiAvatar)(({ theme }) => ({
   mask: avatarMask16,
 }));
 
-export const AvatarSkeleton = styled(Skeleton)(({ theme }) => ({
-  mask: avatarMask16,
-}));
-
 export const TokenAvatarGroup = styled(AvatarGroup)(({ theme }) => ({
   [`& .${badgeClasses.badge}:last-child .${avatarClasses.root}`]: {
-    marginLeft: theme.spacing(-1),
     boxSizing: 'border-box',
   },
+  [`& .${avatarClasses.root}`]: {
+    border: 'none',
+    marginLeft: 0,
+  },
+  [`& .${badgeClasses.root}:first-child`]: {
+    marginLeft: theme.spacing(-1),
+    border: 'none',
+  },
   [`& .${badgeClasses.root}:last-child`]: {
-    marginLeft: theme.spacing(1),
+    border: 'none',
   },
 }));
 
@@ -57,3 +59,14 @@ export const AvatarDefaultBadge = styled(Box)(({ theme }) => {
     width: 16,
   };
 });
+
+export const AvatarSkeletonContainer = styled(Box)(({ theme }) => ({
+  background: theme.palette.background.paper,
+  borderRadius: '50%',
+}));
+
+export const AvatarSkeletonMaskedContainer = styled(Box)(({ theme }) => ({
+  background: theme.palette.background.paper,
+  borderRadius: '50%',
+  mask: avatarMask16,
+}));

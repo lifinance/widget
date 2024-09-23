@@ -8,8 +8,8 @@ import { useChain } from '../../hooks/useChain.js';
 import { useToken } from '../../hooks/useToken.js';
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js';
 import { AvatarBadgedSkeleton } from '../Avatar/Avatar.js';
+import { SmallAvatar } from '../Avatar/SmallAvatar.js';
 import { TokenAvatar } from '../Avatar/TokenAvatar.js';
-import { SmallAvatar } from '../SmallAvatar.js';
 import { TextFitter } from '../TextFitter/TextFitter.js';
 import { TextSecondary, TextSecondaryContainer } from './Token.style.js';
 

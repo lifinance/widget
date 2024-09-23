@@ -4,12 +4,12 @@ import { Badge } from '@mui/material';
 import type { Account } from '../../hooks/useAccount.js';
 import { useChain } from '../../hooks/useChain.js';
 import type { ToAddress } from '../../types/widget.js';
-import { SmallAvatar } from '../SmallAvatar.js';
 import {
   AvatarDefault,
   AvatarDefaultBadge,
   AvatarMasked,
 } from './Avatar.style.js';
+import { SmallAvatar } from './SmallAvatar.js';
 
 interface AccountAvatarProps {
   chainId?: number;
