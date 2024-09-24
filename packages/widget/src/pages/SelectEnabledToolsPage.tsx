@@ -23,8 +23,10 @@ import { StickySearchInput } from '../components/Search/SearchInput.js';
 import { SearchList } from '../components/Search/SearchInput.style.js';
 import { SearchNotFound } from '../components/Search/SearchNotFound.js';
 import { SettingsListItemButton } from '../components/SettingsListItemButton.js';
+import { useDefaultElementId } from '../hooks/useDefaultElementId.js';
 import { useFullPageInMaxHeightLayout } from '../hooks/useFullPageInMaxHeightLayout.js';
 import { useHeader } from '../hooks/useHeader.js';
+import { useScrollableContainer } from '../hooks/useScrollableContainer.js';
 import { useTools } from '../hooks/useTools.js';
 import { useSettingsStore } from '../stores/settings/useSettingsStore.js';
 
@@ -81,6 +83,8 @@ export const SelectEnabledToolsPage: React.FC<{
     );
 
   const { t } = useTranslation();
+  const elementId = useDefaultElementId();
+  const scrollableContainer = useScrollableContainer(elementId);
 
   const headerAction = useMemo(
     () => (
@@ -122,6 +126,10 @@ export const SelectEnabledToolsPage: React.FC<{
             )
           : []) as ToolCollectionTypes,
       );
+    }
+
+    if (scrollableContainer) {
+      scrollableContainer.scrollTop = 0;
     }
   };
 

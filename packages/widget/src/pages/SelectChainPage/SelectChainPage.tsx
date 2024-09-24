@@ -10,9 +10,11 @@ import { StickySearchInput } from '../../components/Search/SearchInput.js';
 import { SearchList } from '../../components/Search/SearchInput.style.js';
 import { SearchNotFound } from '../../components/Search/SearchNotFound.js';
 import { useTokenSelect } from '../../components/TokenList/useTokenSelect.js';
+import { useDefaultElementId } from '../../hooks/useDefaultElementId.js';
 import { useFullPageInMaxHeightLayout } from '../../hooks/useFullPageInMaxHeightLayout.js';
 import { useHeader } from '../../hooks/useHeader.js';
 import { useNavigateBack } from '../../hooks/useNavigateBack.js';
+import { useScrollableContainer } from '../../hooks/useScrollableContainer.js';
 import type { SelectChainPageProps } from './types.js';
 
 export const SelectChainPage: React.FC<SelectChainPageProps> = ({
@@ -22,6 +24,8 @@ export const SelectChainPage: React.FC<SelectChainPageProps> = ({
   const { navigateBack } = useNavigateBack();
   const { chains, setCurrentChain } = useChainSelect(formType);
   const selectToken = useTokenSelect(formType, navigateBack);
+  const elementId = useDefaultElementId();
+  const scrollableContainer = useScrollableContainer(elementId);
 
   const { t } = useTranslation();
 
@@ -55,6 +59,10 @@ export const SelectChainPage: React.FC<SelectChainPageProps> = ({
             )
           : [],
       );
+    }
+
+    if (scrollableContainer) {
+      scrollableContainer.scrollTop = 0;
     }
   };
 
