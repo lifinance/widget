@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.6.2](https://github.com/lifinance/widget/compare/v3.6.1...v3.6.2) (2024-09-24)
+
+
+### Bug Fixes
+
+* status sheet buttons and height adjustment ([#303](https://github.com/lifinance/widget/issues/303)) ([56db5e4](https://github.com/lifinance/widget/commit/56db5e4033a05a295cf022843c9a359008c70ce5))
+
 ### [3.6.1](https://github.com/lifinance/widget/compare/v3.6.0...v3.6.1) (2024-09-18)
 
 
