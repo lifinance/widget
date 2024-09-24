@@ -1,3 +1,4 @@
+import type { ToolsResponse } from '@lifi/sdk';
 import {
   Check,
   CheckBoxOutlineBlankOutlined,
@@ -6,19 +7,23 @@ import {
 } from '@mui/icons-material';
 import {
   Avatar,
+  debounce,
   IconButton,
-  List,
   ListItemAvatar,
   Tooltip,
   useTheme,
 } from '@mui/material';
 import type { MouseEventHandler } from 'react';
-import { useMemo } from 'react';
+import { type FormEventHandler, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { shallow } from 'zustand/shallow';
 import { ListItemText } from '../components/ListItemText.js';
 import { PageContainer } from '../components/PageContainer.js';
+import { StickySearchInput } from '../components/Search/SearchInput.js';
+import { SearchList } from '../components/Search/SearchInput.style.js';
+import { SearchNotFound } from '../components/Search/SearchNotFound.js';
 import { SettingsListItemButton } from '../components/SettingsListItemButton.js';
+import { useFullPageInMaxHeightLayout } from '../hooks/useFullPageInMaxHeightLayout.js';
 import { useHeader } from '../hooks/useHeader.js';
 import { useTools } from '../hooks/useTools.js';
 import { useSettingsStore } from '../stores/settings/useSettingsStore.js';
@@ -90,35 +95,64 @@ export const SelectEnabledToolsPage: React.FC<{
 
   useHeader(t(`settings.enabled${type}`), headerAction);
 
+  useFullPageInMaxHeightLayout();
+
   const handleClick = (key: string) => {
     setToolValue(type, key, !enabledTools[key]);
   };
 
+  type ToolCollectionTypes =
+    | ToolsResponse['exchanges']
+    | ToolsResponse['bridges'];
+
+  const [filteredTools, setFilteredTools] = useState<ToolCollectionTypes>(
+    tools?.[typeKey] ?? [],
+  );
+
+  const handleSearchInputChange: FormEventHandler<HTMLInputElement> = (e) => {
+    const value = (e.target as HTMLInputElement).value;
+
+    if (!value) {
+      setFilteredTools(tools?.[typeKey] ?? []);
+    } else {
+      setFilteredTools(
+        (tools?.[typeKey]
+          ? tools[typeKey].filter((tool) =>
+              tool.name.toLowerCase().includes(value.toLowerCase()),
+            )
+          : []) as ToolCollectionTypes,
+      );
+    }
+  };
+
+  const debouncedSearchInputChange = debounce(handleSearchInputChange, 250);
+
   return (
     <PageContainer disableGutters>
-      <List
-        sx={{
-          paddingTop: 0,
-          paddingLeft: 1.5,
-          paddingRight: 1.5,
-          paddingBottom: 1.5,
-        }}
-      >
-        {tools?.[typeKey].map((tool) => (
-          <SettingsListItemButton
-            key={tool.name}
-            onClick={() => handleClick(tool.key)}
-          >
-            <ListItemAvatar>
-              <Avatar src={tool.logoURI} alt={tool.name}>
-                {tool.name[0]}
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={tool.name} />
-            {enabledTools[tool.key] && <Check color="primary" />}
-          </SettingsListItemButton>
-        ))}
-      </List>
+      <StickySearchInput
+        onChange={debouncedSearchInputChange}
+        placeholder={t(`main.search${type}`)}
+      />
+      {filteredTools.length ? (
+        <SearchList>
+          {filteredTools.map((tool) => (
+            <SettingsListItemButton
+              key={tool.name}
+              onClick={() => handleClick(tool.key)}
+            >
+              <ListItemAvatar>
+                <Avatar src={tool.logoURI} alt={tool.name}>
+                  {tool.name[0]}
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary={tool.name} />
+              {enabledTools[tool.key] && <Check color="primary" />}
+            </SettingsListItemButton>
+          ))}
+        </SearchList>
+      ) : (
+        <SearchNotFound message={t(`info.message.empty${type}List`)} />
+      )}
     </PageContainer>
   );
 };

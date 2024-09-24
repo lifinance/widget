@@ -10,7 +10,7 @@ import { StickySearchInput } from '../../components/Search/SearchInput.js';
 import { SearchList } from '../../components/Search/SearchInput.style.js';
 import { SearchNotFound } from '../../components/Search/SearchNotFound.js';
 import { useTokenSelect } from '../../components/TokenList/useTokenSelect.js';
-import { useFullPageAtMaxHeight } from '../../hooks/useFullPageAtMaxHeight.js';
+import { useFullPageInMaxHeightLayout } from '../../hooks/useFullPageInMaxHeightLayout.js';
 import { useHeader } from '../../hooks/useHeader.js';
 import { useNavigateBack } from '../../hooks/useNavigateBack.js';
 import type { SelectChainPageProps } from './types.js';
@@ -27,6 +27,8 @@ export const SelectChainPage: React.FC<SelectChainPageProps> = ({
 
   useHeader(t('header.selectChain'));
 
+  useFullPageInMaxHeightLayout();
+
   const handleClick = async (chain: ExtendedChain) => {
     if (selectNativeToken) {
       selectToken(chain.nativeToken.address, chain.id);
@@ -36,19 +38,17 @@ export const SelectChainPage: React.FC<SelectChainPageProps> = ({
     }
   };
 
-  const [filterChains, setFilterChains] = useState<ExtendedChain[]>(
+  const [filteredChains, setFilteredChains] = useState<ExtendedChain[]>(
     chains ?? [],
   );
-
-  useFullPageAtMaxHeight();
 
   const handleSearchInputChange: FormEventHandler<HTMLInputElement> = (e) => {
     const value = (e.target as HTMLInputElement).value;
 
     if (!value) {
-      setFilterChains(chains ?? []);
+      setFilteredChains(chains ?? []);
     } else {
-      setFilterChains(
+      setFilteredChains(
         chains
           ? chains.filter((chain) =>
               chain.name.toLowerCase().includes(value.toLowerCase()),
@@ -64,11 +64,11 @@ export const SelectChainPage: React.FC<SelectChainPageProps> = ({
     <PageContainer disableGutters>
       <StickySearchInput
         onChange={debouncedSearchInputChange}
-        placeholder={t('main.chainSearch')}
+        placeholder={t('main.searchChains')}
       />
-      {filterChains.length ? (
+      {filteredChains.length ? (
         <SearchList>
-          {filterChains?.map((chain) => (
+          {filteredChains.map((chain) => (
             <ListItemButton key={chain.id} onClick={() => handleClick(chain)}>
               <ListItemAvatar>
                 <Avatar src={chain.logoURI} alt={chain.name}>

@@ -12,12 +12,12 @@ import { useDefaultElementId } from './useDefaultElementId.js';
 // NOTE: this hook is implicitly tied to the widget height functionality in the
 //   AppExpandedContainer, RelativeContainer and CssBaselineContainer components as defined in AppContainer.ts
 //   CSS changes in those components can have implications for the functionality in this hook
-export const useFullPageAtMaxHeight = () => {
+export const useFullPageInMaxHeightLayout = () => {
   const theme = useTheme();
   const elementId = useDefaultElementId();
   const relativeContainer = getRelativeContainer(elementId);
 
-  // note that maxHeight mode is also used in the widgets default layout
+  // note that maxHeight mode is also used as the widgets default layout
   const isMaxHeightLayout = !theme.container?.height;
 
   const maxHeight = theme.container?.maxHeight || defaultMaxHeight;
