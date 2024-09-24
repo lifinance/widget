@@ -1,4 +1,4 @@
-import { useTheme } from '@mui/material';
+import { debounce, useTheme } from '@mui/material';
 import type { MutableRefObject } from 'react';
 import { useLayoutEffect, useState } from 'react';
 import { useDefaultElementId } from '../../hooks/useDefaultElementId.js';
@@ -8,16 +8,6 @@ import {
   getHeaderElement,
   getScrollableContainer,
 } from '../../utils/elements.js';
-
-const debounce = (func: Function, timeout = 300) => {
-  let timer: ReturnType<typeof setTimeout>;
-  return (...args: any[]) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      func.apply(this, args);
-    }, timeout);
-  };
-};
 
 const getContentHeight = (
   elementId: string,
