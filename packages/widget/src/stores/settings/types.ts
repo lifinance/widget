@@ -40,7 +40,7 @@ export interface SettingsState extends SettingsProps {
     reset?: boolean,
   ): void;
   setToolValue(toolType: SettingsToolType, tool: string, value: boolean): void;
-  toggleTools(toolType: SettingsToolType): void;
+  toggleToolKeys(toolType: SettingsToolType, toolKeys: string[]): void;
   reset(bridges: string[], exchanges: string[]): void;
 }
 

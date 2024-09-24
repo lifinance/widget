@@ -34,18 +34,22 @@ interface SelectAllCheckboxProps {
   allCheckboxesSelected: boolean;
   onClick: MouseEventHandler;
   anyCheckboxesSelected: boolean;
+  noCheckboxesAvailable: boolean;
 }
 
 const SelectAllCheckbox: React.FC<SelectAllCheckboxProps> = ({
   allCheckboxesSelected,
   anyCheckboxesSelected,
+  noCheckboxesAvailable,
   onClick,
 }) => {
   const { t } = useTranslation();
   const theme = useTheme();
-  const tooltipTitle = allCheckboxesSelected
-    ? t('tooltip.deselectAll')
-    : t('tooltip.selectAll');
+  const tooltipTitle = noCheckboxesAvailable
+    ? undefined
+    : allCheckboxesSelected
+      ? t('tooltip.deselectAll')
+      : t('tooltip.selectAll');
 
   return (
     <Tooltip title={tooltipTitle}>
@@ -66,18 +70,22 @@ const SelectAllCheckbox: React.FC<SelectAllCheckboxProps> = ({
   );
 };
 
+type ToolCollectionTypes =
+  | ToolsResponse['exchanges']
+  | ToolsResponse['bridges'];
+
 export const SelectEnabledToolsPage: React.FC<{
   type: 'Bridges' | 'Exchanges';
 }> = ({ type }) => {
   const typeKey = type.toLowerCase() as 'bridges' | 'exchanges';
   const { tools } = useTools();
-  const [enabledTools, disabledTools, setToolValue, toggleTools] =
+  const [enabledTools, disabledTools, setToolValue, toggleToolKeys] =
     useSettingsStore(
       (state) => [
         state[`_enabled${type}`],
         state[`disabled${type}`],
         state.setToolValue,
-        state.toggleTools,
+        state.toggleToolKeys,
       ],
       shallow,
     );
@@ -85,16 +93,31 @@ export const SelectEnabledToolsPage: React.FC<{
   const { t } = useTranslation();
   const elementId = useDefaultElementId();
   const scrollableContainer = useScrollableContainer(elementId);
+  const [filteredTools, setFilteredTools] = useState<ToolCollectionTypes>(
+    tools?.[typeKey] ?? [],
+  );
 
   const headerAction = useMemo(
     () => (
       <SelectAllCheckbox
-        allCheckboxesSelected={!disabledTools.length}
-        anyCheckboxesSelected={Boolean(disabledTools.length)}
-        onClick={() => toggleTools(type)}
+        allCheckboxesSelected={
+          !!filteredTools.length &&
+          filteredTools.every((tool) => !disabledTools.includes(tool.key))
+        }
+        anyCheckboxesSelected={
+          !!filteredTools.length &&
+          filteredTools.some((tool) => disabledTools.includes(tool.key))
+        }
+        noCheckboxesAvailable={!filteredTools.length}
+        onClick={() =>
+          toggleToolKeys(
+            type,
+            filteredTools.map((tool) => tool.key),
+          )
+        }
       />
     ),
-    [disabledTools.length, toggleTools, type],
+    [disabledTools, toggleToolKeys, type, filteredTools],
   );
 
   useHeader(t(`settings.enabled${type}`), headerAction);
@@ -104,14 +127,6 @@ export const SelectEnabledToolsPage: React.FC<{
   const handleClick = (key: string) => {
     setToolValue(type, key, !enabledTools[key]);
   };
-
-  type ToolCollectionTypes =
-    | ToolsResponse['exchanges']
-    | ToolsResponse['bridges'];
-
-  const [filteredTools, setFilteredTools] = useState<ToolCollectionTypes>(
-    tools?.[typeKey] ?? [],
-  );
 
   const handleSearchInputChange: FormEventHandler<HTMLInputElement> = (e) => {
     const value = (e.target as HTMLInputElement).value;
