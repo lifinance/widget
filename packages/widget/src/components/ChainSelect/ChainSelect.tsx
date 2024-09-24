@@ -2,7 +2,7 @@
 import type { EVMChain } from '@lifi/sdk';
 import { Avatar, Box, Skeleton, Tooltip, Typography } from '@mui/material';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '../../hooks/useNavigate.js';
 import {
   maxChainsToOrder,
   maxChainsToShow,

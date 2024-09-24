@@ -1,7 +1,7 @@
 import type { CardProps } from '@mui/material';
 import { Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '../../hooks/useNavigate.js';
 import { useExecutingRoutesIds } from '../../stores/routes/useExecutingRoutesIds.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { Card } from '../Card/Card.js';

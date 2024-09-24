@@ -7,7 +7,6 @@ import {
 import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material';
 import { useId, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js';
 import { ListItem } from '../../components/ListItem/ListItem.js';
 import { ListItemButton } from '../../components/ListItem/ListItemButton.js';
@@ -16,6 +15,7 @@ import type { Account } from '../../hooks/useAccount.js';
 import { useAccount } from '../../hooks/useAccount.js';
 import { useExplorer } from '../../hooks/useExplorer.js';
 import { useHeader } from '../../hooks/useHeader.js';
+import { useNavigate } from '../../hooks/useNavigate.js';
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
 import { useFieldActions } from '../../stores/form/useFieldActions.js';

@@ -1,6 +1,6 @@
 import { ArrowForward, ErrorRounded, InfoRounded } from '@mui/icons-material';
 import { ListItemAvatar, ListItemText, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '../../hooks/useNavigate.js';
 import { useProcessMessage } from '../../hooks/useProcessMessage.js';
 import { useRouteExecution } from '../../hooks/useRouteExecution.js';
 import { RouteExecutionStatus } from '../../stores/routes/types.js';

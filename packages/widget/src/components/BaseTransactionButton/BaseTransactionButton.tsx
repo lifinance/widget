@@ -1,8 +1,8 @@
 import { LoadingButton } from '@mui/lab';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { useAccount } from '../../hooks/useAccount.js';
 import { useChain } from '../../hooks/useChain.js';
+import { useNavigate } from '../../hooks/useNavigate.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { useFieldValues } from '../../stores/form/useFieldValues.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
