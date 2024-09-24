@@ -151,7 +151,10 @@ export const SelectEnabledToolsPage: React.FC<{
           ))}
         </SearchList>
       ) : (
-        <SearchNotFound message={t(`info.message.empty${type}List`)} />
+        <SearchNotFound
+          message={t(`info.message.empty${type}List`)}
+          adjustForStickySearchInput
+        />
       )}
     </PageContainer>
   );

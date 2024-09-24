@@ -9,7 +9,7 @@ interface SearchStickyContainerProps {
   headerHeight: number;
 }
 
-const searchContainerHeight = 64;
+export const searchContainerHeight = 64;
 
 // When the widget is in Full Height mode the
 export const SearchStickyContainer = styled(Box, {

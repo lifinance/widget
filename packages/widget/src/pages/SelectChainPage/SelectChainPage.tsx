@@ -80,7 +80,10 @@ export const SelectChainPage: React.FC<SelectChainPageProps> = ({
           ))}
         </SearchList>
       ) : (
-        <SearchNotFound message={t('info.message.emptyChainList')} />
+        <SearchNotFound
+          message={t('info.message.emptyChainList')}
+          adjustForStickySearchInput
+        />
       )}
     </PageContainer>
   );

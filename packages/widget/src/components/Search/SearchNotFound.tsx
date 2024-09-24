@@ -7,15 +7,17 @@ import {
 
 interface SearchNotFoundProps {
   message: string;
+  adjustForStickySearchInput?: boolean;
 }
 
-export const SearchNotFound = ({ message }: SearchNotFoundProps) => {
-  return (
-    <NotFoundContainer>
-      <NotFoundIconContainer>
-        <SearchOff fontSize="inherit" />
-      </NotFoundIconContainer>
-      <NotFoundMessage>{message}</NotFoundMessage>
-    </NotFoundContainer>
-  );
-};
+export const SearchNotFound = ({
+  message,
+  adjustForStickySearchInput,
+}: SearchNotFoundProps) => (
+  <NotFoundContainer adjustForStickySearchInput={adjustForStickySearchInput}>
+    <NotFoundIconContainer>
+      <SearchOff fontSize="inherit" />
+    </NotFoundIconContainer>
+    <NotFoundMessage>{message}</NotFoundMessage>
+  </NotFoundContainer>
+);
