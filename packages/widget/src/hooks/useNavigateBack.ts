@@ -1,8 +1,25 @@
 import { useCallback } from 'react';
+import { useLocation } from 'react-router-dom';
+import { WidgetEvent } from '../types/events.js';
+import type { NavigationRouteType } from '../utils/navigationRoutes.js';
 import { useNavigate } from './useNavigate.js';
+import { useWidgetEvents } from './useWidgetEvents.js';
+
+const getPreviousPath = (pathname: string) => {
+  // cut current page from pathname
+  const removeCurrentPage = pathname.substring(0, pathname.lastIndexOf('/'));
+  // get 2nd last page from pathname
+  const formattedString = removeCurrentPage.substring(
+    removeCurrentPage.lastIndexOf('/') + 1,
+  );
+  return formattedString;
+};
 
 export const useNavigateBack = () => {
   const navigate = useNavigate();
+  const emitter = useWidgetEvents();
+  const location = useLocation();
+  const path = getPreviousPath(location.pathname);
 
   const navigateBack = useCallback(() => {
     // TODO: find a better router with nested memory routers support
@@ -11,6 +28,10 @@ export const useNavigateBack = () => {
     //
     // if (window.history.length > 2) {
     navigate(-1);
+    if (path) {
+      emitter.emit(WidgetEvent.PageEntered, path as NavigationRouteType);
+    }
+
     // } else {
     //   navigate(
     //     window.location.pathname.substring(
@@ -20,7 +41,7 @@ export const useNavigateBack = () => {
     //     { replace: true },
     //   );
     // }
-  }, [navigate]);
+  }, [emitter, navigate, path]);
 
   return { navigateBack, navigate };
 };
