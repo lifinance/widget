@@ -11,8 +11,10 @@ interface SearchStickyContainerProps {
 
 export const searchContainerHeight = 64;
 
-// When the widget is in Full Height mode the
-export const SearchStickyContainer = styled(Box, {
+// When the widget is in Full Height layout mode in order to appear "sticky the StickySearchInputContainer needs to use
+// position fixed in the same way as the header (see Header.tsx). The headerHeight value here is used as the top value
+// to ensure that this container positioned correctly beneath the header
+export const StickySearchInputContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'headerHeight',
 })<SearchStickyContainerProps>(({ theme, headerHeight }) => ({
   position: 'sticky',
@@ -33,8 +35,8 @@ export const SearchStickyContainer = styled(Box, {
     : {}),
 }));
 
-// When in full height mode the list needs make an addition to the paddingTop of the SearchStickyContainer height
-// this compensations for SearchStickyContainer being fixed position and compensates for it no long being in the document flow
+// When in Full Height layout mode, as the StickySearchInputContainer (see above) uses fixed position, the list element needs to provide
+// additional paddingTop in order to be positioned correctly.
 export const SearchList = styled(List)(({ theme }) => ({
   paddingTop:
     theme.header?.position === 'fixed' ? `${searchContainerHeight}px` : 0,

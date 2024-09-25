@@ -3,7 +3,7 @@ import { FormControl, InputAdornment } from '@mui/material';
 import type { FocusEventHandler, FormEventHandler } from 'react';
 import { InputCard } from '../../components/Card/InputCard.js';
 import { useHeaderHeight } from '../../stores/header/useHeaderStore.js';
-import { Input, SearchStickyContainer } from './SearchInput.style.js';
+import { Input, StickySearchInputContainer } from './SearchInput.style.js';
 
 interface SearchInputProps {
   name?: string;
@@ -50,8 +50,8 @@ export const StickySearchInput = ({ ...rest }: SearchInputProps) => {
   const { headerHeight } = useHeaderHeight();
 
   return (
-    <SearchStickyContainer headerHeight={headerHeight}>
+    <StickySearchInputContainer headerHeight={headerHeight}>
       <SearchInput {...rest} />
-    </SearchStickyContainer>
+    </StickySearchInputContainer>
   );
 };
