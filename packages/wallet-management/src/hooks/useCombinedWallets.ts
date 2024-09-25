@@ -1,14 +1,4 @@
 import { ChainType } from '@lifi/sdk';
-import type { CreateConnectorFnExtended } from '@lifi/wallet-management';
-import {
-  createCoinbaseConnector,
-  createMetaMaskConnector,
-  createWalletConnectConnector,
-  getConnectorIcon,
-  getWalletPriority,
-  isWalletInstalled,
-  useConfig as useBigmiConfig,
-} from '@lifi/wallet-management';
 import type { Theme } from '@mui/material';
 import { useMediaQuery } from '@mui/material';
 import { WalletReadyState } from '@solana/wallet-adapter-base';
@@ -20,8 +10,16 @@ import { useAccount, useConnect } from 'wagmi';
 import { defaultCoinbaseConfig } from '../config/coinbase.js';
 import { defaultMetaMaskConfig } from '../config/metaMask.js';
 import { defaultWalletConnectConfig } from '../config/walletConnect.js';
+import { createCoinbaseConnector } from '../connectors/coinbase.js';
+import { createMetaMaskConnector } from '../connectors/metaMask.js';
+import type { CreateConnectorFnExtended } from '../connectors/types.js';
+import { createWalletConnectConnector } from '../connectors/walletConnect.js';
+import { useWalletManagementConfig } from '../providers/WalletManagementProvider/WalletManagementContext.js';
 import type { WalletConnector } from '../types/walletConnector.js';
-import type { WidgetChains, WidgetWalletConfig } from '../types/widget.js';
+import { getConnectorIcon } from '../utils/getConnectorIcon.js';
+import { getWalletPriority } from '../utils/getWalletPriority.js';
+import { isWalletInstalled } from '../utils/isWalletInstalled.js';
+import { useConfig as useBigmiConfig } from '../utxo/hooks/useConfig.js';
 
 export type CombinedWalletConnector = {
   connector: WalletConnector;
@@ -95,10 +93,8 @@ const combineWalletLists = (
   return combinedWallets;
 };
 
-export const useCombinedWallets = (
-  walletConfig?: WidgetWalletConfig,
-  chains?: WidgetChains,
-) => {
+export const useCombinedWallets = () => {
+  const walletConfig = useWalletManagementConfig();
   const bigmiConfig = useBigmiConfig();
   const wagmiAccount = useAccount();
   const bigmiAccount = useAccount({ config: bigmiConfig });

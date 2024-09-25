@@ -1,3 +1,4 @@
+import { useAccount } from '@lifi/wallet-management';
 import { Error, History, TurnedIn, Wallet } from '@mui/icons-material';
 import { Box, Tooltip, Typography } from '@mui/material';
 import type { ChangeEvent } from 'react';
@@ -7,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
 import { ButtonTertiary } from '../../components/ButtonTertiary.js';
 import { CardButton } from '../../components/Card/CardButton.js';
-import { useAccount } from '../../hooks/useAccount.js';
 import {
   AddressType,
   useAddressValidation,

@@ -1,6 +1,6 @@
-import type { CreateConnectorFnExtended } from '@lifi/wallet-management';
 import type { WalletAdapter } from '@solana/wallet-adapter-base';
 import type { Connector } from 'wagmi';
+import type { CreateConnectorFnExtended } from '../connectors/types.js';
 
 export type WalletConnector =
   | Connector

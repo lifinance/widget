@@ -34,13 +34,13 @@
     "next": "14.2.13",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "viem": "^2.21.12",
-    "wagmi": "^2.12.13",
+    "viem": "^2.21.14",
+    "wagmi": "^2.12.14",
     "zustand": "^4.5.5"
   },
   "devDependencies": {
-    "@types/node": "^22.5.5",
-    "@types/react": "^18.3.8",
+    "@types/node": "^22.7.0",
+    "@types/react": "^18.3.9",
     "@types/react-dom": "^18.3.0",
     "eslint": "^8.57.1",
     "eslint-config-next": "14.2.13",

@@ -1,6 +1,6 @@
+import { useAccount } from '@lifi/wallet-management';
 import { Box, Typography } from '@mui/material';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import { useAccount } from '../../hooks/useAccount.js';
 import { useNavigateBack } from '../../hooks/useNavigateBack.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { useHeaderStore } from '../../stores/header/useHeaderStore.js';

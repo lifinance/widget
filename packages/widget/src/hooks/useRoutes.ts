@@ -1,5 +1,6 @@
 import type { Route, RoutesResponse, Token } from '@lifi/sdk';
 import { LiFiErrorCode, getContractCallsQuote, getRoutes } from '@lifi/sdk';
+import { useAccount } from '@lifi/wallet-management';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { v4 as uuidv4 } from 'uuid';
 import { parseUnits } from 'viem';
@@ -10,7 +11,6 @@ import { useSettings } from '../stores/settings/useSettings.js';
 import { defaultSlippage } from '../stores/settings/useSettingsStore.js';
 import { WidgetEvent } from '../types/events.js';
 import { getChainTypeFromAddress } from '../utils/chainType.js';
-import { useAccount } from './useAccount.js';
 import { useChain } from './useChain.js';
 import { useDebouncedWatch } from './useDebouncedWatch.js';
 import { useGasRefuel } from './useGasRefuel.js';

@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import type { ExchangeRateUpdateParams, Route } from '@lifi/sdk';
 import { executeRoute, resumeRoute, updateRouteExecution } from '@lifi/sdk';
+import { useAccount } from '@lifi/wallet-management';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useRef } from 'react';
 import { shallow } from 'zustand/shallow';
@@ -15,7 +16,6 @@ import {
   isRouteFailed,
 } from '../stores/routes/utils.js';
 import { WidgetEvent } from '../types/events.js';
-import { useAccount } from './useAccount.js';
 import { useWidgetEvents } from './useWidgetEvents.js';
 
 interface RouteExecutionProps {

@@ -1,8 +1,8 @@
 import { getTokenBalances } from '@lifi/sdk';
+import { useAccount } from '@lifi/wallet-management';
 import { useQuery } from '@tanstack/react-query';
 import { formatUnits } from 'viem';
 import type { TokenAmount } from '../types/token.js';
-import { useAccount } from './useAccount.js';
 import { useTokens } from './useTokens.js';
 
 const defaultRefetchInterval = 32_000;

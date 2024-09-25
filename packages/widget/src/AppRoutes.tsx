@@ -1,5 +1,5 @@
 import type { RouteObject } from 'react-router-dom';
-import { useLocation, useRoutes } from 'react-router-dom';
+import { useRoutes } from 'react-router-dom';
 import { NotFound } from './components/NotFound.js';
 import { ActiveTransactionsPage } from './pages/ActiveTransactionsPage/ActiveTransactionsPage.js';
 import { LanguagesPage } from './pages/LanguagesPage.js';
@@ -8,7 +8,6 @@ import { RoutesPage } from './pages/RoutesPage/RoutesPage.js';
 import { SelectChainPage } from './pages/SelectChainPage/SelectChainPage.js';
 import { SelectEnabledToolsPage } from './pages/SelectEnabledToolsPage.js';
 import { SelectTokenPage } from './pages/SelectTokenPage/SelectTokenPage.js';
-import { SelectWalletPage } from './pages/SelectWalletPage/SelectWalletPage.js';
 import { BookmarksPage } from './pages/SendToWallet/BookmarksPage.js';
 import { ConnectedWalletsPage } from './pages/SendToWallet/ConnectedWalletsPage.js';
 import { RecentWalletsPage } from './pages/SendToWallet/RecentWalletsPage.js';
@@ -19,17 +18,6 @@ import { TransactionDetailsPage } from './pages/TransactionDetailsPage/Transacti
 import { TransactionHistoryPage } from './pages/TransactionHistoryPage/TransactionHistoryPage.js';
 import { TransactionPage } from './pages/TransactionPage/TransactionPage.js';
 import { navigationRoutes } from './utils/navigationRoutes.js';
-
-// SelectWalletPage should be accessible from every page and this handler helps avoid creating multiple paths.
-// Avoid using it for anything else, we need to come up with a better solution once we have one more page accessible from everywhere.
-const NotFoundRouteHandler = () => {
-  const { pathname } = useLocation();
-  return pathname.includes(navigationRoutes.selectWallet) ? (
-    <SelectWalletPage />
-  ) : (
-    <NotFound />
-  );
-};
 
 const routes: RouteObject[] = [
   {
@@ -114,7 +102,7 @@ const routes: RouteObject[] = [
   },
   {
     path: '*',
-    element: <NotFoundRouteHandler />,
+    element: <NotFound />,
   },
 ];
 

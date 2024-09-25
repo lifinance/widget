@@ -1,16 +1,17 @@
-import { getConnectorIcon } from '@lifi/wallet-management';
+import type { Account } from '@lifi/wallet-management';
+import {
+  getConnectorIcon,
+  useAccount,
+  useWalletMenu,
+} from '@lifi/wallet-management';
 import { ExpandMore, Wallet } from '@mui/icons-material';
 import { Avatar, Badge } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
-import type { Account } from '../../hooks/useAccount.js';
-import { useAccount } from '../../hooks/useAccount.js';
 import { useChain } from '../../hooks/useChain.js';
 import { useHasExternalWalletProvider } from '../../providers/WalletProvider/useHasExternalWalletProvider.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { HiddenUI } from '../../types/widget.js';
-import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { shortenAddress } from '../../utils/wallet.js';
 import { SmallAvatar } from '../Avatar/SmallAvatar.js';
 import { CloseDrawerButton } from './CloseDrawerButton.js';
@@ -70,16 +71,16 @@ export const WalletMenuButton: React.FC = () => {
 
 const ConnectButton = () => {
   const { t } = useTranslation();
-  const { pathname } = useLocation();
   const { walletConfig, subvariant, variant } = useWidgetConfig();
-  const navigate = useNavigate();
+  const { openWalletMenu } = useWalletMenu();
   const connect = async () => {
     if (walletConfig?.onConnect) {
       walletConfig.onConnect();
       return;
     }
-    navigate(navigationRoutes.selectWallet);
+    openWalletMenu();
   };
+
   return (
     <WalletButton
       subvariant={subvariant}
@@ -91,9 +92,7 @@ const ConnectButton = () => {
           <Wallet sx={{ marginLeft: -0.25 }} />
         ) : undefined
       }
-      onClick={
-        !pathname.includes(navigationRoutes.selectWallet) ? connect : undefined
-      }
+      onClick={connect}
     >
       {t(`button.connectWallet`)}
     </WalletButton>

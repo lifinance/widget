@@ -1,6 +1,6 @@
+import { useAccount } from '@lifi/wallet-management';
 import { Box } from '@mui/material';
 import type { FC } from 'react';
-import { useAccount } from '../../hooks/useAccount.js';
 import { useChain } from '../../hooks/useChain.js';
 import { useDebouncedWatch } from '../../hooks/useDebouncedWatch.js';
 import { useTokenBalances } from '../../hooks/useTokenBalances.js';

@@ -34,8 +34,8 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2",
-    "viem": "^2.21.12",
-    "wagmi": "^2.12.13",
+    "viem": "^2.21.14",
+    "wagmi": "^2.12.14",
     "zustand": "^4.5.5"
   },
   "devDependencies": {
@@ -44,7 +44,7 @@
     "rollup-plugin-polyfill-node": "^0.13.0",
     "source-map-explorer": "^2.5.3",
     "typescript": "^5.6.2",
-    "vite": "^5.4.7",
+    "vite": "^5.4.8",
     "vite-plugin-node-polyfills": "0.17.0",
     "web-vitals": "^4.2.3"
   },

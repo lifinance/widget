@@ -305,8 +305,5 @@
     "noBookmarkedWallets": "No bookmarked wallets",
     "noConnectedWallets": "No connected wallets",
     "noRecentWallets": "No recent wallets"
-  },
-  "wallet": {
-    "extensionNotFound": "Please make sure that only the {{name}} browser extension is active before choosing this wallet."
   }
 }

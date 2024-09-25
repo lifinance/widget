@@ -8,12 +8,7 @@ export * from './components/ContractComponent/NFT/types.js';
 export * from './components/Skeleton/WidgetSkeleton.js';
 export { defaultMaxHeight } from './config/constants.js';
 export * from './config/version.js';
-export { useAccount } from './hooks/useAccount.js';
 export { useAvailableChains } from './hooks/useAvailableChains.js';
-export {
-  useCombinedWallets,
-  walletComparator,
-} from './hooks/useCombinedWallets.js';
 export { useWidgetEvents, widgetEvents } from './hooks/useWidgetEvents.js';
 export * from './stores/form/types.js';
 export { useFieldActions } from './stores/form/useFieldActions.js';

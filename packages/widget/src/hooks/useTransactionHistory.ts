@@ -1,8 +1,8 @@
 import type { FullStatusData, StatusResponse } from '@lifi/sdk';
 import { getTransactionHistory, type ExtendedTransactionInfo } from '@lifi/sdk';
+import { useAccount } from '@lifi/wallet-management';
 import type { QueryFunction } from '@tanstack/react-query';
 import { useQueries } from '@tanstack/react-query';
-import { useAccount } from './useAccount.js';
 
 export const useTransactionHistory = () => {
   const { accounts } = useAccount();

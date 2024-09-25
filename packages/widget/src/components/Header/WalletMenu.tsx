@@ -1,5 +1,9 @@
 import { ChainType } from '@lifi/sdk';
-import { getConnectorIcon } from '@lifi/wallet-management';
+import {
+  getConnectorIcon,
+  useAccount,
+  useWalletMenu,
+} from '@lifi/wallet-management';
 import {
   ContentCopyRounded,
   OpenInNewRounded,
@@ -14,11 +18,8 @@ import {
   MenuItem,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useAccount } from '../../hooks/useAccount.js';
 import { useAvailableChains } from '../../hooks/useAvailableChains.js';
 import { useExplorer } from '../../hooks/useExplorer.js';
-import { navigationRoutes } from '../../utils/navigationRoutes.js';
 import { shortenAddress } from '../../utils/wallet.js';
 import { AvatarMasked } from '../Avatar/Avatar.style.js';
 import { SmallAvatar } from '../Avatar/SmallAvatar.js';
@@ -28,12 +29,11 @@ import { UTXODisconnectIconButton } from './UTXODisconnectIconButton.js';
 
 export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
   const { accounts } = useAccount();
   const { getChainById } = useAvailableChains();
+  const { openWalletMenu } = useWalletMenu();
   const connect = async () => {
-    navigate(navigationRoutes.selectWallet);
+    openWalletMenu();
     onClose();
   };
   const { getAddressLink } = useExplorer();
@@ -112,18 +112,16 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
           );
         })}
       </Box>
-      {!pathname.includes(navigationRoutes.selectWallet) ? (
-        <Button
-          onClick={connect}
-          fullWidth
-          startIcon={<PowerSettingsNewRounded />}
-          sx={{
-            marginTop: 1,
-          }}
-        >
-          {t(`button.connectAnotherWallet`)}
-        </Button>
-      ) : null}
+      <Button
+        onClick={connect}
+        fullWidth
+        startIcon={<PowerSettingsNewRounded />}
+        sx={{
+          marginTop: 1,
+        }}
+      >
+        {t(`button.connectAnotherWallet`)}
+      </Button>
     </>
   );
 };

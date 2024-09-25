@@ -1,9 +1,9 @@
 import type { RouteExtended } from '@lifi/sdk';
+import { useAccount } from '@lifi/wallet-management';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { parseUnits } from 'viem';
 import { useFieldValues } from '../stores/form/useFieldValues.js';
 import { isRouteDone } from '../stores/routes/utils.js';
-import { useAccount } from './useAccount.js';
 import { useTokenAddressBalance } from './useTokenAddressBalance.js';
 import { getTokenBalancesWithRetry } from './useTokenBalance.js';
 

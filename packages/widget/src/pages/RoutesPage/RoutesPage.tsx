@@ -1,5 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import type { Route } from '@lifi/sdk';
+import { useAccount } from '@lifi/wallet-management';
 import type { BoxProps } from '@mui/material';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -7,7 +8,6 @@ import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate.js';
 import { RouteCard } from '../../components/RouteCard/RouteCard.js';
 import { RouteCardSkeleton } from '../../components/RouteCard/RouteCardSkeleton.js';
 import { RouteNotFoundCard } from '../../components/RouteCard/RouteNotFoundCard.js';
-import { useAccount } from '../../hooks/useAccount.js';
 import { useHeader } from '../../hooks/useHeader.js';
 import { useNavigateBack } from '../../hooks/useNavigateBack.js';
 import { useRoutes } from '../../hooks/useRoutes.js';

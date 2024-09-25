@@ -1,6 +1,6 @@
 import type { ExtendedChain } from '@lifi/sdk';
+import type { Account } from '@lifi/wallet-management';
 import type { MouseEventHandler, MutableRefObject } from 'react';
-import type { Account } from '../../hooks/useAccount.js';
 import type { FormType } from '../../stores/form/types.js';
 import type { TokenAmount } from '../../types/token.js';
 

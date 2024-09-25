@@ -1,5 +1,5 @@
+import { useAccount } from '@lifi/wallet-management';
 import { shallow } from 'zustand/shallow';
-import { useAccount } from '../../hooks/useAccount.js';
 import { useRouteExecutionStore } from './RouteExecutionStore.js';
 import type { RouteExecution } from './types.js';
 import { RouteExecutionStatus } from './types.js';

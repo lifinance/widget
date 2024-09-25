@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { useAccount } from '@lifi/wallet-management';
 import { useEffect } from 'react';
-import { useAccount } from '../../hooks/useAccount.js';
 import { useChains } from '../../hooks/useChains.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';

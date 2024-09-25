@@ -1,11 +1,10 @@
-/* eslint-disable react/no-array-index-key */
 import type { Route } from '@lifi/sdk';
+import { useAccount } from '@lifi/wallet-management';
 import { Collapse, Grow, Stack, Typography } from '@mui/material';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { RouteObject } from 'react-router-dom';
 import { useRoutes as useDOMRoutes, useNavigate } from 'react-router-dom';
-import { useAccount } from '../../hooks/useAccount.js';
 import { useRoutes } from '../../hooks/useRoutes.js';
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';

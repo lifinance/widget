@@ -1,3 +1,5 @@
+import type { Account } from '@lifi/wallet-management';
+import { useAccount } from '@lifi/wallet-management';
 import {
   ContentCopyRounded,
   MoreHoriz,
@@ -12,8 +14,6 @@ import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js';
 import { ListItem } from '../../components/ListItem/ListItem.js';
 import { ListItemButton } from '../../components/ListItem/ListItemButton.js';
 import { Menu } from '../../components/Menu.js';
-import type { Account } from '../../hooks/useAccount.js';
-import { useAccount } from '../../hooks/useAccount.js';
 import { useExplorer } from '../../hooks/useExplorer.js';
 import { useHeader } from '../../hooks/useHeader.js';
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';

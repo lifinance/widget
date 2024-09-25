@@ -1,9 +1,9 @@
+import { useAccount } from '@lifi/wallet-management';
 import { CloseRounded } from '@mui/icons-material';
 import { Box, Collapse } from '@mui/material';
 import { useEffect, useRef, type MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useAccount } from '../../hooks/useAccount.js';
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';

@@ -12,6 +12,9 @@ export enum WidgetEvent {
   DestinationChainTokenSelected = 'destinationChainTokenSelected',
   SendToWalletToggled = 'sendToWalletToggled',
   ReviewTransactionPageEntered = 'reviewTransactionPageEntered',
+  /**
+   * @deprecated use useWalletManagementEvents hook.
+   */
   WalletConnected = 'walletConnected',
   WidgetExpanded = 'widgetExpanded',
 }
@@ -28,6 +31,9 @@ export type WidgetEvents = {
   destinationChainTokenSelected: ChainTokenSelected;
   sendToWalletToggled: boolean;
   reviewTransactionPageEntered?: Route;
+  /**
+   * @deprecated use useWalletManagementEvents hook.
+   */
   walletConnected: WalletConnected;
   widgetExpanded: boolean;
 };

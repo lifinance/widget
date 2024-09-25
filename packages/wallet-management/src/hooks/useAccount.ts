@@ -1,6 +1,4 @@
 import { ChainId, ChainType } from '@lifi/sdk';
-import type { CreateConnectorFnExtended } from '@lifi/wallet-management';
-import { useConfig as useBigmiConfig } from '@lifi/wallet-management';
 import type { WalletAdapter } from '@solana/wallet-adapter-base';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useMemo } from 'react';
@@ -8,6 +6,8 @@ import type { Chain } from 'viem';
 import type { Connector } from 'wagmi';
 import { useAccount as useAccountInternal } from 'wagmi';
 import { create } from 'zustand';
+import type { CreateConnectorFnExtended } from '../connectors/types.js';
+import { useConfig as useBigmiConfig } from '../utxo/hooks/useConfig.js';
 
 export interface AccountBase<CT extends ChainType, ConnectorType = undefined> {
   address?: string;
