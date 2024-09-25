@@ -7,12 +7,12 @@ import {
   FlexContainer,
   RelativeContainer,
 } from '../AppContainer.js';
-import { Container as HeaderContainer } from '../Header/Header.style.js';
 import {
   SkeletonAmountContainer,
   SkeletonCard,
   SkeletonCardRow,
   SkeletonHeaderAppBar,
+  SkeletonHeaderContainer,
   SkeletonInputCard,
   SkeletonPoweredByContainer,
   SkeletonReviewButton,
@@ -87,8 +87,8 @@ export const WidgetSkeleton = ({ config }: WidgetConfigPartialProps) => {
   return (
     <ThemeProvider theme={theme}>
       <AppExpandedContainer>
-        <RelativeContainer>
-          <HeaderContainer>
+        <RelativeContainer sx={{ display: 'flex', flexDirection: 'column' }}>
+          <SkeletonHeaderContainer>
             {!hiddenUI.includes('walletMenu') ? (
               <SkeletonHeaderAppBar>
                 <SkeletonWalletMenuButton />
@@ -100,7 +100,8 @@ export const WidgetSkeleton = ({ config }: WidgetConfigPartialProps) => {
               <Skeleton width={126} height={34} variant="text" />
               <SkeletonIcon />
             </SkeletonHeaderAppBar>
-          </HeaderContainer>
+          </SkeletonHeaderContainer>
+
           <FlexContainer
             sx={{
               gap: 2,
@@ -123,12 +124,12 @@ export const WidgetSkeleton = ({ config }: WidgetConfigPartialProps) => {
                 </SkeletonSendToWalletButton>
               ) : null}
             </SkeletonReviewButtonContainer>
-            {!hiddenUI.includes('poweredBy') ? (
-              <SkeletonPoweredByContainer>
-                <Skeleton width={96} height={18} variant="text" />
-              </SkeletonPoweredByContainer>
-            ) : null}
           </FlexContainer>
+          {!hiddenUI.includes('poweredBy') ? (
+            <SkeletonPoweredByContainer>
+              <Skeleton width={96} height={18} variant="text" />
+            </SkeletonPoweredByContainer>
+          ) : null}
         </RelativeContainer>
       </AppExpandedContainer>
     </ThemeProvider>
