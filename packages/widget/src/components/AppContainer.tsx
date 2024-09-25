@@ -12,7 +12,6 @@ import { ElementId, createElementId } from '../utils/elements.js';
 //  if there are changes to how the height works here you should also check the functionality of these hooks and their point of use
 //    - useTokenListHeight
 //    - useSetContentHeight
-//    - useFullPageInMaxHeightLayout
 //  Also check any code that is using the methods from elements.ts utils file
 
 export const AppExpandedContainer = styled(Box, {
