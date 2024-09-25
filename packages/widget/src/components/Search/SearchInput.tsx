@@ -2,7 +2,7 @@ import { Search } from '@mui/icons-material';
 import { FormControl, InputAdornment } from '@mui/material';
 import type { FocusEventHandler, FormEventHandler } from 'react';
 import { InputCard } from '../../components/Card/InputCard.js';
-import { useHeaderHeight } from '../../hooks/useHeaderHeight.js';
+import { useHeaderHeight } from '../../stores/header/useHeaderStore.js';
 import { Input, SearchStickyContainer } from './SearchInput.style.js';
 
 interface SearchInputProps {
