@@ -7,6 +7,7 @@ export * from './connectors/walletConnect.js';
 export * from './createDefaultBigmiConfig.js';
 export * from './createDefaultWagmiConfig.js';
 export * from './hooks/useAccount.js';
+export * from './hooks/useAccountDisconnect.js';
 export * from './hooks/useWalletManagementEvents.js';
 export * from './icons.js';
 export * from './providers/WalletManagementProvider/types.js';

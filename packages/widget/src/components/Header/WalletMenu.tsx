@@ -1,4 +1,3 @@
-import { ChainType } from '@lifi/sdk';
 import {
   getConnectorIcon,
   useAccount,
@@ -23,9 +22,7 @@ import { useExplorer } from '../../hooks/useExplorer.js';
 import { shortenAddress } from '../../utils/wallet.js';
 import { AvatarMasked } from '../Avatar/Avatar.style.js';
 import { SmallAvatar } from '../Avatar/SmallAvatar.js';
-import { EVMDisconnectIconButton } from './EVMDisconnectIconButton.js';
-import { SVMDisconnectIconButton } from './SVMDisconnectIconButton.js';
-import { UTXODisconnectIconButton } from './UTXODisconnectIconButton.js';
+import { DisconnectIconButton } from './DisconnectIconButton.js';
 
 export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
   const { t } = useTranslation();
@@ -100,13 +97,7 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
                 >
                   <OpenInNewRounded />
                 </IconButton>
-                {account.chainType === ChainType.EVM ? (
-                  <EVMDisconnectIconButton connector={account.connector} />
-                ) : account.chainType === ChainType.SVM ? (
-                  <SVMDisconnectIconButton />
-                ) : account.chainType === ChainType.UTXO ? (
-                  <UTXODisconnectIconButton connector={account.connector} />
-                ) : null}
+                <DisconnectIconButton account={account} />
               </Box>
             </MenuItem>
           );
