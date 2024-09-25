@@ -29,6 +29,12 @@ export const EVMListItemButton = ({
   const config = useConfig();
   const { setLastConnectedAccount } = useLastConnectedAccount();
 
+  const connectorName =
+    (connector as CreateConnectorFnExtended).displayName || connector.name;
+  const connectorDisplayName: string = ecosystemSelection
+    ? 'Ethereum'
+    : connectorName;
+
   const handleEVMConnect = async () => {
     try {
       const identityCheckPassed = await isWalletInstalledAsync(
@@ -49,16 +55,14 @@ export const EVMListItemButton = ({
         address: data.accounts[0],
         chainId: data.chainId,
         chainType: ChainType.EVM,
+        connectorId: connector.id,
+        connectorName: connectorName,
       });
       onConnected?.();
     } catch (error) {
       onError?.(error);
     }
   };
-
-  const connectorName: string = ecosystemSelection
-    ? 'Ethereum'
-    : (connector as CreateConnectorFnExtended).displayName || connector.name;
 
   return (
     <ListItemButton key={connector.id} onClick={handleEVMConnect}>
@@ -69,12 +73,12 @@ export const EVMListItemButton = ({
               ? 'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/ethereum.svg'
               : getConnectorIcon(connector as Connector)
           }
-          alt={connectorName}
+          alt={connectorDisplayName}
         >
-          {connectorName?.[0]}
+          {connectorDisplayName?.[0]}
         </Avatar>
       </ListItemAvatar>
-      <ListItemText primary={connectorName} />
+      <ListItemText primary={connectorDisplayName} />
     </ListItemButton>
   );
 };

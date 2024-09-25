@@ -9,7 +9,9 @@ export type WalletManagementEvents = {
 };
 
 export interface WalletConnected {
-  address?: string;
-  chainId?: number;
-  chainType?: ChainType;
+  address: string;
+  chainId: number;
+  chainType: ChainType;
+  connectorId: string;
+  connectorName: string;
 }

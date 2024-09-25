@@ -24,6 +24,11 @@ export const SVMListItemButton = ({
   const { select, disconnect, connected } = useWallet();
   const { setLastConnectedAccount } = useLastConnectedAccount();
 
+  const connectorName = walletAdapter.name;
+  const connectorDisplayName: string = ecosystemSelection
+    ? 'Solana'
+    : walletAdapter.name;
+
   const connect = async () => {
     try {
       onConnecting?.();
@@ -39,6 +44,8 @@ export const SVMListItemButton = ({
           address: publicKey?.toString(),
           chainId: ChainId.SOL,
           chainType: ChainType.SVM,
+          connectorId: connectorName,
+          connectorName: connectorName,
         });
       });
       onConnected?.();
@@ -47,12 +54,8 @@ export const SVMListItemButton = ({
     }
   };
 
-  const connectorName: string = ecosystemSelection
-    ? 'Solana'
-    : walletAdapter.name;
-
   return (
-    <ListItemButton key={connectorName} onClick={connect}>
+    <ListItemButton key={connectorDisplayName} onClick={connect}>
       <ListItemAvatar>
         <Avatar
           src={
@@ -60,12 +63,12 @@ export const SVMListItemButton = ({
               ? 'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/solana.svg'
               : walletAdapter.icon
           }
-          alt={connectorName}
+          alt={connectorDisplayName}
         >
-          {connectorName[0]}
+          {connectorDisplayName[0]}
         </Avatar>
       </ListItemAvatar>
-      <ListItemText primary={connectorName} />
+      <ListItemText primary={connectorDisplayName} />
     </ListItemButton>
   );
 };
