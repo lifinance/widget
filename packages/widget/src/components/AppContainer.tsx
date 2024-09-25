@@ -89,15 +89,12 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
     overflowY: 'auto',
     height: theme.container?.display === 'flex' ? 'auto' : '100%',
     paddingTop: paddingTopAdjustment,
-    // The following allows for the token list to always fill the available height
-    // use of CSS.escape here is to deal with characters such as ':' returned by reacts useId hook
-    //   related issue - https://github.com/facebook/react/issues/26839
-    [`&:has(#${CSS.escape(createElementId(ElementId.TokenList, elementId))})`]:
-      {
-        height: theme.container?.maxHeight
-          ? theme.container?.maxHeight
-          : theme.container?.height || defaultMaxHeight,
-      },
+    // This allows FullPageContainer.tsx to expand and fill the available vertical space in max height and default layout modes
+    [`&:has(.full-page-container)`]: {
+      height: theme.container?.maxHeight
+        ? theme.container?.maxHeight
+        : theme.container?.height || defaultMaxHeight,
+    },
   }),
 );
 

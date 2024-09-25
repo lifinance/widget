@@ -17,14 +17,13 @@ import type { MouseEventHandler } from 'react';
 import { type FormEventHandler, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { shallow } from 'zustand/shallow';
+import { FullPageContainer } from '../components/FullPageContainer.js';
 import { ListItemText } from '../components/ListItemText.js';
-import { PageContainer } from '../components/PageContainer.js';
 import { StickySearchInput } from '../components/Search/SearchInput.js';
 import { SearchList } from '../components/Search/SearchInput.style.js';
 import { SearchNotFound } from '../components/Search/SearchNotFound.js';
 import { SettingsListItemButton } from '../components/SettingsListItemButton.js';
 import { useDefaultElementId } from '../hooks/useDefaultElementId.js';
-import { useFullPageInMaxHeightLayout } from '../hooks/useFullPageInMaxHeightLayout.js';
 import { useHeader } from '../hooks/useHeader.js';
 import { useScrollableContainer } from '../hooks/useScrollableContainer.js';
 import { useTools } from '../hooks/useTools.js';
@@ -122,8 +121,6 @@ export const SelectEnabledToolsPage: React.FC<{
 
   useHeader(t(`settings.enabled${type}`), headerAction);
 
-  useFullPageInMaxHeightLayout();
-
   const handleClick = (key: string) => {
     setToolValue(type, key, !enabledTools[key]);
   };
@@ -151,7 +148,7 @@ export const SelectEnabledToolsPage: React.FC<{
   const debouncedSearchInputChange = debounce(handleSearchInputChange, 250);
 
   return (
-    <PageContainer disableGutters>
+    <FullPageContainer disableGutters>
       <StickySearchInput
         onChange={debouncedSearchInputChange}
         placeholder={t(`main.search${type}`)}
@@ -179,6 +176,6 @@ export const SelectEnabledToolsPage: React.FC<{
           adjustForStickySearchInput
         />
       )}
-    </PageContainer>
+    </FullPageContainer>
   );
 };
