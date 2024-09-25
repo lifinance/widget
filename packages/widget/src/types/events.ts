@@ -1,4 +1,5 @@
 import type { ChainId, ChainType, Process, Route } from '@lifi/sdk';
+import type { NavigationRouteType } from '../utils/navigationRoutes.js';
 
 export enum WidgetEvent {
   RouteExecutionStarted = 'routeExecutionStarted',
@@ -31,7 +32,7 @@ export type WidgetEvents = {
   reviewTransactionPageEntered?: Route;
   walletConnected: WalletConnected;
   widgetExpanded: boolean;
-  pageEntered: string;
+  pageEntered: NavigationRouteType;
 };
 
 export interface ContactSupport {
