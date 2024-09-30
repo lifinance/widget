@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ChainSelect } from '../../components/ChainSelect/ChainSelect.js';
-import { PageContainer } from '../../components/PageContainer.js';
+import { FullPageContainer } from '../../components/FullPageContainer.js';
 import { TokenList } from '../../components/TokenList/TokenList.js';
 import { useHeader } from '../../hooks/useHeader.js';
 import { useNavigateBack } from '../../hooks/useNavigateBack.js';
@@ -40,7 +40,7 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
   const hideChainSelect = swapOnly && formType === 'to';
 
   return (
-    <PageContainer disableGutters>
+    <FullPageContainer disableGutters>
       <Box pb={2} px={3} ref={headerRef}>
         {!hideChainSelect ? <ChainSelect formType={formType} /> : null}
         <Box mt={!hideChainSelect ? 2 : 0}>
@@ -55,6 +55,6 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
           formType={formType}
         />
       </Box>
-    </PageContainer>
+    </FullPageContainer>
   );
 };

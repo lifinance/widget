@@ -99,17 +99,38 @@ export const useSettingsStore = createWithEqualityFn<SettingsState>(
             ),
           };
         }),
-      toggleTools: (toolType) =>
+      toggleToolKeys: (toolType, toolKeys) =>
         set((state) => {
-          const enabledTools = { ...state[`_enabled${toolType}`] };
-          const enableAll = Boolean(state[`disabled${toolType}`].length);
-          for (const toolKey in enabledTools) {
-            enabledTools[toolKey] = enableAll;
-          }
+          const allKeysInCollectionEnabled = toolKeys.every(
+            (toolKey) => state[`_enabled${toolType}`][toolKey],
+          );
+
+          // then toggle those keys to false
+          const updatedTools = toolKeys.reduce(
+            (accum, toolKey) => {
+              accum[toolKey] = !allKeysInCollectionEnabled;
+              return accum;
+            },
+            {
+              ...state[`_enabled${toolType}`],
+            },
+          );
+
+          const enableKeys: string[] = [];
+          const disabledKeys: string[] = [];
+
+          Object.entries(updatedTools).forEach(([key, value]) => {
+            if (value) {
+              enableKeys.push(key);
+            } else {
+              disabledKeys.push(key);
+            }
+          });
+
           return {
-            [`_enabled${toolType}`]: enabledTools,
-            [`enabled${toolType}`]: enableAll ? Object.keys(enabledTools) : [],
-            [`disabled${toolType}`]: enableAll ? [] : Object.keys(enabledTools),
+            [`_enabled${toolType}`]: updatedTools,
+            [`enabled${toolType}`]: enableKeys,
+            [`disabled${toolType}`]: disabledKeys,
           };
         }),
       reset: (bridges, exchanges) => {

@@ -1,6 +1,7 @@
+import type { ContainerProps } from '@mui/material';
 import { Container, styled } from '@mui/material';
 
-export interface PageContainerProps {
+export interface PageContainerProps extends ContainerProps {
   halfGutters?: boolean;
   topGutters?: boolean;
   bottomGutters?: boolean;

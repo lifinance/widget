@@ -5,11 +5,9 @@ import { useChain } from '../../hooks/useChain.js';
 import { useDebouncedWatch } from '../../hooks/useDebouncedWatch.js';
 import { useTokenBalances } from '../../hooks/useTokenBalances.js';
 import { useTokenSearch } from '../../hooks/useTokenSearch.js';
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { FormKeyHelper } from '../../stores/form/types.js';
 import { useFieldValues } from '../../stores/form/useFieldValues.js';
 import type { TokenAmount } from '../../types/token.js';
-import { createElementId, ElementId } from '../../utils/elements.js';
 import { TokenNotFound } from './TokenNotFound.js';
 import { VirtualizedTokenList } from './VirtualizedTokenList.js';
 import type { TokenListProps } from './types.js';
@@ -27,7 +25,6 @@ export const TokenList: FC<TokenListProps> = ({
     320,
     'tokenSearchFilter',
   );
-  const { elementId } = useWidgetConfig();
 
   const { chain, isLoading: isChainLoading } = useChain(selectedChainId);
   const { account } = useAccount({ chainType: chain?.chainType });
@@ -84,11 +81,7 @@ export const TokenList: FC<TokenListProps> = ({
     !tokenSearchFilter;
 
   return (
-    <Box
-      ref={parentRef}
-      style={{ height, overflow: 'auto' }}
-      id={createElementId(ElementId.TokenList, elementId)}
-    >
+    <Box ref={parentRef} style={{ height, overflow: 'auto' }}>
       {!tokens.length && !isLoading ? (
         <TokenNotFound formType={formType} />
       ) : null}
