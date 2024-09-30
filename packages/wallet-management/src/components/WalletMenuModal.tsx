@@ -1,3 +1,4 @@
+import type { Theme } from '@mui/material';
 import { Dialog, Drawer, useMediaQuery } from '@mui/material';
 import type { PropsWithChildren } from 'react';
 
@@ -13,7 +14,9 @@ export const WalletMenuModal: React.FC<PropsWithChildren<WalletMenuProps>> = ({
   onClose,
   children,
 }) => {
-  const isMobile = useMediaQuery(`@media (max-width:${maxWidth}px)`);
+  const isMobile = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down(maxWidth),
+  );
 
   return isMobile ? (
     <Drawer
@@ -23,6 +26,8 @@ export const WalletMenuModal: React.FC<PropsWithChildren<WalletMenuProps>> = ({
       PaperProps={{
         sx: (theme) => ({
           maxHeight: '80%',
+          backgroundImage: 'none',
+          backgroundColor: theme.palette.background.default,
           borderTopLeftRadius: theme.shape.borderRadius * 2,
           borderTopRightRadius: theme.shape.borderRadius * 2,
         }),
@@ -47,6 +52,8 @@ export const WalletMenuModal: React.FC<PropsWithChildren<WalletMenuProps>> = ({
         sx: (theme) => ({
           width: '100%',
           maxWidth: maxWidth,
+          backgroundImage: 'none',
+          backgroundColor: theme.palette.background.default,
           borderTopLeftRadius: theme.shape.borderRadius * 2,
           borderTopRightRadius: theme.shape.borderRadius * 2,
           borderBottomLeftRadius: theme.shape.borderRadius * 2,
