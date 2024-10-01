@@ -12,6 +12,9 @@ export enum WidgetEvent {
   SourceChainTokenSelected = 'sourceChainTokenSelected',
   DestinationChainTokenSelected = 'destinationChainTokenSelected',
   SendToWalletToggled = 'sendToWalletToggled',
+  /**
+   * @deprecated use PageEntered event instead.
+   */
   ReviewTransactionPageEntered = 'reviewTransactionPageEntered',
   WalletConnected = 'walletConnected',
   WidgetExpanded = 'widgetExpanded',
