@@ -3,6 +3,7 @@ import { Box, Tooltip, Typography } from '@mui/material';
 import type { ChangeEvent } from 'react';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
 import { ButtonTertiary } from '../../components/ButtonTertiary.js';
 import { CardButton } from '../../components/Card/CardButton.js';
@@ -13,7 +14,6 @@ import {
 } from '../../hooks/useAddressValidation.js';
 import { useChain } from '../../hooks/useChain.js';
 import { useHeader } from '../../hooks/useHeader.js';
-import { useNavigate } from '../../hooks/useNavigate.js';
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import type { Bookmark } from '../../stores/bookmarks/types.js';

@@ -1,7 +1,7 @@
 import { Skeleton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { useChain } from '../../hooks/useChain.js';
-import { useNavigate } from '../../hooks/useNavigate.js';
 import { useSwapOnly } from '../../hooks/useSwapOnly.js';
 import { useToken } from '../../hooks/useToken.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';

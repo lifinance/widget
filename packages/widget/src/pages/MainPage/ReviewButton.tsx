@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { BaseTransactionButton } from '../../components/BaseTransactionButton/BaseTransactionButton.js';
-import { useNavigate } from '../../hooks/useNavigate.js';
 import { useRoutes } from '../../hooks/useRoutes.js';
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';

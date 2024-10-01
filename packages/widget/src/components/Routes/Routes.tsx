@@ -1,6 +1,6 @@
 import { Box, Collapse } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from '../../hooks/useNavigate.js';
+import { useNavigate } from 'react-router-dom';
 import { useRoutes } from '../../hooks/useRoutes.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';

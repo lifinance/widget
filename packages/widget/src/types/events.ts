@@ -18,7 +18,7 @@ export enum WidgetEvent {
   ReviewTransactionPageEntered = 'reviewTransactionPageEntered',
   WalletConnected = 'walletConnected',
   WidgetExpanded = 'widgetExpanded',
-  PageEntered = 'pageEntered',
+  Page = 'page',
 }
 
 export type WidgetEvents = {

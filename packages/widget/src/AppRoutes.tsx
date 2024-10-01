@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
 import type { RouteObject } from 'react-router-dom';
 import { useLocation, useRoutes } from 'react-router-dom';
 import { NotFound } from './components/NotFound.js';
+import { useWidgetEvents } from './hooks/useWidgetEvents.js';
 import { ActiveTransactionsPage } from './pages/ActiveTransactionsPage/ActiveTransactionsPage.js';
 import { LanguagesPage } from './pages/LanguagesPage.js';
 import { MainPage } from './pages/MainPage/MainPage.js';
@@ -18,6 +20,7 @@ import { SettingsPage } from './pages/SettingsPage/SettingsPage.js';
 import { TransactionDetailsPage } from './pages/TransactionDetailsPage/TransactionDetailsPage.js';
 import { TransactionHistoryPage } from './pages/TransactionHistoryPage/TransactionHistoryPage.js';
 import { TransactionPage } from './pages/TransactionPage/TransactionPage.js';
+import { WidgetEvent } from './types/events.js';
 import { navigationRoutes } from './utils/navigationRoutes.js';
 
 // SelectWalletPage should be accessible from every page and this handler helps avoid creating multiple paths.
@@ -119,7 +122,12 @@ const routes: RouteObject[] = [
 ];
 
 export const AppRoutes = () => {
+  const emitter = useWidgetEvents();
   const element = useRoutes(routes);
+  const location = useLocation();
 
+  useEffect(() => {
+    emitter.emit(WidgetEvent.Page, location.pathname);
+  }, [emitter, location.pathname]);
   return element;
 };

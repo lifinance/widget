@@ -1,9 +1,9 @@
 import { Language } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { CardButton } from '../../components/Card/CardButton.js';
 import { CardValue } from '../../components/Card/CardButton.style.js';
 import { useLanguages } from '../../hooks/useLanguages.js';
-import { useNavigate } from '../../hooks/useNavigate.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
 import { HiddenUI } from '../../types/widget.js';
 import { navigationRoutes } from '../../utils/navigationRoutes.js';
