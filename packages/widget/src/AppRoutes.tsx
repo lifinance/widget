@@ -120,6 +120,5 @@ const routes: RouteObject[] = [
 
 export const AppRoutes = () => {
   const element = useRoutes(routes);
-
   return element;
 };
