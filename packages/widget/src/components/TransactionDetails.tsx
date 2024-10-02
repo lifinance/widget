@@ -11,8 +11,9 @@ import { useTranslation } from 'react-i18next';
 import { formatUnits } from 'viem';
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
 import { isRouteDone } from '../stores/routes/utils.js';
+import { calcPriceImpact } from '../utils/calcPriceImpact.js';
 import { getAccumulatedFeeCostsBreakdown } from '../utils/fees.js';
-import { formatTokenAmount, formatTokenPrice } from '../utils/format.js';
+import { formatTokenAmount } from '../utils/format.js';
 import { Card } from './Card/Card.js';
 import { CardIconButton } from './Card/CardIconButton.js';
 import { FeeBreakdownTooltip } from './FeeBreakdownTooltip.js';
@@ -37,22 +38,7 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
   const { gasCosts, feeCosts, gasCostUSD, feeCostUSD, combinedFeesUSD } =
     getAccumulatedFeeCostsBreakdown(route);
 
-  const fromTokenAmount = formatTokenAmount(
-    BigInt(route.fromAmount),
-    route.fromToken.decimals,
-  );
-  const fromTokenPrice = formatTokenPrice(
-    fromTokenAmount,
-    route.fromToken.priceUSD,
-  );
-  const toTokenAmount = formatTokenAmount(
-    BigInt(route.toAmount),
-    route.toToken.decimals,
-  );
-  const toTokenPrice =
-    formatTokenPrice(toTokenAmount, route.toToken.priceUSD) || 0.01;
-
-  const priceImpact = toTokenPrice / fromTokenPrice - 1;
+  const priceImpact = calcPriceImpact(route);
 
   const feeCollectionStep = route.steps[0].includedSteps.find(
     (includedStep) => includedStep.tool === 'feeCollection',
