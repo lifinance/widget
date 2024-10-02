@@ -8,7 +8,6 @@ import type {
   TokenAmount,
   ToolsResponse,
 } from '@lifi/sdk';
-import { v4 as uuidv4 } from 'uuid';
 import { formatUnits } from 'viem';
 import type { RouteExecution } from '../stores/routes/types.js';
 
@@ -145,7 +144,7 @@ export const buildRouteFromTxHistory = (
       gasCostUSD: sending.gasAmountUSD,
       steps: [
         {
-          id: uuidv4(),
+          id: crypto.randomUUID(),
           type: 'lifi',
           tool: tx.tool,
           toolDetails: usedTool,

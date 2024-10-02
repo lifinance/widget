@@ -2,7 +2,6 @@ import type { Route, RoutesResponse, Token } from '@lifi/sdk';
 import { LiFiErrorCode, getContractCallsQuote, getRoutes } from '@lifi/sdk';
 import { useAccount } from '@lifi/wallet-management';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { v4 as uuidv4 } from 'uuid';
 import { parseUnits } from 'viem';
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
 import { useFieldValues } from '../stores/form/useFieldValues.js';
@@ -260,7 +259,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           }
 
           const route: Route = {
-            id: uuidv4(),
+            id: crypto.randomUUID(),
             fromChainId: contractCallQuote.action.fromChainId,
             fromAmountUSD: contractCallQuote.estimate.fromAmountUSD || '',
             fromAmount: contractCallQuote.action.fromAmount,
