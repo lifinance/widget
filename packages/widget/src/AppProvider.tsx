@@ -2,6 +2,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import type { PropsWithChildren } from 'react';
 import { Fragment } from 'react';
 import { MemoryRouter, useInRouterContext } from 'react-router-dom';
+import { PageEntered } from './components/PageEntered.js';
 import { queryClient } from './config/queryClient.js';
 import { I18nProvider } from './providers/I18nProvider/I18nProvider.js';
 import { ThemeProvider } from './providers/ThemeProvider/ThemeProvider.js';
@@ -43,6 +44,7 @@ export const AppRouter: React.FC<PropsWithChildren<{}>> = ({ children }) => {
     <Router>
       {children}
       {buildUrl ? <URLSearchParamsBuilder /> : null}
+      {buildUrl ? <PageEntered /> : null}
     </Router>
   );
 };
