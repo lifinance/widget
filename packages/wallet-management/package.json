@@ -49,8 +49,8 @@
     "@lifi/sdk": "^3.2.3",
     "@solana/wallet-adapter-base": "^0.9.23",
     "react": "^18.3.1",
-    "viem": "^2.21.9",
-    "wagmi": "^2.12.12"
+    "viem": "^2.21.16",
+    "wagmi": "^2.12.16"
   },
   "devDependencies": {
     "cpy-cli": "^5.0.0",
