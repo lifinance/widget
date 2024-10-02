@@ -17,7 +17,6 @@ export const URLSearchParamsBuilder = () => {
   const { pathname } = useLocation();
   const touchedFields = useTouchedFields();
   const values = useFieldValues(...formValueKeys);
-  const location = useLocation();
 
   useEffect(() => {
     const url = new URL(window.location as any);
@@ -31,7 +30,6 @@ export const URLSearchParamsBuilder = () => {
     });
     url.searchParams.sort();
     window.history.replaceState(window.history.state, '', url);
-  }, [location.pathname, pathname, touchedFields, values]);
-
+  }, [pathname, touchedFields, values]);
   return null;
 };
