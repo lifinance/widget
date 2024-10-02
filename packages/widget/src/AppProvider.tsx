@@ -44,7 +44,7 @@ export const AppRouter: React.FC<PropsWithChildren<{}>> = ({ children }) => {
     <Router>
       {children}
       {buildUrl ? <URLSearchParamsBuilder /> : null}
-      {buildUrl ? <PageEntered /> : null}
+      <PageEntered />
     </Router>
   );
 };
