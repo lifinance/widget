@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.7.0](https://github.com/lifinance/widget/compare/v3.6.2...v3.7.0) (2024-10-02)
+
+
+### Features
+
+* add emitter event on location change ([#304](https://github.com/lifinance/widget/issues/304)) ([d6146f8](https://github.com/lifinance/widget/commit/d6146f83dcc27381d52b95f51e7fdcd05552dc58))
+* add search input to chain, bridges and exchanges pages ([#305](https://github.com/lifinance/widget/issues/305)) ([5504d95](https://github.com/lifinance/widget/commit/5504d95621d11a70ee3fb39108dbd8c0a2417978))
+
 ### [3.6.2](https://github.com/lifinance/widget/compare/v3.6.1...v3.6.2) (2024-09-24)
 
 
