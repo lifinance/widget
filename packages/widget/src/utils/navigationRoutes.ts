@@ -68,4 +68,7 @@ export const backButtonRoutes = [
   navigationRoutes.configuredWallets,
 ];
 
-export type NavigationRouteType = keyof typeof navigationRoutes;
+export type NavigationRouteTypeKeys = keyof typeof navigationRoutes;
+
+export type NavigationRouteType =
+  (typeof navigationRoutes)[NavigationRouteTypeKeys];

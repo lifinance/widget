@@ -1,4 +1,5 @@
 import type { ChainId, ChainType, Process, Route } from '@lifi/sdk';
+import type { NavigationRouteType } from '../utils/navigationRoutes.js';
 
 export enum WidgetEvent {
   RouteExecutionStarted = 'routeExecutionStarted',
@@ -11,9 +12,13 @@ export enum WidgetEvent {
   SourceChainTokenSelected = 'sourceChainTokenSelected',
   DestinationChainTokenSelected = 'destinationChainTokenSelected',
   SendToWalletToggled = 'sendToWalletToggled',
+  /**
+   * @deprecated Use `PageEntered` event instead.
+   */
   ReviewTransactionPageEntered = 'reviewTransactionPageEntered',
   WalletConnected = 'walletConnected',
   WidgetExpanded = 'widgetExpanded',
+  PageEntered = 'pageEntered',
 }
 
 export type WidgetEvents = {
@@ -30,6 +35,7 @@ export type WidgetEvents = {
   reviewTransactionPageEntered?: Route;
   walletConnected: WalletConnected;
   widgetExpanded: boolean;
+  pageEntered: NavigationRouteType;
 };
 
 export interface ContactSupport {
