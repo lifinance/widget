@@ -23,4 +23,4 @@ export { windows95Theme } from './themes/windows95.js';
 export * from './types/events.js';
 export type { TokenAmount } from './types/token.js';
 export * from './types/widget.js';
-export { calcPriceImpact } from './utils/calcPriceImpact.js';
+export { getPriceImpact } from './utils/getPriceImpact.js';

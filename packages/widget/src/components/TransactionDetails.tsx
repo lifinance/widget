@@ -11,9 +11,9 @@ import { useTranslation } from 'react-i18next';
 import { formatUnits } from 'viem';
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
 import { isRouteDone } from '../stores/routes/utils.js';
-import { calcPriceImpact } from '../utils/calcPriceImpact.js';
 import { getAccumulatedFeeCostsBreakdown } from '../utils/fees.js';
 import { formatTokenAmount } from '../utils/format.js';
+import { getPriceImpact } from '../utils/getPriceImpact.js';
 import { Card } from './Card/Card.js';
 import { CardIconButton } from './Card/CardIconButton.js';
 import { FeeBreakdownTooltip } from './FeeBreakdownTooltip.js';
@@ -38,7 +38,12 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
   const { gasCosts, feeCosts, gasCostUSD, feeCostUSD, combinedFeesUSD } =
     getAccumulatedFeeCostsBreakdown(route);
 
-  const priceImpact = calcPriceImpact(route);
+  const priceImpact = getPriceImpact({
+    fromAmount: BigInt(route.fromAmount),
+    toAmount: BigInt(route.toAmount),
+    fromToken: route.fromToken,
+    toToken: route.toToken,
+  });
 
   const feeCollectionStep = route.steps[0].includedSteps.find(
     (includedStep) => includedStep.tool === 'feeCollection',
