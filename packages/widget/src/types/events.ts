@@ -1,4 +1,5 @@
 import type { ChainId, ChainType, Process, Route } from '@lifi/sdk';
+import type { SettingsProps } from '@lifi/widget/stores/settings/types.js';
 import type { NavigationRouteType } from '../utils/navigationRoutes.js';
 
 export enum WidgetEvent {
@@ -19,6 +20,7 @@ export enum WidgetEvent {
   WalletConnected = 'walletConnected',
   WidgetExpanded = 'widgetExpanded',
   PageEntered = 'pageEntered',
+  SettingsUpdated = 'settingsUpdated',
 }
 
 export type WidgetEvents = {
@@ -36,6 +38,7 @@ export type WidgetEvents = {
   walletConnected: WalletConnected;
   widgetExpanded: boolean;
   pageEntered: NavigationRouteType;
+  settingsUpdated: SettingsUpdated;
 };
 
 export interface ContactSupport {
@@ -64,4 +67,9 @@ export interface WalletConnected {
   address?: string;
   chainId?: number;
   chainType?: ChainType;
+}
+
+export interface SettingsUpdated {
+  currentSettings: SettingsProps;
+  previousSettings: SettingsProps;
 }

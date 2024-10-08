@@ -142,6 +142,20 @@ export const useSettingsStore = createWithEqualityFn<SettingsState>(
         get().initializeTools('Bridges', bridges, true);
         get().initializeTools('Exchanges', exchanges, true);
       },
+      getSettingsState: () => ({
+        appearance: get().appearance,
+        gasPrice: get().gasPrice,
+        language: get().language,
+        routePriority: get().routePriority,
+        enabledAutoRefuel: get().enabledAutoRefuel,
+        slippage: get().slippage,
+        disabledBridges: get().disabledBridges,
+        enabledBridges: get().enabledBridges,
+        _enabledBridges: get()._enabledBridges,
+        disabledExchanges: get().disabledExchanges,
+        enabledExchanges: get().enabledExchanges,
+        _enabledExchanges: get()._enabledExchanges,
+      }),
     }),
     {
       name: `li.fi-widget-settings`,

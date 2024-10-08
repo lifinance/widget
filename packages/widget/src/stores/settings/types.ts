@@ -42,6 +42,7 @@ export interface SettingsState extends SettingsProps {
   setToolValue(toolType: SettingsToolType, tool: string, value: boolean): void;
   toggleToolKeys(toolType: SettingsToolType, toolKeys: string[]): void;
   reset(bridges: string[], exchanges: string[]): void;
+  getSettingsState(): SettingsProps;
 }
 
 export interface SendToWalletState {
