@@ -1,17 +1,8 @@
 import { shallow } from 'zustand/shallow';
 import { useEditToolsActions, useEditToolsStore } from '../store';
+import { setQueryStringParam } from '../utils/setQueryStringParam';
 
 const queryStringKey = 'devView';
-
-const setQueryStringParam = (value: boolean) => {
-  const url = new URL(window.location.href);
-  if (value) {
-    url.searchParams.set(queryStringKey, value.toString());
-  } else {
-    url.searchParams.delete(queryStringKey);
-  }
-  window.history.pushState(null, '', url.toString());
-};
 
 export const useDevView = () => {
   const [isDevView] = useEditToolsStore((store) => [store.isDevView], shallow);
@@ -19,7 +10,7 @@ export const useDevView = () => {
 
   const toggleDevView = () => {
     const newDevViewValue = !isDevView;
-    setQueryStringParam(newDevViewValue);
+    setQueryStringParam(queryStringKey, newDevViewValue);
     setIsDevView(newDevViewValue);
   };
 
