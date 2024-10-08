@@ -1,6 +1,10 @@
+import { debounce } from '@mui/material';
 import type { PropsWithChildren } from 'react';
 import { useMemo, useRef } from 'react';
+import type { widgetEvents } from '../../hooks/useWidgetEvents.js';
+import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
+import { WidgetEvent } from '../../types/events.js';
 import type { FormRef, ToAddress } from '../../types/widget.js';
 import { HiddenUI } from '../../types/widget.js';
 import { FormStoreContext } from './FormStoreContext.js';
@@ -31,6 +35,17 @@ const initialiseDefaultValues = (
     : toAddress?.address || formDefaultValues.toAddress,
 });
 
+const handleToAddressWidgetEvent = (
+  address: string,
+  emitter: typeof widgetEvents,
+) => {
+  emitter.emit(WidgetEvent.SendToWalletAddressChanged, {
+    address,
+  });
+};
+
+const debouncedToAddressWidgetEvent = debounce(handleToAddressWidgetEvent, 100);
+
 interface FormStoreProviderProps extends PropsWithChildren {
   formRef?: FormRef;
 }
@@ -40,6 +55,7 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
   formRef,
 }) => {
   const widgetConfig = useWidgetConfig();
+  const widgetEvents = useWidgetEvents();
 
   const {
     fromChain,
@@ -130,6 +146,14 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
         hiddenToAddress,
       ),
     );
+
+    // emit sendToWalletAddressChange event if toAddress is set in the config
+    if (toAddress) {
+      // debounce used to push this event emit to the back of the job queue
+      // otherwise without it the useEffect that is set up for listening to widget events
+      // can potentially be set up after the event has been emitted
+      debouncedToAddressWidgetEvent(toAddress.address, widgetEvents);
+    }
   }
 
   useFormRef(storeRef.current, formRef);

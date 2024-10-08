@@ -28,6 +28,7 @@ import {
   WalletManagementControl,
 } from './DesignControls';
 import { FormValuesControl } from './DesignControls/FormValuesControls';
+import { WidgetEventControls } from './DesignControls/WidgetEventsControls';
 import {
   Drawer,
   DrawerContentContainer,
@@ -124,6 +125,7 @@ export const DrawerControls = () => {
                   <CardRadiusControl />
                   <ButtonRadiusControl />
                   <FormValuesControl />
+                  <WidgetEventControls />
                   <WalletManagementControl />
                   <SkeletonControl />
                   <LayoutControls />
