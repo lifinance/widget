@@ -26,6 +26,21 @@ const fieldValueToEmittedEvents: FieldValueToEmittedEvents = {
     }),
 };
 
+const emitEventForFieldValueChange = (
+  fieldName: FormFieldNames,
+  newValue: GenericFormValue,
+  currenValue: GenericFormValue,
+  emitter: typeof widgetEvents,
+) => {
+  const emitFunction = fieldValueToEmittedEvents[fieldName];
+
+  // only emit a widget event if a mapping exists in fieldValueToEmittedEvents
+  // and if the field value will change
+  if (emitFunction && newValue !== currenValue) {
+    emitFunction(newValue, emitter);
+  }
+};
+
 export const useFieldActions = () => {
   const emitter = useWidgetEvents();
   const actions = useFormStore<FormActions>(
@@ -47,11 +62,12 @@ export const useFieldActions = () => {
       value: GenericFormValue,
       options?: SetOptions,
     ) => {
-      const emitFunction = fieldValueToEmittedEvents[fieldName];
-
-      if (emitFunction && value !== actions.getFieldValues(fieldName)[0]) {
-        emitFunction(value, emitter);
-      }
+      emitEventForFieldValueChange(
+        fieldName,
+        value,
+        actions.getFieldValues(fieldName)[0],
+        emitter,
+      );
 
       actions.setFieldValue(fieldName, value, options);
     },
@@ -61,17 +77,12 @@ export const useFieldActions = () => {
   const setUserAndDefaultValuesWithEmittedEvents = useCallback(
     (formValues: Partial<DefaultValues>) => {
       (Object.keys(formValues) as FormFieldNames[]).forEach((fieldName) => {
-        const emitFunction = fieldValueToEmittedEvents[fieldName];
-        const fieldValue = formValues[fieldName];
-
-        // only emit a widget event if a mapping exists in fieldValueToEmittedEvents
-        // and if the field value will change
-        if (
-          emitFunction &&
-          fieldValue !== actions.getFieldValues(fieldName)[0]
-        ) {
-          emitFunction(fieldValue, emitter);
-        }
+        emitEventForFieldValueChange(
+          fieldName,
+          formValues[fieldName],
+          actions.getFieldValues(fieldName)[0],
+          emitter,
+        );
       });
 
       actions.setUserAndDefaultValues(formValues);
