@@ -1,5 +1,5 @@
-import type { CoinbaseWalletParameters } from '@wagmi/connectors';
-import { coinbaseWallet } from '@wagmi/connectors';
+import type { CoinbaseWalletParameters } from 'wagmi/connectors';
+import { coinbaseWallet } from 'wagmi/connectors';
 import { extendConnector } from './utils.js';
 
 export const createCoinbaseConnector = /*#__PURE__*/ (

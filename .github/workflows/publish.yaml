@@ -35,12 +35,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
-        uses: ./.github/actions/yarn-install
+        uses: ./.github/actions/pnpm-install
       - name: Build
-        run: yarn release:build
+        run: pnpm release:build
       - name: Publish to npm
         run: |
-          yarn release:publish${{ contains(github.ref_name, 'alpha') && ':alpha' || contains(github.ref_name, 'beta') && ':beta' || '' }}
+          pnpm release:publish${{ contains(github.ref_name, 'alpha') && ':alpha' || contains(github.ref_name, 'beta') && ':beta' || '' }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true

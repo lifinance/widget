@@ -3,36 +3,34 @@
   "private": true,
   "sideEffects": false,
   "type": "module",
-  "packageManager": "yarn@4.5.0",
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
-    "start": "lerna run start",
-    "build": "lerna run build",
-    "clean": "lerna run clean",
-    "dev": "yarn workspace @lifi/widget-playground-vite dev",
-    "dev:next": "yarn workspace @lifi/widget-playground-next dev",
-    "release": "yarn release:version:before && yarn release:version && yarn release:version:after && yarn standard-version -a",
-    "release:alpha": "yarn release:version:before && yarn release:version --preid alpha && yarn release:version:after && yarn standard-version -a --prerelease alpha --skip.changelog",
-    "release:beta": "yarn release:version:before && yarn release:version --preid beta && yarn release:version:after && yarn standard-version -a --prerelease beta --skip.changelog",
+    "build": "pnpm -r build",
+    "clean": "pnpm -r --parallel clean",
+    "dev": "pnpm --filter widget-playground-vite dev",
+    "dev:next": "pnpm --filter widget-playground-next dev",
+    "release": "pnpm release:version && pnpm standard-version -a",
+    "release:alpha": "pnpm release:version --preid alpha && pnpm standard-version -a --prerelease alpha --skip.changelog",
+    "release:beta": "pnpm release:version --preid beta && pnpm standard-version -a --prerelease beta --skip.changelog",
     "release:version": "lerna version --no-changelog --no-push --no-git-tag-version --no-private",
-    "release:version:before": "node scripts/private-version before",
-    "release:version:after": "yarn release:build && node scripts/private-version after",
-    "release:build": "lerna run build --no-private",
+    "release:build": "pnpm -r --parallel release:build",
     "release:publish": "lerna publish from-package --dist-tag latest --no-verify-access --yes",
     "release:publish:alpha": "lerna publish from-package --dist-tag alpha --no-verify-access --yes",
     "release:publish:beta": "lerna publish from-package --dist-tag beta --no-verify-access --yes",
     "pre-commit": "lint-staged",
-    "pre-commit:validate": "yarn workspaces foreach -Apt run pre-commit:validate",
-    "pre-push": "yarn workspaces foreach -Apt run pre-push:validate",
+    "pre-commit:validate": "pnpm -r --parallel pre-commit:validate",
+    "pre-push": "pnpm -r --parallel pre-push:validate",
     "prepare": "husky",
     "postinstall": "husky",
-    "check:types": "yarn workspaces foreach -Apt run check:types"
+    "check:types": "pnpm -r --parallel check:types"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "pnpm pre-commit:validate"
+    ]
   },
   "standard-version": {
     "scripts": {
-      "prerelease": "yarn && git add ."
+      "prerelease": "pnpm install && git add ."
     }
   },
   "devDependencies": {
@@ -59,6 +57,7 @@
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.37.1",
     "eslint-plugin-react-hooks": "^4.6.2",
+    "fs-extra": "^11.2.0",
     "husky": "^9.1.6",
     "lerna": "8.1.8",
     "lint-staged": "^15.2.10",
@@ -68,5 +67,6 @@
     "react-dom": "^18.3.1",
     "standard-version": "^9.5.0",
     "typescript": "^5.6.2"
-  }
+  },
+  "packageManager": "pnpm@9.12.1"
 }

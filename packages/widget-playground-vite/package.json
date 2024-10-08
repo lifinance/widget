@@ -11,7 +11,7 @@
     "check:types": "tsc --noEmit",
     "lint": "eslint --ext .tsx --ext .ts ./src",
     "format": "prettier --write ./src/",
-    "pre-commit:validate": "yarn format && yarn lint --fix --max-warnings=0"
+    "pre-commit:validate": "pnpm format && pnpm lint --fix --max-warnings=0"
   },
   "publishConfig": {
     "access": "public"
@@ -19,11 +19,13 @@
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
     "@lifi/sdk": "^3.3.0-beta.0",
-    "@lifi/wallet-management": "^3.3.0-beta.7",
-    "@lifi/widget": "^3.7.0-beta.7",
-    "@lifi/widget-playground": "^1.0.230",
+    "@lifi/wallet-management": "workspace:*",
+    "@lifi/widget": "workspace:*",
+    "@lifi/widget-playground": "workspace:*",
     "@mui/icons-material": "^5.16.7",
+    "@mui/lab": "^5.0.0-alpha.173",
     "@mui/material": "^5.16.7",
+    "@mui/system": "^5.16.7",
     "@rainbow-me/rainbowkit": "^2.1.7",
     "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/wallet-adapter-react": "^0.15.35",

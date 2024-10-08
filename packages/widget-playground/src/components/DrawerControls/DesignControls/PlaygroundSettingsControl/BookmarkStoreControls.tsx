@@ -1,4 +1,4 @@
-import { ChainType } from '@lifi/types';
+import { ChainType } from '@lifi/sdk';
 import type { BookmarkProps } from '@lifi/widget/stores/bookmarks/types';
 import { Box, Button } from '@mui/material';
 import { useDevView } from '../../../../hooks';

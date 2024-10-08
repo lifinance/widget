@@ -1,6 +1,6 @@
 'use client';
-import type { ResolvedRegister, State } from '@wagmi/core';
 import { createContext, createElement } from 'react';
+import type { ResolvedRegister, State } from 'wagmi';
 import { Hydrate } from 'wagmi';
 
 export const BigmiContext = createContext<

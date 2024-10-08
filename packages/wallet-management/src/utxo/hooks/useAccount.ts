@@ -1,11 +1,7 @@
 'use client';
-import {
-  type Config,
-  type ResolvedRegister,
-  getAccount,
-  watchAccount,
-} from '@wagmi/core';
 import type { UseAccountParameters, UseAccountReturnType } from 'wagmi';
+import { type Config, type ResolvedRegister } from 'wagmi';
+import { getAccount, watchAccount } from 'wagmi/actions';
 import { useConfig } from './useConfig.js';
 import { useSyncExternalStoreWithTracked } from './useSyncExternalStoreWithTracked.js';
 

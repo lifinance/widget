@@ -1,7 +1,7 @@
 'use client';
-import { deepEqual } from '@wagmi/core';
 import { useRef } from 'react';
 import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/shim/with-selector.js';
+import { deepEqual } from 'wagmi';
 
 const isPlainObject = (obj: unknown) =>
   typeof obj === 'object' && !Array.isArray(obj);

@@ -34,6 +34,12 @@
       "@lifi/widget/*": [
         "./packages/widget/src/*"
       ],
+      "@lifi/widget-playground": [
+        "./packages/widget-playground/src"
+      ],
+      "@lifi/widget-playground/*": [
+        "./packages/widget-playground/src/*"
+      ],
     }
   },
   "exclude": [
@@ -41,6 +47,5 @@
     "**/build",
     "**/dist",
     "node_modules",
-    ".yarn"
   ]
 }

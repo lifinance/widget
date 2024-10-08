@@ -18,17 +18,17 @@ import type {
 } from '@mui/material';
 import type { TypographyOptions } from '@mui/material/styles/createTypography.js';
 import type {
-  CoinbaseWalletParameters,
-  MetaMaskParameters,
-  WalletConnectParameters,
-} from '@wagmi/connectors';
-import type {
   CSSProperties,
   FC,
   MutableRefObject,
   ReactNode,
   RefObject,
 } from 'react';
+import type {
+  CoinbaseWalletParameters,
+  MetaMaskParameters,
+  WalletConnectParameters,
+} from 'wagmi/connectors';
 import type {
   LanguageKey,
   LanguageResources,

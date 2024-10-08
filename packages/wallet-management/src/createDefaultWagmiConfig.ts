@@ -1,12 +1,12 @@
-import type {
-  CoinbaseWalletParameters,
-  MetaMaskParameters,
-  WalletConnectParameters,
-} from '@wagmi/connectors';
 import { createClient, http } from 'viem';
 import { mainnet } from 'viem/chains';
 import type { Config, CreateConnectorFn } from 'wagmi';
 import { createConfig } from 'wagmi';
+import type {
+  CoinbaseWalletParameters,
+  MetaMaskParameters,
+  WalletConnectParameters,
+} from 'wagmi/connectors';
 import { createCoinbaseConnector } from './connectors/coinbase.js';
 import { createMetaMaskConnector } from './connectors/metaMask.js';
 import { createWalletConnectConnector } from './connectors/walletConnect.js';

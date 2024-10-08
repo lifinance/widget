@@ -6,8 +6,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write ./src/",
-    "pre-commit:validate": "yarn format && next lint --fix --max-warnings=0"
+    "format": "prettier --write ./src/"
   },
   "publishConfig": {
     "access": "public"
@@ -17,11 +16,13 @@
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@lifi/sdk": "^3.3.0-beta.0",
-    "@lifi/wallet-management": "^3.3.0-beta.7",
-    "@lifi/widget": "^3.7.0-beta.7",
-    "@lifi/widget-playground": "^1.0.230",
+    "@lifi/wallet-management": "workspace:*",
+    "@lifi/widget": "workspace:*",
+    "@lifi/widget-playground": "workspace:*",
     "@mui/icons-material": "^5.16.7",
+    "@mui/lab": "^5.0.0-alpha.173",
     "@mui/material": "^5.16.7",
+    "@mui/system": "^5.16.7",
     "@mui/material-nextjs": "^5.16.6",
     "@rainbow-me/rainbowkit": "^2.1.7",
     "@solana/wallet-adapter-base": "^0.9.23",

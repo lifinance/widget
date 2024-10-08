@@ -25,7 +25,7 @@ interface CodeEditorProps {
 export const CodeEditor = ({ onChange }: CodeEditorProps) => {
   const { config } = useConfig();
 
-  const [editor, setEditor] = useState();
+  const [editor, setEditor] = useState<any>();
   const editorContainerRef = useRef<HTMLElement | null>(null);
   const theme = useTheme();
   const themeMode = useThemeMode();

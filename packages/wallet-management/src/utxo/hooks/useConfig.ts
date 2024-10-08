@@ -1,7 +1,11 @@
 'use client';
-import type { Config, ResolvedRegister } from '@wagmi/core';
 import { useContext } from 'react';
-import type { UseConfigParameters, UseConfigReturnType } from 'wagmi';
+import type {
+  Config,
+  ResolvedRegister,
+  UseConfigParameters,
+  UseConfigReturnType,
+} from 'wagmi';
 import { BigmiContext } from '../context.js';
 import { BigmiProviderNotFoundError } from '../errors/context.js';
 

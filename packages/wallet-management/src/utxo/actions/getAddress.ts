@@ -1,5 +1,5 @@
 import { isUTXOAddress } from '@lifi/sdk';
-import type { Address } from 'abitype';
+import type { Address } from 'viem';
 import { InvalidAddressError } from 'viem';
 
 export function getAddress(address: string): Address {

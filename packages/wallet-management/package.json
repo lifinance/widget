@@ -8,16 +8,17 @@
   "sideEffects": false,
   "scripts": {
     "watch": "tsc -w -p ./tsconfig.json",
-    "build": "yarn clean && yarn build:esm && yarn build:postcompile && yarn build:clean",
+    "build": "pnpm clean && pnpm build:esm && pnpm build:postcompile && pnpm build:clean",
     "build:esm": "tsc --build",
     "build:postcompile": "node ../../scripts/postcompile.js && cpy 'src/**/*' dist",
     "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo ./dist/tsconfig.cjs.tsbuildinfo",
-    "clean": "yarn build:clean && rm -rf dist",
+    "release:build": "pnpm build",
+    "clean": "pnpm build:clean && rm -rf dist",
     "check:types": "tsc --noEmit",
     "lint": "eslint --ext .tsx --ext .ts ./src",
     "format": "prettier --write ./src/",
-    "pre-commit:validate": "yarn format &&  yarn lint --fix --max-warnings=0",
-    "pre-push:validate": "yarn check:types"
+    "pre-commit:validate": "pnpm format && pnpm lint --fix --max-warnings=0",
+    "pre-push:validate": "pnpm check:types"
   },
   "publishConfig": {
     "access": "public"
@@ -52,8 +53,14 @@
     "@mui/icons-material": "^5.16.7",
     "@mui/lab": "^5.0.0-alpha.173",
     "@mui/material": "^5.16.7",
+    "@mui/system": "^5.16.7",
+    "@safe-global/safe-apps-provider": "^0.18.3",
+    "@safe-global/safe-apps-sdk": "^9.1.0",
     "@solana/wallet-adapter-base": "^0.9.23",
+    "@solana/wallet-adapter-react": "^0.15.35",
+    "@wagmi/core": "^2.13.8",
     "i18next": "^23.15.1",
+    "mitt": "^3.0.1",
     "react": "^18.3.1",
     "react-i18next": "^15.0.2",
     "use-sync-external-store": "^1.2.2",

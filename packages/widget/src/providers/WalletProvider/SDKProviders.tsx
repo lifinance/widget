@@ -6,12 +6,12 @@ import {
 } from '@lifi/wallet-management';
 import type { SignerWalletAdapter } from '@solana/wallet-adapter-base';
 import { useWallet } from '@solana/wallet-adapter-react';
+import { useEffect } from 'react';
+import { useConfig as useWagmiConfig } from 'wagmi';
 import {
   getConnectorClient as getWagmiConnectorClient,
   switchChain,
-} from '@wagmi/core';
-import { useEffect } from 'react';
-import { useConfig as useWagmiConfig } from 'wagmi';
+} from 'wagmi/actions';
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js';
 
 export const SDKProviders = () => {
