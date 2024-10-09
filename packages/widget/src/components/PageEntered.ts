@@ -31,7 +31,8 @@ export function PageEntered() {
       isNotSettingsSubpage(previousPathname)
     ) {
       // The first if detects the user entering the settings page and captures the settings state
-      //   From this settings section the user can navigate from these subpages without meaningfully leaving the settings section
+      //   Note that the user can navigate to the settings page from the following subpages without meaningfully
+      //   leaving the settings section...
       //   - bridges - /settings/bridges
       //   - exchanges - /settings/exchanges
       //   - languages - /settings/languages
@@ -43,16 +44,15 @@ export function PageEntered() {
       isNotSettingsSubpage(currentPathname) &&
       previousPathname === '/settings'
     ) {
-      // The second if detects the user leaving the settings page and checks the settings state against the
-      // state captured when the user entered the settings, emitting a SettingsUpdated event if there has been
-      // any settings changed.
-      //   From this section the user can navigate to these subpages without leave the settings section
+      // The second if detects the user leaving the settings page and checks the current settings state against the
+      // state previously captured, emitting a SettingsUpdated event if there has been any settings changed.
+      //   From settings page the user can navigate to these subpages without meaningfully leave the settings section
       //   - bridges - /settings/bridges
       //   - exchanges - /settings/exchanges
       //   - languages - /settings/languages
       //   - select wallet pages - /select-wallet
       //   We check that the location the user navigated to is not one of these pages
-      //   in order ensure we emit the SettingsUpdated event at the point the user meaningfully leaves the Settings
+      //   in order to ensure we only emit the SettingsUpdated event at the point the user meaningfully leaves the Settings
       const currentSettings = getSettings();
       if (
         previousSettings.current &&
