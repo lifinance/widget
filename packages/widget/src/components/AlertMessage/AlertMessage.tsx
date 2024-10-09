@@ -1,16 +1,16 @@
-import type { BoxProps } from '@mui/material';
-import type { PropsWithChildren, ReactNode } from 'react';
+import type { BoxProps } from '@mui/material'
+import type { PropsWithChildren, ReactNode } from 'react'
 import {
   AlertMessageCard,
   AlertMessageCardTitle,
-} from './AlertMessage.style.js';
-import type { Severity } from './types.js';
+} from './AlertMessage.style.js'
+import type { Severity } from './types.js'
 
 interface AlertMessageProps extends PropsWithChildren<Omit<BoxProps, 'title'>> {
-  icon: ReactNode;
-  title: ReactNode;
-  multilineTitle?: boolean;
-  severity?: Severity;
+  icon: ReactNode
+  title: ReactNode
+  multilineTitle?: boolean
+  severity?: Severity
 }
 
 export const AlertMessage = ({
@@ -31,4 +31,4 @@ export const AlertMessage = ({
     </AlertMessageCardTitle>
     {children}
   </AlertMessageCard>
-);
+)

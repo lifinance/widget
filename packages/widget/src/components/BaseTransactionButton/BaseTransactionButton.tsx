@@ -1,10 +1,10 @@
-import { useAccount, useWalletMenu } from '@lifi/wallet-management';
-import { LoadingButton } from '@mui/lab';
-import { useTranslation } from 'react-i18next';
-import { useChain } from '../../hooks/useChain.js';
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
-import { useFieldValues } from '../../stores/form/useFieldValues.js';
-import type { BaseTransactionButtonProps } from './types.js';
+import { useAccount, useWalletMenu } from '@lifi/wallet-management'
+import { LoadingButton } from '@mui/lab'
+import { useTranslation } from 'react-i18next'
+import { useChain } from '../../hooks/useChain.js'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { useFieldValues } from '../../stores/form/useFieldValues.js'
+import type { BaseTransactionButtonProps } from './types.js'
 
 export const BaseTransactionButton: React.FC<BaseTransactionButtonProps> = ({
   onClick,
@@ -12,31 +12,31 @@ export const BaseTransactionButton: React.FC<BaseTransactionButtonProps> = ({
   disabled,
   loading,
 }) => {
-  const { t } = useTranslation();
-  const { walletConfig } = useWidgetConfig();
-  const { openWalletMenu } = useWalletMenu();
-  const [fromChainId] = useFieldValues('fromChain');
-  const { chain } = useChain(fromChainId);
-  const { account } = useAccount({ chainType: chain?.chainType });
+  const { t } = useTranslation()
+  const { walletConfig } = useWidgetConfig()
+  const { openWalletMenu } = useWalletMenu()
+  const [fromChainId] = useFieldValues('fromChain')
+  const { chain } = useChain(fromChainId)
+  const { account } = useAccount({ chainType: chain?.chainType })
 
   const handleClick = async () => {
     if (account.isConnected) {
-      onClick?.();
+      onClick?.()
     } else if (walletConfig?.onConnect) {
-      walletConfig.onConnect();
+      walletConfig.onConnect()
     } else {
-      openWalletMenu();
+      openWalletMenu()
     }
-  };
+  }
 
   const getButtonText = () => {
     if (account.isConnected) {
       if (text) {
-        return text;
+        return text
       }
     }
-    return t(`button.connectWallet`);
-  };
+    return t('button.connectWallet')
+  }
 
   return (
     <LoadingButton
@@ -50,5 +50,5 @@ export const BaseTransactionButton: React.FC<BaseTransactionButtonProps> = ({
     >
       {getButtonText()}
     </LoadingButton>
-  );
-};
+  )
+}

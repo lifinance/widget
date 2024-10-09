@@ -4,20 +4,20 @@ import {
   FormControl as MuiFormControl,
   inputBaseClasses,
   styled,
-} from '@mui/material';
+} from '@mui/material'
 
-export const maxInputFontSize = 24;
-export const minInputFontSize = 14;
+export const maxInputFontSize = 24
+export const minInputFontSize = 14
 
 export const FormContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(2),
-}));
+}))
 
-export const FormControl = styled(MuiFormControl)(({ theme }) => ({
+export const FormControl = styled(MuiFormControl)(() => ({
   height: 40,
-}));
+}))
 
 export const Input = styled(InputBase)(({ theme }) => ({
   fontSize: 24,
@@ -42,4 +42,4 @@ export const Input = styled(InputBase)(({ theme }) => ({
   [`.${inputBaseClasses.input}.${inputBaseClasses.disabled}`]: {
     WebkitTextFillColor: 'unset',
   },
-}));
+}))

@@ -2,49 +2,42 @@ import {
   getConnectorIcon,
   useAccount,
   useWalletMenu,
-} from '@lifi/wallet-management';
+} from '@lifi/wallet-management'
 import {
   ContentCopyRounded,
   OpenInNewRounded,
   PowerSettingsNewRounded,
-} from '@mui/icons-material';
-import {
-  Avatar,
-  Badge,
-  Box,
-  Button,
-  IconButton,
-  MenuItem,
-} from '@mui/material';
-import { useTranslation } from 'react-i18next';
-import { useAvailableChains } from '../../hooks/useAvailableChains.js';
-import { useExplorer } from '../../hooks/useExplorer.js';
-import { shortenAddress } from '../../utils/wallet.js';
-import { AvatarMasked } from '../Avatar/Avatar.style.js';
-import { SmallAvatar } from '../Avatar/SmallAvatar.js';
-import { DisconnectIconButton } from './DisconnectIconButton.js';
+} from '@mui/icons-material'
+import { Avatar, Badge, Box, Button, IconButton, MenuItem } from '@mui/material'
+import { useTranslation } from 'react-i18next'
+import { useAvailableChains } from '../../hooks/useAvailableChains.js'
+import { useExplorer } from '../../hooks/useExplorer.js'
+import { shortenAddress } from '../../utils/wallet.js'
+import { AvatarMasked } from '../Avatar/Avatar.style.js'
+import { SmallAvatar } from '../Avatar/SmallAvatar.js'
+import { DisconnectIconButton } from './DisconnectIconButton.js'
 
 export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
-  const { t } = useTranslation();
-  const { accounts } = useAccount();
-  const { getChainById } = useAvailableChains();
-  const { openWalletMenu } = useWalletMenu();
+  const { t } = useTranslation()
+  const { accounts } = useAccount()
+  const { getChainById } = useAvailableChains()
+  const { openWalletMenu } = useWalletMenu()
   const connect = async () => {
-    openWalletMenu();
-    onClose();
-  };
-  const { getAddressLink } = useExplorer();
+    openWalletMenu()
+    onClose()
+  }
+  const { getAddressLink } = useExplorer()
 
   return (
     <>
       <Box display="flex" flexDirection="column">
         {accounts.map((account) => {
-          const chain = getChainById(account.chainId);
-          const walletAddress = shortenAddress(account.address);
+          const chain = getChainById(account.chainId)
+          const walletAddress = shortenAddress(account.address)
           const handleCopyAddress = async () => {
-            await navigator.clipboard.writeText(account.address ?? '');
-            onClose();
-          };
+            await navigator.clipboard.writeText(account.address ?? '')
+            onClose()
+          }
 
           return (
             <MenuItem key={account.address} disableTouchRipple>
@@ -100,7 +93,7 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
                 <DisconnectIconButton account={account} />
               </Box>
             </MenuItem>
-          );
+          )
         })}
       </Box>
       <Button
@@ -111,8 +104,8 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
           marginTop: 1,
         }}
       >
-        {t(`button.connectAnotherWallet`)}
+        {t('button.connectAnotherWallet')}
       </Button>
     </>
-  );
-};
+  )
+}

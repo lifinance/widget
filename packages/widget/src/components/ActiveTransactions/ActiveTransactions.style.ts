@@ -4,8 +4,8 @@ import {
   ListItemButton as MuiListItemButton,
   listItemSecondaryActionClasses,
   styled,
-} from '@mui/material';
-import { getContrastAlphaColor } from '../../utils/colors.js';
+} from '@mui/material'
+import { getContrastAlphaColor } from '../../utils/colors.js'
 
 export const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
@@ -15,7 +15,7 @@ export const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
   '&:hover': {
     backgroundColor: getContrastAlphaColor(theme, 0.04),
   },
-}));
+}))
 
 export const ListItem = styled(MuiListItem, {
   shouldForwardProp: (prop) => prop !== 'disableRipple',
@@ -27,7 +27,7 @@ export const ListItem = styled(MuiListItem, {
   '&:hover': {
     cursor: 'pointer',
   },
-}));
+}))
 
 export const ShowAllButton = styled(Button)(({ theme }) => ({
   background: 'none',
@@ -36,4 +36,4 @@ export const ShowAllButton = styled(Button)(({ theme }) => ({
   },
   padding: theme.spacing(0.75, 2),
   fontSize: '0.875rem',
-}));
+}))

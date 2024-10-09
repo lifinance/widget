@@ -1,5 +1,5 @@
-import type { Address, Chain } from 'viem';
-import type { Config, Connector } from 'wagmi';
+import type { Address, Chain } from 'viem'
+import type { Config, Connector } from 'wagmi'
 
 export type GetAccountReturnType<
   config extends Config = Config,
@@ -7,66 +7,66 @@ export type GetAccountReturnType<
   chain = Config extends config ? Chain : config['chains'][number],
 > =
   | {
-      address: Address;
-      addresses: readonly [Address, ...Address[]];
-      chain: chain | undefined;
-      chainId: number;
-      connector: Connector;
-      isConnected: true;
-      isConnecting: false;
-      isDisconnected: false;
-      isReconnecting: false;
-      status: 'connected';
+      address: Address
+      addresses: readonly [Address, ...Address[]]
+      chain: chain | undefined
+      chainId: number
+      connector: Connector
+      isConnected: true
+      isConnecting: false
+      isDisconnected: false
+      isReconnecting: false
+      status: 'connected'
     }
   | {
-      address: Address | undefined;
-      addresses: readonly Address[] | undefined;
-      chain: chain | undefined;
-      chainId: number | undefined;
-      connector: Connector | undefined;
-      isConnected: boolean;
-      isConnecting: false;
-      isDisconnected: false;
-      isReconnecting: true;
-      status: 'reconnecting';
+      address: Address | undefined
+      addresses: readonly Address[] | undefined
+      chain: chain | undefined
+      chainId: number | undefined
+      connector: Connector | undefined
+      isConnected: boolean
+      isConnecting: false
+      isDisconnected: false
+      isReconnecting: true
+      status: 'reconnecting'
     }
   | {
-      address: Address | undefined;
-      addresses: readonly Address[] | undefined;
-      chain: chain | undefined;
-      chainId: number | undefined;
-      connector: Connector | undefined;
-      isConnected: false;
-      isReconnecting: false;
-      isConnecting: true;
-      isDisconnected: false;
-      status: 'connecting';
+      address: Address | undefined
+      addresses: readonly Address[] | undefined
+      chain: chain | undefined
+      chainId: number | undefined
+      connector: Connector | undefined
+      isConnected: false
+      isReconnecting: false
+      isConnecting: true
+      isDisconnected: false
+      status: 'connecting'
     }
   | {
-      address: undefined;
-      addresses: undefined;
-      chain: undefined;
-      chainId: undefined;
-      connector: undefined;
-      isConnected: false;
-      isReconnecting: false;
-      isConnecting: false;
-      isDisconnected: true;
-      status: 'disconnected';
-    };
+      address: undefined
+      addresses: undefined
+      chain: undefined
+      chainId: undefined
+      connector: undefined
+      isConnected: false
+      isReconnecting: false
+      isConnecting: false
+      isDisconnected: true
+      status: 'disconnected'
+    }
 
 /** https://wagmi.sh/core/api/actions/getAccount */
 export function getAccount<C extends Config>(
-  config: C,
+  config: C
 ): GetAccountReturnType<C> {
-  const uid = config.state.current!;
-  const connection = config.state.connections.get(uid);
-  const addresses = connection?.accounts;
-  const address = addresses?.[0];
+  const uid = config.state.current!
+  const connection = config.state.connections.get(uid)
+  const addresses = connection?.accounts
+  const address = addresses?.[0]
   const chain = config.chains.find(
-    (chain) => chain.id === connection?.chainId,
-  ) as GetAccountReturnType<C>['chain'];
-  const status = config.state.status;
+    (chain) => chain.id === connection?.chainId
+  ) as GetAccountReturnType<C>['chain']
+  const status = config.state.status
 
   switch (status) {
     case 'connected':
@@ -81,7 +81,7 @@ export function getAccount<C extends Config>(
         isDisconnected: false,
         isReconnecting: false,
         status,
-      };
+      }
     case 'reconnecting':
       return {
         address,
@@ -94,7 +94,7 @@ export function getAccount<C extends Config>(
         isDisconnected: false,
         isReconnecting: true,
         status,
-      };
+      }
     case 'connecting':
       return {
         address,
@@ -107,7 +107,7 @@ export function getAccount<C extends Config>(
         isDisconnected: false,
         isReconnecting: false,
         status,
-      };
+      }
     case 'disconnected':
       return {
         address: undefined,
@@ -120,6 +120,6 @@ export function getAccount<C extends Config>(
         isDisconnected: true,
         isReconnecting: false,
         status,
-      };
+      }
   }
 }

@@ -1,9 +1,9 @@
-import { type FC, type PropsWithChildren } from 'react';
-import { EVMProvider } from './EVMProvider';
-import { SVMProvider } from './SVMProvider';
+import type { FC, PropsWithChildren } from 'react'
+import { EVMProvider } from './EVMProvider'
+import { SVMProvider } from './SVMProvider'
 
 interface ExternalWalletProviderProps extends PropsWithChildren {
-  isExternalProvider?: boolean;
+  isExternalProvider?: boolean
 }
 export const ExternalWalletProvider: FC<ExternalWalletProviderProps> = ({
   children,
@@ -15,5 +15,5 @@ export const ExternalWalletProvider: FC<ExternalWalletProviderProps> = ({
     </EVMProvider>
   ) : (
     <>{children}</>
-  );
-};
+  )
+}

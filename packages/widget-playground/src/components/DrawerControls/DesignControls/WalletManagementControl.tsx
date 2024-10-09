@@ -1,25 +1,25 @@
-import * as React from 'react';
-import { useConfigActions, useConfigWalletManagement } from '../../../store';
+import type * as React from 'react'
+import { useConfigActions, useConfigWalletManagement } from '../../../store'
 import {
   Card,
   CardRowContainer,
   CardTitleContainer,
   CardValue,
-} from '../../Card';
-import { Switch } from '../../Switch';
+} from '../../Card'
+import { Switch } from '../../Switch'
 
 export const WalletManagementControl = () => {
   const { isExternalWalletManagement, replacementWalletConfig } =
-    useConfigWalletManagement();
-  const { setWalletConfig } = useConfigActions();
+    useConfigWalletManagement()
+  const { setWalletConfig } = useConfigActions()
   const handleSwitchChange: (
     _: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean,
+    checked: boolean
   ) => void = (_, checked) => {
-    const walletConfig = checked ? replacementWalletConfig : undefined;
+    const walletConfig = checked ? replacementWalletConfig : undefined
 
-    setWalletConfig(walletConfig);
-  };
+    setWalletConfig(walletConfig)
+  }
 
   return (
     <Card>
@@ -34,5 +34,5 @@ export const WalletManagementControl = () => {
         />
       </CardRowContainer>
     </Card>
-  );
-};
+  )
+}

@@ -1,22 +1,22 @@
-import type { Route } from '@lifi/sdk';
-import { useAccount } from '@lifi/wallet-management';
-import { Collapse, Grow, Stack, Typography } from '@mui/material';
-import { useEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-import type { RouteObject } from 'react-router-dom';
-import { useRoutes as useDOMRoutes, useNavigate } from 'react-router-dom';
-import { useRoutes } from '../../hooks/useRoutes.js';
-import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
-import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
-import { useFieldValues } from '../../stores/form/useFieldValues.js';
-import { WidgetEvent } from '../../types/events.js';
-import { navigationRoutes } from '../../utils/navigationRoutes.js';
-import { PageContainer } from '../PageContainer.js';
-import { ProgressToNextUpdate } from '../ProgressToNextUpdate.js';
-import { RouteCard } from '../RouteCard/RouteCard.js';
-import { RouteCardSkeleton } from '../RouteCard/RouteCardSkeleton.js';
-import { RouteNotFoundCard } from '../RouteCard/RouteNotFoundCard.js';
+import type { Route } from '@lifi/sdk'
+import { useAccount } from '@lifi/wallet-management'
+import { Collapse, Grow, Stack, Typography } from '@mui/material'
+import { useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
+import type { RouteObject } from 'react-router-dom'
+import { useRoutes as useDOMRoutes, useNavigate } from 'react-router-dom'
+import { useRoutes } from '../../hooks/useRoutes.js'
+import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
+import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { useFieldValues } from '../../stores/form/useFieldValues.js'
+import { WidgetEvent } from '../../types/events.js'
+import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import { PageContainer } from '../PageContainer.js'
+import { ProgressToNextUpdate } from '../ProgressToNextUpdate.js'
+import { RouteCard } from '../RouteCard/RouteCard.js'
+import { RouteCardSkeleton } from '../RouteCard/RouteCardSkeleton.js'
+import { RouteNotFoundCard } from '../RouteCard/RouteNotFoundCard.js'
 import {
   CollapseContainer,
   Container,
@@ -24,9 +24,9 @@ import {
   RouteTopLevelGrow,
   RoutesExpandedCollapse,
   ScrollableContainer,
-} from './RoutesExpanded.style.js';
+} from './RoutesExpanded.style.js'
 
-const timeout = { enter: 225, exit: 225, appear: 0 };
+const timeout = { enter: 225, exit: 225, appear: 0 }
 
 const routes: RouteObject[] = [
   {
@@ -37,11 +37,11 @@ const routes: RouteObject[] = [
     path: '*',
     element: null,
   },
-];
+]
 
 export const RoutesExpanded = () => {
-  const element = useDOMRoutes(routes);
-  const match = Boolean(element?.props?.children);
+  const element = useDOMRoutes(routes)
+  const match = Boolean(element?.props?.children)
 
   return (
     <CollapseContainer>
@@ -58,16 +58,16 @@ export const RoutesExpanded = () => {
         </RouteTopLevelGrow>
       </Collapse>
     </CollapseContainer>
-  );
-};
+  )
+}
 
 export const RoutesExpandedElement = () => {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
-  const { subvariant } = useWidgetConfig();
-  const routesRef = useRef<Route[]>();
-  const emitter = useWidgetEvents();
-  const routesActiveRef = useRef(false);
+  const { t } = useTranslation()
+  const navigate = useNavigate()
+  const { subvariant } = useWidgetConfig()
+  const routesRef = useRef<Route[]>()
+  const emitter = useWidgetEvents()
+  const routesActiveRef = useRef(false)
   const {
     routes,
     isLoading,
@@ -78,44 +78,44 @@ export const RoutesExpandedElement = () => {
     fromChain,
     refetch,
     setReviewableRoute,
-  } = useRoutes();
-  const { account } = useAccount({ chainType: fromChain?.chainType });
-  const [toAddress] = useFieldValues('toAddress');
-  const { requiredToAddress } = useToAddressRequirements();
+  } = useRoutes()
+  const { account } = useAccount({ chainType: fromChain?.chainType })
+  const [toAddress] = useFieldValues('toAddress')
+  const { requiredToAddress } = useToAddressRequirements()
 
   const handleRouteClick = (route: Route) => {
-    setReviewableRoute(route);
+    setReviewableRoute(route)
     navigate(navigationRoutes.transactionExecution, {
       state: { routeId: route.id },
-    });
-  };
+    })
+  }
 
   const onExit = () => {
     // Clean routes cache on exit
-    routesRef.current = undefined;
-  };
+    routesRef.current = undefined
+  }
 
   // We cache routes results in ref for a better exit animation
   if (routesRef.current && !routes) {
-    routesActiveRef.current = false;
+    routesActiveRef.current = false
   } else {
-    routesRef.current = routes;
-    routesActiveRef.current = Boolean(routes);
+    routesRef.current = routes
+    routesActiveRef.current = Boolean(routes)
   }
 
-  const currentRoute = routesRef.current?.[0];
+  const currentRoute = routesRef.current?.[0]
 
   const expanded = Boolean(
-    routesActiveRef.current || isLoading || isFetching || isFetched,
-  );
+    routesActiveRef.current || isLoading || isFetching || isFetched
+  )
 
-  const routeNotFound = !currentRoute && !isLoading && !isFetching && expanded;
-  const toAddressUnsatisfied = currentRoute && requiredToAddress && !toAddress;
-  const allowInteraction = account.isConnected && !toAddressUnsatisfied;
+  const routeNotFound = !currentRoute && !isLoading && !isFetching && expanded
+  const toAddressUnsatisfied = currentRoute && requiredToAddress && !toAddress
+  const allowInteraction = account.isConnected && !toAddressUnsatisfied
 
   useEffect(() => {
-    emitter.emit(WidgetEvent.WidgetExpanded, expanded);
-  }, [emitter, expanded]);
+    emitter.emit(WidgetEvent.WidgetExpanded, expanded)
+  }, [emitter, expanded])
 
   return (
     <RoutesExpandedCollapse
@@ -170,5 +170,5 @@ export const RoutesExpandedElement = () => {
         </Container>
       </Grow>
     </RoutesExpandedCollapse>
-  );
-};
+  )
+}

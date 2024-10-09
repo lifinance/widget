@@ -1,4 +1,4 @@
-import type { CSSObject } from '@mui/material';
+import type { CSSObject } from '@mui/material'
 import {
   AvatarGroup,
   Box,
@@ -6,12 +6,12 @@ import {
   avatarClasses,
   badgeClasses,
   styled,
-} from '@mui/material';
-import { avatarMask16 } from './utils.js';
+} from '@mui/material'
+import { avatarMask16 } from './utils.js'
 
-export const AvatarMasked = styled(MuiAvatar)(({ theme }) => ({
+export const AvatarMasked = styled(MuiAvatar)(() => ({
   mask: avatarMask16,
-}));
+}))
 
 export const TokenAvatarGroup = styled(AvatarGroup)(({ theme }) => ({
   [`& .${badgeClasses.badge}:last-child .${avatarClasses.root}`]: {
@@ -28,10 +28,10 @@ export const TokenAvatarGroup = styled(AvatarGroup)(({ theme }) => ({
   [`& .${badgeClasses.root}:last-child`]: {
     border: 'none',
   },
-}));
+}))
 
 export const AvatarDefault = styled(Box)(({ theme }) => {
-  const root = theme.components?.MuiAvatar?.styleOverrides?.root as CSSObject;
+  const root = theme.components?.MuiAvatar?.styleOverrides?.root as CSSObject
   return {
     display: 'flex',
     alignItems: 'center',
@@ -45,8 +45,8 @@ export const AvatarDefault = styled(Box)(({ theme }) => {
     width: root?.width,
     color: theme.palette.text.secondary,
     mask: avatarMask16,
-  };
-});
+  }
+})
 
 export const AvatarDefaultBadge = styled(Box)(({ theme }) => {
   return {
@@ -57,16 +57,16 @@ export const AvatarDefaultBadge = styled(Box)(({ theme }) => {
     borderRadius: '50%',
     height: 16,
     width: 16,
-  };
-});
+  }
+})
 
 export const AvatarSkeletonContainer = styled(Box)(({ theme }) => ({
   background: theme.palette.background.paper,
   borderRadius: '50%',
-}));
+}))
 
 export const AvatarSkeletonMaskedContainer = styled(Box)(({ theme }) => ({
   background: theme.palette.background.paper,
   borderRadius: '50%',
   mask: avatarMask16,
-}));
+}))

@@ -1,9 +1,9 @@
-import { ReceiptLongRounded } from '@mui/icons-material';
-import { Container, Typography } from '@mui/material';
-import { useTranslation } from 'react-i18next';
+import { ReceiptLongRounded } from '@mui/icons-material'
+import { Container, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 export const TransactionHistoryEmpty: React.FC = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   return (
     <Container
       sx={{
@@ -30,5 +30,5 @@ export const TransactionHistoryEmpty: React.FC = () => {
         {t('info.message.emptyTransactionHistory')}
       </Typography>
     </Container>
-  );
-};
+  )
+}

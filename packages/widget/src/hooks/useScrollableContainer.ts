@@ -1,47 +1,47 @@
-import { useCallback, useLayoutEffect, useState } from 'react';
-import { ElementId, createElementId } from '../utils/elements.js';
-import { useDefaultElementId } from './useDefaultElementId.js';
+import { useCallback, useLayoutEffect, useState } from 'react'
+import { ElementId, createElementId } from '../utils/elements.js'
+import { useDefaultElementId } from './useDefaultElementId.js'
 
 export const getScrollableContainer = (elementId: string) =>
   document.getElementById(
-    createElementId(ElementId.ScrollableContainer, elementId),
-  );
+    createElementId(ElementId.ScrollableContainer, elementId)
+  )
 
 export const useGetScrollableContainer = () => {
-  const elementId = useDefaultElementId();
+  const elementId = useDefaultElementId()
   const getContainer = useCallback(
     () => getScrollableContainer(elementId),
-    [elementId],
-  );
+    [elementId]
+  )
 
-  return getContainer;
-};
+  return getContainer
+}
 
 export const useScrollableContainer = (elementId: string) => {
   const [containerElement, setContainerElement] = useState(() =>
-    getScrollableContainer(elementId),
-  );
+    getScrollableContainer(elementId)
+  )
 
   useLayoutEffect(() => {
     if (!containerElement) {
-      setContainerElement(getScrollableContainer(elementId));
+      setContainerElement(getScrollableContainer(elementId))
     }
-  }, [containerElement, elementId]);
+  }, [containerElement, elementId])
 
-  return containerElement;
-};
+  return containerElement
+}
 
 export const useScrollableOverflowHidden = () => {
-  const elementId = useDefaultElementId();
+  const elementId = useDefaultElementId()
   useLayoutEffect(() => {
-    const element = getScrollableContainer(elementId);
+    const element = getScrollableContainer(elementId)
     if (element) {
-      element.style.overflowY = 'hidden';
+      element.style.overflowY = 'hidden'
     }
     return () => {
       if (element) {
-        element.style.overflowY = 'auto';
+        element.style.overflowY = 'auto'
       }
-    };
-  }, [elementId]);
-};
+    }
+  }, [elementId])
+}

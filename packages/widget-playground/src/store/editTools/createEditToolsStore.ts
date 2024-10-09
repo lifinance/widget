@@ -1,10 +1,10 @@
-import type { WidgetTheme } from '@lifi/widget';
-import type { StateCreator } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { createWithEqualityFn } from 'zustand/traditional';
-import type { FormValues } from '../widgetConfig/types';
-import { defaultDrawerWidth } from './constants';
-import type { ToolsState } from './types';
+import type { WidgetTheme } from '@lifi/widget'
+import type { StateCreator } from 'zustand'
+import { persist } from 'zustand/middleware'
+import { createWithEqualityFn } from 'zustand/traditional'
+import type { FormValues } from '../widgetConfig/types'
+import { defaultDrawerWidth } from './constants'
+import type { ToolsState } from './types'
 
 export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
   createWithEqualityFn<ToolsState>(
@@ -44,7 +44,7 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
               ...get().drawer,
               open,
             },
-          });
+          })
         },
         setCodeDrawerWidth: (codeDrawerWidth) => {
           set({
@@ -52,7 +52,7 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
               ...get().drawer,
               codeDrawerWidth,
             },
-          });
+          })
         },
         setVisibleControls: (visibleControls) => {
           set({
@@ -60,10 +60,10 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
               ...get().drawer,
               visibleControls,
             },
-          });
+          })
 
           if (visibleControls !== 'code') {
-            get().setCodeDrawerWidth(defaultDrawerWidth);
+            get().setCodeDrawerWidth(defaultDrawerWidth)
           }
         },
         setCodeControlTab: (openTab) => {
@@ -72,10 +72,10 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
               ...get().codeControl,
               openTab,
             },
-          });
+          })
 
           if (openTab !== 'config') {
-            get().setCodeDrawerWidth(defaultDrawerWidth);
+            get().setCodeDrawerWidth(defaultDrawerWidth)
           }
         },
         resetEditTools: () => {
@@ -83,14 +83,14 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
             playgroundSettings: {
               viewportColor: undefined,
             },
-          });
+          })
         },
         setSelectedFont: (selectedFont) => {
           set({
             fontControl: {
               selectedFont,
             },
-          });
+          })
         },
         setViewportBackgroundColor: (viewportColor) => {
           set({
@@ -98,7 +98,7 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
               ...get().playgroundSettings,
               viewportColor,
             },
-          });
+          })
         },
         setSkeletonShow: (show) => {
           set({
@@ -106,7 +106,7 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
               show,
               sideBySide: !show ? false : get().skeletonControl.sideBySide,
             },
-          });
+          })
         },
         setSkeletonSideBySide: (sideBySide) => {
           set({
@@ -114,7 +114,7 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
               sideBySide,
               show: sideBySide ? true : get().skeletonControl.show,
             },
-          });
+          })
         },
         setHeaderVisibility: (show) => {
           set({
@@ -122,7 +122,7 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
               ...get().headerAndFooterControl,
               showMockHeader: show,
             },
-          });
+          })
         },
         setFooterVisibility: (show) => {
           set({
@@ -130,7 +130,7 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
               ...get().headerAndFooterControl,
               showMockFooter: show,
             },
-          });
+          })
         },
         setFixedFooter: (isFixed) => {
           set({
@@ -138,7 +138,7 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
               ...get().headerAndFooterControl,
               isFooterFixed: isFixed,
             },
-          });
+          })
         },
         setSelectedLayoutId: (selectedLayoutId) => {
           set({
@@ -146,17 +146,17 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
               ...get().layoutControl,
               selectedLayoutId,
             },
-          });
+          })
         },
         setIsDevView: (isDevView) => {
           set({
             isDevView,
-          });
+          })
         },
         setFormValues: (formValues: FormValues) => {
           set({
             formValues,
-          });
+          })
         },
       }),
       {
@@ -174,17 +174,17 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
         onRehydrateStorage: () => {
           return (state) => {
             if (state) {
-              state.setCodeDrawerWidth(defaultDrawerWidth);
+              state.setCodeDrawerWidth(defaultDrawerWidth)
 
               if (initialTheme) {
                 if (!initialTheme.playground?.background) {
-                  state.setViewportBackgroundColor(undefined);
+                  state.setViewportBackgroundColor(undefined)
                 }
               }
             }
-          };
+          }
         },
-      },
+      }
     ) as StateCreator<ToolsState, [], [], ToolsState>,
-    Object.is,
-  );
+    Object.is
+  )

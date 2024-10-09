@@ -1,10 +1,10 @@
-'use client';
-import { useRef } from 'react';
-import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/shim/with-selector.js';
-import { deepEqual } from 'wagmi';
+'use client'
+import { useRef } from 'react'
+import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/shim/with-selector.js'
+import { deepEqual } from 'wagmi'
 
 const isPlainObject = (obj: unknown) =>
-  typeof obj === 'object' && !Array.isArray(obj);
+  typeof obj === 'object' && !Array.isArray(obj)
 
 export function useSyncExternalStoreWithTracked<
   snapshot extends selection,
@@ -13,9 +13,9 @@ export function useSyncExternalStoreWithTracked<
   subscribe: (onStoreChange: () => void) => () => void,
   getSnapshot: () => snapshot,
   getServerSnapshot: undefined | null | (() => snapshot) = getSnapshot,
-  isEqual: (a: selection, b: selection) => boolean = deepEqual,
+  isEqual: (a: selection, b: selection) => boolean = deepEqual
 ) {
-  const trackedKeys = useRef<string[]>([]);
+  const trackedKeys = useRef<string[]>([])
   const result = useSyncExternalStoreWithSelector(
     subscribe,
     getSnapshot,
@@ -26,23 +26,23 @@ export function useSyncExternalStoreWithTracked<
         for (const key of trackedKeys.current) {
           const equal = isEqual(
             (a as { [_a: string]: any })[key],
-            (b as { [_b: string]: any })[key],
-          );
+            (b as { [_b: string]: any })[key]
+          )
           if (!equal) {
-            return false;
+            return false
           }
         }
-        return true;
+        return true
       }
-      return isEqual(a, b);
-    },
-  );
+      return isEqual(a, b)
+    }
+  )
 
   if (isPlainObject(result)) {
-    const trackedResult = { ...result };
-    let properties = {};
+    const trackedResult = { ...result }
+    let properties = {}
     for (const [key, value] of Object.entries(
-      trackedResult as { [key: string]: any },
+      trackedResult as { [key: string]: any }
     )) {
       properties = {
         ...properties,
@@ -51,16 +51,16 @@ export function useSyncExternalStoreWithTracked<
           enumerable: true,
           get: () => {
             if (!trackedKeys.current.includes(key)) {
-              trackedKeys.current.push(key);
+              trackedKeys.current.push(key)
             }
-            return value;
+            return value
           },
         },
-      };
+      }
     }
-    Object.defineProperties(trackedResult, properties);
-    return trackedResult;
+    Object.defineProperties(trackedResult, properties)
+    return trackedResult
   }
 
-  return result;
+  return result
 }

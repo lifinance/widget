@@ -2,57 +2,57 @@ import {
   ChainId,
   type SignPsbtParameters,
   type UTXOWalletProvider,
-} from '@lifi/sdk';
+} from '@lifi/sdk'
 import {
   type Address,
   MethodNotSupportedRpcError,
   UserRejectedRequestError,
   withRetry,
-} from 'viem';
-import { createConnector, ProviderNotFoundError } from 'wagmi';
-import type { UTXOConnectorParameters } from './types.js';
+} from 'viem'
+import { ProviderNotFoundError, createConnector } from 'wagmi'
+import type { UTXOConnectorParameters } from './types.js'
 
 export type UnisatBitcoinEventMap = {
-  accountsChanged(accounts: Address[]): void;
-};
+  accountsChanged(accounts: Address[]): void
+}
 
 export type UnisatBitcoinEvents = {
   addListener<TEvent extends keyof UnisatBitcoinEventMap>(
     event: TEvent,
-    listener: UnisatBitcoinEventMap[TEvent],
-  ): void;
+    listener: UnisatBitcoinEventMap[TEvent]
+  ): void
   removeListener<TEvent extends keyof UnisatBitcoinEventMap>(
     event: TEvent,
-    listener: UnisatBitcoinEventMap[TEvent],
-  ): void;
-};
+    listener: UnisatBitcoinEventMap[TEvent]
+  ): void
+}
 
 type UnisatConnectorProperties = {
-  getAccounts(): Promise<readonly Address[]>;
-  onAccountsChanged(accounts: Address[]): void;
-  getInternalProvider(): Promise<UnisatBitcoinProvider>;
-} & UTXOWalletProvider;
+  getAccounts(): Promise<readonly Address[]>
+  onAccountsChanged(accounts: Address[]): void
+  getInternalProvider(): Promise<UnisatBitcoinProvider>
+} & UTXOWalletProvider
 
 type UnisatBitcoinProvider = {
-  requestAccounts(): Promise<Address[]>;
-  getAccounts(): Promise<Address[]>;
+  requestAccounts(): Promise<Address[]>
+  getAccounts(): Promise<Address[]>
   signPsbt(
     psbtHex: string,
     options: {
       toSignInputs: {
-        index: number;
-        address: string;
-        sighashTypes?: number[];
-      }[];
-      autoFinalized?: boolean;
-    },
-  ): Promise<string>;
-} & UnisatBitcoinEvents;
+        index: number
+        address: string
+        sighashTypes?: number[]
+      }[]
+      autoFinalized?: boolean
+    }
+  ): Promise<string>
+} & UnisatBitcoinEvents
 
-unisat.type = 'UTXO' as const;
+unisat.type = 'UTXO' as const
 export function unisat(parameters: UTXOConnectorParameters = {}) {
-  const { chainId, shimDisconnect = true } = parameters;
-  let accountsChanged: ((accounts: Address[]) => void) | undefined;
+  const { chainId, shimDisconnect = true } = parameters
+  let accountsChanged: ((accounts: Address[]) => void) | undefined
   return createConnector<
     UTXOWalletProvider | undefined,
     UnisatConnectorProperties
@@ -66,64 +66,65 @@ export function unisat(parameters: UTXOConnectorParameters = {}) {
     },
     async getInternalProvider() {
       if (typeof window === 'undefined') {
-        return;
+        return
       }
       if ('unisat' in window) {
-        const anyWindow: any = window;
-        return anyWindow.unisat;
+        const anyWindow: any = window
+        return anyWindow.unisat
       }
     },
     async getProvider() {
-      const internalProvider = await this.getInternalProvider();
+      const internalProvider = await this.getInternalProvider()
       if (!internalProvider) {
-        return;
+        return
       }
       const provider = {
         request: this.request.bind(internalProvider),
-      };
-      return provider;
+      }
+      return provider
     },
     async request(
       this: UnisatBitcoinProvider,
-      { method, params },
+      { method, params }
     ): Promise<any> {
       switch (method) {
-        case 'signPsbt':
-          const { psbt, ...options } = params as SignPsbtParameters;
+        case 'signPsbt': {
+          const { psbt, ...options } = params as SignPsbtParameters
           const toSignInputs = options.inputsToSign.flatMap(
             ({ sigHash, address, signingIndexes }) =>
               signingIndexes.map((index) => ({
                 index,
                 address,
                 sighashTypes: sigHash !== undefined ? [sigHash] : undefined,
-              })),
-          );
+              }))
+          )
           const signedPsbt = await this.signPsbt(psbt, {
             toSignInputs,
             autoFinalized: options.finalize,
-          });
-          return signedPsbt;
+          })
+          return signedPsbt
+        }
         default:
           throw new MethodNotSupportedRpcError(
             new Error(MethodNotSupportedRpcError.name),
             {
               method,
-            },
-          );
+            }
+          )
       }
     },
     async connect() {
-      const provider = await this.getInternalProvider();
+      const provider = await this.getInternalProvider()
       if (!provider) {
-        throw new ProviderNotFoundError();
+        throw new ProviderNotFoundError()
       }
       try {
-        const accounts = await provider.requestAccounts();
-        const chainId = await this.getChainId();
+        const accounts = await provider.requestAccounts()
+        const chainId = await this.getChainId()
 
         if (!accountsChanged) {
-          accountsChanged = this.onAccountsChanged.bind(this);
-          provider.addListener('accountsChanged', accountsChanged);
+          accountsChanged = this.onAccountsChanged.bind(this)
+          provider.addListener('accountsChanged', accountsChanged)
         }
 
         // Remove disconnected shim if it exists
@@ -131,22 +132,22 @@ export function unisat(parameters: UTXOConnectorParameters = {}) {
           await Promise.all([
             config.storage?.setItem(`${this.id}.connected`, true),
             config.storage?.removeItem(`${this.id}.disconnected`),
-          ]);
+          ])
         }
-        return { accounts, chainId };
+        return { accounts, chainId }
       } catch (error: any) {
         throw new UserRejectedRequestError({
           name: UserRejectedRequestError.name,
           message: error.message,
-        });
+        })
       }
     },
     async disconnect() {
-      const provider = await this.getInternalProvider();
+      const provider = await this.getInternalProvider()
 
       if (accountsChanged) {
-        provider?.removeListener('accountsChanged', accountsChanged);
-        accountsChanged = undefined;
+        provider?.removeListener('accountsChanged', accountsChanged)
+        accountsChanged = undefined
       }
 
       // Add shim signalling connector is disconnected
@@ -154,53 +155,53 @@ export function unisat(parameters: UTXOConnectorParameters = {}) {
         await Promise.all([
           config.storage?.setItem(`${this.id}.disconnected`, true),
           config.storage?.removeItem(`${this.id}.connected`),
-        ]);
+        ])
       }
     },
     async getAccounts() {
-      const provider = await this.getInternalProvider();
+      const provider = await this.getInternalProvider()
       if (!provider) {
-        throw new ProviderNotFoundError();
+        throw new ProviderNotFoundError()
       }
-      const accounts = await provider.getAccounts();
-      return accounts as Address[];
+      const accounts = await provider.getAccounts()
+      return accounts as Address[]
     },
     async getChainId() {
-      return chainId || ChainId.BTC;
+      return chainId || ChainId.BTC
     },
     async isAuthorized() {
       try {
         const isDisconnected =
           shimDisconnect &&
           // If shim exists in storage, connector is disconnected
-          (await config.storage?.getItem(`${this.id}.disconnected`));
+          (await config.storage?.getItem(`${this.id}.disconnected`))
         if (isDisconnected) {
-          return false;
+          return false
         }
-        const accounts = await withRetry(() => this.getAccounts());
-        return !!accounts.length;
+        const accounts = await withRetry(() => this.getAccounts())
+        return !!accounts.length
       } catch {
-        return false;
+        return false
       }
     },
     async onAccountsChanged(accounts) {
       if (accounts.length === 0) {
-        this.onDisconnect();
+        this.onDisconnect()
       } else {
         config.emitter.emit('change', {
           accounts: accounts as Address[],
-        });
+        })
       }
     },
     onChainChanged(chain) {
-      const chainId = Number(chain);
-      config.emitter.emit('change', { chainId });
+      const chainId = Number(chain)
+      config.emitter.emit('change', { chainId })
     },
-    async onDisconnect(error) {
+    async onDisconnect(_error) {
       // No need to remove `${this.id}.disconnected` from storage because `onDisconnect` is typically
       // only called when the wallet is disconnected through the wallet's interface, meaning the wallet
       // actually disconnected and we don't need to simulate it.
-      config.emitter.emit('disconnect');
+      config.emitter.emit('disconnect')
     },
-  }));
+  }))
 }

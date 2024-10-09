@@ -1,27 +1,27 @@
-import { createClient, http } from 'viem';
-import type { Config, CreateConnectorFn } from 'wagmi';
-import { bitcoin } from './utxo/chains/bitcoin.js';
-import { ctrl } from './utxo/connectors/ctrl.js';
-import { phantom } from './utxo/connectors/phantom.js';
-import { unisat } from './utxo/connectors/unisat.js';
-import { xverse } from './utxo/connectors/xverse.js';
-import { createConfig } from './utxo/createConfig.js';
+import { http, createClient } from 'viem'
+import type { Config, CreateConnectorFn } from 'wagmi'
+import { bitcoin } from './utxo/chains/bitcoin.js'
+import { ctrl } from './utxo/connectors/ctrl.js'
+import { phantom } from './utxo/connectors/phantom.js'
+import { unisat } from './utxo/connectors/unisat.js'
+import { xverse } from './utxo/connectors/xverse.js'
+import { createConfig } from './utxo/createConfig.js'
 
 export interface DefaultBigmiConfigProps {
   bigmiConfig?: {
-    ssr?: boolean;
-    multiInjectedProviderDiscovery?: boolean;
-  };
-  connectors?: CreateConnectorFn[];
+    ssr?: boolean
+    multiInjectedProviderDiscovery?: boolean
+  }
+  connectors?: CreateConnectorFn[]
   /**
    * Load Wallet SDKs only if the wallet is the most recently connected wallet
    */
-  lazy?: boolean;
+  lazy?: boolean
 }
 
 export interface DefaultBigmiConfigResult {
-  config: Config;
-  connectors: CreateConnectorFn[];
+  config: Config
+  connectors: CreateConnectorFn[]
 }
 
 /**
@@ -43,7 +43,7 @@ export interface DefaultBigmiConfigResult {
 export function createDefaultBigmiConfig(
   props: DefaultBigmiConfigProps = {
     bigmiConfig: { multiInjectedProviderDiscovery: false },
-  },
+  }
 ): DefaultBigmiConfigResult {
   const connectors: CreateConnectorFn[] = [
     phantom(),
@@ -51,19 +51,19 @@ export function createDefaultBigmiConfig(
     unisat(),
     ctrl(),
     ...(props?.connectors ?? []),
-  ];
+  ]
 
   const config = createConfig({
     chains: [bitcoin],
     connectors,
     client({ chain }) {
-      return createClient({ chain, transport: http() });
+      return createClient({ chain, transport: http() })
     },
     ...props?.bigmiConfig,
-  });
+  })
 
   return {
     config,
     connectors,
-  };
+  }
 }

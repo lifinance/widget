@@ -1,80 +1,80 @@
 import {
-  ChainId,
   type BtcAccount,
+  ChainId,
   type SignPsbtParameters,
   type UTXOWalletProvider,
-} from '@lifi/sdk';
+} from '@lifi/sdk'
 import {
+  type Address,
   MethodNotSupportedRpcError,
   UserRejectedRequestError,
-  type Address,
-} from 'viem';
-import { createConnector, ProviderNotFoundError } from 'wagmi';
-import type { UTXOConnectorParameters } from './types.js';
+} from 'viem'
+import { ProviderNotFoundError, createConnector } from 'wagmi'
+import type { UTXOConnectorParameters } from './types.js'
 
 export type XverseBitcoinEventMap = {
-  accountChange(accounts: BtcAccount[]): void;
-};
+  accountChange(accounts: BtcAccount[]): void
+}
 
 export type XverseBitcoinEvents = {
   addListener<TEvent extends keyof XverseBitcoinEventMap>(
     event: TEvent,
-    listener: XverseBitcoinEventMap[TEvent],
-  ): void;
+    listener: XverseBitcoinEventMap[TEvent]
+  ): void
   removeListener?<TEvent extends keyof XverseBitcoinEventMap>(
     event: TEvent,
-    listener: XverseBitcoinEventMap[TEvent],
-  ): void;
-};
+    listener: XverseBitcoinEventMap[TEvent]
+  ): void
+}
 
 type XverseConnectorProperties = {
-  getAccounts(): Promise<readonly (BtcAccount | Address)[]>;
-  onAccountsChanged(accounts: (BtcAccount | Address)[]): void;
-  getInternalProvider(): Promise<XverseBitcoinProvider>;
-} & UTXOWalletProvider;
+  getAccounts(): Promise<readonly (BtcAccount | Address)[]>
+  onAccountsChanged(accounts: (BtcAccount | Address)[]): void
+  getInternalProvider(): Promise<XverseBitcoinProvider>
+} & UTXOWalletProvider
 
-type Purpose = 'ordinals' | 'payment' | 'stacks';
+type Purpose = 'ordinals' | 'payment' | 'stacks'
 
-type Error = { code: number; message: string };
+type Error = { code: number; message: string }
 
 // Define the shape of the request parameters
 interface GetAccountsRequest {
-  purposes: Purpose[];
+  purposes: Purpose[]
 }
 
 interface GetAccountsResponse {
-  result?: { addresses: BtcAccount[] };
-  error?: Error;
+  result?: { addresses: BtcAccount[] }
+  error?: Error
 }
 
 interface RequestPermissionsResponse {
-  result?: boolean;
-  error?: Error;
+  result?: boolean
+  error?: Error
 }
 
 type XverseBitcoinProvider = {
   request(
     method: 'signPsbt',
     options: {
-      psbt: string;
-      allowedSignHash: number;
-      signInputs: Record<string, number[]>;
-      broadcast: boolean;
-    },
-  ): Promise<string>;
+      psbt: string
+      allowedSignHash: number
+      signInputs: Record<string, number[]>
+      broadcast: boolean
+    }
+  ): Promise<string>
   request(
     method: 'getAccounts' | 'getAddresses',
-    options: GetAccountsRequest,
-  ): Promise<GetAccountsResponse>;
+    options: GetAccountsRequest
+  ): Promise<GetAccountsResponse>
   request(
-    method: 'wallet_requestPermissions' | 'wallet_renouncePermissions',
-  ): Promise<RequestPermissionsResponse>;
-} & XverseBitcoinEvents;
+    method: 'wallet_requestPermissions' | 'wallet_renouncePermissions'
+  ): Promise<RequestPermissionsResponse>
+} & XverseBitcoinEvents
 
-xverse.type = 'UTXO' as const;
+xverse.type = 'UTXO' as const
 export function xverse(parameters: UTXOConnectorParameters = {}) {
-  const { chainId, shimDisconnect = true } = parameters;
-  let accountChange: ((accounts: BtcAccount[]) => void) | undefined;
+  const { chainId, shimDisconnect = true } = parameters
+  let accountChange: ((accounts: BtcAccount[]) => void) | undefined
   return createConnector<
     UTXOWalletProvider | undefined,
     XverseConnectorProperties
@@ -88,89 +88,92 @@ export function xverse(parameters: UTXOConnectorParameters = {}) {
     },
     async getInternalProvider() {
       if (typeof window === 'undefined') {
-        return undefined;
+        return undefined
       }
       if ('XverseProviders' in window) {
-        const anyWindow: any = window;
-        const provider = anyWindow.XverseProviders.BitcoinProvider;
-        return provider;
+        const anyWindow: any = window
+        const provider = anyWindow.XverseProviders.BitcoinProvider
+        return provider
       }
     },
     async getProvider() {
-      const internalProvider = await this.getInternalProvider();
+      const internalProvider = await this.getInternalProvider()
       if (!internalProvider) {
-        return;
+        return
       }
       const provider = {
         request: this.request.bind(internalProvider),
-      };
-      return provider;
+      }
+      return provider
     },
     async request(
       this: XverseBitcoinProvider | any,
-      { method, params },
+      { method, params }
     ): Promise<any> {
       switch (method) {
-        case 'signPsbt':
-          const { psbt, ...options } = params as SignPsbtParameters;
+        case 'signPsbt': {
+          const { psbt, ...options } = params as SignPsbtParameters
           const psbtBase64 = btoa(
             psbt
               .match(/.{1,2}/g)!
-              .map((byte) => String.fromCharCode(parseInt(byte, 16)))
-              .join(''),
-          );
+              .map((byte: string) =>
+                String.fromCharCode(Number.parseInt(byte, 16))
+              )
+              .join('')
+          )
           const signInputs = options.inputsToSign.reduce(
             (signInputs, input) => {
               if (!signInputs[input.address]) {
-                signInputs[input.address] = [];
+                signInputs[input.address] = []
               }
-              signInputs[input.address].push(...input.signingIndexes);
-              return signInputs;
+              signInputs[input.address].push(...input.signingIndexes)
+              return signInputs
             },
-            {} as Record<string, number[]>,
-          );
+            {} as Record<string, number[]>
+          )
           const signedPsbt = await this.request('signPsbt', {
             psbt: psbtBase64,
             allowedSignHash: 1, // Default to Transaction.SIGHASH_ALL - 1
             signInputs: signInputs,
             broadcast: options.finalize,
-          });
+          })
           if (signedPsbt?.error) {
-            throw signedPsbt?.error;
+            throw signedPsbt?.error
           }
-          return signedPsbt;
+          return signedPsbt
+        }
         default:
           throw new MethodNotSupportedRpcError(
             new Error(MethodNotSupportedRpcError.name),
             {
               method,
-            },
-          );
+            }
+          )
       }
     },
     async connect({ isReconnecting } = {}) {
-      const provider = await this.getInternalProvider();
+      const provider = await this.getInternalProvider()
       if (!provider) {
-        throw new ProviderNotFoundError();
+        throw new ProviderNotFoundError()
       }
 
       if (!isReconnecting) {
-        const connected = await provider.request('wallet_requestPermissions');
+        const connected = await provider.request('wallet_requestPermissions')
 
         if (connected.error) {
           throw new UserRejectedRequestError({
             name: UserRejectedRequestError.name,
             message: connected.error.message,
-          });
+          })
         }
       }
 
-      const accounts = await this.getAccounts();
-      const chainId = await this.getChainId();
+      const accounts = await this.getAccounts()
+      const chainId = await this.getChainId()
 
       if (!accountChange) {
-        accountChange = this.onAccountsChanged.bind(this);
-        provider.addListener('accountChange', accountChange);
+        accountChange = this.onAccountsChanged.bind(this)
+        provider.addListener('accountChange', accountChange)
       }
 
       // Remove disconnected shim if it exists
@@ -178,19 +181,19 @@ export function xverse(parameters: UTXOConnectorParameters = {}) {
         await Promise.all([
           config.storage?.setItem(`${this.id}.connected`, true),
           config.storage?.removeItem(`${this.id}.disconnected`),
-        ]);
+        ])
       }
 
-      return { accounts, chainId };
+      return { accounts, chainId }
     },
     async disconnect() {
-      const provider = await this.getInternalProvider();
+      const provider = await this.getInternalProvider()
       if (!provider) {
-        throw new ProviderNotFoundError();
+        throw new ProviderNotFoundError()
       }
       if (accountChange) {
-        provider.removeListener?.('accountChange', accountChange);
-        accountChange = undefined;
+        provider.removeListener?.('accountChange', accountChange)
+        accountChange = undefined
       }
 
       // await provider.request('wallet_renouncePermissions').catch();
@@ -200,53 +203,53 @@ export function xverse(parameters: UTXOConnectorParameters = {}) {
         await Promise.all([
           config.storage?.setItem(`${this.id}.disconnected`, true),
           config.storage?.removeItem(`${this.id}.connected`),
-        ]);
+        ])
       }
     },
     async getAccounts() {
-      const provider = await this.getInternalProvider();
+      const provider = await this.getInternalProvider()
       if (!provider) {
-        throw new ProviderNotFoundError();
+        throw new ProviderNotFoundError()
       }
       const accounts = await provider.request('getAddresses', {
         purposes: ['payment'],
-      });
+      })
       if (!accounts.result) {
         throw new UserRejectedRequestError({
           name: UserRejectedRequestError.name,
           message: accounts.error?.message!,
-        });
+        })
       }
       return accounts.result.addresses.map(
-        (account) => account.address as Address,
-      );
+        (account) => account.address as Address
+      )
     },
     async getChainId() {
-      return chainId || ChainId.BTC;
+      return chainId || ChainId.BTC
     },
     async isAuthorized() {
       try {
         const isConnected =
           shimDisconnect &&
           // If shim exists in storage, connector is disconnected
-          Boolean(await config.storage?.getItem(`${this.id}.connected`));
-        return isConnected;
+          Boolean(await config.storage?.getItem(`${this.id}.connected`))
+        return isConnected
       } catch {
-        return false;
+        return false
       }
     },
     async onAccountsChanged() {
-      const { accounts } = await this.connect();
+      const { accounts } = await this.connect()
       config.emitter.emit('change', {
         accounts,
-      });
+      })
     },
     onChainChanged(chain) {
-      const chainId = Number(chain);
-      config.emitter.emit('change', { chainId });
+      const chainId = Number(chain)
+      config.emitter.emit('change', { chainId })
     },
-    async onDisconnect(error) {
-      config.emitter.emit('disconnect');
+    async onDisconnect(_error) {
+      config.emitter.emit('disconnect')
     },
-  }));
+  }))
 }

@@ -1,6 +1,6 @@
-import { shallow } from 'zustand/shallow';
-import type { Appearance } from '../../types/widget.js';
-import { useSettingsStore } from './useSettingsStore.js';
+import { shallow } from 'zustand/shallow'
+import type { Appearance } from '../../types/widget.js'
+import { useSettingsStore } from './useSettingsStore.js'
 
 export const useAppearance = (): [
   Appearance,
@@ -8,10 +8,10 @@ export const useAppearance = (): [
 ] => {
   const [appearance, setValue] = useSettingsStore(
     (state) => [state.appearance, state.setValue],
-    shallow,
-  );
+    shallow
+  )
   const setAppearance = (appearance: Appearance) => {
-    setValue('appearance', appearance);
-  };
-  return [appearance, setAppearance];
-};
+    setValue('appearance', appearance)
+  }
+  return [appearance, setAppearance]
+}

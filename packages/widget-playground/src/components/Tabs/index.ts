@@ -1,1 +1,1 @@
-export * from './Tabs.style';
+export * from './Tabs.style'

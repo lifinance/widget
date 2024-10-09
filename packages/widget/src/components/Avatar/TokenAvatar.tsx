@@ -1,20 +1,20 @@
-import type { Chain, StaticToken } from '@lifi/sdk';
-import type { SxProps, Theme } from '@mui/material';
-import { Badge } from '@mui/material';
-import { useChain } from '../../hooks/useChain.js';
-import { useToken } from '../../hooks/useToken.js';
-import { AvatarBadgedSkeleton } from './Avatar.js';
-import { AvatarDefaultBadge, AvatarMasked } from './Avatar.style.js';
-import { SmallAvatar } from './SmallAvatar.js';
+import type { Chain, StaticToken } from '@lifi/sdk'
+import type { SxProps, Theme } from '@mui/material'
+import { Badge } from '@mui/material'
+import { useChain } from '../../hooks/useChain.js'
+import { useToken } from '../../hooks/useToken.js'
+import { AvatarBadgedSkeleton } from './Avatar.js'
+import { AvatarDefaultBadge, AvatarMasked } from './Avatar.style.js'
+import { SmallAvatar } from './SmallAvatar.js'
 
 export const TokenAvatar: React.FC<{
-  token?: StaticToken;
-  chain?: Chain;
-  isLoading?: boolean;
-  sx?: SxProps<Theme>;
+  token?: StaticToken
+  chain?: Chain
+  isLoading?: boolean
+  sx?: SxProps<Theme>
 }> = ({ token, chain, isLoading, sx }) => {
   if (!chain || !token?.logoURI) {
-    return <TokenAvatarFallback token={token} isLoading={isLoading} sx={sx} />;
+    return <TokenAvatarFallback token={token} isLoading={isLoading} sx={sx} />
   }
   return (
     <TokenAvatarBase
@@ -23,19 +23,19 @@ export const TokenAvatar: React.FC<{
       isLoading={isLoading}
       sx={sx}
     />
-  );
-};
+  )
+}
 
 export const TokenAvatarFallback: React.FC<{
-  token?: StaticToken;
-  isLoading?: boolean;
-  sx?: SxProps<Theme>;
+  token?: StaticToken
+  isLoading?: boolean
+  sx?: SxProps<Theme>
 }> = ({ token, isLoading, sx }) => {
-  const { chain } = useChain(token?.chainId);
+  const { chain } = useChain(token?.chainId)
   const { token: chainToken, isLoading: isLoadingToken } = useToken(
     token?.chainId,
-    token?.address,
-  );
+    token?.address
+  )
   return (
     <TokenAvatarBase
       token={chainToken ?? token}
@@ -43,14 +43,14 @@ export const TokenAvatarFallback: React.FC<{
       chain={chain}
       sx={sx}
     />
-  );
-};
+  )
+}
 
 export const TokenAvatarBase: React.FC<{
-  token?: StaticToken;
-  chain?: Chain;
-  isLoading?: boolean;
-  sx?: SxProps<Theme>;
+  token?: StaticToken
+  chain?: Chain
+  isLoading?: boolean
+  sx?: SxProps<Theme>
 }> = ({ token, chain, isLoading, sx }) => {
   return isLoading ? (
     <AvatarBadgedSkeleton />
@@ -73,5 +73,5 @@ export const TokenAvatarBase: React.FC<{
         {token?.symbol?.[0]}
       </AvatarMasked>
     </Badge>
-  );
-};
+  )
+}

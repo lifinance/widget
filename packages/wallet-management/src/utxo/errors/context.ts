@@ -1,11 +1,11 @@
-import { BaseError } from 'wagmi';
+import { BaseError } from 'wagmi'
 
 export type BigmiProviderNotFoundErrorType = BigmiProviderNotFoundError & {
-  name: 'BigmiProviderNotFoundError';
-};
+  name: 'BigmiProviderNotFoundError'
+}
 export class BigmiProviderNotFoundError extends BaseError {
-  override name = 'BigmiProviderNotFoundError';
+  override name = 'BigmiProviderNotFoundError'
   constructor() {
-    super('`useConfig` must be used within `BigmiProvider`.');
+    super('`useConfig` must be used within `BigmiProvider`.')
   }
 }

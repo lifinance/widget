@@ -1,4 +1,4 @@
-import type { Font } from '../../../../../providers';
+import type { Font } from '../../../../../providers'
 
 export const systemFonts: Font[] = [
   {
@@ -46,4 +46,4 @@ export const systemFonts: Font[] = [
     fallbackFonts: 'cursive',
     source: 'System fonts',
   },
-];
+]

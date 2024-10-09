@@ -1,20 +1,20 @@
 export const getValueFromPath = <T>(
   object: any | undefined,
-  path: string,
+  path: string
 ): T | undefined => {
   if (!object) {
-    return undefined;
+    return undefined
   }
 
-  const splitPath = path.split('.');
+  const splitPath = path.split('.')
 
-  let value = object;
+  let value = object
   for (let i = 0; i < splitPath.length; i++) {
-    value = (value as any)[splitPath[i]];
+    value = (value as any)[splitPath[i]]
     if (value === undefined) {
-      break;
+      break
     }
   }
 
-  return value as T;
-};
+  return value as T
+}

@@ -1,4 +1,4 @@
-import type { WidgetTheme } from '../types/widget.js';
+import type { WidgetTheme } from '../types/widget.js'
 
 export const jumperTheme: WidgetTheme = {
   palette: {},
@@ -34,4 +34,4 @@ export const jumperTheme: WidgetTheme = {
       },
     },
   },
-};
+}

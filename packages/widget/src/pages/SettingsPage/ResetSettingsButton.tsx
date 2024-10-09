@@ -1,4 +1,4 @@
-import { InfoRounded } from '@mui/icons-material';
+import { InfoRounded } from '@mui/icons-material'
 import {
   Box,
   Button,
@@ -6,29 +6,29 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from '@mui/material';
-import { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Dialog } from '../../components/Dialog.js';
-import { useSettingMonitor } from '../../hooks/useSettingMonitor.js';
-import { ResetButtonContainer } from './ResetSettingsButton.style.js';
+} from '@mui/material'
+import { useCallback, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Dialog } from '../../components/Dialog.js'
+import { useSettingMonitor } from '../../hooks/useSettingMonitor.js'
+import { ResetButtonContainer } from './ResetSettingsButton.style.js'
 
 export const ResetSettingsButton: React.FC = () => {
-  const { t } = useTranslation();
-  const { isCustomRouteSettings, reset } = useSettingMonitor();
-  const [open, setOpen] = useState(false);
+  const { t } = useTranslation()
+  const { isCustomRouteSettings, reset } = useSettingMonitor()
+  const [open, setOpen] = useState(false)
 
   const toggleDialog = useCallback(() => {
-    setOpen((open) => !open);
-  }, []);
+    setOpen((open) => !open)
+  }, [])
 
   const handleReset = () => {
-    reset();
-    toggleDialog();
-  };
+    reset()
+    toggleDialog()
+  }
 
   if (!isCustomRouteSettings) {
-    return null;
+    return null
   }
 
   return (
@@ -40,7 +40,7 @@ export const ResetSettingsButton: React.FC = () => {
               marginRight: '8px',
             }}
           />
-          <Box fontSize={14}>{t(`settings.resetSettings`)}</Box>
+          <Box fontSize={14}>{t('settings.resetSettings')}</Box>
         </Box>
         <Button onClick={toggleDialog} fullWidth>
           {t('button.resetSettings')}
@@ -62,5 +62,5 @@ export const ResetSettingsButton: React.FC = () => {
         </Dialog>
       </ResetButtonContainer>
     </Box>
-  );
-};
+  )
+}

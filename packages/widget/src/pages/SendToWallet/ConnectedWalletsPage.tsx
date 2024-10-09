@@ -1,99 +1,99 @@
-import type { Account } from '@lifi/wallet-management';
-import { useAccount } from '@lifi/wallet-management';
+import type { Account } from '@lifi/wallet-management'
+import { useAccount } from '@lifi/wallet-management'
 import {
   ContentCopyRounded,
   MoreHoriz,
   OpenInNewRounded,
   TurnedIn,
-} from '@mui/icons-material';
-import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material';
-import { useId, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js';
-import { ListItem } from '../../components/ListItem/ListItem.js';
-import { ListItemButton } from '../../components/ListItem/ListItemButton.js';
-import { Menu } from '../../components/Menu.js';
-import { useExplorer } from '../../hooks/useExplorer.js';
-import { useHeader } from '../../hooks/useHeader.js';
-import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
-import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
-import { useFieldActions } from '../../stores/form/useFieldActions.js';
-import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js';
-import { shortenAddress } from '../../utils/wallet.js';
-import { EmptyListIndicator } from './EmptyListIndicator.js';
+} from '@mui/icons-material'
+import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material'
+import { useId, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
+import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js'
+import { ListItem } from '../../components/ListItem/ListItem.js'
+import { ListItemButton } from '../../components/ListItem/ListItemButton.js'
+import { Menu } from '../../components/Menu.js'
+import { useExplorer } from '../../hooks/useExplorer.js'
+import { useHeader } from '../../hooks/useHeader.js'
+import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
+import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
+import { useFieldActions } from '../../stores/form/useFieldActions.js'
+import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js'
+import { shortenAddress } from '../../utils/wallet.js'
+import { EmptyListIndicator } from './EmptyListIndicator.js'
 import {
   ListContainer,
   OptionsMenuButton,
   SendToWalletPageContainer,
-} from './SendToWalletPage.style.js';
+} from './SendToWalletPage.style.js'
 
 export const ConnectedWalletsPage = () => {
-  const { t } = useTranslation();
-  const [selectedAccount, setSelectedAccount] = useState<Account>();
-  const { accounts } = useAccount();
-  const { setSelectedBookmark } = useBookmarkActions();
-  const { requiredToChainType } = useToAddressRequirements();
-  const navigate = useNavigate();
-  const { setFieldValue } = useFieldActions();
-  const { setSendToWallet } = useSendToWalletActions();
-  const [moreMenuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>();
-  const moreMenuId = useId();
-  const open = Boolean(moreMenuAnchorEl);
-  const { getAddressLink } = useExplorer();
+  const { t } = useTranslation()
+  const [selectedAccount, setSelectedAccount] = useState<Account>()
+  const { accounts } = useAccount()
+  const { setSelectedBookmark } = useBookmarkActions()
+  const { requiredToChainType } = useToAddressRequirements()
+  const navigate = useNavigate()
+  const { setFieldValue } = useFieldActions()
+  const { setSendToWallet } = useSendToWalletActions()
+  const [moreMenuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>()
+  const moreMenuId = useId()
+  const open = Boolean(moreMenuAnchorEl)
+  const { getAddressLink } = useExplorer()
 
-  useHeader(t('sendToWallet.connectedWallets'));
+  useHeader(t('sendToWallet.connectedWallets'))
 
   const handleWalletSelected = (account: Account) => {
     setFieldValue('toAddress', account.address!, {
       isTouched: true,
-    });
+    })
     setSelectedBookmark({
       name: account.connector?.name,
       address: account.address!,
       chainType: account.chainType!,
       isConnectedAccount: true,
-    });
-    setSendToWallet(true);
-    navigate(`../../`, {
+    })
+    setSendToWallet(true)
+    navigate('../../', {
       relative: 'path',
       replace: true,
-    });
-  };
+    })
+  }
 
   const closeMenu = () => {
-    setMenuAnchorEl(null);
-  };
+    setMenuAnchorEl(null)
+  }
 
   const handleMenuOpen = (el: HTMLElement, connectedWallet: Account) => {
-    setMenuAnchorEl(el);
-    setSelectedAccount(connectedWallet);
-  };
+    setMenuAnchorEl(el)
+    setSelectedAccount(connectedWallet)
+  }
 
   const handleCopyAddress = () => {
     if (selectedAccount?.address) {
-      navigator.clipboard.writeText(selectedAccount.address);
+      navigator.clipboard.writeText(selectedAccount.address)
     }
-    closeMenu();
-  };
+    closeMenu()
+  }
 
   const handleViewOnExplorer = () => {
     if (selectedAccount?.chainId) {
       if (selectedAccount.address) {
         window.open(
           getAddressLink(selectedAccount.address, selectedAccount.chainId),
-          '_blank',
-        );
+          '_blank'
+        )
       }
     }
-    closeMenu();
-  };
+    closeMenu()
+  }
 
   return (
     <SendToWalletPageContainer disableGutters>
       <ListContainer>
         {accounts.map((account) => {
-          const walletAddress = shortenAddress(account.address);
+          const walletAddress = shortenAddress(account.address)
 
           return (
             <ListItem key={account.address} sx={{ position: 'relative' }}>
@@ -135,7 +135,7 @@ export const ConnectedWalletsPage = () => {
                 <MoreHoriz fontSize="small" />
               </OptionsMenuButton>
             </ListItem>
-          );
+          )
         })}
         {!accounts.length && (
           <EmptyListIndicator icon={<TurnedIn sx={{ fontSize: 48 }} />}>
@@ -168,5 +168,5 @@ export const ConnectedWalletsPage = () => {
         </Menu>
       </ListContainer>
     </SendToWalletPageContainer>
-  );
-};
+  )
+}

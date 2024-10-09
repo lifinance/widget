@@ -1,13 +1,13 @@
-import type { Theme } from '@mui/material';
-import { Dialog, Drawer, useMediaQuery } from '@mui/material';
-import type { PropsWithChildren } from 'react';
+import type { Theme } from '@mui/material'
+import { Dialog, Drawer, useMediaQuery } from '@mui/material'
+import type { PropsWithChildren } from 'react'
 
 export interface WalletMenuProps {
-  open: boolean;
-  onClose: () => void;
+  open: boolean
+  onClose: () => void
 }
 
-const maxWidth = 460;
+const maxWidth = 460
 
 export const WalletMenuModal: React.FC<PropsWithChildren<WalletMenuProps>> = ({
   open,
@@ -15,8 +15,8 @@ export const WalletMenuModal: React.FC<PropsWithChildren<WalletMenuProps>> = ({
   children,
 }) => {
   const isMobile = useMediaQuery((theme: Theme) =>
-    theme.breakpoints.down(maxWidth),
-  );
+    theme.breakpoints.down(maxWidth)
+  )
 
   return isMobile ? (
     <Drawer
@@ -69,5 +69,5 @@ export const WalletMenuModal: React.FC<PropsWithChildren<WalletMenuProps>> = ({
     >
       {children}
     </Dialog>
-  );
-};
+  )
+}

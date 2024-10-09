@@ -1,16 +1,16 @@
-import { LiFiWidget } from '@lifi/widget';
-import { Box, CssBaseline } from '@mui/material';
-import type { NFTNetwork } from './components/NFTOpenSea';
+import { LiFiWidget } from '@lifi/widget'
+import { Box, CssBaseline } from '@mui/material'
+import type { NFTNetwork } from './components/NFTOpenSea'
 import {
   NFTOpenSea,
   NFTOpenSeaSecondary,
   openSeaContractTool,
-} from './components/NFTOpenSea';
-import { widgetConfig } from './config';
-import './index.css';
+} from './components/NFTOpenSea'
+import { widgetConfig } from './config'
+import './index.css'
 
 export const App = () => {
-  const pathnameParams = window.location.pathname.substring(1).split('/');
+  const pathnameParams = window.location.pathname.substring(1).split('/')
 
   return (
     <Box display="flex" height="100vh">
@@ -45,5 +45,5 @@ export const App = () => {
         />
       </Box>
     </Box>
-  );
-};
+  )
+}

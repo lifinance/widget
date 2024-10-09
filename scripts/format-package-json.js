@@ -1,14 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-console */
-import fsExtra from 'fs-extra';
-import { resolve } from 'path';
-const { readFile, writeFile } = fsExtra;
+import { resolve } from 'node:path'
+import fsExtra from 'fs-extra'
+const { readFile, writeFile } = fsExtra
 
 export async function createPackageFile(packagePath, path) {
   const packageData = await readFile(
     resolve(packagePath, './package.json'),
-    'utf8',
-  );
+    'utf8'
+  )
   const {
     nyc,
     scripts,
@@ -18,7 +16,7 @@ export async function createPackageFile(packagePath, path) {
     eslintConfig,
     'lint-staged': lintStaged,
     ...packageDataOther
-  } = JSON.parse(packageData);
+  } = JSON.parse(packageData)
 
   const newPackageData = {
     ...packageDataOther,
@@ -34,11 +32,11 @@ export async function createPackageFile(packagePath, path) {
         ? { './skeleton': './_esm/components/Skeleton/WidgetSkeleton.js' }
         : {}),
     },
-  };
+  }
 
-  const targetPath = resolve(path, './package.json');
+  const targetPath = resolve(path, './package.json')
 
-  await writeFile(targetPath, JSON.stringify(newPackageData, null, 2), 'utf8');
+  await writeFile(targetPath, JSON.stringify(newPackageData, null, 2), 'utf8')
 
-  return newPackageData;
+  return newPackageData
 }

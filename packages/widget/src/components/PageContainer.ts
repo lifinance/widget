@@ -1,9 +1,9 @@
-import { Container, styled } from '@mui/material';
+import { Container, styled } from '@mui/material'
 
 export interface PageContainerProps {
-  halfGutters?: boolean;
-  topGutters?: boolean;
-  bottomGutters?: boolean;
+  halfGutters?: boolean
+  topGutters?: boolean
+  bottomGutters?: boolean
 }
 
 export const PageContainer = styled(Container, {
@@ -20,7 +20,7 @@ export const PageContainer = styled(Container, {
           topGutters ? 1 : 0,
           halfGutters ? 1.5 : 3,
           bottomGutters ? 3 : 0,
-          halfGutters ? 1.5 : 3,
+          halfGutters ? 1.5 : 3
         ),
-  }),
-);
+  })
+)

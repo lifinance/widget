@@ -3,38 +3,38 @@ import {
   ErrorRounded,
   InfoRounded,
   WarningRounded,
-} from '@mui/icons-material';
-import { Box, Button, Skeleton, Typography } from '@mui/material';
-import { useQueryClient } from '@tanstack/react-query';
-import { useCallback, useEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js';
-import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
-import { Token } from '../../components/Token/Token.js';
-import { useAvailableChains } from '../../hooks/useAvailableChains.js';
-import { useNavigateBack } from '../../hooks/useNavigateBack.js';
-import { getProcessMessage } from '../../hooks/useProcessMessage.js';
-import { useSetContentHeight } from '../../hooks/useSetContentHeight.js';
-import { useTokenBalance } from '../../hooks/useTokenBalance.js';
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
-import { useFieldActions } from '../../stores/form/useFieldActions.js';
+} from '@mui/icons-material'
+import { Box, Button, Skeleton, Typography } from '@mui/material'
+import { useQueryClient } from '@tanstack/react-query'
+import { useCallback, useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
+import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
+import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
+import { Token } from '../../components/Token/Token.js'
+import { useAvailableChains } from '../../hooks/useAvailableChains.js'
+import { useNavigateBack } from '../../hooks/useNavigateBack.js'
+import { getProcessMessage } from '../../hooks/useProcessMessage.js'
+import { useSetContentHeight } from '../../hooks/useSetContentHeight.js'
+import { useTokenBalance } from '../../hooks/useTokenBalance.js'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import {
-  RouteExecutionStatus,
   type RouteExecution,
-} from '../../stores/routes/types.js';
-import { getSourceTxHash } from '../../stores/routes/utils.js';
-import { hasEnumFlag } from '../../utils/enum.js';
-import { formatTokenAmount } from '../../utils/format.js';
-import { navigationRoutes } from '../../utils/navigationRoutes.js';
-import { shortenAddress } from '../../utils/wallet.js';
+  RouteExecutionStatus,
+} from '../../stores/routes/types.js'
+import { getSourceTxHash } from '../../stores/routes/utils.js'
+import { hasEnumFlag } from '../../utils/enum.js'
+import { formatTokenAmount } from '../../utils/format.js'
+import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import { shortenAddress } from '../../utils/wallet.js'
 import {
   CenterContainer,
   IconCircle,
   MessageSkeletonContainer,
-} from './StatusBottomSheet.style.js';
+} from './StatusBottomSheet.style.js'
 
 interface StatusBottomSheetContentProps extends RouteExecution {
-  onClose(): void;
+  onClose(): void
 }
 
 const MessageSkeleton = () => (
@@ -42,25 +42,25 @@ const MessageSkeleton = () => (
     <Skeleton height={24} variant="text" width="92%" />
     <Skeleton height={24} variant="text" width="56%" />
   </MessageSkeletonContainer>
-);
+)
 
 export const StatusBottomSheet: React.FC<RouteExecution> = ({
   status,
   route,
 }) => {
-  const ref = useRef<BottomSheetBase>(null);
+  const ref = useRef<BottomSheetBase>(null)
 
   const onClose = useCallback(() => {
-    ref.current?.close();
-  }, []);
+    ref.current?.close()
+  }, [])
 
   useEffect(() => {
-    const hasSuccessFlag = hasEnumFlag(status, RouteExecutionStatus.Done);
-    const hasFailedFlag = hasEnumFlag(status, RouteExecutionStatus.Failed);
+    const hasSuccessFlag = hasEnumFlag(status, RouteExecutionStatus.Done)
+    const hasFailedFlag = hasEnumFlag(status, RouteExecutionStatus.Failed)
     if ((hasSuccessFlag || hasFailedFlag) && !ref.current?.isOpen()) {
-      ref.current?.open();
+      ref.current?.open()
     }
-  }, [status]);
+  }, [status])
 
   return (
     <BottomSheet ref={ref}>
@@ -70,56 +70,56 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
         onClose={onClose}
       />
     </BottomSheet>
-  );
-};
+  )
+}
 
 export const StatusBottomSheetContent: React.FC<
   StatusBottomSheetContentProps
 > = ({ status, route, onClose }) => {
-  const { t } = useTranslation();
-  const { navigateBack, navigate } = useNavigateBack();
-  const queryClient = useQueryClient();
-  const { setFieldValue } = useFieldActions();
+  const { t } = useTranslation()
+  const { navigateBack, navigate } = useNavigateBack()
+  const queryClient = useQueryClient()
+  const { setFieldValue } = useFieldActions()
   const {
     subvariant,
     subvariantOptions,
     contractSecondaryComponent,
     contractCompactComponent,
     feeConfig,
-  } = useWidgetConfig();
-  const { getChainById } = useAvailableChains();
+  } = useWidgetConfig()
+  const { getChainById } = useAvailableChains()
 
-  const ref = useRef<HTMLElement>();
-  useSetContentHeight(ref);
+  const ref = useRef<HTMLElement>()
+  useSetContentHeight(ref)
 
   const toToken = {
     ...(route.steps.at(-1)?.execution?.toToken ?? route.toToken),
     amount: BigInt(
       route.steps.at(-1)?.execution?.toAmount ??
         route.steps.at(-1)?.estimate.toAmount ??
-        route.toAmount,
+        route.toAmount
     ),
-  };
+  }
 
-  const toChain = getChainById(toToken.chainId);
+  const toChain = getChainById(toToken.chainId)
 
   const { token, refetch, refetchNewBalance, refetchAllBalances } =
-    useTokenBalance(route.toAddress, toToken, toChain);
+    useTokenBalance(route.toAddress, toToken, toChain)
 
   const invalidateQueries = () => {
-    refetchAllBalances();
-    setFieldValue('fromAmount', '');
-    setFieldValue('toAmount', '');
-    queryClient.invalidateQueries({ queryKey: ['transaction-history'] });
-  };
+    refetchAllBalances()
+    setFieldValue('fromAmount', '')
+    setFieldValue('toAmount', '')
+    queryClient.invalidateQueries({ queryKey: ['transaction-history'] })
+  }
 
   const handleDone = () => {
-    invalidateQueries();
-    navigateBack();
-  };
+    invalidateQueries()
+    navigateBack()
+  }
 
   const handlePartialDone = () => {
-    invalidateQueries();
+    invalidateQueries()
     if (
       toToken.chainId !== route.toToken.chainId &&
       toToken.address !== route.toToken.address
@@ -127,29 +127,29 @@ export const StatusBottomSheetContent: React.FC<
       setFieldValue(
         'fromAmount',
         formatTokenAmount(toToken.amount, toToken.decimals),
-        { isTouched: true },
-      );
-      setFieldValue('fromChain', toToken.chainId, { isTouched: true });
-      setFieldValue('fromToken', toToken.address, { isTouched: true });
+        { isTouched: true }
+      )
+      setFieldValue('fromChain', toToken.chainId, { isTouched: true })
+      setFieldValue('fromToken', toToken.address, { isTouched: true })
       setFieldValue('toChain', route.toToken.chainId, {
         isTouched: true,
-      });
+      })
       setFieldValue('toToken', route.toToken.address, {
         isTouched: true,
-      });
+      })
     }
-    navigateBack();
-  };
+    navigateBack()
+  }
 
   const handleClose = () => {
-    invalidateQueries();
-    onClose();
-  };
+    invalidateQueries()
+    onClose()
+  }
 
   const handleSeeDetails = () => {
-    handleClose();
+    handleClose()
 
-    const transactionHash = getSourceTxHash(route);
+    const transactionHash = getSourceTxHash(route)
 
     navigate(navigationRoutes.transactionDetails, {
       state: {
@@ -157,103 +157,103 @@ export const StatusBottomSheetContent: React.FC<
         transactionHash,
       },
       replace: true,
-    });
-  };
+    })
+  }
 
   const transactionType =
-    route.fromChainId === route.toChainId ? 'swap' : 'bridge';
+    route.fromChainId === route.toChainId ? 'swap' : 'bridge'
 
-  let title: string | undefined;
-  let primaryMessage;
-  let secondaryMessage;
-  let handlePrimaryButton = handleDone;
+  let title: string | undefined
+  let primaryMessage: string | undefined
+  let secondaryMessage: string | undefined
+  let handlePrimaryButton = handleDone
   switch (status) {
     case RouteExecutionStatus.Done: {
       title =
         subvariant === 'custom'
           ? t(
-              `success.title.${subvariantOptions?.custom ?? 'checkout'}Successful`,
+              `success.title.${subvariantOptions?.custom ?? 'checkout'}Successful`
             )
-          : t(`success.title.${transactionType}Successful`);
+          : t(`success.title.${transactionType}Successful`)
       if (token) {
         primaryMessage = t('success.message.exchangeSuccessful', {
           amount: formatTokenAmount(token.amount, token.decimals),
           tokenSymbol: token.symbol,
           chainName: toChain?.name,
           walletAddress: shortenAddress(route.toAddress),
-        });
+        })
       }
-      handlePrimaryButton = handleDone;
-      break;
+      handlePrimaryButton = handleDone
+      break
     }
     case RouteExecutionStatus.Done | RouteExecutionStatus.Partial: {
-      title = t(`success.title.${transactionType}PartiallySuccessful`);
+      title = t(`success.title.${transactionType}PartiallySuccessful`)
       primaryMessage = t('success.message.exchangePartiallySuccessful', {
         tool: route.steps.at(-1)?.toolDetails.name,
         tokenSymbol: route.steps.at(-1)?.action.toToken.symbol,
-      });
+      })
       if (token) {
         secondaryMessage = t('success.message.exchangeSuccessful', {
           amount: formatTokenAmount(token.amount, token.decimals),
           tokenSymbol: token.symbol,
           chainName: toChain?.name,
           walletAddress: shortenAddress(route.toAddress),
-        });
+        })
       }
-      handlePrimaryButton = handlePartialDone;
-      break;
+      handlePrimaryButton = handlePartialDone
+      break
     }
     case RouteExecutionStatus.Done | RouteExecutionStatus.Refunded: {
-      title = t('success.title.refundIssued');
+      title = t('success.title.refundIssued')
       primaryMessage = t('success.message.exchangePartiallySuccessful', {
         tool: route.steps.at(-1)?.toolDetails.name,
         tokenSymbol: route.steps.at(-1)?.action.toToken.symbol,
-      });
+      })
       if (token) {
         secondaryMessage = t('success.message.exchangeSuccessful', {
           amount: formatTokenAmount(token.amount, token.decimals),
           tokenSymbol: token.symbol,
           chainName: toChain?.name,
           walletAddress: shortenAddress(route.toAddress),
-        });
+        })
       }
-      break;
+      break
     }
     case RouteExecutionStatus.Failed: {
       const step = route.steps.find(
-        (step) => step.execution?.status === 'FAILED',
-      );
+        (step) => step.execution?.status === 'FAILED'
+      )
       const process = step?.execution?.process.find(
-        (process) => process.status === 'FAILED',
-      );
+        (process) => process.status === 'FAILED'
+      )
       if (!step || !process) {
-        break;
+        break
       }
-      const processMessage = getProcessMessage(t, getChainById, step, process);
-      title = processMessage.title;
-      primaryMessage = processMessage.message;
-      handlePrimaryButton = handleClose;
-      break;
+      const processMessage = getProcessMessage(t, getChainById, step, process)
+      title = processMessage.title
+      primaryMessage = processMessage.message
+      handlePrimaryButton = handleClose
+      break
     }
     default:
-      break;
+      break
   }
 
   useEffect(() => {
-    const hasSuccessFlag = hasEnumFlag(status, RouteExecutionStatus.Done);
+    const hasSuccessFlag = hasEnumFlag(status, RouteExecutionStatus.Done)
     if (hasSuccessFlag) {
-      refetchNewBalance();
-      refetch();
+      refetchNewBalance()
+      refetch()
     }
-  }, [refetch, refetchNewBalance, status]);
+  }, [refetch, refetchNewBalance, status])
 
   const showContractComponent =
     subvariant === 'custom' &&
     hasEnumFlag(status, RouteExecutionStatus.Done) &&
-    (contractCompactComponent || contractSecondaryComponent);
+    (contractCompactComponent || contractSecondaryComponent)
 
   const VcComponent =
-    status === RouteExecutionStatus.Done ? feeConfig?._vcComponent : undefined;
+    status === RouteExecutionStatus.Done ? feeConfig?._vcComponent : undefined
 
   return (
     <Box p={3} ref={ref}>
@@ -320,5 +320,5 @@ export const StatusBottomSheetContent: React.FC<
         </Box>
       ) : null}
     </Box>
-  );
-};
+  )
+}

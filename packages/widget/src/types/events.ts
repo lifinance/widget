@@ -1,4 +1,4 @@
-import type { ChainId, ChainType, Process, Route } from '@lifi/sdk';
+import type { ChainId, ChainType, Process, Route } from '@lifi/sdk'
 
 export enum WidgetEvent {
   RouteExecutionStarted = 'routeExecutionStarted',
@@ -20,48 +20,48 @@ export enum WidgetEvent {
 }
 
 export type WidgetEvents = {
-  routeExecutionStarted: Route;
-  routeExecutionUpdated: RouteExecutionUpdate;
-  routeExecutionCompleted: Route;
-  routeExecutionFailed: RouteExecutionUpdate;
-  routeHighValueLoss: RouteHighValueLossUpdate;
-  availableRoutes: Route[];
-  contactSupport: ContactSupport;
-  sourceChainTokenSelected: ChainTokenSelected;
-  destinationChainTokenSelected: ChainTokenSelected;
-  sendToWalletToggled: boolean;
-  reviewTransactionPageEntered?: Route;
+  routeExecutionStarted: Route
+  routeExecutionUpdated: RouteExecutionUpdate
+  routeExecutionCompleted: Route
+  routeExecutionFailed: RouteExecutionUpdate
+  routeHighValueLoss: RouteHighValueLossUpdate
+  availableRoutes: Route[]
+  contactSupport: ContactSupport
+  sourceChainTokenSelected: ChainTokenSelected
+  destinationChainTokenSelected: ChainTokenSelected
+  sendToWalletToggled: boolean
+  reviewTransactionPageEntered?: Route
   /**
    * @deprecated use useWalletManagementEvents hook.
    */
-  walletConnected: WalletConnected;
-  widgetExpanded: boolean;
-};
+  walletConnected: WalletConnected
+  widgetExpanded: boolean
+}
 
 export interface ContactSupport {
-  supportId?: string;
+  supportId?: string
 }
 
 export interface RouteHighValueLossUpdate {
-  fromAmountUSD: number;
-  toAmountUSD: number;
-  gasCostUSD?: number;
-  feeCostUSD?: number;
-  valueLoss: number;
+  fromAmountUSD: number
+  toAmountUSD: number
+  gasCostUSD?: number
+  feeCostUSD?: number
+  valueLoss: number
 }
 
 export interface RouteExecutionUpdate {
-  route: Route;
-  process: Process;
+  route: Route
+  process: Process
 }
 
 export interface ChainTokenSelected {
-  chainId: ChainId;
-  tokenAddress: string;
+  chainId: ChainId
+  tokenAddress: string
 }
 
 export interface WalletConnected {
-  address?: string;
-  chainId?: number;
-  chainType?: ChainType;
+  address?: string
+  chainId?: number
+  chainType?: ChainType
 }

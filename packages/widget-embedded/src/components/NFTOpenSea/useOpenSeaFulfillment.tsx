@@ -1,28 +1,28 @@
-import type { ChainId, ContractCall, TokenAmount } from '@lifi/sdk';
-import { useAccount } from '@lifi/wallet-management';
-import type { NFTProps } from '@lifi/widget';
-import { useFieldValues } from '@lifi/widget';
-import { Seaport } from '@opensea/seaport-js';
-import { useQuery } from '@tanstack/react-query';
-import { useConfig, type Connector } from 'wagmi';
-import { getEthersSigner } from './getEthersSigner';
-import type { FulfillmentDataResponse, NFTNetwork } from './types';
-import { ChainId as OpenSeaChainId } from './types';
-import { useOpenSeaOrder } from './useOpenSeaOrder';
+import type { ChainId, ContractCall, TokenAmount } from '@lifi/sdk'
+import { useAccount } from '@lifi/wallet-management'
+import type { NFTProps } from '@lifi/widget'
+import { useFieldValues } from '@lifi/widget'
+import { Seaport } from '@opensea/seaport-js'
+import { useQuery } from '@tanstack/react-query'
+import { type Connector, useConfig } from 'wagmi'
+import { getEthersSigner } from './getEthersSigner'
+import type { FulfillmentDataResponse, NFTNetwork } from './types'
+import { ChainId as OpenSeaChainId } from './types'
+import { useOpenSeaOrder } from './useOpenSeaOrder'
 
 export const useOpenSeaFulfillment = (
   network: NFTNetwork,
   contractAddress: string,
-  tokenId: string | number,
+  tokenId: string | number
 ) => {
-  const { account } = useAccount();
-  const config = useConfig();
-  const [recipientAddress] = useFieldValues('toAddress');
+  const { account } = useAccount()
+  const config = useConfig()
+  const [recipientAddress] = useFieldValues('toAddress')
   const { data: order, isLoading: isOrderLoading } = useOpenSeaOrder(
     network,
     contractAddress,
-    tokenId,
-  );
+    tokenId
+  )
   const { data, isLoading } = useQuery({
     queryKey: [
       'opensea-fulfillment',
@@ -34,11 +34,11 @@ export const useOpenSeaFulfillment = (
       queryKey: [, orderHash, recipientAddress, accountAddress],
     }) => {
       if (!order) {
-        return;
+        return
       }
 
       const fulfillmentDataResponse: FulfillmentDataResponse = await fetch(
-        `https://api.opensea.io/v2/listings/fulfillment_data`,
+        'https://api.opensea.io/v2/listings/fulfillment_data',
         {
           method: 'POST',
           headers: {
@@ -55,28 +55,27 @@ export const useOpenSeaFulfillment = (
               address: accountAddress,
             },
           }),
-        },
-      ).then((response) => response.json());
+        }
+      ).then((response) => response.json())
 
-      const orderV2 = { ...order };
-      orderV2.protocolData = fulfillmentDataResponse.fulfillment_data.orders[0];
+      const orderV2 = { ...order }
+      orderV2.protocolData = fulfillmentDataResponse.fulfillment_data.orders[0]
 
       const fulfillOrder = async (): Promise<ContractCall | undefined> => {
         try {
-          const signer = await getEthersSigner(config);
+          const signer = await getEthersSigner(config)
 
-          const seaport = new Seaport(signer);
+          const seaport = new Seaport(signer)
 
           const { actions } = await seaport.fulfillOrder({
             order: orderV2.protocolData,
             accountAddress: account.address,
             recipientAddress: recipientAddress || account.address,
-          });
+          })
 
           const transaction =
-            await actions[0].transactionMethods.buildTransaction();
-          const estimatedGas =
-            await actions[0].transactionMethods.estimateGas();
+            await actions[0].transactionMethods.buildTransaction()
+          const estimatedGas = await actions[0].transactionMethods.estimateGas()
 
           return {
             fromAmount: orderV2?.currentPrice,
@@ -84,25 +83,25 @@ export const useOpenSeaFulfillment = (
             toContractAddress: transaction.to,
             toContractCallData: transaction.data,
             toContractGasLimit: estimatedGas.toString(),
-          };
+          }
         } catch (error: any) {
           if (error.code === 'CALL_EXCEPTION') {
             const switched = await (
               account.connector as Connector
-            ).switchChain?.({ chainId: OpenSeaChainId[network as NFTNetwork] });
+            ).switchChain?.({ chainId: OpenSeaChainId[network as NFTNetwork] })
             if (switched) {
-              await fulfillOrder();
+              await fulfillOrder()
             } else {
-              throw error;
+              throw error
             }
           } else {
-            throw error;
+            throw error
           }
         }
-      };
-      const contract = await fulfillOrder();
+      }
+      const contract = await fulfillOrder()
 
-      const asset = orderV2?.makerAssetBundle.assets[0];
+      const asset = orderV2?.makerAssetBundle.assets[0]
       const owner = {
         name:
           orderV2?.maker.user?.username ||
@@ -110,7 +109,7 @@ export const useOpenSeaFulfillment = (
         url: `https://opensea.io/${
           orderV2?.maker.user?.username || orderV2?.maker.address
         }`,
-      };
+      }
       const token: TokenAmount = {
         symbol:
           orderV2?.takerAssetBundle.assets[0]?.assetContract?.tokenSymbol!,
@@ -120,7 +119,7 @@ export const useOpenSeaFulfillment = (
         chainId: OpenSeaChainId[network as NFTNetwork] as number as ChainId,
         name: orderV2?.takerAssetBundle.assets[0]?.assetContract.tokenSymbol!,
         priceUSD: '',
-      };
+      }
 
       const result: NFTProps = {
         imageUrl: asset?.imageUrl,
@@ -129,17 +128,17 @@ export const useOpenSeaFulfillment = (
         owner: owner,
         token: token,
         contractCall: contract,
-      };
+      }
 
-      return result;
+      return result
     },
 
     enabled: Boolean(account.address) && Boolean(order),
-  });
+  })
 
   return {
     data,
     isLoading: isLoading || isOrderLoading,
     order,
-  };
-};
+  }
+}

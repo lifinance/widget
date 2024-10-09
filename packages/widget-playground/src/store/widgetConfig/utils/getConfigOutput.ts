@@ -1,10 +1,10 @@
-import type { WidgetConfig, WidgetTheme } from '@lifi/widget';
-import { defaultMaxHeight } from '@lifi/widget';
+import type { WidgetConfig, WidgetTheme } from '@lifi/widget'
+import { defaultMaxHeight } from '@lifi/widget'
 
 export const getConfigOutput = (
-  config: Partial<WidgetConfig>,
+  config: Partial<WidgetConfig>
 ): Partial<WidgetConfig> => {
-  const { playground, ...theme } = config.theme as WidgetTheme;
+  const { playground, ...theme } = config.theme as WidgetTheme
 
   return {
     ...(config.variant ? { variant: config.variant } : {}),
@@ -29,5 +29,5 @@ export const getConfigOutput = (
         }
       : {}),
     ...(config.walletConfig ? { walletConfig: config.walletConfig } : {}),
-  } as Partial<WidgetConfig>;
-};
+  } as Partial<WidgetConfig>
+}

@@ -1,12 +1,12 @@
-import type { WalletManagementConfig } from '@lifi/wallet-management';
-import { WalletManagementProvider } from '@lifi/wallet-management';
-import { useMemo, type FC, type PropsWithChildren } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js';
-import { EVMProvider } from './EVMProvider.js';
-import { SDKProviders } from './SDKProviders.js';
-import { SVMProvider } from './SVMProvider.js';
-import { UTXOProvider } from './UTXOProvider.js';
+import type { WalletManagementConfig } from '@lifi/wallet-management'
+import { WalletManagementProvider } from '@lifi/wallet-management'
+import { type FC, type PropsWithChildren, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
+import { EVMProvider } from './EVMProvider.js'
+import { SDKProviders } from './SDKProviders.js'
+import { SVMProvider } from './SVMProvider.js'
+import { UTXOProvider } from './UTXOProvider.js'
 
 export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   return (
@@ -18,19 +18,19 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
         </UTXOProvider>
       </SVMProvider>
     </EVMProvider>
-  );
-};
+  )
+}
 
 export const WalletMenuProvider: FC<PropsWithChildren> = ({ children }) => {
-  const { walletConfig } = useWidgetConfig();
-  const { i18n } = useTranslation();
+  const { walletConfig } = useWidgetConfig()
+  const { i18n } = useTranslation()
 
   const config: WalletManagementConfig = useMemo(() => {
-    return { locale: i18n.resolvedLanguage as never, ...walletConfig };
-  }, [i18n.resolvedLanguage, walletConfig]);
+    return { locale: i18n.resolvedLanguage as never, ...walletConfig }
+  }, [i18n.resolvedLanguage, walletConfig])
   return (
     <WalletManagementProvider config={config}>
       {children}
     </WalletManagementProvider>
-  );
-};
+  )
+}

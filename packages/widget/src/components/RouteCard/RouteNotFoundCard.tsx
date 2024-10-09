@@ -1,9 +1,9 @@
-import { Route } from '@mui/icons-material';
-import { Box, Typography } from '@mui/material';
-import { useTranslation } from 'react-i18next';
+import { Route } from '@mui/icons-material'
+import { Box, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 export const RouteNotFoundCard: React.FC = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   return (
     <Box
       sx={{
@@ -30,5 +30,5 @@ export const RouteNotFoundCard: React.FC = () => {
         {t('info.message.routeNotFound')}
       </Typography>
     </Box>
-  );
-};
+  )
+}

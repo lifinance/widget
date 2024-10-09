@@ -1,5 +1,5 @@
-import type { ButtonProps } from '@mui/material';
-import { Button } from '@mui/material';
+import type { ButtonProps } from '@mui/material'
+import { Button } from '@mui/material'
 
 export function ToggleDrawerButton(props: ButtonProps) {
   return (
@@ -12,5 +12,5 @@ export function ToggleDrawerButton(props: ButtonProps) {
     >
       Exchange on LI.FI
     </Button>
-  );
+  )
 }

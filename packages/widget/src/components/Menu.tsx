@@ -4,7 +4,7 @@ import {
   menuItemClasses,
   styled,
   svgIconClasses,
-} from '@mui/material';
+} from '@mui/material'
 
 export const Menu = styled(MuiMenu)(({ theme }) => ({
   [`& .${menuClasses.paper}`]: {
@@ -24,4 +24,4 @@ export const Menu = styled(MuiMenu)(({ theme }) => ({
       },
     },
   },
-}));
+}))

@@ -3,7 +3,7 @@ import {
   CheckBoxOutlineBlankOutlined,
   CheckBoxOutlined,
   IndeterminateCheckBoxOutlined,
-} from '@mui/icons-material';
+} from '@mui/icons-material'
 import {
   Avatar,
   IconButton,
@@ -11,22 +11,22 @@ import {
   ListItemAvatar,
   Tooltip,
   useTheme,
-} from '@mui/material';
-import type { MouseEventHandler } from 'react';
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { shallow } from 'zustand/shallow';
-import { ListItemText } from '../components/ListItemText.js';
-import { PageContainer } from '../components/PageContainer.js';
-import { SettingsListItemButton } from '../components/SettingsListItemButton.js';
-import { useHeader } from '../hooks/useHeader.js';
-import { useTools } from '../hooks/useTools.js';
-import { useSettingsStore } from '../stores/settings/useSettingsStore.js';
+} from '@mui/material'
+import type { MouseEventHandler } from 'react'
+import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { shallow } from 'zustand/shallow'
+import { ListItemText } from '../components/ListItemText.js'
+import { PageContainer } from '../components/PageContainer.js'
+import { SettingsListItemButton } from '../components/SettingsListItemButton.js'
+import { useHeader } from '../hooks/useHeader.js'
+import { useTools } from '../hooks/useTools.js'
+import { useSettingsStore } from '../stores/settings/useSettingsStore.js'
 
 interface SelectAllCheckboxProps {
-  allCheckboxesSelected: boolean;
-  onClick: MouseEventHandler;
-  anyCheckboxesSelected: boolean;
+  allCheckboxesSelected: boolean
+  onClick: MouseEventHandler
+  anyCheckboxesSelected: boolean
 }
 
 const SelectAllCheckbox: React.FC<SelectAllCheckboxProps> = ({
@@ -34,11 +34,11 @@ const SelectAllCheckbox: React.FC<SelectAllCheckboxProps> = ({
   anyCheckboxesSelected,
   onClick,
 }) => {
-  const { t } = useTranslation();
-  const theme = useTheme();
+  const { t } = useTranslation()
+  const theme = useTheme()
   const tooltipTitle = allCheckboxesSelected
     ? t('tooltip.deselectAll')
-    : t('tooltip.selectAll');
+    : t('tooltip.selectAll')
 
   return (
     <Tooltip title={tooltipTitle}>
@@ -56,14 +56,14 @@ const SelectAllCheckbox: React.FC<SelectAllCheckboxProps> = ({
         )}
       </IconButton>
     </Tooltip>
-  );
-};
+  )
+}
 
 export const SelectEnabledToolsPage: React.FC<{
-  type: 'Bridges' | 'Exchanges';
+  type: 'Bridges' | 'Exchanges'
 }> = ({ type }) => {
-  const typeKey = type.toLowerCase() as 'bridges' | 'exchanges';
-  const { tools } = useTools();
+  const typeKey = type.toLowerCase() as 'bridges' | 'exchanges'
+  const { tools } = useTools()
   const [enabledTools, disabledTools, setToolValue, toggleTools] =
     useSettingsStore(
       (state) => [
@@ -72,10 +72,10 @@ export const SelectEnabledToolsPage: React.FC<{
         state.setToolValue,
         state.toggleTools,
       ],
-      shallow,
-    );
+      shallow
+    )
 
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   const headerAction = useMemo(
     () => (
@@ -85,14 +85,14 @@ export const SelectEnabledToolsPage: React.FC<{
         onClick={() => toggleTools(type)}
       />
     ),
-    [disabledTools.length, toggleTools, type],
-  );
+    [disabledTools.length, toggleTools, type]
+  )
 
-  useHeader(t(`settings.enabled${type}`), headerAction);
+  useHeader(t(`settings.enabled${type}`), headerAction)
 
   const handleClick = (key: string) => {
-    setToolValue(type, key, !enabledTools[key]);
-  };
+    setToolValue(type, key, !enabledTools[key])
+  }
 
   return (
     <PageContainer disableGutters>
@@ -120,5 +120,5 @@ export const SelectEnabledToolsPage: React.FC<{
         ))}
       </List>
     </PageContainer>
-  );
-};
+  )
+}

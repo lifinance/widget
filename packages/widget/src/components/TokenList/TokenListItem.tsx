@@ -1,5 +1,5 @@
-import { ChainType } from '@lifi/sdk';
-import { OpenInNewRounded } from '@mui/icons-material';
+import { ChainType } from '@lifi/sdk'
+import { OpenInNewRounded } from '@mui/icons-material'
 import {
   Avatar,
   Box,
@@ -9,17 +9,17 @@ import {
   Skeleton,
   Slide,
   Typography,
-} from '@mui/material';
-import type { MouseEventHandler } from 'react';
-import { useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { formatUnits } from 'viem';
-import { useExplorer } from '../../hooks/useExplorer.js';
-import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js';
-import { shortenAddress } from '../../utils/wallet.js';
-import { ListItemButton } from '../ListItem/ListItemButton.js';
-import { IconButton, ListItem } from './TokenList.style.js';
-import type { TokenListItemButtonProps, TokenListItemProps } from './types.js';
+} from '@mui/material'
+import type { MouseEventHandler } from 'react'
+import { useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { formatUnits } from 'viem'
+import { useExplorer } from '../../hooks/useExplorer.js'
+import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
+import { shortenAddress } from '../../utils/wallet.js'
+import { ListItemButton } from '../ListItem/ListItemButton.js'
+import { IconButton, ListItem } from './TokenList.style.js'
+import type { TokenListItemButtonProps, TokenListItemProps } from './types.js'
 
 export const TokenListItem: React.FC<TokenListItemProps> = ({
   onClick,
@@ -33,9 +33,9 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
   endAdornment,
 }) => {
   const handleClick: MouseEventHandler<HTMLDivElement> = (e) => {
-    e.stopPropagation();
-    onClick?.(token.address);
-  };
+    e.stopPropagation()
+    onClick?.(token.address)
+  }
   return (
     <ListItem
       style={{
@@ -53,8 +53,8 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
       />
       {endAdornment}
     </ListItem>
-  );
-};
+  )
+}
 
 export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   onClick,
@@ -63,36 +63,36 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   accountAddress,
   isBalanceLoading,
 }) => {
-  const { t } = useTranslation();
-  const { getAddressLink } = useExplorer();
+  const { t } = useTranslation()
+  const { getAddressLink } = useExplorer()
 
   const tokenPrice = token.amount
     ? formatTokenPrice(
         formatUnits(token.amount, token.decimals),
-        token.priceUSD,
+        token.priceUSD
       )
-    : undefined;
-  const container = useRef(null);
-  const timeoutId = useRef<ReturnType<typeof setTimeout>>();
-  const [showAddress, setShowAddress] = useState(false);
+    : undefined
+  const container = useRef(null)
+  const timeoutId = useRef<ReturnType<typeof setTimeout>>()
+  const [showAddress, setShowAddress] = useState(false)
 
   const tokenAddress =
-    chain?.chainType === ChainType.UTXO ? accountAddress : token.address;
+    chain?.chainType === ChainType.UTXO ? accountAddress : token.address
 
   const onMouseEnter = () => {
     timeoutId.current = setTimeout(() => {
       if (tokenAddress) {
-        setShowAddress(true);
+        setShowAddress(true)
       }
-    }, 350);
-  };
+    }, 350)
+  }
 
   const onMouseLeave = () => {
-    clearTimeout(timeoutId.current);
+    clearTimeout(timeoutId.current)
     if (showAddress) {
-      setShowAddress(false);
+      setShowAddress(false)
     }
-  };
+  }
 
   return (
     <ListItemButton
@@ -172,7 +172,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
                 color="text.secondary"
                 data-price={token.priceUSD}
               >
-                {t(`format.currency`, {
+                {t('format.currency', {
                   value: tokenPrice,
                 })}
               </Typography>
@@ -181,8 +181,8 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
         )
       ) : null}
     </ListItemButton>
-  );
-};
+  )
+}
 
 export const TokenListItemSkeleton = () => {
   return (
@@ -204,8 +204,8 @@ export const TokenListItemSkeleton = () => {
         secondary={<Skeleton variant="text" width={96} height={16} />}
       />
     </ListItem>
-  );
-};
+  )
+}
 
 export const TokenAmountSkeleton: React.FC = () => {
   return (
@@ -219,5 +219,5 @@ export const TokenAmountSkeleton: React.FC = () => {
       <Skeleton variant="text" width={56} height={24} />
       <Skeleton variant="text" width={48} height={16} />
     </Box>
-  );
-};
+  )
+}

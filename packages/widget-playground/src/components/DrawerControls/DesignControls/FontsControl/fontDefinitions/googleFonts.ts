@@ -1,4 +1,4 @@
-import type { Font } from '../../../../../providers';
+import type { Font } from '../../../../../providers'
 
 // NOTE: We could explore using the Google fonts developer API to write a
 //  script to auto generate more fonts we could even consider a light Next API endpoint to serve a list
@@ -321,4 +321,4 @@ export const googleFonts: Font[] = [
       },
     ],
   },
-];
+]

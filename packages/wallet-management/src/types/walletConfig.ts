@@ -2,10 +2,10 @@ import type {
   CoinbaseWalletParameters,
   MetaMaskParameters,
   WalletConnectParameters,
-} from 'wagmi/connectors';
+} from 'wagmi/connectors'
 
 export interface WalletConfig {
-  walletConnect?: WalletConnectParameters;
-  coinbase?: CoinbaseWalletParameters;
-  metaMask?: MetaMaskParameters;
+  walletConnect?: WalletConnectParameters
+  coinbase?: CoinbaseWalletParameters
+  metaMask?: MetaMaskParameters
 }

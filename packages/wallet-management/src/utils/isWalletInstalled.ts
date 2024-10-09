@@ -1,13 +1,13 @@
 export const isWalletInstalled = (id: string): boolean => {
-  const anyWindow = typeof window !== 'undefined' ? (window as any) : undefined;
+  const anyWindow = typeof window !== 'undefined' ? (window as any) : undefined
   switch (id) {
     case 'metaMask':
       return (
         anyWindow?.ethereum?.isMetaMask ||
         anyWindow?.ethereum?.providers?.some(
-          (provider: any) => provider.isMetaMask,
+          (provider: any) => provider.isMetaMask
         )
-      );
+      )
     case 'coinbase':
       return (
         // Coinbase Browser doesn't inject itself automatically
@@ -16,21 +16,21 @@ export const isWalletInstalled = (id: string): boolean => {
           !anyWindow?.ethereum?.isCoinbaseBrowser) ||
         anyWindow?.coinbaseWalletExtension?.isCoinbaseWallet ||
         anyWindow?.ethereum?.providers?.some(
-          (provider: any) => provider.isCoinbaseWallet,
+          (provider: any) => provider.isCoinbaseWallet
         )
-      );
+      )
     case 'app.phantom.bitcoin':
-      return anyWindow.phantom?.bitcoin?.isPhantom;
+      return anyWindow.phantom?.bitcoin?.isPhantom
     case 'XverseProviders.BitcoinProvider':
-      return anyWindow.XverseProviders?.BitcoinProvider;
+      return anyWindow.XverseProviders?.BitcoinProvider
     case 'unisat':
-      return anyWindow.unisat;
+      return anyWindow.unisat
     case 'io.xdefi.bitcoin':
-      return anyWindow.xfi?.bitcoin;
+      return anyWindow.xfi?.bitcoin
     default:
       /**
        * Return true if the wallet is not in the list of explicitly supported or self-injected wallet
        */
-      return true;
+      return true
   }
-};
+}

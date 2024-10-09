@@ -7,4 +7,4 @@ export enum ElementId {
 }
 
 export const createElementId = (ElementId: ElementId, elementId: string) =>
-  elementId ? `${ElementId}-${elementId}` : ElementId;
+  elementId ? `${ElementId}-${elementId}` : ElementId

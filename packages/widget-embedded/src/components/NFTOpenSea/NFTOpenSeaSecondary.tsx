@@ -1,8 +1,8 @@
-import type { ChainId, TokenAmount } from '@lifi/sdk';
-import { NFTBase } from '@lifi/widget';
-import type { NFTNetwork, NFTOpenSeaProps } from './types';
-import { ChainId as OpenSeaChainId } from './types';
-import { useOpenSeaOrder } from './useOpenSeaOrder';
+import type { ChainId, TokenAmount } from '@lifi/sdk'
+import { NFTBase } from '@lifi/widget'
+import type { NFTNetwork, NFTOpenSeaProps } from './types'
+import { ChainId as OpenSeaChainId } from './types'
+import { useOpenSeaOrder } from './useOpenSeaOrder'
 
 export const NFTOpenSeaSecondary: React.FC<NFTOpenSeaProps> = ({
   network,
@@ -12,10 +12,10 @@ export const NFTOpenSeaSecondary: React.FC<NFTOpenSeaProps> = ({
   const { data: order, isLoading: isOrderLoading } = useOpenSeaOrder(
     network,
     contractAddress,
-    tokenId,
-  );
+    tokenId
+  )
 
-  const asset = order?.makerAssetBundle.assets[0];
+  const asset = order?.makerAssetBundle.assets[0]
   const owner = {
     name:
       order?.maker.user?.username ||
@@ -23,7 +23,7 @@ export const NFTOpenSeaSecondary: React.FC<NFTOpenSeaProps> = ({
     url: `https://opensea.io/${
       order?.maker.user?.username || order?.maker.address
     }`,
-  };
+  }
   const token: TokenAmount = {
     symbol: order?.takerAssetBundle.assets[0]?.assetContract?.tokenSymbol!,
     amount: BigInt(order?.currentPrice ?? 0),
@@ -32,7 +32,7 @@ export const NFTOpenSeaSecondary: React.FC<NFTOpenSeaProps> = ({
     chainId: OpenSeaChainId[network as NFTNetwork] as number as ChainId,
     name: order?.takerAssetBundle.assets[0]?.assetContract.tokenSymbol!,
     priceUSD: '',
-  };
+  }
 
   return (
     <NFTBase
@@ -43,5 +43,5 @@ export const NFTOpenSeaSecondary: React.FC<NFTOpenSeaProps> = ({
       owner={owner}
       token={token}
     />
-  );
-};
+  )
+}

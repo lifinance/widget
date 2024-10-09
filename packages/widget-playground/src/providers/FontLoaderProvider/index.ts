@@ -1,2 +1,2 @@
-export * from './FontLoaderProvider';
-export * from './types';
+export * from './FontLoaderProvider'
+export * from './types'

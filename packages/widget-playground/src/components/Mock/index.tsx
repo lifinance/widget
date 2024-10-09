@@ -1,5 +1,5 @@
-import { Box } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Box } from '@mui/material'
+import { styled } from '@mui/material/styles'
 
 export const MockElement = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -8,4 +8,4 @@ export const MockElement = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-}));
+}))

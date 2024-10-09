@@ -1,4 +1,4 @@
-import { defineChain } from 'viem';
+import { defineChain } from 'viem'
 
 export const bitcoin = /*#__PURE__*/ defineChain({
   id: 20000000000001,
@@ -15,4 +15,4 @@ export const bitcoin = /*#__PURE__*/ defineChain({
       url: 'https://blockchair.com/bitcoin/',
     },
   },
-});
+})

@@ -8,15 +8,13 @@
     "build": "pnpm clean && pnpm build:esm && pnpm build:fonts && pnpm build:clean",
     "build:esm": "tsc --build",
     "build:fonts": "cpy 'src/fonts/*' dist/fonts",
-    "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo ./dist/tsconfig.cjs.tsbuildinfo",
+    "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo",
     "clean": "pnpm build:clean && rm -rf dist",
     "types": "tsc --noEmit",
     "lint": "eslint --ext .tsx --ext .ts ./src",
     "check:types": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "format": "prettier --write ./src/",
-    "pre-commit:validate": "pnpm format && pnpm lint --fix --max-warnings=0",
     "pre-push:validate": "pnpm check:types & pnpm test"
   },
   "publishConfig": {

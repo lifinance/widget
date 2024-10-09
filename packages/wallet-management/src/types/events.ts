@@ -1,17 +1,17 @@
-import type { ChainType } from '@lifi/sdk';
+import type { ChainType } from '@lifi/sdk'
 
 export enum WalletManagementEvent {
   WalletConnected = 'walletConnected',
 }
 
 export type WalletManagementEvents = {
-  walletConnected: WalletConnected;
-};
+  walletConnected: WalletConnected
+}
 
 export interface WalletConnected {
-  address: string;
-  chainId: number;
-  chainType: ChainType;
-  connectorId: string;
-  connectorName: string;
+  address: string
+  chainId: number
+  chainType: ChainType
+  connectorId: string
+  connectorName: string
 }

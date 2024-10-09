@@ -1,27 +1,27 @@
-import { useContext, useEffect, useId, useState } from 'react';
-import { ExpandableCardAccordionContext } from './ExpandableCardAccordion';
+import { useContext, useEffect, useId, useState } from 'react'
+import { ExpandableCardAccordionContext } from './ExpandableCardAccordion'
 
 export const useExpandableCard = () => {
-  const settingCardExpandableId = useId();
-  const [expanded, setExpanded] = useState(false);
-  const { openCard, setOpenCard } = useContext(ExpandableCardAccordionContext);
+  const settingCardExpandableId = useId()
+  const [expanded, setExpanded] = useState(false)
+  const { openCard, setOpenCard } = useContext(ExpandableCardAccordionContext)
   const toggleExpanded = () => {
-    const newExpanded = !expanded;
-    setExpanded(newExpanded);
+    const newExpanded = !expanded
+    setExpanded(newExpanded)
 
     if (newExpanded && openCard !== settingCardExpandableId) {
-      setOpenCard(settingCardExpandableId);
+      setOpenCard(settingCardExpandableId)
     }
-  };
+  }
 
   useEffect(() => {
     if (openCard !== settingCardExpandableId) {
-      setExpanded(false);
+      setExpanded(false)
     }
-  }, [settingCardExpandableId, openCard]);
+  }, [settingCardExpandableId, openCard])
 
   return {
     expanded,
     toggleExpanded,
-  };
-};
+  }
+}

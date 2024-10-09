@@ -41,17 +41,6 @@
       ]
     }
   },
-  "references": [
-    {
-      "path": "../wallet-management"
-    },
-    {
-      "path": "../widget-playground"
-    },
-    {
-      "path": "../widget"
-    }
-  ],
   "include": [
     "next-env.d.ts",
     "**/*.ts",

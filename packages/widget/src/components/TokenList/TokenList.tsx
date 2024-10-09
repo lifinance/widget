@@ -1,20 +1,20 @@
-import { useAccount } from '@lifi/wallet-management';
-import { Box } from '@mui/material';
-import type { FC } from 'react';
-import { useChain } from '../../hooks/useChain.js';
-import { useDebouncedWatch } from '../../hooks/useDebouncedWatch.js';
-import { useTokenBalances } from '../../hooks/useTokenBalances.js';
-import { useTokenSearch } from '../../hooks/useTokenSearch.js';
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
-import { FormKeyHelper } from '../../stores/form/types.js';
-import { useFieldValues } from '../../stores/form/useFieldValues.js';
-import type { TokenAmount } from '../../types/token.js';
-import { createElementId, ElementId } from '../../utils/elements.js';
-import { TokenNotFound } from './TokenNotFound.js';
-import { VirtualizedTokenList } from './VirtualizedTokenList.js';
-import type { TokenListProps } from './types.js';
-import { useTokenSelect } from './useTokenSelect.js';
-import { filteredTokensComparator } from './utils.js';
+import { useAccount } from '@lifi/wallet-management'
+import { Box } from '@mui/material'
+import type { FC } from 'react'
+import { useChain } from '../../hooks/useChain.js'
+import { useDebouncedWatch } from '../../hooks/useDebouncedWatch.js'
+import { useTokenBalances } from '../../hooks/useTokenBalances.js'
+import { useTokenSearch } from '../../hooks/useTokenSearch.js'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { FormKeyHelper } from '../../stores/form/types.js'
+import { useFieldValues } from '../../stores/form/useFieldValues.js'
+import type { TokenAmount } from '../../types/token.js'
+import { ElementId, createElementId } from '../../utils/elements.js'
+import { TokenNotFound } from './TokenNotFound.js'
+import { VirtualizedTokenList } from './VirtualizedTokenList.js'
+import type { TokenListProps } from './types.js'
+import { useTokenSelect } from './useTokenSelect.js'
+import { filteredTokensComparator } from './utils.js'
 
 export const TokenList: FC<TokenListProps> = ({
   formType,
@@ -22,15 +22,15 @@ export const TokenList: FC<TokenListProps> = ({
   height,
   onClick,
 }) => {
-  const [selectedChainId] = useFieldValues(FormKeyHelper.getChainKey(formType));
+  const [selectedChainId] = useFieldValues(FormKeyHelper.getChainKey(formType))
   const [tokenSearchFilter]: string[] = useDebouncedWatch(
     320,
-    'tokenSearchFilter',
-  );
-  const { elementId } = useWidgetConfig();
+    'tokenSearchFilter'
+  )
+  const { elementId } = useWidgetConfig()
 
-  const { chain, isLoading: isChainLoading } = useChain(selectedChainId);
-  const { account } = useAccount({ chainType: chain?.chainType });
+  const { chain, isLoading: isChainLoading } = useChain(selectedChainId)
+  const { account } = useAccount({ chainType: chain?.chainType })
 
   const {
     tokens: chainTokens,
@@ -39,13 +39,11 @@ export const TokenList: FC<TokenListProps> = ({
     isBalanceLoading,
     featuredTokens,
     popularTokens,
-  } = useTokenBalances(selectedChainId);
+  } = useTokenBalances(selectedChainId)
 
-  let filteredTokens = (tokensWithBalance ??
-    chainTokens ??
-    []) as TokenAmount[];
-  const normalizedSearchFilter = tokenSearchFilter?.replaceAll('$', '');
-  const searchFilter = normalizedSearchFilter?.toUpperCase() ?? '';
+  let filteredTokens = (tokensWithBalance ?? chainTokens ?? []) as TokenAmount[]
+  const normalizedSearchFilter = tokenSearchFilter?.replaceAll('$', '')
+  const searchFilter = normalizedSearchFilter?.toUpperCase() ?? ''
 
   filteredTokens = tokenSearchFilter
     ? filteredTokens
@@ -53,35 +51,35 @@ export const TokenList: FC<TokenListProps> = ({
           (token) =>
             token.name?.toUpperCase().includes(searchFilter) ||
             token.symbol.toUpperCase().includes(searchFilter) ||
-            token.address.toUpperCase().includes(searchFilter),
+            token.address.toUpperCase().includes(searchFilter)
         )
         .sort(filteredTokensComparator(searchFilter))
-    : filteredTokens;
+    : filteredTokens
 
   const tokenSearchEnabled =
     !isTokensLoading &&
     !filteredTokens.length &&
     !!tokenSearchFilter &&
-    !!selectedChainId;
+    !!selectedChainId
 
   const { token: searchedToken, isLoading: isSearchedTokenLoading } =
-    useTokenSearch(selectedChainId, normalizedSearchFilter, tokenSearchEnabled);
+    useTokenSearch(selectedChainId, normalizedSearchFilter, tokenSearchEnabled)
 
   const isLoading =
     isTokensLoading ||
     isChainLoading ||
-    (tokenSearchEnabled && isSearchedTokenLoading);
+    (tokenSearchEnabled && isSearchedTokenLoading)
 
   const tokens = filteredTokens.length
     ? filteredTokens
     : searchedToken
       ? [searchedToken]
-      : filteredTokens;
+      : filteredTokens
 
-  const handleTokenClick = useTokenSelect(formType, onClick);
+  const handleTokenClick = useTokenSelect(formType, onClick)
   const showCategories =
     Boolean(featuredTokens?.length || popularTokens?.length) &&
-    !tokenSearchFilter;
+    !tokenSearchFilter
 
   return (
     <Box
@@ -104,5 +102,5 @@ export const TokenList: FC<TokenListProps> = ({
         onClick={handleTokenClick}
       />
     </Box>
-  );
-};
+  )
+}

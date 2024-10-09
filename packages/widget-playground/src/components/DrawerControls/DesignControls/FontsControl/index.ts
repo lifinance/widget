@@ -1,2 +1,2 @@
-export * from './fontDefinitions';
-export * from './FontsControl';
+export * from './fontDefinitions'
+export * from './FontsControl'

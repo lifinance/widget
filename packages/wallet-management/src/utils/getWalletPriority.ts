@@ -6,8 +6,8 @@ const walletPriority: Record<string, number> = {
   'com.coinbase.wallet': 2,
   walletConnect: 3,
   safe: 4,
-};
+}
 
 export const getWalletPriority = (id: string) => {
-  return walletPriority[id] || 1000;
-};
+  return walletPriority[id] || 1000
+}

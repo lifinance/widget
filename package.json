@@ -4,7 +4,7 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "pnpm -r build",
+    "build": "pnpm -r --parallel --filter !'*-playground-*' --filter !'*-embedded' build && pnpm -r --parallel --filter '*-playground-*' --filter '*-embedded' build",
     "clean": "pnpm -r --parallel clean",
     "dev": "pnpm --filter widget-playground-vite dev",
     "dev:next": "pnpm --filter widget-playground-next dev",
@@ -16,17 +16,17 @@
     "release:publish": "lerna publish from-package --dist-tag latest --no-verify-access --yes",
     "release:publish:alpha": "lerna publish from-package --dist-tag alpha --no-verify-access --yes",
     "release:publish:beta": "lerna publish from-package --dist-tag beta --no-verify-access --yes",
+    "check": "biome check",
+    "check:write": "biome check --write",
+    "check:write:unsafe": "biome check --write --unsafe",
     "pre-commit": "lint-staged",
-    "pre-commit:validate": "pnpm -r --parallel pre-commit:validate",
     "pre-push": "pnpm -r --parallel pre-push:validate",
     "prepare": "husky",
     "postinstall": "husky",
-    "check:types": "pnpm -r --parallel check:types"
+    "check:types": "pnpm -r check:types"
   },
   "lint-staged": {
-    "*.{ts,tsx}": [
-      "pnpm pre-commit:validate"
-    ]
+    "*.{ts,tsx}": ["pnpm check"]
   },
   "standard-version": {
     "scripts": {
@@ -34,35 +34,22 @@
     }
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.9.3",
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^16.0.1",
     "@testing-library/user-event": "^14.5.2",
-    "@types/eslint": "^8.56.12",
     "@types/events": "^3.0.3",
     "@types/node": "^22.7.4",
     "@types/react": "^18.3.10",
     "@types/react-dom": "^18.3.0",
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
-    "@typescript-eslint/parser": "^7.18.0",
     "cpy-cli": "^5.0.0",
-    "eslint": "^8.57.1",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-config-react-app": "^7.0.1",
-    "eslint-plugin-flowtype": "^8.0.3",
-    "eslint-plugin-import": "^2.30.0",
-    "eslint-plugin-jsx-a11y": "^6.10.0",
-    "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-react": "^7.37.1",
-    "eslint-plugin-react-hooks": "^4.6.2",
     "fs-extra": "^11.2.0",
     "husky": "^9.1.6",
     "lerna": "8.1.8",
     "lint-staged": "^15.2.10",
-    "prettier": "^3.3.3",
-    "prettier-plugin-organize-imports": "^4.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "standard-version": "^9.5.0",

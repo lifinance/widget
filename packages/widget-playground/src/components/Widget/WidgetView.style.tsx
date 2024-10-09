@@ -1,15 +1,10 @@
-import { defaultMaxHeight } from '@lifi/widget';
-import type { BoxProps, Theme } from '@mui/material';
-import {
-  Box,
-  Button,
-  IconButton,
-  Skeleton as MuiSkeleton,
-} from '@mui/material';
-import { buttonClasses } from '@mui/material/Button';
-import { alpha, styled } from '@mui/material/styles';
-import type { CSSProperties } from 'react';
-import { drawerZIndex } from '../DrawerControls';
+import { defaultMaxHeight } from '@lifi/widget'
+import type { BoxProps, Theme } from '@mui/material'
+import { Box, Button, IconButton, Skeleton as MuiSkeleton } from '@mui/material'
+import { buttonClasses } from '@mui/material/Button'
+import { alpha, styled } from '@mui/material/styles'
+import type { CSSProperties } from 'react'
+import { drawerZIndex } from '../DrawerControls'
 
 export const FloatingToolsContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -17,11 +12,11 @@ export const FloatingToolsContainer = styled(Box)(({ theme }) => ({
   position: 'absolute',
   zIndex: drawerZIndex,
   padding: theme.spacing(3, 0, 0, 3),
-}));
+}))
 
 interface WidgetContainerProps extends BoxProps {
-  removePaddingTop?: boolean;
-  alignTop?: boolean;
+  removePaddingTop?: boolean
+  alignTop?: boolean
 }
 
 export const WidgetContainer = styled(Box, {
@@ -35,18 +30,18 @@ export const WidgetContainer = styled(Box, {
     alignItems: 'center',
     flexDirection: 'column',
     paddingTop: removePaddingTop ? 0 : theme.spacing(6),
-  };
-});
+  }
+})
 
 interface WidgetContainerRowProps extends BoxProps {
-  alignTop?: boolean;
-  widgetContainer?: CSSProperties;
+  alignTop?: boolean
+  widgetContainer?: CSSProperties
 }
 
 export const WidgetContainerRow = styled(Box, {
   shouldForwardProp: (prop) =>
     !['alignTop', 'widgetContainer'].includes(prop as string),
-})<WidgetContainerRowProps>(({ theme, alignTop, widgetContainer }) => {
+})<WidgetContainerRowProps>(({ alignTop, widgetContainer }) => {
   return {
     display: 'flex',
     alignItems: alignTop ? 'flex-start' : 'center',
@@ -56,8 +51,8 @@ export const WidgetContainerRow = styled(Box, {
       widgetContainer?.maxHeight || !widgetContainer?.height
         ? (widgetContainer?.maxHeight ?? defaultMaxHeight)
         : 'none',
-  };
-});
+  }
+})
 
 const floatingToolButtonColors = (theme: Theme) => ({
   color: theme.palette.text.primary,
@@ -71,12 +66,13 @@ const floatingToolButtonColors = (theme: Theme) => ({
         ? alpha(theme.palette.common.black, 0.04)
         : alpha(theme.palette.common.white, 0.08),
   },
-});
+})
 
 export const DrawerOpenButton = styled(IconButton)(({ theme }) => ({
   ...floatingToolButtonColors(theme),
-  boxShadow: `0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)`,
-}));
+  boxShadow:
+    '0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)',
+}))
 
 export const ConnectionWalletButtonBase = styled(Button)(({ theme }) => ({
   ...floatingToolButtonColors(theme),
@@ -91,14 +87,14 @@ export const ConnectionWalletButtonBase = styled(Button)(({ theme }) => ({
   [`.${buttonClasses.startIcon} > *:nth-of-type(1)`]: {
     fontSize: '24px',
   },
-}));
+}))
 
 export const Main = styled('main', {
   shouldForwardProp: (prop) =>
     !['drawerWidth', 'open'].includes(prop as string),
 })<{
-  drawerWidth: number;
-  open?: boolean;
+  drawerWidth: number
+  open?: boolean
 }>(({ theme, open, drawerWidth }) => ({
   display: 'flex',
   justifyContent: 'stretch',
@@ -120,7 +116,7 @@ export const Main = styled('main', {
     display: 'flex',
     flexGrow: '1',
   },
-}));
+}))
 
 export const WidgetSkeletonContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -132,11 +128,11 @@ export const WidgetSkeletonContainer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(8, 3, 6.25),
   boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
   borderRadius: theme.shape.borderRadius,
-}));
+}))
 
 export const Skeleton = styled(MuiSkeleton)(({ theme }) => ({
   backgroundColor:
     theme.palette.mode === 'light'
       ? theme.palette.grey[100]
       : theme.palette.grey[900],
-}));
+}))

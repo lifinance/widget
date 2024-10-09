@@ -1,45 +1,45 @@
-import { ChainId, ChainType } from '@lifi/sdk';
-import type { WalletAdapter } from '@solana/wallet-adapter-base';
-import { useWallet } from '@solana/wallet-adapter-react';
-import { useMemo } from 'react';
-import type { Chain } from 'viem';
-import type { Connector } from 'wagmi';
-import { useAccount as useAccountInternal } from 'wagmi';
-import { create } from 'zustand';
-import type { CreateConnectorFnExtended } from '../connectors/types.js';
-import { useConfig as useBigmiConfig } from '../utxo/hooks/useConfig.js';
+import { ChainId, ChainType } from '@lifi/sdk'
+import type { WalletAdapter } from '@solana/wallet-adapter-base'
+import { useWallet } from '@solana/wallet-adapter-react'
+import { useMemo } from 'react'
+import type { Chain } from 'viem'
+import type { Connector } from 'wagmi'
+import { useAccount as useAccountInternal } from 'wagmi'
+import { create } from 'zustand'
+import type { CreateConnectorFnExtended } from '../connectors/types.js'
+import { useConfig as useBigmiConfig } from '../utxo/hooks/useConfig.js'
 
 export interface AccountBase<CT extends ChainType, ConnectorType = undefined> {
-  address?: string;
-  addresses?: readonly string[];
-  chain?: Chain;
-  chainId?: number;
-  chainType: CT;
-  connector?: ConnectorType;
-  isConnected: boolean;
-  isConnecting: boolean;
-  isDisconnected: boolean;
-  isReconnecting: boolean;
-  status: 'connected' | 'reconnecting' | 'connecting' | 'disconnected';
+  address?: string
+  addresses?: readonly string[]
+  chain?: Chain
+  chainId?: number
+  chainType: CT
+  connector?: ConnectorType
+  isConnected: boolean
+  isConnecting: boolean
+  isDisconnected: boolean
+  isReconnecting: boolean
+  status: 'connected' | 'reconnecting' | 'connecting' | 'disconnected'
 }
 
-export type EVMAccount = AccountBase<ChainType.EVM, Connector>;
-export type SVMAccount = AccountBase<ChainType.SVM, WalletAdapter>;
-export type UTXOAccount = AccountBase<ChainType.UTXO, Connector>;
-export type DefaultAccount = AccountBase<ChainType>;
+export type EVMAccount = AccountBase<ChainType.EVM, Connector>
+export type SVMAccount = AccountBase<ChainType.SVM, WalletAdapter>
+export type UTXOAccount = AccountBase<ChainType.UTXO, Connector>
+export type DefaultAccount = AccountBase<ChainType>
 
-export type Account = EVMAccount | SVMAccount | UTXOAccount | DefaultAccount;
+export type Account = EVMAccount | SVMAccount | UTXOAccount | DefaultAccount
 
 export interface AccountResult {
-  account: Account;
+  account: Account
   /**
    * Connected accounts
    */
-  accounts: Account[];
+  accounts: Account[]
 }
 
 interface UseAccountArgs {
-  chainType?: ChainType;
+  chainType?: ChainType
 }
 
 const defaultAccount: AccountBase<ChainType> = {
@@ -49,17 +49,17 @@ const defaultAccount: AccountBase<ChainType> = {
   isReconnecting: false,
   isDisconnected: true,
   status: 'disconnected',
-};
+}
 
 export type LastConnectedAccount =
   | WalletAdapter
   | Connector
   | CreateConnectorFnExtended
-  | null;
+  | null
 
 interface LastConnectedAccountStore {
-  lastConnectedAccount: LastConnectedAccount;
-  setLastConnectedAccount: (account: LastConnectedAccount) => void;
+  lastConnectedAccount: LastConnectedAccount
+  setLastConnectedAccount: (account: LastConnectedAccount) => void
 }
 
 export const useLastConnectedAccount = create<LastConnectedAccountStore>(
@@ -67,20 +67,21 @@ export const useLastConnectedAccount = create<LastConnectedAccountStore>(
     lastConnectedAccount: null,
     setLastConnectedAccount: (account) =>
       set({ lastConnectedAccount: account }),
-  }),
-);
+  })
+)
 
 /**
  * @param args When we provide args we want to return either account with corresponding chainType or default disconnected one
  * @returns - Account result
  */
 export const useAccount = (args?: UseAccountArgs): AccountResult => {
-  const bigmiConfig = useBigmiConfig();
-  const bigmiAccount = useAccountInternal({ config: bigmiConfig });
-  const wagmiAccount = useAccountInternal();
-  const { wallet } = useWallet();
-  const { lastConnectedAccount } = useLastConnectedAccount();
+  const bigmiConfig = useBigmiConfig()
+  const bigmiAccount = useAccountInternal({ config: bigmiConfig })
+  const wagmiAccount = useAccountInternal()
+  const { wallet } = useWallet()
+  const { lastConnectedAccount } = useLastConnectedAccount()
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies:
   return useMemo(() => {
     const svm: Account = wallet?.adapter.publicKey
       ? {
@@ -101,22 +102,22 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
           isReconnecting: false,
           isDisconnected: true,
           status: 'disconnected',
-        };
-    const evm: Account = { ...wagmiAccount, chainType: ChainType.EVM };
-    const utxo: Account = { ...bigmiAccount, chainType: ChainType.UTXO };
-    const accounts = [evm, svm, utxo];
+        }
+    const evm: Account = { ...wagmiAccount, chainType: ChainType.EVM }
+    const utxo: Account = { ...bigmiAccount, chainType: ChainType.UTXO }
+    const accounts = [evm, svm, utxo]
     const connectedAccounts = accounts.filter(
-      (account) => account.isConnected && account.address,
-    );
+      (account) => account.isConnected && account.address
+    )
 
     // If a chainType argument is provided, attempt to find a connected account with the matching chainType.
     // If no matching account is found, fallback to the default account.
     // If no chainType argument, selectedAccount should be used.
     const selectedChainTypeAccount = args?.chainType
       ? connectedAccounts.find(
-          (account) => account.chainType === args?.chainType,
+          (account) => account.chainType === args?.chainType
         ) || defaultAccount
-      : undefined;
+      : undefined
 
     // If lastConnectedAccount exists, attempt to find a connected account with a matching connector ID or name.
     // If no matching account is found, fallback to the first connected account.
@@ -125,21 +126,20 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
       ? connectedAccounts.find((account) => {
           const connectorIdMatch =
             (lastConnectedAccount as Connector)?.id ===
-            (account.connector as Connector)?.id;
+            (account.connector as Connector)?.id
           const connectorNameMatch =
             !(lastConnectedAccount as Connector)?.id &&
             (lastConnectedAccount as WalletAdapter)?.name ===
-              account.connector?.name;
-          return connectorIdMatch || connectorNameMatch;
+              account.connector?.name
+          return connectorIdMatch || connectorNameMatch
         }) || connectedAccounts[0]
-      : connectedAccounts[0];
+      : connectedAccounts[0]
 
     return {
       account: selectedChainTypeAccount || selectedAccount || defaultAccount,
       // We need to return only connected account list
       accounts: connectedAccounts,
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }
   }, [
     wallet,
     wagmiAccount.connector?.uid,
@@ -152,5 +152,5 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
     bigmiAccount.address,
     args?.chainType,
     lastConnectedAccount,
-  ]);
-};
+  ])
+}

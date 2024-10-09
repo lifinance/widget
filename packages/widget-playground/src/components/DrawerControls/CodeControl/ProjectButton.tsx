@@ -1,13 +1,13 @@
-import type { PropsWithChildren, ReactNode } from 'react';
-import { ProjectAvatar, ProjectButtonBase } from './CodeControl.style';
+import type { PropsWithChildren, ReactNode } from 'react'
+import { ProjectAvatar, ProjectButtonBase } from './CodeControl.style'
 
 interface ProjectButtonProps extends PropsWithChildren {
-  href: string;
-  icon: ReactNode;
+  href: string
+  icon: ReactNode
 }
 
 export const ProjectButton = ({ href, icon, children }: ProjectButtonProps) => {
-  const Avatar = <ProjectAvatar aria-hidden>{icon}</ProjectAvatar>;
+  const Avatar = <ProjectAvatar aria-hidden>{icon}</ProjectAvatar>
 
   return (
     <ProjectButtonBase
@@ -19,5 +19,5 @@ export const ProjectButton = ({ href, icon, children }: ProjectButtonProps) => {
     >
       {children}
     </ProjectButtonBase>
-  );
-};
+  )
+}

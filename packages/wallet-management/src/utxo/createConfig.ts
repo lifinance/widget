@@ -2,10 +2,10 @@ import {
   createStorage,
   createConfig as createWagmiConfig,
   noopStorage,
-} from 'wagmi';
+} from 'wagmi'
 
 export function createConfig(
-  parameters: Parameters<typeof createWagmiConfig>[0],
+  parameters: Parameters<typeof createWagmiConfig>[0]
 ) {
   return createWagmiConfig({
     storage: createStorage({
@@ -16,5 +16,5 @@ export function createConfig(
           : noopStorage,
     }),
     ...parameters,
-  });
+  })
 }

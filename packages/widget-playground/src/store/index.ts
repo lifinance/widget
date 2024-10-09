@@ -1,2 +1,2 @@
-export * from './editTools';
-export * from './widgetConfig';
+export * from './editTools'
+export * from './widgetConfig'

@@ -1,54 +1,56 @@
-import type { WidgetVariant } from '@lifi/widget';
-import type { SyntheticEvent } from 'react';
-import { useConfigActions, useConfigVariant } from '../../../store';
-import { CardValue, ExpandableCard } from '../../Card';
-import { Tab, Tabs } from '../../Tabs';
+import type { WidgetVariant } from '@lifi/widget'
+import type { SyntheticEvent } from 'react'
+import { useConfigActions, useConfigVariant } from '../../../store'
+import { CardValue, ExpandableCard } from '../../Card'
+import { Tab, Tabs } from '../../Tabs'
 
 export const VariantControl = () => {
-  const { variant } = useConfigVariant();
+  const { variant } = useConfigVariant()
   const { setVariant, setHeader, setContainer, getCurrentConfigTheme } =
-    useConfigActions();
+    useConfigActions()
 
   const handleVariantChange = (_: SyntheticEvent, value: WidgetVariant) => {
-    setVariant(value);
+    setVariant(value)
 
     switch (value) {
-      case 'drawer':
-        setHeader();
+      case 'drawer': {
+        setHeader()
 
         const containerForDrawer = {
           ...getCurrentConfigTheme()?.container,
           maxHeight: undefined,
           display: undefined,
           height: undefined,
-        };
+        }
 
-        delete containerForDrawer.display;
-        delete containerForDrawer.height;
-        delete containerForDrawer.maxHeight;
+        containerForDrawer.display = undefined
+        containerForDrawer.height = undefined
+        containerForDrawer.maxHeight = undefined
 
-        setContainer(containerForDrawer);
-        break;
-      case 'wide':
-        setHeader();
+        setContainer(containerForDrawer)
+        break
+      }
+      case 'wide': {
+        setHeader()
 
         const containerForWide = {
           ...getCurrentConfigTheme()?.container,
-        };
+        }
 
         if (
           containerForWide.display === 'flex' &&
           containerForWide.height === '100%'
         ) {
-          delete containerForWide.display;
-          delete containerForWide.height;
+          containerForWide.display = undefined
+          containerForWide.height = undefined
         }
 
-        setContainer(containerForWide);
-        break;
+        setContainer(containerForWide)
+        break
+      }
       default:
     }
-  };
+  }
 
   return (
     <ExpandableCard
@@ -70,5 +72,5 @@ export const VariantControl = () => {
         <Tab label="Drawer" value={'drawer'} disableRipple />
       </Tabs>
     </ExpandableCard>
-  );
-};
+  )
+}

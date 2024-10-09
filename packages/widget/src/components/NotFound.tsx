@@ -1,9 +1,9 @@
-import { Block } from '@mui/icons-material';
-import { Box, Typography } from '@mui/material';
-import { useTranslation } from 'react-i18next';
+import { Block } from '@mui/icons-material'
+import { Box, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 export const NotFound: React.FC = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   return (
     <Box
       sx={{
@@ -30,5 +30,5 @@ export const NotFound: React.FC = () => {
         {t('tooltip.notFound.text')}
       </Typography>
     </Box>
-  );
-};
+  )
+}

@@ -1,11 +1,11 @@
-import { loadingButtonClasses } from '@mui/lab';
-import type {} from '@mui/lab/themeAugmentation';
+import { loadingButtonClasses } from '@mui/lab'
+import type {} from '@mui/lab/themeAugmentation'
 import type {
   CSSObject,
   PaletteMode,
   Shape,
   SimplePaletteColorOptions,
-} from '@mui/material';
+} from '@mui/material'
 import {
   alpha,
   createTheme as createMuiTheme,
@@ -17,17 +17,17 @@ import {
   lighten,
   tabsClasses,
   touchRippleClasses,
-} from '@mui/material';
-import type { WidgetTheme } from '../types/widget.js';
-import { palette, paletteDark, paletteLight } from './palettes.js';
-import type {} from './types.js';
-import { getStyleOverrides } from './utils.js';
+} from '@mui/material'
+import type { WidgetTheme } from '../types/widget.js'
+import { palette, paletteDark, paletteLight } from './palettes.js'
+import type {} from './types.js'
+import { getStyleOverrides } from './utils.js'
 
 const shape: Shape = {
   borderRadius: 12,
   borderRadiusSecondary: 12,
   borderRadiusTertiary: 24,
-};
+}
 
 const enterKeyframe = keyframes`
   0% {
@@ -38,30 +38,30 @@ const enterKeyframe = keyframes`
     transform: scale(1);
     opacity: 0.1;
   }
-`;
+`
 
 export const createTheme = (
   mode: PaletteMode,
-  widgetTheme: WidgetTheme = {},
+  widgetTheme: WidgetTheme = {}
 ) => {
   const primaryMainColor =
     (widgetTheme.palette?.primary as SimplePaletteColorOptions)?.main ??
-    palette.primary.main;
-  const primaryLightColor = lighten(primaryMainColor, 0.84);
-  const primaryDarkColor = darken(primaryMainColor, 0.2);
+    palette.primary.main
+  const primaryLightColor = lighten(primaryMainColor, 0.84)
+  const primaryDarkColor = darken(primaryMainColor, 0.2)
   const secondaryMainColor =
     (widgetTheme.palette?.secondary as SimplePaletteColorOptions)?.main ??
-    palette.secondary.main;
+    palette.secondary.main
   const contrastButtonColor =
     getContrastRatio(palette.common.white, primaryMainColor) >= 3
       ? palette.common.white
-      : palette.common.black;
+      : palette.common.black
   const contrastTextButtonColor =
     getContrastRatio(palette.common.white, alpha(primaryMainColor, 0.08)) >= 3
       ? palette.common.white
-      : palette.common.black;
+      : palette.common.black
   const borderRadiusSecondary =
-    widgetTheme.shape?.borderRadiusSecondary ?? shape.borderRadiusSecondary;
+    widgetTheme.shape?.borderRadiusSecondary ?? shape.borderRadiusSecondary
 
   const theme = createMuiTheme({
     container: widgetTheme.container,
@@ -118,7 +118,7 @@ export const createTheme = (
       },
       MuiAppBar: {
         styleOverrides: {
-          root: ({ ownerState, theme }) => ({
+          root: ({ ownerState }) => ({
             minHeight: 40,
             padding: 0,
             ...getStyleOverrides('MuiAppBar', 'root', widgetTheme, ownerState),
@@ -133,8 +133,8 @@ export const createTheme = (
         styleOverrides: {
           root: ({ ownerState, theme }) => {
             const root = widgetTheme.components?.MuiCard?.styleOverrides
-              ?.root as CSSObject;
-            const rootHover = root?.['&:hover'];
+              ?.root as CSSObject
+            const rootHover = root?.['&:hover']
             return {
               backgroundColor: theme.palette.background.paper,
               borderRadius: theme.shape.borderRadius,
@@ -146,7 +146,7 @@ export const createTheme = (
                 {
                   duration: theme.transitions.duration.enteringScreen,
                   easing: theme.transitions.easing.easeOut,
-                },
+                }
               ),
               ...(!!ownerState.onClick && {
                 '&:hover': {
@@ -181,7 +181,7 @@ export const createTheme = (
               ...(!ownerState.onClick && {
                 '&:hover': {},
               }),
-            };
+            }
           },
         },
         variants: widgetTheme.components?.MuiCard?.variants ?? [
@@ -234,15 +234,15 @@ export const createTheme = (
           ...widgetTheme.components?.MuiButton?.defaultProps,
         },
         styleOverrides: {
-          root: ({ theme, ownerState }) => ({
+          root: ({ ownerState }) => ({
             borderRadius: borderRadiusSecondary,
             textTransform: 'none',
             fontSize: 16,
             fontWeight: 600,
-            [`&.Mui-disabled, &.Mui-disabled:hover`]: {
+            '&.Mui-disabled, &.Mui-disabled:hover': {
               color: alpha(
                 mode === 'light' ? palette.common.black : palette.common.white,
-                0.56,
+                0.56
               ),
               cursor: 'not-allowed',
               pointerEvents: 'auto',
@@ -262,7 +262,7 @@ export const createTheme = (
               },
             ...getStyleOverrides('MuiButton', 'root', widgetTheme, ownerState),
           }),
-          text: ({ theme, ownerState }) => ({
+          text: ({ ownerState }) => ({
             backgroundColor:
               mode === 'light'
                 ? alpha(primaryMainColor, 0.08)
@@ -277,7 +277,7 @@ export const createTheme = (
               mode === 'light' ? primaryMainColor : contrastTextButtonColor,
             ...getStyleOverrides('MuiButton', 'text', widgetTheme, ownerState),
           }),
-          contained: ({ theme, ownerState }) => ({
+          contained: ({ ownerState }) => ({
             '&:hover': {
               color: contrastButtonColor,
             },
@@ -285,10 +285,10 @@ export const createTheme = (
               'MuiButton',
               'contained',
               widgetTheme,
-              ownerState,
+              ownerState
             ),
           }),
-          sizeMedium: ({ theme, ownerState }) => ({
+          sizeMedium: ({ ownerState }) => ({
             padding: '10px 14px',
             [`.${dialogActionsClasses.root} &`]: {
               padding: '6px 12px',
@@ -297,7 +297,7 @@ export const createTheme = (
               'MuiButton',
               'sizeMedium',
               widgetTheme,
-              ownerState,
+              ownerState
             ),
           }),
         },
@@ -306,7 +306,7 @@ export const createTheme = (
         ...widgetTheme.components?.MuiIconButton,
         styleOverrides: {
           ...widgetTheme.components?.MuiIconButton?.styleOverrides,
-          root: ({ theme, ownerState }) => ({
+          root: ({ ownerState }) => ({
             color: 'inherit',
             '&:hover': {
               color: 'inherit',
@@ -315,7 +315,7 @@ export const createTheme = (
               'MuiIconButton',
               'root',
               widgetTheme,
-              ownerState,
+              ownerState
             ),
           }),
         },
@@ -382,8 +382,8 @@ export const createTheme = (
               'MuiTabs',
               'root',
               widgetTheme,
-              ownerState,
-            );
+              ownerState
+            )
             return {
               backgroundColor:
                 theme.palette.mode === 'light'
@@ -403,12 +403,12 @@ export const createTheme = (
                 boxShadow: `0px 2px 4px ${alpha(theme.palette.common.black, 0.04)}`,
                 ...rootStyleOverrides?.[`.${tabsClasses.indicator}`],
               },
-            };
+            }
           },
         },
       },
     },
-  });
+  })
 
-  return theme;
-};
+  return theme
+}

@@ -1,18 +1,18 @@
-import CloseIcon from '@mui/icons-material/Close';
-import DesignServicesIcon from '@mui/icons-material/DesignServices';
-import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
-import TabContext from '@mui/lab/TabContext';
-import { Box, IconButton, Tooltip } from '@mui/material';
-import { useFontInitialisation } from '../../providers';
+import CloseIcon from '@mui/icons-material/Close'
+import DesignServicesIcon from '@mui/icons-material/DesignServices'
+import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions'
+import RestartAltIcon from '@mui/icons-material/RestartAlt'
+import TabContext from '@mui/lab/TabContext'
+import { Box, IconButton, Tooltip } from '@mui/material'
+import { useFontInitialisation } from '../../providers'
 import {
   useConfigActions,
   useDrawerToolValues,
   useEditToolsActions,
-} from '../../store';
-import { ExpandableCardAccordion } from '../Card';
-import { Tab, Tabs } from '../Tabs';
-import { CodeControl } from './CodeControl';
+} from '../../store'
+import { ExpandableCardAccordion } from '../Card'
+import { Tab, Tabs } from '../Tabs'
+import { CodeControl } from './CodeControl'
 import {
   AppearanceControl,
   ButtonRadiusControl,
@@ -26,8 +26,8 @@ import {
   ThemeControl,
   VariantControl,
   WalletManagementControl,
-} from './DesignControls';
-import { FormValuesControl } from './DesignControls/FormValuesControls';
+} from './DesignControls'
+import { FormValuesControl } from './DesignControls/FormValuesControls'
 import {
   Drawer,
   DrawerContentContainer,
@@ -36,21 +36,21 @@ import {
   TabContentContainer,
   WidgetConfigControls,
   tooltipPopperZIndex,
-} from './DrawerControls.style';
-import { DrawerHandle } from './DrawerHandle';
+} from './DrawerControls.style'
+import { DrawerHandle } from './DrawerHandle'
 
 export const DrawerControls = () => {
-  const { isDrawerOpen, drawerWidth, visibleControls } = useDrawerToolValues();
-  const { setDrawerOpen, setVisibleControls } = useEditToolsActions();
-  const { resetConfig } = useConfigActions();
-  const { resetEditTools } = useEditToolsActions();
+  const { isDrawerOpen, drawerWidth, visibleControls } = useDrawerToolValues()
+  const { setDrawerOpen, setVisibleControls } = useEditToolsActions()
+  const { resetConfig } = useConfigActions()
+  const { resetEditTools } = useEditToolsActions()
 
-  useFontInitialisation();
+  useFontInitialisation()
 
   const handleReset = () => {
-    resetConfig();
-    resetEditTools();
-  };
+    resetConfig()
+    resetEditTools()
+  }
 
   return (
     <>
@@ -138,5 +138,5 @@ export const DrawerControls = () => {
         </DrawerContentContainer>
       </Drawer>
     </>
-  );
-};
+  )
+}

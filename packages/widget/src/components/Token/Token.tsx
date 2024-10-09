@@ -1,34 +1,34 @@
 /* eslint-disable react/no-array-index-key */
-import type { LiFiStep, TokenAmount } from '@lifi/sdk';
-import type { BoxProps } from '@mui/material';
-import { Box, Grow, Skeleton, Tooltip } from '@mui/material';
-import type { FC, PropsWithChildren, ReactElement } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useChain } from '../../hooks/useChain.js';
-import { useToken } from '../../hooks/useToken.js';
-import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js';
-import { AvatarBadgedSkeleton } from '../Avatar/Avatar.js';
-import { SmallAvatar } from '../Avatar/SmallAvatar.js';
-import { TokenAvatar } from '../Avatar/TokenAvatar.js';
-import { TextFitter } from '../TextFitter/TextFitter.js';
-import { TextSecondary, TextSecondaryContainer } from './Token.style.js';
+import type { LiFiStep, TokenAmount } from '@lifi/sdk'
+import type { BoxProps } from '@mui/material'
+import { Box, Grow, Skeleton, Tooltip } from '@mui/material'
+import type { FC, PropsWithChildren, ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useChain } from '../../hooks/useChain.js'
+import { useToken } from '../../hooks/useToken.js'
+import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
+import { AvatarBadgedSkeleton } from '../Avatar/Avatar.js'
+import { SmallAvatar } from '../Avatar/SmallAvatar.js'
+import { TokenAvatar } from '../Avatar/TokenAvatar.js'
+import { TextFitter } from '../TextFitter/TextFitter.js'
+import { TextSecondary, TextSecondaryContainer } from './Token.style.js'
 
 interface TokenProps {
-  token: TokenAmount;
-  impactToken?: TokenAmount;
-  enableImpactTokenTooltip?: boolean;
-  step?: LiFiStep;
-  stepVisible?: boolean;
-  disableDescription?: boolean;
-  isLoading?: boolean;
+  token: TokenAmount
+  impactToken?: TokenAmount
+  enableImpactTokenTooltip?: boolean
+  step?: LiFiStep
+  stepVisible?: boolean
+  disableDescription?: boolean
+  isLoading?: boolean
 }
 
 export const Token: FC<TokenProps & BoxProps> = ({ token, ...other }) => {
   if (!token.priceUSD || !token.logoURI) {
-    return <TokenFallback token={token} {...other} />;
+    return <TokenFallback token={token} {...other} />
   }
-  return <TokenBase token={token} {...other} />;
-};
+  return <TokenBase token={token} {...other} />
+}
 
 export const TokenFallback: FC<TokenProps & BoxProps> = ({
   token,
@@ -37,8 +37,8 @@ export const TokenFallback: FC<TokenProps & BoxProps> = ({
 }) => {
   const { token: chainToken, isLoading: isLoadingToken } = useToken(
     token.chainId,
-    token.address,
-  );
+    token.address
+  )
 
   return (
     <TokenBase
@@ -46,8 +46,8 @@ export const TokenFallback: FC<TokenProps & BoxProps> = ({
       isLoading={isLoading || isLoadingToken}
       {...other}
     />
-  );
-};
+  )
+}
 
 export const TokenBase: FC<TokenProps & BoxProps> = ({
   token,
@@ -59,8 +59,8 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
   isLoading,
   ...other
 }) => {
-  const { t, i18n } = useTranslation();
-  const { chain } = useChain(token?.chainId);
+  const { t, i18n } = useTranslation()
+  const { chain } = useChain(token?.chainId)
 
   if (isLoading) {
     return (
@@ -70,34 +70,34 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
         disableDescription={disableDescription}
         {...other}
       />
-    );
+    )
   }
 
-  const tokenAmount = formatTokenAmount(token.amount, token.decimals);
-  const tokenPrice = formatTokenPrice(tokenAmount, token.priceUSD);
+  const tokenAmount = formatTokenAmount(token.amount, token.decimals)
+  const tokenPrice = formatTokenPrice(tokenAmount, token.priceUSD)
 
-  let priceImpact;
-  let priceImpactPercent;
+  let priceImpact: number | undefined = undefined
+  let priceImpactPercent: number | undefined = undefined
   if (impactToken) {
     const impactTokenAmount = formatTokenAmount(
       impactToken.amount,
-      impactToken.decimals,
-    );
+      impactToken.decimals
+    )
     const impactTokenPrice =
-      formatTokenPrice(impactTokenAmount, impactToken.priceUSD) || 0.01;
+      formatTokenPrice(impactTokenAmount, impactToken.priceUSD) || 0.01
 
-    priceImpact = tokenPrice / impactTokenPrice - 1;
-    priceImpactPercent = priceImpact * 100;
+    priceImpact = tokenPrice / impactTokenPrice - 1
+    priceImpactPercent = priceImpact * 100
   }
 
   const tokenOnChain = !disableDescription ? (
     <TextSecondary>
-      {t(`main.tokenOnChain`, {
+      {t('main.tokenOnChain', {
         tokenSymbol: token.symbol,
         chainName: chain?.name,
       })}
     </TextSecondary>
-  ) : null;
+  ) : null
 
   return (
     <Box flex={1} display="flex" alignItems="center" {...other}>
@@ -122,7 +122,7 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
         </Box>
         <TextSecondaryContainer component="span">
           <TextSecondary>
-            {t(`format.currency`, {
+            {t('format.currency', {
               value: tokenPrice,
             })}
           </TextSecondary>
@@ -167,8 +167,8 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
         </TextSecondaryContainer>
       </Box>
     </Box>
-  );
-};
+  )
+}
 
 const TokenStep: FC<PropsWithChildren<Partial<TokenProps>>> = ({
   step,
@@ -211,8 +211,8 @@ const TokenStep: FC<PropsWithChildren<Partial<TokenProps>>> = ({
         </Box>
       </Grow>
     </Box>
-  );
-};
+  )
+}
 
 export const TokenSkeleton: FC<Partial<TokenProps> & BoxProps> = ({
   step,
@@ -244,5 +244,5 @@ export const TokenSkeleton: FC<Partial<TokenProps> & BoxProps> = ({
         </Box>
       </Box>
     </Box>
-  );
-};
+  )
+}

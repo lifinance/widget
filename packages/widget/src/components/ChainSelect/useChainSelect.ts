@@ -1,68 +1,66 @@
-import type { EVMChain } from '@lifi/sdk';
-import { useChains } from '../../hooks/useChains.js';
-import { useSwapOnly } from '../../hooks/useSwapOnly.js';
-import { useToAddressReset } from '../../hooks/useToAddressReset.js';
-import { useHasExternalWalletProvider } from '../../providers/WalletProvider/useHasExternalWalletProvider.js';
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
-import { useChainOrder } from '../../stores/chains/useChainOrder.js';
-import type { FormType } from '../../stores/form/types.js';
-import { FormKeyHelper } from '../../stores/form/types.js';
-import { useFieldActions } from '../../stores/form/useFieldActions.js';
-import { useFieldController } from '../../stores/form/useFieldController.js';
-import type { DisabledUI } from '../../types/widget.js';
+import type { EVMChain } from '@lifi/sdk'
+import { useChains } from '../../hooks/useChains.js'
+import { useSwapOnly } from '../../hooks/useSwapOnly.js'
+import { useToAddressReset } from '../../hooks/useToAddressReset.js'
+import { useHasExternalWalletProvider } from '../../providers/WalletProvider/useHasExternalWalletProvider.js'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { useChainOrder } from '../../stores/chains/useChainOrder.js'
+import type { FormType } from '../../stores/form/types.js'
+import { FormKeyHelper } from '../../stores/form/types.js'
+import { useFieldActions } from '../../stores/form/useFieldActions.js'
+import { useFieldController } from '../../stores/form/useFieldController.js'
+import type { DisabledUI } from '../../types/widget.js'
 
 export const useChainSelect = (formType: FormType) => {
-  const { disabledUI } = useWidgetConfig();
-  const chainKey = FormKeyHelper.getChainKey(formType);
-  const { onChange } = useFieldController({ name: chainKey });
-  const { setFieldValue, getFieldValues } = useFieldActions();
+  const { disabledUI } = useWidgetConfig()
+  const chainKey = FormKeyHelper.getChainKey(formType)
+  const { onChange } = useFieldController({ name: chainKey })
+  const { setFieldValue, getFieldValues } = useFieldActions()
   const { hasExternalProvider, availableChainTypes } =
-    useHasExternalWalletProvider();
+    useHasExternalWalletProvider()
   const { chains, isLoading, getChainById } = useChains(
     formType,
-    formType === 'from' && hasExternalProvider
-      ? availableChainTypes
-      : undefined,
-  );
+    formType === 'from' && hasExternalProvider ? availableChainTypes : undefined
+  )
 
-  const [chainOrder, setChainOrder] = useChainOrder(formType);
-  const swapOnly = useSwapOnly();
-  const { tryResetToAddress } = useToAddressReset();
+  const [chainOrder, setChainOrder] = useChainOrder(formType)
+  const swapOnly = useSwapOnly()
+  const { tryResetToAddress } = useToAddressReset()
 
   const getChains = () => {
     if (!chains) {
-      return [];
+      return []
     }
     const selectedChains = chainOrder
       .map((chainId) => chains.find((chain) => chain.id === chainId))
-      .filter(Boolean) as EVMChain[];
-    return selectedChains;
-  };
+      .filter(Boolean) as EVMChain[]
+    return selectedChains
+  }
 
   const setCurrentChain = (chainId: number) => {
-    onChange(chainId);
+    onChange(chainId)
     if (swapOnly) {
       setFieldValue(FormKeyHelper.getChainKey('to'), chainId, {
         isTouched: true,
-      });
+      })
     }
-    const tokenKey = FormKeyHelper.getTokenKey(formType);
+    const tokenKey = FormKeyHelper.getTokenKey(formType)
     if (!disabledUI?.includes(tokenKey as DisabledUI)) {
-      setFieldValue(tokenKey, '');
+      setFieldValue(tokenKey, '')
     }
-    const amountKey = FormKeyHelper.getAmountKey(formType);
+    const amountKey = FormKeyHelper.getAmountKey(formType)
     if (!disabledUI?.includes(amountKey as DisabledUI)) {
-      setFieldValue(amountKey, '');
+      setFieldValue(amountKey, '')
     }
-    setFieldValue('tokenSearchFilter', '');
+    setFieldValue('tokenSearchFilter', '')
 
-    const [toChainId] = getFieldValues('toChain');
-    const toChain = getChainById(toChainId);
+    const [toChainId] = getFieldValues('toChain')
+    const toChain = getChainById(toChainId)
     if (toChain) {
-      tryResetToAddress(toChain);
+      tryResetToAddress(toChain)
     }
-    setChainOrder(chainId, formType);
-  };
+    setChainOrder(chainId, formType)
+  }
 
   return {
     chainOrder,
@@ -71,5 +69,5 @@ export const useChainSelect = (formType: FormType) => {
     isLoading,
     setChainOrder,
     setCurrentChain,
-  };
-};
+  }
+}

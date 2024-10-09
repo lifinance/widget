@@ -1,1 +1,1 @@
-export const minTransactionListHeight = 544;
+export const minTransactionListHeight = 544
