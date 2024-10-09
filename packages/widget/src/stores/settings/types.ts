@@ -31,6 +31,20 @@ export interface SettingsProps {
   _enabledExchanges: Record<string, boolean>;
 }
 
+export interface SettingsValues
+  extends Omit<
+    SettingsProps,
+    | '_enabledBridges'
+    | '_enabledExchanges'
+    | 'disabledBridges'
+    | 'enabledBridges'
+    | 'disabledExchanges'
+    | 'enabledExchanges'
+  > {
+  enabledBridges: Record<string, boolean>;
+  enabledExchanges: Record<string, boolean>;
+}
+
 export interface SettingsState extends SettingsProps {
   setValue: ValueSetter<SettingsProps>;
   setValues: ValuesSetter<SettingsProps>;
@@ -42,7 +56,7 @@ export interface SettingsState extends SettingsProps {
   setToolValue(toolType: SettingsToolType, tool: string, value: boolean): void;
   toggleToolKeys(toolType: SettingsToolType, toolKeys: string[]): void;
   reset(bridges: string[], exchanges: string[]): void;
-  getSettingsState(): SettingsProps;
+  getSettings(): SettingsValues;
 }
 
 export interface SendToWalletState {
