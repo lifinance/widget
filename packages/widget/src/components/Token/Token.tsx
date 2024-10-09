@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 import type { LiFiStep, TokenAmount } from '@lifi/sdk'
 import type { BoxProps } from '@mui/material'
 import { Box, Grow, Skeleton, Tooltip } from '@mui/material'

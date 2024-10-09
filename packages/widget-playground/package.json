@@ -11,7 +11,6 @@
     "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo",
     "clean": "pnpm build:clean && rm -rf dist",
     "types": "tsc --noEmit",
-    "lint": "eslint --ext .tsx --ext .ts ./src",
     "check:types": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",

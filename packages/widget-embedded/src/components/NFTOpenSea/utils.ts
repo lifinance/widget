@@ -73,7 +73,6 @@ export const deserializeOrder = (order: SerializedOrderV2): OrderV2 => {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const assetFromJSON = (asset: any): OpenSeaAsset => {
   const isAnimated = asset.image_url?.endsWith('.gif')
   const isSvg = asset.image_url?.endsWith('.svg')
@@ -126,7 +125,6 @@ export const assetFromJSON = (asset: any): OpenSeaAsset => {
   return fromJSON
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const assetEventFromJSON = (assetEvent: any): AssetEvent => {
   return {
     eventType: assetEvent.event_type,
@@ -142,7 +140,6 @@ export const assetEventFromJSON = (assetEvent: any): AssetEvent => {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const transactionFromJSON = (transaction: any): Transaction => {
   return {
     fromAccount: accountFromJSON(transaction.from_account),
@@ -157,7 +154,6 @@ export const transactionFromJSON = (transaction: any): Transaction => {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const accountFromJSON = (account: any): OpenSeaAccount => {
   return {
     address: account.address,
@@ -167,14 +163,12 @@ export const accountFromJSON = (account: any): OpenSeaAccount => {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const userFromJSON = (user: any): OpenSeaUser => {
   return {
     username: user.username,
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const assetBundleFromJSON = (asset_bundle: any): OpenSeaAssetBundle => {
   const fromJSON: OpenSeaAssetBundle = {
     maker: asset_bundle.maker,
@@ -197,7 +191,6 @@ export const assetBundleFromJSON = (asset_bundle: any): OpenSeaAssetBundle => {
 }
 
 export const assetContractFromJSON = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   asset_contract: any
 ): OpenSeaAssetContract => {
   return {
@@ -220,7 +213,6 @@ export const assetContractFromJSON = (
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const collectionFromJSON = (collection: any): OpenSeaCollection => {
   const createdDate = new Date(`${collection.created_date}Z`)
 
@@ -253,7 +245,6 @@ export const collectionFromJSON = (collection: any): OpenSeaCollection => {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const tokenFromJSON = (token: any): OpenSeaFungibleToken => {
   const fromJSON: OpenSeaFungibleToken = {
     name: token.name,
@@ -268,7 +259,6 @@ export const tokenFromJSON = (token: any): OpenSeaFungibleToken => {
   return fromJSON
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const orderFromJSON = (order: any): Order => {
   const createdDate = new Date(`${order.created_date}Z`)
 

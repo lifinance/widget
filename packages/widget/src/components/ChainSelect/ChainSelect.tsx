@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 import type { EVMChain } from '@lifi/sdk'
 import { Avatar, Box, Skeleton, Tooltip, Typography } from '@mui/material'
 import { useEffect } from 'react'

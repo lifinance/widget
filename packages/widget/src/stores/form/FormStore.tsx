@@ -99,7 +99,6 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
           }
         : undefined),
     }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       fromAmount,
       toAmount,

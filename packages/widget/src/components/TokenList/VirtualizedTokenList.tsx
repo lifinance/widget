@@ -68,7 +68,6 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     return (
       <List disablePadding>
         {Array.from({ length: 3 }).map((_, index) => (
-          // eslint-disable-next-line react/no-array-index-key
           <TokenListItemSkeleton key={index} />
         ))}
       </List>

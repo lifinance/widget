@@ -13,7 +13,6 @@ export async function createPackageFile(packagePath, path) {
     devDependencies,
     workspaces,
     files,
-    eslintConfig,
     'lint-staged': lintStaged,
     ...packageDataOther
   } = JSON.parse(packageData)

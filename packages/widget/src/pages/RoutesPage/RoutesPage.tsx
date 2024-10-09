@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 import type { Route } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import type { BoxProps } from '@mui/material'

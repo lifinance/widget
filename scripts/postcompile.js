@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { join } from 'node:path'
 import { correctSourceMapsPaths } from './correct-source-maps.js'
 import { createPackageFile } from './format-package-json.js'

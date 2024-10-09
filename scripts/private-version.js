@@ -1,6 +1,4 @@
 import { dirname, join } from 'node:path'
-/* eslint-disable no-console */
-/* eslint-disable no-prototype-builtins */
 import fastGlob from 'fast-glob'
 import fsExtra from 'fs-extra'
 const { readFileSync, writeFile } = fsExtra

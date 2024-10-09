@@ -27,7 +27,7 @@ export function getSecondsFromExpiry(expiry: Date, shouldRound?: boolean) {
 export function validateExpiryTimestamp(expiryTimestamp: Date) {
   const isValid = new Date(expiryTimestamp).getTime() > 0
   if (!isValid) {
-    console.warn('useTimer Invalid expiryTimestamp settings', expiryTimestamp) // eslint-disable-line
+    console.warn('useTimer Invalid expiryTimestamp settings', expiryTimestamp)
   }
   return isValid
 }

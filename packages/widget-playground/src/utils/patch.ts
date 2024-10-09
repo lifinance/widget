@@ -15,7 +15,6 @@ interface Difference {
   oldValue?: any
 }
 
-// eslint-disable-next-line import/no-default-export
 export default function patch(
   obj: Record<string, any> | any[],
   diffs: Difference[]
@@ -25,7 +24,6 @@ export default function patch(
 
   let resultObj = obj
   for (const diff of diffs) {
-    // eslint-disable-next-line curly
     if (!diff.path || diff.path.length === 0) {
       continue
     }
@@ -46,7 +44,6 @@ export default function patch(
       case 'REMOVE':
         if (Array.isArray(currObj)) {
           ;(currObj as any)[lastPathElement] = removeSymbol
-          // eslint-disable-next-line no-loop-func
           arrayDelQueue.push(() => {
             if (secondLastPathElement !== undefined) {
               ;(currObj as any)[secondLastPathElement] = (currObj as any)[

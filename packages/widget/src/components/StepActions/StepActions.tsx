@@ -121,7 +121,6 @@ export const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
     }
   }
 
-  // eslint-disable-next-line react/no-unstable-nested-components
   const StepIconComponent = ({ icon }: StepIconProps) => {
     const includedStep = includedSteps?.[Number(icon) - 1]
     const feeCollectionStep =
