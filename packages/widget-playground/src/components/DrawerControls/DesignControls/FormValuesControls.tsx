@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { useDevView } from '../../../hooks'
 import { useConfigActions, useEditToolsActions } from '../../../store'
 import type { FormValues } from '../../../store/widgetConfig/types'
-import { useConfigFormValues } from '../../../store/widgetConfig/useConfigValues'
 import { CardRowContainer, ExpandableCard } from '../../Card'
 import { Switch } from '../../Switch'
 import {
@@ -110,10 +109,7 @@ const toAmountLookUp: FormValuesLookUp = {
   },
 }
 
-const forceConfigUpdate = (
-  nextValue: FormValues,
-  _currentValues: FormValues
-): FormValues => ({
+const forceConfigUpdate = (nextValue: FormValues): FormValues => ({
   ...nextValue,
   formUpdateKey: new Date().valueOf().toString(),
 })
@@ -121,7 +117,6 @@ const forceConfigUpdate = (
 export const FormValuesControl = () => {
   const { setFormValues: setFormValuesViaConfig } = useConfigActions()
   const { setFormValues: setFormValuesViaFormApiRef } = useEditToolsActions()
-  const formValues = useConfigFormValues()
   const { isDevView } = useDevView()
   const [formUpdateMethod, setFormUpdateMethod] = useState<
     'formApi' | 'config'
@@ -136,7 +131,7 @@ export const FormValuesControl = () => {
     const chainsAndTokens = ChainsAndTokensLookUp[value]
 
     if (chainsAndTokens) {
-      setFormValues(forceConfigUpdate(chainsAndTokens, formValues))
+      setFormValues(forceConfigUpdate(chainsAndTokens))
     }
   }
 
@@ -144,7 +139,7 @@ export const FormValuesControl = () => {
     const addressValue = AddressLookUp[value]
 
     if (addressValue) {
-      setFormValues(forceConfigUpdate(addressValue, formValues))
+      setFormValues(forceConfigUpdate(addressValue))
     }
   }
 
@@ -152,7 +147,7 @@ export const FormValuesControl = () => {
     const amountValue = fromAmountLookUp[value]
 
     if (amountValue) {
-      setFormValues(forceConfigUpdate(amountValue, formValues))
+      setFormValues(forceConfigUpdate(amountValue))
     }
   }
 
@@ -160,7 +155,7 @@ export const FormValuesControl = () => {
     const amountValue = toAmountLookUp[value]
 
     if (amountValue) {
-      setFormValues(forceConfigUpdate(amountValue, formValues))
+      setFormValues(forceConfigUpdate(amountValue))
     }
   }
 

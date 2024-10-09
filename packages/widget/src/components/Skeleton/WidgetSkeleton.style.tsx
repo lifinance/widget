@@ -57,7 +57,27 @@ export const SkeletonSendToWalletButton = styled(Button)({
   pointerEvents: 'none',
 })
 
-export const SkeletonPoweredByContainer = styled(Box)({
+export const SkeletonPoweredByContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
+  flexGrow: 1,
   justifyContent: 'flex-end',
+  alignItems: 'flex-end',
+  paddingBottom: theme.spacing(2),
+  paddingLeft: theme.spacing(3),
+  paddingRight: theme.spacing(3),
+}))
+
+export const SkeletonHeaderContainer = styled(Box)(({ theme }) => {
+  return {
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: theme.palette.background.default,
+    backdropFilter: 'blur(12px)',
+    position: 'relative',
+    top: 0,
+    zIndex: 1200,
+    gap: theme.spacing(0.5),
+    padding: theme.spacing(1.5, 3, 1.5, 3),
+    overflow: 'auto',
+  }
 })

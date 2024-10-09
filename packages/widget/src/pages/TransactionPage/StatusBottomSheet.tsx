@@ -301,7 +301,12 @@ export const StatusBottomSheetContent: React.FC<
         <Typography py={1}>{secondaryMessage}</Typography>
       ) : null}
       {VcComponent ? <VcComponent route={route} /> : null}
-      <Box mt={2}>
+      <Box sx={{ display: 'flex', marginTop: 2, gap: 1.5 }}>
+        {hasEnumFlag(status, RouteExecutionStatus.Done) ? (
+          <Button variant="text" onClick={handleSeeDetails} fullWidth>
+            {t('button.seeDetails')}
+          </Button>
+        ) : null}
         <Button variant="contained" fullWidth onClick={handlePrimaryButton}>
           {status === RouteExecutionStatus.Idle ? t('button.ok') : null}
           {hasEnumFlag(status, RouteExecutionStatus.Done)
@@ -312,13 +317,6 @@ export const StatusBottomSheetContent: React.FC<
             : null}
         </Button>
       </Box>
-      {hasEnumFlag(status, RouteExecutionStatus.Done) ? (
-        <Box mt={2}>
-          <Button variant="text" onClick={handleSeeDetails} fullWidth>
-            {t('button.seeDetails')}
-          </Button>
-        </Box>
-      ) : null}
     </Box>
   )
 }
