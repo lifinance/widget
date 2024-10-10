@@ -10,9 +10,6 @@
     "preview": "vite preview",
     "check:types": "tsc --noEmit"
   },
-  "publishConfig": {
-    "access": "public"
-  },
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
     "@emotion/cache": "^11.13.1",

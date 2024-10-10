@@ -6,9 +6,6 @@
     "build": "next build",
     "start": "next start"
   },
-  "publishConfig": {
-    "access": "public"
-  },
   "dependencies": {
     "@emotion/cache": "^11.13.1",
     "@emotion/react": "^11.13.3",

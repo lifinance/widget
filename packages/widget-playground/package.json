@@ -16,9 +16,6 @@
     "test:watch": "vitest",
     "pre-push:validate": "pnpm check:types & pnpm test"
   },
-  "publishConfig": {
-    "access": "public"
-  },
   "exports": {
     ".": "./src/index.ts",
     "./fonts": "./src/fonts/inter.css",

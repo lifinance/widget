@@ -13,6 +13,9 @@
     "build:postcompile": "node ../../scripts/postcompile.js && cpy '../../*.md' 'src/**/*' '!src/**/*.d.ts' dist",
     "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo",
     "release:build": "pnpm build",
+    "release:publish": "cd dist && pnpm publish --access public --no-git-checks --tag latest",
+    "release:publish:alpha": "cd dist && pnpm publish --access public --no-git-checks --tag alpha",
+    "release:publish:beta": "cd dist && pnpm publish --access public --no-git-checks --tag beta",
     "clean": "pnpm build:clean && rm -rf dist",
     "check:types": "tsc --noEmit",
     "pre-push:validate": "pnpm check:types"

@@ -11,9 +11,6 @@
     "preview": "vite preview",
     "pre-push:validate": "pnpm check:types"
   },
-  "publishConfig": {
-    "access": "public"
-  },
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
     "@lifi/sdk": "^3.3.0-beta.2",
