@@ -7,13 +7,13 @@ import {
   alertClasses,
   inputBaseClasses,
   styled,
-} from '@mui/material';
-import { ButtonTertiary } from '../../components/ButtonTertiary.js';
-import { InputCard } from '../../components/Card/InputCard.js';
-import { Input } from '../../components/Input.js';
-import type { PageContainerProps } from '../../components/PageContainer.js';
-import { PageContainer } from '../../components/PageContainer.js';
-import { getContrastAlphaColor } from '../../utils/colors.js';
+} from '@mui/material'
+import { ButtonTertiary } from '../../components/ButtonTertiary.js'
+import { InputCard } from '../../components/Card/InputCard.js'
+import { Input } from '../../components/Input.js'
+import type { PageContainerProps } from '../../components/PageContainer.js'
+import { PageContainer } from '../../components/PageContainer.js'
+import { getContrastAlphaColor } from '../../utils/colors.js'
 
 export const AddressInput = styled(Input)(({ theme }) => ({
   padding: 0,
@@ -21,32 +21,32 @@ export const AddressInput = styled(Input)(({ theme }) => ({
     padding: theme.spacing(2),
     minHeight: 48,
   },
-}));
+}))
 
 export const BookmarkInputFields = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: theme.spacing(2),
   width: '100%',
-}));
+}))
 
 export const SendToWalletPageContainer = styled(
-  PageContainer,
+  PageContainer
 )<PageContainerProps>(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: theme.spacing(1),
-}));
+}))
 
 interface FullHeightAdjustablePageContainerProps extends PageContainerProps {
-  enableFullHeight?: boolean;
+  enableFullHeight?: boolean
 }
 
 export const FullHeightAdjustablePageContainer = styled(
   SendToWalletPageContainer,
   {
     shouldForwardProp: (prop) => prop !== 'enableFullHeight',
-  },
+  }
 )<FullHeightAdjustablePageContainerProps>(({ theme, enableFullHeight }) => ({
   justifyContent: 'space-between',
   ...(enableFullHeight && theme.container?.height === '100%'
@@ -55,12 +55,12 @@ export const FullHeightAdjustablePageContainer = styled(
         height: '100%',
       }
     : {}),
-}));
+}))
 
 export const SendToWalletCard = styled(InputCard)({
   display: 'flex',
   flexDirection: 'column',
-});
+})
 
 export const SendToWalletSheetContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -68,18 +68,18 @@ export const SendToWalletSheetContainer = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   padding: theme.spacing(4, 3, 3),
   gap: theme.spacing(2),
-}));
+}))
 
 export const SendToWalletButtonRow = styled(Box)(({ theme }) => ({
   display: 'flex',
   width: '100%',
   gap: theme.spacing(1),
-}));
+}))
 
 export const SendToWalletIconButton = styled(ButtonTertiary)(({ theme }) => ({
   padding: theme.spacing(1.25),
   minWidth: 40,
-}));
+}))
 
 export const IconContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -96,30 +96,30 @@ export const IconContainer = styled(Box)(({ theme }) => ({
       ? theme.palette.grey[200]
       : theme.palette.grey[800],
   borderRadius: '50%',
-}));
+}))
 
 export const SheetTitle = styled(Typography)(() => ({
   fontSize: 18,
   fontWeight: 700,
-}));
+}))
 
 export const SheetAddressContainer = styled(Box)(() => ({
   width: '100%',
   wordWrap: 'break-word',
-}));
+}))
 
-export const ListContainer = styled(List)(({ theme }) => ({
+export const ListContainer = styled(List)(() => ({
   display: 'flex',
   flexDirection: 'column',
   padding: 0,
   minHeight: 400,
-}));
+}))
 
 export const BookmarksListContainer = styled(ListContainer)(({ theme }) => ({
   ...(theme.container?.height === '100%'
     ? { minHeight: 360, height: 360, flexGrow: 1, overflow: 'auto' }
     : { minHeight: 440 }),
-}));
+}))
 
 export const BookmarkButtonContainer = styled(Box)(({ theme }) => ({
   background: theme.palette.background.default,
@@ -130,7 +130,7 @@ export const BookmarkButtonContainer = styled(Box)(({ theme }) => ({
   zIndex: 2,
   position: 'sticky',
   width: '100%',
-}));
+}))
 
 export const EmptyContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -139,7 +139,7 @@ export const EmptyContainer = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   flexGrow: 1,
   gap: theme.spacing(2),
-}));
+}))
 
 export const ValidationAlert = styled(Alert)(({ theme }) => ({
   backgroundColor: 'transparent',
@@ -150,7 +150,7 @@ export const ValidationAlert = styled(Alert)(({ theme }) => ({
     color: theme.palette.error.main,
   },
   [`.${alertClasses.message}`]: { padding: theme.spacing(0.25, 0, 0, 0) },
-}));
+}))
 
 export const OptionsMenuButton = styled(IconButton)(({ theme }) => ({
   position: 'absolute',
@@ -159,4 +159,4 @@ export const OptionsMenuButton = styled(IconButton)(({ theme }) => ({
   '&:hover': {
     backgroundColor: getContrastAlphaColor(theme, 0.04),
   },
-}));
+}))

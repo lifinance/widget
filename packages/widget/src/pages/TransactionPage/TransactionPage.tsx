@@ -1,78 +1,77 @@
-import type { ExchangeRateUpdateParams } from '@lifi/sdk';
-import { Delete } from '@mui/icons-material';
-import { Box, Button, Tooltip } from '@mui/material';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
-import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
-import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js';
-import { GasMessage } from '../../components/GasMessage/GasMessage.js';
-import { PageContainer } from '../../components/PageContainer.js';
-import { getStepList } from '../../components/Step/StepList.js';
-import { TransactionDetails } from '../../components/TransactionDetails.js';
-import { useHeader } from '../../hooks/useHeader.js';
-import { useNavigateBack } from '../../hooks/useNavigateBack.js';
-import { useRouteExecution } from '../../hooks/useRouteExecution.js';
-import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
-import { useFieldActions } from '../../stores/form/useFieldActions.js';
-import { RouteExecutionStatus } from '../../stores/routes/types.js';
-import { WidgetEvent } from '../../types/events.js';
-import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js';
-import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet.js';
-import { ExchangeRateBottomSheet } from './ExchangeRateBottomSheet.js';
-import { RouteTracker } from './RouteTracker.js';
-import { StartTransactionButton } from './StartTransactionButton.js';
-import { StatusBottomSheet } from './StatusBottomSheet.js';
-import { TokenValueBottomSheet } from './TokenValueBottomSheet.js';
+import type { ExchangeRateUpdateParams } from '@lifi/sdk'
+import { Delete } from '@mui/icons-material'
+import { Box, Button, Tooltip } from '@mui/material'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useLocation } from 'react-router-dom'
+import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
+import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
+import { GasMessage } from '../../components/GasMessage/GasMessage.js'
+import { PageContainer } from '../../components/PageContainer.js'
+import { getStepList } from '../../components/Step/StepList.js'
+import { TransactionDetails } from '../../components/TransactionDetails.js'
+import { useHeader } from '../../hooks/useHeader.js'
+import { useNavigateBack } from '../../hooks/useNavigateBack.js'
+import { useRouteExecution } from '../../hooks/useRouteExecution.js'
+import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { useFieldActions } from '../../stores/form/useFieldActions.js'
+import { RouteExecutionStatus } from '../../stores/routes/types.js'
+import { WidgetEvent } from '../../types/events.js'
+import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
+import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet.js'
+import { ExchangeRateBottomSheet } from './ExchangeRateBottomSheet.js'
+import { RouteTracker } from './RouteTracker.js'
+import { StartTransactionButton } from './StartTransactionButton.js'
+import { StatusBottomSheet } from './StatusBottomSheet.js'
+import { TokenValueBottomSheet } from './TokenValueBottomSheet.js'
 import {
   calculateValueLossPercentage,
   getTokenValueLossThreshold,
-} from './utils.js';
+} from './utils.js'
 
 export const TransactionPage: React.FC = () => {
-  const { t } = useTranslation();
-  const { setFieldValue } = useFieldActions();
-  const emitter = useWidgetEvents();
-  const { navigateBack } = useNavigateBack();
+  const { t } = useTranslation()
+  const { setFieldValue } = useFieldActions()
+  const emitter = useWidgetEvents()
+  const { navigateBack } = useNavigateBack()
   const { subvariant, subvariantOptions, contractSecondaryComponent } =
-    useWidgetConfig();
-  const { state }: any = useLocation();
-  const stateRouteId = state?.routeId;
-  const [routeId, setRouteId] = useState<string>(stateRouteId);
-  const [routeRefreshing, setRouteRefreshing] = useState(false);
+    useWidgetConfig()
+  const { state }: any = useLocation()
+  const stateRouteId = state?.routeId
+  const [routeId, setRouteId] = useState<string>(stateRouteId)
+  const [routeRefreshing, setRouteRefreshing] = useState(false)
 
-  const tokenValueBottomSheetRef = useRef<BottomSheetBase>(null);
-  const exchangeRateBottomSheetRef = useRef<ExchangeRateBottomSheetBase>(null);
+  const tokenValueBottomSheetRef = useRef<BottomSheetBase>(null)
+  const exchangeRateBottomSheetRef = useRef<ExchangeRateBottomSheetBase>(null)
 
   const onAcceptExchangeRateUpdate = (
     resolver: (value: boolean) => void,
-    data: ExchangeRateUpdateParams,
+    data: ExchangeRateUpdateParams
   ) => {
-    exchangeRateBottomSheetRef.current?.open(resolver, data);
-  };
+    exchangeRateBottomSheetRef.current?.open(resolver, data)
+  }
 
   const { route, status, executeRoute, restartRoute, deleteRoute } =
     useRouteExecution({
       routeId: routeId,
       onAcceptExchangeRateUpdate,
-    });
+    })
 
   const getHeaderTitle = () => {
     if (subvariant === 'custom') {
-      return t(`header.${subvariantOptions?.custom ?? 'checkout'}`);
-    } else {
-      if (route) {
-        const transactionType =
-          route.fromChainId === route.toChainId ? 'swap' : 'bridge';
-        return status === RouteExecutionStatus.Idle
-          ? t(`button.${transactionType}Review`)
-          : t(`header.${transactionType}`);
-      }
+      return t(`header.${subvariantOptions?.custom ?? 'checkout'}`)
+    }
+    if (route) {
+      const transactionType =
+        route.fromChainId === route.toChainId ? 'swap' : 'bridge'
+      return status === RouteExecutionStatus.Idle
+        ? t(`button.${transactionType}Review`)
+        : t(`header.${transactionType}`)
     }
 
-    return t(`header.exchange`);
-  };
+    return t('header.exchange')
+  }
 
   const headerAction = useMemo(
     () =>
@@ -83,28 +82,27 @@ export const TransactionPage: React.FC = () => {
           onFetching={setRouteRefreshing}
         />
       ) : undefined,
-    [stateRouteId, status],
-  );
+    [stateRouteId, status]
+  )
 
-  useHeader(getHeaderTitle(), headerAction);
+  useHeader(getHeaderTitle(), headerAction)
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: We want to emit event only when the page is mounted
   useEffect(() => {
     if (status === RouteExecutionStatus.Idle) {
-      emitter.emit(WidgetEvent.ReviewTransactionPageEntered, route);
+      emitter.emit(WidgetEvent.ReviewTransactionPageEntered, route)
     }
-    // We want to emit event only when the page is mounted
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
 
   if (!route) {
-    return null;
+    return null
   }
 
   const handleExecuteRoute = () => {
     if (tokenValueBottomSheetRef.current?.isOpen()) {
-      const { gasCostUSD, feeCostUSD } = getAccumulatedFeeCostsBreakdown(route);
-      const fromAmountUSD = parseFloat(route.fromAmountUSD);
-      const toAmountUSD = parseFloat(route.toAmountUSD);
+      const { gasCostUSD, feeCostUSD } = getAccumulatedFeeCostsBreakdown(route)
+      const fromAmountUSD = Number.parseFloat(route.fromAmountUSD)
+      const toAmountUSD = Number.parseFloat(route.toAmountUSD)
       emitter.emit(WidgetEvent.RouteHighValueLoss, {
         fromAmountUSD,
         toAmountUSD,
@@ -114,45 +112,45 @@ export const TransactionPage: React.FC = () => {
           fromAmountUSD,
           toAmountUSD,
           gasCostUSD,
-          feeCostUSD,
+          feeCostUSD
         ),
-      });
+      })
     }
-    tokenValueBottomSheetRef.current?.close();
-    executeRoute();
-    setFieldValue('fromAmount', '');
+    tokenValueBottomSheetRef.current?.close()
+    executeRoute()
+    setFieldValue('fromAmount', '')
     if (subvariant === 'custom') {
-      setFieldValue('fromToken', '');
-      setFieldValue('toToken', '');
+      setFieldValue('fromToken', '')
+      setFieldValue('toToken', '')
     }
-  };
+  }
 
   const handleStartClick = async () => {
     if (status === RouteExecutionStatus.Idle) {
-      const { gasCostUSD, feeCostUSD } = getAccumulatedFeeCostsBreakdown(route);
-      const fromAmountUSD = parseFloat(route.fromAmountUSD);
-      const toAmountUSD = parseFloat(route.toAmountUSD);
+      const { gasCostUSD, feeCostUSD } = getAccumulatedFeeCostsBreakdown(route)
+      const fromAmountUSD = Number.parseFloat(route.fromAmountUSD)
+      const toAmountUSD = Number.parseFloat(route.toAmountUSD)
       const tokenValueLossThresholdExceeded = getTokenValueLossThreshold(
         fromAmountUSD,
         toAmountUSD,
         gasCostUSD,
-        feeCostUSD,
-      );
+        feeCostUSD
+      )
       if (tokenValueLossThresholdExceeded && subvariant !== 'custom') {
-        tokenValueBottomSheetRef.current?.open();
+        tokenValueBottomSheetRef.current?.open()
       } else {
-        handleExecuteRoute();
+        handleExecuteRoute()
       }
     }
     if (status === RouteExecutionStatus.Failed) {
-      restartRoute();
+      restartRoute()
     }
-  };
+  }
 
   const handleRemoveRoute = () => {
-    navigateBack();
-    deleteRoute();
-  };
+    navigateBack()
+    deleteRoute()
+  }
 
   const getButtonText = (): string => {
     switch (status) {
@@ -160,21 +158,22 @@ export const TransactionPage: React.FC = () => {
         switch (subvariant) {
           case 'custom':
             return subvariantOptions?.custom === 'deposit'
-              ? t(`button.deposit`)
-              : t(`button.buy`);
+              ? t('button.deposit')
+              : t('button.buy')
           case 'refuel':
-            return t('button.startBridging');
-          default:
+            return t('button.startBridging')
+          default: {
             const transactionType =
-              route.fromChainId === route.toChainId ? 'Swapping' : 'Bridging';
-            return t(`button.start${transactionType}`);
+              route.fromChainId === route.toChainId ? 'Swapping' : 'Bridging'
+            return t(`button.start${transactionType}`)
+          }
         }
       case RouteExecutionStatus.Failed:
-        return t('button.tryAgain');
+        return t('button.tryAgain')
       default:
-        return '';
+        return ''
     }
-  };
+  }
 
   return (
     <PageContainer bottomGutters>
@@ -225,5 +224,5 @@ export const TransactionPage: React.FC = () => {
       ) : null}
       <ExchangeRateBottomSheet ref={exchangeRateBottomSheetRef} />
     </PageContainer>
-  );
-};
+  )
+}

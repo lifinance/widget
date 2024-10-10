@@ -1,5 +1,5 @@
 {
-  "npmClient": "yarn",
+  "npmClient": "pnpm",
   "packages": [
     "packages/*"
   ],
@@ -10,15 +10,6 @@
     "version": {
       "ignoreChanges": [
         "**/*.md"
-      ]
-    },
-    "publish": {
-      "directory": "{workspaceRoot}/{projectRoot}/dist",
-      "assets": [
-        {
-          "from": "../../*.md",
-          "to": "./"
-        }
       ]
     }
   },

@@ -1,6 +1,6 @@
-import { styled } from '@mui/material';
-import type { PageContainerProps } from './PageContainer.js';
-import { PageContainer } from './PageContainer.js';
+import { styled } from '@mui/material'
+import type { PageContainerProps } from './PageContainer.js'
+import { PageContainer } from './PageContainer.js'
 
 // In max height and default layout
 // the PageContainer collapses to use the minimum space need to display its child components whereas
@@ -11,4 +11,4 @@ export const FullPageContainer = styled((props: PageContainerProps) => (
     {...props}
     className={`${props.className} full-page-container`}
   />
-))``;
+))``

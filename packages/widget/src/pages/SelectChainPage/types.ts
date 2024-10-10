@@ -1,5 +1,5 @@
-import type { FormTypeProps } from '../../stores/form/types.js';
+import type { FormTypeProps } from '../../stores/form/types.js'
 
 export interface SelectChainPageProps extends FormTypeProps {
-  selectNativeToken?: boolean;
+  selectNativeToken?: boolean
 }

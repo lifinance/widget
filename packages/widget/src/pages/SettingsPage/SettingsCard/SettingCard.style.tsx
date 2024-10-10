@@ -1,10 +1,10 @@
-import { Box, Badge as MuiBadge, badgeClasses, styled } from '@mui/material';
+import { Box, Badge as MuiBadge, badgeClasses, styled } from '@mui/material'
 
 export const SettingsList = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: theme.spacing(1),
-}));
+}))
 
 export const Badge = styled(MuiBadge)(({ theme }) => ({
   display: 'flex',
@@ -18,4 +18,4 @@ export const Badge = styled(MuiBadge)(({ theme }) => ({
     transform: 'translateX(0)',
     borderRadius: '50%',
   },
-}));
+}))

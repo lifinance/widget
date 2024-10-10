@@ -1,11 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
-import type { NFTNetwork, OrdersQueryResponse } from './types';
-import { deserializeOrder } from './utils';
+import { useQuery } from '@tanstack/react-query'
+import type { NFTNetwork, OrdersQueryResponse } from './types'
+import { deserializeOrder } from './utils'
 
 export const useOpenSeaOrder = (
   network: NFTNetwork,
   contractAddress: string,
-  tokenId: string | number,
+  tokenId: string | number
 ) => {
   return useQuery({
     queryKey: ['opensea-order', network, contractAddress, tokenId],
@@ -18,16 +18,16 @@ export const useOpenSeaOrder = (
             accept: 'application/json',
             'X-API-KEY': import.meta.env.VITE_OPENSEA_API_KEY,
           },
-        },
-      ).then((response) => response.json());
+        }
+      ).then((response) => response.json())
 
       if (!ordersQueryResponse?.orders?.[0]) {
-        return;
+        return
       }
 
-      return deserializeOrder(ordersQueryResponse.orders[0]);
+      return deserializeOrder(ordersQueryResponse.orders[0])
     },
 
     enabled: Boolean(network) && Boolean(contractAddress),
-  });
-};
+  })
+}

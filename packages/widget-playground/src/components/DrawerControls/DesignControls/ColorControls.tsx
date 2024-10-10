@@ -1,14 +1,14 @@
-import type { BoxProps } from '@mui/material';
-import { useConfigActions, useConfigColorsFromPath } from '../../../store';
-import { safe6DigitHexColor } from '../../../utils';
-import { ExpandableCard } from '../../Card';
+import type { BoxProps } from '@mui/material'
+import { useConfigActions, useConfigColorsFromPath } from '../../../store'
+import { safe6DigitHexColor } from '../../../utils'
+import { ExpandableCard } from '../../Card'
 import {
   CapitalizeFirstLetter,
   ColorControlContainer,
   ColorInput,
   ColorSwatch,
   ColorSwatches,
-} from './DesignControls.style';
+} from './DesignControls.style'
 
 const editableColors = {
   primary: 'theme.palette.primary.main',
@@ -27,7 +27,7 @@ const editableColors = {
   'grey 300': 'theme.palette.grey.300',
   'grey 700': 'theme.palette.grey.700',
   'grey 800': 'theme.palette.grey.800',
-};
+}
 
 export const ColorControl = () => {
   return (
@@ -41,20 +41,20 @@ export const ColorControl = () => {
         />
       ))}
     </ExpandableCard>
-  );
-};
+  )
+}
 
 interface ColorSelectorProps extends BoxProps {
-  colorName: string;
-  colorPath: string;
+  colorName: string
+  colorPath: string
 }
 const ColorSelector = ({
   colorName,
   colorPath,
   ...rest
 }: ColorSelectorProps) => {
-  const [colorValue] = useConfigColorsFromPath(colorPath);
-  const { setColor } = useConfigActions();
+  const [colorValue] = useConfigColorsFromPath(colorPath)
+  const { setColor } = useConfigActions()
 
   return colorValue ? (
     <ColorControlContainer {...rest}>
@@ -66,19 +66,19 @@ const ColorSelector = ({
         onChange={(e) => setColor(colorPath, e.target.value)}
       />
     </ColorControlContainer>
-  ) : null;
-};
+  ) : null
+}
 
 const Swatches = () => {
-  const colorValues = useConfigColorsFromPath(...Object.values(editableColors));
+  const colorValues = useConfigColorsFromPath(...Object.values(editableColors))
 
   return (
     <ColorSwatches>
       {Object.values(editableColors).map((colorConfigPath, i) =>
         colorValues[i] ? (
           <ColorSwatch key={colorConfigPath} color={colorValues[i]!} />
-        ) : null,
+        ) : null
       )}
     </ColorSwatches>
-  );
-};
+  )
+}

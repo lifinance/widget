@@ -1,6 +1,6 @@
 {
   "name": "@lifi/wallet-management",
-  "version": "3.1.7",
+  "version": "3.3.0-beta.10",
   "description": "LI.FI Wallet Management solution.",
   "type": "module",
   "main": "./src/index.ts",
@@ -8,16 +8,17 @@
   "sideEffects": false,
   "scripts": {
     "watch": "tsc -w -p ./tsconfig.json",
-    "build": "yarn clean && yarn build:esm && yarn build:postcompile && yarn build:clean",
+    "build": "pnpm clean && pnpm build:esm && pnpm build:postcompile && pnpm build:clean",
     "build:esm": "tsc --build",
-    "build:postcompile": "node ../../scripts/postcompile.js && cpy 'src/**/*' dist",
-    "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo ./dist/tsconfig.cjs.tsbuildinfo",
-    "clean": "yarn build:clean && rm -rf dist",
+    "build:postcompile": "node ../../scripts/postcompile.js && cpy '../../*.md' 'src/**/*' '!src/**/*.d.ts' dist",
+    "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo",
+    "release:build": "pnpm build",
+    "release:publish": "cd dist && pnpm publish --access public --no-git-checks --tag latest",
+    "release:publish:alpha": "cd dist && pnpm publish --access public --no-git-checks --tag alpha",
+    "release:publish:beta": "cd dist && pnpm publish --access public --no-git-checks --tag beta",
+    "clean": "pnpm build:clean && rm -rf dist",
     "check:types": "tsc --noEmit",
-    "lint": "eslint --ext .tsx --ext .ts ./src",
-    "format": "prettier --write ./src/",
-    "pre-commit:validate": "yarn format &&  yarn lint --fix --max-warnings=0",
-    "pre-push:validate": "yarn check:types"
+    "pre-push:validate": "pnpm check:types"
   },
   "publishConfig": {
     "access": "public"
@@ -46,25 +47,36 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "^3.2.3",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@lifi/sdk": "^3.3.0-beta.2",
+    "@mui/icons-material": "^5.16.7",
+    "@mui/lab": "^5.0.0-alpha.173",
+    "@mui/material": "^5.16.7",
+    "@mui/system": "^5.16.7",
+    "@safe-global/safe-apps-provider": "^0.18.3",
+    "@safe-global/safe-apps-sdk": "^9.1.0",
     "@solana/wallet-adapter-base": "^0.9.23",
+    "@solana/wallet-adapter-react": "^0.15.35",
+    "@solana/web3.js": "^1.95.3",
+    "@wagmi/core": "^2.13.8",
+    "bs58": "^6.0.0",
+    "i18next": "^23.15.1",
+    "mitt": "^3.0.1",
     "react": "^18.3.1",
-    "viem": "^2.21.16",
-    "wagmi": "^2.12.16"
+    "react-i18next": "^15.0.2",
+    "use-sync-external-store": "^1.2.2",
+    "viem": "^2.21.21",
+    "wagmi": "^2.12.16",
+    "zustand": "^4.5.5"
   },
   "devDependencies": {
+    "@types/use-sync-external-store": "^0.0.6",
     "cpy-cli": "^5.0.0",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.3"
   },
   "peerDependencies": {
-    "@solana/wallet-adapter-base": "^0.9.0",
-    "@tanstack/react-query": "^5.0.0",
     "react": ">=18",
-    "react-dom": ">=18",
-    "viem": "^2.17.0",
-    "wagmi": "^2.11.0"
-  },
-  "eslintConfig": {
-    "extends": "../../.eslintrc"
+    "react-dom": ">=18"
   }
 }

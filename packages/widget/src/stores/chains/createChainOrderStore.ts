@@ -1,15 +1,15 @@
-import type { StateCreator } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { createWithEqualityFn } from 'zustand/traditional';
-import type { PersistStoreProps } from '../types.js';
-import type { ChainOrderState } from './types.js';
+import type { StateCreator } from 'zustand'
+import { persist } from 'zustand/middleware'
+import { createWithEqualityFn } from 'zustand/traditional'
+import type { PersistStoreProps } from '../types.js'
+import type { ChainOrderState } from './types.js'
 
-export const maxChainsToOrder = 9;
-export const maxChainsToShow = 10;
+export const maxChainsToOrder = 9
+export const maxChainsToShow = 10
 const defaultChainState = {
   from: [],
   to: [],
-};
+}
 
 export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
   createWithEqualityFn<ChainOrderState>(
@@ -20,11 +20,11 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
         initializeChains: (chainIds, type) => {
           set((state: ChainOrderState) => {
             const chainOrder = state.chainOrder[type].filter((chainId) =>
-              chainIds.includes(chainId),
-            );
+              chainIds.includes(chainId)
+            )
             const chainsToAdd = chainIds.filter(
-              (chainId) => !chainOrder.includes(chainId),
-            );
+              (chainId) => !chainOrder.includes(chainId)
+            )
             if (chainOrder.length === maxChainsToOrder || !chainsToAdd.length) {
               return {
                 availableChains: {
@@ -35,11 +35,11 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
                   ...state.chainOrder,
                   [type]: chainOrder,
                 },
-              };
+              }
             }
-            const chainsToAddLength = maxChainsToOrder - chainOrder.length;
+            const chainsToAddLength = maxChainsToOrder - chainOrder.length
             for (let index = 0; index < chainsToAddLength; index++) {
-              chainOrder.push(chainsToAdd[index]);
+              chainOrder.push(chainsToAdd[index])
             }
             return {
               availableChains: {
@@ -50,38 +50,38 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
                 ...state.chainOrder,
                 [type]: chainOrder,
               },
-            };
-          });
-          return get().chainOrder[type];
+            }
+          })
+          return get().chainOrder[type]
         },
         setChain: (chainId, type) => {
-          const state = get();
+          const state = get()
           if (
             state.chainOrder[type].includes(chainId) ||
             !state.availableChains[type].includes(chainId)
           ) {
-            return;
+            return
           }
           set((state: ChainOrderState) => {
-            const chainOrder = state.chainOrder[type].slice();
-            chainOrder.unshift(chainId);
+            const chainOrder = state.chainOrder[type].slice()
+            chainOrder.unshift(chainId)
             if (chainOrder.length > maxChainsToOrder) {
-              chainOrder.pop();
+              chainOrder.pop()
             }
             return {
               chainOrder: {
                 ...state.chainOrder,
                 [type]: chainOrder,
               },
-            };
-          });
+            }
+          })
         },
       }),
       {
         name: `${namePrefix || 'li.fi'}-widget-chains-order`,
         version: 2,
         partialize: (state) => ({ chainOrder: state.chainOrder }),
-      },
+      }
     ) as StateCreator<ChainOrderState, [], [], ChainOrderState>,
-    Object.is,
-  );
+    Object.is
+  )

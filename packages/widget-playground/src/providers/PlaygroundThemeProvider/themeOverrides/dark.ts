@@ -1,6 +1,6 @@
-import type { WidgetTheme } from '@lifi/widget';
-import type { Theme } from '@mui/material';
-import { body } from './body';
+import type { WidgetTheme } from '@lifi/widget'
+import type { Theme } from '@mui/material'
+import { body } from './body'
 
 export const darkPalette = {
   mode: 'dark',
@@ -28,7 +28,7 @@ export const darkPalette = {
     focusOpacity: 0.12,
     activatedOpacity: 0.24,
   },
-};
+}
 
 export const darkComponents = {
   MuiCssBaseline: {
@@ -40,4 +40,4 @@ export const darkComponents = {
       },
     }),
   },
-};
+}

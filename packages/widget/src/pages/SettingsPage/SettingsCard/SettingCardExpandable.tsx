@@ -1,25 +1,25 @@
-import { Collapse } from '@mui/material';
-import type { PropsWithChildren, ReactNode } from 'react';
-import { useId } from 'react';
-import { Card } from '../../../components/Card/Card.js';
+import { Collapse } from '@mui/material'
+import type { PropsWithChildren, ReactNode } from 'react'
+import { useId } from 'react'
+import { Card } from '../../../components/Card/Card.js'
 import {
   CardRowButton,
   CardTitleContainer,
   CardValue,
-} from '../../../components/Card/CardButton.style.js';
-import { useSettingsCardExpandable } from './SettingsAccordian.js';
-import type { SettingCardTitle } from './types.js';
+} from '../../../components/Card/CardButton.style.js'
+import { useSettingsCardExpandable } from './SettingsAccordian.js'
+import type { SettingCardTitle } from './types.js'
 
 interface SettingCardExpandableProps extends SettingCardTitle {
-  value: ReactNode;
+  value: ReactNode
 }
 
 export const SettingCardExpandable: React.FC<
   PropsWithChildren<SettingCardExpandableProps>
 > = ({ icon, title, value, children }) => {
-  const { expanded, toggleExpanded } = useSettingsCardExpandable();
-  const buttonId = useId();
-  const collapseId = useId();
+  const { expanded, toggleExpanded } = useSettingsCardExpandable()
+  const buttonId = useId()
+  const collapseId = useId()
 
   return (
     <Card sx={{ p: 1 }}>
@@ -39,6 +39,7 @@ export const SettingCardExpandable: React.FC<
       </CardRowButton>
       <Collapse
         id={collapseId}
+        // biome-ignore lint/a11y/useSemanticElements:
         role="region"
         aria-labelledby={buttonId}
         in={expanded}
@@ -46,5 +47,5 @@ export const SettingCardExpandable: React.FC<
         {children}
       </Collapse>
     </Card>
-  );
-};
+  )
+}

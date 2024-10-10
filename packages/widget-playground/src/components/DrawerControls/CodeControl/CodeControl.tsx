@@ -1,5 +1,5 @@
-import TabContext from '@mui/lab/TabContext';
-import { Box, Typography } from '@mui/material';
+import TabContext from '@mui/lab/TabContext'
+import { Box, Typography } from '@mui/material'
 import {
   CRALogo,
   GatsbyLogo,
@@ -10,18 +10,18 @@ import {
   SvelteLogo,
   ViteLogo,
   VueLogo,
-} from '../../../logo';
-import { useCodeToolValues, useEditToolsActions } from '../../../store';
-import { Card } from '../../Card';
-import { Tab, Tabs } from '../../Tabs';
-import { TabContentContainer } from '../DrawerControls.style';
-import { CodeEditor } from './CodeEditor';
-import { FontEmbedInfo } from './FontEmbedInfo';
-import { ProjectButton } from './ProjectButton';
+} from '../../../logo'
+import { useCodeToolValues, useEditToolsActions } from '../../../store'
+import { Card } from '../../Card'
+import { Tab, Tabs } from '../../Tabs'
+import { TabContentContainer } from '../DrawerControls.style'
+import { CodeEditor } from './CodeEditor'
+import { FontEmbedInfo } from './FontEmbedInfo'
+import { ProjectButton } from './ProjectButton'
 
 export const CodeControl = () => {
-  const { codeControlTab } = useCodeToolValues();
-  const { setCodeControlTab } = useEditToolsActions();
+  const { codeControlTab } = useCodeToolValues()
+  const { setCodeControlTab } = useEditToolsActions()
 
   return (
     <Card
@@ -116,5 +116,5 @@ export const CodeControl = () => {
         </TabContentContainer>
       </TabContext>
     </Card>
-  );
-};
+  )
+}

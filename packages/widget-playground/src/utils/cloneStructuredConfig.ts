@@ -1,25 +1,25 @@
-import { rehydrateFunctions } from '../store/widgetConfig/utils/rehydrateFunctions';
-import type { FunctionReference, ObjectWithFunctions } from '../types';
-import { substituteFunctions } from './substituteFunctions';
+import { rehydrateFunctions } from '../store/widgetConfig/utils/rehydrateFunctions'
+import type { FunctionReference, ObjectWithFunctions } from '../types'
+import { substituteFunctions } from './substituteFunctions'
 
 const shallowReferences = () => {
-  let referencesDictionary: FunctionReference[] = [];
+  let referencesDictionary: FunctionReference[] = []
   const substituteShallowReferences = <T>(config: T): T => {
-    referencesDictionary = substituteFunctions(config as ObjectWithFunctions);
-    return config;
-  };
+    referencesDictionary = substituteFunctions(config as ObjectWithFunctions)
+    return config
+  }
 
   const rehydrateShallowReferences = <T>(config: T): T => {
-    rehydrateFunctions(config as ObjectWithFunctions, referencesDictionary);
+    rehydrateFunctions(config as ObjectWithFunctions, referencesDictionary)
 
-    return config;
-  };
+    return config
+  }
 
   return {
     substituteShallowReferences,
     rehydrateShallowReferences,
-  };
-};
+  }
+}
 
 /**
  * Some parts of the config use functions which can't easily be cloned, converted to JSON or output to
@@ -32,14 +32,14 @@ const shallowReferences = () => {
  */
 export const cloneStructuredConfig = <T>(original: T) => {
   const { substituteShallowReferences, rehydrateShallowReferences } =
-    shallowReferences();
+    shallowReferences()
 
   const clone = rehydrateShallowReferences(
-    structuredClone(substituteShallowReferences(original)),
-  );
+    structuredClone(substituteShallowReferences(original))
+  )
 
   // we need restore the original as well
-  rehydrateShallowReferences(original);
+  rehydrateShallowReferences(original)
 
-  return clone as T;
-};
+  return clone as T
+}

@@ -1,1 +1,1 @@
-export type Severity = 'info' | 'warning';
+export type Severity = 'info' | 'warning'

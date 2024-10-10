@@ -3,7 +3,6 @@
   "compilerOptions": {
     "composite": true,
     "declaration": true,
-    "noEmit": false,
     "sourceMap": true,
     "outDir": "dist/_esm",
     "rootDir": "./src",
@@ -14,9 +13,4 @@
     "./src/**/*",
     "./src/**/*.json",
   ],
-  "references": [
-    {
-      "path": "../wallet-management"
-    },
-  ]
 }

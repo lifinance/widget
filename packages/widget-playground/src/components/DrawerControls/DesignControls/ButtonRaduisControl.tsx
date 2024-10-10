@@ -1,65 +1,65 @@
-import type { ChangeEventHandler } from 'react';
-import { useState } from 'react';
+import type { ChangeEventHandler } from 'react'
+import { useState } from 'react'
 import {
   useConfigActions,
   useConfigBorderRadiusSecondary,
-} from '../../../store';
-import { CardValue, ExpandableCard } from '../../Card';
+} from '../../../store'
+import { CardValue, ExpandableCard } from '../../Card'
 import {
   TabButton,
   TabButtonsContainer,
   TabCustomInput,
-} from './DesignControls.style';
+} from './DesignControls.style'
 
-const clickableValues = [8, 12, 16];
+const clickableValues = [8, 12, 16]
 
 export const ButtonRadiusControl = () => {
-  const { borderRadiusSecondary } = useConfigBorderRadiusSecondary();
+  const { borderRadiusSecondary } = useConfigBorderRadiusSecondary()
   const { setBorderRadiusSecondary, resetBorderRadiusSecondary } =
-    useConfigActions();
-  const [focused, setFocused] = useState<'input' | 'button'>();
+    useConfigActions()
+  const [focused, setFocused] = useState<'input' | 'button'>()
 
   const initialCustomInputValue =
     Number.isFinite(borderRadiusSecondary) &&
     !clickableValues.includes(borderRadiusSecondary!)
-      ? borderRadiusSecondary!.toString()
-      : '';
-  const [customValue, setCustomValue] = useState(initialCustomInputValue);
+      ? borderRadiusSecondary?.toString()
+      : ''
+  const [customValue, setCustomValue] = useState(initialCustomInputValue)
 
   const handleChangeInput: ChangeEventHandler<HTMLInputElement> = (event) => {
-    const { value } = event.target;
-    const cleanedValue = value.replace(/[.,\s]/g, '');
-    const radius = Number(cleanedValue);
+    const { value } = event.target
+    const cleanedValue = value.replace(/[.,\s]/g, '')
+    const radius = Number(cleanedValue)
 
     if (cleanedValue === '') {
-      setCustomValue(cleanedValue);
-      resetBorderRadiusSecondary();
+      setCustomValue(cleanedValue)
+      resetBorderRadiusSecondary()
     } else if (Number.isFinite(radius)) {
-      setCustomValue(cleanedValue);
-      setBorderRadiusSecondary(radius);
+      setCustomValue(cleanedValue)
+      setBorderRadiusSecondary(radius)
     }
-  };
+  }
 
   const handleBlurInput = () => {
-    setFocused(undefined);
+    setFocused(undefined)
 
     if (customValue && clickableValues.includes(Number(customValue))) {
-      setCustomValue('');
+      setCustomValue('')
     }
-  };
+  }
 
   const handleButtonClick = (radius: number) => {
-    setCustomValue('');
-    setBorderRadiusSecondary(radius);
-  };
+    setCustomValue('')
+    setBorderRadiusSecondary(radius)
+  }
 
   const handleFocusInput = () => {
-    setFocused('input');
-  };
+    setFocused('input')
+  }
 
   const handleFocusButton = () => {
-    setFocused('button');
-  };
+    setFocused('button')
+  }
 
   return (
     <ExpandableCard
@@ -82,7 +82,7 @@ export const ButtonRadiusControl = () => {
             >
               {value}
             </TabButton>
-          );
+          )
         })}
 
         <TabCustomInput
@@ -99,5 +99,5 @@ export const ButtonRadiusControl = () => {
         />
       </TabButtonsContainer>
     </ExpandableCard>
-  );
-};
+  )
+}

@@ -1,5 +1,5 @@
-import { Box } from '@mui/material';
-import { Skeleton, WidgetSkeletonContainer } from './WidgetView.style';
+import { Box } from '@mui/material'
+import { Skeleton, WidgetSkeletonContainer } from './WidgetView.style'
 
 export const WidgetSkeleton = () => {
   return (
@@ -21,5 +21,5 @@ export const WidgetSkeleton = () => {
         <Skeleton variant="rounded" width={48} height={48} />
       </Box>
     </WidgetSkeletonContainer>
-  );
-};
+  )
+}

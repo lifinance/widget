@@ -1,4 +1,4 @@
-import type { FC, SVGProps } from 'react';
+import type { FC, SVGProps } from 'react'
 
 export const RainbowKitLogo: FC<SVGProps<SVGSVGElement>> = (props) => (
   <svg
@@ -8,6 +8,7 @@ export const RainbowKitLogo: FC<SVGProps<SVGSVGElement>> = (props) => (
     fill="none"
     {...props}
   >
+    <title>RainbowKit</title>
     <path
       fill="url(#a)"
       d="M0 0h40.136v40.136H0z"
@@ -204,4 +205,4 @@ export const RainbowKitLogo: FC<SVGProps<SVGSVGElement>> = (props) => (
       </radialGradient>
     </defs>
   </svg>
-);
+)

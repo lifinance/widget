@@ -1,15 +1,15 @@
-import type { OrderWithCounter } from '@opensea/seaport-js/lib/types';
-import type BigNumber from 'bignumber.js';
+import type { OrderWithCounter } from '@opensea/seaport-js/lib/types'
+import type BigNumber from 'bignumber.js'
 
 export const openSeaContractTool = {
   logoURI: 'https://opensea.io/static/images/logos/opensea.svg',
   name: 'OpenSea',
-};
+}
 
 export interface NFTOpenSeaProps {
-  network: NFTNetwork;
-  contractAddress: string;
-  tokenId: number | string;
+  network: NFTNetwork
+  contractAddress: string
+  tokenId: number | string
 }
 
 export enum ChainId {
@@ -31,125 +31,125 @@ export type NFTNetwork =
   | 'klaytn'
   | 'matic'
   | 'optimism'
-  | 'base';
+  | 'base'
 
 // Protocol data
 type OrderProtocolToProtocolData = {
-  seaport: OrderWithCounter;
-};
-export type OrderProtocol = keyof OrderProtocolToProtocolData;
+  seaport: OrderWithCounter
+}
+export type OrderProtocol = keyof OrderProtocolToProtocolData
 export type ProtocolData =
-  OrderProtocolToProtocolData[keyof OrderProtocolToProtocolData];
+  OrderProtocolToProtocolData[keyof OrderProtocolToProtocolData]
 
 // Protocol agnostic order data
-type OrderType = 'basic' | 'dutch' | 'english' | 'criteria';
-export type OrderSide = 'ask' | 'bid';
+type OrderType = 'basic' | 'dutch' | 'english' | 'criteria'
+export type OrderSide = 'ask' | 'bid'
 export type OrderFee = {
-  account: OpenSeaAccount;
-  basisPoints: string;
-};
+  account: OpenSeaAccount
+  basisPoints: string
+}
 
 export type OrderV2 = {
-  createdDate: string;
-  closingDate: string | null;
-  listingTime: number;
-  expirationTime: number;
-  orderHash: string | null;
-  maker: OpenSeaAccount;
-  taker: OpenSeaAccount | null;
-  protocolData: ProtocolData;
-  protocolAddress: string;
-  currentPrice: string;
-  makerFees: OrderFee[];
-  takerFees: OrderFee[];
-  side: OrderSide;
-  orderType: OrderType;
-  cancelled: boolean;
-  finalized: boolean;
-  markedInvalid: boolean;
-  clientSignature: string | null;
-  makerAssetBundle: OpenSeaAssetBundle;
-  takerAssetBundle: OpenSeaAssetBundle;
-};
+  createdDate: string
+  closingDate: string | null
+  listingTime: number
+  expirationTime: number
+  orderHash: string | null
+  maker: OpenSeaAccount
+  taker: OpenSeaAccount | null
+  protocolData: ProtocolData
+  protocolAddress: string
+  currentPrice: string
+  makerFees: OrderFee[]
+  takerFees: OrderFee[]
+  side: OrderSide
+  orderType: OrderType
+  cancelled: boolean
+  finalized: boolean
+  markedInvalid: boolean
+  clientSignature: string | null
+  makerAssetBundle: OpenSeaAssetBundle
+  takerAssetBundle: OpenSeaAssetBundle
+}
 
 // API query types
-type OpenOrderOrderingOption = 'created_date' | 'eth_price';
-type OrderByDirection = 'asc' | 'desc';
+type OpenOrderOrderingOption = 'created_date' | 'eth_price'
+type OrderByDirection = 'asc' | 'desc'
 
 export type OrderAPIOptions = {
-  protocol?: OrderProtocol;
-  side: OrderSide;
-};
+  protocol?: OrderProtocol
+  side: OrderSide
+}
 
 export type OrdersQueryOptions = OrderAPIOptions & {
-  limit: number;
-  cursor?: string;
+  limit: number
+  cursor?: string
 
-  paymentTokenAddress?: string;
-  maker?: string;
-  taker?: string;
-  owner?: string;
-  bundled?: boolean;
-  includeBundled?: boolean;
-  listedAfter?: number | string;
-  listedBefore?: number | string;
-  tokenId?: string;
-  tokenIds?: string[];
-  assetContractAddress?: string;
-  orderBy?: OpenOrderOrderingOption;
-  orderDirection?: OrderByDirection;
-  onlyEnglish?: boolean;
-};
+  paymentTokenAddress?: string
+  maker?: string
+  taker?: string
+  owner?: string
+  bundled?: boolean
+  includeBundled?: boolean
+  listedAfter?: number | string
+  listedBefore?: number | string
+  tokenId?: string
+  tokenIds?: string[]
+  assetContractAddress?: string
+  orderBy?: OpenOrderOrderingOption
+  orderDirection?: OrderByDirection
+  onlyEnglish?: boolean
+}
 
 export type SerializedOrderV2 = {
-  created_date: string;
-  closing_date: string | null;
-  listing_time: number;
-  expiration_time: number;
-  order_hash: string | null;
-  maker: unknown;
-  taker: unknown | null;
-  protocol_data: ProtocolData;
-  protocol_address: string;
-  current_price: string;
+  created_date: string
+  closing_date: string | null
+  listing_time: number
+  expiration_time: number
+  order_hash: string | null
+  maker: unknown
+  taker: unknown | null
+  protocol_data: ProtocolData
+  protocol_address: string
+  current_price: string
   maker_fees: {
-    account: unknown;
-    basis_points: string;
-  }[];
+    account: unknown
+    basis_points: string
+  }[]
   taker_fees: {
-    account: unknown;
-    basis_points: string;
-  }[];
-  side: OrderSide;
-  order_type: OrderType;
-  cancelled: boolean;
-  finalized: boolean;
-  marked_invalid: boolean;
-  client_signature: string | null;
-  maker_asset_bundle: unknown;
-  taker_asset_bundle: unknown;
-};
+    account: unknown
+    basis_points: string
+  }[]
+  side: OrderSide
+  order_type: OrderType
+  cancelled: boolean
+  finalized: boolean
+  marked_invalid: boolean
+  client_signature: string | null
+  maker_asset_bundle: unknown
+  taker_asset_bundle: unknown
+}
 
 export type QueryCursors = {
-  next: string | null;
-  previous: string | null;
-};
+  next: string | null
+  previous: string | null
+}
 
 export type OrdersQueryResponse = QueryCursors & {
-  orders: SerializedOrderV2[];
-};
+  orders: SerializedOrderV2[]
+}
 
-export type OrdersPostQueryResponse = { order: SerializedOrderV2 };
+export type OrdersPostQueryResponse = { order: SerializedOrderV2 }
 
 export type FulfillmentDataResponse = {
-  protocol: string;
-  fulfillment_data: FulfillmentData;
-};
+  protocol: string
+  fulfillment_data: FulfillmentData
+}
 
 export type FulfillmentData = {
-  transaction: Transaction;
-  orders: ProtocolData[];
-};
+  transaction: Transaction
+  orders: ProtocolData[]
+}
 
 /**
  * Events emitted by the SDK. There are five types:
@@ -206,23 +206,23 @@ export enum EventType {
  * Data that gets sent with each EventType
  */
 export interface EventData {
-  accountAddress?: string;
-  toAddress?: string;
-  proxyAddress?: string;
-  amount?: BigNumber;
-  contractAddress?: string;
-  assets?: WyvernAsset[];
-  asset?: WyvernAsset;
+  accountAddress?: string
+  toAddress?: string
+  proxyAddress?: string
+  amount?: BigNumber
+  contractAddress?: string
+  assets?: WyvernAsset[]
+  asset?: WyvernAsset
 
-  transactionHash?: string;
-  event?: EventType;
-  error?: unknown;
+  transactionHash?: string
+  event?: EventType
+  error?: unknown
 
-  order?: Order | UnsignedOrder;
-  orderV2?: OrderV2;
-  buy?: Order;
-  sell?: Order;
-  matchMetadata?: string;
+  order?: Order | UnsignedOrder
+  orderV2?: OrderV2
+  buy?: Order
+  sell?: Order
+  matchMetadata?: string
 }
 
 /**
@@ -233,12 +233,12 @@ export interface EventData {
  * @param apiBaseUrl Optional base URL to use for the API
  */
 export interface OpenSeaAPIConfig {
-  networkName?: NFTNetwork;
-  apiKey?: string;
-  apiBaseUrl?: string;
-  useReadOnlyProvider?: boolean;
+  networkName?: NFTNetwork
+  apiKey?: string
+  apiBaseUrl?: string
+  useReadOnlyProvider?: boolean
   // Sent to WyvernJS
-  gasPrice?: BigNumber;
+  gasPrice?: BigNumber
 }
 
 /**
@@ -306,28 +306,28 @@ export enum TokenStandardVersion {
 
 // Collection fees mapping recipient address to basis points
 export interface Fees {
-  openseaFees: Map<string, number>;
-  sellerFees: Map<string, number>;
+  openseaFees: Map<string, number>
+  sellerFees: Map<string, number>
 }
 
 export interface WyvernNFTAsset {
-  id: string;
-  address: string;
+  id: string
+  address: string
 }
 export interface WyvernFTAsset {
-  id?: string;
-  address: string;
-  quantity: string;
+  id?: string
+  address: string
+  quantity: string
 }
-export type WyvernAsset = WyvernNFTAsset | WyvernFTAsset;
+export type WyvernAsset = WyvernNFTAsset | WyvernFTAsset
 
 // Abstractions over Wyvern assets for bundles
 export interface WyvernBundle {
-  assets: WyvernAsset[];
-  schemas: WyvernSchemaName[];
-  name?: string;
-  description?: string;
-  external_link?: string;
+  assets: WyvernAsset[]
+  schemas: WyvernSchemaName[]
+  name?: string
+  description?: string
+  external_link?: string
 }
 
 export type WyvernAtomicMatchParameters = [
@@ -342,27 +342,27 @@ export type WyvernAtomicMatchParameters = [
   string,
   Array<number | BigNumber>,
   string[],
-];
+]
 
 /**
  * The OpenSea account object appended to orders, providing extra metadata, profile images and usernames
  */
 export interface OpenSeaAccount {
   // Wallet address for this account
-  address: string;
+  address: string
   // Public configuration info, including "affiliate" for users who are in the OpenSea affiliate program
-  config: string;
+  config: string
 
   // This account's profile image - by default, randomly generated by the server
-  profileImgUrl: string;
+  profileImgUrl: string
 
   // More information explicitly set by this account's owner on OpenSea
-  user: OpenSeaUser | null;
+  user: OpenSeaUser | null
 }
 
 export interface OpenSeaUser {
   // Username for this user
-  username?: string;
+  username?: string
 }
 
 /**
@@ -370,17 +370,17 @@ export interface OpenSeaUser {
  */
 export interface Asset {
   // The asset's token ID, or null if ERC-20
-  tokenId: string | null;
+  tokenId: string | null
   // The asset's contract address
-  tokenAddress: string;
+  tokenAddress: string
   // The Wyvern schema name (e.g. "ERC721") for this asset
-  schemaName?: WyvernSchemaName;
+  schemaName?: WyvernSchemaName
   // The token standard version of this asset
-  version?: TokenStandardVersion;
+  version?: TokenStandardVersion
   // Optional for ENS names
-  name?: string;
+  name?: string
   // Optional for fungible items
-  decimals?: number;
+  decimals?: number
 }
 
 /**
@@ -388,42 +388,42 @@ export interface Asset {
  */
 export interface OpenSeaAssetContract extends OpenSeaFees {
   // Name of the asset's contract
-  name: string;
+  name: string
   // Address of this contract
-  address: string;
+  address: string
   // Type of token (fungible/NFT)
-  type: AssetContractType;
+  type: AssetContractType
   // Wyvern Schema Name for this contract
-  schemaName: WyvernSchemaName;
+  schemaName: WyvernSchemaName
 
   // Total fee levied on sellers by this contract, in basis points
-  sellerFeeBasisPoints: number;
+  sellerFeeBasisPoints: number
   // Total fee levied on buyers by this contract, in basis points
-  buyerFeeBasisPoints: number;
+  buyerFeeBasisPoints: number
 
   // Description of the contract
-  description: string;
+  description: string
   // Contract's Etherscan / OpenSea symbol
-  tokenSymbol: string;
+  tokenSymbol: string
   // Image for the contract
-  imageUrl: string;
+  imageUrl: string
   // Object with stats about the contract
-  stats?: object;
+  stats?: object
   // Array of trait types for the contract
-  traits?: object[];
+  traits?: object[]
   // Link to the contract's main website
-  externalLink?: string;
+  externalLink?: string
   // Link to the contract's wiki, if available
-  wikiLink?: string;
+  wikiLink?: string
 }
 
 interface NumericalTraitStats {
-  min: number;
-  max: number;
+  min: number
+  max: number
 }
 
 interface StringTraitStats {
-  [key: string]: number;
+  [key: string]: number
 }
 
 /**
@@ -431,94 +431,94 @@ interface StringTraitStats {
  */
 export interface OpenSeaCollection extends OpenSeaFees {
   // Name of the collection
-  name: string;
+  name: string
   // Slug, used in URL
-  slug: string;
+  slug: string
   // Accounts allowed to edit this collection
-  editors: string[];
+  editors: string[]
   // Whether this collection is hidden from the homepage
-  hidden: boolean;
+  hidden: boolean
   // Whether this collection is featured
-  featured: boolean;
+  featured: boolean
   // Date collection was created
-  createdDate: Date;
+  createdDate: Date
 
   // Description of the collection
-  description: string;
+  description: string
   // Image for the collection
-  imageUrl: string;
+  imageUrl: string
   // Image for the collection, large
-  largeImageUrl: string;
+  largeImageUrl: string
   // Image for the collection when featured
-  featuredImageUrl: string;
+  featuredImageUrl: string
   // Object with stats about the collection
-  stats: object;
+  stats: object
   // Data about displaying cards
-  displayData: object;
+  displayData: object
   // Tokens allowed for this collection
-  paymentTokens: OpenSeaFungibleToken[];
+  paymentTokens: OpenSeaFungibleToken[]
   // Address for dev fee payouts
-  payoutAddress?: string;
+  payoutAddress?: string
   // Array of trait types for the collection
-  traitStats: OpenSeaTraitStats;
+  traitStats: OpenSeaTraitStats
   // Link to the collection's main website
-  externalLink?: string;
+  externalLink?: string
   // Link to the collection's wiki, if available
-  wikiLink?: string;
+  wikiLink?: string
   // Map of collection fees holding OpenSea and seller fees
-  fees?: Fees | null;
+  fees?: Fees | null
 }
 
 export interface OpenSeaTraitStats {
-  [traitName: string]: NumericalTraitStats | StringTraitStats;
+  [traitName: string]: NumericalTraitStats | StringTraitStats
 }
 
 /**
  * Annotated asset spec with OpenSea metadata
  */
 export interface OpenSeaAsset extends Asset {
-  assetContract: OpenSeaAssetContract;
-  collection: OpenSeaCollection;
+  assetContract: OpenSeaAssetContract
+  collection: OpenSeaCollection
   // The asset's given name
-  name: string;
+  name: string
   // Description of the asset
-  description: string;
+  description: string
   // Owner of the asset
-  owner: OpenSeaAccount;
+  owner: OpenSeaAccount
   // Orders on the asset. Null if asset was fetched in a list
-  orders: Order[] | null;
+  orders: Order[] | null
   // Buy orders (offers) on the asset. Null if asset in a list and didn't prefetch buy orders
-  buyOrders: Order[] | null;
+  buyOrders: Order[] | null
   // Sell orders (auctions) on the asset. Null if asset in a list and didn't prefetch sell orders
-  sellOrders: Order[] | null;
+  sellOrders: Order[] | null
 
   // Whether the asset is on a pre-sale (so token ids aren't real)
-  isPresale: boolean;
+  isPresale: boolean
   // The cached and size-optimized image url for this token
-  imageUrl: string;
+  imageUrl: string
   // The image preview url for this token.
   // Note: Loses gif animation and may have issues with SVGs
-  imagePreviewUrl: string;
+  imagePreviewUrl: string
   // The original image url for this token
-  imageUrlOriginal: string;
+  imageUrlOriginal: string
   // Thumbnail url for this token
-  imageUrlThumbnail: string;
+  imageUrlThumbnail: string
   // Link to token on OpenSea
-  openseaLink: string;
+  openseaLink: string
   // Link to token on dapp's site
-  externalLink: string;
+  externalLink: string
   // Array of traits on this token
-  traits: object[];
+  traits: object[]
   // Number of times this token has been traded (sold)
-  numSales: number;
+  numSales: number
   // Data about the last time this token was sold
-  lastSale: AssetEvent | null;
+  lastSale: AssetEvent | null
   // The suggested background color for the image url
-  backgroundColor: string | null;
+  backgroundColor: string | null
   // The per-transfer fee, in base units, for this asset in its transfer method
-  transferFee: BigNumber | string | null;
+  transferFee: BigNumber | string | null
   // The transfer fee token for this asset in its transfer method
-  transferFeePaymentToken: OpenSeaFungibleToken | null;
+  transferFeePaymentToken: OpenSeaFungibleToken | null
 }
 
 /**
@@ -526,22 +526,22 @@ export interface OpenSeaAsset extends Asset {
  */
 export interface AssetEvent {
   // The type of event
-  eventType: AssetEventType;
+  eventType: AssetEventType
 
   // The timestamp of the transaction (if on-chain) or when the off-chain occurred
-  eventTimestamp: Date;
+  eventTimestamp: Date
 
   // The auction type
-  auctionType: AuctionType;
+  auctionType: AuctionType
 
   // The total price of the sale in the payment
-  totalPrice: string;
+  totalPrice: string
 
   // The transaction associated with the token sale
-  transaction: Transaction | null;
+  transaction: Transaction | null
 
   // Details about the token used in the payment for this asset
-  paymentToken: OpenSeaFungibleToken | null;
+  paymentToken: OpenSeaFungibleToken | null
 }
 
 /**
@@ -575,44 +575,44 @@ enum AssetEventType {
  */
 export interface Transaction {
   // The details about the account that sent the transaction
-  fromAccount: OpenSeaAccount;
+  fromAccount: OpenSeaAccount
 
   // The details about the account that received the transaction
-  toAccount: OpenSeaAccount;
+  toAccount: OpenSeaAccount
 
   // Date when the transaction was created
-  createdDate: Date;
+  createdDate: Date
 
   // Date when the transaction was modified
-  modifiedDate: Date;
+  modifiedDate: Date
 
   // The transaction hash
-  transactionHash: string;
+  transactionHash: string
 
   // The index of the transaction within the block
-  transactionIndex: string;
+  transactionIndex: string
 
   // The number of the block in which this transaction resides
-  blockNumber: string;
+  blockNumber: string
 
   // The hash of the block in which this transaction resides
-  blockHash: string;
+  blockHash: string
 
   // The timestamp of the transaction
-  timestamp: Date;
+  timestamp: Date
 }
 
 /**
  * Full annotated Fungible Token spec with OpenSea metadata
  */
 export interface OpenSeaFungibleToken {
-  name: string;
-  symbol: string;
-  decimals: number;
-  address: string;
-  imageUrl?: string;
-  ethPrice?: string;
-  usdPrice?: string;
+  name: string
+  symbol: string
+  decimals: number
+  address: string
+  imageUrl?: string
+  ethPrice?: string
+  usdPrice?: string
 }
 
 /**
@@ -620,28 +620,28 @@ export interface OpenSeaFungibleToken {
  * URLs for bundles are auto-generated from the name
  */
 export interface OpenSeaAssetBundle {
-  maker: OpenSeaAccount;
-  assets: OpenSeaAsset[];
-  name: string;
-  slug: string;
-  permalink: string;
+  maker: OpenSeaAccount
+  assets: OpenSeaAsset[]
+  name: string
+  slug: string
+  permalink: string
 
   // Sell orders (auctions) on the bundle. Null if bundle in a list and didn't prefetch sell orders
-  sellOrders: Order[] | null;
+  sellOrders: Order[] | null
 
-  assetContract?: OpenSeaAssetContract;
-  description?: string;
-  externalLink?: string;
+  assetContract?: OpenSeaAssetContract
+  description?: string
+  externalLink?: string
 }
 
 interface OpenSeaAssetBundleJSON {
-  assets: OpenSeaAsset[];
-  name: string;
-  description?: string;
-  external_link?: string;
+  assets: OpenSeaAsset[]
+  name: string
+  description?: string
+  external_link?: string
 
   // From API only
-  maker?: OpenSeaAccount;
+  maker?: OpenSeaAccount
 }
 
 /**
@@ -649,12 +649,12 @@ interface OpenSeaAssetBundleJSON {
  */
 export interface OpenSeaAssetBundleQuery
   extends Partial<OpenSeaAssetBundleJSON> {
-  asset_contract_address?: string;
-  token_ids?: Array<number | string>;
-  on_sale?: boolean;
-  owner?: string;
-  offset?: number;
-  limit?: number;
+  asset_contract_address?: string
+  token_ids?: Array<number | string>
+  on_sale?: boolean
+  owner?: string
+  offset?: number
+  limit?: number
 }
 
 /**
@@ -662,13 +662,13 @@ export interface OpenSeaAssetBundleQuery
  */
 interface OpenSeaFees {
   // Fee for OpenSea levied on sellers
-  openseaSellerFeeBasisPoints: number;
+  openseaSellerFeeBasisPoints: number
   // Fee for OpenSea levied on buyers
-  openseaBuyerFeeBasisPoints: number;
+  openseaBuyerFeeBasisPoints: number
   // Fee for the collection owner levied on sellers
-  devSellerFeeBasisPoints: number;
+  devSellerFeeBasisPoints: number
   // Fee for the collection owner levied on buyers
-  devBuyerFeeBasisPoints: number;
+  devBuyerFeeBasisPoints: number
 }
 
 /**
@@ -676,76 +676,76 @@ interface OpenSeaFees {
  */
 export interface ComputedFees extends OpenSeaFees {
   // Total fees. dev + opensea
-  totalBuyerFeeBasisPoints: number;
-  totalSellerFeeBasisPoints: number;
+  totalBuyerFeeBasisPoints: number
+  totalSellerFeeBasisPoints: number
 
   // Fees that the item's creator takes on every transfer
-  transferFee: BigNumber;
-  transferFeeTokenAddress: string | null;
+  transferFee: BigNumber
+  transferFeeTokenAddress: string | null
 
   // Fees that go to whoever refers the order to the taker.
   // Comes out of OpenSea fees
-  sellerBountyBasisPoints: number;
+  sellerBountyBasisPoints: number
 }
 
 interface ExchangeMetadataForAsset {
-  asset: WyvernAsset;
-  schema: WyvernSchemaName;
-  referrerAddress?: string;
+  asset: WyvernAsset
+  schema: WyvernSchemaName
+  referrerAddress?: string
 }
 
 interface ExchangeMetadataForBundle {
-  bundle: WyvernBundle;
-  referrerAddress?: string;
+  bundle: WyvernBundle
+  referrerAddress?: string
 }
 
 export type ExchangeMetadata =
   | ExchangeMetadataForAsset
-  | ExchangeMetadataForBundle;
+  | ExchangeMetadataForBundle
 
 export interface ECSignature {
-  v: number;
-  r: string;
-  s: string;
+  v: number
+  r: string
+  s: string
 }
 
 export interface UnhashedOrder {
-  exchange: string;
-  maker: string;
-  taker: string;
-  makerRelayerFee: BigNumber;
-  takerRelayerFee: BigNumber;
-  makerProtocolFee: BigNumber;
-  takerProtocolFee: BigNumber;
-  feeRecipient: string;
-  target: string;
-  howToCall: number;
-  calldata: string;
-  replacementPattern: string;
-  staticTarget: string;
-  staticExtradata: string;
-  paymentToken: string;
-  basePrice: BigNumber;
-  extra: BigNumber;
-  listingTime: BigNumber;
-  expirationTime: BigNumber;
-  salt: BigNumber;
+  exchange: string
+  maker: string
+  taker: string
+  makerRelayerFee: BigNumber
+  takerRelayerFee: BigNumber
+  makerProtocolFee: BigNumber
+  takerProtocolFee: BigNumber
+  feeRecipient: string
+  target: string
+  howToCall: number
+  calldata: string
+  replacementPattern: string
+  staticTarget: string
+  staticExtradata: string
+  paymentToken: string
+  basePrice: BigNumber
+  extra: BigNumber
+  listingTime: BigNumber
+  expirationTime: BigNumber
+  salt: BigNumber
 
-  feeMethod: FeeMethod;
-  side: OrderSide;
-  saleKind: SaleKind;
-  quantity: BigNumber;
+  feeMethod: FeeMethod
+  side: OrderSide
+  saleKind: SaleKind
+  quantity: BigNumber
 
   // OpenSea-specific
-  makerReferrerFee: BigNumber;
-  waitingForBestCounterOrder: boolean;
-  englishAuctionReservePrice?: BigNumber;
+  makerReferrerFee: BigNumber
+  waitingForBestCounterOrder: boolean
+  englishAuctionReservePrice?: BigNumber
 
-  metadata: ExchangeMetadata;
+  metadata: ExchangeMetadata
 }
 
 export interface UnsignedOrder extends UnhashedOrder {
-  hash?: string;
+  hash?: string
 }
 
 /**
@@ -754,18 +754,18 @@ export interface UnsignedOrder extends UnhashedOrder {
  */
 export interface Order extends UnsignedOrder, Partial<ECSignature> {
   // Read-only server-side appends
-  createdTime?: BigNumber;
-  currentPrice?: BigNumber;
-  currentBounty?: BigNumber;
-  makerAccount?: OpenSeaAccount;
-  takerAccount?: OpenSeaAccount;
-  paymentTokenContract?: OpenSeaFungibleToken;
-  feeRecipientAccount?: OpenSeaAccount;
-  cancelledOrFinalized?: boolean;
-  markedInvalid?: boolean;
-  asset?: OpenSeaAsset;
-  assetBundle?: OpenSeaAssetBundle;
-  nonce?: number;
+  createdTime?: BigNumber
+  currentPrice?: BigNumber
+  currentBounty?: BigNumber
+  makerAccount?: OpenSeaAccount
+  takerAccount?: OpenSeaAccount
+  paymentTokenContract?: OpenSeaFungibleToken
+  feeRecipientAccount?: OpenSeaAccount
+  cancelledOrFinalized?: boolean
+  markedInvalid?: boolean
+  asset?: OpenSeaAsset
+  assetBundle?: OpenSeaAssetBundle
+  nonce?: number
 }
 
 /**
@@ -775,39 +775,39 @@ export interface Order extends UnsignedOrder, Partial<ECSignature> {
  */
 export interface OrderJSON extends Partial<ECSignature> {
   // Base wyvern fields
-  exchange: string;
-  maker: string;
-  taker: string;
-  makerRelayerFee: string;
-  takerRelayerFee: string;
-  makerProtocolFee: string;
-  takerProtocolFee: string;
-  feeRecipient: string;
-  feeMethod: number;
-  side: OrderSide;
-  saleKind: number;
-  target: string;
-  howToCall: number;
-  calldata: string;
-  replacementPattern: string;
-  staticTarget: string;
-  staticExtradata: string;
-  paymentToken: string;
-  basePrice: string;
-  extra: string;
-  listingTime: number | string;
-  expirationTime: number | string;
-  salt: string;
+  exchange: string
+  maker: string
+  taker: string
+  makerRelayerFee: string
+  takerRelayerFee: string
+  makerProtocolFee: string
+  takerProtocolFee: string
+  feeRecipient: string
+  feeMethod: number
+  side: OrderSide
+  saleKind: number
+  target: string
+  howToCall: number
+  calldata: string
+  replacementPattern: string
+  staticTarget: string
+  staticExtradata: string
+  paymentToken: string
+  basePrice: string
+  extra: string
+  listingTime: number | string
+  expirationTime: number | string
+  salt: string
 
-  makerReferrerFee: string;
-  quantity: string;
-  englishAuctionReservePrice: string | undefined;
+  makerReferrerFee: string
+  quantity: string
+  englishAuctionReservePrice: string | undefined
 
   // createdTime is undefined when order hasn't been posted yet
-  createdTime?: number | string;
-  metadata: ExchangeMetadata;
+  createdTime?: number | string
+  metadata: ExchangeMetadata
 
-  nonce?: number;
+  nonce?: number
 }
 
 export type RawWyvernOrderJSON = Omit<
@@ -821,7 +821,7 @@ export type RawWyvernOrderJSON = Omit<
   | 'v'
   | 'r'
   | 's'
->;
+>
 
 /**
  * Query interface for Orders
@@ -830,37 +830,37 @@ export type RawWyvernOrderJSON = Omit<
  * full docs.
  */
 export interface OrderQuery extends Omit<Partial<OrderJSON>, 'side'> {
-  owner?: string;
-  sale_kind?: SaleKind;
-  side?: OrderSide;
-  asset_contract_address?: string;
-  payment_token_address?: string;
-  is_english?: boolean;
-  is_expired?: boolean;
-  bundled?: boolean;
-  include_invalid?: boolean;
-  token_id?: number | string;
-  token_ids?: Array<number | string>;
+  owner?: string
+  sale_kind?: SaleKind
+  side?: OrderSide
+  asset_contract_address?: string
+  payment_token_address?: string
+  is_english?: boolean
+  is_expired?: boolean
+  bundled?: boolean
+  include_invalid?: boolean
+  token_id?: number | string
+  token_ids?: Array<number | string>
   // This means listing_time > value in seconds
-  listed_after?: number | string;
+  listed_after?: number | string
   // This means listing_time <= value in seconds
-  listed_before?: number | string;
-  limit?: number;
-  offset?: number;
+  listed_before?: number | string
+  limit?: number
+  offset?: number
 }
 
 /**
  * Query interface for Assets
  */
 export interface OpenSeaAssetQuery {
-  owner?: string;
-  asset_contract_address?: string;
-  token_ids?: Array<number | string>;
-  order_by?: string;
-  order_direction?: string;
-  limit?: number;
-  offset?: number;
-  cursor?: string;
+  owner?: string
+  asset_contract_address?: string
+  token_ids?: Array<number | string>
+  order_by?: string
+  order_direction?: string
+  limit?: number
+  offset?: number
+  cursor?: string
 }
 
 /**
@@ -868,17 +868,17 @@ export interface OpenSeaAssetQuery {
  */
 export interface OpenSeaFungibleTokenQuery
   extends Partial<OpenSeaFungibleToken> {
-  limit?: number;
-  offset?: number;
+  limit?: number
+  offset?: number
   // Typescript bug requires this duplication
-  symbol?: string;
+  symbol?: string
 }
 
 export interface OrderbookResponse {
-  orders: OrderJSON[];
-  count: number;
+  orders: OrderJSON[]
+  count: number
 }
 
 // Types related to Web3
-export type Web3Callback<T> = (err: Error | null, result: T) => void;
-export type TxnCallback = (result: boolean) => void;
+export type Web3Callback<T> = (err: Error | null, result: T) => void
+export type TxnCallback = (result: boolean) => void

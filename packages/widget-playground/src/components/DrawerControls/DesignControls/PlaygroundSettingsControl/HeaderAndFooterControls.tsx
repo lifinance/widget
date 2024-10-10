@@ -3,54 +3,54 @@ import {
   useConfigActions,
   useEditToolsActions,
   useHeaderAndFooterToolValues,
-} from '../../../../store';
-import { CardRowColumn } from '../../../Card';
-import { Switch } from '../../../Switch';
-import { ControlContainer, ControlRowContainer } from '../DesignControls.style';
+} from '../../../../store'
+import { CardRowColumn } from '../../../Card'
+import { Switch } from '../../../Switch'
+import { ControlContainer, ControlRowContainer } from '../DesignControls.style'
 
 export const HeaderAndFooterControls = () => {
   const { showMockHeader, showMockFooter, isFooterFixed } =
-    useHeaderAndFooterToolValues();
+    useHeaderAndFooterToolValues()
   const { setHeaderVisibility, setFooterVisibility, setFixedFooter } =
-    useEditToolsActions();
-  const { setHeader } = useConfigActions();
+    useEditToolsActions()
+  const { setHeader } = useConfigActions()
 
-  const { config } = useConfig();
+  const { config } = useConfig()
 
   const handleHeaderVisibilityChange: (
     _: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean,
+    checked: boolean
   ) => void = (_, checked) => {
-    setHeaderVisibility(checked);
+    setHeaderVisibility(checked)
 
     if (config?.theme?.header?.position === 'fixed') {
-      setHeader({ position: 'fixed', top: checked ? 48 : 0 });
+      setHeader({ position: 'fixed', top: checked ? 48 : 0 })
     }
-  };
+  }
 
   const handleFooterVisibilityChange: (
     _: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean,
+    checked: boolean
   ) => void = (_, checked) => {
-    setFooterVisibility(checked);
+    setFooterVisibility(checked)
     if (!checked) {
-      setFixedFooter(false);
+      setFixedFooter(false)
     }
-  };
+  }
 
   const handleFooterFixedChange: (
     _: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean,
+    checked: boolean
   ) => void = (_, checked) => {
-    setFixedFooter(checked);
+    setFixedFooter(checked)
     if (checked) {
-      setFooterVisibility(true);
+      setFooterVisibility(true)
     }
-  };
+  }
 
   const showControls =
     config?.theme?.container?.display === 'flex' &&
-    config?.theme?.container?.height === '100%';
+    config?.theme?.container?.height === '100%'
 
   return showControls ? (
     <>
@@ -83,5 +83,5 @@ export const HeaderAndFooterControls = () => {
         </CardRowColumn>
       </ControlContainer>
     </>
-  ) : null;
-};
+  ) : null
+}

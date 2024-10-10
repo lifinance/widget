@@ -1,19 +1,19 @@
-import { Collapse } from '@mui/material';
-import type { FC, PropsWithChildren, ReactNode } from 'react';
-import { useId } from 'react';
+import { Collapse } from '@mui/material'
+import type { FC, PropsWithChildren, ReactNode } from 'react'
+import { useId } from 'react'
 import {
   Card,
   CardRowButton,
   CardTitleContainer,
   CardValue,
-} from '../Card.style';
-import { useExpandableCard } from './useExpandableCard';
+} from '../Card.style'
+import { useExpandableCard } from './useExpandableCard'
 
 interface ExpandableCardProps {
-  icon?: ReactNode;
-  title: ReactNode;
-  value: ReactNode;
-  alwaysShowTitleValue?: boolean;
+  icon?: ReactNode
+  title: ReactNode
+  value: ReactNode
+  alwaysShowTitleValue?: boolean
 }
 
 export const ExpandableCard: FC<PropsWithChildren<ExpandableCardProps>> = ({
@@ -23,9 +23,9 @@ export const ExpandableCard: FC<PropsWithChildren<ExpandableCardProps>> = ({
   children,
   alwaysShowTitleValue,
 }) => {
-  const { expanded, toggleExpanded } = useExpandableCard();
-  const buttonId = useId();
-  const collapseId = useId();
+  const { expanded, toggleExpanded } = useExpandableCard()
+  const buttonId = useId()
+  const collapseId = useId()
 
   return (
     <Card sx={{ p: 1 }}>
@@ -45,6 +45,7 @@ export const ExpandableCard: FC<PropsWithChildren<ExpandableCardProps>> = ({
       </CardRowButton>
       <Collapse
         id={collapseId}
+        // biome-ignore lint/a11y/useSemanticElements:
         role="region"
         aria-labelledby={buttonId}
         in={expanded}
@@ -52,5 +53,5 @@ export const ExpandableCard: FC<PropsWithChildren<ExpandableCardProps>> = ({
         {children}
       </Collapse>
     </Card>
-  );
-};
+  )
+}

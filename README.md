@@ -33,6 +33,12 @@
 
 LI.FI Widget is available as an [npm package](https://www.npmjs.com/package/@lifi/widget).
 
+**pnpm:**
+
+```sh
+pnpm add @lifi/widget
+```
+
 **npm:**
 
 ```sh
@@ -48,6 +54,12 @@ yarn add @lifi/widget
 ### LI.FI Wallet Management
 
 LI.FI Wallet Management is available as an [npm package](https://www.npmjs.com/package/@lifi/wallet-management).
+
+**pnpm:**
+
+```sh
+pnpm add @lifi/wallet-management
+```
 
 **npm:**
 

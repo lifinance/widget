@@ -1,18 +1,18 @@
-import type { WidgetTheme, WidgetThemeComponents } from '../types/widget.js';
+import type { WidgetTheme, WidgetThemeComponents } from '../types/widget.js'
 
-type ComponentName = keyof WidgetThemeComponents;
+type ComponentName = keyof WidgetThemeComponents
 
 export const getStyleOverrides = (
   componentName: ComponentName,
   styleOverrideProp: string,
   theme: WidgetTheme,
-  ownerState?: any,
+  ownerState?: any
 ) => {
-  const component = theme.components?.[componentName];
-  const property = (component?.styleOverrides as any)?.[styleOverrideProp];
+  const component = theme.components?.[componentName]
+  const property = (component?.styleOverrides as any)?.[styleOverrideProp]
 
   if (typeof property === 'function') {
-    return property({ theme, ownerState });
+    return property({ theme, ownerState })
   }
-  return property;
-};
+  return property
+}

@@ -1,5 +1,5 @@
-import { cardHeaderClasses, styled } from '@mui/material';
-import { CardHeader } from '../Card/CardHeader.js';
+import { cardHeaderClasses, styled } from '@mui/material'
+import { CardHeader } from '../Card/CardHeader.js'
 
 export const SendToWalletCardHeader = styled(CardHeader, {
   shouldForwardProp: (prop) => !['selected'].includes(prop as string),
@@ -31,4 +31,4 @@ export const SendToWalletCardHeader = styled(CardHeader, {
   [`.${cardHeaderClasses.action} > button`]: {
     fontSize: 16,
   },
-}));
+}))

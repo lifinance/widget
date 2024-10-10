@@ -1,22 +1,22 @@
-import { Box, Collapse } from '@mui/material';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { useRoutes } from '../../hooks/useRoutes.js';
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
-import { navigationRoutes } from '../../utils/navigationRoutes.js';
-import { ButtonTertiary } from '../ButtonTertiary.js';
-import type { CardProps } from '../Card/Card.js';
-import { Card } from '../Card/Card.js';
-import { CardTitle } from '../Card/CardTitle.js';
-import { ProgressToNextUpdate } from '../ProgressToNextUpdate.js';
-import { RouteCard } from '../RouteCard/RouteCard.js';
-import { RouteCardSkeleton } from '../RouteCard/RouteCardSkeleton.js';
-import { RouteNotFoundCard } from '../RouteCard/RouteNotFoundCard.js';
+import { Box, Collapse } from '@mui/material'
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
+import { useRoutes } from '../../hooks/useRoutes.js'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import { ButtonTertiary } from '../ButtonTertiary.js'
+import type { CardProps } from '../Card/Card.js'
+import { Card } from '../Card/Card.js'
+import { CardTitle } from '../Card/CardTitle.js'
+import { ProgressToNextUpdate } from '../ProgressToNextUpdate.js'
+import { RouteCard } from '../RouteCard/RouteCard.js'
+import { RouteCardSkeleton } from '../RouteCard/RouteCardSkeleton.js'
+import { RouteNotFoundCard } from '../RouteCard/RouteNotFoundCard.js'
 
 export const Routes: React.FC<CardProps> = (props) => {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
-  const { subvariant, useRecommendedRoute } = useWidgetConfig();
+  const { t } = useTranslation()
+  const navigate = useNavigate()
+  const { subvariant, useRecommendedRoute } = useWidgetConfig()
   const {
     routes,
     isLoading,
@@ -25,22 +25,22 @@ export const Routes: React.FC<CardProps> = (props) => {
     dataUpdatedAt,
     refetchTime,
     refetch,
-  } = useRoutes();
+  } = useRoutes()
 
-  const currentRoute = routes?.[0];
+  const currentRoute = routes?.[0]
 
   if (!currentRoute && !isLoading && !isFetching && !isFetched) {
-    return null;
+    return null
   }
 
   const handleCardClick = () => {
-    navigate(navigationRoutes.routes);
-  };
+    navigate(navigationRoutes.routes)
+  }
 
-  const routeNotFound = !currentRoute && !isLoading && !isFetching;
-  const onlyRecommendedRoute = subvariant === 'refuel' || useRecommendedRoute;
+  const routeNotFound = !currentRoute && !isLoading && !isFetching
+  const onlyRecommendedRoute = subvariant === 'refuel' || useRecommendedRoute
   const showAll =
-    !onlyRecommendedRoute && !routeNotFound && (routes?.length ?? 0) > 1;
+    !onlyRecommendedRoute && !routeNotFound && (routes?.length ?? 0) > 1
 
   return (
     <Card {...props}>
@@ -76,5 +76,5 @@ export const Routes: React.FC<CardProps> = (props) => {
         </Collapse>
       </Box>
     </Card>
-  );
-};
+  )
+}

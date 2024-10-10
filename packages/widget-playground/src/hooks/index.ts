@@ -1,2 +1,2 @@
-export * from './useDevView';
-export * from './useThemeMode';
+export * from './useDevView'
+export * from './useThemeMode'

@@ -1,4 +1,4 @@
-import type { FC, SVGProps } from 'react';
+import type { FC, SVGProps } from 'react'
 
 export const ViteLogo: FC<SVGProps<SVGSVGElement>> = (props) => (
   <svg
@@ -8,6 +8,7 @@ export const ViteLogo: FC<SVGProps<SVGSVGElement>> = (props) => (
     viewBox="0 0 30 29"
     {...props}
   >
+    <title>Vite</title>
     <defs>
       <linearGradient
         id="a"
@@ -82,4 +83,4 @@ export const ViteLogo: FC<SVGProps<SVGSVGElement>> = (props) => (
       }}
     />
   </svg>
-);
+)

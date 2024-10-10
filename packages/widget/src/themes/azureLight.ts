@@ -1,5 +1,5 @@
-import { tabsClasses } from '@mui/material';
-import type { WidgetTheme } from '../types/widget.js';
+import { tabsClasses } from '@mui/material'
+import type { WidgetTheme } from '../types/widget.js'
 
 export const azureLightTheme: WidgetTheme = {
   palette: {
@@ -55,4 +55,4 @@ export const azureLightTheme: WidgetTheme = {
       },
     },
   },
-};
+}

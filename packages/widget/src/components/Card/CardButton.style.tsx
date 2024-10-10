@@ -1,4 +1,4 @@
-import { Box, ButtonBase, Typography, styled } from '@mui/material';
+import { Box, ButtonBase, Typography, styled } from '@mui/material'
 
 export const CardRowButton = styled(ButtonBase)(({ theme }) => ({
   background: 'none',
@@ -13,7 +13,7 @@ export const CardRowButton = styled(ButtonBase)(({ theme }) => ({
   alignItems: 'center',
   padding: theme.spacing(2),
   borderRadius: theme.shape.borderRadius,
-}));
+}))
 
 export const CardRowContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -21,15 +21,15 @@ export const CardRowContainer = styled(Box)(({ theme }) => ({
   justifyContent: 'space-between',
   alignItems: 'center',
   padding: theme.spacing(2),
-}));
+}))
 
 export const CardValue = styled(Typography)({
   lineHeight: '1.25',
   fontWeight: 500,
-});
+})
 
 export const CardTitleContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   gap: theme.spacing(1.5),
-}));
+}))

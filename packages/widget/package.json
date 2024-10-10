@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget",
-  "version": "3.7.0",
+  "version": "3.7.0-beta.10",
   "description": "LI.FI Widget for cross-chain bridging and swapping. It will drive your multi-chain strategy and attract new users from everywhere.",
   "type": "module",
   "main": "./src/index.ts",
@@ -8,19 +8,20 @@
   "sideEffects": false,
   "scripts": {
     "watch": "tsc -w -p ./tsconfig.json",
-    "build": "yarn clean && yarn build:version && yarn build:esm && yarn build:postcompile && yarn build:clean",
+    "build": "pnpm clean && pnpm build:version && pnpm build:esm && pnpm build:postcompile && pnpm build:clean",
     "build:esm": "tsc --build",
-    "build:postcompile": "node ../../scripts/postcompile.js && cpy 'src/**/*' '!src/**/*.d.ts' dist",
+    "build:postcompile": "node ../../scripts/postcompile.js && cpy '../../*.md' 'src/**/*' '!src/**/*.d.ts' dist",
     "build:version": "node ../../scripts/version.js",
-    "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo ./dist/tsconfig.cjs.tsbuildinfo",
-    "clean": "yarn build:clean && rm -rf dist",
+    "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo",
+    "release:build": "pnpm build",
+    "release:publish": "cd dist && pnpm publish --access public --no-git-checks --tag latest",
+    "release:publish:alpha": "cd dist && pnpm publish --access public --no-git-checks --tag alpha",
+    "release:publish:beta": "cd dist && pnpm publish --access public --no-git-checks --tag beta",
+    "clean": "pnpm build:clean && rm -rf dist",
     "check:types": "tsc --noEmit",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
     "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg",
-    "lint": "eslint --ext .tsx --ext .ts ./src",
-    "format": "prettier --write ./src/",
-    "pre-commit:validate": "yarn format && yarn lint --fix --max-warnings=0",
-    "pre-push:validate": "yarn check:types & yarn check:circular-deps"
+    "pre-push:validate": "pnpm check:types & pnpm check:circular-deps"
   },
   "publishConfig": {
     "access": "public"
@@ -50,16 +51,18 @@
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
-    "@lifi/sdk": "^3.2.3",
-    "@lifi/wallet-management": "^3.1.7",
+    "@lifi/sdk": "^3.3.0-beta.2",
+    "@lifi/wallet-management": "workspace:*",
     "@mui/icons-material": "^5.16.7",
     "@mui/lab": "^5.0.0-alpha.173",
     "@mui/material": "^5.16.7",
+    "@mui/system": "^5.16.7",
     "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/wallet-adapter-react": "^0.15.35",
     "@solana/web3.js": "^1.95.3",
-    "@tanstack/react-query": "^5.59.0",
+    "@tanstack/react-query": "^5.59.8",
     "@tanstack/react-virtual": "^3.10.8",
+    "bs58": "^6.0.0",
     "i18next": "^23.15.1",
     "microdiff": "^1.4.0",
     "mitt": "^3.0.1",
@@ -68,36 +71,17 @@
     "react-i18next": "^15.0.2",
     "react-intersection-observer": "^9.13.1",
     "react-router-dom": "^6.26.2",
-    "uuid": "^10.0.0",
-    "viem": "^2.21.16",
+    "viem": "^2.21.21",
     "wagmi": "^2.12.16",
     "zustand": "^4.5.5"
   },
   "devDependencies": {
     "cpy-cli": "^5.0.0",
     "madge": "^8.0.0",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.3"
   },
   "peerDependencies": {
-    "@emotion/react": "^11.11.0",
-    "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.16.0",
-    "@mui/lab": "^5.0.0-alpha.172",
-    "@mui/material": "^5.16.0",
-    "@solana/wallet-adapter-base": "^0.9.0",
-    "@solana/wallet-adapter-react": "^0.15.0",
-    "@solana/web3.js": "^1.95.0",
-    "@tanstack/react-query": "^5.51.0",
-    "i18next": "^23.11.0",
     "react": ">=18",
-    "react-dom": ">=18",
-    "react-i18next": "^15",
-    "react-router-dom": "^6.22.0",
-    "viem": "^2.17.0",
-    "wagmi": "^2.11.0",
-    "zustand": "^4.5.0"
-  },
-  "eslintConfig": {
-    "extends": "../../.eslintrc"
+    "react-dom": ">=18"
   }
 }

@@ -1,7 +1,8 @@
-import type { FC, SVGProps } from 'react';
+import type { FC, SVGProps } from 'react'
 
 export const GatsbyLogo: FC<SVGProps<SVGSVGElement>> = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={38} height={38} {...props}>
+    <title>Gatsby</title>
     <path
       d="M38 19c0 10.492-8.508 19-19 19S0 29.492 0 19 8.508 0 19 0s19 8.508 19 19Zm0 0"
       style={{
@@ -21,4 +22,4 @@ export const GatsbyLogo: FC<SVGProps<SVGSVGElement>> = (props) => (
       }}
     />
   </svg>
-);
+)

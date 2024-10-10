@@ -14,12 +14,4 @@
     "./src/**/*",
     "./src/**/*.json",
   ],
-  "references": [
-    {
-      "path": "../wallet-management"
-    },
-    {
-      "path": "../widget"
-    }
-  ]
 }

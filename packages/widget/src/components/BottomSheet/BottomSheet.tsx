@@ -1,39 +1,39 @@
-import { Drawer } from '@mui/material';
+import { Drawer } from '@mui/material'
 import {
   forwardRef,
   useCallback,
   useImperativeHandle,
   useRef,
   useState,
-} from 'react';
-import { useGetScrollableContainer } from '../../hooks/useScrollableContainer.js';
-import { modalProps, paperProps, slotProps } from '../Dialog.js';
-import type { BottomSheetBase, BottomSheetProps } from './types.js';
+} from 'react'
+import { useGetScrollableContainer } from '../../hooks/useScrollableContainer.js'
+import { modalProps, paperProps, slotProps } from '../Dialog.js'
+import type { BottomSheetBase, BottomSheetProps } from './types.js'
 
 export const BottomSheet = forwardRef<BottomSheetBase, BottomSheetProps>(
   ({ elementRef, children, open, onClose }, ref) => {
-    const getContainer = useGetScrollableContainer();
-    const openRef = useRef(open);
-    const [drawerOpen, setDrawerOpen] = useState(open);
+    const getContainer = useGetScrollableContainer()
+    const openRef = useRef(open)
+    const [drawerOpen, setDrawerOpen] = useState(open)
 
     const close = useCallback(() => {
-      setDrawerOpen(false);
-      openRef.current = false;
-      onClose?.();
-    }, [onClose]);
+      setDrawerOpen(false)
+      openRef.current = false
+      onClose?.()
+    }, [onClose])
 
     useImperativeHandle(
       ref,
       () => ({
         isOpen: () => openRef.current,
         open: () => {
-          setDrawerOpen(true);
-          openRef.current = true;
+          setDrawerOpen(true)
+          openRef.current = true
         },
         close,
       }),
-      [close],
-    );
+      [close]
+    )
 
     return (
       <Drawer
@@ -49,6 +49,6 @@ export const BottomSheet = forwardRef<BottomSheetBase, BottomSheetProps>(
       >
         {children}
       </Drawer>
-    );
-  },
-);
+    )
+  }
+)

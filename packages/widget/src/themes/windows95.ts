@@ -1,4 +1,4 @@
-import type { WidgetTheme } from '../types/widget.js';
+import type { WidgetTheme } from '../types/widget.js'
 
 export const windows95Theme: WidgetTheme = {
   palette: {
@@ -98,4 +98,4 @@ export const windows95Theme: WidgetTheme = {
       },
     },
   },
-};
+}

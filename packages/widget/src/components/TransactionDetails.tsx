@@ -1,82 +1,82 @@
-import type { RouteExtended } from '@lifi/sdk';
+import type { RouteExtended } from '@lifi/sdk'
 import {
   ExpandLess,
   ExpandMore,
   LocalGasStationRounded,
-} from '@mui/icons-material';
-import type { CardProps } from '@mui/material';
-import { Box, Collapse, Tooltip, Typography } from '@mui/material';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { formatUnits } from 'viem';
-import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
-import { isRouteDone } from '../stores/routes/utils.js';
-import { getAccumulatedFeeCostsBreakdown } from '../utils/fees.js';
-import { formatTokenAmount, formatTokenPrice } from '../utils/format.js';
-import { Card } from './Card/Card.js';
-import { CardIconButton } from './Card/CardIconButton.js';
-import { FeeBreakdownTooltip } from './FeeBreakdownTooltip.js';
-import { IconTypography } from './IconTypography.js';
-import { TokenRate } from './TokenRate/TokenRate.js';
+} from '@mui/icons-material'
+import type { CardProps } from '@mui/material'
+import { Box, Collapse, Tooltip, Typography } from '@mui/material'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { formatUnits } from 'viem'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import { isRouteDone } from '../stores/routes/utils.js'
+import { getAccumulatedFeeCostsBreakdown } from '../utils/fees.js'
+import { formatTokenAmount, formatTokenPrice } from '../utils/format.js'
+import { Card } from './Card/Card.js'
+import { CardIconButton } from './Card/CardIconButton.js'
+import { FeeBreakdownTooltip } from './FeeBreakdownTooltip.js'
+import { IconTypography } from './IconTypography.js'
+import { TokenRate } from './TokenRate/TokenRate.js'
 
 interface TransactionDetailsProps extends CardProps {
-  route: RouteExtended;
+  route: RouteExtended
 }
 
 export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
   route,
   ...props
 }) => {
-  const { t } = useTranslation();
-  const { feeConfig } = useWidgetConfig();
-  const [cardExpanded, setCardExpanded] = useState(false);
+  const { t } = useTranslation()
+  const { feeConfig } = useWidgetConfig()
+  const [cardExpanded, setCardExpanded] = useState(false)
 
   const toggleCard = () => {
-    setCardExpanded((cardExpanded) => !cardExpanded);
-  };
+    setCardExpanded((cardExpanded) => !cardExpanded)
+  }
   const { gasCosts, feeCosts, gasCostUSD, feeCostUSD, combinedFeesUSD } =
-    getAccumulatedFeeCostsBreakdown(route);
+    getAccumulatedFeeCostsBreakdown(route)
 
   const fromTokenAmount = formatTokenAmount(
     BigInt(route.fromAmount),
-    route.fromToken.decimals,
-  );
+    route.fromToken.decimals
+  )
   const fromTokenPrice = formatTokenPrice(
     fromTokenAmount,
-    route.fromToken.priceUSD,
-  );
+    route.fromToken.priceUSD
+  )
   const toTokenAmount = formatTokenAmount(
     BigInt(route.toAmount),
-    route.toToken.decimals,
-  );
+    route.toToken.decimals
+  )
   const toTokenPrice =
-    formatTokenPrice(toTokenAmount, route.toToken.priceUSD) || 0.01;
+    formatTokenPrice(toTokenAmount, route.toToken.priceUSD) || 0.01
 
-  const priceImpact = toTokenPrice / fromTokenPrice - 1;
+  const priceImpact = toTokenPrice / fromTokenPrice - 1
 
   const feeCollectionStep = route.steps[0].includedSteps.find(
-    (includedStep) => includedStep.tool === 'feeCollection',
-  );
+    (includedStep) => includedStep.tool === 'feeCollection'
+  )
 
-  let feeAmountUSD: number = 0;
+  let feeAmountUSD = 0
 
   if (feeCollectionStep) {
     const estimatedFromAmount =
       BigInt(feeCollectionStep.estimate.fromAmount) -
-      BigInt(feeCollectionStep.estimate.toAmount);
+      BigInt(feeCollectionStep.estimate.toAmount)
 
     const feeAmount = formatUnits(
       estimatedFromAmount,
-      feeCollectionStep.action.fromToken.decimals,
-    );
+      feeCollectionStep.action.fromToken.decimals
+    )
 
     feeAmountUSD =
-      parseFloat(feeAmount) *
-      parseFloat(feeCollectionStep.action.fromToken.priceUSD);
+      Number.parseFloat(feeAmount) *
+      Number.parseFloat(feeCollectionStep.action.fromToken.priceUSD)
   }
 
   const showIntegratorFeeCollectionDetails =
-    feeAmountUSD || Number.isFinite(feeConfig?.fee);
+    feeAmountUSD || Number.isFinite(feeConfig?.fee)
 
   return (
     <Card selectionColor="secondary" {...props}>
@@ -90,6 +90,7 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
               display="flex"
               alignItems="center"
               onClick={toggleCard}
+              // biome-ignore lint/a11y/useSemanticElements:
               role="button"
               sx={{ cursor: 'pointer' }}
               px={1}
@@ -104,7 +105,7 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                 lineHeight={1.429}
                 data-value={combinedFeesUSD}
               >
-                {t(`format.currency`, { value: combinedFeesUSD })}
+                {t('format.currency', { value: combinedFeesUSD })}
               </Typography>
             </Box>
           </FeeBreakdownTooltip>
@@ -123,7 +124,7 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
             <Typography variant="body2">{t('main.fees.network')}</Typography>
             <FeeBreakdownTooltip gasCosts={gasCosts}>
               <Typography variant="body2">
-                {t(`format.currency`, {
+                {t('format.currency', {
                   value: gasCostUSD,
                 })}
               </Typography>
@@ -134,7 +135,7 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
               <Typography variant="body2">{t('main.fees.provider')}</Typography>
               <FeeBreakdownTooltip feeCosts={feeCosts}>
                 <Typography variant="body2">
-                  {t(`format.currency`, {
+                  {t('format.currency', {
                     value: feeCostUSD,
                   })}
                 </Typography>
@@ -154,14 +155,14 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                   sx={{ cursor: 'help' }}
                 >
                   <Typography variant="body2">
-                    {t(`format.currency`, {
+                    {t('format.currency', {
                       value: feeAmountUSD,
                     })}
                   </Typography>
                 </Tooltip>
               ) : (
                 <Typography variant="body2">
-                  {t(`format.currency`, {
+                  {t('format.currency', {
                     value: feeAmountUSD,
                   })}
                 </Typography>
@@ -198,7 +199,7 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                     {t('format.number', {
                       value: formatTokenAmount(
                         BigInt(route.toAmountMin),
-                        route.toToken.decimals,
+                        route.toToken.decimals
                       ),
                     })}{' '}
                     {route.toToken.symbol}
@@ -210,5 +211,5 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
         </Box>
       </Collapse>
     </Card>
-  );
-};
+  )
+}
