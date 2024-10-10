@@ -28,7 +28,7 @@ jobs:
 
       - name: Build project
         env:
-          NODE_OPTIONS: '--max_old_space_size=4096'
+          NODE_OPTIONS: "--max_old_space_size=4096"
         run: pnpm build
 
       - name: Set Project Name
@@ -112,6 +112,10 @@ jobs:
                 }
               })
             })
+
+      # Required to install wrangler during the next step
+      - name: Set pnpm config to ignore workspace root check
+        run: pnpm config set ignore-workspace-root-check true
 
       - name: Deploy Page
         uses: cloudflare/wrangler-action@v3
