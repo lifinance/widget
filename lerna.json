@@ -11,15 +11,6 @@
       "ignoreChanges": [
         "**/*.md"
       ]
-    },
-    "publish": {
-      "directory": "{workspaceRoot}/{projectRoot}/dist",
-      "assets": [
-        {
-          "from": "../../*.md",
-          "to": "./"
-        }
-      ]
     }
   },
   "changelogPreset": "conventionalcommits",

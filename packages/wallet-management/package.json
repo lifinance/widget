@@ -10,7 +10,7 @@
     "watch": "tsc -w -p ./tsconfig.json",
     "build": "pnpm clean && pnpm build:esm && pnpm build:postcompile && pnpm build:clean",
     "build:esm": "tsc --build",
-    "build:postcompile": "node ../../scripts/postcompile.js && cpy 'src/**/*' dist",
+    "build:postcompile": "node ../../scripts/postcompile.js && cpy '../../*.md' 'src/**/*' '!src/**/*.d.ts' dist",
     "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo",
     "release:build": "pnpm build",
     "clean": "pnpm build:clean && rm -rf dist",
