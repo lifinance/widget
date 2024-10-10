@@ -48,7 +48,7 @@
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
-    "@lifi/sdk": "^3.3.0-beta.0",
+    "@lifi/sdk": "^3.3.0-beta.2",
     "@lifi/wallet-management": "workspace:*",
     "@mui/icons-material": "^5.16.7",
     "@mui/lab": "^5.0.0-alpha.173",
@@ -57,8 +57,9 @@
     "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/wallet-adapter-react": "^0.15.35",
     "@solana/web3.js": "^1.95.3",
-    "@tanstack/react-query": "^5.59.0",
+    "@tanstack/react-query": "^5.59.8",
     "@tanstack/react-virtual": "^3.10.8",
+    "bs58": "^6.0.0",
     "i18next": "^23.15.1",
     "microdiff": "^1.4.0",
     "mitt": "^3.0.1",
@@ -67,33 +68,17 @@
     "react-i18next": "^15.0.2",
     "react-intersection-observer": "^9.13.1",
     "react-router-dom": "^6.26.2",
-    "viem": "^2.21.16",
+    "viem": "^2.21.21",
     "wagmi": "^2.12.16",
     "zustand": "^4.5.5"
   },
   "devDependencies": {
     "cpy-cli": "^5.0.0",
     "madge": "^8.0.0",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.3"
   },
   "peerDependencies": {
-    "@emotion/react": "^11.11.0",
-    "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.16.0",
-    "@mui/lab": "^5.0.0-alpha.172",
-    "@mui/material": "^5.16.0",
-    "@mui/system": "^5.16.0",
-    "@solana/wallet-adapter-base": "^0.9.0",
-    "@solana/wallet-adapter-react": "^0.15.0",
-    "@solana/web3.js": "^1.95.0",
-    "@tanstack/react-query": "^5.51.0",
-    "i18next": "^23.11.0",
     "react": ">=18",
-    "react-dom": ">=18",
-    "react-i18next": "^15",
-    "react-router-dom": "^6.22.0",
-    "viem": "^2.17.0",
-    "wagmi": "^2.11.0",
-    "zustand": "^4.5.0"
+    "react-dom": ">=18"
   }
 }

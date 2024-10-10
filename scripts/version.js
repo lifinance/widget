@@ -9,7 +9,7 @@ async function run() {
 
   const { version, name } = JSON.parse(packageData)
 
-  const src = `export const name = '${name}';\nexport const version = '${version}';\n`
+  const src = `export const name = '${name}';\nexport const version = '${version}'\n`
 
   writeFile(`${process.cwd()}/src/config/version.ts`, src, {
     flat: 'w',
