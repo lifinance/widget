@@ -69,7 +69,7 @@ export const CodeControl = () => {
             Gatsby
           </ProjectButton>
           <ProjectButton
-            href="https://github.com/lifinance/widget/tree/main/examples/nextjs14"
+            href="https://github.com/lifinance/widget/tree/main/examples/nextjs"
             icon={<NextLogo />}
           >
             Next.js
