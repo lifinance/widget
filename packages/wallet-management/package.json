@@ -1,6 +1,6 @@
 {
   "name": "@lifi/wallet-management",
-  "version": "3.3.0-beta.10",
+  "version": "3.3.0-beta.9",
   "description": "LI.FI Wallet Management solution.",
   "type": "module",
   "main": "./src/index.ts",
@@ -8,20 +8,15 @@
   "sideEffects": false,
   "scripts": {
     "watch": "tsc -w -p ./tsconfig.json",
-    "build": "pnpm clean && pnpm build:esm && pnpm build:postcompile && pnpm build:clean",
+    "build": "pnpm clean && pnpm build:esm && pnpm build:clean",
     "build:esm": "tsc --build",
-    "build:postcompile": "node ../../scripts/postcompile.js && cpy '../../*.md' 'src/**/*' '!src/**/*.d.ts' dist",
+    "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../*.md' .",
+    "build:postrelease": "node ../../scripts/postrelease.js && rm -rf *.md",
     "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo",
-    "release:build": "pnpm build",
-    "release:publish": "cd dist && pnpm publish --access public --no-git-checks --tag latest",
-    "release:publish:alpha": "cd dist && pnpm publish --access public --no-git-checks --tag alpha",
-    "release:publish:beta": "cd dist && pnpm publish --access public --no-git-checks --tag beta",
+    "release:build": "pnpm build && pnpm build:prerelease",
     "clean": "pnpm build:clean && rm -rf dist",
     "check:types": "tsc --noEmit",
     "pre-push:validate": "pnpm check:types"
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
   "homepage": "https://github.com/lifinance/widget",

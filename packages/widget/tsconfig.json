@@ -4,7 +4,7 @@
     "composite": true,
     "declaration": true,
     "sourceMap": true,
-    "outDir": "dist/_esm",
+    "outDir": "dist/esm",
     "rootDir": "./src",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
