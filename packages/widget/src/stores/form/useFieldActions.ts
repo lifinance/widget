@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
 import { shallow } from 'zustand/shallow';
-import type { widgetEvents } from '../../hooks/useWidgetEvents.js';
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
 import { WidgetEvent } from '../../types/events.js';
 import type {
@@ -11,35 +10,6 @@ import type {
   SetOptions,
 } from './types.js';
 import { useFormStore } from './useFormStore.js';
-
-interface FieldValueToEmittedEvents {
-  [key: string]: (
-    value: GenericFormValue,
-    emitter: typeof widgetEvents,
-  ) => void;
-}
-
-const fieldValueToEmittedEvents: FieldValueToEmittedEvents = {
-  toAddress: (address, emitter) =>
-    emitter.emit(WidgetEvent.SendToWalletAddressChanged, {
-      address: address as string | undefined,
-    }),
-};
-
-const emitEventForFieldValueChange = (
-  fieldName: FormFieldNames,
-  newValue: GenericFormValue,
-  currenValue: GenericFormValue,
-  emitter: typeof widgetEvents,
-) => {
-  const emitFunction = fieldValueToEmittedEvents[fieldName];
-
-  // only emit a widget event if a mapping exists in fieldValueToEmittedEvents
-  // and if the field value will change
-  if (emitFunction && newValue !== currenValue) {
-    emitFunction(newValue, emitter);
-  }
-};
 
 export const useFieldActions = () => {
   const emitter = useWidgetEvents();
@@ -62,30 +32,52 @@ export const useFieldActions = () => {
       value: GenericFormValue,
       options?: SetOptions,
     ) => {
-      emitEventForFieldValueChange(
-        fieldName,
-        value,
-        actions.getFieldValues(fieldName)[0],
-        emitter,
-      );
+      const oldValue = actions.getFieldValues(fieldName)[0];
 
       actions.setFieldValue(fieldName, value, options);
+
+      if (value !== oldValue) {
+        emitter.emit(WidgetEvent.FormFieldChanged, {
+          fieldName,
+          value,
+          oldValue,
+        });
+      }
     },
     [actions, emitter],
   );
 
   const setUserAndDefaultValuesWithEmittedEvents = useCallback(
     (formValues: Partial<DefaultValues>) => {
-      (Object.keys(formValues) as FormFieldNames[]).forEach((fieldName) => {
-        emitEventForFieldValueChange(
-          fieldName,
-          formValues[fieldName],
-          actions.getFieldValues(fieldName)[0],
-          emitter,
-        );
-      });
+      const formValuesKeys = Object.keys(formValues) as FormFieldNames[];
+
+      const changedValues = formValuesKeys.reduce(
+        (accum, fieldName) => {
+          const oldValue = actions.getFieldValues(fieldName)[0];
+          const value = formValues[fieldName];
+
+          if (value !== oldValue) {
+            accum.push({ fieldName, value, oldValue });
+          }
+
+          return accum;
+        },
+        [] as {
+          fieldName: FormFieldNames;
+          value: GenericFormValue;
+          oldValue: GenericFormValue;
+        }[],
+      );
 
       actions.setUserAndDefaultValues(formValues);
+
+      changedValues.forEach(({ fieldName, value, oldValue }) => {
+        emitter.emit(WidgetEvent.FormFieldChanged, {
+          fieldName,
+          value,
+          oldValue,
+        });
+      });
     },
     [actions, emitter],
   );

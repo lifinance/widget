@@ -1,4 +1,8 @@
 import type { ChainId, ChainType, Process, Route } from '@lifi/sdk';
+import type {
+  FormFieldNames,
+  GenericFormValue,
+} from '@lifi/widget/stores/form/types.js';
 import type { NavigationRouteType } from '../utils/navigationRoutes.js';
 
 export enum WidgetEvent {
@@ -19,7 +23,7 @@ export enum WidgetEvent {
   WalletConnected = 'walletConnected',
   WidgetExpanded = 'widgetExpanded',
   PageEntered = 'pageEntered',
-  SendToWalletAddressChanged = 'sendToWalletAddressChanged',
+  FormFieldChanged = 'formFieldChanged',
 }
 
 export type WidgetEvents = {
@@ -33,7 +37,7 @@ export type WidgetEvents = {
   sourceChainTokenSelected: ChainTokenSelected;
   destinationChainTokenSelected: ChainTokenSelected;
   sendToWalletToggled: boolean;
-  sendToWalletAddressChanged: sendToWalletAddress;
+  formFieldChanged: FormFieldChanged;
   reviewTransactionPageEntered?: Route;
   walletConnected: WalletConnected;
   widgetExpanded: boolean;
@@ -68,6 +72,8 @@ export interface WalletConnected {
   chainType?: ChainType;
 }
 
-export interface sendToWalletAddress {
-  address?: string;
+export interface FormFieldChanged {
+  fieldName: FormFieldNames;
+  value: GenericFormValue;
+  oldValue: GenericFormValue;
 }
