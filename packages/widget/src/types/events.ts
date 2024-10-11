@@ -1,8 +1,5 @@
 import type { ChainId, ChainType, Process, Route } from '@lifi/sdk';
-import type {
-  FormFieldNames,
-  GenericFormValue,
-} from '@lifi/widget/stores/form/types.js';
+import type { DefaultValues } from '@lifi/widget/stores/form/types.js';
 import type { NavigationRouteType } from '../utils/navigationRoutes.js';
 
 export enum WidgetEvent {
@@ -72,8 +69,10 @@ export interface WalletConnected {
   chainType?: ChainType;
 }
 
-export interface FormFieldChanged {
-  fieldName: FormFieldNames;
-  value: GenericFormValue;
-  oldValue: GenericFormValue;
-}
+export type FormFieldChanged = {
+  [K in keyof DefaultValues]: {
+    fieldName: K;
+    newValue: DefaultValues[K];
+    oldValue: DefaultValues[K];
+  };
+}[keyof DefaultValues];
