@@ -7,10 +7,7 @@
     "outDir": "dist/esm",
     "rootDir": "./src",
     "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "NodeNext"
   },
-  "include": [
-    "./src/**/*",
-    "./src/**/*.json",
-  ],
+  "include": ["./src/**/*", "./src/**/*.json"]
 }

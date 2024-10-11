@@ -8,10 +8,7 @@
     "outDir": "dist/esm",
     "rootDir": "./src",
     "module": "ESNext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "bundler"
   },
-  "include": [
-    "./src/**/*",
-    "./src/**/*.json",
-  ],
+  "include": ["./src/**/*", "./src/**/*.json"]
 }

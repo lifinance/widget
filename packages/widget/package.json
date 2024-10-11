@@ -25,7 +25,8 @@
   "homepage": "https://github.com/lifinance/widget",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/lifinance/widget.git"
+    "url": "https://github.com/lifinance/widget.git",
+    "directory": "packages/widget"
   },
   "bugs": {
     "url": "https://github.com/lifinance/widget/issues"
@@ -79,8 +80,5 @@
     "react": ">=18",
     "react-dom": ">=18"
   },
-  "files": [
-    "dist/**",
-    "src/**"
-  ]
+  "files": ["dist/**", "src/**", "!tsconfig.json"]
 }

@@ -1,11 +1,11 @@
-import { type WidgetConfig, WidgetSkeleton } from '@lifi/widget';
-import { Suspense, lazy } from 'react';
+import { type WidgetConfig, WidgetSkeleton } from '@lifi/widget'
+import { Suspense, lazy } from 'react'
 
 const LiFiWidgetLazy = lazy(async () => {
-  const module = await import('@lifi/widget');
+  const module = await import('@lifi/widget')
 
-  return { default: module.LiFiWidget };
-});
+  return { default: module.LiFiWidget }
+})
 
 export function LiFiWidget() {
   const config = {
@@ -16,11 +16,11 @@ export function LiFiWidget() {
         borderRadius: '16px',
       },
     },
-  } as Partial<WidgetConfig>;
+  } as Partial<WidgetConfig>
 
   return (
     <Suspense fallback={<WidgetSkeleton config={config} />}>
       <LiFiWidgetLazy config={config} integrator="remix-example" />
     </Suspense>
-  );
+  )
 }

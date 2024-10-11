@@ -1,6 +1,6 @@
 <script>
-  import { LiFiWidget } from '@lifi/widget';
-  import ReactAdapter from './ReactAdapter.svelte';
+import { LiFiWidget } from '@lifi/widget'
+import ReactAdapter from './ReactAdapter.svelte'
 </script>
 
 <ReactAdapter

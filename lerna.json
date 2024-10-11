@@ -1,16 +1,10 @@
 {
   "npmClient": "pnpm",
-  "packages": [
-    "packages/*"
-  ],
-  "ignoreChanges": [
-    "**/*.md"
-  ],
+  "packages": ["packages/*"],
+  "ignoreChanges": ["**/*.md"],
   "command": {
     "version": {
-      "ignoreChanges": [
-        "**/*.md"
-      ]
+      "ignoreChanges": ["**/*.md"]
     }
   },
   "changelogPreset": "conventionalcommits",

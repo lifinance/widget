@@ -1,12 +1,7 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "es2020",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "es2020", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -24,21 +19,11 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@lifi/wallet-management": [
-        "./packages/wallet-management/src"
-      ],
-      "@lifi/wallet-management/*": [
-        "./packages/wallet-management/src/*"
-      ],
-      "@lifi/widget-playground": [
-        "./packages/widget-playground/src"
-      ],
-      "@lifi/widget-playground/*": [
-        "./packages/widget-playground/src/*"
-      ]
+      "@/*": ["./src/*"],
+      "@lifi/wallet-management": ["./packages/wallet-management/src"],
+      "@lifi/wallet-management/*": ["./packages/wallet-management/src/*"],
+      "@lifi/widget-playground": ["./packages/widget-playground/src"],
+      "@lifi/widget-playground/*": ["./packages/widget-playground/src/*"]
     }
   },
   "include": [
@@ -48,8 +33,5 @@
     ".next/types/**/*.ts",
     "dist/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "**/hooks/useWidgetEvents.ts"
-  ]
+  "exclude": ["node_modules", "**/hooks/useWidgetEvents.ts"]
 }

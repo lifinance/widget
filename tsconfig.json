@@ -10,23 +10,14 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ESNext"
-    ],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "ES2020",
+    "target": "ES2020"
   },
-  "exclude": [
-    "**/.*/",
-    "**/build",
-    "**/dist",
-    "node_modules",
-  ]
+  "exclude": ["**/.*/", "**/build", "**/dist", "node_modules"]
 }
