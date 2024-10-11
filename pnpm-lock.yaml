@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  bs58: ^6.0.0
+  bs58: '>=4.0.1'
 
 importers:
 
@@ -284,7 +284,7 @@ importers:
         version: link:../../packages/widget
       '@rainbow-me/rainbowkit':
         specifier: ^2.1.3
-        version: 2.1.7(eqkhrgcrvu7z3kvu524du2wzba)
+        version: 2.1.7(7bvh6df3yf2jpacvtcmzwzrwda)
       '@tanstack/react-query':
         specifier: ^5.51.15
         version: 5.59.9(react@18.3.1)
@@ -594,9 +594,6 @@ importers:
       '@wagmi/core':
         specifier: ^2.13.8
         version: 2.13.8(@tanstack/query-core@5.59.9)(@types/react@18.3.11)(react@18.3.1)(typescript@5.6.3)(viem@2.21.22(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.22.4))
-      bs58:
-        specifier: ^6.0.0
-        version: 6.0.0
       i18next:
         specifier: ^23.15.1
         version: 23.15.2
@@ -679,9 +676,6 @@ importers:
       '@tanstack/react-virtual':
         specifier: ^3.10.8
         version: 3.10.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      bs58:
-        specifier: ^6.0.0
-        version: 6.0.0
       i18next:
         specifier: ^23.15.1
         version: 23.15.2
@@ -836,7 +830,7 @@ importers:
         version: 5.16.7(@emotion/react@11.13.3(@types/react@18.3.11)(react@18.3.1))(@emotion/styled@11.13.0(@emotion/react@11.13.3(@types/react@18.3.11)(react@18.3.1))(@types/react@18.3.11)(react@18.3.1))(@types/react@18.3.11)(react@18.3.1)
       '@rainbow-me/rainbowkit':
         specifier: ^2.1.7
-        version: 2.1.7(eqkhrgcrvu7z3kvu524du2wzba)
+        version: 2.1.7(7bvh6df3yf2jpacvtcmzwzrwda)
       '@solana/wallet-adapter-base':
         specifier: ^0.9.23
         version: 0.9.23(@solana/web3.js@1.95.3(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10))
@@ -849,9 +843,6 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.59.9
         version: 5.59.9(react@18.3.1)
-      bs58:
-        specifier: ^6.0.0
-        version: 6.0.0
       csstype:
         specifier: ^3.1.3
         version: 3.1.3
@@ -4102,7 +4093,7 @@ packages:
     engines: {node: '>=16'}
     peerDependencies:
       '@solana/web3.js': ^1.58.0
-      bs58: ^6.0.0
+      bs58: '>=4.0.1'
 
   '@solana/wallet-standard-wallet-adapter-react@1.1.2':
     resolution: {integrity: sha512-bN6W4QkzenyjUoUz3sC5PAed+z29icGtPh9VSmLl1ZrRO7NbFB49a8uwUUVXNxhL/ZbMsyVKhb9bNj47/p8uhQ==}
@@ -14839,7 +14830,7 @@ snapshots:
 
   '@popperjs/core@2.11.8': {}
 
-  '@rainbow-me/rainbowkit@2.1.7(eqkhrgcrvu7z3kvu524du2wzba)':
+  '@rainbow-me/rainbowkit@2.1.7(7bvh6df3yf2jpacvtcmzwzrwda)':
     dependencies:
       '@tanstack/react-query': 5.59.9(react@18.3.1)
       '@vanilla-extract/css': 1.15.5(babel-plugin-macros@3.1.0)

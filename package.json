@@ -60,7 +60,7 @@
   },
   "pnpm": {
     "overrides": {
-      "bs58": "^6.0.0"
+      "bs58": ">=4.0.1"
     }
   },
   "packageManager": "pnpm@9.12.1"
