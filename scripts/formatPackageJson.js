@@ -16,7 +16,6 @@ export async function formatPackageFile() {
     devDependencies,
     workspaces,
     files,
-    'lint-staged': lintStaged,
     ...packageDataOther
   } = JSON.parse(packageData)
 

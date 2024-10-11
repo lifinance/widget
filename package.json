@@ -17,18 +17,16 @@
     "release:publish": "pnpm release:publish:build && pnpm -r publish --access public --no-git-checks --tag latest && pnpm release:clean",
     "release:publish:alpha": "pnpm release:publish:build && pnpm -r publish --access public --no-git-checks --tag alpha && pnpm release:clean",
     "release:publish:beta": "pnpm release:publish:build && pnpm -r publish --access public --no-git-checks --tag beta && pnpm release:clean",
-    "release:clean": "pnpm -r --parallel --filter './packages/**' --filter '!*-playground-*' --filter '!*-embedded' exec \"node ../../scripts/postrelease.js && rm -rf *.md\"",
+    "release:clean": "pnpm -r --parallel --filter './packages/**' --filter '!*-playground-*' --filter '!*-embedded' exec sh -c \"node ../../scripts/postrelease.js && rm -rf *.md\"",
     "check": "biome check",
     "check:write": "biome check --write",
     "check:write:unsafe": "biome check --write --unsafe",
-    "pre-commit": "lint-staged",
+    "check:types": "pnpm -r check:types",
+    "check:circular-deps": "pnpm -r --parallel check:circular-deps",
+    "pre-commit": "pnpm check && pnpm check:circular-deps",
     "pre-push": "pnpm -r --parallel pre-push:validate",
     "prepare": "husky",
-    "postinstall": "husky",
-    "check:types": "pnpm -r check:types"
-  },
-  "lint-staged": {
-    "*.{ts,tsx}": ["pnpm check"]
+    "postinstall": "husky"
   },
   "standard-version": {
     "scripts": {
@@ -51,7 +49,6 @@
     "fs-extra": "^11.2.0",
     "husky": "^9.1.6",
     "lerna": "8.1.8",
-    "lint-staged": "^15.2.10",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "standard-version": "^9.5.0",

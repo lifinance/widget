@@ -16,6 +16,8 @@
     "release:build": "pnpm build",
     "clean": "pnpm build:clean && rm -rf dist",
     "check:types": "tsc --noEmit",
+    "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
+    "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg",
     "pre-push:validate": "pnpm check:types"
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
@@ -69,6 +71,7 @@
   "devDependencies": {
     "@types/use-sync-external-store": "^0.0.6",
     "cpy-cli": "^5.0.0",
+    "madge": "^8.0.0",
     "typescript": "^5.6.3"
   },
   "peerDependencies": {
