@@ -21,12 +21,14 @@
     "check": "biome check",
     "check:write": "biome check --write",
     "check:write:unsafe": "biome check --write --unsafe",
-    "check:types": "pnpm -r check:types",
+    "check:types": "pnpm -r --parallel check:types",
     "check:circular-deps": "pnpm -r --parallel check:circular-deps",
-    "pre-commit": "pnpm check && pnpm check:circular-deps",
-    "pre-push": "pnpm -r --parallel pre-push:validate",
+    "pre-commit": "pnpm check && pnpm check:types && pnpm check:circular-deps",
     "prepare": "husky",
     "postinstall": "husky"
+  },
+  "lint-staged": {
+    "*": ["pnpm pre-commit"]
   },
   "standard-version": {
     "scripts": {
@@ -49,6 +51,7 @@
     "fs-extra": "^11.2.0",
     "husky": "^9.1.6",
     "lerna": "8.1.8",
+    "lint-staged": "^15.2.10",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "standard-version": "^9.5.0",
