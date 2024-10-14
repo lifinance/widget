@@ -46,12 +46,12 @@ export const SearchInput = ({
   )
 }
 
-export const StickySearchInput = ({ ...rest }: SearchInputProps) => {
+export const StickySearchInput = (props: SearchInputProps) => {
   const { headerHeight } = useHeaderHeight()
 
   return (
     <StickySearchInputContainer headerHeight={headerHeight}>
-      <SearchInput {...rest} />
+      <SearchInput {...props} />
     </StickySearchInputContainer>
   )
 }
