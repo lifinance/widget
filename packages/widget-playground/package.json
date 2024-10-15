@@ -14,7 +14,8 @@
     "check:types": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "pre-push:validate": "pnpm check:types & pnpm test"
+    "link:sdk": "pnpm link --global @lifi/sdk",
+    "unlink:sdk": "pnpm link --global @lifi/sdk"
   },
   "exports": {
     ".": "./src/index.ts",
