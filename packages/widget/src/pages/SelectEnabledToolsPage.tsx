@@ -79,13 +79,9 @@ export const SelectEnabledToolsPage: React.FC<{
 }> = ({ type }) => {
   const typeKey = type.toLowerCase() as 'bridges' | 'exchanges';
   const { tools } = useTools();
-  const { setToolValue } = useSettingsActions();
-  const [enabledTools, disabledTools, toggleToolKeys] = useSettingsStore(
-    (state) => [
-      state[`_enabled${type}`],
-      state[`disabled${type}`],
-      state.toggleToolKeys,
-    ],
+  const { setToolValue, toggleToolKeys } = useSettingsActions();
+  const [enabledTools, disabledTools] = useSettingsStore(
+    (state) => [state[`_enabled${type}`], state[`disabled${type}`]],
     shallow,
   );
 
