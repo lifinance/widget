@@ -12,7 +12,6 @@ import { useConfig as useBigmiConfig } from '../utxo/hooks/useConfig.js'
 export interface AccountBase<CT extends ChainType, ConnectorType = undefined> {
   address?: string
   addresses?: readonly string[]
-  chain?: Chain
   chainId?: number
   chainType: CT
   connector?: ConnectorType
@@ -146,10 +145,12 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
     wagmiAccount.connector?.id,
     wagmiAccount.status,
     wagmiAccount.address,
+    wagmiAccount.chainId,
     bigmiAccount.connector?.uid,
     bigmiAccount.connector?.id,
     bigmiAccount.status,
     bigmiAccount.address,
+    bigmiAccount.chainId,
     args?.chainType,
     lastConnectedAccount,
   ])
