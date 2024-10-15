@@ -1,5 +1,4 @@
 import type { ToolsResponse } from '@lifi/sdk';
-import { useSettingsActions } from '@lifi/widget/stores/settings/useSettingsActions.js';
 import {
   Check,
   CheckBoxOutlineBlankOutlined,
@@ -28,6 +27,7 @@ import { useDefaultElementId } from '../hooks/useDefaultElementId.js';
 import { useHeader } from '../hooks/useHeader.js';
 import { useScrollableContainer } from '../hooks/useScrollableContainer.js';
 import { useTools } from '../hooks/useTools.js';
+import { useSettingsActions } from '../stores/settings/useSettingsActions.js';
 import { useSettingsStore } from '../stores/settings/useSettingsStore.js';
 
 interface SelectAllCheckboxProps {

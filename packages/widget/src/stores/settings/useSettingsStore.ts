@@ -1,9 +1,9 @@
-import { getStateValues } from '@lifi/widget/stores/settings/utils/getStateValues.js';
 import type { StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { createWithEqualityFn } from 'zustand/traditional';
 import type { SettingsProps, SettingsState } from './types.js';
 import { SettingsToolTypes } from './types.js';
+import { getStateValues } from './utils/getStateValues.js';
 
 export const defaultSlippage = '0.5';
 
