@@ -1,7 +1,7 @@
 import { Percent, WarningRounded } from '@mui/icons-material';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, debounce } from '@mui/material';
 import type { ChangeEventHandler, FocusEventHandler } from 'react';
-import { useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSettingMonitor } from '../../../hooks/useSettingMonitor.js';
 import { useSettings } from '../../../stores/settings/useSettings.js';
@@ -26,32 +26,44 @@ export const SlippageSettings: React.FC = () => {
   const defaultValue = useRef(slippage);
   const [focused, setFocused] = useState<'input' | 'button'>();
 
+  const customInputValue =
+    !slippage || slippage === defaultSlippage ? '' : slippage;
+
+  const [inputValue, setInputValue] = useState(customInputValue);
+
   const handleDefaultClick = () => {
     setValue('slippage', formatSlippage(defaultSlippage, defaultValue.current));
   };
 
-  const handleInputUpdate: ChangeEventHandler<HTMLInputElement> = (event) => {
-    const { value } = event.target;
+  const debouncedSetValue = useMemo(() => debounce(setValue, 1000), [setValue]);
 
-    setValue(
-      'slippage',
-      formatSlippage(value || defaultSlippage, defaultValue.current, true),
-    );
-  };
+  const handleInputUpdate: ChangeEventHandler<HTMLInputElement> = useCallback(
+    (event) => {
+      const { value } = event.target;
+
+      setInputValue(formatSlippage(value, defaultValue.current, true));
+
+      debouncedSetValue(
+        'slippage',
+        formatSlippage(value || defaultSlippage, defaultValue.current, true),
+      );
+    },
+    [debouncedSetValue],
+  );
 
   const handleInputBlur: FocusEventHandler<HTMLInputElement> = (event) => {
     setFocused(undefined);
 
     const { value } = event.target;
 
-    setValue(
-      'slippage',
-      formatSlippage(value || defaultSlippage, defaultValue.current),
+    const formattedValue = formatSlippage(
+      value || defaultSlippage,
+      defaultValue.current,
     );
-  };
+    setInputValue(formattedValue === defaultSlippage ? '' : formattedValue);
 
-  const customInputValue =
-    !slippage || slippage === defaultSlippage ? '' : slippage;
+    setValue('slippage', formattedValue);
+  };
 
   const badgeColor = isSlippageOutsideRecommendedLimits
     ? 'warning'
@@ -96,7 +108,7 @@ export const SlippageSettings: React.FC = () => {
               setFocused('input');
             }}
             onBlur={handleInputBlur}
-            value={customInputValue}
+            value={inputValue}
             autoComplete="off"
           />
         </SettingsFieldSet>

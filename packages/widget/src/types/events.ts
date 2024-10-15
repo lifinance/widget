@@ -75,4 +75,6 @@ export type SettingUpdated<
   setting: K;
   newValue: SettingsProps[K];
   oldValue: SettingsProps[K];
+  newSettings: SettingsProps;
+  oldSettings: SettingsProps;
 };

@@ -13,21 +13,21 @@ import {
 
 const emitChangedStateValues = (
   emitter: typeof widgetEvents,
-  oldStateValues: SettingsProps,
-  newStateValues: SettingsProps,
+  oldSettings: SettingsProps,
+  newSettings: SettingsProps,
 ) => {
-  if (!deepEqual(oldStateValues, newStateValues)) {
-    (Object.keys(oldStateValues) as (keyof SettingsProps)[]).forEach(
-      (toolKey) => {
-        if (!deepEqual(oldStateValues[toolKey], newStateValues[toolKey])) {
-          emitter.emit(WidgetEvent.SettingUpdated, {
-            setting: toolKey,
-            newValue: newStateValues[toolKey],
-            oldValue: oldStateValues[toolKey],
-          });
-        }
-      },
-    );
+  if (!deepEqual(oldSettings, newSettings)) {
+    (Object.keys(oldSettings) as (keyof SettingsProps)[]).forEach((toolKey) => {
+      if (!deepEqual(oldSettings[toolKey], newSettings[toolKey])) {
+        emitter.emit(WidgetEvent.SettingUpdated, {
+          setting: toolKey,
+          newValue: newSettings[toolKey],
+          oldValue: oldSettings[toolKey],
+          newSettings: newSettings,
+          oldSettings: oldSettings,
+        });
+      }
+    });
   }
 };
 
@@ -37,7 +37,7 @@ export const useSettingsActions = () => {
     (state) => ({
       setValue: state.setValue,
       getValue: state.getValue,
-      getStateValues: state.getStateValues,
+      getSettings: state.getSettings,
       reset: state.reset,
       setToolValue: state.setToolValue,
       toggleToolKeys: state.toggleToolKeys,
@@ -49,14 +49,19 @@ export const useSettingsActions = () => {
     (value, newValue) => {
       const setting = value as keyof SettingsProps;
       const oldValue = actions.getValue(setting);
+      const oldSettings = actions.getSettings();
 
       actions.setValue(setting, newValue);
+
+      const newSettings = actions.getSettings();
 
       if (newValue !== oldValue) {
         emitter.emit(WidgetEvent.SettingUpdated, {
           setting,
           newValue,
           oldValue,
+          newSettings,
+          oldSettings,
         });
       }
     },
@@ -106,39 +111,39 @@ export const useSettingsActions = () => {
 
   const resetWithEmittedEvents = useCallback(
     (bridges: string[], exchanges: string[]) => {
-      const oldStateValues = actions.getStateValues();
+      const oldSettings = actions.getSettings();
 
       actions.reset(bridges, exchanges);
 
-      const newStateValues = actions.getStateValues();
+      const newSettings = actions.getSettings();
 
-      emitChangedStateValues(emitter, oldStateValues, newStateValues);
+      emitChangedStateValues(emitter, oldSettings, newSettings);
     },
     [emitter, actions],
   );
 
   const setToolValueWithEmittedEvents = useCallback(
     (toolType: SettingsToolType, tool: string, value: boolean) => {
-      const oldStateValues = actions.getStateValues();
+      const oldSettings = actions.getSettings();
 
       actions.setToolValue(toolType, tool, value);
 
-      const newStateValues = actions.getStateValues();
+      const newSettings = actions.getSettings();
 
-      emitChangedStateValues(emitter, oldStateValues, newStateValues);
+      emitChangedStateValues(emitter, oldSettings, newSettings);
     },
     [emitter, actions],
   );
 
   const toggleToolKeysWithEmittedEvents = useCallback(
     (toolType: SettingsToolType, toolKeys: string[]) => {
-      const oldStateValues = actions.getStateValues();
+      const oldSettings = actions.getSettings();
 
       actions.toggleToolKeys(toolType, toolKeys);
 
-      const newStateValues = actions.getStateValues();
+      const newSettings = actions.getSettings();
 
-      emitChangedStateValues(emitter, oldStateValues, newStateValues);
+      emitChangedStateValues(emitter, oldSettings, newSettings);
     },
     [emitter, actions],
   );

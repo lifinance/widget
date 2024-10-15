@@ -36,7 +36,7 @@ export interface SettingsProps {
 export interface SettingsState extends SettingsProps {
   setValue: ValueSetter<SettingsProps>;
   getValue: ValueGetter<SettingsProps>;
-  getStateValues: () => SettingsProps;
+  getSettings: () => SettingsProps;
   initializeTools(
     toolType: SettingsToolType,
     tools: string[],

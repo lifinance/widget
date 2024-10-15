@@ -36,7 +36,7 @@ export const useSettingsStore = createWithEqualityFn<SettingsState>(
         set(() => ({
           [key]: value,
         })),
-      getStateValues: () => getStateValues(get()),
+      getSettings: () => getStateValues(get()),
       getValue: (key) => get()[key],
       initializeTools: (toolType, tools, reset) => {
         if (!tools.length) {
