@@ -5,9 +5,9 @@ import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSettingMonitor } from '../../../hooks/useSettingMonitor.js';
 import { useSettings } from '../../../stores/settings/useSettings.js';
+import { useSettingsActions } from '../../../stores/settings/useSettingsActions.js';
 import { defaultSlippage } from '../../../stores/settings/useSettingsStore.js';
 import { formatSlippage } from '../../../utils/format.js';
-import { useSettingsActions } from '../../stores/settings/useSettingsActions.js';
 import { BadgedValue } from '../SettingsCard/BadgedValue.js';
 import { SettingCardExpandable } from '../SettingsCard/SettingCardExpandable.js';
 import {

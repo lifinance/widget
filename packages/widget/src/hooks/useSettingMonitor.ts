@@ -25,9 +25,8 @@ export const useSettingMonitor = () => {
     shallow,
   );
   const { tools } = useTools();
-  const resetSettings = useSettingsStore((state) => state.reset);
   const config = useWidgetConfig();
-  const { setDefaultSettings } = useSettingsActions();
+  const { setDefaultSettings, resetSettings } = useSettingsActions();
 
   const isSlippageChanged = config.slippage
     ? Number(slippage) !== config.slippage * 100

@@ -1,3 +1,4 @@
+import { getStateValues } from '@lifi/widget/stores/settings/utils/getStateValues.js';
 import type { StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { createWithEqualityFn } from 'zustand/traditional';
@@ -35,8 +36,8 @@ export const useSettingsStore = createWithEqualityFn<SettingsState>(
         set(() => ({
           [key]: value,
         })),
+      getStateValues: () => getStateValues(get()),
       getValue: (key) => get()[key],
-      // TODO: check usage of setValues - I'm not sure that its used
       setValues: (values) =>
         set((state) => {
           const updatedState: SettingsProps = { ...state };
@@ -142,6 +143,7 @@ export const useSettingsStore = createWithEqualityFn<SettingsState>(
         }));
         get().initializeTools('Bridges', bridges, true);
         get().initializeTools('Exchanges', exchanges, true);
+        return { ...get() };
       },
     }),
     {

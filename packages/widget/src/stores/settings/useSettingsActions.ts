@@ -1,4 +1,5 @@
 import type { WidgetConfig } from '@lifi/widget';
+import { deepEqual } from '@lifi/widget/utils/deepEqual.js';
 import { useCallback } from 'react';
 import { shallow } from 'zustand/shallow';
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
@@ -15,6 +16,8 @@ export const useSettingsActions = () => {
     (state) => ({
       setValue: state.setValue,
       getValue: state.getValue,
+      getStateValues: state.getStateValues,
+      reset: state.reset,
     }),
     shallow,
   );
@@ -78,8 +81,34 @@ export const useSettingsActions = () => {
     [actions, setValueWithEmittedEvent],
   );
 
+  const resetWithEmittedEvents = useCallback(
+    (bridges: string[], exchanges: string[]) => {
+      const oldStateValues = actions.getStateValues();
+
+      actions.reset(bridges, exchanges);
+
+      const newStateValues = actions.getStateValues();
+
+      if (!deepEqual(oldStateValues, newStateValues)) {
+        (Object.keys(oldStateValues) as (keyof SettingsProps)[]).forEach(
+          (toolKey) => {
+            if (!deepEqual(oldStateValues[toolKey], newStateValues[toolKey])) {
+              emitter.emit(WidgetEvent.SettingUpdated, {
+                setting: toolKey,
+                newValue: newStateValues[toolKey],
+                oldValue: oldStateValues[toolKey],
+              });
+            }
+          },
+        );
+      }
+    },
+    [emitter, actions],
+  );
+
   return {
     setValue: setValueWithEmittedEvent,
     setDefaultSettings,
+    resetSettings: resetWithEmittedEvents,
   };
 };
