@@ -1,10 +1,10 @@
-import type { WidgetConfig } from '@lifi/widget';
-import { deepEqual } from '@lifi/widget/utils/deepEqual.js';
 import { useCallback } from 'react';
 import { shallow } from 'zustand/shallow';
 import type { widgetEvents } from '../../hooks/useWidgetEvents.js';
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
 import { WidgetEvent } from '../../types/events.js';
+import type { WidgetConfig } from '../../types/widget.js';
+import { deepEqual } from '../../utils/deepEqual.js';
 import type { SettingsProps, SettingsToolType, ValueSetter } from './types.js';
 import {
   defaultConfigurableSettings,
