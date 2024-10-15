@@ -5,11 +5,9 @@ import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSettingMonitor } from '../../../hooks/useSettingMonitor.js';
 import { useSettings } from '../../../stores/settings/useSettings.js';
-import {
-  defaultSlippage,
-  useSettingsStore,
-} from '../../../stores/settings/useSettingsStore.js';
+import { defaultSlippage } from '../../../stores/settings/useSettingsStore.js';
 import { formatSlippage } from '../../../utils/format.js';
+import { useSettingsActions } from '../../stores/settings/useSettingsActions.js';
 import { BadgedValue } from '../SettingsCard/BadgedValue.js';
 import { SettingCardExpandable } from '../SettingsCard/SettingCardExpandable.js';
 import {
@@ -24,7 +22,7 @@ export const SlippageSettings: React.FC = () => {
   const { isSlippageOutsideRecommendedLimits, isSlippageChanged } =
     useSettingMonitor();
   const { slippage } = useSettings(['slippage']);
-  const setValue = useSettingsStore((state) => state.setValue);
+  const { setValue } = useSettingsActions();
   const defaultValue = useRef(slippage);
   const [focused, setFocused] = useState<'input' | 'button'>();
 

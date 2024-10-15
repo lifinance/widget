@@ -1,8 +1,8 @@
 import { shallow } from 'zustand/shallow';
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
+import { useSettingsActions } from '../stores/settings/useSettingsActions.js';
 import {
   defaultConfigurableSettings,
-  setDefaultSettings,
   useSettingsStore,
 } from '../stores/settings/useSettingsStore.js';
 import { useTools } from './useTools.js';
@@ -27,6 +27,7 @@ export const useSettingMonitor = () => {
   const { tools } = useTools();
   const resetSettings = useSettingsStore((state) => state.reset);
   const config = useWidgetConfig();
+  const { setDefaultSettings } = useSettingsActions();
 
   const isSlippageChanged = config.slippage
     ? Number(slippage) !== config.slippage * 100

@@ -9,6 +9,8 @@ export type ValueSetter<S> = <K extends keyof S>(
   value: S[Extract<K, string>],
 ) => void;
 
+export type ValueGetter<S> = <K extends keyof S>(key: K) => S[K];
+
 export type ValuesSetter<S> = <K extends keyof S>(
   values: Record<K, S[Extract<K, string>]>,
 ) => void;
@@ -33,6 +35,7 @@ export interface SettingsProps {
 
 export interface SettingsState extends SettingsProps {
   setValue: ValueSetter<SettingsProps>;
+  getValue: ValueGetter<SettingsProps>;
   setValues: ValuesSetter<SettingsProps>;
   initializeTools(
     toolType: SettingsToolType,

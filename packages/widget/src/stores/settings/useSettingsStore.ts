@@ -1,7 +1,6 @@
 import type { StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { createWithEqualityFn } from 'zustand/traditional';
-import type { WidgetConfig } from '../../types/widget.js';
 import type { SettingsProps, SettingsState } from './types.js';
 import { SettingsToolTypes } from './types.js';
 
@@ -36,6 +35,8 @@ export const useSettingsStore = createWithEqualityFn<SettingsState>(
         set(() => ({
           [key]: value,
         })),
+      getValue: (key) => get()[key],
+      // TODO: check usage of setValues - I'm not sure that its used
       setValues: (values) =>
         set((state) => {
           const updatedState: SettingsProps = { ...state };
@@ -187,26 +188,3 @@ export const useSettingsStore = createWithEqualityFn<SettingsState>(
   ) as StateCreator<SettingsState, [], [], SettingsState>,
   Object.is,
 );
-
-export const setDefaultSettings = (config?: WidgetConfig) => {
-  const { slippage, routePriority, setValue, gasPrice } =
-    useSettingsStore.getState();
-  const defaultSlippage =
-    (config?.slippage || config?.sdkConfig?.routeOptions?.slippage || 0) * 100;
-  const defaultRoutePriority =
-    config?.routePriority || config?.sdkConfig?.routeOptions?.order;
-  defaultConfigurableSettings.slippage = (
-    defaultSlippage || defaultConfigurableSettings.slippage
-  )?.toString();
-  defaultConfigurableSettings.routePriority =
-    defaultRoutePriority || defaultConfigurableSettings.routePriority;
-  if (!slippage) {
-    setValue('slippage', defaultConfigurableSettings.slippage);
-  }
-  if (!routePriority) {
-    setValue('routePriority', defaultConfigurableSettings.routePriority);
-  }
-  if (!gasPrice) {
-    setValue('gasPrice', defaultConfigurableSettings.gasPrice);
-  }
-};
