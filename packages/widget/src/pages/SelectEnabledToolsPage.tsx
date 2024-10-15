@@ -1,4 +1,5 @@
 import type { ToolsResponse } from '@lifi/sdk';
+import { useSettingsActions } from '@lifi/widget/stores/settings/useSettingsActions.js';
 import {
   Check,
   CheckBoxOutlineBlankOutlined,
@@ -78,16 +79,15 @@ export const SelectEnabledToolsPage: React.FC<{
 }> = ({ type }) => {
   const typeKey = type.toLowerCase() as 'bridges' | 'exchanges';
   const { tools } = useTools();
-  const [enabledTools, disabledTools, setToolValue, toggleToolKeys] =
-    useSettingsStore(
-      (state) => [
-        state[`_enabled${type}`],
-        state[`disabled${type}`],
-        state.setToolValue,
-        state.toggleToolKeys,
-      ],
-      shallow,
-    );
+  const { setToolValue } = useSettingsActions();
+  const [enabledTools, disabledTools, toggleToolKeys] = useSettingsStore(
+    (state) => [
+      state[`_enabled${type}`],
+      state[`disabled${type}`],
+      state.toggleToolKeys,
+    ],
+    shallow,
+  );
 
   const { t } = useTranslation();
   const elementId = useDefaultElementId();

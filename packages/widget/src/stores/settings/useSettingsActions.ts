@@ -2,13 +2,34 @@ import type { WidgetConfig } from '@lifi/widget';
 import { deepEqual } from '@lifi/widget/utils/deepEqual.js';
 import { useCallback } from 'react';
 import { shallow } from 'zustand/shallow';
+import type { widgetEvents } from '../../hooks/useWidgetEvents.js';
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
 import { WidgetEvent } from '../../types/events.js';
-import type { SettingsProps, ValueSetter } from './types.js';
+import type { SettingsProps, SettingsToolType, ValueSetter } from './types.js';
 import {
   defaultConfigurableSettings,
   useSettingsStore,
 } from './useSettingsStore.js';
+
+const emitChangedStateValues = (
+  emitter: typeof widgetEvents,
+  oldStateValues: SettingsProps,
+  newStateValues: SettingsProps,
+) => {
+  if (!deepEqual(oldStateValues, newStateValues)) {
+    (Object.keys(oldStateValues) as (keyof SettingsProps)[]).forEach(
+      (toolKey) => {
+        if (!deepEqual(oldStateValues[toolKey], newStateValues[toolKey])) {
+          emitter.emit(WidgetEvent.SettingUpdated, {
+            setting: toolKey,
+            newValue: newStateValues[toolKey],
+            oldValue: oldStateValues[toolKey],
+          });
+        }
+      },
+    );
+  }
+};
 
 export const useSettingsActions = () => {
   const emitter = useWidgetEvents();
@@ -18,6 +39,8 @@ export const useSettingsActions = () => {
       getValue: state.getValue,
       getStateValues: state.getStateValues,
       reset: state.reset,
+      setToolValue: state.setToolValue,
+      toggleToolKeys: state.toggleToolKeys,
     }),
     shallow,
   );
@@ -40,7 +63,7 @@ export const useSettingsActions = () => {
     [emitter, actions],
   );
 
-  const setDefaultSettings = useCallback(
+  const setDefaultSettingsWithEmittedEvents = useCallback(
     (config?: WidgetConfig) => {
       const slippage = actions.getValue('slippage');
       const routePriority = actions.getValue('routePriority');
@@ -89,26 +112,42 @@ export const useSettingsActions = () => {
 
       const newStateValues = actions.getStateValues();
 
-      if (!deepEqual(oldStateValues, newStateValues)) {
-        (Object.keys(oldStateValues) as (keyof SettingsProps)[]).forEach(
-          (toolKey) => {
-            if (!deepEqual(oldStateValues[toolKey], newStateValues[toolKey])) {
-              emitter.emit(WidgetEvent.SettingUpdated, {
-                setting: toolKey,
-                newValue: newStateValues[toolKey],
-                oldValue: oldStateValues[toolKey],
-              });
-            }
-          },
-        );
-      }
+      emitChangedStateValues(emitter, oldStateValues, newStateValues);
+    },
+    [emitter, actions],
+  );
+
+  const setToolValueWithEmittedEvents = useCallback(
+    (toolType: SettingsToolType, tool: string, value: boolean) => {
+      const oldStateValues = actions.getStateValues();
+
+      actions.setToolValue(toolType, tool, value);
+
+      const newStateValues = actions.getStateValues();
+
+      emitChangedStateValues(emitter, oldStateValues, newStateValues);
+    },
+    [emitter, actions],
+  );
+
+  const toggleToolKeysWithEmittedEvents = useCallback(
+    (toolType: SettingsToolType, toolKeys: string[]) => {
+      const oldStateValues = actions.getStateValues();
+
+      actions.toggleToolKeys(toolType, toolKeys);
+
+      const newStateValues = actions.getStateValues();
+
+      emitChangedStateValues(emitter, oldStateValues, newStateValues);
     },
     [emitter, actions],
   );
 
   return {
     setValue: setValueWithEmittedEvent,
-    setDefaultSettings,
+    setDefaultSettings: setDefaultSettingsWithEmittedEvents,
     resetSettings: resetWithEmittedEvents,
+    setToolValue: setToolValueWithEmittedEvents,
+    toggleToolKeys: toggleToolKeysWithEmittedEvents,
   };
 };
