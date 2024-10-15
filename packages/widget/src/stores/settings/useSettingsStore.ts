@@ -38,16 +38,6 @@ export const useSettingsStore = createWithEqualityFn<SettingsState>(
         })),
       getStateValues: () => getStateValues(get()),
       getValue: (key) => get()[key],
-      setValues: (values) =>
-        set((state) => {
-          const updatedState: SettingsProps = { ...state };
-          for (const key in values) {
-            if (Object.hasOwn(state, key)) {
-              updatedState[key] = values[key];
-            }
-          }
-          return updatedState;
-        }),
       initializeTools: (toolType, tools, reset) => {
         if (!tools.length) {
           return;
