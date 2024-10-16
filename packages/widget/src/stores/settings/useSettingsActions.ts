@@ -60,22 +60,7 @@ export const useSettingsActions = () => {
   const setValueWithEmittedEvent = useCallback<ValueSetter<SettingsProps>>(
     (value, newValue) => {
       const setting = value as keyof SettingsProps;
-      const oldValue = actions.getValue(setting);
-      const oldSettings = actions.getSettings();
-
-      actions.setValue(setting, newValue);
-
-      const newSettings = actions.getSettings();
-
-      if (newValue !== oldValue) {
-        emitter.emit(WidgetEvent.SettingUpdated, {
-          setting,
-          newValue,
-          oldValue,
-          newSettings,
-          oldSettings,
-        });
-      }
+      emitEventOnChange(emitter, actions, actions.setValue, setting, newValue);
     },
     [emitter, actions],
   );
