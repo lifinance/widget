@@ -33,7 +33,7 @@ export interface SettingsProps {
   _enabledExchanges: Record<string, boolean>;
 }
 
-export interface SettingsState extends SettingsProps {
+export interface SettingsActions {
   setValue: ValueSetter<SettingsProps>;
   getValue: ValueGetter<SettingsProps>;
   getSettings: () => SettingsProps;
@@ -46,6 +46,8 @@ export interface SettingsState extends SettingsProps {
   toggleToolKeys(toolType: SettingsToolType, toolKeys: string[]): void;
   reset(bridges: string[], exchanges: string[]): void;
 }
+
+export type SettingsState = SettingsProps & SettingsActions;
 
 export interface SendToWalletState {
   showSendToWallet: boolean;

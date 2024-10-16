@@ -5,17 +5,29 @@ import { useWidgetEvents } from '../../hooks/useWidgetEvents.js';
 import { WidgetEvent } from '../../types/events.js';
 import type { WidgetConfig } from '../../types/widget.js';
 import { deepEqual } from '../../utils/deepEqual.js';
-import type { SettingsProps, SettingsToolType, ValueSetter } from './types.js';
+import type {
+  SettingsActions,
+  SettingsProps,
+  SettingsToolType,
+  ValueSetter,
+} from './types.js';
 import {
   defaultConfigurableSettings,
   useSettingsStore,
 } from './useSettingsStore.js';
 
-const emitChangedStateValues = (
+const emitEventOnChange = <T extends (...args: any[]) => any>(
   emitter: typeof widgetEvents,
-  oldSettings: SettingsProps,
-  newSettings: SettingsProps,
+  actions: Omit<SettingsActions, 'initializeTools'>,
+  settingFunction: T,
+  ...args: Parameters<T>
 ) => {
+  const oldSettings = actions.getSettings();
+
+  settingFunction(...args);
+
+  const newSettings = actions.getSettings();
+
   if (!deepEqual(oldSettings, newSettings)) {
     (Object.keys(oldSettings) as (keyof SettingsProps)[]).forEach((toolKey) => {
       if (!deepEqual(oldSettings[toolKey], newSettings[toolKey])) {
@@ -111,39 +123,34 @@ export const useSettingsActions = () => {
 
   const resetWithEmittedEvents = useCallback(
     (bridges: string[], exchanges: string[]) => {
-      const oldSettings = actions.getSettings();
-
-      actions.reset(bridges, exchanges);
-
-      const newSettings = actions.getSettings();
-
-      emitChangedStateValues(emitter, oldSettings, newSettings);
+      emitEventOnChange(emitter, actions, actions.reset, bridges, exchanges);
     },
     [emitter, actions],
   );
 
   const setToolValueWithEmittedEvents = useCallback(
     (toolType: SettingsToolType, tool: string, value: boolean) => {
-      const oldSettings = actions.getSettings();
-
-      actions.setToolValue(toolType, tool, value);
-
-      const newSettings = actions.getSettings();
-
-      emitChangedStateValues(emitter, oldSettings, newSettings);
+      emitEventOnChange(
+        emitter,
+        actions,
+        actions.setToolValue,
+        toolType,
+        tool,
+        value,
+      );
     },
     [emitter, actions],
   );
 
   const toggleToolKeysWithEmittedEvents = useCallback(
     (toolType: SettingsToolType, toolKeys: string[]) => {
-      const oldSettings = actions.getSettings();
-
-      actions.toggleToolKeys(toolType, toolKeys);
-
-      const newSettings = actions.getSettings();
-
-      emitChangedStateValues(emitter, oldSettings, newSettings);
+      emitEventOnChange(
+        emitter,
+        actions,
+        actions.toggleToolKeys,
+        toolType,
+        toolKeys,
+      );
     },
     [emitter, actions],
   );
