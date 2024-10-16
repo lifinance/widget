@@ -35,7 +35,7 @@ export const SlippageSettings: React.FC = () => {
     setValue('slippage', formatSlippage(defaultSlippage, defaultValue.current));
   };
 
-  const debouncedSetValue = useMemo(() => debounce(setValue, 1000), [setValue]);
+  const debouncedSetValue = useMemo(() => debounce(setValue, 500), [setValue]);
 
   const handleInputUpdate: ChangeEventHandler<HTMLInputElement> = useCallback(
     (event) => {
