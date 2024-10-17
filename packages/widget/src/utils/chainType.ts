@@ -1,4 +1,5 @@
-import { ChainId, ChainType, isSVMAddress, isUTXOAddress } from '@lifi/sdk'
+import { isUTXOAddress } from '@bigmi/core'
+import { ChainId, ChainType, isSVMAddress } from '@lifi/sdk'
 import { isAddress as isEVMAddress } from 'viem'
 
 const chainTypeAddressValidation = {

@@ -1,9 +1,7 @@
+import { getConnectorClient as getBigmiConnectorClient } from '@bigmi/client'
+import { useConfig as useBigmiConfig } from '@bigmi/react'
 import type { SDKProvider } from '@lifi/sdk'
 import { ChainType, EVM, Solana, UTXO, config } from '@lifi/sdk'
-import {
-  getConnectorClient as getBigmiConnectorClient,
-  useConfig as useBigmiConfig,
-} from '@lifi/wallet-management'
 import type { SignerWalletAdapter } from '@solana/wallet-adapter-base'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { useEffect } from 'react'

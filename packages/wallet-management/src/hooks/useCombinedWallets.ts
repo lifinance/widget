@@ -1,3 +1,4 @@
+import { useConfig as useBigmiConfig } from '@bigmi/react'
 import { ChainType } from '@lifi/sdk'
 import type { Theme } from '@mui/material'
 import { useMediaQuery } from '@mui/material'
@@ -19,7 +20,6 @@ import type { WalletConnector } from '../types/walletConnector.js'
 import { getConnectorIcon } from '../utils/getConnectorIcon.js'
 import { getWalletPriority } from '../utils/getWalletPriority.js'
 import { isWalletInstalled } from '../utils/isWalletInstalled.js'
-import { useConfig as useBigmiConfig } from '../utxo/hooks/useConfig.js'
 
 export type CombinedWalletConnector = {
   connector: WalletConnector

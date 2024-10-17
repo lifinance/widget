@@ -1,9 +1,9 @@
+import { useConfig as useBigmiConfig } from '@bigmi/react'
 import { ChainType } from '@lifi/sdk'
 import { useWallet } from '@solana/wallet-adapter-react'
 import type { Config } from 'wagmi'
 import { useConfig as useWagmiConfig } from 'wagmi'
 import { disconnect, getAccount } from 'wagmi/actions'
-import { useConfig as useBigmiConfig } from '../utxo/hooks/useConfig.js'
 import type { Account } from './useAccount.js'
 
 export const useAccountDisconnect = () => {

@@ -1,5 +1,5 @@
+import { BigmiContext } from '@bigmi/react'
 import { ChainType } from '@lifi/sdk'
-import { BigmiContext } from '@lifi/wallet-management'
 import { type FC, type PropsWithChildren, useContext } from 'react'
 import { isItemAllowed } from '../../utils/item.js'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'

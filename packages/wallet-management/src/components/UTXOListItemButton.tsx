@@ -1,3 +1,4 @@
+import { useConfig } from '@bigmi/react'
 import { ChainType } from '@lifi/sdk'
 import { Avatar, ListItemAvatar } from '@mui/material'
 import type { Connector } from 'wagmi'
@@ -10,7 +11,6 @@ import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js
 import { WalletManagementEvent } from '../types/events.js'
 import { getConnectorIcon } from '../utils/getConnectorIcon.js'
 import { isWalletInstalledAsync } from '../utils/isWalletInstalledAsync.js'
-import { useConfig } from '../utxo/hooks/useConfig.js'
 import type { WalletListItemButtonProps } from './types.js'
 
 interface UTXOListItemButtonProps extends WalletListItemButtonProps {

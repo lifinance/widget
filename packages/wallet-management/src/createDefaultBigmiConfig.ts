@@ -1,11 +1,8 @@
+import { createConfig, ctrl, phantom, unisat, xverse } from '@bigmi/client'
+import { bitcoin } from '@bigmi/core'
+import { ChainId } from '@lifi/sdk'
 import { http, createClient } from 'viem'
 import type { Config, CreateConnectorFn } from 'wagmi'
-import { bitcoin } from './utxo/chains/bitcoin.js'
-import { ctrl } from './utxo/connectors/ctrl.js'
-import { phantom } from './utxo/connectors/phantom.js'
-import { unisat } from './utxo/connectors/unisat.js'
-import { xverse } from './utxo/connectors/xverse.js'
-import { createConfig } from './utxo/createConfig.js'
 
 export interface DefaultBigmiConfigProps {
   bigmiConfig?: {
@@ -46,10 +43,10 @@ export function createDefaultBigmiConfig(
   }
 ): DefaultBigmiConfigResult {
   const connectors: CreateConnectorFn[] = [
-    phantom(),
-    xverse(),
-    unisat(),
-    ctrl(),
+    phantom({ chainId: ChainId.BTC }),
+    xverse({ chainId: ChainId.BTC }),
+    unisat({ chainId: ChainId.BTC }),
+    ctrl({ chainId: ChainId.BTC }),
     ...(props?.connectors ?? []),
   ]
 
