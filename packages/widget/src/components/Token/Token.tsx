@@ -134,7 +134,7 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
             enableImpactTokenTooltip ? (
               <Tooltip title={t('tooltip.priceImpact')} sx={{ cursor: 'help' }}>
                 <TextSecondary>
-                  {t('format.percent', { value: 123 })}
+                  {t('format.percent', { value: priceImpact })}
                 </TextSecondary>
               </Tooltip>
             ) : (
