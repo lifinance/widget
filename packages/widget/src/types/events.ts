@@ -1,5 +1,6 @@
 import type { ChainId, ChainType, Process, Route } from '@lifi/sdk';
 import type { DefaultValues } from '@lifi/widget/stores/form/types.js';
+import type { SettingsProps } from '../stores/settings/types.js';
 import type { NavigationRouteType } from '../utils/navigationRoutes.js';
 
 export enum WidgetEvent {
@@ -21,6 +22,7 @@ export enum WidgetEvent {
   WidgetExpanded = 'widgetExpanded',
   PageEntered = 'pageEntered',
   FormFieldChanged = 'formFieldChanged',
+  SettingUpdated = 'settingUpdated',
 }
 
 export type WidgetEvents = {
@@ -39,6 +41,7 @@ export type WidgetEvents = {
   walletConnected: WalletConnected;
   widgetExpanded: boolean;
   pageEntered: NavigationRouteType;
+  settingUpdated: SettingUpdated;
 };
 
 export interface ContactSupport {
@@ -76,3 +79,13 @@ export type FormFieldChanged = {
     oldValue: DefaultValues[K];
   };
 }[keyof DefaultValues];
+
+export type SettingUpdated<
+  K extends keyof SettingsProps = keyof SettingsProps,
+> = {
+  setting: K;
+  newValue: SettingsProps[K];
+  oldValue: SettingsProps[K];
+  newSettings: SettingsProps;
+  oldSettings: SettingsProps;
+};

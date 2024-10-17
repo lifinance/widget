@@ -9,6 +9,8 @@ export type ValueSetter<S> = <K extends keyof S>(
   value: S[Extract<K, string>],
 ) => void;
 
+export type ValueGetter<S> = <K extends keyof S>(key: K) => S[K];
+
 export type ValuesSetter<S> = <K extends keyof S>(
   values: Record<K, S[Extract<K, string>]>,
 ) => void;
@@ -31,9 +33,10 @@ export interface SettingsProps {
   _enabledExchanges: Record<string, boolean>;
 }
 
-export interface SettingsState extends SettingsProps {
+export interface SettingsActions {
   setValue: ValueSetter<SettingsProps>;
-  setValues: ValuesSetter<SettingsProps>;
+  getValue: ValueGetter<SettingsProps>;
+  getSettings: () => SettingsProps;
   initializeTools(
     toolType: SettingsToolType,
     tools: string[],
@@ -43,6 +46,8 @@ export interface SettingsState extends SettingsProps {
   toggleToolKeys(toolType: SettingsToolType, toolKeys: string[]): void;
   reset(bridges: string[], exchanges: string[]): void;
 }
+
+export type SettingsState = SettingsProps & SettingsActions;
 
 export interface SendToWalletState {
   showSendToWallet: boolean;
