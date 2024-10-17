@@ -1,53 +1,53 @@
-import { createContext, useContext, useRef } from 'react';
-import { createWithEqualityFn } from 'zustand/traditional';
+import { createContext, useContext, useRef } from 'react'
+import { createWithEqualityFn } from 'zustand/traditional'
 import type {
   SplitSubvariantProps,
   SplitSubvariantProviderProps,
   SplitSubvariantState,
   SplitSubvariantStore,
-} from './types.js';
+} from './types.js'
 
 export const SplitSubvariantStoreContext =
-  createContext<SplitSubvariantStore | null>(null);
+  createContext<SplitSubvariantStore | null>(null)
 
 const shouldRecreateStore = (
   store: SplitSubvariantStore,
-  props: SplitSubvariantProps,
+  props: SplitSubvariantProps
 ) => {
-  const { state } = store.getState();
-  return state !== props.state;
-};
+  const { state } = store.getState()
+  return state !== props.state
+}
 
 export function SplitSubvariantStoreProvider({
   children,
   ...props
 }: SplitSubvariantProviderProps) {
-  const storeRef = useRef<SplitSubvariantStore>();
+  const storeRef = useRef<SplitSubvariantStore>()
   if (!storeRef.current || shouldRecreateStore(storeRef.current, props)) {
-    storeRef.current = createSplitSubvariantStore(props);
+    storeRef.current = createSplitSubvariantStore(props)
   }
   return (
     <SplitSubvariantStoreContext.Provider value={storeRef.current}>
       {children}
     </SplitSubvariantStoreContext.Provider>
-  );
+  )
 }
 
 export function useSplitSubvariantStoreContext() {
-  const useStore = useContext(SplitSubvariantStoreContext);
+  const useStore = useContext(SplitSubvariantStoreContext)
   if (!useStore) {
     throw new Error(
-      `You forgot to wrap your component in <${SplitSubvariantStoreProvider.name}>.`,
-    );
+      `You forgot to wrap your component in <${SplitSubvariantStoreProvider.name}>.`
+    )
   }
-  return useStore;
+  return useStore
 }
 
 export function useSplitSubvariantStore<T>(
-  selector: (state: SplitSubvariantState) => T,
+  selector: (state: SplitSubvariantState) => T
 ): T {
-  const useStore = useSplitSubvariantStoreContext();
-  return useStore(selector);
+  const useStore = useSplitSubvariantStoreContext()
+  return useStore(selector)
 }
 
 export const createSplitSubvariantStore = ({ state }: SplitSubvariantProps) =>
@@ -57,8 +57,8 @@ export const createSplitSubvariantStore = ({ state }: SplitSubvariantProps) =>
       setState(state) {
         set(() => ({
           state,
-        }));
+        }))
       },
     }),
-    Object.is,
-  );
+    Object.is
+  )

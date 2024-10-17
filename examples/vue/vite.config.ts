@@ -1,7 +1,6 @@
-/* eslint-disable import/no-default-export */
-import { nodePolyfills } from 'vite-plugin-node-polyfills';
-import veauryVitePlugins from 'veaury/vite';
-import { defineConfig } from 'vite';
+import veauryVitePlugins from 'veaury/vite'
+import { defineConfig } from 'vite'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -30,4 +29,4 @@ export default defineConfig({
     port: 3000,
     open: true,
   },
-});
+})

@@ -1,14 +1,14 @@
-import { Box, Tooltip, Typography } from '@mui/material';
-import type { TFunction } from 'i18next';
-import type { ReactElement } from 'react';
-import { useTranslation } from 'react-i18next';
-import { formatUnits } from 'viem';
-import type { FeesBreakdown } from '../utils/fees.js';
+import { Box, Tooltip, Typography } from '@mui/material'
+import type { TFunction } from 'i18next'
+import type { ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
+import { formatUnits } from 'viem'
+import type { FeesBreakdown } from '../utils/fees.js'
 
 export interface FeeBreakdownTooltipProps {
-  gasCosts?: FeesBreakdown[];
-  feeCosts?: FeesBreakdown[];
-  children: ReactElement<any, any>;
+  gasCosts?: FeesBreakdown[]
+  feeCosts?: FeesBreakdown[]
+  children: ReactElement<any, any>
 }
 
 export const FeeBreakdownTooltip: React.FC<FeeBreakdownTooltipProps> = ({
@@ -16,7 +16,7 @@ export const FeeBreakdownTooltip: React.FC<FeeBreakdownTooltipProps> = ({
   feeCosts,
   children,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   return (
     <Tooltip
       title={
@@ -39,12 +39,12 @@ export const FeeBreakdownTooltip: React.FC<FeeBreakdownTooltipProps> = ({
     >
       {children}
     </Tooltip>
-  );
-};
+  )
+}
 
 export const getFeeBreakdownTypography = (
   fees: FeesBreakdown[],
-  t: TFunction,
+  t: TFunction
 ) =>
   fees.map((fee, index) => (
     <Typography
@@ -53,8 +53,11 @@ export const getFeeBreakdownTypography = (
       color="inherit"
       key={`${fee.token.address}${index}`}
     >
-      {t(`format.currency`, { value: fee.amountUSD })} (
-      {parseFloat(formatUnits(fee.amount, fee.token.decimals))?.toFixed(9)}{' '}
+      {t('format.currency', { value: fee.amountUSD })} (
+      {t('format.number', {
+        value: Number.parseFloat(formatUnits(fee.amount, fee.token.decimals)),
+        maximumFractionDigits: Math.min(fee.token.decimals, 9),
+      })}{' '}
       {fee.token.symbol})
     </Typography>
-  ));
+  ))

@@ -1,37 +1,37 @@
-import { useEffect } from 'react';
+import { useEffect } from 'react'
 import {
   useConfigVariant,
   useEditToolsActions,
   useSkeletonToolValues,
-} from '../../../store';
-import { CardRowContainer, CardValue, ExpandableCard } from '../../Card';
-import { Switch } from '../../Switch';
+} from '../../../store'
+import { CardRowContainer, CardValue, ExpandableCard } from '../../Card'
+import { Switch } from '../../Switch'
 
 export const SkeletonControl = () => {
-  const { isSkeletonShown, isSkeletonSideBySide } = useSkeletonToolValues();
-  const { setSkeletonShow, setSkeletonSideBySide } = useEditToolsActions();
-  const { variant } = useConfigVariant();
+  const { isSkeletonShown, isSkeletonSideBySide } = useSkeletonToolValues()
+  const { setSkeletonShow, setSkeletonSideBySide } = useEditToolsActions()
+  const { variant } = useConfigVariant()
 
   useEffect(() => {
     if (variant === 'drawer') {
-      setSkeletonShow(false);
+      setSkeletonShow(false)
     }
-  }, [variant, setSkeletonShow]);
+  }, [variant, setSkeletonShow])
   const handleShowHideChange: (
     _: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean,
-  ) => void = (_, checked) => {
-    setSkeletonShow(!isSkeletonShown);
-  };
+    checked: boolean
+  ) => void = (_, _checked) => {
+    setSkeletonShow(!isSkeletonShown)
+  }
 
   const handleSideBySideChange: (
     _: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean,
-  ) => void = (_, checked) => {
-    setSkeletonSideBySide(!isSkeletonSideBySide);
-  };
+    checked: boolean
+  ) => void = (_, _checked) => {
+    setSkeletonSideBySide(!isSkeletonSideBySide)
+  }
 
-  const disabled = variant === 'drawer';
+  const disabled = variant === 'drawer'
 
   return (
     <ExpandableCard
@@ -61,5 +61,5 @@ export const SkeletonControl = () => {
         />
       </CardRowContainer>
     </ExpandableCard>
-  );
-};
+  )
+}

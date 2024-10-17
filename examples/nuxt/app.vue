@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 <template>
   <ClientOnly>
     <WidgetContainer />

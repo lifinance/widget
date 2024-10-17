@@ -1,4 +1,4 @@
-import { InputBase, inputBaseClasses, styled } from '@mui/material';
+import { InputBase, inputBaseClasses, styled } from '@mui/material'
 
 export const Input = styled(InputBase)(({ theme }) => ({
   paddingRight: theme.spacing(2),
@@ -8,4 +8,4 @@ export const Input = styled(InputBase)(({ theme }) => ({
     boxSizing: 'inherit',
   },
   fontWeight: 500,
-}));
+}))

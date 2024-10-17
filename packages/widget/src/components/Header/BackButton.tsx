@@ -1,9 +1,9 @@
-import { ArrowBack } from '@mui/icons-material';
-import type { IconButtonProps } from '@mui/material';
-import { IconButton, useTheme } from '@mui/material';
+import { ArrowBack } from '@mui/icons-material'
+import type { IconButtonProps } from '@mui/material'
+import { IconButton, useTheme } from '@mui/material'
 
 export const BackButton: React.FC<IconButtonProps> = ({ onClick }) => {
-  const theme = useTheme();
+  const theme = useTheme()
 
   return (
     <IconButton
@@ -13,5 +13,5 @@ export const BackButton: React.FC<IconButtonProps> = ({ onClick }) => {
     >
       <ArrowBack />
     </IconButton>
-  );
-};
+  )
+}

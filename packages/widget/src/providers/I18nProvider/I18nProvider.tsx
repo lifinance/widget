@@ -1,21 +1,21 @@
-import type { i18n } from 'i18next';
-import { createInstance } from 'i18next';
-import { useMemo } from 'react';
-import { I18nextProvider } from 'react-i18next';
-import * as supportedLanguages from '../../i18n/index.js';
-import { useSettings } from '../../stores/settings/useSettings.js';
-import { deepMerge } from '../../utils/deepMerge.js';
-import { isItemAllowed } from '../../utils/item.js';
-import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js';
-import { currencyExtendedFormatter } from './currencyExtendedFormatter.js';
-import { percentFormatter } from './percentFormatter.js';
-import type { LanguageKey, LanguageTranslationResources } from './types.js';
+import type { i18n } from 'i18next'
+import { createInstance } from 'i18next'
+import { useMemo } from 'react'
+import { I18nextProvider } from 'react-i18next'
+import * as supportedLanguages from '../../i18n/index.js'
+import { useSettings } from '../../stores/settings/useSettings.js'
+import { deepMerge } from '../../utils/deepMerge.js'
+import { isItemAllowed } from '../../utils/item.js'
+import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
+import { currencyExtendedFormatter } from './currencyExtendedFormatter.js'
+import { percentFormatter } from './percentFormatter.js'
+import type { LanguageKey, LanguageTranslationResources } from './types.js'
 
 export const I18nProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
-  const { languageResources, languages } = useWidgetConfig();
-  const { language } = useSettings(['language']);
+  const { languageResources, languages } = useWidgetConfig()
+  const { language } = useSettings(['language'])
 
   const i18n = useMemo(() => {
     let resources = (Object.keys(supportedLanguages) as LanguageKey[])
@@ -25,25 +25,25 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
           translation: languageResources?.[lng]
             ? (deepMerge(
                 supportedLanguages[lng],
-                languageResources[lng],
+                languageResources[lng]
               ) as any)
             : supportedLanguages[lng],
-        };
-        return resources;
-      }, {} as LanguageTranslationResources);
+        }
+        return resources
+      }, {} as LanguageTranslationResources)
 
     if (languageResources) {
       resources = Object.keys(languageResources).reduce((resources, lng) => {
         if (!resources[lng]) {
           resources[lng] = {
             translation: languageResources[lng as LanguageKey]!,
-          };
+          }
         }
-        return resources;
-      }, resources);
+        return resources
+      }, resources)
     }
 
-    let i18n = createInstance({
+    const i18n = createInstance({
       lng: languages?.default || language,
       fallbackLng: resources.en
         ? 'en'
@@ -59,18 +59,15 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
         caches: [],
       },
       returnEmptyString: false,
-    });
+    })
 
-    i18n.init();
+    i18n.init()
 
-    i18n.services.formatter?.addCached(
-      'currencyExt',
-      currencyExtendedFormatter,
-    );
-    i18n.services.formatter?.addCached('percent', percentFormatter);
+    i18n.services.formatter?.addCached('currencyExt', currencyExtendedFormatter)
+    i18n.services.formatter?.addCached('percent', percentFormatter)
 
-    return i18n;
-  }, [language, languageResources, languages]);
+    return i18n
+  }, [language, languageResources, languages])
 
-  return <I18nextProvider i18n={i18n as i18n}>{children}</I18nextProvider>;
-};
+  return <I18nextProvider i18n={i18n as i18n}>{children}</I18nextProvider>
+}

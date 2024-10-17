@@ -5,21 +5,10 @@
     "declaration": true,
     "noEmit": false,
     "sourceMap": true,
-    "outDir": "dist/_esm",
+    "outDir": "dist/esm",
     "rootDir": "./src",
     "module": "ESNext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "bundler"
   },
-  "include": [
-    "./src/**/*",
-    "./src/**/*.json",
-  ],
-  "references": [
-    {
-      "path": "../wallet-management"
-    },
-    {
-      "path": "../widget"
-    }
-  ]
+  "include": ["./src/**/*", "./src/**/*.json"]
 }

@@ -3,7 +3,7 @@ import {
   listItemSecondaryActionClasses,
   listItemTextClasses,
   styled,
-} from '@mui/material';
+} from '@mui/material'
 
 export const ListItem = styled(MuiListItem)(({ theme }) => ({
   height: 64,
@@ -23,4 +23,4 @@ export const ListItem = styled(MuiListItem)(({ theme }) => ({
     overflow: 'hidden',
     whiteSpace: 'nowrap',
   },
-}));
+}))

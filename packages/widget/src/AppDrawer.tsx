@@ -1,5 +1,5 @@
-import { Drawer } from '@mui/material';
-import type { PropsWithChildren } from 'react';
+import { Drawer } from '@mui/material'
+import type { PropsWithChildren } from 'react'
 import {
   forwardRef,
   useCallback,
@@ -7,45 +7,45 @@ import {
   useMemo,
   useRef,
   useState,
-} from 'react';
-import type { WidgetDrawerContext } from './AppDrawerContext.js';
-import { DrawerContext } from './AppDrawerContext.js';
-import type { WidgetDrawerProps } from './types/widget.js';
+} from 'react'
+import type { WidgetDrawerContext } from './AppDrawerContext.js'
+import { DrawerContext } from './AppDrawerContext.js'
+import type { WidgetDrawerProps } from './types/widget.js'
 
 export interface WidgetDrawer {
-  isOpen(): void;
-  toggleDrawer(): void;
-  openDrawer(): void;
-  closeDrawer(): void;
+  isOpen(): void
+  toggleDrawer(): void
+  openDrawer(): void
+  closeDrawer(): void
 }
 
 export const AppDrawer = forwardRef<
   WidgetDrawer,
   PropsWithChildren<WidgetDrawerProps>
->(({ elementRef, open, onClose, config, children }, ref) => {
-  const openRef = useRef(Boolean(open));
-  const [drawerOpen, setDrawerOpen] = useState(Boolean(open));
+>(({ elementRef, open, onClose, children }, ref) => {
+  const openRef = useRef(Boolean(open))
+  const [drawerOpen, setDrawerOpen] = useState(Boolean(open))
 
   const toggleDrawer = useCallback(() => {
     setDrawerOpen((open) => {
-      openRef.current = !open;
-      return openRef.current;
-    });
+      openRef.current = !open
+      return openRef.current
+    })
     if (!openRef.current) {
-      onClose?.();
+      onClose?.()
     }
-  }, [onClose]);
+  }, [onClose])
 
   const openDrawer = useCallback(() => {
-    setDrawerOpen(true);
-    openRef.current = true;
-  }, []);
+    setDrawerOpen(true)
+    openRef.current = true
+  }, [])
 
   const closeDrawer = useCallback(() => {
-    setDrawerOpen(false);
-    openRef.current = false;
-    onClose?.();
-  }, [onClose]);
+    setDrawerOpen(false)
+    openRef.current = false
+    onClose?.()
+  }, [onClose])
 
   useImperativeHandle(
     ref,
@@ -55,15 +55,15 @@ export const AppDrawer = forwardRef<
       openDrawer,
       closeDrawer,
     }),
-    [closeDrawer, openDrawer, toggleDrawer],
-  );
+    [closeDrawer, openDrawer, toggleDrawer]
+  )
 
   const drawerContext: WidgetDrawerContext = useMemo(
     () => ({
       closeDrawer,
     }),
-    [closeDrawer],
-  );
+    [closeDrawer]
+  )
 
   return (
     <DrawerContext.Provider value={drawerContext}>
@@ -92,5 +92,5 @@ export const AppDrawer = forwardRef<
         {children}
       </Drawer>
     </DrawerContext.Provider>
-  );
-});
+  )
+})

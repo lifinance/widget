@@ -1,30 +1,36 @@
-import { ChainType } from '@lifi/sdk';
-import { useContext, useMemo } from 'react';
-import { EVMExternalContext } from './EVMExternalContext.js';
-import { SVMExternalContext } from './SVMExternalContext.js';
+import { ChainType } from '@lifi/sdk'
+import { useContext, useMemo } from 'react'
+import { EVMExternalContext } from './EVMExternalContext.js'
+import { SVMExternalContext } from './SVMExternalContext.js'
+import { UTXOExternalContext } from './UTXOExternalContext.js'
 
 interface ExternalWalletProvider {
-  hasExternalProvider: boolean;
-  providers: ChainType[];
+  hasExternalProvider: boolean
+  availableChainTypes: ChainType[]
 }
 
 export function useHasExternalWalletProvider(): ExternalWalletProvider {
-  const hasExternalEVMContext = useContext(EVMExternalContext);
-  const hasExternalSVMContext = useContext(SVMExternalContext);
+  const hasExternalEVMContext = useContext(EVMExternalContext)
+  const hasExternalSVMContext = useContext(SVMExternalContext)
+  const hasExternalUTXOContext = useContext(UTXOExternalContext)
 
   const providers = useMemo(() => {
-    const providers = [];
+    const providers: ChainType[] = []
     if (hasExternalEVMContext) {
-      providers.push(ChainType.EVM);
+      providers.push(ChainType.EVM)
     }
     if (hasExternalSVMContext) {
-      providers.push(ChainType.SVM);
+      providers.push(ChainType.SVM)
     }
-    return providers;
-  }, [hasExternalEVMContext, hasExternalSVMContext]);
+    if (hasExternalUTXOContext) {
+      providers.push(ChainType.UTXO)
+    }
+    return providers
+  }, [hasExternalEVMContext, hasExternalSVMContext, hasExternalUTXOContext])
 
   return {
-    hasExternalProvider: hasExternalEVMContext || hasExternalSVMContext,
-    providers,
-  };
+    hasExternalProvider:
+      hasExternalEVMContext || hasExternalSVMContext || hasExternalUTXOContext,
+    availableChainTypes: providers,
+  }
 }

@@ -3,7 +3,7 @@ import {
   alpha,
   styled,
   switchClasses,
-} from '@mui/material';
+} from '@mui/material'
 
 export const Switch = styled(MuiSwitch)(({ theme }) => ({
   width: 42,
@@ -56,4 +56,4 @@ export const Switch = styled(MuiSwitch)(({ theme }) => ({
       duration: theme.transitions.duration.standard,
     }),
   },
-}));
+}))

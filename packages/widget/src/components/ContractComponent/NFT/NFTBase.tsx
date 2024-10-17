@@ -1,8 +1,8 @@
-import { Box, Link, Skeleton, Typography } from '@mui/material';
-import { useTranslation } from 'react-i18next';
-import { Token } from '../../Token/Token.js';
-import { PreviewAvatar } from './NFT.style.js';
-import type { NFTProps } from './types.js';
+import { Box, Link, Skeleton, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
+import { Token } from '../../Token/Token.js'
+import { PreviewAvatar } from './NFT.style.js'
+import type { NFTProps } from './types.js'
 
 export const NFTBase: React.FC<NFTProps> = ({
   imageUrl,
@@ -12,7 +12,7 @@ export const NFTBase: React.FC<NFTProps> = ({
   owner,
   token,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   return (
     <Box p={2}>
       <Box display="flex">
@@ -60,5 +60,5 @@ export const NFTBase: React.FC<NFTProps> = ({
       </Box>
       <Token token={token} isLoading={isLoading} mt={2} />
     </Box>
-  );
-};
+  )
+}

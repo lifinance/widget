@@ -1,5 +1,5 @@
-import { alpha, styled, switchClasses } from '@mui/material';
-import { Switch } from '../Switch.js';
+import { alpha, styled, switchClasses } from '@mui/material'
+import { Switch } from '../Switch.js'
 
 export const InfoMessageSwitch = styled(Switch)(({ theme }) => ({
   [`.${switchClasses.switchBase}`]: {
@@ -18,4 +18,4 @@ export const InfoMessageSwitch = styled(Switch)(({ theme }) => ({
           : alpha(theme.palette.info.main, 0.84),
     },
   },
-}));
+}))

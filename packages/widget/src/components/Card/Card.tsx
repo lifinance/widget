@@ -1,10 +1,10 @@
-import type { CardProps as MuiCardProps } from '@mui/material';
-import { Card as MuiCard, alpha, darken, lighten, styled } from '@mui/material';
+import type { CardProps as MuiCardProps } from '@mui/material'
+import { Card as MuiCard, alpha, darken, lighten, styled } from '@mui/material'
 
 export interface CardProps extends MuiCardProps {
-  type?: 'default' | 'selected' | 'error';
-  selectionColor?: 'primary' | 'secondary';
-  indented?: boolean;
+  type?: 'default' | 'selected' | 'error'
+  selectionColor?: 'primary' | 'secondary'
+  indented?: boolean
 }
 
 export const Card = styled(MuiCard, {
@@ -50,5 +50,5 @@ export const Card = styled(MuiCard, {
       borderStyle: 'solid',
       borderColor: theme.palette.error.main,
     }),
-  };
-});
+  }
+})

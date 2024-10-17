@@ -1,21 +1,21 @@
-import { cssBundleHref } from '@remix-run/css-bundle';
-import type { LinksFunction } from '@remix-run/node';
+import { cssBundleHref } from '@remix-run/css-bundle'
+import type { LinksFunction } from '@remix-run/node'
 import {
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-} from '@remix-run/react';
+} from '@remix-run/react'
 
 // Note: at the time of writing Remix's suggestion for dealing with global polyfills
 // didn't seem to work. Have put this in place as a workaround.
-import { Buffer as BufferPolyfill } from 'buffer';
-globalThis.Buffer = BufferPolyfill;
+import { Buffer as BufferPolyfill } from 'node:buffer'
+globalThis.Buffer = BufferPolyfill
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
-];
+]
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -32,9 +32,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Scripts />
       </body>
     </html>
-  );
+  )
 }
 
 export default function App() {
-  return <Outlet />;
+  return <Outlet />
 }

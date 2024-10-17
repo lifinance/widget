@@ -1,12 +1,12 @@
-import { Box, alpha, darken, lighten, styled } from '@mui/material';
+import { Box, alpha, darken, lighten, styled } from '@mui/material'
 import {
   getInfoBackgroundColor,
   getWarningBackgroundColor,
-} from '../../utils/colors.js';
-import type { Severity } from './types.js';
+} from '../../utils/colors.js'
+import type { Severity } from './types.js'
 
 interface AlertSeverityProps {
-  severity: Severity;
+  severity: Severity
 }
 
 export const AlertMessageCard = styled(Box, {
@@ -21,7 +21,7 @@ export const AlertMessageCard = styled(Box, {
     severity === 'warning'
       ? getWarningBackgroundColor(theme)
       : getInfoBackgroundColor(theme),
-}));
+}))
 
 export const AlertMessageCardTitle = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'severity',
@@ -39,4 +39,4 @@ export const AlertMessageCardTitle = styled(Box, {
       : theme.palette.mode === 'light'
         ? theme.palette.info.main
         : lighten(theme.palette.info.main, 0.24),
-}));
+}))

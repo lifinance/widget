@@ -1,20 +1,20 @@
-import type { FieldNames, FormState, WidgetDrawer } from '@lifi/widget';
-import { LiFiWidget, WidgetSkeleton } from '@lifi/widget';
-import { useCallback, useEffect, useRef } from 'react';
-import { useConfig, useSkeletonToolValues } from '../../store';
-import { useFormValues } from '../../store/editTools/uesFormValues';
-import { WidgetViewContainer } from './WidgetViewContainer';
+import type { FieldNames, FormState, WidgetDrawer } from '@lifi/widget'
+import { LiFiWidget, WidgetSkeleton } from '@lifi/widget'
+import { useCallback, useEffect, useRef } from 'react'
+import { useConfig, useSkeletonToolValues } from '../../store'
+import { useFormValues } from '../../store/editTools/uesFormValues'
+import { WidgetViewContainer } from './WidgetViewContainer'
 
 export function WidgetView() {
-  const { config } = useConfig();
-  const drawerRef = useRef<WidgetDrawer>(null);
-  const formRef = useRef<FormState>(null);
-  const { isSkeletonShown, isSkeletonSideBySide } = useSkeletonToolValues();
-  const { formValues } = useFormValues();
+  const { config } = useConfig()
+  const drawerRef = useRef<WidgetDrawer>(null)
+  const formRef = useRef<FormState>(null)
+  const { isSkeletonShown, isSkeletonSideBySide } = useSkeletonToolValues()
+  const { formValues } = useFormValues()
 
   const toggleDrawer = useCallback(() => {
-    drawerRef?.current?.toggleDrawer();
-  }, []);
+    drawerRef?.current?.toggleDrawer()
+  }, [])
 
   useEffect(() => {
     if (formRef.current && formValues) {
@@ -22,11 +22,11 @@ export function WidgetView() {
         if (fieldName !== 'formUpdateKey') {
           formRef.current?.setFieldValue(fieldName as FieldNames, fieldValue, {
             setUrlSearchParam: true,
-          });
+          })
         }
-      });
+      })
     }
-  }, [formRef, formValues]);
+  }, [formValues])
 
   return (
     <WidgetViewContainer toggleDrawer={toggleDrawer}>
@@ -41,5 +41,5 @@ export function WidgetView() {
       ) : null}
       {isSkeletonShown ? <WidgetSkeleton config={config} /> : null}
     </WidgetViewContainer>
-  );
+  )
 }

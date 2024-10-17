@@ -1,20 +1,20 @@
-import type { Theme } from '@mui/material';
-import { alpha, decomposeColor, recomposeColor } from '@mui/material';
+import type { Theme } from '@mui/material'
+import { alpha, decomposeColor, recomposeColor } from '@mui/material'
 
 export const getContrastAlphaColor = (theme: Theme, value: number) =>
   theme.palette.mode === 'light'
     ? alpha(theme.palette.common.black, value)
-    : alpha(theme.palette.common.white, value);
+    : alpha(theme.palette.common.white, value)
 
 export const getWarningBackgroundColor = (theme: Theme) =>
   theme.palette.mode === 'light'
     ? alpha(theme.palette.warning.main, 0.32)
-    : alpha(theme.palette.warning.main, 0.16);
+    : alpha(theme.palette.warning.main, 0.16)
 
 export const getInfoBackgroundColor = (theme: Theme) =>
   theme.palette.mode === 'light'
     ? alpha(theme.palette.info.main, 0.12)
-    : alpha(theme.palette.info.main, 0.16);
+    : alpha(theme.palette.info.main, 0.16)
 
 /**
  * https://github.com/mui/material-ui/blob/next/packages/mui-system/src/colorManipulator/colorManipulator.js
@@ -30,24 +30,24 @@ export function blend(
   background: string,
   overlay: string,
   opacity: number,
-  gamma: number = 1.0,
+  gamma = 1.0
 ) {
   const blendChannel = (b: number, o: number) =>
     Math.round(
-      (b ** (1 / gamma) * (1 - opacity) + o ** (1 / gamma) * opacity) ** gamma,
-    );
+      (b ** (1 / gamma) * (1 - opacity) + o ** (1 / gamma) * opacity) ** gamma
+    )
 
-  const backgroundColor = decomposeColor(background);
-  const overlayColor = decomposeColor(overlay);
+  const backgroundColor = decomposeColor(background)
+  const overlayColor = decomposeColor(overlay)
 
   const rgb: [number, number, number] = [
     blendChannel(backgroundColor.values[0], overlayColor.values[0]),
     blendChannel(backgroundColor.values[1], overlayColor.values[1]),
     blendChannel(backgroundColor.values[2], overlayColor.values[2]),
-  ];
+  ]
 
   return recomposeColor({
     type: 'rgb',
     values: rgb,
-  });
+  })
 }

@@ -1,23 +1,23 @@
-import { CssBaseline, ThemeProvider } from '@mui/material';
-import type { PropsWithChildren } from 'react';
-import { useThemeMode } from '../../hooks';
-import { usePlaygroundSettingValues } from '../../store';
-import { theme } from './theme';
+import { CssBaseline, ThemeProvider } from '@mui/material'
+import type { PropsWithChildren } from 'react'
+import { useThemeMode } from '../../hooks'
+import { usePlaygroundSettingValues } from '../../store'
+import { theme } from './theme'
 import {
   darkComponents,
   darkPalette,
   lightComponents,
   lightPalette,
-} from './themeOverrides';
+} from './themeOverrides'
 
 const appearancePaletteOverrides = {
   light: lightPalette,
   dark: darkPalette,
-};
+}
 
 export const PlaygroundThemeProvider = ({ children }: PropsWithChildren) => {
-  const themeMode = useThemeMode();
-  const { viewportColor } = usePlaygroundSettingValues();
+  const themeMode = useThemeMode()
+  const { viewportColor } = usePlaygroundSettingValues()
 
   const appTheme = {
     ...theme,
@@ -36,12 +36,12 @@ export const PlaygroundThemeProvider = ({ children }: PropsWithChildren) => {
       ...theme.components,
       ...(themeMode === 'dark' ? darkComponents : lightComponents),
     },
-  };
+  }
 
   return (
     <ThemeProvider theme={appTheme}>
       <CssBaseline enableColorScheme />
       {children}
     </ThemeProvider>
-  );
-};
+  )
+}

@@ -1,55 +1,54 @@
-import type { MouseEventHandler } from 'react';
-import { useEffect, useState } from 'react';
+import type { MouseEventHandler } from 'react'
+import { useEffect, useState } from 'react'
 import {
   defaultDrawerWidth,
   useCodeToolValues,
   useDrawerToolValues,
   useEditToolsActions,
-} from '../../store';
+} from '../../store'
 import {
   DrawerHandleButton,
   DrawerIconLeft,
   DrawerIconRight,
-} from './DrawerControls.style';
+} from './DrawerControls.style'
 
 export const DrawerHandle = () => {
-  const [isDrawerResizing, setIsDrawerResizing] = useState(false);
-  const [drawResizeStartX, setDrawResizeStartX] = useState(0);
-  const { codeControlTab } = useCodeToolValues();
-  const { isDrawerOpen, drawerWidth, visibleControls } = useDrawerToolValues();
-  const { setCodeDrawerWidth } = useEditToolsActions();
+  const [isDrawerResizing, setIsDrawerResizing] = useState(false)
+  const [drawResizeStartX, setDrawResizeStartX] = useState(0)
+  const { codeControlTab } = useCodeToolValues()
+  const { isDrawerOpen, drawerWidth, visibleControls } = useDrawerToolValues()
+  const { setCodeDrawerWidth } = useEditToolsActions()
 
   const drawerHandleOnMouseDown: MouseEventHandler<HTMLButtonElement> = (e) => {
-    setIsDrawerResizing(true);
-    setDrawResizeStartX(e.clientX);
-  };
-
-  const drawerHandleOnMouseUp = () => {
-    setIsDrawerResizing(false);
-    setDrawResizeStartX(0);
-  };
+    setIsDrawerResizing(true)
+    setDrawResizeStartX(e.clientX)
+  }
 
   useEffect(() => {
+    const drawerHandleOnMouseUp = () => {
+      setIsDrawerResizing(false)
+      setDrawResizeStartX(0)
+    }
     const handleMousemove = (e: MouseEvent) => {
       if (!isDrawerResizing) {
-        return;
+        return
       }
 
-      const newDrawerWidth = drawResizeStartX + (e.clientX - drawResizeStartX);
+      const newDrawerWidth = drawResizeStartX + (e.clientX - drawResizeStartX)
 
       setCodeDrawerWidth(
         newDrawerWidth >= defaultDrawerWidth
           ? drawResizeStartX + (e.clientX - drawResizeStartX)
-          : defaultDrawerWidth,
-      );
-    };
-    document.addEventListener('mousemove', handleMousemove);
-    document.addEventListener('mouseup', drawerHandleOnMouseUp);
+          : defaultDrawerWidth
+      )
+    }
+    document.addEventListener('mousemove', handleMousemove)
+    document.addEventListener('mouseup', drawerHandleOnMouseUp)
     return () => {
-      document.removeEventListener('mousemove', handleMousemove);
-      document.removeEventListener('mouseup', drawerHandleOnMouseUp);
-    };
-  }, [isDrawerResizing, drawResizeStartX, setCodeDrawerWidth]);
+      document.removeEventListener('mousemove', handleMousemove)
+      document.removeEventListener('mouseup', drawerHandleOnMouseUp)
+    }
+  }, [isDrawerResizing, drawResizeStartX, setCodeDrawerWidth])
 
   return visibleControls === 'code' &&
     codeControlTab === 'config' &&
@@ -77,5 +76,5 @@ export const DrawerHandle = () => {
         />
       ) : null}
     </>
-  ) : null;
-};
+  ) : null
+}

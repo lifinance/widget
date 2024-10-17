@@ -1,9 +1,9 @@
-import { SwapHoriz } from '@mui/icons-material';
-import { Container, Typography } from '@mui/material';
-import { useTranslation } from 'react-i18next';
+import { SwapHoriz } from '@mui/icons-material'
+import { Container, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 export const ActiveTransactionsEmpty: React.FC = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   return (
     <Container
       sx={{
@@ -30,5 +30,5 @@ export const ActiveTransactionsEmpty: React.FC = () => {
         {t('info.message.emptyActiveTransactions')}
       </Typography>
     </Container>
-  );
-};
+  )
+}

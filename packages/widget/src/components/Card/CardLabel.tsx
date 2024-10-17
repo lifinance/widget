@@ -1,5 +1,5 @@
-import { Box, Typography, getContrastRatio, styled } from '@mui/material';
-import { blend } from '../../utils/colors.js';
+import { Box, Typography, getContrastRatio, styled } from '@mui/material'
+import { blend } from '../../utils/colors.js'
 
 export const CardLabel = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'type',
@@ -11,19 +11,19 @@ export const CardLabel = styled(Box, {
         : blend(
             theme.palette.background.paper,
             theme.palette.secondary.main,
-            0.8,
+            0.8
           )
       : theme.palette.mode === 'light'
         ? blend(
             theme.palette.background.paper,
             theme.palette.common.black,
-            0.12,
+            0.12
           )
         : blend(
             theme.palette.background.paper,
             theme.palette.common.white,
-            0.16,
-          );
+            0.16
+          )
   return {
     backgroundColor,
     borderRadius: theme.shape.borderRadius,
@@ -40,8 +40,8 @@ export const CardLabel = styled(Box, {
     userSelect: 'none',
     fontSize: '1rem',
     marginRight: theme.spacing(1),
-  };
-});
+  }
+})
 
 export const CardLabelTypography = styled(Typography, {
   shouldForwardProp: (prop) => prop !== 'type',
@@ -53,4 +53,4 @@ export const CardLabelTypography = styled(Typography, {
   fontSize: 12,
   lineHeight: 1,
   fontWeight: '600',
-}));
+}))

@@ -1,13 +1,13 @@
-import { SearchOff } from '@mui/icons-material';
+import { SearchOff } from '@mui/icons-material'
 import {
   NotFoundContainer,
   NotFoundIconContainer,
   NotFoundMessage,
-} from './SearchNotFound.style.js';
+} from './SearchNotFound.style.js'
 
 interface SearchNotFoundProps {
-  message: string;
-  adjustForStickySearchInput?: boolean;
+  message: string
+  adjustForStickySearchInput?: boolean
 }
 
 export const SearchNotFound = ({
@@ -20,4 +20,4 @@ export const SearchNotFound = ({
     </NotFoundIconContainer>
     <NotFoundMessage>{message}</NotFoundMessage>
   </NotFoundContainer>
-);
+)

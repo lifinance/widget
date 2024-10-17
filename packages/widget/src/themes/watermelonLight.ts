@@ -1,4 +1,4 @@
-import type { WidgetTheme } from '../types/widget.js';
+import type { WidgetTheme } from '../types/widget.js'
 
 export const watermelonLightTheme: WidgetTheme = {
   palette: {
@@ -61,4 +61,4 @@ export const watermelonLightTheme: WidgetTheme = {
     //   },
     // },
   },
-} as WidgetTheme;
+} as WidgetTheme

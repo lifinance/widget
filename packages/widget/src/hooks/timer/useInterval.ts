@@ -1,21 +1,21 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react'
 
-export function useInterval(callback: Function, delay: number) {
-  const callbacRef = useRef<Function>();
+export function useInterval(callback: () => void, delay: number) {
+  const callbacRef = useRef<() => void>()
 
   // update callback function with current render callback that has access to latest props and state
   useEffect(() => {
-    callbacRef.current = callback;
-  });
+    callbacRef.current = callback
+  })
 
   useEffect(() => {
     if (!delay) {
-      return () => {};
+      return () => {}
     }
 
     const interval = setInterval(() => {
-      callbacRef.current && callbacRef.current();
-    }, delay);
-    return () => clearInterval(interval);
-  }, [delay]);
+      callbacRef.current?.()
+    }, delay)
+    return () => clearInterval(interval)
+  }, [delay])
 }

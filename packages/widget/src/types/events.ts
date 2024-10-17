@@ -1,5 +1,5 @@
-import type { ChainId, ChainType, Process, Route } from '@lifi/sdk';
-import type { NavigationRouteType } from '../utils/navigationRoutes.js';
+import type { ChainId, ChainType, Process, Route } from '@lifi/sdk'
+import type { NavigationRouteType } from '../utils/navigationRoutes.js'
 
 export enum WidgetEvent {
   RouteExecutionStarted = 'routeExecutionStarted',
@@ -16,52 +16,58 @@ export enum WidgetEvent {
    * @deprecated Use `PageEntered` event instead.
    */
   ReviewTransactionPageEntered = 'reviewTransactionPageEntered',
+  /**
+   * @deprecated use useWalletManagementEvents hook.
+   */
   WalletConnected = 'walletConnected',
   WidgetExpanded = 'widgetExpanded',
   PageEntered = 'pageEntered',
 }
 
 export type WidgetEvents = {
-  routeExecutionStarted: Route;
-  routeExecutionUpdated: RouteExecutionUpdate;
-  routeExecutionCompleted: Route;
-  routeExecutionFailed: RouteExecutionUpdate;
-  routeHighValueLoss: RouteHighValueLossUpdate;
-  availableRoutes: Route[];
-  contactSupport: ContactSupport;
-  sourceChainTokenSelected: ChainTokenSelected;
-  destinationChainTokenSelected: ChainTokenSelected;
-  sendToWalletToggled: boolean;
-  reviewTransactionPageEntered?: Route;
-  walletConnected: WalletConnected;
-  widgetExpanded: boolean;
-  pageEntered: NavigationRouteType;
-};
+  routeExecutionStarted: Route
+  routeExecutionUpdated: RouteExecutionUpdate
+  routeExecutionCompleted: Route
+  routeExecutionFailed: RouteExecutionUpdate
+  routeHighValueLoss: RouteHighValueLossUpdate
+  availableRoutes: Route[]
+  contactSupport: ContactSupport
+  sourceChainTokenSelected: ChainTokenSelected
+  destinationChainTokenSelected: ChainTokenSelected
+  sendToWalletToggled: boolean
+  reviewTransactionPageEntered?: Route
+  /**
+   * @deprecated use useWalletManagementEvents hook.
+   */
+  walletConnected: WalletConnected
+  widgetExpanded: boolean
+  pageEntered: NavigationRouteType
+}
 
 export interface ContactSupport {
-  supportId?: string;
+  supportId?: string
 }
 
 export interface RouteHighValueLossUpdate {
-  fromAmountUSD: number;
-  toAmountUSD: number;
-  gasCostUSD?: number;
-  feeCostUSD?: number;
-  valueLoss: number;
+  fromAmountUSD: number
+  toAmountUSD: number
+  gasCostUSD?: number
+  feeCostUSD?: number
+  valueLoss: number
 }
 
 export interface RouteExecutionUpdate {
-  route: Route;
-  process: Process;
+  route: Route
+  process: Process
 }
 
 export interface ChainTokenSelected {
-  chainId: ChainId;
-  tokenAddress: string;
+  chainId: ChainId
+  tokenAddress: string
 }
 
 export interface WalletConnected {
-  address?: string;
-  chainId?: number;
-  chainType?: ChainType;
+  address?: string
+  chainId?: number
+  chainType?: ChainType
 }

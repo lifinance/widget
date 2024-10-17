@@ -16,10 +16,10 @@
     "bridgeReview": "Review bridge",
     "buy": "Buy",
     "cancel": "Cancel",
-    "changeWallet": "Change wallet",
     "checkoutReview": "Review purchase",
     "close": "Close",
     "confirm": "Confirm",
+    "connectAnotherWallet": "Connect another wallet",
     "connectWallet": "Connect wallet",
     "contactSupport": "Contact support",
     "continue": "Continue",
@@ -142,6 +142,7 @@
       "signatureRejected": "Your signature is required to complete the transaction. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
       "slippageThreshold": "The slippage is larger than the defined threshold. Please request a new quote.",
       "transactionCanceled": "Transaction was canceled.",
+      "transactionConflict": "Transaction couldn't be processed because it's conflicting with another pending transaction using the same funds. Please wait for the pending transaction to be confirmed or check your transaction history before trying again.",
       "transactionExpired": "The block height has exceeded the maximum allowed limit or blockhash is no longer recent enough.",
       "transactionFailed": "Please check the block explorer for more information.",
       "transactionNotSent": "Transaction was not sent.",
@@ -161,6 +162,7 @@
       "signatureRejected": "Signature required",
       "slippageNotMet": "Slippage conditions not met",
       "transactionCanceled": "Transaction canceled",
+      "transactionConflict": "Transaction conflict",
       "transactionExpired": "Transaction expired",
       "transactionFailed": "Transaction failed",
       "transactionSimulationFailed": "Transaction simulation failed",
@@ -309,8 +311,5 @@
     "noBookmarkedWallets": "No bookmarked wallets",
     "noConnectedWallets": "No connected wallets",
     "noRecentWallets": "No recent wallets"
-  },
-  "wallet": {
-    "extensionNotFound": "Please make sure that only the {{name}} browser extension is active before choosing this wallet."
   }
 }

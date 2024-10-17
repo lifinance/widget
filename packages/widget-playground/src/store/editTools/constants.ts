@@ -1,1 +1,1 @@
-export const defaultDrawerWidth = 392;
+export const defaultDrawerWidth = 392

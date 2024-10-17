@@ -1,6 +1,6 @@
-import { shallow } from 'zustand/shallow';
-import type { FormActions } from './types.js';
-import { useFormStore } from './useFormStore.js';
+import { shallow } from 'zustand/shallow'
+import type { FormActions } from './types.js'
+import { useFormStore } from './useFormStore.js'
 
 export const useFieldActions = () => {
   const actions = useFormStore<FormActions>(
@@ -13,8 +13,8 @@ export const useFieldActions = () => {
       setFieldValue: store.setFieldValue,
       setUserAndDefaultValues: store.setUserAndDefaultValues,
     }),
-    shallow,
-  );
+    shallow
+  )
 
-  return actions;
-};
+  return actions
+}

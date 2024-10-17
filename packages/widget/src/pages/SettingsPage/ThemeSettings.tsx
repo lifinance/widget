@@ -1,24 +1,24 @@
-import { BrightnessAuto, LightMode, Nightlight } from '@mui/icons-material';
-import { Tooltip } from '@mui/material';
-import { useTranslation } from 'react-i18next';
-import { CardValue } from '../../components/Card/CardButton.style.js';
-import { CardTabs, Tab } from '../../components/Tabs/Tabs.style.js';
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
-import { useAppearance } from '../../stores/settings/useAppearance.js';
-import type { Appearance } from '../../types/widget.js';
-import { HiddenUI } from '../../types/widget.js';
-import { SettingCardExpandable } from './SettingsCard/SettingCardExpandable.js';
+import { BrightnessAuto, LightMode, Nightlight } from '@mui/icons-material'
+import { Tooltip } from '@mui/material'
+import { useTranslation } from 'react-i18next'
+import { CardValue } from '../../components/Card/CardButton.style.js'
+import { CardTabs, Tab } from '../../components/Tabs/Tabs.style.js'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { useAppearance } from '../../stores/settings/useAppearance.js'
+import type { Appearance } from '../../types/widget.js'
+import { HiddenUI } from '../../types/widget.js'
+import { SettingCardExpandable } from './SettingsCard/SettingCardExpandable.js'
 
 const themeIcons = {
   light: LightMode,
   dark: Nightlight,
   auto: BrightnessAuto,
-};
+}
 
 interface ThemeTabProps {
-  title: string;
-  value: Appearance;
-  Icon: React.ReactElement;
+  title: string
+  value: Appearance
+  Icon: React.ReactElement
 }
 
 // If the Tab is not the direct child of the Tabs component you can loose the switching
@@ -32,25 +32,25 @@ const ThemeTab: React.FC<ThemeTabProps> = ({
   <Tooltip title={title}>
     <Tab icon={Icon} value={value} {...props} disableRipple />
   </Tooltip>
-);
+)
 
 export const ThemeSettings: React.FC = () => {
-  const { t } = useTranslation();
-  const [appearance, setAppearance] = useAppearance();
-  const { hiddenUI } = useWidgetConfig();
+  const { t } = useTranslation()
+  const [appearance, setAppearance] = useAppearance()
+  const { hiddenUI } = useWidgetConfig()
 
   if (hiddenUI?.includes(HiddenUI.Appearance)) {
-    return null;
+    return null
   }
 
-  const ThemeIcon = themeIcons[appearance];
+  const ThemeIcon = themeIcons[appearance]
 
   const handleThemeChange = (
     _: React.SyntheticEvent,
-    appearance: Appearance,
+    appearance: Appearance
   ) => {
-    setAppearance(appearance);
-  };
+    setAppearance(appearance)
+  }
 
   return (
     <SettingCardExpandable
@@ -66,7 +66,7 @@ export const ThemeSettings: React.FC = () => {
         sx={{ mt: 1.5 }}
       >
         {Object.entries(themeIcons).map(([theme, Icon]) => {
-          const supportedThemeOption = theme as Appearance;
+          const supportedThemeOption = theme as Appearance
 
           return (
             <ThemeTab
@@ -75,9 +75,9 @@ export const ThemeSettings: React.FC = () => {
               value={supportedThemeOption}
               Icon={<Icon />}
             />
-          );
+          )
         })}
       </CardTabs>
     </SettingCardExpandable>
-  );
-};
+  )
+}

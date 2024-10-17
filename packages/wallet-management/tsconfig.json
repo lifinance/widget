@@ -3,15 +3,11 @@
   "compilerOptions": {
     "composite": true,
     "declaration": true,
-    "noEmit": false,
     "sourceMap": true,
-    "outDir": "dist/_esm",
+    "outDir": "dist/esm",
     "rootDir": "./src",
     "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "NodeNext"
   },
-  "include": [
-    "./src/**/*",
-    "./src/**/*.json",
-  ],
+  "include": ["./src/**/*", "./src/**/*.json"]
 }

@@ -1,6 +1,6 @@
-import type { ReactNode } from 'react';
+import type { ReactNode } from 'react'
 
 export interface SettingCardTitle {
-  icon: ReactNode;
-  title: ReactNode;
+  icon: ReactNode
+  title: ReactNode
 }

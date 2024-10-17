@@ -1,11 +1,10 @@
-/* eslint-disable no-console */
-import { Box, Button, Typography } from '@mui/material';
-import { useAccount, useConnect, useDisconnect } from 'wagmi';
+import { Box, Button, Typography } from '@mui/material'
+import { useAccount, useConnect, useDisconnect } from 'wagmi'
 
 export function WalletHeader() {
-  const { address, isConnected } = useAccount();
-  const { disconnect } = useDisconnect();
-  const { connectors, connectAsync } = useConnect();
+  const { address, isConnected } = useAccount()
+  const { disconnect } = useDisconnect()
+  const { connectors, connectAsync } = useConnect()
 
   return (
     <Box
@@ -41,5 +40,5 @@ export function WalletHeader() {
         )}
       </Box>
     </Box>
-  );
+  )
 }

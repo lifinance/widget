@@ -2,7 +2,7 @@ import {
   CardHeader as MuiCardHeader,
   cardHeaderClasses,
   styled,
-} from '@mui/material';
+} from '@mui/material'
 
 export const CardHeader = styled(MuiCardHeader)(({ theme }) => ({
   [`.${cardHeaderClasses.action}`]: {
@@ -23,4 +23,4 @@ export const CardHeader = styled(MuiCardHeader)(({ theme }) => ({
     color: theme.palette.text.secondary,
     textAlign: 'left',
   },
-}));
+}))

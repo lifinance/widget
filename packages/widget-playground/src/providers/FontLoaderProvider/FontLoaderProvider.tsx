@@ -1,25 +1,25 @@
-import type { UseMutateAsyncFunction } from '@tanstack/react-query';
-import { useMutation } from '@tanstack/react-query';
-import type { PropsWithChildren } from 'react';
-import { createContext, useContext, useEffect, useState } from 'react';
-import { allFonts } from '../../components/DrawerControls/DesignControls';
-import { useConfigFontFamily, useEditToolsActions } from '../../store';
-import type { Font } from './types';
+import type { UseMutateAsyncFunction } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
+import type { PropsWithChildren } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
+import { allFonts } from '../../components/DrawerControls/DesignControls'
+import { useConfigFontFamily, useEditToolsActions } from '../../store'
+import type { Font } from './types'
 
 interface FontLoadingContextProps {
-  loadFont: UseMutateAsyncFunction<void, Error, Font, unknown>;
-  isLoadingFont: boolean;
+  loadFont: UseMutateAsyncFunction<void, Error, Font, unknown>
+  isLoadingFont: boolean
 }
 
 const FontLoadingContext = createContext<FontLoadingContextProps>({
-  loadFont: (font: Font): Promise<void> => {
-    return new Promise(() => {});
+  loadFont: (_font: Font): Promise<void> => {
+    return new Promise(() => {})
   },
   isLoadingFont: false,
-});
+})
 
 export const FontLoaderProvider = ({ children }: PropsWithChildren) => {
-  const [loadedFonts, setLoadedFonts] = useState<string[]>([]);
+  const [loadedFonts, setLoadedFonts] = useState<string[]>([])
 
   const { mutateAsync: loadFont, isPending: isLoadingFont } = useMutation({
     mutationFn: async (font: Font) => {
@@ -30,60 +30,58 @@ export const FontLoaderProvider = ({ children }: PropsWithChildren) => {
               new FontFace(
                 font.family,
                 `url(${fontFile.url})`,
-                fontFile.options,
-              ),
-          );
+                fontFile.options
+              )
+          )
 
-          await Promise.all(
-            fontFaces.map((fontFace) => loadFontFace(fontFace)),
-          );
+          await Promise.all(fontFaces.map((fontFace) => loadFontFace(fontFace)))
 
-          setLoadedFonts([...loadedFonts, font.family]);
+          setLoadedFonts([...loadedFonts, font.family])
         }
 
-        return;
-      } catch (e) {
-        throw new Error('Problem loading font');
+        return
+      } catch (_e) {
+        throw new Error('Problem loading font')
       }
     },
-  });
+  })
 
   return (
     <FontLoadingContext.Provider value={{ loadFont, isLoadingFont }}>
       {children}
     </FontLoadingContext.Provider>
-  );
-};
+  )
+}
 const loadFontFace = async (fontFace: FontFace) => {
-  const loadedFont = await fontFace.load();
-  document.fonts.add(loadedFont);
-};
+  const loadedFont = await fontFace.load()
+  document.fonts.add(loadedFont)
+}
 export const useFontLoader = () => {
-  const { loadFont, isLoadingFont } = useContext(FontLoadingContext);
+  const { loadFont, isLoadingFont } = useContext(FontLoadingContext)
 
   return {
     isLoadingFont,
     loadFont,
-  };
-};
+  }
+}
 
 export const useFontInitialisation = () => {
-  const { fontFamily } = useConfigFontFamily();
-  const { setSelectedFont } = useEditToolsActions();
-  const { loadFont } = useFontLoader();
+  const { fontFamily } = useConfigFontFamily()
+  const { setSelectedFont } = useEditToolsActions()
+  const { loadFont } = useFontLoader()
 
   useEffect(() => {
     if (fontFamily) {
       const family = fontFamily.includes(', ')
         ? fontFamily.substring(0, fontFamily.indexOf(', ')).trim()
-        : fontFamily.trim();
+        : fontFamily.trim()
       const fallbackFonts = fontFamily.includes(', ')
         ? fontFamily.substring(fontFamily.indexOf(', ') + 2).trim()
-        : undefined;
+        : undefined
 
       const matchingFont = allFonts.find((font) => {
-        return font.family === family && font.fallbackFonts === fallbackFonts;
-      });
+        return font.family === family && font.fallbackFonts === fallbackFonts
+      })
 
       const font = matchingFont
         ? matchingFont
@@ -91,10 +89,10 @@ export const useFontInitialisation = () => {
             family,
             fallbackFonts,
             source: 'Custom fonts',
-          } as Font);
+          } as Font)
 
-      setSelectedFont(font);
-      loadFont(font);
+      setSelectedFont(font)
+      loadFont(font)
     }
-  }, [fontFamily, setSelectedFont, loadFont]);
-};
+  }, [fontFamily, setSelectedFont, loadFont])
+}

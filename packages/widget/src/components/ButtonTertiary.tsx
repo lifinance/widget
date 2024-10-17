@@ -1,6 +1,6 @@
-import { LoadingButton, loadingButtonClasses } from '@mui/lab';
-import { styled } from '@mui/material';
-import { getContrastAlphaColor } from '../utils/colors.js';
+import { LoadingButton, loadingButtonClasses } from '@mui/lab'
+import { styled } from '@mui/material'
+import { getContrastAlphaColor } from '../utils/colors.js'
 
 export const ButtonTertiary = styled(LoadingButton)(({ theme }) => ({
   color: theme.palette.text.primary,
@@ -16,4 +16,4 @@ export const ButtonTertiary = styled(LoadingButton)(({ theme }) => ({
   [`.${loadingButtonClasses.loadingIndicator}`]: {
     color: theme.palette.text.primary,
   },
-}));
+}))

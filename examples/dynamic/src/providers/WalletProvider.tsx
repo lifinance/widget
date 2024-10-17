@@ -1,23 +1,23 @@
-import { EthereumWalletConnectors } from '@dynamic-labs/ethereum';
-import { DynamicContextProvider } from '@dynamic-labs/sdk-react-core';
-import { SolanaWalletConnectors } from '@dynamic-labs/solana';
-import { DynamicWagmiConnector } from '@dynamic-labs/wagmi-connector';
-import { useSyncWagmiConfig } from '@lifi/wallet-management';
-import { ChainType, ExtendedChain, useAvailableChains } from '@lifi/widget';
-import { useRef, type FC, type PropsWithChildren } from 'react';
-import { http } from 'viem';
-import { mainnet } from 'viem/chains';
-import type { Config, CreateConnectorFn } from 'wagmi';
-import { createConfig, WagmiProvider } from 'wagmi';
-import { emitter, SolanaProvider } from './SolanaProvider';
+import { EthereumWalletConnectors } from '@dynamic-labs/ethereum'
+import { DynamicContextProvider } from '@dynamic-labs/sdk-react-core'
+import { SolanaWalletConnectors } from '@dynamic-labs/solana'
+import { DynamicWagmiConnector } from '@dynamic-labs/wagmi-connector'
+import { useSyncWagmiConfig } from '@lifi/wallet-management'
+import { ChainType, type ExtendedChain, useAvailableChains } from '@lifi/widget'
+import { type FC, type PropsWithChildren, useRef } from 'react'
+import { http } from 'viem'
+import { mainnet } from 'viem/chains'
+import type { Config, CreateConnectorFn } from 'wagmi'
+import { WagmiProvider, createConfig } from 'wagmi'
+import { SolanaProvider, emitter } from './SolanaProvider'
 
 // All connectors are supplied by Dynamic so we can leave this empty
-const connectors: CreateConnectorFn[] = [];
+const connectors: CreateConnectorFn[] = []
 
 export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
-  const { chains } = useAvailableChains();
+  const { chains } = useAvailableChains()
 
-  const wagmi = useRef<Config>();
+  const wagmi = useRef<Config>()
 
   if (!wagmi.current) {
     wagmi.current = createConfig({
@@ -27,14 +27,14 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
         [mainnet.id]: http(),
       },
       ssr: true,
-    });
+    })
   }
 
   useSyncWagmiConfig(
     wagmi.current,
     connectors,
-    chains?.filter((chain) => chain.chainType === ChainType.EVM),
-  );
+    chains?.filter((chain) => chain.chainType === ChainType.EVM)
+  )
 
   return (
     <DynamicContextProvider
@@ -48,19 +48,19 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
         events: {
           onAuthInit: (args) => {
             if (args.type === 'wallet') {
-              emitter.emit('connect', args.connectorName);
+              emitter.emit('connect', args.connectorName)
             }
           },
           onLogout: () => {
-            emitter.emit('disconnect');
+            emitter.emit('disconnect')
           },
         },
         handlers: {
           handleConnectedWallet: async (args) => {
             if (args.chain === 'SOL' && args.connector) {
-              emitter.emit('connect', args.connector.name);
+              emitter.emit('connect', args.connector.name)
             }
-            return true;
+            return true
           },
         },
       }}
@@ -71,8 +71,8 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
         </DynamicWagmiConnector>
       </WagmiProvider>
     </DynamicContextProvider>
-  );
-};
+  )
+}
 
 const convertToDynamicNetworks = (chains: ExtendedChain[]) =>
   chains.map((chain) => ({
@@ -85,4 +85,4 @@ const convertToDynamicNetworks = (chains: ExtendedChain[]) =>
     networkId: chain.id,
     rpcUrls: chain.metamask.rpcUrls,
     vanityName: chain.metamask.chainName,
-  }));
+  }))

@@ -1,14 +1,14 @@
-import { ChainType } from '@lifi/widget';
-import { Button, Typography } from '@mui/material';
-import type { FormValues } from '../store/types';
-import { useWidgetConfigActions } from '../store/useWidgetConfigActions.ts';
+import { ChainType } from '@lifi/widget'
+import { Button, Typography } from '@mui/material'
+import type { FormValues } from '../store/types'
+import { useWidgetConfigActions } from '../store/useWidgetConfigActions.ts'
 import {
   FormControlsContainer,
   FormValueGroupContainer,
-} from './FormControls.style.tsx';
+} from './FormControls.style.tsx'
 
 interface FormValuesLookUp {
-  [key: string]: FormValues;
+  [key: string]: FormValues
 }
 
 const ChainsAndTokensLookUp: FormValuesLookUp = {
@@ -54,7 +54,7 @@ const ChainsAndTokensLookUp: FormValuesLookUp = {
     toChain: undefined,
     toToken: undefined,
   },
-};
+}
 
 const AddressLookUp: FormValuesLookUp = {
   '0x29D...94eD7': {
@@ -79,7 +79,7 @@ const AddressLookUp: FormValuesLookUp = {
   RESET: {
     toAddress: undefined,
   },
-};
+}
 
 const fromAmountLookUp: FormValuesLookUp = {
   '1': {
@@ -91,39 +91,39 @@ const fromAmountLookUp: FormValuesLookUp = {
   RESET: {
     fromAmount: undefined,
   },
-};
+}
 
 const forceConfigUpdate = (nextValue: FormValues): FormValues => ({
   ...nextValue,
   formUpdateKey: new Date().valueOf().toString(),
-});
+})
 
 export function FormControls() {
-  const { setFormValues } = useWidgetConfigActions();
+  const { setFormValues } = useWidgetConfigActions()
 
   const handleChainAndTokenChange = (value: string) => {
-    const chainsAndTokens = ChainsAndTokensLookUp[value];
+    const chainsAndTokens = ChainsAndTokensLookUp[value]
 
     if (chainsAndTokens) {
-      setFormValues(forceConfigUpdate(chainsAndTokens));
+      setFormValues(forceConfigUpdate(chainsAndTokens))
     }
-  };
+  }
 
   const handleToAddressChange = (value: string) => {
-    const addressValue = AddressLookUp[value];
+    const addressValue = AddressLookUp[value]
 
     if (addressValue) {
-      setFormValues(forceConfigUpdate(addressValue));
+      setFormValues(forceConfigUpdate(addressValue))
     }
-  };
+  }
 
   const handleFromAmountChange = (value: string) => {
-    const amountValue = fromAmountLookUp[value];
+    const amountValue = fromAmountLookUp[value]
 
     if (amountValue) {
-      setFormValues(forceConfigUpdate(amountValue));
+      setFormValues(forceConfigUpdate(amountValue))
     }
-  };
+  }
 
   return (
     <FormControlsContainer>
@@ -167,5 +167,5 @@ export function FormControls() {
         ))}
       </FormValueGroupContainer>
     </FormControlsContainer>
-  );
+  )
 }

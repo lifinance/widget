@@ -1,8 +1,0 @@
-{
-  "root": true,
-  "extends": [
-    "react-app",
-    "plugin:prettier/recommended",
-    "./.eslintrc.base.json"
-  ]
-}

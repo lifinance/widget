@@ -1,11 +1,11 @@
-import { List, Typography } from '@mui/material';
-import { useVirtualizer } from '@tanstack/react-virtual';
-import type { FC } from 'react';
-import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import type { TokenAmount } from '../../types/token.js';
-import { TokenListItem, TokenListItemSkeleton } from './TokenListItem.js';
-import type { VirtualizedTokenListProps } from './types.js';
+import { List, Typography } from '@mui/material'
+import { useVirtualizer } from '@tanstack/react-virtual'
+import type { FC } from 'react'
+import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import type { TokenAmount } from '../../types/token.js'
+import { TokenListItem, TokenListItemSkeleton } from './TokenListItem.js'
+import type { VirtualizedTokenListProps } from './types.js'
 
 export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   account,
@@ -18,7 +18,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   showCategories,
   onClick,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   const { getVirtualItems, getTotalSize, scrollToIndex } = useVirtualizer({
     count: tokens.length,
@@ -27,96 +27,96 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     getScrollElement: () => scrollElementRef.current,
     estimateSize: (index) => {
       // Base size for TokenListItem
-      let size = 64;
+      let size = 64
       // Early return if categories are not shown
       if (!showCategories) {
-        return size;
+        return size
       }
 
-      const currentToken = tokens[index];
-      const previousToken = tokens[index - 1];
+      const currentToken = tokens[index]
+      const previousToken = tokens[index - 1]
 
       // Adjust size for the first featured token
       if (currentToken.featured && index === 0) {
-        size += 24;
+        size += 24
       }
 
       // Adjust size based on changes between the current and previous tokens
       const isCategoryChanged =
         (previousToken?.amount && !currentToken.amount) ||
         (previousToken?.featured && !currentToken.featured) ||
-        (previousToken?.popular && !currentToken.popular);
+        (previousToken?.popular && !currentToken.popular)
 
       if (isCategoryChanged) {
-        size += 32;
+        size += 32
       }
 
-      return size;
+      return size
     },
     getItemKey: (index) => `${tokens[index].address}-${index}`,
-  });
+  })
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(() => {
     // Scroll to the top of the list when switching the chains
     if (getVirtualItems().length) {
-      scrollToIndex(0, { align: 'start' });
+      scrollToIndex(0, { align: 'start' })
     }
-  }, [scrollToIndex, chainId, getVirtualItems]);
+  }, [scrollToIndex, chainId, getVirtualItems])
 
   if (isLoading) {
     return (
       <List disablePadding>
         {Array.from({ length: 3 }).map((_, index) => (
-          // eslint-disable-next-line react/no-array-index-key
           <TokenListItemSkeleton key={index} />
         ))}
       </List>
-    );
+    )
   }
 
   return (
     <List style={{ height: getTotalSize() }} disablePadding>
       {getVirtualItems().map((item) => {
-        const currentToken = tokens[item.index];
-        const previousToken: TokenAmount | undefined = tokens[item.index - 1];
+        const currentToken = tokens[item.index]
+        const previousToken: TokenAmount | undefined = tokens[item.index - 1]
 
-        const isFirstFeaturedToken = currentToken.featured && item.index === 0;
+        const isFirstFeaturedToken = currentToken.featured && item.index === 0
 
         const isTransitionFromFeaturedTokens =
-          previousToken?.featured && !currentToken.featured;
+          previousToken?.featured && !currentToken.featured
 
         const isTransitionFromMyTokens =
-          previousToken?.amount && !currentToken.amount;
+          previousToken?.amount && !currentToken.amount
 
         const isTransitionToMyTokens =
-          isTransitionFromFeaturedTokens && currentToken.amount;
+          isTransitionFromFeaturedTokens && currentToken.amount
 
         const isTransitionToPopularTokens =
           (isTransitionFromFeaturedTokens || isTransitionFromMyTokens) &&
-          currentToken.popular;
+          currentToken.popular
 
         const shouldShowAllTokensCategory =
           isTransitionFromMyTokens ||
           isTransitionFromFeaturedTokens ||
-          (previousToken?.popular && !currentToken.popular);
+          (previousToken?.popular && !currentToken.popular)
 
         const startAdornmentLabel = showCategories
           ? (() => {
               if (isFirstFeaturedToken) {
-                return t('main.featuredTokens');
+                return t('main.featuredTokens')
               }
               if (isTransitionToMyTokens) {
-                return t('main.myTokens');
+                return t('main.myTokens')
               }
               if (isTransitionToPopularTokens) {
-                return t('main.popularTokens');
+                return t('main.popularTokens')
               }
               if (shouldShowAllTokensCategory) {
-                return t('main.allTokens');
+                return t('main.allTokens')
               }
-              return null;
+              return null
             })()
-          : null;
+          : null
 
         return (
           <TokenListItem
@@ -127,7 +127,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
             token={currentToken}
             chain={chain}
             isBalanceLoading={isBalanceLoading}
-            showBalance={account.isConnected}
+            accountAddress={account.address}
             startAdornment={
               startAdornmentLabel ? (
                 <Typography
@@ -143,8 +143,8 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
               ) : null
             }
           />
-        );
+        )
       })}
     </List>
-  );
-};
+  )
+}

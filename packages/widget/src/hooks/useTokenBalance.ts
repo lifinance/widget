@@ -1,28 +1,28 @@
-import type { ExtendedChain } from '@lifi/sdk';
-import { getTokenBalances, type Token, type TokenAmount } from '@lifi/sdk';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useCallback, useMemo } from 'react';
-import { useAccount } from './useAccount.js';
+import type { ExtendedChain } from '@lifi/sdk'
+import { type Token, type TokenAmount, getTokenBalances } from '@lifi/sdk'
+import { useAccount } from '@lifi/wallet-management'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useCallback, useMemo } from 'react'
 
-const defaultRefetchInterval = 30_000;
+const defaultRefetchInterval = 30_000
 
 export const useTokenBalance = (
   accountAddress?: string,
   token?: Token,
-  chain?: ExtendedChain,
+  chain?: ExtendedChain
 ) => {
   const { account } = useAccount(
     // When we provide chain we want to be sure that account address used is from the same ecosystem as token
-    chain ? { chainType: chain.chainType } : undefined,
-  );
-  const queryClient = useQueryClient();
-  const walletAddress = accountAddress || account.address;
+    chain ? { chainType: chain.chainType } : undefined
+  )
+  const queryClient = useQueryClient()
+  const walletAddress = accountAddress || account.address
 
   const tokenBalanceQueryKey = useMemo(
     () =>
       ['token-balance', walletAddress, token?.chainId, token?.address] as const,
-    [token?.address, token?.chainId, walletAddress],
-  );
+    [token?.address, token?.chainId, walletAddress]
+  )
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: tokenBalanceQueryKey,
@@ -31,66 +31,66 @@ export const useTokenBalance = (
     }) => {
       const tokenBalances = await getTokenBalancesWithRetry(
         accountAddress as string,
-        [token!],
-      );
+        [token!]
+      )
 
       if (!tokenBalances?.length) {
-        throw Error('Could not get tokens balance.');
+        throw new Error('Could not get tokens balance.')
       }
 
       const cachedTokenAmount =
-        queryClient.getQueryData<TokenAmount>(tokenBalanceQueryKey);
+        queryClient.getQueryData<TokenAmount>(tokenBalanceQueryKey)
 
-      const tokenAmount = tokenBalances[0].amount;
+      const tokenAmount = tokenBalances[0].amount
 
       if (cachedTokenAmount?.amount !== tokenAmount) {
         queryClient.setQueryDefaults(tokenBalanceQueryKey, {
           refetchInterval: defaultRefetchInterval,
           staleTime: defaultRefetchInterval,
-        });
+        })
       }
 
       queryClient.setQueriesData<TokenAmount[]>(
         { queryKey: ['token-balances', accountAddress, tokenChainId] },
         (data) => {
           if (data) {
-            const clonedData = [...data];
+            const clonedData = [...data]
             const index = clonedData.findIndex(
-              (dataToken) => dataToken.address === tokenAddress,
-            );
+              (dataToken) => dataToken.address === tokenAddress
+            )
             clonedData[index] = {
               ...clonedData[index],
               amount: tokenAmount,
-            };
-            return clonedData;
+            }
+            return clonedData
           }
-        },
-      );
+        }
+      )
 
       return {
         ...tokenBalances[0],
         amount: tokenAmount,
-      } as TokenAmount;
+      } as TokenAmount
     },
 
     enabled: Boolean(walletAddress && token),
     refetchInterval: defaultRefetchInterval,
     staleTime: defaultRefetchInterval,
-  });
+  })
 
   const refetchAllBalances = () => {
     queryClient.refetchQueries({
       queryKey: ['token-balances', accountAddress, token?.chainId],
       exact: false,
-    });
-  };
+    })
+  }
 
   const refetchNewBalance = useCallback(() => {
     queryClient.setQueryDefaults(tokenBalanceQueryKey, {
       refetchInterval: 250,
       staleTime: 250,
-    });
-  }, [queryClient, tokenBalanceQueryKey]);
+    })
+  }, [queryClient, tokenBalanceQueryKey])
 
   return {
     token: data,
@@ -99,31 +99,31 @@ export const useTokenBalance = (
     refetchNewBalance,
     refetchAllBalances,
     getTokenBalancesWithRetry,
-  };
-};
+  }
+}
 
 export const getTokenBalancesWithRetry = async (
   accountAddress: string,
   tokens: Token[],
-  depth = 0,
+  depth = 0
 ): Promise<TokenAmount[] | undefined> => {
   try {
     const tokenBalances = await getTokenBalances(
       accountAddress as string,
-      tokens,
-    );
+      tokens
+    )
     if (!tokenBalances.every((token) => token.blockNumber)) {
       if (depth > 10) {
-        console.warn('Token balance backoff depth exceeded.');
-        return undefined;
+        console.warn('Token balance backoff depth exceeded.')
+        return undefined
       }
       await new Promise((resolve) => {
-        setTimeout(resolve, 1.5 ** depth * 100);
-      });
-      return getTokenBalancesWithRetry(accountAddress, tokens, depth + 1);
+        setTimeout(resolve, 1.5 ** depth * 100)
+      })
+      return getTokenBalancesWithRetry(accountAddress, tokens, depth + 1)
     }
-    return tokenBalances;
-  } catch (error) {
+    return tokenBalances
+  } catch (_error) {
     //
   }
-};
+}

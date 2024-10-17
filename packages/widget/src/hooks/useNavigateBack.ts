@@ -1,8 +1,8 @@
-import { useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export const useNavigateBack = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const navigateBack = useCallback(() => {
     // TODO: find a better router with nested memory routers support
@@ -10,7 +10,7 @@ export const useNavigateBack = () => {
     // https://github.com/remix-run/react-router/discussions/9601
     //
     // if (window.history.length > 2) {
-    navigate(-1);
+    navigate(-1)
     // } else {
     //   navigate(
     //     window.location.pathname.substring(
@@ -20,7 +20,7 @@ export const useNavigateBack = () => {
     //     { replace: true },
     //   );
     // }
-  }, [navigate]);
+  }, [navigate])
 
-  return { navigateBack, navigate };
-};
+  return { navigateBack, navigate }
+}

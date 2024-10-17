@@ -5,7 +5,7 @@ The demo of the LI.FI Widget NFT Checkout based on the OpenSea API.
 ### How to run?
 
 ```
-yarn dev
+pnpm dev
 ```
 
 ### How to test?

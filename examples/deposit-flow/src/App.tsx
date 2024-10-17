@@ -1,4 +1,4 @@
-import type { ContractCall, WidgetConfig } from '@lifi/widget';
+import type { ContractCall, WidgetConfig } from '@lifi/widget'
 import {
   ChainType,
   CoinKey,
@@ -6,19 +6,19 @@ import {
   HiddenUI,
   ItemPrice,
   LiFiWidget,
-} from '@lifi/widget';
-import { useMemo } from 'react';
+} from '@lifi/widget'
+import { useMemo } from 'react'
 
-const depositAddress = '0xdde759c7cf032b1d0e633a7e9cfa6653d1911a22';
-const depositAmount = 5000000n;
+const depositAddress = '0xdde759c7cf032b1d0e633a7e9cfa6653d1911a22'
+const depositAmount = 5000000n
 
 export const contractTool = {
   logoURI:
     'https://github.com/lifinance/widget/assets/18644653/eb043a91-18ba-4da7-91c4-029a53a25989',
   name: 'Immutable',
-};
+}
 
-const contractCalls: ContractCall[] = [];
+const contractCalls: ContractCall[] = []
 
 export function App() {
   const widgetConfig: WidgetConfig = useMemo(() => {
@@ -36,13 +36,13 @@ export function App() {
       useRecommendedRoute: true,
       theme: {
         container: {
-          border: `1px solid rgb(234, 234, 234)`,
+          border: '1px solid rgb(234, 234, 234)',
           borderRadius: '16px',
         },
       },
-    };
-    return baseConfig;
-  }, []);
+    }
+    return baseConfig
+  }, [])
 
   return (
     <LiFiWidget
@@ -67,5 +67,5 @@ export function App() {
       config={widgetConfig}
       integrator={widgetConfig.integrator}
     />
-  );
+  )
 }

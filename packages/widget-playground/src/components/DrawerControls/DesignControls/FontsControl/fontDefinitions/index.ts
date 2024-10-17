@@ -1,3 +1,3 @@
-export * from './defaultFonts';
-export * from './googleFonts';
-export * from './systemFonts';
+export * from './defaultFonts'
+export * from './googleFonts'
+export * from './systemFonts'

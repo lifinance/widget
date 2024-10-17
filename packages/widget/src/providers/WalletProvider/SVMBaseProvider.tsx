@@ -1,13 +1,13 @@
-import type { Adapter } from '@solana/wallet-adapter-base';
-import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
+import type { Adapter } from '@solana/wallet-adapter-base'
+import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
 import {
   ConnectionProvider,
   WalletProvider,
-} from '@solana/wallet-adapter-react';
-import { clusterApiUrl } from '@solana/web3.js';
-import { type FC, type PropsWithChildren } from 'react';
+} from '@solana/wallet-adapter-react'
+import { clusterApiUrl } from '@solana/web3.js'
+import type { FC, PropsWithChildren } from 'react'
 
-const endpoint = clusterApiUrl(WalletAdapterNetwork.Mainnet);
+const endpoint = clusterApiUrl(WalletAdapterNetwork.Mainnet)
 /**
  * Wallets that implement either of these standards will be available automatically.
  *
@@ -20,7 +20,7 @@ const endpoint = clusterApiUrl(WalletAdapterNetwork.Mainnet);
  * instantiate its legacy wallet adapter here. Common legacy adapters can be found
  * in the npm package `@solana/wallet-adapter-wallets`.
  */
-const wallets: Adapter[] = [];
+const wallets: Adapter[] = []
 
 export const SVMBaseProvider: FC<PropsWithChildren> = ({ children }) => {
   return (
@@ -29,5 +29,5 @@ export const SVMBaseProvider: FC<PropsWithChildren> = ({ children }) => {
         {children}
       </WalletProvider>
     </ConnectionProvider>
-  );
-};
+  )
+}

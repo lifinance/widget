@@ -5,7 +5,7 @@ import {
   outlinedInputClasses,
   selectClasses,
   styled,
-} from '@mui/material';
+} from '@mui/material'
 
 export const Select = styled(MuiSelect, {
   shouldForwardProp: (prop) => prop !== 'dense',
@@ -29,4 +29,4 @@ export const Select = styled(MuiSelect, {
   [`.${outlinedInputClasses.notchedOutline}`]: {
     display: 'none',
   },
-}));
+}))

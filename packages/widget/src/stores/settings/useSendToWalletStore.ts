@@ -1,6 +1,6 @@
-import { shallow } from 'zustand/shallow';
-import { createWithEqualityFn } from 'zustand/traditional';
-import type { SendToWalletStore } from './types.js';
+import { shallow } from 'zustand/shallow'
+import { createWithEqualityFn } from 'zustand/traditional'
+import type { SendToWalletStore } from './types.js'
 
 export const useSendToWalletStore = createWithEqualityFn<SendToWalletStore>(
   (set) => ({
@@ -10,16 +10,16 @@ export const useSendToWalletStore = createWithEqualityFn<SendToWalletStore>(
         showSendToWallet: value,
       }),
   }),
-  Object.is,
-);
+  Object.is
+)
 
 export const useSendToWalletActions = () => {
   const actions = useSendToWalletStore(
     (store) => ({
       setSendToWallet: store.setSendToWallet,
     }),
-    shallow,
-  );
+    shallow
+  )
 
-  return actions;
-};
+  return actions
+}

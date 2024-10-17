@@ -1,6 +1,6 @@
-import { shallow } from 'zustand/shallow';
-import { useBookmarkStore } from './BookmarkStore.js';
-import type { BookmarkActions } from './types.js';
+import { shallow } from 'zustand/shallow'
+import { useBookmarkStore } from './BookmarkStore.js'
+import type { BookmarkActions } from './types.js'
 
 export const useBookmarkActions = () => {
   const actions = useBookmarkStore<BookmarkActions>(
@@ -13,8 +13,8 @@ export const useBookmarkActions = () => {
       addRecentWallet: store.addRecentWallet,
       removeRecentWallet: store.removeRecentWallet,
     }),
-    shallow,
-  );
+    shallow
+  )
 
-  return actions;
-};
+  return actions
+}

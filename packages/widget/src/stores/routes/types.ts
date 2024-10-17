@@ -1,17 +1,17 @@
-import type { Route, RouteExtended } from '@lifi/sdk';
+import type { Route, RouteExtended } from '@lifi/sdk'
 
 export interface RouteExecution {
-  route: RouteExtended;
-  status: RouteExecutionStatus;
+  route: RouteExtended
+  status: RouteExecutionStatus
 }
 
 export interface RouteExecutionState {
-  routes: Partial<Record<string, RouteExecution>>;
-  setExecutableRoute: (route: Route, observableRouteIds?: string[]) => void;
-  updateRoute: (route: Route) => void;
-  restartRoute: (routeId: string) => void;
-  deleteRoute: (routeId: string) => void;
-  deleteRoutes: (type: 'completed' | 'active') => void;
+  routes: Partial<Record<string, RouteExecution>>
+  setExecutableRoute: (route: Route, observableRouteIds?: string[]) => void
+  updateRoute: (route: Route) => void
+  restartRoute: (routeId: string) => void
+  deleteRoute: (routeId: string) => void
+  deleteRoutes: (type: 'completed' | 'active') => void
 }
 
 export enum RouteExecutionStatus {

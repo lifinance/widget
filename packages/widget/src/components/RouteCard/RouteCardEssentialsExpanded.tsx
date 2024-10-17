@@ -1,13 +1,13 @@
-import { Layers } from '@mui/icons-material';
-import { Box, Typography } from '@mui/material';
-import { useTranslation } from 'react-i18next';
-import { IconTypography } from '../IconTypography.js';
-import type { RouteCardEssentialsProps } from './types.js';
+import { Layers } from '@mui/icons-material'
+import { Box, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
+import { IconTypography } from '../IconTypography.js'
+import type { RouteCardEssentialsProps } from './types.js'
 
 export const RouteCardEssentialsExpanded: React.FC<
   RouteCardEssentialsProps
 > = ({ route }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   return (
     <Box flex={1} mt={2}>
       <Box display="flex" alignItems="center">
@@ -30,9 +30,9 @@ export const RouteCardEssentialsExpanded: React.FC<
           fontWeight="500"
           lineHeight={1.125}
         >
-          {t(`tooltip.numberOfSteps`)}
+          {t('tooltip.numberOfSteps')}
         </Typography>
       </Box>
     </Box>
-  );
-};
+  )
+}

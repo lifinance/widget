@@ -1,7 +1,7 @@
-import { NFT } from '@lifi/widget';
-import { Box, Typography } from '@mui/material';
-import type { NFTOpenSeaProps } from './types';
-import { useOpenSeaFulfillment } from './useOpenSeaFulfillment';
+import { NFT } from '@lifi/widget'
+import { Box, Typography } from '@mui/material'
+import type { NFTOpenSeaProps } from './types'
+import { useOpenSeaFulfillment } from './useOpenSeaFulfillment'
 
 export const NFTOpenSea: React.FC<NFTOpenSeaProps> = ({
   network,
@@ -11,8 +11,8 @@ export const NFTOpenSea: React.FC<NFTOpenSeaProps> = ({
   const { data, order, isLoading } = useOpenSeaFulfillment(
     network,
     contractAddress,
-    tokenId,
-  );
+    tokenId
+  )
 
   return !data && !order && !isLoading ? (
     <Box
@@ -43,5 +43,5 @@ export const NFTOpenSea: React.FC<NFTOpenSeaProps> = ({
       token={data?.token! ?? {}}
       contractCall={data?.contractCall}
     />
-  );
-};
+  )
+}
