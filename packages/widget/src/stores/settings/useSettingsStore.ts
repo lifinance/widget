@@ -1,9 +1,9 @@
 import type { StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { createWithEqualityFn } from 'zustand/traditional';
-import type { WidgetConfig } from '../../types/widget.js';
 import type { SettingsProps, SettingsState } from './types.js';
 import { SettingsToolTypes } from './types.js';
+import { getStateValues } from './utils/getStateValues.js';
 
 export const defaultSlippage = '0.5';
 
@@ -36,16 +36,8 @@ export const useSettingsStore = createWithEqualityFn<SettingsState>(
         set(() => ({
           [key]: value,
         })),
-      setValues: (values) =>
-        set((state) => {
-          const updatedState: SettingsProps = { ...state };
-          for (const key in values) {
-            if (Object.hasOwn(state, key)) {
-              updatedState[key] = values[key];
-            }
-          }
-          return updatedState;
-        }),
+      getSettings: () => getStateValues(get()),
+      getValue: (key) => get()[key],
       initializeTools: (toolType, tools, reset) => {
         if (!tools.length) {
           return;
@@ -141,6 +133,7 @@ export const useSettingsStore = createWithEqualityFn<SettingsState>(
         }));
         get().initializeTools('Bridges', bridges, true);
         get().initializeTools('Exchanges', exchanges, true);
+        return { ...get() };
       },
     }),
     {
@@ -187,26 +180,3 @@ export const useSettingsStore = createWithEqualityFn<SettingsState>(
   ) as StateCreator<SettingsState, [], [], SettingsState>,
   Object.is,
 );
-
-export const setDefaultSettings = (config?: WidgetConfig) => {
-  const { slippage, routePriority, setValue, gasPrice } =
-    useSettingsStore.getState();
-  const defaultSlippage =
-    (config?.slippage || config?.sdkConfig?.routeOptions?.slippage || 0) * 100;
-  const defaultRoutePriority =
-    config?.routePriority || config?.sdkConfig?.routeOptions?.order;
-  defaultConfigurableSettings.slippage = (
-    defaultSlippage || defaultConfigurableSettings.slippage
-  )?.toString();
-  defaultConfigurableSettings.routePriority =
-    defaultRoutePriority || defaultConfigurableSettings.routePriority;
-  if (!slippage) {
-    setValue('slippage', defaultConfigurableSettings.slippage);
-  }
-  if (!routePriority) {
-    setValue('routePriority', defaultConfigurableSettings.routePriority);
-  }
-  if (!gasPrice) {
-    setValue('gasPrice', defaultConfigurableSettings.gasPrice);
-  }
-};

@@ -5,13 +5,14 @@ import type { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useGasRefuel } from '../../hooks/useGasRefuel.js';
 import { useSettings } from '../../stores/settings/useSettings.js';
-import { useSettingsStore } from '../../stores/settings/useSettingsStore.js';
+import { useSettingsActions } from '../../stores/settings/useSettingsActions.js';
 import { AlertMessage } from '../AlertMessage/AlertMessage.js';
 import { InfoMessageSwitch } from './GasMessage.style.js';
 
 export const GasRefuelMessage: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation();
-  const setValue = useSettingsStore((state) => state.setValue);
+
+  const { setValue } = useSettingsActions();
   const { enabledAutoRefuel } = useSettings(['enabledAutoRefuel']);
 
   const { enabled, chain, isLoading: isRefuelLoading } = useGasRefuel();

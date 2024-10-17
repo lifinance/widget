@@ -1,13 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
 import { useSettings } from '../stores/settings/useSettings.js';
-import { useSettingsStore } from '../stores/settings/useSettingsStore.js';
+import { useSettingsActions } from '../stores/settings/useSettingsActions.js';
 
 export const useLanguages = () => {
   const { t, i18n } = useTranslation();
   const { languages } = useWidgetConfig();
   const { language } = useSettings(['language']);
-  const setValue = useSettingsStore((state) => state.setValue);
+  const { setValue } = useSettingsActions();
 
   const sortedLanguages = Object.keys(i18n.store.data).sort();
 
