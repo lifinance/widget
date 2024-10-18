@@ -1,9 +1,9 @@
 import { palette, paletteDark, paletteLight } from '@lifi/widget'
 import { shallow } from 'zustand/shallow'
-import { useThemeMode } from '../../hooks'
-import { getValueFromPath } from '../../utils'
+import { useThemeMode } from '../../hooks/useThemeMode'
+import { getValueFromPath } from '../../utils/getValueFromPath'
+import type { FormValues } from '../types'
 import { useWidgetConfigStore } from './WidgetConfigProvider'
-import type { FormValues } from './types'
 
 export const useConfigVariant = () => {
   const [variant] = useWidgetConfigStore(
@@ -48,17 +48,6 @@ export const useConfigSubvariant = () => {
 
   return {
     subvariant: !subvariant ? 'default' : subvariant,
-  }
-}
-
-export const useConfigAppearance = () => {
-  const [appearance] = useWidgetConfigStore(
-    (store) => [store.config?.appearance],
-    shallow
-  )
-
-  return {
-    appearance: !appearance ? 'auto' : appearance,
   }
 }
 
@@ -133,20 +122,5 @@ export const useConfigWalletManagement = () => {
   return {
     isExternalWalletManagement: !!walletConfig,
     replacementWalletConfig,
-  }
-}
-
-export const useThemeValues = () => {
-  const [selectedThemeId, allThemesItems] = useWidgetConfigStore(
-    (store) => [store.themeId, store.widgetThemeItems],
-    shallow
-  )
-
-  return {
-    selectedThemeId,
-    selectedThemeItem: allThemesItems.find(
-      (themeItem) => themeItem.id === selectedThemeId
-    ),
-    allThemesItems,
   }
 }

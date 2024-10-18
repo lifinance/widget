@@ -1,7 +1,7 @@
 import type { FC, PropsWithChildren } from 'react'
 import { createContext, useContext, useEffect, useRef } from 'react'
 import { shallow } from 'zustand/shallow'
-import { useConfigActions } from '../widgetConfig'
+import { useConfigActions } from '../widgetConfig/useConfigActions'
 import { createEditToolsStore } from './createEditToolsStore'
 import type { ToolsState, ToolsStore } from './types'
 

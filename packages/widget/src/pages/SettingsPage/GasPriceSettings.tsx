@@ -3,13 +3,13 @@ import { useTranslation } from 'react-i18next'
 import { CardTabs, Tab } from '../../components/Tabs/Tabs.style.js'
 import { useSettingMonitor } from '../../hooks/useSettingMonitor.js'
 import { useSettings } from '../../stores/settings/useSettings.js'
-import { useSettingsStore } from '../../stores/settings/useSettingsStore.js'
+import { useSettingsActions } from '../../stores/settings/useSettingsActions.js'
 import { BadgedValue } from './SettingsCard/BadgedValue.js'
 import { SettingCardExpandable } from './SettingsCard/SettingCardExpandable.js'
 
 export const GasPriceSettings: React.FC = () => {
   const { t } = useTranslation()
-  const setValue = useSettingsStore((state) => state.setValue)
+  const { setValue } = useSettingsActions()
   const { isGasPriceChanged } = useSettingMonitor()
   const { gasPrice } = useSettings(['gasPrice'])
 

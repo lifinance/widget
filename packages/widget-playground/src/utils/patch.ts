@@ -15,7 +15,7 @@ interface Difference {
   oldValue?: any
 }
 
-export default function patch(
+export function patch(
   obj: Record<string, any> | any[],
   diffs: Difference[]
 ): Record<string, any> | any[] {

@@ -3,8 +3,9 @@ import Editor from '@monaco-editor/react'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import { Tooltip, useTheme } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
-import { useThemeMode } from '../../../hooks'
-import { getConfigOutput, useConfig } from '../../../store'
+import { useThemeMode } from '../../../hooks/useThemeMode'
+import { useConfig } from '../../../store/widgetConfig/useConfig'
+import { getConfigOutput } from '../../../store/widgetConfig/utils/getConfigOutput'
 import { tooltipPopperZIndex } from '../DrawerControls.style'
 import {
   CodeContainer,

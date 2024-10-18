@@ -2,16 +2,14 @@ import InfoIcon from '@mui/icons-material/Info'
 import { CircularProgress, TextField } from '@mui/material'
 import type { FocusEventHandler, SyntheticEvent } from 'react'
 import { useCallback } from 'react'
-import type { Font } from '../../../../providers'
-import { useFontLoader } from '../../../../providers'
-import {
-  useConfigActions,
-  useEditToolsActions,
-  useFontToolValues,
-} from '../../../../store'
-import { ExpandableCard } from '../../../Card'
+import { useFontLoader } from '../../../../providers/FontLoaderProvider/FontLoaderProvider'
+import type { Font } from '../../../../providers/FontLoaderProvider/types'
+import { useEditToolsActions } from '../../../../store/editTools/useEditToolsActions'
+import { useFontToolValues } from '../../../../store/editTools/useFontToolValues'
+import { useConfigActions } from '../../../../store/widgetConfig/useConfigActions'
+import { ExpandableCard } from '../../../Card/ExpandableCard'
 import { Alert, Autocomplete, StyledPopper } from '../DesignControls.style'
-import { allFonts, defaultFont } from './fontDefinitions'
+import { allFonts, defaultFont } from './defaultFonts'
 
 const sanitiseInputString = (value: string) => value.replace(/['"`]/g, '')
 

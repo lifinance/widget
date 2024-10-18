@@ -1,7 +1,8 @@
-import { type SDKConfig, config, createConfig } from '@lifi/sdk'
+import type { SDKConfig } from '@lifi/sdk'
+import { config, createConfig } from '@lifi/sdk'
 import { createContext, useContext, useId, useMemo } from 'react'
 import { version } from '../../config/version.js'
-import { setDefaultSettings } from '../../stores/settings/useSettingsStore.js'
+import { useSettingsActions } from '../../stores/settings/useSettingsActions.js'
 import type { WidgetContextProps, WidgetProviderProps } from './types.js'
 
 const initialContext: WidgetContextProps = {
@@ -20,6 +21,7 @@ export const WidgetProvider: React.FC<
   React.PropsWithChildren<WidgetProviderProps>
 > = ({ children, config: widgetConfig }) => {
   const elementId = useId()
+  const { setDefaultSettings } = useSettingsActions()
 
   if (!widgetConfig?.integrator) {
     throw new Error('Required property "integrator" is missing.')
@@ -69,7 +71,7 @@ export const WidgetProvider: React.FC<
         integrator: widgetConfig.integrator,
       }
     }
-  }, [elementId, widgetConfig])
+  }, [elementId, widgetConfig, setDefaultSettings])
   return (
     <WidgetContext.Provider value={value}>{children}</WidgetContext.Provider>
   )

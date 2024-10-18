@@ -1,6 +1,5 @@
 import type {
   Appearance,
-  FieldValues,
   WidgetConfig,
   WidgetSubvariant,
   WidgetTheme,
@@ -11,16 +10,13 @@ import type { CSSProperties } from 'react'
 import type { StoreApi } from 'zustand'
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional'
 import type { ThemeItem } from '../editTools/types'
+import type { FormValues } from '../types'
 
 export interface WidgetConfigValues {
   defaultConfig?: Partial<WidgetConfig>
   config?: Partial<WidgetConfig>
   themeId: string
   widgetThemeItems: ThemeItem[]
-}
-
-export interface FormValues extends FieldValues {
-  formUpdateKey?: string
 }
 
 export interface WidgetConfigActions {

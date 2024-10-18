@@ -1,11 +1,12 @@
 import type * as React from 'react'
-import { useConfigActions, useConfigWalletManagement } from '../../../store'
+import { useConfigActions } from '../../../store/widgetConfig/useConfigActions'
+import { useConfigWalletManagement } from '../../../store/widgetConfig/useConfigValues'
 import {
   Card,
   CardRowContainer,
   CardTitleContainer,
   CardValue,
-} from '../../Card'
+} from '../../Card/Card.style'
 import { Switch } from '../../Switch'
 
 export const WalletManagementControl = () => {

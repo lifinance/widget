@@ -62,7 +62,7 @@ export interface FormProps {
   touchedFields: { [K in FormFieldNames]?: boolean }
 }
 
-interface ResetOptions {
+export interface ResetOptions {
   defaultValue?: GenericFormValue
 }
 

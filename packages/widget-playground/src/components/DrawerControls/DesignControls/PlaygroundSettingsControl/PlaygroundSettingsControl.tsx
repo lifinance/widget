@@ -1,5 +1,5 @@
 import SettingsIcon from '@mui/icons-material/Settings'
-import { ExpandableCard } from '../../../Card'
+import { ExpandableCard } from '../../../Card/ExpandableCard'
 import { PlaygroundControlsContainer } from '../DesignControls.style'
 import { BookmarkStoreControls } from './BookmarkStoreControls'
 import { DevViewToggleControls } from './DevViewToggleControl'

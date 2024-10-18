@@ -1,10 +1,12 @@
 import { ChainType } from '@lifi/sdk'
 import { Button } from '@mui/material'
 import { useState } from 'react'
-import { useDevView } from '../../../hooks'
-import { useConfigActions, useEditToolsActions } from '../../../store'
-import type { FormValues } from '../../../store/widgetConfig/types'
-import { CardRowContainer, ExpandableCard } from '../../Card'
+import { useDevView } from '../../../hooks/useDevView'
+import { useEditToolsActions } from '../../../store/editTools/useEditToolsActions'
+import type { FormValues } from '../../../store/types'
+import { useConfigActions } from '../../../store/widgetConfig/useConfigActions'
+import { CardRowContainer } from '../../Card/Card.style'
+import { ExpandableCard } from '../../Card/ExpandableCard'
 import { Switch } from '../../Switch'
 import {
   CapitalizeFirstLetter,

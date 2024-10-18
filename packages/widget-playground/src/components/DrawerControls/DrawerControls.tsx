@@ -4,30 +4,27 @@ import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstruct
 import RestartAltIcon from '@mui/icons-material/RestartAlt'
 import TabContext from '@mui/lab/TabContext'
 import { Box, IconButton, Tooltip } from '@mui/material'
-import { useFontInitialisation } from '../../providers'
-import {
-  useConfigActions,
-  useDrawerToolValues,
-  useEditToolsActions,
-} from '../../store'
-import { ExpandableCardAccordion } from '../Card'
-import { Tab, Tabs } from '../Tabs'
-import { CodeControl } from './CodeControl'
-import {
-  AppearanceControl,
-  ButtonRadiusControl,
-  CardRadiusControl,
-  ColorControl,
-  FontsControl,
-  LayoutControls,
-  PlaygroundSettingsControl,
-  SkeletonControl,
-  SubvariantControl,
-  ThemeControl,
-  VariantControl,
-  WalletManagementControl,
-} from './DesignControls'
+import { useFontInitialisation } from '../../providers/FontLoaderProvider/FontLoaderProvider'
+import { useDrawerToolValues } from '../../store/editTools/useDrawerToolValues'
+import { useEditToolsActions } from '../../store/editTools/useEditToolsActions'
+import { useConfigActions } from '../../store/widgetConfig/useConfigActions'
+import { ExpandableCardAccordion } from '../Card/ExpandableCardAccordion'
+import { Tab, Tabs } from '../Tabs/Tabs.style'
+import { CodeControl } from './CodeControl/CodeControl'
+import { AppearanceControl } from './DesignControls/AppearanceControl'
+import { ButtonRadiusControl } from './DesignControls/ButtonRaduisControl'
+import { CardRadiusControl } from './DesignControls/CardRadiusControl'
+import { ColorControl } from './DesignControls/ColorControls'
+import { FontsControl } from './DesignControls/FontsControl/FontsControl'
 import { FormValuesControl } from './DesignControls/FormValuesControls'
+import { LayoutControls } from './DesignControls/LayoutControls'
+import { PlaygroundSettingsControl } from './DesignControls/PlaygroundSettingsControl/PlaygroundSettingsControl'
+import { SkeletonControl } from './DesignControls/SkeletonControl'
+import { SubvariantControl } from './DesignControls/SubvariantControl'
+import { ThemeControl } from './DesignControls/ThemeControl'
+import { VariantControl } from './DesignControls/VariantControl'
+import { WalletManagementControl } from './DesignControls/WalletManagementControl'
+import { WidgetEventControls } from './DesignControls/WidgetEventsControls'
 import {
   Drawer,
   DrawerContentContainer,
@@ -124,6 +121,7 @@ export const DrawerControls = () => {
                   <CardRadiusControl />
                   <ButtonRadiusControl />
                   <FormValuesControl />
+                  <WidgetEventControls />
                   <WalletManagementControl />
                   <SkeletonControl />
                   <LayoutControls />

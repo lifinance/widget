@@ -27,6 +27,7 @@ import { useDefaultElementId } from '../hooks/useDefaultElementId.js'
 import { useHeader } from '../hooks/useHeader.js'
 import { useScrollableContainer } from '../hooks/useScrollableContainer.js'
 import { useTools } from '../hooks/useTools.js'
+import { useSettingsActions } from '../stores/settings/useSettingsActions.js'
 import { useSettingsStore } from '../stores/settings/useSettingsStore.js'
 
 interface SelectAllCheckboxProps {
@@ -76,16 +77,11 @@ export const SelectEnabledToolsPage: React.FC<{
 }> = ({ type }) => {
   const typeKey = type.toLowerCase() as 'bridges' | 'exchanges'
   const { tools } = useTools()
-  const [enabledTools, disabledTools, setToolValue, toggleToolKeys] =
-    useSettingsStore(
-      (state) => [
-        state[`_enabled${type}`],
-        state[`disabled${type}`],
-        state.setToolValue,
-        state.toggleToolKeys,
-      ],
-      shallow
-    )
+  const { setToolValue, toggleToolKeys } = useSettingsActions()
+  const [enabledTools, disabledTools] = useSettingsStore(
+    (state) => [state[`_enabled${type}`], state[`disabled${type}`]],
+    shallow
+  )
 
   const { t } = useTranslation()
   const elementId = useDefaultElementId()

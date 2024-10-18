@@ -1,11 +1,9 @@
 import type { MouseEventHandler } from 'react'
 import { useEffect, useState } from 'react'
-import {
-  defaultDrawerWidth,
-  useCodeToolValues,
-  useDrawerToolValues,
-  useEditToolsActions,
-} from '../../store'
+import { defaultDrawerWidth } from '../../store/editTools/constants'
+import { useCodeToolValues } from '../../store/editTools/useCodeToolValues'
+import { useDrawerToolValues } from '../../store/editTools/useDrawerToolValues'
+import { useEditToolsActions } from '../../store/editTools/useEditToolsActions'
 import {
   DrawerHandleButton,
   DrawerIconLeft,

@@ -2,21 +2,19 @@ import { defaultMaxHeight } from '@lifi/widget'
 import { MenuItem, type SelectChangeEvent } from '@mui/material'
 import type { CSSProperties, FocusEventHandler } from 'react'
 import { type ChangeEventHandler, useEffect, useId, useState } from 'react'
-import {
-  type Layout,
-  useConfig,
-  useConfigActions,
-  useConfigVariant,
-  useEditToolsActions,
-  useHeaderAndFooterToolValues,
-  useLayoutValues,
-} from '../../../store'
+import type { Layout } from '../../../store/editTools/types'
+import { useEditToolsActions } from '../../../store/editTools/useEditToolsActions'
+import { useHeaderAndFooterToolValues } from '../../../store/editTools/useHeaderAndFooterToolValues'
+import { useLayoutValues } from '../../../store/editTools/useLayoutValues'
+import { useConfig } from '../../../store/widgetConfig/useConfig'
+import { useConfigActions } from '../../../store/widgetConfig/useConfigActions'
+import { useConfigVariant } from '../../../store/widgetConfig/useConfigValues'
 import {
   CardRowColumn,
   CardRowContainer,
   CardValue,
-  ExpandableCard,
-} from '../../Card'
+} from '../../Card/Card.style'
+import { ExpandableCard } from '../../Card/ExpandableCard'
 import { popperZIndex } from '../DrawerControls.style'
 import {
   CapitalizeFirstLetter,

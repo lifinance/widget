@@ -1,10 +1,8 @@
 import type { BoxProps } from '@mui/material'
 import { useTheme } from '@mui/material'
-import {
-  useEditToolsActions,
-  usePlaygroundSettingValues,
-} from '../../../../store'
-import { safe6DigitHexColor } from '../../../../utils'
+import { useEditToolsActions } from '../../../../store/editTools/useEditToolsActions'
+import { usePlaygroundSettingValues } from '../../../../store/editTools/usePlaygroundSettingValues'
+import { safe6DigitHexColor } from '../../../../utils/color'
 import {
   CapitalizeFirstLetter,
   ColorControlContainer,

@@ -1,10 +1,9 @@
 import { useEffect } from 'react'
-import {
-  useConfigVariant,
-  useEditToolsActions,
-  useSkeletonToolValues,
-} from '../../../store'
-import { CardRowContainer, CardValue, ExpandableCard } from '../../Card'
+import { useEditToolsActions } from '../../../store/editTools/useEditToolsActions'
+import { useSkeletonToolValues } from '../../../store/editTools/useSkeletonToolValues'
+import { useConfigVariant } from '../../../store/widgetConfig/useConfigValues'
+import { CardRowContainer, CardValue } from '../../Card/Card.style'
+import { ExpandableCard } from '../../Card/ExpandableCard'
 import { Switch } from '../../Switch'
 
 export const SkeletonControl = () => {

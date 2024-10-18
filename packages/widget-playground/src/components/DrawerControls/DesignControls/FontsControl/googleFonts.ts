@@ -1,9 +1,10 @@
-import type { Font } from '../../../../../providers'
+import type { Font } from '../../../../providers/FontLoaderProvider/types'
 
 // NOTE: We could explore using the Google fonts developer API to write a
 //  script to auto generate more fonts we could even consider a light Next API endpoint to serve a list
 //  of the 1500+ fonts that are on Google.
 //  In the app we currently have a list of the 10 most popular fonts from Google that carry all the weights
+
 //  that widget needs
 export const googleFonts: Font[] = [
   {

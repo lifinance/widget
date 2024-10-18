@@ -1,5 +1,5 @@
-import { useDevView } from '../../../../hooks'
-import { CardRowColumn } from '../../../Card'
+import { useDevView } from '../../../../hooks/useDevView'
+import { CardRowColumn } from '../../../Card/Card.style'
 import { Switch } from '../../../Switch'
 import {
   CapitalizeFirstLetter,

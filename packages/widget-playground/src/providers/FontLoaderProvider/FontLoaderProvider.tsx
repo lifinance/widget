@@ -2,8 +2,9 @@ import type { UseMutateAsyncFunction } from '@tanstack/react-query'
 import { useMutation } from '@tanstack/react-query'
 import type { PropsWithChildren } from 'react'
 import { createContext, useContext, useEffect, useState } from 'react'
-import { allFonts } from '../../components/DrawerControls/DesignControls'
-import { useConfigFontFamily, useEditToolsActions } from '../../store'
+import { allFonts } from '../../components/DrawerControls/DesignControls/FontsControl/defaultFonts'
+import { useEditToolsActions } from '../../store/editTools/useEditToolsActions'
+import { useConfigFontFamily } from '../../store/widgetConfig/useConfigValues'
 import type { Font } from './types'
 
 interface FontLoadingContextProps {

@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { useChain } from '../../hooks/useChain.js'
 import { useToken } from '../../hooks/useToken.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
+import { getPriceImpact } from '../../utils/getPriceImpact.js'
 import { AvatarBadgedSkeleton } from '../Avatar/Avatar.js'
 import { SmallAvatar } from '../Avatar/SmallAvatar.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
@@ -78,14 +79,12 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
   let priceImpact: number | undefined = undefined
   let priceImpactPercent: number | undefined = undefined
   if (impactToken) {
-    const impactTokenAmount = formatTokenAmount(
-      impactToken.amount,
-      impactToken.decimals
-    )
-    const impactTokenPrice =
-      formatTokenPrice(impactTokenAmount, impactToken.priceUSD) || 0.01
-
-    priceImpact = tokenPrice / impactTokenPrice - 1
+    priceImpact = getPriceImpact({
+      fromToken: impactToken,
+      fromAmount: impactToken.amount,
+      toToken: token,
+      toAmount: token.amount,
+    })
     priceImpactPercent = priceImpact * 100
   }
 

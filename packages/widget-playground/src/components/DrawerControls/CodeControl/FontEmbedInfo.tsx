@@ -11,7 +11,7 @@ import {
 } from '@mui/material'
 import type { MouseEventHandler } from 'react'
 import { useState } from 'react'
-import { useFontToolValues } from '../../../store'
+import { useFontToolValues } from '../../../store/editTools/useFontToolValues'
 import { popperZIndex, tooltipPopperZIndex } from '../DrawerControls.style'
 import {
   FontEmbedPopperContainer,

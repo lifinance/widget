@@ -7,18 +7,17 @@ import { Box, Tooltip } from '@mui/material'
 import diff from 'microdiff'
 import type { FC, PropsWithChildren, ReactElement, SyntheticEvent } from 'react'
 import { useEffect } from 'react'
-import type { ThemeMode } from '../../../hooks'
-import { useThemeMode } from '../../../hooks'
-import type { ThemeItem } from '../../../store'
-import {
-  useConfigActions,
-  useConfigAppearance,
-  useEditToolsActions,
-  useThemeValues,
-} from '../../../store'
-import { cloneStructuredConfig, patch } from '../../../utils'
-import { CardValue, ExpandableCard } from '../../Card'
-import { Tab, Tabs } from '../../Tabs'
+import { type ThemeMode, useThemeMode } from '../../../hooks/useThemeMode'
+import type { ThemeItem } from '../../../store/editTools/types'
+import { useEditToolsActions } from '../../../store/editTools/useEditToolsActions'
+import { useConfigActions } from '../../../store/widgetConfig/useConfigActions'
+import { useConfigAppearance } from '../../../store/widgetConfig/useConfigAppearance'
+import { useThemeValues } from '../../../store/widgetConfig/useThemeValues'
+import { cloneStructuredConfig } from '../../../utils/cloneStructuredConfig'
+import { patch } from '../../../utils/patch'
+import { CardValue } from '../../Card/Card.style'
+import { ExpandableCard } from '../../Card/ExpandableCard'
+import { Tab, Tabs } from '../../Tabs/Tabs.style'
 import { Badge, CapitalizeFirstLetter } from './DesignControls.style'
 
 const appearanceIcons = {

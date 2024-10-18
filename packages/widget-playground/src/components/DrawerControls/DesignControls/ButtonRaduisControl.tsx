@@ -1,10 +1,9 @@
 import type { ChangeEventHandler } from 'react'
 import { useState } from 'react'
-import {
-  useConfigActions,
-  useConfigBorderRadiusSecondary,
-} from '../../../store'
-import { CardValue, ExpandableCard } from '../../Card'
+import { useConfigActions } from '../../../store/widgetConfig/useConfigActions'
+import { useConfigBorderRadiusSecondary } from '../../../store/widgetConfig/useConfigValues'
+import { CardValue } from '../../Card/Card.style'
+import { ExpandableCard } from '../../Card/ExpandableCard'
 import {
   TabButton,
   TabButtonsContainer,

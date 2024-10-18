@@ -2,16 +2,14 @@ import MenuOpenIcon from '@mui/icons-material/MenuOpen'
 import { Tooltip } from '@mui/material'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import type { PropsWithChildren } from 'react'
-import { ExternalWalletProvider } from '../../providers'
-import {
-  type Layout,
-  useConfig,
-  useDrawerToolValues,
-  useEditToolsActions,
-  useHeaderAndFooterToolValues,
-  useLayoutValues,
-} from '../../store'
-import { MockElement } from '../Mock'
+import { ExternalWalletProvider } from '../../providers/ExternalWalletProvider/ExternalWalletProvider'
+import type { Layout } from '../../store/editTools/types'
+import { useDrawerToolValues } from '../../store/editTools/useDrawerToolValues'
+import { useEditToolsActions } from '../../store/editTools/useEditToolsActions'
+import { useHeaderAndFooterToolValues } from '../../store/editTools/useHeaderAndFooterToolValues'
+import { useLayoutValues } from '../../store/editTools/useLayoutValues'
+import { useConfig } from '../../store/widgetConfig/useConfig'
+import { MockElement } from '../Mock/MockElement'
 import { ToggleDrawerButton } from './ToggleDrawerButton'
 import {
   DrawerOpenButton,

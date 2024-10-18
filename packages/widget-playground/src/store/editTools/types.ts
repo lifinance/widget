@@ -1,8 +1,8 @@
 import type { WidgetTheme } from '@lifi/widget'
 import type { StoreApi } from 'zustand'
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional'
-import type { Font } from '../../providers'
-import type { FormValues } from '../widgetConfig/types'
+import type { Font } from '../../providers/FontLoaderProvider/types'
+import type { FormValues } from '../types'
 
 type ControlType = 'design' | 'code'
 type CodeControlTab = 'config' | 'examples'
@@ -33,6 +33,7 @@ export interface ThemeItem {
   name: string
   theme: ThemeAppearances & ThemeAppearancesIndexable
 }
+
 export interface EditToolsValues {
   drawer: {
     open: boolean

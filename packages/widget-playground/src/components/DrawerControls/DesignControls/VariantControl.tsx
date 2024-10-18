@@ -1,8 +1,10 @@
 import type { WidgetVariant } from '@lifi/widget'
 import type { SyntheticEvent } from 'react'
-import { useConfigActions, useConfigVariant } from '../../../store'
-import { CardValue, ExpandableCard } from '../../Card'
-import { Tab, Tabs } from '../../Tabs'
+import { useConfigActions } from '../../../store/widgetConfig/useConfigActions'
+import { useConfigVariant } from '../../../store/widgetConfig/useConfigValues'
+import { CardValue } from '../../Card/Card.style'
+import { ExpandableCard } from '../../Card/ExpandableCard'
+import { Tab, Tabs } from '../../Tabs/Tabs.style'
 
 export const VariantControl = () => {
   const { variant } = useConfigVariant()

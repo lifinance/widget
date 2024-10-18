@@ -1,5 +1,6 @@
 import type { WidgetConfig } from '@lifi/widget'
-import { cloneStructuredConfig, substituteFunctions } from '../../../../utils'
+import { cloneStructuredConfig } from '../../../../utils/cloneStructuredConfig'
+import { substituteFunctions } from '../../../../utils/substituteFunctions'
 import { addFunctionsAsStrings } from './addFunctionsAsStrings'
 
 const configTemplate = (config?: string) =>

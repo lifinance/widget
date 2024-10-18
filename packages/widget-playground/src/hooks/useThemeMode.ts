@@ -1,5 +1,5 @@
 import { useMediaQuery } from '@mui/material'
-import { useConfigAppearance } from '../store'
+import { useConfigAppearance } from '../store/widgetConfig/useConfigAppearance'
 
 export type ThemeMode = 'dark' | 'light'
 

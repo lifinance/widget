@@ -1,10 +1,8 @@
-import {
-  useConfig,
-  useConfigActions,
-  useEditToolsActions,
-  useHeaderAndFooterToolValues,
-} from '../../../../store'
-import { CardRowColumn } from '../../../Card'
+import { useEditToolsActions } from '../../../../store/editTools/useEditToolsActions'
+import { useHeaderAndFooterToolValues } from '../../../../store/editTools/useHeaderAndFooterToolValues'
+import { useConfig } from '../../../../store/widgetConfig/useConfig'
+import { useConfigActions } from '../../../../store/widgetConfig/useConfigActions'
+import { CardRowColumn } from '../../../Card/Card.style'
 import { Switch } from '../../../Switch'
 import { ControlContainer, ControlRowContainer } from '../DesignControls.style'
 

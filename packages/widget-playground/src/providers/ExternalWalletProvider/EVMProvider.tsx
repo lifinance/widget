@@ -12,8 +12,8 @@ import { type FC, type PropsWithChildren, useMemo } from 'react'
 import type { Chain } from 'viem'
 import { WagmiProvider } from 'wagmi'
 import { mainnet } from 'wagmi/chains'
-import { useThemeMode } from '../../hooks'
-import { useEnvVariables } from '../../providers'
+import { useThemeMode } from '../../hooks/useThemeMode'
+import { useEnvVariables } from '../EnvVariablesProvider'
 import { theme } from '../PlaygroundThemeProvider/theme'
 
 const rkThemeColors = {

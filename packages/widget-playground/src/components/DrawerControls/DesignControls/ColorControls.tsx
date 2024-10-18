@@ -1,7 +1,8 @@
 import type { BoxProps } from '@mui/material'
-import { useConfigActions, useConfigColorsFromPath } from '../../../store'
-import { safe6DigitHexColor } from '../../../utils'
-import { ExpandableCard } from '../../Card'
+import { useConfigActions } from '../../../store/widgetConfig/useConfigActions'
+import { useConfigColorsFromPath } from '../../../store/widgetConfig/useConfigValues'
+import { safe6DigitHexColor } from '../../../utils/color'
+import { ExpandableCard } from '../../Card/ExpandableCard'
 import {
   CapitalizeFirstLetter,
   ColorControlContainer,

@@ -6,7 +6,7 @@ import {
   CardRowButton,
   CardTitleContainer,
   CardValue,
-} from '../Card.style'
+} from './Card.style'
 import { useExpandableCard } from './useExpandableCard'
 
 interface ExpandableCardProps {

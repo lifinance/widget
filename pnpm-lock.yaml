@@ -284,7 +284,7 @@ importers:
         version: link:../../packages/widget
       '@rainbow-me/rainbowkit':
         specifier: ^2.2.0
-        version: 2.2.0(bwte2vcmmqfrvy7n6odrij7m3u)
+        version: 2.2.0(cd7tedotuc2e4g2ojr3r5eefmy)
       '@tanstack/react-query':
         specifier: ^5.59.15
         version: 5.59.15(react@18.3.1)
@@ -557,13 +557,13 @@ importers:
     dependencies:
       '@bigmi/client':
         specifier: ^0.0.2
-        version: 0.0.2(xg2d7cvzv34xmtae5satoebtpa)
+        version: 0.0.2(se625lo2eu7qyzlgpotk3n5jjm)
       '@bigmi/core':
         specifier: ^0.0.2
         version: 0.0.2(bitcoinjs-lib@7.0.0-rc.0(typescript@5.6.3))(bs58@6.0.0)(viem@2.21.28(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.22.4))
       '@bigmi/react':
         specifier: ^0.0.2
-        version: 0.0.2(tlvld3tuf3mder53tdhjkq7lum)
+        version: 0.0.2(5fvrtqzbti5y47ojhyrundbxf4)
       '@emotion/react':
         specifier: ^11.13.3
         version: 11.13.3(@types/react@18.3.11)(react@18.3.1)
@@ -648,13 +648,13 @@ importers:
     dependencies:
       '@bigmi/client':
         specifier: ^0.0.2
-        version: 0.0.2(xg2d7cvzv34xmtae5satoebtpa)
+        version: 0.0.2(se625lo2eu7qyzlgpotk3n5jjm)
       '@bigmi/core':
         specifier: ^0.0.2
         version: 0.0.2(bitcoinjs-lib@7.0.0-rc.0(typescript@5.6.3))(bs58@6.0.0)(viem@2.21.28(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.22.4))
       '@bigmi/react':
         specifier: ^0.0.2
-        version: 0.0.2(tlvld3tuf3mder53tdhjkq7lum)
+        version: 0.0.2(5fvrtqzbti5y47ojhyrundbxf4)
       '@emotion/react':
         specifier: ^11.13.3
         version: 11.13.3(@types/react@18.3.11)(react@18.3.1)
@@ -848,7 +848,7 @@ importers:
         version: 5.16.7(@emotion/react@11.13.3(@types/react@18.3.11)(react@18.3.1))(@emotion/styled@11.13.0(@emotion/react@11.13.3(@types/react@18.3.11)(react@18.3.1))(@types/react@18.3.11)(react@18.3.1))(@types/react@18.3.11)(react@18.3.1)
       '@rainbow-me/rainbowkit':
         specifier: ^2.2.0
-        version: 2.2.0(bwte2vcmmqfrvy7n6odrij7m3u)
+        version: 2.2.0(cd7tedotuc2e4g2ojr3r5eefmy)
       '@solana/wallet-adapter-base':
         specifier: ^0.9.23
         version: 0.9.23(@solana/web3.js@1.95.3(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10))
@@ -904,6 +904,9 @@ importers:
       cpy-cli:
         specifier: ^5.0.0
         version: 5.0.0
+      madge:
+        specifier: ^8.0.0
+        version: 8.0.0(typescript@5.6.3)
       typescript:
         specifier: ^5.6.3
         version: 5.6.3
@@ -12455,7 +12458,7 @@ snapshots:
       '@babel/helper-validator-identifier': 7.25.7
       to-fast-properties: 2.0.0
 
-  '@bigmi/client@0.0.2(xg2d7cvzv34xmtae5satoebtpa)':
+  '@bigmi/client@0.0.2(se625lo2eu7qyzlgpotk3n5jjm)':
     dependencies:
       '@bigmi/core': 0.0.2(bitcoinjs-lib@7.0.0-rc.0(typescript@5.6.3))(bs58@6.0.0)(viem@2.21.28(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.22.4))
       '@wagmi/core': 2.13.8(@tanstack/query-core@5.59.13)(@types/react@18.3.11)(react@18.3.1)(typescript@5.6.3)(viem@2.21.28(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.22.4))
@@ -12479,9 +12482,9 @@ snapshots:
       bs58: 6.0.0
       viem: 2.21.28(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.22.4)
 
-  '@bigmi/react@0.0.2(tlvld3tuf3mder53tdhjkq7lum)':
+  '@bigmi/react@0.0.2(5fvrtqzbti5y47ojhyrundbxf4)':
     dependencies:
-      '@bigmi/client': 0.0.2(xg2d7cvzv34xmtae5satoebtpa)
+      '@bigmi/client': 0.0.2(se625lo2eu7qyzlgpotk3n5jjm)
       '@bigmi/core': 0.0.2(bitcoinjs-lib@7.0.0-rc.0(typescript@5.6.3))(bs58@6.0.0)(viem@2.21.28(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.22.4))
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -14695,7 +14698,7 @@ snapshots:
 
   '@popperjs/core@2.11.8': {}
 
-  '@rainbow-me/rainbowkit@2.2.0(bwte2vcmmqfrvy7n6odrij7m3u)':
+  '@rainbow-me/rainbowkit@2.2.0(cd7tedotuc2e4g2ojr3r5eefmy)':
     dependencies:
       '@tanstack/react-query': 5.59.15(react@18.3.1)
       '@vanilla-extract/css': 1.15.5(babel-plugin-macros@3.1.0)

@@ -2,7 +2,7 @@ import type { WidgetTheme } from '@lifi/widget'
 import type { StateCreator } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { createWithEqualityFn } from 'zustand/traditional'
-import type { FormValues } from '../widgetConfig/types'
+import type { FormValues } from '../types'
 import { defaultDrawerWidth } from './constants'
 import type { ToolsState } from './types'
 
