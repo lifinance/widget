@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.8.0](https://github.com/lifinance/widget/compare/v3.7.0...v3.8.0) (2024-10-18)
+
+
+### Features
+
+* add Bitcoin/UTXO support ([#297](https://github.com/lifinance/widget/issues/297)) ([f83341f](https://github.com/lifinance/widget/commit/f83341f9b0d559dfda6c0cd37629b5f36642ae86))
+* emit events for settings changes ([#312](https://github.com/lifinance/widget/issues/312)) ([cf48cf2](https://github.com/lifinance/widget/commit/cf48cf22bec198099284cf3ce6ed6609b76a5f39))
+* widget events for send to wallet ([#309](https://github.com/lifinance/widget/issues/309)) ([b247afb](https://github.com/lifinance/widget/commit/b247afbb41b1ffd04be8f4b09862f72fc40d4a37))
+
+
+### Bug Fixes
+
+* crowdin config ([f9bf9ba](https://github.com/lifinance/widget/commit/f9bf9bab7fa2891d849f70c72ff16b096701fbb0))
+* nextjs example link ([a482ff3](https://github.com/lifinance/widget/commit/a482ff3510a72a6d619ac5e86af70b2dc28e11cc))
+* refactor, use and export calcPriceImpact function ([#307](https://github.com/lifinance/widget/issues/307)) ([234844f](https://github.com/lifinance/widget/commit/234844f79afd7b65dbfb6f46c3725ace247f5c0a))
+
 ## [3.7.0](https://github.com/lifinance/widget/compare/v3.6.2...v3.7.0) (2024-10-02)
 
 
