@@ -1,21 +1,21 @@
-import type { Route } from '@lifi/sdk';
-import { WarningRounded } from '@mui/icons-material';
-import { Box, Button, Typography } from '@mui/material';
-import type { MutableRefObject } from 'react';
-import { forwardRef, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js';
-import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
-import { FeeBreakdownTooltip } from '../../components/FeeBreakdownTooltip.js';
-import { useSetContentHeight } from '../../hooks/useSetContentHeight.js';
-import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js';
-import { CenterContainer, IconCircle } from './StatusBottomSheet.style.js';
-import { calculateValueLossPercentage } from './utils.js';
+import type { Route } from '@lifi/sdk'
+import { WarningRounded } from '@mui/icons-material'
+import { Box, Button, Typography } from '@mui/material'
+import type { MutableRefObject } from 'react'
+import { forwardRef, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
+import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
+import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
+import { FeeBreakdownTooltip } from '../../components/FeeBreakdownTooltip.js'
+import { useSetContentHeight } from '../../hooks/useSetContentHeight.js'
+import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
+import { CenterContainer, IconCircle } from './StatusBottomSheet.style.js'
+import { calculateValueLossPercentage } from './utils.js'
 
 interface TokenValueBottomSheetProps {
-  route: Route;
-  onContinue(): void;
-  onCancel?(): void;
+  route: Route
+  onContinue(): void
+  onCancel?(): void
 }
 
 export const TokenValueBottomSheet = forwardRef<
@@ -23,9 +23,9 @@ export const TokenValueBottomSheet = forwardRef<
   TokenValueBottomSheetProps
 >(({ route, onContinue, onCancel }, ref) => {
   const handleCancel = () => {
-    (ref as MutableRefObject<BottomSheetBase>).current?.close();
-    onCancel?.();
-  };
+    ;(ref as MutableRefObject<BottomSheetBase>).current?.close()
+    onCancel?.()
+  }
 
   return (
     <BottomSheet ref={ref} onClose={onCancel}>
@@ -35,21 +35,21 @@ export const TokenValueBottomSheet = forwardRef<
         onCancel={handleCancel}
       />
     </BottomSheet>
-  );
-});
+  )
+})
 
 const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
   route,
   onCancel,
   onContinue,
 }) => {
-  const { t } = useTranslation();
-  const ref = useRef<HTMLElement>();
-  useSetContentHeight(ref);
+  const { t } = useTranslation()
+  const ref = useRef<HTMLElement>()
+  useSetContentHeight(ref)
   const { gasCosts, feeCosts, gasCostUSD, feeCostUSD } =
-    getAccumulatedFeeCostsBreakdown(route);
-  const fromAmountUSD = parseFloat(route.fromAmountUSD);
-  const toAmountUSD = parseFloat(route.toAmountUSD);
+    getAccumulatedFeeCostsBreakdown(route)
+  const fromAmountUSD = Number.parseFloat(route.fromAmountUSD)
+  const toAmountUSD = Number.parseFloat(route.toAmountUSD)
   return (
     <Box p={3} ref={ref}>
       <CenterContainer>
@@ -98,7 +98,7 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
             fromAmountUSD,
             toAmountUSD,
             gasCostUSD,
-            feeCostUSD,
+            feeCostUSD
           )}
           %
         </Typography>
@@ -113,5 +113,5 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
         </Button>
       </Box>
     </Box>
-  );
-};
+  )
+}

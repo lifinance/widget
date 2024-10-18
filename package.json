@@ -1,72 +1,69 @@
 {
-  "version": "3.7.0",
+  "version": "3.7.0-beta.15",
   "private": true,
   "sideEffects": false,
   "type": "module",
-  "packageManager": "yarn@4.4.0",
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
-    "start": "lerna run start",
-    "build": "lerna run build",
-    "clean": "lerna run clean",
-    "dev": "yarn workspace @lifi/widget-playground-vite dev",
-    "dev:next": "yarn workspace @lifi/widget-playground-next dev",
-    "release": "yarn release:version:before && yarn release:version && yarn release:version:after && yarn standard-version -a",
-    "release:alpha": "yarn release:version:before && yarn release:version --preid alpha && yarn release:version:after && yarn standard-version -a --prerelease alpha --skip.changelog",
-    "release:beta": "yarn release:version:before && yarn release:version --preid beta && yarn release:version:after && yarn standard-version -a --prerelease beta --skip.changelog",
+    "build": "pnpm -r --parallel --filter './packages/**' --filter !'*-playground-*' --filter !'*-embedded' build && pnpm -r --parallel --filter './packages/**' --filter '*-playground-*' --filter '*-embedded' build",
+    "clean": "pnpm -r --parallel --filter './packages/**' clean",
+    "dev": "pnpm --filter widget-playground-vite dev",
+    "dev:next": "pnpm --filter widget-playground-next dev",
+    "release": "pnpm release:version && pnpm release:build && pnpm standard-version -a",
+    "release:alpha": "pnpm release:version --preid alpha && pnpm release:build && pnpm standard-version -a --prerelease alpha --skip.changelog",
+    "release:beta": "pnpm release:version --preid beta && pnpm release:build && pnpm standard-version -a --prerelease beta --skip.changelog",
     "release:version": "lerna version --no-changelog --no-push --no-git-tag-version --no-private",
-    "release:version:before": "node scripts/private-version before",
-    "release:version:after": "yarn release:build && node scripts/private-version after",
-    "release:build": "lerna run build --no-private",
-    "release:publish": "lerna publish from-package --dist-tag latest --no-verify-access --yes",
-    "release:publish:alpha": "lerna publish from-package --dist-tag alpha --no-verify-access --yes",
-    "release:publish:beta": "lerna publish from-package --dist-tag beta --no-verify-access --yes",
-    "pre-commit": "lint-staged",
-    "pre-commit:validate": "yarn workspaces foreach -Apt run pre-commit:validate",
-    "pre-push": "yarn workspaces foreach -Apt run pre-push:validate",
+    "release:build": "pnpm -r --parallel release:build",
+    "release:publish:build": "pnpm release:build && pnpm -r --parallel build:prerelease",
+    "release:publish": "pnpm release:publish:build && pnpm -r publish --access public --no-git-checks --tag latest && pnpm release:clean",
+    "release:publish:alpha": "pnpm release:publish:build && pnpm -r publish --access public --no-git-checks --tag alpha && pnpm release:clean",
+    "release:publish:beta": "pnpm release:publish:build && pnpm -r publish --access public --no-git-checks --tag beta && pnpm release:clean",
+    "release:clean": "pnpm -r --parallel --filter './packages/**' --filter '!*-playground-*' --filter '!*-embedded' exec sh -c \"node ../../scripts/postrelease.js && rm -rf *.md\"",
+    "check": "biome check",
+    "check:write": "biome check --write",
+    "check:write:unsafe": "biome check --write --unsafe",
+    "check:types": "pnpm -r --parallel check:types",
+    "check:circular-deps": "pnpm -r --parallel check:circular-deps",
+    "link:sdk": "pnpm -r --parallel link:sdk",
+    "unlink:sdk": "pnpm -r --parallel unlink:sdk",
+    "pre-commit": "pnpm check && pnpm check:types && pnpm check:circular-deps",
     "prepare": "husky",
     "postinstall": "husky"
   },
+  "lint-staged": {
+    "*": ["pnpm pre-commit"]
+  },
   "standard-version": {
     "scripts": {
-      "prerelease": "yarn && git add ."
+      "prerelease": "pnpm install && git add .",
+      "postbump": "pnpm check:write && git add ."
     }
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
     "@testing-library/dom": "^10.4.0",
-    "@testing-library/jest-dom": "^6.5.0",
+    "@testing-library/jest-dom": "^6.6.2",
     "@testing-library/react": "^16.0.1",
     "@testing-library/user-event": "^14.5.2",
-    "@types/eslint": "^8.56.12",
     "@types/events": "^3.0.3",
-    "@types/node": "^22.7.4",
-    "@types/react": "^18.3.10",
-    "@types/react-dom": "^18.3.0",
-    "@types/uuid": "^10.0.0",
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
-    "@typescript-eslint/parser": "^7.18.0",
+    "@types/node": "^22.7.6",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
     "cpy-cli": "^5.0.0",
-    "eslint": "^8.57.1",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-config-react-app": "^7.0.1",
-    "eslint-plugin-flowtype": "^8.0.3",
-    "eslint-plugin-import": "^2.30.0",
-    "eslint-plugin-jsx-a11y": "^6.10.0",
-    "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-react": "^7.37.1",
-    "eslint-plugin-react-hooks": "^4.6.2",
+    "fs-extra": "^11.2.0",
     "husky": "^9.1.6",
     "lerna": "8.1.8",
     "lint-staged": "^15.2.10",
-    "prettier": "^3.3.3",
-    "prettier-plugin-organize-imports": "^4.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "standard-version": "^9.5.0",
-    "typescript": "^5.6.2"
-  }
+    "typescript": "^5.6.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "bs58": ">=4.0.1"
+    }
+  },
+  "packageManager": "pnpm@9.12.1"
 }

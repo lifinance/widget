@@ -1,41 +1,35 @@
-import type { Appearance, WidgetTheme } from '@lifi/widget';
-import BrightnessAutoIcon from '@mui/icons-material/BrightnessAuto';
-import LightModeIcon from '@mui/icons-material/LightMode';
-import NightlightIcon from '@mui/icons-material/Nightlight';
-import type { TabProps } from '@mui/material';
-import { Box, Tooltip } from '@mui/material';
-import diff from 'microdiff';
-import type {
-  FC,
-  PropsWithChildren,
-  ReactElement,
-  SyntheticEvent,
-} from 'react';
-import { useEffect } from 'react';
-import type { ThemeMode } from '../../../hooks';
-import { useThemeMode } from '../../../hooks';
-import type { ThemeItem } from '../../../store';
-import {
-  useConfigActions,
-  useConfigAppearance,
-  useEditToolsActions,
-  useThemeValues,
-} from '../../../store';
-import { cloneStructuredConfig, patch } from '../../../utils';
-import { CardValue, ExpandableCard } from '../../Card';
-import { Tab, Tabs } from '../../Tabs';
-import { Badge, CapitalizeFirstLetter } from './DesignControls.style';
+import type { Appearance, WidgetTheme } from '@lifi/widget'
+import BrightnessAutoIcon from '@mui/icons-material/BrightnessAuto'
+import LightModeIcon from '@mui/icons-material/LightMode'
+import NightlightIcon from '@mui/icons-material/Nightlight'
+import type { TabProps } from '@mui/material'
+import { Box, Tooltip } from '@mui/material'
+import diff from 'microdiff'
+import type { FC, PropsWithChildren, ReactElement, SyntheticEvent } from 'react'
+import { useEffect } from 'react'
+import { type ThemeMode, useThemeMode } from '../../../hooks/useThemeMode'
+import type { ThemeItem } from '../../../store/editTools/types'
+import { useEditToolsActions } from '../../../store/editTools/useEditToolsActions'
+import { useConfigActions } from '../../../store/widgetConfig/useConfigActions'
+import { useConfigAppearance } from '../../../store/widgetConfig/useConfigAppearance'
+import { useThemeValues } from '../../../store/widgetConfig/useThemeValues'
+import { cloneStructuredConfig } from '../../../utils/cloneStructuredConfig'
+import { patch } from '../../../utils/patch'
+import { CardValue } from '../../Card/Card.style'
+import { ExpandableCard } from '../../Card/ExpandableCard'
+import { Tab, Tabs } from '../../Tabs/Tabs.style'
+import { Badge, CapitalizeFirstLetter } from './DesignControls.style'
 
 const appearanceIcons = {
   light: LightModeIcon,
   dark: NightlightIcon,
   auto: BrightnessAutoIcon,
-};
+}
 
 interface AppearanceTabProps extends TabProps {
-  title: string;
-  value: Appearance;
-  Icon: ReactElement;
+  title: string
+  value: Appearance
+  Icon: ReactElement
 }
 
 const AppearanceTab: FC<AppearanceTabProps> = ({
@@ -51,10 +45,10 @@ const AppearanceTab: FC<AppearanceTabProps> = ({
     <Tooltip title={title} arrow>
       <Tab icon={Icon} value={value} {...props} />
     </Tooltip>
-  );
+  )
 
 interface BadgableCardValueProps extends PropsWithChildren {
-  showBadge: boolean;
+  showBadge: boolean
 }
 
 const BadgableCardValue = ({ children, showBadge }: BadgableCardValueProps) => {
@@ -64,46 +58,46 @@ const BadgableCardValue = ({ children, showBadge }: BadgableCardValueProps) => {
     </Badge>
   ) : (
     <CardValue sx={{ textTransform: 'capitalize' }}>{children}</CardValue>
-  );
-};
+  )
+}
 
 const getUserChangesToTheme = (
   selectedThemeItem: ThemeItem,
   appearance: Appearance,
   themeMode: ThemeMode,
-  getCurrentConfigTheme: () => WidgetTheme | undefined,
+  getCurrentConfigTheme: () => WidgetTheme | undefined
 ) => {
   if (selectedThemeItem) {
-    const normalisedAppearance = appearance === 'auto' ? themeMode : appearance;
-    const themePreset = selectedThemeItem.theme[normalisedAppearance];
-    const currentTheme = getCurrentConfigTheme();
+    const normalisedAppearance = appearance === 'auto' ? themeMode : appearance
+    const themePreset = selectedThemeItem.theme[normalisedAppearance]
+    const currentTheme = getCurrentConfigTheme()
 
     if (themePreset && currentTheme) {
-      return diff(themePreset, currentTheme);
+      return diff(themePreset, currentTheme)
     }
   }
-};
+}
 
 export const AppearanceControl = () => {
-  const { appearance } = useConfigAppearance();
-  const themeMode = useThemeMode();
+  const { appearance } = useConfigAppearance()
+  const themeMode = useThemeMode()
   const { setAppearance, setConfigTheme, getCurrentConfigTheme } =
-    useConfigActions();
-  const { setViewportBackgroundColor } = useEditToolsActions();
-  const { selectedThemeItem } = useThemeValues();
+    useConfigActions()
+  const { setViewportBackgroundColor } = useEditToolsActions()
+  const { selectedThemeItem } = useThemeValues()
 
   const restricted = !!(
     selectedThemeItem && Object.keys(selectedThemeItem.theme).length < 2
-  );
+  )
 
   useEffect(() => {
     if (restricted) {
       const restrictedAppearance = Object.keys(
-        selectedThemeItem.theme,
-      )[0] as Appearance;
-      setAppearance(restrictedAppearance);
+        selectedThemeItem.theme
+      )[0] as Appearance
+      setAppearance(restrictedAppearance)
     }
-  }, [selectedThemeItem, setAppearance, restricted]);
+  }, [selectedThemeItem, setAppearance, restricted])
 
   const handleAppearanceChange = (_: SyntheticEvent, value: Appearance) => {
     if (selectedThemeItem) {
@@ -111,29 +105,29 @@ export const AppearanceControl = () => {
         selectedThemeItem,
         appearance,
         themeMode,
-        getCurrentConfigTheme,
-      );
+        getCurrentConfigTheme
+      )
 
-      const newAppearance = value === 'auto' ? themeMode : value;
+      const newAppearance = value === 'auto' ? themeMode : value
 
       const newTheme = userChangesToTheme
         ? (patch(
             cloneStructuredConfig<WidgetTheme>(
-              selectedThemeItem.theme[newAppearance],
+              selectedThemeItem.theme[newAppearance]
             ),
-            userChangesToTheme,
+            userChangesToTheme
           ) as WidgetTheme)
-        : selectedThemeItem.theme[newAppearance];
+        : selectedThemeItem.theme[newAppearance]
 
-      setConfigTheme(newTheme, selectedThemeItem.id);
+      setConfigTheme(newTheme, selectedThemeItem.id)
 
       const viewportBackground =
-        selectedThemeItem.theme[newAppearance].playground?.background;
-      setViewportBackgroundColor(viewportBackground as string | undefined);
+        selectedThemeItem.theme[newAppearance].playground?.background
+      setViewportBackgroundColor(viewportBackground as string | undefined)
     }
 
-    setAppearance(value);
-  };
+    setAppearance(value)
+  }
 
   return (
     <ExpandableCard
@@ -158,7 +152,7 @@ export const AppearanceControl = () => {
           onChange={handleAppearanceChange}
         >
           {Object.entries(appearanceIcons).map(([appearance, Icon]) => {
-            const supportedAppearance = appearance as Appearance;
+            const supportedAppearance = appearance as Appearance
 
             return (
               <AppearanceTab
@@ -168,10 +162,10 @@ export const AppearanceControl = () => {
                 Icon={<Icon />}
                 disabled={restricted}
               />
-            );
+            )
           })}
         </Tabs>
       </Box>
     </ExpandableCard>
-  );
-};
+  )
+}

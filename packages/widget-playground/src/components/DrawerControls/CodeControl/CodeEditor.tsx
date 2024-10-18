@@ -1,36 +1,37 @@
-import type { BeforeMount, OnMount } from '@monaco-editor/react';
-import Editor from '@monaco-editor/react';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import { Tooltip, useTheme } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
-import { useThemeMode } from '../../../hooks';
-import { getConfigOutput, useConfig } from '../../../store';
-import { tooltipPopperZIndex } from '../DrawerControls.style';
+import type { BeforeMount, OnMount } from '@monaco-editor/react'
+import Editor from '@monaco-editor/react'
+import ContentCopyIcon from '@mui/icons-material/ContentCopy'
+import { Tooltip, useTheme } from '@mui/material'
+import { useEffect, useRef, useState } from 'react'
+import { useThemeMode } from '../../../hooks/useThemeMode'
+import { useConfig } from '../../../store/widgetConfig/useConfig'
+import { getConfigOutput } from '../../../store/widgetConfig/utils/getConfigOutput'
+import { tooltipPopperZIndex } from '../DrawerControls.style'
 import {
   CodeContainer,
   CodeCopyButton,
   EditorContainer,
   EditorSkeleton,
-} from './CodeControl.style';
-import { stringifyConfig } from './utils/stringifyConfig';
+} from './CodeControl.style'
+import { stringifyConfig } from './utils/stringifyConfig'
 
 interface MonacoEditor {
-  layout: (dimensions: { width: number; height: number }) => void;
+  layout: (dimensions: { width: number; height: number }) => void
 }
 
 interface CodeEditorProps {
-  onChange?: (code: string | undefined) => void;
+  onChange?: (code: string | undefined) => void
 }
 
-export const CodeEditor = ({ onChange }: CodeEditorProps) => {
-  const { config } = useConfig();
+export const CodeEditor = (_props: CodeEditorProps) => {
+  const { config } = useConfig()
 
-  const [editor, setEditor] = useState();
-  const editorContainerRef = useRef<HTMLElement | null>(null);
-  const theme = useTheme();
-  const themeMode = useThemeMode();
+  const [editor, setEditor] = useState<any>()
+  const editorContainerRef = useRef<HTMLElement | null>(null)
+  const theme = useTheme()
+  const themeMode = useThemeMode()
 
-  const code = config ? stringifyConfig(getConfigOutput(config)) : undefined;
+  const code = config ? stringifyConfig(getConfigOutput(config)) : undefined
 
   const handleEditorWillMount: BeforeMount = (monaco) => {
     monaco.editor.defineTheme('lifi-monaco-dark', {
@@ -41,7 +42,7 @@ export const CodeEditor = ({ onChange }: CodeEditorProps) => {
         'editor.background': theme.palette.grey[800],
         'editor.lineHighlightBackground': theme.palette.grey[900],
       },
-    });
+    })
     monaco.editor.defineTheme('lifi-monaco-light', {
       base: 'vs',
       inherit: true,
@@ -50,49 +51,49 @@ export const CodeEditor = ({ onChange }: CodeEditorProps) => {
         'editor.background': theme.palette.grey[100],
         'editor.lineHighlightBackground': theme.palette.grey[200],
       },
-    });
-  };
+    })
+  }
 
-  const handleEditorDidMount: OnMount = (editor, monaco) => {
-    setEditor(editor);
-  };
+  const handleEditorDidMount: OnMount = (editor, _monaco) => {
+    setEditor(editor)
+  }
 
   // The Monaco editor isn't great for layout
   // This ensures the editor fills the EditorContainer
   useEffect(() => {
     const resizeEditor = () => {
       if (editor && editorContainerRef.current) {
-        (editor as MonacoEditor).layout({
+        ;(editor as MonacoEditor).layout({
           width: 0,
           height: 0,
-        });
-        const rect = editorContainerRef.current.getBoundingClientRect();
-        (editor as MonacoEditor).layout({
+        })
+        const rect = editorContainerRef.current.getBoundingClientRect()
+        ;(editor as MonacoEditor).layout({
           width: rect.width,
           height: rect.height,
-        });
+        })
       }
-    };
+    }
 
-    resizeEditor();
+    resizeEditor()
 
-    let observer = new ResizeObserver(resizeEditor);
+    const observer = new ResizeObserver(resizeEditor)
     if (editorContainerRef.current) {
-      observer.observe(editorContainerRef.current);
+      observer.observe(editorContainerRef.current)
     }
 
     return () => {
       if (observer) {
-        observer.disconnect();
+        observer.disconnect()
       }
-    };
-  }, [editor, editorContainerRef]);
+    }
+  }, [editor])
 
   const handleCopyCode = () => {
     if (code) {
-      navigator.clipboard.writeText(code);
+      navigator.clipboard.writeText(code)
     }
-  };
+  }
 
   return (
     <CodeContainer>
@@ -130,5 +131,5 @@ export const CodeEditor = ({ onChange }: CodeEditorProps) => {
         />
       </EditorContainer>
     </CodeContainer>
-  );
-};
+  )
+}

@@ -1,34 +1,34 @@
-import type { FunctionReference } from '../../../../types';
+import type { FunctionReference } from '../../../../types'
 
 export const addFunctionsAsStrings = (
   configAsString: string,
-  functionsReferences: FunctionReference[],
+  functionsReferences: FunctionReference[]
 ) => {
-  let stringifiedConfig = configAsString;
+  let stringifiedConfig = configAsString
 
   functionsReferences.forEach((item) => {
     const funcString = adaptFuncIndentationToInsertionPoint(
       stringifiedConfig,
-      item,
-    );
+      item
+    )
 
-    const functionKey = item.path[item.path.length - 1];
+    const functionKey = item.path[item.path.length - 1]
 
     if (funcString.trim().startsWith(`async ${functionKey}`)) {
       stringifiedConfig = stringifiedConfig.replace(
         `"${functionKey}": "${item.substituteId}"`,
-        funcString,
-      );
+        funcString
+      )
     } else {
       stringifiedConfig = stringifiedConfig.replace(
         `"${item.substituteId}"`,
-        funcString,
-      );
+        funcString
+      )
     }
-  });
+  })
 
-  return stringifiedConfig;
-};
+  return stringifiedConfig
+}
 
 // This function corrects the indentation in functions to point in the
 // config code that its embedded.
@@ -36,43 +36,43 @@ export const addFunctionsAsStrings = (
 // should consider using https://prettier.io/docs/en/browser
 const adaptFuncIndentationToInsertionPoint = (
   stringifiedConfig: string,
-  item: FunctionReference,
+  item: FunctionReference
 ) => {
-  const funcString = item.funcRef.toString();
+  const funcString = item.funcRef.toString()
 
   const indexOfInsertationPoint = stringifiedConfig.indexOf(
-    `"${item.substituteId}"`,
-  );
+    `"${item.substituteId}"`
+  )
   const stringUntilInsertionPoint = stringifiedConfig.substring(
     0,
-    indexOfInsertationPoint,
-  );
-  const lineStart = stringUntilInsertionPoint.lastIndexOf('\n') + 1;
+    indexOfInsertationPoint
+  )
+  const lineStart = stringUntilInsertionPoint.lastIndexOf('\n') + 1
   const line = stringUntilInsertionPoint.substring(
     lineStart,
-    indexOfInsertationPoint,
-  );
+    indexOfInsertationPoint
+  )
 
-  const lineIndent = line.length - line.trimStart().length;
-  const childLineIndent = lineIndent + 2;
+  const lineIndent = line.length - line.trimStart().length
+  const childLineIndent = lineIndent + 2
 
-  const [firstLine, ...remainingLines] = funcString.split('\n');
+  const [firstLine, ...remainingLines] = funcString.split('\n')
 
   if (remainingLines[0]) {
     const baselineSpacesLength =
-      remainingLines[0].length - remainingLines[0].trimStart().length;
+      remainingLines[0].length - remainingLines[0].trimStart().length
 
     const reformatedLines = remainingLines.map((line) => {
-      const trimmedLine = line.trimStart();
-      const indent = line.length - trimmedLine.length;
-      const adjustment = indent - baselineSpacesLength;
-      const newIndent = childLineIndent + adjustment;
+      const trimmedLine = line.trimStart()
+      const indent = line.length - trimmedLine.length
+      const adjustment = indent - baselineSpacesLength
+      const newIndent = childLineIndent + adjustment
 
-      return ' '.repeat(Math.max(newIndent, lineIndent)) + trimmedLine;
-    });
+      return ' '.repeat(Math.max(newIndent, lineIndent)) + trimmedLine
+    })
 
-    return [firstLine, ...reformatedLines].join('\n');
+    return [firstLine, ...reformatedLines].join('\n')
   }
 
-  return funcString;
-};
+  return funcString
+}

@@ -1,51 +1,49 @@
-import MenuOpenIcon from '@mui/icons-material/MenuOpen';
-import { Tooltip } from '@mui/material';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-import type { PropsWithChildren } from 'react';
-import { ExternalWalletProvider } from '../../providers';
-import {
-  type Layout,
-  useConfig,
-  useDrawerToolValues,
-  useEditToolsActions,
-  useHeaderAndFooterToolValues,
-  useLayoutValues,
-} from '../../store';
-import { MockElement } from '../Mock';
-import { ToggleDrawerButton } from './ToggleDrawerButton';
+import MenuOpenIcon from '@mui/icons-material/MenuOpen'
+import { Tooltip } from '@mui/material'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
+import type { PropsWithChildren } from 'react'
+import { ExternalWalletProvider } from '../../providers/ExternalWalletProvider/ExternalWalletProvider'
+import type { Layout } from '../../store/editTools/types'
+import { useDrawerToolValues } from '../../store/editTools/useDrawerToolValues'
+import { useEditToolsActions } from '../../store/editTools/useEditToolsActions'
+import { useHeaderAndFooterToolValues } from '../../store/editTools/useHeaderAndFooterToolValues'
+import { useLayoutValues } from '../../store/editTools/useLayoutValues'
+import { useConfig } from '../../store/widgetConfig/useConfig'
+import { MockElement } from '../Mock/MockElement'
+import { ToggleDrawerButton } from './ToggleDrawerButton'
 import {
   DrawerOpenButton,
   FloatingToolsContainer,
   Main,
   WidgetContainer,
   WidgetContainerRow,
-} from './WidgetView.style';
+} from './WidgetView.style'
 
 interface WidgetViewContainerProps extends PropsWithChildren {
-  toggleDrawer?(): void;
+  toggleDrawer?(): void
 }
 
-const topAlignedLayouts: Layout[] = ['default', 'restricted-max-height'];
+const topAlignedLayouts: Layout[] = ['default', 'restricted-max-height']
 
 export function WidgetViewContainer({
   children,
   toggleDrawer,
 }: WidgetViewContainerProps) {
-  const { config } = useConfig();
-  const { isDrawerOpen, drawerWidth } = useDrawerToolValues();
-  const { selectedLayoutId } = useLayoutValues();
-  const { setDrawerOpen } = useEditToolsActions();
+  const { config } = useConfig()
+  const { isDrawerOpen, drawerWidth } = useDrawerToolValues()
+  const { selectedLayoutId } = useLayoutValues()
+  const { setDrawerOpen } = useEditToolsActions()
   const { showMockHeader, showMockFooter, isFooterFixed } =
-    useHeaderAndFooterToolValues();
+    useHeaderAndFooterToolValues()
 
-  const isWalletManagementExternal = !!config?.walletConfig;
+  const isWalletManagementExternal = !!config?.walletConfig
 
   const isFullHeightLayout =
     config?.theme?.container?.height === '100%' &&
-    config?.theme?.container?.display === 'flex';
+    config?.theme?.container?.display === 'flex'
 
-  const showHeader = isFullHeightLayout && showMockHeader;
-  const showFooter = isFullHeightLayout && showMockFooter;
+  const showHeader = isFullHeightLayout && showMockHeader
+  const showFooter = isFullHeightLayout && showMockFooter
 
   return (
     <Main open={isDrawerOpen} drawerWidth={drawerWidth}>
@@ -105,5 +103,5 @@ export function WidgetViewContainer({
         </WidgetContainer>
       </ExternalWalletProvider>
     </Main>
-  );
+  )
 }

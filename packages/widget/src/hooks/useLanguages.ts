@@ -1,21 +1,21 @@
-import { useTranslation } from 'react-i18next';
-import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
-import { useSettings } from '../stores/settings/useSettings.js';
-import { useSettingsActions } from '../stores/settings/useSettingsActions.js';
+import { useTranslation } from 'react-i18next'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import { useSettings } from '../stores/settings/useSettings.js'
+import { useSettingsActions } from '../stores/settings/useSettingsActions.js'
 
 export const useLanguages = () => {
-  const { t, i18n } = useTranslation();
-  const { languages } = useWidgetConfig();
-  const { language } = useSettings(['language']);
-  const { setValue } = useSettingsActions();
+  const { t, i18n } = useTranslation()
+  const { languages } = useWidgetConfig()
+  const { language } = useSettings(['language'])
+  const { setValue } = useSettingsActions()
 
-  const sortedLanguages = Object.keys(i18n.store.data).sort();
+  const sortedLanguages = Object.keys(i18n.store.data).sort()
 
   const selectedLanguageCode = sortedLanguages.includes(
-    language || i18n.resolvedLanguage || '',
+    language || i18n.resolvedLanguage || ''
   )
     ? language || i18n.resolvedLanguage
-    : languages?.default || languages?.allow?.[0];
+    : languages?.default || languages?.allow?.[0]
 
   return {
     availableLanguages: sortedLanguages,
@@ -24,8 +24,8 @@ export const useLanguages = () => {
       lng: selectedLanguageCode,
     }),
     setLanguageWithCode: (code: string) => {
-      setValue('language', code);
-      i18n.changeLanguage(code);
+      setValue('language', code)
+      i18n.changeLanguage(code)
     },
-  };
-};
+  }
+}

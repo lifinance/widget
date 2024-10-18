@@ -1,5 +1,5 @@
-import type { WidgetConfig } from '@lifi/widget';
-import './index.css';
+import type { WidgetConfig } from '@lifi/widget'
+import './index.css'
 
 export const widgetBaseConfig: WidgetConfig = {
   subvariant: 'custom',
@@ -12,7 +12,7 @@ export const widgetBaseConfig: WidgetConfig = {
       // maxPriceImpact: 0.4,
     },
   },
-};
+}
 
 export const widgetConfig: WidgetConfig = {
   ...widgetBaseConfig,
@@ -22,4 +22,4 @@ export const widgetConfig: WidgetConfig = {
       borderRadius: '16px',
     },
   },
-};
+}

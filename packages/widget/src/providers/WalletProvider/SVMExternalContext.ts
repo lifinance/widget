@@ -1,3 +1,3 @@
-import { createContext } from 'react';
+import { createContext } from 'react'
 
-export const SVMExternalContext = createContext<boolean>(false);
+export const SVMExternalContext = createContext<boolean>(false)

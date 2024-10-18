@@ -1,3 +1,3 @@
 export function Fallback() {
-  return <div style={{ textAlign: 'center' }}>Loading...</div>;
+  return <div style={{ textAlign: 'center' }}>Loading...</div>
 }

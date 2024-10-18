@@ -1,5 +1,5 @@
-import { ChainId } from '@lifi/sdk';
-import type { WidgetConfig } from '@lifi/widget';
+import { ChainId } from '@lifi/sdk'
+import type { WidgetConfig } from '@lifi/widget'
 
 export const widgetBaseConfig: WidgetConfig = {
   // fromChain: 137,
@@ -205,7 +205,7 @@ export const widgetBaseConfig: WidgetConfig = {
   //   42161: ['https://scan.li.fi'], // Arbitrum
   //   internal: ['https://jumper.exchange/scan'], // Transder ID Card
   // },
-};
+}
 
 export const defaultWidgetConfig: Partial<WidgetConfig> = {
   ...widgetBaseConfig,
@@ -227,4 +227,4 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
       borderRadius: '16px',
     },
   },
-} as WidgetConfig;
+} as WidgetConfig

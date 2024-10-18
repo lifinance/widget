@@ -1,4 +1,4 @@
-import type { FC, SVGProps } from 'react';
+import type { FC, SVGProps } from 'react'
 
 export const CRALogo: FC<SVGProps<SVGSVGElement>> = (props) => (
   <svg
@@ -9,6 +9,7 @@ export const CRALogo: FC<SVGProps<SVGSVGElement>> = (props) => (
     viewBox="0 0 32 32"
     {...props}
   >
+    <title>CRA</title>
     <path
       fill="#53C1DE"
       d="M18.679 15.976c0-1.435-1.2-2.598-2.679-2.598-1.48 0-2.679 1.163-2.679 2.598 0 1.434 1.2 2.597 2.679 2.597 1.48 0 2.679-1.163 2.679-2.597Z"
@@ -20,4 +21,4 @@ export const CRALogo: FC<SVGProps<SVGSVGElement>> = (props) => (
       clipRule="evenodd"
     />
   </svg>
-);
+)

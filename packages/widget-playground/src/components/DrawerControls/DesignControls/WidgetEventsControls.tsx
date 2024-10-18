@@ -1,85 +1,93 @@
-import { useWidgetEvents, WidgetEvent } from '@lifi/widget';
-import { useEffect, useState } from 'react';
-import { useDevView } from '../../../hooks';
-import { setQueryStringParam } from '../../../utils/setQueryStringParam';
-import { CardRowContainer, ExpandableCard } from '../../Card';
-import { Switch } from '../../Switch';
+import { WidgetEvent, type WidgetEvents, useWidgetEvents } from '@lifi/widget'
+import { useEffect, useState } from 'react'
+import { useDevView } from '../../../hooks/useDevView'
+import { setQueryStringParam } from '../../../utils/setQueryStringParam'
+import { CardRowContainer } from '../../Card/Card.style'
+import { ExpandableCard } from '../../Card/ExpandableCard'
+import { Switch } from '../../Switch'
 import {
   CapitalizeFirstLetter,
   ControlContainer,
   ControlRowContainer,
-} from './DesignControls.style';
+} from './DesignControls.style'
 
 const initialiseStateFromWidgetEvents = (
   widgetEventsMap: Record<string, string>,
-  allEventsOn: boolean = false,
+  allEventsOn = false
 ) =>
-  Object.values(widgetEventsMap).reduce((accum, eventName) => {
-    return {
-      ...accum,
-      [eventName]: allEventsOn,
-    };
-  }, {});
+  Object.values(widgetEventsMap).reduce(
+    (accum, eventName) => {
+      accum[eventName] = allEventsOn
+      return accum
+    },
+    {} as Record<string, boolean>
+  )
 
 export const WidgetEventControls = () => {
-  const { isDevView } = useDevView();
-  const widgetEvents = useWidgetEvents();
+  const { isDevView } = useDevView()
+  const widgetEvents = useWidgetEvents()
 
   const { allWidgetEventsOn, setAllWidgetEventsOnForPageLoad } =
-    useWidgetEventsSearchParam();
+    useWidgetEventsSearchParam()
   const [monitoredEvents, setMonitoredEvents] = useState<
     Record<string, boolean>
-  >(initialiseStateFromWidgetEvents(WidgetEvent, allWidgetEventsOn));
+  >(initialiseStateFromWidgetEvents(WidgetEvent, allWidgetEventsOn))
 
   useEffect(() => {
     const logFunction = (eventName: string) => (value: any) =>
       // eslint-disable-next-line no-console
-      console.info(eventName, value);
+      console.info(eventName, value)
 
-    const logFunctionLookUp: Record<string, (value: any) => void> = {};
+    const logFunctionLookUp: Record<string, (value: any) => void> = {}
 
     Object.keys(monitoredEvents).forEach((eventName) => {
-      const eventListeningOn = monitoredEvents[eventName];
+      const eventListeningOn = monitoredEvents[eventName]
       if (eventListeningOn) {
-        logFunctionLookUp[eventName] = logFunction(eventName);
-        widgetEvents.on(eventName, logFunctionLookUp[eventName]);
+        logFunctionLookUp[eventName] = logFunction(eventName)
+        widgetEvents.on(
+          eventName as keyof WidgetEvents,
+          logFunctionLookUp[eventName]
+        )
       }
-    });
+    })
 
     return () => {
       Object.keys(monitoredEvents).forEach((eventName) => {
-        const eventListeningOn = monitoredEvents[eventName];
+        const eventListeningOn = monitoredEvents[eventName]
         if (eventListeningOn) {
-          widgetEvents.off(eventName, logFunctionLookUp[eventName]);
-          delete logFunctionLookUp[eventName];
+          widgetEvents.off(
+            eventName as keyof WidgetEvents,
+            logFunctionLookUp[eventName]
+          )
+          delete logFunctionLookUp[eventName]
         }
-      });
-    };
-  }, [widgetEvents, monitoredEvents]);
+      })
+    }
+  }, [widgetEvents, monitoredEvents])
 
   const handleAllEventsChange = () => {
-    const areAllEventsOn = !allWidgetEventsOn;
+    const areAllEventsOn = !allWidgetEventsOn
 
-    setAllWidgetEventsOnForPageLoad(areAllEventsOn);
+    setAllWidgetEventsOnForPageLoad(areAllEventsOn)
 
     setMonitoredEvents(
-      initialiseStateFromWidgetEvents(WidgetEvent, areAllEventsOn),
-    );
-  };
+      initialiseStateFromWidgetEvents(WidgetEvent, areAllEventsOn)
+    )
+  }
 
   const handleEventChange = (eventName: string) => {
     const newEventsMap = {
       ...monitoredEvents,
       [eventName]: !monitoredEvents[eventName],
-    };
+    }
 
-    setMonitoredEvents(newEventsMap);
+    setMonitoredEvents(newEventsMap)
 
     const areAllEventsOn = Object.values(newEventsMap).every(
-      (eventOn) => eventOn,
-    );
-    setAllWidgetEventsOnForPageLoad(areAllEventsOn);
-  };
+      (eventOn) => eventOn
+    )
+    setAllWidgetEventsOnForPageLoad(areAllEventsOn)
+  }
 
   return isDevView ? (
     <ExpandableCard title={'Widget Events'} value={''}>
@@ -123,30 +131,30 @@ export const WidgetEventControls = () => {
         </CardRowContainer>
       ))}
     </ExpandableCard>
-  ) : null;
-};
+  ) : null
+}
 
 const getAllWidgetEventsOnFromQueryString = () => {
   if (typeof window !== 'undefined') {
-    const urlParams = new URLSearchParams(window.location.search);
-    return !!urlParams.get('allWidgetEvents') || false;
+    const urlParams = new URLSearchParams(window.location.search)
+    return !!urlParams.get('allWidgetEvents') || false
   }
-  return false;
-};
+  return false
+}
 
 const useWidgetEventsSearchParam = () => {
   const [allWidgetEventsOn, setAllWidgetEventsOn] = useState(
-    getAllWidgetEventsOnFromQueryString(),
-  );
+    getAllWidgetEventsOnFromQueryString()
+  )
 
   const setAllWidgetEventsOnForPageLoad = (on: boolean) => {
-    setQueryStringParam('allWidgetEvents', on);
+    setQueryStringParam('allWidgetEvents', on)
 
-    setAllWidgetEventsOn(on);
-  };
+    setAllWidgetEventsOn(on)
+  }
 
   return {
     allWidgetEventsOn,
     setAllWidgetEventsOnForPageLoad,
-  };
-};
+  }
+}

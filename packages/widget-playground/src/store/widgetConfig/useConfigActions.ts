@@ -1,5 +1,5 @@
-import { shallow } from 'zustand/shallow';
-import { useWidgetConfigStore } from './WidgetConfigProvider';
+import { shallow } from 'zustand/shallow'
+import { useWidgetConfigStore } from './WidgetConfigProvider'
 
 export const useConfigActions = () => {
   const actions = useWidgetConfigStore(
@@ -23,8 +23,8 @@ export const useConfigActions = () => {
       setContainer: state.setContainer,
       setFormValues: state.setFormValues,
     }),
-    shallow,
-  );
+    shallow
+  )
 
-  return actions;
-};
+  return actions
+}

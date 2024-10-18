@@ -1,15 +1,15 @@
-import { Box, List, styled } from '@mui/material';
-import { Input as InputBase } from '../../components/Input.js';
+import { Box, List, styled } from '@mui/material'
+import { Input as InputBase } from '../../components/Input.js'
 
 export const Input = styled(InputBase)(({ theme }) => ({
   paddingRight: theme.spacing(1.5),
-}));
+}))
 
 interface SearchStickyContainerProps {
-  headerHeight: number;
+  headerHeight: number
 }
 
-export const searchContainerHeight = 64;
+export const searchContainerHeight = 64
 
 // When the widget is in Full Height layout mode in order to appear "sticky the StickySearchInputContainer needs to use
 // position fixed in the same way as the header (see Header.tsx). The headerHeight value here is used as the top value
@@ -33,7 +33,7 @@ export const StickySearchInputContainer = styled(Box, {
         width: '100%',
       }
     : {}),
-}));
+}))
 
 // When in Full Height layout mode, as the StickySearchInputContainer (see above) uses fixed position, the list element needs to provide
 // additional paddingTop in order to be positioned correctly.
@@ -43,4 +43,4 @@ export const SearchList = styled(List)(({ theme }) => ({
   paddingLeft: theme.spacing(1.5),
   paddingRight: theme.spacing(1.5),
   paddingBottom: theme.spacing(1.5),
-}));
+}))

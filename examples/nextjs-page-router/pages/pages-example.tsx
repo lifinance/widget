@@ -1,9 +1,9 @@
-import { Widget } from '@/components/Widget';
-import type { WidgetConfig } from '@lifi/widget';
-import { WidgetSkeleton } from '@lifi/widget';
-import { Inter } from 'next/font/google';
+import { Widget } from '@/components/Widget'
+import type { WidgetConfig } from '@lifi/widget'
+import { WidgetSkeleton } from '@lifi/widget'
+import { Inter } from 'next/font/google'
 
-const inter = Inter({ subsets: ['latin'] });
+const _inter = Inter({ subsets: ['latin'] })
 
 export default function PagesExample() {
   const config = {
@@ -14,11 +14,11 @@ export default function PagesExample() {
         borderRadius: '16px',
       },
     },
-  } as Partial<WidgetConfig>;
+  } as Partial<WidgetConfig>
 
   return (
     <main>
       <Widget config={config} fallback={<WidgetSkeleton config={config} />} />
     </main>
-  );
+  )
 }

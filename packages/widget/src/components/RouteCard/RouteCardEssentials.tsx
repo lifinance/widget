@@ -1,25 +1,25 @@
-import { AccessTimeFilled, LocalGasStationRounded } from '@mui/icons-material';
-import { Box, Tooltip, Typography } from '@mui/material';
-import { useTranslation } from 'react-i18next';
-import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js';
-import { FeeBreakdownTooltip } from '../FeeBreakdownTooltip.js';
-import { IconTypography } from '../IconTypography.js';
-import { TokenRate } from '../TokenRate/TokenRate.js';
-import type { RouteCardEssentialsProps } from './types.js';
+import { AccessTimeFilled, LocalGasStationRounded } from '@mui/icons-material'
+import { Box, Tooltip, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
+import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
+import { FeeBreakdownTooltip } from '../FeeBreakdownTooltip.js'
+import { IconTypography } from '../IconTypography.js'
+import { TokenRate } from '../TokenRate/TokenRate.js'
+import type { RouteCardEssentialsProps } from './types.js'
 
 export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
   route,
 }) => {
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation()
   const executionTimeSeconds = Math.floor(
     route.steps.reduce(
       (duration, step) => duration + step.estimate.executionDuration,
-      0,
-    ),
-  );
-  const executionTimeMinutes = Math.floor(executionTimeSeconds / 60);
+      0
+    )
+  )
+  const executionTimeMinutes = Math.floor(executionTimeSeconds / 60)
   const { gasCosts, feeCosts, combinedFeesUSD } =
-    getAccumulatedFeeCostsBreakdown(route);
+    getAccumulatedFeeCostsBreakdown(route)
   return (
     <Box
       display="flex"
@@ -42,13 +42,13 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
               lineHeight={1}
               data-value={combinedFeesUSD}
             >
-              {t(`format.currency`, {
+              {t('format.currency', {
                 value: combinedFeesUSD,
               })}
             </Typography>
           </Box>
         </FeeBreakdownTooltip>
-        <Tooltip title={t(`tooltip.estimatedTime`)} sx={{ cursor: 'help' }}>
+        <Tooltip title={t('tooltip.estimatedTime')} sx={{ cursor: 'help' }}>
           <Box display="flex" alignItems="center">
             <IconTypography mr={0.5} fontSize={16}>
               <AccessTimeFilled fontSize="inherit" />
@@ -72,5 +72,5 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
         </Tooltip>
       </Box>
     </Box>
-  );
-};
+  )
+}

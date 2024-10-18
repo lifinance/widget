@@ -4,11 +4,11 @@ import {
   badgeClasses,
   darken,
   styled,
-} from '@mui/material';
+} from '@mui/material'
 import {
   getInfoBackgroundColor,
   getWarningBackgroundColor,
-} from '../../utils/colors.js';
+} from '../../utils/colors.js'
 
 export const SettingsIconBadge = styled(MuiBadge)(({ theme }) => ({
   display: 'flex',
@@ -20,10 +20,10 @@ export const SettingsIconBadge = styled(MuiBadge)(({ theme }) => ({
     borderRadius: '50%',
     transform: 'translate(70%, -70%)',
   },
-}));
+}))
 
 interface SettingsIconButtonProps {
-  variant?: 'info' | 'warning';
+  variant?: 'info' | 'warning'
 }
 
 export const SettingsIconButton = styled(IconButton, {
@@ -36,15 +36,15 @@ export const SettingsIconButton = styled(IconButton, {
         '&:hover': {
           backgroundColor: darken(getInfoBackgroundColor(theme), 0.2),
         },
-      };
+      }
     case 'warning':
       return {
         backgroundColor: getWarningBackgroundColor(theme),
         '&:hover': {
           backgroundColor: darken(getWarningBackgroundColor(theme), 0.2),
         },
-      };
+      }
     default:
-      break;
+      break
   }
-});
+})

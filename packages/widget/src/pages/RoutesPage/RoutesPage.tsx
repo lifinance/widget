@@ -1,23 +1,22 @@
-/* eslint-disable react/no-array-index-key */
-import type { Route } from '@lifi/sdk';
-import type { BoxProps } from '@mui/material';
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate.js';
-import { RouteCard } from '../../components/RouteCard/RouteCard.js';
-import { RouteCardSkeleton } from '../../components/RouteCard/RouteCardSkeleton.js';
-import { RouteNotFoundCard } from '../../components/RouteCard/RouteNotFoundCard.js';
-import { useAccount } from '../../hooks/useAccount.js';
-import { useHeader } from '../../hooks/useHeader.js';
-import { useNavigateBack } from '../../hooks/useNavigateBack.js';
-import { useRoutes } from '../../hooks/useRoutes.js';
-import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
-import { useFieldValues } from '../../stores/form/useFieldValues.js';
-import { navigationRoutes } from '../../utils/navigationRoutes.js';
-import { Stack } from './RoutesPage.style.js';
+import type { Route } from '@lifi/sdk'
+import { useAccount } from '@lifi/wallet-management'
+import type { BoxProps } from '@mui/material'
+import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate.js'
+import { RouteCard } from '../../components/RouteCard/RouteCard.js'
+import { RouteCardSkeleton } from '../../components/RouteCard/RouteCardSkeleton.js'
+import { RouteNotFoundCard } from '../../components/RouteCard/RouteNotFoundCard.js'
+import { useHeader } from '../../hooks/useHeader.js'
+import { useNavigateBack } from '../../hooks/useNavigateBack.js'
+import { useRoutes } from '../../hooks/useRoutes.js'
+import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
+import { useFieldValues } from '../../stores/form/useFieldValues.js'
+import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import { Stack } from './RoutesPage.style.js'
 
 export const RoutesPage: React.FC<BoxProps> = () => {
-  const { navigate } = useNavigateBack();
+  const { navigate } = useNavigateBack()
   const {
     routes,
     isLoading,
@@ -27,12 +26,12 @@ export const RoutesPage: React.FC<BoxProps> = () => {
     fromChain,
     refetch,
     setReviewableRoute,
-  } = useRoutes();
-  const { account } = useAccount({ chainType: fromChain?.chainType });
-  const [toAddress] = useFieldValues('toAddress');
-  const { requiredToAddress } = useToAddressRequirements();
+  } = useRoutes()
+  const { account } = useAccount({ chainType: fromChain?.chainType })
+  const [toAddress] = useFieldValues('toAddress')
+  const { requiredToAddress } = useToAddressRequirements()
 
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   const headerAction = useMemo(
     () => (
@@ -45,22 +44,22 @@ export const RoutesPage: React.FC<BoxProps> = () => {
         size="medium"
       />
     ),
-    [dataUpdatedAt, isFetching, refetch, refetchTime],
-  );
+    [dataUpdatedAt, isFetching, refetch, refetchTime]
+  )
 
-  useHeader(t(`header.receive`), headerAction);
+  useHeader(t('header.receive'), headerAction)
 
   const handleRouteClick = (route: Route) => {
-    setReviewableRoute(route);
+    setReviewableRoute(route)
     navigate(navigationRoutes.transactionExecution, {
       state: { routeId: route.id },
-    });
-  };
+    })
+  }
 
-  const routeNotFound = !routes?.length && !isLoading && !isFetching;
+  const routeNotFound = !routes?.length && !isLoading && !isFetching
 
-  const toAddressUnsatisfied = routes?.[0] && requiredToAddress && !toAddress;
-  const allowInteraction = account.isConnected && !toAddressUnsatisfied;
+  const toAddressUnsatisfied = routes?.[0] && requiredToAddress && !toAddress
+  const allowInteraction = account.isConnected && !toAddressUnsatisfied
 
   return (
     <Stack direction="column" spacing={2} flex={1}>
@@ -84,5 +83,5 @@ export const RoutesPage: React.FC<BoxProps> = () => {
         ))
       )}
     </Stack>
-  );
-};
+  )
+}

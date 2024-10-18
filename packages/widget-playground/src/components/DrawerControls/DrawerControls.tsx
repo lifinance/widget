@@ -1,34 +1,30 @@
-import CloseIcon from '@mui/icons-material/Close';
-import DesignServicesIcon from '@mui/icons-material/DesignServices';
-import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
-import TabContext from '@mui/lab/TabContext';
-import { Box, IconButton, Tooltip } from '@mui/material';
-import { useFontInitialisation } from '../../providers';
-import {
-  useConfigActions,
-  useDrawerToolValues,
-  useEditToolsActions,
-} from '../../store';
-import { ExpandableCardAccordion } from '../Card';
-import { Tab, Tabs } from '../Tabs';
-import { CodeControl } from './CodeControl';
-import {
-  AppearanceControl,
-  ButtonRadiusControl,
-  CardRadiusControl,
-  ColorControl,
-  FontsControl,
-  LayoutControls,
-  PlaygroundSettingsControl,
-  SkeletonControl,
-  SubvariantControl,
-  ThemeControl,
-  VariantControl,
-  WalletManagementControl,
-} from './DesignControls';
-import { FormValuesControl } from './DesignControls/FormValuesControls';
-import { WidgetEventControls } from './DesignControls/WidgetEventsControls';
+import CloseIcon from '@mui/icons-material/Close'
+import DesignServicesIcon from '@mui/icons-material/DesignServices'
+import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions'
+import RestartAltIcon from '@mui/icons-material/RestartAlt'
+import TabContext from '@mui/lab/TabContext'
+import { Box, IconButton, Tooltip } from '@mui/material'
+import { useFontInitialisation } from '../../providers/FontLoaderProvider/FontLoaderProvider'
+import { useDrawerToolValues } from '../../store/editTools/useDrawerToolValues'
+import { useEditToolsActions } from '../../store/editTools/useEditToolsActions'
+import { useConfigActions } from '../../store/widgetConfig/useConfigActions'
+import { ExpandableCardAccordion } from '../Card/ExpandableCardAccordion'
+import { Tab, Tabs } from '../Tabs/Tabs.style'
+import { CodeControl } from './CodeControl/CodeControl'
+import { AppearanceControl } from './DesignControls/AppearanceControl'
+import { ButtonRadiusControl } from './DesignControls/ButtonRaduisControl'
+import { CardRadiusControl } from './DesignControls/CardRadiusControl'
+import { ColorControl } from './DesignControls/ColorControls'
+import { FontsControl } from './DesignControls/FontsControl/FontsControl'
+import { FormValuesControl } from './DesignControls/FormValuesControls'
+import { LayoutControls } from './DesignControls/LayoutControls'
+import { PlaygroundSettingsControl } from './DesignControls/PlaygroundSettingsControl/PlaygroundSettingsControl'
+import { SkeletonControl } from './DesignControls/SkeletonControl'
+import { SubvariantControl } from './DesignControls/SubvariantControl'
+import { ThemeControl } from './DesignControls/ThemeControl'
+import { VariantControl } from './DesignControls/VariantControl'
+import { WalletManagementControl } from './DesignControls/WalletManagementControl'
+import { WidgetEventControls } from './DesignControls/WidgetEventsControls'
 import {
   Drawer,
   DrawerContentContainer,
@@ -37,21 +33,21 @@ import {
   TabContentContainer,
   WidgetConfigControls,
   tooltipPopperZIndex,
-} from './DrawerControls.style';
-import { DrawerHandle } from './DrawerHandle';
+} from './DrawerControls.style'
+import { DrawerHandle } from './DrawerHandle'
 
 export const DrawerControls = () => {
-  const { isDrawerOpen, drawerWidth, visibleControls } = useDrawerToolValues();
-  const { setDrawerOpen, setVisibleControls } = useEditToolsActions();
-  const { resetConfig } = useConfigActions();
-  const { resetEditTools } = useEditToolsActions();
+  const { isDrawerOpen, drawerWidth, visibleControls } = useDrawerToolValues()
+  const { setDrawerOpen, setVisibleControls } = useEditToolsActions()
+  const { resetConfig } = useConfigActions()
+  const { resetEditTools } = useEditToolsActions()
 
-  useFontInitialisation();
+  useFontInitialisation()
 
   const handleReset = () => {
-    resetConfig();
-    resetEditTools();
-  };
+    resetConfig()
+    resetEditTools()
+  }
 
   return (
     <>
@@ -140,5 +136,5 @@ export const DrawerControls = () => {
         </DrawerContentContainer>
       </Drawer>
     </>
-  );
-};
+  )
+}

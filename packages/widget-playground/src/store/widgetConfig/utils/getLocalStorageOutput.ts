@@ -1,7 +1,7 @@
-import type { WidgetConfig } from '@lifi/widget';
+import type { WidgetConfig } from '@lifi/widget'
 
 export const getLocalStorageOutput = (
-  config: Partial<WidgetConfig>,
+  config: Partial<WidgetConfig>
 ): Partial<WidgetConfig> => {
   return {
     ...(config.variant ? { variant: config.variant } : {}),
@@ -45,5 +45,5 @@ export const getLocalStorageOutput = (
         }
       : {}),
     ...(config.walletConfig ? { walletConfig: config.walletConfig } : {}),
-  } as Partial<WidgetConfig>;
-};
+  } as Partial<WidgetConfig>
+}

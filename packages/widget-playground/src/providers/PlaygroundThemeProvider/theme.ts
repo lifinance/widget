@@ -1,6 +1,5 @@
-import type { WidgetTheme } from '@lifi/widget';
-import type {} from '@lifi/widget/themes/types';
-import { createTheme } from '@mui/material';
+import type { WidgetTheme } from '@lifi/widget'
+import { createTheme } from '@mui/material'
 
 const initValues: WidgetTheme = {
   palette: {
@@ -19,6 +18,6 @@ const initValues: WidgetTheme = {
     borderRadiusSecondary: 12,
     borderRadiusTertiary: 24,
   },
-};
+}
 
-export const theme = createTheme(initValues);
+export const theme = createTheme(initValues)

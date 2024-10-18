@@ -1,42 +1,42 @@
-import type { FC, PropsWithChildren } from 'react';
-import { useLayoutEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useDefaultElementId } from '../../hooks/useDefaultElementId.js';
-import { useSetHeaderHeight } from '../../stores/header/useHeaderStore.js';
-import { ElementId, createElementId } from '../../utils/elements.js';
-import { stickyHeaderRoutes } from '../../utils/navigationRoutes.js';
-import { Container } from './Header.style.js';
-import { NavigationHeader } from './NavigationHeader.js';
-import { WalletHeader } from './WalletHeader.js';
+import type { FC, PropsWithChildren } from 'react'
+import { useLayoutEffect, useRef } from 'react'
+import { useLocation } from 'react-router-dom'
+import { useDefaultElementId } from '../../hooks/useDefaultElementId.js'
+import { useSetHeaderHeight } from '../../stores/header/useHeaderStore.js'
+import { ElementId, createElementId } from '../../utils/elements.js'
+import { stickyHeaderRoutes } from '../../utils/navigationRoutes.js'
+import { Container } from './Header.style.js'
+import { NavigationHeader } from './NavigationHeader.js'
+import { WalletHeader } from './WalletHeader.js'
 
-export const HeaderContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
-  const { pathname } = useLocation();
-  const elementId = useDefaultElementId();
-  const headerRef = useRef<HTMLDivElement>(null);
-  const { setHeaderHeight } = useSetHeaderHeight();
+export const HeaderContainer: FC<PropsWithChildren> = ({ children }) => {
+  const { pathname } = useLocation()
+  const elementId = useDefaultElementId()
+  const headerRef = useRef<HTMLDivElement>(null)
+  const { setHeaderHeight } = useSetHeaderHeight()
 
   useLayoutEffect(() => {
     const handleHeaderResize = () => {
-      const height = headerRef.current?.getBoundingClientRect().height;
+      const height = headerRef.current?.getBoundingClientRect().height
 
       if (height) {
-        setHeaderHeight(height);
+        setHeaderHeight(height)
       }
-    };
+    }
 
-    let resizeObserver: ResizeObserver;
+    let resizeObserver: ResizeObserver
 
     if (headerRef.current) {
-      resizeObserver = new ResizeObserver(handleHeaderResize);
-      resizeObserver.observe(headerRef.current);
+      resizeObserver = new ResizeObserver(handleHeaderResize)
+      resizeObserver.observe(headerRef.current)
     }
 
     return () => {
       if (resizeObserver) {
-        resizeObserver.disconnect();
+        resizeObserver.disconnect()
       }
-    };
-  }, [headerRef, setHeaderHeight]);
+    }
+  }, [setHeaderHeight])
 
   return (
     <Container
@@ -46,8 +46,8 @@ export const HeaderContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
     >
       {children}
     </Container>
-  );
-};
+  )
+}
 
 export const Header: FC = () => {
   return (
@@ -55,5 +55,5 @@ export const Header: FC = () => {
       <WalletHeader />
       <NavigationHeader />
     </HeaderContainer>
-  );
-};
+  )
+}

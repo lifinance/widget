@@ -1,9 +1,9 @@
-import type { BoxProps } from '@mui/material';
-import { Box, styled, Typography } from '@mui/material';
-import { searchContainerHeight } from './SearchInput.style.js';
+import type { BoxProps } from '@mui/material'
+import { Box, Typography, styled } from '@mui/material'
+import { searchContainerHeight } from './SearchInput.style.js'
 
 interface NotFoundContainerProps extends BoxProps {
-  adjustForStickySearchInput?: boolean;
+  adjustForStickySearchInput?: boolean
 }
 
 export const NotFoundContainer = styled(Box, {
@@ -18,7 +18,7 @@ export const NotFoundContainer = styled(Box, {
   ...(adjustForStickySearchInput && theme.header?.position === 'fixed'
     ? { paddingTop: `calc(${searchContainerHeight}px + ${theme.spacing(3)})` }
     : {}),
-}));
+}))
 
 export const NotFoundMessage = styled(Typography)(({ theme }) => ({
   fontSize: 14,
@@ -28,9 +28,9 @@ export const NotFoundMessage = styled(Typography)(({ theme }) => ({
   marginTop: theme.spacing(2),
   paddingLeft: theme.spacing(2),
   paddingRight: theme.spacing(2),
-}));
+}))
 
-export const NotFoundIconContainer = styled(Typography)(({ theme }) => ({
+export const NotFoundIconContainer = styled(Typography)(() => ({
   fontSize: 48,
   lineHeight: 1,
-}));
+}))

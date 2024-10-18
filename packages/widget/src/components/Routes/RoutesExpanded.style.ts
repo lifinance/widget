@@ -1,21 +1,21 @@
-import type { ScopedCssBaselineProps } from '@mui/material';
-import { Box, Collapse, Grow, ScopedCssBaseline, styled } from '@mui/material';
-import { defaultMaxHeight } from '../../config/constants.js';
+import type { ScopedCssBaselineProps } from '@mui/material'
+import { Box, Collapse, Grow, ScopedCssBaseline, styled } from '@mui/material'
+import { defaultMaxHeight } from '../../config/constants.js'
 
 export const CollapseContainer = styled(Box)(({ theme }) => ({
   zIndex: 0,
   ...(theme.container.display === 'flex'
     ? { display: 'flex', maxHeight: '100%' }
     : { height: 'auto' }),
-}));
+}))
 
 export const RoutesExpandedCollapse = styled(Collapse)(({ theme }) => ({
   ...(theme.container?.display === 'flex' ? { height: '100%' } : {}),
-}));
+}))
 
 export const RouteTopLevelGrow = styled(Grow)(({ theme }) => ({
   ...(theme.container?.display === 'flex' ? { height: '100%' } : {}),
-}));
+}))
 
 export const ScrollableContainer = styled(Box)({
   overflowY: 'auto',
@@ -24,10 +24,10 @@ export const ScrollableContainer = styled(Box)({
   flex: 1,
   display: 'flex',
   flexDirection: 'column',
-});
+})
 
 interface ContainerProps extends ScopedCssBaselineProps {
-  minimumHeight: boolean;
+  minimumHeight: boolean
 }
 
 export const Container = styled(ScopedCssBaseline, {
@@ -49,7 +49,7 @@ export const Container = styled(ScopedCssBaseline, {
       }
     : { height: minimumHeight ? 'auto' : '100%' }),
   ...theme.container,
-}));
+}))
 
 export const Header = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
@@ -61,4 +61,4 @@ export const Header = styled(Box)(({ theme }) => ({
   position: 'sticky',
   top: 0,
   zIndex: 1200,
-}));
+}))

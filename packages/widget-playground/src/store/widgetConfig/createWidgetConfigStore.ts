@@ -1,18 +1,19 @@
-import type { WidgetConfig, WidgetTheme } from '@lifi/widget';
-import type { StateCreator } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { createWithEqualityFn } from 'zustand/traditional';
-import { addValueFromPathString, cloneStructuredConfig } from '../../utils';
-import type { ThemeItem } from '../editTools/types';
-import type { WidgetConfigState } from './types';
-import { getLocalStorageOutput } from './utils/getLocalStorageOutput';
-import { getRehydratedConfigWithDefaultValues } from './utils/getRehydratedConfigWithDefaultValues';
-import { setThemeAppearanceWithFallback } from './utils/setThemeWithFallback';
+import type { WidgetConfig, WidgetTheme } from '@lifi/widget'
+import type { StateCreator } from 'zustand'
+import { persist } from 'zustand/middleware'
+import { createWithEqualityFn } from 'zustand/traditional'
+import { addValueFromPathString } from '../../utils/addValue'
+import { cloneStructuredConfig } from '../../utils/cloneStructuredConfig'
+import type { ThemeItem } from '../editTools/types'
+import type { WidgetConfigState } from './types'
+import { getLocalStorageOutput } from './utils/getLocalStorageOutput'
+import { getRehydratedConfigWithDefaultValues } from './utils/getRehydratedConfigWithDefaultValues'
+import { setThemeAppearanceWithFallback } from './utils/setThemeWithFallback'
 
 export const createWidgetConfigStore = (
   initialConfig: Partial<WidgetConfig>,
   themeItems: ThemeItem[],
-  prefersDarkMode: boolean,
+  prefersDarkMode: boolean
 ) =>
   createWithEqualityFn<WidgetConfigState>(
     persist(
@@ -24,20 +25,20 @@ export const createWidgetConfigStore = (
         setConfig: (config) => {
           set({
             config,
-          });
+          })
         },
         setDefaultConfig: (defaultConfig) => {
           set({
             defaultConfig,
-          });
+          })
         },
         resetConfig: () => {
           set({
             themeId: 'default',
             config: cloneStructuredConfig<Partial<WidgetConfig>>(
-              get().defaultConfig!,
+              get().defaultConfig!
             ),
-          });
+          })
         },
         setAppearance: (appearance) => {
           set({
@@ -45,7 +46,7 @@ export const createWidgetConfigStore = (
               ...get().config,
               appearance,
             },
-          });
+          })
         },
         setVariant: (variant) => {
           set({
@@ -53,7 +54,7 @@ export const createWidgetConfigStore = (
               ...get().config,
               variant,
             },
-          });
+          })
         },
         setSubvariant: (subvariant) => {
           set({
@@ -61,7 +62,7 @@ export const createWidgetConfigStore = (
               ...get().config,
               subvariant,
             },
-          });
+          })
         },
         setBorderRadius: (radius) => {
           set({
@@ -75,10 +76,10 @@ export const createWidgetConfigStore = (
                 },
               },
             } as WidgetConfig,
-          });
+          })
         },
         resetBorderRadius: () => {
-          const shape = get().config?.theme?.shape;
+          const shape = get().config?.theme?.shape
 
           set({
             config: {
@@ -94,7 +95,7 @@ export const createWidgetConfigStore = (
                 },
               },
             } as WidgetConfig,
-          });
+          })
         },
         setBorderRadiusSecondary: (radius) => {
           set({
@@ -108,10 +109,10 @@ export const createWidgetConfigStore = (
                 },
               },
             } as WidgetConfig,
-          });
+          })
         },
         resetBorderRadiusSecondary: () => {
-          const shape = get().config?.theme?.shape;
+          const shape = get().config?.theme?.shape
 
           set({
             config: {
@@ -127,16 +128,16 @@ export const createWidgetConfigStore = (
                 },
               },
             } as WidgetConfig,
-          });
+          })
         },
         setColor: (path, color) => {
           set({
             config: addValueFromPathString<Partial<WidgetConfig>>(
               get().config,
               path,
-              color,
+              color
             ),
-          });
+          })
         },
         setFontFamily: (fontFamily) => {
           set({
@@ -150,7 +151,7 @@ export const createWidgetConfigStore = (
                 },
               },
             } as WidgetConfig,
-          });
+          })
         },
         setConfigTheme: (theme, themeId) => {
           set({
@@ -159,7 +160,7 @@ export const createWidgetConfigStore = (
               ...get().config,
               theme: cloneStructuredConfig<Partial<WidgetTheme>>(theme),
             },
-          });
+          })
         },
         setWalletConfig: (walletConfig?) => {
           set({
@@ -167,20 +168,20 @@ export const createWidgetConfigStore = (
               ...get().config,
               walletConfig,
             } as WidgetConfig,
-          });
+          })
         },
         setAvailableThemes: (themeItems) => {
           set({
             widgetThemeItems: themeItems,
-          });
+          })
         },
         getCurrentThemePreset: (useDarkMode) => {
           const selectedThemeItem = get().widgetThemeItems.find(
-            (themeItem) => themeItem.id === get().themeId,
-          );
+            (themeItem) => themeItem.id === get().themeId
+          )
 
           if (!selectedThemeItem) {
-            return;
+            return
           }
 
           const appearance = (
@@ -189,12 +190,12 @@ export const createWidgetConfigStore = (
               : useDarkMode || prefersDarkMode
                 ? 'dark'
                 : 'light'
-          ) as string;
+          ) as string
 
-          return selectedThemeItem.theme[appearance];
+          return selectedThemeItem.theme[appearance]
         },
         getCurrentConfigTheme: () => {
-          return get().config?.theme;
+          return get().config?.theme
         },
         setHeader: (header) => {
           set({
@@ -205,7 +206,7 @@ export const createWidgetConfigStore = (
                 header,
               },
             },
-          });
+          })
         },
         setContainer: (container) => {
           set({
@@ -216,14 +217,14 @@ export const createWidgetConfigStore = (
                 container,
               },
             },
-          });
+          })
         },
         setFormValues: (formValues) => {
-          const config = get().config ?? {};
+          const config = get().config ?? {}
 
           // we remove the updatable form values as we only want pass properties with
           // updated values. Only updated values should be specified in the config (even if that a value of undefined)
-          [
+          ;[
             'fromAmount',
             'fromChain',
             'fromToken',
@@ -231,15 +232,15 @@ export const createWidgetConfigStore = (
             'toChain',
             'toToken',
           ].forEach((key) => {
-            delete config[key as keyof WidgetConfig];
-          });
+            delete config[key as keyof WidgetConfig]
+          })
 
           set({
             config: {
               ...get().config,
               ...(formValues as Partial<WidgetConfig>),
             },
-          });
+          })
         },
       }),
       {
@@ -262,23 +263,23 @@ export const createWidgetConfigStore = (
                 const rehydratedConfigWithDefaultValues =
                   getRehydratedConfigWithDefaultValues(
                     state.config,
-                    state.defaultConfig,
-                  );
-                state.setConfig(rehydratedConfigWithDefaultValues);
+                    state.defaultConfig
+                  )
+                state.setConfig(rehydratedConfigWithDefaultValues)
               }
 
               if (state.config?.walletConfig) {
                 const walletConfig = state.defaultConfig?.walletConfig
                   ? state.defaultConfig?.walletConfig
-                  : { async onConnect() {} };
-                state.setWalletConfig(walletConfig);
+                  : { async onConnect() {} }
+                state.setWalletConfig(walletConfig)
               }
 
-              setThemeAppearanceWithFallback(state, prefersDarkMode);
+              setThemeAppearanceWithFallback(state, prefersDarkMode)
             }
-          };
+          }
         },
-      },
+      }
     ) as StateCreator<WidgetConfigState, [], [], WidgetConfigState>,
-    Object.is,
-  );
+    Object.is
+  )

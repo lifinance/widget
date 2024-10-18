@@ -1,7 +1,3 @@
-import { Box } from '@mui/material';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { type PropsWithChildren } from 'react';
-
 import {
   DrawerControls,
   EditToolsProvider,
@@ -10,13 +6,14 @@ import {
   PlaygroundThemeProvider,
   WidgetConfigProvider,
   WidgetView,
-} from '@lifi/widget-playground';
+} from '@lifi/widget-playground'
+import { defaultWidgetConfig } from '@lifi/widget-playground/widget-config'
+import { Box } from '@mui/material'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import type { PropsWithChildren } from 'react'
+import '@lifi/widget-playground/fonts'
 
-import { defaultWidgetConfig } from '@lifi/widget-playground/widget-config';
-
-import '@lifi/widget-playground/fonts';
-
-const queryClient = new QueryClient();
+const queryClient = new QueryClient()
 
 // const router = createBrowserRouter([
 //   {
@@ -45,8 +42,8 @@ const AppProvider = ({ children }: PropsWithChildren) => {
         </WidgetConfigProvider>
       </QueryClientProvider>
     </EnvVariablesProvider>
-  );
-};
+  )
+}
 
 export const App = () => {
   return (
@@ -57,11 +54,11 @@ export const App = () => {
         <WidgetView />
       </Box>
     </AppProvider>
-  );
-};
+  )
+}
 
 if (!import.meta.env.VITE_EVM_WALLET_CONNECT) {
   console.error(
-    'VITE_EVM_WALLET_CONNECT is require in your .env.local file for external wallet management',
-  );
+    'VITE_EVM_WALLET_CONNECT is require in your .env.local file for external wallet management'
+  )
 }

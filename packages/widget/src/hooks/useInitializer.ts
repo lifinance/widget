@@ -1,16 +1,16 @@
-import { checkPackageUpdates } from '@lifi/sdk';
-import { useEffect } from 'react';
-import { name, version } from '../config/version.js';
-import { useTools } from './useTools.js';
+import { checkPackageUpdates } from '@lifi/sdk'
+import { useEffect } from 'react'
+import { name, version } from '../config/version.js'
+import { useTools } from './useTools.js'
 
-let checkedPackageUpdates = false;
+let checkedPackageUpdates = false
 
 export const useInitializer = () => {
-  useTools();
+  useTools()
   useEffect(() => {
     if (!checkedPackageUpdates && process.env.NODE_ENV === 'development') {
-      checkedPackageUpdates = true;
-      checkPackageUpdates(name, version);
+      checkedPackageUpdates = true
+      checkPackageUpdates(name, version)
     }
-  }, []);
-};
+  }, [])
+}

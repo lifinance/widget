@@ -1,12 +1,12 @@
-import { describe, expect, test } from 'vitest';
-import { substituteFunctions } from './substituteFunctions';
+import { describe, expect, test } from 'vitest'
+import { substituteFunctions } from './substituteFunctions'
 
 describe('substituteFunctions', () => {
-  const elseFunc = () => {};
-  const moreFunc = () => {};
-  const againAgainFunc = () => {};
-  const wellThenFunc = () => {};
-  const anotherAnotherFunc = () => {};
+  const elseFunc = () => {}
+  const moreFunc = () => {}
+  const againAgainFunc = () => {}
+  const wellThenFunc = () => {}
+  const anotherAnotherFunc = () => {}
 
   describe('for object substitution', () => {
     const inputObject = {
@@ -39,7 +39,7 @@ describe('substituteFunctions', () => {
           ],
         ],
       ],
-    };
+    }
 
     test('gets the list of functions with paths and function references', () => {
       expect(substituteFunctions(inputObject)).toEqual([
@@ -63,7 +63,7 @@ describe('substituteFunctions', () => {
           path: ['anotherAnother', 1, 1, 2, 'anotherAnother'],
           funcRef: anotherAnotherFunc,
         },
-      ]);
+      ])
 
       expect(inputObject).toEqual({
         Something: {
@@ -95,9 +95,9 @@ describe('substituteFunctions', () => {
             ],
           ],
         ],
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('for id substitution', () => {
     const inputObjectForIds = {
@@ -130,7 +130,7 @@ describe('substituteFunctions', () => {
           ],
         ],
       ],
-    };
+    }
 
     test('gets the list of functions with paths, function references and ids', () => {
       expect(substituteFunctions(inputObjectForIds, 'id')).toEqual([
@@ -159,7 +159,7 @@ describe('substituteFunctions', () => {
           funcRef: anotherAnotherFunc,
           substituteId: 'substitution::id::5',
         },
-      ]);
+      ])
 
       expect(inputObjectForIds).toEqual({
         Something: {
@@ -191,7 +191,7 @@ describe('substituteFunctions', () => {
             ],
           ],
         ],
-      });
-    });
-  });
-});
+      })
+    })
+  })
+})

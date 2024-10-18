@@ -1,15 +1,15 @@
-import type { Process } from '@lifi/sdk';
+import type { Process } from '@lifi/sdk'
 import {
   Done,
   ErrorRounded,
   InfoRounded,
   WarningRounded,
-} from '@mui/icons-material';
-import { darken } from '@mui/material';
+} from '@mui/icons-material'
+import { darken } from '@mui/material'
 import {
   CircularIcon,
   CircularProgressPending,
-} from './CircularProgress.style.js';
+} from './CircularProgress.style.js'
 
 export function CircularProgress({ process }: { process: Process }) {
   return (
@@ -54,5 +54,5 @@ export function CircularProgress({ process }: { process: Process }) {
         />
       ) : null}
     </CircularIcon>
-  );
+  )
 }

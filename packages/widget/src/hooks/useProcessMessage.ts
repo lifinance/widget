@@ -6,21 +6,21 @@ import type {
   ProcessType,
   StatusMessage,
   Substatus,
-} from '@lifi/sdk';
-import { LiFiErrorCode } from '@lifi/sdk';
-import type { TFunction } from 'i18next';
-import { useTranslation } from 'react-i18next';
-import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
-import type { SubvariantOptions, WidgetSubvariant } from '../types/widget.js';
-import { formatTokenAmount } from '../utils/format.js';
-import { useAvailableChains } from './useAvailableChains.js';
+} from '@lifi/sdk'
+import { LiFiErrorCode } from '@lifi/sdk'
+import type { TFunction } from 'i18next'
+import { useTranslation } from 'react-i18next'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import type { SubvariantOptions, WidgetSubvariant } from '../types/widget.js'
+import { formatTokenAmount } from '../utils/format.js'
+import { useAvailableChains } from './useAvailableChains.js'
 
 export const useProcessMessage = (step?: LiFiStep, process?: Process) => {
-  const { subvariant, subvariantOptions } = useWidgetConfig();
-  const { t } = useTranslation();
-  const { getChainById } = useAvailableChains();
+  const { subvariant, subvariantOptions } = useWidgetConfig()
+  const { t } = useTranslation()
+  const { getChainById } = useAvailableChains()
   if (!step || !process) {
-    return {};
+    return {}
   }
   return getProcessMessage(
     t,
@@ -28,9 +28,9 @@ export const useProcessMessage = (step?: LiFiStep, process?: Process) => {
     step,
     process,
     subvariant,
-    subvariantOptions,
-  );
-};
+    subvariantOptions
+  )
+}
 
 const processStatusMessages: Record<
   ProcessType,
@@ -40,45 +40,45 @@ const processStatusMessages: Record<
       (
         t: TFunction,
         subvariant?: WidgetSubvariant,
-        subvariantOptions?: SubvariantOptions,
+        subvariantOptions?: SubvariantOptions
       ) => string
     >
   >
 > = {
   TOKEN_ALLOWANCE: {
-    STARTED: (t) => t(`main.process.tokenAllowance.started`),
-    ACTION_REQUIRED: (t) => t(`main.process.tokenAllowance.pending`),
-    PENDING: (t) => t(`main.process.tokenAllowance.pending`),
-    DONE: (t) => t(`main.process.tokenAllowance.done`),
+    STARTED: (t) => t('main.process.tokenAllowance.started'),
+    ACTION_REQUIRED: (t) => t('main.process.tokenAllowance.pending'),
+    PENDING: (t) => t('main.process.tokenAllowance.pending'),
+    DONE: (t) => t('main.process.tokenAllowance.done'),
   },
   SWITCH_CHAIN: {
-    ACTION_REQUIRED: (t) => t(`main.process.switchChain.actionRequired`),
-    DONE: (t) => t(`main.process.switchChain.done`),
+    ACTION_REQUIRED: (t) => t('main.process.switchChain.actionRequired'),
+    DONE: (t) => t('main.process.switchChain.done'),
   },
   SWAP: {
-    STARTED: (t) => t(`main.process.swap.started`),
-    ACTION_REQUIRED: (t) => t(`main.process.swap.actionRequired`),
-    PENDING: (t) => t(`main.process.swap.pending`),
+    STARTED: (t) => t('main.process.swap.started'),
+    ACTION_REQUIRED: (t) => t('main.process.swap.actionRequired'),
+    PENDING: (t) => t('main.process.swap.pending'),
     DONE: (t, subvariant, subvariantOptions) =>
       subvariant === 'custom'
         ? t(`main.process.${subvariantOptions?.custom ?? 'checkout'}.done`)
-        : t(`main.process.swap.done`),
+        : t('main.process.swap.done'),
   },
   CROSS_CHAIN: {
-    STARTED: (t) => t(`main.process.bridge.started`),
-    ACTION_REQUIRED: (t) => t(`main.process.bridge.actionRequired`),
-    PENDING: (t) => t(`main.process.bridge.pending`),
-    DONE: (t) => t(`main.process.bridge.done`),
+    STARTED: (t) => t('main.process.bridge.started'),
+    ACTION_REQUIRED: (t) => t('main.process.bridge.actionRequired'),
+    PENDING: (t) => t('main.process.bridge.pending'),
+    DONE: (t) => t('main.process.bridge.done'),
   },
   RECEIVING_CHAIN: {
-    PENDING: (t) => t(`main.process.receivingChain.pending`),
+    PENDING: (t) => t('main.process.receivingChain.pending'),
     DONE: (t, subvariant, subvariantOptions) =>
       subvariant === 'custom'
         ? t(`main.process.${subvariantOptions?.custom ?? 'checkout'}.done`)
-        : t(`main.process.receivingChain.done`),
+        : t('main.process.receivingChain.done'),
   },
   TRANSACTION: {},
-};
+}
 
 const processSubstatusMessages: Record<
   StatusMessage,
@@ -96,8 +96,8 @@ const processSubstatusMessages: Record<
   },
   DONE: {
     // COMPLETED: 'The transfer is complete.',
-    PARTIAL: (t) => t(`main.process.receivingChain.partial`),
-    REFUNDED: (t) => t(`main.process.receivingChain.partial`),
+    PARTIAL: (t) => t('main.process.receivingChain.partial'),
+    REFUNDED: (t) => t('main.process.receivingChain.partial'),
   },
   FAILED: {
     // TODO: should be moved to failed status
@@ -108,7 +108,7 @@ const processSubstatusMessages: Record<
   },
   INVALID: {},
   NOT_FOUND: {},
-};
+}
 
 export function getProcessMessage(
   t: TFunction,
@@ -116,10 +116,10 @@ export function getProcessMessage(
   step: LiFiStep,
   process: Process,
   subvariant?: WidgetSubvariant,
-  subvariantOptions?: SubvariantOptions,
+  subvariantOptions?: SubvariantOptions
 ): {
-  title?: string;
-  message?: string;
+  title?: string
+  message?: string
 } {
   if (process.error && process.status === 'FAILED') {
     const getDefaultErrorMessage = (key?: string) =>
@@ -128,97 +128,100 @@ export function getProcessMessage(
         {
           amount: formatTokenAmount(
             BigInt(step.action.fromAmount),
-            step.action.fromToken.decimals,
+            step.action.fromToken.decimals
           ),
           tokenSymbol: step.action.fromToken.symbol,
           chainName: getChainById(step.action.fromChainId)?.name ?? '',
-        },
-      )}`;
-    let title: string = '';
-    let message: string = '';
+        }
+      )}`
+    let title = ''
+    let message = ''
     switch (process.error.code) {
       case LiFiErrorCode.AllowanceRequired:
-        title = t(`error.title.allowanceRequired`);
-        message = t(`error.message.allowanceRequired`, {
+        title = t('error.title.allowanceRequired')
+        message = t('error.message.allowanceRequired', {
           tokenSymbol: step.action.fromToken.symbol,
-        });
-        break;
+        })
+        break
       case LiFiErrorCode.BalanceError:
-        title = t(`error.title.balanceIsTooLow`);
-        message = getDefaultErrorMessage();
-        break;
+        title = t('error.title.balanceIsTooLow')
+        message = getDefaultErrorMessage()
+        break
       case LiFiErrorCode.ChainSwitchError:
-        title = t(`error.title.chainSwitch`);
-        message = getDefaultErrorMessage();
-        break;
+        title = t('error.title.chainSwitch')
+        message = getDefaultErrorMessage()
+        break
       case LiFiErrorCode.GasLimitError:
-        title = t(`error.title.gasLimitIsTooLow`);
-        message = getDefaultErrorMessage();
-        break;
+        title = t('error.title.gasLimitIsTooLow')
+        message = getDefaultErrorMessage()
+        break
       case LiFiErrorCode.InsufficientFunds:
-        title = t(`error.title.insufficientFunds`);
+        title = t('error.title.insufficientFunds')
         message = `${t(
-          `error.message.insufficientFunds`,
-        )} ${getDefaultErrorMessage()}`;
-        break;
+          'error.message.insufficientFunds'
+        )} ${getDefaultErrorMessage()}`
+        break
       case LiFiErrorCode.SlippageError:
-        title = t(`error.title.slippageNotMet`);
-        message = t(`error.message.slippageThreshold`);
-        break;
+        title = t('error.title.slippageNotMet')
+        message = t('error.message.slippageThreshold')
+        break
       case LiFiErrorCode.TransactionFailed:
-        title = t(`error.title.transactionFailed`);
-        message = t(`error.message.transactionFailed`);
-        break;
+        title = t('error.title.transactionFailed')
+        message = t('error.message.transactionFailed')
+        break
       case LiFiErrorCode.TransactionExpired:
-        title = t(`error.title.transactionExpired`);
-        message = t(`error.message.transactionExpired`);
-        break;
+        title = t('error.title.transactionExpired')
+        message = t('error.message.transactionExpired')
+        break
       case LiFiErrorCode.TransactionSimulationFailed:
-        title = t(`error.title.transactionSimulationFailed`);
-        message = t(`error.message.transactionSimulationFailed`);
-        break;
+        title = t('error.title.transactionSimulationFailed')
+        message = t('error.message.transactionSimulationFailed')
+        break
       case LiFiErrorCode.WalletChangedDuringExecution:
-        title = t(`error.title.walletMismatch`);
-        message = t(`error.message.walletChangedDuringExecution`);
-        break;
+        title = t('error.title.walletMismatch')
+        message = t('error.message.walletChangedDuringExecution')
+        break
       case LiFiErrorCode.TransactionUnderpriced:
-        title = t(`error.title.transactionUnderpriced`);
-        message = getDefaultErrorMessage();
-        break;
+        title = t('error.title.transactionUnderpriced')
+        message = getDefaultErrorMessage()
+        break
       case LiFiErrorCode.TransactionUnprepared:
-        title = t(`error.title.transactionUnprepared`);
-        message = getDefaultErrorMessage();
-        break;
+        title = t('error.title.transactionUnprepared')
+        message = getDefaultErrorMessage()
+        break
       case LiFiErrorCode.TransactionCanceled:
-        title = t(`error.title.transactionCanceled`);
-        message = getDefaultErrorMessage('error.message.transactionCanceled');
-        break;
+        title = t('error.title.transactionCanceled')
+        message = getDefaultErrorMessage('error.message.transactionCanceled')
+        break
+      case LiFiErrorCode.TransactionConflict:
+        title = t('error.title.transactionConflict')
+        message = getDefaultErrorMessage('error.message.transactionConflict')
+        break
       case LiFiErrorCode.ExchangeRateUpdateCanceled:
-        title = t(`error.title.exchangeRateUpdateCanceled`);
-        message = getDefaultErrorMessage();
-        break;
+        title = t('error.title.exchangeRateUpdateCanceled')
+        message = getDefaultErrorMessage()
+        break
       case LiFiErrorCode.SignatureRejected:
-        title = t(`error.title.signatureRejected`);
-        message = t(`error.message.signatureRejected`, {
+        title = t('error.title.signatureRejected')
+        message = t('error.message.signatureRejected', {
           amount: formatTokenAmount(
             BigInt(step.action.fromAmount),
-            step.action.fromToken.decimals,
+            step.action.fromToken.decimals
           ),
           tokenSymbol: step.action.fromToken.symbol,
           chainName: getChainById(step.action.fromChainId)?.name ?? '',
-        });
-        break;
-      case LiFiErrorCode.ProviderUnavailable:
+        })
+        break
       default:
-        title = t(`error.title.unknown`);
+        title = t('error.title.unknown')
         if (process.txHash) {
-          message = t(`error.message.transactionFailed`);
+          message = t('error.message.transactionFailed')
         } else {
-          message = process.error.message || t(`error.message.unknown`);
+          message = process.error.message || t('error.message.unknown')
         }
-        break;
+        break
     }
-    return { title, message };
+    return { title, message }
   }
   const title =
     processSubstatusMessages[process.status as StatusMessage]?.[
@@ -227,7 +230,7 @@ export function getProcessMessage(
     processStatusMessages[process.type]?.[process.status]?.(
       t,
       subvariant,
-      subvariantOptions,
-    );
-  return { title };
+      subvariantOptions
+    )
+  return { title }
 }

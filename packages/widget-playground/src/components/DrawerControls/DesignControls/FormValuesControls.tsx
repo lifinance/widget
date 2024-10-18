@@ -1,18 +1,20 @@
-import { ChainType } from '@lifi/types';
-import { Button } from '@mui/material';
-import { useState } from 'react';
-import { useDevView } from '../../../hooks';
-import { useConfigActions, useEditToolsActions } from '../../../store';
-import type { FormValues } from '../../../store/widgetConfig/types';
-import { CardRowContainer, ExpandableCard } from '../../Card';
-import { Switch } from '../../Switch';
+import { ChainType } from '@lifi/sdk'
+import { Button } from '@mui/material'
+import { useState } from 'react'
+import { useDevView } from '../../../hooks/useDevView'
+import { useEditToolsActions } from '../../../store/editTools/useEditToolsActions'
+import type { FormValues } from '../../../store/types'
+import { useConfigActions } from '../../../store/widgetConfig/useConfigActions'
+import { CardRowContainer } from '../../Card/Card.style'
+import { ExpandableCard } from '../../Card/ExpandableCard'
+import { Switch } from '../../Switch'
 import {
   CapitalizeFirstLetter,
   ColorControlContainer,
-} from './DesignControls.style';
+} from './DesignControls.style'
 
 interface FormValuesLookUp {
-  [key: string]: FormValues;
+  [key: string]: FormValues
 }
 
 const ChainsAndTokensLookUp: FormValuesLookUp = {
@@ -58,7 +60,7 @@ const ChainsAndTokensLookUp: FormValuesLookUp = {
     toChain: undefined,
     toToken: undefined,
   },
-};
+}
 
 const AddressLookUp: FormValuesLookUp = {
   '0x29D...94eD7': {
@@ -83,7 +85,7 @@ const AddressLookUp: FormValuesLookUp = {
   RESET: {
     toAddress: undefined,
   },
-};
+}
 
 const fromAmountLookUp: FormValuesLookUp = {
   '1': {
@@ -95,7 +97,7 @@ const fromAmountLookUp: FormValuesLookUp = {
   RESET: {
     fromAmount: undefined,
   },
-};
+}
 
 const toAmountLookUp: FormValuesLookUp = {
   '1': {
@@ -107,57 +109,57 @@ const toAmountLookUp: FormValuesLookUp = {
   RESET: {
     toAmount: undefined,
   },
-};
+}
 
 const forceConfigUpdate = (nextValue: FormValues): FormValues => ({
   ...nextValue,
   formUpdateKey: new Date().valueOf().toString(),
-});
+})
 
 export const FormValuesControl = () => {
-  const { setFormValues: setFormValuesViaConfig } = useConfigActions();
-  const { setFormValues: setFormValuesViaFormApiRef } = useEditToolsActions();
-  const { isDevView } = useDevView();
+  const { setFormValues: setFormValuesViaConfig } = useConfigActions()
+  const { setFormValues: setFormValuesViaFormApiRef } = useEditToolsActions()
+  const { isDevView } = useDevView()
   const [formUpdateMethod, setFormUpdateMethod] = useState<
     'formApi' | 'config'
-  >('config');
+  >('config')
 
   const setFormValues =
     formUpdateMethod === 'formApi'
       ? setFormValuesViaFormApiRef
-      : setFormValuesViaConfig;
+      : setFormValuesViaConfig
 
   const handleChainAndTokenChange = (value: string) => {
-    const chainsAndTokens = ChainsAndTokensLookUp[value];
+    const chainsAndTokens = ChainsAndTokensLookUp[value]
 
     if (chainsAndTokens) {
-      setFormValues(forceConfigUpdate(chainsAndTokens));
+      setFormValues(forceConfigUpdate(chainsAndTokens))
     }
-  };
+  }
 
   const handleToAddressChange = (value: string) => {
-    const addressValue = AddressLookUp[value];
+    const addressValue = AddressLookUp[value]
 
     if (addressValue) {
-      setFormValues(forceConfigUpdate(addressValue));
+      setFormValues(forceConfigUpdate(addressValue))
     }
-  };
+  }
 
   const handleFromAmountChange = (value: string) => {
-    const amountValue = fromAmountLookUp[value];
+    const amountValue = fromAmountLookUp[value]
 
     if (amountValue) {
-      setFormValues(forceConfigUpdate(amountValue));
+      setFormValues(forceConfigUpdate(amountValue))
     }
-  };
+  }
 
   const handleToAmountChange = (value: string) => {
-    const amountValue = toAmountLookUp[value];
+    const amountValue = toAmountLookUp[value]
 
     if (amountValue) {
-      setFormValues(forceConfigUpdate(amountValue));
+      setFormValues(forceConfigUpdate(amountValue))
     }
-  };
+  }
 
   return isDevView ? (
     <ExpandableCard title={'Form values'} value=" ">
@@ -245,5 +247,5 @@ export const FormValuesControl = () => {
         </Button>
       ))}
     </ExpandableCard>
-  ) : null;
-};
+  ) : null
+}

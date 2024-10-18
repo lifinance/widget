@@ -1,13 +1,13 @@
-import type { PropsWithChildren } from 'react';
-import { useMemo, useRef } from 'react';
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
-import type { FormRef, ToAddress } from '../../types/widget.js';
-import { HiddenUI } from '../../types/widget.js';
-import { FormStoreContext } from './FormStoreContext.js';
-import { FormUpdater } from './FormUpdater.js';
-import { createFormStore, formDefaultValues } from './createFormStore.js';
-import type { DefaultValues, FormStoreStore } from './types.js';
-import { useFormRef } from './useFormRef.js';
+import type { PropsWithChildren } from 'react'
+import { useMemo, useRef } from 'react'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import type { FormRef, ToAddress } from '../../types/widget.js'
+import { HiddenUI } from '../../types/widget.js'
+import { FormStoreContext } from './FormStoreContext.js'
+import { FormUpdater } from './FormUpdater.js'
+import { createFormStore, formDefaultValues } from './createFormStore.js'
+import type { DefaultValues, FormStoreStore } from './types.js'
+import { useFormRef } from './useFormRef.js'
 
 // decorates and initialise the form date for use in the form store
 const initialiseDefaultValues = (
@@ -15,7 +15,7 @@ const initialiseDefaultValues = (
   fromAmount?: number | string,
   toAmount?: number | string,
   toAddress?: ToAddress,
-  hiddenToAddress?: boolean,
+  hiddenToAddress?: boolean
 ) => ({
   ...formDefaultValues,
   ...defaultValues,
@@ -29,17 +29,17 @@ const initialiseDefaultValues = (
   toAddress: hiddenToAddress
     ? formDefaultValues.toAddress
     : toAddress?.address || formDefaultValues.toAddress,
-});
+})
 
 interface FormStoreProviderProps extends PropsWithChildren {
-  formRef?: FormRef;
+  formRef?: FormRef
 }
 
 export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
   children,
   formRef,
 }) => {
-  const widgetConfig = useWidgetConfig();
+  const widgetConfig = useWidgetConfig()
 
   const {
     fromChain,
@@ -51,23 +51,24 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
     toAddress,
     hiddenUI,
     formUpdateKey,
-  } = widgetConfig;
+  } = widgetConfig
 
-  const storeRef = useRef<FormStoreStore>();
+  const storeRef = useRef<FormStoreStore>()
 
-  const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress);
+  const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress)
 
-  const configHasFromChain = widgetConfig.hasOwnProperty('fromChain');
-  const configHasFromToken = widgetConfig.hasOwnProperty('fromToken');
-  const configHasFromAmount = widgetConfig.hasOwnProperty('fromAmount');
-  const configHasToAmount = widgetConfig.hasOwnProperty('toAmount');
-  const configHasToAddress = widgetConfig.hasOwnProperty('toAddress');
-  const configHasToChain = widgetConfig.hasOwnProperty('toChain');
-  const configHasToToken = widgetConfig.hasOwnProperty('toToken');
+  const configHasFromChain = Object.hasOwn(widgetConfig, 'fromChain')
+  const configHasFromToken = Object.hasOwn(widgetConfig, 'fromToken')
+  const configHasFromAmount = Object.hasOwn(widgetConfig, 'fromAmount')
+  const configHasToAmount = Object.hasOwn(widgetConfig, 'toAmount')
+  const configHasToAddress = Object.hasOwn(widgetConfig, 'toAddress')
+  const configHasToChain = Object.hasOwn(widgetConfig, 'toChain')
+  const configHasToToken = Object.hasOwn(widgetConfig, 'toToken')
 
   // We use the presence/absence of a property to decide if the form values in state need to be updated
   // We only build and set a property on the memoized form values here if they are included in the
   // config - undefined is considered a valid value that will reset that form field
+  // biome-ignore lint/correctness/useExhaustiveDependencies: formUpdateKey is needed here.
   const reactiveFormValues = useMemo(
     () => ({
       ...(configHasFromChain ? { fromChain } : undefined),
@@ -80,7 +81,7 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
                 : fromAmount) || formDefaultValues.fromAmount,
           }
         : undefined),
-      ...(configHasFromAmount
+      ...(configHasToAmount
         ? {
             toAmount:
               (typeof toAmount === 'number'
@@ -98,7 +99,6 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
           }
         : undefined),
     }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       fromAmount,
       toAmount,
@@ -117,8 +117,8 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
       configHasToAddress,
       configHasToChain,
       configHasToToken,
-    ],
-  );
+    ]
+  )
 
   if (!storeRef.current) {
     storeRef.current = createFormStore(
@@ -127,17 +127,17 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
         fromAmount,
         toAmount,
         toAddress,
-        hiddenToAddress,
-      ),
-    );
+        hiddenToAddress
+      )
+    )
   }
 
-  useFormRef(storeRef.current, formRef);
+  useFormRef(storeRef.current, formRef)
 
   return (
     <FormStoreContext.Provider value={storeRef.current}>
       {children}
       <FormUpdater reactiveFormValues={reactiveFormValues} />
     </FormStoreContext.Provider>
-  );
-};
+  )
+}

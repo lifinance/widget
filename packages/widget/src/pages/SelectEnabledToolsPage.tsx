@@ -1,40 +1,40 @@
-import type { ToolsResponse } from '@lifi/sdk';
+import type { ToolsResponse } from '@lifi/sdk'
 import {
   Check,
   CheckBoxOutlineBlankOutlined,
   CheckBoxOutlined,
   IndeterminateCheckBoxOutlined,
-} from '@mui/icons-material';
+} from '@mui/icons-material'
 import {
   Avatar,
-  debounce,
   IconButton,
   ListItemAvatar,
   Tooltip,
+  debounce,
   useTheme,
-} from '@mui/material';
-import type { MouseEventHandler } from 'react';
-import { type FormEventHandler, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { shallow } from 'zustand/shallow';
-import { FullPageContainer } from '../components/FullPageContainer.js';
-import { ListItemText } from '../components/ListItemText.js';
-import { StickySearchInput } from '../components/Search/SearchInput.js';
-import { SearchList } from '../components/Search/SearchInput.style.js';
-import { SearchNotFound } from '../components/Search/SearchNotFound.js';
-import { SettingsListItemButton } from '../components/SettingsListItemButton.js';
-import { useDefaultElementId } from '../hooks/useDefaultElementId.js';
-import { useHeader } from '../hooks/useHeader.js';
-import { useScrollableContainer } from '../hooks/useScrollableContainer.js';
-import { useTools } from '../hooks/useTools.js';
-import { useSettingsActions } from '../stores/settings/useSettingsActions.js';
-import { useSettingsStore } from '../stores/settings/useSettingsStore.js';
+} from '@mui/material'
+import type { MouseEventHandler } from 'react'
+import { type FormEventHandler, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { shallow } from 'zustand/shallow'
+import { FullPageContainer } from '../components/FullPageContainer.js'
+import { ListItemText } from '../components/ListItemText.js'
+import { StickySearchInput } from '../components/Search/SearchInput.js'
+import { SearchList } from '../components/Search/SearchInput.style.js'
+import { SearchNotFound } from '../components/Search/SearchNotFound.js'
+import { SettingsListItemButton } from '../components/SettingsListItemButton.js'
+import { useDefaultElementId } from '../hooks/useDefaultElementId.js'
+import { useHeader } from '../hooks/useHeader.js'
+import { useScrollableContainer } from '../hooks/useScrollableContainer.js'
+import { useTools } from '../hooks/useTools.js'
+import { useSettingsActions } from '../stores/settings/useSettingsActions.js'
+import { useSettingsStore } from '../stores/settings/useSettingsStore.js'
 
 interface SelectAllCheckboxProps {
-  allCheckboxesSelected: boolean;
-  onClick: MouseEventHandler;
-  anyCheckboxesSelected: boolean;
-  noCheckboxesAvailable: boolean;
+  allCheckboxesSelected: boolean
+  onClick: MouseEventHandler
+  anyCheckboxesSelected: boolean
+  noCheckboxesAvailable: boolean
 }
 
 const SelectAllCheckbox: React.FC<SelectAllCheckboxProps> = ({
@@ -43,13 +43,13 @@ const SelectAllCheckbox: React.FC<SelectAllCheckboxProps> = ({
   noCheckboxesAvailable,
   onClick,
 }) => {
-  const { t } = useTranslation();
-  const theme = useTheme();
+  const { t } = useTranslation()
+  const theme = useTheme()
   const tooltipTitle = noCheckboxesAvailable
     ? undefined
     : allCheckboxesSelected
       ? t('tooltip.deselectAll')
-      : t('tooltip.selectAll');
+      : t('tooltip.selectAll')
 
   return (
     <Tooltip title={tooltipTitle}>
@@ -67,30 +67,28 @@ const SelectAllCheckbox: React.FC<SelectAllCheckboxProps> = ({
         )}
       </IconButton>
     </Tooltip>
-  );
-};
+  )
+}
 
-type ToolCollectionTypes =
-  | ToolsResponse['exchanges']
-  | ToolsResponse['bridges'];
+type ToolCollectionTypes = ToolsResponse['exchanges'] | ToolsResponse['bridges']
 
 export const SelectEnabledToolsPage: React.FC<{
-  type: 'Bridges' | 'Exchanges';
+  type: 'Bridges' | 'Exchanges'
 }> = ({ type }) => {
-  const typeKey = type.toLowerCase() as 'bridges' | 'exchanges';
-  const { tools } = useTools();
-  const { setToolValue, toggleToolKeys } = useSettingsActions();
+  const typeKey = type.toLowerCase() as 'bridges' | 'exchanges'
+  const { tools } = useTools()
+  const { setToolValue, toggleToolKeys } = useSettingsActions()
   const [enabledTools, disabledTools] = useSettingsStore(
     (state) => [state[`_enabled${type}`], state[`disabled${type}`]],
-    shallow,
-  );
+    shallow
+  )
 
-  const { t } = useTranslation();
-  const elementId = useDefaultElementId();
-  const scrollableContainer = useScrollableContainer(elementId);
+  const { t } = useTranslation()
+  const elementId = useDefaultElementId()
+  const scrollableContainer = useScrollableContainer(elementId)
   const [filteredTools, setFilteredTools] = useState<ToolCollectionTypes>(
-    tools?.[typeKey] ?? [],
-  );
+    tools?.[typeKey] ?? []
+  )
 
   const headerAction = useMemo(
     () => (
@@ -107,41 +105,41 @@ export const SelectEnabledToolsPage: React.FC<{
         onClick={() =>
           toggleToolKeys(
             type,
-            filteredTools.map((tool) => tool.key),
+            filteredTools.map((tool) => tool.key)
           )
         }
       />
     ),
-    [disabledTools, toggleToolKeys, type, filteredTools],
-  );
+    [disabledTools, toggleToolKeys, type, filteredTools]
+  )
 
-  useHeader(t(`settings.enabled${type}`), headerAction);
+  useHeader(t(`settings.enabled${type}`), headerAction)
 
   const handleClick = (key: string) => {
-    setToolValue(type, key, !enabledTools[key]);
-  };
+    setToolValue(type, key, !enabledTools[key])
+  }
 
   const handleSearchInputChange: FormEventHandler<HTMLInputElement> = (e) => {
-    const value = (e.target as HTMLInputElement).value;
+    const value = (e.target as HTMLInputElement).value
 
     if (!value) {
-      setFilteredTools(tools?.[typeKey] ?? []);
+      setFilteredTools(tools?.[typeKey] ?? [])
     } else {
       setFilteredTools(
         (tools?.[typeKey]
           ? tools[typeKey].filter((tool) =>
-              tool.name.toLowerCase().includes(value.toLowerCase()),
+              tool.name.toLowerCase().includes(value.toLowerCase())
             )
-          : []) as ToolCollectionTypes,
-      );
+          : []) as ToolCollectionTypes
+      )
     }
 
     if (scrollableContainer) {
-      scrollableContainer.scrollTop = 0;
+      scrollableContainer.scrollTop = 0
     }
-  };
+  }
 
-  const debouncedSearchInputChange = debounce(handleSearchInputChange, 250);
+  const debouncedSearchInputChange = debounce(handleSearchInputChange, 250)
 
   return (
     <FullPageContainer disableGutters>
@@ -173,5 +171,5 @@ export const SelectEnabledToolsPage: React.FC<{
         />
       )}
     </FullPageContainer>
-  );
-};
+  )
+}

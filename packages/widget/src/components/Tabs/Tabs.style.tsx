@@ -1,4 +1,4 @@
-import type { TabProps } from '@mui/material';
+import type { TabProps } from '@mui/material'
 import {
   Tab as MuiTab,
   Tabs as MuiTabs,
@@ -6,7 +6,7 @@ import {
   styled,
   tabClasses,
   tabsClasses,
-} from '@mui/material';
+} from '@mui/material'
 
 export const Tabs = styled(MuiTabs)(({ theme }) => ({
   flex: 1,
@@ -19,7 +19,7 @@ export const Tabs = styled(MuiTabs)(({ theme }) => ({
   [`.${tabsClasses.fixed}`]: {
     padding: theme.spacing(0.5),
   },
-}));
+}))
 
 export const CardTabs = styled(Tabs)(({ theme }) => ({
   backgroundColor:
@@ -32,7 +32,7 @@ export const CardTabs = styled(Tabs)(({ theme }) => ({
         ? theme.palette.background.paper
         : alpha(theme.palette.common.black, 0.56),
   },
-}));
+}))
 
 export const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
   zIndex: 1,
@@ -50,4 +50,4 @@ export const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
         ? theme.palette.common.black
         : theme.palette.common.white,
   },
-}));
+}))

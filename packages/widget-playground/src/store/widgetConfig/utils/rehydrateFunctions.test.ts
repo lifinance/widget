@@ -1,11 +1,11 @@
-import { describe, expect, test } from 'vitest';
-import { rehydrateFunctions } from './rehydrateFunctions';
+import { describe, expect, test } from 'vitest'
+import { rehydrateFunctions } from './rehydrateFunctions'
 
-const elseFunc = () => {};
-const moreFunc = () => {};
-const againAgainFunc = () => {};
-const wellThenFunc = () => {};
-const anotherAnotherFunc = () => {};
+const elseFunc = () => {}
+const moreFunc = () => {}
+const againAgainFunc = () => {}
+const wellThenFunc = () => {}
+const anotherAnotherFunc = () => {}
 
 describe('rehydrateFunctions', () => {
   test('should restore the path locations', () => {
@@ -39,7 +39,7 @@ describe('rehydrateFunctions', () => {
           ],
         ],
       ],
-    };
+    }
     rehydrateFunctions(inputObj, [
       {
         path: ['more'],
@@ -61,7 +61,7 @@ describe('rehydrateFunctions', () => {
         path: ['anotherAnother', 1, 1, 2, 'anotherAnother'],
         funcRef: anotherAnotherFunc,
       },
-    ]);
+    ])
 
     expect(inputObj).toEqual({
       Something: {
@@ -93,11 +93,11 @@ describe('rehydrateFunctions', () => {
           ],
         ],
       ],
-    });
-  });
+    })
+  })
 
   test('should create the path locations if they do not exist', () => {
-    const inputObj = {};
+    const inputObj = {}
 
     rehydrateFunctions(inputObj, [
       {
@@ -120,7 +120,7 @@ describe('rehydrateFunctions', () => {
         path: ['anotherAnother', 1, 1, 2, 'anotherAnother'],
         funcRef: anotherAnotherFunc,
       },
-    ]);
+    ])
 
     expect(inputObj).toEqual({
       Something: {
@@ -150,6 +150,6 @@ describe('rehydrateFunctions', () => {
           ],
         ],
       ],
-    });
-  });
-});
+    })
+  })
+})

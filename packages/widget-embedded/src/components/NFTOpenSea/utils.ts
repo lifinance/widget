@@ -1,4 +1,4 @@
-import BigNumber from 'bignumber.js';
+import BigNumber from 'bignumber.js'
 import type {
   AssetEvent,
   OpenSeaAccount,
@@ -11,16 +11,16 @@ import type {
   OpenSeaUser,
   Order,
   OrderJSON,
-  OrdersQueryOptions,
   OrderV2,
+  OrdersQueryOptions,
   SerializedOrderV2,
   Transaction,
-} from './types';
+} from './types'
 
-type OrdersQueryPathOptions = 'protocol' | 'side';
+type OrdersQueryPathOptions = 'protocol' | 'side'
 
 export const serializeOrdersQueryOptions = (
-  options: Omit<OrdersQueryOptions, OrdersQueryPathOptions>,
+  options: Omit<OrdersQueryOptions, OrdersQueryPathOptions>
 ) => {
   return {
     limit: options.limit,
@@ -39,8 +39,8 @@ export const serializeOrdersQueryOptions = (
     order_by: options.orderBy,
     order_direction: options.orderDirection,
     only_english: options.onlyEnglish,
-  };
-};
+  }
+}
 
 export const deserializeOrder = (order: SerializedOrderV2): OrderV2 => {
   return {
@@ -70,13 +70,12 @@ export const deserializeOrder = (order: SerializedOrderV2): OrderV2 => {
     clientSignature: order.client_signature,
     makerAssetBundle: assetBundleFromJSON(order.maker_asset_bundle),
     takerAssetBundle: assetBundleFromJSON(order.taker_asset_bundle),
-  };
-};
+  }
+}
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const assetFromJSON = (asset: any): OpenSeaAsset => {
-  const isAnimated = asset.image_url && asset.image_url.endsWith('.gif');
-  const isSvg = asset.image_url && asset.image_url.endsWith('.svg');
+  const isAnimated = asset.image_url?.endsWith('.gif')
+  const isSvg = asset.image_url?.endsWith('.svg')
   const fromJSON: OpenSeaAsset = {
     tokenId: asset.token_id.toString(),
     tokenAddress: asset.asset_contract.address,
@@ -113,7 +112,7 @@ export const assetFromJSON = (asset: any): OpenSeaAsset => {
     transferFeePaymentToken: asset.transfer_fee_payment_token
       ? tokenFromJSON(asset.transfer_fee_payment_token)
       : null,
-  };
+  }
   // If orders were included, put them in sell/buy order groups
   // if (fromJSON.orders && !fromJSON.sellOrders) {
   //   fromJSON.sellOrders = fromJSON.orders.filter(
@@ -123,10 +122,9 @@ export const assetFromJSON = (asset: any): OpenSeaAsset => {
   // if (fromJSON.orders && !fromJSON.buyOrders) {
   //   fromJSON.buyOrders = fromJSON.orders.filter((o) => o.side == OrderSide.Buy);
   // }
-  return fromJSON;
-};
+  return fromJSON
+}
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const assetEventFromJSON = (assetEvent: any): AssetEvent => {
   return {
     eventType: assetEvent.event_type,
@@ -139,10 +137,9 @@ export const assetEventFromJSON = (assetEvent: any): AssetEvent => {
     paymentToken: assetEvent.payment_token
       ? tokenFromJSON(assetEvent.payment_token)
       : null,
-  };
-};
+  }
+}
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const transactionFromJSON = (transaction: any): Transaction => {
   return {
     fromAccount: accountFromJSON(transaction.from_account),
@@ -154,27 +151,24 @@ export const transactionFromJSON = (transaction: any): Transaction => {
     blockNumber: transaction.block_number,
     blockHash: transaction.block_hash,
     timestamp: new Date(`${transaction.timestamp}Z`),
-  };
-};
+  }
+}
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const accountFromJSON = (account: any): OpenSeaAccount => {
   return {
     address: account.address,
     config: account.config,
     profileImgUrl: account.profile_img_url,
     user: account.user ? userFromJSON(account.user) : null,
-  };
-};
+  }
+}
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const userFromJSON = (user: any): OpenSeaUser => {
   return {
     username: user.username,
-  };
-};
+  }
+}
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const assetBundleFromJSON = (asset_bundle: any): OpenSeaAssetBundle => {
   const fromJSON: OpenSeaAssetBundle = {
     maker: asset_bundle.maker,
@@ -191,14 +185,13 @@ export const assetBundleFromJSON = (asset_bundle: any): OpenSeaAssetBundle => {
     sellOrders: asset_bundle.sell_orders
       ? asset_bundle.sell_orders.map(orderFromJSON)
       : null,
-  };
+  }
 
-  return fromJSON;
-};
+  return fromJSON
+}
 
 export const assetContractFromJSON = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  asset_contract: any,
+  asset_contract: any
 ): OpenSeaAssetContract => {
   return {
     name: asset_contract.name,
@@ -217,12 +210,11 @@ export const assetContractFromJSON = (
     imageUrl: asset_contract.image_url,
     externalLink: asset_contract.external_link,
     wikiLink: asset_contract.wiki_link,
-  };
-};
+  }
+}
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const collectionFromJSON = (collection: any): OpenSeaCollection => {
-  const createdDate = new Date(`${collection.created_date}Z`);
+  const createdDate = new Date(`${collection.created_date}Z`)
 
   return {
     createdDate,
@@ -250,10 +242,9 @@ export const collectionFromJSON = (collection: any): OpenSeaCollection => {
       openseaFees: new Map(Object.entries(collection.fees.opensea_fees || {})),
       sellerFees: new Map(Object.entries(collection.fees.seller_fees || {})),
     },
-  };
-};
+  }
+}
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const tokenFromJSON = (token: any): OpenSeaFungibleToken => {
   const fromJSON: OpenSeaFungibleToken = {
     name: token.name,
@@ -263,14 +254,13 @@ export const tokenFromJSON = (token: any): OpenSeaFungibleToken => {
     imageUrl: token.image_url,
     ethPrice: token.eth_price,
     usdPrice: token.usd_price,
-  };
+  }
 
-  return fromJSON;
-};
+  return fromJSON
+}
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const orderFromJSON = (order: any): Order => {
-  const createdDate = new Date(`${order.created_date}Z`);
+  const createdDate = new Date(`${order.created_date}Z`)
 
   const fromJSON: Order = {
     hash: order.order_hash || order.hash,
@@ -312,7 +302,7 @@ export const orderFromJSON = (order: any): Order => {
     expirationTime: new BigNumber(order.expiration_time),
 
     salt: new BigNumber(order.salt),
-    v: parseInt(order.v),
+    v: Number.parseInt(order.v),
     r: order.r,
     s: order.s,
 
@@ -323,13 +313,13 @@ export const orderFromJSON = (order: any): Order => {
     assetBundle: order.asset_bundle
       ? assetBundleFromJSON(order.asset_bundle)
       : undefined,
-  };
+  }
 
   // Use client-side price calc, to account for buyer fee (not added by server) and latency
   // fromJSON.currentPrice = estimateCurrentPrice(fromJSON);
 
-  return fromJSON;
-};
+  return fromJSON
+}
 
 /**
  * Convert an order to JSON, hashing it as well if necessary
@@ -374,6 +364,6 @@ export const orderToJSON = (order: Order): OrderJSON => {
     s: order.s,
 
     nonce: order.nonce,
-  };
-  return asJSON;
-};
+  }
+  return asJSON
+}

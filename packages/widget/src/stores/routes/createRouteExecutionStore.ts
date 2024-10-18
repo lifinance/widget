@@ -1,17 +1,17 @@
-import type { Route, RouteExtended } from '@lifi/sdk';
-import type { StateCreator } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { createWithEqualityFn } from 'zustand/traditional';
-import { hasEnumFlag } from '../../utils/enum.js';
-import type { PersistStoreProps } from '../types.js';
-import type { RouteExecutionState } from './types.js';
-import { RouteExecutionStatus } from './types.js';
+import type { Route, RouteExtended } from '@lifi/sdk'
+import type { StateCreator } from 'zustand'
+import { persist } from 'zustand/middleware'
+import { createWithEqualityFn } from 'zustand/traditional'
+import { hasEnumFlag } from '../../utils/enum.js'
+import type { PersistStoreProps } from '../types.js'
+import type { RouteExecutionState } from './types.js'
+import { RouteExecutionStatus } from './types.js'
 import {
   isRouteDone,
   isRouteFailed,
   isRoutePartiallyDone,
   isRouteRefunded,
-} from './utils.js';
+} from './utils.js'
 
 export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
   createWithEqualityFn<RouteExecutionState>(
@@ -21,7 +21,7 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
         setExecutableRoute: (route: Route, observableRouteIds?: string[]) => {
           if (!get().routes[route.id]) {
             set((state: RouteExecutionState) => {
-              const routes = { ...state.routes };
+              const routes = { ...state.routes }
               // clean previous idle and done routes
               Object.keys(routes)
                 .filter(
@@ -29,22 +29,22 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
                     (!observableRouteIds?.includes(routeId) &&
                       hasEnumFlag(
                         routes[routeId]!.status,
-                        RouteExecutionStatus.Idle,
+                        RouteExecutionStatus.Idle
                       )) ||
                     hasEnumFlag(
                       routes[routeId]!.status,
-                      RouteExecutionStatus.Done,
-                    ),
+                      RouteExecutionStatus.Done
+                    )
                 )
-                .forEach((routeId) => delete routes[routeId]);
+                .forEach((routeId) => delete routes[routeId])
               routes[route.id] = {
                 route,
                 status: RouteExecutionStatus.Idle,
-              };
+              }
               return {
                 routes,
-              };
-            });
+              }
+            })
           }
         },
         updateRoute: (route: RouteExtended) => {
@@ -55,33 +55,33 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
                   ...state.routes,
                   [route.id]: { ...state.routes[route.id]!, route },
                 },
-              };
-              const isFailed = isRouteFailed(route);
+              }
+              const isFailed = isRouteFailed(route)
               if (isFailed) {
                 updatedState.routes[route.id]!.status =
-                  RouteExecutionStatus.Failed;
-                return updatedState;
+                  RouteExecutionStatus.Failed
+                return updatedState
               }
-              const isDone = isRouteDone(route);
+              const isDone = isRouteDone(route)
               if (isDone) {
                 updatedState.routes[route.id]!.status =
-                  RouteExecutionStatus.Done;
+                  RouteExecutionStatus.Done
                 if (isRoutePartiallyDone(route)) {
                   updatedState.routes[route.id]!.status |=
-                    RouteExecutionStatus.Partial;
+                    RouteExecutionStatus.Partial
                 } else if (isRouteRefunded(route)) {
                   updatedState.routes[route.id]!.status |=
-                    RouteExecutionStatus.Refunded;
+                    RouteExecutionStatus.Refunded
                 }
-                return updatedState;
+                return updatedState
               }
-              const isLoading = route.steps.some((step) => step.execution);
+              const isLoading = route.steps.some((step) => step.execution)
               if (isLoading) {
                 updatedState.routes[route.id]!.status =
-                  RouteExecutionStatus.Pending;
+                  RouteExecutionStatus.Pending
               }
-              return updatedState;
-            });
+              return updatedState
+            })
           }
         },
         restartRoute: (routeId: string) => {
@@ -94,39 +94,39 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
                   status: RouteExecutionStatus.Pending,
                 },
               },
-            }));
+            }))
           }
         },
         deleteRoute: (routeId: string) => {
           if (get().routes[routeId]) {
             set((state: RouteExecutionState) => {
-              const routes = { ...state.routes };
-              delete routes[routeId];
+              const routes = { ...state.routes }
+              delete routes[routeId]
               return {
                 routes,
-              };
-            });
+              }
+            })
           }
         },
         deleteRoutes: (type) =>
           set((state: RouteExecutionState) => {
-            const routes = { ...state.routes };
+            const routes = { ...state.routes }
             Object.keys(routes)
               .filter((routeId) =>
                 type === 'completed'
                   ? hasEnumFlag(
                       routes[routeId]?.status ?? 0,
-                      RouteExecutionStatus.Done,
+                      RouteExecutionStatus.Done
                     )
                   : !hasEnumFlag(
                       routes[routeId]?.status ?? 0,
-                      RouteExecutionStatus.Done,
-                    ),
+                      RouteExecutionStatus.Done
+                    )
               )
-              .forEach((routeId) => delete routes[routeId]);
+              .forEach((routeId) => delete routes[routeId])
             return {
               routes,
-            };
+            }
           }),
       }),
       {
@@ -137,29 +137,28 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
           const state = {
             ...currentState,
             ...persistedState,
-          } as RouteExecutionState;
+          } as RouteExecutionState
           try {
             // Remove failed transactions from history after 1 day
-            const currentTime = new Date().getTime();
-            const oneDay = 1000 * 60 * 60 * 24;
+            const currentTime = new Date().getTime()
+            const oneDay = 1000 * 60 * 60 * 24
             Object.values(state.routes).forEach((routeExecution) => {
               const startedAt =
                 routeExecution?.route.steps
                   ?.find((step) => step.execution?.status === 'FAILED')
                   ?.execution?.process.find((process) => process.startedAt)
-                  ?.startedAt ?? 0;
-              const outdated =
-                startedAt > 0 && currentTime - startedAt > oneDay;
+                  ?.startedAt ?? 0
+              const outdated = startedAt > 0 && currentTime - startedAt > oneDay
               if (routeExecution?.route && outdated) {
-                delete state.routes[routeExecution.route.id];
+                delete state.routes[routeExecution.route.id]
               }
-            });
+            })
           } catch (error) {
-            console.error(error);
+            console.error(error)
           }
-          return state;
+          return state
         },
-      },
+      }
     ) as StateCreator<RouteExecutionState, [], [], RouteExecutionState>,
-    Object.is,
-  );
+    Object.is
+  )

@@ -1,8 +1,8 @@
-'use client';
+'use client'
 
-import type { WidgetConfig } from '@lifi/widget';
-import { LiFiWidget, WidgetSkeleton } from '@lifi/widget';
-import { ClientOnly } from './ClientOnly';
+import type { WidgetConfig } from '@lifi/widget'
+import { LiFiWidget, WidgetSkeleton } from '@lifi/widget'
+import { ClientOnly } from './ClientOnly'
 
 export function Widget() {
   const config = {
@@ -13,7 +13,7 @@ export function Widget() {
         borderRadius: '16px',
       },
     },
-  } as Partial<WidgetConfig>;
+  } as Partial<WidgetConfig>
 
   return (
     <main>
@@ -21,5 +21,5 @@ export function Widget() {
         <LiFiWidget config={config} integrator="nextjs-example" />
       </ClientOnly>
     </main>
-  );
+  )
 }

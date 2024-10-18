@@ -1,5 +1,5 @@
-import type { WidgetConfig } from '@lifi/widget';
-import { LiFiWidget } from '@lifi/widget';
+import type { WidgetConfig } from '@lifi/widget'
+import { LiFiWidget } from '@lifi/widget'
 
 export default function PagesWidget() {
   const config = {
@@ -10,7 +10,7 @@ export default function PagesWidget() {
         borderRadius: '16px',
       },
     },
-  } as Partial<WidgetConfig>;
+  } as Partial<WidgetConfig>
 
-  return <LiFiWidget config={config} integrator="nextjs-example" />;
+  return <LiFiWidget config={config} integrator="nextjs-example" />
 }

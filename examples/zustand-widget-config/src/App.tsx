@@ -1,7 +1,7 @@
-import { Box } from '@mui/material';
-import './App.css';
-import { FormControls } from './components/FormControls.tsx';
-import { WidgetView } from './components/WidgetView.tsx';
+import { Box } from '@mui/material'
+import './App.css'
+import { FormControls } from './components/FormControls.tsx'
+import { WidgetView } from './components/WidgetView.tsx'
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
       <FormControls />
       <WidgetView />
     </Box>
-  );
+  )
 }
 
-export default App;
+export default App

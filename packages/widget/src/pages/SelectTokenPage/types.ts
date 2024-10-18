@@ -1,4 +1,4 @@
 export enum TokenFilterType {
-  My,
-  All,
+  My = 0,
+  All = 1,
 }

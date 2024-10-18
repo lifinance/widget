@@ -1,4 +1,4 @@
-import { Typography, styled } from '@mui/material';
+import { Typography, styled } from '@mui/material'
 
 export const TokenRateTypography = styled(Typography)(({ theme }) => ({
   fontSize: 14,
@@ -14,4 +14,4 @@ export const TokenRateTypography = styled(Typography)(({ theme }) => ({
     duration: theme.transitions.duration.enteringScreen,
     easing: theme.transitions.easing.easeOut,
   }),
-}));
+}))

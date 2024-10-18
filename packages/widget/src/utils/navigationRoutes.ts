@@ -7,7 +7,6 @@ export const navigationRoutes = {
   fromToken: 'from-token',
   languages: 'languages',
   routes: 'routes',
-  selectWallet: 'select-wallet',
   settings: 'settings',
   toChain: 'to-chain',
   toToken: 'to-token',
@@ -20,9 +19,9 @@ export const navigationRoutes = {
   recentWallets: 'recent-wallets',
   connectedWallets: 'connected-wallets',
   configuredWallets: 'configured-wallets',
-};
+}
 
-export const navigationRoutesValues = Object.values(navigationRoutes);
+export const navigationRoutesValues = Object.values(navigationRoutes)
 
 export const stickyHeaderRoutes = [
   navigationRoutes.activeTransactions,
@@ -31,7 +30,6 @@ export const stickyHeaderRoutes = [
   navigationRoutes.fromChain,
   navigationRoutes.home,
   navigationRoutes.routes,
-  navigationRoutes.selectWallet,
   navigationRoutes.settings,
   navigationRoutes.toChain,
   navigationRoutes.toTokenNative,
@@ -43,7 +41,7 @@ export const stickyHeaderRoutes = [
   navigationRoutes.recentWallets,
   navigationRoutes.connectedWallets,
   navigationRoutes.configuredWallets,
-];
+]
 
 export const backButtonRoutes = [
   navigationRoutes.activeTransactions,
@@ -53,7 +51,6 @@ export const backButtonRoutes = [
   navigationRoutes.fromChain,
   navigationRoutes.fromToken,
   navigationRoutes.routes,
-  navigationRoutes.selectWallet,
   navigationRoutes.settings,
   navigationRoutes.toChain,
   navigationRoutes.toToken,
@@ -66,9 +63,9 @@ export const backButtonRoutes = [
   navigationRoutes.recentWallets,
   navigationRoutes.connectedWallets,
   navigationRoutes.configuredWallets,
-];
+]
 
-export type NavigationRouteTypeKeys = keyof typeof navigationRoutes;
+export type NavigationRouteTypeKeys = keyof typeof navigationRoutes
 
 export type NavigationRouteType =
-  (typeof navigationRoutes)[NavigationRouteTypeKeys];
+  (typeof navigationRoutes)[NavigationRouteTypeKeys]

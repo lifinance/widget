@@ -3,7 +3,7 @@ import type {
   BoxProps,
   InputBaseProps,
   Theme,
-} from '@mui/material';
+} from '@mui/material'
 import {
   Box,
   ButtonBase,
@@ -15,26 +15,26 @@ import {
   Popper,
   Typography,
   badgeClasses,
-} from '@mui/material';
-import { alertClasses } from '@mui/material/Alert';
-import { autocompleteClasses } from '@mui/material/Autocomplete';
-import { inputBaseClasses } from '@mui/material/InputBase';
-import { alpha, styled } from '@mui/material/styles';
-import { getCardFieldsetBackgroundColor } from '../../../utils';
-import { CardRowContainer } from '../../Card';
-import { autocompletePopperZIndex } from '../DrawerControls.style';
+} from '@mui/material'
+import { alertClasses } from '@mui/material/Alert'
+import { autocompleteClasses } from '@mui/material/Autocomplete'
+import { inputBaseClasses } from '@mui/material/InputBase'
+import { alpha, styled } from '@mui/material/styles'
+import { getCardFieldsetBackgroundColor } from '../../../utils/color'
+import { CardRowContainer } from '../../Card/Card.style'
+import { autocompletePopperZIndex } from '../DrawerControls.style'
 
 export const TabButtonsContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   backgroundColor: getCardFieldsetBackgroundColor(theme),
   borderRadius: Math.max(
     theme.shape.borderRadius,
-    theme.shape.borderRadiusSecondary,
+    theme.shape.borderRadiusSecondary
   ),
   padding: theme.spacing(0.5),
   gap: theme.spacing(0.5),
   height: '3.5rem',
-}));
+}))
 
 const controlSelected = (theme: Theme) => ({
   backgroundColor:
@@ -43,63 +43,61 @@ const controlSelected = (theme: Theme) => ({
       : theme.palette.common.white,
   borderRadius: theme.shape.borderRadiusSecondary,
   boxShadow: `0px 2px 4px ${alpha(theme.palette.common.black, 0.04)}`,
-});
+})
 
 interface TabButtonProps {
-  selected?: boolean;
+  selected?: boolean
 }
-export const TabButton = styled(ButtonBase)<TabButtonProps>(({
-  theme,
-  selected,
-}) => {
-  const selectedStyle = selected
-    ? {
-        ...controlSelected(theme),
-      }
-    : {};
-
-  return {
-    height: '100%',
-    width: '100%',
-    fontSize: '1rem',
-    fontWeight: 700,
-    ...selectedStyle,
-  };
-});
-
-export const TabCustomInput = styled(InputBase)<TabButtonProps>(({
-  theme,
-  selected,
-}) => {
-  const selectedStyle = selected
-    ? {
-        '&:not(:focus)': {
+export const TabButton = styled(ButtonBase)<TabButtonProps>(
+  ({ theme, selected }) => {
+    const selectedStyle = selected
+      ? {
           ...controlSelected(theme),
-        },
-      }
-    : {};
+        }
+      : {}
 
-  return {
-    height: '100%',
-    width: '100%',
-
-    [`.${inputBaseClasses.input}`]: {
+    return {
       height: '100%',
       width: '100%',
-      padding: 0,
-      textAlign: 'center',
-      '&::placeholder': {
-        fontSize: '1rem',
-        fontWeight: 700,
-        opacity: 1,
-      },
-      '&:focus': {
-        ...controlSelected(theme),
-      },
+      fontSize: '1rem',
+      fontWeight: 700,
       ...selectedStyle,
-    },
-  };
-});
+    }
+  }
+)
+
+export const TabCustomInput = styled(InputBase)<TabButtonProps>(
+  ({ theme, selected }) => {
+    const selectedStyle = selected
+      ? {
+          '&:not(:focus)': {
+            ...controlSelected(theme),
+          },
+        }
+      : {}
+
+    return {
+      height: '100%',
+      width: '100%',
+
+      [`.${inputBaseClasses.input}`]: {
+        height: '100%',
+        width: '100%',
+        padding: 0,
+        textAlign: 'center',
+        '&::placeholder': {
+          fontSize: '1rem',
+          fontWeight: 700,
+          opacity: 1,
+        },
+        '&:focus': {
+          ...controlSelected(theme),
+        },
+        ...selectedStyle,
+      },
+    }
+  }
+)
 
 export const Input = styled(InputBase)(({ theme }) => {
   return {
@@ -123,29 +121,29 @@ export const Input = styled(InputBase)(({ theme }) => {
     backgroundColor: getCardFieldsetBackgroundColor(theme),
     borderRadius: theme.shape.borderRadiusSecondary,
     boxShadow: `0px 2px 4px ${alpha(theme.palette.common.black, 0.04)}`,
-  };
-});
+  }
+})
 
-export const ColorSwatches = styled(Box)(({ theme }) => ({
+export const ColorSwatches = styled(Box)(() => ({
   display: 'flex',
   justifyContent: 'flex-end',
   width: 240,
-}));
+}))
 
 interface ColorSwatchProps {
-  color: string;
+  color: string
 }
 export const ColorSwatch = styled(
   (props: BoxProps) => <Box {...props}>&nbsp;</Box>,
   {
     shouldForwardProp: (prop) => prop !== 'color',
-  },
+  }
 )<ColorSwatchProps>(({ theme, color }) => ({
   width: theme.spacing(1.75),
   height: theme.spacing(1.75),
   backgroundColor: color,
   content: '" "',
-}));
+}))
 
 export const ControlContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -154,29 +152,29 @@ export const ControlContainer = styled(Box)(({ theme }) => ({
   backgroundColor: getCardFieldsetBackgroundColor(theme),
   borderRadius: Math.max(
     theme.shape.borderRadius,
-    theme.shape.borderRadiusSecondary,
+    theme.shape.borderRadiusSecondary
   ),
   padding: theme.spacing(0.5, 2.5),
   gap: theme.spacing(0.5),
   minHeight: theme.spacing(7),
-}));
+}))
 
 export const ColorControlContainer = styled(ControlContainer)(({ theme }) => ({
   height: theme.spacing(7),
   paddingRight: theme.spacing(0.5),
-}));
+}))
 
 export const PlaygroundControlsContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: theme.spacing(1),
   marginTop: theme.spacing(1),
-}));
+}))
 
-export const ControlRowContainer = styled(CardRowContainer)(({ theme }) => ({
+export const ControlRowContainer = styled(CardRowContainer)(() => ({
   paddingLeft: 0,
   paddingRight: 0,
-}));
+}))
 
 export const ColorInput = styled(InputBase)<InputBaseProps>(
   ({ theme, value }) => ({
@@ -209,8 +207,8 @@ export const ColorInput = styled(InputBase)<InputBaseProps>(
       color: theme.palette.getContrastText(value as string),
       textTransform: 'none',
     },
-  }),
-);
+  })
+)
 
 // NOTE: this is a workaround for type issues when styling the autocomplete
 //  see - https://github.com/mui/material-ui/issues/21727
@@ -221,7 +219,7 @@ const AutocompleteBase: any = styled(MuiAutocomplete)(({ theme }) => ({
   borderRadius: theme.shape.borderRadiusSecondary,
   width: '100%',
   fontWeight: 700,
-  [`& .MuiOutlinedInput-notchedOutline`]: {
+  '& .MuiOutlinedInput-notchedOutline': {
     border: 'none',
   },
   [`& .${autocompleteClasses.inputRoot}`]: {
@@ -233,7 +231,7 @@ const AutocompleteBase: any = styled(MuiAutocomplete)(({ theme }) => ({
   [`& .${autocompleteClasses.popper}`]: {
     zIndex: 1502,
   },
-}));
+}))
 
 export const Autocomplete = <
   T,
@@ -241,33 +239,33 @@ export const Autocomplete = <
   DisableClearable extends boolean | undefined = undefined,
   FreeSolo extends boolean | undefined = undefined,
 >(
-  props: AutocompleteProps<T, Multiple, DisableClearable, FreeSolo>,
+  props: AutocompleteProps<T, Multiple, DisableClearable, FreeSolo>
 ) => {
-  return <AutocompleteBase {...props} />;
-};
+  return <AutocompleteBase {...props} />
+}
 
 export const StyledPopper = styled(Popper)({
   [`&.${autocompleteClasses.popper}`]: {
     zIndex: autocompletePopperZIndex,
   },
-});
+})
 
 export const Alert = styled(MuiAlert)(({ theme }) => ({
   backgroundColor: 'transparent',
-  fontSize: `0.9rem`,
+  fontSize: '0.9rem',
   color:
     theme.palette.mode === 'light'
       ? theme.palette.grey[600]
       : theme.palette.grey[300],
   padding: 0,
   [`& .${alertClasses.icon}`]: {
-    fontSize: `1.6rem`,
+    fontSize: '1.6rem',
     color:
       theme.palette.mode === 'light'
         ? theme.palette.grey[600]
         : theme.palette.grey[300],
   },
-}));
+}))
 
 export const Select = styled(MuiSelect)(({ theme }) => ({
   border: 'none',
@@ -275,16 +273,16 @@ export const Select = styled(MuiSelect)(({ theme }) => ({
   backgroundColor: getCardFieldsetBackgroundColor(theme),
   borderRadius: theme.shape.borderRadiusSecondary,
   width: '100%',
-  [`& .MuiOutlinedInput-notchedOutline`]: {
+  '& .MuiOutlinedInput-notchedOutline': {
     border: 'none',
   },
-}));
+}))
 
-export const CapitalizeFirstLetter = styled(Typography)(({ theme }) => ({
+export const CapitalizeFirstLetter = styled(Typography)(() => ({
   '&::first-letter': {
     textTransform: 'capitalize',
   },
-}));
+}))
 
 export const Badge = styled(MuiBadge)(({ theme }) => ({
   display: 'flex',
@@ -298,4 +296,4 @@ export const Badge = styled(MuiBadge)(({ theme }) => ({
     transform: 'translateX(0)',
     borderRadius: '50%',
   },
-}));
+}))

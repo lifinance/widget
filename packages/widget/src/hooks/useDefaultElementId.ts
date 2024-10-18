@@ -1,6 +1,6 @@
-import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js';
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 
 export const useDefaultElementId = () => {
-  const { elementId } = useWidgetConfig();
-  return elementId;
-};
+  const { elementId } = useWidgetConfig()
+  return elementId
+}

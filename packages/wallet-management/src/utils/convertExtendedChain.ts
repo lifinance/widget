@@ -1,15 +1,15 @@
-import type { ExtendedChain } from '@lifi/sdk';
-import type { Address, Chain } from 'viem';
+import type { ExtendedChain } from '@lifi/sdk'
+import type { Address, Chain } from 'viem'
 
 type ChainBlockExplorer = {
-  name: string;
-  url: string;
-};
+  name: string
+  url: string
+}
 
 type ChainBlockExplorers = {
-  [key: string]: ChainBlockExplorer;
-  default: ChainBlockExplorer;
-};
+  [key: string]: ChainBlockExplorer
+  default: ChainBlockExplorer
+}
 
 export const convertExtendedChain = (chain: ExtendedChain): Chain => ({
   ...chain,
@@ -19,10 +19,10 @@ export const convertExtendedChain = (chain: ExtendedChain): Chain => ({
       blockExplorers[index === 0 ? 'default' : `${index}`] = {
         name: blockExplorer,
         url: blockExplorer,
-      };
-      return blockExplorers;
+      }
+      return blockExplorers
     },
-    {} as ChainBlockExplorers,
+    {} as ChainBlockExplorers
   ),
   name: chain.metamask.chainName,
   rpcUrls: {
@@ -34,7 +34,7 @@ export const convertExtendedChain = (chain: ExtendedChain): Chain => ({
       ? { multicall3: { address: chain.multicallAddress as Address } }
       : undefined),
   },
-});
+})
 
 export function isExtendedChain(chain: any): chain is ExtendedChain {
   return (
@@ -49,5 +49,5 @@ export function isExtendedChain(chain: any): chain is ExtendedChain {
     chain.metamask !== null &&
     typeof chain.nativeToken === 'object' &&
     chain.nativeToken !== null
-  );
+  )
 }

@@ -1,6 +1,6 @@
-import CloseIcon from '@mui/icons-material/Close';
-import InfoIcon from '@mui/icons-material/Info';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import CloseIcon from '@mui/icons-material/Close'
+import InfoIcon from '@mui/icons-material/Info'
+import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import {
   Box,
   ClickAwayListener,
@@ -8,19 +8,19 @@ import {
   Popper,
   Tooltip,
   Typography,
-} from '@mui/material';
-import type { MouseEventHandler } from 'react';
-import { useState } from 'react';
-import { useFontToolValues } from '../../../store';
-import { popperZIndex, tooltipPopperZIndex } from '../DrawerControls.style';
+} from '@mui/material'
+import type { MouseEventHandler } from 'react'
+import { useState } from 'react'
+import { useFontToolValues } from '../../../store/editTools/useFontToolValues'
+import { popperZIndex, tooltipPopperZIndex } from '../DrawerControls.style'
 import {
   FontEmbedPopperContainer,
   FontMessageCloseButton,
   GoogleFontLink,
-} from './CodeControl.style';
+} from './CodeControl.style'
 
 interface FontMessageProps {
-  fontFamily: string;
+  fontFamily: string
 }
 const GoogleFontMessage = ({ fontFamily }: FontMessageProps) => (
   <>
@@ -46,7 +46,7 @@ const GoogleFontMessage = ({ fontFamily }: FontMessageProps) => (
       best display of the widget.
     </Typography>
   </>
-);
+)
 
 const CustomFontMessage = ({ fontFamily }: FontMessageProps) => (
   <>
@@ -64,22 +64,22 @@ const CustomFontMessage = ({ fontFamily }: FontMessageProps) => (
       best display of the widget.
     </Typography>
   </>
-);
+)
 
 export const FontEmbedInfo = () => {
-  const { selectedFont } = useFontToolValues();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = !!anchorEl;
+  const { selectedFont } = useFontToolValues()
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const open = !!anchorEl
 
-  const id = open ? 'font-embedding-popper' : undefined;
+  const id = open ? 'font-embedding-popper' : undefined
 
   const handleClick: MouseEventHandler<HTMLElement> = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleClickAway = () => {
-    setAnchorEl(null);
-  };
+    setAnchorEl(null)
+  }
 
   return selectedFont && selectedFont.source !== 'System fonts' ? (
     <Box
@@ -118,5 +118,5 @@ export const FontEmbedInfo = () => {
         </ClickAwayListener>
       </Popper>
     </Box>
-  ) : null;
-};
+  ) : null
+}

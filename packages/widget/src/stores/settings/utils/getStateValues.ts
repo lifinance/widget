@@ -1,4 +1,4 @@
-import type { SettingsProps, SettingsState } from '../types.js';
+import type { SettingsProps, SettingsState } from '../types.js'
 
 export const getStateValues = (state: SettingsState): SettingsProps => ({
   appearance: state.appearance,
@@ -13,4 +13,4 @@ export const getStateValues = (state: SettingsState): SettingsProps => ({
   disabledExchanges: [...state.disabledExchanges],
   enabledExchanges: [...state.enabledExchanges],
   _enabledExchanges: { ...state._enabledExchanges },
-});
+})

@@ -1,29 +1,29 @@
-import { convertExtendedChain } from '@lifi/wallet-management';
-import { useAvailableChains } from '@lifi/widget';
+import { convertExtendedChain } from '@lifi/wallet-management'
+import { useAvailableChains } from '@lifi/widget'
 import {
   RainbowKitProvider,
+  type Theme as RainbowKitTheme,
   darkTheme,
   getDefaultConfig,
   lightTheme,
-  type Theme as RainbowKitTheme,
-} from '@rainbow-me/rainbowkit';
-import '@rainbow-me/rainbowkit/styles.css';
-import { useMemo, type FC, type PropsWithChildren } from 'react';
-import type { Chain } from 'viem';
-import { WagmiProvider } from 'wagmi';
-import { mainnet } from 'wagmi/chains';
-import { useThemeMode } from '../../hooks';
-import { useEnvVariables } from '../../providers';
-import { theme } from '../PlaygroundThemeProvider/theme';
+} from '@rainbow-me/rainbowkit'
+import '@rainbow-me/rainbowkit/styles.css'
+import { type FC, type PropsWithChildren, useMemo } from 'react'
+import type { Chain } from 'viem'
+import { WagmiProvider } from 'wagmi'
+import { mainnet } from 'wagmi/chains'
+import { useThemeMode } from '../../hooks/useThemeMode'
+import { useEnvVariables } from '../EnvVariablesProvider'
+import { theme } from '../PlaygroundThemeProvider/theme'
 
 const rkThemeColors = {
   accentColor: theme.palette.primary.main,
   accentColorForeground: theme.palette.common.white,
-};
+}
 
 const rkThemeFonts = {
   body: theme.typography.fontFamily,
-};
+}
 
 const rkThemeRadii = {
   actionButton: `${theme.shape.borderRadiusSecondary}px`,
@@ -31,7 +31,7 @@ const rkThemeRadii = {
   menuButton: `${theme.shape.borderRadiusSecondary}px`,
   modal: `${theme.shape.borderRadius}px`,
   modalMobile: `${theme.shape.borderRadius}px`,
-};
+}
 
 const RainbowKitModes = {
   dark: {
@@ -44,27 +44,27 @@ const RainbowKitModes = {
     fonts: rkThemeFonts,
     radii: rkThemeRadii,
   },
-};
+}
 
 export const EVMProvider: FC<PropsWithChildren> = ({ children }) => {
-  const { EVMWalletConnectId } = useEnvVariables();
-  const { chains } = useAvailableChains();
-  const themeMode = useThemeMode();
+  const { EVMWalletConnectId } = useEnvVariables()
+  const { chains } = useAvailableChains()
+  const themeMode = useThemeMode()
 
   const wagmiConfig = useMemo(() => {
     const _chains: [Chain, ...Chain[]] = chains?.length
       ? (chains.map(convertExtendedChain) as [Chain, ...Chain[]])
-      : [mainnet];
+      : [mainnet]
 
     const wagmiConfig = getDefaultConfig({
       appName: 'LI.FI Widget Playground',
       chains: _chains,
       projectId: EVMWalletConnectId,
       ssr: !chains?.length,
-    });
+    })
 
-    return wagmiConfig;
-  }, [chains, EVMWalletConnectId]);
+    return wagmiConfig
+  }, [chains, EVMWalletConnectId])
 
   return (
     <WagmiProvider
@@ -75,5 +75,5 @@ export const EVMProvider: FC<PropsWithChildren> = ({ children }) => {
         {children}
       </RainbowKitProvider>
     </WagmiProvider>
-  );
-};
+  )
+}

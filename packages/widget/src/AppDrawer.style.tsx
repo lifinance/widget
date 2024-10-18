@@ -1,4 +1,4 @@
-import { IconButton, styled } from '@mui/material';
+import { IconButton, styled } from '@mui/material'
 
 export const CloseButtonLayout = styled(IconButton)(() => ({
   position: 'absolute',
@@ -9,4 +9,4 @@ export const CloseButtonLayout = styled(IconButton)(() => ({
   width: '40px',
   alignItems: 'center',
   justifyContent: 'center',
-}));
+}))

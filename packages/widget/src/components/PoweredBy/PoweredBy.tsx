@@ -1,6 +1,6 @@
-import { Box, Tooltip, Typography } from '@mui/material';
-import { version } from '../../config/version.js';
-import { Link } from './PoweredBy.style.js';
+import { Box, Tooltip, Typography } from '@mui/material'
+import { version } from '../../config/version.js'
+import { Link } from './PoweredBy.style.js'
 
 export const PoweredBy: React.FC = () => {
   return (
@@ -35,5 +35,5 @@ export const PoweredBy: React.FC = () => {
         </Link>
       </Tooltip>
     </Box>
-  );
-};
+  )
+}

@@ -1,5 +1,5 @@
-import { shallow } from 'zustand/shallow';
-import { useEditToolsStore } from './EditToolsProvider';
+import { shallow } from 'zustand/shallow'
+import { useEditToolsStore } from './EditToolsProvider'
 
 export const useHeaderAndFooterToolValues = () => {
   const [showMockHeader, showMockFooter, isFooterFixed] = useEditToolsStore(
@@ -8,12 +8,12 @@ export const useHeaderAndFooterToolValues = () => {
       store.headerAndFooterControl.showMockFooter,
       store.headerAndFooterControl.isFooterFixed,
     ],
-    shallow,
-  );
+    shallow
+  )
 
   return {
     showMockHeader,
     showMockFooter,
     isFooterFixed,
-  };
-};
+  }
+}
