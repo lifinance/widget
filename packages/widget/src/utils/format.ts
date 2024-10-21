@@ -5,13 +5,13 @@ const subscriptMap = ['₀', '₁', '₂', '₃', '₄', '₅', '₆', '₇', '�
 export const precisionFormatter = new Intl.NumberFormat('en', {
   notation: 'standard',
   roundingPriority: 'morePrecision',
-  maximumSignificantDigits: 4,
-  maximumFractionDigits: 4,
+  maximumSignificantDigits: 6,
+  maximumFractionDigits: 6,
   useGrouping: false,
 })
 
 /**
- * Format token amount to at least 4 decimals.
+ * Format token amount to at least 6 decimals.
  * @param amount amount to format.
  * @returns formatted amount.
  */
