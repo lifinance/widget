@@ -11,6 +11,7 @@ interface SearchInputProps {
   placeholder?: string
   onChange?: FormEventHandler<HTMLInputElement>
   onBlur?: FocusEventHandler<HTMLInputElement>
+  autoFocus?: boolean
 }
 
 export const SearchInput = ({
@@ -19,6 +20,7 @@ export const SearchInput = ({
   onChange,
   onBlur,
   value,
+  autoFocus,
 }: SearchInputProps) => {
   return (
     <InputCard>
@@ -40,6 +42,7 @@ export const SearchInput = ({
             maxLength: 128,
           }}
           autoComplete="off"
+          autoFocus={autoFocus}
         />
       </FormControl>
     </InputCard>
@@ -51,7 +54,7 @@ export const StickySearchInput = (props: SearchInputProps) => {
 
   return (
     <StickySearchInputContainer headerHeight={headerHeight}>
-      <SearchInput {...props} />
+      <SearchInput {...props} autoFocus />
     </StickySearchInputContainer>
   )
 }
