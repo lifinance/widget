@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.8.1](https://github.com/lifinance/widget/compare/v3.8.0...v3.8.1) (2024-10-21)
+
+
+### Bug Fixes
+
+* add auto focus for search input field ([#314](https://github.com/lifinance/widget/issues/314)) ([01c1b49](https://github.com/lifinance/widget/commit/01c1b494886247f3f57f0a072041622998c38a53))
+* increase fractional and significant digits ([#313](https://github.com/lifinance/widget/issues/313)) ([06e4df6](https://github.com/lifinance/widget/commit/06e4df69a8cf2221eda87348e685880f02f5473b))
+
 ## [3.8.0](https://github.com/lifinance/widget/compare/v3.7.0...v3.8.0) (2024-10-18)
 
 
