@@ -82,6 +82,9 @@
       "autoRefuel": "คุณใช้แก็ส {{chainName}} เหลือน้อย เมื่อดำเนินการต่อ คุณจะได้รับแก็สเพียงพอสำหรับการแลกเปลี่ยนให้เสร็จสมบูรณ์",
       "emptyActiveTransactions": "การแลกเปลี่ยนที่กำลังดำเนินการจะปรากฏที่นี่. เมื่อเสร็จสิ้น, จะพบประวัติการแลกเปลี่ยน.",
       "emptyTokenList": "เราไม่พบโทเค็นใน {{chainName}} เชนหรือคุณไม่มีโทเค็น. โปรดลองอีกครั้งหรือเลือกเชนอื่น.",
+      "emptyChainList": "",
+      "emptyBridgesList": "",
+      "emptyExchangesList": "",
       "emptyTransactionHistory": "ประวัติการแลกเปลี่ยนจะถูกเก็บไว้ในเครื่องเท่านั้นและจะถูกลบหากคุณล้างข้อมูลเบราว์เซอร์ของคุณ.",
       "fundsToExchange": "เงินที่ส่งไปยัง Exchange อาจหายไป",
       "toAddressIsRequired": "กรุณาระบุที่อยู่ของวอลเล็ตปลายทางที่ต้องการโอนเงินไป",
@@ -265,7 +268,7 @@
     "stepSwapAndBridge": "แลกเปลี่ยนและบริดจ์",
     "stepSwapAndBuy": "แลกเปลี่ยน และ ซื้อ",
     "stepSwapAndDeposit": "",
-    "supportId": "หมายเลขที่สนับสนุน",
+    "transferId": "",
     "swapStepDetails": "แลกเปลี่ยนบน {{chain}} ผ่าน {{tool}}",
     "tags": {
       "cheapest": "ผลตอบแทนที่ดีที่สุด",
@@ -275,7 +278,10 @@
     "tokenOnChain": "{{tokenSymbol}} บน {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}}{{tokenSymbol}} บน {{chainName}}",
     "tokenSearch": "ค้นหาชื่อของเหรียญ หรือ ที่อยู่",
-    "valueLoss": "มูลค่าที่สูญเสีย"
+    "valueLoss": "มูลค่าที่สูญเสีย",
+    "searchChains": "",
+    "searchBridges": "",
+    "searchExchanges": ""
   },
   "settings": {
     "theme": "ธีม",
