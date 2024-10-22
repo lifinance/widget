@@ -82,6 +82,9 @@
       "autoRefuel": "Vous avez peu de gaz sur {{chainName}}. En continuant, vous aurez assez de gaz pour compléter l'échange.",
       "emptyActiveTransactions": "Les transactions en cours apparaîtront ici. Une fois terminées, retrouvez-les dans l'historique des transactions.",
       "emptyTokenList": "Nous n'avons pas pu trouver de jetons sur la chaîne {{chainName}} ou vous n'en avez pas. Veuillez rechercher par adresse de contrat si votre jeton n'apparaît pas ou choisissez une autre chaîne.",
+      "emptyChainList": "",
+      "emptyBridgesList": "",
+      "emptyExchangesList": "",
       "emptyTransactionHistory": "L'historique de transaction est uniquement stocké au niveau local et sera supprimé si vous effacez les données de votre navigateur.",
       "fundsToExchange": "Les fonds envoyés à un échange peuvent être perdus",
       "toAddressIsRequired": "Veuillez fournir l'adresse du portefeuille de destination vers laquelle les fonds seront transférés.",
@@ -265,7 +268,7 @@
     "stepSwapAndBridge": "Échange et Bridge",
     "stepSwapAndBuy": "Échanger et acheter",
     "stepSwapAndDeposit": "",
-    "supportId": "ID de support",
+    "transferId": "",
     "swapStepDetails": "Échanger sur {{chain}} via {{tool}}",
     "tags": {
       "cheapest": "Meilleur Retour",
@@ -275,7 +278,10 @@
     "tokenOnChain": "{{tokenSymbol}} sur {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} sur {{chainName}}",
     "tokenSearch": "Recherche par nom de jeton ou adresse",
-    "valueLoss": "Perte de valeur"
+    "valueLoss": "Perte de valeur",
+    "searchChains": "",
+    "searchBridges": "",
+    "searchExchanges": ""
   },
   "settings": {
     "theme": "Thème",
