@@ -1,1 +1,12 @@
-{}
+{
+  "title": {
+    "connectWallet": "ウォレットを接続",
+    "connecting": "",
+    "selectEcosystem": "",
+    "waitingForWallet": ""
+  },
+  "message": {
+    "connecting": "",
+    "multipleEcosystems": ""
+  }
+}

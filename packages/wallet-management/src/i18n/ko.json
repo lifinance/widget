@@ -1,1 +1,12 @@
-{}
+{
+  "title": {
+    "connectWallet": "지갑 연결",
+    "connecting": "",
+    "selectEcosystem": "",
+    "waitingForWallet": ""
+  },
+  "message": {
+    "connecting": "",
+    "multipleEcosystems": ""
+  }
+}

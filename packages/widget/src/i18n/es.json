@@ -82,6 +82,9 @@
       "autoRefuel": "Tienes poco gas en {{chainName}}. Al continuar, obtendrás suficiente gas para completar la transacción.",
       "emptyActiveTransactions": "Las transacciones en progreso aparecerán aquí. Una vez completadas, encuéntralas en el historial de transacciones.",
       "emptyTokenList": "No pudimos encontrar tokens en la cadena {{chainName}} o no tienes ninguno. Por favor, busque por dirección de contrato si su token no aparece o elija otra cadena.",
+      "emptyChainList": "",
+      "emptyBridgesList": "",
+      "emptyExchangesList": "",
       "emptyTransactionHistory": "El historial de intercambio solo se almacena localmente y se eliminará si borra los datos de su navegador.",
       "fundsToExchange": "Los fondos enviados a la billetera de un exchange se pueden perder",
       "toAddressIsRequired": "Por favor, proporcione la dirección de la billetera de destino a la que se transferirán los fondos.",
@@ -265,7 +268,7 @@
     "stepSwapAndBridge": "Swap y cruzar",
     "stepSwapAndBuy": "Intercambiar y comprar",
     "stepSwapAndDeposit": "",
-    "supportId": "ID de soporte",
+    "transferId": "",
     "swapStepDetails": "Intercambiar en {{chain}} a través de {{tool}}",
     "tags": {
       "cheapest": "Mejor retorno",
@@ -275,7 +278,10 @@
     "tokenOnChain": "{{tokenSymbol}} en {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} on {{chainName}}",
     "tokenSearch": "Busque su token",
-    "valueLoss": "Valor perdido"
+    "valueLoss": "Valor perdido",
+    "searchChains": "",
+    "searchBridges": "",
+    "searchExchanges": ""
   },
   "settings": {
     "theme": "Tema",

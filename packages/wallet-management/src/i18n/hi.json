@@ -1,1 +1,12 @@
-{}
+{
+  "title": {
+    "connectWallet": "वॉलेट से जुड़ें?",
+    "connecting": "",
+    "selectEcosystem": "",
+    "waitingForWallet": ""
+  },
+  "message": {
+    "connecting": "",
+    "multipleEcosystems": ""
+  }
+}

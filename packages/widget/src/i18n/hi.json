@@ -82,6 +82,9 @@
       "autoRefuel": "",
       "emptyActiveTransactions": "",
       "emptyTokenList": "",
+      "emptyChainList": "",
+      "emptyBridgesList": "",
+      "emptyExchangesList": "",
       "emptyTransactionHistory": "",
       "fundsToExchange": "",
       "toAddressIsRequired": "",
@@ -265,7 +268,7 @@
     "stepSwapAndBridge": "",
     "stepSwapAndBuy": "",
     "stepSwapAndDeposit": "",
-    "supportId": "",
+    "transferId": "",
     "swapStepDetails": "",
     "tags": {
       "cheapest": "",
@@ -275,7 +278,10 @@
     "tokenOnChain": "",
     "tokenOnChainAmount": "",
     "tokenSearch": "",
-    "valueLoss": ""
+    "valueLoss": "",
+    "searchChains": "",
+    "searchBridges": "",
+    "searchExchanges": ""
   },
   "settings": {
     "theme": "",

@@ -1,1 +1,12 @@
-{}
+{
+  "title": {
+    "connectWallet": "ওয়ালেট সংযুক্ত করুন",
+    "connecting": "",
+    "selectEcosystem": "",
+    "waitingForWallet": ""
+  },
+  "message": {
+    "connecting": "",
+    "multipleEcosystems": ""
+  }
+}

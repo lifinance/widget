@@ -1,1 +1,12 @@
-{}
+{
+  "title": {
+    "connectWallet": "Conectar billetera",
+    "connecting": "",
+    "selectEcosystem": "",
+    "waitingForWallet": ""
+  },
+  "message": {
+    "connecting": "",
+    "multipleEcosystems": ""
+  }
+}

@@ -82,6 +82,9 @@
       "autoRefuel": "{{chainName}} のガスが不足していますが、続行することでトランザクションを完了するのに十分なガスが補填されます。",
       "emptyActiveTransactions": "進行中のトランザクションがここに表示されます。完了すると、トランザクション履歴に表示されます。",
       "emptyTokenList": "{{chainName}} チェーンでトークンが見つかりませんでした。使いたいトークンが表示されない場合はコントラクトアドレスで検索するか、別のチェーンを選択してください。",
+      "emptyChainList": "",
+      "emptyBridgesList": "",
+      "emptyExchangesList": "",
       "emptyTransactionHistory": "トランザクション履歴はローカルにのみ保存され、ユーザーがブラウザデータを消去すると削除されます。",
       "fundsToExchange": "送金される資金は失われる可能性があります",
       "toAddressIsRequired": "送金先のウォレットアドレスを入力してください。",
@@ -265,7 +268,7 @@
     "stepSwapAndBridge": "スワップとブリッジ",
     "stepSwapAndBuy": "スワップと購入",
     "stepSwapAndDeposit": "",
-    "supportId": "サポートID",
+    "transferId": "",
     "swapStepDetails": "{{chain}} で {{tool}} 経由のスワップ",
     "tags": {
       "cheapest": "最良",
@@ -275,7 +278,10 @@
     "tokenOnChain": "{{chainName}} の {{tokenSymbol}}",
     "tokenOnChainAmount": "{{chainName}} の {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}",
     "tokenSearch": "トークン名またはアドレスで検索",
-    "valueLoss": "損失額"
+    "valueLoss": "損失額",
+    "searchChains": "",
+    "searchBridges": "",
+    "searchExchanges": ""
   },
   "settings": {
     "theme": "テーマ",

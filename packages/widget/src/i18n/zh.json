@@ -82,6 +82,9 @@
       "autoRefuel": "您在 {{chainName}} 链上的燃气费很低。如果启用该选项，您将获得足够的燃气费完成此次兑换。",
       "emptyActiveTransactions": "正在进行的兑换将在这里显示。一旦完成，你可在兑换记录中找到它们。",
       "emptyTokenList": "我们无法在 {{chainName}} 链上找到这些代币，或者你的钱包内没有这些代币。请再次搜索或者选择其他链再试一次。",
+      "emptyChainList": "",
+      "emptyBridgesList": "",
+      "emptyExchangesList": "",
       "emptyTransactionHistory": "交易记录只存储在本地，如果您清除浏览器数据，交易记录将被删除。",
       "fundsToExchange": "发送到交易所的资金可能会丢失",
       "toAddressIsRequired": "请提供收款的钱包地址。",
@@ -265,7 +268,7 @@
     "stepSwapAndBridge": "兑换和跨链",
     "stepSwapAndBuy": "兑换并购买",
     "stepSwapAndDeposit": "",
-    "supportId": "支持ID",
+    "transferId": "",
     "swapStepDetails": "通过{{tool}}在{{chain}}链上兑换代币",
     "tags": {
       "cheapest": "最佳报价",
@@ -275,7 +278,10 @@
     "tokenOnChain": "{{chainName}}链上的{{tokenSymbol}}",
     "tokenOnChainAmount": "{{chainName}} 链上{{amount, number(maximumFractionDigits: 9)}} 个{{tokenSymbol}}",
     "tokenSearch": "按代币名称或者地址搜索",
-    "valueLoss": "资金损失"
+    "valueLoss": "资金损失",
+    "searchChains": "",
+    "searchBridges": "",
+    "searchExchanges": ""
   },
   "settings": {
     "theme": "主题",

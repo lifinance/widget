@@ -82,6 +82,9 @@
       "autoRefuel": "আপনার {{chainName}} গ্যাস কম। চালিয়ে যাওয়ার মাধ্যমে, আপনি সোওয়াপ সম্পূর্ণ করার জন্য পর্যাপ্ত গ্যাস পাবেন।",
       "emptyActiveTransactions": "",
       "emptyTokenList": "",
+      "emptyChainList": "",
+      "emptyBridgesList": "",
+      "emptyExchangesList": "",
       "emptyTransactionHistory": "",
       "fundsToExchange": "",
       "toAddressIsRequired": "",
@@ -265,7 +268,7 @@
     "stepSwapAndBridge": "সোওয়াপ এবং ব্রিজ",
     "stepSwapAndBuy": "",
     "stepSwapAndDeposit": "",
-    "supportId": "সাপোর্ট আইডি",
+    "transferId": "",
     "swapStepDetails": "{{tool}} এর মাধ্যমে {{chain}} এ সোওয়াপ করুন",
     "tags": {
       "cheapest": "",
@@ -275,7 +278,10 @@
     "tokenOnChain": "{{chainName}} -এ {{tokenSymbol}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} {{chainName}} -এ",
     "tokenSearch": "আপনার টোকেন অনুসন্ধান করুন",
-    "valueLoss": "মান ক্ষতি"
+    "valueLoss": "মান ক্ষতি",
+    "searchChains": "",
+    "searchBridges": "",
+    "searchExchanges": ""
   },
   "settings": {
     "theme": "",

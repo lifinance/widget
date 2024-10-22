@@ -1,1 +1,12 @@
-{}
+{
+  "title": {
+    "connectWallet": "Connecter un portefeuille",
+    "connecting": "",
+    "selectEcosystem": "",
+    "waitingForWallet": ""
+  },
+  "message": {
+    "connecting": "",
+    "multipleEcosystems": ""
+  }
+}

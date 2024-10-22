@@ -82,6 +82,9 @@
       "autoRefuel": "Você está com pouco gás na rede {{chainName}}. Ao continuar, você obterá gás suficiente para completar a conversão.",
       "emptyActiveTransactions": "As transações em andamento aparecerão aqui. Uma vez concluídas, encontre-as no histórico de transações.",
       "emptyTokenList": "Não conseguimos encontrar tokens na rede {{chainName}} ou você não possui nenhum. Por favor, procure pelo endereço de contrato caso o token não apareça ou escolha outra rede.",
+      "emptyChainList": "Não conseguimos encontrar nenhuma rede que corresponda à sua pesquisa",
+      "emptyBridgesList": "Não conseguimos encontrar nenhuma ponte que corresponda à sua pesquisa",
+      "emptyExchangesList": "Não conseguimos encontrar nenhuma corretora que corresponda à sua pesquisa",
       "emptyTransactionHistory": "O histórico de transações é armazenado apenas localmente e será excluído se você limpar os dados do seu navegador.",
       "fundsToExchange": "Os fundos enviados para uma exchange podem ser perdidos",
       "toAddressIsRequired": "Por favor, forneça o endereço da carteira de destino, para o qual os fundos serão transferidos.",
@@ -265,7 +268,7 @@
     "stepSwapAndBridge": "Converter e enviar pela ponte",
     "stepSwapAndBuy": "Converta e compre",
     "stepSwapAndDeposit": "Converter e depositar",
-    "supportId": "ID de suporte",
+    "transferId": "ID de transferência",
     "swapStepDetails": "Converter na {{chain}} via {{tool}}",
     "tags": {
       "cheapest": "Melhor retorno",
@@ -275,7 +278,10 @@
     "tokenOnChain": "{{tokenSymbol}} na {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} na {{chainName}}",
     "tokenSearch": "Pesquisar pelo nome do token ou endereço",
-    "valueLoss": "Perda de Valor"
+    "valueLoss": "Perda de Valor",
+    "searchChains": "Pesquisar pelo nome da rede",
+    "searchBridges": "Pesquisar pelo nome da ponte",
+    "searchExchanges": "Pesquisar pelo nome da corretora"
   },
   "settings": {
     "theme": "Tema",

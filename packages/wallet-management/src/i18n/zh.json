@@ -1,1 +1,12 @@
-{}
+{
+  "title": {
+    "connectWallet": "关联钱包",
+    "connecting": "",
+    "selectEcosystem": "",
+    "waitingForWallet": ""
+  },
+  "message": {
+    "connecting": "",
+    "multipleEcosystems": ""
+  }
+}

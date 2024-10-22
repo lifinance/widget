@@ -1,1 +1,12 @@
-{}
+{
+  "title": {
+    "connectWallet": "Kết nối ví",
+    "connecting": "",
+    "selectEcosystem": "",
+    "waitingForWallet": ""
+  },
+  "message": {
+    "connecting": "",
+    "multipleEcosystems": ""
+  }
+}
