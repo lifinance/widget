@@ -1,0 +1,12 @@
+{
+  "title": {
+    "connectWallet": "Cüzdanı Bağla",
+    "connecting": "",
+    "selectEcosystem": "",
+    "waitingForWallet": ""
+  },
+  "message": {
+    "connecting": "",
+    "multipleEcosystems": ""
+  }
+}
