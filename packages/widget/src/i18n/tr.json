@@ -82,6 +82,9 @@
       "autoRefuel": "{{chainName}} ağında gaz yetersiz. Devam ederek, işlem için gereken miktarda gaz alacaksınız.",
       "emptyActiveTransactions": "Devam eden işlemler burada görünecek. Tamamlandığında, işlem geçmişinden bulabilirsiniz.",
       "emptyTokenList": "{{chainName}} ağında token bulamadık veya sizde hiç token yok. Lütfen tekrar aramayı deneyin veya başka bir ağ seçin.",
+      "emptyChainList": "",
+      "emptyBridgesList": "",
+      "emptyExchangesList": "",
       "emptyTransactionHistory": "İşlem geçmişi yalnızca yerel olarak saklanır ve tarayıcı verilerinizi temizlerseniz silinir.",
       "fundsToExchange": "Borsa hesabına göndermek fonlarınızı kaybetmenize yol açabilir",
       "toAddressIsRequired": "Lütfen varlıklarınızı göndermek istediğiniz hedef adresi girin.",
@@ -265,7 +268,7 @@
     "stepSwapAndBridge": "Takas et ve Köprüle",
     "stepSwapAndBuy": "Takasla ve satın al",
     "stepSwapAndDeposit": "Takas et ve yatır",
-    "supportId": "Destek",
+    "transferId": "",
     "swapStepDetails": "{{chain}} üzerinde {{tool}} aracılığıyla takas et",
     "tags": {
       "cheapest": "En iyi sonuç",
@@ -275,7 +278,10 @@
     "tokenOnChain": "{{chainName}} üzerindeki {{tokenSymbol}}",
     "tokenOnChainAmount": "{{chainName}} üzerindeki {{amount, number(maximumFractionDigits: 9)}}{{tokenSymbol}}",
     "tokenSearch": "Tokenlerinizi adres ve ya isim aracılığıyla arayın",
-    "valueLoss": "Değer kaybı"
+    "valueLoss": "Değer kaybı",
+    "searchChains": "",
+    "searchBridges": "",
+    "searchExchanges": ""
   },
   "settings": {
     "theme": "Tema",
