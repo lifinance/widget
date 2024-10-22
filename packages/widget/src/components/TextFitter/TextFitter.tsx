@@ -1,21 +1,20 @@
-import { useTheme } from '@mui/material';
-import type { PropsWithChildren } from 'react';
-import { useCallback, useLayoutEffect, useRef, useState } from 'react';
-import { useInView } from 'react-intersection-observer';
-import type { TextFitterProps } from './types.js';
+import { useTheme } from '@mui/material'
+import type { PropsWithChildren } from 'react'
+import { useCallback, useLayoutEffect, useRef, useState } from 'react'
+import { useInView } from 'react-intersection-observer'
+import type { TextFitterProps } from './types.js'
 
 const initialState = {
   x: 0,
   y: 0,
   width: 0,
   height: 0,
-};
+}
 
 export const TextFitter: React.FC<PropsWithChildren<TextFitterProps>> = ({
   children,
   width = '100%',
   height,
-  maxHeight,
   preserveAspectRatio = 'xMinYMid meet',
   textStyle,
   svgStyle,
@@ -23,45 +22,46 @@ export const TextFitter: React.FC<PropsWithChildren<TextFitterProps>> = ({
   cropBottom,
   onFit,
 }) => {
-  const theme = useTheme();
-  const textRef = useRef<SVGTextElement>(null);
-  const [viewBox, setViewBox] = useState<Partial<DOMRect>>(initialState);
+  const theme = useTheme()
+  const textRef = useRef<SVGTextElement>(null)
+  const [viewBox, setViewBox] = useState<Partial<DOMRect>>(initialState)
 
   const [ref] = useInView({
     onChange(inView) {
       if (inView) {
-        calculateBox();
+        calculateBox()
       }
     },
-  });
+  })
 
   const calculateBox = useCallback(() => {
     if (!textRef.current) {
-      return;
+      return
     }
-    const box = textRef.current.getBBox();
+    const box = textRef.current.getBBox()
     if (cropTop) {
-      box.y += box.height * cropTop;
-      box.height -= box.height * cropTop;
+      box.y += box.height * cropTop
+      box.height -= box.height * cropTop
     }
     if (cropBottom) {
-      box.height -= box.height * cropBottom;
+      box.height -= box.height * cropBottom
     }
-    setViewBox(box);
-    onFit?.();
-  }, [cropBottom, cropTop, onFit]);
+    setViewBox(box)
+    onFit?.()
+  }, [cropBottom, cropTop, onFit])
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies:
   useLayoutEffect(() => {
-    calculateBox();
-  }, [calculateBox, children]);
+    calculateBox()
+  }, [calculateBox, children])
 
   useLayoutEffect(() => {
     if (document.fonts) {
       document.fonts.ready.then(() => {
-        calculateBox();
-      });
+        calculateBox()
+      })
     }
-  }, [calculateBox]);
+  }, [calculateBox])
 
   return (
     <svg
@@ -78,9 +78,10 @@ export const TextFitter: React.FC<PropsWithChildren<TextFitterProps>> = ({
       fill={theme.palette.text.primary}
       ref={ref}
     >
+      <title>{children}</title>
       <text x={0} y={0} style={textStyle} ref={textRef}>
         {children}
       </text>
     </svg>
-  );
-};
+  )
+}

@@ -1,5 +1,5 @@
-import { Box, styled } from '@mui/material';
-import { Card } from '../Card/Card.js';
+import { Box, styled } from '@mui/material'
+import { Card } from '../Card/Card.js'
 
 export const IconCard = styled(Card)(({ theme }) => ({
   height: 32,
@@ -10,7 +10,7 @@ export const IconCard = styled(Card)(({ theme }) => ({
   justifyContent: 'center',
   borderRadius: theme.shape.borderRadiusTertiary,
   zIndex: 1110,
-}));
+}))
 
 export const ReverseContainer = styled(Box)(({ theme }) => {
   return {
@@ -18,8 +18,8 @@ export const ReverseContainer = styled(Box)(({ theme }) => {
     justifyContent: 'center',
     alignItems: 'center',
     margin: theme.spacing(-1),
-  };
-});
+  }
+})
 
 export const ReverseTokensButtonEmpty = styled(Box)(({ theme }) => {
   return {
@@ -27,5 +27,5 @@ export const ReverseTokensButtonEmpty = styled(Box)(({ theme }) => {
     justifyContent: 'center',
     alignItems: 'center',
     margin: theme.spacing(1),
-  };
-});
+  }
+})

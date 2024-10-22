@@ -1,5 +1,5 @@
-import { shallow } from 'zustand/shallow';
-import { useEditToolsStore } from './EditToolsProvider';
+import { shallow } from 'zustand/shallow'
+import { useEditToolsStore } from './EditToolsProvider'
 
 export const useEditToolsActions = () => {
   const actions = useEditToolsStore(
@@ -18,9 +18,10 @@ export const useEditToolsActions = () => {
       setFixedFooter: state.setFixedFooter,
       setSelectedLayoutId: state.setSelectedLayoutId,
       setIsDevView: state.setIsDevView,
+      setFormValues: state.setFormValues,
     }),
-    shallow,
-  );
+    shallow
+  )
 
-  return actions;
-};
+  return actions
+}

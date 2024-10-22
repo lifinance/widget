@@ -5,121 +5,121 @@ import {
   OpenInNewRounded,
   TurnedInNot,
   Wallet,
-} from '@mui/icons-material';
-import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material';
-import { useId, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js';
-import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
-import { ListItem } from '../../components/ListItem/ListItem.js';
-import { ListItemButton } from '../../components/ListItem/ListItemButton.js';
-import { Menu } from '../../components/Menu.js';
-import { useExplorer } from '../../hooks/useExplorer.js';
-import { useHeader } from '../../hooks/useHeader.js';
-import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
-import type { Bookmark } from '../../stores/bookmarks/types.js';
-import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
-import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js';
-import { useFieldActions } from '../../stores/form/useFieldActions.js';
-import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js';
-import { defaultChainIdsByType } from '../../utils/chainType.js';
-import { navigationRoutes } from '../../utils/navigationRoutes.js';
-import { shortenAddress } from '../../utils/wallet.js';
-import { BookmarkAddressSheet } from './BookmarkAddressSheet.js';
-import { EmptyListIndicator } from './EmptyListIndicator.js';
+} from '@mui/icons-material'
+import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material'
+import { useId, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
+import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js'
+import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
+import { ListItem } from '../../components/ListItem/ListItem.js'
+import { ListItemButton } from '../../components/ListItem/ListItemButton.js'
+import { Menu } from '../../components/Menu.js'
+import { useExplorer } from '../../hooks/useExplorer.js'
+import { useHeader } from '../../hooks/useHeader.js'
+import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
+import type { Bookmark } from '../../stores/bookmarks/types.js'
+import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
+import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js'
+import { useFieldActions } from '../../stores/form/useFieldActions.js'
+import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js'
+import { defaultChainIdsByType } from '../../utils/chainType.js'
+import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import { shortenAddress } from '../../utils/wallet.js'
+import { BookmarkAddressSheet } from './BookmarkAddressSheet.js'
+import { EmptyListIndicator } from './EmptyListIndicator.js'
 import {
   ListContainer,
   OptionsMenuButton,
   SendToWalletPageContainer,
-} from './SendToWalletPage.style.js';
+} from './SendToWalletPage.style.js'
 
 export const RecentWalletsPage = () => {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
-  const [selectedRecent, setSelectedRecent] = useState<Bookmark>();
-  const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null);
-  const { recentWallets } = useBookmarks();
-  const { requiredToChainType } = useToAddressRequirements();
+  const { t } = useTranslation()
+  const navigate = useNavigate()
+  const [selectedRecent, setSelectedRecent] = useState<Bookmark>()
+  const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null)
+  const { recentWallets } = useBookmarks()
+  const { requiredToChainType } = useToAddressRequirements()
   const {
     removeRecentWallet,
     addBookmark,
     setSelectedBookmark,
     addRecentWallet,
-  } = useBookmarkActions();
-  const { setFieldValue } = useFieldActions();
-  const { setSendToWallet } = useSendToWalletActions();
-  const moreMenuId = useId();
-  const [moreMenuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>();
-  const open = Boolean(moreMenuAnchorEl);
-  const { getAddressLink } = useExplorer();
+  } = useBookmarkActions()
+  const { setFieldValue } = useFieldActions()
+  const { setSendToWallet } = useSendToWalletActions()
+  const moreMenuId = useId()
+  const [moreMenuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>()
+  const open = Boolean(moreMenuAnchorEl)
+  const { getAddressLink } = useExplorer()
 
-  useHeader(t(`header.recentWallets`));
+  useHeader(t('header.recentWallets'))
 
   const handleRecentSelected = (recentWallet: Bookmark) => {
-    addRecentWallet(recentWallet);
+    addRecentWallet(recentWallet)
     setFieldValue('toAddress', recentWallet.address, {
       isTouched: true,
-    });
-    setSelectedBookmark(recentWallet);
-    setSendToWallet(true);
-    navigate(`../../`, {
+    })
+    setSelectedBookmark(recentWallet)
+    setSendToWallet(true)
+    navigate('../../', {
       relative: 'path',
       replace: true,
-    });
-  };
+    })
+  }
 
   const handleAddBookmark = (bookmark: Bookmark) => {
-    addBookmark(bookmark);
+    addBookmark(bookmark)
     navigate(`../${navigationRoutes.bookmarks}`, {
       relative: 'path',
       replace: true,
-    });
-  };
+    })
+  }
 
   const closeMenu = () => {
-    setMenuAnchorEl(null);
-  };
+    setMenuAnchorEl(null)
+  }
 
   const handleMenuOpen = (el: HTMLElement, recentWallet: Bookmark) => {
-    setMenuAnchorEl(el);
-    setSelectedRecent(recentWallet);
-  };
+    setMenuAnchorEl(el)
+    setSelectedRecent(recentWallet)
+  }
 
   const handleCopyAddress = () => {
     if (selectedRecent) {
-      navigator.clipboard.writeText(selectedRecent.address);
+      navigator.clipboard.writeText(selectedRecent.address)
     }
-    closeMenu();
-  };
+    closeMenu()
+  }
 
   const handleViewOnExplorer = () => {
     if (selectedRecent) {
       window.open(
         getAddressLink(
           selectedRecent.address,
-          defaultChainIdsByType[selectedRecent.chainType],
+          defaultChainIdsByType[selectedRecent.chainType]
         ),
-        '_blank',
-      );
+        '_blank'
+      )
     }
-    closeMenu();
-  };
+    closeMenu()
+  }
 
   const handleOpenBookmarkSheet = () => {
     if (selectedRecent) {
-      setSelectedRecent(selectedRecent);
-      bookmarkAddressSheetRef.current?.open();
+      setSelectedRecent(selectedRecent)
+      bookmarkAddressSheetRef.current?.open()
     }
-    closeMenu();
-  };
+    closeMenu()
+  }
 
   const handleRemoveRecentWallet = () => {
     if (selectedRecent) {
-      removeRecentWallet(selectedRecent.address);
+      removeRecentWallet(selectedRecent.address)
     }
-    closeMenu();
-  };
+    closeMenu()
+  }
 
   return (
     <SendToWalletPageContainer disableGutters>
@@ -217,5 +217,5 @@ export const RecentWalletsPage = () => {
         onAddBookmark={handleAddBookmark}
       />
     </SendToWalletPageContainer>
-  );
-};
+  )
+}

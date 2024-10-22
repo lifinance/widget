@@ -1,13 +1,5 @@
-'use client';
-
-import { Box } from '@mui/material';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-// The core-js/actual/structured-clone polyfill is only needed for the Next.js implementation
-// the lack of structureClone support for Next.js is currently a requested feature
-//   https://github.com/vercel/next.js/discussions/33189
-import 'core-js/actual/structured-clone';
-import { type PropsWithChildren } from 'react';
-
+'use client'
+import { WidgetNextView } from '@/app/WidgetNextView'
 import {
   DrawerControls,
   EditToolsProvider,
@@ -15,14 +7,18 @@ import {
   FontLoaderProvider,
   PlaygroundThemeProvider,
   WidgetConfigProvider,
-} from '@lifi/widget-playground';
+} from '@lifi/widget-playground'
+import { defaultWidgetConfig } from '@lifi/widget-playground/widget-config'
+import { Box } from '@mui/material'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import type { PropsWithChildren } from 'react'
+// The core-js/actual/structured-clone polyfill is only needed for the Next.js implementation
+// the lack of structureClone support for Next.js is currently a requested feature
+//   https://github.com/vercel/next.js/discussions/33189
+import 'core-js/actual/structured-clone'
+import '@lifi/widget-playground/fonts'
 
-import { defaultWidgetConfig } from '@lifi/widget-playground/widget-config';
-
-import { WidgetNextView } from '@/app/WidgetNextView';
-import '@lifi/widget-playground/fonts';
-
-const queryClient = new QueryClient();
+const queryClient = new QueryClient()
 
 const AppProvider = ({ children }: PropsWithChildren) => {
   return (
@@ -39,8 +35,8 @@ const AppProvider = ({ children }: PropsWithChildren) => {
         </WidgetConfigProvider>
       </QueryClientProvider>
     </EnvVariablesProvider>
-  );
-};
+  )
+}
 
 export default function Home() {
   return (
@@ -50,11 +46,11 @@ export default function Home() {
         <WidgetNextView />
       </Box>
     </AppProvider>
-  );
+  )
 }
 
 if (!process.env.NEXT_PUBLIC_EVM_WALLET_CONNECT) {
   console.error(
-    'NEXT_PUBLIC_EVM_WALLET_CONNECT is require in your .env.local file for external wallet management',
-  );
+    'NEXT_PUBLIC_EVM_WALLET_CONNECT is require in your .env.local file for external wallet management'
+  )
 }

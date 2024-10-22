@@ -1,24 +1,28 @@
-import type { MutableRefObject } from 'react';
-import { useLayoutEffect } from 'react';
-import { useDefaultElementId } from './useDefaultElementId.js';
-import { getScrollableContainer } from './useScrollableContainer.js';
+import type { MutableRefObject } from 'react'
+import { useLayoutEffect } from 'react'
+import { getRelativeContainer } from '../utils/elements.js'
+import { useDefaultElementId } from './useDefaultElementId.js'
+
+// NOTE: this hook is implicitly tied to the widget height functionality in the
+//   AppExpandedContainer, RelativeContainer and CssBaselineContainer components as defined in AppContainer.ts
+//   CSS changes in those components can have implications for the functionality in this hook
 
 export const useSetContentHeight = (
-  ref: MutableRefObject<HTMLElement | undefined>,
+  ref: MutableRefObject<HTMLElement | undefined>
 ) => {
-  const elementId = useDefaultElementId();
+  const elementId = useDefaultElementId()
   useLayoutEffect(() => {
-    const scrollableContainer = getScrollableContainer(elementId);
+    const relativeContainer = getRelativeContainer(elementId)
     if (
-      !scrollableContainer ||
+      !relativeContainer ||
       !ref.current ||
-      ref.current?.clientHeight <= scrollableContainer?.clientHeight
+      ref.current?.clientHeight <= relativeContainer?.clientHeight
     ) {
-      return;
+      return
     }
-    scrollableContainer.style.height = `${ref.current.clientHeight}px`;
+    relativeContainer.style.minHeight = `${ref.current.clientHeight}px`
     return () => {
-      scrollableContainer.style.removeProperty('height');
-    };
-  }, [elementId, ref]);
-};
+      relativeContainer.style.removeProperty('min-height')
+    }
+  }, [elementId, ref])
+}

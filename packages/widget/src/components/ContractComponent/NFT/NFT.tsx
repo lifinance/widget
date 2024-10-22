@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
-import { useFieldActions } from '../../../stores/form/useFieldActions.js';
-import { NFTBase } from './NFTBase.js';
-import type { NFTProps } from './types.js';
+import { useEffect } from 'react'
+import { useFieldActions } from '../../../stores/form/useFieldActions.js'
+import { NFTBase } from './NFTBase.js'
+import type { NFTProps } from './types.js'
 
 export const NFT: React.FC<NFTProps> = ({
   imageUrl,
@@ -12,22 +12,22 @@ export const NFT: React.FC<NFTProps> = ({
   token,
   contractCall,
 }) => {
-  const { setFieldValue } = useFieldActions();
+  const { setFieldValue } = useFieldActions()
 
   useEffect(() => {
     if (token) {
-      setFieldValue('toChain', token.chainId, { isTouched: true });
-      setFieldValue('toToken', token.address, { isTouched: true });
+      setFieldValue('toChain', token.chainId, { isTouched: true })
+      setFieldValue('toToken', token.address, { isTouched: true })
       setFieldValue('toAmount', token.amount?.toString(), {
         isTouched: true,
-      });
+      })
     }
     if (contractCall) {
       setFieldValue('contractCalls', [contractCall], {
         isTouched: true,
-      });
+      })
     }
-  }, [contractCall, setFieldValue, token]);
+  }, [contractCall, setFieldValue, token])
   return (
     <NFTBase
       isLoading={isLoading}
@@ -37,5 +37,5 @@ export const NFT: React.FC<NFTProps> = ({
       owner={owner}
       token={token}
     />
-  );
-};
+  )
+}

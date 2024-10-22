@@ -1,37 +1,37 @@
-import { useMemo } from 'react';
-import { useFieldValues } from '../stores/form/useFieldValues.js';
-import { useAvailableChains } from './useAvailableChains.js';
-import { useGasRecommendation } from './useGasRecommendation.js';
-import { useTokenBalance } from './useTokenBalance.js';
+import { useMemo } from 'react'
+import { useFieldValues } from '../stores/form/useFieldValues.js'
+import { useAvailableChains } from './useAvailableChains.js'
+import { useGasRecommendation } from './useGasRecommendation.js'
+import { useTokenBalance } from './useTokenBalance.js'
 
 export const useGasRefuel = () => {
-  const { getChainById } = useAvailableChains();
+  const { getChainById } = useAvailableChains()
 
   const [fromChainId, fromTokenAddress, toChainId, toAddress] = useFieldValues(
     'fromChain',
     'fromToken',
     'toChain',
-    'toAddress',
-  );
+    'toAddress'
+  )
 
-  const toChain = getChainById(toChainId);
-  const fromChain = getChainById(fromChainId);
+  const toChain = getChainById(toChainId)
+  const fromChain = getChainById(fromChainId)
 
   const { token: nativeToken } = useTokenBalance(
     toAddress,
     toChainId ? toChain?.nativeToken : undefined,
-    toChain,
-  );
+    toChain
+  )
 
   const { data: gasRecommendation, isLoading } = useGasRecommendation(
     toChainId,
     fromChainId,
-    fromTokenAddress,
-  );
+    fromTokenAddress
+  )
 
   // When we bridge between ecosystems we need to be sure toAddress is set
   const isChainTypeSatisfied =
-    fromChain?.chainType !== toChain?.chainType ? Boolean(toAddress) : true;
+    fromChain?.chainType !== toChain?.chainType ? Boolean(toAddress) : true
 
   const enabled = useMemo(() => {
     if (
@@ -43,22 +43,22 @@ export const useGasRefuel = () => {
       !nativeToken ||
       !isChainTypeSatisfied
     ) {
-      return false;
+      return false
     }
-    const tokenBalance = nativeToken.amount ?? 0n;
+    const tokenBalance = nativeToken.amount ?? 0n
 
     // Check if the user balance < 50% of the recommended amount
-    const recommendedAmount = BigInt(gasRecommendation.recommended.amount) / 2n;
+    const recommendedAmount = BigInt(gasRecommendation.recommended.amount) / 2n
 
-    const insufficientGas = tokenBalance < recommendedAmount;
-    return insufficientGas;
+    const insufficientGas = tokenBalance < recommendedAmount
+    return insufficientGas
   }, [
     fromChainId,
     gasRecommendation,
     isChainTypeSatisfied,
     nativeToken,
     toChainId,
-  ]);
+  ])
 
   return {
     enabled: enabled,
@@ -68,5 +68,5 @@ export const useGasRefuel = () => {
     fromAmount: gasRecommendation?.available
       ? gasRecommendation.fromAmount
       : undefined,
-  };
-};
+  }
+}

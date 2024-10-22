@@ -1,4 +1,4 @@
-import { Link as MuiLink, styled } from '@mui/material';
+import { Link as MuiLink, styled } from '@mui/material'
 
 export const Link = styled(MuiLink)(({ theme }) => ({
   display: 'flex',
@@ -7,4 +7,4 @@ export const Link = styled(MuiLink)(({ theme }) => ({
   ':hover': {
     color: theme.palette.primary.main,
   },
-}));
+}))

@@ -1,20 +1,20 @@
-import type { TokenAmount } from '@lifi/sdk';
-import { ExpandLess, ExpandMore } from '@mui/icons-material';
-import { Box, Collapse } from '@mui/material';
-import type { MouseEventHandler } from 'react';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
-import type { CardProps } from '../Card/Card.js';
-import { Card } from '../Card/Card.js';
-import { CardIconButton } from '../Card/CardIconButton.js';
-import { CardLabel, CardLabelTypography } from '../Card/CardLabel.js';
-import { StepActions } from '../StepActions/StepActions.js';
-import { Token } from '../Token/Token.js';
-import { TokenContainer } from './RouteCard.style.js';
-import { RouteCardEssentials } from './RouteCardEssentials.js';
-import { RouteCardEssentialsExpanded } from './RouteCardEssentialsExpanded.js';
-import type { RouteCardProps } from './types.js';
+import type { TokenAmount } from '@lifi/sdk'
+import { ExpandLess, ExpandMore } from '@mui/icons-material'
+import { Box, Collapse } from '@mui/material'
+import type { MouseEventHandler } from 'react'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import type { CardProps } from '../Card/Card.js'
+import { Card } from '../Card/Card.js'
+import { CardIconButton } from '../Card/CardIconButton.js'
+import { CardLabel, CardLabelTypography } from '../Card/CardLabel.js'
+import { StepActions } from '../StepActions/StepActions.js'
+import { Token } from '../Token/Token.js'
+import { TokenContainer } from './RouteCard.style.js'
+import { RouteCardEssentials } from './RouteCardEssentials.js'
+import { RouteCardEssentialsExpanded } from './RouteCardEssentialsExpanded.js'
+import type { RouteCardProps } from './types.js'
 
 export const RouteCard: React.FC<
   RouteCardProps & Omit<CardProps, 'variant'>
@@ -25,27 +25,27 @@ export const RouteCard: React.FC<
   expanded: defaulExpanded,
   ...other
 }) => {
-  const { t } = useTranslation();
-  const { subvariant } = useWidgetConfig();
-  const [cardExpanded, setCardExpanded] = useState(defaulExpanded);
+  const { t } = useTranslation()
+  const { subvariant } = useWidgetConfig()
+  const [cardExpanded, setCardExpanded] = useState(defaulExpanded)
 
   const handleExpand: MouseEventHandler<HTMLButtonElement> = (e) => {
-    e.stopPropagation();
-    setCardExpanded((expanded) => !expanded);
-  };
+    e.stopPropagation()
+    setCardExpanded((expanded) => !expanded)
+  }
 
   const token: TokenAmount =
     subvariant === 'custom'
       ? { ...route.fromToken, amount: BigInt(route.fromAmount) }
-      : { ...route.toToken, amount: BigInt(route.toAmount) };
+      : { ...route.toToken, amount: BigInt(route.toAmount) }
   const impactToken: TokenAmount | undefined =
     subvariant !== 'custom'
       ? { ...route.fromToken, amount: BigInt(route.fromAmount) }
-      : undefined;
+      : undefined
 
   const tags = route.tags?.filter(
-    (tag) => tag === 'CHEAPEST' || tag === 'FASTEST',
-  );
+    (tag) => tag === 'CHEAPEST' || tag === 'FASTEST'
+  )
 
   const cardContent = (
     <Box flex={1}>
@@ -85,7 +85,7 @@ export const RouteCard: React.FC<
       </Collapse>
       <RouteCardEssentials route={route} />
     </Box>
-  );
+  )
 
   return subvariant === 'refuel' || variant === 'cardless' ? (
     cardContent
@@ -98,5 +98,5 @@ export const RouteCard: React.FC<
     >
       {cardContent}
     </Card>
-  );
-};
+  )
+}

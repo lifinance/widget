@@ -27,7 +27,7 @@ export const palette = {
     '700': '#616161',
     '800': '#424242',
   },
-};
+}
 
 export const paletteDark = {
   background: {
@@ -38,7 +38,7 @@ export const paletteDark = {
     primary: '#ffffff',
     secondary: '#bbbbbb',
   },
-};
+}
 
 export const paletteLight = {
   background: {
@@ -49,4 +49,4 @@ export const paletteLight = {
     primary: '#000000',
     secondary: '#747474',
   },
-};
+}

@@ -1,55 +1,46 @@
-import { ChainType } from '@lifi/sdk';
-import { getConnectorIcon } from '@lifi/wallet-management';
+import {
+  getConnectorIcon,
+  useAccount,
+  useWalletMenu,
+} from '@lifi/wallet-management'
 import {
   ContentCopyRounded,
   OpenInNewRounded,
   PowerSettingsNewRounded,
-} from '@mui/icons-material';
-import {
-  Avatar,
-  Badge,
-  Box,
-  Button,
-  IconButton,
-  MenuItem,
-} from '@mui/material';
-import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useAccount } from '../../hooks/useAccount.js';
-import { useAvailableChains } from '../../hooks/useAvailableChains.js';
-import { useExplorer } from '../../hooks/useExplorer.js';
-import { navigationRoutes } from '../../utils/navigationRoutes.js';
-import { shortenAddress } from '../../utils/wallet.js';
-import { AvatarMasked } from '../Avatar/Avatar.style.js';
-import { SmallAvatar } from '../SmallAvatar.js';
-import { EVMDisconnectIconButton } from './EVMDisconnectIconButton.js';
-import { SVMDisconnectIconButton } from './SVMDisconnectIconButton.js';
+} from '@mui/icons-material'
+import { Avatar, Badge, Box, Button, IconButton, MenuItem } from '@mui/material'
+import { useTranslation } from 'react-i18next'
+import { useAvailableChains } from '../../hooks/useAvailableChains.js'
+import { useExplorer } from '../../hooks/useExplorer.js'
+import { shortenAddress } from '../../utils/wallet.js'
+import { AvatarMasked } from '../Avatar/Avatar.style.js'
+import { SmallAvatar } from '../Avatar/SmallAvatar.js'
+import { DisconnectIconButton } from './DisconnectIconButton.js'
 
 export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const { accounts } = useAccount();
-  const { getChainById } = useAvailableChains();
+  const { t } = useTranslation()
+  const { accounts } = useAccount()
+  const { getChainById } = useAvailableChains()
+  const { openWalletMenu } = useWalletMenu()
   const connect = async () => {
-    navigate(navigationRoutes.selectWallet);
-    onClose();
-  };
-  const { getAddressLink } = useExplorer();
+    openWalletMenu()
+    onClose()
+  }
+  const { getAddressLink } = useExplorer()
 
   return (
     <>
       <Box display="flex" flexDirection="column">
         {accounts.map((account) => {
-          const chain = getChainById(account.chainId);
-          const walletAddress = shortenAddress(account.address);
+          const chain = getChainById(account.chainId)
+          const walletAddress = shortenAddress(account.address)
           const handleCopyAddress = async () => {
-            await navigator.clipboard.writeText(account.address ?? '');
-            onClose();
-          };
+            await navigator.clipboard.writeText(account.address ?? '')
+            onClose()
+          }
 
           return (
-            <MenuItem key={account.address}>
+            <MenuItem key={account.address} disableTouchRipple>
               <Box flex={1} display="flex" alignItems="center">
                 {chain?.logoURI ? (
                   <Badge
@@ -82,7 +73,7 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
                 )}
                 {walletAddress}
               </Box>
-              <Box ml={1}>
+              <Box ml={2}>
                 <IconButton size="medium" onClick={handleCopyAddress}>
                   <ContentCopyRounded />
                 </IconButton>
@@ -99,30 +90,22 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
                 >
                   <OpenInNewRounded />
                 </IconButton>
-                {account.chainType === ChainType.EVM ? (
-                  <EVMDisconnectIconButton connector={account.connector} />
-                ) : account.chainType === ChainType.SVM ? (
-                  <SVMDisconnectIconButton />
-                ) : null}
+                <DisconnectIconButton account={account} />
               </Box>
             </MenuItem>
-          );
+          )
         })}
       </Box>
-      {!pathname.includes(navigationRoutes.selectWallet) ? (
-        <Button
-          onClick={connect}
-          fullWidth
-          startIcon={<PowerSettingsNewRounded />}
-          sx={{
-            marginTop: 1,
-          }}
-        >
-          {accounts.length > 1
-            ? t(`button.changeWallet`)
-            : t(`button.connectWallet`)}
-        </Button>
-      ) : null}
+      <Button
+        onClick={connect}
+        fullWidth
+        startIcon={<PowerSettingsNewRounded />}
+        sx={{
+          marginTop: 1,
+        }}
+      >
+        {t('button.connectAnotherWallet')}
+      </Button>
     </>
-  );
-};
+  )
+}

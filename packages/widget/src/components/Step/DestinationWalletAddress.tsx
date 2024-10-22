@@ -1,17 +1,17 @@
-import type { LiFiStepExtended } from '@lifi/sdk';
-import { LinkRounded, Wallet } from '@mui/icons-material';
-import { Box, Link, Typography } from '@mui/material';
-import { useTranslation } from 'react-i18next';
-import { CardIconButton } from '../Card/CardIconButton.js';
-import { CircularIcon } from './CircularProgress.style.js';
+import type { LiFiStepExtended } from '@lifi/sdk'
+import { LinkRounded, Wallet } from '@mui/icons-material'
+import { Box, Link, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
+import { CardIconButton } from '../Card/CardIconButton.js'
+import { CircularIcon } from './CircularProgress.style.js'
 
 export const DestinationWalletAddress: React.FC<{
-  step: LiFiStepExtended;
-  toAddress: string;
-  toAddressLink: string;
+  step: LiFiStepExtended
+  toAddress: string
+  toAddressLink: string
 }> = ({ step, toAddress, toAddressLink }) => {
-  const { t } = useTranslation();
-  const isDone = step.execution?.status === 'DONE';
+  const { t } = useTranslation()
+  const isDone = step.execution?.status === 'DONE'
   return (
     <Box px={2} py={1}>
       <Box
@@ -49,5 +49,5 @@ export const DestinationWalletAddress: React.FC<{
         </CardIconButton>
       </Box>
     </Box>
-  );
-};
+  )
+}

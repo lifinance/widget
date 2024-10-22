@@ -1,24 +1,24 @@
-import { getGasRecommendation, type ChainId } from '@lifi/sdk';
-import { useQuery } from '@tanstack/react-query';
-import { useAvailableChains } from './useAvailableChains.js';
+import { type ChainId, getGasRecommendation } from '@lifi/sdk'
+import { useQuery } from '@tanstack/react-query'
+import { useAvailableChains } from './useAvailableChains.js'
 
-const refetchInterval = 60_000;
+const refetchInterval = 60_000
 
 export const useGasRecommendation = (
   toChainId?: ChainId,
   fromChain?: ChainId,
-  fromToken?: string,
+  fromToken?: string
 ) => {
-  const { chains } = useAvailableChains();
+  const { chains } = useAvailableChains()
 
   const checkRecommendationLiFuel =
     Boolean(toChainId) &&
     Boolean(fromChain) &&
     Boolean(fromToken) &&
-    Boolean(chains?.length);
+    Boolean(chains?.length)
 
   const checkRecommendationMaxButton =
-    Boolean(toChainId) && !fromChain && !fromToken && Boolean(chains?.length);
+    Boolean(toChainId) && !fromChain && !fromToken && Boolean(chains?.length)
 
   return useQuery({
     queryKey: ['gas-recommendation', toChainId, fromChain, fromToken],
@@ -27,7 +27,7 @@ export const useGasRecommendation = (
       signal,
     }) => {
       if (!chains?.some((chain) => chain.id === toChainId)) {
-        return null;
+        return null
       }
       const gasRecommendation = await getGasRecommendation(
         {
@@ -35,12 +35,12 @@ export const useGasRecommendation = (
           fromChain: fromChain as ChainId,
           fromToken: fromToken as string,
         },
-        { signal },
-      );
-      return gasRecommendation;
+        { signal }
+      )
+      return gasRecommendation
     },
     enabled: checkRecommendationLiFuel || checkRecommendationMaxButton,
     refetchInterval,
     staleTime: refetchInterval,
-  });
-};
+  })
+}

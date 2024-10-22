@@ -1,28 +1,28 @@
-import type { Order } from '@lifi/sdk';
-import { Route } from '@mui/icons-material';
-import { useTranslation } from 'react-i18next';
-import { CardTabs, Tab } from '../../components/Tabs/Tabs.style.js';
-import { useSettingMonitor } from '../../hooks/useSettingMonitor.js';
-import { useSettings } from '../../stores/settings/useSettings.js';
-import { useSettingsStore } from '../../stores/settings/useSettingsStore.js';
-import { BadgedValue } from './SettingsCard/BadgedValue.js';
-import { SettingCardExpandable } from './SettingsCard/SettingCardExpandable.js';
+import type { Order } from '@lifi/sdk'
+import { Route } from '@mui/icons-material'
+import { useTranslation } from 'react-i18next'
+import { CardTabs, Tab } from '../../components/Tabs/Tabs.style.js'
+import { useSettingMonitor } from '../../hooks/useSettingMonitor.js'
+import { useSettings } from '../../stores/settings/useSettings.js'
+import { useSettingsActions } from '../../stores/settings/useSettingsActions.js'
+import { BadgedValue } from './SettingsCard/BadgedValue.js'
+import { SettingCardExpandable } from './SettingsCard/SettingCardExpandable.js'
 
-const Priorities: Order[] = ['CHEAPEST', 'FASTEST'];
+const Priorities: Order[] = ['CHEAPEST', 'FASTEST']
 
 export const RoutePrioritySettings: React.FC = () => {
-  const { t } = useTranslation();
-  const setValue = useSettingsStore((state) => state.setValue);
-  const { isRoutePriorityChanged } = useSettingMonitor();
-  const { routePriority } = useSettings(['routePriority']);
-  const currentRoutePriority = routePriority ?? '';
+  const { t } = useTranslation()
+  const { setValue } = useSettingsActions()
+  const { isRoutePriorityChanged } = useSettingMonitor()
+  const { routePriority } = useSettings(['routePriority'])
+  const currentRoutePriority = routePriority ?? ''
 
   const handleRoutePriorityChange = (
     _: React.SyntheticEvent,
-    routePriority: Order,
+    routePriority: Order
   ) => {
-    setValue('routePriority', routePriority);
-  };
+    setValue('routePriority', routePriority)
+  }
 
   return (
     <SettingCardExpandable
@@ -32,7 +32,7 @@ export const RoutePrioritySettings: React.FC = () => {
         </BadgedValue>
       }
       icon={<Route />}
-      title={t(`settings.routePriority`)}
+      title={t('settings.routePriority')}
     >
       <CardTabs
         value={currentRoutePriority}
@@ -50,9 +50,9 @@ export const RoutePrioritySettings: React.FC = () => {
               value={priority}
               disableRipple
             />
-          );
+          )
         })}
       </CardTabs>
     </SettingCardExpandable>
-  );
-};
+  )
+}

@@ -1,4 +1,4 @@
-import type { ButtonProps } from '@mui/material';
+import type { ButtonProps } from '@mui/material'
 import {
   Avatar,
   Box,
@@ -7,9 +7,9 @@ import {
   Link,
   Skeleton as MuiSkeleton,
   styled,
-} from '@mui/material';
-import { lighten } from '@mui/material/styles';
-import { popperZIndex, tooltipPopperZIndex } from '../DrawerControls.style';
+} from '@mui/material'
+import { lighten } from '@mui/material/styles'
+import { popperZIndex, tooltipPopperZIndex } from '../DrawerControls.style'
 
 export const CodeContainer = styled(Box)(({ theme }) => ({
   position: 'relative',
@@ -17,7 +17,7 @@ export const CodeContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   flexGrow: 1,
-}));
+}))
 
 export const CodeCopyButton = styled(IconButton)(({ theme }) => ({
   position: 'absolute',
@@ -34,7 +34,7 @@ export const CodeCopyButton = styled(IconButton)(({ theme }) => ({
         : theme.palette.grey[700],
   },
   zIndex: tooltipPopperZIndex,
-}));
+}))
 
 export const EditorContainer = styled(Box)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
@@ -43,11 +43,11 @@ export const EditorContainer = styled(Box)(({ theme }) => ({
   height: '100%',
   // This hides the readonly message on the Monaco editor
   '& .monaco-editor-overlaymessage': { display: 'none !important' },
-}));
+}))
 
 // MUI Button issue when used as a link - https://github.com/mui/material-ui/issues/39287
 interface ProjectButton extends ButtonProps {
-  target: string;
+  target: string
 }
 export const ProjectButtonBase = styled(Button)<ProjectButton>(({ theme }) => ({
   justifyContent: 'flex-start',
@@ -55,14 +55,14 @@ export const ProjectButtonBase = styled(Button)<ProjectButton>(({ theme }) => ({
   gap: theme.spacing(0.5),
   fontSize: 16,
   textTransform: 'none',
-}));
+}))
 
 export const ProjectAvatar = styled(Avatar)(({ theme }) => ({
   width: 40,
   height: 40,
   backgroundColor:
     theme.palette.mode === 'light' ? 'transparent' : theme.palette.common.white,
-}));
+}))
 
 export const FontEmbedPopperContainer = styled(Box)(({ theme }) => ({
   position: 'relative',
@@ -76,7 +76,7 @@ export const FontEmbedPopperContainer = styled(Box)(({ theme }) => ({
       : theme.palette.grey[700],
   gap: theme.spacing(1),
   padding: theme.spacing(4),
-}));
+}))
 
 export const GoogleFontLink = styled(Link)(({ theme }) => ({
   color:
@@ -88,9 +88,9 @@ export const GoogleFontLink = styled(Link)(({ theme }) => ({
       ? theme.palette.primary.main
       : lighten(theme.palette.primary.main, 0.5),
   fontWeight: 600,
-}));
+}))
 
-export const FontMessageCloseButton = styled(IconButton)(({ theme }) => ({
+export const FontMessageCloseButton = styled(IconButton)(() => ({
   position: 'absolute',
   right: 0,
   top: 0,
@@ -101,11 +101,11 @@ export const FontMessageCloseButton = styled(IconButton)(({ theme }) => ({
   width: 32,
   height: 32,
   zIndex: popperZIndex,
-}));
+}))
 
 export const EditorSkeleton = styled(MuiSkeleton)(({ theme }) => ({
   backgroundColor:
     theme.palette.mode === 'light'
       ? theme.palette.grey[100]
       : theme.palette.grey[800],
-}));
+}))

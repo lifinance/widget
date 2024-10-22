@@ -1,5 +1,5 @@
-import type { WidgetTheme } from '@lifi/widget';
-import { body } from './body';
+import type { WidgetTheme } from '@lifi/widget'
+import { body } from './body'
 
 export const lightPalette = {
   mode: 'light',
@@ -8,7 +8,7 @@ export const lightPalette = {
     secondary: '#747474',
     disabled: 'rgba(0, 0, 0, 0.38)',
   },
-};
+}
 
 // TODO: look at moving the Baseline to the central theme?
 export const lightComponents = {
@@ -21,4 +21,4 @@ export const lightComponents = {
       },
     }),
   },
-};
+}

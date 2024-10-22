@@ -1,21 +1,21 @@
-import { useDevView } from '../../../../hooks';
-import { CardRowColumn } from '../../../Card';
-import { Switch } from '../../../Switch';
+import { useDevView } from '../../../../hooks/useDevView'
+import { CardRowColumn } from '../../../Card/Card.style'
+import { Switch } from '../../../Switch'
 import {
   CapitalizeFirstLetter,
   ControlContainer,
   ControlRowContainer,
-} from '../DesignControls.style';
+} from '../DesignControls.style'
 
 export const DevViewToggleControls = () => {
-  const { isDevView, toggleDevView } = useDevView();
+  const { isDevView, toggleDevView } = useDevView()
 
   const handleToggleDevView: (
     _: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean,
-  ) => void = (_, checked) => {
-    toggleDevView();
-  };
+    checked: boolean
+  ) => void = (_, _checked) => {
+    toggleDevView()
+  }
 
   return (
     <ControlContainer>
@@ -35,5 +35,5 @@ export const DevViewToggleControls = () => {
         </ControlRowContainer>
       </CardRowColumn>
     </ControlContainer>
-  );
-};
+  )
+}

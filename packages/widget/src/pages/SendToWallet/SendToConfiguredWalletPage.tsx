@@ -2,79 +2,79 @@ import {
   ContentCopyRounded,
   MoreHoriz,
   OpenInNewRounded,
-} from '@mui/icons-material';
-import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material';
-import { useId, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js';
-import { ListItem } from '../../components/ListItem/ListItem.js';
-import { ListItemButton } from '../../components/ListItem/ListItemButton.js';
-import { Menu } from '../../components/Menu.js';
-import { useExplorer } from '../../hooks/useExplorer.js';
-import { useHeader } from '../../hooks/useHeader.js';
-import { useNavigateBack } from '../../hooks/useNavigateBack.js';
-import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js';
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js';
-import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
-import { useFieldActions } from '../../stores/form/useFieldActions.js';
-import type { ToAddress } from '../../types/widget.js';
-import { defaultChainIdsByType } from '../../utils/chainType.js';
-import { shortenAddress } from '../../utils/wallet.js';
+} from '@mui/icons-material'
+import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material'
+import { useId, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js'
+import { ListItem } from '../../components/ListItem/ListItem.js'
+import { ListItemButton } from '../../components/ListItem/ListItemButton.js'
+import { Menu } from '../../components/Menu.js'
+import { useExplorer } from '../../hooks/useExplorer.js'
+import { useHeader } from '../../hooks/useHeader.js'
+import { useNavigateBack } from '../../hooks/useNavigateBack.js'
+import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
+import { useFieldActions } from '../../stores/form/useFieldActions.js'
+import type { ToAddress } from '../../types/widget.js'
+import { defaultChainIdsByType } from '../../utils/chainType.js'
+import { shortenAddress } from '../../utils/wallet.js'
 import {
   ListContainer,
   OptionsMenuButton,
   SendToWalletPageContainer,
-} from './SendToWalletPage.style.js';
+} from './SendToWalletPage.style.js'
 
 export const SendToConfiguredWalletPage = () => {
-  const { t } = useTranslation();
-  const { navigateBack } = useNavigateBack();
-  const { toAddresses } = useWidgetConfig();
-  const [selectedToAddress, setSelectedToAddress] = useState<ToAddress>();
-  const { requiredToChainType } = useToAddressRequirements();
-  const { setSelectedBookmark } = useBookmarkActions();
-  const { setFieldValue } = useFieldActions();
-  const moreMenuId = useId();
-  const [moreMenuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>();
-  const open = Boolean(moreMenuAnchorEl);
-  const { getAddressLink } = useExplorer();
+  const { t } = useTranslation()
+  const { navigateBack } = useNavigateBack()
+  const { toAddresses } = useWidgetConfig()
+  const [selectedToAddress, setSelectedToAddress] = useState<ToAddress>()
+  const { requiredToChainType } = useToAddressRequirements()
+  const { setSelectedBookmark } = useBookmarkActions()
+  const { setFieldValue } = useFieldActions()
+  const moreMenuId = useId()
+  const [moreMenuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>()
+  const open = Boolean(moreMenuAnchorEl)
+  const { getAddressLink } = useExplorer()
 
-  useHeader(t(`header.sendToWallet`));
+  useHeader(t('header.sendToWallet'))
 
   const handleCuratedSelected = (toAddress: ToAddress) => {
-    setSelectedBookmark(toAddress);
-    setFieldValue('toAddress', toAddress.address, { isTouched: true });
-    navigateBack();
-  };
+    setSelectedBookmark(toAddress)
+    setFieldValue('toAddress', toAddress.address, { isTouched: true })
+    navigateBack()
+  }
 
   const closeMenu = () => {
-    setMenuAnchorEl(null);
-  };
+    setMenuAnchorEl(null)
+  }
 
   const handleMenuOpen = (el: HTMLElement, toAddress: ToAddress) => {
-    setMenuAnchorEl(el);
-    setSelectedToAddress(toAddress);
-  };
+    setMenuAnchorEl(el)
+    setSelectedToAddress(toAddress)
+  }
 
   const handleCopyAddress = () => {
     if (selectedToAddress) {
-      navigator.clipboard.writeText(selectedToAddress.address);
+      navigator.clipboard.writeText(selectedToAddress.address)
     }
-    closeMenu();
-  };
+    closeMenu()
+  }
 
   const handleViewOnExplorer = () => {
     if (selectedToAddress) {
       window.open(
         getAddressLink(
           selectedToAddress.address,
-          defaultChainIdsByType[selectedToAddress.chainType],
+          defaultChainIdsByType[selectedToAddress.chainType]
         ),
-        '_blank',
-      );
+        '_blank'
+      )
     }
-    closeMenu();
-  };
+    closeMenu()
+  }
 
   return (
     <SendToWalletPageContainer disableGutters>
@@ -151,5 +151,5 @@ export const SendToConfiguredWalletPage = () => {
         </Menu>
       </ListContainer>
     </SendToWalletPageContainer>
-  );
-};
+  )
+}

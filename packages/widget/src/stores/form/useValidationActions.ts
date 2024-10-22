@@ -1,6 +1,6 @@
-import { shallow } from 'zustand/shallow';
-import type { ValidationActions } from './types.js';
-import { useFormStore } from './useFormStore.js';
+import { shallow } from 'zustand/shallow'
+import type { ValidationActions } from './types.js'
+import { useFormStore } from './useFormStore.js'
 
 export const useValidationActions = () => {
   const actions = useFormStore<ValidationActions>(
@@ -9,8 +9,8 @@ export const useValidationActions = () => {
       triggerFieldValidation: store.triggerFieldValidation,
       clearErrors: store.clearErrors,
     }),
-    shallow,
-  );
+    shallow
+  )
 
-  return actions;
-};
+  return actions
+}

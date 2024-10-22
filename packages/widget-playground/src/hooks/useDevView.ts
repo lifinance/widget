@@ -1,30 +1,22 @@
-import { shallow } from 'zustand/shallow';
-import { useEditToolsActions, useEditToolsStore } from '../store';
+import { shallow } from 'zustand/shallow'
+import { useEditToolsStore } from '../store/editTools/EditToolsProvider'
+import { useEditToolsActions } from '../store/editTools/useEditToolsActions'
+import { setQueryStringParam } from '../utils/setQueryStringParam'
 
-const queryStringKey = 'devView';
-
-const setQueryStringParam = (value: boolean) => {
-  const url = new URL(window.location.href);
-  if (value) {
-    url.searchParams.set(queryStringKey, value.toString());
-  } else {
-    url.searchParams.delete(queryStringKey);
-  }
-  window.history.pushState(null, '', url.toString());
-};
+const queryStringKey = 'devView'
 
 export const useDevView = () => {
-  const [isDevView] = useEditToolsStore((store) => [store.isDevView], shallow);
-  const { setIsDevView } = useEditToolsActions();
+  const [isDevView] = useEditToolsStore((store) => [store.isDevView], shallow)
+  const { setIsDevView } = useEditToolsActions()
 
   const toggleDevView = () => {
-    const newDevViewValue = !isDevView;
-    setQueryStringParam(newDevViewValue);
-    setIsDevView(newDevViewValue);
-  };
+    const newDevViewValue = !isDevView
+    setQueryStringParam(queryStringKey, newDevViewValue)
+    setIsDevView(newDevViewValue)
+  }
 
   return {
     isDevView,
     toggleDevView,
-  };
-};
+  }
+}

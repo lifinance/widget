@@ -1,28 +1,28 @@
-import type { CardProps } from '@mui/material';
-import { Stack } from '@mui/material';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { useExecutingRoutesIds } from '../../stores/routes/useExecutingRoutesIds.js';
-import { navigationRoutes } from '../../utils/navigationRoutes.js';
-import { Card } from '../Card/Card.js';
-import { CardTitle } from '../Card/CardTitle.js';
-import { ActiveTransactionItem } from './ActiveTransactionItem.js';
-import { ShowAllButton } from './ActiveTransactions.style.js';
+import type { CardProps } from '@mui/material'
+import { Stack } from '@mui/material'
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
+import { useExecutingRoutesIds } from '../../stores/routes/useExecutingRoutesIds.js'
+import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import { Card } from '../Card/Card.js'
+import { CardTitle } from '../Card/CardTitle.js'
+import { ActiveTransactionItem } from './ActiveTransactionItem.js'
+import { ShowAllButton } from './ActiveTransactions.style.js'
 
 export const ActiveTransactions: React.FC<CardProps> = (props) => {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
-  const executingRoutes = useExecutingRoutesIds();
+  const { t } = useTranslation()
+  const navigate = useNavigate()
+  const executingRoutes = useExecutingRoutesIds()
 
   if (!executingRoutes?.length) {
-    return null;
+    return null
   }
 
   const handleShowAll = () => {
-    navigate(navigationRoutes.activeTransactions);
-  };
+    navigate(navigationRoutes.activeTransactions)
+  }
 
-  const hasShowAll = executingRoutes?.length > 2;
+  const hasShowAll = executingRoutes?.length > 2
 
   return (
     <Card type="selected" selectionColor="secondary" {...props}>
@@ -38,5 +38,5 @@ export const ActiveTransactions: React.FC<CardProps> = (props) => {
         </ShowAllButton>
       ) : null}
     </Card>
-  );
-};
+  )
+}

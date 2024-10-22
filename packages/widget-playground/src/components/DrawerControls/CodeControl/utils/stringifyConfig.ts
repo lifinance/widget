@@ -1,26 +1,27 @@
-import type { WidgetConfig } from '@lifi/widget';
-import { cloneStructuredConfig, substituteFunctions } from '../../../../utils';
-import { addFunctionsAsStrings } from './addFunctionsAsStrings';
+import type { WidgetConfig } from '@lifi/widget'
+import { cloneStructuredConfig } from '../../../../utils/cloneStructuredConfig'
+import { substituteFunctions } from '../../../../utils/substituteFunctions'
+import { addFunctionsAsStrings } from './addFunctionsAsStrings'
 
 const configTemplate = (config?: string) =>
-  config ? `const config = ${config}` : undefined;
+  config ? `const config = ${config}` : undefined
 
 export function stringifyConfig(
   config: Partial<WidgetConfig>,
-  template = configTemplate,
+  template = configTemplate
 ) {
-  const clonedConfig = cloneStructuredConfig(config);
+  const clonedConfig = cloneStructuredConfig(config)
 
-  const functionsReferences = substituteFunctions(clonedConfig, 'id');
+  const functionsReferences = substituteFunctions(clonedConfig, 'id')
 
   const stringifiedConfig = addFunctionsAsStrings(
     JSON.stringify(clonedConfig, null, 2),
-    functionsReferences,
-  );
+    functionsReferences
+  )
 
   const templatedCode = template(
-    stringifiedConfig.replace(/"([^"]+)":/g, '$1:'),
-  );
+    stringifiedConfig.replace(/"([^"]+)":/g, '$1:')
+  )
 
-  return templatedCode ? templatedCode : undefined;
+  return templatedCode ? templatedCode : undefined
 }

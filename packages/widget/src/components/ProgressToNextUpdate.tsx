@@ -1,44 +1,42 @@
-import type { IconButtonProps } from '@mui/material';
-import { Box, CircularProgress, IconButton, Tooltip } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { Trans } from 'react-i18next';
+import type { IconButtonProps } from '@mui/material'
+import { Box, CircularProgress, IconButton, Tooltip } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { Trans } from 'react-i18next'
 
 const getProgressValue = (updatedAt: number, timeToUpdate: number) =>
-  updatedAt
-    ? Math.min(100, ((Date.now() - updatedAt) / timeToUpdate) * 100)
-    : 0;
+  updatedAt ? Math.min(100, ((Date.now() - updatedAt) / timeToUpdate) * 100) : 0
 
 const getSecondsToUpdate = (updatedAt: number, timeToUpdate: number) =>
-  Math.max(Math.round((timeToUpdate - (Date.now() - updatedAt)) / 1000), 0);
+  Math.max(Math.round((timeToUpdate - (Date.now() - updatedAt)) / 1000), 0)
 
 export const ProgressToNextUpdate: React.FC<
   {
-    updatedAt: number;
-    timeToUpdate: number;
-    isLoading?: boolean;
+    updatedAt: number
+    timeToUpdate: number
+    isLoading?: boolean
   } & IconButtonProps
 > = ({ updatedAt, timeToUpdate, isLoading, onClick, ...other }) => {
   const [value, setValue] = useState(() =>
-    getProgressValue(updatedAt, timeToUpdate),
-  );
+    getProgressValue(updatedAt, timeToUpdate)
+  )
 
   useEffect(() => {
-    setValue(getProgressValue(updatedAt, timeToUpdate));
+    setValue(getProgressValue(updatedAt, timeToUpdate))
     const id = setInterval(() => {
-      const time = getProgressValue(updatedAt, timeToUpdate);
-      setValue(time);
+      const time = getProgressValue(updatedAt, timeToUpdate)
+      setValue(time)
       if (time >= 100) {
-        clearInterval(id);
+        clearInterval(id)
       }
-    }, 1000);
-    return () => clearInterval(id);
-  }, [timeToUpdate, updatedAt]);
+    }, 1000)
+    return () => clearInterval(id)
+  }, [timeToUpdate, updatedAt])
 
   useEffect(() => {
     if (isLoading) {
-      setValue(0);
+      setValue(0)
     }
-  }, [isLoading]);
+  }, [isLoading])
 
   return (
     <IconButton onClick={onClick} disabled={isLoading} {...other}>
@@ -49,6 +47,7 @@ export const ProgressToNextUpdate: React.FC<
             values={{
               value: getSecondsToUpdate(updatedAt, timeToUpdate),
             }}
+            // biome-ignore lint/correctness/useJsxKeyInIterable:
             components={[<br />]}
           />
         }
@@ -89,5 +88,5 @@ export const ProgressToNextUpdate: React.FC<
         </Box>
       </Tooltip>
     </IconButton>
-  );
-};
+  )
+}

@@ -1,6 +1,6 @@
-import { shallow } from 'zustand/shallow';
-import { useEditToolsStore } from './EditToolsProvider';
-import { defaultDrawerWidth } from './constants';
+import { shallow } from 'zustand/shallow'
+import { useEditToolsStore } from './EditToolsProvider'
+import { defaultDrawerWidth } from './constants'
 
 export const useDrawerToolValues = () => {
   const [isDrawerOpen, codeDrawerWidth, visibleControls, codeControlTab] =
@@ -12,17 +12,17 @@ export const useDrawerToolValues = () => {
         store.codeControl.openTab,
         store.fontControl.selectedFont,
       ],
-      shallow,
-    );
+      shallow
+    )
 
   const drawerWidth =
     visibleControls === 'code' && codeControlTab === 'config'
       ? codeDrawerWidth
-      : defaultDrawerWidth;
+      : defaultDrawerWidth
 
   return {
     isDrawerOpen,
     visibleControls,
     drawerWidth,
-  };
-};
+  }
+}

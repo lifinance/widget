@@ -1,5 +1,5 @@
-import { DeleteOutline } from '@mui/icons-material';
-import type { IconButtonProps } from '@mui/material';
+import { DeleteOutline } from '@mui/icons-material'
+import type { IconButtonProps } from '@mui/material'
 import {
   Button,
   DialogActions,
@@ -9,19 +9,19 @@ import {
   IconButton,
   List,
   useTheme,
-} from '@mui/material';
-import { useCallback, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { ActiveTransactionItem } from '../../components/ActiveTransactions/ActiveTransactionItem.js';
-import { Dialog } from '../../components/Dialog.js';
-import { PageContainer } from '../../components/PageContainer.js';
-import { useHeader } from '../../hooks/useHeader.js';
-import { useRouteExecutionStore } from '../../stores/routes/RouteExecutionStore.js';
-import { useExecutingRoutesIds } from '../../stores/routes/useExecutingRoutesIds.js';
-import { ActiveTransactionsEmpty } from './ActiveTransactionsEmpty.js';
+} from '@mui/material'
+import { useCallback, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { ActiveTransactionItem } from '../../components/ActiveTransactions/ActiveTransactionItem.js'
+import { Dialog } from '../../components/Dialog.js'
+import { PageContainer } from '../../components/PageContainer.js'
+import { useHeader } from '../../hooks/useHeader.js'
+import { useRouteExecutionStore } from '../../stores/routes/RouteExecutionStore.js'
+import { useExecutingRoutesIds } from '../../stores/routes/useExecutingRoutesIds.js'
+import { ActiveTransactionsEmpty } from './ActiveTransactionsEmpty.js'
 
 const DeleteIconButton: React.FC<IconButtonProps> = ({ onClick }) => {
-  const theme = useTheme();
+  const theme = useTheme()
 
   return (
     <IconButton
@@ -31,31 +31,31 @@ const DeleteIconButton: React.FC<IconButtonProps> = ({ onClick }) => {
     >
       <DeleteOutline />
     </IconButton>
-  );
-};
+  )
+}
 
 export const ActiveTransactionsPage = () => {
-  const { t } = useTranslation();
-  const executingRoutes = useExecutingRoutesIds();
-  const deleteRoutes = useRouteExecutionStore((store) => store.deleteRoutes);
-  const [open, setOpen] = useState(false);
+  const { t } = useTranslation()
+  const executingRoutes = useExecutingRoutesIds()
+  const deleteRoutes = useRouteExecutionStore((store) => store.deleteRoutes)
+  const [open, setOpen] = useState(false)
 
   const toggleDialog = useCallback(() => {
-    setOpen((open) => !open);
-  }, []);
+    setOpen((open) => !open)
+  }, [])
 
   const headerAction = useMemo(
     () =>
       executingRoutes.length ? (
         <DeleteIconButton onClick={toggleDialog} />
       ) : undefined,
-    [executingRoutes.length, toggleDialog],
-  );
+    [executingRoutes.length, toggleDialog]
+  )
 
-  useHeader(t(`header.activeTransactions`), headerAction);
+  useHeader(t('header.activeTransactions'), headerAction)
 
   if (!executingRoutes.length) {
-    return <ActiveTransactionsEmpty />;
+    return <ActiveTransactionsEmpty />
   }
 
   return (
@@ -91,5 +91,5 @@ export const ActiveTransactionsPage = () => {
         </DialogActions>
       </Dialog>
     </PageContainer>
-  );
-};
+  )
+}

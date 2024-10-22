@@ -1,4 +1,4 @@
-import type { FC, SVGProps } from 'react';
+import type { FC, SVGProps } from 'react'
 
 export const VueLogo: FC<SVGProps<SVGSVGElement>> = (props) => (
   <svg
@@ -8,6 +8,7 @@ export const VueLogo: FC<SVGProps<SVGSVGElement>> = (props) => (
     viewBox="0 0 27 24"
     {...props}
   >
+    <title>Vue</title>
     <path
       d="M16.617.004 13.5 5.547 10.383.004H0l13.5 23.992L27 .004Zm0 0"
       style={{
@@ -27,4 +28,4 @@ export const VueLogo: FC<SVGProps<SVGSVGElement>> = (props) => (
       }}
     />
   </svg>
-);
+)

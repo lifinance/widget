@@ -1,16 +1,16 @@
-import { Error, Info, TurnedIn } from '@mui/icons-material';
-import { LoadingButton } from '@mui/lab';
-import { Button, Typography } from '@mui/material';
-import type { ChangeEvent, MutableRefObject } from 'react';
-import { forwardRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { AlertMessage } from '../../components/AlertMessage/AlertMessage.js';
-import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js';
-import type { BottomSheetBase } from '../../components/BottomSheet/types.js';
-import { Input } from '../../components/Input.js';
-import { useAddressValidation } from '../../hooks/useAddressValidation.js';
-import type { Bookmark } from '../../stores/bookmarks/types.js';
-import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js';
+import { Error as ErrorIcon, Info, TurnedIn } from '@mui/icons-material'
+import { LoadingButton } from '@mui/lab'
+import { Button, Typography } from '@mui/material'
+import type { ChangeEvent, MutableRefObject } from 'react'
+import { forwardRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { AlertMessage } from '../../components/AlertMessage/AlertMessage.js'
+import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
+import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
+import { Input } from '../../components/Input.js'
+import { useAddressValidation } from '../../hooks/useAddressValidation.js'
+import type { Bookmark } from '../../stores/bookmarks/types.js'
+import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
 import {
   AddressInput,
   BookmarkInputFields,
@@ -21,123 +21,122 @@ import {
   SheetAddressContainer,
   SheetTitle,
   ValidationAlert,
-} from './SendToWalletPage.style.js';
-import type { BookmarkError } from './types.js';
+} from './SendToWalletPage.style.js'
+import type { BookmarkError } from './types.js'
 
 interface BookmarkAddressProps {
-  onAddBookmark: (bookmark: Bookmark) => void;
-  validatedWallet?: Bookmark;
+  onAddBookmark: (bookmark: Bookmark) => void
+  validatedWallet?: Bookmark
 }
 
 export const BookmarkAddressSheet = forwardRef<
   BottomSheetBase,
   BookmarkAddressProps
 >(({ validatedWallet, onAddBookmark }, ref) => {
-  const { t } = useTranslation();
-  const [name, setName] = useState('');
-  const [address, setAddress] = useState('');
-  const [error, setError] = useState<BookmarkError>();
-  const { validateAddress, isValidating } = useAddressValidation();
-  const { getBookmark } = useBookmarkActions();
+  const { t } = useTranslation()
+  const [name, setName] = useState('')
+  const [address, setAddress] = useState('')
+  const [error, setError] = useState<BookmarkError>()
+  const { validateAddress, isValidating } = useAddressValidation()
+  const { getBookmark } = useBookmarkActions()
 
-  const nameValue = name.trim() || validatedWallet?.name || '';
-  const addressValue = address || validatedWallet?.address || '';
+  const nameValue = name.trim() || validatedWallet?.name || ''
+  const addressValue = address || validatedWallet?.address || ''
 
   const handleCancel = () => {
-    setError(undefined);
-    (ref as MutableRefObject<BottomSheetBase>).current?.close();
-  };
+    setError(undefined)
+    ;(ref as MutableRefObject<BottomSheetBase>).current?.close()
+  }
 
   const validateWithAddressFromInput = async () => {
-    const validationResult = await validateAddress({ value: address });
+    const validationResult = await validateAddress({ value: address })
     if (!validationResult.isValid) {
-      setError({ type: 'address', message: validationResult.error });
-      return;
+      setError({ type: 'address', message: validationResult.error })
+      return
     }
 
     return {
       name: nameValue,
       address: validationResult.address,
       chainType: validationResult.chainType,
-    };
-  };
+    }
+  }
 
-  const validateWithValidatedWallet = () => {
+  const validateWithValidatedWallet = (validatedWallet: Bookmark) => {
     if (error) {
-      setError(undefined);
+      setError(undefined)
     }
     return {
       name: nameValue,
-      address: validatedWallet!.address,
-      chainType: validatedWallet!.chainType,
-    };
-  };
+      address: validatedWallet.address,
+      chainType: validatedWallet.chainType,
+    }
+  }
 
   const handleBookmark = async () => {
     if (isValidating) {
-      return;
+      return
     }
     if (!nameValue) {
       setError({
         type: 'name',
         message: t('error.title.bookmarkNameRequired'),
-      });
-      return;
+      })
+      return
     }
     if (!addressValue) {
       setError({
         type: 'address',
         message: t('error.title.walletAddressRequired'),
-      });
-      return;
+      })
+      return
     }
 
     //  If the validatedWallet is supplied as a prop then we should assume
     //  the address has already been validated
     const validatedBookmark = validatedWallet
-      ? validateWithValidatedWallet()
-      : await validateWithAddressFromInput();
+      ? validateWithValidatedWallet(validatedWallet)
+      : await validateWithAddressFromInput()
 
     if (validatedBookmark) {
-      const existingBookmark = getBookmark(validatedBookmark.address);
+      const existingBookmark = getBookmark(validatedBookmark.address)
       if (existingBookmark) {
         setError({
           type: 'address',
           message: t('error.title.bookmarkAlreadyExists', {
             name: existingBookmark.name,
           }),
-        });
-        return;
+        })
+        return
       }
-
-      (ref as MutableRefObject<BottomSheetBase>).current?.close();
+      ;(ref as MutableRefObject<BottomSheetBase>).current?.close()
 
       onAddBookmark({
         name: validatedBookmark.name,
         address: validatedBookmark.address,
         chainType: validatedBookmark.chainType,
-      });
+      })
     }
-  };
+  }
 
   const handleAddressInputChange = (e: ChangeEvent) => {
     if (error) {
-      setError(undefined);
+      setError(undefined)
     }
-    setAddress((e.target as HTMLInputElement).value.trim());
-  };
+    setAddress((e.target as HTMLInputElement).value.trim())
+  }
 
   const handleNameInputChange = (e: ChangeEvent) => {
     if (error) {
-      setError(undefined);
+      setError(undefined)
     }
-    setName((e.target as HTMLInputElement).value);
-  };
+    setName((e.target as HTMLInputElement).value)
+  }
 
   const resetValues = () => {
-    setName('');
-    setAddress('');
-  };
+    setName('')
+    setAddress('')
+  }
 
   return (
     <BottomSheet ref={ref} onClose={resetValues}>
@@ -196,7 +195,9 @@ export const BookmarkAddressSheet = forwardRef<
             </SendToWalletCard>
           )}
           {error ? (
-            <ValidationAlert icon={<Error />}>{error.message}</ValidationAlert>
+            <ValidationAlert icon={<ErrorIcon />}>
+              {error.message}
+            </ValidationAlert>
           ) : null}
         </BookmarkInputFields>
         <AlertMessage
@@ -224,5 +225,5 @@ export const BookmarkAddressSheet = forwardRef<
         </SendToWalletButtonRow>
       </SendToWalletSheetContainer>
     </BottomSheet>
-  );
-});
+  )
+})

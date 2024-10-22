@@ -8,11 +8,11 @@ export const percentFormatter = (lng: string | undefined, options: any) => {
   const formatter = new Intl.NumberFormat(lng, {
     ...options,
     style: 'percent',
-  });
+  })
   return (value: any) => {
     if ((value > 0 && value < 0.0001) || (value < 0 && value > -0.0001)) {
-      return `<${formatter.format(0.0001)}`;
+      return `<${formatter.format(0.0001)}`
     }
-    return formatter.format(value);
-  };
-};
+    return formatter.format(value)
+  }
+}

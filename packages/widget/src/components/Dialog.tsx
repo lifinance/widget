@@ -1,14 +1,14 @@
-import type { DialogProps, PaperProps, Theme } from '@mui/material';
-import { Dialog as MuiDialog } from '@mui/material';
-import type { PropsWithChildren } from 'react';
-import { useGetScrollableContainer } from '../hooks/useScrollableContainer.js';
+import type { DialogProps, PaperProps, Theme } from '@mui/material'
+import { Dialog as MuiDialog } from '@mui/material'
+import type { PropsWithChildren } from 'react'
+import { useGetScrollableContainer } from '../hooks/useScrollableContainer.js'
 
 export const modalProps = {
   sx: {
     position: 'absolute',
     overflow: 'hidden',
   },
-};
+}
 
 export const paperProps: Partial<PaperProps> = {
   sx: (theme: Theme) => ({
@@ -18,7 +18,7 @@ export const paperProps: Partial<PaperProps> = {
     borderTopLeftRadius: theme.shape.borderRadius,
     borderTopRightRadius: theme.shape.borderRadius,
   }),
-};
+}
 
 export const slotProps = {
   backdrop: {
@@ -28,14 +28,14 @@ export const slotProps = {
       backdropFilter: 'blur(3px)',
     },
   },
-};
+}
 
 export const Dialog: React.FC<PropsWithChildren<DialogProps>> = ({
   children,
   open,
   onClose,
 }) => {
-  const getContainer = useGetScrollableContainer();
+  const getContainer = useGetScrollableContainer()
   return (
     <MuiDialog
       container={getContainer}
@@ -47,5 +47,5 @@ export const Dialog: React.FC<PropsWithChildren<DialogProps>> = ({
     >
       {children}
     </MuiDialog>
-  );
-};
+  )
+}

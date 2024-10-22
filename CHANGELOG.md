@@ -2,6 +2,98 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.8.1](https://github.com/lifinance/widget/compare/v3.8.0...v3.8.1) (2024-10-21)
+
+
+### Bug Fixes
+
+* add auto focus for search input field ([#314](https://github.com/lifinance/widget/issues/314)) ([01c1b49](https://github.com/lifinance/widget/commit/01c1b494886247f3f57f0a072041622998c38a53))
+* increase fractional and significant digits ([#313](https://github.com/lifinance/widget/issues/313)) ([06e4df6](https://github.com/lifinance/widget/commit/06e4df69a8cf2221eda87348e685880f02f5473b))
+
+## [3.8.0](https://github.com/lifinance/widget/compare/v3.7.0...v3.8.0) (2024-10-18)
+
+
+### Features
+
+* add Bitcoin/UTXO support ([#297](https://github.com/lifinance/widget/issues/297)) ([f83341f](https://github.com/lifinance/widget/commit/f83341f9b0d559dfda6c0cd37629b5f36642ae86))
+* emit events for settings changes ([#312](https://github.com/lifinance/widget/issues/312)) ([cf48cf2](https://github.com/lifinance/widget/commit/cf48cf22bec198099284cf3ce6ed6609b76a5f39))
+* widget events for send to wallet ([#309](https://github.com/lifinance/widget/issues/309)) ([b247afb](https://github.com/lifinance/widget/commit/b247afbb41b1ffd04be8f4b09862f72fc40d4a37))
+
+
+### Bug Fixes
+
+* crowdin config ([f9bf9ba](https://github.com/lifinance/widget/commit/f9bf9bab7fa2891d849f70c72ff16b096701fbb0))
+* nextjs example link ([a482ff3](https://github.com/lifinance/widget/commit/a482ff3510a72a6d619ac5e86af70b2dc28e11cc))
+* refactor, use and export calcPriceImpact function ([#307](https://github.com/lifinance/widget/issues/307)) ([234844f](https://github.com/lifinance/widget/commit/234844f79afd7b65dbfb6f46c3725ace247f5c0a))
+
+## [3.7.0](https://github.com/lifinance/widget/compare/v3.6.2...v3.7.0) (2024-10-02)
+
+
+### Features
+
+* add emitter event on location change ([#304](https://github.com/lifinance/widget/issues/304)) ([d6146f8](https://github.com/lifinance/widget/commit/d6146f83dcc27381d52b95f51e7fdcd05552dc58))
+* add search input to chain, bridges and exchanges pages ([#305](https://github.com/lifinance/widget/issues/305)) ([5504d95](https://github.com/lifinance/widget/commit/5504d95621d11a70ee3fb39108dbd8c0a2417978))
+
+### [3.6.2](https://github.com/lifinance/widget/compare/v3.6.1...v3.6.2) (2024-09-24)
+
+
+### Bug Fixes
+
+* status sheet buttons and height adjustment ([#303](https://github.com/lifinance/widget/issues/303)) ([56db5e4](https://github.com/lifinance/widget/commit/56db5e4033a05a295cf022843c9a359008c70ce5))
+
+### [3.6.1](https://github.com/lifinance/widget/compare/v3.6.0...v3.6.1) (2024-09-18)
+
+
+### Bug Fixes
+
+* trim amount input ([66eed73](https://github.com/lifinance/widget/commit/66eed7386826e7cf0c249ebd2fdc1930ab550f6c))
+
+## [3.6.0](https://github.com/lifinance/widget/compare/v3.5.3...v3.6.0) (2024-09-18)
+
+
+### Features
+
+* add voluntary contribution component ([#301](https://github.com/lifinance/widget/issues/301)) ([d0453a7](https://github.com/lifinance/widget/commit/d0453a76b1a429580adafed5e6289bda10c49f8d))
+
+
+### Bug Fixes
+
+* factor external wallet management into header height calculations ([#300](https://github.com/lifinance/widget/issues/300)) ([b31aaa7](https://github.com/lifinance/widget/commit/b31aaa717fe2a49747b159c2d07b78f6099003df))
+* reactive chain and token properties from config ([#294](https://github.com/lifinance/widget/issues/294)) ([1ff7cfc](https://github.com/lifinance/widget/commit/1ff7cfcc99569c52f05d29a9929f1be06ff53170))
+* use process tx link if no tx hash is available ([#299](https://github.com/lifinance/widget/issues/299)) ([8c59d31](https://github.com/lifinance/widget/commit/8c59d313defdeea4a59df6f06ef40edd5e36c329))
+
+### [3.5.3](https://github.com/lifinance/widget/compare/v3.5.2...v3.5.3) (2024-09-12)
+
+### [3.5.2](https://github.com/lifinance/widget/compare/v3.5.1...v3.5.2) (2024-09-11)
+
+
+### Bug Fixes
+
+* widget header with subvariant split ([#298](https://github.com/lifinance/widget/issues/298)) ([c33d42a](https://github.com/lifinance/widget/commit/c33d42abcabaa80c533caae915384dd6d2bc36ab))
+
+### [3.5.1](https://github.com/lifinance/widget/compare/v3.5.0...v3.5.1) (2024-09-10)
+
+
+### Bug Fixes
+
+* make internal explorer optional ([a0f51c6](https://github.com/lifinance/widget/commit/a0f51c6d7664824543ad3f2a6ab672d01ca0a91b))
+
+## [3.5.0](https://github.com/lifinance/widget/compare/v3.4.4...v3.5.0) (2024-09-10)
+
+
+### Features
+
+* add explorer link to the support card ([#292](https://github.com/lifinance/widget/issues/292)) ([0792c15](https://github.com/lifinance/widget/commit/0792c158aa39b9c1b05139a494e5ec9483473733))
+* allow configuration of explorer links ([#293](https://github.com/lifinance/widget/issues/293)) ([c173546](https://github.com/lifinance/widget/commit/c1735465580e9199e448167dc1445b58246f569e))
+
+
+### Bug Fixes
+
+* add percent formatter to improve display of price impact ([#287](https://github.com/lifinance/widget/issues/287)) ([2061012](https://github.com/lifinance/widget/commit/20610129dedb4fefd23a145b173eeee2bb4f7066))
+* allow the token list to fill the full height available and default max height to 686px ([#289](https://github.com/lifinance/widget/issues/289)) ([4882755](https://github.com/lifinance/widget/commit/48827559ac5db87140669247c1728083ace7a94e))
+* container should not forward prop ([6e326cd](https://github.com/lifinance/widget/commit/6e326cd27efb965058923830c4831395365b802a))
+* prevent sending a request for the same chain token combinations ([282bdf0](https://github.com/lifinance/widget/commit/282bdf046c01025b61057887613129647ad3d50d))
+
 ### [3.4.4](https://github.com/lifinance/widget/compare/v3.4.3...v3.4.4) (2024-08-15)
 
 

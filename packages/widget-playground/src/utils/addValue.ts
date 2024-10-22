@@ -18,39 +18,39 @@
 export const addValueFromPathString = <ReturnType>(
   object: ReturnType | undefined,
   path: string,
-  value: string,
+  value: string
 ) => {
   if (!object) {
-    return undefined;
+    return undefined
   }
 
-  const nodes = path.split('.');
+  const nodes = path.split('.')
 
-  let lastNodeValue: { [key: string]: any };
+  let lastNodeValue: { [key: string]: any }
 
   return nodes.reduce<{ [key: string]: any }>(
     (accum, nodeKey, i, arr) => {
       if (i < arr.length - 1) {
-        let nodeValue;
+        let nodeValue: any
 
         if (!lastNodeValue) {
-          nodeValue = accum[nodeKey] ? { ...accum[nodeKey] } : {};
-          accum[nodeKey] = nodeValue;
+          nodeValue = accum[nodeKey] ? { ...accum[nodeKey] } : {}
+          accum[nodeKey] = nodeValue
         } else {
-          nodeValue = lastNodeValue[nodeKey];
+          nodeValue = lastNodeValue[nodeKey]
           nodeValue = lastNodeValue[nodeKey]
             ? { ...lastNodeValue[nodeKey] }
-            : {};
-          lastNodeValue[nodeKey] = nodeValue;
+            : {}
+          lastNodeValue[nodeKey] = nodeValue
         }
 
-        lastNodeValue = nodeValue;
+        lastNodeValue = nodeValue
       } else {
-        lastNodeValue[nodeKey] = value;
+        lastNodeValue[nodeKey] = value
       }
 
-      return accum;
+      return accum
     },
-    { ...object },
-  ) as ReturnType;
-};
+    { ...object }
+  ) as ReturnType
+}

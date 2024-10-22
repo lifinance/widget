@@ -1,9 +1,8 @@
-import { svelte } from '@sveltejs/vite-plugin-svelte';
-import { nodePolyfills } from 'vite-plugin-node-polyfills';
-import { defineConfig } from 'vite';
+import { svelte } from '@sveltejs/vite-plugin-svelte'
+import { defineConfig } from 'vite'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 // https://vitejs.dev/config/
-// eslint-disable-next-line import/no-default-export
 export default defineConfig({
   plugins: [svelte(), nodePolyfills()],
   esbuild: {
@@ -13,4 +12,4 @@ export default defineConfig({
     port: 3000,
     open: true,
   },
-});
+})

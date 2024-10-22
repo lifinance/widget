@@ -5,10 +5,10 @@ import {
   Button,
   buttonClasses,
   styled,
-} from '@mui/material';
-import type { WidgetSubvariant } from '../../types/widget.js';
-import { getContrastAlphaColor } from '../../utils/colors.js';
-import { avatarMask12 } from '../Avatar/utils.js';
+} from '@mui/material'
+import type { WidgetSubvariant } from '../../types/widget.js'
+import { getContrastAlphaColor } from '../../utils/colors.js'
+import { avatarMask12 } from '../Avatar/utils.js'
 
 export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: 'transparent',
@@ -16,7 +16,7 @@ export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
   flexDirection: 'row',
   alignItems: 'center',
   position: 'relative',
-}));
+}))
 
 export const Container = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'sticky',
@@ -40,14 +40,8 @@ export const Container = styled(Box, {
           width: '100%',
         }
       : {}),
-  };
-});
-
-export const ContainerPlaceholder = styled(Box)(({ theme }) => {
-  return {
-    ...(theme.header?.position === 'fixed' ? {} : { display: 'none' }),
-  };
-});
+  }
+})
 
 export const WalletButton = styled(Button, {
   shouldForwardProp: (prop) => prop !== 'subvariant',
@@ -72,7 +66,7 @@ export const WalletButton = styled(Button, {
     marginRight: subvariant === 'split' ? 0 : theme.spacing(-1.25),
     marginLeft: subvariant === 'split' ? theme.spacing(-1) : 0,
   }),
-}));
+}))
 
 export const DrawerWalletContainer = styled(Box)(({ theme }) => ({
   width: '100%',
@@ -87,7 +81,7 @@ export const DrawerWalletContainer = styled(Box)(({ theme }) => ({
       marginRight: theme.spacing(-1.25),
     },
   }),
-}));
+}))
 
 export const HeaderControlsContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -97,10 +91,10 @@ export const HeaderControlsContainer = styled(Box)(({ theme }) => ({
       marginRight: theme.spacing(-1.25),
     },
   }),
-}));
+}))
 
-export const WalletAvatar = styled(Avatar)(({ theme }) => ({
+export const WalletAvatar = styled(Avatar)(() => ({
   mask: avatarMask12,
   width: 24,
   height: 24,
-}));
+}))

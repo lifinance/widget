@@ -16,10 +16,10 @@
     "bridgeReview": "Review bridge",
     "buy": "Buy",
     "cancel": "Cancel",
-    "changeWallet": "Change wallet",
     "checkoutReview": "Review purchase",
     "close": "Close",
     "confirm": "Confirm",
+    "connectAnotherWallet": "Connect another wallet",
     "connectWallet": "Connect wallet",
     "contactSupport": "Contact support",
     "continue": "Continue",
@@ -82,6 +82,9 @@
       "autoRefuel": "You're low on {{chainName}} gas. By continuing, you'll get enough gas to complete the transaction.",
       "emptyActiveTransactions": "Transactions in progress will appear here. Once completed, find them in transaction history.",
       "emptyTokenList": "We couldn't find tokens on {{chainName}} chain or you don't have any. Please search by contract address if your token doesn't appear or choose another chain.",
+      "emptyChainList": "We couldn't find any chains that match your search",
+      "emptyBridgesList": "We couldn't find any bridges that match your search",
+      "emptyExchangesList": "We couldn't find any exchanges that match your search",
       "emptyTransactionHistory": "Transaction history is only stored locally and will be deleted if you clear your browser data.",
       "fundsToExchange": "Funds sent to an exchange may be lost",
       "toAddressIsRequired": "Please provide the destination wallet address to which the funds will be transferred.",
@@ -139,6 +142,7 @@
       "signatureRejected": "Your signature is required to complete the transaction. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
       "slippageThreshold": "The slippage is larger than the defined threshold. Please request a new quote.",
       "transactionCanceled": "Transaction was canceled.",
+      "transactionConflict": "Transaction couldn't be processed because it's conflicting with another pending transaction using the same funds. Please wait for the pending transaction to be confirmed or check your transaction history before trying again.",
       "transactionExpired": "The block height has exceeded the maximum allowed limit or blockhash is no longer recent enough.",
       "transactionFailed": "Please check the block explorer for more information.",
       "transactionNotSent": "Transaction was not sent.",
@@ -158,6 +162,7 @@
       "signatureRejected": "Signature required",
       "slippageNotMet": "Slippage conditions not met",
       "transactionCanceled": "Transaction canceled",
+      "transactionConflict": "Transaction conflict",
       "transactionExpired": "Transaction expired",
       "transactionFailed": "Transaction failed",
       "transactionSimulationFailed": "Transaction simulation failed",
@@ -275,7 +280,10 @@
     "tokenOnChain": "{{tokenSymbol}} on {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} on {{chainName}}",
     "tokenSearch": "Search by token name or address",
-    "valueLoss": "Value loss"
+    "valueLoss": "Value loss",
+    "searchChains": "Search by chain name",
+    "searchBridges": "Search by bridge name",
+    "searchExchanges": "Search by exchange name"
   },
   "settings": {
     "theme": "Theme",
@@ -303,8 +311,5 @@
     "noBookmarkedWallets": "No bookmarked wallets",
     "noConnectedWallets": "No connected wallets",
     "noRecentWallets": "No recent wallets"
-  },
-  "wallet": {
-    "extensionNotFound": "Please make sure that only the {{name}} browser extension is active before choosing this wallet."
   }
 }

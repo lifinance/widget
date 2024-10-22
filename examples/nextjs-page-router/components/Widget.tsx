@@ -1,13 +1,13 @@
-'use client';
+'use client'
 
-import type { WidgetConfig } from '@lifi/widget';
-import { LiFiWidget } from '@lifi/widget';
-import { ReactNode } from 'react';
-import { ClientOnly } from './ClientOnly';
+import type { WidgetConfig } from '@lifi/widget'
+import { LiFiWidget } from '@lifi/widget'
+import type { ReactNode } from 'react'
+import { ClientOnly } from './ClientOnly'
 
 interface WidgetProps {
-  fallback: ReactNode;
-  config: Partial<WidgetConfig>;
+  fallback: ReactNode
+  config: Partial<WidgetConfig>
 }
 
 export function Widget({ config, fallback }: WidgetProps) {
@@ -17,5 +17,5 @@ export function Widget({ config, fallback }: WidgetProps) {
         <LiFiWidget config={config} integrator="nextjs-example" />
       </ClientOnly>
     </main>
-  );
+  )
 }

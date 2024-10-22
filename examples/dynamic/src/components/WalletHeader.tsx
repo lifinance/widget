@@ -1,5 +1,5 @@
-import { DynamicWidget } from '@dynamic-labs/sdk-react-core';
-import { Box, Typography } from '@mui/material';
+import { DynamicWidget } from '@dynamic-labs/sdk-react-core'
+import { Box, Typography } from '@mui/material'
 
 export function WalletHeader() {
   return (
@@ -18,5 +18,5 @@ export function WalletHeader() {
         <DynamicWidget />
       </Box>
     </Box>
-  );
+  )
 }
