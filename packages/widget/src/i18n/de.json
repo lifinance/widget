@@ -82,6 +82,9 @@
       "autoRefuel": "Sie haben nicht genug Gas auf {{chainName}}. Wenn Sie fortfahren, erhalten Sie zusätzlich genug Gas um den Swap abzuschließen.",
       "emptyActiveTransactions": "Laufende Swaps werden hier angezeigt. Sobald Sie fertig sind, finden Sie sie in der Transaktionshistorie.",
       "emptyTokenList": "Es wurden keine Tokens auf der Chain {{chainName}} gefunden oder Sie haben keine. Bitte versuchen Sie die Suche erneut mit der Contract-Adresse falls Ihr Token nicht erscheint oder wechseln Sie die Chain.",
+      "emptyChainList": "",
+      "emptyBridgesList": "",
+      "emptyExchangesList": "",
       "emptyTransactionHistory": "Die Transaktionshistorie wird nur lokal gespeichert und gelöscht, wenn Sie Ihre Browserdaten löschen.",
       "fundsToExchange": "",
       "toAddressIsRequired": "",
@@ -265,7 +268,7 @@
     "stepSwapAndBridge": "Tauschen und überbrücken",
     "stepSwapAndBuy": "Tauschen und kaufen",
     "stepSwapAndDeposit": "",
-    "supportId": "Support-ID",
+    "transferId": "",
     "swapStepDetails": "Tausche auf {{chain}} über {{tool}}",
     "tags": {
       "cheapest": "",
@@ -275,7 +278,10 @@
     "tokenOnChain": "{{tokenSymbol}} auf {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} auf {{chainName}}",
     "tokenSearch": "Suchen Sie Ihren Token",
-    "valueLoss": "Wertverlust"
+    "valueLoss": "Wertverlust",
+    "searchChains": "",
+    "searchBridges": "",
+    "searchExchanges": ""
   },
   "settings": {
     "theme": "",
