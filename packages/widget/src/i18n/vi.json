@@ -82,6 +82,9 @@
       "autoRefuel": "Gas trên {{chainName}} chain của bạn đang thấp. Để tiếp tục, bạn nên có thêm gas để hoàn thành việc swap.",
       "emptyActiveTransactions": "Các lệnh swap đang xử lý sẽ được hiện ở đây. Khi nào lệnh hoàn tất, bạn có thể kiểm tra lại tại mục lịch sử swap.",
       "emptyTokenList": "Chúng tôi không thể tìm được token ở {{chainName}} hoặc số dư của bạn không có. Vui lòng thử tìm kiếm lại hoặc chọn một chain khác.",
+      "emptyChainList": "",
+      "emptyBridgesList": "",
+      "emptyExchangesList": "",
       "emptyTransactionHistory": "Lịch sử Swap chỉ được lưu trữ cục bộ và sẽ bị xóa nếu bạn xóa dữ liệu trình duyệt của mình.",
       "fundsToExchange": "Tiền gửi đến sàn giao dịch có thể bị mất",
       "toAddressIsRequired": "Vui lòng cung cấp địa chỉ ví đích mà tiền sẽ được chuyển đến.",
@@ -265,7 +268,7 @@
     "stepSwapAndBridge": "Swap và Bridge",
     "stepSwapAndBuy": "Hoán đổi và mua",
     "stepSwapAndDeposit": "",
-    "supportId": "Mã ID yêu cầu hỗ trợ",
+    "transferId": "",
     "swapStepDetails": "Swap tại {{chain}} thông qua {{tool}}",
     "tags": {
       "cheapest": "Lợi nhuận tốt nhất",
@@ -275,7 +278,10 @@
     "tokenOnChain": "{{tokenSymbol}} tại {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} tại {{chainName}}",
     "tokenSearch": "Tìm kiếm bằng tên token hoặc địa chỉ",
-    "valueLoss": "Bạn sẽ mất"
+    "valueLoss": "Bạn sẽ mất",
+    "searchChains": "",
+    "searchBridges": "",
+    "searchExchanges": ""
   },
   "settings": {
     "theme": "Giao diện",
