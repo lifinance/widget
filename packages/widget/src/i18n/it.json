@@ -82,6 +82,9 @@
       "autoRefuel": "Livello basso di gas su {{chainName}}. Continuando avrai abbastanza gas per completare lo scambio.",
       "emptyActiveTransactions": "Le transazioni in corso appariranno qui. Una volta completate, potrai trovarle nella cronologia delle transazioni.",
       "emptyTokenList": "Non siamo riusciti a trovare token sulla chain {{chainName}} o non ne hai. Riprova o scegli un'altra chain.",
+      "emptyChainList": "",
+      "emptyBridgesList": "",
+      "emptyExchangesList": "",
       "emptyTransactionHistory": "La cronologia delle transazioni è memorizzata solo localmente e verrà eliminata se si cancellano i dati del browser.",
       "fundsToExchange": "",
       "toAddressIsRequired": "",
@@ -265,7 +268,7 @@
     "stepSwapAndBridge": "Scambia e bridge",
     "stepSwapAndBuy": "Scambia e acquista",
     "stepSwapAndDeposit": "",
-    "supportId": "ID supporto",
+    "transferId": "",
     "swapStepDetails": "Scambio su {{chain}} tramite {{tool}}.",
     "tags": {
       "cheapest": "",
@@ -275,7 +278,10 @@
     "tokenOnChain": "{{tokenSymbol}} su {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} su {{chainName}}",
     "tokenSearch": "Cerca per nome token o indirizzo",
-    "valueLoss": "Perdita di valore"
+    "valueLoss": "Perdita di valore",
+    "searchChains": "",
+    "searchBridges": "",
+    "searchExchanges": ""
   },
   "settings": {
     "theme": "",
