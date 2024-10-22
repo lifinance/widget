@@ -82,6 +82,9 @@
       "autoRefuel": "Gas anda hampir habis {{chainName}}. Dengan melanjutkan, anda akan mendapatkan cukup gas untuk menyelesaikan penukaran.",
       "emptyActiveTransactions": "Transaksi yang sedang berlangsung akan muncul di sini. Setelah selesai, temukan di riwayat transaksi.",
       "emptyTokenList": "Kami tidak dapat menemukan token di jaringan {{chainName}} atau Anda tidak memilikinya. Silakan cari berdasarkan alamat kontrak jika token Anda tidak muncul atau pilih jaringan lain.",
+      "emptyChainList": "",
+      "emptyBridgesList": "",
+      "emptyExchangesList": "",
       "emptyTransactionHistory": "Riwayat transaksi hanya disimpan secara lokal dan akan dihapus jika Anda menghapus data browser.",
       "fundsToExchange": "Dana yang dikirim ke exchange mungkin akan hilang",
       "toAddressIsRequired": "Harap berikan alamat dompet tujuan ke mana dana akan ditransfer.",
@@ -265,7 +268,7 @@
     "stepSwapAndBridge": "Swap dan bridge",
     "stepSwapAndBuy": "Swap dan beli",
     "stepSwapAndDeposit": "",
-    "supportId": "ID dukungan",
+    "transferId": "",
     "swapStepDetails": "Swap di {{chain}} melalui {{tool}}",
     "tags": {
       "cheapest": "Pengembalian terbaik",
@@ -275,7 +278,10 @@
     "tokenOnChain": "{{tokenSymbol}} di {{chainName}}",
     "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} di {{chainName}}",
     "tokenSearch": "Cari berdasarkan nama atau alamat token",
-    "valueLoss": "Kehilangan nilai"
+    "valueLoss": "Kehilangan nilai",
+    "searchChains": "",
+    "searchBridges": "",
+    "searchExchanges": ""
   },
   "settings": {
     "theme": "Tema",
