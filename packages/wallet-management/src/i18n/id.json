@@ -1,0 +1,12 @@
+{
+  "title": {
+    "connectWallet": "Hubungkan dompet",
+    "connecting": "",
+    "selectEcosystem": "",
+    "waitingForWallet": ""
+  },
+  "message": {
+    "connecting": "",
+    "multipleEcosystems": ""
+  }
+}
