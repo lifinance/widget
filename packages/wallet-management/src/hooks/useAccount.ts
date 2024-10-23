@@ -139,7 +139,7 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
       accounts: connectedAccounts,
     }
   }, [
-    wallet,
+    wallet?.adapter.publicKey,
     wagmiAccount.connector?.uid,
     wagmiAccount.connector?.id,
     wagmiAccount.status,

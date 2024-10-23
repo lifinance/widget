@@ -2,6 +2,7 @@ import { ChainId, ChainType } from '@lifi/sdk'
 import { Avatar, ListItemAvatar } from '@mui/material'
 import type { WalletAdapter } from '@solana/wallet-adapter-base'
 import { useWallet } from '@solana/wallet-adapter-react'
+import { BPF_LOADER_DEPRECATED_PROGRAM_ID } from '@solana/web3.js'
 import { ListItemButton } from '../components/ListItemButton.js'
 import { ListItemText } from '../components/ListItemText.js'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
@@ -29,7 +30,7 @@ export const SVMListItemButton = ({
     ? 'Solana'
     : walletAdapter.name
 
-  const connect = async () => {
+  const connectWallet = async () => {
     try {
       onConnecting?.()
       if (connected) {
@@ -37,7 +38,7 @@ export const SVMListItemButton = ({
       }
       select(walletAdapter.name)
       // We use autoConnect on wallet selection
-      // await solanaConnect();
+      // await connect()
       walletAdapter.once('connect', (publicKey) => {
         setLastConnectedAccount(walletAdapter)
         emitter.emit(WalletManagementEvent.WalletConnected, {
@@ -55,7 +56,7 @@ export const SVMListItemButton = ({
   }
 
   return (
-    <ListItemButton key={connectorDisplayName} onClick={connect}>
+    <ListItemButton key={connectorDisplayName} onClick={connectWallet}>
       <ListItemAvatar>
         <Avatar
           src={
