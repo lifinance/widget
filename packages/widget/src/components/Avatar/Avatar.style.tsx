@@ -14,18 +14,18 @@ export const AvatarMasked = styled(MuiAvatar)(() => ({
 }))
 
 export const TokenAvatarGroup = styled(AvatarGroup)(({ theme }) => ({
-  [`& .${badgeClasses.badge}:last-child .${avatarClasses.root}`]: {
+  [`& .${badgeClasses.badge}:last-of-type .${avatarClasses.root}`]: {
     boxSizing: 'border-box',
   },
   [`& .${avatarClasses.root}`]: {
     border: 'none',
     marginLeft: 0,
   },
-  [`& .${badgeClasses.root}:first-child`]: {
+  [`& .${badgeClasses.root}:first-of-type`]: {
     marginLeft: theme.spacing(-1),
     border: 'none',
   },
-  [`& .${badgeClasses.root}:last-child`]: {
+  [`& .${badgeClasses.root}:last-of-type`]: {
     border: 'none',
   },
 }))
