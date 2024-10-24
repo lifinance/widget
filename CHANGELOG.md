@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.8.2](https://github.com/lifinance/widget/compare/v3.8.1...v3.8.2) (2024-10-24)
+
+
+### Bug Fixes
+
+* avoid gas check for smart contract wallets ([1bd956d](https://github.com/lifinance/widget/commit/1bd956d93d1bceb5c27b64e7ca2c8777d5b9ee7a))
+* improve safe wallet connectivity ([df5ded3](https://github.com/lifinance/widget/commit/df5ded3e4f195ac96090509e3e54933a45232c97))
+* replace first-child with first-of-type to avoid warning ([d098a7c](https://github.com/lifinance/widget/commit/d098a7cc78e3e9aacf1bf10c5652b0ef60e638ee))
+* solana providers doesn't update accounts sometimes ([e911bea](https://github.com/lifinance/widget/commit/e911beaa43ceaf39a8d88e22f166db876174da10))
+
 ### [3.8.1](https://github.com/lifinance/widget/compare/v3.8.0...v3.8.1) (2024-10-21)
 
 
