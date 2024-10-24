@@ -10,7 +10,7 @@ import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { WalletManagementEvent } from '../types/events.js'
 import { getConnectorIcon } from '../utils/getConnectorIcon.js'
-import { isWalletInstalledAsync } from '../utils/isWalletInstalledAsync.js'
+import { isWalletInstalled } from '../utils/isWalletInstalled.js'
 import type { WalletListItemButtonProps } from './types.js'
 
 interface UTXOListItemButtonProps extends WalletListItemButtonProps {
@@ -37,9 +37,7 @@ export const UTXOListItemButton = ({
 
   const handleUTXOConnect = async () => {
     try {
-      const identityCheckPassed = await isWalletInstalledAsync(
-        (connector as Connector).id
-      )
+      const identityCheckPassed = isWalletInstalled((connector as Connector).id)
       if (!identityCheckPassed) {
         onNotInstalled?.(connector as Connector)
         return

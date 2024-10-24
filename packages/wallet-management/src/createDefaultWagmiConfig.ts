@@ -7,6 +7,7 @@ import type {
   MetaMaskParameters,
   WalletConnectParameters,
 } from 'wagmi/connectors'
+import { safe } from 'wagmi/connectors'
 import { createCoinbaseConnector } from './connectors/coinbase.js'
 import { createMetaMaskConnector } from './connectors/metaMask.js'
 import { createWalletConnectConnector } from './connectors/walletConnect.js'
@@ -58,16 +59,27 @@ export function createDefaultWagmiConfig(
 ): DefaultWagmiConfigResult {
   const connectors: CreateConnectorFn[] = [...(props?.connectors ?? [])]
 
+  const anyWindow = typeof window !== 'undefined' ? (window as any) : undefined
+  const localStorage = anyWindow?.localStorage
+  // in Multisig env, window.parent is not equal to window
+  const isIframeEnvironment = anyWindow && anyWindow.parent !== anyWindow
+
+  const multiInjectedProviderDiscovery = isIframeEnvironment
+    ? false
+    : (props?.wagmiConfig?.multiInjectedProviderDiscovery ?? true)
+
   const config = createConfig({
     chains: [mainnet],
     client({ chain }) {
       return createClient({ chain, transport: http() })
     },
     ...props?.wagmiConfig,
+    multiInjectedProviderDiscovery,
   })
 
-  const localStorage =
-    typeof window !== 'undefined' ? window.localStorage : undefined
+  if (isIframeEnvironment) {
+    connectors.unshift(safe())
+  }
 
   // Check if WalletConnect properties exist in the props
   if (props?.walletConnect) {
@@ -82,7 +94,7 @@ export function createDefaultWagmiConfig(
     }
   }
 
-  if (!props?.lazy && props?.coinbase && !isWalletInstalled('coinbase')) {
+  if (props?.coinbase && !isWalletInstalled('coinbase')) {
     const recentConnectorId = localStorage?.getItem(
       `${config.storage?.key}.recentConnectorId`
     )

@@ -125,8 +125,7 @@ export const useCombinedWallets = () => {
     if (
       !evmConnectors.some((connector) =>
         connector.id.toLowerCase().includes('coinbase')
-      ) &&
-      !isWalletInstalled('coinbase')
+      )
     ) {
       evmConnectors.unshift(
         createCoinbaseConnector(walletConfig?.coinbase ?? defaultCoinbaseConfig)
@@ -135,8 +134,7 @@ export const useCombinedWallets = () => {
     if (
       !evmConnectors.some((connector) =>
         connector.id.toLowerCase().includes('metamask')
-      ) &&
-      !isWalletInstalled('metaMask')
+      )
     ) {
       evmConnectors.unshift(
         createMetaMaskConnector(walletConfig?.metaMask ?? defaultMetaMaskConfig)
@@ -152,7 +150,7 @@ export const useCombinedWallets = () => {
     const installedEVMConnectors = evmConnectors.filter((connector) => {
       const isInstalled = isWalletInstalled(connector.id)
       const isConnected = wagmiAccount.connector?.id === connector.id
-      return isInstalled && !isConnected && connector.id !== 'safe'
+      return isInstalled && !isConnected
     })
 
     const installedSVMWallets = solanaWallets.filter((wallet) => {
