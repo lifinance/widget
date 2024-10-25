@@ -1,14 +1,8 @@
-import {
-  ChainType,
-  type EVMChain,
-  type RouteExtended,
-  type Token,
-} from '@lifi/sdk'
+import type { EVMChain, RouteExtended, Token } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useQuery } from '@tanstack/react-query'
-import type { Address } from 'viem'
-import { type Connector, useBytecode } from 'wagmi'
 import { useAvailableChains } from './useAvailableChains.js'
+import { useIsContractAddress } from './useIsContractAddress.js'
 import { getTokenBalancesWithRetry } from './useTokenBalance.js'
 
 export interface GasSufficiency {
@@ -27,18 +21,12 @@ export const useGasSufficiency = (route?: RouteExtended) => {
   const { account } = useAccount({
     chainType: getChainById(route?.fromChainId)?.chainType,
   })
-  const { data: contractCode } = useBytecode({
-    address:
-      account.chainType === ChainType.EVM
-        ? (account.address as Address)
-        : undefined,
-    query: {
-      refetchInterval: 300_000,
-      staleTime: 300_000,
-    },
-  })
 
-  const isContractAddress = !!contractCode
+  const isContractAddress = useIsContractAddress(
+    account.address,
+    route?.fromChainId,
+    account.chainType
+  )
 
   const { data: insufficientGas, isLoading } = useQuery({
     queryKey: ['gas-sufficiency-check', account.address, route?.id],
