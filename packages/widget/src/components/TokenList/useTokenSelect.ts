@@ -48,18 +48,14 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
         })
       }
 
-      // Check if the selected source chain matches any chain on the destination chain selection view (chainOrder array).
-      // If a match exists and the destination token is not selected, update the destination chain to match the source.
-      if (
-        formType === 'from' &&
-        !selectedOppositeToken &&
-        selectedChainId &&
-        chainOrderStore.getState().chainOrder.to.includes(selectedChainId)
-      ) {
+      // If the destination token is not selected, update the destination chain to match the source one.
+      const { setChain } = chainOrderStore.getState()
+      if (formType === 'from' && !selectedOppositeToken && selectedChainId) {
         setFieldValue(FormKeyHelper.getChainKey('to'), selectedChainId, {
           isDirty: true,
           isTouched: true,
         })
+        setChain(selectedChainId, 'to')
       }
 
       const eventToEmit =
