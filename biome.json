@@ -3,7 +3,7 @@
   "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
   "files": {
     "ignoreUnknown": false,
-    "ignore": ["*.md", "*.lock"]
+    "ignore": ["*.md", "*.lock", "*.svelte", "*.vue"]
   },
   "formatter": {
     "enabled": true,
@@ -25,8 +25,9 @@
         "noForEach": "off"
       },
       "correctness": {
-        "noUnusedLabels": "warn",
-        "noUnusedVariables": "warn",
+        "noUnusedLabels": "error",
+        "noUnusedVariables": "error",
+        "noUnusedImports": "error",
         "useExhaustiveDependencies": "error",
         "useHookAtTopLevel": "error"
       },
