@@ -18,6 +18,7 @@ export const useFieldActions = () => {
     (store) => ({
       getFieldValues: store.getFieldValues,
       isTouched: store.isTouched,
+      isDirty: store.isDirty,
       resetField: store.resetField,
       setAsTouched: store.setAsTouched,
       setDefaultValues: store.setDefaultValues,

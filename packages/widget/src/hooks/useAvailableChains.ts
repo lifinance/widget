@@ -5,6 +5,11 @@ import { useCallback } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { isItemAllowed } from '../utils/item.js'
 
+export type GetChainById = (
+  chainId?: number,
+  chains?: ExtendedChain[]
+) => ExtendedChain | undefined
+
 const supportedChainTypes = [ChainType.EVM, ChainType.SVM, ChainType.UTXO]
 
 export const useAvailableChains = (chainTypes?: ChainType[]) => {
@@ -35,7 +40,7 @@ export const useAvailableChains = (chainTypes?: ChainType[]) => {
     staleTime: 300_000,
   })
 
-  const getChainById = useCallback(
+  const getChainById: GetChainById = useCallback(
     (chainId?: number, chains: ExtendedChain[] | undefined = data) => {
       if (!chainId) {
         return

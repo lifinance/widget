@@ -70,6 +70,7 @@ export interface FormActions {
   setDefaultValues: (formValues: DefaultValues) => void
   setUserAndDefaultValues: (formValues: Partial<DefaultValues>) => void
   isTouched: (fieldName: FormFieldNames) => boolean
+  isDirty: (fieldName: FormFieldNames) => boolean
   setAsTouched: (fieldName: FormFieldNames) => void
   resetField: (fieldName: FormFieldNames, resetOptions?: ResetOptions) => void
   setFieldValue: (

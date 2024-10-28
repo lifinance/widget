@@ -43,7 +43,10 @@ export const SendToConfiguredWalletPage = () => {
 
   const handleCuratedSelected = (toAddress: ToAddress) => {
     setSelectedBookmark(toAddress)
-    setFieldValue('toAddress', toAddress.address, { isTouched: true })
+    setFieldValue('toAddress', toAddress.address, {
+      isTouched: true,
+      isDirty: true,
+    })
     navigateBack()
   }
 

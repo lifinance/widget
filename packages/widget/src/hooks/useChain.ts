@@ -9,5 +9,6 @@ export const useChain = (chainId?: number) => {
   return {
     chain,
     isLoading,
+    getChainById,
   }
 }

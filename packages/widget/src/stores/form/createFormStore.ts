@@ -102,6 +102,8 @@ export const createFormStore = (defaultValues?: DefaultValues) =>
       },
       isTouched: (fieldName: FormFieldNames) =>
         !!get().userValues[fieldName]?.isTouched,
+      isDirty: (fieldName: FormFieldNames) =>
+        !!get().userValues[fieldName]?.isDirty,
       setAsTouched: (fieldName: FormFieldNames) => {
         const userValues = {
           ...get().userValues,

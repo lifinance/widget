@@ -47,6 +47,7 @@ export const ConnectedWalletsPage = () => {
   const handleWalletSelected = (account: Account) => {
     setFieldValue('toAddress', account.address!, {
       isTouched: true,
+      isDirty: true,
     })
     setSelectedBookmark({
       name: account.connector?.name,

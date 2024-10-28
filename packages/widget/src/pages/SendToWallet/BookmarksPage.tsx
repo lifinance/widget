@@ -58,6 +58,7 @@ export const BookmarksPage = () => {
   const handleBookmarkSelected = (bookmark: Bookmark) => {
     setFieldValue('toAddress', bookmark.address, {
       isTouched: true,
+      isDirty: true,
     })
     setSelectedBookmark(bookmark)
     setSendToWallet(true)

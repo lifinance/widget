@@ -26,8 +26,11 @@ export const TokenList: FC<TokenListProps> = ({
     'tokenSearchFilter'
   )
 
-  const { chain, isLoading: isChainLoading } = useChain(selectedChainId)
-  const { account } = useAccount({ chainType: chain?.chainType })
+  const { chain: selectedChain, isLoading: isSelectedChainLoading } =
+    useChain(selectedChainId)
+  const { account } = useAccount({
+    chainType: selectedChain?.chainType,
+  })
 
   const {
     tokens: chainTokens,
@@ -64,7 +67,7 @@ export const TokenList: FC<TokenListProps> = ({
 
   const isLoading =
     isTokensLoading ||
-    isChainLoading ||
+    isSelectedChainLoading ||
     (tokenSearchEnabled && isSearchedTokenLoading)
 
   const tokens = filteredTokens.length
@@ -88,7 +91,7 @@ export const TokenList: FC<TokenListProps> = ({
         tokens={tokens}
         scrollElementRef={parentRef}
         chainId={selectedChainId}
-        chain={chain}
+        chain={selectedChain}
         isLoading={isLoading}
         isBalanceLoading={isBalanceLoading}
         showCategories={showCategories}

@@ -1,4 +1,5 @@
 import { useCallback } from 'react'
+import { useToAddressAutoPopulate } from '../../hooks/useToAddressAutoPopulate.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useChainOrderStoreContext } from '../../stores/chains/ChainOrderStore.js'
@@ -9,13 +10,20 @@ import { useFieldController } from '../../stores/form/useFieldController.js'
 import { WidgetEvent } from '../../types/events.js'
 import type { DisabledUI } from '../../types/widget.js'
 
+export type UseTokenSelectArgs = {
+  formType: FormType
+  onClick?: () => void
+}
+
 export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
   const { subvariant, disabledUI } = useWidgetConfig()
   const emitter = useWidgetEvents()
   const { setFieldValue, getFieldValues } = useFieldActions()
+  const autoPopulateToAddress = useToAddressAutoPopulate()
+  const chainOrderStore = useChainOrderStoreContext()
+
   const tokenKey = FormKeyHelper.getTokenKey(formType)
   const { onChange } = useFieldController({ name: tokenKey })
-  const chainOrderStore = useChainOrderStoreContext()
 
   return useCallback(
     (tokenAddress: string, chainId?: number) => {
@@ -32,13 +40,18 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
         setFieldValue(amountKey, '')
       }
       const oppositeFormType = formType === 'from' ? 'to' : 'from'
-      const [selectedOppositeToken, selectedOppositeChainId] = getFieldValues(
+      const [
+        selectedOppositeTokenAddress,
+        selectedOppositeChainId,
+        selectedToAddress,
+      ] = getFieldValues(
         FormKeyHelper.getTokenKey(oppositeFormType),
-        FormKeyHelper.getChainKey(oppositeFormType)
+        FormKeyHelper.getChainKey(oppositeFormType),
+        'toAddress'
       )
       // TODO: remove when we enable same chain/token transfers
       if (
-        selectedOppositeToken === tokenAddress &&
+        selectedOppositeTokenAddress === tokenAddress &&
         selectedOppositeChainId === selectedChainId &&
         subvariant !== 'custom'
       ) {
@@ -48,15 +61,28 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
         })
       }
 
-      // If the destination token is not selected, update the destination chain to match the source one.
+      // If no opposite token is selected, synchronize the opposite chain to match the currently selected chain
       const { setChain } = chainOrderStore.getState()
-      if (formType === 'from' && !selectedOppositeToken && selectedChainId) {
-        setFieldValue(FormKeyHelper.getChainKey('to'), selectedChainId, {
-          isDirty: true,
-          isTouched: true,
-        })
-        setChain(selectedChainId, 'to')
+      if (!selectedOppositeTokenAddress && selectedChainId) {
+        setFieldValue(
+          FormKeyHelper.getChainKey(oppositeFormType),
+          selectedChainId,
+          {
+            isDirty: true,
+            isTouched: true,
+          }
+        )
+        setChain(selectedChainId, oppositeFormType)
       }
+
+      // Automatically populate toAddress field if bridging across ecosystems and compatible wallet is connected
+      autoPopulateToAddress({
+        formType,
+        selectedToAddress,
+        selectedChainId,
+        selectedOppositeChainId,
+        selectedOppositeTokenAddress,
+      })
 
       const eventToEmit =
         formType === 'from'
@@ -73,6 +99,7 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
       onClick?.()
     },
     [
+      autoPopulateToAddress,
       chainOrderStore,
       disabledUI,
       emitter,

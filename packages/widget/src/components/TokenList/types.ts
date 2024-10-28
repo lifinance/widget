@@ -20,11 +20,11 @@ export interface VirtualizedTokenListProps {
   chainId?: number
   chain?: ExtendedChain
   showCategories?: boolean
-  onClick(tokenAddress: string): void
+  onClick(tokenAddress: string, chainId?: number): void
 }
 
 export interface TokenListItemBaseProps {
-  onClick?(tokenAddress: string): void
+  onClick?(tokenAddress: string, chainId?: number): void
   size: number
   start: number
 }

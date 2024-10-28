@@ -60,6 +60,7 @@ export const RecentWalletsPage = () => {
     addRecentWallet(recentWallet)
     setFieldValue('toAddress', recentWallet.address, {
       isTouched: true,
+      isDirty: true,
     })
     setSelectedBookmark(recentWallet)
     setSendToWallet(true)

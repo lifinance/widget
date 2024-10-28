@@ -40,6 +40,7 @@ export const ConfirmAddressSheet = forwardRef<
     if (validatedBookmark) {
       setFieldValue('toAddress', validatedBookmark.address, {
         isTouched: true,
+        isDirty: true,
       })
       onConfirm?.(validatedBookmark)
       setSendToWallet(true)
