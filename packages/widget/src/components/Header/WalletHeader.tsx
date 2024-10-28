@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next'
 import { useChain } from '../../hooks/useChain.js'
 import { useHasExternalWalletProvider } from '../../providers/WalletProvider/useHasExternalWalletProvider.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { HiddenUI } from '../../types/widget.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { SmallAvatar } from '../Avatar/SmallAvatar.js'
@@ -45,14 +46,22 @@ export const SplitWalletMenuButton: React.FC = () => {
 }
 
 export const WalletMenuButton: React.FC = () => {
-  const { account } = useAccount()
   const { variant, hiddenUI } = useWidgetConfig()
+  const { account, accounts } = useAccount()
+
+  const [fromChainId] = useFieldValues('fromChain')
+  const { chain: fromChain } = useChain(fromChainId)
+
+  const activeAccount =
+    (fromChain
+      ? accounts.find((account) => account.chainType === fromChain.chainType)
+      : undefined) || account
 
   if (variant === 'drawer') {
     return (
       <DrawerWalletContainer>
-        {account.isConnected ? (
-          <ConnectedButton account={account} />
+        {activeAccount.isConnected ? (
+          <ConnectedButton account={activeAccount} />
         ) : (
           <ConnectButton />
         )}
@@ -62,8 +71,8 @@ export const WalletMenuButton: React.FC = () => {
       </DrawerWalletContainer>
     )
   }
-  return account.isConnected ? (
-    <ConnectedButton account={account} />
+  return activeAccount.isConnected ? (
+    <ConnectedButton account={activeAccount} />
   ) : (
     <ConnectButton />
   )
