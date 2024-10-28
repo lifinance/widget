@@ -43,6 +43,7 @@ export const widgetBaseConfig: WidgetConfig = {
     rpcUrls: {
       [ChainId.SOL]: [
         'https://chaotic-restless-putty.solana-mainnet.quiknode.pro/',
+        'https://dacey-pp61jd-fast-mainnet.helius-rpc.com/',
       ],
     },
     routeOptions: {
