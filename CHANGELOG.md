@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.9.0](https://github.com/lifinance/widget/compare/v3.8.2...v3.9.0) (2024-10-28)
+
+
+### Features
+
+* add active account tracking to the internal wallet management ([0872fe2](https://github.com/lifinance/widget/commit/0872fe2da2d2b3bd450d4cad181f5b50dd064c41))
+* add support for okx bitcoin wallet ([175c5fb](https://github.com/lifinance/widget/commit/175c5fb6b251dd591d14530303aeb8f41788f071))
+* try to auto-populate destination address for cross-ecosystem transfers ([323d3a1](https://github.com/lifinance/widget/commit/323d3a16255763e44caa0b3126641bb92a320da2))
+
+
+### Bug Fixes
+
+* always update the destination chain to match the source one ([4d428ea](https://github.com/lifinance/widget/commit/4d428ea566763e77fdbde73c0bd78f6adea41e67))
+* make destination address required if source address is a smart contract wallet ([34d8528](https://github.com/lifinance/widget/commit/34d8528a770198132b67d4af373961dce5d0ebe5))
+
 ### [3.8.2](https://github.com/lifinance/widget/compare/v3.8.1...v3.8.2) (2024-10-24)
 
 
