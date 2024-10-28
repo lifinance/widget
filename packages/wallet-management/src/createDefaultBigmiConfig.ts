@@ -1,4 +1,4 @@
-import { createConfig, ctrl, phantom, unisat, xverse } from '@bigmi/client'
+import { createConfig, ctrl, okx, phantom, unisat, xverse } from '@bigmi/client'
 import { bitcoin } from '@bigmi/core'
 import { ChainId } from '@lifi/sdk'
 import { http, createClient } from 'viem'
@@ -47,6 +47,7 @@ export function createDefaultBigmiConfig(
     xverse({ chainId: ChainId.BTC }),
     unisat({ chainId: ChainId.BTC }),
     ctrl({ chainId: ChainId.BTC }),
+    okx({ chainId: ChainId.BTC }),
     ...(props?.connectors ?? []),
   ]
 
