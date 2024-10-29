@@ -117,10 +117,11 @@ export const useConfigWalletManagement = () => {
 
   const replacementWalletConfig = defaultWalletConfig
     ? defaultWalletConfig
-    : { async onConnect() {} }
+    : { onConnect: () => {} }
 
   return {
     isExternalWalletManagement: !!walletConfig,
+    isPartialWalletManagement: !!walletConfig?.usePartialWalletManagement,
     replacementWalletConfig,
   }
 }

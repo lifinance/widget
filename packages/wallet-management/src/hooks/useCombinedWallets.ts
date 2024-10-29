@@ -141,24 +141,34 @@ export const useCombinedWallets = () => {
       )
     }
 
-    const installedUTXOConnectors = bigmiConnectors.filter((connector) => {
-      const isInstalled = isWalletInstalled(connector.id)
-      const isConnected = bigmiAccount.connector?.id === connector.id
-      return isInstalled && !isConnected
-    })
+    const includeEcosystem = (chainType: ChainType) =>
+      !walletConfig.enabledChainTypes ||
+      walletConfig.enabledChainTypes.includes(chainType)
 
-    const installedEVMConnectors = evmConnectors.filter((connector) => {
-      const isInstalled = isWalletInstalled(connector.id)
-      const isConnected = wagmiAccount.connector?.id === connector.id
-      return isInstalled && !isConnected
-    })
+    const installedUTXOConnectors = includeEcosystem(ChainType.UTXO)
+      ? bigmiConnectors.filter((connector) => {
+          const isInstalled = isWalletInstalled(connector.id)
+          const isConnected = bigmiAccount.connector?.id === connector.id
+          return isInstalled && !isConnected
+        })
+      : []
 
-    const installedSVMWallets = solanaWallets.filter((wallet) => {
-      const isInstalled =
-        wallet.adapter.readyState === WalletReadyState.Installed
-      const isConnected = wallet.adapter.connected
-      return isInstalled && !isConnected
-    })
+    const installedEVMConnectors = includeEcosystem(ChainType.EVM)
+      ? evmConnectors.filter((connector) => {
+          const isInstalled = isWalletInstalled(connector.id)
+          const isConnected = wagmiAccount.connector?.id === connector.id
+          return isInstalled && !isConnected
+        })
+      : []
+
+    const installedSVMWallets = includeEcosystem(ChainType.SVM)
+      ? solanaWallets.filter((wallet) => {
+          const isInstalled =
+            wallet.adapter.readyState === WalletReadyState.Installed
+          const isConnected = wallet.adapter.connected
+          return isInstalled && !isConnected
+        })
+      : []
 
     const installedCombinedWallets = combineWalletLists(
       installedUTXOConnectors,

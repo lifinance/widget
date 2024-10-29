@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useRef } from 'react'
 import type { StoreApi } from 'zustand'
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional'
 import { useChains } from '../../hooks/useChains.js'
+import { useExternalWalletProvider } from '../../providers/WalletProvider/useExternalWalletProvider.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { isItemAllowed } from '../../utils/item.js'
 import type { FormType } from '../form/types.js'
@@ -22,10 +23,12 @@ export function ChainOrderStoreProvider({
   children,
   ...props
 }: PersistStoreProviderProps) {
-  const { chains: configChains } = useWidgetConfig()
+  const { chains: chainsConfig } = useWidgetConfig()
   const storeRef = useRef<ChainOrderStore>()
   const { chains } = useChains()
   const { setFieldValue, getFieldValues } = useFieldActions()
+  const { externalChainTypes, useExternalWalletProvidersOnly } =
+    useExternalWalletProvider()
 
   if (!storeRef.current) {
     storeRef.current = createChainOrderStore(props)
@@ -34,9 +37,22 @@ export function ChainOrderStoreProvider({
   useEffect(() => {
     if (chains) {
       ;(['from', 'to'] as FormType[]).forEach((key) => {
-        const filteredChains = configChains?.[key]
-          ? chains.filter((chain) => isItemAllowed(chain.id, configChains[key]))
-          : chains
+        const configChainIds = chainsConfig?.[key]
+        const isFromKey = key === 'from'
+
+        const filteredChains = chains.filter((chain) => {
+          const passesChainsConfigFilter = configChainIds
+            ? isItemAllowed(chain.id, configChainIds)
+            : true
+          // If the integrator uses external wallet management and has not opted in for partial wallet management,
+          // restrict the displayed chains to those compatible with external wallet management.
+          // This ensures users only see chains for which they can sign transactions.
+          const passesWalletConfigFilter = isFromKey
+            ? !useExternalWalletProvidersOnly ||
+              externalChainTypes.includes(chain.chainType)
+            : true
+          return passesChainsConfigFilter && passesWalletConfigFilter
+        })
         const chainOrder = storeRef.current?.getState().initializeChains(
           filteredChains.map((chain) => chain.id),
           key
@@ -49,7 +65,14 @@ export function ChainOrderStoreProvider({
         }
       })
     }
-  }, [chains, configChains, getFieldValues, setFieldValue])
+  }, [
+    chains,
+    chainsConfig,
+    externalChainTypes,
+    getFieldValues,
+    setFieldValue,
+    useExternalWalletProvidersOnly,
+  ])
 
   return (
     <ChainOrderStoreContext.Provider value={storeRef.current}>

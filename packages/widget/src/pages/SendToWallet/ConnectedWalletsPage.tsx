@@ -4,7 +4,7 @@ import {
   ContentCopyRounded,
   MoreHoriz,
   OpenInNewRounded,
-  TurnedIn,
+  Wallet,
 } from '@mui/icons-material'
 import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material'
 import { useId, useState } from 'react'
@@ -139,7 +139,7 @@ export const ConnectedWalletsPage = () => {
           )
         })}
         {!accounts.length && (
-          <EmptyListIndicator icon={<TurnedIn sx={{ fontSize: 48 }} />}>
+          <EmptyListIndicator icon={<Wallet sx={{ fontSize: 48 }} />}>
             {t('sendToWallet.noConnectedWallets')}
           </EmptyListIndicator>
         )}

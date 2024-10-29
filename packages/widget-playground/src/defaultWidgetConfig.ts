@@ -38,6 +38,9 @@ export const widgetBaseConfig: WidgetConfig = {
   // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
   // requiredUI: ['toAddress'],
   // slippage: 0.003,
+  // walletConfig: {
+  //   usePartialWalletManagement: true,
+  // },
   sdkConfig: {
     apiUrl: 'https://li.quest/v1',
     rpcUrls: {
