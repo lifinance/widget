@@ -16,10 +16,10 @@
     "bridgeReview": "",
     "buy": "Acheter",
     "cancel": "Annuler",
-    "changeWallet": "Changer de portefeuille",
     "checkoutReview": "",
     "close": "Fermer",
     "confirm": "Confirmer",
+    "connectAnotherWallet": "",
     "connectWallet": "Connecter un portefeuille",
     "contactSupport": "Contacter le support",
     "continue": "Continuer",
@@ -142,6 +142,7 @@
       "signatureRejected": "Votre signature est requise pour compléter la transaction. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} sur {{chainName}} restent dans votre portefeuille.",
       "slippageThreshold": "L'effet de glissement est supérieur au seuil défini. Veuillez demander un nouvel itinéraire pour obtenir un nouveau devis.",
       "transactionCanceled": "La transaction a été annulée.",
+      "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "Veuillez consulter l'explorateur de blocs pour plus d'informations.",
       "transactionNotSent": "La transaction n'a pas été envoyée.",
@@ -161,6 +162,7 @@
       "signatureRejected": "Signature requise",
       "slippageNotMet": "Les conditions de l'effet de glissement ne sont pas remplies.",
       "transactionCanceled": "Transaction annulée.",
+      "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "La transaction a échoué.",
       "transactionSimulationFailed": "",
@@ -309,8 +311,5 @@
     "noBookmarkedWallets": "Aucun portefeuille favori",
     "noConnectedWallets": "Aucun portefeuille connecté",
     "noRecentWallets": "Aucun portefeuille récent"
-  },
-  "wallet": {
-    "extensionNotFound": "Veuillez vous assurer que seule l'extension de navigateur {{name}} est active avant de choisir ce portefeuille."
   }
 }
