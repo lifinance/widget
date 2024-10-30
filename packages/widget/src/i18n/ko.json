@@ -16,10 +16,10 @@
     "bridgeReview": "",
     "buy": "매수",
     "cancel": "취소",
-    "changeWallet": "지갑 변경",
     "checkoutReview": "",
     "close": "",
     "confirm": "",
+    "connectAnotherWallet": "",
     "connectWallet": "지갑 연결",
     "contactSupport": "고객 지원",
     "continue": "계속",
@@ -142,6 +142,7 @@
       "signatureRejected": "트랜잭션 완료를 위해 서명이 필요합니다. {{chainName}}의 {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}이 지갑에 남아있습니다.",
       "slippageThreshold": "슬리피지가 한계점보다 큽니다. 새로운 견적을 얻기 위해 새 경로를 요청하십시오.",
       "transactionCanceled": "거래가 취소되었습니다.",
+      "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "자세한 정보는 블록 탐색기에서 확인하세요.",
       "transactionNotSent": "트랜잭션이 전송되지 않았습니다.",
@@ -161,6 +162,7 @@
       "signatureRejected": "서명이 필요합니다.",
       "slippageNotMet": "슬리피지 조건을 충족하지 못했습니다.",
       "transactionCanceled": "거래가 취소되었습니다",
+      "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "거래가 실패하였습니다",
       "transactionSimulationFailed": "",
@@ -309,8 +311,5 @@
     "noBookmarkedWallets": "",
     "noConnectedWallets": "",
     "noRecentWallets": ""
-  },
-  "wallet": {
-    "extensionNotFound": "이 지갑을 선택하기 전 {{name}} 브라우저만 활성화 상태인지 확인하십시오."
   }
 }
