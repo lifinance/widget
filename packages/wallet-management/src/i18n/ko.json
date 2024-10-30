@@ -3,10 +3,12 @@
     "connectWallet": "지갑 연결",
     "connecting": "",
     "selectEcosystem": "",
-    "waitingForWallet": ""
+    "waitingForWallet": "",
+    "availableWalletsNotFound": ""
   },
   "message": {
     "connecting": "",
-    "multipleEcosystems": ""
+    "multipleEcosystems": "",
+    "availableWalletsNotFound": ""
   }
 }

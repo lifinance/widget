@@ -16,10 +16,10 @@
     "bridgeReview": "",
     "buy": "購入",
     "cancel": "キャンセル",
-    "changeWallet": "ウォレットを変更",
     "checkoutReview": "",
     "close": "閉じる",
     "confirm": "確認する",
+    "connectAnotherWallet": "",
     "connectWallet": "ウォレットを接続",
     "contactSupport": "サポートへのお問い合わせ",
     "continue": "続ける",
@@ -142,6 +142,7 @@
       "signatureRejected": "トランザクションを完了するには署名が必要です。{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}（{{chainName}}）はウォレットに残ります。",
       "slippageThreshold": "スリップページが定義されたしきい値よりも大きいです。新しい見積もりをリクエストしてください。",
       "transactionCanceled": "トランザクションがキャンセルされました。",
+      "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "詳細については、ブロックエクスプローラをご確認ください。",
       "transactionNotSent": "トランザクションは送信されませんでした。",
@@ -161,6 +162,7 @@
       "signatureRejected": "署名が必要です",
       "slippageNotMet": "スリッページの条件が満たされていません",
       "transactionCanceled": "トランザクションはキャンセルされました",
+      "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "トランザクションが失敗しました",
       "transactionSimulationFailed": "",
@@ -309,8 +311,5 @@
     "noBookmarkedWallets": "ブックマークされたウォレットはありません",
     "noConnectedWallets": "接続中のウォレットはありません",
     "noRecentWallets": "最近使ったウォレットはありません"
-  },
-  "wallet": {
-    "extensionNotFound": "このウォレットを選択する前に、 {{name}} ブラウザ拡張機能のみが有効であることを確認してください。"
   }
 }

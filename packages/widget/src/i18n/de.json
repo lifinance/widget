@@ -16,10 +16,10 @@
     "bridgeReview": "",
     "buy": "Buy",
     "cancel": "Abbrechen",
-    "changeWallet": "",
     "checkoutReview": "",
     "close": "",
     "confirm": "",
+    "connectAnotherWallet": "",
     "connectWallet": "Wallet verbinden",
     "contactSupport": "Support kontaktieren",
     "continue": "Fortsetzen",
@@ -142,6 +142,7 @@
       "signatureRejected": "",
       "slippageThreshold": "Die Slippage ist größer als der definierte Schwellenwert. Bitte fordern Sie eine neue Route an, um ein neues Angebot zu erhalten.",
       "transactionCanceled": "",
+      "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "Weitere Informationen finden Sie im Block-Explorer.",
       "transactionNotSent": "",
@@ -161,6 +162,7 @@
       "signatureRejected": "",
       "slippageNotMet": "Slippagebedingungen nicht erfüllt",
       "transactionCanceled": "Transaktion abgebrochen",
+      "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "Transaktion ist fehlgeschlagen.",
       "transactionSimulationFailed": "",
@@ -309,8 +311,5 @@
     "noBookmarkedWallets": "",
     "noConnectedWallets": "",
     "noRecentWallets": ""
-  },
-  "wallet": {
-    "extensionNotFound": "Bitte stellen Sie sicher, dass nur die Browsererweiterung {{name}} aktiv ist, bevor Sie dieses Wallet auswählen."
   }
 }

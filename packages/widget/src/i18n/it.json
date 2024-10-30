@@ -16,10 +16,10 @@
     "bridgeReview": "",
     "buy": "Acquista",
     "cancel": "Annulla",
-    "changeWallet": "",
     "checkoutReview": "",
     "close": "",
     "confirm": "",
+    "connectAnotherWallet": "",
     "connectWallet": "Collega il portafoglio",
     "contactSupport": "Contatta l'assistenza",
     "continue": "Continua",
@@ -142,6 +142,7 @@
       "signatureRejected": "",
       "slippageThreshold": "Lo slittamento di prezzo è più alto della soglia definita. Si prega di richiedere una nuova route per ottenere una quota aggiornata.",
       "transactionCanceled": "",
+      "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "Per ulteriori informazioni, consultare il block explorer.",
       "transactionNotSent": "",
@@ -161,6 +162,7 @@
       "signatureRejected": "",
       "slippageNotMet": "Condizioni di slittamento di prezzo non rispettate",
       "transactionCanceled": "Transazione cancellata",
+      "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "Transazione fallita",
       "transactionSimulationFailed": "",
@@ -309,8 +311,5 @@
     "noBookmarkedWallets": "",
     "noConnectedWallets": "",
     "noRecentWallets": ""
-  },
-  "wallet": {
-    "extensionNotFound": "Assicurati che solo l'estensione {{name}} del browser sia attiva prima di scegliere questo portafoglio."
   }
 }

@@ -3,10 +3,12 @@
     "connectWallet": "Conectar carteira",
     "connecting": "Conectando",
     "selectEcosystem": "Selecionar ecossistema",
-    "waitingForWallet": "Aguardando por {{walletName}}"
+    "waitingForWallet": "Aguardando por {{walletName}}",
+    "availableWalletsNotFound": ""
   },
   "message": {
     "connecting": "Clique em conectar na janela da sua carteira. Não vê sua carteira? Verifique outras janelas do seu navegador.",
-    "multipleEcosystems": "{{walletName}} suporta múltiplos ecossistemas. Selecione qual ecossistema você gostaria de se conectar."
+    "multipleEcosystems": "{{walletName}} suporta múltiplos ecossistemas. Selecione qual ecossistema você gostaria de se conectar.",
+    "availableWalletsNotFound": ""
   }
 }

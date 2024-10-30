@@ -16,10 +16,10 @@
     "bridgeReview": "",
     "buy": "购买",
     "cancel": "取消",
-    "changeWallet": "更换钱包",
     "checkoutReview": "",
     "close": "关闭",
     "confirm": "确认",
+    "connectAnotherWallet": "",
     "connectWallet": "关联钱包",
     "contactSupport": "联系技术支持",
     "continue": "继续",
@@ -142,6 +142,7 @@
       "signatureRejected": "需要您签名来完成此次交易。不用担心，{{chainName}} 链上 {{amount, number(maximumFractionDigits: 9)}} 个 {{tokenSymbol}} 仍在您的钱包里。",
       "slippageThreshold": "滑点大于预设值，请选择其他路由并获取新的价格。",
       "transactionCanceled": "交易已被取消。",
+      "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "请查看区块浏览器以了解更多信息。",
       "transactionNotSent": "交易未能发送。",
@@ -161,6 +162,7 @@
       "signatureRejected": "交易需要签名。",
       "slippageNotMet": "滑点未满足",
       "transactionCanceled": "交易取消",
+      "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "交易失败",
       "transactionSimulationFailed": "",
@@ -309,8 +311,5 @@
     "noBookmarkedWallets": "没有收藏的钱包",
     "noConnectedWallets": "没有已连接的钱包",
     "noRecentWallets": "没有最近使用的钱包"
-  },
-  "wallet": {
-    "extensionNotFound": "在选择钱包之前，请确保只有{{name}} 浏览器的扩展应用处于激活状态。"
   }
 }

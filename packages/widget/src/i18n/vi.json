@@ -16,10 +16,10 @@
     "bridgeReview": "",
     "buy": "Mua",
     "cancel": "Huỷ bỏ",
-    "changeWallet": "Thay đổi ví",
     "checkoutReview": "",
     "close": "Đóng",
     "confirm": "Xác nhận",
+    "connectAnotherWallet": "",
     "connectWallet": "Kết nối ví",
     "contactSupport": "Liên hệ hỗ trợ",
     "continue": "Tiếp tục",
@@ -142,6 +142,7 @@
       "signatureRejected": "Cần có chữ ký để hoàn tất giao dịch. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} tại {{chainName}} vẫn còn trong ví của bạn.",
       "slippageThreshold": "Độ trượt giá lớn hơn ngưỡng xác định. Vui lòng yêu cầu một tuyến đường mới để nhận báo giá mới.",
       "transactionCanceled": "Giao dịch đã bị huỷ.",
+      "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "Vui lòng kiểm tra block explorer để biết thêm thông tin.",
       "transactionNotSent": "Giao dịch không được gửi.",
@@ -161,6 +162,7 @@
       "signatureRejected": "Yêu cầu chữ ký",
       "slippageNotMet": "Điều kiện trượt giá không được đáp ứng",
       "transactionCanceled": "Giao dịch bị huỷ",
+      "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "Giao dịch không thành công",
       "transactionSimulationFailed": "",
@@ -309,8 +311,5 @@
     "noBookmarkedWallets": "Không có ví được đánh dấu",
     "noConnectedWallets": "Không có ví được kết nối",
     "noRecentWallets": "Không có ví gần đây"
-  },
-  "wallet": {
-    "extensionNotFound": "Chắc chắn rằng tiện ích trên trình duyệt {{name}} đã được kích hoạt tước khi chọn ví này."
   }
 }

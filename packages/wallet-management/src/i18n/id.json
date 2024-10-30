@@ -3,10 +3,12 @@
     "connectWallet": "Hubungkan dompet",
     "connecting": "",
     "selectEcosystem": "",
-    "waitingForWallet": ""
+    "waitingForWallet": "",
+    "availableWalletsNotFound": ""
   },
   "message": {
     "connecting": "",
-    "multipleEcosystems": ""
+    "multipleEcosystems": "",
+    "availableWalletsNotFound": ""
   }
 }

@@ -16,10 +16,10 @@
     "bridgeReview": "",
     "buy": "",
     "cancel": "বাতিল করুন",
-    "changeWallet": "",
     "checkoutReview": "",
     "close": "",
     "confirm": "",
+    "connectAnotherWallet": "",
     "connectWallet": "ওয়ালেট সংযুক্ত করুন",
     "contactSupport": "সাপোর্ট এ যোগাযোগ করুন",
     "continue": "এগিয়ে যান",
@@ -142,6 +142,7 @@
       "signatureRejected": "",
       "slippageThreshold": "স্লিপেজ সংজ্ঞায়িত থ্রেশহোল্ডের চেয়ে বড়। একটি নতুন উদ্ধৃতি পেতে একটি নতুন রুট অনুরোধ করুন।",
       "transactionCanceled": "",
+      "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "আরও তথ্যের জন্য ব্লক এক্সপ্লোরার চেক করুন।",
       "transactionNotSent": "",
@@ -161,6 +162,7 @@
       "signatureRejected": "",
       "slippageNotMet": "স্লিপেজ শর্ত পূরণ করা হয়নি",
       "transactionCanceled": "লেনদেন বাতিল করা হয়েছে",
+      "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "লেনদেন ব্যর্থ হয়েছে",
       "transactionSimulationFailed": "",
@@ -309,8 +311,5 @@
     "noBookmarkedWallets": "",
     "noConnectedWallets": "",
     "noRecentWallets": ""
-  },
-  "wallet": {
-    "extensionNotFound": "এই ওয়ালেটটি বেছে নেওয়ার আগে দয়া করে নিশ্চিত করুন যে শুধুমাত্র {{name}} ব্রাউজার এক্সটেনশন সক্রিয় আছে।"
   }
 }
