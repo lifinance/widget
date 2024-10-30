@@ -16,10 +16,10 @@
     "bridgeReview": "Köprüyü incele",
     "buy": "Satın al",
     "cancel": "İptal",
-    "changeWallet": "Cüzdan değiştir",
     "checkoutReview": "Satın alımı incele",
     "close": "Kapat",
     "confirm": "Onayla",
+    "connectAnotherWallet": "",
     "connectWallet": "Cüzdanı Bağla",
     "contactSupport": "Destek Ekibine Ulaş",
     "continue": "Devam et",
@@ -142,6 +142,7 @@
       "signatureRejected": "İşlemi tamamlamak için imzanız gerekiyor. {{chainName}} üzerinde {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} cüzdanınızda bulunmaktadır.",
       "slippageThreshold": "Slipaj, tanımlanan eşikten daha büyük. Yeni bir fiyat teklifi almak için lütfen yeni bir rota isteyin.",
       "transactionCanceled": "İşlem iptal edildi.",
+      "transactionConflict": "",
       "transactionExpired": "Blok yüksekliği izin verilen maksimum sınırı aştı veya blok hash'i artık yeterince güncel değil.",
       "transactionFailed": "Daha fazla bilgi için ağ tarayıcısını kontrol edin.",
       "transactionNotSent": "İşlem gönderilmedi.",
@@ -161,6 +162,7 @@
       "signatureRejected": "İmza gerekiyor",
       "slippageNotMet": "Slipaj koşulları karşılanmadı",
       "transactionCanceled": "İşlem iptal edildi",
+      "transactionConflict": "",
       "transactionExpired": "İşlem zaman aşımına uğradı",
       "transactionFailed": "İşlem başarısız",
       "transactionSimulationFailed": "İşlem simulasyonu başarısız oldu",
@@ -309,8 +311,5 @@
     "noBookmarkedWallets": "Kayıtlı cüzdan bulunamadı",
     "noConnectedWallets": "Bağlı cüzdan bulunamadı",
     "noRecentWallets": "Son kullanılan cüzdan bulunamadı"
-  },
-  "wallet": {
-    "extensionNotFound": "Lütfen bu cüzdanı seçmeden önce yalnızca {{name}} tarayıcı uzantısının etkin olduğundan emin olun."
   }
 }
