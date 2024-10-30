@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.10.0](https://github.com/lifinance/widget/compare/v3.9.0...v3.10.0) (2024-10-30)
+
+
+### Features
+
+* add support for partial wallet management ([#320](https://github.com/lifinance/widget/issues/320)) ([e3b919b](https://github.com/lifinance/widget/commit/e3b919bc2d04b4205472e521df3f134076e43d98))
+
+
+### Bug Fixes
+
+* correct jumping title for in progress transfers ([3d0a607](https://github.com/lifinance/widget/commit/3d0a6076cbb1fa46dde60673637bc0fe9ff5df3c))
+
 ## [3.9.0](https://github.com/lifinance/widget/compare/v3.8.2...v3.9.0) (2024-10-28)
 
 
