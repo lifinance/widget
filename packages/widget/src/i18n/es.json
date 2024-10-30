@@ -16,10 +16,10 @@
     "bridgeReview": "",
     "buy": "Comprar",
     "cancel": "Cancelar",
-    "changeWallet": "Cambiar billetera",
     "checkoutReview": "",
     "close": "Cerrar",
     "confirm": "Confirmar",
+    "connectAnotherWallet": "",
     "connectWallet": "Conectar billetera",
     "contactSupport": "Contactar soporte",
     "continue": "Continuar",
@@ -142,6 +142,7 @@
       "signatureRejected": "Se requiere su firma para completar la transacción. {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} en {{chainName}} permanecen en su billetera.",
       "slippageThreshold": "El slippage es mayor que el umbral definido. Por favor, solicite una nueva ruta para obtener un presupuesto nuevo.",
       "transactionCanceled": "La transacción se ha cancelado.",
+      "transactionConflict": "",
       "transactionExpired": "La altura del bloque ha excedido el límite máximo permitido o el blockhash ya no es suficientemente reciente.",
       "transactionFailed": "Por favor consulte el explorador de bloques para obtener mas información",
       "transactionNotSent": "La transacción no ha sido enviada.",
@@ -161,6 +162,7 @@
       "signatureRejected": "Firma requerida",
       "slippageNotMet": "Condiciones de slippage no cumplidas",
       "transactionCanceled": "Transacción cancelada",
+      "transactionConflict": "",
       "transactionExpired": "La transacción ha expirado",
       "transactionFailed": "La transacción ha fallado.",
       "transactionSimulationFailed": "Error al simular la transacción",
@@ -309,8 +311,5 @@
     "noBookmarkedWallets": "No hay billeteras preferidas",
     "noConnectedWallets": "No hay billeteras conectadas",
     "noRecentWallets": "No hay billeteras recientes"
-  },
-  "wallet": {
-    "extensionNotFound": "Por favor, asegúrese de que sólo la extensión {{name}} del navegador esta activa antes de elegir esta billetera."
   }
 }
