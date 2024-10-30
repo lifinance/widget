@@ -2,7 +2,7 @@ import type { EVMChain } from '@lifi/sdk'
 import { useChains } from '../../hooks/useChains.js'
 import { useSwapOnly } from '../../hooks/useSwapOnly.js'
 import { useToAddressReset } from '../../hooks/useToAddressReset.js'
-import { useHasExternalWalletProvider } from '../../providers/WalletProvider/useHasExternalWalletProvider.js'
+import { useExternalWalletProvider } from '../../providers/WalletProvider/useExternalWalletProvider.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useChainOrder } from '../../stores/chains/useChainOrder.js'
 import type { FormType } from '../../stores/form/types.js'
@@ -16,11 +16,16 @@ export const useChainSelect = (formType: FormType) => {
   const chainKey = FormKeyHelper.getChainKey(formType)
   const { onChange } = useFieldController({ name: chainKey })
   const { setFieldValue, getFieldValues } = useFieldActions()
-  const { hasExternalProvider, availableChainTypes } =
-    useHasExternalWalletProvider()
+  const { useExternalWalletProvidersOnly, externalChainTypes } =
+    useExternalWalletProvider()
   const { chains, isLoading, getChainById } = useChains(
     formType,
-    formType === 'from' && hasExternalProvider ? availableChainTypes : undefined
+    // If the integrator uses external wallet management and has not opted in for partial wallet management,
+    // restrict the displayed chains to those compatible with external wallet management.
+    // This ensures users only see chains for which they can sign transactions.
+    formType === 'from' && useExternalWalletProvidersOnly
+      ? externalChainTypes
+      : undefined
   )
 
   const [chainOrder, setChainOrder] = useChainOrder(formType)

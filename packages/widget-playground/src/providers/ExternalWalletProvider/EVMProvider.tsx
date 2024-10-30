@@ -6,13 +6,16 @@ import {
   darkTheme,
   getDefaultConfig,
   lightTheme,
+  useConnectModal,
 } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
-import { type FC, type PropsWithChildren, useMemo } from 'react'
+import { type FC, type PropsWithChildren, useEffect, useMemo } from 'react'
 import type { Chain } from 'viem'
 import { WagmiProvider } from 'wagmi'
 import { mainnet } from 'wagmi/chains'
 import { useThemeMode } from '../../hooks/useThemeMode'
+import { useWidgetConfigStore } from '../../store/widgetConfig/WidgetConfigProvider'
+import { useConfigActions } from '../../store/widgetConfig/useConfigActions'
 import { useEnvVariables } from '../EnvVariablesProvider'
 import { theme } from '../PlaygroundThemeProvider/theme'
 
@@ -72,8 +75,36 @@ export const EVMProvider: FC<PropsWithChildren> = ({ children }) => {
       reconnectOnMount={Boolean(chains?.length)}
     >
       <RainbowKitProvider theme={RainbowKitModes[themeMode] as RainbowKitTheme}>
+        <WidgetWalletConfigUpdater />
         {children}
       </RainbowKitProvider>
     </WagmiProvider>
   )
+}
+export const WidgetWalletConfigUpdater = () => {
+  const { openConnectModal } = useConnectModal()
+  const { setWalletConfig } = useConfigActions()
+  const walletConfig = useWidgetConfigStore(
+    (store) => store.config?.walletConfig
+  )
+
+  useEffect(() => {
+    // Due to provider constraints, we're unable to directly assign an onConnect function
+    // that opens the external wallet management directly from the widget playground settings component.
+    // To work around this limitation, we employ a temporary "hack" by initially setting an empty function.
+    // This allows us to later replace it with the intended functionality.
+    const onConnectStringified = walletConfig?.onConnect
+      ?.toString()
+      .replaceAll(' ', '')
+    if (onConnectStringified === '()=>{}') {
+      setWalletConfig({
+        ...walletConfig,
+        onConnect: () => {
+          openConnectModal?.()
+        },
+      })
+    }
+  }, [openConnectModal, setWalletConfig, walletConfig])
+
+  return null
 }

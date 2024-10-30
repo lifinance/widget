@@ -3,10 +3,12 @@
     "connectWallet": "Connect wallet",
     "connecting": "Connecting",
     "selectEcosystem": "Select ecosystem",
-    "waitingForWallet": "Waiting for {{walletName}}"
+    "waitingForWallet": "Waiting for {{walletName}}",
+    "availableWalletsNotFound": "Available wallets not found"
   },
   "message": {
     "connecting": "Click connect in your wallet popup. Don't see your wallet? Check your other browser windows.",
-    "multipleEcosystems": "{{walletName}} supports multiple chain ecosystems. Select which chain ecosystem you'd like to connect."
+    "multipleEcosystems": "{{walletName}} supports multiple chain ecosystems. Select which chain ecosystem you'd like to connect.",
+    "availableWalletsNotFound": "No compatible wallet extensions detected. Please install a supported wallet and refresh the page. If already installed, ensure it's enabled and compatible, or contact support."
   }
 }

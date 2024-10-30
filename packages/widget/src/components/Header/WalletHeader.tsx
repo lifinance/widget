@@ -9,7 +9,7 @@ import { Avatar, Badge } from '@mui/material'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useChain } from '../../hooks/useChain.js'
-import { useHasExternalWalletProvider } from '../../providers/WalletProvider/useHasExternalWalletProvider.js'
+import { useExternalWalletProvider } from '../../providers/WalletProvider/useExternalWalletProvider.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { HiddenUI } from '../../types/widget.js'
@@ -25,12 +25,23 @@ import {
 import { WalletMenu } from './WalletMenu.js'
 import { WalletMenuContainer } from './WalletMenu.style.js'
 
-export const WalletHeader: React.FC = () => {
+const useInternalWalletManagement = () => {
   const { subvariant, hiddenUI } = useWidgetConfig()
-  const { hasExternalProvider } = useHasExternalWalletProvider()
-  return !hasExternalProvider &&
-    subvariant !== 'split' &&
-    !hiddenUI?.includes(HiddenUI.WalletMenu) ? (
+  const { useExternalWalletProvidersOnly } = useExternalWalletProvider()
+
+  const isSplitVariant = subvariant === 'split'
+  const isWalletMenuHidden = hiddenUI?.includes(HiddenUI.WalletMenu)
+
+  const shouldShowWalletMenu =
+    !useExternalWalletProvidersOnly && !isSplitVariant && !isWalletMenuHidden
+
+  return shouldShowWalletMenu
+}
+
+export const WalletHeader: React.FC = () => {
+  const shouldShowWalletMenu = useInternalWalletManagement()
+
+  return shouldShowWalletMenu ? (
     <HeaderAppBar elevation={0} sx={{ justifyContent: 'flex-end' }}>
       <WalletMenuButton />
     </HeaderAppBar>
@@ -38,11 +49,8 @@ export const WalletHeader: React.FC = () => {
 }
 
 export const SplitWalletMenuButton: React.FC = () => {
-  const { hiddenUI } = useWidgetConfig()
-  const { hasExternalProvider } = useHasExternalWalletProvider()
-  return !hasExternalProvider && !hiddenUI?.includes(HiddenUI.WalletMenu) ? (
-    <WalletMenuButton />
-  ) : null
+  const shouldShowWalletMenu = useInternalWalletManagement()
+  return shouldShowWalletMenu ? <WalletMenuButton /> : null
 }
 
 export const WalletMenuButton: React.FC = () => {
@@ -83,7 +91,7 @@ const ConnectButton = () => {
   const { walletConfig, subvariant, variant } = useWidgetConfig()
   const { openWalletMenu } = useWalletMenu()
   const connect = async () => {
-    if (walletConfig?.onConnect) {
+    if (!walletConfig?.usePartialWalletManagement && walletConfig?.onConnect) {
       walletConfig.onConnect()
       return
     }

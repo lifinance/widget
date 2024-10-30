@@ -24,6 +24,7 @@ import { ListItemButton } from './ListItemButton.js'
 import { ListItemText } from './ListItemText.js'
 import { SVMListItemButton } from './SVMListItemButton.js'
 import { UTXOListItemButton } from './UTXOListItemButton.js'
+import { WalletMenuContentEmpty } from './WalletMenuContentEmpty.js'
 
 interface WalletMenuContentProps {
   onClose: () => void
@@ -197,6 +198,9 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
                   </ListItemButton>
                 )
               })}
+              {/* TODO: show all connected wallets with 'Connected' badge
+              and have this empty screen only when there is no installed wallets at all */}
+              {!installedWallets.length ? <WalletMenuContentEmpty /> : null}
             </List>
           </Fade>
         </Collapse>

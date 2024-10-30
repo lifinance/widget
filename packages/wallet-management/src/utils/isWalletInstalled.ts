@@ -21,6 +21,8 @@ export const isWalletInstalled = (id: string): boolean => {
       )
     case 'app.phantom.bitcoin':
       return anyWindow.phantom?.bitcoin?.isPhantom
+    case 'com.okex.wallet.bitcoin':
+      return anyWindow.okxwallet?.bitcoin?.isOkxWallet
     case 'XverseProviders.BitcoinProvider':
       return anyWindow.XverseProviders?.BitcoinProvider
     case 'unisat':

@@ -1,10 +1,10 @@
 import {
   ContentCopyRounded,
   DeleteOutline,
+  History,
   MoreHoriz,
   OpenInNewRounded,
   TurnedInNot,
-  Wallet,
 } from '@mui/icons-material'
 import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material'
 import { useId, useRef, useState } from 'react'
@@ -175,7 +175,7 @@ export const RecentWalletsPage = () => {
           </ListItem>
         ))}
         {!recentWallets.length && (
-          <EmptyListIndicator icon={<Wallet sx={{ fontSize: 48 }} />}>
+          <EmptyListIndicator icon={<History sx={{ fontSize: 48 }} />}>
             {t('sendToWallet.noRecentWallets')}
           </EmptyListIndicator>
         )}

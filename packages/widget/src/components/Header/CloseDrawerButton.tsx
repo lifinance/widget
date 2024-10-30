@@ -2,7 +2,7 @@ import { CloseRounded } from '@mui/icons-material'
 import { IconButton, Tooltip } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useDrawer } from '../../AppDrawerContext.js'
-import { useHasExternalWalletProvider } from '../../providers/WalletProvider/useHasExternalWalletProvider.js'
+import { useExternalWalletProvider } from '../../providers/WalletProvider/useExternalWalletProvider.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 
 interface CloseDrawerButtonProps {
@@ -13,10 +13,11 @@ export const CloseDrawerButton = ({ header }: CloseDrawerButtonProps) => {
   const { t } = useTranslation()
   const { subvariant } = useWidgetConfig()
   const { closeDrawer } = useDrawer()
-  const { hasExternalProvider } = useHasExternalWalletProvider()
+  const { useExternalWalletProvidersOnly } = useExternalWalletProvider()
 
   const showInNavigationHeader =
-    header === 'navigation' && (hasExternalProvider || subvariant === 'split')
+    header === 'navigation' &&
+    (useExternalWalletProvidersOnly || subvariant === 'split')
 
   const showInWalletHeader = header === 'wallet' && subvariant !== 'split'
 
