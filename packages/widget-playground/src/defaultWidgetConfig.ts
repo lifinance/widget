@@ -47,6 +47,7 @@ export const widgetBaseConfig: WidgetConfig = {
       [ChainId.SOL]: [
         'https://chaotic-restless-putty.solana-mainnet.quiknode.pro/',
         'https://dacey-pp61jd-fast-mainnet.helius-rpc.com/',
+        'https://lifi-mainc49-4c2b.mainnet.rpcpool.com/',
       ],
     },
     routeOptions: {
