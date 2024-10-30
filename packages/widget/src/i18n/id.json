@@ -16,10 +16,10 @@
     "bridgeReview": "",
     "buy": "Beli",
     "cancel": "Batal",
-    "changeWallet": "Ubah Dompet",
     "checkoutReview": "",
     "close": "Tutup",
     "confirm": "Konfirmasi",
+    "connectAnotherWallet": "",
     "connectWallet": "Hubungkan dompet",
     "contactSupport": "Kontak bantuan",
     "continue": "Lanjutkan",
@@ -142,6 +142,7 @@
       "signatureRejected": "Tanda tangan Anda diperlukan untuk menyelesaikan transaksi. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} di {{chainName}} tetap ada di dompet Anda.",
       "slippageThreshold": "Slippage lebih besar dari ambang batas yang ditentukan. Silakan minta rute baru untuk mendapatkan penawaran baru.",
       "transactionCanceled": "Transaksi dibatalkan.",
+      "transactionConflict": "",
       "transactionExpired": "Ketinggian blok telah melebihi batas maksimum yang diperbolehkan atau blockhash tidak lagi cukup baru.",
       "transactionFailed": "Silakan periksa block explorer untuk informasi lebih lanjut.",
       "transactionNotSent": "Transaksi tidak terkirim.",
@@ -161,6 +162,7 @@
       "signatureRejected": "Tanda tangan diperlukan",
       "slippageNotMet": "Kondisi slippage tidak terpenuhi",
       "transactionCanceled": "Transaksi dibatalkan",
+      "transactionConflict": "",
       "transactionExpired": "Transaksi berakhir",
       "transactionFailed": "Transaksi gagal",
       "transactionSimulationFailed": "Verifikasi transaksi gagal",
@@ -309,8 +311,5 @@
     "noBookmarkedWallets": "Tidak ada dompet yang ditandai",
     "noConnectedWallets": "Tida ada dompet yang di hubungkan",
     "noRecentWallets": "Tidak ada dompet terakhir yang digunakan"
-  },
-  "wallet": {
-    "extensionNotFound": "Pastikan hanya ekstensi browser {{name}} yang aktif sebelum memilih dompet ini."
   }
 }
