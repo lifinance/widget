@@ -3,10 +3,12 @@
     "connectWallet": "ওয়ালেট সংযুক্ত করুন",
     "connecting": "",
     "selectEcosystem": "",
-    "waitingForWallet": ""
+    "waitingForWallet": "",
+    "availableWalletsNotFound": ""
   },
   "message": {
     "connecting": "",
-    "multipleEcosystems": ""
+    "multipleEcosystems": "",
+    "availableWalletsNotFound": ""
   }
 }
