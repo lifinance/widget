@@ -16,10 +16,10 @@
     "bridgeReview": "",
     "buy": "ซื้อ",
     "cancel": "ยกเลิก",
-    "changeWallet": "เปลี่ยนกระเป๋า",
     "checkoutReview": "",
     "close": "ปิด",
     "confirm": "ยืนยัน",
+    "connectAnotherWallet": "",
     "connectWallet": "เชื่อมต่อ กระเป๋า",
     "contactSupport": "ติดต่อฝ่ายสนับสนุน",
     "continue": "ดำเนินการต่อ",
@@ -142,6 +142,7 @@
       "signatureRejected": "จำเป็นต้องมีลายเซ็นของคุณเพื่อทำธุรกรมให้เสร็จสมบูรณ์. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} บน {{chainName}} ยังคงอยู่ในกระเป๋าเงินของคุณ.",
       "slippageThreshold": "การคลาดเคลื่อนมีขนาดใหญ่กว่าเกณฑ์ที่กำหนด โปรดขอเส้นทางใหม่เพื่อได้รับการเสนอราคาใหม่.",
       "transactionCanceled": "ธุรกรรมได้ถูกยกเลิกแล้ว",
+      "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "โปรดตรวจสอบบล็อกการสำรวจสำหรับข้อมูลเพิ่มเติม.",
       "transactionNotSent": "ธุรกรรมไม่ได้ถูกส่ง",
@@ -161,6 +162,7 @@
       "signatureRejected": "ต้องมีลายเซ็น",
       "slippageNotMet": "ความคลาดเคลื่อนของราคาไม่เป็นไปตามเงื่อนไข.",
       "transactionCanceled": "ธุรกรรมถูกยกเลิกแล้ว",
+      "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "การทำธุรกรรมล้มเหลว",
       "transactionSimulationFailed": "",
@@ -309,8 +311,5 @@
     "noBookmarkedWallets": "ไม่มีกระเป๋าเงินที่ bookmark ไว้",
     "noConnectedWallets": "ไม่มีกระเป๋าเงินที่เชื่อมต่อไว้",
     "noRecentWallets": "ไม่พบกระเป๋าเงินล่าสุด"
-  },
-  "wallet": {
-    "extensionNotFound": "โปรดตรวจสอบว่ามีเพียงส่วนขยายของเบราว์เซอร์ {{name}} เท่านั้นที่ใช้งานได้ก่อนที่จะเลือกกระเป๋าเงินนี้."
   }
 }
