@@ -12,10 +12,8 @@ interface WidgetProps {
 
 export function Widget({ config, fallback }: WidgetProps) {
   return (
-    <main>
-      <ClientOnly fallback={fallback}>
-        <LiFiWidget config={config} integrator="nextjs-example" />
-      </ClientOnly>
-    </main>
+    <ClientOnly fallback={fallback}>
+      <LiFiWidget config={config} integrator="nextjs-example" />
+    </ClientOnly>
   )
 }

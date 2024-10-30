@@ -10,11 +10,11 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@lifi/widget": "workspace:^",
-    "nuxt": "^3.12.4",
-    "veaury": "^2.4.2",
+    "@lifi/widget": "^3.10.0",
+    "nuxt": "3.13.1",
+    "veaury": "^2.5.1",
     "vite-plugin-node-polyfills": "^0.22.0",
     "vue": "^3.5.12",
-    "vue-router": "^4.4.0"
+    "vue-router": "^4.4.5"
   }
 }

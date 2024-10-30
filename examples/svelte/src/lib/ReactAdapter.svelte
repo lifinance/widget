@@ -26,4 +26,4 @@ onDestroy(() => {
 })
 </script>
 
-<div bind:this={container} class={$$props.class} />
+<div bind:this={container} class={$$props.class}></div>

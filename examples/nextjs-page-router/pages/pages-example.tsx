@@ -10,7 +10,7 @@ export default function PagesExample() {
     appearance: 'light',
     theme: {
       container: {
-        boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
+        border: '1px solid rgb(234, 234, 234)',
         borderRadius: '16px',
       },
     },
