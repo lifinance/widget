@@ -16,10 +16,10 @@
     "bridgeReview": "Revisar ponte",
     "buy": "Comprar",
     "cancel": "Cancelar",
-    "changeWallet": "Alterar carteira",
     "checkoutReview": "Revisar compra",
     "close": "Fechar",
     "confirm": "Confirmar",
+    "connectAnotherWallet": "Conectar outra carteira",
     "connectWallet": "Conectar carteira",
     "contactSupport": "Falar com o suporte",
     "continue": "Continuar",
@@ -142,6 +142,7 @@
       "signatureRejected": "Sua assinatura é necessária para completar a transação. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} em {{chainName}} permanece na sua carteira.",
       "slippageThreshold": "A derrapagem é maior do que o limite definido. Solicite uma nova rota para obter uma nova cotação.",
       "transactionCanceled": "A transação foi cancelada.",
+      "transactionConflict": "A transação não pôde ser processada porque está em conflito com outra transação pendente usando os mesmos fundos. Por favor, aguarde a confirmação da transação pendente ou verifique o seu histórico de transações antes de tentar novamente.",
       "transactionExpired": "O tamanho do bloco excedeu o limite máximo permitido ou o blockhash não é mais recente o suficiente.",
       "transactionFailed": "Por favor, verifique o explorador de blocos para mais informações.",
       "transactionNotSent": "A transação não foi enviada.",
@@ -161,6 +162,7 @@
       "signatureRejected": "Necessário assinatura",
       "slippageNotMet": "Condições de tolerância a discrepâncias não foram atendidas",
       "transactionCanceled": "Transação cancelada",
+      "transactionConflict": "Conflito de transação",
       "transactionExpired": "Transação expirada",
       "transactionFailed": "Transação falhou",
       "transactionSimulationFailed": "Simulação da transação falhou",
@@ -309,8 +311,5 @@
     "noBookmarkedWallets": "Sem carteiras favoritas",
     "noConnectedWallets": "Sem carteiras conectadas",
     "noRecentWallets": "Sem carteiras recentes"
-  },
-  "wallet": {
-    "extensionNotFound": "Por favor, certifique-se de que apenas a extensão do navegador da {{name}} está ativa antes de escolher esta carteira."
   }
 }
