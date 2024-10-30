@@ -16,10 +16,10 @@
     "bridgeReview": "",
     "buy": "",
     "cancel": "रद्द करें",
-    "changeWallet": "",
     "checkoutReview": "",
     "close": "",
     "confirm": "",
+    "connectAnotherWallet": "",
     "connectWallet": "वॉलेट से जुड़ें?",
     "contactSupport": "ग्राहक सेवा के लिए संपर्क करें",
     "continue": "जारी रखें",
@@ -142,6 +142,7 @@
       "signatureRejected": "",
       "slippageThreshold": "",
       "transactionCanceled": "",
+      "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "",
       "transactionNotSent": "",
@@ -161,6 +162,7 @@
       "signatureRejected": "",
       "slippageNotMet": "",
       "transactionCanceled": "",
+      "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "",
       "transactionSimulationFailed": "",
@@ -309,8 +311,5 @@
     "noBookmarkedWallets": "",
     "noConnectedWallets": "",
     "noRecentWallets": ""
-  },
-  "wallet": {
-    "extensionNotFound": ""
   }
 }
