@@ -1,7 +1,7 @@
 import type { LiFiStepExtended } from '@lifi/sdk'
 import { AccessTimeFilled } from '@mui/icons-material'
 import { Box, Tooltip } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { type FC, type PropsWithChildren, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTimer } from '../../hooks/timer/useTimer.js'
 import { IconTypography } from '../IconTypography.js'
@@ -78,20 +78,13 @@ export const StepTimer: React.FC<{
       ? Math.floor(step.estimate.executionDuration)
       : Math.floor(step.estimate.executionDuration / 60)
     return (
-      <Tooltip title={t('tooltip.estimatedTime')} sx={{ cursor: 'help' }}>
-        <Box component="span" display="flex" alignItems="center">
-          <IconTypography component="span" mr={0.5} fontSize={16}>
-            <AccessTimeFilled fontSize="inherit" />
-          </IconTypography>
-          <Box component="span">
-            {duration.toLocaleString(i18n.language, {
-              style: 'unit',
-              unit: showSeconds ? 'second' : 'minute',
-              unitDisplay: 'narrow',
-            })}
-          </Box>
-        </Box>
-      </Tooltip>
+      <StepTimerContent>
+        {duration.toLocaleString(i18n.language, {
+          style: 'unit',
+          unit: showSeconds ? 'second' : 'minute',
+          unitDisplay: 'narrow',
+        })}
+      </StepTimerContent>
     )
   }
 
@@ -108,15 +101,32 @@ export const StepTimer: React.FC<{
   return isTimerExpired ? (
     t('main.inProgress')
   ) : (
+    <StepTimerContent>
+      {`${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`}
+    </StepTimerContent>
+  )
+}
+
+const StepTimerContent: FC<PropsWithChildren> = ({ children }) => {
+  const { t } = useTranslation()
+  return (
     <Tooltip title={t('tooltip.estimatedTime')} sx={{ cursor: 'help' }}>
-      <Box component="span" display="flex" alignItems="center">
-        <IconTypography component="span" mr={0.5} fontSize={16}>
+      <Box component="span" display="flex" alignItems="center" height={14}>
+        <IconTypography
+          component="span"
+          sx={{ marginRight: 0.5, fontSize: 16 }}
+        >
           <AccessTimeFilled fontSize="inherit" />
         </IconTypography>
         <Box
           component="span"
-          sx={{ fontVariantNumeric: 'tabular-nums', cursor: 'help' }}
-        >{`${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`}</Box>
+          sx={{
+            fontVariantNumeric: 'tabular-nums',
+            cursor: 'help',
+          }}
+        >
+          {children}
+        </Box>
       </Box>
     </Tooltip>
   )
