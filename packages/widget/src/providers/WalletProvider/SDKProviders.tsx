@@ -1,43 +1,43 @@
 import { getConnectorClient as getBigmiConnectorClient } from '@bigmi/client'
 import { useConfig as useBigmiConfig } from '@bigmi/react'
-import type { EVMProvider, SDKProvider } from '@lifi/sdk'
+import type { SDKProvider } from '@lifi/sdk'
 import { ChainType, EVM, Solana, UTXO, config } from '@lifi/sdk'
 import type { SignerWalletAdapter } from '@solana/wallet-adapter-base'
 import { useWallet } from '@solana/wallet-adapter-react'
-import { useContext, useEffect } from 'react'
-import { useConfig as useWagmiConfig } from 'wagmi'
+import { useEffect } from 'react'
+import { useAccount, useConfig as useWagmiConfig } from 'wagmi'
 import {
   getConnectorClient as getWagmiConnectorClient,
   switchChain,
 } from 'wagmi/actions'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
-import { EVMExternalContext } from './EVMExternalContext.js'
+import { getSafeMultisigConfig } from './getSafeMultisigConfig.js'
 
 export const SDKProviders = () => {
   const { sdkConfig } = useWidgetConfig()
   const { wallet } = useWallet()
   const wagmiConfig = useWagmiConfig()
   const bigmiConfig = useBigmiConfig()
-  const hasExternalEVMContext = useContext(EVMExternalContext)
+  const account = useAccount({ config: wagmiConfig })
 
   useEffect(() => {
     // Configure SDK Providers
     const providers: SDKProvider[] = []
-    const configuredEVMProvider = sdkConfig?.providers?.find(
+    const hasConfiguredEVMProvider = sdkConfig?.providers?.find(
       (provider) => provider.type === ChainType.EVM
-    ) as EVMProvider | undefined
+    )
     const hasConfiguredSVMProvider = sdkConfig?.providers?.some(
       (provider) => provider.type === ChainType.SVM
     )
     const hasConfiguredUTXOProvider = sdkConfig?.providers?.some(
       (provider) => provider.type === ChainType.UTXO
     )
-    // TODO: refactor this in favor of EIP-5792: Wallet Call API
-    const multisig =
-      !hasExternalEVMContext && configuredEVMProvider
-        ? configuredEVMProvider.multisig
-        : undefined
-    if (!configuredEVMProvider || multisig) {
+    if (!hasConfiguredEVMProvider) {
+      // TODO: refactor this in favor of EIP-5792: Wallet Call API
+      const multisig =
+        account.connector?.id === 'safe'
+          ? getSafeMultisigConfig(account.connector)
+          : undefined
       providers.push(
         EVM({
           getWalletClient: () => getWagmiConnectorClient(wagmiConfig),
@@ -70,8 +70,8 @@ export const SDKProviders = () => {
     }
     config.setProviders(providers)
   }, [
+    account.connector,
     bigmiConfig,
-    hasExternalEVMContext,
     sdkConfig?.providers,
     wagmiConfig,
     wallet?.adapter,
