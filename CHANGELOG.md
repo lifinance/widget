@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.11.0](https://github.com/lifinance/widget/compare/v3.10.0...v3.11.0) (2024-11-01)
+
+
+### Features
+
+* improve Safe support ([#323](https://github.com/lifinance/widget/issues/323)) ([6f1e5d1](https://github.com/lifinance/widget/commit/6f1e5d1cbb4e00c4219b0256ef29a4636df4d4e4))
+
 ## [3.10.0](https://github.com/lifinance/widget/compare/v3.9.0...v3.10.0) (2024-10-30)
 
 
