@@ -3,7 +3,6 @@ import type {
   ChainType,
   ContractCall,
   Order,
-  RouteExtended,
   RouteOptions,
   SDKConfig,
   StaticToken,
@@ -19,7 +18,6 @@ import type {
 import type { TypographyOptions } from '@mui/material/styles/createTypography.js'
 import type {
   CSSProperties,
-  FC,
   MutableRefObject,
   ReactNode,
   RefObject,
@@ -160,10 +158,6 @@ export interface WidgetFeeConfig {
    * @returns A promise that resolves to the calculated fee as a number (e.g., 0.03 represents a 3% fee)
    */
   calculateFee?(params: CalculateFeeParams): Promise<number | undefined>
-  /**
-   * @internal
-   */
-  _vcComponent: FC<{ route: RouteExtended }>
 }
 
 export interface ToAddress {
@@ -212,9 +206,6 @@ export interface WidgetConfig {
   contractTool?: WidgetContractTool
   integrator: string
   apiKey?: string
-  /**
-   * @deprecated Use `feeConfig` instead.
-   */
   fee?: number
   feeConfig?: WidgetFeeConfig
   referrer?: string

@@ -1,7 +1,9 @@
+import { useAccount } from '@lifi/wallet-management'
 import { useMemo } from 'react'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
 import { useAvailableChains } from './useAvailableChains.js'
 import { useGasRecommendation } from './useGasRecommendation.js'
+import { useIsContractAddress } from './useIsContractAddress.js'
 import { useTokenBalance } from './useTokenBalance.js'
 
 export const useGasRefuel = () => {
@@ -16,6 +18,19 @@ export const useGasRefuel = () => {
 
   const toChain = getChainById(toChainId)
   const fromChain = getChainById(fromChainId)
+
+  const { account } = useAccount({ chainType: fromChain?.chainType })
+
+  const isFromContractAddress = useIsContractAddress(
+    account.address,
+    fromChainId,
+    account.chainType
+  )
+  const isToContractAddress = useIsContractAddress(
+    toAddress,
+    toChainId,
+    toChain?.chainType
+  )
 
   const { token: nativeToken } = useTokenBalance(
     toAddress,
@@ -33,6 +48,10 @@ export const useGasRefuel = () => {
   const isChainTypeSatisfied =
     fromChain?.chainType !== toChain?.chainType ? Boolean(toAddress) : true
 
+  const isToAddressSatisfied = isFromContractAddress
+    ? toAddress && toAddress !== account.address && !isToContractAddress
+    : true
+
   const enabled = useMemo(() => {
     if (
       // We don't allow same chain refuel.
@@ -41,7 +60,8 @@ export const useGasRefuel = () => {
       !gasRecommendation?.available ||
       !gasRecommendation?.recommended ||
       !nativeToken ||
-      !isChainTypeSatisfied
+      !isChainTypeSatisfied ||
+      !isToAddressSatisfied
     ) {
       return false
     }
@@ -56,6 +76,7 @@ export const useGasRefuel = () => {
     fromChainId,
     gasRecommendation,
     isChainTypeSatisfied,
+    isToAddressSatisfied,
     nativeToken,
     toChainId,
   ])

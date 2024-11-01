@@ -22,10 +22,13 @@ export const useToAddressRequirements = () => {
   const isDifferentChainType =
     fromChain && toChain && fromChain.chainType !== toChain.chainType
 
+  const isCrossChainContractAddress =
+    isFromContractAddress && fromChainId !== toChainId
+
   const requiredToAddress =
     requiredUI?.includes(RequiredUI.ToAddress) ||
     isDifferentChainType ||
-    isFromContractAddress
+    isCrossChainContractAddress
 
   return {
     requiredToAddress,
