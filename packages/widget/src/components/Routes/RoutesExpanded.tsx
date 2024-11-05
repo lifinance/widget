@@ -88,6 +88,7 @@ export const RoutesExpandedElement = () => {
     navigate(navigationRoutes.transactionExecution, {
       state: { routeId: route.id },
     })
+    emitter.emit(WidgetEvent.RouteSelected, { route, routes: routes! })
   }
 
   const onExit = () => {

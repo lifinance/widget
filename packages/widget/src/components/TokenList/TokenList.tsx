@@ -1,12 +1,14 @@
 import { useAccount } from '@lifi/wallet-management'
 import { Box } from '@mui/material'
-import type { FC } from 'react'
+import { type FC, useEffect } from 'react'
 import { useChain } from '../../hooks/useChain.js'
 import { useDebouncedWatch } from '../../hooks/useDebouncedWatch.js'
 import { useTokenBalances } from '../../hooks/useTokenBalances.js'
 import { useTokenSearch } from '../../hooks/useTokenSearch.js'
+import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
+import { WidgetEvent } from '../../types/events.js'
 import type { TokenAmount } from '../../types/token.js'
 import { TokenNotFound } from './TokenNotFound.js'
 import { VirtualizedTokenList } from './VirtualizedTokenList.js'
@@ -20,6 +22,7 @@ export const TokenList: FC<TokenListProps> = ({
   height,
   onClick,
 }) => {
+  const emitter = useWidgetEvents()
   const [selectedChainId] = useFieldValues(FormKeyHelper.getChainKey(formType))
   const [tokenSearchFilter]: string[] = useDebouncedWatch(
     320,
@@ -80,6 +83,16 @@ export const TokenList: FC<TokenListProps> = ({
   const showCategories =
     Boolean(featuredTokens?.length || popularTokens?.length) &&
     !tokenSearchFilter
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Should fire only when search filter changes
+  useEffect(() => {
+    if (normalizedSearchFilter) {
+      emitter.emit(WidgetEvent.TokenSearch, {
+        value: normalizedSearchFilter,
+        tokens,
+      })
+    }
+  }, [normalizedSearchFilter, emitter])
 
   return (
     <Box ref={parentRef} style={{ height, overflow: 'auto' }}>
