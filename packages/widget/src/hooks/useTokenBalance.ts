@@ -1,27 +1,21 @@
-import type { ExtendedChain } from '@lifi/sdk'
 import { type Token, type TokenAmount, getTokenBalances } from '@lifi/sdk'
-import { useAccount } from '@lifi/wallet-management'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
 
 const defaultRefetchInterval = 30_000
 
-export const useTokenBalance = (
-  accountAddress?: string,
-  token?: Token,
-  chain?: ExtendedChain
-) => {
-  const { account } = useAccount(
-    // When we provide chain we want to be sure that account address used is from the same ecosystem as token
-    chain ? { chainType: chain.chainType } : undefined
-  )
+export const useTokenBalance = (accountAddress?: string, token?: Token) => {
   const queryClient = useQueryClient()
-  const walletAddress = accountAddress || account.address
 
   const tokenBalanceQueryKey = useMemo(
     () =>
-      ['token-balance', walletAddress, token?.chainId, token?.address] as const,
-    [token?.address, token?.chainId, walletAddress]
+      [
+        'token-balance',
+        accountAddress,
+        token?.chainId,
+        token?.address,
+      ] as const,
+    [token?.address, token?.chainId, accountAddress]
   )
 
   const { data, isLoading, refetch } = useQuery({
@@ -73,17 +67,10 @@ export const useTokenBalance = (
       } as TokenAmount
     },
 
-    enabled: Boolean(walletAddress && token),
+    enabled: Boolean(accountAddress && token),
     refetchInterval: defaultRefetchInterval,
     staleTime: defaultRefetchInterval,
   })
-
-  const refetchAllBalances = () => {
-    queryClient.refetchQueries({
-      queryKey: ['token-balances', accountAddress, token?.chainId],
-      exact: false,
-    })
-  }
 
   const refetchNewBalance = useCallback(() => {
     queryClient.setQueryDefaults(tokenBalanceQueryKey, {
@@ -97,7 +84,6 @@ export const useTokenBalance = (
     isLoading,
     refetch,
     refetchNewBalance,
-    refetchAllBalances,
     getTokenBalancesWithRetry,
   }
 }

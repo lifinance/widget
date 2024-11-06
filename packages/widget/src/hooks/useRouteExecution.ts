@@ -59,15 +59,41 @@ export const useRouteExecution = ({
         process,
       })
     }
-
-    if (isRouteDone(clonedUpdatedRoute)) {
+    const executionCompleted = isRouteDone(clonedUpdatedRoute)
+    const executionFailed = isRouteFailed(clonedUpdatedRoute)
+    if (executionCompleted) {
       emitter.emit(WidgetEvent.RouteExecutionCompleted, clonedUpdatedRoute)
     }
-    if (isRouteFailed(clonedUpdatedRoute) && process) {
+    if (executionFailed && process) {
       emitter.emit(WidgetEvent.RouteExecutionFailed, {
         route: clonedUpdatedRoute,
         process,
       })
+    }
+    if (executionCompleted || executionFailed) {
+      const invalidateKeys = [
+        [
+          'token-balances',
+          clonedUpdatedRoute.fromAddress,
+          clonedUpdatedRoute.fromChainId,
+        ],
+        [
+          'token-balances',
+          clonedUpdatedRoute.toAddress,
+          clonedUpdatedRoute.toChainId,
+        ],
+        ['transaction-history'],
+      ]
+      for (const key of invalidateKeys) {
+        queryClient.invalidateQueries(
+          {
+            queryKey: key,
+            exact: false,
+            refetchType: 'all',
+          },
+          { cancelRefetch: false }
+        )
+      }
     }
     // biome-ignore lint/suspicious/noConsole: logs route information
     console.log('Route updated.', clonedUpdatedRoute)
