@@ -5,7 +5,6 @@ import {
   WarningRounded,
 } from '@mui/icons-material'
 import { Box, Button, Skeleton, Typography } from '@mui/material'
-import { useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
@@ -78,7 +77,6 @@ export const StatusBottomSheetContent: React.FC<
 > = ({ status, route, onClose }) => {
   const { t } = useTranslation()
   const { navigateBack, navigate } = useNavigateBack()
-  const queryClient = useQueryClient()
   const { setFieldValue } = useFieldActions()
   const {
     subvariant,
@@ -100,25 +98,22 @@ export const StatusBottomSheetContent: React.FC<
     ),
   }
 
-  const toChain = getChainById(toToken.chainId)
+  const { token, refetch, refetchNewBalance } = useTokenBalance(
+    route.toAddress,
+    toToken
+  )
 
-  const { token, refetch, refetchNewBalance, refetchAllBalances } =
-    useTokenBalance(route.toAddress, toToken, toChain)
-
-  const invalidateQueries = () => {
-    refetchAllBalances()
+  const cleanFields = () => {
     setFieldValue('fromAmount', '')
     setFieldValue('toAmount', '')
-    queryClient.invalidateQueries({ queryKey: ['transaction-history'] })
   }
 
   const handleDone = () => {
-    invalidateQueries()
+    cleanFields()
     navigateBack()
   }
 
   const handlePartialDone = () => {
-    invalidateQueries()
     if (
       toToken.chainId !== route.toToken.chainId &&
       toToken.address !== route.toToken.address
@@ -136,12 +131,14 @@ export const StatusBottomSheetContent: React.FC<
       setFieldValue('toToken', route.toToken.address, {
         isTouched: true,
       })
+    } else {
+      cleanFields()
     }
     navigateBack()
   }
 
   const handleClose = () => {
-    invalidateQueries()
+    cleanFields()
     onClose()
   }
 
@@ -178,7 +175,7 @@ export const StatusBottomSheetContent: React.FC<
         primaryMessage = t('success.message.exchangeSuccessful', {
           amount: formatTokenAmount(token.amount, token.decimals),
           tokenSymbol: token.symbol,
-          chainName: toChain?.name,
+          chainName: getChainById(toToken.chainId)?.name,
           walletAddress: shortenAddress(route.toAddress),
         })
       }
@@ -195,7 +192,7 @@ export const StatusBottomSheetContent: React.FC<
         secondaryMessage = t('success.message.exchangeSuccessful', {
           amount: formatTokenAmount(token.amount, token.decimals),
           tokenSymbol: token.symbol,
-          chainName: toChain?.name,
+          chainName: getChainById(toToken.chainId)?.name,
           walletAddress: shortenAddress(route.toAddress),
         })
       }
@@ -212,7 +209,7 @@ export const StatusBottomSheetContent: React.FC<
         secondaryMessage = t('success.message.exchangeSuccessful', {
           amount: formatTokenAmount(token.amount, token.decimals),
           tokenSymbol: token.symbol,
-          chainName: toChain?.name,
+          chainName: getChainById(toToken.chainId)?.name,
           walletAddress: shortenAddress(route.toAddress),
         })
       }

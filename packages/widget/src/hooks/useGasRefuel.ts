@@ -19,12 +19,20 @@ export const useGasRefuel = () => {
   const toChain = getChainById(toChainId)
   const fromChain = getChainById(fromChainId)
 
-  const { account } = useAccount({ chainType: fromChain?.chainType })
+  const { accounts } = useAccount()
+
+  const fromAccount = accounts.find(
+    (account) => account.chainType === fromChain?.chainType
+  )
+
+  const toAccount = accounts.find(
+    (account) => account.chainType === toChain?.chainType
+  )
 
   const isFromContractAddress = useIsContractAddress(
-    account.address,
+    fromAccount?.address,
     fromChainId,
-    account.chainType
+    fromAccount?.chainType
   )
   const isToContractAddress = useIsContractAddress(
     toAddress,
@@ -32,10 +40,9 @@ export const useGasRefuel = () => {
     toChain?.chainType
   )
 
-  const { token: nativeToken } = useTokenBalance(
-    toAddress,
-    toChainId ? toChain?.nativeToken : undefined,
-    toChain
+  const { token: destinationNativeToken } = useTokenBalance(
+    toAddress || toAccount?.address,
+    toChainId ? toChain?.nativeToken : undefined
   )
 
   const { data: gasRecommendation, isLoading } = useGasRecommendation(
@@ -49,7 +56,7 @@ export const useGasRefuel = () => {
     fromChain?.chainType !== toChain?.chainType ? Boolean(toAddress) : true
 
   const isToAddressSatisfied = isFromContractAddress
-    ? toAddress && toAddress !== account.address && !isToContractAddress
+    ? toAddress && toAddress !== fromAccount?.address && !isToContractAddress
     : true
 
   const enabled = useMemo(() => {
@@ -59,13 +66,13 @@ export const useGasRefuel = () => {
       fromChainId === toChainId ||
       !gasRecommendation?.available ||
       !gasRecommendation?.recommended ||
-      !nativeToken ||
+      !destinationNativeToken ||
       !isChainTypeSatisfied ||
       !isToAddressSatisfied
     ) {
       return false
     }
-    const tokenBalance = nativeToken.amount ?? 0n
+    const tokenBalance = destinationNativeToken.amount ?? 0n
 
     // Check if the user balance < 50% of the recommended amount
     const recommendedAmount = BigInt(gasRecommendation.recommended.amount) / 2n
@@ -77,7 +84,7 @@ export const useGasRefuel = () => {
     gasRecommendation,
     isChainTypeSatisfied,
     isToAddressSatisfied,
-    nativeToken,
+    destinationNativeToken,
     toChainId,
   ])
 
