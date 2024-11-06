@@ -2,6 +2,7 @@ import type { ChainId, ChainType, Process, Route } from '@lifi/sdk'
 import type { DefaultValues } from '../stores/form/types.js'
 import type { SettingsProps } from '../stores/settings/types.js'
 import type { NavigationRouteType } from '../utils/navigationRoutes.js'
+import type { TokenAmount } from './token.js'
 
 export enum WidgetEvent {
   RouteExecutionStarted = 'routeExecutionStarted',
@@ -9,6 +10,7 @@ export enum WidgetEvent {
   RouteExecutionCompleted = 'routeExecutionCompleted',
   RouteExecutionFailed = 'routeExecutionFailed',
   RouteHighValueLoss = 'routeHighValueLoss',
+  RouteSelected = 'routeSelected',
   AvailableRoutes = 'availableRoutes',
   ContactSupport = 'contactSupport',
   SourceChainTokenSelected = 'sourceChainTokenSelected',
@@ -26,6 +28,7 @@ export enum WidgetEvent {
   PageEntered = 'pageEntered',
   FormFieldChanged = 'formFieldChanged',
   SettingUpdated = 'settingUpdated',
+  TokenSearch = 'tokenSearch',
 }
 
 export type WidgetEvents = {
@@ -34,6 +37,7 @@ export type WidgetEvents = {
   routeExecutionCompleted: Route
   routeExecutionFailed: RouteExecutionUpdate
   routeHighValueLoss: RouteHighValueLossUpdate
+  routeSelected: RouteSelected
   availableRoutes: Route[]
   contactSupport: ContactSupport
   sourceChainTokenSelected: ChainTokenSelected
@@ -45,13 +49,14 @@ export type WidgetEvents = {
   widgetExpanded: boolean
   pageEntered: NavigationRouteType
   settingUpdated: SettingUpdated
+  tokenSearch: TokenSearch
 }
 
-export interface ContactSupport {
+export type ContactSupport = {
   supportId?: string
 }
 
-export interface RouteHighValueLossUpdate {
+export type RouteHighValueLossUpdate = {
   fromAmountUSD: number
   toAmountUSD: number
   gasCostUSD?: number
@@ -59,17 +64,27 @@ export interface RouteHighValueLossUpdate {
   valueLoss: number
 }
 
-export interface RouteExecutionUpdate {
+export type RouteExecutionUpdate = {
   route: Route
   process: Process
 }
 
-export interface ChainTokenSelected {
+export type RouteSelected = {
+  route: Route
+  routes: Route[]
+}
+
+export type TokenSearch = {
+  value: string
+  tokens: TokenAmount[]
+}
+
+export type ChainTokenSelected = {
   chainId: ChainId
   tokenAddress: string
 }
 
-export interface WalletConnected {
+export type WalletConnected = {
   address?: string
   chainId?: number
   chainType?: ChainType
