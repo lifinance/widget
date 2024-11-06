@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.12.0](https://github.com/lifinance/widget/compare/v3.11.0...v3.12.0) (2024-11-06)
+
+
+### Features
+
+* add TokenSearch and RouteSelected events ([#324](https://github.com/lifinance/widget/issues/324)) ([9165dd0](https://github.com/lifinance/widget/commit/9165dd03987fb8494671c1a46c9c16dd61e18d1f))
+
+
+### Bug Fixes
+
+* improve token balance and transaction history invalidation ([#325](https://github.com/lifinance/widget/issues/325)) ([5bcf6dc](https://github.com/lifinance/widget/commit/5bcf6dca1b1e2068925db3f6039a2d5fcc6f5ccc))
+
 ## [3.11.0](https://github.com/lifinance/widget/compare/v3.10.0...v3.11.0) (2024-11-01)
 
 
