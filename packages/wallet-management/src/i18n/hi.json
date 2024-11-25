@@ -1,14 +1,14 @@
 {
   "title": {
     "connectWallet": "वॉलेट से जुड़ें?",
-    "connecting": "",
-    "selectEcosystem": "",
-    "waitingForWallet": "",
-    "availableWalletsNotFound": ""
+    "connecting": "कनेक्ट हो रहा है",
+    "selectEcosystem": "ईकोसिस्टम चुनें",
+    "waitingForWallet": "{{walletName}} के लिए प्रतीक्षा हो रही है",
+    "availableWalletsNotFound": "उपलब्ध वॉलेट्स नहीं मिले"
   },
   "message": {
-    "connecting": "",
-    "multipleEcosystems": "",
-    "availableWalletsNotFound": ""
+    "connecting": "अपने वॉलेट पॉपअप में कनेक्ट पर क्लिक करें। क्या आपको अपना वॉलेट नहीं दिख रहा? अपनी अन्य ब्राउज़र विंडो जांचें",
+    "multipleEcosystems": "{{walletName}} कई चेन ईकोसिस्टम का समर्थन करता है। उस चेन ईकोसिस्टम को चुनें जिससे आप जुड़ना चाहते हैं।",
+    "availableWalletsNotFound": "कोई अनुकूल वॉलेट एक्सटेंशन नहीं मिला. कृपया एक समर्थित वॉलेट स्थापित करें और पेज को रिफ्रेश करें। यदि पहले से इंस्टॉल है, तो सुनिश्चित करें कि यह सक्षम और अनुकूल है, या सहायता से संपर्क करें।"
   }
 }
