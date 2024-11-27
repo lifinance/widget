@@ -19,29 +19,18 @@ export const useGasRefuel = () => {
   const toChain = getChainById(toChainId)
   const fromChain = getChainById(fromChainId)
 
-  const { accounts } = useAccount()
+  const { account: toAccount } = useAccount({ chainType: toChain?.chainType })
 
-  const fromAccount = accounts.find(
-    (account) => account.chainType === fromChain?.chainType
-  )
+  const effectiveToAddress = toAddress || toAccount?.address
 
-  const toAccount = accounts.find(
-    (account) => account.chainType === toChain?.chainType
-  )
-
-  const isFromContractAddress = useIsContractAddress(
-    fromAccount?.address,
-    fromChainId,
-    fromAccount?.chainType
-  )
   const isToContractAddress = useIsContractAddress(
-    toAddress,
+    effectiveToAddress,
     toChainId,
     toChain?.chainType
   )
 
   const { token: destinationNativeToken } = useTokenBalance(
-    toAddress || toAccount?.address,
+    effectiveToAddress,
     toChainId ? toChain?.nativeToken : undefined
   )
 
@@ -55,9 +44,8 @@ export const useGasRefuel = () => {
   const isChainTypeSatisfied =
     fromChain?.chainType !== toChain?.chainType ? Boolean(toAddress) : true
 
-  const isToAddressSatisfied = isFromContractAddress
-    ? toAddress && toAddress !== fromAccount?.address && !isToContractAddress
-    : true
+  // We should not refuel to the contract address
+  const isToAddressSatisfied = effectiveToAddress && !isToContractAddress
 
   const enabled = useMemo(() => {
     if (

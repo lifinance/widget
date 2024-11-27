@@ -16,7 +16,8 @@ import { RouteNotFoundCard } from '../RouteCard/RouteNotFoundCard.js'
 export const Routes: React.FC<CardProps> = (props) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { subvariant, useRecommendedRoute } = useWidgetConfig()
+  const { subvariant, subvariantOptions, useRecommendedRoute } =
+    useWidgetConfig()
   const {
     routes,
     isLoading,
@@ -42,11 +43,16 @@ export const Routes: React.FC<CardProps> = (props) => {
   const showAll =
     !onlyRecommendedRoute && !routeNotFound && (routes?.length ?? 0) > 1
 
+  const title =
+    subvariant === 'custom'
+      ? subvariantOptions?.custom === 'deposit'
+        ? t('header.deposit')
+        : t('header.youPay')
+      : t('header.receive')
+
   return (
     <Card {...props}>
-      <CardTitle>
-        {subvariant === 'custom' ? t('header.youPay') : t('header.receive')}
-      </CardTitle>
+      <CardTitle>{title}</CardTitle>
       <ProgressToNextUpdate
         updatedAt={dataUpdatedAt || new Date().getTime()}
         timeToUpdate={refetchTime}
