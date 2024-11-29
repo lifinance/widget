@@ -44,7 +44,10 @@ export const MainPage: React.FC = () => {
       ) : null}
       <SelectChainAndToken mb={2} />
       {!custom || subvariantOptions?.custom === 'deposit' ? (
-        <AmountInput formType="from" sx={marginSx} />
+        <AmountInput
+          formType={subvariantOptions?.custom === 'deposit' ? 'to' : 'from'}
+          sx={marginSx}
+        />
       ) : null}
       {!wideVariant ? <Routes sx={marginSx} /> : null}
       <SendToWalletButton sx={marginSx} />

@@ -177,6 +177,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
         signal,
       }) => {
         const fromAmount = parseUnits(fromTokenAmount, fromToken!.decimals)
+        const toAmount = parseUnits(toTokenAmount, toToken!.decimals)
         const formattedSlippage = Number.parseFloat(slippage) / 100
 
         const allowBridges = swapOnly
@@ -210,17 +211,18 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           fromAddress,
           toAddress,
           fromAmount,
+          toAmount,
           slippage: formattedSlippage,
         })
 
-        if (subvariant === 'custom' && contractCalls && toTokenAmount) {
+        if (subvariant === 'custom' && contractCalls && toAmount) {
           const contractCallQuote = await getContractCallsQuote(
             {
               // Contract calls are enabled only when fromAddress is set
               fromAddress: fromAddress as string,
               fromChain: fromChainId,
               fromToken: fromTokenAddress,
-              toAmount: toTokenAmount,
+              toAmount: toAmount.toString(),
               toChain: toChainId,
               toToken: toTokenAddress,
               contractCalls,
@@ -265,8 +267,8 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
             fromAddress: contractCallQuote.action.fromAddress,
             toChainId: contractCallQuote.action.toChainId,
             toAmountUSD: contractCallQuote.estimate.toAmountUSD || '',
-            toAmount: toTokenAmount,
-            toAmountMin: toTokenAmount,
+            toAmount: contractCallQuote.estimate.toAmount,
+            toAmountMin: contractCallQuote.estimate.toAmountMin,
             toToken: toToken!,
             toAddress:
               contractCallQuote.action.toAddress ||
