@@ -12,7 +12,6 @@ import { contractTool } from './config'
 
 // EXAMPLE CONTRACT, DON'T DEPOSIT
 const depositAddress = '0x4bF3E32de155359D1D75e8B474b66848221142fc'
-const depositAmount = 5000000n
 
 const contractCalls: ContractCall[] = []
 
@@ -54,7 +53,6 @@ export function App() {
             coinKey: CoinKey.USDC,
             logoURI:
               'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png',
-            amount: depositAmount,
           }}
           contractCalls={contractCalls}
         />

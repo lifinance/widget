@@ -46,7 +46,7 @@ export const Routes: React.FC<CardProps> = (props) => {
   const title =
     subvariant === 'custom'
       ? subvariantOptions?.custom === 'deposit'
-        ? t('header.deposit')
+        ? t('header.receive')
         : t('header.youPay')
       : t('header.receive')
 

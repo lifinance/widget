@@ -267,13 +267,15 @@
     "stepBridge": "Bridge",
     "stepBridgeAndBuy": "Bridge and buy",
     "stepBridgeAndDeposit": "Bridge and deposit",
+    "stepBuy": "Buy",
+    "stepDeposit": "Deposit",
     "stepDetails": "{{tool}} via LI.FI",
     "stepSwap": "Swap",
     "stepSwapAndBridge": "Swap and bridge",
     "stepSwapAndBuy": "Swap and buy",
     "stepSwapAndDeposit": "Swap and deposit",
-    "transferId": "Transfer ID",
     "swapStepDetails": "Swap on {{chain}} via {{tool}}",
+    "transferId": "Transfer ID",
     "tags": {
       "cheapest": "Best Return",
       "fastest": "Fastest"

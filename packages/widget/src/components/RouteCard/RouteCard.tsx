@@ -26,7 +26,7 @@ export const RouteCard: React.FC<
   ...other
 }) => {
   const { t } = useTranslation()
-  const { subvariant } = useWidgetConfig()
+  const { subvariant, subvariantOptions } = useWidgetConfig()
   const [cardExpanded, setCardExpanded] = useState(defaulExpanded)
 
   const handleExpand: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -35,7 +35,7 @@ export const RouteCard: React.FC<
   }
 
   const token: TokenAmount =
-    subvariant === 'custom'
+    subvariant === 'custom' && subvariantOptions?.custom !== 'deposit'
       ? { ...route.fromToken, amount: BigInt(route.fromAmount) }
       : { ...route.toToken, amount: BigInt(route.toAmount) }
   const impactToken: TokenAmount | undefined =
