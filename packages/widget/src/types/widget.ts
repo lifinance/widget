@@ -141,7 +141,8 @@ export interface CalculateFeeParams {
   toTokenAddress: string
   fromAddress?: string
   toAddress?: string
-  fromAmount: bigint
+  fromAmount?: bigint
+  toAmount?: bigint
   slippage: number
 }
 

@@ -64,7 +64,7 @@ export const RoutesExpanded = () => {
 export const RoutesExpandedElement = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { subvariant } = useWidgetConfig()
+  const { subvariant, subvariantOptions } = useWidgetConfig()
   const routesRef = useRef<Route[]>()
   const emitter = useWidgetEvents()
   const routesActiveRef = useRef(false)
@@ -118,6 +118,13 @@ export const RoutesExpandedElement = () => {
     emitter.emit(WidgetEvent.WidgetExpanded, expanded)
   }, [emitter, expanded])
 
+  const title =
+    subvariant === 'custom'
+      ? subvariantOptions?.custom === 'deposit'
+        ? t('header.deposit')
+        : t('header.youPay')
+      : t('header.receive')
+
   return (
     <RoutesExpandedCollapse
       timeout={timeout.enter}
@@ -130,9 +137,7 @@ export const RoutesExpandedElement = () => {
           <ScrollableContainer>
             <Header>
               <Typography fontSize={18} fontWeight="700" flex={1} noWrap>
-                {subvariant === 'custom'
-                  ? t('header.youPay')
-                  : t('header.receive')}
+                {title}
               </Typography>
               <ProgressToNextUpdate
                 updatedAt={dataUpdatedAt || new Date().getTime()}
