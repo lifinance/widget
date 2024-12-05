@@ -15,15 +15,15 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "wagmi": "^2.13.3",
-    "zustand": "^5.0.1"
+    "zustand": "^5.0.2"
   },
   "devDependencies": {
-    "@types/react": "^18.3.12",
+    "@types/react": "^18.3.13",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
     "globals": "^15.13.0",
     "typescript": "^5.7.2",
-    "vite": "^6.0.2",
+    "vite": "^6.0.3",
     "vite-plugin-node-polyfills": "^0.22.0"
   }
 }
