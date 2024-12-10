@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@lifi/sdk": "^3.4.2",
-    "@lifi/widget": "^3.12.2",
+    "@lifi/widget": "^3.12.3",
     "next": "^14.2.18",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"

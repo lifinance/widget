@@ -44,7 +44,9 @@ export const StepTimer: React.FC<{
       return
     }
     const shouldRestart = executionProcess.status === 'FAILED'
-    const shouldPause = executionProcess.status === 'ACTION_REQUIRED'
+    const shouldPause =
+      executionProcess.status === 'PERMIT_REQUIRED' ||
+      executionProcess.status === 'ACTION_REQUIRED'
     const shouldStart =
       executionProcess.status === 'STARTED' ||
       executionProcess.status === 'PENDING'

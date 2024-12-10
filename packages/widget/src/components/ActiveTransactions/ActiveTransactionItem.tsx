@@ -35,6 +35,7 @@ export const ActiveTransactionItem: React.FC<{
 
   const getStatusComponent = () => {
     switch (lastActiveProcess?.status) {
+      case 'PERMIT_REQUIRED':
       case 'ACTION_REQUIRED':
         return <InfoRounded color="info" fontSize="small" />
       case 'FAILED':
