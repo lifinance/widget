@@ -39,6 +39,7 @@ const processStatusMessages: Record<
       ProcessStatus,
       (
         t: TFunction,
+        step: LiFiStep,
         subvariant?: WidgetSubvariant,
         subvariantOptions?: SubvariantOptions
       ) => string
@@ -47,9 +48,18 @@ const processStatusMessages: Record<
 > = {
   TOKEN_ALLOWANCE: {
     STARTED: (t) => t('main.process.tokenAllowance.started'),
-    ACTION_REQUIRED: (t) => t('main.process.tokenAllowance.pending'),
-    PENDING: (t) => t('main.process.tokenAllowance.pending'),
-    DONE: (t) => t('main.process.tokenAllowance.done'),
+    ACTION_REQUIRED: (t, step) =>
+      t('main.process.tokenAllowance.actionRequired', {
+        tokenSymbol: step.action.fromToken.symbol,
+      }),
+    PENDING: (t, step) =>
+      t('main.process.tokenAllowance.pending', {
+        tokenSymbol: step.action.fromToken.symbol,
+      }),
+    DONE: (t, step) =>
+      t('main.process.tokenAllowance.done', {
+        tokenSymbol: step.action.fromToken.symbol,
+      }),
   },
   SWITCH_CHAIN: {
     ACTION_REQUIRED: (t) => t('main.process.switchChain.actionRequired'),
@@ -57,22 +67,30 @@ const processStatusMessages: Record<
   },
   SWAP: {
     STARTED: (t) => t('main.process.swap.started'),
+    PERMIT_REQUIRED: (t, step) =>
+      t('main.process.swap.permitRequired', {
+        tokenSymbol: step.action.fromToken.symbol,
+      }),
     ACTION_REQUIRED: (t) => t('main.process.swap.actionRequired'),
     PENDING: (t) => t('main.process.swap.pending'),
-    DONE: (t, subvariant, subvariantOptions) =>
+    DONE: (t, _, subvariant, subvariantOptions) =>
       subvariant === 'custom'
         ? t(`main.process.${subvariantOptions?.custom ?? 'checkout'}.done`)
         : t('main.process.swap.done'),
   },
   CROSS_CHAIN: {
     STARTED: (t) => t('main.process.bridge.started'),
+    PERMIT_REQUIRED: (t, step) =>
+      t('main.process.bridge.permitRequired', {
+        tokenSymbol: step.action.fromToken.symbol,
+      }),
     ACTION_REQUIRED: (t) => t('main.process.bridge.actionRequired'),
     PENDING: (t) => t('main.process.bridge.pending'),
     DONE: (t) => t('main.process.bridge.done'),
   },
   RECEIVING_CHAIN: {
     PENDING: (t) => t('main.process.receivingChain.pending'),
-    DONE: (t, subvariant, subvariantOptions) =>
+    DONE: (t, _, subvariant, subvariantOptions) =>
       subvariant === 'custom'
         ? t(`main.process.${subvariantOptions?.custom ?? 'checkout'}.done`)
         : t('main.process.receivingChain.done'),
@@ -229,6 +247,7 @@ export function getProcessMessage(
     ]?.(t) ??
     processStatusMessages[process.type]?.[process.status]?.(
       t,
+      step,
       subvariant,
       subvariantOptions
     )

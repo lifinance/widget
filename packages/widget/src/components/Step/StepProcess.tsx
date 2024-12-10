@@ -23,7 +23,8 @@ export const StepProcess: React.FC<{
       >
         <CircularProgress process={process} />
         <Typography
-          mx={2}
+          ml={2}
+          mr={0.5}
           flex={1}
           fontSize={14}
           fontWeight={process.error ? 600 : 400}
