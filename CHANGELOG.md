@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.12.4](https://github.com/lifinance/widget/compare/v3.12.3...v3.12.4) (2024-12-12)
+
+
+### Bug Fixes
+
+* improve powered by with dynamic configuration ([#332](https://github.com/lifinance/widget/issues/332)) ([6ae3abb](https://github.com/lifinance/widget/commit/6ae3abbca2140fcda5c9a3ce1f014b27651141aa))
+* keep previous data only when wallet is connected ([1b4df34](https://github.com/lifinance/widget/commit/1b4df3448f69c1639a1edc23d5b70ad66b0538e9))
+
 ### [3.12.3](https://github.com/lifinance/widget/compare/v3.12.2...v3.12.3) (2024-12-05)
 
 ### [3.12.2](https://github.com/lifinance/widget/compare/v3.12.1...v3.12.2) (2024-11-19)
