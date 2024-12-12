@@ -188,6 +188,8 @@ export type WidgetLanguages = {
   default?: LanguageKey
 } & AllowDeny<LanguageKey>
 
+export type PoweredByType = 'default' | 'jumper'
+
 export interface WidgetConfig {
   fromChain?: number
   toChain?: number
@@ -239,6 +241,7 @@ export interface WidgetConfig {
   languageResources?: LanguageResources
   explorerUrls?: Record<number, string[]> &
     Partial<Record<'internal', string[]>>
+  poweredBy?: PoweredByType
 }
 
 export interface FormFieldOptions {
