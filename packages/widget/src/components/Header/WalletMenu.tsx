@@ -30,7 +30,12 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
 
   return (
     <>
-      <Box display="flex" flexDirection="column">
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
         {accounts.map((account) => {
           const chain = getChainById(account.chainId)
           const walletAddress = shortenAddress(account.address)
@@ -41,7 +46,13 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
 
           return (
             <MenuItem key={account.address} disableTouchRipple>
-              <Box flex={1} display="flex" alignItems="center">
+              <Box
+                sx={{
+                  flex: 1,
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
                 {chain?.logoURI ? (
                   <Badge
                     overlap="circular"
@@ -73,7 +84,11 @@ export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
                 )}
                 {walletAddress}
               </Box>
-              <Box ml={2}>
+              <Box
+                sx={{
+                  ml: 2,
+                }}
+              >
                 <IconButton size="medium" onClick={handleCopyAddress}>
                   <ContentCopyRounded />
                 </IconButton>

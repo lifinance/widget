@@ -98,15 +98,36 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
   ) : null
 
   return (
-    <Box flex={1} display="flex" alignItems="center" {...other}>
+    <Box
+      {...other}
+      sx={[
+        {
+          flex: 1,
+          display: 'flex',
+          alignItems: 'center',
+        },
+        ...(Array.isArray(other.sx) ? other.sx : [other.sx]),
+      ]}
+    >
       <TokenAvatar
         token={token}
         chain={chain}
         isLoading={isLoading}
         sx={{ marginRight: 2 }}
       />
-      <Box flex={1}>
-        <Box mb={0.5} height={24} display="flex" alignItems="center">
+      <Box
+        sx={{
+          flex: 1,
+        }}
+      >
+        <Box
+          sx={{
+            mb: 0.5,
+            height: 24,
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
           <TextFitter
             height={30}
             textStyle={{
@@ -175,7 +196,14 @@ const TokenStep: FC<PropsWithChildren<Partial<TokenProps>>> = ({
   children,
 }) => {
   return (
-    <Box flex={1} position="relative" overflow="hidden" height={16}>
+    <Box
+      sx={{
+        flex: 1,
+        position: 'relative',
+        overflow: 'hidden',
+        height: 16,
+      }}
+    >
       <Grow
         in={!stepVisible && !disableDescription}
         style={{
@@ -184,7 +212,13 @@ const TokenStep: FC<PropsWithChildren<Partial<TokenProps>>> = ({
         appear={false}
         timeout={225}
       >
-        <Box display="flex" alignItems="center" height={16}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            height: 16,
+          }}
+        >
           {children as ReactElement}
         </Box>
       </Grow>
@@ -196,8 +230,19 @@ const TokenStep: FC<PropsWithChildren<Partial<TokenProps>>> = ({
         appear={false}
         timeout={225}
       >
-        <Box display="flex" alignItems="center" height={16}>
-          <Box mr={0.75} height={16}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            height: 16,
+          }}
+        >
+          <Box
+            sx={{
+              mr: 0.75,
+              height: 16,
+            }}
+          >
             <SmallAvatar
               src={step?.toolDetails.logoURI}
               alt={step?.toolDetails.name}
@@ -218,10 +263,28 @@ export const TokenSkeleton: FC<Partial<TokenProps> & BoxProps> = ({
   ...other
 }) => {
   return (
-    <Box flex={1} {...other}>
-      <Box display="flex" flex={1} alignItems="center">
+    <Box
+      {...other}
+      sx={[
+        {
+          flex: 1,
+        },
+        ...(Array.isArray(other.sx) ? other.sx : [other.sx]),
+      ]}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          flex: 1,
+          alignItems: 'center',
+        }}
+      >
         <AvatarBadgedSkeleton sx={{ marginRight: 2 }} />
-        <Box flex={1}>
+        <Box
+          sx={{
+            flex: 1,
+          }}
+        >
           <Skeleton width={112} height={24} variant="text" />
           <TextSecondaryContainer as="span">
             <Skeleton

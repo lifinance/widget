@@ -130,7 +130,13 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
         <CardTitle required={requiredToAddress}>
           {t('header.sendToWallet')}
         </CardTitle>
-        <Box display="flex" justifyContent="center" alignItems="center">
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
           <SendToWalletCardHeader
             avatar={
               <AccountAvatar
