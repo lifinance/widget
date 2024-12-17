@@ -38,10 +38,7 @@ export const AlertMessageCardTitle = styled(Box, {
   paddingRight: theme.spacing(2),
   paddingTop: theme.spacing(2),
   gap: theme.spacing(1),
-  color:
-    theme.palette.mode === 'light'
-      ? theme.palette.info.main
-      : lighten(theme.palette.info.main, 0.24),
+  color: lighten(theme.palette.info.main, 0.24),
   variants: [
     {
       props: {
@@ -55,4 +52,7 @@ export const AlertMessageCardTitle = styled(Box, {
       },
     },
   ],
+  ...theme.applyStyles('light', {
+    color: theme.palette.info.main,
+  }),
 }))

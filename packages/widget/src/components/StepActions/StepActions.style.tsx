@@ -56,11 +56,7 @@ export const StepLabelTypography = styled(Typography)(({ theme }) => ({
 export const StepContent = styled(Box, {
   shouldForwardProp: (prop) => !['last'].includes(prop as string),
 })<{ last: boolean }>(({ theme }) => ({
-  borderLeft: `2px solid ${
-    theme.palette.mode === 'light'
-      ? alpha(theme.palette.common.black, 0.12)
-      : alpha(theme.palette.common.white, 0.16)
-  }`,
+  borderLeft: `2px solid ${alpha(theme.palette.common.white, 0.16)}`,
   margin: theme.spacing(0, 0, 0, 2.375),
   paddingLeft: theme.spacing(4.375),
   variants: [
@@ -72,6 +68,9 @@ export const StepContent = styled(Box, {
       },
     },
   ],
+  ...theme.applyStyles('light', {
+    borderLeft: `2px solid ${alpha(theme.palette.common.black, 0.12)}`,
+  }),
 }))
 
 export const StepAvatar = styled(AvatarMasked)(({ theme }) => ({
