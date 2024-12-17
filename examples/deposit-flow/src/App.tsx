@@ -4,19 +4,14 @@ import {
   CoinKey,
   DisabledUI,
   HiddenUI,
-  ItemPrice,
   LiFiWidget,
 } from '@lifi/widget'
 import { useMemo } from 'react'
+import { DepositCard } from './components/DepositCard'
+import { contractTool } from './config'
 
-const depositAddress = '0xdde759c7cf032b1d0e633a7e9cfa6653d1911a22'
-const depositAmount = 5000000n
-
-export const contractTool = {
-  logoURI:
-    'https://github.com/lifinance/widget/assets/18644653/eb043a91-18ba-4da7-91c4-029a53a25989',
-  name: 'Immutable',
-}
+// EXAMPLE CONTRACT, DON'T DEPOSIT
+const depositAddress = '0x4bF3E32de155359D1D75e8B474b66848221142fc'
 
 const contractCalls: ContractCall[] = []
 
@@ -30,7 +25,7 @@ export function App() {
       },
       subvariant: 'custom',
       subvariantOptions: { custom: 'deposit' },
-      integrator: 'Immutable',
+      integrator: 'ProtocolName',
       disabledUI: [DisabledUI.ToAddress],
       hiddenUI: [HiddenUI.Appearance, HiddenUI.Language],
       useRecommendedRoute: true,
@@ -47,7 +42,7 @@ export function App() {
   return (
     <LiFiWidget
       contractComponent={
-        <ItemPrice
+        <DepositCard
           token={{
             chainId: 10,
             address: '0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85',
@@ -58,7 +53,6 @@ export function App() {
             coinKey: CoinKey.USDC,
             logoURI:
               'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png',
-            amount: depositAmount,
           }}
           contractCalls={contractCalls}
         />

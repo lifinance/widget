@@ -1,5 +1,6 @@
 import type { ContractCall } from '@lifi/sdk'
 import { useEffect } from 'react'
+import { formatUnits } from 'viem'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import type { TokenAmount } from '../../types/token.js'
 import { Token } from '../Token/Token.js'
@@ -19,9 +20,13 @@ export const ItemPrice: React.FC<ItemPriceProps> = ({
     if (token) {
       setFieldValue('toChain', token.chainId, { isTouched: true })
       setFieldValue('toToken', token.address, { isTouched: true })
-      setFieldValue('toAmount', token.amount?.toString(), {
-        isTouched: true,
-      })
+      setFieldValue(
+        'toAmount',
+        token.amount ? formatUnits(token.amount, token.decimals) : '',
+        {
+          isTouched: true,
+        }
+      )
     }
     if (contractCalls) {
       setFieldValue('contractCalls', contractCalls, {

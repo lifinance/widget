@@ -58,8 +58,8 @@ export const Step: React.FC<{
       default:
         return subvariant === 'custom'
           ? subvariantOptions?.custom === 'deposit'
-            ? t('main.stepSwapAndDeposit')
-            : t('main.stepSwapAndBuy')
+            ? t('main.stepDeposit')
+            : t('main.stepBuy')
           : t('main.stepSwap')
     }
   }

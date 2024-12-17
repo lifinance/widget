@@ -3,6 +3,7 @@ import './index.css'
 
 export const widgetBaseConfig: WidgetConfig = {
   subvariant: 'custom',
+
   integrator: 'li.fi-playground',
   hiddenUI: ['history'],
   // buildUrl: true,

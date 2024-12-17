@@ -70,6 +70,7 @@ export const AmountInputBase: React.FC<
   ...props
 }) => {
   const { t } = useTranslation()
+  const { subvariant, subvariantOptions } = useWidgetConfig()
   const ref = useRef<HTMLInputElement>(null)
   const amountKey = FormKeyHelper.getAmountKey(formType)
   const { onChange, onBlur, value } = useFieldController({ name: amountKey })
@@ -98,9 +99,16 @@ export const AmountInputBase: React.FC<
     }
   }, [value])
 
+  const title =
+    subvariant === 'custom'
+      ? subvariantOptions?.custom === 'deposit'
+        ? t('header.amount')
+        : t('header.youPay')
+      : t('header.send')
+
   return (
     <InputCard {...props}>
-      <CardTitle>{t('header.send')}</CardTitle>
+      <CardTitle>{title}</CardTitle>
       <FormContainer>
         <AmountInputStartAdornment formType={formType} />
         <FormControl fullWidth>
