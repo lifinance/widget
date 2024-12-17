@@ -156,9 +156,19 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
             <ArrowBack />
           </IconButton>
         ) : (
-          <Box height={40} width={40} />
+          <Box
+            sx={{
+              height: 40,
+              width: 40,
+            }}
+          />
         )}
-        <Typography fontWeight={700} margin="auto">
+        <Typography
+          sx={{
+            fontWeight: 700,
+            margin: 'auto',
+          }}
+        >
           {isMultiEcosystem
             ? t('title.selectEcosystem')
             : isConnecting
@@ -199,7 +209,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
                 )
               })}
               {/* TODO: show all connected wallets with 'Connected' badge
-              and have this empty screen only when there is no installed wallets at all */}
+            and have this empty screen only when there is no installed wallets at all */}
               {!installedWallets.length ? <WalletMenuContentEmpty /> : null}
             </List>
           </Fade>
@@ -215,12 +225,14 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
           >
             <List sx={{ padding: 0 }}>
               <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                flexDirection="column"
-                px={1}
-                pb={2}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexDirection: 'column',
+                  px: 1,
+                  pb: 2,
+                }}
               >
                 <Avatar
                   src={selectedWallet?.icon}
@@ -229,7 +241,13 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
                 >
                   {selectedWallet?.name[0]}
                 </Avatar>
-                <Typography pt={2} textAlign="center" variant="body2">
+                <Typography
+                  variant="body2"
+                  sx={{
+                    pt: 2,
+                    textAlign: 'center',
+                  }}
+                >
                   {t('message.multipleEcosystems', {
                     walletName: selectedWallet?.name,
                   })}
@@ -258,12 +276,14 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
           >
             <List sx={{ padding: 0 }}>
               <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                flexDirection="column"
-                px={1}
-                pb={2}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexDirection: 'column',
+                  px: 1,
+                  pb: 2,
+                }}
               >
                 <Avatar
                   src={selectedWallet?.icon}
@@ -272,12 +292,24 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
                 >
                   {selectedWallet?.name[0]}
                 </Avatar>
-                <Typography pt={2} textAlign="center" fontWeight={500}>
+                <Typography
+                  sx={{
+                    pt: 2,
+                    textAlign: 'center',
+                    fontWeight: 500,
+                  }}
+                >
                   {t('title.waitingForWallet', {
                     walletName: selectedWallet?.name,
                   })}
                 </Typography>
-                <Typography pt={2} textAlign="center" variant="body2">
+                <Typography
+                  variant="body2"
+                  sx={{
+                    pt: 2,
+                    textAlign: 'center',
+                  }}
+                >
                   {t('message.connecting')}
                 </Typography>
               </Box>
