@@ -112,10 +112,7 @@ const StepTimerContent: FC<PropsWithChildren> = ({ children }) => {
   return (
     <Tooltip title={t('tooltip.estimatedTime')} sx={{ cursor: 'help' }}>
       <Box component="span" display="flex" alignItems="center" height={14}>
-        <IconTypography
-          component="span"
-          sx={{ marginRight: 0.5, fontSize: 16 }}
-        >
+        <IconTypography as="span" sx={{ marginRight: 0.5, fontSize: 16 }}>
           <AccessTimeFilled fontSize="inherit" />
         </IconTypography>
         <Box
