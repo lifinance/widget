@@ -1,6 +1,5 @@
 import TabContext from '@mui/lab/TabContext'
 import { Box, Typography } from '@mui/material'
-import { CRALogo } from '../../../logo/CRA'
 import { GatsbyLogo } from '../../../logo/Gatsby'
 import { NextLogo } from '../../../logo/Next'
 import { NuxtLogo } from '../../../logo/Nuxt'
@@ -55,12 +54,6 @@ export const CodeControl = () => {
           <Typography variant="caption">
             Examples of the widget used in different projects
           </Typography>
-          <ProjectButton
-            href="https://github.com/lifinance/widget/tree/main/examples/create-react-app"
-            icon={<CRALogo />}
-          >
-            Create-React-App
-          </ProjectButton>
           <ProjectButton
             href="https://github.com/lifinance/widget/tree/main/examples/gatsby"
             icon={<GatsbyLogo />}
