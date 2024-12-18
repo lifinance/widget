@@ -14,12 +14,16 @@ export const NFTBase: React.FC<NFTProps> = ({
 }) => {
   const { t } = useTranslation()
   return (
-    (<Box sx={{
-      p: 2
-    }}>
-      <Box sx={{
-        display: "flex"
-      }}>
+    <Box
+      sx={{
+        p: 2,
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+        }}
+      >
         {isLoading ? (
           <Skeleton
             width={96}
@@ -30,17 +34,20 @@ export const NFTBase: React.FC<NFTProps> = ({
         ) : (
           <PreviewAvatar src={imageUrl} />
         )}
-        <Box sx={{
-          ml: 2
-        }}>
+        <Box
+          sx={{
+            ml: 2,
+          }}
+        >
           {isLoading ? (
             <Skeleton width={144} height={21} variant="text" />
           ) : (
             <Typography
               sx={{
                 fontSize: 14,
-                color: "text.secondary"
-              }}>
+                color: 'text.secondary',
+              }}
+            >
               {collectionName}
             </Typography>
           )}
@@ -50,8 +57,9 @@ export const NFTBase: React.FC<NFTProps> = ({
             <Typography
               sx={{
                 fontSize: 18,
-                fontWeight: 600
-              }}>
+                fontWeight: 600,
+              }}
+            >
               {assetName}
             </Typography>
           )}
@@ -61,8 +69,9 @@ export const NFTBase: React.FC<NFTProps> = ({
             <Typography
               sx={{
                 fontSize: 14,
-                color: "text.secondary"
-              }}>
+                color: 'text.secondary',
+              }}
+            >
               {t('main.ownedBy')}{' '}
               <Link
                 href={owner.url}
@@ -77,6 +86,6 @@ export const NFTBase: React.FC<NFTProps> = ({
         </Box>
       </Box>
       <Token token={token} isLoading={isLoading} mt={2} />
-    </Box>)
-  );
+    </Box>
+  )
 }

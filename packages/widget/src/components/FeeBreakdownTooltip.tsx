@@ -18,7 +18,7 @@ export const FeeBreakdownTooltip: React.FC<FeeBreakdownTooltipProps> = ({
 }) => {
   const { t } = useTranslation()
   return (
-    (<Tooltip
+    <Tooltip
       title={
         <Box>
           {gasCosts?.length ? (
@@ -28,9 +28,11 @@ export const FeeBreakdownTooltip: React.FC<FeeBreakdownTooltipProps> = ({
             </Box>
           ) : null}
           {feeCosts?.length ? (
-            <Box sx={{
-              mt: 0.5
-            }}>
+            <Box
+              sx={{
+                mt: 0.5,
+              }}
+            >
               {t('main.fees.provider')}
               {getFeeBreakdownTypography(feeCosts, t)}
             </Box>
@@ -40,8 +42,8 @@ export const FeeBreakdownTooltip: React.FC<FeeBreakdownTooltipProps> = ({
       sx={{ cursor: 'help' }}
     >
       {children}
-    </Tooltip>)
-  );
+    </Tooltip>
+  )
 }
 
 export const getFeeBreakdownTypography = (
@@ -54,8 +56,9 @@ export const getFeeBreakdownTypography = (
       key={`${fee.token.address}${index}`}
       sx={{
         fontSize: 12,
-        fontWeight: "500"
-      }}>
+        fontWeight: '500',
+      }}
+    >
       {t('format.currency', { value: fee.amountUSD })} (
       {t('format.number', {
         value: Number.parseFloat(formatUnits(fee.amount, fee.token.decimals)),
