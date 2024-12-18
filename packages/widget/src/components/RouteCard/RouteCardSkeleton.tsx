@@ -11,9 +11,19 @@ export const RouteCardSkeleton: React.FC<
   const { subvariant } = useWidgetConfig()
 
   const cardContent = (
-    <Box flex={1}>
+    <Box
+      sx={{
+        flex: 1,
+      }}
+    >
       {subvariant !== 'refuel' && subvariant !== 'custom' ? (
-        <Box display="flex" alignItems="center" mb={2}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            mb: 2,
+          }}
+        >
           <Skeleton
             variant="rectangular"
             width={112}
@@ -25,7 +35,13 @@ export const RouteCardSkeleton: React.FC<
         </Box>
       ) : null}
       <TokenSkeleton />
-      <Box mt={2} display="flex" justifyContent="space-between">
+      <Box
+        sx={{
+          mt: 2,
+          display: 'flex',
+          justifyContent: 'space-between',
+        }}
+      >
         <Skeleton variant="text" width={64} height={20} />
         <Skeleton variant="text" width={56} height={20} />
       </Box>

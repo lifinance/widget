@@ -10,45 +10,68 @@ export interface CardProps extends MuiCardProps {
 export const Card = styled(MuiCard, {
   shouldForwardProp: (prop) =>
     !['type', 'indented', 'selectionColor'].includes(prop as string),
-})<CardProps>(({ theme, indented, selectionColor, type }) => {
+})<CardProps>(({ theme }) => {
   return {
-    padding: indented ? theme.spacing(2) : 0,
-    ...(type === 'selected' &&
-      selectionColor === 'primary' && {
-        backgroundColor:
-          theme.palette.mode === 'light'
-            ? lighten(theme.palette.primary.main, 0.95)
-            : darken(theme.palette.primary.main, 0.65),
-        borderWidth: 1,
-        borderStyle: 'solid',
-        borderColor: theme.palette.primary.main,
-        '&:hover': {
-          backgroundColor:
-            theme.palette.mode === 'light'
-              ? lighten(theme.palette.primary.main, 0.9)
-              : darken(theme.palette.primary.main, 0.6),
+    padding: 0,
+    variants: [
+      {
+        props: ({ indented }) => indented,
+        style: {
+          padding: theme.spacing(2),
         },
-      }),
-    ...(type === 'selected' &&
-      selectionColor === 'secondary' && {
-        backgroundColor:
-          theme.palette.mode === 'light'
-            ? lighten(theme.palette.secondary.main, 0.85)
-            : darken(theme.palette.secondary.main, 0.76),
-        borderWidth: 1,
-        borderStyle: 'solid',
-        borderColor: alpha(theme.palette.secondary.main, 0.2),
-        '&:hover': {
-          backgroundColor:
-            theme.palette.mode === 'light'
-              ? lighten(theme.palette.secondary.main, 0.8)
-              : darken(theme.palette.secondary.main, 0.72),
+      },
+      {
+        props: {
+          selectionColor: 'primary',
+          type: 'selected',
         },
-      }),
-    ...(type === 'error' && {
-      borderWidth: 1,
-      borderStyle: 'solid',
-      borderColor: theme.palette.error.main,
-    }),
+        style: {
+          backgroundColor: darken(theme.palette.primary.main, 0.65),
+          borderWidth: 1,
+          borderStyle: 'solid',
+          borderColor: theme.palette.primary.main,
+          '&:hover': {
+            backgroundColor: darken(theme.palette.primary.main, 0.6),
+            ...theme.applyStyles('light', {
+              backgroundColor: lighten(theme.palette.primary.main, 0.9),
+            }),
+          },
+          ...theme.applyStyles('light', {
+            backgroundColor: lighten(theme.palette.primary.main, 0.95),
+          }),
+        },
+      },
+      {
+        props: {
+          selectionColor: 'secondary',
+          type: 'selected',
+        },
+        style: {
+          backgroundColor: darken(theme.palette.secondary.main, 0.76),
+          borderWidth: 1,
+          borderStyle: 'solid',
+          borderColor: alpha(theme.palette.secondary.main, 0.2),
+          '&:hover': {
+            backgroundColor: darken(theme.palette.secondary.main, 0.72),
+            ...theme.applyStyles('light', {
+              backgroundColor: lighten(theme.palette.secondary.main, 0.8),
+            }),
+          },
+          ...theme.applyStyles('light', {
+            backgroundColor: lighten(theme.palette.secondary.main, 0.85),
+          }),
+        },
+      },
+      {
+        props: {
+          type: 'error',
+        },
+        style: {
+          borderWidth: 1,
+          borderStyle: 'solid',
+          borderColor: theme.palette.error.main,
+        },
+      },
+    ],
   }
 })

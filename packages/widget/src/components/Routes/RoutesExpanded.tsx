@@ -129,7 +129,14 @@ export const RoutesExpandedElement = () => {
         <Container enableColorScheme minimumHeight={isLoading}>
           <ScrollableContainer>
             <Header>
-              <Typography fontSize={18} fontWeight="700" flex={1} noWrap>
+              <Typography
+                noWrap
+                sx={{
+                  fontSize: 18,
+                  fontWeight: '700',
+                  flex: 1,
+                }}
+              >
                 {subvariant === 'custom'
                   ? t('header.youPay')
                   : t('header.receive')}
@@ -143,7 +150,14 @@ export const RoutesExpandedElement = () => {
               />
             </Header>
             <PageContainer>
-              <Stack direction="column" spacing={2} flex={1} paddingBottom={3}>
+              <Stack
+                direction="column"
+                spacing={2}
+                sx={{
+                  flex: 1,
+                  paddingBottom: 3,
+                }}
+              >
                 {routeNotFound ? (
                   <RouteNotFoundCard />
                 ) : isLoading || (isFetching && !routesRef.current?.length) ? (

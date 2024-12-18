@@ -22,25 +22,40 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
     getAccumulatedFeeCostsBreakdown(route)
   return (
     <Box
-      display="flex"
-      alignItems="center"
-      justifyContent={'space-between'}
-      flex={1}
-      mt={2}
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flex: 1,
+        mt: 2,
+      }}
     >
       <TokenRate route={route} />
-      <Box display="flex" alignItems="center">
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
         <FeeBreakdownTooltip gasCosts={gasCosts} feeCosts={feeCosts}>
-          <Box display="flex" mr={1.5} alignItems="center">
+          <Box
+            sx={{
+              display: 'flex',
+              mr: 1.5,
+              alignItems: 'center',
+            }}
+          >
             <IconTypography mr={0.5} fontSize={16}>
               <LocalGasStationRounded fontSize="inherit" />
             </IconTypography>
             <Typography
-              fontSize={14}
-              color="text.primary"
-              fontWeight={600}
-              lineHeight={1}
               data-value={combinedFeesUSD}
+              sx={{
+                fontSize: 14,
+                color: 'text.primary',
+                fontWeight: 600,
+                lineHeight: 1,
+              }}
             >
               {t('format.currency', {
                 value: combinedFeesUSD,
@@ -49,15 +64,22 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
           </Box>
         </FeeBreakdownTooltip>
         <Tooltip title={t('tooltip.estimatedTime')} sx={{ cursor: 'help' }}>
-          <Box display="flex" alignItems="center">
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
             <IconTypography mr={0.5} fontSize={16}>
               <AccessTimeFilled fontSize="inherit" />
             </IconTypography>
             <Typography
-              fontSize={14}
-              color="text.primary"
-              fontWeight={600}
-              lineHeight={1}
+              sx={{
+                fontSize: 14,
+                color: 'text.primary',
+                fontWeight: 600,
+                lineHeight: 1,
+              }}
             >
               {(executionTimeSeconds < 60
                 ? executionTimeSeconds

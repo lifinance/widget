@@ -13,7 +13,12 @@ export const DestinationWalletAddress: React.FC<{
   const { t } = useTranslation()
   const isDone = step.execution?.status === 'DONE'
   return (
-    <Box px={2} py={1}>
+    <Box
+      sx={{
+        px: 2,
+        py: 1,
+      }}
+    >
       <Box
         sx={{
           display: 'flex',
@@ -29,7 +34,14 @@ export const DestinationWalletAddress: React.FC<{
             }}
           />
         </CircularIcon>
-        <Typography mx={2} flex={1} fontSize={14} fontWeight={400}>
+        <Typography
+          sx={{
+            mx: 2,
+            flex: 1,
+            fontSize: 14,
+            fontWeight: 400,
+          }}
+        >
           {isDone
             ? t('main.sentToAddress', {
                 address: toAddress,

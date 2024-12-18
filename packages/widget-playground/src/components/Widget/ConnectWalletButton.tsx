@@ -17,8 +17,21 @@ export const ConnectWalletButton = () => {
       endIcon={<PowerSettingsNewIcon />}
       onClick={() => disconnect()}
     >
-      <Box pr={1}>{shortenAddress(account.address)}</Box>|
-      <Box pl={1}>Disconnect</Box>
+      <Box
+        sx={{
+          pr: 1,
+        }}
+      >
+        {shortenAddress(account.address)}
+      </Box>
+      |
+      <Box
+        sx={{
+          pl: 1,
+        }}
+      >
+        Disconnect
+      </Box>
     </ConnectionWalletButtonBase>
   ) : (
     <ConnectionWalletButtonBase

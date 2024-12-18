@@ -15,17 +15,28 @@ export const NotFound: React.FC = () => {
         padding: 3,
       }}
     >
-      <Typography fontSize={48}>
+      <Typography
+        sx={{
+          fontSize: 48,
+        }}
+      >
         <Block fontSize="inherit" />
       </Typography>
-      <Typography fontSize={18} fontWeight={700}>
+      <Typography
+        sx={{
+          fontSize: 18,
+          fontWeight: 700,
+        }}
+      >
         {t('tooltip.notFound.title')}
       </Typography>
       <Typography
-        fontSize={14}
-        color="text.secondary"
-        textAlign="center"
-        mt={2}
+        sx={{
+          fontSize: 14,
+          color: 'text.secondary',
+          textAlign: 'center',
+          mt: 2,
+        }}
       >
         {t('tooltip.notFound.text')}
       </Typography>

@@ -71,25 +71,43 @@ export const TransactionHistoryItem: React.FC<{
     >
       <Box
         sx={{
+          pt: 1.75,
+          px: 2,
           display: 'flex',
           flex: 1,
           justifyContent: 'space-between',
         }}
-        pt={1.75}
-        px={2}
       >
-        <Typography fontSize={12}>
+        <Typography
+          sx={{
+            fontSize: 12,
+          }}
+        >
           {startedAt.toLocaleString(i18n.language, { dateStyle: 'long' })}
         </Typography>
-        <Typography fontSize={12}>
+        <Typography
+          sx={{
+            fontSize: 12,
+          }}
+        >
           {startedAt.toLocaleString(i18n.language, {
             timeStyle: 'short',
           })}
         </Typography>
       </Box>
-      <Box px={2} py={2}>
+      <Box
+        sx={{
+          px: 2,
+          py: 2,
+        }}
+      >
         <Token token={fromToken} />
-        <Box pl={2.375} py={0.5}>
+        <Box
+          sx={{
+            pl: 2.375,
+            py: 0.5,
+          }}
+        >
           <TokenDivider />
         </Box>
         <Token token={toToken} />

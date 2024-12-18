@@ -49,7 +49,13 @@ export const MainPage: React.FC = () => {
       <SendToWalletButton sx={{ marginBottom: 2 }} />
       <GasRefuelMessage mb={2} />
       <MainMessages mb={2} />
-      <Box display="flex" mb={showPoweredBy ? 1 : 3} gap={1.5}>
+      <Box
+        sx={{
+          display: 'flex',
+          mb: showPoweredBy ? 1 : 3,
+          gap: 1.5,
+        }}
+      >
         <ReviewButton />
         <SendToWalletExpandButton />
       </Box>

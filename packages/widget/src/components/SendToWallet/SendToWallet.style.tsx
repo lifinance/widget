@@ -3,26 +3,26 @@ import { CardHeader } from '../Card/CardHeader.js'
 
 export const SendToWalletCardHeader = styled(CardHeader, {
   shouldForwardProp: (prop) => !['selected'].includes(prop as string),
-})<{ selected?: boolean }>(({ theme, selected }) => ({
+})<{ selected?: boolean }>(({ theme }) => ({
   width: '100%',
   [`.${cardHeaderClasses.title}`]: {
-    color: selected ? theme.palette.text.primary : theme.palette.text.secondary,
+    color: theme.palette.text.secondary,
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
-    fontWeight: selected ? 600 : 500,
-    width: selected ? 224 : 254,
+    fontWeight: 500,
+    width: 254,
     [theme.breakpoints.down(theme.breakpoints.values.sm)]: {
-      width: selected ? 192 : 224,
+      width: 224,
     },
   },
   [`.${cardHeaderClasses.subheader}`]: {
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
-    width: selected ? 224 : 254,
+    width: 254,
     [theme.breakpoints.down(theme.breakpoints.values.sm)]: {
-      width: selected ? 192 : 224,
+      width: 224,
     },
   },
   [`.${cardHeaderClasses.action}`]: {
@@ -31,4 +31,25 @@ export const SendToWalletCardHeader = styled(CardHeader, {
   [`.${cardHeaderClasses.action} > button`]: {
     fontSize: 16,
   },
+  variants: [
+    {
+      props: ({ selected }) => selected,
+      style: {
+        [`.${cardHeaderClasses.title}`]: {
+          color: theme.palette.text.primary,
+          fontWeight: 600,
+          width: 224,
+          [theme.breakpoints.down(theme.breakpoints.values.sm)]: {
+            width: 192,
+          },
+        },
+        [`.${cardHeaderClasses.subheader}`]: {
+          width: 224,
+          [theme.breakpoints.down(theme.breakpoints.values.sm)]: {
+            width: 192,
+          },
+        },
+      },
+    },
+  ],
 }))

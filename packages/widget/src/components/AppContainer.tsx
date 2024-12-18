@@ -16,30 +16,32 @@ import { ElementId, createElementId } from '../utils/elements.js'
 
 export const AppExpandedContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'variant',
-})<{ variant?: WidgetVariant }>(({ theme, variant }) => ({
+})<{ variant?: WidgetVariant }>(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'start',
   flex: 1,
   height:
-    variant === 'drawer'
-      ? 'none'
-      : theme.container?.display === 'flex'
-        ? '100%'
-        : theme.container?.maxHeight
-          ? 'auto'
-          : theme.container?.height || 'auto',
+    theme.container?.display === 'flex'
+      ? '100%'
+      : theme.container?.maxHeight
+        ? 'auto'
+        : theme.container?.height || 'auto',
+  variants: [
+    {
+      props: {
+        variant: 'drawer',
+      },
+      style: {
+        height: 'none',
+      },
+    },
+  ],
 }))
 
 export const RelativeContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'variant',
-})<{ variant?: WidgetVariant }>(({ theme, variant }) => {
-  const container = { ...theme.container }
-
-  if (variant === 'drawer') {
-    container.height = '100%'
-  }
-
+})<{ variant?: WidgetVariant }>(({ theme }) => {
   return {
     position: 'relative',
     boxSizing: 'content-box',
@@ -50,15 +52,24 @@ export const RelativeContainer = styled(Box, {
     overflow: 'auto',
     flex: 1,
     zIndex: 0,
-    ...container,
+    ...theme.container,
     maxHeight:
-      variant === 'drawer'
-        ? 'none'
-        : theme.container?.display === 'flex' && !theme.container?.height
-          ? '100%'
-          : theme.container?.maxHeight
-            ? theme.container?.maxHeight
-            : theme.container?.height || defaultMaxHeight,
+      theme.container?.display === 'flex' && !theme.container?.height
+        ? '100%'
+        : theme.container?.maxHeight
+          ? theme.container?.maxHeight
+          : theme.container?.height || defaultMaxHeight,
+    variants: [
+      {
+        props: {
+          variant: 'drawer',
+        },
+        style: {
+          maxHeight: 'none',
+          height: '100%',
+        },
+      },
+    ],
   }
 })
 

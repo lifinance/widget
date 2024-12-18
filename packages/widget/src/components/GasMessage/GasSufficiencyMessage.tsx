@@ -18,16 +18,34 @@ export const GasSufficiencyMessage: React.FC<GasSufficiencyMessageProps> = ({
       severity="warning"
       icon={<EvStation />}
       title={
-        <Typography variant="body2" fontWeight={700}>
+        <Typography
+          variant="body2"
+          sx={{
+            fontWeight: 700,
+          }}
+        >
           {t('warning.title.insufficientGas')}
         </Typography>
       }
     >
-      <Typography variant="body2" px={2} pt={1}>
+      <Typography
+        variant="body2"
+        sx={{
+          px: 2,
+          pt: 1,
+        }}
+      >
         {t('warning.message.insufficientGas')}
       </Typography>
       {insufficientGas?.map((item, index) => (
-        <Typography key={index} variant="body2" px={2} pt={0.5}>
+        <Typography
+          key={index}
+          variant="body2"
+          sx={{
+            px: 2,
+            pt: 0.5,
+          }}
+        >
           {t('main.tokenOnChainAmount', {
             amount: formatUnits(
               item.insufficientAmount ?? 0n,

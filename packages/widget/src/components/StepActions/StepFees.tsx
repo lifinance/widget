@@ -31,11 +31,16 @@ export const StepFees: React.FC<
 
   return (
     <Typography
-      fontSize={12}
-      fontWeight="500"
-      color="text.secondary"
-      lineHeight={1.3334}
       {...other}
+      sx={[
+        {
+          fontSize: 12,
+          fontWeight: '500',
+          color: 'text.secondary',
+          lineHeight: 1.3334,
+        },
+        ...(Array.isArray(other.sx) ? other.sx : [other.sx]),
+      ]}
     >
       {t('format.currency', { value: fees })}{' '}
       {isDone ? t('main.fees.paid') : t('main.fees.estimated')}

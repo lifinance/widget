@@ -54,10 +54,22 @@ export const DrawerHandle = () => {
     <>
       <DrawerHandleButton
         onMouseDown={drawerHandleOnMouseDown}
-        sx={{
-          width: isDrawerResizing ? 400 : 16,
-          left: isDrawerResizing ? drawerWidth - 200 : drawerWidth,
-        }}
+        sx={[
+          isDrawerResizing
+            ? {
+                width: 400,
+              }
+            : {
+                width: 16,
+              },
+          isDrawerResizing
+            ? {
+                left: drawerWidth - 200,
+              }
+            : {
+                left: drawerWidth,
+              },
+        ]}
       />
       <DrawerIconRight
         fontSize="small"

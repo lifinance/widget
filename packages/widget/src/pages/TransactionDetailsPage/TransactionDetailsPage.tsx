@@ -82,17 +82,25 @@ export const TransactionDetailsPage: React.FC = () => {
     <PageContainer bottomGutters>
       <Box
         sx={{
+          pb: 1,
           display: 'flex',
           justifyContent: 'space-between',
         }}
-        pb={1}
       >
-        <Typography fontSize={12}>
+        <Typography
+          sx={{
+            fontSize: 12,
+          }}
+        >
           {startedAt.toLocaleString(i18n.language, {
             dateStyle: 'long',
           })}
         </Typography>
-        <Typography fontSize={12}>
+        <Typography
+          sx={{
+            fontSize: 12,
+          }}
+        >
           {startedAt.toLocaleString(i18n.language, {
             timeStyle: 'short',
           })}
@@ -111,7 +119,11 @@ export const TransactionDetailsPage: React.FC = () => {
         />
       ) : null}
       <TransferIdCard transferId={supportId} />
-      <Box mt={2}>
+      <Box
+        sx={{
+          mt: 2,
+        }}
+      >
         <ContactSupportButton supportId={supportId} />
       </Box>
     </PageContainer>

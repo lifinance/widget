@@ -36,27 +36,27 @@ export const AvatarDefault = styled(Box)(({ theme }) => {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    background:
-      theme.palette.mode === 'light'
-        ? theme.palette.grey[300]
-        : theme.palette.grey[800],
+    background: theme.palette.grey[800],
     borderRadius: '50%',
     height: root?.height,
     width: root?.width,
     color: theme.palette.text.secondary,
     mask: avatarMask16,
+    ...theme.applyStyles('light', {
+      background: theme.palette.grey[300],
+    }),
   }
 })
 
 export const AvatarDefaultBadge = styled(Box)(({ theme }) => {
   return {
-    background:
-      theme.palette.mode === 'light'
-        ? theme.palette.grey[300]
-        : theme.palette.grey[800],
+    background: theme.palette.grey[800],
     borderRadius: '50%',
     height: 16,
     width: 16,
+    ...theme.applyStyles('light', {
+      background: theme.palette.grey[300],
+    }),
   }
 })
 

@@ -71,30 +71,48 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
 
   return (
     <Card selectionColor="secondary" {...props}>
-      <Box display="flex" alignItems="center" px={2} py={1.75}>
-        <Box display="flex" flex={1} alignItems="center" justifyContent="left">
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          px: 2,
+          py: 1.75,
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'left',
+          }}
+        >
           <TokenRate route={route} />
         </Box>
         <Collapse timeout={100} in={!cardExpanded} mountOnEnter>
           <FeeBreakdownTooltip gasCosts={gasCosts} feeCosts={feeCosts}>
             <Box
-              display="flex"
-              alignItems="center"
               onClick={toggleCard}
               // biome-ignore lint/a11y/useSemanticElements:
               role="button"
-              sx={{ cursor: 'pointer' }}
-              px={1}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                px: 1,
+                cursor: 'pointer',
+              }}
             >
               <IconTypography mr={0.5} fontSize={16}>
                 <LocalGasStationRounded fontSize="inherit" />
               </IconTypography>
               <Typography
-                fontSize={14}
-                color="text.primary"
-                fontWeight="600"
-                lineHeight={1.429}
                 data-value={combinedFeesUSD}
+                sx={{
+                  fontSize: 14,
+                  color: 'text.primary',
+                  fontWeight: '600',
+                  lineHeight: 1.429,
+                }}
               >
                 {t('format.currency', { value: combinedFeesUSD })}
               </Typography>
@@ -110,8 +128,19 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
         </CardIconButton>
       </Box>
       <Collapse timeout={225} in={cardExpanded} mountOnEnter>
-        <Box px={2} pb={2}>
-          <Box display="flex" justifyContent="space-between" mb={0.5}>
+        <Box
+          sx={{
+            px: 2,
+            pb: 2,
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              mb: 0.5,
+            }}
+          >
             <Typography variant="body2">{t('main.fees.network')}</Typography>
             <FeeBreakdownTooltip gasCosts={gasCosts}>
               <Typography variant="body2">
@@ -122,7 +151,13 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
             </FeeBreakdownTooltip>
           </Box>
           {feeCosts.length ? (
-            <Box display="flex" justifyContent="space-between" mb={0.5}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                mb: 0.5,
+              }}
+            >
               <Typography variant="body2">{t('main.fees.provider')}</Typography>
               <FeeBreakdownTooltip feeCosts={feeCosts}>
                 <Typography variant="body2">
@@ -134,7 +169,13 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
             </Box>
           ) : null}
           {showIntegratorFeeCollectionDetails ? (
-            <Box display="flex" justifyContent="space-between" mb={0.5}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                mb: 0.5,
+              }}
+            >
               <Typography variant="body2">
                 {feeConfig?.name
                   ? t('main.fees.integrator', { tool: feeConfig.name })
@@ -160,7 +201,13 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
               )}
             </Box>
           ) : null}
-          <Box display="flex" justifyContent="space-between" mb={0.5}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              mb: 0.5,
+            }}
+          >
             <Typography variant="body2">{t('main.priceImpact')}</Typography>
             <Tooltip title={t('tooltip.priceImpact')} sx={{ cursor: 'help' }}>
               <Typography variant="body2">
@@ -170,7 +217,13 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
           </Box>
           {!isRouteDone(route) ? (
             <>
-              <Box display="flex" justifyContent="space-between" mb={0.5}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  mb: 0.5,
+                }}
+              >
                 <Typography variant="body2">{t('main.maxSlippage')}</Typography>
                 <Tooltip title={t('tooltip.slippage')} sx={{ cursor: 'help' }}>
                   <Typography variant="body2">
@@ -180,7 +233,12 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                   </Typography>
                 </Tooltip>
               </Box>
-              <Box display="flex" justifyContent="space-between">
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                }}
+              >
                 <Typography variant="body2">{t('main.minReceived')}</Typography>
                 <Tooltip
                   title={t('tooltip.minReceived')}

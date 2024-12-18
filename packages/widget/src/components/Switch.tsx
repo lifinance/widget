@@ -31,13 +31,16 @@ export const Switch = styled(MuiSwitch)(({ theme }) => ({
       borderColor: theme.palette.common.white,
     },
     [`&.${switchClasses.disabled} .${switchClasses.thumb}`]: {
-      color:
-        theme.palette.mode === 'light'
-          ? alpha(theme.palette.common.black, 0.12)
-          : alpha(theme.palette.common.white, 0.12),
+      color: alpha(theme.palette.common.white, 0.12),
+      ...theme.applyStyles('light', {
+        color: alpha(theme.palette.common.black, 0.12),
+      }),
     },
     [`&.${switchClasses.disabled} + .${switchClasses.track}`]: {
-      opacity: theme.palette.mode === 'light' ? 0.7 : 0.3,
+      opacity: 0.3,
+      ...theme.applyStyles('light', {
+        opacity: 0.7,
+      }),
     },
   },
   [`.${switchClasses.thumb}`]: {
@@ -47,13 +50,13 @@ export const Switch = styled(MuiSwitch)(({ theme }) => ({
   },
   [`.${switchClasses.track}`]: {
     borderRadius: 24 / 2,
-    backgroundColor:
-      theme.palette.mode === 'light'
-        ? alpha(theme.palette.common.black, 0.16)
-        : alpha(theme.palette.common.white, 0.16),
+    backgroundColor: alpha(theme.palette.common.white, 0.16),
     opacity: 1,
     transition: theme.transitions.create(['background-color'], {
       duration: theme.transitions.duration.standard,
+    }),
+    ...theme.applyStyles('light', {
+      backgroundColor: alpha(theme.palette.common.black, 0.16),
     }),
   },
 }))

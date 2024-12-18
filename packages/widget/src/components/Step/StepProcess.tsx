@@ -14,7 +14,12 @@ export const StepProcess: React.FC<{
   const { getTransactionLink } = useExplorer()
 
   return (
-    <Box px={2} py={1}>
+    <Box
+      sx={{
+        px: 2,
+        py: 1,
+      }}
+    >
       <Box
         sx={{
           display: 'flex',
@@ -23,10 +28,12 @@ export const StepProcess: React.FC<{
       >
         <CircularProgress process={process} />
         <Typography
-          mx={2}
-          flex={1}
-          fontSize={14}
-          fontWeight={process.error ? 600 : 400}
+          sx={{
+            mx: 2,
+            flex: 1,
+            fontSize: 14,
+            fontWeight: process.error ? 600 : 400,
+          }}
         >
           {title}
         </Typography>
@@ -54,10 +61,12 @@ export const StepProcess: React.FC<{
       </Box>
       {message ? (
         <Typography
-          ml={7}
-          fontSize={14}
-          fontWeight={500}
-          color="text.secondary"
+          sx={{
+            ml: 7,
+            fontSize: 14,
+            fontWeight: 500,
+            color: 'text.secondary',
+          }}
         >
           {message}
         </Typography>

@@ -10,14 +10,14 @@ import {
 
 export const SettingsFieldSet = styled(Box)(({ theme }) => ({
   display: 'flex',
-  backgroundColor:
-    theme.palette.mode === 'light'
-      ? alpha(theme.palette.common.black, 0.04)
-      : alpha(theme.palette.common.white, 0.08),
+  backgroundColor: alpha(theme.palette.common.white, 0.08),
   borderRadius: theme.shape.borderRadius,
   padding: theme.spacing(0.5),
   gap: theme.spacing(0.5),
   height: '3.5rem',
+  ...theme.applyStyles('light', {
+    backgroundColor: alpha(theme.palette.common.black, 0.04),
+  }),
 }))
 
 const slippageControlSelected = (theme: Theme) => ({
@@ -69,7 +69,6 @@ export const SlippageCustomInput = styled(InputBase)<SlippageDefaultProps>(
     return {
       height: '100%',
       width: '100%',
-
       [`.${inputBaseClasses.input}`]: {
         height: '100%',
         width: '100%',

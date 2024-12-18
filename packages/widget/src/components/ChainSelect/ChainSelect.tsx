@@ -90,7 +90,13 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
               placeItems: 'center',
             }}
           >
-            <Typography fontWeight={500}>+{chainsToHide}</Typography>
+            <Typography
+              sx={{
+                fontWeight: 500,
+              }}
+            >
+              +{chainsToHide}
+            </Typography>
           </Box>
         </ChainCard>
       ) : null}

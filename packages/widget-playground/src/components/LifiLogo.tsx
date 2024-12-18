@@ -11,8 +11,8 @@ const LifiLogoBase: FC<SVGProps<SVGSVGElement>> = (props) => {
 }
 
 export const LifiLogo = styled(LifiLogoBase)(({ theme }) => ({
-  fill:
-    theme.palette.mode === 'light'
-      ? theme.palette.common.black
-      : theme.palette.common.white,
+  fill: theme.palette.common.white,
+  ...theme.applyStyles('light', {
+    fill: theme.palette.common.black,
+  }),
 }))

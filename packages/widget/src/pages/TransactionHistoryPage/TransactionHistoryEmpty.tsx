@@ -15,17 +15,28 @@ export const TransactionHistoryEmpty: React.FC = () => {
         paddingY: 12,
       }}
     >
-      <Typography fontSize={48}>
+      <Typography
+        sx={{
+          fontSize: 48,
+        }}
+      >
         <ReceiptLongRounded fontSize="inherit" />
       </Typography>
-      <Typography fontSize={18} fontWeight={700}>
+      <Typography
+        sx={{
+          fontSize: 18,
+          fontWeight: 700,
+        }}
+      >
         {t('info.title.emptyTransactionHistory')}
       </Typography>
       <Typography
-        fontSize={14}
-        color="text.secondary"
-        textAlign="center"
-        mt={2}
+        sx={{
+          fontSize: 14,
+          color: 'text.secondary',
+          textAlign: 'center',
+          mt: 2,
+        }}
       >
         {t('info.message.emptyTransactionHistory')}
       </Typography>

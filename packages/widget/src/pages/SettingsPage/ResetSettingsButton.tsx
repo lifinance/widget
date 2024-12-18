@@ -32,15 +32,30 @@ export const ResetSettingsButton: React.FC = () => {
   }
 
   return (
-    <Box mt={2}>
+    <Box
+      sx={{
+        mt: 2,
+      }}
+    >
       <ResetButtonContainer>
-        <Box display="flex" marginBottom="12px">
+        <Box
+          sx={{
+            display: 'flex',
+            marginBottom: '12px',
+          }}
+        >
           <InfoRounded
             sx={{
               marginRight: '8px',
             }}
           />
-          <Box fontSize={14}>{t('settings.resetSettings')}</Box>
+          <Box
+            sx={{
+              fontSize: 14,
+            }}
+          >
+            {t('settings.resetSettings')}
+          </Box>
         </Box>
         <Button onClick={toggleDialog} fullWidth>
           {t('button.resetSettings')}

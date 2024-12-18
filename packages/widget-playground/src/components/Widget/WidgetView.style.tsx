@@ -22,14 +22,28 @@ interface WidgetContainerProps extends BoxProps {
 export const WidgetContainer = styled(Box, {
   shouldForwardProp: (prop) =>
     !['removePaddingTop', 'alignTop'].includes(prop as string),
-})<WidgetContainerProps>(({ theme, removePaddingTop, alignTop }) => {
+})<WidgetContainerProps>(({ theme }) => {
   return {
     display: 'flex',
     flexGrow: 1,
-    justifyContent: alignTop ? 'flex-start' : 'center',
+    justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    paddingTop: removePaddingTop ? 0 : theme.spacing(6),
+    paddingTop: theme.spacing(6),
+    variants: [
+      {
+        props: ({ alignTop }) => alignTop,
+        style: {
+          justifyContent: 'flex-start',
+        },
+      },
+      {
+        props: ({ removePaddingTop }) => removePaddingTop,
+        style: {
+          paddingTop: 0,
+        },
+      },
+    ],
   }
 })
 
@@ -41,16 +55,24 @@ interface WidgetContainerRowProps extends BoxProps {
 export const WidgetContainerRow = styled(Box, {
   shouldForwardProp: (prop) =>
     !['alignTop', 'widgetContainer'].includes(prop as string),
-})<WidgetContainerRowProps>(({ alignTop, widgetContainer }) => {
+})<WidgetContainerRowProps>(({ widgetContainer }) => {
   return {
     display: 'flex',
-    alignItems: alignTop ? 'flex-start' : 'center',
+    alignItems: 'center',
     flexGrow: 1,
     width: '100%',
     maxHeight:
       widgetContainer?.maxHeight || !widgetContainer?.height
         ? (widgetContainer?.maxHeight ?? defaultMaxHeight)
         : 'none',
+    variants: [
+      {
+        props: ({ alignTop }) => alignTop,
+        style: {
+          alignItems: 'flex-start',
+        },
+      },
+    ],
   }
 })
 
@@ -95,7 +117,7 @@ export const Main = styled('main', {
 })<{
   drawerWidth: number
   open?: boolean
-}>(({ theme, open, drawerWidth }) => ({
+}>(({ theme, drawerWidth }) => ({
   display: 'flex',
   justifyContent: 'stretch',
   position: 'relative',
@@ -105,17 +127,22 @@ export const Main = styled('main', {
     duration: theme.transitions.duration.leavingScreen,
   }),
   marginLeft: `-${drawerWidth}px`,
-  ...(open && {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0,
-  }),
   '& > [data-rk]': {
     display: 'flex',
     flexGrow: '1',
   },
+  variants: [
+    {
+      props: ({ open }) => open,
+      style: {
+        transition: theme.transitions.create('margin', {
+          easing: theme.transitions.easing.easeOut,
+          duration: theme.transitions.duration.enteringScreen,
+        }),
+        marginLeft: 0,
+      },
+    },
+  ],
 }))
 
 export const WidgetSkeletonContainer = styled(Box)(({ theme }) => ({
@@ -131,8 +158,8 @@ export const WidgetSkeletonContainer = styled(Box)(({ theme }) => ({
 }))
 
 export const Skeleton = styled(MuiSkeleton)(({ theme }) => ({
-  backgroundColor:
-    theme.palette.mode === 'light'
-      ? theme.palette.grey[100]
-      : theme.palette.grey[900],
+  backgroundColor: theme.palette.grey[900],
+  ...theme.applyStyles('light', {
+    backgroundColor: theme.palette.grey[100],
+  }),
 }))

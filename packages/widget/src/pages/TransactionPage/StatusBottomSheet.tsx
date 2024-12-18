@@ -249,7 +249,12 @@ export const StatusBottomSheetContent: React.FC<
     (contractCompactComponent || contractSecondaryComponent)
 
   return (
-    <Box p={3} ref={ref}>
+    <Box
+      ref={ref}
+      sx={{
+        p: 3,
+      }}
+    >
       {!showContractComponent ? (
         <CenterContainer>
           <IconCircle status={status} mb={1}>
@@ -270,7 +275,13 @@ export const StatusBottomSheetContent: React.FC<
         </CenterContainer>
       ) : null}
       <CenterContainer>
-        <Typography py={1} fontSize={18} fontWeight={700}>
+        <Typography
+          sx={{
+            py: 1,
+            fontSize: 18,
+            fontWeight: 700,
+          }}
+        >
           {title}
         </Typography>
       </CenterContainer>
@@ -285,13 +296,25 @@ export const StatusBottomSheetContent: React.FC<
       )}
       {!showContractComponent ? (
         primaryMessage ? (
-          <Typography py={1}>{primaryMessage}</Typography>
+          <Typography
+            sx={{
+              py: 1,
+            }}
+          >
+            {primaryMessage}
+          </Typography>
         ) : (
           <MessageSkeleton />
         )
       ) : null}
       {secondaryMessage ? (
-        <Typography py={1}>{secondaryMessage}</Typography>
+        <Typography
+          sx={{
+            py: 1,
+          }}
+        >
+          {secondaryMessage}
+        </Typography>
       ) : null}
       <Box sx={{ display: 'flex', marginTop: 2, gap: 1.5 }}>
         {hasEnumFlag(status, RouteExecutionStatus.Done) ? (

@@ -19,10 +19,10 @@ export const PoweredBy: React.FC = () => {
 
   return (
     <Box
-      pt={1}
-      pb={2}
-      flex={1}
       sx={{
+        pt: 1,
+        pb: 2,
+        flex: 1,
         display: 'flex',
         alignItems: 'flex-end',
         justifyContent: 'flex-end',
@@ -36,14 +36,22 @@ export const PoweredBy: React.FC = () => {
           color="text.primary"
         >
           <Typography
-            color="text.secondary"
-            fontSize={12}
-            fontWeight={500}
-            px={0.5}
+            sx={{
+              color: 'text.secondary',
+              fontSize: 12,
+              fontWeight: 500,
+              px: 0.5,
+            }}
           >
             Powered by
           </Typography>
-          <Typography color="text.primary" fontSize={12} fontWeight={600}>
+          <Typography
+            sx={{
+              color: 'text.primary',
+              fontSize: 12,
+              fontWeight: 600,
+            }}
+          >
             {poweredByConfig[poweredBy].text}
           </Typography>
         </Link>

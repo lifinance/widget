@@ -106,19 +106,46 @@ const ExchangeRateBottomSheetContent: React.FC<
   ).toFixed(2)
 
   return (
-    <Box p={3} ref={ref}>
+    <Box
+      ref={ref}
+      sx={{
+        p: 3,
+      }}
+    >
       <CenterContainer>
         <IconCircle status="warning" mb={1}>
           <WarningRounded color="warning" />
         </IconCircle>
-        <Typography py={1} fontSize={18} fontWeight={700}>
+        <Typography
+          sx={{
+            py: 1,
+            fontSize: 18,
+            fontWeight: 700,
+          }}
+        >
           {t('warning.title.rateChanged')}
         </Typography>
       </CenterContainer>
-      <Typography py={1}>{t('warning.message.rateChanged')}</Typography>
-      <Box display="flex" justifyContent="space-between" mt={1}>
+      <Typography
+        sx={{
+          py: 1,
+        }}
+      >
+        {t('warning.message.rateChanged')}
+      </Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          mt: 1,
+        }}
+      >
         <Typography>{t('main.quotedAmount')}</Typography>
-        <Typography fontWeight={600}>
+        <Typography
+          sx={{
+            fontWeight: 600,
+          }}
+        >
           {t('format.number', {
             value: formatTokenAmount(
               BigInt(data.oldToAmount),
@@ -128,9 +155,19 @@ const ExchangeRateBottomSheetContent: React.FC<
           {data?.toToken.symbol}
         </Typography>
       </Box>
-      <Box display="flex" justifyContent="space-between" mt={0.25}>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          mt: 0.25,
+        }}
+      >
         <Typography>{t('main.currentAmount')}</Typography>
-        <Typography fontWeight={600}>
+        <Typography
+          sx={{
+            fontWeight: 600,
+          }}
+        >
           {t('format.number', {
             value: formatTokenAmount(
               BigInt(data?.newToAmount),
@@ -140,15 +177,37 @@ const ExchangeRateBottomSheetContent: React.FC<
           {data?.toToken.symbol}
         </Typography>
       </Box>
-      <Box display="flex" justifyContent="space-between" mt={0.25}>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          mt: 0.25,
+        }}
+      >
         <Typography>{t('main.rateChange')}</Typography>
-        <Typography fontWeight={600}>{rateChange}%</Typography>
+        <Typography
+          sx={{
+            fontWeight: 600,
+          }}
+        >
+          {rateChange}%
+        </Typography>
       </Box>
-      <Box display="flex" mt={3}>
+      <Box
+        sx={{
+          display: 'flex',
+          mt: 3,
+        }}
+      >
         <Button variant="text" onClick={onCancel} fullWidth>
           {t('button.cancel')}
         </Button>
-        <Box display="flex" p={1} />
+        <Box
+          sx={{
+            display: 'flex',
+            p: 1,
+          }}
+        />
         <Button variant="contained" onClick={onContinue} fullWidth>
           {t('button.continue')}
         </Button>

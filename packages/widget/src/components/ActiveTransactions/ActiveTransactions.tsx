@@ -27,7 +27,13 @@ export const ActiveTransactions: React.FC<CardProps> = (props) => {
   return (
     <Card type="selected" selectionColor="secondary" {...props}>
       <CardTitle>{t('header.activeTransactions')}</CardTitle>
-      <Stack spacing={1.5} pt={1.5} pb={hasShowAll ? 0 : 2}>
+      <Stack
+        spacing={1.5}
+        sx={{
+          pt: 1.5,
+          pb: hasShowAll ? 0 : 2,
+        }}
+      >
         {executingRoutes.slice(0, 2).map((routeId) => (
           <ActiveTransactionItem key={routeId} routeId={routeId} dense />
         ))}

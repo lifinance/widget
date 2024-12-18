@@ -188,7 +188,12 @@ export const TransactionPage: React.FC = () => {
       status === RouteExecutionStatus.Failed ? (
         <>
           <GasMessage mt={2} route={route} />
-          <Box mt={2} display="flex">
+          <Box
+            sx={{
+              mt: 2,
+              display: 'flex',
+            }}
+          >
             <StartTransactionButton
               text={getButtonText()}
               onClick={handleStartClick}

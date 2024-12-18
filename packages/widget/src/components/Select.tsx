@@ -9,13 +9,10 @@ import {
 
 export const Select = styled(MuiSelect, {
   shouldForwardProp: (prop) => prop !== 'dense',
-})<{ dense?: boolean }>(({ theme, dense }) => ({
-  backgroundColor:
-    theme.palette.mode === 'light'
-      ? theme.palette.common.white
-      : theme.palette.background.paper,
+})<{ dense?: boolean }>(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
   [`.${inputBaseClasses.input}`]: {
-    padding: dense ? theme.spacing(1.625, 2, 1.5, 2) : theme.spacing(2),
+    padding: theme.spacing(2),
     display: 'flex',
     alignItems: 'center',
   },
@@ -29,4 +26,17 @@ export const Select = styled(MuiSelect, {
   [`.${outlinedInputClasses.notchedOutline}`]: {
     display: 'none',
   },
+  ...theme.applyStyles('light', {
+    backgroundColor: theme.palette.common.white,
+  }),
+  variants: [
+    {
+      props: ({ dense }) => dense,
+      style: {
+        [`.${inputBaseClasses.input}`]: {
+          padding: theme.spacing(1.625, 2, 1.5, 2),
+        },
+      },
+    },
+  ],
 }))

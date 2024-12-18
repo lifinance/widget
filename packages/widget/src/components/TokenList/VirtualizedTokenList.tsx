@@ -131,12 +131,14 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
             startAdornment={
               startAdornmentLabel ? (
                 <Typography
-                  fontSize={14}
-                  fontWeight={600}
-                  lineHeight="16px"
-                  px={1.5}
-                  pt={isFirstFeaturedToken ? 0 : 1}
-                  pb={1}
+                  sx={{
+                    fontSize: 14,
+                    fontWeight: 600,
+                    lineHeight: '16px',
+                    px: 1.5,
+                    pt: isFirstFeaturedToken ? 0 : 1,
+                    pb: 1,
+                  }}
                 >
                   {startAdornmentLabel}
                 </Typography>

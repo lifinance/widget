@@ -55,10 +55,12 @@ export const TransferIdCard = ({ transferId }: TransferIdCardProps) => {
       </Box>
       <Typography
         variant="body2"
-        pt={1}
-        pb={2}
-        px={2}
-        sx={{ wordBreak: 'break-all' }}
+        sx={{
+          pt: 1,
+          pb: 2,
+          px: 2,
+          wordBreak: 'break-all',
+        }}
       >
         {transferId}
       </Typography>

@@ -148,7 +148,12 @@ export const BookmarkAddressSheet = forwardRef<
         {validatedWallet ? (
           <SheetAddressContainer>
             {validatedWallet?.name ? (
-              <Typography fontWeight={600} mb={0.5}>
+              <Typography
+                sx={{
+                  fontWeight: 600,
+                  mb: 0.5,
+                }}
+              >
                 {validatedWallet?.name}
               </Typography>
             ) : null}

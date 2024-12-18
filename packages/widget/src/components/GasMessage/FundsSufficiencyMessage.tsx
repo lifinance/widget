@@ -10,7 +10,13 @@ export const FundsSufficiencyMessage = () => {
       severity="warning"
       icon={<WarningRounded />}
       title={
-        <Typography variant="body2" px={1} color="text.primary">
+        <Typography
+          variant="body2"
+          sx={{
+            px: 1,
+            color: 'text.primary',
+          }}
+        >
           {t('warning.message.insufficientFunds')}
         </Typography>
       }

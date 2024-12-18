@@ -16,28 +16,54 @@ export const SelectTokenCardHeader = styled(CardHeader, {
   ({ theme, selected, compact }) => ({
     padding: theme.spacing(2),
     [`.${cardHeaderClasses.title}`]: {
-      color: selected
-        ? theme.palette.text.primary
-        : theme.palette.text.secondary,
+      color: theme.palette.text.secondary,
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
       overflow: 'hidden',
-      width: compact ? 96 : 256,
+      width: 256,
       fontSize: compact && !selected ? 16 : 18,
-      fontWeight: selected ? 600 : 500,
+      fontWeight: 500,
       [theme.breakpoints.down(theme.breakpoints.values.sm)]: {
-        width: compact ? 96 : 224,
+        width: 224,
       },
     },
     [`.${cardHeaderClasses.subheader}`]: {
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
       overflow: 'hidden',
-      width: compact ? 96 : 256,
+      width: 256,
       [theme.breakpoints.down(theme.breakpoints.values.sm)]: {
-        width: compact ? 96 : 224,
+        width: 224,
       },
     },
+    variants: [
+      {
+        props: ({ selected }) => selected,
+        style: {
+          [`.${cardHeaderClasses.title}`]: {
+            color: theme.palette.text.primary,
+            fontWeight: 600,
+          },
+        },
+      },
+      {
+        props: ({ compact }) => compact,
+        style: {
+          [`.${cardHeaderClasses.title}`]: {
+            width: 96,
+            [theme.breakpoints.down(theme.breakpoints.values.sm)]: {
+              width: 96,
+            },
+          },
+          [`.${cardHeaderClasses.subheader}`]: {
+            width: 96,
+            [theme.breakpoints.down(theme.breakpoints.values.sm)]: {
+              width: 96,
+            },
+          },
+        },
+      },
+    ],
   })
 )
 

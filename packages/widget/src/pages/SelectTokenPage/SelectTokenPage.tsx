@@ -41,13 +41,27 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
 
   return (
     <FullPageContainer disableGutters>
-      <Box pb={2} px={3} ref={headerRef}>
+      <Box
+        ref={headerRef}
+        sx={{
+          pb: 2,
+          px: 3,
+        }}
+      >
         {!hideChainSelect ? <ChainSelect formType={formType} /> : null}
-        <Box mt={!hideChainSelect ? 2 : 0}>
+        <Box
+          sx={{
+            mt: !hideChainSelect ? 2 : 0,
+          }}
+        >
           <SearchTokenInput />
         </Box>
       </Box>
-      <Box height={minListHeight}>
+      <Box
+        sx={{
+          height: minListHeight,
+        }}
+      >
         <TokenList
           parentRef={listParentRef}
           height={tokenListHeight}
