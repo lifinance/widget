@@ -119,7 +119,15 @@ export const WidgetEventControls = () => {
       </ControlContainer>
       {Object.values(WidgetEvent).map((eventName, i, arr) => (
         <CardRowContainer
-          sx={{ paddingBottom: i < arr.length - 1 ? 0 : 2 }}
+          sx={[
+            i < arr.length - 1
+              ? {
+                  paddingBottom: 0,
+                }
+              : {
+                  paddingBottom: 2,
+                },
+          ]}
           key={eventName}
         >
           {eventName}

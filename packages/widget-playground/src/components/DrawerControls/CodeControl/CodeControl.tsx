@@ -23,13 +23,21 @@ export const CodeControl = () => {
 
   return (
     <Card
-      sx={{
-        p: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 1.5,
-        flexGrow: codeControlTab === 'config' ? 1 : 0,
-      }}
+      sx={[
+        {
+          p: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 1.5,
+        },
+        codeControlTab === 'config'
+          ? {
+              flexGrow: 1,
+            }
+          : {
+              flexGrow: 0,
+            },
+      ]}
     >
       <Box sx={{ maxWidth: 326, height: 56 }}>
         <Tabs

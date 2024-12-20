@@ -14,7 +14,7 @@
     "@tsconfig/svelte": "^5.0.4",
     "@types/events": "^3.0.3",
     "@types/node": "^22.10.2",
-    "@types/react": "^18.3.16",
+    "@types/react": "^18.3.17",
     "@types/react-dom": "^18.3.5",
     "svelte": "^5.15.0",
     "svelte-check": "^4.1.1",

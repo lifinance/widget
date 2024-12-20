@@ -28,7 +28,11 @@ export const FeeBreakdownTooltip: React.FC<FeeBreakdownTooltipProps> = ({
             </Box>
           ) : null}
           {feeCosts?.length ? (
-            <Box mt={0.5}>
+            <Box
+              sx={{
+                mt: 0.5,
+              }}
+            >
               {t('main.fees.provider')}
               {getFeeBreakdownTypography(feeCosts, t)}
             </Box>
@@ -48,10 +52,12 @@ export const getFeeBreakdownTypography = (
 ) =>
   fees.map((fee, index) => (
     <Typography
-      fontSize={12}
-      fontWeight="500"
       color="inherit"
       key={`${fee.token.address}${index}`}
+      sx={{
+        fontSize: 12,
+        fontWeight: '500',
+      }}
     >
       {t('format.currency', { value: fee.amountUSD })} (
       {t('format.number', {
