@@ -48,9 +48,19 @@ export const RouteCard: React.FC<
   )
 
   const cardContent = (
-    <Box flex={1}>
+    <Box
+      sx={{
+        flex: 1,
+      }}
+    >
       {subvariant !== 'refuel' && route.tags?.length ? (
-        <Box display="flex" alignItems="center" mb={2}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            mb: 2,
+          }}
+        >
           {tags?.length ? (
             <CardLabel type={active ? 'active' : undefined}>
               <CardLabelTypography>

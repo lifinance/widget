@@ -16,8 +16,8 @@ export const NFTOpenSea: React.FC<NFTOpenSeaProps> = ({
 
   return !data && !order && !isLoading ? (
     <Box
-      p={2}
       sx={{
+        p: 2,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -25,7 +25,13 @@ export const NFTOpenSea: React.FC<NFTOpenSeaProps> = ({
         height: 192,
       }}
     >
-      <Typography fontSize={18} fontWeight={600} p={2}>
+      <Typography
+        sx={{
+          fontSize: 18,
+          fontWeight: 600,
+          p: 2,
+        }}
+      >
         Oops, NFT listing not found
       </Typography>
       <Typography>

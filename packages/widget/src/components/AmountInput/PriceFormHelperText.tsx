@@ -48,12 +48,12 @@ export const PriceFormHelperTextBase: React.FC<
       }}
     >
       <Typography
-        color="text.secondary"
-        fontWeight={500}
-        fontSize={12}
-        lineHeight={1}
-        flex={1}
         sx={{
+          color: 'text.secondary',
+          fontWeight: 500,
+          fontSize: 12,
+          lineHeight: 1,
+          flex: 1,
           wordBreak: 'break-word',
           overflowWrap: 'break-word',
         }}
@@ -66,11 +66,13 @@ export const PriceFormHelperTextBase: React.FC<
         <Skeleton variant="text" width={48} height={12} />
       ) : token?.amount ? (
         <Typography
-          fontWeight={500}
-          fontSize={12}
-          color="text.secondary"
-          lineHeight={1}
-          pl={0.25}
+          sx={{
+            fontWeight: 500,
+            fontSize: 12,
+            color: 'text.secondary',
+            lineHeight: 1,
+            pl: 0.25,
+          }}
         >
           {`/ ${t('format.number', {
             value: formatTokenAmount(token.amount, token.decimals),

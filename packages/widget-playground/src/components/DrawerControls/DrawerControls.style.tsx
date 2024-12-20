@@ -17,11 +17,16 @@ interface DrawerProps extends MuiDrawerProps {
 }
 export const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => !['drawerWidth'].includes(prop as string),
-})<DrawerProps>(({ open, drawerWidth }) => ({
+})<DrawerProps>(({ drawerWidth }) => ({
   width: drawerWidth,
   // NOTE: setting the zIndex seems to prevent clicks underneath where the
-  //  draw was when closed - so we ony want to see the zIndex when its open
-  ...(open ? { zIndex: drawerZIndex } : {}),
+  //  draw was when closed - so we only want to see the zIndex when its open
+  variants: [
+    {
+      props: ({ open }) => open,
+      style: { zIndex: drawerZIndex },
+    },
+  ],
 }))
 
 export const Header = styled('h1')({
@@ -92,25 +97,25 @@ export const DrawerHandleButton = styled((props: ButtonBaseProps) => (
 })
 
 export const DrawerIconRight = styled(KeyboardArrowRightIcon)(({ theme }) => ({
-  color:
-    theme.palette.mode === 'light'
-      ? theme.palette.grey[400]
-      : theme.palette.grey[600],
+  color: theme.palette.grey[600],
   position: 'fixed',
   top: '50%',
   transform: 'translateY(-50%)',
   pointerEvents: 'none',
   zIndex: drawerZIndex + 1,
+  ...theme.applyStyles('light', {
+    color: theme.palette.grey[400],
+  }),
 }))
 
 export const DrawerIconLeft = styled(KeyboardArrowLeftIcon)(({ theme }) => ({
-  color:
-    theme.palette.mode === 'light'
-      ? theme.palette.grey[400]
-      : theme.palette.grey[600],
+  color: theme.palette.grey[600],
   position: 'fixed',
   top: '50%',
   transform: 'translate(-75%, -50%)',
   pointerEvents: 'none',
   zIndex: drawerZIndex + 1,
+  ...theme.applyStyles('light', {
+    color: theme.palette.grey[400],
+  }),
 }))

@@ -82,7 +82,11 @@ export const SlippageSettings: React.FC = () => {
       icon={<Percent />}
       title={t('settings.slippage')}
     >
-      <Box mt={1.5}>
+      <Box
+        sx={{
+          mt: 1.5,
+        }}
+      >
         <SettingsFieldSet>
           <SlippageDefaultButton
             selected={defaultSlippage === slippage && focused !== 'input'}
@@ -115,7 +119,12 @@ export const SlippageSettings: React.FC = () => {
         {isSlippageOutsideRecommendedLimits && (
           <SlippageLimitsWarningContainer>
             <WarningRounded color="warning" />
-            <Typography fontSize={13} fontWeight={400}>
+            <Typography
+              sx={{
+                fontSize: 13,
+                fontWeight: 400,
+              }}
+            >
               {t('warning.message.slippageOutsideRecommendedLimits')}
             </Typography>
           </SlippageLimitsWarningContainer>

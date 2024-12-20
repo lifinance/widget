@@ -112,7 +112,13 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
           component: 'div',
         }}
         secondary={
-          <Box position="relative" height={20} ref={container}>
+          <Box
+            ref={container}
+            sx={{
+              position: 'relative',
+              height: 20,
+            }}
+          >
             <Slide
               direction="down"
               in={!showAddress}
@@ -122,7 +128,13 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
               }}
               appear={false}
             >
-              <Box pt={0.25}>{token.name}</Box>
+              <Box
+                sx={{
+                  pt: 0.25,
+                }}
+              >
+                {token.name}
+              </Box>
             </Slide>
             <Slide
               direction="up"
@@ -134,8 +146,18 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
               appear={false}
               mountOnEnter
             >
-              <Box display="flex">
-                <Box display="flex" alignItems="center" pt={0.125}>
+              <Box
+                sx={{
+                  display: 'flex',
+                }}
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    pt: 0.125,
+                  }}
+                >
                   {shortenAddress(tokenAddress)}
                 </Box>
                 <IconButton
@@ -159,7 +181,12 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
         ) : (
           <Box sx={{ textAlign: 'right' }}>
             {token.amount ? (
-              <Typography fontWeight={600} noWrap>
+              <Typography
+                noWrap
+                sx={{
+                  fontWeight: 600,
+                }}
+              >
                 {t('format.number', {
                   value: formatTokenAmount(token.amount, token.decimals),
                 })}
@@ -167,10 +194,12 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
             ) : null}
             {tokenPrice ? (
               <Typography
-                fontWeight={500}
-                fontSize={12}
-                color="text.secondary"
                 data-price={token.priceUSD}
+                sx={{
+                  fontWeight: 500,
+                  fontSize: 12,
+                  color: 'text.secondary',
+                }}
               >
                 {t('format.currency', {
                   value: tokenPrice,

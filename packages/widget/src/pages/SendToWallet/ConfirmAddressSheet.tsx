@@ -58,7 +58,12 @@ export const ConfirmAddressSheet = forwardRef<
         <SheetTitle>{t('sendToWallet.confirmWalletAddress')}</SheetTitle>
         <SheetAddressContainer>
           {validatedBookmark?.name ? (
-            <Typography fontWeight={600} mb={0.5}>
+            <Typography
+              sx={{
+                fontWeight: 600,
+                mb: 0.5,
+              }}
+            >
               {validatedBookmark?.name}
             </Typography>
           ) : null}

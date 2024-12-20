@@ -54,21 +54,21 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@lifi/sdk": "^3.4.3",
-    "@mui/icons-material": "^5.16.11",
-    "@mui/lab": "5.0.0-alpha.174",
-    "@mui/material": "^5.16.11",
-    "@mui/system": "^5.16.8",
+    "@mui/icons-material": "^6.2.0",
+    "@mui/lab": "6.0.0-beta.19",
+    "@mui/material": "^6.2.0",
+    "@mui/system": "^6.2.0",
     "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/wallet-adapter-react": "^0.15.35",
-    "@solana/web3.js": "^1.95.8",
+    "@solana/web3.js": "^1.98.0",
     "@wagmi/core": "^2.16.0",
-    "i18next": "^24.1.0",
+    "i18next": "^24.1.2",
     "mitt": "^3.0.1",
     "react": "^18.3.1",
     "react-i18next": "^15.2.0",
     "use-sync-external-store": "^1.4.0",
     "viem": "^2.21.55",
-    "wagmi": "^2.14.1",
+    "wagmi": "^2.14.3",
     "zustand": "^5.0.2"
   },
   "devDependencies": {
@@ -81,5 +81,9 @@
     "react": ">=18",
     "react-dom": ">=18"
   },
-  "files": ["dist/**", "src/**", "!tsconfig.json"]
+  "files": [
+    "dist/**",
+    "src/**",
+    "!tsconfig.json"
+  ]
 }

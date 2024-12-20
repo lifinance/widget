@@ -11,7 +11,13 @@ export const EmptyListIndicator = ({
 }: EmptyListIndicatorProps) => (
   <EmptyContainer>
     <IconContainer>{icon}</IconContainer>
-    <Typography fontSize={14} fontWeight={700} color="text.secondary">
+    <Typography
+      sx={{
+        fontSize: 14,
+        fontWeight: 700,
+        color: 'text.secondary',
+      }}
+    >
       {children}
     </Typography>
   </EmptyContainer>

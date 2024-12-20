@@ -14,8 +14,16 @@ export const NFTBase: React.FC<NFTProps> = ({
 }) => {
   const { t } = useTranslation()
   return (
-    <Box p={2}>
-      <Box display="flex">
+    <Box
+      sx={{
+        p: 2,
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+        }}
+      >
         {isLoading ? (
           <Skeleton
             width={96}
@@ -26,25 +34,44 @@ export const NFTBase: React.FC<NFTProps> = ({
         ) : (
           <PreviewAvatar src={imageUrl} />
         )}
-        <Box ml={2}>
+        <Box
+          sx={{
+            ml: 2,
+          }}
+        >
           {isLoading ? (
             <Skeleton width={144} height={21} variant="text" />
           ) : (
-            <Typography fontSize={14} color="text.secondary">
+            <Typography
+              sx={{
+                fontSize: 14,
+                color: 'text.secondary',
+              }}
+            >
               {collectionName}
             </Typography>
           )}
           {isLoading ? (
             <Skeleton width={112} height={27} variant="text" />
           ) : (
-            <Typography fontSize={18} fontWeight={600}>
+            <Typography
+              sx={{
+                fontSize: 18,
+                fontWeight: 600,
+              }}
+            >
               {assetName}
             </Typography>
           )}
           {isLoading ? (
             <Skeleton width={128} height={21} variant="text" />
           ) : owner ? (
-            <Typography fontSize={14} color="text.secondary">
+            <Typography
+              sx={{
+                fontSize: 14,
+                color: 'text.secondary',
+              }}
+            >
               {t('main.ownedBy')}{' '}
               <Link
                 href={owner.url}
