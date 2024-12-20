@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.13.1](https://github.com/lifinance/widget/compare/v3.13.0...v3.13.1) (2024-12-20)
+
+
+### Bug Fixes
+
+* remix compatibility ([#336](https://github.com/lifinance/widget/issues/336)) ([3b6fcb3](https://github.com/lifinance/widget/commit/3b6fcb3905c1751ac125e3e4ac9f9ac588eac4c0))
+
 ## [3.13.0](https://github.com/lifinance/widget/compare/v3.12.5...v3.13.0) (2024-12-20)
 
 
