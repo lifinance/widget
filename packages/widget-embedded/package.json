@@ -16,7 +16,7 @@
     "@lifi/sdk": "^3.4.4",
     "@lifi/wallet-management": "workspace:*",
     "@lifi/widget": "workspace:*",
-    "@mui/icons-material": "^6.2.0",
+    "@mui/icons-material": "6.0.2",
     "@mui/lab": "6.0.0-beta.20",
     "@mui/material": "^6.2.0",
     "@mui/system": "^6.2.0",
