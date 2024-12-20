@@ -64,7 +64,11 @@ export const Routes: React.FC<CardProps> = (props) => {
           right: 8,
         }}
       />
-      <Box p={2}>
+      <Box
+        sx={{
+          p: 2,
+        }}
+      >
         {isLoading ? (
           <RouteCardSkeleton variant="cardless" />
         ) : !currentRoute ? (
@@ -74,7 +78,11 @@ export const Routes: React.FC<CardProps> = (props) => {
         )}
 
         <Collapse timeout={225} in={showAll} unmountOnExit mountOnEnter appear>
-          <Box mt={2}>
+          <Box
+            sx={{
+              mt: 2,
+            }}
+          >
             <ButtonTertiary onClick={handleCardClick} fullWidth>
               {t('button.showAll')}
             </ButtonTertiary>

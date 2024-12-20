@@ -82,7 +82,11 @@ export const Step: React.FC<{
           <StepTimer step={step} />
         </CardTitle>
       </Box>
-      <Box py={1}>
+      <Box
+        sx={{
+          py: 1,
+        }}
+      >
         {fromToken ? <Token token={fromToken} px={2} py={1} /> : null}
         <StepActions step={step} px={2} py={1} dense />
         {step.execution?.process.map((process, index) => (

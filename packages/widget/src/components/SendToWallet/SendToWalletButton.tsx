@@ -139,8 +139,16 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
         onClick={disabledForChanges ? undefined : handleOnClick}
         sx={{ width: '100%', ...props.sx }}
       >
-        <CardTitle required={requiredToAddress}>{title}</CardTitle>
-        <Box display="flex" justifyContent="center" alignItems="center">
+        <CardTitle required={requiredToAddress}>
+          {title}
+        </CardTitle>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
           <SendToWalletCardHeader
             avatar={
               <AccountAvatar

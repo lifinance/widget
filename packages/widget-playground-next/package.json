@@ -12,10 +12,10 @@
     "@emotion/styled": "^11.14.0",
     "@lifi/widget": "workspace:*",
     "@lifi/widget-playground": "workspace:*",
-    "@mui/material": "^5.16.11",
-    "@mui/material-nextjs": "^5.16.8",
-    "@mui/system": "^5.16.8",
-    "@tanstack/react-query": "^5.62.7",
+    "@mui/material": "^6.2.0",
+    "@mui/material-nextjs": "^6.2.0",
+    "@mui/system": "^6.2.0",
+    "@tanstack/react-query": "^5.62.8",
     "core-js": "^3.39.0",
     "next": "14.2.15",
     "react": "^18.3.1",
@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
-    "@types/react": "^18.3.16",
+    "@types/react": "^18.3.17",
     "@types/react-dom": "^18.3.5",
     "typescript": "^5.7.2"
   },

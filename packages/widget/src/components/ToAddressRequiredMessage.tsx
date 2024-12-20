@@ -25,7 +25,13 @@ export const ToAddressRequiredMessage: React.FC<
       <Box {...props}>
         <AlertMessage
           title={
-            <Typography variant="body2" px={1} color="text.primary">
+            <Typography
+              variant="body2"
+              sx={{
+                px: 1,
+                color: 'text.primary',
+              }}
+            >
               {t('info.message.toAddressIsRequired')}
             </Typography>
           }

@@ -255,7 +255,11 @@ export const SendToWalletPage = () => {
           onClick={handleRecentWalletsClick}
         >
           {!!recentWallets.length && (
-            <Typography color="text.secondary">
+            <Typography
+              sx={{
+                color: 'text.secondary',
+              }}
+            >
               {recentWallets.length}
             </Typography>
           )}
@@ -266,7 +270,11 @@ export const SendToWalletPage = () => {
           onClick={handleConnectedWalletsClick}
         >
           {!!connectedWallets.length && (
-            <Typography color="text.secondary">
+            <Typography
+              sx={{
+                color: 'text.secondary',
+              }}
+            >
               {connectedWallets.length}
             </Typography>
           )}
@@ -277,7 +285,13 @@ export const SendToWalletPage = () => {
           onClick={handleBookmarkedWalletsClick}
         >
           {!!bookmarks.length && (
-            <Typography color="text.secondary">{bookmarks.length}</Typography>
+            <Typography
+              sx={{
+                color: 'text.secondary',
+              }}
+            >
+              {bookmarks.length}
+            </Typography>
           )}
         </CardButton>
       </Box>
