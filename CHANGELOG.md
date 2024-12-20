@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.13.0](https://github.com/lifinance/widget/compare/v3.12.5...v3.13.0) (2024-12-20)
+
+
+### Features
+
+* improve peer dependencies ([#335](https://github.com/lifinance/widget/issues/335)) ([cb159cf](https://github.com/lifinance/widget/commit/cb159cfe892eef466a4370774c9bb6c25835a967))
+* migrate to MUI v6 ([#334](https://github.com/lifinance/widget/issues/334)) ([12c632d](https://github.com/lifinance/widget/commit/12c632d7a89f2b75b4946eec315489b85601f452))
+
+
+### Bug Fixes
+
+* improve deposit flow card titles ([#328](https://github.com/lifinance/widget/issues/328)) ([9eb9a20](https://github.com/lifinance/widget/commit/9eb9a200308c9889d403595984eaef33bb93a31e))
+* prepare for react router v7 ([43d27a1](https://github.com/lifinance/widget/commit/43d27a19d878079b50858165fc4d287f6cbc581d))
+* should show wallet menu in split mode ([7ca782c](https://github.com/lifinance/widget/commit/7ca782c31146ee5ea312eb24b489c70e356277de))
+
 ### [3.12.5](https://github.com/lifinance/widget/compare/v3.12.4...v3.12.5) (2024-12-13)
 
 ### [3.12.4](https://github.com/lifinance/widget/compare/v3.12.3...v3.12.4) (2024-12-12)
