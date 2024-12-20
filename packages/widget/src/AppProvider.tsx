@@ -1,7 +1,11 @@
 import { QueryClientProvider } from '@tanstack/react-query'
 import type { PropsWithChildren } from 'react'
 import { Fragment } from 'react'
-import { MemoryRouter, useInRouterContext } from 'react-router-dom'
+import {
+  MemoryRouter,
+  type MemoryRouterProps,
+  useInRouterContext,
+} from 'react-router-dom'
 import { PageEntered } from './components/PageEntered.js'
 import { queryClient } from './config/queryClient.js'
 import { I18nProvider } from './providers/I18nProvider/I18nProvider.js'
@@ -37,12 +41,22 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
   )
 }
 
+const memoryRouterProps: MemoryRouterProps = {
+  future: {
+    v7_startTransition: true,
+    v7_relativeSplatPath: true,
+  },
+}
+
 export const AppRouter: React.FC<PropsWithChildren> = ({ children }) => {
   const { buildUrl } = useWidgetConfig()
   const inRouterContext = useInRouterContext()
   const Router = inRouterContext ? Fragment : MemoryRouter
+
+  const routerProps = inRouterContext ? undefined : memoryRouterProps
+
   return (
-    <Router>
+    <Router {...routerProps}>
       {children}
       {buildUrl ? <URLSearchParamsBuilder /> : null}
       <PageEntered />
