@@ -16,6 +16,7 @@ export const useIsContractAddress = (
       enabled: Boolean(chainType === ChainType.EVM && chainId),
     },
   })
+
   const isContractAddress = !!contractCode
   return isContractAddress
 }

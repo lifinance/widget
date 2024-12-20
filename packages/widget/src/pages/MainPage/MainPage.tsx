@@ -31,22 +31,23 @@ export const MainPage: React.FC = () => {
       : subvariant === 'refuel'
         ? t('header.gas')
         : t('header.exchange')
+
   useHeader(title)
+
+  const marginSx = { marginBottom: 2 }
 
   return (
     <PageContainer>
-      <ActiveTransactions sx={{ marginBottom: 2 }} />
+      <ActiveTransactions sx={marginSx} />
       {custom ? (
-        <ContractComponent sx={{ marginBottom: 2 }}>
-          {contractComponent}
-        </ContractComponent>
+        <ContractComponent sx={marginSx}>{contractComponent}</ContractComponent>
       ) : null}
       <SelectChainAndToken mb={2} />
-      {!custom ? (
-        <AmountInput formType="from" sx={{ marginBottom: 2 }} />
+      {!custom || subvariantOptions?.custom === 'deposit' ? (
+        <AmountInput formType="from" sx={marginSx} />
       ) : null}
-      {!wideVariant ? <Routes sx={{ marginBottom: 2 }} /> : null}
-      <SendToWalletButton sx={{ marginBottom: 2 }} />
+      {!wideVariant ? <Routes sx={marginSx} /> : null}
+      <SendToWalletButton sx={marginSx} />
       <GasRefuelMessage mb={2} />
       <MainMessages mb={2} />
       <Box
