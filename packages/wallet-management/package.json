@@ -48,9 +48,8 @@
     "lifi"
   ],
   "dependencies": {
-    "@bigmi/client": "^0.0.6",
+    "@bigmi/client": "^0.0.7-beta.0",
     "@bigmi/core": "^0.0.6",
-    "@bigmi/react": "^0.0.6",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@lifi/sdk": "^3.4.3",
@@ -59,16 +58,14 @@
     "@mui/material": "^5.16.11",
     "@mui/system": "^5.16.8",
     "@solana/wallet-adapter-base": "^0.9.23",
-    "@solana/wallet-adapter-react": "^0.15.35",
-    "@solana/web3.js": "^1.95.8",
+    "@solana/web3.js": "^1.98.0",
     "@wagmi/core": "^2.16.0",
-    "i18next": "^24.1.0",
+    "i18next": "^24.2.0",
     "mitt": "^3.0.1",
     "react": "^18.3.1",
     "react-i18next": "^15.2.0",
     "use-sync-external-store": "^1.4.0",
     "viem": "^2.21.55",
-    "wagmi": "^2.14.1",
     "zustand": "^5.0.2"
   },
   "devDependencies": {
@@ -78,8 +75,11 @@
     "typescript": "^5.7.2"
   },
   "peerDependencies": {
+    "@bigmi/react": ">=0.0.6",
+    "@solana/wallet-adapter-react": "^0.15.35",
     "react": ">=18",
-    "react-dom": ">=18"
+    "react-dom": ">=18",
+    "wagmi": "^2.14.0"
   },
   "files": ["dist/**", "src/**", "!tsconfig.json"]
 }

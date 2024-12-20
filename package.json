@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@commitlint/cli": "^19.6.0",
+    "@commitlint/cli": "^19.6.1",
     "@commitlint/config-conventional": "^19.6.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
