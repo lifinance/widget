@@ -18,7 +18,7 @@
     "@vitejs/plugin-vue": "^5.2.1",
     "@vitejs/plugin-vue-jsx": "^4.1.1",
     "typescript": "^5.7.2",
-    "vite": "^6.0.3",
+    "vite": "^6.0.5",
     "vite-plugin-node-polyfills": "^0.22.0",
     "vue-tsc": "^2.1.10"
   }
