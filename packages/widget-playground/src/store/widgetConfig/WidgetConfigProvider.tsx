@@ -7,9 +7,9 @@ import { createContext, useContext, useEffect, useRef } from 'react'
 import { shallow } from 'zustand/shallow'
 import { cloneStructuredConfig } from '../../utils/cloneStructuredConfig'
 import { patch } from '../../utils/patch'
-import { createWidgetConfigStore } from './createWidgetConfigStore.js'
+import { createWidgetConfigStore } from './createWidgetConfigStore'
 import { themeItems } from './themes'
-import type { WidgetConfigState, WidgetConfigStore } from './types.js'
+import type { WidgetConfigState, WidgetConfigStore } from './types'
 import { getConfigOutput } from './utils/getConfigOutput'
 
 export const WidgetConfigContext = createContext<WidgetConfigStore | null>(null)
@@ -22,7 +22,7 @@ export const WidgetConfigProvider: FC<WidgetConfigProviderProps> = ({
   children,
   defaultWidgetConfig,
 }) => {
-  const storeRef = useRef<WidgetConfigStore>()
+  const storeRef = useRef<WidgetConfigStore>(null)
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
 
   if (!storeRef.current) {

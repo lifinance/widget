@@ -44,7 +44,7 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
   onContinue,
 }) => {
   const { t } = useTranslation()
-  const ref = useRef<HTMLElement>()
+  const ref = useRef<HTMLElement>(null)
   useSetContentHeight(ref)
   const { gasCosts, feeCosts, gasCostUSD, feeCostUSD } =
     getAccumulatedFeeCostsBreakdown(route)

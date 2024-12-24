@@ -53,7 +53,7 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
     formUpdateKey,
   } = widgetConfig
 
-  const storeRef = useRef<FormStoreStore>()
+  const storeRef = useRef<FormStoreStore>(null)
 
   const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress)
 

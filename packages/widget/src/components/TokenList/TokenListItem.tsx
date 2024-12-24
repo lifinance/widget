@@ -73,7 +73,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
       )
     : undefined
   const container = useRef(null)
-  const timeoutId = useRef<ReturnType<typeof setTimeout>>()
+  const timeoutId = useRef<ReturnType<typeof setTimeout>>(undefined)
   const [showAddress, setShowAddress] = useState(false)
 
   const tokenAddress =

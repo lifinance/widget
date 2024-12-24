@@ -9,7 +9,6 @@ import { Button, ListItemAvatar, ListItemText, MenuItem } from '@mui/material'
 import { useId, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-
 import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { ListItemButton } from '../../components/ListItem//ListItemButton.js'

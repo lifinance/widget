@@ -34,7 +34,7 @@ export const ExchangeRateBottomSheet = forwardRef<
 >(({ onContinue, onCancel }, ref) => {
   const [data, setData] = useState<ExchangeRateUpdateParams>()
   const bottomSheetRef = useRef<BottomSheetBase>(null)
-  const resolverRef = useRef<(value: boolean) => void>()
+  const resolverRef = useRef<(value: boolean) => void>(null)
 
   const handleContinue = () => {
     ;(ref as MutableRefObject<ExchangeRateBottomSheetBase>).current?.close(true)
@@ -90,7 +90,7 @@ const ExchangeRateBottomSheetContent: React.FC<
   ExchangeRateBottomSheetProps
 > = ({ data, onCancel, onContinue }) => {
   const { t } = useTranslation()
-  const ref = useRef<HTMLElement>()
+  const ref = useRef<HTMLElement>(null)
   useSetContentHeight(ref)
 
   if (!data) {

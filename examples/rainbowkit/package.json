@@ -11,15 +11,15 @@
   "dependencies": {
     "@lifi/widget": "workspace:^",
     "@rainbow-me/rainbowkit": "^2.2.1",
-    "@tanstack/react-query": "^5.62.8",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "viem": "^2.21.55",
-    "wagmi": "^2.14.3"
+    "@tanstack/react-query": "^5.62.10",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "viem": "^2.21.57",
+    "wagmi": "^2.14.6"
   },
   "devDependencies": {
-    "@types/react": "^18.3.17",
-    "@types/react-dom": "^18.3.5",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
     "@vitejs/plugin-react-swc": "^3.7.2",
     "typescript": "^5.7.2",
     "vite": "^6.0.5",

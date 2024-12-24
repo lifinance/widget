@@ -4,7 +4,7 @@ import { createDefaultBigmiConfig } from '@lifi/wallet-management'
 import { type FC, type PropsWithChildren, useRef } from 'react'
 
 export const UTXOBaseProvider: FC<PropsWithChildren> = ({ children }) => {
-  const bigmi = useRef<DefaultWagmiConfigResult>()
+  const bigmi = useRef<DefaultWagmiConfigResult>(null)
 
   if (!bigmi.current) {
     bigmi.current = createDefaultBigmiConfig({

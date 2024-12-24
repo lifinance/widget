@@ -14,8 +14,8 @@
     "@tsconfig/svelte": "^5.0.4",
     "@types/events": "^3.0.3",
     "@types/node": "^22.10.2",
-    "@types/react": "^18.3.17",
-    "@types/react-dom": "^18.3.5",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
     "svelte": "^5.15.0",
     "svelte-check": "^4.1.1",
     "svelte-preprocess": "^6.0.2",
@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@lifi/widget": "workspace:^",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   }
 }

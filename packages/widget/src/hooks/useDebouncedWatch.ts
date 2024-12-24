@@ -8,7 +8,7 @@ export const useDebouncedWatch = <T extends FormFieldNames[]>(
 ) => {
   const watchedValue = useFieldValues(...name)
   const [debouncedValue, setDebouncedValue] = useState(watchedValue)
-  const debouncedValueRef = useRef<typeof watchedValue>()
+  const debouncedValueRef = useRef<typeof watchedValue>(null)
   const isMounted = useRef(false)
 
   useEffect(() => {

@@ -64,7 +64,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
 }) => {
   const { t } = useTranslation()
   const { installedWallets } = useCombinedWallets()
-  const selectedWalletRef = useRef<CombinedWallet>()
+  const selectedWalletRef = useRef<CombinedWallet>(null)
 
   const [state, dispatch] = useReducer(reducer, { view: 'wallet-list' })
 

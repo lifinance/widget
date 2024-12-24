@@ -86,7 +86,7 @@ export const StatusBottomSheetContent: React.FC<
   } = useWidgetConfig()
   const { getChainById } = useAvailableChains()
 
-  const ref = useRef<HTMLElement>()
+  const ref = useRef<HTMLElement>(null)
   useSetContentHeight(ref)
 
   const toToken = {

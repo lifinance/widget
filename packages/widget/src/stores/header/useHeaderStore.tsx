@@ -7,7 +7,7 @@ import type { HeaderState, HeaderStore } from './types.js'
 export const HeaderStoreContext = createContext<HeaderStore | null>(null)
 
 export function HeaderStoreProvider({ children }: PersistStoreProviderProps) {
-  const storeRef = useRef<HeaderStore>()
+  const storeRef = useRef<HeaderStore>(null)
   if (!storeRef.current) {
     storeRef.current = createHeaderStore()
   }

@@ -16,7 +16,7 @@ export function RouteExecutionStoreProvider({
   children,
   ...props
 }: PersistStoreProviderProps) {
-  const storeRef = useRef<RouteExecutionStore>()
+  const storeRef = useRef<RouteExecutionStore>(null)
   if (!storeRef.current) {
     storeRef.current = createRouteExecutionStore(props)
   }
