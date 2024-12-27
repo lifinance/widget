@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.13.2](https://github.com/lifinance/widget/compare/v3.13.1...v3.13.2) (2024-12-27)
+
+
+### Bug Fixes
+
+* support loadable wallets ([783ed97](https://github.com/lifinance/widget/commit/783ed9750cc59767bc02708935e207667b1a73fe))
+
 ### [3.13.1](https://github.com/lifinance/widget/compare/v3.13.0...v3.13.1) (2024-12-20)
 
 
