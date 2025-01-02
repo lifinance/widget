@@ -48,8 +48,8 @@
     "lifi"
   ],
   "dependencies": {
-    "@bigmi/client": "^0.0.7",
-    "@bigmi/core": "^0.0.7",
+    "@bigmi/client": "^0.1.0",
+    "@bigmi/core": "^0.1.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@lifi/sdk": "^3.4.4",
@@ -62,9 +62,9 @@
     "@wagmi/core": "^2.16.3",
     "i18next": "^24.2.0",
     "mitt": "^3.0.1",
-    "react-i18next": "^15.2.0",
+    "react-i18next": "^15.4.0",
     "use-sync-external-store": "^1.4.0",
-    "viem": "^2.21.57",
+    "viem": "^2.22.1",
     "zustand": "^5.0.2"
   },
   "devDependencies": {
