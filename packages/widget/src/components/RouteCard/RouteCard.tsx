@@ -14,6 +14,7 @@ import { Token } from '../Token/Token.js'
 import { TokenContainer } from './RouteCard.style.js'
 import { RouteCardEssentials } from './RouteCardEssentials.js'
 import { RouteCardEssentialsExpanded } from './RouteCardEssentialsExpanded.js'
+import { getMatchingLabels } from './getMatchingLabels.js'
 import type { RouteCardProps } from './types.js'
 
 export const RouteCard: React.FC<
@@ -26,7 +27,7 @@ export const RouteCard: React.FC<
   ...other
 }) => {
   const { t } = useTranslation()
-  const { subvariant, subvariantOptions } = useWidgetConfig()
+  const { subvariant, subvariantOptions, routeLabels } = useWidgetConfig()
   const [cardExpanded, setCardExpanded] = useState(defaulExpanded)
 
   const handleExpand: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -43,6 +44,7 @@ export const RouteCard: React.FC<
       ? { ...route.fromToken, amount: BigInt(route.fromAmount) }
       : undefined
 
+  const customLabels = getMatchingLabels(route, routeLabels)
   const tags = route.tags?.filter(
     (tag) => tag === 'CHEAPEST' || tag === 'FASTEST'
   )
@@ -53,12 +55,15 @@ export const RouteCard: React.FC<
         flex: 1,
       }}
     >
-      {subvariant !== 'refuel' && route.tags?.length ? (
+      {subvariant !== 'refuel' &&
+      (route.tags?.length || customLabels.length) ? (
         <Box
           sx={{
             display: 'flex',
             alignItems: 'center',
             mb: 2,
+            gap: 1,
+            flexWrap: 'wrap',
           }}
         >
           {tags?.length ? (
@@ -68,6 +73,11 @@ export const RouteCard: React.FC<
               </CardLabelTypography>
             </CardLabel>
           ) : null}
+          {customLabels.map((label, index) => (
+            <CardLabel key={index} sx={label.sx}>
+              <CardLabelTypography>{label.text}</CardLabelTypography>
+            </CardLabel>
+          ))}
         </Box>
       ) : null}
       <TokenContainer>
