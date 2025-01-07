@@ -16,7 +16,8 @@ import { RouteNotFoundCard } from '../RouteCard/RouteNotFoundCard.js'
 export const Routes: React.FC<CardProps> = (props) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { subvariant, useRecommendedRoute } = useWidgetConfig()
+  const { subvariant, subvariantOptions, useRecommendedRoute } =
+    useWidgetConfig()
   const {
     routes,
     isLoading,
@@ -42,11 +43,16 @@ export const Routes: React.FC<CardProps> = (props) => {
   const showAll =
     !onlyRecommendedRoute && !routeNotFound && (routes?.length ?? 0) > 1
 
+  const title =
+    subvariant === 'custom'
+      ? subvariantOptions?.custom === 'deposit'
+        ? t('header.receive')
+        : t('header.youPay')
+      : t('header.receive')
+
   return (
     <Card {...props}>
-      <CardTitle>
-        {subvariant === 'custom' ? t('header.youPay') : t('header.receive')}
-      </CardTitle>
+      <CardTitle>{title}</CardTitle>
       <ProgressToNextUpdate
         updatedAt={dataUpdatedAt || new Date().getTime()}
         timeToUpdate={refetchTime}
@@ -58,7 +64,11 @@ export const Routes: React.FC<CardProps> = (props) => {
           right: 8,
         }}
       />
-      <Box p={2}>
+      <Box
+        sx={{
+          p: 2,
+        }}
+      >
         {isLoading ? (
           <RouteCardSkeleton variant="cardless" />
         ) : !currentRoute ? (
@@ -68,7 +78,11 @@ export const Routes: React.FC<CardProps> = (props) => {
         )}
 
         <Collapse timeout={225} in={showAll} unmountOnExit mountOnEnter appear>
-          <Box mt={2}>
+          <Box
+            sx={{
+              mt: 2,
+            }}
+          >
             <ButtonTertiary onClick={handleCardClick} fullWidth>
               {t('button.showAll')}
             </ButtonTertiary>

@@ -58,7 +58,12 @@ export const StepActions: React.FC<StepActionsProps> = ({
 
   return (
     <Box {...other}>
-      <Box display="flex" alignItems="center">
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
         <Badge
           overlap="circular"
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
@@ -72,8 +77,19 @@ export const StepActions: React.FC<StepActionsProps> = ({
             {toolDetails.name[0]}
           </StepAvatar>
         </Badge>
-        <Box flex={1}>
-          <Typography fontSize={18} fontWeight={600} lineHeight={1.3334} ml={2}>
+        <Box
+          sx={{
+            flex: 1,
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: 18,
+              fontWeight: 600,
+              lineHeight: 1.3334,
+              ml: 2,
+            }}
+          >
             {toolDetails.name?.includes('LI.FI')
               ? toolDetails.name
               : t('main.stepDetails', {
@@ -146,7 +162,11 @@ export const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
   }
 
   return (
-    <Box mt={1}>
+    <Box
+      sx={{
+        mt: 1,
+      }}
+    >
       <Stepper
         orientation="vertical"
         connector={<StepConnector />}
@@ -212,12 +232,14 @@ export const StepDetailsContent: React.FC<{
 
   return (
     <Typography
-      fontSize={12}
-      lineHeight={1}
-      fontWeight="500"
-      color="text.secondary"
-      alignItems="center"
-      display="flex"
+      sx={{
+        fontSize: 12,
+        lineHeight: 1,
+        fontWeight: '500',
+        color: 'text.secondary',
+        alignItems: 'center',
+        display: 'flex',
+      }}
     >
       {!showToAmount ? (
         <>

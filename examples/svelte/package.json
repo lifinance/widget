@@ -10,23 +10,23 @@
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^5.0.1",
+    "@sveltejs/vite-plugin-svelte": "^5.0.3",
     "@tsconfig/svelte": "^5.0.4",
     "@types/events": "^3.0.3",
-    "@types/node": "^22.10.1",
-    "@types/react": "^18.3.13",
-    "@types/react-dom": "^18.3.1",
-    "svelte": "^5.10.0",
+    "@types/node": "^22.10.5",
+    "@types/react": "^19.0.3",
+    "@types/react-dom": "^19.0.2",
+    "svelte": "^5.16.5",
     "svelte-check": "^4.1.1",
     "svelte-preprocess": "^6.0.2",
     "tslib": "^2.8.1",
     "typescript": "^5.7.2",
-    "vite": "^6.0.3",
+    "vite": "^6.0.7",
     "vite-plugin-node-polyfills": "^0.22.0"
   },
   "dependencies": {
     "@lifi/widget": "workspace:^",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   }
 }

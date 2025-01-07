@@ -16,7 +16,7 @@ const getIsDevViewQueryStringParam = () => {
 export const EditToolsContext = createContext<ToolsStore | null>(null)
 
 export const EditToolsProvider: FC<PropsWithChildren> = ({ children }) => {
-  const storeRef = useRef<ToolsStore>()
+  const storeRef = useRef<ToolsStore>(null)
   const { getCurrentThemePreset } = useConfigActions()
 
   if (!storeRef.current) {

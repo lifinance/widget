@@ -33,15 +33,18 @@ const useInternalWalletManagement = () => {
   const isWalletMenuHidden = hiddenUI?.includes(HiddenUI.WalletMenu)
 
   const shouldShowWalletMenu =
-    !useExternalWalletProvidersOnly && !isSplitVariant && !isWalletMenuHidden
+    !useExternalWalletProvidersOnly && !isWalletMenuHidden
 
-  return shouldShowWalletMenu
+  return {
+    shouldShowWalletMenu,
+    isSplitVariant,
+  }
 }
 
 export const WalletHeader: React.FC = () => {
-  const shouldShowWalletMenu = useInternalWalletManagement()
+  const { shouldShowWalletMenu, isSplitVariant } = useInternalWalletManagement()
 
-  return shouldShowWalletMenu ? (
+  return shouldShowWalletMenu && !isSplitVariant ? (
     <HeaderAppBar elevation={0} sx={{ justifyContent: 'flex-end' }}>
       <WalletMenuButton />
     </HeaderAppBar>
@@ -49,8 +52,8 @@ export const WalletHeader: React.FC = () => {
 }
 
 export const SplitWalletMenuButton: React.FC = () => {
-  const shouldShowWalletMenu = useInternalWalletManagement()
-  return shouldShowWalletMenu ? <WalletMenuButton /> : null
+  const { shouldShowWalletMenu, isSplitVariant } = useInternalWalletManagement()
+  return shouldShowWalletMenu && isSplitVariant ? <WalletMenuButton /> : null
 }
 
 export const WalletMenuButton: React.FC = () => {

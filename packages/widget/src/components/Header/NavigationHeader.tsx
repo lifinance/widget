@@ -40,16 +40,22 @@ export const NavigationHeader: React.FC = () => {
           <BackButton onClick={navigateBack} />
         ) : null}
         {splitSubvariant ? (
-          <Box flex={1}>
+          <Box
+            sx={{
+              flex: 1,
+            }}
+          >
             <SplitWalletMenuButton />
           </Box>
         ) : (
           <Typography
-            fontSize={hasPath ? 18 : 24}
             align={hasPath ? 'center' : 'left'}
-            fontWeight="700"
-            flex={1}
             noWrap
+            sx={{
+              fontSize: hasPath ? 18 : 24,
+              fontWeight: '700',
+              flex: 1,
+            }}
           >
             {title}
           </Typography>
@@ -71,7 +77,19 @@ export const NavigationHeader: React.FC = () => {
               </HeaderControlsContainer>
             }
           />
-          <Route path="*" element={element || <Box width={28} height={40} />} />
+          <Route
+            path="*"
+            element={
+              element || (
+                <Box
+                  sx={{
+                    width: 28,
+                    height: 40,
+                  }}
+                />
+              )
+            }
+          />
         </Routes>
       </HeaderAppBar>
       {splitSubvariant ? <NavigationTabs /> : null}

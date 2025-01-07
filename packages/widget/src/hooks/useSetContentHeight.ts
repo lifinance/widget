@@ -8,7 +8,7 @@ import { useDefaultElementId } from './useDefaultElementId.js'
 //   CSS changes in those components can have implications for the functionality in this hook
 
 export const useSetContentHeight = (
-  ref: MutableRefObject<HTMLElement | undefined>
+  ref: MutableRefObject<HTMLElement | null>
 ) => {
   const elementId = useDefaultElementId()
   useLayoutEffect(() => {

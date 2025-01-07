@@ -34,12 +34,19 @@ export const GasRefuelMessage: React.FC<BoxProps> = (props) => {
         icon={<EvStation />}
         title={
           <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-            flexGrow={1}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              flexGrow: 1,
+            }}
           >
-            <Typography variant="body2" fontWeight={700}>
+            <Typography
+              variant="body2"
+              sx={{
+                fontWeight: 700,
+              }}
+            >
               {t('info.title.autoRefuel', { chainName: chain?.name ?? '' })}
             </Typography>
             <InfoMessageSwitch
@@ -56,7 +63,13 @@ export const GasRefuelMessage: React.FC<BoxProps> = (props) => {
           unmountOnExit
           mountOnEnter
         >
-          <Typography variant="body2" px={2} pt={1}>
+          <Typography
+            variant="body2"
+            sx={{
+              px: 2,
+              pt: 1,
+            }}
+          >
             {t('info.message.autoRefuel', {
               chainName: chain?.name,
             })}

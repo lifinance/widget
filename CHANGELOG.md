@@ -2,6 +2,45 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.13.2](https://github.com/lifinance/widget/compare/v3.13.1...v3.13.2) (2024-12-27)
+
+
+### Bug Fixes
+
+* support loadable wallets ([783ed97](https://github.com/lifinance/widget/commit/783ed9750cc59767bc02708935e207667b1a73fe))
+
+### [3.13.1](https://github.com/lifinance/widget/compare/v3.13.0...v3.13.1) (2024-12-20)
+
+
+### Bug Fixes
+
+* remix compatibility ([#336](https://github.com/lifinance/widget/issues/336)) ([3b6fcb3](https://github.com/lifinance/widget/commit/3b6fcb3905c1751ac125e3e4ac9f9ac588eac4c0))
+
+## [3.13.0](https://github.com/lifinance/widget/compare/v3.12.5...v3.13.0) (2024-12-20)
+
+
+### Features
+
+* improve peer dependencies ([#335](https://github.com/lifinance/widget/issues/335)) ([cb159cf](https://github.com/lifinance/widget/commit/cb159cfe892eef466a4370774c9bb6c25835a967))
+* migrate to MUI v6 ([#334](https://github.com/lifinance/widget/issues/334)) ([12c632d](https://github.com/lifinance/widget/commit/12c632d7a89f2b75b4946eec315489b85601f452))
+
+
+### Bug Fixes
+
+* improve deposit flow card titles ([#328](https://github.com/lifinance/widget/issues/328)) ([9eb9a20](https://github.com/lifinance/widget/commit/9eb9a200308c9889d403595984eaef33bb93a31e))
+* prepare for react router v7 ([43d27a1](https://github.com/lifinance/widget/commit/43d27a19d878079b50858165fc4d287f6cbc581d))
+* should show wallet menu in split mode ([7ca782c](https://github.com/lifinance/widget/commit/7ca782c31146ee5ea312eb24b489c70e356277de))
+
+### [3.12.5](https://github.com/lifinance/widget/compare/v3.12.4...v3.12.5) (2024-12-13)
+
+### [3.12.4](https://github.com/lifinance/widget/compare/v3.12.3...v3.12.4) (2024-12-12)
+
+
+### Bug Fixes
+
+* improve powered by with dynamic configuration ([#332](https://github.com/lifinance/widget/issues/332)) ([6ae3abb](https://github.com/lifinance/widget/commit/6ae3abbca2140fcda5c9a3ce1f014b27651141aa))
+* keep previous data only when wallet is connected ([1b4df34](https://github.com/lifinance/widget/commit/1b4df3448f69c1639a1edc23d5b70ad66b0538e9))
+
 ### [3.12.3](https://github.com/lifinance/widget/compare/v3.12.2...v3.12.3) (2024-12-05)
 
 ### [3.12.2](https://github.com/lifinance/widget/compare/v3.12.1...v3.12.2) (2024-11-19)

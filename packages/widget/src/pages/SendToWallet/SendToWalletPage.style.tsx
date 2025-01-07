@@ -87,15 +87,13 @@ export const IconContainer = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   width: 80,
   height: 80,
-  color:
-    theme.palette.mode === 'light'
-      ? theme.palette.grey[700]
-      : theme.palette.grey[300],
-  background:
-    theme.palette.mode === 'light'
-      ? theme.palette.grey[200]
-      : theme.palette.grey[800],
+  color: theme.palette.grey[300],
+  background: theme.palette.grey[800],
   borderRadius: '50%',
+  ...theme.applyStyles('light', {
+    color: theme.palette.grey[700],
+    background: theme.palette.grey[200],
+  }),
 }))
 
 export const SheetTitle = styled(Typography)(() => ({
@@ -120,7 +118,6 @@ export const BookmarksListContainer = styled(ListContainer)(({ theme }) => ({
     ? { minHeight: 360, height: 360, flexGrow: 1, overflow: 'auto' }
     : { minHeight: 440 }),
 }))
-
 export const BookmarkButtonContainer = styled(Box)(({ theme }) => ({
   background: theme.palette.background.default,
   display: 'flex',

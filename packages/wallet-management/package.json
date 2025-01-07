@@ -1,6 +1,6 @@
 {
   "name": "@lifi/wallet-management",
-  "version": "3.4.6",
+  "version": "3.5.2",
   "description": "LI.FI Wallet Management solution.",
   "type": "module",
   "main": "./src/index.ts",
@@ -48,38 +48,39 @@
     "lifi"
   ],
   "dependencies": {
-    "@bigmi/client": "^0.0.5",
-    "@bigmi/core": "^0.0.5",
-    "@bigmi/react": "^0.0.5",
+    "@bigmi/client": "^0.1.0",
+    "@bigmi/core": "^0.1.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@lifi/sdk": "^3.5.0-beta.0",
-    "@mui/icons-material": "^5.16.8",
-    "@mui/lab": "5.0.0-alpha.174",
-    "@mui/material": "^5.16.8",
-    "@mui/system": "^5.16.8",
+    "@lifi/sdk": "^3.5.1-beta.0",
+    "@mui/icons-material": "6.0.2",
+    "@mui/lab": "6.0.0-beta.22",
+    "@mui/material": "^6.3.1",
+    "@mui/system": "^6.3.1",
     "@solana/wallet-adapter-base": "^0.9.23",
-    "@solana/wallet-adapter-react": "^0.15.35",
-    "@solana/web3.js": "^1.95.8",
-    "@wagmi/core": "^2.15.2",
-    "i18next": "^24.0.5",
+    "@solana/web3.js": "^1.98.0",
+    "@wagmi/core": "^2.16.3",
+    "i18next": "^24.2.1",
     "mitt": "^3.0.1",
-    "react": "^18.3.1",
-    "react-i18next": "^15.1.4",
+    "react-i18next": "^15.4.0",
     "use-sync-external-store": "^1.4.0",
-    "viem": "^2.21.54",
-    "wagmi": "^2.13.5",
+    "viem": "^2.22.3",
     "zustand": "^5.0.2"
   },
   "devDependencies": {
     "@types/use-sync-external-store": "^0.0.6",
     "cpy-cli": "^5.0.0",
     "madge": "^8.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "typescript": "^5.7.2"
   },
   "peerDependencies": {
+    "@bigmi/react": ">=0.0.7",
+    "@solana/wallet-adapter-react": "^0.15.35",
     "react": ">=18",
-    "react-dom": ">=18"
+    "react-dom": ">=18",
+    "wagmi": "^2.14.0"
   },
   "files": ["dist/**", "src/**", "!tsconfig.json"]
 }

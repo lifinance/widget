@@ -23,17 +23,17 @@ export const CodeCopyButton = styled(IconButton)(({ theme }) => ({
   position: 'absolute',
   right: theme.spacing(2),
   top: theme.spacing(0.5),
-  background:
-    theme.palette.mode === 'light'
-      ? theme.palette.grey[200]
-      : theme.palette.grey[800],
+  background: theme.palette.grey[800],
   '&:hover': {
-    background:
-      theme.palette.mode === 'light'
-        ? theme.palette.grey[300]
-        : theme.palette.grey[700],
+    background: theme.palette.grey[700],
+    ...theme.applyStyles('light', {
+      background: theme.palette.grey[300],
+    }),
   },
   zIndex: tooltipPopperZIndex,
+  ...theme.applyStyles('light', {
+    background: theme.palette.grey[200],
+  }),
 }))
 
 export const EditorContainer = styled(Box)(({ theme }) => ({
@@ -60,8 +60,10 @@ export const ProjectButtonBase = styled(Button)<ProjectButton>(({ theme }) => ({
 export const ProjectAvatar = styled(Avatar)(({ theme }) => ({
   width: 40,
   height: 40,
-  backgroundColor:
-    theme.palette.mode === 'light' ? 'transparent' : theme.palette.common.white,
+  backgroundColor: theme.palette.common.white,
+  ...theme.applyStyles('light', {
+    backgroundColor: 'transparent',
+  }),
 }))
 
 export const FontEmbedPopperContainer = styled(Box)(({ theme }) => ({
@@ -70,24 +72,22 @@ export const FontEmbedPopperContainer = styled(Box)(({ theme }) => ({
   flexDirection: 'column',
   width: 450,
   borderRadius: theme.shape.borderRadius,
-  backgroundColor:
-    theme.palette.mode === 'light'
-      ? theme.palette.grey[300]
-      : theme.palette.grey[700],
+  backgroundColor: theme.palette.grey[700],
   gap: theme.spacing(1),
   padding: theme.spacing(4),
+  ...theme.applyStyles('light', {
+    backgroundColor: theme.palette.grey[300],
+  }),
 }))
 
 export const GoogleFontLink = styled(Link)(({ theme }) => ({
-  color:
-    theme.palette.mode === 'light'
-      ? theme.palette.primary.main
-      : lighten(theme.palette.primary.main, 0.5),
-  textDecorationColor:
-    theme.palette.mode === 'light'
-      ? theme.palette.primary.main
-      : lighten(theme.palette.primary.main, 0.5),
+  color: lighten(theme.palette.primary.main, 0.5),
+  textDecorationColor: lighten(theme.palette.primary.main, 0.5),
   fontWeight: 600,
+  ...theme.applyStyles('light', {
+    color: theme.palette.primary.main,
+    textDecorationColor: theme.palette.primary.main,
+  }),
 }))
 
 export const FontMessageCloseButton = styled(IconButton)(() => ({
@@ -104,8 +104,8 @@ export const FontMessageCloseButton = styled(IconButton)(() => ({
 }))
 
 export const EditorSkeleton = styled(MuiSkeleton)(({ theme }) => ({
-  backgroundColor:
-    theme.palette.mode === 'light'
-      ? theme.palette.grey[100]
-      : theme.palette.grey[800],
+  backgroundColor: theme.palette.grey[800],
+  ...theme.applyStyles('light', {
+    backgroundColor: theme.palette.grey[100],
+  }),
 }))

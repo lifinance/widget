@@ -18,8 +18,8 @@ export const useExecutingRoutesIds = () => {
         )
         .sort(
           (a, b) =>
-            (b?.route.steps[0].execution?.process[0].startedAt ?? 0) -
-            (a?.route.steps[0].execution?.process[0].startedAt ?? 0)
+            (b?.route.steps[0].execution?.process[0]?.startedAt ?? 0) -
+            (a?.route.steps[0].execution?.process[0]?.startedAt ?? 0)
         )
         .map(({ route }) => route.id),
     shallow

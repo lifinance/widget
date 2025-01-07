@@ -2,7 +2,7 @@
   "name": "@lifi/widget-playground-next",
   "version": "1.0.230",
   "scripts": {
-    "dev": "next dev -p 3001",
+    "dev": "next dev -p 3001 --turbo",
     "build": "next build",
     "start": "next start"
   },
@@ -12,19 +12,19 @@
     "@emotion/styled": "^11.14.0",
     "@lifi/widget": "workspace:*",
     "@lifi/widget-playground": "workspace:*",
-    "@mui/material": "^5.16.8",
-    "@mui/material-nextjs": "^5.16.8",
-    "@mui/system": "^5.16.8",
-    "@tanstack/react-query": "^5.62.3",
+    "@mui/material": "^6.3.1",
+    "@mui/material-nextjs": "^6.3.1",
+    "@mui/system": "^6.3.1",
+    "@tanstack/react-query": "^5.62.16",
     "core-js": "^3.39.0",
-    "next": "14.2.15",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "next": "^15.1.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@types/node": "^22.10.1",
-    "@types/react": "^18.3.13",
-    "@types/react-dom": "^18.3.1",
+    "@types/node": "^22.10.5",
+    "@types/react": "^19.0.3",
+    "@types/react-dom": "^19.0.2",
     "typescript": "^5.7.2"
   },
   "private": true

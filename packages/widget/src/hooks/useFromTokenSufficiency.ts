@@ -77,7 +77,7 @@ export const useFromTokenSufficiency = (route?: RouteExtended) => {
     enabled: Boolean(account.address && token && !isTokenAddressBalanceLoading),
     refetchInterval,
     staleTime: refetchInterval,
-    placeholderData: keepPreviousData,
+    placeholderData: account.address ? keepPreviousData : undefined,
   })
 
   return {

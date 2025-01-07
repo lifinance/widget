@@ -1,7 +1,7 @@
 import type { Route } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { Collapse, Grow, Stack, Typography } from '@mui/material'
-import { useEffect, useRef } from 'react'
+import { type PropsWithChildren, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { RouteObject } from 'react-router-dom'
 import { useRoutes as useDOMRoutes, useNavigate } from 'react-router-dom'
@@ -41,7 +41,7 @@ const routes: RouteObject[] = [
 
 export const RoutesExpanded = () => {
   const element = useDOMRoutes(routes)
-  const match = Boolean(element?.props?.children)
+  const match = Boolean((element?.props as PropsWithChildren)?.children)
 
   return (
     <CollapseContainer>
@@ -64,8 +64,8 @@ export const RoutesExpanded = () => {
 export const RoutesExpandedElement = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { subvariant } = useWidgetConfig()
-  const routesRef = useRef<Route[]>()
+  const { subvariant, subvariantOptions } = useWidgetConfig()
+  const routesRef = useRef<Route[]>(undefined)
   const emitter = useWidgetEvents()
   const routesActiveRef = useRef(false)
   const {
@@ -118,6 +118,13 @@ export const RoutesExpandedElement = () => {
     emitter.emit(WidgetEvent.WidgetExpanded, expanded)
   }, [emitter, expanded])
 
+  const title =
+    subvariant === 'custom'
+      ? subvariantOptions?.custom === 'deposit'
+        ? t('header.deposit')
+        : t('header.youPay')
+      : t('header.receive')
+
   return (
     <RoutesExpandedCollapse
       timeout={timeout.enter}
@@ -129,10 +136,15 @@ export const RoutesExpandedElement = () => {
         <Container enableColorScheme minimumHeight={isLoading}>
           <ScrollableContainer>
             <Header>
-              <Typography fontSize={18} fontWeight="700" flex={1} noWrap>
-                {subvariant === 'custom'
-                  ? t('header.youPay')
-                  : t('header.receive')}
+              <Typography
+                noWrap
+                sx={{
+                  fontSize: 18,
+                  fontWeight: '700',
+                  flex: 1,
+                }}
+              >
+                {title}
               </Typography>
               <ProgressToNextUpdate
                 updatedAt={dataUpdatedAt || new Date().getTime()}
@@ -143,7 +155,14 @@ export const RoutesExpandedElement = () => {
               />
             </Header>
             <PageContainer>
-              <Stack direction="column" spacing={2} flex={1} paddingBottom={3}>
+              <Stack
+                direction="column"
+                spacing={2}
+                sx={{
+                  flex: 1,
+                  paddingBottom: 3,
+                }}
+              >
                 {routeNotFound ? (
                   <RouteNotFoundCard />
                 ) : isLoading || (isFetching && !routesRef.current?.length) ? (

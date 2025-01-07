@@ -42,7 +42,12 @@ export const ActiveTransactionItem: React.FC<{
         return <ErrorRounded color="error" fontSize="small" />
       default:
         return (
-          <Typography fontSize={14} fontWeight={600}>
+          <Typography
+            sx={{
+              fontSize: 14,
+              fontWeight: 600,
+            }}
+          >
             <StepTimer step={lastActiveStep} hideInProgress />
           </Typography>
         )
@@ -64,9 +69,9 @@ export const ActiveTransactionItem: React.FC<{
         disableTypography
         primary={
           <Typography
-            fontWeight={500}
-            lineHeight={1}
             sx={{
+              fontWeight: 500,
+              lineHeight: 1,
               display: 'flex',
               alignItems: 'center',
               marginLeft: 2,
@@ -81,12 +86,14 @@ export const ActiveTransactionItem: React.FC<{
         secondary={
           status !== RouteExecutionStatus.Done ? (
             <Typography
-              fontWeight={400}
-              fontSize={12}
-              color="text.secondary"
-              lineHeight={1}
-              mt={0.75}
-              ml={2}
+              sx={{
+                fontWeight: 400,
+                fontSize: 12,
+                color: 'text.secondary',
+                lineHeight: 1,
+                mt: 0.75,
+                ml: 2,
+              }}
             >
               {title}
             </Typography>

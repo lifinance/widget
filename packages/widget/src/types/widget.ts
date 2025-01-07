@@ -13,6 +13,7 @@ import type {
   PaletteMode,
   PaletteOptions,
   Shape,
+  SxProps,
   Theme,
 } from '@mui/material'
 import type { TypographyOptions } from '@mui/material/styles/createTypography.js'
@@ -141,7 +142,8 @@ export interface CalculateFeeParams {
   toTokenAddress: string
   fromAddress?: string
   toAddress?: string
-  fromAmount: bigint
+  fromAmount?: bigint
+  toAmount?: bigint
   slippage: number
 }
 
@@ -187,6 +189,24 @@ export type WidgetTokens = {
 export type WidgetLanguages = {
   default?: LanguageKey
 } & AllowDeny<LanguageKey>
+
+export type PoweredByType = 'default' | 'jumper'
+
+export interface RouteLabel {
+  text: string
+  sx?: SxProps<Theme>
+}
+
+export interface RouteLabelRule {
+  label: RouteLabel
+  // Matching criteria
+  bridges?: AllowDeny<string>
+  exchanges?: AllowDeny<string>
+  fromChainId?: number[]
+  toChainId?: number[]
+  fromTokenAddress?: string[]
+  toTokenAddress?: string[]
+}
 
 export interface WidgetConfig {
   fromChain?: number
@@ -239,6 +259,12 @@ export interface WidgetConfig {
   languageResources?: LanguageResources
   explorerUrls?: Record<number, string[]> &
     Partial<Record<'internal', string[]>>
+  poweredBy?: PoweredByType
+
+  /**
+   * Custom labels/badges to show on routes based on specified rules
+   */
+  routeLabels?: RouteLabelRule[]
 }
 
 export interface FormFieldOptions {

@@ -79,7 +79,6 @@ export const TabCustomInput = styled(InputBase)<TabButtonProps>(
     return {
       height: '100%',
       width: '100%',
-
       [`.${inputBaseClasses.input}`]: {
         height: '100%',
         width: '100%',
@@ -103,7 +102,6 @@ export const Input = styled(InputBase)(({ theme }) => {
   return {
     minHeight: 56,
     width: '100%',
-
     [`.${inputBaseClasses.input}`]: {
       minHeight: 56,
       width: '100%',
@@ -253,18 +251,18 @@ export const StyledPopper = styled(Popper)({
 export const Alert = styled(MuiAlert)(({ theme }) => ({
   backgroundColor: 'transparent',
   fontSize: '0.9rem',
-  color:
-    theme.palette.mode === 'light'
-      ? theme.palette.grey[600]
-      : theme.palette.grey[300],
+  color: theme.palette.grey[300],
   padding: 0,
   [`& .${alertClasses.icon}`]: {
     fontSize: '1.6rem',
-    color:
-      theme.palette.mode === 'light'
-        ? theme.palette.grey[600]
-        : theme.palette.grey[300],
+    color: theme.palette.grey[300],
+    ...theme.applyStyles('light', {
+      color: theme.palette.grey[600],
+    }),
   },
+  ...theme.applyStyles('light', {
+    color: theme.palette.grey[600],
+  }),
 }))
 
 export const Select = styled(MuiSelect)(({ theme }) => ({

@@ -2,7 +2,7 @@ import { Typography, styled } from '@mui/material'
 
 export const CardTitle = styled(Typography, {
   shouldForwardProp: (prop) => !['required'].includes(prop as string),
-})<{ required?: boolean }>(({ theme, required }) => ({
+})<{ required?: boolean }>(({ theme }) => ({
   fontSize: 14,
   lineHeight: 1,
   fontWeight: 700,
@@ -10,7 +10,17 @@ export const CardTitle = styled(Typography, {
   textAlign: 'left',
   color: theme.palette.text.primary,
   '&:after': {
-    content: required ? '" *"' : 'none',
+    content: 'none',
     color: theme.palette.error.main,
   },
+  variants: [
+    {
+      props: ({ required }) => required,
+      style: {
+        '&:after': {
+          content: '" *"',
+        },
+      },
+    },
+  ],
 }))

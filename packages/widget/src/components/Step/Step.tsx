@@ -27,39 +27,50 @@ export const Step: React.FC<{
   )
 
   const getCardTitle = () => {
+    const hasBridgeStep = step.includedSteps.some(
+      (step) => step.type === 'cross'
+    )
+    const hasSwapStep = step.includedSteps.some((step) => step.type === 'swap')
+    const hasCustomStep = step.includedSteps.some(
+      (step) => step.type === 'custom'
+    )
+
+    const isCustomVariant = hasCustomStep && subvariant === 'custom'
+
     switch (step.type) {
       case 'lifi': {
-        const hasBridgeStep = step.includedSteps.some(
-          (step) => step.type === 'cross'
-        )
-        const hasSwapStep = step.includedSteps.some(
-          (step) => step.type === 'swap'
-        )
         if (hasBridgeStep && hasSwapStep) {
-          return subvariant === 'custom'
+          return isCustomVariant
             ? subvariantOptions?.custom === 'deposit'
               ? t('main.stepBridgeAndDeposit')
               : t('main.stepBridgeAndBuy')
             : t('main.stepSwapAndBridge')
         }
         if (hasBridgeStep) {
-          return subvariant === 'custom'
+          return isCustomVariant
             ? subvariantOptions?.custom === 'deposit'
               ? t('main.stepBridgeAndDeposit')
               : t('main.stepBridgeAndBuy')
             : t('main.stepBridge')
         }
-        return subvariant === 'custom'
+        if (hasSwapStep) {
+          return isCustomVariant
+            ? subvariantOptions?.custom === 'deposit'
+              ? t('main.stepSwapAndDeposit')
+              : t('main.stepSwapAndBuy')
+            : t('main.stepSwap')
+        }
+        return isCustomVariant
           ? subvariantOptions?.custom === 'deposit'
-            ? t('main.stepSwapAndDeposit')
-            : t('main.stepSwapAndBuy')
+            ? t('main.stepDeposit')
+            : t('main.stepBuy')
           : t('main.stepSwap')
       }
       default:
-        return subvariant === 'custom'
+        return isCustomVariant
           ? subvariantOptions?.custom === 'deposit'
-            ? t('main.stepSwapAndDeposit')
-            : t('main.stepSwapAndBuy')
+            ? t('main.stepDeposit')
+            : t('main.stepBuy')
           : t('main.stepSwap')
     }
   }
@@ -82,7 +93,11 @@ export const Step: React.FC<{
           <StepTimer step={step} />
         </CardTitle>
       </Box>
-      <Box py={1}>
+      <Box
+        sx={{
+          py: 1,
+        }}
+      >
         {fromToken ? <Token token={fromToken} px={2} py={1} /> : null}
         <StepActions step={step} px={2} py={1} dense />
         {step.execution?.process.map((process, index) => (

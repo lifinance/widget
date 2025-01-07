@@ -28,7 +28,14 @@ import { SendToWalletCardHeader } from './SendToWallet.style.js'
 export const SendToWalletButton: React.FC<CardProps> = (props) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { disabledUI, hiddenUI, toAddress, toAddresses } = useWidgetConfig()
+  const {
+    disabledUI,
+    hiddenUI,
+    toAddress,
+    toAddresses,
+    subvariant,
+    subvariantOptions,
+  } = useWidgetConfig()
   const { showSendToWallet } = useSendToWalletStore()
   const [toAddressFieldValue, toChainId, toTokenAddress] = useFieldValues(
     'toAddress',
@@ -114,6 +121,11 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
   const isOpenCollapse =
     requiredToAddress || (showSendToWallet && !hiddenToAddress)
 
+  const title =
+    subvariant === 'custom' && subvariantOptions?.custom === 'deposit'
+      ? t('header.depositTo')
+      : t('header.sendToWallet')
+
   return (
     <Collapse
       timeout={collapseTransitionTime.current}
@@ -127,10 +139,14 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
         onClick={disabledForChanges ? undefined : handleOnClick}
         sx={{ width: '100%', ...props.sx }}
       >
-        <CardTitle required={requiredToAddress}>
-          {t('header.sendToWallet')}
-        </CardTitle>
-        <Box display="flex" justifyContent="center" alignItems="center">
+        <CardTitle required={requiredToAddress}>{title}</CardTitle>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
           <SendToWalletCardHeader
             avatar={
               <AccountAvatar
