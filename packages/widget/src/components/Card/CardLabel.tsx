@@ -13,7 +13,6 @@ export const CardLabel = styled(Box, {
   minWidth: 24,
   userSelect: 'none',
   fontSize: '1rem',
-  marginRight: theme.spacing(1),
   backgroundColor: blend(
     theme.palette.background.paper,
     theme.palette.common.white,
