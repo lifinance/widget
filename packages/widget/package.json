@@ -52,7 +52,7 @@
     "@bigmi/core": "^0.1.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@lifi/sdk": "^3.5.1-beta.0",
+    "@lifi/sdk": "^3.6.0-beta.0",
     "@lifi/wallet-management": "workspace:^",
     "@mui/icons-material": "6.0.2",
     "@mui/lab": "6.0.0-beta.22",
@@ -67,15 +67,15 @@
     "react-i18next": "^15.4.0",
     "react-intersection-observer": "^9.14.1",
     "react-router-dom": "^6.28.0",
-    "viem": "^2.22.3",
-    "zustand": "^5.0.2"
+    "viem": "^2.22.5",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "cpy-cli": "^5.0.0",
     "madge": "^8.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.3"
   },
   "peerDependencies": {
     "@bigmi/react": ">=0.0.7",
