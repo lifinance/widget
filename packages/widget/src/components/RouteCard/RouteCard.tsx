@@ -1,4 +1,5 @@
 import type { TokenAmount } from '@lifi/sdk'
+import { isEVMPermitStep } from '@lifi/sdk'
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
 import { Box, Collapse } from '@mui/material'
 import type { MouseEventHandler } from 'react'
@@ -45,9 +46,12 @@ export const RouteCard: React.FC<
       : undefined
 
   const customLabels = getMatchingLabels(route, routeLabels)
-  const tags = route.tags?.filter(
-    (tag) => tag === 'CHEAPEST' || tag === 'FASTEST'
-  )
+  const tags: string[] =
+    route.tags?.filter((tag) => tag === 'CHEAPEST' || tag === 'FASTEST') ?? []
+  const hasRelayerSupport = route.steps.some((step) => isEVMPermitStep(step))
+  if (hasRelayerSupport) {
+    tags.push('GASLESS')
+  }
 
   const cardContent = (
     <Box
@@ -55,8 +59,7 @@ export const RouteCard: React.FC<
         flex: 1,
       }}
     >
-      {subvariant !== 'refuel' &&
-      (route.tags?.length || customLabels.length) ? (
+      {subvariant !== 'refuel' && (tags.length || customLabels.length) ? (
         <Box
           sx={{
             display: 'flex',
@@ -66,7 +69,7 @@ export const RouteCard: React.FC<
             flexWrap: 'wrap',
           }}
         >
-          {tags?.length ? (
+          {tags.length ? (
             <CardLabel type={active ? 'active' : undefined}>
               <CardLabelTypography>
                 {t(`main.tags.${tags[0].toLowerCase()}` as any)}

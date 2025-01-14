@@ -38,6 +38,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
     exchanges,
     fee,
     feeConfig,
+    useRelayerRoutes,
   } = useWidgetConfig()
   const setExecutableRoute = useSetExecutableRoute()
   const queryClient = useQueryClient()
@@ -317,39 +318,42 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
             { signal }
           ),
           // Relayer quote is available only if fromAddress is present
-          fromAddress
-            ? getRelayerQuote({
-                fromAddress,
-                fromAmount: fromAmount.toString(),
-                fromChain: fromChainId,
-                fromToken: fromTokenAddress,
-                toAddress,
-                toChain: toChainId,
-                toToken: toTokenAddress,
-                fromAmountForGas:
-                  enabledRefuel && gasRecommendationFromAmount
-                    ? gasRecommendationFromAmount
-                    : undefined,
-                order: routePriority,
-                slippage: formattedSlippage,
-                fee: calculatedFee || fee,
-                ...(allowBridges?.length || disabledBridges.length
-                  ? {
-                      allowBridges: allowBridges,
-                      denyBridges: disabledBridges.length
-                        ? disabledBridges
-                        : undefined,
-                    }
-                  : undefined),
-                ...(allowExchanges?.length || disabledExchanges.length
-                  ? {
-                      allowExchanges: allowExchanges,
-                      denyExchanges: disabledExchanges.length
-                        ? disabledExchanges
-                        : undefined,
-                    }
-                  : undefined),
-              })
+          fromAddress && useRelayerRoutes
+            ? getRelayerQuote(
+                {
+                  fromAddress,
+                  fromAmount: fromAmount.toString(),
+                  fromChain: fromChainId,
+                  fromToken: fromTokenAddress,
+                  toAddress,
+                  toChain: toChainId,
+                  toToken: toTokenAddress,
+                  fromAmountForGas:
+                    enabledRefuel && gasRecommendationFromAmount
+                      ? gasRecommendationFromAmount
+                      : undefined,
+                  order: routePriority,
+                  slippage: formattedSlippage,
+                  fee: calculatedFee || fee,
+                  ...(allowBridges?.length || disabledBridges.length
+                    ? {
+                        allowBridges: allowBridges,
+                        denyBridges: disabledBridges.length
+                          ? disabledBridges
+                          : undefined,
+                      }
+                    : undefined),
+                  ...(allowExchanges?.length || disabledExchanges.length
+                    ? {
+                        allowExchanges: allowExchanges,
+                        denyExchanges: disabledExchanges.length
+                          ? disabledExchanges
+                          : undefined,
+                      }
+                    : undefined),
+                },
+                { signal }
+              )
                 .then((response) => {
                   const quote = {
                     ...response.data.quote.step,
@@ -386,7 +390,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
 
         // Add relayer route if available
         if (relayerRouteResult) {
-          routesResult.routes.unshift(relayerRouteResult)
+          routesResult.routes.splice(1, 0, relayerRouteResult)
         }
 
         emitter.emit(WidgetEvent.AvailableRoutes, routesResult.routes)
