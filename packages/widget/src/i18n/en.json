@@ -281,7 +281,8 @@
     "transferId": "Transfer ID",
     "tags": {
       "cheapest": "Best Return",
-      "fastest": "Fastest"
+      "fastest": "Fastest",
+      "gasless": "Gasless"
     },
     "to": "To",
     "tokenOnChain": "{{tokenSymbol}} on {{chainName}}",

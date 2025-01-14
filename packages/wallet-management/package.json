@@ -52,7 +52,7 @@
     "@bigmi/core": "^0.1.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@lifi/sdk": "^3.6.0-beta.0",
+    "@lifi/sdk": "^3.6.0-beta.2",
     "@mui/icons-material": "6.0.2",
     "@mui/lab": "6.0.0-beta.22",
     "@mui/material": "^6.3.1",
@@ -64,7 +64,7 @@
     "mitt": "^3.0.1",
     "react-i18next": "^15.4.0",
     "use-sync-external-store": "^1.4.0",
-    "viem": "^2.22.5",
+    "viem": "^2.22.8",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
