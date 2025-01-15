@@ -1,10 +1,11 @@
-import type { Route, RoutesResponse, Token } from '@lifi/sdk'
+import type { Route, Token } from '@lifi/sdk'
 import {
   LiFiErrorCode,
   convertQuoteToRoute,
   getContractCallsQuote,
   getRelayerQuote,
   getRoutes,
+  isEVMPermitStep,
 } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -267,7 +268,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
 
           const route: Route = convertQuoteToRoute(contractCallQuote)
 
-          return { routes: [route] } as RoutesResponse
+          return [route]
         }
 
         // Prevent sending a request for the same chain token combinations.
@@ -275,50 +276,61 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           return
         }
 
+        const isObservableRelayerRoute =
+          observableRoute?.steps?.some(isEVMPermitStep)
+
+        const shouldUseMainRoutes =
+          !observableRoute || !isObservableRelayerRoute
+        const shouldUseRelayerQuote =
+          fromAddress &&
+          useRelayerRoutes &&
+          (!observableRoute || isObservableRelayerRoute)
+
         const [routesResult, relayerRouteResult] = await Promise.all([
-          getRoutes(
-            {
-              fromAddress,
-              fromAmount: fromAmount.toString(),
-              fromChainId,
-              fromTokenAddress,
-              toAddress,
-              toChainId,
-              toTokenAddress,
-              fromAmountForGas:
-                enabledRefuel && gasRecommendationFromAmount
-                  ? gasRecommendationFromAmount
-                  : undefined,
-              options: {
-                allowSwitchChain:
-                  subvariant === 'refuel' ? false : allowSwitchChain,
-                bridges:
-                  allowBridges?.length || disabledBridges.length
-                    ? {
-                        allow: allowBridges,
-                        deny: disabledBridges.length
-                          ? disabledBridges
-                          : undefined,
-                      }
-                    : undefined,
-                exchanges:
-                  allowExchanges?.length || disabledExchanges.length
-                    ? {
-                        allow: allowExchanges,
-                        deny: disabledExchanges.length
-                          ? disabledExchanges
-                          : undefined,
-                      }
-                    : undefined,
-                order: routePriority,
-                slippage: formattedSlippage,
-                fee: calculatedFee || fee,
-              },
-            },
-            { signal }
-          ),
-          // Relayer quote is available only if fromAddress is present
-          fromAddress && useRelayerRoutes
+          shouldUseMainRoutes
+            ? getRoutes(
+                {
+                  fromAddress,
+                  fromAmount: fromAmount.toString(),
+                  fromChainId,
+                  fromTokenAddress,
+                  toAddress,
+                  toChainId,
+                  toTokenAddress,
+                  fromAmountForGas:
+                    enabledRefuel && gasRecommendationFromAmount
+                      ? gasRecommendationFromAmount
+                      : undefined,
+                  options: {
+                    allowSwitchChain:
+                      subvariant === 'refuel' ? false : allowSwitchChain,
+                    bridges:
+                      allowBridges?.length || disabledBridges.length
+                        ? {
+                            allow: allowBridges,
+                            deny: disabledBridges.length
+                              ? disabledBridges
+                              : undefined,
+                          }
+                        : undefined,
+                    exchanges:
+                      allowExchanges?.length || disabledExchanges.length
+                        ? {
+                            allow: allowExchanges,
+                            deny: disabledExchanges.length
+                              ? disabledExchanges
+                              : undefined,
+                          }
+                        : undefined,
+                    order: routePriority,
+                    slippage: formattedSlippage,
+                    fee: calculatedFee || fee,
+                  },
+                },
+                { signal }
+              )
+            : Promise.resolve(null),
+          shouldUseRelayerQuote
             ? getRelayerQuote(
                 {
                   fromAddress,
@@ -365,7 +377,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
             : Promise.resolve(null),
         ])
 
-        if (routesResult.routes[0] && fromAddress) {
+        if (routesResult?.routes[0] && fromAddress) {
           // Update local tokens cache to keep priceUSD in sync
           const { fromToken, toToken } = routesResult.routes[0]
           ;[fromToken, toToken].forEach((token) => {
@@ -388,13 +400,15 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           })
         }
 
+        const routes = routesResult?.routes ?? []
+
         // Add relayer route if available
         if (relayerRouteResult) {
-          routesResult.routes.splice(1, 0, relayerRouteResult)
+          routes.splice(1, 0, relayerRouteResult)
         }
 
-        emitter.emit(WidgetEvent.AvailableRoutes, routesResult.routes)
-        return routesResult
+        emitter.emit(WidgetEvent.AvailableRoutes, routes)
+        return routes
       },
       enabled: isEnabled,
       staleTime: refetchTime,
@@ -429,7 +443,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
   }
 
   return {
-    routes: data?.routes,
+    routes: data,
     isLoading: isEnabled && isLoading,
     isFetching,
     isFetched,
