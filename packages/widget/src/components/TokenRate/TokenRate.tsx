@@ -1,12 +1,9 @@
 import type { RouteExtended } from '@lifi/sdk'
 import type { TypographyProps } from '@mui/material'
 import type { MouseEventHandler } from 'react'
+import { useTranslation } from 'react-i18next'
 import { formatUnits } from 'viem'
 import { create } from 'zustand'
-import {
-  convertToSubscriptFormat,
-  precisionFormatter,
-} from '../../utils/format.js'
 import { TokenRateTypography } from './TokenRate.style.js'
 
 interface TokenRateProps extends TypographyProps {
@@ -24,6 +21,7 @@ const useTokenRate = create<TokenRateState>((set) => ({
 }))
 
 export const TokenRate: React.FC<TokenRateProps> = ({ route }) => {
+  const { t } = useTranslation()
   const { isForward, toggleIsForward } = useTokenRate()
 
   const toggleRate: MouseEventHandler<HTMLSpanElement> = (e) => {
@@ -54,16 +52,12 @@ export const TokenRate: React.FC<TokenRateProps> = ({ route }) => {
     Number.parseFloat(formatUnits(toToken.amount!, toToken.decimals))
 
   const rateText = isForward
-    ? `1 ${fromToken.symbol} ≈ ${convertToSubscriptFormat(fromToRate)} ${toToken.symbol}`
-    : `1 ${toToken.symbol} ≈ ${convertToSubscriptFormat(toFromRate)} ${fromToken.symbol}`
-
-  const rateTitle = isForward
-    ? `1 ${fromToken.symbol} ≈ ${precisionFormatter.format(fromToRate)} ${toToken.symbol}`
-    : `1 ${toToken.symbol} ≈ ${precisionFormatter.format(toFromRate)} ${fromToken.symbol}`
+    ? `1 ${fromToken.symbol} ≈ ${t('format.tokenAmount', { value: fromToRate })} ${toToken.symbol}`
+    : `1 ${toToken.symbol} ≈ ${t('format.tokenAmount', { value: toFromRate })} ${fromToken.symbol}`
 
   return (
     // biome-ignore lint/a11y/useSemanticElements:
-    <TokenRateTypography onClick={toggleRate} role="button" title={rateTitle}>
+    <TokenRateTypography onClick={toggleRate} role="button">
       {rateText}
     </TokenRateTypography>
   )

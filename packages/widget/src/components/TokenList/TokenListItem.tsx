@@ -13,7 +13,6 @@ import {
 import type { MouseEventHandler } from 'react'
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { formatUnits } from 'viem'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { shortenAddress } from '../../utils/wallet.js'
@@ -66,12 +65,6 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   const { t } = useTranslation()
   const { getAddressLink } = useExplorer()
 
-  const tokenPrice = token.amount
-    ? formatTokenPrice(
-        formatUnits(token.amount, token.decimals),
-        token.priceUSD
-      )
-    : undefined
   const container = useRef(null)
   const timeoutId = useRef<ReturnType<typeof setTimeout>>(undefined)
   const [showAddress, setShowAddress] = useState(false)
@@ -93,6 +86,12 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
       setShowAddress(false)
     }
   }
+  const tokenAmount = formatTokenAmount(token.amount, token.decimals)
+  const tokenPrice = formatTokenPrice(
+    token.amount,
+    token.priceUSD,
+    token.decimals
+  )
 
   return (
     <ListItemButton
@@ -186,9 +185,10 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
                 sx={{
                   fontWeight: 600,
                 }}
+                title={tokenAmount}
               >
-                {t('format.number', {
-                  value: formatTokenAmount(token.amount, token.decimals),
+                {t('format.tokenAmount', {
+                  value: tokenAmount,
                 })}
               </Typography>
             ) : null}

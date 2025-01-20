@@ -146,7 +146,7 @@ const ExchangeRateBottomSheetContent: React.FC<
             fontWeight: 600,
           }}
         >
-          {t('format.number', {
+          {t('format.tokenAmount', {
             value: formatTokenAmount(
               BigInt(data.oldToAmount),
               data.toToken.decimals
@@ -168,7 +168,7 @@ const ExchangeRateBottomSheetContent: React.FC<
             fontWeight: 600,
           }}
         >
-          {t('format.number', {
+          {t('format.tokenAmount', {
             value: formatTokenAmount(
               BigInt(data?.newToAmount),
               data?.toToken.decimals
