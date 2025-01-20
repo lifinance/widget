@@ -283,6 +283,9 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           !observableRoute || !isObservableRelayerRoute
         const shouldUseRelayerQuote =
           fromAddress &&
+          fromChain?.permit2 &&
+          fromChain.permit2Proxy &&
+          fromChain.nativeToken.address !== fromTokenAddress &&
           useRelayerRoutes &&
           (!observableRoute || isObservableRelayerRoute)
 
