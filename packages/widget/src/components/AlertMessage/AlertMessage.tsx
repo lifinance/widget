@@ -9,7 +9,7 @@ import type { Severity } from './types.js'
 interface AlertMessageProps extends PropsWithChildren<Omit<BoxProps, 'title'>> {
   icon: ReactNode
   title: ReactNode
-  multilineTitle?: boolean
+  multiline?: boolean
   severity?: Severity
 }
 
@@ -17,14 +17,14 @@ export const AlertMessage = ({
   title,
   icon,
   children,
-  multilineTitle,
+  multiline,
   severity = 'info',
   ...rest
 }: AlertMessageProps) => (
   <AlertMessageCard severity={severity} {...rest}>
     <AlertMessageCardTitle
       severity={severity}
-      alignItems={multilineTitle ? 'start' : 'center'}
+      alignItems={multiline ? 'start' : 'center'}
     >
       {icon}
       {title}

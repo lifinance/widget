@@ -20,7 +20,7 @@ export const FundsSufficiencyMessage = () => {
           {t('warning.message.insufficientFunds')}
         </Typography>
       }
-      multilineTitle
+      multiline
     />
   )
 }
