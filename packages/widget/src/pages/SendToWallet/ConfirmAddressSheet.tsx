@@ -1,4 +1,4 @@
-import { Info, Wallet } from '@mui/icons-material'
+import { Info, Wallet, Warning } from '@mui/icons-material'
 import { Box, Button, Typography } from '@mui/material'
 import type { MutableRefObject } from 'react'
 import { forwardRef } from 'react'
@@ -79,19 +79,26 @@ export const ConfirmAddressSheet = forwardRef<
         <AlertMessage
           title={
             <Box sx={{ display: 'grid', gap: 1 }}>
-              {isContractAddress ? (
-                <Typography variant="body2" fontWeight={500}>
-                  {t('info.message.smartContractAccount')}
-                </Typography>
-              ) : null}
               <Typography variant="body2" fontWeight={500}>
                 {t('info.message.fundsToExchange')}
               </Typography>
             </Box>
           }
           icon={<Info />}
-          multiline={isContractAddress}
+          multiline
         />
+        {isContractAddress ? (
+          <AlertMessage
+            title={
+              <Typography variant="body2" fontWeight={500}>
+                {t('info.message.smartContractAccount')}
+              </Typography>
+            }
+            icon={<Warning />}
+            severity="warning"
+            multiline
+          />
+        ) : null}
         <SendToWalletButtonRow>
           <Button variant="text" onClick={handleClose} fullWidth>
             {t('button.cancel')}
