@@ -1,5 +1,5 @@
 import type { Token } from '@lifi/sdk'
-import { formatTokenAmount, formatTokenPrice } from './format.js'
+import { formatTokenPrice } from './format.js'
 
 interface GetPriceImpractProps {
   fromToken: Token
@@ -14,13 +14,22 @@ export const getPriceImpact = ({
   fromAmount,
   toAmount,
 }: GetPriceImpractProps) => {
-  const fromTokenAmount = formatTokenAmount(fromAmount, fromToken.decimals)
-  const fromTokenPrice = formatTokenPrice(fromTokenAmount, fromToken.priceUSD)
+  const fromTokenPrice = formatTokenPrice(
+    fromAmount,
+    fromToken.priceUSD,
+    fromToken.decimals
+  )
+  const toTokenPrice = formatTokenPrice(
+    toAmount,
+    toToken.priceUSD,
+    toToken.decimals
+  )
 
-  const toTokenAmount = formatTokenAmount(toAmount, toToken.decimals)
-  const toTokenPrice = formatTokenPrice(toTokenAmount, toToken.priceUSD) || 0.01
+  if (!fromTokenPrice) {
+    return 0
+  }
 
   const priceImpact = toTokenPrice / fromTokenPrice - 1
 
-  return Number(priceImpact)
+  return priceImpact
 }

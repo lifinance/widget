@@ -6,7 +6,8 @@
   "format": {
     "currency": "{{value, currencyExt(currency: USD)}}",
     "number": "{{value, number(maximumFractionDigits: 9)}}",
-    "percent": "{{value, percent(maximumFractionDigits: 2)}}"
+    "percent": "{{value, percent(maximumFractionDigits: 2)}}",
+    "tokenAmount": "{{value, numberExt}}"
   },
   "button": {
     "auto": "Auto",
