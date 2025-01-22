@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.14.0](https://github.com/lifinance/widget/compare/v3.13.2...v3.14.0) (2025-01-22)
+
+
+### Features
+
+* add configurable route labels/badges ([#338](https://github.com/lifinance/widget/issues/338)) ([f6fe53e](https://github.com/lifinance/widget/commit/f6fe53e5b1b90003c87651bb82f637b85ce0da37))
+* add more UTXO wallets ([d787698](https://github.com/lifinance/widget/commit/d7876980c839a9f591078a613d28de956e9c0805))
+* add smart contract account info message for destination wallets ([#340](https://github.com/lifinance/widget/issues/340)) ([ba57082](https://github.com/lifinance/widget/commit/ba57082582a9ddfae9ccec7847ade5e1041491ee))
+
+
+### Bug Fixes
+
+* improve step titles in custom steps ([825856c](https://github.com/lifinance/widget/commit/825856c74d2ba8f32eeb6d4fcde771613776e534))
+* improve token amount formatting ([#339](https://github.com/lifinance/widget/issues/339)) ([a6a3d10](https://github.com/lifinance/widget/commit/a6a3d1094d3403fac5b14797ba652d00a415f5a8))
+
 ### [3.13.2](https://github.com/lifinance/widget/compare/v3.13.1...v3.13.2) (2024-12-27)
 
 
