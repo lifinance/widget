@@ -1,5 +1,4 @@
 import { Error as ErrorIcon, Info, TurnedIn } from '@mui/icons-material'
-import { LoadingButton } from '@mui/lab'
 import { Button, Typography } from '@mui/material'
 import type { ChangeEvent, MutableRefObject } from 'react'
 import { forwardRef, useState } from 'react'
@@ -217,7 +216,7 @@ export const BookmarkAddressSheet = forwardRef<
           <Button variant="text" onClick={handleCancel} fullWidth>
             {t('button.cancel')}
           </Button>
-          <LoadingButton
+          <Button
             variant="contained"
             onClick={handleBookmark}
             loading={isValidating}
@@ -226,7 +225,7 @@ export const BookmarkAddressSheet = forwardRef<
             focusRipple
           >
             {t('button.bookmark')}
-          </LoadingButton>
+          </Button>
         </SendToWalletButtonRow>
       </SendToWalletSheetContainer>
     </BottomSheet>

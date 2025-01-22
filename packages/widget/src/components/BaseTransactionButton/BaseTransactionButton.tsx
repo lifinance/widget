@@ -1,5 +1,5 @@
 import { useAccount, useWalletMenu } from '@lifi/wallet-management'
-import { LoadingButton } from '@mui/lab'
+import { Button } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useChain } from '../../hooks/useChain.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
@@ -39,7 +39,7 @@ export const BaseTransactionButton: React.FC<BaseTransactionButtonProps> = ({
   }
 
   return (
-    <LoadingButton
+    <Button
       variant="contained"
       color="primary"
       onClick={handleClick}
@@ -49,6 +49,6 @@ export const BaseTransactionButton: React.FC<BaseTransactionButtonProps> = ({
       fullWidth
     >
       {getButtonText()}
-    </LoadingButton>
+    </Button>
   )
 }
