@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.14.1](https://github.com/lifinance/widget/compare/v3.14.0...v3.14.1) (2025-01-23)
+
+
+### Bug Fixes
+
+* address confirmation bottom sheet height ([59d034b](https://github.com/lifinance/widget/commit/59d034b89b25d58345105de731fe3af2746e3119))
+
 ## [3.14.0](https://github.com/lifinance/widget/compare/v3.13.2...v3.14.0) (2025-01-22)
 
 
