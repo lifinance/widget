@@ -5,11 +5,11 @@ import { I18nextProvider } from 'react-i18next'
 import * as supportedLanguages from '../../i18n/index.js'
 import { useSettings } from '../../stores/settings/useSettings.js'
 import { compactNumberFormatter } from '../../utils/compactNumberFormatter.js'
+import { currencyExtendedFormatter } from '../../utils/currencyExtendedFormatter.js'
 import { deepMerge } from '../../utils/deepMerge.js'
 import { isItemAllowed } from '../../utils/item.js'
 import { percentFormatter } from '../../utils/percentFormatter.js'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
-import { currencyExtendedFormatter } from './currencyExtendedFormatter.js'
 import type { LanguageKey, LanguageTranslationResources } from './types.js'
 
 export const I18nProvider: React.FC<React.PropsWithChildren> = ({
