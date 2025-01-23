@@ -8,9 +8,11 @@ import { useDefaultElementId } from './useDefaultElementId.js'
 //   CSS changes in those components can have implications for the functionality in this hook
 
 export const useSetContentHeight = (
-  ref: MutableRefObject<HTMLElement | null>
+  ref: MutableRefObject<HTMLElement | null>,
+  dependency?: unknown
 ) => {
   const elementId = useDefaultElementId()
+  // biome-ignore lint/correctness/useExhaustiveDependencies: we use dependency to refresh height
   useLayoutEffect(() => {
     const relativeContainer = getRelativeContainer(elementId)
     if (
@@ -24,5 +26,5 @@ export const useSetContentHeight = (
     return () => {
       relativeContainer.style.removeProperty('min-height')
     }
-  }, [elementId, ref])
+  }, [elementId, ref, dependency])
 }
