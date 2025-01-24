@@ -34,7 +34,10 @@ export const PriceFormHelperTextBase: React.FC<
   const { t } = useTranslation()
   const [amount] = useFieldValues(FormKeyHelper.getAmountKey(formType))
 
-  const fromAmountTokenPrice = formatTokenPrice(amount, token?.priceUSD)
+  const tokenAmount = token
+    ? formatTokenAmount(token.amount, token.decimals)
+    : '0'
+  const tokenPrice = formatTokenPrice(amount, token?.priceUSD)
 
   return (
     <FormHelperText
@@ -59,7 +62,7 @@ export const PriceFormHelperTextBase: React.FC<
         }}
       >
         {t('format.currency', {
-          value: fromAmountTokenPrice,
+          value: tokenPrice,
         })}
       </Typography>
       {isLoading && tokenAddress ? (
@@ -73,9 +76,10 @@ export const PriceFormHelperTextBase: React.FC<
             lineHeight: 1,
             pl: 0.25,
           }}
+          title={tokenAmount}
         >
-          {`/ ${t('format.number', {
-            value: formatTokenAmount(token.amount, token.decimals),
+          {`/ ${t('format.tokenAmount', {
+            value: tokenAmount,
           })}`}
         </Typography>
       ) : null}

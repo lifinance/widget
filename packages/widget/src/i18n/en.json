@@ -6,7 +6,8 @@
   "format": {
     "currency": "{{value, currencyExt(currency: USD)}}",
     "number": "{{value, number(maximumFractionDigits: 9)}}",
-    "percent": "{{value, percent(maximumFractionDigits: 2)}}"
+    "percent": "{{value, percent(maximumFractionDigits: 2)}}",
+    "tokenAmount": "{{value, numberExt}}"
   },
   "button": {
     "auto": "Auto",
@@ -88,7 +89,8 @@
       "emptyBridgesList": "We couldn't find any bridges that match your search",
       "emptyExchangesList": "We couldn't find any exchanges that match your search",
       "emptyTransactionHistory": "Transaction history is only stored locally and will be deleted if you clear your browser data.",
-      "fundsToExchange": "Funds sent to an exchange may be lost",
+      "smartContractAccount": "Always ensure your smart contract account is set up on the destination chain to avoid potential fund loss.",
+      "fundsToExchange": "Funds sent directly to exchanges might not be recoverable.",
       "toAddressIsRequired": "Please provide the destination wallet address to which the funds will be transferred.",
       "routeNotFound": "Reasons for that could be: low liquidity, amount selected is too low, gas costs are too high or there are no routes for the selected combination."
     },

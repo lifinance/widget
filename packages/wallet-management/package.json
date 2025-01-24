@@ -1,6 +1,6 @@
 {
   "name": "@lifi/wallet-management",
-  "version": "3.6.0-beta.0",
+  "version": "3.6.0",
   "description": "LI.FI Wallet Management solution.",
   "type": "module",
   "main": "./src/index.ts",
@@ -54,8 +54,8 @@
     "@emotion/styled": "^11.14.0",
     "@lifi/sdk": "3.6.0-beta.3",
     "@mui/icons-material": "6.0.2",
-    "@mui/material": "^6.4.0",
-    "@mui/system": "^6.4.0",
+    "@mui/material": "^6.4.1",
+    "@mui/system": "^6.4.1",
     "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/web3.js": "^1.98.0",
     "@wagmi/core": "^2.16.3",
@@ -63,7 +63,7 @@
     "mitt": "^3.0.1",
     "react-i18next": "^15.4.0",
     "use-sync-external-store": "^1.4.0",
-    "viem": "^2.22.8",
+    "viem": "^2.22.11",
     "zustand": "^5.0.3"
   },
   "devDependencies": {

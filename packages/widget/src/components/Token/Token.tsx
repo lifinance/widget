@@ -74,7 +74,11 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
   }
 
   const tokenAmount = formatTokenAmount(token.amount, token.decimals)
-  const tokenPrice = formatTokenPrice(tokenAmount, token.priceUSD)
+  const tokenPrice = formatTokenPrice(
+    token.amount,
+    token.priceUSD,
+    token.decimals
+  )
 
   let priceImpact: number | undefined = undefined
   let priceImpactPercent: number | undefined = undefined
@@ -127,6 +131,7 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
             display: 'flex',
             alignItems: 'center',
           }}
+          title={tokenAmount}
         >
           <TextFitter
             height={30}
@@ -134,7 +139,7 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
               fontWeight: 700,
             }}
           >
-            {t('format.number', {
+            {t('format.tokenAmount', {
               value: tokenAmount,
             })}
           </TextFitter>

@@ -8,11 +8,10 @@ import type { CardProps } from '@mui/material'
 import { Box, Collapse, Tooltip, Typography } from '@mui/material'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { formatUnits } from 'viem'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { isRouteDone } from '../stores/routes/utils.js'
 import { getAccumulatedFeeCostsBreakdown } from '../utils/fees.js'
-import { formatTokenAmount } from '../utils/format.js'
+import { formatTokenAmount, formatTokenPrice } from '../utils/format.js'
 import { getPriceImpact } from '../utils/getPriceImpact.js'
 import { Card } from './Card/Card.js'
 import { CardIconButton } from './Card/CardIconButton.js'
@@ -56,14 +55,11 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
       BigInt(feeCollectionStep.estimate.fromAmount) -
       BigInt(feeCollectionStep.estimate.toAmount)
 
-    const feeAmount = formatUnits(
+    feeAmountUSD = formatTokenPrice(
       estimatedFromAmount,
+      feeCollectionStep.action.fromToken.priceUSD,
       feeCollectionStep.action.fromToken.decimals
     )
-
-    feeAmountUSD =
-      Number.parseFloat(feeAmount) *
-      Number.parseFloat(feeCollectionStep.action.fromToken.priceUSD)
   }
 
   const showIntegratorFeeCollectionDetails =
@@ -245,7 +241,7 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                   sx={{ cursor: 'help' }}
                 >
                   <Typography variant="body2">
-                    {t('format.number', {
+                    {t('format.tokenAmount', {
                       value: formatTokenAmount(
                         BigInt(route.toAmountMin),
                         route.toToken.decimals

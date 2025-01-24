@@ -12,12 +12,11 @@ import {
 import type { MouseEventHandler } from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { formatUnits } from 'viem'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { LiFiToolLogo } from '../../icons/lifi.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { HiddenUI } from '../../types/widget.js'
-import { formatTokenAmount } from '../../utils/format.js'
+import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { SmallAvatar } from '../Avatar/SmallAvatar.js'
 import { CardIconButton } from '../Card/CardIconButton.js'
 import {
@@ -215,8 +214,8 @@ export const StepDetailsContent: React.FC<{
 
     fromAmount =
       estimatedFromAmount > 0n
-        ? formatUnits(estimatedFromAmount, step.action.fromToken.decimals)
-        : formatUnits(
+        ? formatTokenAmount(estimatedFromAmount, step.action.fromToken.decimals)
+        : formatTokenAmount(
             BigInt(step.estimate.fromAmount),
             step.action.fromToken.decimals
           )
@@ -243,22 +242,24 @@ export const StepDetailsContent: React.FC<{
     >
       {!showToAmount ? (
         <>
-          {formatUnits(
-            BigInt(step.estimate.fromAmount),
-            step.action.fromToken.decimals
-          )}{' '}
+          {t('format.tokenAmount', {
+            value: formatTokenAmount(
+              BigInt(step.estimate.fromAmount),
+              step.action.fromToken.decimals
+            ),
+          })}{' '}
           {step.action.fromToken.symbol}
           {' - '}
         </>
       ) : null}
-      {t('format.number', {
+      {t('format.tokenAmount', {
         value: fromAmount,
       })}{' '}
       {step.action.fromToken.symbol}
       {showToAmount ? (
         <>
           <ArrowForward sx={{ fontSize: 18, paddingX: 0.5, height: 12 }} />
-          {t('format.number', {
+          {t('format.tokenAmount', {
             value: formatTokenAmount(
               BigInt(step.execution?.toAmount ?? step.estimate.toAmount),
               step.execution?.toToken?.decimals ?? step.action.toToken.decimals
@@ -268,9 +269,11 @@ export const StepDetailsContent: React.FC<{
         </>
       ) : (
         ` (${t('format.currency', {
-          value:
-            Number.parseFloat(fromAmount) *
-            Number.parseFloat(step.action.fromToken.priceUSD),
+          value: formatTokenPrice(
+            fromAmount,
+            step.action.fromToken.priceUSD,
+            step.action.fromToken.decimals
+          ),
         })})`
       )}
     </Typography>

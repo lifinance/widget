@@ -36,7 +36,7 @@ export const ToAddressRequiredMessage: React.FC<
             </Typography>
           }
           icon={<Wallet />}
-          multilineTitle
+          multiline
         />
       </Box>
     </Collapse>
