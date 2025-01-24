@@ -222,9 +222,10 @@
     "priceImpact": "Price impact",
     "process": {
       "bridge": {
-        "actionRequired": "Please sign the transaction",
+        "permitRequired": "Sign permit for {{tokenSymbol}}",
+        "actionRequired": "Sign bridge transaction",
         "done": "Bridge transaction confirmed",
-        "pending": "Waiting for bridge transaction",
+        "pending": "Bridge transaction pending",
         "started": "Preparing bridge transaction"
       },
       "checkout": {
@@ -240,19 +241,21 @@
         "refunded": "Bridge transaction refunded"
       },
       "swap": {
-        "actionRequired": "Please sign the transaction",
+        "permitRequired": "Sign permit for {{tokenSymbol}}",
+        "actionRequired": "Sign swap transaction",
         "done": "Swap completed",
-        "pending": "Waiting for swap transaction",
+        "pending": "Swap transaction pending",
         "started": "Preparing swap transaction"
       },
       "switchChain": {
-        "actionRequired": "Chain switch required",
-        "done": "Chain switched successfully"
+        "actionRequired": "Confirm chain switch",
+        "done": "Chain switched"
       },
       "tokenAllowance": {
-        "done": "Token allowance approved",
-        "pending": "Waiting for token allowance",
-        "started": "Setting token allowance"
+        "actionRequired": "Approve {{tokenSymbol}} spending",
+        "done": "{{tokenSymbol}} spending approved",
+        "pending": "{{tokenSymbol}} approval pending",
+        "started": "Preparing approval transaction"
       }
     },
     "quotedAmount": "Quoted amount",
@@ -280,7 +283,8 @@
     "transferId": "Transfer ID",
     "tags": {
       "cheapest": "Best Return",
-      "fastest": "Fastest"
+      "fastest": "Fastest",
+      "gasless": "Gasless"
     },
     "to": "To",
     "tokenOnChain": "{{tokenSymbol}} on {{chainName}}",

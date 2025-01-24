@@ -1,5 +1,12 @@
-import type { Route, RoutesResponse, Token } from '@lifi/sdk'
-import { LiFiErrorCode, getContractCallsQuote, getRoutes } from '@lifi/sdk'
+import type { Route, Token } from '@lifi/sdk'
+import {
+  LiFiErrorCode,
+  convertQuoteToRoute,
+  getContractCallsQuote,
+  getRelayerQuote,
+  getRoutes,
+  isEVMPermitStep,
+} from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { parseUnits } from 'viem'
@@ -32,6 +39,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
     exchanges,
     fee,
     feeConfig,
+    useRelayerRoutes,
   } = useWidgetConfig()
   const setExecutableRoute = useSetExecutableRoute()
   const queryClient = useQueryClient()
@@ -258,27 +266,9 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
             contractCallQuote.toolDetails = toolDetails
           }
 
-          const route: Route = {
-            id: crypto.randomUUID(),
-            fromChainId: contractCallQuote.action.fromChainId,
-            fromAmountUSD: contractCallQuote.estimate.fromAmountUSD || '',
-            fromAmount: contractCallQuote.action.fromAmount,
-            fromToken: contractCallQuote.action.fromToken,
-            fromAddress: contractCallQuote.action.fromAddress,
-            toChainId: contractCallQuote.action.toChainId,
-            toAmountUSD: contractCallQuote.estimate.toAmountUSD || '',
-            toAmount: contractCallQuote.estimate.toAmount,
-            toAmountMin: contractCallQuote.estimate.toAmountMin,
-            toToken: toToken!,
-            toAddress:
-              contractCallQuote.action.toAddress ||
-              contractCallQuote.action.fromAddress,
-            gasCostUSD: contractCallQuote.estimate.gasCosts?.[0].amountUSD,
-            steps: [contractCallQuote],
-            insurance: { state: 'NOT_INSURABLE', feeAmountUsd: '0' },
-          }
+          const route: Route = convertQuoteToRoute(contractCallQuote)
 
-          return { routes: [route] } as RoutesResponse
+          return [route]
         }
 
         // Prevent sending a request for the same chain token combinations.
@@ -286,50 +276,113 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           return
         }
 
-        const data = await getRoutes(
-          {
-            fromAddress,
-            fromAmount: fromAmount.toString(),
-            fromChainId,
-            fromTokenAddress,
-            toAddress,
-            toChainId,
-            toTokenAddress,
-            fromAmountForGas:
-              enabledRefuel && gasRecommendationFromAmount
-                ? gasRecommendationFromAmount
-                : undefined,
-            options: {
-              allowSwitchChain:
-                subvariant === 'refuel' ? false : allowSwitchChain,
-              bridges:
-                allowBridges?.length || disabledBridges.length
-                  ? {
-                      allow: allowBridges,
-                      deny: disabledBridges.length
-                        ? disabledBridges
+        const isObservableRelayerRoute =
+          observableRoute?.steps?.some(isEVMPermitStep)
+
+        const shouldUseMainRoutes =
+          !observableRoute || !isObservableRelayerRoute
+        const shouldUseRelayerQuote =
+          fromAddress &&
+          fromChain?.permit2 &&
+          fromChain.permit2Proxy &&
+          fromChain.nativeToken.address !== fromTokenAddress &&
+          useRelayerRoutes &&
+          (!observableRoute || isObservableRelayerRoute)
+
+        const [routesResult, relayerRouteResult] = await Promise.all([
+          shouldUseMainRoutes
+            ? getRoutes(
+                {
+                  fromAddress,
+                  fromAmount: fromAmount.toString(),
+                  fromChainId,
+                  fromTokenAddress,
+                  toAddress,
+                  toChainId,
+                  toTokenAddress,
+                  fromAmountForGas:
+                    enabledRefuel && gasRecommendationFromAmount
+                      ? gasRecommendationFromAmount
+                      : undefined,
+                  options: {
+                    allowSwitchChain:
+                      subvariant === 'refuel' ? false : allowSwitchChain,
+                    bridges:
+                      allowBridges?.length || disabledBridges.length
+                        ? {
+                            allow: allowBridges,
+                            deny: disabledBridges.length
+                              ? disabledBridges
+                              : undefined,
+                          }
                         : undefined,
-                    }
-                  : undefined,
-              exchanges:
-                allowExchanges?.length || disabledExchanges.length
-                  ? {
-                      allow: allowExchanges,
-                      deny: disabledExchanges.length
-                        ? disabledExchanges
+                    exchanges:
+                      allowExchanges?.length || disabledExchanges.length
+                        ? {
+                            allow: allowExchanges,
+                            deny: disabledExchanges.length
+                              ? disabledExchanges
+                              : undefined,
+                          }
                         : undefined,
-                    }
-                  : undefined,
-              order: routePriority,
-              slippage: formattedSlippage,
-              fee: calculatedFee || fee,
-            },
-          },
-          { signal }
-        )
-        if (data.routes[0] && fromAddress) {
+                    order: routePriority,
+                    slippage: formattedSlippage,
+                    fee: calculatedFee || fee,
+                  },
+                },
+                { signal }
+              )
+            : Promise.resolve(null),
+          shouldUseRelayerQuote
+            ? getRelayerQuote(
+                {
+                  fromAddress,
+                  fromAmount: fromAmount.toString(),
+                  fromChain: fromChainId,
+                  fromToken: fromTokenAddress,
+                  toAddress,
+                  toChain: toChainId,
+                  toToken: toTokenAddress,
+                  fromAmountForGas:
+                    enabledRefuel && gasRecommendationFromAmount
+                      ? gasRecommendationFromAmount
+                      : undefined,
+                  order: routePriority,
+                  slippage: formattedSlippage,
+                  fee: calculatedFee || fee,
+                  ...(allowBridges?.length || disabledBridges.length
+                    ? {
+                        allowBridges: allowBridges,
+                        denyBridges: disabledBridges.length
+                          ? disabledBridges
+                          : undefined,
+                      }
+                    : undefined),
+                  ...(allowExchanges?.length || disabledExchanges.length
+                    ? {
+                        allowExchanges: allowExchanges,
+                        denyExchanges: disabledExchanges.length
+                          ? disabledExchanges
+                          : undefined,
+                      }
+                    : undefined),
+                },
+                { signal }
+              )
+                .then((response) => {
+                  const quote = {
+                    ...response.data.quote.step,
+                    ...response.data.quote,
+                  }
+                  return convertQuoteToRoute(quote)
+                })
+                .catch(() => null)
+            : Promise.resolve(null),
+        ])
+
+        if (routesResult?.routes[0] && fromAddress) {
           // Update local tokens cache to keep priceUSD in sync
-          const { fromToken, toToken } = data.routes[0]
+          const { fromToken, toToken } = routesResult.routes[0]
           ;[fromToken, toToken].forEach((token) => {
             queryClient.setQueriesData<Token[]>(
               { queryKey: ['token-balances', fromAddress, token.chainId] },
@@ -349,8 +402,16 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
             )
           })
         }
-        emitter.emit(WidgetEvent.AvailableRoutes, data.routes)
-        return data
+
+        const routes = routesResult?.routes ?? []
+
+        // Add relayer route if available
+        if (relayerRouteResult) {
+          routes.splice(1, 0, relayerRouteResult)
+        }
+
+        emitter.emit(WidgetEvent.AvailableRoutes, routes)
+        return routes
       },
       enabled: isEnabled,
       staleTime: refetchTime,
@@ -361,6 +422,9 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
         )
       },
       retry(failureCount, error: any) {
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('Route query failed:', { failureCount, error })
+        }
         if (failureCount >= 5) {
           return false
         }
@@ -382,7 +446,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
   }
 
   return {
-    routes: data?.routes,
+    routes: data,
     isLoading: isEnabled && isLoading,
     isFetching,
     isFetched,
