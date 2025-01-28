@@ -49,14 +49,14 @@
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^14.6.1",
     "@types/events": "^3.0.3",
-    "@types/node": "^22.10.7",
-    "@types/react": "^19.0.7",
+    "@types/node": "^22.10.10",
+    "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "cpy-cli": "^5.0.0",
     "fs-extra": "^11.3.0",
     "husky": "^9.1.7",
     "lerna": "8.1.9",
-    "lint-staged": "^15.4.1",
+    "lint-staged": "^15.4.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "standard-version": "^9.5.0",
@@ -67,5 +67,5 @@
       "bs58": ">=4.0.1"
     }
   },
-  "packageManager": "pnpm@9.15.1"
+  "packageManager": "pnpm@10.1.0"
 }

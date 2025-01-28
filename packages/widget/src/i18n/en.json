@@ -189,6 +189,7 @@
       "text": "We couldn't find this page.",
       "title": "404"
     },
+    "relayerService": "We handle the gas, so you can transfer assets without holding native tokens. Network costs are included in the transfer.",
     "numberOfSteps": "Each exchange step can contain 1-2 transactions that require a signature.",
     "priceImpact": "The estimated value difference between the source and destination tokens.",
     "progressToNextUpdate": "Quotes will update in {{value}} seconds. <0/> Click here to update now.",
@@ -205,7 +206,9 @@
     "featuredTokens": "Featured tokens",
     "fees": {
       "defaultIntegrator": "Integrator fee",
+      "relayerService": "Gasless service",
       "estimated": "estimated costs",
+      "free": "Free",
       "integrator": "{{tool}} fee",
       "network": "Network cost",
       "paid": "paid costs",
@@ -250,6 +253,12 @@
       "switchChain": {
         "actionRequired": "Confirm chain switch",
         "done": "Chain switched"
+      },
+      "permit": {
+        "actionRequired": "Sign permit message",
+        "done": "Permit message signed",
+        "pending": "Waiting for permit message",
+        "started": "Preparing transaction"
       },
       "tokenAllowance": {
         "actionRequired": "Approve {{tokenSymbol}} spending",

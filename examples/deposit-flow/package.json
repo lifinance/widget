@@ -17,13 +17,13 @@
     "events": "^3.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "viem": "^2.22.11",
-    "wagmi": "^2.14.8"
+    "viem": "^2.22.15",
+    "wagmi": "^2.14.9"
   },
   "devDependencies": {
     "@types/events": "^3.0.3",
-    "@types/node": "^22.10.7",
-    "@types/react": "^19.0.7",
+    "@types/node": "^22.10.10",
+    "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
     "typescript": "^5.7.3",

@@ -1,11 +1,12 @@
 import type { Route, Token } from '@lifi/sdk'
 import {
+  ChainType,
   LiFiErrorCode,
   convertQuoteToRoute,
   getContractCallsQuote,
   getRelayerQuote,
   getRoutes,
-  isEVMPermitStep,
+  isRelayerStep,
 } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -117,8 +118,8 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
       : undefined
 
   const isEnabled =
-    Boolean(Number(fromChainId)) &&
-    Boolean(Number(toChainId)) &&
+    Boolean(Number(fromChain?.id)) &&
+    Boolean(Number(toChain?.id)) &&
     Boolean(fromToken?.address) &&
     Boolean(toToken?.address) &&
     !Number.isNaN(slippage) &&
@@ -130,11 +131,11 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
   const queryKey = [
     'routes',
     account.address,
-    fromChainId as number,
+    fromChain?.id as number,
     fromToken?.address as string,
     fromTokenAmount,
     toWalletAddress,
-    toChainId as number,
+    toChain?.id as number,
     toToken?.address as string,
     toTokenAmount,
     contractCalls,
@@ -277,13 +278,14 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
         }
 
         const isObservableRelayerRoute =
-          observableRoute?.steps?.some(isEVMPermitStep)
+          observableRoute?.steps?.some(isRelayerStep)
 
         const shouldUseMainRoutes =
           !observableRoute || !isObservableRelayerRoute
         const shouldUseRelayerQuote =
           fromAddress &&
-          fromChain?.permit2 &&
+          fromChain?.chainType === ChainType.EVM &&
+          fromChain.permit2 &&
           fromChain.permit2Proxy &&
           fromChain.nativeToken.address !== fromTokenAddress &&
           useRelayerRoutes &&
@@ -425,7 +427,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
         if (process.env.NODE_ENV === 'development') {
           console.warn('Route query failed:', { failureCount, error })
         }
-        if (failureCount >= 5) {
+        if (failureCount >= 3) {
           return false
         }
         if (error?.code === LiFiErrorCode.NotFound) {

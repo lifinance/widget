@@ -65,12 +65,14 @@ const processStatusMessages: Record<
     ACTION_REQUIRED: (t) => t('main.process.switchChain.actionRequired'),
     DONE: (t) => t('main.process.switchChain.done'),
   },
+  PERMIT: {
+    STARTED: (t) => t('main.process.permit.started'),
+    ACTION_REQUIRED: (t) => t('main.process.permit.actionRequired'),
+    PENDING: (t) => t('main.process.permit.pending'),
+    DONE: (t) => t('main.process.permit.done'),
+  },
   SWAP: {
     STARTED: (t) => t('main.process.swap.started'),
-    PERMIT_REQUIRED: (t, step) =>
-      t('main.process.swap.permitRequired', {
-        tokenSymbol: step.action.fromToken.symbol,
-      }),
     ACTION_REQUIRED: (t) => t('main.process.swap.actionRequired'),
     PENDING: (t) => t('main.process.swap.pending'),
     DONE: (t, _, subvariant, subvariantOptions) =>
@@ -80,10 +82,6 @@ const processStatusMessages: Record<
   },
   CROSS_CHAIN: {
     STARTED: (t) => t('main.process.bridge.started'),
-    PERMIT_REQUIRED: (t, step) =>
-      t('main.process.bridge.permitRequired', {
-        tokenSymbol: step.action.fromToken.symbol,
-      }),
     ACTION_REQUIRED: (t) => t('main.process.bridge.actionRequired'),
     PENDING: (t) => t('main.process.bridge.pending'),
     DONE: (t) => t('main.process.bridge.done'),

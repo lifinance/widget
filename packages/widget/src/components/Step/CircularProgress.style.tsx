@@ -15,7 +15,6 @@ const getStatusColor = (
   substatus?: Substatus
 ) => {
   switch (status) {
-    case 'PERMIT_REQUIRED':
     case 'ACTION_REQUIRED':
       return alpha(theme.palette.info.main, 0.12)
     case 'DONE':
@@ -34,22 +33,12 @@ export const CircularIcon = styled(Box, {
   shouldForwardProp: (prop: string) => !['status', 'substatus'].includes(prop),
 })<{ status?: ProcessStatus; substatus?: Substatus }>(
   ({ theme, status, substatus }) => ({
-    backgroundColor: [
-      'PERMIT_REQUIRED',
-      'ACTION_REQUIRED',
-      'DONE',
-      'FAILED',
-    ].includes(status!)
+    backgroundColor: ['ACTION_REQUIRED', 'DONE', 'FAILED'].includes(status!)
       ? getStatusColor(theme, status, substatus)
       : theme.palette.background.paper,
     borderStyle: 'solid',
     borderColor: getStatusColor(theme, status, substatus),
-    borderWidth: ![
-      'PERMIT_REQUIRED',
-      'ACTION_REQUIRED',
-      'DONE',
-      'FAILED',
-    ].includes(status!)
+    borderWidth: !['ACTION_REQUIRED', 'DONE', 'FAILED'].includes(status!)
       ? 3
       : 0,
     display: 'grid',
