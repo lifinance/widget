@@ -3,7 +3,7 @@ import { Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { formatUnits } from 'viem'
 import type { GasSufficiency } from '../../hooks/useGasSufficiency.js'
-import { AlertMessage } from '../AlertMessage/AlertMessage.js'
+import { AlertMessage } from './AlertMessage.js'
 
 interface GasSufficiencyMessageProps {
   insufficientGas?: GasSufficiency[]

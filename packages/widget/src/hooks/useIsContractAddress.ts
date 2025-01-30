@@ -17,6 +17,5 @@ export const useIsContractAddress = (
     },
   })
 
-  const isContractAddress = !!contractCode
-  return isContractAddress
+  return { isContractAddress: !!contractCode, contractCode }
 }
