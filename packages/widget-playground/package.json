@@ -35,9 +35,9 @@
     "@lifi/widget": "workspace:*",
     "@monaco-editor/react": "^4.6.0",
     "@mui/icons-material": "6.0.2",
-    "@mui/lab": "6.0.0-beta.24",
-    "@mui/material": "^6.4.1",
-    "@mui/system": "^6.4.1",
+    "@mui/lab": "6.0.0-beta.25",
+    "@mui/material": "^6.4.2",
+    "@mui/system": "^6.4.2",
     "@rainbow-me/rainbowkit": "^2.2.3",
     "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/wallet-adapter-react": "^0.15.35",
@@ -47,21 +47,21 @@
     "microdiff": "^1.5.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "viem": "^2.22.11",
-    "wagmi": "^2.14.8",
+    "viem": "^2.22.17",
+    "wagmi": "^2.14.9",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@types/lodash.isequal": "^4.5.8",
-    "@types/node": "^22.10.7",
-    "@types/react": "^19.0.7",
+    "@types/node": "^22.12.0",
+    "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react-swc": "^3.7.2",
     "cpy-cli": "^5.0.0",
     "madge": "^8.0.0",
     "typescript": "^5.7.3",
     "vite": "^6.0.11",
-    "vitest": "^3.0.3"
+    "vitest": "^3.0.4"
   },
   "peerDependencies": {
     "@tanstack/react-query": "^5.62.10"

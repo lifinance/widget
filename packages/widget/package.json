@@ -56,18 +56,18 @@
     "@lifi/sdk": "^3.5.2",
     "@lifi/wallet-management": "workspace:^",
     "@mui/icons-material": "6.0.2",
-    "@mui/material": "^6.4.1",
-    "@mui/system": "^6.4.1",
+    "@mui/material": "^6.4.2",
+    "@mui/system": "^6.4.2",
     "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/web3.js": "^1.98.0",
-    "@tanstack/react-virtual": "^3.11.2",
-    "i18next": "^24.2.1",
+    "@tanstack/react-virtual": "^3.11.3",
+    "i18next": "^24.2.2",
     "microdiff": "^1.5.0",
     "mitt": "^3.0.1",
     "react-i18next": "^15.4.0",
     "react-intersection-observer": "^9.15.1",
     "react-router-dom": "^6.28.0",
-    "viem": "^2.22.11",
+    "viem": "^2.22.17",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
@@ -76,7 +76,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "typescript": "^5.7.3",
-    "vitest": "^3.0.3"
+    "vitest": "^3.0.4"
   },
   "peerDependencies": {
     "@bigmi/react": ">=0.1.0",
