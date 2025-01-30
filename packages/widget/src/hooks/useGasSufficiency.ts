@@ -22,7 +22,7 @@ export const useGasSufficiency = (route?: RouteExtended) => {
     chainType: getChainById(route?.fromChainId)?.chainType,
   })
 
-  const isContractAddress = useIsContractAddress(
+  const { isContractAddress } = useIsContractAddress(
     account.address,
     route?.fromChainId,
     account.chainType

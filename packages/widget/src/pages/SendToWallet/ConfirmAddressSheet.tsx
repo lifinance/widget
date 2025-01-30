@@ -3,9 +3,9 @@ import { Box, Button, Typography } from '@mui/material'
 import type { MutableRefObject } from 'react'
 import { forwardRef, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { AlertMessage } from '../../components/AlertMessage/AlertMessage.js'
 import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
+import { AlertMessage } from '../../components/Messages/AlertMessage.js'
 import { useIsContractAddress } from '../../hooks/useIsContractAddress.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { useSetContentHeight } from '../../hooks/useSetContentHeight.js'
@@ -55,7 +55,7 @@ const ConfirmAddressSheetContent: React.FC<ConfirmAddressSheetContentProps> = ({
   const { navigateBack } = useNavigateBack()
   const { setFieldValue } = useFieldActions()
   const { setSendToWallet } = useSendToWalletActions()
-  const isContractAddress = useIsContractAddress(
+  const { isContractAddress } = useIsContractAddress(
     validatedBookmark?.address,
     chainId,
     validatedBookmark?.chainType
