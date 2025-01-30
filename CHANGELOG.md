@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.15.0](https://github.com/lifinance/widget/compare/v3.14.2...v3.15.0) (2025-01-30)
+
+
+### Features
+
+* improve warning messages ([#344](https://github.com/lifinance/widget/issues/344)) ([17e5a2b](https://github.com/lifinance/widget/commit/17e5a2b236e54590c83e1e6c279d04c45f9dcbef))
+
 ### [3.14.2](https://github.com/lifinance/widget/compare/v3.14.1...v3.14.2) (2025-01-28)
 
 
