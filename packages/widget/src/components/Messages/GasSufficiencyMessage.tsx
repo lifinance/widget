@@ -1,16 +1,17 @@
 import { EvStation } from '@mui/icons-material'
-import { Typography } from '@mui/material'
+import { type BoxProps, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { formatUnits } from 'viem'
 import type { GasSufficiency } from '../../hooks/useGasSufficiency.js'
 import { AlertMessage } from './AlertMessage.js'
 
-interface GasSufficiencyMessageProps {
+interface GasSufficiencyMessageProps extends BoxProps {
   insufficientGas?: GasSufficiency[]
 }
 
 export const GasSufficiencyMessage: React.FC<GasSufficiencyMessageProps> = ({
   insufficientGas,
+  ...props
 }) => {
   const { t } = useTranslation()
   return (
@@ -27,6 +28,7 @@ export const GasSufficiencyMessage: React.FC<GasSufficiencyMessageProps> = ({
           {t('warning.title.insufficientGas')}
         </Typography>
       }
+      {...props}
     >
       <Typography
         variant="body2"
