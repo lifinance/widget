@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.15.1](https://github.com/lifinance/widget/compare/v3.15.0...v3.15.1) (2025-01-31)
+
+
+### Bug Fixes
+
+* improve funds loss warning message ([317f8b1](https://github.com/lifinance/widget/commit/317f8b131cfc0c685ebb5e4f4fe1a9828afa4a51))
+* include gas sufficiency message props ([2b29bd8](https://github.com/lifinance/widget/commit/2b29bd857a81733dfe61894fc446814be3b6c7b0))
+
 ## [3.15.0](https://github.com/lifinance/widget/compare/v3.14.2...v3.15.0) (2025-01-30)
 
 
