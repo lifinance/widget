@@ -84,15 +84,13 @@
     "message": {
       "autoRefuel": "You're low on {{chainName}} gas. By continuing, you'll get enough gas to complete the transaction.",
       "emptyActiveTransactions": "Transactions in progress will appear here. Once completed, find them in transaction history.",
-      "emptyTokenList": "We couldn't find tokens on {{chainName}} chain or you don't have any. Please search by contract address if your token doesn't appear or choose another chain.",
-      "emptyChainList": "We couldn't find any chains that match your search",
       "emptyBridgesList": "We couldn't find any bridges that match your search",
+      "emptyChainList": "We couldn't find any chains that match your search",
       "emptyExchangesList": "We couldn't find any exchanges that match your search",
+      "emptyTokenList": "We couldn't find tokens on {{chainName}} chain or you don't have any. Please search by contract address if your token doesn't appear or choose another chain.",
       "emptyTransactionHistory": "Transaction history is only stored locally and will be deleted if you clear your browser data.",
-      "smartContractAccount": "Always ensure your smart contract account is set up on the destination chain to avoid potential fund loss.",
-      "fundsToExchange": "Funds sent directly to exchanges might not be recoverable.",
-      "toAddressIsRequired": "Please provide the destination wallet address to which the funds will be transferred.",
-      "routeNotFound": "Reasons for that could be: low liquidity, amount selected is too low, gas costs are too high or there are no routes for the selected combination."
+      "routeNotFound": "Reasons for that could be: low liquidity, amount selected is too low, gas costs are too high or there are no routes for the selected combination.",
+      "toAddressIsRequired": "Please provide the destination wallet address to which the funds will be transferred."
     },
     "title": {
       "autoRefuel": "Get {{chainName}} gas",
@@ -119,15 +117,16 @@
   },
   "warning": {
     "message": {
+      "accountNotDeployedMessage": "Smart contract account is not deployed on the destination chain. Sending funds to a non-existent contract would result in permanent loss.",
       "deleteActiveTransactions": "Active transactions are only stored locally and can't be recovered if you delete them.",
       "deleteTransactionHistory": "Transaction history is only stored locally and can't be recovered if you delete it.",
+      "fundsLossPrevention": "Always ensure smart contract accounts are properly set up on the destination chain and avoid direct transfers to exchanges to prevent fund loss.",
       "highValueLoss": "The value of the received tokens is significantly lower than the exchanged tokens and transaction cost.",
       "insufficientFunds": "You don't have enough funds to complete the transaction.",
       "insufficientGas": "You don't have enough gas to complete the transaction. You need to add at least:",
       "rateChanged": "The exchange rate has changed. By continuing the transaction, you'll accept the new rate.",
       "resetSettings": "This will reset your route priority, slippage, gas price, enabled bridges and exchanges.",
-      "slippageOutsideRecommendedLimits": "High slippage tolerance may result in unfavorable trade caused by front-running.",
-      "accountNotDeployedMessage": "Smart contract account is not deployed on the destination chain. Sending funds to a non-existent contract would result in permanent loss."
+      "slippageOutsideRecommendedLimits": "High slippage tolerance may result in unfavorable trade caused by front-running."
     },
     "title": {
       "deleteActiveTransactions": "Delete all active transactions?",

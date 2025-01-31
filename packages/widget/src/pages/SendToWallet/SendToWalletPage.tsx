@@ -1,4 +1,3 @@
-import { ChainType } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import {
   Error as ErrorIcon,
@@ -68,9 +67,6 @@ export const SendToWalletPage = () => {
 
   const { accounts } = useAccount()
   const connectedWallets = accounts.filter((account) => account.isConnected)
-  const connectedEVMChainId = connectedWallets.find(
-    (account) => account.chainType === ChainType.EVM
-  )?.chainId
 
   useHeader(t('header.sendToWallet'))
 
@@ -246,7 +242,6 @@ export const SendToWalletPage = () => {
           ref={confirmAddressSheetRef}
           validatedBookmark={validatedWallet}
           onConfirm={handleOnConfirm}
-          chainId={connectedEVMChainId || toChainId}
         />
         <BookmarkAddressSheet
           ref={bookmarkAddressSheetRef}

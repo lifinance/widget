@@ -1,4 +1,8 @@
-import { Error as ErrorIcon, Info, TurnedIn } from '@mui/icons-material'
+import {
+  Error as ErrorIcon,
+  TurnedIn,
+  WarningRounded,
+} from '@mui/icons-material'
 import { Button, Typography } from '@mui/material'
 import type { ChangeEvent, MutableRefObject } from 'react'
 import { forwardRef, useState } from 'react'
@@ -206,11 +210,11 @@ export const BookmarkAddressSheet = forwardRef<
         </BookmarkInputFields>
         <AlertMessage
           title={
-            <Typography variant="body2">
-              {t('info.message.fundsToExchange')}
+            <Typography variant="body2" sx={{ color: 'text.primary' }}>
+              {t('warning.message.fundsLossPrevention')}
             </Typography>
           }
-          icon={<Info />}
+          icon={<WarningRounded />}
         />
         <SendToWalletButtonRow>
           <Button variant="text" onClick={handleCancel} fullWidth>
