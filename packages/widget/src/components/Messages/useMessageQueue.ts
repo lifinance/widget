@@ -11,7 +11,7 @@ interface QueuedMessage {
 }
 
 export const useMessageQueue = (route?: Route) => {
-  const { requiredToAddress, accountNotDeployedAtDestination } =
+  const { requiredToAddress, accountNotDeployedAtDestination, toAddress } =
     useToAddressRequirements()
   const { insufficientFromToken } = useFromTokenSufficiency(route)
   const { insufficientGas } = useGasSufficiency(route)
@@ -41,7 +41,7 @@ export const useMessageQueue = (route?: Route) => {
       })
     }
 
-    if (requiredToAddress) {
+    if (requiredToAddress && !toAddress) {
       queue.push({
         id: 'TO_ADDRESS_REQUIRED',
         priority: 4,
@@ -50,10 +50,11 @@ export const useMessageQueue = (route?: Route) => {
 
     return queue.sort((a, b) => a.priority - b.priority)
   }, [
+    accountNotDeployedAtDestination,
     insufficientFromToken,
     insufficientGas,
-    accountNotDeployedAtDestination,
     requiredToAddress,
+    toAddress,
   ])
 
   return {
