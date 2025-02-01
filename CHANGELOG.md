@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.16.0](https://github.com/lifinance/widget/compare/v3.15.2...v3.16.0) (2025-02-01)
+
+
+### Features
+
+* add low activity wallet warning ([fb69217](https://github.com/lifinance/widget/commit/fb692176b87666dd37e18a72b11ad7b43901a6bf))
+
 ### [3.15.2](https://github.com/lifinance/widget/compare/v3.15.1...v3.15.2) (2025-01-31)
 
 
