@@ -7,7 +7,11 @@ export const useIsContractAddress = (
   chainId?: number,
   chainType?: ChainType
 ) => {
-  const { data: contractCode } = useBytecode({
+  const {
+    data: contractCode,
+    isLoading,
+    isFetched,
+  } = useBytecode({
     address: address as Address,
     chainId: chainId,
     query: {
@@ -17,5 +21,10 @@ export const useIsContractAddress = (
     },
   })
 
-  return { isContractAddress: !!contractCode, contractCode }
+  return {
+    isContractAddress: !!contractCode,
+    contractCode,
+    isLoading,
+    isFetched,
+  }
 }
