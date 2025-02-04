@@ -353,7 +353,7 @@ export const ProtocolStepDetailsLabel: React.FC<
         ? feeConfig?.name
           ? t('main.fees.integrator', { tool: feeConfig.name })
           : t('main.fees.defaultIntegrator')
-        : step.toolDetails.key === 'lifuelProtocol'
+        : step.toolDetails.key === 'gasZip'
           ? t('main.refuelStepDetails', {
               tool: step.toolDetails.name,
             })
