@@ -3,7 +3,7 @@ import { AccessTimeFilled } from '@mui/icons-material'
 import { Box, Tooltip } from '@mui/material'
 import { type FC, type PropsWithChildren, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useTimer } from '../../hooks/timer/useTimer.js'
+import { useStopwatch } from '../../hooks/timer/useStopwatch.js'
 import { IconTypography } from '../IconTypography.js'
 
 const getExecutionProcess = (step: LiFiStepExtended) =>
@@ -14,28 +14,22 @@ const getExecutionProcess = (step: LiFiStepExtended) =>
       process.type === 'RECEIVING_CHAIN'
   )
 
-const getExpiryTimestamp = (step: LiFiStepExtended) =>
-  new Date(
-    (getExecutionProcess(step)?.startedAt ?? Date.now()) +
-      step.estimate.executionDuration * 1000
-  )
+const getStartTimestamp = (step: LiFiStepExtended) =>
+  new Date(getExecutionProcess(step)?.startedAt ?? Date.now())
 
 export const StepTimer: React.FC<{
   step: LiFiStepExtended
   hideInProgress?: boolean
-}> = ({ step, hideInProgress }) => {
-  const { t, i18n } = useTranslation()
-  const [isExpired, setExpired] = useState(false)
+}> = ({ step }) => {
+  const { i18n } = useTranslation()
+
   const [isExecutionStarted, setExecutionStarted] = useState(
     () => !!getExecutionProcess(step)
   )
-  const [expiryTimestamp, setExpiryTimestamp] = useState(() =>
-    getExpiryTimestamp(step)
-  )
-  const { seconds, minutes, isRunning, pause, resume, restart } = useTimer({
+
+  const { seconds, minutes, isRunning, pause, reset, start } = useStopwatch({
     autoStart: false,
-    expiryTimestamp,
-    onExpire: () => setExpired(true),
+    offsetTimestamp: getStartTimestamp(step),
   })
 
   useEffect(() => {
@@ -51,26 +45,22 @@ export const StepTimer: React.FC<{
     const shouldResume = executionProcess.status === 'PENDING'
     if (isExecutionStarted && shouldRestart) {
       setExecutionStarted(false)
-      setExpired(false)
       return
     }
-    if (isExecutionStarted && isExpired) {
+    if (isExecutionStarted) {
       return
     }
     if (!isExecutionStarted && shouldStart) {
-      const expiryTimestamp = getExpiryTimestamp(step)
       setExecutionStarted(true)
-      setExpired(false)
-      setExpiryTimestamp(expiryTimestamp)
-      restart(expiryTimestamp)
+      reset()
       return
     }
     if (isRunning && shouldPause) {
       pause()
     } else if (!isRunning && shouldResume) {
-      resume()
+      start()
     }
-  }, [isExecutionStarted, isExpired, isRunning, pause, restart, resume, step])
+  }, [isExecutionStarted, isRunning, pause, reset, start, step])
 
   if (!isExecutionStarted) {
     const showSeconds = step.estimate.executionDuration < 60
@@ -88,19 +78,14 @@ export const StepTimer: React.FC<{
     )
   }
 
-  const isTimerExpired = isExpired || (!minutes && !seconds)
-
   if (
     step.execution?.status === 'DONE' ||
-    step.execution?.status === 'FAILED' ||
-    (isTimerExpired && hideInProgress)
+    step.execution?.status === 'FAILED'
   ) {
     return null
   }
 
-  return isTimerExpired ? (
-    t('main.inProgress')
-  ) : (
+  return (
     <StepTimerContent>
       {`${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`}
     </StepTimerContent>
