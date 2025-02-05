@@ -21,6 +21,7 @@ import { getChainTypeFromAddress } from '../utils/chainType.js'
 import { useChain } from './useChain.js'
 import { useDebouncedWatch } from './useDebouncedWatch.js'
 import { useGasRefuel } from './useGasRefuel.js'
+import { useIsCompatibleDestinationAccount } from './useIsCompatibleDestinationAccount.js'
 import { useSwapOnly } from './useSwapOnly.js'
 import { useToken } from './useToken.js'
 import { useWidgetEvents } from './useWidgetEvents.js'
@@ -85,6 +86,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
   const { token: toToken } = useToken(toChainId, toTokenAddress)
   const { chain: fromChain } = useChain(fromChainId)
   const { chain: toChain } = useChain(toChainId)
+  const { isCompatibleDestinationAccount } = useIsCompatibleDestinationAccount()
   const { enabled: enabledRefuel, fromAmount: gasRecommendationFromAmount } =
     useGasRefuel()
 
@@ -116,6 +118,9 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
     exchanges?.allow?.length || exchanges?.deny?.length
       ? enabledExchanges
       : undefined
+  const allowSwitchChain = isCompatibleDestinationAccount
+    ? sdkConfig?.routeOptions?.allowSwitchChain
+    : false
 
   const isEnabled =
     Boolean(Number(fromChain?.id)) &&
@@ -147,7 +152,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
     allowedExchanges,
     routePriority,
     subvariant,
-    sdkConfig?.routeOptions?.allowSwitchChain,
+    allowSwitchChain,
     enabledRefuel && enabledAutoRefuel,
     gasRecommendationFromAmount,
     feeConfig?.fee || fee,

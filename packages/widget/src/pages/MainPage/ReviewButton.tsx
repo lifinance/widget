@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { BaseTransactionButton } from '../../components/BaseTransactionButton/BaseTransactionButton.js'
+import { useIsCompatibleDestinationAccount } from '../../hooks/useIsCompatibleDestinationAccount.js'
 import { useRoutes } from '../../hooks/useRoutes.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { useSplitSubvariantStore } from '../../stores/settings/useSplitSubvariantStore.js'
 import { WidgetEvent } from '../../types/events.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
@@ -16,23 +16,25 @@ export const ReviewButton: React.FC = () => {
   const emitter = useWidgetEvents()
   const { subvariant, subvariantOptions } = useWidgetConfig()
   const splitState = useSplitSubvariantStore((state) => state.state)
-  const [toAddress] = useFieldValues('toAddress')
-  const { requiredToAddress } = useToAddressRequirements()
+  const { toAddress, requiredToAddress } = useToAddressRequirements()
+  const { isCompatibleDestinationAccount } = useIsCompatibleDestinationAccount()
   const { routes, setReviewableRoute } = useRoutes()
 
   const currentRoute = routes?.[0]
 
   const handleClick = async () => {
-    if (currentRoute) {
-      setReviewableRoute(currentRoute)
-      navigate(navigationRoutes.transactionExecution, {
-        state: { routeId: currentRoute.id },
-      })
-      emitter.emit(WidgetEvent.RouteSelected, {
-        route: currentRoute,
-        routes: routes!,
-      })
+    if (!currentRoute) {
+      return
     }
+
+    setReviewableRoute(currentRoute)
+    navigate(navigationRoutes.transactionExecution, {
+      state: { routeId: currentRoute.id },
+    })
+    emitter.emit(WidgetEvent.RouteSelected, {
+      route: currentRoute,
+      routes: routes!,
+    })
   }
 
   const getButtonText = (): string => {
@@ -72,7 +74,10 @@ export const ReviewButton: React.FC = () => {
     <BaseTransactionButton
       text={getButtonText()}
       onClick={handleClick}
-      disabled={currentRoute && requiredToAddress && !toAddress}
+      disabled={
+        (currentRoute && requiredToAddress && !toAddress) ||
+        !isCompatibleDestinationAccount
+      }
     />
   )
 }

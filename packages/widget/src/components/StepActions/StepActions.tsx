@@ -365,7 +365,7 @@ export const ProtocolStepDetailsLabel: React.FC<
           : relayerSupport
             ? t('main.fees.relayerService')
             : t('main.fees.defaultIntegrator')
-        : step.toolDetails.key === 'lifuelProtocol'
+        : step.toolDetails.key === 'gasZip'
           ? t('main.refuelStepDetails', {
               tool: step.toolDetails.name,
             })

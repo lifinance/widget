@@ -22,7 +22,7 @@ export const useGasSufficiency = (route?: RouteExtended) => {
     chainType: getChainById(route?.fromChainId)?.chainType,
   })
 
-  const isContractAddress = useIsContractAddress(
+  const { isContractAddress } = useIsContractAddress(
     account.address,
     route?.fromChainId,
     account.chainType
@@ -38,7 +38,7 @@ export const useGasSufficiency = (route?: RouteExtended) => {
       // We assume that LI.Fuel protocol always refuels the destination chain
       const hasRefuelStep = route.steps
         .flatMap((step) => step.includedSteps)
-        .some((includedStep) => includedStep.tool === 'lifuelProtocol')
+        .some((includedStep) => includedStep.tool === 'gasZip')
 
       const gasCosts = route.steps
         .filter((step) => !step.execution || step.execution.status !== 'DONE')

@@ -29,6 +29,7 @@ export enum WidgetEvent {
   FormFieldChanged = 'formFieldChanged',
   SettingUpdated = 'settingUpdated',
   TokenSearch = 'tokenSearch',
+  LowAddressActivityConfirmed = 'lowAddressActivityConfirmed',
 }
 
 export type WidgetEvents = {
@@ -50,6 +51,10 @@ export type WidgetEvents = {
   pageEntered: NavigationRouteType
   settingUpdated: SettingUpdated
   tokenSearch: TokenSearch
+  [WidgetEvent.LowAddressActivityConfirmed]: {
+    address: string
+    chainId: number
+  }
 }
 
 export type ContactSupport = {

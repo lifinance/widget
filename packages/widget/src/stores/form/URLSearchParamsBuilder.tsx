@@ -1,7 +1,9 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
+import { useAddressValidation } from '../../hooks/useAddressValidation.js'
 import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js'
 import { formatInputAmount } from '../../utils/format.js'
+import { useBookmarkActions } from '../bookmarks/useBookmarkActions.js'
 import type { DefaultValues, FormFieldNames } from '../form/types.js'
 import { useFieldActions } from '../form/useFieldActions.js'
 import { useFieldValues } from '../form/useFieldValues.js'
@@ -49,6 +51,8 @@ export const URLSearchParamsBuilder = () => {
   const touchedFields = useTouchedFields()
   const values = useFieldValues(...formValueKeys)
   const { setSendToWallet } = useSendToWalletActions()
+  const { setSelectedBookmark, addRecentWallet } = useBookmarkActions()
+  const { validateAddress } = useAddressValidation()
 
   // Using these methods as trying to use the touchedFields and values above
   // often has a lag that can effect the widgets initialisation sequence
@@ -57,15 +61,45 @@ export const URLSearchParamsBuilder = () => {
     useFieldActions()
 
   useEffect(() => {
-    // get the  initial values from the querysting
+    // get the initial values from the querystring
     const formValues = getDefaultValuesFromQueryString()
 
-    if (formValues.toAddress) {
-      setSendToWallet(true)
+    /**
+     * When URL builder is enabled and user opens a page with toAddress parameter,
+     * validate the address and set it up as a bookmark. This allows direct linking
+     * to the widget with a pre-filled destination address that will be treated the
+     * same way as a manually entered and validated address.
+     */
+    const initializeFromAddress = async () => {
+      if (formValues.toAddress) {
+        try {
+          const validationResult = await validateAddress({
+            value: formValues.toAddress,
+          })
+          if (validationResult.isValid) {
+            const bookmark = {
+              address: validationResult.address,
+              chainType: validationResult.chainType,
+            }
+            setSelectedBookmark(bookmark)
+            addRecentWallet(bookmark)
+            setSendToWallet(true)
+          }
+        } catch (_) {
+          // Address validation failed
+        }
+      }
     }
 
+    initializeFromAddress()
     setUserAndDefaultValues(formValues)
-  }, [setUserAndDefaultValues, setSendToWallet])
+  }, [
+    setUserAndDefaultValues,
+    setSendToWallet,
+    validateAddress,
+    setSelectedBookmark,
+    addRecentWallet,
+  ])
 
   // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(() => {

@@ -6,10 +6,11 @@ import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
-import { GasMessage } from '../../components/GasMessage/GasMessage.js'
+import { GasMessage } from '../../components/Messages/GasMessage.js'
 import { PageContainer } from '../../components/PageContainer.js'
 import { getStepList } from '../../components/Step/StepList.js'
 import { TransactionDetails } from '../../components/TransactionDetails.js'
+import { useAddressActivity } from '../../hooks/useAddressActivity.js'
 import { useHeader } from '../../hooks/useHeader.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { useRouteExecution } from '../../hooks/useRouteExecution.js'
@@ -19,6 +20,7 @@ import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { RouteExecutionStatus } from '../../stores/routes/types.js'
 import { WidgetEvent } from '../../types/events.js'
 import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
+import { ConfirmToAddressSheet } from './ConfirmToAddressSheet.js'
 import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet.js'
 import { ExchangeRateBottomSheet } from './ExchangeRateBottomSheet.js'
 import { RouteTracker } from './RouteTracker.js'
@@ -44,6 +46,7 @@ export const TransactionPage: React.FC = () => {
 
   const tokenValueBottomSheetRef = useRef<BottomSheetBase>(null)
   const exchangeRateBottomSheetRef = useRef<ExchangeRateBottomSheetBase>(null)
+  const confirmToAddressSheetRef = useRef<BottomSheetBase>(null)
 
   const onAcceptExchangeRateUpdate = (
     resolver: (value: boolean) => void,
@@ -57,6 +60,13 @@ export const TransactionPage: React.FC = () => {
       routeId: routeId,
       onAcceptExchangeRateUpdate,
     })
+
+  const {
+    toAddress,
+    hasActivity,
+    isLoading: isLoadingAddressActivity,
+    isFetched: isActivityAddressFetched,
+  } = useAddressActivity(route?.toChainId)
 
   const getHeaderTitle = () => {
     if (subvariant === 'custom') {
@@ -127,6 +137,16 @@ export const TransactionPage: React.FC = () => {
 
   const handleStartClick = async () => {
     if (status === RouteExecutionStatus.Idle) {
+      if (
+        toAddress &&
+        !hasActivity &&
+        !isLoadingAddressActivity &&
+        isActivityAddressFetched
+      ) {
+        confirmToAddressSheetRef.current?.open()
+        return
+      }
+
       const { gasCostUSD, feeCostUSD } = getAccumulatedFeeCostsBreakdown(route)
       const fromAmountUSD = Number.parseFloat(route.fromAmountUSD)
       const toAmountUSD = Number.parseFloat(route.toAmountUSD)
@@ -198,7 +218,7 @@ export const TransactionPage: React.FC = () => {
               text={getButtonText()}
               onClick={handleStartClick}
               route={route}
-              loading={routeRefreshing}
+              loading={routeRefreshing || isLoadingAddressActivity}
             />
             {status === RouteExecutionStatus.Failed ? (
               <Tooltip
@@ -228,6 +248,12 @@ export const TransactionPage: React.FC = () => {
         />
       ) : null}
       <ExchangeRateBottomSheet ref={exchangeRateBottomSheetRef} />
+      <ConfirmToAddressSheet
+        ref={confirmToAddressSheetRef}
+        onContinue={handleExecuteRoute}
+        toAddress={toAddress!}
+        toChainId={route.toChainId!}
+      />
     </PageContainer>
   )
 }

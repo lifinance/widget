@@ -7,13 +7,17 @@ import { useIsContractAddress } from './useIsContractAddress.js'
 
 export const useToAddressRequirements = () => {
   const { requiredUI } = useWidgetConfig()
-  const [fromChainId, toChainId] = useFieldValues('fromChain', 'toChain')
+  const [fromChainId, toChainId, toAddress] = useFieldValues(
+    'fromChain',
+    'toChain',
+    'toAddress'
+  )
   const { chain: fromChain } = useChain(fromChainId)
   const { chain: toChain } = useChain(toChainId)
   const { account } = useAccount({
     chainType: fromChain?.chainType,
   })
-  const isFromContractAddress = useIsContractAddress(
+  const { isContractAddress: isFromContractAddress } = useIsContractAddress(
     account.address,
     fromChainId,
     account.chainType
@@ -33,5 +37,6 @@ export const useToAddressRequirements = () => {
   return {
     requiredToAddress,
     requiredToChainType: toChain?.chainType,
+    toAddress,
   }
 }

@@ -23,7 +23,7 @@ export const useGasRefuel = () => {
 
   const effectiveToAddress = toAddress || toAccount?.address
 
-  const isToContractAddress = useIsContractAddress(
+  const { isContractAddress: isToContractAddress } = useIsContractAddress(
     effectiveToAddress,
     toChainId,
     toChain?.chainType

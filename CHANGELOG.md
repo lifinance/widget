@@ -2,6 +2,42 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.16.0](https://github.com/lifinance/widget/compare/v3.15.2...v3.16.0) (2025-02-01)
+
+
+### Features
+
+* add low activity wallet warning ([fb69217](https://github.com/lifinance/widget/commit/fb692176b87666dd37e18a72b11ad7b43901a6bf))
+
+### [3.15.2](https://github.com/lifinance/widget/compare/v3.15.1...v3.15.2) (2025-01-31)
+
+
+### Bug Fixes
+
+* hide required wallet info message when wallet is present ([#345](https://github.com/lifinance/widget/issues/345)) ([88b5e18](https://github.com/lifinance/widget/commit/88b5e189961afaed8e6902f114758886512fd980))
+
+### [3.15.1](https://github.com/lifinance/widget/compare/v3.15.0...v3.15.1) (2025-01-31)
+
+
+### Bug Fixes
+
+* improve funds loss warning message ([317f8b1](https://github.com/lifinance/widget/commit/317f8b131cfc0c685ebb5e4f4fe1a9828afa4a51))
+* include gas sufficiency message props ([2b29bd8](https://github.com/lifinance/widget/commit/2b29bd857a81733dfe61894fc446814be3b6c7b0))
+
+## [3.15.0](https://github.com/lifinance/widget/compare/v3.14.2...v3.15.0) (2025-01-30)
+
+
+### Features
+
+* improve warning messages ([#344](https://github.com/lifinance/widget/issues/344)) ([17e5a2b](https://github.com/lifinance/widget/commit/17e5a2b236e54590c83e1e6c279d04c45f9dcbef))
+
+### [3.14.2](https://github.com/lifinance/widget/compare/v3.14.1...v3.14.2) (2025-01-28)
+
+
+### Bug Fixes
+
+* validate address from URL params and bookmark it ([#343](https://github.com/lifinance/widget/issues/343)) ([688236e](https://github.com/lifinance/widget/commit/688236e6e374482155bcbab6d3a454a0cab9fa7f))
+
 ### [3.14.1](https://github.com/lifinance/widget/compare/v3.14.0...v3.14.1) (2025-01-23)
 
 
