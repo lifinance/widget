@@ -65,6 +65,10 @@ export const StepTimer: React.FC<{
     }
   }, [isExecutionStarted, isRunning, pause, reset, start, step])
 
+  if (step.execution?.status === 'DONE') {
+    return null
+  }
+
   if (!isExecutionStarted) {
     const showSeconds = step.estimate.executionDuration < 60
     const duration = showSeconds
@@ -79,13 +83,6 @@ export const StepTimer: React.FC<{
         })}
       </StepTimerContent>
     )
-  }
-
-  if (
-    step.execution?.status === 'DONE' ||
-    step.execution?.status === 'FAILED'
-  ) {
-    return null
   }
 
   return (
