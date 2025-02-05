@@ -18,11 +18,11 @@ export function useStopwatch({
   offsetTimestamp,
 }: UseStopwatchProps) {
   const [passedSeconds, setPassedSeconds] = useState(
-    getSecondsFromExpiry(offsetTimestamp, true) || 0
+    getSecondsFromPrevTime(offsetTimestamp, true) || 0
   )
   const [prevTime, setPrevTime] = useState(new Date())
   const [seconds, setSeconds] = useState(
-    passedSeconds + getSecondsFromPrevTime(prevTime || 0, true)
+    passedSeconds + getSecondsFromPrevTime(prevTime, true)
   )
   const [isRunning, setIsRunning] = useState(autoStart)
 
@@ -45,14 +45,17 @@ export function useStopwatch({
     setIsRunning(false)
   }, [seconds])
 
-  const reset = useCallback((offset = new Date(), newAutoStart = true) => {
-    const newPassedSeconds = getSecondsFromExpiry(offset, true) || 0
-    const newPrevTime = new Date()
-    setPrevTime(newPrevTime)
-    setPassedSeconds(newPassedSeconds)
-    setIsRunning(newAutoStart)
-    setSeconds(newPassedSeconds + getSecondsFromPrevTime(newPrevTime, true))
-  }, [])
+  const reset = useCallback(
+    (offset = offsetTimestamp, newAutoStart = true) => {
+      const newPassedSeconds = getSecondsFromExpiry(offset, true) || 0
+      const newPrevTime = new Date()
+      setPrevTime(newPrevTime)
+      setPassedSeconds(newPassedSeconds)
+      setIsRunning(newAutoStart)
+      setSeconds(newPassedSeconds + getSecondsFromPrevTime(newPrevTime, true))
+    },
+    [offsetTimestamp]
+  )
 
   return {
     ...getTimeFromSeconds(seconds),
