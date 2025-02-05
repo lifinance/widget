@@ -183,7 +183,9 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
       }) => {
         const fromAmount = parseUnits(fromTokenAmount, fromToken!.decimals)
         const toAmount = parseUnits(toTokenAmount, toToken!.decimals)
-        const formattedSlippage = Number.parseFloat(slippage) / 100
+        const formattedSlippage = slippage
+          ? Number.parseFloat(slippage) / 100
+          : defaultSlippage
 
         const allowBridges = swapOnly
           ? []

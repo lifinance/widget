@@ -17,6 +17,8 @@ import {
   SlippageLimitsWarningContainer,
 } from './SlippageSettings.style.js'
 
+const DEFAULT_CUSTOM_INPUT_VALUE = '2'
+
 export const SlippageSettings: React.FC = () => {
   const { t } = useTranslation()
   const { isSlippageOutsideRecommendedLimits, isSlippageChanged } =
@@ -27,12 +29,14 @@ export const SlippageSettings: React.FC = () => {
   const [focused, setFocused] = useState<'input' | 'button'>()
 
   const customInputValue =
-    !slippage || slippage === defaultSlippage ? '' : slippage
+    !slippage || slippage === defaultSlippage
+      ? DEFAULT_CUSTOM_INPUT_VALUE
+      : slippage
 
   const [inputValue, setInputValue] = useState(customInputValue)
 
   const handleDefaultClick = () => {
-    setValue('slippage', formatSlippage(defaultSlippage, defaultValue.current))
+    setValue('slippage', defaultSlippage)
   }
 
   const debouncedSetValue = useMemo(() => debounce(setValue, 500), [setValue])
@@ -56,13 +60,13 @@ export const SlippageSettings: React.FC = () => {
 
     const { value } = event.target
 
-    const formattedValue = formatSlippage(
-      value || defaultSlippage,
-      defaultValue.current
-    )
-    setInputValue(formattedValue === defaultSlippage ? '' : formattedValue)
+    const formattedValue = formatSlippage(value, defaultValue.current)
+    setInputValue(formattedValue)
 
-    setValue('slippage', formattedValue)
+    setValue(
+      'slippage',
+      formattedValue.length ? formattedValue : defaultSlippage
+    )
   }
 
   const badgeColor = isSlippageOutsideRecommendedLimits
@@ -74,10 +78,9 @@ export const SlippageSettings: React.FC = () => {
   return (
     <SettingCardExpandable
       value={
-        <BadgedValue
-          badgeColor={badgeColor}
-          showBadge={!!badgeColor}
-        >{`${slippage}%`}</BadgedValue>
+        <BadgedValue badgeColor={badgeColor} showBadge={!!badgeColor}>
+          {slippage ? `${slippage}%` : t('settings.defaultSlippage')}
+        </BadgedValue>
       }
       icon={<Percent />}
       title={t('settings.slippage')}
@@ -99,7 +102,7 @@ export const SlippageSettings: React.FC = () => {
             onClick={handleDefaultClick}
             disableRipple
           >
-            {defaultSlippage}
+            {t('settings.defaultSlippage')}
           </SlippageDefaultButton>
           <SlippageCustomInput
             selected={defaultSlippage !== slippage && focused !== 'button'}
