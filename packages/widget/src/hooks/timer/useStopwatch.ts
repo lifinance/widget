@@ -6,6 +6,8 @@ import {
   getTimeFromSeconds,
 } from './utils.js'
 
+const DEFAULT_DELAY = 1000
+
 interface UseStopwatchProps {
   offsetTimestamp: Date
   autoStart?: boolean
@@ -18,20 +20,13 @@ export function useStopwatch({
   offsetTimestamp,
 }: UseStopwatchProps) {
   const [passedSeconds, setPassedSeconds] = useState(
-    getSecondsFromPrevTime(offsetTimestamp, true) || 0
+    getSecondsFromExpiry(offsetTimestamp, true) || 0
   )
   const [prevTime, setPrevTime] = useState(new Date())
   const [seconds, setSeconds] = useState(
     passedSeconds + getSecondsFromPrevTime(prevTime, true)
   )
   const [isRunning, setIsRunning] = useState(autoStart)
-
-  useInterval(
-    () => {
-      setSeconds(passedSeconds + getSecondsFromPrevTime(prevTime, true))
-    },
-    isRunning ? 1000 : 0
-  )
 
   const start = useCallback(() => {
     const newPrevTime = new Date()
@@ -55,6 +50,13 @@ export function useStopwatch({
       setSeconds(newPassedSeconds + getSecondsFromPrevTime(newPrevTime, true))
     },
     [offsetTimestamp]
+  )
+
+  useInterval(
+    () => {
+      setSeconds(passedSeconds + getSecondsFromPrevTime(prevTime, true))
+    },
+    isRunning ? DEFAULT_DELAY : 0
   )
 
   return {

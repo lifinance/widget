@@ -37,7 +37,9 @@ export const StepTimer: React.FC<{
     if (!executionProcess) {
       return
     }
-    const shouldRestart = executionProcess.status === 'FAILED'
+
+    const shouldRestart =
+      executionProcess.status === 'FAILED' || executionProcess.status === 'DONE'
     const shouldPause = executionProcess.status === 'ACTION_REQUIRED'
     const shouldStart =
       executionProcess.status === 'STARTED' ||
@@ -45,20 +47,21 @@ export const StepTimer: React.FC<{
     const shouldResume = executionProcess.status === 'PENDING'
     if (isExecutionStarted && shouldRestart) {
       setExecutionStarted(false)
+      pause()
       return
     }
-    if (isExecutionStarted) {
+    if (isExecutionStarted && shouldPause && isRunning) {
+      pause()
+      return
+    }
+    if (isExecutionStarted && !isRunning && shouldResume) {
+      start()
       return
     }
     if (!isExecutionStarted && shouldStart) {
       setExecutionStarted(true)
       reset()
       return
-    }
-    if (isRunning && shouldPause) {
-      pause()
-    } else if (!isRunning && shouldResume) {
-      start()
     }
   }, [isExecutionStarted, isRunning, pause, reset, start, step])
 
