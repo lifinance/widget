@@ -17,12 +17,15 @@ import {
   SlippageLimitsWarningContainer,
 } from './SlippageSettings.style.js'
 
-const DEFAULT_CUSTOM_INPUT_VALUE = '2'
+const DEFAULT_CUSTOM_INPUT_VALUE = '1'
 
 export const SlippageSettings: React.FC = () => {
   const { t } = useTranslation()
-  const { isSlippageOutsideRecommendedLimits, isSlippageChanged } =
-    useSettingMonitor()
+  const {
+    isSlippageUnderRecommendedLimits,
+    isSlippageOutsideRecommendedLimits,
+    isSlippageChanged,
+  } = useSettingMonitor()
   const { slippage } = useSettings(['slippage'])
   const { setValue } = useSettingsActions()
   const defaultValue = useRef(slippage)
@@ -75,6 +78,16 @@ export const SlippageSettings: React.FC = () => {
       ? 'info'
       : undefined
 
+  const isSlippageNotRecommended = Boolean(
+    isSlippageOutsideRecommendedLimits || isSlippageUnderRecommendedLimits
+  )
+
+  const slippageWarningText = isSlippageOutsideRecommendedLimits
+    ? t('warning.message.slippageOutsideRecommendedLimits')
+    : isSlippageUnderRecommendedLimits
+      ? t('warning.message.slippageUnderRecommendedLimits')
+      : ''
+
   return (
     <SettingCardExpandable
       value={
@@ -119,7 +132,7 @@ export const SlippageSettings: React.FC = () => {
             autoComplete="off"
           />
         </SettingsFieldSet>
-        {isSlippageOutsideRecommendedLimits && (
+        {isSlippageNotRecommended && (
           <SlippageLimitsWarningContainer>
             <WarningRounded color="warning" />
             <Typography
@@ -128,7 +141,7 @@ export const SlippageSettings: React.FC = () => {
                 fontWeight: 400,
               }}
             >
-              {t('warning.message.slippageOutsideRecommendedLimits')}
+              {slippageWarningText}
             </Typography>
           </SlippageLimitsWarningContainer>
         )}

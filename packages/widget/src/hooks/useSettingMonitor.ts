@@ -33,7 +33,10 @@ export const useSettingMonitor = () => {
     : slippage !== defaultConfigurableSettings.slippage
 
   const isSlippageOutsideRecommendedLimits =
-    isSlippageChanged && Number(slippage) > 1
+    isSlippageChanged && slippage && Number(slippage) > 1
+
+  const isSlippageUnderRecommendedLimits =
+    isSlippageChanged && slippage && Number(slippage) < 0.1
 
   const isRoutePriorityChanged = config.routePriority
     ? routePriority !== config.routePriority
@@ -69,6 +72,7 @@ export const useSettingMonitor = () => {
     isExchangesChanged,
     isSlippageChanged,
     isSlippageOutsideRecommendedLimits,
+    isSlippageUnderRecommendedLimits,
     isRoutePriorityChanged,
     isGasPriceChanged,
     isCustomRouteSettings,
