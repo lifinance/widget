@@ -1,21 +1,18 @@
 import type { LiFiStepExtended } from '@lifi/sdk'
-import { AccessTimeFilled } from '@mui/icons-material'
-import { Box, Tooltip } from '@mui/material'
-import { type FC, type PropsWithChildren, useEffect, useState } from 'react'
+import {} from '@mui/material'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useStopwatch } from '../../hooks/timer/useStopwatch.js'
-import { IconTypography } from '../IconTypography.js'
+import { TimerContent } from './TimerContent.js'
+
+const getFirstExecutionProcess = (step: LiFiStepExtended) =>
+  step.execution?.process.at(0)
 
 const getExecutionProcess = (step: LiFiStepExtended) =>
-  step.execution?.process.findLast(
-    (process) =>
-      process.type === 'SWAP' ||
-      process.type === 'CROSS_CHAIN' ||
-      process.type === 'RECEIVING_CHAIN'
-  )
+  step.execution?.process.at(-1)
 
 const getStartTimestamp = (step: LiFiStepExtended) =>
-  new Date(getExecutionProcess(step)?.startedAt ?? Date.now())
+  new Date(getFirstExecutionProcess(step)?.startedAt ?? Date.now())
 
 export const StepTimer: React.FC<{
   step: LiFiStepExtended
@@ -28,7 +25,7 @@ export const StepTimer: React.FC<{
   )
 
   const { seconds, minutes, isRunning, pause, reset, start } = useStopwatch({
-    autoStart: false,
+    autoStart: true,
     offsetTimestamp: getStartTimestamp(step),
   })
 
@@ -40,17 +37,12 @@ export const StepTimer: React.FC<{
 
     const shouldRestart =
       executionProcess.status === 'FAILED' || executionProcess.status === 'DONE'
-    const shouldPause = executionProcess.status === 'ACTION_REQUIRED'
     const shouldStart =
       executionProcess.status === 'STARTED' ||
       executionProcess.status === 'PENDING'
     const shouldResume = executionProcess.status === 'PENDING'
     if (isExecutionStarted && shouldRestart) {
       setExecutionStarted(false)
-      pause()
-      return
-    }
-    if (isExecutionStarted && shouldPause && isRunning) {
       pause()
       return
     }
@@ -75,48 +67,19 @@ export const StepTimer: React.FC<{
       ? Math.floor(step.estimate.executionDuration)
       : Math.floor(step.estimate.executionDuration / 60)
     return (
-      <StepTimerContent>
+      <TimerContent>
         {duration.toLocaleString(i18n.language, {
           style: 'unit',
           unit: showSeconds ? 'second' : 'minute',
           unitDisplay: 'narrow',
         })}
-      </StepTimerContent>
+      </TimerContent>
     )
   }
 
   return (
-    <StepTimerContent>
+    <TimerContent>
       {`${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`}
-    </StepTimerContent>
-  )
-}
-
-const StepTimerContent: FC<PropsWithChildren> = ({ children }) => {
-  const { t } = useTranslation()
-  return (
-    <Tooltip title={t('tooltip.estimatedTime')} sx={{ cursor: 'help' }}>
-      <Box
-        component="span"
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          height: 14,
-        }}
-      >
-        <IconTypography as="span" sx={{ marginRight: 0.5, fontSize: 16 }}>
-          <AccessTimeFilled fontSize="inherit" />
-        </IconTypography>
-        <Box
-          component="span"
-          sx={{
-            fontVariantNumeric: 'tabular-nums',
-            cursor: 'help',
-          }}
-        >
-          {children}
-        </Box>
-      </Box>
-    </Tooltip>
+    </TimerContent>
   )
 }

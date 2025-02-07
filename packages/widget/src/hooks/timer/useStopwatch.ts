@@ -1,10 +1,6 @@
 import { useCallback, useState } from 'react'
 import { useInterval } from './useInterval.js'
-import {
-  getSecondsFromExpiry,
-  getSecondsFromPrevTime,
-  getTimeFromSeconds,
-} from './utils.js'
+import { getSecondsFromPrevTime, getTimeFromSeconds } from './utils.js'
 
 const DEFAULT_DELAY = 1000
 
@@ -20,7 +16,7 @@ export function useStopwatch({
   offsetTimestamp,
 }: UseStopwatchProps) {
   const [passedSeconds, setPassedSeconds] = useState(
-    getSecondsFromExpiry(offsetTimestamp, true) || 0
+    getSecondsFromPrevTime(offsetTimestamp, true) || 0
   )
   const [prevTime, setPrevTime] = useState(new Date())
   const [seconds, setSeconds] = useState(
@@ -42,7 +38,7 @@ export function useStopwatch({
 
   const reset = useCallback(
     (offset = offsetTimestamp, newAutoStart = true) => {
-      const newPassedSeconds = getSecondsFromExpiry(offset, true) || 0
+      const newPassedSeconds = getSecondsFromPrevTime(offset, true) || 0
       const newPrevTime = new Date()
       setPrevTime(newPrevTime)
       setPassedSeconds(newPassedSeconds)
