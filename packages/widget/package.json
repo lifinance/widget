@@ -58,6 +58,7 @@
     "@mui/icons-material": "6.0.2",
     "@mui/material": "^6.4.2",
     "@mui/system": "^6.4.2",
+    "@mysten/sui": "^1.21.2",
     "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/web3.js": "^1.98.0",
     "@tanstack/react-virtual": "^3.11.3",
