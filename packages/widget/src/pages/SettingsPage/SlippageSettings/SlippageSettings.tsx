@@ -17,7 +17,7 @@ import {
   SlippageLimitsWarningContainer,
 } from './SlippageSettings.style.js'
 
-const DEFAULT_CUSTOM_INPUT_VALUE = '1'
+const DEFAULT_CUSTOM_INPUT_VALUE = '0.5'
 
 export const SlippageSettings: React.FC = () => {
   const { t } = useTranslation()
@@ -58,8 +58,8 @@ export const SlippageSettings: React.FC = () => {
     [debouncedSetValue]
   )
 
-  const handleInputBlur: FocusEventHandler<HTMLInputElement> = (event) => {
-    setFocused(undefined)
+  const handleInputFocus: FocusEventHandler<HTMLInputElement> = (event) => {
+    setFocused('input')
 
     const { value } = event.target
 
@@ -72,15 +72,15 @@ export const SlippageSettings: React.FC = () => {
     )
   }
 
-  const badgeColor = isSlippageOutsideRecommendedLimits
+  const isSlippageNotRecommended = Boolean(
+    isSlippageOutsideRecommendedLimits || isSlippageUnderRecommendedLimits
+  )
+
+  const badgeColor = isSlippageNotRecommended
     ? 'warning'
     : isSlippageChanged
       ? 'info'
       : undefined
-
-  const isSlippageNotRecommended = Boolean(
-    isSlippageOutsideRecommendedLimits || isSlippageUnderRecommendedLimits
-  )
 
   const slippageWarningText = isSlippageOutsideRecommendedLimits
     ? t('warning.message.slippageOutsideRecommendedLimits')
@@ -124,10 +124,7 @@ export const SlippageSettings: React.FC = () => {
               inputMode: 'decimal',
             }}
             onChange={handleInputUpdate}
-            onFocus={() => {
-              setFocused('input')
-            }}
-            onBlur={handleInputBlur}
+            onFocus={handleInputFocus}
             value={inputValue}
             autoComplete="off"
           />
