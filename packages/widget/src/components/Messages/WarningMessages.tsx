@@ -1,16 +1,21 @@
+import type { Route } from '@lifi/sdk'
 import type { BoxProps } from '@mui/material'
 import { Collapse } from '@mui/material'
-import { useRoutes } from '../../hooks/useRoutes.js'
 import { AccountNotDeployedMessage } from './AccountNotDeployedMessage.js'
 import { FundsSufficiencyMessage } from './FundsSufficiencyMessage.js'
 import { GasSufficiencyMessage } from './GasSufficiencyMessage.js'
 import { ToAddressRequiredMessage } from './ToAddressRequiredMessage.js'
 import { useMessageQueue } from './useMessageQueue.js'
 
-export const MainMessages: React.FC<BoxProps> = (props) => {
-  const { routes } = useRoutes()
-  const currentRoute = routes?.[0]
-  const { currentMessage, hasMessages } = useMessageQueue(currentRoute)
+type WarningMessagesProps = BoxProps & {
+  route?: Route
+}
+
+export const WarningMessages: React.FC<WarningMessagesProps> = ({
+  route,
+  ...props
+}) => {
+  const { currentMessage, hasMessages } = useMessageQueue(route)
 
   const getMessage = () => {
     switch (currentMessage?.id) {
