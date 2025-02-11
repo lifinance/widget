@@ -22,6 +22,7 @@ const DEFAULT_CUSTOM_INPUT_VALUE = '0.5'
 export const SlippageSettings: React.FC = () => {
   const { t } = useTranslation()
   const {
+    isSlippageNotRecommended,
     isSlippageUnderRecommendedLimits,
     isSlippageOutsideRecommendedLimits,
     isSlippageChanged,
@@ -52,7 +53,7 @@ export const SlippageSettings: React.FC = () => {
 
       debouncedSetValue(
         'slippage',
-        formatSlippage(value || defaultSlippage, defaultValue.current, true)
+        formatSlippage(value || defaultSlippage, defaultValue.current)
       )
     },
     [debouncedSetValue]
@@ -71,10 +72,6 @@ export const SlippageSettings: React.FC = () => {
       formattedValue.length ? formattedValue : defaultSlippage
     )
   }
-
-  const isSlippageNotRecommended = Boolean(
-    isSlippageOutsideRecommendedLimits || isSlippageUnderRecommendedLimits
-  )
 
   const badgeColor = isSlippageNotRecommended
     ? 'warning'
