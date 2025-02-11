@@ -1,5 +1,4 @@
 import type { LiFiStepExtended } from '@lifi/sdk'
-import {} from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useStopwatch } from '../../hooks/timer/useStopwatch.js'
