@@ -89,7 +89,7 @@ export const SlippageSettings: React.FC = () => {
     <SettingCardExpandable
       value={
         <BadgedValue badgeColor={badgeColor} showBadge={!!badgeColor}>
-          {slippage ? `${slippage}%` : t('settings.defaultSlippage')}
+          {slippage ? `${slippage}%` : t('button.auto')}
         </BadgedValue>
       }
       icon={<Percent />}
@@ -112,7 +112,7 @@ export const SlippageSettings: React.FC = () => {
             onClick={handleDefaultClick}
             disableRipple
           >
-            {t('settings.defaultSlippage')}
+            {t('button.auto')}
           </SlippageDefaultButton>
           <SlippageCustomInput
             selected={defaultSlippage !== slippage && focused !== 'button'}

@@ -307,7 +307,6 @@
     },
     "routePriority": "Route priority",
     "slippage": "Max. slippage",
-    "defaultSlippage": "Auto",
     "custom": "Custom",
     "resetSettings": "You're using custom settings that can affect the number or sorting of available routes."
   },
