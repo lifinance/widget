@@ -8,6 +8,7 @@ import { RouteCard } from '../../components/RouteCard/RouteCard.js'
 import { RouteCardSkeleton } from '../../components/RouteCard/RouteCardSkeleton.js'
 import { RouteNotFoundCard } from '../../components/RouteCard/RouteNotFoundCard.js'
 import { useHeader } from '../../hooks/useHeader.js'
+import { useIsCompatibleDestinationAccount } from '../../hooks/useIsCompatibleDestinationAccount.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { useRoutes } from '../../hooks/useRoutes.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
@@ -18,6 +19,7 @@ import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { Stack } from './RoutesPage.style.js'
 
 export const RoutesPage: React.FC<BoxProps> = () => {
+  const { t } = useTranslation()
   const { navigate } = useNavigateBack()
   const emitter = useWidgetEvents()
   const {
@@ -33,8 +35,7 @@ export const RoutesPage: React.FC<BoxProps> = () => {
   const { account } = useAccount({ chainType: fromChain?.chainType })
   const [toAddress] = useFieldValues('toAddress')
   const { requiredToAddress } = useToAddressRequirements()
-
-  const { t } = useTranslation()
+  const { isCompatibleDestinationAccount } = useIsCompatibleDestinationAccount()
 
   const headerAction = useMemo(
     () => (
@@ -65,7 +66,9 @@ export const RoutesPage: React.FC<BoxProps> = () => {
 
   const routeNotFound = !routes?.length && !isLoading && !isFetching
 
-  const toAddressUnsatisfied = routes?.[0] && requiredToAddress && !toAddress
+  const toAddressUnsatisfied =
+    (routes?.[0] && requiredToAddress && !toAddress) ||
+    !isCompatibleDestinationAccount
   const allowInteraction = account.isConnected && !toAddressUnsatisfied
 
   return (

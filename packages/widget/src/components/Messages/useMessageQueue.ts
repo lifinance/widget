@@ -12,10 +12,15 @@ interface QueuedMessage {
 }
 
 export const useMessageQueue = (route?: Route) => {
-  const { requiredToAddress, toAddress } = useToAddressRequirements()
-  const { isCompatibleDestinationAccount } = useIsCompatibleDestinationAccount()
-  const { insufficientFromToken } = useFromTokenSufficiency(route)
-  const { insufficientGas } = useGasSufficiency(route)
+  const { requiredToAddress, toAddress } = useToAddressRequirements(route)
+  const {
+    isCompatibleDestinationAccount,
+    isLoading: isCompatibleDestinationAccountLoading,
+  } = useIsCompatibleDestinationAccount(route)
+  const { insufficientFromToken, isLoading: isFromTokenSufficiencyLoading } =
+    useFromTokenSufficiency(route)
+  const { insufficientGas, isLoading: isGasSufficiencyLoading } =
+    useGasSufficiency(route)
 
   const messageQueue = useMemo(() => {
     const queue: QueuedMessage[] = []
@@ -61,5 +66,9 @@ export const useMessageQueue = (route?: Route) => {
   return {
     currentMessage: messageQueue[0],
     hasMessages: messageQueue.length > 0,
+    isLoading:
+      isGasSufficiencyLoading ||
+      isFromTokenSufficiencyLoading ||
+      isCompatibleDestinationAccountLoading,
   }
 }
