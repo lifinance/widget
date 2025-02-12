@@ -41,47 +41,46 @@ export const TransactionHistoryPage: React.FC = () => {
   }
 
   return (
-    <PageContainer disableGutters>
-      <Box style={{ minHeight: minTransactionListHeight }}>
-        <Box
-          ref={parentRef}
-          style={{
-            height: listHeight,
-          }}
-          sx={{
-            overflow: 'auto',
-            paddingX: 4,
-          }}
-        >
-          {isLoading ? (
-            <List disablePadding>
-              {Array.from({ length: 3 }).map((_, index) => (
-                <TransactionHistoryItemSkeleton key={index} />
-              ))}
-            </List>
-          ) : (
-            <List
-              style={{
-                height: `${getTotalSize()}px`,
-              }}
-              sx={{
-                position: 'relative',
-              }}
-              disablePadding
-            >
-              {getVirtualItems().map((item) => {
-                const transaction = transactions[item.index]
-                return (
-                  <TransactionHistoryItem
-                    key={item.key}
-                    start={item.start}
-                    transaction={transaction}
-                  />
-                )
-              })}
-            </List>
-          )}
-        </Box>
+    <PageContainer
+      disableGutters
+      style={{ minHeight: minTransactionListHeight }}
+    >
+      <Box
+        ref={parentRef}
+        style={{
+          height: listHeight,
+        }}
+        sx={{
+          overflow: 'auto',
+          paddingX: 3,
+        }}
+      >
+        {isLoading ? (
+          <List disablePadding>
+            {Array.from({ length: 3 }).map((_, index) => (
+              <TransactionHistoryItemSkeleton key={index} />
+            ))}
+          </List>
+        ) : (
+          <List
+            style={{
+              height: getTotalSize(),
+              position: 'relative',
+            }}
+            disablePadding
+          >
+            {getVirtualItems().map((item) => {
+              const transaction = transactions[item.index]
+              return (
+                <TransactionHistoryItem
+                  key={item.key}
+                  start={item.start}
+                  transaction={transaction}
+                />
+              )
+            })}
+          </List>
+        )}
       </Box>
     </PageContainer>
   )
