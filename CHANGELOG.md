@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.16.1](https://github.com/lifinance/widget/compare/v3.16.0...v3.16.1) (2025-02-11)
+
+
+### Bug Fixes
+
+* improve SCA as destination flow ([#350](https://github.com/lifinance/widget/issues/350)) ([c58e5dd](https://github.com/lifinance/widget/commit/c58e5dd5835f8b25411f9b33070c914702f659ab))
+* replace lifuel protocol with gasZip ([#347](https://github.com/lifinance/widget/issues/347)) ([8b4bdf2](https://github.com/lifinance/widget/commit/8b4bdf24936c01f4efd24f8a370262992cd545a0))
+* restrict 2-step routes if account is not deployed on destination… ([#346](https://github.com/lifinance/widget/issues/346)) ([bf48c3c](https://github.com/lifinance/widget/commit/bf48c3c0ed5501bc720dfa8003f1b0ffd3ec571d))
+
 ## [3.16.0](https://github.com/lifinance/widget/compare/v3.15.2...v3.16.0) (2025-02-01)
 
 

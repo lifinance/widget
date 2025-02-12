@@ -77,7 +77,8 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
   const { token: toToken } = useToken(toChainId, toTokenAddress)
   const { chain: fromChain } = useChain(fromChainId)
   const { chain: toChain } = useChain(toChainId)
-  const { isCompatibleDestinationAccount } = useIsCompatibleDestinationAccount()
+  const { isCompatibleDestinationAccount } =
+    useIsCompatibleDestinationAccount(observableRoute)
   const { enabled: enabledRefuel, fromAmount: gasRecommendationFromAmount } =
     useGasRefuel()
 

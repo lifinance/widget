@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
-import { GasMessage } from '../../components/Messages/GasMessage.js'
+import { WarningMessages } from '../../components/Messages/WarningMessages.js'
 import { PageContainer } from '../../components/PageContainer.js'
 import { getStepList } from '../../components/Step/StepList.js'
 import { TransactionDetails } from '../../components/TransactionDetails.js'
@@ -207,7 +207,7 @@ export const TransactionPage: React.FC = () => {
       {status === RouteExecutionStatus.Idle ||
       status === RouteExecutionStatus.Failed ? (
         <>
-          <GasMessage mt={2} route={route} />
+          <WarningMessages mt={2} route={route} />
           <Box
             sx={{
               mt: 2,
