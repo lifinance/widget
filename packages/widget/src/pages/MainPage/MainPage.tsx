@@ -4,7 +4,6 @@ import { ActiveTransactions } from '../../components/ActiveTransactions/ActiveTr
 import { AmountInput } from '../../components/AmountInput/AmountInput.js'
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
 import { GasRefuelMessage } from '../../components/Messages/GasRefuelMessage.js'
-import { MainMessages } from '../../components/Messages/MainMessages.js'
 import { PageContainer } from '../../components/PageContainer.js'
 import { PoweredBy } from '../../components/PoweredBy/PoweredBy.js'
 import { Routes } from '../../components/Routes/Routes.js'
@@ -15,6 +14,7 @@ import { useHeader } from '../../hooks/useHeader.js'
 import { useWideVariant } from '../../hooks/useWideVariant.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { HiddenUI } from '../../types/widget.js'
+import { MainWarningMessages } from './MainWarningMessages.js'
 import { ReviewButton } from './ReviewButton.js'
 
 export const MainPage: React.FC = () => {
@@ -49,7 +49,7 @@ export const MainPage: React.FC = () => {
       {!wideVariant ? <Routes sx={marginSx} /> : null}
       <SendToWalletButton sx={marginSx} />
       <GasRefuelMessage mb={2} />
-      <MainMessages mb={2} />
+      <MainWarningMessages mb={2} />
       <Box
         sx={{
           display: 'flex',
