@@ -49,11 +49,12 @@ export const SlippageSettings: React.FC = () => {
     (event) => {
       const { value } = event.target
 
-      setInputValue(formatSlippage(value, defaultValue.current, true))
+      const formattedValue = formatSlippage(value, defaultValue.current, true)
 
+      setInputValue(formattedValue)
       debouncedSetValue(
         'slippage',
-        formatSlippage(value || defaultSlippage, defaultValue.current)
+        formattedValue.length ? formattedValue : defaultSlippage
       )
     },
     [debouncedSetValue]
@@ -124,6 +125,7 @@ export const SlippageSettings: React.FC = () => {
             onFocus={handleInputFocus}
             value={inputValue}
             autoComplete="off"
+            onBlur={() => setFocused(undefined)}
           />
         </SettingsFieldSet>
         {isSlippageNotRecommended && (
