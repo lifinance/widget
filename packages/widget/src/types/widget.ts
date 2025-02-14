@@ -144,7 +144,7 @@ export interface CalculateFeeParams {
   toAddress?: string
   fromAmount?: bigint
   toAmount?: bigint
-  slippage: number
+  slippage?: number
 }
 
 export interface WidgetFeeConfig {
