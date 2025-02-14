@@ -12,22 +12,22 @@
   "dependencies": {
     "@lifi/sdk": "^3.5.2",
     "@lifi/widget": "workspace:^",
-    "@mui/material": "^6.4.2",
-    "@tanstack/react-query": "^5.65.1",
+    "@mui/material": "^6.4.3",
+    "@tanstack/react-query": "^5.66.0",
     "events": "^3.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "viem": "^2.22.17",
-    "wagmi": "^2.14.9"
+    "viem": "^2.23.1",
+    "wagmi": "^2.14.11"
   },
   "devDependencies": {
     "@types/events": "^3.0.3",
-    "@types/node": "^22.12.0",
+    "@types/node": "^22.13.1",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
     "typescript": "^5.7.3",
-    "vite": "^6.0.11",
+    "vite": "^6.1.0",
     "vite-plugin-node-polyfills": "^0.23.0"
   }
 }

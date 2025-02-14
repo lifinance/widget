@@ -22,14 +22,16 @@ export const useGasSufficiency = (route?: RouteExtended) => {
     chainType: getChainById(route?.fromChainId)?.chainType,
   })
 
-  const { isContractAddress } = useIsContractAddress(
-    account.address,
-    route?.fromChainId,
-    account.chainType
-  )
+  const { isContractAddress, isLoading: isContractAddressLoading } =
+    useIsContractAddress(account.address, route?.fromChainId, account.chainType)
 
   const { data: insufficientGas, isLoading } = useQuery({
-    queryKey: ['gas-sufficiency-check', account.address, route?.id],
+    queryKey: [
+      'gas-sufficiency-check',
+      account.address,
+      route?.id,
+      isContractAddress,
+    ] as const,
     queryFn: async ({ queryKey: [, accountAddress] }) => {
       if (!route) {
         return
@@ -136,7 +138,12 @@ export const useGasSufficiency = (route?: RouteExtended) => {
       return gasCostResult
     },
 
-    enabled: Boolean(!isContractAddress && account.address && route),
+    enabled: Boolean(
+      !isContractAddress &&
+        !isContractAddressLoading &&
+        account.address &&
+        route
+    ),
     refetchInterval,
     staleTime: refetchInterval,
   })

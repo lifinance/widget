@@ -244,6 +244,7 @@ export interface WidgetConfig {
   hiddenUI?: HiddenUIType[]
   requiredUI?: RequiredUIType[]
   useRecommendedRoute?: boolean
+  useRelayerRoutes?: boolean
 
   walletConfig?: WidgetWalletConfig
   sdkConfig?: WidgetSDKConfig
