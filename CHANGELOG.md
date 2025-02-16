@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.17.0](https://github.com/lifinance/widget/compare/v3.16.1...v3.17.0) (2025-02-16)
+
+
+### Features
+
+* add option to hide reverse tokens button ([#352](https://github.com/lifinance/widget/issues/352)) ([bd4b882](https://github.com/lifinance/widget/commit/bd4b8824d0a4d02e506fcca51ba55a74df44f1eb))
+* **timer:**  counts up instead of countdown ([#348](https://github.com/lifinance/widget/issues/348)) ([6c9d22e](https://github.com/lifinance/widget/commit/6c9d22e8b1bf4cc3228d1534aae6b81120000da4))
+* widget auto slippage mode ([#349](https://github.com/lifinance/widget/issues/349)) ([580ce06](https://github.com/lifinance/widget/commit/580ce067f26fe0122a2ef14f6b0783b232148775))
+
+
+### Bug Fixes
+
+* transaction history page virtualization ([#351](https://github.com/lifinance/widget/issues/351)) ([257a581](https://github.com/lifinance/widget/commit/257a581f6794e309d9d05f8156e359ec9d59d0fa))
+
 ### [3.16.1](https://github.com/lifinance/widget/compare/v3.16.0...v3.16.1) (2025-02-11)
 
 
