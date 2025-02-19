@@ -28,6 +28,5 @@
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "biomejs.biome"
-  },
-  "editor.formatOnSaveMode": "file"
+  }
 }
