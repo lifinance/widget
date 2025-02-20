@@ -5,28 +5,31 @@ import { SolanaAdapter } from '@reown/appkit-adapter-solana'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import type { AppKitNetwork } from '@reown/appkit-common'
 import { bitcoin, solana } from '@reown/appkit/networks'
-import { createAppKit } from '@reown/appkit/react'
+import { type AppKit, createAppKit } from '@reown/appkit/react'
 import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets'
-import { useRef } from 'react'
-import { type Config, type CreateConnectorFn, WagmiProvider } from 'wagmi'
+import { useEffect, useRef } from 'react'
+import { WagmiProvider } from 'wagmi'
 import { metadata, projectId } from '../config/appkit'
-import { chainToAppKitNetworks } from '../utils/appkit'
+import { chainToAppKitNetworks, getChainImagesConfig } from '../utils/appkit'
 import { SolanaProvider, emitter } from './SolanaProvider'
-
-const connectors: CreateConnectorFn[] = []
 
 export function WalletProvider({
   children,
   chains,
 }: { children: React.ReactNode; chains: ExtendedChain[] }) {
-  const wagmi = useRef<Config | undefined>(undefined)
+  const wagmi = useRef<WagmiAdapter | undefined>(undefined)
+  const modal = useRef<AppKit | undefined>(undefined)
+
   const networks: [AppKitNetwork, ...AppKitNetwork[]] = [solana, bitcoin]
 
-  if (!wagmi.current) {
-    const evmNetworks = chainToAppKitNetworks(
-      chains.filter((chain) => chain.chainType === ChainType.EVM)
+  if (!wagmi.current || !modal.current) {
+    const evmChains = chains.filter(
+      (chain) => chain.chainType === ChainType.EVM
     )
+    const evmNetworks = chainToAppKitNetworks(evmChains)
     networks.push(...evmNetworks)
+
+    const chainImages = getChainImagesConfig(evmChains)
 
     const wagmiAdapter = new WagmiAdapter({
       networks: evmNetworks,
@@ -47,29 +50,41 @@ export function WalletProvider({
       networks,
       projectId,
       metadata,
+      chainImages,
       themeMode: 'light',
     })
 
-    appKit.subscribeCaipNetworkChange((caipNetwork) => {
-      if (caipNetwork) {
-        const { chainNamespace } = caipNetwork
-        if (chainNamespace === 'solana') {
-          const connectors = appKit.getConnectors(chainNamespace)
-          // there's no way to get the active connector from appKit yet.
-          emitter.emit('connect', connectors[0].name)
-        } else {
-          emitter.emit('disconnect')
-        }
-      }
-    })
-
-    wagmi.current = wagmiAdapter.wagmiConfig
+    wagmi.current = wagmiAdapter
+    modal.current = appKit
   }
 
-  useSyncWagmiConfig(wagmi.current, connectors, chains)
+  const { wagmiConfig } = wagmi.current
+
+  useSyncWagmiConfig(wagmiConfig, [], chains)
+
+  useEffect(() => {
+    const appKit = modal.current
+    if (appKit) {
+      const unsubscribe = appKit.subscribeNetwork((network) => {
+        if (network.caipNetwork) {
+          const { chainNamespace } = network.caipNetwork
+          if (chainNamespace === 'solana') {
+            const connectors = appKit.getConnectors(chainNamespace)
+            // We use the first connector in the list as there's no way to get the active connector from appKit yet.
+            emitter.emit('connect', connectors[0].name)
+          } else {
+            emitter.emit('disconnect')
+          }
+          appKit.close()
+        }
+      })
+
+      return () => unsubscribe()
+    }
+  }, [])
 
   return (
-    <WagmiProvider config={wagmi.current} reconnectOnMount={false}>
+    <WagmiProvider config={wagmiConfig} reconnectOnMount={false}>
       {children}
     </WagmiProvider>
   )
@@ -81,15 +96,13 @@ export function SyncedWalletProvider({
   // fetch available chains before rendering the WalletProvider
   const { chains, isLoading } = useAvailableChains()
 
-  if (!chains && isLoading) {
+  if (!chains || isLoading) {
     return null
   }
 
   return (
-    chains && (
-      <WalletProvider chains={chains}>
-        <SolanaProvider>{children}</SolanaProvider>
-      </WalletProvider>
-    )
+    <WalletProvider chains={chains}>
+      <SolanaProvider>{children}</SolanaProvider>
+    </WalletProvider>
   )
 }

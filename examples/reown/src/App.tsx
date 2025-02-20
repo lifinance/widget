@@ -10,6 +10,7 @@ function App() {
     <main>
       <QueryClientProvider client={queryClient}>
         <SyncedWalletProvider>
+          {/* Rest of your app goes here */}
           <WalletHeader />
           <LiFiWidget
             integrator="vite-example"
