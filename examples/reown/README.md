@@ -25,8 +25,6 @@ The widget uses the wagmi library to interact with wallets, AppKit supports wagm
 ### Solana
 We sync the solana connections by listening for connection events in the `SolanaProvider`, and emitting those events when the AppKit network connected or disconnected from solana.
 
-## Your App
-
 ## React + TypeScript + Vite
 This example was setup with the React + Typescript + Vite template.
 

@@ -100,6 +100,10 @@ export function SyncedWalletProvider({
     return null
   }
 
+  if (!chains.length) {
+    return null
+  }
+
   return (
     <WalletProvider chains={chains}>
       <SolanaProvider>{children}</SolanaProvider>
