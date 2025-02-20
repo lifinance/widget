@@ -20,9 +20,8 @@ export function WalletProvider({
   const wagmi = useRef<WagmiAdapter | undefined>(undefined)
   const modal = useRef<AppKit | undefined>(undefined)
 
-  const networks: [AppKitNetwork, ...AppKitNetwork[]] = [solana, bitcoin]
-
   if (!wagmi.current || !modal.current) {
+    const networks: [AppKitNetwork, ...AppKitNetwork[]] = [solana, bitcoin]
     const evmChains = chains.filter(
       (chain) => chain.chainType === ChainType.EVM
     )
