@@ -72,14 +72,14 @@ export function WalletProvider({
             const connectors = appKit.getConnectors(chainNamespace)
             // We use the first connector in the list as there's no way to get the active connector from appKit yet.
             emitter.emit('connect', connectors[0].name)
-          } else {
-            emitter.emit('disconnect')
           }
-          appKit.close()
         }
       })
 
-      return () => unsubscribe()
+      return () => {
+        emitter.emit('disconnect')
+        unsubscribe()
+      }
     }
   }, [])
 
