@@ -9,9 +9,10 @@ import { WagmiProvider } from '@privy-io/wagmi'
 import { QueryClientProvider } from '@tanstack/react-query'
 import type { FC, PropsWithChildren } from 'react'
 import { type Chain, mainnet } from 'viem/chains'
-import { PRIVY_APP_ID, privyConfig } from '../config/privy'
+import { PRIVY_APP_ID, PRIVY_CLIENT_ID, privyConfig } from '../config/privy'
 import { queryClient } from '../config/queryClient'
 import { wagmiConfig } from '../config/wagmi'
+import { SolanaProvider } from './SolanaProvider'
 
 export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   const { chains } = useAvailableChains()
@@ -25,6 +26,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   return (
     <PrivyProvider
       appId={PRIVY_APP_ID}
+      clientId={PRIVY_CLIENT_ID}
       config={{
         ...privyConfig,
         defaultChain: mainnet,
@@ -32,9 +34,11 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
       }}
     >
       <QueryClientProvider client={queryClient}>
-        <WagmiProvider config={wagmiConfig} reconnectOnMount={false}>
-          {children}
-        </WagmiProvider>
+        <SolanaProvider>
+          <WagmiProvider config={wagmiConfig} reconnectOnMount={false}>
+            {children}
+          </WagmiProvider>
+        </SolanaProvider>
       </QueryClientProvider>
     </PrivyProvider>
   )
