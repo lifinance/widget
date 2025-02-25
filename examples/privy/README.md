@@ -2,7 +2,7 @@
 This project shows an example of how to use the LI.FI widget with the Privy wallet.
 
 ## Requirements
-1. [A Privy app ID]('https://dashboard.privy.io')
+1. [A Privy app ID and client ID]('https://dashboard.privy.io')
 
 ## Installation
 1. Clone this repo
