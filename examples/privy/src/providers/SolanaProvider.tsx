@@ -11,7 +11,7 @@ import { type FC, type PropsWithChildren, useEffect } from 'react'
 
 const endpoint = clusterApiUrl(WalletAdapterNetwork.Mainnet)
 /**
- * Can be empty because wallets from Reown will be used
+ * Can be empty because wallets from Privy will be used
  */
 const wallets: Adapter[] = []
 
@@ -32,14 +32,14 @@ export const SolanaProvider: FC<PropsWithChildren> = ({ children }) => {
         localStorageKey={SolanaConnectedWalletKey}
         autoConnect
       >
-        <SolanaReownHandler />
+        <SolanaHandler />
         {children}
       </WalletProvider>
     </ConnectionProvider>
   )
 }
 
-export const SolanaReownHandler: FC = () => {
+export const SolanaHandler: FC = () => {
   const { disconnect, select } = useWallet()
   useEffect(() => {
     emitter.on('connect', async (connectorName) => {

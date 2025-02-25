@@ -2,9 +2,7 @@ import type { PrivyClientConfig } from '@privy-io/react-auth'
 
 import { toSolanaWalletConnectors } from '@privy-io/react-auth/solana'
 
-const solanaConnectors = toSolanaWalletConnectors({
-  shouldAutoConnect: true,
-})
+const solanaConnectors = toSolanaWalletConnectors()
 
 export const privyConfig: PrivyClientConfig = {
   embeddedWallets: {

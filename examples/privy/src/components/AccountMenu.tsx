@@ -1,5 +1,7 @@
+import AddLinkIcon from '@mui/icons-material/AddLink'
+import AlternateEmailIcon from '@mui/icons-material/AlternateEmail'
+import FingerPrintIcon from '@mui/icons-material/FingerPrint'
 import Logout from '@mui/icons-material/Logout'
-import PersonAdd from '@mui/icons-material/PersonAdd'
 import WalletIcon from '@mui/icons-material/Wallet'
 import {
   Divider,
@@ -8,6 +10,7 @@ import {
   ListSubheader,
   Menu,
   MenuItem,
+  MenuList,
 } from '@mui/material'
 import {
   type ConnectedSolanaWallet,
@@ -32,7 +35,9 @@ type AccountMenuProps = {
 type ConnectedWalletType = ConnectedSolanaWallet | ConnectedWallet
 
 export function AccountMenu({ handleClose, anchorEl, open }: AccountMenuProps) {
-  const { user, logout, ready } = usePrivy()
+  const { user, logout, ready, linkEmail, linkPasskey } = usePrivy()
+
+  // manage user wallets
   const { connectWallet } = useConnectWallet({
     onSuccess: ({ wallet }) => {
       if (wallet.type === 'solana') {
@@ -40,15 +45,17 @@ export function AccountMenu({ handleClose, anchorEl, open }: AccountMenuProps) {
       }
     },
   })
-  const { wallets, ready: walletsReady } = useWallets()
-  const { address: activeEthAddress } = useAccount()
-  const { wallets: solanaWallets } = useSolanaWallets()
   const { setActiveWallet } = useSetActiveWallet()
-  const { publicKey: activeSolanaAddress } = useWallet()
+  const { disconnect } = useDisconnect()
 
+  // get user wallets
+  const { wallets, ready: walletsReady } = useWallets()
+  const { wallets: solanaWallets } = useSolanaWallets()
   const allWallets = [...wallets, ...solanaWallets]
 
-  const { disconnect } = useDisconnect()
+  // get active addresses
+  const { address: activeEthAddress } = useAccount()
+  const { publicKey: activeSolanaAddress } = useWallet()
 
   const handleLogout = () => {
     logout()
@@ -57,6 +64,9 @@ export function AccountMenu({ handleClose, anchorEl, open }: AccountMenuProps) {
   }
 
   const handleSetActiveWallet = async (wallet: ConnectedWalletType) => {
+    if (isActiveWallet(wallet)) {
+      return
+    }
     if (wallet.type === 'ethereum') {
       return setActiveWallet(wallet)
     }
@@ -74,6 +84,10 @@ export function AccountMenu({ handleClose, anchorEl, open }: AccountMenuProps) {
     }
   }
 
+  const userHasPassKey = user?.linkedAccounts?.find(
+    (account) => account.type === 'passkey'
+  )
+
   if (!user?.id || !ready) {
     return null
   }
@@ -84,70 +98,58 @@ export function AccountMenu({ handleClose, anchorEl, open }: AccountMenuProps) {
       open={open}
       onClose={handleClose}
       onClick={handleClose}
-      slotProps={{
-        paper: {
-          elevation: 0,
-          sx: {
-            overflow: 'visible',
-            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-            mt: 1.5,
-            '& .MuiAvatar-root': {
-              width: 32,
-              height: 32,
-              ml: -0.5,
-              mr: 1,
-            },
-            '&::before': {
-              content: '""',
-              display: 'block',
-              position: 'absolute',
-              top: 0,
-              right: 14,
-              width: 10,
-              height: 10,
-              bgcolor: 'background.paper',
-              transform: 'translateY(-50%) rotate(45deg)',
-              zIndex: 0,
-            },
-          },
-        },
-      }}
       transformOrigin={{ horizontal: 'right', vertical: 'top' }}
       anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
     >
-      <ListSubheader>Wallets</ListSubheader>
-      {walletsReady &&
-        allWallets.map((wallet) => {
-          return (
-            <MenuItem
-              key={wallet.address}
-              disabled={isActiveWallet(wallet)}
-              onClick={() => handleSetActiveWallet(wallet)}
-            >
-              <ListItemIcon>
-                <WalletIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText
-                primary={shortenAddress(wallet.address)}
-                secondary={isActiveWallet(wallet) ? 'Active' : null}
-              />
-            </MenuItem>
-          )
-        })}
+      <MenuList>
+        <ListSubheader>Wallets</ListSubheader>
+        {walletsReady &&
+          allWallets.map((wallet) => {
+            return (
+              <MenuItem
+                key={wallet.address}
+                disabled={isActiveWallet(wallet)}
+                onClick={() => handleSetActiveWallet(wallet)}
+              >
+                <ListItemIcon sx={{ minWidth: 36 }}>
+                  <WalletIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary={shortenAddress(wallet.address)}
+                  secondary={isActiveWallet(wallet) ? 'Active' : null}
+                />
+              </MenuItem>
+            )
+          })}
 
-      <Divider />
-      <MenuItem onClick={connectWallet}>
-        <ListItemIcon>
-          <PersonAdd fontSize="small" />
-        </ListItemIcon>
-        Connect another wallet
-      </MenuItem>
-      <MenuItem onClick={handleLogout}>
-        <ListItemIcon>
-          <Logout fontSize="small" />
-        </ListItemIcon>
-        Logout
-      </MenuItem>
+        <Divider />
+        <MenuItem onClick={connectWallet}>
+          <ListItemIcon>
+            <AddLinkIcon fontSize="small" />
+          </ListItemIcon>
+          Connect another wallet
+        </MenuItem>
+        {!user.email && (
+          <MenuItem onClick={linkEmail}>
+            <ListItemIcon>
+              <AlternateEmailIcon fontSize="small" />
+            </ListItemIcon>
+            Link email
+          </MenuItem>
+        )}
+        <MenuItem onClick={linkPasskey}>
+          <ListItemIcon>
+            <FingerPrintIcon fontSize="small" />
+          </ListItemIcon>
+          Link {userHasPassKey ? 'another' : 'a'} passkey
+        </MenuItem>
+        <MenuItem onClick={handleLogout}>
+          <ListItemIcon>
+            <Logout fontSize="small" />
+          </ListItemIcon>
+          Logout
+        </MenuItem>
+      </MenuList>
     </Menu>
   )
 }
