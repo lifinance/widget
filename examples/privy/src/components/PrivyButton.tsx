@@ -1,5 +1,5 @@
 import { usePrivy } from '@privy-io/react-auth'
-import { AccountBalance } from './AccountBalanceButton'
+import { AccountButton } from './AccountButton'
 import { ConnectButton } from './ConnectButton'
 
 export function PrivyButton() {
@@ -9,6 +9,6 @@ export function PrivyButton() {
     return <ConnectButton />
   }
   if (ready && authenticated) {
-    return <AccountBalance />
+    return <AccountButton />
   }
 }

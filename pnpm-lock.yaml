@@ -291,6 +291,9 @@ importers:
       '@lifi/widget':
         specifier: ^3.17.1
         version: 3.17.1(74mutkvcyl4tc3akbpe6pdfeei)
+      '@mui/icons-material':
+        specifier: 6.0.2
+        version: 6.0.2(@mui/material@6.4.5(@emotion/react@11.14.0(@types/react@19.0.9)(react@19.0.0))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@19.0.9)(react@19.0.0))(@types/react@19.0.9)(react@19.0.0))(@types/react@19.0.9)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@types/react@19.0.9)(react@19.0.0)
       '@mui/material':
         specifier: ^6.4.5
         version: 6.4.5(@emotion/react@11.14.0(@types/react@19.0.9)(react@19.0.0))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@19.0.9)(react@19.0.0))(@types/react@19.0.9)(react@19.0.0))(@types/react@19.0.9)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -17753,7 +17756,7 @@ snapshots:
   '@emotion/babel-plugin@11.13.5':
     dependencies:
       '@babel/helper-module-imports': 7.25.9
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.9
       '@emotion/hash': 0.9.2
       '@emotion/memoize': 0.9.0
       '@emotion/serialize': 1.3.3
@@ -18394,7 +18397,7 @@ snapshots:
 
   '@hcaptcha/react-hcaptcha@1.4.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.9
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
 
@@ -19787,7 +19790,7 @@ snapshots:
 
   '@mui/icons-material@6.0.2(@mui/material@6.4.4(@emotion/react@11.14.0(@types/react@19.0.9)(react@19.0.0))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@19.0.9)(react@19.0.0))(@types/react@19.0.9)(react@19.0.0))(@types/react@19.0.9)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@types/react@19.0.9)(react@19.0.0)':
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.9
       '@mui/material': 6.4.4(@emotion/react@11.14.0(@types/react@19.0.9)(react@19.0.0))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@19.0.9)(react@19.0.0))(@types/react@19.0.9)(react@19.0.0))(@types/react@19.0.9)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react: 19.0.0
     optionalDependencies:
@@ -19795,7 +19798,7 @@ snapshots:
 
   '@mui/icons-material@6.0.2(@mui/material@6.4.5(@emotion/react@11.14.0(@types/react@19.0.9)(react@19.0.0))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@19.0.9)(react@19.0.0))(@types/react@19.0.9)(react@19.0.0))(@types/react@19.0.9)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@types/react@19.0.9)(react@19.0.0)':
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.9
       '@mui/material': 6.4.5(@emotion/react@11.14.0(@types/react@19.0.9)(react@19.0.0))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@19.0.9)(react@19.0.0))(@types/react@19.0.9)(react@19.0.0))(@types/react@19.0.9)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react: 19.0.0
     optionalDependencies:
@@ -23463,7 +23466,7 @@ snapshots:
 
   '@solana/web3.js@1.92.1(bufferutil@4.0.9)(encoding@0.1.13)(utf-8-validate@5.0.10)':
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.9
       '@noble/curves': 1.8.1
       '@noble/hashes': 1.7.1
       '@solana/buffer-layout': 4.0.1
@@ -29960,7 +29963,7 @@ snapshots:
 
   i18next@23.4.6:
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.9
 
   i18next@24.2.2(typescript@5.7.3):
     dependencies:
@@ -33384,7 +33387,7 @@ snapshots:
 
   react-focus-lock@2.9.2(@types/react@19.0.9)(react@19.0.0):
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.9
       focus-lock: 0.11.6
       prop-types: 15.8.1
       react: 19.0.0
@@ -33396,7 +33399,7 @@ snapshots:
 
   react-i18next@13.5.0(i18next@23.4.6)(react-dom@19.0.0(react@19.0.0))(react-native@0.74.0(@babel/core@7.26.7)(@babel/preset-env@7.26.0(@babel/core@7.26.7))(@types/react@19.0.9)(bufferutil@4.0.9)(encoding@0.1.13)(react@19.0.0)(utf-8-validate@5.0.10))(react@19.0.0):
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.9
       html-parse-stringify: 3.0.1
       i18next: 23.4.6
       react: 19.0.0
@@ -36346,7 +36349,7 @@ snapshots:
 
   yup@0.32.11:
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.9
       '@types/lodash': 4.17.14
       lodash: 4.17.21
       lodash-es: 4.17.21
