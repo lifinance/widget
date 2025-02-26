@@ -1,4 +1,5 @@
 import { Box, Typography } from '@mui/material'
+import { PrivyButton } from './PrivyButton'
 
 export function WalletHeader() {
   return (
@@ -11,11 +12,10 @@ export function WalletHeader() {
       borderBottom="1px solid #EEE"
     >
       <Typography px={2} fontWeight={600} fontSize={24}>
-        LI.FI Widget + Reown AppKit Example
+        LI.FI Widget + Privy Example
       </Typography>
       <Box display="flex" alignItems="center">
-        {/* @ts-expect-error msg */}
-        <appkit-button />
+        <PrivyButton />
       </Box>
     </Box>
   )
