@@ -11,7 +11,7 @@ export function WalletHeader() {
       borderBottom="1px solid #EEE"
     >
       <Typography px={2} fontWeight={600} fontSize={24}>
-        LIFI widget + Reown AppKit Example
+        LI.FI widget + Reown AppKit Example
       </Typography>
       <Box display="flex" alignItems="center">
         {/* @ts-expect-error msg */}

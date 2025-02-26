@@ -12,7 +12,7 @@ export function WalletHeader() {
       borderBottom="1px solid #EEE"
     >
       <Typography px={2} fontWeight={600} fontSize={24}>
-        LIFI widget + Privy Example
+        LI.FI widget + Privy Example
       </Typography>
       <Box display="flex" alignItems="center">
         <PrivyButton />
