@@ -1,5 +1,5 @@
-# LI.FI widget + Privy Example
-This project shows an example of how to use the LI.FI widget with the Privy wallet.
+# LI.FI Widget + Privy Example
+This project shows an example of how to use the LI.FI Widget with the Privy wallet.
 
 ## Requirements
 1. [A Privy app ID and client ID]('https://dashboard.privy.io')
@@ -31,11 +31,5 @@ In the case that there are multiple EVM wallets for a user, we can set the activ
 
 Since the wagmi configs are in sync, the widget would automatically be set to the new active wallet.
 
-# React + TypeScript + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Solana
+We sync the solana connections by listening for connection events in the `SolanaProvider`, and emitting those events when the Privy network connected or disconnected from solana.

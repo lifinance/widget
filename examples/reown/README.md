@@ -1,5 +1,5 @@
-# LI.FI widget + AppKit Example
-This project shows an example of how to use the LI.FI widget with the AppKit from Reown
+# LI.FI Widget + AppKit Example
+This project shows an example of how to use the LI.FI Widget with the AppKit from Reown
 
 ## Requirements
 1. [A Reown app ID]('https://cloud.reown.com/app')
@@ -22,13 +22,5 @@ This example fetches a list of chains from LI.FI using the `useAvailableChains` 
 The widget uses the wagmi library to interact with wallets, AppKit supports wagmi with an Adapter, and we keep both libraries in sync by calling the 
 `useSyncWagmiConfig` in the `WalletProvider`
 
-## React + TypeScript + Vite
-This example was setup with the React + Typescript + Vite template.
-
-The template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
+### Solana
+We sync the solana connections by listening for connection events in the `SolanaProvider`, and emitting those events when the AppKit network connected or disconnected from solana.
