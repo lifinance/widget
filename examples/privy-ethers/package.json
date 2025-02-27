@@ -20,6 +20,7 @@
     "@solana/wallet-adapter-react": "^0.15.35",
     "@solana/web3.js": "^1.98.0",
     "@tanstack/react-query": "^5.66.8",
+    "ethers": "^6.13.5",
     "mitt": "^3.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
