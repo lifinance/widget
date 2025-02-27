@@ -1,5 +1,5 @@
 import { ChainId, LiFiWidget } from '@lifi/widget'
-import { Box } from '@mui/material'
+import { Grid2 } from '@mui/material'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { EthersPlayground } from './components/EthersPlayground'
 import { WalletHeader } from './components/WalletHeader'
@@ -11,8 +11,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <WalletProvider>
         <WalletHeader />
-        <Box display="flex" flexDirection="row" justifyContent="space-around">
-          <Box>
+        <Grid2 container spacing={2}>
+          <Grid2 size={{ sm: 12, md: 7 }}>
             <LiFiWidget
               integrator="vite-example"
               config={{
@@ -33,11 +33,11 @@ function App() {
                 },
               }}
             />
-          </Box>
-          <Box>
+          </Grid2>
+          <Grid2 size={{ sm: 12, md: 5 }}>
             <EthersPlayground />
-          </Box>
-        </Box>
+          </Grid2>
+        </Grid2>
       </WalletProvider>
     </QueryClientProvider>
   )
