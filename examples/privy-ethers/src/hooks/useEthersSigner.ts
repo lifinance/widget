@@ -1,3 +1,5 @@
+// References https://wagmi.sh/react/guides/ethers
+
 import { BrowserProvider, JsonRpcSigner } from 'ethers'
 import { useMemo } from 'react'
 import type { Account, Chain, Client, Transport } from 'viem'

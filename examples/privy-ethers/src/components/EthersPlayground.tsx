@@ -17,6 +17,14 @@ export const EthersPlayground = () => {
   const [signMessageStatus, setSignedMessageStatus] = useState<
     'success' | 'error' | undefined
   >()
+
+  const signMessageStatusMessage =
+    signMessageStatus === 'success'
+      ? 'Message signed successfully'
+      : signMessageStatus === 'error'
+        ? 'There was a problem with signing message'
+        : ''
+
   const [balance, setBalance] = useState<number | undefined>(undefined)
 
   const handleSignMessage = async () => {
@@ -68,13 +76,6 @@ export const EthersPlayground = () => {
       </Box>
     )
   }
-
-  const signMessageStatusMessage =
-    signMessageStatus === 'success'
-      ? 'Message signed successfully'
-      : signMessageStatus === 'error'
-        ? 'There was a problem with signing message'
-        : ''
 
   return (
     <Box width="100%">
