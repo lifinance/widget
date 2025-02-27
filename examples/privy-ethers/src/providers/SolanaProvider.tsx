@@ -43,7 +43,6 @@ export const SolanaHandler: FC = () => {
   const { disconnect, select } = useWallet()
   useEffect(() => {
     emitter.on('connect', async (connectorName) => {
-      console.log(connectorName)
       select(connectorName as WalletName)
     })
     emitter.on('disconnect', async () => {
