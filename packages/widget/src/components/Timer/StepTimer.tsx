@@ -2,6 +2,7 @@ import type { LiFiStepExtended } from '@lifi/sdk'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useStopwatch } from '../../hooks/timer/useStopwatch.js'
+import { formatTimer } from '../../utils/timer.js'
 import { TimerContent } from './TimerContent.js'
 
 const getFirstExecutionProcess = (step: LiFiStepExtended) =>
@@ -23,10 +24,11 @@ export const StepTimer: React.FC<{
     () => !!getExecutionProcess(step)
   )
 
-  const { seconds, minutes, isRunning, pause, reset, start } = useStopwatch({
-    autoStart: true,
-    offsetTimestamp: getStartTimestamp(step),
-  })
+  const { seconds, minutes, days, hours, isRunning, pause, reset, start } =
+    useStopwatch({
+      autoStart: true,
+      offsetTimestamp: getStartTimestamp(step),
+    })
 
   useEffect(() => {
     const executionProcess = getExecutionProcess(step)
@@ -78,7 +80,12 @@ export const StepTimer: React.FC<{
 
   return (
     <TimerContent>
-      {`${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`}
+      {formatTimer({
+        days,
+        hours,
+        minutes,
+        seconds,
+      })}
     </TimerContent>
   )
 }
