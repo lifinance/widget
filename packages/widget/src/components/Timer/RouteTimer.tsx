@@ -1,5 +1,7 @@
 import type { RouteExtended } from '@lifi/sdk'
+
 import { useStopwatch } from '../../hooks/timer/useStopwatch.js'
+import { useSettings } from '../../stores/settings/useSettings.js'
 import { formatTimer } from '../../utils/timer.js'
 import { TimerContent } from './TimerContent.js'
 
@@ -15,6 +17,8 @@ export const RouteTimer: React.FC<{
     offsetTimestamp: startTime,
   })
 
+  const { language } = useSettings(['language'])
+
   return (
     <TimerContent>
       {formatTimer({
@@ -22,6 +26,7 @@ export const RouteTimer: React.FC<{
         hours,
         seconds,
         minutes,
+        locale: language,
       })}
     </TimerContent>
   )

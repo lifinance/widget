@@ -2,6 +2,7 @@ import type { LiFiStepExtended } from '@lifi/sdk'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useStopwatch } from '../../hooks/timer/useStopwatch.js'
+import { useSettings } from '../../stores/settings/useSettings.js'
 import { formatTimer } from '../../utils/timer.js'
 import { TimerContent } from './TimerContent.js'
 
@@ -19,6 +20,7 @@ export const StepTimer: React.FC<{
   hideInProgress?: boolean
 }> = ({ step }) => {
   const { i18n } = useTranslation()
+  const { language } = useSettings(['language'])
 
   const [isExecutionStarted, setExecutionStarted] = useState(
     () => !!getExecutionProcess(step)
@@ -81,6 +83,7 @@ export const StepTimer: React.FC<{
   return (
     <TimerContent>
       {formatTimer({
+        locale: language,
         days,
         hours,
         minutes,

@@ -3,15 +3,26 @@ export const formatTimer = ({
   hours = 0,
   minutes = 0,
   seconds = 0,
+  locale = 'en',
 }: {
   days?: number
   hours?: number
   minutes?: number
   seconds?: number
+  locale?: string
 }): string => {
-  const daysText = days > 0 ? (days < 10 ? `0${days}:` : `${days}:`) : ''
-  const hoursText = hours > 0 ? (hours < 10 ? `0${hours}:` : `${hours}:`) : ''
-  const minutesText = minutes < 10 ? `0${minutes}:` : `${minutes}:`
-  const secondsText = seconds < 10 ? `0${seconds} ` : `${seconds}`
-  return daysText + hoursText + minutesText + secondsText
+  if (typeof (Intl as any).DurationFormat === 'function') {
+    return new (Intl as any).DurationFormat(locale, {
+      style: 'digital',
+      hours: '2-digit',
+      hoursDisplay: 'auto',
+    }).format({
+      days,
+      hours,
+      minutes,
+      seconds,
+    })
+  }
+
+  return ''
 }
