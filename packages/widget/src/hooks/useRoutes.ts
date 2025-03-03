@@ -378,8 +378,8 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
               )
                 .then((response) => {
                   const quote = {
-                    ...response.data.quote.step,
-                    ...response.data.quote,
+                    ...response.quote,
+                    permits: response.permits,
                   }
                   return convertQuoteToRoute(quote)
                 })

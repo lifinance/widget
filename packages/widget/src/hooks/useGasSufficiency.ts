@@ -1,4 +1,5 @@
 import type { EVMChain, RouteExtended, Token } from '@lifi/sdk'
+import { isRelayerStep } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useQuery } from '@tanstack/react-query'
 import { useAvailableChains } from './useAvailableChains.js'
@@ -34,6 +35,14 @@ export const useGasSufficiency = (route?: RouteExtended) => {
     ] as const,
     queryFn: async ({ queryKey: [, accountAddress] }) => {
       if (!route) {
+        return
+      }
+
+      // If we have a relayer step with a permit (EIP-2612) for the from token, we don't need to check for gas sufficiency
+      if (
+        isRelayerStep(route.steps[0]) &&
+        route.steps[0].permits.some((permit) => permit.permitType === 'Permit')
+      ) {
         return
       }
 
