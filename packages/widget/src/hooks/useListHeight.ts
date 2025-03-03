@@ -1,17 +1,17 @@
 import { debounce, useTheme } from '@mui/material'
-import type { MutableRefObject } from 'react'
+import type { RefObject } from 'react'
 import { useLayoutEffect, useState } from 'react'
-import { useDefaultElementId } from '../../hooks/useDefaultElementId.js'
 import {
   ElementId,
   getAppContainer,
   getHeaderElement,
   getScrollableContainer,
-} from '../../utils/elements.js'
+} from '../utils/elements.js'
+import { useDefaultElementId } from './useDefaultElementId.js'
 
 const getContentHeight = (
   elementId: string,
-  listParentRef: MutableRefObject<HTMLUListElement | null>
+  listParentRef: RefObject<HTMLUListElement | HTMLDivElement | null>
 ) => {
   const containerElement = getScrollableContainer(elementId)
 
@@ -22,7 +22,7 @@ const getContentHeight = (
   let oldHeight: string | undefined = undefined
 
   // This covers the case where in full height flex mode when the browser height is reduced
-  // - this allows the virtualised token list to be made smaller
+  // - this allows a virtualised list to be made smaller
   if (listParentElement) {
     oldHeight = listParentElement.style.height
     listParentElement.style.height = '0'
@@ -38,7 +38,7 @@ const getContentHeight = (
   const { height: headerHeight } = headerElement.getBoundingClientRect()
 
   // This covers the case where in full height flex mode when the browser height is reduced the
-  // - this allows the virtualised token list to be set to minimum size
+  // - this allows a virtualised list to be set to minimum size
   if (listParentElement && oldHeight) {
     listParentElement.style.height = oldHeight
   }
@@ -47,18 +47,18 @@ const getContentHeight = (
 }
 
 interface UseContentHeightProps {
-  listParentRef: MutableRefObject<HTMLUListElement | null>
-  headerRef: MutableRefObject<HTMLElement | null>
+  listParentRef: RefObject<HTMLUListElement | HTMLDivElement | null>
+  headerRef?: RefObject<HTMLElement | null>
 }
 
-export const minTokenListHeight = 360
-export const minMobileTokenListHeight = 160
+export const defaultMinListHeight = 360
+export const minMobileListHeight = 160
 
 // NOTE: this hook is implicitly tied to the widget height functionality in the
 //   AppExpandedContainer, RelativeContainer and CssBaselineContainer components as defined in AppContainer.ts
 //   CSS changes in those components can have implications for the functionality in this hook
 
-export const useTokenListHeight = ({
+export const useListHeight = ({
   listParentRef,
   headerRef,
 }: UseContentHeightProps) => {
@@ -93,16 +93,16 @@ export const useTokenListHeight = ({
 
   const minListHeight =
     theme.container?.height === '100%'
-      ? minMobileTokenListHeight
-      : minTokenListHeight
+      ? minMobileListHeight
+      : defaultMinListHeight
 
-  const tokenListHeight = Math.max(
-    contentHeight - (headerRef.current?.offsetHeight ?? 0),
+  const listHeight = Math.max(
+    contentHeight - (headerRef?.current?.offsetHeight ?? 0),
     minListHeight
   )
 
   return {
     minListHeight,
-    tokenListHeight,
+    listHeight,
   }
 }

@@ -86,7 +86,8 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
   const { token: toToken } = useToken(toChainId, toTokenAddress)
   const { chain: fromChain } = useChain(fromChainId)
   const { chain: toChain } = useChain(toChainId)
-  const { isCompatibleDestinationAccount } = useIsCompatibleDestinationAccount()
+  const { isCompatibleDestinationAccount } =
+    useIsCompatibleDestinationAccount(observableRoute)
   const { enabled: enabledRefuel, fromAmount: gasRecommendationFromAmount } =
     useGasRefuel()
 
@@ -192,7 +193,9 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
       }) => {
         const fromAmount = parseUnits(fromTokenAmount, fromToken!.decimals)
         const toAmount = parseUnits(toTokenAmount, toToken!.decimals)
-        const formattedSlippage = Number.parseFloat(slippage) / 100
+        const formattedSlippage = slippage
+          ? Number.parseFloat(slippage) / 100
+          : defaultSlippage
 
         const allowBridges = swapOnly
           ? []

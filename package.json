@@ -1,5 +1,5 @@
 {
-  "version": "3.16.0",
+  "version": "3.17.1",
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -49,18 +49,18 @@
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^14.6.1",
     "@types/events": "^3.0.3",
-    "@types/node": "^22.13.1",
-    "@types/react": "^19.0.8",
-    "@types/react-dom": "^19.0.3",
+    "@types/node": "^22.13.5",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
     "cpy-cli": "^5.0.0",
     "fs-extra": "^11.3.0",
     "husky": "^9.1.7",
-    "lerna": "8.1.9",
+    "lerna": "8.2.0",
     "lint-staged": "^15.4.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "standard-version": "^9.5.0",
-    "typescript": "^5.7.3"
+    "typescript": "^5.8.2"
   },
   "pnpm": {
     "overrides": {

@@ -90,7 +90,7 @@
       "emptyTokenList": "We couldn't find tokens on {{chainName}} chain or you don't have any. Please search by contract address if your token doesn't appear or choose another chain.",
       "emptyTransactionHistory": "Transaction history is only stored locally and will be deleted if you clear your browser data.",
       "routeNotFound": "Reasons for that could be: low liquidity, amount selected is too low, gas costs are too high or there are no routes for the selected combination.",
-      "toAddressIsRequired": "Please provide the destination wallet address to which the funds will be transferred."
+      "toAddressIsRequired": "The destination wallet address is required to proceed with the transfer."
     },
     "title": {
       "autoRefuel": "Get {{chainName}} gas",
@@ -127,7 +127,8 @@
       "insufficientGas": "You don't have enough gas to complete the transaction. You need to add at least:",
       "rateChanged": "The exchange rate has changed. By continuing the transaction, you'll accept the new rate.",
       "resetSettings": "This will reset your route priority, slippage, gas price, enabled bridges and exchanges.",
-      "slippageOutsideRecommendedLimits": "High slippage tolerance may result in unfavorable trade caused by front-running."
+      "slippageOutsideRecommendedLimits": "High slippage tolerance may result in unfavorable trade caused by front-running.",
+      "slippageUnderRecommendedLimits": "Low slippage tolerance may cause transaction delays or failures."
     },
     "title": {
       "deleteActiveTransactions": "Delete all active transactions?",
