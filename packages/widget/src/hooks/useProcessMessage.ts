@@ -209,6 +209,10 @@ export function getProcessMessage(
         title = t('error.title.transactionCanceled')
         message = getDefaultErrorMessage('error.message.transactionCanceled')
         break
+      case LiFiErrorCode.TransactionRejected:
+        title = t('error.title.transactionRejected')
+        message = getDefaultErrorMessage('error.message.transactionRejected')
+        break
       case LiFiErrorCode.TransactionConflict:
         title = t('error.title.transactionConflict')
         message = getDefaultErrorMessage('error.message.transactionConflict')

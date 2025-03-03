@@ -102,7 +102,7 @@
   "success": {
     "message": {
       "exchangePartiallySuccessful": "We've tried to complete the transaction, but {{tool}} couldn't proceed due to either slippage settings or lack of liquidity for the {{tokenSymbol}} token.",
-      "exchangeSuccessful": "There are now {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} in {{walletAddress}} wallet on {{chainName}} chain.",
+      "exchangeSuccessful": "There are now {{amount, numberExt}} {{tokenSymbol}} in {{walletAddress}} wallet on {{chainName}} chain.",
       "checkoutSuccessful": "You now own {{assetName}} in {{walletAddress}} wallet on {{chainName}} chain."
     },
     "title": {
@@ -144,12 +144,13 @@
     "message": {
       "allowanceRequired": "Transfer amount for {{tokenSymbol}} exceeds your current allowance. Please increase your allowance and try again.",
       "insufficientFunds": "You don't have enough gas to cover the cost of the transaction.",
-      "remainInYourWallet": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
-      "signatureRejected": "Your signature is required to complete the transaction. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
+      "remainInYourWallet": "{{amount, numberExt}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
+      "signatureRejected": "Your signature is required to complete the transaction. {{amount, numberExt}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
       "slippageThreshold": "The slippage is larger than the defined threshold. Please request a new quote.",
       "transactionCanceled": "Transaction was canceled.",
       "transactionConflict": "Transaction couldn't be processed because it's conflicting with another pending transaction using the same funds. Please wait for the pending transaction to be confirmed or check your transaction history before trying again.",
       "transactionExpired": "The block height has exceeded the maximum allowed limit or blockhash is no longer recent enough.",
+      "transactionRejected": "The transaction was rejected due to an internal wallet error. Please try again or request a new quote.",
       "transactionFailed": "Please check the block explorer for more information.",
       "transactionNotSent": "Transaction was not sent.",
       "transactionSimulationFailed": "The transaction could not be executed in simulation.",
@@ -171,6 +172,7 @@
       "transactionConflict": "Transaction conflict",
       "transactionExpired": "Transaction expired",
       "transactionFailed": "Transaction failed",
+      "transactionRejected": "Transaction rejected",
       "transactionSimulationFailed": "Transaction simulation failed",
       "transactionUnderpriced": "Transaction is underpriced",
       "transactionUnprepared": "Unable to prepare transaction",
@@ -299,7 +301,7 @@
     },
     "to": "To",
     "tokenOnChain": "{{tokenSymbol}} on {{chainName}}",
-    "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} on {{chainName}}",
+    "tokenOnChainAmount": "{{amount, numberExt}} {{tokenSymbol}} on {{chainName}}",
     "tokenSearch": "Search by token name or address",
     "valueLoss": "Value loss",
     "searchChains": "Search by chain name",
