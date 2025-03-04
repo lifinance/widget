@@ -1,0 +1,34 @@
+{
+  "name": "thirdweb",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "thirdweb": "^5.90.1",
+    "@mui/material": "^6.4.6",
+    "@lifi/wallet-management": "^3.6.2",
+    "@lifi/widget": "^3.17.1",
+    "@solana/wallet-adapter-base": "^0.9.23",
+    "@solana/wallet-adapter-react": "^0.15.35",
+    "@solana/wallet-adapter-wallets": "^0.19.32",
+    "@solana/web3.js": "^1.98.0",
+    "@tanstack/react-query": "^5.66.9",
+    "mitt": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "globals": "^15.15.0",
+    "typescript": "~5.7.2",
+    "vite": "^6.2.0"
+  }
+}
