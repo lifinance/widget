@@ -33,6 +33,7 @@ export const widgetBaseConfig: WidgetConfig = {
   integrator: 'li.fi-playground',
   // fee: 0.01,
   // useRecommendedRoute: true,
+  useRelayerRoutes: true,
   buildUrl: true,
   // hiddenUI: ['poweredBy', 'language', 'appearance', 'drawerButton', 'toAddress'],
   // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
@@ -42,7 +43,7 @@ export const widgetBaseConfig: WidgetConfig = {
   //   usePartialWalletManagement: true,
   // },
   sdkConfig: {
-    apiUrl: 'https://li.quest/v1',
+    apiUrl: 'https://staging.li.quest/v1',
     rpcUrls: {
       [ChainId.SOL]: [
         'https://chaotic-restless-putty.solana-mainnet.quiknode.pro/',
