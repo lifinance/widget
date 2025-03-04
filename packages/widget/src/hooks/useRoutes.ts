@@ -295,6 +295,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           fromChain?.chainType === ChainType.EVM &&
           fromChain.permit2 &&
           fromChain.permit2Proxy &&
+          fromChain.relayerSupported &&
           fromChain.nativeToken.address !== fromTokenAddress &&
           useRelayerRoutes &&
           (!observableRoute || isObservableRelayerRoute)
