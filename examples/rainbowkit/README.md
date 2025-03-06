@@ -8,8 +8,8 @@ This project shows an example of how to use the LI.FI Widget with the Rainbowkit
 1. Clone this repo
 2. Install dependencies `pnpm install`
 
-## Configuration
-Copy and rename `.env.example` to `.env`, and update the environment variables with yours.
+## Configuration 
+Update `.env` with your variables.
 
 ## Run
 Start the app by running `pnpm dev`

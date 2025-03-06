@@ -39,6 +39,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   return (
     <DynamicContextProvider
       settings={{
+        // replace with your environment id from https://app.dynamic.xyz/dashboard/developer
         environmentId: '11abe661-8ca5-41b7-a575-83fb45b49049',
         walletConnectors: [EthereumWalletConnectors, SolanaWalletConnectors],
         overrides: {
