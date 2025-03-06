@@ -370,6 +370,9 @@ importers:
 
   examples/rainbowkit:
     dependencies:
+      '@lifi/wallet-management':
+        specifier: workspace:^
+        version: link:../../packages/wallet-management
       '@lifi/widget':
         specifier: workspace:^
         version: link:../../packages/widget

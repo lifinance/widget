@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@lifi/widget": "workspace:^",
+    "@lifi/wallet-management": "workspace:^",
     "@rainbow-me/rainbowkit": "^2.2.4",
     "@tanstack/react-query": "^5.66.9",
     "react": "^19.0.0",
