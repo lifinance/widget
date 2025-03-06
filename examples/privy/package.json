@@ -13,7 +13,7 @@
     "@lifi/wallet-management": "^3.6.2",
     "@lifi/widget": "^3.17.1",
     "@mui/icons-material": "6.0.2",
-    "@mui/material": "^6.4.6",
+    "@mui/material": "^6.4.7",
     "@privy-io/react-auth": "^2.6.1",
     "@privy-io/wagmi": "^1.0.3",
     "@solana/wallet-adapter-base": "^0.9.23",

@@ -12,7 +12,7 @@
   "dependencies": {
     "@lifi/sdk": "^3.5.4",
     "@lifi/widget": "workspace:^",
-    "@mui/material": "^6.4.6",
+    "@mui/material": "^6.4.7",
     "@tanstack/react-query": "^5.67.1",
     "events": "^3.3.0",
     "react": "^19.0.0",
