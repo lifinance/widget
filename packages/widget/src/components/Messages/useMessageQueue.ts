@@ -11,7 +11,7 @@ interface QueuedMessage {
   props?: Record<string, any>
 }
 
-export const useMessageQueue = (route?: Route) => {
+export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
   const { requiredToAddress, toAddress } = useToAddressRequirements(route)
   const {
     isCompatibleDestinationAccount,
@@ -40,7 +40,7 @@ export const useMessageQueue = (route?: Route) => {
       })
     }
 
-    if (!isCompatibleDestinationAccount) {
+    if (!isCompatibleDestinationAccount && !allowInteraction) {
       queue.push({
         id: 'ACCOUNT_NOT_DEPLOYED',
         priority: 3,
@@ -56,15 +56,16 @@ export const useMessageQueue = (route?: Route) => {
 
     return queue.sort((a, b) => a.priority - b.priority)
   }, [
-    isCompatibleDestinationAccount,
+    allowInteraction,
     insufficientFromToken,
     insufficientGas,
+    isCompatibleDestinationAccount,
     requiredToAddress,
     toAddress,
   ])
 
   return {
-    currentMessage: messageQueue[0],
+    messages: messageQueue,
     hasMessages: messageQueue.length > 0,
     isLoading:
       isGasSufficiencyLoading ||

@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { BaseTransactionButton } from '../../components/BaseTransactionButton/BaseTransactionButton.js'
-import { useIsCompatibleDestinationAccount } from '../../hooks/useIsCompatibleDestinationAccount.js'
 import { useRoutes } from '../../hooks/useRoutes.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
@@ -17,7 +16,6 @@ export const ReviewButton: React.FC = () => {
   const { subvariant, subvariantOptions } = useWidgetConfig()
   const splitState = useSplitSubvariantStore((state) => state.state)
   const { toAddress, requiredToAddress } = useToAddressRequirements()
-  const { isCompatibleDestinationAccount } = useIsCompatibleDestinationAccount()
   const { routes, setReviewableRoute } = useRoutes()
 
   const currentRoute = routes?.[0]
@@ -74,10 +72,7 @@ export const ReviewButton: React.FC = () => {
     <BaseTransactionButton
       text={getButtonText()}
       onClick={handleClick}
-      disabled={
-        (currentRoute && requiredToAddress && !toAddress) ||
-        !isCompatibleDestinationAccount
-      }
+      disabled={currentRoute && requiredToAddress && !toAddress}
     />
   )
 }

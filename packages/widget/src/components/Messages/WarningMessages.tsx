@@ -9,22 +9,24 @@ import { useMessageQueue } from './useMessageQueue.js'
 
 type WarningMessagesProps = BoxProps & {
   route?: Route
+  allowInteraction?: boolean
 }
 
 export const WarningMessages: React.FC<WarningMessagesProps> = ({
   route,
+  allowInteraction,
   ...props
 }) => {
-  const { currentMessage, hasMessages } = useMessageQueue(route)
+  const { messages, hasMessages } = useMessageQueue(route, allowInteraction)
 
   const getMessage = () => {
-    switch (currentMessage?.id) {
+    switch (messages[0]?.id) {
       case 'INSUFFICIENT_FUNDS':
         return <FundsSufficiencyMessage {...props} />
       case 'INSUFFICIENT_GAS':
         return (
           <GasSufficiencyMessage
-            insufficientGas={currentMessage.props?.insufficientGas}
+            insufficientGas={messages[0].props?.insufficientGas}
             {...props}
           />
         )

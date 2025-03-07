@@ -117,8 +117,7 @@
   },
   "warning": {
     "message": {
-      "accountNotDeployedMessage": "Smart contract account is not deployed on the destination chain. Sending funds to a non-existent contract would result in permanent loss.",
-      "noAddressActivity": "This address has never been used on this network. Please verify you're sending to the correct address to prevent potential loss of funds.",
+      "accountNotDeployedMessage": "Smart contract account doesn't exist on the destination chain. Sending funds to a non-existent smart contract account can result in permanent loss.",
       "lowAddressActivity": "This address has low activity on {{chainName}} network. Please verify you're sending to the correct address and network to prevent potential loss of funds.",
       "deleteActiveTransactions": "Active transactions are only stored locally and can't be recovered if you delete them.",
       "deleteTransactionHistory": "Transaction history is only stored locally and can't be recovered if you delete it.",

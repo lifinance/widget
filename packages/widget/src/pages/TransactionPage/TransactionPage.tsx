@@ -207,7 +207,7 @@ export const TransactionPage: React.FC = () => {
       {status === RouteExecutionStatus.Idle ||
       status === RouteExecutionStatus.Failed ? (
         <>
-          <WarningMessages mt={2} route={route} />
+          <WarningMessages mt={2} route={route} allowInteraction />
           <Box
             sx={{
               mt: 2,

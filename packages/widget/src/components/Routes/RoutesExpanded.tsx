@@ -5,7 +5,6 @@ import { type PropsWithChildren, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { RouteObject } from 'react-router-dom'
 import { useRoutes as useDOMRoutes, useNavigate } from 'react-router-dom'
-import { useIsCompatibleDestinationAccount } from '../../hooks/useIsCompatibleDestinationAccount.js'
 import { useRoutes } from '../../hooks/useRoutes.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
@@ -83,7 +82,6 @@ export const RoutesExpandedElement = () => {
   const { account } = useAccount({ chainType: fromChain?.chainType })
   const [toAddress] = useFieldValues('toAddress')
   const { requiredToAddress } = useToAddressRequirements()
-  const { isCompatibleDestinationAccount } = useIsCompatibleDestinationAccount()
 
   const handleRouteClick = (route: Route) => {
     setReviewableRoute(route)
@@ -113,9 +111,7 @@ export const RoutesExpandedElement = () => {
   )
 
   const routeNotFound = !currentRoute && !isLoading && !isFetching && expanded
-  const toAddressUnsatisfied =
-    (currentRoute && requiredToAddress && !toAddress) ||
-    !isCompatibleDestinationAccount
+  const toAddressUnsatisfied = currentRoute && requiredToAddress && !toAddress
   const allowInteraction = account.isConnected && !toAddressUnsatisfied
 
   useEffect(() => {

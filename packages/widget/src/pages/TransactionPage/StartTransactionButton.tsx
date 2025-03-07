@@ -8,7 +8,7 @@ export const StartTransactionButton: React.FC<StartTransactionButtonProps> = ({
   text,
   loading,
 }) => {
-  const { hasMessages, isLoading } = useMessageQueue(route)
+  const { hasMessages, isLoading } = useMessageQueue(route, true)
 
   return (
     <BaseTransactionButton
