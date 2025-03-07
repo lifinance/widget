@@ -14,7 +14,7 @@
     "@lifi/widget": "^3.17.1",
     "@mui/icons-material": "6.0.2",
     "@mui/material": "^6.4.7",
-    "@privy-io/react-auth": "^2.6.1",
+    "@privy-io/react-auth": "^2.6.2",
     "@privy-io/wagmi": "^1.0.3",
     "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/wallet-adapter-react": "^0.15.35",
@@ -23,7 +23,7 @@
     "mitt": "^3.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "viem": "^2.23.6",
+    "viem": "^2.23.7",
     "wagmi": "^2.14.12"
   },
   "devDependencies": {
@@ -37,7 +37,7 @@
     "globals": "^16.0.0",
     "typescript": "~5.8.2",
     "typescript-eslint": "^8.26.0",
-    "vite": "^6.2.0",
+    "vite": "^6.2.1",
     "vite-plugin-node-polyfills": "^0.23.0"
   }
 }
