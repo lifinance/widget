@@ -9,7 +9,7 @@ This project shows an example of how to use the LI.FI Widget with the Dynamic wa
 2. Install dependencies `pnpm install`
 
 ## Configuration
-Update the `environment-id` prop on `<DynamicContextProvider />` with yourrs
+Update the `environment-id` prop on `<DynamicContextProvider />` with yours
 
 ## Run
 Start the app by running `pnpm dev`
