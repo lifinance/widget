@@ -177,7 +177,7 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
               &#x2022;
             </TextSecondary>
           ) : null}
-          {step ? (
+          {!disableDescription && step ? (
             <TokenStep
               step={step}
               stepVisible={stepVisible}

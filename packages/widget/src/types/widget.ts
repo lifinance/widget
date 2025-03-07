@@ -95,6 +95,7 @@ export enum HiddenUI {
   WalletMenu = 'walletMenu',
   IntegratorStepDetails = 'integratorStepDetails',
   ReverseTokensButton = 'reverseTokensButton',
+  RouteTokenDescription = 'routeTokenDescription',
 }
 export type HiddenUIType = `${HiddenUI}`
 
