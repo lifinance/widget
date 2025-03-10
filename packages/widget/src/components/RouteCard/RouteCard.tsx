@@ -1,4 +1,5 @@
 import type { TokenAmount } from '@lifi/sdk'
+import { isRelayerStep } from '@lifi/sdk'
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
 import { Box, Collapse } from '@mui/material'
 import type { MouseEventHandler } from 'react'
@@ -47,9 +48,14 @@ export const RouteCard: React.FC<
       : undefined
 
   const customLabels = getMatchingLabels(route, routeLabels)
-  const tags = route.tags?.filter(
+  const mainTag = route.tags?.find(
     (tag) => tag === 'CHEAPEST' || tag === 'FASTEST'
   )
+  const tags: string[] = mainTag ? [mainTag] : []
+  const hasRelayerSupport = route.steps.some(isRelayerStep)
+  if (hasRelayerSupport) {
+    tags.push('GASLESS')
+  }
 
   const cardContent = (
     <Box
@@ -57,8 +63,7 @@ export const RouteCard: React.FC<
         flex: 1,
       }}
     >
-      {subvariant !== 'refuel' &&
-      (route.tags?.length || customLabels.length) ? (
+      {subvariant !== 'refuel' && (tags.length || customLabels.length) ? (
         <Box
           sx={{
             display: 'flex',
@@ -68,13 +73,18 @@ export const RouteCard: React.FC<
             flexWrap: 'wrap',
           }}
         >
-          {tags?.length ? (
-            <CardLabel type={active ? 'active' : undefined}>
+          {tags?.map((tag) => (
+            <CardLabel
+              variant={
+                tag === 'GASLESS' ? 'success' : active ? 'secondary' : undefined
+              }
+              key={tag}
+            >
               <CardLabelTypography>
-                {t(`main.tags.${tags[0].toLowerCase()}` as any)}
+                {t(`main.tags.${tag.toLowerCase()}` as any)}
               </CardLabelTypography>
             </CardLabel>
-          ) : null}
+          ))}
           {customLabels.map((label, index) => (
             <CardLabel key={index} sx={label.sx}>
               <CardLabelTypography>{label.text}</CardLabelTypography>

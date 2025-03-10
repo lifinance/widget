@@ -1,5 +1,13 @@
-import type { Route, RoutesResponse, Token } from '@lifi/sdk'
-import { LiFiErrorCode, getContractCallsQuote, getRoutes } from '@lifi/sdk'
+import type { Route, Token } from '@lifi/sdk'
+import {
+  ChainType,
+  LiFiErrorCode,
+  convertQuoteToRoute,
+  getContractCallsQuote,
+  getRelayerQuote,
+  getRoutes,
+  isRelayerStep,
+} from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { parseUnits } from 'viem'
@@ -13,6 +21,7 @@ import { getChainTypeFromAddress } from '../utils/chainType.js'
 import { useChain } from './useChain.js'
 import { useDebouncedWatch } from './useDebouncedWatch.js'
 import { useGasRefuel } from './useGasRefuel.js'
+import { useIsBatchingSupported } from './useIsBatchingSupported.js'
 import { useSwapOnly } from './useSwapOnly.js'
 import { useToken } from './useToken.js'
 import { useWidgetEvents } from './useWidgetEvents.js'
@@ -32,6 +41,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
     exchanges,
     fee,
     feeConfig,
+    useRelayerRoutes,
   } = useWidgetConfig()
   const setExecutableRoute = useSetExecutableRoute()
   const queryClient = useQueryClient()
@@ -80,6 +90,8 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
     useGasRefuel()
 
   const { account } = useAccount({ chainType: fromChain?.chainType })
+  const { isBatchingSupported, isBatchingSupportedLoading } =
+    useIsBatchingSupported(fromChain, account.address)
 
   const hasAmount = Number(fromTokenAmount) > 0 || Number(toTokenAmount) > 0
 
@@ -110,24 +122,25 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
   const allowSwitchChain = sdkConfig?.routeOptions?.allowSwitchChain
 
   const isEnabled =
-    Boolean(Number(fromChainId)) &&
-    Boolean(Number(toChainId)) &&
+    Boolean(Number(fromChain?.id)) &&
+    Boolean(Number(toChain?.id)) &&
     Boolean(fromToken?.address) &&
     Boolean(toToken?.address) &&
     !Number.isNaN(slippage) &&
     hasAmount &&
     isToAddressSatisfied &&
-    contractCallQuoteEnabled
+    contractCallQuoteEnabled &&
+    !isBatchingSupportedLoading
 
   // Some values should be strictly typed and isEnabled ensures that
   const queryKey = [
     'routes',
     account.address,
-    fromChainId as number,
+    fromChain?.id as number,
     fromToken?.address as string,
     fromTokenAmount,
     toWalletAddress,
-    toChainId as number,
+    toChain?.id as number,
     toToken?.address as string,
     toTokenAmount,
     contractCalls,
@@ -143,6 +156,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
     enabledRefuel && enabledAutoRefuel,
     gasRecommendationFromAmount,
     feeConfig?.fee || fee,
+    !!isBatchingSupported,
     observableRoute?.id,
   ] as const
 
@@ -173,6 +187,8 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           enabledRefuel,
           gasRecommendationFromAmount,
           fee,
+          isBatchingSupported,
+          // _observableRouteId must be the last element in the query key
           _observableRouteId,
         ],
         signal,
@@ -261,27 +277,9 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
             contractCallQuote.toolDetails = toolDetails
           }
 
-          const route: Route = {
-            id: crypto.randomUUID(),
-            fromChainId: contractCallQuote.action.fromChainId,
-            fromAmountUSD: contractCallQuote.estimate.fromAmountUSD || '',
-            fromAmount: contractCallQuote.action.fromAmount,
-            fromToken: contractCallQuote.action.fromToken,
-            fromAddress: contractCallQuote.action.fromAddress,
-            toChainId: contractCallQuote.action.toChainId,
-            toAmountUSD: contractCallQuote.estimate.toAmountUSD || '',
-            toAmount: contractCallQuote.estimate.toAmount,
-            toAmountMin: contractCallQuote.estimate.toAmountMin,
-            toToken: toToken!,
-            toAddress:
-              contractCallQuote.action.toAddress ||
-              contractCallQuote.action.fromAddress,
-            gasCostUSD: contractCallQuote.estimate.gasCosts?.[0].amountUSD,
-            steps: [contractCallQuote],
-            insurance: { state: 'NOT_INSURABLE', feeAmountUsd: '0' },
-          }
+          const route: Route = convertQuoteToRoute(contractCallQuote)
 
-          return { routes: [route] } as RoutesResponse
+          return [route]
         }
 
         // Prevent sending a request for the same chain token combinations.
@@ -289,50 +287,116 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           return
         }
 
-        const data = await getRoutes(
-          {
-            fromAddress,
-            fromAmount: fromAmount.toString(),
-            fromChainId,
-            fromTokenAddress,
-            toAddress,
-            toChainId,
-            toTokenAddress,
-            fromAmountForGas:
-              enabledRefuel && gasRecommendationFromAmount
-                ? gasRecommendationFromAmount
-                : undefined,
-            options: {
-              allowSwitchChain:
-                subvariant === 'refuel' ? false : allowSwitchChain,
-              bridges:
-                allowBridges?.length || disabledBridges.length
-                  ? {
-                      allow: allowBridges,
-                      deny: disabledBridges.length
-                        ? disabledBridges
+        const isObservableRelayerRoute =
+          observableRoute?.steps?.some(isRelayerStep)
+
+        const shouldUseMainRoutes =
+          !observableRoute || !isObservableRelayerRoute
+        const shouldUseRelayerQuote =
+          fromAddress &&
+          fromChain?.chainType === ChainType.EVM &&
+          fromChain.permit2 &&
+          fromChain.permit2Proxy &&
+          fromChain.relayerSupported &&
+          fromChain.nativeToken.address !== fromTokenAddress &&
+          useRelayerRoutes &&
+          !isBatchingSupported &&
+          (!observableRoute || isObservableRelayerRoute)
+
+        const [routesResult, relayerRouteResult] = await Promise.all([
+          shouldUseMainRoutes
+            ? getRoutes(
+                {
+                  fromAddress,
+                  fromAmount: fromAmount.toString(),
+                  fromChainId,
+                  fromTokenAddress,
+                  toAddress,
+                  toChainId,
+                  toTokenAddress,
+                  fromAmountForGas:
+                    enabledRefuel && gasRecommendationFromAmount
+                      ? gasRecommendationFromAmount
+                      : undefined,
+                  options: {
+                    allowSwitchChain:
+                      subvariant === 'refuel' ? false : allowSwitchChain,
+                    bridges:
+                      allowBridges?.length || disabledBridges.length
+                        ? {
+                            allow: allowBridges,
+                            deny: disabledBridges.length
+                              ? disabledBridges
+                              : undefined,
+                          }
                         : undefined,
-                    }
-                  : undefined,
-              exchanges:
-                allowExchanges?.length || disabledExchanges.length
-                  ? {
-                      allow: allowExchanges,
-                      deny: disabledExchanges.length
-                        ? disabledExchanges
+                    exchanges:
+                      allowExchanges?.length || disabledExchanges.length
+                        ? {
+                            allow: allowExchanges,
+                            deny: disabledExchanges.length
+                              ? disabledExchanges
+                              : undefined,
+                          }
                         : undefined,
-                    }
-                  : undefined,
-              order: routePriority,
-              slippage: formattedSlippage,
-              fee: calculatedFee || fee,
-            },
-          },
-          { signal }
-        )
-        if (data.routes[0] && fromAddress) {
+                    order: routePriority,
+                    slippage: formattedSlippage,
+                    fee: calculatedFee || fee,
+                  },
+                },
+                { signal }
+              )
+            : Promise.resolve(null),
+          shouldUseRelayerQuote
+            ? getRelayerQuote(
+                {
+                  fromAddress,
+                  fromAmount: fromAmount.toString(),
+                  fromChain: fromChainId,
+                  fromToken: fromTokenAddress,
+                  toAddress,
+                  toChain: toChainId,
+                  toToken: toTokenAddress,
+                  fromAmountForGas:
+                    enabledRefuel && gasRecommendationFromAmount
+                      ? gasRecommendationFromAmount
+                      : undefined,
+                  order: routePriority,
+                  slippage: formattedSlippage,
+                  fee: calculatedFee || fee,
+                  ...(allowBridges?.length || disabledBridges.length
+                    ? {
+                        allowBridges: allowBridges,
+                        denyBridges: disabledBridges.length
+                          ? disabledBridges
+                          : undefined,
+                      }
+                    : undefined),
+                  ...(allowExchanges?.length || disabledExchanges.length
+                    ? {
+                        allowExchanges: allowExchanges,
+                        denyExchanges: disabledExchanges.length
+                          ? disabledExchanges
+                          : undefined,
+                      }
+                    : undefined),
+                },
+                { signal }
+              )
+                .then((response) => {
+                  const quote = {
+                    ...response.quote,
+                    permits: response.permits,
+                  }
+                  return convertQuoteToRoute(quote)
+                })
+                .catch(() => null)
+            : Promise.resolve(null),
+        ])
+
+        if (routesResult?.routes[0] && fromAddress) {
           // Update local tokens cache to keep priceUSD in sync
-          const { fromToken, toToken } = data.routes[0]
+          const { fromToken, toToken } = routesResult.routes[0]
           ;[fromToken, toToken].forEach((token) => {
             queryClient.setQueriesData<Token[]>(
               { queryKey: ['token-balances', fromAddress, token.chainId] },
@@ -352,8 +416,16 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
             )
           })
         }
-        emitter.emit(WidgetEvent.AvailableRoutes, data.routes)
-        return data
+
+        const routes = routesResult?.routes ?? []
+
+        // Add relayer route if available
+        if (relayerRouteResult) {
+          routes.splice(1, 0, relayerRouteResult)
+        }
+
+        emitter.emit(WidgetEvent.AvailableRoutes, routes)
+        return routes
       },
       enabled: isEnabled,
       staleTime: refetchTime,
@@ -364,7 +436,10 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
         )
       },
       retry(failureCount, error: any) {
-        if (failureCount >= 5) {
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('Route query failed:', { failureCount, error })
+        }
+        if (failureCount >= 3) {
           return false
         }
         if (error?.code === LiFiErrorCode.NotFound) {
@@ -385,7 +460,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
   }
 
   return {
-    routes: data?.routes,
+    routes: data,
     isLoading: isEnabled && isLoading,
     isFetching,
     isFetched,

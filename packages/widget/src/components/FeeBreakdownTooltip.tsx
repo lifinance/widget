@@ -8,12 +8,14 @@ import { formatTokenAmount } from '../utils/format.js'
 export interface FeeBreakdownTooltipProps {
   gasCosts?: FeesBreakdown[]
   feeCosts?: FeesBreakdown[]
+  relayerSupport?: boolean
   children: ReactElement<any, any>
 }
 
 export const FeeBreakdownTooltip: React.FC<FeeBreakdownTooltipProps> = ({
   gasCosts,
   feeCosts,
+  relayerSupport,
   children,
 }) => {
   const { t } = useTranslation()
@@ -21,13 +23,14 @@ export const FeeBreakdownTooltip: React.FC<FeeBreakdownTooltipProps> = ({
     <Tooltip
       title={
         <Box>
-          {gasCosts?.length ? (
+          {relayerSupport ? <Box>{t('tooltip.relayerService')}</Box> : null}
+          {gasCosts?.length && !relayerSupport ? (
             <Box>
               {t('main.fees.network')}
               {getFeeBreakdownTypography(gasCosts, t)}
             </Box>
           ) : null}
-          {feeCosts?.length ? (
+          {feeCosts?.length && !relayerSupport ? (
             <Box
               sx={{
                 mt: 0.5,
