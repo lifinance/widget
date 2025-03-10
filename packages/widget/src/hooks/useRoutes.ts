@@ -21,6 +21,7 @@ import { getChainTypeFromAddress } from '../utils/chainType.js'
 import { useChain } from './useChain.js'
 import { useDebouncedWatch } from './useDebouncedWatch.js'
 import { useGasRefuel } from './useGasRefuel.js'
+import { useIsBatchingSupported } from './useIsBatchingSupported.js'
 import { useIsCompatibleDestinationAccount } from './useIsCompatibleDestinationAccount.js'
 import { useSwapOnly } from './useSwapOnly.js'
 import { useToken } from './useToken.js'
@@ -92,6 +93,8 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
     useGasRefuel()
 
   const { account } = useAccount({ chainType: fromChain?.chainType })
+  const { isBatchingSupported, isBatchingSupportedLoading } =
+    useIsBatchingSupported(fromChain, account.address)
 
   const hasAmount = Number(fromTokenAmount) > 0 || Number(toTokenAmount) > 0
 
@@ -131,7 +134,8 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
     !Number.isNaN(slippage) &&
     hasAmount &&
     isToAddressSatisfied &&
-    contractCallQuoteEnabled
+    contractCallQuoteEnabled &&
+    !isBatchingSupportedLoading
 
   // Some values should be strictly typed and isEnabled ensures that
   const queryKey = [
@@ -157,6 +161,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
     enabledRefuel && enabledAutoRefuel,
     gasRecommendationFromAmount,
     feeConfig?.fee || fee,
+    !!isBatchingSupported,
     observableRoute?.id,
   ] as const
 
@@ -187,6 +192,8 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           enabledRefuel,
           gasRecommendationFromAmount,
           fee,
+          isBatchingSupported,
+          // _observableRouteId must be the last element in the query key
           _observableRouteId,
         ],
         signal,
@@ -298,6 +305,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           fromChain.relayerSupported &&
           fromChain.nativeToken.address !== fromTokenAddress &&
           useRelayerRoutes &&
+          !isBatchingSupported &&
           (!observableRoute || isObservableRelayerRoute)
 
         const [routesResult, relayerRouteResult] = await Promise.all([
