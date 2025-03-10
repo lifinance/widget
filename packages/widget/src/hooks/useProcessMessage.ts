@@ -39,6 +39,7 @@ const processStatusMessages: Record<
       ProcessStatus,
       (
         t: TFunction,
+        step: LiFiStep,
         subvariant?: WidgetSubvariant,
         subvariantOptions?: SubvariantOptions
       ) => string
@@ -47,19 +48,34 @@ const processStatusMessages: Record<
 > = {
   TOKEN_ALLOWANCE: {
     STARTED: (t) => t('main.process.tokenAllowance.started'),
-    ACTION_REQUIRED: (t) => t('main.process.tokenAllowance.pending'),
-    PENDING: (t) => t('main.process.tokenAllowance.pending'),
-    DONE: (t) => t('main.process.tokenAllowance.done'),
+    ACTION_REQUIRED: (t, step) =>
+      t('main.process.tokenAllowance.actionRequired', {
+        tokenSymbol: step.action.fromToken.symbol,
+      }),
+    PENDING: (t, step) =>
+      t('main.process.tokenAllowance.pending', {
+        tokenSymbol: step.action.fromToken.symbol,
+      }),
+    DONE: (t, step) =>
+      t('main.process.tokenAllowance.done', {
+        tokenSymbol: step.action.fromToken.symbol,
+      }),
   },
   SWITCH_CHAIN: {
     ACTION_REQUIRED: (t) => t('main.process.switchChain.actionRequired'),
     DONE: (t) => t('main.process.switchChain.done'),
   },
+  PERMIT: {
+    STARTED: (t) => t('main.process.permit.started'),
+    ACTION_REQUIRED: (t) => t('main.process.permit.actionRequired'),
+    PENDING: (t) => t('main.process.permit.pending'),
+    DONE: (t) => t('main.process.permit.done'),
+  },
   SWAP: {
     STARTED: (t) => t('main.process.swap.started'),
     ACTION_REQUIRED: (t) => t('main.process.swap.actionRequired'),
     PENDING: (t) => t('main.process.swap.pending'),
-    DONE: (t, subvariant, subvariantOptions) =>
+    DONE: (t, _, subvariant, subvariantOptions) =>
       subvariant === 'custom'
         ? t(`main.process.${subvariantOptions?.custom ?? 'checkout'}.done`)
         : t('main.process.swap.done'),
@@ -72,7 +88,7 @@ const processStatusMessages: Record<
   },
   RECEIVING_CHAIN: {
     PENDING: (t) => t('main.process.receivingChain.pending'),
-    DONE: (t, subvariant, subvariantOptions) =>
+    DONE: (t, _, subvariant, subvariantOptions) =>
       subvariant === 'custom'
         ? t(`main.process.${subvariantOptions?.custom ?? 'checkout'}.done`)
         : t('main.process.receivingChain.done'),
@@ -193,6 +209,10 @@ export function getProcessMessage(
         title = t('error.title.transactionCanceled')
         message = getDefaultErrorMessage('error.message.transactionCanceled')
         break
+      case LiFiErrorCode.TransactionRejected:
+        title = t('error.title.transactionRejected')
+        message = getDefaultErrorMessage('error.message.transactionRejected')
+        break
       case LiFiErrorCode.TransactionConflict:
         title = t('error.title.transactionConflict')
         message = getDefaultErrorMessage('error.message.transactionConflict')
@@ -229,6 +249,7 @@ export function getProcessMessage(
     ]?.(t) ??
     processStatusMessages[process.type]?.[process.status]?.(
       t,
+      step,
       subvariant,
       subvariantOptions
     )

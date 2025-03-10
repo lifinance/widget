@@ -1,4 +1,5 @@
 import type { LiFiStep, StepExtended } from '@lifi/sdk'
+import { isRelayerStep } from '@lifi/sdk'
 import { ArrowForward, ExpandLess, ExpandMore } from '@mui/icons-material'
 import type { StepIconProps } from '@mui/material'
 import {
@@ -26,7 +27,6 @@ import {
   StepLabel,
   StepLabelTypography,
 } from './StepActions.style.js'
-import { StepFees } from './StepFees.js'
 import type {
   IncludedStepsProps,
   StepActionsProps,
@@ -95,7 +95,7 @@ export const StepActions: React.FC<StepActionsProps> = ({
                   tool: toolDetails.name,
                 })}
           </Typography>
-          <StepFees ml={2} step={step} />
+          {/* <StepFees ml={2} step={step} /> */}
         </Box>
         {dense ? (
           <CardIconButton onClick={handleExpand} size="small">
@@ -160,6 +160,8 @@ export const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
     ) : null
   }
 
+  const hasRelayerSupport = isRelayerStep(step)
+
   return (
     <Box
       sx={{
@@ -173,7 +175,11 @@ export const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
       >
         {includedSteps.map((step, i, includedSteps) => (
           <MuiStep key={step.id} expanded>
-            <StepLabel StepIconComponent={StepIconComponent}>
+            <StepLabel
+              slots={{
+                stepIcon: StepIconComponent,
+              }}
+            >
               {step.type === 'custom' && subvariant === 'custom' ? (
                 <CustomStepDetailsLabel
                   step={step}
@@ -183,7 +189,11 @@ export const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
               ) : step.type === 'cross' ? (
                 <BridgeStepDetailsLabel step={step} />
               ) : step.type === 'protocol' ? (
-                <ProtocolStepDetailsLabel step={step} feeConfig={feeConfig} />
+                <ProtocolStepDetailsLabel
+                  step={step}
+                  feeConfig={feeConfig}
+                  relayerSupport={hasRelayerSupport}
+                />
               ) : (
                 <SwapStepDetailsLabel step={step} />
               )}
@@ -345,14 +355,16 @@ export const SwapStepDetailsLabel: React.FC<
 
 export const ProtocolStepDetailsLabel: React.FC<
   Omit<StepDetailsLabelProps, 'variant'>
-> = ({ step, feeConfig }) => {
+> = ({ step, feeConfig, relayerSupport }) => {
   const { t } = useTranslation()
   return (
     <StepLabelTypography>
       {step.toolDetails.key === 'feeCollection'
         ? feeConfig?.name
           ? t('main.fees.integrator', { tool: feeConfig.name })
-          : t('main.fees.defaultIntegrator')
+          : relayerSupport
+            ? t('main.fees.relayerService')
+            : t('main.fees.defaultIntegrator')
         : step.toolDetails.key === 'gasZip'
           ? t('main.refuelStepDetails', {
               tool: step.toolDetails.name,
