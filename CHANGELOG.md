@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.18.0](https://github.com/lifinance/widget/compare/v3.17.1...v3.18.0) (2025-03-10)
+
+
+### Features
+
+* add Permit (ERC-2612), Permit2 and Wallet Call API (EIP-5792) support ([#331](https://github.com/lifinance/widget/issues/331)) ([1ec9786](https://github.com/lifinance/widget/commit/1ec97864f12e6e15074f6efeb1dbe45d715d2261))
+* add RouteTokenDescription hidden option ([#361](https://github.com/lifinance/widget/issues/361)) ([bb3e047](https://github.com/lifinance/widget/commit/bb3e047adc05dc934b7981de1438cd51cb760678))
+
+
+### Bug Fixes
+
+* enable undeployed sca transfers ([#362](https://github.com/lifinance/widget/issues/362)) ([4038d7f](https://github.com/lifinance/widget/commit/4038d7fdc412f5918e31a5a8dfce8f58b608987c))
+* **timers:** display hours and days section of timers, and update copy ([#358](https://github.com/lifinance/widget/issues/358)) ([0654c20](https://github.com/lifinance/widget/commit/0654c2000b3dfd87ca02be6e4aff5b51dd153681))
+
 ### [3.17.1](https://github.com/lifinance/widget/compare/v3.17.0...v3.17.1) (2025-02-16)
 
 ## [3.17.0](https://github.com/lifinance/widget/compare/v3.16.1...v3.17.0) (2025-02-16)
