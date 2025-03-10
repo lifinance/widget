@@ -6,6 +6,7 @@ import type { MouseEventHandler } from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { HiddenUI } from '../../types/widget.js'
 import type { CardProps } from '../Card/Card.js'
 import { Card } from '../Card/Card.js'
 import { CardIconButton } from '../Card/CardIconButton.js'
@@ -28,7 +29,8 @@ export const RouteCard: React.FC<
   ...other
 }) => {
   const { t } = useTranslation()
-  const { subvariant, subvariantOptions, routeLabels } = useWidgetConfig()
+  const { subvariant, subvariantOptions, routeLabels, hiddenUI } =
+    useWidgetConfig()
   const [cardExpanded, setCardExpanded] = useState(defaulExpanded)
 
   const handleExpand: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -96,6 +98,9 @@ export const RouteCard: React.FC<
           impactToken={impactToken}
           step={route.steps[0]}
           stepVisible={!cardExpanded}
+          disableDescription={hiddenUI?.includes(
+            HiddenUI.RouteTokenDescription
+          )}
         />
         {!defaulExpanded ? (
           <CardIconButton onClick={handleExpand} size="small">
