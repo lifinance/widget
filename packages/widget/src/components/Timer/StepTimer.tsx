@@ -1,19 +1,18 @@
 import type { LiFiStepExtended } from '@lifi/sdk'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useStopwatch } from '../../hooks/timer/useStopwatch.js'
 import { useSettings } from '../../stores/settings/useSettings.js'
-import { formatTimer } from '../../utils/timer.js'
+import { formatTimer, getStepTotalDuration } from '../../utils/timer.js'
 import { TimerContent } from './TimerContent.js'
-
-const getFirstExecutionProcess = (step: LiFiStepExtended) =>
-  step.execution?.process.at(0)
 
 const getExecutionProcess = (step: LiFiStepExtended) =>
   step.execution?.process.at(-1)
 
-const getStartTimestamp = (step: LiFiStepExtended) =>
-  new Date(getFirstExecutionProcess(step)?.startedAt ?? Date.now())
+const getStartTimestamp = (step: LiFiStepExtended) => {
+  const totalDuration = getStepTotalDuration(step)
+  return new Date(Date.now() - totalDuration)
+}
 
 export const StepTimer: React.FC<{
   step: LiFiStepExtended
@@ -22,43 +21,31 @@ export const StepTimer: React.FC<{
   const { i18n } = useTranslation()
   const { language } = useSettings(['language'])
 
-  const [isExecutionStarted, setExecutionStarted] = useState(
-    () => !!getExecutionProcess(step)
-  )
+  const isExecutionStarted = !!getExecutionProcess(step)
 
-  const { seconds, minutes, days, hours, isRunning, pause, reset, start } =
+  const { seconds, minutes, days, hours, pause, reset, start, isRunning } =
     useStopwatch({
-      autoStart: true,
       offsetTimestamp: getStartTimestamp(step),
     })
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    const executionProcess = getExecutionProcess(step)
-    if (!executionProcess) {
-      return
+    const status = step.execution?.status
+    if (isExecutionStarted && status) {
+      if (isRunning) {
+        if (status === 'ACTION_REQUIRED') {
+          return pause()
+        }
+        if (status === 'DONE' || status === 'FAILED') {
+          return reset(getStartTimestamp(step), false)
+        }
+      } else {
+        if (status === 'PENDING') {
+          return start()
+        }
+      }
     }
-
-    const shouldRestart =
-      executionProcess.status === 'FAILED' || executionProcess.status === 'DONE'
-    const shouldStart =
-      executionProcess.status === 'STARTED' ||
-      executionProcess.status === 'PENDING'
-    const shouldResume = executionProcess.status === 'PENDING'
-    if (isExecutionStarted && shouldRestart) {
-      setExecutionStarted(false)
-      pause()
-      return
-    }
-    if (isExecutionStarted && !isRunning && shouldResume) {
-      start()
-      return
-    }
-    if (!isExecutionStarted && shouldStart) {
-      setExecutionStarted(true)
-      reset()
-      return
-    }
-  }, [isExecutionStarted, isRunning, pause, reset, start, step])
+  }, [isExecutionStarted, isRunning, step])
 
   if (step.execution?.status === 'DONE') {
     return null
