@@ -95,6 +95,7 @@ export enum HiddenUI {
   WalletMenu = 'walletMenu',
   IntegratorStepDetails = 'integratorStepDetails',
   ReverseTokensButton = 'reverseTokensButton',
+  RouteTokenDescription = 'routeTokenDescription',
 }
 export type HiddenUIType = `${HiddenUI}`
 
@@ -245,6 +246,7 @@ export interface WidgetConfig {
   hiddenUI?: HiddenUIType[]
   requiredUI?: RequiredUIType[]
   useRecommendedRoute?: boolean
+  useRelayerRoutes?: boolean
 
   walletConfig?: WidgetWalletConfig
   sdkConfig?: WidgetSDKConfig

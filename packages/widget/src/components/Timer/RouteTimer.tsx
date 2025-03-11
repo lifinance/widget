@@ -1,5 +1,8 @@
 import type { RouteExtended } from '@lifi/sdk'
+
 import { useStopwatch } from '../../hooks/timer/useStopwatch.js'
+import { useSettings } from '../../stores/settings/useSettings.js'
+import { formatTimer } from '../../utils/timer.js'
 import { TimerContent } from './TimerContent.js'
 
 export const RouteTimer: React.FC<{
@@ -9,14 +12,22 @@ export const RouteTimer: React.FC<{
   const firstActiveProcess = firstActiveStep?.execution?.process.at(0)
 
   const startTime = new Date(firstActiveProcess?.startedAt ?? Date.now())
-  const { seconds, minutes } = useStopwatch({
+  const { seconds, minutes, days, hours } = useStopwatch({
     autoStart: true,
     offsetTimestamp: startTime,
   })
 
+  const { language } = useSettings(['language'])
+
   return (
     <TimerContent>
-      {`${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`}
+      {formatTimer({
+        days,
+        hours,
+        seconds,
+        minutes,
+        locale: language,
+      })}
     </TimerContent>
   )
 }
