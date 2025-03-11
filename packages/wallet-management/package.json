@@ -1,6 +1,6 @@
 {
   "name": "@lifi/wallet-management",
-  "version": "3.6.2",
+  "version": "3.7.0",
   "description": "LI.FI Wallet Management solution.",
   "type": "module",
   "main": "./src/index.ts",
@@ -21,7 +21,7 @@
     "link:bigmi": "pnpm link --global @bigmi/client",
     "unlink:bigmi": "pnpm link --global @bigmi/client",
     "link:sdk": "pnpm link --global @lifi/sdk",
-    "unlink:sdk": "pnpm link --global @lifi/sdk"
+    "unlink:sdk": "pnpm unlink --global @lifi/sdk"
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
   "homepage": "https://github.com/lifinance/widget",
@@ -52,10 +52,10 @@
     "@bigmi/core": "^0.1.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@lifi/sdk": "^3.5.4",
+    "@lifi/sdk": "3.6.0",
     "@mui/icons-material": "6.0.2",
-    "@mui/material": "^6.4.6",
-    "@mui/system": "^6.4.6",
+    "@mui/material": "^6.4.7",
+    "@mui/system": "^6.4.7",
     "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/web3.js": "^1.98.0",
     "@wagmi/core": "^2.16.5",
@@ -63,7 +63,7 @@
     "mitt": "^3.0.1",
     "react-i18next": "^15.4.1",
     "use-sync-external-store": "^1.4.0",
-    "viem": "^2.23.5",
+    "viem": "^2.23.9",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
@@ -72,7 +72,7 @@
     "madge": "^8.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "typescript": "^5.7.3"
+    "typescript": "^5.8.2"
   },
   "peerDependencies": {
     "@bigmi/react": ">=0.1.0",
