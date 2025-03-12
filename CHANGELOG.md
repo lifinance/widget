@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.17.1](https://github.com/lifinance/widget/compare/v3.17.0...v3.17.1) (2025-02-16)
+
+## [3.17.0](https://github.com/lifinance/widget/compare/v3.16.1...v3.17.0) (2025-02-16)
+
+
+### Features
+
+* add option to hide reverse tokens button ([#352](https://github.com/lifinance/widget/issues/352)) ([bd4b882](https://github.com/lifinance/widget/commit/bd4b8824d0a4d02e506fcca51ba55a74df44f1eb))
+* **timer:**  counts up instead of countdown ([#348](https://github.com/lifinance/widget/issues/348)) ([6c9d22e](https://github.com/lifinance/widget/commit/6c9d22e8b1bf4cc3228d1534aae6b81120000da4))
+* widget auto slippage mode ([#349](https://github.com/lifinance/widget/issues/349)) ([580ce06](https://github.com/lifinance/widget/commit/580ce067f26fe0122a2ef14f6b0783b232148775))
+
+
+### Bug Fixes
+
+* transaction history page virtualization ([#351](https://github.com/lifinance/widget/issues/351)) ([257a581](https://github.com/lifinance/widget/commit/257a581f6794e309d9d05f8156e359ec9d59d0fa))
+
+### [3.16.1](https://github.com/lifinance/widget/compare/v3.16.0...v3.16.1) (2025-02-11)
+
+
+### Bug Fixes
+
+* improve SCA as destination flow ([#350](https://github.com/lifinance/widget/issues/350)) ([c58e5dd](https://github.com/lifinance/widget/commit/c58e5dd5835f8b25411f9b33070c914702f659ab))
+* replace lifuel protocol with gasZip ([#347](https://github.com/lifinance/widget/issues/347)) ([8b4bdf2](https://github.com/lifinance/widget/commit/8b4bdf24936c01f4efd24f8a370262992cd545a0))
+* restrict 2-step routes if account is not deployed on destination… ([#346](https://github.com/lifinance/widget/issues/346)) ([bf48c3c](https://github.com/lifinance/widget/commit/bf48c3c0ed5501bc720dfa8003f1b0ffd3ec571d))
+
 ## [3.16.0](https://github.com/lifinance/widget/compare/v3.15.2...v3.16.0) (2025-02-01)
 
 

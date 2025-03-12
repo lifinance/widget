@@ -1,12 +1,13 @@
 import { Wallet, WarningRounded } from '@mui/icons-material'
 import { Button, Typography } from '@mui/material'
 import type { MutableRefObject } from 'react'
-import { forwardRef } from 'react'
+import { forwardRef, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { AlertMessage } from '../../components/Messages/AlertMessage.js'
 import { useChain } from '../../hooks/useChain.js'
+import { useSetContentHeight } from '../../hooks/useSetContentHeight.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { WidgetEvent } from '../../types/events.js'
 import {
@@ -47,6 +48,8 @@ const ConfirmToAddressSheetContent: React.FC<
   const { t } = useTranslation()
   const { chain } = useChain(toChainId)
   const emitter = useWidgetEvents()
+  const ref = useRef<HTMLElement>(null)
+  useSetContentHeight(ref)
 
   const handleContinue = () => {
     emitter.emit(WidgetEvent.LowAddressActivityConfirmed, {
@@ -58,7 +61,7 @@ const ConfirmToAddressSheetContent: React.FC<
   }
 
   return (
-    <SendToWalletSheetContainer>
+    <SendToWalletSheetContainer ref={ref}>
       <IconContainer>
         <Wallet sx={{ fontSize: 40 }} />
       </IconContainer>

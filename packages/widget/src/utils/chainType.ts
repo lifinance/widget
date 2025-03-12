@@ -7,7 +7,7 @@ const chainTypeAddressValidation = {
   [ChainType.EVM]: isEVMAddress,
   [ChainType.SVM]: isSVMAddress,
   [ChainType.UTXO]: isUTXOAddress,
-  ['MVM' as ChainType]: isValidSuiAddress,
+  [ChainType.MVM]: isValidSuiAddress,
 }
 
 export const getChainTypeFromAddress = (
@@ -26,5 +26,5 @@ export const defaultChainIdsByType = {
   [ChainType.EVM]: ChainId.ETH,
   [ChainType.SVM]: ChainId.SOL,
   [ChainType.UTXO]: ChainId.BTC,
-  ['MVM' as ChainType]: 9270000000000000 as ChainId,
+  [ChainType.MVM]: ChainId.SUI,
 }

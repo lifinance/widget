@@ -2,6 +2,7 @@ import type { Route } from '@lifi/sdk'
 import { useMemo } from 'react'
 import { useFromTokenSufficiency } from '../../hooks/useFromTokenSufficiency.js'
 import { useGasSufficiency } from '../../hooks/useGasSufficiency.js'
+import { useIsCompatibleDestinationAccount } from '../../hooks/useIsCompatibleDestinationAccount.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 
 interface QueuedMessage {
@@ -10,11 +11,16 @@ interface QueuedMessage {
   props?: Record<string, any>
 }
 
-export const useMessageQueue = (route?: Route) => {
-  const { requiredToAddress, accountNotDeployedAtDestination, toAddress } =
-    useToAddressRequirements()
-  const { insufficientFromToken } = useFromTokenSufficiency(route)
-  const { insufficientGas } = useGasSufficiency(route)
+export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
+  const { requiredToAddress, toAddress } = useToAddressRequirements(route)
+  const {
+    isCompatibleDestinationAccount,
+    isLoading: isCompatibleDestinationAccountLoading,
+  } = useIsCompatibleDestinationAccount(route)
+  const { insufficientFromToken, isLoading: isFromTokenSufficiencyLoading } =
+    useFromTokenSufficiency(route)
+  const { insufficientGas, isLoading: isGasSufficiencyLoading } =
+    useGasSufficiency(route)
 
   const messageQueue = useMemo(() => {
     const queue: QueuedMessage[] = []
@@ -34,7 +40,7 @@ export const useMessageQueue = (route?: Route) => {
       })
     }
 
-    if (accountNotDeployedAtDestination) {
+    if (!isCompatibleDestinationAccount && !allowInteraction) {
       queue.push({
         id: 'ACCOUNT_NOT_DEPLOYED',
         priority: 3,
@@ -50,15 +56,20 @@ export const useMessageQueue = (route?: Route) => {
 
     return queue.sort((a, b) => a.priority - b.priority)
   }, [
-    accountNotDeployedAtDestination,
+    allowInteraction,
     insufficientFromToken,
     insufficientGas,
+    isCompatibleDestinationAccount,
     requiredToAddress,
     toAddress,
   ])
 
   return {
-    currentMessage: messageQueue[0],
+    messages: messageQueue,
     hasMessages: messageQueue.length > 0,
+    isLoading:
+      isGasSufficiencyLoading ||
+      isFromTokenSufficiencyLoading ||
+      isCompatibleDestinationAccountLoading,
   }
 }

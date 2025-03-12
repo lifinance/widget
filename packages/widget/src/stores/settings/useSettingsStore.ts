@@ -5,7 +5,7 @@ import type { SettingsProps, SettingsState } from './types.js'
 import { SettingsToolTypes } from './types.js'
 import { getStateValues } from './utils/getStateValues.js'
 
-export const defaultSlippage = '0.5'
+export const defaultSlippage = undefined
 
 export const defaultConfigurableSettings: Pick<
   SettingsState,

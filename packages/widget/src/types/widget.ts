@@ -94,6 +94,8 @@ export enum HiddenUI {
   ToToken = 'toToken',
   WalletMenu = 'walletMenu',
   IntegratorStepDetails = 'integratorStepDetails',
+  ReverseTokensButton = 'reverseTokensButton',
+  RouteTokenDescription = 'routeTokenDescription',
 }
 export type HiddenUIType = `${HiddenUI}`
 
@@ -144,7 +146,7 @@ export interface CalculateFeeParams {
   toAddress?: string
   fromAmount?: bigint
   toAmount?: bigint
-  slippage: number
+  slippage?: number
 }
 
 export interface WidgetFeeConfig {
@@ -244,6 +246,7 @@ export interface WidgetConfig {
   hiddenUI?: HiddenUIType[]
   requiredUI?: RequiredUIType[]
   useRecommendedRoute?: boolean
+  useRelayerRoutes?: boolean
 
   walletConfig?: WidgetWalletConfig
   sdkConfig?: WidgetSDKConfig

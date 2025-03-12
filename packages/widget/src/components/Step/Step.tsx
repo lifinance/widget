@@ -8,9 +8,9 @@ import { Token } from '../../components/Token/Token.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { shortenAddress } from '../../utils/wallet.js'
+import { StepTimer } from '../Timer/StepTimer.js'
 import { DestinationWalletAddress } from './DestinationWalletAddress.js'
 import { StepProcess } from './StepProcess.js'
-import { StepTimer } from './StepTimer.js'
 
 export const Step: React.FC<{
   step: LiFiStepExtended

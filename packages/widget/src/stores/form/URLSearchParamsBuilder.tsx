@@ -76,7 +76,10 @@ export const URLSearchParamsBuilder = () => {
           const validationResult = await validateAddress({
             value: formValues.toAddress,
           })
-          if (validationResult.isValid) {
+          // Check if the toAddress is still in the query string
+          // Could be modified by the user before the validation is done
+          const { toAddress } = getDefaultValuesFromQueryString()
+          if (validationResult.isValid && toAddress) {
             const bookmark = {
               address: validationResult.address,
               chainType: validationResult.chainType,

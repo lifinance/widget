@@ -16,6 +16,7 @@ export interface StepDetailsLabelProps {
   subvariant?: Extract<WidgetSubvariant, 'custom'>
   subvariantOptions?: SubvariantOptions
   feeConfig?: WidgetFeeConfig
+  relayerSupport?: boolean
 }
 
 export interface IncludedStepsProps {

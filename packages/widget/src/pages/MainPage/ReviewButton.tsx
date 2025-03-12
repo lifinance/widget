@@ -15,8 +15,7 @@ export const ReviewButton: React.FC = () => {
   const emitter = useWidgetEvents()
   const { subvariant, subvariantOptions } = useWidgetConfig()
   const splitState = useSplitSubvariantStore((state) => state.state)
-  const { toAddress, requiredToAddress, accountNotDeployedAtDestination } =
-    useToAddressRequirements()
+  const { toAddress, requiredToAddress } = useToAddressRequirements()
   const { routes, setReviewableRoute } = useRoutes()
 
   const currentRoute = routes?.[0]
@@ -73,10 +72,7 @@ export const ReviewButton: React.FC = () => {
     <BaseTransactionButton
       text={getButtonText()}
       onClick={handleClick}
-      disabled={
-        (currentRoute && requiredToAddress && !toAddress) ||
-        accountNotDeployedAtDestination
-      }
+      disabled={currentRoute && requiredToAddress && !toAddress}
     />
   )
 }
