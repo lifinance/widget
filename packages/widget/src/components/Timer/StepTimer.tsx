@@ -27,22 +27,29 @@ export const StepTimer: React.FC<{
       offsetTimestamp: getStartTimestamp(step),
     })
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: adding the timer functions to the deps list causes infinite loop
   useEffect(() => {
     const status = step.execution?.status
-    if (isExecutionStarted && status) {
-      if (status === 'FAILED') {
-        return reset(new Date(), false)
-      }
-      if (isRunning) {
-        if (status === 'DONE') {
-          return reset(getStartTimestamp(step), false)
-        }
-      } else {
-        if (status === 'PENDING') {
-          return start()
-        }
-      }
+
+    const isReady = isExecutionStarted && status
+    const isFailed = status === 'FAILED'
+    const isDone = isRunning && status === 'DONE'
+    const isResuming = !isRunning && status === 'PENDING'
+
+    if (!isReady) {
+      return
+    }
+
+    if (isFailed) {
+      return reset(new Date(), false)
+    }
+
+    if (isDone) {
+      return reset(getStartTimestamp(step), false)
+    }
+
+    if (isResuming) {
+      return start()
     }
   }, [isExecutionStarted, isRunning, step])
 
