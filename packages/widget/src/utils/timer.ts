@@ -1,4 +1,4 @@
-import type { LiFiStepExtended, RouteExtended } from '@lifi/sdk'
+import type { RouteExtended } from '@lifi/sdk'
 
 export const formatTimer = ({
   days = 0,
@@ -29,26 +29,17 @@ export const formatTimer = ({
   return ''
 }
 
-export const getStepTotalDuration = (step: LiFiStepExtended) => {
-  return (
-    step.execution?.process?.reduce((acc, process) => {
-      let duration = 0
-      if (process.status === 'DONE' && process.doneAt) {
-        duration = process.doneAt - process.startedAt
-      }
-      if (process.status === 'PENDING') {
-        duration = Date.now() - process.startedAt
-      }
-
-      return duration + acc
-    }, 0) || 0
-  )
-}
-
 export const getRouteTotalDuration = (route: RouteExtended) => {
   return (
     route?.steps?.reduce((total, step) => {
-      return total + getStepTotalDuration(step)
+      let duration = 0
+      if (step.execution?.status === 'DONE' && step.execution?.doneAt) {
+        duration = step.execution.doneAt - step.execution.startedAt
+      }
+      if (step.execution?.status === 'PENDING') {
+        duration = Date.now() - step.execution?.startedAt
+      }
+      return duration + total
     }, 0) || 0
   )
 }

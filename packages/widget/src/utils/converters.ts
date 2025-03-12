@@ -197,6 +197,8 @@ export const buildRouteFromTxHistory = (
           ],
           integrator: tx.metadata?.integrator ?? '',
           execution: {
+            startedAt: sending.timestamp ?? Date.now(),
+            doneAt: receiving.timestamp,
             status: 'DONE', // can be FAILED
             process: buildProcessFromTxHistory(tx),
             fromAmount: sending.amount,

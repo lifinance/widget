@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/sdk": "^3.6.0",
+    "@lifi/sdk": "^3.6.1",
     "@lifi/wallet-management": "^3.6.2",
     "@lifi/widget": "^3.17.1",
     "@mui/material": "^6.4.7",

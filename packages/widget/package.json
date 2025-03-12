@@ -53,7 +53,7 @@
     "@bigmi/core": "^0.1.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@lifi/sdk": "3.6.0",
+    "@lifi/sdk": "3.6.1",
     "@lifi/wallet-management": "workspace:^",
     "@mui/icons-material": "6.0.2",
     "@mui/material": "^6.4.7",

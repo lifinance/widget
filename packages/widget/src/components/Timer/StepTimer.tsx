@@ -3,15 +3,14 @@ import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useStopwatch } from '../../hooks/timer/useStopwatch.js'
 import { useSettings } from '../../stores/settings/useSettings.js'
-import { formatTimer, getStepTotalDuration } from '../../utils/timer.js'
+import { formatTimer } from '../../utils/timer.js'
 import { TimerContent } from './TimerContent.js'
 
 const getExecutionProcess = (step: LiFiStepExtended) =>
   step.execution?.process.at(-1)
 
 const getStartTimestamp = (step: LiFiStepExtended) => {
-  const totalDuration = getStepTotalDuration(step)
-  return new Date(Date.now() - totalDuration)
+  return new Date(step.execution?.startedAt || Date.now())
 }
 
 export const StepTimer: React.FC<{
@@ -23,7 +22,7 @@ export const StepTimer: React.FC<{
 
   const isExecutionStarted = !!getExecutionProcess(step)
 
-  const { seconds, minutes, days, hours, pause, reset, start, isRunning } =
+  const { seconds, minutes, days, hours, reset, start, isRunning } =
     useStopwatch({
       offsetTimestamp: getStartTimestamp(step),
     })
@@ -32,11 +31,11 @@ export const StepTimer: React.FC<{
   useEffect(() => {
     const status = step.execution?.status
     if (isExecutionStarted && status) {
+      if (status === 'FAILED') {
+        return reset(new Date(), false)
+      }
       if (isRunning) {
-        if (status === 'ACTION_REQUIRED') {
-          return pause()
-        }
-        if (status === 'DONE' || status === 'FAILED') {
+        if (status === 'DONE') {
           return reset(getStartTimestamp(step), false)
         }
       } else {
