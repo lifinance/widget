@@ -14,7 +14,7 @@ const supportedChainTypes = [
   ChainType.EVM,
   ChainType.SVM,
   ChainType.UTXO,
-  'MVM' as ChainType,
+  ChainType.MVM,
 ]
 
 export const useAvailableChains = (chainTypes?: ChainType[]) => {

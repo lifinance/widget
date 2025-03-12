@@ -15,7 +15,7 @@ export const useTokens = (selectedChainId?: number) => {
           ChainType.EVM,
           ChainType.SVM,
           ChainType.UTXO,
-          'MVM' as ChainType,
+          ChainType.MVM,
         ],
       }),
     refetchInterval: 3_600_000,
