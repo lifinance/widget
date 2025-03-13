@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.18.1](https://github.com/lifinance/widget/compare/v3.18.0...v3.18.1) (2025-03-13)
+
+
+### Bug Fixes
+
+* update permit handling with standardized EIP-712 typed data ([#365](https://github.com/lifinance/widget/issues/365)) ([77cf606](https://github.com/lifinance/widget/commit/77cf606d7e03e48f919fe4073f51ae5e4997a7a0))
+
 ## [3.18.0](https://github.com/lifinance/widget/compare/v3.17.1...v3.18.0) (2025-03-10)
 
 
