@@ -383,13 +383,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
                 },
                 { signal }
               )
-                .then((response) => {
-                  const quote = {
-                    ...response.quote,
-                    permits: response.permits,
-                  }
-                  return convertQuoteToRoute(quote)
-                })
+                .then(convertQuoteToRoute)
                 .catch(() => null)
             : Promise.resolve(null),
         ])

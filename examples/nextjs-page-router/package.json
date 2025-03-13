@@ -8,8 +8,8 @@
     "start": "next start"
   },
   "dependencies": {
-    "@lifi/widget": "^3.17.1",
-    "next": "^15.2.1",
+    "@lifi/widget": "^3.18.0",
+    "next": "^15.2.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
