@@ -22,12 +22,11 @@ export const StepTimer: React.FC<{
 
   const isExecutionStarted = !!getExecutionProcess(step)
 
-  const { seconds, minutes, days, hours, reset, start, isRunning } =
+  const { seconds, minutes, days, hours, reset, isRunning, pause } =
     useStopwatch({
       offsetTimestamp: getStartTimestamp(step),
     })
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: adding the timer functions to the deps list causes infinite loop
   useEffect(() => {
     const status = step.execution?.status
 
@@ -41,7 +40,7 @@ export const StepTimer: React.FC<{
     }
 
     if (isFailed) {
-      return reset(new Date(), false)
+      return pause()
     }
 
     if (isDone) {
@@ -49,9 +48,9 @@ export const StepTimer: React.FC<{
     }
 
     if (isResuming) {
-      return start()
+      return reset(getStartTimestamp(step), true)
     }
-  }, [isExecutionStarted, isRunning, step])
+  }, [isExecutionStarted, isRunning, step, reset, pause])
 
   if (step.execution?.status === 'DONE') {
     return null
