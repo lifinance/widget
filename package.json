@@ -1,5 +1,5 @@
 {
-  "version": "3.17.1",
+  "version": "3.18.1",
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -42,30 +42,30 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@commitlint/cli": "^19.7.1",
-    "@commitlint/config-conventional": "^19.7.1",
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^14.6.1",
     "@types/events": "^3.0.3",
-    "@types/node": "^22.13.5",
+    "@types/node": "^22.13.10",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "cpy-cli": "^5.0.0",
     "fs-extra": "^11.3.0",
     "husky": "^9.1.7",
-    "lerna": "8.2.0",
-    "lint-staged": "^15.4.3",
+    "lerna": "8.2.1",
+    "lint-staged": "^15.5.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "standard-version": "^9.5.0",
-    "typescript": "^5.7.3"
+    "typescript": "^5.8.2"
   },
   "pnpm": {
     "overrides": {
       "bs58": ">=4.0.1"
     }
   },
-  "packageManager": "pnpm@9.15.1"
+  "packageManager": "pnpm@9.15.5"
 }

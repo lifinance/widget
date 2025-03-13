@@ -1,4 +1,5 @@
 import type { RouteExtended } from '@lifi/sdk'
+import { isGaslessStep } from '@lifi/sdk'
 import {
   ExpandLess,
   ExpandMore,
@@ -62,8 +63,10 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
     )
   }
 
+  const hasGaslessSupport = route.steps.some(isGaslessStep)
+
   const showIntegratorFeeCollectionDetails =
-    feeAmountUSD || Number.isFinite(feeConfig?.fee)
+    (feeAmountUSD || Number.isFinite(feeConfig?.fee)) && !hasGaslessSupport
 
   return (
     <Card selectionColor="secondary" {...props}>
@@ -86,7 +89,11 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
           <TokenRate route={route} />
         </Box>
         <Collapse timeout={100} in={!cardExpanded} mountOnEnter>
-          <FeeBreakdownTooltip gasCosts={gasCosts} feeCosts={feeCosts}>
+          <FeeBreakdownTooltip
+            gasCosts={gasCosts}
+            feeCosts={feeCosts}
+            relayerSupport={hasGaslessSupport}
+          >
             <Box
               onClick={toggleCard}
               // biome-ignore lint/a11y/useSemanticElements:
@@ -102,15 +109,17 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                 <LocalGasStationRounded fontSize="inherit" />
               </IconTypography>
               <Typography
-                data-value={combinedFeesUSD}
+                data-value={hasGaslessSupport ? 0 : combinedFeesUSD}
                 sx={{
                   fontSize: 14,
                   color: 'text.primary',
-                  fontWeight: '600',
+                  fontWeight: 600,
                   lineHeight: 1.429,
                 }}
               >
-                {t('format.currency', { value: combinedFeesUSD })}
+                {hasGaslessSupport
+                  ? t('main.fees.free')
+                  : t('format.currency', { value: combinedFeesUSD })}
               </Typography>
             </Box>
           </FeeBreakdownTooltip>
@@ -138,11 +147,19 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
             }}
           >
             <Typography variant="body2">{t('main.fees.network')}</Typography>
-            <FeeBreakdownTooltip gasCosts={gasCosts}>
-              <Typography variant="body2">
-                {t('format.currency', {
-                  value: gasCostUSD,
-                })}
+            <FeeBreakdownTooltip
+              gasCosts={gasCosts}
+              relayerSupport={hasGaslessSupport}
+            >
+              <Typography
+                variant="body2"
+                sx={{ fontWeight: 600, cursor: 'help' }}
+              >
+                {hasGaslessSupport
+                  ? t('main.fees.free')
+                  : t('format.currency', {
+                      value: gasCostUSD,
+                    })}
               </Typography>
             </FeeBreakdownTooltip>
           </Box>
@@ -156,7 +173,10 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
             >
               <Typography variant="body2">{t('main.fees.provider')}</Typography>
               <FeeBreakdownTooltip feeCosts={feeCosts}>
-                <Typography variant="body2">
+                <Typography
+                  variant="body2"
+                  sx={{ fontWeight: 600, cursor: 'help' }}
+                >
                   {t('format.currency', {
                     value: feeCostUSD,
                   })}
@@ -180,16 +200,18 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
               {feeConfig?.name ? (
                 <Tooltip
                   title={t('tooltip.feeCollection', { tool: feeConfig.name })}
-                  sx={{ cursor: 'help' }}
                 >
-                  <Typography variant="body2">
+                  <Typography
+                    variant="body2"
+                    sx={{ fontWeight: 600, cursor: 'help' }}
+                  >
                     {t('format.currency', {
                       value: feeAmountUSD,
                     })}
                   </Typography>
                 </Tooltip>
               ) : (
-                <Typography variant="body2">
+                <Typography variant="body2" sx={{ fontWeight: 600 }}>
                   {t('format.currency', {
                     value: feeAmountUSD,
                   })}
@@ -205,8 +227,11 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
             }}
           >
             <Typography variant="body2">{t('main.priceImpact')}</Typography>
-            <Tooltip title={t('tooltip.priceImpact')} sx={{ cursor: 'help' }}>
-              <Typography variant="body2">
+            <Tooltip title={t('tooltip.priceImpact')}>
+              <Typography
+                variant="body2"
+                sx={{ fontWeight: 600, cursor: 'help' }}
+              >
                 {t('format.percent', { value: priceImpact })}
               </Typography>
             </Tooltip>
@@ -221,8 +246,11 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                 }}
               >
                 <Typography variant="body2">{t('main.maxSlippage')}</Typography>
-                <Tooltip title={t('tooltip.slippage')} sx={{ cursor: 'help' }}>
-                  <Typography variant="body2">
+                <Tooltip title={t('tooltip.slippage')}>
+                  <Typography
+                    variant="body2"
+                    sx={{ fontWeight: 600, cursor: 'help' }}
+                  >
                     {t('format.percent', {
                       value: route.steps[0].action.slippage,
                     })}
@@ -236,11 +264,11 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                 }}
               >
                 <Typography variant="body2">{t('main.minReceived')}</Typography>
-                <Tooltip
-                  title={t('tooltip.minReceived')}
-                  sx={{ cursor: 'help' }}
-                >
-                  <Typography variant="body2">
+                <Tooltip title={t('tooltip.minReceived')}>
+                  <Typography
+                    variant="body2"
+                    sx={{ fontWeight: 600, cursor: 'help' }}
+                  >
                     {t('format.tokenAmount', {
                       value: formatTokenAmount(
                         BigInt(route.toAmountMin),
