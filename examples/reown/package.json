@@ -10,8 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/wallet-management": "^3.6.2",
-    "@lifi/widget": "^3.17.1",
+    "@lifi/wallet-management": "^3.7.0",
+    "@lifi/widget": "^3.18.0",
     "@mui/material": "^6.4.7",
     "@reown/appkit": "^1.6.9",
     "@reown/appkit-adapter-bitcoin": "^1.6.9",
@@ -35,6 +35,7 @@
     "@vitejs/plugin-react": "^4.3.4",
     "globals": "^16.0.0",
     "typescript": "~5.8.2",
-    "vite": "^6.2.1"
+    "vite": "^6.2.1",
+    "vite-plugin-env-compatible": "^2.0.1"
   }
 }
