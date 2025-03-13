@@ -1,19 +1,17 @@
 import type { LiFiStepExtended } from '@lifi/sdk'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useStopwatch } from '../../hooks/timer/useStopwatch.js'
 import { useSettings } from '../../stores/settings/useSettings.js'
 import { formatTimer } from '../../utils/timer.js'
 import { TimerContent } from './TimerContent.js'
 
-const getFirstExecutionProcess = (step: LiFiStepExtended) =>
-  step.execution?.process.at(0)
-
 const getExecutionProcess = (step: LiFiStepExtended) =>
   step.execution?.process.at(-1)
 
-const getStartTimestamp = (step: LiFiStepExtended) =>
-  new Date(getFirstExecutionProcess(step)?.startedAt ?? Date.now())
+const getStartTimestamp = (step: LiFiStepExtended) => {
+  return new Date(step.execution?.startedAt || Date.now())
+}
 
 export const StepTimer: React.FC<{
   step: LiFiStepExtended
@@ -22,43 +20,37 @@ export const StepTimer: React.FC<{
   const { i18n } = useTranslation()
   const { language } = useSettings(['language'])
 
-  const [isExecutionStarted, setExecutionStarted] = useState(
-    () => !!getExecutionProcess(step)
-  )
+  const isExecutionStarted = !!getExecutionProcess(step)
 
-  const { seconds, minutes, days, hours, isRunning, pause, reset, start } =
+  const { seconds, minutes, days, hours, reset, isRunning, pause } =
     useStopwatch({
-      autoStart: true,
       offsetTimestamp: getStartTimestamp(step),
     })
 
   useEffect(() => {
-    const executionProcess = getExecutionProcess(step)
-    if (!executionProcess) {
+    const status = step.execution?.status
+
+    const isReady = isExecutionStarted && status
+    const isFailed = status === 'FAILED'
+    const isDone = isRunning && status === 'DONE'
+    const isResuming = !isRunning && status === 'PENDING'
+
+    if (!isReady) {
       return
     }
 
-    const shouldRestart =
-      executionProcess.status === 'FAILED' || executionProcess.status === 'DONE'
-    const shouldStart =
-      executionProcess.status === 'STARTED' ||
-      executionProcess.status === 'PENDING'
-    const shouldResume = executionProcess.status === 'PENDING'
-    if (isExecutionStarted && shouldRestart) {
-      setExecutionStarted(false)
-      pause()
-      return
+    if (isFailed) {
+      return pause()
     }
-    if (isExecutionStarted && !isRunning && shouldResume) {
-      start()
-      return
+
+    if (isDone) {
+      return reset(getStartTimestamp(step), false)
     }
-    if (!isExecutionStarted && shouldStart) {
-      setExecutionStarted(true)
-      reset()
-      return
+
+    if (isResuming) {
+      return reset(getStartTimestamp(step), true)
     }
-  }, [isExecutionStarted, isRunning, pause, reset, start, step])
+  }, [isExecutionStarted, isRunning, step, reset, pause])
 
   if (step.execution?.status === 'DONE') {
     return null
