@@ -1,6 +1,5 @@
 import MenuOpenIcon from '@mui/icons-material/MenuOpen'
-import { Tooltip } from '@mui/material'
-import { ConnectButton } from '@rainbow-me/rainbowkit'
+import { Box, Tooltip } from '@mui/material'
 import type { PropsWithChildren } from 'react'
 import { ExternalWalletProvider } from '../../providers/ExternalWalletProvider/ExternalWalletProvider'
 import type { Layout } from '../../store/editTools/types'
@@ -57,7 +56,9 @@ export function WidgetViewContainer({
             </Tooltip>
           ) : null}
           {isWalletManagementExternal ? (
-            <ConnectButton chainStatus="none" showBalance={false} />
+            <Box display="flex" alignItems="center">
+              <appkit-button />
+            </Box>
           ) : null}
           {config?.variant === 'drawer' ? (
             <ToggleDrawerButton onClick={toggleDrawer} />

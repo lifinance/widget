@@ -1,11 +1,13 @@
-import type { Adapter } from '@solana/wallet-adapter-base'
+import type { Adapter, WalletName } from '@solana/wallet-adapter-base'
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
 import {
   ConnectionProvider,
   WalletProvider,
+  useWallet,
 } from '@solana/wallet-adapter-react'
 import { clusterApiUrl } from '@solana/web3.js'
-import type { FC, PropsWithChildren } from 'react'
+import mitt, { type Emitter } from 'mitt'
+import { type FC, type PropsWithChildren, useEffect } from 'react'
 
 const endpoint = clusterApiUrl(WalletAdapterNetwork.Mainnet)
 /**
@@ -22,12 +24,34 @@ const endpoint = clusterApiUrl(WalletAdapterNetwork.Mainnet)
  */
 const wallets: Adapter[] = []
 
+type WalletEvents = {
+  connect: string
+  disconnect: unknown
+}
+
+export const emitter: Emitter<WalletEvents> = mitt<WalletEvents>()
+
 export const SVMProvider: FC<PropsWithChildren> = ({ children }) => {
   return (
     <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets} autoConnect>
+      <WalletProvider wallets={wallets}>
+        <SolanaReownHandler />
         {children}
       </WalletProvider>
     </ConnectionProvider>
   )
+}
+
+export const SolanaReownHandler: FC = () => {
+  const { disconnect, select } = useWallet()
+  useEffect(() => {
+    emitter.on('connect', async (connectorName) => {
+      select(connectorName as WalletName)
+    })
+    emitter.on('disconnect', async () => {
+      await disconnect()
+    })
+    return () => emitter.all.clear()
+  }, [disconnect, select])
+  return null
 }

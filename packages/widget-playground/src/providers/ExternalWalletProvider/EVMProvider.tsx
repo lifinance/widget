@@ -1,88 +1,129 @@
-import { convertExtendedChain } from '@lifi/wallet-management'
-import { useAvailableChains } from '@lifi/widget'
+import { useSyncWagmiConfig } from '@lifi/wallet-management'
+import { ChainType, type ExtendedChain, useAvailableChains } from '@lifi/widget'
+import { BitcoinAdapter } from '@reown/appkit-adapter-bitcoin'
 import {
-  RainbowKitProvider,
-  type Theme as RainbowKitTheme,
-  darkTheme,
-  getDefaultConfig,
-  lightTheme,
-  useConnectModal,
-} from '@rainbow-me/rainbowkit'
-import '@rainbow-me/rainbowkit/styles.css'
-import { type FC, type PropsWithChildren, useEffect, useMemo } from 'react'
-import type { Chain } from 'viem'
+  SolanaAdapter,
+  type Provider as SolanaProvider,
+} from '@reown/appkit-adapter-solana'
+import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
+import type { AppKitNetwork } from '@reown/appkit-common'
+import { bitcoin, solana } from '@reown/appkit/networks'
+import {
+  type AppKit,
+  createAppKit,
+  useAppKit,
+  useAppKitProvider,
+} from '@reown/appkit/react'
+import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets'
+import { type FC, type PropsWithChildren, useEffect, useRef } from 'react'
 import { WagmiProvider } from 'wagmi'
-import { mainnet } from 'wagmi/chains'
 import { useThemeMode } from '../../hooks/useThemeMode'
 import { useWidgetConfigStore } from '../../store/widgetConfig/WidgetConfigProvider'
 import { useConfigActions } from '../../store/widgetConfig/useConfigActions'
+import { chainToAppKitNetworks, getChainImagesConfig } from '../../utils/appkit'
 import { useEnvVariables } from '../EnvVariablesProvider'
-import { theme } from '../PlaygroundThemeProvider/theme'
+import { SVMProvider, emitter } from './SVMProvider'
 
-const rkThemeColors = {
-  accentColor: theme.palette.primary.main,
-  accentColorForeground: theme.palette.common.white,
+const metadata = {
+  name: 'LI.FI Widget Playground',
+  description: 'LI.FI Widget Playground',
+  url: 'https://li.fi',
+  icons: ['https://avatars.githubusercontent.com/u/85288935'],
 }
 
-const rkThemeFonts = {
-  body: theme.typography.fontFamily,
-}
-
-const rkThemeRadii = {
-  actionButton: `${theme.shape.borderRadiusSecondary}px`,
-  connectButton: `${theme.shape.borderRadiusSecondary}px`,
-  menuButton: `${theme.shape.borderRadiusSecondary}px`,
-  modal: `${theme.shape.borderRadius}px`,
-  modalMobile: `${theme.shape.borderRadius}px`,
-}
-
-const RainbowKitModes = {
-  dark: {
-    ...darkTheme(rkThemeColors),
-    fonts: rkThemeFonts,
-    radii: rkThemeRadii,
-  },
-  light: {
-    ...lightTheme(rkThemeColors),
-    fonts: rkThemeFonts,
-    radii: rkThemeRadii,
-  },
-}
-
-export const EVMProvider: FC<PropsWithChildren> = ({ children }) => {
+export function WalletProvider({
+  children,
+  chains,
+}: { children: React.ReactNode; chains: ExtendedChain[] }) {
   const { EVMWalletConnectId } = useEnvVariables()
-  const { chains } = useAvailableChains()
+  const wagmi = useRef<WagmiAdapter | undefined>(undefined)
+  const modal = useRef<AppKit | undefined>(undefined)
   const themeMode = useThemeMode()
 
-  const wagmiConfig = useMemo(() => {
-    const _chains: [Chain, ...Chain[]] = chains?.length
-      ? (chains.map(convertExtendedChain) as [Chain, ...Chain[]])
-      : [mainnet]
+  if (!wagmi.current || !modal.current) {
+    const networks: [AppKitNetwork, ...AppKitNetwork[]] = [solana, bitcoin]
+    const evmChains = chains.filter(
+      (chain) => chain.chainType === ChainType.EVM
+    )
+    const evmNetworks = chainToAppKitNetworks(evmChains)
+    networks.push(...evmNetworks)
 
-    const wagmiConfig = getDefaultConfig({
-      appName: 'LI.FI Widget Playground',
-      chains: _chains,
+    const chainImages = getChainImagesConfig(evmChains)
+
+    const wagmiAdapter = new WagmiAdapter({
+      networks: evmNetworks,
       projectId: EVMWalletConnectId,
-      ssr: !chains?.length,
+      ssr: false,
     })
 
-    return wagmiConfig
-  }, [chains, EVMWalletConnectId])
+    const solanaWeb3JsAdapter = new SolanaAdapter({
+      wallets: [new PhantomWalletAdapter()],
+    })
+
+    const bitcoinAdapter = new BitcoinAdapter({
+      projectId: EVMWalletConnectId,
+    })
+
+    const appKit = createAppKit({
+      adapters: [wagmiAdapter, solanaWeb3JsAdapter, bitcoinAdapter],
+      networks,
+      projectId: EVMWalletConnectId,
+      metadata,
+      chainImages,
+      themeMode,
+      debug: true,
+    })
+    wagmi.current = wagmiAdapter
+    modal.current = appKit
+  }
+
+  const { wagmiConfig } = wagmi.current
+
+  const { walletProvider: solanaProvider } =
+    useAppKitProvider<SolanaProvider>('solana')
+
+  useSyncWagmiConfig(wagmiConfig, [], chains)
+
+  useEffect(() => {
+    const appKit = modal.current
+    if (appKit) {
+      appKit.setThemeMode(themeMode)
+    }
+  }, [themeMode])
+
+  useEffect(() => {
+    if (solanaProvider?.name) {
+      emitter.emit('connect', solanaProvider.name)
+    }
+  }, [solanaProvider])
 
   return (
-    <WagmiProvider
-      config={wagmiConfig}
-      reconnectOnMount={Boolean(chains?.length)}
-    >
-      <RainbowKitProvider theme={RainbowKitModes[themeMode] as RainbowKitTheme}>
-        <WidgetWalletConfigUpdater />
-        {children}
-      </RainbowKitProvider>
+    <WagmiProvider config={wagmiConfig} reconnectOnMount={false}>
+      <SVMProvider>{children}</SVMProvider>
     </WagmiProvider>
   )
 }
+
+export const EVMProvider: FC<PropsWithChildren> = ({ children }) => {
+  const { chains, isLoading } = useAvailableChains()
+
+  if (!chains || isLoading) {
+    return null
+  }
+
+  if (!chains.length) {
+    return null
+  }
+
+  return (
+    <WalletProvider chains={chains}>
+      <WidgetWalletConfigUpdater />
+      {children}
+    </WalletProvider>
+  )
+}
 export const WidgetWalletConfigUpdater = () => {
-  const { openConnectModal } = useConnectModal()
+  const { open } = useAppKit()
   const { setWalletConfig } = useConfigActions()
   const walletConfig = useWidgetConfigStore(
     (store) => store.config?.walletConfig
@@ -100,11 +141,11 @@ export const WidgetWalletConfigUpdater = () => {
       setWalletConfig({
         ...walletConfig,
         onConnect: () => {
-          openConnectModal?.()
+          open()
         },
       })
     }
-  }, [openConnectModal, setWalletConfig, walletConfig])
+  }, [setWalletConfig, walletConfig, open])
 
   return null
 }
