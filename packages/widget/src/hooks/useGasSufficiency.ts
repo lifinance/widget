@@ -41,7 +41,7 @@ export const useGasSufficiency = (route?: RouteExtended) => {
       // If we have a relayer step with a permit (EIP-2612) for the from token, we don't need to check for gas sufficiency
       if (
         isRelayerStep(route.steps[0]) &&
-        route.steps[0].permits.some((permit) => permit.permitType === 'Permit')
+        route.steps[0].typedData.some((t) => t.primaryType === 'Permit')
       ) {
         return
       }
