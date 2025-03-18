@@ -50,7 +50,7 @@
     "@testing-library/user-event": "^14.6.1",
     "@types/events": "^3.0.3",
     "@types/node": "^22.13.10",
-    "@types/react": "^19.0.10",
+    "@types/react": "^19.0.11",
     "@types/react-dom": "^19.0.4",
     "cpy-cli": "^5.0.0",
     "fs-extra": "^11.3.0",
@@ -67,5 +67,5 @@
       "bs58": ">=4.0.1"
     }
   },
-  "packageManager": "pnpm@9.15.5"
+  "packageManager": "pnpm@10.6.4+sha512.da3d715bfd22a9a105e6e8088cfc7826699332ded60c423b14ec613a185f1602206702ff0fe4c438cb15c979081ce4cb02568e364b15174503a63c7a8e2a5f6c"
 }
