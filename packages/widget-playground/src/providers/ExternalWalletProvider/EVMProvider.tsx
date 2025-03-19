@@ -69,6 +69,10 @@ export function WalletProvider({
       projectId: EVMWalletConnectId,
       metadata,
       chainImages,
+      features: {
+        socials: false,
+        email: false,
+      },
       themeMode,
       defaultNetwork: mainnet,
     })
