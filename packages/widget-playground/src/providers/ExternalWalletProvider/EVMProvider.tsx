@@ -10,7 +10,6 @@ import type { AppKitNetwork } from '@reown/appkit-common'
 import { bitcoin, mainnet, solana } from '@reown/appkit/networks'
 import {
   type AppKit,
-  type Provider,
   createAppKit,
   useAppKit,
   useAppKitProvider,
@@ -82,8 +81,6 @@ export function WalletProvider({
   const { walletProvider: solanaProvider } =
     useAppKitProvider<SolanaWalletProvider>('solana')
 
-  const { walletProvider: evmProvider } = useAppKitProvider<Provider>('eip155')
-
   useSyncWagmiConfig(wagmiConfig, [], chains)
 
   useEffect(() => {
@@ -99,15 +96,6 @@ export function WalletProvider({
       return () => emitter.emit('disconnect')
     }
   }, [solanaProvider])
-
-  useEffect(() => {
-    if (evmProvider) {
-      evmProvider.connect()
-      return () => {
-        evmProvider.disconnect()
-      }
-    }
-  }, [evmProvider])
 
   return (
     <WagmiProvider config={wagmiConfig} reconnectOnMount={false}>
