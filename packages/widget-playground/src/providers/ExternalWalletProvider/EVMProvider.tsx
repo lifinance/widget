@@ -56,9 +56,8 @@ export function WalletProvider({
       projectId: EVMWalletConnectId,
       ssr: false,
     })
-
     const solanaWeb3JsAdapter = new SolanaAdapter({
-      wallets: [new PhantomWalletAdapter()],
+      wallets: [new PhantomWalletAdapter() as any],
     })
 
     const bitcoinAdapter = new BitcoinAdapter({
