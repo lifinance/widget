@@ -18,6 +18,7 @@
     "@reown/appkit-adapter-solana": "^1.7.0",
     "@reown/appkit-adapter-wagmi": "^1.7.0",
     "@reown/appkit-common": "^1.7.0",
+    "@reown/appkit-utils": "^1.7.0",
     "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/wallet-adapter-react": "^0.15.35",
     "@solana/wallet-adapter-wallets": "^0.19.32",

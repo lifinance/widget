@@ -29,12 +29,18 @@ type WalletEvents = {
   disconnect: unknown
 }
 
+export const SolanaConnectedWalletKey = 'li.fi-widget-recent-wallet'
+
 export const emitter: Emitter<WalletEvents> = mitt<WalletEvents>()
 
-export const SVMProvider: FC<PropsWithChildren> = ({ children }) => {
+export const SolanaProvider: FC<PropsWithChildren> = ({ children }) => {
   return (
     <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets}>
+      <WalletProvider
+        wallets={wallets}
+        localStorageKey={SolanaConnectedWalletKey}
+        autoConnect
+      >
         <SolanaReownHandler />
         {children}
       </WalletProvider>

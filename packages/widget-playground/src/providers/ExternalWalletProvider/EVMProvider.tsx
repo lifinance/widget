@@ -3,13 +3,14 @@ import { ChainType, type ExtendedChain, useAvailableChains } from '@lifi/widget'
 import { BitcoinAdapter } from '@reown/appkit-adapter-bitcoin'
 import {
   SolanaAdapter,
-  type Provider as SolanaProvider,
+  type Provider as SolanaWalletProvider,
 } from '@reown/appkit-adapter-solana'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import type { AppKitNetwork } from '@reown/appkit-common'
-import { bitcoin, solana } from '@reown/appkit/networks'
+import { bitcoin, mainnet, solana } from '@reown/appkit/networks'
 import {
   type AppKit,
+  type Provider,
   createAppKit,
   useAppKit,
   useAppKitProvider,
@@ -22,7 +23,7 @@ import { useWidgetConfigStore } from '../../store/widgetConfig/WidgetConfigProvi
 import { useConfigActions } from '../../store/widgetConfig/useConfigActions'
 import { chainToAppKitNetworks, getChainImagesConfig } from '../../utils/appkit'
 import { useEnvVariables } from '../EnvVariablesProvider'
-import { SVMProvider, emitter } from './SVMProvider'
+import { SolanaProvider, emitter } from './SolanaProvider'
 
 const metadata = {
   name: 'LI.FI Widget Playground',
@@ -71,7 +72,7 @@ export function WalletProvider({
       metadata,
       chainImages,
       themeMode,
-      debug: true,
+      defaultNetwork: mainnet,
     })
     wagmi.current = wagmiAdapter
     modal.current = appKit
@@ -80,7 +81,9 @@ export function WalletProvider({
   const { wagmiConfig } = wagmi.current
 
   const { walletProvider: solanaProvider } =
-    useAppKitProvider<SolanaProvider>('solana')
+    useAppKitProvider<SolanaWalletProvider>('solana')
+
+  const { walletProvider: evmProvider } = useAppKitProvider<Provider>('eip155')
 
   useSyncWagmiConfig(wagmiConfig, [], chains)
 
@@ -94,12 +97,22 @@ export function WalletProvider({
   useEffect(() => {
     if (solanaProvider?.name) {
       emitter.emit('connect', solanaProvider.name)
+      return () => emitter.emit('disconnect')
     }
   }, [solanaProvider])
 
+  useEffect(() => {
+    if (evmProvider) {
+      evmProvider.connect()
+      return () => {
+        evmProvider.disconnect()
+      }
+    }
+  }, [evmProvider])
+
   return (
     <WagmiProvider config={wagmiConfig} reconnectOnMount={false}>
-      <SVMProvider>{children}</SVMProvider>
+      <SolanaProvider>{children}</SolanaProvider>
     </WagmiProvider>
   )
 }
@@ -117,8 +130,10 @@ export const EVMProvider: FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <WalletProvider chains={chains}>
-      <WidgetWalletConfigUpdater />
-      {children}
+      <SolanaProvider>
+        <WidgetWalletConfigUpdater />
+        {children}
+      </SolanaProvider>
     </WalletProvider>
   )
 }
