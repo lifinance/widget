@@ -10,27 +10,27 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/wallet-management": "^3.6.2",
-    "@lifi/widget": "^3.17.1",
+    "@lifi/wallet-management": "^3.7.1",
+    "@lifi/widget": "^3.18.1",
     "@mui/icons-material": "6.0.2",
-    "@mui/material": "^6.4.6",
-    "@solana/wallet-adapter-base": "^0.9.23",
-    "@solana/wallet-adapter-react": "^0.15.35",
+    "@mui/material": "^6.4.8",
+    "@solana/wallet-adapter-base": "^0.9.24",
+    "@solana/wallet-adapter-react": "^0.15.36",
     "@solana/web3.js": "^1.98.0",
-    "@tanstack/react-query": "^5.67.3",
+    "@tanstack/react-query": "^5.68.0",
     "connectkit": "^1.8.2",
     "mitt": "^3.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "viem": "^2.23.5",
-    "wagmi": "^2.14.12"
+    "viem": "^2.23.12",
+    "wagmi": "^2.14.15"
   },
   "devDependencies": {
-    "@types/react": "^19.0.10",
+    "@types/react": "^19.0.11",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
-    "globals": "^15.15.0",
-    "typescript": "~5.7.2",
-    "vite": "^6.2.0"
+    "globals": "^16.0.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.2"
   }
 }
