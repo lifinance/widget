@@ -23,4 +23,11 @@ The widget uses the wagmi library to interact with wallets, Dynamic supports the
 `useSyncWagmiConfig` in the `WalletProvider`
 
 ### Solana
-We sync the solana connections by listening for connection events in the `SolanaProvider`, and emitting those events when the Dynamic wallet is connected or disconnected from solana.
+The widget uses the solana library to manage solana wallets. We use a hook from dynamic to watch for the active solana wallet, and connect or disconnect.
+
+### Embedded Solana Wallets
+The Dynamic embedded solana wallet is a wrapper around [TurnKey Solana Wallet](https://github.com/tkhq/sdk/tree/main/packages/solana), and both libraries doesn't have adapters that implement the [solana wallet standard](https://github.com/anza-xyz/wallet-adapter/blob/master/WALLET.md). 
+
+This example in `./src/adapters/dynamic` implements an Adapter based on the standard for the Dynamic Embedded solana (Turnkey) wallet.
+After the adapter in initialized, the Solana Provider automatically works with the embedded wallet. 
+
