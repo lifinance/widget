@@ -1,13 +1,20 @@
-import type { Adapter, WalletName } from '@solana/wallet-adapter-base'
+import {
+  type Wallet,
+  useDynamicContext,
+  useDynamicEvents,
+} from '@dynamic-labs/sdk-react-core'
+import type { SolanaWalletConnector } from '@dynamic-labs/solana'
+import type { Adapter } from '@solana/wallet-adapter-base'
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
+
 import {
   ConnectionProvider,
   WalletProvider,
   useWallet,
 } from '@solana/wallet-adapter-react'
 import { clusterApiUrl } from '@solana/web3.js'
-import mitt, { type Emitter } from 'mitt'
 import { type FC, type PropsWithChildren, useEffect } from 'react'
+import { initialize } from '../adapters/dynamic'
 
 const endpoint = clusterApiUrl(WalletAdapterNetwork.Mainnet)
 /**
@@ -16,13 +23,6 @@ const endpoint = clusterApiUrl(WalletAdapterNetwork.Mainnet)
 const wallets: Adapter[] = []
 
 export const SolanaConnectedWalletKey = 'li.fi-widget-recent-wallet'
-
-type WalletEvents = {
-  connect: string
-  disconnect: unknown
-}
-
-export const emitter: Emitter<WalletEvents> = mitt<WalletEvents>()
 
 export const SolanaProvider: FC<PropsWithChildren> = ({ children }) => {
   return (
@@ -39,16 +39,49 @@ export const SolanaProvider: FC<PropsWithChildren> = ({ children }) => {
   )
 }
 
+const getSolanaConnector = (
+  wallet: Wallet | null
+): SolanaWalletConnector | undefined => {
+  if (wallet?.connector.connectedChain === 'SOL') {
+    return wallet.connector as SolanaWalletConnector
+  }
+}
+
 export const SolanaDynamicHandler: FC = () => {
-  const { disconnect, select } = useWallet()
+  const { disconnect, select, wallets } = useWallet()
+
+  const { primaryWallet } = useDynamicContext()
+  useDynamicEvents('logout', () => {
+    disconnect()
+  })
+
   useEffect(() => {
-    emitter.on('connect', async (connectorName) => {
-      select(connectorName as WalletName)
-    })
-    emitter.on('disconnect', async () => {
-      await disconnect()
-    })
-    return () => emitter.all.clear()
-  }, [disconnect, select])
+    if (primaryWallet?.connector.connectedChain !== 'SOL') {
+      disconnect()
+    }
+  }, [primaryWallet, disconnect])
+
+  const solanaWallet = getSolanaConnector(primaryWallet)
+
+  useEffect(() => {
+    const handleConnectedSolanaWallet = async () => {
+      if (!solanaWallet) {
+        return
+      }
+
+      const wallet = wallets.find(
+        (wallet) => wallet.adapter.name === solanaWallet.name
+      )
+      if (wallet) {
+        select(wallet.adapter.name)
+      } else {
+        const signer = await solanaWallet.getSigner()
+        signer && initialize(signer)
+      }
+    }
+
+    handleConnectedSolanaWallet()
+  }, [solanaWallet, select, wallets])
+
   return null
 }

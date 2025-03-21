@@ -2,14 +2,18 @@ import { EthereumWalletConnectors } from '@dynamic-labs/ethereum'
 import { DynamicContextProvider } from '@dynamic-labs/sdk-react-core'
 import { SolanaWalletConnectors } from '@dynamic-labs/solana'
 import { DynamicWagmiConnector } from '@dynamic-labs/wagmi-connector'
-import { useSyncWagmiConfig } from '@lifi/wallet-management'
+
+import {
+  convertExtendedChain,
+  isExtendedChain,
+  useSyncWagmiConfig,
+} from '@lifi/wallet-management'
 import { ChainType, type ExtendedChain, useAvailableChains } from '@lifi/widget'
 import { type FC, type PropsWithChildren, useRef } from 'react'
-import { http } from 'viem'
-import { mainnet } from 'viem/chains'
+import { type Chain, mainnet } from 'viem/chains'
 import type { Config, CreateConnectorFn } from 'wagmi'
-import { WagmiProvider, createConfig } from 'wagmi'
-import { SolanaProvider, emitter } from './SolanaProvider'
+import { http, WagmiProvider, createConfig } from 'wagmi'
+import { SolanaProvider } from './SolanaProvider'
 
 // All connectors are supplied by Dynamic so we can leave this empty
 const connectors: CreateConnectorFn[] = []
@@ -17,11 +21,21 @@ const connectors: CreateConnectorFn[] = []
 export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   const { chains } = useAvailableChains()
 
-  const wagmi = useRef<Config>()
+  const wagmi = useRef<Config>(null)
+
+  const evmChains = chains?.filter((chain) => chain.chainType === ChainType.EVM)
+
+  const wagmiChains =
+    (evmChains?.map((chain) =>
+      isExtendedChain(chain) ? convertExtendedChain(chain) : chain
+    ) as [Chain, ...Chain[]]) || []
 
   if (!wagmi.current) {
     wagmi.current = createConfig({
-      chains: [mainnet],
+      chains: [
+        mainnet,
+        ...wagmiChains.filter((chain) => chain.id !== mainnet.id),
+      ],
       multiInjectedProviderDiscovery: false,
       transports: {
         [mainnet.id]: http(),
@@ -30,39 +44,19 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
     })
   }
 
-  useSyncWagmiConfig(
-    wagmi.current,
-    connectors,
-    chains?.filter((chain) => chain.chainType === ChainType.EVM)
-  )
+  useSyncWagmiConfig(wagmi.current, connectors, evmChains)
 
   return (
     <DynamicContextProvider
       settings={{
         // replace with your environment id from https://app.dynamic.xyz/dashboard/developer
-        environmentId: '11abe661-8ca5-41b7-a575-83fb45b49049',
+        environmentId: '8e9d7f40-000c-49bc-8b5c-df647fce2081',
         walletConnectors: [EthereumWalletConnectors, SolanaWalletConnectors],
         overrides: {
           // Please ignore these network settings if you specify chains yourself
-          evmNetworks: chains ? convertToDynamicNetworks(chains) : [],
-        },
-        events: {
-          onAuthInit: (args) => {
-            if (args.type === 'wallet') {
-              emitter.emit('connect', args.connectorName)
-            }
-          },
-          onLogout: () => {
-            emitter.emit('disconnect')
-          },
-        },
-        handlers: {
-          handleConnectedWallet: async (args) => {
-            if (args.chain === 'SOL' && args.connector) {
-              emitter.emit('connect', args.connector.name)
-            }
-            return true
-          },
+          evmNetworks: evmChains
+            ? convertToDynamicNetworks(evmChains)
+            : undefined,
         },
       }}
     >
