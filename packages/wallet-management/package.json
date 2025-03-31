@@ -20,7 +20,7 @@
     "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg",
     "link:bigmi": "pnpm link --global @bigmi/client",
     "unlink:bigmi": "pnpm link --global @bigmi/client",
-    "link:sdk": "pnpm link --global @lifi/sdk",
+    "link:sdk": "pnpm link @lifi/sdk",
     "unlink:sdk": "pnpm unlink --global @lifi/sdk"
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
