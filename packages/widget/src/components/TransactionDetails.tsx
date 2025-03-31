@@ -251,9 +251,11 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                     variant="body2"
                     sx={{ fontWeight: 600, cursor: 'help' }}
                   >
-                    {t('format.percent', {
-                      value: route.steps[0].action.slippage,
-                    })}
+                    {route.steps[0].action.slippage
+                      ? t('format.percent', {
+                          value: route.steps[0].action.slippage,
+                        })
+                      : t('button.auto')}
                   </Typography>
                 </Tooltip>
               </Box>
