@@ -1,50 +1,33 @@
-# React + TypeScript + Vite
+# LI.FI Widget + Dynamic Example
+This project shows an example of how to use the LI.FI Widget with the Dynamic wallet
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Requirements
+1. [An Environment ID]('https://app.dynamic.xyz/dashboard/developer')
 
-Currently, two official plugins are available:
+## Installation
+1. Clone this repo
+2. Install dependencies `pnpm install`
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Configuration
+Update the `environment-id` prop on `<DynamicContextProvider />` with yours
 
-## Expanding the ESLint configuration
+## Run
+Start the app by running `pnpm dev`
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Using chains from LI.FI
+This example fetches a list of chains from LI.FI using the `useAvailableChains` hook, and they are passed to the Dynamic component.
 
-- Configure the top-level `parserOptions` property like this:
+## Syncing connectors and adapters
+### EVM
+The widget uses the wagmi library to interact with wallets, Dynamic supports the wagmi connecter, and we keep both libraries in sync by calling the 
+`useSyncWagmiConfig` in the `WalletProvider`
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### Solana
+The widget uses the solana library to manage solana wallets. We use a hook from dynamic to watch for the active solana wallet, and connect or disconnect.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### Embedded Solana Wallets
+The Dynamic embedded solana wallet is a wrapper around [TurnKey Solana Wallet](https://github.com/tkhq/sdk/tree/main/packages/solana), and both libraries doesn't have adapters that implement the [solana wallet standard](https://github.com/anza-xyz/wallet-adapter/blob/master/WALLET.md). 
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+This example in `./src/adapters/dynamic` implements an Adapter based on the standard for the Dynamic Embedded solana (Turnkey) wallet.
+After the adapter in initialized, the Solana Provider automatically works with the embedded wallet. 
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
