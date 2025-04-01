@@ -1,8 +1,8 @@
 import { EthereumWalletConnectors } from '@dynamic-labs/ethereum'
+import { ZeroDevSmartWalletConnectors } from '@dynamic-labs/ethereum-aa'
 import { DynamicContextProvider } from '@dynamic-labs/sdk-react-core'
 import { SolanaWalletConnectors } from '@dynamic-labs/solana'
 import { DynamicWagmiConnector } from '@dynamic-labs/wagmi-connector'
-
 import {
   convertExtendedChain,
   isExtendedChain,
@@ -50,8 +50,12 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
     <DynamicContextProvider
       settings={{
         // replace with your environment id from https://app.dynamic.xyz/dashboard/developer
-        environmentId: '8e9d7f40-000c-49bc-8b5c-df647fce2081',
-        walletConnectors: [EthereumWalletConnectors, SolanaWalletConnectors],
+        environmentId: '11abe661-8ca5-41b7-a575-83fb45b49049',
+        walletConnectors: [
+          EthereumWalletConnectors,
+          SolanaWalletConnectors,
+          ZeroDevSmartWalletConnectors,
+        ],
         overrides: {
           // Please ignore these network settings if you specify chains yourself
           evmNetworks: evmChains

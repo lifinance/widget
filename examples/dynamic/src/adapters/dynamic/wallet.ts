@@ -207,7 +207,9 @@ export class TurnkeyHDWallet implements Wallet {
   #signAndSendTransaction: SolanaSignAndSendTransactionMethod = async (
     ...inputs
   ) => {
-    if (!this.#account) throw new Error('not connected')
+    if (!this.#account) {
+      throw new Error('not connected')
+    }
 
     const outputs: SolanaSignAndSendTransactionOutput[] = []
 
@@ -243,14 +245,20 @@ export class TurnkeyHDWallet implements Wallet {
   }
 
   #signTransaction: SolanaSignTransactionMethod = async (...inputs) => {
-    if (!this.#account) throw new Error('not connected')
+    if (!this.#account) {
+      throw new Error('not connected')
+    }
 
     const outputs: SolanaSignTransactionOutput[] = []
 
     if (inputs.length === 1) {
       const { transaction, account, chain } = inputs[0]!
-      if (account !== this.#account) throw new Error('invalid account')
-      if (chain && !isSolanaChain(chain)) throw new Error('invalid chain')
+      if (account !== this.#account) {
+        throw new Error('invalid account')
+      }
+      if (chain && !isSolanaChain(chain)) {
+        throw new Error('invalid chain')
+      }
 
       const signedTransaction = await this.#turnkeyHD.signTransaction(
         VersionedTransaction.deserialize(transaction)
@@ -269,11 +277,17 @@ export class TurnkeyHDWallet implements Wallet {
     } else if (inputs.length > 1) {
       let chain: SolanaChain | undefined = undefined
       for (const input of inputs) {
-        if (input.account !== this.#account) throw new Error('invalid account')
+        if (input.account !== this.#account) {
+          throw new Error('invalid account')
+        }
         if (input.chain) {
-          if (!isSolanaChain(input.chain)) throw new Error('invalid chain')
+          if (!isSolanaChain(input.chain)) {
+            throw new Error('invalid chain')
+          }
           if (chain) {
-            if (input.chain !== chain) throw new Error('conflicting chain')
+            if (input.chain !== chain) {
+              throw new Error('conflicting chain')
+            }
           } else {
             chain = input.chain
           }
@@ -309,13 +323,17 @@ export class TurnkeyHDWallet implements Wallet {
   }
 
   #signMessage: SolanaSignMessageMethod = async (...inputs) => {
-    if (!this.#account) throw new Error('not connected')
+    if (!this.#account) {
+      throw new Error('not connected')
+    }
 
     const outputs: SolanaSignMessageOutput[] = []
 
     if (inputs.length === 1) {
       const { message, account } = inputs[0]!
-      if (account !== this.#account) throw new Error('invalid account')
+      if (account !== this.#account) {
+        throw new Error('invalid account')
+      }
 
       const { signature } = await this.#turnkeyHD.signMessage(message)
 
