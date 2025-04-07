@@ -79,7 +79,7 @@
     "@solana/wallet-adapter-react": "^0.15.35",
     "react": ">=18",
     "react-dom": ">=18",
-    "wagmi": "^2.14.0"
+    "wagmi": "^2.14.15"
   },
   "files": ["dist/**", "src/**", "!tsconfig.json"]
 }
