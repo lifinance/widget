@@ -67,6 +67,7 @@
       "bs58": ">=4.0.1",
       "@tanstack/react-query": ">=5.67.3",
       "@solana/wallet-adapter-base": ">=0.9.24",
+      "wagmi": "2.14.0",
       "@safe-global/safe-apps-provider": ">=0.18.6"
     }
   },
