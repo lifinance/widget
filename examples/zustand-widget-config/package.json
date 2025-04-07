@@ -11,19 +11,19 @@
   "dependencies": {
     "@lifi/widget": "workspace:^",
     "@mui/material": "^6.4.10",
-    "@tanstack/react-query": "^5.71.1",
+    "@tanstack/react-query": "^5.72.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "wagmi": "^2.14.16",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
-    "@types/react": "^19.0.12",
-    "@types/react-dom": "^19.0.4",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.1",
     "@vitejs/plugin-react": "^4.3.4",
     "globals": "^16.0.0",
-    "typescript": "^5.8.2",
-    "vite": "^6.2.4",
+    "typescript": "^5.8.3",
+    "vite": "^6.2.5",
     "vite-plugin-node-polyfills": "^0.23.0"
   }
 }
