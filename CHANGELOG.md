@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.18.2](https://github.com/lifinance/widget/compare/v3.18.1...v3.18.2) (2025-04-01)
+
+
+### Bug Fixes
+
+* use auto slippage in transaction details ([32551e2](https://github.com/lifinance/widget/commit/32551e2534be5222e02d06bfada7eded116e593b))
+
 ### [3.18.1](https://github.com/lifinance/widget/compare/v3.18.0...v3.18.1) (2025-03-13)
 
 

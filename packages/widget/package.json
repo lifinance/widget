@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget",
-  "version": "3.18.1",
+  "version": "3.18.2",
   "description": "LI.FI Widget for cross-chain bridging and swapping. It will drive your multi-chain strategy and attract new users from everywhere.",
   "type": "module",
   "main": "./src/index.ts",
@@ -19,10 +19,10 @@
     "check:types": "tsc --noEmit",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
     "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg",
-    "link:bigmi": "pnpm link --global @bigmi/client",
-    "unlink:bigmi": "pnpm link --global @bigmi/client",
-    "link:sdk": "pnpm link --global @lifi/sdk",
-    "unlink:sdk": "pnpm unlink --global @lifi/sdk",
+    "link:bigmi": "pnpm link @bigmi/client",
+    "unlink:bigmi": "pnpm link @bigmi/client",
+    "link:sdk": "pnpm link @lifi/sdk",
+    "unlink:sdk": "pnpm unlink @lifi/sdk",
     "test": "vitest run"
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
@@ -53,38 +53,38 @@
     "@bigmi/core": "^0.1.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@lifi/sdk": "3.6.2",
+    "@lifi/sdk": "^3.6.5",
     "@lifi/wallet-management": "workspace:^",
     "@mui/icons-material": "6.0.2",
-    "@mui/material": "^6.4.8",
-    "@mui/system": "^6.4.8",
+    "@mui/material": "^6.4.10",
+    "@mui/system": "^6.4.10",
     "@solana/wallet-adapter-base": "^0.9.24",
     "@solana/web3.js": "^1.98.0",
-    "@tanstack/react-virtual": "^3.13.4",
+    "@tanstack/react-virtual": "^3.13.6",
     "i18next": "^24.2.3",
     "microdiff": "^1.5.0",
     "mitt": "^3.0.1",
     "react-i18next": "^15.4.1",
     "react-intersection-observer": "^9.16.0",
     "react-router-dom": "^6.30.0",
-    "viem": "^2.23.12",
+    "viem": "^2.24.3",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
     "cpy-cli": "^5.0.0",
     "madge": "^8.0.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "typescript": "^5.8.2",
-    "vitest": "^3.0.9"
+    "vitest": "^3.1.1"
   },
   "peerDependencies": {
     "@bigmi/react": ">=0.1.0",
-    "@solana/wallet-adapter-react": "^0.15.35",
-    "@tanstack/react-query": "^5.62.0",
+    "@solana/wallet-adapter-react": ">=0.15.35",
+    "@tanstack/react-query": ">=5.68.0",
     "react": ">=18",
     "react-dom": ">=18",
-    "wagmi": "^2.14.0"
+    "wagmi": ">=2.14.0"
   },
   "files": ["dist/**", "src/**", "!tsconfig.json"]
 }
