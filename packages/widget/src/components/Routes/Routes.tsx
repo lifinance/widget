@@ -69,7 +69,7 @@ export const Routes: React.FC<CardProps> = (props) => {
           p: 2,
         }}
       >
-        {isLoading ? (
+        {isLoading && !currentRoute ? (
           <RouteCardSkeleton variant="cardless" />
         ) : !currentRoute ? (
           <RouteNotFoundCard />
