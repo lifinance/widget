@@ -57,18 +57,14 @@ export const StepTimer: React.FC<{
       executionProcess.status === 'STARTED' ||
       executionProcess.status === 'PENDING'
 
-    // timer should start if execution has not started but process has started
     const shouldRestart = !isExecutionStarted && isProcessStarted
 
-    // timer should pause if execution has started and process fails or user action is required
     const shouldPause =
       isExecutionStarted && executionProcess.status === 'ACTION_REQUIRED'
 
-    // timer should stop when execution starts and process fails
     const shouldStop =
       isExecutionStarted && executionProcess.status === 'FAILED'
 
-    // should resume if execution has started and process status is started or pending and timer is not running
     const shouldResume =
       isExecutionStarted && isProcessStarted && !isTimerRunning
 
