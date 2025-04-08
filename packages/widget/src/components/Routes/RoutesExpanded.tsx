@@ -165,7 +165,7 @@ export const RoutesExpandedElement = () => {
               >
                 {routeNotFound ? (
                   <RouteNotFoundCard />
-                ) : isLoading || (isFetching && !routesRef.current?.length) ? (
+                ) : (isLoading || isFetching) && !routesRef.current?.length ? (
                   Array.from({ length: 3 }).map((_, index) => (
                     <RouteCardSkeleton key={index} />
                   ))
