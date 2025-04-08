@@ -7,7 +7,7 @@ import { RouteExecutionStatus } from '../../stores/routes/types.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { TokenAvatarGroup } from '../Avatar/Avatar.style.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
-import { RouteTimer } from '../Timer/RouteTimer.js'
+import { StepTimer } from '../Timer/StepTimer.js'
 import { ListItem, ListItemButton } from './ActiveTransactions.style.js'
 
 export const ActiveTransactionItem: React.FC<{
@@ -47,7 +47,7 @@ export const ActiveTransactionItem: React.FC<{
               fontWeight: 600,
             }}
           >
-            <RouteTimer route={route} />
+            <StepTimer step={lastActiveStep} hideInProgress />
           </Typography>
         )
     }
