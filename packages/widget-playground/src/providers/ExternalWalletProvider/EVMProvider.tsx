@@ -111,11 +111,7 @@ export function WalletProvider({
 export const EVMProvider: FC<PropsWithChildren> = ({ children }) => {
   const { chains, isLoading } = useAvailableChains()
 
-  if (!chains || isLoading) {
-    return null
-  }
-
-  if (!chains.length) {
+  if (!chains?.length || isLoading) {
     return null
   }
 
