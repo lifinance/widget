@@ -7,7 +7,12 @@ import { formatTimer } from '../../utils/timer.js'
 import { TimerContent } from './TimerContent.js'
 
 const getExecutionProcess = (step: LiFiStepExtended) =>
-  step.execution?.process.at(-1)
+  step.execution?.process.findLast(
+    (process) =>
+      process.type === 'SWAP' ||
+      process.type === 'CROSS_CHAIN' ||
+      process.type === 'RECEIVING_CHAIN'
+  )
 
 const getExpiryTimestamp = (step: LiFiStepExtended) =>
   new Date(
@@ -26,6 +31,10 @@ export const StepTimer: React.FC<{
     () => !!getExecutionProcess(step)
   )
 
+  const [expiryTimestamp, setExpiryTimestamp] = useState(() =>
+    getExpiryTimestamp(step)
+  )
+
   const [isExpired, setExpired] = useState(false)
 
   const {
@@ -39,10 +48,8 @@ export const StepTimer: React.FC<{
     restart,
   } = useTimer({
     autoStart: false,
-    expiryTimestamp: getExpiryTimestamp(step),
-    onExpire() {
-      setExpired(true)
-    },
+    expiryTimestamp,
+    onExpire: () => setExpired(true),
   })
 
   const isTimerExpired = isExpired || (!minutes && !seconds)
@@ -53,14 +60,21 @@ export const StepTimer: React.FC<{
       return
     }
 
+    if (isExecutionStarted && isExpired) {
+      return
+    }
+
     const isProcessStarted =
       executionProcess.status === 'STARTED' ||
       executionProcess.status === 'PENDING'
 
-    const shouldRestart = !isExecutionStarted && isProcessStarted
+    const shouldRestart =
+      !isExecutionStarted && isProcessStarted && !isTimerRunning
 
     const shouldPause =
-      isExecutionStarted && executionProcess.status === 'ACTION_REQUIRED'
+      isExecutionStarted &&
+      executionProcess.status === 'ACTION_REQUIRED' &&
+      isTimerRunning
 
     const shouldStop =
       isExecutionStarted && executionProcess.status === 'FAILED'
@@ -71,6 +85,7 @@ export const StepTimer: React.FC<{
     if (shouldRestart) {
       const newExpiryTimestamp = getExpiryTimestamp(step)
       setExecutionStarted(true)
+      setExpiryTimestamp(newExpiryTimestamp)
       return restart(newExpiryTimestamp, true)
     }
     if (shouldPause) {
@@ -83,7 +98,15 @@ export const StepTimer: React.FC<{
       setExecutionStarted(false)
       setExpired(false)
     }
-  }, [isExecutionStarted, isTimerRunning, pause, step, resume, restart])
+  }, [
+    isExecutionStarted,
+    isTimerRunning,
+    pause,
+    step,
+    resume,
+    restart,
+    isExpired,
+  ])
 
   if (
     step.execution?.status === 'DONE' ||
