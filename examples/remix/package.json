@@ -10,7 +10,7 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@lifi/widget": "^3.18.1",
+    "@lifi/widget": "^3.18.2",
     "@remix-run/css-bundle": "^2.16.4",
     "@remix-run/node": "^2.16.4",
     "@remix-run/react": "^2.16.4",
@@ -22,10 +22,10 @@
   },
   "devDependencies": {
     "@remix-run/dev": "^2.16.4",
-    "@types/react": "^19.0.12",
-    "@types/react-dom": "^19.0.4",
-    "typescript": "^5.8.2",
-    "vite": "^6.2.4",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.1",
+    "typescript": "^5.8.3",
+    "vite": "^6.2.5",
     "vite-tsconfig-paths": "^5.1.4"
   },
   "engines": {
