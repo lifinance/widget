@@ -16,7 +16,7 @@ const getExecutionProcess = (step: LiFiStepExtended) =>
 
 const getExpiryTimestamp = (step: LiFiStepExtended) =>
   new Date(
-    (getExecutionProcess(step)?.startedAt ?? Date.now()) +
+    (step.execution?.startedAt ?? Date.now()) +
       step.estimate.executionDuration * 1000
   )
 
@@ -26,9 +26,10 @@ export const StepTimer: React.FC<{
 }> = ({ step, hideInProgress }) => {
   const { i18n, t } = useTranslation()
   const { language } = useSettings(['language'])
+  const executionProcess = getExecutionProcess(step)
 
   const [isExecutionStarted, setExecutionStarted] = useState(
-    () => !!getExecutionProcess(step)
+    () => !!executionProcess
   )
 
   const [expiryTimestamp, setExpiryTimestamp] = useState(() =>
@@ -55,7 +56,6 @@ export const StepTimer: React.FC<{
   const isTimerExpired = isExpired || (!minutes && !seconds)
 
   useEffect(() => {
-    const executionProcess = getExecutionProcess(step)
     if (!executionProcess) {
       return
     }
@@ -103,6 +103,7 @@ export const StepTimer: React.FC<{
     isTimerRunning,
     pause,
     step,
+    executionProcess,
     resume,
     restart,
     isExpired,
