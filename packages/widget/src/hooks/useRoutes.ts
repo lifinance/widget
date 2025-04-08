@@ -422,7 +422,8 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
         if (shouldUseRelayerQuote && initialRoutes.length) {
           emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
           setIntermediateRoutes(queryKey, initialRoutes)
-        } else {
+          // Return early if we're only using main routes
+        } else if (shouldUseMainRoutes) {
           // If we don't need relayer quote, return the initial routes
           return initialRoutes
         }
@@ -465,7 +466,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
     queryClient.setQueryData(
       queryDataKey,
       { routes: [route] },
-      { updatedAt: dataUpdatedAt }
+      { updatedAt: dataUpdatedAt || Date.now() }
     )
     setExecutableRoute(route)
   }
