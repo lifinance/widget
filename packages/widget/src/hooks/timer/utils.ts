@@ -24,16 +24,6 @@ export function getSecondsFromExpiry(expiry: Date, shouldRound?: boolean) {
   return 0
 }
 
-export function getSecondsFromPrevTime(prevTime: Date, shouldRound?: boolean) {
-  const now = new Date().getTime()
-  const milliSecondsDistance = now - prevTime.getTime()
-  if (milliSecondsDistance > 0) {
-    const val = milliSecondsDistance / 1000
-    return shouldRound ? Math.round(val) : val
-  }
-  return 0
-}
-
 export function validateExpiryTimestamp(expiryTimestamp: Date) {
   const isValid = new Date(expiryTimestamp).getTime() > 0
   if (!isValid) {

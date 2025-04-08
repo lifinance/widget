@@ -1,66 +1,119 @@
 import type { LiFiStepExtended } from '@lifi/sdk'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useStopwatch } from '../../hooks/timer/useStopwatch.js'
+import { useTimer } from '../../hooks/timer/useTimer.js'
 import { useSettings } from '../../stores/settings/useSettings.js'
 import { formatTimer } from '../../utils/timer.js'
 import { TimerContent } from './TimerContent.js'
 
-const getFirstExecutionProcess = (step: LiFiStepExtended) =>
-  step.execution?.process.at(0)
-
 const getExecutionProcess = (step: LiFiStepExtended) =>
-  step.execution?.process.at(-1)
+  step.execution?.process.findLast(
+    (process) =>
+      process.type === 'SWAP' ||
+      process.type === 'CROSS_CHAIN' ||
+      process.type === 'RECEIVING_CHAIN'
+  )
 
-const getStartTimestamp = (step: LiFiStepExtended) =>
-  new Date(getFirstExecutionProcess(step)?.startedAt ?? Date.now())
+const getExpiryTimestamp = (step: LiFiStepExtended) =>
+  new Date(
+    (step.execution?.startedAt ?? Date.now()) +
+      step.estimate.executionDuration * 1000
+  )
 
 export const StepTimer: React.FC<{
   step: LiFiStepExtended
   hideInProgress?: boolean
-}> = ({ step }) => {
-  const { i18n } = useTranslation()
+}> = ({ step, hideInProgress }) => {
+  const { i18n, t } = useTranslation()
   const { language } = useSettings(['language'])
+  const executionProcess = getExecutionProcess(step)
 
   const [isExecutionStarted, setExecutionStarted] = useState(
-    () => !!getExecutionProcess(step)
+    () => !!executionProcess
   )
 
-  const { seconds, minutes, days, hours, isRunning, pause, reset, start } =
-    useStopwatch({
-      autoStart: true,
-      offsetTimestamp: getStartTimestamp(step),
-    })
+  const [expiryTimestamp, setExpiryTimestamp] = useState(() =>
+    getExpiryTimestamp(step)
+  )
+
+  const [isExpired, setExpired] = useState(false)
+
+  const {
+    seconds,
+    minutes,
+    days,
+    hours,
+    isRunning: isTimerRunning,
+    pause,
+    resume,
+    restart,
+  } = useTimer({
+    autoStart: false,
+    expiryTimestamp,
+    onExpire: () => setExpired(true),
+  })
+
+  const isTimerExpired = isExpired || (!minutes && !seconds)
 
   useEffect(() => {
-    const executionProcess = getExecutionProcess(step)
     if (!executionProcess) {
       return
     }
 
-    const shouldRestart =
-      executionProcess.status === 'FAILED' || executionProcess.status === 'DONE'
-    const shouldStart =
+    if (isExecutionStarted && isExpired) {
+      return
+    }
+
+    const isProcessStarted =
       executionProcess.status === 'STARTED' ||
       executionProcess.status === 'PENDING'
-    const shouldResume = executionProcess.status === 'PENDING'
-    if (isExecutionStarted && shouldRestart) {
-      setExecutionStarted(false)
-      pause()
-      return
-    }
-    if (isExecutionStarted && !isRunning && shouldResume) {
-      start()
-      return
-    }
-    if (!isExecutionStarted && shouldStart) {
-      setExecutionStarted(true)
-      reset()
-      return
-    }
-  }, [isExecutionStarted, isRunning, pause, reset, start, step])
 
-  if (step.execution?.status === 'DONE') {
+    const shouldRestart =
+      !isExecutionStarted && isProcessStarted && !isTimerRunning
+
+    const shouldPause =
+      isExecutionStarted &&
+      executionProcess.status === 'ACTION_REQUIRED' &&
+      isTimerRunning
+
+    const shouldStop =
+      isExecutionStarted && executionProcess.status === 'FAILED'
+
+    const shouldResume =
+      isExecutionStarted && isProcessStarted && !isTimerRunning
+
+    if (shouldRestart) {
+      const newExpiryTimestamp = getExpiryTimestamp(step)
+      setExecutionStarted(true)
+      setExpiryTimestamp(newExpiryTimestamp)
+      return restart(newExpiryTimestamp, true)
+    }
+    if (shouldPause) {
+      return pause()
+    }
+    if (shouldResume) {
+      return resume()
+    }
+    if (shouldStop) {
+      setExecutionStarted(false)
+      setExpired(false)
+    }
+  }, [
+    isExecutionStarted,
+    isTimerRunning,
+    pause,
+    step,
+    executionProcess,
+    resume,
+    restart,
+    isExpired,
+  ])
+
+  if (
+    step.execution?.status === 'DONE' ||
+    step.execution?.status === 'FAILED' ||
+    (isTimerExpired && hideInProgress)
+  ) {
     return null
   }
 
@@ -80,7 +133,9 @@ export const StepTimer: React.FC<{
     )
   }
 
-  return (
+  return isTimerExpired ? (
+    t('main.inProgress')
+  ) : (
     <TimerContent>
       {formatTimer({
         locale: language,
