@@ -13,6 +13,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { parseUnits } from 'viem'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
+import { useIntermediateRoutesStore } from '../stores/routes/useIntermediateRoutesStore.js'
 import { useSetExecutableRoute } from '../stores/routes/useSetExecutableRoute.js'
 import { useSettings } from '../stores/settings/useSettings.js'
 import { defaultSlippage } from '../stores/settings/useSettingsStore.js'
@@ -160,6 +161,9 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
     observableRoute?.id,
   ] as const
 
+  const { getIntermediateRoutes, setIntermediateRoutes } =
+    useIntermediateRoutesStore()
+
   const { data, isLoading, isFetching, isFetched, dataUpdatedAt, refetch } =
     useQuery({
       queryKey,
@@ -303,90 +307,92 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           !isBatchingSupported &&
           (!observableRoute || isObservableRelayerRoute)
 
-        const [routesResult, relayerRouteResult] = await Promise.all([
-          shouldUseMainRoutes
-            ? getRoutes(
-                {
-                  fromAddress,
-                  fromAmount: fromAmount.toString(),
-                  fromChainId,
-                  fromTokenAddress,
-                  toAddress,
-                  toChainId,
-                  toTokenAddress,
-                  fromAmountForGas:
-                    enabledRefuel && gasRecommendationFromAmount
-                      ? gasRecommendationFromAmount
+        const mainRoutesPromise = shouldUseMainRoutes
+          ? getRoutes(
+              {
+                fromAddress,
+                fromAmount: fromAmount.toString(),
+                fromChainId,
+                fromTokenAddress,
+                toAddress,
+                toChainId,
+                toTokenAddress,
+                fromAmountForGas:
+                  enabledRefuel && gasRecommendationFromAmount
+                    ? gasRecommendationFromAmount
+                    : undefined,
+                options: {
+                  allowSwitchChain:
+                    subvariant === 'refuel' ? false : allowSwitchChain,
+                  bridges:
+                    allowBridges?.length || disabledBridges.length
+                      ? {
+                          allow: allowBridges,
+                          deny: disabledBridges.length
+                            ? disabledBridges
+                            : undefined,
+                        }
                       : undefined,
-                  options: {
-                    allowSwitchChain:
-                      subvariant === 'refuel' ? false : allowSwitchChain,
-                    bridges:
-                      allowBridges?.length || disabledBridges.length
-                        ? {
-                            allow: allowBridges,
-                            deny: disabledBridges.length
-                              ? disabledBridges
-                              : undefined,
-                          }
-                        : undefined,
-                    exchanges:
-                      allowExchanges?.length || disabledExchanges.length
-                        ? {
-                            allow: allowExchanges,
-                            deny: disabledExchanges.length
-                              ? disabledExchanges
-                              : undefined,
-                          }
-                        : undefined,
-                    order: routePriority,
-                    slippage: formattedSlippage,
-                    fee: calculatedFee || fee,
-                  },
-                },
-                { signal }
-              )
-            : Promise.resolve(null),
-          shouldUseRelayerQuote
-            ? getRelayerQuote(
-                {
-                  fromAddress,
-                  fromAmount: fromAmount.toString(),
-                  fromChain: fromChainId,
-                  fromToken: fromTokenAddress,
-                  toAddress,
-                  toChain: toChainId,
-                  toToken: toTokenAddress,
-                  fromAmountForGas:
-                    enabledRefuel && gasRecommendationFromAmount
-                      ? gasRecommendationFromAmount
+                  exchanges:
+                    allowExchanges?.length || disabledExchanges.length
+                      ? {
+                          allow: allowExchanges,
+                          deny: disabledExchanges.length
+                            ? disabledExchanges
+                            : undefined,
+                        }
                       : undefined,
                   order: routePriority,
                   slippage: formattedSlippage,
                   fee: calculatedFee || fee,
-                  ...(allowBridges?.length || disabledBridges.length
-                    ? {
-                        allowBridges: allowBridges,
-                        denyBridges: disabledBridges.length
-                          ? disabledBridges
-                          : undefined,
-                      }
-                    : undefined),
-                  ...(allowExchanges?.length || disabledExchanges.length
-                    ? {
-                        allowExchanges: allowExchanges,
-                        denyExchanges: disabledExchanges.length
-                          ? disabledExchanges
-                          : undefined,
-                      }
-                    : undefined),
                 },
-                { signal }
-              )
-                .then(convertQuoteToRoute)
-                .catch(() => null)
-            : Promise.resolve(null),
-        ])
+              },
+              { signal }
+            )
+          : Promise.resolve(null)
+
+        const relayerQuotePromise = shouldUseRelayerQuote
+          ? getRelayerQuote(
+              {
+                fromAddress,
+                fromAmount: fromAmount.toString(),
+                fromChain: fromChainId,
+                fromToken: fromTokenAddress,
+                toAddress,
+                toChain: toChainId,
+                toToken: toTokenAddress,
+                fromAmountForGas:
+                  enabledRefuel && gasRecommendationFromAmount
+                    ? gasRecommendationFromAmount
+                    : undefined,
+                order: routePriority,
+                slippage: formattedSlippage,
+                fee: calculatedFee || fee,
+                ...(allowBridges?.length || disabledBridges.length
+                  ? {
+                      allowBridges: allowBridges,
+                      denyBridges: disabledBridges.length
+                        ? disabledBridges
+                        : undefined,
+                    }
+                  : undefined),
+                ...(allowExchanges?.length || disabledExchanges.length
+                  ? {
+                      allowExchanges: allowExchanges,
+                      denyExchanges: disabledExchanges.length
+                        ? disabledExchanges
+                        : undefined,
+                    }
+                  : undefined),
+              },
+              { signal }
+            )
+              .then(convertQuoteToRoute)
+              .catch(() => null)
+          : Promise.resolve(null)
+
+        // Wait for the main routes to complete first
+        const routesResult = await mainRoutesPromise
 
         if (routesResult?.routes[0] && fromAddress) {
           // Update local tokens cache to keep priceUSD in sync
@@ -411,15 +417,27 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           })
         }
 
-        const routes = routesResult?.routes ?? []
+        const initialRoutes = routesResult?.routes ?? []
 
-        // Add relayer route if available
-        if (relayerRouteResult) {
-          routes.splice(1, 0, relayerRouteResult)
+        if (shouldUseRelayerQuote && initialRoutes.length) {
+          emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
+          setIntermediateRoutes(queryKey, initialRoutes)
+          // Return early if we're only using main routes
+        } else if (shouldUseMainRoutes) {
+          // If we don't need relayer quote, return the initial routes
+          return initialRoutes
         }
 
-        emitter.emit(WidgetEvent.AvailableRoutes, routes)
-        return routes
+        const relayerRouteResult = await relayerQuotePromise
+        // If we have a relayer route, add it to the routes array
+        if (relayerRouteResult) {
+          // Insert the relayer route at position 1 (after the first route)
+          initialRoutes.splice(1, 0, relayerRouteResult)
+          // Emit the updated routes
+          emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
+        }
+
+        return initialRoutes
       },
       enabled: isEnabled,
       staleTime: refetchTime,
@@ -448,13 +466,13 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
     queryClient.setQueryData(
       queryDataKey,
       { routes: [route] },
-      { updatedAt: dataUpdatedAt }
+      { updatedAt: dataUpdatedAt || Date.now() }
     )
     setExecutableRoute(route)
   }
 
   return {
-    routes: data,
+    routes: data || getIntermediateRoutes(queryKey),
     isLoading: isEnabled && isLoading,
     isFetching,
     isFetched,

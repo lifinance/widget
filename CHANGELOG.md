@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.18.4](https://github.com/lifinance/widget/compare/v3.18.3...v3.18.4) (2025-04-08)
+
+
+### Bug Fixes
+
+* we should correctly track routes when there is a relayer one ([#370](https://github.com/lifinance/widget/issues/370)) ([a64390c](https://github.com/lifinance/widget/commit/a64390c20211798e19a91b1a61b71a1fb2175310))
+
+### [3.18.3](https://github.com/lifinance/widget/compare/v3.18.2...v3.18.3) (2025-04-07)
+
+
+### Bug Fixes
+
+* update routes incrementally as they're ready ([#367](https://github.com/lifinance/widget/issues/367)) ([fafe735](https://github.com/lifinance/widget/commit/fafe73510498b88676e97120452ba640823acdef))
+
 ### [3.18.2](https://github.com/lifinance/widget/compare/v3.18.1...v3.18.2) (2025-04-01)
 
 
