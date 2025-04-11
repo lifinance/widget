@@ -2,18 +2,20 @@ import { Box, Tooltip, Typography } from '@mui/material'
 import type { TFunction } from 'i18next'
 import type { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { formatUnits } from 'viem'
 import type { FeesBreakdown } from '../utils/fees.js'
+import { formatTokenAmount } from '../utils/format.js'
 
 export interface FeeBreakdownTooltipProps {
   gasCosts?: FeesBreakdown[]
   feeCosts?: FeesBreakdown[]
+  relayerSupport?: boolean
   children: ReactElement<any, any>
 }
 
 export const FeeBreakdownTooltip: React.FC<FeeBreakdownTooltipProps> = ({
   gasCosts,
   feeCosts,
+  relayerSupport,
   children,
 }) => {
   const { t } = useTranslation()
@@ -21,13 +23,14 @@ export const FeeBreakdownTooltip: React.FC<FeeBreakdownTooltipProps> = ({
     <Tooltip
       title={
         <Box>
-          {gasCosts?.length ? (
+          {relayerSupport ? <Box>{t('tooltip.relayerService')}</Box> : null}
+          {gasCosts?.length && !relayerSupport ? (
             <Box>
               {t('main.fees.network')}
               {getFeeBreakdownTypography(gasCosts, t)}
             </Box>
           ) : null}
-          {feeCosts?.length ? (
+          {feeCosts?.length && !relayerSupport ? (
             <Box
               sx={{
                 mt: 0.5,
@@ -60,9 +63,8 @@ export const getFeeBreakdownTypography = (
       }}
     >
       {t('format.currency', { value: fee.amountUSD })} (
-      {t('format.number', {
-        value: Number.parseFloat(formatUnits(fee.amount, fee.token.decimals)),
-        maximumFractionDigits: Math.min(fee.token.decimals, 9),
+      {t('format.tokenAmount', {
+        value: formatTokenAmount(fee.amount, fee.token.decimals),
       })}{' '}
       {fee.token.symbol})
     </Typography>

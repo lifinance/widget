@@ -24,7 +24,8 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
     subvariant === 'refuel' ||
     disabledUI?.includes(DisabledUI.FromToken) ||
     disabledUI?.includes(DisabledUI.ToToken) ||
-    hiddenUI?.includes(HiddenUI.ToToken)
+    hiddenUI?.includes(HiddenUI.ToToken) ||
+    hiddenUI?.includes(HiddenUI.ReverseTokensButton)
 
   const hiddenToToken =
     subvariant === 'custom' || hiddenUI?.includes(HiddenUI.ToToken)

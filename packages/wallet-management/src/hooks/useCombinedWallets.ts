@@ -164,7 +164,8 @@ export const useCombinedWallets = () => {
     const installedSVMWallets = includeEcosystem(ChainType.SVM)
       ? solanaWallets.filter((wallet) => {
           const isInstalled =
-            wallet.adapter.readyState === WalletReadyState.Installed
+            wallet.adapter.readyState === WalletReadyState.Installed ||
+            wallet.adapter.readyState === WalletReadyState.Loadable
           const isConnected = wallet.adapter.connected
           return isInstalled && !isConnected
         })
@@ -188,7 +189,8 @@ export const useCombinedWallets = () => {
 
     const notDetectedSVMWallets = solanaWallets.filter((wallet) => {
       const isInstalled =
-        wallet.adapter.readyState === WalletReadyState.Installed
+        wallet.adapter.readyState === WalletReadyState.Installed ||
+        wallet.adapter.readyState === WalletReadyState.Loadable
       return !isInstalled && isDesktopView
     })
 

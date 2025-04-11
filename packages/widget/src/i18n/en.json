@@ -6,7 +6,8 @@
   "format": {
     "currency": "{{value, currencyExt(currency: USD)}}",
     "number": "{{value, number(maximumFractionDigits: 9)}}",
-    "percent": "{{value, percent(maximumFractionDigits: 2)}}"
+    "percent": "{{value, percent(maximumFractionDigits: 2)}}",
+    "tokenAmount": "{{value, numberExt}}"
   },
   "button": {
     "auto": "Auto",
@@ -83,14 +84,13 @@
     "message": {
       "autoRefuel": "You're low on {{chainName}} gas. By continuing, you'll get enough gas to complete the transaction.",
       "emptyActiveTransactions": "Transactions in progress will appear here. Once completed, find them in transaction history.",
-      "emptyTokenList": "We couldn't find tokens on {{chainName}} chain or you don't have any. Please search by contract address if your token doesn't appear or choose another chain.",
-      "emptyChainList": "We couldn't find any chains that match your search",
       "emptyBridgesList": "We couldn't find any bridges that match your search",
+      "emptyChainList": "We couldn't find any chains that match your search",
       "emptyExchangesList": "We couldn't find any exchanges that match your search",
+      "emptyTokenList": "We couldn't find tokens on {{chainName}} chain or you don't have any. Please search by contract address if your token doesn't appear or choose another chain.",
       "emptyTransactionHistory": "Transaction history is only stored locally and will be deleted if you clear your browser data.",
-      "fundsToExchange": "Funds sent to an exchange may be lost",
-      "toAddressIsRequired": "Please provide the destination wallet address to which the funds will be transferred.",
-      "routeNotFound": "Reasons for that could be: low liquidity, amount selected is too low, gas costs are too high or there are no routes for the selected combination."
+      "routeNotFound": "Reasons for that could be: low liquidity, amount selected is too low, gas costs are too high or there are no routes for the selected combination.",
+      "toAddressIsRequired": "The destination wallet address is required to proceed with the transfer."
     },
     "title": {
       "autoRefuel": "Get {{chainName}} gas",
@@ -102,7 +102,7 @@
   "success": {
     "message": {
       "exchangePartiallySuccessful": "We've tried to complete the transaction, but {{tool}} couldn't proceed due to either slippage settings or lack of liquidity for the {{tokenSymbol}} token.",
-      "exchangeSuccessful": "There are now {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} in {{walletAddress}} wallet on {{chainName}} chain.",
+      "exchangeSuccessful": "There are now {{amount, numberExt}} {{tokenSymbol}} in {{walletAddress}} wallet on {{chainName}} chain.",
       "checkoutSuccessful": "You now own {{assetName}} in {{walletAddress}} wallet on {{chainName}} chain."
     },
     "title": {
@@ -117,14 +117,18 @@
   },
   "warning": {
     "message": {
+      "accountNotDeployedMessage": "Smart contract account doesn't exist on the destination chain. Sending funds to a non-existent smart contract account can result in permanent loss.",
+      "lowAddressActivity": "This address has low activity on {{chainName}} network. Please verify you're sending to the correct address and network to prevent potential loss of funds.",
       "deleteActiveTransactions": "Active transactions are only stored locally and can't be recovered if you delete them.",
       "deleteTransactionHistory": "Transaction history is only stored locally and can't be recovered if you delete it.",
+      "fundsLossPrevention": "Always ensure smart contract accounts are properly set up on the destination chain and avoid direct transfers to exchanges to prevent fund loss.",
       "highValueLoss": "The value of the received tokens is significantly lower than the exchanged tokens and transaction cost.",
       "insufficientFunds": "You don't have enough funds to complete the transaction.",
       "insufficientGas": "You don't have enough gas to complete the transaction. You need to add at least:",
       "rateChanged": "The exchange rate has changed. By continuing the transaction, you'll accept the new rate.",
       "resetSettings": "This will reset your route priority, slippage, gas price, enabled bridges and exchanges.",
-      "slippageOutsideRecommendedLimits": "High slippage tolerance may result in unfavorable trade caused by front-running."
+      "slippageOutsideRecommendedLimits": "High slippage tolerance may result in unfavorable trade caused by front-running.",
+      "slippageUnderRecommendedLimits": "Low slippage tolerance may cause transaction delays or failures."
     },
     "title": {
       "deleteActiveTransactions": "Delete all active transactions?",
@@ -133,19 +137,21 @@
       "highValueLoss": "High value loss",
       "insufficientGas": "Insufficient gas",
       "rateChanged": "Rate changed",
-      "resetSettings": "Reset settings?"
+      "resetSettings": "Reset settings?",
+      "lowAddressActivity": "Low Activity Address"
     }
   },
   "error": {
     "message": {
       "allowanceRequired": "Transfer amount for {{tokenSymbol}} exceeds your current allowance. Please increase your allowance and try again.",
       "insufficientFunds": "You don't have enough gas to cover the cost of the transaction.",
-      "remainInYourWallet": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
-      "signatureRejected": "Your signature is required to complete the transaction. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
+      "remainInYourWallet": "{{amount, numberExt}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
+      "signatureRejected": "Your signature is required to complete the transaction. {{amount, numberExt}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
       "slippageThreshold": "The slippage is larger than the defined threshold. Please request a new quote.",
       "transactionCanceled": "Transaction was canceled.",
       "transactionConflict": "Transaction couldn't be processed because it's conflicting with another pending transaction using the same funds. Please wait for the pending transaction to be confirmed or check your transaction history before trying again.",
       "transactionExpired": "The block height has exceeded the maximum allowed limit or blockhash is no longer recent enough.",
+      "transactionRejected": "The transaction was rejected due to an internal wallet error. Please try again or request a new quote.",
       "transactionFailed": "Please check the block explorer for more information.",
       "transactionNotSent": "Transaction was not sent.",
       "transactionSimulationFailed": "The transaction could not be executed in simulation.",
@@ -167,6 +173,7 @@
       "transactionConflict": "Transaction conflict",
       "transactionExpired": "Transaction expired",
       "transactionFailed": "Transaction failed",
+      "transactionRejected": "Transaction rejected",
       "transactionSimulationFailed": "Transaction simulation failed",
       "transactionUnderpriced": "Transaction is underpriced",
       "transactionUnprepared": "Unable to prepare transaction",
@@ -180,13 +187,14 @@
   },
   "tooltip": {
     "deselectAll": "Deselect all",
-    "estimatedTime": "Estimated time to complete the swap or bridge transaction, excluding chain switching and token approval.",
+    "estimatedTime": "Time to complete the swap or bridge transaction, excluding chain switching and token approval.",
     "feeCollection": "The fee is applied to selected token pairs and ensures the best experience with {{tool}}.",
     "minReceived": "The estimated minimum amount may change until the swapping/bridging transaction is signed. For 2-step transfers, this applies until the second step transaction is signed.",
     "notFound": {
       "text": "We couldn't find this page.",
       "title": "404"
     },
+    "relayerService": "We handle the gas, so you can transfer assets without holding native tokens. Network costs are included in the transfer.",
     "numberOfSteps": "Each exchange step can contain 1-2 transactions that require a signature.",
     "priceImpact": "The estimated value difference between the source and destination tokens.",
     "progressToNextUpdate": "Quotes will update in {{value}} seconds. <0/> Click here to update now.",
@@ -203,7 +211,9 @@
     "featuredTokens": "Featured tokens",
     "fees": {
       "defaultIntegrator": "Integrator fee",
+      "relayerService": "Gasless service",
       "estimated": "estimated costs",
+      "free": "Free",
       "integrator": "{{tool}} fee",
       "network": "Network cost",
       "paid": "paid costs",
@@ -220,9 +230,9 @@
     "priceImpact": "Price impact",
     "process": {
       "bridge": {
-        "actionRequired": "Please sign the transaction",
+        "actionRequired": "Sign bridge transaction",
         "done": "Bridge transaction confirmed",
-        "pending": "Waiting for bridge transaction",
+        "pending": "Bridge transaction pending",
         "started": "Preparing bridge transaction"
       },
       "checkout": {
@@ -238,19 +248,26 @@
         "refunded": "Bridge transaction refunded"
       },
       "swap": {
-        "actionRequired": "Please sign the transaction",
+        "actionRequired": "Sign swap transaction",
         "done": "Swap completed",
-        "pending": "Waiting for swap transaction",
+        "pending": "Swap transaction pending",
         "started": "Preparing swap transaction"
       },
       "switchChain": {
-        "actionRequired": "Chain switch required",
-        "done": "Chain switched successfully"
+        "actionRequired": "Confirm chain switch",
+        "done": "Chain switched"
+      },
+      "permit": {
+        "actionRequired": "Sign permit message",
+        "done": "Permit message signed",
+        "pending": "Waiting for permit message",
+        "started": "Preparing transaction"
       },
       "tokenAllowance": {
-        "done": "Token allowance approved",
-        "pending": "Waiting for token allowance",
-        "started": "Setting token allowance"
+        "actionRequired": "Approve {{tokenSymbol}} spending",
+        "done": "{{tokenSymbol}} spending approved",
+        "pending": "{{tokenSymbol}} approval pending",
+        "started": "Preparing approval transaction"
       }
     },
     "quotedAmount": "Quoted amount",
@@ -278,11 +295,12 @@
     "transferId": "Transfer ID",
     "tags": {
       "cheapest": "Best Return",
-      "fastest": "Fastest"
+      "fastest": "Fastest",
+      "gasless": "Gasless"
     },
     "to": "To",
     "tokenOnChain": "{{tokenSymbol}} on {{chainName}}",
-    "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} on {{chainName}}",
+    "tokenOnChainAmount": "{{amount, numberExt}} {{tokenSymbol}} on {{chainName}}",
     "tokenSearch": "Search by token name or address",
     "valueLoss": "Value loss",
     "searchChains": "Search by chain name",

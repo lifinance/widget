@@ -56,8 +56,9 @@ export const FormUpdater: React.FC<{
     if (reactiveFormValues.toAddress) {
       setSendToWallet(true)
     }
-
-    setSelectedBookmark(toAddress)
+    if (toAddress) {
+      setSelectedBookmark(toAddress)
+    }
 
     setUserAndDefaultValues(
       accountForChainId(reactiveFormValues, account.chainId)

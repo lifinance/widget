@@ -23,7 +23,7 @@ export const useGasRefuel = () => {
 
   const effectiveToAddress = toAddress || toAccount?.address
 
-  const isToContractAddress = useIsContractAddress(
+  const { isContractAddress: isToContractAddress } = useIsContractAddress(
     effectiveToAddress,
     toChainId,
     toChain?.chainType
@@ -49,8 +49,8 @@ export const useGasRefuel = () => {
 
   const enabled = useMemo(() => {
     if (
-      // We don't allow same chain refuel.
-      // If a user runs out of gas, he can't send a source chain transaction.
+      // Same chain refuel is not allowed since users need gas on source chain to initiate transaction
+      // We allow refuel when bridging to native token since bridging routes may require gas for destination swaps
       fromChainId === toChainId ||
       !gasRecommendation?.available ||
       !gasRecommendation?.recommended ||

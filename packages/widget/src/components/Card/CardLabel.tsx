@@ -1,9 +1,15 @@
-import { Box, Typography, getContrastRatio, styled } from '@mui/material'
+import {
+  Box,
+  Typography,
+  getContrastRatio,
+  lighten,
+  styled,
+} from '@mui/material'
 import { blend } from '../../utils/colors.js'
 
 export const CardLabel = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'type',
-})<{ type?: 'active' }>(({ theme }) => ({
+  shouldForwardProp: (prop) => prop !== 'variant',
+})<{ variant?: 'secondary' | 'success' }>(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   padding: 0,
   display: 'flex',
@@ -13,7 +19,6 @@ export const CardLabel = styled(Box, {
   minWidth: 24,
   userSelect: 'none',
   fontSize: '1rem',
-  marginRight: theme.spacing(1),
   backgroundColor: blend(
     theme.palette.background.paper,
     theme.palette.common.white,
@@ -29,7 +34,7 @@ export const CardLabel = styled(Box, {
   }),
   variants: [
     {
-      props: { type: 'active' },
+      props: { variant: 'secondary' },
       style: {
         backgroundColor: blend(
           theme.palette.background.paper,
@@ -56,6 +61,25 @@ export const CardLabel = styled(Box, {
             ) >= 3
               ? theme.palette.common.white
               : theme.palette.common.black,
+        }),
+      },
+    },
+    {
+      props: { variant: 'success' },
+      style: {
+        backgroundColor: blend(
+          theme.palette.background.paper,
+          theme.palette.success.main,
+          0.24
+        ),
+        color: lighten(theme.palette.success.main, 0.24),
+        ...theme.applyStyles('light', {
+          backgroundColor: blend(
+            theme.palette.background.paper,
+            theme.palette.success.main,
+            0.16
+          ),
+          color: lighten(theme.palette.success.main, 0),
         }),
       },
     },

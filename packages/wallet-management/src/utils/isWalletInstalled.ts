@@ -29,6 +29,10 @@ export const isWalletInstalled = (id: string): boolean => {
       return anyWindow.unisat
     case 'io.xdefi.bitcoin':
       return anyWindow.xfi?.bitcoin
+    case 'so.onekey.app.wallet.bitcoin':
+      return anyWindow.$onekey?.btc
+    case 'LeatherProvider':
+      return anyWindow.LeatherProvider
     default:
       /**
        * Return true if the wallet is not in the list of explicitly supported or self-injected wallet

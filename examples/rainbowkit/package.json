@@ -9,20 +9,21 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/widget": "workspace:^",
-    "@rainbow-me/rainbowkit": "^2.2.1",
-    "@tanstack/react-query": "^5.62.8",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "viem": "^2.21.55",
-    "wagmi": "^2.14.3"
+    "@lifi/wallet-management": "^3.7.2",
+    "@lifi/widget": "^3.18.2",
+    "@rainbow-me/rainbowkit": "^2.2.4",
+    "@tanstack/react-query": "^5.72.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "viem": "^2.26.0",
+    "wagmi": "^2.14.16"
   },
   "devDependencies": {
-    "@types/react": "^18.3.17",
-    "@types/react-dom": "^18.3.5",
-    "@vitejs/plugin-react-swc": "^3.7.2",
-    "typescript": "^5.7.2",
-    "vite": "^6.0.5",
-    "vite-plugin-node-polyfills": "^0.22.0"
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.1",
+    "@vitejs/plugin-react-swc": "^3.8.1",
+    "typescript": "^5.8.3",
+    "vite": "^6.2.5",
+    "vite-plugin-node-polyfills": "^0.23.0"
   }
 }

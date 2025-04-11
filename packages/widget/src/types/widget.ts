@@ -13,6 +13,7 @@ import type {
   PaletteMode,
   PaletteOptions,
   Shape,
+  SxProps,
   Theme,
 } from '@mui/material'
 import type { TypographyOptions } from '@mui/material/styles/createTypography.js'
@@ -93,6 +94,8 @@ export enum HiddenUI {
   ToToken = 'toToken',
   WalletMenu = 'walletMenu',
   IntegratorStepDetails = 'integratorStepDetails',
+  ReverseTokensButton = 'reverseTokensButton',
+  RouteTokenDescription = 'routeTokenDescription',
 }
 export type HiddenUIType = `${HiddenUI}`
 
@@ -143,7 +146,7 @@ export interface CalculateFeeParams {
   toAddress?: string
   fromAmount?: bigint
   toAmount?: bigint
-  slippage: number
+  slippage?: number
 }
 
 export interface WidgetFeeConfig {
@@ -191,6 +194,22 @@ export type WidgetLanguages = {
 
 export type PoweredByType = 'default' | 'jumper'
 
+export interface RouteLabel {
+  text: string
+  sx?: SxProps<Theme>
+}
+
+export interface RouteLabelRule {
+  label: RouteLabel
+  // Matching criteria
+  bridges?: AllowDeny<string>
+  exchanges?: AllowDeny<string>
+  fromChainId?: number[]
+  toChainId?: number[]
+  fromTokenAddress?: string[]
+  toTokenAddress?: string[]
+}
+
 export interface WidgetConfig {
   fromChain?: number
   toChain?: number
@@ -227,6 +246,7 @@ export interface WidgetConfig {
   hiddenUI?: HiddenUIType[]
   requiredUI?: RequiredUIType[]
   useRecommendedRoute?: boolean
+  useRelayerRoutes?: boolean
 
   walletConfig?: WidgetWalletConfig
   sdkConfig?: WidgetSDKConfig
@@ -243,6 +263,11 @@ export interface WidgetConfig {
   explorerUrls?: Record<number, string[]> &
     Partial<Record<'internal', string[]>>
   poweredBy?: PoweredByType
+
+  /**
+   * Custom labels/badges to show on routes based on specified rules
+   */
+  routeLabels?: RouteLabelRule[]
 }
 
 export interface FormFieldOptions {

@@ -12,7 +12,7 @@ export const BookmarkStoreProvider: React.FC<PersistStoreProviderProps> = ({
   ...props
 }) => {
   const { toAddress } = useWidgetConfig()
-  const storeRef = useRef<BookmarkStore>()
+  const storeRef = useRef<BookmarkStore>(null)
 
   if (!storeRef.current) {
     storeRef.current = createBookmarksStore({ ...props, toAddress })

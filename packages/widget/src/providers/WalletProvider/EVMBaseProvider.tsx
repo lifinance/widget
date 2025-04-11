@@ -14,7 +14,7 @@ import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 export const EVMBaseProvider: FC<PropsWithChildren> = ({ children }) => {
   const { walletConfig } = useWidgetConfig()
   const { chains } = useAvailableChains()
-  const wagmi = useRef<DefaultWagmiConfigResult>()
+  const wagmi = useRef<DefaultWagmiConfigResult>(null)
 
   if (!wagmi.current) {
     wagmi.current = createDefaultWagmiConfig({

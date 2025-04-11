@@ -33,6 +33,7 @@ export const widgetBaseConfig: WidgetConfig = {
   integrator: 'li.fi-playground',
   // fee: 0.01,
   // useRecommendedRoute: true,
+  useRelayerRoutes: true,
   buildUrl: true,
   // hiddenUI: ['poweredBy', 'language', 'appearance', 'drawerButton', 'toAddress'],
   // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
@@ -210,6 +211,49 @@ export const widgetBaseConfig: WidgetConfig = {
   //   42161: ['https://scan.li.fi'], // Arbitrum
   //   internal: ['https://jumper.exchange/scan'], // Transder ID Card
   // },
+  // routeLabels: [
+  //   {
+  //     label: {
+  //       text: 'OP Reward',
+  //       sx: {
+  //         background: 'linear-gradient(90deg, #ff0404, #ff04c8)',
+  //         '@keyframes gradient': {
+  //           '0%': { backgroundPosition: '0% 50%' },
+  //           '50%': { backgroundPosition: '100% 50%' },
+  //           '100%': { backgroundPosition: '0% 50%' },
+  //         },
+  //         animation: 'gradient 3s ease infinite',
+  //         backgroundSize: '200% 200%',
+  //         color: '#ffffff',
+  //       },
+  //     },
+  //     fromChainId: [ChainId.OPT],
+  //   },
+  //   {
+  //     label: {
+  //       text: 'LI.FI Bonus',
+  //       sx: () => ({
+  //         display: 'flex',
+  //         alignItems: 'center',
+  //         position: 'relative',
+  //         overflow: 'hidden',
+  //         marginLeft: 'auto',
+  //         order: 1,
+  //         backgroundImage:
+  //           'url(https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/exchanges/lifidexaggregator.svg)',
+  //         backgroundPosition: 'left center',
+  //         backgroundRepeat: 'no-repeat',
+  //         backgroundSize: '24px',
+  //         paddingLeft: '12px',
+  //         backgroundColor: '#f5b5ff',
+  //       }),
+  //     },
+  //     fromChainId: [ChainId.OPT],
+  //     exchanges: {
+  //       allow: ['lifidexaggregator'],
+  //     },
+  //   },
+  // ],
 }
 
 export const defaultWidgetConfig: Partial<WidgetConfig> = {

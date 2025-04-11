@@ -8,9 +8,9 @@ import { Token } from '../../components/Token/Token.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { shortenAddress } from '../../utils/wallet.js'
+import { StepTimer } from '../Timer/StepTimer.js'
 import { DestinationWalletAddress } from './DestinationWalletAddress.js'
 import { StepProcess } from './StepProcess.js'
-import { StepTimer } from './StepTimer.js'
 
 export const Step: React.FC<{
   step: LiFiStepExtended
@@ -27,36 +27,47 @@ export const Step: React.FC<{
   )
 
   const getCardTitle = () => {
+    const hasBridgeStep = step.includedSteps.some(
+      (step) => step.type === 'cross'
+    )
+    const hasSwapStep = step.includedSteps.some((step) => step.type === 'swap')
+    const hasCustomStep = step.includedSteps.some(
+      (step) => step.type === 'custom'
+    )
+
+    const isCustomVariant = hasCustomStep && subvariant === 'custom'
+
     switch (step.type) {
       case 'lifi': {
-        const hasBridgeStep = step.includedSteps.some(
-          (step) => step.type === 'cross'
-        )
-        const hasSwapStep = step.includedSteps.some(
-          (step) => step.type === 'swap'
-        )
         if (hasBridgeStep && hasSwapStep) {
-          return subvariant === 'custom'
+          return isCustomVariant
             ? subvariantOptions?.custom === 'deposit'
               ? t('main.stepBridgeAndDeposit')
               : t('main.stepBridgeAndBuy')
             : t('main.stepSwapAndBridge')
         }
         if (hasBridgeStep) {
-          return subvariant === 'custom'
+          return isCustomVariant
             ? subvariantOptions?.custom === 'deposit'
               ? t('main.stepBridgeAndDeposit')
               : t('main.stepBridgeAndBuy')
             : t('main.stepBridge')
         }
-        return subvariant === 'custom'
+        if (hasSwapStep) {
+          return isCustomVariant
+            ? subvariantOptions?.custom === 'deposit'
+              ? t('main.stepSwapAndDeposit')
+              : t('main.stepSwapAndBuy')
+            : t('main.stepSwap')
+        }
+        return isCustomVariant
           ? subvariantOptions?.custom === 'deposit'
-            ? t('main.stepSwapAndDeposit')
-            : t('main.stepSwapAndBuy')
+            ? t('main.stepDeposit')
+            : t('main.stepBuy')
           : t('main.stepSwap')
       }
       default:
-        return subvariant === 'custom'
+        return isCustomVariant
           ? subvariantOptions?.custom === 'deposit'
             ? t('main.stepDeposit')
             : t('main.stepBuy')

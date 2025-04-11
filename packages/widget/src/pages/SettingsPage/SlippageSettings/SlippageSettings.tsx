@@ -17,22 +17,30 @@ import {
   SlippageLimitsWarningContainer,
 } from './SlippageSettings.style.js'
 
+const DEFAULT_CUSTOM_INPUT_VALUE = '0.5'
+
 export const SlippageSettings: React.FC = () => {
   const { t } = useTranslation()
-  const { isSlippageOutsideRecommendedLimits, isSlippageChanged } =
-    useSettingMonitor()
+  const {
+    isSlippageNotRecommended,
+    isSlippageUnderRecommendedLimits,
+    isSlippageOutsideRecommendedLimits,
+    isSlippageChanged,
+  } = useSettingMonitor()
   const { slippage } = useSettings(['slippage'])
   const { setValue } = useSettingsActions()
   const defaultValue = useRef(slippage)
   const [focused, setFocused] = useState<'input' | 'button'>()
 
   const customInputValue =
-    !slippage || slippage === defaultSlippage ? '' : slippage
+    !slippage || slippage === defaultSlippage
+      ? DEFAULT_CUSTOM_INPUT_VALUE
+      : slippage
 
   const [inputValue, setInputValue] = useState(customInputValue)
 
   const handleDefaultClick = () => {
-    setValue('slippage', formatSlippage(defaultSlippage, defaultValue.current))
+    setValue('slippage', defaultSlippage)
   }
 
   const debouncedSetValue = useMemo(() => debounce(setValue, 500), [setValue])
@@ -41,43 +49,49 @@ export const SlippageSettings: React.FC = () => {
     (event) => {
       const { value } = event.target
 
-      setInputValue(formatSlippage(value, defaultValue.current, true))
+      const formattedValue = formatSlippage(value, defaultValue.current, true)
 
+      setInputValue(formattedValue)
       debouncedSetValue(
         'slippage',
-        formatSlippage(value || defaultSlippage, defaultValue.current, true)
+        formattedValue.length ? formattedValue : defaultSlippage
       )
     },
     [debouncedSetValue]
   )
 
-  const handleInputBlur: FocusEventHandler<HTMLInputElement> = (event) => {
-    setFocused(undefined)
+  const handleInputFocus: FocusEventHandler<HTMLInputElement> = (event) => {
+    setFocused('input')
 
     const { value } = event.target
 
-    const formattedValue = formatSlippage(
-      value || defaultSlippage,
-      defaultValue.current
-    )
-    setInputValue(formattedValue === defaultSlippage ? '' : formattedValue)
+    const formattedValue = formatSlippage(value, defaultValue.current)
+    setInputValue(formattedValue)
 
-    setValue('slippage', formattedValue)
+    setValue(
+      'slippage',
+      formattedValue.length ? formattedValue : defaultSlippage
+    )
   }
 
-  const badgeColor = isSlippageOutsideRecommendedLimits
+  const badgeColor = isSlippageNotRecommended
     ? 'warning'
     : isSlippageChanged
       ? 'info'
       : undefined
 
+  const slippageWarningText = isSlippageOutsideRecommendedLimits
+    ? t('warning.message.slippageOutsideRecommendedLimits')
+    : isSlippageUnderRecommendedLimits
+      ? t('warning.message.slippageUnderRecommendedLimits')
+      : ''
+
   return (
     <SettingCardExpandable
       value={
-        <BadgedValue
-          badgeColor={badgeColor}
-          showBadge={!!badgeColor}
-        >{`${slippage}%`}</BadgedValue>
+        <BadgedValue badgeColor={badgeColor} showBadge={!!badgeColor}>
+          {slippage ? `${slippage}%` : t('button.auto')}
+        </BadgedValue>
       }
       icon={<Percent />}
       title={t('settings.slippage')}
@@ -99,7 +113,7 @@ export const SlippageSettings: React.FC = () => {
             onClick={handleDefaultClick}
             disableRipple
           >
-            {defaultSlippage}
+            {t('button.auto')}
           </SlippageDefaultButton>
           <SlippageCustomInput
             selected={defaultSlippage !== slippage && focused !== 'button'}
@@ -108,15 +122,13 @@ export const SlippageSettings: React.FC = () => {
               inputMode: 'decimal',
             }}
             onChange={handleInputUpdate}
-            onFocus={() => {
-              setFocused('input')
-            }}
-            onBlur={handleInputBlur}
+            onFocus={handleInputFocus}
             value={inputValue}
             autoComplete="off"
+            onBlur={() => setFocused(undefined)}
           />
         </SettingsFieldSet>
-        {isSlippageOutsideRecommendedLimits && (
+        {isSlippageNotRecommended && (
           <SlippageLimitsWarningContainer>
             <WarningRounded color="warning" />
             <Typography
@@ -125,7 +137,7 @@ export const SlippageSettings: React.FC = () => {
                 fontWeight: 400,
               }}
             >
-              {t('warning.message.slippageOutsideRecommendedLimits')}
+              {slippageWarningText}
             </Typography>
           </SlippageLimitsWarningContainer>
         )}

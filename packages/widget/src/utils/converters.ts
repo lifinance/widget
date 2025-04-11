@@ -8,8 +8,8 @@ import type {
   TokenAmount,
   ToolsResponse,
 } from '@lifi/sdk'
-import { formatUnits } from 'viem'
 import type { RouteExecution } from '../stores/routes/types.js'
+import { formatTokenPrice } from './format.js'
 
 const buildProcessFromTxHistory = (tx: FullStatusData): Process[] => {
   const sending = tx.sending as ExtendedTransactionInfo
@@ -105,9 +105,11 @@ export const buildRouteFromTxHistory = (
       : sendingValue
   const sendingFeeAmountUsd =
     sending.gasToken.priceUSD && sendingFeeAmount
-      ? Number.parseFloat(
-          formatUnits(sendingFeeAmount, sending.gasToken.decimals)
-        ) * Number.parseFloat(sending.gasToken.priceUSD)
+      ? formatTokenPrice(
+          sendingFeeAmount,
+          sending.gasToken.priceUSD,
+          sending.gasToken.decimals
+        )
       : 0
 
   const feeCosts: FeeCost[] | undefined = sendingFeeAmount
@@ -196,6 +198,8 @@ export const buildRouteFromTxHistory = (
           integrator: tx.metadata?.integrator ?? '',
           execution: {
             status: 'DONE', // can be FAILED
+            startedAt: sending.timestamp ?? Date.now(),
+            doneAt: receiving.timestamp ?? Date.now(),
             process: buildProcessFromTxHistory(tx),
             fromAmount: sending.amount,
             toAmount: receiving.amount,

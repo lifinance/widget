@@ -1,4 +1,3 @@
-import type {} from '@mui/lab/themeAugmentation'
 import type {
   CardProps,
   ComponentsOverrides,

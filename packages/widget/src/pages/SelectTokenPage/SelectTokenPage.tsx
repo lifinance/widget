@@ -6,20 +6,20 @@ import { ChainSelect } from '../../components/ChainSelect/ChainSelect.js'
 import { FullPageContainer } from '../../components/FullPageContainer.js'
 import { TokenList } from '../../components/TokenList/TokenList.js'
 import { useHeader } from '../../hooks/useHeader.js'
+import { useListHeight } from '../../hooks/useListHeight.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { useScrollableOverflowHidden } from '../../hooks/useScrollableContainer.js'
 import { useSwapOnly } from '../../hooks/useSwapOnly.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import type { FormTypeProps } from '../../stores/form/types.js'
 import { SearchTokenInput } from './SearchTokenInput.js'
-import { useTokenListHeight } from './useTokenListHeight.js'
 
 export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
   useScrollableOverflowHidden()
   const { navigateBack } = useNavigateBack()
   const headerRef = useRef<HTMLElement>(null)
   const listParentRef = useRef<HTMLUListElement | null>(null)
-  const { tokenListHeight, minListHeight } = useTokenListHeight({
+  const { listHeight, minListHeight } = useListHeight({
     listParentRef,
     headerRef,
   })
@@ -64,7 +64,7 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
       >
         <TokenList
           parentRef={listParentRef}
-          height={tokenListHeight}
+          height={listHeight}
           onClick={navigateBack}
           formType={formType}
         />

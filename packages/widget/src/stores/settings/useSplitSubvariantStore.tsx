@@ -22,7 +22,7 @@ export function SplitSubvariantStoreProvider({
   children,
   ...props
 }: SplitSubvariantProviderProps) {
-  const storeRef = useRef<SplitSubvariantStore>()
+  const storeRef = useRef<SplitSubvariantStore>(null)
   if (!storeRef.current || shouldRecreateStore(storeRef.current, props)) {
     storeRef.current = createSplitSubvariantStore(props)
   }

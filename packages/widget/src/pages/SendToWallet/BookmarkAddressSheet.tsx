@@ -1,13 +1,16 @@
-import { Error as ErrorIcon, Info, TurnedIn } from '@mui/icons-material'
-import { LoadingButton } from '@mui/lab'
+import {
+  Error as ErrorIcon,
+  TurnedIn,
+  WarningRounded,
+} from '@mui/icons-material'
 import { Button, Typography } from '@mui/material'
 import type { ChangeEvent, MutableRefObject } from 'react'
 import { forwardRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { AlertMessage } from '../../components/AlertMessage/AlertMessage.js'
 import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { Input } from '../../components/Input.js'
+import { AlertMessage } from '../../components/Messages/AlertMessage.js'
 import { useAddressValidation } from '../../hooks/useAddressValidation.js'
 import type { Bookmark } from '../../stores/bookmarks/types.js'
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
@@ -207,17 +210,17 @@ export const BookmarkAddressSheet = forwardRef<
         </BookmarkInputFields>
         <AlertMessage
           title={
-            <Typography variant="body2">
-              {t('info.message.fundsToExchange')}
+            <Typography variant="body2" sx={{ color: 'text.primary' }}>
+              {t('warning.message.fundsLossPrevention')}
             </Typography>
           }
-          icon={<Info />}
+          icon={<WarningRounded />}
         />
         <SendToWalletButtonRow>
           <Button variant="text" onClick={handleCancel} fullWidth>
             {t('button.cancel')}
           </Button>
-          <LoadingButton
+          <Button
             variant="contained"
             onClick={handleBookmark}
             loading={isValidating}
@@ -226,7 +229,7 @@ export const BookmarkAddressSheet = forwardRef<
             focusRipple
           >
             {t('button.bookmark')}
-          </LoadingButton>
+          </Button>
         </SendToWalletButtonRow>
       </SendToWalletSheetContainer>
     </BottomSheet>

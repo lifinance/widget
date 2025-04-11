@@ -24,7 +24,7 @@ export function ChainOrderStoreProvider({
   ...props
 }: PersistStoreProviderProps) {
   const { chains: chainsConfig } = useWidgetConfig()
-  const storeRef = useRef<ChainOrderStore>()
+  const storeRef = useRef<ChainOrderStore>(null)
   const { chains } = useChains()
   const { setFieldValue, getFieldValues } = useFieldActions()
   const { externalChainTypes, useExternalWalletProvidersOnly } =

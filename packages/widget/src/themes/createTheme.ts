@@ -1,5 +1,3 @@
-import { loadingButtonClasses } from '@mui/lab'
-import type {} from '@mui/lab/themeAugmentation'
 import type {
   CSSObject,
   PaletteMode,
@@ -8,6 +6,7 @@ import type {
 } from '@mui/material'
 import {
   alpha,
+  buttonClasses,
   createTheme as createMuiTheme,
   css,
   darken,
@@ -247,19 +246,18 @@ export const createTheme = (
               cursor: 'not-allowed',
               pointerEvents: 'auto',
             },
-            [`&.${loadingButtonClasses.loading}.Mui-disabled`]: {
+            [`&.${buttonClasses.loading}.Mui-disabled`]: {
               backgroundColor: primaryMainColor,
               color: contrastButtonColor,
               cursor: 'auto',
               pointerEvents: 'auto',
             },
-            [`.${loadingButtonClasses.loadingIndicator}`]: {
+            [`.${buttonClasses.loadingIndicator}`]: {
               color: contrastButtonColor,
             },
-            [`&.${loadingButtonClasses.root}.${loadingButtonClasses.loading}`]:
-              {
-                color: 'transparent',
-              },
+            [`&.${buttonClasses.root}.${buttonClasses.loading}`]: {
+              color: 'transparent',
+            },
             ...getStyleOverrides('MuiButton', 'root', widgetTheme, ownerState),
           }),
           text: ({ ownerState }) => ({

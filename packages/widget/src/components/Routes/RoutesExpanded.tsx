@@ -1,7 +1,7 @@
 import type { Route } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { Collapse, Grow, Stack, Typography } from '@mui/material'
-import { useEffect, useRef } from 'react'
+import { type PropsWithChildren, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { RouteObject } from 'react-router-dom'
 import { useRoutes as useDOMRoutes, useNavigate } from 'react-router-dom'
@@ -41,7 +41,7 @@ const routes: RouteObject[] = [
 
 export const RoutesExpanded = () => {
   const element = useDOMRoutes(routes)
-  const match = Boolean(element?.props?.children)
+  const match = Boolean((element?.props as PropsWithChildren)?.children)
 
   return (
     <CollapseContainer>
@@ -65,7 +65,7 @@ export const RoutesExpandedElement = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { subvariant, subvariantOptions } = useWidgetConfig()
-  const routesRef = useRef<Route[]>()
+  const routesRef = useRef<Route[]>(undefined)
   const emitter = useWidgetEvents()
   const routesActiveRef = useRef(false)
   const {
@@ -165,7 +165,7 @@ export const RoutesExpandedElement = () => {
               >
                 {routeNotFound ? (
                   <RouteNotFoundCard />
-                ) : isLoading || (isFetching && !routesRef.current?.length) ? (
+                ) : (isLoading || isFetching) && !routesRef.current?.length ? (
                   Array.from({ length: 3 }).map((_, index) => (
                     <RouteCardSkeleton key={index} />
                   ))

@@ -18,6 +18,7 @@ import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { Stack } from './RoutesPage.style.js'
 
 export const RoutesPage: React.FC<BoxProps> = () => {
+  const { t } = useTranslation()
   const { navigate } = useNavigateBack()
   const emitter = useWidgetEvents()
   const {
@@ -33,8 +34,6 @@ export const RoutesPage: React.FC<BoxProps> = () => {
   const { account } = useAccount({ chainType: fromChain?.chainType })
   const [toAddress] = useFieldValues('toAddress')
   const { requiredToAddress } = useToAddressRequirements()
-
-  const { t } = useTranslation()
 
   const headerAction = useMemo(
     () => (
@@ -66,13 +65,14 @@ export const RoutesPage: React.FC<BoxProps> = () => {
   const routeNotFound = !routes?.length && !isLoading && !isFetching
 
   const toAddressUnsatisfied = routes?.[0] && requiredToAddress && !toAddress
+
   const allowInteraction = account.isConnected && !toAddressUnsatisfied
 
   return (
     <Stack direction="column" spacing={2} flex={1}>
       {routeNotFound ? (
         <RouteNotFoundCard />
-      ) : isLoading ? (
+      ) : isLoading && !routes?.length ? (
         Array.from({ length: 3 }).map((_, index) => (
           <RouteCardSkeleton key={index} />
         ))

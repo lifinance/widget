@@ -1,4 +1,5 @@
 import type { LiFiStep, StepExtended } from '@lifi/sdk'
+import { isGaslessStep } from '@lifi/sdk'
 import { ArrowForward, ExpandLess, ExpandMore } from '@mui/icons-material'
 import type { StepIconProps } from '@mui/material'
 import {
@@ -12,12 +13,11 @@ import {
 import type { MouseEventHandler } from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { formatUnits } from 'viem'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { LiFiToolLogo } from '../../icons/lifi.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { HiddenUI } from '../../types/widget.js'
-import { formatTokenAmount } from '../../utils/format.js'
+import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { SmallAvatar } from '../Avatar/SmallAvatar.js'
 import { CardIconButton } from '../Card/CardIconButton.js'
 import {
@@ -27,7 +27,6 @@ import {
   StepLabel,
   StepLabelTypography,
 } from './StepActions.style.js'
-import { StepFees } from './StepFees.js'
 import type {
   IncludedStepsProps,
   StepActionsProps,
@@ -96,7 +95,7 @@ export const StepActions: React.FC<StepActionsProps> = ({
                   tool: toolDetails.name,
                 })}
           </Typography>
-          <StepFees ml={2} step={step} />
+          {/* <StepFees ml={2} step={step} /> */}
         </Box>
         {dense ? (
           <CardIconButton onClick={handleExpand} size="small">
@@ -161,6 +160,8 @@ export const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
     ) : null
   }
 
+  const hasGaslessSupport = isGaslessStep(step)
+
   return (
     <Box
       sx={{
@@ -174,7 +175,11 @@ export const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
       >
         {includedSteps.map((step, i, includedSteps) => (
           <MuiStep key={step.id} expanded>
-            <StepLabel StepIconComponent={StepIconComponent}>
+            <StepLabel
+              slots={{
+                stepIcon: StepIconComponent,
+              }}
+            >
               {step.type === 'custom' && subvariant === 'custom' ? (
                 <CustomStepDetailsLabel
                   step={step}
@@ -184,7 +189,11 @@ export const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
               ) : step.type === 'cross' ? (
                 <BridgeStepDetailsLabel step={step} />
               ) : step.type === 'protocol' ? (
-                <ProtocolStepDetailsLabel step={step} feeConfig={feeConfig} />
+                <ProtocolStepDetailsLabel
+                  step={step}
+                  feeConfig={feeConfig}
+                  relayerSupport={hasGaslessSupport}
+                />
               ) : (
                 <SwapStepDetailsLabel step={step} />
               )}
@@ -215,8 +224,8 @@ export const StepDetailsContent: React.FC<{
 
     fromAmount =
       estimatedFromAmount > 0n
-        ? formatUnits(estimatedFromAmount, step.action.fromToken.decimals)
-        : formatUnits(
+        ? formatTokenAmount(estimatedFromAmount, step.action.fromToken.decimals)
+        : formatTokenAmount(
             BigInt(step.estimate.fromAmount),
             step.action.fromToken.decimals
           )
@@ -243,22 +252,24 @@ export const StepDetailsContent: React.FC<{
     >
       {!showToAmount ? (
         <>
-          {formatUnits(
-            BigInt(step.estimate.fromAmount),
-            step.action.fromToken.decimals
-          )}{' '}
+          {t('format.tokenAmount', {
+            value: formatTokenAmount(
+              BigInt(step.estimate.fromAmount),
+              step.action.fromToken.decimals
+            ),
+          })}{' '}
           {step.action.fromToken.symbol}
           {' - '}
         </>
       ) : null}
-      {t('format.number', {
+      {t('format.tokenAmount', {
         value: fromAmount,
       })}{' '}
       {step.action.fromToken.symbol}
       {showToAmount ? (
         <>
           <ArrowForward sx={{ fontSize: 18, paddingX: 0.5, height: 12 }} />
-          {t('format.number', {
+          {t('format.tokenAmount', {
             value: formatTokenAmount(
               BigInt(step.execution?.toAmount ?? step.estimate.toAmount),
               step.execution?.toToken?.decimals ?? step.action.toToken.decimals
@@ -268,9 +279,11 @@ export const StepDetailsContent: React.FC<{
         </>
       ) : (
         ` (${t('format.currency', {
-          value:
-            Number.parseFloat(fromAmount) *
-            Number.parseFloat(step.action.fromToken.priceUSD),
+          value: formatTokenPrice(
+            fromAmount,
+            step.action.fromToken.priceUSD,
+            step.action.fromToken.decimals
+          ),
         })})`
       )}
     </Typography>
@@ -342,15 +355,17 @@ export const SwapStepDetailsLabel: React.FC<
 
 export const ProtocolStepDetailsLabel: React.FC<
   Omit<StepDetailsLabelProps, 'variant'>
-> = ({ step, feeConfig }) => {
+> = ({ step, feeConfig, relayerSupport }) => {
   const { t } = useTranslation()
   return (
     <StepLabelTypography>
       {step.toolDetails.key === 'feeCollection'
         ? feeConfig?.name
           ? t('main.fees.integrator', { tool: feeConfig.name })
-          : t('main.fees.defaultIntegrator')
-        : step.toolDetails.key === 'lifuelProtocol'
+          : relayerSupport
+            ? t('main.fees.relayerService')
+            : t('main.fees.defaultIntegrator')
+        : step.toolDetails.key === 'gasZip'
           ? t('main.refuelStepDetails', {
               tool: step.toolDetails.name,
             })

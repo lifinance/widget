@@ -1,4 +1,5 @@
 import type { EVMChain, RouteExtended, Token } from '@lifi/sdk'
+import { isRelayerStep } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useQuery } from '@tanstack/react-query'
 import { useAvailableChains } from './useAvailableChains.js'
@@ -22,23 +23,33 @@ export const useGasSufficiency = (route?: RouteExtended) => {
     chainType: getChainById(route?.fromChainId)?.chainType,
   })
 
-  const isContractAddress = useIsContractAddress(
-    account.address,
-    route?.fromChainId,
-    account.chainType
-  )
+  const { isContractAddress, isLoading: isContractAddressLoading } =
+    useIsContractAddress(account.address, route?.fromChainId, account.chainType)
 
   const { data: insufficientGas, isLoading } = useQuery({
-    queryKey: ['gas-sufficiency-check', account.address, route?.id],
+    queryKey: [
+      'gas-sufficiency-check',
+      account.address,
+      route?.id,
+      isContractAddress,
+    ] as const,
     queryFn: async ({ queryKey: [, accountAddress] }) => {
       if (!route) {
+        return
+      }
+
+      // If we have a relayer step with a permit (EIP-2612) for the from token, we don't need to check for gas sufficiency
+      if (
+        isRelayerStep(route.steps[0]) &&
+        route.steps[0].typedData.some((t) => t.primaryType === 'Permit')
+      ) {
         return
       }
 
       // We assume that LI.Fuel protocol always refuels the destination chain
       const hasRefuelStep = route.steps
         .flatMap((step) => step.includedSteps)
-        .some((includedStep) => includedStep.tool === 'lifuelProtocol')
+        .some((includedStep) => includedStep.tool === 'gasZip')
 
       const gasCosts = route.steps
         .filter((step) => !step.execution || step.execution.status !== 'DONE')
@@ -136,7 +147,12 @@ export const useGasSufficiency = (route?: RouteExtended) => {
       return gasCostResult
     },
 
-    enabled: Boolean(!isContractAddress && account.address && route),
+    enabled: Boolean(
+      !isContractAddress &&
+        !isContractAddressLoading &&
+        account.address &&
+        route
+    ),
     refetchInterval,
     staleTime: refetchInterval,
   })

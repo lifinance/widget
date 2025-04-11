@@ -58,14 +58,15 @@ export const SendToWalletPage = () => {
   const [validatedWallet, setValidatedWallet] = useState<Bookmark>()
   const [errorMessage, setErrorMessage] = useState('')
   const { validateAddress, isValidating } = useAddressValidation()
-  const { accounts } = useAccount()
-  const connectedWallets = accounts.filter((account) => account.isConnected)
   const { requiredToChainType } = useToAddressRequirements()
   const [toChainId] = useFieldValues('toChain')
   const { chain: toChain } = useChain(toChainId)
   const [isDoneButtonLoading, setIsDoneButtonLoading] = useState(false)
   const [isBookmarkButtonLoading, setIsBookmarkButtonLoading] = useState(false)
   const { variant } = useWidgetConfig()
+
+  const { accounts } = useAccount()
+  const connectedWallets = accounts.filter((account) => account.isConnected)
 
   useHeader(t('header.sendToWallet'))
 
