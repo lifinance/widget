@@ -1,14 +1,14 @@
 {
   "title": {
-    "connectWallet": "Conectar billetera",
-    "connecting": "",
-    "selectEcosystem": "",
-    "waitingForWallet": "",
-    "availableWalletsNotFound": ""
+    "connectWallet": "Conectar cartera",
+    "connecting": "Conectando",
+    "selectEcosystem": "Selecciona ecosistema",
+    "waitingForWallet": "Esperando conexión con {{walletName}}",
+    "availableWalletsNotFound": "No se encontraron carteras disponibles"
   },
   "message": {
-    "connecting": "",
-    "multipleEcosystems": "",
-    "availableWalletsNotFound": ""
+    "connecting": "Haz clic en conectar en la ventana emergente de tu cartera ¿No ves tu cartera? Revisa las otras ventanas de tu navegador.",
+    "multipleEcosystems": "{{walletName}} Es compatible con múltiples ecosistemas de Blockchain Elige el ecosistema al que deseas conectarte.",
+    "availableWalletsNotFound": "No se detectaron extensiones de cartera compatibles. Instala una cartera compatible y actualiza la página. Si ya está instalada, asegúrate de que esté habilitada y sea compatible, o contacta al soporte técnico."
   }
 }

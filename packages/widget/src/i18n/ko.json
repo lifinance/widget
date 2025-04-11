@@ -6,7 +6,8 @@
   "format": {
     "currency": "",
     "number": "{{value, number(maximumFractionDigits: 9)}}",
-    "percent": ""
+    "percent": "",
+    "tokenAmount": ""
   },
   "button": {
     "auto": "자동",
@@ -83,14 +84,13 @@
     "message": {
       "autoRefuel": "현재 {{chainName}} 가스가 부족합니다. 이 기능을 통하여 스왑을 완료할 가스를 보충할 수 있습니다.",
       "emptyActiveTransactions": "진행 중인 스왑이 여기에 나타납니다. 완료 후에는 스왑 기록을 참조하십시오",
-      "emptyTokenList": "{{chainName}} 체인에서 토큰을 찾을 수 없거나 보유 중인 토큰이 아닙니다. 다시 검색하거나 다른 체인을 선택하십시오.",
-      "emptyChainList": "",
       "emptyBridgesList": "",
+      "emptyChainList": "",
       "emptyExchangesList": "",
+      "emptyTokenList": "{{chainName}} 체인에서 토큰을 찾을 수 없거나 보유 중인 토큰이 아닙니다. 다시 검색하거나 다른 체인을 선택하십시오.",
       "emptyTransactionHistory": "스왑 기록은 로컬에만 저장되며 브라우저 데이터를 지우면 삭제됩니다.",
-      "fundsToExchange": "",
-      "toAddressIsRequired": "",
-      "routeNotFound": "이유: 낮은 유동성, 선택된 수량이 너무 적음, 가스비가 너무 비싸거나 경로가 존재하지 않음"
+      "routeNotFound": "이유: 낮은 유동성, 선택된 수량이 너무 적음, 가스비가 너무 비싸거나 경로가 존재하지 않음",
+      "toAddressIsRequired": ""
     },
     "title": {
       "autoRefuel": "",
@@ -102,7 +102,7 @@
   "success": {
     "message": {
       "exchangePartiallySuccessful": "",
-      "exchangeSuccessful": "{{walletAddress}} 지갑의 {{chainName}} 체인에 {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}이(가) 있습니다.",
+      "exchangeSuccessful": "",
       "checkoutSuccessful": ""
     },
     "title": {
@@ -117,14 +117,18 @@
   },
   "warning": {
     "message": {
+      "accountNotDeployedMessage": "",
+      "lowAddressActivity": "",
       "deleteActiveTransactions": "활성화된 스왑은 로컬에만 저장되며 삭제시 복구할 수 없습니다.",
       "deleteTransactionHistory": "스왑 기록은 로컬에만 저장되며 삭제시 복구할 수 없습니다.",
+      "fundsLossPrevention": "",
       "highValueLoss": "받은 토큰의 가치가 스왑된 토큰 및 트랜잭션 비용보다 상당히 낮습니다.",
       "insufficientFunds": "스왑을 진행할 자금이 부족합니다.",
       "insufficientGas": "스왑을 진행할 가스가 부족합니다. 최소 다음과 같은 가스가 필요합니다:",
       "rateChanged": "거래 비율이 변경되었습니다. 스왑을 계속하면 새로운 비율이 적용됩니다.",
       "resetSettings": "우선 경로, 슬리피지, 가스 비용, 활성화된 브릿지 및 거래소가 재설정됩니다.",
-      "slippageOutsideRecommendedLimits": ""
+      "slippageOutsideRecommendedLimits": "",
+      "slippageUnderRecommendedLimits": ""
     },
     "title": {
       "deleteActiveTransactions": "모든 활성화된 거래를 삭제합니까?",
@@ -133,19 +137,21 @@
       "highValueLoss": "높은 가치 손실",
       "insufficientGas": "가스 부족",
       "rateChanged": "비율 변경됨",
-      "resetSettings": "설정을 초기화합니까?"
+      "resetSettings": "설정을 초기화합니까?",
+      "lowAddressActivity": ""
     }
   },
   "error": {
     "message": {
       "allowanceRequired": "{{tokenSymbol}} 이체 금액이 한도를 초과했습니다. 한도를 증액한 뒤 다시 시도해주십시오.",
       "insufficientFunds": "트랜잭션에 필요한 가스비가 부족합니다.",
-      "remainInYourWallet": "{{chainName}} 체인에 {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}이 남아있습니다.",
-      "signatureRejected": "트랜잭션 완료를 위해 서명이 필요합니다. {{chainName}}의 {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}이 지갑에 남아있습니다.",
+      "remainInYourWallet": "",
+      "signatureRejected": "",
       "slippageThreshold": "슬리피지가 한계점보다 큽니다. 새로운 견적을 얻기 위해 새 경로를 요청하십시오.",
       "transactionCanceled": "거래가 취소되었습니다.",
       "transactionConflict": "",
       "transactionExpired": "",
+      "transactionRejected": "",
       "transactionFailed": "자세한 정보는 블록 탐색기에서 확인하세요.",
       "transactionNotSent": "트랜잭션이 전송되지 않았습니다.",
       "transactionSimulationFailed": "",
@@ -167,6 +173,7 @@
       "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "거래가 실패하였습니다",
+      "transactionRejected": "",
       "transactionSimulationFailed": "",
       "transactionUnderpriced": "거래 가격이 너무 낮습니다",
       "transactionUnprepared": "트랜잭션을 진행할 수 없습니다.",
@@ -187,6 +194,7 @@
       "text": "페이지를 찾을 수 없습니다.",
       "title": "404"
     },
+    "relayerService": "",
     "numberOfSteps": "",
     "priceImpact": "",
     "progressToNextUpdate": "표시된 데이터가 {{value}} 초 후에 자동 새로고침 됩니다. 수동으로 업데이트 하려면 여기를 클릭하십시오.",
@@ -203,7 +211,9 @@
     "featuredTokens": "주요 토큰",
     "fees": {
       "defaultIntegrator": "",
+      "relayerService": "",
       "estimated": "",
+      "free": "",
       "integrator": "",
       "network": "",
       "paid": "",
@@ -238,19 +248,26 @@
         "refunded": "브릿지 트랜잭션 환불됨"
       },
       "swap": {
-        "actionRequired": "트랜잭션을 서명하십시오",
+        "actionRequired": "",
         "done": "스왑 완료",
-        "pending": "스왑 트랜잭션 대기 중",
+        "pending": "",
         "started": "스왑 트랜잭션 준비 중"
       },
       "switchChain": {
-        "actionRequired": "체인 전환 요청됨",
-        "done": "체인 전환 완료"
+        "actionRequired": "",
+        "done": ""
+      },
+      "permit": {
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
       },
       "tokenAllowance": {
-        "done": "토큰 허용 승인됨",
-        "pending": "토큰 허용 대기 중",
-        "started": "토큰 허용 설정"
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
       }
     },
     "quotedAmount": "견적",
@@ -278,11 +295,12 @@
     "transferId": "",
     "tags": {
       "cheapest": "",
-      "fastest": ""
+      "fastest": "",
+      "gasless": ""
     },
     "to": "도착",
     "tokenOnChain": "{{chainName}}의 {{tokenSymbol}}",
-    "tokenOnChainAmount": "{{chainName}}의 {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}",
+    "tokenOnChainAmount": "",
     "tokenSearch": "이름 또는 컨트랙트 주소를 통해 검색",
     "valueLoss": "가치 손실",
     "searchChains": "",
