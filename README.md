@@ -20,7 +20,7 @@
 - Embeddable variants - compact, wide, and drawer
 - Options to allow or deny certain chains, tokens, bridges, and exchanges
 - Pre-configured themes and lots of customization options with dark mode support so you can match the look and feel of your web app 
-- Wallet management UI with the option to opt-out and use your own ([Wagmi](https://wagmi.sh/), [Bigmi](https://github.com/lifinance/bigmi) and [Solana Wallet Standard](https://github.com/anza-xyz/wallet-standard) support)
+- Wallet management UI with the option to opt-out and use your own ([Wagmi](https://wagmi.sh/), [Bigmi](https://github.com/lifinance/bigmi) and [Wallet Standard](https://github.com/wallet-standard/wallet-standard) support)
 - Supports widely adopted industry standards, including [EIP-5792](https://eips.ethereum.org/EIPS/eip-5792), [ERC-2612](https://eips.ethereum.org/EIPS/eip-2612), [EIP-712](https://eips.ethereum.org/EIPS/eip-712), [EIP-6963](https://eips.ethereum.org/EIPS/eip-6963), and [Permit2](https://github.com/Uniswap/permit2)
 - View of transactions in progress and transaction history
 - Curated wallet lists and wallet bookmarks
