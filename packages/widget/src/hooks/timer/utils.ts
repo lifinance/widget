@@ -52,3 +52,31 @@ export function getDelayFromExpiryTimestamp(
   const extraMilliSeconds = Math.floor((seconds - Math.floor(seconds)) * 1000)
   return extraMilliSeconds > 0 ? extraMilliSeconds : defaultDelay
 }
+
+// Timer Storage Helper
+export const TimerStorage = {
+  getStoredExpiry: (timerId: string): Date | null => {
+    const stored = localStorage.getItem(`timer_${timerId}_expiry`)
+    return stored ? new Date(Number.parseInt(stored, 10)) : null
+  },
+
+  getPauseTimestamp: (timerId: string): number | null => {
+    const stored = localStorage.getItem(`timer_${timerId}_pauseTime`)
+    return stored ? Number.parseInt(stored, 10) : null
+  },
+
+  setTimerData: (timerId: string, expiry: Date, pauseTime?: number) => {
+    localStorage.setItem(`timer_${timerId}_expiry`, expiry.getTime().toString())
+    if (pauseTime !== undefined) {
+      localStorage.setItem(`timer_${timerId}_pauseTime`, pauseTime.toString())
+    }
+  },
+
+  clearTimerData: (timerId: string) => {
+    localStorage.removeItem(`timer_${timerId}_pauseTime`)
+    localStorage.removeItem(`timer_${timerId}_expiry`)
+  },
+  clearPausedTimestamp: (timerId: string) => {
+    localStorage.removeItem(`timer_${timerId}_pauseTime`)
+  },
+}
