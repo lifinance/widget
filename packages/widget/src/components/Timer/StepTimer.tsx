@@ -51,6 +51,7 @@ export const StepTimer: React.FC<{
     autoStart: false,
     expiryTimestamp,
     onExpire: () => setExpired(true),
+    timerId: step.id,
   })
 
   const isTimerExpired = isExpired || (!minutes && !seconds)
