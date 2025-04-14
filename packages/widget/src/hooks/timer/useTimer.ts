@@ -16,7 +16,7 @@ interface UseTimerProps {
 }
 
 // This implementation was taken from the common js project - https://www.npmjs.com/package/react-timer-hook
-// modified to work in the Widget codebase with Typescript
+// modified to work in the Widget  codebase with Typescript
 export function useTimer({
   expiryTimestamp: expiry,
   onExpire,
