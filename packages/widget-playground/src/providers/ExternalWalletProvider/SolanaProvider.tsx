@@ -1,3 +1,5 @@
+import type { Provider as SolanaWalletProvider } from '@reown/appkit-adapter-solana'
+import { useAppKitProvider } from '@reown/appkit/react'
 import type { Adapter, WalletName } from '@solana/wallet-adapter-base'
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
 import {
@@ -10,18 +12,6 @@ import mitt, { type Emitter } from 'mitt'
 import { type FC, type PropsWithChildren, useEffect } from 'react'
 
 const endpoint = clusterApiUrl(WalletAdapterNetwork.Mainnet)
-/**
- * Wallets that implement either of these standards will be available automatically.
- *
- *   - Solana Mobile Stack Mobile Wallet Adapter Protocol
- *     (https://github.com/solana-mobile/mobile-wallet-adapter)
- *   - Solana Wallet Standard
- *     (https://github.com/solana-labs/wallet-standard)
- *
- * If you wish to support a wallet that supports neither of those standards,
- * instantiate its legacy wallet adapter here. Common legacy adapters can be found
- * in the npm package `@solana/wallet-adapter-wallets`.
- */
 const wallets: Adapter[] = []
 
 type WalletEvents = {
@@ -49,15 +39,16 @@ export const SolanaProvider: FC<PropsWithChildren> = ({ children }) => {
 }
 
 export const SolanaReownHandler: FC = () => {
+  const { walletProvider: solanaProvider } =
+    useAppKitProvider<SolanaWalletProvider>('solana')
   const { disconnect, select } = useWallet()
   useEffect(() => {
-    emitter.on('connect', async (connectorName) => {
-      select(connectorName as WalletName)
-    })
-    emitter.on('disconnect', async () => {
-      await disconnect()
-    })
-    return () => emitter.all.clear()
-  }, [disconnect, select])
+    if (solanaProvider?.name) {
+      select(solanaProvider.name as WalletName)
+    }
+    return () => {
+      disconnect()
+    }
+  }, [disconnect, select, solanaProvider?.name])
   return null
 }
