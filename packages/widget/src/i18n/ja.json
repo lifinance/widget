@@ -6,7 +6,8 @@
   "format": {
     "currency": "",
     "number": "{{value, number(maximumFractionDigits: 9)}}",
-    "percent": ""
+    "percent": "",
+    "tokenAmount": ""
   },
   "button": {
     "auto": "OSに同期",
@@ -83,14 +84,13 @@
     "message": {
       "autoRefuel": "{{chainName}} のガスが不足していますが、続行することでトランザクションを完了するのに十分なガスが補填されます。",
       "emptyActiveTransactions": "進行中のトランザクションがここに表示されます。完了すると、トランザクション履歴に表示されます。",
-      "emptyTokenList": "{{chainName}} チェーンでトークンが見つかりませんでした。使いたいトークンが表示されない場合はコントラクトアドレスで検索するか、別のチェーンを選択してください。",
-      "emptyChainList": "",
       "emptyBridgesList": "",
+      "emptyChainList": "",
       "emptyExchangesList": "",
+      "emptyTokenList": "{{chainName}} チェーンでトークンが見つかりませんでした。使いたいトークンが表示されない場合はコントラクトアドレスで検索するか、別のチェーンを選択してください。",
       "emptyTransactionHistory": "トランザクション履歴はローカルにのみ保存され、ユーザーがブラウザデータを消去すると削除されます。",
-      "fundsToExchange": "送金される資金は失われる可能性があります",
-      "toAddressIsRequired": "送金先のウォレットアドレスを入力してください。",
-      "routeNotFound": "考えられる理由：流動性が低い、選択された金額が低すぎる、ガスコストが高すぎる、選択した組み合わせがルート上にない、以上の理由の複合。"
+      "routeNotFound": "考えられる理由：流動性が低い、選択された金額が低すぎる、ガスコストが高すぎる、選択した組み合わせがルート上にない、以上の理由の複合。",
+      "toAddressIsRequired": ""
     },
     "title": {
       "autoRefuel": "",
@@ -102,7 +102,7 @@
   "success": {
     "message": {
       "exchangePartiallySuccessful": "",
-      "exchangeSuccessful": "現在、ウォレット {{walletAddress}} に {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} （{{chainName}} チェーン）あります",
+      "exchangeSuccessful": "",
       "checkoutSuccessful": ""
     },
     "title": {
@@ -117,14 +117,18 @@
   },
   "warning": {
     "message": {
+      "accountNotDeployedMessage": "",
+      "lowAddressActivity": "",
       "deleteActiveTransactions": "アクティブなトランザクションはローカルにのみ保存され、ユーザーが削除した場合には復元できません。",
       "deleteTransactionHistory": "トランザクション履歴はローカルにのみ保存され、ユーザーが削除した場合には復元できません。",
+      "fundsLossPrevention": "",
       "highValueLoss": "受け取るトークンの価値は、交換されたトークンとトランザクションコストよりも大幅に低くなります。",
       "insufficientFunds": "トランザクションを完了するのに十分な資金がありません。",
       "insufficientGas": "トランザクションを完了するのに十分なガスがありません。少なくとも以下を追加する必要があります：",
       "rateChanged": "交換レートが変更されました。取引を続行すると、新しい為替レートを受け入れることになります。",
       "resetSettings": "これにより、ルートの優先順位、スリッページ、ガス価格、使用可能なブリッジ、取引所がリセットされます。",
-      "slippageOutsideRecommendedLimits": "スリッページ許容度が高すぎると、フロントランニングによる不利なトレードをひき起こす可能性があります。"
+      "slippageOutsideRecommendedLimits": "スリッページ許容度が高すぎると、フロントランニングによる不利なトレードをひき起こす可能性があります。",
+      "slippageUnderRecommendedLimits": ""
     },
     "title": {
       "deleteActiveTransactions": "すべてのアクティブなトランザクションを削除しますか？",
@@ -133,19 +137,21 @@
       "highValueLoss": "高価値損失",
       "insufficientGas": "ガス不足",
       "rateChanged": "レートが変更されました",
-      "resetSettings": "設定をリセットしますか？"
+      "resetSettings": "設定をリセットしますか？",
+      "lowAddressActivity": ""
     }
   },
   "error": {
     "message": {
       "allowanceRequired": "{{tokenSymbol}} の送金額が現在の許可量を超えています。許可量を増やしてもう一度お試しください。",
       "insufficientFunds": "トランザクションを完了するのに十分なガスがありません。",
-      "remainInYourWallet": "{{chainName}} の {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} がウォレットに残っています。",
-      "signatureRejected": "トランザクションを完了するには署名が必要です。{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}（{{chainName}}）はウォレットに残ります。",
+      "remainInYourWallet": "",
+      "signatureRejected": "",
       "slippageThreshold": "スリップページが定義されたしきい値よりも大きいです。新しい見積もりをリクエストしてください。",
       "transactionCanceled": "トランザクションがキャンセルされました。",
       "transactionConflict": "",
       "transactionExpired": "",
+      "transactionRejected": "",
       "transactionFailed": "詳細については、ブロックエクスプローラをご確認ください。",
       "transactionNotSent": "トランザクションは送信されませんでした。",
       "transactionSimulationFailed": "",
@@ -167,6 +173,7 @@
       "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "トランザクションが失敗しました",
+      "transactionRejected": "",
       "transactionSimulationFailed": "",
       "transactionUnderpriced": "トランザクションは通常より低価格です",
       "transactionUnprepared": "トランザクションの準備ができませんでした",
@@ -187,6 +194,7 @@
       "text": "このページは見つかりませんでした。",
       "title": "404"
     },
+    "relayerService": "",
     "numberOfSteps": "",
     "priceImpact": "",
     "progressToNextUpdate": "見積もりは {{value}} 秒後に更新されます。<0/>今すぐ更新するにはここをクリックしてください。",
@@ -203,7 +211,9 @@
     "featuredTokens": "注目のトークン",
     "fees": {
       "defaultIntegrator": "",
+      "relayerService": "",
       "estimated": "",
+      "free": "",
       "integrator": "",
       "network": "",
       "paid": "",
@@ -220,9 +230,9 @@
     "priceImpact": "",
     "process": {
       "bridge": {
-        "actionRequired": "トランザクションに署名してください",
+        "actionRequired": "",
         "done": "ブリッジのトランザクションが確認されました",
-        "pending": "ブリッジのトランザクションを待機中",
+        "pending": "",
         "started": "ブリッジのトランザクションを準備中"
       },
       "checkout": {
@@ -238,19 +248,26 @@
         "refunded": "ブリッジのトランザクションは払い戻しを受けました"
       },
       "swap": {
-        "actionRequired": "トランザクションに署名してください",
+        "actionRequired": "",
         "done": "スワップ完了",
-        "pending": "スワップのトランザクションを待機中",
+        "pending": "",
         "started": "スワップのトランザクションを準備中"
       },
       "switchChain": {
-        "actionRequired": "チェーンの切り替えが必要です",
-        "done": "チェーンが正常に切り替わりました"
+        "actionRequired": "",
+        "done": ""
+      },
+      "permit": {
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
       },
       "tokenAllowance": {
-        "done": "トークンの許容量が承認されました",
-        "pending": "トークンの許容を待機中",
-        "started": "トークンの許容を設定中"
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
       }
     },
     "quotedAmount": "見積もり額",
@@ -278,11 +295,12 @@
     "transferId": "",
     "tags": {
       "cheapest": "最良",
-      "fastest": "最速"
+      "fastest": "最速",
+      "gasless": ""
     },
     "to": "To",
     "tokenOnChain": "{{chainName}} の {{tokenSymbol}}",
-    "tokenOnChainAmount": "{{chainName}} の {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}",
+    "tokenOnChainAmount": "",
     "tokenSearch": "トークン名またはアドレスで検索",
     "valueLoss": "損失額",
     "searchChains": "",
