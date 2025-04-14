@@ -1,14 +1,14 @@
 {
   "title": {
-    "connectWallet": "Cüzdanı Bağla",
-    "connecting": "",
-    "selectEcosystem": "",
-    "waitingForWallet": "",
-    "availableWalletsNotFound": ""
+    "connectWallet": "Cüzdanı bağla",
+    "connecting": "Bağlanıyor",
+    "selectEcosystem": "Ekosistem seç",
+    "waitingForWallet": "{{walletName}} için bekleniyor",
+    "availableWalletsNotFound": "Kullanılabilir cüzdanlar bulunamadı"
   },
   "message": {
-    "connecting": "",
-    "multipleEcosystems": "",
-    "availableWalletsNotFound": ""
+    "connecting": "Cüzdan açılır pencerenizde bağlan'a tıklayın. Cüzdanınızı göremiyor musunuz? Diğer tarayıcı pencerelerinizi kontrol edin.",
+    "multipleEcosystems": "{{walletName}} birden fazla zincir ekosistemini destekler. Bağlanmak istediğiniz zincir ekosistemini seçin.",
+    "availableWalletsNotFound": "Uyumlu cüzdan uzantısı algılanmadı. Lütfen desteklenen bir cüzdan yükleyin ve sayfayı yenileyin. Zaten yüklüyse, etkin ve uyumlu olduğundan emin olun veya destek ekibiyle iletişime geçin."
   }
 }

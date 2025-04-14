@@ -6,7 +6,8 @@
   "format": {
     "currency": "",
     "number": "{{value, number(maximumFractionDigits: 9)}}",
-    "percent": ""
+    "percent": "",
+    "tokenAmount": ""
   },
   "button": {
     "auto": "Auto",
@@ -83,14 +84,13 @@
     "message": {
       "autoRefuel": "Livello basso di gas su {{chainName}}. Continuando avrai abbastanza gas per completare lo scambio.",
       "emptyActiveTransactions": "Le transazioni in corso appariranno qui. Una volta completate, potrai trovarle nella cronologia delle transazioni.",
-      "emptyTokenList": "Non siamo riusciti a trovare token sulla chain {{chainName}} o non ne hai. Riprova o scegli un'altra chain.",
-      "emptyChainList": "",
       "emptyBridgesList": "",
+      "emptyChainList": "",
       "emptyExchangesList": "",
+      "emptyTokenList": "Non siamo riusciti a trovare token sulla chain {{chainName}} o non ne hai. Riprova o scegli un'altra chain.",
       "emptyTransactionHistory": "La cronologia delle transazioni è memorizzata solo localmente e verrà eliminata se si cancellano i dati del browser.",
-      "fundsToExchange": "",
-      "toAddressIsRequired": "",
-      "routeNotFound": "Le ragioni potrebbero essere: bassa liquidità, la quantità selezionata è troppo bassa, i costi del gas sono troppo elevati o non ci sono routes per la combinazione selezionata."
+      "routeNotFound": "Le ragioni potrebbero essere: bassa liquidità, la quantità selezionata è troppo bassa, i costi del gas sono troppo elevati o non ci sono routes per la combinazione selezionata.",
+      "toAddressIsRequired": ""
     },
     "title": {
       "autoRefuel": "",
@@ -102,7 +102,7 @@
   "success": {
     "message": {
       "exchangePartiallySuccessful": "",
-      "exchangeSuccessful": "Sono presenti ora {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} nel portafoglio {{walletAddress}} sulla chain {{chainName}}.",
+      "exchangeSuccessful": "",
       "checkoutSuccessful": ""
     },
     "title": {
@@ -117,14 +117,18 @@
   },
   "warning": {
     "message": {
+      "accountNotDeployedMessage": "",
+      "lowAddressActivity": "",
       "deleteActiveTransactions": "Gli scambi attivi vengono memorizzati solo localmente e non possono essere recuperati se vengono cancellati.",
       "deleteTransactionHistory": "La cronologia delle transazioni è memorizzata solo localmente e non può essere recuperata se la elimini.",
+      "fundsLossPrevention": "",
       "highValueLoss": "Il valore dei token ricevuti è significativamente inferiore ai token scambiati più il costo della transazione.",
       "insufficientFunds": "Non hai abbastanza fondi per completare lo scambio.",
       "insufficientGas": "Non hai abbastanza gas per completare lo scambio. Devi aggiungere almeno:",
       "rateChanged": "Il tasso di scambio è cambiato. Se procedi, confermi di accettare il nuovo tasso.",
       "resetSettings": "Questo porterà al ripristino della priorità di route, slittamento di prezzo, prezzo del gas, bridge abilitati ed exchanges.",
-      "slippageOutsideRecommendedLimits": ""
+      "slippageOutsideRecommendedLimits": "",
+      "slippageUnderRecommendedLimits": ""
     },
     "title": {
       "deleteActiveTransactions": "Eliminare tutte le transazioni attive?",
@@ -133,7 +137,8 @@
       "highValueLoss": "Perdita di valore elevato",
       "insufficientGas": "Gas insufficiente",
       "rateChanged": "Tasso cambiato",
-      "resetSettings": "Ripristinare le impostazioni?"
+      "resetSettings": "Ripristinare le impostazioni?",
+      "lowAddressActivity": ""
     }
   },
   "error": {
@@ -146,6 +151,7 @@
       "transactionCanceled": "",
       "transactionConflict": "",
       "transactionExpired": "",
+      "transactionRejected": "",
       "transactionFailed": "Per ulteriori informazioni, consultare il block explorer.",
       "transactionNotSent": "",
       "transactionSimulationFailed": "",
@@ -167,6 +173,7 @@
       "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "Transazione fallita",
+      "transactionRejected": "",
       "transactionSimulationFailed": "",
       "transactionUnderpriced": "L'operazione è sottostimata",
       "transactionUnprepared": "Impossibile preparare la transazione",
@@ -187,6 +194,7 @@
       "text": "Non siamo riusciti a trovare questa pagina.",
       "title": "404"
     },
+    "relayerService": "",
     "numberOfSteps": "",
     "priceImpact": "",
     "progressToNextUpdate": "I dati visualizzati si aggiorneranno automaticamente dopo {{value}} secondi. Fai click qui per aggiornare manualmente.",
@@ -203,7 +211,9 @@
     "featuredTokens": "Token in evidenza",
     "fees": {
       "defaultIntegrator": "",
+      "relayerService": "",
       "estimated": "",
+      "free": "",
       "integrator": "",
       "network": "",
       "paid": "",
@@ -238,19 +248,26 @@
         "refunded": "Transazione di bridge rimborsata"
       },
       "swap": {
-        "actionRequired": "Si prega di firmare la transazione",
+        "actionRequired": "",
         "done": "Scambio completato",
-        "pending": "In attesa della transazione di scambio",
+        "pending": "",
         "started": "Preparazione dello scambio"
       },
       "switchChain": {
-        "actionRequired": "È necessario cambiare la chain",
-        "done": "La chain è stata cambiata con successo"
+        "actionRequired": "",
+        "done": ""
+      },
+      "permit": {
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
       },
       "tokenAllowance": {
-        "done": "Indennità del token approvata",
-        "pending": "In attesa dell'indennità del token",
-        "started": "Applicazione dell'indennità di token"
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
       }
     },
     "quotedAmount": "Totale quotato",
@@ -278,11 +295,12 @@
     "transferId": "",
     "tags": {
       "cheapest": "",
-      "fastest": ""
+      "fastest": "",
+      "gasless": ""
     },
     "to": "A",
     "tokenOnChain": "{{tokenSymbol}} su {{chainName}}",
-    "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} su {{chainName}}",
+    "tokenOnChainAmount": "",
     "tokenSearch": "Cerca per nome token o indirizzo",
     "valueLoss": "Perdita di valore",
     "searchChains": "",
