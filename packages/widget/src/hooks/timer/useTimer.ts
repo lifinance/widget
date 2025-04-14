@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react'
 import { useInterval } from './useInterval.js'
 import {
   TimerStorage,
+  getAdjustedExpiry,
   getDelayFromExpiryTimestamp,
   getSecondsFromExpiry,
   getTimeFromSeconds,
@@ -29,7 +30,7 @@ export function useTimer({
 }: UseTimerProps) {
   const [expiryTimestamp, setExpiryTimestamp] = useState(() => {
     if (timerId) {
-      return TimerStorage.getStoredExpiry(timerId) ?? expiry
+      return getAdjustedExpiry(timerId, expiry)
     }
     return expiry
   })
@@ -81,21 +82,15 @@ export function useTimer({
 
   const resume = useCallback(() => {
     if (timerId && pauseTimestamp) {
-      const pauseDuration = Date.now() - pauseTimestamp
-      const storedExpiry = TimerStorage.getStoredExpiry(timerId)
-      if (storedExpiry) {
-        const newExpiryTimestamp = new Date(
-          storedExpiry.getTime() + pauseDuration
-        )
-        setExpiryTimestamp(newExpiryTimestamp)
-        TimerStorage.setTimerData(timerId, newExpiryTimestamp)
-        setDelay(getDelayFromExpiryTimestamp(newExpiryTimestamp, DEFAULT_DELAY))
-      }
+      const newExpiryTimestamp = getAdjustedExpiry(timerId, expiryTimestamp)
+      setExpiryTimestamp(newExpiryTimestamp)
+      TimerStorage.setTimerData(timerId, newExpiryTimestamp)
+      setDelay(getDelayFromExpiryTimestamp(newExpiryTimestamp, DEFAULT_DELAY))
       setPauseTimestamp(null)
       TimerStorage.clearPausedTimestamp(timerId)
     }
     setIsRunning(true)
-  }, [timerId, pauseTimestamp])
+  }, [timerId, pauseTimestamp, expiryTimestamp])
 
   const start = useCallback(() => {
     if (didStart) {

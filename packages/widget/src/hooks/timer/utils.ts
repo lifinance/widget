@@ -53,6 +53,21 @@ export function getDelayFromExpiryTimestamp(
   return extraMilliSeconds > 0 ? extraMilliSeconds : defaultDelay
 }
 
+export const getAdjustedExpiry = (
+  timerId: string,
+  defaultExpiry: Date
+): Date => {
+  const storedExpiry = TimerStorage.getStoredExpiry(timerId)
+  const pauseTime = TimerStorage.getPauseTimestamp(timerId)
+
+  if (storedExpiry && pauseTime) {
+    // If timer was paused, adjust expiry by the pause duration
+    const pauseDuration = Date.now() - pauseTime
+    return new Date(storedExpiry.getTime() + pauseDuration)
+  }
+  return storedExpiry ?? defaultExpiry
+}
+
 // Timer Storage Helper
 export const TimerStorage = {
   getStoredExpiry: (timerId: string): Date | null => {
