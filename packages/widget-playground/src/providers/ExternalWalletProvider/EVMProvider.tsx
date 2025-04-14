@@ -1,13 +1,12 @@
 import { useSyncWagmiConfig } from '@lifi/wallet-management'
 import { ChainType, type ExtendedChain, useAvailableChains } from '@lifi/widget'
-import { BitcoinAdapter } from '@reown/appkit-adapter-bitcoin'
 import {
   SolanaAdapter,
   type Provider as SolanaWalletProvider,
 } from '@reown/appkit-adapter-solana'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import type { AppKitNetwork } from '@reown/appkit-common'
-import { bitcoin, mainnet, solana } from '@reown/appkit/networks'
+import { mainnet, solana } from '@reown/appkit/networks'
 import {
   type AppKit,
   createAppKit,
@@ -41,7 +40,7 @@ export function WalletProvider({
   const themeMode = useThemeMode()
 
   if (!wagmi.current || !modal.current) {
-    const networks: [AppKitNetwork, ...AppKitNetwork[]] = [solana, bitcoin]
+    const networks: [AppKitNetwork, ...AppKitNetwork[]] = [solana]
     const evmChains = chains.filter(
       (chain) => chain.chainType === ChainType.EVM
     )
@@ -59,12 +58,8 @@ export function WalletProvider({
       wallets: [new PhantomWalletAdapter() as any],
     })
 
-    const bitcoinAdapter = new BitcoinAdapter({
-      projectId: EVMWalletConnectId,
-    })
-
     const appKit = createAppKit({
-      adapters: [wagmiAdapter, solanaWeb3JsAdapter, bitcoinAdapter],
+      adapters: [wagmiAdapter, solanaWeb3JsAdapter],
       networks,
       projectId: EVMWalletConnectId,
       metadata,
