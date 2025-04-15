@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.18.5](https://github.com/lifinance/widget/compare/v3.18.4...v3.18.5) (2025-04-15)
+
+
+### Bug Fixes
+
+* make transaction execution timer count down ([#376](https://github.com/lifinance/widget/issues/376)) ([0595587](https://github.com/lifinance/widget/commit/05955873b1d901efd7c6b0bd2f3143bdb44d5ab3))
+
 ### [3.18.4](https://github.com/lifinance/widget/compare/v3.18.3...v3.18.4) (2025-04-08)
 
 
