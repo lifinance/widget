@@ -12,16 +12,16 @@
     "@lifi/wallet-management": "^3.7.3",
     "@lifi/widget": "^3.18.4",
     "@rainbow-me/rainbowkit": "^2.2.4",
-    "@tanstack/react-query": "^5.74.2",
+    "@tanstack/react-query": "^5.74.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "viem": "^2.26.5",
+    "viem": "^2.27.0",
     "wagmi": "^2.14.16"
   },
   "devDependencies": {
-    "@types/react": "^19.1.1",
+    "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
-    "@vitejs/plugin-react-swc": "^3.8.1",
+    "@vitejs/plugin-react-swc": "^3.9.0",
     "typescript": "^5.8.3",
     "vite": "^6.2.6",
     "vite-plugin-node-polyfills": "^0.23.0"

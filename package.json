@@ -50,7 +50,7 @@
     "@testing-library/user-event": "^14.6.1",
     "@types/events": "^3.0.3",
     "@types/node": "^22.14.1",
-    "@types/react": "^19.1.1",
+    "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "cpy-cli": "^5.0.0",
     "fs-extra": "^11.3.0",

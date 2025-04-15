@@ -1,41 +1,52 @@
-import { useCallback, useState } from 'react'
-import { useInterval } from './useInterval.js'
+import { useCallback, useEffect, useState } from 'react'
 import {
-  getDelayFromExpiryTimestamp,
-  getSecondsFromExpiry,
-  getTimeFromSeconds,
-  validateOnExpire,
-} from './utils.js'
+  type TimeFromMillisecondsType,
+  getMillisecondsFromExpiry,
+  getTimeFromMilliseconds,
+} from './time.js'
+import { useInterval } from './useInterval.js'
+import { validateExpiryTimestamp, validateOnExpire } from './validate.js'
 
-const DEFAULT_DELAY = 1000
+const SECOND_INTERVAL = 1000
 
-interface UseTimerProps {
+export type useTimerSettingsType = {
   expiryTimestamp: Date
-  onExpire: () => void
+  onExpire?: () => void
   autoStart?: boolean
+  interval?: number
 }
 
-// This implementation was taken from the common js project - https://www.npmjs.com/package/react-timer-hook
-// modified to work in the Widget codebase with Typescript
+export type useTimerResultType = TimeFromMillisecondsType & {
+  start: () => void
+  pause: () => void
+  resume: () => void
+  restart: (newExpiryTimestamp: Date, newAutoStart?: boolean) => void
+  isRunning: boolean
+}
+
+/**
+ * `useTimer` from https://github.com/amrlabib/react-timer-hook
+ */
 export function useTimer({
   expiryTimestamp: expiry,
-  onExpire,
+  onExpire = () => {},
   autoStart = true,
-}: UseTimerProps) {
+  interval: customInterval = SECOND_INTERVAL,
+}: useTimerSettingsType): useTimerResultType {
   const [expiryTimestamp, setExpiryTimestamp] = useState(expiry)
-  const [seconds, setSeconds] = useState(() =>
-    getSecondsFromExpiry(expiryTimestamp)
+  const [milliseconds, setMilliseconds] = useState(
+    getMillisecondsFromExpiry(expiryTimestamp)
   )
   const [isRunning, setIsRunning] = useState(autoStart)
   const [didStart, setDidStart] = useState(autoStart)
-  const [delay, setDelay] = useState(() =>
-    getDelayFromExpiryTimestamp(expiryTimestamp, DEFAULT_DELAY)
-  )
+  const [interval, setInterval] = useState<number | null>(customInterval)
 
   const handleExpire = useCallback(() => {
-    validateOnExpire(onExpire) && onExpire()
+    if (validateOnExpire(onExpire)) {
+      onExpire()
+    }
     setIsRunning(false)
-    setDelay(0)
+    setInterval(null)
   }, [onExpire])
 
   const pause = useCallback(() => {
@@ -44,24 +55,24 @@ export function useTimer({
 
   const restart = useCallback(
     (newExpiryTimestamp: Date, newAutoStart = true) => {
-      setDelay(getDelayFromExpiryTimestamp(newExpiryTimestamp, DEFAULT_DELAY))
+      setInterval(customInterval)
       setDidStart(newAutoStart)
       setIsRunning(newAutoStart)
       setExpiryTimestamp(newExpiryTimestamp)
-      setSeconds(getSecondsFromExpiry(newExpiryTimestamp))
+      setMilliseconds(getMillisecondsFromExpiry(newExpiryTimestamp))
     },
-    []
+    [customInterval]
   )
 
   const resume = useCallback(() => {
     const time = new Date()
-    time.setMilliseconds(time.getMilliseconds() + seconds * 1000)
+    time.setMilliseconds(time.getMilliseconds() + milliseconds)
     restart(time)
-  }, [seconds, restart])
+  }, [milliseconds, restart])
 
   const start = useCallback(() => {
     if (didStart) {
-      setSeconds(getSecondsFromExpiry(expiryTimestamp))
+      setMilliseconds(getMillisecondsFromExpiry(expiryTimestamp))
       setIsRunning(true)
     } else {
       resume()
@@ -70,20 +81,23 @@ export function useTimer({
 
   useInterval(
     () => {
-      if (delay !== DEFAULT_DELAY) {
-        setDelay(DEFAULT_DELAY)
-      }
-      const secondsValue = getSecondsFromExpiry(expiryTimestamp)
-      setSeconds(secondsValue)
-      if (secondsValue <= 0) {
+      const millisecondsValue = getMillisecondsFromExpiry(expiryTimestamp)
+      setMilliseconds(millisecondsValue)
+      if (millisecondsValue <= 0) {
         handleExpire()
+      } else if (interval && millisecondsValue < interval) {
+        setInterval(millisecondsValue)
       }
     },
-    isRunning ? delay : 0
+    isRunning ? interval : null
   )
 
+  useEffect(() => {
+    validateExpiryTimestamp(expiryTimestamp)
+  }, [expiryTimestamp])
+
   return {
-    ...getTimeFromSeconds(seconds),
+    ...getTimeFromMilliseconds(milliseconds),
     start,
     pause,
     resume,

@@ -8,7 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@lifi/sdk": "^3.6.7",
+    "@lifi/sdk": "^3.6.8",
     "@lifi/widget": "^3.18.4",
     "@mui/material-nextjs": "^6.4.3",
     "next": "^15.3.0",
@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.14.1",
-    "@types/react": "^19.1.1",
+    "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "typescript": "^5.8.3"
   }
