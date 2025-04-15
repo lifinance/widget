@@ -1,4 +1,4 @@
-import { DeleteOutline } from '@mui/icons-material'
+import DeleteOutline from '@mui/icons-material/DeleteOutline'
 import type { IconButtonProps } from '@mui/material'
 import {
   Button,

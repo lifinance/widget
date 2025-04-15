@@ -16,13 +16,8 @@ import type {
   SxProps,
   Theme,
 } from '@mui/material'
-import type { TypographyOptions } from '@mui/material/styles/createTypography.js'
-import type {
-  CSSProperties,
-  MutableRefObject,
-  ReactNode,
-  RefObject,
-} from 'react'
+import type { TypographyVariantsOptions } from '@mui/material/styles'
+import type { CSSProperties, ReactNode, RefObject } from 'react'
 import type {
   CoinbaseWalletParameters,
   MetaMaskParameters,
@@ -68,7 +63,7 @@ export type WidgetTheme = {
     'background' | 'grey' | 'primary' | 'secondary' | 'text'
   >
   shape?: Partial<Shape>
-  typography?: TypographyOptions
+  typography?: TypographyVariantsOptions
   components?: WidgetThemeComponents
   container?: CSSProperties
   header?: CSSProperties
@@ -293,7 +288,7 @@ export type FormState = {
   setFieldValue: SetFieldValueFunction
 }
 
-export type FormRef = MutableRefObject<FormState | null>
+export type FormRef = RefObject<FormState | null>
 
 export interface FormRefProps {
   formRef?: FormRef

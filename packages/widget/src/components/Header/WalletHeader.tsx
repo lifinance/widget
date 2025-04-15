@@ -4,7 +4,8 @@ import {
   useAccount,
   useWalletMenu,
 } from '@lifi/wallet-management'
-import { ExpandMore, Wallet } from '@mui/icons-material'
+import ExpandMore from '@mui/icons-material/ExpandMore'
+import Wallet from '@mui/icons-material/Wallet'
 import { Avatar, Badge } from '@mui/material'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'

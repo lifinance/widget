@@ -1,6 +1,7 @@
 import type { TokenAmount } from '@lifi/sdk'
 import { isGaslessStep } from '@lifi/sdk'
-import { ExpandLess, ExpandMore } from '@mui/icons-material'
+import ExpandLess from '@mui/icons-material/ExpandLess'
+import ExpandMore from '@mui/icons-material/ExpandMore'
 import { Box, Collapse } from '@mui/material'
 import type { MouseEventHandler } from 'react'
 import { useState } from 'react'

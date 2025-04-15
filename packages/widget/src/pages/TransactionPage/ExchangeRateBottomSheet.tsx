@@ -1,7 +1,7 @@
 import type { ExchangeRateUpdateParams } from '@lifi/sdk'
-import { WarningRounded } from '@mui/icons-material'
+import WarningRounded from '@mui/icons-material/WarningRounded'
 import { Box, Button, Typography } from '@mui/material'
-import type { MutableRefObject } from 'react'
+import type { RefObject } from 'react'
 import {
   forwardRef,
   useCallback,
@@ -37,19 +37,17 @@ export const ExchangeRateBottomSheet = forwardRef<
   const resolverRef = useRef<(value: boolean) => void>(null)
 
   const handleContinue = () => {
-    ;(ref as MutableRefObject<ExchangeRateBottomSheetBase>).current?.close(true)
+    ;(ref as RefObject<ExchangeRateBottomSheetBase>).current?.close(true)
     onContinue?.()
   }
 
   const handleCancel = useCallback(() => {
-    ;(ref as MutableRefObject<ExchangeRateBottomSheetBase>).current?.close(
-      false
-    )
+    ;(ref as RefObject<ExchangeRateBottomSheetBase>).current?.close(false)
     onCancel?.()
   }, [onCancel, ref])
 
   const handleClose = useCallback(() => {
-    ;(ref as MutableRefObject<ExchangeRateBottomSheetBase>).current?.close(
+    ;(ref as RefObject<ExchangeRateBottomSheetBase>).current?.close(
       false,
       false
     )

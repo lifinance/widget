@@ -12,7 +12,7 @@
   "dependencies": {
     "@lifi/wallet-management": "^3.7.3",
     "@lifi/widget": "^3.18.4",
-    "@mui/material": "^6.4.11",
+    "@mui/material": "^7.0.2",
     "@reown/appkit": "^1.7.2",
     "@reown/appkit-adapter-bitcoin": "^1.7.2",
     "@reown/appkit-adapter-solana": "^1.7.2",
