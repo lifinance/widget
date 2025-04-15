@@ -53,11 +53,11 @@
     "@bigmi/core": "^0.1.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@lifi/sdk": "^3.6.7",
+    "@lifi/sdk": "^3.6.8",
     "@lifi/wallet-management": "workspace:^",
     "@mui/icons-material": "6.0.2",
-    "@mui/material": "^6.4.10",
-    "@mui/system": "^6.4.10",
+    "@mui/material": "^6.4.11",
+    "@mui/system": "^6.4.11",
     "@solana/wallet-adapter-base": "^0.9.24",
     "@solana/web3.js": "^1.98.0",
     "@tanstack/react-virtual": "^3.13.6",
@@ -67,7 +67,7 @@
     "react-i18next": "^15.4.1",
     "react-intersection-observer": "^9.16.0",
     "react-router-dom": "^6.30.0",
-    "viem": "^2.26.5",
+    "viem": "^2.27.0",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
