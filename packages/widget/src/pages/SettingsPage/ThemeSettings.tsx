@@ -1,4 +1,6 @@
-import { BrightnessAuto, LightMode, Nightlight } from '@mui/icons-material'
+import BrightnessAuto from '@mui/icons-material/BrightnessAuto'
+import LightMode from '@mui/icons-material/LightMode'
+import Nightlight from '@mui/icons-material/Nightlight'
 import { Tooltip } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { CardValue } from '../../components/Card/CardButton.style.js'

@@ -1,4 +1,5 @@
-import { ArrowDownward, ArrowForward } from '@mui/icons-material'
+import ArrowDownward from '@mui/icons-material/ArrowDownward'
+import ArrowForward from '@mui/icons-material/ArrowForward'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useToAddressAutoPopulate } from '../../hooks/useToAddressAutoPopulate.js'
 import { useToAddressReset } from '../../hooks/useToAddressReset.js'

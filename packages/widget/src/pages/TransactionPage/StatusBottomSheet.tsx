@@ -1,9 +1,7 @@
-import {
-  Done,
-  ErrorRounded,
-  InfoRounded,
-  WarningRounded,
-} from '@mui/icons-material'
+import Done from '@mui/icons-material/Done'
+import ErrorRounded from '@mui/icons-material/ErrorRounded'
+import InfoRounded from '@mui/icons-material/InfoRounded'
+import WarningRounded from '@mui/icons-material/WarningRounded'
 import { Box, Button, Skeleton, Typography } from '@mui/material'
 import { useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'

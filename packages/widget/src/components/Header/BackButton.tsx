@@ -1,4 +1,4 @@
-import { ArrowBack } from '@mui/icons-material'
+import ArrowBack from '@mui/icons-material/ArrowBack'
 import type { IconButtonProps } from '@mui/material'
 import { IconButton, useTheme } from '@mui/material'
 

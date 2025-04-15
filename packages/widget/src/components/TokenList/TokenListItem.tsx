@@ -1,5 +1,5 @@
 import { ChainType } from '@lifi/sdk'
-import { OpenInNewRounded } from '@mui/icons-material'
+import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import {
   Avatar,
   Box,

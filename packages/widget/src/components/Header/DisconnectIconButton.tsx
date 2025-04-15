@@ -1,5 +1,5 @@
 import { type Account, useAccountDisconnect } from '@lifi/wallet-management'
-import { PowerSettingsNewRounded } from '@mui/icons-material'
+import PowerSettingsNewRounded from '@mui/icons-material/PowerSettingsNewRounded'
 import { IconButton } from '@mui/material'
 
 export const DisconnectIconButton = ({ account }: { account: Account }) => {

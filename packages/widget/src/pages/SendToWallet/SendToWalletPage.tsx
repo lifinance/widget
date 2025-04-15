@@ -1,10 +1,8 @@
 import { useAccount } from '@lifi/wallet-management'
-import {
-  Error as ErrorIcon,
-  History,
-  TurnedIn,
-  Wallet,
-} from '@mui/icons-material'
+import ErrorIcon from '@mui/icons-material/Error'
+import History from '@mui/icons-material/History'
+import TurnedIn from '@mui/icons-material/TurnedIn'
+import Wallet from '@mui/icons-material/Wallet'
 import { Box, Tooltip, Typography } from '@mui/material'
 import type { ChangeEvent } from 'react'
 import { useRef, useState } from 'react'

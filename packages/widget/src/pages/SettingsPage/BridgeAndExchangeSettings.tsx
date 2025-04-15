@@ -1,4 +1,5 @@
-import { AirlineStops, SwapHoriz } from '@mui/icons-material'
+import AirlineStops from '@mui/icons-material/AirlineStops'
+import SwapHoriz from '@mui/icons-material/SwapHoriz'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { shallow } from 'zustand/shallow'

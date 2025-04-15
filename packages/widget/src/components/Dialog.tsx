@@ -1,4 +1,4 @@
-import type { DialogProps, PaperProps, Theme } from '@mui/material'
+import type { DialogProps, Theme } from '@mui/material'
 import { Dialog as MuiDialog } from '@mui/material'
 import type { PropsWithChildren } from 'react'
 import { useGetScrollableContainer } from '../hooks/useScrollableContainer.js'
@@ -10,17 +10,16 @@ export const modalProps = {
   },
 }
 
-export const paperProps: Partial<PaperProps> = {
-  sx: (theme: Theme) => ({
-    position: 'absolute',
-    backgroundImage: 'none',
-    backgroundColor: theme.palette.background.default,
-    borderTopLeftRadius: theme.shape.borderRadius,
-    borderTopRightRadius: theme.shape.borderRadius,
-  }),
-}
-
 export const slotProps = {
+  paper: {
+    sx: (theme: Theme) => ({
+      position: 'absolute',
+      backgroundImage: 'none',
+      backgroundColor: theme.palette.background.default,
+      borderTopLeftRadius: theme.shape.borderRadius,
+      borderTopRightRadius: theme.shape.borderRadius,
+    }),
+  },
   backdrop: {
     sx: {
       position: 'absolute',
@@ -42,7 +41,6 @@ export const Dialog: React.FC<PropsWithChildren<DialogProps>> = ({
       open={open}
       onClose={onClose}
       sx={modalProps.sx}
-      PaperProps={paperProps}
       slotProps={slotProps}
     >
       {children}

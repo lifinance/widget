@@ -1,4 +1,4 @@
-import { Search } from '@mui/icons-material'
+import Search from '@mui/icons-material/Search'
 import { FormControl, InputAdornment } from '@mui/material'
 import type { FocusEventHandler, FormEventHandler } from 'react'
 import { InputCard } from '../../components/Card/InputCard.js'

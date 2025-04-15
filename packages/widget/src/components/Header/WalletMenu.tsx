@@ -3,11 +3,9 @@ import {
   useAccount,
   useWalletMenu,
 } from '@lifi/wallet-management'
-import {
-  ContentCopyRounded,
-  OpenInNewRounded,
-  PowerSettingsNewRounded,
-} from '@mui/icons-material'
+import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded'
+import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
+import PowerSettingsNewRounded from '@mui/icons-material/PowerSettingsNewRounded'
 import { Avatar, Badge, Box, Button, IconButton, MenuItem } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'

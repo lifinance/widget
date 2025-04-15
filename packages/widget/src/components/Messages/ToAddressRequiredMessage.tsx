@@ -1,4 +1,4 @@
-import { Wallet } from '@mui/icons-material'
+import Wallet from '@mui/icons-material/Wallet'
 import type { BoxProps } from '@mui/material'
 import { Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'

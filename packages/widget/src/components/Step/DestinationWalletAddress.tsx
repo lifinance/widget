@@ -1,5 +1,6 @@
 import type { LiFiStepExtended } from '@lifi/sdk'
-import { LinkRounded, Wallet } from '@mui/icons-material'
+import LinkRounded from '@mui/icons-material/LinkRounded'
+import Wallet from '@mui/icons-material/Wallet'
 import { Box, Link, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { CardIconButton } from '../Card/CardIconButton.js'

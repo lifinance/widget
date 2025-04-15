@@ -1,5 +1,6 @@
 import { ChainType } from '@lifi/sdk'
-import { ArrowBack, Close } from '@mui/icons-material'
+import ArrowBack from '@mui/icons-material/ArrowBack'
+import Close from '@mui/icons-material/Close'
 import {
   Avatar,
   Box,

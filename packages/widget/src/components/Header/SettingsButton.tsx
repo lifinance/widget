@@ -1,4 +1,4 @@
-import { Settings } from '@mui/icons-material'
+import Settings from '@mui/icons-material/Settings'
 import { Tooltip } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'

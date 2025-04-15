@@ -1,4 +1,6 @@
-import { ArrowForward, ErrorRounded, InfoRounded } from '@mui/icons-material'
+import ArrowForward from '@mui/icons-material/ArrowForward'
+import ErrorRounded from '@mui/icons-material/ErrorRounded'
+import InfoRounded from '@mui/icons-material/InfoRounded'
 import { ListItemAvatar, ListItemText, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useProcessMessage } from '../../hooks/useProcessMessage.js'

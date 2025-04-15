@@ -7,7 +7,7 @@ import {
   useState,
 } from 'react'
 import { useGetScrollableContainer } from '../../hooks/useScrollableContainer.js'
-import { modalProps, paperProps, slotProps } from '../Dialog.js'
+import { modalProps, slotProps } from '../Dialog.js'
 import type { BottomSheetBase, BottomSheetProps } from './types.js'
 
 export const BottomSheet = forwardRef<BottomSheetBase, BottomSheetProps>(
@@ -43,7 +43,6 @@ export const BottomSheet = forwardRef<BottomSheetBase, BottomSheetProps>(
         open={drawerOpen}
         onClose={close}
         ModalProps={modalProps}
-        PaperProps={paperProps}
         slotProps={slotProps}
         disableAutoFocus
       >

@@ -1,4 +1,4 @@
-import { AccessTimeFilled } from '@mui/icons-material'
+import AccessTimeFilled from '@mui/icons-material/AccessTimeFilled'
 import { Tooltip } from '@mui/material'
 import { Box } from '@mui/system'
 import type { FC, PropsWithChildren } from 'react'

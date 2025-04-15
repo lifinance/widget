@@ -1,6 +1,8 @@
 import type { LiFiStep, StepExtended } from '@lifi/sdk'
 import { isGaslessStep } from '@lifi/sdk'
-import { ArrowForward, ExpandLess, ExpandMore } from '@mui/icons-material'
+import ArrowForward from '@mui/icons-material/ArrowForward'
+import ExpandLess from '@mui/icons-material/ExpandLess'
+import ExpandMore from '@mui/icons-material/ExpandMore'
 import type { StepIconProps } from '@mui/material'
 import {
   Badge,

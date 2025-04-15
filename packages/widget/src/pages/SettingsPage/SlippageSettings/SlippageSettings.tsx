@@ -1,4 +1,5 @@
-import { Percent, WarningRounded } from '@mui/icons-material'
+import Percent from '@mui/icons-material/Percent'
+import WarningRounded from '@mui/icons-material/WarningRounded'
 import { Box, Typography, debounce } from '@mui/material'
 import type { ChangeEventHandler, FocusEventHandler } from 'react'
 import { useCallback, useMemo, useRef, useState } from 'react'

@@ -1,10 +1,8 @@
 import type { RouteExtended } from '@lifi/sdk'
 import { isGaslessStep } from '@lifi/sdk'
-import {
-  ExpandLess,
-  ExpandMore,
-  LocalGasStationRounded,
-} from '@mui/icons-material'
+import ExpandLess from '@mui/icons-material/ExpandLess'
+import ExpandMore from '@mui/icons-material/ExpandMore'
+import LocalGasStationRounded from '@mui/icons-material/LocalGasStationRounded'
 import type { CardProps } from '@mui/material'
 import { Box, Collapse, Tooltip, Typography } from '@mui/material'
 import { useState } from 'react'

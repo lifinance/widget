@@ -1,4 +1,4 @@
-import { SearchOff } from '@mui/icons-material'
+import SearchOff from '@mui/icons-material/SearchOff'
 import {
   NotFoundContainer,
   NotFoundIconContainer,

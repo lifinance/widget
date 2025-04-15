@@ -1,6 +1,7 @@
-import { Wallet, WarningRounded } from '@mui/icons-material'
+import Wallet from '@mui/icons-material/Wallet'
+import WarningRounded from '@mui/icons-material/WarningRounded'
 import { Button, Typography } from '@mui/material'
-import type { MutableRefObject } from 'react'
+import type { RefObject } from 'react'
 import { forwardRef, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
@@ -33,7 +34,7 @@ export const ConfirmAddressSheet = forwardRef<
   ConfirmAddressSheetProps
 >((props, ref) => {
   const handleClose = () => {
-    ;(ref as MutableRefObject<BottomSheetBase>).current?.close()
+    ;(ref as RefObject<BottomSheetBase>).current?.close()
   }
 
   return (

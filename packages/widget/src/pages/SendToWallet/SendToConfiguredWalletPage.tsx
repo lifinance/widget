@@ -1,8 +1,6 @@
-import {
-  ContentCopyRounded,
-  MoreHoriz,
-  OpenInNewRounded,
-} from '@mui/icons-material'
+import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded'
+import MoreHoriz from '@mui/icons-material/MoreHoriz'
+import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material'
 import { useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'

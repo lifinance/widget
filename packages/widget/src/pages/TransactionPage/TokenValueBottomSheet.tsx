@@ -1,8 +1,8 @@
 import type { Route } from '@lifi/sdk'
 import { isGaslessStep } from '@lifi/sdk'
-import { WarningRounded } from '@mui/icons-material'
+import WarningRounded from '@mui/icons-material/WarningRounded'
 import { Box, Button, Typography } from '@mui/material'
-import type { MutableRefObject } from 'react'
+import type { RefObject } from 'react'
 import { forwardRef, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
@@ -24,7 +24,7 @@ export const TokenValueBottomSheet = forwardRef<
   TokenValueBottomSheetProps
 >(({ route, onContinue, onCancel }, ref) => {
   const handleCancel = () => {
-    ;(ref as MutableRefObject<BottomSheetBase>).current?.close()
+    ;(ref as RefObject<BottomSheetBase>).current?.close()
     onCancel?.()
   }
 
