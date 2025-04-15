@@ -6,7 +6,8 @@
   "format": {
     "currency": "",
     "number": "{{value, number(maximumFractionDigits: 9)}}",
-    "percent": ""
+    "percent": "",
+    "tokenAmount": ""
   },
   "button": {
     "auto": "স্বয়ংক্রিয়",
@@ -83,14 +84,13 @@
     "message": {
       "autoRefuel": "আপনার {{chainName}} গ্যাস কম। চালিয়ে যাওয়ার মাধ্যমে, আপনি সোওয়াপ সম্পূর্ণ করার জন্য পর্যাপ্ত গ্যাস পাবেন।",
       "emptyActiveTransactions": "",
-      "emptyTokenList": "",
-      "emptyChainList": "",
       "emptyBridgesList": "",
+      "emptyChainList": "",
       "emptyExchangesList": "",
+      "emptyTokenList": "",
       "emptyTransactionHistory": "",
-      "fundsToExchange": "",
-      "toAddressIsRequired": "",
-      "routeNotFound": ""
+      "routeNotFound": "",
+      "toAddressIsRequired": ""
     },
     "title": {
       "autoRefuel": "",
@@ -117,14 +117,18 @@
   },
   "warning": {
     "message": {
+      "accountNotDeployedMessage": "",
+      "lowAddressActivity": "",
       "deleteActiveTransactions": "",
       "deleteTransactionHistory": "",
+      "fundsLossPrevention": "",
       "highValueLoss": "প্রাপ্ত টোকেনগুলির মান সোওয়াপ করা টোকেন এবং লেনদেনের খরচের তুলনায় উল্লেখযোগ্যভাবে কম।",
       "insufficientFunds": "সোওয়াপ সম্পূর্ণ করার জন্য আপনার কাছে পর্যাপ্ত তহবিল নেই।",
       "insufficientGas": "সোওয়াপ সম্পূর্ণ করার জন্য আপনার কাছে পর্যাপ্ত গ্যাস নেই। আপনাকে অন্তত যোগ করতে হবে:",
       "rateChanged": "বিনিময় হার পরিবর্তিত হয়েছে। সোওয়াপ চালিয়ে যাওয়ার মাধ্যমে, আপনি নতুন হার গ্রহণ করবেন।",
       "resetSettings": "এটি আপনার রুটের অগ্রাধিকার, স্লিপেজ, গ্যাসের দাম, সক্ষম ব্রিজ এবং এক্সচেঞ্জ রিসেট করবে।",
-      "slippageOutsideRecommendedLimits": ""
+      "slippageOutsideRecommendedLimits": "",
+      "slippageUnderRecommendedLimits": ""
     },
     "title": {
       "deleteActiveTransactions": "",
@@ -133,7 +137,8 @@
       "highValueLoss": "উচ্চ মূল্য ক্ষতি",
       "insufficientGas": "অপর্যাপ্ত গ্যাস",
       "rateChanged": "হার পরিবর্তিত হয়েছে",
-      "resetSettings": "রিসেট সেটিংস?"
+      "resetSettings": "রিসেট সেটিংস?",
+      "lowAddressActivity": ""
     }
   },
   "error": {
@@ -146,6 +151,7 @@
       "transactionCanceled": "",
       "transactionConflict": "",
       "transactionExpired": "",
+      "transactionRejected": "",
       "transactionFailed": "আরও তথ্যের জন্য ব্লক এক্সপ্লোরার চেক করুন।",
       "transactionNotSent": "",
       "transactionSimulationFailed": "",
@@ -167,6 +173,7 @@
       "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "লেনদেন ব্যর্থ হয়েছে",
+      "transactionRejected": "",
       "transactionSimulationFailed": "",
       "transactionUnderpriced": "লেনদেনের দাম কম",
       "transactionUnprepared": "লেনদেন প্রস্তুত করতে অক্ষম",
@@ -187,6 +194,7 @@
       "text": "আমরা এই পৃষ্ঠাটি খুঁজে পাইনি।",
       "title": "৪০৪"
     },
+    "relayerService": "",
     "numberOfSteps": "",
     "priceImpact": "",
     "progressToNextUpdate": "প্রদর্শিত ডেটা {{value}} সেকেন্ড পরে স্বয়ংক্রিয়ভাবে রিফ্রেশ হবে। ম্যানুয়ালি আপডেট করতে এখানে ক্লিক করুন।",
@@ -203,7 +211,9 @@
     "featuredTokens": "বৈশিষ্ট্যযুক্ত টোকেন",
     "fees": {
       "defaultIntegrator": "",
+      "relayerService": "",
       "estimated": "",
+      "free": "",
       "integrator": "",
       "network": "",
       "paid": "",
@@ -238,19 +248,26 @@
         "refunded": "ব্রিজ লেনদেন ফেরত করা হয়েছে"
       },
       "swap": {
-        "actionRequired": "দয়াকরে লেনদেন স্বাক্ষর করুন",
+        "actionRequired": "",
         "done": "সোওয়াপ সম্পন্ন হয়েছে",
-        "pending": "সোওয়াপ লেনদেনের জন্য অপেক্ষা করা হচ্ছে",
+        "pending": "",
         "started": "সোয়াপ লেনদেন প্রস্তুত করা হচ্ছে"
       },
       "switchChain": {
-        "actionRequired": "চেইন সুইচ প্রয়োজন",
-        "done": "চেইন সফলভাবে সুইচ করা হয়েছে"
+        "actionRequired": "",
+        "done": ""
+      },
+      "permit": {
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
       },
       "tokenAllowance": {
-        "done": "টোকেন অনুমতি অনুমোদিত",
-        "pending": "টোকেন অনুমতির অপেক্ষায়",
-        "started": "টোকেন অনুমতির অপেক্ষায়"
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
       }
     },
     "quotedAmount": "উদ্ধৃত পরিমাণ",
@@ -278,11 +295,12 @@
     "transferId": "",
     "tags": {
       "cheapest": "",
-      "fastest": ""
+      "fastest": "",
+      "gasless": ""
     },
     "to": "প্রতি",
     "tokenOnChain": "{{chainName}} -এ {{tokenSymbol}}",
-    "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} {{chainName}} -এ",
+    "tokenOnChainAmount": "",
     "tokenSearch": "আপনার টোকেন অনুসন্ধান করুন",
     "valueLoss": "মান ক্ষতি",
     "searchChains": "",
