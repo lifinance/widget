@@ -23,15 +23,15 @@ export const WalletMenuModal: React.FC<PropsWithChildren<WalletMenuProps>> = ({
       anchor="bottom"
       open={open}
       onClose={onClose}
-      PaperProps={{
-        sx: (theme) => ({
-          maxHeight: '80%',
-          background: theme.palette.background.default,
-          borderTopLeftRadius: theme.shape.borderRadius * 2,
-          borderTopRightRadius: theme.shape.borderRadius * 2,
-        }),
-      }}
       slotProps={{
+        paper: {
+          sx: (theme) => ({
+            maxHeight: '80%',
+            background: theme.palette.background.default,
+            borderTopLeftRadius: theme.shape.borderRadius * 2,
+            borderTopRightRadius: theme.shape.borderRadius * 2,
+          }),
+        },
         backdrop: {
           sx: {
             backgroundColor: 'rgb(0 0 0 / 24%)',
@@ -47,18 +47,18 @@ export const WalletMenuModal: React.FC<PropsWithChildren<WalletMenuProps>> = ({
       open={open}
       onClose={onClose}
       scroll="paper"
-      PaperProps={{
-        sx: (theme) => ({
-          width: '100%',
-          maxWidth: maxWidth,
-          background: theme.palette.background.default,
-          borderTopLeftRadius: theme.shape.borderRadius * 2,
-          borderTopRightRadius: theme.shape.borderRadius * 2,
-          borderBottomLeftRadius: theme.shape.borderRadius * 2,
-          borderBottomRightRadius: theme.shape.borderRadius * 2,
-        }),
-      }}
       slotProps={{
+        paper: {
+          sx: (theme) => ({
+            width: '100%',
+            maxWidth: maxWidth,
+            background: theme.palette.background.default,
+            borderTopLeftRadius: theme.shape.borderRadius * 2,
+            borderTopRightRadius: theme.shape.borderRadius * 2,
+            borderBottomLeftRadius: theme.shape.borderRadius * 2,
+            borderBottomRightRadius: theme.shape.borderRadius * 2,
+          }),
+        },
         backdrop: {
           sx: {
             backgroundColor: 'rgb(0 0 0 / 24%)',
