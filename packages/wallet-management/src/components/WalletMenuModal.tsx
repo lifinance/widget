@@ -26,7 +26,7 @@ export const WalletMenuModal: React.FC<PropsWithChildren<WalletMenuProps>> = ({
       PaperProps={{
         sx: (theme) => ({
           maxHeight: '80%',
-          background: theme.palette.background.default,
+          background: (theme.vars || theme).palette.background.default,
           borderTopLeftRadius: theme.shape.borderRadius * 2,
           borderTopRightRadius: theme.shape.borderRadius * 2,
         }),
@@ -51,7 +51,7 @@ export const WalletMenuModal: React.FC<PropsWithChildren<WalletMenuProps>> = ({
         sx: (theme) => ({
           width: '100%',
           maxWidth: maxWidth,
-          background: theme.palette.background.default,
+          background: (theme.vars || theme).palette.background.default,
           borderTopLeftRadius: theme.shape.borderRadius * 2,
           borderTopRightRadius: theme.shape.borderRadius * 2,
           borderBottomLeftRadius: theme.shape.borderRadius * 2,
