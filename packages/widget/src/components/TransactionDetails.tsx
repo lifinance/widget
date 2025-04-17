@@ -232,7 +232,10 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                 variant="body2"
                 sx={{ fontWeight: 600, cursor: 'help' }}
               >
-                {t('format.percent', { value: priceImpact })}
+                {t('format.percent', {
+                  value: priceImpact,
+                  usePlusSign: true,
+                })}
               </Typography>
             </Tooltip>
           </Box>
