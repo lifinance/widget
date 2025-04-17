@@ -4,7 +4,7 @@ const { stat: _stat, readFile, readdir, writeFile } = fsExtra
 
 const replaceInFile = async (filePath) => {
   let content = await readFile(filePath, 'utf8')
-  const regex = '../src/'
+  const regex = /..\/src\//g
   const replacement = ''
   content = content.replace(regex, replacement)
   await writeFile(filePath, content, 'utf8')
