@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.18.7](https://github.com/lifinance/widget/compare/v3.18.6...v3.18.7) (2025-04-17)
+
+
+### Bug Fixes
+
+* add support for displaying positive price impacts with a plus sign ([#378](https://github.com/lifinance/widget/issues/378)) ([be3a23d](https://github.com/lifinance/widget/commit/be3a23ddd4540c48f8a4da9e9ffcf501065af9e8))
+* enable _vcComponent ([#382](https://github.com/lifinance/widget/issues/382)) ([fd37fa4](https://github.com/lifinance/widget/commit/fd37fa448707f6a57102d76817b0b34f4cbe9e88))
+
 ### [3.18.6](https://github.com/lifinance/widget/compare/v3.18.5...v3.18.6) (2025-04-17)
 
 
