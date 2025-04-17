@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.18.6](https://github.com/lifinance/widget/compare/v3.18.5...v3.18.6) (2025-04-17)
+
+
+### Bug Fixes
+
+* missing availableRoute event ([#381](https://github.com/lifinance/widget/issues/381)) ([a884b81](https://github.com/lifinance/widget/commit/a884b81ec10a129831be744078678248aa8a9316))
+
 ### [3.18.5](https://github.com/lifinance/widget/compare/v3.18.4...v3.18.5) (2025-04-15)
 
 
