@@ -420,11 +420,12 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
         const initialRoutes = routesResult?.routes ?? []
 
         if (shouldUseRelayerQuote && initialRoutes.length) {
-          emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
           setIntermediateRoutes(queryKey, initialRoutes)
+          emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
           // Return early if we're only using main routes
         } else if (shouldUseMainRoutes) {
           // If we don't need relayer quote, return the initial routes
+          emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
           return initialRoutes
         }
 
