@@ -421,6 +421,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
 
         if (shouldUseRelayerQuote && initialRoutes.length) {
           setIntermediateRoutes(queryKey, initialRoutes)
+          emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
           // Return early if we're only using main routes
         } else if (shouldUseMainRoutes) {
           // If we don't need relayer quote, return the initial routes
@@ -434,8 +435,8 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           // Insert the relayer route at position 1 (after the first route)
           initialRoutes.splice(1, 0, relayerRouteResult)
           // Emit the updated routes
+          emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
         }
-        emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
 
         return initialRoutes
       },
