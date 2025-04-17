@@ -421,7 +421,6 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
 
         return new Promise(async (resolve) => {
           if (shouldUseRelayerQuote && initialRoutes.length) {
-              emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes);
               setIntermediateRoutes(queryKey, initialRoutes);
               // Return early if we're only using main routes
           }
