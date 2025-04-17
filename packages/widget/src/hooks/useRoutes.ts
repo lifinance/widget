@@ -419,25 +419,31 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
 
         const initialRoutes = routesResult?.routes ?? []
 
-        if (shouldUseRelayerQuote && initialRoutes.length) {
-          emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
-          setIntermediateRoutes(queryKey, initialRoutes)
-          // Return early if we're only using main routes
-        } else if (shouldUseMainRoutes) {
-          // If we don't need relayer quote, return the initial routes
-          return initialRoutes
-        }
-
-        const relayerRouteResult = await relayerQuotePromise
-        // If we have a relayer route, add it to the routes array
-        if (relayerRouteResult) {
-          // Insert the relayer route at position 1 (after the first route)
-          initialRoutes.splice(1, 0, relayerRouteResult)
+        return new Promise(async (resolve) => {
+          if (shouldUseRelayerQuote && initialRoutes.length) {
+              emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes);
+              setIntermediateRoutes(queryKey, initialRoutes);
+              // Return early if we're only using main routes
+          }
+          else if (shouldUseMainRoutes) {
+              // If we don't need relayer quote, return the initial routes
+              return resolve(initialRoutes);
+          }
+          const relayerRouteResult = await relayerQuotePromise;
+          // If we have a relayer route, add it to the routes array
+          if (relayerRouteResult) {
+              // Insert the relayer route at position 1 (after the first route)
+              initialRoutes.splice(1, 0, relayerRouteResult);
+          }
+  
+          return resolve(initialRoutes);
+        })
+        .finally(() => {
           // Emit the updated routes
-          emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
-        }
+          emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes);
 
-        return initialRoutes
+          return initialRoutes;
+        });
       },
       enabled: isEnabled,
       staleTime: refetchTime,
