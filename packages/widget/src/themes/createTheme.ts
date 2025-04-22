@@ -50,7 +50,7 @@ export const createTheme = (widgetTheme: WidgetTheme = {}) => {
         palette: {
           ...palette,
           ...paletteLight,
-          ...widgetTheme.palette,
+          ...(widgetTheme.colorScheme?.light?.palette ?? widgetTheme.palette),
           primary: {
             main: primaryMainColor,
             light: primaryLightColor,
@@ -67,7 +67,7 @@ export const createTheme = (widgetTheme: WidgetTheme = {}) => {
         palette: {
           ...palette,
           ...paletteDark,
-          ...widgetTheme.palette,
+          ...(widgetTheme.colorScheme?.dark?.palette ?? widgetTheme.palette),
           primary: {
             main: primaryMainColor,
             light: primaryLightColor,

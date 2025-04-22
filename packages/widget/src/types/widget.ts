@@ -18,7 +18,7 @@ import type {
   Theme,
 } from '@mui/material'
 import type { TypographyVariantsOptions } from '@mui/material/styles'
-import type { CSSProperties, ReactNode, RefObject } from 'react'
+import type { CSSProperties, FC, ReactNode, RefObject } from 'react'
 import type {
   CoinbaseWalletParameters,
   MetaMaskParameters,
@@ -59,6 +59,9 @@ export type WidgetThemeComponents = Pick<
 >
 
 export type WidgetTheme = {
+  /**
+   * @deprecated Use `colorScheme` instead.
+   */
   palette?: Pick<
     PaletteOptions,
     'background' | 'grey' | 'primary' | 'secondary' | 'text'
