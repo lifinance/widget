@@ -6,28 +6,29 @@
   "format": {
     "currency": "{{value, currencyExt(currency: USD)}}",
     "number": "{{value, number(maximumFractionDigits: 4)}}",
-    "percent": ""
+    "percent": "{{value, percent(maximumFractionDigits: 2)}}",
+    "tokenAmount": "{{value, numberExt}}"
   },
   "button": {
     "auto": "Auto",
     "bookmark": "Favorito",
     "bookmarks": "Favoritos",
     "bridge": "Puente",
-    "bridgeReview": "",
+    "bridgeReview": "Revisar puente",
     "buy": "Comprar",
     "cancel": "Cancelar",
-    "checkoutReview": "",
+    "checkoutReview": "Revisar compra",
     "close": "Cerrar",
     "confirm": "Confirmar",
-    "connectAnotherWallet": "",
+    "connectAnotherWallet": "Conectar otra cartera",
     "connectWallet": "Conectar billetera",
     "contactSupport": "Contactar soporte",
     "continue": "Continuar",
     "copyAddress": "Copiar dirección",
     "dark": "Oscuro",
     "delete": "Eliminar",
-    "deposit": "",
-    "depositReview": "",
+    "deposit": "Depositar",
+    "depositReview": "Revisar depósito",
     "disconnect": "Desconectar",
     "done": "Hecho",
     "exchange": "Intercambio",
@@ -45,21 +46,21 @@
     "startBridging": "Comenzar puente",
     "startSwapping": "Iniciar intercambio",
     "swap": "Swap",
-    "swapReview": "",
+    "swapReview": "Revisar intercambio",
     "tryAgain": "Intentar otra vez",
     "viewCoverage": "Ver cobertura",
     "viewOnExplorer": "Ver en explorador"
   },
   "header": {
     "activeTransactions": "Transacciones activas",
-    "amount": "",
+    "amount": "Cantidad",
     "bookmarkedWallets": "Billeteras preferidas",
     "bridge": "Puente",
     "checkout": "Checkout",
-    "checkoutDetails": "",
-    "deposit": "",
-    "depositDetails": "",
-    "depositTo": "",
+    "checkoutDetails": "Detalles de pago",
+    "deposit": "Depositar",
+    "depositDetails": "Detalles del depósito",
+    "depositTo": "Depositar en",
     "exchange": "Intercambio",
     "from": "Intercambiar de",
     "gas": "Gas",
@@ -83,14 +84,13 @@
     "message": {
       "autoRefuel": "Tienes poco gas en {{chainName}}. Al continuar, obtendrás suficiente gas para completar la transacción.",
       "emptyActiveTransactions": "Las transacciones en progreso aparecerán aquí. Una vez completadas, encuéntralas en el historial de transacciones.",
+      "emptyBridgesList": "No pudimos encontrar ningún puente que coincida con tu búsqueda",
+      "emptyChainList": "No pudimos encontrar ninguna cadena que coincida con tu búsqueda",
+      "emptyExchangesList": "No pudimos encontrar ningún intercambio que coincida con su búsqueda",
       "emptyTokenList": "No pudimos encontrar tokens en la cadena {{chainName}} o no tienes ninguno. Por favor, busque por dirección de contrato si su token no aparece o elija otra cadena.",
-      "emptyChainList": "",
-      "emptyBridgesList": "",
-      "emptyExchangesList": "",
       "emptyTransactionHistory": "El historial de intercambio solo se almacena localmente y se eliminará si borra los datos de su navegador.",
-      "fundsToExchange": "Los fondos enviados a la billetera de un exchange se pueden perder",
-      "toAddressIsRequired": "Por favor, proporcione la dirección de la billetera de destino a la que se transferirán los fondos.",
-      "routeNotFound": "Razones para eso: baja liquidez, cantidad seleccionada es demasiado baja, Los costos de gas son demasiado altos o no hay rutas para la combinación seleccionada."
+      "routeNotFound": "Razones para eso: baja liquidez, cantidad seleccionada es demasiado baja, Los costos de gas son demasiado altos o no hay rutas para la combinación seleccionada.",
+      "toAddressIsRequired": "La dirección de la cartera de destino es necesaria para proceder con la transferencia."
     },
     "title": {
       "autoRefuel": "Obtener gas {{chainName}}",
@@ -102,14 +102,14 @@
   "success": {
     "message": {
       "exchangePartiallySuccessful": "Hemos intentado completar la transacción, pero {{tool}} no pudo proceder debido a la configuración del deslizamiento o a la falta de liquidez del token {{tokenSymbol}}.",
-      "exchangeSuccessful": "Ahora hay {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} en la billetera {{walletAddress}} en la cadena {{chainName}}.",
-      "checkoutSuccessful": ""
+      "exchangeSuccessful": "",
+      "checkoutSuccessful": "Ahora tiene {{assetName}} en la billetera {{walletAddress}} en la cadena {{chainName}}."
     },
     "title": {
       "bridgePartiallySuccessful": "Puente parcialmente exitoso",
       "bridgeSuccessful": "Puente exitoso",
-      "depositSuccessful": "",
-      "checkoutSuccessful": "",
+      "depositSuccessful": "Depósito realizado con éxito",
+      "checkoutSuccessful": "Compra exitosa",
       "refundIssued": "Reembolso emitido",
       "swapPartiallySuccessful": "Swap parcialmente exitoso",
       "swapSuccessful": "Intercambio exitoso"
@@ -117,14 +117,18 @@
   },
   "warning": {
     "message": {
+      "accountNotDeployedMessage": "",
+      "lowAddressActivity": "Esta dirección tiene poca actividad en la red {{chainName}}. Por favor, comprueba que estás enviando a la dirección y a la red correctas para evitar la pérdida potencial de fondos.",
       "deleteActiveTransactions": "Las transacciones activas solo se almacenan localmente y no se pueden recuperar si las elimina.",
       "deleteTransactionHistory": "El historial de transacciones solo se almacena localmente y no se puede recuperar si lo elimina.",
+      "fundsLossPrevention": "Asegúrate de que las cuentas de Contratos Inteligentes estén bien configuradas en la cadena de destino y evita transferencias directas a plataformas de intercambio centralizadas para no perder fondos.",
       "highValueLoss": "El valor de los tokens recibidos es significativamente menor que los tokens intercambiados y el costo de la transacción.",
       "insufficientFunds": "No tiene fondos suficientes para ejecutar el intercambio.",
       "insufficientGas": "Debes agregar al menos:",
       "rateChanged": "La tasa de cambio ha cambiado. Continuar con el swap implica que estas de acuerdo con la nueva tasa.",
       "resetSettings": "Esto restablecerá su prioridad de ruta, deslizamiento, precio de gas, puentes e intercambios habilitados.",
-      "slippageOutsideRecommendedLimits": "La tolerancia de los deslizamientos altos puede resultar en un comercio desfavorable causado por front-running."
+      "slippageOutsideRecommendedLimits": "La tolerancia de los deslizamientos altos puede resultar en un comercio desfavorable causado por front-running.",
+      "slippageUnderRecommendedLimits": "Elegir una baja tolerancia en el deslizamiento del intercambio puede causar retrasos o fallos en las transacciones."
     },
     "title": {
       "deleteActiveTransactions": "¿Eliminar todas las transacciones activas?",
@@ -133,19 +137,21 @@
       "highValueLoss": "Pérdida de alto valor",
       "insufficientGas": "Gas insuficiente",
       "rateChanged": "Cambios de precio detectado",
-      "resetSettings": "¿Reiniciar los ajustes?"
+      "resetSettings": "¿Reiniciar los ajustes?",
+      "lowAddressActivity": "Dirección con baja actividad"
     }
   },
   "error": {
     "message": {
       "allowanceRequired": "El monto de la transferencia para {{tokenSymbol}} supera su autorización actual. Por favor, aumente su permiso e inténtelo de nuevo.",
       "insufficientFunds": "No tiene suficiente gas para cubrir el coste de la transacción.",
-      "remainInYourWallet": "La transacción no fue enviada, sus fondos aún están en su billetera ({{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} en {{chainName}}).",
-      "signatureRejected": "Se requiere su firma para completar la transacción. {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} en {{chainName}} permanecen en su billetera.",
+      "remainInYourWallet": "",
+      "signatureRejected": "",
       "slippageThreshold": "El slippage es mayor que el umbral definido. Por favor, solicite una nueva ruta para obtener un presupuesto nuevo.",
       "transactionCanceled": "La transacción se ha cancelado.",
-      "transactionConflict": "",
+      "transactionConflict": "La transacción no ha podido ser procesada por estar en conflicto con otra transacción pendiente que usa los mismos fondos; Espere a que se confirme la transacción pendiente o revise el historial de sus transacciones antes de intentarlo nuevamente.",
       "transactionExpired": "La altura del bloque ha excedido el límite máximo permitido o el blockhash ya no es suficientemente reciente.",
+      "transactionRejected": "",
       "transactionFailed": "Por favor consulte el explorador de bloques para obtener mas información",
       "transactionNotSent": "La transacción no ha sido enviada.",
       "transactionSimulationFailed": "La transacción no se ha podido ejecutar en simulación.",
@@ -164,9 +170,10 @@
       "signatureRejected": "Firma requerida",
       "slippageNotMet": "Condiciones de slippage no cumplidas",
       "transactionCanceled": "Transacción cancelada",
-      "transactionConflict": "",
+      "transactionConflict": "Transacción cancelada",
       "transactionExpired": "La transacción ha expirado",
       "transactionFailed": "La transacción ha fallado.",
+      "transactionRejected": "",
       "transactionSimulationFailed": "Error al simular la transacción",
       "transactionUnderpriced": "La transacción está subvaluada.",
       "transactionUnprepared": "No se puede preparar la transacción.",
@@ -180,13 +187,14 @@
   },
   "tooltip": {
     "deselectAll": "Deseleccionar todo",
-    "estimatedTime": "Tiempo estimado para completar la transacción de intercambio o puente, excluyendo el cambio de cadena y la aprobación de token.",
+    "estimatedTime": "",
     "feeCollection": "La comisión se aplica a los pares de tokens seleccionados y garantiza la mejor experiencia con {{tool}}.",
     "minReceived": "La cantidad mínima estimada puede cambiar hasta que la transacción de intercambio/puente sea firmada. Para transferencias de dos pasos, esto se aplica hasta que la transacción de segundo paso sea firmada.",
     "notFound": {
       "text": "No pudimos encontrar esta página.",
       "title": "404"
     },
+    "relayerService": "",
     "numberOfSteps": "Cada paso de intercambio puede contener 1-2 transacciones que requieren una firma.",
     "priceImpact": "La diferencia de valor estimada entre los tokens de origen y destino.",
     "progressToNextUpdate": "Los datos mostrados se actualizarán automáticamente después de {{value}} segundos. Haga clic aquí para actualizar manualmente.",
@@ -203,7 +211,9 @@
     "featuredTokens": "Tokens destacados",
     "fees": {
       "defaultIntegrator": "Comisión del integrador",
+      "relayerService": "",
       "estimated": "costes estimados",
+      "free": "",
       "integrator": "Comisión {{tool}}",
       "network": "Coste de red",
       "paid": "costes pagados",
@@ -220,9 +230,9 @@
     "priceImpact": "Impacto en el precio",
     "process": {
       "bridge": {
-        "actionRequired": "Por favor, firme la transacción",
+        "actionRequired": "",
         "done": "Transacción de puente confirmada",
-        "pending": "Esperando la transacción de puente",
+        "pending": "",
         "started": "Preparando transacción de puente"
       },
       "checkout": {
@@ -238,19 +248,26 @@
         "refunded": "Transacción de bridge reembolsada"
       },
       "swap": {
-        "actionRequired": "Por favor firme la transacción.",
+        "actionRequired": "",
         "done": "Swap completado.",
-        "pending": "Esperando transacción del intercambio",
+        "pending": "",
         "started": "Preparando transacción de intercambio"
       },
       "switchChain": {
-        "actionRequired": "Cambiar cadenas es requerido",
-        "done": "Cadena cambiada con éxito"
+        "actionRequired": "",
+        "done": ""
+      },
+      "permit": {
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
       },
       "tokenAllowance": {
-        "done": "Permiso de token aprobado",
-        "pending": "Esperando permiso de token",
-        "started": "Configurando permiso de tokens"
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
       }
     },
     "quotedAmount": "Monto citado",
@@ -266,28 +283,29 @@
     "sentToAddress": "Enviado a {{address}}",
     "stepBridge": "Cruzar",
     "stepBridgeAndBuy": "Puente y compra",
-    "stepBridgeAndDeposit": "",
+    "stepBridgeAndDeposit": "Puente y depósito",
     "stepBuy": "Comprar",
-    "stepDeposit": "",
+    "stepDeposit": "Depósito",
     "stepDetails": "{{tool}} a través de LI.FI",
     "stepSwap": "Swap",
     "stepSwapAndBridge": "Swap y cruzar",
     "stepSwapAndBuy": "Intercambiar y comprar",
-    "stepSwapAndDeposit": "",
+    "stepSwapAndDeposit": "Intercambiar y depositar",
     "swapStepDetails": "Intercambiar en {{chain}} a través de {{tool}}",
-    "transferId": "",
+    "transferId": "ID de transacción",
     "tags": {
       "cheapest": "Mejor retorno",
-      "fastest": "Más rápido"
+      "fastest": "Más rápido",
+      "gasless": ""
     },
     "to": "A",
     "tokenOnChain": "{{tokenSymbol}} en {{chainName}}",
-    "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} on {{chainName}}",
+    "tokenOnChainAmount": "",
     "tokenSearch": "Busque su token",
     "valueLoss": "Valor perdido",
-    "searchChains": "",
-    "searchBridges": "",
-    "searchExchanges": ""
+    "searchChains": "Buscar por nombre de cadena",
+    "searchBridges": "Buscar por nombre de puente",
+    "searchExchanges": "Buscar por nombre de intercambio"
   },
   "settings": {
     "theme": "Tema",

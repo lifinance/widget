@@ -6,7 +6,8 @@
   "format": {
     "currency": "{{value, currencyExt(currency: USD)}}",
     "number": "{{value, number(maximumFractionDigits: 9)}}",
-    "percent": "{{value, percent(maximumFractionDigits: 2)}}"
+    "percent": "{{value, percent(maximumFractionDigits: 2)}}",
+    "tokenAmount": "{{value, numberExt}}"
   },
   "button": {
     "auto": "自动",
@@ -52,14 +53,14 @@
   },
   "header": {
     "activeTransactions": "进行中的交易",
-    "amount": "",
+    "amount": "金额",
     "bookmarkedWallets": "已收藏的钱包",
     "bridge": "跨链",
     "checkout": "支付",
     "checkoutDetails": "交易细节",
     "deposit": "存款",
     "depositDetails": "存款详情",
-    "depositTo": "",
+    "depositTo": "充币至",
     "exchange": "兑换",
     "from": "兑换自",
     "gas": "燃气费",
@@ -83,14 +84,13 @@
     "message": {
       "autoRefuel": "您在 {{chainName}} 链上的燃气费很低。如果启用该选项，您将获得足够的燃气费完成此次兑换。",
       "emptyActiveTransactions": "正在进行的兑换将在这里显示。一旦完成，你可在兑换记录中找到它们。",
-      "emptyTokenList": "我们无法在 {{chainName}} 链上找到这些代币，或者你的钱包内没有这些代币。请再次搜索或者选择其他链再试一次。",
-      "emptyChainList": "我们找不到任何匹配的链",
       "emptyBridgesList": "我们找不到任何匹配的桥",
+      "emptyChainList": "我们找不到任何匹配的链",
       "emptyExchangesList": "我们找不到任何匹配的交易所",
+      "emptyTokenList": "我们无法在 {{chainName}} 链上找到这些代币，或者你的钱包内没有这些代币。请再次搜索或者选择其他链再试一次。",
       "emptyTransactionHistory": "交易记录只存储在本地，如果您清除浏览器数据，交易记录将被删除。",
-      "fundsToExchange": "发送到交易所的资金可能会丢失",
-      "toAddressIsRequired": "请提供收款的钱包地址。",
-      "routeNotFound": "导致其的原因可能是：流动性低，所选定代币的数额太低，燃气费过高，或者当前没有合适的交易路径。"
+      "routeNotFound": "导致其的原因可能是：流动性低，所选定代币的数额太低，燃气费过高，或者当前没有合适的交易路径。",
+      "toAddressIsRequired": "需要目标钱包地址来继续转帐。"
     },
     "title": {
       "autoRefuel": "获得 {{chainName}} 链的燃气费",
@@ -102,7 +102,7 @@
   "success": {
     "message": {
       "exchangePartiallySuccessful": "我们尝试执行这笔交易，但是因为滑点设置的问题或者 {{tokenSymbol}} 代币流动性不足，{{tool}} 无法完成交易",
-      "exchangeSuccessful": "{{walletAddress}} 钱包在 {{chainName}} 链上收到 {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}}",
+      "exchangeSuccessful": "",
       "checkoutSuccessful": "您的 {{walletAddress}} 钱包在 {{chainName}} 链上拥有该 {{assetName}} 财产"
     },
     "title": {
@@ -117,14 +117,18 @@
   },
   "warning": {
     "message": {
+      "accountNotDeployedMessage": "",
+      "lowAddressActivity": "此地址在 {{chainName}} 网络上的活跃度较低。请确认您发送到了正确的地址和网络，以防止潜在的资金损失。",
       "deleteActiveTransactions": "正在进行的交易记录只存储在本地，如果删除它们，我们将无法恢复这些记录。",
       "deleteTransactionHistory": "交易记录只存储在本地，如果你删除它，我们将无法恢复这些记录。",
+      "fundsLossPrevention": "总是确保在目的地链上适当建立智能合同账户，并避免直接转给交易所，以防止资金损失。",
       "highValueLoss": "收到的代币的价值明显低于要被兑换的代币和交易成本。",
       "insufficientFunds": "你没有足够的资金来完成这笔交易。",
       "insufficientGas": "您没有足够的燃气费来完成此次交易。您至少需要添加：",
       "rateChanged": "兑换比例已经改变，如果继续兑换，您将接受新的兑换比例。",
       "resetSettings": "这将重置您的路由优先级，滑点，燃气费，选中的跨链桥和链上交易所。",
-      "slippageOutsideRecommendedLimits": "过高的滑点可能会导致交易被抢跑，造成财产损失"
+      "slippageOutsideRecommendedLimits": "过高的滑点可能会导致交易被抢跑，造成财产损失",
+      "slippageUnderRecommendedLimits": "低幻灯片宽度可能会导致交易延迟或失败。"
     },
     "title": {
       "deleteActiveTransactions": "确定要删除所有正在进行的交易吗？",
@@ -133,19 +137,21 @@
       "highValueLoss": "大额资金损失",
       "insufficientGas": "燃气费不足",
       "rateChanged": "兑换比例变动",
-      "resetSettings": "确定要恢复默认设置吗?"
+      "resetSettings": "确定要恢复默认设置吗?",
+      "lowAddressActivity": "低活动地址"
     }
   },
   "error": {
     "message": {
       "allowanceRequired": "{{tokenSymbol}} 的转账金额超过了您设置的支出上限。请提高该代币的支出上限，然后重试。",
       "insufficientFunds": "您没有足够的燃气费支付该交易。",
-      "remainInYourWallet": "{{chainName}} 链上 {{amount, number(maximumFractionDigits: 9)}} 个{{tokenSymbol}} 仍在您的钱包内。",
-      "signatureRejected": "需要您签名来完成此次交易。不用担心，{{chainName}} 链上 {{amount, number(maximumFractionDigits: 9)}} 个 {{tokenSymbol}} 仍在您的钱包里。",
+      "remainInYourWallet": "",
+      "signatureRejected": "",
       "slippageThreshold": "滑点大于预设值，请选择其他路由并获取新的价格。",
       "transactionCanceled": "交易已被取消。",
       "transactionConflict": "交易无法处理，因为它与使用相同资金的另一个待处理交易相冲突。 请等待交易确认或检查您的交易历史，然后再次尝试。",
       "transactionExpired": "区块高度已超过允许的最大值，或者交易哈希值已经过期。",
+      "transactionRejected": "",
       "transactionFailed": "请查看区块浏览器以了解更多信息。",
       "transactionNotSent": "交易未能发送。",
       "transactionSimulationFailed": "该交易模拟执行失败。",
@@ -167,6 +173,7 @@
       "transactionConflict": "交易冲突",
       "transactionExpired": "交易过期",
       "transactionFailed": "交易失败",
+      "transactionRejected": "",
       "transactionSimulationFailed": "交易模拟失败",
       "transactionUnderpriced": "交易定价过低",
       "transactionUnprepared": "无法开始该交易",
@@ -180,13 +187,14 @@
   },
   "tooltip": {
     "deselectAll": "取消全选",
-    "estimatedTime": "预计完成兑换或者跨链的时间，但不涵盖切换链和批准代币的时间。",
+    "estimatedTime": "",
     "feeCollection": "该手续费适用于选定的代币对，保证使用 {{tool}} 交易顺畅。",
     "minReceived": "在签署兑换或者跨链交易之前， 预估的最低代币数量可能会变化，对于两步交易，这适用于第二步交易签署之前。",
     "notFound": {
       "text": "我们找不到这个页面。",
       "title": "404"
     },
+    "relayerService": "",
     "numberOfSteps": "每次代币兑换包含了一到两次需要签名的交易。",
     "priceImpact": "源代币和目标代币之间的估计差值。",
     "progressToNextUpdate": "数据将在{{value}} 秒后自动刷新，点击这里可以手动更新。",
@@ -203,7 +211,9 @@
     "featuredTokens": "精选代币",
     "fees": {
       "defaultIntegrator": "集成商费用",
+      "relayerService": "",
       "estimated": "预估总费用",
+      "free": "",
       "integrator": "{{tool}} 费用",
       "network": "网络费用",
       "paid": "已支付的费用",
@@ -220,9 +230,9 @@
     "priceImpact": "价格冲击",
     "process": {
       "bridge": {
-        "actionRequired": "请签署此交易",
+        "actionRequired": "",
         "done": "跨链交易已确认",
-        "pending": "跨链交易进行中",
+        "pending": "",
         "started": "准备执行跨链交易"
       },
       "checkout": {
@@ -238,19 +248,26 @@
         "refunded": "跨链交易资产已退还"
       },
       "swap": {
-        "actionRequired": "请签署此交易",
+        "actionRequired": "",
         "done": "兑换完成",
-        "pending": "代币兑换中",
+        "pending": "",
         "started": "准备兑换"
       },
       "switchChain": {
-        "actionRequired": "请切换当前网络",
-        "done": "网络切换成功"
+        "actionRequired": "",
+        "done": ""
+      },
+      "permit": {
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
       },
       "tokenAllowance": {
-        "done": "已批准代币限额",
-        "pending": "代币限额批准进行中",
-        "started": "设置代币限额"
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
       }
     },
     "quotedAmount": "报价金额",
@@ -278,11 +295,12 @@
     "transferId": "交易 ID",
     "tags": {
       "cheapest": "最佳报价",
-      "fastest": "速度最快"
+      "fastest": "速度最快",
+      "gasless": ""
     },
     "to": "到",
     "tokenOnChain": "{{chainName}}链上的{{tokenSymbol}}",
-    "tokenOnChainAmount": "{{chainName}} 链上{{amount, number(maximumFractionDigits: 9)}} 个{{tokenSymbol}}",
+    "tokenOnChainAmount": "",
     "tokenSearch": "按代币名称或者地址搜索",
     "valueLoss": "资金损失",
     "searchChains": "搜索链",

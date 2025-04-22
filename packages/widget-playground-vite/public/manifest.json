@@ -1,6 +1,7 @@
 {
   "short_name": "LI.FI Widget",
   "name": "LI.FI Widget",
+  "description": "Multi-Chain Bridging & Swapping",
   "icons": [
     {
       "src": "favicon.ico",

@@ -6,7 +6,8 @@
   "format": {
     "currency": "",
     "number": "{{value, number(maximumFractionDigits: 9)}}",
-    "percent": ""
+    "percent": "",
+    "tokenAmount": ""
   },
   "button": {
     "auto": "อัตโนมัติ",
@@ -83,14 +84,13 @@
     "message": {
       "autoRefuel": "คุณใช้แก็ส {{chainName}} เหลือน้อย เมื่อดำเนินการต่อ คุณจะได้รับแก็สเพียงพอสำหรับการแลกเปลี่ยนให้เสร็จสมบูรณ์",
       "emptyActiveTransactions": "การแลกเปลี่ยนที่กำลังดำเนินการจะปรากฏที่นี่. เมื่อเสร็จสิ้น, จะพบประวัติการแลกเปลี่ยน.",
-      "emptyTokenList": "เราไม่พบโทเค็นใน {{chainName}} เชนหรือคุณไม่มีโทเค็น. โปรดลองอีกครั้งหรือเลือกเชนอื่น.",
-      "emptyChainList": "",
       "emptyBridgesList": "",
+      "emptyChainList": "",
       "emptyExchangesList": "",
+      "emptyTokenList": "เราไม่พบโทเค็นใน {{chainName}} เชนหรือคุณไม่มีโทเค็น. โปรดลองอีกครั้งหรือเลือกเชนอื่น.",
       "emptyTransactionHistory": "ประวัติการแลกเปลี่ยนจะถูกเก็บไว้ในเครื่องเท่านั้นและจะถูกลบหากคุณล้างข้อมูลเบราว์เซอร์ของคุณ.",
-      "fundsToExchange": "เงินที่ส่งไปยัง Exchange อาจหายไป",
-      "toAddressIsRequired": "กรุณาระบุที่อยู่ของวอลเล็ตปลายทางที่ต้องการโอนเงินไป",
-      "routeNotFound": "เหตุผลที่อาจเกิดขึ้น : สภาพคล่องต่ำ , จำนวนที่เลือกน้อยเกินไป , ต้นทุนแก็สสูงหรือไม่มีเส้นทางที่ใช้งานได้"
+      "routeNotFound": "เหตุผลที่อาจเกิดขึ้น : สภาพคล่องต่ำ , จำนวนที่เลือกน้อยเกินไป , ต้นทุนแก็สสูงหรือไม่มีเส้นทางที่ใช้งานได้",
+      "toAddressIsRequired": ""
     },
     "title": {
       "autoRefuel": "",
@@ -102,7 +102,7 @@
   "success": {
     "message": {
       "exchangePartiallySuccessful": "",
-      "exchangeSuccessful": "ตอนนี้มี {{amount, number(maximumFractionDigits: 9)}}{{tokenSymbol}} ใน {{walletAddress}} กระเป๋าบน {{chainName}} เชน.",
+      "exchangeSuccessful": "",
       "checkoutSuccessful": ""
     },
     "title": {
@@ -117,14 +117,18 @@
   },
   "warning": {
     "message": {
+      "accountNotDeployedMessage": "",
+      "lowAddressActivity": "",
       "deleteActiveTransactions": "การแลกเปลี่ยนที่ใช้งานอยู่จะถูกจัดเก็บไว้ในเครื่องเท่านั้นและไม่สามารถกู้คืนได้หากคุณลบออก.",
       "deleteTransactionHistory": "ประวัติการแลกเปลี่ยนจะถูกจัดเก็บไว้ในเครื่องเท่านั้นและไม่สามารถกู้คืนได้หากคุณลบออก",
+      "fundsLossPrevention": "",
       "highValueLoss": "มูลค่าของโทเค็นที่ได้รับนั้นต่ำกว่าโทเค็นที่แลกเปลี่ยนและต้นทุนการทำธุรกรรมอย่างมาก.",
       "insufficientFunds": "คุณมีเงินไม่เพียงพอที่จะดำเนินการแลกเปลี่ยน.",
       "insufficientGas": "คุณมีแก๊สไม่เพียงพอที่จะแลกเปลี่ยนให้เสร็จสมบูรณ์ คุณต้องเพิ่มอย่างน้อย:",
       "rateChanged": "อัตราแลกเปลี่ยนมีการเปลี่ยนแปลง คุณจะยอมรับอัตราใหม่.",
       "resetSettings": "การดำเนินการนี้จะรีเซ็ตลำดับความสำคัญของเส้นทาง การคลาดเลื่อน ค่าแก็ส บริดจ์ที่เปิดใช้งานและการแลกเปลี่ยน",
-      "slippageOutsideRecommendedLimits": "การยอมรับความผิดปกติในการสลิปเพจสูงอาจส่งผลให้เกิดการซื้อขายที่ไม่คุ้มค่า ซึ่งเกิดจากการดำเนินการขายก่อน"
+      "slippageOutsideRecommendedLimits": "การยอมรับความผิดปกติในการสลิปเพจสูงอาจส่งผลให้เกิดการซื้อขายที่ไม่คุ้มค่า ซึ่งเกิดจากการดำเนินการขายก่อน",
+      "slippageUnderRecommendedLimits": ""
     },
     "title": {
       "deleteActiveTransactions": "ลบ​รายการธุรกรรม​ทั้งหมด?",
@@ -133,19 +137,21 @@
       "highValueLoss": "สูญเสียมูลค่าสูง",
       "insufficientGas": "ค่าแก็สไม่พอ",
       "rateChanged": "อัตราการแลกเปลี่ยนถูกเปลี่ยน",
-      "resetSettings": "รีเซ็ทการตั้งค่า?"
+      "resetSettings": "รีเซ็ทการตั้งค่า?",
+      "lowAddressActivity": ""
     }
   },
   "error": {
     "message": {
       "allowanceRequired": "โอนด้วยจำนวน {{tokenSymbol}} ตามการอนุญาตของคุณ.ได้โปรดเพิ่มการอนุญาตของคุณอีกครั้ง",
       "insufficientFunds": "คุณมีแก็สไม่พอสำหรับการธุรกรรมนี้",
-      "remainInYourWallet": "{{amount, number(maximumFractionDigits: 9)}}{{tokenSymbol}} บน {{chainName}}  ยังคงอยู่ในกระเป๋าเงินของคุ",
-      "signatureRejected": "จำเป็นต้องมีลายเซ็นของคุณเพื่อทำธุรกรมให้เสร็จสมบูรณ์. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} บน {{chainName}} ยังคงอยู่ในกระเป๋าเงินของคุณ.",
+      "remainInYourWallet": "",
+      "signatureRejected": "",
       "slippageThreshold": "การคลาดเคลื่อนมีขนาดใหญ่กว่าเกณฑ์ที่กำหนด โปรดขอเส้นทางใหม่เพื่อได้รับการเสนอราคาใหม่.",
       "transactionCanceled": "ธุรกรรมได้ถูกยกเลิกแล้ว",
       "transactionConflict": "",
       "transactionExpired": "",
+      "transactionRejected": "",
       "transactionFailed": "โปรดตรวจสอบบล็อกการสำรวจสำหรับข้อมูลเพิ่มเติม.",
       "transactionNotSent": "ธุรกรรมไม่ได้ถูกส่ง",
       "transactionSimulationFailed": "",
@@ -167,6 +173,7 @@
       "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "การทำธุรกรรมล้มเหลว",
+      "transactionRejected": "",
       "transactionSimulationFailed": "",
       "transactionUnderpriced": "ราคาธุรกรรมต่ำเกินไป",
       "transactionUnprepared": "ไม่สามารถจัดทำธุรกรรมได้",
@@ -187,6 +194,7 @@
       "text": "เราไม่พบหน้านี้.",
       "title": "404"
     },
+    "relayerService": "",
     "numberOfSteps": "",
     "priceImpact": "",
     "progressToNextUpdate": "ข้อมูลที่แสดงจะรีเฟรชอัตโนมัติหลังจาก {{value}} วินาที คลิกที่นี่เพื่ออัปเดตด้วยตนเอง",
@@ -203,7 +211,9 @@
     "featuredTokens": "จุดเด่นของเหรียญ",
     "fees": {
       "defaultIntegrator": "",
+      "relayerService": "",
       "estimated": "",
+      "free": "",
       "integrator": "",
       "network": "",
       "paid": "",
@@ -220,9 +230,9 @@
     "priceImpact": "",
     "process": {
       "bridge": {
-        "actionRequired": "กรุณาเซ็นชื่อในการทำธุรกรรม",
+        "actionRequired": "",
         "done": "ธุรกรรมข้ามเชนได้รับการยืนยันแล้ว",
-        "pending": "รอสำหรับการทำรายการบริดจ์",
+        "pending": "",
         "started": "เตรียมการทำรายการบริดจ์"
       },
       "checkout": {
@@ -238,19 +248,26 @@
         "refunded": "คืนเงินการทำธุรกรรมข้ามเชนแล้ว"
       },
       "swap": {
-        "actionRequired": "กรุณาเซ็นชื่อในการทำธุรกรรม",
+        "actionRequired": "",
         "done": "การแลกเปลี่ยนเสร็จสมบูรณ์",
-        "pending": "กำลังรอการแลกเปลี่ยนธุรกรรม",
+        "pending": "",
         "started": "กำลังเตรียมการแลกเปลี่ยนธุรกรรม"
       },
       "switchChain": {
-        "actionRequired": "จำเป็นต้องเปลี่ยนเชน",
-        "done": "สลับเชนสำเร็จแล้ว"
+        "actionRequired": "",
+        "done": ""
+      },
+      "permit": {
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
       },
       "tokenAllowance": {
-        "done": "โทเค็นได้รับการอนุญาตแล้ว",
-        "pending": "รอการอนุญาตของโทเค็น",
-        "started": "การตั้งค่าการอนุญาตโทเค็น"
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
       }
     },
     "quotedAmount": "จำนวนทั้งหมดที่เสนอ",
@@ -278,11 +295,12 @@
     "transferId": "",
     "tags": {
       "cheapest": "ผลตอบแทนที่ดีที่สุด",
-      "fastest": "รวดเร็วที่สุด"
+      "fastest": "รวดเร็วที่สุด",
+      "gasless": ""
     },
     "to": "ถึง",
     "tokenOnChain": "{{tokenSymbol}} บน {{chainName}}",
-    "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}}{{tokenSymbol}} บน {{chainName}}",
+    "tokenOnChainAmount": "",
     "tokenSearch": "ค้นหาชื่อของเหรียญ หรือ ที่อยู่",
     "valueLoss": "มูลค่าที่สูญเสีย",
     "searchChains": "",

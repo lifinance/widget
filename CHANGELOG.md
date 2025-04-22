@@ -2,6 +2,70 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.18.7](https://github.com/lifinance/widget/compare/v3.18.6...v3.18.7) (2025-04-17)
+
+
+### Bug Fixes
+
+* add support for displaying positive price impacts with a plus sign ([#378](https://github.com/lifinance/widget/issues/378)) ([be3a23d](https://github.com/lifinance/widget/commit/be3a23ddd4540c48f8a4da9e9ffcf501065af9e8))
+* enable _vcComponent ([#382](https://github.com/lifinance/widget/issues/382)) ([fd37fa4](https://github.com/lifinance/widget/commit/fd37fa448707f6a57102d76817b0b34f4cbe9e88))
+
+### [3.18.6](https://github.com/lifinance/widget/compare/v3.18.5...v3.18.6) (2025-04-17)
+
+
+### Bug Fixes
+
+* missing availableRoute event ([#381](https://github.com/lifinance/widget/issues/381)) ([a884b81](https://github.com/lifinance/widget/commit/a884b81ec10a129831be744078678248aa8a9316))
+
+### [3.18.5](https://github.com/lifinance/widget/compare/v3.18.4...v3.18.5) (2025-04-15)
+
+
+### Bug Fixes
+
+* make transaction execution timer count down ([#376](https://github.com/lifinance/widget/issues/376)) ([0595587](https://github.com/lifinance/widget/commit/05955873b1d901efd7c6b0bd2f3143bdb44d5ab3))
+
+### [3.18.4](https://github.com/lifinance/widget/compare/v3.18.3...v3.18.4) (2025-04-08)
+
+
+### Bug Fixes
+
+* we should correctly track routes when there is a relayer one ([#370](https://github.com/lifinance/widget/issues/370)) ([a64390c](https://github.com/lifinance/widget/commit/a64390c20211798e19a91b1a61b71a1fb2175310))
+
+### [3.18.3](https://github.com/lifinance/widget/compare/v3.18.2...v3.18.3) (2025-04-07)
+
+
+### Bug Fixes
+
+* update routes incrementally as they're ready ([#367](https://github.com/lifinance/widget/issues/367)) ([fafe735](https://github.com/lifinance/widget/commit/fafe73510498b88676e97120452ba640823acdef))
+
+### [3.18.2](https://github.com/lifinance/widget/compare/v3.18.1...v3.18.2) (2025-04-01)
+
+
+### Bug Fixes
+
+* use auto slippage in transaction details ([32551e2](https://github.com/lifinance/widget/commit/32551e2534be5222e02d06bfada7eded116e593b))
+
+### [3.18.1](https://github.com/lifinance/widget/compare/v3.18.0...v3.18.1) (2025-03-13)
+
+
+### Bug Fixes
+
+* update permit handling with standardized EIP-712 typed data ([#365](https://github.com/lifinance/widget/issues/365)) ([77cf606](https://github.com/lifinance/widget/commit/77cf606d7e03e48f919fe4073f51ae5e4997a7a0))
+
+## [3.18.0](https://github.com/lifinance/widget/compare/v3.17.1...v3.18.0) (2025-03-10)
+
+
+### Features
+
+* add Permit (ERC-2612), Permit2 and Wallet Call API (EIP-5792) support ([#331](https://github.com/lifinance/widget/issues/331)) ([1ec9786](https://github.com/lifinance/widget/commit/1ec97864f12e6e15074f6efeb1dbe45d715d2261))
+* add RouteTokenDescription hidden option ([#361](https://github.com/lifinance/widget/issues/361)) ([bb3e047](https://github.com/lifinance/widget/commit/bb3e047adc05dc934b7981de1438cd51cb760678))
+
+
+### Bug Fixes
+
+* enable undeployed sca transfers ([#362](https://github.com/lifinance/widget/issues/362)) ([4038d7f](https://github.com/lifinance/widget/commit/4038d7fdc412f5918e31a5a8dfce8f58b608987c))
+* **timers:** display hours and days section of timers, and update copy ([#358](https://github.com/lifinance/widget/issues/358)) ([0654c20](https://github.com/lifinance/widget/commit/0654c2000b3dfd87ca02be6e4aff5b51dd153681))
+
 ### [3.17.1](https://github.com/lifinance/widget/compare/v3.17.0...v3.17.1) (2025-02-16)
 
 ## [3.17.0](https://github.com/lifinance/widget/compare/v3.16.1...v3.17.0) (2025-02-16)

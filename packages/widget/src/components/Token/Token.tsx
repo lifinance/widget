@@ -159,7 +159,10 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
             enableImpactTokenTooltip ? (
               <Tooltip title={t('tooltip.priceImpact')} sx={{ cursor: 'help' }}>
                 <TextSecondary>
-                  {t('format.percent', { value: priceImpact })}
+                  {t('format.percent', {
+                    value: priceImpact,
+                    usePlusSign: true,
+                  })}
                 </TextSecondary>
               </Tooltip>
             ) : (
@@ -168,7 +171,7 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
                   maximumFractionDigits: 9,
                 })}
               >
-                {t('format.percent', { value: priceImpact })}
+                {t('format.percent', { value: priceImpact, usePlusSign: true })}
               </TextSecondary>
             )
           ) : null}

@@ -6,7 +6,8 @@
   "format": {
     "currency": "",
     "number": "{{value, number(maximumFractionDigits: 9)}}",
-    "percent": ""
+    "percent": "",
+    "tokenAmount": ""
   },
   "button": {
     "auto": "Tự động",
@@ -83,14 +84,13 @@
     "message": {
       "autoRefuel": "Gas trên {{chainName}} chain của bạn đang thấp. Để tiếp tục, bạn nên có thêm gas để hoàn thành việc swap.",
       "emptyActiveTransactions": "Các lệnh swap đang xử lý sẽ được hiện ở đây. Khi nào lệnh hoàn tất, bạn có thể kiểm tra lại tại mục lịch sử swap.",
-      "emptyTokenList": "Chúng tôi không thể tìm được token ở {{chainName}} hoặc số dư của bạn không có. Vui lòng thử tìm kiếm lại hoặc chọn một chain khác.",
-      "emptyChainList": "",
       "emptyBridgesList": "",
+      "emptyChainList": "",
       "emptyExchangesList": "",
+      "emptyTokenList": "Chúng tôi không thể tìm được token ở {{chainName}} hoặc số dư của bạn không có. Vui lòng thử tìm kiếm lại hoặc chọn một chain khác.",
       "emptyTransactionHistory": "Lịch sử Swap chỉ được lưu trữ cục bộ và sẽ bị xóa nếu bạn xóa dữ liệu trình duyệt của mình.",
-      "fundsToExchange": "Tiền gửi đến sàn giao dịch có thể bị mất",
-      "toAddressIsRequired": "Vui lòng cung cấp địa chỉ ví đích mà tiền sẽ được chuyển đến.",
-      "routeNotFound": "Lý do cho điều đó có thể là: tính thanh khoản thấp, số tiền được chọn quá thấp, chi phí gas quá cao hoặc không có lộ trình cho cặp giao dịch đã chọn."
+      "routeNotFound": "Lý do cho điều đó có thể là: tính thanh khoản thấp, số tiền được chọn quá thấp, chi phí gas quá cao hoặc không có lộ trình cho cặp giao dịch đã chọn.",
+      "toAddressIsRequired": ""
     },
     "title": {
       "autoRefuel": "",
@@ -102,7 +102,7 @@
   "success": {
     "message": {
       "exchangePartiallySuccessful": "",
-      "exchangeSuccessful": "Hiện tại {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} trong ví {{walletAddress}} tại {{chainName}} chain.",
+      "exchangeSuccessful": "",
       "checkoutSuccessful": ""
     },
     "title": {
@@ -117,14 +117,18 @@
   },
   "warning": {
     "message": {
+      "accountNotDeployedMessage": "",
+      "lowAddressActivity": "",
       "deleteActiveTransactions": "Các giao dịch đang hoạt động chỉ được lưu trữ cục bộ và không thể phục hồi nếu bạn xóa chúng.",
       "deleteTransactionHistory": "Lịch sử Swap chỉ lưu trữ cục bộ và không thể phục hồi khi bạn xoá chúng.",
+      "fundsLossPrevention": "",
       "highValueLoss": "Giá trị của token nhận được đang thấp hơn rất nhiều so với token được swap và chi phí giao dịch.",
       "insufficientFunds": "Bạn không có đủ tiền để thực hiện tác vụ này.",
       "insufficientGas": "Bạn không đủ gas để thực hiện swap. Bạn cần thêm ít nhất:",
       "rateChanged": "Tỉ lệ hoán đổi đã thay đổi. Để tiếp tục Swap, bạn sẽ chấp nhận tỉ lệ mới.",
       "resetSettings": "Thao tác này sẽ đặt lại mức độ ưu tiên của tuyến đường, độ trượt giá, giá gas, bridge và sàn giao dịch.",
-      "slippageOutsideRecommendedLimits": "Khả năng trượt giá cao có thể dẫn đến giao dịch không thành công do front-running."
+      "slippageOutsideRecommendedLimits": "Khả năng trượt giá cao có thể dẫn đến giao dịch không thành công do front-running.",
+      "slippageUnderRecommendedLimits": ""
     },
     "title": {
       "deleteActiveTransactions": "Xóa tất cả giao dịch đang thực hiện?",
@@ -133,19 +137,21 @@
       "highValueLoss": "Tổn thất lớn",
       "insufficientGas": "Không đủ gas",
       "rateChanged": "Tỉ giá đã thay đổi",
-      "resetSettings": "Đặt lại cài đặt?"
+      "resetSettings": "Đặt lại cài đặt?",
+      "lowAddressActivity": ""
     }
   },
   "error": {
     "message": {
       "allowanceRequired": "Chuyển số lượng {{tokenSymbol}} vượt quá mức cho phép hiện tại của bạn. Vui lòng tăng mức độ cho phép sử dụng token và thử lại.",
       "insufficientFunds": "Bạn không có đủ gas để chi trả cho chi phí giao dịch.",
-      "remainInYourWallet": "{{amount, number(maximumFractionDigits: 9)}}{{tokenSymbol}} ở {{chainName}} vẫn còn trong ví.",
-      "signatureRejected": "Cần có chữ ký để hoàn tất giao dịch. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} tại {{chainName}} vẫn còn trong ví của bạn.",
+      "remainInYourWallet": "",
+      "signatureRejected": "",
       "slippageThreshold": "Độ trượt giá lớn hơn ngưỡng xác định. Vui lòng yêu cầu một tuyến đường mới để nhận báo giá mới.",
       "transactionCanceled": "Giao dịch đã bị huỷ.",
       "transactionConflict": "",
       "transactionExpired": "",
+      "transactionRejected": "",
       "transactionFailed": "Vui lòng kiểm tra block explorer để biết thêm thông tin.",
       "transactionNotSent": "Giao dịch không được gửi.",
       "transactionSimulationFailed": "",
@@ -167,6 +173,7 @@
       "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "Giao dịch không thành công",
+      "transactionRejected": "",
       "transactionSimulationFailed": "",
       "transactionUnderpriced": "Giao dịch bị định giá thấp",
       "transactionUnprepared": "Không thể tải giao dịch",
@@ -187,6 +194,7 @@
       "text": "Chúng tôi không thể tìm thấy trang này.",
       "title": "404"
     },
+    "relayerService": "",
     "numberOfSteps": "",
     "priceImpact": "",
     "progressToNextUpdate": "Thông tin hiển thị sẽ tự động làm mới sau {{value}} giây. Bấm vào đây để cập nhật thủ công.",
@@ -203,7 +211,9 @@
     "featuredTokens": "Featured tokens",
     "fees": {
       "defaultIntegrator": "",
+      "relayerService": "",
       "estimated": "",
+      "free": "",
       "integrator": "",
       "network": "",
       "paid": "",
@@ -220,9 +230,9 @@
     "priceImpact": "",
     "process": {
       "bridge": {
-        "actionRequired": "Vui lòng ký hoàn thành giao dịch",
+        "actionRequired": "",
         "done": "Giao dịch cầu đã được xác nhận",
-        "pending": "Chờ giao dịch cầu",
+        "pending": "",
         "started": "Chuẩn bị giao dịch cầu"
       },
       "checkout": {
@@ -238,19 +248,26 @@
         "refunded": "Giao dịch Bridge đã được hoàn trả"
       },
       "swap": {
-        "actionRequired": "Vui lòng ký hoàn thành giao dịch",
+        "actionRequired": "",
         "done": "Lệnh swap đã hoàn tất",
-        "pending": "Chờ giao dịch Swap",
+        "pending": "",
         "started": "Đang chuẩn bị giao dịch Swap"
       },
       "switchChain": {
-        "actionRequired": "Yêu cầu đổi chain",
-        "done": "Chuyển đổi chain thành công"
+        "actionRequired": "",
+        "done": ""
+      },
+      "permit": {
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
       },
       "tokenAllowance": {
-        "done": "Mã token đã được phê duyệt",
-        "pending": "Chờ phê duyệt quyền sử dụng token",
-        "started": "Thiết lập quyền sử dụng token"
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
       }
     },
     "quotedAmount": "Số tiền trích dẫn",
@@ -278,11 +295,12 @@
     "transferId": "",
     "tags": {
       "cheapest": "Lợi nhuận tốt nhất",
-      "fastest": "Nhanh nhất"
+      "fastest": "Nhanh nhất",
+      "gasless": ""
     },
     "to": "Đến",
     "tokenOnChain": "{{tokenSymbol}} tại {{chainName}}",
-    "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} tại {{chainName}}",
+    "tokenOnChainAmount": "",
     "tokenSearch": "Tìm kiếm bằng tên token hoặc địa chỉ",
     "valueLoss": "Bạn sẽ mất",
     "searchChains": "",

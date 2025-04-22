@@ -6,7 +6,8 @@
   "format": {
     "currency": "",
     "number": "",
-    "percent": ""
+    "percent": "",
+    "tokenAmount": ""
   },
   "button": {
     "auto": "स्वतः",
@@ -83,14 +84,13 @@
     "message": {
       "autoRefuel": "",
       "emptyActiveTransactions": "",
-      "emptyTokenList": "",
-      "emptyChainList": "",
       "emptyBridgesList": "",
+      "emptyChainList": "",
       "emptyExchangesList": "",
+      "emptyTokenList": "",
       "emptyTransactionHistory": "",
-      "fundsToExchange": "",
-      "toAddressIsRequired": "",
-      "routeNotFound": ""
+      "routeNotFound": "",
+      "toAddressIsRequired": ""
     },
     "title": {
       "autoRefuel": "",
@@ -117,14 +117,18 @@
   },
   "warning": {
     "message": {
+      "accountNotDeployedMessage": "",
+      "lowAddressActivity": "",
       "deleteActiveTransactions": "",
       "deleteTransactionHistory": "",
+      "fundsLossPrevention": "",
       "highValueLoss": "",
       "insufficientFunds": "",
       "insufficientGas": "",
       "rateChanged": "",
       "resetSettings": "",
-      "slippageOutsideRecommendedLimits": ""
+      "slippageOutsideRecommendedLimits": "",
+      "slippageUnderRecommendedLimits": ""
     },
     "title": {
       "deleteActiveTransactions": "",
@@ -133,7 +137,8 @@
       "highValueLoss": "",
       "insufficientGas": "",
       "rateChanged": "",
-      "resetSettings": ""
+      "resetSettings": "",
+      "lowAddressActivity": ""
     }
   },
   "error": {
@@ -146,6 +151,7 @@
       "transactionCanceled": "",
       "transactionConflict": "",
       "transactionExpired": "",
+      "transactionRejected": "",
       "transactionFailed": "",
       "transactionNotSent": "",
       "transactionSimulationFailed": "",
@@ -167,6 +173,7 @@
       "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "",
+      "transactionRejected": "",
       "transactionSimulationFailed": "",
       "transactionUnderpriced": "",
       "transactionUnprepared": "",
@@ -187,6 +194,7 @@
       "text": "",
       "title": "404"
     },
+    "relayerService": "",
     "numberOfSteps": "",
     "priceImpact": "",
     "progressToNextUpdate": "",
@@ -203,7 +211,9 @@
     "featuredTokens": "",
     "fees": {
       "defaultIntegrator": "",
+      "relayerService": "",
       "estimated": "",
+      "free": "",
       "integrator": "",
       "network": "",
       "paid": "",
@@ -247,7 +257,14 @@
         "actionRequired": "",
         "done": ""
       },
+      "permit": {
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
+      },
       "tokenAllowance": {
+        "actionRequired": "",
         "done": "",
         "pending": "",
         "started": ""
@@ -278,7 +295,8 @@
     "transferId": "",
     "tags": {
       "cheapest": "",
-      "fastest": ""
+      "fastest": "",
+      "gasless": ""
     },
     "to": "",
     "tokenOnChain": "",

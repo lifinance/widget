@@ -6,7 +6,6 @@ import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import type { AppKitNetwork } from '@reown/appkit-common'
 import { bitcoin, solana } from '@reown/appkit/networks'
 import { type AppKit, createAppKit } from '@reown/appkit/react'
-import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets'
 import { useEffect, useRef } from 'react'
 import { WagmiProvider } from 'wagmi'
 import { metadata, projectId } from '../config/appkit'
@@ -36,9 +35,7 @@ export function WalletProvider({
       ssr: true,
     })
 
-    const solanaWeb3JsAdapter = new SolanaAdapter({
-      wallets: [new PhantomWalletAdapter()],
-    })
+    const solanaWeb3JsAdapter = new SolanaAdapter()
 
     const bitcoinAdapter = new BitcoinAdapter({
       projectId,

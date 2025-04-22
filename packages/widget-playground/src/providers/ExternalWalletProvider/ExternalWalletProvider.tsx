@@ -1,5 +1,5 @@
 import type { FC, PropsWithChildren } from 'react'
-import { EVMProvider } from './EVMProvider'
+import { WalletProvider } from './WalletProvider'
 
 interface ExternalWalletProviderProps extends PropsWithChildren {
   isExternalProvider?: boolean
@@ -8,5 +8,9 @@ export const ExternalWalletProvider: FC<ExternalWalletProviderProps> = ({
   children,
   isExternalProvider,
 }) => {
-  return isExternalProvider ? <EVMProvider>{children}</EVMProvider> : children
+  return isExternalProvider ? (
+    <WalletProvider>{children}</WalletProvider>
+  ) : (
+    children
+  )
 }

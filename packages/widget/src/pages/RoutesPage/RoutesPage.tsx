@@ -72,7 +72,7 @@ export const RoutesPage: React.FC<BoxProps> = () => {
     <Stack direction="column" spacing={2} flex={1}>
       {routeNotFound ? (
         <RouteNotFoundCard />
-      ) : isLoading ? (
+      ) : isLoading && !routes?.length ? (
         Array.from({ length: 3 }).map((_, index) => (
           <RouteCardSkeleton key={index} />
         ))

@@ -13,6 +13,13 @@ export const percentFormatter = (lng: string | undefined, options: any) => {
     if ((value > 0 && value < 0.0001) || (value < 0 && value > -0.0001)) {
       return `<${formatter.format(0.0001)}`
     }
-    return formatter.format(value)
+
+    const formattedValue = formatter.format(value)
+
+    if (options?.usePlusSign && value > 0) {
+      return `+${formattedValue}`
+    }
+
+    return formattedValue
   }
 }
