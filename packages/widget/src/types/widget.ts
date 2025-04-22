@@ -3,6 +3,7 @@ import type {
   ChainType,
   ContractCall,
   Order,
+  RouteExtended,
   RouteOptions,
   SDKConfig,
   StaticToken,
@@ -123,7 +124,7 @@ export interface WidgetWalletConfig {
    *
    * In partial mode, external wallet management will be used for "opt-out" providers,
    * while the internal management is applied for any remaining providers that do not opt out.
-   * This allows a flexible balance between the integrator’s custom wallet menu and the widget’s native wallet menu.
+   * This allows a flexible balance between the integrator's custom wallet menu and the widget's native wallet menu.
    * @default false
    */
   usePartialWalletManagement?: boolean
@@ -171,6 +172,10 @@ export interface WidgetFeeConfig {
    * @returns A promise that resolves to the calculated fee as a number (e.g., 0.03 represents a 3% fee)
    */
   calculateFee?(params: CalculateFeeParams): Promise<number | undefined>
+  /**
+   * @internal
+   */
+  _vcComponent: FC<{ route: RouteExtended }>
 }
 
 export interface ToAddress {
