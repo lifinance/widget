@@ -20,7 +20,7 @@ export const jumperTheme: WidgetTheme = {
         //     0.04,
         //   ),
         //   color: 'inherit',
-        //   borderRadius: theme.shape.borderRadiusSecondary,
+        //   borderRadius: theme.vars.shape.borderRadiusSecondary,
         //   '&:hover': {
         //     backgroundColor: alpha(
         //       theme.palette.mode === 'light'

@@ -5,6 +5,6 @@ export const Link = styled(MuiLink)(({ theme }) => ({
   alignItems: 'center',
   border: 'none',
   ':hover': {
-    color: theme.palette.primary.main,
+    color: theme.vars.palette.primary.main,
   },
 }))

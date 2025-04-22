@@ -2,7 +2,7 @@ import { defaultMaxHeight } from '@lifi/widget'
 import type { BoxProps, Theme } from '@mui/material'
 import { Box, Button, IconButton, Skeleton as MuiSkeleton } from '@mui/material'
 import { buttonClasses } from '@mui/material/Button'
-import { alpha, styled } from '@mui/material/styles'
+import { styled } from '@mui/material/styles'
 import type { CSSProperties } from 'react'
 import { drawerZIndex } from '../DrawerControls/DrawerControls.style'
 
@@ -77,17 +77,17 @@ export const WidgetContainerRow = styled(Box, {
 })
 
 const floatingToolButtonColors = (theme: Theme) => ({
-  color: theme.palette.text.primary,
-  backgroundColor:
-    theme.palette.mode === 'light'
-      ? theme.palette.common.white
-      : theme.palette.grey[900],
+  color: theme.vars.palette.text.primary,
+  backgroundColor: theme.vars.palette.common.white,
   '&:hover': {
-    backgroundColor:
-      theme.palette.mode === 'light'
-        ? alpha(theme.palette.common.black, 0.04)
-        : alpha(theme.palette.common.white, 0.08),
+    backgroundColor: `rgba(${theme.vars.palette.common.backgroundChannel}, 0.08)`,
   },
+  ...theme.applyStyles('dark', {
+    backgroundColor: theme.vars.palette.grey[900],
+    '&:hover': {
+      backgroundColor: `rgba(${theme.vars.palette.common.backgroundChannel}, 0.04)`,
+    },
+  }),
 })
 
 export const DrawerOpenButton = styled(IconButton)(({ theme }) => ({
@@ -102,7 +102,7 @@ export const ConnectionWalletButtonBase = styled(Button)(({ theme }) => ({
   fontSize: '0.875rem',
   fontWeight: 600,
   textTransform: 'none',
-  borderRadius: theme.shape.borderRadius * 2,
+  borderRadius: `calc(${theme.vars.shape.borderRadius} * 2)`,
   [`.${buttonClasses.endIcon} > *:nth-of-type(1)`]: {
     fontSize: '24px',
   },
@@ -151,15 +151,15 @@ export const WidgetSkeletonContainer = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   transform: 'translateY(-56px)',
   gap: theme.spacing(2),
-  backgroundColor: theme.palette.background.default,
+  backgroundColor: theme.vars.palette.background.default,
   padding: theme.spacing(8, 3, 6.25),
   boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
-  borderRadius: theme.shape.borderRadius,
+  borderRadius: theme.vars.shape.borderRadius,
 }))
 
 export const Skeleton = styled(MuiSkeleton)(({ theme }) => ({
-  backgroundColor: theme.palette.grey[900],
-  ...theme.applyStyles('light', {
-    backgroundColor: theme.palette.grey[100],
+  backgroundColor: theme.vars.palette.grey[100],
+  ...theme.applyStyles('dark', {
+    backgroundColor: theme.vars.palette.grey[900],
   }),
 }))

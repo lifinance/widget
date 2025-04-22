@@ -12,7 +12,7 @@ export const CardRowButton = styled(ButtonBase)(({ theme }) => ({
   justifyContent: 'space-between',
   alignItems: 'center',
   padding: theme.spacing(2),
-  borderRadius: theme.shape.borderRadius,
+  borderRadius: theme.vars.shape.borderRadius,
 }))
 
 export const CardRowContainer = styled(Box)(({ theme }) => ({

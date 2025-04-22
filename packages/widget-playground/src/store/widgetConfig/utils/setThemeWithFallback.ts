@@ -13,7 +13,7 @@ export const setThemeAppearanceWithFallback = (
       : 'default'
 
   let appearance =
-    state.config?.appearance === 'auto' || !state.config?.appearance
+    state.config?.appearance === 'system' || !state.config?.appearance
       ? prefersDarkMode
         ? 'dark'
         : 'light'

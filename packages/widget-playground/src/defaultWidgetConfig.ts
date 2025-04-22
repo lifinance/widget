@@ -258,7 +258,7 @@ export const widgetBaseConfig: WidgetConfig = {
 
 export const defaultWidgetConfig: Partial<WidgetConfig> = {
   ...widgetBaseConfig,
-  appearance: 'auto',
+  appearance: 'system',
   theme: {
     palette: {
       primary: {

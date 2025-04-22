@@ -47,6 +47,7 @@
     "startSwapping": "Start swapping",
     "swap": "Swap",
     "swapReview": "Review swap",
+    "system": "System",
     "tryAgain": "Try again",
     "viewCoverage": "View coverage",
     "viewOnExplorer": "View on explorer"
@@ -308,7 +309,7 @@
     "searchExchanges": "Search by exchange name"
   },
   "settings": {
-    "theme": "Theme",
+    "appearance": "Appearance",
     "enabledBridges": "Bridges",
     "enabledExchanges": "Exchanges",
     "gasPrice": {

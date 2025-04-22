@@ -3,6 +3,7 @@ import type {
   ComponentsOverrides,
   ComponentsVariants,
 } from '@mui/material'
+import type {} from '@mui/material/themeCssVarsAugmentation'
 import type { CSSProperties } from 'react'
 import type { NavigationProps } from '../types/widget.js'
 

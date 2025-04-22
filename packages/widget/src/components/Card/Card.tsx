@@ -1,5 +1,5 @@
 import type { CardProps as MuiCardProps } from '@mui/material'
-import { Card as MuiCard, alpha, darken, lighten, styled } from '@mui/material'
+import { Card as MuiCard, styled } from '@mui/material'
 
 export interface CardProps extends MuiCardProps {
   type?: 'default' | 'selected' | 'error'
@@ -26,18 +26,18 @@ export const Card = styled(MuiCard, {
           type: 'selected',
         },
         style: {
-          backgroundColor: darken(theme.palette.primary.main, 0.65),
           borderWidth: 1,
           borderStyle: 'solid',
-          borderColor: theme.palette.primary.main,
+          borderColor: theme.vars.palette.primary.main,
+          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main} 5%, white)`,
           '&:hover': {
-            backgroundColor: darken(theme.palette.primary.main, 0.6),
-            ...theme.applyStyles('light', {
-              backgroundColor: lighten(theme.palette.primary.main, 0.9),
-            }),
+            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main} 10%, white)`,
           },
-          ...theme.applyStyles('light', {
-            backgroundColor: lighten(theme.palette.primary.main, 0.95),
+          ...theme.applyStyles('dark', {
+            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main} 35%, black)`,
+            '&:hover': {
+              backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main} 40%, black)`,
+            },
           }),
         },
       },
@@ -47,18 +47,18 @@ export const Card = styled(MuiCard, {
           type: 'selected',
         },
         style: {
-          backgroundColor: darken(theme.palette.secondary.main, 0.76),
+          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 15%, white)`,
           borderWidth: 1,
           borderStyle: 'solid',
-          borderColor: alpha(theme.palette.secondary.main, 0.2),
+          borderColor: `rgba(${theme.vars.palette.secondary.mainChannel} / 0.2)`,
           '&:hover': {
-            backgroundColor: darken(theme.palette.secondary.main, 0.72),
-            ...theme.applyStyles('light', {
-              backgroundColor: lighten(theme.palette.secondary.main, 0.8),
-            }),
+            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 20%, white)`,
           },
-          ...theme.applyStyles('light', {
-            backgroundColor: lighten(theme.palette.secondary.main, 0.85),
+          ...theme.applyStyles('dark', {
+            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 24%, black)`,
+            '&:hover': {
+              backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 28%, black)`,
+            },
           }),
         },
       },
@@ -69,7 +69,7 @@ export const Card = styled(MuiCard, {
         style: {
           borderWidth: 1,
           borderStyle: 'solid',
-          borderColor: theme.palette.error.main,
+          borderColor: theme.vars.palette.error.main,
         },
       },
     ],

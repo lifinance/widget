@@ -6,7 +6,7 @@ export const SkeletonHeaderAppBar = styled(Box)(({ theme }) => ({
   flexDirection: 'row',
   justifyContent: 'flex-end',
   alignItems: 'center',
-  color: theme.palette?.text.primary,
+  color: theme.vars?.palette?.text.primary,
   paddingRight: theme.navigation?.edge ? 0 : theme.spacing?.(1),
 }))
 
@@ -71,7 +71,7 @@ export const SkeletonHeaderContainer = styled(Box)(({ theme }) => {
   return {
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.vars.palette.background.default,
     backdropFilter: 'blur(12px)',
     position: 'relative',
     top: 0,

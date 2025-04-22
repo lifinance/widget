@@ -7,7 +7,7 @@ export const useThemeMode = (): ThemeMode => {
   const { appearance } = useConfigAppearance()
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
 
-  return appearance === 'auto'
+  return appearance === 'system'
     ? prefersDarkMode
       ? 'dark'
       : 'light'

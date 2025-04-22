@@ -24,7 +24,7 @@ export const TransactionHistoryItemSkeleton = () => {
           width={96}
           height={16}
           sx={(theme) => ({
-            borderRadius: `${theme.shape.borderRadius}px`,
+            borderRadius: theme.vars.shape.borderRadius,
           })}
         />
         <Skeleton
@@ -32,7 +32,7 @@ export const TransactionHistoryItemSkeleton = () => {
           width={64}
           height={16}
           sx={(theme) => ({
-            borderRadius: `${theme.shape.borderRadius}px`,
+            borderRadius: theme.vars.shape.borderRadius,
           })}
         />
       </Box>

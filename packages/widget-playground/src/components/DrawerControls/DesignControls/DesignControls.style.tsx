@@ -19,14 +19,14 @@ import {
 import { alertClasses } from '@mui/material/Alert'
 import { autocompleteClasses } from '@mui/material/Autocomplete'
 import { inputBaseClasses } from '@mui/material/InputBase'
-import { alpha, styled } from '@mui/material/styles'
+import { styled } from '@mui/material/styles'
 import { getCardFieldsetBackgroundColor } from '../../../utils/color'
 import { CardRowContainer } from '../../Card/Card.style'
 import { autocompletePopperZIndex } from '../DrawerControls.style'
 
 export const TabButtonsContainer = styled(Box)(({ theme }) => ({
+  ...getCardFieldsetBackgroundColor(theme),
   display: 'flex',
-  backgroundColor: getCardFieldsetBackgroundColor(theme),
   borderRadius: Math.max(
     theme.shape.borderRadius,
     theme.shape.borderRadiusSecondary
@@ -37,12 +37,13 @@ export const TabButtonsContainer = styled(Box)(({ theme }) => ({
 }))
 
 const controlSelected = (theme: Theme) => ({
-  backgroundColor:
-    theme.palette.mode === 'dark'
-      ? theme.palette.background.default
-      : theme.palette.common.white,
-  borderRadius: theme.shape.borderRadiusSecondary,
-  boxShadow: `0px 2px 4px ${alpha(theme.palette.common.black, 0.04)}`,
+  borderRadius: theme.vars.shape.borderRadiusSecondary,
+  backgroundColor: theme.vars.palette.common.white,
+  boxShadow: `0px 2px 4px rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+  ...theme.applyStyles('dark', {
+    backgroundColor: theme.vars.palette.background.default,
+    boxShadow: `0px 2px 4px rgba(${theme.vars.palette.common.backgroundChannel} / 0.04)`,
+  }),
 })
 
 interface TabButtonProps {
@@ -116,9 +117,12 @@ export const Input = styled(InputBase)(({ theme }) => {
         display: 'none',
       },
     },
-    backgroundColor: getCardFieldsetBackgroundColor(theme),
-    borderRadius: theme.shape.borderRadiusSecondary,
-    boxShadow: `0px 2px 4px ${alpha(theme.palette.common.black, 0.04)}`,
+    ...getCardFieldsetBackgroundColor(theme),
+    borderRadius: theme.vars.shape.borderRadiusSecondary,
+    boxShadow: `0px 2px 4px rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+    ...theme.applyStyles('dark', {
+      boxShadow: `0px 2px 4px rgba(${theme.vars.palette.common.backgroundChannel} / 0.04)`,
+    }),
   }
 })
 
@@ -147,7 +151,7 @@ export const ControlContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  backgroundColor: getCardFieldsetBackgroundColor(theme),
+  ...getCardFieldsetBackgroundColor(theme),
   borderRadius: Math.max(
     theme.shape.borderRadius,
     theme.shape.borderRadiusSecondary
@@ -213,8 +217,8 @@ export const ColorInput = styled(InputBase)<InputBaseProps>(
 const AutocompleteBase: any = styled(MuiAutocomplete)(({ theme }) => ({
   border: 'none',
   outline: 'none',
-  backgroundColor: getCardFieldsetBackgroundColor(theme),
-  borderRadius: theme.shape.borderRadiusSecondary,
+  ...getCardFieldsetBackgroundColor(theme),
+  borderRadius: theme.vars.shape.borderRadiusSecondary,
   width: '100%',
   fontWeight: 700,
   '& .MuiOutlinedInput-notchedOutline': {
@@ -251,25 +255,25 @@ export const StyledPopper = styled(Popper)({
 export const Alert = styled(MuiAlert)(({ theme }) => ({
   backgroundColor: 'transparent',
   fontSize: '0.9rem',
-  color: theme.palette.grey[300],
   padding: 0,
+  color: theme.vars.palette.grey[600],
+  ...theme.applyStyles('dark', {
+    color: theme.vars.palette.grey[300],
+  }),
   [`& .${alertClasses.icon}`]: {
     fontSize: '1.6rem',
-    color: theme.palette.grey[300],
-    ...theme.applyStyles('light', {
-      color: theme.palette.grey[600],
+    color: theme.vars.palette.grey[600],
+    ...theme.applyStyles('dark', {
+      color: theme.vars.palette.grey[300],
     }),
   },
-  ...theme.applyStyles('light', {
-    color: theme.palette.grey[600],
-  }),
 }))
 
 export const Select = styled(MuiSelect)(({ theme }) => ({
   border: 'none',
   outline: 'none',
-  backgroundColor: getCardFieldsetBackgroundColor(theme),
-  borderRadius: theme.shape.borderRadiusSecondary,
+  ...getCardFieldsetBackgroundColor(theme),
+  borderRadius: theme.vars.shape.borderRadiusSecondary,
   width: '100%',
   '& .MuiOutlinedInput-notchedOutline': {
     border: 'none',

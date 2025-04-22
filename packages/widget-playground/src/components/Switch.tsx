@@ -1,6 +1,4 @@
-import { Switch as MuiSwitch } from '@mui/material'
-import { switchClasses } from '@mui/material/Switch'
-import { alpha, styled } from '@mui/material/styles'
+import { Switch as MuiSwitch, styled, switchClasses } from '@mui/material'
 
 export const Switch = styled(MuiSwitch)(({ theme }) => ({
   width: 42,
@@ -12,9 +10,9 @@ export const Switch = styled(MuiSwitch)(({ theme }) => ({
     transitionDuration: theme.transitions.duration.standard,
     [`&.${switchClasses.checked}`]: {
       transform: 'translateX(18px)',
-      color: theme.palette.common.white,
+      color: theme.vars.palette.common.white,
       [`& + .${switchClasses.track}`]: {
-        backgroundColor: theme.palette.primary.main,
+        backgroundColor: theme.vars.palette.primary.main,
         opacity: 1,
         border: 0,
       },
@@ -23,20 +21,17 @@ export const Switch = styled(MuiSwitch)(({ theme }) => ({
       },
     },
     [`&.Mui-focusVisible .${switchClasses.thumb}`]: {
-      color: theme.palette.primary.main,
+      color: theme.vars.palette.primary.main,
       border: '6px solid',
-      borderColor: theme.palette.common.white,
+      borderColor: theme.vars.palette.common.white,
     },
     [`&.${switchClasses.disabled} .${switchClasses.thumb}`]: {
-      color: alpha(theme.palette.common.white, 0.12),
-      ...theme.applyStyles('light', {
-        color: alpha(theme.palette.common.black, 0.12),
-      }),
+      color: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.12)`,
     },
     [`&.${switchClasses.disabled} + .${switchClasses.track}`]: {
-      opacity: 0.3,
-      ...theme.applyStyles('light', {
-        opacity: 0.7,
+      opacity: 0.7,
+      ...theme.applyStyles('dark', {
+        opacity: 0.3,
       }),
     },
   },
@@ -47,13 +42,10 @@ export const Switch = styled(MuiSwitch)(({ theme }) => ({
   },
   [`.${switchClasses.track}`]: {
     borderRadius: 24 / 2,
-    backgroundColor: alpha(theme.palette.common.white, 0.16),
+    backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.16)`,
     opacity: 1,
     transition: theme.transitions.create(['background-color'], {
       duration: theme.transitions.duration.standard,
-    }),
-    ...theme.applyStyles('light', {
-      backgroundColor: alpha(theme.palette.common.black, 0.16),
     }),
   },
 }))

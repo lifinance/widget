@@ -15,9 +15,9 @@ export const slotProps = {
     sx: (theme: Theme) => ({
       position: 'absolute',
       backgroundImage: 'none',
-      backgroundColor: theme.palette.background.default,
-      borderTopLeftRadius: theme.shape.borderRadius,
-      borderTopRightRadius: theme.shape.borderRadius,
+      backgroundColor: theme.vars.palette.background.default,
+      borderTopLeftRadius: theme.vars.shape.borderRadius,
+      borderTopRightRadius: theme.vars.shape.borderRadius,
     }),
   },
   backdrop: {

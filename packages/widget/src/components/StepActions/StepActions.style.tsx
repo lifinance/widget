@@ -3,7 +3,6 @@ import {
   StepConnector as MuiStepConnector,
   StepLabel as MuiStepLabel,
   Typography,
-  alpha,
   stepConnectorClasses,
   stepLabelClasses,
   styled,
@@ -18,9 +17,9 @@ export const StepConnector = styled(MuiStepConnector, {
   [`.${stepConnectorClasses.line}`]: {
     minHeight: 8,
     borderLeftWidth: 2,
-    borderColor: alpha(theme.palette.common.white, 0.16),
-    ...theme.applyStyles('light', {
-      borderColor: alpha(theme.palette.common.black, 0.12),
+    borderColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.12)`,
+    ...theme.applyStyles('dark', {
+      borderColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.16)`,
     }),
   },
 }))
@@ -49,16 +48,19 @@ export const StepLabelTypography = styled(Typography)(({ theme }) => ({
   fontSize: 12,
   fontWeight: 500,
   lineHeight: 1.325,
-  color: theme.palette.text.secondary,
+  color: theme.vars.palette.text.secondary,
   padding: theme.spacing(0.5, 0),
 }))
 
 export const StepContent = styled(Box, {
   shouldForwardProp: (prop) => !['last'].includes(prop as string),
 })<{ last: boolean }>(({ theme }) => ({
-  borderLeft: `2px solid ${alpha(theme.palette.common.white, 0.16)}`,
   margin: theme.spacing(0, 0, 0, 2.375),
   paddingLeft: theme.spacing(4.375),
+  borderLeft: `2px solid rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.12)`,
+  ...theme.applyStyles('dark', {
+    borderLeft: `2px solid rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.16)`,
+  }),
   variants: [
     {
       props: ({ last }) => last,
@@ -68,12 +70,9 @@ export const StepContent = styled(Box, {
       },
     },
   ],
-  ...theme.applyStyles('light', {
-    borderLeft: `2px solid ${alpha(theme.palette.common.black, 0.12)}`,
-  }),
 }))
 
 export const StepAvatar = styled(AvatarMasked)(({ theme }) => ({
-  color: theme.palette.text.primary,
+  color: theme.vars.palette.text.primary,
   backgroundColor: 'transparent',
 }))

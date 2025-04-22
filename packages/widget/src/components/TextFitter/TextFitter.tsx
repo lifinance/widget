@@ -75,7 +75,7 @@ export const TextFitter: React.FC<PropsWithChildren<TextFitterProps>> = ({
       //     : height
       // }
       preserveAspectRatio={preserveAspectRatio}
-      fill={theme.palette.text.primary}
+      fill={theme.vars.palette.text.primary}
       ref={ref}
     >
       <title>{children}</title>

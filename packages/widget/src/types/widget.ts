@@ -38,7 +38,7 @@ export interface SubvariantOptions {
   custom?: CustomSubvariant
 }
 
-export type Appearance = PaletteMode | 'auto'
+export type Appearance = PaletteMode | 'system'
 export interface NavigationProps {
   /**
    * If given, uses a negative margin to counteract the padding on sides for navigation elements like icon buttons.
@@ -62,6 +62,20 @@ export type WidgetTheme = {
     PaletteOptions,
     'background' | 'grey' | 'primary' | 'secondary' | 'text'
   >
+  colorScheme?: {
+    light?: {
+      palette: Pick<
+        PaletteOptions,
+        'background' | 'grey' | 'primary' | 'secondary' | 'text'
+      >
+    }
+    dark?: {
+      palette: Pick<
+        PaletteOptions,
+        'background' | 'grey' | 'primary' | 'secondary' | 'text'
+      >
+    }
+  }
   shape?: Partial<Shape>
   typography?: TypographyVariantsOptions
   components?: WidgetThemeComponents

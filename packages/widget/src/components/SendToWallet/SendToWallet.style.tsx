@@ -6,7 +6,7 @@ export const SendToWalletCardHeader = styled(CardHeader, {
 })<{ selected?: boolean }>(({ theme }) => ({
   width: '100%',
   [`.${cardHeaderClasses.title}`]: {
-    color: theme.palette.text.secondary,
+    color: theme.vars.palette.text.secondary,
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
@@ -36,7 +36,7 @@ export const SendToWalletCardHeader = styled(CardHeader, {
       props: ({ selected }) => selected,
       style: {
         [`.${cardHeaderClasses.title}`]: {
-          color: theme.palette.text.primary,
+          color: theme.vars.palette.text.primary,
           fontWeight: 600,
           width: 224,
           [theme.breakpoints.down(theme.breakpoints.values.sm)]: {

@@ -27,9 +27,9 @@ export const WalletMenuModal: React.FC<PropsWithChildren<WalletMenuProps>> = ({
         paper: {
           sx: (theme) => ({
             maxHeight: '80%',
-            background: theme.palette.background.default,
-            borderTopLeftRadius: theme.shape.borderRadius * 2,
-            borderTopRightRadius: theme.shape.borderRadius * 2,
+            background: theme.vars.palette.background.default,
+            borderTopLeftRadius: `calc(${theme.vars.shape.borderRadius} * 2)`,
+            borderTopRightRadius: `calc(${theme.vars.shape.borderRadius} * 2)`,
           }),
         },
         backdrop: {
@@ -52,11 +52,11 @@ export const WalletMenuModal: React.FC<PropsWithChildren<WalletMenuProps>> = ({
           sx: (theme) => ({
             width: '100%',
             maxWidth: maxWidth,
-            background: theme.palette.background.default,
-            borderTopLeftRadius: theme.shape.borderRadius * 2,
-            borderTopRightRadius: theme.shape.borderRadius * 2,
-            borderBottomLeftRadius: theme.shape.borderRadius * 2,
-            borderBottomRightRadius: theme.shape.borderRadius * 2,
+            background: theme.vars.palette.background.default,
+            borderTopLeftRadius: `calc(${theme.vars.shape.borderRadius} * 2)`,
+            borderTopRightRadius: `calc(${theme.vars.shape.borderRadius} * 2)`,
+            borderBottomLeftRadius: `calc(${theme.vars.shape.borderRadius} * 2)`,
+            borderBottomRightRadius: `calc(${theme.vars.shape.borderRadius} * 2)`,
           }),
         },
         backdrop: {

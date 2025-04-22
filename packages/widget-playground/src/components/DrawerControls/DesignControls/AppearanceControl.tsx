@@ -3,7 +3,7 @@ import BrightnessAutoIcon from '@mui/icons-material/BrightnessAuto'
 import LightModeIcon from '@mui/icons-material/LightMode'
 import NightlightIcon from '@mui/icons-material/Nightlight'
 import type { TabProps } from '@mui/material'
-import { Box, Tooltip } from '@mui/material'
+import { Box, Tooltip, useColorScheme } from '@mui/material'
 import diff from 'microdiff'
 import type { FC, PropsWithChildren, ReactElement, SyntheticEvent } from 'react'
 import { useEffect } from 'react'
@@ -23,7 +23,7 @@ import { Badge, CapitalizeFirstLetter } from './DesignControls.style'
 const appearanceIcons = {
   light: LightModeIcon,
   dark: NightlightIcon,
-  auto: BrightnessAutoIcon,
+  system: BrightnessAutoIcon,
 }
 
 interface AppearanceTabProps extends TabProps {
@@ -40,10 +40,16 @@ const AppearanceTab: FC<AppearanceTabProps> = ({
   ...props
 }) =>
   disabled ? (
-    <Tab icon={Icon} value={value} disabled={disabled} {...props} />
+    <Tab
+      icon={Icon}
+      value={value}
+      disabled={disabled}
+      disableRipple
+      {...props}
+    />
   ) : (
     <Tooltip title={title} arrow>
-      <Tab icon={Icon} value={value} {...props} />
+      <Tab icon={Icon} value={value} disableRipple {...props} />
     </Tooltip>
   )
 
@@ -68,7 +74,8 @@ const getUserChangesToTheme = (
   getCurrentConfigTheme: () => WidgetTheme | undefined
 ) => {
   if (selectedThemeItem) {
-    const normalisedAppearance = appearance === 'auto' ? themeMode : appearance
+    const normalisedAppearance =
+      appearance === 'system' ? themeMode : appearance
     const themePreset = selectedThemeItem.theme[normalisedAppearance]
     const currentTheme = getCurrentConfigTheme()
 
@@ -81,6 +88,7 @@ const getUserChangesToTheme = (
 export const AppearanceControl = () => {
   const { appearance } = useConfigAppearance()
   const themeMode = useThemeMode()
+  const { mode, setMode } = useColorScheme()
   const { setAppearance, setConfigTheme, getCurrentConfigTheme } =
     useConfigActions()
   const { setViewportBackgroundColor } = useEditToolsActions()
@@ -90,25 +98,18 @@ export const AppearanceControl = () => {
     selectedThemeItem && Object.keys(selectedThemeItem.theme).length < 2
   )
 
-  useEffect(() => {
-    if (restricted) {
-      const restrictedAppearance = Object.keys(
-        selectedThemeItem.theme
-      )[0] as Appearance
-      setAppearance(restrictedAppearance)
-    }
-  }, [selectedThemeItem, setAppearance, restricted])
+  const currentAppearance = mode ?? appearance
 
   const handleAppearanceChange = (_: SyntheticEvent, value: Appearance) => {
     if (selectedThemeItem) {
       const userChangesToTheme = getUserChangesToTheme(
         selectedThemeItem,
-        appearance,
+        currentAppearance,
         themeMode,
         getCurrentConfigTheme
       )
 
-      const newAppearance = value === 'auto' ? themeMode : value
+      const newAppearance = value === 'system' ? themeMode : value
 
       const newTheme = userChangesToTheme
         ? (patch(
@@ -127,26 +128,37 @@ export const AppearanceControl = () => {
     }
 
     setAppearance(value)
+    setMode(value)
   }
+
+  useEffect(() => {
+    if (restricted) {
+      const restrictedAppearance = Object.keys(
+        selectedThemeItem.theme
+      )[0] as Appearance
+      setAppearance(restrictedAppearance)
+      setMode(restrictedAppearance)
+    }
+  }, [selectedThemeItem, setAppearance, restricted, setMode])
 
   return (
     <ExpandableCard
-      title={'Mode'}
+      title={'Appearance'}
       value={
         <BadgableCardValue showBadge={restricted}>
-          {appearance}
+          {currentAppearance}
         </BadgableCardValue>
       }
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
         {restricted ? (
           <CapitalizeFirstLetter variant="caption" sx={{ paddingLeft: 1 }}>
-            {appearance} mode is recommended for this theme
+            {currentAppearance} mode is recommended for this theme
           </CapitalizeFirstLetter>
         ) : null}
 
         <Tabs
-          value={appearance}
+          value={currentAppearance}
           aria-label="tabs"
           indicatorColor="primary"
           onChange={handleAppearanceChange}

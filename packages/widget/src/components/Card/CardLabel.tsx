@@ -1,16 +1,9 @@
-import {
-  Box,
-  Typography,
-  getContrastRatio,
-  lighten,
-  styled,
-} from '@mui/material'
-import { blend } from '../../utils/colors.js'
+import { Box, Typography, styled } from '@mui/material'
 
 export const CardLabel = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'variant',
 })<{ variant?: 'secondary' | 'success' }>(({ theme }) => ({
-  borderRadius: theme.shape.borderRadius,
+  borderRadius: theme.vars.shape.borderRadius,
   padding: 0,
   display: 'flex',
   alignItems: 'center',
@@ -19,67 +12,30 @@ export const CardLabel = styled(Box, {
   minWidth: 24,
   userSelect: 'none',
   fontSize: '1rem',
-  backgroundColor: blend(
-    theme.palette.background.paper,
-    theme.palette.common.white,
-    0.16
-  ),
-  color: theme.palette.text.primary,
-  ...theme.applyStyles('light', {
-    backgroundColor: blend(
-      theme.palette.background.paper,
-      theme.palette.common.black,
-      0.12
-    ),
+  backgroundColor: `color-mix(in srgb, ${theme.vars.palette.background.paper} 88%, black)`,
+  color: theme.vars.palette.text.primary,
+  ...theme.applyStyles('dark', {
+    backgroundColor: `color-mix(in srgb, ${theme.vars.palette.background.paper} 84%, white)`,
   }),
   variants: [
     {
       props: { variant: 'secondary' },
       style: {
-        backgroundColor: blend(
-          theme.palette.background.paper,
-          theme.palette.secondary.main,
-          0.8
-        ),
-        color:
-          getContrastRatio(
-            theme.palette.common.white,
-            blend(
-              theme.palette.background.paper,
-              theme.palette.secondary.main,
-              0.8
-            )
-          ) >= 3
-            ? theme.palette.common.white
-            : theme.palette.common.black,
-        ...theme.applyStyles('light', {
-          backgroundColor: theme.palette.secondary.main,
-          color:
-            getContrastRatio(
-              theme.palette.common.white,
-              theme.palette.secondary.main
-            ) >= 3
-              ? theme.palette.common.white
-              : theme.palette.common.black,
+        color: theme.palette.getContrastText(theme.palette.secondary.main),
+        backgroundColor: `color-mix(in srgb, ${theme.vars.palette.background.paper} 20%, ${theme.vars.palette.secondary.main})`,
+        ...theme.applyStyles('dark', {
+          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.background.paper} 20%, ${theme.vars.palette.secondary.main})`,
         }),
       },
     },
     {
       props: { variant: 'success' },
       style: {
-        backgroundColor: blend(
-          theme.palette.background.paper,
-          theme.palette.success.main,
-          0.24
-        ),
-        color: lighten(theme.palette.success.main, 0.24),
-        ...theme.applyStyles('light', {
-          backgroundColor: blend(
-            theme.palette.background.paper,
-            theme.palette.success.main,
-            0.16
-          ),
-          color: lighten(theme.palette.success.main, 0),
+        backgroundColor: `color-mix(in srgb, ${theme.vars.palette.background.paper} 84%, ${theme.vars.palette.success.main})`,
+        color: theme.vars.palette.success.main,
+        ...theme.applyStyles('dark', {
+          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.background.paper} 76%, ${theme.vars.palette.success.main})`,
+          color: `color-mix(in srgb, ${theme.vars.palette.success.main} 76%, white)`,
         }),
       },
     },

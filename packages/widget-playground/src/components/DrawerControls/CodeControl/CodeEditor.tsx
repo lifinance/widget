@@ -99,7 +99,9 @@ export const CodeEditor = (_props: CodeEditorProps) => {
     <CodeContainer>
       <Tooltip
         title="Copy code"
-        PopperProps={{ style: { zIndex: tooltipPopperZIndex } }}
+        slotProps={{
+          popper: { style: { zIndex: tooltipPopperZIndex } },
+        }}
         arrow
       >
         <CodeCopyButton onClick={handleCopyCode}>

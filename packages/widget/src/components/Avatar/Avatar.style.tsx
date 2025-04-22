@@ -36,37 +36,37 @@ export const AvatarDefault = styled(Box)(({ theme }) => {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    background: theme.palette.grey[800],
     borderRadius: '50%',
     height: root?.height,
     width: root?.width,
-    color: theme.palette.text.secondary,
+    color: theme.vars.palette.text.secondary,
     mask: avatarMask16,
-    ...theme.applyStyles('light', {
-      background: theme.palette.grey[300],
+    background: theme.vars.palette.grey[300],
+    ...theme.applyStyles('dark', {
+      background: theme.vars.palette.grey[800],
     }),
   }
 })
 
 export const AvatarDefaultBadge = styled(Box)(({ theme }) => {
   return {
-    background: theme.palette.grey[800],
     borderRadius: '50%',
     height: 16,
     width: 16,
-    ...theme.applyStyles('light', {
-      background: theme.palette.grey[300],
+    background: theme.vars.palette.grey[300],
+    ...theme.applyStyles('dark', {
+      background: theme.vars.palette.grey[800],
     }),
   }
 })
 
 export const AvatarSkeletonContainer = styled(Box)(({ theme }) => ({
-  background: theme.palette.background.paper,
+  background: theme.vars.palette.background.paper,
   borderRadius: '50%',
 }))
 
 export const AvatarSkeletonMaskedContainer = styled(Box)(({ theme }) => ({
-  background: theme.palette.background.paper,
+  background: theme.vars.palette.background.paper,
   borderRadius: '50%',
   mask: avatarMask16,
 }))

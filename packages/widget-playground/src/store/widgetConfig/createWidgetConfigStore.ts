@@ -185,7 +185,7 @@ export const createWidgetConfigStore = (
           }
 
           const appearance = (
-            !!get().config?.appearance && get().config?.appearance !== 'auto'
+            !!get().config?.appearance && get().config?.appearance !== 'system'
               ? get().config?.appearance
               : useDarkMode || prefersDarkMode
                 ? 'dark'
@@ -245,7 +245,7 @@ export const createWidgetConfigStore = (
       }),
       {
         name: 'li.fi-playground-config',
-        version: 1,
+        version: 2,
         partialize: (state) => ({
           config: state?.config
             ? getLocalStorageOutput(state.config)

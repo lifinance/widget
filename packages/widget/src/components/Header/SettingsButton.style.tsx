@@ -2,13 +2,8 @@ import {
   IconButton,
   Badge as MuiBadge,
   badgeClasses,
-  darken,
   styled,
 } from '@mui/material'
-import {
-  getInfoBackgroundColor,
-  getWarningBackgroundColor,
-} from '../../utils/colors.js'
 
 export const SettingsIconBadge = styled(MuiBadge)(({ theme }) => ({
   display: 'flex',
@@ -32,19 +27,31 @@ export const SettingsIconButton = styled(IconButton, {
   switch (variant) {
     case 'info':
       return {
-        backgroundColor: getInfoBackgroundColor(theme),
+        backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.12)`,
         '&:hover': {
-          backgroundColor: darken(getInfoBackgroundColor(theme), 0.2),
+          backgroundColor: `color-mix(in srgb, rgba(${theme.vars.palette.info.mainChannel} / 0.12) 80%, black)`,
         },
+        ...theme.applyStyles('dark', {
+          backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.16)`,
+          '&:hover': {
+            backgroundColor: `color-mix(in srgb, rgba(${theme.vars.palette.info.mainChannel} / 0.16) 80%, black)`,
+          },
+        }),
       }
     case 'warning':
       return {
-        backgroundColor: getWarningBackgroundColor(theme),
+        backgroundColor: `rgba(${theme.vars.palette.warning.mainChannel} / 0.32)`,
         '&:hover': {
-          backgroundColor: darken(getWarningBackgroundColor(theme), 0.2),
+          backgroundColor: `color-mix(in srgb, rgba(${theme.vars.palette.warning.mainChannel} / 0.32) 80%, black)`,
         },
+        ...theme.applyStyles('dark', {
+          backgroundColor: `rgba(${theme.vars.palette.warning.mainChannel} / 0.16)`,
+          '&:hover': {
+            backgroundColor: `color-mix(in srgb, rgba(${theme.vars.palette.warning.mainChannel} / 0.16) 80%, black)`,
+          },
+        }),
       }
     default:
-      break
+      return {}
   }
 })

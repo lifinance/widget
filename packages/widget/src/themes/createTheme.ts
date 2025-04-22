@@ -1,9 +1,4 @@
-import type {
-  CSSObject,
-  PaletteMode,
-  Shape,
-  SimplePaletteColorOptions,
-} from '@mui/material'
+import type { CSSObject, Shape, SimplePaletteColorOptions } from '@mui/material'
 import {
   alpha,
   buttonClasses,
@@ -11,7 +6,6 @@ import {
   css,
   darken,
   dialogActionsClasses,
-  getContrastRatio,
   keyframes,
   lighten,
   tabsClasses,
@@ -39,10 +33,7 @@ const enterKeyframe = keyframes`
   }
 `
 
-export const createTheme = (
-  mode: PaletteMode,
-  widgetTheme: WidgetTheme = {}
-) => {
+export const createTheme = (widgetTheme: WidgetTheme = {}) => {
   const primaryMainColor =
     (widgetTheme.palette?.primary as SimplePaletteColorOptions)?.main ??
     palette.primary.main
@@ -51,18 +42,45 @@ export const createTheme = (
   const secondaryMainColor =
     (widgetTheme.palette?.secondary as SimplePaletteColorOptions)?.main ??
     palette.secondary.main
-  const contrastButtonColor =
-    getContrastRatio(palette.common.white, primaryMainColor) >= 3
-      ? palette.common.white
-      : palette.common.black
-  const contrastTextButtonColor =
-    getContrastRatio(palette.common.white, alpha(primaryMainColor, 0.08)) >= 3
-      ? palette.common.white
-      : palette.common.black
-  const borderRadiusSecondary =
-    widgetTheme.shape?.borderRadiusSecondary ?? shape.borderRadiusSecondary
 
   const theme = createMuiTheme({
+    cssVariables: { cssVarPrefix: 'lifi', colorSchemeSelector: 'class' },
+    colorSchemes: {
+      light: {
+        palette: {
+          ...palette,
+          ...paletteLight,
+          ...widgetTheme.palette,
+          primary: {
+            main: primaryMainColor,
+            light: primaryLightColor,
+            dark: primaryDarkColor,
+          },
+          secondary: {
+            main: secondaryMainColor,
+            light: lighten(secondaryMainColor, 0.84),
+            dark: darken(secondaryMainColor, 0.2),
+          },
+        },
+      },
+      dark: {
+        palette: {
+          ...palette,
+          ...paletteDark,
+          ...widgetTheme.palette,
+          primary: {
+            main: primaryMainColor,
+            light: primaryLightColor,
+            dark: primaryDarkColor,
+          },
+          secondary: {
+            main: secondaryMainColor,
+            light: lighten(secondaryMainColor, 0.84),
+            dark: darken(secondaryMainColor, 0.2),
+          },
+        },
+      },
+    },
     container: widgetTheme.container,
     header: widgetTheme.header,
     navigation: {
@@ -73,22 +91,22 @@ export const createTheme = (
       fontFamily: 'Inter var, Inter, sans-serif',
       ...widgetTheme.typography,
     },
-    palette: {
-      mode,
-      ...palette,
-      ...(mode === 'light' ? paletteLight : paletteDark),
-      ...widgetTheme.palette,
-      primary: {
-        main: primaryMainColor,
-        light: primaryLightColor,
-        dark: primaryDarkColor,
-      },
-      secondary: {
-        main: secondaryMainColor,
-        light: lighten(secondaryMainColor, 0.84),
-        dark: darken(secondaryMainColor, 0.2),
-      },
-    },
+    // palette: {
+    //   mode,
+    //   ...palette,
+    //   ...(mode === 'light' ? paletteLight : paletteDark),
+    //   ...widgetTheme.palette,
+    //   primary: {
+    //     main: primaryMainColor,
+    //     light: primaryLightColor,
+    //     dark: primaryDarkColor,
+    //   },
+    //   secondary: {
+    //     main: secondaryMainColor,
+    //     light: lighten(secondaryMainColor, 0.84),
+    //     dark: darken(secondaryMainColor, 0.2),
+    //   },
+    // },
     shape: {
       ...shape,
       ...widgetTheme.shape,
@@ -135,8 +153,8 @@ export const createTheme = (
               ?.root as CSSObject
             const rootHover = root?.['&:hover']
             return {
-              backgroundColor: theme.palette.background.paper,
-              borderRadius: theme.shape.borderRadius,
+              backgroundColor: theme.vars.palette.background.paper,
+              borderRadius: theme.vars.shape.borderRadius,
               overflow: 'hidden',
               position: 'relative',
               boxSizing: 'border-box',
@@ -157,17 +175,17 @@ export const createTheme = (
                   ownerState.variant === 'filled') && {
                   '&:hover': {
                     cursor: 'pointer',
-                    backgroundColor:
-                      theme.palette.mode === 'light'
-                        ? darken(theme.palette.background.paper, 0.02)
-                        : lighten(theme.palette.background.paper, 0.02),
+                    backgroundColor: `color-mix(in srgb, ${theme.vars.palette.background.paper} 98%, black)`,
+                    ...theme.applyStyles('dark', {
+                      backgroundColor: `color-mix(in srgb, ${theme.vars.palette.background.paper} 98%, white)`,
+                    }),
                   },
                 }),
               ...(!!ownerState.onClick &&
                 ownerState.variant === 'elevation' && {
                   '&:hover': {
                     cursor: 'pointer',
-                    filter: `drop-shadow(0 1px 4px ${alpha(theme.palette.common.black, 0.08)})`,
+                    filter: `drop-shadow(0 1px 4px rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.08))`,
                   },
                 }),
               ...(typeof root === 'object' && root),
@@ -189,10 +207,10 @@ export const createTheme = (
             style: ({ theme }) => ({
               borderWidth: 1,
               borderStyle: 'solid',
-              borderColor:
-                theme.palette.mode === 'light'
-                  ? theme.palette.grey[300]
-                  : theme.palette.grey[800],
+              borderColor: theme.vars.palette.grey[300],
+              ...theme.applyStyles('dark', {
+                borderColor: theme.vars.palette.grey[800],
+              }),
             }),
           },
           {
@@ -200,7 +218,7 @@ export const createTheme = (
             style: ({ theme }) => ({
               border: 'none',
               boxShadow: 'none',
-              filter: `drop-shadow(0 1px 4px ${alpha(theme.palette.common.black, 0.04)})`,
+              filter: `drop-shadow(0 1px 4px rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04))`,
             }),
           },
           {
@@ -233,51 +251,50 @@ export const createTheme = (
           ...widgetTheme.components?.MuiButton?.defaultProps,
         },
         styleOverrides: {
-          root: ({ ownerState }) => ({
-            borderRadius: borderRadiusSecondary,
+          root: ({ theme, ownerState }) => ({
+            borderRadius: theme.vars.shape.borderRadiusSecondary,
             textTransform: 'none',
             fontSize: 16,
             fontWeight: 600,
             '&.Mui-disabled, &.Mui-disabled:hover': {
-              color: alpha(
-                mode === 'light' ? palette.common.black : palette.common.white,
-                0.56
-              ),
+              color: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.56)`,
               cursor: 'not-allowed',
               pointerEvents: 'auto',
             },
             [`&.${buttonClasses.loading}.Mui-disabled`]: {
-              backgroundColor: primaryMainColor,
-              color: contrastButtonColor,
+              backgroundColor: theme.vars.palette.primary.main,
+              color: theme.palette.getContrastText(theme.palette.primary.main),
               cursor: 'auto',
               pointerEvents: 'auto',
             },
             [`.${buttonClasses.loadingIndicator}`]: {
-              color: contrastButtonColor,
+              color: theme.palette.getContrastText(theme.palette.primary.main),
             },
             [`&.${buttonClasses.root}.${buttonClasses.loading}`]: {
               color: 'transparent',
             },
             ...getStyleOverrides('MuiButton', 'root', widgetTheme, ownerState),
           }),
-          text: ({ ownerState }) => ({
-            backgroundColor:
-              mode === 'light'
-                ? alpha(primaryMainColor, 0.08)
-                : alpha(primaryMainColor, 0.42),
+          text: ({ theme, ownerState }) => ({
+            backgroundColor: `rgba(${theme.vars.palette.primary.mainChannel} / 0.08)`,
+            color: theme.vars.palette.primary.main,
             '&:hover': {
-              backgroundColor:
-                mode === 'light'
-                  ? alpha(primaryMainColor, 0.12)
-                  : alpha(primaryMainColor, 0.56),
+              backgroundColor: `rgba(${theme.vars.palette.primary.mainChannel} / 0.12)`,
             },
-            color:
-              mode === 'light' ? primaryMainColor : contrastTextButtonColor,
+            ...theme.applyStyles('dark', {
+              backgroundColor: `rgba(${theme.vars.palette.primary.mainChannel} / 0.42)`,
+              color: theme.palette.getContrastText(
+                alpha(theme.palette.primary.main, 0.08)
+              ),
+              '&:hover': {
+                backgroundColor: `rgba(${theme.vars.palette.primary.mainChannel} / 0.56)`,
+              },
+            }),
             ...getStyleOverrides('MuiButton', 'text', widgetTheme, ownerState),
           }),
           contained: ({ ownerState }) => ({
             '&:hover': {
-              color: contrastButtonColor,
+              color: theme.palette.getContrastText(theme.palette.primary.main),
             },
             ...getStyleOverrides(
               'MuiButton',
@@ -336,12 +353,12 @@ export const createTheme = (
             fontWeight: 600,
             fontSize: '1.125rem',
             lineHeight: '1.2778',
-            color: theme.palette.text.primary,
+            color: theme.vars.palette.text.primary,
           }),
           secondary: ({ theme }) => ({
             fontWeight: 500,
             fontSize: '0.75rem',
-            color: theme.palette.text.secondary,
+            color: theme.vars.palette.text.secondary,
           }),
         },
       },
@@ -367,7 +384,7 @@ export const createTheme = (
       MuiMenu: {
         styleOverrides: {
           paper: ({ theme }) => ({
-            backgroundColor: theme.palette.background.default,
+            backgroundColor: theme.vars.palette.background.default,
           }),
         },
       },
@@ -383,22 +400,22 @@ export const createTheme = (
               ownerState
             )
             return {
-              backgroundColor:
-                theme.palette.mode === 'light'
-                  ? alpha(theme.palette.common.black, 0.04)
-                  : alpha(theme.palette.common.white, 0.08),
-              borderRadius: theme.shape.borderRadius,
+              backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+              ...theme.applyStyles('dark', {
+                backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.08)`,
+              }),
+              borderRadius: theme.vars.shape.borderRadius,
               ...rootStyleOverrides,
               [`.${tabsClasses.indicator}`]: {
-                backgroundColor:
-                  theme.palette.mode === 'light'
-                    ? theme.palette.background.paper
-                    : alpha(theme.palette.common.black, 0.56),
+                backgroundColor: theme.vars.palette.background.paper,
+                ...theme.applyStyles('dark', {
+                  backgroundColor: `rgba(${theme.vars.palette.common.backgroundChannel} / 0.56)`,
+                }),
                 borderRadius:
                   theme.shape.borderRadius > 0
-                    ? theme.shape.borderRadius - 4
-                    : theme.shape.borderRadius,
-                boxShadow: `0px 2px 4px ${alpha(theme.palette.common.black, 0.04)}`,
+                    ? `calc(${theme.vars.shape.borderRadius} - 4px)`
+                    : theme.vars.shape.borderRadius,
+                boxShadow: `0px 2px 4px rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
                 ...rootStyleOverrides?.[`.${tabsClasses.indicator}`],
               },
             }
