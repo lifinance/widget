@@ -66,7 +66,7 @@ export type WidgetTheme = {
     PaletteOptions,
     'background' | 'grey' | 'primary' | 'secondary' | 'text'
   >
-  colorScheme?: {
+  colorSchemes?: {
     light?: {
       palette: Pick<
         PaletteOptions,
