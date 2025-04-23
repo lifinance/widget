@@ -34,14 +34,46 @@ const enterKeyframe = keyframes`
 `
 
 export const createTheme = (widgetTheme: WidgetTheme = {}) => {
-  const primaryMainColor =
-    (widgetTheme.palette?.primary as SimplePaletteColorOptions)?.main ??
+  const configuredPaletteLight =
+    widgetTheme.colorSchemes?.light?.palette ?? widgetTheme.palette
+  const configuredPaletteDark =
+    widgetTheme.colorSchemes?.dark?.palette ?? widgetTheme.palette
+
+  const primaryMainColorLight =
+    (configuredPaletteLight?.primary as SimplePaletteColorOptions)?.main ??
     palette.primary.main
-  const primaryLightColor = lighten(primaryMainColor, 0.84)
-  const primaryDarkColor = darken(primaryMainColor, 0.2)
-  const secondaryMainColor =
-    (widgetTheme.palette?.secondary as SimplePaletteColorOptions)?.main ??
+  const primaryMainColorDark =
+    (configuredPaletteDark?.primary as SimplePaletteColorOptions)?.main ??
+    palette.primary.main
+
+  const primaryLightenColorLight = lighten(primaryMainColorLight, 0.84)
+  const primaryDarkenColorLight = darken(primaryMainColorLight, 0.2)
+  const primaryLightenColorDark =
+    primaryMainColorLight === primaryMainColorDark
+      ? primaryLightenColorLight
+      : lighten(primaryMainColorDark, 0.84)
+  const primaryDarkenColorDark =
+    primaryMainColorLight === primaryMainColorDark
+      ? primaryDarkenColorLight
+      : darken(primaryMainColorDark, 0.2)
+
+  const secondaryMainColorLight =
+    (configuredPaletteLight?.secondary as SimplePaletteColorOptions)?.main ??
     palette.secondary.main
+  const secondaryMainColorDark =
+    (configuredPaletteDark?.secondary as SimplePaletteColorOptions)?.main ??
+    palette.secondary.main
+
+  const secondaryLightenColorLight = lighten(secondaryMainColorLight, 0.84)
+  const secondaryDarkenColorLight = darken(secondaryMainColorLight, 0.2)
+  const secondaryLightenColorDark =
+    secondaryMainColorLight === secondaryMainColorDark
+      ? secondaryLightenColorLight
+      : lighten(secondaryMainColorDark, 0.84)
+  const secondaryDarkenColorDark =
+    secondaryMainColorLight === secondaryMainColorDark
+      ? secondaryDarkenColorLight
+      : darken(secondaryMainColorDark, 0.2)
 
   const theme = createMuiTheme({
     cssVariables: { cssVarPrefix: 'lifi', colorSchemeSelector: 'class' },
@@ -50,16 +82,16 @@ export const createTheme = (widgetTheme: WidgetTheme = {}) => {
         palette: {
           ...palette,
           ...paletteLight,
-          ...(widgetTheme.colorScheme?.light?.palette ?? widgetTheme.palette),
+          ...(widgetTheme.colorSchemes?.light?.palette ?? widgetTheme.palette),
           primary: {
-            main: primaryMainColor,
-            light: primaryLightColor,
-            dark: primaryDarkColor,
+            main: primaryMainColorLight,
+            light: primaryLightenColorLight,
+            dark: primaryDarkenColorLight,
           },
           secondary: {
-            main: secondaryMainColor,
-            light: lighten(secondaryMainColor, 0.84),
-            dark: darken(secondaryMainColor, 0.2),
+            main: secondaryMainColorLight,
+            light: secondaryLightenColorLight,
+            dark: secondaryDarkenColorLight,
           },
         },
       },
@@ -67,16 +99,16 @@ export const createTheme = (widgetTheme: WidgetTheme = {}) => {
         palette: {
           ...palette,
           ...paletteDark,
-          ...(widgetTheme.colorScheme?.dark?.palette ?? widgetTheme.palette),
+          ...(widgetTheme.colorSchemes?.dark?.palette ?? widgetTheme.palette),
           primary: {
-            main: primaryMainColor,
-            light: primaryLightColor,
-            dark: primaryDarkColor,
+            main: primaryMainColorDark,
+            light: primaryLightenColorDark,
+            dark: primaryDarkenColorDark,
           },
           secondary: {
-            main: secondaryMainColor,
-            light: lighten(secondaryMainColor, 0.84),
-            dark: darken(secondaryMainColor, 0.2),
+            main: secondaryMainColorDark,
+            light: secondaryLightenColorDark,
+            dark: secondaryDarkenColorDark,
           },
         },
       },
@@ -91,22 +123,6 @@ export const createTheme = (widgetTheme: WidgetTheme = {}) => {
       fontFamily: 'Inter var, Inter, sans-serif',
       ...widgetTheme.typography,
     },
-    // palette: {
-    //   mode,
-    //   ...palette,
-    //   ...(mode === 'light' ? paletteLight : paletteDark),
-    //   ...widgetTheme.palette,
-    //   primary: {
-    //     main: primaryMainColor,
-    //     light: primaryLightColor,
-    //     dark: primaryDarkColor,
-    //   },
-    //   secondary: {
-    //     main: secondaryMainColor,
-    //     light: lighten(secondaryMainColor, 0.84),
-    //     dark: darken(secondaryMainColor, 0.2),
-    //   },
-    // },
     shape: {
       ...shape,
       ...widgetTheme.shape,
