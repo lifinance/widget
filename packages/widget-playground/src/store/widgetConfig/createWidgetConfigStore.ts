@@ -175,7 +175,7 @@ export const createWidgetConfigStore = (
             widgetThemeItems: themeItems,
           })
         },
-        getCurrentThemePreset: (useDarkMode) => {
+        getCurrentThemePreset: () => {
           const selectedThemeItem = get().widgetThemeItems.find(
             (themeItem) => themeItem.id === get().themeId
           )
@@ -184,15 +184,7 @@ export const createWidgetConfigStore = (
             return
           }
 
-          const appearance = (
-            !!get().config?.appearance && get().config?.appearance !== 'system'
-              ? get().config?.appearance
-              : useDarkMode || prefersDarkMode
-                ? 'dark'
-                : 'light'
-          ) as string
-
-          return selectedThemeItem.theme[appearance]
+          return selectedThemeItem.theme
         },
         getCurrentConfigTheme: () => {
           return get().config?.theme

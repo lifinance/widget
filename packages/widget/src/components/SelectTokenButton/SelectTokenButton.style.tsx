@@ -81,32 +81,36 @@ export const SelectTokenCard = styled(Card)(({ theme }) => {
 
 export const CardContent = styled(MuiCardContent, {
   shouldForwardProp: (prop) => prop !== 'formType' && prop !== 'compact',
-})<{ formType: FormType; compact: boolean }>(({ theme, formType, compact }) => {
-  const cardVariant = theme.components?.MuiCard?.defaultProps?.variant
-  const direction = formType === 'to' ? '-8px' : 'calc(100% + 8px)'
-  const horizontal = compact ? direction : '50%'
-  const vertical = compact ? '50%' : direction
-  return {
-    padding: 0,
-    transition: theme.transitions.create(['background-color'], {
-      duration: theme.transitions.duration.enteringScreen,
-      easing: theme.transitions.easing.easeOut,
-    }),
-    '&:last-child': {
-      paddingBottom: 0,
-    },
-    ...(cardVariant !== 'outlined' && {
-      backgroundColor: theme.vars.palette.background.paper,
-      mask: `radial-gradient(circle 20px at ${horizontal} ${vertical}, #fff0 96%, #fff) 100% 100% / 100% 100% no-repeat`,
-    }),
-    ...(cardVariant === 'filled' && {
-      '&:hover': {
-        cursor: 'pointer',
-        backgroundColor: `color-mix(in srgb, ${theme.vars.palette.background.paper} 98%, white)`,
-        ...theme.applyStyles('dark', {
-          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.background.paper} 98%, black)`,
-        }),
+})<{ formType: FormType; compact: boolean; mask?: boolean }>(
+  ({ theme, formType, compact, mask = true }) => {
+    const cardVariant = theme.components?.MuiCard?.defaultProps?.variant
+    const direction = formType === 'to' ? '-8px' : 'calc(100% + 8px)'
+    const horizontal = compact ? direction : '50%'
+    const vertical = compact ? '50%' : direction
+    return {
+      padding: 0,
+      transition: theme.transitions.create(['background-color'], {
+        duration: theme.transitions.duration.enteringScreen,
+        easing: theme.transitions.easing.easeOut,
+      }),
+      '&:last-child': {
+        paddingBottom: 0,
       },
-    }),
+      ...(cardVariant !== 'outlined' && {
+        backgroundColor: theme.vars.palette.background.paper,
+        mask: mask
+          ? `radial-gradient(circle 20px at ${horizontal} ${vertical}, #fff0 96%, #fff) 100% 100% / 100% 100% no-repeat`
+          : 'none',
+      }),
+      ...(cardVariant === 'filled' && {
+        '&:hover': {
+          cursor: 'pointer',
+          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.background.paper} 98%, white)`,
+          ...theme.applyStyles('dark', {
+            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.background.paper} 98%, black)`,
+          }),
+        },
+      }),
+    }
   }
-})
+)

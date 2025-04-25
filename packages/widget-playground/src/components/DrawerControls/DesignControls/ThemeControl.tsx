@@ -12,7 +12,7 @@ import { Select } from './DesignControls.style'
 
 export const ThemeControl = () => {
   const { setConfigTheme } = useConfigActions()
-  const themeMode = useThemeMode()
+  const { themeMode } = useThemeMode()
   const { selectedThemeId, selectedThemeItem, allThemesItems } =
     useThemeValues()
   const { setViewportBackgroundColor } = useEditToolsActions()
@@ -23,16 +23,9 @@ export const ThemeControl = () => {
     )
 
     if (themeItem) {
-      let theme = themeItem.theme[themeMode]
-
-      if (!theme) {
-        const altThemeMode = themeMode === 'dark' ? 'light' : 'dark'
-        theme = themeItem.theme[altThemeMode]
-      }
-
-      setConfigTheme(theme, event.target.value)
+      setConfigTheme(themeItem.theme, event.target.value)
       setViewportBackgroundColor(
-        theme.playground?.background as string | undefined
+        themeItem.theme.colorSchemes?.[themeMode]?.palette?.playground?.main
       )
     }
   }

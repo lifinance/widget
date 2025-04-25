@@ -177,7 +177,11 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
               state.setCodeDrawerWidth(defaultDrawerWidth)
 
               if (initialTheme) {
-                if (!initialTheme.playground?.background) {
+                if (
+                  !initialTheme.colorSchemes?.light?.palette?.playground
+                    ?.main &&
+                  !initialTheme.colorSchemes?.dark?.palette?.playground?.main
+                ) {
                   state.setViewportBackgroundColor(undefined)
                 }
               }

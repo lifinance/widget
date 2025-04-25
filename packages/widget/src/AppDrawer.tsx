@@ -75,6 +75,7 @@ export const AppDrawer = forwardRef<
         slotProps={{
           paper: {
             sx: (theme) => ({
+              background: theme.vars.palette.background.default,
               width: theme?.container?.width ?? '100%',
               minWidth:
                 theme?.container?.minWidth ?? theme.breakpoints.values.xs,

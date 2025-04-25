@@ -29,7 +29,7 @@ export const CodeEditor = (_props: CodeEditorProps) => {
   const [editor, setEditor] = useState<any>()
   const editorContainerRef = useRef<HTMLElement | null>(null)
   const theme = useTheme()
-  const themeMode = useThemeMode()
+  const { themeMode } = useThemeMode()
 
   const code = config ? stringifyConfig(getConfigOutput(config)) : undefined
 

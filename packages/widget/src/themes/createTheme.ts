@@ -170,6 +170,7 @@ export const createTheme = (widgetTheme: WidgetTheme = {}) => {
             const rootHover = root?.['&:hover']
             return {
               backgroundColor: theme.vars.palette.background.paper,
+              backgroundImage: 'none',
               borderRadius: theme.vars.shape.borderRadius,
               overflow: 'hidden',
               position: 'relative',
@@ -202,6 +203,9 @@ export const createTheme = (widgetTheme: WidgetTheme = {}) => {
                   '&:hover': {
                     cursor: 'pointer',
                     filter: `drop-shadow(0 1px 4px rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.08))`,
+                    ...theme.applyStyles('dark', {
+                      filter: `drop-shadow(0 1px 4px rgba(${theme.vars.palette.common.backgroundChannel} / 0.08))`,
+                    }),
                   },
                 }),
               ...(typeof root === 'object' && root),
@@ -209,6 +213,9 @@ export const createTheme = (widgetTheme: WidgetTheme = {}) => {
                 !!rootHover && {
                   '&:hover': {
                     ...rootHover,
+                    ...theme.applyStyles('dark', {
+                      ...rootHover,
+                    }),
                   },
                 }),
               ...(!ownerState.onClick && {
@@ -235,6 +242,9 @@ export const createTheme = (widgetTheme: WidgetTheme = {}) => {
               border: 'none',
               boxShadow: 'none',
               filter: `drop-shadow(0 1px 4px rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04))`,
+              ...theme.applyStyles('dark', {
+                filter: `drop-shadow(0 1px 4px rgba(${theme.vars.palette.common.backgroundChannel} / 0.04))`,
+              }),
             }),
           },
           {
@@ -400,8 +410,23 @@ export const createTheme = (widgetTheme: WidgetTheme = {}) => {
       MuiMenu: {
         styleOverrides: {
           paper: ({ theme }) => ({
-            backgroundColor: theme.vars.palette.background.default,
+            backgroundColor: theme.vars.palette.background.paper,
+            backgroundImage: 'none',
           }),
+        },
+      },
+      MuiDrawer: {
+        styleOverrides: {
+          paper: {
+            backgroundImage: 'none',
+          },
+        },
+      },
+      MuiPaper: {
+        styleOverrides: {
+          root: {
+            backgroundImage: 'none',
+          },
         },
       },
       MuiTabs: {

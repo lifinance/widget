@@ -3,15 +3,14 @@ import BrightnessAutoIcon from '@mui/icons-material/BrightnessAuto'
 import LightModeIcon from '@mui/icons-material/LightMode'
 import NightlightIcon from '@mui/icons-material/Nightlight'
 import type { TabProps } from '@mui/material'
-import { Box, Tooltip, useColorScheme } from '@mui/material'
+import { Box, Tooltip } from '@mui/material'
 import diff from 'microdiff'
 import type { FC, PropsWithChildren, ReactElement, SyntheticEvent } from 'react'
 import { useEffect } from 'react'
-import { type ThemeMode, useThemeMode } from '../../../hooks/useThemeMode'
+import { useThemeMode } from '../../../hooks/useThemeMode'
 import type { ThemeItem } from '../../../store/editTools/types'
 import { useEditToolsActions } from '../../../store/editTools/useEditToolsActions'
 import { useConfigActions } from '../../../store/widgetConfig/useConfigActions'
-import { useConfigAppearance } from '../../../store/widgetConfig/useConfigAppearance'
 import { useThemeValues } from '../../../store/widgetConfig/useThemeValues'
 import { cloneStructuredConfig } from '../../../utils/cloneStructuredConfig'
 import { patch } from '../../../utils/patch'
@@ -69,14 +68,10 @@ const BadgableCardValue = ({ children, showBadge }: BadgableCardValueProps) => {
 
 const getUserChangesToTheme = (
   selectedThemeItem: ThemeItem,
-  appearance: Appearance,
-  themeMode: ThemeMode,
   getCurrentConfigTheme: () => WidgetTheme | undefined
 ) => {
   if (selectedThemeItem) {
-    const normalisedAppearance =
-      appearance === 'system' ? themeMode : appearance
-    const themePreset = selectedThemeItem.theme[normalisedAppearance]
+    const themePreset = selectedThemeItem.theme
     const currentTheme = getCurrentConfigTheme()
 
     if (themePreset && currentTheme) {
@@ -86,45 +81,31 @@ const getUserChangesToTheme = (
 }
 
 export const AppearanceControl = () => {
-  const { appearance } = useConfigAppearance()
-  const themeMode = useThemeMode()
-  const { mode, setMode } = useColorScheme()
+  const { colorSchemeMode, prefersDarkMode, setMode } = useThemeMode()
   const { setAppearance, setConfigTheme, getCurrentConfigTheme } =
     useConfigActions()
   const { setViewportBackgroundColor } = useEditToolsActions()
   const { selectedThemeItem } = useThemeValues()
 
-  const restricted = !!(
-    selectedThemeItem && Object.keys(selectedThemeItem.theme).length < 2
-  )
-
-  const currentAppearance = mode ?? appearance
+  const restricted = selectedThemeItem
+    ? Object.keys(selectedThemeItem.theme.colorSchemes ?? {}).length < 2
+    : false
 
   const handleAppearanceChange = (_: SyntheticEvent, value: Appearance) => {
     if (selectedThemeItem) {
       const userChangesToTheme = getUserChangesToTheme(
         selectedThemeItem,
-        currentAppearance,
-        themeMode,
         getCurrentConfigTheme
       )
 
-      const newAppearance = value === 'system' ? themeMode : value
-
-      const newTheme = userChangesToTheme
+      const newTheme = userChangesToTheme?.length
         ? (patch(
-            cloneStructuredConfig<WidgetTheme>(
-              selectedThemeItem.theme[newAppearance]
-            ),
+            cloneStructuredConfig<WidgetTheme>(selectedThemeItem.theme),
             userChangesToTheme
           ) as WidgetTheme)
-        : selectedThemeItem.theme[newAppearance]
+        : selectedThemeItem.theme
 
       setConfigTheme(newTheme, selectedThemeItem.id)
-
-      const viewportBackground =
-        selectedThemeItem.theme[newAppearance].playground?.background
-      setViewportBackgroundColor(viewportBackground as string | undefined)
     }
 
     setAppearance(value)
@@ -134,31 +115,49 @@ export const AppearanceControl = () => {
   useEffect(() => {
     if (restricted) {
       const restrictedAppearance = Object.keys(
-        selectedThemeItem.theme
+        selectedThemeItem?.theme.colorSchemes ?? {}
       )[0] as Appearance
       setAppearance(restrictedAppearance)
       setMode(restrictedAppearance)
     }
   }, [selectedThemeItem, setAppearance, restricted, setMode])
 
+  useEffect(() => {
+    const newAppearance =
+      colorSchemeMode === 'system'
+        ? prefersDarkMode
+          ? 'dark'
+          : 'light'
+        : colorSchemeMode
+    const viewportBackground =
+      selectedThemeItem?.theme.colorSchemes?.[newAppearance]?.palette
+        ?.playground?.main
+    setViewportBackgroundColor(viewportBackground as string | undefined)
+  }, [
+    colorSchemeMode,
+    setViewportBackgroundColor,
+    selectedThemeItem,
+    prefersDarkMode,
+  ])
+
   return (
     <ExpandableCard
       title={'Appearance'}
       value={
         <BadgableCardValue showBadge={restricted}>
-          {currentAppearance}
+          {colorSchemeMode}
         </BadgableCardValue>
       }
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
         {restricted ? (
           <CapitalizeFirstLetter variant="caption" sx={{ paddingLeft: 1 }}>
-            {currentAppearance} mode is recommended for this theme
+            {colorSchemeMode} mode is recommended for this theme
           </CapitalizeFirstLetter>
         ) : null}
 
         <Tabs
-          value={currentAppearance}
+          value={colorSchemeMode}
           aria-label="tabs"
           indicatorColor="primary"
           onChange={handleAppearanceChange}

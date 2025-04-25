@@ -260,12 +260,26 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
   ...widgetBaseConfig,
   appearance: 'system',
   theme: {
-    palette: {
-      primary: {
-        main: '#5C67FF',
+    colorSchemes: {
+      light: {
+        palette: {
+          primary: {
+            main: '#5C67FF',
+          },
+          secondary: {
+            main: '#F5B5FF',
+          },
+        },
       },
-      secondary: {
-        main: '#F5B5FF',
+      dark: {
+        palette: {
+          primary: {
+            main: '#5C67FF',
+          },
+          secondary: {
+            main: '#F5B5FF',
+          },
+        },
       },
     },
     typography: {

@@ -64,19 +64,19 @@ export type WidgetTheme = {
    */
   palette?: Pick<
     PaletteOptions,
-    'background' | 'grey' | 'primary' | 'secondary' | 'text'
+    'background' | 'grey' | 'primary' | 'secondary' | 'text' | 'playground'
   >
   colorSchemes?: {
     light?: {
       palette: Pick<
         PaletteOptions,
-        'background' | 'grey' | 'primary' | 'secondary' | 'text'
+        'background' | 'grey' | 'primary' | 'secondary' | 'text' | 'playground'
       >
     }
     dark?: {
       palette: Pick<
         PaletteOptions,
-        'background' | 'grey' | 'primary' | 'secondary' | 'text'
+        'background' | 'grey' | 'primary' | 'secondary' | 'text' | 'playground'
       >
     }
   }
@@ -85,7 +85,6 @@ export type WidgetTheme = {
   components?: WidgetThemeComponents
   container?: CSSProperties
   header?: CSSProperties
-  playground?: CSSProperties
   navigation?: NavigationProps
 }
 

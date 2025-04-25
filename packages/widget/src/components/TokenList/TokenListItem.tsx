@@ -107,8 +107,10 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
       </ListItemAvatar>
       <ListItemText
         primary={token.symbol}
-        secondaryTypographyProps={{
-          component: 'div',
+        slotProps={{
+          secondary: {
+            component: 'div',
+          },
         }}
         secondary={
           <Box

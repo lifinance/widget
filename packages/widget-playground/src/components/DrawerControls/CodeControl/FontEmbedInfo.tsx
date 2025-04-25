@@ -91,7 +91,9 @@ export const FontEmbedInfo = () => {
       <Typography variant="body2">You will need to embed fonts</Typography>
       <Tooltip
         title="More about fonts"
-        PopperProps={{ style: { zIndex: tooltipPopperZIndex } }}
+        slotProps={{
+          popper: { style: { zIndex: tooltipPopperZIndex } },
+        }}
         arrow
       >
         <IconButton aria-describedby={id} onClick={handleClick}>
