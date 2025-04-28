@@ -3,7 +3,7 @@
   "version": "1.0.230",
   "scripts": {
     "analyze": "source-map-explorer '.next/static/chunks/**.js' --no-border-checks",
-    "dev": "next dev -p 3001 --turbo",
+    "dev": "next dev -p 3001",
     "build": "next build",
     "start": "next start"
   },
