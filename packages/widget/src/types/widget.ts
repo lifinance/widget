@@ -170,7 +170,7 @@ export interface WidgetFeeConfig {
   /**
    * @internal
    */
-  _vcComponent: FC<{ route: RouteExtended }>
+  _vcComponent?: FC<{ route: RouteExtended }>
 }
 
 export interface ToAddress {
