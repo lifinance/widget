@@ -99,6 +99,7 @@ export enum HiddenUI {
   IntegratorStepDetails = 'integratorStepDetails',
   ReverseTokensButton = 'reverseTokensButton',
   RouteTokenDescription = 'routeTokenDescription',
+  ChainSelect = 'chainSelect',
 }
 export type HiddenUIType = `${HiddenUI}`
 
