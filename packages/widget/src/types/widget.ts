@@ -47,37 +47,30 @@ export interface NavigationProps {
    */
   edge?: boolean
 }
-export type WidgetThemeComponents = Pick<
-  Components<Theme>,
-  | 'MuiAppBar'
-  | 'MuiAvatar'
-  | 'MuiButton'
-  | 'MuiCard'
-  | 'MuiIconButton'
-  | 'MuiInputCard'
-  | 'MuiTabs'
+export type WidgetThemeComponents = Partial<
+  Pick<
+    Components<Theme>,
+    | 'MuiAppBar'
+    | 'MuiAvatar'
+    | 'MuiButton'
+    | 'MuiCard'
+    | 'MuiIconButton'
+    | 'MuiInputCard'
+    | 'MuiTabs'
+  >
 >
 
 export type WidgetTheme = {
   /**
    * @deprecated Use `colorScheme` instead.
    */
-  palette?: Pick<
-    PaletteOptions,
-    'background' | 'grey' | 'primary' | 'secondary' | 'text' | 'playground'
-  >
+  palette?: PaletteOptions
   colorSchemes?: {
     light?: {
-      palette: Pick<
-        PaletteOptions,
-        'background' | 'grey' | 'primary' | 'secondary' | 'text' | 'playground'
-      >
+      palette: PaletteOptions
     }
     dark?: {
-      palette: Pick<
-        PaletteOptions,
-        'background' | 'grey' | 'primary' | 'secondary' | 'text' | 'playground'
-      >
+      palette: PaletteOptions
     }
   }
   shape?: Partial<Shape>
