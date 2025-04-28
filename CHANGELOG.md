@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.19.0](https://github.com/lifinance/widget/compare/v3.18.9...v3.19.0) (2025-04-28)
+
+
+### Features
+
+* add option to hide chain selection ([#386](https://github.com/lifinance/widget/issues/386)) ([0bc15bf](https://github.com/lifinance/widget/commit/0bc15bff6f0127d21b8f976d82ce32e860004da1))
+
 ### [3.18.9](https://github.com/lifinance/widget/compare/v3.18.8...v3.18.9) (2025-04-28)
 
 

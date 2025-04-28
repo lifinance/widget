@@ -1,2 +1,2 @@
 export const name = '@lifi/widget'
-export const version = '3.18.9'
+export const version = '3.19.0'
