@@ -227,10 +227,10 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           : allowedExchanges
 
         const calculatedFee = await feeConfig?.calculateFee?.({
-          fromChainId,
-          toChainId,
-          fromTokenAddress,
-          toTokenAddress,
+          fromChain: fromChain!,
+          toChain: toChain!,
+          fromToken: fromToken!,
+          toToken: toToken!,
           fromAddress,
           toAddress,
           fromAmount,
