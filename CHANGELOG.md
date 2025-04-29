@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.19.2](https://github.com/lifinance/widget/compare/v3.19.1...v3.19.2) (2025-04-29)
+
+
+### Bug Fixes
+
+* improve used tool retrieval in transaction history ([cba3ed6](https://github.com/lifinance/widget/commit/cba3ed69822afd0fb88bac647c41478153375e11))
+
 ### [3.19.1](https://github.com/lifinance/widget/compare/v3.19.0...v3.19.1) (2025-04-29)
 
 
