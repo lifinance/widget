@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.19.1](https://github.com/lifinance/widget/compare/v3.19.0...v3.19.1) (2025-04-29)
+
+
+### Bug Fixes
+
+* add options to show fee percentage ([#387](https://github.com/lifinance/widget/issues/387)) ([3dbd751](https://github.com/lifinance/widget/commit/3dbd7516c598ef896362df784c1ad5fe810a3dbb))
+
 ## [3.19.0](https://github.com/lifinance/widget/compare/v3.18.9...v3.19.0) (2025-04-28)
 
 
