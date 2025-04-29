@@ -2,6 +2,7 @@ import type {
   BaseToken,
   ChainType,
   ContractCall,
+  ExtendedChain,
   Order,
   RouteExtended,
   RouteOptions,
@@ -98,6 +99,7 @@ export enum HiddenUI {
   IntegratorStepDetails = 'integratorStepDetails',
   ReverseTokensButton = 'reverseTokensButton',
   RouteTokenDescription = 'routeTokenDescription',
+  ChainSelect = 'chainSelect',
 }
 export type HiddenUIType = `${HiddenUI}`
 
@@ -140,10 +142,10 @@ export interface WidgetContractTool {
 }
 
 export interface CalculateFeeParams {
-  fromChainId: number
-  toChainId: number
-  fromTokenAddress: string
-  toTokenAddress: string
+  fromChain: ExtendedChain
+  toChain: ExtendedChain
+  fromToken: Token
+  toToken: Token
   fromAddress?: string
   toAddress?: string
   fromAmount?: bigint
