@@ -157,7 +157,19 @@ export interface WidgetFeeConfig {
   name?: string
   logoURI?: string
   fee?: number
+  /**
+   * Whether to show the fee percentage in the fee details.
+   * @default false
+   */
   showFeePercentage?: boolean
+  /**
+   * Whether to show a tooltip with the fee details. Requires `name` or `feeTooltipComponent` to be set.
+   * @default false
+   */
+  showFeeTooltip?: boolean
+  /**
+   * Custom tooltip component to show with the fee details.
+   */
   feeTooltipComponent?: ReactNode
   /**
    * Function to calculate fees before fetching quotes.

@@ -208,7 +208,8 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                   <> ({t('format.percent', { value: feePercentage })})</>
                 )}
               </Typography>
-              {feeConfig?.name || feeConfig?.feeTooltipComponent ? (
+              {feeConfig?.showFeeTooltip &&
+              (feeConfig?.name || feeConfig?.feeTooltipComponent) ? (
                 <Tooltip
                   title={
                     feeConfig?.feeTooltipComponent ||
