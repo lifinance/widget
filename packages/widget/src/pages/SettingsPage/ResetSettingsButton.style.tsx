@@ -5,6 +5,6 @@ export const ResetButtonContainer = styled(Box)(({ theme }) => ({
   borderRadius: '16px',
   padding: '16px',
   svg: {
-    fill: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+    fill: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.4)`,
   },
 }))
