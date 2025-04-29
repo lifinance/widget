@@ -157,6 +157,8 @@ export interface WidgetFeeConfig {
   name?: string
   logoURI?: string
   fee?: number
+  showFeePercentage?: boolean
+  feeTooltipComponent?: ReactNode
   /**
    * Function to calculate fees before fetching quotes.
    * If provided, this function will be used instead of the `fee` parameter.
