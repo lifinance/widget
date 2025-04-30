@@ -80,7 +80,8 @@ export const SelectTokenCard = styled(Card)(({ theme }) => {
 })
 
 export const CardContent = styled(MuiCardContent, {
-  shouldForwardProp: (prop) => prop !== 'formType' && prop !== 'compact',
+  shouldForwardProp: (prop) =>
+    !['formType', 'compact', 'mask'].includes(prop as string),
 })<{ formType: FormType; compact: boolean; mask?: boolean }>(
   ({ theme, formType, compact, mask = true }) => {
     const cardVariant = theme.components?.MuiCard?.defaultProps?.variant
