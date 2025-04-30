@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.19.2](https://github.com/lifinance/widget/compare/v3.19.1...v3.19.2) (2025-04-29)
+
+
+### Bug Fixes
+
+* improve used tool retrieval in transaction history ([cba3ed6](https://github.com/lifinance/widget/commit/cba3ed69822afd0fb88bac647c41478153375e11))
+
+### [3.19.1](https://github.com/lifinance/widget/compare/v3.19.0...v3.19.1) (2025-04-29)
+
+
+### Bug Fixes
+
+* add options to show fee percentage ([#387](https://github.com/lifinance/widget/issues/387)) ([3dbd751](https://github.com/lifinance/widget/commit/3dbd7516c598ef896362df784c1ad5fe810a3dbb))
+
+## [3.19.0](https://github.com/lifinance/widget/compare/v3.18.9...v3.19.0) (2025-04-28)
+
+
+### Features
+
+* add option to hide chain selection ([#386](https://github.com/lifinance/widget/issues/386)) ([0bc15bf](https://github.com/lifinance/widget/commit/0bc15bff6f0127d21b8f976d82ce32e860004da1))
+
+### [3.18.9](https://github.com/lifinance/widget/compare/v3.18.8...v3.18.9) (2025-04-28)
+
+
+### Bug Fixes
+
+* adjust fee types ([#385](https://github.com/lifinance/widget/issues/385)) ([04dffc7](https://github.com/lifinance/widget/commit/04dffc7200ff8feadd6b88e235a63fbf1bd2538f))
+
+### [3.18.8](https://github.com/lifinance/widget/compare/v3.18.7...v3.18.8) (2025-04-28)
+
 ### [3.18.7](https://github.com/lifinance/widget/compare/v3.18.6...v3.18.7) (2025-04-17)
 
 

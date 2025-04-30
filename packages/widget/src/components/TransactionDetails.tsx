@@ -48,6 +48,7 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
   )
 
   let feeAmountUSD = 0
+  let feePercentage = 0
 
   if (feeCollectionStep) {
     const estimatedFromAmount =
@@ -59,6 +60,13 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
       feeCollectionStep.action.fromToken.priceUSD,
       feeCollectionStep.action.fromToken.decimals
     )
+
+    feePercentage =
+      feeCollectionStep.estimate.feeCosts?.reduce(
+        (percentage, feeCost) =>
+          percentage + Number.parseFloat(feeCost.percentage || '0'),
+        0
+      ) ?? 0
   }
 
   const hasGaslessSupport = route.steps.some(isGaslessStep)
@@ -194,10 +202,17 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                 {feeConfig?.name
                   ? t('main.fees.integrator', { tool: feeConfig.name })
                   : t('main.fees.defaultIntegrator')}
+                {feeConfig?.showFeePercentage && (
+                  <> ({t('format.percent', { value: feePercentage })})</>
+                )}
               </Typography>
-              {feeConfig?.name ? (
+              {feeConfig?.showFeeTooltip &&
+              (feeConfig?.name || feeConfig?.feeTooltipComponent) ? (
                 <Tooltip
-                  title={t('tooltip.feeCollection', { tool: feeConfig.name })}
+                  title={
+                    feeConfig?.feeTooltipComponent ||
+                    t('tooltip.feeCollection', { tool: feeConfig.name })
+                  }
                 >
                   <Typography
                     variant="body2"
