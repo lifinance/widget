@@ -103,6 +103,7 @@ export enum HiddenUI {
   ReverseTokensButton = 'reverseTokensButton',
   RouteTokenDescription = 'routeTokenDescription',
   ChainSelect = 'chainSelect',
+  BridgesSettings = 'bridgesSettings',
 }
 export type HiddenUIType = `${HiddenUI}`
 
@@ -110,6 +111,10 @@ export enum RequiredUI {
   ToAddress = 'toAddress',
 }
 export type RequiredUIType = `${RequiredUI}`
+
+export type DefaultUI = {
+  transactionDetailsExpanded?: boolean
+}
 
 export interface WidgetWalletConfig {
   onConnect?(): void
@@ -270,6 +275,7 @@ export interface WidgetConfig {
   disabledUI?: DisabledUIType[]
   hiddenUI?: HiddenUIType[]
   requiredUI?: RequiredUIType[]
+  defaultUI?: DefaultUI
   useRecommendedRoute?: boolean
   useRelayerRoutes?: boolean
 

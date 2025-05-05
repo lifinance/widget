@@ -5,7 +5,9 @@ import { useNavigate } from 'react-router-dom'
 import { shallow } from 'zustand/shallow'
 import { CardButton } from '../../components/Card/CardButton.js'
 import { useSettingMonitor } from '../../hooks/useSettingMonitor.js'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useSettingsStore } from '../../stores/settings/useSettingsStore.js'
+import { HiddenUI } from '../../types/widget.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { BadgedValue } from './SettingsCard/BadgedValue.js'
 
@@ -24,6 +26,12 @@ export const BridgeAndExchangeSettings: React.FC<{
     const enabledTools = Object.values(state[`_enabled${type}`])
     return [enabledTools.filter(Boolean).length, enabledTools.length]
   }, shallow)
+
+  const { hiddenUI } = useWidgetConfig()
+
+  if (hiddenUI?.includes(HiddenUI.BridgesSettings)) {
+    return null
+  }
 
   const customisationLookUp = {
     Bridges: isBridgesChanged,
