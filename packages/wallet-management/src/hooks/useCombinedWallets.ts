@@ -1,6 +1,5 @@
 import {
   useAccount as useBigmiAccount,
-  useConfig as useBigmiConfig,
   useConnect as useBigmiConnect,
 } from '@bigmi/react'
 
@@ -105,13 +104,10 @@ const combineWalletLists = (
 
 export const useCombinedWallets = () => {
   const walletConfig = useWalletManagementConfig()
-  const bigmiConfig = useBigmiConfig()
   const wagmiAccount = useAccount()
-  const bigmiAccount = useBigmiAccount({ config: bigmiConfig })
+  const bigmiAccount = useBigmiAccount()
   const { connectors: wagmiConnectors } = useConnect()
-  const { connectors: bigmiConnectors } = useBigmiConnect({
-    config: bigmiConfig,
-  })
+  const { connectors: bigmiConnectors } = useBigmiConnect()
   const { wallets: solanaWallets } = useWallet()
 
   const isDesktopView = useMediaQuery((theme: Theme) =>
