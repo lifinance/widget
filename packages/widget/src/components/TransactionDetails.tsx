@@ -27,8 +27,10 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
   ...props
 }) => {
   const { t } = useTranslation()
-  const { feeConfig } = useWidgetConfig()
-  const [cardExpanded, setCardExpanded] = useState(false)
+  const { feeConfig, defaultUI } = useWidgetConfig()
+  const [cardExpanded, setCardExpanded] = useState(
+    defaultUI?.transactionDetailsExpanded ?? false
+  )
 
   const toggleCard = () => {
     setCardExpanded((cardExpanded) => !cardExpanded)
