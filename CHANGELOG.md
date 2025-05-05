@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.20.1](https://github.com/lifinance/widget/compare/v3.20.0...v3.20.1) (2025-05-05)
+
+
+### Bug Fixes
+
+* add new default UI and hidden UI options ([#389](https://github.com/lifinance/widget/issues/389)) ([b9579ad](https://github.com/lifinance/widget/commit/b9579adf09e4dfc84832ecf5bdf1b22b8468caef))
+
 ## [3.20.0](https://github.com/lifinance/widget/compare/v3.19.2...v3.20.0) (2025-05-05)
 
 
