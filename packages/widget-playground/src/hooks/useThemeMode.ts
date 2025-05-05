@@ -1,15 +1,24 @@
-import { useMediaQuery } from '@mui/material'
-import { useConfigAppearance } from '../store/widgetConfig/useConfigAppearance'
+import type { Appearance } from '@lifi/widget'
+import { type PaletteMode, useColorScheme, useMediaQuery } from '@mui/material'
 
-export type ThemeMode = 'dark' | 'light'
-
-export const useThemeMode = (): ThemeMode => {
-  const { appearance } = useConfigAppearance()
+export const useThemeMode = (): {
+  themeMode: PaletteMode
+  colorSchemeMode: Appearance
+  prefersDarkMode: boolean
+  setMode: (mode: Appearance) => void
+} => {
+  const { mode, setMode } = useColorScheme()
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
 
-  return appearance === 'auto'
-    ? prefersDarkMode
-      ? 'dark'
-      : 'light'
-    : appearance
+  return {
+    themeMode:
+      mode === 'system'
+        ? prefersDarkMode
+          ? 'dark'
+          : 'light'
+        : (mode ?? 'light'),
+    colorSchemeMode: mode ?? 'system',
+    prefersDarkMode,
+    setMode,
+  }
 }

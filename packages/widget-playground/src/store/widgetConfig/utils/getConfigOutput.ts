@@ -4,7 +4,7 @@ import { defaultMaxHeight } from '@lifi/widget'
 export const getConfigOutput = (
   config: Partial<WidgetConfig>
 ): Partial<WidgetConfig> => {
-  const { playground, ...theme } = config.theme as WidgetTheme
+  const theme = config.theme as WidgetTheme
 
   return {
     ...(config.variant ? { variant: config.variant } : {}),

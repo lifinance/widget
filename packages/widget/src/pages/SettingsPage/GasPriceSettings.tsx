@@ -1,4 +1,4 @@
-import { EvStation } from '@mui/icons-material'
+import EvStation from '@mui/icons-material/EvStation'
 import { useTranslation } from 'react-i18next'
 import { CardTabs, Tab } from '../../components/Tabs/Tabs.style.js'
 import { useSettingMonitor } from '../../hooks/useSettingMonitor.js'

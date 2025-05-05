@@ -3,7 +3,6 @@ import type { Theme } from '@mui/material'
 import {
   Box,
   CircularProgress as MuiCircularProgress,
-  alpha,
   circularProgressClasses,
   keyframes,
   styled,
@@ -16,16 +15,16 @@ const getStatusColor = (
 ) => {
   switch (status) {
     case 'ACTION_REQUIRED':
-      return alpha(theme.palette.info.main, 0.12)
+      return `rgba(${theme.vars.palette.info.mainChannel} / 0.12)`
     case 'DONE':
       if (substatus === 'PARTIAL' || substatus === 'REFUNDED') {
-        return alpha(theme.palette.warning.main, 0.48)
+        return `rgba(${theme.vars.palette.warning.mainChannel} / 0.48)`
       }
-      return alpha(theme.palette.success.main, 0.12)
+      return `rgba(${theme.vars.palette.success.mainChannel} / 0.12)`
     case 'FAILED':
-      return alpha(theme.palette.error.main, 0.12)
+      return `rgba(${theme.vars.palette.error.mainChannel} / 0.12)`
     default:
-      return theme.palette.grey[theme.palette.mode === 'light' ? 300 : 800]
+      return theme.vars.palette.grey[theme.palette.mode === 'light' ? 300 : 800]
   }
 }
 
@@ -35,7 +34,7 @@ export const CircularIcon = styled(Box, {
   ({ theme, status, substatus }) => ({
     backgroundColor: ['ACTION_REQUIRED', 'DONE', 'FAILED'].includes(status!)
       ? getStatusColor(theme, status, substatus)
-      : theme.palette.background.paper,
+      : theme.vars.palette.background.paper,
     borderStyle: 'solid',
     borderColor: getStatusColor(theme, status, substatus),
     borderWidth: !['ACTION_REQUIRED', 'DONE', 'FAILED'].includes(status!)
@@ -68,10 +67,11 @@ const circleAnimation = keyframes`
 // This `styled()` function invokes keyframes. `styled-components` only supports keyframes
 // in string templates. Do not convert these styles in JS object as it will break.
 export const CircularProgressPending = styled(MuiCircularProgress)`
-  color: ${({ theme }) =>
-    theme.palette.mode === 'light'
-      ? theme.palette.primary.main
-      : theme.palette.primary.light};
+  color: ${({ theme }) => theme.vars.palette.primary.main};
+  ${({ theme }) =>
+    theme.applyStyles('dark', {
+      color: theme.vars.palette.primary.light,
+    })}
   animation-duration: 3s;
   position: absolute;
   .${circularProgressClasses.circle} {

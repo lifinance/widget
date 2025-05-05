@@ -17,7 +17,6 @@ export const defaultConfigurableSettings: Pick<
 }
 
 export const defaultSettings: SettingsProps = {
-  appearance: 'auto',
   gasPrice: 'normal',
   enabledAutoRefuel: true,
   disabledBridges: [],
@@ -126,9 +125,8 @@ export const useSettingsStore = createWithEqualityFn<SettingsState>(
           }
         }),
       reset: (bridges, exchanges) => {
-        const { appearance, ...restDefaultSettings } = defaultSettings
         set(() => ({
-          ...restDefaultSettings,
+          ...defaultSettings,
           ...defaultConfigurableSettings,
         }))
         get().initializeTools('Bridges', bridges, true)
@@ -138,7 +136,7 @@ export const useSettingsStore = createWithEqualityFn<SettingsState>(
     }),
     {
       name: 'li.fi-widget-settings',
-      version: 4,
+      version: 5,
       partialize: (state) => {
         const {
           disabledBridges,
@@ -165,9 +163,6 @@ export const useSettingsStore = createWithEqualityFn<SettingsState>(
         return state
       },
       migrate: (persistedState: any, version) => {
-        if (version === 0 && persistedState.appearance === 'system') {
-          persistedState.appearance = defaultSettings.appearance
-        }
         if (version === 1) {
           persistedState.slippage = defaultConfigurableSettings.slippage
         }

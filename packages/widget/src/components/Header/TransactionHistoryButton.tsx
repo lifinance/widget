@@ -1,4 +1,4 @@
-import { ReceiptLong } from '@mui/icons-material'
+import ReceiptLong from '@mui/icons-material/ReceiptLong'
 import { IconButton, Tooltip } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'

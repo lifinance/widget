@@ -2,7 +2,9 @@ import type {
   CardProps,
   ComponentsOverrides,
   ComponentsVariants,
+  SimplePaletteColorOptions,
 } from '@mui/material'
+import type {} from '@mui/material/themeCssVarsAugmentation'
 import type { CSSProperties } from 'react'
 import type { NavigationProps } from '../types/widget.js'
 
@@ -48,6 +50,13 @@ declare module '@mui/material/styles' {
       >['MuiInputCard']
       variants?: ComponentsVariants['MuiInputCard']
     }
+  }
+  interface Palette {
+    playground: Palette['primary']
+  }
+
+  interface PaletteOptions {
+    playground?: SimplePaletteColorOptions
   }
 }
 

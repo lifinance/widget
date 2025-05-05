@@ -1,5 +1,5 @@
 import type { ExchangeRateUpdateParams } from '@lifi/sdk'
-import { Delete } from '@mui/icons-material'
+import Delete from '@mui/icons-material/Delete'
 import { Box, Button, Tooltip } from '@mui/material'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'

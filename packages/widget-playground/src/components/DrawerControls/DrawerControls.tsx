@@ -64,7 +64,9 @@ export const DrawerControls = () => {
             <Box>
               <Tooltip
                 title="Reset config"
-                PopperProps={{ style: { zIndex: tooltipPopperZIndex } }}
+                slotProps={{
+                  popper: { style: { zIndex: tooltipPopperZIndex } },
+                }}
                 arrow
               >
                 <IconButton onClick={handleReset}>
@@ -73,7 +75,9 @@ export const DrawerControls = () => {
               </Tooltip>
               <Tooltip
                 title="Close tools"
-                PopperProps={{ style: { zIndex: tooltipPopperZIndex } }}
+                slotProps={{
+                  popper: { style: { zIndex: tooltipPopperZIndex } },
+                }}
                 arrow
               >
                 <IconButton onClick={() => setDrawerOpen(!isDrawerOpen)}>

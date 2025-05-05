@@ -1,5 +1,5 @@
 import type { Order } from '@lifi/sdk'
-import { Route } from '@mui/icons-material'
+import Route from '@mui/icons-material/Route'
 import { useTranslation } from 'react-i18next'
 import { CardTabs, Tab } from '../../components/Tabs/Tabs.style.js'
 import { useSettingMonitor } from '../../hooks/useSettingMonitor.js'

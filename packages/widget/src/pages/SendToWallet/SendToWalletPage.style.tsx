@@ -13,7 +13,6 @@ import { InputCard } from '../../components/Card/InputCard.js'
 import { Input } from '../../components/Input.js'
 import type { PageContainerProps } from '../../components/PageContainer.js'
 import { PageContainer } from '../../components/PageContainer.js'
-import { getContrastAlphaColor } from '../../utils/colors.js'
 
 export const AddressInput = styled(Input)(({ theme }) => ({
   padding: 0,
@@ -87,12 +86,12 @@ export const IconContainer = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   width: 80,
   height: 80,
-  color: theme.palette.grey[300],
-  background: theme.palette.grey[800],
   borderRadius: '50%',
-  ...theme.applyStyles('light', {
-    color: theme.palette.grey[700],
-    background: theme.palette.grey[200],
+  color: theme.vars.palette.grey[700],
+  background: theme.vars.palette.grey[200],
+  ...theme.applyStyles('dark', {
+    color: theme.vars.palette.grey[300],
+    background: theme.vars.palette.grey[800],
   }),
 }))
 
@@ -119,7 +118,7 @@ export const BookmarksListContainer = styled(ListContainer)(({ theme }) => ({
     : { minHeight: 440 }),
 }))
 export const BookmarkButtonContainer = styled(Box)(({ theme }) => ({
-  background: theme.palette.background.default,
+  background: theme.vars.palette.background.default,
   display: 'flex',
   flexDirection: 'column',
   bottom: 0,
@@ -141,10 +140,10 @@ export const EmptyContainer = styled(Box)(({ theme }) => ({
 export const ValidationAlert = styled(Alert)(({ theme }) => ({
   backgroundColor: 'transparent',
   padding: 0,
-  color: theme.palette.text.primary,
+  color: theme.vars.palette.text.primary,
   [`.${alertClasses.icon}`]: {
     padding: 0,
-    color: theme.palette.error.main,
+    color: theme.vars.palette.error.main,
   },
   [`.${alertClasses.message}`]: { padding: theme.spacing(0.25, 0, 0, 0) },
 }))
@@ -154,6 +153,6 @@ export const OptionsMenuButton = styled(IconButton)(({ theme }) => ({
   top: theme.spacing(1.75),
   right: theme.spacing(2),
   '&:hover': {
-    backgroundColor: getContrastAlphaColor(theme, 0.04),
+    backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
   },
 }))

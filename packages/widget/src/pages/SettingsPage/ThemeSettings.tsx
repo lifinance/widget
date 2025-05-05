@@ -1,10 +1,11 @@
-import { BrightnessAuto, LightMode, Nightlight } from '@mui/icons-material'
-import { Tooltip } from '@mui/material'
+import BrightnessAuto from '@mui/icons-material/BrightnessAuto'
+import LightMode from '@mui/icons-material/LightMode'
+import Nightlight from '@mui/icons-material/Nightlight'
+import { Tooltip, useColorScheme } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { CardValue } from '../../components/Card/CardButton.style.js'
 import { CardTabs, Tab } from '../../components/Tabs/Tabs.style.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { useAppearance } from '../../stores/settings/useAppearance.js'
 import type { Appearance } from '../../types/widget.js'
 import { HiddenUI } from '../../types/widget.js'
 import { SettingCardExpandable } from './SettingsCard/SettingCardExpandable.js'
@@ -12,7 +13,7 @@ import { SettingCardExpandable } from './SettingsCard/SettingCardExpandable.js'
 const themeIcons = {
   light: LightMode,
   dark: Nightlight,
-  auto: BrightnessAuto,
+  system: BrightnessAuto,
 }
 
 interface ThemeTabProps {
@@ -36,12 +37,14 @@ const ThemeTab: React.FC<ThemeTabProps> = ({
 
 export const ThemeSettings: React.FC = () => {
   const { t } = useTranslation()
-  const [appearance, setAppearance] = useAppearance()
+  const { mode, setMode } = useColorScheme()
   const { hiddenUI } = useWidgetConfig()
 
   if (hiddenUI?.includes(HiddenUI.Appearance)) {
     return null
   }
+
+  const appearance = mode ?? 'system'
 
   const ThemeIcon = themeIcons[appearance]
 
@@ -49,14 +52,14 @@ export const ThemeSettings: React.FC = () => {
     _: React.SyntheticEvent,
     appearance: Appearance
   ) => {
-    setAppearance(appearance)
+    setMode(appearance)
   }
 
   return (
     <SettingCardExpandable
       value={<CardValue>{t(`button.${appearance}`)} </CardValue>}
       icon={<ThemeIcon />}
-      title={t('settings.theme')}
+      title={t('settings.appearance')}
     >
       <CardTabs
         value={appearance}

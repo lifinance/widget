@@ -73,19 +73,22 @@ export const AppDrawer = forwardRef<
         open={drawerOpen}
         onClose={closeDrawer}
         slotProps={{
+          paper: {
+            sx: (theme) => ({
+              background: theme.vars.palette.background.default,
+              width: theme?.container?.width ?? '100%',
+              minWidth:
+                theme?.container?.minWidth ?? theme.breakpoints.values.xs,
+              maxWidth:
+                theme?.container?.maxWidth ?? theme.breakpoints.values.sm,
+            }),
+          },
           backdrop: {
             sx: {
               backgroundColor: 'rgb(0 0 0 / 48%)',
               backdropFilter: 'blur(3px)',
             },
           },
-        }}
-        PaperProps={{
-          sx: (theme) => ({
-            width: theme?.container?.width ?? '100%',
-            minWidth: theme?.container?.minWidth ?? theme.breakpoints.values.xs,
-            maxWidth: theme?.container?.maxWidth ?? theme.breakpoints.values.sm,
-          }),
         }}
         keepMounted
       >

@@ -18,14 +18,8 @@ import type {
   SxProps,
   Theme,
 } from '@mui/material'
-import type { TypographyOptions } from '@mui/material/styles/createTypography.js'
-import type {
-  CSSProperties,
-  FC,
-  MutableRefObject,
-  ReactNode,
-  RefObject,
-} from 'react'
+import type { TypographyVariantsOptions } from '@mui/material/styles'
+import type { CSSProperties, FC, ReactNode, RefObject } from 'react'
 import type {
   CoinbaseWalletParameters,
   MetaMaskParameters,
@@ -46,7 +40,7 @@ export interface SubvariantOptions {
   custom?: CustomSubvariant
 }
 
-export type Appearance = PaletteMode | 'auto'
+export type Appearance = PaletteMode | 'system'
 export interface NavigationProps {
   /**
    * If given, uses a negative margin to counteract the padding on sides for navigation elements like icon buttons.
@@ -54,28 +48,37 @@ export interface NavigationProps {
    */
   edge?: boolean
 }
-export type WidgetThemeComponents = Pick<
-  Components<Theme>,
-  | 'MuiAppBar'
-  | 'MuiAvatar'
-  | 'MuiButton'
-  | 'MuiCard'
-  | 'MuiIconButton'
-  | 'MuiInputCard'
-  | 'MuiTabs'
+export type WidgetThemeComponents = Partial<
+  Pick<
+    Components<Theme>,
+    | 'MuiAppBar'
+    | 'MuiAvatar'
+    | 'MuiButton'
+    | 'MuiCard'
+    | 'MuiIconButton'
+    | 'MuiInputCard'
+    | 'MuiTabs'
+  >
 >
 
 export type WidgetTheme = {
-  palette?: Pick<
-    PaletteOptions,
-    'background' | 'grey' | 'primary' | 'secondary' | 'text'
-  >
+  /**
+   * @deprecated Use `colorScheme` instead.
+   */
+  palette?: PaletteOptions
+  colorSchemes?: {
+    light?: {
+      palette: PaletteOptions
+    }
+    dark?: {
+      palette: PaletteOptions
+    }
+  }
   shape?: Partial<Shape>
-  typography?: TypographyOptions
+  typography?: TypographyVariantsOptions
   components?: WidgetThemeComponents
   container?: CSSProperties
   header?: CSSProperties
-  playground?: CSSProperties
   navigation?: NavigationProps
 }
 
@@ -183,7 +186,7 @@ export interface WidgetFeeConfig {
   /**
    * @internal
    */
-  _vcComponent: FC<{ route: RouteExtended }>
+  _vcComponent?: FC<{ route: RouteExtended }>
 }
 
 export interface ToAddress {
@@ -315,7 +318,7 @@ export type FormState = {
   setFieldValue: SetFieldValueFunction
 }
 
-export type FormRef = MutableRefObject<FormState | null>
+export type FormRef = RefObject<FormState | null>
 
 export interface FormRefProps {
   formRef?: FormRef

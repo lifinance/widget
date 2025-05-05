@@ -1,6 +1,5 @@
 import { palette, paletteDark, paletteLight } from '@lifi/widget'
 import { shallow } from 'zustand/shallow'
-import { useThemeMode } from '../../hooks/useThemeMode'
 import { getValueFromPath } from '../../utils/getValueFromPath'
 import type { FormValues } from '../types'
 import { useWidgetConfigStore } from './WidgetConfigProvider'
@@ -73,22 +72,25 @@ export const useConfigBorderRadiusSecondary = () => {
   }
 }
 
+const defaultThemePalette = {
+  theme: {
+    colorSchemes: {
+      light: {
+        palette: { ...palette, ...paletteLight },
+      },
+      dark: {
+        palette: { ...palette, ...paletteDark },
+      },
+    },
+  },
+}
+
 export const useConfigColorsFromPath = (...paths: string[]) => {
-  const themeMode = useThemeMode()
   const colors = useWidgetConfigStore(
     (store) =>
       paths.map((path) => getValueFromPath<string>(store.config, path)),
     shallow
   ) as Array<string | undefined>
-
-  const defaultThemePalette = {
-    theme: {
-      palette: {
-        ...palette,
-        ...(themeMode === 'light' ? paletteLight : paletteDark),
-      },
-    },
-  }
 
   return colors.map((color, i) => {
     if (!color) {

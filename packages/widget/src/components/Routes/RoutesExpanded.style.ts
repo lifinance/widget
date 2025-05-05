@@ -33,7 +33,7 @@ interface ContainerProps extends ScopedCssBaselineProps {
 export const Container = styled(ScopedCssBaseline, {
   shouldForwardProp: (prop) => !['minimumHeight'].includes(prop as string),
 })<ContainerProps>(({ theme, minimumHeight }) => ({
-  backgroundColor: theme.palette.background.default,
+  backgroundColor: theme.vars.palette.background.default,
   overflow: 'auto',
   width: 436,
   marginLeft: theme.spacing(3),
@@ -52,7 +52,7 @@ export const Container = styled(ScopedCssBaseline, {
 }))
 
 export const Header = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.background.default,
+  backgroundColor: theme.vars.palette.background.default,
   backdropFilter: 'blur(12px)',
   display: 'flex',
   justifyContent: 'space-between',

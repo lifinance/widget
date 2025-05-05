@@ -1,5 +1,5 @@
 import { ChainType } from '@lifi/sdk'
-import { OpenInNewRounded } from '@mui/icons-material'
+import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import {
   Avatar,
   Box,
@@ -107,8 +107,10 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
       </ListItemAvatar>
       <ListItemText
         primary={token.symbol}
-        secondaryTypographyProps={{
-          component: 'div',
+        slotProps={{
+          secondary: {
+            component: 'div',
+          },
         }}
         secondary={
           <Box

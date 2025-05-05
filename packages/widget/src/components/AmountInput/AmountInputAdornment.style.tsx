@@ -10,5 +10,5 @@ export const MaxButton = styled(MuiButton)(({ theme }) => ({
 export const MaxButtonSkeleton = styled(Skeleton)(({ theme }) => ({
   width: 46,
   height: 24,
-  borderRadius: theme.shape.borderRadiusSecondary,
+  borderRadius: theme.vars.shape.borderRadiusSecondary,
 }))

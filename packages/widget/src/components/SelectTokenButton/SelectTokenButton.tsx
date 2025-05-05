@@ -22,8 +22,9 @@ import {
 export const SelectTokenButton: React.FC<
   FormTypeProps & {
     compact: boolean
+    hiddenReverse?: boolean
   }
-> = ({ formType, compact }) => {
+> = ({ formType, compact, hiddenReverse }) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { disabledUI, subvariant, hiddenUI } = useWidgetConfig()
@@ -61,7 +62,7 @@ export const SelectTokenButton: React.FC<
       : t(`main.${formType}`)
   return (
     <SelectTokenCard component="button" onClick={onClick}>
-      <CardContent formType={formType} compact={compact}>
+      <CardContent formType={formType} compact={compact} mask={!hiddenReverse}>
         <CardTitle>{cardTitle}</CardTitle>
         {chainId && tokenAddress && (isChainLoading || isTokenLoading) ? (
           <SelectTokenCardHeader
@@ -80,17 +81,15 @@ export const SelectTokenButton: React.FC<
               )
             }
             title={isSelected ? token.symbol : defaultPlaceholder}
-            titleTypographyProps={{
-              title: isSelected ? token.symbol : defaultPlaceholder,
+            slotProps={{
+              title: {
+                title: isSelected ? token.symbol : defaultPlaceholder,
+              },
+              subheader: {
+                title: isSelected ? chain.name : undefined,
+              },
             }}
             subheader={isSelected ? chain.name : null}
-            subheaderTypographyProps={
-              isSelected
-                ? {
-                    title: chain.name,
-                  }
-                : undefined
-            }
             selected={isSelected}
             compact={compact}
           />

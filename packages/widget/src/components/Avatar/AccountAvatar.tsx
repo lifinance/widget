@@ -1,6 +1,6 @@
 import type { Account } from '@lifi/wallet-management'
 import { getConnectorIcon } from '@lifi/wallet-management'
-import { Wallet } from '@mui/icons-material'
+import Wallet from '@mui/icons-material/Wallet'
 import { Badge } from '@mui/material'
 import { useChain } from '../../hooks/useChain.js'
 import type { ToAddress } from '../../types/widget.js'

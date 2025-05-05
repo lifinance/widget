@@ -53,7 +53,11 @@ export const TokenList: FC<TokenListProps> = ({
         .filter(
           (token) =>
             token.name?.toUpperCase().includes(searchFilter) ||
-            token.symbol.toUpperCase().includes(searchFilter) ||
+            token.symbol
+              .toUpperCase()
+              // Replace ₮ with T for USD₮0
+              .replaceAll('₮', 'T')
+              .includes(searchFilter) ||
             token.address.toUpperCase().includes(searchFilter)
         )
         .sort(filteredTokensComparator(searchFilter))

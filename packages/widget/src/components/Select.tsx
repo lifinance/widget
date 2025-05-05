@@ -10,7 +10,7 @@ import {
 export const Select = styled(MuiSelect, {
   shouldForwardProp: (prop) => prop !== 'dense',
 })<{ dense?: boolean }>(({ theme }) => ({
-  backgroundColor: theme.palette.background.paper,
+  backgroundColor: theme.vars.palette.common.white,
   [`.${inputBaseClasses.input}`]: {
     padding: theme.spacing(2),
     display: 'flex',
@@ -18,7 +18,7 @@ export const Select = styled(MuiSelect, {
   },
   [`.${selectClasses.icon}`]: {
     right: 10,
-    color: theme.palette.text.primary,
+    color: theme.vars.palette.text.primary,
   },
   [`.${listItemIconClasses.root}`]: {
     minWidth: 38,
@@ -26,8 +26,8 @@ export const Select = styled(MuiSelect, {
   [`.${outlinedInputClasses.notchedOutline}`]: {
     display: 'none',
   },
-  ...theme.applyStyles('light', {
-    backgroundColor: theme.palette.common.white,
+  ...theme.applyStyles('dark', {
+    backgroundColor: theme.vars.palette.background.paper,
   }),
   variants: [
     {

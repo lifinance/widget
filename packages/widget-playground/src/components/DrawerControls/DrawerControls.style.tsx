@@ -42,7 +42,7 @@ export const HeaderRow = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  backgroundColor: theme.palette.background.paper,
+  backgroundColor: theme.vars.palette.background.paper,
   padding: theme.spacing(1),
   margin: theme.spacing(-1),
 }))
@@ -97,25 +97,25 @@ export const DrawerHandleButton = styled((props: ButtonBaseProps) => (
 })
 
 export const DrawerIconRight = styled(KeyboardArrowRightIcon)(({ theme }) => ({
-  color: theme.palette.grey[600],
   position: 'fixed',
   top: '50%',
   transform: 'translateY(-50%)',
   pointerEvents: 'none',
   zIndex: drawerZIndex + 1,
-  ...theme.applyStyles('light', {
-    color: theme.palette.grey[400],
+  color: theme.vars.palette.grey[400],
+  ...theme.applyStyles('dark', {
+    color: theme.vars.palette.grey[600],
   }),
 }))
 
 export const DrawerIconLeft = styled(KeyboardArrowLeftIcon)(({ theme }) => ({
-  color: theme.palette.grey[600],
   position: 'fixed',
   top: '50%',
   transform: 'translate(-75%, -50%)',
   pointerEvents: 'none',
   zIndex: drawerZIndex + 1,
-  ...theme.applyStyles('light', {
-    color: theme.palette.grey[400],
+  color: theme.vars.palette.grey[400],
+  ...theme.applyStyles('dark', {
+    color: theme.vars.palette.grey[600],
   }),
 }))

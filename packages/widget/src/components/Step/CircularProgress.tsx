@@ -1,11 +1,8 @@
 import type { Process } from '@lifi/sdk'
-import {
-  Done,
-  ErrorRounded,
-  InfoRounded,
-  WarningRounded,
-} from '@mui/icons-material'
-import { darken } from '@mui/material'
+import Done from '@mui/icons-material/Done'
+import ErrorRounded from '@mui/icons-material/ErrorRounded'
+import InfoRounded from '@mui/icons-material/InfoRounded'
+import WarningRounded from '@mui/icons-material/WarningRounded'
 import {
   CircularIcon,
   CircularProgressPending,
@@ -32,7 +29,7 @@ export function CircularProgress({ process }: { process: Process }) {
           sx={(theme) => ({
             position: 'absolute',
             fontSize: '1.5rem',
-            color: darken(theme.palette.warning.main, 0.32),
+            color: `color-mix(in srgb, ${theme.vars.palette.warning.main} 68%, black)`,
           })}
         />
       ) : process.status === 'DONE' ? (

@@ -29,7 +29,7 @@ export const CodeEditor = (_props: CodeEditorProps) => {
   const [editor, setEditor] = useState<any>()
   const editorContainerRef = useRef<HTMLElement | null>(null)
   const theme = useTheme()
-  const themeMode = useThemeMode()
+  const { themeMode } = useThemeMode()
 
   const code = config ? stringifyConfig(getConfigOutput(config)) : undefined
 
@@ -99,7 +99,9 @@ export const CodeEditor = (_props: CodeEditorProps) => {
     <CodeContainer>
       <Tooltip
         title="Copy code"
-        PopperProps={{ style: { zIndex: tooltipPopperZIndex } }}
+        slotProps={{
+          popper: { style: { zIndex: tooltipPopperZIndex } },
+        }}
         arrow
       >
         <CodeCopyButton onClick={handleCopyCode}>

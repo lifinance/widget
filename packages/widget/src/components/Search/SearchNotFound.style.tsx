@@ -22,7 +22,7 @@ export const NotFoundContainer = styled(Box, {
 
 export const NotFoundMessage = styled(Typography)(({ theme }) => ({
   fontSize: 14,
-  color: theme.palette.text.secondary,
+  color: theme.vars.palette.text.secondary,
   textAlign: 'center',
   flex: 1,
   marginTop: theme.spacing(2),

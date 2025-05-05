@@ -8,6 +8,6 @@ export const useConfigAppearance = () => {
   )
 
   return {
-    appearance: !appearance ? 'auto' : appearance,
+    appearance: !appearance ? 'system' : appearance,
   }
 }
