@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.20.0](https://github.com/lifinance/widget/compare/v3.19.2...v3.20.0) (2025-05-05)
+
+
+### Features
+
+* upgrade to MUI v7 ([#377](https://github.com/lifinance/widget/issues/377)) ([dc97603](https://github.com/lifinance/widget/commit/dc97603dab13047525c206e2536d9b4fcac29465))
+
 ### [3.19.2](https://github.com/lifinance/widget/compare/v3.19.1...v3.19.2) (2025-04-29)
 
 
