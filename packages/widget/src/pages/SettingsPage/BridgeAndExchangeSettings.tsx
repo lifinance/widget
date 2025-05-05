@@ -29,7 +29,7 @@ export const BridgeAndExchangeSettings: React.FC<{
 
   const { hiddenUI } = useWidgetConfig()
 
-  if (hiddenUI?.includes(HiddenUI.BridgesSettings)) {
+  if (type === 'Bridges' && hiddenUI?.includes(HiddenUI.BridgesSettings)) {
     return null
   }
 
