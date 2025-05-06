@@ -101,7 +101,11 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
       dense
     >
       <ListItemAvatar>
-        <Avatar src={token.logoURI} alt={token.symbol}>
+        <Avatar
+          src={token.logoURI}
+          alt={token.symbol}
+          sx={{ bgcolor: 'rgba(255,255,255,.4)' }}
+        >
           {token.symbol?.[0]}
         </Avatar>
       </ListItemAvatar>
