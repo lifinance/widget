@@ -12,6 +12,7 @@ export const ButtonTertiary = styled(Button)(({ theme }) => ({
     backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
   },
   ...theme.applyStyles('dark', {
+    color: theme.vars.palette.text.primary,
     backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
     '&:hover, &:active': {
       backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.08)`,
