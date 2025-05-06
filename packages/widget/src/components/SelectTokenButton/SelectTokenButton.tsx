@@ -8,6 +8,7 @@ import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.j
 import type { FormTypeProps } from '../../stores/form/types.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
+import { HiddenUI } from '../../types/widget.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { AvatarBadgedDefault, AvatarBadgedSkeleton } from '../Avatar/Avatar.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
@@ -21,11 +22,12 @@ import {
 export const SelectTokenButton: React.FC<
   FormTypeProps & {
     compact: boolean
+    hiddenReverse?: boolean
   }
-> = ({ formType, compact }) => {
+> = ({ formType, compact, hiddenReverse }) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { disabledUI, subvariant } = useWidgetConfig()
+  const { disabledUI, subvariant, hiddenUI } = useWidgetConfig()
   const swapOnly = useSwapOnly()
   const tokenKey = FormKeyHelper.getTokenKey(formType)
   const [chainId, tokenAddress] = useFieldValues(
@@ -50,7 +52,8 @@ export const SelectTokenButton: React.FC<
   const defaultPlaceholder =
     formType === 'to' && subvariant === 'refuel'
       ? t('main.selectChain')
-      : formType === 'to' && swapOnly
+      : (formType === 'to' && swapOnly) ||
+          hiddenUI?.includes(HiddenUI.ChainSelect)
         ? t('main.selectToken')
         : t('main.selectChainAndToken')
   const cardTitle: string =
@@ -59,7 +62,7 @@ export const SelectTokenButton: React.FC<
       : t(`main.${formType}`)
   return (
     <SelectTokenCard component="button" onClick={onClick}>
-      <CardContent formType={formType} compact={compact}>
+      <CardContent formType={formType} compact={compact} mask={!hiddenReverse}>
         <CardTitle>{cardTitle}</CardTitle>
         {chainId && tokenAddress && (isChainLoading || isTokenLoading) ? (
           <SelectTokenCardHeader
@@ -78,17 +81,15 @@ export const SelectTokenButton: React.FC<
               )
             }
             title={isSelected ? token.symbol : defaultPlaceholder}
-            titleTypographyProps={{
-              title: isSelected ? token.symbol : defaultPlaceholder,
+            slotProps={{
+              title: {
+                title: isSelected ? token.symbol : defaultPlaceholder,
+              },
+              subheader: {
+                title: isSelected ? chain.name : undefined,
+              },
             }}
             subheader={isSelected ? chain.name : null}
-            subheaderTypographyProps={
-              isSelected
-                ? {
-                    title: chain.name,
-                  }
-                : undefined
-            }
             selected={isSelected}
             compact={compact}
           />

@@ -5,15 +5,14 @@ import {
   listItemSecondaryActionClasses,
   styled,
 } from '@mui/material'
-import { getContrastAlphaColor } from '../../utils/colors.js'
 
 export const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
-  borderRadius: theme.shape.borderRadius,
+  borderRadius: theme.vars.shape.borderRadius,
   paddingLeft: theme.spacing(1.5),
   paddingRight: theme.spacing(1.5),
   height: 64,
   '&:hover': {
-    backgroundColor: getContrastAlphaColor(theme, 0.04),
+    backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
   },
 }))
 

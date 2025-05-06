@@ -1,4 +1,4 @@
-import { Box, Typography, alpha, styled } from '@mui/material'
+import { Box, Typography, styled } from '@mui/material'
 
 export const TextSecondaryContainer = styled(Box)(() => ({
   display: 'flex',
@@ -13,13 +13,13 @@ export const TextSecondary = styled(Typography, {
   fontSize: 12,
   lineHeight: 1,
   fontWeight: 500,
-  color: theme.palette.text.secondary,
+  color: theme.vars.palette.text.secondary,
   whiteSpace: 'nowrap',
   variants: [
     {
       props: ({ dot }) => dot,
       style: {
-        color: alpha(theme.palette.text.secondary, 0.56),
+        color: `rgba(${theme.vars.palette.text.secondaryChannel} / 0.56)`,
       },
     },
   ],
@@ -29,8 +29,8 @@ export const TokenDivider = styled(Box)(({ theme }) => ({
   height: 16,
   borderLeftWidth: 2,
   borderLeftStyle: 'solid',
-  borderColor: theme.palette.grey[800],
-  ...theme.applyStyles('light', {
-    borderColor: theme.palette.grey[300],
+  borderColor: theme.vars.palette.grey[300],
+  ...theme.applyStyles('dark', {
+    borderColor: theme.vars.palette.grey[800],
   }),
 }))

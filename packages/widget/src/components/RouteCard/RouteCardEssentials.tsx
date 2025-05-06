@@ -1,5 +1,6 @@
 import { isGaslessStep } from '@lifi/sdk'
-import { AccessTimeFilled, LocalGasStationRounded } from '@mui/icons-material'
+import AccessTimeFilled from '@mui/icons-material/AccessTimeFilled'
+import LocalGasStationRounded from '@mui/icons-material/LocalGasStationRounded'
 import { Box, Tooltip, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'

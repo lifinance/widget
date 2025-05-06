@@ -43,7 +43,11 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
       sx={{ display: 'flex', flexDirection: isCompact ? 'row' : 'column' }}
       {...props}
     >
-      <SelectTokenButton formType="from" compact={isCompact} />
+      <SelectTokenButton
+        formType="from"
+        compact={isCompact}
+        hiddenReverse={hiddenReverse}
+      />
       {!hiddenToToken ? (
         !hiddenReverse ? (
           <ReverseTokensButton vertical={!isCompact} />
@@ -52,7 +56,11 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
         )
       ) : null}
       {!hiddenToToken ? (
-        <SelectTokenButton formType="to" compact={isCompact} />
+        <SelectTokenButton
+          formType="to"
+          compact={isCompact}
+          hiddenReverse={hiddenReverse}
+        />
       ) : null}
     </Box>
   )

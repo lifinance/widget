@@ -1,73 +1,81 @@
-import type { BoxProps, Theme } from '@mui/material'
 import { Box, ButtonBase, Typography } from '@mui/material'
-import { alpha, darken, lighten, styled } from '@mui/material/styles'
-import type { MouseEventHandler } from 'react'
+import type { CardProps as MuiCardProps } from '@mui/material'
+import { Card as MuiCard, styled } from '@mui/material'
 
-type CardVariant = 'default' | 'selected' | 'error'
-
-export type CardProps = {
-  variant?: CardVariant
+export interface CardProps extends MuiCardProps {
+  type?: 'default' | 'selected' | 'error'
   selectionColor?: 'primary' | 'secondary'
   indented?: boolean
-  onClick?: MouseEventHandler<HTMLDivElement>
-} & BoxProps
+}
 
-const getBackgroundColor = (
-  theme: Theme,
-  variant?: CardVariant,
-  selectionColor?: 'primary' | 'secondary'
-) =>
-  variant === 'selected'
-    ? selectionColor === 'primary'
-      ? theme.palette.mode === 'light'
-        ? alpha(theme.palette.primary.main, 0.04)
-        : alpha(theme.palette.primary.main, 0.42)
-      : alpha(
-          theme.palette.secondary.main,
-          theme.palette.mode === 'light' ? 0.08 : 0.12
-        )
-    : theme.palette.background.paper
-
-export const Card = styled(Box, {
+export const Card = styled(MuiCard, {
   shouldForwardProp: (prop) =>
-    !['variant', 'indented', 'selectionColor'].includes(prop as string),
-})<CardProps>(
-  ({ theme, variant, selectionColor = 'primary', indented, onClick }) => {
-    const backgroundColor = getBackgroundColor(theme, variant, selectionColor)
-    const backgroundHoverColor = onClick
-      ? theme.palette.mode === 'light'
-        ? darken(backgroundColor, 0.02)
-        : lighten(backgroundColor, 0.02)
-      : backgroundColor
-    return {
-      backgroundColor,
-      border: '1px solid',
-      borderColor:
-        variant === 'error'
-          ? theme.palette.error.main
-          : variant === 'selected'
-            ? selectionColor === 'primary'
-              ? theme.palette.primary.main
-              : alpha(theme.palette.secondary.main, 0.48)
-            : theme.palette.mode === 'light'
-              ? theme.palette.grey[300]
-              : theme.palette.grey[800],
-      borderRadius: theme.shape.borderRadius,
-      overflow: 'hidden',
-      position: 'relative',
-      padding: indented ? theme.spacing(2) : 0,
-      boxSizing: 'border-box',
-      '&:hover': {
-        cursor: onClick ? 'pointer' : 'default',
-        backgroundColor: backgroundHoverColor,
+    !['type', 'indented', 'selectionColor'].includes(prop as string),
+})<CardProps>(({ theme }) => {
+  return {
+    padding: 0,
+    variants: [
+      {
+        props: ({ indented }) => indented,
+        style: {
+          padding: theme.spacing(2),
+        },
       },
-      transition: theme.transitions.create(['background-color'], {
-        duration: theme.transitions.duration.enteringScreen,
-        easing: theme.transitions.easing.easeOut,
-      }),
-    }
+      {
+        props: {
+          selectionColor: 'primary',
+          type: 'selected',
+        },
+        style: {
+          borderWidth: 1,
+          borderStyle: 'solid',
+          borderColor: theme.vars.palette.primary.main,
+          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main} 5%, white)`,
+          '&:hover': {
+            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main} 10%, white)`,
+          },
+          ...theme.applyStyles('dark', {
+            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main} 35%, black)`,
+            '&:hover': {
+              backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main} 40%, black)`,
+            },
+          }),
+        },
+      },
+      {
+        props: {
+          selectionColor: 'secondary',
+          type: 'selected',
+        },
+        style: {
+          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 15%, white)`,
+          borderWidth: 1,
+          borderStyle: 'solid',
+          borderColor: `rgba(${theme.vars.palette.secondary.mainChannel} / 0.2)`,
+          '&:hover': {
+            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 20%, white)`,
+          },
+          ...theme.applyStyles('dark', {
+            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 24%, black)`,
+            '&:hover': {
+              backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 28%, black)`,
+            },
+          }),
+        },
+      },
+      {
+        props: {
+          type: 'error',
+        },
+        style: {
+          borderWidth: 1,
+          borderStyle: 'solid',
+          borderColor: theme.vars.palette.error.main,
+        },
+      },
+    ],
   }
-)
+})
 
 export const CardRowButton = styled(ButtonBase)(({ theme }) => ({
   background: 'none',
@@ -81,7 +89,7 @@ export const CardRowButton = styled(ButtonBase)(({ theme }) => ({
   justifyContent: 'space-between',
   alignItems: 'center',
   padding: theme.spacing(2),
-  borderRadius: theme.shape.borderRadius,
+  borderRadius: theme.vars.shape.borderRadius,
 }))
 
 export const CardRowContainer = styled(Box)(({ theme }) => ({

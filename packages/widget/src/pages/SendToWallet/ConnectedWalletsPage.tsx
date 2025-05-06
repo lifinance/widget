@@ -1,11 +1,9 @@
 import type { Account } from '@lifi/wallet-management'
 import { useAccount } from '@lifi/wallet-management'
-import {
-  ContentCopyRounded,
-  MoreHoriz,
-  OpenInNewRounded,
-  Wallet,
-} from '@mui/icons-material'
+import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded'
+import MoreHoriz from '@mui/icons-material/MoreHoriz'
+import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
+import Wallet from '@mui/icons-material/Wallet'
 import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material'
 import { useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'

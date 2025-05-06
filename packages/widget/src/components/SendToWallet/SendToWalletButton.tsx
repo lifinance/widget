@@ -1,5 +1,5 @@
 import { useAccount } from '@lifi/wallet-management'
-import { CloseRounded } from '@mui/icons-material'
+import CloseRounded from '@mui/icons-material/CloseRounded'
 import { Box, Collapse } from '@mui/material'
 import { type MouseEventHandler, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'

@@ -1,4 +1,4 @@
-import type { MutableRefObject } from 'react'
+import type { RefObject } from 'react'
 import { useLayoutEffect } from 'react'
 import { getRelativeContainer } from '../utils/elements.js'
 import { useDefaultElementId } from './useDefaultElementId.js'
@@ -8,7 +8,7 @@ import { useDefaultElementId } from './useDefaultElementId.js'
 //   CSS changes in those components can have implications for the functionality in this hook
 
 export const useSetContentHeight = (
-  ref: MutableRefObject<HTMLElement | null>,
+  ref: RefObject<HTMLElement | null>,
   dependency?: unknown
 ) => {
   const elementId = useDefaultElementId()

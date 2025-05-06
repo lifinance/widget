@@ -2,6 +2,72 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.20.4](https://github.com/lifinance/widget/compare/v3.20.3...v3.20.4) (2025-05-06)
+
+
+### Bug Fixes
+
+* add new error messages for rate limits and third-party tools ([#391](https://github.com/lifinance/widget/issues/391)) ([da820be](https://github.com/lifinance/widget/commit/da820be7bcb25b58fb9c21c3baa42c6d4ea45bba))
+* prevent unnecessary capabilities requests ([d0dca6b](https://github.com/lifinance/widget/commit/d0dca6b2ecf0292f4518bea8794e7d6042876b30))
+
+### [3.20.3](https://github.com/lifinance/widget/compare/v3.20.2...v3.20.3) (2025-05-06)
+
+
+### Bug Fixes
+
+* button color for text variant should respect vars ([5efc9fd](https://github.com/lifinance/widget/commit/5efc9fd6d660369149e20989d12ae5c7334ff35f))
+
+### [3.20.2](https://github.com/lifinance/widget/compare/v3.20.1...v3.20.2) (2025-05-05)
+
+
+### Bug Fixes
+
+* should only hide bridge settings when hidden UI is applied ([8898a67](https://github.com/lifinance/widget/commit/8898a67e096fbbb719f07b724cd60cc18a9526ff))
+
+### [3.20.1](https://github.com/lifinance/widget/compare/v3.20.0...v3.20.1) (2025-05-05)
+
+
+### Bug Fixes
+
+* add new default UI and hidden UI options ([#389](https://github.com/lifinance/widget/issues/389)) ([b9579ad](https://github.com/lifinance/widget/commit/b9579adf09e4dfc84832ecf5bdf1b22b8468caef))
+
+## [3.20.0](https://github.com/lifinance/widget/compare/v3.19.2...v3.20.0) (2025-05-05)
+
+
+### Features
+
+* upgrade to MUI v7 ([#377](https://github.com/lifinance/widget/issues/377)) ([dc97603](https://github.com/lifinance/widget/commit/dc97603dab13047525c206e2536d9b4fcac29465))
+
+### [3.19.2](https://github.com/lifinance/widget/compare/v3.19.1...v3.19.2) (2025-04-29)
+
+
+### Bug Fixes
+
+* improve used tool retrieval in transaction history ([cba3ed6](https://github.com/lifinance/widget/commit/cba3ed69822afd0fb88bac647c41478153375e11))
+
+### [3.19.1](https://github.com/lifinance/widget/compare/v3.19.0...v3.19.1) (2025-04-29)
+
+
+### Bug Fixes
+
+* add options to show fee percentage ([#387](https://github.com/lifinance/widget/issues/387)) ([3dbd751](https://github.com/lifinance/widget/commit/3dbd7516c598ef896362df784c1ad5fe810a3dbb))
+
+## [3.19.0](https://github.com/lifinance/widget/compare/v3.18.9...v3.19.0) (2025-04-28)
+
+
+### Features
+
+* add option to hide chain selection ([#386](https://github.com/lifinance/widget/issues/386)) ([0bc15bf](https://github.com/lifinance/widget/commit/0bc15bff6f0127d21b8f976d82ce32e860004da1))
+
+### [3.18.9](https://github.com/lifinance/widget/compare/v3.18.8...v3.18.9) (2025-04-28)
+
+
+### Bug Fixes
+
+* adjust fee types ([#385](https://github.com/lifinance/widget/issues/385)) ([04dffc7](https://github.com/lifinance/widget/commit/04dffc7200ff8feadd6b88e235a63fbf1bd2538f))
+
+### [3.18.8](https://github.com/lifinance/widget/compare/v3.18.7...v3.18.8) (2025-04-28)
+
 ### [3.18.7](https://github.com/lifinance/widget/compare/v3.18.6...v3.18.7) (2025-04-17)
 
 

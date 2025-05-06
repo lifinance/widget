@@ -1,23 +1,30 @@
 import type { WidgetTheme } from '../types/widget.js'
 
 export const windows95Theme: WidgetTheme = {
-  palette: {
-    primary: {
-      main: '#0000ff',
-    },
-    secondary: {
-      main: '#f7c303',
-    },
-    text: {
-      primary: '#30313d',
-      secondary: '#6d6e78',
-    },
-    background: {
-      default: '#c0c9d2',
-      paper: '#dfdfdf',
-    },
-    grey: {
-      300: '#bbbbbb',
+  colorSchemes: {
+    light: {
+      palette: {
+        primary: {
+          main: '#0000ff',
+        },
+        secondary: {
+          main: '#f7c303',
+        },
+        text: {
+          primary: '#30313d',
+          secondary: '#6d6e78',
+        },
+        background: {
+          default: '#c0c9d2',
+          paper: '#dfdfdf',
+        },
+        grey: {
+          300: '#bbbbbb',
+        },
+        playground: {
+          main: '#008080',
+        },
+      },
     },
   },
   shape: {
@@ -30,9 +37,6 @@ export const windows95Theme: WidgetTheme = {
   },
   navigation: {
     edge: false,
-  },
-  playground: {
-    background: '#008080',
   },
   components: {
     MuiButton: {

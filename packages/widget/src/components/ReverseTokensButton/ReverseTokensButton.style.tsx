@@ -8,7 +8,7 @@ export const IconCard = styled(Card)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  borderRadius: theme.shape.borderRadiusTertiary,
+  borderRadius: theme.vars.shape.borderRadiusTertiary,
   zIndex: 1110,
 }))
 

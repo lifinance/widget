@@ -1,8 +1,6 @@
 import {
   CardContent as MuiCardContent,
   cardHeaderClasses,
-  darken,
-  lighten,
   styled,
 } from '@mui/material'
 import type { FormType } from '../../stores/form/types.js'
@@ -16,7 +14,7 @@ export const SelectTokenCardHeader = styled(CardHeader, {
   ({ theme, selected, compact }) => ({
     padding: theme.spacing(2),
     [`.${cardHeaderClasses.title}`]: {
-      color: theme.palette.text.secondary,
+      color: theme.vars.palette.text.secondary,
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
       overflow: 'hidden',
@@ -41,7 +39,7 @@ export const SelectTokenCardHeader = styled(CardHeader, {
         props: ({ selected }) => selected,
         style: {
           [`.${cardHeaderClasses.title}`]: {
-            color: theme.palette.text.primary,
+            color: theme.vars.palette.text.primary,
             fontWeight: 600,
           },
         },
@@ -82,33 +80,38 @@ export const SelectTokenCard = styled(Card)(({ theme }) => {
 })
 
 export const CardContent = styled(MuiCardContent, {
-  shouldForwardProp: (prop) => prop !== 'formType' && prop !== 'compact',
-})<{ formType: FormType; compact: boolean }>(({ theme, formType, compact }) => {
-  const cardVariant = theme.components?.MuiCard?.defaultProps?.variant
-  const direction = formType === 'to' ? '-8px' : 'calc(100% + 8px)'
-  const horizontal = compact ? direction : '50%'
-  const vertical = compact ? '50%' : direction
-  return {
-    padding: 0,
-    transition: theme.transitions.create(['background-color'], {
-      duration: theme.transitions.duration.enteringScreen,
-      easing: theme.transitions.easing.easeOut,
-    }),
-    '&:last-child': {
-      paddingBottom: 0,
-    },
-    ...(cardVariant !== 'outlined' && {
-      backgroundColor: theme.palette.background.paper,
-      mask: `radial-gradient(circle 20px at ${horizontal} ${vertical}, #fff0 96%, #fff) 100% 100% / 100% 100% no-repeat`,
-    }),
-    ...(cardVariant === 'filled' && {
-      '&:hover': {
-        cursor: 'pointer',
-        backgroundColor:
-          theme.palette.mode === 'light'
-            ? darken(theme.palette.background.paper, 0.02)
-            : lighten(theme.palette.background.paper, 0.02),
+  shouldForwardProp: (prop) =>
+    !['formType', 'compact', 'mask'].includes(prop as string),
+})<{ formType: FormType; compact: boolean; mask?: boolean }>(
+  ({ theme, formType, compact, mask = true }) => {
+    const cardVariant = theme.components?.MuiCard?.defaultProps?.variant
+    const direction = formType === 'to' ? '-8px' : 'calc(100% + 8px)'
+    const horizontal = compact ? direction : '50%'
+    const vertical = compact ? '50%' : direction
+    return {
+      padding: 0,
+      transition: theme.transitions.create(['background-color'], {
+        duration: theme.transitions.duration.enteringScreen,
+        easing: theme.transitions.easing.easeOut,
+      }),
+      '&:last-child': {
+        paddingBottom: 0,
       },
-    }),
+      ...(cardVariant !== 'outlined' && {
+        backgroundColor: theme.vars.palette.background.paper,
+        mask: mask
+          ? `radial-gradient(circle 20px at ${horizontal} ${vertical}, #fff0 96%, #fff) 100% 100% / 100% 100% no-repeat`
+          : 'none',
+      }),
+      ...(cardVariant === 'filled' && {
+        '&:hover': {
+          cursor: 'pointer',
+          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.background.paper} 98%, white)`,
+          ...theme.applyStyles('dark', {
+            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.background.paper} 98%, black)`,
+          }),
+        },
+      }),
+    }
   }
-})
+)

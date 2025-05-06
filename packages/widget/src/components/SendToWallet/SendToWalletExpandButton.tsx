@@ -1,4 +1,4 @@
-import { Wallet } from '@mui/icons-material'
+import Wallet from '@mui/icons-material/Wallet'
 import { Button, Tooltip } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'

@@ -1,11 +1,9 @@
-import {
-  ContentCopyRounded,
-  DeleteOutline,
-  History,
-  MoreHoriz,
-  OpenInNewRounded,
-  TurnedInNot,
-} from '@mui/icons-material'
+import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded'
+import DeleteOutline from '@mui/icons-material/DeleteOutline'
+import History from '@mui/icons-material/History'
+import MoreHoriz from '@mui/icons-material/MoreHoriz'
+import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
+import TurnedInNot from '@mui/icons-material/TurnedInNot'
 import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material'
 import { useId, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'

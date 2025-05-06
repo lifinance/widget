@@ -26,7 +26,7 @@ export function ReownWalletProvider({
   const { EVMWalletConnectId } = useEnvVariables()
   const wagmi = useRef<WagmiAdapter | undefined>(undefined)
   const modal = useRef<AppKit | undefined>(undefined)
-  const themeMode = useThemeMode()
+  const { themeMode } = useThemeMode()
 
   if (!wagmi.current || !modal.current) {
     const networks: [AppKitNetwork, ...AppKitNetwork[]] = [solana]

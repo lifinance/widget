@@ -2,7 +2,7 @@ import { Avatar, Skeleton, styled } from '@mui/material'
 import { AvatarSkeletonContainer } from './Avatar.style.js'
 
 export const SmallAvatar = styled(Avatar)(({ theme }) => ({
-  background: theme.palette.background.paper,
+  background: theme.vars.palette.background.paper,
   width: 16,
   height: 16,
 }))

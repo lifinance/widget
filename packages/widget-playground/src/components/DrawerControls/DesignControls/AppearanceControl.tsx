@@ -7,11 +7,10 @@ import { Box, Tooltip } from '@mui/material'
 import diff from 'microdiff'
 import type { FC, PropsWithChildren, ReactElement, SyntheticEvent } from 'react'
 import { useEffect } from 'react'
-import { type ThemeMode, useThemeMode } from '../../../hooks/useThemeMode'
+import { useThemeMode } from '../../../hooks/useThemeMode'
 import type { ThemeItem } from '../../../store/editTools/types'
 import { useEditToolsActions } from '../../../store/editTools/useEditToolsActions'
 import { useConfigActions } from '../../../store/widgetConfig/useConfigActions'
-import { useConfigAppearance } from '../../../store/widgetConfig/useConfigAppearance'
 import { useThemeValues } from '../../../store/widgetConfig/useThemeValues'
 import { cloneStructuredConfig } from '../../../utils/cloneStructuredConfig'
 import { patch } from '../../../utils/patch'
@@ -23,7 +22,7 @@ import { Badge, CapitalizeFirstLetter } from './DesignControls.style'
 const appearanceIcons = {
   light: LightModeIcon,
   dark: NightlightIcon,
-  auto: BrightnessAutoIcon,
+  system: BrightnessAutoIcon,
 }
 
 interface AppearanceTabProps extends TabProps {
@@ -40,10 +39,16 @@ const AppearanceTab: FC<AppearanceTabProps> = ({
   ...props
 }) =>
   disabled ? (
-    <Tab icon={Icon} value={value} disabled={disabled} {...props} />
+    <Tab
+      icon={Icon}
+      value={value}
+      disabled={disabled}
+      disableRipple
+      {...props}
+    />
   ) : (
     <Tooltip title={title} arrow>
-      <Tab icon={Icon} value={value} {...props} />
+      <Tab icon={Icon} value={value} disableRipple {...props} />
     </Tooltip>
   )
 
@@ -63,13 +68,10 @@ const BadgableCardValue = ({ children, showBadge }: BadgableCardValueProps) => {
 
 const getUserChangesToTheme = (
   selectedThemeItem: ThemeItem,
-  appearance: Appearance,
-  themeMode: ThemeMode,
   getCurrentConfigTheme: () => WidgetTheme | undefined
 ) => {
   if (selectedThemeItem) {
-    const normalisedAppearance = appearance === 'auto' ? themeMode : appearance
-    const themePreset = selectedThemeItem.theme[normalisedAppearance]
+    const themePreset = selectedThemeItem.theme
     const currentTheme = getCurrentConfigTheme()
 
     if (themePreset && currentTheme) {
@@ -79,74 +81,83 @@ const getUserChangesToTheme = (
 }
 
 export const AppearanceControl = () => {
-  const { appearance } = useConfigAppearance()
-  const themeMode = useThemeMode()
+  const { colorSchemeMode, prefersDarkMode, setMode } = useThemeMode()
   const { setAppearance, setConfigTheme, getCurrentConfigTheme } =
     useConfigActions()
   const { setViewportBackgroundColor } = useEditToolsActions()
   const { selectedThemeItem } = useThemeValues()
 
-  const restricted = !!(
-    selectedThemeItem && Object.keys(selectedThemeItem.theme).length < 2
-  )
-
-  useEffect(() => {
-    if (restricted) {
-      const restrictedAppearance = Object.keys(
-        selectedThemeItem.theme
-      )[0] as Appearance
-      setAppearance(restrictedAppearance)
-    }
-  }, [selectedThemeItem, setAppearance, restricted])
+  const restricted = selectedThemeItem
+    ? Object.keys(selectedThemeItem.theme.colorSchemes ?? {}).length < 2
+    : false
 
   const handleAppearanceChange = (_: SyntheticEvent, value: Appearance) => {
     if (selectedThemeItem) {
       const userChangesToTheme = getUserChangesToTheme(
         selectedThemeItem,
-        appearance,
-        themeMode,
         getCurrentConfigTheme
       )
 
-      const newAppearance = value === 'auto' ? themeMode : value
-
-      const newTheme = userChangesToTheme
+      const newTheme = userChangesToTheme?.length
         ? (patch(
-            cloneStructuredConfig<WidgetTheme>(
-              selectedThemeItem.theme[newAppearance]
-            ),
+            cloneStructuredConfig<WidgetTheme>(selectedThemeItem.theme),
             userChangesToTheme
           ) as WidgetTheme)
-        : selectedThemeItem.theme[newAppearance]
+        : selectedThemeItem.theme
 
       setConfigTheme(newTheme, selectedThemeItem.id)
-
-      const viewportBackground =
-        selectedThemeItem.theme[newAppearance].playground?.background
-      setViewportBackgroundColor(viewportBackground as string | undefined)
     }
 
     setAppearance(value)
+    setMode(value)
   }
+
+  useEffect(() => {
+    if (restricted) {
+      const restrictedAppearance = Object.keys(
+        selectedThemeItem?.theme.colorSchemes ?? {}
+      )[0] as Appearance
+      setAppearance(restrictedAppearance)
+      setMode(restrictedAppearance)
+    }
+  }, [selectedThemeItem, setAppearance, restricted, setMode])
+
+  useEffect(() => {
+    const newAppearance =
+      colorSchemeMode === 'system'
+        ? prefersDarkMode
+          ? 'dark'
+          : 'light'
+        : colorSchemeMode
+    const viewportBackground =
+      selectedThemeItem?.theme.colorSchemes?.[newAppearance]?.palette
+        ?.playground?.main
+    setViewportBackgroundColor(viewportBackground as string | undefined)
+  }, [
+    colorSchemeMode,
+    setViewportBackgroundColor,
+    selectedThemeItem,
+    prefersDarkMode,
+  ])
 
   return (
     <ExpandableCard
-      title={'Mode'}
+      title={'Appearance'}
       value={
         <BadgableCardValue showBadge={restricted}>
-          {appearance}
+          {colorSchemeMode}
         </BadgableCardValue>
       }
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
         {restricted ? (
           <CapitalizeFirstLetter variant="caption" sx={{ paddingLeft: 1 }}>
-            {appearance} mode is recommended for this theme
+            {colorSchemeMode} mode is recommended for this theme
           </CapitalizeFirstLetter>
         ) : null}
 
         <Tabs
-          value={appearance}
+          value={colorSchemeMode}
           aria-label="tabs"
           indicatorColor="primary"
           onChange={handleAppearanceChange}

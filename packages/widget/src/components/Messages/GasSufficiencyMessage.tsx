@@ -1,4 +1,4 @@
-import { EvStation } from '@mui/icons-material'
+import EvStation from '@mui/icons-material/EvStation'
 import { type BoxProps, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { formatUnits } from 'viem'

@@ -1,41 +1,19 @@
 import { CssBaseline, ThemeProvider } from '@mui/material'
-import type { PropsWithChildren } from 'react'
-import { useThemeMode } from '../../hooks/useThemeMode'
+import { type PropsWithChildren, useMemo } from 'react'
 import { usePlaygroundSettingValues } from '../../store/editTools/usePlaygroundSettingValues'
-import { theme } from './theme'
-import { darkComponents, darkPalette } from './themeOverrides/dark'
-import { lightComponents, lightPalette } from './themeOverrides/light'
-
-const appearancePaletteOverrides = {
-  light: lightPalette,
-  dark: darkPalette,
-}
+import { createTheme } from './theme'
 
 export const PlaygroundThemeProvider = ({ children }: PropsWithChildren) => {
-  const themeMode = useThemeMode()
   const { viewportColor } = usePlaygroundSettingValues()
-
-  const appTheme = {
-    ...theme,
-    ...(viewportColor
-      ? {
-          playground: {
-            background: viewportColor,
-          },
-        }
-      : {}),
-    palette: {
-      ...theme.palette,
-      ...appearancePaletteOverrides[themeMode],
-    },
-    components: {
-      ...theme.components,
-      ...(themeMode === 'dark' ? darkComponents : lightComponents),
-    },
-  }
+  const appTheme = useMemo(() => createTheme(viewportColor), [viewportColor])
 
   return (
-    <ThemeProvider theme={appTheme}>
+    <ThemeProvider
+      theme={appTheme}
+      modeStorageKey="li.fi-widget-playground-mode"
+      colorSchemeStorageKey="li.fi-widget-playground-color-scheme"
+      disableTransitionOnChange
+    >
       <CssBaseline enableColorScheme />
       {children}
     </ThemeProvider>

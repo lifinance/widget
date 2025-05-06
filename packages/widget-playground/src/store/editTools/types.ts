@@ -12,26 +12,10 @@ export type Layout =
   | 'restricted-max-height'
   | 'full-height'
 
-export type ThemeAppearances =
-  | {
-      light: WidgetTheme
-    }
-  | {
-      dark: WidgetTheme
-    }
-  | {
-      light: WidgetTheme
-      dark: WidgetTheme
-    }
-
-interface ThemeAppearancesIndexable {
-  [key: string]: WidgetTheme
-}
-
 export interface ThemeItem {
   id: string
   name: string
-  theme: ThemeAppearances & ThemeAppearancesIndexable
+  theme: WidgetTheme
 }
 
 export interface EditToolsValues {

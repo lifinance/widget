@@ -1,10 +1,8 @@
-import {
-  Error as ErrorIcon,
-  TurnedIn,
-  WarningRounded,
-} from '@mui/icons-material'
+import ErrorIcon from '@mui/icons-material/Error'
+import TurnedIn from '@mui/icons-material/TurnedIn'
+import WarningRounded from '@mui/icons-material/WarningRounded'
 import { Button, Typography } from '@mui/material'
-import type { ChangeEvent, MutableRefObject } from 'react'
+import type { ChangeEvent, RefObject } from 'react'
 import { forwardRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
@@ -48,7 +46,7 @@ export const BookmarkAddressSheet = forwardRef<
 
   const handleCancel = () => {
     setError(undefined)
-    ;(ref as MutableRefObject<BottomSheetBase>).current?.close()
+    ;(ref as RefObject<BottomSheetBase>).current?.close()
   }
 
   const validateWithAddressFromInput = async () => {
@@ -112,7 +110,7 @@ export const BookmarkAddressSheet = forwardRef<
         })
         return
       }
-      ;(ref as MutableRefObject<BottomSheetBase>).current?.close()
+      ;(ref as RefObject<BottomSheetBase>).current?.close()
 
       onAddBookmark({
         name: validatedBookmark.name,

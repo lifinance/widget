@@ -1,10 +1,8 @@
 import type { ToolsResponse } from '@lifi/sdk'
-import {
-  Check,
-  CheckBoxOutlineBlankOutlined,
-  CheckBoxOutlined,
-  IndeterminateCheckBoxOutlined,
-} from '@mui/icons-material'
+import Check from '@mui/icons-material/Check'
+import CheckBoxOutlineBlankOutlined from '@mui/icons-material/CheckBoxOutlineBlankOutlined'
+import CheckBoxOutlined from '@mui/icons-material/CheckBoxOutlined'
+import IndeterminateCheckBoxOutlined from '@mui/icons-material/IndeterminateCheckBoxOutlined'
 import {
   Avatar,
   IconButton,

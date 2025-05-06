@@ -71,19 +71,22 @@ export const WidgetSkeleton = ({ config }: WidgetConfigPartialProps) => {
   const configTheme = config?.theme
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
   const appearanceMode =
-    !appearance || appearance === 'auto'
+    !appearance || appearance === 'system'
       ? prefersDarkMode
         ? 'dark'
         : 'light'
       : appearance
 
-  const theme = useMemo(
-    () => createTheme(appearanceMode, configTheme),
-    [appearanceMode, configTheme]
-  )
+  const theme = useMemo(() => createTheme(configTheme), [configTheme])
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider
+      theme={theme}
+      defaultMode={appearanceMode}
+      modeStorageKey="li.fi-widget-mode"
+      colorSchemeStorageKey="li.fi-widget-color-scheme"
+      disableTransitionOnChange
+    >
       <AppExpandedContainer>
         <RelativeContainer sx={{ display: 'flex', flexDirection: 'column' }}>
           <SkeletonHeaderContainer>
