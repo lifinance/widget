@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.20.3](https://github.com/lifinance/widget/compare/v3.20.2...v3.20.3) (2025-05-06)
+
+
+### Bug Fixes
+
+* button color for text variant should respect vars ([5efc9fd](https://github.com/lifinance/widget/commit/5efc9fd6d660369149e20989d12ae5c7334ff35f))
+
 ### [3.20.2](https://github.com/lifinance/widget/compare/v3.20.1...v3.20.2) (2025-05-05)
 
 
