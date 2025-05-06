@@ -10,6 +10,7 @@ import {
   Slide,
   Typography,
 } from '@mui/material'
+import { grey } from '@mui/material/colors'
 import type { MouseEventHandler } from 'react'
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -104,7 +105,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
         <Avatar
           src={token.logoURI}
           alt={token.symbol}
-          sx={{ bgcolor: 'rgba(255,255,255,.4)' }}
+          sx={{ bgcolor: grey[400] }}
         >
           {token.symbol?.[0]}
         </Avatar>
