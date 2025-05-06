@@ -48,11 +48,11 @@
     "lifi"
   ],
   "dependencies": {
-    "@bigmi/client": "^0.1.1",
-    "@bigmi/core": "^0.1.1",
+    "@bigmi/client": "^0.2.0-beta.0",
+    "@bigmi/core": "^0.2.0-beta.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@lifi/sdk": "^3.6.13",
+    "@lifi/sdk": "^3.7.0-beta.0",
     "@mui/icons-material": "^7.1.0",
     "@mui/material": "^7.1.0",
     "@mui/system": "^7.1.0",
@@ -74,7 +74,7 @@
     "typescript": "^5.8.3"
   },
   "peerDependencies": {
-    "@bigmi/react": ">=0.1.0",
+    "@bigmi/react": ">=0.2.0-beta.0",
     "@solana/wallet-adapter-react": ">=0.15.35",
     "@tanstack/react-query": ">=5.68.0",
     "react": ">=18",

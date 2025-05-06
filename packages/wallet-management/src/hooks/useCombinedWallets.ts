@@ -1,10 +1,8 @@
+import type { Connector as BigmiConnector } from '@bigmi/client'
 import {
   useAccount as useBigmiAccount,
   useConnect as useBigmiConnect,
 } from '@bigmi/react'
-
-import type { Connector as BigmiConnector } from '@bigmi/client'
-
 import { ChainType } from '@lifi/sdk'
 import type { Theme } from '@mui/material'
 import { useMediaQuery } from '@mui/material'

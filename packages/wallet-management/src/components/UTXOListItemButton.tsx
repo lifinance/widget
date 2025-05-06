@@ -2,7 +2,6 @@ import { type Connector, connect, disconnect, getAccount } from '@bigmi/client'
 import { useConfig } from '@bigmi/react'
 import { ChainType } from '@lifi/sdk'
 import { Avatar, ListItemAvatar } from '@mui/material'
-
 import { ListItemButton } from '../components/ListItemButton.js'
 import { ListItemText } from '../components/ListItemText.js'
 import type { CreateBigmiConnectorFnExtended } from '../connectors/types.js'
