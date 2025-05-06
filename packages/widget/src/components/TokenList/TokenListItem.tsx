@@ -69,6 +69,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   const container = useRef(null)
   const timeoutId = useRef<ReturnType<typeof setTimeout>>(undefined)
   const [showAddress, setShowAddress] = useState(false)
+  const [imageLoaded, setImageLoaded] = useState(false)
 
   const tokenAddress =
     chain?.chainType === ChainType.UTXO ? accountAddress : token.address
@@ -105,7 +106,8 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
         <Avatar
           src={token.logoURI}
           alt={token.symbol}
-          sx={{ bgcolor: grey[400] }}
+          sx={!imageLoaded ? { bgcolor: grey[400] } : null}
+          onLoad={() => setImageLoaded(true)}
         >
           {token.symbol?.[0]}
         </Avatar>
