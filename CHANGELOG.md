@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.20.4](https://github.com/lifinance/widget/compare/v3.20.3...v3.20.4) (2025-05-06)
+
+
+### Bug Fixes
+
+* add new error messages for rate limits and third-party tools ([#391](https://github.com/lifinance/widget/issues/391)) ([da820be](https://github.com/lifinance/widget/commit/da820be7bcb25b58fb9c21c3baa42c6d4ea45bba))
+* prevent unnecessary capabilities requests ([d0dca6b](https://github.com/lifinance/widget/commit/d0dca6b2ecf0292f4518bea8794e7d6042876b30))
+
 ### [3.20.3](https://github.com/lifinance/widget/compare/v3.20.2...v3.20.3) (2025-05-06)
 
 
