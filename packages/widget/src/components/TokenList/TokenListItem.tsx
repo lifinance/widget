@@ -10,7 +10,6 @@ import {
   Slide,
   Typography,
 } from '@mui/material'
-import { grey } from '@mui/material/colors'
 import type { MouseEventHandler } from 'react'
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -106,7 +105,9 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
         <Avatar
           src={token.logoURI}
           alt={token.symbol}
-          sx={!imageLoaded ? { bgcolor: grey[400] } : null}
+          sx={(theme) =>
+            !imageLoaded ? { bgcolor: theme.vars.palette.grey[300] } : null
+          }
           onLoad={() => setImageLoaded(true)}
         >
           {token.symbol?.[0]}
