@@ -45,3 +45,7 @@ export interface TokenListItemButtonProps {
   chain?: ExtendedChain
   isBalanceLoading?: boolean
 }
+
+export interface TokenListItemAvatarProps {
+  token: TokenAmount
+}
