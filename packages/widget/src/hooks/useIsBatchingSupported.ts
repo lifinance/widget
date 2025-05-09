@@ -11,8 +11,13 @@ export function useIsBatchingSupported(
   )
   const { data, isLoading } = useQuery({
     queryKey: ['isBatchingSupported', chain?.id, address],
-    queryFn: () => {
-      return isBatchingSupported({ chainId: chain!.id })
+    queryFn: async () => {
+      return await Promise.race([
+        isBatchingSupported({ chainId: chain!.id }),
+        new Promise<boolean>((resolve) => {
+          setTimeout(() => resolve(false), 1_000)
+        }),
+      ])
     },
     enabled,
     staleTime: 3_600_000,
