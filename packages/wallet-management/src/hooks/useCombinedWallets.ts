@@ -1,4 +1,8 @@
-import { useConfig as useBigmiConfig } from '@bigmi/react'
+import type { Connector as BigmiConnector } from '@bigmi/client'
+import {
+  useAccount as useBigmiAccount,
+  useConnect as useBigmiConnect,
+} from '@bigmi/react'
 import { ChainType } from '@lifi/sdk'
 import type { Theme } from '@mui/material'
 import { useMediaQuery } from '@mui/material'
@@ -13,7 +17,10 @@ import { defaultMetaMaskConfig } from '../config/metaMask.js'
 import { defaultWalletConnectConfig } from '../config/walletConnect.js'
 import { createCoinbaseConnector } from '../connectors/coinbase.js'
 import { createMetaMaskConnector } from '../connectors/metaMask.js'
-import type { CreateConnectorFnExtended } from '../connectors/types.js'
+import type {
+  CreateBigmiConnectorFnExtended,
+  CreateConnectorFnExtended,
+} from '../connectors/types.js'
 import { createWalletConnectConnector } from '../connectors/walletConnect.js'
 import { useWalletManagementConfig } from '../providers/WalletManagementProvider/WalletManagementContext.js'
 import type { WalletConnector } from '../types/walletConnector.js'
@@ -36,7 +43,7 @@ export type CombinedWallet = {
 const normalizeName = (name: string) => name.split(' ')[0].toLowerCase().trim()
 
 const combineWalletLists = (
-  utxoConnectorList: (CreateConnectorFnExtended | Connector)[],
+  utxoConnectorList: (CreateBigmiConnectorFnExtended | BigmiConnector)[],
   evmConnectorList: (CreateConnectorFnExtended | Connector)[],
   svmWalletList: Wallet[]
 ): CombinedWallet[] => {
@@ -44,13 +51,13 @@ const combineWalletLists = (
 
   utxoConnectorList.forEach((utxo) => {
     const utxoName =
-      (utxo as CreateConnectorFnExtended)?.displayName ||
-      (utxo as Connector)?.name
+      (utxo as CreateBigmiConnectorFnExtended)?.displayName ||
+      (utxo as BigmiConnector)?.name
     const normalizedName = normalizeName(utxoName)
     const existing = walletMap.get(normalizedName) || {
       id: utxo.id,
       name: utxoName,
-      icon: getConnectorIcon(utxo as Connector),
+      icon: getConnectorIcon(utxo as BigmiConnector),
       connectors: [],
     }
     existing.connectors.push({ connector: utxo, chainType: ChainType.UTXO })
@@ -95,11 +102,10 @@ const combineWalletLists = (
 
 export const useCombinedWallets = () => {
   const walletConfig = useWalletManagementConfig()
-  const bigmiConfig = useBigmiConfig()
   const wagmiAccount = useAccount()
-  const bigmiAccount = useAccount({ config: bigmiConfig })
+  const bigmiAccount = useBigmiAccount()
   const { connectors: wagmiConnectors } = useConnect()
-  const { connectors: bigmiConnectors } = useConnect({ config: bigmiConfig })
+  const { connectors: bigmiConnectors } = useBigmiConnect()
   const { wallets: solanaWallets } = useWallet()
 
   const isDesktopView = useMediaQuery((theme: Theme) =>
@@ -195,8 +201,8 @@ export const useCombinedWallets = () => {
     })
 
     const notDetectedCombinedWallets = combineWalletLists(
-      notDetectedEVMConnectors,
       notDetectedUTXOConnectors,
+      notDetectedEVMConnectors,
       notDetectedSVMWallets
     )
 
