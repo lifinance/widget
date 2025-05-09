@@ -1,5 +1,6 @@
 import { useConfig as useBigmiConfig } from '@bigmi/react'
 import { ChainType } from '@lifi/sdk'
+import { useDisconnectWallet } from '@mysten/dapp-kit'
 import { useWallet } from '@solana/wallet-adapter-react'
 import type { Config } from 'wagmi'
 import { useConfig as useWagmiConfig } from 'wagmi'
@@ -10,6 +11,7 @@ export const useAccountDisconnect = () => {
   const bigmiConfig = useBigmiConfig()
   const wagmiConfig = useWagmiConfig()
   const { disconnect: solanaDisconnect } = useWallet()
+  const { mutateAsync: disconnectWallet } = useDisconnectWallet()
 
   const handleDisconnect = async (config: Config) => {
     const connectedAccount = getAccount(config)
@@ -26,8 +28,12 @@ export const useAccountDisconnect = () => {
       case ChainType.UTXO:
         await handleDisconnect(bigmiConfig)
         break
-      default:
+      case ChainType.SVM:
         await solanaDisconnect()
+        break
+      case ChainType.MVM:
+        await disconnectWallet()
+        break
     }
   }
 }

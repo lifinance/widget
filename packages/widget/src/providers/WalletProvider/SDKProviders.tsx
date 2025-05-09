@@ -1,7 +1,8 @@
 import { getConnectorClient as getBigmiConnectorClient } from '@bigmi/client'
 import { useConfig as useBigmiConfig } from '@bigmi/react'
 import type { SDKProvider } from '@lifi/sdk'
-import { ChainType, EVM, Solana, UTXO, config } from '@lifi/sdk'
+import { ChainType, EVM, Solana, Sui, UTXO, config } from '@lifi/sdk'
+import { useCurrentWallet } from '@mysten/dapp-kit'
 import type { SignerWalletAdapter } from '@solana/wallet-adapter-base'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { useEffect } from 'react'
@@ -17,6 +18,7 @@ export const SDKProviders = () => {
   const { wallet } = useWallet()
   const wagmiConfig = useWagmiConfig()
   const bigmiConfig = useBigmiConfig()
+  const { currentWallet } = useCurrentWallet()
 
   useEffect(() => {
     // Configure SDK Providers
@@ -29,6 +31,9 @@ export const SDKProviders = () => {
     )
     const hasConfiguredUTXOProvider = sdkConfig?.providers?.some(
       (provider) => provider.type === ChainType.UTXO
+    )
+    const hasConfiguredSuiProvider = sdkConfig?.providers?.some(
+      (provider) => provider.type === ChainType.MVM
     )
     if (!hasConfiguredEVMProvider) {
       providers.push(
@@ -57,11 +62,24 @@ export const SDKProviders = () => {
         })
       )
     }
+    if (!hasConfiguredSuiProvider) {
+      providers.push(
+        Sui({
+          getWallet: () => currentWallet!,
+        })
+      )
+    }
     if (sdkConfig?.providers?.length) {
       providers.push(...sdkConfig.providers)
     }
     config.setProviders(providers)
-  }, [bigmiConfig, sdkConfig?.providers, wagmiConfig, wallet?.adapter])
+  }, [
+    bigmiConfig,
+    currentWallet,
+    sdkConfig?.providers,
+    wagmiConfig,
+    wallet?.adapter,
+  ])
 
   return null
 }

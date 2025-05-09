@@ -13,6 +13,7 @@ import {
   ListItemAvatar,
   Typography,
 } from '@mui/material'
+import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import type { WalletAdapter } from '@solana/wallet-adapter-base'
 import { useReducer, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -24,6 +25,7 @@ import { EVMListItemButton } from './EVMListItemButton.js'
 import { ListItemButton } from './ListItemButton.js'
 import { ListItemText } from './ListItemText.js'
 import { SVMListItemButton } from './SVMListItemButton.js'
+import { SuiListItemButton } from './SuiListItemButton.js'
 import { UTXOListItemButton } from './UTXOListItemButton.js'
 import { WalletMenuContentEmpty } from './WalletMenuContentEmpty.js'
 
@@ -132,6 +134,17 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
             key={key}
             ecosystemSelection={ecosystemSelection}
             walletAdapter={connector as WalletAdapter}
+            onConnected={onClose}
+            onConnecting={() => handleConnecting(id)}
+            onError={(error) => handleError(id, error)}
+          />
+        )
+      case ChainType.MVM:
+        return (
+          <SuiListItemButton
+            key={key}
+            ecosystemSelection={ecosystemSelection}
+            wallet={connector as WalletWithRequiredFeatures}
             onConnected={onClose}
             onConnecting={() => handleConnecting(id)}
             onError={(error) => handleError(id, error)}

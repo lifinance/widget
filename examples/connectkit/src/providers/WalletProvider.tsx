@@ -1,6 +1,5 @@
 import { useSyncWagmiConfig } from '@lifi/wallet-management'
 import { ChainType, useAvailableChains } from '@lifi/widget'
-import {} from '@tanstack/react-query'
 import { ConnectKitProvider, getDefaultConfig } from 'connectkit'
 import type { FC, PropsWithChildren } from 'react'
 import { WagmiProvider, createConfig } from 'wagmi'

@@ -56,13 +56,14 @@
     "@mui/icons-material": "^7.1.0",
     "@mui/material": "^7.1.0",
     "@mui/system": "^7.1.0",
+    "@mysten/wallet-standard": "^0.14.9",
     "@solana/wallet-adapter-base": "^0.9.24",
     "@solana/web3.js": "^1.98.0",
     "i18next": "^25.1.1",
     "mitt": "^3.0.1",
     "react-i18next": "^15.5.1",
     "use-sync-external-store": "^1.5.0",
-    "viem": "^2.29.0",
+    "viem": "^2.29.1",
     "zustand": "^5.0.4"
   },
   "devDependencies": {
@@ -75,6 +76,7 @@
   },
   "peerDependencies": {
     "@bigmi/react": ">=0.1.0",
+    "@mysten/dapp-kit": ">=0.16.0",
     "@solana/wallet-adapter-react": ">=0.15.35",
     "@tanstack/react-query": ">=5.68.0",
     "react": ">=18",

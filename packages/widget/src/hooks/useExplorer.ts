@@ -1,4 +1,5 @@
-import type { Chain } from '@lifi/sdk'
+import type { Chain, EVMChain } from '@lifi/sdk'
+import { ChainId } from '@lifi/sdk'
 import { lifiExplorerUrl } from '../config/constants.js'
 import { useAvailableChains } from '../hooks/useAvailableChains.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
@@ -46,7 +47,8 @@ export const useExplorer = () => {
       return `${baseUrl}/tx/${txHash}`
     }
     const resolvedChain = resolveChain(chain)
-    return `${resolvedChain ? getBaseUrl(resolvedChain) : lifiExplorerUrl}/tx/${txHash}`
+    const txPathSegment = resolvedChain?.id === ChainId.SUI ? 'txblock' : 'tx'
+    return `${resolvedChain ? getBaseUrl(resolvedChain) : lifiExplorerUrl}/${txPathSegment}/${txHash}`
   }
 
   const getAddressLink = (address: string, chain?: Chain | number) => {
@@ -61,8 +63,17 @@ export const useExplorer = () => {
     return `${resolvedChain ? getBaseUrl(resolvedChain) : lifiExplorerUrl}/address/${address}`
   }
 
+  const getTokenAddressLink = (address: string, chain?: Chain | number) => {
+    const link = getAddressLink(address, chain)
+    if (chain === ChainId.SUI || (chain as EVMChain)?.id === ChainId.SUI) {
+      return link.replace('address', 'coin')
+    }
+    return link
+  }
+
   return {
     getTransactionLink,
     getAddressLink,
+    getTokenAddressLink,
   }
 }
