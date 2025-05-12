@@ -2,7 +2,6 @@ import type { Route } from '@lifi/sdk'
 import { useMemo } from 'react'
 import { useFromTokenSufficiency } from '../../hooks/useFromTokenSufficiency.js'
 import { useGasSufficiency } from '../../hooks/useGasSufficiency.js'
-import { useIsCompatibleDestinationAccount } from '../../hooks/useIsCompatibleDestinationAccount.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 
 interface QueuedMessage {
@@ -12,11 +11,12 @@ interface QueuedMessage {
 }
 
 export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
-  const { requiredToAddress, toAddress } = useToAddressRequirements(route)
   const {
-    isCompatibleDestinationAccount,
-    isLoading: isCompatibleDestinationAccountLoading,
-  } = useIsCompatibleDestinationAccount(route)
+    requiredToAddress,
+    toAddress,
+    accountNotDeployedAtDestination,
+    isLoading: isToAddressRequirementsLoading,
+  } = useToAddressRequirements(route)
   const { insufficientFromToken, isLoading: isFromTokenSufficiencyLoading } =
     useFromTokenSufficiency(route)
   const { insufficientGas, isLoading: isGasSufficiencyLoading } =
@@ -40,7 +40,7 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
       })
     }
 
-    if (!isCompatibleDestinationAccount && !allowInteraction) {
+    if (accountNotDeployedAtDestination && !allowInteraction) {
       queue.push({
         id: 'ACCOUNT_NOT_DEPLOYED',
         priority: 3,
@@ -59,7 +59,7 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
     allowInteraction,
     insufficientFromToken,
     insufficientGas,
-    isCompatibleDestinationAccount,
+    accountNotDeployedAtDestination,
     requiredToAddress,
     toAddress,
   ])
@@ -70,6 +70,6 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
     isLoading:
       isGasSufficiencyLoading ||
       isFromTokenSufficiencyLoading ||
-      isCompatibleDestinationAccountLoading,
+      isToAddressRequirementsLoading,
   }
 }
