@@ -1,3 +1,4 @@
+import type { Config } from '@bigmi/client'
 import { BigmiProvider, useReconnect } from '@bigmi/react'
 import type { DefaultBigmiConfigResult } from '@lifi/wallet-management'
 import { createDefaultBigmiConfig } from '@lifi/wallet-management'
@@ -15,10 +16,13 @@ export const UTXOBaseProvider: FC<PropsWithChildren> = ({ children }) => {
     })
   }
 
-  useReconnect(bigmi.current.config)
+  useReconnect(bigmi.current.config as Config)
 
   return (
-    <BigmiProvider config={bigmi.current.config} reconnectOnMount={false}>
+    <BigmiProvider
+      config={bigmi.current.config as Config}
+      reconnectOnMount={false}
+    >
       {children}
     </BigmiProvider>
   )
