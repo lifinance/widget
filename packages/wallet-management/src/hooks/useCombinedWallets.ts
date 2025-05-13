@@ -58,7 +58,7 @@ const combineWalletLists = (
       id: utxo.id,
       name: utxoName,
       icon: getConnectorIcon(utxo as BigmiConnector),
-      connectors: [],
+      connectors: [] as CombinedWalletConnector[],
     }
     existing.connectors.push({ connector: utxo, chainType: ChainType.UTXO })
     walletMap.set(normalizedName, existing)
@@ -73,7 +73,7 @@ const combineWalletLists = (
       id: evm.id,
       name: evmName,
       icon: getConnectorIcon(evm as Connector),
-      connectors: [],
+      connectors: [] as CombinedWalletConnector[],
     }
     existing.connectors.push({ connector: evm, chainType: ChainType.EVM })
     walletMap.set(normalizedName, existing)
@@ -85,7 +85,7 @@ const combineWalletLists = (
       id: svm.adapter.name,
       name: svm.adapter.name,
       icon: svm.adapter.icon,
-      connectors: [],
+      connectors: [] as CombinedWalletConnector[],
     }
     existing.connectors.push({
       connector: svm.adapter,
