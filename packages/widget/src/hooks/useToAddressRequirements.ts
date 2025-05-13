@@ -4,6 +4,7 @@ import { useChain } from '../hooks/useChain.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
 import { RequiredUI } from '../types/widget.js'
+import { isDelegationDesignatorCode } from '../utils/eip7702.js'
 import { useIsContractAddress } from './useIsContractAddress.js'
 
 export const useToAddressRequirements = (route?: RouteExtended) => {
@@ -16,37 +17,64 @@ export const useToAddressRequirements = (route?: RouteExtended) => {
 
   const fromChainId = route?.fromChainId ?? formFromChainId
   const toChainId = route?.toChainId ?? formToChainId
-  const toAddress = route
-    ? route.fromAddress !== route.toAddress
-      ? route.toAddress
-      : formToAddress
-    : formToAddress
 
   const { chain: fromChain } = useChain(fromChainId)
   const { chain: toChain } = useChain(toChainId)
   const { account } = useAccount({
     chainType: fromChain?.chainType,
   })
-  const { isContractAddress: isFromContractAddress } = useIsContractAddress(
-    account.address,
-    fromChainId,
-    account.chainType
-  )
+
+  const fromAddress = route?.fromAddress ?? account.address
+  const toAddress = route
+    ? route.fromAddress !== route.toAddress
+      ? route.toAddress
+      : formToAddress
+    : formToAddress
+
+  const {
+    isContractAddress: isFromContractAddress,
+    contractCode: fromContractCode,
+    isLoading: isFromContractLoading,
+    isFetched: isFromContractFetched,
+  } = useIsContractAddress(account.address, fromChainId, account.chainType)
+  const {
+    isContractAddress: isToContractAddress,
+    isLoading: isToContractLoading,
+    isFetched: isToContractFetched,
+  } = useIsContractAddress(toAddress, toChainId, toChain?.chainType)
 
   const isDifferentChainType =
     fromChain && toChain && fromChain.chainType !== toChain.chainType
 
+  // We don't want to block transfers for EIP-7702 accounts since they are designed
+  // to maintain EOA-like properties while delegating execution.
+  const fromContractCodeHasDelegationIndicator =
+    isDelegationDesignatorCode(fromContractCode)
+
   const isCrossChainContractAddress =
-    isFromContractAddress && fromChainId !== toChainId
+    isFromContractAddress &&
+    fromChainId !== toChainId &&
+    !fromContractCodeHasDelegationIndicator
 
   const requiredToAddress =
     requiredUI?.includes(RequiredUI.ToAddress) ||
     isDifferentChainType ||
     isCrossChainContractAddress
 
+  const accountNotDeployedAtDestination =
+    isFromContractAddress &&
+    !fromContractCodeHasDelegationIndicator &&
+    !isToContractAddress &&
+    fromAddress?.toLowerCase() === toAddress?.toLowerCase()
+
   return {
     requiredToAddress,
     requiredToChainType: toChain?.chainType,
+    accountNotDeployedAtDestination,
     toAddress,
+    isFromContractAddress,
+    isToContractAddress,
+    isLoading: isFromContractLoading || isToContractLoading,
+    isFetched: isFromContractFetched && isToContractFetched,
   }
 }

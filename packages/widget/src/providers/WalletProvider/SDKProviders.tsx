@@ -65,7 +65,7 @@ export const SDKProviders = () => {
     if (!hasConfiguredSuiProvider) {
       providers.push(
         Sui({
-          getWallet: () => currentWallet!,
+          getWallet: async () => currentWallet!,
         })
       )
     }

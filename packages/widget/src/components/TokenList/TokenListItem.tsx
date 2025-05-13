@@ -18,7 +18,11 @@ import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { ListItemButton } from '../ListItem/ListItemButton.js'
 import { IconButton, ListItem } from './TokenList.style.js'
-import type { TokenListItemButtonProps, TokenListItemProps } from './types.js'
+import type {
+  TokenListItemAvatarProps,
+  TokenListItemButtonProps,
+  TokenListItemProps,
+} from './types.js'
 
 export const TokenListItem: React.FC<TokenListItemProps> = ({
   onClick,
@@ -52,6 +56,24 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
       />
       {endAdornment}
     </ListItem>
+  )
+}
+
+export const TokenListItemAvatar: React.FC<TokenListItemAvatarProps> = ({
+  token,
+}) => {
+  const [isImageLoading, setIsImageLoading] = useState(true)
+  return (
+    <Avatar
+      src={token.logoURI}
+      alt={token.symbol}
+      sx={(theme) =>
+        isImageLoading ? { bgcolor: theme.vars.palette.grey[300] } : null
+      }
+      onLoad={() => setIsImageLoading(false)}
+    >
+      {token.symbol?.[0]}
+    </Avatar>
   )
 }
 
@@ -101,9 +123,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
       dense
     >
       <ListItemAvatar>
-        <Avatar src={token.logoURI} alt={token.symbol}>
-          {token.symbol?.[0]}
-        </Avatar>
+        <TokenListItemAvatar token={token} />
       </ListItemAvatar>
       <ListItemText
         primary={token.symbol}

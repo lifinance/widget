@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.20.5](https://github.com/lifinance/widget/compare/v3.20.4...v3.20.5) (2025-05-12)
+
+
+### Bug Fixes
+
+* add timeout for getCapabilities call ([#392](https://github.com/lifinance/widget/issues/392)) ([2b73bf6](https://github.com/lifinance/widget/commit/2b73bf67499f2443ff2da268b4dec8f8ca59c131))
+* **avatar-icon:** add skeleton for token image ([#390](https://github.com/lifinance/widget/issues/390)) ([d9054ce](https://github.com/lifinance/widget/commit/d9054cecbdf10bf79741f706fbee33a4a53af4e7))
+* should not require destination address for 7702 accounts ([#393](https://github.com/lifinance/widget/issues/393)) ([00faad2](https://github.com/lifinance/widget/commit/00faad276adbbbdc9c14d444d5e598cce553d52f))
+
 ### [3.20.4](https://github.com/lifinance/widget/compare/v3.20.3...v3.20.4) (2025-05-06)
 
 
