@@ -11,10 +11,10 @@
   "dependencies": {
     "@lifi/widget": "workspace:^",
     "@mui/material": "^7.1.0",
-    "@tanstack/react-query": "^5.76.0",
+    "@tanstack/react-query": "^5.76.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "wagmi": "^2.15.2",
+    "wagmi": "^2.15.3",
     "zustand": "^5.0.4"
   },
   "devDependencies": {

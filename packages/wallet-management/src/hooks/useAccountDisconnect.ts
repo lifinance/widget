@@ -1,3 +1,8 @@
+import type { Config as BigmiConfig } from '@bigmi/client'
+import {
+  disconnect as bigmiDisconnect,
+  getAccount as bigmiGetAccount,
+} from '@bigmi/client'
 import { useConfig as useBigmiConfig } from '@bigmi/react'
 import { ChainType } from '@lifi/sdk'
 import { useDisconnectWallet } from '@mysten/dapp-kit'
@@ -13,20 +18,27 @@ export const useAccountDisconnect = () => {
   const { disconnect: solanaDisconnect } = useWallet()
   const { mutateAsync: disconnectWallet } = useDisconnectWallet()
 
-  const handleDisconnect = async (config: Config) => {
+  const handleDisconnectEVM = async (config: Config) => {
     const connectedAccount = getAccount(config)
     if (connectedAccount.connector) {
       await disconnect(config, { connector: connectedAccount.connector })
     }
   }
 
+  const handleDisconnectUTXO = async (config: BigmiConfig) => {
+    const connectedAccount = bigmiGetAccount(config)
+    if (connectedAccount.connector) {
+      await bigmiDisconnect(config, { connector: connectedAccount.connector })
+    }
+  }
+
   return async (account: Account) => {
     switch (account.chainType) {
       case ChainType.EVM:
-        await handleDisconnect(wagmiConfig)
+        await handleDisconnectEVM(wagmiConfig)
         break
       case ChainType.UTXO:
-        await handleDisconnect(bigmiConfig)
+        await handleDisconnectUTXO(bigmiConfig)
         break
       case ChainType.SVM:
         await solanaDisconnect()

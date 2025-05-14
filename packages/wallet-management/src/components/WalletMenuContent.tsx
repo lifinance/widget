@@ -1,3 +1,4 @@
+import type { Connector as BigmiConnector } from '@bigmi/client'
 import { ChainType } from '@lifi/sdk'
 import ArrowBack from '@mui/icons-material/ArrowBack'
 import Close from '@mui/icons-material/Close'
@@ -111,7 +112,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
           <UTXOListItemButton
             key={key}
             ecosystemSelection={ecosystemSelection}
-            connector={connector as Connector}
+            connector={connector as BigmiConnector}
             onConnected={onClose}
             onConnecting={() => handleConnecting(id)}
             onError={(error) => handleError(id, error)}

@@ -1,4 +1,5 @@
-import { useConfig as useBigmiConfig } from '@bigmi/react'
+import type { Connector as BigmiConnector } from '@bigmi/client'
+import { useAccount as useBigmiAccount } from '@bigmi/react'
 import { ChainId, ChainType } from '@lifi/sdk'
 import { useCurrentWallet } from '@mysten/dapp-kit'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
@@ -8,7 +9,11 @@ import { useMemo } from 'react'
 import type { Connector } from 'wagmi'
 import { useAccount as useAccountInternal } from 'wagmi'
 import { create } from 'zustand'
-import type { CreateConnectorFnExtended } from '../connectors/types.js'
+import type {
+  CreateBigmiConnectorFnExtended,
+  CreateConnectorFnExtended,
+} from '../connectors/types.js'
+
 export interface AccountBase<CT extends ChainType, ConnectorType = undefined> {
   address?: string
   addresses?: readonly string[]
@@ -24,7 +29,7 @@ export interface AccountBase<CT extends ChainType, ConnectorType = undefined> {
 
 export type EVMAccount = AccountBase<ChainType.EVM, Connector>
 export type SVMAccount = AccountBase<ChainType.SVM, WalletAdapter>
-export type UTXOAccount = AccountBase<ChainType.UTXO, Connector>
+export type UTXOAccount = AccountBase<ChainType.UTXO, BigmiConnector>
 export type MVMAccount = AccountBase<ChainType.MVM, WalletWithRequiredFeatures>
 export type DefaultAccount = AccountBase<ChainType>
 
@@ -59,7 +64,9 @@ const defaultAccount: AccountBase<ChainType> = {
 export type LastConnectedAccount =
   | WalletAdapter
   | Connector
+  | BigmiConnector
   | CreateConnectorFnExtended
+  | CreateBigmiConnectorFnExtended
   | WalletWithRequiredFeatures
   | null
 
@@ -81,8 +88,7 @@ export const useLastConnectedAccount = create<LastConnectedAccountStore>(
  * @returns - Account result
  */
 export const useAccount = (args?: UseAccountArgs): AccountResult => {
-  const bigmiConfig = useBigmiConfig()
-  const bigmiAccount = useAccountInternal({ config: bigmiConfig })
+  const bigmiAccount = useBigmiAccount()
   const wagmiAccount = useAccountInternal()
   const { wallet } = useWallet()
   const { currentWallet, connectionStatus } = useCurrentWallet()
