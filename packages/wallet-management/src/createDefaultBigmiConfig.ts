@@ -8,10 +8,9 @@ import {
   unisat,
   xverse,
 } from '@bigmi/client'
-import { bitcoin } from '@bigmi/core'
+import type { Config, CreateConnectorFn } from '@bigmi/client'
+import { http, bitcoin, createClient } from '@bigmi/core'
 import { ChainId } from '@lifi/sdk'
-import { http, createClient } from 'viem'
-import type { Config, CreateConnectorFn } from 'wagmi'
 
 export interface DefaultBigmiConfigProps {
   bigmiConfig?: {
