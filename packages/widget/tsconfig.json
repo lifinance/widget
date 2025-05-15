@@ -6,8 +6,8 @@
     "sourceMap": true,
     "outDir": "dist/esm",
     "rootDir": "./src",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "skipLibCheck": true
   },
   "include": ["./src/**/*", "./src/**/*.json"],

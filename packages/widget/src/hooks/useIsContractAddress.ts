@@ -8,7 +8,7 @@ export const useIsContractAddress = (
   chainType?: ChainType
 ): {
   isContractAddress: boolean
-  contractCode: string | undefined
+  contractCode?: string
   isLoading: boolean
   isFetched: boolean
 } => {

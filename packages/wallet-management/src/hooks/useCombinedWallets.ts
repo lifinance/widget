@@ -6,6 +6,8 @@ import {
 import { ChainType } from '@lifi/sdk'
 import type { Theme } from '@mui/material'
 import { useMediaQuery } from '@mui/material'
+import { useWallets } from '@mysten/dapp-kit'
+import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import { WalletReadyState } from '@solana/wallet-adapter-base'
 import type { Wallet } from '@solana/wallet-adapter-react'
 import { useWallet } from '@solana/wallet-adapter-react'
@@ -45,7 +47,8 @@ const normalizeName = (name: string) => name.split(' ')[0].toLowerCase().trim()
 const combineWalletLists = (
   utxoConnectorList: (CreateBigmiConnectorFnExtended | BigmiConnector)[],
   evmConnectorList: (CreateConnectorFnExtended | Connector)[],
-  svmWalletList: Wallet[]
+  svmWalletList: Wallet[],
+  suiWalletList: WalletWithRequiredFeatures[]
 ): CombinedWallet[] => {
   const walletMap = new Map<string, CombinedWallet>()
 
@@ -94,6 +97,18 @@ const combineWalletLists = (
     walletMap.set(normalizedName, existing)
   })
 
+  suiWalletList.forEach((sui) => {
+    const normalizedName = normalizeName(sui.name)
+    const existing = walletMap.get(normalizedName) || {
+      id: sui.name,
+      name: sui.name,
+      icon: sui.icon,
+      connectors: [] as CombinedWalletConnector[],
+    }
+    existing.connectors.push({ connector: sui, chainType: ChainType.MVM })
+    walletMap.set(normalizedName, existing)
+  })
+
   const combinedWallets = Array.from(walletMap.values())
   combinedWallets.sort(walletComparator)
 
@@ -107,6 +122,7 @@ export const useCombinedWallets = () => {
   const { connectors: wagmiConnectors } = useConnect()
   const { connectors: bigmiConnectors } = useBigmiConnect()
   const { wallets: solanaWallets } = useWallet()
+  const suiWallets = useWallets()
 
   const isDesktopView = useMediaQuery((theme: Theme) =>
     theme.breakpoints.up('sm')
@@ -177,10 +193,18 @@ export const useCombinedWallets = () => {
         })
       : []
 
+    const installedSuiWallets = includeEcosystem(ChainType.MVM)
+      ? suiWallets.filter((wallet) => {
+          const isConnected = wallet.accounts?.length > 0
+          return !isConnected
+        })
+      : []
+
     const installedCombinedWallets = combineWalletLists(
       installedUTXOConnectors,
       installedEVMConnectors,
-      installedSVMWallets
+      installedSVMWallets,
+      installedSuiWallets
     )
 
     const notDetectedUTXOConnectors = bigmiConnectors.filter((connector) => {
@@ -203,7 +227,8 @@ export const useCombinedWallets = () => {
     const notDetectedCombinedWallets = combineWalletLists(
       notDetectedUTXOConnectors,
       notDetectedEVMConnectors,
-      notDetectedSVMWallets
+      notDetectedSVMWallets,
+      []
     )
 
     installedCombinedWallets.sort(walletComparator)
@@ -216,10 +241,11 @@ export const useCombinedWallets = () => {
   }, [
     bigmiAccount.connector?.id,
     bigmiConnectors,
+    isDesktopView,
     solanaWallets,
+    suiWallets,
     wagmiAccount.connector?.id,
     wagmiConnectors,
-    isDesktopView,
     walletConfig,
   ])
 

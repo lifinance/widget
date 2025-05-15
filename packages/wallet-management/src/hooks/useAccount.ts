@@ -1,6 +1,8 @@
 import type { Connector as BigmiConnector } from '@bigmi/client'
 import { useAccount as useBigmiAccount } from '@bigmi/react'
 import { ChainId, ChainType } from '@lifi/sdk'
+import { useCurrentWallet } from '@mysten/dapp-kit'
+import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import type { WalletAdapter } from '@solana/wallet-adapter-base'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { useMemo } from 'react'
@@ -28,9 +30,15 @@ export interface AccountBase<CT extends ChainType, ConnectorType = undefined> {
 export type EVMAccount = AccountBase<ChainType.EVM, Connector>
 export type SVMAccount = AccountBase<ChainType.SVM, WalletAdapter>
 export type UTXOAccount = AccountBase<ChainType.UTXO, BigmiConnector>
+export type MVMAccount = AccountBase<ChainType.MVM, WalletWithRequiredFeatures>
 export type DefaultAccount = AccountBase<ChainType>
 
-export type Account = EVMAccount | SVMAccount | UTXOAccount | DefaultAccount
+export type Account =
+  | EVMAccount
+  | SVMAccount
+  | UTXOAccount
+  | MVMAccount
+  | DefaultAccount
 
 export interface AccountResult {
   account: Account
@@ -56,9 +64,10 @@ const defaultAccount: AccountBase<ChainType> = {
 export type LastConnectedAccount =
   | WalletAdapter
   | Connector
-  | CreateConnectorFnExtended
   | BigmiConnector
+  | CreateConnectorFnExtended
   | CreateBigmiConnectorFnExtended
+  | WalletWithRequiredFeatures
   | null
 
 interface LastConnectedAccountStore {
@@ -82,9 +91,10 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
   const bigmiAccount = useBigmiAccount()
   const wagmiAccount = useAccountInternal()
   const { wallet } = useWallet()
+  const { currentWallet, connectionStatus } = useCurrentWallet()
   const { lastConnectedAccount } = useLastConnectedAccount()
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies:
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   return useMemo(() => {
     const svm: Account = wallet?.adapter.publicKey
       ? {
@@ -106,9 +116,30 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
           isDisconnected: true,
           status: 'disconnected',
         }
+    const sui: Account =
+      currentWallet?.accounts?.length && connectionStatus === 'connected'
+        ? {
+            address: currentWallet?.accounts[0].address,
+            chainId: ChainId.SUI,
+            chainType: ChainType.MVM,
+            connector: currentWallet,
+            isConnected: connectionStatus === 'connected',
+            isConnecting: false,
+            isReconnecting: false,
+            isDisconnected: !currentWallet,
+            status: connectionStatus,
+          }
+        : {
+            chainType: ChainType.MVM,
+            isConnected: false,
+            isConnecting: false,
+            isReconnecting: false,
+            isDisconnected: true,
+            status: 'disconnected',
+          }
     const evm: Account = { ...wagmiAccount, chainType: ChainType.EVM }
     const utxo: Account = { ...bigmiAccount, chainType: ChainType.UTXO }
-    const accounts = [evm, svm, utxo]
+    const accounts = [evm, svm, utxo, sui]
     const connectedAccounts = accounts.filter(
       (account) => account.isConnected && account.address
     )
@@ -157,5 +188,7 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
     bigmiAccount.chainId,
     args?.chainType,
     lastConnectedAccount,
+    currentWallet?.accounts?.length,
+    connectionStatus,
   ])
 }

@@ -6,6 +6,7 @@ import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 import { EVMProvider } from './EVMProvider.js'
 import { SDKProviders } from './SDKProviders.js'
 import { SVMProvider } from './SVMProvider.js'
+import { SuiProvider } from './SuiProvider.js'
 import { UTXOProvider } from './UTXOProvider.js'
 import { useExternalWalletProvider } from './useExternalWalletProvider.js'
 
@@ -14,8 +15,10 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
     <EVMProvider>
       <SVMProvider>
         <UTXOProvider>
-          <SDKProviders />
-          <WalletMenuProvider>{children}</WalletMenuProvider>
+          <SuiProvider>
+            <SDKProviders />
+            <WalletMenuProvider>{children}</WalletMenuProvider>
+          </SuiProvider>
         </UTXOProvider>
       </SVMProvider>
     </EVMProvider>

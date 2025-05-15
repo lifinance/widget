@@ -10,7 +10,14 @@ export const useTokens = (selectedChainId?: number) => {
   const { data, isLoading } = useQuery({
     queryKey: ['tokens'],
     queryFn: () =>
-      getTokens({ chainTypes: [ChainType.EVM, ChainType.SVM, ChainType.UTXO] }),
+      getTokens({
+        chainTypes: [
+          ChainType.EVM,
+          ChainType.SVM,
+          ChainType.UTXO,
+          ChainType.MVM,
+        ],
+      }),
     refetchInterval: 3_600_000,
     staleTime: 3_600_000,
   })
