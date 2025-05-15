@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.21.0](https://github.com/lifinance/widget/compare/v3.20.5...v3.21.0) (2025-05-15)
+
+
+### Features
+
+* add Sui support ([#394](https://github.com/lifinance/widget/issues/394)) ([669b7a9](https://github.com/lifinance/widget/commit/669b7a9cf727b37b4b954d944076b04a1dac56b3))
+* replace viem dependencies with bigmi imports ([#388](https://github.com/lifinance/widget/issues/388)) ([624be1a](https://github.com/lifinance/widget/commit/624be1a4437abc30679cb78f10d6d65d118b1a23))
+
 ### [3.20.5](https://github.com/lifinance/widget/compare/v3.20.4...v3.20.5) (2025-05-12)
 
 
