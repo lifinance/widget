@@ -38,6 +38,7 @@ export const Card = styled(MuiCard, {
             '&:hover': {
               backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main} 40%, black)`,
             },
+            borderColor: theme.vars.palette.primary.main,
           }),
         },
       },
