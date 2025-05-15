@@ -48,8 +48,8 @@
     "lifi"
   ],
   "dependencies": {
-    "@bigmi/client": "0.2.1",
-    "@bigmi/core": "0.2.1",
+    "@bigmi/client": "^0.2.1",
+    "@bigmi/core": "^0.2.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@lifi/sdk": "^3.7.0-beta.3",
@@ -59,11 +59,11 @@
     "@mysten/wallet-standard": "^0.15.0",
     "@solana/wallet-adapter-base": "^0.9.26",
     "@solana/web3.js": "^1.98.2",
-    "i18next": "^25.1.2",
+    "i18next": "^25.1.3",
     "mitt": "^3.0.1",
     "react-i18next": "^15.5.1",
     "use-sync-external-store": "^1.5.0",
-    "viem": "^2.29.2",
+    "viem": "^2.29.3",
     "zustand": "^5.0.4"
   },
   "devDependencies": {

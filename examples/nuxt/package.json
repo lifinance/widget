@@ -14,7 +14,7 @@
     "nuxt": "3.17.3",
     "veaury": "^2.6.2",
     "vite-plugin-node-polyfills": "^0.23.0",
-    "vue": "^3.5.13",
+    "vue": "^3.5.14",
     "vue-router": "^4.5.1"
   }
 }
