@@ -9,6 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@bigmi/client": "^0.2.1",
+    "@bigmi/react": "^0.2.1",
+    "@bigmi/core": "^0.2.1",
+    "@lifi/sdk": "^3.6.5",
     "@dynamic-labs/bitcoin": "^4.18.3",
     "@dynamic-labs/ethereum": "^4.18.3",
     "@dynamic-labs/ethereum-aa": "^4.18.3",

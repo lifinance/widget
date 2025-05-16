@@ -1,3 +1,4 @@
+import { BitcoinWalletConnectors } from '@dynamic-labs/bitcoin'
 import { EthereumWalletConnectors } from '@dynamic-labs/ethereum'
 import { ZeroDevSmartWalletConnectors } from '@dynamic-labs/ethereum-aa'
 import { DynamicContextProvider } from '@dynamic-labs/sdk-react-core'
@@ -13,6 +14,7 @@ import { type FC, type PropsWithChildren, useRef } from 'react'
 import { type Chain, mainnet } from 'viem/chains'
 import type { Config, CreateConnectorFn } from 'wagmi'
 import { http, WagmiProvider, createConfig } from 'wagmi'
+import { DynamicUTXOProvider } from './DynamicUTXOProvider'
 import { SolanaProvider } from './SolanaProvider'
 
 // All connectors are supplied by Dynamic so we can leave this empty
@@ -55,6 +57,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
           EthereumWalletConnectors,
           SolanaWalletConnectors,
           ZeroDevSmartWalletConnectors,
+          BitcoinWalletConnectors,
         ],
         overrides: {
           // Please ignore these network settings if you specify chains yourself
@@ -66,7 +69,9 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
     >
       <WagmiProvider config={wagmi.current} reconnectOnMount={false}>
         <DynamicWagmiConnector>
-          <SolanaProvider>{children}</SolanaProvider>
+          <SolanaProvider>
+            <DynamicUTXOProvider>{children}</DynamicUTXOProvider>
+          </SolanaProvider>
         </DynamicWagmiConnector>
       </WagmiProvider>
     </DynamicContextProvider>
