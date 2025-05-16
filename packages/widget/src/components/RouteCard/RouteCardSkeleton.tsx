@@ -29,7 +29,7 @@ export const RouteCardSkeleton: React.FC<
             width={112}
             height={24}
             sx={(theme) => ({
-              borderRadius: `${theme.shape.borderRadius}px`,
+              borderRadius: theme.vars.shape.borderRadius,
             })}
           />
         </Box>

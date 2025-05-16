@@ -4,7 +4,7 @@ export const TokenRateTypography = styled(Typography)(({ theme }) => ({
   fontSize: 14,
   lineHeight: 1.429,
   fontWeight: 500,
-  color: theme.palette.text.primary,
+  color: theme.vars.palette.text.primary,
   cursor: 'pointer',
   '&:hover': {
     opacity: 1,

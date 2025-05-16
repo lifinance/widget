@@ -37,42 +37,32 @@ export const Step: React.FC<{
 
     const isCustomVariant = hasCustomStep && subvariant === 'custom'
 
-    switch (step.type) {
-      case 'lifi': {
-        if (hasBridgeStep && hasSwapStep) {
-          return isCustomVariant
-            ? subvariantOptions?.custom === 'deposit'
-              ? t('main.stepBridgeAndDeposit')
-              : t('main.stepBridgeAndBuy')
-            : t('main.stepSwapAndBridge')
-        }
-        if (hasBridgeStep) {
-          return isCustomVariant
-            ? subvariantOptions?.custom === 'deposit'
-              ? t('main.stepBridgeAndDeposit')
-              : t('main.stepBridgeAndBuy')
-            : t('main.stepBridge')
-        }
-        if (hasSwapStep) {
-          return isCustomVariant
-            ? subvariantOptions?.custom === 'deposit'
-              ? t('main.stepSwapAndDeposit')
-              : t('main.stepSwapAndBuy')
-            : t('main.stepSwap')
-        }
-        return isCustomVariant
-          ? subvariantOptions?.custom === 'deposit'
-            ? t('main.stepDeposit')
-            : t('main.stepBuy')
-          : t('main.stepSwap')
-      }
-      default:
-        return isCustomVariant
-          ? subvariantOptions?.custom === 'deposit'
-            ? t('main.stepDeposit')
-            : t('main.stepBuy')
-          : t('main.stepSwap')
+    if (hasBridgeStep && hasSwapStep) {
+      return isCustomVariant
+        ? subvariantOptions?.custom === 'deposit'
+          ? t('main.stepBridgeAndDeposit')
+          : t('main.stepBridgeAndBuy')
+        : t('main.stepSwapAndBridge')
     }
+    if (hasBridgeStep) {
+      return isCustomVariant
+        ? subvariantOptions?.custom === 'deposit'
+          ? t('main.stepBridgeAndDeposit')
+          : t('main.stepBridgeAndBuy')
+        : t('main.stepBridge')
+    }
+    if (hasSwapStep) {
+      return isCustomVariant
+        ? subvariantOptions?.custom === 'deposit'
+          ? t('main.stepSwapAndDeposit')
+          : t('main.stepSwapAndBuy')
+        : t('main.stepSwap')
+    }
+    return isCustomVariant
+      ? subvariantOptions?.custom === 'deposit'
+        ? t('main.stepDeposit')
+        : t('main.stepBuy')
+      : t('main.stepSwap')
   }
 
   const formattedToAddress = shortenAddress(toAddress)

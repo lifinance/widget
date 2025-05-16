@@ -2,6 +2,125 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.21.0](https://github.com/lifinance/widget/compare/v3.20.5...v3.21.0) (2025-05-15)
+
+
+### Features
+
+* add Sui support ([#394](https://github.com/lifinance/widget/issues/394)) ([669b7a9](https://github.com/lifinance/widget/commit/669b7a9cf727b37b4b954d944076b04a1dac56b3))
+* replace viem dependencies with bigmi imports ([#388](https://github.com/lifinance/widget/issues/388)) ([624be1a](https://github.com/lifinance/widget/commit/624be1a4437abc30679cb78f10d6d65d118b1a23))
+
+### [3.20.5](https://github.com/lifinance/widget/compare/v3.20.4...v3.20.5) (2025-05-12)
+
+
+### Bug Fixes
+
+* add timeout for getCapabilities call ([#392](https://github.com/lifinance/widget/issues/392)) ([2b73bf6](https://github.com/lifinance/widget/commit/2b73bf67499f2443ff2da268b4dec8f8ca59c131))
+* **avatar-icon:** add skeleton for token image ([#390](https://github.com/lifinance/widget/issues/390)) ([d9054ce](https://github.com/lifinance/widget/commit/d9054cecbdf10bf79741f706fbee33a4a53af4e7))
+* should not require destination address for 7702 accounts ([#393](https://github.com/lifinance/widget/issues/393)) ([00faad2](https://github.com/lifinance/widget/commit/00faad276adbbbdc9c14d444d5e598cce553d52f))
+
+### [3.20.4](https://github.com/lifinance/widget/compare/v3.20.3...v3.20.4) (2025-05-06)
+
+
+### Bug Fixes
+
+* add new error messages for rate limits and third-party tools ([#391](https://github.com/lifinance/widget/issues/391)) ([da820be](https://github.com/lifinance/widget/commit/da820be7bcb25b58fb9c21c3baa42c6d4ea45bba))
+* prevent unnecessary capabilities requests ([d0dca6b](https://github.com/lifinance/widget/commit/d0dca6b2ecf0292f4518bea8794e7d6042876b30))
+
+### [3.20.3](https://github.com/lifinance/widget/compare/v3.20.2...v3.20.3) (2025-05-06)
+
+
+### Bug Fixes
+
+* button color for text variant should respect vars ([5efc9fd](https://github.com/lifinance/widget/commit/5efc9fd6d660369149e20989d12ae5c7334ff35f))
+
+### [3.20.2](https://github.com/lifinance/widget/compare/v3.20.1...v3.20.2) (2025-05-05)
+
+
+### Bug Fixes
+
+* should only hide bridge settings when hidden UI is applied ([8898a67](https://github.com/lifinance/widget/commit/8898a67e096fbbb719f07b724cd60cc18a9526ff))
+
+### [3.20.1](https://github.com/lifinance/widget/compare/v3.20.0...v3.20.1) (2025-05-05)
+
+
+### Bug Fixes
+
+* add new default UI and hidden UI options ([#389](https://github.com/lifinance/widget/issues/389)) ([b9579ad](https://github.com/lifinance/widget/commit/b9579adf09e4dfc84832ecf5bdf1b22b8468caef))
+
+## [3.20.0](https://github.com/lifinance/widget/compare/v3.19.2...v3.20.0) (2025-05-05)
+
+
+### Features
+
+* upgrade to MUI v7 ([#377](https://github.com/lifinance/widget/issues/377)) ([dc97603](https://github.com/lifinance/widget/commit/dc97603dab13047525c206e2536d9b4fcac29465))
+
+### [3.19.2](https://github.com/lifinance/widget/compare/v3.19.1...v3.19.2) (2025-04-29)
+
+
+### Bug Fixes
+
+* improve used tool retrieval in transaction history ([cba3ed6](https://github.com/lifinance/widget/commit/cba3ed69822afd0fb88bac647c41478153375e11))
+
+### [3.19.1](https://github.com/lifinance/widget/compare/v3.19.0...v3.19.1) (2025-04-29)
+
+
+### Bug Fixes
+
+* add options to show fee percentage ([#387](https://github.com/lifinance/widget/issues/387)) ([3dbd751](https://github.com/lifinance/widget/commit/3dbd7516c598ef896362df784c1ad5fe810a3dbb))
+
+## [3.19.0](https://github.com/lifinance/widget/compare/v3.18.9...v3.19.0) (2025-04-28)
+
+
+### Features
+
+* add option to hide chain selection ([#386](https://github.com/lifinance/widget/issues/386)) ([0bc15bf](https://github.com/lifinance/widget/commit/0bc15bff6f0127d21b8f976d82ce32e860004da1))
+
+### [3.18.9](https://github.com/lifinance/widget/compare/v3.18.8...v3.18.9) (2025-04-28)
+
+
+### Bug Fixes
+
+* adjust fee types ([#385](https://github.com/lifinance/widget/issues/385)) ([04dffc7](https://github.com/lifinance/widget/commit/04dffc7200ff8feadd6b88e235a63fbf1bd2538f))
+
+### [3.18.8](https://github.com/lifinance/widget/compare/v3.18.7...v3.18.8) (2025-04-28)
+
+### [3.18.7](https://github.com/lifinance/widget/compare/v3.18.6...v3.18.7) (2025-04-17)
+
+
+### Bug Fixes
+
+* add support for displaying positive price impacts with a plus sign ([#378](https://github.com/lifinance/widget/issues/378)) ([be3a23d](https://github.com/lifinance/widget/commit/be3a23ddd4540c48f8a4da9e9ffcf501065af9e8))
+* enable _vcComponent ([#382](https://github.com/lifinance/widget/issues/382)) ([fd37fa4](https://github.com/lifinance/widget/commit/fd37fa448707f6a57102d76817b0b34f4cbe9e88))
+
+### [3.18.6](https://github.com/lifinance/widget/compare/v3.18.5...v3.18.6) (2025-04-17)
+
+
+### Bug Fixes
+
+* missing availableRoute event ([#381](https://github.com/lifinance/widget/issues/381)) ([a884b81](https://github.com/lifinance/widget/commit/a884b81ec10a129831be744078678248aa8a9316))
+
+### [3.18.5](https://github.com/lifinance/widget/compare/v3.18.4...v3.18.5) (2025-04-15)
+
+
+### Bug Fixes
+
+* make transaction execution timer count down ([#376](https://github.com/lifinance/widget/issues/376)) ([0595587](https://github.com/lifinance/widget/commit/05955873b1d901efd7c6b0bd2f3143bdb44d5ab3))
+
+### [3.18.4](https://github.com/lifinance/widget/compare/v3.18.3...v3.18.4) (2025-04-08)
+
+
+### Bug Fixes
+
+* we should correctly track routes when there is a relayer one ([#370](https://github.com/lifinance/widget/issues/370)) ([a64390c](https://github.com/lifinance/widget/commit/a64390c20211798e19a91b1a61b71a1fb2175310))
+
+### [3.18.3](https://github.com/lifinance/widget/compare/v3.18.2...v3.18.3) (2025-04-07)
+
+
+### Bug Fixes
+
+* update routes incrementally as they're ready ([#367](https://github.com/lifinance/widget/issues/367)) ([fafe735](https://github.com/lifinance/widget/commit/fafe73510498b88676e97120452ba640823acdef))
+
 ### [3.18.2](https://github.com/lifinance/widget/compare/v3.18.1...v3.18.2) (2025-04-01)
 
 

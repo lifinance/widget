@@ -8,10 +8,10 @@ export const CardTitle = styled(Typography, {
   fontWeight: 700,
   padding: theme.spacing(2, 2, 0, 2),
   textAlign: 'left',
-  color: theme.palette.text.primary,
+  color: theme.vars.palette.text.primary,
   '&:after': {
     content: 'none',
-    color: theme.palette.error.main,
+    color: theme.vars.palette.error.main,
   },
   variants: [
     {

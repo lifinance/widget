@@ -1,14 +1,12 @@
 import { ListItemButton as MuiListItemButton, styled } from '@mui/material'
-import { getContrastAlphaColor } from '../utils/colors.js'
 
 export const ListItemButton = styled(MuiListItemButton)(({ theme }) => {
-  const backgroundHoverColor = getContrastAlphaColor(theme, 0.04)
   return {
-    borderRadius: theme.shape.borderRadius,
+    borderRadius: theme.vars.shape.borderRadius,
     paddingLeft: theme.spacing(1.5),
     height: 56,
     '&:hover': {
-      backgroundColor: backgroundHoverColor,
+      backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
     },
     variants: [
       {

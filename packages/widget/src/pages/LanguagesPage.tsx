@@ -1,4 +1,4 @@
-import { Check } from '@mui/icons-material'
+import Check from '@mui/icons-material/Check'
 import { List } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { ListItemText } from '../components/ListItemText.js'

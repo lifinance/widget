@@ -10,7 +10,12 @@ export type GetChainById = (
   chains?: ExtendedChain[]
 ) => ExtendedChain | undefined
 
-const supportedChainTypes = [ChainType.EVM, ChainType.SVM, ChainType.UTXO]
+const supportedChainTypes = [
+  ChainType.EVM,
+  ChainType.SVM,
+  ChainType.UTXO,
+  ChainType.MVM,
+]
 
 export const useAvailableChains = (chainTypes?: ChainType[]) => {
   const { chains } = useWidgetConfig()

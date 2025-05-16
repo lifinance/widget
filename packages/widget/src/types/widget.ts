@@ -2,7 +2,9 @@ import type {
   BaseToken,
   ChainType,
   ContractCall,
+  ExtendedChain,
   Order,
+  RouteExtended,
   RouteOptions,
   SDKConfig,
   StaticToken,
@@ -16,13 +18,8 @@ import type {
   SxProps,
   Theme,
 } from '@mui/material'
-import type { TypographyOptions } from '@mui/material/styles/createTypography.js'
-import type {
-  CSSProperties,
-  MutableRefObject,
-  ReactNode,
-  RefObject,
-} from 'react'
+import type { TypographyVariantsOptions } from '@mui/material/styles'
+import type { CSSProperties, FC, ReactNode, RefObject } from 'react'
 import type {
   CoinbaseWalletParameters,
   MetaMaskParameters,
@@ -43,7 +40,7 @@ export interface SubvariantOptions {
   custom?: CustomSubvariant
 }
 
-export type Appearance = PaletteMode | 'auto'
+export type Appearance = PaletteMode | 'system'
 export interface NavigationProps {
   /**
    * If given, uses a negative margin to counteract the padding on sides for navigation elements like icon buttons.
@@ -51,28 +48,37 @@ export interface NavigationProps {
    */
   edge?: boolean
 }
-export type WidgetThemeComponents = Pick<
-  Components<Theme>,
-  | 'MuiAppBar'
-  | 'MuiAvatar'
-  | 'MuiButton'
-  | 'MuiCard'
-  | 'MuiIconButton'
-  | 'MuiInputCard'
-  | 'MuiTabs'
+export type WidgetThemeComponents = Partial<
+  Pick<
+    Components<Theme>,
+    | 'MuiAppBar'
+    | 'MuiAvatar'
+    | 'MuiButton'
+    | 'MuiCard'
+    | 'MuiIconButton'
+    | 'MuiInputCard'
+    | 'MuiTabs'
+  >
 >
 
 export type WidgetTheme = {
-  palette?: Pick<
-    PaletteOptions,
-    'background' | 'grey' | 'primary' | 'secondary' | 'text'
-  >
+  /**
+   * @deprecated Use `colorScheme` instead.
+   */
+  palette?: PaletteOptions
+  colorSchemes?: {
+    light?: {
+      palette: PaletteOptions
+    }
+    dark?: {
+      palette: PaletteOptions
+    }
+  }
   shape?: Partial<Shape>
-  typography?: TypographyOptions
+  typography?: TypographyVariantsOptions
   components?: WidgetThemeComponents
   container?: CSSProperties
   header?: CSSProperties
-  playground?: CSSProperties
   navigation?: NavigationProps
 }
 
@@ -96,6 +102,8 @@ export enum HiddenUI {
   IntegratorStepDetails = 'integratorStepDetails',
   ReverseTokensButton = 'reverseTokensButton',
   RouteTokenDescription = 'routeTokenDescription',
+  ChainSelect = 'chainSelect',
+  BridgesSettings = 'bridgesSettings',
 }
 export type HiddenUIType = `${HiddenUI}`
 
@@ -103,6 +111,10 @@ export enum RequiredUI {
   ToAddress = 'toAddress',
 }
 export type RequiredUIType = `${RequiredUI}`
+
+export type DefaultUI = {
+  transactionDetailsExpanded?: boolean
+}
 
 export interface WidgetWalletConfig {
   onConnect?(): void
@@ -114,7 +126,7 @@ export interface WidgetWalletConfig {
    *
    * In partial mode, external wallet management will be used for "opt-out" providers,
    * while the internal management is applied for any remaining providers that do not opt out.
-   * This allows a flexible balance between the integrator’s custom wallet menu and the widget’s native wallet menu.
+   * This allows a flexible balance between the integrator's custom wallet menu and the widget's native wallet menu.
    * @default false
    */
   usePartialWalletManagement?: boolean
@@ -138,10 +150,10 @@ export interface WidgetContractTool {
 }
 
 export interface CalculateFeeParams {
-  fromChainId: number
-  toChainId: number
-  fromTokenAddress: string
-  toTokenAddress: string
+  fromChain: ExtendedChain
+  toChain: ExtendedChain
+  fromToken: Token
+  toToken: Token
   fromAddress?: string
   toAddress?: string
   fromAmount?: bigint
@@ -154,6 +166,20 @@ export interface WidgetFeeConfig {
   logoURI?: string
   fee?: number
   /**
+   * Whether to show the fee percentage in the fee details.
+   * @default false
+   */
+  showFeePercentage?: boolean
+  /**
+   * Whether to show a tooltip with the fee details. Requires `name` or `feeTooltipComponent` to be set.
+   * @default false
+   */
+  showFeeTooltip?: boolean
+  /**
+   * Custom tooltip component to show with the fee details.
+   */
+  feeTooltipComponent?: ReactNode
+  /**
    * Function to calculate fees before fetching quotes.
    * If provided, this function will be used instead of the `fee` parameter.
    * Only one of `fee` or `calculateFee` should be used.
@@ -162,6 +188,10 @@ export interface WidgetFeeConfig {
    * @returns A promise that resolves to the calculated fee as a number (e.g., 0.03 represents a 3% fee)
    */
   calculateFee?(params: CalculateFeeParams): Promise<number | undefined>
+  /**
+   * @internal
+   */
+  _vcComponent?: FC<{ route: RouteExtended }>
 }
 
 export interface ToAddress {
@@ -245,6 +275,7 @@ export interface WidgetConfig {
   disabledUI?: DisabledUIType[]
   hiddenUI?: HiddenUIType[]
   requiredUI?: RequiredUIType[]
+  defaultUI?: DefaultUI
   useRecommendedRoute?: boolean
   useRelayerRoutes?: boolean
 
@@ -293,7 +324,7 @@ export type FormState = {
   setFieldValue: SetFieldValueFunction
 }
 
-export type FormRef = MutableRefObject<FormState | null>
+export type FormRef = RefObject<FormState | null>
 
 export interface FormRefProps {
   formRef?: FormRef

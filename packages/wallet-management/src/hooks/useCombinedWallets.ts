@@ -1,7 +1,13 @@
-import { useConfig as useBigmiConfig } from '@bigmi/react'
+import type { Connector as BigmiConnector } from '@bigmi/client'
+import {
+  useAccount as useBigmiAccount,
+  useConnect as useBigmiConnect,
+} from '@bigmi/react'
 import { ChainType } from '@lifi/sdk'
 import type { Theme } from '@mui/material'
 import { useMediaQuery } from '@mui/material'
+import { useWallets } from '@mysten/dapp-kit'
+import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import { WalletReadyState } from '@solana/wallet-adapter-base'
 import type { Wallet } from '@solana/wallet-adapter-react'
 import { useWallet } from '@solana/wallet-adapter-react'
@@ -13,7 +19,10 @@ import { defaultMetaMaskConfig } from '../config/metaMask.js'
 import { defaultWalletConnectConfig } from '../config/walletConnect.js'
 import { createCoinbaseConnector } from '../connectors/coinbase.js'
 import { createMetaMaskConnector } from '../connectors/metaMask.js'
-import type { CreateConnectorFnExtended } from '../connectors/types.js'
+import type {
+  CreateBigmiConnectorFnExtended,
+  CreateConnectorFnExtended,
+} from '../connectors/types.js'
 import { createWalletConnectConnector } from '../connectors/walletConnect.js'
 import { useWalletManagementConfig } from '../providers/WalletManagementProvider/WalletManagementContext.js'
 import type { WalletConnector } from '../types/walletConnector.js'
@@ -36,22 +45,23 @@ export type CombinedWallet = {
 const normalizeName = (name: string) => name.split(' ')[0].toLowerCase().trim()
 
 const combineWalletLists = (
-  utxoConnectorList: (CreateConnectorFnExtended | Connector)[],
+  utxoConnectorList: (CreateBigmiConnectorFnExtended | BigmiConnector)[],
   evmConnectorList: (CreateConnectorFnExtended | Connector)[],
-  svmWalletList: Wallet[]
+  svmWalletList: Wallet[],
+  suiWalletList: WalletWithRequiredFeatures[]
 ): CombinedWallet[] => {
   const walletMap = new Map<string, CombinedWallet>()
 
   utxoConnectorList.forEach((utxo) => {
     const utxoName =
-      (utxo as CreateConnectorFnExtended)?.displayName ||
-      (utxo as Connector)?.name
+      (utxo as CreateBigmiConnectorFnExtended)?.displayName ||
+      (utxo as BigmiConnector)?.name
     const normalizedName = normalizeName(utxoName)
     const existing = walletMap.get(normalizedName) || {
       id: utxo.id,
       name: utxoName,
-      icon: getConnectorIcon(utxo as Connector),
-      connectors: [],
+      icon: getConnectorIcon(utxo as BigmiConnector),
+      connectors: [] as CombinedWalletConnector[],
     }
     existing.connectors.push({ connector: utxo, chainType: ChainType.UTXO })
     walletMap.set(normalizedName, existing)
@@ -66,7 +76,7 @@ const combineWalletLists = (
       id: evm.id,
       name: evmName,
       icon: getConnectorIcon(evm as Connector),
-      connectors: [],
+      connectors: [] as CombinedWalletConnector[],
     }
     existing.connectors.push({ connector: evm, chainType: ChainType.EVM })
     walletMap.set(normalizedName, existing)
@@ -78,12 +88,24 @@ const combineWalletLists = (
       id: svm.adapter.name,
       name: svm.adapter.name,
       icon: svm.adapter.icon,
-      connectors: [],
+      connectors: [] as CombinedWalletConnector[],
     }
     existing.connectors.push({
       connector: svm.adapter,
       chainType: ChainType.SVM,
     })
+    walletMap.set(normalizedName, existing)
+  })
+
+  suiWalletList.forEach((sui) => {
+    const normalizedName = normalizeName(sui.name)
+    const existing = walletMap.get(normalizedName) || {
+      id: sui.name,
+      name: sui.name,
+      icon: sui.icon,
+      connectors: [] as CombinedWalletConnector[],
+    }
+    existing.connectors.push({ connector: sui, chainType: ChainType.MVM })
     walletMap.set(normalizedName, existing)
   })
 
@@ -95,12 +117,12 @@ const combineWalletLists = (
 
 export const useCombinedWallets = () => {
   const walletConfig = useWalletManagementConfig()
-  const bigmiConfig = useBigmiConfig()
   const wagmiAccount = useAccount()
-  const bigmiAccount = useAccount({ config: bigmiConfig })
+  const bigmiAccount = useBigmiAccount()
   const { connectors: wagmiConnectors } = useConnect()
-  const { connectors: bigmiConnectors } = useConnect({ config: bigmiConfig })
+  const { connectors: bigmiConnectors } = useBigmiConnect()
   const { wallets: solanaWallets } = useWallet()
+  const suiWallets = useWallets()
 
   const isDesktopView = useMediaQuery((theme: Theme) =>
     theme.breakpoints.up('sm')
@@ -171,10 +193,18 @@ export const useCombinedWallets = () => {
         })
       : []
 
+    const installedSuiWallets = includeEcosystem(ChainType.MVM)
+      ? suiWallets.filter((wallet) => {
+          const isConnected = wallet.accounts?.length > 0
+          return !isConnected
+        })
+      : []
+
     const installedCombinedWallets = combineWalletLists(
       installedUTXOConnectors,
       installedEVMConnectors,
-      installedSVMWallets
+      installedSVMWallets,
+      installedSuiWallets
     )
 
     const notDetectedUTXOConnectors = bigmiConnectors.filter((connector) => {
@@ -195,9 +225,10 @@ export const useCombinedWallets = () => {
     })
 
     const notDetectedCombinedWallets = combineWalletLists(
-      notDetectedEVMConnectors,
       notDetectedUTXOConnectors,
-      notDetectedSVMWallets
+      notDetectedEVMConnectors,
+      notDetectedSVMWallets,
+      []
     )
 
     installedCombinedWallets.sort(walletComparator)
@@ -210,10 +241,11 @@ export const useCombinedWallets = () => {
   }, [
     bigmiAccount.connector?.id,
     bigmiConnectors,
+    isDesktopView,
     solanaWallets,
+    suiWallets,
     wagmiAccount.connector?.id,
     wagmiConnectors,
-    isDesktopView,
     walletConfig,
   ])
 

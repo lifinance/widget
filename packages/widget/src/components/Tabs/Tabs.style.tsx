@@ -2,7 +2,6 @@ import type { TabProps } from '@mui/material'
 import {
   Tab as MuiTab,
   Tabs as MuiTabs,
-  alpha,
   styled,
   tabClasses,
   tabsClasses,
@@ -22,15 +21,15 @@ export const Tabs = styled(MuiTabs)(({ theme }) => ({
 }))
 
 export const CardTabs = styled(Tabs)(({ theme }) => ({
-  backgroundColor: alpha(theme.palette.common.white, 0.08),
+  backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
   [`.${tabsClasses.indicator}`]: {
-    backgroundColor: alpha(theme.palette.common.black, 0.56),
-    ...theme.applyStyles('light', {
-      backgroundColor: theme.palette.background.paper,
-    }),
+    backgroundColor: theme.vars.palette.background.paper,
   },
-  ...theme.applyStyles('light', {
-    backgroundColor: alpha(theme.palette.common.black, 0.04),
+  ...theme.applyStyles('dark', {
+    backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.08)`,
+    [`.${tabsClasses.indicator}`]: {
+      backgroundColor: `rgba(${theme.vars.palette.common.backgroundChannel} / 0.56)`,
+    },
   }),
 }))
 
@@ -40,14 +39,8 @@ export const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
   textTransform: 'none',
   fontSize: '1rem',
   fontWeight: 700,
-  color: theme.palette.common.white,
+  color: theme.vars.palette.common.onBackground,
   [`&.${tabClasses.selected}`]: {
-    color: theme.palette.common.white,
-    ...theme.applyStyles('light', {
-      color: theme.palette.common.black,
-    }),
+    color: theme.vars.palette.common.onBackground,
   },
-  ...theme.applyStyles('light', {
-    color: theme.palette.common.black,
-  }),
 }))

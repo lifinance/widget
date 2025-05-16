@@ -24,7 +24,7 @@ export const StickySearchInputContainer = styled(Box, {
   paddingBottom: theme.spacing(2),
   paddingLeft: theme.spacing(3),
   paddingRight: theme.spacing(3),
-  backgroundColor: theme.palette.background.default,
+  backgroundColor: theme.vars.palette.background.default,
   ...(theme.header?.position === 'fixed'
     ? {
         position: 'fixed',

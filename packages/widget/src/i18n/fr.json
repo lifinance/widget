@@ -6,7 +6,8 @@
   "format": {
     "currency": "",
     "number": "{{value, number(maximumFractionDigits: 4)}}",
-    "percent": ""
+    "percent": "",
+    "tokenAmount": ""
   },
   "button": {
     "auto": "Auto",
@@ -83,14 +84,13 @@
     "message": {
       "autoRefuel": "Vous avez peu de gaz sur {{chainName}}. En continuant, vous aurez assez de gaz pour compléter l'échange.",
       "emptyActiveTransactions": "Les transactions en cours apparaîtront ici. Une fois terminées, retrouvez-les dans l'historique des transactions.",
-      "emptyTokenList": "Nous n'avons pas pu trouver de jetons sur la chaîne {{chainName}} ou vous n'en avez pas. Veuillez rechercher par adresse de contrat si votre jeton n'apparaît pas ou choisissez une autre chaîne.",
-      "emptyChainList": "",
       "emptyBridgesList": "",
+      "emptyChainList": "",
       "emptyExchangesList": "",
+      "emptyTokenList": "Nous n'avons pas pu trouver de jetons sur la chaîne {{chainName}} ou vous n'en avez pas. Veuillez rechercher par adresse de contrat si votre jeton n'apparaît pas ou choisissez une autre chaîne.",
       "emptyTransactionHistory": "L'historique de transaction est uniquement stocké au niveau local et sera supprimé si vous effacez les données de votre navigateur.",
-      "fundsToExchange": "Les fonds envoyés à un échange peuvent être perdus",
-      "toAddressIsRequired": "Veuillez fournir l'adresse du portefeuille de destination vers laquelle les fonds seront transférés.",
-      "routeNotFound": "Raisons possibles : faible liquidité, le montant sélectionné est trop faible, les coûts de gaz sont trop élevés ou il n'y a pas de routes pour la combinaison sélectionnée."
+      "routeNotFound": "Raisons possibles : faible liquidité, le montant sélectionné est trop faible, les coûts de gaz sont trop élevés ou il n'y a pas de routes pour la combinaison sélectionnée.",
+      "toAddressIsRequired": ""
     },
     "title": {
       "autoRefuel": "",
@@ -102,7 +102,7 @@
   "success": {
     "message": {
       "exchangePartiallySuccessful": "",
-      "exchangeSuccessful": "Il y a maintenant {{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} dans le portefeuille {{walletAddress}} sur la chaîne {{chainName}}.",
+      "exchangeSuccessful": "",
       "checkoutSuccessful": ""
     },
     "title": {
@@ -117,14 +117,18 @@
   },
   "warning": {
     "message": {
+      "accountNotDeployedMessage": "",
+      "lowAddressActivity": "",
       "deleteActiveTransactions": "Les transactions actives ne sont stockées que localement et ne peuvent être récupérées si vous les supprimez.",
       "deleteTransactionHistory": "L'historique d transaction est uniquement stocké localement et ne peut être récupéré si vous le supprimez.",
+      "fundsLossPrevention": "",
       "highValueLoss": "La valeur des jetons reçus est nettement inférieure à celle des jetons échangés et au coût de la transaction.",
       "insufficientFunds": "Vous n'avez pas assez de fonds pour finaliser l'échange.",
       "insufficientGas": "Vous n'avez pas assez de gaz pour finaliser l'échange. Vous devez avoir au moins:",
       "rateChanged": "Le taux de change a changé. En continuant l'échange, vous devrez accepter le nouveau taux.",
       "resetSettings": "Cela réinitialisera la priorité de votre itinéraire, l'effet de glissement, le prix du gaz, les ponts et les plateformes d'échanges activés.",
-      "slippageOutsideRecommendedLimits": "Une tolérance élevée au glissement peut entraîner un échange défavorable causé par le front-running."
+      "slippageOutsideRecommendedLimits": "Une tolérance élevée au glissement peut entraîner un échange défavorable causé par le front-running.",
+      "slippageUnderRecommendedLimits": ""
     },
     "title": {
       "deleteActiveTransactions": "Supprimer toutes les transactions actives ?",
@@ -133,19 +137,21 @@
       "highValueLoss": "Perte de valeur élevée",
       "insufficientGas": "Gaz insuffisant",
       "rateChanged": "Taux modifié",
-      "resetSettings": "Réinitialiser les paramètres ?"
+      "resetSettings": "Réinitialiser les paramètres ?",
+      "lowAddressActivity": ""
     }
   },
   "error": {
     "message": {
       "allowanceRequired": "Le montant du transfert pour {{tokenSymbol}} dépasse votre allocation actuelle. Veuillez augmenter votre allocation et réessayer.",
       "insufficientFunds": "Vous n'avez pas assez de gaz pour couvrir le coût de la transaction.",
-      "remainInYourWallet": "{{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} sur {{chainName}} restent dans votre portefeuille.",
-      "signatureRejected": "Votre signature est requise pour compléter la transaction. {{amount, number(maximumFractionDigits: 9)}} {{tokenSymbol}} sur {{chainName}} restent dans votre portefeuille.",
+      "remainInYourWallet": "",
+      "signatureRejected": "",
       "slippageThreshold": "L'effet de glissement est supérieur au seuil défini. Veuillez demander un nouvel itinéraire pour obtenir un nouveau devis.",
       "transactionCanceled": "La transaction a été annulée.",
       "transactionConflict": "",
       "transactionExpired": "",
+      "transactionRejected": "",
       "transactionFailed": "Veuillez consulter l'explorateur de blocs pour plus d'informations.",
       "transactionNotSent": "La transaction n'a pas été envoyée.",
       "transactionSimulationFailed": "",
@@ -167,6 +173,7 @@
       "transactionConflict": "",
       "transactionExpired": "",
       "transactionFailed": "La transaction a échoué.",
+      "transactionRejected": "",
       "transactionSimulationFailed": "",
       "transactionUnderpriced": "La transaction est sous-évaluée.",
       "transactionUnprepared": "Impossible de préparer la transaction.",
@@ -187,6 +194,7 @@
       "text": "Nous n'avons pas trouvé cette page.",
       "title": "404"
     },
+    "relayerService": "",
     "numberOfSteps": "",
     "priceImpact": "",
     "progressToNextUpdate": "Les données affichées seront automatiquement actualisées après {{value}} secondes. Cliquez ici pour les mettre à jour manuellement.",
@@ -203,7 +211,9 @@
     "featuredTokens": "Jetons en vedette",
     "fees": {
       "defaultIntegrator": "",
+      "relayerService": "",
       "estimated": "",
+      "free": "",
       "integrator": "",
       "network": "",
       "paid": "",
@@ -220,9 +230,9 @@
     "priceImpact": "",
     "process": {
       "bridge": {
-        "actionRequired": "Veuillez signer la transaction.",
+        "actionRequired": "",
         "done": "Transaction Bridge confirmée",
-        "pending": "En attente de la transaction bridge",
+        "pending": "",
         "started": "Préparation de la transaction bridge"
       },
       "checkout": {
@@ -238,19 +248,26 @@
         "refunded": "Transaction bridge remboursée"
       },
       "swap": {
-        "actionRequired": "Veuillez signer la transaction.",
+        "actionRequired": "",
         "done": "Échange terminé.",
-        "pending": "En attente de la transaction d'échange",
+        "pending": "",
         "started": "Préparation de la transaction d'échange"
       },
       "switchChain": {
-        "actionRequired": "Changement de chaîne requis.",
-        "done": "Chaîne changée avec succès."
+        "actionRequired": "",
+        "done": ""
+      },
+      "permit": {
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
       },
       "tokenAllowance": {
-        "done": "Allocation de jetons approuvée.",
-        "pending": "En attente de l'allocation de jetons",
-        "started": "Fixation de l'allocation de jeton."
+        "actionRequired": "",
+        "done": "",
+        "pending": "",
+        "started": ""
       }
     },
     "quotedAmount": "Montant indiqué",
@@ -278,11 +295,12 @@
     "transferId": "",
     "tags": {
       "cheapest": "Meilleur Retour",
-      "fastest": "Le plus rapide"
+      "fastest": "Le plus rapide",
+      "gasless": ""
     },
     "to": "À",
     "tokenOnChain": "{{tokenSymbol}} sur {{chainName}}",
-    "tokenOnChainAmount": "{{amount, number(maximumFractionDigits: 4)}} {{tokenSymbol}} sur {{chainName}}",
+    "tokenOnChainAmount": "",
     "tokenSearch": "Recherche par nom de jeton ou adresse",
     "valueLoss": "Perte de valeur",
     "searchChains": "",

@@ -1,4 +1,4 @@
-import { Layers } from '@mui/icons-material'
+import Layers from '@mui/icons-material/Layers'
 import { Box, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { IconTypography } from '../IconTypography.js'

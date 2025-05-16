@@ -69,7 +69,7 @@ export const Routes: React.FC<CardProps> = (props) => {
           p: 2,
         }}
       >
-        {isLoading ? (
+        {isLoading && !currentRoute ? (
           <RouteCardSkeleton variant="cardless" />
         ) : !currentRoute ? (
           <RouteNotFoundCard />
@@ -77,7 +77,7 @@ export const Routes: React.FC<CardProps> = (props) => {
           <RouteCard route={currentRoute} variant="cardless" active />
         )}
 
-        <Collapse timeout={225} in={showAll} unmountOnExit mountOnEnter appear>
+        <Collapse timeout={225} in={showAll} unmountOnExit mountOnEnter>
           <Box
             sx={{
               mt: 2,

@@ -1,4 +1,4 @@
-import { Route } from '@mui/icons-material'
+import Route from '@mui/icons-material/Route'
 import { Box, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 

@@ -197,6 +197,14 @@ export function getProcessMessage(
         title = t('error.title.walletMismatch')
         message = t('error.message.walletChangedDuringExecution')
         break
+      case LiFiErrorCode.RateLimitExceeded:
+        title = t('error.title.rateLimitExceeded')
+        message = t('error.message.rateLimitExceeded')
+        break
+      case LiFiErrorCode.ThirdPartyError:
+        title = t('error.title.thirdPartyError')
+        message = t('error.message.thirdPartyError')
+        break
       case LiFiErrorCode.TransactionUnderpriced:
         title = t('error.title.transactionUnderpriced')
         message = getDefaultErrorMessage()

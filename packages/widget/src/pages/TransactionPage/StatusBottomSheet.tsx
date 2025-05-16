@@ -1,9 +1,7 @@
-import {
-  Done,
-  ErrorRounded,
-  InfoRounded,
-  WarningRounded,
-} from '@mui/icons-material'
+import Done from '@mui/icons-material/Done'
+import ErrorRounded from '@mui/icons-material/ErrorRounded'
+import InfoRounded from '@mui/icons-material/InfoRounded'
+import WarningRounded from '@mui/icons-material/WarningRounded'
 import { Box, Button, Skeleton, Typography } from '@mui/material'
 import { useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -83,6 +81,7 @@ export const StatusBottomSheetContent: React.FC<
     subvariantOptions,
     contractSecondaryComponent,
     contractCompactComponent,
+    feeConfig,
   } = useWidgetConfig()
   const { getChainById } = useAvailableChains()
 
@@ -248,6 +247,9 @@ export const StatusBottomSheetContent: React.FC<
     hasEnumFlag(status, RouteExecutionStatus.Done) &&
     (contractCompactComponent || contractSecondaryComponent)
 
+  const VcComponent =
+    status === RouteExecutionStatus.Done ? feeConfig?._vcComponent : undefined
+
   return (
     <Box
       ref={ref}
@@ -316,6 +318,7 @@ export const StatusBottomSheetContent: React.FC<
           {secondaryMessage}
         </Typography>
       ) : null}
+      {VcComponent ? <VcComponent route={route} /> : null}
       <Box sx={{ display: 'flex', marginTop: 2, gap: 1.5 }}>
         {hasEnumFlag(status, RouteExecutionStatus.Done) ? (
           <Button variant="text" onClick={handleSeeDetails} fullWidth>

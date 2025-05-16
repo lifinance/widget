@@ -1,5 +1,5 @@
 import { ChainType } from '@lifi/sdk'
-import { OpenInNewRounded } from '@mui/icons-material'
+import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import {
   Avatar,
   Box,
@@ -18,7 +18,11 @@ import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { ListItemButton } from '../ListItem/ListItemButton.js'
 import { IconButton, ListItem } from './TokenList.style.js'
-import type { TokenListItemButtonProps, TokenListItemProps } from './types.js'
+import type {
+  TokenListItemAvatarProps,
+  TokenListItemButtonProps,
+  TokenListItemProps,
+} from './types.js'
 
 export const TokenListItem: React.FC<TokenListItemProps> = ({
   onClick,
@@ -55,6 +59,24 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
   )
 }
 
+export const TokenListItemAvatar: React.FC<TokenListItemAvatarProps> = ({
+  token,
+}) => {
+  const [isImageLoading, setIsImageLoading] = useState(true)
+  return (
+    <Avatar
+      src={token.logoURI}
+      alt={token.symbol}
+      sx={(theme) =>
+        isImageLoading ? { bgcolor: theme.vars.palette.grey[300] } : null
+      }
+      onLoad={() => setIsImageLoading(false)}
+    >
+      {token.symbol?.[0]}
+    </Avatar>
+  )
+}
+
 export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   onClick,
   token,
@@ -63,7 +85,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   isBalanceLoading,
 }) => {
   const { t } = useTranslation()
-  const { getAddressLink } = useExplorer()
+  const { getTokenAddressLink } = useExplorer()
 
   const container = useRef(null)
   const timeoutId = useRef<ReturnType<typeof setTimeout>>(undefined)
@@ -101,14 +123,14 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
       dense
     >
       <ListItemAvatar>
-        <Avatar src={token.logoURI} alt={token.symbol}>
-          {token.symbol?.[0]}
-        </Avatar>
+        <TokenListItemAvatar token={token} />
       </ListItemAvatar>
       <ListItemText
         primary={token.symbol}
-        secondaryTypographyProps={{
-          component: 'div',
+        slotProps={{
+          secondary: {
+            component: 'div',
+          },
         }}
         secondary={
           <Box
@@ -162,7 +184,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
                 <IconButton
                   size="small"
                   LinkComponent={Link}
-                  href={getAddressLink(tokenAddress!, chain)}
+                  href={getTokenAddressLink(tokenAddress!, chain)}
                   target="_blank"
                   rel="nofollow noreferrer"
                   onClick={(e) => e.stopPropagation()}

@@ -3,30 +3,30 @@ import {
   Box,
   ButtonBase,
   InputBase,
-  alpha,
   inputBaseClasses,
   styled,
 } from '@mui/material'
 
 export const SettingsFieldSet = styled(Box)(({ theme }) => ({
   display: 'flex',
-  backgroundColor: alpha(theme.palette.common.white, 0.08),
-  borderRadius: theme.shape.borderRadius,
+  borderRadius: theme.vars.shape.borderRadius,
   padding: theme.spacing(0.5),
   gap: theme.spacing(0.5),
   height: '3.5rem',
-  ...theme.applyStyles('light', {
-    backgroundColor: alpha(theme.palette.common.black, 0.04),
+  backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+  ...theme.applyStyles('dark', {
+    backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.08)`,
   }),
 }))
 
 const slippageControlSelected = (theme: Theme) => ({
-  backgroundColor:
-    theme.palette.mode === 'light'
-      ? theme.palette.background.paper
-      : alpha(theme.palette.common.black, 0.56),
-  borderRadius: theme.shape.borderRadius - 4,
-  boxShadow: `0px 2px 4px ${alpha(theme.palette.common.black, 0.04)}`,
+  backgroundColor: theme.vars.palette.background.paper,
+  boxShadow: `0px 2px 4px rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+  ...theme.applyStyles('dark', {
+    backgroundColor: `rgba(${theme.vars.palette.common.backgroundChannel} / 0.56)`,
+    boxShadow: `0px 2px 4px rgba(${theme.vars.palette.common.backgroundChannel} / 0.04)`,
+  }),
+  borderRadius: `calc(${theme.vars.shape.borderRadius} - 4px)`,
 })
 
 interface SlippageDefaultProps {
@@ -35,10 +35,11 @@ interface SlippageDefaultProps {
 
 export const SlippageDefaultButton = styled(ButtonBase)<SlippageDefaultProps>(
   ({ theme, selected }) => {
+    const slippageControlSelectedStyles = slippageControlSelected(theme)
     const selectedStyle = selected
       ? {
           '&:not(:focus)': {
-            ...slippageControlSelected(theme),
+            ...slippageControlSelectedStyles,
           },
         }
       : {}
@@ -49,7 +50,7 @@ export const SlippageDefaultButton = styled(ButtonBase)<SlippageDefaultProps>(
       fontSize: '1rem',
       fontWeight: 700,
       '&:focus': {
-        ...slippageControlSelected(theme),
+        ...slippageControlSelectedStyles,
       },
       ...selectedStyle,
     }
@@ -58,10 +59,11 @@ export const SlippageDefaultButton = styled(ButtonBase)<SlippageDefaultProps>(
 
 export const SlippageCustomInput = styled(InputBase)<SlippageDefaultProps>(
   ({ theme, selected }) => {
+    const slippageControlSelectedStyles = slippageControlSelected(theme)
     const selectedStyle = selected
       ? {
           '&:not(:focus)': {
-            ...slippageControlSelected(theme),
+            ...slippageControlSelectedStyles,
           },
         }
       : {}
@@ -80,7 +82,7 @@ export const SlippageCustomInput = styled(InputBase)<SlippageDefaultProps>(
           opacity: 1,
         },
         '&:focus': {
-          ...slippageControlSelected(theme),
+          ...slippageControlSelectedStyles,
         },
         ...selectedStyle,
       },

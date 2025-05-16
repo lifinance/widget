@@ -6,7 +6,9 @@ export function useIsBatchingSupported(
   chain?: ExtendedChain,
   address?: string
 ) {
-  const enabled = chain && chain.chainType === ChainType.EVM && !!address
+  const enabled = Boolean(
+    chain && chain.chainType === ChainType.EVM && !!address
+  )
   const { data, isLoading } = useQuery({
     queryKey: ['isBatchingSupported', chain?.id, address],
     queryFn: () => {

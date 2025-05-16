@@ -1,11 +1,11 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import type { Account } from '@lifi/wallet-management'
-import type { MouseEventHandler, MutableRefObject } from 'react'
+import type { MouseEventHandler, RefObject } from 'react'
 import type { FormType } from '../../stores/form/types.js'
 import type { TokenAmount } from '../../types/token.js'
 
 export interface TokenListProps {
-  parentRef: MutableRefObject<HTMLElement | null>
+  parentRef: RefObject<HTMLElement | null>
   formType: FormType
   height: number
   onClick?(): void
@@ -14,7 +14,7 @@ export interface TokenListProps {
 export interface VirtualizedTokenListProps {
   account: Account
   tokens: TokenAmount[]
-  scrollElementRef: MutableRefObject<HTMLElement | null>
+  scrollElementRef: RefObject<HTMLElement | null>
   isLoading: boolean
   isBalanceLoading: boolean
   chainId?: number
@@ -44,4 +44,8 @@ export interface TokenListItemButtonProps {
   token: TokenAmount
   chain?: ExtendedChain
   isBalanceLoading?: boolean
+}
+
+export interface TokenListItemAvatarProps {
+  token: TokenAmount
 }

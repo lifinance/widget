@@ -30,10 +30,7 @@ export const WidgetConfigProvider: FC<WidgetConfigProviderProps> = ({
       {
         id: 'default',
         name: 'Default',
-        theme: {
-          light: defaultWidgetConfig?.theme || {},
-          dark: defaultWidgetConfig?.theme || {},
-        },
+        theme: defaultWidgetConfig?.theme || {},
       },
       ...themeItems,
     ]
@@ -72,7 +69,7 @@ export const WidgetConfigProvider: FC<WidgetConfigProviderProps> = ({
           {
             id: 'default',
             name: 'Default',
-            theme: { light: defaultTheme || {}, dark: defaultTheme || {} },
+            theme: defaultTheme || {},
           },
           ...themeItems,
         ])

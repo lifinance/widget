@@ -76,16 +76,23 @@ export const buildRouteFromTxHistory = (
     return
   }
 
-  const selectedBridge = tools?.bridges.find((bridge) => bridge.key === tx.tool)
+  let usedTool = tx.sending.includedSteps?.find(
+    (step) => step.toolDetails.key === tx.tool
+  )?.toolDetails
 
-  const selectedExchange = tools?.exchanges.find(
-    (exchange) => exchange.key === tx.tool
-  )
+  if (!usedTool) {
+    const selectedBridge = tools?.bridges.find(
+      (bridge) => bridge.key === tx.tool
+    )
 
-  const usedTool = {
-    key: tx.tool,
-    name: selectedBridge?.name ?? selectedExchange?.name ?? tx.tool,
-    logoURI: selectedBridge?.logoURI ?? selectedExchange?.logoURI ?? '',
+    const selectedExchange = tools?.exchanges.find(
+      (exchange) => exchange.key === tx.tool
+    )
+    usedTool = {
+      key: tx.tool,
+      name: selectedBridge?.name ?? selectedExchange?.name ?? tx.tool,
+      logoURI: selectedBridge?.logoURI ?? selectedExchange?.logoURI ?? '',
+    }
   }
 
   const fromToken: TokenAmount = {

@@ -29,13 +29,13 @@ describe('getLocalStorageOutput', () => {
 
   test('presents copy of the config with a appearance property if present', () => {
     const config = {
-      appearance: 'auto',
+      appearance: 'system',
     } as Partial<WidgetConfig>
 
     const whitelistedConfig = getLocalStorageOutput(config)
 
     expect(whitelistedConfig).toEqual({
-      appearance: 'auto',
+      appearance: 'system',
     })
   })
 

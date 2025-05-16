@@ -5,11 +5,11 @@ import {
   tabClasses,
   tabsClasses,
 } from '@mui/material'
-import { alpha, styled } from '@mui/material/styles'
+import { styled } from '@mui/material/styles'
 import { getCardFieldsetBackgroundColor } from '../../utils/color'
 
 export const Tabs = styled(MuiTabs)(({ theme }) => ({
-  backgroundColor: getCardFieldsetBackgroundColor(theme),
+  ...getCardFieldsetBackgroundColor(theme),
   borderRadius: Math.max(
     theme.shape.borderRadius,
     theme.shape.borderRadiusSecondary
@@ -19,12 +19,13 @@ export const Tabs = styled(MuiTabs)(({ theme }) => ({
   [`.${tabsClasses.indicator}`]: {
     height: '100%',
     width: '100%',
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: theme.vars.palette.common.white,
     borderRadius:
       Math.max(theme.shape.borderRadius, theme.shape.borderRadiusSecondary) - 4,
-    boxShadow: `0px 2px 4px ${alpha(theme.palette.common.black, 0.04)}`,
+    boxShadow: `0px 2px 4px rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
     ...theme.applyStyles('dark', {
-      backgroundColor: theme.palette.background.default,
+      backgroundColor: theme.vars.palette.background.default,
+      boxShadow: `0px 2px 4px rgba(${theme.vars.palette.common.backgroundChannel} / 0.04)`,
     }),
   },
 }))
@@ -38,14 +39,8 @@ export const Tab = styled(MuiTab, {
   fontSize: '1rem',
   fontWeight: 700,
   minHeight: 48,
-  color: theme.palette.common.black,
+  color: theme.vars.palette.common.onBackground,
   [`&.${tabClasses.selected}`]: {
-    color: theme.palette.common.black,
-    ...theme.applyStyles('dark', {
-      color: theme.palette.common.white,
-    }),
+    color: theme.vars.palette.common.onBackground,
   },
-  ...theme.applyStyles('dark', {
-    color: theme.palette.common.white,
-  }),
 }))

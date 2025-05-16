@@ -1,5 +1,6 @@
 import type { Adapter } from '@solana/wallet-adapter-base'
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
+import { CoinbaseWalletAdapter } from '@solana/wallet-adapter-coinbase'
 import {
   ConnectionProvider,
   WalletProvider,
@@ -20,7 +21,7 @@ const endpoint = clusterApiUrl(WalletAdapterNetwork.Mainnet)
  * instantiate its legacy wallet adapter here. Common legacy adapters can be found
  * in the npm package `@solana/wallet-adapter-wallets`.
  */
-const wallets: Adapter[] = []
+const wallets: Adapter[] = [new CoinbaseWalletAdapter()]
 
 export const SVMBaseProvider: FC<PropsWithChildren> = ({ children }) => {
   return (

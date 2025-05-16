@@ -1,4 +1,6 @@
-import { ArrowForward, ErrorRounded, InfoRounded } from '@mui/icons-material'
+import ArrowForward from '@mui/icons-material/ArrowForward'
+import ErrorRounded from '@mui/icons-material/ErrorRounded'
+import InfoRounded from '@mui/icons-material/InfoRounded'
 import { ListItemAvatar, ListItemText, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useProcessMessage } from '../../hooks/useProcessMessage.js'
@@ -7,7 +9,7 @@ import { RouteExecutionStatus } from '../../stores/routes/types.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { TokenAvatarGroup } from '../Avatar/Avatar.style.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
-import { RouteTimer } from '../Timer/RouteTimer.js'
+import { StepTimer } from '../Timer/StepTimer.js'
 import { ListItem, ListItemButton } from './ActiveTransactions.style.js'
 
 export const ActiveTransactionItem: React.FC<{
@@ -47,7 +49,7 @@ export const ActiveTransactionItem: React.FC<{
               fontWeight: 600,
             }}
           >
-            <RouteTimer route={route} />
+            <StepTimer step={lastActiveStep} hideInProgress />
           </Typography>
         )
     }

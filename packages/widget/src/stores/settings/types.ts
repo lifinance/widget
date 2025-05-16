@@ -2,7 +2,7 @@ import type { Order } from '@lifi/sdk'
 import type { PropsWithChildren } from 'react'
 import type { StoreApi } from 'zustand'
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional'
-import type { Appearance, SplitSubvariant } from '../../types/widget.js'
+import type { SplitSubvariant } from '../../types/widget.js'
 
 export type ValueSetter<S> = <K extends keyof S>(
   key: K,
@@ -19,7 +19,6 @@ export const SettingsToolTypes = ['Bridges', 'Exchanges'] as const
 export type SettingsToolType = (typeof SettingsToolTypes)[number]
 
 export interface SettingsProps {
-  appearance: Appearance
   gasPrice?: string
   language?: string
   routePriority?: Order

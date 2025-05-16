@@ -1,5 +1,7 @@
+import type { Connector as BigmiConnector } from '@bigmi/client'
 import { ChainType } from '@lifi/sdk'
-import { ArrowBack, Close } from '@mui/icons-material'
+import ArrowBack from '@mui/icons-material/ArrowBack'
+import Close from '@mui/icons-material/Close'
 import {
   Avatar,
   Box,
@@ -12,6 +14,7 @@ import {
   ListItemAvatar,
   Typography,
 } from '@mui/material'
+import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import type { WalletAdapter } from '@solana/wallet-adapter-base'
 import { useReducer, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -23,6 +26,7 @@ import { EVMListItemButton } from './EVMListItemButton.js'
 import { ListItemButton } from './ListItemButton.js'
 import { ListItemText } from './ListItemText.js'
 import { SVMListItemButton } from './SVMListItemButton.js'
+import { SuiListItemButton } from './SuiListItemButton.js'
 import { UTXOListItemButton } from './UTXOListItemButton.js'
 import { WalletMenuContentEmpty } from './WalletMenuContentEmpty.js'
 
@@ -108,7 +112,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
           <UTXOListItemButton
             key={key}
             ecosystemSelection={ecosystemSelection}
-            connector={connector as Connector}
+            connector={connector as BigmiConnector}
             onConnected={onClose}
             onConnecting={() => handleConnecting(id)}
             onError={(error) => handleError(id, error)}
@@ -131,6 +135,17 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
             key={key}
             ecosystemSelection={ecosystemSelection}
             walletAdapter={connector as WalletAdapter}
+            onConnected={onClose}
+            onConnecting={() => handleConnecting(id)}
+            onError={(error) => handleError(id, error)}
+          />
+        )
+      case ChainType.MVM:
+        return (
+          <SuiListItemButton
+            key={key}
+            ecosystemSelection={ecosystemSelection}
+            wallet={connector as WalletWithRequiredFeatures}
             onConnected={onClose}
             onConnecting={() => handleConnecting(id)}
             onError={(error) => handleError(id, error)}

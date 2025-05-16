@@ -12,6 +12,7 @@ import { useScrollableOverflowHidden } from '../../hooks/useScrollableContainer.
 import { useSwapOnly } from '../../hooks/useSwapOnly.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import type { FormTypeProps } from '../../stores/form/types.js'
+import { HiddenUI } from '../../types/widget.js'
 import { SearchTokenInput } from './SearchTokenInput.js'
 
 export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
@@ -26,7 +27,7 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
 
   const swapOnly = useSwapOnly()
 
-  const { subvariant } = useWidgetConfig()
+  const { subvariant, hiddenUI } = useWidgetConfig()
   const { t } = useTranslation()
   const title =
     formType === 'from'
@@ -37,7 +38,8 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
 
   useHeader(title)
 
-  const hideChainSelect = swapOnly && formType === 'to'
+  const hideChainSelect =
+    (swapOnly && formType === 'to') || hiddenUI?.includes(HiddenUI.ChainSelect)
 
   return (
     <FullPageContainer disableGutters>

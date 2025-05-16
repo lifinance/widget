@@ -1,3 +1,4 @@
+import type {} from '@mui/material/themeCssVarsAugmentation'
 export * from './connectors/coinbase.js'
 export * from './connectors/metaMask.js'
 export * from './connectors/types.js'

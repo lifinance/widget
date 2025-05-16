@@ -1,4 +1,4 @@
-import { Language } from '@mui/icons-material'
+import Language from '@mui/icons-material/Language'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { CardButton } from '../../components/Card/CardButton.js'

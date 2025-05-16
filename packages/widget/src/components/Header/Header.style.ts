@@ -7,12 +7,14 @@ import {
   styled,
 } from '@mui/material'
 import type { WidgetSubvariant } from '../../types/widget.js'
-import { getContrastAlphaColor } from '../../utils/colors.js'
 import { avatarMask12 } from '../Avatar/utils.js'
 
 export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: 'transparent',
-  color: theme.palette.text.primary,
+  ...theme.applyStyles('dark', {
+    backgroundColor: 'transparent',
+  }),
+  color: theme.vars.palette.text.primary,
   flexDirection: 'row',
   alignItems: 'center',
   position: 'relative',
@@ -24,7 +26,7 @@ export const Container = styled(Box, {
   return {
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.vars.palette.background.default,
     backdropFilter: 'blur(12px)',
     position: sticky ? 'sticky' : 'relative',
     top: 0,
@@ -46,16 +48,22 @@ export const Container = styled(Box, {
 export const WalletButton = styled(Button, {
   shouldForwardProp: (prop) => prop !== 'subvariant',
 })<{ subvariant?: WidgetSubvariant }>(({ subvariant, theme }) => ({
-  color: theme.palette.text.primary,
-  backgroundColor: 'transparent',
+  color: theme.vars.palette.text.primary,
   padding: theme.spacing(1, 1.5),
   maxHeight: 40,
   fontSize: '0.875rem',
   fontWeight: 600,
-  borderRadius: theme.shape.borderRadius * 2,
+  borderRadius: `calc(${theme.vars.shape.borderRadius} * 2)`,
+  backgroundColor: 'transparent',
   '&:hover': {
-    backgroundColor: getContrastAlphaColor(theme, 0.04),
+    backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
   },
+  ...theme.applyStyles('dark', {
+    backgroundColor: 'transparent',
+    '&:hover': {
+      backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+    },
+  }),
   [`.${buttonClasses.endIcon} > *:nth-of-type(1)`]: {
     fontSize: '24px',
   },

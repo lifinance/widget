@@ -1,4 +1,3 @@
-import type { WidgetTheme } from '@lifi/widget'
 import type { WidgetConfigState } from '../types'
 import { replayLocalStorageChangesOnTheme } from './replayLocalStorageChangesOnTheme'
 
@@ -13,21 +12,17 @@ export const setThemeAppearanceWithFallback = (
       : 'default'
 
   let appearance =
-    state.config?.appearance === 'auto' || !state.config?.appearance
+    state.config?.appearance === 'system' || !state.config?.appearance
       ? prefersDarkMode
         ? 'dark'
         : 'light'
       : state.config.appearance
 
-  const themeAppearances = state.widgetThemeItems.find(
+  let theme = state.widgetThemeItems.find(
     (themeItem) => themeItem.id === themeId
   )?.theme
 
-  let theme: WidgetTheme | undefined
-
-  if (themeAppearances?.[appearance]) {
-    theme = themeAppearances[appearance]
-  } else {
+  if (!theme?.colorSchemes?.[appearance]) {
     appearance = appearance === 'light' ? 'dark' : 'light'
     state.setAppearance(appearance)
   }
