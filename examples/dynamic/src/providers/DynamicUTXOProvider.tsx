@@ -1,19 +1,16 @@
 import { createConfig, dynamic } from '@bigmi/client'
-import { bitcoin } from '@bigmi/core'
+import { http, bitcoin, createClient } from '@bigmi/core'
 import { BigmiProvider } from '@bigmi/react'
 import { type BitcoinWallet, isBitcoinWallet } from '@dynamic-labs/bitcoin'
 import { type Wallet, useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import { ChainId } from '@lifi/widget'
 import { type FC, type PropsWithChildren, useEffect, useMemo } from 'react'
-import { http, createClient } from 'viem'
 
 const bigmiConfig = createConfig({
   chains: [bitcoin],
+  client: ({ chain }) => createClient({ chain, transport: http() }),
+  multiInjectedProviderDiscovery: true,
   ssr: true,
-  multiInjectedProviderDiscovery: false,
-  client: ({ chain }) =>
-    createClient({ chain: chain as any, transport: http() }) as any,
-  connectors: [],
 })
 
 const getBitcoinWallet = (wallet: Wallet | null): BitcoinWallet | undefined => {
