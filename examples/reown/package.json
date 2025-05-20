@@ -10,14 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/wallet-management": "^3.8.2",
-    "@lifi/widget": "^3.20.5",
+    "@lifi/wallet-management": "^3.9.0",
+    "@lifi/widget": "^3.21.0",
     "@mui/material": "^7.1.0",
-    "@reown/appkit": "^1.7.5",
-    "@reown/appkit-adapter-bitcoin": "^1.7.5",
-    "@reown/appkit-adapter-solana": "^1.7.5",
-    "@reown/appkit-adapter-wagmi": "^1.7.5",
-    "@reown/appkit-common": "^1.7.5",
+    "@reown/appkit": "^1.7.6",
+    "@reown/appkit-adapter-bitcoin": "^1.7.6",
+    "@reown/appkit-adapter-solana": "^1.7.6",
+    "@reown/appkit-adapter-wagmi": "^1.7.6",
+    "@reown/appkit-common": "^1.7.6",
     "@solana/wallet-adapter-base": "^0.9.26",
     "@solana/wallet-adapter-react": "^0.15.38",
     "@solana/web3.js": "^1.98.2",
@@ -25,8 +25,8 @@
     "mitt": "^3.0.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "viem": "^2.29.3",
-    "wagmi": "^2.15.3"
+    "viem": "^2.30.0",
+    "wagmi": "^2.15.4"
   },
   "devDependencies": {
     "@types/react": "^19.1.4",

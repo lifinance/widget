@@ -13,7 +13,7 @@
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
-    "@lifi/sdk": "^3.7.0",
+    "@lifi/sdk": "^3.7.1",
     "@lifi/wallet-management": "workspace:*",
     "@lifi/widget": "workspace:*",
     "@mui/icons-material": "^7.1.0",
@@ -22,13 +22,13 @@
     "@opensea/seaport-js": "4.0.4",
     "@tanstack/react-query": "^5.76.1",
     "bignumber.js": "^9.3.0",
-    "ethers": "^6.14.0",
+    "ethers": "^6.14.1",
     "events": "^3.3.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^6.30.0",
-    "viem": "^2.29.3",
-    "wagmi": "^2.15.3"
+    "viem": "^2.30.0",
+    "wagmi": "^2.15.4"
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
