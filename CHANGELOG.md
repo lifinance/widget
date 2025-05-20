@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.21.1](https://github.com/lifinance/widget/compare/v3.21.0...v3.21.1) (2025-05-20)
+
+
+### Bug Fixes
+
+* allow to create txs without enough gas ([#395](https://github.com/lifinance/widget/issues/395)) ([61ea1d0](https://github.com/lifinance/widget/commit/61ea1d029d991ef740d5b0b7a05d5b844084bc91))
+
 ## [3.21.0](https://github.com/lifinance/widget/compare/v3.20.5...v3.21.0) (2025-05-15)
 
 
