@@ -64,11 +64,3 @@ export const IconCircle = styled(Box, {
     },
   }
 })
-
-export const MessageSkeletonContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  height: 64,
-  gap: theme.spacing(0.5),
-  paddingTop: theme.spacing(1),
-}))
