@@ -250,36 +250,45 @@ export const StatusBottomSheetContent: React.FC<
           {failedMessage}
         </Typography>
       ) : hasEnumFlag(status, RouteExecutionStatus.Done) ? (
-        <Card
+        <Box
           sx={{
             display: 'flex',
             flexDirection: 'column',
             gap: 2,
-            marginY: 3,
-            padding: 2,
+            marginTop: 2,
+            marginBottom: VcComponent ? 2 : 3,
           }}
         >
-          <CardTitle sx={{ padding: 0 }}>
-            {hasEnumFlag(status, RouteExecutionStatus.Refunded)
-              ? t('success.header.refunded')
-              : t('success.header.received')}
-          </CardTitle>
-          <Token token={toToken} disableDescription={false} />
-          {primaryMessage && (
-            <Typography
-              sx={{
-                color: 'text.secondary',
-                fontSize: '12px',
-                lineHeight: '16px',
-                fontWeight: 500,
-              }}
-            >
-              {primaryMessage}
-            </Typography>
-          )}
-        </Card>
+          <Card
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 2,
+              padding: 2,
+            }}
+          >
+            <CardTitle sx={{ padding: 0 }}>
+              {hasEnumFlag(status, RouteExecutionStatus.Refunded)
+                ? t('success.header.refunded')
+                : t('success.header.received')}
+            </CardTitle>
+            <Token token={toToken} disableDescription={false} />
+            {primaryMessage && (
+              <Typography
+                sx={{
+                  color: 'text.secondary',
+                  fontSize: '12px',
+                  lineHeight: '16px',
+                  fontWeight: 500,
+                }}
+              >
+                {primaryMessage}
+              </Typography>
+            )}
+          </Card>
+          {VcComponent ? <VcComponent route={route} /> : null}
+        </Box>
       ) : null}
-      {VcComponent ? <VcComponent route={route} /> : null}
       <Box sx={{ display: 'flex', marginTop: 2, gap: 1.5 }}>
         {hasEnumFlag(status, RouteExecutionStatus.Done) ? (
           <Button variant="text" onClick={handleSeeDetails} fullWidth>
