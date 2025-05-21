@@ -269,8 +269,8 @@ export const StatusBottomSheetContent: React.FC<
           >
             <CardTitle sx={{ padding: 0 }}>
               {hasEnumFlag(status, RouteExecutionStatus.Refunded)
-                ? t('success.header.refunded')
-                : t('success.header.received')}
+                ? t('header.refunded')
+                : t('header.received')}
             </CardTitle>
             <Token token={toToken} disableDescription={false} />
             {primaryMessage && (

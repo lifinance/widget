@@ -67,7 +67,9 @@
     "gas": "Gas",
     "payWith": "Pay with",
     "receive": "Receive",
+    "received": "Received",
     "recentWallets": "Recent wallets",
+    "refunded": "Refunded",
     "selectChain": "Select chain",
     "selectWallet": "Select your wallet",
     "send": "Send",
@@ -101,10 +103,6 @@
     }
   },
   "success": {
-    "header": {
-      "received": "Received",
-      "refunded": "Refunded"
-    },
     "message": {
       "exchangePartiallySuccessful": "We've tried to complete the transaction, but {{tool}} couldn't proceed due to either slippage settings or lack of liquidity for the {{tokenSymbol}} token."
     },
