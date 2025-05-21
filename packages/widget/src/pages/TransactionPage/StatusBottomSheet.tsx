@@ -14,7 +14,6 @@ import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { getProcessMessage } from '../../hooks/useProcessMessage.js'
 import { useSetContentHeight } from '../../hooks/useSetContentHeight.js'
-import { useTokenBalance } from '../../hooks/useTokenBalance.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import {
@@ -86,11 +85,6 @@ export const StatusBottomSheetContent: React.FC<
         route.toAmount
     ),
   }
-
-  const { refetch, refetchNewBalance } = useTokenBalance(
-    route.toAddress,
-    toToken
-  )
 
   const cleanFields = () => {
     setFieldValue('fromAmount', '')
@@ -200,14 +194,6 @@ export const StatusBottomSheetContent: React.FC<
       break
   }
 
-  useEffect(() => {
-    const hasSuccessFlag = hasEnumFlag(status, RouteExecutionStatus.Done)
-    if (hasSuccessFlag) {
-      refetchNewBalance()
-      refetch()
-    }
-  }, [refetch, refetchNewBalance, status])
-
   const showContractComponent =
     subvariant === 'custom' &&
     hasEnumFlag(status, RouteExecutionStatus.Done) &&
@@ -215,65 +201,6 @@ export const StatusBottomSheetContent: React.FC<
 
   const VcComponent =
     status === RouteExecutionStatus.Done ? feeConfig?._vcComponent : undefined
-
-  const tokenCardComponent = (() => {
-    const isDoneTransaction =
-      !showContractComponent && hasEnumFlag(status, RouteExecutionStatus.Done)
-
-    if (!isDoneTransaction) {
-      return null
-    }
-
-    const messageHeader =
-      status === RouteExecutionStatus.Done ||
-      status === RouteExecutionStatus.Partial
-        ? t('success.message.received')
-        : status === RouteExecutionStatus.Refunded
-          ? t('success.message.refunded')
-          : null
-
-    return (
-      <Card
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
-          marginY: 3,
-          padding: 2,
-        }}
-      >
-        {messageHeader && (
-          <CardTitle sx={{ padding: 0 }}>{messageHeader}</CardTitle>
-        )}
-        <Token token={toToken} disableDescription={false} />
-        {primaryMessage && (
-          <Typography
-            sx={{
-              color: 'text.secondary',
-              fontSize: '12px',
-              lineHeight: '16px',
-              fontWeight: 500,
-            }}
-          >
-            {primaryMessage}
-          </Typography>
-        )}
-      </Card>
-    )
-  })()
-
-  const failedMessageComponent =
-    !showContractComponent &&
-    failedMessage &&
-    status === RouteExecutionStatus.Failed ? (
-      <Typography
-        sx={{
-          py: 1,
-        }}
-      >
-        {failedMessage}
-      </Typography>
-    ) : null
 
   return (
     <Box
@@ -312,11 +239,46 @@ export const StatusBottomSheetContent: React.FC<
           {title}
         </Typography>
       </CenterContainer>
-      {showContractComponent
-        ? contractCompactComponent || contractSecondaryComponent
-        : status === RouteExecutionStatus.Failed
-          ? failedMessageComponent
-          : tokenCardComponent}
+      {showContractComponent ? (
+        contractCompactComponent || contractSecondaryComponent
+      ) : hasEnumFlag(status, RouteExecutionStatus.Failed) && failedMessage ? (
+        <Typography
+          sx={{
+            py: 1,
+          }}
+        >
+          {failedMessage}
+        </Typography>
+      ) : hasEnumFlag(status, RouteExecutionStatus.Done) ? (
+        <Card
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+            marginY: 3,
+            padding: 2,
+          }}
+        >
+          <CardTitle sx={{ padding: 0 }}>
+            {hasEnumFlag(status, RouteExecutionStatus.Refunded)
+              ? t('success.header.refunded')
+              : t('success.header.received')}
+          </CardTitle>
+          <Token token={toToken} disableDescription={false} />
+          {primaryMessage && (
+            <Typography
+              sx={{
+                color: 'text.secondary',
+                fontSize: '12px',
+                lineHeight: '16px',
+                fontWeight: 500,
+              }}
+            >
+              {primaryMessage}
+            </Typography>
+          )}
+        </Card>
+      ) : null}
       {VcComponent ? <VcComponent route={route} /> : null}
       <Box sx={{ display: 'flex', marginTop: 2, gap: 1.5 }}>
         {hasEnumFlag(status, RouteExecutionStatus.Done) ? (

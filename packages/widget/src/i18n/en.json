@@ -101,9 +101,11 @@
     }
   },
   "success": {
-    "message": {
+    "header": {
       "received": "Received",
-      "refunded": "Refunded",
+      "refunded": "Refunded"
+    },
+    "message": {
       "exchangePartiallySuccessful": "We've tried to complete the transaction, but {{tool}} couldn't proceed due to either slippage settings or lack of liquidity for the {{tokenSymbol}} token."
     },
     "title": {
