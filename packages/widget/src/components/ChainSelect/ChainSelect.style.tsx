@@ -8,9 +8,9 @@ const chainCardHeightPx = 56
 // Chain grid layout settings:
 // These should remain consistent with `maxChainsToShow` to ensure
 // proper row/column distribution in the grid layout logic.
-const minChainsPerRow = 2 // instead of 1, to show 2 chains per row when there are 2 chains in total
-const maxChainsPerRow = 5
-const maxRows = Math.ceil(maxChainsToShow / maxChainsPerRow)
+const maxRows = 2
+const maxChainsPerRow = Math.ceil(maxChainsToShow / maxRows)
+const minChainsPerRow = Math.ceil(maxChainsPerRow / 2)
 
 const possibleColumnsPerRow = Array.from(
   { length: maxChainsPerRow - minChainsPerRow + 1 },
@@ -30,7 +30,7 @@ export const ChainContainer = styled(Box, {
   // Find the best column count to balance rows:
   // - fit within a maximum number of rows
   // - keep rows as balanced as possible (e.g., prefer 3 + 3 over 5 + 1)
-  // NB: for itemCount = 2, use 2 columns per row instead of 2 rows of 1 column.
+  // - if itemCount <= maxChainsPerRow, spread items within 1 row.
   const columnsPerRow =
     itemCount <= maxChainsPerRow
       ? maxChainsPerRow // if there are less than maxChainsPerRow chains in total, put them all in one row
