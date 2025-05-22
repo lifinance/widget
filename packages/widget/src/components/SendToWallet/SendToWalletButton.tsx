@@ -119,7 +119,7 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
   }, [collapseTransitionTime])
 
   const isOpenCollapse =
-    requiredToAddress || (showSendToWallet && !hiddenToAddress)
+    !hiddenToAddress && (requiredToAddress || showSendToWallet)
 
   const title =
     subvariant === 'custom' && subvariantOptions?.custom === 'deposit'

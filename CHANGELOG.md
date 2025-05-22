@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.21.3](https://github.com/lifinance/widget/compare/v3.21.2...v3.21.3) (2025-05-21)
+
+
+### Bug Fixes
+
+* update collapse logic in SendToWalletButton component ([ccbb69b](https://github.com/lifinance/widget/commit/ccbb69b03fe307866bd96a566ba1bb1ffb36e155))
+
 ### [3.21.2](https://github.com/lifinance/widget/compare/v3.21.1...v3.21.2) (2025-05-21)
 
 ### [3.21.1](https://github.com/lifinance/widget/compare/v3.21.0...v3.21.1) (2025-05-20)
