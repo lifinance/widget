@@ -2,17 +2,18 @@ import Done from '@mui/icons-material/Done'
 import ErrorRounded from '@mui/icons-material/ErrorRounded'
 import InfoRounded from '@mui/icons-material/InfoRounded'
 import WarningRounded from '@mui/icons-material/WarningRounded'
-import { Box, Button, Skeleton, Typography } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import { useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
+import { Card } from '../../components/Card/Card.js'
+import { CardTitle } from '../../components/Card/CardTitle.js'
 import { Token } from '../../components/Token/Token.js'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { getProcessMessage } from '../../hooks/useProcessMessage.js'
 import { useSetContentHeight } from '../../hooks/useSetContentHeight.js'
-import { useTokenBalance } from '../../hooks/useTokenBalance.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import {
@@ -23,23 +24,11 @@ import { getSourceTxHash } from '../../stores/routes/utils.js'
 import { hasEnumFlag } from '../../utils/enum.js'
 import { formatTokenAmount } from '../../utils/format.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import { shortenAddress } from '../../utils/wallet.js'
-import {
-  CenterContainer,
-  IconCircle,
-  MessageSkeletonContainer,
-} from './StatusBottomSheet.style.js'
+import { CenterContainer, IconCircle } from './StatusBottomSheet.style.js'
 
 interface StatusBottomSheetContentProps extends RouteExecution {
   onClose(): void
 }
-
-const MessageSkeleton = () => (
-  <MessageSkeletonContainer>
-    <Skeleton height={24} variant="text" width="92%" />
-    <Skeleton height={24} variant="text" width="56%" />
-  </MessageSkeletonContainer>
-)
 
 export const StatusBottomSheet: React.FC<RouteExecution> = ({
   status,
@@ -96,11 +85,6 @@ export const StatusBottomSheetContent: React.FC<
         route.toAmount
     ),
   }
-
-  const { token, refetch, refetchNewBalance } = useTokenBalance(
-    route.toAddress,
-    toToken
-  )
 
   const cleanFields = () => {
     setFieldValue('fromAmount', '')
@@ -160,7 +144,7 @@ export const StatusBottomSheetContent: React.FC<
 
   let title: string | undefined
   let primaryMessage: string | undefined
-  let secondaryMessage: string | undefined
+  let failedMessage: string | undefined
   let handlePrimaryButton = handleDone
   switch (status) {
     case RouteExecutionStatus.Done: {
@@ -170,14 +154,6 @@ export const StatusBottomSheetContent: React.FC<
               `success.title.${subvariantOptions?.custom ?? 'checkout'}Successful`
             )
           : t(`success.title.${transactionType}Successful`)
-      if (token) {
-        primaryMessage = t('success.message.exchangeSuccessful', {
-          amount: formatTokenAmount(token.amount, token.decimals),
-          tokenSymbol: token.symbol,
-          chainName: getChainById(toToken.chainId)?.name,
-          walletAddress: shortenAddress(route.toAddress),
-        })
-      }
       handlePrimaryButton = handleDone
       break
     }
@@ -187,14 +163,6 @@ export const StatusBottomSheetContent: React.FC<
         tool: route.steps.at(-1)?.toolDetails.name,
         tokenSymbol: route.steps.at(-1)?.action.toToken.symbol,
       })
-      if (token) {
-        secondaryMessage = t('success.message.exchangeSuccessful', {
-          amount: formatTokenAmount(token.amount, token.decimals),
-          tokenSymbol: token.symbol,
-          chainName: getChainById(toToken.chainId)?.name,
-          walletAddress: shortenAddress(route.toAddress),
-        })
-      }
       handlePrimaryButton = handlePartialDone
       break
     }
@@ -204,14 +172,6 @@ export const StatusBottomSheetContent: React.FC<
         tool: route.steps.at(-1)?.toolDetails.name,
         tokenSymbol: route.steps.at(-1)?.action.toToken.symbol,
       })
-      if (token) {
-        secondaryMessage = t('success.message.exchangeSuccessful', {
-          amount: formatTokenAmount(token.amount, token.decimals),
-          tokenSymbol: token.symbol,
-          chainName: getChainById(toToken.chainId)?.name,
-          walletAddress: shortenAddress(route.toAddress),
-        })
-      }
       break
     }
     case RouteExecutionStatus.Failed: {
@@ -226,21 +186,13 @@ export const StatusBottomSheetContent: React.FC<
       }
       const processMessage = getProcessMessage(t, getChainById, step, process)
       title = processMessage.title
-      primaryMessage = processMessage.message
+      failedMessage = processMessage.message
       handlePrimaryButton = handleClose
       break
     }
     default:
       break
   }
-
-  useEffect(() => {
-    const hasSuccessFlag = hasEnumFlag(status, RouteExecutionStatus.Done)
-    if (hasSuccessFlag) {
-      refetchNewBalance()
-      refetch()
-    }
-  }, [refetch, refetchNewBalance, status])
 
   const showContractComponent =
     subvariant === 'custom' &&
@@ -289,36 +241,54 @@ export const StatusBottomSheetContent: React.FC<
       </CenterContainer>
       {showContractComponent ? (
         contractCompactComponent || contractSecondaryComponent
-      ) : (
-        <CenterContainer>
-          {hasEnumFlag(status, RouteExecutionStatus.Done) ? (
-            <Token token={toToken} py={1} disableDescription />
-          ) : null}
-        </CenterContainer>
-      )}
-      {!showContractComponent ? (
-        primaryMessage ? (
-          <Typography
-            sx={{
-              py: 1,
-            }}
-          >
-            {primaryMessage}
-          </Typography>
-        ) : (
-          <MessageSkeleton />
-        )
-      ) : null}
-      {secondaryMessage ? (
+      ) : hasEnumFlag(status, RouteExecutionStatus.Failed) && failedMessage ? (
         <Typography
           sx={{
             py: 1,
           }}
         >
-          {secondaryMessage}
+          {failedMessage}
         </Typography>
+      ) : hasEnumFlag(status, RouteExecutionStatus.Done) ? (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+            marginTop: 2,
+            marginBottom: VcComponent ? 2 : 3,
+          }}
+        >
+          <Card
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 2,
+              padding: 2,
+            }}
+          >
+            <CardTitle sx={{ padding: 0 }}>
+              {hasEnumFlag(status, RouteExecutionStatus.Refunded)
+                ? t('header.refunded')
+                : t('header.received')}
+            </CardTitle>
+            <Token token={toToken} disableDescription={false} />
+            {primaryMessage && (
+              <Typography
+                sx={{
+                  color: 'text.secondary',
+                  fontSize: '12px',
+                  lineHeight: '16px',
+                  fontWeight: 500,
+                }}
+              >
+                {primaryMessage}
+              </Typography>
+            )}
+          </Card>
+          {VcComponent ? <VcComponent route={route} /> : null}
+        </Box>
       ) : null}
-      {VcComponent ? <VcComponent route={route} /> : null}
       <Box sx={{ display: 'flex', marginTop: 2, gap: 1.5 }}>
         {hasEnumFlag(status, RouteExecutionStatus.Done) ? (
           <Button variant="text" onClick={handleSeeDetails} fullWidth>

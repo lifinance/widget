@@ -26,13 +26,13 @@ export const RouteCard: React.FC<
   route,
   active,
   variant = 'default',
-  expanded: defaulExpanded,
+  expanded: defaultExpanded,
   ...other
 }) => {
   const { t } = useTranslation()
   const { subvariant, subvariantOptions, routeLabels, hiddenUI } =
     useWidgetConfig()
-  const [cardExpanded, setCardExpanded] = useState(defaulExpanded)
+  const [cardExpanded, setCardExpanded] = useState(defaultExpanded)
 
   const handleExpand: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation()
@@ -103,7 +103,7 @@ export const RouteCard: React.FC<
             HiddenUI.RouteTokenDescription
           )}
         />
-        {!defaulExpanded ? (
+        {!defaultExpanded ? (
           <CardIconButton onClick={handleExpand} size="small">
             {cardExpanded ? (
               <ExpandLess fontSize="inherit" />
