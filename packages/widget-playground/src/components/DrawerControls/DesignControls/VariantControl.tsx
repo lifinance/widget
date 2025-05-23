@@ -22,12 +22,8 @@ export const VariantControl = () => {
           ...getCurrentConfigTheme()?.container,
           maxHeight: undefined,
           display: undefined,
-          height: undefined,
+          height: '100%',
         }
-
-        containerForDrawer.display = undefined
-        containerForDrawer.height = undefined
-        containerForDrawer.maxHeight = undefined
 
         setContainer(containerForDrawer)
         break
