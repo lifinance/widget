@@ -50,8 +50,11 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
   // When there is less than 10 chains we don't care about the order
   const chainsToShow = chainsToHide > 0 ? getChains() : chains
 
+  // Number of tiles to show in the grid
+  const tilesCount = (chainsToShow?.length ?? 0) + (chainsToHide > 0 ? 1 : 0)
+
   return (
-    <ChainContainer>
+    <ChainContainer itemCount={tilesCount}>
       {isLoading
         ? Array.from({ length: maxChainsToOrder }).map((_, index) => (
             <Skeleton
