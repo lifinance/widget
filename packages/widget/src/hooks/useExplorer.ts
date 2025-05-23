@@ -3,6 +3,7 @@ import { ChainId } from '@lifi/sdk'
 import { lifiExplorerUrl } from '../config/constants.js'
 import { useAvailableChains } from '../hooks/useAvailableChains.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import type { ExplorerUrl } from '../types/widget.js'
 
 const sanitiseBaseUrl = (baseUrl: string) => baseUrl.trim().replace(/\/+$/, '')
 
@@ -21,12 +22,37 @@ export const useExplorer = () => {
   const { explorerUrls } = useWidgetConfig()
   const { getChainById } = useAvailableChains()
 
-  const getBaseUrl = (chain: Chain) => {
-    const baseUrl = explorerUrls?.[chain.id]
-      ? explorerUrls[chain.id][0]
-      : chain.metamask.blockExplorerUrls[0]
+  const getExplorerConfig = (
+    explorerUrl: ExplorerUrl | undefined,
+    chain?: Chain
+  ) => {
+    if (!explorerUrl) {
+      return
+    }
 
-    return sanitiseBaseUrl(baseUrl)
+    const url = typeof explorerUrl === 'string' ? explorerUrl : explorerUrl.url
+
+    const defaultTxPath = chain?.id === ChainId.SUI ? 'txblock' : 'tx'
+    const txPath =
+      typeof explorerUrl === 'string'
+        ? defaultTxPath
+        : explorerUrl.txPath || defaultTxPath
+    const addressPath =
+      typeof explorerUrl === 'string'
+        ? 'address'
+        : explorerUrl.addressPath || 'address'
+
+    return {
+      url: sanitiseBaseUrl(url),
+      txPath,
+      addressPath,
+    }
+  }
+
+  const getBaseUrl = (chain: Chain) => {
+    const explorerUrl =
+      explorerUrls?.[chain.id]?.[0] ?? chain.metamask.blockExplorerUrls[0]
+    return getExplorerConfig(explorerUrl, chain)
   }
 
   const resolveChain = (chain: Chain | number) =>
@@ -40,27 +66,29 @@ export const useExplorer = () => {
     if (!txHash && txLink) {
       return txLink
     }
-    if (!chain) {
-      const baseUrl = explorerUrls?.internal?.[0]
-        ? sanitiseBaseUrl(explorerUrls?.internal[0])
-        : lifiExplorerUrl
-      return `${baseUrl}/tx/${txHash}`
+
+    const resolvedChain = chain ? resolveChain(chain) : null
+    const config = resolvedChain
+      ? getBaseUrl(resolvedChain)
+      : getExplorerConfig(explorerUrls?.internal?.[0])
+
+    if (!config) {
+      return `${lifiExplorerUrl}/tx/${txHash}`
     }
-    const resolvedChain = resolveChain(chain)
-    const txPathSegment = resolvedChain?.id === ChainId.SUI ? 'txblock' : 'tx'
-    return `${resolvedChain ? getBaseUrl(resolvedChain) : lifiExplorerUrl}/${txPathSegment}/${txHash}`
+
+    return `${config.url}/${config.txPath}/${txHash}`
   }
 
   const getAddressLink = (address: string, chain?: Chain | number) => {
-    if (!chain) {
-      const baseUrl = explorerUrls?.internal?.[0]
-        ? sanitiseBaseUrl(explorerUrls?.internal[0])
-        : lifiExplorerUrl
-      return `${baseUrl}/address/${address}`
-    }
+    const resolvedChain = chain ? resolveChain(chain) : null
+    const config = resolvedChain
+      ? getBaseUrl(resolvedChain)
+      : getExplorerConfig(explorerUrls?.internal?.[0])
 
-    const resolvedChain = resolveChain(chain)
-    return `${resolvedChain ? getBaseUrl(resolvedChain) : lifiExplorerUrl}/address/${address}`
+    if (!config) {
+      return `${lifiExplorerUrl}/address/${address}`
+    }
+    return `${config.url}/${config.addressPath}/${address}`
   }
 
   const getTokenAddressLink = (address: string, chain?: Chain | number) => {
