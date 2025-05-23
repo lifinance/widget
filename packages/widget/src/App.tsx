@@ -13,8 +13,8 @@ export const App = forwardRef<WidgetDrawer, WidgetProps>((props, ref) => {
       config.theme = {
         ...config.theme,
         container: {
-          height: '100%',
           ...config.theme?.container,
+          height: '100%',
         },
       }
     }

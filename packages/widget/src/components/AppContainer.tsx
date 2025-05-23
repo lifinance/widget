@@ -84,12 +84,9 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
   shouldForwardProp: (prop) =>
     !['variant', 'paddingTopAdjustment', 'elementId'].includes(prop as string),
 })<CssBaselineContainerProps>(({ theme, variant, paddingTopAdjustment }) => {
-  const fullPageHeight =
-    variant === 'drawer' || theme.container?.display === 'flex'
-      ? 'none'
-      : theme.container?.maxHeight
-        ? theme.container?.maxHeight
-        : theme.container?.height || defaultMaxHeight
+  const fullContainerHeight = theme.container?.maxHeight
+    ? theme.container?.maxHeight
+    : theme.container?.height || defaultMaxHeight
   return {
     display: 'flex',
     flex: 1,
@@ -97,13 +94,16 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
     overflowX: 'clip',
     margin: 0,
     width: '100%',
-    maxHeight: fullPageHeight,
+    maxHeight:
+      variant === 'drawer' || theme.container?.display === 'flex'
+        ? 'none'
+        : fullContainerHeight,
     overflowY: 'auto',
     height: theme.container?.display === 'flex' ? 'auto' : '100%',
     paddingTop: paddingTopAdjustment,
     // This allows FullPageContainer.tsx to expand and fill the available vertical space in max height and default layout modes
     '&:has(.full-page-container)': {
-      height: fullPageHeight,
+      height: fullContainerHeight,
     },
   }
 })
