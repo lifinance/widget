@@ -23,7 +23,7 @@ export const useExplorer = () => {
   const { getChainById } = useAvailableChains()
 
   const getExplorerConfig = (
-    explorerUrl: ExplorerUrl | undefined,
+    explorerUrl?: ExplorerUrl,
     chain?: Chain
   ) => {
     if (!explorerUrl) {
