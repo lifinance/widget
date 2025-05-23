@@ -3,12 +3,12 @@ import { useAccount } from '@lifi/wallet-management'
 import { useChain } from '../hooks/useChain.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
-import { RequiredUI } from '../types/widget.js'
+import { HiddenUI, RequiredUI } from '../types/widget.js'
 import { isDelegationDesignatorCode } from '../utils/eip7702.js'
 import { useIsContractAddress } from './useIsContractAddress.js'
 
 export const useToAddressRequirements = (route?: RouteExtended) => {
-  const { requiredUI } = useWidgetConfig()
+  const { requiredUI, hiddenUI } = useWidgetConfig()
   const [formFromChainId, formToChainId, formToAddress] = useFieldValues(
     'fromChain',
     'toChain',
@@ -57,9 +57,10 @@ export const useToAddressRequirements = (route?: RouteExtended) => {
     !fromContractCodeHasDelegationIndicator
 
   const requiredToAddress =
-    requiredUI?.includes(RequiredUI.ToAddress) ||
-    isDifferentChainType ||
-    isCrossChainContractAddress
+    (isDifferentChainType ||
+      isCrossChainContractAddress ||
+      requiredUI?.includes(RequiredUI.ToAddress)) &&
+    !hiddenUI?.includes(HiddenUI.ToAddress)
 
   const accountNotDeployedAtDestination =
     isFromContractAddress &&
