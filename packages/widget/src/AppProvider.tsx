@@ -24,9 +24,8 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
   config,
   formRef,
 }) => {
-  const existingQueryClient = useContext(QueryClientContext)
   return (
-    <QueryClientProvider client={existingQueryClient || newQueryClient}>
+    <ValidatedQueryClientProvider>
       <WidgetProvider config={config}>
         <I18nProvider>
           <ThemeProvider>
@@ -38,6 +37,21 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
           </ThemeProvider>
         </I18nProvider>
       </WidgetProvider>
+    </ValidatedQueryClientProvider>
+  )
+}
+
+const ValidatedQueryClientProvider = ({
+  children,
+}: {
+  children: React.ReactNode
+}) => {
+  const hasQueryClient = !!useContext(QueryClientContext)
+  return hasQueryClient ? (
+    children
+  ) : (
+    <QueryClientProvider client={newQueryClient}>
+      {children}
     </QueryClientProvider>
   )
 }
