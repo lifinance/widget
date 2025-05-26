@@ -1,14 +1,13 @@
-import { QueryClientContext, QueryClientProvider } from '@tanstack/react-query'
 import type { PropsWithChildren } from 'react'
-import { Fragment, useContext } from 'react'
+import { Fragment } from 'react'
 import {
   MemoryRouter,
   type MemoryRouterProps,
   useInRouterContext,
 } from 'react-router-dom'
 import { PageEntered } from './components/PageEntered.js'
-import { queryClient } from './config/queryClient.js'
 import { I18nProvider } from './providers/I18nProvider/I18nProvider.js'
+import { QueryClientProvider } from './providers/QueryClientProvider.js'
 import { ThemeProvider } from './providers/ThemeProvider/ThemeProvider.js'
 import { WalletProvider } from './providers/WalletProvider/WalletProvider.js'
 import {
@@ -25,7 +24,7 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
   formRef,
 }) => {
   return (
-    <ValidatedQueryClientProvider>
+    <QueryClientProvider>
       <WidgetProvider config={config}>
         <I18nProvider>
           <ThemeProvider>
@@ -37,20 +36,7 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
           </ThemeProvider>
         </I18nProvider>
       </WidgetProvider>
-    </ValidatedQueryClientProvider>
-  )
-}
-
-const ValidatedQueryClientProvider = ({
-  children,
-}: {
-  children: React.ReactNode
-}) => {
-  const hasQueryClient = !!useContext(QueryClientContext)
-  return hasQueryClient ? (
-    children
-  ) : (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </QueryClientProvider>
   )
 }
 
