@@ -6,18 +6,21 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query'
+import { lifiWidgetQueryPrefix } from '../config/constants'
+
+const transactionHistoryQueryKey = `${lifiWidgetQueryPrefix}-transaction-history`
 
 export const useTransactionDetails = (transactionHash?: string) => {
   const { account, accounts } = useAccount()
   const queryClient = useQueryClient()
 
   const { data, isLoading } = useQuery({
-    queryKey: ['transaction-history', transactionHash],
+    queryKey: [transactionHistoryQueryKey, transactionHash],
     queryFn: async ({ queryKey: [, transactionHash], signal }) => {
       if (transactionHash) {
         for (const account of accounts) {
           const cachedHistory = queryClient.getQueryData<StatusResponse[]>([
-            'transaction-history',
+            transactionHistoryQueryKey,
             account.address,
           ])
 
@@ -41,7 +44,7 @@ export const useTransactionDetails = (transactionHash?: string) => {
 
         if (fromAddress) {
           queryClient.setQueryData<StatusResponse[]>(
-            ['transaction-history', fromAddress],
+            [transactionHistoryQueryKey, fromAddress],
             (data) => {
               return [...data!, transaction!]
             }
@@ -57,7 +60,7 @@ export const useTransactionDetails = (transactionHash?: string) => {
       for (const account of accounts) {
         const transaction = queryClient
           .getQueryData<StatusResponse[]>([
-            'transaction-history',
+            transactionHistoryQueryKey,
             account.address,
           ])
           ?.find((t) => t.sending.txHash === transactionHash)

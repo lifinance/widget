@@ -2,6 +2,7 @@ import { getTokenBalances } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useQuery } from '@tanstack/react-query'
 import { formatUnits } from 'viem'
+import { lifiWidgetQueryPrefix } from '../config/constants.js'
 import type { TokenAmount } from '../types/token.js'
 import { useTokens } from './useTokens.js'
 
@@ -23,7 +24,7 @@ export const useTokenBalances = (selectedChainId?: number) => {
     refetch,
   } = useQuery({
     queryKey: [
-      'token-balances',
+      `${lifiWidgetQueryPrefix}-token-balances`,
       account.address,
       selectedChainId,
       tokens?.length,

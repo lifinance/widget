@@ -1,5 +1,6 @@
 import { type ToolsResponse, getTools } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
+import { lifiWidgetQueryPrefix } from '../config/constants.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useSettingsStore } from '../stores/settings/useSettingsStore.js'
 import { isItemAllowed } from '../utils/item.js'
@@ -8,7 +9,7 @@ export const useTools = () => {
   const { bridges, exchanges } = useWidgetConfig()
   const { data } = useQuery({
     queryKey: [
-      'tools',
+      `${lifiWidgetQueryPrefix}-tools`,
       bridges?.allow,
       bridges?.deny,
       exchanges?.allow,

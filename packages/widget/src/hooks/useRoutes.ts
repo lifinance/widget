@@ -11,6 +11,7 @@ import {
 import { useAccount } from '@lifi/wallet-management'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { parseUnits } from 'viem'
+import { lifiWidgetQueryPrefix } from '../config/constants.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
 import { useIntermediateRoutesStore } from '../stores/routes/useIntermediateRoutesStore.js'
@@ -135,7 +136,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
 
   // Some values should be strictly typed and isEnabled ensures that
   const queryKey = [
-    'routes',
+    `${lifiWidgetQueryPrefix}-routes`,
     account.address,
     fromChain?.id as number,
     fromToken?.address as string,
@@ -399,7 +400,13 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           const { fromToken, toToken } = routesResult.routes[0]
           ;[fromToken, toToken].forEach((token) => {
             queryClient.setQueriesData<Token[]>(
-              { queryKey: ['token-balances', fromAddress, token.chainId] },
+              {
+                queryKey: [
+                  `${lifiWidgetQueryPrefix}-token-balances`,
+                  fromAddress,
+                  token.chainId,
+                ],
+              },
               (data) => {
                 if (data) {
                   const clonedData = [...data]

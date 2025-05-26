@@ -4,6 +4,7 @@ import { useAccount } from '@lifi/wallet-management'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useRef } from 'react'
 import { shallow } from 'zustand/shallow'
+import { lifiWidgetQueryPrefix } from '../config/constants.js'
 import {
   useRouteExecutionStore,
   useRouteExecutionStoreContext,
@@ -73,16 +74,16 @@ export const useRouteExecution = ({
     if (executionCompleted || executionFailed) {
       const invalidateKeys = [
         [
-          'token-balances',
+          `${lifiWidgetQueryPrefix}-token-balances`,
           clonedUpdatedRoute.fromAddress,
           clonedUpdatedRoute.fromChainId,
         ],
         [
-          'token-balances',
+          `${lifiWidgetQueryPrefix}-token-balances`,
           clonedUpdatedRoute.toAddress,
           clonedUpdatedRoute.toChainId,
         ],
-        ['transaction-history'],
+        [`${lifiWidgetQueryPrefix}-transaction-history`],
       ]
       for (const key of invalidateKeys) {
         queryClient.invalidateQueries(
@@ -121,7 +122,10 @@ export const useRouteExecution = ({
       if (!routeExecution?.route) {
         throw new Error('Execution route not found.')
       }
-      queryClient.removeQueries({ queryKey: ['routes'], exact: false })
+      queryClient.removeQueries({
+        queryKey: [`${lifiWidgetQueryPrefix}-routes`],
+        exact: false,
+      })
       return executeRoute(routeExecution.route, {
         updateRouteHook,
         acceptExchangeRateUpdateHook,

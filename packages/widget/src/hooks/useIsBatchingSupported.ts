@@ -1,6 +1,7 @@
 import { ChainType, isBatchingSupported } from '@lifi/sdk'
 import type { ExtendedChain } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
+import { lifiWidgetQueryPrefix } from '../config/constants'
 
 export function useIsBatchingSupported(
   chain?: ExtendedChain,
@@ -10,7 +11,11 @@ export function useIsBatchingSupported(
     chain && chain.chainType === ChainType.EVM && !!address
   )
   const { data, isLoading } = useQuery({
-    queryKey: ['isBatchingSupported', chain?.id, address],
+    queryKey: [
+      `${lifiWidgetQueryPrefix}-isBatchingSupported`,
+      chain?.id,
+      address,
+    ],
     queryFn: () => {
       return isBatchingSupported({ chainId: chain!.id })
     },

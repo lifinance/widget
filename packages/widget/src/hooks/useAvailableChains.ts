@@ -2,6 +2,7 @@ import type { ExtendedChain } from '@lifi/sdk'
 import { ChainType, config, getChains } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useCallback } from 'react'
+import { lifiWidgetQueryPrefix } from '../config/constants.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { isItemAllowed } from '../utils/item.js'
 
@@ -22,7 +23,7 @@ export const useAvailableChains = (chainTypes?: ChainType[]) => {
   // const { providers } = useHasExternalWalletProvider();
   const { data, isLoading } = useQuery({
     queryKey: [
-      'chains',
+      `${lifiWidgetQueryPrefix}-chains`,
       // providers,
       chains?.types,
       chains?.allow,

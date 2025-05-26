@@ -1,6 +1,7 @@
 import { type Token, type TokenAmount, getTokenBalances } from '@lifi/sdk'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
+import { lifiWidgetQueryPrefix } from '../config/constants.js'
 
 const defaultRefetchInterval = 30_000
 
@@ -10,7 +11,7 @@ export const useTokenBalance = (accountAddress?: string, token?: Token) => {
   const tokenBalanceQueryKey = useMemo(
     () =>
       [
-        'token-balance',
+        `${lifiWidgetQueryPrefix}-token-balance`,
         accountAddress,
         token?.chainId,
         token?.address,
@@ -45,7 +46,13 @@ export const useTokenBalance = (accountAddress?: string, token?: Token) => {
       }
 
       queryClient.setQueriesData<TokenAmount[]>(
-        { queryKey: ['token-balances', accountAddress, tokenChainId] },
+        {
+          queryKey: [
+            `${lifiWidgetQueryPrefix}-token-balances`,
+            accountAddress,
+            tokenChainId,
+          ],
+        },
         (data) => {
           if (data) {
             const clonedData = [...data]

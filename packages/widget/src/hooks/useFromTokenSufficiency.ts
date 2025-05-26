@@ -2,6 +2,7 @@ import type { RouteExtended } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { parseUnits } from 'viem'
+import { lifiWidgetQueryPrefix } from '../config/constants.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
 import { isRouteDone } from '../stores/routes/utils.js'
 import { useTokenAddressBalance } from './useTokenAddressBalance.js'
@@ -33,7 +34,7 @@ export const useFromTokenSufficiency = (route?: RouteExtended) => {
 
   const { data: insufficientFromToken, isLoading } = useQuery({
     queryKey: [
-      'from-token-sufficiency-check',
+      `${lifiWidgetQueryPrefix}-from-token-sufficiency-check`,
       account.address,
       chainId,
       tokenAddress,
