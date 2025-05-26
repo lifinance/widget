@@ -52,23 +52,15 @@ export const IconCircle = styled(Box, {
   return {
     backgroundColor: `rgba(${color} / ${alphaValue})`,
     borderRadius: '50%',
-    width: 64,
-    height: 64,
+    width: 72,
+    height: 72,
     display: 'grid',
     position: 'relative',
     placeItems: 'center',
     '& > svg': {
       color: `color-mix(in srgb, rgb(${color}) ${(1 - darkenValue) * 100}%, black)`,
-      width: 32,
-      height: 32,
+      width: 36,
+      height: 36,
     },
   }
 })
-
-export const MessageSkeletonContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  height: 64,
-  gap: theme.spacing(0.5),
-  paddingTop: theme.spacing(1),
-}))
