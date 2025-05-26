@@ -7,7 +7,7 @@ import {
   useInRouterContext,
 } from 'react-router-dom'
 import { PageEntered } from './components/PageEntered.js'
-import { queryClient as newQueryClient } from './config/queryClient.js'
+import { queryClient } from './config/queryClient.js'
 import { I18nProvider } from './providers/I18nProvider/I18nProvider.js'
 import { ThemeProvider } from './providers/ThemeProvider/ThemeProvider.js'
 import { WalletProvider } from './providers/WalletProvider/WalletProvider.js'
@@ -50,9 +50,7 @@ const ValidatedQueryClientProvider = ({
   return hasQueryClient ? (
     children
   ) : (
-    <QueryClientProvider client={newQueryClient}>
-      {children}
-    </QueryClientProvider>
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   )
 }
 
