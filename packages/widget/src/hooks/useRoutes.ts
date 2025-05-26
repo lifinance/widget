@@ -11,7 +11,6 @@ import {
 import { useAccount } from '@lifi/wallet-management'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { parseUnits } from 'viem'
-import { lifiWidgetQueryPrefix } from '../config/constants.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
 import { useIntermediateRoutesStore } from '../stores/routes/useIntermediateRoutesStore.js'
@@ -20,6 +19,7 @@ import { useSettings } from '../stores/settings/useSettings.js'
 import { defaultSlippage } from '../stores/settings/useSettingsStore.js'
 import { WidgetEvent } from '../types/events.js'
 import { getChainTypeFromAddress } from '../utils/chainType.js'
+import { getQueryKey } from '../utils/queries.js'
 import { useChain } from './useChain.js'
 import { useDebouncedWatch } from './useDebouncedWatch.js'
 import { useGasRefuel } from './useGasRefuel.js'
@@ -44,6 +44,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
     fee,
     feeConfig,
     useRelayerRoutes,
+    keyPrefix,
   } = useWidgetConfig()
   const setExecutableRoute = useSetExecutableRoute()
   const queryClient = useQueryClient()
@@ -136,7 +137,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
 
   // Some values should be strictly typed and isEnabled ensures that
   const queryKey = [
-    `${lifiWidgetQueryPrefix}-routes`,
+    getQueryKey('routes', keyPrefix),
     account.address,
     fromChain?.id as number,
     fromToken?.address as string,
@@ -402,7 +403,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
             queryClient.setQueriesData<Token[]>(
               {
                 queryKey: [
-                  `${lifiWidgetQueryPrefix}-token-balances`,
+                  getQueryKey('token-balances', keyPrefix),
                   fromAddress,
                   token.chainId,
                 ],

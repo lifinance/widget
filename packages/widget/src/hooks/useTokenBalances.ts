@@ -2,8 +2,9 @@ import { getTokenBalances } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useQuery } from '@tanstack/react-query'
 import { formatUnits } from 'viem'
-import { lifiWidgetQueryPrefix } from '../config/constants.js'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { TokenAmount } from '../types/token.js'
+import { getQueryKey } from '../utils/queries.js'
 import { useTokens } from './useTokens.js'
 
 const defaultRefetchInterval = 32_000
@@ -12,6 +13,7 @@ export const useTokenBalances = (selectedChainId?: number) => {
   const { tokens, featuredTokens, popularTokens, chain, isLoading } =
     useTokens(selectedChainId)
   const { account } = useAccount({ chainType: chain?.chainType })
+  const { keyPrefix } = useWidgetConfig()
 
   const isBalanceLoadingEnabled =
     Boolean(account.address) &&
@@ -24,7 +26,7 @@ export const useTokenBalances = (selectedChainId?: number) => {
     refetch,
   } = useQuery({
     queryKey: [
-      `${lifiWidgetQueryPrefix}-token-balances`,
+      getQueryKey('token-balances', keyPrefix),
       account.address,
       selectedChainId,
       tokens?.length,

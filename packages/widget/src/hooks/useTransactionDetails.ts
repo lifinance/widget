@@ -6,13 +6,19 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query'
-import { lifiWidgetQueryPrefix } from '../config/constants'
-
-const transactionHistoryQueryKey = `${lifiWidgetQueryPrefix}-transaction-history`
+import { useMemo } from 'react'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import { getQueryKey } from '../utils/queries.js'
 
 export const useTransactionDetails = (transactionHash?: string) => {
   const { account, accounts } = useAccount()
   const queryClient = useQueryClient()
+  const { keyPrefix } = useWidgetConfig()
+
+  const transactionHistoryQueryKey = useMemo(
+    () => getQueryKey('transaction-history', keyPrefix),
+    [keyPrefix]
+  )
 
   const { data, isLoading } = useQuery({
     queryKey: [transactionHistoryQueryKey, transactionHash],

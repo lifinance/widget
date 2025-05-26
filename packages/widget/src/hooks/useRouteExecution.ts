@@ -4,7 +4,7 @@ import { useAccount } from '@lifi/wallet-management'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useRef } from 'react'
 import { shallow } from 'zustand/shallow'
-import { lifiWidgetQueryPrefix } from '../config/constants.js'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import {
   useRouteExecutionStore,
   useRouteExecutionStoreContext,
@@ -16,6 +16,7 @@ import {
   isRouteFailed,
 } from '../stores/routes/utils.js'
 import { WidgetEvent } from '../types/events.js'
+import { getQueryKey } from '../utils/queries.js'
 import { useWidgetEvents } from './useWidgetEvents.js'
 
 interface RouteExecutionProps {
@@ -35,6 +36,7 @@ export const useRouteExecution = ({
   const queryClient = useQueryClient()
   const { account } = useAccount()
   const resumedAfterMount = useRef(false)
+  const { keyPrefix } = useWidgetConfig()
   const emitter = useWidgetEvents()
   const routeExecutionStoreContext = useRouteExecutionStoreContext()
   const routeExecution = useRouteExecutionStore(
@@ -74,16 +76,16 @@ export const useRouteExecution = ({
     if (executionCompleted || executionFailed) {
       const invalidateKeys = [
         [
-          `${lifiWidgetQueryPrefix}-token-balances`,
+          getQueryKey('token-balances', keyPrefix),
           clonedUpdatedRoute.fromAddress,
           clonedUpdatedRoute.fromChainId,
         ],
         [
-          `${lifiWidgetQueryPrefix}-token-balances`,
+          getQueryKey('token-balances', keyPrefix),
           clonedUpdatedRoute.toAddress,
           clonedUpdatedRoute.toChainId,
         ],
-        [`${lifiWidgetQueryPrefix}-transaction-history`],
+        [getQueryKey('transaction-history', keyPrefix)],
       ]
       for (const key of invalidateKeys) {
         queryClient.invalidateQueries(
@@ -123,7 +125,7 @@ export const useRouteExecution = ({
         throw new Error('Execution route not found.')
       }
       queryClient.removeQueries({
-        queryKey: [`${lifiWidgetQueryPrefix}-routes`],
+        queryKey: [getQueryKey('routes', keyPrefix)],
         exact: false,
       })
       return executeRoute(routeExecution.route, {

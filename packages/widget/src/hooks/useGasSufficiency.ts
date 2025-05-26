@@ -2,7 +2,8 @@ import type { EVMChain, RouteExtended, Token } from '@lifi/sdk'
 import { isRelayerStep } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useQuery } from '@tanstack/react-query'
-import { lifiWidgetQueryPrefix } from '../config/constants.js'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import { getQueryKey } from '../utils/queries.js'
 import { useAvailableChains } from './useAvailableChains.js'
 import { useIsContractAddress } from './useIsContractAddress.js'
 import { getTokenBalancesWithRetry } from './useTokenBalance.js'
@@ -23,13 +24,14 @@ export const useGasSufficiency = (route?: RouteExtended) => {
   const { account } = useAccount({
     chainType: getChainById(route?.fromChainId)?.chainType,
   })
+  const { keyPrefix } = useWidgetConfig()
 
   const { isContractAddress, isLoading: isContractAddressLoading } =
     useIsContractAddress(account.address, route?.fromChainId, account.chainType)
 
   const { data: insufficientGas, isLoading } = useQuery({
     queryKey: [
-      `${lifiWidgetQueryPrefix}-gas-sufficiency-check`,
+      getQueryKey('gas-sufficiency-check', keyPrefix),
       account.address,
       route?.id,
       isContractAddress,

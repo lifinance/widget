@@ -1,6 +1,7 @@
 import { type ChainId, getGasRecommendation } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
-import { lifiWidgetQueryPrefix } from '../config/constants.js'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import { getQueryKey } from '../utils/queries.js'
 import { useAvailableChains } from './useAvailableChains.js'
 
 const refetchInterval = 60_000
@@ -11,6 +12,7 @@ export const useGasRecommendation = (
   fromToken?: string
 ) => {
   const { chains } = useAvailableChains()
+  const { keyPrefix } = useWidgetConfig()
 
   const checkRecommendationLiFuel =
     Boolean(toChainId) &&
@@ -23,7 +25,7 @@ export const useGasRecommendation = (
 
   return useQuery({
     queryKey: [
-      `${lifiWidgetQueryPrefix}-gas-recommendation`,
+      getQueryKey('gas-recommendation', keyPrefix),
       toChainId,
       fromChain,
       fromToken,

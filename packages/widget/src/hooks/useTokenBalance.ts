@@ -1,22 +1,24 @@
 import { type Token, type TokenAmount, getTokenBalances } from '@lifi/sdk'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
-import { lifiWidgetQueryPrefix } from '../config/constants.js'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import { getQueryKey } from '../utils/queries.js'
 
 const defaultRefetchInterval = 30_000
 
 export const useTokenBalance = (accountAddress?: string, token?: Token) => {
   const queryClient = useQueryClient()
+  const { keyPrefix } = useWidgetConfig()
 
   const tokenBalanceQueryKey = useMemo(
     () =>
       [
-        `${lifiWidgetQueryPrefix}-token-balance`,
+        getQueryKey('token-balance', keyPrefix),
         accountAddress,
         token?.chainId,
         token?.address,
       ] as const,
-    [token?.address, token?.chainId, accountAddress]
+    [token?.address, token?.chainId, accountAddress, keyPrefix]
   )
 
   const { data, isLoading, refetch } = useQuery({
@@ -48,7 +50,7 @@ export const useTokenBalance = (accountAddress?: string, token?: Token) => {
       queryClient.setQueriesData<TokenAmount[]>(
         {
           queryKey: [
-            `${lifiWidgetQueryPrefix}-token-balances`,
+            getQueryKey('token-balances', keyPrefix),
             accountAddress,
             tokenChainId,
           ],
