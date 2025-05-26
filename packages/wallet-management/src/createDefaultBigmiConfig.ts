@@ -1,9 +1,12 @@
 import {
+  binance,
+  bitget,
   createConfig,
   ctrl,
   leather,
   okx,
   onekey,
+  oyl,
   phantom,
   unisat,
   xverse,
@@ -58,6 +61,9 @@ export function createDefaultBigmiConfig(
     okx({ chainId: ChainId.BTC }),
     leather({ chainId: ChainId.BTC }),
     onekey({ chainId: ChainId.BTC }),
+    binance({ chainId: ChainId.BTC }),
+    bitget({ chainId: ChainId.BTC }),
+    oyl({ chainId: ChainId.BTC }),
     ...(props?.connectors ?? []),
   ]
 
