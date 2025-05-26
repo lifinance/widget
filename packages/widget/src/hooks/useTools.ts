@@ -8,7 +8,13 @@ import { getQueryKey } from '../utils/queries.js'
 export const useTools = () => {
   const { bridges, exchanges, keyPrefix } = useWidgetConfig()
   const { data } = useQuery({
-    queryKey: [getQueryKey('tools', keyPrefix)],
+    queryKey: [
+      getQueryKey('tools', keyPrefix),
+      bridges?.allow,
+      bridges?.deny,
+      exchanges?.allow,
+      exchanges?.deny,
+    ],
     queryFn: async (): Promise<ToolsResponse> => {
       const tools = await getTools()
       const result = {
