@@ -43,7 +43,7 @@ export const widgetBaseConfig: WidgetConfig = {
   //   usePartialWalletManagement: true,
   // },
   sdkConfig: {
-    apiUrl: 'https://li.quest/v1',
+    apiUrl: 'https://api-staging.jumper.exchange/p/lifi/beta',
     rpcUrls: {
       [ChainId.SOL]: [
         'https://chaotic-restless-putty.solana-mainnet.quiknode.pro/',
