@@ -10,12 +10,6 @@ const chainCardHeightPx = 56
 // proper row/column distribution in the grid layout logic.
 const maxRows = 2
 const maxChainsPerRow = Math.ceil(maxChainsToShow / maxRows)
-const minChainsPerRow = Math.ceil(maxChainsPerRow / 2)
-
-const possibleColumnsPerRow = Array.from(
-  { length: maxChainsPerRow - minChainsPerRow + 1 },
-  (_, i) => minChainsPerRow + i
-)
 
 export const ChainCard = styled(Card)({
   display: 'grid',
@@ -27,30 +21,8 @@ export const ChainCard = styled(Card)({
 export const ChainContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'itemCount',
 })<{ itemCount: number }>(({ theme, itemCount }) => {
-  // Find the best column count to balance rows:
-  // - fit within a maximum number of rows
-  // - keep rows as balanced as possible (e.g., prefer 3 + 3 over 5 + 1)
-  // - if itemCount <= maxChainsPerRow, spread items within 1 row.
-  const columnsPerRow =
-    itemCount <= maxChainsPerRow
-      ? maxChainsPerRow // if there are less than maxChainsPerRow chains in total, put them all in one row
-      : possibleColumnsPerRow
-          // Calculate the number of rows for each possible column count based on itemCount,
-          // and if the number of rows <= maxRows, find the number of columns with minimum imbalance,
-          // otherwise use maxChainsPerRow.
-          .filter((cols) => Math.ceil(itemCount / cols) <= maxRows)
-          .reduce((best, cols) => {
-            const lastRowSize = itemCount % cols || cols
-            // Imbalance is how far the last row is from being full
-            const imbalance = Math.abs(lastRowSize - cols)
-            const bestLastRowSize = itemCount % best || best
-            const bestImbalance = Math.abs(bestLastRowSize - best)
-            // Choose the column count that creates a less imbalanced last row
-            return imbalance < bestImbalance ? cols : best
-          }, maxChainsPerRow)
-
-  const rowCount = Math.ceil(itemCount / columnsPerRow)
-
+  const rowCount = Math.min(Math.ceil(itemCount / maxChainsPerRow), maxRows)
+  const columnsPerRow = Math.ceil(itemCount / rowCount)
   return {
     display: 'grid',
     gridTemplateColumns: `repeat(${rowCount > 1 ? columnsPerRow : 'auto-fit'}, minmax(${chainCardWidthPx}px, 1fr))`,
