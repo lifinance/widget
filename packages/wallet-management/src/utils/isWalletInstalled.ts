@@ -43,6 +43,8 @@ export const isWalletInstalled = (id: string): boolean => {
       return anyWindow.oyl
     case 'binance':
       return anyWindow.binancew3w?.bitcoin || anyWindow.unisat?.isBinance
+    case 'app.magiceden.bitcoin':
+      return anyWindow?.magicEden?.bitcoin?.isMagicEden
     default:
       /**
        * Return true if the wallet is not in the list of explicitly supported or self-injected wallet

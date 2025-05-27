@@ -4,6 +4,7 @@ import {
   createConfig,
   ctrl,
   leather,
+  magicEden,
   okx,
   onekey,
   oyl,
@@ -64,6 +65,7 @@ export function createDefaultBigmiConfig(
     binance({ chainId: ChainId.BTC }),
     bitget({ chainId: ChainId.BTC }),
     oyl({ chainId: ChainId.BTC }),
+    magicEden({ chainId: ChainId.BTC }),
     ...(props?.connectors ?? []),
   ]
 
