@@ -15,7 +15,7 @@ import { ElementId, createElementId } from '../utils/elements.js'
 //  Also check any code that is using the methods from elements.ts utils file
 
 export const AppExpandedContainer = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'variant',
+  shouldForwardProp: (prop) => prop !== 'variant' && prop !== 'isListPage',
 })<{ variant?: WidgetVariant; isListPage: boolean }>(
   ({ theme, isListPage }) => {
     const maxHeight = isListPage
@@ -47,7 +47,7 @@ export const AppExpandedContainer = styled(Box, {
 )
 
 export const RelativeContainer = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'variant',
+  shouldForwardProp: (prop) => prop !== 'variant' && prop !== 'isListPage',
 })<{ variant?: WidgetVariant; isListPage: boolean }>(
   ({ theme, isListPage }) => {
     const maxHeight = isListPage
