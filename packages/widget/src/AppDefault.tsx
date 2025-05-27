@@ -1,4 +1,5 @@
 'use client'
+import { useLocation } from 'react-router-dom'
 import { AppRoutes } from './AppRoutes.js'
 import {
   AppContainer,
@@ -15,12 +16,16 @@ import { ElementId, createElementId } from './utils/elements.js'
 export const AppDefault = () => {
   const { elementId } = useWidgetConfig()
   const wideVariant = useWideVariant()
+  const { pathname } = useLocation()
+  const isListPage =
+    pathname.includes('/from-token') || pathname.includes('/from-chain')
 
   return (
     <AppExpandedContainer
       id={createElementId(ElementId.AppExpandedContainer, elementId)}
+      isListPage={isListPage}
     >
-      <AppContainer>
+      <AppContainer isListPage={isListPage}>
         <Header />
         <FlexContainer disableGutters>
           <AppRoutes />

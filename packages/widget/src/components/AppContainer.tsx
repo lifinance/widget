@@ -16,97 +16,116 @@ import { ElementId, createElementId } from '../utils/elements.js'
 
 export const AppExpandedContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'variant',
-})<{ variant?: WidgetVariant }>(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'start',
-  flex: 1,
-  height:
-    theme.container?.display === 'flex'
-      ? '100%'
+})<{ variant?: WidgetVariant; isListPage: boolean }>(
+  ({ theme, isListPage }) => {
+    const maxHeight = isListPage
+      ? theme.container?.listPageMaxHeight
       : theme.container?.maxHeight
-        ? 'auto'
-        : theme.container?.height || 'auto',
-  variants: [
-    {
-      props: {
-        variant: 'drawer',
-      },
-      style: {
-        height: 'none',
-      },
-    },
-  ],
-}))
+    return {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'start',
+      flex: 1,
+      height:
+        theme.container?.display === 'flex'
+          ? '100%'
+          : maxHeight
+            ? 'auto'
+            : theme.container?.height || 'auto',
+      variants: [
+        {
+          props: {
+            variant: 'drawer',
+          },
+          style: {
+            height: 'none',
+          },
+        },
+      ],
+    }
+  }
+)
 
 export const RelativeContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'variant',
-})<{ variant?: WidgetVariant }>(({ theme }) => {
-  return {
-    position: 'relative',
-    boxSizing: 'content-box',
-    width: '100%',
-    minWidth: theme.breakpoints.values.xs,
-    maxWidth: theme.breakpoints.values.sm,
-    background: theme.vars.palette.background.default,
-    overflow: 'auto',
-    flex: 1,
-    zIndex: 0,
-    ...theme.container,
-    maxHeight:
-      theme.container?.display === 'flex' && !theme.container?.height
-        ? '100%'
-        : theme.container?.maxHeight
-          ? theme.container?.maxHeight
-          : theme.container?.height || defaultMaxHeight,
-    variants: [
-      {
-        props: {
-          variant: 'drawer',
+})<{ variant?: WidgetVariant; isListPage: boolean }>(
+  ({ theme, isListPage }) => {
+    const maxHeight = isListPage
+      ? theme.container?.listPageMaxHeight
+      : theme.container?.maxHeight
+    return {
+      position: 'relative',
+      boxSizing: 'content-box',
+      width: '100%',
+      minWidth: theme.breakpoints.values.xs,
+      maxWidth: theme.breakpoints.values.sm,
+      background: theme.vars.palette.background.default,
+      overflow: 'auto',
+      flex: 1,
+      zIndex: 0,
+      ...theme.container,
+      maxHeight:
+        theme.container?.display === 'flex' && !theme.container?.height
+          ? '100%'
+          : (maxHeight ?? theme.container?.height ?? defaultMaxHeight),
+      variants: [
+        {
+          props: {
+            variant: 'drawer',
+          },
+          style: {
+            maxHeight: 'none',
+            height: '100%',
+            boxShadow: 'none',
+          },
         },
-        style: {
-          maxHeight: 'none',
-          height: '100%',
-          boxShadow: 'none',
-        },
-      },
-    ],
+      ],
+    }
   }
-})
+)
 
 interface CssBaselineContainerProps {
   variant?: WidgetVariant
   paddingTopAdjustment: number
   elementId: string
+  isListPage: boolean
 }
 
 const CssBaselineContainer = styled(ScopedCssBaseline, {
   shouldForwardProp: (prop) =>
-    !['variant', 'paddingTopAdjustment', 'elementId'].includes(prop as string),
-})<CssBaselineContainerProps>(({ theme, variant, paddingTopAdjustment }) => {
-  const fullContainerHeight = theme.container?.maxHeight
-    ? theme.container?.maxHeight
-    : theme.container?.height || defaultMaxHeight
-  return {
-    display: 'flex',
-    flex: 1,
-    flexDirection: 'column',
-    overflowX: 'clip',
-    margin: 0,
-    width: '100%',
-    maxHeight:
-      variant === 'drawer' || theme.container?.display === 'flex'
-        ? 'none'
-        : fullContainerHeight,
-    overflowY: 'auto',
-    height: theme.container?.display === 'flex' ? 'auto' : '100%',
-    paddingTop: paddingTopAdjustment,
-    // This allows FullPageContainer.tsx to expand and fill the available vertical space in max height and default layout modes
-    '&:has(.full-page-container)': {
-      height: fullContainerHeight,
-    },
+    !['variant', 'paddingTopAdjustment', 'elementId', 'isListPage'].includes(
+      prop as string
+    ),
+})<CssBaselineContainerProps>(
+  ({ theme, variant, paddingTopAdjustment, isListPage }) => {
+    const fullContainerHeight = theme.container?.maxHeight
+      ? theme.container?.maxHeight
+      : theme.container?.height || defaultMaxHeight
+    const listPageMaxHeight = theme.container?.listPageMaxHeight
+      ? theme.container?.listPageMaxHeight
+      : theme.container?.height || defaultMaxHeight
+    const maxHeight = isListPage ? listPageMaxHeight : fullContainerHeight
+    return {
+      display: 'flex',
+      flex: 1,
+      flexDirection: 'column',
+      overflowX: 'clip',
+      margin: 0,
+      width: '100%',
+      maxHeight:
+        variant === 'drawer' || theme.container?.display === 'flex'
+          ? 'none'
+          : maxHeight,
+      overflowY: 'auto',
+      height: theme.container?.display === 'flex' ? 'auto' : '100%',
+      paddingTop: paddingTopAdjustment,
+      // This allows FullPageContainer.tsx to expand and fill the available vertical space in max height and default layout modes
+      '&:has(.full-page-container)': {
+        height: maxHeight,
+      },
+    }
   }
-})
+)
 
 export const FlexContainer = styled(Container)({
   display: 'flex',
@@ -114,7 +133,9 @@ export const FlexContainer = styled(Container)({
   flex: 1,
 })
 
-export const AppContainer: React.FC<PropsWithChildren> = ({ children }) => {
+export const AppContainer: React.FC<
+  PropsWithChildren & { isListPage: boolean }
+> = ({ children, isListPage }) => {
   // const ref = useRef<HTMLDivElement>(null);
   const { variant, elementId, theme } = useWidgetConfig()
   const { headerHeight } = useHeaderHeight()
@@ -125,6 +146,7 @@ export const AppContainer: React.FC<PropsWithChildren> = ({ children }) => {
     <RelativeContainer
       variant={variant}
       id={createElementId(ElementId.RelativeContainer, elementId)}
+      isListPage={isListPage}
     >
       <CssBaselineContainer
         id={createElementId(ElementId.ScrollableContainer, elementId)}
@@ -132,6 +154,7 @@ export const AppContainer: React.FC<PropsWithChildren> = ({ children }) => {
         enableColorScheme
         paddingTopAdjustment={positionFixedAdjustment}
         elementId={elementId}
+        isListPage={isListPage}
         // ref={ref}
       >
         <FlexContainer disableGutters>{children}</FlexContainer>

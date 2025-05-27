@@ -1,5 +1,6 @@
 import { Skeleton, ThemeProvider, useMediaQuery } from '@mui/material'
 import { useMemo } from 'react'
+import { useLocation } from 'react-router-dom'
 import { createTheme } from '../../themes/createTheme.js'
 import type { WidgetConfigPartialProps } from '../../types/widget.js'
 import {
@@ -79,6 +80,10 @@ export const WidgetSkeleton = ({ config }: WidgetConfigPartialProps) => {
 
   const theme = useMemo(() => createTheme(configTheme), [configTheme])
 
+  const { pathname } = useLocation()
+  const isListPage =
+    pathname.includes('/from-token') || pathname.includes('/from-chain')
+
   return (
     <ThemeProvider
       theme={theme}
@@ -87,8 +92,11 @@ export const WidgetSkeleton = ({ config }: WidgetConfigPartialProps) => {
       colorSchemeStorageKey="li.fi-widget-color-scheme"
       disableTransitionOnChange
     >
-      <AppExpandedContainer>
-        <RelativeContainer sx={{ display: 'flex', flexDirection: 'column' }}>
+      <AppExpandedContainer isListPage={isListPage}>
+        <RelativeContainer
+          sx={{ display: 'flex', flexDirection: 'column' }}
+          isListPage={isListPage}
+        >
           <SkeletonHeaderContainer>
             {!hiddenUI.includes('walletMenu') ? (
               <SkeletonHeaderAppBar>

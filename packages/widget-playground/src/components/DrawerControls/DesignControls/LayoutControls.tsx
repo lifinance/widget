@@ -1,7 +1,13 @@
 import { defaultMaxHeight } from '@lifi/widget'
 import { MenuItem, type SelectChangeEvent } from '@mui/material'
 import type { CSSProperties, FocusEventHandler } from 'react'
-import { type ChangeEventHandler, useEffect, useId, useState } from 'react'
+import {
+  type ChangeEventHandler,
+  useCallback,
+  useEffect,
+  useId,
+  useState,
+} from 'react'
 import type { Layout } from '../../../store/editTools/types'
 import { useEditToolsActions } from '../../../store/editTools/useEditToolsActions'
 import { useHeaderAndFooterToolValues } from '../../../store/editTools/useHeaderAndFooterToolValues'
@@ -45,40 +51,35 @@ const layoutOptions: LayoutOption[] = [
     id: 'full-height',
     name: 'Full Height',
   },
-]
-
-interface InputLabel {
-  [key: string]: string
-}
-
-const inputLabel: InputLabel = {
-  'restricted-height': 'Set height',
-  'restricted-max-height': 'Set max height',
-}
-
-const layoutsWithHeightControls: Layout[] = [
-  'restricted-height',
-  'restricted-max-height',
+  {
+    id: 'fit-content',
+    name: 'Fit content',
+  },
 ]
 
 const getLayoutMode = (container?: CSSProperties) => {
   let layoutMode: Layout = 'default'
-  if (
-    container &&
-    container?.display === 'flex' &&
-    container?.height === '100%'
-  ) {
-    layoutMode = 'full-height'
-  } else if (container && Number.isFinite(container?.height)) {
-    layoutMode = 'restricted-height'
-  } else if (container && Number.isFinite(container?.maxHeight)) {
-    layoutMode = 'restricted-max-height'
+  if (!container) {
+    return layoutMode
   }
+
+  if (container.display === 'flex' && container.height === '100%') {
+    layoutMode = 'full-height'
+  } else if (Number.isFinite(container.height)) {
+    layoutMode = 'restricted-height'
+  } else if (Number.isFinite(container.maxHeight)) {
+    layoutMode = 'restricted-max-height'
+  } else if (
+    container.height === 'fit-content' &&
+    container.maxHeight === undefined
+  ) {
+    layoutMode = 'fit-content'
+  }
+
   return layoutMode
 }
 
 export const LayoutControls = () => {
-  const inputId = useId()
   const { config } = useConfig()
 
   const { variant } = useConfigVariant()
@@ -88,145 +89,104 @@ export const LayoutControls = () => {
 
   const { selectedLayoutId } = useLayoutValues()
   const { setSelectedLayoutId } = useEditToolsActions()
-  const [heightValue, setHeightValue] = useState<number | undefined>()
+  const [generalHeightValue, setGeneralHeightValue] = useState<
+    number | undefined
+  >()
+  const [listHeightValue, setListHeightValue] = useState<number | undefined>()
 
   useEffect(() => {
     setSelectedLayoutId(getLayoutMode(config?.theme?.container))
   }, [config?.theme?.container, setSelectedLayoutId])
 
-  const setInitialLayout = (layoutId: Layout) => {
-    switch (layoutId) {
-      case 'restricted-height': {
-        setHeader()
-
-        const heightContainer = {
-          ...(getCurrentConfigTheme()?.container ?? {}),
-          height: defaultMaxHeight,
-          display: undefined,
-          maxHeight: undefined,
-        }
-        heightContainer.display = undefined
-        heightContainer.maxHeight = undefined
-
-        setContainer(heightContainer)
-
-        break
-      }
-      case 'restricted-max-height': {
-        setHeader()
-
-        const maxHeightContainer = {
-          ...(getCurrentConfigTheme()?.container ?? {}),
-          maxHeight: defaultMaxHeight,
-          display: undefined,
-          height: undefined,
-        }
-        maxHeightContainer.display = undefined
-        maxHeightContainer.height = undefined
-
-        setContainer(maxHeightContainer)
-
-        break
-      }
-      case 'full-height': {
-        setVariant('compact')
-
-        setHeader({
-          position: 'fixed',
-          top: showMockHeader ? 48 : 0,
-        })
-
-        const fullHeightContainer = {
-          ...(getCurrentConfigTheme()?.container ?? {}),
-          display: 'flex',
-          height: '100%',
-          maxHeight: undefined,
-        }
-        fullHeightContainer.maxHeight = undefined
-
-        setContainer(fullHeightContainer)
-        break
-      }
-      default: {
-        setHeightValue(undefined)
-        setHeader()
-
-        const defaultContainer = {
-          ...(getCurrentConfigTheme()?.container ?? {}),
-          maxHeight: undefined,
-          display: undefined,
-          height: undefined,
-        }
-        defaultContainer.display = undefined
-        defaultContainer.height = undefined
-        defaultContainer.maxHeight = undefined
-
-        setContainer(defaultContainer)
-      }
-    }
-  }
-
-  const handleSelectChange = (event: SelectChangeEvent<any>) => {
-    setHeightValue(undefined)
-    const newLayoutId = event.target.value
-    setInitialLayout(newLayoutId)
-  }
-
-  const handleInputBlur: FocusEventHandler<HTMLInputElement> = (e) => {
-    const valueConvertedToNumber = Number.parseInt(e.target.value, 10)
-
-    if (valueConvertedToNumber < defaultMaxHeight) {
-      setHeightValue(undefined)
-      setInitialLayout(selectedLayoutId)
-    }
-  }
-
-  const handleInputChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    const valueConvertedToNumber = Number.parseInt(e.target.value, 10)
-    const height = Number.isFinite(valueConvertedToNumber)
-      ? valueConvertedToNumber
-      : undefined
-
-    setHeightValue(height)
-
-    switch (selectedLayoutId) {
-      case 'restricted-height':
-        if (getCurrentConfigTheme()?.header) {
+  const setInitialLayout = useCallback(
+    (layoutId: Layout) => {
+      switch (layoutId) {
+        case 'restricted-height': {
           setHeader()
-        }
 
-        if (height && height >= defaultMaxHeight) {
-          const containerWithMaxHeight = {
+          const heightContainer = {
             ...(getCurrentConfigTheme()?.container ?? {}),
-            height,
+            height: defaultMaxHeight,
+            display: undefined,
+            maxHeight: undefined,
+            listPageMaxHeight: undefined,
           }
 
-          setContainer(containerWithMaxHeight)
+          setContainer(heightContainer)
+
+          break
         }
-        break
-      default:
-        if (getCurrentConfigTheme()?.header) {
+        case 'restricted-max-height': {
           setHeader()
-        }
 
-        if (height && height >= defaultMaxHeight) {
-          const newContainer = {
-            ...(getCurrentConfigTheme()?.container ?? {}),
-            maxHeight: height,
-          }
-
-          setContainer(newContainer)
-        }
-
-        if (!height) {
-          const newContainer = {
+          const maxHeightContainer = {
             ...(getCurrentConfigTheme()?.container ?? {}),
             maxHeight: defaultMaxHeight,
+            listPageMaxHeight: defaultMaxHeight,
+            display: undefined,
+            height: undefined,
           }
 
-          setContainer(newContainer)
+          setContainer(maxHeightContainer)
+
+          break
         }
-    }
+        case 'full-height': {
+          setVariant('compact')
+
+          setHeader({
+            position: 'fixed',
+            top: showMockHeader ? 48 : 0,
+          })
+
+          const fullHeightContainer = {
+            ...(getCurrentConfigTheme()?.container ?? {}),
+            display: 'flex',
+            height: '100%',
+            maxHeight: undefined,
+            listPageMaxHeight: undefined,
+          }
+
+          setContainer(fullHeightContainer)
+          break
+        }
+        case 'fit-content': {
+          const fullHeightContainer = {
+            ...(getCurrentConfigTheme()?.container ?? {}),
+            display: 'flex',
+            height: 'fit-content',
+            maxHeight: undefined,
+            listPageMaxHeight: undefined,
+          }
+
+          setContainer(fullHeightContainer)
+          break
+        }
+        default: {
+          setGeneralHeightValue(undefined)
+          setListHeightValue(undefined)
+          setHeader()
+
+          const defaultContainer = {
+            ...(getCurrentConfigTheme()?.container ?? {}),
+            maxHeight: undefined,
+            listPageMaxHeight: undefined,
+            display: undefined,
+            height: undefined,
+          }
+
+          setContainer(defaultContainer)
+        }
+      }
+    },
+    [getCurrentConfigTheme, setContainer, setHeader, setVariant, showMockHeader]
+  )
+
+  const handleSelectChange = (event: SelectChangeEvent<any>) => {
+    setGeneralHeightValue(undefined)
+    setListHeightValue(undefined)
+    const newLayoutId = event.target.value
+    setInitialLayout(newLayoutId)
   }
 
   return (
@@ -258,33 +218,222 @@ export const LayoutControls = () => {
           })}
         </Select>
       </ControlRowContainer>
-      {layoutsWithHeightControls.includes(selectedLayoutId) ? (
+      <HeightControl
+        selectedLayoutId={selectedLayoutId}
+        setInitialLayout={setInitialLayout}
+        generalHeightValue={generalHeightValue}
+        setGeneralHeightValue={setGeneralHeightValue}
+        listHeightValue={listHeightValue}
+        setListHeightValue={setListHeightValue}
+      />
+    </ExpandableCard>
+  )
+}
+
+const HeightControl = ({
+  selectedLayoutId,
+  setInitialLayout,
+  generalHeightValue,
+  setGeneralHeightValue,
+  listHeightValue,
+  setListHeightValue,
+}: {
+  selectedLayoutId: Layout
+  setInitialLayout: (layoutId: Layout) => void
+  generalHeightValue: number | undefined
+  setGeneralHeightValue: (height: number | undefined) => void
+  listHeightValue: number | undefined
+  setListHeightValue: (height: number | undefined) => void
+}) => {
+  const inputId1 = useId()
+  const inputId2 = useId()
+
+  const { setHeader, setContainer, getCurrentConfigTheme } = useConfigActions()
+
+  const handleHeightInputChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const valueConvertedToNumber = Number.parseInt(e.target.value, 10)
+    const height = Number.isFinite(valueConvertedToNumber)
+      ? valueConvertedToNumber
+      : undefined
+
+    setGeneralHeightValue(height)
+
+    if (getCurrentConfigTheme()?.header) {
+      setHeader()
+    }
+
+    if (height && height >= defaultMaxHeight) {
+      const containerWithMaxHeight = {
+        ...(getCurrentConfigTheme()?.container ?? {}),
+        height,
+      }
+
+      setContainer(containerWithMaxHeight)
+    }
+  }
+
+  const handleGeneralMaxHeightInputChange: ChangeEventHandler<
+    HTMLInputElement
+  > = (e) => {
+    const valueConvertedToNumber = Number.parseInt(e.target.value, 10)
+    const height = Number.isFinite(valueConvertedToNumber)
+      ? valueConvertedToNumber
+      : undefined
+
+    setGeneralHeightValue(height)
+
+    if (getCurrentConfigTheme()?.header) {
+      setHeader()
+    }
+
+    if (height && height >= defaultMaxHeight) {
+      const newContainer = {
+        ...(getCurrentConfigTheme()?.container ?? {}),
+        maxHeight: height,
+      }
+
+      setContainer(newContainer)
+    }
+
+    if (!height) {
+      const newContainer = {
+        ...(getCurrentConfigTheme()?.container ?? {}),
+        maxHeight: defaultMaxHeight,
+      }
+
+      setContainer(newContainer)
+    }
+  }
+
+  const handleListMaxHeightInputChange: ChangeEventHandler<HTMLInputElement> = (
+    e
+  ) => {
+    const valueConvertedToNumber = Number.parseInt(e.target.value, 10)
+    const height = Number.isFinite(valueConvertedToNumber)
+      ? valueConvertedToNumber
+      : undefined
+
+    setListHeightValue(height)
+
+    if (getCurrentConfigTheme()?.header) {
+      setHeader()
+    }
+
+    if (height && height >= defaultMaxHeight) {
+      const newContainer = {
+        ...(getCurrentConfigTheme()?.container ?? {}),
+        listPageMaxHeight: height,
+      }
+
+      setContainer(newContainer)
+    }
+
+    if (!height) {
+      const newContainer = {
+        ...(getCurrentConfigTheme()?.container ?? {}),
+        listPageMaxHeight: defaultMaxHeight,
+      }
+
+      setContainer(newContainer)
+    }
+  }
+
+  const handleGeneralInputBlur: FocusEventHandler<HTMLInputElement> = (e) => {
+    const valueConvertedToNumber = Number.parseInt(e.target.value, 10)
+
+    if (valueConvertedToNumber < defaultMaxHeight) {
+      setGeneralHeightValue(undefined)
+      setInitialLayout(selectedLayoutId)
+    }
+  }
+
+  const handleListInputBlur: FocusEventHandler<HTMLInputElement> = (e) => {
+    const valueConvertedToNumber = Number.parseInt(e.target.value, 10)
+
+    if (valueConvertedToNumber < defaultMaxHeight) {
+      setListHeightValue(undefined)
+      setInitialLayout(selectedLayoutId)
+    }
+  }
+
+  if (selectedLayoutId === 'restricted-height') {
+    return (
+      <CardRowContainer sx={{ padding: 1 }}>
+        <CardRowColumn>
+          <label htmlFor={inputId1}>Set height</label>
+          {(generalHeightValue && generalHeightValue < defaultMaxHeight) ||
+          !generalHeightValue ? (
+            <CapitalizeFirstLetter variant="caption">
+              {`${defaultMaxHeight}px minimum`}
+            </CapitalizeFirstLetter>
+          ) : null}
+        </CardRowColumn>
+        <Input
+          id={inputId1}
+          type="number"
+          value={generalHeightValue ?? ''}
+          placeholder={`${defaultMaxHeight}`}
+          onChange={handleHeightInputChange}
+          onBlur={handleGeneralInputBlur}
+        />
+      </CardRowContainer>
+    )
+  }
+
+  if (selectedLayoutId === 'restricted-max-height') {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
         <CardRowContainer sx={{ padding: 1 }}>
           <CardRowColumn>
-            <label htmlFor={inputId}>{inputLabel[selectedLayoutId]}</label>
-            {(heightValue && heightValue < defaultMaxHeight) || !heightValue ? (
+            <label htmlFor={inputId1}>General max height</label>
+            {(generalHeightValue && generalHeightValue < defaultMaxHeight) ||
+            !generalHeightValue ? (
               <CapitalizeFirstLetter variant="caption">
                 {`${defaultMaxHeight}px minimum`}
               </CapitalizeFirstLetter>
             ) : null}
           </CardRowColumn>
           <Input
-            id={inputId}
+            id={inputId1}
             type="number"
-            value={heightValue ?? ''}
+            value={generalHeightValue ?? ''}
             placeholder={`${defaultMaxHeight}`}
-            onChange={handleInputChange}
-            onBlur={handleInputBlur}
+            onChange={handleGeneralMaxHeightInputChange}
+            onBlur={handleGeneralInputBlur}
           />
         </CardRowContainer>
-      ) : null}
-      {selectedLayoutId === 'full-height' ? (
-        <ControlRowContainer>
-          <CapitalizeFirstLetter variant="caption" sx={{ paddingLeft: 1 }}>
-            full height should be used with the compact variant
-          </CapitalizeFirstLetter>
-        </ControlRowContainer>
-      ) : null}
-    </ExpandableCard>
-  )
+        <CardRowContainer sx={{ padding: 1 }}>
+          <CardRowColumn>
+            <label htmlFor={inputId2}>List max height</label>
+            {(listHeightValue && listHeightValue < defaultMaxHeight) ||
+            !listHeightValue ? (
+              <CapitalizeFirstLetter variant="caption">
+                {`${defaultMaxHeight}px minimum`}
+              </CapitalizeFirstLetter>
+            ) : null}
+          </CardRowColumn>
+          <Input
+            id={inputId2}
+            type="number"
+            value={listHeightValue ?? ''}
+            placeholder={`${defaultMaxHeight}`}
+            onChange={handleListMaxHeightInputChange}
+            onBlur={handleListInputBlur}
+          />
+        </CardRowContainer>
+      </div>
+    )
+  }
+
+  if (selectedLayoutId === 'full-height') {
+    return (
+      <ControlRowContainer>
+        <CapitalizeFirstLetter variant="caption" sx={{ paddingLeft: 1 }}>
+          full height should be used with the compact variant
+        </CapitalizeFirstLetter>
+      </ControlRowContainer>
+    )
+  }
+
+  return null
 }

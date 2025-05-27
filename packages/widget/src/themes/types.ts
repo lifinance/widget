@@ -12,6 +12,12 @@ import type { NavigationProps } from '../types/widget.js'
 // https://github.com/mui/material-ui/issues/30671
 
 // https://mui.com/customization/palette/
+
+declare module 'react' {
+  interface CSSProperties {
+    listPageMaxHeight?: number
+  }
+}
 declare module '@mui/material/styles' {
   interface TypographyVariants {
     '@supports (font-variation-settings: normal)': React.CSSProperties
