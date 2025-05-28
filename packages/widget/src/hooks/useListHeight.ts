@@ -91,13 +91,6 @@ export const useListHeight = ({
     }
   }, [elementId, listParentRef])
 
-  if (theme.container?.height === 'fit-content') {
-    return {
-      minListHeight: 'fit-content',
-      listHeight: 'fit-content',
-    }
-  }
-
   const minListHeight =
     theme.container?.height === '100%'
       ? minMobileListHeight

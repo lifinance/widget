@@ -1,10 +1,33 @@
-import { Box, Container, ScopedCssBaseline, styled } from '@mui/material'
+import {
+  Box,
+  Container,
+  ScopedCssBaseline,
+  type Theme,
+  styled,
+} from '@mui/material'
 import type { PropsWithChildren } from 'react'
 import { defaultMaxHeight } from '../config/constants.js'
+import { useIsListPage } from '../hooks/useIsListPage.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useHeaderHeight } from '../stores/header/useHeaderStore.js'
 import type { WidgetVariant } from '../types/widget.js'
 import { ElementId, createElementId } from '../utils/elements.js'
+
+const getMaxHeight = (theme: Theme, isListPage: boolean) => {
+  const isFitContentMode = theme.container?.height === 'fit-content'
+  let maxHeight: number | string
+  if (isFitContentMode) {
+    if (isListPage) {
+      maxHeight = theme.container?.maxHeight || defaultMaxHeight
+    } else {
+      maxHeight = 'none'
+    }
+  } else {
+    maxHeight =
+      theme.container?.maxHeight || theme.container?.height || defaultMaxHeight
+  }
+  return maxHeight
+}
 
 // NOTE: the setting of the height in AppExpandedContainer, RelativeContainer and CssBaselineContainer can
 //  be done dynamically by values in the config - namely the config.theme.container values display, maxHeight and height
@@ -18,9 +41,7 @@ export const AppExpandedContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'variant' && prop !== 'isListPage',
 })<{ variant?: WidgetVariant; isListPage: boolean }>(
   ({ theme, isListPage }) => {
-    const maxHeight = isListPage
-      ? theme.container?.listPageMaxHeight
-      : theme.container?.maxHeight
+    const maxHeight = getMaxHeight(theme, isListPage)
     return {
       display: 'flex',
       justifyContent: 'center',
@@ -47,12 +68,11 @@ export const AppExpandedContainer = styled(Box, {
 )
 
 export const RelativeContainer = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'variant' && prop !== 'isListPage',
+  shouldForwardProp: (prop) =>
+    !['variant', 'isListPage'].includes(prop as string),
 })<{ variant?: WidgetVariant; isListPage: boolean }>(
   ({ theme, isListPage }) => {
-    const maxHeight = isListPage
-      ? theme.container?.listPageMaxHeight
-      : theme.container?.maxHeight
+    const maxHeight = getMaxHeight(theme, isListPage)
     return {
       position: 'relative',
       boxSizing: 'content-box',
@@ -67,7 +87,7 @@ export const RelativeContainer = styled(Box, {
       maxHeight:
         theme.container?.display === 'flex' && !theme.container?.height
           ? '100%'
-          : (maxHeight ?? theme.container?.height ?? defaultMaxHeight),
+          : maxHeight,
       variants: [
         {
           props: {
@@ -98,13 +118,7 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
     ),
 })<CssBaselineContainerProps>(
   ({ theme, variant, paddingTopAdjustment, isListPage }) => {
-    const fullContainerHeight = theme.container?.maxHeight
-      ? theme.container?.maxHeight
-      : theme.container?.height || defaultMaxHeight
-    const listPageMaxHeight = theme.container?.listPageMaxHeight
-      ? theme.container?.listPageMaxHeight
-      : theme.container?.height || defaultMaxHeight
-    const maxHeight = isListPage ? listPageMaxHeight : fullContainerHeight
+    const maxHeight = getMaxHeight(theme, isListPage)
     return {
       display: 'flex',
       flex: 1,
@@ -133,12 +147,11 @@ export const FlexContainer = styled(Container)({
   flex: 1,
 })
 
-export const AppContainer: React.FC<
-  PropsWithChildren & { isListPage: boolean }
-> = ({ children, isListPage }) => {
+export const AppContainer: React.FC<PropsWithChildren> = ({ children }) => {
   // const ref = useRef<HTMLDivElement>(null);
   const { variant, elementId, theme } = useWidgetConfig()
   const { headerHeight } = useHeaderHeight()
+  const isListPage = useIsListPage()
   const positionFixedAdjustment =
     theme?.header?.position === 'fixed' ? headerHeight : 0
 
