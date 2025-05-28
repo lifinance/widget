@@ -6,6 +6,10 @@ import { connect, disconnect, getAccount } from 'wagmi/actions'
 import { ListItemButton } from '../components/ListItemButton.js'
 import { ListItemText } from '../components/ListItemText.js'
 import type { CreateConnectorFnExtended } from '../connectors/types.js'
+import {
+  WALLET_CONNECT_CONTAINER_ID,
+  WALLET_CONNECT_ELEMENT,
+} from '../connectors/walletConnect.js'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { WalletManagementEvent } from '../types/events.js'
@@ -35,12 +39,23 @@ export const EVMListItemButton = ({
     ? 'Ethereum'
     : connectorName
 
+  const createWalletConnectElement = () => {
+    const modal = document.createElement(WALLET_CONNECT_ELEMENT)
+    const containerElement = document.querySelector(
+      `#${WALLET_CONNECT_CONTAINER_ID}`
+    )
+    containerElement?.parentElement?.insertAdjacentElement('afterbegin', modal)
+  }
+
   const handleEVMConnect = async () => {
     try {
       const identityCheckPassed = isWalletInstalled((connector as Connector).id)
       if (!identityCheckPassed) {
         onNotInstalled?.(connector as Connector)
         return
+      }
+      if (connector.id === 'walletConnect') {
+        createWalletConnectElement()
       }
       const connectedAccount = getAccount(config)
       onConnecting?.()

@@ -19,6 +19,7 @@ import type { WalletAdapter } from '@solana/wallet-adapter-base'
 import { useReducer, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Connector } from 'wagmi'
+import { WALLET_CONNECT_CONTAINER_ID } from '../connectors/walletConnect.js'
 import type { CombinedWallet } from '../hooks/useCombinedWallets.js'
 import { useCombinedWallets } from '../hooks/useCombinedWallets.js'
 import type { WalletConnector } from '../types/walletConnector.js'
@@ -158,8 +159,6 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
 
   return (
     <>
-      {/* @ts-expect-error - w3m-modal is a custom element that is used to render the wallet connect modal */}
-      <w3m-modal />
       <DialogTitle
         sx={{
           display: 'flex',
@@ -196,7 +195,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
           <Close />
         </IconButton>
       </DialogTitle>
-      <DialogContent sx={{ padding: 2 }}>
+      <DialogContent sx={{ padding: 2 }} id={WALLET_CONNECT_CONTAINER_ID}>
         <Collapse
           in={state.view === 'wallet-list'}
           timeout={{ appear: 225, enter: 225, exit: 225 }}
