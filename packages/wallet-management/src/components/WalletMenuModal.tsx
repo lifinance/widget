@@ -23,6 +23,7 @@ export const WalletMenuModal: React.FC<PropsWithChildren<WalletMenuProps>> = ({
       anchor="bottom"
       open={open}
       onClose={onClose}
+      disableEnforceFocus
       slotProps={{
         paper: {
           sx: (theme) => ({
@@ -46,6 +47,7 @@ export const WalletMenuModal: React.FC<PropsWithChildren<WalletMenuProps>> = ({
     <Dialog
       open={open}
       onClose={onClose}
+      disableEnforceFocus
       scroll="paper"
       slotProps={{
         paper: {
