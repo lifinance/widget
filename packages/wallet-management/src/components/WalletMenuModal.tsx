@@ -23,7 +23,6 @@ export const WalletMenuModal: React.FC<PropsWithChildren<WalletMenuProps>> = ({
       anchor="bottom"
       open={open}
       onClose={onClose}
-      disableEnforceFocus
       slotProps={{
         paper: {
           sx: (theme) => ({
@@ -41,13 +40,16 @@ export const WalletMenuModal: React.FC<PropsWithChildren<WalletMenuProps>> = ({
         },
       }}
     >
-      {children}
+      <>
+        {/* @ts-expect-error - w3m-modal is a custom element that is used to render the wallet connect modal */}
+        <w3m-modal />
+        {children}
+      </>
     </Drawer>
   ) : (
     <Dialog
       open={open}
       onClose={onClose}
-      disableEnforceFocus
       scroll="paper"
       slotProps={{
         paper: {
@@ -69,7 +71,11 @@ export const WalletMenuModal: React.FC<PropsWithChildren<WalletMenuProps>> = ({
         },
       }}
     >
-      {children}
+      <>
+        {/* @ts-expect-error - w3m-modal is a custom element that is used to render the wallet connect modal */}
+        <w3m-modal />
+        {children}
+      </>
     </Dialog>
   )
 }
