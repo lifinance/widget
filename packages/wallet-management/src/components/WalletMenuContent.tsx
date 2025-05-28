@@ -158,6 +158,8 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
 
   return (
     <>
+      {/* @ts-expect-error - w3m-modal is a custom element that is used to render the wallet connect modal */}
+      <w3m-modal />
       <DialogTitle
         sx={{
           display: 'flex',

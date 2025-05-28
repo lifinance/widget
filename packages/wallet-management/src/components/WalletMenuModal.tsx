@@ -40,11 +40,7 @@ export const WalletMenuModal: React.FC<PropsWithChildren<WalletMenuProps>> = ({
         },
       }}
     >
-      <>
-        {/* @ts-expect-error - w3m-modal is a custom element that is used to render the wallet connect modal */}
-        <w3m-modal />
-        {children}
-      </>
+      {children}
     </Drawer>
   ) : (
     <Dialog
@@ -71,11 +67,7 @@ export const WalletMenuModal: React.FC<PropsWithChildren<WalletMenuProps>> = ({
         },
       }}
     >
-      <>
-        {/* @ts-expect-error - w3m-modal is a custom element that is used to render the wallet connect modal */}
-        <w3m-modal />
-        {children}
-      </>
+      {children}
     </Dialog>
   )
 }
