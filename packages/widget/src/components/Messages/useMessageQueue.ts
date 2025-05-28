@@ -2,6 +2,7 @@ import type { Route } from '@lifi/sdk'
 import { useMemo } from 'react'
 import { useFromTokenSufficiency } from '../../hooks/useFromTokenSufficiency.js'
 import { useGasSufficiency } from '../../hooks/useGasSufficiency.js'
+import { useRouteRequiredAccountConnection } from '../../hooks/useRouteRequiredAccountConnection.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 
 interface QueuedMessage {
@@ -21,21 +22,31 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
     useFromTokenSufficiency(route)
   const { insufficientGas, isLoading: isGasSufficiencyLoading } =
     useGasSufficiency(route)
+  const { missingChain, missingAccountAddress } =
+    useRouteRequiredAccountConnection(route)
 
   const messageQueue = useMemo(() => {
     const queue: QueuedMessage[] = []
 
+    if (missingChain) {
+      queue.push({
+        id: 'MISSING_ROUTE_REQUIRED_ACCOUNT',
+        priority: 1,
+        props: { chain: missingChain, address: missingAccountAddress },
+      })
+    }
+
     if (insufficientFromToken) {
       queue.push({
         id: 'INSUFFICIENT_FUNDS',
-        priority: 1,
+        priority: 2,
       })
     }
 
     if (insufficientGas?.length) {
       queue.push({
         id: 'INSUFFICIENT_GAS',
-        priority: 2,
+        priority: 3,
         props: { insufficientGas },
       })
     }
@@ -43,14 +54,14 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
     if (accountNotDeployedAtDestination && !allowInteraction) {
       queue.push({
         id: 'ACCOUNT_NOT_DEPLOYED',
-        priority: 3,
+        priority: 4,
       })
     }
 
     if (requiredToAddress && !toAddress) {
       queue.push({
         id: 'TO_ADDRESS_REQUIRED',
-        priority: 4,
+        priority: 5,
       })
     }
 
@@ -62,6 +73,8 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
     accountNotDeployedAtDestination,
     requiredToAddress,
     toAddress,
+    missingChain,
+    missingAccountAddress,
   ])
 
   return {

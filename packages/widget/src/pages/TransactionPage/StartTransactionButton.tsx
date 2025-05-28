@@ -21,6 +21,7 @@ export const StartTransactionButton: React.FC<StartTransactionButtonProps> = ({
       text={text}
       disabled={hasNonGasMessages}
       loading={isLoading || loading}
+      route={route}
     />
   )
 }
