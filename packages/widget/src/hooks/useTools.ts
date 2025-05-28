@@ -3,12 +3,13 @@ import { useQuery } from '@tanstack/react-query'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useSettingsStore } from '../stores/settings/useSettingsStore.js'
 import { isItemAllowed } from '../utils/item.js'
+import { getQueryKey } from '../utils/queries.js'
 
 export const useTools = () => {
-  const { bridges, exchanges } = useWidgetConfig()
+  const { bridges, exchanges, keyPrefix } = useWidgetConfig()
   const { data } = useQuery({
     queryKey: [
-      'tools',
+      getQueryKey('tools', keyPrefix),
       bridges?.allow,
       bridges?.deny,
       exchanges?.allow,

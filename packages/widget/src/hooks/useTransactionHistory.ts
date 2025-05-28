@@ -3,13 +3,19 @@ import { type ExtendedTransactionInfo, getTransactionHistory } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import type { QueryFunction } from '@tanstack/react-query'
 import { useQueries } from '@tanstack/react-query'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import { getQueryKey } from '../utils/queries.js'
 
 export const useTransactionHistory = () => {
   const { accounts } = useAccount()
+  const { keyPrefix } = useWidgetConfig()
 
   const { data, isLoading } = useQueries({
     queries: accounts.map((account) => ({
-      queryKey: ['transaction-history', account.address],
+      queryKey: [
+        getQueryKey('transaction-history', keyPrefix),
+        account.address,
+      ],
       queryFn: (async ({ queryKey: [, accountAddress], signal }) => {
         if (!accountAddress) {
           return []
