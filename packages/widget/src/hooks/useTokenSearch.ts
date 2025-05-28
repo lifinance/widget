@@ -1,6 +1,8 @@
 import { type ChainId, type TokensResponse, getToken } from '@lifi/sdk'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { TokenAmount } from '../types/token.js'
+import { getQueryKey } from '../utils/queries.js'
 
 export const useTokenSearch = (
   chainId?: number,
@@ -8,8 +10,9 @@ export const useTokenSearch = (
   enabled?: boolean
 ) => {
   const queryClient = useQueryClient()
+  const { keyPrefix } = useWidgetConfig()
   const { data, isLoading } = useQuery({
-    queryKey: ['token-search', chainId, tokenQuery],
+    queryKey: [getQueryKey('token-search', keyPrefix), chainId, tokenQuery],
     queryFn: async ({ queryKey: [, chainId, tokenQuery], signal }) => {
       const token = await getToken(chainId as ChainId, tokenQuery as string, {
         signal,
@@ -17,7 +20,7 @@ export const useTokenSearch = (
 
       if (token) {
         queryClient.setQueriesData<TokensResponse>(
-          { queryKey: ['tokens'] },
+          { queryKey: [getQueryKey('tokens', keyPrefix)] },
           (data) => {
             if (
               data &&
