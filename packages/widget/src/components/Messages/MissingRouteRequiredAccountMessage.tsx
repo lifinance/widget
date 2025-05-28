@@ -3,15 +3,17 @@ import Wallet from '@mui/icons-material/Wallet'
 import type { BoxProps } from '@mui/material'
 import { Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
+import { shortenAddress } from '../../utils/wallet.js'
 import { AlertMessage } from './AlertMessage.js'
 
 interface MissingRouteRequiredAccountMessageProps extends BoxProps {
   chain?: ExtendedChain
+  address?: string
 }
 
 export const MissingRouteRequiredAccountMessage: React.FC<
   MissingRouteRequiredAccountMessageProps
-> = ({ chain, ...props }) => {
+> = ({ chain, address, ...props }) => {
   const { t } = useTranslation()
 
   if (!chain) {
@@ -30,6 +32,7 @@ export const MissingRouteRequiredAccountMessage: React.FC<
         >
           {t('info.message.missingRouteRequiredAccount', {
             chainName: chain.name,
+            address: address ? `(${shortenAddress(address)})` : '',
           })}
         </Typography>
       }

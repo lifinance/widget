@@ -464,11 +464,9 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
 
   const setReviewableRoute = (route: Route) => {
     const queryDataKey = queryKey.toSpliced(queryKey.length - 1, 1, route.id)
-    queryClient.setQueryData(
-      queryDataKey,
-      { routes: [route] },
-      { updatedAt: dataUpdatedAt || Date.now() }
-    )
+    queryClient.setQueryData(queryDataKey, [route], {
+      updatedAt: dataUpdatedAt || Date.now(),
+    })
     setExecutableRoute(route)
   }
 

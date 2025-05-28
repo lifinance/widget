@@ -22,7 +22,8 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
     useFromTokenSufficiency(route)
   const { insufficientGas, isLoading: isGasSufficiencyLoading } =
     useGasSufficiency(route)
-  const { missingChain } = useRouteRequiredAccountConnection(route)
+  const { missingChain, missingAccountAddress } =
+    useRouteRequiredAccountConnection(route)
 
   const messageQueue = useMemo(() => {
     const queue: QueuedMessage[] = []
@@ -31,7 +32,7 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
       queue.push({
         id: 'MISSING_ROUTE_REQUIRED_ACCOUNT',
         priority: 1,
-        props: { chain: missingChain },
+        props: { chain: missingChain, address: missingAccountAddress },
       })
     }
 
@@ -73,6 +74,7 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
     requiredToAddress,
     toAddress,
     missingChain,
+    missingAccountAddress,
   ])
 
   return {

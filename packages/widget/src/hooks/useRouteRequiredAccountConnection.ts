@@ -1,6 +1,7 @@
 import type { ExtendedChain, Route } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useMemo } from 'react'
+import { useFieldValues } from '../stores/form/useFieldValues.js'
 import { useChain } from './useChain.js'
 
 export const useRouteRequiredAccountConnection = (
@@ -8,6 +9,7 @@ export const useRouteRequiredAccountConnection = (
   chain?: ExtendedChain
 ) => {
   const { account, accounts } = useAccount({ chainType: chain?.chainType })
+  const [toAddress] = useFieldValues('toAddress')
   const { getChainById } = useChain()
 
   return useMemo(() => {
@@ -17,25 +19,40 @@ export const useRouteRequiredAccountConnection = (
       }
     }
 
-    const connectedChainTypes = new Set(
+    const connectedChainTypes = new Map(
       accounts
-        .filter((acc) => acc.isConnected && acc.address)
-        .map((acc) => acc.chainType)
+        .filter((account) => account.isConnected && account.address)
+        .map((account) => [account.chainType, account])
     )
+
+    if (!connectedChainTypes.size) {
+      return {
+        connected: false,
+      }
+    }
 
     for (const step of route.steps) {
       const chain = getChainById(step.action.fromChainId)
-      if (chain && !connectedChainTypes.has(chain.chainType)) {
+      if (!chain) {
+        continue
+      }
+
+      const connectedAccount = connectedChainTypes.get(chain.chainType)
+      const isToAddressSatisfied = toAddress
+        ? connectedAccount?.address === step.action.fromAddress
+        : true
+
+      if (!connectedAccount || !isToAddressSatisfied) {
         return {
           connected: false,
-          missingChain: {
-            name: chain.name,
-            chainType: chain.chainType,
-          },
+          missingChain: chain,
+          missingAccountAddress: !isToAddressSatisfied
+            ? step.action.fromAddress
+            : undefined,
         }
       }
     }
 
     return { connected: true }
-  }, [account.isConnected, route?.steps, accounts, getChainById])
+  }, [account.isConnected, route, accounts, getChainById, toAddress])
 }

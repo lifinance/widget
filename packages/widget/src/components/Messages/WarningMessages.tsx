@@ -26,6 +26,7 @@ export const WarningMessages: React.FC<WarningMessagesProps> = ({
         return (
           <MissingRouteRequiredAccountMessage
             chain={messages[0].props?.chain}
+            address={messages[0].props?.address}
             {...props}
           />
         )

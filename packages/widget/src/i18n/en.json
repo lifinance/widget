@@ -95,7 +95,7 @@
       "emptyTransactionHistory": "Transaction history is only stored locally and will be deleted if you clear your browser data.",
       "routeNotFound": "Reasons for that could be: low liquidity, amount selected is too low, gas costs are too high or there are no routes for the selected combination.",
       "toAddressIsRequired": "The destination wallet address is required to proceed with the transfer.",
-      "missingRouteRequiredAccount": "To complete the transfer, you need to sign a transaction on {{chainName}}. Connect your {{chainName}} wallet to continue."
+      "missingRouteRequiredAccount": "Connect your {{chainName}} wallet to proceed. {{address}}"
     },
     "title": {
       "autoRefuel": "Get {{chainName}} gas",
