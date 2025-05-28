@@ -1,16 +1,13 @@
 import { useImperativeHandle } from 'react'
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
 import { formDefaultValues } from '../../stores/form/createFormStore.js'
 import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js'
 import type { FormRef } from '../../types/widget.js'
-import { HiddenUI } from '../../types/widget.js'
 import type { FormStoreStore, GenericFormValue } from './types.js'
 
 export const useFormRef = (formStore: FormStoreStore, formRef?: FormRef) => {
   const { setSendToWallet } = useSendToWalletActions()
   const { setSelectedBookmark } = useBookmarkActions()
-  const { hiddenUI } = useWidgetConfig()
 
   useImperativeHandle(
     formRef,
@@ -25,10 +22,6 @@ export const useFormRef = (formStore: FormStoreStore, formRef?: FormRef) => {
           (typeof value === 'number' ? value?.toPrecision() : value) ||
           formDefaultValues.toAmount,
         toAddress: (value) => {
-          if (hiddenUI?.includes(HiddenUI.ToAddress)) {
-            return formDefaultValues.toAddress
-          }
-
           const isToAddressObj = typeof value !== 'string'
 
           const address =
@@ -68,6 +61,6 @@ export const useFormRef = (formStore: FormStoreStore, formRef?: FormRef) => {
         },
       }
     },
-    [formStore, hiddenUI, setSendToWallet, setSelectedBookmark]
+    [formStore, setSendToWallet, setSelectedBookmark]
   )
 }
