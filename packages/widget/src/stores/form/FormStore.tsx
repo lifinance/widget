@@ -2,7 +2,6 @@ import type { PropsWithChildren } from 'react'
 import { useMemo, useRef } from 'react'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import type { FormRef, ToAddress } from '../../types/widget.js'
-import { HiddenUI } from '../../types/widget.js'
 import { FormStoreContext } from './FormStoreContext.js'
 import { FormUpdater } from './FormUpdater.js'
 import { createFormStore, formDefaultValues } from './createFormStore.js'
@@ -14,8 +13,7 @@ const initialiseDefaultValues = (
   defaultValues: Partial<DefaultValues>,
   fromAmount?: number | string,
   toAmount?: number | string,
-  toAddress?: ToAddress,
-  hiddenToAddress?: boolean
+  toAddress?: ToAddress
 ) => ({
   ...formDefaultValues,
   ...defaultValues,
@@ -26,9 +24,7 @@ const initialiseDefaultValues = (
     (typeof toAmount === 'number' ? toAmount?.toPrecision() : toAmount) ||
     formDefaultValues.toAmount,
   // Prevent setting address when the field is hidden
-  toAddress: hiddenToAddress
-    ? formDefaultValues.toAddress
-    : toAddress?.address || formDefaultValues.toAddress,
+  toAddress: toAddress?.address || formDefaultValues.toAddress,
 })
 
 interface FormStoreProviderProps extends PropsWithChildren {
@@ -49,13 +45,10 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
     fromAmount,
     toAmount,
     toAddress,
-    hiddenUI,
     formUpdateKey,
   } = widgetConfig
 
   const storeRef = useRef<FormStoreStore>(null)
-
-  const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress)
 
   const configHasFromChain = Object.hasOwn(widgetConfig, 'fromChain')
   const configHasFromToken = Object.hasOwn(widgetConfig, 'fromToken')
@@ -93,9 +86,7 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
       ...(configHasToToken ? { toToken } : undefined),
       ...(configHasToAddress
         ? {
-            toAddress: hiddenToAddress
-              ? formDefaultValues.toAddress
-              : toAddress?.address || formDefaultValues.toAddress,
+            toAddress: toAddress?.address || formDefaultValues.toAddress,
           }
         : undefined),
     }),
@@ -104,7 +95,6 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
       toAmount,
       fromChain,
       fromToken,
-      hiddenToAddress,
       toAddress,
       toChain,
       toToken,
@@ -126,8 +116,7 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
         reactiveFormValues,
         fromAmount,
         toAmount,
-        toAddress,
-        hiddenToAddress
+        toAddress
       )
     )
   }
