@@ -19,10 +19,7 @@ import { defaultMetaMaskConfig } from '../config/metaMask.js'
 import { defaultWalletConnectConfig } from '../config/walletConnect.js'
 import { createCoinbaseConnector } from '../connectors/coinbase.js'
 import { createMetaMaskConnector } from '../connectors/metaMask.js'
-import type {
-  CreateBigmiConnectorFnExtended,
-  CreateConnectorFnExtended,
-} from '../connectors/types.js'
+import type { CreateConnectorFnExtended } from '../connectors/types.js'
 import { createWalletConnectConnector } from '../connectors/walletConnect.js'
 import { useWalletManagementConfig } from '../providers/WalletManagementProvider/WalletManagementContext.js'
 import type { WalletConnector } from '../types/walletConnector.js'
@@ -45,7 +42,7 @@ export type CombinedWallet = {
 const normalizeName = (name: string) => name.split(' ')[0].toLowerCase().trim()
 
 const combineWalletLists = (
-  utxoConnectorList: (CreateBigmiConnectorFnExtended | BigmiConnector)[],
+  utxoConnectorList: BigmiConnector[],
   evmConnectorList: (CreateConnectorFnExtended | Connector)[],
   svmWalletList: Wallet[],
   suiWalletList: WalletWithRequiredFeatures[]
@@ -53,9 +50,7 @@ const combineWalletLists = (
   const walletMap = new Map<string, CombinedWallet>()
 
   utxoConnectorList.forEach((utxo) => {
-    const utxoName =
-      (utxo as CreateBigmiConnectorFnExtended)?.displayName ||
-      (utxo as BigmiConnector)?.name
+    const utxoName = utxo.name
     const normalizedName = normalizeName(utxoName)
     const existing = walletMap.get(normalizedName) || {
       id: utxo.id,
