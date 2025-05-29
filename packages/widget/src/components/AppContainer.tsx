@@ -1,33 +1,10 @@
-import {
-  Box,
-  Container,
-  ScopedCssBaseline,
-  type Theme,
-  styled,
-} from '@mui/material'
+import { Box, Container, ScopedCssBaseline, styled } from '@mui/material'
 import type { PropsWithChildren } from 'react'
 import { defaultMaxHeight } from '../config/constants.js'
-import { useIsLongPage } from '../hooks/useIsLongPage.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useHeaderHeight } from '../stores/header/useHeaderStore.js'
 import type { WidgetVariant } from '../types/widget.js'
 import { ElementId, createElementId } from '../utils/elements.js'
-
-const getMaxHeight = (theme: Theme, isLongPage: boolean) => {
-  const isFitContentMode = theme.container?.height === 'fit-content'
-  let maxHeight: number | string
-  if (isFitContentMode) {
-    if (isLongPage) {
-      maxHeight = theme.container?.maxHeight || defaultMaxHeight
-    } else {
-      maxHeight = 'none'
-    }
-  } else {
-    maxHeight =
-      theme.container?.maxHeight || theme.container?.height || defaultMaxHeight
-  }
-  return maxHeight
-}
 
 // NOTE: the setting of the height in AppExpandedContainer, RelativeContainer and CssBaselineContainer can
 //  be done dynamically by values in the config - namely the config.theme.container values display, maxHeight and height
@@ -65,78 +42,89 @@ export const AppExpandedContainer = styled(Box, {
 })
 
 export const RelativeContainer = styled(Box, {
-  shouldForwardProp: (prop) =>
-    !['variant', 'isLongPage'].includes(prop as string),
-})<{ variant?: WidgetVariant; isLongPage: boolean }>(
-  ({ theme, isLongPage }) => {
-    const maxHeight = getMaxHeight(theme, isLongPage)
-    return {
-      position: 'relative',
-      boxSizing: 'content-box',
-      width: '100%',
-      minWidth: theme.breakpoints.values.xs,
-      maxWidth: theme.breakpoints.values.sm,
-      background: theme.vars.palette.background.default,
-      overflow: 'auto',
-      flex: 1,
-      zIndex: 0,
-      ...theme.container,
-      maxHeight:
-        theme.container?.display === 'flex' && !theme.container?.height
-          ? '100%'
-          : maxHeight,
-      variants: [
-        {
-          props: {
-            variant: 'drawer',
-          },
-          style: {
-            maxHeight: 'none',
-            height: '100%',
-            boxShadow: 'none',
-          },
+  shouldForwardProp: (prop) => !['variant'].includes(prop as string),
+})<{ variant?: WidgetVariant }>(({ theme }) => {
+  const maxHeight =
+    theme.container?.height === 'fit-content'
+      ? 'none'
+      : theme.container?.maxHeight ||
+        theme.container?.height ||
+        defaultMaxHeight
+  return {
+    position: 'relative',
+    boxSizing: 'content-box',
+    width: '100%',
+    minWidth: theme.breakpoints.values.xs,
+    maxWidth: theme.breakpoints.values.sm,
+    background: theme.vars.palette.background.default,
+    overflow: 'auto',
+    flex: 1,
+    zIndex: 0,
+    ...theme.container,
+    maxHeight:
+      theme.container?.display === 'flex' && !theme.container?.height
+        ? '100%'
+        : maxHeight,
+    '&:has(.long-list)': {
+      maxHeight: theme.container?.maxHeight || defaultMaxHeight,
+    },
+    variants: [
+      {
+        props: {
+          variant: 'drawer',
         },
-      ],
-    }
+        style: {
+          maxHeight: 'none',
+          height: '100%',
+          boxShadow: 'none',
+        },
+      },
+    ],
   }
-)
+})
 
 interface CssBaselineContainerProps {
   variant?: WidgetVariant
   paddingTopAdjustment: number
   elementId: string
-  isLongPage: boolean
 }
 
 const CssBaselineContainer = styled(ScopedCssBaseline, {
   shouldForwardProp: (prop) =>
-    !['variant', 'paddingTopAdjustment', 'elementId', 'isLongPage'].includes(
-      prop as string
-    ),
-})<CssBaselineContainerProps>(
-  ({ theme, variant, paddingTopAdjustment, isLongPage }) => {
-    const maxHeight = getMaxHeight(theme, isLongPage)
-    return {
-      display: 'flex',
-      flex: 1,
-      flexDirection: 'column',
-      overflowX: 'clip',
-      margin: 0,
-      width: '100%',
-      maxHeight:
-        variant === 'drawer' || theme.container?.display === 'flex'
-          ? 'none'
-          : maxHeight,
-      overflowY: 'auto',
-      height: theme.container?.display === 'flex' ? 'auto' : '100%',
-      paddingTop: paddingTopAdjustment,
-      // This allows FullPageContainer.tsx to expand and fill the available vertical space in max height and default layout modes
-      '&:has(.full-page-container)': {
-        height: maxHeight,
-      },
-    }
+    !['variant', 'paddingTopAdjustment', 'elementId'].includes(prop as string),
+})<CssBaselineContainerProps>(({ theme, variant, paddingTopAdjustment }) => {
+  const maxHeight =
+    theme.container?.height === 'fit-content'
+      ? 'none'
+      : theme.container?.maxHeight ||
+        theme.container?.height ||
+        defaultMaxHeight
+  return {
+    display: 'flex',
+    flex: 1,
+    flexDirection: 'column',
+    overflowX: 'clip',
+    margin: 0,
+    width: '100%',
+    maxHeight:
+      variant === 'drawer' || theme.container?.display === 'flex'
+        ? 'none'
+        : maxHeight,
+    overflowY: 'auto',
+    height: theme.container?.display === 'flex' ? 'auto' : '100%',
+    paddingTop: paddingTopAdjustment,
+    // This allows FullPageContainer.tsx to expand and fill the available vertical space in max height and default layout modes
+    '&:has(.full-page-container)': {
+      height:
+        theme.container?.maxHeight ||
+        theme.container?.height ||
+        defaultMaxHeight,
+    },
+    '&:has(.long-list)': {
+      maxHeight: theme.container?.maxHeight || defaultMaxHeight,
+    },
   }
-)
+})
 
 export const FlexContainer = styled(Container)({
   display: 'flex',
@@ -148,7 +136,6 @@ export const AppContainer: React.FC<PropsWithChildren> = ({ children }) => {
   // const ref = useRef<HTMLDivElement>(null);
   const { variant, elementId, theme } = useWidgetConfig()
   const { headerHeight } = useHeaderHeight()
-  const isLongPage = useIsLongPage()
   const positionFixedAdjustment =
     theme?.header?.position === 'fixed' ? headerHeight : 0
 
@@ -156,7 +143,6 @@ export const AppContainer: React.FC<PropsWithChildren> = ({ children }) => {
     <RelativeContainer
       variant={variant}
       id={createElementId(ElementId.RelativeContainer, elementId)}
-      isLongPage={isLongPage}
     >
       <CssBaselineContainer
         id={createElementId(ElementId.ScrollableContainer, elementId)}
@@ -164,7 +150,6 @@ export const AppContainer: React.FC<PropsWithChildren> = ({ children }) => {
         enableColorScheme
         paddingTopAdjustment={positionFixedAdjustment}
         elementId={elementId}
-        isLongPage={isLongPage}
         // ref={ref}
       >
         <FlexContainer disableGutters>{children}</FlexContainer>

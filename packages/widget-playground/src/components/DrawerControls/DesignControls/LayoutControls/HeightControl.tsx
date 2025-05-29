@@ -2,7 +2,6 @@ import { defaultMaxHeight } from '@lifi/widget'
 import { type FocusEventHandler, useCallback } from 'react'
 import type { Layout } from '../../../../store/editTools/types'
 import { useConfigActions } from '../../../../store/widgetConfig/useConfigActions'
-import {} from '../../../Card/Card.style'
 import {
   CapitalizeFirstLetter,
   ControlRowContainer,

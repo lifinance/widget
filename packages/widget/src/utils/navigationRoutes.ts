@@ -65,19 +65,6 @@ export const backButtonRoutes = [
   navigationRoutes.configuredWallets,
 ]
 
-export const longPageRoutes = [
-  navigationRoutes.activeTransactions,
-  navigationRoutes.bridges,
-  navigationRoutes.exchanges,
-  navigationRoutes.fromChain,
-  navigationRoutes.fromToken,
-  navigationRoutes.routes,
-  navigationRoutes.toChain,
-  navigationRoutes.toToken,
-  navigationRoutes.toTokenNative,
-  navigationRoutes.transactionHistory,
-]
-
 export type NavigationRouteTypeKeys = keyof typeof navigationRoutes
 
 export type NavigationRouteType =
