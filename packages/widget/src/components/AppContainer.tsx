@@ -15,34 +15,32 @@ import { ElementId, createElementId } from '../utils/elements.js'
 //  Also check any code that is using the methods from elements.ts utils file
 
 export const AppExpandedContainer = styled(Box, {
-  shouldForwardProp: (prop) => !['variant'].includes(prop as string),
-})<{ variant?: WidgetVariant }>(({ theme }) => {
-  return {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'start',
-    flex: 1,
-    height:
-      theme.container?.display === 'flex'
-        ? '100%'
-        : theme.container?.maxHeight
-          ? 'auto'
-          : theme.container?.height || 'auto',
-    variants: [
-      {
-        props: {
-          variant: 'drawer',
-        },
-        style: {
-          height: 'none',
-        },
+  shouldForwardProp: (prop) => prop !== 'variant',
+})<{ variant?: WidgetVariant }>(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'start',
+  flex: 1,
+  height:
+    theme.container?.display === 'flex'
+      ? '100%'
+      : theme.container?.maxHeight
+        ? 'auto'
+        : theme.container?.height || 'auto',
+  variants: [
+    {
+      props: {
+        variant: 'drawer',
       },
-    ],
-  }
-})
+      style: {
+        height: 'none',
+      },
+    },
+  ],
+}))
 
 export const RelativeContainer = styled(Box, {
-  shouldForwardProp: (prop) => !['variant'].includes(prop as string),
+  shouldForwardProp: (prop) => prop !== 'variant',
 })<{ variant?: WidgetVariant }>(({ theme }) => {
   const maxHeight =
     theme.container?.height === 'fit-content'
