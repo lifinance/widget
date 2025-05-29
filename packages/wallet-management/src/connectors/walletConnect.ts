@@ -18,7 +18,3 @@ export const createWalletConnectConnector = /*#__PURE__*/ (
     'walletConnect',
     'WalletConnect'
   )
-
-export const WALLET_CONNECT_CONTAINER_ID = 'w3m-container'
-
-export const WALLET_CONNECT_ELEMENT = 'w3m-modal'

@@ -6,13 +6,14 @@ import { connect, disconnect, getAccount } from 'wagmi/actions'
 import { ListItemButton } from '../components/ListItemButton.js'
 import { ListItemText } from '../components/ListItemText.js'
 import type { CreateConnectorFnExtended } from '../connectors/types.js'
-import {
-  WALLET_CONNECT_CONTAINER_ID,
-  WALLET_CONNECT_ELEMENT,
-} from '../connectors/walletConnect.js'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { WalletManagementEvent } from '../types/events.js'
+import {
+  ElementId,
+  getWalletConnectElement,
+  getWalletModalContentElement,
+} from '../utils/elements.js'
 import { getConnectorIcon } from '../utils/getConnectorIcon.js'
 import { isWalletInstalled } from '../utils/isWalletInstalled.js'
 import type { WalletListItemButtonProps } from './types.js'
@@ -40,11 +41,15 @@ export const EVMListItemButton = ({
     : connectorName
 
   const createWalletConnectElement = () => {
-    const modal = document.createElement(WALLET_CONNECT_ELEMENT)
-    const containerElement = document.querySelector(
-      `#${WALLET_CONNECT_CONTAINER_ID}`
-    )
-    containerElement?.parentElement?.insertAdjacentElement('afterbegin', modal)
+    const elementExists = getWalletConnectElement()
+    if (!elementExists) {
+      const modal = document.createElement(ElementId.WalletConnectElement)
+      const containerElement = getWalletModalContentElement()
+      containerElement?.parentElement?.insertAdjacentElement(
+        'afterbegin',
+        modal
+      )
+    }
   }
 
   const handleEVMConnect = async () => {
