@@ -4,6 +4,7 @@ import { Collapse } from '@mui/material'
 import { AccountNotDeployedMessage } from './AccountNotDeployedMessage.js'
 import { FundsSufficiencyMessage } from './FundsSufficiencyMessage.js'
 import { GasSufficiencyMessage } from './GasSufficiencyMessage.js'
+import { MissingRouteRequiredAccountMessage } from './MissingRouteRequiredAccountMessage.js'
 import { ToAddressRequiredMessage } from './ToAddressRequiredMessage.js'
 import { useMessageQueue } from './useMessageQueue.js'
 
@@ -21,6 +22,14 @@ export const WarningMessages: React.FC<WarningMessagesProps> = ({
 
   const getMessage = () => {
     switch (messages[0]?.id) {
+      case 'MISSING_ROUTE_REQUIRED_ACCOUNT':
+        return (
+          <MissingRouteRequiredAccountMessage
+            chain={messages[0].props?.chain}
+            address={messages[0].props?.address}
+            {...props}
+          />
+        )
       case 'INSUFFICIENT_FUNDS':
         return <FundsSufficiencyMessage {...props} />
       case 'INSUFFICIENT_GAS':

@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useCallback } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { isItemAllowed } from '../utils/item.js'
+import { getQueryKey } from '../utils/queries.js'
 
 export type GetChainById = (
   chainId?: number,
@@ -18,11 +19,12 @@ const supportedChainTypes = [
 ]
 
 export const useAvailableChains = (chainTypes?: ChainType[]) => {
-  const { chains } = useWidgetConfig()
+  const { chains, keyPrefix } = useWidgetConfig()
   // const { providers } = useHasExternalWalletProvider();
+
   const { data, isLoading } = useQuery({
     queryKey: [
-      'chains',
+      getQueryKey('chains', keyPrefix),
       // providers,
       chains?.types,
       chains?.allow,

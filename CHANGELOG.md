@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.22.0](https://github.com/lifinance/widget/compare/v3.21.3...v3.22.0) (2025-05-29)
+
+
+### Features
+
+* add cross-vm 2-steps tx flow ([#402](https://github.com/lifinance/widget/issues/402)) ([f06cbad](https://github.com/lifinance/widget/commit/f06cbadf2acedf8139f1b52d6dcafcff8ec46dca))
+* make custom explorer urls tx and address paths configurable ([#400](https://github.com/lifinance/widget/issues/400)) ([bf8f47b](https://github.com/lifinance/widget/commit/bf8f47b5b1261d5560f2bf166c5ca1d9fae9d41b))
+* update transaction execution success screen in the widget ([#396](https://github.com/lifinance/widget/issues/396)) ([8c3dd2b](https://github.com/lifinance/widget/commit/8c3dd2b963f8374093ce42e49ba2c5be1fb0fbe7))
+
+
+### Bug Fixes
+
+* account for hidden UI elements in required address logic ([#399](https://github.com/lifinance/widget/issues/399)) ([25b63ff](https://github.com/lifinance/widget/commit/25b63ff8ec1f7007ad779b42a2f385ea5962e6ca))
+* allow hiding toAddress when necessary ([#405](https://github.com/lifinance/widget/issues/405)) ([e70e88d](https://github.com/lifinance/widget/commit/e70e88d60afe8735f8b4fdd91d9efd9bd04b0574))
+* height of virtualized list in drawer ([#398](https://github.com/lifinance/widget/issues/398)) ([c8ae76d](https://github.com/lifinance/widget/commit/c8ae76ddecb994decc0493d11b56f6520d7227f0))
+* improve logic to distribute chains in its grid ([#397](https://github.com/lifinance/widget/issues/397)) ([ffafc2b](https://github.com/lifinance/widget/commit/ffafc2ba898c16c7f737e8c6c0f55d227f346012))
+* no widget render when using chain filters ([#406](https://github.com/lifinance/widget/issues/406)) ([676f0bb](https://github.com/lifinance/widget/commit/676f0bbf4f5790856cdb0ec1daa2ccf4ef744ba8))
+* wallet connect modal search input ([#407](https://github.com/lifinance/widget/issues/407)) ([52a9056](https://github.com/lifinance/widget/commit/52a90565dc0c6cf4f6049c5d2fe7db31ff0451cd))
+* **widget:** hour display bug on safari ([#408](https://github.com/lifinance/widget/issues/408)) ([88ff370](https://github.com/lifinance/widget/commit/88ff370ee90a384cd4a2c7f0dbce456da7c16203))
+
 ### [3.21.3](https://github.com/lifinance/widget/compare/v3.21.2...v3.21.3) (2025-05-21)
 
 
