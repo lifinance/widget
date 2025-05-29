@@ -1,7 +1,8 @@
-import type { EVMChain, RouteExtended, Token } from '@lifi/sdk'
-import { isRelayerStep } from '@lifi/sdk'
+import type { EVMChain, RouteExtended, Token, TokenAmount } from '@lifi/sdk'
+import { ChainType, isRelayerStep } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useQuery } from '@tanstack/react-query'
+import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useAvailableChains } from './useAvailableChains.js'
@@ -21,31 +22,64 @@ const refetchInterval = 30_000
 
 export const useGasSufficiency = (route?: RouteExtended) => {
   const { getChainById } = useAvailableChains()
-  const { account } = useAccount({
-    chainType: getChainById(route?.fromChainId)?.chainType,
+  const { account: EVMAccount, accounts } = useAccount({
+    chainType: ChainType.EVM,
   })
   const { keyPrefix } = useWidgetConfig()
 
+  const { relevantAccounts, relevantAccountsQueryKey } = useMemo(() => {
+    const chainTypes = route?.steps.reduce((acc, step) => {
+      const chainType = getChainById(step.action.fromChainId)?.chainType
+      if (chainType) {
+        acc.add(chainType)
+      }
+      return acc
+    }, new Set<ChainType>())
+
+    const relevantAccounts = accounts.filter(
+      (account) =>
+        account.isConnected &&
+        account.address &&
+        chainTypes?.has(account.chainType)
+    )
+    return {
+      relevantAccounts,
+      relevantAccountsQueryKey: relevantAccounts
+        .map((account) => account.address)
+        .join(','),
+    }
+  }, [accounts, route?.steps, getChainById])
+
   const { isContractAddress, isLoading: isContractAddressLoading } =
-    useIsContractAddress(account.address, route?.fromChainId, account.chainType)
+    useIsContractAddress(
+      EVMAccount.address,
+      route?.fromChainId,
+      EVMAccount.chainType
+    )
 
   const { data: insufficientGas, isLoading } = useQuery({
     queryKey: [
       getQueryKey('gas-sufficiency-check', keyPrefix),
-      account.address,
+      relevantAccountsQueryKey,
       route?.id,
       isContractAddress,
     ] as const,
-    queryFn: async ({ queryKey: [, accountAddress] }) => {
+    queryFn: async () => {
       if (!route) {
         return
       }
 
-      // If we have a relayer step with a permit (EIP-2612) for the from token, we don't need to check for gas sufficiency
-      if (
-        isRelayerStep(route.steps[0]) &&
-        route.steps[0].typedData.some((t) => t.primaryType === 'Permit')
-      ) {
+      // Filter out steps that are relayer steps or have primaryType 'Permit' or 'Order'
+      const filteredSteps = route.steps.filter(
+        (step) =>
+          !isRelayerStep(step) &&
+          !step.typedData?.some(
+            (t) => t.primaryType === 'Permit' || t.primaryType === 'Order'
+          )
+      )
+
+      // If all steps are filtered out, we don't need to check for gas sufficiency
+      if (!filteredSteps.length) {
         return
       }
 
@@ -54,7 +88,7 @@ export const useGasSufficiency = (route?: RouteExtended) => {
         .flatMap((step) => step.includedSteps)
         .some((includedStep) => includedStep.tool === 'gasZip')
 
-      const gasCosts = route.steps
+      const gasCosts = filteredSteps
         .filter((step) => !step.execution || step.execution.status !== 'DONE')
         .reduce(
           (groupedGasCosts, step) => {
@@ -73,6 +107,7 @@ export const useGasSufficiency = (route?: RouteExtended) => {
                   ? groupedGasCosts[token.chainId].gasAmount + gasCostAmount
                   : gasCostAmount,
                 token,
+                chain: getChainById(token.chainId),
               }
             }
             // Add fees paid in native tokens to gas sufficiency check (included: false)
@@ -91,11 +126,12 @@ export const useGasSufficiency = (route?: RouteExtended) => {
                   ? groupedGasCosts[token.chainId].gasAmount + feeCostAmount
                   : feeCostAmount,
                 token,
-              } as any
+                chain: getChainById(token.chainId),
+              }
             }
             return groupedGasCosts
           },
-          {} as Record<number, GasSufficiency>
+          {} as Record<string, GasSufficiency>
         )
 
       // Check whether we are sending a native token
@@ -107,15 +143,30 @@ export const useGasSufficiency = (route?: RouteExtended) => {
           gasCosts[route.fromChainId]?.gasAmount + BigInt(route.fromAmount)
       }
 
-      const tokenBalances = await getTokenBalancesWithRetry(
-        accountAddress!,
-        Object.values(gasCosts).map((item) => item.token)
+      const gasCostsValues = Object.values(gasCosts)
+
+      const balanceChecks = await Promise.allSettled(
+        relevantAccounts.map((account) => {
+          const relevantTokens = gasCostsValues
+            .filter((gasCost) => gasCost.chain?.chainType === account.chainType)
+            .map((item) => item.token)
+
+          return getTokenBalancesWithRetry(account.address!, relevantTokens)
+        })
       )
+
+      const tokenBalances = balanceChecks
+        .filter(
+          (result): result is PromiseFulfilledResult<TokenAmount[]> =>
+            result.status === 'fulfilled' && Boolean(result.value)
+        )
+        .flatMap((result) => result.value)
 
       if (!tokenBalances?.length) {
         return
       }
-      ;[route.fromChainId, route.toChainId].forEach((chainId) => {
+
+      Object.keys(gasCosts).forEach((chainId) => {
         if (gasCosts[chainId]) {
           const gasTokenBalance =
             tokenBalances?.find(
@@ -138,7 +189,7 @@ export const useGasSufficiency = (route?: RouteExtended) => {
             ...gasCosts[chainId],
             insufficient,
             insufficientAmount,
-            chain: insufficient ? getChainById(chainId) : undefined,
+            chain: insufficient ? getChainById(Number(chainId)) : undefined,
           }
         }
       })
@@ -153,7 +204,7 @@ export const useGasSufficiency = (route?: RouteExtended) => {
     enabled: Boolean(
       !isContractAddress &&
         !isContractAddressLoading &&
-        account.address &&
+        relevantAccounts.length > 0 &&
         route
     ),
     refetchInterval,
