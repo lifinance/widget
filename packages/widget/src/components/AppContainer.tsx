@@ -38,35 +38,31 @@ const getMaxHeight = (theme: Theme, isLongPage: boolean) => {
 //  Also check any code that is using the methods from elements.ts utils file
 
 export const AppExpandedContainer = styled(Box, {
-  shouldForwardProp: (prop) =>
-    !['variant', 'isLongPage'].includes(prop as string),
-})<{ variant?: WidgetVariant; isLongPage: boolean }>(
-  ({ theme, isLongPage }) => {
-    const maxHeight = getMaxHeight(theme, isLongPage)
-    return {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'start',
-      flex: 1,
-      height:
-        theme.container?.display === 'flex'
-          ? '100%'
-          : maxHeight
-            ? 'auto'
-            : theme.container?.height || 'auto',
-      variants: [
-        {
-          props: {
-            variant: 'drawer',
-          },
-          style: {
-            height: 'none',
-          },
+  shouldForwardProp: (prop) => !['variant'].includes(prop as string),
+})<{ variant?: WidgetVariant }>(({ theme }) => {
+  return {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'start',
+    flex: 1,
+    height:
+      theme.container?.display === 'flex'
+        ? '100%'
+        : theme.container?.maxHeight
+          ? 'auto'
+          : theme.container?.height || 'auto',
+    variants: [
+      {
+        props: {
+          variant: 'drawer',
         },
-      ],
-    }
+        style: {
+          height: 'none',
+        },
+      },
+    ],
   }
-)
+})
 
 export const RelativeContainer = styled(Box, {
   shouldForwardProp: (prop) =>

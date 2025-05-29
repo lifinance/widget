@@ -132,7 +132,7 @@ export const LayoutControl = () => {
 
           const fullHeightContainer = {
             ...(getCurrentConfigTheme()?.container ?? {}),
-            display: 'flex',
+            display: undefined,
             height: 'fit-content',
             maxHeight: defaultMaxHeight,
           }

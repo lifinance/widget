@@ -72,10 +72,10 @@ export const longPageRoutes = [
   navigationRoutes.fromChain,
   navigationRoutes.fromToken,
   navigationRoutes.routes,
-  navigationRoutes.settings,
   navigationRoutes.toChain,
   navigationRoutes.toToken,
   navigationRoutes.toTokenNative,
+  navigationRoutes.transactionHistory,
 ]
 
 export type NavigationRouteTypeKeys = keyof typeof navigationRoutes

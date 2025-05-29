@@ -13,7 +13,6 @@ interface InputControlProps extends HTMLAttributes<HTMLDivElement> {
   value: number | undefined
   onChange: ChangeEventHandler<HTMLInputElement>
   onBlur: FocusEventHandler<HTMLInputElement>
-  showMinNote?: boolean
 }
 
 export const InputControl = ({
@@ -21,15 +20,13 @@ export const InputControl = ({
   value,
   onChange,
   onBlur,
-  showMinNote = true,
-  ...rest
 }: InputControlProps) => {
   const inputId = useId()
   return (
-    <CardRowContainer sx={{ padding: 1 }} {...rest}>
+    <CardRowContainer sx={{ padding: 1 }}>
       <CardRowColumn>
         <label htmlFor={inputId}>{label}</label>
-        {showMinNote && ((value && value < defaultMaxHeight) || !value) ? (
+        {(value && value < defaultMaxHeight) || !value ? (
           <CapitalizeFirstLetter variant="caption">
             {`${defaultMaxHeight}px minimum`}
           </CapitalizeFirstLetter>

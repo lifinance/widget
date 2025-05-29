@@ -88,7 +88,7 @@ export const WidgetSkeleton = ({ config }: WidgetConfigPartialProps) => {
       disableTransitionOnChange
     >
       {/* isLongPage is true to restrict max height of the skeleton */}
-      <AppExpandedContainer isLongPage>
+      <AppExpandedContainer>
         <RelativeContainer
           sx={{ display: 'flex', flexDirection: 'column' }}
           isLongPage

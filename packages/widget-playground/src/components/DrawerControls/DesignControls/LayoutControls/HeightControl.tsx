@@ -58,7 +58,7 @@ export const HeightControl = ({
   const handleBlur: FocusEventHandler<HTMLInputElement> = useCallback(
     (e) => {
       const val = Number.parseInt(e.target.value, 10)
-      if (val < defaultMaxHeight) {
+      if (!Number.isFinite(val) || val < defaultMaxHeight) {
         setHeightValue(undefined)
         setInitialLayout(selectedLayoutId)
       }
