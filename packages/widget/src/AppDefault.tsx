@@ -8,7 +8,7 @@ import {
 import { Header } from './components/Header/Header.js'
 import { Initializer } from './components/Initializer.js'
 import { RoutesExpanded } from './components/Routes/RoutesExpanded.js'
-import { useIsListPage } from './hooks/useIsListPage.js'
+import { useIsLongPage } from './hooks/useIsLongPage.js'
 import { useWideVariant } from './hooks/useWideVariant.js'
 import { useWidgetConfig } from './providers/WidgetProvider/WidgetProvider.js'
 import { ElementId, createElementId } from './utils/elements.js'
@@ -16,12 +16,12 @@ import { ElementId, createElementId } from './utils/elements.js'
 export const AppDefault = () => {
   const { elementId } = useWidgetConfig()
   const wideVariant = useWideVariant()
-  const isListPage = useIsListPage()
+  const isLongPage = useIsLongPage()
 
   return (
     <AppExpandedContainer
       id={createElementId(ElementId.AppExpandedContainer, elementId)}
-      isListPage={isListPage}
+      isLongPage={isLongPage}
     >
       <AppContainer>
         <Header />

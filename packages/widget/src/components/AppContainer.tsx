@@ -7,17 +7,17 @@ import {
 } from '@mui/material'
 import type { PropsWithChildren } from 'react'
 import { defaultMaxHeight } from '../config/constants.js'
-import { useIsListPage } from '../hooks/useIsListPage.js'
+import { useIsLongPage } from '../hooks/useIsLongPage.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useHeaderHeight } from '../stores/header/useHeaderStore.js'
 import type { WidgetVariant } from '../types/widget.js'
 import { ElementId, createElementId } from '../utils/elements.js'
 
-const getMaxHeight = (theme: Theme, isListPage: boolean) => {
+const getMaxHeight = (theme: Theme, isLongPage: boolean) => {
   const isFitContentMode = theme.container?.height === 'fit-content'
   let maxHeight: number | string
   if (isFitContentMode) {
-    if (isListPage) {
+    if (isLongPage) {
       maxHeight = theme.container?.maxHeight || defaultMaxHeight
     } else {
       maxHeight = 'none'
@@ -38,10 +38,11 @@ const getMaxHeight = (theme: Theme, isListPage: boolean) => {
 //  Also check any code that is using the methods from elements.ts utils file
 
 export const AppExpandedContainer = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'variant' && prop !== 'isListPage',
-})<{ variant?: WidgetVariant; isListPage: boolean }>(
-  ({ theme, isListPage }) => {
-    const maxHeight = getMaxHeight(theme, isListPage)
+  shouldForwardProp: (prop) =>
+    !['variant', 'isLongPage'].includes(prop as string),
+})<{ variant?: WidgetVariant; isLongPage: boolean }>(
+  ({ theme, isLongPage }) => {
+    const maxHeight = getMaxHeight(theme, isLongPage)
     return {
       display: 'flex',
       justifyContent: 'center',
@@ -69,10 +70,10 @@ export const AppExpandedContainer = styled(Box, {
 
 export const RelativeContainer = styled(Box, {
   shouldForwardProp: (prop) =>
-    !['variant', 'isListPage'].includes(prop as string),
-})<{ variant?: WidgetVariant; isListPage: boolean }>(
-  ({ theme, isListPage }) => {
-    const maxHeight = getMaxHeight(theme, isListPage)
+    !['variant', 'isLongPage'].includes(prop as string),
+})<{ variant?: WidgetVariant; isLongPage: boolean }>(
+  ({ theme, isLongPage }) => {
+    const maxHeight = getMaxHeight(theme, isLongPage)
     return {
       position: 'relative',
       boxSizing: 'content-box',
@@ -108,17 +109,17 @@ interface CssBaselineContainerProps {
   variant?: WidgetVariant
   paddingTopAdjustment: number
   elementId: string
-  isListPage: boolean
+  isLongPage: boolean
 }
 
 const CssBaselineContainer = styled(ScopedCssBaseline, {
   shouldForwardProp: (prop) =>
-    !['variant', 'paddingTopAdjustment', 'elementId', 'isListPage'].includes(
+    !['variant', 'paddingTopAdjustment', 'elementId', 'isLongPage'].includes(
       prop as string
     ),
 })<CssBaselineContainerProps>(
-  ({ theme, variant, paddingTopAdjustment, isListPage }) => {
-    const maxHeight = getMaxHeight(theme, isListPage)
+  ({ theme, variant, paddingTopAdjustment, isLongPage }) => {
+    const maxHeight = getMaxHeight(theme, isLongPage)
     return {
       display: 'flex',
       flex: 1,
@@ -151,7 +152,7 @@ export const AppContainer: React.FC<PropsWithChildren> = ({ children }) => {
   // const ref = useRef<HTMLDivElement>(null);
   const { variant, elementId, theme } = useWidgetConfig()
   const { headerHeight } = useHeaderHeight()
-  const isListPage = useIsListPage()
+  const isLongPage = useIsLongPage()
   const positionFixedAdjustment =
     theme?.header?.position === 'fixed' ? headerHeight : 0
 
@@ -159,7 +160,7 @@ export const AppContainer: React.FC<PropsWithChildren> = ({ children }) => {
     <RelativeContainer
       variant={variant}
       id={createElementId(ElementId.RelativeContainer, elementId)}
-      isListPage={isListPage}
+      isLongPage={isLongPage}
     >
       <CssBaselineContainer
         id={createElementId(ElementId.ScrollableContainer, elementId)}
@@ -167,7 +168,7 @@ export const AppContainer: React.FC<PropsWithChildren> = ({ children }) => {
         enableColorScheme
         paddingTopAdjustment={positionFixedAdjustment}
         elementId={elementId}
-        isListPage={isListPage}
+        isLongPage={isLongPage}
         // ref={ref}
       >
         <FlexContainer disableGutters>{children}</FlexContainer>

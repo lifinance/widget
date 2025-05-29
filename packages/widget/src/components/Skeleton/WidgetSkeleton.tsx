@@ -87,10 +87,11 @@ export const WidgetSkeleton = ({ config }: WidgetConfigPartialProps) => {
       colorSchemeStorageKey="li.fi-widget-color-scheme"
       disableTransitionOnChange
     >
-      <AppExpandedContainer isListPage={false}>
+      {/* isLongPage is true to restrict max height of the skeleton */}
+      <AppExpandedContainer isLongPage>
         <RelativeContainer
           sx={{ display: 'flex', flexDirection: 'column' }}
-          isListPage={false}
+          isLongPage
         >
           <SkeletonHeaderContainer>
             {!hiddenUI.includes('walletMenu') ? (

@@ -65,7 +65,7 @@ export const backButtonRoutes = [
   navigationRoutes.configuredWallets,
 ]
 
-export const listPageRoutes = [
+export const longPageRoutes = [
   navigationRoutes.activeTransactions,
   navigationRoutes.bridges,
   navigationRoutes.exchanges,

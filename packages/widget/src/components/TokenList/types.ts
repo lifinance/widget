@@ -7,7 +7,7 @@ import type { TokenAmount } from '../../types/token.js'
 export interface TokenListProps {
   parentRef: RefObject<HTMLElement | null>
   formType: FormType
-  height: number | string
+  height: number
   onClick?(): void
 }
 
