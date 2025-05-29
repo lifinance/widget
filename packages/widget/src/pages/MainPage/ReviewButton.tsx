@@ -73,6 +73,7 @@ export const ReviewButton: React.FC = () => {
       text={getButtonText()}
       onClick={handleClick}
       disabled={currentRoute && requiredToAddress && !toAddress}
+      route={currentRoute}
     />
   )
 }

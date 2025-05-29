@@ -22,6 +22,7 @@ import type { Connector } from 'wagmi'
 import type { CombinedWallet } from '../hooks/useCombinedWallets.js'
 import { useCombinedWallets } from '../hooks/useCombinedWallets.js'
 import type { WalletConnector } from '../types/walletConnector.js'
+import { ElementId } from '../utils/elements.js'
 import { EVMListItemButton } from './EVMListItemButton.js'
 import { ListItemButton } from './ListItemButton.js'
 import { ListItemText } from './ListItemText.js'
@@ -106,6 +107,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
     ecosystemSelection?: boolean
   ) => {
     const key = `${name}${ecosystemSelection ? `-${chainType}` : ''}`
+
     switch (chainType) {
       case ChainType.UTXO:
         return (
@@ -194,7 +196,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
           <Close />
         </IconButton>
       </DialogTitle>
-      <DialogContent sx={{ padding: 2 }}>
+      <DialogContent sx={{ padding: 2 }} id={ElementId.WalletModalContent}>
         <Collapse
           in={state.view === 'wallet-list'}
           timeout={{ appear: 225, enter: 225, exit: 225 }}

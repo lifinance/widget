@@ -3,12 +3,13 @@ import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { TokenAmount } from '../types/token.js'
+import { getQueryKey } from '../utils/queries.js'
 import { useChains } from './useChains.js'
 
 export const useTokens = (selectedChainId?: number) => {
-  const { tokens: configTokens } = useWidgetConfig()
+  const { tokens: configTokens, keyPrefix } = useWidgetConfig()
   const { data, isLoading } = useQuery({
-    queryKey: ['tokens'],
+    queryKey: [getQueryKey('tokens', keyPrefix)],
     queryFn: () =>
       getTokens({
         chainTypes: [

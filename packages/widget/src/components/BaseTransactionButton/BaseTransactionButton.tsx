@@ -1,7 +1,8 @@
-import { useAccount, useWalletMenu } from '@lifi/wallet-management'
+import { useWalletMenu } from '@lifi/wallet-management'
 import { Button } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useChain } from '../../hooks/useChain.js'
+import { useRouteRequiredAccountConnection } from '../../hooks/useRouteRequiredAccountConnection.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import type { BaseTransactionButtonProps } from './types.js'
@@ -11,16 +12,20 @@ export const BaseTransactionButton: React.FC<BaseTransactionButtonProps> = ({
   text,
   disabled,
   loading,
+  route,
 }) => {
   const { t } = useTranslation()
   const { walletConfig } = useWidgetConfig()
   const { openWalletMenu } = useWalletMenu()
   const [fromChainId] = useFieldValues('fromChain')
   const { chain } = useChain(fromChainId)
-  const { account } = useAccount({ chainType: chain?.chainType })
+  const { connected, missingChain } = useRouteRequiredAccountConnection(
+    route,
+    chain
+  )
 
   const handleClick = async () => {
-    if (account.isConnected) {
+    if (connected) {
       onClick?.()
     } else if (walletConfig?.onConnect) {
       walletConfig.onConnect()
@@ -30,12 +35,16 @@ export const BaseTransactionButton: React.FC<BaseTransactionButtonProps> = ({
   }
 
   const getButtonText = () => {
-    if (account.isConnected) {
+    if (connected) {
       if (text) {
         return text
       }
     }
-    return t('button.connectWallet')
+    return missingChain
+      ? t('button.connectChainWallet', {
+          chain: missingChain.name,
+        })
+      : t('button.connectWallet')
   }
 
   return (
@@ -43,7 +52,7 @@ export const BaseTransactionButton: React.FC<BaseTransactionButtonProps> = ({
       variant="contained"
       color="primary"
       onClick={handleClick}
-      disabled={account.isConnected && disabled}
+      disabled={connected && disabled}
       loading={loading}
       loadingPosition="center"
       fullWidth
