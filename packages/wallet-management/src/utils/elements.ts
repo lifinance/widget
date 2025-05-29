@@ -8,3 +8,12 @@ export const getWalletModalContentElement = () =>
 
 export const getWalletConnectElement = () =>
   document.querySelector(ElementId.WalletConnectElement)
+
+export const createWalletConnectElement = () => {
+  const elementExists = getWalletConnectElement()
+  if (!elementExists) {
+    const modal = document.createElement(ElementId.WalletConnectElement)
+    const containerElement = getWalletModalContentElement()
+    containerElement?.parentElement?.insertAdjacentElement('afterbegin', modal)
+  }
+}

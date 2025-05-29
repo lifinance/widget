@@ -9,11 +9,7 @@ import type { CreateConnectorFnExtended } from '../connectors/types.js'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { WalletManagementEvent } from '../types/events.js'
-import {
-  ElementId,
-  getWalletConnectElement,
-  getWalletModalContentElement,
-} from '../utils/elements.js'
+import { createWalletConnectElement } from '../utils/elements.js'
 import { getConnectorIcon } from '../utils/getConnectorIcon.js'
 import { isWalletInstalled } from '../utils/isWalletInstalled.js'
 import type { WalletListItemButtonProps } from './types.js'
@@ -39,18 +35,6 @@ export const EVMListItemButton = ({
   const connectorDisplayName: string = ecosystemSelection
     ? 'Ethereum'
     : connectorName
-
-  const createWalletConnectElement = () => {
-    const elementExists = getWalletConnectElement()
-    if (!elementExists) {
-      const modal = document.createElement(ElementId.WalletConnectElement)
-      const containerElement = getWalletModalContentElement()
-      containerElement?.parentElement?.insertAdjacentElement(
-        'afterbegin',
-        modal
-      )
-    }
-  }
 
   const handleEVMConnect = async () => {
     try {
