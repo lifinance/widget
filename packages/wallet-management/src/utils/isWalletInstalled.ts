@@ -39,7 +39,7 @@ export const isWalletInstalled = (id: string): boolean => {
       return anyWindow.LeatherProvider
     case 'bitget':
       return anyWindow.bitkeep?.unisat || anyWindow.unisat?.isBitKeep
-    case 'oyl':
+    case 'OylProvider':
       return anyWindow.oyl
     case 'binance':
       return anyWindow.binancew3w?.bitcoin || anyWindow.unisat?.isBinance
