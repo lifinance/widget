@@ -14,18 +14,14 @@ export const useSyncWagmiConfig = (
   chains?: (ExtendedChain | Chain)[]
 ) => {
   const _chains = useMemo(() => {
-    if (!chains) {
-      return undefined
-    }
     const mappedChains = chains
-      .map((chain) => {
-        if (!isExtendedChain(chain)) {
-          return chain
-        }
-        return chain.chainType === ChainType.EVM
-          ? convertExtendedChain(chain)
-          : undefined
-      })
+      ?.map((chain) =>
+        isExtendedChain(chain)
+          ? chain.chainType === ChainType.EVM
+            ? convertExtendedChain(chain)
+            : undefined
+          : chain
+      )
       .filter(Boolean) as [Chain, ...Chain[]]
     return mappedChains
   }, [chains])
