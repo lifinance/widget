@@ -13,17 +13,22 @@ export const useSyncWagmiConfig = (
   connectors: CreateConnectorFn[],
   chains?: (ExtendedChain | Chain)[]
 ) => {
-  const _chains = useMemo(
-    () =>
-      chains
-        ?.filter((chain) =>
-          isExtendedChain(chain) ? chain.chainType === ChainType.EVM : true
-        )
-        .map((chain) =>
-          isExtendedChain(chain) ? convertExtendedChain(chain) : chain
-        ) as [Chain, ...Chain[]],
-    [chains]
-  )
+  const _chains = useMemo(() => {
+    if (!chains) {
+      return undefined
+    }
+    const mappedChains = chains
+      .map((chain) => {
+        if (!isExtendedChain(chain)) {
+          return chain
+        }
+        return chain.chainType === ChainType.EVM
+          ? convertExtendedChain(chain)
+          : undefined
+      })
+      .filter(Boolean) as [Chain, ...Chain[]]
+    return mappedChains
+  }, [chains])
 
   useEffect(() => {
     if (_chains?.length) {
