@@ -33,14 +33,9 @@ export const VariantControl = () => {
 
         const containerForWide = {
           ...getCurrentConfigTheme()?.container,
-        }
-
-        if (
-          containerForWide.display === 'flex' &&
-          containerForWide.height === '100%'
-        ) {
-          containerForWide.display = undefined
-          containerForWide.height = undefined
+          // Reset values for Default layout (since they are different for Drawer variant)
+          display: undefined,
+          height: undefined,
         }
 
         setContainer(containerForWide)
