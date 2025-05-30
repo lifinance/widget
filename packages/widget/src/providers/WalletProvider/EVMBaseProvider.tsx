@@ -1,3 +1,4 @@
+import { ChainType } from '@lifi/sdk'
 import type { DefaultWagmiConfigResult } from '@lifi/wallet-management'
 import {
   createDefaultWagmiConfig,
@@ -28,7 +29,8 @@ export const EVMBaseProvider: FC<PropsWithChildren> = ({ children }) => {
     })
   }
 
-  useSyncWagmiConfig(wagmi.current.config, wagmi.current.connectors, chains)
+  const evmChains = chains?.filter((chain) => chain.chainType === ChainType.EVM)
+  useSyncWagmiConfig(wagmi.current.config, wagmi.current.connectors, evmChains)
 
   return (
     <WagmiProvider config={wagmi.current.config} reconnectOnMount={false}>
