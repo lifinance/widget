@@ -27,7 +27,7 @@
     "./widget-config": "./src/defaultWidgetConfig.ts"
   },
   "dependencies": {
-    "@bigmi/react": "^0.3.0",
+    "@bigmi/react": "0.3.1-beta.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@lifi/sdk": "^3.7.5",
