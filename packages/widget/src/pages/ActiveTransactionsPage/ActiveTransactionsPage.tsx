@@ -61,6 +61,7 @@ export const ActiveTransactionsPage = () => {
   return (
     <PageContainer disableGutters>
       <List
+        className="long-list"
         sx={{
           paddingTop: 0,
           paddingLeft: 1.5,

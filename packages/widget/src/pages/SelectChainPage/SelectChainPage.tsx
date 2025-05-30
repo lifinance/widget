@@ -72,7 +72,7 @@ export const SelectChainPage: React.FC<SelectChainPageProps> = ({
         placeholder={t('main.searchChains')}
       />
       {filteredChains.length ? (
-        <SearchList>
+        <SearchList className="long-list">
           {filteredChains.map((chain) => (
             <ListItemButton key={chain.id} onClick={() => handleClick(chain)}>
               <ListItemAvatar>

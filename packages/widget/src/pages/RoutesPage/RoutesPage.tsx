@@ -69,7 +69,7 @@ export const RoutesPage: React.FC<BoxProps> = () => {
   const allowInteraction = account.isConnected && !toAddressUnsatisfied
 
   return (
-    <Stack direction="column" spacing={2} flex={1}>
+    <Stack className="long-list" direction="column" spacing={2} flex={1}>
       {routeNotFound ? (
         <RouteNotFoundCard />
       ) : isLoading && !routes?.length ? (

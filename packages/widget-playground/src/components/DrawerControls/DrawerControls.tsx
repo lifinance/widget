@@ -17,7 +17,7 @@ import { CardRadiusControl } from './DesignControls/CardRadiusControl'
 import { ColorControl } from './DesignControls/ColorControls'
 import { FontsControl } from './DesignControls/FontsControl/FontsControl'
 import { FormValuesControl } from './DesignControls/FormValuesControls'
-import { LayoutControls } from './DesignControls/LayoutControls'
+import { LayoutControl } from './DesignControls/LayoutControls/LayoutControl'
 import { PlaygroundSettingsControl } from './DesignControls/PlaygroundSettingsControl/PlaygroundSettingsControl'
 import { SkeletonControl } from './DesignControls/SkeletonControl'
 import { SubvariantControl } from './DesignControls/SubvariantControl'
@@ -128,7 +128,7 @@ export const DrawerControls = () => {
                   <WidgetEventControls />
                   <WalletManagementControl />
                   <SkeletonControl />
-                  <LayoutControls />
+                  <LayoutControl />
                 </WidgetConfigControls>
                 <PlaygroundSettingsControl />
               </ExpandableCardAccordion>
