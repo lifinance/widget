@@ -1,6 +1,6 @@
 {
   "name": "@lifi/wallet-management",
-  "version": "3.10.0",
+  "version": "3.11.0",
   "description": "LI.FI Wallet Management solution.",
   "type": "module",
   "main": "./src/index.ts",
@@ -48,11 +48,11 @@
     "lifi"
   ],
   "dependencies": {
-    "@bigmi/client": "^0.3.0",
-    "@bigmi/core": "^0.3.0",
+    "@bigmi/client": "0.3.1",
+    "@bigmi/core": "0.3.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@lifi/sdk": "^3.7.5",
+    "@lifi/sdk": "^3.7.7",
     "@mui/icons-material": "^7.1.0",
     "@mui/material": "^7.1.0",
     "@mui/system": "^7.1.0",

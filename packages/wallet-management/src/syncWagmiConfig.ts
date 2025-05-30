@@ -1,26 +1,18 @@
-import type { ExtendedChain } from '@lifi/sdk'
 import type { Chain } from 'viem'
 import { mainnet } from 'viem/chains'
 import type { Config, CreateConnectorFn } from 'wagmi'
 import { reconnect } from 'wagmi/actions'
-import {
-  convertExtendedChain,
-  isExtendedChain,
-} from './utils/convertExtendedChain.js'
 
 export const syncWagmiConfig = async (
   wagmiConfig: Config,
   connectors: CreateConnectorFn[],
-  chains: (ExtendedChain | Chain)[]
+  chains: readonly [Chain, ...Chain[]]
 ) => {
-  const _chains = chains.map((chain) =>
-    isExtendedChain(chain) ? convertExtendedChain(chain) : chain
-  ) as [Chain, ...Chain[]]
-  const _mainnet = _chains.find((chain) => chain.id === mainnet.id)
+  const _mainnet = chains.find((chain) => chain.id === mainnet.id)
   if (_mainnet) {
     _mainnet.contracts = { ...mainnet.contracts, ..._mainnet.contracts }
   }
-  wagmiConfig._internal.chains.setState(_chains)
+  wagmiConfig._internal.chains.setState(chains)
   wagmiConfig._internal.connectors.setState(() =>
     [
       ...connectors,
