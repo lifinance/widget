@@ -1,5 +1,4 @@
 import {
-  Button,
   ListItem as MuiListItem,
   ListItemButton as MuiListItemButton,
   listItemSecondaryActionClasses,
@@ -19,20 +18,11 @@ export const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
 export const ListItem = styled(MuiListItem, {
   shouldForwardProp: (prop) => prop !== 'disableRipple',
 })(({ theme }) => ({
-  padding: theme.spacing(0, 2),
+  padding: theme.spacing(0),
   [`.${listItemSecondaryActionClasses.root}`]: {
     right: theme.spacing(3),
   },
   '&:hover': {
     cursor: 'pointer',
   },
-}))
-
-export const ShowAllButton = styled(Button)(({ theme }) => ({
-  background: 'none',
-  '&:hover': {
-    background: 'none',
-  },
-  padding: theme.spacing(0.75, 2),
-  fontSize: '0.875rem',
 }))
