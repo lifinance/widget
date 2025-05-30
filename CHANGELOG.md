@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.23.0](https://github.com/lifinance/widget/compare/v3.22.0...v3.23.0) (2025-05-30)
+
+
+### Features
+
+* **wallet-management:** add support for okx, oyl, and binance Bitcoin wallets ([#403](https://github.com/lifinance/widget/issues/403)) ([9df94ed](https://github.com/lifinance/widget/commit/9df94ed9d1d0359589aa29a560836a10416796b4))
+
+
+### Bug Fixes
+
+* adjust wallets priority ([785a56b](https://github.com/lifinance/widget/commit/785a56b8a690009680f3e4756b74e95c2f91b6a6))
+* broken height when switching from drawer variant ([#409](https://github.com/lifinance/widget/issues/409)) ([bc99b70](https://github.com/lifinance/widget/commit/bc99b704ae7929f60d64b15ab712b5e64f21cd9c))
+* do not pass non-evm chains to wagmi ([#410](https://github.com/lifinance/widget/issues/410)) ([27810ee](https://github.com/lifinance/widget/commit/27810ee173fa37e3a61a8cbf75410a4eb5233282))
+
 ## [3.22.0](https://github.com/lifinance/widget/compare/v3.21.3...v3.22.0) (2025-05-29)
 
 
