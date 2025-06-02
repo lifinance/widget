@@ -21,6 +21,7 @@
     "close": "Tutup",
     "confirm": "Konfirmasi",
     "connectAnotherWallet": "Hubungkan dompet yang lain",
+    "connectChainWallet": "",
     "connectWallet": "Hubungkan dompet",
     "contactSupport": "Kontak bantuan",
     "continue": "Lanjutkan",
@@ -47,6 +48,7 @@
     "startSwapping": "Mulai swap",
     "swap": "Swap",
     "swapReview": "Tinjau swap",
+    "system": "",
     "tryAgain": "Coba lagi",
     "viewCoverage": "Melihat cakupan",
     "viewOnExplorer": "Lihat di explorer"
@@ -66,7 +68,9 @@
     "gas": "Gas",
     "payWith": "Bayar dengan",
     "receive": "Menerima",
+    "received": "",
     "recentWallets": "Dompet terbaru",
+    "refunded": "",
     "selectChain": "Pilih jaringan",
     "selectWallet": "Pilih dompet",
     "send": "Kirim",
@@ -90,7 +94,8 @@
       "emptyTokenList": "Kami tidak dapat menemukan token di jaringan {{chainName}} atau Anda tidak memilikinya. Silakan cari berdasarkan alamat kontrak jika token Anda tidak muncul atau pilih jaringan lain.",
       "emptyTransactionHistory": "Riwayat transaksi hanya disimpan secara lokal dan akan dihapus jika Anda menghapus data browser.",
       "routeNotFound": "Alasannya mungkin: likuiditas rendah, jumlah yang dipilih terlalu rendah, biaya gas terlalu tinggi, atau tidak ada rute untuk kombinasi yang dipilih.",
-      "toAddressIsRequired": "Alamat dompet tujuan diperlukan untuk melanjutkan transfer."
+      "toAddressIsRequired": "Alamat dompet tujuan diperlukan untuk melanjutkan transfer.",
+      "missingRouteRequiredAccount": ""
     },
     "title": {
       "autoRefuel": "Dapatkan gas di {{chainName}}",
@@ -101,9 +106,7 @@
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": "Kami sudah mencoba menyelesaikan transaksi, tapi {{tool}} tidak dapat melanjutkan karena pengaturan slippage atau kurangnya likuiditas untuk token {{tokenSymbol}}.",
-      "exchangeSuccessful": "Sekarang ada {{amount, numberExt}} {{tokenSymbol}} di dompet {{walletAddress}} pada jaringan {{chainName}}.",
-      "checkoutSuccessful": "Anda sekarang memiliki {{assetName}} di dompet {{walletAddress}} di chain {{chainName}}."
+      "exchangePartiallySuccessful": "Kami sudah mencoba menyelesaikan transaksi, tapi {{tool}} tidak dapat melanjutkan karena pengaturan slippage atau kurangnya likuiditas untuk token {{tokenSymbol}}."
     },
     "title": {
       "bridgePartiallySuccessful": "Bridge sebagian berhasil",
@@ -145,9 +148,11 @@
     "message": {
       "allowanceRequired": "Jumlah transfer untuk {{tokenSymbol}} melebihi jatah Anda saat ini. Tingkatkan jatah Anda dan coba lagi.",
       "insufficientFunds": "Anda tidak memiliki cukup gas untuk menutup biaya transaksi.",
+      "rateLimitExceeded": "",
       "remainInYourWallet": "{{amount, numberExt}} {{tokenSymbol}} di {{chainName}} tetap ada di dompet Anda.",
       "signatureRejected": "Tanda tangan Anda diperlukan untuk menyelesaikan transaksi. {{amount, numberExt}} {{tokenSymbol}} di {{chainName}} tetap ada di dompet Anda.",
       "slippageThreshold": "Slippage lebih besar dari ambang batas yang ditentukan. Silakan minta rute baru untuk mendapatkan penawaran baru.",
+      "thirdPartyError": "",
       "transactionCanceled": "Transaksi dibatalkan.",
       "transactionConflict": "Transaksi tidak dapat diproses karena bentrok dengan transaksi tertunda lainnya yang menggunakan dana yang sama. Harap tunggu hingga transaksi tertunda dikonfirmasi atau periksa riwayat transaksi Anda sebelum mencoba lagi.",
       "transactionExpired": "Ketinggian blok telah melebihi batas maksimum yang diperbolehkan atau blockhash tidak lagi cukup baru.",
@@ -167,8 +172,10 @@
       "exchangeRateUpdateCanceled": "Pembaruan nilai tukar dibatalkan",
       "gasLimitIsTooLow": "Gas limit terlalu rendah",
       "insufficientFunds": "Dana tidak mencukupi",
+      "rateLimitExceeded": "",
       "signatureRejected": "Tanda tangan diperlukan",
       "slippageNotMet": "Kondisi slippage tidak terpenuhi",
+      "thirdPartyError": "",
       "transactionCanceled": "Transaksi dibatalkan",
       "transactionConflict": "Konflik Transaksi",
       "transactionExpired": "Transaksi berakhir",
@@ -281,13 +288,13 @@
     "sendToWallet": "Kirim ke dompet berbeda",
     "sending": "Mengirim",
     "sentToAddress": "Dikirim ke {{address}}",
-    "stepBridge": "Bridge",
+    "stepBridge": "",
     "stepBridgeAndBuy": "Bridge dan beli",
     "stepBridgeAndDeposit": "Bridge dan deposit",
-    "stepBuy": "Beli",
-    "stepDeposit": "Deposit",
+    "stepBuy": "",
+    "stepDeposit": "",
     "stepDetails": "{{tool}} melalui LI.FI",
-    "stepSwap": "Swap",
+    "stepSwap": "",
     "stepSwapAndBridge": "Swap dan bridge",
     "stepSwapAndBuy": "Swap dan beli",
     "stepSwapAndDeposit": "Swap dan deposit",
@@ -308,7 +315,7 @@
     "searchExchanges": "Cari berdasarkan nama exchange"
   },
   "settings": {
-    "theme": "Tema",
+    "appearance": "",
     "enabledBridges": "Bridge",
     "enabledExchanges": "Bursa",
     "gasPrice": {
