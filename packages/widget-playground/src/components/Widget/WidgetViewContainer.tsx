@@ -22,7 +22,11 @@ interface WidgetViewContainerProps extends PropsWithChildren {
   toggleDrawer?(): void
 }
 
-const topAlignedLayouts: Layout[] = ['default', 'restricted-max-height']
+const topAlignedLayouts: Layout[] = [
+  'default',
+  'restricted-max-height',
+  'fit-content',
+]
 
 export function WidgetViewContainer({
   children,
