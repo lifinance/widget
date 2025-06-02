@@ -21,6 +21,7 @@
     "close": "",
     "confirm": "",
     "connectAnotherWallet": "",
+    "connectChainWallet": "",
     "connectWallet": "Wallet verbinden",
     "contactSupport": "Support kontaktieren",
     "continue": "Fortsetzen",
@@ -47,6 +48,7 @@
     "startSwapping": "Swap starten",
     "swap": "Swap",
     "swapReview": "",
+    "system": "",
     "tryAgain": "Erneut versuchen",
     "viewCoverage": "Deckung anzeigen",
     "viewOnExplorer": "Im Explorer anzeigen"
@@ -55,18 +57,20 @@
     "activeTransactions": "Aktive Transaktion",
     "amount": "",
     "bookmarkedWallets": "",
-    "bridge": "Bridge",
+    "bridge": "",
     "checkout": "Zur Kasse",
     "checkoutDetails": "",
     "deposit": "",
     "depositDetails": "",
     "depositTo": "",
-    "exchange": "Exchange",
+    "exchange": "",
     "from": "Swap von",
     "gas": "Gas",
     "payWith": "Zahle mit",
     "receive": "",
+    "received": "",
     "recentWallets": "",
+    "refunded": "",
     "selectChain": "Chain auswählen",
     "selectWallet": "Wallet wählen",
     "send": "",
@@ -90,7 +94,8 @@
       "emptyTokenList": "Es wurden keine Tokens auf der Chain {{chainName}} gefunden oder Sie haben keine. Bitte versuchen Sie die Suche erneut mit der Contract-Adresse falls Ihr Token nicht erscheint oder wechseln Sie die Chain.",
       "emptyTransactionHistory": "Die Transaktionshistorie wird nur lokal gespeichert und gelöscht, wenn Sie Ihre Browserdaten löschen.",
       "routeNotFound": "Gründe dafür könnten lauten: geringe Liquidität, gewählter Betrag ist zu niedrig, die Gaskosten sind zu hoch oder es gibt keine Routen für die ausgewählte Kombination.",
-      "toAddressIsRequired": ""
+      "toAddressIsRequired": "",
+      "missingRouteRequiredAccount": ""
     },
     "title": {
       "autoRefuel": "",
@@ -101,9 +106,7 @@
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": "",
-      "exchangeSuccessful": "",
-      "checkoutSuccessful": ""
+      "exchangePartiallySuccessful": ""
     },
     "title": {
       "bridgePartiallySuccessful": "Bridge teilweise erfolgreich",
@@ -145,9 +148,11 @@
     "message": {
       "allowanceRequired": "Überweisungsbetrag für {{tokenSymbol}} überschreitet Ihre derzeitige Zulassung. Bitte erhöhen Sie das Limit und versuchen Sie es erneut.",
       "insufficientFunds": "Sie haben nicht genug Gas, um die Kosten der Transaktion zu decken.",
+      "rateLimitExceeded": "",
       "remainInYourWallet": "",
       "signatureRejected": "",
       "slippageThreshold": "Die Slippage ist größer als der definierte Schwellenwert. Bitte fordern Sie eine neue Route an, um ein neues Angebot zu erhalten.",
+      "thirdPartyError": "",
       "transactionCanceled": "",
       "transactionConflict": "",
       "transactionExpired": "",
@@ -167,8 +172,10 @@
       "exchangeRateUpdateCanceled": "",
       "gasLimitIsTooLow": "Das Gaslimit ist zu niedrig",
       "insufficientFunds": "Unzureichendes Guthaben",
+      "rateLimitExceeded": "",
       "signatureRejected": "",
       "slippageNotMet": "Slippagebedingungen nicht erfüllt",
+      "thirdPartyError": "",
       "transactionCanceled": "Transaktion abgebrochen",
       "transactionConflict": "",
       "transactionExpired": "",
@@ -284,10 +291,10 @@
     "stepBridge": "Bridge",
     "stepBridgeAndBuy": "Bridge und Kauf",
     "stepBridgeAndDeposit": "",
-    "stepBuy": "Buy",
+    "stepBuy": "",
     "stepDeposit": "",
     "stepDetails": "{{tool}} via LI.FI",
-    "stepSwap": "Swap",
+    "stepSwap": "",
     "stepSwapAndBridge": "Tauschen und überbrücken",
     "stepSwapAndBuy": "Tauschen und kaufen",
     "stepSwapAndDeposit": "",
@@ -308,7 +315,7 @@
     "searchExchanges": ""
   },
   "settings": {
-    "theme": "",
+    "appearance": "",
     "enabledBridges": "",
     "enabledExchanges": "",
     "gasPrice": {
