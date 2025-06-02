@@ -291,8 +291,8 @@
     "stepBridge": "跨链",
     "stepBridgeAndBuy": "跨链并购买",
     "stepBridgeAndDeposit": "跨链并存款",
-    "stepBuy": "",
-    "stepDeposit": "",
+    "stepBuy": "购买",
+    "stepDeposit": "存款",
     "stepDetails": "通过 LI.FI {{tool}}",
     "stepSwap": "兑换",
     "stepSwapAndBridge": "兑换和跨链",
@@ -325,7 +325,7 @@
       "title": "燃气费"
     },
     "routePriority": "路由优先级",
-    "slippage": "",
+    "slippage": "最大滑点",
     "custom": "自定义",
     "resetSettings": "您正在使用自定义设置来过滤可用路由。"
   },
