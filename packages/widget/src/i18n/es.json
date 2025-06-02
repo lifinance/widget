@@ -21,6 +21,7 @@
     "close": "Cerrar",
     "confirm": "Confirmar",
     "connectAnotherWallet": "Conectar otra cartera",
+    "connectChainWallet": "",
     "connectWallet": "Conectar billetera",
     "contactSupport": "Contactar soporte",
     "continue": "Continuar",
@@ -47,6 +48,7 @@
     "startSwapping": "Iniciar intercambio",
     "swap": "Swap",
     "swapReview": "Revisar intercambio",
+    "system": "",
     "tryAgain": "Intentar otra vez",
     "viewCoverage": "Ver cobertura",
     "viewOnExplorer": "Ver en explorador"
@@ -66,7 +68,9 @@
     "gas": "Gas",
     "payWith": "Pagar con",
     "receive": "Recibir",
+    "received": "",
     "recentWallets": "Billeteras recientes",
+    "refunded": "",
     "selectChain": "Seleccione la cadena",
     "selectWallet": "Seleccione su billetera",
     "send": "Enviar",
@@ -90,7 +94,8 @@
       "emptyTokenList": "No pudimos encontrar tokens en la cadena {{chainName}} o no tienes ninguno. Por favor, busque por dirección de contrato si su token no aparece o elija otra cadena.",
       "emptyTransactionHistory": "El historial de intercambio solo se almacena localmente y se eliminará si borra los datos de su navegador.",
       "routeNotFound": "Razones para eso: baja liquidez, cantidad seleccionada es demasiado baja, Los costos de gas son demasiado altos o no hay rutas para la combinación seleccionada.",
-      "toAddressIsRequired": "La dirección de la cartera de destino es necesaria para proceder con la transferencia."
+      "toAddressIsRequired": "La dirección de la cartera de destino es necesaria para proceder con la transferencia.",
+      "missingRouteRequiredAccount": ""
     },
     "title": {
       "autoRefuel": "Obtener gas {{chainName}}",
@@ -101,9 +106,7 @@
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": "Hemos intentado completar la transacción, pero {{tool}} no pudo proceder debido a la configuración del deslizamiento o a la falta de liquidez del token {{tokenSymbol}}.",
-      "exchangeSuccessful": "",
-      "checkoutSuccessful": "Ahora tiene {{assetName}} en la billetera {{walletAddress}} en la cadena {{chainName}}."
+      "exchangePartiallySuccessful": "Hemos intentado completar la transacción, pero {{tool}} no pudo proceder debido a la configuración del deslizamiento o a la falta de liquidez del token {{tokenSymbol}}."
     },
     "title": {
       "bridgePartiallySuccessful": "Puente parcialmente exitoso",
@@ -145,9 +148,11 @@
     "message": {
       "allowanceRequired": "El monto de la transferencia para {{tokenSymbol}} supera su autorización actual. Por favor, aumente su permiso e inténtelo de nuevo.",
       "insufficientFunds": "No tiene suficiente gas para cubrir el coste de la transacción.",
+      "rateLimitExceeded": "",
       "remainInYourWallet": "",
       "signatureRejected": "",
       "slippageThreshold": "El slippage es mayor que el umbral definido. Por favor, solicite una nueva ruta para obtener un presupuesto nuevo.",
+      "thirdPartyError": "",
       "transactionCanceled": "La transacción se ha cancelado.",
       "transactionConflict": "La transacción no ha podido ser procesada por estar en conflicto con otra transacción pendiente que usa los mismos fondos; Espere a que se confirme la transacción pendiente o revise el historial de sus transacciones antes de intentarlo nuevamente.",
       "transactionExpired": "La altura del bloque ha excedido el límite máximo permitido o el blockhash ya no es suficientemente reciente.",
@@ -167,8 +172,10 @@
       "exchangeRateUpdateCanceled": "Actualización del tipo de cambio cancelada",
       "gasLimitIsTooLow": "Límite de gas es demasiado bajo",
       "insufficientFunds": "Fondos insuficientes",
+      "rateLimitExceeded": "",
       "signatureRejected": "Firma requerida",
       "slippageNotMet": "Condiciones de slippage no cumplidas",
+      "thirdPartyError": "",
       "transactionCanceled": "Transacción cancelada",
       "transactionConflict": "Transacción cancelada",
       "transactionExpired": "La transacción ha expirado",
@@ -284,10 +291,10 @@
     "stepBridge": "Cruzar",
     "stepBridgeAndBuy": "Puente y compra",
     "stepBridgeAndDeposit": "Puente y depósito",
-    "stepBuy": "Comprar",
+    "stepBuy": "",
     "stepDeposit": "Depósito",
     "stepDetails": "{{tool}} a través de LI.FI",
-    "stepSwap": "Swap",
+    "stepSwap": "",
     "stepSwapAndBridge": "Swap y cruzar",
     "stepSwapAndBuy": "Intercambiar y comprar",
     "stepSwapAndDeposit": "Intercambiar y depositar",
@@ -308,7 +315,7 @@
     "searchExchanges": "Buscar por nombre de intercambio"
   },
   "settings": {
-    "theme": "Tema",
+    "appearance": "",
     "enabledBridges": "Puentes",
     "enabledExchanges": "Plataformas de intercambio",
     "gasPrice": {
