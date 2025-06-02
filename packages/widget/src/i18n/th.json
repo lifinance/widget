@@ -21,6 +21,7 @@
     "close": "ปิด",
     "confirm": "ยืนยัน",
     "connectAnotherWallet": "",
+    "connectChainWallet": "",
     "connectWallet": "เชื่อมต่อ กระเป๋า",
     "contactSupport": "ติดต่อฝ่ายสนับสนุน",
     "continue": "ดำเนินการต่อ",
@@ -47,6 +48,7 @@
     "startSwapping": "เริ่มต้นการแลกเปลี่ยน",
     "swap": "การแลกเปลี่ยน",
     "swapReview": "",
+    "system": "",
     "tryAgain": "ลองใหม่",
     "viewCoverage": "ดูความคุ้มครอง",
     "viewOnExplorer": "ดูในการสำรวจ"
@@ -66,7 +68,9 @@
     "gas": "แก็ส",
     "payWith": "ชำระด้วย",
     "receive": "",
+    "received": "",
     "recentWallets": "กระเป๋าเงินล่าสุด",
+    "refunded": "",
     "selectChain": "เลือกเชน",
     "selectWallet": "เลือกกระเป๋าของคุณ",
     "send": "",
@@ -90,7 +94,8 @@
       "emptyTokenList": "เราไม่พบโทเค็นใน {{chainName}} เชนหรือคุณไม่มีโทเค็น. โปรดลองอีกครั้งหรือเลือกเชนอื่น.",
       "emptyTransactionHistory": "ประวัติการแลกเปลี่ยนจะถูกเก็บไว้ในเครื่องเท่านั้นและจะถูกลบหากคุณล้างข้อมูลเบราว์เซอร์ของคุณ.",
       "routeNotFound": "เหตุผลที่อาจเกิดขึ้น : สภาพคล่องต่ำ , จำนวนที่เลือกน้อยเกินไป , ต้นทุนแก็สสูงหรือไม่มีเส้นทางที่ใช้งานได้",
-      "toAddressIsRequired": ""
+      "toAddressIsRequired": "",
+      "missingRouteRequiredAccount": ""
     },
     "title": {
       "autoRefuel": "",
@@ -101,9 +106,7 @@
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": "",
-      "exchangeSuccessful": "",
-      "checkoutSuccessful": ""
+      "exchangePartiallySuccessful": ""
     },
     "title": {
       "bridgePartiallySuccessful": "แลกเปลี่ยนสำเร็จบางส่วน",
@@ -145,9 +148,11 @@
     "message": {
       "allowanceRequired": "โอนด้วยจำนวน {{tokenSymbol}} ตามการอนุญาตของคุณ.ได้โปรดเพิ่มการอนุญาตของคุณอีกครั้ง",
       "insufficientFunds": "คุณมีแก็สไม่พอสำหรับการธุรกรรมนี้",
+      "rateLimitExceeded": "",
       "remainInYourWallet": "",
       "signatureRejected": "",
       "slippageThreshold": "การคลาดเคลื่อนมีขนาดใหญ่กว่าเกณฑ์ที่กำหนด โปรดขอเส้นทางใหม่เพื่อได้รับการเสนอราคาใหม่.",
+      "thirdPartyError": "",
       "transactionCanceled": "ธุรกรรมได้ถูกยกเลิกแล้ว",
       "transactionConflict": "",
       "transactionExpired": "",
@@ -167,8 +172,10 @@
       "exchangeRateUpdateCanceled": "การอัปเดตอัตราแลกเปลี่ยนถูกยกเลิก",
       "gasLimitIsTooLow": "แก๊สคงเหลือต่ำเกินไป",
       "insufficientFunds": "ยอดคงเหลือไม่เพียงพอ",
+      "rateLimitExceeded": "",
       "signatureRejected": "ต้องมีลายเซ็น",
       "slippageNotMet": "ความคลาดเคลื่อนของราคาไม่เป็นไปตามเงื่อนไข.",
+      "thirdPartyError": "",
       "transactionCanceled": "ธุรกรรมถูกยกเลิกแล้ว",
       "transactionConflict": "",
       "transactionExpired": "",
@@ -308,7 +315,7 @@
     "searchExchanges": ""
   },
   "settings": {
-    "theme": "ธีม",
+    "appearance": "",
     "enabledBridges": "บริดจ์",
     "enabledExchanges": "แลกเปลี่ยน",
     "gasPrice": {
