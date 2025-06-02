@@ -21,6 +21,7 @@
     "close": "Fermer",
     "confirm": "Confirmer",
     "connectAnotherWallet": "",
+    "connectChainWallet": "",
     "connectWallet": "Connecter un portefeuille",
     "contactSupport": "Contacter le support",
     "continue": "Continuer",
@@ -47,6 +48,7 @@
     "startSwapping": "Commencer à échanger",
     "swap": "Échanger",
     "swapReview": "",
+    "system": "",
     "tryAgain": "Réessayer",
     "viewCoverage": "Voir la couverture",
     "viewOnExplorer": "Voir sur l'explorateur"
@@ -55,18 +57,20 @@
     "activeTransactions": "Transactions actives",
     "amount": "",
     "bookmarkedWallets": "Portefeuilles favoris",
-    "bridge": "Bridge",
+    "bridge": "",
     "checkout": "Paiement",
     "checkoutDetails": "",
     "deposit": "",
     "depositDetails": "",
     "depositTo": "",
-    "exchange": "Échanger",
+    "exchange": "",
     "from": "Échanger de",
     "gas": "Gaz",
     "payWith": "Payer avec",
     "receive": "",
+    "received": "",
     "recentWallets": "Portefeuilles récents",
+    "refunded": "",
     "selectChain": "Sélectionner la chaîne",
     "selectWallet": "Sélectionnez votre portefeuille",
     "send": "",
@@ -90,7 +94,8 @@
       "emptyTokenList": "Nous n'avons pas pu trouver de jetons sur la chaîne {{chainName}} ou vous n'en avez pas. Veuillez rechercher par adresse de contrat si votre jeton n'apparaît pas ou choisissez une autre chaîne.",
       "emptyTransactionHistory": "L'historique de transaction est uniquement stocké au niveau local et sera supprimé si vous effacez les données de votre navigateur.",
       "routeNotFound": "Raisons possibles : faible liquidité, le montant sélectionné est trop faible, les coûts de gaz sont trop élevés ou il n'y a pas de routes pour la combinaison sélectionnée.",
-      "toAddressIsRequired": ""
+      "toAddressIsRequired": "",
+      "missingRouteRequiredAccount": ""
     },
     "title": {
       "autoRefuel": "",
@@ -101,9 +106,7 @@
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": "",
-      "exchangeSuccessful": "",
-      "checkoutSuccessful": ""
+      "exchangePartiallySuccessful": ""
     },
     "title": {
       "bridgePartiallySuccessful": "Pont partiellement réussi",
@@ -145,9 +148,11 @@
     "message": {
       "allowanceRequired": "Le montant du transfert pour {{tokenSymbol}} dépasse votre allocation actuelle. Veuillez augmenter votre allocation et réessayer.",
       "insufficientFunds": "Vous n'avez pas assez de gaz pour couvrir le coût de la transaction.",
+      "rateLimitExceeded": "",
       "remainInYourWallet": "",
       "signatureRejected": "",
       "slippageThreshold": "L'effet de glissement est supérieur au seuil défini. Veuillez demander un nouvel itinéraire pour obtenir un nouveau devis.",
+      "thirdPartyError": "",
       "transactionCanceled": "La transaction a été annulée.",
       "transactionConflict": "",
       "transactionExpired": "",
@@ -167,8 +172,10 @@
       "exchangeRateUpdateCanceled": "Mise à jour du taux de change annulée",
       "gasLimitIsTooLow": "La limite de gaz est trop basse.",
       "insufficientFunds": "Fonds insuffisants",
+      "rateLimitExceeded": "",
       "signatureRejected": "Signature requise",
       "slippageNotMet": "Les conditions de l'effet de glissement ne sont pas remplies.",
+      "thirdPartyError": "",
       "transactionCanceled": "Transaction annulée.",
       "transactionConflict": "",
       "transactionExpired": "",
@@ -284,7 +291,7 @@
     "stepBridge": "Bridge",
     "stepBridgeAndBuy": "Bridge et acheter",
     "stepBridgeAndDeposit": "",
-    "stepBuy": "Acheter",
+    "stepBuy": "",
     "stepDeposit": "",
     "stepDetails": "{{tool}} via LI.FI",
     "stepSwap": "Échanger",
@@ -308,7 +315,7 @@
     "searchExchanges": ""
   },
   "settings": {
-    "theme": "Thème",
+    "appearance": "",
     "enabledBridges": "Ponts",
     "enabledExchanges": "Échanges",
     "gasPrice": {
