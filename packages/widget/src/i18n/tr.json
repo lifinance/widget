@@ -268,7 +268,7 @@
         "actionRequired": "",
         "done": "",
         "pending": "",
-        "started": ""
+        "started": "İşlem hazırlanıyor"
       },
       "tokenAllowance": {
         "actionRequired": "",
@@ -291,8 +291,8 @@
     "stepBridge": "Köprüle",
     "stepBridgeAndBuy": "Köprüle ve satın al",
     "stepBridgeAndDeposit": "Köprüle ve yatır",
-    "stepBuy": "",
-    "stepDeposit": "",
+    "stepBuy": "Satın al",
+    "stepDeposit": "Para Yatır",
     "stepDetails": "LI.FI aracılığıyla {{tool}}",
     "stepSwap": "Takas et",
     "stepSwapAndBridge": "Takas et ve Köprüle",
