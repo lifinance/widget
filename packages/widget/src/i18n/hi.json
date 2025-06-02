@@ -21,6 +21,7 @@
     "close": "",
     "confirm": "",
     "connectAnotherWallet": "",
+    "connectChainWallet": "",
     "connectWallet": "वॉलेट से जुड़ें?",
     "contactSupport": "ग्राहक सेवा के लिए संपर्क करें",
     "continue": "जारी रखें",
@@ -47,6 +48,7 @@
     "startSwapping": "",
     "swap": "",
     "swapReview": "",
+    "system": "",
     "tryAgain": "",
     "viewCoverage": "",
     "viewOnExplorer": ""
@@ -66,7 +68,9 @@
     "gas": "गैस",
     "payWith": "",
     "receive": "",
+    "received": "",
     "recentWallets": "",
+    "refunded": "",
     "selectChain": "चैन चुने",
     "selectWallet": "वॉलेट चुनाव करे",
     "send": "",
@@ -90,7 +94,8 @@
       "emptyTokenList": "",
       "emptyTransactionHistory": "",
       "routeNotFound": "",
-      "toAddressIsRequired": ""
+      "toAddressIsRequired": "",
+      "missingRouteRequiredAccount": ""
     },
     "title": {
       "autoRefuel": "",
@@ -101,9 +106,7 @@
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": "",
-      "exchangeSuccessful": "",
-      "checkoutSuccessful": ""
+      "exchangePartiallySuccessful": ""
     },
     "title": {
       "bridgePartiallySuccessful": "",
@@ -145,9 +148,11 @@
     "message": {
       "allowanceRequired": "",
       "insufficientFunds": "",
+      "rateLimitExceeded": "",
       "remainInYourWallet": "",
       "signatureRejected": "",
       "slippageThreshold": "",
+      "thirdPartyError": "",
       "transactionCanceled": "",
       "transactionConflict": "",
       "transactionExpired": "",
@@ -167,8 +172,10 @@
       "exchangeRateUpdateCanceled": "",
       "gasLimitIsTooLow": "",
       "insufficientFunds": "",
+      "rateLimitExceeded": "",
       "signatureRejected": "",
       "slippageNotMet": "",
+      "thirdPartyError": "",
       "transactionCanceled": "",
       "transactionConflict": "",
       "transactionExpired": "",
@@ -274,7 +281,7 @@
     "rateChange": "",
     "receiving": "",
     "refuelStepDetails": "",
-    "selectChain": "चैन चुने",
+    "selectChain": "",
     "selectChainAndToken": "",
     "selectToken": "",
     "sendToAddress": "",
@@ -308,7 +315,7 @@
     "searchExchanges": ""
   },
   "settings": {
-    "theme": "",
+    "appearance": "",
     "enabledBridges": "",
     "enabledExchanges": "",
     "gasPrice": {
