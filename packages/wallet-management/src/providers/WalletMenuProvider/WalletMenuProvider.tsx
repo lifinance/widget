@@ -5,7 +5,10 @@ import { WalletMenuModal } from '../../components/WalletMenuModal.js'
 import { I18nProvider } from '../I18nProvider/I18nProvider.js'
 import { useWalletManagementConfig } from '../WalletManagementProvider/WalletManagementContext.js'
 import { WalletMenuContext } from './WalletMenuContext.js'
-import type { WalletMenuContext as _WalletMenuContext } from './types.js'
+import type {
+  WalletMenuOpenArgs,
+  WalletMenuContext as _WalletMenuContext,
+} from './types.js'
 
 export const WalletMenuProvider: React.FC<PropsWithChildren> = ({
   children,
@@ -13,6 +16,9 @@ export const WalletMenuProvider: React.FC<PropsWithChildren> = ({
   const { locale } = useWalletManagementConfig()
   const openRef = useRef(false)
   const [open, setOpen] = useState(false)
+  const [walletChainArgs, setWalletChainArgs] = useState<
+    WalletMenuOpenArgs | undefined
+  >(undefined)
 
   const toggleWalletMenu = useCallback(() => {
     setOpen((open) => {
@@ -21,7 +27,10 @@ export const WalletMenuProvider: React.FC<PropsWithChildren> = ({
     })
   }, [])
 
-  const openWalletMenu = useCallback(() => {
+  const openWalletMenu = useCallback((args?: WalletMenuOpenArgs) => {
+    if (args) {
+      setWalletChainArgs(args)
+    }
     setOpen(true)
     openRef.current = true
   }, [])
@@ -29,6 +38,7 @@ export const WalletMenuProvider: React.FC<PropsWithChildren> = ({
   const closeWalletMenu = useCallback(() => {
     setOpen(false)
     openRef.current = false
+    setWalletChainArgs(undefined)
   }, [])
 
   const context: _WalletMenuContext = useMemo(
@@ -46,7 +56,10 @@ export const WalletMenuProvider: React.FC<PropsWithChildren> = ({
       {children}
       <I18nProvider locale={locale}>
         <WalletMenuModal open={open} onClose={closeWalletMenu}>
-          <WalletMenuContent onClose={closeWalletMenu} />
+          <WalletMenuContent
+            onClose={closeWalletMenu}
+            walletChainArgs={walletChainArgs}
+          />
         </WalletMenuModal>
       </I18nProvider>
     </WalletMenuContext.Provider>

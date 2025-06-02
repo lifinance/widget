@@ -30,7 +30,11 @@ export const BaseTransactionButton: React.FC<BaseTransactionButtonProps> = ({
     } else if (walletConfig?.onConnect) {
       walletConfig.onConnect()
     } else {
-      openWalletMenu()
+      if (missingChain) {
+        openWalletMenu({ chain: missingChain })
+      } else {
+        openWalletMenu()
+      }
     }
   }
 
