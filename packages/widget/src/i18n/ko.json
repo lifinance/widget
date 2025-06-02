@@ -291,7 +291,7 @@
     "stepBridge": "브릿지",
     "stepBridgeAndBuy": "브릿지 그리고 매수",
     "stepBridgeAndDeposit": "",
-    "stepBuy": "",
+    "stepBuy": "매수",
     "stepDeposit": "",
     "stepDetails": "LI.FI 를 통한 {{tool}}",
     "stepSwap": "스왑",
