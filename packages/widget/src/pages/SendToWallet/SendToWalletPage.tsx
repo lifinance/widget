@@ -197,7 +197,7 @@ export const SendToWalletPage = () => {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          gap: 1,
+          gap: 2,
           marginBottom: 6,
         }}
       >
