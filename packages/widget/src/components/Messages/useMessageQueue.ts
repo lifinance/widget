@@ -16,6 +16,7 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
     requiredToAddress,
     toAddress,
     accountNotDeployedAtDestination,
+    accountDeployedAtDestination,
     isLoading: isToAddressRequirementsLoading,
   } = useToAddressRequirements(route)
   const { insufficientFromToken, isLoading: isFromTokenSufficiencyLoading } =
@@ -65,11 +66,19 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
       })
     }
 
+    if (accountDeployedAtDestination && !allowInteraction) {
+      queue.push({
+        id: 'ACCOUNT_DEPLOYED',
+        priority: 6,
+      })
+    }
+
     return queue.sort((a, b) => a.priority - b.priority)
   }, [
     allowInteraction,
     insufficientFromToken,
     insufficientGas,
+    accountDeployedAtDestination,
     accountNotDeployedAtDestination,
     requiredToAddress,
     toAddress,

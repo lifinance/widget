@@ -86,6 +86,7 @@
   },
   "info": {
     "message": {
+      "accountDeployedMessage": "Your smart account may not have the same address on other chains. Please double-check before proceeding.",
       "autoRefuel": "You're low on {{chainName}} gas. By continuing, you'll get enough gas to complete the transaction.",
       "emptyActiveTransactions": "Transactions in progress will appear here. Once completed, find them in transaction history.",
       "emptyBridgesList": "We couldn't find any bridges that match your search",
