@@ -86,6 +86,7 @@
   },
   "info": {
     "message": {
+      "accountDeployedMessage": "",
       "autoRefuel": "您在 {{chainName}} 链上的燃气费很低。如果启用该选项，您将获得足够的燃气费完成此次兑换。",
       "emptyActiveTransactions": "正在进行的兑换将在这里显示。一旦完成，你可在兑换记录中找到它们。",
       "emptyBridgesList": "我们找不到任何匹配的桥",
