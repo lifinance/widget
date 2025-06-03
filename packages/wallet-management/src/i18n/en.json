@@ -1,6 +1,7 @@
 {
   "title": {
     "connectWallet": "Connect wallet",
+    "connectWalletWithChain": "Connect {{chainLabel}} wallet",
     "connecting": "Connecting",
     "selectEcosystem": "Select ecosystem",
     "waitingForWallet": "Waiting for {{walletName}}",
