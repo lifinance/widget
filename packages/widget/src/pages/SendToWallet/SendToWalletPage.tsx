@@ -24,6 +24,7 @@ import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js
 import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
+import { HiddenUI } from '../../types/widget.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { BookmarkAddressSheet } from './BookmarkAddressSheet.js'
 import { ConfirmAddressSheet } from './ConfirmAddressSheet.js'
@@ -61,7 +62,7 @@ export const SendToWalletPage = () => {
   const { chain: toChain } = useChain(toChainId)
   const [isDoneButtonLoading, setIsDoneButtonLoading] = useState(false)
   const [isBookmarkButtonLoading, setIsBookmarkButtonLoading] = useState(false)
-  const { variant } = useWidgetConfig()
+  const { variant, hiddenUI } = useWidgetConfig()
 
   const { accounts } = useAccount()
   const connectedWallets = accounts.filter((account) => account.isConnected)
@@ -263,21 +264,23 @@ export const SendToWalletPage = () => {
             </Typography>
           )}
         </CardButton>
-        <CardButton
-          title={t('sendToWallet.connectedWallets')}
-          icon={<Wallet />}
-          onClick={handleConnectedWalletsClick}
-        >
-          {!!connectedWallets.length && (
-            <Typography
-              sx={{
-                color: 'text.secondary',
-              }}
-            >
-              {connectedWallets.length}
-            </Typography>
-          )}
-        </CardButton>
+        {!hiddenUI?.includes(HiddenUI.AddressBookConnectedWallets) && (
+          <CardButton
+            title={t('sendToWallet.connectedWallets')}
+            icon={<Wallet />}
+            onClick={handleConnectedWalletsClick}
+          >
+            {!!connectedWallets.length && (
+              <Typography
+                sx={{
+                  color: 'text.secondary',
+                }}
+              >
+                {connectedWallets.length}
+              </Typography>
+            )}
+          </CardButton>
+        )}
         <CardButton
           title={t('header.bookmarkedWallets')}
           icon={<TurnedIn />}

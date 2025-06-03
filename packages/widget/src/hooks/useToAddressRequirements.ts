@@ -68,10 +68,17 @@ export const useToAddressRequirements = (route?: RouteExtended) => {
     !isToContractAddress &&
     fromAddress?.toLowerCase() === toAddress?.toLowerCase()
 
+  const accountDeployedAtDestination =
+    isFromContractAddress &&
+    isToContractAddress &&
+    !fromContractCodeHasDelegationIndicator &&
+    fromAddress?.toLowerCase() === toAddress?.toLowerCase()
+
   return {
     requiredToAddress,
     requiredToChainType: toChain?.chainType,
     accountNotDeployedAtDestination,
+    accountDeployedAtDestination,
     toAddress,
     isFromContractAddress,
     isToContractAddress,

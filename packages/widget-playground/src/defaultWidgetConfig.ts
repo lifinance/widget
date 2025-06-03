@@ -35,7 +35,7 @@ export const widgetBaseConfig: WidgetConfig = {
   // useRecommendedRoute: true,
   useRelayerRoutes: true,
   buildUrl: true,
-  // hiddenUI: ['poweredBy', 'language', 'appearance', 'drawerButton', 'toAddress'],
+  hiddenUI: ['addressBookConnectedWallets'],
   // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
   // requiredUI: ['toAddress'],
   // slippage: 0.003,
