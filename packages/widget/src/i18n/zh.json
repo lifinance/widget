@@ -21,6 +21,7 @@
     "close": "关闭",
     "confirm": "确认",
     "connectAnotherWallet": "连接另一个钱包",
+    "connectChainWallet": "",
     "connectWallet": "关联钱包",
     "contactSupport": "联系技术支持",
     "continue": "继续",
@@ -47,6 +48,7 @@
     "startSwapping": "开始兑换",
     "swap": "兑换",
     "swapReview": "查看兑换详情",
+    "system": "",
     "tryAgain": "重试",
     "viewCoverage": "查看我们的覆盖范围",
     "viewOnExplorer": "在区块链浏览器上查看"
@@ -66,7 +68,9 @@
     "gas": "燃气费",
     "payWith": "支付方式",
     "receive": "接收",
+    "received": "",
     "recentWallets": "最近使用的钱包",
+    "refunded": "",
     "selectChain": "选择网络",
     "selectWallet": "选择你的钱包",
     "send": "发送",
@@ -90,7 +94,8 @@
       "emptyTokenList": "我们无法在 {{chainName}} 链上找到这些代币，或者你的钱包内没有这些代币。请再次搜索或者选择其他链再试一次。",
       "emptyTransactionHistory": "交易记录只存储在本地，如果您清除浏览器数据，交易记录将被删除。",
       "routeNotFound": "导致其的原因可能是：流动性低，所选定代币的数额太低，燃气费过高，或者当前没有合适的交易路径。",
-      "toAddressIsRequired": "需要目标钱包地址来继续转帐。"
+      "toAddressIsRequired": "需要目标钱包地址来继续转帐。",
+      "missingRouteRequiredAccount": ""
     },
     "title": {
       "autoRefuel": "获得 {{chainName}} 链的燃气费",
@@ -101,9 +106,7 @@
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": "我们尝试执行这笔交易，但是因为滑点设置的问题或者 {{tokenSymbol}} 代币流动性不足，{{tool}} 无法完成交易",
-      "exchangeSuccessful": "",
-      "checkoutSuccessful": "您的 {{walletAddress}} 钱包在 {{chainName}} 链上拥有该 {{assetName}} 财产"
+      "exchangePartiallySuccessful": "我们尝试执行这笔交易，但是因为滑点设置的问题或者 {{tokenSymbol}} 代币流动性不足，{{tool}} 无法完成交易"
     },
     "title": {
       "bridgePartiallySuccessful": "跨链部分成功",
@@ -145,9 +148,11 @@
     "message": {
       "allowanceRequired": "{{tokenSymbol}} 的转账金额超过了您设置的支出上限。请提高该代币的支出上限，然后重试。",
       "insufficientFunds": "您没有足够的燃气费支付该交易。",
+      "rateLimitExceeded": "",
       "remainInYourWallet": "",
       "signatureRejected": "",
       "slippageThreshold": "滑点大于预设值，请选择其他路由并获取新的价格。",
+      "thirdPartyError": "",
       "transactionCanceled": "交易已被取消。",
       "transactionConflict": "交易无法处理，因为它与使用相同资金的另一个待处理交易相冲突。 请等待交易确认或检查您的交易历史，然后再次尝试。",
       "transactionExpired": "区块高度已超过允许的最大值，或者交易哈希值已经过期。",
@@ -167,8 +172,10 @@
       "exchangeRateUpdateCanceled": "兑换率更新已取消",
       "gasLimitIsTooLow": "燃气费设置过低",
       "insufficientFunds": "资金不足",
+      "rateLimitExceeded": "",
       "signatureRejected": "交易需要签名。",
       "slippageNotMet": "滑点未满足",
+      "thirdPartyError": "",
       "transactionCanceled": "交易取消",
       "transactionConflict": "交易冲突",
       "transactionExpired": "交易过期",
@@ -308,7 +315,7 @@
     "searchExchanges": "搜索交易所"
   },
   "settings": {
-    "theme": "主题",
+    "appearance": "",
     "enabledBridges": "跨链桥",
     "enabledExchanges": "交易所",
     "gasPrice": {

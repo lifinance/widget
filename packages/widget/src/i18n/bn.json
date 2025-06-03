@@ -21,6 +21,7 @@
     "close": "",
     "confirm": "",
     "connectAnotherWallet": "",
+    "connectChainWallet": "",
     "connectWallet": "ওয়ালেট সংযুক্ত করুন",
     "contactSupport": "সাপোর্ট এ যোগাযোগ করুন",
     "continue": "এগিয়ে যান",
@@ -47,6 +48,7 @@
     "startSwapping": "",
     "swap": "সোওয়াপ",
     "swapReview": "",
+    "system": "",
     "tryAgain": "আবার চেষ্টা করুন",
     "viewCoverage": "কভারেজ দেখুন",
     "viewOnExplorer": "এক্সপ্লোরারে দেখুন"
@@ -66,7 +68,9 @@
     "gas": "গ্যাস",
     "payWith": "",
     "receive": "",
+    "received": "",
     "recentWallets": "",
+    "refunded": "",
     "selectChain": "চেইন নির্বাচন করুন",
     "selectWallet": "আপনার ওয়ালেট নির্বাচন করুন",
     "send": "",
@@ -90,7 +94,8 @@
       "emptyTokenList": "",
       "emptyTransactionHistory": "",
       "routeNotFound": "",
-      "toAddressIsRequired": ""
+      "toAddressIsRequired": "",
+      "missingRouteRequiredAccount": ""
     },
     "title": {
       "autoRefuel": "",
@@ -101,9 +106,7 @@
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": "",
-      "exchangeSuccessful": "",
-      "checkoutSuccessful": ""
+      "exchangePartiallySuccessful": ""
     },
     "title": {
       "bridgePartiallySuccessful": "",
@@ -145,9 +148,11 @@
     "message": {
       "allowanceRequired": "",
       "insufficientFunds": "",
+      "rateLimitExceeded": "",
       "remainInYourWallet": "",
       "signatureRejected": "",
       "slippageThreshold": "স্লিপেজ সংজ্ঞায়িত থ্রেশহোল্ডের চেয়ে বড়। একটি নতুন উদ্ধৃতি পেতে একটি নতুন রুট অনুরোধ করুন।",
+      "thirdPartyError": "",
       "transactionCanceled": "",
       "transactionConflict": "",
       "transactionExpired": "",
@@ -167,8 +172,10 @@
       "exchangeRateUpdateCanceled": "",
       "gasLimitIsTooLow": "গ্যাসের সীমা খুব কম",
       "insufficientFunds": "",
+      "rateLimitExceeded": "",
       "signatureRejected": "",
       "slippageNotMet": "স্লিপেজ শর্ত পূরণ করা হয়নি",
+      "thirdPartyError": "",
       "transactionCanceled": "লেনদেন বাতিল করা হয়েছে",
       "transactionConflict": "",
       "transactionExpired": "",
@@ -308,7 +315,7 @@
     "searchExchanges": ""
   },
   "settings": {
-    "theme": "",
+    "appearance": "",
     "enabledBridges": "",
     "enabledExchanges": "",
     "gasPrice": {
