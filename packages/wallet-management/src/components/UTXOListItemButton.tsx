@@ -4,7 +4,6 @@ import { ChainType } from '@lifi/sdk'
 import { Avatar, ListItemAvatar } from '@mui/material'
 import { ListItemButton } from '../components/ListItemButton.js'
 import { ListItemText } from '../components/ListItemText.js'
-import type { CreateBigmiConnectorFnExtended } from '../connectors/types.js'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { WalletManagementEvent } from '../types/events.js'
@@ -13,7 +12,7 @@ import { isWalletInstalled } from '../utils/isWalletInstalled.js'
 import type { WalletListItemButtonProps } from './types.js'
 
 interface UTXOListItemButtonProps extends WalletListItemButtonProps {
-  connector: CreateBigmiConnectorFnExtended | Connector
+  connector: Connector
 }
 
 export const UTXOListItemButton = ({
@@ -28,8 +27,7 @@ export const UTXOListItemButton = ({
   const config = useConfig()
   const { setLastConnectedAccount } = useLastConnectedAccount()
 
-  const connectorName =
-    (connector as CreateBigmiConnectorFnExtended).displayName || connector.name
+  const connectorName = connector.name
   const connectorDisplayName: string = ecosystemSelection
     ? 'Bitcoin'
     : connectorName

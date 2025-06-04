@@ -21,6 +21,7 @@
     "close": "閉じる",
     "confirm": "確認する",
     "connectAnotherWallet": "",
+    "connectChainWallet": "",
     "connectWallet": "ウォレットを接続",
     "contactSupport": "サポートへのお問い合わせ",
     "continue": "続ける",
@@ -47,6 +48,7 @@
     "startSwapping": "スワップを開始",
     "swap": "スワップ",
     "swapReview": "",
+    "system": "",
     "tryAgain": "再試行する",
     "viewCoverage": "適用範囲を表示",
     "viewOnExplorer": "エクスプローラーで表示"
@@ -66,7 +68,9 @@
     "gas": "ガス",
     "payWith": "お支払い方法",
     "receive": "",
+    "received": "",
     "recentWallets": "最近使ったウォレット",
+    "refunded": "",
     "selectChain": "チェーン選択",
     "selectWallet": "ウォレットを選択",
     "send": "",
@@ -90,7 +94,8 @@
       "emptyTokenList": "{{chainName}} チェーンでトークンが見つかりませんでした。使いたいトークンが表示されない場合はコントラクトアドレスで検索するか、別のチェーンを選択してください。",
       "emptyTransactionHistory": "トランザクション履歴はローカルにのみ保存され、ユーザーがブラウザデータを消去すると削除されます。",
       "routeNotFound": "考えられる理由：流動性が低い、選択された金額が低すぎる、ガスコストが高すぎる、選択した組み合わせがルート上にない、以上の理由の複合。",
-      "toAddressIsRequired": ""
+      "toAddressIsRequired": "",
+      "missingRouteRequiredAccount": ""
     },
     "title": {
       "autoRefuel": "",
@@ -101,9 +106,7 @@
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": "",
-      "exchangeSuccessful": "",
-      "checkoutSuccessful": ""
+      "exchangePartiallySuccessful": ""
     },
     "title": {
       "bridgePartiallySuccessful": "ブリッジは部分的に成功しました",
@@ -145,9 +148,11 @@
     "message": {
       "allowanceRequired": "{{tokenSymbol}} の送金額が現在の許可量を超えています。許可量を増やしてもう一度お試しください。",
       "insufficientFunds": "トランザクションを完了するのに十分なガスがありません。",
+      "rateLimitExceeded": "",
       "remainInYourWallet": "",
       "signatureRejected": "",
       "slippageThreshold": "スリップページが定義されたしきい値よりも大きいです。新しい見積もりをリクエストしてください。",
+      "thirdPartyError": "",
       "transactionCanceled": "トランザクションがキャンセルされました。",
       "transactionConflict": "",
       "transactionExpired": "",
@@ -167,8 +172,10 @@
       "exchangeRateUpdateCanceled": "交換レートの更新がキャンセルされました",
       "gasLimitIsTooLow": "ガス制限が低すぎます",
       "insufficientFunds": "残高が足りません",
+      "rateLimitExceeded": "",
       "signatureRejected": "署名が必要です",
       "slippageNotMet": "スリッページの条件が満たされていません",
+      "thirdPartyError": "",
       "transactionCanceled": "トランザクションはキャンセルされました",
       "transactionConflict": "",
       "transactionExpired": "",
@@ -308,7 +315,7 @@
     "searchExchanges": ""
   },
   "settings": {
-    "theme": "テーマ",
+    "appearance": "",
     "enabledBridges": "ブリッジ",
     "enabledExchanges": "スワップ",
     "gasPrice": {

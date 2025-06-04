@@ -26,7 +26,7 @@
 - Curated wallet lists and wallet bookmarks
 - Route settings for advanced users (stored locally)
 - Complete UI translations to match your customer’s preferred language
-- Compatibility tested with React, Next.js, Vue, Nuxt.js, Svelte, Remix, Gatsby, Vite, RainbowKit, Privy, Dynamic
+- Compatibility tested with React, Next.js, Vue, Nuxt.js, Svelte, Remix, Gatsby, Vite, RainbowKit, Reown AppKit, Privy, Dynamic
 
 ## Installation
 

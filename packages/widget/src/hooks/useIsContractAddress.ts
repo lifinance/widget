@@ -22,7 +22,7 @@ export const useIsContractAddress = (
     query: {
       refetchInterval: 300_000,
       staleTime: 300_000,
-      enabled: Boolean(chainType === ChainType.EVM && chainId),
+      enabled: chainType === ChainType.EVM && !!chainId && !!address,
     },
   })
 

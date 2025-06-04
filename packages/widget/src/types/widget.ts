@@ -104,6 +104,7 @@ export enum HiddenUI {
   RouteTokenDescription = 'routeTokenDescription',
   ChainSelect = 'chainSelect',
   BridgesSettings = 'bridgesSettings',
+  AddressBookConnectedWallets = 'addressBookConnectedWallets',
 }
 export type HiddenUIType = `${HiddenUI}`
 
@@ -242,6 +243,14 @@ export interface RouteLabelRule {
   toTokenAddress?: string[]
 }
 
+export type ExplorerUrl =
+  | string
+  | {
+      url: string
+      txPath?: string
+      addressPath?: string
+    }
+
 export interface WidgetConfig {
   fromChain?: number
   toChain?: number
@@ -293,8 +302,8 @@ export interface WidgetConfig {
   tokens?: WidgetTokens
   languages?: WidgetLanguages
   languageResources?: LanguageResources
-  explorerUrls?: Record<number, string[]> &
-    Partial<Record<'internal', string[]>>
+  explorerUrls?: Record<number, ExplorerUrl[]> &
+    Partial<Record<'internal', ExplorerUrl[]>>
   poweredBy?: PoweredByType
 
   /**

@@ -12,7 +12,7 @@ export const formatTimer = ({
   locale?: string
 }): string => {
   if (typeof (Intl as any).DurationFormat === 'function') {
-    return new (Intl as any).DurationFormat(locale, {
+    const time = new (Intl as any).DurationFormat(locale, {
       style: 'digital',
       hours: '2-digit',
       hoursDisplay: 'auto',
@@ -22,6 +22,13 @@ export const formatTimer = ({
       minutes,
       seconds,
     })
+    // This handles a fixed bug with Webkit, and Safari
+    // https://github.com/WebKit/WebKit/pull/38357
+    // https://developer.apple.com/documentation/safari-release-notes/safari-18_4-release-notes#JavaScript
+    //
+    // Since most users haven't updated their browsers yet, they would have this issue
+    // it should be safe to remove the check after a while.
+    return time.replace(/^:, /, '')
   }
 
   return ''

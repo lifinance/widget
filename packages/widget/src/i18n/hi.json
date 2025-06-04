@@ -5,7 +5,7 @@
   },
   "format": {
     "currency": "",
-    "number": "",
+    "number": "{{मूल्य, संख्या(अधिकतम अंश अंक: 9)}}",
     "percent": "",
     "tokenAmount": ""
   },
@@ -21,10 +21,11 @@
     "close": "",
     "confirm": "",
     "connectAnotherWallet": "",
+    "connectChainWallet": "",
     "connectWallet": "वॉलेट से जुड़ें?",
     "contactSupport": "ग्राहक सेवा के लिए संपर्क करें",
     "continue": "जारी रखें",
-    "copyAddress": "",
+    "copyAddress": "पता कॉपी करें",
     "dark": "अँधेरा",
     "delete": "हटाएं",
     "deposit": "",
@@ -34,29 +35,30 @@
     "exchange": "",
     "getGas": "गेस शुल्क ले",
     "learnMore": "",
-    "light": "",
+    "light": "रोशनी",
     "max": "अधिकतम",
     "ok": "ठीक है",
     "options": "",
     "removeTransaction": "",
-    "reset": "",
-    "resetSettings": "",
-    "seeDetails": "",
-    "showAll": "",
+    "reset": "कुंजी: बटन. रीसेट करें\nबटन -> रीसेट करें",
+    "resetSettings": "कुंजी: बटन. सेटिंग्स रीसेट करें\nबटन -> सेटिंग्स रीसेट करें",
+    "seeDetails": "कुंजी: बटन. जानकारी देखें\nबटन -> जानकारी देखें",
+    "showAll": "कुंजी: बटन. सभी दिखाएँ\nबटन -> सभी दिखाएँ",
     "startBridging": "",
     "startSwapping": "",
-    "swap": "",
+    "swap": "कुंजी: बटन. विनिमय \nबटन -> विनिमय ",
     "swapReview": "",
-    "tryAgain": "",
+    "system": "",
+    "tryAgain": "कुंजी: बटन. दुबारा प्रयाश करें\nबटन -> दुबारा प्रयाश करें",
     "viewCoverage": "",
-    "viewOnExplorer": ""
+    "viewOnExplorer": "कुंजी: बटन. एक्स्प्लोरर पर देखें\nबटन -> एक्स्प्लोरर पर देखें"
   },
   "header": {
     "activeTransactions": "",
     "amount": "",
     "bookmarkedWallets": "",
     "bridge": "",
-    "checkout": "",
+    "checkout": "जाँच कर ले",
     "checkoutDetails": "",
     "deposit": "",
     "depositDetails": "",
@@ -66,17 +68,19 @@
     "gas": "गैस",
     "payWith": "",
     "receive": "",
+    "received": "",
     "recentWallets": "",
+    "refunded": "",
     "selectChain": "चैन चुने",
     "selectWallet": "वॉलेट चुनाव करे",
     "send": "",
     "sendToWallet": "",
     "settings": "सेटिंग्स",
-    "swap": "",
+    "swap": "विनिमय",
     "to": "",
     "transactionDetails": "",
     "transactionHistory": "",
-    "walletConnected": "",
+    "walletConnected": "वॉलेट जुड़ा हुआ हे",
     "youGet": "",
     "youPay": ""
   },
@@ -90,7 +94,8 @@
       "emptyTokenList": "",
       "emptyTransactionHistory": "",
       "routeNotFound": "",
-      "toAddressIsRequired": ""
+      "toAddressIsRequired": "",
+      "missingRouteRequiredAccount": ""
     },
     "title": {
       "autoRefuel": "",
@@ -101,9 +106,7 @@
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": "",
-      "exchangeSuccessful": "",
-      "checkoutSuccessful": ""
+      "exchangePartiallySuccessful": ""
     },
     "title": {
       "bridgePartiallySuccessful": "",
@@ -145,9 +148,11 @@
     "message": {
       "allowanceRequired": "",
       "insufficientFunds": "",
+      "rateLimitExceeded": "",
       "remainInYourWallet": "",
       "signatureRejected": "",
       "slippageThreshold": "",
+      "thirdPartyError": "",
       "transactionCanceled": "",
       "transactionConflict": "",
       "transactionExpired": "",
@@ -167,8 +172,10 @@
       "exchangeRateUpdateCanceled": "",
       "gasLimitIsTooLow": "",
       "insufficientFunds": "",
+      "rateLimitExceeded": "",
       "signatureRejected": "",
       "slippageNotMet": "",
+      "thirdPartyError": "",
       "transactionCanceled": "",
       "transactionConflict": "",
       "transactionExpired": "",
@@ -191,7 +198,7 @@
     "feeCollection": "",
     "minReceived": "",
     "notFound": {
-      "text": "",
+      "text": "हमें यह पेज नहीं मिल सका",
       "title": "404"
     },
     "relayerService": "",
@@ -199,7 +206,7 @@
     "priceImpact": "",
     "progressToNextUpdate": "",
     "selectAll": "",
-    "settingsModified": "",
+    "settingsModified": "सेटिंग्स (modified)",
     "slippage": ""
   },
   "main": {
@@ -308,16 +315,16 @@
     "searchExchanges": ""
   },
   "settings": {
-    "theme": "",
+    "appearance": "",
     "enabledBridges": "",
     "enabledExchanges": "",
     "gasPrice": {
-      "fast": "",
-      "normal": "",
-      "slow": "",
-      "title": ""
+      "fast": "तेज",
+      "normal": "सामान्य",
+      "slow": "धीमा",
+      "title": "गैस की कीमत"
     },
-    "routePriority": "",
+    "routePriority": "मार्ग प्राथमिकता",
     "slippage": "",
     "custom": "",
     "resetSettings": ""

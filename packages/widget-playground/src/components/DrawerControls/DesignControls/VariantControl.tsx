@@ -22,12 +22,8 @@ export const VariantControl = () => {
           ...getCurrentConfigTheme()?.container,
           maxHeight: undefined,
           display: undefined,
-          height: undefined,
+          height: '100%',
         }
-
-        containerForDrawer.display = undefined
-        containerForDrawer.height = undefined
-        containerForDrawer.maxHeight = undefined
 
         setContainer(containerForDrawer)
         break
@@ -37,14 +33,9 @@ export const VariantControl = () => {
 
         const containerForWide = {
           ...getCurrentConfigTheme()?.container,
-        }
-
-        if (
-          containerForWide.display === 'flex' &&
-          containerForWide.height === '100%'
-        ) {
-          containerForWide.display = undefined
-          containerForWide.height = undefined
+          // Reset values for Default layout (since they are different for Drawer variant)
+          display: undefined,
+          height: undefined,
         }
 
         setContainer(containerForWide)

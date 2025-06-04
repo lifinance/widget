@@ -1,17 +1,34 @@
-import type { ExtendedChain } from '@lifi/sdk'
-import { useEffect } from 'react'
+import { ChainType, type ExtendedChain } from '@lifi/sdk'
+import { useEffect, useMemo } from 'react'
 import type { Chain } from 'viem'
 import type { Config, CreateConnectorFn } from 'wagmi'
 import { syncWagmiConfig } from './syncWagmiConfig.js'
+import {
+  convertExtendedChain,
+  isExtendedChain,
+} from './utils/convertExtendedChain.js'
 
 export const useSyncWagmiConfig = (
   wagmiConfig: Config,
   connectors: CreateConnectorFn[],
   chains?: (ExtendedChain | Chain)[]
 ) => {
+  const _chains = useMemo(() => {
+    const mappedChains = chains
+      ?.map((chain) =>
+        isExtendedChain(chain)
+          ? chain.chainType === ChainType.EVM
+            ? convertExtendedChain(chain)
+            : undefined
+          : chain
+      )
+      .filter(Boolean) as [Chain, ...Chain[]]
+    return mappedChains
+  }, [chains])
+
   useEffect(() => {
-    if (chains?.length) {
-      syncWagmiConfig(wagmiConfig, connectors, chains)
+    if (_chains?.length) {
+      syncWagmiConfig(wagmiConfig, connectors, _chains)
     }
-  }, [chains, connectors, wagmiConfig])
+  }, [_chains, connectors, wagmiConfig])
 }

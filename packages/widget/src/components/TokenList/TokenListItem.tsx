@@ -85,7 +85,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   isBalanceLoading,
 }) => {
   const { t } = useTranslation()
-  const { getTokenAddressLink } = useExplorer()
+  const { getAddressLink } = useExplorer()
 
   const container = useRef(null)
   const timeoutId = useRef<ReturnType<typeof setTimeout>>(undefined)
@@ -184,7 +184,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
                 <IconButton
                   size="small"
                   LinkComponent={Link}
-                  href={getTokenAddressLink(tokenAddress!, chain)}
+                  href={getAddressLink(tokenAddress!, chain)}
                   target="_blank"
                   rel="nofollow noreferrer"
                   onClick={(e) => e.stopPropagation()}

@@ -6,18 +6,27 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query'
+import { useMemo } from 'react'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import { getQueryKey } from '../utils/queries.js'
 
 export const useTransactionDetails = (transactionHash?: string) => {
   const { account, accounts } = useAccount()
   const queryClient = useQueryClient()
+  const { keyPrefix } = useWidgetConfig()
+
+  const transactionHistoryQueryKey = useMemo(
+    () => getQueryKey('transaction-history', keyPrefix),
+    [keyPrefix]
+  )
 
   const { data, isLoading } = useQuery({
-    queryKey: ['transaction-history', transactionHash],
+    queryKey: [transactionHistoryQueryKey, transactionHash],
     queryFn: async ({ queryKey: [, transactionHash], signal }) => {
       if (transactionHash) {
         for (const account of accounts) {
           const cachedHistory = queryClient.getQueryData<StatusResponse[]>([
-            'transaction-history',
+            transactionHistoryQueryKey,
             account.address,
           ])
 
@@ -41,7 +50,7 @@ export const useTransactionDetails = (transactionHash?: string) => {
 
         if (fromAddress) {
           queryClient.setQueryData<StatusResponse[]>(
-            ['transaction-history', fromAddress],
+            [transactionHistoryQueryKey, fromAddress],
             (data) => {
               return [...data!, transaction!]
             }
@@ -57,7 +66,7 @@ export const useTransactionDetails = (transactionHash?: string) => {
       for (const account of accounts) {
         const transaction = queryClient
           .getQueryData<StatusResponse[]>([
-            'transaction-history',
+            transactionHistoryQueryKey,
             account.address,
           ])
           ?.find((t) => t.sending.txHash === transactionHash)

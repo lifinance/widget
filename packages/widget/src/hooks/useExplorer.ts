@@ -1,4 +1,4 @@
-import type { Chain, EVMChain } from '@lifi/sdk'
+import type { Chain } from '@lifi/sdk'
 import { ChainId } from '@lifi/sdk'
 import { lifiExplorerUrl } from '../config/constants.js'
 import { useAvailableChains } from '../hooks/useAvailableChains.js'
@@ -21,16 +21,37 @@ export const useExplorer = () => {
   const { explorerUrls } = useWidgetConfig()
   const { getChainById } = useAvailableChains()
 
-  const getBaseUrl = (chain: Chain) => {
-    const baseUrl = explorerUrls?.[chain.id]
-      ? explorerUrls[chain.id][0]
-      : chain.metamask.blockExplorerUrls[0]
+  const getExplorerConfig = (chain?: Chain | number) => {
+    const resolvedChain = Number.isFinite(chain)
+      ? getChainById(chain as number)
+      : (chain as Chain)
 
-    return sanitiseBaseUrl(baseUrl)
+    const explorerUrl =
+      (resolvedChain
+        ? (explorerUrls?.[resolvedChain.id]?.[0] ??
+          resolvedChain.metamask.blockExplorerUrls[0])
+        : explorerUrls?.internal?.[0]) || lifiExplorerUrl
+
+    const url = typeof explorerUrl === 'string' ? explorerUrl : explorerUrl.url
+
+    const defaultTxPath = resolvedChain?.id === ChainId.SUI ? 'txblock' : 'tx'
+    const defaultAddressPath =
+      resolvedChain?.id === ChainId.SUI ? 'coin' : 'address'
+    const txPath =
+      typeof explorerUrl === 'string'
+        ? defaultTxPath
+        : explorerUrl.txPath || defaultTxPath
+    const addressPath =
+      typeof explorerUrl === 'string'
+        ? defaultAddressPath
+        : explorerUrl.addressPath || defaultAddressPath
+
+    return {
+      url: sanitiseBaseUrl(url),
+      txPath,
+      addressPath,
+    }
   }
-
-  const resolveChain = (chain: Chain | number) =>
-    Number.isFinite(chain) ? getChainById(chain as number) : (chain as Chain)
 
   const getTransactionLink = ({
     txHash,
@@ -40,40 +61,18 @@ export const useExplorer = () => {
     if (!txHash && txLink) {
       return txLink
     }
-    if (!chain) {
-      const baseUrl = explorerUrls?.internal?.[0]
-        ? sanitiseBaseUrl(explorerUrls?.internal[0])
-        : lifiExplorerUrl
-      return `${baseUrl}/tx/${txHash}`
-    }
-    const resolvedChain = resolveChain(chain)
-    const txPathSegment = resolvedChain?.id === ChainId.SUI ? 'txblock' : 'tx'
-    return `${resolvedChain ? getBaseUrl(resolvedChain) : lifiExplorerUrl}/${txPathSegment}/${txHash}`
+
+    const config = getExplorerConfig(chain)
+    return `${config.url}/${config.txPath}/${txHash}`
   }
 
   const getAddressLink = (address: string, chain?: Chain | number) => {
-    if (!chain) {
-      const baseUrl = explorerUrls?.internal?.[0]
-        ? sanitiseBaseUrl(explorerUrls?.internal[0])
-        : lifiExplorerUrl
-      return `${baseUrl}/address/${address}`
-    }
-
-    const resolvedChain = resolveChain(chain)
-    return `${resolvedChain ? getBaseUrl(resolvedChain) : lifiExplorerUrl}/address/${address}`
-  }
-
-  const getTokenAddressLink = (address: string, chain?: Chain | number) => {
-    const link = getAddressLink(address, chain)
-    if (chain === ChainId.SUI || (chain as EVMChain)?.id === ChainId.SUI) {
-      return link.replace('address', 'coin')
-    }
-    return link
+    const config = getExplorerConfig(chain)
+    return `${config.url}/${config.addressPath}/${address}`
   }
 
   return {
     getTransactionLink,
     getAddressLink,
-    getTokenAddressLink,
   }
 }
