@@ -1,12 +1,11 @@
 import { ChainId, ChainType } from '@lifi/sdk'
-import { Avatar, ListItemAvatar } from '@mui/material'
 import { useConnectWallet } from '@mysten/dapp-kit'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { WalletManagementEvent } from '../types/events.js'
-import { ListItemButton } from './ListItemButton.js'
-import { ListItemText } from './ListItemText.js'
+import { CardListItemButton } from './CardListItemButton.js'
+import { getTagType } from './WalletTag.js'
 import type { WalletListItemButtonProps } from './types.js'
 
 interface SuiListItemButtonProps extends WalletListItemButtonProps {
@@ -52,20 +51,16 @@ export const SuiListItemButton = ({
   }
 
   return (
-    <ListItemButton key={connectorDisplayName} onClick={connectWallet}>
-      <ListItemAvatar>
-        <Avatar
-          src={
-            ecosystemSelection
-              ? 'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/sui.svg'
-              : wallet.icon
-          }
-          alt={connectorDisplayName}
-        >
-          {connectorDisplayName[0]}
-        </Avatar>
-      </ListItemAvatar>
-      <ListItemText primary={connectorDisplayName} />
-    </ListItemButton>
+    <CardListItemButton
+      key={connectorDisplayName}
+      icon={
+        ecosystemSelection
+          ? 'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/sui.svg'
+          : wallet.icon
+      }
+      onClick={connectWallet}
+      title={connectorDisplayName}
+      tagType={ecosystemSelection ? undefined : getTagType(wallet.id ?? '')}
+    />
   )
 }
