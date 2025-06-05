@@ -314,13 +314,15 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
             in={state.view === 'connecting'}
             timeout={{ appear: 225, enter: 225, exit: 100 }}
           >
-            <WalletInfoDisplay
-              selectedWallet={selectedWallet}
-              title={t('title.waitingForWallet', {
-                walletName: selectedWallet?.name,
-              })}
-              message={t('message.connecting')}
-            />
+            <div>
+              <WalletInfoDisplay
+                selectedWallet={selectedWallet}
+                title={t('title.waitingForWallet', {
+                  walletName: selectedWallet?.name,
+                })}
+                message={t('message.connecting')}
+              />
+            </div>
           </Fade>
         </Collapse>
       </DialogContent>
