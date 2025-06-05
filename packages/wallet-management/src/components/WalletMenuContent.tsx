@@ -21,6 +21,7 @@ import type { CombinedWallet } from '../hooks/useCombinedWallets.js'
 import { useCombinedWallets } from '../hooks/useCombinedWallets.js'
 import type { WalletConnector } from '../types/walletConnector.js'
 import { ElementId } from '../utils/elements.js'
+import { WalletTagType, getTagType } from '../utils/walletTags.js'
 import { CardListItemButton } from './CardListItemButton.js'
 import { EVMListItemButton } from './EVMListItemButton.js'
 import { SVMListItemButton } from './SVMListItemButton.js'
@@ -28,7 +29,6 @@ import { SuiListItemButton } from './SuiListItemButton.js'
 import { UTXOListItemButton } from './UTXOListItemButton.js'
 import { WalletInfoDisplay } from './WalletInfoDisplay.js'
 import { WalletMenuContentEmpty } from './WalletMenuContentEmpty.js'
-import { WalletTagType, getTagType } from './WalletTag.js'
 
 interface WalletMenuContentProps {
   onClose: () => void
@@ -214,7 +214,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
             ? t('title.selectEcosystem')
             : isConnecting
               ? t('title.connecting')
-              : t('title.connectWallet')}
+              : t('title.selectWallet')}
         </Typography>
         <IconButton onClick={onClose}>
           <Close />

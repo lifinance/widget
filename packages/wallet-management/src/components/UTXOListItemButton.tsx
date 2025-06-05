@@ -6,8 +6,8 @@ import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js
 import { WalletManagementEvent } from '../types/events.js'
 import { getConnectorIcon } from '../utils/getConnectorIcon.js'
 import { isWalletInstalled } from '../utils/isWalletInstalled.js'
+import { getTagType } from '../utils/walletTags.js'
 import { CardListItemButton } from './CardListItemButton.js'
-import { getTagType } from './WalletTag.js'
 import type { WalletListItemButtonProps } from './types.js'
 
 interface UTXOListItemButtonProps extends WalletListItemButtonProps {

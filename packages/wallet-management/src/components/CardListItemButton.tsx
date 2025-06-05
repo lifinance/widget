@@ -1,7 +1,9 @@
 import { Avatar, Card, ListItemAvatar } from '@mui/material'
+import { useTagLabelByType } from '../hooks/useTagLabelByType.js'
+import type { WalletTagType } from '../utils/walletTags.js'
 import { ListItemButton } from './ListItemButton.js'
 import { ListItemText } from './ListItemText.js'
-import { WalletTag, type WalletTagType, getLabelByType } from './WalletTag.js'
+import { WalletTag } from './WalletTag.js'
 
 interface CardListItemButtonProps {
   onClick: () => void
@@ -16,6 +18,7 @@ export const CardListItemButton: React.FC<CardListItemButtonProps> = ({
   icon,
   tagType,
 }) => {
+  const getLabelByType = useTagLabelByType()
   return (
     <Card>
       <ListItemButton onClick={onClick}>

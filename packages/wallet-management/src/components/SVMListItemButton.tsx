@@ -5,8 +5,8 @@ import type { PublicKey } from '@solana/web3.js'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { WalletManagementEvent } from '../types/events.js'
+import { getTagType } from '../utils/walletTags.js'
 import { CardListItemButton } from './CardListItemButton.js'
-import { getTagType } from './WalletTag.js'
 import type { WalletListItemButtonProps } from './types.js'
 
 interface SVMListItemButtonProps extends WalletListItemButtonProps {

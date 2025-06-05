@@ -4,8 +4,8 @@ import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { WalletManagementEvent } from '../types/events.js'
+import { getTagType } from '../utils/walletTags.js'
 import { CardListItemButton } from './CardListItemButton.js'
-import { getTagType } from './WalletTag.js'
 import type { WalletListItemButtonProps } from './types.js'
 
 interface SuiListItemButtonProps extends WalletListItemButtonProps {
