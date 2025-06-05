@@ -4,6 +4,7 @@ import { Grow, Stack, Typography } from '@mui/material'
 import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
+import { animationTimeout } from '../../config/constants.js'
 import { useRoutes } from '../../hooks/useRoutes.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
@@ -11,7 +12,6 @@ import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.j
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { WidgetEvent } from '../../types/events.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import { Expansion } from '../Expansion/Expansion.js'
 import { PageContainer } from '../PageContainer.js'
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate.js'
 import { RouteCard } from '../RouteCard/RouteCard.js'
@@ -24,17 +24,7 @@ import {
   ScrollableContainer,
 } from './RoutesExpanded.style.js'
 
-const timeout = { enter: 225, exit: 225, appear: 0 }
-
 export const RoutesExpanded = () => {
-  return (
-    <Expansion allowedPaths={['/']}>
-      <RoutesExpandedElement />
-    </Expansion>
-  )
-}
-
-export const RoutesExpandedElement = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { subvariant, subvariantOptions } = useWidgetConfig()
@@ -100,12 +90,17 @@ export const RoutesExpandedElement = () => {
 
   return (
     <RoutesExpandedCollapse
-      timeout={timeout.enter}
+      timeout={animationTimeout.enter}
       in={expanded}
       orientation="horizontal"
       onExited={onExit}
     >
-      <Grow timeout={timeout.enter} in={expanded} mountOnEnter unmountOnExit>
+      <Grow
+        timeout={animationTimeout.enter}
+        in={expanded}
+        mountOnEnter
+        unmountOnExit
+      >
         <Container enableColorScheme minimumHeight={isLoading}>
           <ScrollableContainer>
             <Header>
