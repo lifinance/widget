@@ -21,6 +21,7 @@
     "close": "Đóng",
     "confirm": "Xác nhận",
     "connectAnotherWallet": "",
+    "connectChainWallet": "",
     "connectWallet": "Kết nối ví",
     "contactSupport": "Liên hệ hỗ trợ",
     "continue": "Tiếp tục",
@@ -47,6 +48,7 @@
     "startSwapping": "Bắt đầu Swap",
     "swap": "Swap",
     "swapReview": "",
+    "system": "",
     "tryAgain": "Thử lại",
     "viewCoverage": "Xem phạm vi bảo hiểm",
     "viewOnExplorer": "Xem tại Explorer"
@@ -66,7 +68,9 @@
     "gas": "Gas",
     "payWith": "Thanh toán bằng",
     "receive": "",
+    "received": "",
     "recentWallets": "Các ví đã dùng gần đây",
+    "refunded": "",
     "selectChain": "Chọn chain",
     "selectWallet": "Chọn ví",
     "send": "",
@@ -90,7 +94,8 @@
       "emptyTokenList": "Chúng tôi không thể tìm được token ở {{chainName}} hoặc số dư của bạn không có. Vui lòng thử tìm kiếm lại hoặc chọn một chain khác.",
       "emptyTransactionHistory": "Lịch sử Swap chỉ được lưu trữ cục bộ và sẽ bị xóa nếu bạn xóa dữ liệu trình duyệt của mình.",
       "routeNotFound": "Lý do cho điều đó có thể là: tính thanh khoản thấp, số tiền được chọn quá thấp, chi phí gas quá cao hoặc không có lộ trình cho cặp giao dịch đã chọn.",
-      "toAddressIsRequired": ""
+      "toAddressIsRequired": "",
+      "missingRouteRequiredAccount": ""
     },
     "title": {
       "autoRefuel": "",
@@ -101,9 +106,7 @@
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": "",
-      "exchangeSuccessful": "",
-      "checkoutSuccessful": ""
+      "exchangePartiallySuccessful": ""
     },
     "title": {
       "bridgePartiallySuccessful": "Swap thành công một phần",
@@ -145,9 +148,11 @@
     "message": {
       "allowanceRequired": "Chuyển số lượng {{tokenSymbol}} vượt quá mức cho phép hiện tại của bạn. Vui lòng tăng mức độ cho phép sử dụng token và thử lại.",
       "insufficientFunds": "Bạn không có đủ gas để chi trả cho chi phí giao dịch.",
+      "rateLimitExceeded": "",
       "remainInYourWallet": "",
       "signatureRejected": "",
       "slippageThreshold": "Độ trượt giá lớn hơn ngưỡng xác định. Vui lòng yêu cầu một tuyến đường mới để nhận báo giá mới.",
+      "thirdPartyError": "",
       "transactionCanceled": "Giao dịch đã bị huỷ.",
       "transactionConflict": "",
       "transactionExpired": "",
@@ -167,8 +172,10 @@
       "exchangeRateUpdateCanceled": "Đã hủy cập nhật tỷ giá",
       "gasLimitIsTooLow": "Giới hạn gas quá thấp",
       "insufficientFunds": "Không đủ tài sản",
+      "rateLimitExceeded": "",
       "signatureRejected": "Yêu cầu chữ ký",
       "slippageNotMet": "Điều kiện trượt giá không được đáp ứng",
+      "thirdPartyError": "",
       "transactionCanceled": "Giao dịch bị huỷ",
       "transactionConflict": "",
       "transactionExpired": "",
@@ -287,7 +294,7 @@
     "stepBuy": "Mua",
     "stepDeposit": "",
     "stepDetails": "{{tool}} thông qua LI.FI",
-    "stepSwap": "Swap",
+    "stepSwap": "",
     "stepSwapAndBridge": "Swap và Bridge",
     "stepSwapAndBuy": "Hoán đổi và mua",
     "stepSwapAndDeposit": "",
@@ -308,7 +315,7 @@
     "searchExchanges": ""
   },
   "settings": {
-    "theme": "Giao diện",
+    "appearance": "",
     "enabledBridges": "Cầu nối",
     "enabledExchanges": "Sàn giao dịch",
     "gasPrice": {

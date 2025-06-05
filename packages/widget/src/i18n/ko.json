@@ -21,6 +21,7 @@
     "close": "",
     "confirm": "",
     "connectAnotherWallet": "",
+    "connectChainWallet": "",
     "connectWallet": "지갑 연결",
     "contactSupport": "고객 지원",
     "continue": "계속",
@@ -47,6 +48,7 @@
     "startSwapping": "스왑 시작하기",
     "swap": "스왑",
     "swapReview": "",
+    "system": "",
     "tryAgain": "다시 시도",
     "viewCoverage": "보장 범위",
     "viewOnExplorer": "탐색기에서 보기"
@@ -66,7 +68,9 @@
     "gas": "가스",
     "payWith": "결제 수단",
     "receive": "",
+    "received": "",
     "recentWallets": "",
+    "refunded": "",
     "selectChain": "체인 선택",
     "selectWallet": "지갑 선택",
     "send": "",
@@ -90,7 +94,8 @@
       "emptyTokenList": "{{chainName}} 체인에서 토큰을 찾을 수 없거나 보유 중인 토큰이 아닙니다. 다시 검색하거나 다른 체인을 선택하십시오.",
       "emptyTransactionHistory": "스왑 기록은 로컬에만 저장되며 브라우저 데이터를 지우면 삭제됩니다.",
       "routeNotFound": "이유: 낮은 유동성, 선택된 수량이 너무 적음, 가스비가 너무 비싸거나 경로가 존재하지 않음",
-      "toAddressIsRequired": ""
+      "toAddressIsRequired": "",
+      "missingRouteRequiredAccount": ""
     },
     "title": {
       "autoRefuel": "",
@@ -101,9 +106,7 @@
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": "",
-      "exchangeSuccessful": "",
-      "checkoutSuccessful": ""
+      "exchangePartiallySuccessful": ""
     },
     "title": {
       "bridgePartiallySuccessful": "부분 스왑 성공",
@@ -145,9 +148,11 @@
     "message": {
       "allowanceRequired": "{{tokenSymbol}} 이체 금액이 한도를 초과했습니다. 한도를 증액한 뒤 다시 시도해주십시오.",
       "insufficientFunds": "트랜잭션에 필요한 가스비가 부족합니다.",
+      "rateLimitExceeded": "",
       "remainInYourWallet": "",
       "signatureRejected": "",
       "slippageThreshold": "슬리피지가 한계점보다 큽니다. 새로운 견적을 얻기 위해 새 경로를 요청하십시오.",
+      "thirdPartyError": "",
       "transactionCanceled": "거래가 취소되었습니다.",
       "transactionConflict": "",
       "transactionExpired": "",
@@ -167,8 +172,10 @@
       "exchangeRateUpdateCanceled": "교환 비율 갱신이 취소되었습니다",
       "gasLimitIsTooLow": "가스 한도가 너무 낮습니다",
       "insufficientFunds": "잔고 부족",
+      "rateLimitExceeded": "",
       "signatureRejected": "서명이 필요합니다.",
       "slippageNotMet": "슬리피지 조건을 충족하지 못했습니다.",
+      "thirdPartyError": "",
       "transactionCanceled": "거래가 취소되었습니다",
       "transactionConflict": "",
       "transactionExpired": "",
@@ -308,7 +315,7 @@
     "searchExchanges": ""
   },
   "settings": {
-    "theme": "테마",
+    "appearance": "",
     "enabledBridges": "브릿지",
     "enabledExchanges": "교환",
     "gasPrice": {
