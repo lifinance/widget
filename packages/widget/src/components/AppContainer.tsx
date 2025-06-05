@@ -59,6 +59,10 @@ export const RelativeContainer = styled(Box, {
         : theme.container?.maxHeight
           ? theme.container?.maxHeight
           : theme.container?.height || defaultMaxHeight,
+    '&:has(.with-chain-expansion)': {
+      borderRadius: `${theme.container.borderRadius} 0 0 ${theme.container.borderRadius}`,
+      zIndex: 1,
+    },
     variants: [
       {
         props: {
@@ -80,7 +84,7 @@ interface CssBaselineContainerProps {
   elementId: string
 }
 
-const CssBaselineContainer = styled(ScopedCssBaseline, {
+export const CssBaselineContainer = styled(ScopedCssBaseline, {
   shouldForwardProp: (prop) =>
     !['variant', 'paddingTopAdjustment', 'elementId'].includes(prop as string),
 })<CssBaselineContainerProps>(({ theme, variant, paddingTopAdjustment }) => {

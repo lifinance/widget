@@ -33,5 +33,11 @@ export const SelectChainPage: React.FC<SelectChainPageProps> = ({
     [navigateBack, selectNativeToken, selectToken, setCurrentChain]
   )
 
-  return <SelectChainContent formType={formType} onSelect={handleClick} />
+  return (
+    <SelectChainContent
+      inExpansion={false}
+      formType={formType}
+      onSelect={handleClick}
+    />
+  )
 }

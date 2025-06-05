@@ -12,6 +12,7 @@ interface SearchInputProps {
   onChange?: FormEventHandler<HTMLInputElement>
   onBlur?: FocusEventHandler<HTMLInputElement>
   autoFocus?: boolean
+  inExpansion?: boolean
 }
 
 export const SearchInput = ({
@@ -53,8 +54,11 @@ export const StickySearchInput = (props: SearchInputProps) => {
   const { headerHeight } = useHeaderHeight()
 
   return (
-    <StickySearchInputContainer headerHeight={headerHeight}>
-      <SearchInput {...props} autoFocus />
+    <StickySearchInputContainer
+      headerHeight={headerHeight}
+      inExpansion={!!props.inExpansion}
+    >
+      <SearchInput {...props} autoFocus={!props.inExpansion} />
     </StickySearchInputContainer>
   )
 }

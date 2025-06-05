@@ -3,8 +3,11 @@ import type { PropsWithChildren } from 'react'
 import type { RouteObject } from 'react-router-dom'
 import { useRoutes as useDOMRoutes } from 'react-router-dom'
 import { animationTimeout } from '../../config/constants'
+import { useSwapOnly } from '../../hooks/useSwapOnly'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider'
+import { HiddenUI } from '../../types/widget'
 import { navigationRoutes } from '../../utils/navigationRoutes'
-import { SelectChainEmbedded } from '../Chains/SelectChainEmbedded'
+import { SelectChainExpansion } from '../Chains/SelectChainExpansion'
 import { RoutesExpanded } from '../Routes/RoutesExpanded'
 import { CollapseContainer, RouteTopLevelGrow } from './Expansion.style'
 
@@ -37,6 +40,16 @@ export const Expansion = () => {
   const element = useDOMRoutes(routes)
   const expansionType = (element?.props as PropsWithChildren)?.children
   const match = Boolean(expansionType)
+
+  const { hiddenUI } = useWidgetConfig()
+  const swapOnly = useSwapOnly()
+
+  const withChainExpansion =
+    (expansionType === ExpansionType.FromChain ||
+      expansionType === ExpansionType.ToChain) &&
+    !(swapOnly && expansionType === ExpansionType.ToChain) &&
+    !hiddenUI?.includes(HiddenUI.ChainSelect)
+
   return (
     <CollapseContainer>
       <Collapse timeout={animationTimeout} in={match} orientation="horizontal">
@@ -48,11 +61,12 @@ export const Expansion = () => {
         >
           <div>
             {expansionType === ExpansionType.Routes && <RoutesExpanded />}
-            {expansionType === ExpansionType.FromChain && (
-              <SelectChainEmbedded formType={'from'} />
-            )}
-            {expansionType === ExpansionType.ToChain && (
-              <SelectChainEmbedded formType={'to'} />
+            {withChainExpansion && (
+              <SelectChainExpansion
+                formType={
+                  expansionType === ExpansionType.FromChain ? 'from' : 'to'
+                }
+              />
             )}
           </div>
         </RouteTopLevelGrow>

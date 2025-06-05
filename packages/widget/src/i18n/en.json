@@ -311,6 +311,7 @@
     "tokenOnChainAmount": "{{amount, numberExt}} {{tokenSymbol}} on {{chainName}}",
     "tokenSearch": "Search by token name or address",
     "valueLoss": "Value loss",
+    "searchChain": "Search chain",
     "searchChains": "Search by chain name",
     "searchBridges": "Search by bridge name",
     "searchExchanges": "Search by exchange name"

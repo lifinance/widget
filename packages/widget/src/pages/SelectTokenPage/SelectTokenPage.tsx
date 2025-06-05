@@ -43,8 +43,16 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
     (swapOnly && formType === 'to') ||
     hiddenUI?.includes(HiddenUI.ChainSelect)
 
+  const withChainExpansion =
+    variant === 'wide' &&
+    !(swapOnly && formType === 'to') &&
+    !hiddenUI?.includes(HiddenUI.ChainSelect)
+
   return (
-    <FullPageContainer disableGutters>
+    <FullPageContainer
+      className={withChainExpansion ? 'with-chain-expansion' : ''}
+      disableGutters
+    >
       <Box
         ref={headerRef}
         sx={{

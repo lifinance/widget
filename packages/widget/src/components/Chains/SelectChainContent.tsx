@@ -1,6 +1,6 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { Avatar, ListItemAvatar, debounce } from '@mui/material'
-import { type FormEventHandler, useState } from 'react'
+import { type FormEventHandler, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDefaultElementId } from '../../hooks/useDefaultElementId'
 import { useScrollableContainer } from '../../hooks/useScrollableContainer'
@@ -17,11 +17,13 @@ import { SearchNotFound } from '../Search/SearchNotFound'
 interface SelectChainContentProps {
   formType: FormType
   onSelect: (chain: ExtendedChain) => void
+  inExpansion: boolean
 }
 
 export const SelectChainContent: React.FC<SelectChainContentProps> = ({
   formType,
   onSelect,
+  inExpansion,
 }) => {
   const [selectedChainId] = useFieldValues(FormKeyHelper.getChainKey(formType))
 
@@ -57,15 +59,28 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = ({
 
   const debouncedSearchInputChange = debounce(handleSearchInputChange, 250)
 
+  // On initial render, show selected chain first
+  const initialSelectedChainIdRef = useRef(selectedChainId)
+  const sortedChains = useMemo(() => {
+    const selectedChain = filteredChains.find(
+      (chain) => chain.id === initialSelectedChainIdRef.current
+    )
+    const otherChains = filteredChains.filter(
+      (chain) => chain.id !== initialSelectedChainIdRef.current
+    )
+    return selectedChain ? [selectedChain, ...otherChains] : filteredChains
+  }, [filteredChains])
+
   return (
     <FullPageContainer disableGutters>
       <StickySearchInput
+        inExpansion={inExpansion}
         onChange={debouncedSearchInputChange}
-        placeholder={t('main.searchChains')}
+        placeholder={t('main.searchChain')}
       />
-      {filteredChains.length ? (
+      {sortedChains.length ? (
         <SearchList>
-          {filteredChains.map((chain) => (
+          {sortedChains.map((chain) => (
             <ListItemButton
               key={chain.id}
               onClick={() => onSelect(chain)}
