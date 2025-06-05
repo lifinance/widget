@@ -1,10 +1,9 @@
 import type { Route } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
-import { Collapse, Grow, Stack, Typography } from '@mui/material'
-import { type PropsWithChildren, useEffect, useRef } from 'react'
+import { Grow, Stack, Typography } from '@mui/material'
+import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { RouteObject } from 'react-router-dom'
-import { useRoutes as useDOMRoutes, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useRoutes } from '../../hooks/useRoutes.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
@@ -12,52 +11,26 @@ import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.j
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { WidgetEvent } from '../../types/events.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import { Expansion } from '../Expansion/Expansion.js'
 import { PageContainer } from '../PageContainer.js'
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate.js'
 import { RouteCard } from '../RouteCard/RouteCard.js'
 import { RouteCardSkeleton } from '../RouteCard/RouteCardSkeleton.js'
 import { RouteNotFoundCard } from '../RouteCard/RouteNotFoundCard.js'
 import {
-  CollapseContainer,
   Container,
   Header,
-  RouteTopLevelGrow,
   RoutesExpandedCollapse,
   ScrollableContainer,
 } from './RoutesExpanded.style.js'
 
 const timeout = { enter: 225, exit: 225, appear: 0 }
 
-const routes: RouteObject[] = [
-  {
-    path: '/',
-    element: true,
-  },
-  {
-    path: '*',
-    element: null,
-  },
-]
-
 export const RoutesExpanded = () => {
-  const element = useDOMRoutes(routes)
-  const match = Boolean((element?.props as PropsWithChildren)?.children)
-
   return (
-    <CollapseContainer>
-      <Collapse timeout={timeout} in={match} orientation="horizontal">
-        <RouteTopLevelGrow
-          timeout={timeout}
-          in={match}
-          mountOnEnter
-          unmountOnExit
-        >
-          <div>
-            <RoutesExpandedElement />
-          </div>
-        </RouteTopLevelGrow>
-      </Collapse>
-    </CollapseContainer>
+    <Expansion allowedPaths={['/']}>
+      <RoutesExpandedElement />
+    </Expansion>
   )
 }
 

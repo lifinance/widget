@@ -8,6 +8,12 @@ export const ListItemButton = styled(MuiListItemButton)(({ theme }) => {
     '&:hover': {
       backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
     },
+    '&.Mui-selected': {
+      backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.08)`,
+      '&:hover': {
+        backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.12)`,
+      },
+    },
     variants: [
       {
         props: ({ disabled }) => disabled,

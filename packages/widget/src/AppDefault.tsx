@@ -5,6 +5,7 @@ import {
   AppExpandedContainer,
   FlexContainer,
 } from './components/AppContainer.js'
+import { SelectChainEmbedded } from './components/Chains/SelectChainEmbedded.js'
 import { Header } from './components/Header/Header.js'
 import { Initializer } from './components/Initializer.js'
 import { RoutesExpanded } from './components/Routes/RoutesExpanded.js'
@@ -27,7 +28,8 @@ export const AppDefault = () => {
         </FlexContainer>
         <Initializer />
       </AppContainer>
-      {wideVariant ? <RoutesExpanded /> : null}
+      {wideVariant && <SelectChainEmbedded />}
+      {wideVariant && <RoutesExpanded />}
     </AppExpandedContainer>
   )
 }

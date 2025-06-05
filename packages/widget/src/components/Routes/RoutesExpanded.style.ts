@@ -1,5 +1,5 @@
 import type { ScopedCssBaselineProps } from '@mui/material'
-import { Box, Collapse, Grow, ScopedCssBaseline, styled } from '@mui/material'
+import { Box, Collapse, ScopedCssBaseline, styled } from '@mui/material'
 import { defaultMaxHeight } from '../../config/constants.js'
 
 export const CollapseContainer = styled(Box)(({ theme }) => ({
@@ -10,10 +10,6 @@ export const CollapseContainer = styled(Box)(({ theme }) => ({
 }))
 
 export const RoutesExpandedCollapse = styled(Collapse)(({ theme }) => ({
-  ...(theme.container?.display === 'flex' ? { height: '100%' } : {}),
-}))
-
-export const RouteTopLevelGrow = styled(Grow)(({ theme }) => ({
   ...(theme.container?.display === 'flex' ? { height: '100%' } : {}),
 }))
 

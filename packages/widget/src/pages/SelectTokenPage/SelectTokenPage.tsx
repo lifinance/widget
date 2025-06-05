@@ -27,7 +27,7 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
 
   const swapOnly = useSwapOnly()
 
-  const { subvariant, hiddenUI } = useWidgetConfig()
+  const { variant, subvariant, hiddenUI } = useWidgetConfig()
   const { t } = useTranslation()
   const title =
     formType === 'from'
@@ -39,7 +39,9 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
   useHeader(title)
 
   const hideChainSelect =
-    (swapOnly && formType === 'to') || hiddenUI?.includes(HiddenUI.ChainSelect)
+    variant === 'wide' ||
+    (swapOnly && formType === 'to') ||
+    hiddenUI?.includes(HiddenUI.ChainSelect)
 
   return (
     <FullPageContainer disableGutters>
