@@ -7,6 +7,6 @@ export const CollapseContainer = styled(Box)(({ theme }) => ({
     : { height: 'auto' }),
 }))
 
-export const RouteTopLevelGrow = styled(Grow)(({ theme }) => ({
+export const ExpansionTopLevelGrow = styled(Grow)(({ theme }) => ({
   ...(theme.container?.display === 'flex' ? { height: '100%' } : {}),
 }))

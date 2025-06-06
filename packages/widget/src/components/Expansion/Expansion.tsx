@@ -9,7 +9,7 @@ import { HiddenUI } from '../../types/widget'
 import { navigationRoutes } from '../../utils/navigationRoutes'
 import { SelectChainExpansion } from '../Chains/SelectChainExpansion'
 import { RoutesExpanded } from '../Routes/RoutesExpanded'
-import { CollapseContainer, RouteTopLevelGrow } from './Expansion.style'
+import { CollapseContainer, ExpansionTopLevelGrow } from './Expansion.style'
 
 enum ExpansionType {
   Routes = 'routes',
@@ -53,7 +53,7 @@ export const Expansion = () => {
   return (
     <CollapseContainer>
       <Collapse timeout={animationTimeout} in={match} orientation="horizontal">
-        <RouteTopLevelGrow
+        <ExpansionTopLevelGrow
           timeout={animationTimeout}
           in={match}
           mountOnEnter
@@ -69,7 +69,7 @@ export const Expansion = () => {
               />
             )}
           </div>
-        </RouteTopLevelGrow>
+        </ExpansionTopLevelGrow>
       </Collapse>
     </CollapseContainer>
   )
