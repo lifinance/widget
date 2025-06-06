@@ -309,7 +309,7 @@
     "to": "To",
     "tokenOnChain": "{{tokenSymbol}} on {{chainName}}",
     "tokenOnChainAmount": "{{amount, numberExt}} {{tokenSymbol}} on {{chainName}}",
-    "tokenSearch": "Search by token name or address",
+    "tokenSearch": "Search by token or address",
     "valueLoss": "Value loss",
     "searchChain": "Search chain",
     "searchChains": "Search by chain name",

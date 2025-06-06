@@ -1,8 +1,27 @@
 import { Box, List, styled } from '@mui/material'
 import { Input as InputBase } from '../../components/Input.js'
 
-export const Input = styled(InputBase)(({ theme }) => ({
-  paddingRight: theme.spacing(1.5),
+interface InputProps {
+  size?: 'small' | 'medium'
+}
+
+export const Input = styled(InputBase, {
+  shouldForwardProp: (prop) => prop !== 'size',
+})<InputProps>(({ theme, size = 'medium' }) => ({
+  paddingRight: size === 'small' ? theme.spacing(1.25) : theme.spacing(1.75),
+  paddingLeft: theme.spacing(1.25),
+  fontSize: size === 'small' ? '0.875rem' : '1rem',
+  borderRadius: theme.vars.shape.borderRadius,
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1),
+  },
+  '& .MuiInputAdornment-root': {
+    marginLeft: 0,
+    marginRight: 0,
+    '& .MuiSvgIcon-root': {
+      width: size === 'small' ? '1.25rem' : '1.5rem',
+    },
+  },
 }))
 
 interface SearchStickyContainerProps {
@@ -23,7 +42,7 @@ export const StickySearchInputContainer = styled(Box, {
   top: inExpansion ? 0 : headerHeight,
   zIndex: 1,
   height: inExpansion ? 'auto' : searchContainerHeight,
-  paddingTop: inExpansion ? theme.spacing(2) : 0,
+  paddingTop: inExpansion ? theme.spacing(3) : 0,
   paddingBottom: theme.spacing(2),
   paddingLeft: theme.spacing(3),
   paddingRight: theme.spacing(3),

@@ -1,5 +1,5 @@
 import type { ExtendedChain } from '@lifi/sdk'
-import { Avatar, ListItemAvatar, debounce } from '@mui/material'
+import { debounce } from '@mui/material'
 import { type FormEventHandler, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDefaultElementId } from '../../hooks/useDefaultElementId'
@@ -8,11 +8,15 @@ import { FormKeyHelper, type FormType } from '../../stores/form/types'
 import { useFieldValues } from '../../stores/form/useFieldValues'
 import { useChainSelect } from '../ChainSelect/useChainSelect'
 import { FullPageContainer } from '../FullPageContainer'
-import { ListItemButton } from '../ListItemButton'
-import { ListItemText } from '../ListItemText'
 import { StickySearchInput } from '../Search/SearchInput'
-import { SearchList } from '../Search/SearchInput.style'
 import { SearchNotFound } from '../Search/SearchNotFound'
+import {
+  Avatar,
+  List,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemText,
+} from './SelectChainContent.style'
 
 interface SelectChainContentProps {
   formType: FormType
@@ -57,6 +61,8 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = ({
     }
   }
 
+  const size = inExpansion ? 'small' : 'regular'
+
   const debouncedSearchInputChange = debounce(handleSearchInputChange, 250)
 
   // On initial render, show selected chain first
@@ -79,22 +85,23 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = ({
         placeholder={t('main.searchChain')}
       />
       {sortedChains.length ? (
-        <SearchList>
+        <List size={size}>
           {sortedChains.map((chain) => (
             <ListItemButton
               key={chain.id}
               onClick={() => onSelect(chain)}
               selected={chain.id === selectedChainId}
+              size={size}
             >
-              <ListItemAvatar>
-                <Avatar src={chain.logoURI} alt={chain.name}>
+              <ListItemAvatar size={size}>
+                <Avatar src={chain.logoURI} alt={chain.name} size={size}>
                   {chain.name[0]}
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary={chain.name} />
+              <ListItemText primary={chain.name} size={size} />
             </ListItemButton>
           ))}
-        </SearchList>
+        </List>
       ) : (
         <SearchNotFound
           message={t('info.message.emptyChainList')}
