@@ -34,6 +34,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
   isBalanceLoading,
   startAdornment,
   endAdornment,
+  isSelected,
 }) => {
   const handleClick: MouseEventHandler<HTMLDivElement> = (e) => {
     e.stopPropagation()
@@ -53,6 +54,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
         accountAddress={accountAddress}
         isBalanceLoading={isBalanceLoading}
         onClick={handleClick}
+        isSelected={isSelected}
       />
       {endAdornment}
     </ListItem>
@@ -83,6 +85,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   chain,
   accountAddress,
   isBalanceLoading,
+  isSelected,
 }) => {
   const { t } = useTranslation()
   const { getAddressLink } = useExplorer()
@@ -121,6 +124,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       dense
+      selected={isSelected}
     >
       <ListItemAvatar>
         <TokenListItemAvatar token={token} />
