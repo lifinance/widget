@@ -1,4 +1,4 @@
-import Wallet from '@mui/icons-material/Wallet'
+import WarningRounded from '@mui/icons-material/WarningRounded'
 import type { BoxProps } from '@mui/material'
 import { Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
@@ -19,7 +19,8 @@ export const AccountDeployedMessage: React.FC<BoxProps> = ({ ...props }) => {
           {t('info.message.accountDeployedMessage')}
         </Typography>
       }
-      icon={<Wallet />}
+      icon={<WarningRounded />}
+      severity="warning"
       multiline
       {...props}
     />
