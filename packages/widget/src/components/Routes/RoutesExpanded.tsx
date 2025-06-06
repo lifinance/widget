@@ -1,10 +1,10 @@
 import type { Route } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
-import { Collapse, Grow, Stack, Typography } from '@mui/material'
-import { type PropsWithChildren, useEffect, useRef } from 'react'
+import { Grow, Stack, Typography } from '@mui/material'
+import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { RouteObject } from 'react-router-dom'
-import { useRoutes as useDOMRoutes, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { animationTimeout } from '../../config/constants.js'
 import { useRoutes } from '../../hooks/useRoutes.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
@@ -18,50 +18,13 @@ import { RouteCard } from '../RouteCard/RouteCard.js'
 import { RouteCardSkeleton } from '../RouteCard/RouteCardSkeleton.js'
 import { RouteNotFoundCard } from '../RouteCard/RouteNotFoundCard.js'
 import {
-  CollapseContainer,
   Container,
   Header,
-  RouteTopLevelGrow,
   RoutesExpandedCollapse,
   ScrollableContainer,
 } from './RoutesExpanded.style.js'
 
-const timeout = { enter: 225, exit: 225, appear: 0 }
-
-const routes: RouteObject[] = [
-  {
-    path: '/',
-    element: true,
-  },
-  {
-    path: '*',
-    element: null,
-  },
-]
-
 export const RoutesExpanded = () => {
-  const element = useDOMRoutes(routes)
-  const match = Boolean((element?.props as PropsWithChildren)?.children)
-
-  return (
-    <CollapseContainer>
-      <Collapse timeout={timeout} in={match} orientation="horizontal">
-        <RouteTopLevelGrow
-          timeout={timeout}
-          in={match}
-          mountOnEnter
-          unmountOnExit
-        >
-          <div>
-            <RoutesExpandedElement />
-          </div>
-        </RouteTopLevelGrow>
-      </Collapse>
-    </CollapseContainer>
-  )
-}
-
-export const RoutesExpandedElement = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { subvariant, subvariantOptions } = useWidgetConfig()
@@ -127,12 +90,17 @@ export const RoutesExpandedElement = () => {
 
   return (
     <RoutesExpandedCollapse
-      timeout={timeout.enter}
+      timeout={animationTimeout.enter}
       in={expanded}
       orientation="horizontal"
       onExited={onExit}
     >
-      <Grow timeout={timeout.enter} in={expanded} mountOnEnter unmountOnExit>
+      <Grow
+        timeout={animationTimeout.enter}
+        in={expanded}
+        mountOnEnter
+        unmountOnExit
+      >
         <Container enableColorScheme minimumHeight={isLoading}>
           <ScrollableContainer>
             <Header>

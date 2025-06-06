@@ -13,6 +13,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   scrollElementRef,
   chainId,
   chain,
+  selectedTokenAddress,
   isLoading,
   isBalanceLoading,
   showCategories,
@@ -126,6 +127,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
             start={item.start}
             token={currentToken}
             chain={chain}
+            isSelected={currentToken.address === selectedTokenAddress}
             isBalanceLoading={isBalanceLoading}
             accountAddress={account.address}
             startAdornment={
