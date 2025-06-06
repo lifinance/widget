@@ -38,10 +38,10 @@ export const ListItemButton = styled(MuiListItemButton)<{
     paddingLeft: size === 'small' ? theme.spacing(1) : theme.spacing(1.5),
     height: size === 'small' ? 44 : 56,
     '&:hover': {
-      backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+      backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.08)`,
     },
     '&.Mui-selected': {
-      backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+      backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.08)`,
       '&:hover': {
         backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.08)`,
       },
@@ -59,4 +59,5 @@ export const List = styled(MuiList)<{
   paddingLeft: theme.spacing(size === 'small' ? 3 : 1.5),
   paddingRight: theme.spacing(size === 'small' ? 3 : 1.5),
   paddingBottom: theme.spacing(1.5),
+  cursor: 'pointer',
 }))
