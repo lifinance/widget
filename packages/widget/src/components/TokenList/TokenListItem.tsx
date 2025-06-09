@@ -1,22 +1,22 @@
 import { ChainType } from '@lifi/sdk'
-import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
+import InfoIcon from '@mui/icons-material/Info'
 import {
   Avatar,
   Box,
-  Link,
   ListItemAvatar,
   ListItemText,
   Skeleton,
   Slide,
   Typography,
 } from '@mui/material'
-import type { MouseEventHandler } from 'react'
-import { useRef, useState } from 'react'
+import type { MouseEvent, MouseEventHandler } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useExplorer } from '../../hooks/useExplorer.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { shortenAddress } from '../../utils/wallet.js'
+import type { BottomSheetBase } from '../BottomSheet/types.js'
 import { ListItemButton } from '../ListItem/ListItemButton.js'
+import { TokenInfoSheet } from './TokenInfoSheet.js'
 import { IconButton, ListItem } from './TokenList.style.js'
 import type {
   TokenListItemAvatarProps,
@@ -85,7 +85,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   isBalanceLoading,
 }) => {
   const { t } = useTranslation()
-  const { getAddressLink } = useExplorer()
+  const tokenInfoSheetRef = useRef<BottomSheetBase>(null)
 
   const container = useRef(null)
   const timeoutId = useRef<ReturnType<typeof setTimeout>>(undefined)
@@ -108,6 +108,17 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
       setShowAddress(false)
     }
   }
+
+  const onShowTokenInfo = useCallback((e: MouseEvent) => {
+    e.stopPropagation()
+    tokenInfoSheetRef.current?.open()
+  }, [])
+
+  const onCloseTokenInfo = useCallback((e: MouseEvent) => {
+    e.stopPropagation()
+    tokenInfoSheetRef.current?.close()
+  }, [])
+
   const tokenAmount = formatTokenAmount(token.amount, token.decimals)
   const tokenPrice = formatTokenPrice(
     token.amount,
@@ -181,16 +192,19 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
                 >
                   {shortenAddress(tokenAddress)}
                 </Box>
-                <IconButton
-                  size="small"
-                  LinkComponent={Link}
-                  href={getAddressLink(tokenAddress!, chain)}
-                  target="_blank"
-                  rel="nofollow noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <OpenInNewRounded />
-                </IconButton>
+                {tokenAddress && (
+                  <>
+                    <IconButton size="small" onClick={onShowTokenInfo}>
+                      <InfoIcon />
+                    </IconButton>
+                    <TokenInfoSheet
+                      ref={tokenInfoSheetRef}
+                      chainId={chain?.id}
+                      tokenAddress={tokenAddress}
+                      onClose={onCloseTokenInfo}
+                    />
+                  </>
+                )}
               </Box>
             </Slide>
           </Box>
