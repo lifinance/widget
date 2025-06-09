@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { ButtonTertiary } from '../../components/ButtonTertiary.js'
 import { CardButton } from '../../components/Card/CardButton.js'
+import { AccountDeployedMessage } from '../../components/Messages/AccountDeployedMessage.js'
 import {
   AddressType,
   useAddressValidation,
@@ -24,7 +25,7 @@ import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js
 import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import { HiddenUI } from '../../types/widget.js'
+import { HiddenUI, RequiredUI } from '../../types/widget.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { BookmarkAddressSheet } from './BookmarkAddressSheet.js'
 import { ConfirmAddressSheet } from './ConfirmAddressSheet.js'
@@ -62,7 +63,7 @@ export const SendToWalletPage = () => {
   const { chain: toChain } = useChain(toChainId)
   const [isDoneButtonLoading, setIsDoneButtonLoading] = useState(false)
   const [isBookmarkButtonLoading, setIsBookmarkButtonLoading] = useState(false)
-  const { variant, hiddenUI } = useWidgetConfig()
+  const { variant, hiddenUI, requiredUI } = useWidgetConfig()
 
   const { accounts } = useAccount()
   const connectedWallets = accounts.filter((account) => account.isConnected)
@@ -192,62 +193,69 @@ export const SendToWalletPage = () => {
       bottomGutters
       enableFullHeight={variant !== 'drawer'}
     >
-      <SendToWalletCard
-        type={errorMessage ? 'error' : 'default'}
+      <Box
         sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 2,
           marginBottom: 6,
         }}
       >
-        <AddressInput
-          size="small"
-          autoComplete="off"
-          autoCorrect="off"
-          autoCapitalize="off"
-          spellCheck="false"
-          onChange={handleInputChange}
-          value={inputAddressValue}
-          placeholder={placeholder}
-          aria-label={placeholder}
-          maxRows={2}
-          inputProps={{ maxLength: 128 }}
-          multiline
-        />
-        {errorMessage ? (
-          <ValidationAlert icon={<ErrorIcon />} sx={{ pb: 2, paddingX: 2 }}>
-            {errorMessage}
-          </ValidationAlert>
-        ) : null}
-        <SendToWalletButtonRow sx={{ paddingX: 2, paddingBottom: 2 }}>
-          <ButtonTertiary
-            variant="text"
-            onClick={handleDone}
-            loading={isDoneButtonLoading}
-            loadingPosition="center"
-            sx={{ flexGrow: 1 }}
-          >
-            {t('button.done')}
-          </ButtonTertiary>
-          <Tooltip title={t('button.bookmark')}>
-            <SendToWalletIconButton
-              onClick={handleBookmarkAddress}
-              loading={isBookmarkButtonLoading}
+        <SendToWalletCard type={errorMessage ? 'error' : 'default'}>
+          <AddressInput
+            size="small"
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck="false"
+            onChange={handleInputChange}
+            value={inputAddressValue}
+            placeholder={placeholder}
+            aria-label={placeholder}
+            maxRows={2}
+            inputProps={{ maxLength: 128 }}
+            multiline
+          />
+          {errorMessage ? (
+            <ValidationAlert icon={<ErrorIcon />} sx={{ pb: 2, paddingX: 2 }}>
+              {errorMessage}
+            </ValidationAlert>
+          ) : null}
+          <SendToWalletButtonRow sx={{ paddingX: 2, paddingBottom: 2 }}>
+            <ButtonTertiary
+              variant="text"
+              onClick={handleDone}
+              loading={isDoneButtonLoading}
               loadingPosition="center"
+              sx={{ flexGrow: 1 }}
             >
-              <TurnedIn fontSize="small" />
-            </SendToWalletIconButton>
-          </Tooltip>
-        </SendToWalletButtonRow>
-        <ConfirmAddressSheet
-          ref={confirmAddressSheetRef}
-          validatedBookmark={validatedWallet}
-          onConfirm={handleOnConfirm}
-        />
-        <BookmarkAddressSheet
-          ref={bookmarkAddressSheetRef}
-          validatedWallet={validatedWallet}
-          onAddBookmark={handleAddBookmark}
-        />
-      </SendToWalletCard>
+              {t('button.done')}
+            </ButtonTertiary>
+            <Tooltip title={t('button.bookmark')}>
+              <SendToWalletIconButton
+                onClick={handleBookmarkAddress}
+                loading={isBookmarkButtonLoading}
+                loadingPosition="center"
+              >
+                <TurnedIn fontSize="small" />
+              </SendToWalletIconButton>
+            </Tooltip>
+          </SendToWalletButtonRow>
+          <ConfirmAddressSheet
+            ref={confirmAddressSheetRef}
+            validatedBookmark={validatedWallet}
+            onConfirm={handleOnConfirm}
+          />
+          <BookmarkAddressSheet
+            ref={bookmarkAddressSheetRef}
+            validatedWallet={validatedWallet}
+            onAddBookmark={handleAddBookmark}
+          />
+        </SendToWalletCard>
+        {requiredUI?.includes(RequiredUI.AccountDeployedMessage) && (
+          <AccountDeployedMessage />
+        )}
+      </Box>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
         <CardButton
           title={t('header.recentWallets')}
