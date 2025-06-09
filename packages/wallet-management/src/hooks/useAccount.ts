@@ -9,10 +9,7 @@ import { useMemo } from 'react'
 import type { Connector } from 'wagmi'
 import { useAccount as useAccountInternal } from 'wagmi'
 import { create } from 'zustand'
-import type {
-  CreateBigmiConnectorFnExtended,
-  CreateConnectorFnExtended,
-} from '../connectors/types.js'
+import type { CreateConnectorFnExtended } from '../connectors/types.js'
 
 export interface AccountBase<CT extends ChainType, ConnectorType = undefined> {
   address?: string
@@ -66,7 +63,6 @@ export type LastConnectedAccount =
   | Connector
   | BigmiConnector
   | CreateConnectorFnExtended
-  | CreateBigmiConnectorFnExtended
   | WalletWithRequiredFeatures
   | null
 

@@ -9,6 +9,7 @@ import type { CreateConnectorFnExtended } from '../connectors/types.js'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { WalletManagementEvent } from '../types/events.js'
+import { createWalletConnectElement } from '../utils/elements.js'
 import { getConnectorIcon } from '../utils/getConnectorIcon.js'
 import { isWalletInstalled } from '../utils/isWalletInstalled.js'
 import type { WalletListItemButtonProps } from './types.js'
@@ -41,6 +42,9 @@ export const EVMListItemButton = ({
       if (!identityCheckPassed) {
         onNotInstalled?.(connector as Connector)
         return
+      }
+      if (connector.id === 'walletConnect') {
+        createWalletConnectElement()
       }
       const connectedAccount = getAccount(config)
       onConnecting?.()

@@ -21,6 +21,7 @@
     "close": "Close",
     "confirm": "Confirm",
     "connectAnotherWallet": "Connect another wallet",
+    "connectChainWallet": "Connect {{chain}} wallet",
     "connectWallet": "Connect wallet",
     "contactSupport": "Contact support",
     "continue": "Continue",
@@ -67,7 +68,9 @@
     "gas": "Gas",
     "payWith": "Pay with",
     "receive": "Receive",
+    "received": "Received",
     "recentWallets": "Recent wallets",
+    "refunded": "Refunded",
     "selectChain": "Select chain",
     "selectWallet": "Select your wallet",
     "send": "Send",
@@ -83,6 +86,7 @@
   },
   "info": {
     "message": {
+      "accountDeployedMessage": "Your smart account may not have the same address on other chains. Please double-check before proceeding.",
       "autoRefuel": "You're low on {{chainName}} gas. By continuing, you'll get enough gas to complete the transaction.",
       "emptyActiveTransactions": "Transactions in progress will appear here. Once completed, find them in transaction history.",
       "emptyBridgesList": "We couldn't find any bridges that match your search",
@@ -91,7 +95,8 @@
       "emptyTokenList": "We couldn't find tokens on {{chainName}} chain or you don't have any. Please search by contract address if your token doesn't appear or choose another chain.",
       "emptyTransactionHistory": "Transaction history is only stored locally and will be deleted if you clear your browser data.",
       "routeNotFound": "Reasons for that could be: low liquidity, amount selected is too low, gas costs are too high or there are no routes for the selected combination.",
-      "toAddressIsRequired": "The destination wallet address is required to proceed with the transfer."
+      "toAddressIsRequired": "The destination wallet address is required to proceed with the transfer.",
+      "missingRouteRequiredAccount": "Connect your {{chainName}} wallet to proceed. {{address}}"
     },
     "title": {
       "autoRefuel": "Get {{chainName}} gas",
@@ -102,9 +107,7 @@
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": "We've tried to complete the transaction, but {{tool}} couldn't proceed due to either slippage settings or lack of liquidity for the {{tokenSymbol}} token.",
-      "exchangeSuccessful": "There are now {{amount, numberExt}} {{tokenSymbol}} in {{walletAddress}} wallet on {{chainName}} chain.",
-      "checkoutSuccessful": "You now own {{assetName}} in {{walletAddress}} wallet on {{chainName}} chain."
+      "exchangePartiallySuccessful": "We've tried to complete the transaction, but {{tool}} couldn't proceed due to either slippage settings or lack of liquidity for the {{tokenSymbol}} token."
     },
     "title": {
       "bridgePartiallySuccessful": "Bridge partially successful",

@@ -8,16 +8,16 @@
     "start": "next start"
   },
   "dependencies": {
-    "@lifi/sdk": "^3.7.0",
-    "@lifi/widget": "^3.20.5",
+    "@lifi/sdk": "^3.7.9",
+    "@lifi/widget": "^3.21.3",
     "@mui/material-nextjs": "^7.1.0",
-    "next": "^15.3.2",
+    "next": "^15.3.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
-    "@types/node": "^22.15.18",
-    "@types/react": "^19.1.4",
+    "@types/node": "^22.15.27",
+    "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.5",
     "typescript": "^5.8.3"
   }

@@ -1,4 +1,5 @@
 const walletPriority: Record<string, number> = {
+  MetaMask: 1,
   metaMaskSDK: 1,
   'io.metamask': 1,
   'io.metamask.mobile': 1,

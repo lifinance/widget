@@ -19,6 +19,7 @@ import { useSettings } from '../stores/settings/useSettings.js'
 import { defaultSlippage } from '../stores/settings/useSettingsStore.js'
 import { WidgetEvent } from '../types/events.js'
 import { getChainTypeFromAddress } from '../utils/chainType.js'
+import { getQueryKey } from '../utils/queries.js'
 import { useChain } from './useChain.js'
 import { useDebouncedWatch } from './useDebouncedWatch.js'
 import { useGasRefuel } from './useGasRefuel.js'
@@ -43,6 +44,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
     fee,
     feeConfig,
     useRelayerRoutes,
+    keyPrefix,
   } = useWidgetConfig()
   const setExecutableRoute = useSetExecutableRoute()
   const queryClient = useQueryClient()
@@ -135,7 +137,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
 
   // Some values should be strictly typed and isEnabled ensures that
   const queryKey = [
-    'routes',
+    getQueryKey('routes', keyPrefix),
     account.address,
     fromChain?.id as number,
     fromToken?.address as string,
@@ -399,7 +401,13 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           const { fromToken, toToken } = routesResult.routes[0]
           ;[fromToken, toToken].forEach((token) => {
             queryClient.setQueriesData<Token[]>(
-              { queryKey: ['token-balances', fromAddress, token.chainId] },
+              {
+                queryKey: [
+                  getQueryKey('token-balances', keyPrefix),
+                  fromAddress,
+                  token.chainId,
+                ],
+              },
               (data) => {
                 if (data) {
                   const clonedData = [...data]
@@ -464,11 +472,9 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
 
   const setReviewableRoute = (route: Route) => {
     const queryDataKey = queryKey.toSpliced(queryKey.length - 1, 1, route.id)
-    queryClient.setQueryData(
-      queryDataKey,
-      { routes: [route] },
-      { updatedAt: dataUpdatedAt || Date.now() }
-    )
+    queryClient.setQueryData(queryDataKey, [route], {
+      updatedAt: dataUpdatedAt || Date.now(),
+    })
     setExecutableRoute(route)
   }
 

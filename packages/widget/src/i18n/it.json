@@ -21,6 +21,7 @@
     "close": "",
     "confirm": "",
     "connectAnotherWallet": "",
+    "connectChainWallet": "",
     "connectWallet": "Collega il portafoglio",
     "contactSupport": "Contatta l'assistenza",
     "continue": "Continua",
@@ -47,6 +48,7 @@
     "startSwapping": "Avvia lo scambio",
     "swap": "Scambio",
     "swapReview": "",
+    "system": "",
     "tryAgain": "Riprova",
     "viewCoverage": "Vedi copertura",
     "viewOnExplorer": "Visualizza sull'Explorer"
@@ -55,7 +57,7 @@
     "activeTransactions": "Transazioni attive",
     "amount": "",
     "bookmarkedWallets": "",
-    "bridge": "Bridge",
+    "bridge": "",
     "checkout": "Checkout",
     "checkoutDetails": "",
     "deposit": "",
@@ -66,7 +68,9 @@
     "gas": "Gas",
     "payWith": "Paga con",
     "receive": "",
+    "received": "",
     "recentWallets": "",
+    "refunded": "",
     "selectChain": "Seleziona la chain",
     "selectWallet": "Seleziona il tuo portafoglio",
     "send": "",
@@ -90,7 +94,8 @@
       "emptyTokenList": "Non siamo riusciti a trovare token sulla chain {{chainName}} o non ne hai. Riprova o scegli un'altra chain.",
       "emptyTransactionHistory": "La cronologia delle transazioni è memorizzata solo localmente e verrà eliminata se si cancellano i dati del browser.",
       "routeNotFound": "Le ragioni potrebbero essere: bassa liquidità, la quantità selezionata è troppo bassa, i costi del gas sono troppo elevati o non ci sono routes per la combinazione selezionata.",
-      "toAddressIsRequired": ""
+      "toAddressIsRequired": "",
+      "missingRouteRequiredAccount": ""
     },
     "title": {
       "autoRefuel": "",
@@ -101,9 +106,7 @@
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": "",
-      "exchangeSuccessful": "",
-      "checkoutSuccessful": ""
+      "exchangePartiallySuccessful": ""
     },
     "title": {
       "bridgePartiallySuccessful": "Bridge parzialmente completato con successo",
@@ -145,9 +148,11 @@
     "message": {
       "allowanceRequired": "L'importo di {{tokenSymbol}} supera la tua quota massima permessa. Aumenta la quota e riprova.",
       "insufficientFunds": "Non hai abbastanza gas per coprire il costo della transazione.",
+      "rateLimitExceeded": "",
       "remainInYourWallet": "",
       "signatureRejected": "",
       "slippageThreshold": "Lo slittamento di prezzo è più alto della soglia definita. Si prega di richiedere una nuova route per ottenere una quota aggiornata.",
+      "thirdPartyError": "",
       "transactionCanceled": "",
       "transactionConflict": "",
       "transactionExpired": "",
@@ -167,8 +172,10 @@
       "exchangeRateUpdateCanceled": "",
       "gasLimitIsTooLow": "Limite di gas troppo basso",
       "insufficientFunds": "Fondi insufficienti",
+      "rateLimitExceeded": "",
       "signatureRejected": "",
       "slippageNotMet": "Condizioni di slittamento di prezzo non rispettate",
+      "thirdPartyError": "",
       "transactionCanceled": "Transazione cancellata",
       "transactionConflict": "",
       "transactionExpired": "",
@@ -281,7 +288,7 @@
     "sendToWallet": "Invia ad un altro portafoglio",
     "sending": "Invio in corso",
     "sentToAddress": "Inviati a {{address}}",
-    "stepBridge": "Bridge",
+    "stepBridge": "",
     "stepBridgeAndBuy": "Trasferisci e acquista",
     "stepBridgeAndDeposit": "",
     "stepBuy": "Acquista",
@@ -308,7 +315,7 @@
     "searchExchanges": ""
   },
   "settings": {
-    "theme": "",
+    "appearance": "",
     "enabledBridges": "",
     "enabledExchanges": "",
     "gasPrice": {

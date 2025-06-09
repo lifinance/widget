@@ -13,16 +13,10 @@ export const SuiBaseProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const config = useMemo(() => {
     const sui = chains?.find((chain) => chain.id === ChainId.SUI)
-    if (sui) {
-      return createNetworkConfig({
-        mainnet: { url: sui.metamask?.rpcUrls[0] ?? getFullnodeUrl('mainnet') },
-      })
-    }
+    return createNetworkConfig({
+      mainnet: { url: sui?.metamask?.rpcUrls[0] ?? getFullnodeUrl('mainnet') },
+    })
   }, [chains])
-
-  if (!config?.networkConfig) {
-    return null
-  }
 
   return (
     <SuiClientProvider networks={config.networkConfig} defaultNetwork="mainnet">
