@@ -31,8 +31,8 @@ export const isWalletInstalled = (id: string): boolean => {
         !anyWindow.unisat?.isBinance &&
         !anyWindow.unisat?.isBitKeep
       )
-    case 'io.xdefi.bitcoin':
-      return anyWindow.xfi?.bitcoin
+    case 'io.xdefi':
+      return anyWindow.xfi
     case 'so.onekey.app.wallet.bitcoin':
       return anyWindow.$onekey?.btc
     case 'LeatherProvider':
