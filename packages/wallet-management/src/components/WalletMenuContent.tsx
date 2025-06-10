@@ -101,30 +101,34 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
   selectedWalletRef.current = selectedWallet || selectedWalletRef.current
   selectedWallet = selectedWalletRef.current
 
-  const installedWalletsWithTagTypes = getSortedByTags(
-    installedWallets
-      .filter((wallet) => wallet.connectors?.length)
-      .map((wallet) => {
-        let walletTagType: WalletTagType | undefined
-        if (wallet.connectors.length > 1) {
-          walletTagType = wallet.connectors.some(
-            (connector) =>
-              getTagType(connector.connector, connector.chainType) ===
-              WalletTagType.Connected
-          )
-            ? WalletTagType.Connected
-            : WalletTagType.Multichain
-        } else if (wallet.connectors.length === 1) {
-          walletTagType = getTagType(
-            wallet.connectors[0].connector,
-            wallet.connectors[0].chainType
-          )
-        }
-        return {
-          ...wallet,
-          tagType: walletTagType,
-        }
-      })
+  const installedWalletsWithTagTypes = useMemo(
+    () =>
+      getSortedByTags(
+        installedWallets
+          .filter((wallet) => wallet.connectors?.length)
+          .map((wallet) => {
+            let walletTagType: WalletTagType | undefined
+            if (wallet.connectors.length > 1) {
+              walletTagType = wallet.connectors.some(
+                (connector) =>
+                  getTagType(connector.connector, connector.chainType) ===
+                  WalletTagType.Connected
+              )
+                ? WalletTagType.Connected
+                : WalletTagType.Multichain
+            } else if (wallet.connectors.length === 1) {
+              walletTagType = getTagType(
+                wallet.connectors[0].connector,
+                wallet.connectors[0].chainType
+              )
+            }
+            return {
+              ...wallet,
+              tagType: walletTagType,
+            }
+          })
+      ),
+    [installedWallets, getTagType]
   )
 
   const getWalletButton = (
