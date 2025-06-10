@@ -86,6 +86,7 @@
   },
   "info": {
     "message": {
+      "accountDeployedMessage": "",
       "autoRefuel": "Livello basso di gas su {{chainName}}. Continuando avrai abbastanza gas per completare lo scambio.",
       "emptyActiveTransactions": "Le transazioni in corso appariranno qui. Una volta completate, potrai trovarle nella cronologia delle transazioni.",
       "emptyBridgesList": "",

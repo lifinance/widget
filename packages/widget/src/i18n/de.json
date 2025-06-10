@@ -86,6 +86,7 @@
   },
   "info": {
     "message": {
+      "accountDeployedMessage": "",
       "autoRefuel": "Sie haben nicht genug Gas auf {{chainName}}. Wenn Sie fortfahren, erhalten Sie zusätzlich genug Gas um den Swap abzuschließen.",
       "emptyActiveTransactions": "Laufende Swaps werden hier angezeigt. Sobald Sie fertig sind, finden Sie sie in der Transaktionshistorie.",
       "emptyBridgesList": "",
