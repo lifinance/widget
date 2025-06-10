@@ -1,3 +1,4 @@
+import type { ChainType } from '@lifi/sdk'
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { WalletTagType } from '../types/walletTagType'
@@ -11,12 +12,12 @@ export const useWalletTag = () => {
   const connectedConnectorIds = useMemo(() => {
     return accounts
       .filter((account) => account.isConnected)
-      .map((account) => getConnectorId(account.connector))
+      .map((account) => getConnectorId(account.connector, account.chainType))
   }, [accounts])
 
   const getTagType = useCallback(
-    (connector?: ConnectorType) => {
-      const connectorId = getConnectorId(connector)
+    (connector?: ConnectorType, chainType?: ChainType) => {
+      const connectorId = getConnectorId(connector, chainType)
       if (!connectorId) {
         return undefined
       }

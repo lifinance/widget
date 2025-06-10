@@ -109,12 +109,16 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
         if (wallet.connectors.length > 1) {
           walletTagType = wallet.connectors.some(
             (connector) =>
-              getTagType(connector.connector) === WalletTagType.Connected
+              getTagType(connector.connector, connector.chainType) ===
+              WalletTagType.Connected
           )
             ? WalletTagType.Connected
             : WalletTagType.Multichain
         } else if (wallet.connectors.length === 1) {
-          walletTagType = getTagType(wallet.connectors[0].connector)
+          walletTagType = getTagType(
+            wallet.connectors[0].connector,
+            wallet.connectors[0].chainType
+          )
         }
         return {
           ...wallet,
@@ -191,7 +195,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
     return getSortedByTags(
       selectedWallet?.connectors?.map((connector) => ({
         ...connector,
-        tagType: getTagType(connector.connector),
+        tagType: getTagType(connector.connector, connector.chainType),
       })) || []
     )
   }, [selectedWallet, getTagType])
