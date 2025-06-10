@@ -14,14 +14,16 @@ import {
 } from '@mui/material'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import type { WalletAdapter } from '@solana/wallet-adapter-base'
-import { useReducer, useRef } from 'react'
+import { useMemo, useReducer, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Connector } from 'wagmi'
 import type { CombinedWallet } from '../hooks/useCombinedWallets.js'
 import { useCombinedWallets } from '../hooks/useCombinedWallets.js'
+import { useWalletTag } from '../hooks/useWalletTag.js'
 import type { WalletConnector } from '../types/walletConnector.js'
+import { WalletTagType } from '../types/walletTagType.js'
 import { ElementId } from '../utils/elements.js'
-import { WalletTagType, getTagType } from '../utils/walletTags.js'
+import { getSortedByTags } from '../utils/getSortedByTags.js'
 import { CardListItemButton } from './CardListItemButton.js'
 import { EVMListItemButton } from './EVMListItemButton.js'
 import { SVMListItemButton } from './SVMListItemButton.js'
@@ -69,6 +71,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
   const { t } = useTranslation()
   const { installedWallets } = useCombinedWallets()
   const selectedWalletRef = useRef<CombinedWallet>(null)
+  const { getTagType } = useWalletTag()
 
   const [state, dispatch] = useReducer(reducer, { view: 'wallet-list' })
 
@@ -98,36 +101,35 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
   selectedWalletRef.current = selectedWallet || selectedWalletRef.current
   selectedWallet = selectedWalletRef.current
 
-  const installedWalletsWithTagTypes = installedWallets
-    .filter((wallet) => wallet.connectors?.length)
-    .map((wallet) => {
-      const connector = wallet.connectors[0].connector
-      const connectorKey =
-        'id' in connector && connector.id ? connector.id : connector.name
-      return {
-        ...wallet,
-        tagType:
-          wallet.connectors.length > 1
-            ? WalletTagType.Multichain
-            : getTagType(connectorKey),
-      }
-    })
-    .sort((a, b) => {
-      const tagOrder = {
-        [WalletTagType.Multichain]: 0,
-        [WalletTagType.Installed]: 1,
-        [WalletTagType.QrCode]: 2,
-        [WalletTagType.GetStarted]: 3,
-      }
-      return tagOrder[a.tagType] - tagOrder[b.tagType]
-    })
+  const installedWalletsWithTagTypes = getSortedByTags(
+    installedWallets
+      .filter((wallet) => wallet.connectors?.length)
+      .map((wallet) => {
+        let walletTagType: WalletTagType | undefined
+        if (wallet.connectors.length > 1) {
+          walletTagType = wallet.connectors.some(
+            (connector) =>
+              getTagType(connector.connector) === WalletTagType.Connected
+          )
+            ? WalletTagType.Connected
+            : WalletTagType.Multichain
+        } else if (wallet.connectors.length === 1) {
+          walletTagType = getTagType(wallet.connectors[0].connector)
+        }
+        return {
+          ...wallet,
+          tagType: walletTagType,
+        }
+      })
+  )
 
   const getWalletButton = (
     id: string,
     name: string,
     chainType: ChainType,
     connector: WalletConnector,
-    ecosystemSelection?: boolean
+    ecosystemSelection?: boolean,
+    tagType?: WalletTagType
   ) => {
     const key = `${name}${ecosystemSelection ? `-${chainType}` : ''}`
 
@@ -137,6 +139,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
           <UTXOListItemButton
             key={key}
             ecosystemSelection={ecosystemSelection}
+            tagType={tagType}
             connector={connector as BigmiConnector}
             onConnected={onClose}
             onConnecting={() => handleConnecting(id)}
@@ -148,6 +151,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
           <EVMListItemButton
             key={key}
             ecosystemSelection={ecosystemSelection}
+            tagType={tagType}
             connector={connector as Connector}
             onConnected={onClose}
             onConnecting={() => handleConnecting(id)}
@@ -159,6 +163,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
           <SVMListItemButton
             key={key}
             ecosystemSelection={ecosystemSelection}
+            tagType={tagType}
             walletAdapter={connector as WalletAdapter}
             onConnected={onClose}
             onConnecting={() => handleConnecting(id)}
@@ -170,6 +175,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
           <SuiListItemButton
             key={key}
             ecosystemSelection={ecosystemSelection}
+            tagType={tagType}
             wallet={connector as WalletWithRequiredFeatures}
             onConnected={onClose}
             onConnecting={() => handleConnecting(id)}
@@ -180,6 +186,15 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
         return null
     }
   }
+
+  const selectedWalletConnectors = useMemo(() => {
+    return getSortedByTags(
+      selectedWallet?.connectors?.map((connector) => ({
+        ...connector,
+        tagType: getTagType(connector.connector),
+      })) || []
+    )
+  }, [selectedWallet, getTagType])
 
   return (
     <>
@@ -238,10 +253,17 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
               }}
             >
               {installedWalletsWithTagTypes.map(
-                ({ id, name, icon, connectors }) => {
+                ({ id, name, icon, connectors, tagType }) => {
                   if (connectors.length === 1) {
                     const { chainType, connector } = connectors[0]
-                    return getWalletButton(id, name, chainType, connector)
+                    return getWalletButton(
+                      id,
+                      name,
+                      chainType,
+                      connector,
+                      false,
+                      tagType
+                    )
                   }
                   return (
                     <CardListItemButton
@@ -249,7 +271,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
                       onClick={() => handleMultiEcosystem(id)}
                       title={name}
                       icon={icon ?? ''}
-                      tagType={WalletTagType.Multichain}
+                      tagType={tagType}
                     />
                   )
                 }
@@ -292,14 +314,16 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
                   gap: '8px',
                 }}
               >
-                {selectedWallet?.connectors.map(({ chainType, connector }) =>
-                  getWalletButton(
-                    state.selectedWalletId!,
-                    selectedWallet?.name,
-                    chainType,
-                    connector,
-                    true
-                  )
+                {selectedWalletConnectors.map(
+                  ({ chainType, tagType, connector }) =>
+                    getWalletButton(
+                      state.selectedWalletId!,
+                      selectedWallet?.name || '',
+                      chainType,
+                      connector,
+                      true,
+                      tagType
+                    )
                 )}
               </List>
             </Box>

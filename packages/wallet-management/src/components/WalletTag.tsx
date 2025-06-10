@@ -1,5 +1,5 @@
 import { Chip as MuiChip, styled } from '@mui/material'
-import { WalletTagType } from '../utils/walletTags'
+import { WalletTagType } from '../types/walletTagType'
 interface WalletTagProps {
   type: WalletTagType
 }
@@ -13,7 +13,7 @@ export const WalletTag = styled(MuiChip)<WalletTagProps>(({ theme }) => {
     variants: [
       {
         props: {
-          type: WalletTagType.Multichain,
+          type: WalletTagType.Connected,
         },
         style: {
           color: theme.vars.palette.primary.main,
@@ -25,6 +25,7 @@ export const WalletTag = styled(MuiChip)<WalletTagProps>(({ theme }) => {
         },
       },
       ...[
+        WalletTagType.Multichain,
         WalletTagType.Installed,
         WalletTagType.GetStarted,
         WalletTagType.QrCode,

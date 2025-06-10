@@ -5,7 +5,7 @@ import type { PublicKey } from '@solana/web3.js'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { WalletManagementEvent } from '../types/events.js'
-import { getTagType } from '../utils/walletTags.js'
+import { WalletTagType } from '../types/walletTagType.js'
 import { CardListItemButton } from './CardListItemButton.js'
 import type { WalletListItemButtonProps } from './types.js'
 
@@ -16,6 +16,7 @@ interface SVMListItemButtonProps extends WalletListItemButtonProps {
 export const SVMListItemButton = ({
   ecosystemSelection,
   walletAdapter,
+  tagType,
   onConnected,
   onConnecting,
   onError,
@@ -30,6 +31,11 @@ export const SVMListItemButton = ({
     : walletAdapter.name
 
   const connectWallet = async () => {
+    if (tagType === WalletTagType.Connected) {
+      onConnected?.()
+      return
+    }
+
     try {
       onConnecting?.()
       if (connected) {
@@ -64,7 +70,11 @@ export const SVMListItemButton = ({
       }
       onClick={connectWallet}
       title={connectorDisplayName}
-      tagType={ecosystemSelection ? undefined : getTagType(walletAdapter.name)}
+      tagType={
+        ecosystemSelection && tagType !== WalletTagType.Connected
+          ? undefined
+          : tagType
+      }
     />
   )
 }

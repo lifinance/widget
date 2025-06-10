@@ -6,7 +6,7 @@ export const ListItemButton = styled(MuiListItemButton)(({ theme }) => {
     paddingLeft: theme.spacing(1.5),
     height: 72,
     '&:hover': {
-      backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+      backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.06)`,
     },
     variants: [
       {

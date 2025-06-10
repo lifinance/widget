@@ -13,6 +13,7 @@
     "availableWalletsNotFound": "No compatible wallet extensions detected. Please install a supported wallet and refresh the page. If already installed, ensure it's enabled and compatible, or contact support."
   },
   "tags": {
+    "connected": "Connected",
     "multichain": "Multichain",
     "installed": "Installed",
     "qrCode": "QR Code",

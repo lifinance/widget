@@ -4,7 +4,7 @@ import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { WalletManagementEvent } from '../types/events.js'
-import { getTagType } from '../utils/walletTags.js'
+import { WalletTagType } from '../types/walletTagType.js'
 import { CardListItemButton } from './CardListItemButton.js'
 import type { WalletListItemButtonProps } from './types.js'
 
@@ -15,6 +15,7 @@ interface SuiListItemButtonProps extends WalletListItemButtonProps {
 export const SuiListItemButton = ({
   ecosystemSelection,
   wallet,
+  tagType,
   onConnected,
   onConnecting,
   onError,
@@ -27,6 +28,11 @@ export const SuiListItemButton = ({
   const connectorDisplayName: string = ecosystemSelection ? 'Sui' : wallet.name
 
   const connectWallet = async () => {
+    if (tagType === WalletTagType.Connected) {
+      onConnected?.()
+      return
+    }
+
     try {
       onConnecting?.()
       await connect(
@@ -60,7 +66,11 @@ export const SuiListItemButton = ({
       }
       onClick={connectWallet}
       title={connectorDisplayName}
-      tagType={ecosystemSelection ? undefined : getTagType(wallet.id ?? '')}
+      tagType={
+        ecosystemSelection && tagType !== WalletTagType.Connected
+          ? undefined
+          : tagType
+      }
     />
   )
 }

@@ -6,10 +6,10 @@ import type { CreateConnectorFnExtended } from '../connectors/types.js'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { WalletManagementEvent } from '../types/events.js'
+import { WalletTagType } from '../types/walletTagType.js'
 import { createWalletConnectElement } from '../utils/elements.js'
 import { getConnectorIcon } from '../utils/getConnectorIcon.js'
 import { isWalletInstalled } from '../utils/isWalletInstalled.js'
-import { getTagType } from '../utils/walletTags.js'
 import { CardListItemButton } from './CardListItemButton.js'
 import type { WalletListItemButtonProps } from './types.js'
 
@@ -20,6 +20,7 @@ interface EVMListItemButtonProps extends WalletListItemButtonProps {
 export const EVMListItemButton = ({
   ecosystemSelection,
   connector,
+  tagType,
   onNotInstalled,
   onConnected,
   onConnecting,
@@ -36,6 +37,11 @@ export const EVMListItemButton = ({
     : connectorName
 
   const handleEVMConnect = async () => {
+    if (tagType === WalletTagType.Connected) {
+      onConnected?.()
+      return
+    }
+
     try {
       const identityCheckPassed = isWalletInstalled((connector as Connector).id)
       if (!identityCheckPassed) {
@@ -75,7 +81,11 @@ export const EVMListItemButton = ({
       }
       onClick={handleEVMConnect}
       title={connectorDisplayName}
-      tagType={ecosystemSelection ? undefined : getTagType(connector.id)}
+      tagType={
+        ecosystemSelection && tagType !== WalletTagType.Connected
+          ? undefined
+          : tagType
+      }
     />
   )
 }
