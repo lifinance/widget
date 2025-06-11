@@ -16,8 +16,8 @@ import { useTranslation } from 'react-i18next'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { shortenAddress } from '../../utils/wallet.js'
+import { ListItemButton } from '../ListItem/ListItemButton.js'
 import { IconButton, ListItem } from './TokenList.style.js'
-import { ListItemButton } from './TokenListItem.style.js'
 import type {
   TokenListItemAvatarProps,
   TokenListItemButtonProps,
@@ -126,6 +126,10 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
       onMouseLeave={onMouseLeave}
       dense
       selected={isSelected}
+      sx={{
+        height: 60,
+        marginBottom: '4px',
+      }}
     >
       <ListItemAvatar>
         <TokenListItemAvatar token={token} />

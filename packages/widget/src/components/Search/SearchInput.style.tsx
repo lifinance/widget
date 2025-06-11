@@ -1,4 +1,11 @@
-import { Box, List, styled } from '@mui/material'
+import {
+  Box,
+  List,
+  inputAdornmentClasses,
+  inputBaseClasses,
+  styled,
+  svgIconClasses,
+} from '@mui/material'
 import { Input as InputBase } from '../../components/Input.js'
 
 interface InputProps {
@@ -12,13 +19,13 @@ export const Input = styled(InputBase, {
   paddingLeft: theme.spacing(1.25),
   fontSize: size === 'small' ? '0.875rem' : '1rem',
   borderRadius: theme.vars.shape.borderRadius,
-  '& .MuiInputBase-input': {
+  [`& .${inputBaseClasses.input}`]: {
     padding: theme.spacing(1),
   },
-  '& .MuiInputAdornment-root': {
+  [`& .${inputAdornmentClasses.root}`]: {
     marginLeft: 0,
     marginRight: 0,
-    '& .MuiSvgIcon-root': {
+    [`& .${svgIconClasses.root}`]: {
       width: size === 'small' ? '1.25rem' : '1.5rem',
     },
   },

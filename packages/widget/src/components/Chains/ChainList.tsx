@@ -1,5 +1,5 @@
 import type { ExtendedChain } from '@lifi/sdk'
-import { ListItem, Skeleton } from '@mui/material'
+import { Skeleton } from '@mui/material'
 import { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SearchNotFound } from '../Search/SearchNotFound'
@@ -9,7 +9,7 @@ import {
   ListItemAvatar,
   ListItemButton,
   ListItemText,
-} from './SelectChainContent.style'
+} from './ChainList.style'
 
 interface ChainListProps {
   chains: ExtendedChain[]
@@ -43,30 +43,32 @@ export const ChainList = ({
 
   if (isLoading) {
     return (
-      <List size={size} disablePadding>
+      <List size={size} disablePadding sx={{ cursor: 'default' }}>
         {Array.from({ length: 3 }).map((_, index) => (
-          <ListItem
+          <ListItemButton
             key={index}
-            disablePadding
-            sx={{
-              position: 'relative',
-              flexDirection: 'row',
-              alignItems: 'center',
-              padding: 0,
-            }}
+            size={size}
+            sx={{ pointerEvents: 'none' }}
           >
-            <ListItemAvatar>
+            <ListItemAvatar size={size}>
               <Skeleton
                 variant="circular"
-                width={40}
-                height={40}
-                sx={{ marginLeft: 1.5, marginRight: 2 }}
+                width={size === 'small' ? 32 : 40}
+                height={size === 'small' ? 32 : 40}
+                sx={{ marginRight: 2 }}
               />
             </ListItemAvatar>
             <ListItemText
-              primary={<Skeleton variant="text" width={100} height={36} />}
+              primary={
+                <Skeleton
+                  variant="text"
+                  width={'100%'}
+                  height={size === 'small' ? 18 : 24}
+                />
+              }
+              size={size}
             />
-          </ListItem>
+          </ListItemButton>
         ))}
       </List>
     )
@@ -82,7 +84,7 @@ export const ChainList = ({
   }
 
   return (
-    <List size={size}>
+    <List size={size} disablePadding>
       {sortedChains.map((chain) => (
         <ListItemButton
           key={chain.id}
