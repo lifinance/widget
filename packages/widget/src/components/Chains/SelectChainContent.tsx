@@ -18,7 +18,7 @@ interface SelectChainContentProps {
   inExpansion: boolean
 }
 
-const searchHeaderHeight = '72px'
+const searchHeaderHeight = '80px'
 
 export const SelectChainContent: React.FC<SelectChainContentProps> = ({
   formType,
@@ -67,7 +67,7 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = ({
   return (
     <FullPageContainer disableGutters>
       {inExpansion ? (
-        <Box sx={{ py: 2, px: 3, height: searchHeaderHeight }}>
+        <Box sx={{ pt: 3, pb: 2, px: 3, height: searchHeaderHeight }}>
           <SearchInput
             inExpansion={inExpansion}
             onChange={handleSearchInputChange}

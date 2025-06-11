@@ -4,7 +4,6 @@ import { Grow, Stack, Typography } from '@mui/material'
 import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { animationTimeout } from '../../config/constants.js'
 import { useRoutes } from '../../hooks/useRoutes.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
@@ -23,6 +22,8 @@ import {
   RoutesExpandedCollapse,
   ScrollableContainer,
 } from './RoutesExpanded.style.js'
+
+export const animationTimeout = { enter: 225, exit: 225, appear: 0 }
 
 export const RoutesExpanded = () => {
   const { t } = useTranslation()

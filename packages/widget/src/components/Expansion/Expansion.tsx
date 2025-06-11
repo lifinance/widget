@@ -1,15 +1,20 @@
+import type { ExtendedChain } from '@lifi/sdk'
 import { Collapse } from '@mui/material'
-import type { PropsWithChildren } from 'react'
+import { type PropsWithChildren, useCallback } from 'react'
 import type { RouteObject } from 'react-router-dom'
 import { useRoutes as useDOMRoutes } from 'react-router-dom'
-import { animationTimeout } from '../../config/constants'
 import { useSwapOnly } from '../../hooks/useSwapOnly'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider'
 import { HiddenUI } from '../../types/widget'
 import { navigationRoutes } from '../../utils/navigationRoutes'
-import { SelectChainExpansion } from '../Chains/SelectChainExpansion'
-import { RoutesExpanded } from '../Routes/RoutesExpanded'
-import { CollapseContainer, ExpansionTopLevelGrow } from './Expansion.style'
+import { useChainSelect } from '../ChainSelect/useChainSelect'
+import { SelectChainContent } from '../Chains/SelectChainContent'
+import { RoutesExpanded, animationTimeout } from '../Routes/RoutesExpanded'
+import {
+  CollapseContainer,
+  ExpansionTopLevelGrow,
+  SelectChainExpansionContainer,
+} from './Expansion.style'
 
 enum ExpansionType {
   Routes = 'routes',
@@ -50,27 +55,55 @@ export const Expansion = () => {
     !(swapOnly && expansionType === ExpansionType.ToChain) &&
     !hiddenUI?.includes(HiddenUI.ChainSelect)
 
+  const formType = expansionType === ExpansionType.FromChain ? 'from' : 'to'
+  const { setCurrentChain } = useChainSelect(formType)
+  const onSelect = useCallback(
+    (chain: ExtendedChain) => {
+      setCurrentChain(chain.id)
+    },
+    [setCurrentChain]
+  )
+
   return (
     <CollapseContainer>
-      <Collapse timeout={animationTimeout} in={match} orientation="horizontal">
-        <ExpansionTopLevelGrow
+      {expansionType === ExpansionType.Routes && (
+        <Collapse
           timeout={animationTimeout}
           in={match}
+          orientation="horizontal"
+        >
+          <ExpansionTopLevelGrow
+            timeout={animationTimeout}
+            in={match}
+            mountOnEnter
+            unmountOnExit
+          >
+            <div>
+              <RoutesExpanded />
+            </div>
+          </ExpansionTopLevelGrow>
+        </Collapse>
+      )}
+      {withChainExpansion && (
+        <Collapse
+          in
+          orientation="horizontal"
           mountOnEnter
           unmountOnExit
+          appear
+          timeout={500}
         >
           <div>
-            {expansionType === ExpansionType.Routes && <RoutesExpanded />}
-            {withChainExpansion && (
-              <SelectChainExpansion
-                formType={
-                  expansionType === ExpansionType.FromChain ? 'from' : 'to'
-                }
+            <SelectChainExpansionContainer>
+              <SelectChainContent
+                inExpansion
+                formType={formType}
+                onSelect={onSelect}
               />
-            )}
+            </SelectChainExpansionContainer>
           </div>
-        </ExpansionTopLevelGrow>
-      </Collapse>
+        </Collapse>
+      )}
     </CollapseContainer>
   )
 }

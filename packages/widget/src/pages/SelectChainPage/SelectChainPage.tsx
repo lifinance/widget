@@ -1,5 +1,4 @@
 import type { ExtendedChain } from '@lifi/sdk'
-import {} from '@mui/material'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useChainSelect } from '../../components/ChainSelect/useChainSelect.js'
