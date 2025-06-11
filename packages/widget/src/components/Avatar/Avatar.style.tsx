@@ -9,7 +9,11 @@ import {
 } from '@mui/material'
 import { avatarMask16 } from './utils.js'
 
-export const AvatarMasked = styled(MuiAvatar)(() => ({
+export const AvatarMasked = styled(MuiAvatar, {
+  shouldForwardProp: (prop) => prop !== 'size',
+})<{ size?: number }>(({ size = 40 }) => ({
+  width: size,
+  height: size,
   mask: avatarMask16,
 }))
 
@@ -48,11 +52,14 @@ export const AvatarDefault = styled(Box)(({ theme }) => {
   }
 })
 
-export const AvatarDefaultBadge = styled(Box)(({ theme }) => {
+export const AvatarDefaultBadge = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'size',
+})<{ size?: number }>(({ theme, size = 16 }) => {
   return {
     borderRadius: '50%',
-    height: 16,
-    width: 16,
+    height: size,
+    width: size,
+    border: `2px solid ${theme.vars.palette.background.default}`,
     background: theme.vars.palette.grey[300],
     ...theme.applyStyles('dark', {
       background: theme.vars.palette.grey[800],

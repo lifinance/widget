@@ -34,20 +34,22 @@ export const TokenInfoSheet = forwardRef<BottomSheetBase, TokenInfoSheetProps>(
     const { getAddressLink } = useExplorer()
     const { getChainById } = useAvailableChains()
 
-    const { token, isLoading } = useTokenSearch(chainId, tokenAddress)
+    const { token, isLoading } = useTokenSearch(chainId, tokenAddress, true)
     const chain = getChainById(chainId)
 
     const copyContractAddress = async (e: React.MouseEvent) => {
       e.stopPropagation()
       try {
         await navigator.clipboard.writeText(tokenAddress || '')
-      } catch {
-        // Do nothing if copy fails
-      }
+      } catch {}
     }
 
     return (
-      <BottomSheet ref={ref}>
+      <BottomSheet
+        ref={ref}
+        onMouseEnter={(e) => e.stopPropagation()}
+        onMouseLeave={(e) => e.stopPropagation()}
+      >
         <TokenInfoSheetContainer>
           <TokenInfoSheetHeader>
             <Box
@@ -61,33 +63,32 @@ export const TokenInfoSheet = forwardRef<BottomSheetBase, TokenInfoSheetProps>(
               <TokenAvatar
                 token={token}
                 chain={chain}
-                sx={{
-                  '& .MuiBadge-badge': {
-                    width: '28px',
-                    height: '28px',
-                    '& .MuiAvatar-root': {
-                      width: '28px',
-                      height: '28px',
-                    },
-                  },
-                  '& .MuiAvatar-root': {
-                    width: '72px',
-                    height: '72px',
-                  },
-                }}
+                tokenAvatarSize={72}
+                chainAvatarSize={28}
+                isLoading={isLoading}
               />
-              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Typography
-                  sx={{
-                    fontWeight: 700,
-                    fontSize: '24px',
-                    lineHeight: '32px',
-                    color: 'text.primary',
-                  }}
-                >
-                  {token?.symbol || NO_DATA_INDICATOR}
-                </Typography>
-                <Label>{token?.name || NO_DATA_INDICATOR}</Label>
+              <Box
+                sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
+              >
+                {isLoading ? (
+                  <Skeleton variant="text" width={80} height={24} />
+                ) : (
+                  <Typography
+                    sx={{
+                      fontWeight: 700,
+                      fontSize: '24px',
+                      lineHeight: '24px',
+                      color: 'text.primary',
+                    }}
+                  >
+                    {token?.symbol || NO_DATA_INDICATOR}
+                  </Typography>
+                )}
+                {isLoading ? (
+                  <Skeleton variant="text" width={80} height={16} />
+                ) : (
+                  <Label>{token?.name || NO_DATA_INDICATOR}</Label>
+                )}
               </Box>
             </Box>
             <IconButton
@@ -100,6 +101,8 @@ export const TokenInfoSheet = forwardRef<BottomSheetBase, TokenInfoSheetProps>(
           <MetricWithSkeleton
             isLoading={isLoading}
             label={t('tokenMetric.currentPrice')}
+            width={200}
+            height={40}
           >
             <Typography
               sx={{
@@ -111,7 +114,11 @@ export const TokenInfoSheet = forwardRef<BottomSheetBase, TokenInfoSheetProps>(
             >
               {token
                 ? t('format.currency', {
-                    value: formatTokenPrice(1n, token.priceUSD, token.decimals),
+                    value: formatTokenPrice(
+                      '1',
+                      token.priceUSD,
+                      token.decimals
+                    ),
                   })
                 : NO_DATA_INDICATOR}
             </Typography>
@@ -119,6 +126,8 @@ export const TokenInfoSheet = forwardRef<BottomSheetBase, TokenInfoSheetProps>(
           <MetricWithSkeleton
             isLoading={isLoading}
             label={t('tokenMetric.contractAddress')}
+            width={200}
+            height={24}
           >
             <Box
               sx={{
@@ -162,10 +171,14 @@ export const TokenInfoSheet = forwardRef<BottomSheetBase, TokenInfoSheetProps>(
 interface MetricWithSkeletonProps {
   label: string
   isLoading: boolean
+  width: number
+  height: number
 }
 
 const MetricWithSkeleton = ({
   label,
+  width,
+  height,
   isLoading,
   children,
 }: PropsWithChildren<MetricWithSkeletonProps>) => {
@@ -173,7 +186,7 @@ const MetricWithSkeleton = ({
     <MetricContainer>
       <Label>{label}</Label>
       {isLoading ? (
-        <Skeleton variant="text" width={56} height={24} />
+        <Skeleton variant="text" width={width} height={height} />
       ) : (
         children
       )}

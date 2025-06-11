@@ -12,9 +12,26 @@ export const TokenAvatar: React.FC<{
   chain?: Chain
   isLoading?: boolean
   sx?: SxProps<Theme>
-}> = ({ token, chain, isLoading, sx }) => {
+  tokenAvatarSize?: number
+  chainAvatarSize?: number
+}> = ({
+  token,
+  chain,
+  isLoading,
+  sx,
+  tokenAvatarSize = 40,
+  chainAvatarSize = 16,
+}) => {
   if (!chain || !token?.logoURI) {
-    return <TokenAvatarFallback token={token} isLoading={isLoading} sx={sx} />
+    return (
+      <TokenAvatarFallback
+        token={token}
+        isLoading={isLoading}
+        sx={sx}
+        tokenAvatarSize={tokenAvatarSize}
+        chainAvatarSize={chainAvatarSize}
+      />
+    )
   }
   return (
     <TokenAvatarBase
@@ -22,6 +39,8 @@ export const TokenAvatar: React.FC<{
       chain={chain}
       isLoading={isLoading}
       sx={sx}
+      avatarSize={tokenAvatarSize}
+      badgeSize={chainAvatarSize}
     />
   )
 }
@@ -30,7 +49,9 @@ export const TokenAvatarFallback: React.FC<{
   token?: StaticToken
   isLoading?: boolean
   sx?: SxProps<Theme>
-}> = ({ token, isLoading, sx }) => {
+  tokenAvatarSize: number
+  chainAvatarSize: number
+}> = ({ token, isLoading, sx, tokenAvatarSize, chainAvatarSize }) => {
   const { chain } = useChain(token?.chainId)
   const { token: chainToken, isLoading: isLoadingToken } = useToken(
     token?.chainId,
@@ -42,6 +63,8 @@ export const TokenAvatarFallback: React.FC<{
       isLoading={isLoading || isLoadingToken}
       chain={chain}
       sx={sx}
+      avatarSize={tokenAvatarSize}
+      badgeSize={chainAvatarSize}
     />
   )
 }
@@ -51,25 +74,27 @@ export const TokenAvatarBase: React.FC<{
   chain?: Chain
   isLoading?: boolean
   sx?: SxProps<Theme>
-}> = ({ token, chain, isLoading, sx }) => {
+  avatarSize: number
+  badgeSize: number
+}> = ({ token, chain, isLoading, sx, avatarSize, badgeSize }) => {
   return isLoading ? (
-    <AvatarBadgedSkeleton />
+    <AvatarBadgedSkeleton avatarSize={avatarSize} badgeSize={badgeSize} />
   ) : (
     <Badge
       overlap="circular"
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       badgeContent={
         chain ? (
-          <SmallAvatar src={chain.logoURI} alt={chain.name}>
+          <SmallAvatar src={chain.logoURI} alt={chain.name} size={badgeSize}>
             {chain.name[0]}
           </SmallAvatar>
         ) : (
-          <AvatarDefaultBadge />
+          <AvatarDefaultBadge size={badgeSize} />
         )
       }
       sx={sx}
     >
-      <AvatarMasked src={token?.logoURI} alt={token?.symbol}>
+      <AvatarMasked src={token?.logoURI} alt={token?.symbol} size={avatarSize}>
         {token?.symbol?.[0]}
       </AvatarMasked>
     </Badge>
