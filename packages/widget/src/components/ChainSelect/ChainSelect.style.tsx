@@ -11,12 +11,15 @@ const chainCardHeightPx = 56
 const maxRows = 2
 const maxChainsPerRow = Math.ceil(maxChainsToShow / maxRows)
 
-export const ChainCard = styled(Card)({
+export const ChainCard = styled(Card)(({ theme }) => ({
   display: 'grid',
   placeItems: 'center',
   minWidth: chainCardWidthPx,
   height: chainCardHeightPx,
-})
+  '&:hover': {
+    backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.06)`,
+  },
+}))
 
 export const ChainContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'itemCount',

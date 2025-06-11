@@ -84,7 +84,7 @@ interface CssBaselineContainerProps {
   elementId: string
 }
 
-export const CssBaselineContainer = styled(ScopedCssBaseline, {
+const CssBaselineContainer = styled(ScopedCssBaseline, {
   shouldForwardProp: (prop) =>
     !['variant', 'paddingTopAdjustment', 'elementId'].includes(prop as string),
 })<CssBaselineContainerProps>(({ theme, variant, paddingTopAdjustment }) => {

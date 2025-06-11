@@ -1,0 +1,103 @@
+import type { ExtendedChain } from '@lifi/sdk'
+import { ListItem, Skeleton } from '@mui/material'
+import { useMemo, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
+import { SearchNotFound } from '../Search/SearchNotFound'
+import {
+  Avatar,
+  List,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemText,
+} from './SelectChainContent.style'
+
+interface ChainListProps {
+  chains: ExtendedChain[]
+  onSelect: (chain: ExtendedChain) => void
+  selectedChainId?: number
+  inExpansion: boolean
+  isLoading: boolean
+}
+
+export const ChainList = ({
+  chains,
+  onSelect,
+  selectedChainId,
+  inExpansion,
+  isLoading,
+}: ChainListProps) => {
+  const { t } = useTranslation()
+
+  const initialSelectedChainIdRef = useRef(selectedChainId)
+  const sortedChains = useMemo(() => {
+    const selectedChain = chains.find(
+      (chain) => chain.id === initialSelectedChainIdRef.current
+    )
+    const otherChains = chains.filter(
+      (chain) => chain.id !== initialSelectedChainIdRef.current
+    )
+    return selectedChain ? [selectedChain, ...otherChains] : chains
+  }, [chains])
+
+  const size = inExpansion ? 'small' : 'medium'
+
+  if (isLoading) {
+    return (
+      <List size={size} disablePadding>
+        {Array.from({ length: 3 }).map((_, index) => (
+          <ListItem
+            key={index}
+            disablePadding
+            sx={{
+              position: 'relative',
+              flexDirection: 'row',
+              alignItems: 'center',
+              padding: 0,
+            }}
+          >
+            <ListItemAvatar>
+              <Skeleton
+                variant="circular"
+                width={40}
+                height={40}
+                sx={{ marginLeft: 1.5, marginRight: 2 }}
+              />
+            </ListItemAvatar>
+            <ListItemText
+              primary={<Skeleton variant="text" width={100} height={36} />}
+            />
+          </ListItem>
+        ))}
+      </List>
+    )
+  }
+
+  if (!sortedChains.length) {
+    return (
+      <SearchNotFound
+        message={t('info.message.emptyChainList')}
+        adjustForStickySearchInput={!inExpansion}
+      />
+    )
+  }
+
+  return (
+    <List size={size}>
+      {sortedChains.map((chain) => (
+        <ListItemButton
+          key={chain.id}
+          onClick={() => onSelect(chain)}
+          selected={chain.id === selectedChainId}
+          size={size}
+        >
+          <ListItemAvatar size={size}>
+            <Avatar src={chain.logoURI} alt={chain.name} size={size}>
+              {chain.name[0]}
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary={chain.name} size={size} />
+        </ListItemButton>
+      ))}
+    </List>
+  )
+}

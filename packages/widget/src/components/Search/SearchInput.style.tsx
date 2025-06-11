@@ -26,7 +26,6 @@ export const Input = styled(InputBase, {
 
 interface SearchStickyContainerProps {
   headerHeight: number
-  inExpansion: boolean
 }
 
 export const searchContainerHeight = 64
@@ -35,14 +34,12 @@ export const searchContainerHeight = 64
 // position fixed in the same way as the header (see Header.tsx). The headerHeight value here is used as the top value
 // to ensure that this container positioned correctly beneath the header
 export const StickySearchInputContainer = styled(Box, {
-  shouldForwardProp: (prop) =>
-    !['headerHeight', 'inExpansion'].includes(prop as string),
-})<SearchStickyContainerProps>(({ theme, headerHeight, inExpansion }) => ({
+  shouldForwardProp: (prop) => prop !== 'headerHeight',
+})<SearchStickyContainerProps>(({ theme, headerHeight }) => ({
   position: 'sticky',
-  top: inExpansion ? 0 : headerHeight,
+  top: headerHeight,
   zIndex: 1,
-  height: inExpansion ? 'auto' : searchContainerHeight,
-  paddingTop: inExpansion ? theme.spacing(3) : 0,
+  height: searchContainerHeight,
   paddingBottom: theme.spacing(2),
   paddingLeft: theme.spacing(3),
   paddingRight: theme.spacing(3),

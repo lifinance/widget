@@ -64,15 +64,8 @@ export const StickySearchInput = (props: SearchInputProps) => {
   const { headerHeight } = useHeaderHeight()
 
   return (
-    <StickySearchInputContainer
-      headerHeight={headerHeight}
-      inExpansion={!!props.inExpansion}
-    >
-      <SearchInput
-        {...props}
-        inExpansion={props.inExpansion}
-        autoFocus={!props.inExpansion}
-      />
+    <StickySearchInputContainer headerHeight={headerHeight}>
+      <SearchInput {...props} inExpansion={false} autoFocus />
     </StickySearchInputContainer>
   )
 }
