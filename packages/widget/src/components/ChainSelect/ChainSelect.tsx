@@ -71,7 +71,7 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
                 component="button"
                 onClick={() => setCurrentChain(chain.id)}
                 type={chainId === chain.id ? 'selected' : 'default'}
-                selectionColor="primary"
+                selectionColor="secondary"
               >
                 <Avatar
                   src={chain.logoURI}
