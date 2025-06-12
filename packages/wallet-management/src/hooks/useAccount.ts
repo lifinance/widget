@@ -45,6 +45,13 @@ export interface AccountResult {
   accounts: Account[]
 }
 
+export type ConnectorType =
+  | Connector
+  | WalletAdapter
+  | BigmiConnector
+  | WalletWithRequiredFeatures
+  | CreateConnectorFnExtended
+
 interface UseAccountArgs {
   chainType?: ChainType
 }
