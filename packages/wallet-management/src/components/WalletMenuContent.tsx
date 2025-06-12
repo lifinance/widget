@@ -21,7 +21,7 @@ import type { CombinedWallet } from '../hooks/useCombinedWallets.js'
 import { useCombinedWallets } from '../hooks/useCombinedWallets.js'
 import { useWalletTag } from '../hooks/useWalletTag.js'
 import type { WalletConnector } from '../types/walletConnector.js'
-import { WalletTagType } from '../types/walletTagType.js'
+import type { WalletTagType } from '../types/walletTagType.js'
 import { ElementId } from '../utils/elements.js'
 import { getSortedByTags } from '../utils/getSortedByTags.js'
 import { CardListItemButton } from './CardListItemButton.js'
@@ -71,7 +71,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
   const { t } = useTranslation()
   const { installedWallets } = useCombinedWallets()
   const selectedWalletRef = useRef<CombinedWallet>(null)
-  const { getTagType } = useWalletTag()
+  const { getConnectorTagType, getWalletTagType } = useWalletTag()
 
   const [state, dispatch] = useReducer(reducer, { view: 'wallet-list' })
 
@@ -107,28 +107,13 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
         installedWallets
           .filter((wallet) => wallet.connectors?.length)
           .map((wallet) => {
-            let walletTagType: WalletTagType | undefined
-            if (wallet.connectors.length > 1) {
-              walletTagType = wallet.connectors.some(
-                (connector) =>
-                  getTagType(connector.connector, connector.chainType) ===
-                  WalletTagType.Connected
-              )
-                ? WalletTagType.Connected
-                : WalletTagType.Multichain
-            } else if (wallet.connectors.length === 1) {
-              walletTagType = getTagType(
-                wallet.connectors[0].connector,
-                wallet.connectors[0].chainType
-              )
-            }
             return {
               ...wallet,
-              tagType: walletTagType,
+              tagType: getWalletTagType(wallet),
             }
           })
       ),
-    [installedWallets, getTagType]
+    [installedWallets, getWalletTagType]
   )
 
   const getWalletButton = (
@@ -199,10 +184,10 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
     return getSortedByTags(
       selectedWallet?.connectors?.map((connector) => ({
         ...connector,
-        tagType: getTagType(connector.connector, connector.chainType),
+        tagType: getConnectorTagType(connector.connector, connector.chainType),
       })) || []
     )
-  }, [selectedWallet, getTagType])
+  }, [selectedWallet, getConnectorTagType])
 
   return (
     <>

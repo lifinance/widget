@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { WalletTagType } from '../types/walletTagType'
 import { getConnectorId } from '../utils/getConnectorId'
 import { type ConnectorType, useAccount } from './useAccount'
+import type { CombinedWallet } from './useCombinedWallets'
 
 export const useWalletTag = () => {
   const { t } = useTranslation()
@@ -15,7 +16,7 @@ export const useWalletTag = () => {
       .map((account) => getConnectorId(account.connector, account.chainType))
   }, [accounts])
 
-  const getTagType = useCallback(
+  const getConnectorTagType = useCallback(
     (connector?: ConnectorType, chainType?: ChainType) => {
       const connectorId = getConnectorId(connector, chainType)
       if (!connectorId) {
@@ -42,6 +43,28 @@ export const useWalletTag = () => {
     [connectedConnectorIds]
   )
 
+  const getWalletTagType = useCallback(
+    (wallet: CombinedWallet) => {
+      let walletTagType: WalletTagType | undefined
+      if (wallet.connectors.length > 1) {
+        walletTagType = wallet.connectors.some(
+          (connector) =>
+            getConnectorTagType(connector.connector, connector.chainType) ===
+            WalletTagType.Connected
+        )
+          ? WalletTagType.Connected
+          : WalletTagType.Multichain
+      } else if (wallet.connectors.length === 1) {
+        walletTagType = getConnectorTagType(
+          wallet.connectors[0].connector,
+          wallet.connectors[0].chainType
+        )
+      }
+      return walletTagType
+    },
+    [getConnectorTagType]
+  )
+
   const getTagLabel = (tagType: WalletTagType) => {
     switch (tagType) {
       case WalletTagType.Connected:
@@ -60,7 +83,8 @@ export const useWalletTag = () => {
   }
 
   return {
-    getTagType,
+    getConnectorTagType,
+    getWalletTagType,
     getTagLabel,
   }
 }

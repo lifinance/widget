@@ -22,13 +22,15 @@ export const WalletInfoDisplay = ({
         px: 1,
       }}
     >
-      <Avatar
-        src={selectedWallet?.icon}
-        alt={selectedWallet?.name}
-        sx={{ width: 96, height: 96 }}
-      >
-        {selectedWallet?.name[0]}
-      </Avatar>
+      {selectedWallet && (
+        <Avatar
+          src={selectedWallet.icon}
+          alt={selectedWallet.name}
+          sx={{ width: 96, height: 96 }}
+        >
+          {selectedWallet.name[0]}
+        </Avatar>
+      )}
       {title && (
         <Typography
           sx={{
