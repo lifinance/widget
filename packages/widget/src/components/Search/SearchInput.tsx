@@ -12,7 +12,8 @@ interface SearchInputProps {
   onChange?: FormEventHandler<HTMLInputElement>
   onBlur?: FocusEventHandler<HTMLInputElement>
   autoFocus?: boolean
-  inExpansion?: boolean
+  size?: 'small' | 'medium'
+  iconPosition?: 'start' | 'end'
 }
 
 export const SearchInput = ({
@@ -22,27 +23,28 @@ export const SearchInput = ({
   onBlur,
   value,
   autoFocus,
-  inExpansion,
+  size = 'medium',
+  iconPosition = 'end',
 }: SearchInputProps) => {
   return (
     <InputCard>
       <FormControl fullWidth>
         <Input
-          size={inExpansion ? 'small' : 'medium'}
+          size={size}
           placeholder={placeholder}
           startAdornment={
-            inExpansion ? (
+            iconPosition === 'start' ? (
               <InputAdornment position="start">
                 <Search />
               </InputAdornment>
             ) : null
           }
           endAdornment={
-            inExpansion ? null : (
+            iconPosition === 'end' ? (
               <InputAdornment position="end">
                 <Search />
               </InputAdornment>
-            )
+            ) : null
           }
           inputProps={{
             inputMode: 'search',
@@ -65,7 +67,7 @@ export const StickySearchInput = (props: SearchInputProps) => {
 
   return (
     <StickySearchInputContainer headerHeight={headerHeight}>
-      <SearchInput {...props} inExpansion={false} autoFocus />
+      <SearchInput {...props} autoFocus size="medium" iconPosition="end" />
     </StickySearchInputContainer>
   )
 }

@@ -69,9 +69,10 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = ({
       {inExpansion ? (
         <Box sx={{ pt: 3, pb: 2, px: 3, height: searchHeaderHeight }}>
           <SearchInput
-            inExpansion={inExpansion}
             onChange={handleSearchInputChange}
             placeholder={t('main.searchChain')}
+            size="small"
+            iconPosition="start"
           />
         </Box>
       ) : (
@@ -90,7 +91,8 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = ({
           isLoading={isLoading}
           onSelect={onSelect}
           selectedChainId={selectedChainId}
-          inExpansion={inExpansion}
+          itemsSize={inExpansion ? 'small' : 'medium'}
+          adjustForStickySearchInput={!inExpansion}
         />
       </Box>
     </FullPageContainer>

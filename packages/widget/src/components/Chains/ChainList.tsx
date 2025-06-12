@@ -15,16 +15,18 @@ interface ChainListProps {
   chains: ExtendedChain[]
   onSelect: (chain: ExtendedChain) => void
   selectedChainId?: number
-  inExpansion: boolean
   isLoading: boolean
+  itemsSize: 'small' | 'medium'
+  adjustForStickySearchInput?: boolean
 }
 
 export const ChainList = ({
   chains,
   onSelect,
   selectedChainId,
-  inExpansion,
   isLoading,
+  itemsSize,
+  adjustForStickySearchInput,
 }: ChainListProps) => {
   const { t } = useTranslation()
 
@@ -39,22 +41,20 @@ export const ChainList = ({
     return selectedChain ? [selectedChain, ...otherChains] : chains
   }, [chains])
 
-  const size = inExpansion ? 'small' : 'medium'
-
   if (isLoading) {
     return (
-      <List size={size} disablePadding sx={{ cursor: 'default' }}>
+      <List size={itemsSize} disablePadding sx={{ cursor: 'default' }}>
         {Array.from({ length: 3 }).map((_, index) => (
           <ListItemButton
             key={index}
-            size={size}
+            size={itemsSize}
             sx={{ pointerEvents: 'none' }}
           >
-            <ListItemAvatar size={size}>
+            <ListItemAvatar size={itemsSize}>
               <Skeleton
                 variant="circular"
-                width={size === 'small' ? 32 : 40}
-                height={size === 'small' ? 32 : 40}
+                width={itemsSize === 'small' ? 32 : 40}
+                height={itemsSize === 'small' ? 32 : 40}
                 sx={{ marginRight: 2 }}
               />
             </ListItemAvatar>
@@ -63,10 +63,10 @@ export const ChainList = ({
                 <Skeleton
                   variant="text"
                   width={'100%'}
-                  height={size === 'small' ? 18 : 24}
+                  height={itemsSize === 'small' ? 18 : 24}
                 />
               }
-              size={size}
+              size={itemsSize}
             />
           </ListItemButton>
         ))}
@@ -78,26 +78,26 @@ export const ChainList = ({
     return (
       <SearchNotFound
         message={t('info.message.emptyChainList')}
-        adjustForStickySearchInput={!inExpansion}
+        adjustForStickySearchInput={adjustForStickySearchInput}
       />
     )
   }
 
   return (
-    <List size={size} disablePadding>
+    <List size={itemsSize} disablePadding>
       {sortedChains.map((chain) => (
         <ListItemButton
           key={chain.id}
           onClick={() => onSelect(chain)}
           selected={chain.id === selectedChainId}
-          size={size}
+          size={itemsSize}
         >
-          <ListItemAvatar size={size}>
-            <Avatar src={chain.logoURI} alt={chain.name} size={size}>
+          <ListItemAvatar size={itemsSize}>
+            <Avatar src={chain.logoURI} alt={chain.name} size={itemsSize}>
               {chain.name[0]}
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary={chain.name} size={size} />
+          <ListItemText primary={chain.name} size={itemsSize} />
         </ListItemButton>
       ))}
     </List>
