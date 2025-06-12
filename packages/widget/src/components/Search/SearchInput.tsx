@@ -67,7 +67,7 @@ export const StickySearchInput = (props: SearchInputProps) => {
 
   return (
     <StickySearchInputContainer headerHeight={headerHeight}>
-      <SearchInput {...props} autoFocus size="medium" iconPosition="end" />
+      <SearchInput {...props} autoFocus />
     </StickySearchInputContainer>
   )
 }

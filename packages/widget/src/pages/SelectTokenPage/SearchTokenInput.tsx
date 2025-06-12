@@ -26,8 +26,6 @@ export const SearchTokenInput = () => {
       onBlur={onBlur}
       value={value as string | undefined}
       autoFocus
-      size="medium"
-      iconPosition="end"
     />
   )
 }
