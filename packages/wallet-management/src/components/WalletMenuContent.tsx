@@ -17,13 +17,15 @@ import type { WalletAdapter } from '@solana/wallet-adapter-base'
 import { useMemo, useReducer, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Connector } from 'wagmi'
+import { useAccount } from '../hooks/useAccount.js'
 import type { CombinedWallet } from '../hooks/useCombinedWallets.js'
 import { useCombinedWallets } from '../hooks/useCombinedWallets.js'
-import { useWalletTag } from '../hooks/useWalletTag.js'
 import type { WalletConnector } from '../types/walletConnector.js'
 import type { WalletTagType } from '../types/walletTagType.js'
 import { ElementId } from '../utils/elements.js'
+import { getConnectorId } from '../utils/getConnectorId.js'
 import { getSortedByTags } from '../utils/getSortedByTags.js'
+import { getConnectorTagType, getWalletTagType } from '../utils/walletTags.js'
 import { CardListItemButton } from './CardListItemButton.js'
 import { EVMListItemButton } from './EVMListItemButton.js'
 import { SVMListItemButton } from './SVMListItemButton.js'
@@ -71,7 +73,14 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
   const { t } = useTranslation()
   const { installedWallets } = useCombinedWallets()
   const selectedWalletRef = useRef<CombinedWallet>(null)
-  const { getConnectorTagType, getWalletTagType } = useWalletTag()
+
+  const { accounts } = useAccount()
+  const connectedConnectorIds: string[] = useMemo(() => {
+    return accounts
+      .filter((account) => account.isConnected)
+      .map((account) => getConnectorId(account.connector, account.chainType))
+      .filter((id): id is string => id !== undefined)
+  }, [accounts])
 
   const [state, dispatch] = useReducer(reducer, { view: 'wallet-list' })
 
@@ -109,11 +118,11 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
           .map((wallet) => {
             return {
               ...wallet,
-              tagType: getWalletTagType(wallet),
+              tagType: getWalletTagType(wallet, connectedConnectorIds),
             }
           })
       ),
-    [installedWallets, getWalletTagType]
+    [installedWallets, connectedConnectorIds]
   )
 
   const getWalletButton = (
@@ -182,12 +191,23 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
 
   const selectedWalletConnectors = useMemo(() => {
     return getSortedByTags(
-      selectedWallet?.connectors?.map((connector) => ({
-        ...connector,
-        tagType: getConnectorTagType(connector.connector, connector.chainType),
-      })) || []
+      selectedWallet?.connectors?.map((connector) => {
+        const connectorId = getConnectorId(
+          connector.connector,
+          connector.chainType
+        )
+        return {
+          ...connector,
+          tagType: connectorId
+            ? getConnectorTagType(
+                connectorId,
+                connectedConnectorIds.includes(connectorId)
+              )
+            : undefined,
+        }
+      }) || []
     )
-  }, [selectedWallet, getConnectorTagType])
+  }, [selectedWallet, connectedConnectorIds])
 
   return (
     <>

@@ -1,6 +1,6 @@
 import { Avatar, Card, ListItemAvatar } from '@mui/material'
-import { useWalletTag } from '../hooks/useWalletTag.js'
-import type { WalletTagType } from '../types/walletTagType.js'
+import { useTranslation } from 'react-i18next'
+import { WalletTagType } from '../types/walletTagType.js'
 import { ListItemButton } from './ListItemButton.js'
 import { ListItemText } from './ListItemText.js'
 import { WalletTag } from './WalletTag.js'
@@ -18,7 +18,25 @@ export const CardListItemButton: React.FC<CardListItemButtonProps> = ({
   icon,
   tagType,
 }) => {
-  const { getTagLabel } = useWalletTag()
+  const { t } = useTranslation()
+
+  const getTagLabel = (tagType: WalletTagType) => {
+    switch (tagType) {
+      case WalletTagType.Connected:
+        return t('tags.connected')
+      case WalletTagType.Multichain:
+        return t('tags.multichain')
+      case WalletTagType.Installed:
+        return t('tags.installed')
+      case WalletTagType.QrCode:
+        return t('tags.qrCode')
+      case WalletTagType.GetStarted:
+        return t('tags.getStarted')
+      default:
+        return ''
+    }
+  }
+
   return (
     <Card>
       <ListItemButton onClick={onClick}>
