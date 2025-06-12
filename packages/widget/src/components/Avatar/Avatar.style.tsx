@@ -59,7 +59,6 @@ export const AvatarDefaultBadge = styled(Box, {
     borderRadius: '50%',
     height: size,
     width: size,
-    border: `2px solid ${theme.vars.palette.background.default}`,
     background: theme.vars.palette.grey[300],
     ...theme.applyStyles('dark', {
       background: theme.vars.palette.grey[800],

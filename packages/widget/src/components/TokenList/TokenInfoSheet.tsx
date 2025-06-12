@@ -2,7 +2,12 @@ import Close from '@mui/icons-material/Close'
 import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded'
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import { Box, IconButton, Link, Skeleton, Typography } from '@mui/material'
-import { type MouseEvent, type PropsWithChildren, forwardRef } from 'react'
+import {
+  type MouseEvent,
+  type PropsWithChildren,
+  forwardRef,
+  useMemo,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
@@ -26,7 +31,7 @@ interface TokenInfoSheetProps {
   onClose: (e: MouseEvent) => void
 }
 
-const NO_DATA_INDICATOR = '-'
+const noDataLabel = '-'
 
 export const TokenInfoSheet = forwardRef<BottomSheetBase, TokenInfoSheetProps>(
   ({ tokenAddress, chainId, onClose }, ref) => {
@@ -35,21 +40,20 @@ export const TokenInfoSheet = forwardRef<BottomSheetBase, TokenInfoSheetProps>(
     const { getChainById } = useAvailableChains()
 
     const { token, isLoading } = useTokenSearch(chainId, tokenAddress, true)
-    const chain = getChainById(chainId)
+    const chain = useMemo(() => getChainById(chainId), [chainId, getChainById])
 
     const copyContractAddress = async (e: React.MouseEvent) => {
       e.stopPropagation()
       try {
+        // Clipboard API may throw if access is denied (e.g., in insecure contexts or older browsers)
         await navigator.clipboard.writeText(tokenAddress || '')
-      } catch {}
+      } catch {
+        // Silently fail to avoid crashing the UI if clipboard write fails
+      }
     }
 
     return (
-      <BottomSheet
-        ref={ref}
-        onMouseEnter={(e) => e.stopPropagation()}
-        onMouseLeave={(e) => e.stopPropagation()}
-      >
+      <BottomSheet ref={ref}>
         <TokenInfoSheetContainer>
           <TokenInfoSheetHeader>
             <Box
@@ -67,34 +71,28 @@ export const TokenInfoSheet = forwardRef<BottomSheetBase, TokenInfoSheetProps>(
                 chainAvatarSize={28}
                 isLoading={isLoading}
               />
-              <Box
-                sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
-              >
+              <MetricContainer>
                 {isLoading ? (
-                  <Skeleton variant="text" width={80} height={24} />
+                  <>
+                    <Skeleton variant="rounded" width={80} height={24} />
+                    <Skeleton variant="rounded" width={80} height={16} />
+                  </>
                 ) : (
-                  <Typography
-                    sx={{
-                      fontWeight: 700,
-                      fontSize: '24px',
-                      lineHeight: '24px',
-                      color: 'text.primary',
-                    }}
-                  >
-                    {token?.symbol || NO_DATA_INDICATOR}
-                  </Typography>
+                  <>
+                    <Typography
+                      fontWeight={700}
+                      fontSize="24px"
+                      lineHeight="24px"
+                      color="text.primary"
+                    >
+                      {token?.symbol || noDataLabel}
+                    </Typography>
+                    <Label>{token?.name || noDataLabel}</Label>
+                  </>
                 )}
-                {isLoading ? (
-                  <Skeleton variant="text" width={80} height={16} />
-                ) : (
-                  <Label>{token?.name || NO_DATA_INDICATOR}</Label>
-                )}
-              </Box>
+              </MetricContainer>
             </Box>
-            <IconButton
-              onClick={onClose}
-              sx={{ marginTop: '-8px', marginRight: '-8px' }}
-            >
+            <IconButton onClick={onClose} sx={{ mt: '-8px', mr: '-8px' }}>
               <Close />
             </IconButton>
           </TokenInfoSheetHeader>
@@ -120,7 +118,7 @@ export const TokenInfoSheet = forwardRef<BottomSheetBase, TokenInfoSheetProps>(
                       token.decimals
                     ),
                   })
-                : NO_DATA_INDICATOR}
+                : noDataLabel}
             </Typography>
           </MetricWithSkeleton>
           <MetricWithSkeleton
@@ -186,7 +184,7 @@ const MetricWithSkeleton = ({
     <MetricContainer>
       <Label>{label}</Label>
       {isLoading ? (
-        <Skeleton variant="text" width={width} height={height} />
+        <Skeleton variant="rounded" width={width} height={height} />
       ) : (
         children
       )}

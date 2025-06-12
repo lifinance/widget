@@ -109,14 +109,18 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
     }
   }
 
+  const [isSheetOpen, setIsSheetOpen] = useState(false)
   const onShowTokenInfo = useCallback((e: MouseEvent) => {
     e.stopPropagation()
     tokenInfoSheetRef.current?.open()
+    setIsSheetOpen(true)
   }, [])
 
   const onCloseTokenInfo = useCallback((e: MouseEvent) => {
     e.stopPropagation()
     tokenInfoSheetRef.current?.close()
+    setIsSheetOpen(false)
+    setShowAddress(false)
   }, [])
 
   const tokenAmount = formatTokenAmount(token.amount, token.decimals)
@@ -129,8 +133,8 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   return (
     <ListItemButton
       onClick={onClick}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
+      onMouseEnter={isSheetOpen ? undefined : onMouseEnter}
+      onMouseLeave={isSheetOpen ? undefined : onMouseLeave}
       dense
     >
       <ListItemAvatar>

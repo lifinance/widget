@@ -11,7 +11,6 @@ export const SmallAvatar = styled(Avatar, {
   background: theme.vars.palette.background.paper,
   width: size,
   height: size,
-  border: `2px solid ${theme.vars.palette.background.default}`,
 }))
 
 export const SmallAvatarSkeleton: React.FC<{
@@ -19,14 +18,7 @@ export const SmallAvatarSkeleton: React.FC<{
 }> = ({ size = 16 }) => {
   return (
     <AvatarSkeletonContainer>
-      <Skeleton
-        width={size}
-        height={size}
-        variant="circular"
-        sx={(theme) => ({
-          border: `2px solid ${theme.vars.palette.background.default}`,
-        })}
-      />
+      <Skeleton width={size} height={size} variant="circular" />
     </AvatarSkeletonContainer>
   )
 }
