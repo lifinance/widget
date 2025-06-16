@@ -42,6 +42,12 @@ export const AppExpandedContainer = styled(Box, {
 export const RelativeContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'variant',
 })<{ variant?: WidgetVariant }>(({ theme }) => {
+  const maxHeight =
+    theme.container?.height === 'fit-content'
+      ? 'none'
+      : theme.container?.maxHeight ||
+        theme.container?.height ||
+        defaultMaxHeight
   return {
     position: 'relative',
     boxSizing: 'content-box',
@@ -56,9 +62,10 @@ export const RelativeContainer = styled(Box, {
     maxHeight:
       theme.container?.display === 'flex' && !theme.container?.height
         ? '100%'
-        : theme.container?.maxHeight
-          ? theme.container?.maxHeight
-          : theme.container?.height || defaultMaxHeight,
+        : maxHeight,
+    '&:has(.long-list)': {
+      maxHeight: theme.container?.maxHeight || defaultMaxHeight,
+    },
     variants: [
       {
         props: {
@@ -84,9 +91,12 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
   shouldForwardProp: (prop) =>
     !['variant', 'paddingTopAdjustment', 'elementId'].includes(prop as string),
 })<CssBaselineContainerProps>(({ theme, variant, paddingTopAdjustment }) => {
-  const fullContainerHeight = theme.container?.maxHeight
-    ? theme.container?.maxHeight
-    : theme.container?.height || defaultMaxHeight
+  const maxHeight =
+    theme.container?.height === 'fit-content'
+      ? 'none'
+      : theme.container?.maxHeight ||
+        theme.container?.height ||
+        defaultMaxHeight
   return {
     display: 'flex',
     flex: 1,
@@ -97,13 +107,19 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
     maxHeight:
       variant === 'drawer' || theme.container?.display === 'flex'
         ? 'none'
-        : fullContainerHeight,
+        : maxHeight,
     overflowY: 'auto',
     height: theme.container?.display === 'flex' ? 'auto' : '100%',
     paddingTop: paddingTopAdjustment,
     // This allows FullPageContainer.tsx to expand and fill the available vertical space in max height and default layout modes
     '&:has(.full-page-container)': {
-      height: fullContainerHeight,
+      height:
+        theme.container?.maxHeight ||
+        theme.container?.height ||
+        defaultMaxHeight,
+    },
+    '&:has(.long-list)': {
+      maxHeight: theme.container?.maxHeight || defaultMaxHeight,
     },
   }
 })
