@@ -21,6 +21,7 @@
     "close": "Kapat",
     "confirm": "Onayla",
     "connectAnotherWallet": "Diğer bir cüzdanı bağla",
+    "connectChainWallet": "",
     "connectWallet": "Cüzdanı Bağla",
     "contactSupport": "Destek Ekibine Ulaş",
     "continue": "Devam et",
@@ -47,6 +48,7 @@
     "startSwapping": "Takas işlemini başlat",
     "swap": "Takas et",
     "swapReview": "Takas işlemini incele",
+    "system": "",
     "tryAgain": "Tekrar Deneyin",
     "viewCoverage": "Kapsamaya bak",
     "viewOnExplorer": "Tarayıcıda Görüntüle"
@@ -66,7 +68,9 @@
     "gas": "Gaz",
     "payWith": "Şununla öde",
     "receive": "Al",
+    "received": "",
     "recentWallets": "Son kullanılan cüzdanlar",
+    "refunded": "",
     "selectChain": "Zincir Seç",
     "selectWallet": "Bir Cüzdan Seçin",
     "send": "Gönder",
@@ -82,6 +86,7 @@
   },
   "info": {
     "message": {
+      "accountDeployedMessage": "",
       "autoRefuel": "{{chainName}} ağında gaz yetersiz. Devam ederek, işlem için gereken miktarda gaz alacaksınız.",
       "emptyActiveTransactions": "Devam eden işlemler burada görünecek. Tamamlandığında, işlem geçmişinden bulabilirsiniz.",
       "emptyBridgesList": "Aradığın köprüyü bulamadık",
@@ -90,7 +95,8 @@
       "emptyTokenList": "{{chainName}} ağında token bulamadık veya sizde hiç token yok. Lütfen tekrar aramayı deneyin veya başka bir ağ seçin.",
       "emptyTransactionHistory": "İşlem geçmişi yalnızca yerel olarak saklanır ve tarayıcı verilerinizi temizlerseniz silinir.",
       "routeNotFound": "Muhtemel sebepler şunlar olabilir: Düşük likidite, seçilen miktarın çok düşük olması, gaz masrafının çok olması ya da seçilen kombinasyon için rota olmaması.",
-      "toAddressIsRequired": "Transfer işlemine devam etmek için hedef cüzdan adresi gereklidir."
+      "toAddressIsRequired": "Transfer işlemine devam etmek için hedef cüzdan adresi gereklidir.",
+      "missingRouteRequiredAccount": ""
     },
     "title": {
       "autoRefuel": "{{chainName}} ağında gaz al",
@@ -101,9 +107,7 @@
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": "İşlemi tamamlamaya çalıştık, ancak {{tool}}, slipaj ayarları veya {{tokenSymbol}} tokeninin likidite eksikliği nedeniyle devam edemedi.",
-      "exchangeSuccessful": "",
-      "checkoutSuccessful": "Şu anda {{chainName}} ağı {{walletAddress}} adresinde {{assetName}} bulunmaktadır."
+      "exchangePartiallySuccessful": "İşlemi tamamlamaya çalıştık, ancak {{tool}}, slipaj ayarları veya {{tokenSymbol}} tokeninin likidite eksikliği nedeniyle devam edemedi."
     },
     "title": {
       "bridgePartiallySuccessful": "Köprü işlemi kısmen başarılı",
@@ -145,9 +149,11 @@
     "message": {
       "allowanceRequired": "{{tokenSymbol}} için verilen izinden fazla miktarda transfer yapılamaz. Token izinlerini arttırıp tekrar deneyiniz.",
       "insufficientFunds": "Bu işlemi gerçekleştirmek için yeterli gaz bulunmamaktadır.",
+      "rateLimitExceeded": "",
       "remainInYourWallet": "",
       "signatureRejected": "",
       "slippageThreshold": "Slipaj, tanımlanan eşikten daha büyük. Yeni bir fiyat teklifi almak için lütfen yeni bir rota isteyin.",
+      "thirdPartyError": "",
       "transactionCanceled": "İşlem iptal edildi.",
       "transactionConflict": "İşlem, aynı fonları kullanan başka bir bekleyen işlemle çakıştığı için işleme alınamadı. Lütfen bekleyen işlemin onaylanmasını bekleyin veya tekrar denemeden önce işlem geçmişinizi kontrol edin.",
       "transactionExpired": "Blok yüksekliği izin verilen maksimum sınırı aştı veya blok hash'i artık yeterince güncel değil.",
@@ -167,8 +173,10 @@
       "exchangeRateUpdateCanceled": "Fiyat güncellemesi iptal edildi",
       "gasLimitIsTooLow": "Gaz limiti çok düşük",
       "insufficientFunds": "Yetersiz bakiye",
+      "rateLimitExceeded": "",
       "signatureRejected": "İmza gerekiyor",
       "slippageNotMet": "Slipaj koşulları karşılanmadı",
+      "thirdPartyError": "",
       "transactionCanceled": "İşlem iptal edildi",
       "transactionConflict": "İşlem çakışması",
       "transactionExpired": "İşlem zaman aşımına uğradı",
@@ -261,7 +269,7 @@
         "actionRequired": "",
         "done": "",
         "pending": "",
-        "started": ""
+        "started": "İşlem hazırlanıyor"
       },
       "tokenAllowance": {
         "actionRequired": "",
@@ -308,7 +316,7 @@
     "searchExchanges": "Borsa adına göre ara"
   },
   "settings": {
-    "theme": "Tema",
+    "appearance": "",
     "enabledBridges": "Köprüler",
     "enabledExchanges": "Borsalar",
     "gasPrice": {

@@ -104,11 +104,13 @@ export enum HiddenUI {
   RouteTokenDescription = 'routeTokenDescription',
   ChainSelect = 'chainSelect',
   BridgesSettings = 'bridgesSettings',
+  AddressBookConnectedWallets = 'addressBookConnectedWallets',
 }
 export type HiddenUIType = `${HiddenUI}`
 
 export enum RequiredUI {
   ToAddress = 'toAddress',
+  AccountDeployedMessage = 'accountDeployedMessage',
 }
 export type RequiredUIType = `${RequiredUI}`
 

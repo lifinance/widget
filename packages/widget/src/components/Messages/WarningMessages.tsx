@@ -1,6 +1,7 @@
 import type { Route } from '@lifi/sdk'
 import type { BoxProps } from '@mui/material'
 import { Collapse } from '@mui/material'
+import { AccountDeployedMessage } from './AccountDeployedMessage.js'
 import { AccountNotDeployedMessage } from './AccountNotDeployedMessage.js'
 import { FundsSufficiencyMessage } from './FundsSufficiencyMessage.js'
 import { GasSufficiencyMessage } from './GasSufficiencyMessage.js'
@@ -41,6 +42,8 @@ export const WarningMessages: React.FC<WarningMessagesProps> = ({
         )
       case 'ACCOUNT_NOT_DEPLOYED':
         return <AccountNotDeployedMessage {...props} />
+      case 'ACCOUNT_DEPLOYED':
+        return <AccountDeployedMessage {...props} />
       case 'TO_ADDRESS_REQUIRED':
         return <ToAddressRequiredMessage {...props} />
       default:
