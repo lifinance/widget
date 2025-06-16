@@ -94,7 +94,12 @@ export const TokenAvatarBase: React.FC<{
       }
       sx={sx}
     >
-      <AvatarMasked src={token?.logoURI} alt={token?.symbol} size={avatarSize}>
+      <AvatarMasked
+        src={token?.logoURI}
+        alt={token?.symbol}
+        avatarSize={avatarSize}
+        badgeSize={badgeSize}
+      >
         {token?.symbol?.[0]}
       </AvatarMasked>
     </Badge>

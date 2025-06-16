@@ -7,15 +7,17 @@ import {
   badgeClasses,
   styled,
 } from '@mui/material'
-import { avatarMask16 } from './utils.js'
+import { getAvatarMask } from './utils.js'
 
 export const AvatarMasked = styled(MuiAvatar, {
-  shouldForwardProp: (prop) => prop !== 'size',
-})<{ size?: number }>(({ size = 40 }) => ({
-  width: size,
-  height: size,
-  mask: avatarMask16,
-}))
+  shouldForwardProp: (prop) => prop !== 'avatarSize' && prop !== 'badgeSize',
+})<{ avatarSize?: number; badgeSize?: number }>(
+  ({ avatarSize = 40, badgeSize = 16 }) => ({
+    width: avatarSize,
+    height: avatarSize,
+    mask: getAvatarMask(badgeSize),
+  })
+)
 
 export const TokenAvatarGroup = styled(AvatarGroup)(({ theme }) => ({
   [`& .${badgeClasses.badge}:last-of-type .${avatarClasses.root}`]: {
@@ -34,7 +36,9 @@ export const TokenAvatarGroup = styled(AvatarGroup)(({ theme }) => ({
   },
 }))
 
-export const AvatarDefault = styled(Box)(({ theme }) => {
+export const AvatarDefault = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'badgeSize',
+})<{ badgeSize?: number }>(({ theme, badgeSize = 16 }) => {
   const root = theme.components?.MuiAvatar?.styleOverrides?.root as CSSObject
   return {
     display: 'flex',
@@ -44,7 +48,7 @@ export const AvatarDefault = styled(Box)(({ theme }) => {
     height: root?.height,
     width: root?.width,
     color: theme.vars.palette.text.secondary,
-    mask: avatarMask16,
+    mask: getAvatarMask(badgeSize),
     background: theme.vars.palette.grey[300],
     ...theme.applyStyles('dark', {
       background: theme.vars.palette.grey[800],
@@ -71,8 +75,10 @@ export const AvatarSkeletonContainer = styled(Box)(({ theme }) => ({
   borderRadius: '50%',
 }))
 
-export const AvatarSkeletonMaskedContainer = styled(Box)(({ theme }) => ({
+export const AvatarSkeletonMaskedContainer = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'badgeSize',
+})<{ badgeSize?: number }>(({ theme, badgeSize = 16 }) => ({
   background: theme.vars.palette.background.paper,
   borderRadius: '50%',
-  mask: avatarMask16,
+  mask: getAvatarMask(badgeSize),
 }))
