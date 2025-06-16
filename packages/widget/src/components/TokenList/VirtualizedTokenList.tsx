@@ -77,7 +77,11 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   }
 
   return (
-    <List style={{ height: getTotalSize() }} disablePadding>
+    <List
+      className="long-list"
+      style={{ height: getTotalSize() }}
+      disablePadding
+    >
       {getVirtualItems().map((item) => {
         const currentToken = tokens[item.index]
         const previousToken: TokenAmount | undefined = tokens[item.index - 1]
