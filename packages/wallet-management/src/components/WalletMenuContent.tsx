@@ -79,7 +79,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
     return accounts
       .filter((account) => account.isConnected)
       .map((account) => getConnectorId(account.connector, account.chainType))
-      .filter((id): id is string => id !== undefined)
+      .filter(Boolean)
   }, [accounts])
 
   const [state, dispatch] = useReducer(reducer, { view: 'wallet-list' })
@@ -258,6 +258,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
             timeout={{ appear: 225, enter: 100, exit: 225 }}
           >
             <List
+              component="div"
               sx={{
                 padding: 0,
                 display: 'flex',
@@ -270,7 +271,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
                   if (connectors.length === 1) {
                     const { chainType, connector } = connectors[0]
                     return getWalletButton(
-                      id,
+                      getConnectorId(connector, chainType),
                       name,
                       chainType,
                       connector,

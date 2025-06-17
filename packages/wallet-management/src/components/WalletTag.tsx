@@ -8,8 +8,13 @@ export const WalletTag = styled(MuiChip)<WalletTagProps>(({ theme }) => {
   return {
     height: 24,
     px: theme.spacing(1),
-    fontSize: 10,
-    fontWeight: 700,
+    fontSize: 12,
+    fontWeight: 600,
+    color: theme.vars.palette.text.primary,
+    backgroundColor: theme.vars.palette.grey[200],
+    ...theme.applyStyles('dark', {
+      backgroundColor: theme.vars.palette.grey[800],
+    }),
     variants: [
       {
         props: {
@@ -17,28 +22,13 @@ export const WalletTag = styled(MuiChip)<WalletTagProps>(({ theme }) => {
         },
         style: {
           color: theme.vars.palette.primary.main,
-          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main} 7.25%, white)`,
+          backgroundColor: `rgba(${theme.vars.palette.primary.mainChannel} / 0.08)`,
           ...theme.applyStyles('dark', {
-            color: theme.palette.getContrastText(theme.palette.primary.main),
-            backgroundColor: theme.vars.palette.primary.main,
+            color: theme.vars.palette.text.primary,
+            backgroundColor: `rgba(${theme.vars.palette.primary.mainChannel} / 0.42)`,
           }),
         },
       },
-      ...[
-        WalletTagType.Multichain,
-        WalletTagType.Installed,
-        WalletTagType.GetStarted,
-        WalletTagType.QrCode,
-      ].map((type) => ({
-        props: { type },
-        style: {
-          color: theme.vars.palette.text.primary,
-          backgroundColor: theme.vars.palette.grey[100],
-          ...theme.applyStyles('dark', {
-            backgroundColor: theme.vars.palette.grey[800],
-          }),
-        },
-      })),
     ],
   }
 })

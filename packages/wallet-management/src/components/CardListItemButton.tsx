@@ -1,7 +1,6 @@
 import { Avatar, Card, ListItemAvatar } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { WalletTagType } from '../types/walletTagType.js'
-import { ListItemButton } from './ListItemButton.js'
 import { ListItemText } from './ListItemText.js'
 import { WalletTag } from './WalletTag.js'
 
@@ -38,16 +37,22 @@ export const CardListItemButton: React.FC<CardListItemButtonProps> = ({
   }
 
   return (
-    <Card>
-      <ListItemButton onClick={onClick}>
-        <ListItemAvatar>
-          <Avatar src={icon} alt={title}>
-            {title[0]}
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary={title} />
-        {tagType && <WalletTag type={tagType} label={getTagLabel(tagType)} />}
-      </ListItemButton>
+    <Card
+      sx={{
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 2,
+      }}
+      onClick={onClick}
+    >
+      <ListItemAvatar>
+        <Avatar src={icon} alt={title}>
+          {title[0]}
+        </Avatar>
+      </ListItemAvatar>
+      <ListItemText primary={title} />
+      {tagType && <WalletTag type={tagType} label={getTagLabel(tagType)} />}
     </Card>
   )
 }

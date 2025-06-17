@@ -11,12 +11,15 @@ import { useAccount as useAccountInternal } from 'wagmi'
 import { create } from 'zustand'
 import type { CreateConnectorFnExtended } from '../connectors/types.js'
 
-export interface AccountBase<CT extends ChainType, ConnectorType = undefined> {
+export interface AccountBase<
+  CT extends ChainType,
+  WalletConnector = undefined,
+> {
   address?: string
   addresses?: readonly string[]
   chainId?: number
   chainType: CT
-  connector?: ConnectorType
+  connector?: WalletConnector
   isConnected: boolean
   isConnecting: boolean
   isDisconnected: boolean
@@ -44,13 +47,6 @@ export interface AccountResult {
    */
   accounts: Account[]
 }
-
-export type ConnectorType =
-  | Connector
-  | WalletAdapter
-  | BigmiConnector
-  | WalletWithRequiredFeatures
-  | CreateConnectorFnExtended
 
 interface UseAccountArgs {
   chainType?: ChainType

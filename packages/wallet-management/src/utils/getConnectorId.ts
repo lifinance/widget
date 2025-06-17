@@ -1,12 +1,12 @@
 import type { ChainType } from '@lifi/sdk'
-import type { ConnectorType } from '../hooks/useAccount'
+import type { WalletConnector } from '../types/walletConnector'
 
 export const getConnectorId = (
-  connector?: ConnectorType,
+  connector?: WalletConnector,
   chainType?: ChainType
-) => {
+): string => {
   if (!connector) {
-    return undefined
+    return ''
   }
   return 'id' in connector && connector.id
     ? connector.id

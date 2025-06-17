@@ -6,7 +6,7 @@ import {
 
 export const ListItemText = styled(MuiListItemText)(() => ({
   [`.${listItemTextClasses.primary}`]: {
-    fontWeight: 700,
+    fontWeight: 600,
     fontSize: 16,
   },
 }))
