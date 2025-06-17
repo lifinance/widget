@@ -42,7 +42,7 @@ export const CardListItemButton: React.FC<CardListItemButtonProps> = ({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        padding: 2,
+        padding: 1.5,
       }}
       onClick={onClick}
     >
