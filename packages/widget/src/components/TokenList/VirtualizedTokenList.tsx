@@ -1,9 +1,11 @@
 import { List, Typography } from '@mui/material'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import type { FC } from 'react'
-import { useEffect } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { TokenAmount } from '../../types/token.js'
+import type { BottomSheetBase } from '../BottomSheet/types.js'
+import { TokenInfoSheet } from './TokenInfoSheet.js'
 import { TokenListItem, TokenListItemSkeleton } from './TokenListItem.js'
 import type { VirtualizedTokenListProps } from './types.js'
 
@@ -19,6 +21,19 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   onClick,
 }) => {
   const { t } = useTranslation()
+
+  const tokenInfoSheetRef = useRef<BottomSheetBase>(null)
+  const [shownTokenAddress, setShownTokenAddress] = useState<
+    string | undefined
+  >(undefined)
+  const onCloseTokenInfo = useCallback(() => {
+    tokenInfoSheetRef.current?.close()
+    setShownTokenAddress(undefined)
+  }, [])
+  const onShowTokenInfo = useCallback((tokenAddress: string) => {
+    tokenInfoSheetRef.current?.open()
+    setShownTokenAddress(tokenAddress)
+  }, [])
 
   const { getVirtualItems, getTotalSize, scrollToIndex } = useVirtualizer({
     count: tokens.length,
@@ -75,82 +90,91 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   }
 
   return (
-    <List
-      className="long-list"
-      style={{ height: getTotalSize() }}
-      disablePadding
-    >
-      {getVirtualItems().map((item) => {
-        const currentToken = tokens[item.index]
-        const previousToken: TokenAmount | undefined = tokens[item.index - 1]
+    <>
+      <List
+        className="long-list"
+        style={{ height: getTotalSize() }}
+        disablePadding
+      >
+        {getVirtualItems().map((item) => {
+          const currentToken = tokens[item.index]
+          const previousToken: TokenAmount | undefined = tokens[item.index - 1]
 
-        const isFirstFeaturedToken = currentToken.featured && item.index === 0
+          const isFirstFeaturedToken = currentToken.featured && item.index === 0
 
-        const isTransitionFromFeaturedTokens =
-          previousToken?.featured && !currentToken.featured
+          const isTransitionFromFeaturedTokens =
+            previousToken?.featured && !currentToken.featured
 
-        const isTransitionFromMyTokens =
-          previousToken?.amount && !currentToken.amount
+          const isTransitionFromMyTokens =
+            previousToken?.amount && !currentToken.amount
 
-        const isTransitionToMyTokens =
-          isTransitionFromFeaturedTokens && currentToken.amount
+          const isTransitionToMyTokens =
+            isTransitionFromFeaturedTokens && currentToken.amount
 
-        const isTransitionToPopularTokens =
-          (isTransitionFromFeaturedTokens || isTransitionFromMyTokens) &&
-          currentToken.popular
+          const isTransitionToPopularTokens =
+            (isTransitionFromFeaturedTokens || isTransitionFromMyTokens) &&
+            currentToken.popular
 
-        const shouldShowAllTokensCategory =
-          isTransitionFromMyTokens ||
-          isTransitionFromFeaturedTokens ||
-          (previousToken?.popular && !currentToken.popular)
+          const shouldShowAllTokensCategory =
+            isTransitionFromMyTokens ||
+            isTransitionFromFeaturedTokens ||
+            (previousToken?.popular && !currentToken.popular)
 
-        const startAdornmentLabel = showCategories
-          ? (() => {
-              if (isFirstFeaturedToken) {
-                return t('main.featuredTokens')
+          const startAdornmentLabel = showCategories
+            ? (() => {
+                if (isFirstFeaturedToken) {
+                  return t('main.featuredTokens')
+                }
+                if (isTransitionToMyTokens) {
+                  return t('main.myTokens')
+                }
+                if (isTransitionToPopularTokens) {
+                  return t('main.popularTokens')
+                }
+                if (shouldShowAllTokensCategory) {
+                  return t('main.allTokens')
+                }
+                return null
+              })()
+            : null
+
+          return (
+            <TokenListItem
+              key={item.key}
+              onClick={onClick}
+              size={item.size}
+              start={item.start}
+              token={currentToken}
+              chain={chain}
+              isBalanceLoading={isBalanceLoading}
+              accountAddress={account.address}
+              startAdornment={
+                startAdornmentLabel ? (
+                  <Typography
+                    sx={{
+                      fontSize: 14,
+                      fontWeight: 600,
+                      lineHeight: '16px',
+                      px: 1.5,
+                      pt: isFirstFeaturedToken ? 0 : 1,
+                      pb: 1,
+                    }}
+                  >
+                    {startAdornmentLabel}
+                  </Typography>
+                ) : null
               }
-              if (isTransitionToMyTokens) {
-                return t('main.myTokens')
-              }
-              if (isTransitionToPopularTokens) {
-                return t('main.popularTokens')
-              }
-              if (shouldShowAllTokensCategory) {
-                return t('main.allTokens')
-              }
-              return null
-            })()
-          : null
-
-        return (
-          <TokenListItem
-            key={item.key}
-            onClick={onClick}
-            size={item.size}
-            start={item.start}
-            token={currentToken}
-            chain={chain}
-            isBalanceLoading={isBalanceLoading}
-            accountAddress={account.address}
-            startAdornment={
-              startAdornmentLabel ? (
-                <Typography
-                  sx={{
-                    fontSize: 14,
-                    fontWeight: 600,
-                    lineHeight: '16px',
-                    px: 1.5,
-                    pt: isFirstFeaturedToken ? 0 : 1,
-                    pb: 1,
-                  }}
-                >
-                  {startAdornmentLabel}
-                </Typography>
-              ) : null
-            }
-          />
-        )
-      })}
-    </List>
+              onShowTokenInfo={onShowTokenInfo}
+            />
+          )
+        })}
+      </List>
+      <TokenInfoSheet
+        ref={tokenInfoSheetRef}
+        chainId={chainId}
+        tokenAddress={shownTokenAddress}
+        onClose={onCloseTokenInfo}
+      />
+    </>
   )
 }

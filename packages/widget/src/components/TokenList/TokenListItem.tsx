@@ -1,9 +1,8 @@
 import { ChainType } from '@lifi/sdk'
-import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import {
   Avatar,
   Box,
-  Link,
   ListItemAvatar,
   ListItemText,
   Skeleton,
@@ -13,7 +12,6 @@ import {
 import type { MouseEventHandler } from 'react'
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useExplorer } from '../../hooks/useExplorer.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { ListItemButton } from '../ListItem/ListItemButton.js'
@@ -34,6 +32,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
   isBalanceLoading,
   startAdornment,
   endAdornment,
+  onShowTokenInfo,
 }) => {
   const handleClick: MouseEventHandler<HTMLDivElement> = (e) => {
     e.stopPropagation()
@@ -53,6 +52,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
         accountAddress={accountAddress}
         isBalanceLoading={isBalanceLoading}
         onClick={handleClick}
+        onShowTokenInfo={onShowTokenInfo}
       />
       {endAdornment}
     </ListItem>
@@ -83,10 +83,9 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   chain,
   accountAddress,
   isBalanceLoading,
+  onShowTokenInfo,
 }) => {
   const { t } = useTranslation()
-  const { getAddressLink } = useExplorer()
-
   const container = useRef(null)
   const timeoutId = useRef<ReturnType<typeof setTimeout>>(undefined)
   const [showAddress, setShowAddress] = useState(false)
@@ -108,6 +107,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
       setShowAddress(false)
     }
   }
+
   const tokenAmount = formatTokenAmount(token.amount, token.decimals)
   const tokenPrice = formatTokenPrice(
     token.amount,
@@ -181,16 +181,17 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
                 >
                   {shortenAddress(tokenAddress)}
                 </Box>
-                <IconButton
-                  size="small"
-                  LinkComponent={Link}
-                  href={getAddressLink(tokenAddress!, chain)}
-                  target="_blank"
-                  rel="nofollow noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <OpenInNewRounded />
-                </IconButton>
+                {tokenAddress && (
+                  <IconButton
+                    size="small"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      onShowTokenInfo(tokenAddress)
+                    }}
+                  >
+                    <InfoOutlinedIcon />
+                  </IconButton>
+                )}
               </Box>
             </Slide>
           </Box>

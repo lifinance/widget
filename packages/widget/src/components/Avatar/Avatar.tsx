@@ -24,23 +24,28 @@ export const AvatarBadgedDefault: React.FC<{
 
 export const AvatarBadgedSkeleton: React.FC<{
   sx?: SxProps<Theme>
-}> = ({ sx }) => {
+  avatarSize?: number
+  badgeSize?: number
+}> = ({ sx, avatarSize = 40, badgeSize = 16 }) => {
   return (
     <Badge
       overlap="circular"
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      badgeContent={<SmallAvatarSkeleton />}
+      badgeContent={<SmallAvatarSkeleton size={badgeSize} />}
       sx={sx}
     >
-      <AvatarSkeleton />
+      <AvatarSkeleton avatarSize={avatarSize} badgeSize={badgeSize} />
     </Badge>
   )
 }
 
-export const AvatarSkeleton = () => {
+export const AvatarSkeleton: React.FC<{
+  avatarSize: number
+  badgeSize: number
+}> = ({ avatarSize, badgeSize }) => {
   return (
-    <AvatarSkeletonMaskedContainer>
-      <Skeleton width={40} height={40} variant="circular" />
+    <AvatarSkeletonMaskedContainer badgeSize={badgeSize}>
+      <Skeleton width={avatarSize} height={avatarSize} variant="circular" />
     </AvatarSkeletonMaskedContainer>
   )
 }
