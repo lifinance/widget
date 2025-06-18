@@ -84,7 +84,7 @@ export const ChainList = ({
   }
 
   return (
-    <List size={itemsSize} disablePadding>
+    <List className="long-list" size={itemsSize} disablePadding>
       {sortedChains.map((chain) => (
         <ListItemButton
           key={chain.id}
