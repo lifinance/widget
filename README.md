@@ -52,8 +52,8 @@ npm install @lifi/widget wagmi @bigmi/react @solana/wallet-adapter-react @tansta
 yarn add @lifi/widget wagmi @bigmi/react @solana/wallet-adapter-react @tanstack/react-query
 ```
 
-- [Wagmi](https://wagmi.sh/) is type safe, extensible, and modular library for building Ethereum apps.
-- [Bigmi](https://github.com/lifinance/bigmi) is modular TypeScript library that provides reactive primitives for building Bitcoin applications.
+- [Wagmi](https://wagmi.sh/) is a type-safe, extensible, and modular library for building Ethereum apps.
+- [Bigmi](https://github.com/lifinance/bigmi) is a modular TypeScript library that provides reactive primitives for building Bitcoin applications.
 - [@solana/wallet-adapter-react](https://github.com/anza-xyz/wallet-adapter) is modular TypeScript wallet adapters and components for Solana applications.
 - [TanStack Query](https://tanstack.com/query/v5) is an async state manager that handles requests, caching, and more.
 
@@ -104,7 +104,7 @@ export const WidgetPage = () => {
 
 ## Examples
 
-Visit our [playground](https://playground.li.fi) to see how you can customize your [LI.FI Widget](https://www.npmjs.com/package/@lifi/widget) experience. Additionally, see [examples](/examples) folder in this repository.
+Visit our [playground](https://playground.li.fi) to see how you can customize your [LI.FI Widget](https://www.npmjs.com/package/@lifi/widget) experience. Also, please take a look at the [examples](/examples) folder in this repository.
 
 ## Documentation
 
