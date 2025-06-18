@@ -1,5 +1,5 @@
 import { ChainType } from '@lifi/sdk'
-import InfoIcon from '@mui/icons-material/Info'
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import {
   Avatar,
   Box,
@@ -9,14 +9,12 @@ import {
   Slide,
   Typography,
 } from '@mui/material'
-import type { MouseEvent, MouseEventHandler } from 'react'
-import { useCallback, useRef, useState } from 'react'
+import type { MouseEventHandler } from 'react'
+import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { shortenAddress } from '../../utils/wallet.js'
-import type { BottomSheetBase } from '../BottomSheet/types.js'
 import { ListItemButton } from '../ListItem/ListItemButton.js'
-import { TokenInfoSheet } from './TokenInfoSheet.js'
 import { IconButton, ListItem } from './TokenList.style.js'
 import type {
   TokenListItemAvatarProps,
@@ -34,6 +32,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
   isBalanceLoading,
   startAdornment,
   endAdornment,
+  onShowTokenInfo,
 }) => {
   const handleClick: MouseEventHandler<HTMLDivElement> = (e) => {
     e.stopPropagation()
@@ -53,6 +52,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
         accountAddress={accountAddress}
         isBalanceLoading={isBalanceLoading}
         onClick={handleClick}
+        onShowTokenInfo={onShowTokenInfo}
       />
       {endAdornment}
     </ListItem>
@@ -83,10 +83,9 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   chain,
   accountAddress,
   isBalanceLoading,
+  onShowTokenInfo,
 }) => {
   const { t } = useTranslation()
-  const tokenInfoSheetRef = useRef<BottomSheetBase>(null)
-
   const container = useRef(null)
   const timeoutId = useRef<ReturnType<typeof setTimeout>>(undefined)
   const [showAddress, setShowAddress] = useState(false)
@@ -109,20 +108,6 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
     }
   }
 
-  const [isSheetOpen, setIsSheetOpen] = useState(false)
-  const onShowTokenInfo = useCallback((e: MouseEvent) => {
-    e.stopPropagation()
-    tokenInfoSheetRef.current?.open()
-    setIsSheetOpen(true)
-  }, [])
-
-  const onCloseTokenInfo = useCallback((e: MouseEvent) => {
-    e.stopPropagation()
-    tokenInfoSheetRef.current?.close()
-    setIsSheetOpen(false)
-    setShowAddress(false)
-  }, [])
-
   const tokenAmount = formatTokenAmount(token.amount, token.decimals)
   const tokenPrice = formatTokenPrice(
     token.amount,
@@ -133,8 +118,8 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   return (
     <ListItemButton
       onClick={onClick}
-      onMouseEnter={isSheetOpen ? undefined : onMouseEnter}
-      onMouseLeave={isSheetOpen ? undefined : onMouseLeave}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       dense
     >
       <ListItemAvatar>
@@ -197,17 +182,15 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
                   {shortenAddress(tokenAddress)}
                 </Box>
                 {tokenAddress && (
-                  <>
-                    <IconButton size="small" onClick={onShowTokenInfo}>
-                      <InfoIcon />
-                    </IconButton>
-                    <TokenInfoSheet
-                      ref={tokenInfoSheetRef}
-                      chainId={chain?.id}
-                      tokenAddress={tokenAddress}
-                      onClose={onCloseTokenInfo}
-                    />
-                  </>
+                  <IconButton
+                    size="small"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      onShowTokenInfo(tokenAddress)
+                    }}
+                  >
+                    <InfoOutlinedIcon />
+                  </IconButton>
                 )}
               </Box>
             </Slide>

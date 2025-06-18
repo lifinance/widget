@@ -2,12 +2,7 @@ import Close from '@mui/icons-material/Close'
 import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded'
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import { Box, IconButton, Link, Skeleton, Typography } from '@mui/material'
-import {
-  type MouseEvent,
-  type PropsWithChildren,
-  forwardRef,
-  useMemo,
-} from 'react'
+import { type PropsWithChildren, forwardRef, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
@@ -26,9 +21,9 @@ import {
 } from './TokenInfoSheet.style.js'
 
 interface TokenInfoSheetProps {
-  tokenAddress: string
-  chainId?: number
-  onClose: (e: MouseEvent) => void
+  tokenAddress: string | undefined
+  chainId: number | undefined
+  onClose: () => void
 }
 
 const noDataLabel = '-'
@@ -39,7 +34,11 @@ export const TokenInfoSheet = forwardRef<BottomSheetBase, TokenInfoSheetProps>(
     const { getAddressLink } = useExplorer()
     const { getChainById } = useAvailableChains()
 
-    const { token, isLoading } = useTokenSearch(chainId, tokenAddress, true)
+    const { token, isLoading } = useTokenSearch(
+      chainId,
+      tokenAddress,
+      !!tokenAddress
+    )
     const chain = useMemo(() => getChainById(chainId), [chainId, getChainById])
 
     const copyContractAddress = async (e: React.MouseEvent) => {
@@ -92,7 +91,13 @@ export const TokenInfoSheet = forwardRef<BottomSheetBase, TokenInfoSheetProps>(
                 )}
               </MetricContainer>
             </Box>
-            <IconButton onClick={onClose} sx={{ mt: '-8px', mr: '-8px' }}>
+            <IconButton
+              onClick={(e) => {
+                e.stopPropagation()
+                onClose()
+              }}
+              sx={{ mt: '-8px', mr: '-8px' }}
+            >
               <Close />
             </IconButton>
           </TokenInfoSheetHeader>
@@ -145,19 +150,23 @@ export const TokenInfoSheet = forwardRef<BottomSheetBase, TokenInfoSheetProps>(
               >
                 {shortenAddress(tokenAddress)}
               </Typography>
-              <CardIconButton size="small" onClick={copyContractAddress}>
-                <ContentCopyRounded fontSize="inherit" />
-              </CardIconButton>
-              <CardIconButton
-                size="small"
-                LinkComponent={Link}
-                href={getAddressLink(tokenAddress, chainId)}
-                target="_blank"
-                rel="nofollow noreferrer"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <OpenInNewRounded fontSize="inherit" />
-              </CardIconButton>
+              {tokenAddress && (
+                <CardIconButton size="small" onClick={copyContractAddress}>
+                  <ContentCopyRounded fontSize="inherit" />
+                </CardIconButton>
+              )}
+              {tokenAddress && (
+                <CardIconButton
+                  size="small"
+                  LinkComponent={Link}
+                  href={getAddressLink(tokenAddress, chainId)}
+                  target="_blank"
+                  rel="nofollow noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <OpenInNewRounded fontSize="inherit" />
+                </CardIconButton>
+              )}
             </Box>
           </MetricWithSkeleton>
         </TokenInfoSheetContainer>
