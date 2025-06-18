@@ -1,6 +1,8 @@
 import { Box, Grow, styled } from '@mui/material'
 import { defaultMaxHeight } from '../../config/constants'
 
+export const chainExpansionWidth = '240px'
+
 export const CollapseContainer = styled(Box)(({ theme }) => ({
   zIndex: 0,
   ...(theme.container.display === 'flex'
@@ -18,7 +20,7 @@ export const SelectChainExpansionContainer = styled(Box)(({ theme }) => {
   return {
     position: 'relative',
     boxSizing: 'content-box',
-    width: '240px',
+    width: chainExpansionWidth,
     background: theme.vars.palette.background.default,
     overflow: 'hidden',
     flex: 1,

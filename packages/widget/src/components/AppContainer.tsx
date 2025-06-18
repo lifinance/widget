@@ -69,6 +69,10 @@ export const RelativeContainer = styled(Box, {
     '&:has(.with-chain-expansion)': {
       borderRadius: `${theme.container.borderRadius} 0 0 ${theme.container.borderRadius}`,
       zIndex: 1,
+      borderRight: `1px solid ${theme.vars.palette.grey[300]}`,
+      ...theme.applyStyles('dark', {
+        borderRight: `1px solid ${theme.vars.palette.grey[800]}`,
+      }),
     },
     variants: [
       {

@@ -15,6 +15,7 @@ import {
   ExpansionTopLevelGrow,
   SelectChainExpansionContainer,
 } from './Expansion.style'
+import { ExpansionSlide } from './ExpansionSlide'
 
 enum ExpansionType {
   Routes = 'routes',
@@ -85,24 +86,15 @@ export const Expansion = () => {
         </Collapse>
       )}
       {withChainExpansion && (
-        <Collapse
-          in
-          orientation="horizontal"
-          mountOnEnter
-          unmountOnExit
-          appear
-          timeout={500}
-        >
-          <div>
-            <SelectChainExpansionContainer>
-              <SelectChainContent
-                inExpansion
-                formType={formType}
-                onSelect={onSelect}
-              />
-            </SelectChainExpansionContainer>
-          </div>
-        </Collapse>
+        <ExpansionSlide open={withChainExpansion}>
+          <SelectChainExpansionContainer>
+            <SelectChainContent
+              inExpansion
+              formType={formType}
+              onSelect={onSelect}
+            />
+          </SelectChainExpansionContainer>
+        </ExpansionSlide>
       )}
     </CollapseContainer>
   )
