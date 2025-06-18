@@ -106,9 +106,9 @@ export const CardContent = styled(MuiCardContent, {
       ...(cardVariant === 'filled' && {
         '&:hover': {
           cursor: 'pointer',
-          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.background.paper} 98%, white)`,
+          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.background.paper} 98%, black)`,
           ...theme.applyStyles('dark', {
-            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.background.paper} 98%, black)`,
+            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.background.paper} 98%, white)`,
           }),
         },
       }),
