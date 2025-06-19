@@ -37,8 +37,8 @@ export const SuiListItemButton = ({
             setLastConnectedAccount(wallet)
             emitter.emit(WalletManagementEvent.WalletConnected, {
               address: standardConnectOutput.accounts[0].address,
-              chainId: ChainId.SOL,
-              chainType: ChainType.SVM,
+              chainId: ChainId.SUI,
+              chainType: ChainType.MVM,
               connectorId: connectorName,
               connectorName: connectorName,
             })

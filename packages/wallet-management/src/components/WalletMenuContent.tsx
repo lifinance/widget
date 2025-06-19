@@ -15,7 +15,7 @@ import {
   Typography,
 } from '@mui/material'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
-import type { WalletAdapter } from '@solana/wallet-adapter-base'
+import type { UiWallet } from '@wallet-standard/react'
 import { useReducer, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Connector } from 'wagmi'
@@ -136,7 +136,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
           <SVMListItemButton
             key={key}
             ecosystemSelection={ecosystemSelection}
-            walletAdapter={connector as WalletAdapter}
+            wallet={connector as UiWallet}
             onConnected={onClose}
             onConnecting={() => handleConnecting(id)}
             onError={(error) => handleError(id, error)}

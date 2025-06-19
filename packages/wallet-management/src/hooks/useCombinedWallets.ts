@@ -6,11 +6,9 @@ import {
 import { ChainType } from '@lifi/sdk'
 import type { Theme } from '@mui/material'
 import { useMediaQuery } from '@mui/material'
-import { useWallets } from '@mysten/dapp-kit'
+import { useWallets as useSuiWallets } from '@mysten/dapp-kit'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
-import { WalletReadyState } from '@solana/wallet-adapter-base'
-import type { Wallet } from '@solana/wallet-adapter-react'
-import { useWallet } from '@solana/wallet-adapter-react'
+import type { UiWallet } from '@wallet-standard/react'
 import { useMemo } from 'react'
 import type { Connector } from 'wagmi'
 import { useAccount, useConnect } from 'wagmi'
@@ -26,6 +24,7 @@ import type { WalletConnector } from '../types/walletConnector.js'
 import { getConnectorIcon } from '../utils/getConnectorIcon.js'
 import { getWalletPriority } from '../utils/getWalletPriority.js'
 import { isWalletInstalled } from '../utils/isWalletInstalled.js'
+import { useSVMWallets } from '../wallet-standard/SVM/hooks/useSVMWallets.js'
 
 export type CombinedWalletConnector = {
   connector: WalletConnector
@@ -44,7 +43,7 @@ const normalizeName = (name: string) => name.split(' ')[0].toLowerCase().trim()
 const combineWalletLists = (
   utxoConnectorList: BigmiConnector[],
   evmConnectorList: (CreateConnectorFnExtended | Connector)[],
-  svmWalletList: Wallet[],
+  svmWalletList: UiWallet[],
   suiWalletList: WalletWithRequiredFeatures[]
 ): CombinedWallet[] => {
   const walletMap = new Map<string, CombinedWallet>()
@@ -77,16 +76,16 @@ const combineWalletLists = (
     walletMap.set(normalizedName, existing)
   })
 
-  svmWalletList.forEach((svm) => {
-    const normalizedName = normalizeName(svm.adapter.name)
+  svmWalletList.forEach((wallet) => {
+    const normalizedName = normalizeName(wallet.name)
     const existing = walletMap.get(normalizedName) || {
-      id: svm.adapter.name,
-      name: svm.adapter.name,
-      icon: svm.adapter.icon,
+      id: wallet.name,
+      name: wallet.name,
+      icon: wallet.icon,
       connectors: [] as CombinedWalletConnector[],
     }
     existing.connectors.push({
-      connector: svm.adapter,
+      connector: wallet,
       chainType: ChainType.SVM,
     })
     walletMap.set(normalizedName, existing)
@@ -116,8 +115,9 @@ export const useCombinedWallets = () => {
   const bigmiAccount = useBigmiAccount()
   const { connectors: wagmiConnectors } = useConnect()
   const { connectors: bigmiConnectors } = useBigmiConnect()
-  const { wallets: solanaWallets } = useWallet()
-  const suiWallets = useWallets()
+  const solanaWallets = useSVMWallets()
+
+  const suiWallets = useSuiWallets()
 
   const isDesktopView = useMediaQuery((theme: Theme) =>
     theme.breakpoints.up('sm')
@@ -180,11 +180,8 @@ export const useCombinedWallets = () => {
 
     const installedSVMWallets = includeEcosystem(ChainType.SVM)
       ? solanaWallets.filter((wallet) => {
-          const isInstalled =
-            wallet.adapter.readyState === WalletReadyState.Installed ||
-            wallet.adapter.readyState === WalletReadyState.Loadable
-          const isConnected = wallet.adapter.connected
-          return isInstalled && !isConnected
+          const isConnected = wallet.accounts?.length > 0
+          return !isConnected
         })
       : []
 
@@ -212,17 +209,10 @@ export const useCombinedWallets = () => {
       return !isInstalled && isDesktopView
     })
 
-    const notDetectedSVMWallets = solanaWallets.filter((wallet) => {
-      const isInstalled =
-        wallet.adapter.readyState === WalletReadyState.Installed ||
-        wallet.adapter.readyState === WalletReadyState.Loadable
-      return !isInstalled && isDesktopView
-    })
-
     const notDetectedCombinedWallets = combineWalletLists(
       notDetectedUTXOConnectors,
       notDetectedEVMConnectors,
-      notDetectedSVMWallets,
+      [],
       []
     )
 

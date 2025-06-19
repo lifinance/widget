@@ -3,8 +3,8 @@ import { useAccount as useBigmiAccount } from '@bigmi/react'
 import { ChainId, ChainType } from '@lifi/sdk'
 import { useCurrentWallet } from '@mysten/dapp-kit'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
-import type { WalletAdapter } from '@solana/wallet-adapter-base'
-import { useWallet } from '@solana/wallet-adapter-react'
+import type { UiWallet } from '@wallet-standard/react'
+import { useWallets } from '@wallet-standard/react'
 import { useMemo } from 'react'
 import type { Connector } from 'wagmi'
 import { useAccount as useAccountInternal } from 'wagmi'
@@ -25,7 +25,7 @@ export interface AccountBase<CT extends ChainType, ConnectorType = undefined> {
 }
 
 export type EVMAccount = AccountBase<ChainType.EVM, Connector>
-export type SVMAccount = AccountBase<ChainType.SVM, WalletAdapter>
+export type SVMAccount = AccountBase<ChainType.SVM, UiWallet>
 export type UTXOAccount = AccountBase<ChainType.UTXO, BigmiConnector>
 export type MVMAccount = AccountBase<ChainType.MVM, WalletWithRequiredFeatures>
 export type DefaultAccount = AccountBase<ChainType>
@@ -59,7 +59,7 @@ const defaultAccount: AccountBase<ChainType> = {
 }
 
 export type LastConnectedAccount =
-  | WalletAdapter
+  | UiWallet
   | Connector
   | BigmiConnector
   | CreateConnectorFnExtended
@@ -86,22 +86,29 @@ export const useLastConnectedAccount = create<LastConnectedAccountStore>(
 export const useAccount = (args?: UseAccountArgs): AccountResult => {
   const bigmiAccount = useBigmiAccount()
   const wagmiAccount = useAccountInternal()
-  const { wallet } = useWallet()
-  const { currentWallet, connectionStatus } = useCurrentWallet()
+  const { currentWallet: suiWallet, connectionStatus } = useCurrentWallet()
+  const wallets = useWallets()
+  const solanaWallets = wallets
+    .filter((wallet) =>
+      wallet.chains.find((chain) => chain.startsWith('solana'))
+    )
+    .filter((wallet) => wallet.accounts.length > 0)
+  const solanaWallet = solanaWallets.length > 0 ? solanaWallets[0] : undefined
+
   const { lastConnectedAccount } = useLastConnectedAccount()
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   return useMemo(() => {
-    const svm: Account = wallet?.adapter.publicKey
+    const svm: Account = solanaWallet?.accounts.length
       ? {
-          address: wallet?.adapter.publicKey.toString(),
+          address: solanaWallet.accounts[0].address,
           chainId: ChainId.SOL,
           chainType: ChainType.SVM,
-          connector: wallet?.adapter,
-          isConnected: Boolean(wallet?.adapter.publicKey),
+          connector: solanaWallet,
+          isConnected: true,
           isConnecting: false,
           isReconnecting: false,
-          isDisconnected: !wallet,
+          isDisconnected: !solanaWallet,
           status: 'connected',
         }
       : {
@@ -113,17 +120,17 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
           status: 'disconnected',
         }
     const sui: Account =
-      currentWallet?.accounts?.length && connectionStatus === 'connected'
+      suiWallet?.accounts?.length && connectionStatus === 'connected'
         ? {
-            address: currentWallet?.accounts[0].address,
+            address: suiWallet.accounts[0].address,
             chainId: ChainId.SUI,
             chainType: ChainType.MVM,
-            connector: currentWallet,
-            isConnected: connectionStatus === 'connected',
+            connector: suiWallet,
+            isConnected: true,
             isConnecting: false,
             isReconnecting: false,
-            isDisconnected: !currentWallet,
-            status: connectionStatus,
+            isDisconnected: !suiWallet,
+            status: 'connected',
           }
         : {
             chainType: ChainType.MVM,
@@ -159,8 +166,7 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
             (account.connector as Connector)?.id
           const connectorNameMatch =
             !(lastConnectedAccount as Connector)?.id &&
-            (lastConnectedAccount as WalletAdapter)?.name ===
-              account.connector?.name
+            (lastConnectedAccount as UiWallet)?.name === account.connector?.name
           return connectorIdMatch || connectorNameMatch
         }) || connectedAccounts[0]
       : connectedAccounts[0]
@@ -171,7 +177,7 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
       accounts: connectedAccounts,
     }
   }, [
-    wallet?.adapter.publicKey,
+    solanaWallet?.accounts?.length,
     wagmiAccount.connector?.uid,
     wagmiAccount.connector?.id,
     wagmiAccount.status,
@@ -184,7 +190,7 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
     bigmiAccount.chainId,
     args?.chainType,
     lastConnectedAccount,
-    currentWallet?.accounts?.length,
     connectionStatus,
+    suiWallet?.accounts?.length,
   ])
 }

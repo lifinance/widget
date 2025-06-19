@@ -1,8 +1,6 @@
 import { ChainId, ChainType } from '@lifi/sdk'
 import { Avatar, ListItemAvatar } from '@mui/material'
-import type { WalletAdapter } from '@solana/wallet-adapter-base'
-import { useWallet } from '@solana/wallet-adapter-react'
-import type { PublicKey } from '@solana/web3.js'
+import { type UiWallet, useConnect } from '@wallet-standard/react'
 import { ListItemButton } from '../components/ListItemButton.js'
 import { ListItemText } from '../components/ListItemText.js'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
@@ -11,43 +9,39 @@ import { WalletManagementEvent } from '../types/events.js'
 import type { WalletListItemButtonProps } from './types.js'
 
 interface SVMListItemButtonProps extends WalletListItemButtonProps {
-  walletAdapter: WalletAdapter
+  wallet: UiWallet
 }
 
 export const SVMListItemButton = ({
   ecosystemSelection,
-  walletAdapter,
+  wallet,
   onConnected,
   onConnecting,
   onError,
 }: SVMListItemButtonProps) => {
   const emitter = useWalletManagementEvents()
-  const { select, disconnect, connected } = useWallet()
+  const [, connect] = useConnect(wallet)
+
   const { setLastConnectedAccount } = useLastConnectedAccount()
 
-  const connectorName = walletAdapter.name
+  const connectorName = wallet.name
   const connectorDisplayName: string = ecosystemSelection
     ? 'Solana'
-    : walletAdapter.name
+    : wallet.name
 
   const connectWallet = async () => {
     try {
       onConnecting?.()
-      if (connected) {
-        await disconnect()
-      }
-      select(walletAdapter.name)
-      // We use autoConnect on wallet selection
-      // await connect()
-      walletAdapter.once('connect', (publicKey: PublicKey) => {
-        setLastConnectedAccount(walletAdapter)
-        emitter.emit(WalletManagementEvent.WalletConnected, {
-          address: publicKey?.toString(),
-          chainId: ChainId.SOL,
-          chainType: ChainType.SVM,
-          connectorId: connectorName,
-          connectorName: connectorName,
-        })
+
+      const accounts = await connect()
+
+      setLastConnectedAccount(wallet)
+      emitter.emit(WalletManagementEvent.WalletConnected, {
+        address: accounts[0].address,
+        chainId: ChainId.SOL,
+        chainType: ChainType.SVM,
+        connectorId: connectorName,
+        connectorName: connectorName,
       })
       onConnected?.()
     } catch (error) {
@@ -62,7 +56,7 @@ export const SVMListItemButton = ({
           src={
             ecosystemSelection
               ? 'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/solana.svg'
-              : walletAdapter.icon
+              : wallet.icon
           }
           alt={connectorDisplayName}
         >
